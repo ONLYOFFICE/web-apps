@@ -116,12 +116,10 @@ define([
         onProtectDocClick: function(state) {
             this.view.btnProtectDoc.toggle(!state, true);
             if (state) {
-                var me = this,
-                    btn,
-                    win = new DE.Views.ProtectDialog({
+                var me = this;
+                    me._docProtectDlg  = new DE.Views.ProtectDialog({
                         props: me.appConfig,
                         handler: function(result, value, props) {
-                            btn = result;
                             if (result == 'ok') {
                                 var protection = me.api.asc_getDocumentProtection() || new AscCommonWord.CDocProtect();
                                 protection.asc_setEditType(props);
@@ -131,14 +129,12 @@ define([
                             Common.NotificationCenter.trigger('edit:complete');
                         }
                     }).on('close', function() {
-                        if (btn!=='ok')
-                            me.view.btnProtectDoc.toggle(false, true);
+                        me._docProtectDlg = undefined;
                     });
 
-                win.show();
+                me._docProtectDlg.show();
             } else {
                 var me = this,
-                    btn,
                     props = me.api.asc_getDocumentProtection();
                 if (props && props.asc_getIsPassword()) {
                     var win = new Common.Views.OpenDialog({
@@ -149,7 +145,6 @@ define([
                         validatePwd: false,
                         maxPasswordLength: 15,
                         handler: function (result, value) {
-                            btn = result;
                             if (result == 'ok') {
                                 if (me.api) {
                                     props.asc_setEditType(Asc.c_oAscEDocProtect.None);
@@ -160,8 +155,6 @@ define([
                             }
                         }
                     }).on('close', function() {
-                        if (btn!=='ok')
-                            me.view.btnProtectDoc.toggle(true, true);
                     });
 
                     win.show();
@@ -208,6 +201,8 @@ define([
             }
 
             props && this.applyRestrictions(props.type);
+            if (this._docProtectDlg && this._docProtectDlg.isVisible())
+                this._docProtectDlg.SetDisabled(!!this._state.lockDocProtect || isProtected);
             Common.NotificationCenter.trigger('protect:doclock', props);
         },
 
@@ -246,7 +241,11 @@ define([
         },
 
         onLockDocumentProtection: function(state) {
+            this._state.lockDocProtect = state;
             this.view && Common.Utils.lockControls(Common.enumLock.protectLock, state, {array: [this.view.btnProtectDoc]});
+            if (this._docProtectDlg && this._docProtectDlg.isVisible())
+                this._docProtectDlg.SetDisabled(state || this._state.docProtection && (this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly ||
+                                                                                    this._state.docProtection.isCommentsOnly || this._state.docProtection.isReviewOnly));
         }
 
     }, DE.Controllers.DocProtection || {}));
