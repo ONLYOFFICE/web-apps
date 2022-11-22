@@ -56,7 +56,7 @@ require.config({
         socketio        : '../vendor/socketio/socket.io.min',
         allfonts        : '../../sdkjs/common/AllFonts',
         sdk             : '../../sdkjs/word/sdk-all-min',
-        api             : 'api/documents/api',
+        // api             : 'api/documents/api',
         core            : 'common/main/lib/core/application',
         notification    : 'common/main/lib/core/NotificationCenter',
         keymaster       : 'common/main/lib/core/keymaster',
@@ -128,7 +128,7 @@ require([
     'bootstrap',
     'core',
     'sdk',
-    'api',
+    // 'api',
     'analytics',
     'gateway',
     'locale'
