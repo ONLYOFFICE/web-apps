@@ -3947,7 +3947,6 @@ define([
                         parentMenu: menu.items[i].menu,
                         store: equationsStore.at(i).get('groupStore'),
                         scrollAlwaysVisible: true,
-                        restoreHeight: 10000,
                         itemTemplate: _.template(
                             '<div class="item-equation">' +
                                 '<div class="equation-icon" style="background-position:<%= posX %>px <%= posY %>px;width:<%= width %>px;height:<%= height %>px;" id="<%= id %>"></div>' +
