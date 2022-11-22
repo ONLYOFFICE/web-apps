@@ -203,7 +203,7 @@ define([
             if ( !!titlebuttons ) {
                 info.hints = {};
                 !!titlebuttons['print'] && (info.hints['print'] = titlebuttons['print'].btn.btnEl.attr('data-hint-title'));
-                !!titlebuttons['printquick'] && (info.hints['printquick'] = titlebuttons['printquick'].btn.btnEl.attr('data-hint-title'));
+                !!titlebuttons['quickprint'] && (info.hints['quickprint'] = titlebuttons['quickprint'].btn.btnEl.attr('data-hint-title'));
                 !!titlebuttons['undo'] && (info.hints['undo'] = titlebuttons['undo'].btn.btnEl.attr('data-hint-title'));
                 !!titlebuttons['redo'] && (info.hints['redo'] = titlebuttons['redo'].btn.btnEl.attr('data-hint-title'));
                 !!titlebuttons['save'] && (info.hints['save'] = titlebuttons['save'].btn.btnEl.attr('data-hint-title'));
@@ -220,11 +220,16 @@ define([
         }
 
         const _onApplySettings = function (menu) {
-            if ( !!titlebuttons.printquick ) {
-                if ( titlebuttons.printquick.visible != titlebuttons.printquick.btn.isVisible() ) {
+            if ( !!titlebuttons.quickprint ) {
+                const var_name = window.SEE ? 'ssee-settings-quick-print-button' :
+                                    window.PE ? 'pe-settings-quick-print-button' : 'de-settings-quick-print-button';
+                const is_btn_visible = Common.localStorage.getBool('de-settings-quick-print-button', false);
+
+                if ( titlebuttons.quickprint.visible != is_btn_visible ) {
+                    titlebuttons.quickprint.visible = is_btn_visible;
                     const obj = {
                         visible: {
-                            quickprint: titlebuttons.printquick.btn.isVisible(),
+                            quickprint: is_btn_visible,
                         }
                     };
                     native.execCommand('title:button', JSON.stringify(obj));
@@ -299,7 +304,7 @@ define([
                                 titlebuttons['print'] = {btn: header.btnPrint};
 
                             if (!!header.btnPrintQuick) {
-                                titlebuttons['printquick'] = {
+                                titlebuttons['quickprint'] = {
                                     btn: header.btnPrintQuick,
                                     visible: header.btnPrintQuick.isVisible(),
                                 };
