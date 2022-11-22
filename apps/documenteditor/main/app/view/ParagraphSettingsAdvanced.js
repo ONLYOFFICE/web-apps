@@ -1008,7 +1008,6 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
 
         afterRender: function() {
 
-
             this._setDefaults(this._originalProps);
             var colorstr = (typeof(this.paragraphShade) == 'object') ? this.paragraphShade.color : this.paragraphShade;
             this.BordersImage.setTableColor(colorstr);
@@ -1044,9 +1043,6 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 }
                 this._UpdateTableBordersStyle(ct, border, size, color, this.Borders);
             }, this);
-
-
-
 
             if (this.storageName) {
                 var value = Common.localStorage.getItem(this.storageName);

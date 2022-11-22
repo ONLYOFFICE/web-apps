@@ -139,7 +139,7 @@ define([
             else {
                 var lines = [], step,
                     cellPadding = me.cellPadding * me.scale;
-                size *= (me.numInCell == 0)? 1 : -1;
+                size *= (me.numInCell === 0)? 1 : -1;
 
                 if (me.Y1 == me.Y2){
                     step = (me.X2 - me.X1)/me.columns;
@@ -168,7 +168,7 @@ define([
         };
 
         me.inRect = function (MX, MY){
-            var h = 5*me.scale;
+            var h = me.scale * me.tablePadding/2;
             var line =  me.getLine();
             var mxScale = MX*me.scale,
                 myScale = MY*me.scale;
@@ -217,7 +217,7 @@ define([
         };
 
         me.setBorderParams = function (){
-            if((borderSize == virtualBorderSize &&  virtualBorderColor.isEqual(borderColor) && me.overwriteStyle) ){
+            if(borderSize == virtualBorderSize &&  virtualBorderColor.isEqual(borderColor) && me.overwriteStyle){
                 me.setBordersSize(0);
                 return;
             }
@@ -262,7 +262,7 @@ define([
             me.id                   = me.options.id || Common.UI.getId();
             me.scale                = Common.Utils.applicationPixelRatio();
             me.scale                = me.scale >= 1 ? me.scale : 1;
-            me.width                = ((me.options.width * me.scale)>>0) / me.scale;
+            me.width                = ((me.options.width * me.scale) >> 0) / me.scale;
             me.height               = ((me.options.height * me.scale) >> 0) / me.scale;
             me.rows                 = me.options.rows;
             me.columns              = me.options.columns;
@@ -302,12 +302,12 @@ define([
                 me.canv.addEventListener('click', function (e) {
                     var mouseX, mouseY;
 
-                    if (e.offsetX) {
+                    if (e.offsetX !== undefined) {
                         mouseX = parseInt(e.offsetX * Common.Utils.zoom());
                         mouseY = parseInt(e.offsetY * Common.Utils.zoom());
-                    } else if (e.originalEvent.layerX) {
-                        mouseX = e.originalEvent.layerX;
-                        mouseY = e.originalEvent.layerY;
+                    } else if (e.layerX) {
+                        mouseX = e.layerX;
+                        mouseY = e.layerY;
                     }
                     var redraw = false;
 
@@ -340,13 +340,13 @@ define([
 
                                 if(me.spacingMode) {
                                     var secondBorder = undefined;
-                                    if(me._cellBorders[i].col > 0 && me._cellBorders[i].numInCell == 0)
+                                    if(me._cellBorders[i].col > 0 && me._cellBorders[i].numInCell === 0)
                                         secondBorder = me.getCellBorder(-1, me._cellBorders[i].col - 1, 1);
-                                    else if(me._cellBorders[i].row > 0 && me._cellBorders[i].numInCell == 0)
+                                    else if(me._cellBorders[i].row > 0 && me._cellBorders[i].numInCell === 0)
                                         secondBorder = me.getCellBorder(me._cellBorders[i].row - 1, -1,  1);
-                                    else if(me._cellBorders[i].col > -1 && me._cellBorders[i].col < me.columns - 1 && me._cellBorders[i].numInCell == 1)
+                                    else if(me._cellBorders[i].col > -1 && me._cellBorders[i].col < me.columns - 1 && me._cellBorders[i].numInCell === 1)
                                         secondBorder = me.getCellBorder(-1, me._cellBorders[i].col + 1,  0);
-                                    else if(me._cellBorders[i].row > -1 && me._cellBorders[i].row < me.rows - 1 && me._cellBorders[i].numInCell == 1)
+                                    else if(me._cellBorders[i].row > -1 && me._cellBorders[i].row < me.rows - 1 && me._cellBorders[i].numInCell === 1)
                                         secondBorder = me.getCellBorder(me._cellBorders[i].row + 1, -1,  0);
 
                                     (secondBorder) && secondBorder.setBorderParams();
@@ -400,23 +400,11 @@ define([
                     }
                 }
                 else {
-                    var cellPadding = me.cellPadding*me.scale;
+                    var cellPadding = me.cellPadding * me.scale;
                     sizeCorner += cellPadding;
-                    stepX = (ctxWidth - 2 * sizeCorner)/me.columns,
-                    stepY = (ctxHeight - 2 * sizeCorner)/me.rows;
+                    stepX = (ctxWidth - 2 * sizeCorner) / me.columns;
+                    stepY = (ctxHeight - 2 * sizeCorner) / me.rows;
                     i = 0;
-
-                    for (var row = 0; row < me.rows; row++) {
-                        for(var n = 0; n< 2; n++) {
-                            me._cellBorders[i].Y1 = (n == 0) ?
-                                (row) * (stepY + cellPadding / 2) + sizeCorner:
-                                me.height * me.scale - sizeCorner - (me.rows - row - 1) * (stepY + cellPadding / 2);
-                            me._cellBorders[i].Y2 = me._cellBorders[i].Y1;
-                            me._cellBorders[i].X1 = sizeCorner;
-                            me._cellBorders[i].X2 = ctxWidth - sizeCorner;
-                            i++;
-                        }
-                    }
 
                     for (var col = 0; col < me.columns; col++) {
                         for(var n = 0; n< 2; n++) {
@@ -427,6 +415,18 @@ define([
                                 me.width * me.scale - sizeCorner - (me.columns - col - 1) * (stepX + cellPadding / 2);
                             me._cellBorders[i].X2 = me._cellBorders[i].X1;
                             i++
+                        }
+                    }
+
+                    for (var row = 0; row < me.rows; row++) {
+                        for(var n = 0; n< 2; n++) {
+                            me._cellBorders[i].Y1 = (n == 0) ?
+                                (row) * (stepY + cellPadding / 2) + sizeCorner:
+                                me.height * me.scale - sizeCorner - (me.rows - row - 1) * (stepY + cellPadding / 2);
+                            me._cellBorders[i].Y2 = me._cellBorders[i].Y1;
+                            me._cellBorders[i].X1 = sizeCorner;
+                            me._cellBorders[i].X2 = ctxWidth - sizeCorner;
+                            i++;
                         }
                     }
                 }
@@ -646,6 +646,7 @@ define([
                     rows            : this.rows,
                     columns         : this.columns
                 };
+
                 (!this.spacingMode) && this.createHorizontalBorders(generalOpt, sizeCorner);
                 this.createVerticaLBorders(generalOpt, sizeCorner);
                 (this.spacingMode) && this.createHorizontalBorders(generalOpt, sizeCorner);
@@ -726,35 +727,36 @@ define([
             }
         },
 
-        drawCorners: function (sizeCornerScale, ) {
+        drawCorners: function ( ) {
             var connerLineSize = this.scale >> 0,
                 sizeCornerScale =this.sizeCorner * this.scale,
                 canvWidth = this.width * this.scale,
                 canvHeight = this.height * this.scale,
                 diff = connerLineSize/2;
 
-            this.context.lineJoin = 'meter';
+            this.context.setLineDash([connerLineSize,connerLineSize]);
+            this.context.lineWidth = connerLineSize;
+            this.context.strokeStyle = "grey";
 
             this.context.beginPath();
-            this.context.setLineDash([connerLineSize,connerLineSize]);
 
             //lines for corners:
             //top-left
             this.context.moveTo (
-                (sizeCornerScale>>0) - diff,
+                (sizeCornerScale >> 0) - diff,
                 0
             );
             this.context.lineTo (
-                (sizeCornerScale>>0) - diff,
-                (sizeCornerScale>>0) - diff
+                (sizeCornerScale >> 0) - diff,
+                (sizeCornerScale >> 0) - diff
             );
             this.context.moveTo (
-                (sizeCornerScale)>>0,
-                (sizeCornerScale>>0) - diff
+                sizeCornerScale >> 0,
+                (sizeCornerScale >> 0) - diff
             );
             this.context.lineTo (
                 0,
-                (sizeCornerScale>>0) - diff
+                (sizeCornerScale >> 0) - diff
             );
             //-------------------------------------------------------
 
@@ -765,62 +767,60 @@ define([
             );
             this.context.lineTo (
                 ((canvWidth - sizeCornerScale)>>0) + diff,
-                sizeCornerScale >>0
+                sizeCornerScale >> 0
             );
             this.context.moveTo (
-                (canvWidth - sizeCornerScale)>>0,
-                (sizeCornerScale>>0) - diff
+                (canvWidth - sizeCornerScale) >> 0,
+                (sizeCornerScale >> 0) - diff
             );
             this.context.lineTo (
-                canvWidth,
-                (sizeCornerScale>>0) - diff
+                canvWidth >> 0,
+                (sizeCornerScale >> 0) - diff
             );
             //-------------------------------------------------------
 
             // bottom-right
             this.context.moveTo (
-                ((canvWidth - sizeCornerScale)>>0) + diff,
-                canvHeight>>0
+                ((canvWidth - sizeCornerScale) >> 0) + diff,
+                canvHeight >> 0
             );
             this.context.lineTo (
 
-                ((canvWidth - sizeCornerScale)>>0) + diff,
+                ((canvWidth - sizeCornerScale) >>0 ) + diff,
                 (canvHeight - sizeCornerScale) >> 0
             );
 
             this.context.moveTo (
-                (canvWidth - sizeCornerScale)>>0,
-                ((canvHeight - sizeCornerScale)>>0) + diff);
+                (canvWidth - sizeCornerScale) >> 0,
+                ((canvHeight - sizeCornerScale) >> 0) + diff);
 
             this.context.lineTo (
-                canvWidth>>0,
-                ((canvHeight - sizeCornerScale)>>0) + diff
+                canvWidth >> 0,
+                ((canvHeight - sizeCornerScale) >> 0) + diff
             );
             //-------------------------------------------------------
 
             //bottom-left
             this.context.moveTo(
-                (sizeCornerScale>>0) - diff,
-                canvHeight>>0
+                (sizeCornerScale >> 0) - diff,
+                canvHeight >> 0
             );
             this.context.lineTo(
-                (sizeCornerScale>>0) - diff,
+                (sizeCornerScale >> 0) - diff,
                 (canvHeight - sizeCornerScale)>>0
             );
 
             this.context.moveTo(
-                (sizeCornerScale)>>0,
-                ((canvHeight - sizeCornerScale)>>0) + diff
+                sizeCornerScale >> 0,
+                ((canvHeight - sizeCornerScale) >> 0) + diff
             );
 
             this.context.lineTo(
                 0,
-                ((canvHeight - sizeCornerScale)>>0) + diff
+                ((canvHeight - sizeCornerScale) >> 0) + diff
             );
             //-------------------------------------------------------
 
-            this.context.lineWidth = connerLineSize;
-            this.context.strokeStyle = "grey";
             this.context.stroke();
             this.context.setLineDash([]);
         },
@@ -850,7 +850,7 @@ define([
 
         drawBorder: function (border){
             var size = this.getBorderSize(border);
-            if(size == 0) return;
+            if(!size) return;
             var points = this.getLine(size, border);
             this.context.imageSmoothingEnabled = false;
             this.context.mozImageSmoothingEnabled = false;
@@ -901,7 +901,6 @@ define([
                     cellPadding = this.cellPadding * this.scale;
                 tdWidth = (this.width * this.scale - 2 * sizeCorner)/this.columns;
                 tdHeight = (this.height * this.scale - 2 * sizeCorner)/this.rows;
-                //tdPadding +=2;
                 tdPadding *= this.scale;
 
                 this.context.beginPath();
@@ -911,7 +910,7 @@ define([
 
                         w = (tdWidth - (((col > 0) | 0) + ((col < this.columns-1) |0)) * cellPadding/2 -2*tdPadding + 0.5)>>0
                         h = tdHeight - (((row > 0) | 0) + ((row < this.rows-1) |0)) * cellPadding/2 -2*tdPadding;
-                        x1 = ((sizeCorner + col * tdWidth + (col > 0 | 0) * cellPadding/2 + tdPadding)>>0);
+                        x1 = ((sizeCorner + col * tdWidth + (col > 0 | 0) * cellPadding/2 + tdPadding) >> 0);
                         y1 = sizeCorner + row * tdHeight + (row > 0 | 0) * cellPadding/2 + tdPadding;
                         this.context.beginPath();
                         this.context.lineWidth = w;
@@ -946,8 +945,6 @@ define([
 
             this.fillWithLines();
             this.context.lineWidth = 0;
-
-
         },
 
         redrawTable: function() {
@@ -956,9 +953,9 @@ define([
         },
 
         getCellBorder: function(row, col, numInCell){
-            row = (row == undefined) ? -1 : row;
-            col = (col == undefined) ? -1 : col;
-            numInCell = (numInCell == undefined) ? -1 : numInCell;
+            row = (row === undefined) ? -1 : row;
+            col = (col === undefined) ? -1 : col;
+            numInCell = (numInCell === undefined) ? -1 : numInCell;
             return _.findWhere(this._cellBorders, {row: row, col: col, numInCell: numInCell});
         }
     });

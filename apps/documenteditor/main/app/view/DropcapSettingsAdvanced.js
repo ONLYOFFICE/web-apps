@@ -713,8 +713,6 @@ define([
                 this._UpdateTableBordersStyle(ct, border, size, color, this.Borders);
             }, this);
 
-
-
             if (this.isFrame)
                 this.setHeight(500);
 
