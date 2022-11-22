@@ -78,6 +78,16 @@ define([
 
             this.menu = options.menu;
             this.fileType = options.fileType;
+
+            Common.NotificationCenter.on({
+                'window:resize': _.bind(function() {
+                    var divided = Common.Utils.innerWidth() >= this.maxWidth;
+                    if (this.isDivided !== divided) {
+                        this.$el.find('.divider').css('width', divided ? '100%' : '0');
+                        this.isDivided = divided;
+                    }
+                }, this)
+            });
         },
 
         render: function() {
@@ -90,6 +100,21 @@ define([
                     suppressScrollX: true,
                     alwaysVisibleY: true
                 });
+            }
+
+            var itemWidth = 70 + 24, // width + margin
+                maxCount = 0;
+            this.formats.forEach(_.bind(function (item, index) {
+                var count = item.length;
+                if (count > maxCount) {
+                    maxCount = count;
+                }
+            }, this));
+            this.maxWidth = $('#file-menu-panel .panel-menu').outerWidth() + 20 + 10 + itemWidth * maxCount; // menu + left padding + margin
+
+            if (Common.Utils.innerWidth() >= this.maxWidth) {
+                this.$el.find('.divider').css('width', '100%');
+                this.isDivided = true;
             }
 
             return this;
@@ -149,6 +174,16 @@ define([
 
             this.menu = options.menu;
             this.fileType = options.fileType;
+
+            Common.NotificationCenter.on({
+                'window:resize': _.bind(function() {
+                    var divided = Common.Utils.innerWidth() >= this.maxWidth;
+                    if (this.isDivided !== divided) {
+                        this.$el.find('.divider').css('width', divided ? '100%' : '0');
+                        this.isDivided = divided;
+                    }
+                }, this)
+            });
         },
 
         render: function() {
@@ -161,6 +196,21 @@ define([
                     suppressScrollX: true,
                     alwaysVisibleY: true
                 });
+            }
+
+            var itemWidth = 70 + 24, // width + margin
+                maxCount = 0;
+            this.formats.forEach(_.bind(function (item, index) {
+                var count = item.length;
+                if (count > maxCount) {
+                    maxCount = count;
+                }
+            }, this));
+            this.maxWidth = $('#file-menu-panel .panel-menu').outerWidth() + 20 + 10 + itemWidth * maxCount; // menu + left padding + margin
+
+            if (Common.Utils.innerWidth() >= this.maxWidth) {
+                this.$el.find('.divider').css('width', '100%');
+                this.isDivided = true;
             }
 
             return this;
@@ -188,7 +238,8 @@ define([
 
         template: _.template([
         '<div class="flex-settings">',
-            '<table class="main" style="margin: 10px 14px auto;"><tbody>',
+            '<div class="header"><%= scope.txtAdvancedSettings %></div>',
+            '<table class="main" style="margin: 0 14px 0 20px;"><tbody>',
                 '<tr class="editsave">',
                     '<td class="group-name top" colspan="2"><label><%= scope.txtEditingSaving %></label></td>',
                 '</tr>',
@@ -1173,7 +1224,8 @@ define([
         txtStrictTip: 'Use the \'Save\' button to sync the changes you and others make',
         strShowOthersChanges: 'Show changes from other users',
         txtCalculating: 'Calculating',
-        strDateFormat1904: 'Use 1904 date system'
+        strDateFormat1904: 'Use 1904 date system',
+        txtAdvancedSettings: 'Advanced Settings'
 
 }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
@@ -1247,7 +1299,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         },
 
         template: _.template([
-            '<h3 style="margin-top: 20px;"><%= scope.txtCreateNew %></h3>',
+            '<div class="header"><%= scope.txtCreateNew %></div>',
             '<div class="thumb-list">',
                 '<% if (blank) { %> ',
                 '<div class="blank-document">',
@@ -1335,7 +1387,8 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
 
             this.template = _.template([
             '<div class="flex-settings">',
-                '<table class="main" style="margin: 30px 0 0;">',
+                '<div class="header">' + this.txtSpreadsheetInfo + '</div>',
+                '<table class="main">',
                     '<tr>',
                         '<td class="left"><label>' + this.txtPlacement + '</label></td>',
                         '<td class="right"><label id="id-info-placement">-</label></td>',
@@ -1758,7 +1811,8 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         txtAddAuthor: 'Add Author',
         txtAddText: 'Add Text',
         txtMinutes: 'min',
-        okButtonText: 'Apply'
+        okButtonText: 'Apply',
+        txtSpreadsheetInfo: 'Spreadsheet Info'
     }, SSE.Views.FileMenuPanels.DocumentInfo || {}));
 
     SSE.Views.FileMenuPanels.DocumentRights = Common.UI.BaseView.extend(_.extend({
@@ -2071,7 +2125,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         menu: undefined,
 
         template: _.template([
-            '<label id="id-fms-lbl-protect-header" style="font-size: 18px;"><%= scope.strProtect %></label>',
+            '<label id="id-fms-lbl-protect-header"><%= scope.strProtect %></label>',
             '<div id="id-fms-password">',
                 '<label class="header"><%= scope.strEncrypt %></label>',
                 '<div id="fms-btn-add-pwd" style="width:190px;"></div>',

@@ -177,12 +177,16 @@
         }
 
         #panel-saveas, #panel-savecopy  {
+            &.content-box {
+                padding: 0 0 0 20px;
+            }
+
             .content-container {
                 margin: 30px 0 0 10px;
 
                 .header {
-                    font-size: 18px;
-                    margin-bottom: 17px;
+                    font-size: 16px;
+                    margin-bottom: 20px;
                 }
 
                 .format-items {
@@ -202,12 +206,6 @@
                         height: 0;
                     }
 
-                    @media(min-width: 800px) {
-                        .divider {
-                            width: 100%;
-                        }
-                    }
-
                 }
             }
         }
@@ -222,6 +220,11 @@
             padding: 0;
             display: flex;
             flex-direction: column;
+
+            .header {
+                margin: 30px 0 16px 30px;
+                font-size: 16px;
+            }
 
             #id-settings-menu {
                 .dataview {
@@ -336,26 +339,12 @@
         }
 
         #panel-createnew {
-            h3 {
-                margin: 0;
-                font-size: 10pt;
-                color: @text-normal-ie;
-                color: @text-normal;
-                .font-weight-bold();
-                padding: 0 0 10px 10px;
+            .header {
+                font-size: 16px;
+                padding: 0 0 0 10px;
                 white-space: nowrap;
-            }
-
-            .blank-document-info {
-                vertical-align: top;
-                width: 445px;
-                display: inline-block;
-
-                h3 {
-                    padding-left: 0;
-                    padding-top: 45px;
-                    white-space: nowrap;
-                }
+                margin-top: 30px;
+                margin-bottom: 20px;
             }
 
             hr {
@@ -517,6 +506,10 @@
 
         #panel-info,
         #panel-rights {
+            .header {
+                margin: 30px 0 20px 30px;
+                font-size: 16px;
+            }
             table {
                 tr {
                     td {
@@ -525,7 +518,7 @@
                         &.left {
                             padding: 5px 10px;
                             text-align: right;
-                            width: 30%;
+                            width: 200px;
 
                             label {
                                 .font-weight-bold();
@@ -534,7 +527,7 @@
 
                         &.right {
                             padding: 5px 10px;
-                            width: 70%;
+                            width: calc(100% - 200px);
                         }
                     }
 
@@ -590,13 +583,17 @@
 
             .header {
                 .font-weight-bold();
-                margin: 30px 0 10px;
+                margin: 20px 0 10px;
             }
 
             table {
                 td {
                     padding: 5px 0;
                 }
+            }
+
+            #id-fms-lbl-protect-header {
+                font-size: 16px;
             }
         }
 

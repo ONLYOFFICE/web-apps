@@ -216,6 +216,16 @@ define([
             this.menu = options.menu;
             this.fileType = options.fileType;
             this.mode = options.mode;
+
+            Common.NotificationCenter.on({
+                'window:resize': _.bind(function() {
+                    var divided = Common.Utils.innerWidth() >= this.maxWidth;
+                    if (this.isDivided !== divided) {
+                        this.$el.find('.divider').css('width', divided ? '100%' : '0');
+                        this.isDivided = divided;
+                    }
+                }, this)
+            });
         },
 
         render: function() {
@@ -246,6 +256,21 @@ define([
                 });
             }
 
+            var itemWidth = 70 + 24, // width + margin
+                maxCount = 0;
+            this.formats.forEach(_.bind(function (item, index) {
+                var count = item.length;
+                if (count > maxCount) {
+                    maxCount = count;
+                }
+            }, this));
+            this.maxWidth = $('#file-menu-panel .panel-menu').outerWidth() + 20 + 10 + itemWidth * maxCount; // menu + left padding + margin
+
+            if (Common.Utils.innerWidth() >= this.maxWidth) {
+                this.$el.find('.divider').css('width', '100%');
+                this.isDivided = true;
+            }
+
             return this;
         },
 
@@ -271,7 +296,8 @@ define([
 
         template: _.template([
         '<div class="flex-settings">',
-            '<table style="margin: 10px 14px 0;"><tbody>',
+            '<div class="header"><%= scope.txtAdvancedSettings %></div>',
+            '<table style="margin: 0 14px 0 20px;"><tbody>',
                 '<tr class="editsave">',
                     '<td colspan="2" class="group-name top"><label><%= scope.txtEditingSaving %></label></td>',
                 '</tr>',
@@ -1026,7 +1052,8 @@ define([
         txtStrictTip: 'Use the \'Save\' button to sync the changes you and others make',
         strIgnoreWordsInUPPERCASE: 'Ignore words in UPPERCASE',
         strIgnoreWordsWithNumbers: 'Ignore words with numbers',
-        strShowOthersChanges: 'Show changes from other users'
+        strShowOthersChanges: 'Show changes from other users',
+        txtAdvancedSettings: 'Advanced Settings'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
@@ -1099,7 +1126,7 @@ define([
         },
 
         template: _.template([
-            '<h3 style="margin-top: 20px;"><%= scope.txtCreateNew %></h3>',
+            '<div class="header"><%= scope.txtCreateNew %></div>',
             '<div class="thumb-list">',
                 '<% if (blank) { %> ',
                 '<div class="blank-document">',
@@ -1187,7 +1214,8 @@ define([
 
             this.template = _.template([
             '<div class="flex-settings">',
-                '<table class="main" style="margin: 30px 0 0;">',
+                '<div class="header">' + this.txtDocumentInfo + '</div>',
+                '<table class="main">',
                     '<tr>',
                         '<td class="left"><label>' + this.txtPlacement + '</label></td>',
                         '<td class="right"><label id="id-info-placement">-</label></td>',
@@ -1313,7 +1341,7 @@ define([
                 '</table>',
             '</div>',
             '<div id="fms-flex-apply">',
-                '<table class="main" style="margin: 10px 0;">',
+                '<table class="main">',
                     '<tr>',
                         '<td class="left"></td>',
                         '<td class="right"><button id="fminfo-btn-apply" class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
@@ -1895,7 +1923,8 @@ define([
         txtFastWV: 'Fast Web View',
         txtYes: 'Yes',
         txtNo: 'No',
-        txtPdfProducer: 'PDF Producer'
+        txtPdfProducer: 'PDF Producer',
+        txtDocumentInfo: 'Document Info'
 
     }, DE.Views.FileMenuPanels.DocumentInfo || {}));
 
@@ -2229,7 +2258,7 @@ define([
         menu: undefined,
 
         template: _.template([
-            '<label id="id-fms-lbl-protect-header" style="font-size: 18px;"><%= scope.strProtect %></label>',
+            '<label id="id-fms-lbl-protect-header"><%= scope.strProtect %></label>',
             '<div id="id-fms-password">',
                 '<label class="header"><%= scope.strEncrypt %></label>',
                 '<div id="fms-btn-add-pwd" style="width:190px;"></div>',

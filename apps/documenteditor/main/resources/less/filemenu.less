@@ -92,8 +92,8 @@
       margin: 30px 0 0 10px;
 
       .header {
-        font-size: 18px;
-        margin-bottom: 17px;
+        font-size: 16px;
+        margin-bottom: 20px;
       }
 
       .format-items {
@@ -220,6 +220,11 @@
 }
 
 #panel-settings {
+  .header {
+    margin: 30px 0 16px 30px;
+    font-size: 16px;
+  }
+
   table {
     width: auto !important;
     tr {
@@ -267,30 +272,13 @@
 }
 
 #panel-createnew {
-  h3 {
-    margin: 0;
-    font-size: 10pt;
-    color: @text-normal-ie;
-    color: @text-normal;
-    .font-weight-bold();
-    padding: 0 0 10px 10px;
+  .header {
+    font-size: 16px;
+    padding: 0 0 0 10px;
     white-space: nowrap;
+    margin-top: 30px;
+    margin-bottom: 20px;
   }
-
-
-
-  .blank-document-info {
-    vertical-align: top;
-    width: 445px;
-    display: inline-block;
-
-    h3 {
-      padding-left: 0;
-      padding-top: 40px;
-      white-space: nowrap;
-    }
-  }
-
 
   hr {
     margin: 0;
@@ -453,6 +441,10 @@
 
 #panel-info,
 #panel-rights {
+  .header {
+    margin: 30px 0 20px 30px;
+    font-size: 16px;
+  }
   table {
     tr {
       td {
@@ -461,7 +453,7 @@
         &.left {
           padding: 5px 10px;
           text-align: right;
-          width: 30%;
+          width: 200px;
 
           label {
             .font-weight-bold();
@@ -470,7 +462,7 @@
 
         &.right {
           padding: 5px 10px;
-          width: 70%;
+          width: calc(100% - 200px);
         }
       }
 
@@ -539,22 +531,26 @@
 }
 
 #panel-protect {
-label {
-  font-size: 12px;
-}
-
-#file-menu-panel & {
-  padding: 30px 30px;
-}
-
-.header {
-  .font-weight-bold();
-  margin: 30px 0 10px;
-}
-
-table {
-  td {
-    padding: 5px 0;
+  label {
+    font-size: 12px;
   }
-}
+
+  #file-menu-panel & {
+    padding: 30px 30px;
+  }
+
+  .header {
+    .font-weight-bold();
+    margin: 20px 0 10px;
+  }
+
+  table {
+    td {
+      padding: 5px 0;
+    }
+  }
+
+  #id-fms-lbl-protect-header {
+    font-size: 16px;
+  }
 }
