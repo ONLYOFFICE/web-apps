@@ -146,6 +146,10 @@ define([
                 value: Asc.c_oAscEDocProtect.Comments
             });
 
+            this.btnOk = new Common.UI.Button({
+                el: this.$window.find('.primary')
+            });
+
             this.afterRender();
         },
 
@@ -171,8 +175,11 @@ define([
         },
 
         _handleInput: function(state) {
+            if (state === 'ok' && this.btnOk.isDisabled())
+                return;
+
             if (this.handler) {
-                if (state == 'ok') {
+                if (state === 'ok') {
                     if (this.inputPwd.checkValidate() !== true)  {
                         this.inputPwd.focus();
                         return;
@@ -206,6 +213,10 @@ define([
                 return Asc.c_oAscEDocProtect.TrackedChanges;
             if (this.rbComments.getValue())
                 return Asc.c_oAscEDocProtect.Comments;
+        },
+
+        SetDisabled: function(disabled) {
+            this.btnOk.setDisabled(disabled);
         },
 
         txtPassword : "Password",
