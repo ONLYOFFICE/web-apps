@@ -61,89 +61,59 @@ define([
             style: 'min-width: 240px;',
             cls: 'modal-dlg',
             split: false,
-            buttons: ['ok', 'cancel']
+            buttons: null
         },
 
         initialize : function(options) {
             this.type = options.type || 0;
-
+            this.extended = true;
+            this.rightPanelWidth = 210;
             _.extend(this.options, {
                 title: this.txtTitle,
-                height: (this.type==2) ? 520 : 424,
-                width: (this.type==2) ? 460 : 300
+                height: (this.type===2) ? 451 : (this.type===1 ? 470 : 424),
+                width: (this.type===2) ? 415 + (this.extended ? this.rightPanelWidth : 0) : 300
         }, options || {});
 
             this.template = [
+                '<table style="width:100%;" class="">',
+                '<tr>',
+                '<td style="vertical-align: top;">',
                 '<div class="box">',
                 '<% if (type == 2) { %>',
-                    '<table cols="4" style="width: 100%;">',
+                    '<table style="width: 100%;">',
                         '<tr>',
-                            '<td style="padding-right: 5px;">',
+                            '<td style="padding-right: 5px;width: 100%;">',
                                 '<label class="input-label">' + this.txtType + '</label>',
-                                '<div id="id-dlg-numbering-format" class="input-group-nr" style="width: 120px;margin-bottom: 10px;"></div>',
-                            '</td>',
-                            '<td style="padding-left: 5px;padding-right: 5px;">',
-                                '<label class="input-label"></label>',
-                                '<div id="id-dlg-chk-tabstop" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
-                            '</td>',
-                            '<td style="padding-right: 5px;">',
-                                '<label class="input-label"></label>',
-                                '<div id="id-dlg-num-tabstop" style="margin-bottom: 10px;"></div>',
-                            '</td>',
-                            '<td style="padding-left: 5px;">',
-                                '<label class="input-label"></label>',
-                                '<div id="id-dlg-numbering-restart" style="width: 100%;margin-bottom: 10px;"></div>',
-                            '</td>',
-                        '</tr>',
-                    '</table>',
-                    '<table cols="4" style="width: 100%;">',
-                        '<tr>',
-                            '<td colspan="2" style="padding-right: 5px;width: 100%;">',
-                                '<label class="input-label">' + this.txtNumFormatString + '</label>',
-                                '<div id="id-dlg-numbering-format-str" style="width: 100%;height:22px;margin-bottom: 10px;"></div>',
-                            '</td>',
-                            '<td style="padding-left: 5px;padding-right: 5px;">',
-                                '<label class="input-label">' + this.txtInclcudeLevel + '</label>',
-                                '<div id="id-dlg-numbering-format-lvl" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
-                            '</td>',
-                            '<td style="padding-left: 5px;">',
-                                '<label class="input-label">' + this.txtStart + '</label>',
-                                '<div id="id-dlg-numbering-spin-start" style="margin-bottom: 10px;"></div>',
-                            '</td>',
-                        '</tr>',
-                    '</table>',
-                    '<table cols="4" style="width: 100%;">',
-                        '<tr>',
-                            '<td style="padding-right: 5px;">',
-                                '<label class="input-label">' + this.txtAlign + '</label>',
-                                '<div id="id-dlg-bullet-align" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
-                            '</td>',
-                            '<td style="padding-left: 5px;">',
-                                '<label class="input-label">' + this.txtAlignAt + '</label>',
-                                '<div id="id-dlg-numbering-align-at" style="margin-bottom: 10px;"></div>',
-                            '</td>',
-                            '<td style="padding-left: 5px;padding-right: 5px;">',
-                                '<label class="input-label">' + this.txtIndent + '</label>',
-                                '<div id="id-dlg-numbering-indent" style="margin-bottom: 10px;"></div>',
-                            '</td>',
-                            '<td style="padding-left: 5px;">',
-                                '<label class="input-label">' + this.txtFollow + '</label>',
-                                '<div id="id-dlg-numbering-follow" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
-                            '</td>',
-                        '</tr>',
-                    '</table>',
-                    '<table cols="4" style="width: 100%;">',
-                        '<tr>',
-                            '<td colspan="3" style="padding-right: 5px;">',
-                                '<label class="input-label" style="display: block;">' + this.txtFontName + '</label>',
-                                '<div id="id-dlg-numbering-font-name" style="display: inline-block;width: 200px;height:22px;margin-bottom: 10px;vertical-align: middle;"></div>',
-                                '<div id="id-dlg-numbering-bold" style="display: inline-block;margin-left: 4px;margin-bottom: 10px;vertical-align: middle;"></div>',
-                                '<div id="id-dlg-numbering-italic" style="display: inline-block;margin-left: 4px;margin-bottom: 10px;vertical-align: middle;"></div>',
-                                '<div id="id-dlg-bullet-color" style="display: inline-block;margin-left: 4px;margin-bottom: 10px;vertical-align: middle;"></div>',
+                                '<div id="id-dlg-numbering-format" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
                             '</td>',
                             '<td style="padding-left: 5px;">',
                                 '<label class="input-label">' + this.txtSize + '</label>',
                                 '<div id="id-dlg-bullet-size" class="input-group-nr" style="width: 115px;margin-bottom: 10px;"></div>',
+                            '</td>',
+                            '</td>',
+                            '<td style="padding-left: 5px;">',
+                                '<label class="input-label"></label>',
+                                '<div id="id-dlg-numbering-bold" style="margin-bottom: 10px;"></div>',
+                            '</td>',
+                            '<td style="padding-left: 5px;">',
+                                '<label class="input-label"></label>',
+                                '<div id="id-dlg-numbering-italic" style="margin-bottom: 10px;"></div>',
+                            '</td>',
+                            '<td style="padding-left: 5px;">',
+                                '<label class="input-label"></label>',
+                                '<div id="id-dlg-bullet-color" style="margin-bottom: 10px;"></div>',
+                            '</td>',
+                        '</tr>',
+                    '</table>',
+                    '<table style="width: 100%;">',
+                        '<tr>',
+                            '<td style="padding-right: 5px;width: 100%;">',
+                                '<label class="input-label">' + this.txtNumFormatString + '</label>',
+                                '<div id="id-dlg-numbering-format-str" style="width: 100%;height:22px;margin-bottom: 10px;"></div>',
+                            '</td>',
+                            '<td style="padding-left: 5px;">',
+                                '<label class="input-label"></label>',
+                                '<div id="id-dlg-btn-more" style="width: 100%;height:22px;margin-bottom: 10px;"></div>',
                             '</td>',
                         '</tr>',
                     '</table>',
@@ -206,17 +176,96 @@ define([
                 '<% } %>',
                 '<table cols="2" style="width: 100%;">',
                         '<tr>',
-                            '<td class="<% if (type != 2) { %> hidden <% } %>" style="width: 50px; padding-right: 10px;">',
-                                '<label>' + this.textLevel + '</label>',
-                                '<div id="levels-list" class="no-borders" style="width:100%; height:208px;margin-top: 2px; "></div>',
+                            '<td colspan="2">',
+                                '<label>' + (this.type === 2 ? this.textSelectLevel : this.textPreview) + '</label>',
+                            '</td>',
+                        '</tr>',
+                        '<tr>',
+                            '<td class="<% if (type != 2) { %> hidden <% } %>" style="width: 50px;vertical-align: top;padding-right: 10px;">',
+                                '<div id="levels-list" class="no-borders" style="width:100%; height:235px;"></div>',
                             '</td>',
                             '<td>',
-                                '<label>' + this.textPreview + '</label>',
-                                '<div id="bulleted-list-preview"></div>',
+                                '<div id="bulleted-list-preview" style="height:' + (this.type === 2 ? 235 : 208) + 'px;"></div>',
                             '</td>',
                         '</tr>',
                     '</table>',
-                '</div>'
+                '</div>',
+                '<div class="footer center">',
+                    '<button class="btn normal dlg-btn primary" result="ok" style="width: 86px;">' + this.okButtonText + '</button>',
+                    '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.cancelButtonText + '</button>',
+                '</div>',
+                '</td>',
+                '<% if (type == 2) { %>',
+                '<td style="width: ' + this.rightPanelWidth + 'px;vertical-align: top;">',
+                    '<div id="id-dlg-panel-more-settings" style="padding-left: 20px;width: ' + this.rightPanelWidth + 'px;">',
+                    '<table cols="2" style="width: 100%;">',
+                        '<tr>',
+                            '<td colspan="2">',
+                                '<label class="input-label" style="display: block;">' + this.txtFontName + '</label>',
+                                '<div id="id-dlg-numbering-font-name" style="display: inline-block;width: 100%;height:22px;margin-bottom: 10px;"></div>',
+                            '</td>',
+                        '</tr>',
+                        '<tr>',
+                            '<td colspan="2">',
+                                '<label class="input-label">' + this.txtInclcudeLevel + '</label>',
+                                '<div id="id-dlg-numbering-format-lvl" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
+                            '</td>',
+                        '</tr>',
+                        '<tr>',
+                            '<td colspan="2">',
+                                '<label class="input-label">' + this.txtStart + '</label>',
+                                '<div id="id-dlg-numbering-spin-start" style="width: 100%;margin-bottom: 5px;"></div>',
+                            '</td>',
+                        '</tr>',
+                        '<tr>',
+                            '<td colspan="2">',
+                                '<div id="id-dlg-numbering-restart" style="width: 100%;margin-bottom: 10px;"></div>',
+                            '</td>',
+                        '</tr>',
+                        '<tr>',
+                            '<td>',
+                                '<label class="input-label">' + this.txtAlign + '</label>',
+                            '</td>',
+                            '<td style="padding-left: 5px;vertical-align:bottom;">',
+                                '<label class="input-label">' + this.txtAlignAt + '</label>',
+                            '</td>',
+                        '</tr>',
+                        '<tr>',
+                            '<td>',
+                                '<div id="id-dlg-bullet-align" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
+                            '</td>',
+                            '<td style="padding-left: 5px;">',
+                                '<div id="id-dlg-numbering-align-at" style="width: 100%;min-width40px;margin-bottom: 10px;"></div>',
+                            '</td>',
+                        '</tr>',
+                        '<tr>',
+                            '<td colspan="2">',
+                                '<label class="input-label">' + this.txtIndent + '</label>',
+                                '<div id="id-dlg-numbering-indent" style="width: 100%;margin-bottom: 10px;"></div>',
+                            '</td>',
+                        '</tr>',
+                        '<tr>',
+                            '<td colspan="2">',
+                                '<label class="input-label">' + this.txtFollow + '</label>',
+                                '<div id="id-dlg-numbering-follow" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
+                            '</td>',
+                        '</tr>',
+                        '<tr>',
+                            '<td colspan="2">',
+                                '<div id="id-dlg-chk-tabstop" class="input-group-nr" style="width: 100%;margin-bottom: 3px;"></div>',
+                            '</td>',
+                        '</tr>',
+                        '<tr>',
+                            '<td colspan="2" style="padding-left: 22px;">',
+                                '<div id="id-dlg-num-tabstop" style="width: 100%;"></div>',
+                            '</td>',
+                        '</tr>',
+                    '</table>',
+                    '</div>',
+                '</td>',
+                '<% } %>',
+                '</tr>',
+                '</table>'
             ].join('');
 
             this.props = options.props;
@@ -322,7 +371,7 @@ define([
             this.cmbFormat = new Common.UI.ComboBoxCustom({
                 el          : $window.find('#id-dlg-numbering-format'),
                 menuStyle   : 'min-width: 100%;max-height: 220px;',
-                style       : this.type===2 ? "width: 107px;" : "width: 129px;",
+                style       : this.type===2 ? "width: 100%;" : "width: 129px;",
                 editable    : false,
                 template    : _.template(template.join('')),
                 itemsTemplate: _.template(itemsTemplate.join('')),
@@ -475,7 +524,7 @@ define([
             this.cmbLevel = new Common.UI.ComboBox({
                 el          : $window.find('#id-dlg-numbering-format-lvl'),
                 menuStyle   : 'min-width: 100%;',
-                style       : "width: 130px;",
+                style       : "width: 100%;",
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [],
@@ -486,7 +535,7 @@ define([
             this.spnStart = new Common.UI.MetricSpinner({
                 el: $window.find('#id-dlg-numbering-spin-start'),
                 step: 1,
-                width: 85,
+                width: '100%',
                 defaultUnit : "",
                 value: 1,
                 maxValue: 16383,
@@ -536,7 +585,7 @@ define([
             this.spnAlign = new Common.UI.MetricSpinner({
                 el: $window.findById('#id-dlg-numbering-align-at'),
                 step: .1,
-                width: 85,
+                width: '100%',
                 defaultUnit : "cm",
                 defaultValue : 0,
                 value: '0 cm',
@@ -558,7 +607,7 @@ define([
             this.spnIndents = new Common.UI.MetricSpinner({
                 el: $window.findById('#id-dlg-numbering-indent'),
                 step: .1,
-                width: 85,
+                width: '100%',
                 defaultUnit : "cm",
                 defaultValue : 0,
                 value: '0 cm',
@@ -624,7 +673,7 @@ define([
             this.spnTabStop = new Common.UI.MetricSpinner({
                 el: $window.findById('#id-dlg-num-tabstop'),
                 step: .1,
-                width: 85,
+                width: '100%',
                 defaultUnit : "cm",
                 defaultValue : 0,
                 value: '0 cm',
@@ -641,6 +690,15 @@ define([
                 }
             }, this));
 
+            this.panelMore = $window.findById('#id-dlg-panel-more-settings');
+            this.panelMoreTable = this.panelMore.parent();
+            this.btnMore = new Common.UI.Button({
+                parentEl: $window.findById('#id-dlg-btn-more'),
+                cls: 'btn-toolbar bg-white',
+                iconCls: this.extended ? 'caret-double-left' : 'caret-double-right',
+                hint: this.extended ? this.textHide : this.textMore
+            });
+            this.btnMore.on('click', _.bind(this.onMoreClick, this));
             this.on('animate:after', _.bind(this.onAnimateAfter, this));
 
             this.afterRender();
@@ -1250,6 +1308,26 @@ define([
             this.saveRecentNum();
         },
 
+        onMoreClick: function(btn) {
+            if (!this.extended) {
+                this.extended = true;
+                this.panelMore.css({'display': 'block'});
+                this.panelMoreTable.width(this.panelMore.width());
+                this.setWidth(this.getWidth() + this.rightPanelWidth);
+                btn.updateHint(this.textHide);
+                btn.setIconCls('icon caret-double-left');
+                Common.localStorage.setItem("de-hide-multilevel-settings", 0);
+            } else {
+                this.extended = false;
+                this.panelMore.css({'display': 'none'});
+                this.panelMoreTable.css({'width': 'auto'});
+                this.setWidth(this.getWidth() - this.rightPanelWidth);
+                btn.updateHint(this.textMore);
+                btn.setIconCls('icon caret-double-right');
+                Common.localStorage.setItem("de-hide-multilevel-settings", 1);
+            }
+        },
+
         txtTitle: 'List Settings',
         txtSize: 'Size',
         txtColor: 'Color',
@@ -1274,12 +1352,15 @@ define([
         textItalic: 'Italic',
         textTab: 'Tab character',
         textSpace: 'Space',
-        txtAlignAt: 'Align at',
+        txtAlignAt: 'at',
         txtIndent: 'Text Indent',
         txtFollow: 'Follow number with',
         txtRestart: 'Restart list',
         txtMoreTypes: 'More types',
-        txtTabStop: 'Add tab stop at'
+        txtTabStop: 'Add tab stop at',
+        textMore: 'Show more settings',
+        textHide: 'Hide settings',
+        textSelectLevel: 'Select level'
 
     }, DE.Views.ListSettingsDialog || {}))
 });

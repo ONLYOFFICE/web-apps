@@ -174,6 +174,51 @@
                 transform: rotate(225deg);
             }
         }
+
+        &.caret-double-right, &.caret-double-left {
+            &::before, &::after {
+                content: '';
+                position: absolute;
+                top: 7px;
+                width: 6px;
+                height: 6px;
+                background-color: transparent;
+                border: solid 1px @text-normal-ie;
+                border: solid 1px @text-normal;
+                border-bottom: none;
+                border-right: none;
+            }
+        }
+        &.caret-double-right {
+            &::before {
+                left: 3px;
+            }
+            &::after {
+                left: 9px;
+            }
+            &::before, &::after {
+                -moz-transform: rotate(135deg);
+                -ms-transform: rotate(135deg);
+                -webkit-transform: rotate(135deg);
+                -o-transform: rotate(135deg);
+                transform: rotate(135deg);
+            }
+        }
+        &.caret-double-left {
+            &::before {
+                left: 5px;
+            }
+            &::after {
+                left: 11px;
+            }
+            &::before, &::after {
+                -moz-transform: rotate(315deg);
+                -ms-transform: rotate(315deg);
+                -webkit-transform: rotate(315deg);
+                -o-transform: rotate(315deg);
+                transform: rotate(315deg);
+            }
+        }
     }
 
     &:not(:disabled) {
