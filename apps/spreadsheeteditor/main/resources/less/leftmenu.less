@@ -214,6 +214,11 @@
             padding: 0;
             display: flex;
             flex-direction: column;
+
+            .header {
+                margin: 30px 0 20px 30px;
+                font-size: 16px;
+            }
         }
 
         #panel-settings {
@@ -402,6 +407,15 @@
         }
 
         #panel-recentfiles {
+            #id-recent-view {
+                margin: 0 0 20px 10px;
+            }
+
+            .header {
+                margin: 30px 0 20px 10px;
+                font-size: 16px;
+            }
+
             .dataview {
                 & > div:not([class^=ps-scrollbar]) {
                     border: none;
@@ -502,14 +516,15 @@
 
         #panel-rights {
             padding: 0 30px;
+
+            .header {
+                margin: 30px 0 20px 0;
+                font-size: 16px;
+            }
         }
 
         #panel-info,
         #panel-rights {
-            .header {
-                margin: 30px 0 20px 30px;
-                font-size: 16px;
-            }
             table {
                 tr {
                     td {
@@ -598,6 +613,10 @@
         }
 
         #panel-print {
+            .main-header {
+                font-size: 16px;
+                margin: 18px 0 20px 0;
+            }
             padding: 0;
             #print-preview-empty {
                 padding: 14px;

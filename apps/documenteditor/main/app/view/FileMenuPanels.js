@@ -1061,7 +1061,8 @@ define([
         menu: undefined,
 
         template: _.template([
-            '<div id="id-recent-view" style="margin: 20px 0;"></div>'
+            '<div class="header"><%= scope.txtOpenRecent %></div>',
+            '<div id="id-recent-view"></div>'
         ].join('')),
 
         initialize: function(options) {
@@ -1072,7 +1073,7 @@ define([
         },
 
         render: function() {
-            this.$el.html(this.template());
+            this.$el.html(this.template({scope: this}));
 
             this.viewRecentPicker = new Common.UI.DataView({
                 el: $('#id-recent-view'),
@@ -1111,7 +1112,9 @@ define([
         onRecentFileClick: function(view, itemview, record){
             if ( this.menu )
                 this.menu.fireEvent('recent:open', [this.menu, record.get('url')]);
-        }
+        },
+
+        txtOpenRecent: 'Open Recent'
     });
 
     DE.Views.FileMenuPanels.CreateNew = Common.UI.BaseView.extend(_.extend({
@@ -1937,7 +1940,8 @@ define([
             this.rendered = false;
 
             this.template = _.template([
-                '<table class="main" style="margin: 30px 0;">',
+                '<div class="header">' + this.txtAccessRights + '</div>',
+                '<table class="main">',
                     '<tr class="rights">',
                         '<td class="left" style="vertical-align: top;"><label>' + this.txtRights + '</label></td>',
                         '<td class="right"><div id="id-info-rights"></div></td>',
@@ -2052,7 +2056,8 @@ define([
         },
 
         txtRights: 'Persons who have rights',
-        txtBtnAccessRights: 'Change access rights'
+        txtBtnAccessRights: 'Change access rights',
+        txtAccessRights: 'Access Rights'
     }, DE.Views.FileMenuPanels.DocumentRights || {}));
 
     DE.Views.FileMenuPanels.Help = Common.UI.BaseView.extend({
