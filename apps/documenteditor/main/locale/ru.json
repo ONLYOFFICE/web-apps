@@ -1821,6 +1821,7 @@
   "DE.Views.DocumentHolder.txtInsertArgBefore": "Вставить аргумент перед",
   "DE.Views.DocumentHolder.txtInsertBreak": "Вставить принудительный разрыв",
   "DE.Views.DocumentHolder.txtInsertCaption": "Вставить название",
+  "DE.Views.DocumentHolder.textSaveAsPicture": "Сохранить как рисунок",
   "DE.Views.DocumentHolder.txtInsertEqAfter": "Вставить уравнение после",
   "DE.Views.DocumentHolder.txtInsertEqBefore": "Вставить уравнение перед",
   "DE.Views.DocumentHolder.txtKeepTextOnly": "Сохранить только текст",

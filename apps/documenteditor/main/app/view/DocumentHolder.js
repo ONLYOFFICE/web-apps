@@ -271,6 +271,12 @@ define([
             });
             var menuInsertCaptionSeparator = new Common.UI.MenuItem({ caption: '--' });
 
+            me.menuSaveAsPicture = new Common.UI.MenuItem({
+                caption     : me.textSaveAsPicture
+            });
+
+            var menuSaveAsPictureSeparator = new Common.UI.MenuItem({ caption: '--'});
+
             me.menuEquationInsertCaption = new Common.UI.MenuItem({
                 caption : me.txtInsertCaption
             });
@@ -455,10 +461,6 @@ define([
                 caption : me.editChartText
             });
 
-            var menuChartEditSeparator = new Common.UI.MenuItem({
-                caption     : '--'
-            });
-
             me.menuOriginalSize = new Common.UI.MenuItem({
                 caption : me.originalSizeText
             });
@@ -591,10 +593,6 @@ define([
                 caption: me.textEditPoints
             });
 
-            var menuImgEditPointsSeparator = new Common.UI.MenuItem({
-                caption     : '--'
-            });
-
             this.pictureMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
@@ -703,8 +701,6 @@ define([
                     if (me.menuChartEdit.isVisible())
                         me.menuChartEdit.setDisabled(islocked || value.imgProps.value.get_SeveralCharts());
 
-                    menuChartEditSeparator.setVisible(me.menuChartEdit.isVisible());
-
                     me.menuOriginalSize.setDisabled(islocked || value.imgProps.value.get_ImageUrl()===null || value.imgProps.value.get_ImageUrl()===undefined);
                     me.menuImageAdvanced.setDisabled(islocked);
                     me.menuImageAlign.setDisabled( islocked || (wrapping == Asc.c_oAscWrapStyle2.Inline) );
@@ -755,7 +751,6 @@ define([
 
                     var canEditPoints = me.api && me.api.asc_canEditGeometry();
                     me.menuImgEditPoints.setVisible(canEditPoints);
-                    menuImgEditPointsSeparator.setVisible(canEditPoints);
                     canEditPoints && me.menuImgEditPoints.setDisabled(islocked);
                 },
                 items: [
@@ -773,8 +768,6 @@ define([
                     me.menuImgRemoveControl,
                     me.menuImgControlSettings,
                     menuImgControlSeparator,
-                    me.menuImgEditPoints,
-                    menuImgEditPointsSeparator,
                     me.menuImageArrange,
                     me.menuImageAlign,
                     me.menuImageWrap,
@@ -782,11 +775,13 @@ define([
                     { caption: '--' },
                     me.menuInsertCaption,
                     menuInsertCaptionSeparator,
+                    me.menuSaveAsPicture,
+                    menuSaveAsPictureSeparator,
                     me.menuImgCrop,
                     me.menuOriginalSize,
                     me.menuImgReplace,
                     me.menuChartEdit,
-                    menuChartEditSeparator,
+                    me.menuImgEditPoints,
                     me.menuImageAdvanced
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
@@ -3149,6 +3144,7 @@ define([
         textCells: 'Cells',
         textSeveral: 'Several Rows/Columns',
         txtInsertCaption: 'Insert Caption',
+        textSaveAsPicture: 'Save as picture',
         txtEmpty: '(Empty)',
         textFromStorage: 'From Storage',
         advancedDropCapText: 'Drop Cap Settings',

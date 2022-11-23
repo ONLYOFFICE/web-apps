@@ -264,7 +264,9 @@ define([
                 view.menuImgMacro.on('click',                       _.bind(me.onImgMacro, me));
                 view.menuImgEditPoints.on('click',                  _.bind(me.onImgEditPoints, me));
                 view.pmiGetRangeList.on('click',                    _.bind(me.onGetLink, me));
-                view.menuParagraphEquation.menu.on('item:click', _.bind(me.convertEquation, me));
+                view.menuParagraphEquation.menu.on('item:click',    _.bind(me.convertEquation, me));
+                view.menuSaveAsPicture.on('click',                  _.bind(me.saveAsPicture, me));
+
 
                 if (!me.permissions.isEditMailMerge && !me.permissions.isEditDiagram && !me.permissions.isEditOle) {
                     var oleEditor = me.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
@@ -2140,7 +2142,6 @@ define([
 
                 var canEditPoints = this.api && this.api.asc_canEditGeometry();
                 documentHolder.menuImgEditPoints.setVisible(canEditPoints);
-                documentHolder.menuImgEditPointsSeparator.setVisible(canEditPoints);
                 canEditPoints && documentHolder.menuImgEditPoints.setDisabled(isObjLocked);
 
                 if (showMenu) this.showPopupMenu(documentHolder.imgMenu, {}, event);
@@ -4408,6 +4409,12 @@ define([
                     this.api.asc_SetMathInputType(item.value);
                 else if (item.options.type=='view')
                     this.api.asc_ConvertMathView(item.value.linear, item.value.all);
+            }
+        },
+
+        saveAsPicture: function() {
+            if(this.api) {
+                this.api.asc_SaveDrawingAsPicture();
             }
         },
 
