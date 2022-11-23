@@ -1482,6 +1482,10 @@ define([
                 caption     : me.advancedChartText
             });
 
+            var menuAdvancedSettingsSeparator = new Common.UI.MenuItem({
+                caption : '--'
+            });
+ 
             var menuCommentParaSeparator = new Common.UI.MenuItem({
                 caption : '--'
             });
@@ -1919,10 +1923,6 @@ define([
                 caption: me.textEditPoints
             });
 
-            var menuImgEditPointsSeparator = new Common.UI.MenuItem({
-                caption     : '--'
-            });
-
             me.textMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 initMenu: function(value){
@@ -2221,6 +2221,8 @@ define([
                     me.menuTableDistCols,
                     { caption: '--' },
                     me.menuTableCellAlign,
+                    { caption: '--'},
+                    me.menuSaveAsPicture,
                     { caption: '--' },
                     me.menuTableAdvanced,
                     menuHyperlinkSeparator,
@@ -2288,7 +2290,6 @@ define([
 
                     var canEditPoints = me.api && me.api.asc_canEditGeometry();
                     me.menuImgEditPoints.setVisible(canEditPoints);
-                    menuImgEditPointsSeparator.setVisible(canEditPoints);
                     canEditPoints && me.menuImgEditPoints.setDisabled(disabled);
 
                     me.menuImageAdvanced.setVisible(isimage);
@@ -2296,6 +2297,12 @@ define([
                     me.menuChartEdit.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart));
                     me.menuChartAdvanced.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart));
                     menuImgShapeSeparator.setVisible(me.menuImageAdvanced.isVisible() || me.menuShapeAdvanced.isVisible() || me.menuChartEdit.isVisible() || me.menuChartAdvanced.isVisible());
+                    menuAdvancedSettingsSeparator.setVisible(
+                        me.menuImgCrop.isVisible() || me.menuImgOriginalSize.isVisible() || 
+                        me.menuImgReplace.isVisible() || me.menuImageAdvanced.isVisible() ||
+                        me.menuImgEditPoints.isVisible() || me.menuShapeAdvanced.isVisible() ||
+                        me.menuChartEdit.isVisible() || me.menuChartAdvanced.isVisible()
+                    );
                 
                     /** coauthoring begin **/
                     me.menuAddCommentImg.setVisible(me.api.can_AddQuotedComment()!==false && me.mode.canCoAuthoring && me.mode.canComments);
@@ -2327,27 +2334,26 @@ define([
                     me.menuImgCut,
                     me.menuImgCopy,
                     me.menuImgPaste,
-                    { caption: '--' },
-                    me.menuImgEditPoints,
-                    menuImgEditPointsSeparator,
+                    { caption: '--' },              //Separator
                     menuImgShapeArrange,
                     me.menuImgShapeAlign,
                     me.menuImgShapeRotate,
-                    menuImgShapeSeparator,
+                    menuImgShapeSeparator,          //Separator
+                    me.menuSaveAsPicture,
+                    menuSaveAsPictureSeparator,     //Separator
                     me.menuImgCrop,
                     me.menuImgOriginalSize,
                     me.menuImgReplace,
                     me.menuImageAdvanced,
-                    me.menuShapeAdvanced
-                    ,me.menuChartEdit
-                    ,me.menuChartAdvanced
-                    ,menuSaveAsPictureSeparator
-                    ,me.menuSaveAsPicture
+                    me.menuImgEditPoints,
+                    me.menuShapeAdvanced,
+                    me.menuChartEdit,
+                    me.menuChartAdvanced,
+                    menuAdvancedSettingsSeparator,  //Separator
                 /** coauthoring begin **/
-                    ,menuCommentSeparatorImg,
                     me.menuAddCommentImg,
+                    menuCommentSeparatorImg,        //Separator
                 /** coauthoring end **/
-                    { caption: '--' },
                     me.menuAddToLayoutImg
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
