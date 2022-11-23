@@ -46,6 +46,7 @@ define([
         initialize : function(options) {
             var _options = {};
             _.extend(_options,  {
+                id: 'id-external-ole-editor',
                 title: this.textTitle,
                 storageName: 'ole-editor',
                 sdkplaceholder: 'id-ole-editor-placeholder',

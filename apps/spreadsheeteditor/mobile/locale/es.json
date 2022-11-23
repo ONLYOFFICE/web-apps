@@ -31,9 +31,9 @@
       "textOk": "OK",
       "textReopen": "Volver a abrir",
       "textResolve": "Resolver",
+      "textSharingSettings": "Ajustes de uso compartido",
       "textTryUndoRedo": "Las funciones Deshacer/Rehacer están desactivadas en el modo de co-edición rápido.",
-      "textUsers": "Usuarios",
-      "textSharingSettings": "Sharing Settings"
+      "textUsers": "Usuarios"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Colores personalizados",
@@ -50,6 +50,7 @@
     "menuCell": "Celda",
     "menuDelete": "Eliminar",
     "menuEdit": "Editar",
+    "menuEditLink": "Editar enlace",
     "menuFreezePanes": "Inmovilizar paneles",
     "menuHide": "Ocultar",
     "menuMerge": "Combinar",
@@ -66,8 +67,7 @@
     "textDoNotShowAgain": "No mostrar de nuevo",
     "textOk": "Aceptar",
     "txtWarnUrl": "Hacer clic en este enlace puede ser perjudicial para su dispositivo y sus datos.<br>¿Está seguro de que quiere continuar?",
-    "warnMergeLostData": "En la celda unida permanecerán sólo los datos de la celda de la esquina superior izquierda.<br>Está seguro de que quiere continuar?",
-    "menuEditLink": "Edit Link"
+    "warnMergeLostData": "En la celda unida permanecerán sólo los datos de la celda de la esquina superior izquierda.<br>Está seguro de que quiere continuar?"
   },
   "Controller": {
     "Main": {
@@ -158,17 +158,17 @@
       "textReplaceSuccess": "Se ha realizado la búsqueda. Ocurrencias reemplazadas: {0}",
       "textRequestMacros": "Una macro realiza una solicitud a la URL. ¿Quiere permitir la solicitud al %1?",
       "textYes": "Sí",
+      "titleLicenseExp": "Licencia ha expirado",
       "titleServerVersion": "Editor ha sido actualizado",
       "titleUpdateVersion": "Versión ha cambiado",
       "warnLicenseExceeded": "Ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización. Póngase en contacto con su administrador para obtener más información.",
+      "warnLicenseExp": "Su licencia ha expirado. Por favor, actualice su licencia y actualice la página.",
       "warnLicenseLimitedNoAccess": "La licencia ha expirado. No tiene acceso a la funcionalidad de edición de documentos. Por favor, póngase en contacto con su administrador.",
       "warnLicenseLimitedRenewed": "La licencia necesita renovación. Tiene acceso limitado a la funcionalidad de edición de documentos.<br>Por favor, póngase en contacto con su administrador para obtener acceso completo",
       "warnLicenseUsersExceeded": "Ha alcanzado el límite de usuarios para %1 editores. Póngase en contacto con su administrador para saber más.",
       "warnNoLicense": "Ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
       "warnNoLicenseUsers": "Ha alcanzado el límite de usuarios para %1 editores. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
-      "warnProcessRightsChange": "No tiene permiso para editar el archivo.",
-      "titleLicenseExp": "License expired",
-      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
+      "warnProcessRightsChange": "No tiene permiso para editar el archivo."
     }
   },
   "Error": {
@@ -196,6 +196,7 @@
     "errorDataRange": "Rango de datos incorrecto.",
     "errorDataValidate": "El valor que ha introducido no es válido.<br>Un usuario ha restringido los valores que pueden ser introducidos en esta celda.",
     "errorDefaultMessage": "Código de error: %1",
+    "errorDirectUrl": "Por favor, verifique el vínculo al documento.<br>Este vínculo debe ser un vínculo directo al archivo para descargar.",
     "errorEditingDownloadas": "Se ha producido un error al trabajar con el documento.<br>Utilice la opción 'Descargar' para guardar la copia de seguridad del archivo localmente.",
     "errorFilePassProtect": "El archivo está protegido por contraseña y no se puede abrir.",
     "errorFileRequest": "Error externo.<br>Solicitud de archivo. Por favor, contacte con el equipo de soporte.",
@@ -238,19 +239,20 @@
     "pastInMergeAreaError": "No se puede modificar una parte de una celda combinada",
     "saveErrorText": "Se ha producido un error al guardar el archivo ",
     "scriptLoadError": "La conexión es demasiado lenta, algunos de los componentes no se han podido cargar. Por favor, vuelva a cargar la página.",
+    "textCancel": "Cancelar",
     "textErrorPasswordIsNotCorrect": "La contraseña que ha proporcionado no es correcta.<br>Verifique que la tecla Bloq Mayús está desactivada y asegúrese de utilizar las mayúsculas correctas.",
+    "textOk": "Aceptar",
     "unknownErrorText": "Error desconocido.",
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
     "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB.",
-    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
-    "textCancel": "Cancel",
-    "textOk": "Ok",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
     "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
-    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension."
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "advDRMPassword": "Contraseña",
@@ -281,10 +283,12 @@
     "saveTextText": "Guardando documento...",
     "saveTitleText": "Guardando documento",
     "textCancel": "Cancelar",
+    "textContinue": "Continuar",
     "textErrorWrongPassword": "La contraseña que ha proporcionado no es correcta.",
     "textLoadingDocument": "Cargando documento",
     "textNo": "No",
     "textOk": "OK",
+    "textUndo": "Deshacer",
     "textUnlockRange": "Desbloquear rango",
     "textUnlockRangeWarning": "Un rango que está tratando de cambiar está protegido por contraseña.",
     "textYes": "Sí",
@@ -292,9 +296,7 @@
     "uploadImageTextText": "Subiendo imagen...",
     "uploadImageTitleText": "Subiendo imagen",
     "waitText": "Por favor, espere...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textContinue": "Continue",
-    "textUndo": "Undo"
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost)."
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Advertencia",
@@ -350,6 +352,7 @@
       "textComment": "Comentario",
       "textDataTableHint": "Devuelve las celdas de datos de la tabla o de las columnas de la tabla especificadas",
       "textDisplay": "Mostrar",
+      "textDone": "Hecho",
       "textEmptyImgUrl": "Necesita especificar la URL de la imagen.",
       "textExternalLink": "Enlace externo",
       "textFilter": "Filtro",
@@ -370,6 +373,7 @@
       "textPictureFromLibrary": "Imagen desde biblioteca",
       "textPictureFromURL": "Imagen desde URL",
       "textRange": "Rango",
+      "textRecommended": "Recomendado",
       "textRequired": "Requerido",
       "textScreenTip": "Consejo de pantalla",
       "textSelectedRange": "Rango seleccionado",
@@ -385,9 +389,7 @@
       "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
       "txtSorting": "Ordenación",
       "txtSortSelected": "Ordenar los objetos seleccionados",
-      "txtYes": "Sí",
-      "textDone": "Done",
-      "textRecommended": "Recommended"
+      "txtYes": "Sí"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertencia",
@@ -405,6 +407,7 @@
       "textAllBorders": "Todos los bordes",
       "textAngleClockwise": "Ángulo descendente",
       "textAngleCounterclockwise": "Ángulo ascendente",
+      "textArrange": "Organizar",
       "textAuto": "Auto",
       "textAutomatic": "Automático",
       "textAxisCrosses": "Cruces de eje",
@@ -419,6 +422,7 @@
       "textBottom": "Abajo ",
       "textBottomBorder": "Borde inferior",
       "textBringToForeground": "Traer al primer plano",
+      "textCancel": "Cancelar",
       "textCell": "Celda",
       "textCellStyle": "Estilo de celda",
       "textCenter": "Centro",
@@ -434,12 +438,14 @@
       "textDate": "Fecha",
       "textDefault": "Rango seleccionado",
       "textDeleteFilter": "Eliminar filtro",
+      "textDeleteLink": "Eliminar enlace",
       "textDesign": "Diseño",
       "textDiagonalDownBorder": "Borde diagonal descendente",
       "textDiagonalUpBorder": "Borde diagonal ascendente",
       "textDisplay": "Mostrar",
       "textDisplayUnits": "Unidades de visualización",
       "textDollar": "Dólar",
+      "textDone": "Hecho",
       "textEditLink": "Editar enlace",
       "textEffects": "Efectos",
       "textEmptyImgUrl": "Necesita especificar la URL de la imagen.",
@@ -520,6 +526,7 @@
       "textPound": "Libra",
       "textPt": "pt",
       "textRange": "Rango",
+      "textRecommended": "Recomendado",
       "textRemoveChart": "Eliminar gráfico",
       "textRemoveShape": "Eliminar forma",
       "textReplace": "Reemplazar",
@@ -567,13 +574,8 @@
       "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Ordenar de mayor a menor",
       "txtSortLow2High": "Ordenar de menor a mayor ",
-      "textArrange": "Arrange",
-      "textCancel": "Cancel",
       "textChangeShape": "Change Shape",
-      "textDeleteImage": "Delete Image",
-      "textDeleteLink": "Delete Link",
-      "textDone": "Done",
-      "textRecommended": "Recommended"
+      "textDeleteImage": "Delete Image"
     },
     "Settings": {
       "advCSVOptions": "Elegir los parámetros de CSV",

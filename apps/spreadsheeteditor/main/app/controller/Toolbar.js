@@ -2053,7 +2053,7 @@ define([
                         return false;
                     }
             };
-            shortcuts['command+shift+=,ctrl+shift+=' + (Common.Utils.isGecko ? ',command+shift+ff=,ctrl+shift+ff=' : '')] = function(e) {
+            shortcuts['command+shift+=,ctrl+shift+=,command+shift+numplus,ctrl+shift+numplus' + (Common.Utils.isGecko ? ',command+shift+ff=,ctrl+shift+ff=' : '')] = function(e) {
                         if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.toolbar.mode.isEditDiagram && !me.toolbar.mode.isEditOle && !me.toolbar.btnAddCell.isDisabled()) {
                             var cellinfo = me.api.asc_getCellInfo(),
                                 selectionType = cellinfo.asc_getSelectionType();
@@ -2084,7 +2084,7 @@ define([
 
                         return false;
                     };
-            shortcuts['command+shift+-,ctrl+shift+-' + (Common.Utils.isGecko ? ',command+shift+ff-,ctrl+shift+ff-' : '')] = function(e) {
+            shortcuts['command+shift+-,ctrl+shift+-,command+shift+numminus,ctrl+shift+numminus' + (Common.Utils.isGecko ? ',command+shift+ff-,ctrl+shift+ff-' : '')] = function(e) {
                         if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.toolbar.mode.isEditDiagram && !me.toolbar.mode.isEditOle && !me.toolbar.btnDeleteCell.isDisabled()) {
                             var cellinfo = me.api.asc_getCellInfo(),
                                 selectionType = cellinfo.asc_getSelectionType();
@@ -3947,7 +3947,6 @@ define([
                         parentMenu: menu.items[i].menu,
                         store: equationsStore.at(i).get('groupStore'),
                         scrollAlwaysVisible: true,
-                        restoreHeight: 10000,
                         itemTemplate: _.template(
                             '<div class="item-equation">' +
                                 '<div class="equation-icon" style="background-position:<%= posX %>px <%= posY %>px;width:<%= width %>px;height:<%= height %>px;" id="<%= id %>"></div>' +

@@ -26,6 +26,7 @@
     "textContinuousPage": "Fortlaufende Seite",
     "textCurrentPosition": "Aktuelle Position",
     "textDisplay": "Anzeigen",
+    "textDone": "Fertig",
     "textEmptyImgUrl": "URL des Bildes erforderlich",
     "textEvenPage": "Gerade Seite",
     "textFootnote": "Fußnote",
@@ -49,6 +50,8 @@
     "textPictureFromLibrary": "Bild aus dem Verzeichnis",
     "textPictureFromURL": "Bild aus URL",
     "textPosition": "Position",
+    "textRecommended": "Empfohlen",
+    "textRequired": "Erforderlich",
     "textRightBottom": "Rechts unten",
     "textRightTop": "Rechts oben",
     "textRows": "Zeilen",
@@ -61,10 +64,7 @@
     "textTableSize": "Tabellengröße",
     "textWithBlueLinks": "Mit blauen Links",
     "textWithPageNumbers": "Mit Seitennummern",
-    "txtNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein.",
-    "textDone": "Done",
-    "textRecommended": "Recommended",
-    "textRequired": "Required"
+    "txtNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein."
   },
   "Common": {
     "Collaboration": {
@@ -147,6 +147,7 @@
       "textReviewChange": "Änderung überprüfen",
       "textRight": "Rechtsbündig ausrichten",
       "textShape": "Form",
+      "textSharingSettings": "Freigabeeinstellungen",
       "textShd": "Hintergrundfarbe",
       "textSmallCaps": "Kapitälchen",
       "textSpacing": "Abstand",
@@ -163,8 +164,7 @@
       "textTryUndoRedo": "Die Optionen Rückgängig machen/Wiederholen sind für den Schnellmodus deaktiviert.",
       "textUnderline": "Unterstrichen",
       "textUsers": "Benutzer",
-      "textWidow": "Absatzkontrolle",
-      "textSharingSettings": "Sharing Settings"
+      "textWidow": "Absatzkontrolle"
     },
     "HighlightColorPalette": {
       "textNoFill": "Keine Füllung"
@@ -184,6 +184,7 @@
     "menuDelete": "Löschen",
     "menuDeleteTable": "Tabelle löschen",
     "menuEdit": "Bearbeiten",
+    "menuEditLink": "Link bearbeiten",
     "menuJoinList": "Mit der vorherigen Liste verbinden",
     "menuMerge": "Verbinden",
     "menuMore": "Mehr",
@@ -204,8 +205,7 @@
     "textRefreshEntireTable": "Ganze Tabelle aktualisieren",
     "textRefreshPageNumbersOnly": "Nur Seitenzahlen aktualisieren",
     "textRows": "Zeilen",
-    "txtWarnUrl": "Dieser Link kann für Ihr Gerät und Daten gefährlich sein.<br>Möchten Sie wirklich fortsetzen?",
-    "menuEditLink": "Edit Link"
+    "txtWarnUrl": "Dieser Link kann für Ihr Gerät und Daten gefährlich sein.<br>Möchten Sie wirklich fortsetzen?"
   },
   "Edit": {
     "notcriticalErrorTitle": "Warnung",
@@ -238,6 +238,7 @@
     "textCancel": "Abbrechen",
     "textCellMargins": "Zellenränder",
     "textCentered": "Zentriert",
+    "textChangeShape": "Form ändern",
     "textChart": "Diagramm",
     "textClassic": "Klassisch",
     "textClose": "Schließen",
@@ -246,7 +247,10 @@
     "textCreateTextStyle": "Neuen Textstil erstellen",
     "textCurrent": "Aktuell",
     "textCustomColor": "Benutzerdefinierte Farbe",
+    "textCustomStyle": "Benutzerdefinierter Stil",
     "textDecember": "Dezember",
+    "textDeleteImage": "Bild löschen",
+    "textDeleteLink": "Link löschen",
     "textDesign": "Design",
     "textDifferentFirstPage": "Erste Seite anders",
     "textDifferentOddAndEvenPages": "Gerade und ungerade Seiten anders",
@@ -319,6 +323,7 @@
     "textPictureFromLibrary": "Bild aus dem Verzeichnis",
     "textPictureFromURL": "Bild aus URL",
     "textPt": "pt",
+    "textRecommended": "Empfohlen",
     "textRefresh": "Aktualisieren",
     "textRefreshEntireTable": "Ganze Tabelle aktualisieren",
     "textRefreshPageNumbersOnly": "Nur Seitenzahlen aktualisieren",
@@ -330,6 +335,7 @@
     "textRepeatAsHeaderRow": "Als Überschriftenzeile wiederholen",
     "textReplace": "Ersetzen",
     "textReplaceImage": "Bild ersetzen",
+    "textRequired": "Erforderlich",
     "textResizeToFitContent": "An die Größe des Inhalts anpassen",
     "textRightAlign": "Rechtsbündig",
     "textSa": "Sa",
@@ -359,6 +365,7 @@
     "textTableOfCont": "Inhaltsverzeichnis",
     "textTableOptions": "Tabellenoptionen",
     "textText": "Text",
+    "textTextWrapping": "Textumbruch",
     "textTh": "Do",
     "textThrough": "Durchgehend",
     "textTight": "Passend",
@@ -369,14 +376,7 @@
     "textType": "Typ",
     "textWe": "Mi",
     "textWrap": "Umbrechen",
-    "textChangeShape": "Change Shape",
-    "textCustomStyle": "Custom Style",
-    "textDeleteImage": "Delete Image",
-    "textDeleteLink": "Delete Link",
-    "textRecommended": "Recommended",
-    "textRequired": "Required",
-    "textTextWrapping": "Text Wrapping",
-    "textWrappingStyle": "Wrapping Style"
+    "textWrappingStyle": "Textumbruch"
   },
   "Error": {
     "convertationTimeoutText": "Zeitüberschreitung bei der Konvertierung.",
@@ -390,10 +390,16 @@
     "errorDataEncrypted": "Verschlüsselte Änderungen wurden empfangen. Sie können nicht entschlüsselt werden.",
     "errorDataRange": "Falscher Datenbereich.",
     "errorDefaultMessage": "Fehlercode: %1",
+    "errorDirectUrl": "Bitte überprüfen Sie den Link zum Dokument.<br>Dieser Link muss ein direkter Link zu der Datei zum Herunterladen sein.",
     "errorEditingDownloadas": "Fehler bei der Arbeit an diesem Dokument.<br>Laden Sie die Datei herunter, um sie lokal zu speichern.",
     "errorEmptyTOC": "Beginnen Sie die Erstellung eines Inhaltsverzeichnisses, indem Sie eine Überschriftenvorlage aus der Galerie von Stilen auf den ausgewählten Text anwenden.",
     "errorFilePassProtect": "Die Datei ist mit Passwort geschützt und kann nicht geöffnet werden.",
     "errorFileSizeExceed": "Die Dateigröße ist zu hoch für Ihren Server.<br>Bitte wenden Sie sich an Administratoren.",
+    "errorInconsistentExt": "Beim Öffnen der Datei ist ein Fehler aufgetreten.<br>Der Inhalt der Datei stimmt nicht mit der Dateierweiterung überein.",
+    "errorInconsistentExtDocx": "Beim Öffnen der Datei ist ein Fehler aufgetreten.<br>Der Inhalt der Datei entspricht Textdokumenten (z.B. docx), aber die Datei hat die inkonsistente Erweiterung: %1.",
+    "errorInconsistentExtPdf": "Beim Öffnen der Datei ist ein Fehler aufgetreten.<br>Der Inhalt der Datei entspricht einem der folgenden Formate: pdf/djvu/xps/oxps, aber die Datei hat die inkonsistente Erweiterung: %1.",
+    "errorInconsistentExtPptx": "Beim Öffnen der Datei ist ein Fehler aufgetreten.<br>Der Inhalt der Datei entspricht Präsentationen (z.B. pptx), aber die Datei hat die inkonsistente Erweiterung: %1.",
+    "errorInconsistentExtXlsx": "Beim Öffnen der Datei ist ein Fehler aufgetreten.<br>Der Inhalt der Datei entspricht Tabellenkalkulationen (z.B. xlsx), aber die Datei hat die inkonsistente Erweiterung: %1.",
     "errorKeyEncrypt": "Unbekannter Schlüsseldeskriptor",
     "errorKeyExpire": "Der Schlüsseldeskriptor ist abgelaufen",
     "errorLoadingFont": "Schriftarten nicht hochgeladen.<br>Bitte wenden Sie sich an Administratoren von Ihrem Document Server.",
@@ -420,16 +426,13 @@
     "uploadImageExtMessage": "Unbekanntes Bildformat.",
     "uploadImageFileCountMessage": "Keine Bilder hochgeladen.",
     "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten.",
-    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
-    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
-    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension."
+    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "Daten werden geladen...",
     "applyChangesTitleText": "Daten werden geladen",
+    "confirmMaxChangesSize": "Die Anzahl der Aktionen überschreitet die für Ihren Server festgelegte Grenze.<br>Drücken Sie \"Rückgängig\", um Ihre letzte Aktion abzubrechen, oder drücken Sie \"Weiter\", um die Aktion lokal fortzusetzen (Sie müssen die Datei herunterladen oder ihren Inhalt kopieren, um sicherzustellen, dass nichts verloren geht).",
     "downloadMergeText": "Ladevorgang...",
     "downloadMergeTitle": "Ladevorgang",
     "downloadTextText": "Dokument wird heruntergeladen...",
@@ -456,14 +459,13 @@
     "saveTitleText": "Dokument wird gespeichert...",
     "sendMergeText": "Merge wird versandt...",
     "sendMergeTitle": "Ergebnisse der Zusammenführung werden gesendet",
+    "textContinue": "Fortsetzen",
     "textLoadingDocument": "Dokument wird geladen",
+    "textUndo": "Rückgängig",
     "txtEditingMode": "Bearbeitungsmodul wird festgelegt...",
     "uploadImageTextText": "Bild wird hochgeladen...",
     "uploadImageTitleText": "Bild wird hochgeladen",
-    "waitText": "Bitte warten...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textContinue": "Continue",
-    "textUndo": "Undo"
+    "waitText": "Bitte warten..."
   },
   "Main": {
     "criticalErrorTitle": "Fehler",

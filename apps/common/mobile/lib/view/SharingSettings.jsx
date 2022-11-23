@@ -6,17 +6,18 @@ import { Device } from "../../utils/device";
 
 const SharingSettings = props => {
     const { t } = useTranslation();
+    const storeAppOptions = props.storeAppOptions;
+    const sharingSettingsUrl = storeAppOptions.sharingSettingsUrl;
     const _t = t('Common.Collaboration', {returnObjects: true});
-    const url = 'https://nct.onlyoffice.com/Products/Files/Share.aspx?fileid=142278';
 
     return (
         <Page>
             <Navbar title={t('Common.Collaboration.textSharingSettings')} backLink={_t.textBack} />
             <div id="sharing-placeholder" className="sharing-placeholder">
-                <iframe width="100%" height="100%" frameBorder={0} scrolling="0" align="top" src={url}></iframe>
+                <iframe width="100%" height="100%" frameBorder={0} scrolling="0" align="top" src={sharingSettingsUrl}></iframe>
             </div>
         </Page>
     )
 }
 
-export default SharingSettings;
+export default inject("storeAppOptions")(observer(SharingSettings));

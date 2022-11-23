@@ -1838,5 +1838,57 @@
 	"XOR": {
 		"a": "(logická_hodnota1; [logická_hodnota2]; ...)",
 		"d": "Vráti logický operátor Exclusive Or všetkých argumentov"
+	},
+	"TEXTBEFORE": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Vráti text, ktorý sa nachádza pred oddeľovacími znakmi."
+	},
+	"TEXTAFTER": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Vráti text, ktorý sa nachádza za oddeľovacími znakmi."
+	},
+	"TEXTSPLIT": {
+		"a": "(text, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
+		"d": "Rozdelí text do riadkov alebo stĺpcov pomocou oddeľovačov."
+	},
+	"WRAPROWS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": "Zalomí vektor riadka alebo stĺpca za zadaný počet hodnôt."
+	},
+	"VSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": "Zvislo navrství polia do jedného poľa."
+	},
+	"HSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": "Vodorovne navrství polia do jedného poľa."
+	},
+	"CHOOSEROWS": {
+		"a": "(array, row_num1, [row_num2], ...)",
+		"d": "Vráti riadky z poľa alebo odkazu."
+	},
+	"CHOOSECOLS": {
+		"a": "(array, col_num1, [col_num2], ...)",
+		"d": "Vráti stĺpce z poľa alebo odkazu."
+	},
+	"TOCOL": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "Vráti pole ako jeden stĺpec."
+	},
+	"TOROW": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "Vráti pole ako jeden riadok. "
+	},
+	"WRAPCOLS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": "Zalomí vektor riadka alebo stĺpca za zadaný počet hodnôt."
+	},
+	"TAKE": {
+		"a": "(array, rows, [columns])",
+		"d": "Vráti riadky alebo stĺpce zo začiatku alebo konca poľa."
+	},
+	"DROP": {
+		"a": "(array, rows, [columns])",
+		"d": "Vypustí riadky alebo stĺpce zo začiatku alebo konca poľa."
 	}
 }

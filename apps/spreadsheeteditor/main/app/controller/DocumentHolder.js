@@ -119,11 +119,7 @@ define([
             me._state = {wsLock: false, wsProps: []};
             me.fastcoauthtips = [];
             me._TtHeight = 20;
-            me.externalData = {
-                stackRequests: [],
-                stackResponse: [],
-                callback: undefined
-            };
+
             /** coauthoring begin **/
             this.wrapEvents = {
                 apiHideComment: _.bind(this.onApiHideComment, this),
@@ -380,10 +376,6 @@ define([
                 this.api.asc_registerCallback('asc_onShowPivotGroupDialog', _.bind(this.onShowPivotGroupDialog, this));
                 if (!this.permissions.isEditMailMerge && !this.permissions.isEditDiagram && !this.permissions.isEditOle)
                     this.api.asc_registerCallback('asc_doubleClickOnTableOleObject', _.bind(this.onDoubleClickOnTableOleObject, this));
-                if (this.permissions.canRequestReferenceData) {
-                    this.api.asc_registerCallback('asc_onUpdateExternalReference', _.bind(this.onUpdateExternalReference, this));
-                    Common.Gateway.on('setreferencedata', _.bind(this.setReferenceData, this));
-                }
                 this.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(this.onShowMathTrack, this));
                 this.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(this.onHideMathTrack, this));
             }
@@ -4268,51 +4260,6 @@ define([
             }
         },
 
-        onUpdateExternalReference: function(arr, callback) {
-            if (this.permissions.isEdit && !this._isDisabled) {
-                var me = this;
-                me.externalData = {
-                    stackRequests: [],
-                    stackResponse: [],
-                    callback: undefined
-                };
-                arr && arr.length>0 && arr.forEach(function(item) {
-                    var data;
-                    switch (item.asc_getType()) {
-                        case Asc.c_oAscExternalReferenceType.link:
-                            data = {link: item.asc_getData()};
-                            break;
-                        case Asc.c_oAscExternalReferenceType.path:
-                            data = {path: item.asc_getData()};
-                            break;
-                        case Asc.c_oAscExternalReferenceType.referenceData:
-                            data = {referenceData: item.asc_getData()};
-                            break;
-                    }
-                    data && me.externalData.stackRequests.push(data);
-                });
-                me.externalData.callback = callback;
-                me.requestReferenceData();
-            }
-        },
-
-        requestReferenceData: function() {
-            if (this.externalData.stackRequests.length>0) {
-                var data = this.externalData.stackRequests.shift();
-                Common.Gateway.requestReferenceData(data);
-            }
-        },
-
-        setReferenceData: function(data) {
-            if (this.permissions.isEdit && !this._isDisabled) {
-                data && this.externalData.stackResponse.push(data);
-                if (this.externalData.stackRequests.length>0)
-                    this.requestReferenceData();
-                else if (this.externalData.callback)
-                    this.externalData.callback(this.externalData.stackResponse);
-            }
-        },
-
         onShowMathTrack: function(bounds) {
             if (bounds[3] < 0) {
                 this.onHideMathTrack();
@@ -4378,7 +4325,6 @@ define([
                         menu        : new Common.UI.Menu({
                             cls: 'menu-shapes',
                             value: i,
-                            restoreHeight: equationGroup.get('groupHeight') ? parseInt(equationGroup.get('groupHeight')) : true,
                             items: [
                                 { template: _.template('<div id="id-document-holder-btn-equation-menu-' + i +
                                         '" class="menu-shape" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +

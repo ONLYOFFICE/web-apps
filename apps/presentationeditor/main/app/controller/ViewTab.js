@@ -61,7 +61,8 @@ define([
             this._state = {
                 zoom_type: undefined,
                 zoom_percent: undefined,
-                unitsChanged: true
+                unitsChanged: true,
+                lock_viewProps: false
             };
             Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
@@ -75,6 +76,8 @@ define([
                 this.api.asc_registerCallback('asc_onNotesShow', _.bind(this.onNotesShow, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
+                this.api.asc_registerCallback('asc_onLockViewProps', _.bind(this.onLockViewProps, this, true));
+                this.api.asc_registerCallback('asc_onUnLockViewProps', _.bind(this.onLockViewProps, this, false));
             }
             return this;
         },
@@ -254,7 +257,10 @@ define([
 
         onGuidesAfterShow: function() {
             if (this.view) {
-                this.view.btnGuides.menu.items[6].setDisabled(!this.api.asc_canClearGuides());
+                this.view.btnGuides.menu.items[2].setDisabled(this._state.lock_viewProps); // add v guides
+                this.view.btnGuides.menu.items[3].setDisabled(this._state.lock_viewProps); // add h guides
+                this.view.btnGuides.menu.items[6].setDisabled(this._state.lock_viewProps || !this.api.asc_canClearGuides()); // clear guides
+
                 this.view.btnGuides.menu.items[0].setChecked(this.api.asc_getShowGuides(), true);
                 this.view.btnGuides.menu.items[5].setChecked(this.api.asc_getShowSmartGuides(), true);
             }
@@ -350,7 +356,20 @@ define([
                         item.setChecked(true);
                     else
                         item.setChecked(false);
+                    item.setDisabled(this._state.lock_viewProps);
                 }
+                menu.items[1].setDisabled(this._state.lock_viewProps); // snap to grid
+                menu.items[items.length-1].setDisabled(this._state.lock_viewProps); // custom
+            }
+        },
+
+        onLockViewProps: function(lock) {
+            this._state.lock_viewProps = lock;
+            if (this.view) {
+                if (this.view.btnGridlines && (typeof this.view.btnGridlines.menu === 'object') && this.view.btnGridlines.menu.isVisible())
+                    this.onGridlinesAfterShow();
+                if (this.view.btnGuides && (typeof this.view.btnGuides.menu === 'object') && this.view.btnGuides.menu.isVisible())
+                    this.onGuidesAfterShow();
             }
         },
 

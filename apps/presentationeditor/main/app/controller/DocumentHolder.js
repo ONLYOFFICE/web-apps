@@ -223,6 +223,8 @@ define([
                     me.api.asc_registerCallback('asc_onTrackGuide',   _.bind(me.onTrackGuide, me));
                     me.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(me.onShowMathTrack, me));
                     me.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(me.onHideMathTrack, me));
+                    me.api.asc_registerCallback('asc_onLockViewProps',          _.bind(me.onLockViewProps, me, true));
+                    me.api.asc_registerCallback('asc_onUnLockViewProps',        _.bind(me.onLockViewProps, me, false));
                 }
                 me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(me.onCoAuthoringDisconnect, me));
                 Common.NotificationCenter.on('api:disconnect',              _.bind(me.onCoAuthoringDisconnect, me));
@@ -2312,7 +2314,6 @@ define([
                         menu        : new Common.UI.Menu({
                             cls: 'menu-shapes',
                             value: i,
-                            restoreHeight: equationGroup.get('groupHeight') ? parseInt(equationGroup.get('groupHeight')) : true,
                             items: [
                                 { template: _.template('<div id="id-document-holder-btn-equation-menu-' + i +
                                         '" class="menu-shape" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
@@ -2394,6 +2395,10 @@ define([
                 else if (item.options.type=='view')
                     this.api.asc_ConvertMathView(item.value.linear, item.value.all);
             }
+        },
+
+        onLockViewProps: function(lock) {
+            this.documentHolder && (this.documentHolder._state.viewPropsLock = lock);
         },
 
         SetDisabled: function(state) {

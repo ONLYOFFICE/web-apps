@@ -1838,5 +1838,57 @@
 	"XOR": {
 		"a": "(logisk1; [logisk2]; ...)",
 		"d": "Returnerer et \"Utelukkende eller\" av alle argumenter"
+	},
+	"TEXTBEFORE": {
+		"a": "(tekst, skilletegn, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": " Returnerer tekst som er før tegnskilletegn."
+	},
+	"TEXTAFTER": {
+		"a": "(tekst, skilletegn, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": " Returnerer tekst som er etter skilletegn."
+	},
+	"TEXTSPLIT": {
+		"a": "(text, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
+		"d": "Deler tekst inn i rader eller kolonner ved hjelp av skilletegn."
+	},
+	"WRAPROWS": {
+		"a": "(vektor, wrap_count, [pad_with])",
+		"d": "Bryter en rad- eller kolonnevektor etter et bestemt antall verdier."
+	},
+	"VSTACK": {
+		"a": "(matrise1, [matrise2], ...)",
+		"d": "Stabler matriser loddrett i én matrise."
+	},
+	"HSTACK": {
+		"a": "(matrise1, [matrise2], ...)",
+		"d": "Stabler matriser vannrett i én matrise."
+	},
+	"CHOOSEROWS": {
+		"a": "(matrise, row_num1, [row_num2], ...)",
+		"d": "Returnerer rader fra en matrise eller referanse."
+	},
+	"CHOOSECOLS": {
+		"a": "(matrise, col_num1, [col_num2], ...)",
+		"d": "Returnerer kolonner fra en matrise eller referanse."
+	},
+	"TOCOL": {
+		"a": "(matrise, [ignorer], [scan_by_column])",
+		"d": " Returnerer matrisen som én kolonne."
+	},
+	"TOROW": {
+		"a": "(matrise, [ignorer], [skann_etter_kolonne])",
+		"d": "Returnerer matrisen som én rad."
+	},
+	"WRAPCOLS": {
+		"a": "(vektor, wrap_count, [pad_with])",
+		"d": "Bryter en rad- eller kolonnevektor etter et bestemt antall verdier."
+	},
+	"TAKE": {
+		"a": "(matrise, rader, [kolonner])",
+		"d": "Returnerer rader eller kolonner fra matrisestart eller -slutt."
+	},
+	"DROP": {
+		"a": "(matrise, rader, [kolonner])",
+		"d": "Sletter rader eller kolonner fra matrisestart eller -slutt."
 	}
 }

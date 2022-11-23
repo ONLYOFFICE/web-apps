@@ -339,18 +339,18 @@ const EditTabs = props => {
                 component: <EditHeaderController />
             })
         }
-        if (settings.indexOf('paragraph') > -1) {
-            editors.push({
-                caption: _t.textParagraph,
-                id: 'edit-paragraph',
-                component: <EditParagraphController />
-            })
-        }
         if (settings.indexOf('text') > -1) {
             editors.push({
                 caption: _t.textText,
                 id: 'edit-text',
                 component: <EditTextController />
+            })
+        }
+        if (settings.indexOf('paragraph') > -1) {
+            editors.push({
+                caption: _t.textParagraph,
+                id: 'edit-paragraph',
+                component: <EditParagraphController />
             })
         }
     }

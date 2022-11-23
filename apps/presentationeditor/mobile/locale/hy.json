@@ -151,6 +151,11 @@
     "errorEditingDownloadas": "Փաստաթղթի հետ աշխատանքի ընթացքում սխալ է տեղի ունեցել:<br>Օգտագործեք «Ներբեռնում» տարբերակը՝ ֆայլի կրկնօրինակը տեղում պահելու համար:",
     "errorFilePassProtect": "Ֆայլը պաշտպանված է գաղտնաբառով և հնարավոր չէ բացել:",
     "errorFileSizeExceed": "Ֆայլի չափը գերազանցում է Ձեր սերվերի սահմանափակումը:Խնդրում ենք կապվել Ձեր ադմինիստրատորի հետ:",
+    "errorInconsistentExt": "Ֆայլը բացելիս սխալ է տեղի ունեցել:<br>Ֆայլի բովանդակությունը չի համապատասխանում ֆայլի ընդլայնմանը:",
+    "errorInconsistentExtDocx": "Ֆայլը բացելիս սխալ է տեղի ունեցել:<br>Ֆայլի բովանդակությունը համապատասխանում է տեքստային փաստաթղթերին (օրինակ՝ docx), սակայն ֆայլն ունի անհամապատասխան ընդլայնում՝ %1:",
+    "errorInconsistentExtPdf": "Ֆայլը բացելիս սխալ է տեղի ունեցել:Ֆայլի բովանդակությունը համապատասխանում է հետևյալ ձևաչափերից մեկին՝pdf/djvu/xps/oxps,բայց ֆայլն ունի անհամապատասխան ընդլայնում. %1:",
+    "errorInconsistentExtPptx": "Ֆայլը բացելիս սխալ է տեղի ունեցել:<br>Ֆայլի բովանդակությունը համապատասխանում է ներկայացումներին (օրինակ՝ pptx), սակայն ֆայլն ունի անհամապատասխան ընդլայնում. %1:",
+    "errorInconsistentExtXlsx": "Ֆայլը բացելիս սխալ է տեղի ունեցել:<br>Ֆայլի բովանդակությունը համապատասխանում է աղյուսակներին (օր. xlsx), սակայն ֆայլն ունի անհամապատասխան ընդլայնում. %1:",
     "errorKeyEncrypt": "Բանալու անհայտ նկարագրիչ",
     "errorKeyExpire": "Բանալու նկարագրիչի ժամկետը սպառվել է",
     "errorLoadingFont": "Տառատեսակները բեռնված չեն:<br>Խնդրում ենք կապվել ձեր փաստաթղթերի սերվերի ադմինիստրատորի հետ:",
@@ -173,15 +178,13 @@
     "uploadImageExtMessage": "Նկարի անհայտ ձևաչափ։",
     "uploadImageFileCountMessage": "Ոչ մի նկար չի բեռնվել։",
     "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:",
-    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
-    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension."
+    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "Տվյալների բեռնում...",
     "applyChangesTitleText": "Տվյալների բեռնում",
+    "confirmMaxChangesSize": "Գործողությունների չափը գերազանցում է Ձեր սերվերի համար սահմանված սահմանափակումը:<br>Սեղմեք «Հետարկել»՝ Ձեր վերջին գործողությունը չեղարկելու համար կամ սեղմեք «Շարունակել»՝ գործողությունը տեղում պահելու համար (Դուք պետք է ներբեռնեք ֆայլը կամ պատճենեք դրա բովանդակությունը՝ համոզվելու համար, որ ոչինչ կորած չէ):",
     "downloadTextText": "Փաստաթղթի ներբեռնում...",
     "downloadTitleText": "Փաստաթղթի ներբեռնում",
     "loadFontsTextText": "Տվյալների բեռնում...",
@@ -210,8 +213,7 @@
     "txtEditingMode": "Խմբագրման աշխատակարգի հաստատում...",
     "uploadImageTextText": "Նկարի վերբեռնում...",
     "uploadImageTitleText": "Նկարի վերբեռնում",
-    "waitText": "Խնդրում ենք սպասել...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost)."
+    "waitText": "Խնդրում ենք սպասել..."
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Դուք այս փաստաթղթում չպահված փոփոխություններ ունեք:Սեղմեք «Մնալ այս էջում»՝ սպասելու ավտոմատ պահպանմանը:Սեղմեք «Լքել այս էջը»՝ չպահված բոլոր փոփոխությունները մերժելու համար:",
@@ -296,6 +298,7 @@
       "textCancel": "Չեղարկել",
       "textCaseSensitive": "Դուրճազգայուն",
       "textCellMargins": "Վանդակի լուսանցքներ",
+      "textChangeShape": "Փոխել ձևը",
       "textChart": "Գծապատկեր",
       "textClock": "Ժամացույց",
       "textClockwise": "Ժամասլաքի ուղղությամբ",
@@ -305,6 +308,8 @@
       "textCustomColor": "Հարմարեցված գույն",
       "textDefault": "Ընտրված տեքստ",
       "textDelay": "Հետաձգում",
+      "textDeleteImage": "Ջնջել պատկերը",
+      "textDeleteLink": "Ջնջել հղումը",
       "textDeleteSlide": "Ջնջել սահիկը",
       "textDesign": "Ձևավորում",
       "textDisplay": "Ցուցադրել",
@@ -412,10 +417,7 @@
       "textZoom": "Խոշորացնել",
       "textZoomIn": "Մեծացնել",
       "textZoomOut": "Փոքրացնել",
-      "textZoomRotate": "Դիտափոխում և պտտում",
-      "textChangeShape": "Change Shape",
-      "textDeleteImage": "Delete Image",
-      "textDeleteLink": "Delete Link"
+      "textZoomRotate": "Դիտափոխում և պտտում"
     },
     "Settings": {
       "mniSlideStandard": "Ստանդարտ (4:3)",

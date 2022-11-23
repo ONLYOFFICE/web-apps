@@ -31,9 +31,9 @@
       "textOk": "OK",
       "textReopen": "Volver a abrir",
       "textResolve": "Resolver",
+      "textSharingSettings": "Ajustes de uso compartido",
       "textTryUndoRedo": "Las funciones Deshacer/Rehacer están desactivadas en el modo de co-edición rápido.",
-      "textUsers": "Usuarios",
-      "textSharingSettings": "Sharing Settings"
+      "textUsers": "Usuarios"
     },
     "HighlightColorPalette": {
       "textNoFill": "Sin relleno"
@@ -52,6 +52,7 @@
     "menuDelete": "Eliminar",
     "menuDeleteTable": "Eliminar tabla",
     "menuEdit": "Editar",
+    "menuEditLink": "Editar enlace",
     "menuMerge": "Combinar",
     "menuMore": "Más",
     "menuOpenLink": "Abrir enlace",
@@ -62,8 +63,7 @@
     "textDoNotShowAgain": "No mostrar de nuevo",
     "textOk": "Aceptar",
     "textRows": "Filas",
-    "txtWarnUrl": "Hacer clic en este enlace puede ser perjudicial para su dispositivo y sus datos.<br>¿Está seguro de que quiere continuar?",
-    "menuEditLink": "Edit Link"
+    "txtWarnUrl": "Hacer clic en este enlace puede ser perjudicial para su dispositivo y sus datos.<br>¿Está seguro de que quiere continuar?"
   },
   "Controller": {
     "Main": {
@@ -147,6 +147,7 @@
     "errorDataEncrypted": "Se han recibido cambios cifrados, ellos no pueden ser descifrados.",
     "errorDataRange": "Rango de datos incorrecto.",
     "errorDefaultMessage": "Código de error: %1",
+    "errorDirectUrl": "Por favor, verifique el vínculo al documento.<br>Este vínculo debe ser un vínculo directo al archivo para descargar.",
     "errorEditingDownloadas": "Se ha producido un error al trabajar con el documento.<br>Utilice la opción 'Descargar' para guardar la copia de seguridad del archivo localmente.",
     "errorFilePassProtect": "El archivo está protegido por contraseña y no se puede abrir.",
     "errorFileSizeExceed": "El tamaño del archivo excede la limitación del servidor.<br>Por favor, póngase en contacto con su administrador.",
@@ -172,12 +173,13 @@
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
     "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB.",
-    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
     "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
-    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension."
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "Cargando datos...",
@@ -204,14 +206,14 @@
     "savePreparingTitle": "Preparando para guardar. Espere, por favor...",
     "saveTextText": "Guardando documento...",
     "saveTitleText": "Guardando documento",
+    "textContinue": "Continuar",
     "textLoadingDocument": "Cargando documento",
+    "textUndo": "Deshacer",
     "txtEditingMode": "Establecer el modo de edición...",
     "uploadImageTextText": "Cargando imagen...",
     "uploadImageTitleText": "Cargando imagen",
     "waitText": "Por favor, espere...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textContinue": "Continue",
-    "textUndo": "Undo"
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost)."
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Tiene cambios no guardados en este documento. Haga clic en \"Quedarse en esta página\" para esperar hasta que se guarden automáticamente. Haga clic en \"Salir de esta página\" para descartar todos los cambios no guardados.",
@@ -230,6 +232,7 @@
       "textComment": "Comentario",
       "textDefault": "Texto seleccionado",
       "textDisplay": "Mostrar",
+      "textDone": "Hecho",
       "textEmptyImgUrl": "Necesita especificar la URL de la imagen.",
       "textExternalLink": "Enlace externo",
       "textFirstSlide": "Primera diapositiva",
@@ -248,6 +251,8 @@
       "textPictureFromLibrary": "Imagen desde biblioteca",
       "textPictureFromURL": "Imagen desde URL",
       "textPreviousSlide": "Diapositiva anterior",
+      "textRecommended": "Recomendado",
+      "textRequired": "Necesario",
       "textRows": "Filas",
       "textScreenTip": "Consejo de pantalla",
       "textShape": "Forma",
@@ -256,10 +261,7 @@
       "textSlideNumber": "Número de diapositiva",
       "textTable": "Tabla",
       "textTableSize": "Tamaño de tabla",
-      "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
-      "textDone": "Done",
-      "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\""
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertencia",
@@ -278,6 +280,7 @@
       "textAlignTop": "Alinear arriba",
       "textAllCaps": "Mayúsculas",
       "textApplyAll": "Aplicar a todas las diapositivas",
+      "textArrange": "Organizar",
       "textAuto": "Auto",
       "textAutomatic": "Automático",
       "textBack": "Atrás",
@@ -292,6 +295,7 @@
       "textBringToForeground": "Traer al primer plano",
       "textBullets": "Viñetas",
       "textBulletsAndNumbers": "Viñetas y números",
+      "textCancel": "Cancelar",
       "textCaseSensitive": "Distinguir mayúsculas de minúsculas",
       "textCellMargins": "Márgenes de celdas",
       "textChart": "Gráfico",
@@ -303,6 +307,7 @@
       "textCustomColor": "Color personalizado",
       "textDefault": "Texto seleccionado",
       "textDelay": "Retraso",
+      "textDeleteLink": "Eliminar enlace",
       "textDeleteSlide": "Eliminar diapositiva",
       "textDesign": "Diseño",
       "textDisplay": "Mostrar",
@@ -338,6 +343,7 @@
       "textHyperlink": "Hiperenlace",
       "textImage": "Imagen",
       "textImageURL": "URL de imagen",
+      "textInsertImage": "Insertar imagen",
       "textLastColumn": "Última columna",
       "textLastSlide": "Última diapositiva",
       "textLayout": "Diseño",
@@ -364,12 +370,14 @@
       "textPreviousSlide": "Diapositiva anterior",
       "textPt": "pt",
       "textPush": "Empuje",
+      "textRecommended": "Recomendado",
       "textRemoveChart": "Eliminar gráfico",
       "textRemoveShape": "Eliminar forma",
       "textRemoveTable": "Eliminar tabla",
       "textReplace": "Reemplazar",
       "textReplaceAll": "Reemplazar todo",
       "textReplaceImage": "Reemplazar imagen",
+      "textRequired": "Necesario",
       "textRight": "A la derecha",
       "textScreenTip": "Consejo de pantalla",
       "textSearch": "Buscar",
@@ -408,14 +416,8 @@
       "textZoomIn": "Acercar",
       "textZoomOut": "Alejar",
       "textZoomRotate": "Zoom y giro",
-      "textArrange": "Arrange",
-      "textCancel": "Cancel",
       "textChangeShape": "Change Shape",
-      "textDeleteImage": "Delete Image",
-      "textDeleteLink": "Delete Link",
-      "textInsertImage": "Insert Image",
-      "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "textDeleteImage": "Delete Image"
     },
     "Settings": {
       "mniSlideStandard": "Estándar (4:3)",

@@ -26,6 +26,7 @@
     "textContinuousPage": "Página continua",
     "textCurrentPosition": "Posición actual",
     "textDisplay": "Mostrar",
+    "textDone": "Hecho",
     "textEmptyImgUrl": "Hay que especificar URL de imagen.",
     "textEvenPage": "Página par",
     "textFootnote": "Nota a pie de página",
@@ -49,6 +50,8 @@
     "textPictureFromLibrary": "Imagen desde biblioteca",
     "textPictureFromURL": "Imagen desde URL",
     "textPosition": "Posición",
+    "textRecommended": "Recomendado",
+    "textRequired": "Necesario",
     "textRightBottom": "Abajo a la derecha",
     "textRightTop": "Arriba a la derecha",
     "textRows": "Filas",
@@ -61,10 +64,7 @@
     "textTableSize": "Tamaño de tabla",
     "textWithBlueLinks": "Con enlaces azules",
     "textWithPageNumbers": "Con números de página",
-    "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
-    "textDone": "Done",
-    "textRecommended": "Recommended",
-    "textRequired": "Required"
+    "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\""
   },
   "Common": {
     "Collaboration": {
@@ -147,6 +147,7 @@
       "textReviewChange": "Revisar cambios",
       "textRight": "Alinear a la derecha",
       "textShape": "Forma",
+      "textSharingSettings": "Ajustes de uso compartido",
       "textShd": "Color de fondo",
       "textSmallCaps": "Versalitas",
       "textSpacing": "Espaciado",
@@ -163,8 +164,7 @@
       "textTryUndoRedo": "Las funciones Deshacer/Rehacer están desactivadas en el modo de co-edición rápido.",
       "textUnderline": "Subrayar",
       "textUsers": "Usuarios",
-      "textWidow": "Control de viudas",
-      "textSharingSettings": "Sharing Settings"
+      "textWidow": "Control de viudas"
     },
     "HighlightColorPalette": {
       "textNoFill": "Sin relleno"
@@ -184,6 +184,7 @@
     "menuDelete": "Eliminar",
     "menuDeleteTable": "Eliminar tabla",
     "menuEdit": "Editar",
+    "menuEditLink": "Editar enlace",
     "menuJoinList": "Unir a lista anterior",
     "menuMerge": "Combinar",
     "menuMore": "Más",
@@ -204,8 +205,7 @@
     "textRefreshEntireTable": "Actualizar toda la tabla",
     "textRefreshPageNumbersOnly": "Actualizar solamente los números de página",
     "textRows": "Filas",
-    "txtWarnUrl": "Hacer clic en este enlace puede ser perjudicial para su dispositivo y sus datos.<br>¿Está seguro de que quiere continuar?",
-    "menuEditLink": "Edit Link"
+    "txtWarnUrl": "Hacer clic en este enlace puede ser perjudicial para su dispositivo y sus datos.<br>¿Está seguro de que quiere continuar?"
   },
   "Edit": {
     "notcriticalErrorTitle": "Advertencia",
@@ -319,6 +319,7 @@
     "textPictureFromLibrary": "Imagen desde biblioteca",
     "textPictureFromURL": "Imagen desde URL",
     "textPt": "pt",
+    "textRecommended": "Recomendado",
     "textRefresh": "Actualizar",
     "textRefreshEntireTable": "Actualizar toda la tabla",
     "textRefreshPageNumbersOnly": "Actualizar solamente los números de página",
@@ -330,6 +331,7 @@
     "textRepeatAsHeaderRow": "Repetir como fila de encabezado",
     "textReplace": "Reemplazar",
     "textReplaceImage": "Reemplazar imagen",
+    "textRequired": "Necesario",
     "textResizeToFitContent": "Cambiar el tamaño para ajustar el contenido",
     "textRightAlign": "Alinear a la derecha",
     "textSa": "sá.",
@@ -359,6 +361,7 @@
     "textTableOfCont": "TDC",
     "textTableOptions": "Opciones de tabla",
     "textText": "Texto",
+    "textTextWrapping": "Ajuste de texto",
     "textTh": "ju.",
     "textThrough": "A través",
     "textTight": "Estrecho",
@@ -369,14 +372,11 @@
     "textType": "Tipo",
     "textWe": "mi.",
     "textWrap": "Ajuste",
+    "textWrappingStyle": "Estilo de ajuste",
     "textChangeShape": "Change Shape",
     "textCustomStyle": "Custom Style",
     "textDeleteImage": "Delete Image",
-    "textDeleteLink": "Delete Link",
-    "textRecommended": "Recommended",
-    "textRequired": "Required",
-    "textTextWrapping": "Text Wrapping",
-    "textWrappingStyle": "Wrapping Style"
+    "textDeleteLink": "Delete Link"
   },
   "Error": {
     "convertationTimeoutText": "Tiempo de conversión está superado.",
@@ -390,6 +390,7 @@
     "errorDataEncrypted": "Se han recibido cambios cifrados, ellos no pueden ser descifrados.",
     "errorDataRange": "Rango de datos incorrecto.",
     "errorDefaultMessage": "Código de error: %1",
+    "errorDirectUrl": "Por favor, verifique el vínculo al documento.<br>Este vínculo debe ser un vínculo directo al archivo para descargar.",
     "errorEditingDownloadas": "Se ha producido un error al trabajar con el documento.<br>Descargue el documento para guardar la copia de seguridad del archivo localmente.",
     "errorEmptyTOC": "Empezar a crear una tabla de contenidos aplicando un estilo de encabezamiento de la galería de Estilos al texto seleccionado.",
     "errorFilePassProtect": "El archivo está protegido por contraseña y no se puede abrir.",
@@ -420,12 +421,13 @@
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
     "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB.",
-    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
     "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
-    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension."
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "Cargando datos...",
@@ -456,14 +458,14 @@
     "saveTitleText": "Guardando documento",
     "sendMergeText": "Envío de los resultados de la fusión...",
     "sendMergeTitle": "Envío de los resultados de la fusión",
+    "textContinue": "Continuar",
     "textLoadingDocument": "Cargando documento",
+    "textUndo": "Deshacer",
     "txtEditingMode": "Establecer el modo de edición...",
     "uploadImageTextText": "Cargando imagen...",
     "uploadImageTitleText": "Cargando imagen",
     "waitText": "Por favor, espere...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textContinue": "Continue",
-    "textUndo": "Undo"
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost)."
   },
   "Main": {
     "criticalErrorTitle": "Error",

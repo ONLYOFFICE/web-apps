@@ -76,6 +76,7 @@
   "Common.UI.ThemeColorPalette.textStandartColors": "Standard farve",
   "Common.UI.ThemeColorPalette.textThemeColors": "Tema farver",
   "Common.UI.Themes.txtThemeClassicLight": "Klassisk lys",
+  "Common.UI.Themes.txtThemeContrastDark": "Mørk kontrast",
   "Common.UI.Themes.txtThemeDark": "Mørk",
   "Common.UI.Themes.txtThemeLight": "Lys",
   "Common.UI.Window.cancelButtonText": "Annuller",
@@ -1755,6 +1756,7 @@
   "PE.Views.TableSettings.tipOuter": "Vælg kun ydre rammer",
   "PE.Views.TableSettings.tipRight": "Vælg kun højre ramme",
   "PE.Views.TableSettings.tipTop": "Vælg kun ydre øverste ramme",
+  "PE.Views.TableSettings.txtGroupTable_Dark": "Mørk",
   "PE.Views.TableSettings.txtNoBorders": "Ingen rammer",
   "PE.Views.TableSettings.txtTable_Accent": "Accent",
   "PE.Views.TableSettings.txtTable_DarkStyle": "Mørkt tema",
@@ -1891,6 +1893,7 @@
   "PE.Views.Toolbar.textTabInsert": "indsæt",
   "PE.Views.Toolbar.textTabProtect": "Beskyttelse",
   "PE.Views.Toolbar.textTabTransitions": "Oversættelser",
+  "PE.Views.Toolbar.textTabView": "Vis",
   "PE.Views.Toolbar.textTitleError": "Fejl",
   "PE.Views.Toolbar.textUnderline": "Understreg",
   "PE.Views.Toolbar.tipAddSlide": "Tilføj dias",
@@ -2005,5 +2008,7 @@
   "PE.Views.Transitions.txtApplyToAll": "Anvend på alle dias",
   "PE.Views.Transitions.txtParameters": "Parametre",
   "PE.Views.Transitions.txtPreview": "Forhåndvisning",
-  "PE.Views.Transitions.txtSec": "S"
+  "PE.Views.Transitions.txtSec": "S",
+  "PE.Views.ViewTab.textInterfaceTheme": "Interface tema",
+  "PE.Views.ViewTab.tipInterfaceTheme": "Interface tema"
 }

@@ -477,7 +477,7 @@ const PageReorder = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textReorder} backLink={_t.textBack}>
+            <Navbar title={t('Edit.textArrange')} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
@@ -565,7 +565,7 @@ const EditShape = props => {
                         onReplace: props.onReplace
                     }}></ListItem>
                 }
-                {(wrapType !== 'inline' && !isSmartArtInternal && settings.indexOf('image') === -1) && <ListItem  title={_t.textReorder} link='/edit-shape-reorder/' routeProps={{
+                {(wrapType !== 'inline' && !isSmartArtInternal && settings.indexOf('image') === -1) && <ListItem title={t('Edit.textArrange')} link='/edit-shape-reorder/' routeProps={{
                     onReorder: props.onReorder
                 }}></ListItem> }
             </List>
