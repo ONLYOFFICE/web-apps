@@ -104,7 +104,7 @@ require.config({
         sdk: {
             deps: [
                 'jquery',
-                'underscore',
+                // 'underscore',
                 'allfonts',
                 'xregexp',
                 'socketio'
@@ -124,10 +124,10 @@ require.config({
 });
 
 require([
+    'sdk',
     'backbone',
     'bootstrap',
     'core',
-    'sdk',
     // 'api',
     'analytics',
     'gateway',
