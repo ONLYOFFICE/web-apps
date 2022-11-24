@@ -387,8 +387,8 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
         },
 
         onKeyDown: function (lisvView, record, e) {
-            if (e.keyCode==Common.UI.Keys.DELETE && !this.btnDeleteRange.isDisabled())
-                this.onDeleteRange();
+            if (e.keyCode==Common.UI.Keys.DELETE && !this.btnDeleteRole.isDisabled())
+                this.onDeleteRole();
         },
 
         onDblClickItem: function (lisvView, record, e) {
