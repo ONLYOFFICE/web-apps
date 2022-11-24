@@ -127,7 +127,6 @@ require([
     'bootstrap',
     'core',
     'sdk',
-    'api',
     'analytics',
     'gateway',
     'locale'
