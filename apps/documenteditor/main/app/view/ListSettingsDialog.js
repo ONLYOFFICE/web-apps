@@ -297,10 +297,11 @@ define([
 
             this.btnColor = new Common.UI.ButtonColored({
                 parentEl: $window.find('#id-dlg-bullet-color'),
-                cls         : 'btn-toolbar',
+                cls         : 'btn-toolbar move-focus',
                 iconCls     : 'toolbar__icon btn-fontcolor',
                 hint        : this.txtColor,
                 menu: true,
+                takeFocusOnClose: true,
                 additionalItems: [{
                         id: 'id-dlg-bullet-text-color',
                         caption: this.txtLikeText,
@@ -701,11 +702,23 @@ define([
             this.btnMore.on('click', _.bind(this.onMoreClick, this));
             this.on('animate:after', _.bind(this.onAnimateAfter, this));
 
+            if (Common.localStorage.getBool("de-hide-multilevel-settings", true))
+                this.onMoreClick(this.btnMore);
+
             this.afterRender();
         },
 
         getFocusedComponents: function() {
-            return [this.cmbFormat, this.cmbAlign, this.cmbSize, this.btnColor, this.levelsList];
+            switch (this.type) {
+                case 0:
+                    return [this.cmbFormat, this.cmbAlign, this.cmbSize, this.btnBold, this.btnItalic, this.btnColor];
+                case 1:
+                    return [this.cmbFormat, this.cmbAlign, this.txtNumFormat, this.cmbFonts, this.btnBold, this.btnItalic, this.btnColor, this.cmbSize];
+                case 2:
+                    return [this.cmbFormat, this.cmbSize, this.btnBold, this.btnItalic, this.btnColor, this.txtNumFormat, this.btnMore, this.levelsList,
+                            this.cmbFonts, this.cmbLevel, this.spnStart, this.chRestart, this.cmbAlign, this.spnAlign, this.spnIndents, this.cmbFollow, this.chTabStop, this.spnTabStop];
+            }
+            return [];
         },
 
         getDefaultFocusableComponent: function () {
@@ -793,7 +806,9 @@ define([
         addNewBullet: function(callback) {
             var me = this,
                 props = me.bulletProps,
+                btn,
                 handler = function(dlg, result, settings) {
+                    btn = result;
                     if (result == 'ok') {
                         props.changed = true;
                         props.code = settings.code;
@@ -820,6 +835,9 @@ define([
                     font: props.font,
                     symbol: props.symbol,
                     handler: handler
+                }).on('close', function(obj){
+                    (btn===undefined) && callback && callback.call(me);
+                    setTimeout(function(){me.cmbFormat.focus();}, 1);
                 });
             win.show();
             win.on('symbol:dblclick', handler);
@@ -827,7 +845,9 @@ define([
 
         addNewListType: function(callback) {
             var me = this,
+                btn,
                 handler = function(result, value) {
+                    btn = result;
                     if (result == 'ok') {
                         if (me._changedProps) {
                             me._changedProps.put_Format(value);
@@ -842,6 +862,9 @@ define([
                     modal: true,
                     lang: me.lang,
                     handler: handler
+                }).on('close', function(obj){
+                    (btn===undefined) && callback && callback.call(me);
+                    setTimeout(function(){me.cmbFormat.focus();}, 1);
                 });
             win.show();
         },

@@ -1009,6 +1009,15 @@
     }
 }
 
+.asc-window.modal {
+    .btn-toolbar:not(.bg-white), .btn-group {
+        &:focus:not(.disabled) {
+            .box-shadow(0 0 0 @scaled-one-px-value-ie @border-control-focus-ie);
+            .box-shadow(0 0 0 @scaled-one-px-value @border-control-focus);
+        }
+    }
+}
+
 .btn-large-dataview {
     display: inline-block;
     width: 72px;

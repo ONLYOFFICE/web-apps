@@ -250,7 +250,7 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
 
         getFocusedComponents: function() {
             return [
-                this.spnWidth, this.spnHeight, this.btnOriginalSize, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY,// 0 tab
+                this.spnWidth, this.btnRatio, this.spnHeight, this.btnOriginalSize, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY,// 0 tab
                 this.spnAngle, this.chFlipHor, this.chFlipVert, // 1 tab
                 this.inputAltTitle, this.textareaAltDescription  // 2 tab
             ];

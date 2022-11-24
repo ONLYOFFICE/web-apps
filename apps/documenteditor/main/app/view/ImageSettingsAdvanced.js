@@ -1165,7 +1165,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
 
         getFocusedComponents: function() {
             return [
-                this.spnWidth, this.spnHeight, this.btnOriginalSize, // 0 tab
+                this.spnWidth, this.btnRatio, this.spnHeight, this.btnOriginalSize, // 0 tab
                 this.radioHSize, this.spnShapeWidth , this.spnShapeWidthPc, this.radioHSizePc, this.cmbWidthPc,
                 this.radioVSize, this.spnShapeHeight, this.spnShapeHeightPc, this.radioVSizePc, this.cmbHeightPc, this.chRatio, // 1 tab
                 this.spnAngle, this.chFlipHor, this.chFlipVert, // 2 tab
