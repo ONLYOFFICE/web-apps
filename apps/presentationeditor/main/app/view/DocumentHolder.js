@@ -1246,6 +1246,14 @@ define([
                 })
             });
 
+            me.menuTableSaveAsPicture = new Common.UI.MenuItem({
+                caption     : me.textSaveAsPicture
+            });
+
+            var menuTableSaveAsPictureSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
             me.menuTableDistRows = new Common.UI.MenuItem({
                 caption : me.textDistributeRows
             });
@@ -1460,6 +1468,10 @@ define([
             me.menuTableAdvanced = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-menu-table',
                 caption     : me.advancedTableText
+            });
+
+            var menuTableSettingsSeparator = new Common.UI.MenuItem({
+                caption : '--'
             });
 
             me.menuImageAdvanced = new Common.UI.MenuItem({
@@ -1806,11 +1818,11 @@ define([
                 })
             });
 
-            me.menuSaveAsPicture = new Common.UI.MenuItem({
+            me.menuImgSaveAsPicture = new Common.UI.MenuItem({
                 caption     : me.textSaveAsPicture
             });
 
-            var menuSaveAsPictureSeparator = new Common.UI.MenuItem({
+            var menuImgSaveAsPictureSeparator = new Common.UI.MenuItem({
                 caption     : '--'
             });
 
@@ -1901,7 +1913,15 @@ define([
                 caption     : '--'
             });
 
-            var menuEquationSeparatorInTable = new Common.UI.MenuItem({
+            var menuTableEquationSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
+            var menuTableEquationSettingsSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
+            var menuTableCommentSeparator = new Common.UI.MenuItem({
                 caption     : '--'
             });
 
@@ -1910,7 +1930,7 @@ define([
                 menu        : me.createEquationMenu('popupparaeqinput', 'tl-tr')
             });
 
-            me.menuTableEquation = new Common.UI.MenuItem({
+            me.menuTableEquationSettings = new Common.UI.MenuItem({
                 caption     : me.advancedEquationText,
                 menu        : me.createEquationMenu('popuptableeqinput', 'tl-tr')
             });
@@ -2098,7 +2118,7 @@ define([
                         return;
 
                     var isEquation= (value.mathProps && value.mathProps.value);
-                    for (var i = 6; i < 19; i++) {
+                    for (var i = 6; i < 18; i++) {
                         me.tableMenu.items[i].setVisible(!isEquation);
                     }
 
@@ -2133,7 +2153,10 @@ define([
                     me.tableMenu.items[8].setDisabled(value.tableProps.locked || disabled);
 
                     me.menuTableCellAlign.setDisabled(value.tableProps.locked || disabled);
+
+                    me.menuTableAdvanced.setVisible(!isEquation);
                     me.menuTableAdvanced.setDisabled(value.tableProps.locked || disabled);
+                    menuTableSettingsSeparator.setVisible(me.menuTableAdvanced.isVisible());
 
                     var cancopy = me.api && me.api.can_CopyCut();
                     me.menuTableCopy.setDisabled(!cancopy);
@@ -2149,6 +2172,7 @@ define([
 
                     me.menuAddHyperlinkTable.setVisible(!_.isUndefined(value.paraProps) && _.isUndefined(value.hyperProps) && text!==false);
                     menuHyperlinkTable.setVisible(!_.isUndefined(value.paraProps) && !_.isUndefined(value.hyperProps));
+                    menuHyperlinkSeparator.setVisible(me.menuAddHyperlinkTable.isVisible() || menuHyperlinkTable.isVisible());
 
                     me.menuEditHyperlinkTable.hyperProps = value.hyperProps;
 
@@ -2166,8 +2190,8 @@ define([
                      /** coauthoring begin **/
                     me.menuAddCommentTable.setVisible(me.api.can_AddQuotedComment()!==false && me.mode.canCoAuthoring && me.mode.canComments);
                     me.menuAddCommentTable.setDisabled(!_.isUndefined(value.paraProps) && value.paraProps.locked || disabled);
+                    menuTableCommentSeparator.setVisible(me.menuAddCommentTable.isVisible());
                     /** coauthoring end **/
-                    menuHyperlinkSeparator.setVisible(me.menuAddHyperlinkTable.isVisible() || menuHyperlinkTable.isVisible() /** coauthoring begin **/|| me.menuAddCommentTable.isVisible()/** coauthoring end **/);
 
                     me.menuSpellCheckTable.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
                     me.menuToDictionaryTable.setVisible(me.mode.isDesktopApp);
@@ -2191,49 +2215,53 @@ define([
                     var eqlen = 0;
                     if (isEquation) {
                         eqlen = me.addEquationMenu(false, 6);
-                        menuHyperlinkSeparator.setVisible(menuHyperlinkSeparator.isVisible() && eqlen>0);
                     } else
                         me.clearEquationMenu(false, 6);
-
-                    me.menuTableEquation.setVisible(isEquation);
-                    me.menuTableEquation.setDisabled(disabled);
+                    
+                    menuTableEquationSeparator.setVisible(eqlen>0);
+                    me.menuTableEquationSettings.setVisible(isEquation);
+                    menuTableEquationSettingsSeparator.setVisible(isEquation);
+                    me.menuTableEquationSettings.setDisabled(disabled);
                     if (isEquation) {
                         var eq = me.api.asc_GetMathInputType();
-                        me.menuTableEquation.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
-                        me.menuTableEquation.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                        me.menuTableEquationSettings.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                        me.menuTableEquationSettings.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
                     }
                 },
                 items: [
-                    me.menuSpellCheckTable,
-                    menuSpellcheckTableSeparator,
-                    me.menuTableCut,
-                    me.menuTableCopy,
-                    me.menuTablePaste,
-                    { caption: '--' },
-                    me.menuTableSelectText,
-                    me.menuTableInsertText,
-                    me.menuTableDeleteText,
-                    { caption: '--' },
-                    me.mnuTableMerge,
-                    me.mnuTableSplit,
-                    { caption: '--' },
-                    me.menuTableDistRows,
-                    me.menuTableDistCols,
-                    { caption: '--' },
-                    me.menuTableCellAlign,
-                    { caption: '--'},
-                    me.menuSaveAsPicture,
-                    { caption: '--' },
-                    me.menuTableAdvanced,
-                    menuHyperlinkSeparator,
+                    me.menuSpellCheckTable,         //0
+                    menuSpellcheckTableSeparator,   //1
+                    me.menuTableCut,                //2
+                    me.menuTableCopy,               //3
+                    me.menuTablePaste,              //4
+                    { caption: '--' },              //5
+                    me.menuTableSelectText,         //6
+                    me.menuTableInsertText,         //7
+                    me.menuTableDeleteText,         //8
+                    { caption: '--' },              //9
+                    me.mnuTableMerge,               //10
+                    me.mnuTableSplit,               //11
+                    { caption: '--' },              //12
+                    me.menuTableDistRows,           //13
+                    me.menuTableDistCols,           //14
+                    { caption: '--' },              //15
+                    me.menuTableCellAlign,          //16
+                    { caption: '--'},               //17
+                    menuTableEquationSeparator,     //18
+                    me.menuTableSaveAsPicture,      //19
+                    menuTableSaveAsPictureSeparator,//20
+                    me.menuTableAdvanced,           //21
+                    menuTableSettingsSeparator,     //22
+                    me.menuTableEquationSettings,           //23
+                    menuTableEquationSettingsSeparator,     //24
                 /** coauthoring begin **/
-                    me.menuAddCommentTable,
-                    me.menuTableEquation,
+                    me.menuAddCommentTable,         //25
+                    menuTableCommentSeparator,      //26
                 /** coauthoring end **/
-                    me.menuAddHyperlinkTable,
-                    menuHyperlinkTable,
-                    { caption: '--' },
-                    me.menuAddToLayoutTable
+                    me.menuAddHyperlinkTable,       //27
+                    menuHyperlinkTable,             //28
+                    menuHyperlinkSeparator,         //29
+                    me.menuAddToLayoutTable         //30
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
                 if (me.suppressEditComplete) {
@@ -2322,12 +2350,12 @@ define([
                     if (me.menuChartEdit.isVisible())
                         me.menuChartEdit.setDisabled(disabled);
 
+
                     var cancopy = me.api && me.api.can_CopyCut();
                     me.menuImgCopy.setDisabled(!cancopy);
                     me.menuImgCut.setDisabled(disabled || !cancopy);
                     me.menuImgPaste.setDisabled(disabled);
                     menuImgShapeArrange.setDisabled(disabled);
-                    me.menuSaveAsPicture.setDisabled(disabled);
                     me.menuAddToLayoutImg.setDisabled(disabled);
                 },
                 items: [
@@ -2339,8 +2367,8 @@ define([
                     me.menuImgShapeAlign,
                     me.menuImgShapeRotate,
                     menuImgShapeSeparator,          //Separator
-                    me.menuSaveAsPicture,
-                    menuSaveAsPictureSeparator,     //Separator
+                    me.menuImgSaveAsPicture,
+                    menuImgSaveAsPictureSeparator,     //Separator
                     me.menuImgCrop,
                     me.menuImgOriginalSize,
                     me.menuImgReplace,
