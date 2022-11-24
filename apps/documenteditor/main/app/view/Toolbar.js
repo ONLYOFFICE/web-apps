@@ -192,8 +192,11 @@ define([
                         lock: [_set.cantPrint, _set.disableOnStart],
                         signals: ['disabled'],
                         dataHint: '1',
+                        split: config.canQuickPrint && Common.localStorage.getBool("de-settings-quick-print-button",false),
+                        menu: config.canQuickPrint && Common.localStorage.getBool("de-settings-quick-print-button",false),
                         dataHintDirection: 'top',
-                        dataHintTitle: 'P'
+                        dataHintTitle: 'P',
+                        printType: 'print'
                     });
                     this.toolbarControls.push(this.btnPrint);
 
@@ -1744,6 +1747,28 @@ define([
                 })).then(function () {
                     if ( !config.isEdit ) return;
 
+                    if(me.btnPrint && config.canQuickPrint && Common.localStorage.getBool("de-settings-quick-print-button",false)){
+                        me.btnPrint.setMenu(
+                            new Common.UI.Menu({
+                                items:[
+                                    {
+                                        caption:            'Print',
+                                        iconCls:            'menu__icon btn-print',
+                                        toggleGroup:        'viewPrint',
+                                        value:              'print',
+                                        iconClsForMainBtn:  'btn-print'
+                                    },
+                                    {
+                                        caption:            'QuickPrint',
+                                        iconCls:            'menu__icon btn-quick-print',
+                                        toggleGroup:        'viewPrint',
+                                        value:              'print-quick',
+                                        iconClsForMainBtn:  'btn-quick-print'
+                                    }
+                                ]
+                            }));
+                    }
+
                     me.btnsPageBreak.forEach( function(btn) {
                         btn.updateHint( [me.textInsPageBreak, me.tipPageBreak] );
 
@@ -2030,6 +2055,7 @@ define([
                     ids.push('id-toolbar-menu-markers-level-' + i);
                     items.push({template: levelTemplate, previewId: ids[i], level: i, checkable: true });
                 }
+
                 this.btnMarkers.setMenu(
                     new Common.UI.Menu({
                         cls: 'shifted-left',
