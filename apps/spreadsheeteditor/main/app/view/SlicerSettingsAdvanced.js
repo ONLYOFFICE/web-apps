@@ -386,7 +386,7 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
 
         getFocusedComponents: function() {
             return [
-                this.inputHeader, this.chHeader, this.numWidth, this.numHeight, this.numCols, this.numColHeight, // 0 tab
+                this.inputHeader, this.chHeader, this.numWidth, this.btnRatio, this.numHeight, this.numCols, this.numColHeight, // 0 tab
                 this.radioAsc, this.radioDesc, this.chHideNoData, this.chIndNoData, this.chShowNoData, // 1 tab
                 this.inputName,  // 2 tab
                 this.radioTwoCell, this.radioOneCell, this.radioAbsolute, // 3 tab
