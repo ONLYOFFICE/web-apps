@@ -49,7 +49,8 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
         options: {
             contentWidth: 360,
             height: 380,
-            buttons: null
+            buttons: null,
+            id: 'window-header-footer'
         },
 
         initialize : function(options) {
@@ -67,8 +68,8 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                             '</div>',
                             '<div class="separator"></div>',
                             '<div class="menu-panel" style="width: 130px; padding-top: 17px;">',
-                                '<label  style="display:block; margin-left: 15px;" class="input-label">' + me.textPreview + '</label>',
-                                '<div style="width: 100px; height: 80px; padding: 5px; margin-left: 15px; border: 1px solid #AFAFAF; border-radius: 2px; background: #ffffff;">',
+                                '<label  style="display:block;" class="input-label preview-label">' + me.textPreview + '</label>',
+                                '<div class="preview-canvas" style="width: 100px; height: 80px; padding: 5px; border: 1px solid #AFAFAF; border-radius: 2px; background: #ffffff;">',
                                     '<div id="hf-dlg-canvas-preview" style="width: 100%;height: 100%;"></div>',
                                 '</div>',
                             '</div>',
