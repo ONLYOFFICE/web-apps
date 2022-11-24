@@ -65,6 +65,7 @@ define([
 
                 this.colorPicker = new Common.UI.ThemeColorPalette(config);
                 this.colorPicker.on('select', _.bind(this.onColorSelect, this));
+                this.colorPicker.on('close:extended', _.bind(this.onCloseExtentedColor, this));
                 this.cmpEl.find('#' + this.menu.id + '-color-new').on('click', _.bind(this.addNewColor, this));
                 if (this.options.auto) {
                     this.cmpEl.find('#' + this.menu.id + '-color-auto').on('click', _.bind(this.onAutoColorSelect, this));
@@ -147,6 +148,13 @@ define([
             this.trigger('color:select', this, color);
         },
 
+        onCloseExtentedColor: function(picker, isOk) {
+            if (this.options.takeFocusOnClose) {
+                var me = this;
+                setTimeout(function(){me.focus();}, 1);
+            }
+        },
+
         setColor: function(color) {
             if (color == 'auto' && this.options.auto)
                 color = this.autocolor;
@@ -192,6 +200,9 @@ define([
             return this.cmpEl.hasClass('open');
         },
 
+        focus: function() {
+            $('button', this.cmpEl).focus();
+        },
         textNewColor: 'Add New Custom Color',
         textAutoColor: 'Automatic'
 
