@@ -52,6 +52,9 @@ define([
             {name: 'OTS',  imgCls: 'ots',  type: Asc.c_oAscFileType.OTS},
             {name: 'XLSM', imgCls: 'xlsm',  type: Asc.c_oAscFileType.XLSM},
             {name: 'PDFA', imgCls: 'pdfa', type: Asc.c_oAscFileType.PDFA}
+        ], [
+            {name: 'JPG',   imgCls: 'jpg',  type: Asc.c_oAscFileType.JPG},
+            {name: 'PNG',   imgCls: 'png',  type: Asc.c_oAscFileType.PNG}
         ]],
 
 
@@ -149,6 +152,9 @@ define([
             {name: 'OTS',  imgCls: 'ots',  type: Asc.c_oAscFileType.OTS},
             {name: 'XLSM', imgCls: 'xlsm',  type: Asc.c_oAscFileType.XLSM},
             {name: 'PDFA', imgCls: 'pdfa', type: Asc.c_oAscFileType.PDFA}
+        ], [
+            {name: 'JPG',   imgCls: 'jpg',  type: Asc.c_oAscFileType.JPG},
+            {name: 'PNG',   imgCls: 'png',  type: Asc.c_oAscFileType.PNG}
         ]],
 
         template: _.template([

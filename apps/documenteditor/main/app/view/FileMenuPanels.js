@@ -69,7 +69,10 @@ define([
             {name: 'FB2',   imgCls: 'fb2',  type: Asc.c_oAscFileType.FB2},
             {name: 'EPUB',  imgCls: 'epub',  type: Asc.c_oAscFileType.EPUB},
             {name: 'HTML (Zipped)',  imgCls: 'html',  type: Asc.c_oAscFileType.HTML}
-        ], [] ],
+        ], [
+            {name: 'JPG',   imgCls: 'jpg',  type: Asc.c_oAscFileType.JPG},
+            {name: 'PNG',   imgCls: 'png',  type: Asc.c_oAscFileType.PNG}
+        ]],
 
         template: _.template([
             '<div class="content-container">',
@@ -189,7 +192,10 @@ define([
             {name: 'FB2',   imgCls: 'fb2',  type: Asc.c_oAscFileType.FB2},
             {name: 'EPUB',  imgCls: 'epub',  type: Asc.c_oAscFileType.EPUB},
             {name: 'HTML (Zipped)',  imgCls: 'html',  type: Asc.c_oAscFileType.HTML}
-        ], [] ],
+        ], [
+            {name: 'JPG',   imgCls: 'jpg',  type: Asc.c_oAscFileType.JPG},
+            {name: 'PNG',   imgCls: 'png',  type: Asc.c_oAscFileType.PNG}
+        ]],
 
 
         template: _.template([
@@ -233,7 +239,7 @@ define([
                 this.formats[0].splice(1, 1, {name: 'PDF',  imgCls: 'pdf', type: '', ext: true}); // remove pdf
                 this.formats[1].splice(2, 1); // remove pdfa
             } else if (/^xps|oxps$/.test(this.fileType)) {
-                this.formats[3].push({name: this.fileType.toUpperCase(),  imgCls: this.fileType, type: '', ext: true}); // original xps/oxps
+                this.formats[0].push({name: this.fileType.toUpperCase(),  imgCls: this.fileType, type: '', ext: true}); // original xps/oxps
             } else if (/^djvu$/.test(this.fileType)) {
                 this.formats = [[
                     {name: 'DJVU',  imgCls: 'djvu',  type: '', ext: true}, // original djvu
