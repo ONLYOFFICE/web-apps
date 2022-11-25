@@ -379,7 +379,8 @@
     "textRequired": "Required",
     "textTextWrapping": "Text Wrapping",
     "textCustomStyle": "Custom Style",
-    "textWrappingStyle": "Wrapping Style"
+    "textWrappingStyle": "Wrapping Style",
+    "textArrange": "Arrange"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",

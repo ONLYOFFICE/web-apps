@@ -386,7 +386,7 @@
       "txtExpandSort": "Data di sebelah pilihan tidak akan disortasi. Apakah Anda ingin memperluas pilihan untuk menyertakan data yang berdekatan atau lanjut sortasi dengan hanya sel yang dipilih?",
       "txtLockSort": "Ditemukan data di sebelah pilihan Anda, tapi, Anda tidak memiliki izin untuk mengubah sel tersebut.<br>Apakah Anda ingin tetap lanjut dengan pilihan saat ini?",
       "txtNo": "Tidak",
-      "txtNotUrl": "Area ini harus dalam format URL “http://www.contoh.com”",
+      "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”",
       "txtSorting": "Sorting",
       "txtSortSelected": "Sortir dipilih",
       "txtYes": "Ya"
@@ -513,7 +513,7 @@
       "textNoBorder": "Tidak ada pembatas",
       "textNone": "Tidak ada",
       "textNoOverlay": "Tanpa Overlay",
-      "textNotUrl": "Area ini harus dalam format URL “http://www.contoh.com”",
+      "textNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”",
       "textNumber": "Angka",
       "textOk": "OK",
       "textOnTickMarks": "Di Tanda Centang",
@@ -573,7 +573,7 @@
       "textVerticalText": "Teks Vertikal",
       "textWrapText": "Wrap Teks",
       "textYen": "Yen",
-      "txtNotUrl": "Area ini harus dalam format URL “http://www.contoh.com”",
+      "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”",
       "txtSortHigh2Low": "Sortir Tertinggi ke Terendah",
       "txtSortLow2High": "Sortir Terendah ke Tertinggi"
     },

@@ -689,7 +689,7 @@
     "textDelete": "Delete",
     "textDuplicate": "Duplicate",
     "textErrNameExists": "Worksheet with this name already exists.",
-    "textErrNameWrongChar": "A sheet name cannot contains characters: \\, /, *, ?, [, ], :",
+    "textErrNameWrongChar": "A sheet name cannot contains characters: \\, /, *, ?, [, ], : or the character ' as first or last character",
     "textErrNotEmpty": "Sheet name must not be empty",
     "textErrorLastSheet": "The workbook must have at least one visible worksheet.",
     "textErrorRemoveSheet": "Can't delete the worksheet.",

@@ -376,7 +376,8 @@
     "textType": "Tipo",
     "textWe": "Qua",
     "textWrap": "Encapsulamento",
-    "textWrappingStyle": "Estilo da quebra"
+    "textWrappingStyle": "Estilo da quebra",
+    "textArrange": "Arrange"
   },
   "Error": {
     "convertationTimeoutText": "Tempo limite de conversão excedido.",

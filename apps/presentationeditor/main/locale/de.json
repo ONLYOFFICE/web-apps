@@ -782,7 +782,7 @@
   "Common.Views.SymbolTableDialog.textSpecial": "Sonderzeichen",
   "Common.Views.SymbolTableDialog.textSymbols": "Symbole",
   "Common.Views.SymbolTableDialog.textTitle": "Symbol",
-  "Common.Views.SymbolTableDialog.textTradeMark": "Registered Trade Mark",
+  "Common.Views.SymbolTableDialog.textTradeMark": "Markensymbol",
   "Common.Views.UserNameDialog.textDontShow": "Nicht mehr anzeigen",
   "Common.Views.UserNameDialog.textLabel": "Bezeichnung:",
   "Common.Views.UserNameDialog.textLabelError": "Bezeichnung darf nicht leer sein.",
