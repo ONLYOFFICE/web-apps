@@ -376,7 +376,8 @@
     "textType": "类型",
     "textWe": "周三",
     "textWrap": "包裹",
-    "textWrappingStyle": "环绕样式"
+    "textWrappingStyle": "环绕样式",
+    "textArrange": "Arrange"
   },
   "Error": {
     "convertationTimeoutText": "转换超时",

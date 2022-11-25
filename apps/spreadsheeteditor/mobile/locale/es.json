@@ -209,6 +209,11 @@
     "errorFrmlMaxReference": "No puede introducir esta fórmula porque tiene demasiados valores,<br>referencias de celda, y/o nombres.",
     "errorFrmlMaxTextLength": "Los valores de texto de las fórmulas tienen un límite de 255 caracteres.<br>Utilice la función CONCATENATE o el operador de concatenación (&)",
     "errorFrmlWrongReferences": "La función hace referencia a una hoja que no existe.<br>Por favor, compruebe los datos y vuelva a intentarlo.",
+    "errorInconsistentExt": "Se ha producido un error al abrir el archivo.<br>El contenido del archivo no coincide con la extensión del mismo.",
+    "errorInconsistentExtDocx": "Se ha producido un error al abrir el archivo.<br>El contenido del archivo corresponde a documentos de texto (por ejemplo, docx), pero el archivo tiene extensión inconsistente: %1.",
+    "errorInconsistentExtPdf": "Se ha producido un error al abrir el archivo.<br>El contenido del archivo corresponde a uno de los siguientes formatos: pdf/djvu/xps/oxps, pero el archivo tiene extensión inconsistente: %1.",
+    "errorInconsistentExtPptx": "Se ha producido un error al abrir el archivo.<br>El contenido del archivo corresponde a presentaciones (por ejemplo, pptx), pero el archivo tiene extensión inconsistente: %1.",
+    "errorInconsistentExtXlsx": "Se ha producido un error al abrir el archivo.<br>El contenido del archivo corresponde a hojas de cálculo (por ejemplo, xlsx), pero el archivo tiene extensión inconsistente: %1.",
     "errorInvalidRef": "Introducir un nombre correcto para la selección o una referencia válida a la que dirigirse.",
     "errorKeyEncrypt": "Descriptor de clave desconocido",
     "errorKeyExpire": "Descriptor de clave ha expirado",
@@ -227,6 +232,8 @@
     "errorSessionIdle": "El documento no ha sido editado desde hace mucho tiempo. Por favor, vuelva a cargar la página.",
     "errorSessionToken": "La conexión con el servidor se ha interrumpido. Por favor, vuelva a cargar la página.",
     "errorStockChart": "Orden incorrecto de las filas. Para construir un gráfico de cotizaciones, coloque los datos en la hoja en el siguiente orden:<br> precio de apertura, precio máximo, precio mínimo, precio de cierre.",
+    "errorToken": "El token de seguridad de documento tiene un formato incorrecto.<br>Por favor, contacte con el administrador del Servidor de Documentos.",
+    "errorTokenExpire": "El token de seguridad del documento ha expirado.<br>Por favor, póngase en contacto con el administrador del Servidor de Documentos.",
     "errorUnexpectedGuid": "Error externo.<br> Guid inesperado. Por favor, contacte con el equipo de soporte.",
     "errorUpdateVersionOnDisconnect": "Se ha restablecido la conexión a Internet y se ha cambiado la versión del archivo. <br>Para poder seguir trabajando, es necesario descargar el archivo o copiar su contenido para asegurarse de que no se ha perdido nada, y luego volver a cargar esta página.",
     "errorUserDrop": "No se puede acceder al archivo ahora mismo.",
@@ -245,19 +252,13 @@
     "unknownErrorText": "Error desconocido.",
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
-    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB.",
-    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
-    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
-    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
-    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
+    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Contraseña",
     "applyChangesTextText": "Cargando datos...",
     "applyChangesTitleText": "Cargando datos",
+    "confirmMaxChangesSize": "El tamaño de las acciones excede la limitación establecida para su servidor.<br>Pulse \"Deshacer\" para cancelar su última acción o pulse \"Continuar\" para mantener la acción localmente (debe descargar el archivo o copiar su contenido para asegurarse de que no se pierde nada).",
     "confirmMoveCellRange": "El rango de celdas de destino puede contener datos. ¿Continuar la operación?",
     "confirmPutMergeRange": "Los datos de origen contienen celdas combinadas.<br>Se anulará la combinación antes de pegarlas en la tabla.",
     "confirmReplaceFormulaInTable": "Las fórmulas de la fila de encabezado se eliminarán y se convertirán en texto estático.<br>¿Desea continuar?",
@@ -295,8 +296,7 @@
     "txtEditingMode": "Establecer el modo de edición...",
     "uploadImageTextText": "Subiendo imagen...",
     "uploadImageTitleText": "Subiendo imagen",
-    "waitText": "Por favor, espere...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost)."
+    "waitText": "Por favor, espere..."
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Advertencia",
@@ -426,6 +426,7 @@
       "textCell": "Celda",
       "textCellStyle": "Estilo de celda",
       "textCenter": "Centro",
+      "textChangeShape": "Cambiar forma",
       "textChart": "Gráfico",
       "textChartTitle": "Título del gráfico",
       "textClearFilter": "Borrar filtro",
@@ -438,6 +439,7 @@
       "textDate": "Fecha",
       "textDefault": "Rango seleccionado",
       "textDeleteFilter": "Eliminar filtro",
+      "textDeleteImage": "Eliminar imagen",
       "textDeleteLink": "Eliminar enlace",
       "textDesign": "Diseño",
       "textDiagonalDownBorder": "Borde diagonal descendente",
@@ -573,9 +575,7 @@
       "textYen": "Yen",
       "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Ordenar de mayor a menor",
-      "txtSortLow2High": "Ordenar de menor a mayor ",
-      "textChangeShape": "Change Shape",
-      "textDeleteImage": "Delete Image"
+      "txtSortLow2High": "Ordenar de menor a mayor "
     },
     "Settings": {
       "advCSVOptions": "Elegir los parámetros de CSV",
