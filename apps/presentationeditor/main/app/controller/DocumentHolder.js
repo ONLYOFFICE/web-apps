@@ -453,7 +453,7 @@ define([
                     showPoint[0] -= 3;
                     showPoint[1] -= 3;
                 } else {
-                    value && (value.guideId = event.get_Guide());
+                    value && (value.guide = {guideId: event.get_Guide()});
                 }
 
                 if (!menu.rendered) {
@@ -2399,6 +2399,22 @@ define([
 
         onLockViewProps: function(lock) {
             this.documentHolder && (this.documentHolder._state.viewPropsLock = lock);
+
+            var me = this,
+                currentMenu = me.documentHolder.currentMenu;
+            if (currentMenu && currentMenu.isVisible() && me.documentHolder.slideMenu===currentMenu){
+                if (me.api.asc_getCurrentFocusObject() !== 0 ){ // not thumbnails
+                    if (!me._isDisabled && me.mode.isEdit) { // update slide menu items
+                        var obj = me.fillMenuProps(me.api.getSelectedElements());
+                        if (obj) {
+                            if (obj.menu_to_show===currentMenu) {
+                                currentMenu.options.initMenu(obj.menu_props);
+                                currentMenu.alignPosition();
+                            }
+                        }
+                    }
+                }
+            }
         },
 
         SetDisabled: function(state) {
