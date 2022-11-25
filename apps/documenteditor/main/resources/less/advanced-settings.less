@@ -79,9 +79,16 @@
         &.no-borders > .listview .item {
             border-width: 0 !important;
         }
+        .item {
+            padding: 0 6px;
+        }
+
+        @item-width: 20px;
+        @item-height: 28px;
         .list-item {
             display: flex;
             align-items: center;
+            height: @item-height;
 
             span.color {
                 display: block;
@@ -100,16 +107,24 @@
         }
 
         .listitem-icon {
-            width: 20px;
-            height: 20px;
-            vertical-align: middle;
+            width: @item-width;
+            height: @item-height;
             margin-right: 5px;
+
+            svg {
+                width: @item-width;
+                height: @item-height;
+                fill: @text-normal-ie;
+                fill: @text-normal;
+            }
         }
 
         .selected {
             .listitem-icon {
-                background-position-x: -20px;
-                background-position-x: @button-small-active-icon-offset-x;
+                svg {
+                    fill: @text-normal-pressed-ie;
+                    fill: @text-normal-pressed;
+                }
             }
         }
     }

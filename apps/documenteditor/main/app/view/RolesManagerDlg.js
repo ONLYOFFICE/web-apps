@@ -93,7 +93,7 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
                 emptyText: this.textEmpty,
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="">',
-                    '<div class="listitem-icon toolbar__icon <%= scope.getIconCls(index) %>"></div>',
+                    '<div class="listitem-icon"><svg class=""><use xlink:href="#svg-icon-<%= scope.getIconCls(index) %>"></use></svg></div>',
                     '<div style="min-width: 25px;text-align:center; padding-right: 5px;"><%= index+1 %></div>',
                     '<div style="min-width: 25px;">',
                         '<span class="color" style="background: <% if (color) { %>#<%= Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()) %><% } else { %> transparent <% } %>;"></span>',
@@ -197,7 +197,9 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
         },
 
         getIconCls: function(index) {
-            return (index===0) ? 'btn-arrow-up' : (index===this.rolesList.store.length-1 ? 'btn-arrow-down' : 'btn-border-insidevert');
+            if (this.rolesList.store.length===1)
+                return 'Point';
+            return (index===0) ? 'StartPoint' : (index===this.rolesList.store.length-1 ? 'EndPoint' : 'MiddlePoint');
         },
 
         onEditRole: function (isEdit) {

@@ -112,7 +112,7 @@ define([  'common/main/lib/view/AdvancedSettingsWindow',
                 emptyText: this.textEmpty,
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="border-color: transparent;">',
-                    '<div class="listitem-icon toolbar__icon <%= scope.getIconCls(index) %>"></div>',
+                    '<div class="listitem-icon"><svg class=""><use xlink:href="#svg-icon-<%= scope.getIconCls(index) %>"></use></svg></div>',
                     '<div style="flex-grow: 1;padding-right: 5px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
                     '</div>'
                 ].join(''))
@@ -144,7 +144,9 @@ define([  'common/main/lib/view/AdvancedSettingsWindow',
         },
 
         getIconCls: function(index) {
-            return (index===0) ? 'btn-arrow-up' : (index===this.rolesList.store.length-1 ? 'btn-arrow-down' : 'btn-border-insidevert');
+            if (this.rolesList.store.length===1)
+                return 'Point';
+            return (index===0) ? 'StartPoint' : (index===this.rolesList.store.length-1 ? 'EndPoint' : 'MiddlePoint');
         },
 
         txtTitle: 'Save as Form',
