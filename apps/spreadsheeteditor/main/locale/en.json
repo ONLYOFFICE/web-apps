@@ -3461,7 +3461,7 @@
   "SSE.Views.Statusbar.itemTabColor": "Tab Color",
   "SSE.Views.Statusbar.itemUnProtect": "Unprotect",
   "SSE.Views.Statusbar.RenameDialog.errNameExists": "Worksheet with such a name already exists.",
-  "SSE.Views.Statusbar.RenameDialog.errNameWrongChar": "A sheet name cannot contain the following characters: \\/*?[]:",
+  "SSE.Views.Statusbar.RenameDialog.errNameWrongChar": "A sheet name cannot contain the following characters: \\/*?[]: or the character ' as first or last character",
   "SSE.Views.Statusbar.RenameDialog.labelSheetName": "Sheet name",
   "SSE.Views.Statusbar.selectAllSheets": "Select All Sheets",
   "SSE.Views.Statusbar.sheetIndexText": "Sheet {0} of {1}",
