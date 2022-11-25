@@ -1030,8 +1030,10 @@ define([
 
                     if (!value.fromThumbs) {
                         me.mnuGuides.menu.items[0].setChecked(me.api.asc_getShowGuides(), true);
-                        me.mnuGuides.menu.items[4].setVisible(!!value.guideId);
-                        me.mnuGuides.menu.items[4].options.guideId = value.guideId;
+                        if (value.guide) { // change visibility only on asc_onContextMenu event
+                            me.mnuGuides.menu.items[4].setVisible(!!value.guide.guideId);
+                            me.mnuGuides.menu.items[4].options.guideId = value.guide.guideId;
+                        }
                         me.mnuGuides.menu.items[6].setChecked(me.api.asc_getShowSmartGuides(), true);
 
                         me.mnuGuides.menu.items[2].setDisabled(me._state.viewPropsLock);
