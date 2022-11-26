@@ -781,7 +781,7 @@ define([
             $('tr.comments', this.el)[mode.canCoAuthoring ? 'show' : 'hide']();
             /** coauthoring end **/
 
-            $('tr.quick-print', this.el)[mode.canQuickPrint ? 'show' : 'hide']();
+            $('tr.quick-print', this.el)[mode.canQuickPrint && !mode.customization.compactHeader ? 'show' : 'hide']();
             $('tr.macros', this.el)[(mode.customization && mode.customization.macros===false) ? 'hide' : 'show']();
             if ( !Common.UI.Themes.available() ) {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();

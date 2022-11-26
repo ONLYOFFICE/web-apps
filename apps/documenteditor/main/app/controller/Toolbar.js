@@ -1068,10 +1068,7 @@ define([
             } else {
                 var _main = this.getApplication().getController('Main');
                 _main.onPrintQuick();
-
             }
-
-
             Common.component.Analytics.trackEvent('Print');
             Common.component.Analytics.trackEvent('ToolBar', 'Print');
 
@@ -1080,14 +1077,13 @@ define([
         onPrintMenu: function (btn, e){
             var oldType = this.toolbar.btnPrint.options.printType;
             var newType = e.value;
-            //this.toolbar.btnPrint.toggle(true);
 
             if(newType != oldType) {
                 this.toolbar.btnPrint.changeIcon({
                     next: e.options.iconClsForMainBtn,
                     curr: this.toolbar.btnPrint.menu.items.filter(function(item){return item.value == oldType;})[0].options.iconClsForMainBtn
                 });
-                this.toolbar.btnPrint.updateHint([e.caption, this.views.Toolbar.prototype.tipInsertText]);
+                this.toolbar.btnPrint.updateHint([e.caption + e.options.platformKey, this.views.Toolbar.prototype.tipInsertText]);
                 this.toolbar.btnPrint.options.printType = newType;
             }
             this.onPrint(e);

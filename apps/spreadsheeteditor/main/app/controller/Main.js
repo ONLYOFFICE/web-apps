@@ -1291,8 +1291,7 @@ define([
                 this.appOptions.isEdit         = (this.appOptions.canLicense || this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge || this.appOptions.isEditOle) && this.permissions.edit !== false && this.editorConfig.mode !== 'view';
                 this.appOptions.canDownload    = (this.permissions.download !== false);
                 this.appOptions.canPrint       = (this.permissions.print !== false);
-                this.appOptions.canQuickPrint = this.appOptions.canPrint && this.appOptions.isDesktopApp &&
-                                                !(this.editorConfig.customization && this.editorConfig.customization.compactHeader);
+                this.appOptions.canQuickPrint = this.appOptions.canPrint && this.appOptions.isDesktopApp && !this.editorConfig.customization;
                 this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge || this.appOptions.isEditOle) &&
                                                 (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
                 this.appOptions.forcesave      = this.appOptions.canForcesave;

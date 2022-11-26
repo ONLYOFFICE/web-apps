@@ -800,10 +800,13 @@ define([
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-print no-mask',
                     lock        : [_set.editCell, _set.cantPrint, _set.disableOnStart],
-                    signals: ['disabled'],
+                    signals     : ['disabled'],
+                    split       : config.canQuickPrint,
+                    menu        : config.canQuickPrint,
                     dataHint    : '1',
                     dataHintDirection: 'top',
-                    dataHintTitle: 'P'
+                    dataHintTitle: 'P',
+                    printType: 'print'
                 });
 
                 me.btnSave = new Common.UI.Button({
@@ -2963,6 +2966,31 @@ define([
             if (!this.mode.isEdit || this.mode.isEditMailMerge || this.mode.isEditDiagram || this.mode.isEditOle) return;
 
             var me = this;
+
+            if(me.btnPrint.menu) {
+                me.btnPrint.setMenu(
+                    new Common.UI.Menu({
+                        items:[
+                            {
+                                caption:            me.tipPrint,
+                                iconCls:            'menu__icon btn-print',
+                                toggleGroup:        'viewPrint',
+                                value:              'print',
+                                iconClsForMainBtn:  'btn-print',
+                                platformKey:         Common.Utils.String.platformKey('Ctrl+P')
+                            },
+                            {
+                                caption:            me.tipPrintQuick,
+                                iconCls:            'menu__icon btn-quick-print',
+                                toggleGroup:        'viewPrint',
+                                value:              'print-quick',
+                                iconClsForMainBtn:  'btn-quick-print',
+                                platformKey:        ''
+                            }
+                        ]
+                    }));
+            }
+
             var _holder_view = SSE.getController('DocumentHolder').getView('DocumentHolder');
             me.btnImgForward.updateHint(me.tipSendForward);
             me.btnImgForward.setMenu(new Common.UI.Menu({
@@ -3061,6 +3089,7 @@ define([
         tipUndo:            'Undo',
         tipRedo:            'Redo',
         tipPrint:           'Print',
+        tipPrintQuick:      'Quick print',
         tipSave:            'Save',
         tipFontColor:       'Font color',
         tipPrColor:         'Background color',

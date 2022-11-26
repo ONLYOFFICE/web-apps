@@ -191,9 +191,9 @@ define([
                         iconCls: 'toolbar__icon btn-print no-mask',
                         lock: [_set.cantPrint, _set.disableOnStart],
                         signals: ['disabled'],
+                        split: config.canQuickPrint,
+                        menu: config.canQuickPrint,
                         dataHint: '1',
-                        split: config.canQuickPrint && Common.localStorage.getBool("de-settings-quick-print-button",false),
-                        menu: config.canQuickPrint && Common.localStorage.getBool("de-settings-quick-print-button",false),
                         dataHintDirection: 'top',
                         dataHintTitle: 'P',
                         printType: 'print'
@@ -1747,23 +1747,25 @@ define([
                 })).then(function () {
                     if ( !config.isEdit ) return;
 
-                    if(me.btnPrint && config.canQuickPrint && Common.localStorage.getBool("de-settings-quick-print-button",false)){
+                    if(me.btnPrint.menu){
                         me.btnPrint.setMenu(
                             new Common.UI.Menu({
                                 items:[
                                     {
-                                        caption:            'Print',
+                                        caption:            me.tipPrint,
                                         iconCls:            'menu__icon btn-print',
                                         toggleGroup:        'viewPrint',
                                         value:              'print',
-                                        iconClsForMainBtn:  'btn-print'
+                                        iconClsForMainBtn:  'btn-print',
+                                        platformKey:         Common.Utils.String.platformKey('Ctrl+P')
                                     },
                                     {
-                                        caption:            'QuickPrint',
+                                        caption:            me.tipPrintQuick,
                                         iconCls:            'menu__icon btn-quick-print',
                                         toggleGroup:        'viewPrint',
                                         value:              'print-quick',
-                                        iconClsForMainBtn:  'btn-quick-print'
+                                        iconClsForMainBtn:  'btn-quick-print',
+                                        platformKey:        ''
                                     }
                                 ]
                             }));
@@ -2695,6 +2697,7 @@ define([
             tipUndo: 'Undo',
             tipRedo: 'Redo',
             tipPrint: 'Print',
+            tipPrintQuick: 'Quick print',
             tipSave: 'Save',
             tipIncFont: 'Increment font size',
             tipDecFont: 'Decrement font size',
