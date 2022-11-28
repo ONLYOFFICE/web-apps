@@ -450,6 +450,13 @@
     .view {
         margin-right: -@combo-dataview-button-width;
         padding-right: calc(@combo-dataview-button-width - @scaled-one-px-value);
+
+        .rtl & {
+            margin-right: 0;
+            padding-right: 0;
+            margin-left: -@combo-dataview-button-width;
+            padding-left: calc(@combo-dataview-button-width - @scaled-one-px-value);
+        }
     }
 
     .view .dataview, .dropdown-menu {

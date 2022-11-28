@@ -50,6 +50,7 @@ define([
             width: 350,
             style: 'min-width: 230px;',
             cls: 'modal-dlg',
+            id: 'window-date-time',
             buttons: ['ok', 'cancel']
         },
 
@@ -73,7 +74,7 @@ define([
                     '<div id="datetime-dlg-format" class="" style="margin-bottom: 10px;width: 100%; height: 162px; overflow: hidden;"></div>',
                     '<div class="input-row">',
                         '<div id="datetime-dlg-update" style="margin-top: 3px;"></div>',
-                        '<button type="button" class="btn btn-text-default auto" id="datetime-dlg-default" style="float: right;">' + this.textDefault + '</button>',
+                        '<button type="button" class="btn btn-text-default auto" id="datetime-dlg-default">' + this.textDefault + '</button>',
                     '</div>',
                 '</div>'
             ].join('');
