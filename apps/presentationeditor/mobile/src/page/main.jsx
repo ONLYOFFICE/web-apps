@@ -126,19 +126,17 @@ class MainPage extends Component {
                 {!this.state.previewVisible ? null : <Preview onclosed={this.handleOptionsViewClosed.bind(this, 'preview')} />}
                 <Page name="home" className={`editor${ showLogo ? ' page-with-logo' : ''}`}>
                     {/* Top Navbar */}
-                    {config?.customization &&
-                        <Navbar id='editor-navbar'
-                                className={`main-navbar${(!isBranding && showLogo) ? ' navbar-with-logo' : ''}`}>
-                            {(!isBranding && showLogo) && <div className="main-logo" onClick={() => {
-                                window.open(`${__PUBLISHER_URL__}`, "_blank");
-                            }}><Icon icon="icon-logo"></Icon></div>}
-                            <Subnavbar>
-                                <Toolbar openOptions={this.handleClickToOpenOptions}
-                                         closeOptions={this.handleOptionsViewClosed}/>
-                                <Search useSuspense={false}/>
-                            </Subnavbar>
-                        </Navbar>
-                    }
+                    <Navbar id='editor-navbar'
+                            className={`main-navbar${(!isBranding && showLogo) ? ' navbar-with-logo' : ''}`}>
+                        {(!isBranding && showLogo) && <div className="main-logo" onClick={() => {
+                            window.open(`${__PUBLISHER_URL__}`, "_blank");
+                        }}><Icon icon="icon-logo"></Icon></div>}
+                        <Subnavbar>
+                            <Toolbar openOptions={this.handleClickToOpenOptions}
+                                     closeOptions={this.handleOptionsViewClosed}/>
+                            <Search useSuspense={false}/>
+                        </Subnavbar>
+                    </Navbar>
                     {/* Page content */}
                     <View id="editor_sdk" />
 
