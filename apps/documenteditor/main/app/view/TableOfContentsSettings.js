@@ -368,7 +368,7 @@ define([
                         template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                         itemTemplate: _.template([
                             '<div id="<%= id %>" class="list-item">',
-                            '<div class="<% if (checked) { %>checked<% } %>"><%= displayValue %></div>',
+                            '<div class="<% if (checked) { %>checked<% } %>"><%= Common.Utils.String.htmlEncode(displayValue) %></div>',
                             '<div>',
                             '<div class="input-field" style="width:40px;"><input type="text" class="form-control" value="<%= value %>" style="text-align: right;" maxLength="1">',
                             '</div>',
