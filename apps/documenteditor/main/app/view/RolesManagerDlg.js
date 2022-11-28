@@ -75,6 +75,7 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
             this.api        = options.api;
             this.handler    = options.handler;
             this.props      = options.props;
+            this.oformManager = this.api.asc_GetOForm();
 
             this.wrapEvents = {
                 onRefreshRolesList: _.bind(this.onRefreshRolesList, this)
@@ -155,7 +156,7 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
         },
 
         _setDefaults: function (props) {
-            this.refreshRolesList(this.api.asc_GetOForm().asc_getAllRoles(), 0);
+            this.refreshRolesList(this.oformManager.asc_getAllRoles(), 0);
             this.api.asc_registerCallback('asc_onUpdateOFormRoles', this.wrapEvents.onRefreshRolesList);
         },
 
@@ -202,12 +203,6 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
             this.updateButtons();
         },
 
-        refreshRolesIndexes: function() {
-            this.rolesList.store.each(function(item, index) {
-                item.set('index', index);
-            });
-        },
-
         getIconCls: function(index) {
             if (this.rolesList.store.length===1)
                 return 'Point';
@@ -223,7 +218,7 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
                 props = (isEdit && rec) ? {name: rec.get('name'), color: rec.get('color')} : null;
 
             var win = new DE.Views.RoleEditDlg({
-                api: me.api,
+                oformManager: me.oformManager,
                 props   : props,
                 isEdit  : isEdit,
                 handler : function(result, settings) {
@@ -240,7 +235,7 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
                             var role = new AscCommon.CRoleSettings();
                             role.asc_putName(name);
                             role.asc_putColor(color);
-                            me.api.asc_GetOForm().asc_addRole(role);
+                            me.oformManager.asc_addRole(role);
                             // rec = store.push({
                             //     name: name,
                             //     color: color,
@@ -294,7 +289,6 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
                 // }
                 // me.api.asc_delRole(rec.get('name'), toRole); // remove role and move it's fields
                 // store.remove(rec);
-                // me.refreshRolesIndexes();
                 // (store.length>0) && me.rolesList.selectByIndex(index<store.length ? index : store.length-1);
                 // me.rolesList.scrollToRecord(me.rolesList.getSelectedRec());
                 // me.updateButtons();
@@ -333,15 +327,6 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
         },
 
         getSettings: function() {
-            // var arr = [];
-            // this.rolesList.store.each(function(item, index) {
-            //     arr.push({
-            //         name: item.get('name'),
-            //         color: item.get('color'),
-            //         fields: item.get('fields')
-            //     });
-            // });
-            // return arr;
         },
 
         onPrimary: function() {
@@ -355,32 +340,16 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
 
         onSelectRoleItem: function(lisvView, itemView, record) {
             if (!record) return;
-
-            // var rawData = {},
-            //     isViewSelect = _.isFunction(record.toJSON);
-            //
-            // if (isViewSelect){
-            //     if (record.get('selected')) {
-            //         rawData = record.toJSON();
-            //     } else {// record deselected
-            //         return;
-            //     }
-            // }
+            this.lastSelectedRole = undefined;
             this.updateMoveButtons();
         },
 
         onMoveClick: function(up) {
-            var store = this.rolesList.store,
-                length = store.length,
-                rec = this.rolesList.getSelectedRec();
+            var rec = this.rolesList.getSelectedRec();
             if (rec) {
-                var index = store.indexOf(rec);
-                store.add(store.remove(rec), {at: up ? Math.max(0, index-1) : Math.min(length-1, index+1)});
-                this.rolesList.selectRecord(rec);
-                this.rolesList.scrollToRecord(rec);
+                this.lastSelectedRole = rec.get('name');
+                up ? this.oformManager.asc_moveUpRole(rec.get('name')) : this.oformManager.asc_moveDownRole(rec.get('name'));
             }
-            this.refreshRolesIndexes();
-            this.updateMoveButtons();
         },
 
         updateButtons: function() {
