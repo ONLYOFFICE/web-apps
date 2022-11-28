@@ -73,6 +73,7 @@ define([
             this.options.tpl = _.template(this.template)(this.options);
             this.props = this.options.props;
             this.lastColor = 'C9C8FF';
+            this.oformManager = this.options.oformManager;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -91,7 +92,12 @@ define([
                 style       : 'width: 100%;',
                 validateOnBlur: false,
                 validation  : function(value) {
-                    return value ? true : '';
+                    value = value.trim();
+                    if (_.isEmpty(value))
+                        return '';
+                    if (!(me.props && value === me.props.name) && me.oformManager.asc_haveRole(value))
+                        return me.errNameExists;
+                    return true;
                 }
             });
 
@@ -200,6 +206,7 @@ define([
         txtTitleNew: 'Create New Role',
         textName: 'Role name',
         textEmptyError: 'Role name must not be empty.',
-        textNoHighlight: 'No highlighting'
+        textNoHighlight: 'No highlighting',
+        errNameExists: 'Role with such a name already exists.'
     }, DE.Views.RoleEditDlg || {}));
 });
