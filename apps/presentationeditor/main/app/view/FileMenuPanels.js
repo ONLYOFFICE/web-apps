@@ -2089,6 +2089,7 @@ define([
         },
 
         updateMetricUnit: function() {
+            if (!this.cmbPaperSize) return;
             var store = this.cmbPaperSize.store;
             for (var i=0; i<store.length; i++) {
                 var item = store.at(i),
