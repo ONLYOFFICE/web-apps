@@ -75,7 +75,6 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
             this.api        = options.api;
             this.handler    = options.handler;
             this.props      = options.props;
-            this.roles      = options.roles;
 
             this.wrapEvents = {
                 onRefreshRolesList: _.bind(this.onRefreshRolesList, this)
@@ -156,24 +155,29 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
         },
 
         _setDefaults: function (props) {
-            this.refreshRolesList(this.roles, 0);
-            this.api.asc_registerCallback('asc_onRefreshRolesList', this.wrapEvents.onRefreshRolesList);
+            this.refreshRolesList(this.api.asc_GetOForm().asc_getAllRoles(), 0);
+            this.api.asc_registerCallback('asc_onUpdateOFormRoles', this.wrapEvents.onRefreshRolesList);
         },
 
         onRefreshRolesList: function(roles) {
             this.refreshRolesList(roles);
         },
 
-        refreshRolesList: function(roles, selectedItem) {
+        refreshRolesList: function(roles, selectedRole) {
+            (selectedRole===undefined) && (selectedRole = this.lastSelectedRole); // when add or delete roles
+            this.lastSelectedRole = undefined;
+            if (selectedRole===undefined && this.rolesList.store.length>0) {
+                var rec = this.rolesList.getSelectedRec();
+                rec && (selectedRole = rec.get('name'));
+            }
             if (roles) {
-                this.roles = roles;
                 var arr = [];
-                for (var i=0; i<this.roles.length; i++) {
-                    var role = this.roles[i];
+                for (var i=0; i<roles.length; i++) {
+                    var role = roles[i].asc_getSettings();
                     arr.push({
-                        name: role.name,//role.asc_getName(),
-                        color: role.color,//role.asc_getColor(),
-                        fields: role.fields,//role.asc_getFields(),
+                        name: role.asc_getName() || this.textAnyone,
+                        color: role.asc_getColor(),
+                        fields: role.fields || 0,//role.asc_getFields(),
                         index: i,
                         scope: this
                     });
@@ -181,10 +185,18 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
                 this.rolesList.store.reset(arr);
             }
             if (this.rolesList.store.length>0) {
-                var me = this;
-                this.rolesList.selectByIndex(0);
+                var me = this,
+                    rec;
+                (selectedRole===undefined) && (selectedRole = 0);
+                if (typeof selectedRole === 'string') { // name
+                    rec = this.rolesList.store.findWhere({name: selectedRole});
+                    this.rolesList.selectRecord(rec);
+                } else {
+                    selectedRole = Math.min(selectedRole, this.rolesList.store.length-1);
+                    rec = this.rolesList.selectByIndex(selectedRole);
+                }
                 setTimeout(function() {
-                    me.rolesList.scrollToRecord(me.rolesList.store.at(0));
+                    me.rolesList.scrollToRecord(rec || me.rolesList.store.at(0));
                 }, 50);
             }
             this.updateButtons();
@@ -219,25 +231,29 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
                         var color = settings.color,
                             name = settings.name,
                             store = me.rolesList.store;
+                        this.lastSelectedRole = name;
                         if (isEdit) {
                             // me.api.asc_editRole(settings);
                             rec.set('name', name);
                             rec.set('color', color);
                         } else {
-                            // me.api.asc_addRole(settings);
-                            rec = store.push({
-                                name: name,
-                                color: color,
-                                fields: 0,
-                                index: store.length,
-                                scope: me
-                            });
-                            if (rec) {
-                                me.rolesList.selectRecord(rec);
-                                setTimeout(function() {
-                                    me.rolesList.scrollToRecord(rec);
-                                }, 50);
-                            }
+                            var role = new AscCommon.CRoleSettings();
+                            role.asc_putName(name);
+                            role.asc_putColor(color);
+                            me.api.asc_GetOForm().asc_addRole(role);
+                            // rec = store.push({
+                            //     name: name,
+                            //     color: color,
+                            //     fields: 0,
+                            //     index: store.length,
+                            //     scope: me
+                            // });
+                            // if (rec) {
+                            //     me.rolesList.selectRecord(rec);
+                            //     setTimeout(function() {
+                            //         me.rolesList.scrollToRecord(rec);
+                            //     }, 50);
+                            // }
                         }
                         me.updateButtons();
                     }
@@ -268,17 +284,20 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
 
             var callback = function(toRole) {
                 var index = store.indexOf(rec);
-                if (toRole) {
-                    var item = store.findWhere({name: toRole});
-                    item && item.set('fields', item.get('fields') + rec.get('fields'));
-                    //     me.api.asc_moveFieldsToRole(rec.get('name'), toRole); // from - to
-                }
-                // me.api.asc_delRole(rec.get('name'));
-                store.remove(rec);
-                me.refreshRolesIndexes();
-                (store.length>0) && me.rolesList.selectByIndex(index<store.length ? index : store.length-1);
-                me.rolesList.scrollToRecord(me.rolesList.getSelectedRec());
-                me.updateButtons();
+                this.lastSelectedRole = index;
+                me.api.asc_delRole(rec.get('name'), toRole); // remove role and move it's fields
+
+                // if (toRole) {
+                //     var item = store.findWhere({name: toRole});
+                //     item && item.set('fields', item.get('fields') + rec.get('fields'));
+                //     //     me.api.asc_moveFieldsToRole(rec.get('name'), toRole); // from - to
+                // }
+                // me.api.asc_delRole(rec.get('name'), toRole); // remove role and move it's fields
+                // store.remove(rec);
+                // me.refreshRolesIndexes();
+                // (store.length>0) && me.rolesList.selectByIndex(index<store.length ? index : store.length-1);
+                // me.rolesList.scrollToRecord(me.rolesList.getSelectedRec());
+                // me.updateButtons();
             };
 
             if (rec.get('fields')<1) {
@@ -314,15 +333,15 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
         },
 
         getSettings: function() {
-            var arr = [];
-            this.rolesList.store.each(function(item, index) {
-                arr.push({
-                    name: item.get('name'),
-                    color: item.get('color'),
-                    fields: item.get('fields')
-                });
-            });
-            return arr;
+            // var arr = [];
+            // this.rolesList.store.each(function(item, index) {
+            //     arr.push({
+            //         name: item.get('name'),
+            //         color: item.get('color'),
+            //         fields: item.get('fields')
+            //     });
+            // });
+            // return arr;
         },
 
         onPrimary: function() {
@@ -383,7 +402,7 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
         },
 
         close: function () {
-            this.api.asc_unregisterCallback('asc_onRefreshRolesList', this.wrapEvents.onRefreshRolesList);
+            this.api.asc_unregisterCallback('asc_onUpdateOFormRoles', this.wrapEvents.onRefreshRolesList);
 
             Common.UI.Window.prototype.close.call(this);
         },
@@ -408,7 +427,8 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
         warnCantDelete: 'You cannot delete this role because it has associated fields.',
         textUp: 'Move role up',
         textDown: 'Move role down',
-        textDescription: 'Add roles and set the order in which the fillers receive and sign the document'
+        textDescription: 'Add roles and set the order in which the fillers receive and sign the document',
+        textAnyone: 'Anyone'
 
     }, DE.Views.RolesManagerDlg || {}));
 });

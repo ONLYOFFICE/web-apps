@@ -117,6 +117,10 @@ define([
                     me.fireEvent('forms:mode', [true, item.caption]);
                 }
             }, me));
+            this.btnViewFormRoles.menu.on('show:after',  function (menu) {
+                me.fillRolesMenu();
+            });
+
             this.btnManager && this.btnManager.on('click', function (b, e) {
                 me.fireEvent('forms:manager');
             });
@@ -155,6 +159,7 @@ define([
                 this.appConfig = options.config;
 
                 this.paragraphControls = [];
+                this._state = {};
 
                 var me = this;
                 var _set = Common.enumLock;
@@ -457,17 +462,30 @@ define([
             },
 
             fillRolesMenu: function(roles, lastRole) {
+                if (!(this.btnViewFormRoles && this.btnViewFormRoles.menu && this.btnViewFormRoles.menu.isVisible())) {
+                    this._state.roles = roles;
+                    this._state.lastRole = lastRole;
+                    return;
+                }
+                roles = roles || this._state.roles;
+                lastRole = lastRole || this._state.lastRole;
+                this._state.roles = this._state.lastRole = undefined;
+
+                if (!roles) return;
+
                 var checkedIndex = 0,
                     me = this;
 
                 this.btnViewFormRoles.menu.removeAll();
 
                 roles && roles.forEach(function(item, index) {
-                    if (item.name===lastRole)
+                    var role = item.asc_getSettings(),
+                        color = role.asc_getColor();
+                    if (role.asc_getName()===lastRole)
                         checkedIndex = index;
                     me.btnViewFormRoles.menu.addItem(new Common.UI.MenuItem({
-                        caption: item.name,
-                        color: item.color ? '#' + Common.Utils.ThemeColor.getHexColor(item.color.get_r(), item.color.get_g(), item.color.get_b()) : 'transparent',
+                        caption: role.asc_getName() || me.textAnyone,
+                        color: color ? '#' + Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()) : 'transparent',
                         checkable: true,
                         toggleGroup: 'formtab-view-role',
                         template: _.template([
@@ -550,7 +568,8 @@ define([
             capBtnComplex: 'Complex Field',
             tipEmailField: 'Insert email address',
             tipPhoneField: 'Insert phone number',
-            tipComplexField: 'Insert complex field'
+            tipComplexField: 'Insert complex field',
+            textAnyone: 'Anyone'
         }
     }()), DE.Views.FormsTab || {}));
 });

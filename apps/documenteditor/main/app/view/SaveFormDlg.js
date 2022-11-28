@@ -129,11 +129,12 @@ define([  'common/main/lib/view/AdvancedSettingsWindow',
             if (roles) {
                 this.roles = roles;
                 var arr = [];
+                var me = this;
                 for (var i=0; i<this.roles.length; i++) {
-                    var role = this.roles[i];
+                    var role = roles[i].asc_getSettings();
                     (role.fields>0) && arr.push({
-                        name: role.name,//role.asc_getName(),
-                        color: role.color,//role.asc_getColor(),
+                        name: role.asc_getName() || me.textAnyone,
+                        color: role.asc_getColor(),
                         fields: role.fields,//role.asc_getFields(),
                         index: i,
                         scope: this
@@ -153,7 +154,8 @@ define([  'common/main/lib/view/AdvancedSettingsWindow',
         saveButtonText : 'Save',
         textEmpty: 'There are no roles associated with fields.',
         textDescription: 'When saving to the oform, only roles with fields are added to the filling list',
-        textFill: 'Filling list'
+        textFill: 'Filling list',
+        textAnyone: 'Anyone'
 
     }, DE.Views.SaveFormDlg || {}));
 });

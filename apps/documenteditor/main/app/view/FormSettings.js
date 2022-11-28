@@ -611,7 +611,7 @@ define([
             this.api = api;
             if (this.api) {
                 // this.api.asc_registerCallback('asc_onParaSpacingLine', _.bind(this._onLineSpacing, this));
-                this.api.asc_registerCallback('asc_onRefreshRolesList', _.bind(this.onRefreshRolesList, this));
+                this.api.asc_registerCallback('asc_onUpdateOFormRoles', _.bind(this.onRefreshRolesList, this));
             }
             Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this));
             return this;
@@ -1585,23 +1585,28 @@ define([
             }
 
             if (!roles) {
+                roles = this.api.asc_GetOForm().asc_getAllRoles();
+
                 // change to event asc_onRefreshRolesList
-                roles = [
-                    {name: 'employee 1', color: Common.Utils.ThemeColor.getRgbColor('ff0000'), fields: 5},
-                    {name: 'employee 2', color: Common.Utils.ThemeColor.getRgbColor('00ff00'), fields: 1},
-                    {name: 'manager', color: null, fields: 10}
-                ];
+                // roles = [
+                //     {name: 'employee 1', color: Common.Utils.ThemeColor.getRgbColor('ff0000'), fields: 5},
+                //     {name: 'employee 2', color: Common.Utils.ThemeColor.getRgbColor('00ff00'), fields: 1},
+                //     {name: 'manager', color: null, fields: 10}
+                // ];
             }
 
             var lastrole = this.cmbRoles.getSelectedRecord();
-            lastrole = lastrole ? lastrole.get('value') : '';
+            lastrole = lastrole ? lastrole.value : '';
 
             var arr = [];
+            var me = this;
             roles && roles.forEach(function(item) {
+                var role = item.asc_getSettings(),
+                    color = role.asc_getColor();
                 arr.push({
-                    displayValue: item.name,
-                    value: item.name,
-                    color: item.color ? '#' + Common.Utils.ThemeColor.getHexColor(item.color.get_r(), item.color.get_g(), item.color.get_b()) : 'transparent'
+                    displayValue: role.asc_getName() || me.textAnyone,
+                    value: role.asc_getName(),
+                    color: color ? '#' + Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()) : 'transparent'
                 });
             });
             this.cmbRoles.setData(arr);
@@ -1671,7 +1676,8 @@ define([
         textLetters: 'Letters',
         textDigits: 'Digits',
         textNone: 'None',
-        textComplex: 'Complex Field'
+        textComplex: 'Complex Field',
+        textAnyone: 'Anyone'
 
     }, DE.Views.FormSettings || {}));
 });

@@ -60,7 +60,6 @@ define([
         },
         onLaunch: function () {
             this._state = {};
-            this.roles = [];
         },
 
         setApi: function (api) {
@@ -75,7 +74,7 @@ define([
                 this.api.asc_registerCallback('asc_onEndAction', _.bind(this.onLongActionEnd, this));
                 this.api.asc_registerCallback('asc_onError', _.bind(this.onError, this));
                 this.api.asc_registerCallback('asc_onDownloadUrl', _.bind(this.onDownloadUrl, this));
-                this.api.asc_registerCallback('asc_onRefreshRolesList', _.bind(this.onRefreshRolesList, this));
+                this.api.asc_registerCallback('asc_onUpdateOFormRoles', _.bind(this.onRefreshRolesList, this));
 
                 // this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
                 // this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
@@ -395,11 +394,12 @@ define([
                 // }
                 config.isEdit && config.canFeatureContentControl && config.isFormCreator && me.showCreateFormTip(); // show tip only when create form in docxf
                 // change to event asc_onRefreshRolesList
-                me.onRefreshRolesList([
-                    {name: 'employee 1', color: Common.Utils.ThemeColor.getRgbColor('ff0000'), fields: 5},
-                    {name: 'employee 2', color: Common.Utils.ThemeColor.getRgbColor('00ff00'), fields: 1},
-                    {name: 'manager', color: null, fields: 10}
-                ]);
+                me.onRefreshRolesList();
+                // me.onRefreshRolesList([
+                //     {name: 'employee 1', color: Common.Utils.ThemeColor.getRgbColor('ff0000'), fields: 5},
+                //     {name: 'employee 2', color: Common.Utils.ThemeColor.getRgbColor('00ff00'), fields: 1},
+                //     {name: 'manager', color: null, fields: 10}
+                // ]);
                 me.onChangeProtectDocument();
             });
         },
@@ -451,36 +451,40 @@ define([
         },
 
         onRefreshRolesList: function(roles) {
-            this.roles = roles;
+            if (!roles) {
+                var oform = this.api.asc_GetOForm();
+                oform && (roles = oform.asc_getAllRoles());
+            }
             this.view && this.view.fillRolesMenu(roles, this._state.lastRole);
         },
 
         onManagerClick: function() {
             var me = this;
-            (new DE.Views.RolesManagerDlg({
+            this.api.asc_GetOForm() && (new DE.Views.RolesManagerDlg({
                 api: me.api,
                 handler: function(result, settings) {
-                    me.roles = settings;
-                    me.onRefreshRolesList(me.roles);
-                    Common.component.Analytics.trackEvent('ToolBar', 'Roles Manager');
+                    // me.roles = settings;
+                    // me.onRefreshRolesList(me.roles);
+                    // Common.component.Analytics.trackEvent('ToolBar', 'Roles Manager');
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 },
-                roles: me.roles,
+                // roles: me.roles,
                 props : undefined
             })).on('close', function(win){
             }).show();
         },
 
         showRolesList: function(callback) {
-            var me = this;
-            (new DE.Views.SaveFormDlg({
+            var me = this,
+                oform = this.api.asc_GetOForm();
+            oform && (new DE.Views.SaveFormDlg({
                 handler: function(result, settings) {
                     if (result=='ok')
                         callback.call(me);
                     else
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 },
-                roles: me.roles
+                roles: oform.asc_getAllRoles()
             })).show();
         },
 
