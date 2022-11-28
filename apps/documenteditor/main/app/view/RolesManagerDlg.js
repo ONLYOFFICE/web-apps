@@ -224,9 +224,8 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
                 handler : function(result, settings) {
                     if (result == 'ok' && settings) {
                         var color = settings.color,
-                            name = settings.name,
-                            store = me.rolesList.store;
-                        this.lastSelectedRole = name;
+                            name = settings.name;
+                        me.lastSelectedRole = name;
                         if (isEdit) {
                             // me.api.asc_editRole(settings);
                             rec.set('name', name);
@@ -236,19 +235,6 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
                             role.asc_putName(name);
                             role.asc_putColor(color);
                             me.oformManager.asc_addRole(role);
-                            // rec = store.push({
-                            //     name: name,
-                            //     color: color,
-                            //     fields: 0,
-                            //     index: store.length,
-                            //     scope: me
-                            // });
-                            // if (rec) {
-                            //     me.rolesList.selectRecord(rec);
-                            //     setTimeout(function() {
-                            //         me.rolesList.scrollToRecord(rec);
-                            //     }, 50);
-                            // }
                         }
                         me.updateButtons();
                     }
@@ -279,7 +265,7 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
 
             var callback = function(toRole) {
                 var index = store.indexOf(rec);
-                this.lastSelectedRole = index;
+                me.lastSelectedRole = index;
                 me.api.asc_delRole(rec.get('name'), toRole); // remove role and move it's fields
 
                 // if (toRole) {
