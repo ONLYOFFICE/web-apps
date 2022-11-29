@@ -178,7 +178,7 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
                     arr.push({
                         name: role.asc_getName() || this.textAnyone,
                         color: role.asc_getColor(),
-                        fields: role.fields || 0,//role.asc_getFields(),
+                        fields: role.asc_getFieldCount() || 0,
                         index: i,
                         scope: this
                     });
