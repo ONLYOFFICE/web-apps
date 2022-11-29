@@ -299,7 +299,7 @@ define([
                 var itemMargins = parseFloat(itemEl.css('margin-left')) + parseFloat(itemEl.css('margin-right'));
 
                 var fieldPickerEl = this.fieldPicker.$el;
-                var fieldPickerPadding = parseFloat(fieldPickerEl.css('padding-right'));
+                var fieldPickerPadding = parseFloat(fieldPickerEl.css(Common.UI.isRTL() ? 'padding-left' : 'padding-right'));
                 var fieldPickerBorder = parseFloat(fieldPickerEl.css('border-width'));
                 var dataviewPaddings = parseFloat(this.fieldPicker.$el.find('.dataview').css('padding-left')) + parseFloat(this.fieldPicker.$el.find('.dataview').css('padding-right'));
 

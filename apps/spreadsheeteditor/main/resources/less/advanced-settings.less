@@ -74,6 +74,11 @@
 .sort-dialog-btn-text {
     min-width: 100px;
     margin-right: 5px;
+
+    .rtl & {
+        margin-right: 0;
+        margin-left: 5px;
+    }
 }
 
 .input-row--tabs {
@@ -569,5 +574,38 @@
 
     .checkbox-indeterminate {
         position:absolute;
+    }
+}
+
+#window-page-margins {
+    .padding-right {
+        padding-right: 10px;
+
+        .rtl & {
+            padding-right: 0;
+            padding-left: 10px;
+        }
+    }
+}
+
+#window-scale {
+    .padding-left {
+        padding-left: 22px;
+
+        .rtl & {
+            padding-left: 0;
+            padding-right: 22px;
+        }
+    }
+}
+
+#window-name-manager {
+    #name-manager-btn-new {
+        margin-right: 5px;
+
+        .rtl & {
+            margin-right: 0;
+            margin-left: 5px;
+        }
     }
 }
