@@ -1036,10 +1036,11 @@ define([
                         }
                         me.mnuGuides.menu.items[6].setChecked(me.api.asc_getShowSmartGuides(), true);
 
-                        me.mnuGuides.menu.items[2].setDisabled(me._state.viewPropsLock);
-                        me.mnuGuides.menu.items[3].setDisabled(me._state.viewPropsLock);
-                        me.mnuGuides.menu.items[4].setDisabled(me._state.viewPropsLock);
-                        me.mnuGuides.menu.items[7].setDisabled(me._state.viewPropsLock || !me.api.asc_canClearGuides());
+                        var viewPropsLock = !!Common.Utils.InternalSettings.get("pe-lock-view-props");
+                        me.mnuGuides.menu.items[2].setDisabled(viewPropsLock);
+                        me.mnuGuides.menu.items[3].setDisabled(viewPropsLock);
+                        me.mnuGuides.menu.items[4].setDisabled(viewPropsLock);
+                        me.mnuGuides.menu.items[7].setDisabled(viewPropsLock || !me.api.asc_canClearGuides());
 
                         me.mnuGridlines.menu.items[0].setChecked(me.api.asc_getShowGridlines(), true);
                         me.mnuGridlines.menu.items[1].setChecked(me.api.asc_getSnapToGrid(), true);
@@ -1072,10 +1073,10 @@ define([
                                 item.setChecked(true);
                             else
                                 item.setChecked(false);
-                            item.setDisabled(me._state.viewPropsLock);
+                            item.setDisabled(viewPropsLock);
                         }
-                        me.mnuGridlines.menu.items[1].setDisabled(me._state.viewPropsLock);
-                        me.mnuGridlines.menu.items[items.length-1].setDisabled(me._state.viewPropsLock);
+                        me.mnuGridlines.menu.items[1].setDisabled(viewPropsLock);
+                        me.mnuGridlines.menu.items[items.length-1].setDisabled(viewPropsLock);
                         me.mnuRulers.setChecked(!Common.Utils.InternalSettings.get("pe-hidden-rulers"));
                     }
 
