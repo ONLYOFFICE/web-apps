@@ -79,9 +79,11 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
 
         if(offset > navbarHeight) {
             f7.navbar.hide('.main-navbar');
+            props.closeOptions('fab');
             api.SetMobileTopOffset(undefined, 0);
-        } else {
+        } else if(offset < -navbarHeight) {
             f7.navbar.show('.main-navbar');
+            props.openOptions('fab');
             api.SetMobileTopOffset(undefined, navbarHeight);
         }
     }

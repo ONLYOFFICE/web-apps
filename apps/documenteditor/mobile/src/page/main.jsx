@@ -29,7 +29,8 @@ class MainPage extends Component {
             navigationVisible: false,
             addLinkSettingsVisible: false,
             editLinkSettingsVisible: false,
-            snackbarVisible: false
+            snackbarVisible: false,
+            fabVisible: true
         };
     }
 
@@ -64,6 +65,9 @@ class MainPage extends Component {
             } else if( opts === 'snackbar') {
                 this.state.snackbarVisible && (opened = true);
                 newState.snackbarVisible = true;
+            } else if( opts === 'fab') {
+                this.state.fabVisible && (opened = true);
+                newState.fabVisible = true;
             }
 
             for (let key in this.state) {
@@ -103,6 +107,8 @@ class MainPage extends Component {
                     return {editLinkSettingsVisible: false};
                 else if( opts == 'snackbar')
                     return {snackbarVisible: false}
+                else if( opts == 'fab')
+                    return {fabVisible: false}
             });
             if ((opts === 'edit' || opts === 'coauth') && Device.phone) {
                 f7.navbar.show('.main-navbar');
@@ -135,6 +141,7 @@ class MainPage extends Component {
         const isMobileView = appOptions.isMobileView;
         const disabledControls = storeToolbarSettings.disabledControls;
         const disabledSettings = storeToolbarSettings.disabledSettings;
+        const isFabShow = isViewer && !disabledSettings && !disabledControls && !isDisconnected && isAvailableExt && isEdit;
         const config = appOptions.config;
 
         let showLogo = !(appOptions.canBrandingExt && (config.customization && (config.customization.loaderName || config.customization.loaderLogo)));
@@ -240,10 +247,18 @@ class MainPage extends Component {
                             text={isMobileView ? t("Toolbar.textSwitchedMobileView") : t("Toolbar.textSwitchedStandardView")}/>
                     </CSSTransition>
                 }
-                {isViewer && !disabledSettings && !disabledControls && !isDisconnected && isAvailableExt && isEdit &&
-                    <Fab position="right-bottom" slot="fixed" onClick={() => this.turnOffViewerMode()}>
-                        <Icon icon="icon-edit-mode"/>
-                    </Fab>
+                {isFabShow &&
+                    <CSSTransition
+                        in={this.state.fabVisible}
+                        timeout={500}
+                        classNames="fab"
+                        mountOnEnter
+                        unmountOnExit
+                    >
+                        <Fab position="right-bottom" slot="fixed" onClick={() => this.turnOffViewerMode()}>
+                            <Icon icon="icon-edit-mode"/>
+                        </Fab>
+                    </CSSTransition>
 
                 }
                 {appOptions.isDocReady && <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)}/>}
