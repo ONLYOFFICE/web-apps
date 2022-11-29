@@ -375,6 +375,7 @@ define([
 
         onLockViewProps: function(lock) {
             this._state.lock_viewProps = lock;
+            Common.Utils.InternalSettings.set("pe-lock-view-props", lock);
             if (this.view) {
                 if (this.view.btnGridlines && (typeof this.view.btnGridlines.menu === 'object') && this.view.btnGridlines.menu.isVisible())
                     this.onGridlinesAfterShow();

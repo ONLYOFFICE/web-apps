@@ -2398,7 +2398,7 @@ define([
         },
 
         onLockViewProps: function(lock) {
-            this.documentHolder && (this.documentHolder._state.viewPropsLock = lock);
+            Common.Utils.InternalSettings.set("pe-lock-view-props", lock);
 
             var me = this,
                 currentMenu = me.documentHolder.currentMenu;
