@@ -1870,7 +1870,8 @@ define([
                 if (this.changeServerVersion) return true;
 
                 const cur_version = this.getApplication().getController('LeftMenu').leftMenu.getMenu('about').txtVersionNum;
-                if ( !window.compareVersions && cur_version !== buildVersion ) {
+                const cropped_version = cur_version.match(/^(\d+.\d+.\d+)/);
+                if (!window.compareVersions && cropped_version !== buildVersion) {
                     this.changeServerVersion = true;
                     Common.UI.warning({
                         title: this.titleServerVersion,
