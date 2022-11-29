@@ -2163,7 +2163,7 @@ define([
 
         onGuidesClick: function(menu, item) {
             if (item.value == 'del-guide' && item.options.guideId)
-                this.api.asc_deleteGuide(item.options.guideId);
+                this.documentHolder.fireEvent('guides:delete', [item.options.guideId]);
             else if (item.value === 'add-vert' || item.value === 'add-hor')
                 this.documentHolder.fireEvent('guides:add', [item.value]);
             else if (item.value === 'clear')

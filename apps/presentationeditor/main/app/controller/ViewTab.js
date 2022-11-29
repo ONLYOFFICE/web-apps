@@ -123,6 +123,7 @@ define([
                 'DocumentHolder': {
                     'guides:show': _.bind(this.onGuidesShow, this),
                     'guides:add': _.bind(this.onGuidesAdd, this),
+                    'guides:delete': _.bind(this.onGuidesDelete, this),
                     'guides:clear': _.bind(this.onGuidesClear, this),
                     'guides:smart': _.bind(this.onGuidesSmartShow, this),
                     'gridlines:show': _.bind(this.onGridlinesShow, this),
@@ -277,8 +278,17 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
+        onGuidesDelete: function(id) {
+            this.api.asc_deleteGuide(id);
+            this.api.asc_getShowGuides() && (this.api.asc_getGuidesCount()<1) && this.onGuidesShow(false);
+
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
         onGuidesClear: function() {
             this.api.asc_clearGuides();
+            this.api.asc_getShowGuides() && this.onGuidesShow(false);
+
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
