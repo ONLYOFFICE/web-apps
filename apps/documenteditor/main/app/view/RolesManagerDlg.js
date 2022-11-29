@@ -214,29 +214,24 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
 
             var me = this,
                 xy = me.$window.offset(),
-                rec = this.rolesList.getSelectedRec(),
-                props = (isEdit && rec) ? {name: rec.get('name'), color: rec.get('color')} : null;
+                rec = this.rolesList.getSelectedRec();
 
             var win = new DE.Views.RoleEditDlg({
                 oformManager: me.oformManager,
-                props   : props,
-                isEdit  : isEdit,
+                props   : (isEdit && rec) ? {name: rec.get('name'), color: rec.get('color')} : null,
+                isEdit  : (isEdit && rec),
                 handler : function(result, settings) {
                     if (result == 'ok' && settings) {
-                        var color = settings.color,
-                            name = settings.name;
-                        me.lastSelectedRole = name;
-                        if (isEdit) {
-                            // me.api.asc_editRole(settings);
-                            rec.set('name', name);
-                            rec.set('color', color);
+                        me.lastSelectedRole = settings.name;
+
+                        var role = new AscCommon.CRoleSettings();
+                        role.asc_putName(settings.name);
+                        role.asc_putColor(settings.color);
+                        if (isEdit && rec) {
+                            me.oformManager.asc_editRole(rec.get('name'), role);
                         } else {
-                            var role = new AscCommon.CRoleSettings();
-                            role.asc_putName(name);
-                            role.asc_putColor(color);
                             me.oformManager.asc_addRole(role);
                         }
-                        me.updateButtons();
                     }
                 }
             }).on('close', function() {
@@ -264,20 +259,8 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
             }
 
             var callback = function(toRole) {
-                var index = store.indexOf(rec);
-                me.lastSelectedRole = index;
-                me.api.asc_delRole(rec.get('name'), toRole); // remove role and move it's fields
-
-                // if (toRole) {
-                //     var item = store.findWhere({name: toRole});
-                //     item && item.set('fields', item.get('fields') + rec.get('fields'));
-                //     //     me.api.asc_moveFieldsToRole(rec.get('name'), toRole); // from - to
-                // }
-                // me.api.asc_delRole(rec.get('name'), toRole); // remove role and move it's fields
-                // store.remove(rec);
-                // (store.length>0) && me.rolesList.selectByIndex(index<store.length ? index : store.length-1);
-                // me.rolesList.scrollToRecord(me.rolesList.getSelectedRec());
-                // me.updateButtons();
+                me.lastSelectedRole = store.indexOf(rec);
+                me.oformManager.asc_removeRole(rec.get('name'), toRole); // remove role and move it's fields
             };
 
             if (rec.get('fields')<1) {
