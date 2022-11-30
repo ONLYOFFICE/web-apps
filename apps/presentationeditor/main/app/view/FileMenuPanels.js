@@ -1919,7 +1919,7 @@ define([
         notcriticalErrorTitle: 'Warning',
         txtEditWarning: 'Editing will remove the signatures from the presentation.<br>Are you sure you want to continue?',
         strEncrypt: 'With Password',
-        txtProtectPresentation: 'Protect this presentation with a password',
+        txtProtectPresentation: 'Encrypt this presentation with a password',
         txtEncrypted: 'A password is required to open this presentation',
         txtAddSignature: 'Ensure the integrity of the presentation by adding an<br>invisible digital signature',
         txtAddedSignature: 'Valid signatures have been added to the presentation.<br>The presentation is protected from editing.'

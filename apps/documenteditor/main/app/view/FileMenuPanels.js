@@ -2449,7 +2449,7 @@ define([
         notcriticalErrorTitle: 'Warning',
         txtEditWarning: 'Editing will remove the signatures from the document.<br>Are you sure you want to continue?',
         strEncrypt: 'With Password',
-        txtProtectDocument: 'Protect this document with a password',
+        txtProtectDocument: 'Encrypt this document with a password',
         txtEncrypted: 'A password is required to open this document',
         txtAddSignature: 'Ensure the integrity of the document by adding an<br>invisible digital signature',
         txtAddedSignature: 'Valid signatures have been added to the document.<br>The document is protected from editing.'

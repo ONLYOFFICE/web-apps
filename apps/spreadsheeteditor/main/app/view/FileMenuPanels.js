@@ -2316,7 +2316,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         notcriticalErrorTitle: 'Warning',
         txtEditWarning: 'Editing will remove the signatures from the workbook.<br>Are you sure you want to continue?',
         strEncrypt: 'With Password',
-        txtProtectSpreadsheet: 'Protect this spreadsheet with a password',
+        txtProtectSpreadsheet: 'Encrypt this spreadsheet with a password',
         txtEncrypted: 'A password is required to open this spreadsheet',
         txtAddSignature: 'Ensure the integrity of the spreadsheet by adding an<br>invisible digital signature',
         txtAddedSignature: 'Valid signatures have been added to the spreadsheet.<br>The spreadsheet is protected from editing.'

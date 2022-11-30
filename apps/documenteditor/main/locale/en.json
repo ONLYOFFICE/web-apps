@@ -1970,7 +1970,7 @@
   "DE.Views.FileMenuPanels.ProtectDoc.txtSigned": "Valid signatures have been added to the document. The document is protected from editing.",
   "DE.Views.FileMenuPanels.ProtectDoc.txtSignedInvalid": "Some of the digital signatures in the document are invalid or could not be verified. The document is protected from editing.",
   "DE.Views.FileMenuPanels.ProtectDoc.txtView": "View signatures",
-  "DE.Views.FileMenuPanels.ProtectDoc.txtProtectDocument": "Protect this document with a password",
+  "DE.Views.FileMenuPanels.ProtectDoc.txtProtectDocument": "Encrypt this document with a password",
   "DE.Views.FileMenuPanels.ProtectDoc.txtAddSignature": "Ensure the integrity of the document by adding an<br>invisible digital signature",
   "DE.Views.FileMenuPanels.ProtectDoc.txtAddedSignature": "Valid signatures have been added to the document.<br>The document is protected from editing.",
   "DE.Views.FileMenuPanels.Settings.okButtonText": "Apply",
