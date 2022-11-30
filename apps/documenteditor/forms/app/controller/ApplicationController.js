@@ -603,6 +603,9 @@ define([
                 me.view.btnPrev.setVisible(false);
                 me.view.btnNext.setVisible(false);
                 me.view.btnClear.setVisible(false);
+                me.view.btnUndo.setVisible(false);
+                me.view.btnRedo.setVisible(false);
+                me.view.btnRedo.$el.next().hide();
             } else {
                 me.view.btnPrev.on('click', function(){
                     me.api.asc_MoveToFillingForm(false);
@@ -625,6 +628,12 @@ define([
                             me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, me.isFromBtnDownload));
                         }
                     }
+                });
+                me.view.btnUndo.on('click', function(){
+                    me.api.Undo(false);
+                });
+                me.view.btnRedo.on('click', function(){
+                    me.api.Redo(false);
                 });
 
                 this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
@@ -1363,6 +1372,8 @@ define([
             if (this.appOptions.canFillForms) {
                 this.api.asc_registerCallback('asc_onShowContentControlsActions', _.bind(this.onShowContentControlsActions, this));
                 this.api.asc_registerCallback('asc_onHideContentControlsActions', _.bind(this.onHideContentControlsActions, this));
+                this.api.asc_registerCallback('asc_onCanUndo', _.bind(this.onApiCanRevert, this, 'undo'));
+                this.api.asc_registerCallback('asc_onCanRedo', _.bind(this.onApiCanRevert, this, 'redo'));
                 this.api.asc_SetHighlightRequiredFields(true);
                 Common.Gateway.on('insertimage',        _.bind(this.insertImage, this));
                 Common.NotificationCenter.on('storage:image-load', _.bind(this.openImageFromStorage, this)); // try to load image from storage
@@ -1800,9 +1811,10 @@ define([
                 this.textMenu.items[0].setDisabled(disabled || !this.api.asc_getCanUndo()); // undo
                 this.textMenu.items[1].setDisabled(disabled || !this.api.asc_getCanRedo()); // redo
 
-                this.textMenu.items[3].setDisabled(disabled || !cancopy); // cut
-                this.textMenu.items[4].setDisabled(!cancopy); // copy
-                this.textMenu.items[5].setDisabled(disabled) // paste;
+                this.textMenu.items[3].setDisabled(disabled); // clear
+                this.textMenu.items[5].setDisabled(disabled || !cancopy); // cut
+                this.textMenu.items[6].setDisabled(!cancopy); // copy
+                this.textMenu.items[7].setDisabled(disabled) // paste;
 
                 this.showPopupMenu(this.textMenu, {}, event);
             }
@@ -1832,6 +1844,9 @@ define([
                         }
                     }
                     break;
+                case 'clear':
+                    this.api && this.api.asc_ClearSpecialForm();
+                    break;
             }
         },
 
@@ -1839,6 +1854,8 @@ define([
             this._state.isDisconnected = true;
             this._isDisabled = true;
             this.view && this.view.btnClear && this.view.btnClear.setDisabled(true);
+            this.view && this.view.btnUndo && this.view.btnUndo.setDisabled(true);
+            this.view && this.view.btnRedo && this.view.btnRedo.setDisabled(true);
             if (!enableDownload) {
                 this.appOptions.canPrint = this.appOptions.canDownload = false;
                 this.view && this.view.btnDownload.setDisabled(true);
@@ -1850,6 +1867,12 @@ define([
                     this.view.btnOptions.menu.items[2].setDisabled(true); // download pdf
                 }
             }
+        },
+
+        onApiCanRevert: function(which, can) {
+            if (!this.view) return;
+
+            (which=='undo') ? this.view.btnUndo.setDisabled(!can) : this.view.btnRedo.setDisabled(!can);
         },
 
         errorDefaultMessage     : 'Error code: %1',
