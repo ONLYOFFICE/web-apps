@@ -221,9 +221,9 @@ define([
 
         const _onApplySettings = function (menu) {
             if ( !!titlebuttons.quickprint ) {
-                const var_name = window.SEE ? 'ssee-settings-quick-print-button' :
+                const var_name = window.SSE ? 'sse-settings-quick-print-button' :
                                     window.PE ? 'pe-settings-quick-print-button' : 'de-settings-quick-print-button';
-                const is_btn_visible = Common.localStorage.getBool('de-settings-quick-print-button', false);
+                const is_btn_visible = Common.localStorage.getBool(var_name, false);
 
                 if ( titlebuttons.quickprint.visible != is_btn_visible ) {
                     titlebuttons.quickprint.visible = is_btn_visible;
