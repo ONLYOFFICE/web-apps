@@ -702,7 +702,7 @@ define([
             this.btnMore.on('click', _.bind(this.onMoreClick, this));
             this.on('animate:after', _.bind(this.onAnimateAfter, this));
 
-            if (Common.localStorage.getBool("de-hide-multilevel-settings", true))
+            if (this.type == 2 && Common.localStorage.getBool("de-hide-multilevel-settings", true))
                 this.onMoreClick(this.btnMore);
 
             this.afterRender();
