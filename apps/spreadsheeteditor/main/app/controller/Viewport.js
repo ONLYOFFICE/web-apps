@@ -90,8 +90,7 @@ define([
                         if ( me.appConfig && me.appConfig.isEdit && !(config.customization && config.customization.compactHeader) && toolbar.btnCollabChanges )
                             toolbar.btnCollabChanges = me.header.btnSave;
 
-                        var value = Common.localStorage.getItem("sse-settings-quick-print-button");
-                        value = (value===null) ? 1 : parseInt(value);
+                        var value = Common.localStorage.getBool("sse-settings-quick-print-button", true);
                         Common.Utils.InternalSettings.set("sse-settings-quick-print-button", value);
                         if (me.header && me.header.btnPrintQuick)
                             me.header.btnPrintQuick[value ? 'show' : 'hide']();
@@ -294,7 +293,7 @@ define([
         },
 
         applySettings: function () {
-            var value = parseInt(Common.localStorage.getItem("sse-settings-quick-print-button"));
+            var value = Common.localStorage.getBool("sse-settings-quick-print-button", true);
             Common.Utils.InternalSettings.set("sse-settings-quick-print-button", value);
             if (this.header && this.header.btnPrintQuick)
                 this.header.btnPrintQuick[value ? 'show' : 'hide']();

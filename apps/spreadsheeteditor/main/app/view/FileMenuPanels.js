@@ -996,7 +996,7 @@ define([
             Common.Utils.InternalSettings.set("sse-macros-mode", this.cmbMacros.getValue());
 
             Common.localStorage.setItem("sse-settings-paste-button", this.chPaste.isChecked() ? 1 : 0);
-            Common.localStorage.setItem("sse-settings-quick-print-button", this.chQuickPrint.isChecked() ? 1 : 0);
+            Common.localStorage.setBool("sse-settings-quick-print-button", this.chQuickPrint.isChecked());
 
             Common.localStorage.save();
             if (this.menu) {
@@ -2736,7 +2736,8 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
 
         applySettings: function() {
             if (this.menu) {
-                this.menu.fireEvent('settings:apply', [this.menu]);
+                this.menu.hide();
+                // this.menu.fireEvent('settings:apply', [this.menu]);
             }
         },
 
