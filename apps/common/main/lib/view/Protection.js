@@ -239,8 +239,7 @@ define([
                 var me = this;
                 if ( type == 'signature' ) {
                     var button = new Common.UI.Button({
-                        cls: 'btn-text-default',
-                        style: 'width: 100%;',
+                        cls: 'btn-text-default auto',
                         caption: this.txtInvisibleSignature,
                         disabled: this._state.invisibleSignDisabled,
                         dataHint: '2',
@@ -256,8 +255,7 @@ define([
                     return button;
                 } else if ( type == 'add-password' ) {
                     var button = new Common.UI.Button({
-                        cls: 'btn-text-default',
-                        style: 'width: 100%;',
+                        cls: 'btn-text-default auto',
                         caption: this.txtAddPwd,
                         disabled: this._state.disabled || this._state.disabledPassword,
                         visible: !this._state.hasPassword,
@@ -274,8 +272,7 @@ define([
                     return button;
                 } else if ( type == 'del-password' ) {
                     var button = new Common.UI.Button({
-                        cls: 'btn-text-default',
-                        style: 'width: 100%;',
+                        cls: 'btn-text-default auto',
                         caption: this.txtDeletePwd,
                         disabled: this._state.disabled || this._state.disabledPassword,
                         visible: this._state.hasPassword,
@@ -292,8 +289,7 @@ define([
                     return button;
                 } else if ( type == 'change-password' ) {
                     var button = new Common.UI.Button({
-                        cls: 'btn-text-default',
-                        style: 'width: 100%;',
+                        cls: 'btn-text-default auto',
                         caption: this.txtChangePwd,
                         disabled: this._state.disabled || this._state.disabledPassword,
                         visible: this._state.hasPassword,
