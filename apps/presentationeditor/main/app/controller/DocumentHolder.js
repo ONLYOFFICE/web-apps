@@ -453,7 +453,7 @@ define([
                     showPoint[0] -= 3;
                     showPoint[1] -= 3;
                 } else {
-                    value && (value.guideId = event.get_Guide());
+                    value && (value.guide = {guideId: event.get_Guide()});
                 }
 
                 if (!menu.rendered) {
@@ -2163,7 +2163,7 @@ define([
 
         onGuidesClick: function(menu, item) {
             if (item.value == 'del-guide' && item.options.guideId)
-                this.api.asc_deleteGuide(item.options.guideId);
+                this.documentHolder.fireEvent('guides:delete', [item.options.guideId]);
             else if (item.value === 'add-vert' || item.value === 'add-hor')
                 this.documentHolder.fireEvent('guides:add', [item.value]);
             else if (item.value === 'clear')
@@ -2398,7 +2398,23 @@ define([
         },
 
         onLockViewProps: function(lock) {
-            this.documentHolder && (this.documentHolder._state.viewPropsLock = lock);
+            Common.Utils.InternalSettings.set("pe-lock-view-props", lock);
+
+            var me = this,
+                currentMenu = me.documentHolder.currentMenu;
+            if (currentMenu && currentMenu.isVisible() && me.documentHolder.slideMenu===currentMenu){
+                if (me.api.asc_getCurrentFocusObject() !== 0 ){ // not thumbnails
+                    if (!me._isDisabled && me.mode.isEdit) { // update slide menu items
+                        var obj = me.fillMenuProps(me.api.getSelectedElements());
+                        if (obj) {
+                            if (obj.menu_to_show===currentMenu) {
+                                currentMenu.options.initMenu(obj.menu_props);
+                                currentMenu.alignPosition();
+                            }
+                        }
+                    }
+                }
+            }
         },
 
         SetDisabled: function(state) {

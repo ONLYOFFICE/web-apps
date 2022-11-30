@@ -376,7 +376,8 @@
     "textWrappingStyle": "Stile di disposizione testo",
     "textChangeShape": "Change Shape",
     "textCustomStyle": "Custom Style",
-    "textDeleteImage": "Delete Image"
+    "textDeleteImage": "Delete Image",
+    "textArrange": "Arrange"
   },
   "Error": {
     "convertationTimeoutText": "È stato superato il tempo massimo della conversione.",

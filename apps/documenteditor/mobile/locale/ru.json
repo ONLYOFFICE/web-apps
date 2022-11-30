@@ -376,7 +376,8 @@
     "textType": "Тип",
     "textWe": "Ср",
     "textWrap": "Стиль обтекания",
-    "textWrappingStyle": "Стиль обтекания"
+    "textWrappingStyle": "Стиль обтекания",
+    "textArrange": "Arrange"
   },
   "Error": {
     "convertationTimeoutText": "Превышено время ожидания конвертации.",

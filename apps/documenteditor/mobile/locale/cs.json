@@ -376,7 +376,8 @@
     "textType": "Typ",
     "textWe": "st",
     "textWrap": "Obtékání",
-    "textWrappingStyle": "Obtékání textu"
+    "textWrappingStyle": "Obtékání textu",
+    "textArrange": "Arrange"
   },
   "Error": {
     "convertationTimeoutText": "Vypršel čas konverze.",

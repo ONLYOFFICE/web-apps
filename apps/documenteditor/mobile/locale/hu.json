@@ -376,7 +376,8 @@
     "textType": "Típus",
     "textWe": "Sze",
     "textWrap": "Tördel",
-    "textWrappingStyle": "Tördelés stílus"
+    "textWrappingStyle": "Tördelés stílus",
+    "textArrange": "Arrange"
   },
   "Error": {
     "convertationTimeoutText": "A átalakítás időkorlátja lejárt.",

@@ -64,7 +64,7 @@
     "textTableSize": "Ukuran Tabel",
     "textWithBlueLinks": "Dengan Tautan Warna Biru",
     "textWithPageNumbers": "Dengan Nomor Halaman",
-    "txtNotUrl": "Area ini harus dalam format URL “http://www.contoh.com”"
+    "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”"
   },
   "Common": {
     "Collaboration": {
@@ -306,7 +306,7 @@
     "textNextParagraphStyle": "Gaya paragraf selanjutnya",
     "textNone": "tidak ada",
     "textNoStyles": "Tanpa style untuk tipe grafik ini.",
-    "textNotUrl": "Area ini harus dalam format URL “http://www.contoh.com”",
+    "textNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”",
     "textNovember": "November",
     "textNumbers": "Nomor",
     "textOctober": "Oktober",
@@ -376,7 +376,8 @@
     "textType": "Ketik",
     "textWe": "Rab",
     "textWrap": "Wrap",
-    "textWrappingStyle": "Gaya Pembungkusan"
+    "textWrappingStyle": "Gaya Pembungkusan",
+    "textArrange": "Arrange"
   },
   "Error": {
     "convertationTimeoutText": "Waktu konversi habis.",
@@ -410,7 +411,7 @@
     "errorSessionIdle": "Dokumen sudah lama tidak diedit. Silakan muat ulang halaman.",
     "errorSessionToken": "Koneksi ke server terganggu. Silakan muat ulang halaman.",
     "errorStockChart": "Urutan baris salah. Untuk membuat diagram garis, masukkan data pada lembar kerja dengan urutan berikut ini:<br>harga pembukaan, harga maksimal, harga minimal, harga penutupan.",
-    "errorTextFormWrongFormat": "Nilai yang dimasukkan tidak cocok dengan format bidang.",
+    "errorTextFormWrongFormat": "Nilai yang dimasukkan tidak cocok dengan format ruas.",
     "errorToken": "Token keamanan dokumen tidak dibentuk dengan benar.<br>Silakan hubungi admin Server Dokumen Anda.",
     "errorTokenExpire": "Token keamanan dokumen sudah kedaluwarsa.<br>Silakan hubungi admin Server Dokumen Anda.",
     "errorUpdateVersionOnDisconnect": "Koneksi internet sudah kembali dan versi file sudah diganti.<br>Sebelum Anda bisa melanjutkan kerja, Anda perlu mengunduh file atau salin konten untuk memastikan tidak ada yang hilang, lalu muat ulang halaman ini.",
@@ -552,7 +553,7 @@
     "textRemember": "Ingat pilihan saya",
     "textReplaceSkipped": "Penggantian telah dilakukan. Ada {0} yang dilewatkan.",
     "textReplaceSuccess": "Pencarian telah dilakukan. Ada {0} yang diganti :",
-    "textRequestMacros": "Sebuah makro melakukan permintaan ke URL. Apakah Anda akan mengizinkan permintaan ini ke %1?",
+    "textRequestMacros": "Sebuah makro melakukan permintaan ke URL. Apakah Anda akan mengizinkan permintaan ke %1?",
     "textYes": "Ya",
     "titleLicenseExp": "Lisensi kadaluwarsa",
     "titleServerVersion": "Editor mengupdate",

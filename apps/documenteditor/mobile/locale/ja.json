@@ -376,7 +376,8 @@
     "textType": "タイプ",
     "textWe": "水",
     "textWrap": "折り返す",
-    "textWrappingStyle": "折り返しの種類"
+    "textWrappingStyle": "折り返しの種類",
+    "textArrange": "Arrange"
   },
   "Error": {
     "convertationTimeoutText": "変換のタイムアウトを超過しました。",
