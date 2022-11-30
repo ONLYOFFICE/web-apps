@@ -2289,7 +2289,7 @@ define([
 
                 const cur_version = this.getApplication().getController('LeftMenu').leftMenu.getMenu('about').txtVersionNum;
                 const cropped_version = cur_version.match(/^(\d+.\d+.\d+)/);
-                if (!window.compareVersions && cropped_version !== buildVersion) {
+                if (!window.compareVersions && (!cropped_version || cropped_version[1] !== buildVersion)) {
                     this.changeServerVersion = true;
                     Common.UI.warning({
                         title: this.titleServerVersion,
