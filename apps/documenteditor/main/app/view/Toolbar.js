@@ -1736,7 +1736,7 @@ define([
                         true, true, undefined, '1', 'bottom', 'small');
                 Array.prototype.push.apply(this.paragraphControls, this.btnsPageBreak);
                 Array.prototype.push.apply(this.lockControls, this.btnsPageBreak);
-                this.btnPrint.menu && this.btnPrint.$el.toggleClass('btn-slot','btn-split');
+                this.btnPrint.menu && this.btnPrint.$el.addClass('split');
                 return $host;
             },
 

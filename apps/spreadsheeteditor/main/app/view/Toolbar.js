@@ -2289,7 +2289,7 @@ define([
                                 [Common.enumLock.editCell, Common.enumLock.selRangeEdit, Common.enumLock.headerLock, Common.enumLock.lostConnect, Common.enumLock.coAuth], undefined, undefined, undefined, '1', 'bottom', 'small');
             Array.prototype.push.apply(this.lockControls, this.btnsEditHeader);
 
-            this.btnPrint.menu && this.btnPrint.$el.toggleClass('btn-slot','btn-split');
+            this.btnPrint.menu && this.btnPrint.$el.addClass('split');
             return $host;
         },
 

@@ -1297,7 +1297,7 @@ define([
                 Array.prototype.push.apply(this.slideOnlyControls, created);
                 Array.prototype.push.apply(this.lockControls, created);
 
-                this.btnPrint.menu && this.btnPrint.$el.toggleClass('btn-slot','btn-split');
+                this.btnPrint.menu && this.btnPrint.$el.addClass('split');
                 return $host;
             },
 
