@@ -720,7 +720,7 @@ define([
             Common.Utils.InternalSettings.set("pe-macros-mode", this.cmbMacros.getValue());
 
             Common.localStorage.setItem("pe-settings-paste-button", this.chPaste.isChecked() ? 1 : 0);
-            Common.localStorage.setItem("pe-settings-quick-print-button", this.chQuickPrint.isChecked() ? 1 : 0);
+            Common.localStorage.setBool("pe-settings-quick-print-button", this.chQuickPrint.isChecked());
 
             Common.localStorage.save();
 

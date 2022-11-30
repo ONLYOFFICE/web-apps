@@ -81,8 +81,7 @@ define([
                         toolbar.setExtra('right', me.header.getPanel('right', config));
                         if (!config.isEdit || config.customization && !!config.customization.compactHeader)
                             toolbar.setExtra('left', me.header.getPanel('left', config));
-                        var value = Common.localStorage.getItem("pe-settings-quick-print-button");
-                        value = (value===null) ? 1 : parseInt(value);
+                        var value = Common.localStorage.getBool("pe-settings-quick-print-button", true);
                         Common.Utils.InternalSettings.set("pe-settings-quick-print-button", value);
                         if (me.header && me.header.btnPrintQuick)
                             me.header.btnPrintQuick[value ? 'show' : 'hide']();
@@ -321,7 +320,7 @@ define([
         },
 
         applySettings: function () {
-            var value = parseInt(Common.localStorage.getItem("pe-settings-quick-print-button"));
+            var value = Common.localStorage.getBool("pe-settings-quick-print-button", true);
             Common.Utils.InternalSettings.set("pe-settings-quick-print-button", value);
             if (this.header && this.header.btnPrintQuick)
                 this.header.btnPrintQuick[value ? 'show' : 'hide']();

@@ -922,7 +922,7 @@ define([
             }
 
             Common.localStorage.setItem("de-settings-paste-button", this.chPaste.isChecked() ? 1 : 0);
-            Common.localStorage.setItem("de-settings-quick-print-button", this.chQuickPrint.isChecked() ? 1 : 0);
+            Common.localStorage.setBool("de-settings-quick-print-button", this.chQuickPrint.isChecked());
 
             Common.localStorage.save();
 
