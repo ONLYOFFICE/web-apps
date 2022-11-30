@@ -1083,7 +1083,7 @@ define([
                     next: e.options.iconClsForMainBtn,
                     curr: this.toolbar.btnPrint.menu.items.filter(function(item){return item.value == oldType;})[0].options.iconClsForMainBtn
                 });
-                this.toolbar.btnPrint.updateHint([e.caption + e.options.platformKey, this.views.Toolbar.prototype.tipInsertText]);
+                this.toolbar.btnPrint.updateHint([e.caption + e.options.platformKey]);
                 this.toolbar.btnPrint.options.printType = newType;
             }
             this.onPrint(e);
