@@ -196,6 +196,8 @@ define([
                         oPr.put_MaskFormat(options.mask);
                     if (options.placeholder)
                         props.put_PlaceholderText(options.placeholder);
+                    if (options.fixed!==undefined)
+                        oFormPr.put_Fixed && oFormPr.put_Fixed(options.fixed);
                 }
                 props.put_TextFormPr(oPr);
                 props.put_FormPr(oFormPr);

@@ -81,7 +81,22 @@ define([
         function setEvents() {
             var me = this;
             this.btnTextField && this.btnTextField.on('click', function (b, e) {
-                me.fireEvent('forms:insert', ['text']);
+                me.fireEvent('forms:insert', ['text', {fixed: b.options.fieldType==='fixed'}]);
+            });
+            this.btnTextField && this.btnTextField.menu.on('item:click', function (menu, item) {
+                var oldType = me.btnTextField.options.fieldType;
+                var newType = item.value;
+
+                if(newType !== oldType){
+                    me.btnTextField.changeIcon({
+                        next: item.options.iconClsForMainBtn,
+                        curr: me.btnTextField.menu.items.filter(function(mnu){return mnu.value === oldType})[0].options.iconClsForMainBtn
+                    });
+                    me.btnTextField.updateHint(item.options.hintForMainBtn);
+                    me.btnTextField.options.fieldType = newType;
+                    Common.localStorage.setBool("de-text-form-fixed", newType==='fixed')
+                }
+                me.fireEvent('forms:insert', ['text', {fixed: newType==='fixed'}]);
             });
             this.btnComboBox && this.btnComboBox.on('click', function (b, e) {
                 me.fireEvent('forms:insert', ['combobox']);
@@ -167,11 +182,15 @@ define([
                 if (this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) {
 
                 } else {
+                    var isfixed = Common.localStorage.getBool("de-text-form-fixed", true);
                     this.btnTextField = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-text-field',
+                        iconCls: 'toolbar__icon ' + (isfixed ? 'btn-text' : 'btn-text-field'),
                         lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
                         caption: this.capBtnText,
+                        fieldType: isfixed ? 'fixed' : 'inline',
+                        split: true,
+                        menu: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -407,8 +426,38 @@ define([
                         // } else {
                         //     me.btnHighlight.cmpEl.parents('.group').hide().prev('.separator').hide();
                         // }
+                        var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem">'+
+                            '<% if (!_.isEmpty(iconCls)) { %>'+
+                            '<span class="menu-item-icon <%= iconCls %>"></span>'+
+                            '<% } %>'+
+                            '<div><%= caption %></div>' +
+                            '<% if (options.description !== null) { %><label style="display: block;cursor: pointer;white-space: normal;"><%= options.description %></label>' +
+                            '<% } %></a>');
 
-                        me.btnTextField.updateHint(me.tipTextField);
+                        me.btnTextField.setMenu(new Common.UI.Menu({
+                            items: [
+                            {
+                                caption: me.txtInlineText,
+                                template: menuTemplate,
+                                description: me.txtInlineDesc,
+                                iconCls     : 'menu__icon page-landscape',
+                                value: 'inline',
+                                iconClsForMainBtn: 'btn-text-field',
+                                hintForMainBtn: [me.tipInlineText, me.tipTextField]
+                            },
+                            {
+                                caption: me.txtFixedText,
+                                template: menuTemplate,
+                                description: me.txtFixedDesc,
+                                iconCls     : 'menu__icon btn-text',
+                                value: 'fixed',
+                                iconClsForMainBtn: 'btn-text',
+                                hintForMainBtn: [me.tipFixedText, me.tipTextField]
+                            }
+                            ]
+                        }));
+                        me.btnTextField.updateHint([Common.localStorage.getBool("de-text-form-fixed", true) ? me.tipFixedText : me.tipInlineText, me.tipTextField]);
+
                         me.btnComboBox.updateHint(me.tipComboBox);
                         me.btnDropDown.updateHint(me.tipDropDown);
                         me.btnCheckBox.updateHint(me.tipCheckBox);
@@ -569,7 +618,13 @@ define([
             tipEmailField: 'Insert email address',
             tipPhoneField: 'Insert phone number',
             tipComplexField: 'Insert complex field',
-            textAnyone: 'Anyone'
+            textAnyone: 'Anyone',
+            txtInlineText: 'Inline',
+            txtInlineDesc: 'Insert inline text field',
+            txtFixedText: 'Fixed',
+            txtFixedDesc: 'Insert fixed text field',
+            tipInlineText: 'Insert inline text field',
+            tipFixedText: 'Insert fixed text field'
         }
     }()), DE.Views.FormsTab || {}));
 });
