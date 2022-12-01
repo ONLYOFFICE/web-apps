@@ -109,6 +109,7 @@ define([
             this.ConnectedSettings = el.find('.form-connected');
             this.FixedSettings = el.find('.form-fixed');
             this.NotInComplexSettings = el.find('.form-not-in-complex');
+            this.DateOnlySettings = el.find('.form-datetime');
         },
 
         createDelayedElements: function() {
@@ -126,7 +127,8 @@ define([
             this.cmbKey = new Common.UI.ComboBox({
                 el: $markup.findById('#form-combo-key'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 100%;',
+                menuCls: 'menu-absolute',
+                menuStyle: 'min-width: 195px; max-height: 190px;',
                 editable: true,
                 data: [],
                 dataHint: '1',
@@ -296,7 +298,8 @@ define([
             this.cmbGroupKey = new Common.UI.ComboBox({
                 el: $markup.findById('#form-combo-group-key'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 100%;',
+                menuCls: 'menu-absolute',
+                menuStyle: 'min-width: 195px; max-height: 190px;',
                 editable: true,
                 data: [],
                 dataHint: '1',
@@ -529,7 +532,8 @@ define([
             this.cmbRoles = new Common.UI.ComboBoxCustom({
                 el: $markup.findById('#form-combo-roles'),
                 cls: 'menu-roles',
-                menuStyle: 'min-width: 100%;',
+                menuCls: 'menu-absolute',
+                menuStyle: 'min-width: 195px; max-height: 190px;',
                 style: 'width: 100%;',
                 editable: false,
                 template    : _.template(template.join('')),
@@ -632,6 +636,53 @@ define([
             this.txtFormatSymbols.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
             this.txtFormatSymbols.cmpEl.on('focus', 'input.form-control', function() {
                 setTimeout(function(){me.txtFormatSymbols._input && me.txtFormatSymbols._input.select();}, 1);
+            });
+
+            // Date & Time
+
+            this.cmbDateFormat = new Common.UI.ComboBox({
+                el: $markup.findById('#form-cmb-date-format'),
+                cls: 'input-group-nr',
+                menuCls: 'menu-absolute',
+                menuStyle: 'min-width: 195px; max-height: 190px;',
+                editable: true,
+                data: [],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbDateFormat.setValue('');
+            this.lockedControls.push(this.cmbDateFormat);
+            this.cmbDateFormat.on('selected', this.onDateFormatChanged.bind(this));
+            this.cmbDateFormat.on('changed:after', this.onDateFormatChanged.bind(this));
+            this.cmbDateFormat.on('hide:after', this.onHideMenus.bind(this));
+            this.cmbDateFormat.cmpEl.on('focus', 'input.form-control', function() {
+                setTimeout(function(){me.cmbDateFormat._input && me.cmbDateFormat._input.select();}, 1);
+            });
+
+            var data = [{ value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0C07 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
+                { value: 0x040B }, { value: 0x040C }, { value: 0x100C }, { value: 0x0410 }, { value: 0x0810 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x040E }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
+                { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }];
+            data.forEach(function(item) {
+                var langinfo = Common.util.LanguageInfo.getLocalLanguageName(item.value);
+                item.displayValue = langinfo[1];
+                item.langName = langinfo[0];
+            });
+            this.cmbLang = new Common.UI.ComboBox({
+                el: $markup.findById('#form-cmb-date-lang'),
+                cls: 'input-group-nr',
+                menuCls: 'menu-absolute',
+                menuStyle: 'min-width: 195px; max-height: 190px;',
+                editable: false,
+                data: data,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.lockedControls.push(this.cmbLang);
+            this.cmbLang.setValue(0x0409);
+            this.cmbLang.on('selected',function(combo, record) {
+                me.updateDateFormats(record.value);
             });
 
             this.updateMetricUnit();
@@ -1419,6 +1470,22 @@ define([
                 } else
                     this._originalTextFormProps = null;
 
+                var datePr = props.get_DateTimePr();
+                if (datePr && type == Asc.c_oAscContentControlSpecificType.DateTime) {
+                    this.labelFormName.text(this.textDateField);
+                    this._originalDateProps = datePr;
+                    var lang = datePr.get_LangId() || this.options.controlLang;
+                    if (lang) {
+                        var item = this.cmbLang.store.findWhere({value: lang});
+                        item = item ? item.get('value') : 0x0409;
+                        this.cmbLang.setValue(item);
+                    }
+                    this.updateDateFormats(this.cmbLang.getValue());
+                    var format = datePr.get_DateFormat();
+                    this.cmbDateFormat.setValue(format);
+                    this._state.DateFormat=format;
+                }
+
                 var isComplex = !!props.get_ComplexFormPr(), // is complex form
                     isSimpleInsideComplex = !!this.api.asc_GetCurrentComplexForm() && !isComplex;
 
@@ -1536,7 +1603,8 @@ define([
                 checkboxOnly = false,
                 radioboxOnly = false,
                 listOnly = false,
-                imageOnly = false;
+                imageOnly = false,
+                dateOnly = false;
             if (type == Asc.c_oAscContentControlSpecificType.ComboBox || type == Asc.c_oAscContentControlSpecificType.DropDownList) {
                 listOnly = !!specProps;
             } else if (type == Asc.c_oAscContentControlSpecificType.CheckBox) {
@@ -1546,6 +1614,8 @@ define([
                 }
             } else if (type == Asc.c_oAscContentControlSpecificType.Picture) {
                 imageOnly = true;
+            }  else if (type == Asc.c_oAscContentControlSpecificType.DateTime) {
+                dateOnly = true;
             } else if (type == Asc.c_oAscContentControlSpecificType.None || type == Asc.c_oAscContentControlSpecificType.Complex) {
                 textOnly = !!textProps;
             }
@@ -1560,6 +1630,7 @@ define([
             this.CheckOnlySettings.toggleClass('hidden', !value);
             this.FixedSettings.toggleClass('hidden', imageOnly || isSimpleInsideComplex);
             this.NotInComplexSettings.toggleClass('hidden', isSimpleInsideComplex);
+            this.DateOnlySettings.toggleClass('hidden', !dateOnly);
         },
 
         onSelectItem: function(listView, itemView, record) {
@@ -1675,6 +1746,40 @@ define([
             }
         },
 
+        updateDateFormats: function(lang) {
+            if (this._originalDateProps) {
+                var props = this._originalDateProps,
+                    formats = props.get_FormatsExamples(),
+                    arr = [];
+                for (var i = 0, len = formats.length; i < len; i++)
+                {
+                    arr.push({
+                        value: formats[i],
+                        displayValue: props.get_String(formats[i], undefined, lang)
+                    });
+                }
+                this.cmbDateFormat.setData(arr);
+                this.cmbDateFormat.setValue(arr[0].value);
+                if (this.api && !this._noApply)
+                    this.onDateFormatChanged();
+            }
+        },
+
+        onDateFormatChanged: function(combo, record) {
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var formDatePr = this._originalDateProps || new AscCommon.CSdtDatePickerPr();
+                formDatePr.put_DateFormat(this.cmbDateFormat.getValue());
+                formDatePr.put_LangId(this.cmbLang.getValue());
+                props.put_DateTimePr(formDatePr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            } else {
+                this.cmbDateFormat.setValue(this._state.DateFormat ? this._state.DateFormat : '');
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
         textField: 'Text Field',
         textKey: 'Key',
         textPlaceholder: 'Placeholder',
@@ -1734,7 +1839,10 @@ define([
         textZipCodeUS: 'US Zip Code (e.g. 92663 or 92663-1234)',
         textUSSSN: 'US SSN (e.g. 123-45-6789)',
         textUKPassport: 'UK Passport Number (e.g. 925665416)',
-        textCreditCard: 'Credit Card Number (e.g 4111-1111-1111-1111)'
+        textCreditCard: 'Credit Card Number (e.g 4111-1111-1111-1111)',
+        textDateField: 'Date & Time Field',
+        textDateFormat: 'Display the date like this',
+        textLang: 'Language'
 
     }, DE.Views.FormSettings || {}));
 });
