@@ -62,6 +62,11 @@
             <div id="form-txt-mask"></div>
         </td>
     </tr>
+    <tr class="form-textfield-regexp">
+        <td class="padding-small">
+            <div id="form-txt-regexp"></div>
+        </td>
+    </tr>
     <tr class="form-textfield">
         <td class="padding-small">
             <label class="input-label"><%= scope.textFormatSymbols %></label>

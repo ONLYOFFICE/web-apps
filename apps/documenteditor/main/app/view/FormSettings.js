@@ -98,6 +98,7 @@ define([
             this.TextOnlySettings = el.find('.form-textfield');
             this.TextOnlySimpleSettings = el.find('.form-textfield-simple'); // text field not in complex form
             this.TextOnlySettingsMask = el.find('.form-textfield-mask');
+            this.TextOnlySettingsRegExp = el.find('.form-textfield-regexp');
             this.PlaceholderSettings = el.find('.form-placeholder');
             this.KeySettings = el.find('.form-keyfield');
             this.KeySettingsTd = this.KeySettings.find('td');
@@ -567,8 +568,8 @@ define([
             this.cmbFormat.setValue(Asc.TextFormFormatType.None);
             this.cmbFormat.on('selected', this.onFormatSelect.bind(this));
 
-            this.txtMask = new Common.UI.InputField({
-                el          : $markup.findById('#form-txt-mask'),
+            this.txtRegExp = new Common.UI.InputField({
+                el          : $markup.findById('#form-txt-regexp'),
                 allowBlank  : true,
                 validateOnChange: false,
                 validateOnBlur: false,
@@ -578,11 +579,40 @@ define([
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
-            this.lockedControls.push(this.txtMask);
-            this.txtMask.on('changed:after', this.onMaskChanged.bind(this));
-            this.txtMask.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
-            this.txtMask.cmpEl.on('focus', 'input.form-control', function() {
-                setTimeout(function(){me.txtMask._input && me.txtMask._input.select();}, 1);
+            this.lockedControls.push(this.txtRegExp);
+            this.txtRegExp.on('changed:after', this.onRegExpChanged.bind(this));
+            this.txtRegExp.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.txtRegExp.cmpEl.on('focus', 'input.form-control', function() {
+                setTimeout(function(){me.txtRegExp._input && me.txtRegExp._input.select();}, 1);
+            });
+
+            this.cmbMask = new Common.UI.ComboBoxCustom({
+                el: $markup.findById('#form-txt-mask'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 100%;',
+                editable: true,
+                data: [
+                    { displayValue: this.textPhone1,  value: '(999)999-9999' },
+                    { displayValue: this.textPhone2,  value: '+999999999999' },
+                    { displayValue: this.textZipCodeUS, value: '99999-9999' },
+                    { displayValue: this.textUSSSN, value: '999-99-9999' },
+                    { displayValue: this.textUKPassport,  value: '999999999' },
+                    { displayValue: this.textCreditCard,  value: '9999-9999-9999-9999' }],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big',
+                updateFormControl: function(record) {
+                    record && this.setRawValue(record.get('value'));
+                    // $('.selected', $(this.el)).removeClass('selected');
+                }
+            });
+            this.cmbMask.setValue('');
+            this.lockedControls.push(this.cmbMask);
+            this.cmbMask.on('selected', this.onMaskChanged.bind(this));
+            this.cmbMask.on('changed:after', this.onMaskChanged.bind(this));
+            this.cmbMask.on('hide:after', this.onHideMenus.bind(this));
+            this.cmbMask.cmpEl.on('focus', 'input.form-control', function() {
+                setTimeout(function(){me.cmbMask._input && me.cmbMask._input.select();}, 1);
             });
 
             this.txtFormatSymbols = new Common.UI.InputField({
@@ -998,12 +1028,12 @@ define([
                         formTextPr.put_LetterFormat();
                         break;
                     case Asc.TextFormFormatType.Mask:
-                        this.txtMask.setValue('*');
-                        formTextPr.put_MaskFormat(this.txtMask.getValue());
+                        this.cmbMask.setValue('*');
+                        formTextPr.put_MaskFormat(this.cmbMask.getValue());
                         break;
                     case Asc.TextFormFormatType.RegExp:
-                        this.txtMask.setValue('.');
-                        formTextPr.put_RegExpFormat(this.txtMask.getValue());
+                        this.txtRegExp.setValue('.');
+                        formTextPr.put_RegExpFormat(this.txtRegExp.getValue());
                         break;
                 }
                 props.put_TextFormPr(formTextPr);
@@ -1012,15 +1042,27 @@ define([
             }
         },
 
-        onMaskChanged: function(input, newValue, oldValue, e) {
+        onMaskChanged: function(combo, record) {
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
+                formTextPr.put_MaskFormat(record.value);
+                if (this._state.placeholder===this._state.Mask)
+                    props.put_PlaceholderText(record.value);
+                props.put_TextFormPr(formTextPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            } else {
+                this.cmbMask.setValue(this._state.Mask ? this._state.Mask : '');
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onRegExpChanged: function(input, newValue, oldValue, e) {
             if (this.api && !this._noApply && (newValue!==oldValue)) {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
                 var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
-                if (this.cmbFormat.getValue()===Asc.TextFormFormatType.Mask) {
-                    formTextPr.put_MaskFormat(newValue);
-                } else if (this.cmbFormat.getValue()===Asc.TextFormFormatType.RegExp) {
-                    formTextPr.put_RegExpFormat(newValue);
-                }
+                formTextPr.put_RegExpFormat(newValue);
                 props.put_TextFormPr(formTextPr);
                 this.api.asc_SetContentControlProperties(props, this.internalId);
                 if (!e.relatedTarget || (e.relatedTarget.localName != 'input' && e.relatedTarget.localName != 'textarea') || !/form-control/.test(e.relatedTarget.className))
@@ -1347,10 +1389,16 @@ define([
                         this._state.FormatType=val;
                     }
 
-                    if ( this._state.FormatType===Asc.TextFormFormatType.Mask || this._state.FormatType===Asc.TextFormFormatType.RegExp ) {
-                        val = (this._state.FormatType===Asc.TextFormFormatType.Mask) ? formTextPr.get_MaskFormat() : formTextPr.get_RegExpFormat();
-                        this.txtMask.setValue((val !== null && val !== undefined) ? val : '');
+                    if ( this._state.FormatType===Asc.TextFormFormatType.Mask ) {
+                        val = formTextPr.get_MaskFormat();
+                        this.cmbMask.setValue((val !== null && val !== undefined) ? val : '');
                         this._state.Mask=val;
+                    }
+
+                    if ( this._state.FormatType===Asc.TextFormFormatType.RegExp ) {
+                        val = formTextPr.get_RegExpFormat();
+                        this.txtRegExp.setValue((val !== null && val !== undefined) ? val : '');
+                        this._state.RegExp=val;
                     }
 
                     val = formTextPr.get_FormatSymbols();
@@ -1380,7 +1428,8 @@ define([
 
                 this.KeySettingsTd.toggleClass('padding-small', !connected);
                 this.ConnectedSettings.toggleClass('hidden', !connected);
-                this.TextOnlySettingsMask.toggleClass('hidden', !(type === Asc.c_oAscContentControlSpecificType.None && !!formTextPr) || !(this._state.FormatType===Asc.TextFormFormatType.Mask || this._state.FormatType===Asc.TextFormFormatType.RegExp));
+                this.TextOnlySettingsMask.toggleClass('hidden', !(type === Asc.c_oAscContentControlSpecificType.None && !!formTextPr) || this._state.FormatType!==Asc.TextFormFormatType.Mask);
+                this.TextOnlySettingsRegExp.toggleClass('hidden', !(type === Asc.c_oAscContentControlSpecificType.None && !!formTextPr) || this._state.FormatType!==Asc.TextFormFormatType.RegExp);
                 if (this.type !== type || this.isSimpleInsideComplex !== isSimpleInsideComplex || needUpdateTextControls || type == Asc.c_oAscContentControlSpecificType.CheckBox)
                     this.showHideControls(type, formTextPr, specProps, isSimpleInsideComplex);
                 this.type = type;
@@ -1678,7 +1727,13 @@ define([
         textDigits: 'Digits',
         textNone: 'None',
         textComplex: 'Complex Field',
-        textAnyone: 'Anyone'
+        textAnyone: 'Anyone',
+        textPhone1: 'Phone Number (e.g. (123) 456-7890)',
+        textPhone2: 'Phone Number (e.g. +447911123456)',
+        textZipCodeUS: 'US Zip Code (e.g. 92663 or 92663-1234)',
+        textUSSSN: 'US SSN (e.g. 123-45-6789)',
+        textUKPassport: 'UK Passport Number (e.g. 925665416)',
+        textCreditCard: 'Credit Card Number (e.g 4111-1111-1111-1111)'
 
     }, DE.Views.FormSettings || {}));
 });
