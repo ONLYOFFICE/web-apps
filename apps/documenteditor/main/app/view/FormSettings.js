@@ -589,7 +589,8 @@ define([
             this.cmbMask = new Common.UI.ComboBoxCustom({
                 el: $markup.findById('#form-txt-mask'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 100%;',
+                menuCls: 'menu-absolute',
+                menuStyle: 'min-width: 195px;',
                 editable: true,
                 data: [
                     { displayValue: this.textPhone1,  value: '(999)999-9999' },
