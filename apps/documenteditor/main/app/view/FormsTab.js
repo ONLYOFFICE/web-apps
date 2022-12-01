@@ -61,6 +61,8 @@ define([
             '<div class="group forms-buttons" style="display: none;">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-email"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-phone"></span>' +
+                '<span class="btn-slot text x-huge" id="slot-btn-form-zipcode"></span>' +
+                '<span class="btn-slot text x-huge" id="slot-btn-form-credit"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-complex"></span>' +
             '</div>' +
             '<div class="separator long forms-buttons" style="display: none;"></div>' +
@@ -121,6 +123,12 @@ define([
             });
             this.btnPhoneField && this.btnPhoneField.on('click', function (b, e) {
                 me.fireEvent('forms:insert', ['text', {mask: "(999)999-9999", placeholder: '(999)999-9999'}]);
+            });
+            this.btnCreditCard && this.btnCreditCard.on('click', function (b, e) {
+                me.fireEvent('forms:insert', ['text', {mask: "9999-9999-9999-9999", placeholder: '9999-9999-9999-9999'}]);
+            });
+            this.btnZipCode && this.btnZipCode.on('click', function (b, e) {
+                me.fireEvent('forms:insert', ['text', {mask: "99999-9999", placeholder: '99999-9999'}]);
             });
             this.btnViewFormRoles && this.btnViewFormRoles.on('click', function (b, e) {
                 var item = b.menu.getChecked();
@@ -284,6 +292,28 @@ define([
                         dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnPhoneField);
+
+                    this.btnZipCode = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-zip-code',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
+                        caption: this.capZipCode,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.paragraphControls.push(this.btnZipCode);
+
+                    this.btnCreditCard = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-zip-credit',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
+                        caption: this.capCreditCard,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.paragraphControls.push(this.btnCreditCard);
 
                     this.btnComplexField = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
@@ -468,6 +498,8 @@ define([
                         me.btnEmailField.updateHint(me.tipEmailField);
                         me.btnPhoneField.updateHint(me.tipPhoneField);
                         me.btnComplexField.updateHint(me.tipComplexField);
+                        me.btnZipCode.updateHint(me.tipZipCode);
+                        me.btnCreditCard.updateHint(me.tipCreditCard);
                     }
                     me.btnClear.updateHint(me.textClearFields);
                     me.btnPrevForm.updateHint(me.tipPrevForm);
@@ -500,6 +532,8 @@ define([
                     this.btnEmailField.render($host.find('#slot-btn-form-email'));
                     this.btnPhoneField.render($host.find('#slot-btn-form-phone'));
                     this.btnComplexField.render($host.find('#slot-btn-form-complex'));
+                    this.btnZipCode.render($host.find('#slot-btn-form-zipcode'));
+                    this.btnCreditCard.render($host.find('#slot-btn-form-credit'));
 
                     $host.find('.forms-buttons').show();
                 }
@@ -624,7 +658,11 @@ define([
             txtFixedText: 'Fixed',
             txtFixedDesc: 'Insert fixed text field',
             tipInlineText: 'Insert inline text field',
-            tipFixedText: 'Insert fixed text field'
+            tipFixedText: 'Insert fixed text field',
+            capZipCode: 'Zip Code',
+            capCreditCard: 'Credit Card',
+            tipZipCode: 'Insert zip code',
+            tipCreditCard: 'Insert credit card number'
         }
     }()), DE.Views.FormsTab || {}));
 });
