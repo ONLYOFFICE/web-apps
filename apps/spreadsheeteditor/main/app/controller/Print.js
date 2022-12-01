@@ -406,9 +406,16 @@ define([
                     this.adjPrintParams.asc_setPrintType(printtype);
                     this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
                     this.adjPrintParams.asc_setIgnorePrintArea(this.printSettingsDlg.getIgnorePrintArea());
-                    this.adjPrintParams.asc_setActiveSheetsArray(SSE.getController('Statusbar').getSelectTabs());
-                    this.adjPrintParams.asc_setStartPageIndex(this.printSettingsDlg.getPagesFrom() - 1);
-                    this.adjPrintParams.asc_setEndPageIndex(this.printSettingsDlg.getPagesTo() - 1);
+                    this.adjPrintParams.asc_setActiveSheetsArray(printtype === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
+                    var pageFrom = this.printSettingsDlg.getPagesFrom(),
+                        pageTo = this.printSettingsDlg.getPagesTo();
+                    if (pageFrom > pageTo) {
+                        var t = pageFrom;
+                        pageFrom = pageTo;
+                        pageTo = t;
+                    }
+                    this.adjPrintParams.asc_setStartPageIndex(pageFrom > 0 ? pageFrom - 1 : null);
+                    this.adjPrintParams.asc_setEndPageIndex(pageTo > 0 ? pageTo - 1 : null);
                     Common.localStorage.setItem("sse-print-settings-range", printtype);
 
                     if ( this.printSettingsDlg.type=='print' ) {
@@ -444,9 +451,16 @@ define([
                     this.adjPrintParams.asc_setPrintType(printType);
                     this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
                     this.adjPrintParams.asc_setIgnorePrintArea(this.printSettings.getIgnorePrintArea());
-                    this.adjPrintParams.asc_setActiveSheetsArray(SSE.getController('Statusbar').getSelectTabs());
-                    this.adjPrintParams.asc_setStartPageIndex(this.printSettings.getPagesFrom() - 1);
-                    this.adjPrintParams.asc_setEndPageIndex(this.printSettings.getPagesTo() - 1);
+                    this.adjPrintParams.asc_setActiveSheetsArray(printType === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
+                    var pageFrom = this.printSettings.getPagesFrom(),
+                        pageTo = this.printSettings.getPagesTo();
+                    if (pageFrom > pageTo) {
+                        var t = pageFrom;
+                        pageFrom = pageTo;
+                        pageTo = t;
+                    }
+                    this.adjPrintParams.asc_setStartPageIndex(pageFrom > 0 ? pageFrom - 1 : null);
+                    this.adjPrintParams.asc_setEndPageIndex(pageTo > 0 ? pageTo - 1 : null);
                     Common.localStorage.setItem("sse-print-settings-range", printType);
 
                     var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
@@ -748,7 +762,6 @@ define([
 
         updatePreview: function (needUpdate) {
             if (this._isPreviewVisible) {
-                console.log('update preview');
                 this.printSettings.$previewBox.removeClass('hidden');
 
                 var adjPrintParams = new Asc.asc_CAdjustPrint(),
@@ -756,9 +769,16 @@ define([
                 adjPrintParams.asc_setPrintType(printType);
                 adjPrintParams.asc_setPageOptionsMap(this._changedProps);
                 adjPrintParams.asc_setIgnorePrintArea(this.printSettings.getIgnorePrintArea());
-                adjPrintParams.asc_setActiveSheetsArray(SSE.getController('Statusbar').getSelectTabs());
-                adjPrintParams.asc_setStartPageIndex(this.printSettings.getPagesFrom() - 1);
-                adjPrintParams.asc_setEndPageIndex(this.printSettings.getPagesTo() - 1);
+                adjPrintParams.asc_setActiveSheetsArray(printType === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
+                var pageFrom = this.printSettings.getPagesFrom(),
+                    pageTo = this.printSettings.getPagesTo();
+                if (pageFrom > pageTo) {
+                    var t = pageFrom;
+                    pageFrom = pageTo;
+                    pageTo = t;
+                }
+                adjPrintParams.asc_setStartPageIndex(pageFrom > 0 ? pageFrom - 1 : null);
+                adjPrintParams.asc_setEndPageIndex(pageTo > 0 ? pageTo - 1 : null);
 
                 var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
                 opts.asc_setAdvancedOptions(adjPrintParams);
