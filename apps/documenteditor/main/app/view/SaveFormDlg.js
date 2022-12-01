@@ -131,11 +131,12 @@ define([  'common/main/lib/view/AdvancedSettingsWindow',
                 var arr = [];
                 var me = this;
                 for (var i=0; i<this.roles.length; i++) {
-                    var role = roles[i].asc_getSettings();
-                    (role.fields>0) && arr.push({
+                    var role = roles[i].asc_getSettings(),
+                        fields = role.asc_getFieldCount();
+                    (fields>0) && arr.push({
                         name: role.asc_getName() || me.textAnyone,
                         color: role.asc_getColor(),
-                        fields: role.fields,//role.asc_getFields(),
+                        fields: fields,
                         index: i,
                         scope: this
                     });

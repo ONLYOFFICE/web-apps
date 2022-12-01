@@ -83,7 +83,7 @@ define([
             this.cmbRole = new Common.UI.ComboBox({
                 el: $('#id-role-del-remove', $window),
                 style: 'width: 100%;',
-                menuStyle: 'min-width: 100%;',
+                menuStyle: 'min-width: 100%;max-height: 190px;',
                 cls: 'input-group-nr',
                 data: [],
                 editable: false,

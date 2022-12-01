@@ -129,7 +129,7 @@ define([
 
         afterRender: function() {
             this.setSettings(this.props);
-            this.setTitle((this.isEdit) ? this.txtTitleEdit : this.txtTitleNew);
+            this.setTitle((this.options.isEdit) ? this.txtTitleEdit : this.txtTitleNew);
         },
 
         show: function() {
