@@ -1845,7 +1845,12 @@ define([
                     }
                     break;
                 case 'clear':
-                    this.api && this.api.asc_ClearSpecialForm();
+                    if (this.api) {
+                        var props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null;
+                        if (props) {
+                            this.api.asc_ClearContentControl(props.get_InternalId());
+                        }
+                    }
                     break;
             }
         },
