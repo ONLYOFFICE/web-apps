@@ -1129,11 +1129,11 @@ define([
                         this._state.arrKey=data;
                     }
 
-                    // val = formPr.get_Role();
-                    // if (this._state.Role!==val) {
-                    //     this.cmbRole.setValue(val ? val : '');
-                    //     this._state.Role=val;
-                    // }
+                    val = formPr.get_Role();
+                    if (this._state.Role!==val) {
+                        this.cmbRoles.setValue(val ? val : '');
+                        this._state.Role=val;
+                    }
 
                     val = formPr.get_Key();
                     if (this._state.Key!==val) {
@@ -1615,12 +1615,12 @@ define([
 
         onRolesChanged: function(combo, record) {
             if (this.api && !this._noApply) {
-                // var props   = this._originalProps || new AscCommon.CContentControlPr();
-                // var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
-                // formPr.put_Role(record.value);
-                // props.put_FormPr(formPr);
-                // this.api.asc_SetContentControlProperties(props, this.internalId);
-                // this.fireEvent('editcomplete', this);
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
+                formPr.put_Role(record.value);
+                props.put_FormPr(formPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
             }
         },
 
