@@ -510,15 +510,15 @@ define([
                 return this.$el;
             },
 
-            fillRolesMenu: function(roles, lastRole) {
+            fillRolesMenu: function(roles, lastViewRole) {
                 if (!(this.btnViewFormRoles && this.btnViewFormRoles.menu && this.btnViewFormRoles.menu.isVisible())) {
                     this._state.roles = roles;
-                    this._state.lastRole = lastRole;
+                    this._state.lastViewRole = lastViewRole;
                     return;
                 }
                 roles = roles || this._state.roles;
-                lastRole = lastRole || this._state.lastRole;
-                this._state.roles = this._state.lastRole = undefined;
+                lastViewRole = lastViewRole || this._state.lastViewRole;
+                this._state.roles = this._state.lastViewRole = undefined;
 
                 if (!roles) return;
 
@@ -530,7 +530,7 @@ define([
                 roles && roles.forEach(function(item, index) {
                     var role = item.asc_getSettings(),
                         color = role.asc_getColor();
-                    if (role.asc_getName()===lastRole)
+                    if (role.asc_getName()===lastViewRole)
                         checkedIndex = index;
                     me.btnViewFormRoles.menu.addItem(new Common.UI.MenuItem({
                         caption: role.asc_getName() || me.textAnyone,

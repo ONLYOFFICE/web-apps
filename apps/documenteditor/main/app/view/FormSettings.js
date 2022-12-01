@@ -1620,6 +1620,7 @@ define([
                 formPr.put_Role(record.value);
                 props.put_FormPr(formPr);
                 this.api.asc_SetContentControlProperties(props, this.internalId);
+                Common.Utils.InternalSettings.set('de-last-form-role', record.value)
                 this.fireEvent('editcomplete', this);
             }
         },
