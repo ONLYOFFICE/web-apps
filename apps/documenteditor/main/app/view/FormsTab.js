@@ -470,7 +470,7 @@ define([
                                 caption: me.txtInlineText,
                                 template: menuTemplate,
                                 description: me.txtInlineDesc,
-                                iconCls     : 'menu__icon page-landscape',
+                                iconCls     : 'menu__icon btn-field',
                                 value: 'inline',
                                 iconClsForMainBtn: 'btn-text-field',
                                 hintForMainBtn: [me.tipInlineText, me.tipTextField]
