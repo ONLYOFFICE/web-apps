@@ -61,6 +61,7 @@ define([
             '<div class="group forms-buttons" style="display: none;">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-email"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-phone"></span>' +
+                '<span class="btn-slot text x-huge" id="slot-btn-form-datetime"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-zipcode"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-credit"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-complex"></span>' +
@@ -129,6 +130,9 @@ define([
             });
             this.btnZipCode && this.btnZipCode.on('click', function (b, e) {
                 me.fireEvent('forms:insert', ['text', {mask: "99999-9999", placeholder: '99999-9999'}]);
+            });
+            this.btnDateTime && this.btnDateTime.on('click', function (b, e) {
+                me.fireEvent('forms:insert', ['datetime']);
             });
             this.btnViewFormRoles && this.btnViewFormRoles.on('click', function (b, e) {
                 var item = b.menu.getChecked();
@@ -315,6 +319,17 @@ define([
                     });
                     this.paragraphControls.push(this.btnCreditCard);
 
+                    this.btnDateTime = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-datetime',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
+                        caption: this.capDateTime,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.paragraphControls.push(this.btnDateTime);
+
                     this.btnComplexField = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon complex-field',
@@ -500,6 +515,7 @@ define([
                         me.btnComplexField.updateHint(me.tipComplexField);
                         me.btnZipCode.updateHint(me.tipZipCode);
                         me.btnCreditCard.updateHint(me.tipCreditCard);
+                        me.btnDateTime.updateHint(me.tipDateTime);
                     }
                     me.btnClear.updateHint(me.textClearFields);
                     me.btnPrevForm.updateHint(me.tipPrevForm);
@@ -534,6 +550,7 @@ define([
                     this.btnComplexField.render($host.find('#slot-btn-form-complex'));
                     this.btnZipCode.render($host.find('#slot-btn-form-zipcode'));
                     this.btnCreditCard.render($host.find('#slot-btn-form-credit'));
+                    this.btnDateTime.render($host.find('#slot-btn-form-datetime'));
 
                     $host.find('.forms-buttons').show();
                 }
@@ -662,7 +679,9 @@ define([
             capZipCode: 'Zip Code',
             capCreditCard: 'Credit Card',
             tipZipCode: 'Insert zip code',
-            tipCreditCard: 'Insert credit card number'
+            tipCreditCard: 'Insert credit card number',
+            capDateTime: 'Date & Time',
+            tipDateTime: 'Insert date and time'
         }
     }()), DE.Views.FormsTab || {}));
 });

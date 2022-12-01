@@ -153,7 +153,7 @@ define([
             var content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
             var arr = [ this.view.btnTextField, this.view.btnComboBox, this.view.btnDropDown, this.view.btnCheckBox,
                         this.view.btnRadioBox, this.view.btnImageField, this.view.btnEmailField, this.view.btnPhoneField, this.view.btnComplexField,
-                        this.view.btnCreditCard, this.view.btnZipCode];
+                        this.view.btnCreditCard, this.view.btnZipCode, this.view.btnDateTime];
             Common.Utils.lockControls(Common.enumLock.paragraphLock, paragraph_locked,   {array: arr});
             Common.Utils.lockControls(Common.enumLock.headerLock,    header_locked,      {array: arr});
             Common.Utils.lockControls(Common.enumLock.controlPlain,  control_plain,      {array: arr});
@@ -191,6 +191,8 @@ define([
                 this.api.asc_AddContentControlCheckBox(oPr, oFormPr);
             } else if (type == 'combobox' || type == 'dropdown')
                 this.api.asc_AddContentControlList(type == 'combobox', oPr, oFormPr);
+            else if (type == 'datetime')
+                this.api.asc_AddContentControlDatePicker(); // !!!! change for datetime form
             else if (type == 'text') {
                 var props = new AscCommon.CContentControlPr();
                 oPr = new AscCommon.CSdtTextFormPr();

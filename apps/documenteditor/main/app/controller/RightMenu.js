@@ -220,7 +220,8 @@ define([
             if (control_props && control_props.get_FormPr() && this.rightmenu.formSettings) {
                 var spectype = control_props.get_SpecificType();
                 if (spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture || spectype==Asc.c_oAscContentControlSpecificType.Complex ||
-                    spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.None) {
+                    spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.None ||
+                    spectype==Asc.c_oAscContentControlSpecificType.DateTime) {
                     settingsType = Common.Utils.documentSettingsType.Form;
                     this._settings[settingsType].props = control_props;
                     this._settings[settingsType].locked = control_lock || isProtected;
