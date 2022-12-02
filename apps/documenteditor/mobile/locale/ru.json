@@ -222,6 +222,7 @@
     "textAllowOverlap": "Разрешить перекрытие",
     "textAmountOfLevels": "Количество уровней",
     "textApril": "Апрель",
+    "textArrange": "Порядок",
     "textAugust": "Август",
     "textAuto": "Авто",
     "textAutomatic": "Автоматический",
@@ -331,7 +332,6 @@
     "textRemoveShape": "Удалить фигуру",
     "textRemoveTable": "Удалить таблицу",
     "textRemoveTableContent": "Удалить оглавление",
-    "textReorder": "Порядок",
     "textRepeatAsHeaderRow": "Повторять как заголовок",
     "textReplace": "Заменить",
     "textReplaceImage": "Заменить рисунок",
@@ -376,8 +376,7 @@
     "textType": "Тип",
     "textWe": "Ср",
     "textWrap": "Стиль обтекания",
-    "textWrappingStyle": "Стиль обтекания",
-    "textArrange": "Arrange"
+    "textWrappingStyle": "Стиль обтекания"
   },
   "Error": {
     "convertationTimeoutText": "Превышено время ожидания конвертации.",
