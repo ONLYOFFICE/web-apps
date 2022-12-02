@@ -224,7 +224,7 @@ define([
             if (this.api) {
                 this.disableEditing(state);
                 this.view && this.view.setPreviewMode(state); // send role name - lastViewRole
-                this.api.asc_setRestriction(state ? Asc.c_oAscRestrictionType.OnlyForms : Asc.c_oAscRestrictionType.None);
+                this.api.asc_setRestriction(state ? Asc.c_oAscRestrictionType.OnlyForms : Asc.c_oAscRestrictionType.None, lastViewRole);
                 this.api.asc_SetPerformContentControlActionByClick(state);
                 this.api.asc_SetHighlightRequiredFields(state);
                 state && (this._state.lastViewRole = lastViewRole);
