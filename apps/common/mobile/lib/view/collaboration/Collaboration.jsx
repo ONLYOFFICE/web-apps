@@ -1,18 +1,19 @@
 import React, { Component, useEffect } from 'react';
 import { observer, inject } from "mobx-react";
-import { Popover, List, ListItem, Navbar, NavRight, Sheet, BlockTitle, Page, View, Icon, Link } from 'framework7-react';
-import { f7 } from 'framework7-react';
+import { Popover, List, ListItem, Navbar, NavRight, Sheet, BlockTitle, Page, View, Icon, Link, f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from "../../../utils/device";
 import {ReviewController, ReviewChangeController} from "../../controller/collaboration/Review";
 import {PageDisplayMode} from "./Review";
 import {ViewCommentsController, ViewCommentsSheetsController} from "../../controller/collaboration/Comments";
-import SharingSettings from "../SharingSettings";
+// import SharingSettings from "../SharingSettings";
+import SharingSettingsController from "../../controller/SharingSettings";
 
 const PageUsers = inject("users")(observer(props => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
     const storeUsers = props.users;
+
     return (
         <Page name="collab__users" className='page-users'>
             <Navbar title={_t.textUsers} backLink={_t.textBack}>
@@ -83,7 +84,7 @@ const routes = [
     },
     {
         path: '/sharing-settings/',
-        component: SharingSettings
+        component: SharingSettingsController
     }
 ];
 
@@ -131,8 +132,8 @@ const PageCollaboration = inject('storeAppOptions', 'users')(observer(props => {
             </Page>
         </View>
     )
-
 }));
+
 class CollaborationView extends Component {
     constructor(props) {
         super(props);
