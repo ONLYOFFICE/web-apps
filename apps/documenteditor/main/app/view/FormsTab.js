@@ -197,7 +197,7 @@ define([
                     var isfixed = Common.localStorage.getBool("de-text-form-fixed", true);
                     this.btnTextField = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon ' + (isfixed ? 'btn-text' : 'btn-text-field'),
+                        iconCls: 'toolbar__icon ' + (isfixed ? 'btn-fixed-field' : 'btn-text-field'),
                         lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
                         caption: this.capBtnText,
                         fieldType: isfixed ? 'fixed' : 'inline',
@@ -310,7 +310,7 @@ define([
 
                     this.btnCreditCard = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-zip-credit',
+                        iconCls: 'toolbar__icon btn-credit-card',
                         lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
                         caption: this.capCreditCard,
                         dataHint: '1',
@@ -494,9 +494,9 @@ define([
                                 caption: me.txtFixedText,
                                 template: menuTemplate,
                                 description: me.txtFixedDesc,
-                                iconCls     : 'menu__icon btn-text',
+                                iconCls     : 'menu__icon btn-fixed-field',
                                 value: 'fixed',
-                                iconClsForMainBtn: 'btn-text',
+                                iconClsForMainBtn: 'btn-fixed-field',
                                 hintForMainBtn: [me.tipFixedText, me.tipTextField]
                             }
                             ]
