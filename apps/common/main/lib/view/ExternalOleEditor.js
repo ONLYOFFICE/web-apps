@@ -115,6 +115,7 @@ define([
         },
 
         onDlgBtnClick: function(event) {
+            Common.NotificationCenter.trigger('modal:close', this);
             if ( this.handler ) {
                 this.handler.call(this, event.currentTarget.attributes['result'].value);
                 return;
@@ -123,6 +124,7 @@ define([
         },
 
         onToolClose: function() {
+            Common.NotificationCenter.trigger('modal:close', this);
             if ( this.handler ) {
                 this.handler.call(this, 'cancel');
                 return;
