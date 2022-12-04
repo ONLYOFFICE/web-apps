@@ -71,7 +71,8 @@ define([
             this.addListeners({
                 'FileMenu': {
                     'menu:hide': me.onFileMenu.bind(me, 'hide'),
-                    'menu:show': me.onFileMenu.bind(me, 'show')
+                    'menu:show': me.onFileMenu.bind(me, 'show'),
+                    'settings:apply': me.applySettings.bind(me)
                 },
                 'Toolbar': {
                     'render:before' : function (toolbar) {
@@ -79,6 +80,11 @@ define([
                         toolbar.setExtra('right', me.header.getPanel('right', config));
                         if (!config.isEdit || config.customization && !!config.customization.compactHeader)
                             toolbar.setExtra('left', me.header.getPanel('left', config));
+
+                        var value = Common.localStorage.getBool("de-settings-quick-print-button", true);
+                        Common.Utils.InternalSettings.set("de-settings-quick-print-button", value);
+                        if (me.header && me.header.btnPrintQuick)
+                            me.header.btnPrintQuick[value ? 'show' : 'hide']();
                     },
                     'view:compact'  : function (toolbar, state) {
                         me.viewport.vlayout.getItem('toolbar').height = state ?
@@ -100,6 +106,8 @@ define([
                     'print:disabled' : function (state) {
                         if ( me.header.btnPrint )
                             me.header.btnPrint.setDisabled(state);
+                        if ( me.header.btnPrintQuick )
+                            me.header.btnPrintQuick.setDisabled(state);
                     },
                     'save:disabled' : function (state) {
                         if ( me.header.btnSave )
@@ -255,12 +263,21 @@ define([
             me.header.lockHeaderBtns( 'users', _need_disable );
         },
 
+        applySettings: function () {
+            var value = Common.localStorage.getBool("de-settings-quick-print-button", true);
+            Common.Utils.InternalSettings.set("de-settings-quick-print-button", value);
+            if (this.header && this.header.btnPrintQuick)
+                this.header.btnPrintQuick[value ? 'show' : 'hide']();
+        },
+
         onApiCoAuthoringDisconnect: function(enableDownload) {
             if (this.header) {
                 if (this.header.btnDownload && !enableDownload)
                     this.header.btnDownload.hide();
                 if (this.header.btnPrint && !enableDownload)
                     this.header.btnPrint.hide();
+                if (this.header.btnPrintQuick && !enableDownload)
+                    this.header.btnPrintQuick.hide();
                 if (this.header.btnEdit)
                     this.header.btnEdit.hide();
                 this.header.lockHeaderBtns( 'rename-user', true);
