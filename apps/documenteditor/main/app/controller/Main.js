@@ -1509,6 +1509,9 @@ define([
                 }
                 this.appOptions.canEditStyles  = this.appOptions.canLicense && this.appOptions.canEdit;
                 this.appOptions.canPrint       = (this.permissions.print !== false);
+                this.appOptions.canPreviewPrint = this.appOptions.canPrint && !Common.Utils.isMac && this.appOptions.isDesktopApp;
+                this.appOptions.canQuickPrint = this.appOptions.canPrint && !Common.Utils.isMac && this.appOptions.isDesktopApp &&
+                                                !(this.editorConfig.customization && this.editorConfig.customization.compactHeader);
                 this.appOptions.canRename      = this.editorConfig.canRename;
                 this.appOptions.buildVersion   = params.asc_getBuildVersion();
                 this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
@@ -1681,6 +1684,9 @@ define([
                 leftMenu.setMode(this.appOptions);
 
                 viewport.applyCommonMode();
+
+                var printController = app.getController('Print');
+                printController && this.api && printController.setApi(this.api).setMode(this.appOptions);
 
                 this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
                 this.api.asc_registerCallback('asc_onDownloadUrl',     _.bind(this.onDownloadUrl, this));
@@ -2504,6 +2510,7 @@ define([
                 this.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
                 this.getApplication().getController('RightMenu').updateMetricUnit();
                 this.getApplication().getController('Toolbar').getView().updateMetricUnit();
+                this.appOptions.canPreviewPrint && this.getApplication().getController('Print').getView('PrintWithPreview').updateMetricUnit();
             },
 
             onAdvancedOptions: function(type, advOptions, mode, formatOptions) {
@@ -2658,9 +2665,7 @@ define([
 
             onPrint: function() {
                 if (!this.appOptions.canPrint || Common.Utils.ModalWindow.isVisible()) return;
-                
-                if (this.api)
-                    this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isOpera == true use asc_onPrintUrl event
+                Common.NotificationCenter.trigger('file:print');
                 Common.component.Analytics.trackEvent('Print');
             },
 
@@ -2691,6 +2696,39 @@ define([
                     };
                 }
                 if (url) this.iframePrint.src = url;
+            },
+
+            onPrintQuick: function() {
+                if (!this.appOptions.canQuickPrint) return;
+
+                var value = Common.localStorage.getBool("de-hide-quick-print-warning"),
+                    me = this,
+                    handler = function () {
+                        var printopt = new Asc.asc_CAdjustPrint();
+                        printopt.asc_setNativeOptions({quickPrint: true});
+                        var opts = new Asc.asc_CDownloadOptions();
+                        opts.asc_setAdvancedOptions(printopt);
+                        me.api.asc_Print(opts);
+                        Common.component.Analytics.trackEvent('Print');
+                    };
+
+                if (value) {
+                    handler.call(this);
+                } else {
+                    Common.UI.warning({
+                        msg: this.textTryQuickPrint,
+                        buttons: ['yes', 'no'],
+                        primary: 'yes',
+                        dontshow: true,
+                        maxwidth: 500,
+                        callback: function(btn, dontshow){
+                            dontshow && Common.localStorage.setBool("de-hide-quick-print-warning", true);
+                            if (btn === 'yes') {
+                                setTimeout(handler, 1);
+                            }
+                        }
+                    });
+                }
             },
 
             onClearDummyComment: function() {
@@ -3326,7 +3364,8 @@ define([
             errorInconsistentExtPptx: 'An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.',
             errorInconsistentExtPdf: 'An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.',
             errorInconsistentExt: 'An error has occurred while opening the file.<br>The file content does not match the file extension.',
-            errorCannotPasteImg: 'We can\'t paste this image from the Clipboard, but you can save it to your device and \ninsert it from there, or you can copy the image without text and paste it into the document.'
+            errorCannotPasteImg: 'We can\'t paste this image from the Clipboard, but you can save it to your device and \ninsert it from there, or you can copy the image without text and paste it into the document.',
+            textTryQuickPrint: 'You have selected Quick print: the entire document will be printed on the last selected or default printer.<br>Do you want to continue?'
         }
     })(), DE.Controllers.Main || {}))
 });

@@ -110,6 +110,7 @@ define([
                 if ( !this.leftMenu.panelHistory.isVisible() )
                     this.clickMenuFileItem(null, 'history');
             }, this));
+            Common.NotificationCenter.on('file:print', _.bind(this.clickToolbarPrint, this));
         },
 
         onLaunch: function() {
@@ -797,6 +798,13 @@ define([
         tryToShowLeftMenu: function() {
             if ((!this.mode.canBrandingExt || !this.mode.customization || this.mode.customization.leftMenu !== false) && Common.UI.LayoutManager.isElementVisible('leftMenu'))
                 this.onLeftMenuHide(null, true);
+        },
+
+        clickToolbarPrint: function () {
+            if (this.mode.canPreviewPrint)
+                this.leftMenu.showMenu('file:printpreview');
+            else if (this.mode.canPrint)
+                this.clickMenuFileItem(null, 'print');
         },
 
         textNoTextFound         : 'Text not found',
