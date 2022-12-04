@@ -222,6 +222,7 @@
     "textAllowOverlap": "Ijinkan menumpuk",
     "textAmountOfLevels": "Jumlah Level",
     "textApril": "April",
+    "textArrange": "Atur",
     "textAugust": "Agustus",
     "textAuto": "Otomatis",
     "textAutomatic": "Otomatis",
@@ -331,7 +332,6 @@
     "textRemoveShape": "Hilangkan Bentuk",
     "textRemoveTable": "Hilangkan Tabel",
     "textRemoveTableContent": "Hapus daftar isi",
-    "textReorder": "Reorder",
     "textRepeatAsHeaderRow": "Ulangi sebagai Baris Header",
     "textReplace": "Ganti",
     "textReplaceImage": "Ganti Gambar",
@@ -376,8 +376,7 @@
     "textType": "Ketik",
     "textWe": "Rab",
     "textWrap": "Wrap",
-    "textWrappingStyle": "Gaya Pembungkusan",
-    "textArrange": "Arrange"
+    "textWrappingStyle": "Gaya Pembungkusan"
   },
   "Error": {
     "convertationTimeoutText": "Waktu konversi habis.",

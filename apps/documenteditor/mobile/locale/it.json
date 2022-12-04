@@ -328,7 +328,6 @@
     "textRemoveShape": "Eliminare forma",
     "textRemoveTable": "Eliminare tabella",
     "textRemoveTableContent": "Elimina sommario",
-    "textReorder": "Riordinare",
     "textRepeatAsHeaderRow": "Ripetere come riga di intestazione",
     "textReplace": "Sostituire",
     "textReplaceImage": "Sostituire l'immagine",
@@ -374,10 +373,10 @@
     "textWe": "Mer",
     "textWrap": "Avvolgere",
     "textWrappingStyle": "Stile di disposizione testo",
+    "textArrange": "Arrange",
     "textChangeShape": "Change Shape",
     "textCustomStyle": "Custom Style",
-    "textDeleteImage": "Delete Image",
-    "textArrange": "Arrange"
+    "textDeleteImage": "Delete Image"
   },
   "Error": {
     "convertationTimeoutText": "È stato superato il tempo massimo della conversione.",

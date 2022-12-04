@@ -222,6 +222,7 @@
     "textAllowOverlap": "Überlappung zulassen",
     "textAmountOfLevels": "Anzahl der Ebenen",
     "textApril": "April",
+    "textArrange": "Arrangieren",
     "textAugust": "August",
     "textAuto": "Auto",
     "textAutomatic": "Automatisch",
@@ -331,7 +332,6 @@
     "textRemoveShape": "Form entfernen",
     "textRemoveTable": "Tabelle entfernen",
     "textRemoveTableContent": "Inhaltsverzeichnis entfernen",
-    "textReorder": "Neu ordnen",
     "textRepeatAsHeaderRow": "Als Überschriftenzeile wiederholen",
     "textReplace": "Ersetzen",
     "textReplaceImage": "Bild ersetzen",
@@ -376,8 +376,7 @@
     "textType": "Typ",
     "textWe": "Mi",
     "textWrap": "Umbrechen",
-    "textWrappingStyle": "Textumbruch",
-    "textArrange": "Arrange"
+    "textWrappingStyle": "Textumbruch"
   },
   "Error": {
     "convertationTimeoutText": "Zeitüberschreitung bei der Konvertierung.",
