@@ -2150,6 +2150,9 @@ define([
 
                     me.menuTableCellAlign.setDisabled(value.tableProps.locked || disabled);
 
+                    me.menuTableSaveAsPicture.setVisible(!isEquation);
+                    menuTableSaveAsPictureSeparator.setVisible(!isEquation);
+
                     me.menuTableAdvanced.setVisible(!isEquation);
                     me.menuTableAdvanced.setDisabled(value.tableProps.locked || disabled);
                     menuTableSettingsSeparator.setVisible(me.menuTableAdvanced.isVisible());
