@@ -140,6 +140,7 @@ class MainPage extends Component {
         const disabledControls = storeToolbarSettings.disabledControls;
         const disabledSettings = storeToolbarSettings.disabledSettings;
         const config = appOptions.config;
+        const isProtected = appOptions.isProtected;
 
         let showLogo = !(config.customization && (config.customization.loaderName || config.customization.loaderLogo));
         if (!Object.keys(config).length) {
@@ -250,7 +251,7 @@ class MainPage extends Component {
                             text={isMobileView ? t("Toolbar.textSwitchedMobileView") : t("Toolbar.textSwitchedStandardView")}/>
                     </CSSTransition>
                 }
-                {isViewer && !disabledSettings && !disabledControls && !isDisconnected && isAvailableExt && isEdit &&
+                {isViewer && !disabledSettings && !disabledControls && !isDisconnected && isAvailableExt && isEdit && !isProtected &&
                     <Fab position="right-bottom" slot="fixed" onClick={() => this.turnOffViewerMode()}>
                         <Icon icon="icon-edit-mode"/>
                     </Fab>
