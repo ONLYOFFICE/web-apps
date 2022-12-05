@@ -2540,6 +2540,7 @@
   "PE.Views.Toolbar.tipPaste": "Paste",
   "PE.Views.Toolbar.tipPreview": "Start slideshow",
   "PE.Views.Toolbar.tipPrint": "Print",
+  "PE.Views.Toolbar.tipPrintQuick": "Quick print",
   "PE.Views.Toolbar.tipRedo": "Redo",
   "PE.Views.Toolbar.tipSave": "Save",
   "PE.Views.Toolbar.tipSaveCoauth": "Save your changes for the other users to see them.",

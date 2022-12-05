@@ -374,6 +374,7 @@ define([
                     Common.NotificationCenter.on({
                         'modal:show': _onModalDialog.bind(this, 'open'),
                         'modal:close': _onModalDialog.bind(this, 'close'),
+                        'modal:hide': _onModalDialog.bind(this, 'hide'),
                         'uitheme:changed' : function (name) {
                             if (Common.localStorage.getBool('ui-theme-use-system', false)) {
                                 native.execCommand("uitheme:changed", JSON.stringify({name:'theme-system'}));
