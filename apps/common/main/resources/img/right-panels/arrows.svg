@@ -1,21 +1,6 @@
 <svg aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <symbol id="no-arrow" viewBox="0 0 44 20">
+    <symbol id="no-arrow-5" viewBox="0 0 44 20">
         <rect x="11" y="8" width="22" height="3"/>
-    </symbol>
-    <symbol id="arrow" viewBox="0 0 44 20">
-        <path d="M23 3.5V8H34V11H23V15.5L9 9.5L23 3.5Z"/>
-    </symbol>
-    <symbol id="open-arrow" viewBox="0 0 44 20">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M8.37866 9.49999L15.6924 16.8137L17.8137 14.6924L14.1213 11H34V7.99999H14.1213L17.8137 4.3076L15.6924 2.18628L8.37866 9.49999Z"/>
-    </symbol>
-    <symbol id="stealth-arrow" viewBox="0 0 44 20">
-        <path d="M29 3L23 8.5H34V11.5H23L29 17L9 10L29 3Z"/>
-    </symbol>
-    <symbol id="dimond-arrow" viewBox="0 0 44 20">
-        <path d="M17.5 2L24 8H34V11H24L17.5 17L10 9.5L17.5 2Z"/>
-    </symbol>
-    <symbol id="oval-arrow" viewBox="0 0 44 20">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M21.8261 11C21.1489 13.8667 18.5736 16 15.5 16C11.9101 16 9 13.0899 9 9.5C9 5.91015 11.9101 3 15.5 3C18.5736 3 21.1489 5.1333 21.8261 8H34V11H21.8261Z"/>
     </symbol>
     <symbol id="arrow-1" viewBox="0 0 44 20">
         <path d="M17 7V9H34V12H17V14L9 10.5L17 7Z"/>

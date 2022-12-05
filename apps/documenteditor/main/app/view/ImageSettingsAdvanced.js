@@ -1016,7 +1016,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 template: _.template([
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
                         '<div class="form-control" style="width: 100px;">',
-                            '<i class="img-arrows"><svg><use xlink:href="#no-arrow"></use> </svg></i>',
+                            '<i class="img-arrows"><svg><use xlink:href="#no-arrow-5"></use></svg></i>',
                         '</div>',
                         '<div style="display: table-cell;"></div>',
                         '<button type="button" class="btn btn-default">',
@@ -1038,8 +1038,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 parentMenu: this.btnBeginStyleMenu,
                 store: new Common.UI.DataViewStore(_arrStyles),
                 itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows">' +
-                    '<svg class="icon"><use xlink:href= "#<%= idsvg %>arrow"></use></svg>' +
-                    '</div>')
+                    '<svg><use xlink:href= "#<%= idsvg %>arrow-5"></use></svg></div>')
             });
             this.mnuBeginStylePicker.on('item:click', _.bind(this.onSelectBeginStyle, this));
             this._selectStyleItem(this.btnBeginStyle, null);
@@ -1049,7 +1048,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 template: _.template([
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
                         '<div class="form-control" style="width: 100px;">',
-                            '<i class="img-arrows"><svg><use xlink:href="#no-arrow"></use> </svg></i>',
+                            '<i class="img-arrows"><svg><use xlink:href=""></use></svg></i>',
                         '</div>',
                         '<div style="display: table-cell;"></div>',
                         '<button type="button" class="btn btn-default">',
@@ -1081,7 +1080,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 template: _.template([
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
                         '<div class="form-control" style="width: 100px;">',
-                            '<i class="img-arrows"><svg class ="svg-mirror"><use xlink:href="#no-arrow"></use></svg></i>',
+                            '<i class="img-arrows"><svg class ="svg-mirror"><use xlink:href="#no-arrow-5"></use></svg></i>',
                         '</div>',
                         '<div style="display: table-cell;"></div>',
                         '<button type="button" class="btn btn-default">',
@@ -1103,7 +1102,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 parentMenu: this.btnEndStyleMenu,
                 store: new Common.UI.DataViewStore(_arrStyles),
                 itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows">' +
-                    '<svg class ="svg-mirror"><use xlink:href="#<%= idsvg %>arrow"></use></svg></div>')
+                    '<svg class ="svg-mirror"><use xlink:href="#<%= idsvg %>arrow-5"></use></svg></div>')
             });
             this.mnuEndStylePicker.on('item:click', _.bind(this.onSelectEndStyle, this));
             this._selectStyleItem(this.btnEndStyle, null);
@@ -2091,12 +2090,11 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
 
         _selectStyleItem: function(combo, record) {
             var formcontrol = $(combo.el).find('.form-control > .img-arrows use');
-
             if(formcontrol.length) {
                 var str = '';
                 if(record){
                     var styleId  = record.get('idsvg');
-                    str = (styleId !== undefined) ? styleId + 'arrow' : record.get('typearrow') + 'arrow-' + (record.get('value')+1);
+                    str = (styleId !== undefined) ? styleId + 'arrow-5' : record.get('typearrow') + 'arrow-' + (record.get('value')+1);
                 }
                 formcontrol[0].setAttribute('xlink:href', '#' + str);
             }
