@@ -191,9 +191,12 @@ define([
                         iconCls: 'toolbar__icon btn-print no-mask',
                         lock: [_set.cantPrint, _set.disableOnStart],
                         signals: ['disabled'],
+                        split: config.canQuickPrint,
+                        menu: config.canQuickPrint,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
-                        dataHintTitle: 'P'
+                        dataHintTitle: 'P',
+                        printType: 'print'
                     });
                     this.toolbarControls.push(this.btnPrint);
 
@@ -1751,7 +1754,7 @@ define([
                         true, true, undefined, '1', 'bottom', 'small');
                 Array.prototype.push.apply(this.paragraphControls, this.btnsPageBreak);
                 Array.prototype.push.apply(this.lockControls, this.btnsPageBreak);
-
+                this.btnPrint.menu && this.btnPrint.$el.addClass('split');
                 return $host;
             },
 
@@ -1761,6 +1764,30 @@ define([
                     resolve();
                 })).then(function () {
                     if ( !config.isEdit ) return;
+
+                    if(me.btnPrint.menu){
+                        me.btnPrint.setMenu(
+                            new Common.UI.Menu({
+                                items:[
+                                    {
+                                        caption:            me.tipPrint,
+                                        iconCls:            'menu__icon btn-print',
+                                        toggleGroup:        'viewPrint',
+                                        value:              'print',
+                                        iconClsForMainBtn:  'btn-print',
+                                        platformKey:         Common.Utils.String.platformKey('Ctrl+P')
+                                    },
+                                    {
+                                        caption:            me.tipPrintQuick,
+                                        iconCls:            'menu__icon btn-quick-print',
+                                        toggleGroup:        'viewPrint',
+                                        value:              'print-quick',
+                                        iconClsForMainBtn:  'btn-quick-print',
+                                        platformKey:        ''
+                                    }
+                                ]
+                            }));
+                    }
 
                     me.btnsPageBreak.forEach( function(btn) {
                         btn.updateHint( [me.textInsPageBreak, me.tipPageBreak] );
@@ -2049,6 +2076,7 @@ define([
                     ids.push('id-toolbar-menu-markers-level-' + i);
                     items.push({template: levelTemplate, previewId: ids[i], level: i, checkable: true });
                 }
+
                 this.btnMarkers.setMenu(
                     new Common.UI.Menu({
                         cls: 'shifted-left',
@@ -2768,6 +2796,7 @@ define([
             tipUndo: 'Undo',
             tipRedo: 'Redo',
             tipPrint: 'Print',
+            tipPrintQuick: 'Quick print',
             tipSave: 'Save',
             tipIncFont: 'Increment font size',
             tipDecFont: 'Decrement font size',
