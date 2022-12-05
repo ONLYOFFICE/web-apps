@@ -1059,6 +1059,18 @@
 		"a": "(array1; array2; tails; type)",
 		"d": "Returns the probability associated with a Student's t-Test"
 	},
+	"TEXTBEFORE": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Returns text that’s before delimiting characters."
+	},
+	"TEXTAFTER": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Returns text that’s after delimiting characters."
+	},
+	"TEXTSPLIT": {
+		"a": "(text, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
+		"d": "Splits text into rows or columns using delimiters."
+	},
 	"VAR": {
 		"a": "(number1; [number2]; ...)",
 		"d": "Estimates variance based on a sample (ignores logical values and text in the sample)"
@@ -1082,6 +1094,46 @@
 	"VARPA": {
 		"a": "(value1; [value2]; ...)",
 		"d": "Calculates variance based on the entire population, including logical values and text. Text and the logical value FALSE have the value 0; the logical value TRUE has the value 1"
+	},
+	"VSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": "Vertically stacks arrays into one array."
+	},
+	"HSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": "Horizontally stacks arrays into one array."
+	},
+	"TOCOL": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "Returns the array as one column."
+	},
+	"TOROW": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "Returns the array as one row."
+	},
+	"WRAPROWS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": "Wraps a row or column vector after a specified number of values."
+	},
+	"WRAPCOLS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": "Wraps a row or column vector after a specified number of values."
+	},
+	"CHOOSEROWS": {
+		"a": "(array, row_num1, [row_num2], ...)",
+		"d": "Returns rows from an array or reference."
+	},
+	"CHOOSECOLS": {
+		"a": "(array, col_num1, [col_num2], ...)",
+		"d": "Returns columns from an array or reference."
+	},
+	"TAKE": {
+		"a": "(array, rows, [columns])",
+		"d": "Returns rows or columns from array start or end."
+	},
+	"DROP": {
+		"a": "(array, rows, [columns])",
+		"d": "Drops rows or columns from array start or end."
 	},
 	"WEIBULL": {
 		"a": "(x; alpha; beta; cumulative)",
