@@ -1921,10 +1921,6 @@ define([
                 caption     : '--'
             });
 
-            var menuTableCommentSeparator = new Common.UI.MenuItem({
-                caption     : '--'
-            });
-
             me.menuParagraphEquation = new Common.UI.MenuItem({
                 caption     : me.advancedEquationText,
                 menu        : me.createEquationMenu('popupparaeqinput', 'tl-tr')
@@ -2190,7 +2186,7 @@ define([
                      /** coauthoring begin **/
                     me.menuAddCommentTable.setVisible(me.api.can_AddQuotedComment()!==false && me.mode.canCoAuthoring && me.mode.canComments);
                     me.menuAddCommentTable.setDisabled(!_.isUndefined(value.paraProps) && value.paraProps.locked || disabled);
-                    menuTableCommentSeparator.setVisible(me.menuAddCommentTable.isVisible());
+                    menuHyperlinkSeparator.setVisible(menuHyperlinkSeparator.isVisible() || me.menuAddCommentTable.isVisible());
                     /** coauthoring end **/
 
                     me.menuSpellCheckTable.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
@@ -2256,12 +2252,11 @@ define([
                     menuTableEquationSettingsSeparator,     //24
                 /** coauthoring begin **/
                     me.menuAddCommentTable,         //25
-                    menuTableCommentSeparator,      //26
                 /** coauthoring end **/
-                    me.menuAddHyperlinkTable,       //27
-                    menuHyperlinkTable,             //28
-                    menuHyperlinkSeparator,         //29
-                    me.menuAddToLayoutTable         //30
+                    me.menuAddHyperlinkTable,       //26
+                    menuHyperlinkTable,             //27
+                    menuHyperlinkSeparator,         //28
+                    me.menuAddToLayoutTable         //29
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
                 if (me.suppressEditComplete) {
