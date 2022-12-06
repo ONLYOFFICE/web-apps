@@ -281,6 +281,8 @@ define([
                                 })).on('closeclick', function () {
                                     this.close();
                                 }).show();
+
+                                native.execCommand('webapps:features', JSON.stringify(features));
                             }
                         }
                     });
