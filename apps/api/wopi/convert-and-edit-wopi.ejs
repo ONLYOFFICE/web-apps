@@ -99,6 +99,10 @@ body {
     background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAwCAYAAAB0WahSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEBSURBVHgB7ZfRDYIwEIavtAM4QkfpA3uoE6gTiJswCIl99NEJSNyAAUhqz0BiGoOoVyjmvoTk6EP7c/ffAQDM0snz3OEFkciAiQBF2bg0DBmfGPIb8yZjVgEz02cuo5gBFHsomJmqqt5XhepFN2YfnqzMYhC9m1+1EfWn4dAZyXTN4EAbNWyISCYjLCRk0CNTdE0Pd00ImzXk/7rmVz9x14SwWUNYSAgLCUEhDQbGmBVMzPOZKOSKgVJqDxMjpVx3ocXfCeODc7dwaNu2tNY2EBHMhH/wnQ8LvHfObR6T04vBhSPMw8lP8EJiVNe11VrfhBBYMw3xwYxf/LX1IkpcuAMGtltNGCBFYAAAAABJRU5ErkJggg==");
 }
 
+#error .icon {
+    margin-bottom: 107px;
+}
+
 .spiner-image {
     background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCI+PGNpcmNsZSBjeD0iMTAiIGN5PSIxMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDQ0IiBzdHJva2Utd2lkdGg9IjEuNSIgcj0iNy4yNSIgc3Ryb2tlLWRhc2hhcnJheT0iMTYwJSwgNDAlIiAvPjwvc3ZnPg==");
     margin-top: 49px;
@@ -188,7 +192,6 @@ button:disabled, button[disabled]{
                 <div class="title">Conversion failed</div>
                 <div class="description">Sorry, we weren't able to convert the file for editing.</div>
                 <i class="icon icon-error"></i>
-                <button class="button gray" id="btn_back">Try again</button>
             </div>
         </div>
     </div>
@@ -246,9 +249,6 @@ button:disabled, button[disabled]{
 		function error() {
             document.getElementById('progress').style.display = 'none';
             document.getElementById('error').style.display = 'block';
-            document.getElementById('btn_back').onclick = function() {
-                window.location.reload();
-            };
 		}
         
 		var convertFile = function () {
