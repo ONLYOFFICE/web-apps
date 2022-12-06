@@ -283,6 +283,15 @@ define([
                                 }).show();
 
                                 native.execCommand('webapps:features', JSON.stringify(features));
+
+                                api.asc_registerCallback('asc_onDocumentName', function () {
+                                    if ( features.readonly ) {
+                                        if ( api.asc_getLocalRestrictions() == Asc.c_oAscLocalRestrictionType.None ) {
+                                            features.readonly = false;
+                                            native.execCommand('webapps:features', JSON.stringify(features));
+                                        }
+                                    }
+                                });
                             }
                         }
                     });
