@@ -334,11 +334,23 @@ define([
         ChangeSettings: function(props) {
         },
 
+        updateScrollers: function () {
+            this.$resultsContainer.scroller.update({alwaysVisibleY: true});
+            this.$searchContainer.scroller.update({alwaysVisibleY: true});
+
+            setTimeout(_.bind(function () {
+                if (this.$searchContainer.find('> .ps-scrollbar-y-rail').is(':visible')) {
+                    this.$resultsContainer.find('.ps-scrollbar-y-rail').addClass('set-left');
+                } else {
+                    this.$resultsContainer.find('.ps-scrollbar-y-rail').removeClass('set-left');
+                }
+            }, this), 100);
+        },
+
         updateResultsContainerHeight: function () {
             if (this.$resultsContainer) {
                 this.$resultsContainer.outerHeight(Math.max($('#search-box').outerHeight() - $('#search-header').outerHeight() - $('#search-adv-settings').outerHeight(), 112));
-                this.$resultsContainer.scroller.update({alwaysVisibleY: true});
-                this.$searchContainer.scroller.update({alwaysVisibleY: false});
+                this.updateScrollers();
             }
         },
 
