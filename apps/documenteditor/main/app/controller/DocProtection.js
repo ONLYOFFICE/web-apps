@@ -138,10 +138,10 @@ define([
                     props = me.api.asc_getDocumentProtection();
                 if (props && props.asc_getIsPassword()) {
                     var win = new Common.Views.OpenDialog({
-                        title: me.view.txtWBUnlockTitle,
+                        title: me.view.txtUnlockTitle,
                         closable: true,
                         type: Common.Utils.importTextType.DRM,
-                        txtOpenFile: me.view.txtWBUnlockDescription,
+                        txtOpenFile: me.view.txtDocUnlockDescription,
                         validatePwd: false,
                         maxPasswordLength: 15,
                         handler: function (result, value) {

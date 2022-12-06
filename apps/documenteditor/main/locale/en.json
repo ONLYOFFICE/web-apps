@@ -1632,6 +1632,7 @@
   "DE.Views.DocProtection.txtDocProtectedTrack": "Document is protected.<br>You may edit this document, but all changes will be tracked.",
   "DE.Views.DocProtection.txtDocProtectedView": "Document is protected.<br>You may only view this document.",
   "DE.Views.DocProtection.txtDocUnlockDescription": "Enter a password to unprotect document",
+  "DE.Views.DocProtection.txtUnlockTitle": "Unprotect Document",
   "DE.Views.DocProtection.txtProtectDoc": "Protect Document",
   "DE.Views.DocumentHolder.aboveText": "Above",
   "DE.Views.DocumentHolder.addCommentText": "Add comment",
