@@ -271,6 +271,12 @@ define([
             });
             var menuInsertCaptionSeparator = new Common.UI.MenuItem({ caption: '--' });
 
+            me.menuSaveAsPicture = new Common.UI.MenuItem({
+                caption     : me.textSaveAsPicture
+            });
+
+            var menuSaveAsPictureSeparator = new Common.UI.MenuItem({ caption: '--'});
+
             me.menuEquationInsertCaption = new Common.UI.MenuItem({
                 caption : me.txtInsertCaption
             });
@@ -455,10 +461,6 @@ define([
                 caption : me.editChartText
             });
 
-            var menuChartEditSeparator = new Common.UI.MenuItem({
-                caption     : '--'
-            });
-
             me.menuOriginalSize = new Common.UI.MenuItem({
                 caption : me.originalSizeText
             });
@@ -591,10 +593,6 @@ define([
                 caption: me.textEditPoints
             });
 
-            var menuImgEditPointsSeparator = new Common.UI.MenuItem({
-                caption     : '--'
-            });
-
             this.pictureMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
@@ -703,8 +701,6 @@ define([
                     if (me.menuChartEdit.isVisible())
                         me.menuChartEdit.setDisabled(islocked || value.imgProps.value.get_SeveralCharts());
 
-                    menuChartEditSeparator.setVisible(me.menuChartEdit.isVisible());
-
                     me.menuOriginalSize.setDisabled(islocked || value.imgProps.value.get_ImageUrl()===null || value.imgProps.value.get_ImageUrl()===undefined);
                     me.menuImageAdvanced.setDisabled(islocked);
                     me.menuImageAlign.setDisabled( islocked || (wrapping == Asc.c_oAscWrapStyle2.Inline) );
@@ -738,9 +734,9 @@ define([
                     me.menuImgPrint.setDisabled(!cancopy);
 
                     var lockreview = Common.Utils.InternalSettings.get("de-accept-reject-lock");
-                    me.menuImgAccept.setVisible(!lockreview);
-                    me.menuImgReject.setVisible(!lockreview);
-                    menuImgReviewSeparator.setVisible(!lockreview);
+                    me.menuImgAccept.setVisible(me.mode.canReview && !me.mode.isReviewOnly && !lockreview);
+                    me.menuImgReject.setVisible(me.mode.canReview && !me.mode.isReviewOnly && !lockreview);
+                    menuImgReviewSeparator.setVisible(me.mode.canReview && !me.mode.isReviewOnly && !lockreview);
 
                     var signGuid = (value.imgProps && value.imgProps.value && me.mode.isSignatureSupport) ? value.imgProps.value.asc_getSignatureId() : undefined,
                         isInSign = !!signGuid;
@@ -755,7 +751,6 @@ define([
 
                     var canEditPoints = me.api && me.api.asc_canEditGeometry();
                     me.menuImgEditPoints.setVisible(canEditPoints);
-                    menuImgEditPointsSeparator.setVisible(canEditPoints);
                     canEditPoints && me.menuImgEditPoints.setDisabled(islocked);
                 },
                 items: [
@@ -773,8 +768,6 @@ define([
                     me.menuImgRemoveControl,
                     me.menuImgControlSettings,
                     menuImgControlSeparator,
-                    me.menuImgEditPoints,
-                    menuImgEditPointsSeparator,
                     me.menuImageArrange,
                     me.menuImageAlign,
                     me.menuImageWrap,
@@ -782,11 +775,13 @@ define([
                     { caption: '--' },
                     me.menuInsertCaption,
                     menuInsertCaptionSeparator,
+                    me.menuSaveAsPicture,
+                    menuSaveAsPictureSeparator,
                     me.menuImgCrop,
                     me.menuOriginalSize,
                     me.menuImgReplace,
                     me.menuChartEdit,
-                    menuChartEditSeparator,
+                    me.menuImgEditPoints,
                     me.menuImageAdvanced
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
@@ -1151,64 +1146,7 @@ define([
 
             me.menuTableEquation = new Common.UI.MenuItem({
                 caption     : me.advancedEquationText,
-                menu        : new Common.UI.Menu({
-                    cls: 'ppm-toolbar shifted-right',
-                    menuAlign: 'tl-tr',
-                    items   : [
-                        new Common.UI.MenuItem({
-                            caption     : me.unicodeText,
-                            iconCls     : 'menu__icon unicode',
-                            checkable   : true,
-                            checkmark   : false,
-                            checked     : false,
-                            toggleGroup : 'popupparaeqinput',
-                            type        : 'input',
-                            value       : Asc.c_oAscMathInputType.Unicode
-                        }),
-                        new Common.UI.MenuItem({
-                            caption     : me.latexText,
-                            iconCls     : 'menu__icon latex',
-                            checkable   : true,
-                            checkmark   : false,
-                            checked     : false,
-                            toggleGroup : 'popupparaeqinput',
-                            type        : 'input',
-                            value       : Asc.c_oAscMathInputType.LaTeX
-                        }),
-                        { caption     : '--' },
-                        new Common.UI.MenuItem({
-                            caption     : me.currProfText,
-                            iconCls     : 'menu__icon professional-equation',
-                            type        : 'view',
-                            value       : {all: false, linear: false}
-                        }),
-                        new Common.UI.MenuItem({
-                            caption     : me.currLinearText,
-                            iconCls     : 'menu__icon linear-equation',
-                            type        : 'view',
-                            value       : {all: false, linear: true}
-                        }),
-                        new Common.UI.MenuItem({
-                            caption     : me.allProfText,
-                            iconCls     : 'menu__icon professional-equation',
-                            type        : 'view',
-                            value       : {all: true, linear: false}
-                        }),
-                        new Common.UI.MenuItem({
-                            caption     : me.allLinearText,
-                            iconCls     : 'menu__icon linear-equation',
-                            type        : 'view',
-                            value       : {all: true, linear: true}
-                        }),
-                        { caption     : '--' },
-                        new Common.UI.MenuItem({
-                            caption     : me.eqToInlineText,
-                            checkable   : true,
-                            checked     : false,
-                            type        : 'mode'
-                        })
-                    ]
-                })
+                menu        : me.createEquationMenu('popuptableeqinput', 'tl-tr')
             });
 
             me.menuTableSelectText = new Common.UI.MenuItem({
@@ -1370,9 +1308,9 @@ define([
                     me.menuTablePrint.setDisabled(!cancopy);
 
                     var lockreview = Common.Utils.InternalSettings.get("de-accept-reject-lock");
-                    me.menuTableAccept.setVisible(!lockreview);
-                    me.menuTableReject.setVisible(!lockreview);
-                    menuTableReviewSeparator.setVisible(!lockreview);
+                    me.menuTableAccept.setVisible(me.mode.canReview && !me.mode.isReviewOnly && !lockreview);
+                    me.menuTableReject.setVisible(me.mode.canReview && !me.mode.isReviewOnly && !lockreview);
+                    menuTableReviewSeparator.setVisible(me.mode.canReview && !me.mode.isReviewOnly && !lockreview);
 
                     // bullets & numbering
                     var listId = me.api.asc_GetCurrentNumberingId(),
@@ -1661,66 +1599,8 @@ define([
 
             me.menuParagraphEquation = new Common.UI.MenuItem({
                 caption     : me.advancedEquationText,
-                menu        : new Common.UI.Menu({
-                    cls: 'ppm-toolbar shifted-right',
-                    menuAlign: 'tl-tr',
-                    items   : [
-                        new Common.UI.MenuItem({
-                            caption     : me.unicodeText,
-                            iconCls     : 'menu__icon unicode',
-                            checkable   : true,
-                            checkmark   : false,
-                            checked     : false,
-                            toggleGroup : 'popupparaeqinput',
-                            type        : 'input',
-                            value       : Asc.c_oAscMathInputType.Unicode
-                        }),
-                        new Common.UI.MenuItem({
-                            caption     : me.latexText,
-                            iconCls     : 'menu__icon latex',
-                            checkable   : true,
-                            checkmark   : false,
-                            checked     : false,
-                            toggleGroup : 'popupparaeqinput',
-                            type        : 'input',
-                            value       : Asc.c_oAscMathInputType.LaTeX
-                        }),
-                        { caption     : '--' },
-                        new Common.UI.MenuItem({
-                            caption     : me.currProfText,
-                            iconCls     : 'menu__icon professional-equation',
-                            type        : 'view',
-                            value       : {all: false, linear: false}
-                        }),
-                        new Common.UI.MenuItem({
-                            caption     : me.currLinearText,
-                            iconCls     : 'menu__icon linear-equation',
-                            type        : 'view',
-                            value       : {all: false, linear: true}
-                        }),
-                        new Common.UI.MenuItem({
-                            caption     : me.allProfText,
-                            iconCls     : 'menu__icon professional-equation',
-                            type        : 'view',
-                            value       : {all: true, linear: false}
-                        }),
-                        new Common.UI.MenuItem({
-                            caption     : me.allLinearText,
-                            iconCls     : 'menu__icon linear-equation',
-                            type        : 'view',
-                            value       : {all: true, linear: true}
-                        }),
-                        { caption     : '--' },
-                        new Common.UI.MenuItem({
-                            caption     : me.eqToInlineText,
-                            checkable   : true,
-                            checked     : false,
-                            type        : 'mode'
-                        })
-                    ]
-                })
+                menu        : me.createEquationMenu('popupparaeqinput', 'tl-tr')
             });
-
             /** coauthoring begin **/
             var menuCommentSeparatorPara = new Common.UI.MenuItem({
                 caption     : '--'
@@ -2054,9 +1934,9 @@ define([
                     me.menuParaPrint.setDisabled(!cancopy);
 
                     var lockreview = Common.Utils.InternalSettings.get("de-accept-reject-lock");
-                    me.menuParaAccept.setVisible(!lockreview);
-                    me.menuParaReject.setVisible(!lockreview);
-                    menuParaReviewSeparator.setVisible(!lockreview);
+                    me.menuParaAccept.setVisible(me.mode.canReview && !me.mode.isReviewOnly && !lockreview);
+                    me.menuParaReject.setVisible(me.mode.canReview && !me.mode.isReviewOnly && !lockreview);
+                    menuParaReviewSeparator.setVisible(me.mode.canReview && !me.mode.isReviewOnly && !lockreview);
 
                     // spellCheck
                     var spell = (value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
@@ -2978,6 +2858,67 @@ define([
             }
         },
 
+        createEquationMenu: function(toggleGroup, menuAlign) {
+            return new Common.UI.Menu({
+                cls: 'ppm-toolbar shifted-right',
+                menuAlign: menuAlign,
+                items   : [
+                    new Common.UI.MenuItem({
+                        caption     : this.unicodeText,
+                        iconCls     : 'menu__icon unicode',
+                        checkable   : true,
+                        checkmark   : false,
+                        checked     : false,
+                        toggleGroup : toggleGroup,
+                        type        : 'input',
+                        value       : Asc.c_oAscMathInputType.Unicode
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.latexText,
+                        iconCls     : 'menu__icon latex',
+                        checkable   : true,
+                        checkmark   : false,
+                        checked     : false,
+                        toggleGroup : toggleGroup,
+                        type        : 'input',
+                        value       : Asc.c_oAscMathInputType.LaTeX
+                    }),
+                    { caption     : '--' },
+                    new Common.UI.MenuItem({
+                        caption     : this.currProfText,
+                        iconCls     : 'menu__icon professional-equation',
+                        type        : 'view',
+                        value       : {all: false, linear: false}
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.currLinearText,
+                        iconCls     : 'menu__icon linear-equation',
+                        type        : 'view',
+                        value       : {all: false, linear: true}
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.allProfText,
+                        iconCls     : 'menu__icon professional-equation',
+                        type        : 'view',
+                        value       : {all: true, linear: false}
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.allLinearText,
+                        iconCls     : 'menu__icon linear-equation',
+                        type        : 'view',
+                        value       : {all: true, linear: true}
+                    }),
+                    { caption     : '--' },
+                    new Common.UI.MenuItem({
+                        caption     : this.eqToInlineText,
+                        checkable   : true,
+                        checked     : false,
+                        type        : 'mode'
+                    })
+                ]
+            });
+        },
+
         focus: function() {
             var me = this;
             _.defer(function(){  me.cmpEl.focus(); }, 50);
@@ -3203,6 +3144,7 @@ define([
         textCells: 'Cells',
         textSeveral: 'Several Rows/Columns',
         txtInsertCaption: 'Insert Caption',
+        textSaveAsPicture: 'Save as picture',
         txtEmpty: '(Empty)',
         textFromStorage: 'From Storage',
         advancedDropCapText: 'Drop Cap Settings',

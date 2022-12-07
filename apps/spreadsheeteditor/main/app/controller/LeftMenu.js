@@ -857,6 +857,7 @@ define([
         onShowHideSearch: function (state, findText) {
             if (state) {
                 Common.UI.Menu.Manager.hideAll();
+                this.tryToShowLeftMenu();
                 this.leftMenu.showMenu('advancedsearch');
                 this.leftMenu.fireEvent('search:aftershow', [findText]);
             } else {

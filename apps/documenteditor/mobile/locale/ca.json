@@ -247,6 +247,7 @@
     "textCreateTextStyle": "Crea un nou estil de text",
     "textCurrent": "Actual",
     "textCustomColor": "Color personalitzat",
+    "textCustomStyle": "Estil personalitzat",
     "textDecember": "desembre",
     "textDeleteImage": "Esborra la imatge",
     "textDeleteLink": "Esborra l'enllaç",
@@ -330,7 +331,6 @@
     "textRemoveShape": "Suprimeix la forma",
     "textRemoveTable": "Suprimeix la taula",
     "textRemoveTableContent": "Suprimeix la taula de continguts",
-    "textReorder": "Torna a ordenar",
     "textRepeatAsHeaderRow": "Repeteix com a fila de capçalera",
     "textReplace": "Substitueix",
     "textReplaceImage": "Substitueix la imatge",
@@ -376,7 +376,7 @@
     "textWe": "dc.",
     "textWrap": "Ajustament",
     "textWrappingStyle": "Estil d'ajustament",
-    "textCustomStyle": "Custom Style"
+    "textArrange": "Arrange"
   },
   "Error": {
     "convertationTimeoutText": "S'ha superat el temps de conversió.",
@@ -395,6 +395,11 @@
     "errorEmptyTOC": "Comenceu a crear una taula de continguts aplicant un estil d'encapçalament de la galeria d'Estils al text seleccionat.",
     "errorFilePassProtect": "El fitxer està protegit amb contrasenya i no s'ha pogut obrir.",
     "errorFileSizeExceed": "La mida del fitxer supera el límit del teu servidor. <br>Contacteu amb el vostre administrador.",
+    "errorInconsistentExt": "S'ha produït un error en obrir el fitxer.<br>El contingut del fitxer no es correspon amb la seva extensió.",
+    "errorInconsistentExtDocx": "S'ha produït un error en obrir el fitxer.<br>El contingut del fitxer correspon a documents de text (per exemple, docx), però el fitxer té l'extensió incoherent: %1.",
+    "errorInconsistentExtPdf": "S'ha produït un error en obrir el fitxer.<br>El contingut del fitxer correspon a un dels formats següents: pdf/djvu/xps/oxps, però el fitxer té l'extensió incoherent: %1.",
+    "errorInconsistentExtPptx": "S'ha produït un error en obrir el fitxer.<br>El contingut del fitxer correspon a presentacions (per exemple, pptx), però el fitxer té l'extensió incongruent: %1.",
+    "errorInconsistentExtXlsx": "S'ha produït un error en obrir el fitxer.<br>El contingut del fitxer correspon a full de càlcul (per exemple, xlsx), però el fitxer té l'extensió incoherent: %1.",
     "errorKeyEncrypt": "Descriptor de claus desconegut",
     "errorKeyExpire": "El descriptor de claus ha caducat",
     "errorLoadingFont": "No s'han carregat les famílies tipogràfiques. <br>Contacteu amb l'administrador del servidor de documents.",
@@ -406,6 +411,8 @@
     "errorSessionToken": "S'ha interromput la connexió amb el servidor. Torneu a carregar la pàgina.",
     "errorStockChart": "L'ordre de la fila no és correcte. Per construir un gràfic de valors, poseu les dades al full de càlcul en l'ordre següent: <br>preu d'obertura, preu màxim, preu mínim, preu de tancament.",
     "errorTextFormWrongFormat": "El valor introduït no es correspon amb el format del camp",
+    "errorToken": "El testimoni de seguretat del document no s'ha format correctament. <br>Contacteu amb l'administrador del servidor de documents.",
+    "errorTokenExpire": "El testimoni de seguretat del document ha caducat. <br>Contacteu amb l'administrador del servidor de documents.",
     "errorUpdateVersionOnDisconnect": "S'ha restaurat la connexió a internet i la versió del fitxer ha canviat. <br> Abans de continuar treballant, heu de baixar el fitxer o copiar-ne el contingut per assegurar-vos que no es perdi res i, després, torneu a carregar aquesta pàgina.",
     "errorUserDrop": "Ara mateix no es pot accedir al fitxer.",
     "errorUsersExceed": "S'ha superat el nombre d’usuaris que permet el vostre pla",
@@ -425,6 +432,7 @@
   "LongActions": {
     "applyChangesTextText": "S'estan carregant les dades...",
     "applyChangesTitleText": "S'estan carregant les dades",
+    "confirmMaxChangesSize": "La mida de les accions excedeix el límit establert pel vostre servidor.<br>Premeu «Desfés» per a cancel·lar la vostra última acció o premeu «Continua» per a mantenir l'acció localment (cal baixar el fitxer o copiar el seu contingut per a assegurar-vos que no es perd res).",
     "downloadMergeText": "S'està baixant...",
     "downloadMergeTitle": "S'està baixant",
     "downloadTextText": "S'està baixant el document...",
@@ -457,8 +465,7 @@
     "txtEditingMode": "Estableix el mode d'edició ...",
     "uploadImageTextText": "S'està carregant la imatge...",
     "uploadImageTitleText": "S'està carregant la imatge",
-    "waitText": "Espereu...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost)."
+    "waitText": "Espereu..."
   },
   "Main": {
     "criticalErrorTitle": "Error",

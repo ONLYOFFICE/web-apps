@@ -69,6 +69,12 @@
         &xlsm {
             background: ~"url('@{common-image-const-path}/doc-formats/xlsm.svg') no-repeat center";
         }
+        &png {
+            background: ~"url('@{common-image-const-path}/doc-formats/png.svg') no-repeat center";
+        }
+        &jpg {
+            background: ~"url('@{common-image-const-path}/doc-formats/jpg.svg') no-repeat center";
+        }
     }
 
     div {
@@ -187,13 +193,35 @@
         }
 
         #panel-saveas, #panel-savecopy  {
-            table {
-                margin-left: auto;
-                margin-right: auto;
-                margin-bottom: 24px;
+            &.content-box {
+                padding: 0 0 0 20px;
+            }
 
-                .btn-doc-format {
-                    margin: 24px 12px 0px;
+            .content-container {
+                margin: 30px 0 0 10px;
+
+                .header {
+                    font-size: 16px;
+                    margin-bottom: 20px;
+                }
+
+                .format-items {
+                    .format-item {
+                        float: left;
+                        margin: 0 24px 34px 0;
+
+                        .btn-doc-format {
+                            width: 70px;
+                            height: 90px;
+                        }
+                    }
+
+                    .divider {
+                        float: left;
+                        width: 0;
+                        height: 0;
+                    }
+
                 }
             }
         }
@@ -202,12 +230,22 @@
             padding: 0;
             display: flex;
             flex-direction: column;
+
+            .header {
+                margin: 30px 0 20px 30px;
+                font-size: 16px;
+            }
         }
 
         #panel-settings {
             padding: 0;
             display: flex;
             flex-direction: column;
+
+            .header {
+                margin: 30px 0 16px 30px;
+                font-size: 16px;
+            }
 
             #id-settings-menu {
                 .dataview {
@@ -340,14 +378,12 @@
         }
 
         #panel-createnew {
-            h3 {
-                margin: 0;
-                font-size: 10pt;
-                color: @text-normal-ie;
-                color: @text-normal;
-                .font-weight-bold();
-                padding: 0 0 10px 10px;
+            .header {
+                font-size: 16px;
+                padding: 0 0 0 10px;
                 white-space: nowrap;
+                margin-top: 30px;
+                margin-bottom: 20px;
 
                 .rtl & {
                     padding: 0 10px 10px 0;
@@ -421,6 +457,15 @@
         }
 
         #panel-recentfiles {
+            #id-recent-view {
+                margin: 0 0 20px 10px;
+            }
+
+            .header {
+                margin: 30px 0 20px 10px;
+                font-size: 16px;
+            }
+
             .dataview {
                 & > div:not([class^=ps-scrollbar]) {
                     border: none;
@@ -529,6 +574,11 @@
 
         #panel-rights {
             padding: 0 30px;
+
+            .header {
+                margin: 30px 0 20px 0;
+                font-size: 16px;
+            }
         }
 
         #panel-info,
@@ -545,7 +595,7 @@
                         &.left {
                             padding: 5px 10px;
                             text-align: right;
-                            width: 30%;
+                            width: 200px;
 
                             .rtl & {
                                 text-align: left;
@@ -558,7 +608,7 @@
 
                         &.right {
                             padding: 5px 10px;
-                            width: 70%;
+                            width: calc(100% - 200px);
                         }
                     }
 
@@ -606,21 +656,50 @@
         }
 
         #panel-protect {
+            padding: 30px 30px;
+
             label {
                 font-size: 12px;
             }
 
-            padding: 30px 30px;
-
             .header {
                 .font-weight-bold();
-                margin: 30px 0 10px;
+                margin: 20px 0 4px 0;
             }
 
-            table {
-                td {
-                    padding: 5px 0;
-                }
+            .description {
+                color: @text-secondary-ie;
+                color: @text-secondary;
+                margin-bottom: 12px;
+            }
+
+            .buttons {
+                display: flex;
+            }
+
+            #fms-btn-delete-pwd {
+                margin-left: 16px;
+            }
+
+            .signature-view-link {
+                margin-right: 20px;
+            }
+
+            .signature-tip {
+                margin-bottom: 6px;
+            }
+
+            #fms-btn-invisible-sign {
+                margin-bottom: 20px;
+            }
+
+            #id-fms-lbl-protect-header {
+                font-size: 16px;
+            }
+
+            .btn-text-default.auto {
+                padding-left: 12px;
+                padding-right: 12px;
             }
 
             #fms-btn-delete-pwd {
@@ -633,6 +712,10 @@
         }
 
         #panel-print {
+            .main-header {
+                font-size: 16px;
+                margin: 18px 0 20px 0;
+            }
             padding: 0;
             #print-preview-empty {
                 padding: 14px;
@@ -671,6 +754,14 @@
                 flex-direction: column;
                 border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
                 border-right: @scaled-one-px-value solid @border-toolbar;
+                .pages {
+                    label, #print-spin-pages-from {
+                        margin-right: 6px;
+                    }
+                    label, div {
+                        display: inline-block;
+                    }
+                }
                 label.header {
                     font-weight: 700;
                 }

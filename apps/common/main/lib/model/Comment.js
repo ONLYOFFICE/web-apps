@@ -82,6 +82,7 @@ define([
             hide                : false,
             filtered            : false,
             hint                : false,
+            fullInfoInHint      : false,
             dummy               : undefined,
             editable            : true,
             removable           : true

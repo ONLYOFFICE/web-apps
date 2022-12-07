@@ -380,6 +380,19 @@ define([
                     Common.Utils.InternalSettings.set("guest-username", value);
                     Common.Utils.InternalSettings.set("save-guest-username", !!value);
                 }
+                if (this.appOptions.customization.font) {
+                    if (this.appOptions.customization.font.name && typeof this.appOptions.customization.font.name === 'string') {
+                        var arr = this.appOptions.customization.font.name.split(',');
+                        for (var i=0; i<arr.length; i++) {
+                            var item = arr[i].trim();
+                            if (item && (/[\s0-9\.]/).test(item)) {
+                                arr[i] = "'" + item + "'";
+                            }
+                        }
+                        document.documentElement.style.setProperty("--font-family-base-custom", arr.join(','));
+                    }
+                }
+
                 this.editorConfig.user          =
                 this.appOptions.user            = Common.Utils.fillUserInfo(this.editorConfig.user, this.editorConfig.lang, value ? (value + ' (' + this.appOptions.guestName + ')' ) : this.textAnonymous,
                                                                             Common.localStorage.getItem("guest-id") || ('uid-' + Date.now()));
@@ -1095,6 +1108,7 @@ define([
 
                     case Asc.c_oAscAsyncAction['Disconnect']:
                         text    = this.textDisconnect;
+                        Common.UI.Menu.Manager.hideAll();
                         this.disableEditing(true, true);
                         var me = this;
                         statusCallback = function() {
@@ -1418,7 +1432,8 @@ define([
                         });
                     }
                 } else if (!this.appOptions.isDesktopApp && !this.appOptions.canBrandingExt &&
-                            this.editorConfig && this.editorConfig.customization && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo)) {
+                            this.editorConfig && this.editorConfig.customization && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo ||
+                                                                                     this.editorConfig.customization.font && this.editorConfig.customization.font.name)) {
                     Common.UI.warning({
                         title: this.textPaidFeature,
                         msg  : this.textCustomLoader,
@@ -1495,6 +1510,9 @@ define([
                 }
                 this.appOptions.canEditStyles  = this.appOptions.canLicense && this.appOptions.canEdit;
                 this.appOptions.canPrint       = (this.permissions.print !== false);
+                this.appOptions.canPreviewPrint = this.appOptions.canPrint && !Common.Utils.isMac && this.appOptions.isDesktopApp;
+                this.appOptions.canQuickPrint = this.appOptions.canPrint && !Common.Utils.isMac && this.appOptions.isDesktopApp &&
+                                                !(this.editorConfig.customization && this.editorConfig.customization.compactHeader);
                 this.appOptions.canRename      = this.editorConfig.canRename;
                 this.appOptions.buildVersion   = params.asc_getBuildVersion();
                 this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
@@ -1668,6 +1686,9 @@ define([
 
                 viewport.applyCommonMode();
 
+                var printController = app.getController('Print');
+                printController && this.api && printController.setApi(this.api).setMode(this.appOptions);
+
                 this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
                 this.api.asc_registerCallback('asc_onDownloadUrl',     _.bind(this.onDownloadUrl, this));
                 this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onAuthParticipantsChanged, this));
@@ -1772,6 +1793,9 @@ define([
                 if (id == Asc.c_oAscError.ID.LoadingScriptError) {
                     this.showTips([this.scriptLoadError]);
                     this.tooltip && this.tooltip.getBSTip().$tip.css('z-index', 10000);
+                    return;
+                } else if (id == Asc.c_oAscError.ID.CanNotPasteImage) {
+                    this.showTips([this.errorCannotPasteImg], {timeout: 7000, hideCloseTip: true});
                     return;
                 }
 
@@ -1981,6 +2005,20 @@ define([
 
                     case Asc.c_oAscError.ID.PasswordIsNotCorrect:
                         config.msg = this.errorPasswordIsNotCorrect;
+                        break;
+
+                    case Asc.c_oAscError.ID.ConvertationOpenFormat:
+                        config.maxwidth = 600;
+                        if (errData === 'pdf')
+                            config.msg = this.errorInconsistentExtPdf.replace('%1', this.document.fileType || '');
+                        else if  (errData === 'docx')
+                            config.msg = this.errorInconsistentExtDocx.replace('%1', this.document.fileType || '');
+                        else if  (errData === 'xlsx')
+                            config.msg = this.errorInconsistentExtXlsx.replace('%1', this.document.fileType || '');
+                        else if  (errData === 'pptx')
+                            config.msg = this.errorInconsistentExtPptx.replace('%1', this.document.fileType || '');
+                        else
+                            config.msg = this.errorInconsistentExt;
                         break;
 
                     default:
@@ -2256,7 +2294,9 @@ define([
             onServerVersion: function(buildVersion) {
                 if (this.changeServerVersion) return true;
 
-                if (DocsAPI.DocEditor.version() !== buildVersion && !window.compareVersions) {
+                const cur_version = this.getApplication().getController('LeftMenu').leftMenu.getMenu('about').txtVersionNum;
+                const cropped_version = cur_version.match(/^(\d+.\d+.\d+)/);
+                if (!window.compareVersions && (!cropped_version || cropped_version[1] !== buildVersion)) {
                     this.changeServerVersion = true;
                     Common.UI.warning({
                         title: this.titleServerVersion,
@@ -2471,6 +2511,7 @@ define([
                 this.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
                 this.getApplication().getController('RightMenu').updateMetricUnit();
                 this.getApplication().getController('Toolbar').getView().updateMetricUnit();
+                this.appOptions.canPreviewPrint && this.getApplication().getController('Print').getView('PrintWithPreview').updateMetricUnit();
             },
 
             onAdvancedOptions: function(type, advOptions, mode, formatOptions) {
@@ -2625,9 +2666,7 @@ define([
 
             onPrint: function() {
                 if (!this.appOptions.canPrint || Common.Utils.ModalWindow.isVisible()) return;
-                
-                if (this.api)
-                    this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isOpera == true use asc_onPrintUrl event
+                Common.NotificationCenter.trigger('file:print');
                 Common.component.Analytics.trackEvent('Print');
             },
 
@@ -2658,6 +2697,39 @@ define([
                     };
                 }
                 if (url) this.iframePrint.src = url;
+            },
+
+            onPrintQuick: function() {
+                if (!this.appOptions.canQuickPrint) return;
+
+                var value = Common.localStorage.getBool("de-hide-quick-print-warning"),
+                    me = this,
+                    handler = function () {
+                        var printopt = new Asc.asc_CAdjustPrint();
+                        printopt.asc_setNativeOptions({quickPrint: true});
+                        var opts = new Asc.asc_CDownloadOptions();
+                        opts.asc_setAdvancedOptions(printopt);
+                        me.api.asc_Print(opts);
+                        Common.component.Analytics.trackEvent('Print');
+                    };
+
+                if (value) {
+                    handler.call(this);
+                } else {
+                    Common.UI.warning({
+                        msg: this.textTryQuickPrint,
+                        buttons: ['yes', 'no'],
+                        primary: 'yes',
+                        dontshow: true,
+                        maxwidth: 500,
+                        callback: function(btn, dontshow){
+                            dontshow && Common.localStorage.setBool("de-hide-quick-print-warning", true);
+                            if (btn === 'yes') {
+                                setTimeout(handler, 1);
+                            }
+                        }
+                    });
+                }
             },
 
             onClearDummyComment: function() {
@@ -2819,19 +2891,38 @@ define([
                 value = Common.localStorage.getBool("de-settings-autoformat-hyphens", true);
                 Common.Utils.InternalSettings.set("de-settings-autoformat-hyphens", value);
                 me.api.asc_SetAutoCorrectHyphensWithDash(value);
-
-                value = Common.localStorage.getBool("de-settings-autoformat-fl-sentence", true);
-                Common.Utils.InternalSettings.set("de-settings-autoformat-fl-sentence", value);
+   
+                value = Common.localStorage.getItem("de-settings-letter-exception-sentence");
+                value = value !== null ? parseInt(value) != 0 : Common.localStorage.getBool("de-settings-autoformat-fl-sentence", true);
+                Common.Utils.InternalSettings.set("de-settings-letter-exception-sentence", value);
                 me.api.asc_SetAutoCorrectFirstLetterOfSentences(value);
+
+                value = Common.localStorage.getItem("de-settings-letter-exception-cells");
+                value = value !== null ? parseInt(value) != 0 : Common.localStorage.getBool("de-settings-autoformat-fl-cells", true);
+                Common.Utils.InternalSettings.set("de-settings-letter-exception-cells", value);
+                me.api.asc_SetAutoCorrectFirstLetterOfCells(value);
+
+                [0x0409, 0x0419].forEach(function(lang) {
+                    var apiFlManager = me.api.asc_GetAutoCorrectSettings().get_FirstLetterExceptionManager();
+                    
+                    value = Common.localStorage.getItem("de-settings-letter-exception-add-" + lang);
+                    Common.Utils.InternalSettings.set("de-settings-letter-exception-add-" + lang, value);
+                    arrAdd = value ? JSON.parse(value) : [];
+    
+                    value = Common.localStorage.getItem("de-settings-letter-exception-rem-" + lang);
+                    Common.Utils.InternalSettings.set("de-settings-letter-exception-rem-" + lang, value);
+                    arrRem = value ? JSON.parse(value) : [];
+
+                    var arrRes = _.union(apiFlManager.get_Exceptions(lang), arrAdd); 
+                    arrRes = _.difference(arrRes, arrRem);  
+                    arrRes.sort();
+                    apiFlManager.put_Exceptions(arrRes, lang);       
+                });                
 
                 value = Common.localStorage.getBool("de-settings-autoformat-hyperlink", true);
                 Common.Utils.InternalSettings.set("de-settings-autoformat-hyperlink", value);
                 me.api.asc_SetAutoCorrectHyperlinks(value);
-
-                value = Common.localStorage.getBool("de-settings-autoformat-fl-cells", true);
-                Common.Utils.InternalSettings.set("de-settings-autoformat-fl-cells", value);
-                me.api.asc_SetAutoCorrectFirstLetterOfCells(value);
-
+                
                 value = Common.localStorage.getBool("de-settings-autoformat-double-space", Common.Utils.isMac); // add period with double-space in MacOs by default
                 Common.Utils.InternalSettings.set("de-settings-autoformat-double-space", value);
                 me.api.asc_SetAutoCorrectDoubleSpaceWithPeriod(value);
@@ -3287,7 +3378,14 @@ define([
             errorPasswordIsNotCorrect: 'The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.',
             confirmMaxChangesSize: 'The size of actions exceeds the limitation set for your server.<br>Press "Undo" to cancel your last action or press "Continue" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).',
             textUndo: 'Undo',
-            textContinue: 'Continue'
+            textContinue: 'Continue',
+            errorInconsistentExtDocx: 'An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.',
+            errorInconsistentExtXlsx: 'An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.',
+            errorInconsistentExtPptx: 'An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.',
+            errorInconsistentExtPdf: 'An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.',
+            errorInconsistentExt: 'An error has occurred while opening the file.<br>The file content does not match the file extension.',
+            errorCannotPasteImg: 'We can\'t paste this image from the Clipboard, but you can save it to your device and \ninsert it from there, or you can copy the image without text and paste it into the document.',
+            textTryQuickPrint: 'You have selected Quick print: the entire document will be printed on the last selected or default printer.<br>Do you want to continue?'
         }
     })(), DE.Controllers.Main || {}))
 });

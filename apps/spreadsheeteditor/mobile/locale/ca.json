@@ -31,9 +31,9 @@
       "textOk": "D'acord",
       "textReopen": "Torna a obrir",
       "textResolve": "Resol",
+      "textSharingSettings": "Compartir Configuració",
       "textTryUndoRedo": "S'han desactivat les funcions desfés/refés per al mode de coedició ràpida.",
-      "textUsers": "Usuaris",
-      "textSharingSettings": "Sharing Settings"
+      "textUsers": "Usuaris"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Colors personalitzats",
@@ -50,6 +50,7 @@
     "menuCell": "Cel·la",
     "menuDelete": "Suprimeix",
     "menuEdit": "Edita",
+    "menuEditLink": "Editar Enllaç",
     "menuFreezePanes": "Immobilitza les subfinestres",
     "menuHide": "Amaga",
     "menuMerge": "Combina",
@@ -66,8 +67,7 @@
     "textDoNotShowAgain": "No ho mostris més",
     "textOk": "D'acord",
     "txtWarnUrl": "Fer clic en aquest enllaç pot ser perjudicial per al dispositiu i les dades.<br>Esteu segur que voleu continuar?",
-    "warnMergeLostData": "Només les dades de la cel·la superior esquerra romandran a la cel·la combinada. <br>Voleu continuar?",
-    "menuEditLink": "Edit Link"
+    "warnMergeLostData": "Només les dades de la cel·la superior esquerra romandran a la cel·la combinada. <br>Voleu continuar?"
   },
   "Controller": {
     "Main": {
@@ -158,17 +158,17 @@
       "textReplaceSuccess": "S'ha fet la cerca. S'han substituït les coincidències: {0}",
       "textRequestMacros": "Una macro fa una sol·licitud a l'URL. Voleu permetre la sol·licitud al %1?",
       "textYes": "Sí",
+      "titleLicenseExp": "Llicència Caducada",
       "titleServerVersion": "S'ha actualitzat l'editor",
       "titleUpdateVersion": "S'ha canviat la versió",
       "warnLicenseExceeded": "Heu arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Contacteu amb l'administrador per a més informació.",
+      "warnLicenseExp": "La vostra llicència ha caducat. Actualitzeu la llicència i la pàgina.",
       "warnLicenseLimitedNoAccess": "La llicència ha caducat. No teniu accés a la funció d'edició de documents. Contacteu amb l'administrador.",
       "warnLicenseLimitedRenewed": "Cal renovar la llicència. Teniu accés limitat a la funció d'edició de documents. <br>Contacteu amb l'administrador per obtenir accés total",
       "warnLicenseUsersExceeded": "Heu arribat al límit d'usuaris per a %1 editors. Contacteu amb el vostre administrador per a més informació.",
       "warnNoLicense": "Heu arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Contacteu amb l'equip de vendes %1 per a les condicions d'una actualització personal.",
       "warnNoLicenseUsers": "Heu arribat al límit d'usuaris per a %1 editors. Contacteu amb l'equip de vendes de %1 per obtenir les condicions de millora personals dels vostres serveis.",
-      "warnProcessRightsChange": "No teniu permís per editar el fitxer.",
-      "titleLicenseExp": "License expired",
-      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
+      "warnProcessRightsChange": "No teniu permís per editar el fitxer."
     }
   },
   "Error": {
@@ -196,6 +196,7 @@
     "errorDataRange": "L'interval de dades no és correcte.",
     "errorDataValidate": "El valor que heu introduït no és vàlid. <br> Un usuari ha restringit els valors que es poden introduir en aquesta cel·la.",
     "errorDefaultMessage": "Codi d'error:%1",
+    "errorDirectUrl": "Verifiqueu l'enllaç al document. <br>Aquest enllaç ha de ser un enllaç directe al fitxer per baixar-lo.",
     "errorEditingDownloadas": "S'ha produït un error mentre es treballava amb el document. <br> Utilitzeu l'opció \"Descarregar\" per desar la còpia de seguretat del fitxer en un disc local.",
     "errorFilePassProtect": "El fitxer està protegit amb contrasenya i no s'ha pogut obrir.",
     "errorFileRequest": "Error extern. <br> Sol·licitud de fitxer. Contacteu amb el servei d'assistència tècnica.",
@@ -243,12 +244,21 @@
     "uploadImageExtMessage": "Format d'imatge desconegut.",
     "uploadImageFileCountMessage": "No s'ha carregat cap imatge.",
     "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB.",
-    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
+    "textCancel": "Cancel",
+    "textOk": "Ok"
   },
   "LongActions": {
     "advDRMPassword": "Contrasenya",
     "applyChangesTextText": "S'estant carregant les dades...",
     "applyChangesTitleText": "S'estan carregant les dades",
+    "confirmMaxChangesSize": "La mida de les accions excedeix la limitació establerta pel vostre servidor.<br>Premeu «Desfés» per a cancel·lar la vostra última acció o premeu «Continua» per a mantenir l'acció localment (cal baixar el fitxer o copiar el seu contingut per a assegurar-vos que no es perd res).",
     "confirmMoveCellRange": "L'interval de cel·les de destinació pot contenir dades. Voleu continuar amb l'operació?",
     "confirmPutMergeRange": "Les dades d'origen contenen cel·les combinades. <br>La combinació es desfarà abans que s'enganxin a la taula.",
     "confirmReplaceFormulaInTable": "Les fórmules de la fila de capçalera s'eliminaran i es convertiran en text estàtic. <br>Voleu continuar?",
@@ -274,20 +284,19 @@
     "saveTextText": "S'està desant el document...",
     "saveTitleText": "S'està desant el document",
     "textCancel": "Cancel·la",
+    "textContinue": "Continuar",
     "textErrorWrongPassword": "La contrasenya que heu introduït no és correcta.",
     "textLoadingDocument": "S'està carregant el document",
     "textNo": "No",
     "textOk": "D'acord",
+    "textUndo": "Desfés",
     "textUnlockRange": "Desbloca l'interval",
     "textUnlockRangeWarning": "Un interval que intenteu canviar està protegit amb contrasenya.",
     "textYes": "Sí",
     "txtEditingMode": "Estableix el mode d'edició ...",
     "uploadImageTextText": "S'està carregant la imatge...",
     "uploadImageTitleText": "S'està carregant la imatge",
-    "waitText": "Espereu...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textContinue": "Continue",
-    "textUndo": "Undo"
+    "waitText": "Espereu..."
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Advertiment",
@@ -343,6 +352,7 @@
       "textComment": "Comentari",
       "textDataTableHint": "Retorna les cel·les de dades de la taula o les columnes de la taula especificades",
       "textDisplay": "Visualització",
+      "textDone": "Fet",
       "textEmptyImgUrl": "Cal especificar l'URL de la imatge.",
       "textExternalLink": "Enllaç extern",
       "textFilter": "Filtre",
@@ -363,6 +373,7 @@
       "textPictureFromLibrary": "Imatge de la biblioteca",
       "textPictureFromURL": "Imatge de l'URL",
       "textRange": "Interval",
+      "textRecommended": "Recomanat",
       "textRequired": "Necessari",
       "textScreenTip": "Consell de pantalla",
       "textSelectedRange": "Interval Seleccionat",
@@ -378,9 +389,7 @@
       "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
       "txtSorting": "Ordenació",
       "txtSortSelected": "Ordena els objectes seleccionats",
-      "txtYes": "Sí",
-      "textDone": "Done",
-      "textRecommended": "Recommended"
+      "txtYes": "Sí"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertiment",
@@ -413,9 +422,11 @@
       "textBottom": "Part inferior",
       "textBottomBorder": "Vora inferior",
       "textBringToForeground": "Porta al primer pla",
+      "textCancel": "Cancel·lar",
       "textCell": "Cel·la",
       "textCellStyle": "Estil de cel·la",
       "textCenter": "Centra",
+      "textChangeShape": "Canvia la forma",
       "textChart": "Gràfic",
       "textChartTitle": "Títol del gràfic",
       "textClearFilter": "Suprimeix el filtre",
@@ -428,12 +439,15 @@
       "textDate": "Data",
       "textDefault": "Interval seleccionat",
       "textDeleteFilter": "Suprimeix el filtre",
+      "textDeleteImage": "Esborrar imatge",
+      "textDeleteLink": "Esborrar enllaç",
       "textDesign": "Disseny",
       "textDiagonalDownBorder": "Vora diagonal inferior",
       "textDiagonalUpBorder": "Vora diagonal superior",
       "textDisplay": "Visualització",
       "textDisplayUnits": "Unitats de visualització",
       "textDollar": "Dòlar",
+      "textDone": "Fet",
       "textEditLink": "Edita l'enllaç",
       "textEffects": "Efectes",
       "textEmptyImgUrl": "Cal especificar l'URL de la imatge.",
@@ -514,6 +528,7 @@
       "textPound": "Lliura",
       "textPt": "pt",
       "textRange": "Interval",
+      "textRecommended": "Recomanat",
       "textRemoveChart": "Suprimeix el gràfic",
       "textRemoveShape": "Suprimeix la forma",
       "textReplace": "Substitueix",
@@ -560,13 +575,7 @@
       "textYen": "Ien",
       "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
       "txtSortHigh2Low": "Ordena de major a menor",
-      "txtSortLow2High": "Ordena de menor a major",
-      "textCancel": "Cancel",
-      "textChangeShape": "Change Shape",
-      "textDeleteImage": "Delete Image",
-      "textDeleteLink": "Delete Link",
-      "textDone": "Done",
-      "textRecommended": "Recommended"
+      "txtSortLow2High": "Ordena de menor a major"
     },
     "Settings": {
       "advCSVOptions": "Trieu les opcions CSV",

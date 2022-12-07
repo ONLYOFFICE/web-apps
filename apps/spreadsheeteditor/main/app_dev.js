@@ -115,7 +115,6 @@ require([
     'backbone',
     'bootstrap',
     'core',
-    'api',
     'analytics',
     'gateway',
     'locale',

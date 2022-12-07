@@ -145,7 +145,7 @@ define([
                 style       : '',
                 itemTemplate: null,
                 items       : [],
-                menuAlign   : 'tl-bl',
+                menuAlign   : 'tl-bl',//menu - parent
                 menuAlignEl : null,
                 offset      : [0, 0],
                 cyclic      : true,

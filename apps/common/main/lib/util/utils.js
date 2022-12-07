@@ -979,7 +979,7 @@ Common.Utils.warningDocumentIsLocked = function (opts) {
         callback: function(btn){
             if (btn == 'edit') {
                 if ( opts.disablefunc ) opts.disablefunc(false);
-                app.getController('Main').api.asc_setIsReadOnly(false);
+                app.getController('Main').api.asc_setLocalRestrictions(Asc.c_oAscLocalRestrictionType.None);
             }
         }
     });

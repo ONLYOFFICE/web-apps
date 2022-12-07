@@ -114,7 +114,7 @@ const EditCell = props => {
                         }}>
                             {!isAndroid && <Icon slot="media" icon="icon-cell-style" />}
                             <div slot="after">
-                                <div className='preview-cell-style' style={{backgroundImage: `url(${curStyle.image})`}}></div>
+                                <div className='preview-cell-style' style={{backgroundImage: `url(${curStyle ? curStyle.image : null})`}}></div>
                             </div>
                         </ListItem>
                     </List>

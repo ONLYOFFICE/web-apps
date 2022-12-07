@@ -782,7 +782,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-insertequation',
                         caption: me.capInsertEquation,
-                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                         split: true,
                         menu: new Common.UI.Menu({cls: 'menu-shapes'}),
                         dataHint: '1',

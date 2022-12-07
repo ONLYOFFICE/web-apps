@@ -456,7 +456,7 @@ const PageReorder = props => {
     }
     return (
         <Page>
-            <Navbar title={_t.textReorder} backLink={_t.textBack}>
+            <Navbar title={t('Edit.textArrange')} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
@@ -503,7 +503,7 @@ const EditChart = props => {
                     onOverlap: props.onOverlap,
                     onWrapDistance: props.onWrapDistance
                 }}></ListItem>
-                <ListItem title={t('Edit.textReorder')} link='/edit-chart-reorder/' routeProps={{
+                <ListItem title={t('Edit.textArrange')} link='/edit-chart-reorder/' routeProps={{
                     onReorder: props.onReorder
                 }}></ListItem>
             </List>

@@ -1838,5 +1838,57 @@
 	"XOR": {
 		"a": "(loģiskā_vērtība1; [loģiskā_vērtība2]; ...)",
 		"d": "No visiem argumentiem atgriež loģisko vērtību \"Izņemot/Vai\""
+	},
+	"TEXTBEFORE": {
+		"a": "(teksts, norobežotājs, [instances_num], [atbilstības_režīms], [atbilstības_beigas], [ja_nav_atrasts])",
+		"d": "Atgriež tekstu, kas ir pirms norobežošanas rakstzīmēm."
+	},
+	"TEXTAFTER": {
+		"a": "(teksts, norobežotājs, [instances_num], [atbilstības_režīms], [atbilstības_beigas], [ja_nav_atrasts])",
+		"d": "Atgriež tekstu, kas ir pēc norobežošanas rakstzīmēm."
+	},
+	"TEXTSPLIT": {
+		"a": "(teksts, kolonnu_norobežotājs, [rindu_norobežotājs], [ignorēt_tukšu], [atbilstības_režīms], [pilda_ar])",
+		"d": "Sadala tekstu rindās vai kolonnās, izmantojot norobežotājus."
+	},
+	"WRAPROWS": {
+		"a": "(vektors, wrap_count, [pad_with])",
+		"d": "Aplauzt rindas vai kolonnas vektoru pēc norādītā vērtību skaita."
+	},
+	"VSTACK": {
+		"a": "(masīvs1, [masīvs2], ...)",
+		"d": "Vertikāli sagrupē masīvus vienā masīvā."
+	},
+	"HSTACK": {
+		"a": "(masīvs1, [masīvs2], ...)",
+		"d": "Horizontāli sagrupē masīvus vienā masīvā."
+	},
+	"CHOOSEROWS": {
+		"a": "(masīvs, row_num1, [row_num2], ...)",
+		"d": "Atgriež rindas no masīva vai atsauces."
+	},
+	"CHOOSECOLS": {
+		"a": "(masīvs, col_num1, [col_num2], ...)",
+		"d": "Atgriež kolonnas no masīva vai atsauces."
+	},
+	"TOCOL": {
+		"a": "(masīvs, [ignorēt], [scan_by_column])",
+		"d": "Atgriež masīvu kā vienu kolonnu."
+	},
+	"TOROW": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "Atgriež masīvu kā vienu rindu."
+	},
+	"WRAPCOLS": {
+		"a": "(vektors, wrap_count, [pad_with])",
+		"d": " Aplauzt rindas vai kolonnas vektoru pēc norādītā vērtību skaita."
+	},
+	"TAKE": {
+		"a": "(masīvs, rindas, [kolonnas])",
+		"d": "Atgriež rindas vai kolonnas no masīva sākuma vai beigām."
+	},
+	"DROP": {
+		"a": "(masīvs, rindas, [kolonnas])",
+		"d": "Nomet rindas vai kolonnas no masīva sākuma vai beigām."
 	}
 }

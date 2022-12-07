@@ -102,12 +102,12 @@ define([
             var txtPt = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt),
                 data = [
                     {displayValue: '0.5 ' + txtPt,   value: 0.5, pxValue: 0.5, offsety: 0},
-                    {displayValue: '1 ' + txtPt,     value: 1,   pxValue: 1, offsety: 20},
+                    {displayValue: '1 ' + txtPt,     value: 1,   pxValue: 1, offsety: 20},  //pxValue = 1.34px
                     {displayValue: '1.5 ' + txtPt,   value: 1.5, pxValue: 2, offsety: 40},
                     {displayValue: '2.25 ' + txtPt,  value: 2.25,pxValue: 3, offsety: 60},
                     {displayValue: '3 ' + txtPt,     value: 3,   pxValue: 4, offsety: 80},
-                    {displayValue: '4.5 ' + txtPt,   value: 4.5, pxValue: 5, offsety: 100},
-                    {displayValue: '6 ' + txtPt,     value: 6,   pxValue: 6, offsety: 120}
+                    {displayValue: '4.5 ' + txtPt,   value: 4.5, pxValue: 6, offsety: 100},
+                    {displayValue: '6 ' + txtPt,     value: 6,   pxValue: 8, offsety: 120}
                 ];
             if (options.allowNoBorders !== false)
                 data.unshift({displayValue: this.txtNoBorders, value: 0, pxValue: 0 });
@@ -216,8 +216,8 @@ define([
                     {displayValue: '1.5 ' + txtPt,   value: 1.5, pxValue: 2, offsety: 40},
                     {displayValue: '2.25 ' + txtPt,  value: 2.25,pxValue: 3, offsety: 60},
                     {displayValue: '3 ' + txtPt,     value: 3,   pxValue: 4, offsety: 80},
-                    {displayValue: '4.5 ' + txtPt,   value: 4.5, pxValue: 5, offsety: 100},
-                    {displayValue: '6 ' + txtPt,     value: 6,   pxValue: 6, offsety: 120}
+                    {displayValue: '4.5 ' + txtPt,   value: 4.5, pxValue: 6, offsety: 100},
+                    {displayValue: '6 ' + txtPt,     value: 6,   pxValue: 8, offsety: 120}
                 ];
 
             if (options.allowNoBorders !== false)

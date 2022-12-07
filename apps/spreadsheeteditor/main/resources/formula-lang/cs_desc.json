@@ -1838,5 +1838,57 @@
 	"XOR": {
 		"a": "(logická1; [logická2]; ...)",
 		"d": "Vrátí logickou hodnotu Výhradní nebo všech argumentů"
+	},
+	"TEXTBEFORE": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Vrátí text, který je před oddělovači znaků."
+	},
+	"TEXTAFTER": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Vrátí text, který je po oddělovači znaků."
+	},
+	"TEXTSPLIT": {
+		"a": "(text, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
+		"d": "Rozdělí text na řádky nebo sloupce pomocí oddělovačů."
+	},
+	"WRAPROWS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": "Zalomí vektor řádku nebo sloupce po zadaném počtu hodnot."
+	},
+	"VSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": " Svisle skládá pole do jednoho pole."
+	},
+	"HSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": " Vodorovně skládá pole do jednoho pole."
+	},
+	"CHOOSEROWS": {
+		"a": "(array, row_num1, [row_num2], ...)",
+		"d": "Vrátí řádky z pole nebo odkazu."
+	},
+	"CHOOSECOLS": {
+		"a": "(array, col_num1, [col_num2], ...)",
+		"d": "Vrátí sloupce z pole nebo odkazu."
+	},
+	"TOCOL": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "Vrátí pole jako jeden sloupec."
+	},
+	"TOROW": {
+		"a": "(pole, [ignorovat], [prohledávat_podle_sloupce])",
+		"d": "Vrátí pole jako jeden řádek. "
+	},
+	"WRAPCOLS": {
+		"a": "(vektor, wrap_count, [pad_with])",
+		"d": " Zabalí vektor řádku nebo sloupce po zadaném počtu hodnot."
+	},
+	"TAKE": {
+		"a": "(array, rows, [columns])",
+		"d": "Vrátí řádky nebo sloupce ze začátku nebo konce pole."
+	},
+	"DROP": {
+		"a": "(array, rows, [columns])",
+		"d": "Přemístí řádky nebo sloupce ze začátku nebo konce pole."
 	}
 }

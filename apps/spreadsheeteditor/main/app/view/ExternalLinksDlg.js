@@ -75,7 +75,8 @@ define([
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-small">',
-                                            '<label class="header">', me.textSource,'</label>',
+                                            '<label class="header" style="display: inline-block; width: 245px;">', me.textSource,'</label>',
+                                            '<label class="header" style="display: inline-block;">', me.textStatus,'</label>',
                                             '<div id="external-links-list" class="range-tableview" style="width:100%; height: 148px;"></div>',
                                         '</td>',
                                     '</tr>',
@@ -91,6 +92,11 @@ define([
 
             this.api        = options.api;
             this.handler    = options.handler;
+            this.isUpdating = options.isUpdating || false;
+            this.linkStatus = [];
+            this.wrapEvents = {
+                onUpdateExternalReferenceList: _.bind(this.refreshList, this)
+            };
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -102,6 +108,12 @@ define([
                 el: $('#external-links-list', this.$window),
                 store: new Common.UI.DataViewStore(),
                 simpleAddMode: true,
+                itemTemplate: _.template([
+                    '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;">',
+                        '<div style="width:240px;padding-right: 5px;"><%= value %></div>',
+                        '<div style="width:175px;"><%= status %></div>',
+                    '</div>'
+                ].join('')),
                 tabindex: 1
             });
 
@@ -123,7 +135,8 @@ define([
                         }]
                 })
             });
-            $(this.btnUpdate.cmpEl.find('button')[0]).css('min-width', '87px');
+            var el = $(this.btnUpdate.cmpEl.find('button')[0]);
+            el.css('min-width', Math.max(87, el.outerWidth()) + 'px');
             this.btnUpdate.on('click', _.bind(this.onUpdate, this));
             this.btnUpdate.menu.on('item:click', _.bind(this.onUpdateMenu, this));
 
@@ -164,10 +177,18 @@ define([
 
         afterRender: function() {
             this._setDefaults();
+            this.api.asc_registerCallback('asc_onUpdateExternalReferenceList', this.wrapEvents.onUpdateExternalReferenceList);
+            this.isUpdating && this.setIsUpdating(this.isUpdating, true);
         },
 
         getFocusedComponents: function() {
             return [ this.btnUpdate, this.btnDelete, this.btnOpen, this.btnChange, this.linksList ];
+        },
+
+        close: function () {
+            this.api.asc_unregisterCallback('asc_onUpdateExternalReferenceList', this.wrapEvents.onUpdateExternalReferenceList);
+
+            Common.Views.AdvancedSettingsWindow.prototype.close.call(this);
         },
 
         getDefaultFocusableComponent: function () {
@@ -184,26 +205,29 @@ define([
             if (links) {
                 for (var i=0; i<links.length; i++) {
                     arr.push({
-                        value: links[i].asc_getSource(),
+                        linkid: links[i].asc_getId(),
+                        value: (links[i].asc_getSource() || '').replace(new RegExp("%20",'g')," "),
                         idx: i,
-                        externalRef: links[i]
+                        externalRef: links[i],
+                        status: this.linkStatus[links[i].asc_getId()] || this.textUnknown
                     });
                 }
             }
             this.linksList.store.reset(arr);
             (this.linksList.store.length>0) && this.linksList.selectByIndex(0);
-            this.btnUpdate.setDisabled(this.linksList.store.length<1 || !this.linksList.getSelectedRec());
-            this.btnDelete.setDisabled(this.linksList.store.length<1 || !this.linksList.getSelectedRec());
-            this.btnOpen.setDisabled(this.linksList.store.length<1 || !this.linksList.getSelectedRec());
-            this.btnChange.setDisabled(this.linksList.store.length<1 || !this.linksList.getSelectedRec());
+            this.updateButtons();
         },
 
         onUpdate: function() {
+            if (this.isUpdating) return;
+
             var rec = this.linksList.getSelectedRec();
             rec && this.api.asc_updateExternalReferences([rec.get('externalRef')]);
         },
 
         onUpdateMenu: function(menu, item) {
+            if (this.isUpdating) return;
+
             if (item.value == 1) {
                 var arr = [];
                 this.linksList.store.each(function(item){
@@ -215,12 +239,16 @@ define([
         },
 
         onDelete: function() {
+            if (this.isUpdating) return;
+
             var rec = this.linksList.getSelectedRec();
             rec && this.api.asc_removeExternalReferences([rec.get('externalRef')]);
             this.refreshList();
         },
 
         onDeleteMenu: function(menu, item) {
+            if (this.isUpdating) return;
+
             if (item.value == 1) {
                 var arr = [];
                 this.linksList.store.each(function(item){
@@ -240,6 +268,40 @@ define([
 
         },
 
+        updateButtons: function() {
+            var selected = this.linksList.store.length>0 && !!this.linksList.getSelectedRec();
+            this.btnUpdate.setDisabled(!selected || this.isUpdating);
+            this.btnDelete.setDisabled(!selected || this.isUpdating);
+            this.btnOpen.setDisabled(!selected || this.isUpdating);
+            this.btnChange.setDisabled(!selected || this.isUpdating);
+        },
+
+        setIsUpdating: function(status, immediately) {
+            console.log(status);
+            immediately = immediately || !status; // set timeout when start updating only
+            this.isUpdating = status;
+            if (!status && this.timerId) {
+                clearTimeout(this.timerId);
+                this.timerId = 0;
+            }
+            if (immediately) {
+                this.updateButtons();
+                this.btnUpdate.setCaption(status ? this.textUpdating : this.textUpdate);
+            } else if (!this.timerId) {
+                var me = this;
+                me.timerId = setTimeout(function () {
+                    me.updateButtons();
+                    me.btnUpdate.setCaption(status ? me.textUpdating : me.textUpdate);
+                },500);
+            }
+            !status && this.refreshList();
+        },
+
+        setLinkStatus: function(id, result) {
+            if (!id) return;
+            this.linkStatus[id] = result || this.textOk;
+        },
+
         txtTitle: 'External Links',
         textUpdate: 'Update Values',
         textUpdateAll: 'Update All',
@@ -248,7 +310,11 @@ define([
         textDelete: 'Break Links',
         textDeleteAll: 'Break All Links',
         textOpen: 'Open Source',
-        textChange: 'Change Source'
+        textChange: 'Change Source',
+        textStatus: 'Status',
+        textOk: 'OK',
+        textUnknown: 'Unknown',
+        textUpdating: 'Updating...'
 
     }, SSE.Views.ExternalLinksDlg || {}));
 });

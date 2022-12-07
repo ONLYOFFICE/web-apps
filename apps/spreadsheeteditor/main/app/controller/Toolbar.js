@@ -101,6 +101,10 @@ define([
                         var _main = this.getApplication().getController('Main');
                         _main.onPrint();
                     },
+                    'print-quick': function (opts) {
+                        var _main = this.getApplication().getController('Main');
+                        _main.onPrintQuick();
+                    },
                     'save': function (opts) {
                         this.api.asc_Save();
                     },
@@ -2053,8 +2057,8 @@ define([
                         return false;
                     }
             };
-            shortcuts['command+shift+=,ctrl+shift+=' + (Common.Utils.isGecko ? ',command+shift+ff=,ctrl+shift+ff=' : '')] = function(e) {
-                        if (me.editMode && !me.toolbar.btnAddCell.isDisabled()) {
+            shortcuts['command+shift+=,ctrl+shift+=,command+shift+numplus,ctrl+shift+numplus' + (Common.Utils.isGecko ? ',command+shift+ff=,ctrl+shift+ff=' : '')] = function(e) {
+                        if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.toolbar.mode.isEditDiagram && !me.toolbar.mode.isEditOle && !me.toolbar.btnAddCell.isDisabled()) {
                             var cellinfo = me.api.asc_getCellInfo(),
                                 selectionType = cellinfo.asc_getSelectionType();
                             if (selectionType === Asc.c_oAscSelectionType.RangeRow || selectionType === Asc.c_oAscSelectionType.RangeCol) {
@@ -2084,8 +2088,8 @@ define([
 
                         return false;
                     };
-            shortcuts['command+shift+-,ctrl+shift+-' + (Common.Utils.isGecko ? ',command+shift+ff-,ctrl+shift+ff-' : '')] = function(e) {
-                        if (me.editMode && !me.toolbar.btnDeleteCell.isDisabled()) {
+            shortcuts['command+shift+-,ctrl+shift+-,command+shift+numminus,ctrl+shift+numminus' + (Common.Utils.isGecko ? ',command+shift+ff-,ctrl+shift+ff-' : '')] = function(e) {
+                        if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.toolbar.mode.isEditDiagram && !me.toolbar.mode.isEditOle && !me.toolbar.btnDeleteCell.isDisabled()) {
                             var cellinfo = me.api.asc_getCellInfo(),
                                 selectionType = cellinfo.asc_getSelectionType();
                             if (selectionType === Asc.c_oAscSelectionType.RangeRow || selectionType === Asc.c_oAscSelectionType.RangeCol) {
@@ -3984,7 +3988,7 @@ define([
                         items: [
                             { template: _.template('<div id="id-toolbar-menu-equationgroup' + i +
                                 '" class="menu-shape" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
-                                equationGroup.get('groupHeight') + 'margin-left:5px;"></div>') }
+                                equationGroup.get('groupHeightStr') + 'margin-left:5px;"></div>') }
                         ]
                     })
                 });
@@ -4051,16 +4055,21 @@ define([
             var me = this;
             var onShowBefore = function(menu) {
                 me.onMathTypes(me._equationTemp);
+                if (me._equationTemp && me._equationTemp.get_Data().length>0)
+                    me.fillEquations();
                 me.toolbar.btnInsertEquation.menu.off('show:before', onShowBefore);
             };
             me.toolbar.btnInsertEquation.menu.on('show:before', onShowBefore);
         },
 
         onMathTypes: function(equation) {
+            equation = equation || this._equationTemp;
+
             var equationgrouparray = [],
                 equationsStore = this.getCollection('EquationGroups');
 
-            equationsStore.reset();
+            if (equationsStore.length>0)
+                return;
 
             // equations groups
 
@@ -4068,18 +4077,18 @@ define([
 
             // [translate, count cells, scroll]
 
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Symbol       ] = [this.textSymbols, 11];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Fraction     ] = [this.textFraction, 4];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Script       ] = [this.textScript, 4];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Radical      ] = [this.textRadical, 4];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Integral     ] = [this.textIntegral, 3, true];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.LargeOperator] = [this.textLargeOperator, 5, true];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Bracket      ] = [this.textBracket, 4, true];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Function     ] = [this.textFunction, 3, true];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Accent       ] = [this.textAccent, 4];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.LimitLog     ] = [this.textLimitAndLog, 3];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Operator     ] = [this.textOperator, 4];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Matrix       ] = [this.textMatrix, 4, true];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Symbol       ] = [this.textSymbols, 11, false, 'svg-icon-symbols'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Fraction     ] = [this.textFraction, 4, false, 'svg-icon-fraction'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Script       ] = [this.textScript, 4, false, 'svg-icon-script'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Radical      ] = [this.textRadical, 4, false, 'svg-icon-radical'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Integral     ] = [this.textIntegral, 3, true, 'svg-icon-integral'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.LargeOperator] = [this.textLargeOperator, 5, true, 'svg-icon-largeOperator'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Bracket      ] = [this.textBracket, 4, true, 'svg-icon-bracket'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Function     ] = [this.textFunction, 3, true, 'svg-icon-function'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Accent       ] = [this.textAccent, 4, false, 'svg-icon-accent'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.LimitLog     ] = [this.textLimitAndLog, 3, false, 'svg-icon-limAndLog'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Operator     ] = [this.textOperator, 4, false, 'svg-icon-operator'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Matrix       ] = [this.textMatrix, 4, true, 'svg-icon-matrix'];
 
             // equations sub groups
 
@@ -4149,12 +4158,14 @@ define([
                                 groupName   : c_oAscMathMainTypeStrings[id][0],
                                 groupStore  : store,
                                 groupWidth  : width,
-                                groupHeight : c_oAscMathMainTypeStrings[id][2] ? ' height:'+ normHeight +'px!important; ' : ''
+                                groupHeight : normHeight,
+                                groupHeightStr : c_oAscMathMainTypeStrings[id][2] ? ' height:'+ normHeight +'px!important; ' : '',
+                                groupIcon: c_oAscMathMainTypeStrings[id][3]
                             });
                         }
                     }
                     equationsStore.add(equationgrouparray);
-                    this.fillEquations();
+                    // this.fillEquations();
                 }
             }
         },

@@ -131,6 +131,10 @@ define([
                         var _main = this.getApplication().getController('Main');
                         _main.onPrint();
                     },
+                    'print-quick': function (opts) {
+                        var _main = this.getApplication().getController('Main');
+                        _main.onPrintQuick();
+                    },
                     'save': function (opts) {
                         this.api.asc_Save();
                     },
@@ -1066,9 +1070,7 @@ define([
         },
 
         onPrint: function(e) {
-            if (this.api)
-                this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isOpera == true use asc_onPrintUrl event
-
+            Common.NotificationCenter.trigger('file:print', this.toolbar);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
 
             Common.component.Analytics.trackEvent('Print');
@@ -1784,15 +1786,11 @@ define([
                         handler: function(dlg, result) {
                             if (result == 'ok') {
                                 props = dlg.getSettings();
-                                var mnu = me.toolbar.btnPageMargins.menu.items[0];
-                                mnu.setVisible(true);
-                                mnu.setChecked(true);
-                                mnu.options.value = mnu.value = [props.get_TopMargin(), props.get_LeftMargin(), props.get_BottomMargin(), props.get_RightMargin()];
-                                $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
                                 Common.localStorage.setItem("de-pgmargins-top", props.get_TopMargin());
                                 Common.localStorage.setItem("de-pgmargins-left", props.get_LeftMargin());
                                 Common.localStorage.setItem("de-pgmargins-bottom", props.get_BottomMargin());
                                 Common.localStorage.setItem("de-pgmargins-right", props.get_RightMargin());
+                                Common.NotificationCenter.trigger('margins:update', props);
 
                                 me.api.asc_SetSectionProps(props);
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -2776,7 +2774,7 @@ define([
                         items: [
                             { template: _.template('<div id="id-toolbar-menu-equationgroup' + i +
                                 '" class="menu-shape" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
-                                equationGroup.get('groupHeight') + 'margin-left:5px;"></div>') }
+                                equationGroup.get('groupHeightStr') + 'margin-left:5px;"></div>') }
                         ]
                     })
                 });
@@ -2827,16 +2825,21 @@ define([
             var me = this;
             var onShowBefore = function(menu) {
                 me.onMathTypes(me._equationTemp);
+                if (me._equationTemp && me._equationTemp.get_Data().length>0)
+                    me.fillEquations();
                 me.toolbar.btnInsertEquation.menu.off('show:before', onShowBefore);
             };
             me.toolbar.btnInsertEquation.menu.on('show:before', onShowBefore);
         },
 
         onMathTypes: function(equation) {
+            equation = equation || this._equationTemp;
+
             var equationgrouparray = [],
                 equationsStore = this.getCollection('EquationGroups');
 
-            equationsStore.reset();
+            if (equationsStore.length>0)
+                return;
 
             // equations groups
 
@@ -2844,18 +2847,18 @@ define([
 
             // [translate, count cells, scroll]
 
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Symbol       ] = [this.textSymbols, 11];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Fraction     ] = [this.textFraction, 4];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Script       ] = [this.textScript, 4];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Radical      ] = [this.textRadical, 4];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Integral     ] = [this.textIntegral, 3, true];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.LargeOperator] = [this.textLargeOperator, 5, true];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Bracket      ] = [this.textBracket, 4, true];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Function     ] = [this.textFunction, 3, true];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Accent       ] = [this.textAccent, 4];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.LimitLog     ] = [this.textLimitAndLog, 3];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Operator     ] = [this.textOperator, 4];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Matrix       ] = [this.textMatrix, 4, true];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Symbol       ] = [this.textSymbols, 11, false, 'svg-icon-symbols'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Fraction     ] = [this.textFraction, 4, false, 'svg-icon-fraction'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Script       ] = [this.textScript, 4, false, 'svg-icon-script'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Radical      ] = [this.textRadical, 4, false, 'svg-icon-radical'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Integral     ] = [this.textIntegral, 3, true, 'svg-icon-integral'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.LargeOperator] = [this.textLargeOperator, 5, true, 'svg-icon-largeOperator'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Bracket      ] = [this.textBracket, 4, true, 'svg-icon-bracket'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Function     ] = [this.textFunction, 3, true, 'svg-icon-function'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Accent       ] = [this.textAccent, 4, false, 'svg-icon-accent'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.LimitLog     ] = [this.textLimitAndLog, 3, false, 'svg-icon-limAndLog'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Operator     ] = [this.textOperator, 4, false, 'svg-icon-operator'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Matrix       ] = [this.textMatrix, 4, true, 'svg-icon-matrix'];
 
             // equations sub groups
 
@@ -2925,12 +2928,14 @@ define([
                                 groupName   : c_oAscMathMainTypeStrings[id][0],
                                 groupStore  : store,
                                 groupWidth  : width,
-                                groupHeight : c_oAscMathMainTypeStrings[id][2] ? ' height:'+ normHeight +'px!important; ' : ''
+                                groupHeight : normHeight,
+                                groupHeightStr : c_oAscMathMainTypeStrings[id][2] ? ' height:'+ normHeight +'px!important; ' : '',
+                                groupIcon: c_oAscMathMainTypeStrings[id][3]
                             });
                         }
                     }
                     equationsStore.add(equationgrouparray);
-                    this.fillEquations();
+                    // this.fillEquations();
                 }
             }
         },

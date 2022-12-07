@@ -851,12 +851,14 @@ define([
                 caption: me.textMacro
             });
 
-            me.menuImgEditPoints = new Common.UI.MenuItem({
-                caption: me.textEditPoints
+            me.menuSaveAsPicture = new Common.UI.MenuItem({
+                caption     : me.textSaveAsPicture
             });
 
-            me.menuImgEditPointsSeparator = new Common.UI.MenuItem({
-                caption     : '--'
+            var menuSaveAsPictureSeparator = new Common.UI.MenuItem({ caption: '--'});
+
+            me.menuImgEditPoints = new Common.UI.MenuItem({
+                caption: me.textEditPoints
             });
 
             this.imgMenu = new Common.UI.Menu({
@@ -870,17 +872,18 @@ define([
                     me.menuSignatureEditSign,
                     me.menuSignatureEditSetup,
                     me.menuEditSignSeparator,
-                    me.menuImgEditPoints,
-                    me.menuImgEditPointsSeparator,
                     me.menuImageArrange,
                     me.menuImageAlign,
                     me.menuImgRotate,
                     me.menuImgMacro,
+                    menuSaveAsPictureSeparator,
+                    me.menuSaveAsPicture,
                     me.mnuShapeSeparator,
                     me.menuImgCrop,
                     me.mnuChartData,
                     me.mnuChartType,
                     me.mnuChartEdit,
+                    me.menuImgEditPoints,
                     me.mnuShapeAdvanced,
                     me.menuImgOriginalSize,
                     me.menuImgReplace,
@@ -1074,6 +1077,11 @@ define([
                 value       : 'paste'
             });
 
+            me.menuParagraphEquation = new Common.UI.MenuItem({
+                caption     : me.advancedEquationText,
+                menu        : me.createEquationMenu('popupparaeqinput', 'tl-tr')
+            });
+
             this.textInShapeMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 items: [
@@ -1087,7 +1095,8 @@ define([
                     me.menuAddHyperlinkShape,
                     me.menuHyperlinkShape,
                     {caption: '--'},
-                    me.pmiTextAdvanced
+                    me.pmiTextAdvanced,
+                    me.menuParagraphEquation
                 ]
             });
 
@@ -1165,6 +1174,60 @@ define([
 
         setMenuItemCommentCaptionMode: function (item, add, editable) {
             item.setCaption(add ? this.txtAddComment : (editable ? this.txtEditComment : this.txtShowComment), true);
+        },
+
+        createEquationMenu: function(toggleGroup, menuAlign) {
+            return new Common.UI.Menu({
+                cls: 'ppm-toolbar shifted-right',
+                menuAlign: menuAlign,
+                items   : [
+                    new Common.UI.MenuItem({
+                        caption     : this.unicodeText,
+                        iconCls     : 'menu__icon unicode',
+                        checkable   : true,
+                        checkmark   : false,
+                        checked     : false,
+                        toggleGroup : toggleGroup,
+                        type        : 'input',
+                        value       : Asc.c_oAscMathInputType.Unicode
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.latexText,
+                        iconCls     : 'menu__icon latex',
+                        checkable   : true,
+                        checkmark   : false,
+                        checked     : false,
+                        toggleGroup : toggleGroup,
+                        type        : 'input',
+                        value       : Asc.c_oAscMathInputType.LaTeX
+                    }),
+                    { caption     : '--' },
+                    new Common.UI.MenuItem({
+                        caption     : this.currProfText,
+                        iconCls     : 'menu__icon professional-equation',
+                        type        : 'view',
+                        value       : {all: false, linear: false}
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.currLinearText,
+                        iconCls     : 'menu__icon linear-equation',
+                        type        : 'view',
+                        value       : {all: false, linear: true}
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.allProfText,
+                        iconCls     : 'menu__icon professional-equation',
+                        type        : 'view',
+                        value       : {all: true, linear: false}
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.allLinearText,
+                        iconCls     : 'menu__icon linear-equation',
+                        type        : 'view',
+                        value       : {all: true, linear: true}
+                    })
+                ]
+            });
         },
 
         txtSort:                'Sort',
@@ -1306,6 +1369,7 @@ define([
         textBullets: 'Bullets',
         textNumbering: 'Numbering',
         textMacro: 'Assign Macro',
+        textSaveAsPicture: 'Save as picture',
         textEditPoints: 'Edit Points',
         tipNumCapitalLetters: 'A. B. C.',
         tipNumLettersParentheses: 'a) b) c)',
@@ -1325,7 +1389,14 @@ define([
         chartDataText: 'Select Chart Data',
         chartTypeText: 'Change Chart Type',
         txtGetLink: 'Get link to this range',
-        txtRefresh: 'Refresh'
+        txtRefresh: 'Refresh',
+        advancedEquationText: 'Equation Settings',
+        unicodeText: 'Unicode',
+        latexText: 'LaTeX',
+        currProfText: 'Current - Professional',
+        currLinearText: 'Current - Linear',
+        allProfText: 'All - Professional',
+        allLinearText: 'All - Linear'
 
     }, SSE.Views.DocumentHolder || {}));
 });
