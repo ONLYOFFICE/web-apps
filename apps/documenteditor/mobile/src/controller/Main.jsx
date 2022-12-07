@@ -790,6 +790,7 @@ class MainController extends Component {
     }
 
     onChangeProtectDocument() {
+        const { t } = this.props;
         const storeAppOptions = this.props.storeAppOptions;
         const props = this.getDocProps(true);
         const isProtected = props && (props.isReadOnly || props.isCommentsOnly || props.isFormsOnly || props.isReviewOnly);
@@ -797,6 +798,18 @@ class MainController extends Component {
         storeAppOptions.setProtection(isProtected);
         props && this.applyRestrictions(props.type);
         Common.Notifications.trigger('protect:doclock', props);
+
+        if(isProtected) {
+            f7.dialog.create({
+                title: t('Main.notcriticalErrorTitle'),
+                text: t('Main.textDocumentProtected'),
+                buttons: [
+                    {
+                        text: t('Main.textOk')
+                    }
+                ]
+            }).open();
+        }
     }
 
     applyRestrictions(type) {
