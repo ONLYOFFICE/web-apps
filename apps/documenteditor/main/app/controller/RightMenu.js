@@ -463,7 +463,8 @@ define([
                 } else {
                     var selectedElements = this.api.getSelectedElements();
                     if (selectedElements.length > 0)
-                        this.onFocusObject(selectedElements, false, !Common.Utils.InternalSettings.get("de-hide-right-settings"));
+                        this.onFocusObject(selectedElements, false, !Common.Utils.InternalSettings.get("de-hide-right-settings") && // user didn't close panel
+                                                                                            !Common.Utils.InternalSettings.get("de-hidden-rightmenu")); // user didn't hide right menu
                 }
             }
         },
@@ -496,11 +497,17 @@ define([
             }
         },
 
-        onRightMenuHide: function (view, status) {
+        onRightMenuHide: function (view, status) { // status = true when show panel
             if (this.rightmenu) {
                 !status && this.rightmenu.clearSelection();
                 status ? this.rightmenu.show() : this.rightmenu.hide();
                 Common.localStorage.setBool('de-hidden-rightmenu', !status);
+                Common.Utils.InternalSettings.set("de-hidden-rightmenu", !status);
+                if (status) {
+                    var selectedElements = this.api.getSelectedElements();
+                    if (selectedElements.length > 0)
+                        this.onFocusObject(selectedElements, false, !Common.Utils.InternalSettings.get("de-hide-right-settings"));
+                }
             }
 
             Common.NotificationCenter.trigger('layout:changed', 'main');

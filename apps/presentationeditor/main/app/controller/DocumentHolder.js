@@ -223,6 +223,8 @@ define([
                     me.api.asc_registerCallback('asc_onTrackGuide',   _.bind(me.onTrackGuide, me));
                     me.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(me.onShowMathTrack, me));
                     me.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(me.onHideMathTrack, me));
+                    me.api.asc_registerCallback('asc_onLockViewProps',          _.bind(me.onLockViewProps, me, true));
+                    me.api.asc_registerCallback('asc_onUnLockViewProps',        _.bind(me.onLockViewProps, me, false));
                 }
                 me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(me.onCoAuthoringDisconnect, me));
                 Common.NotificationCenter.on('api:disconnect',              _.bind(me.onCoAuthoringDisconnect, me));
@@ -451,7 +453,7 @@ define([
                     showPoint[0] -= 3;
                     showPoint[1] -= 3;
                 } else {
-                    value && (value.guideId = event.get_Guide());
+                    value && (value.guide = {guideId: event.get_Guide()});
                 }
 
                 if (!menu.rendered) {
@@ -2161,7 +2163,7 @@ define([
 
         onGuidesClick: function(menu, item) {
             if (item.value == 'del-guide' && item.options.guideId)
-                this.api.asc_deleteGuide(item.options.guideId);
+                this.documentHolder.fireEvent('guides:delete', [item.options.guideId]);
             else if (item.value === 'add-vert' || item.value === 'add-hor')
                 this.documentHolder.fireEvent('guides:add', [item.value]);
             else if (item.value === 'clear')
@@ -2282,7 +2284,7 @@ define([
                         store: group.get('groupStore'),
                         scrollAlwaysVisible: true,
                         showLast: false,
-                        restoreHeight: group.get('groupHeight') ? parseInt(group.get('groupHeight')) : true,
+                        restoreHeight: 450,
                         itemTemplate: _.template(
                             '<div class="item-equation" style="" >' +
                             '<div class="equation-icon" style="background-position:<%= posX %>px <%= posY %>px;width:<%= width %>px;height:<%= height %>px;" id="<%= id %>"></div>' +
@@ -2296,6 +2298,12 @@ define([
                     });
                     menu.off('show:before', onShowBefore);
                 };
+                var bringForward = function (menu) {
+                    eqContainer.addClass('has-open-menu');
+                };
+                var sendBackward = function (menu) {
+                    eqContainer.removeClass('has-open-menu');
+                };
                 for (var i = 0; i < equationsStore.length; ++i) {
                     var equationGroup = equationsStore.at(i);
                     var btn = new Common.UI.Button({
@@ -2306,7 +2314,6 @@ define([
                         menu        : new Common.UI.Menu({
                             cls: 'menu-shapes',
                             value: i,
-                            restoreHeight: equationGroup.get('groupHeight') ? parseInt(equationGroup.get('groupHeight')) : true,
                             items: [
                                 { template: _.template('<div id="id-document-holder-btn-equation-menu-' + i +
                                         '" class="menu-shape" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
@@ -2315,6 +2322,8 @@ define([
                         })
                     });
                     btn.menu.on('show:before', onShowBefore);
+                    btn.menu.on('show:before', bringForward);
+                    btn.menu.on('hide:after', sendBackward);
                     me.equationBtns.push(btn);
                 }
 
@@ -2341,8 +2350,14 @@ define([
             if (showPoint[1]<0) {
                 showPoint[1] = bounds[3] + 10;
             }
-            eqContainer.css({left: showPoint[0], top : Math.min(me._Height - eqContainer.outerHeight(), Math.max(0, showPoint[1]))});
-            // menu.menuAlign = validation ? 'tr-br' : 'tl-bl';
+            showPoint[1] = Math.min(me._Height - eqContainer.outerHeight(), Math.max(0, showPoint[1]));
+            eqContainer.css({left: showPoint[0], top : showPoint[1]});
+
+            var menuAlign = (me._Height - showPoint[1] - eqContainer.outerHeight() < 220) ? 'bl-tl' : 'tl-bl';
+            me.equationBtns.forEach(function(item){
+                item && (item.menu.menuAlign = menuAlign);
+            });
+            me.equationSettingsBtn.menu.menuAlign = menuAlign;
             if (eqContainer.is(':visible')) {
                 if (me.equationSettingsBtn.menu.isVisible()) {
                     me.equationSettingsBtn.menu.options.initMenu();
@@ -2379,6 +2394,26 @@ define([
                     this.api.asc_SetMathInputType(item.value);
                 else if (item.options.type=='view')
                     this.api.asc_ConvertMathView(item.value.linear, item.value.all);
+            }
+        },
+
+        onLockViewProps: function(lock) {
+            Common.Utils.InternalSettings.set("pe-lock-view-props", lock);
+
+            var me = this,
+                currentMenu = me.documentHolder.currentMenu;
+            if (currentMenu && currentMenu.isVisible() && me.documentHolder.slideMenu===currentMenu){
+                if (me.api.asc_getCurrentFocusObject() !== 0 ){ // not thumbnails
+                    if (!me._isDisabled && me.mode.isEdit) { // update slide menu items
+                        var obj = me.fillMenuProps(me.api.getSelectedElements());
+                        if (obj) {
+                            if (obj.menu_to_show===currentMenu) {
+                                currentMenu.options.initMenu(obj.menu_props);
+                                currentMenu.alignPosition();
+                            }
+                        }
+                    }
+                }
             }
         },
 

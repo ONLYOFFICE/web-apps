@@ -4,8 +4,8 @@
 		"d": "Retorna o número que representa a data no código data-hora"
 	},
 	"DATEDIF": {
-		"a": "( start-date , end-date , unit )",
-		"d": "Date and time function used to return the difference between two date values (start date and end date), based on the interval (unit) specified"
+		"a": "(data_inicial; data_final; unidade)",
+		"d": "Calcula o número de dias, meses ou anos entre duas datas"
 	},
 	"DATEVALUE": {
 		"a": "(texto_data)",
@@ -396,8 +396,8 @@
 		"d": "Retorna a posição inicial de uma cadeia de texto encontrada em outra cadeia de texto. PROCURAR diferencia maiúsculas de minúsculas"
 	},
 	"FINDB": {
-		"a": "( string-1 , string-2 [ , start-pos ] )",
-		"d": "Text and data function used to find the specified substring (string-1) within a string (string-2) and is intended for languages the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(texto_procurado; no_texto; [núm_inicial])",
+		"d": "Localiza uma cadeia de texto em uma segunda cadeia de texto e retorna o número da posição inicial da primeira cadeia de texto do primeiro caractere da segunda cadeia de texto, é para ser usada com idiomas que utilizam o DBCS (conjunto de caracteres de dois bytes) - o japonês, o chinês e o coreano."
 	},
 	"FIXED": {
 		"a": "(núm; [decimais]; [sem_sep_milhar])",
@@ -408,16 +408,16 @@
 		"d": "Retorna o número especificado de caracteres do início de uma cadeia de texto"
 	},
 	"LEFTB": {
-		"a": "( string [ , number-chars ] )",
-		"d": "Text and data function used to extract the substring from the specified string starting from the left character and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(texto; [núm_caract])",
+		"d": "Retorna o primeiro caractere ou os primeiros caracteres em uma cadeia de texto com base no número de bytes especificado por você, é para ser usada com idiomas que utilizam o DBCS (conjunto de caracteres de dois bytes) - o japonês, o chinês e o coreano."
 	},
 	"LEN": {
 		"a": "(texto)",
 		"d": "Retorna o número de caracteres em uma cadeia de texto"
 	},
 	"LENB": {
-		"a": "( string )",
-		"d": "Text and data function used to analyse the specified string and return the number of characters it contains and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(texto)",
+		"d": "Retorna o número de bytes usados para representar os caracteres de uma cadeia de texto, é para ser usada com idiomas que utilizam o DBCS (conjunto de caracteres de dois bytes) - o japonês, o chinês e o coreano."
 	},
 	"LOWER": {
 		"a": "(texto)",
@@ -428,8 +428,8 @@
 		"d": "Retorna os caracteres do meio de uma cadeia de texto, tendo a posição e o comprimento especificados"
 	},
 	"MIDB": {
-		"a": "( string , start-pos , number-chars )",
-		"d": "Text and data function used to extract the characters from the specified string starting from any position and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(texto; núm_inicial; núm_caract)",
+		"d": "Retorna um número específico de caracteres de uma cadeia de texto, começando na posição especificada, com base no número de bytes especificado, é para ser usada com idiomas que utilizam o DBCS (conjunto de caracteres de dois bytes) - o japonês, o chinês e o coreano."
 	},
 	"NUMBERVALUE": {
 		"a": "(texto; [separador_decimal]; [separador_grupo])",
@@ -444,8 +444,8 @@
 		"d": "Substitui parte de uma cadeia de texto por uma cadeia diferente"
 	},
 	"REPLACEB": {
-		"a": "( string-1, start-pos, number-chars, string-2 )",
-		"d": "Text and data function used to replace a set of characters, based on the number of characters and the start position you specify, with a new set of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(texto_antigo; núm_inicial; núm_caract; novo_texto)",
+		"d": "Substitui parte de uma cadeia de texto, com base no número de bytes especificado, por uma cadeia de texto diferente, é para ser usada com idiomas que utilizam o DBCS (conjunto de caracteres de dois bytes) - o japonês, o chinês e o coreano."
 	},
 	"REPT": {
 		"a": "(texto; número_vezes)",
@@ -456,16 +456,16 @@
 		"d": "Retorna o número de caracteres especificado do final de uma cadeia de texto"
 	},
 	"RIGHTB": {
-		"a": "( string [ , number-chars ] )",
-		"d": "Text and data function used to extract a substring from a string starting from the right-most character, based on the specified number of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(texto; [núm_caract])",
+		"d": "Retorna o último caractere ou os últimos caracteres em uma cadeia de texto, com base no número de bytes especificado, é para ser usada com idiomas que utilizam o DBCS (conjunto de caracteres de dois bytes) - o japonês, o chinês e o coreano."
 	},
 	"SEARCH": {
 		"a": "(texto_procurado; no_texto; [núm_inicial])",
 		"d": "Retorna o número do caractere no qual um caractere ou uma cadeia de texto foram localizados, sendo a leitura feita da esquerda para a direita (não distingue maiúsculas de minúsculas)"
 	},
 	"SEARCHB": {
-		"a": "( string-1 , string-2 [ , start-pos ] )",
-		"d": "Text and data function used to return the location of the specified substring in a string and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"a": "(texto_procurado; no_texto; [núm_inicial])",
+		"d": "Localiza uma cadeia de texto em uma segunda cadeia de texto e retorna o número da posição inicial da primeira cadeia de texto do primeiro caractere da segunda cadeia de texto, é para ser usada com idiomas que utilizam o DBCS (conjunto de caracteres de dois bytes) - o japonês, o chinês e o coreano."
 	},
 	"SUBSTITUTE": {
 		"a": "(texto; texto_antigo; novo_texto; [núm_da_ocorrência])",
@@ -1348,8 +1348,8 @@
 		"d": "Converte um numeral romano em arábico"
 	},
 	"ASC": {
-		"a": "( text )",
-		"d": "Text function for Double-byte character set (DBCS) languages, the function changes full-width (double-byte) characters to half-width (single-byte) characters"
+		"a": "(texto)",
+		"d": "Para idiomas do conjunto de caracteres de dois bytes (DBCS), a função altera os caracteres de largura total (byte duplo) para caracteres de meia largura (byte único)"
 	},
 	"ASIN": {
 		"a": "(núm)",
@@ -1384,8 +1384,8 @@
 		"d": "Arredonda um número para cima, para o inteiro mais próximo ou para o próximo múltiplo significativo"
 	},
 	"CEILING.PRECISE": {
-		"a": "( x [ , significance ] )",
-		"d": "Math and trigonometry function used to return a number that is rounded up to the nearest integer or to the nearest multiple of significance"
+		"a": "(número; [significância])",
+		"d": "Retorna um número que é arredondado para o inteiro mais próximo ou para o múltiplo mais próximo de significância"
 	},
 	"COMBIN": {
 		"a": "(núm; núm_escolhido)",
@@ -1428,8 +1428,8 @@
 		"d": "Converte radianos em graus"
 	},
 	"ECMA.CEILING": {
-		"a": "( x, significance )",
-		"d": "Math and trigonometry function used to round the number up to the nearest multiple of significance"
+		"a": "(número; significância)",
+		"d": "Arredonda um número para cima para o próximo múltiplo significativo"
 	},
 	"EVEN": {
 		"a": "(núm)",
@@ -1452,8 +1452,8 @@
 		"d": "Arredonda um número para baixo até o múltiplo ou a significância mais próxima"
 	},
 	"FLOOR.PRECISE": {
-		"a": "( x [, significance] )",
-		"d": "Math and trigonometry function used to return a number that is rounded down to the nearest integer or to the nearest multiple of significance"
+		"a": "(número; [significância])",
+		"d": "Retorna um número que é arredondado para baixo para o inteiro mais próximo ou para o múltiplo mais próximo de significância"
 	},
 	"FLOOR.MATH": {
 		"a": "(número; [significância]; [modo])",
@@ -1468,8 +1468,8 @@
 		"d": "Arredonda um número para baixo até o número inteiro mais próximo"
 	},
 	"ISO.CEILING": {
-		"a": "( number [ , significance ] )",
-		"d": "Math and trigonometry function used to return a number that is rounded up to the nearest integer or to the nearest multiple of significance regardless of the sign of the number. However, if the number or the significance is zero, zero is returned."
+		"a": "(número; [significância])",
+		"d": "Retorna um número que é arredondado para o inteiro mais próximo ou para o múltiplo mais próximo de significância. Independentemente do sinal de núm, um valor será arredondado. No entanto, se núm ou significância for zero, zero será retornado."
 	},
 	"LCM": {
 		"a": "(núm1; [núm2]; ...)",
@@ -1720,8 +1720,8 @@
 		"d": "Procura uma correspondência em um intervalo ou matriz e retorna o item correspondente de uma segunda matriz ou intervalo. Por padrão, é usada uma correspondência exata"
 	},
 	"CELL": {
-		"a": "(info_type, [reference])",
-		"d": "Information function used to return information about the formatting, location, or contents of a cell"
+		"a": "(tipo_info; [referência])",
+		"d": "Retorna informações sobre a formatação, o local ou o conteúdo de uma célula"
 	},
 	"ERROR.TYPE": {
 		"a": "(val_erro)",
@@ -1838,5 +1838,57 @@
 	"XOR": {
 		"a": "(lógico1; [lógico2]; ...)",
 		"d": "Retorna uma lógica 'Exclusivo Ou' de todos os argumentos"
+	},
+	"TEXTBEFORE": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Retorna o texto que está antes dos caracteres delimitadores."
+	},
+	"TEXTAFTER": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Retorna o texto que está depois dos caracteres delimitadores."
+	},
+	"TEXTSPLIT": {
+		"a": "(text, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
+		"d": "Divide o texto em linhas ou colunas usando delimitadores."
+	},
+	"WRAPROWS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": " Encapsula um vetor de linha ou coluna após um número especificado de valores."
+	},
+	"VSTACK": {
+		"a": "(matriz1, [matriz2], ...)",
+		"d": "Empilha verticalmente matrizes em uma matriz."
+	},
+	"HSTACK": {
+		"a": "(matriz1, [matriz2], ...)",
+		"d": "Empilha horizontalmente matrizes em uma matriz."
+	},
+	"CHOOSEROWS": {
+		"a": "(matriz, row_num1, [row_num2], ...)",
+		"d": "Retorna linhas de uma matriz ou referência."
+	},
+	"CHOOSECOLS": {
+		"a": "(matriz, col_num1, [col_num2], ...)",
+		"d": "Retorna as colunas de uma matriz ou referência"
+	},
+	"TOCOL": {
+		"a": "(matriz, [ignorar], [scan_by_column])",
+		"d": "Retorna a matriz como uma coluna."
+	},
+	"TOROW": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "Retorna a matriz como uma linha."
+	},
+	"WRAPCOLS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": " Encapsula um vetor de linha ou coluna após um número especificado de valores."
+	},
+	"TAKE": {
+		"a": "(matriz, linhas, [colunas])",
+		"d": "Retorna linhas ou colunas de início ou término da matriz."
+	},
+	"DROP": {
+		"a": "(matriz, linhas, [colunas])",
+		"d": "Remove linhas ou colunas de início ou término da matriz."
 	}
 }

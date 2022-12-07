@@ -119,11 +119,7 @@ define([
             me._state = {wsLock: false, wsProps: []};
             me.fastcoauthtips = [];
             me._TtHeight = 20;
-            me.externalData = {
-                stackRequests: [],
-                stackResponse: [],
-                callback: undefined
-            };
+
             /** coauthoring begin **/
             this.wrapEvents = {
                 apiHideComment: _.bind(this.onApiHideComment, this),
@@ -380,10 +376,6 @@ define([
                 this.api.asc_registerCallback('asc_onShowPivotGroupDialog', _.bind(this.onShowPivotGroupDialog, this));
                 if (!this.permissions.isEditMailMerge && !this.permissions.isEditDiagram && !this.permissions.isEditOle)
                     this.api.asc_registerCallback('asc_doubleClickOnTableOleObject', _.bind(this.onDoubleClickOnTableOleObject, this));
-                if (this.permissions.canRequestReferenceData) {
-                    this.api.asc_registerCallback('asc_onUpdateExternalReference', _.bind(this.onUpdateExternalReference, this));
-                    Common.Gateway.on('setreferencedata', _.bind(this.setReferenceData, this));
-                }
                 this.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(this.onShowMathTrack, this));
                 this.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(this.onHideMathTrack, this));
             }
@@ -4268,51 +4260,6 @@ define([
             }
         },
 
-        onUpdateExternalReference: function(arr, callback) {
-            if (this.permissions.isEdit && !this._isDisabled) {
-                var me = this;
-                me.externalData = {
-                    stackRequests: [],
-                    stackResponse: [],
-                    callback: undefined
-                };
-                arr && arr.length>0 && arr.forEach(function(item) {
-                    var data;
-                    switch (item.asc_getType()) {
-                        case Asc.c_oAscExternalReferenceType.link:
-                            data = {link: item.asc_getData()};
-                            break;
-                        case Asc.c_oAscExternalReferenceType.path:
-                            data = {path: item.asc_getData()};
-                            break;
-                        case Asc.c_oAscExternalReferenceType.referenceData:
-                            data = {referenceData: item.asc_getData()};
-                            break;
-                    }
-                    data && me.externalData.stackRequests.push(data);
-                });
-                me.externalData.callback = callback;
-                me.requestReferenceData();
-            }
-        },
-
-        requestReferenceData: function() {
-            if (this.externalData.stackRequests.length>0) {
-                var data = this.externalData.stackRequests.shift();
-                Common.Gateway.requestReferenceData(data);
-            }
-        },
-
-        setReferenceData: function(data) {
-            if (this.permissions.isEdit && !this._isDisabled) {
-                data && this.externalData.stackResponse.push(data);
-                if (this.externalData.stackRequests.length>0)
-                    this.requestReferenceData();
-                else if (this.externalData.callback)
-                    this.externalData.callback(this.externalData.stackResponse);
-            }
-        },
-
         onShowMathTrack: function(bounds) {
             if (bounds[3] < 0) {
                 this.onHideMathTrack();
@@ -4348,7 +4295,7 @@ define([
                         store: group.get('groupStore'),
                         scrollAlwaysVisible: true,
                         showLast: false,
-                        restoreHeight: group.get('groupHeight') ? parseInt(group.get('groupHeight')) : true,
+                        restoreHeight: 450,
                         itemTemplate: _.template(
                             '<div class="item-equation" style="" >' +
                             '<div class="equation-icon" style="background-position:<%= posX %>px <%= posY %>px;width:<%= width %>px;height:<%= height %>px;" id="<%= id %>"></div>' +
@@ -4362,6 +4309,12 @@ define([
                     });
                     menu.off('show:before', onShowBefore);
                 };
+                var bringForward = function (menu) {
+                    eqContainer.addClass('has-open-menu');
+                };
+                var sendBackward = function (menu) {
+                    eqContainer.removeClass('has-open-menu');
+                };
                 for (var i = 0; i < equationsStore.length; ++i) {
                     var equationGroup = equationsStore.at(i);
                     var btn = new Common.UI.Button({
@@ -4372,7 +4325,6 @@ define([
                         menu        : new Common.UI.Menu({
                             cls: 'menu-shapes',
                             value: i,
-                            restoreHeight: equationGroup.get('groupHeight') ? parseInt(equationGroup.get('groupHeight')) : true,
                             items: [
                                 { template: _.template('<div id="id-document-holder-btn-equation-menu-' + i +
                                         '" class="menu-shape" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
@@ -4381,6 +4333,8 @@ define([
                         })
                     });
                     btn.menu.on('show:before', onShowBefore);
+                    btn.menu.on('show:before', bringForward);
+                    btn.menu.on('hide:after', sendBackward);
                     me.equationBtns.push(btn);
                 }
 
@@ -4410,8 +4364,14 @@ define([
             if (showPoint[1]<0) {
                 showPoint[1] = bounds[3] + 10;
             }
-            eqContainer.css({left: showPoint[0], top : Math.min(me.tooltips.coauth.apiHeight - eqContainer.outerHeight(), Math.max(0, showPoint[1]))});
-            // menu.menuAlign = validation ? 'tr-br' : 'tl-bl';
+            showPoint[1] = Math.min(me.tooltips.coauth.apiHeight - eqContainer.outerHeight(), Math.max(0, showPoint[1]));
+            eqContainer.css({left: showPoint[0], top : showPoint[1]});
+
+            var menuAlign = (me.tooltips.coauth.apiHeight - showPoint[1] - eqContainer.outerHeight() < 220) ? 'bl-tl' : 'tl-bl';
+            me.equationBtns.forEach(function(item){
+                item && (item.menu.menuAlign = menuAlign);
+            });
+            me.equationSettingsBtn.menu.menuAlign = menuAlign;
             if (eqContainer.is(':visible')) {
                 if (me.equationSettingsBtn.menu.isVisible()) {
                     me.equationSettingsBtn.menu.options.initMenu();

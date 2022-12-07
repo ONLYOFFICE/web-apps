@@ -211,9 +211,12 @@ define([
                         iconCls: 'toolbar__icon btn-print no-mask',
                         lock: [_set.slideDeleted, _set.noSlides, _set.cantPrint, _set.disableOnStart],
                         signals: ['disabled'],
+                        split: config.canQuickPrint,
+                        menu: config.canQuickPrint,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
-                        dataHintTitle: 'P'
+                        dataHintTitle: 'P',
+                        printType: 'print'
                     });
                     me.slideOnlyControls.push(me.btnPrint);
 
@@ -1309,12 +1312,37 @@ define([
                 Array.prototype.push.apply(this.slideOnlyControls, created);
                 Array.prototype.push.apply(this.lockControls, created);
 
+                this.btnPrint.menu && this.btnPrint.$el.addClass('split');
                 return $host;
             },
 
             onAppReady: function (config) {
                 var me = this;
                 if (!config.isEdit) return;
+
+                if(me.btnPrint.menu) {
+                    me.btnPrint.setMenu(
+                        new Common.UI.Menu({
+                            items:[
+                                {
+                                    caption:            me.tipPrint,
+                                    iconCls:            'menu__icon btn-print',
+                                    toggleGroup:        'viewPrint',
+                                    value:              'print',
+                                    iconClsForMainBtn:  'btn-print',
+                                    platformKey:         Common.Utils.String.platformKey('Ctrl+P')
+                                },
+                                {
+                                    caption:            me.tipPrintQuick,
+                                    iconCls:            'menu__icon btn-quick-print',
+                                    toggleGroup:        'viewPrint',
+                                    value:              'print-quick',
+                                    iconClsForMainBtn:  'btn-quick-print',
+                                    platformKey:        ''
+                                }
+                            ]
+                        }));
+                }
 
                 me.btnsInsertImage.forEach(function (btn) {
                     btn.updateHint(me.tipInsertImage);
@@ -2006,6 +2034,7 @@ define([
             tipUndo: 'Undo',
             tipRedo: 'Redo',
             tipPrint: 'Print',
+            tipPrintQuick: 'Quick print',
             tipSave: 'Save',
             tipFontColor: 'Font color',
             tipMarkers: 'Bullets',

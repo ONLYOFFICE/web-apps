@@ -1798,5 +1798,57 @@
 	"XOR": {
 		"a": "(logico1; [logico2]; ...)",
 		"d": "Restituisce un 'OR esclusivo' logico di tutti gli argomenti"
+	},
+	"TEXTBEFORE": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Restituisce il testo che si trova prima dei caratteri di delimitazione."
+	},
+	"TEXTAFTER": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Restituisce il testo che si trova dopo i caratteri di delimitazione."
+	},
+	"TEXTSPLIT": {
+		"a": "(text, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
+		"d": "Divide il testo in righe o colonne tramite i delimitatori."
+	},
+	"WRAPROWS": {
+		"a": "(vettore, wrap_count, [pad_with])",
+		"d": "Esegue il wrapping di un vettore di riga o colonna dopo un numero specificato di valori."
+	},
+	"VSTACK": {
+		"a": "(matrice1, [matrice2], ...)",
+		"d": "Impila verticalmente le matrici in un'unica matrice."
+	},
+	"HSTACK": {
+		"a": "(matrice1, [matrice2], ...)",
+		"d": "Impila orizzontalmente le matrici in un'unica matrice."
+	},
+	"CHOOSEROWS": {
+		"a": "(matrice, row_num1, [row_num2], ...)",
+		"d": "Restituisce righe da una matrice o un riferimento."
+	},
+	"CHOOSECOLS": {
+		"a": "(matrice, col_num1, [col_num2], ...)",
+		"d": "Restituisce colonne specificate da una matrice o un riferimento."
+	},
+	"TOCOL": {
+		"a": "(matrice, [ignora], [scan_by_column])",
+		"d": "Restituisce la matrice come una colonna. "
+	},
+	"TOROW": {
+		"a": "(matrice, [ignora], [scan_by_column])",
+		"d": "Restituisce la matrice come una riga."
+	},
+	"WRAPCOLS": {
+		"a": "(vettore, wrap_count, [pad_with])",
+		"d": "Esegue il wrapping di un vettore di riga o colonna dopo un numero specificato di valori."
+	},
+	"TAKE": {
+		"a": "(matrice, righe, [colonne])",
+		"d": "Restituisce righe o colonne dall'inizio o dalla fine della matrice."
+	},
+	"DROP": {
+		"a": "(matrice, righe, [colonne])",
+		"d": "Elimina righe o colonne dall'inizio o dalla fine della matrice."
 	}
 }

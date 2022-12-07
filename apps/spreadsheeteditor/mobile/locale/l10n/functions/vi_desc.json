@@ -1838,5 +1838,57 @@
 	"XOR": {
 		"a": "(logical1; [logical2]; ...)",
 		"d": "Trả về hàm \"Exclusive Or\" lô-gic của tất cả tham đối"
+	},
+	"TEXTBEFORE": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Trả về văn bản trước khi phân tách ký tự."
+	},
+	"TEXTAFTER": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Trả về văn bản sau khi phân tách các ký tự."
+	},
+	"TEXTSPLIT": {
+		"a": "(text, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
+		"d": "Tách văn bản thành các hàng hoặc cột bằng dấu phân tách."
+	},
+	"WRAPROWS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": " Bao bọc một véc-tơ hàng hoặc cột sau một số giá trị được chỉ định."
+	},
+	"VSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": "Xếp chồng theo chiều dọc các mảng thành một mảng."
+	},
+	"HSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": "Xếp chồng theo chiều ngang các mảng thành một mảng."
+	},
+	"CHOOSEROWS": {
+		"a": "(array, row_num1, [row_num2], ...)",
+		"d": "Trả về các hàng từ mảng hoặc tham chiếu."
+	},
+	"CHOOSECOLS": {
+		"a": "(array, col_num1, [col_num2], ...)",
+		"d": "Trả về các cột từ mảng hoặc tham chiếu."
+	},
+	"TOCOL": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "Trả về mảng dưới dạng một cột."
+	},
+	"TOROW": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "Trả về mảng dưới dạng một hàng."
+	},
+	"WRAPCOLS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": "Bao bọc một véc-tơ hàng hoặc cột sau một số Giá trị được chỉ định."
+	},
+	"TAKE": {
+		"a": "(array, rows, [columns])",
+		"d": "Trả về hàng hoặc cột từ đầu hoặc cuối mảng."
+	},
+	"DROP": {
+		"a": "(array, rows, [columns])",
+		"d": "Thả hàng hoặc cột từ đầu hoặc cuối mảng."
 	}
 }

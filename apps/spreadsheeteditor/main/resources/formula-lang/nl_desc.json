@@ -1838,5 +1838,57 @@
 	"XOR": {
 		"a": "(logisch1; [logisch2]; ...)",
 		"d": "Geeft als resultaat een logische 'Exclusieve of' van alle argumenten"
+	},
+	"TEXTBEFORE": {
+		"a": "(tekst, scheidingsteken, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Retourneert tekst voor scheidingstekens."
+	},
+	"TEXTAFTER": {
+		"a": "(tekst, scheidingsteken, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Retourneert tekst na scheidingstekens."
+	},
+	"TEXTSPLIT": {
+		"a": "(tekst, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
+		"d": "Hiermee wordt tekst gesplitst in rijen of kolommen met scheidingstekens."
+	},
+	"WRAPROWS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": " Hiermee wordt een rij- of kolomvector achter een opgegeven aantal waarden verpakt."
+	},
+	"VSTACK": {
+		"a": "(matrix1, [matrix2], ...)",
+		"d": "Stapelt matrices verticaal in één matrix."
+	},
+	"HSTACK": {
+		"a": "(matrix1, [matrix2], ...)",
+		"d": "Stapelt matrices horizontaal in één matrix."
+	},
+	"CHOOSEROWS": {
+		"a": "(matrix, row_num1, [row_num2], ...)",
+		"d": "Retourneert rijen uit een matrix of verwijzing."
+	},
+	"CHOOSECOLS": {
+		"a": "(matrix, col_num1, [col_num2], ...)",
+		"d": "Retourneert kolommen uit een matrix of verwijzing."
+	},
+	"TOCOL": {
+		"a": "(matrix, [negeren], [scan_by_column])",
+		"d": "Retourneert de matrix als één kolom."
+	},
+	"TOROW": {
+		"a": "(matrix, [negeren], [scan_by_column])",
+		"d": "Retourneert de matrix als één rij."
+	},
+	"WRAPCOLS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": " Hiermee wordt een rij- of kolomvector achter een opgegeven aantal waarden verpakt."
+	},
+	"TAKE": {
+		"a": "(matrix, rijen, [kolommen])",
+		"d": "Hiermee worden rijen of kolommen geretourneerd vanaf het begin of einde van de matrix."
+	},
+	"DROP": {
+		"a": "(matrix, rijen, [kolommen])",
+		"d": "Rijen of kolommen worden verwijderd uit het begin of einde van de matrix."
 	}
 }
