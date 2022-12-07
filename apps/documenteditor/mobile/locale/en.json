@@ -476,6 +476,8 @@
     "errorUpdateVersion": "The file version has been changed. The page will be reloaded.",
     "leavePageText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "notcriticalErrorTitle": "Warning",
+    "textDocumentProtected": "The document is protected. Edit settings are not available",
+    "textOk": "Ok",
     "SDK": {
       " -Section ": " -Section ",
       "above": "above",
