@@ -288,6 +288,7 @@ define([
                                     if ( features.readonly ) {
                                         if ( api.asc_getLocalRestrictions() == Asc.c_oAscLocalRestrictionType.None ) {
                                             features.readonly = false;
+                                            header.setDocumentReadOnly(false);
                                             native.execCommand('webapps:features', JSON.stringify(features));
                                         }
                                     }
