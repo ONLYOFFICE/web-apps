@@ -1838,5 +1838,57 @@
 	"XOR": {
 		"a": "(logical1; [logical2]; ...)",
 		"d": "Vrne logični »Exclusive Or« vseh argumentov"
+	},
+	"TEXTBEFORE": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Vrne besedilo, ki je pred ločilom znakov."
+	},
+	"TEXTAFTER": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Vrne besedilo, ki je za ločilom znakov."
+	},
+	"TEXTSPLIT": {
+		"a": "(text, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
+		"d": "Razdeli besedilo v vrstice ali stolpce z ločili."
+	},
+	"WRAPROWS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": " Prelomi vektor vrstice ali stolpca za določenim številom vrednosti."
+	},
+	"VSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": "Navpično zloži matrike v eno polje."
+	},
+	"HSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": "Vodoravno zloži matrike v eno polje."
+	},
+	"CHOOSEROWS": {
+		"a": "(array, row_num1, [row_num2], ...)",
+		"d": "Vrne vrstice iz matrike ali sklica."
+	},
+	"CHOOSECOLS": {
+		"a": "(array, col_num1, [col_num2], ...)",
+		"d": "Vrne stolpce iz matrike ali sklica."
+	},
+	"TOCOL": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "Vrne matriko kot en stolpec."
+	},
+	"TOROW": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "Vrne matriko kot eno vrstico."
+	},
+	"WRAPCOLS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": " Prelomi vektor vrstice ali stolpca za določenim številom vrednosti."
+	},
+	"TAKE": {
+		"a": "(array, rows, [columns])",
+		"d": "Vrne vrstice ali stolpce z začetka ali konca matrike."
+	},
+	"DROP": {
+		"a": "(array, rows, [columns])",
+		"d": "Spusti vrstice ali stolpce z začetka ali konca matrike."
 	}
 }
