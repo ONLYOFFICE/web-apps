@@ -1835,6 +1835,7 @@
   "DE.Views.DocumentHolder.txtInsertArgBefore": "Insert argument before",
   "DE.Views.DocumentHolder.txtInsertBreak": "Insert manual break",
   "DE.Views.DocumentHolder.txtInsertCaption": "Insert caption",
+  "DE.Views.DocumentHolder.textSaveAsPicture": "Save as picture",
   "DE.Views.DocumentHolder.txtInsertEqAfter": "Insert equation after",
   "DE.Views.DocumentHolder.txtInsertEqBefore": "Insert equation before",
   "DE.Views.DocumentHolder.txtKeepTextOnly": "Keep text only",

@@ -427,6 +427,7 @@ define([
             view.menuParaTOCSettings.on('click', _.bind(me.onParaTOCSettings, me));
             view.menuTableEquation.menu.on('item:click', _.bind(me.convertEquation, me));
             view.menuParagraphEquation.menu.on('item:click', _.bind(me.convertEquation, me));
+            view.menuSaveAsPicture.on('click', _.bind(me.saveAsPicture, me));
 
             me.onChangeProtectDocument();
         },
@@ -2481,6 +2482,12 @@ define([
                     this.api.asc_ConvertMathView(item.value.linear, item.value.all);
                 else if (item.options.type=='mode')
                     this.api.asc_ConvertMathDisplayMode(item.checked);
+            }
+        },
+
+        saveAsPicture: function() {
+            if(this.api) {
+                this.api.asc_SaveDrawingAsPicture();
             }
         },
 

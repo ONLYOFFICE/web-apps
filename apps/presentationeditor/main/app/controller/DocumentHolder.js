@@ -374,7 +374,8 @@ define([
             view.menuRemoveHyperlinkPara.on('click', _.bind(me.removeHyperlink, me));
             view.menuRemoveHyperlinkTable.on('click', _.bind(me.removeHyperlink, me));
             view.menuChartEdit.on('click', _.bind(me.editChartClick, me, undefined));
-            view.menuSaveAsPicture.on('click', _.bind(me.saveAsPicture, me));
+            view.menuImgSaveAsPicture.on('click', _.bind(me.saveAsPicture, me));
+            view.menuTableSaveAsPicture.on('click', _.bind(me.saveAsPicture, me));
             view.menuAddCommentPara.on('click', _.bind(me.addComment, me));
             view.menuAddCommentTable.on('click', _.bind(me.addComment, me));
             view.menuAddCommentImg.on('click', _.bind(me.addComment, me));
@@ -432,7 +433,7 @@ define([
             view.mnuGuides.menu.on('item:click', _.bind(me.onGuidesClick, me));
             view.mnuGridlines.menu.on('item:click', _.bind(me.onGridlinesClick, me));
             view.mnuRulers.on('click', _.bind(me.onRulersClick, me));
-            view.menuTableEquation.menu.on('item:click', _.bind(me.convertEquation, me));
+            view.menuTableEquationSettings.menu.on('item:click', _.bind(me.convertEquation, me));
             view.menuParagraphEquation.menu.on('item:click', _.bind(me.convertEquation, me));
         },
 

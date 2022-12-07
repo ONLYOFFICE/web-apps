@@ -851,12 +851,14 @@ define([
                 caption: me.textMacro
             });
 
-            me.menuImgEditPoints = new Common.UI.MenuItem({
-                caption: me.textEditPoints
+            me.menuSaveAsPicture = new Common.UI.MenuItem({
+                caption     : me.textSaveAsPicture
             });
 
-            me.menuImgEditPointsSeparator = new Common.UI.MenuItem({
-                caption     : '--'
+            var menuSaveAsPictureSeparator = new Common.UI.MenuItem({ caption: '--'});
+
+            me.menuImgEditPoints = new Common.UI.MenuItem({
+                caption: me.textEditPoints
             });
 
             this.imgMenu = new Common.UI.Menu({
@@ -870,17 +872,18 @@ define([
                     me.menuSignatureEditSign,
                     me.menuSignatureEditSetup,
                     me.menuEditSignSeparator,
-                    me.menuImgEditPoints,
-                    me.menuImgEditPointsSeparator,
                     me.menuImageArrange,
                     me.menuImageAlign,
                     me.menuImgRotate,
                     me.menuImgMacro,
+                    menuSaveAsPictureSeparator,
+                    me.menuSaveAsPicture,
                     me.mnuShapeSeparator,
                     me.menuImgCrop,
                     me.mnuChartData,
                     me.mnuChartType,
                     me.mnuChartEdit,
+                    me.menuImgEditPoints,
                     me.mnuShapeAdvanced,
                     me.menuImgOriginalSize,
                     me.menuImgReplace,
@@ -1366,6 +1369,7 @@ define([
         textBullets: 'Bullets',
         textNumbering: 'Numbering',
         textMacro: 'Assign Macro',
+        textSaveAsPicture: 'Save as picture',
         textEditPoints: 'Edit Points',
         tipNumCapitalLetters: 'A. B. C.',
         tipNumLettersParentheses: 'a) b) c)',
