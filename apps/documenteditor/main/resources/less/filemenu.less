@@ -104,10 +104,18 @@
   #panel-saveas, #panel-savecopy {
     &.content-box {
       padding: 0 0 0 20px;
+
+      .rtl & {
+        padding: 0 20px 0 0;
+      }
     }
 
     .content-container {
       margin: 30px 0 0 10px;
+
+      .rtl & {
+        margin: 30px 10px 0 0;
+      }
 
       .header {
         font-size: 16px;
@@ -118,6 +126,11 @@
         .format-item {
           float: left;
           margin: 0 24px 34px 0;
+
+          .rtl & {
+            float: right;
+            margin: 0 0 34px 24px;
+          }
 
           .btn-doc-format {
             width: 70px;
@@ -654,10 +667,18 @@
 
   #fms-btn-delete-pwd {
     margin-left: 16px;
+    .rtl & {
+      margin-left: 0;
+      margin-right: 16px;
+    }
   }
 
   .signature-view-link {
     margin-right: 20px;
+    .rtl & {
+      margin-right: 0;
+      margin-left: 20px;
+    }
   }
 
   .signature-tip {
