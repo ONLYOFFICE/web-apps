@@ -333,7 +333,7 @@ define([
         onEndTextAroundSearch: function () {
             if (this.view) {
                 this._state.isStartedAddingResults = false;
-                this.view.$resultsContainer.scroller.update({alwaysVisibleY: true});
+                this.view.updateScrollers();
             }
         },
 
