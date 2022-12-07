@@ -1736,6 +1736,7 @@ define([
 
         onRolesChanged: function(combo, record) {
             if (this.api && !this._noApply) {
+                this._state.Role = undefined;
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
                 var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
                 formPr.put_Role(record.value);
