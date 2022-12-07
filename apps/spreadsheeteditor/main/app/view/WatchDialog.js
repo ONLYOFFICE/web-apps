@@ -102,7 +102,9 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
                 tabindex: 1
             });
             this.watchList.on('item:select', _.bind(this.onSelectWatch, this))
-                           .on('item:keydown', _.bind(this.onKeyDown, this));
+                           .on('item:keydown', _.bind(this.onKeyDown, this))
+                           .on('item:dblclick', _.bind(this.onDblClickWatch, this))
+                           .on('entervalue', _.bind(this.onEnterValue, this));
 
             this.btnAdd = new Common.UI.Button({
                 el: $('#watch-dialog-btn-add', this.$window)
@@ -251,6 +253,15 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
 
         onSelectWatch: function(lisvView, itemView, record) {
             this.updateButtons();
+        },
+
+        onDblClickWatch: function(lisvView, itemView, record) {
+            record && this.api.asc_findCell('\'' + record.get('sheet') + '\'' + '!' + record.get('cell'));
+        },
+
+        onEnterValue: function(lisvView, record) {
+            if (this.watchList.store.length===0) return;
+            record && this.api.asc_findCell('\'' + record.get('sheet') + '\'' + '!' + record.get('cell'));
         },
 
         onKeyDown: function (lisvView, record, e) {

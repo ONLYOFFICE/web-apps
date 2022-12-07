@@ -107,12 +107,14 @@ class MainPage extends Component {
       const wsLock = storeWorksheets.wsLock;
       const config = appOptions.config;
 
-      let showLogo = !(appOptions.canBrandingExt && (config.customization && (config.customization.loaderName || config.customization.loaderLogo)));
+      let showLogo = !(config.customization && (config.customization.loaderName || config.customization.loaderLogo));
       if ( !Object.keys(config).length ) {
           showLogo = !/&(?:logo)=/.test(window.location.search);
       }
 
       const showPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
+      const isBranding = appOptions.canBranding || appOptions.canBrandingExt;
+
       if ( $$('.skl-container').length ) {
           $$('.skl-container').remove();
       }
@@ -120,16 +122,19 @@ class MainPage extends Component {
       return (
             <Page name="home" className={`editor${ showLogo ? ' page-with-logo' : ''}`}>
               {/* Top Navbar */}
-                <Navbar id='editor-navbar' className={`main-navbar${showLogo ? ' navbar-with-logo' : ''}`}>
-                    {showLogo && appOptions.canBranding !== undefined && <div className="main-logo" onClick={
-                    () => {
-                        window.open(`${__PUBLISHER_URL__}`, "_blank");
-                    }}><Icon icon="icon-logo"></Icon></div>}
-                    <Subnavbar>
-                        <Toolbar openOptions={this.handleClickToOpenOptions} closeOptions={this.handleOptionsViewClosed}/>
-                        <Search useSuspense={false}/>
-                    </Subnavbar>
-                </Navbar>
+                {config?.customization &&
+                    <Navbar id='editor-navbar'
+                            className={`main-navbar${(!isBranding && showLogo) ? ' navbar-with-logo' : ''}`}>
+                        {(!isBranding && showLogo) && <div className="main-logo" onClick={() => {
+                            window.open(`${__PUBLISHER_URL__}`, "_blank");
+                        }}><Icon icon="icon-logo"></Icon></div>}
+                        <Subnavbar>
+                            <Toolbar openOptions={this.handleClickToOpenOptions}
+                                     closeOptions={this.handleOptionsViewClosed}/>
+                            <Search useSuspense={false}/>
+                        </Subnavbar>
+                    </Navbar>
+                }
                 <CellEditor onClickToOpenAddOptions={(panels, button) => this.handleClickToOpenOptions('add', {panels: panels, button: button})}/>
                 {/* Page content */}
                 <View id="editor_sdk" />

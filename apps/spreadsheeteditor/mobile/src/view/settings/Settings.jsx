@@ -67,13 +67,6 @@ const routes = [
     {
         path: '/direction/',
         component: Direction
-    },
-
-    // Sharing Settings
-
-    {
-        path: '/sharing-settings/',
-        component: SharingSettings
     }
 ];
 
@@ -195,9 +188,6 @@ const SettingsList = inject("storeAppOptions")(observer(props => {
                     }
                     <ListItem title={_t.textApplicationSettings} link="#" onClick={onoptionclick.bind(this, '/application-settings/')}>
                         <Icon slot="media" icon="icon-app-settings"></Icon>
-                    </ListItem>
-                    <ListItem title={t('Common.Collaboration.textSharingSettings')} link="#" onClick={onoptionclick.bind(this, "/sharing-settings/")}>
-                        <Icon slot="media" icon="icon-sharing-settings"></Icon>
                     </ListItem>
                     {_canDownload &&
                         <ListItem title={_t.textDownload} link="#" onClick={onoptionclick.bind(this, '/download/')}>

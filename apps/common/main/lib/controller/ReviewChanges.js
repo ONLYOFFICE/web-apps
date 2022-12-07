@@ -401,7 +401,7 @@ define([
                         if (value.Get_SmallCaps() !== undefined)
                             proptext += ((value.Get_SmallCaps() ? '' : me.textNot) + me.textSmallCaps + ', ');
                         if (value.Get_VertAlign() !== undefined)
-                            proptext += (((value.Get_VertAlign()==1) ? me.textSuperScript : ((value.Get_VertAlign()==2) ? me.textSubScript : me.textBaseline)) + ', ');
+                            proptext += (((value.Get_VertAlign()===Asc.vertalign_SuperScript) ? me.textSuperScript : ((value.Get_VertAlign()===Asc.vertalign_SubScript) ? me.textSubScript : me.textBaseline)) + ', ');
                         if (value.Get_Color() !== undefined)
                             proptext += (me.textColor + ', ');
                         if (value.Get_Highlight() !== undefined)

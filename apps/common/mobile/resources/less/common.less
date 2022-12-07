@@ -25,12 +25,12 @@
     }
 }
 
-.navbar {
-    .title {
-        text-overflow: initial;
-        white-space: normal;
-    }
-}
+//.navbar {
+//    .title {
+//        text-overflow: initial;
+//        white-space: normal;
+//    }
+//}
 
 .navbar-hidden {
     transform: translate3d(0, calc(-1 * (var(--f7-navbar-height) + var(--f7-subnavbar-height))), 0);
@@ -48,9 +48,12 @@
     .subnavbar-inner {
         padding: 0;
         .title {
-            white-space: nowrap;
+            //white-space: nowrap;
             overflow: hidden;
-            text-overflow: ellipsis;
+            text-overflow: initial;
+            margin: 0;
+            padding: 0;
+            flex-shrink: initial;
         }
     }
     .icon-back {
@@ -1097,6 +1100,19 @@ input[type="number"]::-webkit-inner-spin-button {
 .sheet-modal .page-current-comment {
     padding-bottom: 60px;
 }
+
+// Picker
+.picker-columns {
+    justify-content: space-around;
+}
+
+.row-picker {
+    .col-50 {
+        color: @text-secondary;
+        text-align: center;
+    }
+}
+
 
 
 

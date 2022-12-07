@@ -223,6 +223,8 @@ define([
                     me.api.asc_registerCallback('asc_onTrackGuide',   _.bind(me.onTrackGuide, me));
                     me.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(me.onShowMathTrack, me));
                     me.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(me.onHideMathTrack, me));
+                    me.api.asc_registerCallback('asc_onLockViewProps',          _.bind(me.onLockViewProps, me, true));
+                    me.api.asc_registerCallback('asc_onUnLockViewProps',        _.bind(me.onLockViewProps, me, false));
                 }
                 me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(me.onCoAuthoringDisconnect, me));
                 Common.NotificationCenter.on('api:disconnect',              _.bind(me.onCoAuthoringDisconnect, me));
@@ -372,7 +374,8 @@ define([
             view.menuRemoveHyperlinkPara.on('click', _.bind(me.removeHyperlink, me));
             view.menuRemoveHyperlinkTable.on('click', _.bind(me.removeHyperlink, me));
             view.menuChartEdit.on('click', _.bind(me.editChartClick, me, undefined));
-            view.menuSaveAsPicture.on('click', _.bind(me.saveAsPicture, me));
+            view.menuImgSaveAsPicture.on('click', _.bind(me.saveAsPicture, me));
+            view.menuTableSaveAsPicture.on('click', _.bind(me.saveAsPicture, me));
             view.menuAddCommentPara.on('click', _.bind(me.addComment, me));
             view.menuAddCommentTable.on('click', _.bind(me.addComment, me));
             view.menuAddCommentImg.on('click', _.bind(me.addComment, me));
@@ -430,7 +433,7 @@ define([
             view.mnuGuides.menu.on('item:click', _.bind(me.onGuidesClick, me));
             view.mnuGridlines.menu.on('item:click', _.bind(me.onGridlinesClick, me));
             view.mnuRulers.on('click', _.bind(me.onRulersClick, me));
-            view.menuTableEquation.menu.on('item:click', _.bind(me.convertEquation, me));
+            view.menuTableEquationSettings.menu.on('item:click', _.bind(me.convertEquation, me));
             view.menuParagraphEquation.menu.on('item:click', _.bind(me.convertEquation, me));
         },
 
@@ -451,7 +454,7 @@ define([
                     showPoint[0] -= 3;
                     showPoint[1] -= 3;
                 } else {
-                    value && (value.guideId = event.get_Guide());
+                    value && (value.guide = {guideId: event.get_Guide()});
                 }
 
                 if (!menu.rendered) {
@@ -2161,7 +2164,7 @@ define([
 
         onGuidesClick: function(menu, item) {
             if (item.value == 'del-guide' && item.options.guideId)
-                this.api.asc_deleteGuide(item.options.guideId);
+                this.documentHolder.fireEvent('guides:delete', [item.options.guideId]);
             else if (item.value === 'add-vert' || item.value === 'add-hor')
                 this.documentHolder.fireEvent('guides:add', [item.value]);
             else if (item.value === 'clear')
@@ -2312,7 +2315,6 @@ define([
                         menu        : new Common.UI.Menu({
                             cls: 'menu-shapes',
                             value: i,
-                            restoreHeight: equationGroup.get('groupHeight') ? parseInt(equationGroup.get('groupHeight')) : true,
                             items: [
                                 { template: _.template('<div id="id-document-holder-btn-equation-menu-' + i +
                                         '" class="menu-shape" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
@@ -2393,6 +2395,26 @@ define([
                     this.api.asc_SetMathInputType(item.value);
                 else if (item.options.type=='view')
                     this.api.asc_ConvertMathView(item.value.linear, item.value.all);
+            }
+        },
+
+        onLockViewProps: function(lock) {
+            Common.Utils.InternalSettings.set("pe-lock-view-props", lock);
+
+            var me = this,
+                currentMenu = me.documentHolder.currentMenu;
+            if (currentMenu && currentMenu.isVisible() && me.documentHolder.slideMenu===currentMenu){
+                if (me.api.asc_getCurrentFocusObject() !== 0 ){ // not thumbnails
+                    if (!me._isDisabled && me.mode.isEdit) { // update slide menu items
+                        var obj = me.fillMenuProps(me.api.getSelectedElements());
+                        if (obj) {
+                            if (obj.menu_to_show===currentMenu) {
+                                currentMenu.options.initMenu(obj.menu_props);
+                                currentMenu.alignPosition();
+                            }
+                        }
+                    }
+                }
             }
         },
 

@@ -331,7 +331,6 @@
     "textRemoveShape": "Remover forma",
     "textRemoveTable": "Remover tabela",
     "textRemoveTableContent": "Remover índice remissivo",
-    "textReorder": "Reordenar",
     "textRepeatAsHeaderRow": "Repetir como linha de cabeçalho",
     "textReplace": "Substituir",
     "textReplaceImage": "Substituir imagem",
@@ -376,7 +375,8 @@
     "textType": "Tipo",
     "textWe": "qua",
     "textWrap": "Moldar",
-    "textWrappingStyle": "Estilo de moldagem"
+    "textWrappingStyle": "Estilo de moldagem",
+    "textArrange": "Arrange"
   },
   "Error": {
     "convertationTimeoutText": "Excedeu o tempo limite de conversão.",
@@ -421,11 +421,13 @@
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Nenhuma imagem foi carregada.",
     "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo é de 25 MB.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
     "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
-    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension."
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "A carregar dados...",
