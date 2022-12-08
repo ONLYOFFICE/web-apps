@@ -49,8 +49,11 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
 
     useEffect(() => {
         const api = Common.EditorApi.get();
+        const subnavbarHeight = document.querySelector('.subnavbar').clientHeight;
+
         const onEngineCreated = api => {
             if(isViewer) {
+                api.SetMobileTopOffset(subnavbarHeight, subnavbarHeight);
                 api.asc_registerCallback('onMobileScrollDelta', scrollHandler);
             }
         };
@@ -64,7 +67,11 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         return () => {
             const api = Common.EditorApi.get();
 
-            if (api) api.asc_unregisterCallback('onMobileScrollDelta', scrollHandler);
+            if (api) {
+                api.SetMobileTopOffset(subnavbarHeight, subnavbarHeight);
+                api.asc_unregisterCallback('onMobileScrollDelta', scrollHandler);
+            }
+
             Common.Notifications.off('engineCreated', onEngineCreated);
         }
     }, [isViewer]);
@@ -73,18 +80,18 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
 
     const scrollHandler = offset => {
         const api = Common.EditorApi.get();
-        const navbarBgHeight = document.querySelector('.navbar-bg').clientHeight;
+        // const navbarBgHeight = document.querySelector('.navbar-bg').clientHeight;
         const subnavbarHeight = document.querySelector('.subnavbar').clientHeight;
-        const navbarHeight = navbarBgHeight + subnavbarHeight;
+        // const navbarHeight = navbarBgHeight + subnavbarHeight;
 
-        if(offset > navbarHeight) {
+        if(offset > subnavbarHeight) {
             f7.navbar.hide('.main-navbar');
             props.closeOptions('fab');
             api.SetMobileTopOffset(undefined, 0);
-        } else if(offset < -navbarHeight) {
+        } else if(offset < -subnavbarHeight) {
             f7.navbar.show('.main-navbar');
             props.openOptions('fab');
-            api.SetMobileTopOffset(undefined, navbarHeight);
+            api.SetMobileTopOffset(undefined, subnavbarHeight);
         }
     }
 
