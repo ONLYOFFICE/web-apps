@@ -1838,5 +1838,57 @@
 	"XOR": {
 		"a": "(lógica1; [lógica2]; ...)",
 		"d": "Devolve um \"Ou Exclusivo\" lógico de todos os argumentos"
+	},
+	"TEXTBEFORE": {
+		"a": "(texto, delimitador, [núm_instância], [corresp_mod], [corresp_final], [se_não_for_encontrado])",
+		"d": "Devolve texto que está antes dos carateres delimitadores."
+	},
+	"TEXTAFTER": {
+		"a": "(texto, delimitador, [núm_instância], [corresp_mod], [corresp_final], [se_não_for_encontrado])",
+		"d": "Devolve texto que está depois dos carateres delimitadores."
+	},
+	"TEXTSPLIT": {
+		"a": "(texto, delimitador_de_coluna, [delimitador_de_linha], [corresp], [modo], [preencher_com])",
+		"d": "Divide o texto em linhas ou colunas usando delimitadores."
+	},
+	"WRAPROWS": {
+		"a": "(vetor, contagem_de_moldagens, [preencher_com])",
+		"d": "Molda um vetor de linha ou coluna após um número especificado de valores."
+	},
+	"VSTACK": {
+		"a": "(matriz1, [matriz2], ...)",
+		"d": "Empilha verticalmente várias matrizes numa única matriz."
+	},
+	"HSTACK": {
+		"a": "(matriz1, [matriz2], ...)",
+		"d": "Empilha horizontalmente várias matrizes numa única matriz."
+	},
+	"CHOOSEROWS": {
+		"a": "(matriz, núm_linha1, [núm_linha2], ...)",
+		"d": "Devolve linhas a partir de uma matriz ou referência."
+	},
+	"CHOOSECOLS": {
+		"a": "(matriz, núm_coluna1, [núm_coluna2], ...)",
+		"d": "Devolve colunas a partir de uma matriz ou referência."
+	},
+	"TOCOL": {
+		"a": "(matriz, [ignorar], [analisar_por_coluna])",
+		"d": "Devolve a matriz como uma coluna."
+	},
+	"TOROW": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "Devolve a matriz como uma linha."
+	},
+	"WRAPCOLS": {
+		"a": "(vetor, contagem_de_moldagens, [preencher_com])",
+		"d": "Molda um vetor de linha ou coluna após um número especificado de valores."
+	},
+	"TAKE": {
+		"a": "(matriz, linhas, [colunas])",
+		"d": "Devolve linhas ou colunas a partir do início ou fim da matriz."
+	},
+	"DROP": {
+		"a": "(matriz, linhas, [colunas])",
+		"d": "Remove linhas ou colunas a partir do início ou fim da matriz."
 	}
 }

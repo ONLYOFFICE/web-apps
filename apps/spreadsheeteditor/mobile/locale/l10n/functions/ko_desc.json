@@ -1838,5 +1838,57 @@
 	"XOR": {
 		"a": "(logical1; [logical2]; ...)",
 		"d": "모든 인수의 논리 '배타적 Or' 값을 구합니다."
+	},
+	"TEXTBEFORE": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": " 문자를 구분하기 전의 텍스트를 반환합니다."
+	},
+	"TEXTAFTER": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": " 문자를 구분한 후의 텍스트를 반환합니다."
+	},
+	"TEXTSPLIT": {
+		"a": "(text, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
+		"d": "구분 기호를 사용하여 텍스트를 행 또는 열로 분할합니다."
+	},
+	"WRAPROWS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": "지정된 수의 값 뒤에 행 또는 열 벡터를 래핑합니다."
+	},
+	"VSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": "수직으로 배열을 하나의 배열로 쌓습니다."
+	},
+	"HSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": "수평으로 배열을 하나의 배열로 쌓습니다."
+	},
+	"CHOOSEROWS": {
+		"a": "(array, row_num1, [row_num2], ...)",
+		"d": "배열이나 참조에서 행을 반환합니다."
+	},
+	"CHOOSECOLS": {
+		"a": "(array, col_num1, [col_num2], ...)",
+		"d": "배열 또는 참조에서 열을 반환합니다."
+	},
+	"TOCOL": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "배열을 하나의 열로 반환합니다."
+	},
+	"TOROW": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "배열을 하나의 행으로 반환합니다."
+	},
+	"WRAPCOLS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": "지정된 수의 값 뒤에 행 또는 열 벡터를 래핑합니다."
+	},
+	"TAKE": {
+		"a": "(array, rows, [columns])",
+		"d": "배열 시작 또는 끝에서 행 또는 열을 반환합니다."
+	},
+	"DROP": {
+		"a": "(array, rows, [columns])",
+		"d": "배열 시작 또는 끝에서 행 또는 열을 삭제합니다."
 	}
 }

@@ -9,6 +9,7 @@ class LocalStorage {
 
         this._store = {};
         this._prefix = 'mobile-';
+        this._common_keys = ['guest-id', 'guest-username'];
 
         try {
             this._isAllowed = !!window.localStorage;
@@ -52,7 +53,9 @@ class LocalStorage {
     }
 
     setItem(name, value, just) {
-        name = this._prefix + name;
+        if ( !this._common_keys.includes(value) )
+            name = this._prefix + name;
+
         if ( this._isAllowed ) {
             try {
                 localStorage.setItem(name, value);
@@ -67,7 +70,9 @@ class LocalStorage {
     }
 
     getItem(name) {
-        name = this._prefix + name;
+        if ( !this._common_keys.includes(name) )
+            name = this._prefix + name;
+
         if ( this._isAllowed )
             return localStorage.getItem(name);
         else return this._store[name]===undefined ? null : this._store[name];

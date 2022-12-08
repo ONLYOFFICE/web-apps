@@ -393,7 +393,7 @@ const PageReorder = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textReorder} backLink={_t.textBack}>
+            <Navbar title={t('View.Edit.textArrange')} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
@@ -524,7 +524,7 @@ const EditTable = props => {
                     onFillColor: props.onFillColor,
                     onBorderTypeClick: props.onBorderTypeClick
                 }}></ListItem>
-                 <ListItem title={_t.textReorder} link="/edit-table-reorder/" routeProps={{
+                 <ListItem title={t('View.Edit.textArrange')} link="/edit-table-reorder/" routeProps={{
                     onReorder: props.onReorder
                 }}></ListItem>
                 <ListItem title={_t.textAlign} link="/edit-table-align/" routeProps={{
