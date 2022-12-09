@@ -564,7 +564,9 @@
     "warnLicenseUsersExceeded": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Pour en savoir plus, contactez votre administrateur.",
     "warnNoLicense": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
     "warnNoLicenseUsers": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
-    "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier."
+    "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier.",
+    "textDocumentProtected": "The document is protected. Edit settings are not available",
+    "textOk": "Ok"
   },
   "Settings": {
     "advDRMOptions": "Fichier protégé",
