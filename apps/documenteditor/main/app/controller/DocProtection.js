@@ -86,6 +86,7 @@ define([
             this.setApi(api);
         },
         setApi: function (api) {
+            this.userCollection = this.getApplication().getCollection('Common.Collections.Users');
             if (api) {
                 this.api = api;
                 this.api.asc_registerCallback('asc_onChangeDocumentProtection',_.bind(this.onChangeProtectDocument, this));
@@ -95,6 +96,7 @@ define([
 
         setMode: function(mode) {
             this.appConfig = mode;
+            this.currentUserId = mode.user.id;
 
             this.appConfig.isEdit && (this.view = this.createView('DocProtection', {
                 mode: mode
@@ -183,7 +185,7 @@ define([
             });
         },
 
-        onChangeProtectDocument: function() {
+        onChangeProtectDocument: function(userId) {
             var props = this.getDocProps(true),
                 isProtected = props && (props.isReadOnly || props.isCommentsOnly || props.isFormsOnly || props.isReviewOnly);
             this.view && this.view.btnProtectDoc.toggle(isProtected, true);
@@ -204,6 +206,27 @@ define([
             if (this._docProtectDlg && this._docProtectDlg.isVisible())
                 this._docProtectDlg.SetDisabled(!!this._state.lockDocProtect || isProtected);
             Common.NotificationCenter.trigger('protect:doclock', props);
+            if (userId && this.userCollection) {
+                var recUser = this.userCollection.findOriginalUser(userId);
+                if (recUser && (recUser.get('idOriginal') !== this.currentUserId)) {
+                    var str = this.view.txtWasUnprotected;
+                    switch (this._state.docProtection.type) {
+                        case Asc.c_oAscEDocProtect.ReadOnly:
+                            str = this.view.txtWasProtectedView;
+                            break;
+                        case Asc.c_oAscEDocProtect.Comments:
+                            str = this.view.txtWasProtectedComment;
+                            break;
+                        case Asc.c_oAscEDocProtect.Forms:
+                            str = this.view.txtWasProtectedForms;
+                            break;
+                        case Asc.c_oAscEDocProtect.TrackedChanges:
+                            str = this.view.txtWasProtectedTrack;
+                            break;
+                    }
+                    str && Common.NotificationCenter.trigger('showmessage', {msg: str}, {timeout: 5000, hideCloseTip: true});
+                }
+            }
         },
 
         getDocProps: function(update) {
