@@ -46,6 +46,7 @@ define([
     'spreadsheeteditor/main/app/view/RemoveDuplicatesDialog',
     'spreadsheeteditor/main/app/view/DataValidationDialog',
     'spreadsheeteditor/main/app/view/ExternalLinksDlg',
+    'spreadsheeteditor/main/app/view/ImportFromXmlDialog',
     'common/main/lib/view/OptionsDialog'
 ], function () {
     'use strict';
@@ -265,6 +266,8 @@ define([
                 })).show();
             } else if (type === 'storage') {
                 // Common.NotificationCenter.trigger('storage:data-load', 'add');
+            } else if (type === 'xml') {
+                this.api && this.api.asc_ImportXmlStart(_.bind(this.onDataFromXMLCallback, this));
             }
         },
 
@@ -284,6 +287,39 @@ define([
                     }
                 }
             })).show();
+        },
+
+        onDataFromXMLCallback: function(fileContent) {
+            if (!fileContent) return;
+
+            var me = this;
+            (new SSE.Views.ImportFromXmlDialog({
+                api: me.api,
+                handler: function (result, settings) {
+                    if (result == 'ok' && settings) {
+                        if (settings.destination)
+                            me.api.asc_ImportXmlEnd(fileContent, settings.destination, me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex()));
+                        else
+                            me.api.asc_ImportXmlEnd(fileContent, null, me.createSheetName());
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me);
+                }
+            })).show();
+        },
+
+        createSheetName: function() {
+            var items = [], wc = this.api.asc_getWorksheetsCount();
+            while (wc--) {
+                items.push(this.api.asc_getWorksheetName(wc).toLowerCase());
+            }
+
+            var index = 0, name;
+            while(++index < 1000) {
+                name = this.strSheet + index;
+                if (items.indexOf(name.toLowerCase()) < 0) break;
+            }
+
+            return name;
         },
 
         onShowClick: function() {
@@ -575,7 +611,8 @@ define([
         textEmptyUrl: 'You need to specify URL.',
         txtImportWizard: 'Text Import Wizard',
         txtUrlTitle: 'Paste a data URL',
-        txtErrorExternalLink: 'Error: updating is failed'
+        txtErrorExternalLink: 'Error: updating is failed',
+        strSheet: 'Sheet'
 
     }, SSE.Controllers.DataTab || {}));
 });
