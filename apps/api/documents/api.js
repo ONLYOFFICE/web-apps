@@ -752,6 +752,13 @@
             });
         };
 
+        var _refreshFile = function(data) {
+            _sendCommand({
+                command: 'refreshFile',
+                data: data
+            });
+        };
+
         var _serviceCommand = function(command, data) {
             _sendCommand({
                 command: 'internalCommand',
@@ -787,7 +794,8 @@
             requestClose        : _requestClose,
             grabFocus           : _grabFocus,
             blurFocus           : _blurFocus,
-            setReferenceData    : _setReferenceData
+            setReferenceData    : _setReferenceData,
+            refreshFile         : _refreshFile
         }
     };
 

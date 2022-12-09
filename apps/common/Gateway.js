@@ -142,6 +142,10 @@ if (window.Common === undefined) {
 
             'setReferenceData': function(data) {
                 $me.trigger('setreferencedata', data);
+            },
+
+            'refreshFile': function(data) {
+                $me.trigger('refreshfile', data);
             }
         };
 
@@ -357,6 +361,10 @@ if (window.Common === undefined) {
 
             pluginsReady: function() {
                 _postMessage({ event: 'onPluginsReady' });
+            },
+
+            requestRefreshFile: function() {
+                _postMessage({ event: 'onRequestRefreshFile' });
             },
 
             on: function(event, handler){
