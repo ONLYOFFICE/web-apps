@@ -34,14 +34,14 @@
 /**
  *  CreatePivotDialog.js
  *
- *  Created by Julia Radzhabova on 04.10.2019
+ *  Created by Julia Radzhabova on 08.12.2022
  *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
  *
  */
 define([
     'common/main/lib/util/utils',
     'common/main/lib/component/InputField',
-    'common/main/lib/component/ComboBox',
+    'common/main/lib/component/RadioBox',
     'common/main/lib/view/AdvancedSettingsWindow'
 ], function () { 'use strict';
 
@@ -88,7 +88,7 @@ define([
                 ].join('')
             }, options);
 
-            this.api        = options.api;
+            this.api = options.api;
 
             this.options.handler = function(result, value) {
                 if ( result != 'ok' || this.isRangeValid() ) {
@@ -115,16 +115,14 @@ define([
                 btnHint     : this.textSelectData,
                 allowBlank  : true,
                 validateOnChange: true,
-                validateOnBlur: false,
-                disabled: true
+                validateOnBlur: false
             });
             this.txtDestRange.on('button:click', _.bind(this.onSelectData, this, 'dest'));
 
             this.radioNew = new Common.UI.RadioBox({
                 el: $('#import-xml-radio-new'),
                 labelText: this.textNew,
-                name: 'asc-radio-xml-dest',
-                checked: true
+                name: 'asc-radio-xml-dest'
             }).on('change', function(field, newValue) {
                 me.txtDestRange.setDisabled(newValue);
                 me.txtDestRange.showError();
@@ -133,7 +131,8 @@ define([
             this.radioExist = new Common.UI.RadioBox({
                 el: $('#import-xml-radio-exist'),
                 labelText: this.textExist,
-                name: 'asc-radio-xml-dest'
+                name: 'asc-radio-xml-dest',
+                checked: true
             }).on('change', function(field, newValue) {
                 me.txtDestRange.setDisabled(!newValue);
                 me.txtDestRange.cmpEl.find('input').focus();
@@ -149,21 +148,22 @@ define([
         getDefaultFocusableComponent: function () {
             if (this._alreadyRendered) return; // focus only at first show
             this._alreadyRendered = true;
-            return this.txtSourceRange;
+            return this.txtDestRange;
         },
 
         afterRender: function() {
-            this._setDefaults(this.props);
+            this._setDefaults();
         },
 
-        _setDefaults: function (props) {
-            if (props) {
-                var me = this;
-                this.txtDestRange.validation = function(value) {
-                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.PivotTableReport, value, false);
-                    return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
-                };
-            }
+        _setDefaults: function () {
+            var me = this;
+            this.txtDestRange.validation = function(value) {
+                var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.PivotTableReport, value, false);
+                return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
+            };
+            var range = this.api.asc_getActiveRangeStr(Asc.referenceType.A);
+            this.txtDestRange.setValue(range);
+            this.dataDestValid = range;
         },
 
         getSettings: function () {

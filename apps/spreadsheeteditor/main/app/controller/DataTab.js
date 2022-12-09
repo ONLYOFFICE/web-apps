@@ -612,7 +612,7 @@ define([
         txtImportWizard: 'Text Import Wizard',
         txtUrlTitle: 'Paste a data URL',
         txtErrorExternalLink: 'Error: updating is failed',
-        strSheet        : 'Sheet'
+        strSheet: 'Sheet'
 
     }, SSE.Controllers.DataTab || {}));
 });
