@@ -298,9 +298,9 @@ define([
                 handler: function (result, settings) {
                     if (result == 'ok' && settings) {
                         if (settings.destination)
-                            me.api.asc_ImportXmlEnd(fileContent, settings.destination);
+                            me.api.asc_ImportXmlEnd(fileContent, settings.destination, me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex()));
                         else
-                            me.api.asc_ImportXmlEnd(fileContent, me.createSheetName());
+                            me.api.asc_ImportXmlEnd(fileContent, null, me.createSheetName());
                     }
                     Common.NotificationCenter.trigger('edit:complete', me);
                 }
