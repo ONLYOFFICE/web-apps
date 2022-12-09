@@ -265,8 +265,8 @@ define([
             var top  = main_geometry.top + Math.floor((parseInt(main_height) - parseInt(win_height)) / 2);
             var left = Math.floor((parseInt(main_width) - parseInt(win_width)) / 2);
 
-            this.$window.css('left',left);
-            this.$window.css('top',top);
+            this.$window.css('left',left < 0 ? 0 : left);
+            this.$window.css('top',top < 0 ? 0 : top);
         }
 
         function _setVisible() {
@@ -658,7 +658,7 @@ define([
                     this.$window.find('.header').on('mousedown', this.binding.dragStart);
                     this.$window.find('.tool.close').on('click', _.bind(doclose, this));
                     this.$window.find('.tool.help').on('click', _.bind(dohelp, this));
-
+                    $(window).on('resize', _.bind(_centre, this));
                     if (!this.initConfig.modal)
                         Common.Gateway.on('processmouse', _.bind(_onProcessMouse, this));
                 } else {
