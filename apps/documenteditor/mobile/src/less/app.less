@@ -69,6 +69,17 @@
     }
 }
 
+.navbar ~ *, .navbars ~ * {
+    --f7-page-navbar-offset: 0;
+}
+
+.page.page-with-subnavbar {
+    .page-content, &.page-with-logo .page-content {
+        --f7-page-subnavbar-offset: 0px;
+        padding-top: 0;
+    }
+}
+
 // Review
 .page-review {
     --f7-toolbar-link-color: @brandColor;
