@@ -158,7 +158,7 @@ define([
         _setDefaults: function () {
             var me = this;
             this.txtDestRange.validation = function(value) {
-                var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.PivotTableReport, value, false);
+                var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.ImportXml, value, false);
                 return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
             };
             var range = this.api.asc_getActiveRangeStr(Asc.referenceType.A);
@@ -181,7 +181,7 @@ define([
                     isvalid = false;
                     txtError = this.txtEmpty;
                 } else {
-                    isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.PivotTableReport, this.txtDestRange.getValue());
+                    isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.ImportXml, this.txtDestRange.getValue());
                     isvalid = (isvalid == Asc.c_oAscError.ID.No);
                     !isvalid && (txtError = this.textInvalidRange);
                 }
@@ -224,7 +224,7 @@ define([
                 win.setSettings({
                     api     : me.api,
                     range   : (!_.isEmpty(txtRange.getValue()) && (txtRange.checkValidate()==true)) ? txtRange.getValue() : me.dataDestValid,
-                    type    : Asc.c_oAscSelectionDialogType.PivotTableReport
+                    type    : Asc.c_oAscSelectionDialogType.ImportXml
                 });
             }
         },
