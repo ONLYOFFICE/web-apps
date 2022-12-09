@@ -62,7 +62,8 @@ define([
             'btn-save-coauth': 'coauth',
             'btn-synch': 'synch' };
 
-        var nativevars;
+        var nativevars,
+            helpUrl;
 
         if ( !!native ) {
             native.features = native.features || {};
@@ -236,6 +237,45 @@ define([
             }
         }
 
+        const _checkHelpAvailable = function () {
+            const curr_lang = Common.Locale.getCurrentLanguage();
+            let url = 'resources/help/' + curr_lang;
+            fetch(url + '/Contents.json').then(function (response) {
+                if ( response.ok ) {
+                    /* local help avail */
+                    helpUrl = url;
+                } else
+                if ( curr_lang != Common.Locale.getDefaultLanguage() ) {
+                    url = 'resources/help/' + Common.Locale.getDefaultLanguage();
+                    fetch(url + '/Contents.json').then(function (response){
+                        if ( response.ok ) {
+                            /* local help avail. def lang */
+                            helpUrl = url;
+                        } else
+                        if ( this.helpUrl() ) {
+                            url = this.helpUrl() + curr_lang;
+                            fetch(url + '/Contents.json').then(function (response){
+                                if ( response.ok ) {
+                                    /* remote help avail */
+                                    helpUrl = url;
+                                } else {
+                                    url = this.helpUrl() + Common.getDefaultLanguage();
+                                    fetch(url + '/Contents.json').then(function (response){
+                                        if ( response.ok ) {
+                                            /* remote help avail. def lang */
+                                            helpUrl = url;
+                                        } else {
+                                            /* no help avail. open help center */
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
         return {
             init: function (opts) {
                 _.extend(config, opts);
@@ -281,6 +321,8 @@ define([
                                     this.close();
                                 }).show();
                             }
+
+                            _checkHelpAvailable();
                         }
                     });
 
@@ -450,6 +492,9 @@ define([
                 }
             },
             helpUrl: function () {
+                if ( helpUrl )
+                    return helpUrl;
+
                 if ( !!nativevars && nativevars.helpUrl ) {
                     var webapp = window.SSE ? 'spreadsheeteditor' :
                                     window.PE ? 'presentationeditor' : 'documenteditor';
@@ -457,6 +502,9 @@ define([
                 }
 
                 return undefined;
+            },
+            helpAvailable: function () {
+                return !!helpUrl;
             },
             getDefaultPrinterName: function () {
                 return nativevars ? nativevars.defaultPrinterName : '';
