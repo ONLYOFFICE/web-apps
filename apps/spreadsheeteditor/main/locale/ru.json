@@ -3781,6 +3781,7 @@
   "SSE.Views.Toolbar.tipPrColor": "Цвет заливки",
   "SSE.Views.Toolbar.tipPrint": "Печать",
   "SSE.Views.Toolbar.tipPrintArea": "Область печати",
+  "SSE.Views.Toolbar.tipPrintQuick": "Быстрая печать",
   "SSE.Views.Toolbar.tipPrintTitles": "Печатать заголовки",
   "SSE.Views.Toolbar.tipRedo": "Повторить",
   "SSE.Views.Toolbar.tipSave": "Сохранить",
