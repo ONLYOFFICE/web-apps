@@ -461,7 +461,7 @@ define([
                     url = 'resources/help/' + lang + name;
 
                 if ( Common.Controllers.Desktop.isActive() ) {
-                    if ( Common.Controllers.Desktop.helpAvailable() )
+                    if ( Common.Controllers.Desktop.isHelpAvailable() )
                         url = Common.Controllers.Desktop.helpUrl() + name;
                     else {
                         const helpCenter = Common.Utils.InternalSettings.get('url-help-center');

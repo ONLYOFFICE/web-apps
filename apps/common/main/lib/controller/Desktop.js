@@ -503,7 +503,7 @@ define([
 
                 return undefined;
             },
-            helpAvailable: function () {
+            isHelpAvailable: function () {
                 return !!helpUrl;
             },
             getDefaultPrinterName: function () {
