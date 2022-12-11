@@ -1,9 +1,6 @@
 
 import React, { Component } from 'react';
-import { Searchbar, Popover, Popup, View, Page, List, ListItem, Navbar, NavRight, Link } from 'framework7-react';
-import { Toggle } from 'framework7-react';
-import { f7 } from 'framework7-react';
-import { Dom7 } from 'framework7';
+import { Popover, Popup, View, f7 } from 'framework7-react';
 import { Device } from '../../../../common/mobile/utils/device';
 import { observable, runInAction } from "mobx";
 import { observer } from "mobx-react";
@@ -105,18 +102,19 @@ class SearchView extends Component {
         $editor.on('pointerdown', this.onEditorTouchStart);
         $editor.on('pointerup',   this.onEditorTouchEnd);
 
-        if( !this.searchbar ) {
-            this.searchbar = f7.searchbar.get('.searchbar');
-        }
-
-        if( !this.searchbar ) {
+        if(!this.searchbar) {
             this.searchbar = f7.searchbar.create({
                 el: '.searchbar',
                 customSearch: true,
                 expandable: true,
                 backdrop: false,
                 on: {
-                    search: (bar, curval, prevval) => {
+                    search: (sb, query, previousQuery) => {
+                        const api = Common.EditorApi.get();
+
+                        if(!query) {
+                            api.asc_selectSearchingResults(false);
+                        }
                     },
                 }
             });

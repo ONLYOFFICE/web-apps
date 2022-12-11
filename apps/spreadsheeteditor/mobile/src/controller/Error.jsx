@@ -3,7 +3,7 @@ import { inject } from 'mobx-react';
 import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 
-const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocument}) => {
+const ErrorController = inject('storeAppOptions','storeSpreadsheetInfo')(({storeAppOptions, storeSpreadsheetInfo, LoadingDocument}) => {
     const { t } = useTranslation();
     const _t = t("Error", { returnObjects: true });
 
@@ -227,11 +227,11 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
                 break;
 
             case Asc.c_oAscError.ID.VKeyEncrypt:
-                config.msg = _t.errorKeyEncrypt;
+                config.msg = _t.errorToken;
                 break;
 
             case Asc.c_oAscError.ID.KeyExpire:
-                config.msg = _t.errorKeyExpire;
+                config.msg = _t.errorTokenExpire;
                 break;
 
             case Asc.c_oAscError.ID.UserCountExceed:
@@ -324,6 +324,24 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
                 config.msg = t('Error.errorCannotUseCommandProtectedSheet');
                 break;
 
+            case Asc.c_oAscError.ID.DirectUrl:
+                config.msg = _t.errorDirectUrl;
+                break;
+
+            case Asc.c_oAscError.ID.ConvertationOpenFormat:
+                let docExt = storeSpreadsheetInfo.dataDoc ? storeSpreadsheetInfo.dataDoc.fileType || '' : '';
+                if (errData === 'pdf')
+                    config.msg = _t.errorInconsistentExtPdf.replace('%1', docExt);
+                else if  (errData === 'docx')
+                    config.msg = _t.errorInconsistentExtDocx.replace('%1', docExt);
+                else if  (errData === 'xlsx')
+                    config.msg = _t.errorInconsistentExtXlsx.replace('%1', docExt);
+                else if  (errData === 'pptx')
+                    config.msg = _t.errorInconsistentExtPptx.replace('%1', docExt);
+                else
+                    config.msg = _t.errorInconsistentExt;
+                break;
+
             default:
                 config.msg = _t.errorDefaultMessage.replace('%1', id);
                 break;
@@ -364,12 +382,17 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
             cssClass: 'error-dialog',
             title   : config.title,
             text    : config.msg,
-            buttons: config.buttons.map( button => (
+            buttons: config.buttons ? config.buttons.map(button => (
                 {
-                    text:button,
+                    text: button,
                     onClick: (_, btn) => config.callback(_, btn)
                 }
-            ))
+            )) : [
+                {
+                    text: t('Error.textOk'),
+                    onClick: (dlg, _) => dlg.close()
+                }
+            ]
         }).open();
 
         Common.component.Analytics.trackEvent('Internal Error', id.toString());

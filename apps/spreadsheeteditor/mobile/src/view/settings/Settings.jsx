@@ -13,6 +13,7 @@ import {MacrosSettings, RegionalSettings, FormulaLanguage} from './ApplicationSe
 // import SpreadsheetAbout from './SpreadsheetAbout.jsx';
 import About from '../../../../../common/mobile/lib/view/About';
 import { Direction } from '../../../../../spreadsheeteditor/mobile/src/view/settings/ApplicationSettings';
+import SharingSettings from "../../../../../common/mobile/lib/view/SharingSettings";
 
 const routes = [
     {

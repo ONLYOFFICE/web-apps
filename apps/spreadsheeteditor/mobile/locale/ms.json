@@ -32,7 +32,8 @@
       "textReopen": "Membuka semula",
       "textResolve": "Selesaikan",
       "textTryUndoRedo": "Fungsi Buat asal/Buat semula dinyahdayakan bagi mod pengeditan Bersama Pantas.",
-      "textUsers": "Pengguna"
+      "textUsers": "Pengguna",
+      "textSharingSettings": "Sharing Settings"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Warna Tersuai",
@@ -65,7 +66,8 @@
     "textDoNotShowAgain": "Jangan tunjukkan semula",
     "textOk": "Okey",
     "txtWarnUrl": "Mengklik pautan ini boleh membahayakan peranti dan data anda.<br>Adakah anda mahu meneruskan?",
-    "warnMergeLostData": "Hanya data dari sel kiri-atas akan kekal dalam sel dicantum. <br>Adakah anda pasti mahu meneruskan?"
+    "warnMergeLostData": "Hanya data dari sel kiri-atas akan kekal dalam sel dicantum. <br>Adakah anda pasti mahu meneruskan?",
+    "menuEditLink": "Edit Link"
   },
   "Controller": {
     "Main": {
@@ -164,7 +166,9 @@
       "warnLicenseUsersExceeded": "Anda telah mencapai had pengguna untuk editor %1. Hubungi pentadbir anda untuk ketahui selanjutnya.",
       "warnNoLicense": "Anda telah mencapai had pengguna untuk sambungan serentak kepada editor %1. Dokumen ini akan dibuka untuk dilihat sahaja. Hubungi pasukan jualan %1 untuk naik taraf terma peribadi.",
       "warnNoLicenseUsers": "Anda telah mencapai had pengguna untuk editor %1. Hubungi pasukan jualan %1 untuk naik taraf terma peribadi.",
-      "warnProcessRightsChange": "Anda tidak mempunyai keizinan untuk edit fail ini."
+      "warnProcessRightsChange": "Anda tidak mempunyai keizinan untuk edit fail ini.",
+      "titleLicenseExp": "License expired",
+      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
     }
   },
   "Error": {
@@ -223,7 +227,7 @@
     "errorSessionToken": "Sambungan kepada pelayan telah terganggu. Sila muat semula halaman.",
     "errorStockChart": "Urutan baris tidak betul. Untuk membina carta stok, tempatkan data pada helaian mengikut urutan:<br> harga bukaan, harga mak, harga min, harga penutup.",
     "errorUnexpectedGuid": "Ralat luaran.<br>Guid tidak dijangka. Sila hubungi sokongan sekiranya ralat masih berlaku.",
-    "errorUpdateVersionOnDisconnect": "Sambungan internet telah dipulihkan, dan versi fail telah berubah.<br>Sebelum anda boleh terus bekerja, anda perlu memuat turun fail atau menyalin kandungannya untuk memastikan tiada ada yang hilang, dan kemudian muat semula halaman ini.",
+    "errorUpdateVersionOnDisconnect": "Sambungan telah dipulihkan, dan versi fail telah berubah.<br>Sebelum anda boleh terus bekerja, anda perlu memuat turun fail atau menyalin kandungannya untuk memastikan tiada ada yang hilang, dan kemudian muat semula halaman ini.",
     "errorUserDrop": "Fail tidak boleh diakses sekarang.",
     "errorUsersExceed": "Bilangan pengguna yang didizinkan mengikut pelan pembayaran telah lebih",
     "errorViewerDisconnect": "Sambungan telah hilang. Anda masih boleh melihat dokumen,<br>tetapi tidak dapat muat turun atau cetaknya sehingga sambungan dipulihkan dan halaman dimuat semua.",
@@ -238,7 +242,17 @@
     "unknownErrorText": "Ralat tidak diketahui.",
     "uploadImageExtMessage": "Format imej yang tidak diketahui.",
     "uploadImageFileCountMessage": "Tiada Imej dimuat naik.",
-    "uploadImageSizeMessage": "Imej terlalu besar. Saiz maksimum adalah 25 MB."
+    "uploadImageSizeMessage": "Imej terlalu besar. Saiz maksimum adalah 25 MB.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
+    "textCancel": "Cancel",
+    "textOk": "Ok"
   },
   "LongActions": {
     "advDRMPassword": "Kata laluan",
@@ -281,8 +295,8 @@
     "uploadImageTitleText": "Imej dimuat naik",
     "waitText": "Sila, tunggu…",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textUndo": "Undo",
-    "textContinue": "Continue"
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Amaran",
@@ -373,7 +387,9 @@
       "txtNotUrl": "Medan ini perlu sebagai URL dalam “http://www.example.com” formatnya",
       "txtSorting": "Pengisihan",
       "txtSortSelected": "Isih Terpilih",
-      "txtYes": "Ya"
+      "txtYes": "Ya",
+      "textDone": "Done",
+      "textRecommended": "Recommended"
     },
     "Edit": {
       "notcriticalErrorTitle": "Amaran",
@@ -507,10 +523,7 @@
       "textPt": "pt",
       "textRange": "Julat",
       "textRemoveChart": "Alih Keluar Carta",
-      "textRemoveImage": "Alih Keluar Imej",
-      "textRemoveLink": "Alih Keluar Pautan",
       "textRemoveShape": "Alih Keluar Bentuk",
-      "textReorder": "Order Semula",
       "textReplace": "Gantikan",
       "textReplaceImage": "Gantikan Imej",
       "textRequired": "Memerlukan",
@@ -555,7 +568,14 @@
       "textYen": "Yen",
       "txtNotUrl": "Medan ini perlu sebagai URL dalam “http://www.example.com” formatnya",
       "txtSortHigh2Low": "Isih Tertinggi Ke Terendah",
-      "txtSortLow2High": "Isih Terendah Ke Tertinggi."
+      "txtSortLow2High": "Isih Terendah Ke Tertinggi.",
+      "textArrange": "Arrange",
+      "textCancel": "Cancel",
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
+      "textDone": "Done",
+      "textRecommended": "Recommended"
     },
     "Settings": {
       "advCSVOptions": "Pilih pilihan CSV",

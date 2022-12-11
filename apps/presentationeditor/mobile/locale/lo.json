@@ -32,7 +32,8 @@
       "textReopen": "ເປີດຄືນ",
       "textResolve": "ແກ້ໄຂ",
       "textTryUndoRedo": "ໜ້າທີ່ ກັບຄືນ ຫຼື ທວນຄືນ ຖືກປິດໃຊ້ງານ ສຳລັບໂໝດການແກ້ໄຂຮ່ວມກັນດ່ວນ.",
-      "textUsers": "ຜຸ້ໃຊ້"
+      "textUsers": "ຜຸ້ໃຊ້",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "ບໍ່ມີການຕື່ມຂໍ້ມູນໃສ່"
@@ -60,6 +61,7 @@
     "textCopyCutPasteActions": "ປະຕິບັດການ ສໍາເນົາ, ຕັດ ແລະ ວາງ",
     "textDoNotShowAgain": "ບໍ່ສະແດງອີກ",
     "textRows": "ແຖວ",
+    "menuEditLink": "Edit Link",
     "textOk": "Ok",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
@@ -169,7 +171,15 @@
     "unknownErrorText": "ມີຂໍ້ຜິດພາດທີ່ບໍ່ຮູ້ສາເຫດ",
     "uploadImageExtMessage": "ບໍ່ຮູ້ສາເຫດຂໍ້ຜິດຜາດຮູບແບບຂອງຮູບ",
     "uploadImageFileCountMessage": "ບໍ່ມີຮູບພາບອັບໂຫລດ",
-    "uploadImageSizeMessage": "ຮູບພາບໃຫຍ່ເກີນໄປ. ຂະຫນາດສູງສຸດແມ່ນ 25 MB."
+    "uploadImageSizeMessage": "ຮູບພາບໃຫຍ່ເກີນໄປ. ຂະຫນາດສູງສຸດແມ່ນ 25 MB.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "ກຳລັງດາວໂຫຼດຂໍ້ມູນ...",
@@ -202,8 +212,8 @@
     "uploadImageTitleText": "ກໍາລັງອັບໂຫລດຮູບພາບ",
     "waitText": "ກະລຸນາລໍຖ້າ...",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textUndo": "Undo",
-    "textContinue": "Continue"
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "ທ່ານມີການປ່ຽນແປງທີ່ຍັງບໍ່ໄດ້ບັນທຶກໄວ້ໃນເອກະສານນີ້. ຄລິກທີ່ 'ຢູ່ໃນໜ້ານີ້' ເພື່ອລໍຖ້າການບັນທຶກອັດຕະໂນມັດ. ຄລິກ 'ອອກຈາກໜ້ານີ້' ເພື່ອຍົກເລີກການປ່ຽນແປງທີ່ບໍ່ໄດ້ບັນທຶກໄວ້ທັງໝົດ.",
@@ -248,7 +258,10 @@
       "textSlideNumber": "ຮູບແບບເລກສະໄລ້",
       "textTable": "ຕາຕະລາງ",
       "textTableSize": "ຂະໜາດຕາຕະລາງ",
-      "txtNotUrl": "ຊ່ອງຂໍ້ມູນນີ້ຄວນຈະເປັນ URL ໃນຮູບແບບ \"http://www.example.com\""
+      "txtNotUrl": "ຊ່ອງຂໍ້ມູນນີ້ຄວນຈະເປັນ URL ໃນຮູບແບບ \"http://www.example.com\"",
+      "textDone": "Done",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Edit": {
       "notcriticalErrorTitle": "ເຕືອນ",
@@ -354,11 +367,8 @@
       "textPt": "pt",
       "textPush": "ດັນ, ຍູ້",
       "textRemoveChart": "ລົບແຜນວາດ",
-      "textRemoveImage": "ລົບຮູບ",
-      "textRemoveLink": "ລົບລີ້ງ",
       "textRemoveShape": "ລົບຮ່າງ",
       "textRemoveTable": "ລົບຕາຕະລາງ",
-      "textReorder": "ຈັດລຽງລໍາດັບຄືນ",
       "textReplace": "ປ່ຽນແທນ",
       "textReplaceAll": "ປ່ຽນແທນທັງໝົດ",
       "textReplaceImage": "ປ່ຽນແທນຮູບພາບ",
@@ -399,7 +409,15 @@
       "textZoom": "ຂະຫຍາຍ ເຂົ້າ-ອອກ",
       "textZoomIn": "ຊຸມເຂົ້າ",
       "textZoomOut": "ຂະຫຍາຍອອກ",
-      "textZoomRotate": "ຂະຫຍາຍ ແລະ ໝຸນ"
+      "textZoomRotate": "ຂະຫຍາຍ ແລະ ໝຸນ",
+      "textArrange": "Arrange",
+      "textCancel": "Cancel",
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
+      "textInsertImage": "Insert Image",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Settings": {
       "mniSlideStandard": "ມາດຕະຖານ (4:3)",

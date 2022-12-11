@@ -393,7 +393,6 @@
   "Common.Views.SignDialog.tipFontName": "Názov písma",
   "Common.Views.SignDialog.tipFontSize": "Veľkosť písma",
   "Common.Views.SignSettingsDialog.textAllowComment": "Povoliť podpisujúcemu pridať komentár do podpisového dialógu",
-  "Common.Views.SignSettingsDialog.textInfo": "Informácie o signatárovi",
   "Common.Views.SignSettingsDialog.textInfoEmail": "E-mail",
   "Common.Views.SignSettingsDialog.textInfoName": "Meno",
   "Common.Views.SignSettingsDialog.textInfoTitle": "Názov signatára",

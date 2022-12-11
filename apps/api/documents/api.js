@@ -23,6 +23,7 @@
                 options: <advanced options>,
                 key: 'key',
                 vkey: 'vkey',
+                referenceData: 'data for external paste',
                 info: {
                     owner: 'owner name',
                     folder: 'path to document',
@@ -174,9 +175,12 @@
                         },
                         leftMenu: {
                             navigation: false/true,
-                            spellcheck: false/true // spellcheck button in sse
+                            spellcheck: false/true // spellcheck button in sse,
+                            mode: false/true // init value for left panel, true - is visible, false - is hidden, used for option "Left panel" on the View Tab
                         } / false / true, // use instead of customization.leftMenu
-                        rightMenu: false/true, // use instead of customization.rightMenu
+                        rightMenu: {
+                            mode: false/true // init value for right panel, true - is visible, false - is hidden, used for option "Right panel" on the View Tab
+                        } / false/true, // use instead of customization.rightMenu
                         statusBar: {
                             textLang: false/true // text language button in de/pe
                             docLang: false/true // document language button in de/pe
@@ -188,6 +192,9 @@
                             mode: false/true // init value in de/pe
                             change: false/true // hide/show feature in de/pe/sse
                         } / false / true // if false/true - use as init value in de/pe. use instead of customization.spellcheck parameter
+                    },
+                    font: {
+                        name: "Arial",
                     },
                     chat: true,
                     comments: true,
@@ -264,6 +271,7 @@
                 'onRequestCompareFile': <request file to compare>,// must call setRevisedFile method
                 'onRequestSharingSettings': <request sharing settings>,// must call setSharingSettings method
                 'onRequestCreateNew': <try to create document>,
+                'onRequestReferenceData': <try to refresh external data>,
             }
         }
 
@@ -327,6 +335,7 @@
         _config.editorConfig.canRequestCompareFile = _config.events && !!_config.events.onRequestCompareFile;
         _config.editorConfig.canRequestSharingSettings = _config.events && !!_config.events.onRequestSharingSettings;
         _config.editorConfig.canRequestCreateNew = _config.events && !!_config.events.onRequestCreateNew;
+        _config.editorConfig.canRequestReferenceData = _config.events && !!_config.events.onRequestReferenceData;
         _config.frameEditorId = placeholderId;
         _config.parentOrigin = window.location.origin;
 
@@ -736,6 +745,13 @@
             });
         };
 
+        var _setReferenceData = function(data) {
+            _sendCommand({
+                command: 'setReferenceData',
+                data: data
+            });
+        };
+
         var _serviceCommand = function(command, data) {
             _sendCommand({
                 command: 'internalCommand',
@@ -770,7 +786,8 @@
             setFavorite         : _setFavorite,
             requestClose        : _requestClose,
             grabFocus           : _grabFocus,
-            blurFocus           : _blurFocus
+            blurFocus           : _blurFocus,
+            setReferenceData    : _setReferenceData
         }
     };
 

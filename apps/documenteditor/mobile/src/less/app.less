@@ -219,30 +219,40 @@
 
 .sheet-modal.navigation-sheet {
     box-shadow: 0px -2px 20px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
     .sheet-modal-inner {
         background: @background-tertiary;
-        overflow: hidden;
+        overflow-y: auto;
+    }
+    .swipe-container {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
     }
     &.sheet-modal-bottom:before, &.sheet-modal:not(.sheet-modal-top):before {
         display: none;
     }
 }
 
-.navigation-list {
-    margin: 0;
+.list.navigation-list {
+    margin-top: 72px;
+    .item-title {
+        color: @text-normal;
+    }
 }
 
-// Picker
-
-.row-picker {
-    .col-50 {
-        color: @text-secondary;
+.navigation-sheet {
+    &__title {
+        position: fixed;
+        left: 0;
+        width: 100%;
+        z-index: 100;
+        top: 40px;
+        z-index: 1000;
     }
 }
 
 // Calendar
-
 .calendar {
     background-color: @background-secondary;
     .toolbar {

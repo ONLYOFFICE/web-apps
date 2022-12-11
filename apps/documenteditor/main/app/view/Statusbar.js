@@ -160,6 +160,8 @@ define([
             me.zoomMenu.on('item:click', function(menu, item) {
                 me.fireEvent('zoom:value', [item.value]);
             });
+
+            me.onChangeProtectDocument();
         }
 
         DE.Views.Statusbar = Backbone.View.extend(_.extend({
@@ -176,7 +178,15 @@ define([
                 _.extend(this, options);
                 this.pages = new DE.Models.Pages({current:1, count:1});
                 this.pages.on('change', _.bind(_updatePagesCaption,this));
-                this.state = {};
+                this._state = {
+                    docProtection: {
+                        isReadOnly: false,
+                        isReviewOnly: false,
+                        isFormsOnly: false,
+                        isCommentsOnly: false
+                    }
+                };
+                this._isDisabled = false;
 
                 var me = this;
                 this.$layout = $(this.template({
@@ -333,6 +343,7 @@ define([
                     this.api.asc_registerCallback('asc_onCurrentPage',  _.bind(_onCurrentPage, this));
                     this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('api:disconnect',      _.bind(this.onApiCoAuthoringDisconnect, this));
+                    Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
                 }
 
                 return this;
@@ -367,7 +378,8 @@ define([
                 });
                 this.langMenu.resetItems(arr);
                 if (this.langMenu.items.length>0) {
-                    this.btnLanguage.setDisabled(!!this.mode.isDisconnected);
+                    var isProtected = this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly || this._state.docProtection.isCommentsOnly;
+                    this.btnLanguage.setDisabled(this._isDisabled || !!this.mode.isDisconnected || isProtected);
                 }
             },
 
@@ -399,8 +411,21 @@ define([
             },
 
             SetDisabled: function(disable) {
-                this.btnLanguage.setDisabled(disable || this.langMenu.items.length<1);
-                this.btnTurnReview && this.btnTurnReview.setDisabled(disable);
+                this._isDisabled = disable;
+                var isProtected = this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly || this._state.docProtection.isCommentsOnly;
+                this.btnLanguage.setDisabled(disable || this.langMenu.items.length<1 || isProtected);
+                this.btnTurnReview && this.btnTurnReview.setDisabled(disable || isProtected);
+            },
+
+            onChangeProtectDocument: function(props) {
+                if (!props) {
+                    var docprotect = DE.getController('DocProtection');
+                    props = docprotect ? docprotect.getDocProps() : null;
+                }
+                if (props) {
+                    this._state.docProtection = props;
+                    this.SetDisabled(this._isDisabled);
+                }
             },
 
             onApiCoAuthoringDisconnect: function() {

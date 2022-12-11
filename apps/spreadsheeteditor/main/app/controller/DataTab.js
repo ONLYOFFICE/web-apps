@@ -45,6 +45,7 @@ define([
     'spreadsheeteditor/main/app/view/SortDialog',
     'spreadsheeteditor/main/app/view/RemoveDuplicatesDialog',
     'spreadsheeteditor/main/app/view/DataValidationDialog',
+    'spreadsheeteditor/main/app/view/ExternalLinksDlg',
     'common/main/lib/view/OptionsDialog'
 ], function () {
     'use strict';
@@ -61,6 +62,13 @@ define([
         initialize: function () {
             this._state = {
                 CSVOptions: new Asc.asc_CTextOptions(0, 4, '')
+            };
+            this.externalData = {
+                stackRequests: [],
+                stackResponse: [],
+                callback: undefined,
+                isUpdating: false,
+                linkStatus: {}
             };
         },
         onLaunch: function () {
@@ -96,7 +104,8 @@ define([
                     'data:sortcustom': this.onCustomSort,
                     'data:remduplicates': this.onRemoveDuplicates,
                     'data:datavalidation': this.onDataValidation,
-                    'data:fromtext': this.onDataFromText
+                    'data:fromtext': this.onDataFromText,
+                    'data:externallinks': this.onExternalLinks
                 },
                 'Statusbar': {
                     'sheet:changed': this.onApiSheetChanged
@@ -104,6 +113,13 @@ define([
             });
             Common.NotificationCenter.on('data:remduplicates', _.bind(this.onRemoveDuplicates, this));
             Common.NotificationCenter.on('data:sortcustom', _.bind(this.onCustomSort, this));
+            if (this.toolbar.mode.canRequestReferenceData && this.api) {
+                // this.api.asc_registerCallback('asc_onNeedUpdateExternalReferenceOnOpen', _.bind(this.onNeedUpdateExternalReferenceOnOpen, this));
+                this.api.asc_registerCallback('asc_onStartUpdateExternalReference', _.bind(this.onStartUpdateExternalReference, this));
+                this.api.asc_registerCallback('asc_onUpdateExternalReference', _.bind(this.onUpdateExternalReference, this));
+                this.api.asc_registerCallback('asc_onErrorUpdateExternalReference', _.bind(this.onErrorUpdateExternalReference, this));
+                Common.Gateway.on('setreferencedata', _.bind(this.setReferenceData, this));
+            }
         },
 
         SetDisabled: function(state) {
@@ -429,6 +445,94 @@ define([
             }
         },
 
+        onExternalLinks: function() {
+            var me = this;
+            this.externalLinksDlg = (new SSE.Views.ExternalLinksDlg({
+                api: this.api,
+                isUpdating: this.externalData.isUpdating,
+                handler: function(result) {
+                    Common.NotificationCenter.trigger('edit:complete');
+                }
+            }));
+            this.externalLinksDlg.on('close', function(win){
+                me.externalLinksDlg = null;
+            })
+            this.externalLinksDlg.show()
+        },
+
+        onUpdateExternalReference: function(arr, callback) {
+            if (this.toolbar.mode.isEdit && this.toolbar.editMode) {
+                var me = this;
+                me.externalData = {
+                    stackRequests: [],
+                    stackResponse: [],
+                    callback: undefined,
+                    isUpdating: false,
+                    linkStatus: {}
+                };
+                arr && arr.length>0 && arr.forEach(function(item) {
+                    var data;
+                    switch (item.asc_getType()) {
+                        case Asc.c_oAscExternalReferenceType.link:
+                            data = {link: item.asc_getData()};
+                            break;
+                        case Asc.c_oAscExternalReferenceType.path:
+                            data = {path: item.asc_getData()};
+                            break;
+                        case Asc.c_oAscExternalReferenceType.referenceData:
+                            data = {referenceData: item.asc_getData()};
+                            break;
+                    }
+                    data && me.externalData.stackRequests.push({data: data, id: item.asc_getId(), isExternal: item.asc_isExternalLink()});
+                });
+                me.externalData.callback = callback;
+                me.requestReferenceData();
+            }
+        },
+
+        requestReferenceData: function() {
+            if (this.externalData.stackRequests.length>0) {
+                var item = this.externalData.stackRequests.shift();
+                this.externalData.linkStatus.id = item.id;
+                this.externalData.linkStatus.isExternal = item.isExternal;
+                Common.Gateway.requestReferenceData(item.data);
+            }
+        },
+
+        setReferenceData: function(data) {
+            if (this.toolbar.mode.isEdit && this.toolbar.editMode) {
+                if (data) {
+                    this.externalData.stackResponse.push(data);
+                    this.externalData.linkStatus.result = this.externalData.linkStatus.isExternal ? '' : data.error || '';
+                    if (this.externalLinksDlg) {
+                        this.externalLinksDlg.setLinkStatus(this.externalData.linkStatus.id, this.externalData.linkStatus.result);
+                    }
+                }
+                if (this.externalData.stackRequests.length>0)
+                    this.requestReferenceData();
+                else if (this.externalData.callback)
+                    this.externalData.callback(this.externalData.stackResponse);
+            }
+        },
+
+        onStartUpdateExternalReference: function(status) {
+            this.externalData.isUpdating = status;
+            if (this.externalLinksDlg) {
+                this.externalLinksDlg.setIsUpdating(status);
+            }
+        },
+
+        onNeedUpdateExternalReferenceOnOpen: function() {
+            var links = this.api.asc_getExternalReferences();
+            links && (links.length>0) && this.api.asc_updateExternalReferences(links);
+        },
+
+        onErrorUpdateExternalReference: function(id) {
+            if (this.externalLinksDlg) {
+                this.externalLinksDlg.setLinkStatus(id, this.txtErrorExternalLink);
+            }
+        },
+
         onWorksheetLocked: function(index,locked) {
             if (index == this.api.asc_getActiveWorksheetIndex()) {
                 Common.Utils.lockControls(Common.enumLock.sheetLock, locked, {array: this.view.btnsSortDown.concat(this.view.btnsSortUp, this.view.btnCustomSort, this.view.btnGroup, this.view.btnUngroup)});
@@ -436,7 +540,7 @@ define([
         },
 
         onChangeProtectWorkbook: function() {
-            Common.Utils.lockControls(Common.enumLock.wbLock, this.api.asc_isProtectedWorkbook(), {array: [this.view.btnDataFromText]});
+            Common.Utils.lockControls(Common.enumLock.wbLock, this.api.asc_isProtectedWorkbook(), {array: [this.view.btnDataFromText, this.view.btnExternalLinks]});
         },
 
         onApiSheetChanged: function() {
@@ -470,7 +574,8 @@ define([
         txtRemoveDataValidation: 'The selection contains more than one type of validation.<br>Erase current settings and continue?',
         textEmptyUrl: 'You need to specify URL.',
         txtImportWizard: 'Text Import Wizard',
-        txtUrlTitle: 'Paste a data URL'
+        txtUrlTitle: 'Paste a data URL',
+        txtErrorExternalLink: 'Error: updating is failed'
 
     }, SSE.Controllers.DataTab || {}));
 });

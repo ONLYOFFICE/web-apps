@@ -98,12 +98,14 @@ define([
                         'drag': _.bind(function(o, state){
                             externalEditor && externalEditor.serviceCommand('window:drag', state == 'start');
                         },this),
+                        'resize': _.bind(function(o, state){
+                            externalEditor && externalEditor.serviceCommand('window:resize', state == 'start');
+                        },this),
                         'show': _.bind(function(cmp){
                             var h = this.diagramEditorView.getHeight(),
                                 innerHeight = Common.Utils.innerHeight() - Common.Utils.InternalSettings.get('window-inactive-area-top');
-                            if (innerHeight>h && h<700 || innerHeight<h) {
-                                h = Math.min(innerHeight, 700);
-                                this.diagramEditorView.setHeight(h);
+                            if (innerHeight<h) {
+                                this.diagramEditorView.setHeight(innerHeight);
                             }
 
                             if (externalEditor) {
@@ -118,7 +120,9 @@ define([
                                 }
                                 externalEditor.attachMouseEvents();
                             } else {
-                                createExternalEditor.apply(this);
+                                require(['api'], function () {
+                                    createExternalEditor.apply(this);
+                                }.bind(this));
                             }
                             this.isExternalEditorVisible = true;
                             this.isHandlerCalled = false;
@@ -227,12 +231,20 @@ define([
                     if (eventData.type == "processMouse") {
                         if (eventData.data.event == 'mouse:up') {
                             this.diagramEditorView.binding.dragStop();
+                            if (this.diagramEditorView.binding.resizeStop)  this.diagramEditorView.binding.resizeStop();
                         } else
                         if (eventData.data.event == 'mouse:move') {
                             var x = parseInt(this.diagramEditorView.$window.css('left')) + eventData.data.pagex,
                                 y = parseInt(this.diagramEditorView.$window.css('top')) + eventData.data.pagey + 34;
                             this.diagramEditorView.binding.drag({pageX:x, pageY:y});
+                            if (this.diagramEditorView.binding.resize)  this.diagramEditorView.binding.resize({pageX:x, pageY:y});
                         }
+                    } else
+                    if (eventData.type == "resize") {
+                        var w = eventData.data.width,
+                            h = eventData.data.height;
+                        if (w>0 && h>0)
+                            this.diagramEditorView.setInnerSize(w, h);
                     } else
                     if (eventData.type == "frameToGeneralData") {
                         this.api && this.api.asc_getInformationBetweenFrameAndGeneralEditor(eventData.data);

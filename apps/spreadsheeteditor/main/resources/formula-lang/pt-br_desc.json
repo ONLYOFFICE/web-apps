@@ -1838,5 +1838,57 @@
 	"XOR": {
 		"a": "(lógico1; [lógico2]; ...)",
 		"d": "Retorna uma lógica 'Exclusivo Ou' de todos os argumentos"
+	},
+	"TEXTBEFORE": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Retorna o texto que está antes dos caracteres delimitadores."
+	},
+	"TEXTAFTER": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Retorna o texto que está depois dos caracteres delimitadores."
+	},
+	"TEXTSPLIT": {
+		"a": "(text, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
+		"d": "Divide o texto em linhas ou colunas usando delimitadores."
+	},
+	"WRAPROWS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": " Encapsula um vetor de linha ou coluna após um número especificado de valores."
+	},
+	"VSTACK": {
+		"a": "(matriz1, [matriz2], ...)",
+		"d": "Empilha verticalmente matrizes em uma matriz."
+	},
+	"HSTACK": {
+		"a": "(matriz1, [matriz2], ...)",
+		"d": "Empilha horizontalmente matrizes em uma matriz."
+	},
+	"CHOOSEROWS": {
+		"a": "(matriz, row_num1, [row_num2], ...)",
+		"d": "Retorna linhas de uma matriz ou referência."
+	},
+	"CHOOSECOLS": {
+		"a": "(matriz, col_num1, [col_num2], ...)",
+		"d": "Retorna as colunas de uma matriz ou referência"
+	},
+	"TOCOL": {
+		"a": "(matriz, [ignorar], [scan_by_column])",
+		"d": "Retorna a matriz como uma coluna."
+	},
+	"TOROW": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "Retorna a matriz como uma linha."
+	},
+	"WRAPCOLS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": " Encapsula um vetor de linha ou coluna após um número especificado de valores."
+	},
+	"TAKE": {
+		"a": "(matriz, linhas, [colunas])",
+		"d": "Retorna linhas ou colunas de início ou término da matriz."
+	},
+	"DROP": {
+		"a": "(matriz, linhas, [colunas])",
+		"d": "Remove linhas ou colunas de início ou término da matriz."
 	}
 }

@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, List, ListItem, Page, Navbar, Icon, ListButton, ListInput, Segmented, Button, NavRight, Link} from 'framework7-react';
+import {f7, List, ListItem, Page, Navbar, Icon, ListButton, ListInput, Segmented, Button, NavRight, Link, NavLeft, NavTitle} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from "../../../../../common/mobile/utils/device";
 
-const PageTypeLink = props => {
+const PageEditTypeLink = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const [typeLink, setTypeLink] = useState(props.curType);
@@ -17,12 +17,10 @@ const PageTypeLink = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textLinkType} backLink={_t.textBack}>
+            <Navbar className="navbar-link-settings" title={_t.textLinkType} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link sheetClose='#edit-sheet'>
-                            <Icon icon='icon-expand-down'/>
-                        </Link>
+                        <Link icon='icon-close' popupClose="#edit-link-popup"></Link>
                     </NavRight>
                 }
             </Navbar>
@@ -34,7 +32,7 @@ const PageTypeLink = props => {
     )
 };
 
-const PageLinkTo = props => {
+const PageEditLinkTo = props => {
     const isAndroid = Device.android;
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
@@ -70,12 +68,10 @@ const PageLinkTo = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textLinkTo} backLink={_t.textBack}>
+            <Navbar className="navbar-link-settings" title={_t.textLinkTo} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link sheetClose='#edit-sheet'>
-                            <Icon icon='icon-expand-down'/>
-                        </Link>
+                        <Link icon='icon-close' popupClose="#edit-link-popup"></Link>
                     </NavRight>
                 }
             </Navbar>
@@ -150,14 +146,24 @@ const PageLink = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textLink} backLink={_t.textBack}>
-                {Device.phone &&
-                    <NavRight>
-                        <Link sheetClose='#edit-sheet'>
-                            <Icon icon='icon-expand-down'/>
-                        </Link>
-                    </NavRight>
-                }
+            <Navbar className="navbar-link-settings">
+                <NavLeft>
+                    <Link text={Device.ios ? t('View.Edit.textCancel') : ''} onClick={() => {
+                        props.isNavigate ? f7.views.current.router.back() : props.closeModal();
+                    }}>
+                        {Device.android && <Icon icon='icon-close' />}
+                    </Link>
+                </NavLeft>
+                <NavTitle>{t('View.Edit.textLinkSettings')}</NavTitle>
+                <NavRight>
+                    <Link className={`${link.length < 1 && 'disabled'}`} onClick={() => {
+                        props.onEditLink(typeLink, (typeLink === 1 ?
+                            {url: link, display: stateDisplay, tip: screenTip, displayDisabled } :
+                            {linkTo: linkTo, numberTo: numberTo, display: stateDisplay, tip: screenTip, displayDisabled}));
+                    }} text={Device.ios ? t('View.Edit.textDone') : ''}>
+                        {Device.android && <Icon icon={link.length < 1 ? 'icon-done-disabled' : 'icon-done'} />}
+                    </Link>
+                </NavRight>
             </Navbar>
             <List inlineLabels className='inputs-list'>
                 <ListItem link={'/edit-link-type/'} title={_t.textLinkType} after={textType} routeProps={{
@@ -168,7 +174,7 @@ const PageLink = props => {
                 {typeLink !== 0 ?
                     <ListInput label={_t.textLink}
                                type="text"
-                               placeholder={_t.textLink}
+                               placeholder={t('View.Edit.textRequired')}
                                value={link}
                                onChange={(event) => {setLink(event.target.value)}}
                     /> :
@@ -182,7 +188,7 @@ const PageLink = props => {
                 }
                 <ListInput label={_t.textDisplay}
                            type="text"
-                           placeholder={_t.textDisplay}
+                           placeholder={t('View.Edit.textRecommended')}
                            value={stateDisplay}
                            disabled={displayDisabled}
                            onChange={(event) => {setDisplay(event.target.value)}}
@@ -195,18 +201,11 @@ const PageLink = props => {
                 />
             </List>
             <List className="buttons-list">
-                <ListButton title={_t.textEditLink}
-                            className={`button-fill button-raised${typeLink === 1 && link.length < 1 && ' disabled'}`}
-                            onClick={() => {
-                                props.onEditLink(typeLink, (typeLink === 1 ?
-                                    {url: link, display: stateDisplay, tip: screenTip, displayDisabled: displayDisabled } :
-                                    {linkTo: linkTo, numberTo: numberTo, display: stateDisplay, tip: screenTip, displayDisabled: displayDisabled}));
-                            }}
-                />
-                <ListButton title={_t.textRemoveLink}
+                <ListButton title={t('View.Edit.textDeleteLink')}
                             className={`button-red button-fill button-raised`}
                             onClick={() => {
-                                props.onRemoveLink()
+                                props.onRemoveLink();
+                                props.isNavigate ? f7.views.current.router.back() : props.closeModal();
                             }}
                 />
             </List>
@@ -214,9 +213,9 @@ const PageLink = props => {
     )
 };
 
-const _PageLinkTo = inject("storeFocusObjects")(observer(PageLinkTo));
-const _PageTypeLink = inject("storeFocusObjects")(observer(PageTypeLink));
+const _PageEditLinkTo = inject("storeFocusObjects")(observer(PageEditLinkTo));
+const _PageEditTypeLink = inject("storeFocusObjects")(observer(PageEditTypeLink));
 
 export {PageLink as EditLink,
-        _PageLinkTo as PageLinkTo,
-        _PageTypeLink as PageTypeLink}
+        _PageEditLinkTo as PageEditLinkTo,
+        _PageEditTypeLink as PageEditTypeLink}

@@ -328,6 +328,7 @@ define([
                 if (this.listenStoreEvents) {
                     this.listenTo(this.store, 'add',    this.onAddItem);
                     this.listenTo(this.store, 'reset',  this.onResetItems);
+                    this.groups && this.listenTo(this.groups, 'add',  this.onAddGroup);
                 }
                 this.onResetItems();
 
@@ -392,18 +393,36 @@ define([
 
             if (suspendEvents)
                 this.suspendEvents();
-
-            if (!this.multiSelect) {
+            this.extremeSeletedRec = record;
+            if (!this.multiSelect || ( !this.pressedShift && !this.pressedCtrl) || !this.currentSelectedRec || (this.pressedShift && this.currentSelectedRec == record)) {
                 _.each(this.store.where({selected: true}), function(rec){
                     rec.set({selected: false});
                 });
 
                 if (record) {
                     record.set({selected: true});
+                    this.currentSelectedRec = record;
                 }
             } else {
-                if (record)
-                    record.set({selected: !record.get('selected')});
+                if (record) {
+                    if(this.pressedCtrl) {
+                        record.set({selected: !record.get('selected')});
+                        this.currentSelectedRec = record;
+                    }
+                    else if(this.pressedShift){
+                        var me =this;
+                        var inRange=false;
+                        _.each(me.store.models, function(rec){
+                            if(me.currentSelectedRec == rec || record == rec){
+                                inRange = !inRange;
+                                rec.set({selected: true});
+                            }
+                            else {
+                                rec.set({selected: (inRange)});
+                            }
+                        });
+                    }
+                }
             }
 
             if (suspendEvents)
@@ -506,6 +525,35 @@ define([
 
                     if (!this.isSuspendEvents)
                         this.trigger('item:add', this, view, record);
+                }
+            }
+        },
+
+        onAddGroup: function(group) {
+            var el = $(_.template([
+                '<% if (group.headername !== undefined) { %>',
+                '<div class="header-name"><%= group.headername %></div>',
+                '<% } %>',
+                '<div class="grouped-data <% if (group.inline) { %> group.inline <% } %> <% if (!_.isEmpty(group.caption)) { %> margin <% } %>" id="<%= group.id %>">',
+                '<% if (!_.isEmpty(group.caption)) { %>',
+                    '<div class="group-description">',
+                        '<span><%= group.caption %></span>',
+                    '</div>',
+                '<% } %>',
+                    '<div class="group-items-container">',
+                    '</div>',
+                '</div>'
+            ].join(''))({
+                group: group.toJSON()
+            }));
+            var innerEl = $(this.el).find('.inner').addBack().filter('.inner');
+            if (innerEl) {
+                var idx = _.indexOf(this.groups.models, group);
+                var innerDivs = innerEl.find('.grouped-data');
+                if (idx > 0)
+                    $(innerDivs.get(idx - 1)).after(el);
+                else {
+                    (innerDivs.length > 0) ? $(innerDivs[idx]).before(el) : innerEl.append(el);
                 }
             }
         },
@@ -678,13 +726,22 @@ define([
         onKeyDown: function (e, data) {
             if ( this.disabled ) return;
             if (data===undefined) data = e;
-            if (_.indexOf(this.moveKeys, data.keyCode)>-1 || data.keyCode==Common.UI.Keys.RETURN) {
+
+            if(this.multiSelect) {
+                if (data.keyCode == Common.UI.Keys.CTRL) {
+                    this.pressedCtrl = true;
+                } else if (data.keyCode == Common.UI.Keys.SHIFT) {
+                    this.pressedShift = true;
+                }
+            }
+
+                if (_.indexOf(this.moveKeys, data.keyCode)>-1 || data.keyCode==Common.UI.Keys.RETURN) {
                 data.preventDefault();
                 data.stopPropagation();
-                var rec = this.getSelectedRec();
-                if (this.lastSelectedRec===null)
+                var rec =(this.multiSelect) ? this.extremeSeletedRec : this.getSelectedRec();
+                if (this.lastSelectedRec === null)
                     this.lastSelectedRec = rec;
-                if (data.keyCode==Common.UI.Keys.RETURN) {
+                if (data.keyCode == Common.UI.Keys.RETURN) {
                     this.lastSelectedRec = null;
                     if (this.selectedBeforeHideRec) // only for ComboDataView menuPicker
                         rec = this.selectedBeforeHideRec;
@@ -694,6 +751,7 @@ define([
                     if (this.parentMenu)
                         this.parentMenu.hide();
                 } else {
+                    this.pressedCtrl=false;
                     var idx = _.indexOf(this.store.models, rec);
                     if (idx<0) {
                         if (data.keyCode==Common.UI.Keys.LEFT) {
@@ -774,12 +832,20 @@ define([
             }
         },
 
+        onKeyUp: function(e){
+            if(e.keyCode == Common.UI.Keys.SHIFT)
+                this.pressedShift = false;
+            if(e.keyCode == Common.UI.Keys.CTRL)
+                this.pressedCtrl = false;
+        },
+
         attachKeyEvents: function() {
             if (this.enableKeyEvents && this.handleSelect) {
                 var el = $(this.el).find('.inner').addBack().filter('.inner');
                 el.addClass('canfocused');
                 el.attr('tabindex', this.tabindex.toString());
                 el.on((this.parentMenu && this.useBSKeydown) ? 'dataview:keydown' : 'keydown', _.bind(this.onKeyDown, this));
+                el.on((this.parentMenu && this.useBSKeydown) ? 'dataview:keyup' : 'keyup', _.bind(this.onKeyUp, this));
             }
         },
 
@@ -789,7 +855,11 @@ define([
                 this.scrollToRecord(this.lastSelectedRec);
                 this.lastSelectedRec = null;
             } else {
-                this.scrollToRecord(this.getSelectedRec());
+                var selectedRec = this.getSelectedRec();
+                if (!this.multiSelect)
+                    this.scrollToRecord(selectedRec);
+                else if(selectedRec && selectedRec.length > 0)
+                    this.scrollToRecord(selectedRec[selectedRec.length - 1]);
             }
         },
 
@@ -1298,12 +1368,30 @@ define([
                 props = {minScrollbarLength  : this.minScrollbarLength};
             this.scrollAlwaysVisible && (props.alwaysVisibleY = this.scrollAlwaysVisible);
 
-            if (top + menuH > docH ) {
-                innerEl.css('max-height', (docH - top - paddings - margins) + 'px');
-                this.scroller.update(props);
-            } else if ( top + menuH < docH && innerEl.height() < this.options.restoreHeight ) {
-                innerEl.css('max-height', (Math.min(docH - top - paddings - margins, this.options.restoreHeight)) + 'px');
-                this.scroller.update(props);
+            var menuUp = false;
+            if (this.parentMenu.menuAlign) {
+                var m = this.parentMenu.menuAlign.match(/^([a-z]+)-([a-z]+)/);
+                menuUp = (m[1]==='bl' || m[1]==='br');
+            }
+            if (menuUp) {
+                var bottom = top + menuH;
+                if (top<0) {
+                    innerEl.css('max-height', (bottom - paddings - margins) + 'px');
+                    menuRoot.css('top', 0);
+                    this.scroller.update(props);
+                } else if (top>0 && innerEl.height() < this.options.restoreHeight) {
+                    innerEl.css('max-height', (Math.min(bottom - paddings - margins, this.options.restoreHeight)) + 'px');
+                    menuRoot.css('top', bottom - menuRoot.outerHeight());
+                    this.scroller.update(props);
+                }
+            } else {
+                if (top + menuH > docH ) {
+                    innerEl.css('max-height', (docH - top - paddings - margins) + 'px');
+                    this.scroller.update(props);
+                } else if ( top + menuH < docH && innerEl.height() < this.options.restoreHeight ) {
+                    innerEl.css('max-height', (Math.min(docH - top - paddings - margins, this.options.restoreHeight)) + 'px');
+                    this.scroller.update(props);
+                }
             }
         },
 

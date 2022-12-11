@@ -13,6 +13,7 @@ import { DocumentFormats, DocumentMargins, DocumentColorSchemes } from "./Docume
 import { MacrosSettings, Direction } from "./ApplicationSettings";
 import About from '../../../../../common/mobile/lib/view/About';
 import NavigationController from '../../controller/settings/Navigation';
+import SharingSettings from "../../../../../common/mobile/lib/view/SharingSettings";
 
 const routes = [
     {
@@ -68,6 +69,13 @@ const routes = [
     {
         path: '/direction/',
         component: Direction
+    },
+
+    // Sharing Settings
+
+    {
+        path: '/sharing-settings/',
+        component: SharingSettings
     }
 ];
 

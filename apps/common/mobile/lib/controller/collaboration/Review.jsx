@@ -4,7 +4,7 @@ import {observer, inject} from "mobx-react"
 import { withTranslation } from 'react-i18next';
 
 import {PageReview, PageReviewChange} from "../../view/collaboration/Review";
-import {LocalStorage} from "../../../utils/LocalStorage";
+import {LocalStorage} from "../../../utils/LocalStorage.mjs";
 
 class InitReview extends Component {
     constructor(props){
@@ -277,7 +277,7 @@ class ReviewChange extends Component {
                     }
                     if (value.Get_VertAlign() !== undefined) {
                         proptext.length > 0 && proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-08`}>, </label>);
-                        proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-8`}>{((value.Get_VertAlign() == 1) ? _t.textSuperScript : ((value.Get_VertAlign() == 2) ? _t.textSubScript : _t.textBaseline))}</label>);
+                        proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-8`}>{((value.Get_VertAlign() === Asc.vertalign_SuperScript) ? _t.textSuperScript : ((value.Get_VertAlign() === Asc.vertalign_SubScript) ? _t.textSubScript : _t.textBaseline))}</label>);
                     }
                     if (value.Get_Color() !== undefined) {
                         proptext.length > 0 && proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-09`}>, </label>);

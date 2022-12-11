@@ -301,6 +301,20 @@ define([
                     config.msg = this.errorTextFormWrongFormat;
                     break;
 
+                case Asc.c_oAscError.ID.ConvertationOpenFormat:
+                    config.maxwidth = 600;
+                    if (errData === 'pdf')
+                        config.msg = this.errorInconsistentExtPdf.replace('%1', this.document.fileType || '');
+                    else if  (errData === 'docx')
+                        config.msg = this.errorInconsistentExtDocx.replace('%1', this.document.fileType || '');
+                    else if  (errData === 'xlsx')
+                        config.msg = this.errorInconsistentExtXlsx.replace('%1', this.document.fileType || '');
+                    else if  (errData === 'pptx')
+                        config.msg = this.errorInconsistentExtPptx.replace('%1', this.document.fileType || '');
+                    else
+                        config.msg = this.errorInconsistentExt;
+                    break;
+
                 default:
                     config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                     break;
@@ -1909,7 +1923,12 @@ define([
         textSaveAsDesktop: 'Save as...',
         warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
         titleLicenseExp: 'License expired',
-        errorTextFormWrongFormat: 'The value entered does not match the format of the field.'
+        errorTextFormWrongFormat: 'The value entered does not match the format of the field.',
+        errorInconsistentExtDocx: 'An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.',
+        errorInconsistentExtXlsx: 'An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.',
+        errorInconsistentExtPptx: 'An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.',
+        errorInconsistentExtPdf: 'An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.',
+        errorInconsistentExt: 'An error has occurred while opening the file.<br>The file content does not match the file extension.'
 
     }, DE.Controllers.ApplicationController));
 

@@ -32,7 +32,8 @@
       "textReopen": "ເປີດຄືນ",
       "textResolve": "ແກ້ໄຂ",
       "textTryUndoRedo": "ໜ້າທີ່ ກັບຄືນ ຫຼື ທວນຄືນ ຖືກປິດໃຊ້ງານ ສຳລັບໂໝດການແກ້ໄຂຮ່ວມກັນດ່ວນ.",
-      "textUsers": "ຜຸ້ໃຊ້"
+      "textUsers": "ຜຸ້ໃຊ້",
+      "textSharingSettings": "Sharing Settings"
     },
     "ThemeColorPalette": {
       "textCustomColors": "ກຳນົດສີເອງ",
@@ -64,6 +65,7 @@
     "textCopyCutPasteActions": "ປະຕິບັດການ ສໍາເນົາ, ຕັດ ແລະ ວາງ",
     "textDoNotShowAgain": "ບໍ່ສະແດງອີກ",
     "warnMergeLostData": "ສະເພາະຂໍ້ມູນຈາກເຊວດ້ານຊ້າຍເທິງທີ່ຈະຢູ່ໃນເຊວຮ່ວມ. <br>ທ່ານຕ້ອງການດຳເນີນການຕໍ່ບໍ່?",
+    "menuEditLink": "Edit Link",
     "textOk": "Ok",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
@@ -164,7 +166,9 @@
       "warnNoLicense": "ທ່ານໄດ້ຖືກຈຳກັດສິດພຽງເທົ່ານີ້ສຳຫລັບການເຊື່່ອມພ້ອມກັນກັບເຄື່ອງມືແກ້ໄຂ %1 ແລ້ວເອກະສານນີ້ຈະເປີດໃຫ້ເບີ່ງເທົ່ານັ້ນ ຕິດຕໍ່ທີມຂາຍ %1 ສຳຫລັບເງື່ອນໄຂການອັບເກດສ່ວນບຸກຄົນ",
       "warnNoLicenseUsers": "ຈໍານວນ ການເຊື່ອມຕໍ່ພ້ອມກັນກັບບັນນາທິການ ແມ່ນເກີນກໍານົດ % 1. ຕິດຕໍ່  ທີມຂາຍ% 1 ສຳ ລັບຂໍ້ ກຳນົດການຍົກລະດັບສິດ",
       "warnProcessRightsChange": "ທ່ານບໍ່ມີສິດໃນການແກ້ໄຂໄຟລ໌ນີ້.",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
+      "titleLicenseExp": "License expired",
+      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
     }
   },
   "Error": {
@@ -238,7 +242,17 @@
     "unknownErrorText": "ມີຂໍ້ຜິດພາດທີ່ບໍ່ຮູ້ສາເຫດ",
     "uploadImageExtMessage": "ບໍ່ຮູ້ສາເຫດຂໍ້ຜິພາດຮູບແບບຂອງຮູບ",
     "uploadImageFileCountMessage": "ບໍ່ມີຮູບພາບອັບໂຫລດ",
-    "uploadImageSizeMessage": "ຮູບພາບໃຫຍ່ເກີນໄປ. ຂະຫນາດສູງສຸດແມ່ນ 25 MB."
+    "uploadImageSizeMessage": "ຮູບພາບໃຫຍ່ເກີນໄປ. ຂະຫນາດສູງສຸດແມ່ນ 25 MB.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
+    "textCancel": "Cancel",
+    "textOk": "Ok"
   },
   "LongActions": {
     "advDRMPassword": "ລະຫັດຜ່ານ",
@@ -281,8 +295,8 @@
     "uploadImageTitleText": "ກໍາລັງອັບໂຫລດຮູບພາບ",
     "waitText": "ກະລຸນາລໍຖ້າ...",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textUndo": "Undo",
-    "textContinue": "Continue"
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Statusbar": {
     "notcriticalErrorTitle": "ເຕືອນ",
@@ -373,7 +387,9 @@
       "txtNotUrl": "ຊ່ອງຂໍ້ມູນນີ້ຄວນຈະເປັນ URL ໃນຮູບແບບ \"http://www.example.com\"",
       "txtSorting": "ການລຽງລຳດັບ",
       "txtSortSelected": "ຈັດລຽງທີ່ເລືອກ",
-      "txtYes": "ແມ່ນແລ້ວ"
+      "txtYes": "ແມ່ນແລ້ວ",
+      "textDone": "Done",
+      "textRecommended": "Recommended"
     },
     "Edit": {
       "notcriticalErrorTitle": "ເຕືອນ",
@@ -506,10 +522,7 @@
       "textPt": "pt",
       "textRange": "ຊ່ວງ",
       "textRemoveChart": "ລົບແຜນວາດ",
-      "textRemoveImage": "ລົບຮູບ",
-      "textRemoveLink": "ລົບລີ້ງ",
       "textRemoveShape": "ລົບຮ່າງ",
-      "textReorder": "ຈັດລຽງລໍາດັບຄືນ",
       "textReplace": "ປ່ຽນແທນ",
       "textReplaceImage": "ປ່ຽນແທນຮູບ",
       "textRequired": "ຕ້ອງການ",
@@ -555,7 +568,14 @@
       "txtNotUrl": "ຊ່ອງຂໍ້ມູນນີ້ຄວນຈະເປັນ URL ໃນຮູບແບບ \"http://www.example.com\"",
       "txtSortHigh2Low": "ລຽງລຳດັບຈາກສູງສຸດໄປຫາຕ່ຳສຸດ",
       "txtSortLow2High": "ລຽງລຳດັບແຕ່ຕ່ຳສຸດໄປຫາສູງສຸດ",
-      "textCellStyle": "Cell Style"
+      "textArrange": "Arrange",
+      "textCancel": "Cancel",
+      "textCellStyle": "Cell Style",
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
+      "textDone": "Done",
+      "textRecommended": "Recommended"
     },
     "Settings": {
       "advCSVOptions": "ເລືອກຕົວເລືອກຂອງ CSV",

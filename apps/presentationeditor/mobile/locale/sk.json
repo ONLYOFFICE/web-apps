@@ -32,7 +32,8 @@
       "textReopen": "Znovu otvoriť",
       "textResolve": "Vyriešiť",
       "textTryUndoRedo": "Funkcia Späť/Znova sú vypnuté pre rýchli režim spolupráce. ",
-      "textUsers": "Používatelia"
+      "textUsers": "Používatelia",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "Bez výplne"
@@ -60,6 +61,7 @@
     "textCopyCutPasteActions": "Akcia kopírovať, vystrihnúť a prilepiť",
     "textDoNotShowAgain": "Nezobrazovať znova",
     "textRows": "Riadky",
+    "menuEditLink": "Edit Link",
     "textOk": "Ok",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
@@ -169,7 +171,15 @@
     "unknownErrorText": "Neznáma chyba.",
     "uploadImageExtMessage": "Neznámy formát obrázka.",
     "uploadImageFileCountMessage": "Neboli načítané žiadne obrázky.",
-    "uploadImageSizeMessage": "Obrázok je príliš veľký. Maximálna veľkosť je 25 MB."
+    "uploadImageSizeMessage": "Obrázok je príliš veľký. Maximálna veľkosť je 25 MB.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "Načítavanie dát...",
@@ -202,8 +212,8 @@
     "uploadImageTitleText": "Nahrávanie obrázku",
     "waitText": "Prosím čakajte...",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textUndo": "Undo",
-    "textContinue": "Continue"
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "V tomto dokumente máte neuložené zmeny. Kliknite na „Zostať na tejto stránke“ a počkajte na automatické uloženie. Kliknutím na „Opustiť túto stránku“ zahodíte všetky neuložené zmeny.",
@@ -248,7 +258,10 @@
       "textSlideNumber": "Číslo snímky",
       "textTable": "Tabuľka",
       "textTableSize": "Veľkosť tabuľky",
-      "txtNotUrl": "Toto pole by malo byť vo formáte \"http://www.example.com\""
+      "txtNotUrl": "Toto pole by malo byť vo formáte \"http://www.example.com\"",
+      "textDone": "Done",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Edit": {
       "notcriticalErrorTitle": "Upozornenie",
@@ -354,11 +367,8 @@
       "textPt": "pt",
       "textPush": "Posunúť",
       "textRemoveChart": "Odstrániť graf",
-      "textRemoveImage": "Odstrániť obrázok",
-      "textRemoveLink": "Odstrániť odkaz",
       "textRemoveShape": "Odstrániť tvar",
       "textRemoveTable": "Odstrániť tabuľku",
-      "textReorder": "Znovu usporiadať/zmena poradia",
       "textReplace": "Nahradiť",
       "textReplaceAll": "Nahradiť všetko",
       "textReplaceImage": "Nahradiť obrázok",
@@ -399,7 +409,15 @@
       "textZoom": "Priblíženie",
       "textZoomIn": "Priblížiť",
       "textZoomOut": "Oddialiť",
-      "textZoomRotate": "Priblížiť a otáčať"
+      "textZoomRotate": "Priblížiť a otáčať",
+      "textArrange": "Arrange",
+      "textCancel": "Cancel",
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
+      "textInsertImage": "Insert Image",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Settings": {
       "mniSlideStandard": "Štandard (4:3)",

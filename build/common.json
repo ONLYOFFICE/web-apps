@@ -180,14 +180,14 @@
             }
         }
     },
-    "sockjs": {
+    "socketio": {
         "clean": [
-            "../deploy/web-apps/vendor/sockjs"
+            "../deploy/web-apps/vendor/socketio"
         ],
         "copy": {
             "script": {
-                "src": "../vendor/sockjs/sockjs.min.js",
-                "dest": "../deploy/web-apps/vendor/sockjs/sockjs.min.js"
+                "src": "../vendor/socketio/socket.io.min.js",
+                "dest": "../deploy/web-apps/vendor/socketio/socket.io.min.js"
             }
         }
     },
@@ -272,7 +272,7 @@
             "deploy-api",
             "deploy-apps-common",
             "deploy-sdk",
-            "deploy-sockjs",
+            "deploy-socketio",
             "deploy-xregexp",
             "deploy-requirejs",
             "deploy-megapixel",

@@ -840,6 +840,15 @@ define([
             this.disconnectTip = null;
         },
 
+        getSelectTabs: function () {
+            var selectTabs = this.statusbar.tabbar.selectTabs,
+                tabIndArr = [];
+            selectTabs.forEach(function (item) {
+                tabIndArr.push(item.sheetindex);
+            });
+            return tabIndArr;
+        },
+
         zoomText        : 'Zoom {0}%',
         errorLastSheet  : 'Workbook must have at least one visible worksheet.',
         errorRemoveSheet: 'Can\'t delete the worksheet.',

@@ -32,7 +32,8 @@
       "textReopen": "Heropenen",
       "textResolve": "Oplossen",
       "textTryUndoRedo": "De functies Ongedaan maken/Annuleren zijn uitgeschakeld in de Modus Gezamenlijk bewerken.",
-      "textUsers": "Gebruikers"
+      "textUsers": "Gebruikers",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "Geen vulling"
@@ -60,6 +61,7 @@
     "textCopyCutPasteActions": "Acties Kopiëren, Knippen en Plakken",
     "textDoNotShowAgain": "Niet meer laten zien.",
     "textRows": "Rijen",
+    "menuEditLink": "Edit Link",
     "textOk": "Ok",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
@@ -169,7 +171,15 @@
     "unknownErrorText": "Onbekende fout.",
     "uploadImageExtMessage": "Onbekende afbeeldingsindeling.",
     "uploadImageFileCountMessage": "Geen afbeeldingen geüpload.",
-    "uploadImageSizeMessage": "De afbeelding is te groot. De maximale grootte is 25MB."
+    "uploadImageSizeMessage": "De afbeelding is te groot. De maximale grootte is 25MB.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "Gegevens worden geladen...",
@@ -202,8 +212,8 @@
     "uploadImageTitleText": "Afbeelding wordt geüpload",
     "waitText": "Een moment geduld...",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textUndo": "Undo",
-    "textContinue": "Continue"
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "U hebt niet-opgeslagen wijzigingen in dit document. Klik op 'Blijf op deze pagina' om te wachten op automatisch opslaan. Klik op 'Verlaat deze pagina' om alle niet-opgeslagen wijzigingen te verwijderen.",
@@ -248,7 +258,10 @@
       "textSlideNumber": "Dianummer",
       "textTable": "Tabel",
       "textTableSize": "Tabelgrootte",
-      "txtNotUrl": "Dit veld moet een URL bevatten in de notatie \"http://www.internet.nl\""
+      "txtNotUrl": "Dit veld moet een URL bevatten in de notatie \"http://www.internet.nl\"",
+      "textDone": "Done",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Edit": {
       "notcriticalErrorTitle": "Waarschuwing",
@@ -354,11 +367,8 @@
       "textPt": "pt",
       "textPush": "Duwen",
       "textRemoveChart": "Grafiek verwijderen",
-      "textRemoveImage": "Afbeelding verwijderen",
-      "textRemoveLink": "Koppeling verwijderen",
       "textRemoveShape": "Vorm verwijderen",
       "textRemoveTable": "Tabel verwijderen",
-      "textReorder": "Opnieuw ordenen",
       "textReplace": "Vervangen",
       "textReplaceAll": "Alles vervangen",
       "textReplaceImage": "Afbeelding vervangen",
@@ -399,7 +409,15 @@
       "textZoom": "Zoomen",
       "textZoomIn": "Inzoomen",
       "textZoomOut": "Uitzoomen",
-      "textZoomRotate": "Zoomen en draaien"
+      "textZoomRotate": "Zoomen en draaien",
+      "textArrange": "Arrange",
+      "textCancel": "Cancel",
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
+      "textInsertImage": "Insert Image",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Settings": {
       "mniSlideStandard": "Standaard (4:3)",

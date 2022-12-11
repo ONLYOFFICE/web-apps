@@ -3,7 +3,7 @@ import { inject, observer } from "mobx-react";
 import { f7 } from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { withTranslation} from 'react-i18next';
-import { LocalStorage } from '../../../utils/LocalStorage';
+import { LocalStorage } from '../../../utils/LocalStorage.mjs';
 
 import {AddComment, EditComment, AddReply, EditReply, ViewComments, ViewCurrentComments} from '../../view/collaboration/Comments';
 
