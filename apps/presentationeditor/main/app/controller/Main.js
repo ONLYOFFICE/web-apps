@@ -182,6 +182,14 @@ define([
                     Common.Utils.InternalSettings.set("pe-settings-fontrender", value);
                     this.api.SetFontRenderingMode(parseInt(value));
 
+                    if ( !Common.Utils.isIE ) {
+                        if ( /^https?:\/\//.test('{{HELP_CENTER_WEB_PE}}') ) {
+                            const _url_obj = new URL('{{HELP_CENTER_WEB_PE}}');
+                            _url_obj.searchParams.set('lang', Common.Locale.getCurrentLanguage());
+                            Common.Utils.InternalSettings.set("url-help-center", _url_obj.toString());
+                        }
+                    }
+
                     this.api.asc_registerCallback('asc_onError',                    _.bind(this.onError, this));
                     this.api.asc_registerCallback('asc_onDocumentContentReady',     _.bind(this.onDocumentContentReady, this));
                     this.api.asc_registerCallback('asc_onOpenDocumentProgress',     _.bind(this.onOpenDocument, this));

@@ -2041,14 +2041,6 @@ define([
             this.urlPref = 'resources/help/{{DEFAULT_LANG}}/';
             this.openUrl = null;
 
-            if ( !Common.Utils.isIE ) {
-                if ( /^https?:\/\//.test('{{HELP_CENTER_WEB_DE}}') ) {
-                    const _url_obj = new URL('{{HELP_CENTER_WEB_DE}}');
-                    _url_obj.searchParams.set('lang', Common.Locale.getCurrentLanguage());
-                    this.urlHelpCenter = _url_obj.toString();
-                }
-            }
-
             this.en_data = [
                 {"src": "ProgramInterface/ProgramInterface.htm", "name": "Introducing Document Editor user interface", "headername": "Program Interface"},
                 {"src": "ProgramInterface/FileTab.htm", "name": "File tab"},
@@ -2169,20 +2161,8 @@ define([
                             store.url = 'resources/help/{{DEFAULT_LANG}}/Contents.json';
                             store.fetch(config);
                         } else {
-                            if ( Common.Controllers.Desktop.isActive() ) {
-                                if ( store.contentLang === '{{DEFAULT_LANG}}' || !Common.Controllers.Desktop.helpUrl() ) {
-                                    me.noHelpContents = true;
-                                    me.iFrame.src = '../../common/main/resources/help/download.html';
-                                } else {
-                                    store.contentLang = store.contentLang === lang ? '{{DEFAULT_LANG}}' : lang;
-                                    me.urlPref = Common.Controllers.Desktop.helpUrl() + '/' + store.contentLang + '/';
-                                    store.url = me.urlPref + 'Contents.json';
-                                    store.fetch(config);
-                                }
-                            } else {
-                                me.urlPref = 'resources/help/{{DEFAULT_LANG}}/';
-                                store.reset(me.en_data);
-                            }
+                            me.urlPref = 'resources/help/{{DEFAULT_LANG}}/';
+                            store.reset(me.en_data);
                         }
                     },
                     success: function () {
@@ -2196,9 +2176,21 @@ define([
                         me.onSelectItem(me.openUrl ? me.openUrl : rec.get('src'));
                     }
                 };
-                store.url = 'resources/help/' + lang + '/Contents.json';
-                store.fetch(config);
-                this.urlPref = 'resources/help/' + lang + '/';
+
+                if ( Common.Controllers.Desktop.isActive() ) {
+                    if ( !Common.Controllers.Desktop.isHelpAvailable() ) {
+                        me.noHelpContents = true;
+                        me.iFrame.src = '../../common/main/resources/help/download.html';
+                    } else {
+                        me.urlPref = Common.Controllers.Desktop.helpUrl() + '/';
+                        store.url = me.urlPref + 'Contents.json';
+                        store.fetch(config);
+                    }
+                } else {
+                    store.url = 'resources/help/' + lang + '/Contents.json';
+                    store.fetch(config);
+                    this.urlPref = 'resources/help/' + lang + '/';
+                }
             }
         },
 
