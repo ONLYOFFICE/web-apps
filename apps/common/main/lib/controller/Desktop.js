@@ -238,42 +238,44 @@ define([
         }
 
         const _checkHelpAvailable = function () {
-            const curr_lang = Common.Locale.getCurrentLanguage();
-            let url = 'resources/help/' + curr_lang;
-            fetch(url + '/Contents.json').then(function (response) {
-                if ( response.ok ) {
-                    /* local help avail */
-                    helpUrl = url;
-                } else
-                if ( curr_lang != Common.Locale.getDefaultLanguage() ) {
-                    url = 'resources/help/' + Common.Locale.getDefaultLanguage();
-                    fetch(url + '/Contents.json').then(function (response){
-                        if ( response.ok ) {
-                            /* local help avail. def lang */
-                            helpUrl = url;
-                        } else
-                        if ( this.helpUrl() ) {
-                            url = this.helpUrl() + curr_lang;
-                            fetch(url + '/Contents.json').then(function (response){
+            const me = this;
+            const build_url = function (arg1, arg2, arg3) {
+                const re_ls = /\/$/;
+                return (re_ls.test(arg1) ? arg1 : arg1 + '/') + arg2 + arg3;
+            }
+
+            fetch(build_url('resources/help/', Common.Locale.getDefaultLanguage(), '/Contents.json'))
+                .then(function (response) {
+                    if ( response.ok ) {
+                        /* local help avail */
+                        fetch(build_url('resources/help/', Common.Locale.getCurrentLanguage(), '/Contents.json'))
+                            .then(function (response){
+                                if ( response.ok )
+                                    helpUrl = build_url('resources/help/', Common.Locale.getCurrentLanguage(), '');
+                            })
+                            .catch(function (e) {
+                                helpUrl = build_url('resources/help/', Common.Locale.getDefaultLanguage(), '');
+                            })
+                    }
+                }).catch(function (e) {
+                    if ( me.helpUrl() ) {
+                        fetch(build_url(me.helpUrl(), Common.Locale.getDefaultLanguage(), '/Contents.json'))
+                            .then(function (response) {
                                 if ( response.ok ) {
                                     /* remote help avail */
-                                    helpUrl = url;
-                                } else {
-                                    url = this.helpUrl() + Common.getDefaultLanguage();
-                                    fetch(url + '/Contents.json').then(function (response){
-                                        if ( response.ok ) {
-                                            /* remote help avail. def lang */
-                                            helpUrl = url;
-                                        } else {
-                                            /* no help avail. open help center */
-                                        }
-                                    });
+                                    fetch(build_url(me.helpUrl(), Common.Locale.getCurrentLanguage(), '/Contents.json'))
+                                        .then(function (response) {
+                                            if ( response.ok ) {
+                                                helpUrl = build_url(me.helpUrl(), Common.Locale.getCurrentLanguage(), '');
+                                            }
+                                        })
+                                        .catch(function (e) {
+                                            helpUrl = build_url(me.helpUrl(), Common.Locale.getDefaultLanguage(), '');
+                                        });
                                 }
-                            });
-                        }
-                    });
-                }
-            });
+                            })
+                    }
+                });
         }
 
         return {
@@ -281,6 +283,7 @@ define([
                 _.extend(config, opts);
 
                 if ( config.isDesktopApp ) {
+                    const me = this;
                     let is_win_xp = nativevars && nativevars.os === 'winxp';
 
                     Common.UI.Themes.setAvailable(!is_win_xp);
@@ -322,7 +325,7 @@ define([
                                 }).show();
                             }
 
-                            _checkHelpAvailable();
+                            _checkHelpAvailable.call(me);
                         }
                     });
 

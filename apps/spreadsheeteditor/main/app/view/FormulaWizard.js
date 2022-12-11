@@ -472,6 +472,7 @@ define([
                             window.open(_url_obj.toString(), '_blank');
                         }
 
+                        me.helpUrl = null;
                         return;
                     }
                 }
@@ -489,10 +490,7 @@ define([
                                 me.helpUrl = url;
                                 me.showHelp();
                             } else {
-                                // me.helpUrl = null;
-                                if ( Common.Controllers.Desktop.isActive() ) {
-                                    url = 'resources/help/' + lang + name;
-                                }
+                                me.helpUrl = null;
                             }
                         });
                     }
