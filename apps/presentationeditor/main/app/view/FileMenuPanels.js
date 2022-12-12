@@ -1960,23 +1960,23 @@ define([
                 takeFocusOnClose: true,
                 cls: 'input-group-nr',
                 data: [
-                    { value: 0, displayValue:'US Letter (21,59cm x 27,94cm)', caption: 'US Letter', size: [215.9, 279.4]},
-                    { value: 1, displayValue:'US Legal (21,59cm x 35,56cm)', caption: 'US Legal', size: [215.9, 355.6]},
-                    { value: 2, displayValue:'A4 (21cm x 29,7cm)', caption: 'A4', size: [210, 297]},
-                    { value: 3, displayValue:'A5 (14,8cm x 21cm)', caption: 'A5', size: [148, 210]},
-                    { value: 4, displayValue:'B5 (17,6cm x 25cm)', caption: 'B5', size: [176, 250]},
-                    { value: 5, displayValue:'Envelope #10 (10,48cm x 24,13cm)', caption: 'Envelope #10', size: [104.8, 241.3]},
-                    { value: 6, displayValue:'Envelope DL (11cm x 22cm)', caption: 'Envelope DL', size: [110, 220]},
-                    { value: 7, displayValue:'Tabloid (27,94cm x 43,18cm)', caption: 'Tabloid', size: [279.4, 431.8]},
-                    { value: 8, displayValue:'A3 (29,7cm x 42cm)', caption: 'A3', size: [297, 420]},
-                    { value: 9, displayValue:'Tabloid Oversize (30,48cm x 45,71cm)', caption: 'Tabloid Oversize', size: [304.8, 457.1]},
-                    { value: 10, displayValue:'ROC 16K (19,68cm x 27,3cm)', caption: 'ROC 16K', size: [196.8, 273]},
-                    { value: 11, displayValue:'Envelope Choukei 3 (11,99cm x 23,49cm)', caption: 'Envelope Choukei 3', size: [119.9, 234.9]},
-                    { value: 12, displayValue:'Super B/A3 (33,02cm x 48,25cm)', caption: 'Super B/A3', size: [330.2, 482.5]},
-                    { value: 13, displayValue:'A4 (84,1cm x 118,9cm)', caption: 'A0', size: [841, 1189]},
-                    { value: 14, displayValue:'A4 (59,4cm x 84,1cm)', caption: 'A1', size: [594, 841]},
-                    { value: 16, displayValue:'A4 (42cm x 59,4cm)', caption: 'A2', size: [420, 594]},
-                    { value: 17, displayValue:'A4 (10,5cm x 14,8cm)', caption: 'A6', size: [105, 148]}
+                    { value: 0, displayValue:'US Letter (21,59 cm x 27,94 cm)', caption: 'US Letter', size: [215.9, 279.4]},
+                    { value: 1, displayValue:'US Legal (21,59 cm x 35,56 cm)', caption: 'US Legal', size: [215.9, 355.6]},
+                    { value: 2, displayValue:'A4 (21 cm x 29,7 cm)', caption: 'A4', size: [210, 297]},
+                    { value: 3, displayValue:'A5 (14,8 cm x 21 cm)', caption: 'A5', size: [148, 210]},
+                    { value: 4, displayValue:'B5 (17,6 cm x 25 cm)', caption: 'B5', size: [176, 250]},
+                    { value: 5, displayValue:'Envelope #10 (10,48 cm x 24,13 cm)', caption: 'Envelope #10', size: [104.8, 241.3]},
+                    { value: 6, displayValue:'Envelope DL (11 cm x 22 cm)', caption: 'Envelope DL', size: [110, 220]},
+                    { value: 7, displayValue:'Tabloid (27,94 cm x 43,18 cm)', caption: 'Tabloid', size: [279.4, 431.8]},
+                    { value: 8, displayValue:'A3 (29,7 cm x 42 cm)', caption: 'A3', size: [297, 420]},
+                    { value: 9, displayValue:'Tabloid Oversize (30,48 cm x 45,71 cm)', caption: 'Tabloid Oversize', size: [304.8, 457.1]},
+                    { value: 10, displayValue:'ROC 16K (19,68 cm x 27,3 cm)', caption: 'ROC 16K', size: [196.8, 273]},
+                    { value: 11, displayValue:'Envelope Choukei 3 (11,99 cm x 23,49 cm)', caption: 'Envelope Choukei 3', size: [119.9, 234.9]},
+                    { value: 12, displayValue:'Super B/A3 (33,02 cm x 48,25 cm)', caption: 'Super B/A3', size: [330.2, 482.5]},
+                    { value: 13, displayValue:'A4 (84,1 cm x 118,9 cm)', caption: 'A0', size: [841, 1189]},
+                    { value: 14, displayValue:'A4 (59,4 cm x 84,1 cm)', caption: 'A1', size: [594, 841]},
+                    { value: 16, displayValue:'A4 (42 cm x 59,4 cm)', caption: 'A2', size: [420, 594]},
+                    { value: 17, displayValue:'A4 (10,5 cm x 14,8 cm)', caption: 'A6', size: [105, 148]}
                 ],
                 dataHint: '2',
                 dataHintDirection: 'bottom',
@@ -2117,8 +2117,8 @@ define([
                     pagewidth = size[0],
                     pageheight = size[1];
 
-                item.set('displayValue', item.get('caption') + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(pagewidth).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
-                    parseFloat(Common.Utils.Metric.fnRecalcFromMM(pageheight).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
+                item.set('displayValue', item.get('caption') + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(pagewidth).toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
+                    parseFloat(Common.Utils.Metric.fnRecalcFromMM(pageheight).toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ')');
             }
             var value = this.cmbPaperSize.getValue();
             this.cmbPaperSize.onResetItems();
