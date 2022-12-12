@@ -152,7 +152,7 @@ define([
         function onResetUsers(collection, opts) {
             var usercount = collection.getVisibleEditingCount();
             if ( $userList ) {
-                if (usercount > 1 && appConfig && (appConfig.isEdit || appConfig.isRestrictedEdit)) {
+                if (appConfig && (usercount > 1 && (appConfig.isEdit || appConfig.isRestrictedEdit) || usercount >0 && appConfig.canLiveView)) {
                     $userList.html(templateUserList({
                         users: collection.chain().filter(function(item){return item.get('online') && !item.get('view') && !item.get('hidden')}).groupBy(function(item) {return item.get('idOriginal');}).value(),
                         usertpl: _.template(templateUserItem),
@@ -182,8 +182,7 @@ define([
 
         function applyUsers(count, originalCount) {
             if (!$btnUsers) return;
-
-            var has_edit_users = count > 1 && appConfig && (appConfig.isEdit || appConfig.isRestrictedEdit); // has other user(s) who edit document
+            var has_edit_users = appConfig && (count > 1 && (appConfig.isEdit || appConfig.isRestrictedEdit) || count > 0 && appConfig.canLiveView); // has other user(s) who edit document
             if ( has_edit_users ) {
                 $panelUsers['show']();
                 $btnUsers.find('.caption').html(originalCount);
@@ -316,7 +315,7 @@ define([
                     html: true
                 });
                 $btnUsers.on('click', onUsersClick.bind(me));
-                $panelUsers[(editingUsers > 1 && appConfig && (appConfig.isEdit || appConfig.isRestrictedEdit)) ? 'show' : 'hide']();
+                $panelUsers[(appConfig && (editingUsers > 1 && (appConfig.isEdit || appConfig.isRestrictedEdit) || editingUsers > 0 && appConfig.canLiveView)) ? 'show' : 'hide']();
                 updateDocNamePosition(appConfig);
             }
 
