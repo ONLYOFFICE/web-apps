@@ -445,7 +445,7 @@ define([
                         }
                     }
                     store.reset(arr);
-                    var sheet = props ? (props.asc_getSheet() || props.asc_getLocation()) : this.settings.currentSheet,
+                    var sheet = props ? (props.asc_getSheet() || props.asc_getLocation()) : this.api.asc_getWorksheetName(this.settings.currentSheet),
                         rec = store.findWhere({name: sheet });
                     if (rec) {
                         this.internalList.expandRecord(rec.get('type') ? definedNames : store.at(0));
@@ -545,7 +545,12 @@ define([
                     _.delay(function(){
                         me.inputRange.focus();
                     },1);
+                    _.delay(function(){
+                        me.api.asc_showWorksheet(me.settings.currentSheet);
+                    },1);
                 });
+
+                me.api.asc_showWorksheet(me.internalList.getSelectedRec().get('index')-1);
 
                 var xy = me.$window.offset();
                 me.hide();
