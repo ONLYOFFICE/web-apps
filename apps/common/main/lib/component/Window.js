@@ -355,6 +355,21 @@ define([
             }
         }
 
+        function _onResizeMove(){
+            var main_geometry = _readDocumetGeometry(),
+                main_width = parseInt(main_geometry.width),
+                main_height = parseInt(main_geometry.height),
+                win_height = this.getHeight(),
+                win_width = this.getWidth(),
+                top = this.getTop(),
+                left = this.getLeft();
+
+            top = top + win_height > main_height ? main_height - win_height : top;
+            left = left + win_width > main_width ? main_width - win_width : left;
+
+            this.$window.css('left', left < 0 ? 0 : left);
+            this.$window.css('top', top < 0 ? 0 : top);
+        }
 
         /* window resize functions */
         function _resizestart(event) {
@@ -658,7 +673,7 @@ define([
                     this.$window.find('.header').on('mousedown', this.binding.dragStart);
                     this.$window.find('.tool.close').on('click', _.bind(doclose, this));
                     this.$window.find('.tool.help').on('click', _.bind(dohelp, this));
-                    $(window).on('resize', _.bind(_centre, this));
+                    $(window).on('resize', _.bind(_onResizeMove, this));
                     if (!this.initConfig.modal)
                         Common.Gateway.on('processmouse', _.bind(_onProcessMouse, this));
                 } else {
