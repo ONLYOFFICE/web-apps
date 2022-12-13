@@ -49,7 +49,7 @@ define([
     SSE.Views.ValueFieldSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 284,
-            height: 220
+            height: 320
         },
 
         initialize : function(options) {
@@ -80,22 +80,22 @@ define([
                                 '<div id="value-field-settings-summarize" class="input-group-nr" style="width:264px;"></div>',
                             '</td>',
                         '</tr>',
-                        // '<tr>',
-                        //     '<td colspan="2" class="padding-large">',
-                        //         '<label class="header">', me.txtShowAs,'</label>',
-                        //         '<div id="value-field-settings-showas" class="input-group-nr" style="width:264px;"></div>',
-                        //     '</td>',
-                        // '</tr>',
-                        // '<tr class="format-code">',
-                        //     '<td>',
-                        //         '<label class="header">', me.txtBaseField,'</label>',
-                        //         '<div id="value-field-settings-field" class="input-group-nr" style="width:128px;"></div>',
-                        //     '</td>',
-                        //     '<td style="float: right;">',
-                        //         '<label class="header">', me.txtBaseItem,'</label>',
-                        //         '<div id="value-field-settings-item" class="input-group-nr" style="width:128px;"></div>',
-                        //     '</td>',
-                        // '</tr>',
+                        '<tr>',
+                            '<td colspan="2" class="padding-large">',
+                                '<label class="header">', me.txtShowAs,'</label>',
+                                '<div id="value-field-settings-showas" class="input-group-nr" style="width:264px;"></div>',
+                            '</td>',
+                        '</tr>',
+                        '<tr class="format-code">',
+                            '<td>',
+                                '<label class="header">', me.txtBaseField,'</label>',
+                                '<div id="value-field-settings-field" class="input-group-nr" style="width:128px;"></div>',
+                            '</td>',
+                            '<td style="float: right;">',
+                                '<label class="header">', me.txtBaseItem,'</label>',
+                                '<div id="value-field-settings-item" class="input-group-nr" style="width:128px;"></div>',
+                            '</td>',
+                        '</tr>',
                     '</table>',
                     '</div></div>',
                     '</div>',
@@ -147,7 +147,7 @@ define([
             this.cmbSummarize.setValue(Asc.c_oAscDataConsolidateFunction.Sum);
             this.cmbSummarize.on('selected', _.bind(this.onSummarizeSelect, this));
 
-            /*
+
             this.cmbShowAs = new Common.UI.ComboBox({
                 el: $('#value-field-settings-showas'),
                 cls: 'input-group-nr',
@@ -155,13 +155,18 @@ define([
                 editable: false,
                 data: [
                     { value: Asc.c_oAscShowDataAs.Normal,           displayValue: this.txtNormal },
-                    { value: Asc.c_oAscShowDataAs.PercentOfRow,     displayValue: this.txtPercentOfRow },
                     { value: Asc.c_oAscShowDataAs.PercentOfCol,     displayValue: this.txtPercentOfCol },
-                    { value: Asc.c_oAscShowDataAs.PercentOfTotal,   displayValue: this.txtPercentOfTotal },
+                    { value: Asc.c_oAscShowDataAs.PercentOfRow,     displayValue: this.txtPercentOfRow },
                     { value: Asc.c_oAscShowDataAs.Percent,          displayValue: this.txtPercent },
+                    { value: Asc.c_oAscShowDataAs.PercentOfParentRow, displayValue: this.txtPercentOfParentRow },
+                    { value: Asc.c_oAscShowDataAs.PercentOfParentCol, displayValue: this.txtPercentOfParentCol },
+                    { value: Asc.c_oAscShowDataAs.PercentOfParent, displayValue: this.txtPercentOfParent },
                     { value: Asc.c_oAscShowDataAs.Difference,       displayValue: this.txtDifference },
                     { value: Asc.c_oAscShowDataAs.PercentDiff,      displayValue: this.txtPercentDiff },
                     { value: Asc.c_oAscShowDataAs.RunTotal,         displayValue: this.txtRunTotal },
+                    { value: Asc.c_oAscShowDataAs.PercentOfTotal,   displayValue: this.txtPercentOfTotal },
+                    { value: Asc.c_oAscShowDataAs.RankAscending,   displayValue: this.txtRankAscending },
+                    { value: Asc.c_oAscShowDataAs.RankDescending,   displayValue: this.txtRankDescending },
                     { value: Asc.c_oAscShowDataAs.Index,            displayValue: this.txtIndex }
                 ]
             });
@@ -187,7 +192,7 @@ define([
                 scrollAlwaysVisible: true
             });
             this.cmbBaseItem.on('selected', _.bind(this.onBaseItemSelect, this));
-            */
+
 
             this.lblSourceName = this.$window.find('#value-field-settings-source');
 
@@ -215,22 +220,25 @@ define([
                 this.inputCustomName.setValue(Common.Utils.String.htmlEncode(field.asc_getName()));
                 this.cmbSummarize.setValue(field.asc_getSubtotal());
 
-                /*
                 var show_as = field.asc_getShowDataAs();
                 this.cmbShowAs.setValue(show_as);
                 var data = [];
-                this.names.forEach(function(item){
-                    data.push({value: item, displayValue: item});
+                this.names.forEach(function(item, index){
+                    data.push({value: index, displayValue: item});
                 });
                 this.cmbBaseField.setData(data);
-                this.cmbBaseField.setValue(this.names[0]);
-                this.cmbBaseField.setDisabled(show_as != c_oAscShowDataAs.Difference && show_as != c_oAscShowDataAs.Percent &&
-                                              show_as != c_oAscShowDataAs.PercentDiff && show_as != c_oAscShowDataAs.RunTotal);
+                this.cmbBaseField.setValue(field.asc_getBaseField(), '');
+                this.cmbBaseField.setDisabled(show_as === c_oAscShowDataAs.Normal || show_as === c_oAscShowDataAs.PercentOfTotal || show_as === c_oAscShowDataAs.PercentOfRow ||
+                                              show_as === c_oAscShowDataAs.PercentOfCol || show_as === c_oAscShowDataAs.PercentOfParentRow || show_as === c_oAscShowDataAs.Index);
 
-                // this.cmbBaseItem.setData(data);
-                this.cmbBaseItem.setDisabled(show_as != c_oAscShowDataAs.Difference && show_as != c_oAscShowDataAs.Percent &&
-                                             show_as != c_oAscShowDataAs.PercentDiff);
-                */
+                data = [
+                    {value: -1, displayValue: this.textPrev, type: 1},
+                    {value: -2, displayValue: this.textNext, type: 1}
+                ];
+                // add other values
+                this.cmbBaseItem.setData(data);
+                this.cmbBaseItem.setDisabled(show_as !== c_oAscShowDataAs.Difference && show_as !== c_oAscShowDataAs.Percent && show_as !== c_oAscShowDataAs.PercentDiff);
+                this.cmbBaseItem.setValue((show_as === c_oAscShowDataAs.Difference || show_as === c_oAscShowDataAs.Percent || show_as === c_oAscShowDataAs.PercentDiff) ? field.asc_getBaseItem() : '', '');
             }
         },
 
@@ -238,6 +246,12 @@ define([
             var field = new Asc.CT_DataField();
             field.asc_setName(this.inputCustomName.getValue());
             field.asc_setSubtotal(this.cmbSummarize.getValue());
+            var show_as = this.cmbShowAs.getValue();
+            field.asc_setShowDataAs(show_as);
+            if (!this.cmbBaseField.isDisabled())
+                field.asc_setBaseField(this.cmbBaseField.getValue());
+            if (!this.cmbBaseItem.isDisabled())
+                field.asc_setBaseItem(this.cmbBaseItem.getValue());
 
             return field;
         },
@@ -262,12 +276,25 @@ define([
         },
 
         onShowAsSelect: function(combo, record) {
-            // var show_as = record.value;
-            // this.cmbBaseField.setDisabled(show_as != c_oAscShowDataAs.Difference && show_as != c_oAscShowDataAs.Percent &&
-            //     show_as != c_oAscShowDataAs.PercentDiff && show_as != c_oAscShowDataAs.RunTotal);
+            var show_as = record.value;
+            this.cmbBaseField.setDisabled(show_as === c_oAscShowDataAs.Normal || show_as === c_oAscShowDataAs.PercentOfTotal || show_as === c_oAscShowDataAs.PercentOfRow ||
+                                          show_as === c_oAscShowDataAs.PercentOfCol || show_as === c_oAscShowDataAs.PercentOfParentRow || show_as === c_oAscShowDataAs.Index);
+
+            this.cmbBaseItem.setDisabled(show_as !== c_oAscShowDataAs.Difference && show_as !== c_oAscShowDataAs.Percent && show_as !== c_oAscShowDataAs.PercentDiff);
+            this.cmbBaseItem.setValue((show_as === c_oAscShowDataAs.Difference || show_as === c_oAscShowDataAs.Percent || show_as === c_oAscShowDataAs.PercentDiff) && this.cmbBaseItem.store.length>0 ?
+                                        this.cmbBaseItem.store.at(0).get('value') : '', '');
         },
 
         onBaseFieldSelect: function(combo, record) {
+            // var data = [
+            //     {value: -1, displayValue: this.textPrev, type: 1},
+            //     {value: -2, displayValue: this.textNext, type: 1}
+            // ];
+            // add other values
+            // this.cmbBaseItem.setData(data);
+            // var show_as = this.cmbShowAs.getValue();
+            // this.cmbBaseItem.setValue(show_as !== c_oAscShowDataAs.Difference && show_as !== c_oAscShowDataAs.Percent && show_as !== c_oAscShowDataAs.PercentDiff && this.cmbBaseItem.store.length>0 ?
+            //     this.cmbBaseItem.store.at(0).get('value') : '', '');
         },
 
         onBaseItemSelect: function(combo, record) {
@@ -291,16 +318,23 @@ define([
         txtSum: 'Sum',
         txtVar: 'Var',
         txtVarp: 'Varp',
-        txtNormal: 'No Calculation',
-        txtDifference: 'The Difference From',
-        txtPercent: 'Percent of',
-        txtPercentDiff: 'Percent Difference From',
-        txtRunTotal: 'Running Total In',
-        txtPercentOfRow: 'Percent of Total',
-        txtPercentOfCol: 'Percent of Column',
-        txtPercentOfTotal: 'Percent of Row',
+        txtNormal: 'No calculation',
+        txtDifference: 'The difference from',
+        txtPercent: '% of',
+        txtPercentDiff: '% difference from',
+        txtRunTotal: 'Running total in',
+        txtPercentOfRow: '% of total',
+        txtPercentOfCol: '% of column total',
+        txtPercentOfTotal: '% of row total',
         txtIndex: 'Index',
-        txtByField: '%1 of %2'
+        txtByField: '%1 of %2',
+        txtPercentOfParentRow: '% of parent row total',
+        txtPercentOfParentCol: '% of parent column total',
+        txtPercentOfParent: '% of parent total',
+        txtRankAscending: 'Rank smallest to largest',
+        txtRankDescending: 'Rank largest to smallest',
+        textPrev: '(previous)',
+        textNext: '(next)'
 
     }, SSE.Views.ValueFieldSettingsDialog || {}))
 });
