@@ -171,13 +171,10 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
                     {!isViewer && Device.phone &&
                         <ListItem title={t('Settings.textMobileView')}>
                             <Icon slot="media" icon="icon-mobile-view"></Icon>
-                            <Toggle checked={isMobileView} onToggleChange={async () => {
-                                await props.onChangeMobileView();
-                                await closeModal();
-                                await props.openOptions('snackbar');
-                                setTimeout(() => {
-                                    props.closeOptions('snackbar');
-                                },  1500);
+                            <Toggle checked={isMobileView} onToggleChange={() => {
+                                closeModal();
+                                props.onChangeMobileView();
+                                props.openOptions('snackbar');
                             }} />
                         </ListItem>
                     }

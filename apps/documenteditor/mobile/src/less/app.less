@@ -69,15 +69,15 @@
     }
 }
 
-.navbar ~ *, .navbars ~ * {
-    --f7-page-navbar-offset: 0;
-}
-
 .page.page-with-subnavbar {
     .page-content, &.page-with-logo .page-content {
-        --f7-page-subnavbar-offset: 0px;
+        --f7-page-subnavbar-offset: 0;
         padding-top: 0;
     }
+}
+
+.page.editor > .page-content {
+    --f7-page-navbar-offset: 0;
 }
 
 // Review
@@ -362,10 +362,10 @@
 }
 
 // Snackbar and FAB animation
-.snackbar-enter, fab-enter {
+.snackbar-enter, .fab-enter {
     opacity: 0;
 }
-.snackbar-enter-active, fab-enter-active {
+.snackbar-enter-active, .fab-enter-active {
     opacity: 1;
     transition: opacity 300ms;
 }
