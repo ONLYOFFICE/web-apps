@@ -169,7 +169,7 @@ define([
                 validation  : function(value) {
                     if (me.inputRange.isDisabled()) // named range
                         return true;
-                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.FormatTable, value, false);
+                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
                     if (isvalid == Asc.c_oAscError.ID.No) {
                         return true;
                     } else {
@@ -531,6 +531,13 @@ define([
                 var handlerDlg = function(dlg, result) {
                     if (result == 'ok') {
                         me.dataRangeValid = dlg.getSettings();
+                        var idx = me.dataRangeValid.indexOf('!');
+                        (idx>=0) && (me.dataRangeValid = me.dataRangeValid.substring(idx+1, me.dataRangeValid.length));
+                        var rec = me.internalList.store.findWhere({name: me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex()) });
+                        if (rec) {
+                            me.internalList.expandRecord(me.internalList.store.at(0));
+                            me.internalList.scrollToRecord(me.internalList.selectRecord(rec));
+                        }
                         me.inputRange.setValue(me.dataRangeValid);
                         me.inputRange.checkValidate();
                         me.isAutoUpdate && me.inputDisplay.setValue(me.internalList.getSelectedRec().get('name') + (me.dataRangeValid!=='' ? '!' + me.dataRangeValid : ''));
@@ -558,7 +565,7 @@ define([
                 win.setSettings({
                     api     : me.api,
                     range   : (!_.isEmpty(me.inputRange.getValue()) && (me.inputRange.checkValidate()==true)) ? me.inputRange.getValue() : me.dataRangeValid,
-                    type    : Asc.c_oAscSelectionDialogType.FormatTable
+                    type    : Asc.c_oAscSelectionDialogType.Chart
                 });
             }
         },
