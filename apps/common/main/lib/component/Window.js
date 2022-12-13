@@ -357,8 +357,8 @@ define([
 
         function _onResizeMove(){
             var main_geometry = _readDocumetGeometry(),
-                main_width = parseInt(main_geometry.width),
-                main_height = parseInt(main_geometry.height),
+                main_width = main_geometry.width,
+                main_height = main_geometry.height,
                 win_height = this.getHeight(),
                 win_width = this.getWidth(),
                 top = this.getTop(),
