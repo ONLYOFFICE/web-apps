@@ -4,7 +4,7 @@ import { observer, inject } from "mobx-react";
 import { Device } from '../../../../common/mobile/utils/device';
 
 import Settings from '../view/settings/Settings';
-import CollaborationView from '../../../../common/mobile/lib/view/collaboration/Collaboration.jsx'
+import { Collaboration } from '../../../../common/mobile/lib/view/collaboration/Collaboration.jsx'
 import CellEditor from '../controller/CellEditor';
 import { Statusbar } from '../controller/Statusbar';
 import FilterOptionsController from '../controller/FilterOptions.jsx'
@@ -167,7 +167,7 @@ class MainPage extends Component {
                 }
                 {
                     !this.state.collaborationVisible ? null :
-                        <CollaborationView onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} />
+                        <Collaboration onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} />
                 }
 
                 {appOptions.isDocReady &&
