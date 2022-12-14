@@ -209,19 +209,19 @@ define([
             if (userId && this.userCollection) {
                 var recUser = this.userCollection.findOriginalUser(userId);
                 if (recUser && (recUser.get('idOriginal') !== this.currentUserId)) {
-                    var str = this.view.txtWasUnprotected;
+                    var str = this.txtWasUnprotected;
                     switch (this._state.docProtection.type) {
                         case Asc.c_oAscEDocProtect.ReadOnly:
-                            str = this.view.txtWasProtectedView;
+                            str = this.txtWasProtectedView;
                             break;
                         case Asc.c_oAscEDocProtect.Comments:
-                            str = this.view.txtWasProtectedComment;
+                            str = this.txtWasProtectedComment;
                             break;
                         case Asc.c_oAscEDocProtect.Forms:
-                            str = this.view.txtWasProtectedForms;
+                            str = this.txtWasProtectedForms;
                             break;
                         case Asc.c_oAscEDocProtect.TrackedChanges:
-                            str = this.view.txtWasProtectedTrack;
+                            str = this.txtWasProtectedTrack;
                             break;
                     }
                     str && Common.NotificationCenter.trigger('showmessage', {msg: str}, {timeout: 5000, hideCloseTip: true});
@@ -269,7 +269,13 @@ define([
             if (this._docProtectDlg && this._docProtectDlg.isVisible())
                 this._docProtectDlg.SetDisabled(state || this._state.docProtection && (this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly ||
                                                                                     this._state.docProtection.isCommentsOnly || this._state.docProtection.isReviewOnly));
-        }
+        },
+
+        txtWasProtectedView: 'Document has been protected by another user.\nYou may only view this document.',
+        txtWasProtectedTrack: 'Document has been protected by another user.\nYou may edit this document, but all changes will be tracked.',
+        txtWasProtectedComment: 'Document has been protected by another user.\nYou may only insert comments to this document.',
+        txtWasProtectedForms: 'Document has been protected by another user.\nYou may only fill in forms in this document.',
+        txtWasUnprotected: 'Document has been unprotected.'
 
     }, DE.Controllers.DocProtection || {}));
 });
