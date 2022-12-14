@@ -213,7 +213,8 @@ define([
 
         _setDefaults: function (props) {
             if (props) {
-                var field = this.field;
+                var field = this.field,
+                    me = this;
                 this.cache_names = props.asc_getCacheFields();
                 this.pivot_names = props.asc_getPivotFields();
 
@@ -236,7 +237,7 @@ define([
                 data = [];
                 var baseitems = this.pivot_names[field.asc_getBaseField()].asc_getBaseItemObject(this.cache_names[field.asc_getBaseField()]);
                 baseitems.forEach(function(item, index){
-                    data.push({value: item["baseItem"], displayValue: item["name"]});
+                    data.push({value: item["baseItem"], displayValue: index===0 ? me.textPrev : (index===1 ? me.textNext : item["name"])});
                 });
                 this.cmbBaseItem.setData(data);
                 this.cmbBaseItem.setDisabled(show_as !== c_oAscShowDataAs.Difference && show_as !== c_oAscShowDataAs.Percent && show_as !== c_oAscShowDataAs.PercentDiff);
@@ -290,9 +291,10 @@ define([
         onBaseFieldSelect: function(combo, record) {
             var field = this.cmbBaseField.getValue(),
                 baseitems = this.pivot_names[field].asc_getBaseItemObject(this.cache_names[field]),
-                data = [];
+                data = [],
+                me = this;
             baseitems.forEach(function(item, index){
-                data.push({value: item["baseItem"], displayValue: item["name"]});
+                data.push({value: item["baseItem"], displayValue: index===0 ? me.textPrev : (index===1 ? me.textNext : item["name"])});
             });
             this.cmbBaseItem.setData(data);
             var show_as = this.cmbShowAs.getValue();
