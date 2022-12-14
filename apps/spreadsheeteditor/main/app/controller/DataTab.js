@@ -119,7 +119,7 @@ define([
                 this.api.asc_registerCallback('asc_onStartUpdateExternalReference', _.bind(this.onStartUpdateExternalReference, this));
                 this.api.asc_registerCallback('asc_onUpdateExternalReference', _.bind(this.onUpdateExternalReference, this));
                 this.api.asc_registerCallback('asc_onErrorUpdateExternalReference', _.bind(this.onErrorUpdateExternalReference, this));
-                this.api.asc_registerCallback('asc_onAddExternalReference', _.bind(this.onAddExternalReference, this));
+                this.api.asc_registerCallback('asc_onNeedUpdateExternalReference', _.bind(this.onNeedUpdateExternalReference, this));
                 Common.Gateway.on('setreferencedata', _.bind(this.setReferenceData, this));
             }
         },
@@ -579,7 +579,7 @@ define([
             }
         },
 
-        onAddExternalReference: function() {
+        onNeedUpdateExternalReference: function() {
             var val = Common.localStorage.getBool("sse-hide-add-external-warn");
             !val && Common.NotificationCenter.trigger('showmessage', {msg: this.textAddExternalData});
             Common.localStorage.setBool("sse-hide-add-external-warn", true);
