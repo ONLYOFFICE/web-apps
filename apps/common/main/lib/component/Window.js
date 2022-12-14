@@ -265,8 +265,10 @@ define([
             var top  = main_geometry.top + Math.floor((parseInt(main_height) - parseInt(win_height)) / 2);
             var left = Math.floor((parseInt(main_width) - parseInt(win_width)) / 2);
 
-            this.$window.css('left',left < 0 ? 0 : left);
-            this.$window.css('top',top < 0 ? 0 : top);
+            this.$window.css({
+                left: left < 0 ? 0 : left,
+                top: top < 0 ? 0 : top
+            });
         }
 
         function _setVisible() {
@@ -367,8 +369,10 @@ define([
             top = top + win_height > main_height ? main_height - win_height : top;
             left = left + win_width > main_width ? main_width - win_width : left;
 
-            this.$window.css('left', left < 0 ? 0 : left);
-            this.$window.css('top', top < 0 ? 0 : top);
+            this.$window.css({
+                left: left < 0 ? 0 : left,
+                top: top < 0 ? 0 : top
+            });
         }
 
         /* window resize functions */
