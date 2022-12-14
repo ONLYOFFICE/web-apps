@@ -213,15 +213,17 @@ define([
 
         _setDefaults: function (props) {
             if (props) {
-                var field = this.field,
-                    cache_names = props.asc_getCacheFields();
+                var field = this.field;
+                this.cache_names = props.asc_getCacheFields();
+                this.pivot_names = props.asc_getPivotFields();
 
-                this.lblSourceName.html(Common.Utils.String.htmlEncode(cache_names[field.asc_getIndex()].asc_getName()));
+                this.lblSourceName.html(Common.Utils.String.htmlEncode(this.cache_names[field.asc_getIndex()].asc_getName()));
                 this.inputCustomName.setValue(Common.Utils.String.htmlEncode(field.asc_getName()));
                 this.cmbSummarize.setValue(field.asc_getSubtotal());
 
                 var show_as = field.asc_getShowDataAs();
                 this.cmbShowAs.setValue(show_as);
+
                 var data = [];
                 this.names.forEach(function(item, index){
                     data.push({value: index, displayValue: item});
@@ -231,11 +233,11 @@ define([
                 this.cmbBaseField.setDisabled(show_as === c_oAscShowDataAs.Normal || show_as === c_oAscShowDataAs.PercentOfTotal || show_as === c_oAscShowDataAs.PercentOfRow ||
                                               show_as === c_oAscShowDataAs.PercentOfCol || show_as === c_oAscShowDataAs.PercentOfParentRow || show_as === c_oAscShowDataAs.Index);
 
-                data = [
-                    {value: -1, displayValue: this.textPrev, type: 1},
-                    {value: -2, displayValue: this.textNext, type: 1}
-                ];
-                // add other values
+                data = [];
+                var baseitems = this.pivot_names[field.asc_getBaseField()].asc_getBaseItemObject(this.cache_names[field.asc_getBaseField()]);
+                baseitems.forEach(function(item, index){
+                    data.push({value: item["baseItem"], displayValue: item["name"]});
+                });
                 this.cmbBaseItem.setData(data);
                 this.cmbBaseItem.setDisabled(show_as !== c_oAscShowDataAs.Difference && show_as !== c_oAscShowDataAs.Percent && show_as !== c_oAscShowDataAs.PercentDiff);
                 this.cmbBaseItem.setValue((show_as === c_oAscShowDataAs.Difference || show_as === c_oAscShowDataAs.Percent || show_as === c_oAscShowDataAs.PercentDiff) ? field.asc_getBaseItem() : '', '');
@@ -286,15 +288,16 @@ define([
         },
 
         onBaseFieldSelect: function(combo, record) {
-            // var data = [
-            //     {value: -1, displayValue: this.textPrev, type: 1},
-            //     {value: -2, displayValue: this.textNext, type: 1}
-            // ];
-            // add other values
-            // this.cmbBaseItem.setData(data);
-            // var show_as = this.cmbShowAs.getValue();
-            // this.cmbBaseItem.setValue(show_as !== c_oAscShowDataAs.Difference && show_as !== c_oAscShowDataAs.Percent && show_as !== c_oAscShowDataAs.PercentDiff && this.cmbBaseItem.store.length>0 ?
-            //     this.cmbBaseItem.store.at(0).get('value') : '', '');
+            var field = this.cmbBaseField.getValue(),
+                baseitems = this.pivot_names[field].asc_getBaseItemObject(this.cache_names[field]),
+                data = [];
+            baseitems.forEach(function(item, index){
+                data.push({value: item["baseItem"], displayValue: item["name"]});
+            });
+            this.cmbBaseItem.setData(data);
+            var show_as = this.cmbShowAs.getValue();
+            this.cmbBaseItem.setValue((show_as === c_oAscShowDataAs.Difference || show_as === c_oAscShowDataAs.Percent || show_as === c_oAscShowDataAs.PercentDiff) && this.cmbBaseItem.store.length>0 ?
+                                        this.cmbBaseItem.store.at(0).get('value') : '', '');
         },
 
         onBaseItemSelect: function(combo, record) {
