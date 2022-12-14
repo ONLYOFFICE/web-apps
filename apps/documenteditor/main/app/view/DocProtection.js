@@ -142,12 +142,7 @@ define([
             txtDocProtectedForms: 'Document is protected.<br>You may only fill in forms in this document.',
             hintProtectDoc: 'Protect document',
             txtDocUnlockDescription: 'Enter a password to unprotect document',
-            txtUnlockTitle: 'Unprotect Document',
-            txtWasProtectedView: 'Document has been protected by another user.\nYou may only view this document.',
-            txtWasProtectedTrack: 'Document has been protected by another user.\nYou may edit this document, but all changes will be tracked.',
-            txtWasProtectedComment: 'Document has been protected by another user.\nYou may only insert comments to this document.',
-            txtWasProtectedForms: 'Document has been protected by another user.\nYou may only fill in forms in this document.',
-            txtWasUnprotected: 'Document has been unprotected.'
+            txtUnlockTitle: 'Unprotect Document'
         }
     }()), DE.Views.DocProtection || {}));
 });
