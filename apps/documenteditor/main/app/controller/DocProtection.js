@@ -170,8 +170,8 @@ define([
         },
 
         onAppReady: function (config) {
-            if (!this.view) return;
-
+            if (!this.api) return;
+            
             var me = this;
             (new Promise(function (resolve) {
                 resolve();
@@ -180,12 +180,47 @@ define([
                     type = props ? props.asc_getEditType() : Asc.c_oAscEDocProtect.None,
                     isProtected = (type === Asc.c_oAscEDocProtect.ReadOnly || type === Asc.c_oAscEDocProtect.Comments ||
                                    type === Asc.c_oAscEDocProtect.TrackedChanges || type === Asc.c_oAscEDocProtect.Forms);
-                me.view.btnProtectDoc.toggle(!!isProtected, true);
+                me.view && me.view.btnProtectDoc.toggle(!!isProtected, true);
+
+                if (isProtected) {
+                    var str;
+                    switch (type) {
+                        case Asc.c_oAscEDocProtect.ReadOnly:
+                            str = me.txtIsProtectedView;
+                            break;
+                        case Asc.c_oAscEDocProtect.Comments:
+                            str = me.txtIsProtectedComment;
+                            break;
+                        case Asc.c_oAscEDocProtect.Forms:
+                            str = me.txtIsProtectedForms;
+                            break;
+                        case Asc.c_oAscEDocProtect.TrackedChanges:
+                            str = me.txtIsProtectedTrack;
+                            break;
+                    }
+                    me._protectionTip = new Common.UI.SynchronizeTip({
+                        extCls: 'no-arrow',
+                        placement: 'bottom',
+                        target: $('.toolbar'),
+                        text: str,
+                        showLink: false,
+                        style: 'max-width: 400px;'
+                    });
+                    me._protectionTip.on('closeclick', function () {
+                        this.close();
+                    }).show();
+                }
+
                 props && me.applyRestrictions(type);
             });
         },
 
         onChangeProtectDocument: function(userId) {
+            if (this._protectionTip && this._protectionTip.isVisible()) {
+                this._protectionTip.close();
+                this._protectionTip = undefined;
+            }
+
             var props = this.getDocProps(true),
                 isProtected = props && (props.isReadOnly || props.isCommentsOnly || props.isFormsOnly || props.isReviewOnly);
             this.view && this.view.btnProtectDoc.toggle(isProtected, true);
@@ -275,7 +310,11 @@ define([
         txtWasProtectedTrack: 'Document has been protected by another user.\nYou may edit this document, but all changes will be tracked.',
         txtWasProtectedComment: 'Document has been protected by another user.\nYou may only insert comments to this document.',
         txtWasProtectedForms: 'Document has been protected by another user.\nYou may only fill in forms in this document.',
-        txtWasUnprotected: 'Document has been unprotected.'
+        txtWasUnprotected: 'Document has been unprotected.',
+        txtIsProtectedView: 'Document is protected. You may only view this document.',
+        txtIsProtectedTrack: 'Document is protected. You may edit this document, but all changes will be tracked.',
+        txtIsProtectedComment: 'Document is protected. You may only insert comments to this document.',
+        txtIsProtectedForms: 'Document is protected. You may only fill in forms in this document.'
 
     }, DE.Controllers.DocProtection || {}));
 });
