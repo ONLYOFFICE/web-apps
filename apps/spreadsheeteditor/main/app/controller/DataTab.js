@@ -487,6 +487,7 @@ define([
             this.externalLinksDlg = (new SSE.Views.ExternalLinksDlg({
                 api: this.api,
                 isUpdating: this.externalData.isUpdating,
+                canRequestReferenceData: this.toolbar.mode.canRequestReferenceData,
                 handler: function(result) {
                     Common.NotificationCenter.trigger('edit:complete');
                 }
