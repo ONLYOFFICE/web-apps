@@ -7,7 +7,7 @@ import { withTranslation } from 'react-i18next';
 import EditOptions from '../view/edit/Edit';
 import AddOptions from '../view/add/Add';
 import Settings from '../controller/settings/Settings';
-import Collaboration from '../../../../common/mobile/lib/view/collaboration/Collaboration.jsx'
+import { CollaborationDocument } from '../../../../common/mobile/lib/view/collaboration/Collaboration.jsx'
 import { Device } from '../../../../common/mobile/utils/device'
 import { Search, SearchSettings } from '../controller/Search';
 import ContextMenu from '../controller/ContextMenu';
@@ -229,8 +229,7 @@ class MainPage extends Component {
                 }
                 {
                     !this.state.collaborationVisible ? null :
-                        <Collaboration onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')}
-                                       page={this.state.collaborationPage}/>
+                        <CollaborationDocument onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} page={this.state.collaborationPage} />
                 }
                 {
                     !this.state.navigationVisible ? null :

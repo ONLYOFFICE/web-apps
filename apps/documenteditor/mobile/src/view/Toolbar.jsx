@@ -62,7 +62,7 @@ const ToolbarView = props => {
                     onRedoClick: props.onRedo
                 })}
                 {/*isAvailableExt && !props.disabledControls &&*/}
-                {(isViewer || !Device.phone) && <Link className={(!isAvailableExt || props.disabledControls) && 'disabled'} icon={isMobileView ? 'icon-standard-view' : 'icon-mobile-view'} href={false} onClick={async e => {
+                {((isViewer || !Device.phone) && isAvailableExt) && <Link className={(!isAvailableExt || props.disabledControls) && 'disabled'} icon={isMobileView ? 'icon-standard-view' : 'icon-mobile-view'} href={false} onClick={async e => {
                     await props.changeMobileView();
                     await props.openOptions('snackbar');
                     setTimeout(() => {

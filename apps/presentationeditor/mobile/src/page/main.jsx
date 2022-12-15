@@ -6,7 +6,7 @@ import { Device } from '../../../../common/mobile/utils/device';
 import EditOptions from '../view/edit/Edit';
 import AddOptions from '../view/add/Add';
 import Settings from '../view/settings/Settings';
-import CollaborationView from '../../../../common/mobile/lib/view/collaboration/Collaboration.jsx';
+import { Collaboration } from '../../../../common/mobile/lib/view/collaboration/Collaboration.jsx';
 import { Preview } from "../controller/Preview";
 import { Search, SearchSettings } from '../controller/Search';
 import ContextMenu from '../controller/ContextMenu';
@@ -179,7 +179,7 @@ class MainPage extends Component {
                     }
                     {
                         !this.state.collaborationVisible ? null :
-                            <CollaborationView onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} />
+                            <Collaboration onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} />
                     }
                     {appOptions.isDocReady && <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)} />}   
                 </Page>
