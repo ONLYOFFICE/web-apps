@@ -155,8 +155,9 @@ define([
                 editable: false,
                 data: [
                     { value: Asc.c_oAscShowDataAs.Normal,           displayValue: this.txtNormal },
+                    { value: Asc.c_oAscShowDataAs.PercentOfTotal,     displayValue: this.txtPercentOfGrand },
                     { value: Asc.c_oAscShowDataAs.PercentOfCol,     displayValue: this.txtPercentOfCol },
-                    { value: Asc.c_oAscShowDataAs.PercentOfRow,     displayValue: this.txtPercentOfRow },
+                    { value: Asc.c_oAscShowDataAs.PercentOfRow,     displayValue: this.txtPercentOfTotal },
                     { value: Asc.c_oAscShowDataAs.Percent,          displayValue: this.txtPercent },
                     { value: Asc.c_oAscShowDataAs.PercentOfParentRow, displayValue: this.txtPercentOfParentRow },
                     { value: Asc.c_oAscShowDataAs.PercentOfParentCol, displayValue: this.txtPercentOfParentCol },
@@ -164,7 +165,7 @@ define([
                     { value: Asc.c_oAscShowDataAs.Difference,       displayValue: this.txtDifference },
                     { value: Asc.c_oAscShowDataAs.PercentDiff,      displayValue: this.txtPercentDiff },
                     { value: Asc.c_oAscShowDataAs.RunTotal,         displayValue: this.txtRunTotal },
-                    { value: Asc.c_oAscShowDataAs.PercentOfTotal,   displayValue: this.txtPercentOfTotal },
+                    { value: Asc.c_oAscShowDataAs.PercentOfRunningTotal,   displayValue: this.txtPercentOfRunTotal },
                     { value: Asc.c_oAscShowDataAs.RankAscending,   displayValue: this.txtRankAscending },
                     { value: Asc.c_oAscShowDataAs.RankDescending,   displayValue: this.txtRankDescending },
                     { value: Asc.c_oAscShowDataAs.Index,            displayValue: this.txtIndex }
@@ -232,7 +233,7 @@ define([
                 this.cmbBaseField.setData(data);
                 this.cmbBaseField.setValue(field.asc_getBaseField(), '');
                 this.cmbBaseField.setDisabled(show_as === c_oAscShowDataAs.Normal || show_as === c_oAscShowDataAs.PercentOfTotal || show_as === c_oAscShowDataAs.PercentOfRow ||
-                                              show_as === c_oAscShowDataAs.PercentOfCol || show_as === c_oAscShowDataAs.PercentOfParentRow || show_as === c_oAscShowDataAs.Index);
+                                              show_as === c_oAscShowDataAs.PercentOfCol || show_as === c_oAscShowDataAs.PercentOfParentRow || show_as === c_oAscShowDataAs.PercentOfParentCol || show_as === c_oAscShowDataAs.Index);
 
                 data = [];
                 var baseitems = this.pivot_names[field.asc_getBaseField()].asc_getBaseItemObject(this.cache_names[field.asc_getBaseField()]);
@@ -240,8 +241,8 @@ define([
                     data.push({value: item["baseItem"], displayValue: index===0 ? me.textPrev : (index===1 ? me.textNext : item["name"])});
                 });
                 this.cmbBaseItem.setData(data);
-                this.cmbBaseItem.setDisabled(show_as !== c_oAscShowDataAs.Difference && show_as !== c_oAscShowDataAs.Percent && show_as !== c_oAscShowDataAs.PercentDiff);
-                this.cmbBaseItem.setValue((show_as === c_oAscShowDataAs.Difference || show_as === c_oAscShowDataAs.Percent || show_as === c_oAscShowDataAs.PercentDiff) ? field.asc_getBaseItem() : '', '');
+                this.cmbBaseItem.setDisabled(data.length<1 || show_as !== c_oAscShowDataAs.Difference && show_as !== c_oAscShowDataAs.Percent && show_as !== c_oAscShowDataAs.PercentDiff);
+                this.cmbBaseItem.setValue((data.length>0) && (show_as === c_oAscShowDataAs.Difference || show_as === c_oAscShowDataAs.Percent || show_as === c_oAscShowDataAs.PercentDiff) ? field.asc_getBaseItem() : '', '');
             }
         },
 
@@ -281,9 +282,9 @@ define([
         onShowAsSelect: function(combo, record) {
             var show_as = record.value;
             this.cmbBaseField.setDisabled(show_as === c_oAscShowDataAs.Normal || show_as === c_oAscShowDataAs.PercentOfTotal || show_as === c_oAscShowDataAs.PercentOfRow ||
-                                          show_as === c_oAscShowDataAs.PercentOfCol || show_as === c_oAscShowDataAs.PercentOfParentRow || show_as === c_oAscShowDataAs.Index);
+                                          show_as === c_oAscShowDataAs.PercentOfCol || show_as === c_oAscShowDataAs.PercentOfParentRow || show_as === c_oAscShowDataAs.PercentOfParentCol || show_as === c_oAscShowDataAs.Index);
 
-            this.cmbBaseItem.setDisabled(show_as !== c_oAscShowDataAs.Difference && show_as !== c_oAscShowDataAs.Percent && show_as !== c_oAscShowDataAs.PercentDiff);
+            this.cmbBaseItem.setDisabled(this.cmbBaseItem.store.length<1 || show_as !== c_oAscShowDataAs.Difference && show_as !== c_oAscShowDataAs.Percent && show_as !== c_oAscShowDataAs.PercentDiff);
             this.cmbBaseItem.setValue((show_as === c_oAscShowDataAs.Difference || show_as === c_oAscShowDataAs.Percent || show_as === c_oAscShowDataAs.PercentDiff) && this.cmbBaseItem.store.length>0 ?
                                         this.cmbBaseItem.store.at(0).get('value') : '', '');
         },
@@ -298,7 +299,8 @@ define([
             });
             this.cmbBaseItem.setData(data);
             var show_as = this.cmbShowAs.getValue();
-            this.cmbBaseItem.setValue((show_as === c_oAscShowDataAs.Difference || show_as === c_oAscShowDataAs.Percent || show_as === c_oAscShowDataAs.PercentDiff) && this.cmbBaseItem.store.length>0 ?
+            this.cmbBaseItem.setDisabled(data.length<1 || show_as !== c_oAscShowDataAs.Difference && show_as !== c_oAscShowDataAs.Percent && show_as !== c_oAscShowDataAs.PercentDiff);
+            this.cmbBaseItem.setValue((show_as === c_oAscShowDataAs.Difference || show_as === c_oAscShowDataAs.Percent || show_as === c_oAscShowDataAs.PercentDiff) && data.length>0 ?
                                         this.cmbBaseItem.store.at(0).get('value') : '', '');
         },
 
@@ -324,13 +326,14 @@ define([
         txtVar: 'Var',
         txtVarp: 'Varp',
         txtNormal: 'No calculation',
-        txtDifference: 'The difference from',
+        txtDifference: 'Difference from',
         txtPercent: '% of',
         txtPercentDiff: '% difference from',
         txtRunTotal: 'Running total in',
-        txtPercentOfRow: '% of total',
+        txtPercentOfRunTotal: '% running total in',
         txtPercentOfCol: '% of column total',
         txtPercentOfTotal: '% of row total',
+        txtPercentOfGrand: '% of grand total',
         txtIndex: 'Index',
         txtByField: '%1 of %2',
         txtPercentOfParentRow: '% of parent row total',
