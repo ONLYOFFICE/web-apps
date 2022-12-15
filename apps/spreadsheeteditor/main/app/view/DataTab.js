@@ -310,17 +310,12 @@ define([
 
                     me.btnDataFromText.updateHint(me.tipDataFromText);
                     me.btnDataFromText.menu && me.btnDataFromText.setMenu(new Common.UI.Menu({
-                        // style: 'max-width: 300px;',
                         items: [
                             { caption: me.mniFromFile, value: 'file' },
                             { caption: me.mniFromUrl,  value: 'url' },
-                            // { caption: '--'},
+                            { caption: '--'},
                             {   caption: me.mniFromXMLFile,
-                                value: 'xml',
-                                hint: me.mniFromXMLFileDesc
-                                // description: me.mniFromXMLFileDesc,
-                                // template:_.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><%= caption %></div>' +
-                                //                     '<label style="display: block;color: #a5a5a5;cursor: pointer;white-space: normal;"><%= options.description %></label></a>')
+                                value: 'xml'
                             }
                             // { caption: me.mniImageFromStorage, value: 'storage'}
                         ]
@@ -410,8 +405,7 @@ define([
             mniFromUrl: 'Get Data from URL',
             capDataExternalLinks: 'External Links',
             tipExternalLinks: 'View other files this spreadsheet is linked to',
-            mniFromXMLFile: 'From Local XML',
-            mniFromXMLFileDesc: 'Only Spreadsheet Xml 2003 format is supported'
+            mniFromXMLFile: 'From Local XML'
         }
     }()), SSE.Views.DataTab || {}));
 });
