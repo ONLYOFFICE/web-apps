@@ -267,6 +267,7 @@ define([
             } else if (type === 'storage') {
                 // Common.NotificationCenter.trigger('storage:data-load', 'add');
             } else if (type === 'xml') {
+                Common.Utils.InternalSettings.set('import-xml-start', true);
                 this.api && this.api.asc_ImportXmlStart(_.bind(this.onDataFromXMLCallback, this));
             }
         },
@@ -290,6 +291,10 @@ define([
         },
 
         onDataFromXMLCallback: function(fileContent) {
+            setTimeout(function() {
+                Common.Utils.InternalSettings.set('import-xml-start', false);
+            }, 500);
+
             if (!fileContent) return;
 
             var me = this;

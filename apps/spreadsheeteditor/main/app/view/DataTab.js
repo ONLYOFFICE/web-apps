@@ -313,7 +313,10 @@ define([
                         items: [
                             { caption: me.mniFromFile, value: 'file' },
                             { caption: me.mniFromUrl,  value: 'url' },
-                            { caption: me.mniFromXMLFile,  value: 'xml' }
+                            { caption: '--'},
+                            {   caption: me.mniFromXMLFile,
+                                value: 'xml'
+                            }
                             // { caption: me.mniImageFromStorage, value: 'storage'}
                         ]
                     }));
