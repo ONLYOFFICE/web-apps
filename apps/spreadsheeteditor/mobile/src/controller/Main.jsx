@@ -516,9 +516,6 @@ class MainController extends Component {
                 storeSpreadsheetInfo.changeTitle(meta.title);
             }
         });
-
-        const storeAppOptions = this.props.storeAppOptions;
-        this.api.asc_setFilteringMode && this.api.asc_setFilteringMode(storeAppOptions.canModifyFilter);
     }
 
     onEntriesListMenu(validation, textArr, addArr) {
