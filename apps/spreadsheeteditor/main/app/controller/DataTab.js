@@ -632,7 +632,7 @@ define([
         warnUpdateExternalData: 'This workbook contains links to one or more external sources that could be unsafe.<br>If you trust the links, update them to get the latest data.',
         textUpdate: 'Update',
         textDontUpdate: 'Don\'t Update',
-        textAddExternalData: 'Added link to external source. You can update such links in the Data tab.'
+        textAddExternalData: 'The link to an external source has been added. You can update such links in the Data tab.'
 
     }, SSE.Controllers.DataTab || {}));
 });
