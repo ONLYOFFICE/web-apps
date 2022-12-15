@@ -291,7 +291,10 @@ define([
         },
 
         onDataFromXMLCallback: function(fileContent) {
-            Common.Utils.InternalSettings.set('import-xml-start', false);
+            setTimeout(function() {
+                Common.Utils.InternalSettings.set('import-xml-start', false);
+            }, 500);
+
             if (!fileContent) return;
 
             var me = this;
