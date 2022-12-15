@@ -310,16 +310,17 @@ define([
 
                     me.btnDataFromText.updateHint(me.tipDataFromText);
                     me.btnDataFromText.menu && me.btnDataFromText.setMenu(new Common.UI.Menu({
-                        style: 'max-width: 300px;',
+                        // style: 'max-width: 300px;',
                         items: [
                             { caption: me.mniFromFile, value: 'file' },
                             { caption: me.mniFromUrl,  value: 'url' },
-                            { caption: '--'},
+                            // { caption: '--'},
                             {   caption: me.mniFromXMLFile,
                                 value: 'xml',
-                                description: me.mniFromXMLFileDesc,
-                                template:_.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><%= caption %></div>' +
-                                                    '<label style="display: block;color: #a5a5a5;cursor: pointer;white-space: normal;"><%= options.description %></label></a>')
+                                hint: me.mniFromXMLFileDesc
+                                // description: me.mniFromXMLFileDesc,
+                                // template:_.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><%= caption %></div>' +
+                                //                     '<label style="display: block;color: #a5a5a5;cursor: pointer;white-space: normal;"><%= options.description %></label></a>')
                             }
                             // { caption: me.mniImageFromStorage, value: 'storage'}
                         ]
