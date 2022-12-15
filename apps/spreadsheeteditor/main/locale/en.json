@@ -1030,7 +1030,7 @@
   "SSE.Controllers.Main.textTryQuickPrint": "You have selected Quick print: the entire document will be printed on the last selected or default printer.<br>Do you want to continue?",
   "SSE.Controllers.Main.textTryUndoRedo": "The Undo/Redo functions are disabled for the Fast co-editing mode.<br>Click the 'Strict mode' button to switch to the Strict co-editing mode to edit the file without other users interference and send your changes only after you save them. You can switch between the co-editing modes using the editor Advanced settings.",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "The Undo/Redo functions are disabled for the Fast co-editing mode.",
-  "SSE.Controllers.Main.errorConvertXml": "An error has occurred while opening the file.<br>Only Spreadsheet Xml 2003 format is supported.",
+  "SSE.Controllers.Main.errorConvertXml": "The file has an unsupported format.<br>Only XML Spreadsheet 2003 format can be used.",
   "SSE.Controllers.Main.textUndo": "Undo",
   "SSE.Controllers.Main.textYes": "Yes",
   "SSE.Controllers.Main.titleLicenseExp": "License expired",

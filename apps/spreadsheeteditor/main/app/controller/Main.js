@@ -3766,7 +3766,7 @@ define([
             errorInconsistentExt: 'An error has occurred while opening the file.<br>The file content does not match the file extension.',
             errorCannotPasteImg: 'We can\'t paste this image from the Clipboard, but you can save it to your device and \ninsert it from there, or you can copy the image without text and paste it into the spreadsheet.',
             textTryQuickPrint: 'You have selected Quick print: the entire document will be printed on the last selected or default printer.<br>Do you want to continue?',
-            errorConvertXml: 'An error has occurred while opening the file.<br>Only Spreadsheet Xml 2003 format is supported.'
+            errorConvertXml: 'The file has an unsupported format.<br>Only XML Spreadsheet 2003 format can be used.'
         }
     })(), SSE.Controllers.Main || {}))
 });
