@@ -114,7 +114,10 @@ define([
                 maxLength: 15,
                 validateOnBlur: false,
                 repeatInput: this.repeatPwd,
-                showPwdOnClick: true
+                showPwdOnClick: true,
+                validation  : function(value) {
+                    return (value.length>15) ? me.txtLimit : true;
+                }
             });
 
             this.rbView = new Common.UI.RadioBox({
@@ -230,7 +233,8 @@ define([
         textView: 'No changes (Read only)',
         textForms: 'Filling forms',
         textReview: 'Tracked changes',
-        textComments: 'Comments'
+        textComments: 'Comments',
+        txtLimit: 'Password is limited to 15 characters'
 
     }, DE.Views.ProtectDialog || {}));
 });
