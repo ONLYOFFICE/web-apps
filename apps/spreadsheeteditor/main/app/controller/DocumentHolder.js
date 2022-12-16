@@ -4433,7 +4433,7 @@ define([
 
         SetDisabled: function(state, canProtect) {
             this._isDisabled = state;
-            this._canProtect = canProtect;
+            this._canProtect = state ? canProtect : true;
             this.disableEquationBar();
         },
 
