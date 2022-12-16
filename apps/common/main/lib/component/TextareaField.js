@@ -56,7 +56,8 @@ define([
                 maxlength   : undefined,
                 placeHolder : '',
                 spellcheck  : false,
-                disabled: false
+                disabled: false,
+                resize: false
             },
 
             template: _.template([
@@ -133,6 +134,7 @@ define([
                     this._input.on('blur',   _.bind(this.onInputChanged, this));
                     this._input.on('keydown',    _.bind(this.onKeyDown, this));
                     if (this.maxLength) this._input.attr('maxlength', this.maxLength);
+                    if (!this.resize) this._input.css('resize', 'none');
 
                     if (this.disabled)
                         this.setDisabled(this.disabled);
