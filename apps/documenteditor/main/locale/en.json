@@ -2644,6 +2644,7 @@
   "DE.Views.ProtectDialog.txtRepeat": "Repeat password",
   "DE.Views.ProtectDialog.txtTitle": "Protect",
   "DE.Views.ProtectDialog.txtWarning": "Warning: If you lose or forget the password, it cannot be recovered. Please keep it in a safe place.",
+  "DE.Views.ProtectDialog.txtLimit": "Password is limited to 15 characters",
   "DE.Views.RightMenu.txtChartSettings": "Chart settings",
   "DE.Views.RightMenu.txtFormSettings": "Form Settings",
   "DE.Views.RightMenu.txtHeaderFooterSettings": "Header and footer settings",
