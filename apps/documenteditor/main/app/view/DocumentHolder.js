@@ -2931,7 +2931,7 @@ define([
 
         SetDisabled: function(state, canProtect, fillFormMode) {
             this._isDisabled = state;
-            this._canProtect = canProtect;
+            this._canProtect =  state ? canProtect : true;
             this._fillFormMode = state ? fillFormMode : false;
         },
 
