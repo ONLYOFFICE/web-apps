@@ -171,7 +171,7 @@ define([
                     { value: Asc.c_oAscShowDataAs.Index,            displayValue: this.txtIndex }
                 ]
             });
-            this.cmbShowAs.setValue(Asc.c_oAscDataConsolidateFunction.Normal);
+            this.cmbShowAs.setValue(Asc.c_oAscShowDataAs.Normal);
             this.cmbShowAs.on('selected', _.bind(this.onShowAsSelect, this));
 
             this.cmbBaseField = new Common.UI.ComboBox({
@@ -232,8 +232,8 @@ define([
                 });
                 this.cmbBaseField.setData(data);
                 this.cmbBaseField.setValue(field.asc_getBaseField(), '');
-                this.cmbBaseField.setDisabled(show_as === c_oAscShowDataAs.Normal || show_as === c_oAscShowDataAs.PercentOfTotal || show_as === c_oAscShowDataAs.PercentOfRow ||
-                                              show_as === c_oAscShowDataAs.PercentOfCol || show_as === c_oAscShowDataAs.PercentOfParentRow || show_as === c_oAscShowDataAs.PercentOfParentCol || show_as === c_oAscShowDataAs.Index);
+                this.cmbBaseField.setDisabled(show_as === Asc.c_oAscShowDataAs.Normal || show_as === Asc.c_oAscShowDataAs.PercentOfTotal || show_as === Asc.c_oAscShowDataAs.PercentOfRow ||
+                                              show_as === Asc.c_oAscShowDataAs.PercentOfCol || show_as === Asc.c_oAscShowDataAs.PercentOfParentRow || show_as === Asc.c_oAscShowDataAs.PercentOfParentCol || show_as === Asc.c_oAscShowDataAs.Index);
 
                 data = [];
                 var baseitems = this.pivot_names[field.asc_getBaseField()].asc_getBaseItemObject(this.cache_names[field.asc_getBaseField()]);
@@ -241,8 +241,8 @@ define([
                     data.push({value: item["baseItem"], displayValue: index===0 ? me.textPrev : (index===1 ? me.textNext : item["name"])});
                 });
                 this.cmbBaseItem.setData(data);
-                this.cmbBaseItem.setDisabled(data.length<1 || show_as !== c_oAscShowDataAs.Difference && show_as !== c_oAscShowDataAs.Percent && show_as !== c_oAscShowDataAs.PercentDiff);
-                this.cmbBaseItem.setValue((data.length>0) && (show_as === c_oAscShowDataAs.Difference || show_as === c_oAscShowDataAs.Percent || show_as === c_oAscShowDataAs.PercentDiff) ? field.asc_getBaseItem() : '', '');
+                this.cmbBaseItem.setDisabled(data.length<1 || show_as !== Asc.c_oAscShowDataAs.Difference && show_as !== Asc.c_oAscShowDataAs.Percent && show_as !== Asc.c_oAscShowDataAs.PercentDiff);
+                this.cmbBaseItem.setValue((data.length>0) && (show_as === Asc.c_oAscShowDataAs.Difference || show_as === Asc.c_oAscShowDataAs.Percent || show_as === Asc.c_oAscShowDataAs.PercentDiff) ? field.asc_getBaseItem() : '', '');
             }
         },
 
@@ -281,11 +281,11 @@ define([
 
         onShowAsSelect: function(combo, record) {
             var show_as = record.value;
-            this.cmbBaseField.setDisabled(show_as === c_oAscShowDataAs.Normal || show_as === c_oAscShowDataAs.PercentOfTotal || show_as === c_oAscShowDataAs.PercentOfRow ||
-                                          show_as === c_oAscShowDataAs.PercentOfCol || show_as === c_oAscShowDataAs.PercentOfParentRow || show_as === c_oAscShowDataAs.PercentOfParentCol || show_as === c_oAscShowDataAs.Index);
+            this.cmbBaseField.setDisabled(show_as === Asc.c_oAscShowDataAs.Normal || show_as === Asc.c_oAscShowDataAs.PercentOfTotal || show_as === Asc.c_oAscShowDataAs.PercentOfRow ||
+                                          show_as === Asc.c_oAscShowDataAs.PercentOfCol || show_as === Asc.c_oAscShowDataAs.PercentOfParentRow || show_as === Asc.c_oAscShowDataAs.PercentOfParentCol || show_as === Asc.c_oAscShowDataAs.Index);
 
-            this.cmbBaseItem.setDisabled(this.cmbBaseItem.store.length<1 || show_as !== c_oAscShowDataAs.Difference && show_as !== c_oAscShowDataAs.Percent && show_as !== c_oAscShowDataAs.PercentDiff);
-            this.cmbBaseItem.setValue((show_as === c_oAscShowDataAs.Difference || show_as === c_oAscShowDataAs.Percent || show_as === c_oAscShowDataAs.PercentDiff) && this.cmbBaseItem.store.length>0 ?
+            this.cmbBaseItem.setDisabled(this.cmbBaseItem.store.length<1 || show_as !== Asc.c_oAscShowDataAs.Difference && show_as !== Asc.c_oAscShowDataAs.Percent && show_as !== Asc.c_oAscShowDataAs.PercentDiff);
+            this.cmbBaseItem.setValue((show_as === Asc.c_oAscShowDataAs.Difference || show_as === Asc.c_oAscShowDataAs.Percent || show_as === Asc.c_oAscShowDataAs.PercentDiff) && this.cmbBaseItem.store.length>0 ?
                                         this.cmbBaseItem.store.at(0).get('value') : '', '');
         },
 
@@ -299,8 +299,8 @@ define([
             });
             this.cmbBaseItem.setData(data);
             var show_as = this.cmbShowAs.getValue();
-            this.cmbBaseItem.setDisabled(data.length<1 || show_as !== c_oAscShowDataAs.Difference && show_as !== c_oAscShowDataAs.Percent && show_as !== c_oAscShowDataAs.PercentDiff);
-            this.cmbBaseItem.setValue((show_as === c_oAscShowDataAs.Difference || show_as === c_oAscShowDataAs.Percent || show_as === c_oAscShowDataAs.PercentDiff) && data.length>0 ?
+            this.cmbBaseItem.setDisabled(data.length<1 || show_as !== Asc.c_oAscShowDataAs.Difference && show_as !== Asc.c_oAscShowDataAs.Percent && show_as !== Asc.c_oAscShowDataAs.PercentDiff);
+            this.cmbBaseItem.setValue((show_as === Asc.c_oAscShowDataAs.Difference || show_as === Asc.c_oAscShowDataAs.Percent || show_as === Asc.Asc.c_oAscShowDataAs.PercentDiff) && data.length>0 ?
                                         this.cmbBaseItem.store.at(0).get('value') : '', '');
         },
 
