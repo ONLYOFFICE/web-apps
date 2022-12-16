@@ -142,6 +142,9 @@ define([
 
                 me.rendered = true;
 
+                if (me.value)
+                    me.setValue(me.value);
+
                 return this;
             },
 
