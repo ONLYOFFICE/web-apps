@@ -14,8 +14,8 @@ class AddLinkController extends Component {
     }
 
     closeModal () {
-        if ( Device.phone ) {
-            f7.popup.close('.add-popup');
+        if (Device.phone) {
+            f7.popup.close('#add-link-popup');
         } else {
             f7.popover.close('#add-link-popover');
         }
