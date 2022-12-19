@@ -158,7 +158,8 @@ define([
                 maxheight: undefined,
                 minwidth: 0,
                 minheight: 0,
-                enableKeyEvents: true
+                enableKeyEvents: true,
+                automove: true
         };
 
         var template = '<div class="asc-window<%= modal?" modal":"" %><%= cls?" "+cls:"" %>" id="<%= id %>" style="width:<%= width %>px;">' +
@@ -677,7 +678,6 @@ define([
                     this.$window.find('.header').on('mousedown', this.binding.dragStart);
                     this.$window.find('.tool.close').on('click', _.bind(doclose, this));
                     this.$window.find('.tool.help').on('click', _.bind(dohelp, this));
-                    $(window).on('resize', _.bind(_onResizeMove, this));
                     if (!this.initConfig.modal)
                         Common.Gateway.on('processmouse', _.bind(_onProcessMouse, this));
                 } else {
@@ -761,6 +761,10 @@ define([
                 }
 
                 $(document).on('keydown.' + this.cid, this.binding.keydown);
+                if(this.initConfig.automove){
+                    this.binding.windowresize = _.bind(_onResizeMove, this);
+                    $(window).on('resize', this.binding.windowresize);
+                }
 
                 var me = this;
 
@@ -812,6 +816,7 @@ define([
 
             close: function(suppressevent) {
                 $(document).off('keydown.' + this.cid);
+                this.initConfig.automove && $(window).off('resize', this.binding.windowresize);
                 if ( this.initConfig.header ) {
                     this.$window.find('.header').off('mousedown', this.binding.dragStart);
                 }
@@ -857,6 +862,7 @@ define([
 
             hide: function() {
                 $(document).off('keydown.' + this.cid);
+                this.initConfig.automove && $(window).off('resize', this.binding.windowresize);
                 if (this.$window) {
                     if (this.initConfig.modal) {
                         var mask = _getMask(),

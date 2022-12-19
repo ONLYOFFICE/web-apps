@@ -2932,7 +2932,7 @@ define([
                     this.lockToolbar(Common.enumLock.cantPrint, true, {array: [this.btnPrint]});
             } else {
                 this.mode = mode;
-                !mode.canPrint && this.btnPrint.hide();
+                !mode.canPrint && this.btnPrint && this.btnPrint.hide();
                 this.lockToolbar(Common.enumLock.cantPrint, !mode.canPrint, {array: [this.btnPrint]});
             }
 

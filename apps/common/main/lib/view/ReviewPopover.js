@@ -85,6 +85,7 @@ define([
                 height: 120,
                 header: false,
                 modal: false,
+                automove: false,
                 alias: 'Common.Views.ReviewPopover'
             }, options);
 
