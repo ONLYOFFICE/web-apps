@@ -831,7 +831,7 @@ define([
         updateScroller: function() {
             if (this.scroller) {
                 Common.UI.Menu.Manager.hideAll();
-                var scrolled = this.$el.height()< this.pnlTable.height() + 25 + this.pnlApply.height();
+                var scrolled = this.$el.height()< this.pnlTable.height() + 25 + this.pnlApply.height() + this.$el.find('.header').outerHeight(true);
                 this.pnlApply.toggleClass('hidden', !scrolled);
                 this.trApply.toggleClass('hidden', scrolled);
                 this.pnlSettings.css('overflow', scrolled ? 'hidden' : 'visible');
@@ -2764,13 +2764,6 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 }));
             }
 
-            this.btnsSavePDF = [];
-            for (var i=0; i<2; i++) {
-                this.btnsSavePDF.push(new Common.UI.Button({
-                    el: $markup.findById('#print-btn-save-pdf-'+i)
-                }));
-            }
-
             this.btnPrevPage = new Common.UI.Button({
                 parentEl: $markup.findById('#print-prev-page'),
                 cls: 'btn-prev-page',
@@ -2856,7 +2849,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         updateScroller: function() {
             if (this.scroller) {
                 Common.UI.Menu.Manager.hideAll();
-                var scrolled = this.$el.height()< this.pnlTable.height() + 25 + this.pnlApply.height();
+                var scrolled = this.$el.height()< this.pnlTable.height() + 25 + this.pnlApply.height() + this.$el.find('.main-header').outerHeight(true);
                 this.pnlApply.toggleClass('hidden', !scrolled);
                 this.trApply.toggleClass('hidden', scrolled);
                 this.pnlSettings.css('overflow', scrolled ? 'hidden' : 'visible');
