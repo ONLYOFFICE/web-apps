@@ -2735,12 +2735,39 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
 
             this.btnsSave = [];
             this.btnsPrint = [];
+            if (this.mode.isDesktopApp) {
+                this.btnsPrintPDF = [];
+                for (var i=0; i<2; i++) {
+                    var table =
+                        ['<table>',
+                            '<tr>',
+                                '<td><button id="print-btn-print-<%= index %>" class="btn normal dlg-btn primary btn-text-default auto" result="print" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrint %></button></td>',
+                                '<td><button id="print-btn-print-pdf-<%= index %>" class="btn normal dlg-btn btn-text-default auto" result="save-pdf" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrintToPDF %></button></td>',
+                                '<td><button id="print-btn-save-<%= index %>" class="btn normal dlg-btn btn-text-default auto" result="save" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtSave %></button></td>',
+                            '</tr>', '</table>',
+                        ].join('');
+                    var tableTemplate = _.template(table)({scope: this, index: i});
+                    $($markup.find('.footer')[i]).html(tableTemplate);
+                    this.btnsPrintPDF.push(new Common.UI.Button({
+                        el: $markup.findById('#print-btn-print-pdf-'+i)
+                    }));
+                }
+                $markup.find('.footer').addClass('footer-with-pdf');
+            }
+
             for (var i=0; i<2; i++) {
                 this.btnsSave.push(new Common.UI.Button({
                     el: $markup.findById('#print-btn-save-'+i)
                 }));
                 this.btnsPrint.push(new Common.UI.Button({
                     el: $markup.findById('#print-btn-print-'+i)
+                }));
+            }
+
+            this.btnsSavePDF = [];
+            for (var i=0; i<2; i++) {
+                this.btnsSavePDF.push(new Common.UI.Button({
+                    el: $markup.findById('#print-btn-save-pdf-'+i)
                 }));
             }
 
@@ -2950,6 +2977,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
 
         txtPrint: 'Print',
         txtSave: 'Save',
+        txtPrintToPDF: 'Print to PDF',
         txtPrintRange: 'Print range',
         txtCurrentSheet: 'Current sheet',
         txtActiveSheets: 'Active sheets',

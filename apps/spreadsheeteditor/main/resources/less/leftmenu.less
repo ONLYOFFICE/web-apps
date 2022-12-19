@@ -693,7 +693,7 @@
                     font-weight: 700;
                 }
                 .footer {
-                    .btn.primary {
+                    .btn:not(:last-child) {
                         margin-right: 8px;
                     }
                 }
@@ -726,6 +726,20 @@
                             margin-top: 16px;
                             margin-bottom: 16px;
                         }
+                    }
+                }
+                .footer-with-pdf {
+                    table {
+                        width: 247px;
+                    }
+                    td:not(:last-child) {
+                        padding-right: 5px;
+                    }
+                    .btn-text-default.auto {
+                        padding-left: 3px;
+                        padding-right: 3px;
+                        min-width: 64px;
+                        width: 100%;
                     }
                 }
             }
