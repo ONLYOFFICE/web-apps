@@ -145,9 +145,6 @@ class MainPage extends Component {
         const showPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
         const isBranding = appOptions.canBranding || appOptions.canBrandingExt;
         
-        if ($$('.skl-container').length) {
-            $$('.skl-container').remove();
-        }
 
         return (
             <Page name="home" className={`editor${showLogo ? ' page-with-logo' : ''}`}>
