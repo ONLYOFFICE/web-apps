@@ -222,6 +222,7 @@
     "textAllowOverlap": "Թույլ տալ վերածածկում",
     "textAmountOfLevels": "Մակարդակների չափը",
     "textApril": "Ապրիլ",
+    "textArrange": "Դասավորել",
     "textAugust": "Օգոստոս",
     "textAuto": "Ինքնաշխատ",
     "textAutomatic": "Ինքնաշխատ",
@@ -375,8 +376,7 @@
     "textType": "Տեսակ",
     "textWe": "Չրք",
     "textWrap": "Ծալում",
-    "textWrappingStyle": "Ծալման ոճ",
-    "textArrange": "Arrange"
+    "textWrappingStyle": "Ծալման ոճ"
   },
   "Error": {
     "convertationTimeoutText": "Փոխարկման սպասման ժամանակը սպառվել է։",
@@ -564,7 +564,9 @@
     "warnLicenseUsersExceeded": "Դուք հասել եք %1 խմբագրիչներին միաժամանակ միանալու սահմանափակմանը։Կապվեք Ձեր ադմինիստրատորի հետ՝ ավելին իմանալու համար:",
     "warnNoLicense": "Դուք հասել եք %1 խմբագիրների հետ միաժամանակյա միացումների սահմանաչափին:Այս փաստաթուղթը կբացվի միայն դիտելու համար:նձնական թարմացման պայմանների համար կապվեք %1 վաճառքի թիմի հետ:",
     "warnNoLicenseUsers": "Դուք հասել եք %1 խմբագիրների օգտվողի սահմանաչափին:Անձնական թարմացման պայմանների համար կապվեք %1 վաճառքի թիմի հետ:",
-    "warnProcessRightsChange": "Դուք այս ֆայլը խմբագրելու թույլտվություն չունեք:"
+    "warnProcessRightsChange": "Դուք այս ֆայլը խմբագրելու թույլտվություն չունեք:",
+    "textDocumentProtected": "The document is protected. Edit settings are not available",
+    "textOk": "Ok"
   },
   "Settings": {
     "advDRMOptions": "Պաշտպանված նիշք",

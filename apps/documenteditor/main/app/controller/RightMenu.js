@@ -214,7 +214,7 @@ define([
                 if (!this._settings[Common.Utils.documentSettingsType.MailMerge].locked) // lock MailMerge-InsertField, если хотя бы один объект locked
                     this._settings[Common.Utils.documentSettingsType.MailMerge].locked = value.get_Locked() || isProtected;
                 if (!this._settings[Common.Utils.documentSettingsType.Signature].locked) // lock Signature, если хотя бы один объект locked
-                    this._settings[Common.Utils.documentSettingsType.Signature].locked = value.get_Locked() || isProtected;
+                    this._settings[Common.Utils.documentSettingsType.Signature].locked = value.get_Locked();
             }
 
             if (control_props && control_props.get_FormPr() && this.rightmenu.formSettings) {
@@ -264,6 +264,9 @@ define([
             }
             if (!this._settings[Common.Utils.documentSettingsType.MailMerge].hidden)
                 this._settings[Common.Utils.documentSettingsType.MailMerge].panel.setLocked(this._settings[Common.Utils.documentSettingsType.MailMerge].locked);
+
+            if (!this._settings[Common.Utils.documentSettingsType.Signature].hidden)
+                this._settings[Common.Utils.documentSettingsType.Signature].panel.setProtected(isProtected);
 
             if (!this.rightmenu.minimizedMode || open) {
                 var active;
@@ -428,6 +431,7 @@ define([
             this._settings[type].hidden = disabled ? 1 : 0;
             this._settings[type].btn.setDisabled(disabled);
             this._settings[type].panel.setLocked(this._settings[type].locked);
+            this._settings[type].panel.setProtected(this._state.docProtection ? this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly || this._state.docProtection.isCommentsOnly : false);
         },
 
         SetDisabled: function(disabled, allowMerge, allowSignature) {

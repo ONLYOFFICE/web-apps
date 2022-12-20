@@ -7,7 +7,7 @@ import { withTranslation } from 'react-i18next';
 import EditOptions from '../view/edit/Edit';
 import AddOptions from '../view/add/Add';
 import Settings from '../controller/settings/Settings';
-import Collaboration from '../../../../common/mobile/lib/view/collaboration/Collaboration.jsx'
+import { CollaborationDocument } from '../../../../common/mobile/lib/view/collaboration/Collaboration.jsx'
 import { Device } from '../../../../common/mobile/utils/device'
 import { Search, SearchSettings } from '../controller/Search';
 import ContextMenu from '../controller/ContextMenu';
@@ -149,21 +149,18 @@ class MainPage extends Component {
         return (
             <Page name="home" className={`editor${showLogo ? ' page-with-logo' : ''}`}>
                 {/* Top Navbar */}
-                {config?.customization &&
-                    <Navbar id='editor-navbar'
-                            className={`main-navbar${(!isBranding && showLogo) ? ' navbar-with-logo' : ''}`}>
-                        {(!isBranding && showLogo) &&
-                            <div className="main-logo" onClick={() => {
-                                window.open(`${__PUBLISHER_URL__}`, "_blank");
-                            }}><Icon icon="icon-logo"></Icon></div>}
-                        <Subnavbar>
-                            <Toolbar openOptions={this.handleClickToOpenOptions}
-                                     closeOptions={this.handleOptionsViewClosed}/>
-                            <Search useSuspense={false}/>
-                        </Subnavbar>
-                    </Navbar>
-                }
-
+                <Navbar id='editor-navbar'
+                        className={`main-navbar${(!isBranding && showLogo) ? ' navbar-with-logo' : ''}`}>
+                    {(!isBranding && showLogo) &&
+                        <div className="main-logo" onClick={() => {
+                            window.open(`${__PUBLISHER_URL__}`, "_blank");
+                        }}><Icon icon="icon-logo"></Icon></div>}
+                    <Subnavbar>
+                        <Toolbar openOptions={this.handleClickToOpenOptions}
+                                closeOptions={this.handleOptionsViewClosed}/>
+                        <Search useSuspense={false}/>
+                    </Subnavbar>
+                </Navbar>
 
                 {/* Page content */}
 
@@ -241,8 +238,7 @@ class MainPage extends Component {
                 }
                 {
                     !this.state.collaborationVisible ? null :
-                        <Collaboration onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')}
-                                       page={this.state.collaborationPage}/>
+                        <CollaborationDocument onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} page={this.state.collaborationPage} />
                 }
                 {
                     !this.state.navigationVisible ? null :

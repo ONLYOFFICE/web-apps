@@ -1145,7 +1145,7 @@ define([
                     this._state.GradColor = color;
                 }
 
-                this.chShadow.setDisabled(!!props.get_FromChart());
+                this.chShadow.setDisabled(!!props.get_FromChart() || this._locked);
                 this.chShadow.setValue(!!props.asc_getShadow(), true);
 
                 this._noApply = false;

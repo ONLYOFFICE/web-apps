@@ -93,6 +93,7 @@ define([
             this.api        = options.api;
             this.handler    = options.handler;
             this.isUpdating = options.isUpdating || false;
+            this.canRequestReferenceData = options.canRequestReferenceData || false;
             this.linkStatus = [];
             this.wrapEvents = {
                 onUpdateExternalReferenceList: _.bind(this.refreshList, this)
@@ -122,6 +123,7 @@ define([
                 cls: 'btn-text-split-default auto',
                 caption: this.textUpdate,
                 split: true,
+                visible: !!this.canRequestReferenceData,
                 menu        : new Common.UI.Menu({
                     style: 'min-width:100px;',
                     items: [

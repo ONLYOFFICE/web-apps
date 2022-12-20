@@ -28,7 +28,7 @@ const SharingSettingsController = props => {
                 if (msgData?.needUpdate) {
                     setSharingSettings(msgData.sharingSettings);
                 }
-                f7.views.current.router.back();
+                props.f7router.back();
             }
         }
     };
