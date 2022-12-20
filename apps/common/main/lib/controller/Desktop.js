@@ -45,7 +45,8 @@ define([
         version: '{{PRODUCT_VERSION}}',
         eventloading: true,
         titlebuttons: true,
-        uithemes: true
+        uithemes: true,
+        quickprint: true,
     };
 
     var native = window.desktop || window.AscDesktopEditor;
@@ -166,7 +167,8 @@ define([
                 action: action,
                 icon: config.icon || undefined,
                 hint: config.btn.options.hint,
-                disabled: config.btn.isDisabled()
+                disabled: config.btn.isDisabled(),
+                visible: config.visible,
             };
         };
 
@@ -201,6 +203,7 @@ define([
             if ( !!titlebuttons ) {
                 info.hints = {};
                 !!titlebuttons['print'] && (info.hints['print'] = titlebuttons['print'].btn.btnEl.attr('data-hint-title'));
+                !!titlebuttons['quickprint'] && (info.hints['quickprint'] = titlebuttons['quickprint'].btn.btnEl.attr('data-hint-title'));
                 !!titlebuttons['undo'] && (info.hints['undo'] = titlebuttons['undo'].btn.btnEl.attr('data-hint-title'));
                 !!titlebuttons['redo'] && (info.hints['redo'] = titlebuttons['redo'].btn.btnEl.attr('data-hint-title'));
                 !!titlebuttons['save'] && (info.hints['save'] = titlebuttons['save'].btn.btnEl.attr('data-hint-title'));
@@ -213,6 +216,24 @@ define([
             if ( Common.UI.HintManager.isHintVisible() ) {
                 native.execCommand('althints:keydown', JSON.stringify({code:e.keyCode}));
                 console.log('hint keydown', e.keyCode);
+            }
+        }
+
+        const _onApplySettings = function (menu) {
+            if ( !!titlebuttons.quickprint ) {
+                const var_name = window.SSE ? 'sse-settings-quick-print-button' :
+                                    window.PE ? 'pe-settings-quick-print-button' : 'de-settings-quick-print-button';
+                const is_btn_visible = Common.localStorage.getBool(var_name, false);
+
+                if ( titlebuttons.quickprint.visible != is_btn_visible ) {
+                    titlebuttons.quickprint.visible = is_btn_visible;
+                    const obj = {
+                        visible: {
+                            quickprint: is_btn_visible,
+                        }
+                    };
+                    native.execCommand('title:button', JSON.stringify(obj));
+                }
             }
         }
 
@@ -233,9 +254,45 @@ define([
 
                     Common.NotificationCenter.on('document:ready', function () {
                         if ( config.isEdit ) {
-                            var maincontroller = webapp.getController('Main');
-                            if (maincontroller.api.asc_isReadOnly && maincontroller.api.asc_isReadOnly()) {
-                                maincontroller.warningDocumentIsLocked();
+                            function get_locked_message (t) {
+                                switch (t) {
+                                // case Asc.c_oAscLocalRestrictionType.Nosafe:
+                                case Asc.c_oAscLocalRestrictionType.ReadOnly:
+                                    return Common.Locale.get("tipFileReadOnly",{name:"Common.Translation", default: "Document is read only. You can make changes and save its local copy later."});
+                                default: return Common.Locale.get("tipFileLocked",{name:"Common.Translation", default: "Document is locked for editing. You can make changes and save its local copy later."});
+                                }
+                            }
+
+                            const header = webapp.getController('Viewport').getView('Common.Views.Header');
+                            const api = webapp.getController('Main').api;
+                            const locktype = api.asc_getLocalRestrictions ? api.asc_getLocalRestrictions() : Asc.c_oAscLocalRestrictionType.None;
+                            if ( Asc.c_oAscLocalRestrictionType.None !== locktype ) {
+                                features.readonly = true;
+
+                                header.setDocumentReadOnly(true);
+                                api.asc_setLocalRestrictions(Asc.c_oAscLocalRestrictionType.None);
+
+                                (new Common.UI.SynchronizeTip({
+                                    extCls: 'no-arrow',
+                                    placement: 'bottom',
+                                    target: $('.toolbar'),
+                                    text: get_locked_message(locktype),
+                                    showLink: false,
+                                })).on('closeclick', function () {
+                                    this.close();
+                                }).show();
+
+                                native.execCommand('webapps:features', JSON.stringify(features));
+
+                                api.asc_registerCallback('asc_onDocumentName', function () {
+                                    if ( features.readonly ) {
+                                        if ( api.asc_getLocalRestrictions() == Asc.c_oAscLocalRestrictionType.None ) {
+                                            features.readonly = false;
+                                            header.setDocumentReadOnly(false);
+                                            native.execCommand('webapps:features', JSON.stringify(features));
+                                        }
+                                    }
+                                });
                             }
                         }
                     });
@@ -247,7 +304,7 @@ define([
 
                         titlebuttons = {};
                         if ( mode.isEdit ) {
-                            var header = webapp.getController('Viewport').getView('Common.Views.Header');
+                            const header = webapp.getController('Viewport').getView('Common.Views.Header');
                             if (!!header.btnSave) {
                                 titlebuttons['save'] = {btn: header.btnSave};
 
@@ -257,6 +314,13 @@ define([
 
                             if (!!header.btnPrint)
                                 titlebuttons['print'] = {btn: header.btnPrint};
+
+                            if (!!header.btnPrintQuick) {
+                                titlebuttons['quickprint'] = {
+                                    btn: header.btnPrintQuick,
+                                    visible: header.btnPrintQuick.isVisible(),
+                                };
+                            }
 
                             if (!!header.btnUndo)
                                 titlebuttons['undo'] = {btn: header.btnUndo};
@@ -288,6 +352,7 @@ define([
                     Common.NotificationCenter.on({
                         'modal:show': _onModalDialog.bind(this, 'open'),
                         'modal:close': _onModalDialog.bind(this, 'close'),
+                        'modal:hide': _onModalDialog.bind(this, 'hide'),
                         'uitheme:changed' : function (name) {
                             if (Common.localStorage.getBool('ui-theme-use-system', false)) {
                                 native.execCommand("uitheme:changed", JSON.stringify({name:'theme-system'}));
@@ -312,6 +377,7 @@ define([
                                     menu.hide();
                                 }
                             },
+                            'settings:apply': _onApplySettings.bind(this),
                         },
                     }, {id: 'desktop'});
 
@@ -369,7 +435,10 @@ define([
                 }
 
                 return undefined;
-            }
+            },
+            getDefaultPrinterName: function () {
+                return nativevars ? nativevars.defaultPrinterName : '';
+            },
         };
     };
 
