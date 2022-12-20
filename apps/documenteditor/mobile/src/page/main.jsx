@@ -29,7 +29,8 @@ class MainPage extends Component {
             navigationVisible: false,
             addLinkSettingsVisible: false,
             editLinkSettingsVisible: false,
-            snackbarVisible: false
+            snackbarVisible: false,
+            fabVisible: true
         };
     }
 
@@ -41,80 +42,71 @@ class MainPage extends Component {
 
     handleClickToOpenOptions = (opts, showOpts) => {
         f7.popover.close('.document-menu.modal-in', false);
+    
+        let opened = false;
+        const newState = {};
 
-        setTimeout(() => {
-            let opened = false;
-            const newState = {};
-            if ( opts === 'edit' ) {
-                this.state.editOptionsVisible && (opened = true);
-                newState.editOptionsVisible = true;
-            } else if ( opts === 'add' ) {
-                this.state.addOptionsVisible && (opened = true);
-                newState.addOptionsVisible = true;
-                newState.addShowOptions = showOpts;
-            } else if ( opts === 'settings' ) {
-                this.state.settingsVisible && (opened = true);
-                newState.settingsVisible = true;
-            } else if ( opts === 'coauth' ) {
-                this.state.collaborationVisible && (opened = true);
-                newState.collaborationVisible = true;
-            } else if( opts === 'navigation') {
-                this.state.navigationVisible && (opened = true);
-                newState.navigationVisible = true;
-            } else if ( opts === 'add-link') {
-                this.state.addLinkSettingsVisible && (opened = true);
-                newState.addLinkSettingsVisible = true;
-            } else if( opts === 'edit-link') {
-                this.state.editLinkSettingsVisible && (opened = true);
-                newState.editLinkSettingsVisible = true;
-            } else if( opts === 'snackbar') {
-                this.state.snackbarVisible && (opened = true);
-                newState.snackbarVisible = true;
-            }
+        if (opts === 'edit') {
+            this.state.editOptionsVisible && (opened = true);
+            newState.editOptionsVisible = true;
+        } else if (opts === 'add') {
+            this.state.addOptionsVisible && (opened = true);
+            newState.addOptionsVisible = true;
+            newState.addShowOptions = showOpts;
+        } else if (opts === 'settings') {
+            this.state.settingsVisible && (opened = true);
+            newState.settingsVisible = true;
+        } else if (opts === 'coauth') {
+            this.state.collaborationVisible && (opened = true);
+            newState.collaborationVisible = true;
+        } else if (opts === 'navigation') {
+            this.state.navigationVisible && (opened = true);
+            newState.navigationVisible = true;
+        } else if (opts === 'add-link') {
+            this.state.addLinkSettingsVisible && (opened = true);
+            newState.addLinkSettingsVisible = true;
+        } else if (opts === 'edit-link') {
+            this.state.editLinkSettingsVisible && (opened = true);
+            newState.editLinkSettingsVisible = true;
+        } else if (opts === 'snackbar') {
+            newState.snackbarVisible = true;
+        } else if (opts === 'fab') {
+            newState.fabVisible = true;
+        }
 
-            for (let key in this.state) {
-                if (this.state[key] && !opened) {
-                    setTimeout(() => {
-                        this.handleClickToOpenOptions(opts, showOpts);
-                    }, 10);
-                    return;
-                }
+        if (!opened) {
+            this.setState(newState);
+            if ((opts === 'edit' || opts === 'coauth') && Device.phone) {
+                f7.navbar.hide('.main-navbar');
             }
-
-            if (!opened) {
-                this.setState(newState);
-                if ((opts === 'edit' || opts === 'coauth') && Device.phone) {
-                    f7.navbar.hide('.main-navbar');
-                }
-            }
-        }, 10);
+        }
     };
 
     handleOptionsViewClosed = opts => {
-        setTimeout(() => {
-            this.setState(state => {
-                if ( opts == 'edit' )
-                    return {editOptionsVisible: false};
-                else if ( opts == 'add' )
-                    return {addOptionsVisible: false, addShowOptions: null};
-                else if ( opts == 'settings' )
-                    return {settingsVisible: false};
-                else if ( opts == 'coauth' )
-                    return {collaborationVisible: false};
-                else if( opts == 'navigation')
-                    return {navigationVisible: false};
-                else if ( opts === 'add-link') 
-                    return {addLinkSettingsVisible: false};
-                else if( opts === 'edit-link') 
-                    return {editLinkSettingsVisible: false};
-                else if( opts == 'snackbar')
-                    return {snackbarVisible: false}
-            });
-            if ((opts === 'edit' || opts === 'coauth') && Device.phone) {
-                f7.navbar.show('.main-navbar');
-            }
-        }, 1);
+        this.setState(state => {
+            if (opts == 'edit')
+                return {editOptionsVisible: false};
+            else if (opts == 'add')
+                return {addOptionsVisible: false, addShowOptions: null};
+            else if (opts == 'settings')
+                return {settingsVisible: false};
+            else if (opts == 'coauth')
+                return {collaborationVisible: false};
+            else if (opts == 'navigation')
+                return {navigationVisible: false};
+            else if (opts === 'add-link') 
+                return {addLinkSettingsVisible: false};
+            else if (opts === 'edit-link') 
+                return {editLinkSettingsVisible: false};
+            else if (opts == 'snackbar')
+                return {snackbarVisible: false}
+            else if (opts == 'fab')
+                return {fabVisible: false}
+        });
 
+        if ((opts === 'edit' || opts === 'coauth') && Device.phone) {
+            f7.navbar.show('.main-navbar');
+        }
     };
 
     turnOffViewerMode() {
@@ -124,6 +116,8 @@ class MainPage extends Component {
         appOptions.changeViewerMode();
         api.asc_removeRestriction(Asc.c_oAscRestrictionType.View)
         api.asc_addRestriction(Asc.c_oAscRestrictionType.None);
+
+        f7.navbar.show('.main-navbar');
     };
 
     render() {
@@ -139,8 +133,9 @@ class MainPage extends Component {
         const isMobileView = appOptions.isMobileView;
         const disabledControls = storeToolbarSettings.disabledControls;
         const disabledSettings = storeToolbarSettings.disabledSettings;
-        const config = appOptions.config;
         const isProtected = appOptions.isProtected;
+        const isFabShow = isViewer && !disabledSettings && !disabledControls && !isDisconnected && isAvailableExt && isEdit && !isProtected;
+        const config = appOptions.config;
 
         let showLogo = !(config.customization && (config.customization.loaderName || config.customization.loaderLogo));
         if (!Object.keys(config).length) {
@@ -150,9 +145,6 @@ class MainPage extends Component {
         const showPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
         const isBranding = appOptions.canBranding || appOptions.canBrandingExt;
         
-        if ($$('.skl-container').length) {
-            $$('.skl-container').remove();
-        }
 
         return (
             <Page name="home" className={`editor${showLogo ? ' page-with-logo' : ''}`}>
@@ -203,8 +195,25 @@ class MainPage extends Component {
                 }
 
                 {/* {
-                  Device.phone ? null : <SearchSettings />
-              } */}
+                    Device.phone ? null : <SearchSettings />
+                } */}
+                <CSSTransition
+                    in={this.state.snackbarVisible}
+                    timeout={1500}
+                    classNames="snackbar"
+                    mountOnEnter
+                    unmountOnExit
+                    onEntered={(node, isAppearing) => {
+                        if(!isAppearing) {
+                            this.setState({
+                                snackbarVisible: false
+                            });
+                        }
+                    }}
+                >
+                    <Snackbar
+                        text={isMobileView ? t("Toolbar.textSwitchedMobileView") : t("Toolbar.textSwitchedStandardView")}/>
+                </CSSTransition>
                 <SearchSettings useSuspense={false}/>
                 {
                     !this.state.editOptionsVisible ? null :
@@ -235,23 +244,18 @@ class MainPage extends Component {
                     !this.state.navigationVisible ? null :
                         <NavigationController onclosed={this.handleOptionsViewClosed.bind(this, 'navigation')}/>
                 }
-                {
+                {isFabShow &&
                     <CSSTransition
-                        in={this.state.snackbarVisible}
+                        in={this.state.fabVisible}
                         timeout={500}
-                        classNames="snackbar"
+                        classNames="fab"
                         mountOnEnter
                         unmountOnExit
                     >
-                        <Snackbar
-                            text={isMobileView ? t("Toolbar.textSwitchedMobileView") : t("Toolbar.textSwitchedStandardView")}/>
+                        <Fab position="right-bottom" slot="fixed" onClick={() => this.turnOffViewerMode()}>
+                            <Icon icon="icon-edit-mode"/>
+                        </Fab>
                     </CSSTransition>
-                }
-                {isViewer && !disabledSettings && !disabledControls && !isDisconnected && isAvailableExt && isEdit && !isProtected &&
-                    <Fab position="right-bottom" slot="fixed" onClick={() => this.turnOffViewerMode()}>
-                        <Icon icon="icon-edit-mode"/>
-                    </Fab>
-
                 }
                 {appOptions.isDocReady && <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)}/>}
             </Page>
