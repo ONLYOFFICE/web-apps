@@ -2,20 +2,23 @@
 // @common-image-path - defined in webpack config
 
 .about {
-    padding-bottom: 30px;
-
     .page-content {
         text-align: center /*rtl:ignore*/;
         display: flex;
         flex-direction: column;
     }
 
-    &_phone {
-        padding-top: 178px;
+    &_phoneIos {
+        padding-top: 120px;
+        padding-bottom: 30px;
+    }
+
+    &_phoneAndroid {
+        padding-top: 60px;
+        padding-bottom: 16px;
     }
 
     &_tablet {
-        // padding-top: 104px;
         padding-top: 12px;
         padding-bottom: 12px;
     } 
