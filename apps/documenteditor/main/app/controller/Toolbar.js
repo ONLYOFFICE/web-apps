@@ -855,9 +855,6 @@ define([
             (lock_type===undefined) && (lock_type = Asc.c_oAscSdtLockType.Unlocked);
             var content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
             var if_form = control_props && control_props.get_FormPr();
-            var hasParagraphInForm = if_form && selectedObjects.some(function(item) {
-                return item.get_ObjectType() == Asc.c_oAscTypeSelectElement.Paragraph;
-            });
 
             if (!toolbar.btnContentControls.isDisabled()) {
                 var control_disable = control_plain || content_locked;
@@ -867,22 +864,12 @@ define([
                 toolbar.btnContentControls.menu.items[10].setDisabled(!in_control || if_form);
             }
 
-            if (if_form && if_form.get_Fixed() && hasParagraphInForm) {                
-                toolbar.btnAlignLeft.setDisabled(true);
-                toolbar.btnAlignCenter.setDisabled(true);
-                toolbar.btnAlignRight.setDisabled(true);
-                toolbar.btnAlignJust.setDisabled(true);
-
-                toolbar.btnMarkers.setDisabled(true);
-                toolbar.btnNumbers.setDisabled(true);
-                toolbar.btnMultilevels.setDisabled(true);
-
-                toolbar.btnDecLeftOffset.setDisabled(true);
-                toolbar.btnIncLeftOffset.setDisabled(true);
-
-                toolbar.btnLineSpace.setDisabled(true);
-            }
-
+            this.toolbar.lockToolbar(Common.enumLock.fixedForm, if_form && if_form.get_Fixed() && in_para, {array: [
+                toolbar.btnAlignLeft, toolbar.btnAlignCenter, toolbar.btnAlignRight, toolbar.btnAlignJust,
+                toolbar.btnMarkers, toolbar.btnNumbers, toolbar.btnMultilevels,
+                toolbar.btnDecLeftOffset, toolbar.btnIncLeftOffset,
+                toolbar.btnLineSpace
+            ]});  
             this.toolbar.lockToolbar(Common.enumLock.controlPlain, control_plain, {array: [toolbar.btnInsertTable, toolbar.btnInsertImage,  toolbar.btnInsertChart,  toolbar.btnInsertText, toolbar.btnInsertTextArt,
                                                                                 toolbar.btnInsertShape, toolbar.btnInsertSmartArt, toolbar.btnInsertEquation, toolbar.btnDropCap, toolbar.btnColumns, toolbar.mnuInsertPageNum ]});
             if (enable_dropcap && frame_pr) {
