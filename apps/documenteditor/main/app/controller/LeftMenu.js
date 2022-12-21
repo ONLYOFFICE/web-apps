@@ -602,7 +602,7 @@ define([
         },
 
         updatePreviewMode: function() {
-            var viewmode = this._state.disableEditing || this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly;
+            var viewmode = this._state.disableEditing || this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly || this._state.docProtection.isCommentsOnly;
             if (this.viewmode === viewmode) return;
             this.viewmode = viewmode;
 
