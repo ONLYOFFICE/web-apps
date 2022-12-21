@@ -251,7 +251,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(observer(props =>
                         onClick: function () {
                             let s = $$('input[name="modal-sheet-name"]').val(),
                                 wc = api.asc_getWorksheetsCount(), items = [],
-                                err = !s.trim().length ? _t.textErrNotEmpty : ((s.length > 2 && s[0] == '"' && s[s.length-1] == '"' || !/[:\\\/\*\?\[\]\']/.test(s)) ? null : _t.textErrNameWrongChar);
+                                err = !s.trim().length ? _t.textErrNotEmpty : ((!/^(\')|[:\\\/\*\?\[\]]|(\')$/.test(s)) ? null : _t.textErrNameWrongChar);
                             if (!err) {
                                 while (wc--) {
                                     if (sindex !== wc) {

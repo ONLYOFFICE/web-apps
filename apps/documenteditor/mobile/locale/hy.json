@@ -238,6 +238,7 @@
     "textCancel": "Չեղարկել",
     "textCellMargins": "Վանդակի լուսանցքներ",
     "textCentered": "Կենտրոնացված",
+    "textChangeShape": "Փոխել ձևը",
     "textChart": "Գծապատկեր",
     "textClassic": "Դասական",
     "textClose": "Փակել",
@@ -246,7 +247,10 @@
     "textCreateTextStyle": "Ստեղծել նոր տեքստի ոճ",
     "textCurrent": "Ընթացիկ",
     "textCustomColor": "Հարմարեցված գույն",
+    "textCustomStyle": "Հարմարեցված ոճ",
     "textDecember": "Դեկտեմբեր",
+    "textDeleteImage": "Ջնջել պատկերը",
+    "textDeleteLink": "Ջնջել հղումը",
     "textDesign": "Ձևավորում",
     "textDifferentFirstPage": "Տարբեր առաջին էջ",
     "textDifferentOddAndEvenPages": "Կենտ ու զույգ էջերը՝ տարբեր",
@@ -327,7 +331,6 @@
     "textRemoveShape": "Հեռացնել պատկերը",
     "textRemoveTable": "Հեռացնել աղյուսակը",
     "textRemoveTableContent": "Հեռացնել բովանդակության ցանկը",
-    "textReorder": "Վերադասավորել",
     "textRepeatAsHeaderRow": "Կրկնել որպես գլխամասի տող",
     "textReplace": "Փոխարինել",
     "textReplaceImage": "Փոխարինել նկարը",
@@ -373,10 +376,7 @@
     "textWe": "Չրք",
     "textWrap": "Ծալում",
     "textWrappingStyle": "Ծալման ոճ",
-    "textChangeShape": "Change Shape",
-    "textCustomStyle": "Custom Style",
-    "textDeleteImage": "Delete Image",
-    "textDeleteLink": "Delete Link"
+    "textArrange": "Arrange"
   },
   "Error": {
     "convertationTimeoutText": "Փոխարկման սպասման ժամանակը սպառվել է։",
@@ -395,6 +395,11 @@
     "errorEmptyTOC": "Սկսել ստեղծել բովանդակության աղյուսակ՝ կիրառելով վերնագրի ոճը ոճերի սրահից ընտրված տեքստում:",
     "errorFilePassProtect": "Ֆայլը պաշտպանված է գաղտնաբառով և հնարավոր չէ բացել:",
     "errorFileSizeExceed": "Ֆայլի չափը գերազանցում է ձեր սերվերի սահմանաչափը:Խնդրում ենք կապվել Ձեր ադմինիստրատորի հետ:",
+    "errorInconsistentExt": "Ֆայլը բացելիս սխալ է տեղի ունեցել:<br>Ֆայլի բովանդակությունը չի համապատասխանում ֆայլի ընդլայնմանը:",
+    "errorInconsistentExtDocx": "Ֆայլը բացելիս սխալ է տեղի ունեցել:<br>Ֆայլի բովանդակությունը համապատասխանում է տեքստային փաստաթղթերին (օրինակ՝ docx), սակայն ֆայլն ունի անհամապատասխան ընդլայնում՝ %1:",
+    "errorInconsistentExtPdf": "Ֆայլը բացելիս սխալ է տեղի ունեցել:Ֆայլի բովանդակությունը համապատասխանում է հետևյալ ձևաչափերից մեկին՝pdf/djvu/xps/oxps,բայց ֆայլն ունի անհամապատասխան ընդլայնում. %1:",
+    "errorInconsistentExtPptx": "Ֆայլը բացելիս սխալ է տեղի ունեցել:<br>Ֆայլի բովանդակությունը համապատասխանում է ներկայացումներին (օրինակ՝ pptx), սակայն ֆայլն ունի անհամապատասխան ընդլայնում. %1:",
+    "errorInconsistentExtXlsx": "Ֆայլը բացելիս սխալ է տեղի ունեցել:<br>Ֆայլի բովանդակությունը համապատասխանում է աղյուսակներին (օր. xlsx), սակայն ֆայլն ունի անհամապատասխան ընդլայնում. %1:",
     "errorKeyEncrypt": "Բանալու անհայտ նկարագրիչ",
     "errorKeyExpire": "Բանալու նկարագրիչի ժամկետը սպառվել է",
     "errorLoadingFont": "Տառատեսակները բեռնված չեն:<br>Խնդրում ենք կապվել ձեր փաստաթղթերի սերվերի ադմինիստրատորի հետ:",
@@ -406,6 +411,8 @@
     "errorSessionToken": "Սերվերի հետ կապն ընդհատվել է:Խնդրում ենք վերաբեռնել էջը:",
     "errorStockChart": "Սխալ տողերի հերթականություն:Տվյալների տատանման գծապատկեր կառուցելու համար տվյալները թերթիկի վրա տեղադրեք հետևյալ հաջորդականությամբ.<br> Բացման գին,առավելագույն գին,նվազագույն գին, փակման գին։",
     "errorTextFormWrongFormat": "Մուտքագրված արժեքը չի համապատասխանում դաշտի ձևաչափին:",
+    "errorToken": "Փաստաթղթի անվտանգության կտրոնը ճիշտ չի ձևակերպված։<br>Դիմեք փաստաթղթերի սպասարկիչի ձեր վարիչին։",
+    "errorTokenExpire": "Փաստաթղթի անվտանգության կտրոնի ժամկետն անցել է։<br>Դիմեք փաստաթղթերի սպասարկիչի ձեր վարիչին։",
     "errorUpdateVersionOnDisconnect": "Կապը վերահաստատվել է,և ֆայլի տարբերակը փոխվել է։<br>Նախքան աշխատանքը շարունակելը ներբեռնեք ֆայլը կամ պատճենեք դրա պարունակությունը՝ վստահ լինելու, որ ոչինչ չի կորել, և ապա նորից բեռնեք այս էջը։",
     "errorUserDrop": "Հնարավոր չէ մուտք գործել ֆայլ այս պահին:",
     "errorUsersExceed": "Օգտատերերի՝ սակագնային պլանով թույլատրված քանակը գերազանցվել է։",
@@ -420,16 +427,12 @@
     "unknownErrorText": "Անհայտ սխալ։",
     "uploadImageExtMessage": "Նկարի անհայտ ձևաչափ։",
     "uploadImageFileCountMessage": "Ոչ մի նկար չի բեռնվել։",
-    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:",
-    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
-    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension."
+    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:"
   },
   "LongActions": {
     "applyChangesTextText": "Տվյալների բեռնում...",
     "applyChangesTitleText": "Տվյալների բեռնում",
+    "confirmMaxChangesSize": "Գործողությունների չափը գերազանցում է Ձեր սերվերի համար սահմանված սահմանափակումը:<br>Սեղմեք «Հետարկել»՝ Ձեր վերջին գործողությունը չեղարկելու համար կամ սեղմեք «Շարունակել»՝ գործողությունը տեղում պահելու համար (Դուք պետք է ներբեռնեք ֆայլը կամ պատճենեք դրա բովանդակությունը՝ համոզվելու համար, որ ոչինչ կորած չէ):",
     "downloadMergeText": "Ներբեռնում...",
     "downloadMergeTitle": "Ներբեռնում",
     "downloadTextText": "Փաստաթղթի ներբեռնում...",
@@ -462,8 +465,7 @@
     "txtEditingMode": "Սահմանել ցուցակի խմբագրում․․․",
     "uploadImageTextText": "Նկարի վերբեռնում...",
     "uploadImageTitleText": "Նկարի վերբեռնում",
-    "waitText": "Խնդրում ենք սպասել...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost)."
+    "waitText": "Խնդրում ենք սպասել..."
   },
   "Main": {
     "criticalErrorTitle": "Սխալ",

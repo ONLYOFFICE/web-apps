@@ -151,6 +151,10 @@ define([
                         var _main = this.getApplication().getController('Main');
                         _main.onPrint();
                     },
+                    'print-quick': function (opts) {
+                        var _main = this.getApplication().getController('Main');
+                        _main.onPrintQuick();
+                    },
                     'save': function (opts) {
                         this.api.asc_Save();
                     },
@@ -1079,9 +1083,7 @@ define([
         },
         
         onPrint: function(e) {
-            if (this.api)
-                this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isOpera == true use asc_onPrintUrl event
-
+            Common.NotificationCenter.trigger('file:print', this.toolbar);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
 
             Common.component.Analytics.trackEvent('Print');
@@ -2250,7 +2252,6 @@ define([
                         parentMenu: menu.items[i].menu,
                         store: equationsStore.at(i).get('groupStore'),
                         scrollAlwaysVisible: true,
-                        restoreHeight: 10000,
                         itemTemplate: _.template(
                             '<div class="item-equation">' +
                                 '<div class="equation-icon" style="background-position:<%= posX %>px <%= posY %>px;width:<%= width %>px;height:<%= height %>px;" id="<%= id %>"></div>' +

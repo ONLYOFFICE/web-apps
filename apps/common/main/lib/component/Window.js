@@ -158,7 +158,8 @@ define([
                 maxheight: undefined,
                 minwidth: 0,
                 minheight: 0,
-                enableKeyEvents: true
+                enableKeyEvents: true,
+                automove: true
         };
 
         var template = '<div class="asc-window<%= modal?" modal":"" %><%= cls?" "+cls:"" %>" id="<%= id %>" style="width:<%= width %>px;">' +
@@ -265,8 +266,10 @@ define([
             var top  = main_geometry.top + Math.floor((parseInt(main_height) - parseInt(win_height)) / 2);
             var left = Math.floor((parseInt(main_width) - parseInt(win_width)) / 2);
 
-            this.$window.css('left',left);
-            this.$window.css('top',top);
+            this.$window.css({
+                left: left < 0 ? 0 : left,
+                top: top < 0 ? 0 : top
+            });
         }
 
         function _setVisible() {
@@ -355,6 +358,23 @@ define([
             }
         }
 
+        function _onResizeMove(){
+            var main_geometry = _readDocumetGeometry(),
+                main_width = main_geometry.width,
+                main_height = main_geometry.height,
+                win_height = this.getHeight(),
+                win_width = this.getWidth(),
+                top = this.getTop(),
+                left = this.getLeft();
+
+            top = top + win_height > main_height ? main_height - win_height : top;
+            left = left + win_width > main_width ? main_width - win_width : left;
+
+            this.$window.css({
+                left: left < 0 ? 0 : left,
+                top: top < 0 ? 0 : top
+            });
+        }
 
         /* window resize functions */
         function _resizestart(event) {
@@ -658,7 +678,6 @@ define([
                     this.$window.find('.header').on('mousedown', this.binding.dragStart);
                     this.$window.find('.tool.close').on('click', _.bind(doclose, this));
                     this.$window.find('.tool.help').on('click', _.bind(dohelp, this));
-
                     if (!this.initConfig.modal)
                         Common.Gateway.on('processmouse', _.bind(_onProcessMouse, this));
                 } else {
@@ -742,6 +761,10 @@ define([
                 }
 
                 $(document).on('keydown.' + this.cid, this.binding.keydown);
+                if(this.initConfig.automove){
+                    this.binding.windowresize = _.bind(_onResizeMove, this);
+                    $(window).on('resize', this.binding.windowresize);
+                }
 
                 var me = this;
 
@@ -793,6 +816,7 @@ define([
 
             close: function(suppressevent) {
                 $(document).off('keydown.' + this.cid);
+                this.initConfig.automove && $(window).off('resize', this.binding.windowresize);
                 if ( this.initConfig.header ) {
                     this.$window.find('.header').off('mousedown', this.binding.dragStart);
                 }
@@ -838,6 +862,7 @@ define([
 
             hide: function() {
                 $(document).off('keydown.' + this.cid);
+                this.initConfig.automove && $(window).off('resize', this.binding.windowresize);
                 if (this.$window) {
                     if (this.initConfig.modal) {
                         var mask = _getMask(),

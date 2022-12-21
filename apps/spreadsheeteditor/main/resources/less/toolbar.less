@@ -68,7 +68,6 @@
     border-radius: 0;
     padding: 3px 10px;
     color: #ffffff;
-    //font: 11px arial;
     .font-size-normal();
     pointer-events: none;
     white-space: nowrap;
@@ -123,6 +122,9 @@
     padding: 4px;
     .separator {
         height: 20px;
+    }
+    &.has-open-menu {
+        z-index: @zindex-navbar + 1;
     }
 }
 

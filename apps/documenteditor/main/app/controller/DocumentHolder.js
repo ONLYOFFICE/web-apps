@@ -427,6 +427,7 @@ define([
             view.menuParaTOCSettings.on('click', _.bind(me.onParaTOCSettings, me));
             view.menuTableEquation.menu.on('item:click', _.bind(me.convertEquation, me));
             view.menuParagraphEquation.menu.on('item:click', _.bind(me.convertEquation, me));
+            view.menuSaveAsPicture.on('click', _.bind(me.saveAsPicture, me));
 
             me.onChangeProtectDocument();
         },
@@ -1283,15 +1284,11 @@ define([
                     handler: function(dlg, result) {
                         if (result == 'ok') {
                             var props = dlg.getSettings();
-                            var mnu = DE.getController('Toolbar').toolbar.btnPageMargins.menu.items[0];
-                            mnu.setVisible(true);
-                            mnu.setChecked(true);
-                            mnu.options.value = mnu.value = [props.get_TopMargin(), props.get_LeftMargin(), props.get_BottomMargin(), props.get_RightMargin()];
-                            $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
                             Common.localStorage.setItem("de-pgmargins-top", props.get_TopMargin());
                             Common.localStorage.setItem("de-pgmargins-left", props.get_LeftMargin());
                             Common.localStorage.setItem("de-pgmargins-bottom", props.get_BottomMargin());
                             Common.localStorage.setItem("de-pgmargins-right", props.get_RightMargin());
+                            Common.NotificationCenter.trigger('margins:update', props);
 
                             me.api.asc_SetSectionProps(props);
                             me.editComplete();
@@ -2367,7 +2364,7 @@ define([
                         store: group.get('groupStore'),
                         scrollAlwaysVisible: true,
                         showLast: false,
-                        restoreHeight: 10000,
+                        restoreHeight: 450,
                         itemTemplate: _.template(
                             '<div class="item-equation" style="" >' +
                             '<div class="equation-icon" style="background-position:<%= posX %>px <%= posY %>px;width:<%= width %>px;height:<%= height %>px;" id="<%= id %>"></div>' +
@@ -2380,6 +2377,12 @@ define([
                         }
                     });
                     menu.off('show:before', onShowBefore);
+                };
+                var bringForward = function (menu) {
+                    eqContainer.addClass('has-open-menu');
+                };
+                var sendBackward = function (menu) {
+                    eqContainer.removeClass('has-open-menu');
                 };
                 for (var i = 0; i < equationsStore.length; ++i) {
                     var equationGroup = equationsStore.at(i);
@@ -2399,6 +2402,8 @@ define([
                         })
                     });
                     btn.menu.on('show:before', onShowBefore);
+                    btn.menu.on('show:before', bringForward);
+                    btn.menu.on('hide:after', sendBackward);
                     me.equationBtns.push(btn);
                 }
 
@@ -2430,8 +2435,14 @@ define([
                 showPoint[1] = bounds[3] + 10;
                 !Common.Utils.InternalSettings.get("de-hidden-rulers") && (showPoint[1] -= 26);
             }
-            eqContainer.css({left: showPoint[0], top : Math.min(this._Height - eqContainer.outerHeight(), Math.max(0, showPoint[1]))});
-            // menu.menuAlign = validation ? 'tr-br' : 'tl-bl';
+            showPoint[1] = Math.min(me._Height - eqContainer.outerHeight(), Math.max(0, showPoint[1]));
+            eqContainer.css({left: showPoint[0], top : showPoint[1]});
+
+            var menuAlign = (me._Height - showPoint[1] - eqContainer.outerHeight() < 220) ? 'bl-tl' : 'tl-bl';
+            me.equationBtns.forEach(function(item){
+                item && (item.menu.menuAlign = menuAlign);
+            });
+            me.equationSettingsBtn.menu.menuAlign = menuAlign;
             if (eqContainer.is(':visible')) {
                 if (me.equationSettingsBtn.menu.isVisible()) {
                     me.equationSettingsBtn.menu.options.initMenu();
@@ -2471,6 +2482,12 @@ define([
                     this.api.asc_ConvertMathView(item.value.linear, item.value.all);
                 else if (item.options.type=='mode')
                     this.api.asc_ConvertMathDisplayMode(item.checked);
+            }
+        },
+
+        saveAsPicture: function() {
+            if(this.api) {
+                this.api.asc_SaveDrawingAsPicture();
             }
         },
 

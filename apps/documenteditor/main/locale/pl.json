@@ -1405,6 +1405,8 @@
   "DE.Views.DateTimeDialog.textLang": "Język",
   "DE.Views.DateTimeDialog.textUpdate": "Aktualizuj automatycznie",
   "DE.Views.DateTimeDialog.txtTitle": "Data i czas",
+  "DE.Views.DocProtection.hintProtectDoc": "Chroń dokument",
+  "DE.Views.DocProtection.txtProtectDoc": "Chroń dokument",
   "DE.Views.DocumentHolder.aboveText": "Powyżej",
   "DE.Views.DocumentHolder.addCommentText": "Dodaj komentarz",
   "DE.Views.DocumentHolder.advancedDropCapText": "Inicjały Ustawienia",

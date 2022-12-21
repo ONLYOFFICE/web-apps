@@ -54,7 +54,8 @@ define([
             var _options = {};
             _.extend(_options,  {
                 header: true,
-                enableKeyEvents: false
+                enableKeyEvents: false,
+                automove: false
             }, options);
 
             var header_footer = (_options.buttons && _.size(_options.buttons)>0) ? 85 : 34;

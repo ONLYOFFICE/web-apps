@@ -148,9 +148,6 @@
                         reviewDisplay: 'original', // original for viewer, markup for editor
                         trackChanges: undefined // true/false - open editor with track changes mode on/off,
                     },
-                    font: {
-                        size: 11px;
-                    },
                     layout: { // hide elements, but don't disable feature
                         toolbar: {
                             file: { // menu file
@@ -195,6 +192,10 @@
                             mode: false/true // init value in de/pe
                             change: false/true // hide/show feature in de/pe/sse
                         } / false / true // if false/true - use as init value in de/pe. use instead of customization.spellcheck parameter
+                    },
+                    font: {
+                        name: "Arial",
+                        size: "11px";
                     },
                     chat: true,
                     comments: true,
