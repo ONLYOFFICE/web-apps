@@ -32,7 +32,7 @@ const PageAbout = props => {
     const nameEditor = (_t.textEditor || editors[editorType]).toUpperCase();
 
     return (
-        <Page className={"about" + (!Device.phone ? " about_tablet" : Device.ios ? " about_phoneIos" : " about_phoneAndroid")}>
+        <Page className={"about" + (!Device.phone ? " about_tablet" : Device.ios ? " about_ios" : " about_android")}>
             <Navbar title={_t.textAbout} backLink={_t.textBack} />
             {licInfo && typeof licInfo == 'object' && typeof(customer) == 'object' ? (
                 <Fragment>
