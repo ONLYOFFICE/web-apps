@@ -1045,7 +1045,7 @@ define([
                     if (!item.asc_getView())
                         length++;
                 });
-                Common.Utils.lockControls(Common.enumLock.hasCoeditingUsers, length>1, {array: [this.view.btnCompare]});
+                Common.Utils.lockControls(Common.enumLock.hasCoeditingUsers, length>1, {array: [this.view.btnCompare, this.view.btnCombine]});
             }
         },
 
