@@ -47,7 +47,7 @@
         &:extend(.dropdown-menu > li > a);
         padding-top: 4px;
         cursor: pointer;
-        font-size: 13px;
+        .font-size-large();
 
         &:hover {
           text-decoration: none;
@@ -92,7 +92,7 @@
       margin: 30px 0 0 10px;
 
       .header {
-        font-size: 16px;
+        .font-size-very-huge();
         margin-bottom: 20px;
       }
 
@@ -228,21 +228,24 @@
 #panel-settings {
   .header {
     margin: 30px 0 16px 30px;
-    font-size: 16px;
+    .font-size-very-huge();
   }
 
   table {
     width: auto !important;
     tr {
       td {
+        label{
+          .font-size-normal();
+        }
+
         padding: 6px 10px;
         &.group-name label {
-          font-size: 14px;
+          .font-size-huge();
           .font-weight-bold();
         }
 
         &.subgroup-name label{
-          font-size: 11px;
           .font-weight-bold();
         }
 
@@ -256,7 +259,7 @@
          width: 30%;
          label {
            .font-weight-bold();
-           font-size: 12px;
+           .font-size-medium();
          }
       }
 
@@ -279,7 +282,7 @@
 
 #panel-createnew {
   .header {
-    font-size: 16px;
+    .font-size-very-huge();
     padding: 0 0 0 10px;
     white-space: nowrap;
     margin-top: 30px;
@@ -314,7 +317,7 @@
 
       .title {
         width: 104px;
-        font-size: 12px;
+        .font-size-medium();
         line-height: 14px;
         height: 28px;
         margin: 8px 8px 12px 8px;
@@ -348,7 +351,7 @@
 
   .header {
     margin: 30px 0 20px 10px;
-    font-size: 16px;
+    .font-size-very-huge();
   }
 
   .item {
@@ -360,7 +363,7 @@
   .recent-wrap {
     padding: 5px 10px;
     cursor: pointer;
-    font-size: 12px;
+    .font-size-medium();
 
     &:hover,
     &.over {
@@ -418,7 +421,7 @@
       width: 100%;
       .box-shadow(none);
       margin: 0;
-      font-size: 12px;
+      .font-size-medium();
       float: none;
 
       &:not(.header-name) {
@@ -443,7 +446,7 @@
 
     .header-name {
       padding: 16px 2px 4px 10px;
-      font-size: 12px;
+      .font-size-medium();
     }
   }
 }
@@ -455,14 +458,14 @@
 
   .header {
     margin: 30px 0 20px 0;
-    font-size: 16px;
+    .font-size-very-huge();
   }
 }
 
 #panel-info {
   .header {
     margin: 30px 0 20px 30px;
-    font-size: 16px;
+    .font-size-very-huge();
   }
 }
 
@@ -511,7 +514,7 @@
   }
 
   label, span {
-    font-size: 12px;
+    .font-size-medium();
   }
 
   .tool {
@@ -555,7 +558,7 @@
 
 #panel-protect {
   label {
-    font-size: 12px;
+    .font-size-medium();
   }
 
   #file-menu-panel & {
@@ -594,7 +597,7 @@
   }
 
   #id-fms-lbl-protect-header {
-    font-size: 16px;
+    .font-size-very-huge();
   }
 
   .btn-text-default.auto {
@@ -607,7 +610,7 @@
   #panel-print {
     padding: 0;
     .main-header {
-      font-size: 16px;
+      .font-size-very-huge();
       margin: 18px 0 20px 0;
     }
     #id-print-settings {

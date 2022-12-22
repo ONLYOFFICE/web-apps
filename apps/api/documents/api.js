@@ -195,6 +195,7 @@
                     },
                     font: {
                         name: "Arial",
+                        size: "11px";
                     },
                     chat: true,
                     comments: true,

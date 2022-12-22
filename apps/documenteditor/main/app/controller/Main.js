@@ -391,6 +391,11 @@ define([
                         }
                         document.documentElement.style.setProperty("--font-family-base-custom", arr.join(','));
                     }
+
+                    if (this.appOptions.customization.font.size) {
+                        var size = parseInt(this.appOptions.customization.font.size);
+                        !isNaN(size) && document.documentElement.style.setProperty("--font-size-base-app-custom", size + "px");
+                    }
                 }
 
                 this.editorConfig.user          =
@@ -1432,7 +1437,7 @@ define([
                     }
                 } else if (!this.appOptions.isDesktopApp && !this.appOptions.canBrandingExt &&
                             this.editorConfig && this.editorConfig.customization && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo ||
-                                                                                     this.editorConfig.customization.font && this.editorConfig.customization.font.name)) {
+                            this.editorConfig.customization.font && (this.editorConfig.customization.font.size || this.editorConfig.customization.font.name))) {
                     Common.UI.warning({
                         title: this.textPaidFeature,
                         msg  : this.textCustomLoader,

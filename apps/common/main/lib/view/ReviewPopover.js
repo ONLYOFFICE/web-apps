@@ -513,6 +513,7 @@ define([
                     this.emailMenu = new Common.UI.Menu({
                         maxHeight: 200,
                         cyclic: false,
+                        cls: 'font-size-medium',
                         items: []
                     }).on('render:after', function(mnu) {
                         this.scroller = new Common.UI.Scroller({
@@ -1254,7 +1255,7 @@ define([
                             return (item.email && 0 === item.email.toLowerCase().indexOf(str) || item.name && 0 === item.name.toLowerCase().indexOf(str))
                         });
                     }
-                    var tpl = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" style="font-size: 12px;">' +
+                    var tpl = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem">' +
                                             '<div style="overflow: hidden; text-overflow: ellipsis; max-width: 195px;"><%= Common.Utils.String.htmlEncode(caption) %></div>' +
                                             '<div style="overflow: hidden; text-overflow: ellipsis; max-width: 195px; color: #909090;"><%= Common.Utils.String.htmlEncode(options.value) %></div>' +
                                         '</a>'),

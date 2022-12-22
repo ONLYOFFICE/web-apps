@@ -94,6 +94,10 @@
         }
     }
 
+    .caption {
+        .font-size-normal();
+    }
+
     &.icon-top {
         display: inline-flex;
         flex-direction: column;
@@ -483,6 +487,7 @@
     display: block;
     position: relative;
     .border-radius(0);
+    .font-size-normal();
     .font-weight-bold();
     background-color: transparent;
 
@@ -804,6 +809,7 @@
     border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
     .border-radius(@border-radius-small);
+    .font-size-normal();
 
     &.auto {
         width: auto;
@@ -1070,6 +1076,7 @@
 // ------------------------
 
 .dlg-btn {
+    .font-size-normal();
     .font-weight-bold();
     width: 86px;
     color: @text-normal-ie;
