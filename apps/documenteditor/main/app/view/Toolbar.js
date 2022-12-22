@@ -116,6 +116,7 @@ define([
         noObjectSelected:  'no-object',
         lostConnect:    'disconnect',
         disableOnStart: 'on-start',
+        formsNoRoles: 'no-roles',
         complexForm:    'complex-form'
     };
     for (var key in enumLock) {

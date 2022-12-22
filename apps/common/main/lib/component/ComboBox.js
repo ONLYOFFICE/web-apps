@@ -311,7 +311,10 @@ define([
                 var $list = this.cmpEl.find('ul');
                 if ($list.hasClass('menu-absolute')) {
                     var offset = this.cmpEl.offset();
-                    $list.css({left: offset.left, top: offset.top + this.cmpEl.outerHeight() + 2});
+                    var left = offset.left;
+                    if (left + $list.outerWidth()>Common.Utils.innerWidth())
+                        left += (this.cmpEl.outerWidth() - $list.outerWidth());
+                    $list.css({left: left, top: offset.top + this.cmpEl.outerHeight() + 2});
                 } else if ($list.hasClass('menu-aligned')) {
                     var offset = this.cmpEl.offset();
                     $list.toggleClass('show-top', offset.top + this.cmpEl.outerHeight() + $list.outerHeight() > Common.Utils.innerHeight());

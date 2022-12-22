@@ -716,6 +716,14 @@ define([
                 }
             },
 
+            getChecked: function() {
+                for (var i=0; i<this.items.length; i++) {
+                    var item = this.items[i];
+                    if (item.isChecked && item.isChecked())
+                        return item;
+                }
+            },
+
             clearAll: function() {
                 _.each(this.items, function(item){
                     if (item.setChecked)
