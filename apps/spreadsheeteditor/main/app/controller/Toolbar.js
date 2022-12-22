@@ -1213,6 +1213,9 @@ define([
                                 case Asc.c_oAscError.ID.ComboSeriesError:
                                     msg = me.errorComboSeries;
                                     break;
+                                case Asc.c_oAscError.ID.MaxDataPointsError:
+                                    msg = me.errorMaxPoints;
+                                    break;
                             }
                             Common.UI.warning({
                                 msg: msg,
@@ -5392,7 +5395,8 @@ define([
         textIndicator: 'Indicators',
         textRating: 'Ratings',
         txtLockSort: 'Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?',
-        textRecentlyUsed: 'Recently Used'
+        textRecentlyUsed: 'Recently Used',
+        errorMaxPoints: 'The maximum number of points in series per chart is 4096.'
 
     }, SSE.Controllers.Toolbar || {}));
 });
