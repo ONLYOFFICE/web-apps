@@ -675,8 +675,11 @@ define([
 
             onEditComplete: function(cmp, opts) {
                 if (opts && opts.restorefocus && this.api.isCEditorFocused) {
-                    this.formulaInput.blur();
-                    this.formulaInput.focus();
+                    var me = this;
+                    setTimeout(function () {
+                            me.formulaInput.blur();
+                            me.formulaInput.focus();
+                        }, 0);
                 } else {
                     this.getApplication().getController('DocumentHolder').getView('DocumentHolder').focus();
                     this.api.isCEditorFocused = false;

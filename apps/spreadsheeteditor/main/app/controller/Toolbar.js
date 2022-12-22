@@ -670,7 +670,7 @@ define([
                 btnSubscript.options.icls = item.options.icls;
             }
 
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar, {restorefocus:true});
             Common.component.Analytics.trackEvent('ToolBar', (item.value == 'sub') ? 'Subscript' : 'Superscript');
         },
 
@@ -685,7 +685,7 @@ define([
                 this.api.asc_setCellSuperscript(btn.pressed);
             }
 
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar, {restorefocus:true});
             Common.component.Analytics.trackEvent('ToolBar', (subscript) ? 'Subscript' : 'Superscript');
         },
 
