@@ -1695,6 +1695,7 @@
   "SSE.Controllers.Toolbar.txtTable_TableStyleMedium": "Стиль таблицы: средний",
   "SSE.Controllers.Toolbar.warnLongOperation": "Для завершения операции, которую вы собираетесь выполнить, может потребоваться довольно много времени.<br>Вы действительно хотите продолжить?",
   "SSE.Controllers.Toolbar.warnMergeLostData": "В объединенной ячейке останутся только данные из левой верхней ячейки.<br>Вы действительно хотите продолжить?",
+  "SSE.Controllers.Toolbar.errorMaxPoints": "Максимальное число точек в серии для диаграммы составляет 4096.",
   "SSE.Controllers.Viewport.textFreezePanes": "Закрепить области",
   "SSE.Controllers.Viewport.textFreezePanesShadow": "Показывать тень для закрепленных областей",
   "SSE.Controllers.Viewport.textHideFBar": "Скрыть строку формул",
