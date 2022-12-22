@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2022
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -31,10 +31,10 @@
  *
 */
 /**
- *  AdvancedSeparatorDialog.js
+ *  RoleDeleteDlg.js
  *
- *  Created by Julia Radzhabova on 26/06/20
- *  Copyright (c) 2020 Ascensio System SIA. All rights reserved.
+ *  Created by Julia Radzhabova on 15/04/22
+ *  Copyright (c) 2022 Ascensio System SIA. All rights reserved.
  *
  */
 
