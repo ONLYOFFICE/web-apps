@@ -429,7 +429,7 @@ define([
         onEndTextAroundSearch: function () {
             if (this.view) {
                 this._state.isStartedAddingResults = false;
-                this.view.$resultsContainer.scroller.update({alwaysVisibleY: true});
+                this.view.updateScrollers();
             }
         },
 
@@ -446,7 +446,7 @@ define([
                         '<div class="sheet">' + (item[1] ? item[1] : '') + '</div>' +
                         '<div class="name">' + (item[2] ? item[2] : '') + '</div>' +
                         '<div class="cell">' + (item[3] ? item[3] : '') + '</div>' +
-                        '<div class="value">' + (item[4] ? item[4] : '') + '</div>' +
+                        '<div class="value">' + (item[4] ? Common.Utils.String.htmlEncode(item[4]) : '') + '</div>' +
                         '<div class="formula">' + (item[5] ? item[5] : '') + '</div>' +
                         '</div>';
                     var $item = $(tr).appendTo($innerResults);

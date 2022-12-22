@@ -115,6 +115,7 @@ define([
                     this.clickMenuFileItem(null, 'history');
             }, this));
             Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
+            Common.NotificationCenter.on('file:print', _.bind(this.clickToolbarPrint, this));
         },
 
         onLaunch: function() {
@@ -558,6 +559,13 @@ define([
                 this.leftMenu.menuFile.hide();
         },
 
+        clickToolbarPrint: function () {
+            if (this.mode.canPreviewPrint)
+                this.leftMenu.showMenu('file:printpreview');
+            else if (this.mode.canPrint)
+                this.clickMenuFileItem(null, 'print');
+        },
+
         changeToolbarSaveState: function (state) {
             var btnSave = this.leftMenu.menuFile.getButton('save');
             btnSave && btnSave.setDisabled(state);
@@ -594,7 +602,7 @@ define([
         },
 
         updatePreviewMode: function() {
-            var viewmode = this._state.disableEditing || this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly;
+            var viewmode = this._state.disableEditing || this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly || this._state.docProtection.isCommentsOnly;
             if (this.viewmode === viewmode) return;
             this.viewmode = viewmode;
 
@@ -881,6 +889,7 @@ define([
         onShowHideSearch: function (state, findText) {
             if (state) {
                 Common.UI.Menu.Manager.hideAll();
+                this.tryToShowLeftMenu();
                 this.leftMenu.showMenu('advancedsearch', undefined, true);
                 this.leftMenu.fireEvent('search:aftershow', this.leftMenu, findText);
             } else {

@@ -305,7 +305,6 @@
     "textRemoveChart": "Видалити діаграму",
     "textRemoveShape": "Видалити форму",
     "textRemoveTable": "Видалити таблицю",
-    "textReorder": "Порядок",
     "textRepeatAsHeaderRow": "Повторювати як заголовок",
     "textReplace": "Замінити",
     "textReplaceImage": "Замінити зображення",
@@ -341,6 +340,7 @@
     "textWe": "Ср",
     "textWrap": "Стиль обтікання",
     "textAmountOfLevels": "Amount of Levels",
+    "textArrange": "Arrange",
     "textCancel": "Cancel",
     "textCentered": "Centered",
     "textChangeShape": "Change Shape",
@@ -564,6 +564,8 @@
     "warnNoLicense": "Ви досягли ліміту на одночасне підключення до редакторів %1. Цей документ буде відкрито для перегляду. Напишіть у відділ продажу %1, щоб обговорити індивідуальні умови оновлення.",
     "warnNoLicenseUsers": "Ви досягли ліміту на одночасне підключення до редакторів %1.<br>Напишіть у відділ продаж %1, для обговорення індивідуальних умов ліцензування.",
     "warnProcessRightsChange": "У вас немає прав на редагування цього файлу.",
+    "textDocumentProtected": "The document is protected. Edit settings are not available",
+    "textOk": "Ok",
     "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
   },
   "Settings": {

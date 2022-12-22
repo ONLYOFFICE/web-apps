@@ -12,8 +12,8 @@
   "Common": {
     "Collaboration": {
       "notcriticalErrorTitle": "Peringatan",
-      "textAddComment": "Tambahkan Komentar",
-      "textAddReply": "Tambahkan Balasan",
+      "textAddComment": "Tambah Komentar",
+      "textAddReply": "Tambah Balasan",
       "textBack": "Kembali",
       "textCancel": "Batalkan",
       "textCollaboration": "Kolaborasi",
@@ -46,8 +46,8 @@
   },
   "ContextMenu": {
     "errorCopyCutPaste": "Tindakan copy, cut dan paste menggunakan menu konteks hanya akan dilakukan dalam file saat ini.",
-    "menuAddComment": "Tambahkan Komentar",
-    "menuAddLink": "Tambah tautan",
+    "menuAddComment": "Tambah Komentar",
+    "menuAddLink": "Tambah Tautan",
     "menuCancel": "Batalkan",
     "menuDelete": "Hapus",
     "menuDeleteTable": "Hapus Tabel",
@@ -118,7 +118,7 @@
       "textRemember": "Ingat pilihan saya",
       "textReplaceSkipped": "Penggantian telah dilakukan. Ada {0} yang dilewatkan.",
       "textReplaceSuccess": "Pencarian telah dilakukan. Ada {0} yang diganti {0}",
-      "textRequestMacros": "Sebuah makro melakukan permintaan ke URL. Apakah Anda akan mengizinkan permintaan ini ke %1?",
+      "textRequestMacros": "Sebuah makro melakukan permintaan ke URL. Apakah Anda akan mengizinkan permintaan ke %1?",
       "textYes": "Ya",
       "titleLicenseExp": "Lisensi kadaluwarsa",
       "titleServerVersion": "Editor mengupdate",
@@ -224,7 +224,7 @@
   "View": {
     "Add": {
       "notcriticalErrorTitle": "Peringatan",
-      "textAddLink": "Tambah tautan",
+      "textAddLink": "Tambah Tautan",
       "textAddress": "Alamat",
       "textBack": "Kembali",
       "textCancel": "Batalkan",
@@ -261,14 +261,14 @@
       "textSlideNumber": "Nomor Slide",
       "textTable": "Tabel",
       "textTableSize": "Ukuran Tabel",
-      "txtNotUrl": "Area ini harus dalam format URL “http://www.contoh.com”"
+      "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”"
     },
     "Edit": {
       "notcriticalErrorTitle": "Peringatan",
       "textActualSize": "Ukuran Sebenarnya",
-      "textAddCustomColor": "Tambah warna kustom",
+      "textAddCustomColor": "Tambah Warna Ubahan",
       "textAdditional": "Tambahan",
-      "textAdditionalFormatting": "Pemformatan tambahan",
+      "textAdditionalFormatting": "Pemformatan Tambahan",
       "textAddress": "Alamat",
       "textAfter": "Sesudah",
       "textAlign": "Ratakan",
@@ -362,7 +362,7 @@
       "textNone": "Tidak ada",
       "textNoStyles": "Tanpa style untuk tipe grafik ini.",
       "textNoTextFound": "Teks tidak ditemukan",
-      "textNotUrl": "Area ini harus dalam format URL “http://www.contoh.com”",
+      "textNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”",
       "textNumbers": "Nomor",
       "textOk": "OK",
       "textOpacity": "Opasitas",

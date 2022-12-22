@@ -222,6 +222,7 @@
     "textAllowOverlap": "Überlappung zulassen",
     "textAmountOfLevels": "Anzahl der Ebenen",
     "textApril": "April",
+    "textArrange": "Arrangieren",
     "textAugust": "August",
     "textAuto": "Auto",
     "textAutomatic": "Automatisch",
@@ -331,7 +332,6 @@
     "textRemoveShape": "Form entfernen",
     "textRemoveTable": "Tabelle entfernen",
     "textRemoveTableContent": "Inhaltsverzeichnis entfernen",
-    "textReorder": "Neu ordnen",
     "textRepeatAsHeaderRow": "Als Überschriftenzeile wiederholen",
     "textReplace": "Ersetzen",
     "textReplaceImage": "Bild ersetzen",
@@ -411,6 +411,8 @@
     "errorSessionToken": "Die Verbindung mit dem Server wurde unterbrochen. Bitte die Seite neu laden.",
     "errorStockChart": "Falsche Reihenfolge der Zeilen. Um ein Kursdiagramm zu erstellen, setzen Sie die Daten im Arbeitsblatt in dieser Reihenfolge:<br> Eröffnungskurs, Maximaler Preis, Minimaler Preis, Schlusskurs.",
     "errorTextFormWrongFormat": "Der eingegebene Wert stimmt nicht mit dem Format des Feldes überein.",
+    "errorToken": "Sicherheitstoken des Dokuments ist nicht korrekt.<br>Wenden Sie sich an Ihren Serveradministrator.",
+    "errorTokenExpire": "Sicherheitstoken des Dokuments ist abgelaufen.<br>Wenden Sie sich an Ihren Serveradministrator.",
     "errorUpdateVersionOnDisconnect": "Die Internetverbindung wurde wiederhergestellt und die Dateiversion wurde geändert.<br>Bevor Sie weiterarbeiten können, müssen Sie die Datei herunterladen oder den Inhalt kopieren, um sicherzustellen, dass nichts verloren geht, und diese Seite anschließend neu laden.",
     "errorUserDrop": "Die Datei ist gerade nicht verfügbar.",
     "errorUsersExceed": "Die nach dem Zahlungsplan erlaubte Anzahl der Benutzer ist überschritten",
@@ -425,9 +427,7 @@
     "unknownErrorText": "Unbekannter Fehler.",
     "uploadImageExtMessage": "Unbekanntes Bildformat.",
     "uploadImageFileCountMessage": "Keine Bilder hochgeladen.",
-    "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten.",
-    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
-    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
+    "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten."
   },
   "LongActions": {
     "applyChangesTextText": "Daten werden geladen...",
@@ -564,7 +564,9 @@
     "warnLicenseUsersExceeded": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte wenden Sie sich an Ihren Administrator, um weitere Informationen zu erhalten.",
     "warnNoLicense": "Sie haben die maximale Anzahl von gleichzeitigen Verbindungen in %1-Editoren erreicht. Die Bearbeitung ist jetzt in diesem Dokument nicht verfügbar. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
     "warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
-    "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten."
+    "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten.",
+    "textDocumentProtected": "The document is protected. Edit settings are not available",
+    "textOk": "Ok"
   },
   "Settings": {
     "advDRMOptions": "Geschützte Datei",

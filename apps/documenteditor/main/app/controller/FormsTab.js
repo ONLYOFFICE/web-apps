@@ -133,7 +133,8 @@ define([
 
             var pr, i = -1, type,
                 paragraph_locked = false,
-                header_locked = false;
+                header_locked = false,
+                shape_pr = undefined;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -143,6 +144,9 @@ define([
                     paragraph_locked = pr.get_Locked();
                 } else if (type === Asc.c_oAscTypeSelectElement.Header) {
                     header_locked = pr.get_Locked();
+                } else if (type === Asc.c_oAscTypeSelectElement.Image) {
+                    if (pr && pr.get_ShapeProperties())
+                        shape_pr = pr.get_ShapeProperties();
                 }
             }
             var in_control = this.api.asc_IsContentControl();
@@ -159,6 +163,11 @@ define([
             Common.Utils.lockControls(Common.enumLock.controlPlain,  control_plain,      {array: arr});
             Common.Utils.lockControls(Common.enumLock.contentLock,   content_locked,     {array: arr});
             Common.Utils.lockControls(Common.enumLock.complexForm,   in_control && !!control_props && !!control_props.get_ComplexFormPr(),     {array: [this.view.btnComplexField, this.view.btnImageField]});
+
+            var in_smart_art = shape_pr && shape_pr.asc_getFromSmartArt(),
+                in_smart_art_internal = shape_pr && shape_pr.asc_getFromSmartArtInternal();
+            Common.Utils.lockControls(Common.enumLock.inSmartart, in_smart_art, {array: arr});
+            Common.Utils.lockControls(Common.enumLock.inSmartartInternal, in_smart_art_internal, {array: arr});
         },
 
         // onChangeSpecialFormsGlobalSettings: function() {

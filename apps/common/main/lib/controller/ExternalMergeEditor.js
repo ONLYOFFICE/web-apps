@@ -118,7 +118,9 @@ define([
                                 }
                                 externalEditor.attachMouseEvents();
                             } else {
-                                createExternalEditor.apply(this);
+                                require(['api'], function () {
+                                    createExternalEditor.apply(this);
+                                }.bind(this))
                             }
                             this.isExternalEditorVisible = true;
                             this.isHandlerCalled = false;

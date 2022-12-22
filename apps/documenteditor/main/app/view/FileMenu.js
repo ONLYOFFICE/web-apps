@@ -69,7 +69,8 @@ define([
                         if (item.options.action === 'help') {
                             if ( panel.noHelpContents === true && navigator.onLine ) {
                                 this.fireEvent('item:click', [this, 'external-help', true]);
-                                !!panel.urlHelpCenter && window.open(panel.urlHelpCenter, '_blank');
+                                const helpCenter = Common.Utils.InternalSettings.get('url-help-center');
+                                !!helpCenter && window.open(helpCenter, '_blank');
                                 return;
                             }
                         }
@@ -159,6 +160,17 @@ define([
                 dataHint: 1,
                 dataHintDirection: 'left-top',
                 dataHintOffset: [2, 14]
+            });
+
+            this.miPrintWithPreview = new Common.UI.MenuItem({
+                el      : $markup.elementById('#fm-btn-print-with-preview'),
+                action  : 'printpreview',
+                caption : this.btnPrintCaption,
+                canFocused: false,
+                dataHint: 1,
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14],
+                dataHintTitle: 'P'
             });
 
             this.miPrint = new Common.UI.MenuItem({
@@ -295,6 +307,7 @@ define([
                 this.miSaveCopyAs,
                 this.miSaveAs,
                 this.miPrint,
+                this.miPrintWithPreview,
                 this.miRename,
                 this.miProtect,
                 this.miRecent,
@@ -385,7 +398,8 @@ define([
             this.miSaveAs[((this.mode.canDownload || this.mode.canDownloadOrigin) && this.mode.isDesktopApp && this.mode.isOffline)?'show':'hide']();
             this.miSave[this.mode.isEdit && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') ?'show':'hide']();
             this.miEdit[!this.mode.isEdit && this.mode.canEdit && this.mode.canRequestEditRights ?'show':'hide']();
-            this.miPrint[this.mode.canPrint?'show':'hide']();
+            this.miPrint[this.mode.canPrint && !this.mode.canPreviewPrint ?'show':'hide']();
+            this.miPrintWithPreview[this.mode.canPreviewPrint?'show':'hide']();
             this.miRename[(this.mode.canRename && !this.mode.isDesktopApp) ?'show':'hide']();
             this.miProtect[this.mode.canProtect ?'show':'hide']();
             separatorVisible = (this.mode.canDownload || this.mode.canDownloadOrigin || this.mode.isEdit && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') || this.mode.canPrint || this.mode.canProtect ||
@@ -465,6 +479,12 @@ define([
             if (this.mode.canHelp && !this.panels['help']) {
                 this.panels['help'] = ((new DE.Views.FileMenuPanels.Help({menu: this})).render());
                 this.panels['help'].setLangConfig(this.mode.lang);
+            }
+
+            if (this.mode.canPreviewPrint) {
+                var printPanel = DE.getController('Print').getView('PrintWithPreview');
+                printPanel.menu = this;
+                !this.panels['printpreview'] && (this.panels['printpreview'] = printPanel.render(this.$el.find('#panel-print')));
             }
 
             if ( Common.Controllers.Desktop.isActive() ) {

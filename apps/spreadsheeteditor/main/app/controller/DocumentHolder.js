@@ -374,8 +374,12 @@ define([
                 this.api.asc_registerCallback('asc_onInputMessage', _.bind(this.onInputMessage, this));
                 this.api.asc_registerCallback('asc_onTableTotalMenu', _.bind(this.onTableTotalMenu, this));
                 this.api.asc_registerCallback('asc_onShowPivotGroupDialog', _.bind(this.onShowPivotGroupDialog, this));
-                if (!this.permissions.isEditMailMerge && !this.permissions.isEditDiagram && !this.permissions.isEditOle)
+                if (!this.permissions.isEditMailMerge && !this.permissions.isEditDiagram && !this.permissions.isEditOle) {
                     this.api.asc_registerCallback('asc_doubleClickOnTableOleObject', _.bind(this.onDoubleClickOnTableOleObject, this));
+                    this.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Image, _.bind(this.onInsertImage, this));
+                    this.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.ImageUrl, _.bind(this.onInsertImageUrl, this));
+
+                }
                 this.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(this.onShowMathTrack, this));
                 this.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(this.onHideMathTrack, this));
             }
@@ -4325,7 +4329,6 @@ define([
                         menu        : new Common.UI.Menu({
                             cls: 'menu-shapes',
                             value: i,
-                            restoreHeight: equationGroup.get('groupHeight') ? parseInt(equationGroup.get('groupHeight')) : true,
                             items: [
                                 { template: _.template('<div id="id-document-holder-btn-equation-menu-' + i +
                                         '" class="menu-shape" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
@@ -4412,6 +4415,29 @@ define([
             }
         },
 
+        onInsertImage: function(obj, x, y) {
+            if (this.api)
+                this.api.asc_addImage(obj);
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+        },
+
+        onInsertImageUrl: function(obj, x, y) {
+            var me = this;
+            (new Common.Views.ImageFromUrlDialog({
+                handler: function(result, value) {
+                    if (result == 'ok') {
+                        if (me.api) {
+                            var checkUrl = value.replace(/ /g, '');
+                            if (!_.isEmpty(checkUrl)) {
+                                me.api.AddImageUrl([checkUrl], undefined, undefined, obj);
+                            }
+                        }
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                }
+            })).show();
+        },
+
         getUserName: function(id){
             var usersStore = SSE.getCollection('Common.Collections.Users');
             if (usersStore){
@@ -4434,7 +4460,7 @@ define([
 
         SetDisabled: function(state, canProtect) {
             this._isDisabled = state;
-            this._canProtect = canProtect;
+            this._canProtect = state ? canProtect : true;
             this.disableEquationBar();
         },
 

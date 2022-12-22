@@ -331,7 +331,6 @@
     "textRemoveShape": "Alakzat eltávolítása",
     "textRemoveTable": "Táblázat eltávolítása",
     "textRemoveTableContent": "Tartalomjegyzék eltávolítása",
-    "textReorder": "Újrarendez",
     "textRepeatAsHeaderRow": "Ismételje meg fejlécként",
     "textReplace": "Csere",
     "textReplaceImage": "Kép cseréje",
@@ -376,7 +375,8 @@
     "textType": "Típus",
     "textWe": "Sze",
     "textWrap": "Tördel",
-    "textWrappingStyle": "Tördelés stílus"
+    "textWrappingStyle": "Tördelés stílus",
+    "textArrange": "Arrange"
   },
   "Error": {
     "convertationTimeoutText": "A átalakítás időkorlátja lejárt.",
@@ -564,7 +564,9 @@
     "warnLicenseUsersExceeded": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználó számának korlátját. További információért forduljon rendszergazdájához.",
     "warnNoLicense": "Ön elérte az egyidejű kapcsolódás határát a %1 szerkesztőhöz. Ez a dokumentum csak megtekintésre lesz megnyitva. Lépjen kapcsolatba a(z) %1 értékesítési csapattal a perszonális frissítés feltételéhez.",
     "warnNoLicenseUsers": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználói korlátját. Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes frissítési feltételekért.",
-    "warnProcessRightsChange": "Nincs jogosultsága a fájl szerkesztéséhez."
+    "warnProcessRightsChange": "Nincs jogosultsága a fájl szerkesztéséhez.",
+    "textDocumentProtected": "The document is protected. Edit settings are not available",
+    "textOk": "Ok"
   },
   "Settings": {
     "advDRMOptions": "Védett fájl",

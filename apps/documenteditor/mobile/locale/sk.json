@@ -305,7 +305,6 @@
     "textRemoveChart": "Odstrániť graf",
     "textRemoveShape": "Odstrániť tvar",
     "textRemoveTable": "Odstrániť tabuľku",
-    "textReorder": "Znovu usporiadať/zmena poradia",
     "textRepeatAsHeaderRow": "Opakovať ako riadok hlavičky",
     "textReplace": "Nahradiť",
     "textReplaceImage": "Nahradiť obrázok",
@@ -341,6 +340,7 @@
     "textWe": "st",
     "textWrap": "Zabaliť",
     "textAmountOfLevels": "Amount of Levels",
+    "textArrange": "Arrange",
     "textCancel": "Cancel",
     "textCentered": "Centered",
     "textChangeShape": "Change Shape",
@@ -564,6 +564,8 @@
     "warnNoLicense": "Dosiahli ste limit pre simultánne pripojenia k %1 editorom. Tento dokument sa otvorí iba na prezeranie. Kontaktujte predajný tím %1 pre osobné podmienky inovácie.",
     "warnNoLicenseUsers": "Dosiahli ste limit %1 editora. Pre rozšírenie funkcií kontaktujte %1 obchodné oddelenie.",
     "warnProcessRightsChange": "Nemáte povolenie na úpravu tohto súboru.",
+    "textDocumentProtected": "The document is protected. Edit settings are not available",
+    "textOk": "Ok",
     "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
   },
   "Settings": {

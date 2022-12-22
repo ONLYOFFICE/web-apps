@@ -151,6 +151,10 @@ define([
                         var _main = this.getApplication().getController('Main');
                         _main.onPrint();
                     },
+                    'print-quick': function (opts) {
+                        var _main = this.getApplication().getController('Main');
+                        _main.onPrintQuick();
+                    },
                     'save': function (opts) {
                         this.api.asc_Save();
                     },
@@ -289,6 +293,7 @@ define([
             toolbar.btnPreview.menu.on('item:click',                    _.bind(this.onPreviewItemClick, this));
             toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
             toolbar.btnPrint.on('disabled',                             _.bind(this.onBtnChangeState, this, 'print:disabled'));
+            toolbar.btnPrint.menu && toolbar.btnPrint.menu.on('item:click', _.bind(this.onPrintMenu, this));
             toolbar.btnSave.on('click',                                 _.bind(this.onSave, this));
             toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
             toolbar.btnUndo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'undo:disabled'));
@@ -741,7 +746,7 @@ define([
                 this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides, {array: [
                     this.toolbar.btnChangeSlide, this.toolbar.btnPreview, this.toolbar.btnPrint, this.toolbar.btnCopy, this.toolbar.btnCut, this.toolbar.btnSelectAll, this.toolbar.btnPaste,
                     this.toolbar.btnCopyStyle, this.toolbar.btnInsertTable, this.toolbar.btnInsertChart, this.toolbar.btnInsertSmartArt,
-                    this.toolbar.btnColorSchemas, this.toolbar.btnShapeAlign,
+                    this.toolbar.btnColorSchemas, this.toolbar.btnShapeAlign, this.toolbar.cmbInsertShape,
                     this.toolbar.btnShapeArrange, this.toolbar.btnSlideSize,  this.toolbar.listTheme, this.toolbar.btnEditHeader, this.toolbar.btnInsDateTime, this.toolbar.btnInsSlideNum
                 ]});
                 this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides,
@@ -1079,13 +1084,31 @@ define([
         },
         
         onPrint: function(e) {
-            if (this.api)
-                this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isOpera == true use asc_onPrintUrl event
-
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            if (this.toolbar.btnPrint.options.printType == 'print') {
+                Common.NotificationCenter.trigger('file:print', this.toolbar);
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            } else {
+                var _main = this.getApplication().getController('Main');
+                _main.onPrintQuick();
+            }
 
             Common.component.Analytics.trackEvent('Print');
             Common.component.Analytics.trackEvent('ToolBar', 'Print');
+        },
+
+        onPrintMenu: function (btn, e){
+            var oldType = this.toolbar.btnPrint.options.printType;
+            var newType = e.value;
+
+            if(newType != oldType) {
+                this.toolbar.btnPrint.changeIcon({
+                    next: e.options.iconClsForMainBtn,
+                    curr: this.toolbar.btnPrint.menu.items.filter(function(item){return item.value == oldType;})[0].options.iconClsForMainBtn
+                });
+                this.toolbar.btnPrint.updateHint([e.caption + e.options.platformKey]);
+                this.toolbar.btnPrint.options.printType = newType;
+            }
+            this.onPrint(e);
         },
 
         onSave: function(e) {
@@ -2250,7 +2273,6 @@ define([
                         parentMenu: menu.items[i].menu,
                         store: equationsStore.at(i).get('groupStore'),
                         scrollAlwaysVisible: true,
-                        restoreHeight: 10000,
                         itemTemplate: _.template(
                             '<div class="item-equation">' +
                                 '<div class="equation-icon" style="background-position:<%= posX %>px <%= posY %>px;width:<%= width %>px;height:<%= height %>px;" id="<%= id %>"></div>' +

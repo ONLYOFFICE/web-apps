@@ -232,6 +232,8 @@
     "errorSessionIdle": "Das Dokument wurde schon für lange Zeit nicht bearbeitet. Bitte die Seite neu laden.",
     "errorSessionToken": "Die Verbindung mit dem Server wurde unterbrochen. Bitte die Seite neu laden.",
     "errorStockChart": "Falsche Reihenfolge der Zeilen. Um ein Kursdiagramm zu erstellen, setzen Sie die Daten im Arbeitsblatt in dieser Reihenfolge:<br> Eröffnungskurs, Maximaler Preis, Minimaler Preis, Schlusskurs.",
+    "errorToken": "Sicherheitstoken des Dokuments ist nicht korrekt.<br>Wenden Sie sich an Ihren Serveradministrator.",
+    "errorTokenExpire": "Sicherheitstoken des Dokuments ist abgelaufen.<br>Wenden Sie sich an Ihren Serveradministrator.",
     "errorUnexpectedGuid": "Externer Fehler.<br>Unerwartete GUID. Bitte wenden Sie sich an den Support.",
     "errorUpdateVersionOnDisconnect": "Die Internetverbindung wurde wiederhergestellt und die Dateiversion wurde geändert.<br>Bevor Sie weiterarbeiten können, müssen Sie die Datei herunterladen oder den Inhalt kopieren, um sicherzustellen, dass nichts verloren geht, und diese Seite anschließend neu laden.",
     "errorUserDrop": "Kein Zugriff auf diese Datei möglich.",
@@ -250,9 +252,7 @@
     "unknownErrorText": "Unbekannter Fehler.",
     "uploadImageExtMessage": "Unbekanntes Bildformat.",
     "uploadImageFileCountMessage": "Keine Bilder hochgeladen.",
-    "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten.",
-    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
-    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
+    "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten."
   },
   "LongActions": {
     "advDRMPassword": "Passwort",

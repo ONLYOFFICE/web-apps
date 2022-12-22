@@ -214,6 +214,9 @@ define([
                     this.api.asc_registerCallback('asc_onUnLockDocumentProps',      _.bind(this.onApiUnLockDocumentProps, this));
                     this.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(this.onShowMathTrack, this));
                     this.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(this.onHideMathTrack, this));
+                    this.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Image, _.bind(this.onInsertImage, this));
+                    this.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.ImageUrl, _.bind(this.onInsertImageUrl, this));
+
                 }
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',        _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect',                      _.bind(this.onCoAuthoringDisconnect, this));
@@ -1283,15 +1286,11 @@ define([
                     handler: function(dlg, result) {
                         if (result == 'ok') {
                             var props = dlg.getSettings();
-                            var mnu = DE.getController('Toolbar').toolbar.btnPageMargins.menu.items[0];
-                            mnu.setVisible(true);
-                            mnu.setChecked(true);
-                            mnu.options.value = mnu.value = [props.get_TopMargin(), props.get_LeftMargin(), props.get_BottomMargin(), props.get_RightMargin()];
-                            $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
                             Common.localStorage.setItem("de-pgmargins-top", props.get_TopMargin());
                             Common.localStorage.setItem("de-pgmargins-left", props.get_LeftMargin());
                             Common.localStorage.setItem("de-pgmargins-bottom", props.get_BottomMargin());
                             Common.localStorage.setItem("de-pgmargins-right", props.get_RightMargin());
+                            Common.NotificationCenter.trigger('margins:update', props);
 
                             me.api.asc_SetSectionProps(props);
                             me.editComplete();
@@ -2497,6 +2496,29 @@ define([
                 this.documentHolder._docProtection = props;
                 this.disableEquationBar();
             }
+        },
+
+        onInsertImage: function(obj, x, y) {
+            if (this.api)
+                this.api.asc_addImage(obj);
+            this.editComplete();
+        },
+
+        onInsertImageUrl: function(obj, x, y) {
+            var me = this;
+            (new Common.Views.ImageFromUrlDialog({
+                handler: function(result, value) {
+                    if (result == 'ok') {
+                        if (me.api) {
+                            var checkUrl = value.replace(/ /g, '');
+                            if (!_.isEmpty(checkUrl)) {
+                                me.api.AddImageUrl([checkUrl], undefined, undefined, obj);
+                            }
+                        }
+                    }
+                    me.editComplete();
+                }
+            })).show();
         },
 
         editComplete: function() {

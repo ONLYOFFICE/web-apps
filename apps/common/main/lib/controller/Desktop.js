@@ -47,6 +47,7 @@ define([
         titlebuttons: true,
         uithemes: true,
         btnhome: true,
+        quickprint: true
     };
 
     var native = window.desktop || window.AscDesktopEditor;
@@ -61,7 +62,8 @@ define([
             'btn-save-coauth': 'coauth',
             'btn-synch': 'synch' };
 
-        var nativevars;
+        var nativevars,
+            helpUrl;
 
         if ( !!native ) {
             native.features = native.features || {};
@@ -165,7 +167,8 @@ define([
                 action: action,
                 icon: config.icon || undefined,
                 hint: config.btn.options.hint,
-                disabled: config.btn.isDisabled()
+                disabled: config.btn.isDisabled(),
+                visible: config.visible,
             };
         };
 
@@ -200,6 +203,7 @@ define([
             if ( !!titlebuttons ) {
                 info.hints = {};
                 !!titlebuttons['print'] && (info.hints['print'] = titlebuttons['print'].btn.btnEl.attr('data-hint-title'));
+                !!titlebuttons['quickprint'] && (info.hints['quickprint'] = titlebuttons['quickprint'].btn.btnEl.attr('data-hint-title'));
                 !!titlebuttons['undo'] && (info.hints['undo'] = titlebuttons['undo'].btn.btnEl.attr('data-hint-title'));
                 !!titlebuttons['redo'] && (info.hints['redo'] = titlebuttons['redo'].btn.btnEl.attr('data-hint-title'));
                 !!titlebuttons['save'] && (info.hints['save'] = titlebuttons['save'].btn.btnEl.attr('data-hint-title'));
@@ -215,6 +219,206 @@ define([
             }
         }
 
+        const _onApplySettings = function (menu) {
+            if ( !!titlebuttons.quickprint ) {
+                const var_name = window.SSE ? 'sse-settings-quick-print-button' :
+                                    window.PE ? 'pe-settings-quick-print-button' : 'de-settings-quick-print-button';
+                const is_btn_visible = Common.localStorage.getBool(var_name, false);
+
+                if ( titlebuttons.quickprint.visible != is_btn_visible ) {
+                    titlebuttons.quickprint.visible = is_btn_visible;
+                    const obj = {
+                        visible: {
+                            quickprint: is_btn_visible,
+                        }
+                    };
+                    native.execCommand('title:button', JSON.stringify(obj));
+                }
+            }
+        }
+
+        const _checkHelpAvailable = function () {
+            const me = this;
+            const build_url = function (arg1, arg2, arg3) {
+                const re_ls = /\/$/;
+                return (re_ls.test(arg1) ? arg1 : arg1 + '/') + arg2 + arg3;
+            }
+
+            fetch(build_url('resources/help/', Common.Locale.getDefaultLanguage(), '/Contents.json'))
+                .then(function (response) {
+                    if ( response.ok ) {
+                        /* local help avail */
+                        fetch(build_url('resources/help/', Common.Locale.getCurrentLanguage(), '/Contents.json'))
+                            .then(function (response){
+                                if ( response.ok )
+                                    helpUrl = build_url('resources/help/', Common.Locale.getCurrentLanguage(), '');
+                            })
+                            .catch(function (e) {
+                                helpUrl = build_url('resources/help/', Common.Locale.getDefaultLanguage(), '');
+                            })
+                    }
+                }).catch(function (e) {
+                    if ( me.helpUrl() ) {
+                        fetch(build_url(me.helpUrl(), Common.Locale.getDefaultLanguage(), '/Contents.json'))
+                            .then(function (response) {
+                                if ( response.ok ) {
+                                    /* remote help avail */
+                                    fetch(build_url(me.helpUrl(), Common.Locale.getCurrentLanguage(), '/Contents.json'))
+                                        .then(function (response) {
+                                            if ( response.ok ) {
+                                                helpUrl = build_url(me.helpUrl(), Common.Locale.getCurrentLanguage(), '');
+                                            }
+                                        })
+                                        .catch(function (e) {
+                                            helpUrl = build_url(me.helpUrl(), Common.Locale.getDefaultLanguage(), '');
+                                        });
+                                }
+                            })
+                    }
+                });
+        }
+
+        const _onAppReady = function (opts) {
+            _.extend(config, opts);
+            !!native && native.execCommand('doc:onready', '');
+
+            $('.toolbar').addClass('editor-native-color');
+        }
+
+        const _onDocumentReady = function () {
+            if ( config.isEdit ) {
+                function get_locked_message (t) {
+                    switch (t) {
+                        // case Asc.c_oAscLocalRestrictionType.Nosafe:
+                        case Asc.c_oAscLocalRestrictionType.ReadOnly:
+                            return Common.Locale.get("tipFileReadOnly",{name:"Common.Translation", default: "Document is read only. You can make changes and save its local copy later."});
+                        default: return Common.Locale.get("tipFileLocked",{name:"Common.Translation", default: "Document is locked for editing. You can make changes and save its local copy later."});
+                    }
+                }
+
+                const header = webapp.getController('Viewport').getView('Common.Views.Header');
+                const api = webapp.getController('Main').api;
+                const locktype = api.asc_getLocalRestrictions ? api.asc_getLocalRestrictions() : Asc.c_oAscLocalRestrictionType.None;
+                if ( Asc.c_oAscLocalRestrictionType.None !== locktype ) {
+                    features.readonly = true;
+
+                    header.setDocumentReadOnly(true);
+                    api.asc_setLocalRestrictions(Asc.c_oAscLocalRestrictionType.None);
+
+                    (new Common.UI.SynchronizeTip({
+                        extCls: 'no-arrow',
+                        placement: 'bottom',
+                        target: $('.toolbar'),
+                        text: get_locked_message(locktype),
+                        showLink: false,
+                    })).on('closeclick', function () {
+                        this.close();
+                    }).show();
+
+                    native.execCommand('webapps:features', JSON.stringify(features));
+
+                    api.asc_registerCallback('asc_onDocumentName', function () {
+                        if ( features.readonly ) {
+                            if ( api.asc_getLocalRestrictions() == Asc.c_oAscLocalRestrictionType.None ) {
+                                features.readonly = false;
+                                header.setDocumentReadOnly(false);
+                                native.execCommand('webapps:features', JSON.stringify(features));
+                            }
+                        }
+                    });
+                }
+
+                _checkHelpAvailable.call(this);
+            }
+        }
+
+        const _onHidePreloader = function (mode) {
+            features.viewmode = !mode.isEdit;
+            features.crypted = mode.isCrypted;
+            native.execCommand('webapps:features', JSON.stringify(features));
+
+            titlebuttons = {};
+            if ( mode.isEdit ) {
+                var header = webapp.getController('Viewport').getView('Common.Views.Header');
+
+                {
+                    header.btnHome = (new Common.UI.Button({
+                        cls: 'btn-header',
+                        iconCls: 'toolbar__icon icon--inverse btn-home',
+                        visible: false,
+                        hint: 'Show Main window',
+                        dataHint:'0',
+                        dataHintDirection: 'right',
+                        dataHintOffset: '10, -18',
+                        dataHintTitle: 'K'
+                    })).render($('#box-document-title #slot-btn-dt-home'));
+                    titlebuttons['home'] = {btn: header.btnHome};
+
+                    header.btnHome.on('click', function (e) {
+                        native.execCommand('title:button', JSON.stringify({click: "home"}));
+                    });
+
+                    $('#id-box-doc-name').on({
+                        'dblclick': function (e) {
+                            native.execCommand('title:dblclick', JSON.stringify({x: e.originalEvent.screenX, y: e.originalEvent.screenY}))
+                        },
+                        'mousedown': function (e) {
+                            native.execCommand('title:mousedown', JSON.stringify({x: e.originalEvent.screenX, y: e.originalEvent.screenY}))
+                        },
+                        'mousemove': function (e) {
+                            native.execCommand('title:mousemove', JSON.stringify({x: e.originalEvent.screenX, y: e.originalEvent.screenY}))
+                        },
+                        'mouseup': function (e) {
+                            native.execCommand('title:mouseup', JSON.stringify({x: e.originalEvent.screenX, y: e.originalEvent.screenY}))
+                        }
+                    });
+                }
+
+                if (!!header.btnSave) {
+                    titlebuttons['save'] = {btn: header.btnSave};
+
+                    var iconname = /\s?([^\s]+)$/.exec(titlebuttons.save.btn.$icon.attr('class'));
+                    !!iconname && iconname.length && (titlebuttons.save.icon = btnsave_icons[iconname]);
+                }
+
+                if (!!header.btnPrint)
+                    titlebuttons['print'] = {btn: header.btnPrint};
+
+                if (!!header.btnPrintQuick) {
+                    titlebuttons['quickprint'] = {
+                        btn: header.btnPrintQuick,
+                        visible: header.btnPrintQuick.isVisible(),
+                    };
+                }
+
+                if (!!header.btnUndo)
+                    titlebuttons['undo'] = {btn: header.btnUndo};
+
+                if (!!header.btnRedo)
+                    titlebuttons['redo'] = {btn: header.btnRedo};
+
+                for (var i in titlebuttons) {
+                    titlebuttons[i].btn.options.signals = ['disabled'];
+                    titlebuttons[i].btn.on('disabled', _onTitleButtonDisabled.bind(this, i));
+                }
+
+                if (!!titlebuttons.save) {
+                    titlebuttons.save.btn.options.signals.push('icon:changed');
+                    titlebuttons.save.btn.on('icon:changed', _onSaveIconChanged.bind(this));
+                }
+            }
+
+            if ( !!config.callback_editorconfig ) {
+                config.callback_editorconfig();
+                delete config.callback_editorconfig;
+            }
+
+            if ( native.features.singlewindow !== undefined ) {
+                // $('#box-document-title .hedset')[native.features.singlewindow ? 'hide' : 'show']();
+                !!titlebuttons.home && titlebuttons.home.btn.setVisible(native.features.singlewindow);
+            }
+        }
+
         return {
             init: function (opts) {
                 _.extend(config, opts);
@@ -223,105 +427,13 @@ define([
                     let is_win_xp = nativevars && nativevars.os === 'winxp';
 
                     Common.UI.Themes.setAvailable(!is_win_xp);
-                    Common.NotificationCenter.on('app:ready', function (opts) {
-                        _.extend(config, opts);
-                        !!native && native.execCommand('doc:onready', '');
-
-                        $('.toolbar').addClass('editor-native-color');
-                    });
-
-                    Common.NotificationCenter.on('document:ready', function () {
-                        if ( config.isEdit ) {
-                            var maincontroller = webapp.getController('Main');
-                            if (maincontroller.api.asc_isReadOnly && maincontroller.api.asc_isReadOnly()) {
-                                maincontroller.warningDocumentIsLocked();
-                            }
-                        }
-                    });
-
-                    Common.NotificationCenter.on('app:face', function (mode) {
-                        features.viewmode = !mode.isEdit;
-                        features.crypted = mode.isCrypted;
-                        native.execCommand('webapps:features', JSON.stringify(features));
-
-                        titlebuttons = {};
-                        if ( mode.isEdit ) {
-                            var header = webapp.getController('Viewport').getView('Common.Views.Header');
-
-                            {
-                                header.btnHome = (new Common.UI.Button({
-                                    cls: 'btn-header',
-                                    iconCls: 'toolbar__icon icon--inverse btn-home',
-                                    visible: false,
-                                    hint: 'Show Main window',
-                                    dataHint:'0',
-                                    dataHintDirection: 'right',
-                                    dataHintOffset: '10, -18',
-                                    dataHintTitle: 'K'
-                                })).render($('#box-document-title #slot-btn-dt-home'));
-                                titlebuttons['home'] = {btn: header.btnHome};
-
-                                header.btnHome.on('click', function (e) {
-                                    native.execCommand('title:button', JSON.stringify({click: "home"}));
-                                });
-
-                                $('#id-box-doc-name').on({
-                                    'dblclick': function (e) {
-                                        native.execCommand('title:dblclick', JSON.stringify({x: e.originalEvent.screenX, y: e.originalEvent.screenY}))
-                                    },
-                                    'mousedown': function (e) {
-                                        native.execCommand('title:mousedown', JSON.stringify({x: e.originalEvent.screenX, y: e.originalEvent.screenY}))
-                                    },
-                                    'mousemove': function (e) {
-                                        native.execCommand('title:mousemove', JSON.stringify({x: e.originalEvent.screenX, y: e.originalEvent.screenY}))
-                                    },
-                                    'mouseup': function (e) {
-                                        native.execCommand('title:mouseup', JSON.stringify({x: e.originalEvent.screenX, y: e.originalEvent.screenY}))
-                                    }
-                                });
-                            }
-
-                            if (!!header.btnSave) {
-                                titlebuttons['save'] = {btn: header.btnSave};
-
-                                var iconname = /\s?([^\s]+)$/.exec(titlebuttons.save.btn.$icon.attr('class'));
-                                !!iconname && iconname.length && (titlebuttons.save.icon = btnsave_icons[iconname]);
-                            }
-
-                            if (!!header.btnPrint)
-                                titlebuttons['print'] = {btn: header.btnPrint};
-
-                            if (!!header.btnUndo)
-                                titlebuttons['undo'] = {btn: header.btnUndo};
-
-                            if (!!header.btnRedo)
-                                titlebuttons['redo'] = {btn: header.btnRedo};
-
-                            for (var i in titlebuttons) {
-                                titlebuttons[i].btn.options.signals = ['disabled'];
-                                titlebuttons[i].btn.on('disabled', _onTitleButtonDisabled.bind(this, i));
-                            }
-
-                            if (!!titlebuttons.save) {
-                                titlebuttons.save.btn.options.signals.push('icon:changed');
-                                titlebuttons.save.btn.on('icon:changed', _onSaveIconChanged.bind(this));
-                            }
-                        }
-
-                        if ( !!config.callback_editorconfig ) {
-                            config.callback_editorconfig();
-                            delete config.callback_editorconfig;
-                        }
-
-                        if ( native.features.singlewindow !== undefined ) {
-                            // $('#box-document-title .hedset')[native.features.singlewindow ? 'hide' : 'show']();
-                            !!titlebuttons.home && titlebuttons.home.btn.setVisible(native.features.singlewindow);
-                        }
-                    });
-
                     Common.NotificationCenter.on({
+                        'app:ready': _onAppReady,
+                        'document:ready': _onDocumentReady.bind(this),
+                        'app:face': _onHidePreloader.bind(this),
                         'modal:show': _onModalDialog.bind(this, 'open'),
                         'modal:close': _onModalDialog.bind(this, 'close'),
+                        'modal:hide': _onModalDialog.bind(this, 'hide'),
                         'uitheme:changed' : function (name) {
                             if (Common.localStorage.getBool('ui-theme-use-system', false)) {
                                 native.execCommand("uitheme:changed", JSON.stringify({name:'theme-system'}));
@@ -346,6 +458,7 @@ define([
                                     menu.hide();
                                 }
                             },
+                            'settings:apply': _onApplySettings.bind(this),
                         },
                     }, {id: 'desktop'});
 
@@ -396,6 +509,9 @@ define([
                 }
             },
             helpUrl: function () {
+                if ( helpUrl )
+                    return helpUrl;
+
                 if ( !!nativevars && nativevars.helpUrl ) {
                     var webapp = window.SSE ? 'spreadsheeteditor' :
                                     window.PE ? 'presentationeditor' : 'documenteditor';
@@ -403,7 +519,13 @@ define([
                 }
 
                 return undefined;
-            }
+            },
+            isHelpAvailable: function () {
+                return !!helpUrl;
+            },
+            getDefaultPrinterName: function () {
+                return nativevars ? nativevars.defaultPrinterName : '';
+            },
         };
     };
 

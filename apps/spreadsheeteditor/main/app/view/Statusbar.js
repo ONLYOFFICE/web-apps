@@ -1091,7 +1091,7 @@ define([
                 this.txtName = new Common.UI.InputField({
                     el: $window.find('#txt-sheet-name'),
                     style: 'width:100%;',
-                    value: Common.Utils.String.htmlEncode(this.options.current),
+                    value: this.options.current,
                     allowBlank: false,
                     maxLength: 31,
                     validation: _.bind(this.nameValidator, this)
@@ -1155,14 +1155,13 @@ define([
                     }
                 }
 
-                if (value.length > 2 && value[0]=='"' && value[value.length-1]=='"') return true;
-                if (!/[:\\\/\*\?\[\]\']/.test(value)) return true;
+                if (!/^(\')|[:\\\/\*\?\[\]]|(\')$/.test(value)) return true;
 
                 return this.errNameWrongChar;
             },
 
             errNameExists   : 'Worksheet with such name already exist.',
-            errNameWrongChar: 'A sheet name cannot contains characters: \\, \/, *, ?, [, ], :',
+            errNameWrongChar: 'A sheet name cannot contains characters: \\, \/, *, ?, [, ], : or the character \' as first or last character',
             labelSheetName  : 'Sheet Name'
         }, RenameDialog||{}));
 

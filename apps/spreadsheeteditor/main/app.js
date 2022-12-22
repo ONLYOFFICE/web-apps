@@ -103,7 +103,6 @@ require.config({
         sdk: {
             deps: [
                 'jquery',
-                'underscore',
                 'allfonts',
                 'xregexp',
                 'socketio'
@@ -123,15 +122,14 @@ require.config({
 });
 
 require([
+    'sdk',
     'backbone',
     'bootstrap',
     'core',
-    'sdk',
-    'api',
     'analytics',
     'gateway',
     'locale'
-], function (Backbone, Bootstrap, Core) {
+], function (Sdk, Backbone, Bootstrap, Core) {
     if (Backbone.History && Backbone.History.started)
         return;
     Backbone.history.start();

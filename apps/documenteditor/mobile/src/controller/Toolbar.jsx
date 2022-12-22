@@ -16,38 +16,23 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     const stateDisplayMode = displayMode == "final" || displayMode == "original" ? true : false;
     const displayCollaboration = props.users.hasEditUsers || appOptions.canViewComments || appOptions.canReview || appOptions.canViewReview;
     const readerMode = appOptions.readerMode;
-
     const objectLocked = props.storeFocusObjects.objectLocked;
-
     const storeToolbarSettings = props.storeToolbarSettings;
     const isCanUndo = storeToolbarSettings.isCanUndo;
     const isCanRedo = storeToolbarSettings.isCanRedo;
     const disabledControls = storeToolbarSettings.disabledControls;
     const disabledEditControls = storeToolbarSettings.disabledEditControls;
     const disabledSettings = storeToolbarSettings.disabledSettings;
-
     const showEditDocument = !appOptions.isEdit && appOptions.canEdit && appOptions.canRequestEditRights;
-
     const docInfo = props.storeDocumentInfo;
     const docExt = docInfo.dataDoc ? docInfo.dataDoc.fileType : '';
     const docTitle = docInfo.dataDoc ? docInfo.dataDoc.title : '';
 
-    const sensitivity = 20;
-    let touchStartY = 0;
-    let touchEndY = 0;
-
     useEffect(() => {
-        const sdk = document.querySelector('#editor_sdk');
-
         Common.Gateway.on('init', loadConfig);
         Common.Notifications.on('toolbar:activatecontrols', activateControls);
         Common.Notifications.on('toolbar:deactivateeditcontrols', deactivateEditControls);
         Common.Notifications.on('goback', goBack);
-
-        if(isViewer) {
-            sdk.addEventListener('touchstart', handleTouchStart);
-            sdk.addEventListener('touchend', handleTouchEnd);
-        }
 
         if (isDisconnected) {
             f7.popover.close();
@@ -59,36 +44,58 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             Common.Notifications.off('toolbar:activatecontrols', activateControls);
             Common.Notifications.off('toolbar:deactivateeditcontrols', deactivateEditControls);
             Common.Notifications.off('goback', goBack);
+        }
+    }, []);
 
+    useEffect(() => {
+        const api = Common.EditorApi.get();
+        const navbarBgHeight = document.querySelector('.navbar-bg').clientHeight;
+        const subnavbarHeight = document.querySelector('.subnavbar').clientHeight;
+        const navbarHeight = navbarBgHeight + subnavbarHeight;
+
+        const onEngineCreated = api => {
             if(isViewer) {
-                sdk.removeEventListener('touchstart', handleTouchStart);
-                sdk.removeEventListener('touchend', handleTouchEnd);
+                api.SetMobileTopOffset(navbarHeight, navbarHeight);
+                api.asc_registerCallback('onMobileScrollDelta', scrollHandler);
             }
+        };
+
+        if (!api) {
+            Common.Notifications.on('engineCreated', onEngineCreated);
+        } else {
+            onEngineCreated(api);
         }
-    });
 
-    // Touch handlers
+        return () => {
+            const api = Common.EditorApi.get();
 
-    const checkDirection = () => {
-        const diff = touchStartY - touchEndY;
-
-        if(Math.abs(diff) > sensitivity) {
-            if(diff > 0) {
-                // f7.navbar.show('.main-navbar');
-            } else {
-                // f7.navbar.hide('.main-navbar');
+            if (api) {
+                api.SetMobileTopOffset(navbarHeight, navbarHeight);
+                api.asc_unregisterCallback('onMobileScrollDelta', scrollHandler);
             }
+
+            Common.Notifications.off('engineCreated', onEngineCreated);
         }
-    };
+    }, [isViewer]);
 
-    const handleTouchStart = e => {
-        touchStartY = e.changedTouches[0].screenY;
-    };
+    // Scroll handler
 
-    const handleTouchEnd = e => {
-        touchEndY = e.changedTouches[0].screenY;
-        checkDirection();
-    };
+    const scrollHandler = offset => {
+        const api = Common.EditorApi.get();
+        const navbarBgHeight = document.querySelector('.navbar-bg').clientHeight;
+        const subnavbarHeight = document.querySelector('.subnavbar').clientHeight;
+        const navbarHeight = navbarBgHeight + subnavbarHeight;
+
+        if(offset > navbarHeight) {
+            f7.navbar.hide('.main-navbar');
+            props.closeOptions('fab');
+            api.SetMobileTopOffset(undefined, 0);
+        } else if(offset < -navbarHeight) {
+            f7.navbar.show('.main-navbar');
+            props.openOptions('fab');
+            api.SetMobileTopOffset(undefined, navbarHeight);
+        }
+    }
 
     // Back button
     const [isShowBack, setShowBack] = useState(appOptions.canBackToFolder);

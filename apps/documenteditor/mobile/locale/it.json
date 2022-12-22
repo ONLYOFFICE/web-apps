@@ -328,7 +328,6 @@
     "textRemoveShape": "Eliminare forma",
     "textRemoveTable": "Eliminare tabella",
     "textRemoveTableContent": "Elimina sommario",
-    "textReorder": "Riordinare",
     "textRepeatAsHeaderRow": "Ripetere come riga di intestazione",
     "textReplace": "Sostituire",
     "textReplaceImage": "Sostituire l'immagine",
@@ -374,6 +373,7 @@
     "textWe": "Mer",
     "textWrap": "Avvolgere",
     "textWrappingStyle": "Stile di disposizione testo",
+    "textArrange": "Arrange",
     "textChangeShape": "Change Shape",
     "textCustomStyle": "Custom Style",
     "textDeleteImage": "Delete Image"
@@ -564,7 +564,9 @@
     "warnLicenseUsersExceeded": "Hai raggiunto il limite degli utenti per gli editor %1. Ti preghiamo di contattare il tuo amministratore per maggior informazioni.",
     "warnNoLicense": "Hai raggiunto il limite delle connessioni simultanee agli editor %1. Questo documento sarà aperto solo in modalità di visualizzazione.  Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
     "warnNoLicenseUsers": "Hai raggiunto il limite degli utenti per gli editor %1. Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
-    "warnProcessRightsChange": "Non hai il permesso di modificare questo file."
+    "warnProcessRightsChange": "Non hai il permesso di modificare questo file.",
+    "textDocumentProtected": "The document is protected. Edit settings are not available",
+    "textOk": "Ok"
   },
   "Settings": {
     "advDRMOptions": "File protetto",

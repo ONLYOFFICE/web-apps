@@ -1140,7 +1140,7 @@ define([
 
                     this._state.GradColor = color;
                 }
-                this.chShadow.setDisabled(!!shapeprops.get_FromChart());
+                this.chShadow.setDisabled(!!shapeprops.get_FromChart() || this._locked);
                 this.chShadow.setValue(!!shapeprops.asc_getShadow(), true);
 
                 this._noApply = false;

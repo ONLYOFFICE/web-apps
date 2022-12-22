@@ -305,7 +305,6 @@
     "textRemoveChart": "ລົບແຜນວາດ",
     "textRemoveShape": "ລົບຮ່າງ",
     "textRemoveTable": "ລົບຕາຕະລາງ",
-    "textReorder": "ຈັດຮຽງໃໝ່",
     "textRepeatAsHeaderRow": "ເຮັດລື້ມຄືນ ຕາມ ແຖວຫົວເລື່ອງ",
     "textReplace": "ປ່ຽນແທນ",
     "textReplaceImage": "ປ່ຽນແທນຮູບ",
@@ -341,6 +340,7 @@
     "textWe": "ພວກເຮົາ",
     "textWrap": "ຫໍ່",
     "textAmountOfLevels": "Amount of Levels",
+    "textArrange": "Arrange",
     "textCancel": "Cancel",
     "textCentered": "Centered",
     "textChangeShape": "Change Shape",
@@ -564,6 +564,8 @@
     "warnNoLicense": "ທ່ານໄດ້ຖືກຈຳກັດສິດພຽງເທົ່ານີ້ສຳຫລັບການເຊື່່ອມພ້ອມກັນກັບເຄື່ອງມືແກ້ໄຂ %1 ແລ້ວເອກະສານນີ້ຈະເປີດໃຫ້ເບີ່ງເທົ່ານັ້ນ ຕິດຕໍ່ທີມຂາຍ %1 ສຳຫລັບເງື່ອນໄຂການອັບເກດສ່ວນບຸກຄົນ",
     "warnNoLicenseUsers": "ຈໍານວນການເຊື່ອມຕໍ່ພ້ອມກັນກັບບັນນາທິການ ແມ່ນເກີນກໍານົດ % 1. ຕິດຕໍ່ ທີມຂາຍ %1 ສຳລັບຂໍ້ກຳນົດການຍົກລະດັບສິດ",
     "warnProcessRightsChange": "ທ່ານບໍ່ມີສິດໃນການແກ້ໄຂໄຟລ໌ນີ້.",
+    "textDocumentProtected": "The document is protected. Edit settings are not available",
+    "textOk": "Ok",
     "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
   },
   "Settings": {

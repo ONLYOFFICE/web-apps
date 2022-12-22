@@ -419,25 +419,25 @@ define([
 
         querySavePrintSettings: function(print) {
             if ( this.checkMargins(this.printSettings) ) {
+                var view = SSE.getController('Toolbar').getView('Toolbar');
                 this.savePageOptions(this.printSettings);
                 this._isPrint = print;
                 this.printSettings.applySettings();
 
-                if (print) {
-                    var view = SSE.getController('Toolbar').getView('Toolbar');
-                    var printType = this.printSettings.getRange();
-                    this.adjPrintParams.asc_setPrintType(printType);
-                    this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
-                    this.adjPrintParams.asc_setIgnorePrintArea(this.printSettings.getIgnorePrintArea());
-                    Common.localStorage.setItem("sse-print-settings-range", printType);
+                var printType = this.printSettings.getRange();
+                this.adjPrintParams.asc_setPrintType(printType);
+                this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
+                this.adjPrintParams.asc_setIgnorePrintArea(this.printSettings.getIgnorePrintArea());
+                Common.localStorage.setItem("sse-print-settings-range", printType);
 
+                if (print) {
                     var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
                     opts.asc_setAdvancedOptions(this.adjPrintParams);
                     this.api.asc_Print(opts);
-                    Common.NotificationCenter.trigger('edit:complete', view);
 
                     this._isPrint = false;
                 }
+                Common.NotificationCenter.trigger('edit:complete', view);
             }
         },
 

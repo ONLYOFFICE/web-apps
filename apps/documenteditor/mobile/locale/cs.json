@@ -331,7 +331,6 @@
     "textRemoveShape": "Odstranit obrazec",
     "textRemoveTable": "Odstranit tabulku",
     "textRemoveTableContent": "Odebrat obsah",
-    "textReorder": "Změnit řazení",
     "textRepeatAsHeaderRow": "Opakujte jako řádek záhlaví",
     "textReplace": "Nahradit",
     "textReplaceImage": "Nahradit obrázek",
@@ -376,7 +375,8 @@
     "textType": "Typ",
     "textWe": "st",
     "textWrap": "Obtékání",
-    "textWrappingStyle": "Obtékání textu"
+    "textWrappingStyle": "Obtékání textu",
+    "textArrange": "Arrange"
   },
   "Error": {
     "convertationTimeoutText": "Vypršel čas konverze.",
@@ -564,7 +564,9 @@
     "warnLicenseUsersExceeded": "Došlo dosažení limitu %1 editorů v režimu spolupráce na úpravách. Ohledně podrobností se obraťte na svého správce.",
     "warnNoLicense": "Došlo k dosažení limitu souběžného připojení %1 editorů. Tento dokument bude otevřen pouze pro náhled. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
     "warnNoLicenseUsers": "Došlo k dosažení limitu %1 editorů. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
-    "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu."
+    "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu.",
+    "textDocumentProtected": "The document is protected. Edit settings are not available",
+    "textOk": "Ok"
   },
   "Settings": {
     "advDRMOptions": "Zabezpečený soubor",
