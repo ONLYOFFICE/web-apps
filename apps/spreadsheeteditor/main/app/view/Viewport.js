@@ -162,6 +162,15 @@ define([
                 rightMenuView   = SSE.getController('RightMenu').getView('RightMenu');
 
             me._rightMenu   = rightMenuView.render(this.mode);
+            var value = Common.UI.LayoutManager.getInitValue('rightMenu');
+            value = (value!==undefined) ? !value : false;
+            Common.localStorage.getBool("sse-hidden-rightmenu", value) && me._rightMenu.hide();
+        },
+
+        applyCommonMode: function() {
+            var value = Common.UI.LayoutManager.getInitValue('leftMenu');
+            value = (value!==undefined) ? !value : false;
+            Common.localStorage.getBool("sse-hidden-leftmenu", value) && SSE.getController('LeftMenu').getView('LeftMenu').hide();
         },
 
         setMode: function(mode, delay) {

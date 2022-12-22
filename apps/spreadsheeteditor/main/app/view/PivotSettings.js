@@ -201,7 +201,7 @@ define([
         },
 
         getDragElement: function(value) {
-            this._dragEl = $('<div style="font-weight: bold;position: absolute;left:-10000px;">' + value + '</div>');
+            this._dragEl = $('<div style="font-weight: bold;position: absolute;left:-10000px;z-index: 10000;">' + value + '</div>');
             $(document.body).append(this._dragEl);
             return this._dragEl[0];
         },

@@ -100,7 +100,8 @@ define([
                     'collaboration:chat': _.bind(this.onShowHideChat, this)
                 },
                 'ViewTab': {
-                    'viewtab:navigation': _.bind(this.onShowHideNavigation, this)
+                    'viewtab:navigation': _.bind(this.onShowHideNavigation, this),
+                    'leftmenu:hide': _.bind(this.onLeftMenuHide, this)
                 },
                 'SearchBar': {
                     'search:show': _.bind(this.onShowHideSearch, this)
@@ -113,12 +114,22 @@ define([
                 if ( !this.leftMenu.panelHistory.isVisible() )
                     this.clickMenuFileItem(null, 'history');
             }, this));
+            Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
+            Common.NotificationCenter.on('file:print', _.bind(this.clickToolbarPrint, this));
         },
 
         onLaunch: function() {
             this.leftMenu = this.createView('LeftMenu').render();
             this.leftMenu.btnSearchBar.on('toggle', _.bind(this.onMenuSearchBar, this));
-
+            this._state = {
+                disableEditing: false,
+                docProtection: {
+                    isReadOnly: false,
+                    isReviewOnly: false,
+                    isFormsOnly: false,
+                    isCommentsOnly: false
+                }
+            };
             Common.util.Shortcuts.delegateShortcuts({
                 shortcuts: {
                     'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
@@ -208,14 +219,13 @@ define([
             this.leftMenu.setOptionsPanel('navigation', this.getApplication().getController('Navigation').getView('Navigation'));
 
             if (this.mode.canUseThumbnails) {
-                this.leftMenu.btnThumbnails.show();
                 this.leftMenu.setOptionsPanel('thumbnails', this.getApplication().getController('PageThumbnails').getView('PageThumbnails'));
             } else {
                 this.leftMenu.btnThumbnails.hide();
             }
 
             (this.mode.trialMode || this.mode.isBeta) && this.leftMenu.setDeveloperMode(this.mode.trialMode, this.mode.isBeta, this.mode.buildVersion);
-
+            this.onChangeProtectDocument();
             Common.util.Shortcuts.resumeEvents();
             return this;
         },
@@ -435,10 +445,6 @@ define([
         applySettings: function(menu) {
             var value;
 
-            value = Common.localStorage.getBool("de-settings-inputmode");
-            Common.Utils.InternalSettings.set("de-settings-inputmode", value);
-            this.api.SetTextBoxInputMode(value);
-
             var fast_coauth = Common.Utils.InternalSettings.get("de-settings-coauthmode");
             /** coauthoring begin **/
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring ) {
@@ -553,6 +559,13 @@ define([
                 this.leftMenu.menuFile.hide();
         },
 
+        clickToolbarPrint: function () {
+            if (this.mode.canPreviewPrint)
+                this.leftMenu.showMenu('file:printpreview');
+            else if (this.mode.canPrint)
+                this.clickMenuFileItem(null, 'print');
+        },
+
         changeToolbarSaveState: function (state) {
             var btnSave = this.leftMenu.menuFile.getButton('save');
             btnSave && btnSave.setDisabled(state);
@@ -584,8 +597,14 @@ define([
         },
 
         setPreviewMode: function(mode) {
-            if (this.viewmode === mode) return;
-            this.viewmode = mode;
+            this._state.disableEditing = mode;
+            this.updatePreviewMode();
+        },
+
+        updatePreviewMode: function() {
+            var viewmode = this._state.disableEditing || this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly;
+            if (this.viewmode === viewmode) return;
+            this.viewmode = viewmode;
 
             this.leftMenu.panelSearch && this.leftMenu.panelSearch.setSearchMode(this.viewmode ? 'no-replace' : 'search');
         },
@@ -820,6 +839,7 @@ define([
         onPluginOpen: function(panel, type, action) {
             if ( type == 'onboard' ) {
                 if ( action == 'open' ) {
+                    this.tryToShowLeftMenu();
                     this.leftMenu.close();
                     this.leftMenu.panelPlugins.show();
                     this.leftMenu.onBtnMenuClick({pressed:true, options: {action: 'plugins'}});
@@ -846,6 +866,7 @@ define([
             if (this.mode.canCoAuthoring && this.mode.canChat && !this.mode.isLightVersion) {
                 if (state) {
                     Common.UI.Menu.Manager.hideAll();
+                    this.tryToShowLeftMenu();
                     this.leftMenu.showMenu('chat');
                 } else {
                     this.leftMenu.btnChat.toggle(false, true);
@@ -857,6 +878,7 @@ define([
         onShowHideNavigation: function(state) {
             if (state) {
                 Common.UI.Menu.Manager.hideAll();
+                this.tryToShowLeftMenu();
                 this.leftMenu.showMenu('navigation');
             } else {
                 this.leftMenu.btnNavigation.toggle(false, true);
@@ -867,6 +889,7 @@ define([
         onShowHideSearch: function (state, findText) {
             if (state) {
                 Common.UI.Menu.Manager.hideAll();
+                this.tryToShowLeftMenu();
                 this.leftMenu.showMenu('advancedsearch', undefined, true);
                 this.leftMenu.fireEvent('search:aftershow', this.leftMenu, findText);
             } else {
@@ -888,6 +911,35 @@ define([
 
         isCommentsVisible: function() {
             return this.leftMenu && this.leftMenu.panelComments && this.leftMenu.panelComments.isVisible();
+        },
+
+        onChangeProtectDocument: function(props) {
+            if (!props) {
+                var docprotect = this.getApplication().getController('DocProtection');
+                props = docprotect ? docprotect.getDocProps() : null;
+            }
+            if (props) {
+                this._state.docProtection = props;
+                this.updatePreviewMode();
+            }
+        },
+
+        onLeftMenuHide: function (view, status) {
+            if (this.leftMenu) {
+                !status && this.leftMenu.close();
+                status ? this.leftMenu.show() : this.leftMenu.hide();
+                Common.localStorage.setBool('de-hidden-leftmenu', !status);
+
+                !view && this.leftMenu.fireEvent('view:hide', [this, !status]);
+            }
+
+            Common.NotificationCenter.trigger('layout:changed', 'main');
+            Common.NotificationCenter.trigger('edit:complete', this.leftMenu);
+        },
+
+        tryToShowLeftMenu: function() {
+            if ((!this.mode.canBrandingExt || !this.mode.customization || this.mode.customization.leftMenu !== false) && Common.UI.LayoutManager.isElementVisible('leftMenu'))
+                this.onLeftMenuHide(null, true);
         },
 
         textNoTextFound         : 'Text not found',

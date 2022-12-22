@@ -1,6 +1,6 @@
-const webpack = require('webpack');
-const rm = require('rimraf');
-const config = require('./webpack.config.js');
+import webpack from 'webpack';
+import rm from 'rimraf';
+import config from "./webpack.config.js";
 
 const env = process.env.NODE_ENV || 'development';
 const target = process.env.TARGET || 'web';

@@ -1838,5 +1838,57 @@
 	"XOR": {
 		"a": "(totuus1; [totuus2]; ...)",
 		"d": "Palauttaa argumenttien totuuden 'Poissulkeva Tai'"
+	},
+	"TEXTBEFORE": {
+		"a": "(teksti, erotin, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Palauttaa tekstin, joka on ennen erotinmerkkejä."
+	},
+	"TEXTAFTER": {
+		"a": "(teksti, erotin, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Palauttaa tekstin, joka on erotinmerkkien jälkeen."
+	},
+	"TEXTSPLIT": {
+		"a": "(text, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
+		"d": "Jakaa tekstin riveiksi tai sarakkeiksi erottimien avulla."
+	},
+	"WRAPROWS": {
+		"a": "(vektori, wrap_count, [pad_with])",
+		"d": " Rivittää rivi- tai sarakevektorin määritetyn arvomäärän jälkeen."
+	},
+	"VSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": "Pinoaa taulukot pystysuunnassa yhteen matriisiin."
+	},
+	"HSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": "Pinoaa taulukot vaakasuunnassa yhteen matriisiin."
+	},
+	"CHOOSEROWS": {
+		"a": "(array, row_num1, [row_num2], ...)",
+		"d": "Palauttaa matriisista tai viittauksesta vain määritetyt rivit"
+	},
+	"CHOOSECOLS": {
+		"a": "(array, col_num1, [col_num2], ...)",
+		"d": "Palauttaa matriisista tai viittauksesta vain määritetyt sarakkeet."
+	},
+	"TOCOL": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "Palauttaa matriisin yhtenä sarakkeena."
+	},
+	"TOROW": {
+		"a": "(matriisi, [ignore], [scan_by_column])",
+		"d": "Palauttaa matriisin yhtenä rivinä. "
+	},
+	"WRAPCOLS": {
+		"a": "(vektori, wrap_count, [pad_with])",
+		"d": " Rivittää rivi- tai sarakevektorin määritetyn arvomäärän jälkeen."
+	},
+	"TAKE": {
+		"a": "(array, rows, [columns])",
+		"d": "Palauttaa rivit tai sarakkeet matriisin alusta tai lopusta."
+	},
+	"DROP": {
+		"a": "(array, rows, [columns])",
+		"d": "Poistaa rivit tai sarakkeet matriisin alusta tai lopusta."
 	}
 }

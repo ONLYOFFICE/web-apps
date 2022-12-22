@@ -4,7 +4,7 @@ import {f7, List, ListItem, Icon, Row, Button, Page, Navbar, Segmented, BlockTit
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
-import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage';
+import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage.mjs';
 
 const EditCell = props => {
     const isAndroid = Device.android;
@@ -114,7 +114,7 @@ const EditCell = props => {
                         }}>
                             {!isAndroid && <Icon slot="media" icon="icon-cell-style" />}
                             <div slot="after">
-                                <div className='preview-cell-style' style={{backgroundImage: `url(${curStyle.image})`}}></div>
+                                <div className='preview-cell-style' style={{backgroundImage: `url(${curStyle ? curStyle.image : null})`}}></div>
                             </div>
                         </ListItem>
                     </List>

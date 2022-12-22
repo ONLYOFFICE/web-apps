@@ -83,7 +83,7 @@
     border-radius: 0;
     padding: 3px 10px;
     color: #fff;
-    font: 11px arial;
+    .font-size-normal();
     white-space: nowrap;
     letter-spacing: 1px;
     overflow: hidden;
@@ -96,13 +96,24 @@
     }
 }
 
-#special-paste-container {
+#special-paste-container,
+#equation-container {
     position: absolute;
     z-index: @zindex-dropdown - 20;
     background-color: @background-toolbar-ie;
     background-color: @background-toolbar;
     border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
+}
+
+#equation-container {
+    padding: 4px;
+    .separator {
+        height: 20px;
+    }
+    &.has-open-menu {
+        z-index: @zindex-navbar + 1;
+    }
 }
 
 .item-theme {

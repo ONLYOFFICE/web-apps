@@ -175,9 +175,12 @@
                         },
                         leftMenu: {
                             navigation: false/true,
-                            spellcheck: false/true // spellcheck button in sse
+                            spellcheck: false/true // spellcheck button in sse,
+                            mode: false/true // init value for left panel, true - is visible, false - is hidden, used for option "Left panel" on the View Tab
                         } / false / true, // use instead of customization.leftMenu
-                        rightMenu: false/true, // use instead of customization.rightMenu
+                        rightMenu: {
+                            mode: false/true // init value for right panel, true - is visible, false - is hidden, used for option "Right panel" on the View Tab
+                        } / false/true, // use instead of customization.rightMenu
                         statusBar: {
                             textLang: false/true // text language button in de/pe
                             docLang: false/true // document language button in de/pe
@@ -189,6 +192,10 @@
                             mode: false/true // init value in de/pe
                             change: false/true // hide/show feature in de/pe/sse
                         } / false / true // if false/true - use as init value in de/pe. use instead of customization.spellcheck parameter
+                    },
+                    font: {
+                        name: "Arial",
+                        size: "11px";
                     },
                     chat: true,
                     comments: true,
@@ -219,6 +226,7 @@
                     hideRulers: false // hide or show rulers on first loading (presentation or document editor)
                     hideNotes: false // hide or show notes panel on first loading (presentation editor)
                     uiTheme: 'theme-dark' // set interface theme: id or default-dark/default-light
+                    integrationMode: "embed" // turn off scroll to frame
                 },
                  coEditing: {
                      mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true. 'fast' - default for editor
@@ -493,6 +501,9 @@
 
         if (target && _checkConfigParams()) {
             iframe = createIframe(_config);
+            if (_config.editorConfig.customization && _config.editorConfig.customization.integrationMode==='embed')
+                window.AscEmbed && window.AscEmbed.initWorker(iframe);
+
             if (iframe.src) {
                 var pathArray = iframe.src.split('/');
                 this.frameOrigin = pathArray[0] + '//' + pathArray[2];

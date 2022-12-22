@@ -179,8 +179,8 @@ define([
                     isN2 = n2!==undefined;
                 if (isN1 !== isN2) return (isN1) ? -1 : 1;
                 !isN1 && (n1 = item1.get('value').toLowerCase()) && (n2 = item2.get('value').toLowerCase());
-                if (n1==n2) return 0;
-                return (n2=='' || n1!=='' && n1<n2) ? -1 : 1;
+                if (n1===n2) return 0;
+                return (n2==='' || n1!=='' && n1<n2) ? -1 : 1;
             };
             this.cmbValue1.store.comparator = this.cmbValue2.store.comparator = comparator;
 
@@ -965,7 +965,7 @@ define([
                 height          : height || 277,
                 contentWidth    : (width - 50) || 400,
                 header          : false,
-                cls             : 'filter-dlg',
+                cls             : 'filter-dlg autofilter',
                 contentTemplate : '',
                 title           : t.txtTitle,
                 modal           : false,
@@ -978,7 +978,7 @@ define([
 
             this.template   =   options.template || [
                 '<div class="box" style="height: 100%; display: flex; justify-content: space-between;">',
-                    '<div class="content-panel" style="width: 100%; border-right: 1px solid #cbcbcb; display: flex; flex-direction: column; justify-content: space-between;">',
+                    '<div class="content-panel">',
                         '<div class="" style="display: flex; flex-direction: column; justify-content: flex-start; height: calc(100% - 37px);">',
                             '<div id="id-sd-cell-search" style="height:22px; margin-bottom:10px;"></div>',
                             '<div class="border-values" style="overflow: hidden; flex-grow: 1;">',
@@ -1328,8 +1328,8 @@ define([
                         isN2 = n2!==undefined;
                     if (isN1 !== isN2) return (isN1) ? -1 : 1;
                     !isN1 && (n1 = item1.get('cellvalue').toLowerCase()) && (n2 = item2.get('cellvalue').toLowerCase());
-                    if (n1==n2) return 0;
-                    return (n2=='' || n1!=='' && n1<n2) ? -1 : 1;
+                    if (n1===n2) return 0;
+                    return (n2==='' || n1!=='' && n1<n2) ? -1 : 1;
                 };
                 this.cellsList.on({
                     'item:change': this.onItemChanged.bind(this),

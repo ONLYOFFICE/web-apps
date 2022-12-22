@@ -78,6 +78,12 @@
             }
         }
     }
+
+    .masked & {
+        &.disabled {
+            opacity: 1;
+        }
+    }
 }
 
 
@@ -477,7 +483,6 @@
 
         .caption{
             line-height: 12px;
-            font-size: 11px;
             text-overflow: ellipsis;
             overflow: hidden;
             width: 100%;

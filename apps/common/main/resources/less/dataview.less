@@ -1,4 +1,5 @@
 .dataview {
+    font-size: 11px; // must be const value
     &.inner {
         width: 100%;
         height: 100%;
@@ -46,6 +47,10 @@
             &.margin .group-items-container {
                 margin-right: 20px;
             }
+        }
+
+        .group-description {
+            .font-size-normal();
         }
 
         .group-items-container {

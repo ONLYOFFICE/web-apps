@@ -8,7 +8,6 @@
     &.input-group-nr > .btn {
         height: @input-height-base;
         padding:  @padding-base-vertical @padding-base-horizontal;
-        font-size:  @font-size-base;
         line-height: @line-height-base;
 
         -o-transition: none;
@@ -22,6 +21,7 @@
 
     &.input-group-nr > .form-control {
         padding-right: 7px + 2 * @padding-base-horizontal;
+        .font-size-normal();
     }
 
     .form-control {
@@ -29,6 +29,7 @@
         position: static;
         z-index: auto;
         float: none;
+        .font-size-normal();
 
         .image {
             -webkit-filter: @img-border-type-filter;

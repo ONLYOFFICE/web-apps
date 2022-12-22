@@ -53,7 +53,7 @@ require.config({
         perfectscrollbar: 'common/main/lib/mods/perfect-scrollbar',
         jmousewheel     : '../vendor/perfect-scrollbar/src/jquery.mousewheel',
         xregexp         : '../vendor/xregexp/xregexp-all-min',
-        sockjs          : '../vendor/sockjs/sockjs.min',
+        socketio        : '../vendor/socketio/socket.io.min',
         api             : 'api/documents/api',
         core            : 'common/main/lib/core/application',
         notification    : 'common/main/lib/core/NotificationCenter',
@@ -115,11 +115,10 @@ require([
     'backbone',
     'bootstrap',
     'core',
-    'api',
     'analytics',
     'gateway',
     'locale',
-    'sockjs',
+    'socketio',
     'xregexp',
     'underscore'
 ], function (Backbone, Bootstrap, Core) {
@@ -143,6 +142,7 @@ require([
             'Main',
             'ViewTab',
             'Search',
+            'Print',
             'Common.Controllers.Fonts',
             'Common.Controllers.History'
             /** coauthoring begin **/
@@ -173,6 +173,7 @@ require([
             'presentationeditor/main/app/controller/Main',
             'presentationeditor/main/app/controller/ViewTab',
             'presentationeditor/main/app/controller/Search',
+            'presentationeditor/main/app/controller/Print',
             'presentationeditor/main/app/view/FileMenuPanels',
             'presentationeditor/main/app/view/ParagraphSettings',
             'presentationeditor/main/app/view/ImageSettings',

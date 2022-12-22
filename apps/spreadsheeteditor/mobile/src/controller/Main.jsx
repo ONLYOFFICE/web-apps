@@ -12,7 +12,7 @@ import {
     EditCommentController,
     ViewCommentsSheetsController
 } from "../../../../common/mobile/lib/controller/collaboration/Comments";
-import {LocalStorage} from "../../../../common/mobile/utils/LocalStorage";
+import {LocalStorage} from "../../../../common/mobile/utils/LocalStorage.mjs";
 import LongActionsController from "./LongActions";
 import ErrorController from "./Error";
 import app from "../page/app";
@@ -71,7 +71,7 @@ class MainController extends Component {
                 '../../../vendor/bootstrap/dist/js/bootstrap.min.js',
                 '../../../vendor/underscore/underscore-min.js',
                 '../../../vendor/xregexp/xregexp-all-min.js',
-                '../../../vendor/sockjs/sockjs.min.js'];
+                '../../../vendor/socketio/socket.io.min.js'];
             dep_scripts.push(...window.sdk_scripts);
 
             const promise_get_script = (scriptpath) => {
@@ -516,6 +516,9 @@ class MainController extends Component {
                 storeSpreadsheetInfo.changeTitle(meta.title);
             }
         });
+
+        const storeAppOptions = this.props.storeAppOptions;
+        this.api.asc_setFilteringMode && this.api.asc_setFilteringMode(storeAppOptions.canModifyFilter);
     }
 
     onEntriesListMenu(validation, textArr, addArr) {

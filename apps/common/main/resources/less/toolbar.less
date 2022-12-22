@@ -32,7 +32,7 @@
 
     .box-tabs {
         height: @height-tabs;
-        font-size: 12px;
+        .font-size-medium();
 
         display: flex;
         align-items: stretch;
@@ -100,7 +100,7 @@
                 padding: 0 12px;
                 text-decoration: none;
                 cursor: default;
-                font-size: 12px;
+                .font-size-medium();
                 text-align: center;
                 color: @text-toolbar-header-ie;
                 color: @text-toolbar-header;
@@ -641,10 +641,13 @@
 }
 
 .btn-toolbar {
-    &:active {
-        svg.icon {
-            fill: @icon-toolbar-header-ie;
-            fill: @icon-toolbar-header;
+    &:active,
+    &.active {
+        &:not(.disabled) {
+            svg.icon {
+                fill: @icon-normal-pressed-ie;
+                fill: @icon-normal-pressed;
+            }
         }
     }
 

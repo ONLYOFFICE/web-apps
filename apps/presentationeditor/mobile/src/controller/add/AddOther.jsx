@@ -37,7 +37,7 @@ class AddOtherController extends Component {
             text: '',
             content:
                 '<div class="content-block">' +
-                '<div class="row">' +
+                '<div class="row row-picker">' +
                 '<div class="col-50">' + _t.textColumns + '</div>' +
                 '<div class="col-50">' + _t.textRows + '</div>' +
                 '</div>' +

@@ -237,7 +237,7 @@ define([
 
     var getWidthOfCaption = function (txt) {
         var el = document.createElement('span');
-        el.style.fontSize = '11px';
+        el.style.fontSize = document.documentElement.style.getPropertyValue("--font-size-base-app-custom") || '11px';
         el.style.fontFamily = 'Arial, Helvetica, "Helvetica Neue", sans-serif';
         el.style.position = "absolute";
         el.style.top = '-1000px';
@@ -769,7 +769,7 @@ define([
             return (this.cmpEl) ? this.cmpEl.is(":visible") : $(this.el).is(":visible");
         },
 
-        updateHint: function(hint) {
+        updateHint: function(hint, isHtml) {
             this.options.hint = hint;
 
             if (!this.rendered) return;
@@ -795,10 +795,12 @@ define([
                 this.btnMenuEl.removeData('bs.tooltip');
 
             this.btnEl.tooltip({
+                html: !!isHtml,
                 title       : (typeof hint == 'string') ? hint : hint[0],
                 placement   : this.options.hintAnchor||'cursor'
             });
             this.btnMenuEl && this.btnMenuEl.tooltip({
+                html: !!isHtml,
                 title       : hint[1],
                 placement   : this.options.hintAnchor||'cursor'
             });

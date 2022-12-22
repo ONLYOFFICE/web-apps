@@ -1,5 +1,5 @@
 import {makeObservable, action, observable} from 'mobx';
-import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage';
+import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage.mjs';
 
 export class storeApplicationSettings {
     constructor() {
