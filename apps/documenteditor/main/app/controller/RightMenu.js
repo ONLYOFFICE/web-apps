@@ -171,6 +171,7 @@ define([
                 isProtected = this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly || this._state.docProtection.isCommentsOnly;
 
             var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
+                is_form = control_props && control_props.get_FormPr(),
                 control_lock = false;
             for (i=0; i<SelectedObjects.length; i++)
             {
@@ -202,7 +203,7 @@ define([
                         }
                     }
                     control_lock = control_lock || value.get_Locked();
-                } else if (settingsType == Common.Utils.documentSettingsType.Paragraph) {
+                } else if (settingsType == Common.Utils.documentSettingsType.Paragraph && !(is_form && is_form.get_Fixed())) {
                     this._settings[settingsType].panel.isChart = isChart;
                     this._settings[settingsType].panel.isSmartArtInternal = isSmartArtInternal;
                     can_add_table = value.get_CanAddTable();
@@ -217,7 +218,11 @@ define([
                     this._settings[Common.Utils.documentSettingsType.Signature].locked = value.get_Locked() || isProtected;
             }
 
-            if (control_props && control_props.get_FormPr() && this.rightmenu.formSettings) {
+            if(is_form && is_form.get_Fixed()) {
+                this._settings[Common.Utils.documentSettingsType.Paragraph].hidden = 1;
+            }
+
+            if (is_form && this.rightmenu.formSettings) {
                 var spectype = control_props.get_SpecificType();
                 if (spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture || spectype==Asc.c_oAscContentControlSpecificType.Complex ||
                     spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.None) {
@@ -225,7 +230,7 @@ define([
                     this._settings[settingsType].props = control_props;
                     this._settings[settingsType].locked = control_lock || isProtected;
                     this._settings[settingsType].hidden = 0;
-                    if (control_props.get_FormPr().get_Fixed())
+                    if (is_form.get_Fixed())
                         this._settings[Common.Utils.documentSettingsType.TextArt].hidden = 1;
                 }
             }
