@@ -201,9 +201,6 @@ define([
 
         _setDefaults: function (props) {
             if (props) {
-                this.rbReview.setDisabled(!props.canReview);
-                this.rbForms.setDisabled(!props.canFillForms);
-                this.rbComments.setDisabled(!props.canComments);
             }
         },
 
