@@ -126,7 +126,7 @@
       "txtIncorrectPwd": "A senha está incorreta",
       "txtProtected": "Ao abrir o arquivo com sua senha, a senha atual será redefinida.",
       "warnLicenseExceeded": "Você atingiu o limite de conexões simultâneas para% 1 editores. Este documento será aberto apenas para visualização. Contate seu administrador para saber mais.",
-      "warnLicenseExp": "Sua licença expirou. Por favor, atualize-o e atualize a página.",
+      "warnLicenseExp": "Sua licença expirou. Por favor, atualize sua licença e atualize a página.",
       "warnLicenseLimitedNoAccess": "Licença expirada. Você não tem acesso à funcionalidade de edição de documentos. Por favor, contate seu administrador.",
       "warnLicenseLimitedRenewed": "A licença precisa ser renovada. Você tem acesso limitado à funcionalidade de edição de documentos. <br> Entre em contato com o administrador para obter acesso total",
       "warnLicenseUsersExceeded": "Você atingiu o limite de usuários para editores %1. Entre em contato com seu administrador para saber mais.",
@@ -163,6 +163,8 @@
     "errorSessionIdle": "O documento não é editado há muito tempo. Por favor recarregue a página.",
     "errorSessionToken": "A conexão com o servidor foi interrompida. Por favor recarregue a página.",
     "errorStockChart": "Ordem incorreta das linhas. Para construir um gráfico de ações, coloque os dados na folha na seguinte ordem: <br> preço de abertura, preço máximo, preço mínimo, preço de fechamento.",
+    "errorToken": "O token de segurança do documento não foi formado corretamente. <br> Entre em contato com o administrador do Document Server.",
+    "errorTokenExpire": "O token de segurança do documento expirou. <br> Entre em contato com o administrador do Document Server.",
     "errorUpdateVersionOnDisconnect": "A conexão com a Internet foi restaurada e a versão do arquivo foi alterada. <br> Antes de continuar a trabalhar, baixe o arquivo ou copie seu conteúdo para garantir que nada seja perdido e, em seguida, recarregue esta página.",
     "errorUserDrop": "O arquivo não pode ser acessado agora.",
     "errorUsersExceed": "O número de usuários permitidos pelo plano de preços foi excedido",
@@ -177,9 +179,7 @@
     "unknownErrorText": "Erro desconhecido.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Sem imagens carregadas.",
-    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB.",
-    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
-    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
+    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Carregando dados...",

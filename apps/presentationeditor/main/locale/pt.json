@@ -410,6 +410,7 @@
   "Common.define.smartArt.textVerticalPictureList": "Lista de imagens verticais",
   "Common.define.smartArt.textVerticalProcess": "Processo Vertical",
   "Common.Translation.textMoreButton": "Mais",
+  "Common.Translation.tipFileLocked": "O documento está bloqueado para edição. Você pode fazer alterações e salvá-lo como cópia local mais tarde.",
   "Common.Translation.warnFileLocked": "Documento está em uso por outra aplicação. Você pode continuar editando e salvá-lo como uma cópia.",
   "Common.Translation.warnFileLockedBtnEdit": "Criar uma cópia",
   "Common.Translation.warnFileLockedBtnView": "Aberto para visualização",
