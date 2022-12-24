@@ -393,7 +393,8 @@ define([
                 function _fc() {
                     var $active = panel || me.$panels.filter('.active');
                     if ( $active && $active.length ) {
-                        var _maxright = $active.parents('.box-controls').width();
+                        var _maxright = $active.parents('.box-controls').width(),
+                            _staticPanelWidth = $active.parents('.box-controls').find('.panel.static').outerWidth();
                         var data = $active.data(),
                             _rightedge = data.rightedge,
                             _btns = data.buttons,
@@ -403,7 +404,7 @@ define([
                             me.setMoreButton($active.attr('data-tab'), $active);
                         }
                         if ( !_rightedge ) {
-                            _rightedge = Common.UI.isRTL() ? $active.get(0).getBoundingClientRect().left : $active.get(0).getBoundingClientRect().right;
+                            _rightedge = $active.outerWidth() + _staticPanelWidth;
                         }
                         if ( !_btns ) {
                             _btns = [];
@@ -421,12 +422,13 @@ define([
                             data.flex = _flex;
                         }
 
-                        if ( (Common.UI.isRTL() && _rightedge < 0) || (_rightedge > _maxright)) {
+                        if (_rightedge > _maxright) {
                             if (!more_section.is(':visible') ) {
                                 if (_flex.length>0) {
                                     for (var i=0; i<_flex.length; i++) {
                                         var item = _flex[i].el;
-                                        _rightedge = Common.UI.isRTL() ? $active.get(0).getBoundingClientRect().left : $active.get(0).getBoundingClientRect().right;
+                                        //_rightedge = $active.get(0).getBoundingClientRect().right;
+                                        _rightedge = $active.outerWidth() + _staticPanelWidth;
                                         if (item.outerWidth() > parseInt(item.css('min-width'))) {
                                             data.rightedge = _rightedge;
                                             return;
@@ -438,8 +440,8 @@ define([
                                     var btn = _btns[i];
                                     if ( !btn.hasClass('compactwidth') && !btn.hasClass('slot-btn-more')) {
                                         btn.addClass('compactwidth');
-                                        _rightedge = Common.UI.isRTL() ? $active.get(0).getBoundingClientRect().left : $active.get(0).getBoundingClientRect().right;
-                                        if ((Common.UI.isRTL() && _rightedge >= 0) || (_rightedge <= _maxright))
+                                        _rightedge = $active.outerWidth() + _staticPanelWidth;
+                                        if (_rightedge <= _maxright)
                                             break;
                                     }
                                 }
@@ -453,10 +455,10 @@ define([
                                     var btn = _btns[i];
                                     if ( btn.hasClass('compactwidth') ) {
                                         btn.removeClass('compactwidth');
-                                        _rightedge = Common.UI.isRTL() ? $active.get(0).getBoundingClientRect().left : $active.get(0).getBoundingClientRect().right;
-                                        if ( (Common.UI.isRTL() && _rightedge < 0) || (_rightedge > _maxright)) {
+                                        _rightedge = $active.outerWidth() + _staticPanelWidth;
+                                        if (_rightedge > _maxright) {
                                             btn.addClass('compactwidth');
-                                            _rightedge = Common.UI.isRTL() ? $active.get(0).getBoundingClientRect().left : $active.get(0).getBoundingClientRect().right;
+                                            _rightedge = $active.outerWidth() + _staticPanelWidth;
                                             break;
                                         }
                                     }
@@ -466,7 +468,7 @@ define([
                                     for (var i=0; i<_flex.length; i++) {
                                         var item = _flex[i];
                                         item.el.css('width', item.width);
-                                        data.rightedge = Common.UI.isRTL() ? $active.get(0).getBoundingClientRect().left : $active.get(0).getBoundingClientRect().right;
+                                        data.rightedge = $active.get(0).getBoundingClientRect().right;
                                     }
                                 }
                             }
@@ -530,10 +532,11 @@ define([
             },
 
             clearMoreButton: function(tab) {
+                console.log('clearMoreButton');
                 var panel = this.$panels.filter('[data-tab=' + tab + ']');
                 if ( panel.length ) {
                     var data = panel.data();
-                    data.buttons = data.flex = data.rightedge = undefined;
+                    data.buttons = data.flex = data.rightedge = data.leftedge = undefined;
                     panel.find('.more-box').remove();
                 }
                 if (btnsMore[tab]) {
@@ -545,10 +548,6 @@ define([
             },
 
             resizeToolbar: function(reset) {
-                if (Common.UI.isRTL()) {
-                    this.resizeToolbarRTL(reset);
-                    return;
-                }
                 var $active = this.$panels.filter('.active'),
                     more_section = $active.find('.more-box');
 
@@ -558,8 +557,9 @@ define([
 
                 var more_section_width = parseInt(more_section.css('width')) || 0,
                     box_controls_width = $active.parents('.box-controls').width(),
+                    _staticPanelWidth = $active.parents('.box-controls').find('.panel.static').outerWidth(),
                     _maxright = box_controls_width,
-                    _rightedge = $active.get(0).getBoundingClientRect().right,
+                    _rightedge = $active.outerWidth() + _staticPanelWidth,
                     delta = (this._prevBoxWidth) ? (_maxright - this._prevBoxWidth) : -1,
                     hideAllMenus = false;
                 this._prevBoxWidth = _maxright;
@@ -593,11 +593,12 @@ define([
                             this.$moreBar.prepend(item);
                             hideAllMenus = true;
                         } else if (item.hasClass('group')) {
-                            _rightedge = $active.get(0).getBoundingClientRect().right;
+                            //_rightedge = $active.get(0).getBoundingClientRect().right;
+                            _rightedge = $active.outerWidth() + _staticPanelWidth;
                             if (_rightedge <= _maxright) // stop moving items
                                 break;
 
-                            var offset = item.offset(),
+                            var rect = item.get(0).getBoundingClientRect(),
                                 item_width = item.outerWidth(),
                                 children = item.children();
                             if (!item.attr('inner-width') && item.attr('group-state') !== 'open') {
@@ -607,7 +608,7 @@ define([
                                     child.attr('inner-width', child.outerWidth());
                                 }
                             }
-                            if ((offset.left > _maxright || children.length==1) && item.attr('group-state') != 'open') {
+                            if (((rect.left > _maxright || Common.UI.isRTL() && box_controls_width - rect.right > _maxright) || children.length==1) && item.attr('group-state') != 'open') {
                                 // move group
                                 this.$moreBar.prepend(item);
                                 if (last_separator) {
@@ -615,7 +616,7 @@ define([
                                     last_separator.removeAttr('hidden-on-resize');
                                 }
                                 hideAllMenus = true;
-                            } else if ( offset.left+item_width > _maxright ) {
+                            } else if ((Common.UI.isRTL() ? box_controls_width - rect.right : rect.left)+item_width > _maxright ) {
                                 // move buttons from group
                                 for (var j=children.length-1; j>=0; j--) {
                                     var child = $(children[j]);
@@ -628,9 +629,9 @@ define([
                                         hideAllMenus = true;
                                         break;
                                     } else {
-                                        var child_offset = child.offset(),
+                                        var child_rect = child.get(0).getBoundingClientRect(),
                                             child_width = child.outerWidth();
-                                        if (child_offset.left+child_width>_maxright) {
+                                        if ((Common.UI.isRTL() ? box_controls_width - child_rect.right : child_rect.left)+child_width>_maxright) {
                                             if (!last_group) {
                                                 last_group = $('<div></div>');
                                                 last_group.addClass(items[i].className);
@@ -693,7 +694,7 @@ define([
                         // from more panel to toolbar
                         for (var i=0; i<items.length; i++) {
                             var item = $(items[i]);
-                            _rightedge = $active.get(0).getBoundingClientRect().right;
+                            _rightedge = $active.outerWidth() + _staticPanelWidth;
                             if (!item.is(':visible') && item.attr('data-hidden-tb-item')) { // move invisible items as is
                                 item.removeAttr('data-hidden-tb-item');
                                 more_section.before(item);
@@ -728,7 +729,7 @@ define([
                                     for (var j=0; j<children.length; j++) {
                                         if (islast && j==children.length-1)
                                              _maxright = box_controls_width; // try to move last item from last group
-                                        _rightedge = $active.get(0).getBoundingClientRect().right;
+                                        _rightedge = $active.outerWidth() + _staticPanelWidth;
                                         var child = $(children[j]);
                                         if (child.hasClass('elset')) { // don't add group - no enough space
                                             need_break = true;
@@ -736,256 +737,6 @@ define([
                                         } else {
                                             var child_width = parseInt(child.attr('inner-width') || 0) + (!last_group ? parseInt(item.css('padding-left')) : 0); // if new group is started add left-padding
                                             if (_rightedge+last_width+child_width < _maxright) {
-                                                if (!last_group) {
-                                                    last_group = $('<div></div>');
-                                                    last_group.addClass(items[i].className);
-                                                    var attrs = items[i].attributes;
-                                                    for (var k = 0; k < attrs.length; k++) {
-                                                        last_group.attr(attrs[k].name, attrs[k].value);
-                                                    }
-                                                    if (last_group.hasClass('flex')) { // need to update flex groups list
-                                                        $active.data().flex = null;
-                                                    }
-                                                    more_section.before(last_group);
-                                                    if (last_separator) {
-                                                        last_separator.css('display', '');
-                                                        last_separator.removeAttr('hidden-on-resize');
-                                                    }
-                                                }
-                                                last_group.append(child);
-                                                hideAllMenus = true;
-                                            } else {
-                                                need_break = true;
-                                                break;
-                                            }
-                                        }
-                                    }
-                                    if (item.children().length<1) { // all buttons are moved
-                                        item.remove();
-                                        last_group && last_group.removeAttr('group-state').attr('inner-width', item.attr('inner-width'));
-                                        last_group = null;
-                                        if (this.$moreBar.children().filter('.group').length == 0) {
-                                            this.hideMoreBtns();
-                                            more_section.css('display', "none");
-                                        }
-                                    } else {
-                                        last_group && last_group.attr('group-state', 'open') && item.attr('group-state', 'open');
-                                    }
-                                    if (need_break)
-                                        break;
-                                } else {
-                                    break;
-                                }
-                                last_separator = null; last_width = 0;
-                            } else if (item.hasClass('separator')) {
-                                more_section.before(item);
-                                item.css('display', 'none');
-                                item.attr('hidden-on-resize', true);
-                                last_separator = item;
-                                last_width = parseInt(last_separator.css('margin-left')) + parseInt(last_separator.css('margin-right')) + 1;
-                                hideAllMenus = true;
-                            }
-                        }
-                    } else {
-                        this.hideMoreBtns();
-                        more_section.css('display', "none");
-                    }
-                }
-                hideAllMenus && Common.UI.Menu.Manager.hideAll();
-            },
-
-            resizeToolbarRTL: function(reset) {
-                var $active = this.$panels.filter('.active'),
-                    more_section = $active.find('.more-box');
-
-                if (more_section.length===0) {
-                    this.setMoreButton($active.attr('data-tab'), $active);
-                }
-
-                var more_section_width = parseInt(more_section.css('width')) || 0,
-                    box_controls_width = $active.parents('.box-controls').width(),
-                    _maxright = box_controls_width,
-                    _minLeft = 0,
-                    _leftedge = $active.get(0).getBoundingClientRect().left,
-                    delta = (this._prevBoxWidth) ? (_maxright - this._prevBoxWidth) : -1,
-                    hideAllMenus = false;
-                this._prevBoxWidth = _maxright;
-                if (more_section.is(':visible')) {
-                    _maxright -= more_section_width;
-                    _minLeft +=  more_section_width;
-                }
-
-                if (this.$moreBar && this.$moreBar.parent().is(':visible')) {
-                    this.$moreBar.parent().css('max-width', Common.Utils.innerWidth());
-                }
-
-                if ( (reset || delta<0) && (_leftedge < _minLeft)) { // from toolbar to more section
-                    if (!more_section.is(':visible') ) {
-                        more_section.css('display', 'block');
-                        _minLeft += parseInt(more_section.css('width'));
-                    }
-                    var last_separator = null,
-                        last_group = null,
-                        prevchild = this.$moreBar.children().filter("[data-hidden-tb-item!=true]");
-                    if (prevchild.length>0) {
-                        prevchild = $(prevchild[0]);
-                        if (prevchild.hasClass('separator'))
-                            last_separator = prevchild;
-                        if (prevchild.hasClass('group') && prevchild.attr('group-state') == 'open')
-                            last_group = prevchild;
-                    }
-                    var items = $active.find('> div:not(.more-box)');
-                    var need_break = false;
-                    for (var i=items.length-1; i>=0; i--) {
-                        var item = $(items[i]);
-                        if (!item.is(':visible') && !item.attr('hidden-on-resize')) { // move invisible items as is and set special attr
-                            item.attr('data-hidden-tb-item', true);
-                            this.$moreBar.prepend(item);
-                            hideAllMenus = true;
-                        } else if (item.hasClass('group')) {
-                            _leftedge = $active.get(0).getBoundingClientRect().left;
-                            if (_leftedge >= _minLeft) // stop moving items
-                                break;
-
-                            var offset = item.offset(),
-                                item_width = item.outerWidth(),
-                                children = item.children();
-                            if (!item.attr('inner-width') && item.attr('group-state') !== 'open') {
-                                item.attr('inner-width', item_width);
-                                for (var j=children.length-1; j>=0; j--) {
-                                    var child = $(children[j]);
-                                    child.attr('inner-width', child.outerWidth());
-                                }
-                            }
-                            if ((offset.left < _minLeft || children.length==1) && item.attr('group-state') != 'open') {
-                                // move group
-                                this.$moreBar.prepend(item);
-                                if (last_separator) {
-                                    last_separator.css('display', '');
-                                    last_separator.removeAttr('hidden-on-resize');
-                                }
-                                hideAllMenus = true;
-                            } else if ( offset.left < _minLeft ) {
-                                // move buttons from group
-                                for (var j=children.length-1; j>=0; j--) {
-                                    var child = $(children[j]);
-                                    if (child.hasClass('elset')) {
-                                        this.$moreBar.prepend(item);
-                                        if (last_separator) {
-                                            last_separator.css('display', '');
-                                            last_separator.removeAttr('hidden-on-resize');
-                                        }
-                                        hideAllMenus = true;
-                                        break;
-                                    } else {
-                                        var child_offset = child.offset(),
-                                            child_width = child.outerWidth();
-                                        if (child_offset.left < _minLeft) {
-                                            if (!last_group) {
-                                                last_group = $('<div></div>');
-                                                last_group.addClass(items[i].className);
-                                                var attrs = items[i].attributes;
-                                                for (var k = 0; k < attrs.length; k++) {
-                                                    last_group.attr(attrs[k].name, attrs[k].value);
-                                                }
-                                                this.$moreBar.prepend(last_group);
-                                                if (last_separator) {
-                                                    last_separator.css('display', '');
-                                                    last_separator.removeAttr('hidden-on-resize');
-                                                }
-                                            }
-                                            last_group.prepend(child);
-                                            hideAllMenus = true;
-                                        } else {
-                                            need_break = true;
-                                            break;
-                                        }
-                                    }
-                                }
-                                if (item.children().length<1) { // all buttons are moved
-                                    item.remove();
-                                    last_group && last_group.removeAttr('group-state').attr('inner-width', item.attr('inner-width'));
-                                    last_group = null;
-                                } else {
-                                    last_group && last_group.attr('group-state', 'open') && item.attr('group-state', 'open');
-                                }
-                                if (need_break)
-                                    break;
-                            } else {
-                                break;
-                            }
-                            last_separator = null;
-                        } else if (item.hasClass('separator')) {
-                            this.$moreBar.prepend(item);
-                            item.css('display', 'none');
-                            item.attr('hidden-on-resize', true);
-                            last_separator = item;
-                            hideAllMenus = true;
-                        }
-                    }
-                } else if ((reset || delta>0) && more_section.is(':visible')) {
-                    var last_separator = null,
-                        last_group = null,
-                        prevchild = $active.find('> div:not(.more-box)');
-                    var last_width = 0;
-                    if (prevchild.length>0) {
-                        prevchild = $(prevchild[prevchild.length-1]);
-                        if (prevchild.hasClass('separator')) {
-                            last_separator = prevchild;
-                            last_width = parseInt(last_separator.css('margin-left')) + parseInt(last_separator.css('margin-right')) + 1;
-                        }
-                        if (prevchild.hasClass('group') && prevchild.attr('group-state') == 'open')
-                            last_group = prevchild;
-                    }
-
-                    var items = this.$moreBar.children();
-                    if (items.length>0) {
-                        // from more panel to toolbar
-                        for (var i=0; i<items.length; i++) {
-                            var item = $(items[i]);
-                            _leftedge = $active.get(0).getBoundingClientRect().left;
-                            if (!item.is(':visible') && item.attr('data-hidden-tb-item')) { // move invisible items as is
-                                item.removeAttr('data-hidden-tb-item');
-                                more_section.before(item);
-                                if (this.$moreBar.children().filter('.group').length == 0) {
-                                    this.hideMoreBtns();
-                                    more_section.css('display', "none");
-                                }
-                            } else if (item.hasClass('group')) {
-                                var islast = false;
-                                if (this.$moreBar.children().filter('.group').length == 1) {
-                                    _maxright = box_controls_width; // try to move last group
-                                    islast = true;
-                                }
-
-                                var item_width = parseInt(item.attr('inner-width') || 0);
-                                if (_leftedge > _minLeft && item.attr('group-state') != 'open') {
-                                    // move group
-                                    more_section.before(item);
-                                    if (last_separator) {
-                                        last_separator.css('display', '');
-                                        last_separator.removeAttr('hidden-on-resize');
-                                    }
-                                    if (this.$moreBar.children().filter('.group').length == 0) {
-                                        this.hideMoreBtns();
-                                        more_section.css('display', "none");
-                                    }
-                                    hideAllMenus = true;
-                                } else if ( _leftedge < _minLeft) {
-                                    // move buttons from group
-                                    var children = item.children();
-                                    _maxright = box_controls_width - more_section_width;
-                                    for (var j=0; j<children.length; j++) {
-                                        if (islast && j==children.length-1)
-                                            _maxright = box_controls_width; // try to move last item from last group
-                                        _leftedge = $active.get(0).getBoundingClientRect().left;
-                                        var child = $(children[j]);
-                                        if (child.hasClass('elset')) { // don't add group - no enough space
-                                            need_break = true;
-                                            break;
-                                        } else {
-                                            var child_width = parseInt(child.attr('inner-width') || 0) + (!last_group ? parseInt(item.css('padding-left')) : 0); // if new group is started add left-padding
-                                            if (_leftedge < _minLeft) {
                                                 if (!last_group) {
                                                     last_group = $('<div></div>');
                                                     last_group.addClass(items[i].className);
