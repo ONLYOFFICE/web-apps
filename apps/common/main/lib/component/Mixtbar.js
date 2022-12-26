@@ -93,6 +93,7 @@ define([
                 Common.UI.BaseView.prototype.initialize.call(this, options);
 
                 var _template_tabs =
+                    !Common.UI.isRTL() ?
                     '<section class="tabs">' +
                         '<a class="scroll left" data-hint="0" data-hint-direction="bottom" data-hint-offset="-7, 0" data-hint-title="V"></a>' +
                         '<ul>' +
@@ -108,6 +109,22 @@ define([
                             '<% } %>' +
                         '</ul>' +
                         '<a class="scroll right" data-hint="0" data-hint-direction="bottom" data-hint-offset="-7, 0" data-hint-title="R"></a>' +
+                    '</section>' :
+                    '<section class="tabs">' +
+                        '<a class="scroll right" data-hint="0" data-hint-direction="bottom" data-hint-offset="-7, 0" data-hint-title="R"></a>' +
+                        '<ul>' +
+                            '<% for(var i in items) { %>' +
+                                '<% if (typeof items[i] == "object") { %>' +
+                                '<li class="ribtab' +
+                                        '<% if (items[i].haspanel===false) print(" x-lone") %>' +
+                                        '<% if (items[i].extcls) print(\' \' + items[i].extcls) %>"' +
+                                        '<% if (typeof items[i].layoutname == "string") print(" data-layout-name=" + \' \' +  items[i].layoutname) + \' \' %>>' +
+                                    '<a data-tab="<%= items[i].action %>" data-title="<%= items[i].caption %>" data-hint="0" data-hint-direction="bottom" data-hint-offset="small" <% if (typeof items[i].dataHintTitle !== "undefined") { %> data-hint-title="<%= items[i].dataHintTitle %>" <% } %>><%= items[i].caption %></a>' +
+                                '</li>' +
+                                '<% } %>' +
+                            '<% } %>' +
+                        '</ul>' +
+                        '<a class="scroll left" data-hint="0" data-hint-direction="bottom" data-hint-offset="-7, 0" data-hint-title="V"></a>' +
                     '</section>';
 
                 this.$layout = $(options.template({
@@ -365,13 +382,13 @@ define([
                 var _left_bound_ = Math.round($boxTabs.offset().left),
                     _right_bound_ = Math.round(_left_bound_ + $boxTabs.width());
 
-                var tab = this.$tabs.filter(':visible:first').get(0);
+                var tab = this.$tabs.filter(Common.UI.isRTL() ? ':visible:last' : ':visible:first').get(0);
                 if ( !tab ) return false;
 
                 var rect = tab.getBoundingClientRect();
 
                 if ( !(Math.round(rect.left) < _left_bound_) ) {
-                    tab = this.$tabs.filter(':visible:last').get(0);
+                    tab = this.$tabs.filter(Common.UI.isRTL() ? ':visible:first' : ':visible:last').get(0);
                     rect = tab.getBoundingClientRect();
 
                     if (!(Math.round(rect.right) > _right_bound_))
@@ -532,7 +549,6 @@ define([
             },
 
             clearMoreButton: function(tab) {
-                console.log('clearMoreButton');
                 var panel = this.$panels.filter('[data-tab=' + tab + ']');
                 if ( panel.length ) {
                     var data = panel.data();
