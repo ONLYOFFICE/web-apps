@@ -113,11 +113,12 @@ class MainPage extends Component {
         const api = Common.EditorApi.get();
         const appOptions = this.props.storeAppOptions;
 
+        f7.popover.close('.document-menu.modal-in', false);
+        f7.navbar.show('.main-navbar', false);
+
         appOptions.changeViewerMode();
         api.asc_removeRestriction(Asc.c_oAscRestrictionType.View)
         api.asc_addRestriction(Asc.c_oAscRestrictionType.None);
-
-        f7.navbar.show('.main-navbar');
     };
 
     render() {
