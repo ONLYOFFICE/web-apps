@@ -8,7 +8,7 @@ const ToolbarView = props => {
     const { t } = useTranslation();
     const isDisconnected = props.isDisconnected;
     const docExt = props.docExt;
-    const isAvailableExt = docExt && docExt !== 'djvu' && docExt !== 'pdf' && docExt !== 'xps';
+    const isAvailableExt = docExt && docExt !== 'djvu' && docExt !== 'pdf' && docExt !== 'xps' && docExt !== 'oform';
     const disableEditBtn = props.isObjectLocked || props.stateDisplayMode || props.disabledEditControls || isDisconnected;
     const isViewer = props.isViewer;
     const isMobileView = props.isMobileView;
@@ -62,7 +62,7 @@ const ToolbarView = props => {
                     onRedoClick: props.onRedo
                 })}
                 {/*isAvailableExt && !props.disabledControls &&*/}
-                {(isViewer || !Device.phone) && <Link className={(!isAvailableExt || props.disabledControls) && 'disabled'} icon={isMobileView ? 'icon-standard-view' : 'icon-mobile-view'} href={false} onClick={() => {
+                {((isViewer || !Device.phone) && isAvailableExt) && <Link className={props.disabledControls && 'disabled'} icon={isMobileView ? 'icon-standard-view' : 'icon-mobile-view'} href={false} onClick={() => {
                     props.changeMobileView();
                     props.openOptions('snackbar');
                 }}></Link>}
