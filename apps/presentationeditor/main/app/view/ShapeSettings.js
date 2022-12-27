@@ -1043,7 +1043,7 @@ define([
 
                             if (w!==null) w = this._mm2pt(w);
                             var _selectedItem = (w===null) ? w : _.find(this.cmbBorderSize.store.models, function(item) {
-                                if ( w<item.attributes.value+0.00001 && w>item.attributes.value-0.00001) {
+                                if ( w<item.attributes.value+0.0001 && w>item.attributes.value-0.0001) {
                                     return true;
                                 }
                             });
@@ -1145,7 +1145,7 @@ define([
                     this._state.GradColor = color;
                 }
 
-                this.chShadow.setDisabled(!!props.get_FromChart());
+                this.chShadow.setDisabled(!!props.get_FromChart() || this._locked);
                 this.chShadow.setValue(!!props.asc_getShadow(), true);
 
                 this._noApply = false;

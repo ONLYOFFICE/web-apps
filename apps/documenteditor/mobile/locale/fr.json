@@ -222,6 +222,7 @@
     "textAllowOverlap": "Autoriser le chevauchement",
     "textAmountOfLevels": "Nombre de niveaux",
     "textApril": "avril",
+    "textArrange": "Organiser",
     "textAugust": "août",
     "textAuto": "Auto",
     "textAutomatic": "Automatique",
@@ -375,8 +376,7 @@
     "textType": "Type",
     "textWe": "mer.",
     "textWrap": "Renvoi à la ligne",
-    "textWrappingStyle": "Style d'habillage",
-    "textArrange": "Arrange"
+    "textWrappingStyle": "Style d'habillage"
   },
   "Error": {
     "convertationTimeoutText": "Délai de conversion expiré.",
@@ -543,11 +543,13 @@
     "textClose": "Fermer",
     "textContactUs": "Contacter l'équipe de ventes",
     "textCustomLoader": "Désolé, vous n'êtes pas autorisé à changer le chargeur. Veuillez contacter notre Service de Ventes pour obtenir le devis.",
+    "textDocumentProtected": "Le document est protégé. Les paramètres d'édition ne sont pas disponibles",
     "textGuest": "Invité",
     "textHasMacros": "Le fichier contient des macros automatiques.<br>Voulez-vous exécuter les macros?",
     "textNo": "Non",
     "textNoLicenseTitle": "La limite de la licence est atteinte",
     "textNoTextFound": "Texte non trouvé",
+    "textOk": "Ok",
     "textPaidFeature": "Fonction payante",
     "textRemember": "Se souvenir de mon choix",
     "textReplaceSkipped": "Le remplacement a été effectué. {0} occurrences ont été sautées.",

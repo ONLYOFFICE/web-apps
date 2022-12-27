@@ -4,6 +4,17 @@
             <label class="header padding-small" id="form-settings-name"><%= scope.textField %></label>
         </td>
     </tr>
+    <tr>
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textFillRoles %></label>
+            <div id="form-combo-roles" style="width: 100%;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
     <tr class="form-keyfield">
         <td class="padding-small">
             <label class="input-label"><%= scope.textKey %></label>
@@ -48,7 +59,12 @@
     </tr>
     <tr class="form-textfield-mask">
         <td class="padding-small">
-            <div id="form-txt-mask"></div>
+            <div id="form-txt-mask" style="width: 100%;"></div>
+        </td>
+    </tr>
+    <tr class="form-textfield-regexp">
+        <td class="padding-small">
+            <div id="form-txt-regexp"></div>
         </td>
     </tr>
     <tr class="form-textfield">
@@ -80,6 +96,20 @@
             <div id="form-list-delete" style="margin-bottom: 5px;margin-left: 5px;"></div>
             <div id="form-list-up" style="margin-bottom: 5px;margin-left: 5px;"></div>
             <div id="form-list-down" style="margin-left: 5px;"></div>
+        </td>
+    </tr>
+</table>
+<table cols="1">
+    <tr class="form-datetime">
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textDateFormat %></label>
+            <div id="form-cmb-date-format" style="width: 100%;"></div>
+        </td>
+    </tr>
+    <tr class="form-datetime">
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textLang %></label>
+            <div id="form-cmb-date-lang" style="width: 100%;"></div>
         </td>
     </tr>
 </table>

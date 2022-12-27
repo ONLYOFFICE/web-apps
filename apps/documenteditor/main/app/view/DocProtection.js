@@ -141,7 +141,8 @@ define([
             txtDocProtectedComment: 'Document is protected.<br>You may only insert comments to this document.',
             txtDocProtectedForms: 'Document is protected.<br>You may only fill in forms in this document.',
             hintProtectDoc: 'Protect document',
-            txtDocUnlockDescription: 'Enter a password to unprotect document'
+            txtDocUnlockDescription: 'Enter a password to unprotect document',
+            txtUnlockTitle: 'Unprotect Document'
         }
     }()), DE.Views.DocProtection || {}));
 });

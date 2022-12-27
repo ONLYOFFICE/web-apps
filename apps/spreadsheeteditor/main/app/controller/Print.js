@@ -446,11 +446,11 @@ define([
 
         querySavePrintSettings: function(print) {
             if ( this.checkMargins(this.printSettings) ) {
+                var view = SSE.getController('Toolbar').getView('Toolbar');
                 this.savePageOptions(this.printSettings);
                 this._isPrint = print === 'print';
                 this.printSettings.applySettings();
 
-                var view = SSE.getController('Toolbar').getView('Toolbar');
                 var printType = this.printSettings.getRange();
                 this.adjPrintParams.asc_setPrintType(printType);
                 this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);

@@ -304,7 +304,7 @@
     "textDelete": "Supprimer",
     "textDuplicate": "Dupliquer",
     "textErrNameExists": "Une feuille de calcul avec le même nom existe déjà.",
-    "textErrNameWrongChar": "Un nom de feuille ne peut pas contenir les caractères suivants : \\, /, *, ?, [, ], :",
+    "textErrNameWrongChar": "Le nom d'une feuille ne peut pas contenir de caractères : \\, /, *, ?, [, ], : ou le caractère ' comme premier ou dernier caractère",
     "textErrNotEmpty": "Le nom de feuille ne peut pas être vide. ",
     "textErrorLastSheet": "Un classeur doit avoir au moins une feuille de calcul visible.",
     "textErrorRemoveSheet": "Impossible de supprimer la feuille de calcul.",

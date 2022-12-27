@@ -77,7 +77,7 @@
   "Common.Views.SaveAsDlg.textLoading": "A carregar",
   "Common.Views.SaveAsDlg.textTitle": "Pasta para guardar",
   "Common.Views.SelectFileDlg.textLoading": "A carregar",
-  "Common.Views.SelectFileDlg.textTitle": "Selecione a origem dos dados",
+  "Common.Views.SelectFileDlg.textTitle": "Selecione a fonte dos dados",
   "Common.Views.ShareDialog.textTitle": "Partilhar ligação",
   "Common.Views.ShareDialog.txtCopy": "Copiar para a área de transferência",
   "Common.Views.ShareDialog.warnCopy": "Erro do navegador! Utilize a tecla de atalho [Ctrl] + [C]",
