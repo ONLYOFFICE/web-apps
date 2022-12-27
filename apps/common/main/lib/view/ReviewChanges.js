@@ -584,7 +584,7 @@ define([
                     }
                     me.btnSharing && me.btnSharing.updateHint(me.tipSharing);
                     me.btnHistory && me.btnHistory.updateHint(me.tipHistory);
-                    me.btnChat && me.btnChat.updateHint(me.txtChat + Common.Utils.String.platformKey('Alt+Q'));
+                    me.btnChat && me.btnChat.updateHint(me.txtChat + (!Common.Utils.isMac ? Common.Utils.String.platformKey('Alt+Q') : ''));
 
                     if (me.btnCoAuthMode) {
                         me.btnCoAuthMode.setMenu(

@@ -3166,7 +3166,8 @@ define([
                     toolbar.onCollaborativeChanges();
                 }
             }
-            disable ? Common.util.Shortcuts.suspendEvents('alt+h') : Common.util.Shortcuts.resumeEvents('alt+h');
+            var hkComments = Common.Utils.isMac ? 'command+alt+a' : 'alt+h';
+            disable ? Common.util.Shortcuts.suspendEvents(hkComments) : Common.util.Shortcuts.resumeEvents(hkComments);
         },
 
         onSelectRecepientsClick: function(menu, item, e) {

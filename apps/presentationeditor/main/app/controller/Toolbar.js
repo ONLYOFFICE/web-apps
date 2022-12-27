@@ -2623,12 +2623,14 @@ define([
 
             if (toolbar.btnsAddSlide) // toolbar buttons are rendered
                 this.toolbar.lockToolbar(Common.enumLock.menuFileOpen, disable, {array: toolbar.btnsAddSlide.concat(toolbar.btnChangeSlide, toolbar.btnPreview)});
+
+            var hkComments = Common.Utils.isMac ? 'command+alt+a' : 'alt+h';
             if(disable) {
                 mask = $("<div class='toolbar-mask'>").appendTo(toolbar.$el.find('.toolbar'));
-                Common.util.Shortcuts.suspendEvents('command+k, ctrl+k, alt+h, command+f5, ctrl+f5');
+                Common.util.Shortcuts.suspendEvents('command+k, ctrl+k, command+f5, ctrl+f5, ' + hkComments);
             } else {
                 mask.remove();
-                Common.util.Shortcuts.resumeEvents('command+k, ctrl+k, alt+h, command+f5, ctrl+f5');
+                Common.util.Shortcuts.resumeEvents('command+k, ctrl+k, command+f5, ctrl+f5, ' + hkComments);
             }
         },
 
