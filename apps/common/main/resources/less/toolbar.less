@@ -169,6 +169,11 @@
                 &:after {
                     transform: rotate(135deg);
                     margin-left: 8px;
+
+                    .rtl & {
+                        margin-left: 0;
+                        margin-right: 4px;
+                    }
                 }
             }
             &.right{
@@ -178,6 +183,11 @@
                 &:after {
                     transform: rotate(-45deg);
                     margin-left: 4px;
+
+                    .rtl & {
+                        margin-left: 0;
+                        margin-right: 8px;
+                    }
                 }
             }
 

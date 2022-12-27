@@ -56,7 +56,7 @@ define([
 
         var onScrollTabs = function(opts, e) {
             var sv = $boxTabs.scrollLeft();
-            if ( sv || opts == 'right' ) {
+            if (sv || opts == 'right' || Common.UI.isRTL() && opts == 'left') {
                 $boxTabs.animate({scrollLeft: opts == 'left' ? sv - 100 : sv + 100}, 200);
             }
         };
@@ -412,6 +412,7 @@ define([
                     if ( $active && $active.length ) {
                         var _maxright = $active.parents('.box-controls').width(),
                             _staticPanelWidth = $active.parents('.box-controls').find('.panel.static').outerWidth();
+                        if (!_staticPanelWidth) _staticPanelWidth = 0;
                         var data = $active.data(),
                             _rightedge = data.rightedge,
                             _btns = data.buttons,
@@ -444,7 +445,6 @@ define([
                                 if (_flex.length>0) {
                                     for (var i=0; i<_flex.length; i++) {
                                         var item = _flex[i].el;
-                                        //_rightedge = $active.get(0).getBoundingClientRect().right;
                                         _rightedge = $active.outerWidth() + _staticPanelWidth;
                                         if (item.outerWidth() > parseInt(item.css('min-width'))) {
                                             data.rightedge = _rightedge;
@@ -574,8 +574,9 @@ define([
                 var more_section_width = parseInt(more_section.css('width')) || 0,
                     box_controls_width = $active.parents('.box-controls').width(),
                     _staticPanelWidth = $active.parents('.box-controls').find('.panel.static').outerWidth(),
-                    _maxright = box_controls_width,
-                    _rightedge = $active.outerWidth() + _staticPanelWidth,
+                    _maxright = box_controls_width;
+                if (!_staticPanelWidth) _staticPanelWidth = 0;
+                var _rightedge = $active.outerWidth() + _staticPanelWidth,
                     delta = (this._prevBoxWidth) ? (_maxright - this._prevBoxWidth) : -1,
                     hideAllMenus = false;
                 this._prevBoxWidth = _maxright;
