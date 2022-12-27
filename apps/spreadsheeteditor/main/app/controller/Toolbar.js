@@ -2548,9 +2548,10 @@ define([
                         clear: [Common.enumLock.editFormula, Common.enumLock.editText]
                 });
 
+                var hkComments = Common.Utils.isMac ? 'command+alt+a' : 'alt+h';
                 var is_cell_edited = (state == Asc.c_oAscCellEditorState.editStart);
-                (is_cell_edited) ? Common.util.Shortcuts.suspendEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, alt+h, command+1, ctrl+1') :
-                                   Common.util.Shortcuts.resumeEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, alt+h, command+1, ctrl+1');
+                (is_cell_edited) ? Common.util.Shortcuts.suspendEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, command+1, ctrl+1, ' + hkComments) :
+                                   Common.util.Shortcuts.resumeEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, command+1, ctrl+1, ' + hkComments);
 
                 if (is_cell_edited) {
                     toolbar.listStyles.suspendEvents();
@@ -4463,12 +4464,14 @@ define([
             toolbar.$el.find('.toolbar').toggleClass('masked', disable);
 
             this.toolbar.lockToolbar(Common.enumLock.menuFileOpen, disable);
+
+            var hkComments = Common.Utils.isMac ? 'command+alt+a' : 'alt+h';
             if(disable) {
                 mask = $("<div class='toolbar-mask'>").appendTo(toolbar.$el.find('.toolbar'));
-                Common.util.Shortcuts.suspendEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, command+alt+h, ctrl+alt+h, command+1, ctrl+1');
+                Common.util.Shortcuts.suspendEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, command+1, ctrl+1, ' + hkComments);
             } else {
                 mask.remove();
-                Common.util.Shortcuts.resumeEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, command+alt+h, ctrl+alt+h, command+1, ctrl+1');
+                Common.util.Shortcuts.resumeEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, command+1, ctrl+1, ' + hkComments);
             }
         },
 

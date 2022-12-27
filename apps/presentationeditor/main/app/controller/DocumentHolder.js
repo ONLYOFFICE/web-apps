@@ -130,7 +130,7 @@ define([
             // Hotkeys
             // ---------------------
             var keymap = {};
-            me.hkComments = 'alt+h';
+            me.hkComments = Common.Utils.isMac ? 'command+alt+a' : 'alt+h';
             keymap[me.hkComments] = function() {
                 if (me.api.can_AddQuotedComment()!==false && me.documentHolder.slidesCount>0) {
                     me.addComment();

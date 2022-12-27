@@ -134,7 +134,7 @@ define([
             });
 
             var keymap = {};
-            this.hkComments = 'alt+h';
+            this.hkComments = Common.Utils.isMac ? 'command+alt+a' : 'alt+h';
             keymap[this.hkComments] = function() {
                 me.onAddComment();
                 return false;
