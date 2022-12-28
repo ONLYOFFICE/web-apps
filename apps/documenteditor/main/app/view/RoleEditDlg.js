@@ -72,7 +72,7 @@ define([
 
             this.options.tpl = _.template(this.template)(this.options);
             this.props = this.options.props;
-            this.lastColor = 'C9C8FF';
+            this.lastColor = 'CCE1FF';
             this.oformManager = this.options.oformManager;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
@@ -111,7 +111,7 @@ define([
                                   }),
                                   {caption: '--'}],
                 additionalAlign: this.menuAddAlign,
-                colors: ['FEF8E5', 'FFEFBF', 'E2EFD8', 'C6E0B3', 'EDEDED', 'DBDBDB', 'CDD6E4', 'A2B2CA', '800000', 'FF6600', 'F2F2F2', 'D9D9D9', 'DDEBF6', 'C2DDF2', 'FBECE2',
+                colors: ['FEF8E5', 'FFEFBF', 'E2EFD8', 'C6E0B3', 'EDEDED', 'DBDBDB', 'CDD6E4', 'A2B2CA', 'F2F2F2', 'D9D9D9', 'DDEBF6', 'C2DDF2', 'FBECE2',
                         'F7D9C6', 'D6E3EE', 'B9CAE7', 'F2DADA', 'F2C2C2', 'F0DDF6', 'E5C2F2', 'E6FBD6', 'CDF7AC', 'EED6D6', 'E7B9B9', 'CCE1FF', '9AC4FF', 'E4CDDB', 'D9ADC7'],
                 color: this.lastColor,
                 cls: 'move-focus',
@@ -164,6 +164,7 @@ define([
                 this.btnColor.setColor(this.lastColor);
                 this.mnuColorPicker.selectByRGB(this.lastColor, true);
             } else {
+                this.btnColor.setColor('transparent');
                 this.mnuColorPicker.clearSelection();
             }
         },

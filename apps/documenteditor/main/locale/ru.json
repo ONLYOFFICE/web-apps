@@ -819,6 +819,7 @@
   "DE.Controllers.Main.splitMaxColsErrorText": "Число столбцов должно быть меньше, чем %1.",
   "DE.Controllers.Main.splitMaxRowsErrorText": "Число строк должно быть меньше, чем %1.",
   "DE.Controllers.Main.textAnonymous": "Аноним",
+  "DE.Controllers.Main.textAnyone": "Любой",
   "DE.Controllers.Main.textApplyAll": "Применить ко всем уравнениям",
   "DE.Controllers.Main.textBuyNow": "Перейти на сайт",
   "DE.Controllers.Main.textChangesSaved": "Все изменения сохранены",

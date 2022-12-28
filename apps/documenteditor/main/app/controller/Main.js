@@ -148,7 +148,8 @@ define([
                     "None": this.txtNone,
                     "No table of figures entries found.": this.txtNoTableOfFigures,
                     "table of figures": this.txtTableOfFigures,
-                    "TOC Heading": this.txtTOCHeading
+                    "TOC Heading": this.txtTOCHeading,
+                    "Anyone": this.textAnyone
                 };
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -3372,7 +3373,8 @@ define([
             errorInconsistentExtPdf: 'An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.',
             errorInconsistentExt: 'An error has occurred while opening the file.<br>The file content does not match the file extension.',
             errorCannotPasteImg: 'We can\'t paste this image from the Clipboard, but you can save it to your device and \ninsert it from there, or you can copy the image without text and paste it into the document.',
-            textTryQuickPrint: 'You have selected Quick print: the entire document will be printed on the last selected or default printer.<br>Do you want to continue?'
+            textTryQuickPrint: 'You have selected Quick print: the entire document will be printed on the last selected or default printer.<br>Do you want to continue?',
+            textAnyone: 'Anyone'
         }
     })(), DE.Controllers.Main || {}))
 });
