@@ -250,23 +250,15 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
 
             if (!rec) return;
 
-            if (store.length===1 && rec.get('fields')>0) {
-                Common.UI.warning({
-                    msg: me.warnCantDelete,
-                    buttons: ['ok']
-                });
-                return;
-            }
-
             var callback = function(toRole) {
                 me.lastSelectedRole = store.indexOf(rec);
                 me.oformManager.asc_removeRole(rec.get('name'), toRole); // remove role and move it's fields
             };
 
-            if (rec.get('fields')<1) {
+            if (store.length===1 || rec.get('fields')<1) {
                 me._isWarningVisible = true;
                 Common.UI.warning({
-                    msg: Common.Utils.String.format(me.warnDelete, rec.get('name')),
+                    msg: Common.Utils.String.format(store.length===1 ? me.textDeleteLast : me.warnDelete, rec.get('name')),
                     buttons: ['ok', 'cancel'],
                     callback: function(btn) {
                         if (btn == 'ok') {
@@ -366,7 +358,8 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
         textUp: 'Move role up',
         textDown: 'Move role down',
         textDescription: 'Add roles and set the order in which the fillers receive and sign the document',
-        textAnyone: 'Anyone'
+        textAnyone: 'Anyone',
+        textDeleteLast: 'Are you sure you want to delete the role {0}?<br>Once deleted, the default role will be created.'
 
     }, DE.Views.RolesManagerDlg || {}));
 });
