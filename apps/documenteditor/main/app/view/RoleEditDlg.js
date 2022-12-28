@@ -164,6 +164,7 @@ define([
                 this.btnColor.setColor(this.lastColor);
                 this.mnuColorPicker.selectByRGB(this.lastColor, true);
             } else {
+                this.btnColor.setColor('transparent');
                 this.mnuColorPicker.clearSelection();
             }
         },
