@@ -177,6 +177,8 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     const turnOnViewerMode = () => {
         const api = Common.EditorApi.get();
 
+        f7.popover.close('.document-menu.modal-in', false);
+
         appOptions.changeViewerMode();
         api.asc_addRestriction(Asc.c_oAscRestrictionType.View);
     }
