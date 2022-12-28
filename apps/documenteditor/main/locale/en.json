@@ -819,6 +819,7 @@
   "DE.Controllers.Main.splitMaxColsErrorText": "The number of columns must be less than %1.",
   "DE.Controllers.Main.splitMaxRowsErrorText": "The number of rows must be less than %1.",
   "DE.Controllers.Main.textAnonymous": "Anonymous",
+  "DE.Controllers.Main.textAnyone": "Anyone",
   "DE.Controllers.Main.textApplyAll": "Apply to all equations",
   "DE.Controllers.Main.textBuyNow": "Visit website",
   "DE.Controllers.Main.textChangesSaved": "All changes saved",
