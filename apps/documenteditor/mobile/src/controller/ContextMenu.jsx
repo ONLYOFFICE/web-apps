@@ -3,7 +3,6 @@ import { f7 } from 'framework7-react';
 import { inject, observer } from "mobx-react";
 import { withTranslation} from 'react-i18next';
 import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage.mjs';
-
 import ContextMenuController from '../../../../common/mobile/lib/controller/ContextMenu';
 import { idContextMenuElement } from '../../../../common/mobile/lib/view/ContextMenu';
 import EditorUIController from '../lib/patch';
@@ -12,6 +11,7 @@ import EditorUIController from '../lib/patch';
     isEdit: stores.storeAppOptions.isEdit,
     canComments: stores.storeAppOptions.canComments,
     canViewComments: stores.storeAppOptions.canViewComments,
+    canEditComments: stores.storeAppOptions.canEditComments,
     canCoAuthoring: stores.storeAppOptions.canCoAuthoring,
     canReview: stores.storeAppOptions.canReview,
     canFillForms: stores.storeAppOptions.canFillForms,
