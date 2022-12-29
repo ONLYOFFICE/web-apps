@@ -80,6 +80,7 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
             this.wrapEvents = {
                 onRefreshRolesList: _.bind(this.onRefreshRolesList, this)
             };
+            this.arrColors = [];
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -96,7 +97,7 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
                     '<div class="listitem-icon"><svg class=""><use xlink:href="#svg-icon-<%= scope.getIconCls(index) %>"></use></svg></div>',
                     '<div style="min-width: 25px;text-align:center; padding-right: 5px;"><%= index+1 %></div>',
                     '<div style="min-width: 25px;">',
-                        '<span class="color" style="background: <% if (color) { %>#<%= Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()) %><% } else { %> transparent <% } %>;"></span>',
+                        '<span class="color" style="background: <% if (color) { %>#<%= color %><% } else { %> transparent <% } %>;"></span>',
                     '</div>',
                     '<div style="flex-grow: 1;padding-right: 5px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
                     '<div style="min-width: 25px;text-align: right;opacity: 0.8;"><%= fields %></div>',
@@ -171,17 +172,21 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
                 var rec = this.rolesList.getSelectedRec();
                 rec && (selectedRole = rec.get('name'));
             }
+            this.arrColors = [];
             if (roles) {
                 var arr = [];
                 for (var i=0; i<roles.length; i++) {
-                    var role = roles[i].asc_getSettings();
+                    var role = roles[i].asc_getSettings(),
+                        color = role.asc_getColor();
+                    color && (color = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()));
                     arr.push({
                         name: role.asc_getName() || this.textAnyone,
-                        color: role.asc_getColor(),
+                        color: color,
                         fields: role.asc_getFieldCount() || 0,
                         index: i,
                         scope: this
                     });
+                    color && this.arrColors.push(color.toUpperCase());
                 }
                 this.rolesList.store.reset(arr);
             }
@@ -219,6 +224,7 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
             var win = new DE.Views.RoleEditDlg({
                 oformManager: me.oformManager,
                 props   : (isEdit && rec) ? {name: rec.get('name'), color: rec.get('color')} : null,
+                colors  : me.arrColors,
                 isEdit  : (isEdit && rec),
                 handler : function(result, settings) {
                     if (result == 'ok' && settings) {
