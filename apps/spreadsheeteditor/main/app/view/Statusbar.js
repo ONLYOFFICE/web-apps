@@ -824,12 +824,20 @@ define([
                 var visible = false;
                 var right = parseInt(this.boxZoom.css('width'));
                 if (this.boxMath.is(':visible')) {
-                    this.boxMath.css({'right': right + 'px'});
+                    if (Common.UI.isRTL()) {
+                        this.boxMath.css({'left': right + 'px'});
+                    } else {
+                        this.boxMath.css({'right': right + 'px'});
+                    }
                     right += parseInt(this.boxMath.css('width'));
                     visible = true;
                 }
                 if (this.boxFiltered.is(':visible')) {
-                    this.boxFiltered.css({'right': right + 'px'});
+                    if (Common.UI.isRTL()) {
+                        this.boxFiltered.css({'left': right + 'px'});
+                    } else {
+                        this.boxFiltered.css({'right': right + 'px'});
+                    }
                     right += parseInt(this.boxFiltered.css('width'));
                     visible = true;
                 }
@@ -840,11 +848,21 @@ define([
                         var actionWidth = this.actionWidth || 140;
                         if (Common.Utils.innerWidth() - right - 129 - actionWidth - tabsWidth > 0) { // docWidth - right - left - this.boxAction.width
                             var left = tabsWidth + 129;
-                            this.boxAction.css({'right': right + 'px', 'left': left + 'px', 'width': 'auto'});
-                            this.boxAction.find('.separator').css('border-left-color', 'transparent');
+                            if (Common.UI.isRTL()) {
+                                this.boxAction.css({'left': right + 'px', 'right': left + 'px', 'width': 'auto'});
+                                this.boxAction.find('.separator').css('border-right-color', 'transparent');
+                            } else {
+                                this.boxAction.css({'right': right + 'px', 'left': left + 'px', 'width': 'auto'});
+                                this.boxAction.find('.separator').css('border-left-color', 'transparent');
+                            }
                         } else {
-                            this.boxAction.css({'right': right + 'px', 'left': 'auto', 'width': actionWidth + 'px'});
-                            this.boxAction.find('.separator').css('border-left-color', '');
+                            if (Common.UI.isRTL()) {
+                                this.boxAction.css({'left': right + 'px', 'right': 'auto', 'width': actionWidth + 'px'});
+                                this.boxAction.find('.separator').css('border-right-color', '');
+                            } else {
+                                this.boxAction.css({'right': right + 'px', 'left': 'auto', 'width': actionWidth + 'px'});
+                                this.boxAction.find('.separator').css('border-left-color', '');
+                            }
                             visible = true;
                         }
                         right += parseInt(this.boxAction.css('width'));
@@ -853,18 +871,32 @@ define([
                     this.boxMath.is(':visible') && this.boxMath.css({'top': '0px', 'bottom': 'auto'});
                     this.boxFiltered.is(':visible') && this.boxFiltered.css({'top': '0px', 'bottom': 'auto'});
                     this.boxZoom.css({'top': '0px', 'bottom': 'auto'});
-                    this.tabBarBox.css('right', right + 'px');
+                    if (Common.UI.isRTL()) {
+                        this.tabBarBox.css('left', right + 'px');
+                    } else {
+                        this.tabBarBox.css('right', right + 'px');
+                    }
                 } else {
                     if (this.boxAction.is(':visible')) {
-                        this.boxAction.css({'right': right + 'px', 'left': '135px', 'width': 'auto'});
-                        this.boxAction.find('.separator').css('border-left-color', 'transparent');
+                        if (Common.UI.isRTL()) {
+                            this.boxAction.css({'left': right + 'px', 'right': '135px', 'width': 'auto'});
+                            this.boxAction.find('.separator').css('border-right-color', 'transparent');
+                        } else {
+                            this.boxAction.css({'right': right + 'px', 'left': '135px', 'width': 'auto'});
+                            this.boxAction.find('.separator').css('border-left-color', 'transparent');
+                        }
                     }
                     this.boxMath.is(':visible') && this.boxMath.css({'top': 'auto', 'bottom': '0px'});
                     this.boxFiltered.is(':visible') && this.boxFiltered.css({'top': 'auto', 'bottom': '0px'});
                     this.boxZoom.css({'top': 'auto', 'bottom': '0px'});
-                    this.tabBarBox.css('right', '0px');
+                    if (Common.UI.isRTL()) {
+                        this.tabBarBox.css('left', '0px');
+                        this.boxZoom.find('.separator').css('border-right-color', visible ? '' : 'transparent');
+                    } else {
+                        this.tabBarBox.css('right', '0px');
+                        this.boxZoom.find('.separator').css('border-left-color', visible ? '' : 'transparent');
+                    }
                 }
-                this.boxZoom.find('.separator').css('border-left-color', visible ? '' : 'transparent');
 
                 if (this.statusMessage) {
                     var status = this.getStatusMessage(this.statusMessage);
@@ -890,11 +922,12 @@ define([
             },
 
             changeViewMode: function (mode) {
-                var edit = mode.isEdit;
+                var edit = mode.isEdit,
+                    styleLeft = Common.UI.isRTL() ? 'right' : 'left';
                 if (edit) {
-                    this.tabBarBox.css('left', '129px');
+                    this.tabBarBox.css(styleLeft, '129px');
                 } else {
-                    this.tabBarBox.css('left', '');
+                    this.tabBarBox.css(styleLeft, '');
                 }
 
                 this.tabbar.options.draggable = edit;
