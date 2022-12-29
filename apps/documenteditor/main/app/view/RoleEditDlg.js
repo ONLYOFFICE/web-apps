@@ -72,7 +72,8 @@ define([
 
             this.options.tpl = _.template(this.template)(this.options);
             this.props = this.options.props;
-            this.lastColor = 'CCE1FF';
+            this.colors = this.options.colors;
+            this.lastColor = 'FFEFBF';
             this.oformManager = this.options.oformManager;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
@@ -135,18 +136,24 @@ define([
 
         setSettings: function (props) {
             if (props) {
-                var clr = props.color,
-                    show = !!clr;
-                this.mnuNoFormsColor.setChecked(!show, true);
+                var clr = props.color;
+                this.mnuNoFormsColor.setChecked(!clr, true);
                 this.mnuColorPicker.clearSelection();
                 if (clr) {
-                    clr = Common.Utils.ThemeColor.getHexColor(clr.get_r(), clr.get_g(), clr.get_b());
                     this.mnuColorPicker.selectByRGB(clr, true);
                     this.lastColor = clr;
                 }
                 this.btnColor.setColor(clr || 'transparent');
 
                 this.inputName.setValue(props.name || '');
+            } else {
+                var arr = _.difference(this.btnColor.options.colors, this.colors);
+                if (arr.length>0) {
+                    var i = Math.floor(Math.random() * arr.length);
+                    this.lastColor = arr[i];
+                    this.mnuColorPicker.selectByRGB(this.lastColor, true);
+                    this.btnColor.setColor(this.lastColor);
+                }
             }
         },
 
