@@ -6,7 +6,6 @@ import {Device} from "../../../utils/device";
 import {ReviewController, ReviewChangeController} from "../../controller/collaboration/Review";
 import {PageDisplayMode} from "./Review";
 import {ViewCommentsController, ViewCommentsSheetsController} from "../../controller/collaboration/Comments";
-// import SharingSettings from "../SharingSettings";
 import SharingSettingsController from "../../controller/SharingSettings";
 
 const PageUsers = inject("users")(observer(props => {
@@ -146,6 +145,7 @@ class CollaborationView extends Component {
     onoptionclick(page){
         f7.views.current.router.navigate(page);
     }
+
     render() {
         const show_popover = this.props.usePopover;
         return (
