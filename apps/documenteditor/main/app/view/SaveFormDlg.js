@@ -137,7 +137,7 @@ define([  'common/main/lib/view/AdvancedSettingsWindow',
                         name: role.asc_getName() || me.textAnyone,
                         color: role.asc_getColor(),
                         fields: fields,
-                        index: i,
+                        index: arr.length,
                         scope: this
                     });
                 }
