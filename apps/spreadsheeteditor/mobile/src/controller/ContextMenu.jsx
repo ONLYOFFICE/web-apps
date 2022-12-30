@@ -260,7 +260,7 @@ class ContextMenu extends ContextMenuController {
             let iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu;
             const seltype = cellinfo.asc_getSelectionType();
             const comments = cellinfo.asc_getComments(); //prohibit adding multiple comments in one cell;
-            const isSolvedComment = comments[0].asc_getSolved();
+            const isSolvedComment = comments?.length && comments[0].asc_getSolved();
 
             switch (seltype) {
                 case Asc.c_oAscSelectionType.RangeCells:     iscellmenu  = true;     break;
