@@ -763,7 +763,8 @@ define([
                         this.tabMenu.atposition = (function () {
                             return {
                                 top : rect.top,
-                                left: rect.left - parentPos.left - 2
+                                left: rect.left - parentPos.left - 2,
+                                right: rect.right - parentPos.left + 2
                             };
                         })();
 
@@ -779,7 +780,7 @@ define([
 
             onTabMenuAfterShow: function (obj) {
                 if (obj.atposition) {
-                    obj.setOffset(obj.atposition.left);
+                    obj.setOffset(Common.UI.isRTL() ? (obj.atposition.right - $(obj.el).width()) : obj.atposition.left);
                 }
 
                 this.enableKeyEvents = true;
@@ -952,7 +953,7 @@ define([
                 if (obj.atposition) {
                     var statusHeight = $(this.el).height(),
                         offsetTop = !this.isCompact && (obj.atposition.top - $(this.el).offset().top > statusHeight/2) ? statusHeight/2 : 0;
-                    obj.setOffset(obj.atposition.left, offsetTop);
+                    obj.setOffset(Common.UI.isRTL() ? (obj.atposition.left - $(this.el).width() + 2) : obj.atposition.left, offsetTop);
                 }
                 this.enableKeyEvents = true;
             },
