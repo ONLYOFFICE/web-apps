@@ -304,7 +304,7 @@
     "textDelete": "Eliminar",
     "textDuplicate": "Duplicar",
     "textErrNameExists": "La hoja de cálculo con este nombre ya existe.",
-    "textErrNameWrongChar": "Nombre de hoja no puede contener los símbolos: \\, /, *, ?, [, ], :",
+    "textErrNameWrongChar": "Nombre de hoja no puede contener los símbolos: \\, /, *, ?, [, ], : o el símbolo ' como primer o último carácter",
     "textErrNotEmpty": "Nombre de hoja no debe ser vacío",
     "textErrorLastSheet": "El libro debe tener al menos una hoja de cálculo visible.",
     "textErrorRemoveSheet": "No se puede eliminar la hoja de cálculo.",
