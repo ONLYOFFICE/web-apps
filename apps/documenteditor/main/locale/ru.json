@@ -2689,6 +2689,7 @@
   "DE.Views.RolesManagerDlg.closeButtonText ": "Закрыть",
   "DE.Views.RolesManagerDlg.textAnyone": "Любой",
   "DE.Views.RolesManagerDlg.textDelete": "Удалить",
+  "DE.Views.RolesManagerDlg.textDeleteLast": "Вы действительно хотите удалить роль {0}?<br>После удаления будет создана роль по умолчанию.",
   "DE.Views.RolesManagerDlg.textDescription": "Добавьте роли и задайте порядок, в котором заполняющие получают и подписывают документ",
   "DE.Views.RolesManagerDlg.textDown": "Переместить роль вниз",
   "DE.Views.RolesManagerDlg.textEdit": "Редактировать",
