@@ -151,6 +151,11 @@
     "errorEditingDownloadas": "S'ha produït un error mentre es treballava amb el document. <br>Utilitzeu l'opció \"Descarregar\" per desar la còpia de seguretat del fitxer localment.",
     "errorFilePassProtect": "El fitxer està protegit amb contrasenya i no s'ha pogut obrir.",
     "errorFileSizeExceed": "La mida del fitxer supera el límit del vostre servidor. <br>Contacteu amb l'administrador.",
+    "errorInconsistentExt": "S'ha produït un error en obrir el fitxer.<br>El contingut del fitxer no es correspon amb la seva extensió.",
+    "errorInconsistentExtDocx": "S'ha produït un error en obrir el fitxer.<br>El contingut del fitxer correspon a documents de text (per exemple, docx), però el fitxer té l'extensió incoherent: %1.",
+    "errorInconsistentExtPdf": "S'ha produït un error en obrir el fitxer.<br>El contingut del fitxer correspon a un dels formats següents: pdf/djvu/xps/oxps, però el fitxer té l'extensió incoherent: %1.",
+    "errorInconsistentExtPptx": "S'ha produït un error en obrir el fitxer.<br>El contingut del fitxer correspon a presentacions (per exemple, pptx), però el fitxer té l'extensió incongruent: %1.",
+    "errorInconsistentExtXlsx": "S'ha produït un error en obrir el fitxer.<br>El contingut del fitxer correspon a full de càlcul (per exemple, xlsx), però el fitxer té l'extensió incoherent: %1.",
     "errorKeyEncrypt": "Descriptor de claus desconegut",
     "errorKeyExpire": "El descriptor de claus ha caducat",
     "errorLoadingFont": "No s'han carregat les lletres tipogràfiques.<br> Contacteu amb l'administrador del Servidor de Documents.",
@@ -158,6 +163,8 @@
     "errorSessionIdle": "Fa molt de temps que no s'edita el document. Torneu a carregar la pàgina.",
     "errorSessionToken": "S'ha interromput la connexió amb el servidor. Torneu a carregar la pàgina.",
     "errorStockChart": "L'ordre de la fila no és correcte. Per construir un gràfic de valors, poseu les dades al full de càlcul en l'ordre següent: <br>preu d'obertura, preu màxim, preu mínim, preu de tancament.",
+    "errorToken": "El testimoni de seguretat del document no s'ha format correctament. <br>Contacteu amb l'administrador del servidor de documents.",
+    "errorTokenExpire": "El testimoni de seguretat del document ha caducat. <br>Contacteu amb l'administrador del servidor de documents.",
     "errorUpdateVersionOnDisconnect": "S'ha restaurat la connexió a Internet i s'ha canviat la versió del fitxer. <br>Abans de continuar treballant, descarregueu el fitxer o copieu el seu contingut per assegurar-vos que no s'ha perdut res i torneu a carregar aquesta pàgina.",
     "errorUserDrop": "No es pot accedir al fitxer.",
     "errorUsersExceed": "S'ha superat el nombre d’usuaris que permet el vostre pla",
@@ -172,18 +179,12 @@
     "unknownErrorText": "Error desconegut.",
     "uploadImageExtMessage": "Format d'imatge desconegut.",
     "uploadImageFileCountMessage": "No s'ha carregat cap imatge.",
-    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB.",
-    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
-    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
-    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
-    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
+    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "S'estant carregant les dades...",
     "applyChangesTitleText": "S'estan carregant les dades",
+    "confirmMaxChangesSize": "La mida de les accions excedeix la limitació establerta pel vostre servidor. <br>Premeu «Desfés» per a cancel·lar la vostra última acció o premeu «Continua» per a mantenir l'acció localment (cal baixar el fitxer o copiar el seu contingut per a assegurar-vos que no es perd res).",
     "downloadTextText": "S'està baixant el document...",
     "downloadTitleText": "S'està baixant el document",
     "loadFontsTextText": "S'estant carregant les dades...",
@@ -212,8 +213,7 @@
     "txtEditingMode": "Estableix el mode d'edició ...",
     "uploadImageTextText": "S'està carregant la imatge...",
     "uploadImageTitleText": "S'està carregant la imatge",
-    "waitText": "Espereu...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost)."
+    "waitText": "Espereu..."
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Teniu canvis no desats en aquest document. Feu clic a \"Queda't en aquesta pàgina\" per esperar al desament automàtic. Feu clic a \"Deixa aquesta pàgina\" per descartar tots els canvis no desats.",
