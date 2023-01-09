@@ -24,6 +24,9 @@ class AddFilterController extends Component {
 
     componentDidMount () {
         const api = Common.EditorApi.get();
+        const appOptions = this.props.storeAppOptions;
+
+        api.asc_setFilteringMode && api.asc_setFilteringMode(appOptions.canModifyFilter);
         api.asc_registerCallback('asc_onError', this.uncheckedFilter);
     }
 
@@ -108,7 +111,8 @@ class AddFilterController extends Component {
         const api = Common.EditorApi.get();
         const formatTableInfo = api.asc_getCellInfo().asc_getFormatTableInfo();
         const tablename = (formatTableInfo) ? formatTableInfo.asc_getTableName() : undefined;
-        if (checked) {
+        
+        if (checked || tablename) {
             api.asc_addAutoFilter();
         } else {
             api.asc_changeAutoFilter(tablename, Asc.c_oAscChangeFilterOptions.filter, checked);
@@ -127,4 +131,4 @@ class AddFilterController extends Component {
     }
 }
 
-export default inject("storeWorksheets")(observer(withTranslation()(AddFilterController)));
+export default inject("storeWorksheets", "storeAppOptions")(observer(withTranslation()(AddFilterController)));

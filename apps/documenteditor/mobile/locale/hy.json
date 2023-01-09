@@ -222,6 +222,7 @@
     "textAllowOverlap": "Թույլ տալ վերածածկում",
     "textAmountOfLevels": "Մակարդակների չափը",
     "textApril": "Ապրիլ",
+    "textArrange": "Դասավորել",
     "textAugust": "Օգոստոս",
     "textAuto": "Ինքնաշխատ",
     "textAutomatic": "Ինքնաշխատ",
@@ -375,8 +376,7 @@
     "textType": "Տեսակ",
     "textWe": "Չրք",
     "textWrap": "Ծալում",
-    "textWrappingStyle": "Ծալման ոճ",
-    "textArrange": "Arrange"
+    "textWrappingStyle": "Ծալման ոճ"
   },
   "Error": {
     "convertationTimeoutText": "Փոխարկման սպասման ժամանակը սպառվել է։",
@@ -543,11 +543,13 @@
     "textClose": "Փակել",
     "textContactUs": "Կապ վաճառքի բաժնի հետ",
     "textCustomLoader": "Ներեցեք, Դուք իրավունք չունեք փոխել բեռնիչը:Մեջբերում ստանալու համար դիմեք մեր վաճառքի բաժին:",
+    "textDocumentProtected": "Փաստաթուղթը պաշտպանված է: Խմբագրման կարգավորումները հասանելի չեն",
     "textGuest": "Հյուր",
     "textHasMacros": "Ֆայլում կան ինքնաշխատ մակրոներ։<br>Գործարկե՞լ դրանք։",
     "textNo": "Ոչ",
     "textNoLicenseTitle": "Լիցենզիայի սահմանաչափը հասել է",
     "textNoTextFound": "Տեքստը չի գտնվել",
+    "textOk": "Լավ",
     "textPaidFeature": "Վճարովի գործառույթ",
     "textRemember": "Հիշել իմ ընտրությունը",
     "textReplaceSkipped": "Փոխարինումը կատարված է։{0} դեպք բաց է թողնվել:",

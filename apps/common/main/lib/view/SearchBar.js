@@ -53,7 +53,8 @@ define([
             cls: 'search-bar',
             alias: 'SearchBar',
             showOpenPanel: true,
-            toolclose: 'hide'
+            toolclose: 'hide',
+            automove: false
         },
 
         initialize : function(options) {

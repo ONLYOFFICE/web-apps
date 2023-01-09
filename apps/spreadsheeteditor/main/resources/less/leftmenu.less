@@ -154,7 +154,7 @@
                 &:extend(.dropdown-menu > li > a);
                 padding-top: 4px;
                 cursor: pointer;
-                font-size: 13px;
+                .font-size-large();
 
                 &:hover {
                     text-decoration: none;
@@ -209,7 +209,7 @@
                 }
 
                 .header {
-                    font-size: 16px;
+                    .font-size-very-huge();
                     margin-bottom: 20px;
                 }
 
@@ -246,7 +246,7 @@
 
             .header {
                 margin: 30px 0 20px 30px;
-                font-size: 16px;
+                .font-size-very-huge();
             }
         }
 
@@ -257,7 +257,7 @@
 
             .header {
                 margin: 30px 0 16px 30px;
-                font-size: 16px;
+                .font-size-very-huge();
             }
 
             #id-settings-menu {
@@ -271,7 +271,7 @@
                         width: 100%;
                         .box-shadow(none);
                         margin: 0;
-                        font-size: 12px;
+                        .font-size-medium();
 
                         .settings-item-wrap {
                             padding: 4px 2px 4px 20px;
@@ -307,15 +307,18 @@
                 width: auto !important;
                 tr {
                     td {
+                        label{
+                            .font-size-normal();
+                        }
+
                         //padding: 5px 10px;
                         padding: 6px 10px;
                         &.group-name label {
-                            font-size: 14px;
+                            .font-size-huge();
                             .font-weight-bold();
                         }
 
                         &.subgroup-name label{
-                            font-size: 11px;
                             .font-weight-bold();
                         }
 
@@ -329,7 +332,7 @@
 
                             label {
                                 .font-weight-bold();
-                                font-size: 12px;
+                                .font-size-medium();
                             }
                         }
 
@@ -392,7 +395,7 @@
 
         #panel-createnew {
             .header {
-                font-size: 16px;
+                .font-size-very-huge();
                 padding: 0 0 0 10px;
                 white-space: nowrap;
                 margin-top: 30px;
@@ -443,7 +446,7 @@
 
                     .title {
                         width: 104px;
-                        font-size: 12px;
+                        .font-size-medium();
                         line-height: 14px;
                         height: 28px;
                         margin: 8px 8px 12px 8px;
@@ -476,7 +479,7 @@
 
             .header {
                 margin: 30px 0 20px 10px;
-                font-size: 16px;
+                .font-size-very-huge();
             }
 
             .dataview {
@@ -490,7 +493,7 @@
             .recent-wrap {
                 padding: 5px 10px;
                 cursor: pointer;
-                font-size: 12px;
+                .font-size-medium();
 
                 &:hover,
                 &.over {
@@ -542,13 +545,19 @@
                 border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
                 border-right: @scaled-one-px-value solid @border-toolbar;
 
+                .rtl & {
+                    border-right: none;
+                    border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
+                    border-left: @scaled-one-px-value solid @border-toolbar;
+                }
+
                 & > div:not([class^=ps-scrollbar]) {
                     display: block;
                     border: none;
                     width: 100%;
                     .box-shadow(none);
                     margin: 0;
-                    font-size: 12px;
+                    .font-size-medium();
                     float: none;
 
                     &:not(.header-name) {
@@ -590,7 +599,7 @@
 
             .header {
                 margin: 30px 0 20px 0;
-                font-size: 16px;
+                .font-size-very-huge();
             }
         }
 
@@ -648,7 +657,7 @@
             }
 
             label, span {
-                font-size: 12px;
+                .font-size-medium();
             }
 
             .tool {
@@ -672,7 +681,7 @@
             padding: 30px 30px;
 
             label {
-                font-size: 12px;
+                .font-size-medium();
             }
 
             .header {
@@ -715,7 +724,7 @@
             }
 
             #id-fms-lbl-protect-header {
-                font-size: 16px;
+                .font-size-very-huge();
             }
 
             .btn-text-default.auto {
@@ -734,7 +743,7 @@
 
         #panel-print {
             .main-header {
-                font-size: 16px;
+                .font-size-very-huge();
                 margin: 18px 0 20px 0;
             }
             padding: 0;
@@ -775,6 +784,17 @@
                 flex-direction: column;
                 border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
                 border-right: @scaled-one-px-value solid @border-toolbar;
+                .rtl & {
+                    border-right: none;
+                    border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
+                    border-left: @scaled-one-px-value solid @border-toolbar;
+                }
+                label {
+                    .font-size-normal();
+                    &.header {
+                        font-weight: 700;
+                    }
+                }
                 .pages {
                     label, #print-spin-pages-from {
                         margin-right: 6px;
@@ -791,7 +811,7 @@
                     font-weight: 700;
                 }
                 .footer {
-                    .btn.primary {
+                    .btn:not(:last-child) {
                         margin-right: 8px;
                         .rtl & {
                             margin-right: 0;
@@ -830,14 +850,31 @@
                         }
                     }
                 }
+
                 #print-txt-top,
                 #print-txt-left,
                 #print-spin-margin-top,
                 #print-spin-margin-bottom {
                     margin-right: 8px;
+
                     .rtl & {
                         margin-right: 0;
                         margin-left: 8px;
+                    }
+                }
+
+                .footer-with-pdf {
+                    table {
+                        width: 247px;
+                    }
+                    td:not(:last-child) {
+                        padding-right: 5px;
+                    }
+                    .btn-text-default.auto {
+                        padding-left: 3px;
+                        padding-right: 3px;
+                        min-width: 64px;
+                        width: 100%;
                     }
                 }
             }
@@ -1018,6 +1055,7 @@
             top: 28px;
             width: 100%;
             overflow: hidden;
+            padding-bottom: 10px;
             .item {
                 padding: 0;
                 display: flex;

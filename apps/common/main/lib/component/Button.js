@@ -237,7 +237,7 @@ define([
 
     var getWidthOfCaption = function (txt) {
         var el = document.createElement('span');
-        el.style.fontSize = '11px';
+        el.style.fontSize = document.documentElement.style.getPropertyValue("--font-size-base-app-custom") || '11px';
         el.style.fontFamily = 'Arial, Helvetica, "Helvetica Neue", sans-serif';
         el.style.position = "absolute";
         el.style.top = '-1000px';

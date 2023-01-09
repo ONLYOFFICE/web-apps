@@ -225,7 +225,7 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
                 win.show(xy.left + 65, xy.top + 77);
                 win.setSettings({
                     api     : me.api,
-                    range   : me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex()) + '!' + me.api.asc_getActiveRangeStr(Asc.referenceType.A),
+                    range   : me.api.asc_getEscapeSheetName(me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex())) + '!' + me.api.asc_getActiveRangeStr(Asc.referenceType.A),
                     type    : Asc.c_oAscSelectionDialogType.Chart
                 });
             }

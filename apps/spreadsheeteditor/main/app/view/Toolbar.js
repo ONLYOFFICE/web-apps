@@ -814,10 +814,13 @@ define([
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-print no-mask',
                     lock        : [_set.editCell, _set.cantPrint, _set.disableOnStart],
-                    signals: ['disabled'],
+                    signals     : ['disabled'],
+                    split       : config.canQuickPrint,
+                    menu        : config.canQuickPrint,
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
-                    dataHintTitle: 'P'
+                    dataHintTitle: 'P',
+                    printType: 'print'
                 });
 
                 me.btnSave = new Common.UI.Button({
@@ -1257,7 +1260,7 @@ define([
                     menu        : new Common.UI.Menu({
                         cls: 'menu-shapes',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-insart" style="width: 239px; margin-left: 5px;"></div>')}
+                            {template: _.template('<div id="id-toolbar-menu-insart" style="width: 239px;"></div>')}
                         ]
                     }),
                     dataHint    : '1',
@@ -1927,16 +1930,16 @@ define([
 
                 me.mnuCustomScale = new Common.UI.MenuItem({
                     template: _.template([
-                            '<div class="checkable custom-scale"',
-                            '<% if(!_.isUndefined(options.stopPropagation)) { %>',
-                            'data-stopPropagation="true"',
-                            '<% } %>', '>',
-                            '<label class="title">' + me.textScale + '</label>',
-                            '<button id="custom-scale-up" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomup">&nbsp;</i></button>',
-                            '<label id="value-custom-scale"></label>',
-                            '<button id="custom-scale-down" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomdown">&nbsp;</i></button>',
-                            '</div>'
-                        ].join('')),
+                        '<div class="checkable custom-scale font-size-normal"',
+                        '<% if(!_.isUndefined(options.stopPropagation)) { %>',
+                        'data-stopPropagation="true"',
+                        '<% } %>', '>',
+                        '<label class="title">' + me.textScale + '</label>',
+                        '<button id="custom-scale-up" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomup">&nbsp;</i></button>',
+                        '<label id="value-custom-scale"></label>',
+                        '<button id="custom-scale-down" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomdown">&nbsp;</i></button>',
+                        '</div>'
+                    ].join('')),
                     stopPropagation: true,
                     value: 4
                 });
@@ -2331,6 +2334,7 @@ define([
                                 [Common.enumLock.editCell, Common.enumLock.selRangeEdit, Common.enumLock.headerLock, Common.enumLock.lostConnect, Common.enumLock.coAuth], undefined, undefined, undefined, '1', 'bottom', 'small');
             Array.prototype.push.apply(this.lockControls, this.btnsEditHeader);
 
+            this.btnPrint && this.btnPrint.menu && this.btnPrint.$el.addClass('split');
             return $host;
         },
 
@@ -2949,7 +2953,7 @@ define([
                     this.lockToolbar(Common.enumLock.cantPrint, true, {array: [this.btnPrint]});
             } else {
                 this.mode = mode;
-                !mode.canPrint && this.btnPrint.hide();
+                !mode.canPrint && this.btnPrint && this.btnPrint.hide();
                 this.lockToolbar(Common.enumLock.cantPrint, !mode.canPrint, {array: [this.btnPrint]});
             }
 
@@ -3092,6 +3096,31 @@ define([
             if (!this.mode.isEdit || this.mode.isEditMailMerge || this.mode.isEditDiagram || this.mode.isEditOle) return;
 
             var me = this;
+
+            if(me.btnPrint.menu) {
+                me.btnPrint.setMenu(
+                    new Common.UI.Menu({
+                        items:[
+                            {
+                                caption:            me.tipPrint,
+                                iconCls:            'menu__icon btn-print',
+                                toggleGroup:        'viewPrint',
+                                value:              'print',
+                                iconClsForMainBtn:  'btn-print',
+                                platformKey:         Common.Utils.String.platformKey('Ctrl+P')
+                            },
+                            {
+                                caption:            me.tipPrintQuick,
+                                iconCls:            'menu__icon btn-quick-print',
+                                toggleGroup:        'viewPrint',
+                                value:              'print-quick',
+                                iconClsForMainBtn:  'btn-quick-print',
+                                platformKey:        ''
+                            }
+                        ]
+                    }));
+            }
+
             var _holder_view = SSE.getController('DocumentHolder').getView('DocumentHolder');
             me.btnImgForward.updateHint(me.tipSendForward);
             me.btnImgForward.setMenu(new Common.UI.Menu({
@@ -3190,6 +3219,7 @@ define([
         tipUndo:            'Undo',
         tipRedo:            'Redo',
         tipPrint:           'Print',
+        tipPrintQuick:      'Quick print',
         tipSave:            'Save',
         tipFontColor:       'Font color',
         tipPrColor:         'Background color',

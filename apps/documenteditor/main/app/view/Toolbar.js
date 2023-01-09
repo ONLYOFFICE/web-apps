@@ -116,7 +116,9 @@ define([
         noObjectSelected:  'no-object',
         lostConnect:    'disconnect',
         disableOnStart: 'on-start',
-        complexForm:    'complex-form'
+        complexForm:    'complex-form',
+        formsNoRoles:   'no-roles',
+        fixedForm:      'fixed-form'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -191,9 +193,12 @@ define([
                         iconCls: 'toolbar__icon btn-print no-mask',
                         lock: [_set.cantPrint, _set.disableOnStart],
                         signals: ['disabled'],
+                        split: config.canQuickPrint,
+                        menu: config.canQuickPrint,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
-                        dataHintTitle: 'P'
+                        dataHintTitle: 'P',
+                        printType: 'print'
                     });
                     this.toolbarControls.push(this.btnPrint);
 
@@ -444,7 +449,7 @@ define([
                         id: 'id-toolbar-btn-align-left',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-align-left',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm],
                         enableToggle: true,
                         toggleGroup: 'alignGroup',
                         dataHint: '1',
@@ -456,7 +461,7 @@ define([
                         id: 'id-toolbar-btn-align-center',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-align-center',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm],
                         enableToggle: true,
                         toggleGroup: 'alignGroup',
                         dataHint: '1',
@@ -468,7 +473,7 @@ define([
                         id: 'id-toolbar-btn-align-right',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-align-right',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm],
                         enableToggle: true,
                         toggleGroup: 'alignGroup',
                         dataHint: '1',
@@ -480,7 +485,7 @@ define([
                         id: 'id-toolbar-btn-align-just',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-align-just',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm],
                         enableToggle: true,
                         toggleGroup: 'alignGroup',
                         dataHint: '1',
@@ -492,7 +497,7 @@ define([
                         id: 'id-toolbar-btn-decoffset',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-decoffset',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inSmartartInternal, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inSmartartInternal, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm],
                         dataHint: '1',
                         dataHintDirection: 'top'
                     });
@@ -502,7 +507,7 @@ define([
                         id: 'id-toolbar-btn-incoffset',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-incoffset',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inSmartartInternal, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inSmartartInternal, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm],
                         dataHint: '1',
                         dataHintDirection: 'top'
                     });
@@ -512,7 +517,7 @@ define([
                         id: 'id-toolbar-btn-linespace',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-linespace',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm],
                         menu: new Common.UI.Menu({
                             style: 'min-width: 60px;',
                             items: [
@@ -555,7 +560,7 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-setmarkers',
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inChart, _set.inSmartart, _set.inSmartartInternal, _set.previewReviewMode, _set.viewFormMode,
-                            _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
+                            _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm],
                         enableToggle: true,
                         toggleGroup: 'markersGroup',
                         split: true,
@@ -572,7 +577,7 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-numbering',
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inChart, _set.inSmartart, _set.inSmartartInternal,  _set.previewReviewMode, _set.viewFormMode,
-                            _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
+                            _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm],
                         enableToggle: true,
                         toggleGroup: 'markersGroup',
                         split: true,
@@ -589,7 +594,7 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-multilevels',
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inChart, _set.inSmartart, _set.inSmartartInternal, _set.previewReviewMode, _set.viewFormMode,
-                                _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
+                                _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm],
                         menu: true,
                         dataHint: '1',
                         dataHintDirection: 'top',
@@ -700,7 +705,7 @@ define([
                         menu: new Common.UI.Menu({
                             cls: 'menu-shapes',
                             items: [
-                                {template: _.template('<div id="id-toolbar-menu-insart" style="width: 239px; margin-left: 5px;"></div>')}
+                                {template: _.template('<div id="id-toolbar-menu-insart" style="width: 239px;"></div>')}
                             ]
                         }),
                         dataHint: '1',
@@ -874,7 +879,7 @@ define([
                         id: 'tlbtn-controls',
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-controls',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal],
                         caption: me.capBtnInsControls,
                         menu: new Common.UI.Menu({
                             cls: 'ppm-toolbar shifted-right',
@@ -1767,7 +1772,7 @@ define([
                         true, true, undefined, '1', 'bottom', 'small');
                 Array.prototype.push.apply(this.paragraphControls, this.btnsPageBreak);
                 Array.prototype.push.apply(this.lockControls, this.btnsPageBreak);
-
+                this.btnPrint.menu && this.btnPrint.$el.addClass('split');
                 return $host;
             },
 
@@ -1777,6 +1782,30 @@ define([
                     resolve();
                 })).then(function () {
                     if ( !config.isEdit ) return;
+
+                    if(me.btnPrint.menu){
+                        me.btnPrint.setMenu(
+                            new Common.UI.Menu({
+                                items:[
+                                    {
+                                        caption:            me.tipPrint,
+                                        iconCls:            'menu__icon btn-print',
+                                        toggleGroup:        'viewPrint',
+                                        value:              'print',
+                                        iconClsForMainBtn:  'btn-print',
+                                        platformKey:         Common.Utils.String.platformKey('Ctrl+P')
+                                    },
+                                    {
+                                        caption:            me.tipPrintQuick,
+                                        iconCls:            'menu__icon btn-quick-print',
+                                        toggleGroup:        'viewPrint',
+                                        value:              'print-quick',
+                                        iconClsForMainBtn:  'btn-quick-print',
+                                        platformKey:        ''
+                                    }
+                                ]
+                            }));
+                    }
 
                     me.btnsPageBreak.forEach( function(btn) {
                         btn.updateHint( [me.textInsPageBreak, me.tipPageBreak] );
@@ -2065,6 +2094,7 @@ define([
                     ids.push('id-toolbar-menu-markers-level-' + i);
                     items.push({template: levelTemplate, previewId: ids[i], level: i, checkable: true });
                 }
+
                 this.btnMarkers.setMenu(
                     new Common.UI.Menu({
                         cls: 'shifted-left',
@@ -2784,6 +2814,7 @@ define([
             tipUndo: 'Undo',
             tipRedo: 'Redo',
             tipPrint: 'Print',
+            tipPrintQuick: 'Quick print',
             tipSave: 'Save',
             tipIncFont: 'Increment font size',
             tipDecFont: 'Decrement font size',

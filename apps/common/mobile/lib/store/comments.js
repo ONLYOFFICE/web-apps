@@ -10,6 +10,7 @@ export class storeComments {
 
             showComments: observable,
             changeShowComment: action,
+            removeShowComment: action,
 
             addComment: action,
             removeComment: action,

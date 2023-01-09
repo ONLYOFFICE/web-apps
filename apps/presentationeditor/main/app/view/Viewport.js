@@ -157,6 +157,7 @@ define([
             var value = Common.UI.LayoutManager.getInitValue('rightMenu');
             value = (value!==undefined) ? !value : false;
             Common.localStorage.getBool("pe-hidden-rightmenu", value) && me._rightMenu.hide();
+            Common.Utils.InternalSettings.set("pe-hidden-rightmenu", Common.localStorage.getBool("pe-hidden-rightmenu", value));
         },
 
         applyCommonMode: function() {

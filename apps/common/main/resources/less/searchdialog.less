@@ -125,7 +125,7 @@
         border-bottom: @scaled-one-px-value solid @border-toolbar;
 
         label {
-            font-size: 12px;
+            .font-size-medium();
             .font-weight-bold();
             margin-top: 2px;
         }
@@ -140,10 +140,7 @@
     }
 
     #search-adv-settings {
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 45px;
+        position: relative;
         padding: 10px 15px 0 15px;
 
         table {
@@ -263,10 +260,7 @@
     }
 
     #search-results {
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        position: relative;
         width: 100%;
         border-top: @scaled-one-px-value-ie solid @border-toolbar-ie;
         border-top: @scaled-one-px-value solid @border-toolbar;
@@ -293,6 +287,21 @@
                 font-style: italic;
             }
         }
+
+        .ps-scrollbar-y-rail {
+            &.set-left {
+                right: 11px !important;
+            }
+        }
+    }
+
+    #search-container {
+        position: absolute;
+        overflow: hidden;
+        top: 45px;
+        left: 0;
+        right: 0;
+        bottom: 0;
     }
 
 }

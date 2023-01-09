@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 const AddSortAndFilter = props => {
     const { t } = useTranslation();
     const _t = t('View.Add', {returnObjects: true});
-    const isFilter = props.isFilter;
+    const [isFilter, setIsFilter] = useState(props.isFilter);
     const wsLock = props.wsLock;
 
     return (
@@ -27,7 +27,11 @@ const AddSortAndFilter = props => {
                 <List>
                     <ListItem title={_t.textFilter}>
                         <Toggle checked={isFilter}
-                                onToggleChange={() => props.onInsertFilter(!isFilter)}/>
+                            onToggleChange={() => {
+                                setIsFilter(!isFilter);
+                                props.onInsertFilter(!isFilter)}
+                            }
+                        />
                     </ListItem>
                 </List>
             }

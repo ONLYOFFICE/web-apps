@@ -182,6 +182,14 @@ define([
                     Common.Utils.InternalSettings.set("pe-settings-fontrender", value);
                     this.api.SetFontRenderingMode(parseInt(value));
 
+                    if ( !Common.Utils.isIE ) {
+                        if ( /^https?:\/\//.test('{{HELP_CENTER_WEB_PE}}') ) {
+                            const _url_obj = new URL('{{HELP_CENTER_WEB_PE}}');
+                            _url_obj.searchParams.set('lang', Common.Locale.getCurrentLanguage());
+                            Common.Utils.InternalSettings.set("url-help-center", _url_obj.toString());
+                        }
+                    }
+
                     this.api.asc_registerCallback('asc_onError',                    _.bind(this.onError, this));
                     this.api.asc_registerCallback('asc_onDocumentContentReady',     _.bind(this.onDocumentContentReady, this));
                     this.api.asc_registerCallback('asc_onOpenDocumentProgress',     _.bind(this.onOpenDocument, this));
@@ -349,6 +357,10 @@ define([
                             }
                         }
                         document.documentElement.style.setProperty("--font-family-base-custom", arr.join(','));
+                    }
+                    if (this.appOptions.customization.font.size) {
+                        var size = parseInt(this.appOptions.customization.font.size);
+                        !isNaN(size) && document.documentElement.style.setProperty("--font-size-base-app-custom", size + "px");
                     }
                 }
 
@@ -1055,7 +1067,7 @@ define([
                     }
                 } else if (!this.appOptions.isDesktopApp && !this.appOptions.canBrandingExt &&
                     this.editorConfig && this.editorConfig.customization && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo ||
-                                                                             this.editorConfig.customization.font && this.editorConfig.customization.font.name)) {
+                    this.editorConfig.customization.font && (this.editorConfig.customization.font.size || this.editorConfig.customization.font.name))) {
                     Common.UI.warning({
                         title: this.textPaidFeature,
                         msg  : this.textCustomLoader,
@@ -1192,8 +1204,7 @@ define([
                 }
                 this.appOptions.canPrint       = (this.permissions.print !== false);
                 this.appOptions.canPreviewPrint = this.appOptions.canPrint && !Common.Utils.isMac && this.appOptions.isDesktopApp;
-                this.appOptions.canQuickPrint = this.appOptions.canPrint && !Common.Utils.isMac && this.appOptions.isDesktopApp &&
-                                                !(this.editorConfig.customization && this.editorConfig.customization.compactHeader);
+                this.appOptions.canQuickPrint = this.appOptions.canPrint && !Common.Utils.isMac && this.appOptions.isDesktopApp;
                 this.appOptions.canRename      = this.editorConfig.canRename;
                 this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
                 this.appOptions.forcesave      = this.appOptions.canForcesave;

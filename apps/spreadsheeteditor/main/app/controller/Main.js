@@ -197,6 +197,14 @@ define([
                 Common.Utils.InternalSettings.set("sse-settings-fontrender", value);
                 this.api.asc_setFontRenderingMode(parseInt(value));
 
+                if ( !Common.Utils.isIE ) {
+                    if ( /^https?:\/\//.test('{{HELP_CENTER_WEB_SSE}}') ) {
+                        const _url_obj = new URL('{{HELP_CENTER_WEB_SSE}}');
+                        _url_obj.searchParams.set('lang', Common.Locale.getCurrentLanguage());
+                        Common.Utils.InternalSettings.set("url-help-center", _url_obj.toString());
+                    }
+                }
+
                 this.api.asc_registerCallback('asc_onOpenDocumentProgress',  _.bind(this.onOpenDocument, this));
                 this.api.asc_registerCallback('asc_onEndAction',             _.bind(this.onLongActionEnd, this));
                 this.api.asc_registerCallback('asc_onError',                 _.bind(this.onError, this));
@@ -387,6 +395,10 @@ define([
                             }
                         }
                         document.documentElement.style.setProperty("--font-family-base-custom", arr.join(','));
+                    }
+                    if (this.appOptions.customization.font.size) {
+                        var size = parseInt(this.appOptions.customization.font.size);
+                        !isNaN(size) && document.documentElement.style.setProperty("--font-size-base-app-custom", size + "px");
                     }
                 }
 
@@ -672,8 +684,11 @@ define([
 
             onEditComplete: function(cmp, opts) {
                 if (opts && opts.restorefocus && this.api.isCEditorFocused) {
-                    this.formulaInput.blur();
-                    this.formulaInput.focus();
+                    var me = this;
+                    setTimeout(function () {
+                            me.formulaInput.blur();
+                            me.formulaInput.focus();
+                        }, 0);
                 } else {
                     this.getApplication().getController('DocumentHolder').getView('DocumentHolder').focus();
                     this.api.isCEditorFocused = false;
@@ -1140,7 +1155,7 @@ define([
                     }
                 } else if (!this.appOptions.isDesktopApp && !this.appOptions.canBrandingExt && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge || this.appOptions.isEditOle) &&
                     this.editorConfig && this.editorConfig.customization && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo ||
-                                                                             this.editorConfig.customization.font && this.editorConfig.customization.font.name)) {
+                    this.editorConfig.customization.font && (this.editorConfig.customization.font.size || this.editorConfig.customization.font.name))) {
                     Common.UI.warning({
                         title: this.textPaidFeature,
                         msg  : this.textCustomLoader,
@@ -1310,8 +1325,7 @@ define([
                 this.appOptions.isEdit         = (this.appOptions.canLicense || this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge || this.appOptions.isEditOle) && this.permissions.edit !== false && this.editorConfig.mode !== 'view';
                 this.appOptions.canDownload    = (this.permissions.download !== false);
                 this.appOptions.canPrint       = (this.permissions.print !== false) && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge || this.appOptions.isEditOle);
-                this.appOptions.canQuickPrint = this.appOptions.canPrint && !Common.Utils.isMac && this.appOptions.isDesktopApp &&
-                                                !(this.editorConfig.customization && this.editorConfig.customization.compactHeader);
+                this.appOptions.canQuickPrint = this.appOptions.canPrint && !Common.Utils.isMac && this.appOptions.isDesktopApp;
                 this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge || this.appOptions.isEditOle) &&
                                                 (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
@@ -2003,7 +2017,9 @@ define([
 
                     case Asc.c_oAscError.ID.ConvertationOpenFormat:
                         config.maxwidth = 600;
-                        if (errData === 'pdf')
+                        if (Common.Utils.InternalSettings.get('import-xml-start'))
+                            config.msg = this.errorConvertXml;
+                        else if (errData === 'pdf')
                             config.msg = this.errorInconsistentExtPdf.replace('%1', this.appOptions.spreadsheet.fileType || '');
                         else if  (errData === 'docx')
                             config.msg = this.errorInconsistentExtDocx.replace('%1', this.appOptions.spreadsheet.fileType || '');
@@ -3757,7 +3773,8 @@ define([
             errorInconsistentExtPdf: 'An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.',
             errorInconsistentExt: 'An error has occurred while opening the file.<br>The file content does not match the file extension.',
             errorCannotPasteImg: 'We can\'t paste this image from the Clipboard, but you can save it to your device and \ninsert it from there, or you can copy the image without text and paste it into the spreadsheet.',
-            textTryQuickPrint: 'You have selected Quick print: the entire document will be printed on the last selected or default printer.<br>Do you want to continue?'
+            textTryQuickPrint: 'You have selected Quick print: the entire document will be printed on the last selected or default printer.<br>Do you want to continue?',
+            errorConvertXml: 'The file has an unsupported format.<br>Only XML Spreadsheet 2003 format can be used.'
         }
     })(), SSE.Controllers.Main || {}))
 });

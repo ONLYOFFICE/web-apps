@@ -224,6 +224,11 @@
 .combo-cell-styles, #id-toolbar-btn-cstyle {
     .dropdown-menu {
         padding: 5px 0px !important;
+        border-left-style: solid !important;
+        border-left-color: @border-regular-control-ie !important;
+        border-left-color: @border-regular-control !important;
+        border-left-width: @scaled-one-px-value-ie !important;
+        border-left-width: @scaled-one-px-value !important;
     }
 
     .menu-picker-container {
@@ -331,5 +336,19 @@
             padding-left: 0;
             padding-right: 100px;
         }
+    }
+}
+
+#id-toolbar-btn-cstyle {
+    .style  {
+        background-color: @canvas-content-background;
+    }
+}
+
+#id-toolbar-menu-insart {
+    margin-left: 5px;
+    .rtl & {
+        margin-left: 0;
+        margin-right: 5px;
     }
 }

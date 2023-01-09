@@ -91,11 +91,16 @@ define([
                 }
             }, this));
             this.printSettings.btnsSave.forEach(function (btn) {
-                btn.on('click', _.bind(me.querySavePrintSettings, me, false));
+                btn.on('click', _.bind(me.querySavePrintSettings, me, 'save'));
             });
             this.printSettings.btnsPrint.forEach(function (btn) {
-                btn.on('click', _.bind(me.querySavePrintSettings, me, true));
+                btn.on('click', _.bind(me.querySavePrintSettings, me, 'print'));
             });
+            if (this.mode.isDesktopApp) {
+                this.printSettings.btnsPrintPDF.forEach(function (btn) {
+                    btn.on('click', _.bind(me.querySavePrintSettings, me, 'print-pdf'));
+                });
+            }
             this.printSettings.btnPrevPage.on('click', _.bind(this.onChangePreviewPage, this, false));
             this.printSettings.btnNextPage.on('click', _.bind(this.onChangePreviewPage, this, true));
             this.printSettings.txtNumberPage.on({
@@ -441,35 +446,38 @@ define([
 
         querySavePrintSettings: function(print) {
             if ( this.checkMargins(this.printSettings) ) {
+                var view = SSE.getController('Toolbar').getView('Toolbar');
                 this.savePageOptions(this.printSettings);
-                this._isPrint = print;
+                this._isPrint = print === 'print';
                 this.printSettings.applySettings();
 
-                if (print) {
-                    var view = SSE.getController('Toolbar').getView('Toolbar');
-                    var printType = this.printSettings.getRange();
-                    this.adjPrintParams.asc_setPrintType(printType);
-                    this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
-                    this.adjPrintParams.asc_setIgnorePrintArea(this.printSettings.getIgnorePrintArea());
-                    this.adjPrintParams.asc_setActiveSheetsArray(printType === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
-                    var pageFrom = this.printSettings.getPagesFrom(),
-                        pageTo = this.printSettings.getPagesTo();
-                    if (pageFrom > pageTo) {
-                        var t = pageFrom;
-                        pageFrom = pageTo;
-                        pageTo = t;
-                    }
-                    this.adjPrintParams.asc_setStartPageIndex(pageFrom > 0 ? pageFrom - 1 : null);
-                    this.adjPrintParams.asc_setEndPageIndex(pageTo > 0 ? pageTo - 1 : null);
-                    Common.localStorage.setItem("sse-print-settings-range", printType);
+                var printType = this.printSettings.getRange();
+                this.adjPrintParams.asc_setPrintType(printType);
+                this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
+                this.adjPrintParams.asc_setIgnorePrintArea(this.printSettings.getIgnorePrintArea());
+                this.adjPrintParams.asc_setActiveSheetsArray(printType === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
+                var pageFrom = this.printSettings.getPagesFrom(),
+                    pageTo = this.printSettings.getPagesTo();
+                if (pageFrom > pageTo) {
+                    var t = pageFrom;
+                    pageFrom = pageTo;
+                    pageTo = t;
+                }
+                this.adjPrintParams.asc_setStartPageIndex(pageFrom > 0 ? pageFrom - 1 : null);
+                this.adjPrintParams.asc_setEndPageIndex(pageTo > 0 ? pageTo - 1 : null);
+                Common.localStorage.setItem("sse-print-settings-range", printType);
 
+                if (print === 'print') {
                     var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
                     opts.asc_setAdvancedOptions(this.adjPrintParams);
                     this.api.asc_Print(opts);
-                    Common.NotificationCenter.trigger('edit:complete', view);
-
                     this._isPrint = false;
+                } else if (print === 'print-pdf') {
+                    var opts = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF);
+                    opts.asc_setAdvancedOptions(this.adjPrintParams);
+                    this.api.asc_DownloadAs(opts);
                 }
+                Common.NotificationCenter.trigger('edit:complete', view);
             }
         },
 

@@ -561,7 +561,9 @@
     "warnNoLicense": "U hebt de limiet bereikt voor gelijktijdige verbindingen met %1 gelijktijdige gebruikers. Dit document wordt alleen geopend om te bekijken. Neem contact op met %1 verkoopteam voor persoonlijke upgradevoorwaarden.",
     "warnNoLicenseUsers": "U heeft de gebruikerslimiet voor %1 gelijktijdige gebruikers bereikt. Neem contact op met de verkoopafdeling voor persoonlijke upgradevoorwaarden.",
     "warnProcessRightsChange": "Je hebt geen toestemming om dit bestand te bewerken.",
+    "textDocumentProtected": "The document is protected. Edit settings are not available",
     "textNoTextFound": "Text not found",
+    "textOk": "Ok",
     "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
     "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
     "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"

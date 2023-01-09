@@ -1838,5 +1838,57 @@
 	"XOR": {
 		"a": "(Wahrheitswert1; [Wahrheitswert2]; ...)",
 		"d": "Gibt ein logisches \"Ausschließliches Oder\" aller Argumente zurück"
+	},
+	"TEXTBEFORE": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Gibt Text zurück, der vor Trennzeichen steht."
+	},
+	"TEXTAFTER": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Gibt Text zurück, der nach Trennzeichen steht."
+	},
+	"TEXTSPLIT": {
+		"a": "(text, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
+		"d": "Teilt Text mithilfe von Trennzeichen in Zeilen oder Spalten auf."
+	},
+	"WRAPROWS": {
+		"a": "(Vektor, wrap_count, [pad_with])",
+		"d": " Umschließt einen Zeilen- oder Spaltenvektor nach einer angegebenen Anzahl von Werten."
+	},
+	"VSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": "Stapelt Matrizes vertikal in eine Matrix."
+	},
+	"HSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": "Stapelt Matrizes horizontal in eine Matrix."
+	},
+	"CHOOSEROWS": {
+		"a": "(array, row_num1, [row_num2], ...)",
+		"d": "Gibt Zeilen aus einer Matrix oder einem Verweis zurück."
+	},
+	"CHOOSECOLS": {
+		"a": "(array, row_num1, [row_num2], ...)",
+		"d": "Gibt Spalten aus einer Matrix oder einem Verweis zurück."
+	},
+	"TOCOL": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "Gibt die Matrix als eine Spalte zurück."
+	},
+	"TOROW": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "Gibt das Array als eine Zeile zurück."
+	},
+	"WRAPCOLS": {
+		"a": "(Vektor, wrap_count, [pad_with])",
+		"d": " Umschließt einen Zeilen- oder Spaltenvektor nach einer angegebenen Anzahl von Werten."
+	},
+	"TAKE": {
+		"a": "(array, rows, [columns])",
+		"d": "Gibt Zeilen oder Spalten vom Anfang oder Ende der Matrix zurück."
+	},
+	"DROP": {
+		"a": "(array, rows, [columns])",
+		"d": "Löscht Zeilen oder Spalten vom Anfang oder Ende der Matrix."
 	}
 }

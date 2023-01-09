@@ -525,6 +525,7 @@ define([
                 paperOrientation: size ? (size['H'] > size['W'] ? 'portrait' : 'landscape') : null
             });
 
+            this.printSettings.menu.hide();
             if ( print ) {
                 var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
                 opts.asc_setAdvancedOptions(this.adjPrintParams);
@@ -534,7 +535,6 @@ define([
                 opts.asc_setAdvancedOptions(this.adjPrintParams);
                 this.api.asc_DownloadAs(opts);
             }
-            this.printSettings.menu.hide();
         },
 
         inputPagesChanging: function (input, value) {

@@ -148,7 +148,7 @@ define([
             };
 
             var keymap = {};
-            me.hkComments = 'alt+h';
+            me.hkComments = Common.Utils.isMac ? 'command+alt+a' : 'alt+h';
             keymap[me.hkComments] = function() {
                 if (me.api.can_AddQuotedComment()!==false) {
                     me.addComment();
@@ -214,6 +214,9 @@ define([
                     this.api.asc_registerCallback('asc_onUnLockDocumentProps',      _.bind(this.onApiUnLockDocumentProps, this));
                     this.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(this.onShowMathTrack, this));
                     this.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(this.onHideMathTrack, this));
+                    this.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Image, _.bind(this.onInsertImage, this));
+                    this.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.ImageUrl, _.bind(this.onInsertImageUrl, this));
+
                 }
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',        _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect',                      _.bind(this.onCoAuthoringDisconnect, this));
@@ -1018,7 +1021,7 @@ define([
                             changes = changes[0];
                         if (changes) {
                             ToolTip = '<b>'+ Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(changes.get('username'))) +'  </b>';
-                            ToolTip += '<span style="font-size:10px; opacity: 0.7;">'+ changes.get('date') +'</span><br>';
+                            ToolTip += '<span class="review-date">'+ changes.get('date') +'</span><br>';
                             ToolTip += changes.get('changetext');
                             if (ToolTip.length>1000)
                                 ToolTip = ToolTip.substr(0, 1000) + '...';
@@ -2500,6 +2503,29 @@ define([
                 this.documentHolder._docProtection = props;
                 this.disableEquationBar();
             }
+        },
+
+        onInsertImage: function(obj, x, y) {
+            if (this.api)
+                this.api.asc_addImage(obj);
+            this.editComplete();
+        },
+
+        onInsertImageUrl: function(obj, x, y) {
+            var me = this;
+            (new Common.Views.ImageFromUrlDialog({
+                handler: function(result, value) {
+                    if (result == 'ok') {
+                        if (me.api) {
+                            var checkUrl = value.replace(/ /g, '');
+                            if (!_.isEmpty(checkUrl)) {
+                                me.api.AddImageUrl([checkUrl], undefined, undefined, obj);
+                            }
+                        }
+                    }
+                    me.editComplete();
+                }
+            })).show();
         },
 
         editComplete: function() {

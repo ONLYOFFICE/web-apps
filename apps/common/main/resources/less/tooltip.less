@@ -39,7 +39,7 @@
 }
 
 .tooltip-inner {
-    font-size: 11px;
+    .font-size-normal();
     background-color: @background-normal-ie;
     background-color: @background-normal;
     color: @text-normal-ie;
@@ -58,6 +58,10 @@
 
 .link-tooltip .tooltip-inner {
     max-width: 500px;
+    .review-date {
+        .font-size-small();
+        opacity: 0.7;
+    }
 }
 
 .auto-tooltip .tooltip-inner {

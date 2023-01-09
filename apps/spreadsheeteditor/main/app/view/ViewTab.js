@@ -64,7 +64,7 @@ define([
                     '<span class="btn-slot" id="slot-field-zoom" style="flex-grow: 1;"></span>' +
                 '</div>' +
                 '<div class="elset" style="text-align: center;">' +
-                    '<span class="btn-slot text" id="slot-lbl-zoom" style="font-size: 11px;text-align: center;margin-top: 4px;"></span>' +
+                    '<span class="btn-slot text font-size-normal" id="slot-lbl-zoom" style="text-align: center;margin-top: 4px;"></span>' +
                 '</div>' +
             '</div>' +
             '<div class="separator long"></div>' +

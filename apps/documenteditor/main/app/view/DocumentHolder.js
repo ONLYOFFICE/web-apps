@@ -1920,7 +1920,7 @@ define([
 
                     me.menuParagraphBreakBefore.setDisabled(disabled || !_.isUndefined(value.headerProps) || !_.isUndefined(value.imgProps));
                     me.menuParagraphKeepLines.setDisabled(disabled);
-                    me.menuParagraphAdvanced.setDisabled(disabled);
+                    me.menuParagraphAdvanced.setDisabled(disabled || (is_form && is_form.get_Fixed()));
                     me.menuFrameAdvanced.setDisabled(disabled);
                     me.menuDropCapAdvanced.setDisabled(disabled);
                     me.menuParagraphVAlign.setDisabled(disabled);
@@ -2926,7 +2926,7 @@ define([
 
         SetDisabled: function(state, canProtect, fillFormMode) {
             this._isDisabled = state;
-            this._canProtect = canProtect;
+            this._canProtect =  state ? canProtect : true;
             this._fillFormMode = state ? fillFormMode : false;
         },
 

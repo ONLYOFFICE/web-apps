@@ -1838,5 +1838,57 @@
 	"XOR": {
 		"a": "(logical1; [logical2]; ...)",
 		"d": "ສົ່ງ​ຄືນ​ຜົນ​ຄ່າ​ຄວາມ​ຈິງ 'Exclusive OR' ຂອງ​ຂໍ້​ພິສູດ​ທັງ​ໝົດ"
+	},
+	"TEXTBEFORE": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "ສົ່ງຄືນຂໍ້ຄວາມທີ່ຢູ່ກ່ອນການຈຳກັດຕົວອັກສອນ."
+	},
+	"TEXTAFTER": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "ສົ່ງຄືນຂໍ້ຄວາມທີ່ຢູ່ຫຼັງຈາກການຈຳກັດຕົວອັກສອນ."
+	},
+	"TEXTSPLIT": {
+		"a": "(text, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
+		"d": "ແຍກຂໍ້ຄວາມອອກເປັນແຖວ ຫຼື ຖັນໂດຍໃຊ້ຕົວຂັ້ນ."
+	},
+	"WRAPROWS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": "ຕັດແຖວ ຫຼື ເວັກເຕີຖັນ ຫຼັງຈໍານວນທີ່ກໍານົດໄວ້ຂອງຄ່າທີ່ລະບຸ."
+	},
+	"VSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": "ອະເຣແບບຊ້ອນກັນໃນແນວຕັ້ງເປັນອະເຣດຽວ."
+	},
+	"HSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": "ອະເຣແບບຊ້ອນກັນໃນແນວນອນເປັນອະເຣດຽວ."
+	},
+	"CHOOSEROWS": {
+		"a": "(array, row_num1, [row_num2], ...)",
+		"d": "ສົ່ງຄືນແຖວຈາກອະເຣ ຫຼືການອ້າງອີງ."
+	},
+	"CHOOSECOLS": {
+		"a": "(array, col_num1, [col_num2], ...)",
+		"d": "ສົ່ງຄືນຖັນຈາກອະເຣ ຫຼືການອ້າງອີງ."
+	},
+	"TOCOL": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "ສົ່ງຄືນອະເຣເປັນຖັນດຽວ."
+	},
+	"TOROW": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "ສົ່ງຄືນອະເຣເປັນແຖວດຽວ."
+	},
+	"WRAPCOLS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": "ຕັດແຖວ ຫຼື ເວັກເຕີຖັນ ຫຼັງຈໍານວນທີ່ກໍານົດໄວ້ຂອງຄ່າທີ່ລະບຸ."
+	},
+	"TAKE": {
+		"a": "(array, rows, [columns])",
+		"d": "ສົ່ງຄືນແຖວ ຫຼືຖັນຈາກອະເຣເລີ່ມຕົ້ນ ຫຼືສິ້ນສຸດ."
+	},
+	"DROP": {
+		"a": "(array, rows, [columns])",
+		"d": "ວາງແຖວ ຫຼືຖັນຈາກອະເຣເລີ່ມຕົ້ນ ຫຼືສິ້ນສຸດ."
 	}
 }
