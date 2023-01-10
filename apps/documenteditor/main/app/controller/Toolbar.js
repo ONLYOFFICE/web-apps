@@ -76,10 +76,10 @@ define([
         initialize: function() {
             this._state = {
                 activated: false,
-                // bullets: {
-                //     type: undefined,
-                //     subtype: undefined
-                // },
+                bullets: {
+                    format: Asc.c_oAscNumberingFormat.None,
+                    numberingInfo: ''
+                },
                 prstyle: undefined,
                 prcontrolsdisable:undefined,
                 dropcap: Asc.c_oAscDropCap.None,
@@ -539,21 +539,15 @@ define([
             if (listId !== null) {
                 var numLvl = this.api.asc_GetNumberingPr(listId).get_Lvl(this.api.asc_GetCurrentNumberingLvl()),
                     format = numLvl.get_Format();
-                this.toolbar.mnuNumberSettings && this.toolbar.mnuNumberSettings.setDisabled(format === Asc.c_oAscNumberingFormat.Bullet);
-                this.toolbar.mnuNumberChangeLevel && this.toolbar.mnuNumberChangeLevel.setDisabled(format === Asc.c_oAscNumberingFormat.Bullet);
-                this.toolbar.mnuMarkerSettings && this.toolbar.mnuMarkerSettings.setDisabled(format !== Asc.c_oAscNumberingFormat.Bullet);
-                this.toolbar.mnuMarkerChangeLevel && this.toolbar.mnuMarkerChangeLevel.setDisabled(format !== Asc.c_oAscNumberingFormat.Bullet);
-                this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(false);
-                this.toolbar.mnuMultiChangeLevel && this.toolbar.mnuMultiChangeLevel.setDisabled(false);
+                this._state.bullets.format = format;
+                this._state.bullets.numberingInfo = v; // must be json - custom list type
             } else {
-                this.toolbar.mnuNumberSettings && this.toolbar.mnuNumberSettings.setDisabled(true);
-                this.toolbar.mnuNumberChangeLevel && this.toolbar.mnuNumberChangeLevel.setDisabled(true);
-                this.toolbar.mnuMarkerSettings && this.toolbar.mnuMarkerSettings.setDisabled(true);
-                this.toolbar.mnuMarkerChangeLevel && this.toolbar.mnuMarkerChangeLevel.setDisabled(true);
-                this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(true);
-                this.toolbar.mnuMultiChangeLevel && this.toolbar.mnuMultiChangeLevel.setDisabled(true);
+                this._state.bullets.format = Asc.c_oAscNumberingFormat.None;
             }
+            this.toolbar.btnMarkers.toggle(this._state.bullets.format===Asc.c_oAscNumberingFormat.Bullet, true);
+            this.toolbar.btnNumbers.toggle(this._state.bullets.format!==Asc.c_oAscNumberingFormat.None && this._state.bullets.format!==Asc.c_oAscNumberingFormat.Bullet, true);
             // TODO: compare v with numberingInfo from dataview store
+
             return;
 
             var type = v.get_ListType();
@@ -622,6 +616,34 @@ define([
                         this.toolbar.btnMultilevels.toggle(true, true);
                         this.toolbar.mnuMultilevelPicker.selectByIndex(this._state.bullets.subtype, true);
                         break;
+                }
+            }
+        },
+
+        showSelectedBulletOnOpen: function(type, picker) {
+            var format = this._state.bullets.format,
+                numberingInfo = (format !== Asc.c_oAscNumberingFormat.None) ? JSON.stringify(this._state.bullets.numberingInfo) : '{"Type":"remove"}';
+            picker.deselectAll(true);
+
+            if (type===2) { // multilevel
+                (format === Asc.c_oAscNumberingFormat.None) && picker.selectByIndex(0, true);
+                this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(format === Asc.c_oAscNumberingFormat.None);
+                this.toolbar.mnuMultiChangeLevel && this.toolbar.mnuMultiChangeLevel.setDisabled(format === Asc.c_oAscNumberingFormat.None);
+            } else {
+                var store = picker.store;
+                for (var i=0; i<store.length; i++) {
+                    var item = store.at(i);
+                    if (item.get('numberingInfo')===numberingInfo) {
+                        picker.selectByIndex(i, true);
+                        break;
+                    }
+                }
+                if (type===0) {
+                    this.toolbar.mnuMarkerSettings && this.toolbar.mnuMarkerSettings.setDisabled(format !== Asc.c_oAscNumberingFormat.Bullet);
+                    this.toolbar.mnuMarkerChangeLevel && this.toolbar.mnuMarkerChangeLevel.setDisabled(format !== Asc.c_oAscNumberingFormat.Bullet);
+                } else {
+                    this.toolbar.mnuNumberSettings && this.toolbar.mnuNumberSettings.setDisabled(format === Asc.c_oAscNumberingFormat.Bullet || format === Asc.c_oAscNumberingFormat.None);
+                    this.toolbar.mnuNumberChangeLevel && this.toolbar.mnuNumberChangeLevel.setDisabled(format === Asc.c_oAscNumberingFormat.Bullet || format === Asc.c_oAscNumberingFormat.None);
                 }
             }
         },
@@ -1394,7 +1416,9 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
-        onListShowAfter: function(type, picker) {
+        onListShowAfter: function(type, picker, menu, e) {
+            if (!(e && e.target===e.currentTarget))
+                return;
             var store = picker.store;
             var arr = [];
             store.each(function(item){
@@ -1406,6 +1430,7 @@ define([
             if (this.api) {
                 this.api.SetDrawImagePreviewBulletForMenu(arr, type);
             }
+            this.showSelectedBulletOnOpen(type, picker);
         },
 
         onSelectBullets: function(btn, picker, itemView, record) {
