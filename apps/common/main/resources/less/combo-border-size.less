@@ -14,53 +14,48 @@
     li {
         a {
             white-space: normal;
+            padding: 6px 20px;
         }
 
         span {
+            width: auto;
+            height: 18px;
             display: inline-block;
-            margin-top: 3px;
-            .font-size-normal();
-            height: 17px;
-        }
-
-        img {
-            width:60px;
-            height:20px;
             background-color: transparent;
-            image-rendering: pixelated;
+            svg {
+                height: 3px;
+                width: 60px;
+                fill: @text-normal-ie;
+                fill: @text-normal;
+            }
         }
-    }
 
-    .image {
+
+    }
+    .img-border-size {
         position: relative;
-        width: 100%;
+        display: block;
+        top:50%;
+    }
+    .img-line {
+        width: auto;
         height: 100%;
         display: inline-block;
         background-color: transparent;
-        margin: 0 0 0 -3px;
-        image-rendering: pixelated;
-    }
+        margin: 0 0 0 7px;
+        svg {
+            width: 60px;
+            fill: @text-normal-ie;
+            fill: @text-normal;
 
-    img, .image {
-        background: ~"url(@{common-image-const-path}/combo-border-size/BorderSize.png) no-repeat 0 0";
-        background-size: 60px auto;
-
-        .pixel-ratio__1_25 & {
-            background-image: ~"url(@{common-image-const-path}/combo-border-size/BorderSize@1.25x.png)";
-        }
-
-        .pixel-ratio__1_5 & {
-            background-image: ~"url(@{common-image-const-path}/combo-border-size/BorderSize@1.5x.png)";
-        }
-
-        .pixel-ratio__1_75 & {
-            background-image: ~"url(@{common-image-const-path}/combo-border-size/BorderSize@1.75x.png)";
-        }
-
-        .pixel-ratio__2 & {
-            background-image: ~"url(@{common-image-const-path}/combo-border-size/BorderSize@2x.png)";
         }
     }
+    .border-type {
+        display: inline-block;
+        margin-bottom: 2px;
+    }
+
+
 }
 
 .combo-color {
