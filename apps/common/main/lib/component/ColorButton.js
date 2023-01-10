@@ -91,7 +91,7 @@ define([
                     auto.push({
                         id: id + '-color-auto',
                         caption: (typeof options.auto == 'object') ? options.auto.caption || this.textAutoColor : this.textAutoColor,
-                        template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon color-auto" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #' + this.autocolor + ';"></span><%= caption %></a>')
+                        template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon color-auto" style="background-color: #' + this.autocolor + ';"></span><%= caption %></a>')
                     });
                     auto.push({caption: '--'});
                 }

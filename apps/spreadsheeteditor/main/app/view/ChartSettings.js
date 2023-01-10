@@ -797,7 +797,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-menu-chart',
                 caption     : this.textChangeType,
-                style       : 'width: 100%;text-align: left;',
                 dataHint    : '1',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -810,7 +809,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-select-range',
                 caption     : this.textSelectData,
-                style       : 'width: 100%;text-align: left;',
                 dataHint    : '1',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -823,7 +821,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon switch_row_column',
                 caption     : this.textSwitch,
-                style       : 'width: 100%;text-align: left;',
                 dataHint    : '1',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'

@@ -79,8 +79,17 @@
     left: 0;
     cursor: pointer;
 
+    .rtl & {
+      left: unset;
+      right: 0;
+    }
+
     &.up {
       transform: rotate(270deg);
+
+      .rtl & {
+        transform: rotate(90deg);
+      }
     }
   }
 }

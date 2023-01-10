@@ -173,6 +173,18 @@ define([
                 this.search = this.options.search;
                 this.outerMenu      = this.options.outerMenu;
 
+                if (Common.UI.isRTL()) {
+                    if (this.menuAlign === 'tl-tr') {
+                        this.menuAlign = 'tr-tl';
+                    } else if (this.menuAlign === 'tl-bl') {
+                        this.menuAlign = 'tr-br';
+                    } else if (this.menuAlign === 'tr-br') {
+                        this.menuAlign = 'tl-bl';
+                    } else if (this.menuAlign === 'bl-tl') {
+                        this.menuAlign = 'br-tr';
+                    }
+                }
+
                 if (this.options.restoreHeight) {
                     this.options.restoreHeight = (typeof (this.options.restoreHeight) == "number") ? this.options.restoreHeight : (this.options.maxHeight ? this.options.maxHeight : 100000);
                     !this.options.maxHeight && (this.options.maxHeight = this.options.restoreHeight);
@@ -786,6 +798,18 @@ define([
             this.menuAlignEl    = this.options.menuAlignEl;
             this.scrollAlwaysVisible = this.options.scrollAlwaysVisible;
             this.search = this.options.search;
+
+            if (Common.UI.isRTL()) {
+                if (this.menuAlign === 'tl-tr') {
+                    this.menuAlign = 'tr-tl';
+                } else if (this.menuAlign === 'tl-bl') {
+                    this.menuAlign = 'tr-br';
+                } else if (this.menuAlign === 'tr-br') {
+                    this.menuAlign = 'tl-bl';
+                } else if (this.menuAlign === 'bl-tl') {
+                    this.menuAlign = 'br-tr';
+                }
+            }
 
             if (this.options.restoreHeight) {
                 this.options.restoreHeight = (typeof (this.options.restoreHeight) == "number") ? this.options.restoreHeight : (this.options.maxHeight ? this.options.maxHeight : 100000);

@@ -115,7 +115,7 @@ define([
             this.openButton = new Common.UI.Button({
                 cls: 'open-menu',
                 menu: new Common.UI.Menu({
-                    menuAlign: 'tl-tl',
+                    menuAlign: Common.UI.isRTL() ? 'tr-tr' : 'tl-tl',
                     offset: [0, 3],
                     items: [
                         {template: _.template('<div class="menu-picker-container"></div>')}
@@ -299,7 +299,7 @@ define([
                 var itemMargins = parseFloat(itemEl.css('margin-left')) + parseFloat(itemEl.css('margin-right'));
 
                 var fieldPickerEl = this.fieldPicker.$el;
-                var fieldPickerPadding = parseFloat(fieldPickerEl.css('padding-right'));
+                var fieldPickerPadding = parseFloat(fieldPickerEl.css(Common.UI.isRTL() ? 'padding-left' : 'padding-right'));
                 var fieldPickerBorder = parseFloat(fieldPickerEl.css('border-width'));
                 var dataviewPaddings = parseFloat(this.fieldPicker.$el.find('.dataview').css('padding-left')) + parseFloat(this.fieldPicker.$el.find('.dataview').css('padding-right'));
 

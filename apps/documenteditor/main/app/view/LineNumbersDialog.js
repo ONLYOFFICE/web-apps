@@ -51,6 +51,7 @@ define([
             header: true,
             style: 'min-width: 290px;',
             cls: 'modal-dlg',
+            id: 'window-line-numbers',
             buttons: ['ok', 'cancel']
         },
 
@@ -63,8 +64,8 @@ define([
                 '<div class="box" style="">',
                 '<div id="line-numbers-add-line-numbering" style="margin-bottom: 15px;"></div>',
                 '<div style="margin-bottom: 15px;">',
-                    '<div style="display: inline-block; margin-right: 9px;"><label>' + this.textStartAt + '</label><div id="line-numbers-start-at"></div></div>',
-                    '<div style="display: inline-block; margin-right: 9px;"><label>' + this.textFromText + '</label><div id="line-numbers-from-text"></div></div>',
+                    '<div class="margin-right" style="display: inline-block;"><label>' + this.textStartAt + '</label><div id="line-numbers-start-at"></div></div>',
+                    '<div class="margin-right" style="display: inline-block;"><label>' + this.textFromText + '</label><div id="line-numbers-from-text"></div></div>',
                     '<div style="display: inline-block;"><label>' + this.textCountBy + '</label><div id="line-numbers-count-by"></div></div>',
                 '</div>',
                 '<div style="margin-bottom: 8px;"><label>' + this.textNumbering + '</label></div>',

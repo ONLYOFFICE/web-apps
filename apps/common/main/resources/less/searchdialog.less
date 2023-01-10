@@ -132,6 +132,10 @@
 
         #search-btn-close {
             float: right;
+
+            .rtl & {
+                float: left;
+            }
         }
     }
 
@@ -167,6 +171,11 @@
         .search-nav-btns {
             display: inline-block;
             float: right;
+
+            .rtl & {
+                float: left;
+            }
+
             div {
                 display: inline-block;
             }
@@ -197,6 +206,11 @@
         cursor: pointer;
         margin-left: 15px;
 
+        .rtl & {
+            margin-left: 0;
+            margin-right: 15px;
+        }
+
         .search-options-txt {
             display: inline-block;
             padding: 5px 0;
@@ -211,6 +225,13 @@
             left: 0;
             cursor: pointer;
             margin-left: 8px;
+
+            .rtl & {
+                margin-left: 0;
+                margin-right: 8px;
+                left: unset;
+                right: 0;
+            }
         }
 
     }
@@ -231,6 +252,10 @@
         }
         .search-options-caret {
             transform: rotate(270deg);
+
+            .rtl & {
+                transform: rotate(90deg);
+            }
         }
     }
 

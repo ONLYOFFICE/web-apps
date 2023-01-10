@@ -226,7 +226,7 @@ define([
 
                         if (menu.cmpEl) {
                             menu.menuAlignEl = cmp.cmpEl;
-                            menu.menuAlign = 'tl-tl';
+                            menu.menuAlign = Common.UI.isRTL() ? 'tr-tr' : 'tl-tl';
                             menu.cmpEl.css({
                                 'width': cmp.cmpEl.width() - cmp.openButton.$el.width(),
                                 'min-height': cmp.cmpEl.height()

@@ -169,6 +169,11 @@
                 &:after {
                     transform: rotate(135deg);
                     margin-left: 8px;
+
+                    .rtl & {
+                        margin-left: 0;
+                        margin-right: 4px;
+                    }
                 }
             }
             &.right{
@@ -178,6 +183,11 @@
                 &:after {
                     transform: rotate(-45deg);
                     margin-left: 4px;
+
+                    .rtl & {
+                        margin-left: 0;
+                        margin-right: 8px;
+                    }
                 }
             }
 
@@ -210,6 +220,11 @@
         flex-grow: 1;
         -ms-flex: 1;
         padding-right: 6px;
+
+        .rtl & {
+            padding-right: 0;
+            padding-left: 6px;
+        }
 
         .panel:not(.active) {
             display: none;
@@ -245,6 +260,9 @@
         padding: 12px 10px 7px 0;
         border-radius: 0;
         z-index:999;
+        .rtl & {
+            padding: 12px 0 7px 10px;
+        }
         .compactwidth {
             .btn-group, .btn-toolbar {
                 &.x-huge {
@@ -280,6 +298,18 @@
     .more-box {
         background-color: @background-toolbar-ie;
         background-color: @background-toolbar;
+        position: absolute;
+        right: 0;
+        padding-left: 12px;
+        padding-right: 6px;
+        display: none;
+
+        .rtl & {
+            right: unset;
+            left: 0;
+            padding-left: 6px;
+            padding-right: 12px;
+        }
     }
 
     background-color: @background-toolbar-ie;
@@ -296,11 +326,26 @@
         padding-left: 6px;
         font-size: 0;
 
+        .rtl & {
+            padding-left: 0;
+            padding-right: 6px;
+        }
+
         &.small {
             padding-left: 10px;
 
+            .rtl & {
+                padding-left: 0;
+                padding-right: 10px;
+            }
+
             + .separator:not(.invisible) {
                 margin-left: 10px;
+
+                .rtl & {
+                    margin-left: 0;
+                    margin-right: 10px;
+                }
             }
         }
 
@@ -695,6 +740,10 @@
     height: 46px;
     .view {
         padding-right: 14px;
+        .rtl & {
+            padding-right: 0;
+            padding-left: 14px;
+        }
     }
     .dataview.field-picker {
         height: 100%;
@@ -769,13 +818,27 @@
 .menu-insertchart {
     margin: 5px 5px 0 10px;
 
+    .rtl & {
+        margin: 5px 10px 0 5px;
+    }
+
     .group-description {
         padding-left: 4px;
+
+        .rtl & {
+            padding: 0;
+            padding-right: 4px;
+            text-align: right;
+        }
     }
 
     .group-items-container {
         float: left;
         position: relative;
+
+        .rtl & {
+            float: right;
+        }
     }
 }
 
@@ -800,6 +863,10 @@
         &.colors {
             display: inline-block;
             margin-right: 15px;
+            .rtl & {
+                margin-right: 0;
+                margin-left: 15px;
+            }
         }
 
         &.color {
@@ -870,8 +937,22 @@
 .menu-iconsets {
     margin: 5px 5px 0 10px;
 
+    .rtl & {
+        margin: 5px 10px 0 5px;
+    }
+
+    .group-description {
+        text-align: right;
+    }
+
     .group-items-container > div {
         margin-right: 8px !important;
+
+        .rtl & {
+            margin-right: 4px !important;
+            margin-left: 8px !important;
+        }
+
         &:not(:hover),
         &:not(.selected) {
             .box-shadow(none);
@@ -880,6 +961,10 @@
     .item-iconset {
         img {
             margin: 2px;
+
+            .rtl & {
+                float: right;
+            }
         }
 
         width: 100px;

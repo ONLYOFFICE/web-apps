@@ -301,6 +301,9 @@ define([
                 '<tr>',
                     '<td colspan="2"><div id="fms-chb-use-alt-key"></div></td>',
                 '</tr>',
+                '<tr>',
+                    '<td colspan="2"><div id="fms-chb-rtl-ui"></div></td>',
+                '</tr>',
                 '<tr class="quick-print">',
                     '<td colspan="2"><div style="display: flex;"><div id="fms-chb-quick-print"></div>',
                         '<span style ="display: flex; flex-direction: column;"><label><%= scope.txtQuickPrint %></label>',
@@ -326,7 +329,7 @@ define([
                 '<tr class="macros">',
                     '<td><label><%= scope.strMacrosSettings %></label></td>',
                     '<td>',
-                        '<div><div id="fms-cmb-macros" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
+                        '<div><div id="fms-cmb-macros"></div>',
                     '</td>',
                 '</tr>',
                 '<tr class ="divider-group"></tr>',
@@ -336,14 +339,14 @@ define([
                 '<tr class="">',
                     '<td><label><%= scope.strFuncLocale %></label></td>',
                     '<td>',
-                        '<div><div id="fms-cmb-func-locale" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
-                        '<label id="fms-lbl-func-locale" style="vertical-align: middle;"><%= scope.strFuncLocaleEx %></label></div></td>',
+                        '<div><div id="fms-cmb-func-locale"></div>',
+                        '<label id="fms-lbl-func-locale"><%= scope.strFuncLocaleEx %></label></div></td>',
                 '</tr>',
                 '<tr>',
                     '<td><label><%= scope.txtRegion %></label></td>',
                     '<td>',
-                        '<div><div id="fms-cmb-reg-settings" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
-                        '<label id="fms-lbl-reg-settings" style="vertical-align: middle;"></label></div></td>',
+                        '<div><div id="fms-cmb-reg-settings"></div>',
+                        '<label id="fms-lbl-reg-settings"></label></div></td>',
                 '</tr>',
                 '<tr>',
                     '<td colspan="2"><div id="fms-chb-separator-settings"></div></td>',
@@ -776,6 +779,14 @@ define([
             });
             this.btnAutoCorrect.on('click', _.bind(this.autoCorrect, this));
 
+            this.chRTL = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-rtl-ui'),
+                labelText: this.strRTLSupport,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
             $markup.find('.btn.primary').each(function(index, el){
                 (new Common.UI.Button({
                     el: $(el)
@@ -953,6 +964,7 @@ define([
             this.cmbMacros.setValue(item ? item.get('value') : 0);
 
             this.chPaste.setValue(Common.Utils.InternalSettings.get("sse-settings-paste-button"));
+            this.chRTL.setValue(Common.localStorage.getBool("ui-rtl"));
             this.chQuickPrint.setValue(Common.Utils.InternalSettings.get("sse-settings-quick-print-button"));
 
             var data = [];
@@ -1057,6 +1069,7 @@ define([
             Common.Utils.InternalSettings.set("sse-macros-mode", this.cmbMacros.getValue());
 
             Common.localStorage.setItem("sse-settings-paste-button", this.chPaste.isChecked() ? 1 : 0);
+            Common.localStorage.setBool("ui-rtl", this.chRTL.isChecked());
             Common.localStorage.setBool("sse-settings-quick-print-button", this.chQuickPrint.isChecked());
 
             Common.localStorage.save();
@@ -1184,6 +1197,7 @@ define([
         strDecimalSeparator: 'Decimal separator',
         strThousandsSeparator: 'Thousands separator',
         txtCacheMode: 'Default cache mode',
+        strRTLSupport: 'RTL interface',
         strMacrosSettings: 'Macros Settings',
         txtWarnMacros: 'Show Notification',
         txtRunMacros: 'Enable All',
@@ -1862,7 +1876,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                         '<td class="right"><div id="id-info-rights"></div></td>',
                     '</tr>',
                     '<tr class="edit-rights">',
-                        '<td class="left"></td><td class="right"><button id="id-info-btn-edit" class="btn normal dlg-btn primary custom" style="margin-right: 10px;">' + this.txtBtnAccessRights + '</button></td>',
+                        '<td class="left"></td><td class="right"><button id="id-info-btn-edit" class="btn normal dlg-btn primary custom">' + this.txtBtnAccessRights + '</button></td>',
                     '</tr>',
                 '</table>'
             ].join(''));
@@ -1977,7 +1991,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         template: _.template([
             '<div style="width:100%; height:100%; position: relative;">',
                 '<div id="id-help-contents" style="position: absolute; width:220px; top: 0; bottom: 0;" class="no-padding"></div>',
-                '<div id="id-help-frame" style="position: absolute; left: 220px; top: 0; right: 0; bottom: 0;" class="no-padding"></div>',
+                '<div id="id-help-frame" class="no-padding"></div>',
             '</div>'
         ].join('')),
 
@@ -2384,14 +2398,14 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                                     '<tr><td><label><%= scope.txtRepeatRowsAtTop %></label></td></tr>',
                                     '<tr><td class="padding-small">',
                                         '<table><tbody><tr>',
-                                            '<td><div id="print-txt-top" style="width: 163px; margin-right: 8px;"></div></td>',
+                                            '<td><div id="print-txt-top" style="width: 163px;"></div></td>',
                                             '<td><div id="print-presets-top" style="width: 77px;"></div></td>',
                                         '</tr></tbody></table>',
                                     '</td></tr>',
                                     '<tr><td><label><%= scope.txtRepeatColumnsAtLeft %></label></td></tr>',
                                     '<tr><td class="padding-large">',
                                         '<table><tbody><tr>',
-                                            '<td><div id="print-txt-left" style="width: 163px; margin-right: 8px;"></div></td>',
+                                            '<td><div id="print-txt-left" style="width: 163px;"></div></td>',
                                             '<td><div id="print-presets-left" style="width: 77px;"></div></td>',
                                         '</tr></tbody></table>',
                                     '</td></tr>',
@@ -2404,8 +2418,8 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                                                     '<td><label><%= scope.txtBottom %></label></td>',
                                                 '</tr>',
                                                 '<tr>',
-                                                    '<td class="padding-small"><div id="print-spin-margin-top" style="margin-right: 8px;"></div></td>',
-                                                    '<td class="padding-small"><div id="print-spin-margin-bottom" style="margin-right: 8px;"></div></td>',
+                                                    '<td class="padding-small"><div id="print-spin-margin-top"></div></td>',
+                                                    '<td class="padding-small"><div id="print-spin-margin-bottom"></div></td>',
                                                 '</tr>',
                                                 '<tr>',
                                                     '<td><label><%= scope.txtLeft %></label></td>',
@@ -2440,11 +2454,16 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                         '</div>',
                     '</div>',
                 '</div>',
-                '<div id="print-preview-box" style="position: absolute; left: 280px; top: 0; right: 0; bottom: 0;" class="no-padding">',
+                '<div id="print-preview-box" class="no-padding">',
                     '<div id="print-preview"></div>',
                     '<div id="print-navigation">',
-                        '<div id="print-prev-page" style="display: inline-block; margin-right: 4px;"></div>',
-                        '<div id="print-next-page" style="display: inline-block;"></div>',
+                        '<% if (!isRTL) { %>',
+                        '<div id="print-prev-page"></div>',
+                        '<div id="print-next-page"></div>',
+                        '<% } else { %>',
+                        '<div id="print-next-page"></div>',
+                        '<div id="print-prev-page"></div>',
+                        '<% } %>',
                         '<div class="page-number">',
                             '<label><%= scope.txtPage %></label>',
                             '<div id="print-number-page"></div>',
@@ -2471,7 +2490,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         render: function(node) {
             var me = this;
 
-            var $markup = $(this.template({scope: this}));
+            var $markup = $(this.template({scope: this, isRTL: Common.UI.isRTL()}));
 
             this.cmbRange = new Common.UI.ComboBox({
                 el: $markup.findById('#print-combo-range'),
