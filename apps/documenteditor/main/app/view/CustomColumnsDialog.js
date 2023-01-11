@@ -50,6 +50,7 @@ define([
             header: true,
             style: 'min-width: 216px;',
             cls: 'modal-dlg',
+            id: 'window-custom-columns',
             buttons: ['ok', 'cancel']
         },
 
@@ -61,10 +62,10 @@ define([
             this.template = [
                 '<div class="box" style="height: 90px;">',
                     '<div class="input-row" style="margin: 10px 0;">',
-                        '<label class="input-label">' + this.textColumns + '</label><div id="custom-columns-spin-num" style="float: right;"></div>',
+                        '<label class="input-label">' + this.textColumns + '</label><div id="custom-columns-spin-num"></div>',
                     '</div>',
                     '<div class="input-row" style="margin: 10px 0;">',
-                        '<label class="input-label">' + this.textSpacing + '</label><div id="custom-columns-spin-spacing" style="float: right;"></div>',
+                        '<label class="input-label">' + this.textSpacing + '</label><div id="custom-columns-spin-spacing"></div>',
                     '</div>',
                     '<div class="input-row" style="margin: 10px 0;">',
                         '<div id="custom-columns-separator"></div>',

@@ -8,6 +8,10 @@
         margin-left: -1px;
       	border-radius:@border-radius-base;
 
+        .rtl & {
+            margin-left: 1px;
+        }
+
         &.pull-right {
             right: 100%;
             left: auto;
@@ -27,6 +31,16 @@
         border-left-color: @icon-normal;
         margin-top: 5px;
         margin-right: -7px;
+
+        .rtl & {
+            float: left;
+            margin-right: 0;
+            margin-left: -7px;
+            border-color: transparent;
+            border-width: 3px 3px 3px 0;
+            border-right-color: @icon-normal-ie;
+            border-right-color: @icon-normal;
+        }
     }
 
     &.over:not(.disabled) > .dropdown-menu {

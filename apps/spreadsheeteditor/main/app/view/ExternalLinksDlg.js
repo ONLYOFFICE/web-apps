@@ -67,8 +67,8 @@ define([
                                 '<table cols="1" style="width: 100%;">',
                                     '<tr>',
                                         '<td class="padding-large">',
-                                            '<div id="external-links-btn-update" style="display: inline-block;margin-right: 5px;"></div>',
-                                            '<div id="external-links-btn-delete" style="display: inline-block;margin-right: 5px;"></div>',
+                                            '<div id="external-links-btn-update" style="display: inline-block;"></div>',
+                                            '<div id="external-links-btn-delete" style="display: inline-block;"></div>',
                                             // '<button type="button" class="btn btn-text-default auto sort-dialog-btn-text" id="external-links-btn-open">', me.textOpen ,'</button>',
                                             // '<button type="button" class="btn btn-text-default auto sort-dialog-btn-text" id="external-links-btn-change">', me.textChange ,'</button>',
                                         '</td>',
@@ -93,6 +93,7 @@ define([
             this.api        = options.api;
             this.handler    = options.handler;
             this.isUpdating = options.isUpdating || false;
+            this.canRequestReferenceData = options.canRequestReferenceData || false;
             this.linkStatus = [];
             this.wrapEvents = {
                 onUpdateExternalReferenceList: _.bind(this.refreshList, this)
@@ -122,6 +123,7 @@ define([
                 cls: 'btn-text-split-default auto',
                 caption: this.textUpdate,
                 split: true,
+                visible: !!this.canRequestReferenceData,
                 menu        : new Common.UI.Menu({
                     style: 'min-width:100px;',
                     items: [

@@ -1838,5 +1838,57 @@
 	"XOR": {
 		"a": "(logic1; [logic2]; ...)",
 		"d": "Returnează un „Sau exclusiv” logic al tuturor argumentelor"
+	},
+	"TEXTBEFORE": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": " Returnează textul care este înainte de caracterele de delimitare."
+	},
+	"TEXTAFTER": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": " Returnează textul care este după caracterele de delimitare."
+	},
+	"TEXTSPLIT": {
+		"a": "(text, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
+		"d": "Scindează textul în rânduri sau coloane utilizând delimitatori."
+	},
+	"WRAPROWS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": " Încadrează un vector de rând sau de coloană după un număr specificat de valori."
+	},
+	"VSTACK": {
+		"a": "(matrice1, [matrice2], ...)",
+		"d": " Stivuiește pe verticală matricele într-o singură matrice."
+	},
+	"HSTACK": {
+		"a": "(matrice1, [matrice2], ...)",
+		"d": " Stivuiește pe orizontală matricele într-o singură matrice."
+	},
+	"CHOOSEROWS": {
+		"a": "(matrice, row_num1, [row_num2], ...)",
+		"d": " Returnează rânduri dintr-o matrice sau referință."
+	},
+	"CHOOSECOLS": {
+		"a": "(matrice, col_num1, [col_num2], ...)",
+		"d": " Returnează coloane dintr-o matrice sau referință."
+	},
+	"TOCOL": {
+		"a": "(matrice, [ignorare], [scan_by_column])",
+		"d": " Returnează matricea ca o singură coloană."
+	},
+	"TOROW": {
+		"a": "(matrice, [ignorare], [scanare_după_coloană])",
+		"d": " Returnează matricea ca un singur rând."
+	},
+	"WRAPCOLS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": " Încadrează un vector de rând sau de coloană după un număr specificat de valori."
+	},
+	"TAKE": {
+		"a": "(matrice, rânduri, [coloane])",
+		"d": " Returnează rânduri sau coloane de la începutul sau sfârșitul matricei."
+	},
+	"DROP": {
+		"a": "(matrice, rânduri, [coloane])",
+		"d": " Elimină rânduri sau coloane de la începutul sau sfârșitul matricei."
 	}
 }

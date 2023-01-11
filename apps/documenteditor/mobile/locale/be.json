@@ -555,6 +555,8 @@
     "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required.",
     "leavePageText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "textCustomLoader": "Sorry, you are not entitled to change the loader. Contact our sales department to get a quote.",
+    "textDocumentProtected": "The document is protected. Edit settings are not available",
+    "textOk": "Ok",
     "textRemember": "Remember my choice",
     "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
     "warnLicenseExceeded": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact your administrator to learn more.",

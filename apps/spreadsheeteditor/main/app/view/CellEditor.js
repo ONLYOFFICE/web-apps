@@ -66,7 +66,7 @@ define([
                 })
             });
             this.btnNamedRanges.setVisible(false);
-            this.btnNamedRanges.menu.setOffset(-81);
+            this.btnNamedRanges.menu.setOffset(Common.UI.isRTL() ? 81 : -81);
 
             this.$cellname = $('#ce-cell-name', this.el);
             this.$btnexpand = $('#ce-btn-expand', this.el);

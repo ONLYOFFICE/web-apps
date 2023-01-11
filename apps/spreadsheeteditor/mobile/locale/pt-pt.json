@@ -232,6 +232,7 @@
     "errorSessionIdle": "O documento não foi editado durante muito tempo. Por favor, recarregue a página.",
     "errorSessionToken": "A ligação ao servidor foi interrompida. Por favor, recarregue a página.",
     "errorStockChart": "Ordem das linhas incorreta. Para construir um gráfico de cotações, introduza os dados na folha com a seguinte ordem:<br>preço de abertura, preço máximo, preço mínimo, preço de fecho.",
+    "errorToken": "O token de segurança do documento não está formado corretamente.<br>Entre em contato com o administrador do Servidor de Documentos.",
     "errorTokenExpire": "O 'token' de segurança do documento expirou.<br>Entre em contacto com o administrador do servidor de documentos.",
     "errorUnexpectedGuid": "Erro externo.<br>GUID inesperado. Por favor, contacte o suporte.",
     "errorUpdateVersionOnDisconnect": "A ligação foi restaurada e a versão do ficheiro foi alterada.<br>Antes de poder continuar a trabalhar, é necessário descarregar o ficheiro ou copiar o seu conteúdo para garantir que nada se perde e depois voltar a carregar esta página.",
@@ -251,8 +252,7 @@
     "unknownErrorText": "Erro desconhecido.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Nenhuma imagem foi carregada.",
-    "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo é de 25 MB.",
-    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator."
+    "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo é de 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Palavra-passe",

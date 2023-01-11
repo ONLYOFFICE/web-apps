@@ -14,12 +14,15 @@
     li {
         a {
             white-space: normal;
-            padding: 6px 20px;
+            padding: 2px 0 2px 10px;
+            .rtl & {
+                padding: 2px 10px 2px 0;
+            }
         }
 
         span {
             width: auto;
-            height: 18px;
+            height: 17px;
             display: inline-block;
             background-color: transparent;
             svg {
@@ -29,9 +32,8 @@
                 fill: @text-normal;
             }
         }
-
-
     }
+
     .img-border-size {
         position: relative;
         display: block;
@@ -40,6 +42,9 @@
     
     .border-line{
         float: right;
+        .rtl & {
+            float: left;
+        }
     }
 
     .img-line {
@@ -48,18 +53,22 @@
         display: inline-block;
         background-color: transparent;
         margin: 0 0 0 7px;
+        .rtl & {
+            margin: 0 7px 0 0 ;
+        }
         svg {
             width: 60px;
             fill: @text-normal-ie;
             fill: @text-normal;
-
         }
     }
-    .border-type {
-        display: inline-block;
-        margin-bottom: 2px;
-    }
 
+    &:not(.combo-border-type) .dropdown-menu li a {
+        padding: 6px 20px;
+        span{
+            height: 18px;
+        }
+    }
 
 }
 

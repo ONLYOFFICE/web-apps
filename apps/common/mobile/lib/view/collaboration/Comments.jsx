@@ -791,10 +791,12 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
                 {isEdit && !viewMode &&
                     <Link className={`btn-add-reply${(wsProps?.Objects || isViewer) && !canEditComments ? ' disabled' : ''}`} href='#' onClick={() => {onCommentMenuClick('addReply', comment);}}>{_t.textAddReply}</Link>
                 }
-                <div className='comment-navigation row'>
-                    <Link href='#' onClick={onViewPrevComment}><Icon slot='media' icon='icon-prev'/></Link>
-                    <Link href='#' onClick={onViewNextComment}><Icon slot='media' icon='icon-next'/></Link>
-                </div>
+                {comments.length > 1 &&
+                    <div className='comment-navigation row'>
+                        <Link href='#' onClick={onViewPrevComment}><Icon slot='media' icon='icon-prev'/></Link>
+                        <Link href='#' onClick={onViewNextComment}><Icon slot='media' icon='icon-next'/></Link>
+                    </div>
+                }
             </Toolbar>
             <div className='pages'>
                 <Page className='page-current-comment'>

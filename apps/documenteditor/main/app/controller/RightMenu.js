@@ -215,7 +215,7 @@ define([
                 if (!this._settings[Common.Utils.documentSettingsType.MailMerge].locked) // lock MailMerge-InsertField, если хотя бы один объект locked
                     this._settings[Common.Utils.documentSettingsType.MailMerge].locked = value.get_Locked() || isProtected;
                 if (!this._settings[Common.Utils.documentSettingsType.Signature].locked) // lock Signature, если хотя бы один объект locked
-                    this._settings[Common.Utils.documentSettingsType.Signature].locked = value.get_Locked() || isProtected;
+                    this._settings[Common.Utils.documentSettingsType.Signature].locked = value.get_Locked();
             }
 
             if(is_form && is_form.get_Fixed()) {
@@ -225,7 +225,8 @@ define([
             if (is_form && this.rightmenu.formSettings) {
                 var spectype = control_props.get_SpecificType();
                 if (spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture || spectype==Asc.c_oAscContentControlSpecificType.Complex ||
-                    spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.None) {
+                    spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.None ||
+                    spectype==Asc.c_oAscContentControlSpecificType.DateTime) {
                     settingsType = Common.Utils.documentSettingsType.Form;
                     this._settings[settingsType].props = control_props;
                     this._settings[settingsType].locked = control_lock || isProtected;
@@ -269,6 +270,9 @@ define([
             }
             if (!this._settings[Common.Utils.documentSettingsType.MailMerge].hidden)
                 this._settings[Common.Utils.documentSettingsType.MailMerge].panel.setLocked(this._settings[Common.Utils.documentSettingsType.MailMerge].locked);
+
+            if (!this._settings[Common.Utils.documentSettingsType.Signature].hidden)
+                this._settings[Common.Utils.documentSettingsType.Signature].panel.setProtected(isProtected);
 
             if (!this.rightmenu.minimizedMode || open) {
                 var active;
@@ -433,6 +437,7 @@ define([
             this._settings[type].hidden = disabled ? 1 : 0;
             this._settings[type].btn.setDisabled(disabled);
             this._settings[type].panel.setLocked(this._settings[type].locked);
+            this._settings[type].panel.setProtected(this._state.docProtection ? this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly || this._state.docProtection.isCommentsOnly : false);
         },
 
         SetDisabled: function(disabled, allowMerge, allowSignature) {
@@ -468,7 +473,8 @@ define([
                 } else {
                     var selectedElements = this.api.getSelectedElements();
                     if (selectedElements.length > 0)
-                        this.onFocusObject(selectedElements, false, !Common.Utils.InternalSettings.get("de-hide-right-settings"));
+                        this.onFocusObject(selectedElements, false, !Common.Utils.InternalSettings.get("de-hide-right-settings") && // user didn't close panel
+                                                                                            !Common.Utils.InternalSettings.get("de-hidden-rightmenu")); // user didn't hide right menu
                 }
             }
         },
@@ -501,11 +507,17 @@ define([
             }
         },
 
-        onRightMenuHide: function (view, status) {
+        onRightMenuHide: function (view, status) { // status = true when show panel
             if (this.rightmenu) {
                 !status && this.rightmenu.clearSelection();
                 status ? this.rightmenu.show() : this.rightmenu.hide();
                 Common.localStorage.setBool('de-hidden-rightmenu', !status);
+                Common.Utils.InternalSettings.set("de-hidden-rightmenu", !status);
+                if (status) {
+                    var selectedElements = this.api.getSelectedElements();
+                    if (selectedElements.length > 0)
+                        this.onFocusObject(selectedElements, false, !Common.Utils.InternalSettings.get("de-hide-right-settings"));
+                }
             }
 
             Common.NotificationCenter.trigger('layout:changed', 'main');

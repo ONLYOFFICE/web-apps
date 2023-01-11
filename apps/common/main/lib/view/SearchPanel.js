@@ -176,6 +176,13 @@ define([
                 this.$resultsContainer = $('#search-results');
                 this.$resultsContainer.hide();
 
+                this.$searchContainer = $('#search-container');
+                this.$searchContainer.scroller = new Common.UI.Scroller({
+                    el              : $('#search-container'),
+                    useKeyboard     : true,
+                    minScrollbarLength: 40
+                });
+
                 Common.NotificationCenter.on('search:updateresults', _.bind(this.disableNavButtons, this));
                 if (window.SSE) {
                     this.cmbWithin = new Common.UI.ComboBox({
@@ -327,10 +334,23 @@ define([
         ChangeSettings: function(props) {
         },
 
+        updateScrollers: function () {
+            this.$resultsContainer.scroller.update({alwaysVisibleY: true});
+            this.$searchContainer.scroller.update({alwaysVisibleY: true});
+
+            setTimeout(_.bind(function () {
+                if (this.$searchContainer.find('> .ps-scrollbar-y-rail').is(':visible')) {
+                    this.$resultsContainer.find('.ps-scrollbar-y-rail').addClass('set-left');
+                } else {
+                    this.$resultsContainer.find('.ps-scrollbar-y-rail').removeClass('set-left');
+                }
+            }, this), 100);
+        },
+
         updateResultsContainerHeight: function () {
             if (this.$resultsContainer) {
-                this.$resultsContainer.outerHeight($('#search-box').outerHeight() - $('#search-header').outerHeight() - $('#search-adv-settings').outerHeight());
-                this.$resultsContainer.scroller.update({alwaysVisibleY: true});
+                this.$resultsContainer.outerHeight(Math.max($('#search-box').outerHeight() - $('#search-header').outerHeight() - $('#search-adv-settings').outerHeight(), 112));
+                this.updateScrollers();
             }
         },
 

@@ -125,6 +125,7 @@
   "Common.define.chartData.textScatterSmoothMarker": "Scatter med jævne linjer og markører",
   "Common.define.chartData.textStock": "Aktie",
   "Common.define.chartData.textSurface": "Overflade",
+  "Common.define.smartArt.textAccentProcess": "(intet)",
   "Common.Translation.warnFileLocked": "Dokumentet er i brug af en anden applikation. Du kan fortsætte med at redigere og gemme en kopi.",
   "Common.Translation.warnFileLockedBtnEdit": "Opret en kopi",
   "Common.Translation.warnFileLockedBtnView": "Åben for visning",

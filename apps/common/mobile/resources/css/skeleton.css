@@ -127,7 +127,9 @@ body.theme-type-dark {
 
 :root .theme-type-dark {
     --f7-navbar-bg-color: #232323;
+    --f7-bars-bg-color-rgb: 35,35,35;
     --f7-subnavbar-bg-color: #232323;
+    --f7-bars-translucent-opacity: 1;
 }
 
 .md .word-editor {

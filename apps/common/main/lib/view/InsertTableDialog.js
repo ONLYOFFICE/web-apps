@@ -51,6 +51,7 @@ define([
             height: 157,
             style: 'min-width: 230px;',
             cls: 'modal-dlg',
+            id: 'window-insert-table',
             split: false,
             buttons: ['ok', 'cancel']
         },
@@ -63,10 +64,10 @@ define([
             this.template = [
                 '<div class="box">',
                     '<div class="input-row">',
-                        '<label class="text columns-text" style="width: 130px;">' + this.txtColumns + '</label><div class="columns-val" style="float: right;"></div>',
+                        '<label class="text columns-text" style="width: 130px;">' + this.txtColumns + '</label><div class="columns-val"></div>',
                     '</div>',
                     '<div class="input-row" style="margin-top: 10px;">',
-                        '<label class="text rows-text" style="width: 130px;">' + this.txtRows + '</label><div class="rows-val" style="float: right;"></div>',
+                        '<label class="text rows-text" style="width: 130px;">' + this.txtRows + '</label><div class="rows-val"></div>',
                     '</div>',
                 '</div>'
             ].join('');

@@ -797,7 +797,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-menu-chart',
                 caption     : this.textChangeType,
-                style       : 'width: 100%;text-align: left;',
                 dataHint    : '1',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -810,7 +809,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-select-range',
                 caption     : this.textSelectData,
-                style       : 'width: 100%;text-align: left;',
                 dataHint    : '1',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -823,7 +821,6 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon switch_row_column',
                 caption     : this.textSwitch,
-                style       : 'width: 100%;text-align: left;',
                 dataHint    : '1',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -858,7 +855,7 @@ define([
             });
             this.lockedControls.push(this.btnLeft);
             this.btnLeft.on('click', _.bind(function() {
-                this.spnX.setValue(this.spnX.getNumberValue() - 10);
+                this.spnX.setValue(Math.ceil((this.spnX.getNumberValue() - 10)/10)*10);
             }, this));
 
             this.btnRight= new Common.UI.Button({
@@ -871,7 +868,7 @@ define([
             });
             this.lockedControls.push(this.btnRight);
             this.btnRight.on('click', _.bind(function() {
-                this.spnX.setValue(this.spnX.getNumberValue() + 10);
+                this.spnX.setValue(Math.floor((this.spnX.getNumberValue() + 10)/10)*10);
             }, this));
 
             this.spnY = new Common.UI.MetricSpinner({
@@ -900,7 +897,7 @@ define([
             });
             this.lockedControls.push(this.btnUp);
             this.btnUp.on('click', _.bind(function() {
-                this.spnY.setValue(this.spnY.getNumberValue() - 10);
+                this.spnY.setValue(Math.ceil((this.spnY.getNumberValue() - 10)/10)*10);
             }, this));
 
             this.btnDown= new Common.UI.Button({
@@ -913,7 +910,7 @@ define([
             });
             this.lockedControls.push(this.btnDown);
             this.btnDown.on('click', _.bind(function() {
-                this.spnY.setValue(this.spnY.getNumberValue() + 10);
+                this.spnY.setValue(Math.floor((this.spnY.getNumberValue() + 10)/10)*10);
             }, this));
 
             this.spnPerspective = new Common.UI.MetricSpinner({
@@ -942,7 +939,7 @@ define([
             });
             this.lockedControls.push(this.btnNarrow);
             this.btnNarrow.on('click', _.bind(function() {
-                this.spnPerspective.setValue(this.spnPerspective.getNumberValue() - 5);
+                this.spnPerspective.setValue(Math.ceil((this.spnPerspective.getNumberValue() - 5)/5)*5);
             }, this));
 
             this.btnWiden= new Common.UI.Button({
@@ -955,7 +952,7 @@ define([
             });
             this.lockedControls.push(this.btnWiden);
             this.btnWiden.on('click', _.bind(function() {
-                this.spnPerspective.setValue(this.spnPerspective.getNumberValue() + 5);
+                this.spnPerspective.setValue(Math.floor((this.spnPerspective.getNumberValue() + 5)/5)*5);
             }, this));
 
             this.chRightAngle = new Common.UI.CheckBox({

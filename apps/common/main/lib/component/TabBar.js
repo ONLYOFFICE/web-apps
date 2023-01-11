@@ -569,8 +569,8 @@ define([
 
         checkInvisible: function(suppress) {
             var result = {
-                first: !this.isTabVisible(0),
-                last: !this.isTabVisible(this.tabs.length-1)
+                first: !this.isTabVisible(Common.UI.isRTL() ? this.tabs.length-1 : 0),
+                last: !this.isTabVisible(Common.UI.isRTL() ? 0 : this.tabs.length-1)
             };
 
             !suppress && this.fireEvent('tab:invisible', this, result);

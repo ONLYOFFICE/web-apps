@@ -93,7 +93,7 @@ define([
                     '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                         '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>" data-value="<%= item.value %>">',
-                            '<a tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= item.value %>">',
+                            '<a tabindex="-1" type="menuitem" langval="<%= item.value %>">',
                                 '<i class="icon <% if (item.spellcheck) { %> toolbar__icon btn-ic-docspell spellcheck-lang <% } %>"></i>',
                                 '<%= scope.getDisplayValue(item) %>',
                             '</a>',
@@ -137,7 +137,7 @@ define([
 
     onLangSelect: function(cmb, rec, e) {
         cmb.$el.find('.input-icon').toggleClass('spellcheck-lang', rec && rec.spellcheck);
-        cmb._input.css('padding-left', rec && rec.spellcheck ? 25 : 3);
+        cmb._input.css(Common.UI.isRTL() ? 'padding-right' : 'padding-left', rec && rec.spellcheck ? 25 : 3);
     },
 
     onPrimary: function() {

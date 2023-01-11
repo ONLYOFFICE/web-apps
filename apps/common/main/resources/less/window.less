@@ -205,6 +205,11 @@
         .icon {
             float: left;
             margin: 0 0 0 10px;
+
+            .rtl & {
+                float: right;
+                margin: 0 10px 0 10px;
+            }
         }
 
         min-height: 90px;
@@ -215,8 +220,17 @@
                 padding: 20px 20px 20px 10px;
                 height: 50px;
 
+                .rtl & {
+                    padding: 20px 10px 20px 20px;
+                }
+
                 .text {
                     padding-left: 60px;
+
+                    .rtl & {
+                        padding-left: 0;
+                        padding-right: 60px;
+                    }
 
                     span {
                         .font-size-medium();
@@ -256,6 +270,11 @@
             button {
                 &:not(:first-child) {
                     margin-left: 10px;
+
+                    .rtl & {
+                        margin-left: 0;
+                        margin-right: 10px;
+                    }
                 }
             }
         }
@@ -314,6 +333,11 @@
         button {
             &:not(:first-child) {
                 margin-left: 10px;
+
+                .rtl & {
+                    margin-left: 0;
+                    margin-right: 10px;
+                }
             }
         }
     }

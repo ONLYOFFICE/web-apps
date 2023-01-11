@@ -170,10 +170,23 @@ define([
             initialize : function(options) {
                 options.store = options.store || new Common.UI.TreeViewStore();
                 options.emptyItemText = options.emptyItemText || '';
-                options.itemTemplate = options.itemTemplate || _.template([
+                options.itemTemplate = options.itemTemplate || !Common.UI.isRTL() ? _.template([
                     '<div id="<%= id %>" class="tree-item <% if (!isVisible) { %>' + 'hidden' + '<% } %>" style="display: block;padding-left: <%= level*16 + 24 %>px;">',
                     '<% if (hasSubItems) { %>',
                         '<div class="tree-caret img-commonctrl ' + '<% if (!isExpanded) { %>' + 'up' + '<% } %>' + '" style="margin-left: <%= level*16 %>px;"></div>',
+                    '<% } %>',
+                    '<% if (isNotHeader) { %>',
+                        '<div class="name not-header"><%= Common.Utils.String.htmlEncode(name) %></div>',
+                    '<% } else if (isEmptyItem) { %>',
+                        '<div class="name empty">' + options.emptyItemText + '</div>',
+                    '<% } else { %>',
+                        '<div class="name"><%= Common.Utils.String.htmlEncode(name) %></div>',
+                    '<% } %>',
+                    '</div>'
+                ].join('')) : _.template([
+                    '<div id="<%= id %>" class="tree-item <% if (!isVisible) { %>' + 'hidden' + '<% } %>" style="display: block;padding-right: <%= level*16 + 24 %>px;">',
+                    '<% if (hasSubItems) { %>',
+                        '<div class="tree-caret img-commonctrl ' + '<% if (!isExpanded) { %>' + 'up' + '<% } %>' + '" style="margin-right: <%= level*16 %>px;"></div>',
                     '<% } %>',
                     '<% if (isNotHeader) { %>',
                         '<div class="name not-header"><%= Common.Utils.String.htmlEncode(name) %></div>',

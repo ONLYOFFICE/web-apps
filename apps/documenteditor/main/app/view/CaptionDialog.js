@@ -49,7 +49,8 @@ define([
     DE.Views.CaptionDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 351,
-            height: 350
+            height: 350,
+            id: 'window-caption'
         },
 
         initialize : function(options) {
@@ -65,7 +66,7 @@ define([
                                     '<tr>',
                                         '<td colspan="3" class="padding-small">',
                                             '<label class="input-label">', me.textCaption,'</label>',
-                                            '<div id="caption-txt-caption" style="margin-right: 10px;"></div>',
+                                            '<div id="caption-txt-caption" class="margin-right"></div>',
                                         '</td>',
                                         '<td class="padding-small">',
                                             '<label class="input-label">', me.textInsert,'</label>',
@@ -75,10 +76,10 @@ define([
                                     '<tr>',
                                         '<td colspan="2" class="padding-small">',
                                             '<label class="input-label">', me.textLabel,'</label>',
-                                            '<div id="caption-combo-label" class="input-group-nr" style="width:160px;margin-right: 10px;"></div>',
+                                            '<div id="caption-combo-label" class="input-group-nr margin-right" style="width:160px;"></div>',
                                         '</td>',
                                         '<td class="padding-small" style="vertical-align: bottom;">',
-                                            '<button type="button" result="add" class="btn btn-text-default" id="caption-btn-add" style="margin-right: 10px;">', me.textAdd,'</button>',
+                                            '<button type="button" result="add" class="btn btn-text-default margin-right" id="caption-btn-add">', me.textAdd,'</button>',
                                         '</td>',
                                         '<td class="padding-small" style="vertical-align: bottom;">',
                                             '<button type="button" result="add" class="btn btn-text-default" id="caption-btn-delete">', me.textDelete,'</button>',
@@ -107,7 +108,7 @@ define([
                                     '<tr>',
                                         '<td colspan="2" class="padding-small">',
                                             '<label class="input-label">', me.textChapter,'</label>',
-                                            '<div id="caption-combo-chapter" class="input-group-nr" style="width:160px;margin-right: 10px;"></div>',
+                                            '<div id="caption-combo-chapter" class="input-group-nr margin-right" style="width:160px;"></div>',
                                         '</td>',
                                         '<td colspan="2" class="padding-small">',
                                             '<label class="input-label" >', me.textSeparator,'</label>',

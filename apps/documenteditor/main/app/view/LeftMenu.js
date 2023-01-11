@@ -126,7 +126,7 @@ define([
 
             this.btnChat = new Common.UI.Button({
                 el: $markup.elementById('#left-btn-chat'),
-                hint: this.tipChat + Common.Utils.String.platformKey('Alt+Q'),
+                hint: this.tipChat + (!Common.Utils.isMac ? Common.Utils.String.platformKey('Alt+Q') : ''),
                 enableToggle: true,
                 disabled: true,
                 toggleGroup: 'leftMenuGroup'
