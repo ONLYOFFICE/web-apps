@@ -32,7 +32,10 @@ export class storeAppOptions {
             changeMobileView: action,
 
             isProtected: observable,
-            setProtection: action
+            setProtection: action,
+
+            typeProtection: observable,
+            setTypeProtection: action
         });
     }
 
@@ -41,6 +44,11 @@ export class storeAppOptions {
     isProtected = false;
     setProtection(value) {
         this.isProtected = value;
+    }
+
+    typeProtection = 3;
+    setTypeProtection(type) {
+        this.typeProtection = type;
     }
 
     isMobileView = true;

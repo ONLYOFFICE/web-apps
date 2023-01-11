@@ -14,6 +14,7 @@ import { MacrosSettings, Direction } from "./ApplicationSettings";
 import About from '../../../../../common/mobile/lib/view/About';
 import NavigationController from '../../controller/settings/Navigation';
 import SharingSettings from "../../../../../common/mobile/lib/view/SharingSettings";
+import ProtectionController from '../../controller/settings/Protection';
 
 const routes = [
     {
@@ -65,17 +66,21 @@ const routes = [
     },
 
     // Direction 
-
     {
         path: '/direction/',
         component: Direction
     },
 
     // Sharing Settings
-
     {
         path: '/sharing-settings/',
         component: SharingSettings
+    },
+
+    // Protection
+    {
+        path: '/protection-document/',
+        component: ProtectionController
     }
 ];
 
@@ -150,6 +155,9 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
                             <Icon slot="media" icon="icon-search"></Icon>
                         </ListItem>
                     }
+                    <ListItem title={t('Settings.textProtectDocument')} link="#" onClick={onoptionclick.bind(this, '/protection-document/')}>
+                        <Icon slot="media" icon="icon-protect-document"></Icon>
+                    </ListItem>
                     <ListItem title={t('Settings.textNavigation')} link='#' onClick={() => {
                         if(Device.phone) {
                             onOpenNavigation();

@@ -44,7 +44,7 @@ const ToolbarView = props => {
     return (
         <Fragment>
             <NavLeft>
-                {!isViewer && <Link text={Device.ios ? t("Toolbar.textOk") : ''} icon={Device.android ? 'icon-back-reader-mode' : null} className='back-reader-mode' onClick={() => props.turnOnViewerMode()}></Link>}
+                {!isViewer && <Link text={Device.ios ? t("Toolbar.textOk") : ''} icon={Device.android ? 'icon-check' : null} className='back-reader-mode' onClick={() => props.turnOnViewerMode()}></Link>}
                 {(props.isShowBack && isViewer) && <Link className={`btn-doc-back${props.disabledControls && ' disabled'}`} icon='icon-back' onClick={props.onBack}></Link>}
                 {(Device.ios && props.isEdit && !isViewer) && EditorUIController.getUndoRedo && EditorUIController.getUndoRedo({
                     disabledUndo: !props.isCanUndo || isDisconnected,
