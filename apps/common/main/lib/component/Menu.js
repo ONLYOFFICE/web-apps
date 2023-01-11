@@ -670,6 +670,8 @@ define([
                         left = 0;
                     }
                 }
+                if (left < 0)
+                    left = 0;
 
                 if (this.options.restoreHeightAndTop) { // can change top position, if top<0 - then change menu height
                     var cg = Common.Utils.croppedGeometry();
@@ -1181,6 +1183,8 @@ define([
                     left = 0;
                 }
             }
+            if (left < 0)
+                left = 0;
 
             if (this.options.restoreHeight) {
                 if (typeof (this.options.restoreHeight) == "number") {

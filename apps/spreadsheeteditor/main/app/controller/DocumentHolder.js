@@ -2609,6 +2609,9 @@ define([
 
                 menuContainer.css({left: showPoint[0], top : showPoint[1]});
                 menu.menuAlign = validation ? 'tr-br' : 'tl-bl';
+                if (Common.UI.isRTL()) {
+                    menu.menuAlign = menu.menuAlign === 'tr-br' ? 'tl-bl' : 'tr-br';
+                }
 
                 me._preventClick = validation;
                 validation && menuContainer.attr('data-value', 'prevent-canvas-click');
@@ -4373,6 +4376,9 @@ define([
             eqContainer.css({left: showPoint[0], top : showPoint[1]});
 
             var menuAlign = (me.tooltips.coauth.apiHeight - showPoint[1] - eqContainer.outerHeight() < 220) ? 'bl-tl' : 'tl-bl';
+            if (Common.UI.isRTL()) {
+                menuAlign = menuAlign === 'bl-tl' ? 'br-tr' : 'tr-br';
+            }
             me.equationBtns.forEach(function(item){
                 item && (item.menu.menuAlign = menuAlign);
             });
