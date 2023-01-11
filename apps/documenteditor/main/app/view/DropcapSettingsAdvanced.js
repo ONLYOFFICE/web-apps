@@ -142,18 +142,7 @@ define([
             this.cmbBorderSize = new Common.UI.ComboBorderSize({
                 el          : $('#drop-advanced-input-bordersize'),
                 style       : 'width: 90px;',
-                store       : new Backbone.Collection(),
-                takeFocusOnClose: true,
-                data: [
-                    {id: Common.UI.getId(), displayValue: this.txtNoBorders,   value: 0,    borderstyle: ''},
-                    {id: Common.UI.getId(), displayValue: '0.5 ' + txtPt,            value: 0.5,  pxValue: 0.5,   imgId: 'half-pt'},
-                    {id: Common.UI.getId(), displayValue: '1 ' + txtPt,              value: 1,    pxValue: 1,     imgId: 'one-pt'},
-                    {id: Common.UI.getId(), displayValue: '1.5 ' + txtPt,            value: 1.5,  pxValue: 2,     imgId: 'one-and-half-pt'},
-                    {id: Common.UI.getId(), displayValue: '2.25 ' + txtPt,           value: 2.25, pxValue: 3,     imgId: 'two-and-quarter-pt'},
-                    {id: Common.UI.getId(), displayValue: '3 ' + txtPt,              value: 3,    pxValue: 4,     imgId: 'three-pt'},
-                    {id: Common.UI.getId(), displayValue: '4.5 ' + txtPt,            value: 4.5,  pxValue: 6,     imgId: 'four-and-half-pt'},
-                    {id: Common.UI.getId(), displayValue: '6 ' + txtPt,              value: 6,    pxValue: 8,     imgId: 'six-pt'}
-                ]
+                takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
                 this.BorderSize = {ptValue: record.value, pxValue: record.pxValue};
                 this.tableStyler.setVirtualBorderSize(this.BorderSize.pxValue);
