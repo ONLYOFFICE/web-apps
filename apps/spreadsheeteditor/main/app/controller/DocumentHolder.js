@@ -974,21 +974,17 @@ define([
             }
 
             if (rawData.type===0 && rawData.subtype===0x1000) {// custom bullet
-                var bullet = new Asc.asc_CBullet();
-                if (rawData.drawdata.type===Asc.asc_PreviewBulletType.char) {
-                    bullet.asc_putSymbol(rawData.drawdata.char);
-                    bullet.asc_putFont(rawData.drawdata.specialFont);
-                } else if (rawData.drawdata.type===Asc.asc_PreviewBulletType.image)
-                    bullet.asc_fillBulletImage(rawData.drawdata.imageId);
-
-                var props;
-                var selectedObjects = this.api.asc_getGraphicObjectProps();
-                for (var i = 0; i < selectedObjects.length; i++) {
-                    if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Paragraph) {
-                        props = selectedObjects[i].asc_getObjectValue();
-                        props.asc_putBullet(bullet);
-                        this.api.asc_setGraphicObjectProps(props);
-                        break;
+                var bullet = rawData.customBullet;
+                if (bullet) {
+                    var props;
+                    var selectedObjects = this.api.asc_getGraphicObjectProps();
+                    for (var i = 0; i < selectedObjects.length; i++) {
+                        if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Paragraph) {
+                            props = selectedObjects[i].asc_getObjectValue();
+                            props.asc_putBullet(bullet);
+                            this.api.asc_setGraphicObjectProps(props);
+                            break;
+                        }
                     }
                 }
             } else
@@ -2230,9 +2226,14 @@ define([
                                 if (bullettype === Asc.asc_PreviewBulletType.char) {
                                     var symbol = bullet.asc_getChar();
                                     if (symbol) {
+                                        var custombullet = new Asc.asc_CBullet();
+                                        custombullet.asc_putSymbol(symbol);
+                                        custombullet.asc_putFont(bullet.asc_getSpecialFont());
+
                                         rec = defrec;
                                         rec.set('subtype', 0x1000);
-                                        rec.set('drawdata', {type: bullettype, char: symbol, specialFont: bullet.asc_getSpecialFont()});
+                                        rec.set('customBullet', custombullet);
+                                        rec.set('numberingInfo', JSON.stringify(custombullet.asc_getJsonBullet()));
                                         rec.set('tip', '');
                                         documentHolder.paraBulletsPicker.dataViewItems && this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], '');
                                         drawDefBullet = false;
@@ -2241,9 +2242,13 @@ define([
                                 } else if (bullettype === Asc.asc_PreviewBulletType.image) {
                                     var id = bullet.asc_getImageId();
                                     if (id) {
+                                        var custombullet = new Asc.asc_CBullet();
+                                        custombullet.asc_fillBulletImage(id);
+
                                         rec = defrec;
                                         rec.set('subtype', 0x1000);
-                                        rec.set('drawdata', {type: bullettype, imageId: id});
+                                        rec.set('customBullet', custombullet);
+                                        rec.set('numberingInfo', JSON.stringify(custombullet.asc_getJsonBullet()));
                                         rec.set('tip', '');
                                         documentHolder.paraBulletsPicker.dataViewItems && this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], '');
                                         drawDefBullet = false;
@@ -2254,7 +2259,7 @@ define([
                         documentHolder.paraBulletsPicker.selectRecord(rec, true);
                         if (drawDefBullet) {
                             defrec.set('subtype', 8);
-                            defrec.set('drawdata', documentHolder._markersArr[7]);
+                            defrec.set('numberingInfo', documentHolder._markersArr[7]);
                             defrec.set('tip', documentHolder.tipMarkersDash);
                             documentHolder.paraBulletsPicker.dataViewItems && this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], documentHolder.tipMarkersDash);
                         }
@@ -4024,12 +4029,10 @@ define([
             var store = this.documentHolder.paraBulletsPicker.store;
             var arrNum = [], arrMarker = [];
             store.each(function(item){
-                var data = item.get('drawdata');
-                data['divId'] = item.get('id');
-                if (item.get('group')==='menu-list-bullet-group')
-                    arrMarker.push(data);
-                else
-                    arrNum.push(data);
+                (item.get('group')==='menu-list-bullet-group' ? arrMarker : arrNum).push({
+                    numberingInfo: {bullet: item.get('numberingInfo')==='undefined' ? undefined : JSON.parse(item.get('numberingInfo'))},
+                    divId: item.get('id')
+                });
             });
 
             if (this.api && this.api.SetDrawImagePreviewBulletForMenu) {
