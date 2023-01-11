@@ -657,14 +657,19 @@ define([
                 var left = offset.left - posMenu[m[1]][0] + posParent[m[2]][0] + this.offset[0];
                 var top  = offset.top  - posMenu[m[1]][1] + posParent[m[2]][1] + this.offset[1];
 
-                if (left + menuW > docW)
+                if (left + menuW > docW) {
                     if (menuParent.is('li.dropdown-submenu')) {
                         left = offset.left - menuW + 2;
                     } else {
                         left = docW - menuW;
                     }
-                if (left < 0)
-                    left = 0;
+                } else if (left < 0) {
+                    if (menuParent.is('li.dropdown-submenu')) {
+                        left = offset.left + parentW - 2;
+                    } else {
+                        left = 0;
+                    }
+                }
 
                 if (this.options.restoreHeightAndTop) { // can change top position, if top<0 - then change menu height
                     var cg = Common.Utils.croppedGeometry();
@@ -1163,12 +1168,19 @@ define([
             var left = offset.left - posMenu[m[1]][0] + posParent[m[2]][0] + this.offset[0];
             var top  = offset.top  - posMenu[m[1]][1] + posParent[m[2]][1] + this.offset[1];
 
-            if (left + menuW > docW)
+            if (left + menuW > docW) {
                 if (menuParent.is('li.dropdown-submenu')) {
                     left = offset.left - menuW + 2;
                 } else {
                     left = docW - menuW;
                 }
+            } else if (left < 0) {
+                if (menuParent.is('li.dropdown-submenu')) {
+                    left = offset.left + parentW - 2;
+                } else {
+                    left = 0;
+                }
+            }
 
             if (this.options.restoreHeight) {
                 if (typeof (this.options.restoreHeight) == "number") {
