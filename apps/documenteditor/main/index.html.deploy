@@ -323,6 +323,7 @@
     <inline src="../../common/main/resources/img/toolbar/charttypes.svg" />
     <inline src="../../common/main/resources/img/toolbar/equationicons.svg" />
     <inline src="../../common/main/resources/img/right-panels/arrows.svg" />
+    <inline src="resources/img/form-points.svg" />
     <script src="../../../../../../sdkjs/common/device_scale.js?__inline=true"></script>
     <script data-main="app" src="../../../vendor/requirejs/require.js"></script>
 

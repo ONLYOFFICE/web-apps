@@ -263,7 +263,7 @@ define([
                     } else {
                         _group.appendTo(me.$toolbarPanelPlugins);
                         $('<div class="separator long invisible"></div>').appendTo(me.$toolbarPanelPlugins);
-                        _group = $('<div class="group" style="padding-left: 0;"></div>');
+                        _group = $('<div class="group" style="' + (Common.UI.isRTL() ? 'padding-right: 0;' : 'padding-left: 0;') + '"></div>');
                     }
 
                     var btn = me.panelPlugins.createPluginButton(model);

@@ -92,6 +92,9 @@ const PageCollaboration = inject('storeAppOptions', 'users')(observer(props => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
     const appOptions = props.storeAppOptions;
+    const documentInfo = props.documentInfo;
+    const dataDoc = documentInfo && documentInfo.dataDoc;
+    const fileType = dataDoc && dataDoc.fileType;
     const sharingSettingsUrl = appOptions.sharingSettingsUrl;
     const isViewer = appOptions.isViewer;
 
@@ -108,7 +111,7 @@ const PageCollaboration = inject('storeAppOptions', 'users')(observer(props => {
                     }
                 </Navbar>
                 <List>
-                    {sharingSettingsUrl &&
+                    {(sharingSettingsUrl && fileType !== 'oform') &&
                         <ListItem title={t('Common.Collaboration.textSharingSettings')} link="/sharing-settings/">
                             <Icon slot="media" icon="icon-sharing-settings"></Icon>
                         </ListItem>
@@ -148,10 +151,10 @@ class CollaborationView extends Component {
         return (
             show_popover ?
                 <Popover id="coauth-popover" className="popover__titled" onPopoverClosed={() => this.props.onclosed()} closeByOutsideClick={false}>
-                    <PageCollaboration style={{height: '410px'}} page={this.props.page}/>
+                    <PageCollaboration documentInfo={this.props.documentInfo} style={{height: '410px'}} page={this.props.page}/>
                 </Popover> :
                 <Sheet className="coauth__sheet" push onSheetClosed={() => this.props.onclosed()}>
-                    <PageCollaboration page={this.props.page}/>
+                    <PageCollaboration documentInfo={this.props.documentInfo} page={this.props.page}/>
                 </Sheet>
         )
     }
@@ -177,9 +180,9 @@ const Collaboration = props => {
     };
 
     return (
-        <CollaborationView usePopover={!Device.phone} onclosed={onviewclosed} page={props.page}/>
+        <CollaborationView usePopover={!Device.phone} documentInfo={props.storeDocumentInfo} onclosed={onviewclosed} page={props.page}/>
     )
 };
 
-export {PageCollaboration}
-export default Collaboration;
+const CollaborationDocument = inject('storeDocumentInfo')(observer(Collaboration));
+export {Collaboration, CollaborationDocument};

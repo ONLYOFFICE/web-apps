@@ -153,7 +153,8 @@ define([
                         scope       : me,
                         dataHint    : this.options.dataHint,
                         dataHintDirection: this.options.dataHintDirection,
-                        dataHintOffset: this.options.dataHintOffset
+                        dataHintOffset: this.options.dataHintOffset,
+                        isRTL       : Common.UI.isRTL()
                     }));
                     if (this.itemsTemplate)
                         this.cmpEl.find('ul').html(
@@ -311,7 +312,10 @@ define([
                 var $list = this.cmpEl.find('ul');
                 if ($list.hasClass('menu-absolute')) {
                     var offset = this.cmpEl.offset();
-                    $list.css({left: offset.left, top: offset.top + this.cmpEl.outerHeight() + 2});
+                    var left = offset.left;
+                    if (left + $list.outerWidth()>Common.Utils.innerWidth())
+                        left += (this.cmpEl.outerWidth() - $list.outerWidth());
+                    $list.css({left: left, top: offset.top + this.cmpEl.outerHeight() + 2});
                 } else if ($list.hasClass('menu-aligned')) {
                     var offset = this.cmpEl.offset();
                     $list.toggleClass('show-top', offset.top + this.cmpEl.outerHeight() + $list.outerHeight() > Common.Utils.innerHeight());
@@ -710,8 +714,8 @@ define([
                 this.options.updateFormControl.call(this, this._selectedItem);
         },
 
-        setValue: function(value) {
-            Common.UI.ComboBox.prototype.setValue.call(this, value);
+        setValue: function(value, defValue) {
+            Common.UI.ComboBox.prototype.setValue.call(this, value, defValue);
             if (this.options.updateFormControl)
                 this.options.updateFormControl.call(this, this._selectedItem);
         },

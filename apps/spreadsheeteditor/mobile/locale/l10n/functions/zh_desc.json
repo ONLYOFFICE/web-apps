@@ -1838,5 +1838,57 @@
 	"XOR": {
 		"a": "(logical1; [logical2]; ...)",
 		"d": "返回所有参数的逻辑“异或”值"
+	},
+	"TEXTBEFORE": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": " 返回分隔字符之前的文本。"
+	},
+	"TEXTAFTER": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": " 返回分隔字符之后的文本。"
+	},
+	"TEXTSPLIT": {
+		"a": "(text, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
+		"d": " 使用分隔符将文本拆分为行或列。"
+	},
+	"WRAPROWS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": "在指定数目的值后将行或列向量换行。"
+	},
+	"VSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": "将数组垂直堆叠到一个数组中。"
+	},
+	"HSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": "将数组水平堆叠到一个数组中。"
+	},
+	"CHOOSEROWS": {
+		"a": "(array, row_num1, [row_num2], ...)",
+		"d": "返回数组或引用中的行。"
+	},
+	"CHOOSECOLS": {
+		"a": "(array, col_num1, [col_num2], ...)",
+		"d": "返回数组或引用中的列。"
+	},
+	"TOCOL": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "以一列形式返回数组。"
+	},
+	"TOROW": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "以一行形式返回数组。"
+	},
+	"WRAPCOLS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": "在指定数目的值后将行或列向量换行。"
+	},
+	"TAKE": {
+		"a": "(array, rows, [columns])",
+		"d": "从数组开头或结尾返回行或列。"
+	},
+	"DROP": {
+		"a": "(array, rows, [columns])",
+		"d": "从数组开头或结尾删除行或列。"
 	}
 }

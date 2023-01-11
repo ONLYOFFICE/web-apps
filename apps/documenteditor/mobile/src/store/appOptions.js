@@ -29,11 +29,19 @@ export class storeAppOptions {
             changeViewerMode: action,
 
             isMobileView: observable,
-            changeMobileView: action
+            changeMobileView: action,
+
+            isProtected: observable,
+            setProtection: action
         });
     }
 
     isEdit = false;
+
+    isProtected = false;
+    setProtection(value) {
+        this.isProtected = value;
+    }
 
     isMobileView = true;
     changeMobileView() {

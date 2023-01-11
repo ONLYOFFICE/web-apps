@@ -261,7 +261,7 @@ define([
             var panel             = e.data.panel;
             this.resize.type      = e.data.type;
             this.resize.$el       = panel.el;
-            this.resize.min       = panel.minpos;
+            this.resize.min       = panel.minpos > 0 ? panel.minpos : this.resize.$el.parent().width() + panel.minpos;
             this.resize.fmin      = panel.fmin;
             this.resize.fmax      = panel.fmax;
             this.resize.behaviour = panel.behaviour;
@@ -365,15 +365,15 @@ define([
                 oldValue = parseInt(panel.css(prop));
             } else {
                 panel = this.resize.$el.next();
-                next = this.resize.$el.next();
+                next = this.resize.$el.prev();
                 oldValue = parseInt(panel.css(prop));
                 value = panel.parent()[prop]() - (value + this.resize[prop]);
             }
 
             if (this.resize.type == 'vertical')
                 value -= panel.position().top;
-            if (this.resize.type == 'horizontal')
-                value -= panel.position().left;
+            // if (this.resize.type == 'horizontal')
+            //     value -= panel.position().left;
 
             panel.css(prop, value + 'px');
 

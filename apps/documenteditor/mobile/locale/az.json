@@ -561,7 +561,9 @@
     "warnNoLicense": "Siz 1% redaktorlarına eyni vaxtda qoşulma limitinə çatdınız. Bu sənəd yalnız baxmaq üçün açılacaq. Şəxsi təkmilləşdirmə şərtləri üçün 1% satış komandası ilə əlaqə saxlayın.",
     "warnNoLicenseUsers": "1% redaktor üçün istifadəçi limitinə çatdınız. Şəxsi təkmilləşdirmə şərtləri üçün 1% satış komandası ilə əlaqə saxlayın.",
     "warnProcessRightsChange": "Bu faylı redaktə etmək icazəniz yoxdur.",
+    "textDocumentProtected": "The document is protected. Edit settings are not available",
     "textNoTextFound": "Text not found",
+    "textOk": "Ok",
     "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
     "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
     "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"

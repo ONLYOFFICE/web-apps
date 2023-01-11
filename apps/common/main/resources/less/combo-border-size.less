@@ -14,6 +14,11 @@
     li {
         a {
             white-space: normal;
+            padding: 2px 0 2px 10px;
+
+            .rtl & {
+                padding: 2px 10px 2px 0;
+            }
         }
 
         span {
@@ -28,6 +33,9 @@
             height:20px;
             background-color: transparent;
             image-rendering: pixelated;
+            .rtl & {
+                float: left;
+            }
         }
     }
 
@@ -60,6 +68,16 @@
         .pixel-ratio__2 & {
             background-image: ~"url(@{common-image-const-path}/combo-border-size/BorderSize@2x.png)";
         }
+    }
+
+    &.combo-border-type {
+        .rtl & li img {
+            float: right;
+        }
+    }
+
+    &:not(.combo-border-type) .dropdown-menu li a {
+        padding: 5px 20px;
     }
 }
 

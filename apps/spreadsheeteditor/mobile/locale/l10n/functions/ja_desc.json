@@ -1838,5 +1838,57 @@
 	"XOR": {
 		"a": "(論理式1; [論理式2]; ...)",
 		"d": "すべての引数の排他的論理和を返します。"
+	},
+	"TEXTBEFORE": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "文字を区切る前のテキストを返します。"
+	},
+	"TEXTAFTER": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "文字を区切った後のテキストを返します。"
+	},
+	"TEXTSPLIT": {
+		"a": "(text, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
+		"d": "区切り記号を使用してテキストを行または列に分割。"
+	},
+	"WRAPROWS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": "指定した数の値の後に行または列ベクトルを折り返します。"
+	},
+	"VSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": "垂直方向に配列を 1 つの配列にスタックします。"
+	},
+	"HSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": "水平方向に配列を 1 つの配列に水にスタックします。"
+	},
+	"CHOOSEROWS": {
+		"a": "(array, row_num1, [row_num2], ...)",
+		"d": "配列または参照から行を返します。"
+	},
+	"CHOOSECOLS": {
+		"a": "(array, col_num1, [col_num2], ...)",
+		"d": "配列または参照から列を返します。"
+	},
+	"TOCOL": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "配列を 1 つの列として返します。"
+	},
+	"TOROW": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "配列を 1 行として返します。"
+	},
+	"WRAPCOLS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": "指定した数の値の後に行または列のベクトルをラップする。"
+	},
+	"TAKE": {
+		"a": "(array, rows, [columns])",
+		"d": "配列の開始または終了から行または列を返します。"
+	},
+	"DROP": {
+		"a": "(array, rows, [columns])",
+		"d": "配列の先頭または末尾から行または列を削除します。"
 	}
 }

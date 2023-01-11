@@ -31,6 +31,11 @@
     background-color: @background-toolbar-ie;
     background-color: @background-toolbar;
     overflow: hidden;
+
+    .rtl & {
+        left: 0;
+        right: 40px;
+    }
 }
 
 .btn-doc-format {
@@ -177,6 +182,11 @@
         background-color: @background-normal-ie;
         background-color: @background-normal;
 
+        .rtl & {
+            padding-left: 0;
+            padding-right: 260px;
+        }
+
         .content-box {
             height: 100%;
             padding: 0 20px;
@@ -194,10 +204,18 @@
         #panel-saveas, #panel-savecopy {
             &.content-box {
                 padding: 0 0 0 20px;
+
+                .rtl & {
+                    padding: 0 20px 0 0;
+                }
             }
 
             .content-container {
                 margin: 30px 0 0 10px;
+
+                .rtl & {
+                    margin: 30px 10px 0 0;
+                }
 
                 .header {
                     .font-size-very-huge();
@@ -208,6 +226,11 @@
                     .format-item {
                         float: left;
                         margin: 0 24px 34px 0;
+
+                        .rtl & {
+                            float: right;
+                            margin: 0 0 34px 24px;
+                        }
 
                         .btn-doc-format {
                             width: 70px;
@@ -293,6 +316,22 @@
                 white-space: nowrap;
                 margin-top: 30px;
                 margin-bottom: 20px;
+
+                .rtl & {
+                    padding: 0 10px 10px 0;
+                }
+            }
+
+            .blank-document-info {
+                vertical-align: top;
+                width: 445px;
+                display: inline-block;
+
+                h3 {
+                    padding-left: 0;
+                    padding-top: 45px;
+                    white-space: nowrap;
+                }
             }
 
             hr {
@@ -422,6 +461,12 @@
                 border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
                 border-right: @scaled-one-px-value solid @border-toolbar;
 
+                .rtl & {
+                    border-right: none;
+                    border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
+                    border-left: @scaled-one-px-value solid @border-toolbar;
+                }
+
                 & > div:not([class^=ps-scrollbar]) {
                     display: block;
                     border: none;
@@ -449,10 +494,18 @@
 
                 .help-item-wrap {
                     padding: 4px 2px 4px 20px;
+
+                    .rtl & {
+                        padding: 4px 20px 4px 2px;
+                    }
                 }
 
                 .header-name {
                     padding: 16px 2px 4px 10px;
+
+                    .rtl & {
+                        padding: 16px 10px 4px 2px;
+                    }
                 }
             }
         }
@@ -480,10 +533,18 @@
                     td {
                         padding: 0 20px 5px 0;
 
+                        .rtl & {
+                            padding: 0 0 5px 20px;
+                        }
+
                         &.left {
                             padding: 5px 10px;
                             text-align: right;
                             width: 200px;
+
+                            .rtl & {
+                                text-align: left;
+                            }
 
                             label {
                                 .font-weight-bold();
@@ -563,10 +624,18 @@
 
             #fms-btn-delete-pwd {
                 margin-left: 16px;
+                .rtl & {
+                    margin-left: 0;
+                    margin-right: 16px;
+                }
             }
 
             .signature-view-link {
                 margin-right: 20px;
+                .rtl & {
+                    margin-right: 0;
+                    margin-left: 20px;
+                }
             }
 
             .signature-tip {
@@ -656,6 +725,16 @@
                     }
                 }
             }
+
+            #fms-btn-delete-pwd {
+                margin-left: 20px;
+
+                .rtl & {
+                    margin-left: 0;
+                    margin-right: 20px;
+                }
+            }
+
             #print-navigation {
                 height: 50px;
                 padding-left: 20px;
@@ -712,6 +791,19 @@
                 height: calc(100% - 50px);
             }
         }
+    }
+}
+
+#id-help-frame {
+    position: absolute;
+    left: 220px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+
+    .rtl & {
+        left: 0;
+        right: 220px;
     }
 }
 

@@ -1,3 +1,17 @@
+var checkLocalStorage = (function () {
+    try {
+        var storage = window['localStorage'];
+        return true;
+    }
+    catch(e) {
+        return false;
+    }
+})();
+
+if ( checkLocalStorage && localStorage.getItem("ui-rtl") === '1' ) {
+    document.body.setAttribute('dir', 'rtl');
+    document.body.classList.add('rtl');
+}
 
 function checkScaling() {
     var matches = {
@@ -40,16 +54,6 @@ var params = (function() {
         urlParams[d(e[1])] = d(e[2]);
 
     return urlParams;
-})();
-
-var checkLocalStorage = (function () {
-    try {
-        var storage = window['localStorage'];
-        return true;
-    }
-    catch(e) {
-        return false;
-    }
 })();
 
 if ( window.desktop ) {

@@ -1838,5 +1838,57 @@
 	"XOR": {
 		"a": "(logisk1; [logisk2]; ...)",
 		"d": "Returnerer et logisk 'Eksklusivt eller' for alle argumenterne"
+	},
+	"TEXTBEFORE": {
+		"a": "(tekst, afgrænser, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": " Returnerer tekst, der er før afgrænsende tegn."
+	},
+	"TEXTAFTER": {
+		"a": "(tekst, afgrænser, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": " Returnerer tekst, der er efter afgrænsende tegn."
+	},
+	"TEXTSPLIT": {
+		"a": "(tekst, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
+		"d": " Opdeler tekst i rækker eller kolonner ved hjælp af afgrænsere."
+	},
+	"WRAPROWS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": "Ombryd en række- eller kolonnevektor efter et angivet antal værdier."
+	},
+	"VSTACK": {
+		"a": "(matrix1, [matrix2], ...)",
+		"d": "Stabler matrixer lodret i én matrix."
+	},
+	"HSTACK": {
+		"a": "(matrix1, [matrix2], ...)",
+		"d": "Stabler matrixer vandret i én matrix."
+	},
+	"CHOOSEROWS": {
+		"a": "(matrix, row_num1, [row_num2], ...)",
+		"d": " Returnerer rækker fra en matrix eller reference."
+	},
+	"CHOOSECOLS": {
+		"a": "(matrix, col_num1, [col_num2], ...)",
+		"d": " Returnerer kolonner fra en matrix eller en reference."
+	},
+	"TOCOL": {
+		"a": "(matrix, [ignorer], [scan_by_column])",
+		"d": "Returnerer matrixen som én kolonne."
+	},
+	"TOROW": {
+		"a": "(matrix, [ignorer], [scan_by_column])",
+		"d": "Returnerer matrixen som én række."
+	},
+	"WRAPCOLS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": "Ombryd en række- eller kolonnevektor efter et angivet antal værdier."
+	},
+	"TAKE": {
+		"a": "(matrix, rækker, [kolonne])",
+		"d": "Returnerer rækker eller kolonner fra matrixens start eller slutning."
+	},
+	"DROP": {
+		"a": "(matrix, rækker, [kolonner])",
+		"d": "Sletter rækker eller kolonner fra matrixens start eller slutning."
 	}
 }

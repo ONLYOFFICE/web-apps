@@ -46,6 +46,7 @@ define([
     'spreadsheeteditor/main/app/view/RemoveDuplicatesDialog',
     'spreadsheeteditor/main/app/view/DataValidationDialog',
     'spreadsheeteditor/main/app/view/ExternalLinksDlg',
+    'spreadsheeteditor/main/app/view/ImportFromXmlDialog',
     'common/main/lib/view/OptionsDialog'
 ], function () {
     'use strict';
@@ -114,10 +115,11 @@ define([
             Common.NotificationCenter.on('data:remduplicates', _.bind(this.onRemoveDuplicates, this));
             Common.NotificationCenter.on('data:sortcustom', _.bind(this.onCustomSort, this));
             if (this.toolbar.mode.canRequestReferenceData && this.api) {
-                // this.api.asc_registerCallback('asc_onNeedUpdateExternalReferenceOnOpen', _.bind(this.onNeedUpdateExternalReferenceOnOpen, this));
+                this.api.asc_registerCallback('asc_onNeedUpdateExternalReferenceOnOpen', _.bind(this.onNeedUpdateExternalReferenceOnOpen, this));
                 this.api.asc_registerCallback('asc_onStartUpdateExternalReference', _.bind(this.onStartUpdateExternalReference, this));
                 this.api.asc_registerCallback('asc_onUpdateExternalReference', _.bind(this.onUpdateExternalReference, this));
                 this.api.asc_registerCallback('asc_onErrorUpdateExternalReference', _.bind(this.onErrorUpdateExternalReference, this));
+                this.api.asc_registerCallback('asc_onNeedUpdateExternalReference', _.bind(this.onNeedUpdateExternalReference, this));
                 Common.Gateway.on('setreferencedata', _.bind(this.setReferenceData, this));
             }
         },
@@ -265,6 +267,9 @@ define([
                 })).show();
             } else if (type === 'storage') {
                 // Common.NotificationCenter.trigger('storage:data-load', 'add');
+            } else if (type === 'xml') {
+                Common.Utils.InternalSettings.set('import-xml-start', true);
+                this.api && this.api.asc_ImportXmlStart(_.bind(this.onDataFromXMLCallback, this));
             }
         },
 
@@ -284,6 +289,43 @@ define([
                     }
                 }
             })).show();
+        },
+
+        onDataFromXMLCallback: function(fileContent) {
+            setTimeout(function() {
+                Common.Utils.InternalSettings.set('import-xml-start', false);
+            }, 500);
+
+            if (!fileContent) return;
+
+            var me = this;
+            (new SSE.Views.ImportFromXmlDialog({
+                api: me.api,
+                handler: function (result, settings) {
+                    if (result == 'ok' && settings) {
+                        if (settings.destination)
+                            me.api.asc_ImportXmlEnd(fileContent, settings.destination, me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex()));
+                        else
+                            me.api.asc_ImportXmlEnd(fileContent, null, me.createSheetName());
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me);
+                }
+            })).show();
+        },
+
+        createSheetName: function() {
+            var items = [], wc = this.api.asc_getWorksheetsCount();
+            while (wc--) {
+                items.push(this.api.asc_getWorksheetName(wc).toLowerCase());
+            }
+
+            var index = 0, name;
+            while(++index < 1000) {
+                name = this.strSheet + index;
+                if (items.indexOf(name.toLowerCase()) < 0) break;
+            }
+
+            return name;
         },
 
         onShowClick: function() {
@@ -450,6 +492,7 @@ define([
             this.externalLinksDlg = (new SSE.Views.ExternalLinksDlg({
                 api: this.api,
                 isUpdating: this.externalData.isUpdating,
+                canRequestReferenceData: this.toolbar.mode.canRequestReferenceData,
                 handler: function(result) {
                     Common.NotificationCenter.trigger('edit:complete');
                 }
@@ -523,14 +566,29 @@ define([
         },
 
         onNeedUpdateExternalReferenceOnOpen: function() {
-            var links = this.api.asc_getExternalReferences();
-            links && (links.length>0) && this.api.asc_updateExternalReferences(links);
+            Common.UI.warning({
+                msg: this.warnUpdateExternalData,
+                buttons: [{value: 'ok', caption: this.textUpdate, primary: true}, {value: 'cancel', caption: this.textDontUpdate}],
+                maxwidth: 600,
+                callback: _.bind(function(btn) {
+                    if (btn==='ok') {
+                        var links = this.api.asc_getExternalReferences();
+                        links && (links.length>0) && this.api.asc_updateExternalReferences(links);
+                    }
+                }, this)
+            });
         },
 
         onErrorUpdateExternalReference: function(id) {
             if (this.externalLinksDlg) {
                 this.externalLinksDlg.setLinkStatus(id, this.txtErrorExternalLink);
             }
+        },
+
+        onNeedUpdateExternalReference: function() {
+            var val = Common.localStorage.getBool("sse-hide-add-external-warn");
+            !val && Common.NotificationCenter.trigger('showmessage', {msg: this.textAddExternalData});
+            Common.localStorage.setBool("sse-hide-add-external-warn", true);
         },
 
         onWorksheetLocked: function(index,locked) {
@@ -575,7 +633,12 @@ define([
         textEmptyUrl: 'You need to specify URL.',
         txtImportWizard: 'Text Import Wizard',
         txtUrlTitle: 'Paste a data URL',
-        txtErrorExternalLink: 'Error: updating is failed'
+        txtErrorExternalLink: 'Error: updating is failed',
+        strSheet: 'Sheet',
+        warnUpdateExternalData: 'This workbook contains links to one or more external sources that could be unsafe.<br>If you trust the links, update them to get the latest data.',
+        textUpdate: 'Update',
+        textDontUpdate: 'Don\'t Update',
+        textAddExternalData: 'The link to an external source has been added. You can update such links in the Data tab.'
 
     }, SSE.Controllers.DataTab || {}));
 });

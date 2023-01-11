@@ -1084,12 +1084,13 @@ define([
                     Common.Utils.lockControls(Common.enumLock.docLockReview, props.isReviewOnly, {array: [this.dlgChanges.btnAccept, this.dlgChanges.btnReject]});
                     Common.Utils.lockControls(Common.enumLock.docLockComments, props.isCommentsOnly, {array: [this.dlgChanges.btnAccept, this.dlgChanges.btnReject]});
                 }
-                if (this.appConfig.canReview) {
+                if (!this.appConfig.isReviewOnly) {
+                    // protection in document is more important than permissions.review, call asc_SetLocalTrackRevisions even if canReview is false
                     if (props.isReviewOnly) {
-                        this.onTurnPreview(true);
+                        this.api.asc_SetLocalTrackRevisions(true);
                         this.onApiShowChange();
                     } else if (this._state.prevReviewProtected) {
-                        this.onTurnPreview(false);
+                        this.api.asc_SetLocalTrackRevisions(false);
                         this.onApiShowChange();
                     }
                     this._state.prevReviewProtected = props.isReviewOnly;
