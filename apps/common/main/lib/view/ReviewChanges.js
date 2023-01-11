@@ -103,6 +103,7 @@ define([
                 '<div class="separator long review"></div>' +
                 '<div class="group">' +
                     '<span id="btn-compare" class="btn-slot text x-huge"></span>' +
+                    '<span id="btn-combine" class="btn-slot text x-huge"></span>' +
                 '</div>' +
                 '<div class="separator long compare"></div>' +
                 '<div class="group no-group-mask review form-view">' +
@@ -141,6 +142,15 @@ define([
 
                     this.btnCompare.menu.on('item:click', function (menu, item, e) {
                         me.fireEvent('reviewchange:compare', [item.value]);
+                    });
+
+
+                    this.btnCombine.on('click', function(e) {
+                        me.fireEvent('reviewchange:combine', ['file']);
+                    });
+
+                    this.btnCombine.menu.on('item:click', function(menu, item, e) {
+                        me.fireEvent('reviewchange:combine', [item.value]);
                     });
                 }
 
@@ -294,6 +304,18 @@ define([
                             dataHintOffset: 'small'
                         });
                         this.lockedControls.push(this.btnCompare);
+
+                        this.btnCombine = new Common.UI.Button({
+                            cls: 'btn-toolbar  x-huge icon-top',
+                            caption: this.txtCombine,
+                            split: true,
+                            iconCls: 'toolbar__icon combine',
+                            lock: [_set.hasCoeditingUsers, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments],
+                            dataHint: '1',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'small'
+                        });
+                        this.lockedControls.push(this.btnCombine);
                     }
                     this.btnTurnOn = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
@@ -572,6 +594,15 @@ define([
                             }));
                             me.btnCompare.menu.items[2].setVisible(me.appConfig.canRequestCompareFile || me.appConfig.fileChoiceUrl && me.appConfig.fileChoiceUrl.indexOf("{documentType}")>-1);
                             me.btnCompare.updateHint(me.tipCompare);
+
+
+                            me.btnCombine.setMenu(new Common.UI.Menu({
+                                items: [
+                                    {caption: me.mniFromFile, value: 'file'},
+                                    {caption: me.mniFromUrl, value: 'url'},
+                                ]
+                            }));
+                            me.btnCombine.updateHint(me.tipCombine);
                         }
 
                         Common.Utils.lockControls(Common.enumLock.isReviewOnly, config.isReviewOnly, {array: [me.btnAccept, me.btnReject]});
@@ -707,6 +738,7 @@ define([
                     this.btnAccept.render(this.$el.find('#btn-change-accept'));
                     this.btnReject.render(this.$el.find('#btn-change-reject'));
                     this.appConfig.canFeatureComparison && this.btnCompare.render(this.$el.find('#btn-compare'));
+                    this.appConfig.canFeatureComparison && this.btnCombine.render(this.$el.find('#btn-combine'));
                     this.btnTurnOn.render(this.$el.find('#btn-review-on'));
                 }
                 this.btnPrev && this.btnPrev.render(this.$el.find('#btn-change-prev'));
@@ -914,6 +946,8 @@ define([
             strStrictDesc: 'Use the \'Save\' button to sync the changes you and others make.',
             txtCompare: 'Compare',
             tipCompare: 'Compare current document with another one',
+            txtCombine: 'Combine',
+            tipCombine: 'Combine current document with another one',
             mniFromFile: 'Document from File',
             mniFromUrl: 'Document from URL',
             mniFromStorage: 'Document from Storage',

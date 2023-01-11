@@ -81,6 +81,7 @@ define([
                     'reviewchange:preview':     _.bind(this.onBtnPreviewClick, this),
                     'reviewchange:view':        _.bind(this.onReviewViewClick, this),
                     'reviewchange:compare':     _.bind(this.onCompareClick, this),
+                    'reviewchange:combine':     _.bind(this.onCombineClick, this),
                     'lang:document':            _.bind(this.onDocLanguage, this),
                     'collaboration:coauthmode': _.bind(this.onCoAuthMode, this),
                     'protect:update':           _.bind(this.onChangeProtectDocument, this)
@@ -718,6 +719,36 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
+        onCombineClick: function(item) {
+            if(this.api) {
+                var me = this;
+                if (!this._state.compareSettings) {
+                    this._state.compareSettings = new AscCommonWord.ComparisonOptions();
+                    this._state.compareSettings.putWords(!Common.localStorage.getBool("de-compare-char"));
+                }
+                if (item === 'file') {
+                    this.api.asc_MergeDocumentFile(this._state.compareSettings);
+                    Common.NotificationCenter.trigger('edit:complete', this.view);
+                } else if (item === 'url') {
+                    (new Common.Views.ImageFromUrlDialog({
+                        title: me.textUrl,
+                        handler: function(result, value) {
+                            if (result == 'ok') {
+                                if (me.api) {
+                                    var checkUrl = value.replace(/ /g, '');
+                                    if (!_.isEmpty(checkUrl)) {
+                                        me.api.asc_MergeDocumentUrl(checkUrl, me._state.compareSettings);
+                                    }
+                                }
+                                Common.NotificationCenter.trigger('edit:complete', me.view);
+                            }
+                        }
+                    })).show();
+                }
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
         setRevisedFile: function(data) {
             if (!this._state.compareSettings) {
                 this._state.compareSettings = new AscCommonWord.ComparisonOptions();
@@ -1014,7 +1045,7 @@ define([
                     if (!item.asc_getView())
                         length++;
                 });
-                Common.Utils.lockControls(Common.enumLock.hasCoeditingUsers, length>1, {array: [this.view.btnCompare]});
+                Common.Utils.lockControls(Common.enumLock.hasCoeditingUsers, length>1, {array: [this.view.btnCompare, this.view.btnCombine]});
             }
         },
 
