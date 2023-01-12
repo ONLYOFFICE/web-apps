@@ -174,23 +174,23 @@ class EditTextController extends Component {
         }
     }
 
-    onBullet(type) {
+    onBullet(numberingInfo) {
         const api = Common.EditorApi.get();
         if (api) {
-            api.put_ListType(0, parseInt(type));
+            api.put_ListTypeCustom(JSON.parse(numberingInfo));
         }
     }
 
-    onNumber(type) {
+    onNumber(numberingInfo) {
         const api = Common.EditorApi.get();
         if (api) {
-            api.put_ListType(1, parseInt(type));
+            api.put_ListTypeCustom(JSON.parse(numberingInfo));
         }
     }
 
-    onMultiLevelList(type) {
+    onMultiLevelList(numberingInfo) {
         const api = Common.EditorApi.get();
-        if (api) api.put_ListType(2, parseInt(type));
+        if (api) api.put_ListTypeCustom(JSON.parse(numberingInfo));
     }
 
     getIconsBulletsAndNumbers(arrayElements, type) {
@@ -198,9 +198,10 @@ class EditTextController extends Component {
         const arr = [];
 
         arrayElements.forEach( item => {
-            let data = item.drawdata;
-            data['divId'] = item.id;
-            arr.push(data);
+            arr.push({
+                numberingInfo: JSON.parse(item.numberingInfo),
+                divId: item.id
+            });
         });
 
         if (api) api.SetDrawImagePreviewBulletForMenu(arr, type);

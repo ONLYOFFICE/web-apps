@@ -189,14 +189,14 @@ const PageBullets = observer( props => {
     const storeTextSettings = props.storeTextSettings;
     const typeBullets = storeTextSettings.typeBullets;
     const bulletArrays = [
-        {id: 'id-markers-0', type: 0, subtype: -1, drawdata: {type: Asc.asc_PreviewBulletType.text, text: 'None'} },
-        {id: 'id-markers-1', type: 0, subtype: 1, drawdata: {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00B7), specialFont: 'Symbol'} },
-        {id: 'id-markers-2', type: 0, subtype: 2, drawdata: {type: Asc.asc_PreviewBulletType.char, char: 'o', specialFont: 'Courier New'} },
-        {id: 'id-markers-3', type: 0, subtype: 3, drawdata: {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00A7), specialFont: 'Wingdings'} },
-        {id: 'id-markers-4', type: 0, subtype: 4, drawdata: {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x0076), specialFont: 'Wingdings'} },
-        {id: 'id-markers-5', type: 0, subtype: 5, drawdata: {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00D8), specialFont: 'Wingdings'} },
-        {id: 'id-markers-6', type: 0, subtype: 6, drawdata: {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00FC), specialFont: 'Wingdings'} },
-        {id: 'id-markers-7', type: 0, subtype: 7, drawdata: {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00A8), specialFont: 'Symbol'} }
+        {id: 'id-markers-0', type: 0, subtype: -1, numberingInfo: '{"Type":"remove"}' },
+        {id: 'id-markers-1', type: 0, subtype: 1, numberingInfo: '{"Type":"bullet","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"·","rPr":{"rFonts":{"ascii":"Symbol","cs":"Symbol","eastAsia":"Symbol","hAnsi":"Symbol"}}}]}' },
+        {id: 'id-markers-2', type: 0, subtype: 2, numberingInfo: '{"Type":"bullet","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"o","rPr":{"rFonts":{"ascii":"Courier New","cs":"Courier New","eastAsia":"Courier New","hAnsi":"Courier New"}}}]}' },
+        {id: 'id-markers-3', type: 0, subtype: 3, numberingInfo: '{"Type":"bullet","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"§","rPr":{"rFonts":{"ascii":"Wingdings","cs":"Wingdings","eastAsia":"Wingdings","hAnsi":"Wingdings"}}}]}' },
+        {id: 'id-markers-4', type: 0, subtype: 4, numberingInfo: '{"Type":"bullet","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"v","rPr":{"rFonts":{"ascii":"Wingdings","cs":"Wingdings","eastAsia":"Wingdings","hAnsi":"Wingdings"}}}]}' },
+        {id: 'id-markers-5', type: 0, subtype: 5, numberingInfo: '{"Type":"bullet","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"Ø","rPr":{"rFonts":{"ascii":"Wingdings","cs":"Wingdings","eastAsia":"Wingdings","hAnsi":"Wingdings"}}}]}' },
+        {id: 'id-markers-6', type: 0, subtype: 6, numberingInfo: '{"Type":"bullet","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"ü","rPr":{"rFonts":{"ascii":"Wingdings","cs":"Wingdings","eastAsia":"Wingdings","hAnsi":"Wingdings"}}}]}' },
+        {id: 'id-markers-7', type: 0, subtype: 7, numberingInfo: '{"Type":"bullet","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"¨","rPr":{"rFonts":{"ascii":"Symbol","cs":"Symbol","eastAsia":"Symbol","hAnsi":"Symbol"}}}]}' }
     ];
 
     useEffect(() => {
@@ -211,7 +211,7 @@ const PageBullets = observer( props => {
                         (storeTextSettings.listType === 0 || storeTextSettings.listType === -1) ? 'active' : ''}
                         onClick={() => {
                             storeTextSettings.resetBullets(bullet.subtype);
-                            props.onBullet(bullet.subtype);
+                            props.onBullet(bullet.numberingInfo);
                         }}>
                         <div id={bullet.id} className='item-marker'></div>
                     </ListItem>
@@ -225,14 +225,14 @@ const PageNumbers = observer( props => {
     const storeTextSettings = props.storeTextSettings;
     const typeNumbers = storeTextSettings.typeNumbers;
     const numberArrays = [
-        {id: 'id-numbers-0', type: 1, subtype: -1, drawdata: {type: Asc.asc_PreviewBulletType.text, text: 'None'}},
-        {id: 'id-numbers-4', type: 1, subtype: 4, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.UpperLetterDot_Left}},
-        {id: 'id-numbers-5', type: 1, subtype: 5, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerLetterBracket_Left}},
-        {id: 'id-numbers-6', type: 1, subtype: 6, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerLetterDot_Left}},
-        {id: 'id-numbers-1', type: 1, subtype: 1, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.DecimalDot_Right}},
-        {id: 'id-numbers-2', type: 1, subtype: 2, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.DecimalBracket_Right}},
-        {id: 'id-numbers-3', type: 1, subtype: 3, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.UpperRomanDot_Right}},
-        {id: 'id-numbers-7', type: 1, subtype: 7, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerRomanDot_Right}}
+        {id: 'id-numbers-0', type: 1, subtype: -1, numberingInfo: '{"Type":"remove"}'},
+        {id: 'id-numbers-4', type: 1, subtype: 4, numberingInfo: '{"Type":"number","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"upperLetter"},"lvlText":"%1."}]}'},
+        {id: 'id-numbers-5', type: 1, subtype: 5, numberingInfo: '{"Type":"number","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"%1)"}]}'},
+        {id: 'id-numbers-6', type: 1, subtype: 6, numberingInfo: '{"Type":"number","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"%1."}]}'},
+        {id: 'id-numbers-1', type: 1, subtype: 1, numberingInfo: '{"Type":"number","Lvl":[{"lvlJc":"right","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1."}]}'},
+        {id: 'id-numbers-2', type: 1, subtype: 2, numberingInfo: '{"Type":"number","Lvl":[{"lvlJc":"right","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1)"}]}'},
+        {id: 'id-numbers-3', type: 1, subtype: 3, numberingInfo: '{"Type":"number","Lvl":[{"lvlJc":"right","suff":"tab","numFmt":{"val":"upperRoman"},"lvlText":"%1."}]}'},
+        {id: 'id-numbers-7', type: 1, subtype: 7, numberingInfo: '{"Type":"number","Lvl":[{"lvlJc":"right","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"%1."}]}'}
     ];
 
     useEffect(() => {
@@ -247,7 +247,7 @@ const PageNumbers = observer( props => {
                             (storeTextSettings.listType === 1 || storeTextSettings.listType === -1) ? 'active' : ''}
                             onClick={() => {
                                 storeTextSettings.resetNumbers(number.subtype);
-                                props.onNumber(number.subtype);
+                                props.onNumber(number.numberingInfo);
                             }}>
                             <div id={number.id} className='item-number'></div>
                         </ListItem>
@@ -261,10 +261,14 @@ const PageMultiLevel = observer( props => {
     const storeTextSettings = props.storeTextSettings;
     const typeMultiLevel = storeTextSettings.typeMultiLevel;
     const arrayMultiLevel = [
-        { id: 'id-multilevels-0', type: 2, subtype: -1, drawdata: {type: Asc.asc_PreviewBulletType.text, text: 'None'} },
-        { id: 'id-multilevels-1', type: 2, subtype: 1, drawdata: {type: Asc.asc_PreviewBulletType.multiLevel, numberingType: Asc.c_oAscMultiLevelNumbering.MultiLevel1} },
-        { id: 'id-multilevels-2', type: 2, subtype: 2, drawdata: {type: Asc.asc_PreviewBulletType.multiLevel, numberingType: Asc.c_oAscMultiLevelNumbering.MultiLevel2} },
-        { id: 'id-multilevels-3', type: 2, subtype: 3, drawdata: {type: Asc.asc_PreviewBulletType.multiLevel, numberingType: Asc.c_oAscMultiLevelNumbering.MultiLevel3} },
+        { id: 'id-multilevels-0', type: 2, subtype: -1, numberingInfo: '{"Type":"remove"}' },
+        { id: 'id-multilevels-1', type: 2, subtype: 1, numberingInfo: '{"Type":"number","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1)","pPr":{"ind":{"left":360,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"%2)","pPr":{"ind":{"left":720,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"%3)","pPr":{"ind":{"left":1080,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%4)","pPr":{"ind":{"left":1440,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"%5)","pPr":{"ind":{"left":1800,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"%6)","pPr":{"ind":{"left":2160,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%7)","pPr":{"ind":{"left":2520,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"%8)","pPr":{"ind":{"left":2880,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"%9)","pPr":{"ind":{"left":3240,"firstLine":-360}}}]}' },
+        { id: 'id-multilevels-2', type: 2, subtype: 2, numberingInfo: '{"Type":"number","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.","pPr":{"ind":{"left":360,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.","pPr":{"ind":{"left":792,"firstLine":-432}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.","pPr":{"ind":{"left":1224,"firstLine":-504}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.","pPr":{"ind":{"left":1728,"firstLine":-648}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.%5.","pPr":{"ind":{"left":2232,"firstLine":-792}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.%5.%6.","pPr":{"ind":{"left":2736,"firstLine":-936}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.%5.%6.%7.","pPr":{"ind":{"left":3240,"firstLine":-1080}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.%5.%6.%7.%8.","pPr":{"ind":{"left":3744,"firstLine":-1224}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.%5.%6.%7.%8.%9.","pPr":{"ind":{"left":4320,"firstLine":-1440}}}]}' },
+        { id: 'id-multilevels-3', type: 2, subtype: 3, numberingInfo: '{"Type":"bullet","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"v","pPr":{"ind":{"left":360,"firstLine":-360}},"rPr":{"rFonts":{"ascii":"Wingdings","cs":"Wingdings","eastAsia":"Wingdings","hAnsi":"Wingdings"}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"Ø","pPr":{"ind":{"left":720,"firstLine":-360}},"rPr":{"rFonts":{"ascii":"Wingdings","cs":"Wingdings","eastAsia":"Wingdings","hAnsi":"Wingdings"}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"§","pPr":{"ind":{"left":1080,"firstLine":-360}},"rPr":{"rFonts":{"ascii":"Wingdings","cs":"Wingdings","eastAsia":"Wingdings","hAnsi":"Wingdings"}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"·","pPr":{"ind":{"left":1440,"firstLine":-360}},"rPr":{"rFonts":{"ascii":"Symbol","cs":"Symbol","eastAsia":"Symbol","hAnsi":"Symbol"}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"¨","pPr":{"ind":{"left":1800,"firstLine":-360}},"rPr":{"rFonts":{"ascii":"Symbol","cs":"Symbol","eastAsia":"Symbol","hAnsi":"Symbol"}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"Ø","pPr":{"ind":{"left":2160,"firstLine":-360}},"rPr":{"rFonts":{"ascii":"Wingdings","cs":"Wingdings","eastAsia":"Wingdings","hAnsi":"Wingdings"}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"§","pPr":{"ind":{"left":2520,"firstLine":-360}},"rPr":{"rFonts":{"ascii":"Wingdings","cs":"Wingdings","eastAsia":"Wingdings","hAnsi":"Wingdings"}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"·","pPr":{"ind":{"left":2880,"firstLine":-360}},"rPr":{"rFonts":{"ascii":"Symbol","cs":"Symbol","eastAsia":"Symbol","hAnsi":"Symbol"}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"¨","pPr":{"ind":{"left":3240,"firstLine":-360}},"rPr":{"rFonts":{"ascii":"Symbol","cs":"Symbol","eastAsia":"Symbol","hAnsi":"Symbol"}}}]}' },
+        { id: 'id-multilevels-4', type: 2, subtype: 4, numberingInfo: '{"Type":"number","Headings":"true","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"upperRoman"},"lvlText":"Article %1.","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimalZero"},"lvlText":"Section %1.%2","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"(%3)","pPr":{"ind":{"left":720,"firstLine":-432}}},{"lvlJc":"right","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"(%4)","pPr":{"ind":{"left":864,"firstLine":-144}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%5)","pPr":{"ind":{"left":1008,"firstLine":-432}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"%6)","pPr":{"ind":{"left":1152,"firstLine":-432}}},{"lvlJc":"right","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"%7)","pPr":{"ind":{"left":1296,"firstLine":-288}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"%8.","pPr":{"ind":{"left":1440,"firstLine":-432}}},{"lvlJc":"right","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"%9.","pPr":{"ind":{"left":1584,"firstLine":-144}}}]}' },
+        { id: 'id-multilevels-5', type: 2, subtype: 5, numberingInfo: '{"Type":"number","Headings":"true","Lvl":[{"lvlJc":"left","suff":"space","numFmt":{"val":"decimal"},"lvlText":"Chapter %1","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}}]}' },
+        { id: 'id-multilevels-6', type: 2, subtype: 6, numberingInfo: '{"Type":"number","Headings":"true","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"upperRoman"},"lvlText":"%1.","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"upperLetter"},"lvlText":"%2.","pPr":{"ind":{"left":720,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%3.","pPr":{"ind":{"left":1440,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"%4)","pPr":{"ind":{"left":2160,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"(%5)","pPr":{"ind":{"left":2880,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"(%6)","pPr":{"ind":{"left":3600,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"(%7)","pPr":{"ind":{"left":4320,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"(%8)","pPr":{"ind":{"left":5040,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"(%9)","pPr":{"ind":{"left":5760,"firstLine":0}}}]}' },
+        { id: 'id-multilevels-7', type: 2, subtype: 7, numberingInfo: '{"Type":"number","Headings":"true","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.","pPr":{"ind":{"left":432,"firstLine":-432}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.","pPr":{"ind":{"left":576,"firstLine":-576}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.","pPr":{"ind":{"left":720,"firstLine":-720}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.","pPr":{"ind":{"left":864,"firstLine":-864}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.%5.","pPr":{"ind":{"left":1008,"firstLine":-1008}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.%5.%6.","pPr":{"ind":{"left":1152,"firstLine":-1152}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.%5.%6.%7.","pPr":{"ind":{"left":1296,"firstLine":-1296}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.%5.%6.%7.%8.","pPr":{"ind":{"left":1440,"firstLine":-1440}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.%5.%6.%7.%8.%9.","pPr":{"ind":{"left":1584,"firstLine":-1584}}}]}' }
     ];
 
     useEffect(() => {
@@ -279,7 +283,7 @@ const PageMultiLevel = observer( props => {
                         key={'multi-level-' + item.subtype} 
                         data-type={item.subtype} 
                         className={item.subtype === typeMultiLevel && storeTextSettings.listType === -1  ? 'active' : ''}
-                        onClick={() => props.onMultiLevelList(item.subtype)}>
+                        onClick={() => props.onMultiLevelList(item.numberingInfo)}>
                             <div id={item.id} className='item-multilevellist'>
 
                             </div>
