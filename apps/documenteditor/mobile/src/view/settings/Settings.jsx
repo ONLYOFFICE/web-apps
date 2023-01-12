@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import {f7} from 'framework7-react';
 import { observer, inject } from "mobx-react";
 import {Device} from '../../../../../common/mobile/utils/device';
-
 import DocumentSettingsController from "../../controller/settings/DocumentSettings";
 import DocumentInfoController from "../../controller/settings/DocumentInfo";
 import { DownloadController } from "../../controller/settings/Download";
@@ -14,6 +13,7 @@ import { MacrosSettings, Direction } from "./ApplicationSettings";
 import About from '../../../../../common/mobile/lib/view/About';
 import NavigationController from '../../controller/settings/Navigation';
 import SharingSettings from "../../../../../common/mobile/lib/view/SharingSettings";
+import ProtectionDocumentController from '../../controller/settings/DocumentProtection';
 import ProtectionController from '../../controller/settings/Protection';
 
 const routes = [
@@ -79,8 +79,12 @@ const routes = [
 
     // Protection
     {
-        path: '/protection-document/',
+        path: '/protection',
         component: ProtectionController
+    },
+    {
+        path: '/protect',
+        component: ProtectionDocumentController
     }
 ];
 
@@ -155,8 +159,8 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
                             <Icon slot="media" icon="icon-search"></Icon>
                         </ListItem>
                     }
-                    <ListItem title={t('Settings.textProtectDocument')} link="#" onClick={onoptionclick.bind(this, '/protection-document/')}>
-                        <Icon slot="media" icon="icon-protect-document"></Icon>
+                    <ListItem title={t('Settings.textProtection')} link="#" onClick={onoptionclick.bind(this, '/protection')}>
+                        <Icon slot="media" icon="icon-protection"></Icon>
                     </ListItem>
                     <ListItem title={t('Settings.textNavigation')} link='#' onClick={() => {
                         if(Device.phone) {

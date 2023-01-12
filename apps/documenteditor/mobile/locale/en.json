@@ -427,7 +427,8 @@
     "unknownErrorText": "Unknown error.",
     "uploadImageExtMessage": "Unknown image format.",
     "uploadImageFileCountMessage": "No images uploaded.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
+    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
+    "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization."
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",
@@ -658,7 +659,10 @@
     "textRightToLeft": "Right To Left",
     "textSearch": "Search",
     "textSettings": "Settings",
+    "textProtection": "Protection",
     "textProtectDocument": "Protect Document",
+    "titleDialogUnprotect": "Unprotect Document",
+    "textDialogUnprotect": "Enter a password to unprotect document",
     "textUnprotect": "Unprotect",
     "textSetPassword": "Set Password",
     "textTypeEditing": "Type Of Editing",
