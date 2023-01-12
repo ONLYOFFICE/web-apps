@@ -358,8 +358,8 @@ define([
 
         removeResultItems: function (type) {
             this.resultItems = [];
-            this.hideResults();
             this.view.updateResultsNumber(type, 0); // type === undefined, count === 0 -> no matches
+            this.hideResults();
             this._state.currentResult = 0;
             this._state.resultsNumber = 0;
             this.view.disableNavButtons();
@@ -367,7 +367,7 @@ define([
         },
 
         onApiRemoveTextAroundSearch: function (arr) {
-            if (!this.resultItems) return;
+            if (!this.resultItems || this.resultItems && this.resultItems.length === 0) return;
             var me = this;
             arr.forEach(function (id) {
                 var ind = _.findIndex(me.resultItems, {id: id});
@@ -498,7 +498,9 @@ define([
 
         hideResults: function () {
             if (this.view) {
-                this.view.$resultsContainer.hide();
+                if (this.view.$resultsContainer.find('.many-results').length === 0) {
+                    this.view.$resultsContainer.hide();
+                }
                 this.view.$resultsContainer.find('.search-items').empty();
             }
         },

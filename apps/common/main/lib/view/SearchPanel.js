@@ -283,6 +283,7 @@ define([
                         minScrollbarLength: 40,
                         alwaysVisibleY: true
                     });
+                    this.$resultsTable = this.$resultsContainer.find('.search-table');
                 } else {
                     this.$resultsContainer.scroller = new Common.UI.Scroller({
                         el: this.$resultsContainer,
@@ -356,14 +357,20 @@ define([
 
         updateResultsNumber: function (current, count) {
             var text;
-            if (count > 300) {
-                text = this.textTooManyResults;
-            } else {
-                text = current === 'no-results' ? this.textNoSearchResults :
-                    (current === 'stop' ? this.textSearchHasStopped :
-                    (current === 'content-changed' ? (this.textContentChanged + ' ' + Common.Utils.String.format(this.textSearchAgain, '<a class="search-again">','</a>')) :
-                    (!count ? this.textNoMatches : Common.Utils.String.format(this.textSearchResults, current + 1, count))));
+            if (this.$resultsContainer) {
+                if (count > 300) {
+                    this.showToManyResults();
+                } else if (current !== 'content-changed') {
+                    this.$resultsContainer.find('.many-results').remove();
+                    if (window.SSE) {
+                        this.$resultsTable.show();
+                    }
+                }
             }
+            text = current === 'no-results' ? this.textNoSearchResults :
+                (current === 'stop' ? this.textSearchHasStopped :
+                (current === 'content-changed' ? (this.textContentChanged + ' ' + Common.Utils.String.format(this.textSearchAgain, '<a class="search-again">','</a>')) :
+                (!count ? this.textNoMatches : Common.Utils.String.format(this.textSearchResults, current + 1, count))));
             if (current === 'content-changed') {
                 var me = this;
                 this.$reaultsNumber.html(text);
@@ -375,6 +382,20 @@ define([
             }
             this.updateResultsContainerHeight();
             !window.SSE && this.disableReplaceButtons(!count);
+        },
+
+        showToManyResults: function () {
+            if (!window.SSE) {
+                this.$resultsContainer.empty();
+            } else {
+                this.$resultsTable.hide();
+                this.$resultsTable.find('.search-items').empty();
+                this.$resultsContainer.find('.many-results').remove();
+            }
+            this.$resultsContainer.append('<div class="many-results">' + this.textTooManyResults + '</div>');
+            if (!this.$resultsContainer.is(':visible')) {
+                this.$resultsContainer.show();
+            }
         },
 
         onClickClosePanel: function() {
