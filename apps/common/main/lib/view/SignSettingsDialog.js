@@ -79,7 +79,7 @@ define([
                     '<div class="input-row">',
                         '<label>' + this.textInstructions + '</label>',
                     '</div>',
-                    '<div id="id-dlg-sign-settings-instructions">',
+                    '<div id="id-dlg-sign-settings-instructions"></div>',
                     '<div id="id-dlg-sign-settings-date"></div>',
                 '</div>',
                 '<div class="footer center">',
