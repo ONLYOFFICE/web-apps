@@ -200,9 +200,14 @@ define([
                 this.api.asc_AddContentControlCheckBox(oPr, oFormPr);
             } else if (type == 'combobox' || type == 'dropdown')
                 this.api.asc_AddContentControlList(type == 'combobox', oPr, oFormPr);
-            else if (type == 'datetime')
-                this.api.asc_AddContentControlDatePicker(); // !!!! change for datetime form
-            else if (type == 'text') {
+            else if (type == 'datetime'){
+                var props = new AscCommon.CContentControlPr();
+                oPr = new AscCommon.CSdtTextFormPr();
+                props.put_TextFormPr(oPr);
+                props.put_FormPr(oFormPr);
+                props.put_DateTimePr(new AscCommon.CSdtDatePickerPr());
+                this.api.asc_AddContentControlDatePicker(props);
+            } else if (type == 'text') {
                 var props = new AscCommon.CContentControlPr();
                 oPr = new AscCommon.CSdtTextFormPr();
                 if (options) {
