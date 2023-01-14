@@ -654,6 +654,8 @@
   "Common.Views.SearchPanel.textWholeWords": "Whole words only",
   "Common.Views.SearchPanel.tipNextResult": "Next result",
   "Common.Views.SearchPanel.tipPreviousResult": "Previous result",
+  "Common.Views.SearchPanel.textItemsSuccessfullyReplaced": "{0} items successfully replaced.",
+  "Common.Views.SearchPanel.textPartOfItemsNotReplaced": "{0}/{1} items replaced. Remaining {2} items are locked by other users.",
   "Common.Views.SelectFileDlg.textLoading": "Loading",
   "Common.Views.SelectFileDlg.textTitle": "Select data source",
   "Common.Views.SignDialog.textBold": "Bold",
