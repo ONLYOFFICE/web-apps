@@ -237,13 +237,13 @@ define([
                 searchSettings.put_WholeWords(this._state.matchWord);
                 this.api.asc_replaceText(searchSettings, textReplace, true);
 
-                this.removeResultItems();
+                this.removeResultItems('replace-all');
             }
         },
 
         removeResultItems: function (type) {
             this.resultItems = [];
-            this.view.updateResultsNumber(type, 0); // type === undefined, count === 0 -> no matches
+            type !== 'replace-all' && this.view.updateResultsNumber(type, 0); // type === undefined, count === 0 -> no matches
             this.hideResults();
             this.view.disableReplaceButtons(true);
             this._state.currentResult = 0;
@@ -421,8 +421,10 @@ define([
         onApiTextReplaced: function(found, replaced) {
             if (found) {
                 !(found - replaced > 0) ?
-                    Common.UI.info( {msg: Common.Utils.String.format(this.textReplaceSuccess, replaced)} ) :
-                    Common.UI.warning( {msg: Common.Utils.String.format(this.textReplaceSkipped, found-replaced)} );
+                    /*Common.UI.info( {msg: Common.Utils.String.format(this.textReplaceSuccess, replaced)} ) :
+                    Common.UI.warning( {msg: Common.Utils.String.format(this.textReplaceSkipped, found-replaced)} );*/
+                    this.view.updateResultsNumber('replace-all', replaced) :
+                    this.view.updateResultsNumber('replace', [replaced, found, found-replaced]);
             } else {
                 Common.UI.info({msg: this.textNoTextFound});
             }

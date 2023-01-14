@@ -357,10 +357,10 @@ define([
 
         updateResultsNumber: function (current, count) {
             var text;
-            if (this.$resultsContainer) {
+            if (this.$resultsContainer && current !== 'content-changed' && current !== 'replace-all' && current !== 'replace') {
                 if (count > 300) {
                     this.showToManyResults();
-                } else if (current !== 'content-changed') {
+                } else {
                     this.$resultsContainer.find('.many-results').remove();
                     if (window.SSE) {
                         this.$resultsTable.show();
@@ -370,7 +370,9 @@ define([
             text = current === 'no-results' ? this.textNoSearchResults :
                 (current === 'stop' ? this.textSearchHasStopped :
                 (current === 'content-changed' ? (this.textContentChanged + ' ' + Common.Utils.String.format(this.textSearchAgain, '<a class="search-again">','</a>')) :
-                (!count ? this.textNoMatches : Common.Utils.String.format(this.textSearchResults, current + 1, count))));
+                (current === 'replace-all' ? Common.Utils.String.format(this.textItemsSuccessfullyReplaced, count) :
+                (current === 'replace' ? Common.Utils.String.format(this.textPartOfItemsNotReplaced, count[0], count[1], count[2]) :
+                (!count ? this.textNoMatches : Common.Utils.String.format(this.textSearchResults, current + 1, count))))));
             if (current === 'content-changed') {
                 var me = this;
                 this.$reaultsNumber.html(text);
@@ -480,7 +482,9 @@ define([
         textFormula: 'Formula',
         textSearchHasStopped: 'Search has stopped',
         textContentChanged: 'Document changed.',
-        textSearchAgain: '{0}Perform new search{1} for accurate results.'
+        textSearchAgain: '{0}Perform new search{1} for accurate results.',
+        textItemsSuccessfullyReplaced: '{0} items successfully replaced.',
+        textPartOfItemsNotReplaced: '{0}/{1} items replaced. Remaining {2} items are locked by other users.'
 
     }, Common.Views.SearchPanel || {}));
 });
