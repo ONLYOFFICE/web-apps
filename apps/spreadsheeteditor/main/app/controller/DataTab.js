@@ -523,7 +523,10 @@ define([
                             data = {path: item.asc_getData()};
                             break;
                         case Asc.c_oAscExternalReferenceType.referenceData:
-                            data = {referenceData: item.asc_getData()};
+                            data = {
+                                referenceData: item.asc_getData(),
+                                path: item.asc_getPath()
+                            };
                             break;
                     }
                     data && me.externalData.stackRequests.push({data: data, id: item.asc_getId(), isExternal: item.asc_isExternalLink()});
@@ -586,9 +589,7 @@ define([
         },
 
         onNeedUpdateExternalReference: function() {
-            var val = Common.localStorage.getBool("sse-hide-add-external-warn");
-            !val && Common.NotificationCenter.trigger('showmessage', {msg: this.textAddExternalData});
-            Common.localStorage.setBool("sse-hide-add-external-warn", true);
+            Common.NotificationCenter.trigger('showmessage', {msg: this.textAddExternalData});
         },
 
         onWorksheetLocked: function(index,locked) {
