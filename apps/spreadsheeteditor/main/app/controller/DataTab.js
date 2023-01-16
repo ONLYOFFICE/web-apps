@@ -589,9 +589,7 @@ define([
         },
 
         onNeedUpdateExternalReference: function() {
-            var val = Common.localStorage.getBool("sse-hide-add-external-warn");
-            !val && Common.NotificationCenter.trigger('showmessage', {msg: this.textAddExternalData});
-            Common.localStorage.setBool("sse-hide-add-external-warn", true);
+            Common.NotificationCenter.trigger('showmessage', {msg: this.textAddExternalData});
         },
 
         onWorksheetLocked: function(index,locked) {
