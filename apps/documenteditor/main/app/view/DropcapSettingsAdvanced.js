@@ -1159,7 +1159,6 @@ define([
         textBorderColor:        'Border Color',
         textBackColor:          'Background Color',
         textBorderDesc:         'Click on diagramm or use buttons to select borders',
-        txtNoBorders:           'No borders',
         textPosition: 'Position',
         textAlign: 'Alignment',
         textTop:            'Top',

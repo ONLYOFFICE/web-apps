@@ -1927,7 +1927,7 @@
   "DE.Views.DropcapSettingsAdvanced.textVertical": "Vertical",
   "DE.Views.DropcapSettingsAdvanced.textWidth": "Width",
   "DE.Views.DropcapSettingsAdvanced.tipFontName": "Font",
-  "DE.Views.DropcapSettingsAdvanced.txtNoBorders": "No borders",
+  "del_DE.Views.DropcapSettingsAdvanced.txtNoBorders": "No borders",
   "DE.Views.EditListItemDialog.textDisplayName": "Display name",
   "DE.Views.EditListItemDialog.textNameError": "Display name must not be empty.",
   "DE.Views.EditListItemDialog.textValue": "Value",
