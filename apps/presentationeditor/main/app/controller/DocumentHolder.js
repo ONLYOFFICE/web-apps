@@ -1248,6 +1248,10 @@ define([
                     offsetLeft += (sdkPanelLeft.css('display') !== 'none') ? sdkPanelLeft.width() : 0;
 
                 var showPoint = [Math.max(0, coord.asc_getX() + coord.asc_getWidth() + 3 - offsetLeft), coord.asc_getY() + coord.asc_getHeight() + 3];
+                if (me.btnSpecialPaste.menu.isVisible() && (parseInt(pasteContainer.css('left')) !== showPoint[0] || parseInt(pasteContainer.css('top')) !== showPoint[1])) {
+                    me.btnSpecialPaste.menu.hide();
+                }
+
                 pasteContainer.css({left: showPoint[0], top : showPoint[1]});
                 pasteContainer.show();
                 setTimeout(function() {
