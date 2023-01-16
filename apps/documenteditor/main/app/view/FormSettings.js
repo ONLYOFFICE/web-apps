@@ -645,7 +645,7 @@ define([
                 cls: 'input-group-nr',
                 menuCls: 'menu-absolute',
                 menuStyle: 'min-width: 195px; max-height: 190px;',
-                editable: true,
+                editable: false,
                 data: [],
                 dataHint: '1',
                 dataHintDirection: 'bottom',
