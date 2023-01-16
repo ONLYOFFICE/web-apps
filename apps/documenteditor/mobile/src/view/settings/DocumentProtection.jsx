@@ -13,14 +13,29 @@ const ProtectionDocumentView = inject("storeAppOptions")(observer(props => {
     const [isPassword, setPassword] = useState(false);
     const [password, changePassword] = useState('');
     const [passwordRepeat, repeatPassword] = useState('');
-    const isDisabledProtection = isPassword && ((!password.length || !passwordRepeat.length) || password !== passwordRepeat);
+    const isDisabledProtection = isPassword && (!password.length || !passwordRepeat.length);
+
+    const showErrorDialog = () => {
+        f7.dialog.create({
+            title: t('Settings.textPasswordNotMatched'),
+            buttons: [
+                {
+                    text: t('Settings.textOk')
+                }
+            ]
+        }).open();
+    };
 
     return (
         <Page>
             <Navbar title={t('Settings.textProtectDocument')} backLink={_t.textBack}>
                 <NavRight>
                     <Link text={isIos && t('Settings.textSave')} className={isDisabledProtection && 'disabled'} onClick={() => {
-                        props.onProtectDocument(typeProtection, password);
+                        if(password !== passwordRepeat) {
+                            showErrorDialog();
+                        } else {
+                            props.onProtectDocument(typeProtection, password);
+                        }
                     }}>
                         {Device.android && <Icon icon='icon-check'/>}
                     </Link>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Device } from '../../../../../common/mobile/utils/device';
-// import { withTranslation } from 'react-i18next';
+import { observer, inject } from "mobx-react";
 import ProtectionDocumentView from '../../view/settings/DocumentProtection';
 import { f7 } from "framework7-react";
 
@@ -20,7 +20,15 @@ class ProtectionDocumentController extends React.Component {
 
     onProtectDocument(typeProtection, password) {
         const api = Common.EditorApi.get();
+        const appOptions = this.props.storeAppOptions;
+        const isViewer = appOptions.isViewer;
         const protection = api.asc_getDocumentProtection() || new AscCommonWord.CDocProtect();
+
+        appOptions.setProtection(true);
+
+        if(typeProtection !== Asc.c_oAscEDocProtect.TrackedChanges && !isViewer) {
+            appOptions.changeViewerMode();
+        }
 
         protection.asc_setEditType(typeProtection);
         protection.asc_setPassword(password);
@@ -34,4 +42,4 @@ class ProtectionDocumentController extends React.Component {
     }
 }
 
-export default ProtectionDocumentController;
+export default inject('storeAppOptions')(observer(ProtectionDocumentController));

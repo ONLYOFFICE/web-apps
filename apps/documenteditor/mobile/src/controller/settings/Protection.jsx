@@ -50,7 +50,7 @@ class ProtectionController extends React.Component {
                     propsProtection = new AscCommonWord.CDocProtect();
 
                 propsProtection.asc_setEditType(Asc.c_oAscEDocProtect.None);
-                api.asc_setDocumentProtection(props);
+                api.asc_setDocumentProtection(propsProtection);
             }
         } else {
             f7.views.current.router.navigate('/protect');

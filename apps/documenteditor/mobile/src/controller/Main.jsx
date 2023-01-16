@@ -794,6 +794,18 @@ class MainController extends Component {
         const storeAppOptions = this.props.storeAppOptions;
         const props = this.getDocProps(true);
         const isProtected = props && (props.isReadOnly || props.isCommentsOnly || props.isFormsOnly || props.isReviewOnly);
+        let textWarningDialog;
+
+        switch(props.type) {
+            case Asc.c_oAscEDocProtect.ReadOnly: 
+                textWarningDialog = t('Main.textDialogProtectedOnlyView')
+            case Asc.c_oAscEDocProtect.Comments:
+                textWarningDialog = t('Main.textDialogProtectedEditComments')
+            case Asc.c_oAscEDocProtect.TrackedChanges: 
+                textWarningDialog = t('Main.textDialogProtectedChangesTracked')
+            case Asc.c_oAscEDocProtect.Forms:
+                textWarningDialog = t('Main.textDialogProtectedFillForms')
+        }
 
         storeAppOptions.setProtection(isProtected);
         props && this.applyRestrictions(props.type);
@@ -801,8 +813,8 @@ class MainController extends Component {
 
         if(isProtected) {
             f7.dialog.create({
-                title: t('Main.notcriticalErrorTitle'),
-                text: t('Main.textDocumentProtected'),
+                title: t('Main.titleDialogProtectedDocument'),
+                text: textWarningDialog,
                 buttons: [
                     {
                         text: t('Main.textOk')
@@ -836,7 +848,7 @@ class MainController extends Component {
        
         if (!storeAppOptions || !storeAppOptions.isEdit && !storeAppOptions.isRestrictedEdit) return;
 
-        if (isUpdate || !this.state.docProtection) {
+        if (isUpdate || !this._state.docProtection) {
             const props = this.api.asc_getDocumentProtection();
             const type = props ? props.asc_getEditType() : Asc.c_oAscEDocProtect.None;
 

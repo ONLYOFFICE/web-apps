@@ -134,7 +134,8 @@ class MainPage extends Component {
         const disabledControls = storeToolbarSettings.disabledControls;
         const disabledSettings = storeToolbarSettings.disabledSettings;
         const isProtected = appOptions.isProtected;
-        const isFabShow = isViewer && !disabledSettings && !disabledControls && !isDisconnected && isAvailableExt && isEdit && !isProtected;
+        const typeProtection = appOptions.typeProtection;
+        const isFabShow = isViewer && !disabledSettings && !disabledControls && !isDisconnected && isAvailableExt && isEdit && (!isProtected || typeProtection === Asc.c_oAscEDocProtect.TrackedChanges);
         const config = appOptions.config;
 
         let showLogo = !(config.customization && (config.customization.loaderName || config.customization.loaderLogo));
