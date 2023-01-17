@@ -645,7 +645,7 @@ define([
                 cls: 'input-group-nr',
                 menuCls: 'menu-absolute',
                 menuStyle: 'min-width: 195px; max-height: 190px;',
-                editable: true,
+                editable: false,
                 data: [],
                 dataHint: '1',
                 dataHintDirection: 'bottom',
@@ -1482,7 +1482,7 @@ define([
                     }
                     this.updateDateFormats(this.cmbLang.getValue());
                     var format = datePr.get_DateFormat();
-                    this.cmbDateFormat.setValue(format);
+                    this.cmbDateFormat.setValue(format, datePr.get_String());
                     this._state.DateFormat=format;
                 }
 
@@ -1770,6 +1770,7 @@ define([
                 formDatePr.put_DateFormat(this.cmbDateFormat.getValue());
                 formDatePr.put_LangId(this.cmbLang.getValue());
                 props.put_DateTimePr(formDatePr);
+                props.put_PlaceholderText(formDatePr.get_String());
                 this.api.asc_SetContentControlProperties(props, this.internalId);
                 this.fireEvent('editcomplete', this);
             } else {
