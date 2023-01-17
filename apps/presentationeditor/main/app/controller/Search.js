@@ -177,8 +177,8 @@ define([
                         me._state.searchText = me._state.newSearchText;
                         if (!(me._state.newSearchText !== '' && me.onQuerySearch()) && me._state.newSearchText === '') {
                             me.api.asc_endFindText();
-                            me.hideResults();
                             me.view.updateResultsNumber('no-results');
+                            me.hideResults();
                             me.view.disableNavButtons();
                             me.view.disableReplaceButtons(true);
                             clearInterval(me.searchTimer);
@@ -203,6 +203,7 @@ define([
             if (!this.api.asc_findText(searchSettings, d != 'back')) {
                 this.resultItems = [];
                 this.view.updateResultsNumber(undefined, 0);
+                this.hideResults();
                 this.view.disableReplaceButtons(true);
                 this._state.currentResult = 0;
                 this._state.resultsNumber = 0;
