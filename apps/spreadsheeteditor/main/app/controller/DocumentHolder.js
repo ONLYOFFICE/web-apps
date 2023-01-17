@@ -3264,10 +3264,13 @@ define([
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
             Common.util.Shortcuts.suspendEvents(str, undefined, true);
 
+            var pasteContainer = me.documentHolder.cmpEl.find('#special-paste-container');
             me.btnSpecialPaste.menu.on('show:after', function(menu) {
                 Common.util.Shortcuts.resumeEvents(str);
+                pasteContainer.addClass('has-open-menu');
             }).on('hide:after', function(menu) {
                 Common.util.Shortcuts.suspendEvents(str, undefined, true);
+                pasteContainer.removeClass('has-open-menu');
             });
         },
 
