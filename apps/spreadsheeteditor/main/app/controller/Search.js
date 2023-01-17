@@ -341,33 +341,38 @@ define([
             var me = this;
             if (this.api.isReplaceAll) {
                 if (!found) {
-                    this.removeResultItems();
+                    this.removeResultItems('replace-all', true);
                 } else {
-                    !(found-replaced) && this.removeResultItems();
-                    Common.UI.info({
+                    !(found-replaced) && this.removeResultItems('replace-all');
+                    /*Common.UI.info({
                         msg: (!(found-replaced) || replaced > found) ? Common.Utils.String.format(this.textReplaceSuccess,replaced) : Common.Utils.String.format(this.textReplaceSkipped,found-replaced),
                         callback: function() {
                             me.view.focus();
                         }
-                    });
+                    });*/
+                    !(found - replaced) || replaced > found ?
+                        this.view.updateResultsNumber('replace-all', replaced) :
+                        this.view.updateResultsNumber('replace', [replaced, found, found-replaced]);
                 }
             } else {
                 this.onQuerySearch();
             }
         },
 
-        removeResultItems: function (type) {
+        removeResultItems: function (type, noHide) {
             this.resultItems = [];
-            this.hideResults();
-            this.view.updateResultsNumber(type, 0); // type === undefined, count === 0 -> no matches
-            this._state.currentResult = 0;
-            this._state.resultsNumber = 0;
-            this.view.disableNavButtons();
-            Common.NotificationCenter.trigger('search:updateresults', undefined, 0);
+            type !== 'replace-all' && this.view.updateResultsNumber(type, 0); // type === undefined, count === 0 -> no matches
+            if (!noHide) {
+                this.hideResults();
+                this._state.currentResult = 0;
+                this._state.resultsNumber = 0;
+                this.view.disableNavButtons();
+                Common.NotificationCenter.trigger('search:updateresults', undefined, 0);
+            }
         },
 
         onApiRemoveTextAroundSearch: function (arr) {
-            if (!this.resultItems) return;
+            if (!this.resultItems || this.resultItems && this.resultItems.length === 0) return;
             var me = this;
             arr.forEach(function (id) {
                 var ind = _.findIndex(me.resultItems, {id: id});
@@ -498,7 +503,9 @@ define([
 
         hideResults: function () {
             if (this.view) {
-                this.view.$resultsContainer.hide();
+                if (this.view.$resultsContainer.find('.many-results').length === 0) {
+                    this.view.$resultsContainer.hide();
+                }
                 this.view.$resultsContainer.find('.search-items').empty();
             }
         },

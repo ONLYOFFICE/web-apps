@@ -214,7 +214,7 @@ define([
 
             this.showSignatureMenu(record, showPoint);
 
-            menu.menuAlign = 'tl-bl';
+            menu.menuAlign = Common.UI.isRTL() ? 'tr-br' : 'tl-bl';
             menu.menuAlignEl = null;
             menu.setOffset(15, 5);
             menu.show();
@@ -241,7 +241,7 @@ define([
 
                 this.showSignatureMenu(record, showPoint);
 
-                menu.menuAlign = 'tr-br';
+                menu.menuAlign = Common.UI.isRTL() ? 'tl-bl' : 'tr-br';
                 menu.menuAlignEl = currentTarget;
                 menu.setOffset(-20, -currentTarget.height()/2 + 3);
                 menu.show();

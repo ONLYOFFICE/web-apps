@@ -212,7 +212,7 @@ define([
                 this.view.disableNavButtons();
                 return false;
             }
-            if (update && this.view.$el.is(':visible')) {
+            if (update && this.view.$el.is(':visible') && this.view.$resultsContainer.find('.many-results').length === 0) {
                 this.api.asc_StartTextAroundSearch();
             }
             this.view.disableReplaceButtons(false);
@@ -271,14 +271,14 @@ define([
                 searchSettings.put_WholeWords(this._state.matchWord);
                 this.api.asc_replaceText(searchSettings, textReplace, true);
 
-                this.removeResultItems();
+                this.removeResultItems('replace-all');
             }
         },
 
         removeResultItems: function (type) {
             this.resultItems = [];
+            type !== 'replace-all' && this.view.updateResultsNumber(type, 0); // type === undefined, count === 0 -> no matches
             this.hideResults();
-            this.view.updateResultsNumber(type, 0); // type === undefined, count === 0 -> no matches
             this.view.disableReplaceButtons(true);
             this._state.currentResult = 0;
             this._state.resultsNumber = 0;
@@ -332,13 +332,13 @@ define([
 
         onEndTextAroundSearch: function () {
             if (this.view) {
-                this._state.isStartedAddingResults = false;
                 this.view.updateScrollers();
             }
         },
 
         onApiGetTextAroundSearch: function (data) {
             if (this.view && this._state.isStartedAddingResults) {
+                this._state.isStartedAddingResults = false;
                 if (data.length > 300 || !data.length) return;
                 var me = this,
                     selectedInd;
@@ -384,8 +384,10 @@ define([
 
         hideResults: function () {
             if (this.view) {
-                this.view.$resultsContainer.hide();
-                this.view.$resultsContainer.empty();
+                if (this.view.$resultsContainer.find('.many-results').length === 0) {
+                    this.view.$resultsContainer.hide();
+                }
+                this.view.$resultsContainer.find('.item').remove();
             }
         },
 
@@ -413,7 +415,9 @@ define([
             this.hideResults();
             if (text && text !== '' && text === this._state.searchText) { // search was made
                 this.view.disableReplaceButtons(false);
-                this.api.asc_StartTextAroundSearch();
+                if (this.view.$resultsContainer.find('.many-results').length === 0) {
+                    this.api.asc_StartTextAroundSearch();
+                }
             } else if (text && text !== '') { // search wasn't made
                 this.onInputSearchChange(text);
             } else {
@@ -467,8 +471,10 @@ define([
         onApiTextReplaced: function(found, replaced) {
             if (found) {
                 !(found - replaced > 0) ?
-                    Common.UI.info( {msg: Common.Utils.String.format(this.textReplaceSuccess, replaced)} ) :
-                    Common.UI.warning( {msg: Common.Utils.String.format(this.textReplaceSkipped, found-replaced)} );
+                    /*Common.UI.info( {msg: Common.Utils.String.format(this.textReplaceSuccess, replaced)} ) :
+                    Common.UI.warning( {msg: Common.Utils.String.format(this.textReplaceSkipped, found-replaced)} );*/
+                    this.view.updateResultsNumber('replace-all', replaced) :
+                    this.view.updateResultsNumber('replace', [replaced, found, found-replaced]);
             } else {
                 Common.UI.info({msg: this.textNoTextFound});
             }

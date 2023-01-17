@@ -2355,6 +2355,9 @@ define([
             eqContainer.css({left: showPoint[0], top : showPoint[1]});
 
             var menuAlign = (me._Height - showPoint[1] - eqContainer.outerHeight() < 220) ? 'bl-tl' : 'tl-bl';
+            if (Common.UI.isRTL()) {
+                menuAlign = menuAlign === 'bl-tl' ? 'br-tr' : 'tr-br';
+            }
             me.equationBtns.forEach(function(item){
                 item && (item.menu.menuAlign = menuAlign);
             });
