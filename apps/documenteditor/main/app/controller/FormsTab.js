@@ -356,7 +356,7 @@ define([
                     allowMerge: false,
                     allowSignature: false,
                     allowProtect: false,
-                    rightMenu: {clear: disable, disable: true},
+                    rightMenu: {clear: false, disable: true},
                     statusBar: true,
                     leftMenu: {disable: false, previewMode: true},
                     fileMenu: {info: true},
