@@ -210,7 +210,7 @@ define([
                     event.dataTransfer.setDragImage(img, 0, 0);
                 } else if (Common.Utils.isIE) {
                     this.bar.selectTabs.forEach(function (tab) {
-                        tab.$el.find('span').prop('title', '');
+                        tab.$el.find('span').prop('tabtitle', '');
                     });
                 }
                 event.dataTransfer.effectAllowed = 'copyMove';
