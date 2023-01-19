@@ -201,11 +201,13 @@ define([
             } else if (type == 'combobox' || type == 'dropdown')
                 this.api.asc_AddContentControlList(type == 'combobox', oPr, oFormPr);
             else if (type == 'datetime'){
-                var props = new AscCommon.CContentControlPr();
+                var props = new AscCommon.CContentControlPr(),
+                    datePr = new AscCommon.CSdtDatePickerPr();
                 oPr = new AscCommon.CSdtTextFormPr();
                 props.put_TextFormPr(oPr);
                 props.put_FormPr(oFormPr);
-                props.put_DateTimePr(new AscCommon.CSdtDatePickerPr());
+                props.put_DateTimePr(datePr);
+                props.put_PlaceholderText(datePr.get_String());
                 this.api.asc_AddContentControlDatePicker(props);
             } else if (type == 'text') {
                 var props = new AscCommon.CContentControlPr();
@@ -354,7 +356,7 @@ define([
                     allowMerge: false,
                     allowSignature: false,
                     allowProtect: false,
-                    rightMenu: {clear: disable, disable: true},
+                    rightMenu: {clear: false, disable: true},
                     statusBar: true,
                     leftMenu: {disable: false, previewMode: true},
                     fileMenu: {info: true},
