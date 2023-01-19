@@ -27,7 +27,7 @@
       "textEditUser": "Fitxategia editatzen ari diren erabiltzaileak:",
       "textMessageDeleteComment": "Seguru iruzkin hau ezabatu nahi duzula?",
       "textMessageDeleteReply": "Seguru erantzun hau ezabatu nahi duzula?",
-      "textNoComments": "Dokumentu honetan ez dago iruzkinik",
+      "textNoComments": "Iruzkinik ez",
       "textOk": "Ados",
       "textReopen": "Berrireki",
       "textResolve": "Ebatzi",
@@ -38,7 +38,7 @@
     "ThemeColorPalette": {
       "textCustomColors": "Kolore pertsonalizatuak",
       "textStandartColors": "Kolore estandarrak",
-      "textThemeColors": "Itxuraren koloreak"
+      "textThemeColors": "Gaiaren koloreak"
     }
   },
   "ContextMenu": {
@@ -247,7 +247,7 @@
     "saveErrorText": "Errore bat gertatu da fitxategia gordetzean",
     "scriptLoadError": "Konexioa oso motela da, osagarrietako batzuk ezin izan dira kargatu. Mesedez, birkargatu orria.",
     "textCancel": "Utzi",
-    "textErrorPasswordIsNotCorrect": "Eman duzun pasahitza ez da zuzena. < br>Egiaztatu Bloq Mayus tekla desaktibatuta dagoela eta ziurtatu maiuskula zuzenak erabiltzen dituzula.",
+    "textErrorPasswordIsNotCorrect": "Emandako pasahitza ez da zuzena.<br>Egiaztatu BLOK MAIUS tekla desaktibatuta dagoela eta ziurtatu maiuskula/minuskula zuzenak erabiltzen ari zarela.",
     "textOk": "Ados",
     "unknownErrorText": "Errore ezezaguna.",
     "uploadImageExtMessage": "Irudi formatu ezezaguna.",
@@ -304,7 +304,7 @@
     "textDelete": "Ezabatu",
     "textDuplicate": "Bikoiztu",
     "textErrNameExists": "Izen hori duen kalkulu-orria badago.",
-    "textErrNameWrongChar": "Orriaren izenak ezin ditu karakete hauek izan: \\, /, *, ?, [, ], :",
+    "textErrNameWrongChar": "Orriaren izenak ezin ditu karaktere hauek eduki: \\, /, *, ?, [, ], : edo ' lehen edo azken karaktere bezala",
     "textErrNotEmpty": "Orriaren izenak ezin du hutsa egon",
     "textErrorLastSheet": " Lan liburuak gutxienez kalkulu-orri bat izan behar du ikusgai",
     "textErrorRemoveSheet": "Ezin da ezabatu kalkulu-orria",
@@ -506,7 +506,7 @@
       "textMillions": "Milioiak",
       "textMinimumValue": "Gutxieneko balioa",
       "textMinor": "Txikiagoa",
-      "textMinorType": "Mota minorra",
+      "textMinorType": "Bigarren mailako mota",
       "textMoveBackward": "Atzera eraman",
       "textMoveForward": "Aurrera eraman",
       "textNextToAxis": "Ardatzaren ondoan",
@@ -519,7 +519,7 @@
       "textOnTickMarks": "Graduazio-markak",
       "textOpacity": "Opakutasuna",
       "textOut": "Urrundu",
-      "textOuterTop": "Goran kanpoan",
+      "textOuterTop": "Goian kanpoan",
       "textOutsideBorders": "Kanpoko ertzak",
       "textOverlay": "Gainezartzea",
       "textPercentage": "Ehunekoa",

@@ -126,7 +126,7 @@ class MainPage extends Component {
         const appOptions = this.props.storeAppOptions;
         const storeDocumentInfo = this.props.storeDocumentInfo;
         const docExt = storeDocumentInfo.dataDoc ? storeDocumentInfo.dataDoc.fileType : '';
-        const isAvailableExt = docExt && docExt !== 'djvu' && docExt !== 'pdf' && docExt !== 'xps';
+        const isAvailableExt = docExt && docExt !== 'djvu' && docExt !== 'pdf' && docExt !== 'xps' && docExt !== 'oform';
         const storeToolbarSettings = this.props.storeToolbarSettings;
         const isDisconnected = this.props.users.isDisconnected;
         const isViewer = appOptions.isViewer;

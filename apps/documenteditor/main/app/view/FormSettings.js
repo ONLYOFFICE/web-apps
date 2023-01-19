@@ -645,7 +645,7 @@ define([
                 cls: 'input-group-nr',
                 menuCls: 'menu-absolute',
                 menuStyle: 'min-width: 195px; max-height: 190px;',
-                editable: true,
+                editable: false,
                 data: [],
                 dataHint: '1',
                 dataHintDirection: 'bottom',
@@ -1482,7 +1482,7 @@ define([
                     }
                     this.updateDateFormats(this.cmbLang.getValue());
                     var format = datePr.get_DateFormat();
-                    this.cmbDateFormat.setValue(format);
+                    this.cmbDateFormat.setValue(format, datePr.get_String());
                     this._state.DateFormat=format;
                 }
 
@@ -1534,7 +1534,7 @@ define([
                             checkable: true
                         }), {caption: '--'}],
                     menu        : true,
-                    colors: ['FEF8E5', 'FFEFBF', 'E2EFD8', 'C6E0B3', 'EDEDED', 'DBDBDB', 'CDD6E4', 'A2B2CA', '800000', 'FF6600', 'F2F2F2', 'D9D9D9', 'DDEBF6', 'C2DDF2', 'FBECE2',
+                    colors: ['FEF8E5', 'FFEFBF', 'E2EFD8', 'C6E0B3', 'EDEDED', 'DBDBDB', 'CDD6E4', 'A2B2CA', 'F2F2F2', 'D9D9D9', 'DDEBF6', 'C2DDF2', 'FBECE2',
                             'F7D9C6', 'D6E3EE', 'B9CAE7', 'F2DADA', 'F2C2C2', 'F0DDF6', 'E5C2F2', 'E6FBD6', 'CDF7AC', 'EED6D6', 'E7B9B9', 'CCE1FF', '9AC4FF', 'E4CDDB', 'D9ADC7'],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -1770,6 +1770,7 @@ define([
                 formDatePr.put_DateFormat(this.cmbDateFormat.getValue());
                 formDatePr.put_LangId(this.cmbLang.getValue());
                 props.put_DateTimePr(formDatePr);
+                props.put_PlaceholderText(formDatePr.get_String());
                 this.api.asc_SetContentControlProperties(props, this.internalId);
                 this.fireEvent('editcomplete', this);
             } else {

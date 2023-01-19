@@ -236,6 +236,9 @@ class MainController extends Component {
 
                 const appOptions = this.props.storeAppOptions;
                 const appSettings = this.props.storeApplicationSettings;
+                const storeDocumentInfo = this.props.storeDocumentInfo;
+                const dataDoc = storeDocumentInfo.dataDoc;
+                const isExtRestriction = dataDoc.fileType !== 'oform';
 
                 f7.emit('resize');
 
@@ -268,7 +271,7 @@ class MainController extends Component {
 
                 value = LocalStorage.getBool('mobile-view', true);
 
-                if(value) {
+                if(value && isExtRestriction) {
                     this.api.ChangeReaderMode();
                 } else {
                     appOptions.changeMobileView();

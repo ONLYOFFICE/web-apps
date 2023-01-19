@@ -136,10 +136,15 @@ define([
             });
             this.btnViewFormRoles && this.btnViewFormRoles.on('click', function (b, e) {
                 var item = b.menu.getChecked();
-                me.fireEvent('forms:mode', [b.pressed, item ? item.caption : undefined]);
+                if (item) {
+                    item = item.caption;
+                } else if (me._state.roles && me._state.roles.length>0) {
+                    item = me._state.roles[0].asc_getSettings().asc_getName();
+                }
+                me.fireEvent('forms:mode', [b.pressed, item]);
             });
-            this.btnViewFormRoles.menu.on('item:toggle', _.bind(function (menu, item, state) {
-                if (!!state) {
+            this.btnViewFormRoles.menu.on('item:click', _.bind(function (menu, item) {
+                if (!!item.checked) {
                     me.btnViewFormRoles.toggle(true, true);
                     me.fireEvent('forms:mode', [true, item.caption]);
                 }
