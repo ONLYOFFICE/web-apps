@@ -211,7 +211,9 @@ define([
                     if ( !Common.Utils.isIE ) {
                         if ( /^https?:\/\//.test('{{HELP_CENTER_WEB_DE}}') ) {
                             const _url_obj = new URL('{{HELP_CENTER_WEB_DE}}');
-                            _url_obj.searchParams.set('lang', Common.Locale.getCurrentLanguage());
+                            if ( !!_url_obj.searchParams )
+                                _url_obj.searchParams.set('lang', Common.Locale.getCurrentLanguage());
+
                             Common.Utils.InternalSettings.set("url-help-center", _url_obj.toString());
                         }
                     }
