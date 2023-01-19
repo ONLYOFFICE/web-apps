@@ -1127,7 +1127,7 @@ define([
                     parentEl: $('#id-document-holder-btn-special-paste'),
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-paste',
-                    caption     : Common.Utils.String.platformKey('Ctrl', '({0})'),
+                    caption     : Common.Utils.String.format('({0})', Common.Utils.String.textCtrl),
                     menu        : new Common.UI.Menu({items: []})
                 });
                 me.initSpecialPasteEvents();
