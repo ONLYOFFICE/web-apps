@@ -579,7 +579,8 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 { value: Asc.c_oAscNumFormatType.Scientific,format: this.ascFormatOptions.Scientific,  displayValue: this.txtScientific,   exampleval: '1,00E+02' },
                 { value: Asc.c_oAscNumFormatType.Accounting,format: this.ascFormatOptions.Accounting,  displayValue: this.txtAccounting,   exampleval: '100,00 $' },
                 { value: Asc.c_oAscNumFormatType.Currency,  format: this.ascFormatOptions.Currency,    displayValue: this.txtCurrency,     exampleval: '100,00 $' },
-                { value: Asc.c_oAscNumFormatType.Date,      format: 'MM-dd-yyyy',                      displayValue: this.txtDate,         exampleval: '04-09-1900' },
+                { value: Asc.c_oAscNumFormatType.Date,      format: 'MM-dd-yyyy',                      displayValue: this.txtDateShort,    exampleval: '04-09-1900' },
+                { value: Asc.c_oAscNumFormatType.Date,      format: 'MMMM d yyyy',                     displayValue: this.txtDateLong,     exampleval: 'April-09-1900' },
                 { value: Asc.c_oAscNumFormatType.Time,      format: 'HH:MM:ss',                        displayValue: this.txtTime,         exampleval: '00:00:00' },
                 { value: Asc.c_oAscNumFormatType.Percent,   format: this.ascFormatOptions.Percentage,  displayValue: this.txtPercentage,   exampleval: '100,00%' },
                 { value: Asc.c_oAscNumFormatType.Fraction,  format: this.ascFormatOptions.Fraction,    displayValue: this.txtFraction,     exampleval: '100' },
@@ -620,8 +621,9 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 data        : this.numFormatData,
                 takeFocusOnClose: true
             });
-            this.cmbNumberFormat.setValue(Asc.c_oAscNumFormatType.General);
+            this.cmbNumberFormat.setRawValue(this.numFormatData[Asc.c_oAscNumFormatType.General].displayValue);
             this.cmbNumberFormat.on('selected', _.bind(this.onNumberFormatSelect, this));
+            this.cmbNumberFormat.on('show:before', _.bind(this.onNumberFormatShowBefore, this));
             Common.UI.FocusManager.add(this, this.cmbNumberFormat);
 
             this.btnClear = new Common.UI.Button({
@@ -1313,7 +1315,13 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 color = this.setColor(xfs.asc_getFillColor(), this.btnFillColor, this.mnuFillColorPicker);
 
                 var val = xfs.asc_getNumFormatInfo();
-                val && this.cmbNumberFormat.setValue(val.asc_getType(), this.textCustom);
+                if (val) {
+                    val = val.asc_getType();
+                    var indexNFD = val + (val > Asc.c_oAscNumFormatType.Date)|0;
+                    this.cmbNumberFormat.setRawValue(
+                        (val === Asc.c_oAscNumFormatType.Date) ? this.txtDate : this.numFormatData[indexNFD].displayValue
+                    );
+                }
             }
         },
 
@@ -1738,6 +1746,13 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             !this.xfsFormat && (this.xfsFormat = new Asc.asc_CellXfs());
             this.xfsFormat.asc_setNumFormatInfo(record.format);
             this.previewFormat();
+            this.cmbNumberFormat.setRawValue(
+                (record.value === Asc.c_oAscNumFormatType.Date) ? this.txtDate : record.displayValue);
+        },
+
+        onNumberFormatShowBefore: function (){
+            var rec = $('.selected', $(this.cmbNumberFormat.el));
+            rec && rec.removeClass('selected');;
         },
 
         previewFormat: function() {
@@ -2179,6 +2194,8 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
         txtCurrency:        'Currency',
         txtAccounting:      'Accounting',
         txtDate:            'Date',
+        txtDateShort:       'Short Date',
+        txtDateLong:        'Long Date',
         txtTime:            'Time',
         txtPercentage:      'Percentage',
         txtFraction:        'Fraction',
