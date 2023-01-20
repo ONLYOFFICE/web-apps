@@ -784,7 +784,7 @@ define([
             this.cmbGradType = new Common.UI.ComboBox({
                 el: $('#slide-combo-grad-type'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 90px;',
+                menuStyle: 'min-width: 100%;',
                 editable: false,
                 data: this._arrGradType,
                 dataHint: '1',
