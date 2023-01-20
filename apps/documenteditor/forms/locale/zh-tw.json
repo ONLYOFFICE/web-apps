@@ -86,7 +86,7 @@
   "DE.Controllers.ApplicationController.criticalErrorTitle": "錯誤",
   "DE.Controllers.ApplicationController.downloadErrorText": "下載失敗",
   "DE.Controllers.ApplicationController.downloadTextText": "文件下載中...",
-  "DE.Controllers.ApplicationController.errorAccessDeny": "您嘗試進行未被授權的動作<br> 請聯繫您的文件主機(Document Server)的管理者。",
+  "DE.Controllers.ApplicationController.errorAccessDeny": "您嘗試進行未被授權的動作。<br> 請聯繫您的文件主機(Document Server)的管理者。",
   "DE.Controllers.ApplicationController.errorBadImageUrl": "不正確的圖像 URL",
   "DE.Controllers.ApplicationController.errorConnectToServer": "無法儲存該文檔。請檢查連接設置或與管理員聯繫。<br>單擊“確定”按鈕時，系統將提示您下載文檔。",
   "DE.Controllers.ApplicationController.errorDataEncrypted": "已收到加密的更改，無法解密。",
