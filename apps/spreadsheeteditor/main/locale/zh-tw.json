@@ -696,7 +696,7 @@
   "SSE.Controllers.Main.downloadTextText": "下載電子表格中...",
   "SSE.Controllers.Main.downloadTitleText": "下載電子表格中",
   "SSE.Controllers.Main.errNoDuplicates": "找不到重複的值。",
-  "SSE.Controllers.Main.errorAccessDeny": "您嘗試進行未被授權的動作<br> 請聯繫您的文件伺服器主機的管理者。",
+  "SSE.Controllers.Main.errorAccessDeny": "您嘗試進行未被授權的動作。<br> 請聯繫您的文件伺服器主機的管理者。",
   "SSE.Controllers.Main.errorArgsRange": "輸入的公式中有錯誤。<br>使用了錯誤的參數範圍。",
   "SSE.Controllers.Main.errorAutoFilterChange": "不允許執行此操作，因為它試圖移動工作表中表格中的單元格。",
   "SSE.Controllers.Main.errorAutoFilterChangeFormatTable": "無法移動表格的一部分，因此無法對所選單元格執行該操作。<br>選擇另一個數據范圍，以使整個表格移動，然後重試。",

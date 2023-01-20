@@ -632,7 +632,7 @@
   "PE.Controllers.Main.downloadErrorText": "下載失敗",
   "PE.Controllers.Main.downloadTextText": "下載簡報中...",
   "PE.Controllers.Main.downloadTitleText": "下載簡報中",
-  "PE.Controllers.Main.errorAccessDeny": "您嘗試進行未被授權的動作<br> 請聯繫您的文件伺服器主機的管理者。",
+  "PE.Controllers.Main.errorAccessDeny": "您嘗試進行未被授權的動作。<br> 請聯繫您的文件伺服器主機的管理者。",
   "PE.Controllers.Main.errorBadImageUrl": "不正確的圖像 URL",
   "PE.Controllers.Main.errorCoAuthoringDisconnect": "服務器連接丟失。該文檔目前無法編輯。",
   "PE.Controllers.Main.errorComboSeries": "新增組合圖表需選兩個以上的數據系列。",
