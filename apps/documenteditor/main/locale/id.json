@@ -835,6 +835,7 @@
   "DE.Controllers.Main.textRequestMacros": "Sebuah makro melakukan permintaan ke URL. Apakah Anda akan mengizinkan permintaan ini ke %1?",
   "DE.Controllers.Main.textShape": "Bentuk",
   "DE.Controllers.Main.textStrict": "Mode strict",
+  "DE.Controllers.Main.textText": "Teks",
   "DE.Controllers.Main.textTryQuickPrint": "Anda telah memilih Cetak cepat: seluruh dokumen akan dicetak pada printer yang terakhir dipilih atau baku.<br>Apakah Anda hendak melanjutkan?",
   "DE.Controllers.Main.textTryUndoRedo": "Fungsi Undo/Redo dinonaktifkan untuk mode Co-editing Cepat.<br>Klik tombol 'Mode strict' untuk mengganti ke Mode Strict Co-editing untuk edit file tanpa gangguan dari user lain dan kirim perubahan Anda hanya setelah Anda menyimpannya. Anda bisa mengganti mode co-editing menggunakan editor di pengaturan lanjut.",
   "DE.Controllers.Main.textTryUndoRedoWarn": "Fungsi Undo/Redo dinonaktifkan untuk mode Co-editing Cepat.",

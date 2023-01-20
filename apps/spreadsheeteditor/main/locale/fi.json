@@ -300,6 +300,7 @@
   "SSE.Controllers.Main.textPleaseWait": "Toiminto voi kestää odotettua kauemmin. Ole hyvä ja odota....",
   "SSE.Controllers.Main.textShape": "Muoto",
   "SSE.Controllers.Main.textStrict": "Ehdoton tila",
+  "SSE.Controllers.Main.textText": "Teksti",
   "SSE.Controllers.Main.textTryUndoRedo": "Peruutus/tee uudelleen -toiminnot eivät ole käytössä yhteismuokkauksen pikatilassa.<br>Klikkaa \"Ehdoton\" tilan painiketta, jotta voit vaihtaa ehdottomaan yhteismuokkauksen tilaan tai muokata tiedostoa ilman että muut käyttäjät häiritsevät sitä. Tässä tilassa lähetät muutokset vain kun olet tallentanut ne. Voit vaihdella yhteismuokkauksen tilojen välillä editorin Laajennetuissa asetuksissa.",
   "SSE.Controllers.Main.textYes": "Kyllä",
   "SSE.Controllers.Main.titleLicenseExp": "Lisenssi erääntynyt",

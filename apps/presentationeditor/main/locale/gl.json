@@ -703,6 +703,7 @@
   "PE.Controllers.Main.textRequestMacros": "Unha macro fai unha petición á URL. Quere permitirlla a %1?",
   "PE.Controllers.Main.textShape": "Forma",
   "PE.Controllers.Main.textStrict": "Modo estrito",
+  "PE.Controllers.Main.textText": "Тexto",
   "PE.Controllers.Main.textTryUndoRedo": "As funcións Desfacer / Refacer están desactivadas para o modo de coedición rápida. <br> Faga clic no botón \"Modo estrito\" para cambiar ao modo de coedición estricto para editar o ficheiro sen interferencias doutros usuarios e enviar os seus cambios só despois de gardalos. eles. Pode cambiar entre os modos de coedición usando o editor Configuración avanzada.",
   "PE.Controllers.Main.textTryUndoRedoWarn": "As funcións Desfacer/Refacer están activadas para o modo de coedición rápido.",
   "PE.Controllers.Main.titleLicenseExp": "A licenza expirou",

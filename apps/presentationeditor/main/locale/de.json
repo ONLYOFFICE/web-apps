@@ -903,6 +903,7 @@
   "PE.Controllers.Main.textRequestMacros": "Ein Makro stellt eine Anfrage an die URL. Möchten Sie die Anfrage an die %1 zulassen?",
   "PE.Controllers.Main.textShape": "Form",
   "PE.Controllers.Main.textStrict": "Formaler Modus",
+  "PE.Controllers.Main.textText": "Text",
   "PE.Controllers.Main.textTryQuickPrint": "Sie haben Schnelldruck gewählt: Das gesamte Dokument wird auf dem zuletzt gewählten oder dem Standarddrucker gedruckt.<br>Sollen Sie fortfahren?",
   "PE.Controllers.Main.textTryUndoRedo": "Undo/Redo Optionen sind  für den halbformalen Zusammenbearbeitungsmodus deaktiviert.<br>Klicken Sie auf den Button \"Formaler Modus\", um den formalen Zusammenbearbeitungsmodus zu aktivieren, um die Datei, ohne Störungen anderer Benutzer zu bearbeiten und die Änderungen erst nachdem Sie sie gespeichert haben, zu senden. Sie können zwischen den Zusammenbearbeitungsmodi mit der Hilfe der erweiterten Einstellungen von Editor umschalten.",
   "PE.Controllers.Main.textTryUndoRedoWarn": "Die Optionen Rückgängig/Wiederholen sind für den halbformalen Zusammenbearbeitungsmodus deaktiviert.",

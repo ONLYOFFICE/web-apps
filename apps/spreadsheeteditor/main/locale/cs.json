@@ -839,6 +839,7 @@
   "SSE.Controllers.Main.textRequestMacros": "Makro vytváří požadavek na URL. Chcete povolit požadavek k přístupu na %1?",
   "SSE.Controllers.Main.textShape": "Obrazec",
   "SSE.Controllers.Main.textStrict": "Statický režim",
+  "SSE.Controllers.Main.textText": "Text",
   "SSE.Controllers.Main.textTryUndoRedo": "Funkce zpět/znovu nejsou v režimu rychlé spolupráce na úpravách k dispozici.<br>Kliknutím na tlačítko „Striktní režim“ přejdete do striktního režimu spolupráce na úpravách, ve kterém soubor upravujte bez vyrušování ostatními uživateli a vámi provedené změny odesíláte pouze po jejich uložení. Mezi oběma režimy spolupráce na úpravách je možné přepínat v pokročilých nastaveních editoru.",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "Funkce Zpět/Znovu jsou vypnuty pro rychlý režim spolupráce.",
   "SSE.Controllers.Main.textYes": "Ano",

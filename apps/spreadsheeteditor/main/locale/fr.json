@@ -1032,6 +1032,7 @@
   "SSE.Controllers.Main.textRequestMacros": "Une macro fait une demande à l'URL. Voulez-vous autoriser la demande à l'adresse %1 ?",
   "SSE.Controllers.Main.textShape": "Forme",
   "SSE.Controllers.Main.textStrict": "Mode strict",
+  "SSE.Controllers.Main.textText": "Texte",
   "SSE.Controllers.Main.textTryQuickPrint": "Vous avez sélectionné Impression rapide : l'ensemble du document sera imprimé sur la dernière imprimante sélectionnée ou celle par défaut.<br>Voulez-vous continuer ?",
   "SSE.Controllers.Main.textTryUndoRedo": "Les fonctions annuler/rétablir sont désactivées pour en mode \"co-édition rapide\".<br>Cliquez sur le bouton \"Mode strict\" pour changer de mode et pouvoir modifier le fichier sans interférence avec d'autres utilisateurs puis envoyer vos modifications seulement après l'enregistrement. Vous pouvez basculer entre les différents modes de \"co-édition\" à l'aide via les paramètres avancés de l'éditeur.",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "Les fonctions Annuler/Rétablir sont désactivées pour le mode de co-édition rapide.",

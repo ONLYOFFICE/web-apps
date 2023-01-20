@@ -644,6 +644,7 @@
   "DE.Controllers.Main.textRequestMacros": "Unha macro fai unha petición á URL. Quere permitirlla a %1?",
   "DE.Controllers.Main.textShape": "Forma",
   "DE.Controllers.Main.textStrict": "Modo estrito",
+  "DE.Controllers.Main.textText": "Тexto",
   "DE.Controllers.Main.textTryUndoRedo": "As funcións Desfacer / Refacer están desactivadas para o modo de coedición rápida. <br> Faga clic no botón \"Modo estrito\" para cambiar ao modo de coedición estricto para editar o ficheiro sen interferencias doutros usuarios e enviar os seus cambios só despois de gardalos. eles. Pode cambiar entre os modos de coedición usando o editor Configuración avanzada.",
   "DE.Controllers.Main.textTryUndoRedoWarn": "As funcións Desfacer/Refacer están activadas para o modo de coedición rápido.",
   "DE.Controllers.Main.titleLicenseExp": "A licenza expirou",

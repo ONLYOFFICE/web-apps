@@ -338,6 +338,7 @@
   "DE.Controllers.Main.textNoLicenseTitle": "ONLYOFFICE avoimen lähdekoodin versio",
   "DE.Controllers.Main.textShape": "Muoto",
   "DE.Controllers.Main.textStrict": "Ehdoton tila",
+  "DE.Controllers.Main.textText": "Teksti",
   "DE.Controllers.Main.textTryUndoRedo": "Peruutus/tee uudelleen -toiminnot eivät ole käytössä yhteismuokkauksen pikatilassa.<br>Klikkaa \"Ehdoton\" tilan painiketta, jotta voit vaihtaa ehdottomaan yhteismuokkauksen tilaan tai muokata tiedostoa ilman että muut käyttäjät häiritsevät sitä. Tässä tilassa lähetät muutokset vain kun olet tallentanut ne. Voit vaihdella yhteismuokkauksen tilojen välillä editorin Laajennetuissa asetuksissa.",
   "DE.Controllers.Main.titleLicenseExp": "Lisenssi erääntynyt",
   "DE.Controllers.Main.titleUpdateVersion": "Versio muutettu",

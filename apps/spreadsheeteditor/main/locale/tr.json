@@ -780,6 +780,7 @@
   "SSE.Controllers.Main.textRenameLabel": "İşbirliği için kullanılacak bir ad girin",
   "SSE.Controllers.Main.textShape": "Şekil",
   "SSE.Controllers.Main.textStrict": "Strict mode",
+  "SSE.Controllers.Main.textText": "Metin",
   "SSE.Controllers.Main.textTryUndoRedo": "Geri al/Yinele fonksiyonları hızlı ortak çalışma modunda devre dışı kalır.<br>'Katı mod' tuşuna tıklayarak Katı ortak düzenleme moduna geçebilir ve diğer kullanıcıların müdehalesi olmadan, yalnızca siz belgeyi kaydettikten sonra değişiklik yapılmasını sağlayabilirsiniz. Ortak çalışma moduna tekrar dönmek için Gelişmiş ayarları kullanabilirsiniz.",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "Hızlı ortak düzenleme modunda geri al/yinele fonksiyonları devre dışıdır.",
   "SSE.Controllers.Main.textYes": "Evet",

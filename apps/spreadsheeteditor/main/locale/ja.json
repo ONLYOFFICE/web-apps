@@ -1025,6 +1025,7 @@
   "SSE.Controllers.Main.textRequestMacros": "マクロがURLに対してリクエストを行います。%1へのリクエストを許可しますか？",
   "SSE.Controllers.Main.textShape": "図形",
   "SSE.Controllers.Main.textStrict": "厳密なモード",
+  "SSE.Controllers.Main.textText": "テキスト",
   "SSE.Controllers.Main.textTryQuickPrint": "クイックプリントが選択されています。ドキュメント全体が、最後に選択したプリンタまたはデフォルトのプリンタで印刷されます。<br>続行しますか?",
   "SSE.Controllers.Main.textTryUndoRedo": "即時反映共同編集モードでは元に戻す/やり直しの機能は無効になります。<br>他のユーザーの干渉なし編集するために「厳密モード」をクリックして、厳密な共同編集モードに切り替えてください。保存した後にのみ、変更を送信してください。編集の詳細設定を使用して共同編集モードを切り替えることができます。",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "即時反映の共同編集モードでは、元に戻す/やり直し機能が無効になります。",

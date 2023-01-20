@@ -654,6 +654,7 @@
   "DE.Controllers.Main.textRequestMacros": "En makro foretager en anmodning til URL. Vil du tillade anmodningen til %1?",
   "DE.Controllers.Main.textShape": "Form",
   "DE.Controllers.Main.textStrict": "Striks tilstand",
+  "DE.Controllers.Main.textText": "Tekst",
   "DE.Controllers.Main.textTryUndoRedo": "Fortryd funktionen er blevet slået fra i den hurtige co-redigerngstilstand.<b>Tryk på 'Striks tilstand' knappen for at skifte til den strikse co-redigeringstilstand for at redigere filen uden at andre brugere kan foretage ændringer før efter du har gemt dem. Du kan skifte i mellem co-redigeringstilstanden ved at bruge de avancerede indstillinger.  ",
   "DE.Controllers.Main.textTryUndoRedoWarn": "Fortryd/omgør-funktionen er deaktiveret for hurtig medredigeringstilstand.",
   "DE.Controllers.Main.titleLicenseExp": "Licens er udløbet",
