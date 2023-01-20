@@ -1037,6 +1037,7 @@
   "SSE.Controllers.Main.textTryUndoRedoWarn": "The Undo/Redo functions are disabled for the Fast co-editing mode.",
   "SSE.Controllers.Main.textUndo": "Undo",
   "SSE.Controllers.Main.textYes": "Yes",
+  "SSE.Controllers.Main.textText": "Text",
   "SSE.Controllers.Main.titleLicenseExp": "License expired",
   "SSE.Controllers.Main.titleServerVersion": "Editor updated",
   "SSE.Controllers.Main.txtAccent": "Accent",
