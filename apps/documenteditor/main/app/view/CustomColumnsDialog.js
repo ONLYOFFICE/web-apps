@@ -124,6 +124,7 @@ define([
             this.columnsList = new Common.UI.ListView({
                 el: $('#custom-columns-list', this.$window),
                 store: new Common.UI.DataViewStore(),
+                showLast: false,
                 handleSelect: false,
                 tabindex: 1,
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
@@ -139,13 +140,12 @@ define([
             });
 
             this.columnsList.on('item:add', _.bind(this.addControls, this));
-            this.columnsList.on('item:change', _.bind(this.onItemChange, this));
 
             this.chEqualWidth = new Common.UI.CheckBox({
                 el: $('#custom-columns-equal-width'),
                 labelText: this.textEqualWidth
             }).on('change', function(item, newValue, oldValue) {
-                me.lockForEqualColumns(newValue == 'checked');
+                me.lockSpinsForEqualColumns(newValue == 'checked');
                 if(newValue == 'checked') {
                     me.setEqualWidthColumns();
                 }
@@ -164,12 +164,8 @@ define([
             this.getChild().find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
         },
 
-        onItemChange: function(listView, itemView, record) {
-            
-        },
-
         getFocusedComponents: function() {
-            return [this.spnColumns, this.columnsList, this.chEqualWidth, this.chSeparator];
+            return [this.spnColumns, this.chEqualWidth, this.chSeparator];
         },
 
         getDefaultFocusableComponent: function () {
@@ -202,7 +198,7 @@ define([
 
                 this.totalWidth = total;
                 this.spnColumns.setValue(num, true);
-                
+
                 for(var i = 0; i < num; i++) {
                     if(!equal) {
                         var currentCol = props.get_Col(i);
@@ -210,6 +206,9 @@ define([
                             width: currentCol.get_W(),
                             spacing: currentCol.get_Space(),
                         });
+
+                        if(currentCol.get_W() < this.minWidthCol)
+                            this.minWidthCol = currentCol.get_W();
                     }
                     else {
                         var calcWidth = this.calcWidthForEqualColumns(num, props.get_Space());
@@ -253,6 +252,7 @@ define([
             for (var i = 0; i < num; i++) {
                 arrItems.push({
                     index: i,
+                    allowSelected: false,
                     width: arrColumnObj[i].width,
                     spacing: i != num - 1 ? arrColumnObj[i].spacing : 0,
                     widthSpin: null,
@@ -275,7 +275,7 @@ define([
             this.spnColumns.setMaxValue(maxColumns);
         },
 
-        lockForEqualColumns: function(bool) {
+        lockSpinsForEqualColumns: function(bool) {
             var num = this.columnsList.store.length; 
             this.columnsList.store.each(function(col, index) {
                 col.get('widthSpin').setDisabled(bool);
@@ -364,14 +364,14 @@ define([
                 el: $('#custom-columns-list-item-spin-width-' + index),
                 step: Common.Utils.Metric.getCurrentMetric() == Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1,
                 width: 105,
+                tabindex: 1,
                 defaultUnit : metricName,
                 value: Common.Utils.Metric.fnRecalcFromMM(item.get('width')).toFixed(2) + ' ' + metricName,
                 maxValue: 120,
                 minValue: Common.Utils.Metric.fnRecalcFromMM(me.minWidthCol).toFixed(2),
                 disabled: isEqualWidth || (index == 0 && isLastItem),
-                hold: false
             }).on('change', function(field, newValue, oldValue, eOpts) {
-                var difference = Common.Utils.Metric.fnRecalcToMM(parseFloat(newValue) - parseFloat(oldValue)),
+                var difference = Common.Utils.Metric.fnRecalcToMM(parseFloat(newValue)) - item.get('width').toFixed(2),
                     nextItem = me.columnsList.store.at(isLastItem ? 0 : index + 1),
                     previosItem = me.columnsList.store.at(index == 0 ? me.columnsList.store.length - 1 : index - 1),
                     newWidthNextItem = nextItem.get('width') - difference;
@@ -388,14 +388,14 @@ define([
                 el: $('#custom-columns-list-item-spin-spacing-' + index),
                 step: Common.Utils.Metric.getCurrentMetric() == Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1,
                 width: 105,
+                tabindex: 1,
                 defaultUnit : metricName,
                 value: !isLastItem ? Common.Utils.Metric.fnRecalcFromMM(item.get('spacing')).toFixed(2) + ' ' + metricName : '',
                 maxValue: 120,
                 minValue: 0,
                 disabled: (isEqualWidth && index != 0) || isLastItem,
-                hold: false
             }).on('change', function(field, newValue, oldValue, eOpts) {
-                var difference = Common.Utils.Metric.fnRecalcToMM(parseFloat(newValue) - parseFloat(oldValue));
+                var difference = Common.Utils.Metric.fnRecalcToMM(parseFloat(newValue)) - item.get('spacing').toFixed(2);
 
                 item.set('spacing', item.get('spacing') + difference, {silent: true});
                 
