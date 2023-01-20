@@ -3891,7 +3891,6 @@
   "SSE.Views.ValueFieldSettingsDialog.txtPercent": "のパーセント",
   "SSE.Views.ValueFieldSettingsDialog.txtPercentDiff": "基準値に対する比率の差",
   "SSE.Views.ValueFieldSettingsDialog.txtPercentOfCol": "列のパーセント",
-  "SSE.Views.ValueFieldSettingsDialog.txtPercentOfRow": "合計のパーセント",
   "SSE.Views.ValueFieldSettingsDialog.txtPercentOfTotal": "行のパーセント",
   "SSE.Views.ValueFieldSettingsDialog.txtProduct": "乗積",
   "SSE.Views.ValueFieldSettingsDialog.txtRunTotal": "累計",

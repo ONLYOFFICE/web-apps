@@ -3532,7 +3532,6 @@
   "SSE.Views.ValueFieldSettingsDialog.txtPercent": "백분율",
   "SSE.Views.ValueFieldSettingsDialog.txtPercentDiff": "%의 차이",
   "SSE.Views.ValueFieldSettingsDialog.txtPercentOfCol": "열 백분율",
-  "SSE.Views.ValueFieldSettingsDialog.txtPercentOfRow": "전체 백분율",
   "SSE.Views.ValueFieldSettingsDialog.txtPercentOfTotal": "행 백분율",
   "SSE.Views.ValueFieldSettingsDialog.txtProduct": "제품",
   "SSE.Views.ValueFieldSettingsDialog.txtRunTotal": "총실행",
