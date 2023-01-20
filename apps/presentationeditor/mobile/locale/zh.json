@@ -71,7 +71,7 @@
       "advDRMPassword": "密码",
       "closeButtonText": "关闭文件",
       "criticalErrorTitle": "错误",
-      "errorAccessDeny": "你正要执行一个你没有权限的操作<br>恳请你联系你的管理员。",
+      "errorAccessDeny": "你正要执行一个你没有权限的操作。<br>恳请你联系你的管理员。",
       "errorOpensource": "在使用免费社区版本的情况下，您只能查看打开的文件。要想使用移动网上编辑器功能，您需要持有付费许可证。",
       "errorProcessSaveResult": "保存失败",
       "errorServerVersion": "编辑器版本已完成更新。为应用这些更改，该页将要刷新。",
