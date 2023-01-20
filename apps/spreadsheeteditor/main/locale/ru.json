@@ -1037,6 +1037,7 @@
   "SSE.Controllers.Main.textTryUndoRedoWarn": "Функции отмены и повтора действий отключены в Быстром режиме совместного редактирования.",
   "SSE.Controllers.Main.textUndo": "Отменить",
   "SSE.Controllers.Main.textYes": "Да",
+  "SSE.Controllers.Main.textText": "Текст",
   "SSE.Controllers.Main.titleLicenseExp": "Истек срок действия лицензии",
   "SSE.Controllers.Main.titleServerVersion": "Редактор обновлен",
   "SSE.Controllers.Main.txtAccent": "Акцент",
