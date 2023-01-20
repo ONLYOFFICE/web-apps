@@ -605,6 +605,7 @@
   "DE.Controllers.Main.textRenameLabel": "Əməkdaşlıq üçün istifadə ediləcək ad daxil edin",
   "DE.Controllers.Main.textShape": "Forma",
   "DE.Controllers.Main.textStrict": "Ciddi rejim",
+  "DE.Controllers.Main.textText": "Mətn",
   "DE.Controllers.Main.textTryUndoRedo": "Geri Al / Təkrar funksiyaları sürətli birgə redaktə rejimi üçün qeyri-aktiv edilib. <br> Digər istifadəçilərin müdaxiləsi olmadan faylı redaktə etmək və fayllarınızı göndərmək üçün ciddi birgə redaktə rejiminə keçmək üçün \"Ciddi rejim\" düyməsini klikləyin. dəyişikliklər yalnız siz saxladıqdan sonra baş verir. onlar. Qabaqcıl redaktor parametrlərindən istifadə edərək birgə müəlliflik rejimləri arasında keçid edə bilərsiniz.",
   "DE.Controllers.Main.textTryUndoRedoWarn": "Qaytar/Təkrarla funksiyaları Sürətli birgə redaktə rejimi üçün qeyri-aktiv edilib.",
   "DE.Controllers.Main.titleLicenseExp": "Lisenziyanın müddəti bitdi",

@@ -817,6 +817,7 @@
   "SSE.Controllers.Main.textRenameLabel": "Wpisz nazwę, która ma być używana do współpracy",
   "SSE.Controllers.Main.textShape": "Kształt",
   "SSE.Controllers.Main.textStrict": "Tryb ścisły",
+  "SSE.Controllers.Main.textText": "Tekst",
   "SSE.Controllers.Main.textTryUndoRedo": "Funkcje Cofnij/Ponów są wyłączone w trybie \"Szybki\" współtworzenia.<br>Kliknij przycisk \"Tryb ścisły\", aby przejść do trybu ścisłego edytowania, aby edytować plik bez ingerencji innych użytkowników i wysyłać zmiany tylko po zapisaniu. Możesz przełączać się między trybami współtworzenia, używając edytora Ustawienia zaawansowane.",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "Funkcje Cofnij/Ponów są wyłączone w trybie Szybkim współtworzenia.",
   "SSE.Controllers.Main.textYes": "Tak",

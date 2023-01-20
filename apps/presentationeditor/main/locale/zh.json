@@ -896,6 +896,7 @@
   "PE.Controllers.Main.textRequestMacros": "宏发起一个请求至URL。你是否允许请求到％1？",
   "PE.Controllers.Main.textShape": "形状",
   "PE.Controllers.Main.textStrict": "手动模式",
+  "PE.Controllers.Main.textText": "文本",
   "PE.Controllers.Main.textTryUndoRedo": "对于自动的协同编辑模式，取消/重做功能是禁用的。< br >单击“手动模式”按钮切换到手动协同编辑模式，这样，编辑该文件时只有您保存修改之后，其他用户才能访问这些修改。您可以使用编辑器高级设置易于切换编辑模式。",
   "PE.Controllers.Main.textTryUndoRedoWarn": "自动共同编辑模式下，撤销/重做功能被禁用。",
   "PE.Controllers.Main.textUndo": "撤消",

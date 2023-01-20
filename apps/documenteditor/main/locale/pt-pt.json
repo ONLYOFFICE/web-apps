@@ -669,6 +669,7 @@
   "DE.Controllers.Main.textRequestMacros": "Uma macro faz um pedido de URL. Quer permitir o pedido à %1?",
   "DE.Controllers.Main.textShape": "Forma",
   "DE.Controllers.Main.textStrict": "Modo estrito",
+  "DE.Controllers.Main.textText": "Texto",
   "DE.Controllers.Main.textTryUndoRedo": "As funções Desfazer/Refazer foram desativadas para se poder co-editar o documento.<br>Clique no botão 'Modo estrito' para ativar este modo de edição e editar o ficheiro sem ser incomodado por outros utilizadores enviando apenas as suas alterações assim que terminar e guardar. Pode alternar entre modos de co-edição através das definições avançadas.",
   "DE.Controllers.Main.textTryUndoRedoWarn": "As funções Desfazer/Refazer estão desativadas no modo de co-edição rápida.",
   "DE.Controllers.Main.textUndo": "Desfazer",

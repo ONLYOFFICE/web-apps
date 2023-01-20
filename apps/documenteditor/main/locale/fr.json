@@ -845,6 +845,7 @@
   "DE.Controllers.Main.textRequestMacros": "Une macro fait une demande à l'URL. Voulez-vous autoriser la demande à l'adresse %1 ?",
   "DE.Controllers.Main.textShape": "Forme",
   "DE.Controllers.Main.textStrict": "Mode strict",
+  "DE.Controllers.Main.textText": "Texte",
   "DE.Controllers.Main.textTryQuickPrint": "Vous avez sélectionné Impression rapide : l'ensemble du document sera imprimé sur la dernière imprimante sélectionnée ou celle par défaut.<br>Voulez-vous continuer ?",
   "DE.Controllers.Main.textTryUndoRedo": "Les fonctions annuler/rétablir sont désactivées pour le mode de co-édition rapide.<br>Cliquez sur le bouton \"Mode strict\" pour passer au mode de la co-édition stricte pour modifier le fichier sans interférence d'autres utilisateurs et envoyer vos modifications seulement après que vous les enregistrez. Vous pouvez basculer entre les modes de co-édition à l'aide de paramètres avancés d'éditeur.",
   "DE.Controllers.Main.textTryUndoRedoWarn": "Les fonctions Annuler/Rétablir sont désactivées pour le mode de co-édition rapide.",

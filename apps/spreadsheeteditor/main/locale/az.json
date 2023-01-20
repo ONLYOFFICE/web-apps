@@ -769,6 +769,7 @@
   "SSE.Controllers.Main.textRenameLabel": "Əməkdaşlıq üçün istifadə ediləcək ad daxil edin",
   "SSE.Controllers.Main.textShape": "Forma",
   "SSE.Controllers.Main.textStrict": "Ciddi rejim",
+  "SSE.Controllers.Main.textText": "Mətn",
   "SSE.Controllers.Main.textTryUndoRedo": "Qaytar / Təkrarla funksiyaları sürətli birgə redaktə rejimi üçün qeyri-aktiv edilib. <br> Digər istifadəçilərin müdaxiləsi olmadan faylı redaktə etmək və fayllarınızı göndərmək üçün ciddi birgə redaktə rejiminə keçmək üçün \"Ciddi rejim\" düyməsini klikləyin. dəyişikliklər yalnız siz onları saxladıqdan sonra baş verir. Qabaqcıl redaktor parametrlərindən istifadə edərək birgə redaktə rejimləri arasında keçid edə bilərsiniz.",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "Qaytar/Təkrarla funksiyaları Sürətli birgə redaktə rejimi üçün qeyri-aktiv edilib.",
   "SSE.Controllers.Main.textYes": "Bəli",

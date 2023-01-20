@@ -1032,6 +1032,7 @@
   "SSE.Controllers.Main.textRequestMacros": "Makro batek URL baterako eskaera egiten du. %1 URL-rako eskaera onartu nahi duzu?",
   "SSE.Controllers.Main.textShape": "Forma",
   "SSE.Controllers.Main.textStrict": "Modu zorrotza",
+  "SSE.Controllers.Main.textText": "Testua",
   "SSE.Controllers.Main.textTryQuickPrint": "Inprimatze bizkorra hautatu duzu: dokumentu osoa inprimatuko da inprimagailu lehenetsian edo azkena hautatutakoan.<br>Jarraitu nahi duzu?",
   "SSE.Controllers.Main.textTryUndoRedo": "Desegin/Berregin funtzioak desgaituta daude batera azkar editatzeko moduan.<br>Egin klik 'Modu zorrotza' botoian fitxategia batera editatzeko modu zorrotzera aldatzeko, fitxategia beste erabiltzaileen interferentziarik gabe editatu eta aldaketak gordetzen dituzunean soilik bidaltzeko. Batera editatzeko modua Ezarpen aurreratuetan aukeratu dezakezu.",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "Desegin/Berregin funtzioak desgaituta daude batera azkar editatzeko moduan.",

@@ -848,6 +848,7 @@
   "SSE.Controllers.Main.textRequestMacros": "A makró URL-kérést indít. Engedélyezi a %1 lekérdezését?",
   "SSE.Controllers.Main.textShape": "Alakzat",
   "SSE.Controllers.Main.textStrict": "Biztonságos mód",
+  "SSE.Controllers.Main.textText": "Szöveg",
   "SSE.Controllers.Main.textTryUndoRedo": "A Visszavonás / Újra funkciók le vannak tiltva a Gyors együttes szerkesztés módban.<br>A \"Biztonságos mód\" gombra kattintva válthat a Biztonságos együttes szerkesztés módra, hogy a dokumentumot más felhasználókkal való interferencia nélkül tudja szerkeszteni, mentés után küldve el a módosításokat. A szerkesztési módok között a Speciális beállítások segítségével válthat.",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "A Visszavonás/Újra funkciók le vannak tiltva a Gyors társszerkesztés módban.",
   "SSE.Controllers.Main.textYes": "Igen",

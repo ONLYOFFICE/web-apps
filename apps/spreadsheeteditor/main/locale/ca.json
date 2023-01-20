@@ -1032,6 +1032,7 @@
   "SSE.Controllers.Main.textRequestMacros": "Una macro fa una sol·licitud a l'URL. Voleu permetre la sol·licitud al %1?",
   "SSE.Controllers.Main.textShape": "Forma",
   "SSE.Controllers.Main.textStrict": "Mode estricte",
+  "SSE.Controllers.Main.textText": "Text",
   "SSE.Controllers.Main.textTryQuickPrint": "Has seleccionat impressió ràpida: el document s'imprimirà en l'última impressora seleccionada, o en la impressora per defecte. <br> Continuar?",
   "SSE.Controllers.Main.textTryUndoRedo": "S'han desactivat les funcions desfés/refés per al mode de coedició ràpida. Fes clic al botó \"Mode estricte\" per canviar al mode de coedició estricte i editar el fitxer, sense que hi hagi interferències d'altres usuaris i enviar els teus canvis un cop els hagis desat. Pots canviar entre els modes de coedició mitjançant l'editor \"Paràmetres avançats\".",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "S'han desactivat les funcions desfés/refés per al mode de coedició ràpida.",

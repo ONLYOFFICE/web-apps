@@ -638,6 +638,7 @@
   "DE.Controllers.Main.textRenameLabel": "Wpisz nazwę, która ma być używana do współpracy",
   "DE.Controllers.Main.textShape": "Kształt",
   "DE.Controllers.Main.textStrict": "Tryb ścisły",
+  "DE.Controllers.Main.textText": "Tekst",
   "DE.Controllers.Main.textTryUndoRedo": "Funkcje Cofnij/Ponów są wyłączone w trybie \"Szybki\" współtworzenia.<br>Kliknij przycisk \"Tryb ścisły\", aby przejść do trybu ścisłego edytowania, aby edytować plik bez ingerencji innych użytkowników i wysyłać zmiany tylko po zapisaniu. Możesz przełączać się między trybami współtworzenia, używając edytora Ustawienia zaawansowane.",
   "DE.Controllers.Main.textTryUndoRedoWarn": "Funkcje Cofnij/Ponów są wyłączone w trybie Szybkim współtworzenia.",
   "DE.Controllers.Main.titleLicenseExp": "Upłynął okres ważności licencji",
