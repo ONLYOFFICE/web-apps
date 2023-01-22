@@ -1482,10 +1482,8 @@ define([
 
         onNumberFormatSelect: function(combo, record) {
             if (record) {
-                if (this.api) {
+                if (this.api)
                     this.api.asc_setCellFormat(record.format);
-                    this.cmbNumberFormatSetValue(record.value);
-                }
             } else {
                 this.onCustomNumberFormat();
             }
@@ -1534,16 +1532,8 @@ define([
                     item.exampleval = me.api.asc_getLocaleExample(item.format);
                 });
                 me.toolbar.cmbNumberFormat.setData(me.toolbar.numFormatData);
-                this.cmbNumberFormatSetValue();
+                me.toolbar.cmbNumberFormat.setValue(me._state.numformattype, me.toolbar.txtCustom);
             }
-        },
-
-        cmbNumberFormatSetValue: function (numformattype){
-            numformattype = !numformattype ? this._state.numformattype :numformattype
-            var indexNFD = numformattype + (numformattype > Asc.c_oAscNumFormatType.Date)|0;
-            this.toolbar.cmbNumberFormat.setRawValue(
-                (numformattype === Asc.c_oAscNumFormatType.Date) ? this.toolbar.txtDate : this.toolbar.numFormatData[indexNFD].displayValue
-            );
         },
 
         onDecrement: function(btn) {
@@ -3200,8 +3190,8 @@ define([
 				this._state.numformatinfo = val;
 				val = val.asc_getType();
 				if (this._state.numformattype !== val) {
-					this._state.numformattype = val;
-                    this.cmbNumberFormatSetValue();
+                    toolbar.cmbNumberFormat.setValue(val, toolbar.txtCustom);
+                    this._state.numformattype = val;
 				}
             }
 
@@ -3358,8 +3348,8 @@ define([
                 this._state.numformatinfo = val;
                 val = val.asc_getType();
                 if (this._state.numformattype !== val) {
+                    me.toolbar.cmbNumberFormat.setValue(val, me.toolbar.txtCustom);
                     this._state.numformattype = val;
-                    this.cmbNumberFormatSetValue();
                 }
             }
         },
@@ -3729,8 +3719,8 @@ define([
                 this._state.numformatinfo = val;
                 val = val.asc_getType();
                 if (this._state.numformattype !== val) {
+                    me.toolbar.cmbNumberFormat.setValue(val, me.toolbar.txtCustom);
                     this._state.numformattype = val;
-                    this.cmbNumberFormatSetValue();
                 }
             }
         },

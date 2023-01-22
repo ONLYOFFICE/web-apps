@@ -4164,21 +4164,15 @@ define([
                     info.asc_setType(Asc.c_oAscNumFormatType.None);
                     info.asc_setSymbol(this._state.langId);
                     var arr = this.api.asc_getFormatCells(info); // all formats
-                    var disp=0
                     for (var i=0; i<menu.items.length-2; i++) {
-                        menu.items[i].options.format = arr[i+disp];
-                        if(i== Asc.c_oAscNumFormatType.Date)
-                            disp = 1;
+                        menu.items[i].options.format = arr[i];
                     }
                 }
 
-                var val = menu.options.numformatinfo;
-                val = (val) ? val.asc_getType() : -1;
                 for (var i=0; i<menu.items.length-2; i++) {
                     var mnu = menu.items[i];
                     mnu.options.exampleval = me.api.asc_getLocaleExample(mnu.options.format);
                     $(mnu.el).find('label').text(mnu.options.exampleval);
-                    mnu.setChecked(val == mnu.value);
                 }
             }
         },
