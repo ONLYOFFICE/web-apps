@@ -412,6 +412,7 @@ define([
                     }
                     this.rightmenu.clearSelection();
                     this.rightmenu.hide();
+                    this.rightmenu.signatureSettings && this.rightmenu.signatureSettings.hideSignatureTooltip();
                 } else {
                     this.rightmenu.show();
                     var selectedElements = this.api.getSelectedElements();
