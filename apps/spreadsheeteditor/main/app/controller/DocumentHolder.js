@@ -3050,7 +3050,7 @@ define([
                     parentEl: $('#id-document-holder-btn-special-paste'),
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-paste',
-                    caption     : Common.Utils.String.platformKey('Ctrl', '({0})'),
+                    caption     : Common.Utils.String.format('({0})', Common.Utils.String.textCtrl),
                     menu        : new Common.UI.Menu({items: []})
                 });
                 me.initSpecialPasteEvents();
@@ -3268,10 +3268,13 @@ define([
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
             Common.util.Shortcuts.suspendEvents(str, undefined, true);
 
+            var pasteContainer = me.documentHolder.cmpEl.find('#special-paste-container');
             me.btnSpecialPaste.menu.on('show:after', function(menu) {
                 Common.util.Shortcuts.resumeEvents(str);
+                pasteContainer.addClass('has-open-menu');
             }).on('hide:after', function(menu) {
                 Common.util.Shortcuts.suspendEvents(str, undefined, true);
+                pasteContainer.removeClass('has-open-menu');
             });
         },
 

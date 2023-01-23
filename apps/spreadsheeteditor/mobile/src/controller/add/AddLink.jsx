@@ -111,7 +111,12 @@ class AddLinkController extends Component {
 
         link.asc_setTooltip(args.tooltip);
         api.asc_insertHyperlink(link);
-        this.props.isNavigate && !Device.phone ? f7.views.current.router.back() : this.closeModal();
+        
+        if(this.props.isNavigate) {
+            f7.views.current.router.back();
+        } else {
+            this.closeModal();
+        }
     }
 
     closeModal () {

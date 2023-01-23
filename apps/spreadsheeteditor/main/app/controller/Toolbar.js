@@ -3087,6 +3087,7 @@ define([
                             toolbar.btnAlignCenter.toggle(false, true);
                             toolbar.btnAlignJust.toggle(false, true);
                         }
+                        toolbar.btnWrap.allowDepress = (fontparam !== AscCommon.align_Justify);
                     }
 
                     need_disable = (fontparam == AscCommon.align_Justify || selectionType == Asc.c_oAscSelectionType.RangeShapeText || selectionType == Asc.c_oAscSelectionType.RangeShape);
@@ -3622,6 +3623,7 @@ define([
                     toolbar.btnHorizontalAlign.$icon.removeClass(toolbar.btnHorizontalAlign.options.icls).addClass(align);
                     toolbar.btnHorizontalAlign.options.icls = align;
                 }
+                toolbar.btnWrap.allowDepress = (fontparam !== AscCommon.align_Justify);
             }
 
              // read cell vertical align

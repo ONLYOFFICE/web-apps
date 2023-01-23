@@ -116,15 +116,16 @@
     background-color: @background-toolbar;
     border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
+
+    &.has-open-menu {
+        z-index: @zindex-navbar + 1;
+    }
 }
 
 #equation-container {
     padding: 4px;
     .separator {
         height: 20px;
-    }
-    &.has-open-menu {
-        z-index: @zindex-navbar + 1;
     }
 }
 

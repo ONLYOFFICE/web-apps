@@ -558,7 +558,7 @@
   "DE.Controllers.Main.downloadMergeTitle": "下載中",
   "DE.Controllers.Main.downloadTextText": "文件下載中...",
   "DE.Controllers.Main.downloadTitleText": "文件下載中",
-  "DE.Controllers.Main.errorAccessDeny": "您嘗試進行未被授權的動作<br> 請聯繫您的文件伺服器主機的管理者。",
+  "DE.Controllers.Main.errorAccessDeny": "您嘗試進行未被授權的動作。<br> 請聯繫您的文件伺服器主機的管理者。",
   "DE.Controllers.Main.errorBadImageUrl": "不正確的圖像 URL",
   "DE.Controllers.Main.errorCoAuthoringDisconnect": "服務器連接丟失。該文檔目前無法編輯。",
   "DE.Controllers.Main.errorComboSeries": "如要新增組合圖表，選擇兩個以上的Series資料。",

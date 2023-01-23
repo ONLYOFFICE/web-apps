@@ -3700,7 +3700,6 @@
   "SSE.Views.ValueFieldSettingsDialog.txtPercent": "Percentagem de",
   "SSE.Views.ValueFieldSettingsDialog.txtPercentDiff": "Diferença de Percentagem em Relação a",
   "SSE.Views.ValueFieldSettingsDialog.txtPercentOfCol": "Percentagem da Coluna",
-  "SSE.Views.ValueFieldSettingsDialog.txtPercentOfRow": "Percentagem do Total",
   "SSE.Views.ValueFieldSettingsDialog.txtPercentOfTotal": "Percentagem da Linha",
   "SSE.Views.ValueFieldSettingsDialog.txtProduct": "Produto",
   "SSE.Views.ValueFieldSettingsDialog.txtRunTotal": "Total Corrente Em",
