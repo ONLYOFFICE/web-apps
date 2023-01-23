@@ -78,7 +78,7 @@ define([  'common/main/lib/view/AdvancedSettingsWindow',
                                         '</tr>',
                                         '<tr>',
                                             '<td>',
-                                                '<div id="save-form-roles-list" class="roles-tableview no-borders" style="width:100%; height: 116px;"></div>',
+                                                '<div id="save-form-roles-list" class="roles-tableview no-borders" style="width:300px; height: 116px;"></div>',
                                             '</td>',
                                         '</tr>',
                                     '</table>',
@@ -112,7 +112,7 @@ define([  'common/main/lib/view/AdvancedSettingsWindow',
                 emptyText: this.textEmpty,
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="border-color: transparent;">',
-                    '<div class="listitem-icon"><svg class=""><use xlink:href="#svg-icon-<%= scope.getIconCls(index) %>"></use></svg></div>',
+                    '<div class="listitem-icon" style="flex-shrink: 0;"><svg class=""><use xlink:href="#svg-icon-<%= scope.getIconCls(index) %>"></use></svg></div>',
                     '<div style="flex-grow: 1;padding-right: 5px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
                     '</div>'
                 ].join(''))
