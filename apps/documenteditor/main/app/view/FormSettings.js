@@ -521,7 +521,7 @@ define([
 
             var template = [
                 '<div class="input-group combobox input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                    '<div class="form-control" style="display: block; padding-top:3px; line-height: 14px; cursor: pointer; <%= style %>"></div>',
+                    '<div class="form-control" style="display: block; padding-top:3px; line-height: 14px; cursor: pointer; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;<%= style %>"></div>',
                     '<div style="display: table-cell;"></div>',
                     '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>',
                     '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">'].concat(itemsTemplate).concat([
@@ -533,8 +533,8 @@ define([
                 el: $markup.findById('#form-combo-roles'),
                 cls: 'menu-roles',
                 menuCls: 'menu-absolute',
-                menuStyle: 'min-width: 195px; max-height: 190px;',
-                style: 'width: 100%;',
+                menuStyle: 'min-width: 194px; max-height: 190px;',
+                style: 'width: 194px;',
                 editable: false,
                 template    : _.template(template.join('')),
                 itemsTemplate: _.template(itemsTemplate.join('')),
