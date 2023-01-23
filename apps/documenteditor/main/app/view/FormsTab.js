@@ -481,10 +481,11 @@ define([
                             '<span class="menu-item-icon <%= iconCls %>"></span>'+
                             '<% } %>'+
                             '<div><%= caption %></div>' +
-                            '<% if (options.description !== null) { %><label style="display: block;cursor: pointer;white-space: normal;"><%= options.description %></label>' +
+                            '<% if (options.description !== null) { %><label style="cursor: pointer;white-space: normal;"><%= options.description %></label>' +
                             '<% } %></a>');
 
                         me.btnTextField.setMenu(new Common.UI.Menu({
+                            style: 'max-width: 300px;',
                             items: [
                             {
                                 caption: me.txtInlineText,
