@@ -114,7 +114,7 @@ define([
             });
             Common.NotificationCenter.on('data:remduplicates', _.bind(this.onRemoveDuplicates, this));
             Common.NotificationCenter.on('data:sortcustom', _.bind(this.onCustomSort, this));
-            if (this.toolbar.mode.canRequestReferenceData && this.api) {
+            if ((this.toolbar.mode.canRequestReferenceData || this.toolbar.mode.isOffline) && this.api) {
                 this.api.asc_registerCallback('asc_onNeedUpdateExternalReferenceOnOpen', _.bind(this.onNeedUpdateExternalReferenceOnOpen, this));
                 this.api.asc_registerCallback('asc_onStartUpdateExternalReference', _.bind(this.onStartUpdateExternalReference, this));
                 this.api.asc_registerCallback('asc_onUpdateExternalReference', _.bind(this.onUpdateExternalReference, this));
@@ -492,7 +492,7 @@ define([
             this.externalLinksDlg = (new SSE.Views.ExternalLinksDlg({
                 api: this.api,
                 isUpdating: this.externalData.isUpdating,
-                canRequestReferenceData: this.toolbar.mode.canRequestReferenceData,
+                canRequestReferenceData: this.toolbar.mode.canRequestReferenceData || this.toolbar.mode.isOffline,
                 handler: function(result) {
                     Common.NotificationCenter.trigger('edit:complete');
                 }
