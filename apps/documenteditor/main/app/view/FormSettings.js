@@ -512,7 +512,7 @@ define([
             var itemsTemplate =
                 [
                     '<% _.each(items, function(item) { %>',
-                        '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem" style="padding-left: 10px;">',
+                        '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem" style="padding-left: 10px;overflow: hidden; text-overflow: ellipsis;">',
                             '<span class="color" style="background: <%= item.color %>;"></span>',
                             '<%= item.displayValue %>',
                         '</a></li>',
@@ -533,7 +533,7 @@ define([
                 el: $markup.findById('#form-combo-roles'),
                 cls: 'menu-roles',
                 menuCls: 'menu-absolute',
-                menuStyle: 'min-width: 194px; max-height: 190px;',
+                menuStyle: 'min-width: 194px; max-height: 190px;max-width: 400px;',
                 style: 'width: 194px;',
                 editable: false,
                 template    : _.template(template.join('')),

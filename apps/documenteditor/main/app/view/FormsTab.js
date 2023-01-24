@@ -355,6 +355,7 @@ define([
                         menu: new Common.UI.Menu({
                             cls: 'menu-roles',
                             maxHeight: 270,
+                            style: 'max-width: 400px;',
                             items: []
                         }),
                         enableToggle: true,
@@ -595,7 +596,7 @@ define([
                         checkable: true,
                         toggleGroup: 'formtab-view-role',
                         template: _.template([
-                            '<a id="<%= id %>"  tabindex="-1" type="menuitem" class="<%= options.cls %>">',
+                            '<a id="<%= id %>"  tabindex="-1" type="menuitem" class="<%= options.cls %>" style="overflow: hidden; text-overflow: ellipsis;">',
                             '<span class="color" style="background: <%= options.color %>;"></span>',
                             '<%= caption %>',
                             '</a>'
