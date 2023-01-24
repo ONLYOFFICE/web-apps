@@ -33,12 +33,18 @@
             }
         }
     }
-
     .img-border-size {
-        position: relative;
         display: block;
-        top:50%;
+        position: relative;
+        margin-top: -4px;
+        top: 50%;
+        height: 8px;
     }
+    &.combo-border-type svg.img-border-size {
+        height: 3px;
+        margin-top: 0;
+    }
+
     
     .border-line{
         float: right;
@@ -65,10 +71,13 @@
 
     &:not(.combo-border-type) .dropdown-menu li a {
         padding: 6px 20px;
-        span{
+
+        span {
             height: 18px;
         }
     }
+
+
 
 }
 

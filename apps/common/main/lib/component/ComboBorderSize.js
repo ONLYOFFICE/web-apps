@@ -78,7 +78,7 @@ define([
         template: _.template([
             '<div class="input-group combobox combo-border-size input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
                 '<div class="form-control" style="<%= style %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">',
-                    '<i class="img-line"><svg class="img-border-size" style="margin-top: -9.5px"><use xlink:href="#half-pt"></use></svg></i>',
+                    '<i class="img-line"><svg class="img-border-size"><use xlink:href="#half-pt"></use></svg></i>',
                     '<span class="text"></span>',
                 '</div>',
                 '<div style="display: table-cell;"></div>',
@@ -90,7 +90,7 @@ define([
                         '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem">',
                             '<span><%= item.displayValue %></span>',
                             '<span class="border-line">',
-                                '<svg class="img-border-size" style="height: <%= Math.ceil(item.pxValue) %>px; margin-top: -<%= Math.ceil(item.pxValue)/2 %>px">',
+                                '<svg class="img-border-size">',
                                     '<use xlink:href="#<%= item.imgId %>"></use>',
                                 '</svg>',
                             '</span>',
@@ -151,11 +151,7 @@ define([
 
             if (record.get('value')>0) {
                 var elm = formcontrol.find('use');
-                if(elm.length>0) {
-                    elm[0].setAttribute('xlink:href', '#' + record.get('imgId'));
-                    elm.parent().css('margin-top', (- Math.ceil(record.get('pxValue')/2))+'px');
-                    elm.parent().css('height', Math.ceil(record.get('pxValue'))+'px');
-                }
+                (elm.length>0)  && elm[0].setAttribute('xlink:href', '#' + record.get('imgId'));
                 image.show();
                 text.hide();
             } else {
@@ -202,7 +198,7 @@ define([
                             '<span><%= item.displayValue %>' + '</span>',
                             '<% if (item.imgId!==undefined) { %>',
                             '<span class="border-line">',
-                                '<svg class="img-border-size" style="height: <%= Math.ceil(item.pxValue) %>px; margin-top: -<%= (Math.ceil(item.pxValue)/2) %>px">',
+                                '<svg class="img-border-size">',
                                     '<use xlink:href="#<%= item.imgId %>"></use>',
                                 '</svg>',
                             '</span>',
@@ -210,7 +206,7 @@ define([
                         '<% } else { %>',
                             '<% if (item.imgId!==undefined) { %>',
                             '<span class="border-line">',
-                                '<svg class="img-border-size" style="height: <%= Math.ceil(item.pxValue) %>px; margin-top: -<%= (Math.ceil(item.pxValue)/2) %>px">',
+                                '<svg class="img-border-size">',
                                     '<use xlink:href="#<%= item.imgId %>"></use>',
                                 '</svg>',
                             '</span>',

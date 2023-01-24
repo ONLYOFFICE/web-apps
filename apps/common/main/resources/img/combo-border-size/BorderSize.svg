@@ -1,23 +1,23 @@
 <svg aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <symbol id="half-pt" width="60" height="1" viewBox="0 0 60 1">
+    <symbol id="half-pt" width="60" height="7" viewBox="0 0 60 1" preserveAspectRatio="xMidYMid meet">
         <rect opacity="0.5" width="60" height="1"/>
     </symbol>
-    <symbol id="one-pt" width="60" height="1" viewBox="0 0 60 1">
+    <symbol id="one-pt" width="60" height="7" viewBox="0 0 60 1" preserveAspectRatio="xMidYMid meet">
         <rect width="60" height="1"/>
     </symbol>
-    <symbol id="one-and-half-pt" width="60" height="2" viewBox="0 0 60 2">
+    <symbol id="one-and-half-pt" width="60" height="8" viewBox="0 0 60 2" preserveAspectRatio="xMidYMid meet">
         <rect width="60" height="2"/>
     </symbol>
-    <symbol id="two-and-quarter-pt" width="60" height="3" viewBox="0 0 60 3">
+    <symbol id="two-and-quarter-pt" width="60" height="7" viewBox="0 0 60 3" preserveAspectRatio="xMidYMid meet">
         <rect width="60" height="3"/>
     </symbol>
-    <symbol id="three-pt" width="60" height="4" viewBox="0 0 60 4">
+    <symbol id="three-pt" width="60" height="8" viewBox="0 0 60 4" preserveAspectRatio="xMidYMid meet">
         <rect width="60" height="4"/>
     </symbol>
-    <symbol id="four-and-half-pt" width="60" height="6" viewBox="0 0 60 6">
+    <symbol id="four-and-half-pt" width="60" height="8" viewBox="0 0 60 6" preserveAspectRatio="xMidYMid meet">
         <rect width="60" height="6"/>
     </symbol>
-    <symbol id="six-pt" width="60" height="8" viewBox="0 0 60 8">
+    <symbol id="six-pt" width="60" height="8" viewBox="0 0 60 8" preserveAspectRatio="xMidYMid meet">
         <rect width="60" height="8"/>
     </symbol>
     <symbol id="solid" width="60" height="3" viewBox="0 0 60 3">
