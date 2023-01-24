@@ -493,6 +493,7 @@ define([
                 api: this.api,
                 isUpdating: this.externalData.isUpdating,
                 canRequestReferenceData: this.toolbar.mode.canRequestReferenceData || this.toolbar.mode.isOffline,
+                isOffline: this.toolbar.mode.isOffline,
                 handler: function(result) {
                     Common.NotificationCenter.trigger('edit:complete');
                 }
