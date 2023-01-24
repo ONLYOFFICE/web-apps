@@ -3,6 +3,12 @@ import { Navbar, Page } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import { Device } from '../../utils/device';
 
+const frameStyle = {
+    width: '100%',
+    height: '100%',
+    minHeight: 380
+}
+
 const ViewSharingSettings = props => {
     const { t } = useTranslation();
     const sharingSettingsUrl = props.sharingSettingsUrl;
@@ -29,7 +35,7 @@ const ViewSharingSettings = props => {
         <Page>
             <Navbar title={t('Common.Collaboration.textSharingSettings')} backLink={_t.textBack} />
             <div id="sharing-placeholder" className="sharing-placeholder" ref={ref}>
-                <iframe width="100%" height="500" frameBorder={0} scrolling="0" align="top" src={sharingSettingsUrl}></iframe>
+                <iframe style={frameStyle} frameBorder={0} scrolling="0" align="top" src={sharingSettingsUrl}></iframe>
             </div>
         </Page>
     )
