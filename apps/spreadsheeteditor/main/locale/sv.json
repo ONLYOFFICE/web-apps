@@ -854,7 +854,7 @@
   "SSE.Controllers.Main.txtByField": "%1 av %2",
   "SSE.Controllers.Main.txtCallouts": "Länktext",
   "SSE.Controllers.Main.txtCharts": "Diagram",
-  "SSE.Controllers.Main.txtClearFilter": "Rensa filter (Alt+C)",
+  "SSE.Controllers.Main.txtClearFilter": "Rensa filter",
   "SSE.Controllers.Main.txtColLbls": "Kolumnetiketter",
   "SSE.Controllers.Main.txtColumn": "Kolumn",
   "SSE.Controllers.Main.txtConfidential": "Konfidentiell",

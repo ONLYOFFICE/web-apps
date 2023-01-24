@@ -83,14 +83,19 @@ define([
             this.cmbRole = new Common.UI.ComboBox({
                 el: $('#id-role-del-remove', $window),
                 style: 'width: 100%;',
-                menuStyle: 'min-width: 100%;max-height: 190px;',
+                menuStyle: 'min-width: 100%;max-height: 190px;max-width: 400px;',
                 cls: 'input-group-nr',
                 data: [],
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem" style="overflow: hidden; text-overflow: ellipsis;"><%= scope.getDisplayValue(item) %></a></li>',
+                    '<% }); %>'
+                ].join('')),
                 editable: false,
                 takeFocusOnClose: true
             });
 
-
+            
             this.afterRender();
         },
 
