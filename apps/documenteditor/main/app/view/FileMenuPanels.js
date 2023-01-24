@@ -992,6 +992,7 @@ define([
             }
 
             Common.localStorage.setItem("de-settings-paste-button", this.chPaste.isChecked() ? 1 : 0);
+            var isRtlChanged = this.chRTL.$el.is(':visible') && Common.localStorage.getBool("ui-rtl") !== this.chRTL.isChecked();
             Common.localStorage.setBool("ui-rtl", this.chRTL.isChecked());
             Common.localStorage.setBool("de-settings-quick-print-button", this.chQuickPrint.isChecked());
 
@@ -1002,6 +1003,16 @@ define([
 
                 if (this._oldUnits !== this.cmbUnit.getValue())
                     Common.NotificationCenter.trigger('settings:unitschanged', this);
+            }
+
+            if (isRtlChanged) {
+                var config = {
+                    title: this.txtWorkspaceSettingChange,
+                    msg: this.txtRestartEditor,
+                    iconCls: 'warn',
+                    buttons: ['ok']
+                };
+                Common.UI.alert(config);
             }
         },
 
@@ -1095,7 +1106,9 @@ define([
         strShowOthersChanges: 'Show changes from other users',
         txtAdvancedSettings: 'Advanced Settings',
         txtQuickPrint: 'Show the Quick Print button in the editor header',
-        txtQuickPrintTip: 'The document will be printed on the last selected or default printer'
+        txtQuickPrintTip: 'The document will be printed on the last selected or default printer',
+        txtWorkspaceSettingChange: 'Workspace setting (RTL interface) change',
+        txtRestartEditor: 'Please restart document editor so that your workspace settings can take effect'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
