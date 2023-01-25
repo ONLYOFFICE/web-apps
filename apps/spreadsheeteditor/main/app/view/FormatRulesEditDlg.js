@@ -625,7 +625,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                     record && this.setRawValue(record.get('customDisplayValue')||record.get('displayValue'));
                 }
             });
-            this.cmbNumberFormat.setRawValue(this.numFormatData[Asc.c_oAscNumFormatType.General].displayValue);
+            this.cmbNumberFormat.setValue(Asc.c_oAscNumFormatType.General);
             this.cmbNumberFormat.on('selected', _.bind(this.onNumberFormatSelect, this));
             Common.UI.FocusManager.add(this, this.cmbNumberFormat);
 
