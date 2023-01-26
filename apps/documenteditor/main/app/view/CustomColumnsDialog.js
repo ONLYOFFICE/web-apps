@@ -60,8 +60,8 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 200px;">',
-                    '<div class="input-row" style="margin: 10px 0;">',
+                '<div class="box" style="height: 203px;">',
+                    '<div class="input-row" style="margin-bottom: 10px;">',
                         '<label class="input-label">' + this.textColumns + '</label><div id="custom-columns-spin-num" style="float: right;"></div>',
                     '</div>',
                     '<label class="input-label" style="width:27px; margin-left:6px;">#</label>',
@@ -71,11 +71,10 @@ define([
                     '<div class="input-row" style="margin: 10px 0;">',
                         '<div id="custom-columns-equal-width"></div>',
                     '</div>',
-                    '<div class="input-row" style="margin: 10px 0;">',
+                    '<div class="input-row">',
                         '<div id="custom-columns-separator"></div>',
                     '</div>',
                 '</div>',
-                '<div class="separator horizontal"></div>'
             ].join('');
 
             this.options.tpl = _.template(this.template)(this.options);
