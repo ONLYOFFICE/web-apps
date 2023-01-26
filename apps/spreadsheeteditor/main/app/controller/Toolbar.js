@@ -3191,8 +3191,8 @@ define([
 				this._state.numformatinfo = val;
 				val = val.asc_getType();
 				if (this._state.numformattype !== val) {
-					toolbar.cmbNumberFormat.setValue(val, toolbar.txtCustom);
-					this._state.numformattype = val;
+                    toolbar.cmbNumberFormat.setValue(val, toolbar.txtCustom);
+                    this._state.numformattype = val;
 				}
             }
 

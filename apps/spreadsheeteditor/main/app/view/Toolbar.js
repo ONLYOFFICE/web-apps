@@ -167,7 +167,8 @@ define([
                 { value: Asc.c_oAscNumFormatType.Scientific,format: this.ascFormatOptions.Scientific,  displayValue: this.txtScientific,   exampleval: '1,00E+02' },
                 { value: Asc.c_oAscNumFormatType.Accounting,format: this.ascFormatOptions.Accounting,  displayValue: this.txtAccounting,   exampleval: '100,00 $' },
                 { value: Asc.c_oAscNumFormatType.Currency,  format: this.ascFormatOptions.Currency,    displayValue: this.txtCurrency,     exampleval: '100,00 $' },
-                { value: Asc.c_oAscNumFormatType.Date,      format: 'MM-dd-yyyy',                      displayValue: this.txtDate,         exampleval: '04-09-1900' },
+                { value: Asc.c_oAscNumFormatType.Date,      format: 'MM-dd-yyyy',                      displayValue: this.txtDateShort,    exampleval: '04-09-1900',     customDisplayValue: this.txtDate},
+                { value: Asc.c_oAscNumFormatType.Date,      format: 'MMMM d yyyy',                     displayValue: this.txtDateLong,     exampleval: 'April 9 1900',   customDisplayValue: this.txtDate },
                 { value: Asc.c_oAscNumFormatType.Time,      format: 'HH:MM:ss',                        displayValue: this.txtTime,         exampleval: '00:00:00' },
                 { value: Asc.c_oAscNumFormatType.Percent,   format: this.ascFormatOptions.Percentage,  displayValue: this.txtPercentage,   exampleval: '100,00%' },
                 { value: Asc.c_oAscNumFormatType.Fraction,  format: this.ascFormatOptions.Fraction,    displayValue: this.txtFraction,     exampleval: '100' },
@@ -277,7 +278,7 @@ define([
                             '<li id="id-toolbar-mnu-item-more-formats" data-value="-1"><a tabindex="-1" type="menuitem">' + me.textMoreFormats + '</a></li>'
                         ].join(''));
 
-                    me.cmbNumberFormat = new Common.UI.ComboBox({
+                    me.cmbNumberFormat = new Common.UI.ComboBoxCustom({
                         cls         : 'input-group-nr',
                         menuStyle   : 'min-width: 180px;',
                         hint        : me.tipNumFormat,
@@ -286,7 +287,11 @@ define([
                         editable    : false,
                         data        : me.numFormatData,
                         dataHint    : '1',
-                        dataHintDirection: 'bottom'
+                        dataHintDirection: 'bottom',
+                        updateFormControl: function (record){
+                            this.clearSelection();
+                            record && this.setRawValue(record.get('customDisplayValue')||record.get('displayValue'));
+                        }
                     });
                 }
                 if ( config.isEditMailMerge || config.isEditOle ) {
@@ -1392,7 +1397,7 @@ define([
                         '<li id="id-toolbar-mnu-item-more-formats" data-value="-1"><a tabindex="-1" type="menuitem">' + me.textMoreFormats + '</a></li>'
                     ].join(''));
 
-                me.cmbNumberFormat = new Common.UI.ComboBox({
+                me.cmbNumberFormat = new Common.UI.ComboBoxCustom({
                     cls         : 'input-group-nr',
                     style       : 'width: 113px;',
                     menuStyle   : 'min-width: 180px;',
@@ -1402,7 +1407,12 @@ define([
                     editable    : false,
                     data        : me.numFormatData,
                     dataHint    : '1',
-                    dataHintDirection: 'top'
+                    dataHintDirection: 'top',
+                    updateFormControl: function (record){
+                        this.clearSelection();
+                        record && this.setRawValue(record.get('customDisplayValue')||record.get('displayValue'));
+                    }
+
                 });
 
                 me.btnPercentStyle = new Common.UI.Button({
@@ -3247,6 +3257,8 @@ define([
 //    txtFranc:           'CHF Swiss franc',
         txtAccounting:      'Accounting',
         txtDate:            'Date',
+        txtDateShort:       'Short Date',
+        txtDateLong:        'Long Date',
         txtTime:            'Time',
         txtDateTime:        'Date & Time',
         txtPercentage:      'Percentage',

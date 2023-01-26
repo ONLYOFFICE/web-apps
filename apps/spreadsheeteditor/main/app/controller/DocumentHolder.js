@@ -4172,13 +4172,10 @@ define([
                     }
                 }
 
-                var val = menu.options.numformatinfo;
-                val = (val) ? val.asc_getType() : -1;
                 for (var i=0; i<menu.items.length-2; i++) {
                     var mnu = menu.items[i];
                     mnu.options.exampleval = me.api.asc_getLocaleExample(mnu.options.format);
                     $(mnu.el).find('label').text(mnu.options.exampleval);
-                    mnu.setChecked(val == mnu.value);
                 }
             }
         },

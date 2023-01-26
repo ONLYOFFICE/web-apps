@@ -472,7 +472,6 @@ define([
                         {
                             caption: this.txtGeneral,
                             template: numFormatTemplate,
-                            checkable: true,
                             format: 'General',
                             exampleval: '100',
                             value: Asc.c_oAscNumFormatType.General
@@ -480,7 +479,6 @@ define([
                         {
                             caption: this.txtNumber,
                             template: numFormatTemplate,
-                            checkable: true,
                             format: '0.00',
                             exampleval: '100,00',
                             value: Asc.c_oAscNumFormatType.Number
@@ -488,7 +486,6 @@ define([
                         {
                             caption: this.txtScientific,
                             template: numFormatTemplate,
-                            checkable: true,
                             format: '0.00E+00',
                             exampleval: '1,00E+02',
                             value: Asc.c_oAscNumFormatType.Scientific
@@ -496,7 +493,6 @@ define([
                         {
                             caption: this.txtAccounting,
                             template: numFormatTemplate,
-                            checkable: true,
                             format: '_($* #,##0.00_);_($* (#,##0.00);_($* "-"??_);_(@_)',
                             exampleval: '100,00 $',
                             value: Asc.c_oAscNumFormatType.Accounting
@@ -504,23 +500,27 @@ define([
                         {
                             caption: this.txtCurrency,
                             template: numFormatTemplate,
-                            checkable: true,
                             format: '$#,##0.00',
                             exampleval: '100,00 $',
                             value: Asc.c_oAscNumFormatType.Currency
                         },
                         {
-                            caption: this.txtDate,
+                            caption: this.txtDateShort,
                             template: numFormatTemplate,
-                            checkable: true,
                             format: 'MM-dd-yyyy',
                             exampleval: '04-09-1900',
                             value: Asc.c_oAscNumFormatType.Date
                         },
                         {
+                            caption: this.txtDateLong,
+                            template: numFormatTemplate,
+                            format: 'MMMM d yyyy',
+                            exampleval: 'April 9 1900',
+                            value: Asc.c_oAscNumFormatType.Date
+                        },
+                        {
                             caption: this.txtTime,
                             template: numFormatTemplate,
-                            checkable: true,
                             format: 'HH:MM:ss',
                             exampleval: '00:00:00',
                             value: Asc.c_oAscNumFormatType.Time
@@ -528,7 +528,6 @@ define([
                         {
                             caption: this.txtPercentage,
                             template: numFormatTemplate,
-                            checkable: true,
                             format: '0.00%',
                             exampleval: '100,00%',
                             value: Asc.c_oAscNumFormatType.Percent
@@ -536,7 +535,6 @@ define([
                         {
                             caption: this.txtFraction,
                             template: numFormatTemplate,
-                            checkable: true,
                             format: '# ?/?',
                             exampleval: '100',
                             value: Asc.c_oAscNumFormatType.Fraction
@@ -544,7 +542,6 @@ define([
                         {
                             caption: this.txtText,
                             template: numFormatTemplate,
-                            checkable: true,
                             format: '@',
                             exampleval: '100',
                             value: Asc.c_oAscNumFormatType.Text
@@ -1329,7 +1326,8 @@ define([
         txtScientific:      'Scientific',
         txtAccounting:      'Accounting',
         txtCurrency:        'Currency',
-        txtDate:            'Date',
+        txtDateShort:       'Short Date',
+        txtDateLong:        'Long Date',
         txtTime:            'Time',
         txtPercentage:      'Percentage',
         txtFraction:        'Fraction',

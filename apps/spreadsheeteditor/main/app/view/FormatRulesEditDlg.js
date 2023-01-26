@@ -579,7 +579,8 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 { value: Asc.c_oAscNumFormatType.Scientific,format: this.ascFormatOptions.Scientific,  displayValue: this.txtScientific,   exampleval: '1,00E+02' },
                 { value: Asc.c_oAscNumFormatType.Accounting,format: this.ascFormatOptions.Accounting,  displayValue: this.txtAccounting,   exampleval: '100,00 $' },
                 { value: Asc.c_oAscNumFormatType.Currency,  format: this.ascFormatOptions.Currency,    displayValue: this.txtCurrency,     exampleval: '100,00 $' },
-                { value: Asc.c_oAscNumFormatType.Date,      format: 'MM-dd-yyyy',                      displayValue: this.txtDate,         exampleval: '04-09-1900' },
+                { value: Asc.c_oAscNumFormatType.Date,      format: 'MM-dd-yyyy',                      displayValue: this.txtDateShort,    exampleval: '04-09-1900',    customDisplayValue: this.txtDate},
+                { value: Asc.c_oAscNumFormatType.Date,      format: 'MMMM d yyyy',                     displayValue: this.txtDateLong,     exampleval: 'April 9 1900', customDisplayValue: this.txtDate},
                 { value: Asc.c_oAscNumFormatType.Time,      format: 'HH:MM:ss',                        displayValue: this.txtTime,         exampleval: '00:00:00' },
                 { value: Asc.c_oAscNumFormatType.Percent,   format: this.ascFormatOptions.Percentage,  displayValue: this.txtPercentage,   exampleval: '100,00%' },
                 { value: Asc.c_oAscNumFormatType.Fraction,  format: this.ascFormatOptions.Fraction,    displayValue: this.txtFraction,     exampleval: '100' },
@@ -609,7 +610,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                     // '<li id="id-toolbar-mnu-item-more-formats" data-value="-1"><a tabindex="-1" type="menuitem">' + me.textMoreFormats + '</a></li>'
                 ].join(''));
 
-            this.cmbNumberFormat = new Common.UI.ComboBox({
+            this.cmbNumberFormat = new Common.UI.ComboBoxCustom({
                 el          : $('#format-rules-edit-combo-num-format'),
                 cls         : 'input-group-nr',
                 style       : 'width: 113px;',
@@ -618,7 +619,11 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 itemsTemplate: formatTemplate,
                 editable    : false,
                 data        : this.numFormatData,
-                takeFocusOnClose: true
+                takeFocusOnClose: true,
+                updateFormControl: function (record){
+                    this.clearSelection();
+                    record && this.setRawValue(record.get('customDisplayValue')||record.get('displayValue'));
+                }
             });
             this.cmbNumberFormat.setValue(Asc.c_oAscNumFormatType.General);
             this.cmbNumberFormat.on('selected', _.bind(this.onNumberFormatSelect, this));
@@ -2179,6 +2184,8 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
         txtCurrency:        'Currency',
         txtAccounting:      'Accounting',
         txtDate:            'Date',
+        txtDateShort:       'Short Date',
+        txtDateLong:        'Long Date',
         txtTime:            'Time',
         txtPercentage:      'Percentage',
         txtFraction:        'Fraction',

@@ -638,6 +638,11 @@ define([
                 $('#' + this._selectedItem.get('id'), $(this.el)).addClass('selected');
             },
 
+            clearSelection: function (){
+                $('.selected', $(this.el)).removeClass('selected');
+                this._selectedItem = null;
+            },
+
             itemClicked: function (e) {
                 var el = $(e.target).closest('li');
 
