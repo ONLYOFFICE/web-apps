@@ -663,7 +663,7 @@
   "SSE.Controllers.DataTab.textUpdate": "Обновить",
   "SSE.Controllers.DataTab.textWizard": "Текст по столбцам",
   "SSE.Controllers.DataTab.txtDataValidation": "Проверка данных",
-  "SSE.Controllers.DataTab.txtErrorExternalLink": "Ошибка: не удалось выполнить обновление",
+  "SSE.Controllers.DataTab.txtErrorExternalLink": "Ошибка: не удалось обновить",
   "SSE.Controllers.DataTab.txtExpand": "Развернуть",
   "SSE.Controllers.DataTab.txtExpandRemDuplicates": "Данные рядом с выделенным диапазоном не будут удалены. Вы хотите расширить выделенный диапазон, чтобы включить данные из смежных ячеек, или продолжить только с выделенным диапазоном?",
   "SSE.Controllers.DataTab.txtExtendDataValidation": "Выделенная область содержит ячейки без условий на значения.<br>Вы хотите распространить условия на эти ячейки?",
