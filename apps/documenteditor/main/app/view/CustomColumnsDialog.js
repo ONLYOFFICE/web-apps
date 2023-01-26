@@ -98,24 +98,29 @@ define([
                 defaultUnit : "",
                 value: '1',
                 maxValue: 30,
-                minValue: 1
+                minValue: 1,
+                maskExp: /[1-9]/
             });
             this.spnColumns.on('change', function(field, newValue, oldValue, eOpts){
                 if(newValue === oldValue) return;
 
-                var num = me.spnColumns.getNumberValue(),
-                    spacing = me.columnsList.store.at(0).get('spacing'),
-                    calcWidth = me.calcWidthForEqualColumns(num, spacing),
-                    arrColumnObj = [];
+                var num = field.getNumberValue();
 
-                for(var i = 0; i < num; i++) {
-                    arrColumnObj.push({
-                        width: calcWidth,
-                        spacing: spacing,
-                    });
-                }     
+                if(me.columnsList.store.length > 0) {
+                    var spacing = me.columnsList.store.at(0).get('spacing'),
+                        calcWidth = me.calcWidthForEqualColumns(num, spacing),
+                        arrColumnObj = [];
+    
+                    for(var i = 0; i < num; i++) {
+                        arrColumnObj.push({
+                            width: calcWidth,
+                            spacing: spacing,
+                        });
+                    }     
 
-                me.updateColumnsList(arrColumnObj);
+                    me.updateColumnsList(arrColumnObj);
+                }
+
                 me.chEqualWidth.setDisabled(num<2);
                 me.chSeparator.setDisabled(num<2);
             });
@@ -196,7 +201,7 @@ define([
                     arrColumnObj = [];
 
                 this.totalWidth = total;
-                this.spnColumns.setValue(num, true);
+                this.spnColumns.setValue(num);
 
                 for(var i = 0; i < num; i++) {
                     if(!equal) {
@@ -245,19 +250,17 @@ define([
 
         updateColumnsList: function(arrColumnObj) {
             var me = this,
-                num = this.spnColumns.getNumberValue(),
-                arrItems = [];
+                arrItems = arrColumnObj.map(function(item, itemIndex) {
+                    return {
+                        index: itemIndex,
+                        allowSelected: false,
+                        width: item.width,
+                        spacing: (itemIndex != arrColumnObj.length - 1 ? item.spacing : 0),
+                        widthSpin: null,
+                        spacingSpin: null,
+                    };
+                });
 
-            for (var i = 0; i < num; i++) {
-                arrItems.push({
-                    index: i,
-                    allowSelected: false,
-                    width: arrColumnObj[i].width,
-                    spacing: i != num - 1 ? arrColumnObj[i].spacing : 0,
-                    widthSpin: null,
-                    spacingSpin: null,
-                }); 
-            }
             this.columnsList.store.reset(arrItems);
             this.columnsList.store.each(function(item, index) {
                 me.setMaxValueSpinsForColumn(item);
@@ -314,14 +317,14 @@ define([
 
             item.set('width', value, {silent: true});
             if(widthSpin.getMaxValue() < valueInUserMetric) {
-                widthSpin.setMaxValue(valueInUserMetric.toFixed(2))
+                widthSpin.setMaxValue(this.decimalRouding(valueInUserMetric))
             }
-            widthSpin.setValue(valueInUserMetric.toFixed(2), true);
+            widthSpin.setValue(this.decimalRouding(valueInUserMetric), true);
         },
 
         setSpacingColumnValue: function(item, value) {
             item.set('spacing', value, {silent: true});
-            item.get('spacingSpin').setValue(Common.Utils.Metric.fnRecalcFromMM(value).toFixed(2), true);
+            item.get('spacingSpin').setValue(this.decimalRouding(Common.Utils.Metric.fnRecalcFromMM(value)), true);
             if(item.get('index') == 0)
                 this.setMaxColumns();
         },
@@ -335,7 +338,7 @@ define([
                     maxSpacing = Common.Utils.Metric.fnRecalcFromMM((this.totalWidth - (num * width)) / (num - 1));
 
                 item.get('widthSpin').setMaxValue(1000);                
-                item.get('spacingSpin').setMaxValue(maxSpacing.toFixed(2));
+                item.get('spacingSpin').setMaxValue(this.decimalRouding(maxSpacing));
             }
             else {
                 var nextItem = this.columnsList.store.at(itemIndex != this.columnsList.store.length - 1 ? itemIndex + 1 : 0);    
@@ -344,10 +347,15 @@ define([
                         maxValSpacingSpin = spinWidthNextItem.getNumberValue() + item.get('spacingSpin').getNumberValue() - Common.Utils.Metric.fnRecalcFromMM(this.minWidthCol),
                         maxValWidthSpin = spinWidthNextItem.getNumberValue() + item.get('widthSpin').getNumberValue() - Common.Utils.Metric.fnRecalcFromMM(this.minWidthCol);
     
-                    item.get('spacingSpin').setMaxValue(maxValSpacingSpin.toFixed(2));
-                    item.get('widthSpin').setMaxValue(maxValWidthSpin.toFixed(2));
+                    item.get('spacingSpin').setMaxValue(this.decimalRouding(maxValSpacingSpin));
+                    item.get('widthSpin').setMaxValue(this.decimalRouding(maxValWidthSpin));
                 }
             }
+        },
+
+        decimalRouding: function (a) {
+            var x = Math.pow(10, 2);
+            return Math.round(a * x) / x;
         },
 
         addControls: function(listView, itemView, item) {
@@ -365,12 +373,12 @@ define([
                 width: 105,
                 tabindex: 1,
                 defaultUnit : metricName,
-                value: Common.Utils.Metric.fnRecalcFromMM(item.get('width')).toFixed(2) + ' ' + metricName,
+                value: me.decimalRouding(Common.Utils.Metric.fnRecalcFromMM(item.get('width'))) + ' ' + metricName,
                 maxValue: 120,
-                minValue: Common.Utils.Metric.fnRecalcFromMM(me.minWidthCol).toFixed(2),
+                minValue: me.decimalRouding(Common.Utils.Metric.fnRecalcFromMM(me.minWidthCol)),
                 disabled: isEqualWidth || (index == 0 && isLastItem),
             }).on('change', function(field, newValue, oldValue, eOpts) {
-                var difference = Common.Utils.Metric.fnRecalcToMM(parseFloat(newValue)) - item.get('width').toFixed(2),
+                var difference = Common.Utils.Metric.fnRecalcToMM(parseFloat(newValue) - Common.Utils.Metric.fnRecalcFromMM(item.get('width')).toFixed(2)),
                     nextItem = me.columnsList.store.at(isLastItem ? 0 : index + 1),
                     previosItem = me.columnsList.store.at(index == 0 ? me.columnsList.store.length - 1 : index - 1),
                     newWidthNextItem = nextItem.get('width') - difference;
@@ -389,12 +397,12 @@ define([
                 width: 105,
                 tabindex: 1,
                 defaultUnit : metricName,
-                value: !isLastItem ? Common.Utils.Metric.fnRecalcFromMM(item.get('spacing')).toFixed(2) + ' ' + metricName : '',
+                value: !isLastItem ? this.decimalRouding(Common.Utils.Metric.fnRecalcFromMM(item.get('spacing'))) + ' ' + metricName : '',
                 maxValue: 120,
                 minValue: 0,
                 disabled: (isEqualWidth && index != 0) || isLastItem,
             }).on('change', function(field, newValue, oldValue, eOpts) {
-                var difference = Common.Utils.Metric.fnRecalcToMM(parseFloat(newValue)) - item.get('spacing').toFixed(2);
+                var difference = Common.Utils.Metric.fnRecalcToMM(parseFloat(newValue) - Common.Utils.Metric.fnRecalcFromMM(item.get('spacing')).toFixed(2));
 
                 item.set('spacing', item.get('spacing') + difference, {silent: true});
                 
