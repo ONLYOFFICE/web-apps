@@ -3611,7 +3611,6 @@
   "SSE.Views.ValueFieldSettingsDialog.txtPercent": "Procent av",
   "SSE.Views.ValueFieldSettingsDialog.txtPercentDiff": "Procent skillnad från",
   "SSE.Views.ValueFieldSettingsDialog.txtPercentOfCol": "Procent av kolumn",
-  "SSE.Views.ValueFieldSettingsDialog.txtPercentOfRow": "Procent av total",
   "SSE.Views.ValueFieldSettingsDialog.txtPercentOfTotal": "Procent av rad",
   "SSE.Views.ValueFieldSettingsDialog.txtProduct": "Produkt",
   "SSE.Views.ValueFieldSettingsDialog.txtRunTotal": "Running Total In",

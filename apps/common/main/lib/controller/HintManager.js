@@ -121,7 +121,7 @@ Common.UI.HintManager = new(function() {
         _usedTitles = [],
         _appPrefix,
         _staticHints = { // for desktop buttons
-            "btnhome": 'K'
+            // "btnhome": 'K'
         };
 
     var _api;
@@ -324,7 +324,7 @@ Common.UI.HintManager = new(function() {
                 index++;
             }
             var title = el.attr('data-hint-title');
-            if (!title) {
+            if (!title && !(index > _arrLetters.length)) {
                 el.attr('data-hint-title', _arrLetters[index].toUpperCase());
                 index++;
             }

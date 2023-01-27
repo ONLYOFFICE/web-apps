@@ -99,7 +99,7 @@
         color: @text-normal-ie;
         color: @text-normal;
         text-align: center;
-        font-size: 12px;
+        .font-size-medium();
         font-weight: 700;
         letter-spacing: 0.01em;
         vertical-align: bottom;
@@ -205,6 +205,11 @@
         .icon {
             float: left;
             margin: 0 0 0 10px;
+
+            .rtl & {
+                float: right;
+                margin: 0 10px 0 10px;
+            }
         }
 
         min-height: 90px;
@@ -215,11 +220,20 @@
                 padding: 20px 20px 20px 10px;
                 height: 50px;
 
+                .rtl & {
+                    padding: 20px 10px 20px 20px;
+                }
+
                 .text {
                     padding-left: 60px;
 
+                    .rtl & {
+                        padding-left: 0;
+                        padding-right: 60px;
+                    }
+
                     span {
-                        font-size: 12px;
+                        .font-size-medium();
                         white-space: nowrap;
 
                         a {
@@ -256,6 +270,11 @@
             button {
                 &:not(:first-child) {
                     margin-left: 10px;
+
+                    .rtl & {
+                        margin-left: 0;
+                        margin-right: 10px;
+                    }
                 }
             }
         }
@@ -314,6 +333,11 @@
         button {
             &:not(:first-child) {
                 margin-left: 10px;
+
+                .rtl & {
+                    margin-left: 0;
+                    margin-right: 10px;
+                }
             }
         }
     }
@@ -334,6 +358,9 @@
             & > div {
                 display: inline-block;
             }
+        }
+        label {
+            .font-size-normal();
         }
     }
 

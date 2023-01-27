@@ -144,11 +144,11 @@ define([
                     template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                     itemTemplate: _.template([
                         '<div>',
-                        '<label class="checkbox-indeterminate" style="position:absolute;">',
+                        '<label class="checkbox-indeterminate">',
                         '<input id="pdcheckbox-<%= id %>" type="checkbox" class="button__checkbox">',
                         '<label for="pdcheckbox-<%= id %>" class="checkbox__shape" ></label>',
                         '</label>',
-                        '<div id="<%= id %>" class="list-item" style="pointer-events:none; margin-left: 20px;display: flex;">',
+                        '<div id="<%= id %>" class="list-item">',
                         '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(value) %></div>',
                         '</div>',
                         '</div>'

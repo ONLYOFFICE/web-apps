@@ -10,7 +10,7 @@
   "DE.ApplicationController.criticalErrorTitle": "错误",
   "DE.ApplicationController.downloadErrorText": "下载失败",
   "DE.ApplicationController.downloadTextText": "正在下载文件...",
-  "DE.ApplicationController.errorAccessDeny": "您正在尝试执行您没有权限的操作。<br>请联系您的文档服务器管理员.",
+  "DE.ApplicationController.errorAccessDeny": "您正在尝试执行您没有权限的操作。<br>请联系您的文档服务器管理员。",
   "DE.ApplicationController.errorDefaultMessage": "错误代码：%1",
   "DE.ApplicationController.errorEditingDownloadas": "在处理文档期间发生错误。<br>使用“下载为…”选项将文件备份复制到您的计算机硬盘中。",
   "DE.ApplicationController.errorFilePassProtect": "该文档受密码保护，无法被打开。",

@@ -101,7 +101,10 @@ define([
                         this.checkedIndex = i;
                     }
                 }
-                (this.checkedIndex>=0) && this.radio[this.checkedIndex].setValue(true);
+                if (this.checkedIndex>=0) {
+                    this.radio[this.checkedIndex].setValue(true);
+                    this.currentCell = this.radio[this.checkedIndex].options.value;
+                }
             }
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
         },

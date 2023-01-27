@@ -73,7 +73,7 @@ define([
                         '<label>' + t.txtRepeat + '</label>',
                     '</div>',
                     '<div id="id-protect-repeat-txt" class="input-row" style="margin-bottom: 10px;"></div>',
-                    '<div class="input-row" style="margin-bottom: 5px;">',
+                    '<div class="" style="margin-bottom: 5px;">',
                         '<label style="font-weight: bold;letter-spacing: 0.01em;margin-bottom: 5px;">' + t.txtAllow + '</label>',
                     '</div>',
                     '<div id="id-protect-radio-view" style="margin-bottom: 8px;"></div>',
@@ -114,7 +114,10 @@ define([
                 maxLength: 15,
                 validateOnBlur: false,
                 repeatInput: this.repeatPwd,
-                showPwdOnClick: true
+                showPwdOnClick: true,
+                validation  : function(value) {
+                    return (value.length>15) ? me.txtLimit : true;
+                }
             });
 
             this.rbView = new Common.UI.RadioBox({
@@ -146,6 +149,10 @@ define([
                 value: Asc.c_oAscEDocProtect.Comments
             });
 
+            this.btnOk = new Common.UI.Button({
+                el: this.$window.find('.primary')
+            });
+
             this.afterRender();
         },
 
@@ -171,8 +178,11 @@ define([
         },
 
         _handleInput: function(state) {
+            if (state === 'ok' && this.btnOk.isDisabled())
+                return;
+
             if (this.handler) {
-                if (state == 'ok') {
+                if (state === 'ok') {
                     if (this.inputPwd.checkValidate() !== true)  {
                         this.inputPwd.focus();
                         return;
@@ -191,9 +201,6 @@ define([
 
         _setDefaults: function (props) {
             if (props) {
-                this.rbReview.setDisabled(!props.canReview);
-                this.rbForms.setDisabled(!props.canFillForms);
-                this.rbComments.setDisabled(!props.canComments);
             }
         },
 
@@ -208,6 +215,10 @@ define([
                 return Asc.c_oAscEDocProtect.Comments;
         },
 
+        SetDisabled: function(disabled) {
+            this.btnOk.setDisabled(disabled);
+        },
+
         txtPassword : "Password",
         txtRepeat: 'Repeat password',
         txtOptional: 'optional',
@@ -219,7 +230,8 @@ define([
         textView: 'No changes (Read only)',
         textForms: 'Filling forms',
         textReview: 'Tracked changes',
-        textComments: 'Comments'
+        textComments: 'Comments',
+        txtLimit: 'Password is limited to 15 characters'
 
     }, DE.Views.ProtectDialog || {}));
 });

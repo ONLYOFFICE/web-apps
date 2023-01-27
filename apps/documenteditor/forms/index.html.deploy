@@ -241,7 +241,10 @@
       <div class="toolbar" id="toolbar">
           <div class="group left">
               <div class="margin-right-large"><a id="header-logo" class="brand-logo" href="http://www.onlyoffice.com/" target="_blank"></a></div>
-              <span id="id-btn-prev-field" class="margin-right-small"></span>
+              <span id="id-btn-undo" class="margin-right-small"></span>
+              <span id="id-btn-redo" class="margin-right-small"></span>
+              <div class="separator"></div>
+              <span id="id-btn-prev-field" class="margin-left-small margin-right-small"></span>
               <span id="id-btn-next-field" class="margin-right-large"></span>
               <span id="id-btn-clear-fields"></span>
           </div>

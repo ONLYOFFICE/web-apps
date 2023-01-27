@@ -39,34 +39,9 @@ SSE.CellEditorView = new(function (){
 
     function  createView()
     {
-        me=this;
-        me.$el = $('#cell-editing-box');
-        me.$cellcontent=$('#ce-cell-content');
-        me.$cellname = $('#ce-cell-name');
-
-        me.$cellname.on('focus', function(e){
-            var txt = me.$cellname[0];
-            txt.selectionStart = 0;
-            txt.selectionEnd = txt.value.length;
-            txt.scrollLeft = txt.scrollWidth;
-        });
-    }
-    
-    function updateCellInfo(info) {
-        if (info) {
-            me.$cellname.val(typeof(info)=='string' ? info : info.asc_getName());
-        }
-    }
-    
-    function cellNameDisabled(disabled){
-        (disabled) ? me.$cellname.attr('disabled', 'disabled') : me.$cellname.removeAttr('disabled');
     }
     
     return {
-        create: createView,
-        cell:   {
-            updateInfo: updateCellInfo,
-            nameDisabled: cellNameDisabled
-        }
+        create: createView
     }
 })();

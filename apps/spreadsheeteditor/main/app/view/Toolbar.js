@@ -167,7 +167,8 @@ define([
                 { value: Asc.c_oAscNumFormatType.Scientific,format: this.ascFormatOptions.Scientific,  displayValue: this.txtScientific,   exampleval: '1,00E+02' },
                 { value: Asc.c_oAscNumFormatType.Accounting,format: this.ascFormatOptions.Accounting,  displayValue: this.txtAccounting,   exampleval: '100,00 $' },
                 { value: Asc.c_oAscNumFormatType.Currency,  format: this.ascFormatOptions.Currency,    displayValue: this.txtCurrency,     exampleval: '100,00 $' },
-                { value: Asc.c_oAscNumFormatType.Date,      format: 'MM-dd-yyyy',                      displayValue: this.txtDate,         exampleval: '04-09-1900' },
+                { value: Asc.c_oAscNumFormatType.Date,      format: 'MM-dd-yyyy',                      displayValue: this.txtDateShort,    exampleval: '04-09-1900',     customDisplayValue: this.txtDate},
+                { value: Asc.c_oAscNumFormatType.Date,      format: 'MMMM d yyyy',                     displayValue: this.txtDateLong,     exampleval: 'April 9 1900',   customDisplayValue: this.txtDate },
                 { value: Asc.c_oAscNumFormatType.Time,      format: 'HH:MM:ss',                        displayValue: this.txtTime,         exampleval: '00:00:00' },
                 { value: Asc.c_oAscNumFormatType.Percent,   format: this.ascFormatOptions.Percentage,  displayValue: this.txtPercentage,   exampleval: '100,00%' },
                 { value: Asc.c_oAscNumFormatType.Fraction,  format: this.ascFormatOptions.Fraction,    displayValue: this.txtFraction,     exampleval: '100' },
@@ -269,15 +270,15 @@ define([
                         _.template([
                             '<% _.each(items, function(item) { %>',
                             '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem">',
-                            '<div style="position: relative;"><div style="position: absolute; left: 0; width: 100px;"><%= scope.getDisplayValue(item) %></div>',
-                            '<div style="display: inline-block; width: 100%; max-width: 300px; overflow: hidden; text-overflow: ellipsis; text-align: right; vertical-align: bottom; padding-left: 100px; color: silver;white-space: nowrap;"><%= item.exampleval ? item.exampleval : "" %></div>',
+                            '<div style="position: relative;"><div class="display-value"><%= scope.getDisplayValue(item) %></div>',
+                            '<div class="example-val"><%= item.exampleval ? item.exampleval : "" %></div>',
                             '</div></a></li>',
                             '<% }); %>',
                             '<li class="divider">',
                             '<li id="id-toolbar-mnu-item-more-formats" data-value="-1"><a tabindex="-1" type="menuitem">' + me.textMoreFormats + '</a></li>'
                         ].join(''));
 
-                    me.cmbNumberFormat = new Common.UI.ComboBox({
+                    me.cmbNumberFormat = new Common.UI.ComboBoxCustom({
                         cls         : 'input-group-nr',
                         menuStyle   : 'min-width: 180px;',
                         hint        : me.tipNumFormat,
@@ -286,7 +287,11 @@ define([
                         editable    : false,
                         data        : me.numFormatData,
                         dataHint    : '1',
-                        dataHintDirection: 'bottom'
+                        dataHintDirection: 'bottom',
+                        updateFormControl: function (record){
+                            this.clearSelection();
+                            record && this.setRawValue(record.get('customDisplayValue')||record.get('displayValue'));
+                        }
                     });
                 }
                 if ( config.isEditMailMerge || config.isEditOle ) {
@@ -814,10 +819,13 @@ define([
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-print no-mask',
                     lock        : [_set.editCell, _set.cantPrint, _set.disableOnStart],
-                    signals: ['disabled'],
+                    signals     : ['disabled'],
+                    split       : config.canQuickPrint,
+                    menu        : config.canQuickPrint,
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
-                    dataHintTitle: 'P'
+                    dataHintTitle: 'P',
+                    printType: 'print'
                 });
 
                 me.btnSave = new Common.UI.Button({
@@ -1209,6 +1217,18 @@ define([
                     dataHintOffset: 'small'
                 });
 
+                this.btnInsertSmartArt = new Common.UI.Button({
+                    id: 'tlbtn-insertsmartart',
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon smart-art',
+                    lock: [_set.editCell, _set.lostConnect, _set.coAuth, _set['Objects']],
+                    caption: me.capBtnInsSmartArt,
+                    menu: true,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+
                 me.btnInsertShape = new Common.UI.Button({
                     id          : 'tlbtn-insertshape',
                     cls         : 'btn-toolbar x-huge icon-top',
@@ -1245,7 +1265,7 @@ define([
                     menu        : new Common.UI.Menu({
                         cls: 'menu-shapes',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-insart" style="width: 239px; margin-left: 5px;"></div>')}
+                            {template: _.template('<div id="id-toolbar-menu-insart" style="width: 239px;"></div>')}
                         ]
                     }),
                     dataHint    : '1',
@@ -1352,7 +1372,11 @@ define([
                             if (menuWidth>Common.Utils.innerWidth())
                                 menuWidth = Math.max(Math.floor((Common.Utils.innerWidth()-paddings)/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth) + paddings;
                             var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - Math.min(menuWidth, buttonOffsetLeft) - 1;
-                            menu.setOffset(Math.min(offset, 0));
+                            if (Common.UI.isRTL()) {
+                                offset = cmp.openButton.$el.width();
+                            }
+                            menu.setOffset(Common.UI.isRTL() ? offset : Math.min(offset, 0));
+
                             menu.cmpEl.css({
                                 'width': menuWidth,
                                 'min-height': cmp.cmpEl.height()
@@ -1365,15 +1389,15 @@ define([
                     _.template([
                         '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem">',
-                        '<div style="position: relative;"><div style="position: absolute; left: 0; width: 100px;"><%= scope.getDisplayValue(item) %></div>',
-                        '<div style="display: inline-block; width: 100%; max-width: 300px; overflow: hidden; text-overflow: ellipsis; text-align: right; vertical-align: bottom; padding-left: 100px; color: silver;white-space: nowrap;"><%= item.exampleval ? item.exampleval : "" %></div>',
+                        '<div style="position: relative;"><div class="display-value"><%= scope.getDisplayValue(item) %></div>',
+                        '<div class="example-val"><%= item.exampleval ? item.exampleval : "" %></div>',
                         '</div></a></li>',
                         '<% }); %>',
                         '<li class="divider">',
                         '<li id="id-toolbar-mnu-item-more-formats" data-value="-1"><a tabindex="-1" type="menuitem">' + me.textMoreFormats + '</a></li>'
                     ].join(''));
 
-                me.cmbNumberFormat = new Common.UI.ComboBox({
+                me.cmbNumberFormat = new Common.UI.ComboBoxCustom({
                     cls         : 'input-group-nr',
                     style       : 'width: 113px;',
                     menuStyle   : 'min-width: 180px;',
@@ -1383,7 +1407,12 @@ define([
                     editable    : false,
                     data        : me.numFormatData,
                     dataHint    : '1',
-                    dataHintDirection: 'top'
+                    dataHintDirection: 'top',
+                    updateFormControl: function (record){
+                        this.clearSelection();
+                        record && this.setRawValue(record.get('customDisplayValue')||record.get('displayValue'));
+                    }
+
                 });
 
                 me.btnPercentStyle = new Common.UI.Button({
@@ -1688,12 +1717,21 @@ define([
                     dataHintOffset: 'small'
                 });
 
-                var pageMarginsTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><b><%= caption %></b></div>' +
-                    '<% if (options.value !== null) { %><div style="display: inline-block;margin-right: 20px;min-width: 80px;">' +
-                    '<label style="display: block;">' + this.textTop + '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[0]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
-                    '<label style="display: block;">' + this.textLeft + '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div><div style="display: inline-block;">' +
-                    '<label style="display: block;">' + this.textBottom + '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[2]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
-                    '<label style="display: block;">' + this.textRight + '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[3]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div>' +
+                var pageMarginsTemplate = !Common.UI.isRTL() ? _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><b><%= caption %></b></div>' +
+                    '<% if (options.value !== null) { %><div class="margin-vertical">' +
+                    '<label>' + this.textTop + '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[0]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
+                    '<label>' + this.textLeft + '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div>' +
+                    '<div class="margin-horizontal">' +
+                    '<label>' + this.textBottom + '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[2]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
+                    '<label>' + this.textRight + '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[3]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div>' +
+                    '<% } %></a>') :
+                    _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><b><%= caption %></b></div>' +
+                    '<% if (options.value !== null) { %><div class="margin-vertical">' +
+                    '<label><%= Common.Utils.Metric.getCurrentMetricName() %> <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[0]).toFixed(2)) %>' + this.textTop + '</label>' +
+                    '<label><%= Common.Utils.Metric.getCurrentMetricName() %> <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[1]).toFixed(2)) %>' + this.textLeft + '</label></div>' +
+                    '<div class="margin-horizontal">' +
+                    '<label><%= Common.Utils.Metric.getCurrentMetricName() %> <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[2]).toFixed(2)) %>' + this.textBottom + '</label>' +
+                    '<label><%= Common.Utils.Metric.getCurrentMetricName() %> <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[3]).toFixed(2)) %>' + this.textRight + '</label></div>' +
                     '<% } %></a>');
 
                 me.btnPageMargins = new Common.UI.Button({
@@ -1703,6 +1741,7 @@ define([
                     caption: me.capBtnMargins,
                     lock        : [_set.docPropsLock, _set.lostConnect, _set.coAuth, _set.editCell, _set.selRangeEdit],
                     menu: new Common.UI.Menu({
+                        cls: 'menu-margins',
                         items: [
                             {
                                 caption: me.textMarginsLast,
@@ -1740,9 +1779,12 @@ define([
                     dataHintOffset: 'small'
                 });
 
-                var pageSizeTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><b><%= caption %></b></div>' +
-                    '<div><%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[0]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %> x ' +
-                    '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></div></a>');
+                var pageSizeTemplate = !Common.UI.isRTL() ? _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><b><%= caption %></b></div>' +
+                    '<div dir="ltr"><%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[0]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %> x ' +
+                    '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></div></a>') :
+                    _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><b><%= caption %></b></div>' +
+                    '<div dir="ltr"><%= Common.Utils.Metric.getCurrentMetricName() %> <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[1]).toFixed(2)) %> x ' +
+                    '<%= Common.Utils.Metric.getCurrentMetricName() %> <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[0]).toFixed(2)) %></div></a>');
 
                 me.btnPageSize = new Common.UI.Button({
                     id: 'tlbtn-pagesize',
@@ -1898,14 +1940,14 @@ define([
 
                 me.mnuCustomScale = new Common.UI.MenuItem({
                     template: _.template([
-                        '<div class="checkable custom-scale" style="padding: 5px 5px 5px 20px;font-weight: normal;line-height: 1.42857143;font-size: 11px;height: 32px;"',
+                        '<div class="checkable custom-scale font-size-normal"',
                         '<% if(!_.isUndefined(options.stopPropagation)) { %>',
                         'data-stopPropagation="true"',
                         '<% } %>', '>',
-                        '<label class="title" style="padding-top: 3px;padding-right: 5px;">' + me.textScale + '</label>',
-                        '<button id="custom-scale-up" type="button" style="float:right;" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomup">&nbsp;</i></button>',
-                        '<label id="value-custom-scale" style="float:right;padding: 3px 3px;min-width: 40px; text-align: center;"></label>',
-                        '<button id="custom-scale-down" type="button" style="float:right;" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomdown">&nbsp;</i></button>',
+                        '<label class="title">' + me.textScale + '</label>',
+                        '<button id="custom-scale-up" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomup">&nbsp;</i></button>',
+                        '<label id="value-custom-scale"></label>',
+                        '<button id="custom-scale-down" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomdown">&nbsp;</i></button>',
                         '</div>'
                     ].join('')),
                     stopPropagation: true,
@@ -2065,7 +2107,7 @@ define([
                     me.btnItalic, me.btnUnderline, me.btnStrikeout, me.btnSubscript, me.btnTextColor, me.btnAlignLeft,
                     me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust, me.btnAlignTop,
                     me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor, me.btnInsertTable,
-                    me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape, me.btnInsertEquation, me.btnInsertSymbol, me.btnInsertSlicer,
+                    me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape, me.btnInsertSmartArt, me.btnInsertEquation, me.btnInsertSymbol, me.btnInsertSlicer,
                     me.btnInsertText, me.btnInsertTextArt, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter,
                     me.btnTableTemplate, me.btnCellStyle, me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell, me.btnCondFormat,
                     me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
@@ -2274,6 +2316,7 @@ define([
             _injectComponent('#slot-btn-search',         this.btnSearch);
             _injectComponent('#slot-btn-inschart',       this.btnInsertChart);
             _injectComponent('#slot-btn-inssparkline',   this.btnInsertSparkline);
+            _injectComponent('#slot-btn-inssmartart',    this.btnInsertSmartArt);
             _injectComponent('#slot-field-styles',       this.listStyles);
             _injectComponent('#slot-btn-chart',          this.btnEditChart);
             _injectComponent('#slot-btn-chart-data',     this.btnEditChartData);
@@ -2301,6 +2344,7 @@ define([
                                 [Common.enumLock.editCell, Common.enumLock.selRangeEdit, Common.enumLock.headerLock, Common.enumLock.lostConnect, Common.enumLock.coAuth], undefined, undefined, undefined, '1', 'bottom', 'small');
             Array.prototype.push.apply(this.lockControls, this.btnsEditHeader);
 
+            this.btnPrint && this.btnPrint.menu && this.btnPrint.$el.addClass('split');
             return $host;
         },
 
@@ -2344,6 +2388,7 @@ define([
             _updateHint(this.btnInsertImage, this.tipInsertImage);
             _updateHint(this.btnInsertChart, this.tipInsertChartSpark);
             _updateHint(this.btnInsertSparkline, this.tipInsertSpark);
+            _updateHint(this.btnInsertSmartArt, this.tipInsertSmartArt);
             _updateHint(this.btnInsertText, [this.tipInsertHorizontalText ,this.tipInsertText]);
             _updateHint(this.btnInsertTextArt, this.tipInsertTextart);
             _updateHint(this.btnInsertHyperlink, this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
@@ -2496,7 +2541,7 @@ define([
                             id          : 'id-toolbar-mnu-item-border-color',
                             caption     : this.textBordersColor,
                             iconCls     : 'mnu-icon-item mnu-border-color',
-                            template    : _.template('<a id="<%= id %>"tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 2px 9px 0 -11px; border-style: solid; border-width: 3px; border-color: #000;"></span><%= caption %></a>'),
+                            template    : _.template('<a id="<%= id %>"tabindex="-1" type="menuitem"><span class="menu-item-icon"></span><%= caption %></a>'),
                             menu        : new Common.UI.Menu({
                                 menuAlign   : 'tl-tr',
                                 cls: 'shifted-left',
@@ -2504,7 +2549,7 @@ define([
                                     {
                                         id: 'id-toolbar-menu-auto-bordercolor',
                                         caption: this.textAutoColor,
-                                        template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon color-auto" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #000;"></span><%= caption %></a>'),
+                                        template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon color-auto"></span><%= caption %></a>'),
                                         stopPropagation: true
                                     },
                                     {caption: '--'},
@@ -2512,7 +2557,7 @@ define([
                                     {caption: '--'},
                                     {
                                         id: "id-toolbar-menu-new-bordercolor",
-                                        template: _.template('<a tabindex="-1" type="menuitem" style="padding-left:12px;">' + this.textNewColor + '</a>'),
+                                        template: _.template('<a tabindex="-1" type="menuitem">' + this.textNewColor + '</a>'),
                                         stopPropagation: true
                                     }
                                 ]
@@ -2553,6 +2598,62 @@ define([
                     menu.off('show:before', onShowBefore);
                 };
                 this.btnInsertChart.menu.on('show:before', onShowBefore);
+            }
+
+            if (this.btnInsertSmartArt) {
+                this.btnInsertSmartArt.setMenu(new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    items: []
+                }));
+
+                var smartArtData = Common.define.smartArt.getSmartArtData();
+                smartArtData.forEach(function (item, index) {
+                    var length = item.items.length,
+                        width = 399;
+                    if (length < 5) {
+                        width = length * (70 + 8) + 9; // 4px margin + 4px margin
+                    }
+                    me.btnInsertSmartArt.menu.addItem({
+                        caption: item.caption,
+                        value: item.sectionId,
+                        itemId: item.id,
+                        iconCls: item.icon ? 'menu__icon ' + item.icon : undefined,
+                        menu: new Common.UI.Menu({
+                            items: [
+                                {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art" style="width: ' + width + 'px; height: 500px; margin-left: 5px;"></div>')}
+                            ],
+                            menuAlign: 'tl-tr',
+                        })});
+                });
+                var onShowBeforeSmartArt = function (menu) { // + <% if(typeof imageUrl === "undefined" || imageUrl===null || imageUrl==="") { %> style="visibility: hidden;" <% } %>/>',
+                    me.btnInsertSmartArt.menu.items.forEach(function (item, index) {
+                        item.$el.one('mouseenter', function () {
+                            me.fireEvent('generate:smartart', [item.value]);
+                            item.$el.mouseenter();
+                        });
+                        item.menuPicker = new Common.UI.DataView({
+                            el: $('#' + item.options.itemId),
+                            parentMenu: me.btnInsertSmartArt.menu.items[index].menu,
+                            itemTemplate: _.template([
+                                '<div>',
+                                '<img src="<%= imageUrl %>" width="' + 70 + '" height="' + 70 + '" />',
+                                '</div>'
+                            ].join('')),
+                            store: new Common.UI.DataViewStore(),
+                            delayRenderTips: true,
+                            scrollAlwaysVisible: true,
+                            showLast: false
+                        });
+                        item.menuPicker.on('item:click', function(picker, item, record, e) {
+                            if (record) {
+                                me.fireEvent('insert:smartart', [record.get('value')]);
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me);
+                        });
+                    });
+                    menu.off('show:before', onShowBeforeSmartArt);
+                };
+                this.btnInsertSmartArt.menu.on('show:before', onShowBeforeSmartArt);
             }
 
             if ( this.btnInsertSparkline ) {
@@ -2862,7 +2963,7 @@ define([
                     this.lockToolbar(Common.enumLock.cantPrint, true, {array: [this.btnPrint]});
             } else {
                 this.mode = mode;
-                !mode.canPrint && this.btnPrint.hide();
+                !mode.canPrint && this.btnPrint && this.btnPrint.hide();
                 this.lockToolbar(Common.enumLock.cantPrint, !mode.canPrint, {array: [this.btnPrint]});
             }
 
@@ -3005,6 +3106,31 @@ define([
             if (!this.mode.isEdit || this.mode.isEditMailMerge || this.mode.isEditDiagram || this.mode.isEditOle) return;
 
             var me = this;
+
+            if(me.btnPrint.menu) {
+                me.btnPrint.setMenu(
+                    new Common.UI.Menu({
+                        items:[
+                            {
+                                caption:            me.tipPrint,
+                                iconCls:            'menu__icon btn-print',
+                                toggleGroup:        'viewPrint',
+                                value:              'print',
+                                iconClsForMainBtn:  'btn-print',
+                                platformKey:         Common.Utils.String.platformKey('Ctrl+P')
+                            },
+                            {
+                                caption:            me.tipPrintQuick,
+                                iconCls:            'menu__icon btn-quick-print',
+                                toggleGroup:        'viewPrint',
+                                value:              'print-quick',
+                                iconClsForMainBtn:  'btn-quick-print',
+                                platformKey:        ''
+                            }
+                        ]
+                    }));
+            }
+
             var _holder_view = SSE.getController('DocumentHolder').getView('DocumentHolder');
             me.btnImgForward.updateHint(me.tipSendForward);
             me.btnImgForward.setMenu(new Common.UI.Menu({
@@ -3103,6 +3229,7 @@ define([
         tipUndo:            'Undo',
         tipRedo:            'Redo',
         tipPrint:           'Print',
+        tipPrintQuick:      'Quick print',
         tipSave:            'Save',
         tipFontColor:       'Font color',
         tipPrColor:         'Background color',
@@ -3130,6 +3257,8 @@ define([
 //    txtFranc:           'CHF Swiss franc',
         txtAccounting:      'Accounting',
         txtDate:            'Date',
+        txtDateShort:       'Short Date',
+        txtDateLong:        'Long Date',
         txtTime:            'Time',
         txtDateTime:        'Date & Time',
         txtPercentage:      'Percentage',
@@ -3355,6 +3484,8 @@ define([
         tipHAlighOle: 'Horizontal Align',
         tipVAlighOle: 'Vertical Align',
         tipSelectAll: 'Select all',
-        tipCut: 'Cut'
+        tipCut: 'Cut',
+        tipInsertSmartArt: 'Insert SmartArt',
+        capBtnInsSmartArt: 'SmartArt'
     }, SSE.Views.Toolbar || {}));
 });

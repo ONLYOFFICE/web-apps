@@ -68,8 +68,14 @@ module.exports = function(grunt) {
                     from: /\{\{HELP_URL\}\}/g,
                     to: _encode(process.env.HELP_URL) || 'https://helpcenter.onlyoffice.com'
                 }, {
-                    from: /\{\{HELP_CENTER_WEB_EDITORS\}\}/g,
-                    to: _encode(process.env.HELP_CENTER_WEB_EDITORS) || 'https://helpcenter.onlyoffice.com/userguides/docs-index.aspx'
+                    from: /\{\{HELP_CENTER_WEB_DE\}\}/g,
+                    to: _encode(process.env.HELP_CENTER_WEB_DE) || _encode(process.env.HELP_CENTER_WEB_EDITORS) || 'https://helpcenter.onlyoffice.com/userguides/docs-de.aspx'
+                }, {
+                    from: /\{\{HELP_CENTER_WEB_SSE\}\}/g,
+                    to: _encode(process.env.HELP_CENTER_WEB_SSE) || _encode(process.env.HELP_CENTER_WEB_EDITORS) || 'https://helpcenter.onlyoffice.com/userguides/docs-se.aspx'
+                }, {
+                    from: /\{\{HELP_CENTER_WEB_PE\}\}/g,
+                    to: _encode(process.env.HELP_CENTER_WEB_PE) || _encode(process.env.HELP_CENTER_WEB_EDITORS) || 'https://helpcenter.onlyoffice.com/userguides/docs-pe.aspx'
                 }, {
                     from: /\{\{DEFAULT_LANG\}\}/g,
                     to: _encode(process.env.DEFAULT_LANG) || 'en'
@@ -275,7 +281,7 @@ module.exports = function(grunt) {
             },
         }
     });
-    doRegisterTask('sockjs');
+    doRegisterTask('socketio');
     doRegisterTask('xregexp');
     doRegisterTask('megapixel');
     doRegisterTask('jquery');
@@ -650,6 +656,49 @@ module.exports = function(grunt) {
         });
     });
 
+    grunt.registerTask('test-app-init', function() {
+        grunt.initConfig({
+            pkg: packageFile,
+
+            clean: {
+                options: {
+                    force: true
+                },
+                prebuild: packageFile['test']['clean']['prebuild']
+            },
+
+            terser: {
+                options: {
+                    format: {
+                        comments: false,
+                        preamble: copyright,
+                    },
+                },
+                build: {
+                    src: packageFile['test']['js']['src'],
+                    dest: packageFile['test']['js']['dist']
+                }
+            },
+
+            less: {
+                production: {
+                    options: {
+                        compress: true,
+                        ieCompat: false
+                    },
+                    files: {
+                        "<%= pkg.test.less.files.dist %>": packageFile['test']['less']['files']['src']
+                    }
+                }
+            },
+
+            copy: {
+                'index-page': {
+                    files: packageFile['test']['copy']['index-page']
+                }
+            }
+        });
+    });
 
     grunt.registerTask('increment-build', function() {
         var pkg = grunt.file.readJSON(defaultConfig);
@@ -667,7 +716,7 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-apps-common',            ['apps-common-init', 'clean', 'copy', 'imagemin', 'svgmin']);
     grunt.registerTask('deploy-sdk',                    ['sdk-init', 'clean', copyTask]);
 
-    grunt.registerTask('deploy-sockjs',                 ['sockjs-init', 'clean', 'copy']);
+    grunt.registerTask('deploy-socketio',               ['socketio-init', 'clean', 'copy']);
     grunt.registerTask('deploy-xregexp',                ['xregexp-init', 'clean', 'copy']);
     grunt.registerTask('deploy-megapixel',              ['megapixel-init', 'clean', 'copy']);
     grunt.registerTask('deploy-jquery',                 ['jquery-init', 'clean', 'copy']);
@@ -690,12 +739,16 @@ module.exports = function(grunt) {
                                                             /*'replace:writeVersion', 'replace:fixResourceUrl'*/]);
 
     grunt.registerTask('deploy-app-embed',              ['embed-app-init', 'clean:prebuild', 'terser', 'less', 'copy', 'clean:postbuild']);
+    grunt.registerTask('deploy-app-test',               ['test-app-init', 'clean:prebuild', 'terser', 'less', 'copy']);
 
     doRegisterInitializeAppTask('common',               'Common',               'common.json');
     doRegisterInitializeAppTask('documenteditor',       'DocumentEditor',       'documenteditor.json');
     doRegisterInitializeAppTask('spreadsheeteditor',    'SpreadsheetEditor',    'spreadsheeteditor.json');
     doRegisterInitializeAppTask('presentationeditor',   'PresentationEditor',   'presentationeditor.json');
 
+    doRegisterInitializeAppTask('testdocumenteditor',    'TestDocumentEditor',           'testdocumenteditor.json');
+    doRegisterInitializeAppTask('testpresentationeditor', 'TestPresentationEditor',      'testpresentationeditor.json');
+    doRegisterInitializeAppTask('testspreadsheeteditor',  'TestSpreadsheetEditor',       'testspreadsheeteditor.json');
 
     grunt.registerTask('deploy-app', 'Deploy application.', function(){
         if (packageFile) {
@@ -718,6 +771,10 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-documenteditor',     ['deploy-common-component', 'deploy-documenteditor-component']);
     grunt.registerTask('deploy-spreadsheeteditor',  ['deploy-common-component', 'deploy-spreadsheeteditor-component']);
     grunt.registerTask('deploy-presentationeditor', ['deploy-common-component', 'deploy-presentationeditor-component']);
+
+    grunt.registerTask('deploy-testdocumenteditor', ['init-build-testdocumenteditor', 'deploy-app']);
+    grunt.registerTask('deploy-testpresentationeditor', ['init-build-testpresentationeditor', 'deploy-app']);
+    grunt.registerTask('deploy-testspreadsheeteditor', ['init-build-testspreadsheeteditor', 'deploy-app']);
 
     grunt.registerTask('default', ['deploy-common-component',
                                    'deploy-documenteditor-component',

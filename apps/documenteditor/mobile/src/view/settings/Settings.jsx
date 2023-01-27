@@ -171,13 +171,10 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
                     {!isViewer && Device.phone &&
                         <ListItem title={t('Settings.textMobileView')}>
                             <Icon slot="media" icon="icon-mobile-view"></Icon>
-                            <Toggle checked={isMobileView} onToggleChange={async () => {
-                                await props.onChangeMobileView();
-                                await closeModal();
-                                await props.openOptions('snackbar');
-                                setTimeout(() => {
-                                    props.closeOptions('snackbar');
-                                },  1500);
+                            <Toggle checked={isMobileView} onToggleChange={() => {
+                                closeModal();
+                                props.onChangeMobileView();
+                                props.openOptions('snackbar');
                             }} />
                         </ListItem>
                     }
@@ -190,9 +187,6 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
                     <ListItem title={_t.textApplicationSettings} link="#"
                               onClick={onoptionclick.bind(this, "/application-settings/")}>
                         <Icon slot="media" icon="icon-app-settings"></Icon>
-                    </ListItem>
-                    <ListItem title={t('Common.Collaboration.textSharingSettings')} link="#" onClick={onoptionclick.bind(this, "/sharing-settings/")}>
-                        <Icon slot="media" icon="icon-sharing-settings"></Icon>
                     </ListItem>
                     {_canDownload &&
                         <ListItem title={_t.textDownload} link="#" onClick={onoptionclick.bind(this, "/download/")}>

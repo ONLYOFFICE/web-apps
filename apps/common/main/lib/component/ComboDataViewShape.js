@@ -368,7 +368,10 @@ define([
             if (menu.cmpEl) {
                 menu.menuAlignEl = this.cmpEl;
                 var offset = this.cmpEl.width() - this.openButton.$el.width() - this.menuWidth + 1;
-                menu.setOffset(Math.min(offset, 0));
+                if (Common.UI.isRTL()) {
+                    offset = this.openButton.$el.width() - 1;
+                }
+                menu.setOffset(Common.UI.isRTL() ? offset : Math.min(offset, 0));
             }
 
             if (this.options.hint) {

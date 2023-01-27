@@ -1838,5 +1838,57 @@
 	"XOR": {
 		"a": "(logisk1; [logisk2]; ...)",
 		"d": "Returnerar ett logiskt 'Exklusivt eller' för alla argument."
+	},
+	"TEXTBEFORE": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Returnerar text som är före avgränsande tecken."
+	},
+	"TEXTAFTER": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Returnerar text som är efter avgränsande tecken."
+	},
+	"TEXTSPLIT": {
+		"a": "(text, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
+		"d": "Delar upp text i rader eller kolumner med avgränsare."
+	},
+	"WRAPROWS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": "Radbryter en rad- eller kolumnvektor efter angivet antal värden."
+	},
+	"VSTACK": {
+		"a": "(matris1, [matris2], ...)",
+		"d": "Staplar matriser lodrätt i en matris."
+	},
+	"HSTACK": {
+		"a": "(matris1, [matris2], ...)",
+		"d": "Staplar matriser vågrätt i en matris."
+	},
+	"CHOOSEROWS": {
+		"a": "(matris, rad1, [rad2], ...)",
+		"d": "Returnerar raderna i en matris eller referens."
+	},
+	"CHOOSECOLS": {
+		"a": "(matris, kolumn1, [kolumn2], ...)",
+		"d": "Returnerar kolumnerna i en matris eller referens."
+	},
+	"TOCOL": {
+		"a": "(matris, [ignorera], [scan_by_column])",
+		"d": "Returnerar matrisen som en kolumn."
+	},
+	"TOROW": {
+		"a": "(matris, [ignorera], [scan_by_column])",
+		"d": " Returnerar matrisen som en rad."
+	},
+	"WRAPCOLS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": "Radbryter en rad- eller kolumnvektor efter angivet antal värden."
+	},
+	"TAKE": {
+		"a": "(matris, rader, [kolumner])",
+		"d": "Returnerar rader eller kolumner från matrisens start eller slut."
+	},
+	"DROP": {
+		"a": "(matris, rader, [kolumner])",
+		"d": "Tar bort rader eller kolumner från matrisens start eller slut."
 	}
 }

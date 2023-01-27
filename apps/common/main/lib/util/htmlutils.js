@@ -1,3 +1,17 @@
+var checkLocalStorage = (function () {
+    try {
+        var storage = window['localStorage'];
+        return true;
+    }
+    catch(e) {
+        return false;
+    }
+})();
+
+if ( checkLocalStorage && localStorage.getItem("ui-rtl") === '1' ) {
+    document.body.setAttribute('dir', 'rtl');
+    document.body.classList.add('rtl');
+}
 
 function checkScaling() {
     var matches = {
@@ -63,16 +77,6 @@ var params = (function() {
     return urlParams;
 })();
 
-var checkLocalStorage = (function () {
-    try {
-        var storage = window['localStorage'];
-        return true;
-    }
-    catch(e) {
-        return false;
-    }
-})();
-
 if ( window.desktop ) {
     var theme = desktop.theme
 
@@ -89,6 +93,7 @@ if ( window.desktop ) {
                 delete params.uitheme;
             } else {
                 localStorage.setItem("ui-theme-id", theme.id);
+                localStorage.removeItem("ui-theme-use-system");
             }
 
             localStorage.removeItem("ui-theme");

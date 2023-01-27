@@ -1424,6 +1424,8 @@
   "DE.Views.DateTimeDialog.textLang": "Jazyk",
   "DE.Views.DateTimeDialog.textUpdate": "Aktualizovat automaticky",
   "DE.Views.DateTimeDialog.txtTitle": "Datum a čas",
+  "DE.Views.DocProtection.hintProtectDoc": "Zabezpečit dokument",
+  "DE.Views.DocProtection.txtProtectDoc": "Zabezpečit dokument",
   "DE.Views.DocumentHolder.aboveText": "Nad",
   "DE.Views.DocumentHolder.addCommentText": "Přidat komentář",
   "DE.Views.DocumentHolder.advancedDropCapText": "Nastavení iniciály",

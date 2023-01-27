@@ -339,18 +339,18 @@ const EditTabs = props => {
                 component: <EditHeaderController />
             })
         }
-        if (settings.indexOf('paragraph') > -1) {
-            editors.push({
-                caption: _t.textParagraph,
-                id: 'edit-paragraph',
-                component: <EditParagraphController />
-            })
-        }
         if (settings.indexOf('text') > -1) {
             editors.push({
                 caption: _t.textText,
                 id: 'edit-text',
                 component: <EditTextController />
+            })
+        }
+        if (settings.indexOf('paragraph') > -1) {
+            editors.push({
+                caption: _t.textParagraph,
+                id: 'edit-paragraph',
+                component: <EditParagraphController />
             })
         }
     }
@@ -378,7 +378,7 @@ const EditView = props => {
             <Popover id="edit-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => props.onClosed()}>
                 <EditTabsContainer inPopover={true} onOptionClick={onOptionClick} style={{height: '410px'}} />
             </Popover> :
-            <Sheet id="edit-sheet" push onSheetClosed={() => props.onClosed()}>
+            <Sheet id="edit-sheet" closeByOutsideClick={true} closeByBackdropClick={false} backdrop={false} push onSheetClosed={() => props.onClosed()}>
                 <EditTabsContainer onOptionClick={onOptionClick} />
             </Sheet>
     )

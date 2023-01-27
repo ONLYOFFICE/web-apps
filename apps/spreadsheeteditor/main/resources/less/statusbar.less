@@ -7,6 +7,11 @@
         float: left;
         padding: 3px 12px 0 10px;
         height: 25px;
+
+        .rtl & {
+            float: right;
+            padding: 3px 10px 0 12px;
+        }
     }
 
     #status-zoom-box {
@@ -16,12 +21,30 @@
         right: 0;
         height: 25px;
 
+        .rtl & {
+            right: auto;
+            left: 0;
+        }
+
         .separator {
             margin-top: -3px;
         }
 
+        #status-btn-zoomup {
+            margin-right: 40px;
+            .rtl & {
+                margin-right: 0;
+                margin-left: 40px;
+            }
+        }
+
         #status-btn-zoomdown {
             margin-left: 10px;
+
+            .rtl & {
+                margin-left: 0;
+                margin-right: 10px;
+            }
         }
 
         #status-label-zoom {
@@ -38,6 +61,10 @@
         width: 63px;
         float: right;
         height: 100%;
+
+        .rtl & {
+            float: left;
+        }
 
         #status-users-icon,#status-users-count {
             display: inline-block;
@@ -63,9 +90,17 @@
             margin-right: 160px;
             margin-bottom: 2px;
             width: 285px;
-            font-size: 12px;
+            .font-size-medium();
             left: auto;
             right: 0;
+
+            .rtl & {
+                padding: 14px 14px 14px 0;
+                margin-right: 0;
+                margin-left: 160px;
+                right: auto;
+                left: 0;
+            }
 
             > label {
                 white-space: normal;
@@ -86,6 +121,11 @@
                         padding: 2px 0;
                         margin-right: 15px;
                         overflow: hidden;
+
+                        .rtl & {
+                            margin-right: 0;
+                            margin-left: 15px;
+                        }
 
                         &.offline, &.viewmode {
                             display: none;
@@ -109,6 +149,11 @@
                     white-space: nowrap;
                     text-overflow: ellipsis;
                     vertical-align: middle;
+
+                    .rtl & {
+                        padding-left: 0;
+                        padding-right: 16px;
+                    }
                 }
             }
         }
@@ -122,6 +167,10 @@
         border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
         border-right: @scaled-one-px-value solid @border-toolbar;
         height: 25px;
+
+        .rtl & {
+            float: right;
+        }
     }
 
     #status-math-box,
@@ -136,21 +185,42 @@
             position: relative;
             padding-right: 11px;
             margin-top: -6px;
+
+            .rtl & {
+                padding-right: 0;
+                padding-left: 11px;
+            }
         }
     }
 
     #status-math-box {
         padding-right: 4px;
+        .rtl & {
+            padding-right: 0;
+            padding-left: 4px;
+        }
         label {
             padding-right: 10px;
+            .rtl & {
+                padding-right: 0;
+                padding-left: 10px;
+            }
         }
     }
 
     #status-filtered-box {
         padding-right: 14px;
+        .rtl & {
+            padding-right: 0;
+            padding-left: 14px;
+        }
         label {
             &:not(:last-child) {
                 padding-right: 10px;
+                .rtl & {
+                    padding-right: 0;
+                    padding-left: 10px;
+                }
             }
         }
     }
@@ -162,6 +232,11 @@
         left: 66px;
         right: 160px;
         //margin-right: 3px;
+
+        .rtl & {
+            left: 160px;
+            right: 66px;
+        }
     }
 
     #status-sheets-bar {
@@ -183,12 +258,21 @@
                 &:first-of-type {
                     span {
                         border-left: none;
+                        .rtl & {
+                            border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
+                            border-left: @scaled-one-px-value solid @border-toolbar;
+                            border-right: none;
+                        }
                     }
                 }
 
                 &:last-of-type {
                     span {
                         margin-right: 0;
+
+                        .rtl & {
+                            margin-left: 0;
+                        }
                     }
                 }
 
@@ -214,6 +298,11 @@
                     border-right: @scaled-one-px-value solid @border-toolbar;
                     border-top: @scaled-one-px-value-ie solid @border-toolbar-ie;
                     border-top: @scaled-one-px-value solid @border-toolbar;
+
+                    .rtl & {
+                        margin-right: 0;
+                        margin-left: -1px;
+                    }
 
                     &:hover {
                         border-top-color: @border-toolbar-ie;
@@ -261,8 +350,9 @@
                     > span {
                         outline: none;
                         position: relative;
+                        height: 100%;
                     }
-                    > span:after {
+                    > span:before {
                         position: absolute;
                         content: '';
                         width: 7px;
@@ -272,12 +362,25 @@
                         bottom: 0;
                         margin-left: -7px;
                         left: 100%;
+
+                        .rtl & {
+                            border-left: none;
+                            border-right: 7px solid transparent;
+                            margin-left: 0;
+                            margin-right: -7px;
+                            left: auto;
+                            right: 100%;
+                        }
                     }
                 }
 
                 &.icon-visible {
                     > span {
                         padding-left: 25px;
+                        .rtl & {
+                            padding-left: 0;
+                            padding-right: 25px;
+                        }
                         > .toolbar__icon {
                             width: 20px;
                             height: 20px;
@@ -285,6 +388,10 @@
                             top: 0;
                             left: 0;
                             margin: 3px;
+                            .rtl & {
+                                left: auto;
+                                right: 0;
+                            }
                         }
                     }
                 }
@@ -305,6 +412,10 @@
                     &:first-child {
                         > span {
                             padding-left: 8px;
+                            .rtl & {
+                                padding-left: 0;
+                                padding-right: 8px;
+                            }
                         }
                     }
 
@@ -312,6 +423,13 @@
                         border-left: 2px solid @text-normal-ie;
                         border-left: 2px solid @text-normal;
                         padding-left: 9px;
+                        .rtl & {
+                            border-left: none;
+                            padding-left: 0;
+                            border-right: 2px solid @text-normal-ie;
+                            border-right: 2px solid @text-normal;
+                            padding-right: 9px;
+                        }
                     }
                     
                     &.right {
@@ -322,15 +440,33 @@
                             border-right: 2px solid @text-normal;
                             padding-right: 9px;
                             padding-left: 10px;
+                            .rtl & {
+                                border-left: none;
+                                border-right: none;
+                                border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
+                                border-right: @scaled-one-px-value solid @border-toolbar;
+                                border-left: 2px solid @text-normal-ie;
+                                border-left: 2px solid @text-normal;
+                                padding-right: 10px;
+                                padding-left: 9px;
+                            }
                         }
                     }
                     &.icon-visible {
                         > span {
                             padding-left: 24px;
+                            .rtl & {
+                                padding-left: 0;
+                                padding-right: 24px;
+                            }
                         }
                         &.right {
                             > span {
                                 padding-left: 25px;
+                                .rtl & {
+                                    padding-left: 0;
+                                    padding-right: 25px;
+                                }
                             }
                         }
                     }
@@ -340,6 +476,10 @@
                     margin-left: 20px;
                     width: @scaled-one-px-value-ie;
                     width: @scaled-one-px-value;
+                    .rtl & {
+                        margin-left: 0;
+                        margin-right: 20px;
+                    }
                     > span {
                         display: none;
                         padding: 0;
@@ -421,23 +561,43 @@
             min-width: 112px;
             margin-left: -4px;
 
+            .rtl & {
+                margin-left: 0;
+                margin-right: -4px;
+            }
+
             li {
                 text-align: left;
+                .rtl & {
+                    text-align: right;
+                }
                 a {
                     position: relative;
                     padding-left: 26px;
+                    .rtl & {
+                        padding-left: 0;
+                        padding-right: 26px;
+                    }
                     .color {
                         height: 21px;
                         width: 4px;
                         position: absolute;
                         top: 2px;
                         left: 0;
+                        .rtl & {
+                            left: auto;
+                            right: 0;
+                        }
                     }
                 }
                 .hidden-mark {
                     margin-left: 12px;
                     font-style: italic;
                     color: @text-secondary;
+                    .rtl & {
+                        margin-left: 0;
+                        margin-right: 12px;
+                    }
                 }
             }
         }
@@ -451,6 +611,11 @@
         .dropdown-menu {
             min-width: 80px;
             margin-left: -4px;
+
+            .rtl & {
+                margin-left: 0;
+                margin-right: -4px;
+            }
 
             li {
                 text-align: center;
@@ -468,6 +633,9 @@
 
         li {
             text-align: left;
+            .rtl & {
+                text-align: right;
+            }
         }
     }
 
@@ -482,11 +650,22 @@
     .dropdown-menu {
         margin-top: 0;
         margin-left: -7px;
+        .rtl & {
+            margin-left: 0;
+            margin-right: -7px;
+        }
         li {
             > a {
                 padding: 5px 12px 5px 26px;
+                .rtl & {
+                    padding: 5px 26px 5px 12px;
+                }
                 &::before {
                     margin-left: -22px;
+                    .rtl & {
+                        margin-left: 0;
+                        margin-right: -22px;
+                    }
                 }
                 .item-caption {
                     min-width: 98px;
@@ -500,6 +679,11 @@
                     padding-left: 5px;
                     color: silver;
                     cursor: pointer;
+                    .rtl & {
+                        text-align: left;
+                        padding-left: 0;
+                        padding-right: 5px;
+                    }
                 }
             }
         }
@@ -516,8 +700,16 @@
     background-color: @background-toolbar-ie;
     background-color: @background-toolbar;
     z-index: @zindex-modal - 1;
+    .rtl & {
+        left: auto;
+        right: 115px;
+    }
 }
 
 .over-box {
     display: none;
+}
+
+.rtl .nav {
+    padding-right: 0;
 }

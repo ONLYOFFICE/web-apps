@@ -94,6 +94,10 @@
         }
     }
 
+    .caption {
+        .font-size-normal();
+    }
+
     &.icon-top {
         display: inline-flex;
         flex-direction: column;
@@ -256,6 +260,10 @@
 
                 .caret {
                     margin: 0 1px 0 4px;
+
+                    .rtl & {
+                        margin: 0 4px 0 1px;
+                    }
                 }
             }
         }
@@ -473,6 +481,10 @@
 
     &.align-left {
         text-align: left;
+
+        .rtl & {
+            text-align: right;
+        }
     }
 
     .pixel-ratio__2_5 & {
@@ -493,6 +505,7 @@
     display: block;
     position: relative;
     .border-radius(0);
+    .font-size-normal();
     .font-weight-bold();
     background-color: transparent;
 
@@ -537,12 +550,40 @@
     > .btn {
         + .dropdown-toggle {
             padding: 0 4px 0 3px;
+
+            .rtl & {
+                padding: 0 3px 0 4px;
+            }
+        }
+
+        .rtl & {
+            float: right;
+        }
+
+        &:first-child:not(:last-child):not(.dropdown-toggle) {
+            .rtl & {
+                .border-radius(@border-radius-small);
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+            }
         }
     }
 
     > .dropdown-toggle:first-child {
         .inner-box-caret {
             padding: 0 4px 0 3px;
+
+            .rtl & {
+                padding: 0 3px 0 4px;
+            }
+        }
+    }
+
+    > .dropdown-toggle:not(first-child) {
+        .rtl & {
+            .border-radius(@border-radius-small);
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
         }
     }
 
@@ -680,6 +721,11 @@
     border:@scaled-one-px-value solid @border-regular-control;
     .border-radius(@border-radius-small);
 
+    .rtl & {
+        padding: @scaled-one-px-value-ie @scaled-one-px-value-ie @scaled-one-px-value-ie 11px;
+        padding: @scaled-one-px-value @scaled-one-px-value @scaled-one-px-value 11px ;
+    }
+
     span:nth-child(1) {
         float: left;
         width: 100%;
@@ -693,6 +739,11 @@
         position: absolute;
         right: 0;
         top: 2px;
+
+        .rtl & {
+            right: auto;
+            left: 0;
+        }
     }
 
     &,
@@ -718,6 +769,12 @@
             height: 34px;
             transform: translate(16px, -9px) rotate(62deg);
             left: 0;
+
+            .rtl & {
+                left: auto;
+                right: 0;
+                transform: translate(-16px, -9px) rotate(62deg);
+            }
         }
     }
 
@@ -739,13 +796,26 @@
 
 // for color button auto color
 .dropdown-menu {
-    li > a.selected,
-    li > a:hover {
+    li > a {
         span.color-auto {
-            outline: @scaled-one-px-value-ie solid @icon-normal-ie;
-            outline: @scaled-one-px-value solid @icon-normal;
-            border: @scaled-one-px-value-ie solid @background-normal-ie;
-            border: @scaled-one-px-value solid @background-normal;
+            background-image: none;
+            width: 12px;
+            height: 12px;
+            margin: 1px 7px 0 1px;
+
+            .rtl & {
+                margin: 1px 1px 0 7px;
+            }
+        }
+
+        &.selected,
+        &:hover {
+            span.color-auto {
+                outline: @scaled-one-px-value-ie solid @icon-normal-ie;
+                outline: @scaled-one-px-value solid @icon-normal;
+                border: @scaled-one-px-value-ie solid @background-normal-ie;
+                border: @scaled-one-px-value solid @background-normal;
+            }
         }
     }
 }
@@ -814,6 +884,7 @@
     border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
     .border-radius(@border-radius-small);
+    .font-size-normal();
 
     &.auto {
         width: auto;
@@ -866,6 +937,11 @@
         position: absolute;
         right: 5px;
         margin-top: 5px;
+
+        .rtl & {
+            right: auto;
+            left: 5px;
+        }
     }
 
     &:hover:not(.disabled),
@@ -908,6 +984,12 @@
 
     &:not(.dropdown-toggle) {
         border-right: none;
+
+        .rtl & {
+            border: @scaled-one-px-value-ie solid @border-regular-control-ie;
+            border: @scaled-one-px-value solid @border-regular-control;
+            border-left: none;
+        }
     }
 
     &:hover:not(.disabled),
@@ -1008,6 +1090,11 @@
         border: @scaled-one-px-value-ie solid @border-regular-control-ie;
         border: @scaled-one-px-value solid @border-regular-control;
         position: relative;
+
+        .rtl & {
+            margin-right: 0;
+            margin-left: 3px;
+        }
     }
 
     &.sheet-template-table {
@@ -1026,6 +1113,7 @@
         width: 52px;
         padding: 5px;
 
+        fill: @icon-normal-ie;
         fill: @icon-normal;
 
         .btn& {
@@ -1079,6 +1167,7 @@
 // ------------------------
 
 .dlg-btn {
+    .font-size-normal();
     .font-weight-bold();
     width: 86px;
     color: @text-normal-ie;

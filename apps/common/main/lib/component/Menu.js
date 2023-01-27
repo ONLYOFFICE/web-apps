@@ -145,7 +145,7 @@ define([
                 style       : '',
                 itemTemplate: null,
                 items       : [],
-                menuAlign   : 'tl-bl',
+                menuAlign   : 'tl-bl',//menu - parent
                 menuAlignEl : null,
                 offset      : [0, 0],
                 cyclic      : true,
@@ -172,6 +172,18 @@ define([
                 this.scrollAlwaysVisible = this.options.scrollAlwaysVisible;
                 this.search = this.options.search;
                 this.outerMenu      = this.options.outerMenu;
+
+                if (Common.UI.isRTL()) {
+                    if (this.menuAlign === 'tl-tr') {
+                        this.menuAlign = 'tr-tl';
+                    } else if (this.menuAlign === 'tl-bl') {
+                        this.menuAlign = 'tr-br';
+                    } else if (this.menuAlign === 'tr-br') {
+                        this.menuAlign = 'tl-bl';
+                    } else if (this.menuAlign === 'bl-tl') {
+                        this.menuAlign = 'br-tr';
+                    }
+                }
 
                 if (this.options.restoreHeight) {
                     this.options.restoreHeight = (typeof (this.options.restoreHeight) == "number") ? this.options.restoreHeight : (this.options.maxHeight ? this.options.maxHeight : 100000);
@@ -472,8 +484,9 @@ define([
             },
 
             selectCandidate: function() {
-                var index = this._search.index || 0,
+                var index = (this._search.index && this._search.index != -1) ? this._search.index : 0,
                     re = new RegExp('^' + ((this._search.full) ? this._search.text : this._search.char), 'i'),
+                    isFirstCharsEqual = re.test(this.items[index].caption),
                     itemCandidate, idxCandidate;
 
                 for (var i=0; i<this.items.length; i++) {
@@ -482,6 +495,8 @@ define([
                         if (!itemCandidate) {
                             itemCandidate = item;
                             idxCandidate = i;
+                            if(!isFirstCharsEqual) 
+                                break;  
                         }
                         if (this._search.full && i==index || i>index) {
                             itemCandidate = item;
@@ -642,12 +657,19 @@ define([
                 var left = offset.left - posMenu[m[1]][0] + posParent[m[2]][0] + this.offset[0];
                 var top  = offset.top  - posMenu[m[1]][1] + posParent[m[2]][1] + this.offset[1];
 
-                if (left + menuW > docW)
+                if (left + menuW > docW) {
                     if (menuParent.is('li.dropdown-submenu')) {
                         left = offset.left - menuW + 2;
                     } else {
                         left = docW - menuW;
                     }
+                } else if (left < 0) {
+                    if (menuParent.is('li.dropdown-submenu')) {
+                        left = offset.left + parentW - 2;
+                    } else {
+                        left = 0;
+                    }
+                }
                 if (left < 0)
                     left = 0;
 
@@ -713,6 +735,14 @@ define([
                 }
             },
 
+            getChecked: function() {
+                for (var i=0; i<this.items.length; i++) {
+                    var item = this.items[i];
+                    if (item.isChecked && item.isChecked())
+                        return item;
+                }
+            },
+
             clearAll: function() {
                 _.each(this.items, function(item){
                     if (item.setChecked)
@@ -775,6 +805,18 @@ define([
             this.menuAlignEl    = this.options.menuAlignEl;
             this.scrollAlwaysVisible = this.options.scrollAlwaysVisible;
             this.search = this.options.search;
+
+            if (Common.UI.isRTL()) {
+                if (this.menuAlign === 'tl-tr') {
+                    this.menuAlign = 'tr-tl';
+                } else if (this.menuAlign === 'tl-bl') {
+                    this.menuAlign = 'tr-br';
+                } else if (this.menuAlign === 'tr-br') {
+                    this.menuAlign = 'tl-bl';
+                } else if (this.menuAlign === 'bl-tl') {
+                    this.menuAlign = 'br-tr';
+                }
+            }
 
             if (this.options.restoreHeight) {
                 this.options.restoreHeight = (typeof (this.options.restoreHeight) == "number") ? this.options.restoreHeight : (this.options.maxHeight ? this.options.maxHeight : 100000);
@@ -1051,8 +1093,9 @@ define([
         },
 
         selectCandidate: function() {
-            var index = this._search.index || 0,
+            var index = (this._search.index && this._search.index != -1) ? this._search.index : 0,
                 re = new RegExp('^' + ((this._search.full) ? this._search.text : this._search.char), 'i'),
+                isFirstCharsEqual = re.test(this.items[index].caption),
                 itemCandidate, idxCandidate;
 
             for (var i=0; i<this.items.length; i++) {
@@ -1061,6 +1104,8 @@ define([
                     if (!itemCandidate) {
                         itemCandidate = item;
                         idxCandidate = i;
+                        if(!isFirstCharsEqual) 
+                            break;                    
                     }
                     if (this._search.full && i==index || i>index) {
                         itemCandidate = item;
@@ -1125,12 +1170,21 @@ define([
             var left = offset.left - posMenu[m[1]][0] + posParent[m[2]][0] + this.offset[0];
             var top  = offset.top  - posMenu[m[1]][1] + posParent[m[2]][1] + this.offset[1];
 
-            if (left + menuW > docW)
+            if (left + menuW > docW) {
                 if (menuParent.is('li.dropdown-submenu')) {
                     left = offset.left - menuW + 2;
                 } else {
                     left = docW - menuW;
                 }
+            } else if (left < 0) {
+                if (menuParent.is('li.dropdown-submenu')) {
+                    left = offset.left + parentW - 2;
+                } else {
+                    left = 0;
+                }
+            }
+            if (left < 0)
+                left = 0;
 
             if (this.options.restoreHeight) {
                 if (typeof (this.options.restoreHeight) == "number") {

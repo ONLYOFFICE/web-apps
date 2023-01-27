@@ -89,6 +89,20 @@ define([
             });
             this.btnPrev.render($('#id-btn-prev-field'));
 
+            this.btnUndo = new Common.UI.Button({
+                cls: 'btn-toolbar',
+                iconCls: 'svg-icon undo',
+                hint: this.tipUndo + Common.Utils.String.platformKey('Ctrl+Z')
+            });
+            this.btnUndo.render($('#id-btn-undo'));
+
+            this.btnRedo = new Common.UI.Button({
+                cls: 'btn-toolbar',
+                iconCls: 'svg-icon redo',
+                hint: this.tipRedo + Common.Utils.String.platformKey('Ctrl+Y')
+            });
+            this.btnRedo.render($('#id-btn-redo'));
+
             this.btnSubmit = new Common.UI.Button({
                 cls: 'btn-text-default colored margin-left-small margin-right-small',
                 caption: this.textSubmit
@@ -121,6 +135,8 @@ define([
                     { caption: this.textUndo, value: 'undo', iconCls: 'mi-icon svg-icon undo' },
                     { caption: this.textRedo, value: 'redo', iconCls: 'mi-icon svg-icon redo' },
                     { caption: '--' },
+                    { caption: this.textClearField, value: 'clear', iconCls: 'mi-icon svg-icon clear-style' },
+                    { caption: '--' },
                     { caption: this.textCut, value: 'cut', iconCls: 'mi-icon svg-icon cut' },
                     { caption: this.textCopy, value: 'copy', iconCls: 'mi-icon svg-icon copy' },
                     { caption: this.textPaste, value: 'paste', iconCls: 'mi-icon svg-icon paste' }
@@ -150,7 +166,10 @@ define([
         textZoom: 'Zoom',
         textFitToPage: 'Fit to Page',
         textFitToWidth: 'Fit to Width',
-        txtSearch: 'Search'
+        txtSearch: 'Search',
+        tipUndo: 'Undo',
+        tipRedo: 'Redo',
+        textClearField: 'Clear field'
 
     }, DE.Views.ApplicationView || {}));
 });

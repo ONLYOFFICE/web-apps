@@ -105,7 +105,7 @@ const NavigationSheet = inject('storeNavigation')(observer(props => {
     }, []);
 
     return (
-        <Sheet id="view-navigation-sheet" className="navigation-sheet" backdrop={false} closeByBackdropClick={false} closeByOutsideClick={true} onSheetClosed={() => props.onclosed()} style={{height: `${stateHeight}`, opacity: `${stateOpacity}`}}>
+        <Sheet id="view-navigation-sheet" className="navigation-sheet" backdrop={true} closeByBackdropClick={true} onSheetClosed={() => props.onclosed()} style={{height: `${stateHeight}`, opacity: `${stateOpacity}`}}>
             <div id='swipe-handler' className='swipe-container' onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
                 <Icon icon='icon icon-swipe'/>
             </div>

@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 import { f7 } from 'framework7-react';
 import { inject, observer } from "mobx-react";
 import { withTranslation} from 'react-i18next';
-import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage';
+import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage.mjs';
 
 import ContextMenuController from '../../../../common/mobile/lib/controller/ContextMenu';
 import { idContextMenuElement } from '../../../../common/mobile/lib/view/ContextMenu';
-import { Device } from '../../../../common/mobile/utils/device';
+// import { Device } from '../../../../common/mobile/utils/device';
 import EditorUIController from '../lib/patch';
 
 @inject (stores => ({
@@ -21,7 +21,8 @@ import EditorUIController from '../lib/patch';
     wsProps: stores.storeWorksheets.wsProps,
     wsLock: stores.storeWorksheets.wsLock,
     objects: stores.storeFocusObjects.objects,
-    focusOn: stores.storeFocusObjects.focusOn
+    focusOn: stores.storeFocusObjects.focusOn,
+    isResolvedComments: stores.storeApplicationSettings.isResolvedComments
 }))
 class ContextMenu extends ContextMenuController {
     constructor(props) {
@@ -248,7 +249,7 @@ class ContextMenu extends ContextMenuController {
         if (isEdit && EditorUIController.ContextMenu) {
             return EditorUIController.ContextMenu.mapMenuItems(this);
         } else {
-            const {canViewComments, canCoAuthoring, canComments} = this.props;
+            const {canViewComments, canCoAuthoring, canComments, isResolvedComments} = this.props;
 
             const api = Common.EditorApi.get();
             const cellinfo = api.asc_getCellInfo();
@@ -258,7 +259,8 @@ class ContextMenu extends ContextMenuController {
 
             let iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu;
             const seltype = cellinfo.asc_getSelectionType();
-            const hasComments = cellinfo.asc_getComments(); //prohibit adding multiple comments in one cell;
+            const comments = cellinfo.asc_getComments(); //prohibit adding multiple comments in one cell;
+            const isSolvedComment = comments?.length && comments[0].asc_getSolved();
 
             switch (seltype) {
                 case Asc.c_oAscSelectionType.RangeCells:     iscellmenu  = true;     break;
@@ -286,16 +288,16 @@ class ContextMenu extends ContextMenuController {
                         caption: t("ContextMenu.menuEditLink"),
                         event: 'editlink'
                     });
-                }
+                }``
                 if(!isDisconnected) {
-                    if (canViewComments && hasComments && hasComments.length>0) {
+                    if (canViewComments && comments && comments.length && ((!isSolvedComment && !isResolvedComments) || isResolvedComments)) {
                         itemsText.push({
                             caption: _t.menuViewComment,
                             event: 'viewcomment'
                         });
                     }
 
-                    if (iscellmenu && !api.isCellEdited && isRestrictedEdit && canCoAuthoring && canComments && hasComments && hasComments.length<1) {
+                    if (iscellmenu && !api.isCellEdited && isRestrictedEdit && canCoAuthoring && canComments && comments && comments.length<1) {
                         itemsText.push({
                             caption: _t.menuAddComment,
                             event: 'addcomment'

@@ -160,6 +160,7 @@
       "titleServerVersion": "Editör güncellendi",
       "titleUpdateVersion": "Sürüm değiştirildi",
       "warnLicenseExceeded": "%1 düzenleyiciye eşzamanlı bağlantı sınırına ulaştınız. Bu belge yalnızca görüntüleme için açılacaktır. Daha fazla bilgi edinmek için yöneticinizle iletişime geçin.",
+      "warnLicenseExp": "Lisansınızın süresi doldu. Lütfen lisansınızı güncelleyin ve sayfayı yenileyin.",
       "warnLicenseLimitedNoAccess": "Lisans süresi doldu. Doküman edit etme özelliğini kullanmaya izniniz bulunmamaktadır. Lütfen, yöneticinizle iletişime geçin.",
       "warnLicenseLimitedRenewed": "Lisansın yenilenmesi gerekiyor. Belge düzenleme işlevine sınırlı erişiminiz var.<br>Tam erişim için lütfen yöneticinizle iletişime geçin.",
       "warnLicenseUsersExceeded": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Daha fazla bilgi edinmek için yöneticinizle iletişime geçin.",
@@ -167,8 +168,7 @@
       "warnNoLicenseUsers": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
       "warnProcessRightsChange": "Dosyayı düzenleme izniniz yok.",
       "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
-      "titleLicenseExp": "License expired",
-      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
+      "titleLicenseExp": "License expired"
     }
   },
   "Error": {
@@ -207,6 +207,7 @@
     "errorFrmlMaxReference": "Bu formülü giremezsiniz çünkü çok fazla değeri,<br>hücre referansı ve/veya adı vardır.",
     "errorFrmlMaxTextLength": "Formüllerdeki metin değerleri 255 karakterle sınırlıdır.<br>BİRLEŞTİR işlevini veya birleştirme operatörünü (&) kullanın",
     "errorFrmlWrongReferences": "İşlev, var olmayan bir sayfaya başvuruyor.<br>Lütfen verileri kontrol edin ve tekrar deneyin.",
+    "errorInconsistentExtDocx": "Dosya açılırken bir hata oluştu.<br>Dosya içeriği metin belgelerine (örn. docx) karşılık geliyor, ancak dosyanın uzantısı tutarsız: %1.",
     "errorInvalidRef": "Seçim için doğru bir ad veya geçerli bir referans girin.",
     "errorKeyEncrypt": "Bilinmeyen anahtar tanımlayıcı",
     "errorKeyExpire": "Anahtar tanımlayıcının süresi doldu",
@@ -243,7 +244,15 @@
     "uploadImageFileCountMessage": "Resim yüklenmedi.",
     "uploadImageSizeMessage": "Görüntü çok büyük. Maksimum boyut 25 MB'dir.",
     "errorCannotUseCommandProtectedSheet": "You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password.",
-    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
+    "textCancel": "Cancel",
+    "textOk": "Ok"
   },
   "LongActions": {
     "advDRMPassword": "Şifre",
@@ -284,7 +293,10 @@
     "txtEditingMode": "Düzenleme modunu belirle...",
     "uploadImageTextText": "Resim yükleniyor...",
     "uploadImageTitleText": "Resim Yükleniyor",
-    "waitText": "Lütfen bekleyin..."
+    "waitText": "Lütfen bekleyin...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Uyarı",

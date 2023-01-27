@@ -105,43 +105,68 @@ define([
 
             $container = $('#viewport-hbox-layout', el);
             items = $container.find(' > .layout-item');
+
+            let iarray =  [{
+                el: items[0],
+                rely: true,
+                alias: 'left',
+                resize: {
+                    hidden: true,
+                    autohide: false,
+                    min: 300,
+                    max: 600
+                }}, { // history versions
+                el: items[3],
+                rely: true,
+                alias: 'history',
+                resize: {
+                    hidden: true,
+                    autohide: false,
+                    min: 300,
+                    max: 600
+                }
+            }, {
+                el: items[1],
+                stretch: true
+            }, {
+                el: $(items[2]).hide(),
+                rely: true
+            }];
+
+            if ( Common.UI.isRTL() ) {
+                [iarray[0].resize.min, iarray[0].resize.max] = [-600, -300];
+                [iarray[1].resize.min, iarray[1].resize.max] = [-600, -300];
+
+                [iarray[0], iarray[3]] = [iarray[3], iarray[0]];
+                [iarray[1], iarray[2]] = [iarray[2], iarray[1]];
+            }
+
             this.hlayout = new Common.UI.HBoxLayout({
                 box: $container,
-                items: [{
-                    el: items[0],
-                    rely: true,
-                    resize: {
-                        hidden: true,
-                        autohide: false,
-                        min: 300,
-                        max: 600
-                }}, { // history versions
-                    el: items[3],
-                    rely: true,
-                    resize: {
-                        hidden: true,
-                        autohide: false,
-                        min: 300,
-                        max: 600
-                    }
-                }, {
-                    el: items[1],
-                    stretch: true
-                }, {
-                    el: $(items[2]).hide(),
-                    rely: true
-                }
-                ]
+                items: iarray
             });
 
             return this;
         },
 
         applyEditorMode: function() {
-            PE.getController('RightMenu').getView('RightMenu').render(this.mode);
+            var me              = this,
+                rightMenuView   = PE.getController('RightMenu').getView('RightMenu');
 
+            me._rightMenu   = rightMenuView.render(this.mode);
+            var value = Common.UI.LayoutManager.getInitValue('rightMenu');
+            value = (value!==undefined) ? !value : false;
+            Common.localStorage.getBool("pe-hidden-rightmenu", value) && me._rightMenu.hide();
+            Common.Utils.InternalSettings.set("pe-hidden-rightmenu", Common.localStorage.getBool("pe-hidden-rightmenu", value));
+        },
+
+        applyCommonMode: function() {
             if ( Common.localStorage.getBool('pe-hidden-status') )
                 PE.getController('Statusbar').getView('Statusbar').setVisible(false);
+
+            var value = Common.UI.LayoutManager.getInitValue('leftMenu');
+            value = (value!==undefined) ? !value : false;
+            Common.localStorage.getBool("pe-hidden-leftmenu", value) && PE.getController('LeftMenu').getView('LeftMenu').hide();
         },
 
         setMode: function(mode, delay) {

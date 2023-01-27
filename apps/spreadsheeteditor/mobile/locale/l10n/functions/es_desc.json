@@ -1838,5 +1838,57 @@
 	"XOR": {
 		"a": "(lógico1; [lógico2]; ...)",
 		"d": "Devuelve una 'Exclusive Or' lógica de todos los argumentos"
+	},
+	"TEXTBEFORE": {
+		"a": "(texto, delimitador, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Devuelve el texto que está antes de delimitar caracteres."
+	},
+	"TEXTAFTER": {
+		"a": "(texto, delimitador, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Devuelve el texto que está después de delimitar caracteres."
+	},
+	"TEXTSPLIT": {
+		"a": "(text, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
+		"d": "Divide el texto en filas o columnas con delimitadores."
+	},
+	"WRAPROWS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": "Ajusta un vector de fila o columna después de un número especificado de valores."
+	},
+	"VSTACK": {
+		"a": "(matriz1, [matriz2], ...)",
+		"d": "Apilar verticalmente matrices en una matriz."
+	},
+	"HSTACK": {
+		"a": "(matriz1, [matriz2], ...)",
+		"d": "Apilar horizontalmente matrices en una matriz."
+	},
+	"CHOOSEROWS": {
+		"a": "(matriz, row_num1, [row_num2], ...)",
+		"d": "Devuelve filas de una matriz o referencia."
+	},
+	"CHOOSECOLS": {
+		"a": "(matriz, col_num1, [col_num2], ...)",
+		"d": "Devuelve columnas de una matriz o referencia."
+	},
+	"TOCOL": {
+		"a": "(matriz, [ignorar], [scan_by_column])",
+		"d": "Devuelve la matriz como una columna."
+	},
+	"TOROW": {
+		"a": "(matriz, [ignorar], [scan_by_column])",
+		"d": "Devuelve la matriz como una fila."
+	},
+	"WRAPCOLS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": "Envuelve un vector de fila o columna después de un número especificado de valores."
+	},
+	"TAKE": {
+		"a": "(matriz, filas, [columnas])",
+		"d": "Devuelve filas o columnas desde el inicio o el final de la matriz."
+	},
+	"DROP": {
+		"a": "(matriz, filas, [columnas])",
+		"d": "Quita filas o columnas desde el inicio o el final de la matriz."
 	}
 }

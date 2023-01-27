@@ -62,7 +62,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 template: [
                     '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
                         '<div class="menu-panel" style="overflow: hidden;">',
-                            '<div style="height: 54px; line-height: 42px;" class="div-category">' + ((this.type == 'print') ? this.textPrintRange : this.textRange)+ '</div>',
+                            '<div style="height: 84px; line-height: 42px;" class="div-category">' + ((this.type == 'print') ? this.textPrintRange : this.textRange)+ '</div>',
                             '<div style="height: 52px; line-height: 66px;" class="div-category">' + this.textSettings + '</div>',
                             '<div style="height: 38px; line-height: 38px;" class="div-category">' + this.textPageSize + '</div>',
                             '<div style="height: 38px; line-height: 38px;" class="div-category">' + this.textPageOrientation + '</div>',
@@ -96,7 +96,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 takeFocusOnClose: true,
                 cls         : 'input-group-nr',
                  data        : [
-                    { value: Asc.c_oAscPrintType.ActiveSheets, displayValue: this.textCurrentSheet },
+                    { value: Asc.c_oAscPrintType.ActiveSheets, displayValue: this.textActiveSheets },
                     { value: Asc.c_oAscPrintType.EntireWorkbook, displayValue: this.textAllSheets },
                     { value: Asc.c_oAscPrintType.Selection, displayValue: this.textSelection }
                 ]
@@ -106,6 +106,32 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             this.chIgnorePrintArea = new Common.UI.CheckBox({
                 el: $('#printadv-dlg-chb-ignore'),
                 labelText: this.textIgnore
+            });
+
+            this.spnPagesFrom = new Common.UI.MetricSpinner({
+                el: $('#printadv-dlg-spin-pages-from'),
+                step: 1,
+                width: 60,
+                defaultUnit : '',
+                value: '',
+                maxValue: 1000000,
+                minValue: 1,
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+
+            this.spnPagesTo = new Common.UI.MetricSpinner({
+                el: $('#printadv-dlg-spin-pages-to'),
+                step: 1,
+                width: 60,
+                defaultUnit : '',
+                value: '',
+                maxValue: 1000000,
+                minValue: 1,
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
 
             this.cmbSheet = new Common.UI.ComboBox({
@@ -126,19 +152,19 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 takeFocusOnClose: true,
                 cls         : 'input-group-nr',
                 data : [
-                    {value:'215.9|279.4',    displayValue:'US Letter (21,59cm x 27,94cm)', caption: 'US Letter'},
-                    {value:'215.9|355.6',    displayValue:'US Legal (21,59cm x 35,56cm)', caption: 'US Legal'},
-                    {value:'210|297',        displayValue:'A4 (21cm x 29,7cm)', caption: 'A4'},
-                    {value:'148|210',        displayValue:'A5 (14,8cm x 21cm)', caption: 'A5'},
-                    {value:'176|250',        displayValue:'B5 (17,6cm x 25cm)', caption: 'B5'},
-                    {value:'104.8|241.3',    displayValue:'Envelope #10 (10,48cm x 24,13cm)', caption: 'Envelope #10'},
-                    {value:'110|220',        displayValue:'Envelope DL (11cm x 22cm)', caption: 'Envelope DL'},
-                    {value:'279.4|431.8',    displayValue:'Tabloid (27,94cm x 43,18cm)', caption: 'Tabloid'},
-                    {value:'297|420',        displayValue:'A3 (29,7cm x 42cm)', caption: 'A3'},
-                    {value:'304.8|457.1',    displayValue:'Tabloid Oversize (30,48cm x 45,71cm)', caption: 'Tabloid Oversize'},
-                    {value:'196.8|273',      displayValue:'ROC 16K (19,68cm x 27,3cm)', caption: 'ROC 16K'},
-                    {value:'119.9|234.9',    displayValue:'Envelope Choukei 3 (11,99cm x 23,49cm)', caption: 'Envelope Choukei 3'},
-                    {value:'330.2|482.5',    displayValue:'Super B/A3 (33,02cm x 48,25cm)', caption: 'Super B/A3'}
+                    {value:'215.9|279.4',    displayValue:'US Letter (21,59 cm x 27,94 cm)', caption: 'US Letter'},
+                    {value:'215.9|355.6',    displayValue:'US Legal (21,59 cm x 35,56 cm)', caption: 'US Legal'},
+                    {value:'210|297',        displayValue:'A4 (21 cm x 29,7 cm)', caption: 'A4'},
+                    {value:'148|210',        displayValue:'A5 (14,8 cm x 21 cm)', caption: 'A5'},
+                    {value:'176|250',        displayValue:'B5 (17,6 cm x 25 cm)', caption: 'B5'},
+                    {value:'104.8|241.3',    displayValue:'Envelope #10 (10,48 cm x 24,13 cm)', caption: 'Envelope #10'},
+                    {value:'110|220',        displayValue:'Envelope DL (11 cm x 22 cm)', caption: 'Envelope DL'},
+                    {value:'279.4|431.8',    displayValue:'Tabloid (27,94 cm x 43,18 cm)', caption: 'Tabloid'},
+                    {value:'297|420',        displayValue:'A3 (29,7 cm x 42 cm)', caption: 'A3'},
+                    {value:'304.8|457.1',    displayValue:'Tabloid Oversize (30,48 cm x 45,71 cm)', caption: 'Tabloid Oversize'},
+                    {value:'196.8|273',      displayValue:'ROC 16K (19,68 cm x 27,3 cm)', caption: 'ROC 16K'},
+                    {value:'119.9|234.9',    displayValue:'Envelope Choukei 3 (11,99 cm x 23,49 cm)', caption: 'Envelope Choukei 3'},
+                    {value:'330.2|482.5',    displayValue:'Super B/A3 (33,02 cm x 48,25 cm)', caption: 'Super B/A3'}
                 ]
             });
 
@@ -326,6 +352,14 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             return (this.chIgnorePrintArea.getValue()=='checked');
         },
 
+        getPagesFrom: function () {
+            return this.spnPagesFrom.getValue();
+        },
+
+        getPagesTo: function () {
+            return this.spnPagesTo.getValue();
+        },
+
         comboRangeChange: function(combo, record) {
             this.fireEvent('changerange', this);
         },
@@ -345,8 +379,8 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                     pagewidth = /^\d{3}\.?\d*/.exec(value),
                     pageheight = /\d{3}\.?\d*$/.exec(value);
 
-                item.set('displayValue', item.get('caption') + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(pagewidth).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
-                        parseFloat(Common.Utils.Metric.fnRecalcFromMM(pageheight).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
+                item.set('displayValue', item.get('caption') + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(pagewidth).toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
+                        parseFloat(Common.Utils.Metric.fnRecalcFromMM(pageheight).toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ')');
             }
             this.cmbPaperSize.onResetItems();
         },
@@ -355,13 +389,13 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             if (!this.extended) {
                 this.extended = true;
                 this.panelDetails.css({'display': 'none'});
-                this.setHeight(314);
+                this.setHeight(344);
                 btn.setCaption(this.textShowDetails);
                 Common.localStorage.setItem("sse-hide-print-settings", 1);
             } else {
                 this.extended = false;
                 this.panelDetails.css({'display': 'block'});
-                this.setHeight(585);
+                this.setHeight(615);
                 btn.setCaption(this.textHideDetails);
                 Common.localStorage.setItem("sse-hide-print-settings", 0);
             }
@@ -384,6 +418,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         textPrintRange:         'Print Range',
         textLayout:             'Layout',
         textCurrentSheet:       'Current Sheet',
+        textActiveSheets:       'Active Sheets',
         textAllSheets:          'All Sheets',
         textSelection:          'Selection',
         textActualSize:         'Actual Size',
@@ -406,7 +441,9 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         strPrintTitles:         'Print Titles',
         textRepeatTop:          'Repeat rows at top',
         textRepeatLeft:         'Repeat columns at left',
-        textRepeat:             'Repeat...'
+        textRepeat:             'Repeat...',
+        textPages:              'Pages:',
+        textTo:                 'to'
 
     }, SSE.Views.PrintSettings || {}));
 });

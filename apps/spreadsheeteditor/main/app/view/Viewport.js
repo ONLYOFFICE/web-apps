@@ -106,34 +106,47 @@ define([
 
             $container = $('#viewport-hbox-layout', el);
             items = $container.find(' > .layout-item');
+
+            let iarray = [{
+                el: items[0],
+                rely: true,
+                alias: 'left',
+                resize: {
+                    hidden: true,
+                    autohide: false,
+                    min: 300,
+                    max: 600,
+                    offset: 4
+                }
+            }, { // history versions
+                el: items[3],
+                rely: true,
+                alias: 'history',
+                resize: {
+                    hidden: true,
+                    autohide: false,
+                    min: 300,
+                    max: 600
+                }
+            }, {
+                el: items[1],
+                stretch: true
+            }, {
+                el: $(items[2]).hide(),
+                rely: true
+            }];
+
+            if ( Common.UI.isRTL() ) {
+                [iarray[0].resize.min, iarray[0].resize.max] = [-600, -300];
+                [iarray[1].resize.min, iarray[1].resize.max] = [-600, -300];
+
+                [iarray[0], iarray[3]] = [iarray[3], iarray[0]];
+                [iarray[1], iarray[2]] = [iarray[2], iarray[1]];
+            }
+
             this.hlayout = new Common.UI.HBoxLayout({
                 box: $container,
-                items: [{
-                    el: items[0],
-                    rely: true,
-                    resize: {
-                        hidden: true,
-                        autohide: false,
-                        min: 300,
-                        max: 600,
-                        offset: 4
-                    }
-                }, { // history versions
-                    el: items[3],
-                    rely: true,
-                    resize: {
-                        hidden: true,
-                        autohide: false,
-                        min: 300,
-                        max: 600
-                    }
-                }, {
-                    el: items[1],
-                    stretch: true
-                }, {
-                    el: $(items[2]).hide(),
-                    rely: true
-                }]
+                items: iarray
             });
 
             $container = $container.find('.layout-ct.vbox');
@@ -162,6 +175,15 @@ define([
                 rightMenuView   = SSE.getController('RightMenu').getView('RightMenu');
 
             me._rightMenu   = rightMenuView.render(this.mode);
+            var value = Common.UI.LayoutManager.getInitValue('rightMenu');
+            value = (value!==undefined) ? !value : false;
+            Common.localStorage.getBool("sse-hidden-rightmenu", value) && me._rightMenu.hide();
+        },
+
+        applyCommonMode: function() {
+            var value = Common.UI.LayoutManager.getInitValue('leftMenu');
+            value = (value!==undefined) ? !value : false;
+            Common.localStorage.getBool("sse-hidden-leftmenu", value) && SSE.getController('LeftMenu').getView('LeftMenu').hide();
         },
 
         setMode: function(mode, delay) {

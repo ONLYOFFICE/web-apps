@@ -335,6 +335,10 @@ define([
                 caption     : me.txtReapply
             });
 
+            me.mnuRefreshPivot = new Common.UI.MenuItem({
+                caption     : me.txtRefresh
+            });
+
             me.mnuGroupPivot = new Common.UI.MenuItem({
                 caption     : this.txtGroup,
                 value       : 'grouping'
@@ -468,7 +472,6 @@ define([
                         {
                             caption: this.txtGeneral,
                             template: numFormatTemplate,
-                            checkable: true,
                             format: 'General',
                             exampleval: '100',
                             value: Asc.c_oAscNumFormatType.General
@@ -476,7 +479,6 @@ define([
                         {
                             caption: this.txtNumber,
                             template: numFormatTemplate,
-                            checkable: true,
                             format: '0.00',
                             exampleval: '100,00',
                             value: Asc.c_oAscNumFormatType.Number
@@ -484,7 +486,6 @@ define([
                         {
                             caption: this.txtScientific,
                             template: numFormatTemplate,
-                            checkable: true,
                             format: '0.00E+00',
                             exampleval: '1,00E+02',
                             value: Asc.c_oAscNumFormatType.Scientific
@@ -492,7 +493,6 @@ define([
                         {
                             caption: this.txtAccounting,
                             template: numFormatTemplate,
-                            checkable: true,
                             format: '_($* #,##0.00_);_($* (#,##0.00);_($* "-"??_);_(@_)',
                             exampleval: '100,00 $',
                             value: Asc.c_oAscNumFormatType.Accounting
@@ -500,23 +500,27 @@ define([
                         {
                             caption: this.txtCurrency,
                             template: numFormatTemplate,
-                            checkable: true,
                             format: '$#,##0.00',
                             exampleval: '100,00 $',
                             value: Asc.c_oAscNumFormatType.Currency
                         },
                         {
-                            caption: this.txtDate,
+                            caption: this.txtDateShort,
                             template: numFormatTemplate,
-                            checkable: true,
                             format: 'MM-dd-yyyy',
                             exampleval: '04-09-1900',
                             value: Asc.c_oAscNumFormatType.Date
                         },
                         {
+                            caption: this.txtDateLong,
+                            template: numFormatTemplate,
+                            format: 'MMMM d yyyy',
+                            exampleval: 'April 9 1900',
+                            value: Asc.c_oAscNumFormatType.Date
+                        },
+                        {
                             caption: this.txtTime,
                             template: numFormatTemplate,
-                            checkable: true,
                             format: 'HH:MM:ss',
                             exampleval: '00:00:00',
                             value: Asc.c_oAscNumFormatType.Time
@@ -524,7 +528,6 @@ define([
                         {
                             caption: this.txtPercentage,
                             template: numFormatTemplate,
-                            checkable: true,
                             format: '0.00%',
                             exampleval: '100,00%',
                             value: Asc.c_oAscNumFormatType.Percent
@@ -532,7 +535,6 @@ define([
                         {
                             caption: this.txtFraction,
                             template: numFormatTemplate,
-                            checkable: true,
                             format: '# ?/?',
                             exampleval: '100',
                             value: Asc.c_oAscNumFormatType.Fraction
@@ -540,7 +542,6 @@ define([
                         {
                             caption: this.txtText,
                             template: numFormatTemplate,
-                            checkable: true,
                             format: '@',
                             exampleval: '100',
                             value: Asc.c_oAscNumFormatType.Text
@@ -584,6 +585,7 @@ define([
                     me.pmiSortCells,
                     me.pmiFilterCells,
                     me.pmiReapply,
+                    me.mnuRefreshPivot,
                     me.mnuGroupPivot,
                     me.mnuUnGroupPivot,
                     {caption: '--'},
@@ -846,12 +848,14 @@ define([
                 caption: me.textMacro
             });
 
-            me.menuImgEditPoints = new Common.UI.MenuItem({
-                caption: me.textEditPoints
+            me.menuSaveAsPicture = new Common.UI.MenuItem({
+                caption     : me.textSaveAsPicture
             });
 
-            me.menuImgEditPointsSeparator = new Common.UI.MenuItem({
-                caption     : '--'
+            var menuSaveAsPictureSeparator = new Common.UI.MenuItem({ caption: '--'});
+
+            me.menuImgEditPoints = new Common.UI.MenuItem({
+                caption: me.textEditPoints
             });
 
             this.imgMenu = new Common.UI.Menu({
@@ -865,17 +869,18 @@ define([
                     me.menuSignatureEditSign,
                     me.menuSignatureEditSetup,
                     me.menuEditSignSeparator,
-                    me.menuImgEditPoints,
-                    me.menuImgEditPointsSeparator,
                     me.menuImageArrange,
                     me.menuImageAlign,
                     me.menuImgRotate,
                     me.menuImgMacro,
+                    menuSaveAsPictureSeparator,
+                    me.menuSaveAsPicture,
                     me.mnuShapeSeparator,
                     me.menuImgCrop,
                     me.mnuChartData,
                     me.mnuChartType,
                     me.mnuChartEdit,
+                    me.menuImgEditPoints,
                     me.mnuShapeAdvanced,
                     me.menuImgOriginalSize,
                     me.menuImgReplace,
@@ -1069,6 +1074,11 @@ define([
                 value       : 'paste'
             });
 
+            me.menuParagraphEquation = new Common.UI.MenuItem({
+                caption     : me.advancedEquationText,
+                menu        : me.createEquationMenu('popupparaeqinput', 'tl-tr')
+            });
+
             this.textInShapeMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 items: [
@@ -1082,7 +1092,8 @@ define([
                     me.menuAddHyperlinkShape,
                     me.menuHyperlinkShape,
                     {caption: '--'},
-                    me.pmiTextAdvanced
+                    me.pmiTextAdvanced,
+                    me.menuParagraphEquation
                 ]
             });
 
@@ -1160,6 +1171,60 @@ define([
 
         setMenuItemCommentCaptionMode: function (item, add, editable) {
             item.setCaption(add ? this.txtAddComment : (editable ? this.txtEditComment : this.txtShowComment), true);
+        },
+
+        createEquationMenu: function(toggleGroup, menuAlign) {
+            return new Common.UI.Menu({
+                cls: 'ppm-toolbar shifted-right',
+                menuAlign: menuAlign,
+                items   : [
+                    new Common.UI.MenuItem({
+                        caption     : this.unicodeText,
+                        iconCls     : 'menu__icon unicode',
+                        checkable   : true,
+                        checkmark   : false,
+                        checked     : false,
+                        toggleGroup : toggleGroup,
+                        type        : 'input',
+                        value       : Asc.c_oAscMathInputType.Unicode
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.latexText,
+                        iconCls     : 'menu__icon latex',
+                        checkable   : true,
+                        checkmark   : false,
+                        checked     : false,
+                        toggleGroup : toggleGroup,
+                        type        : 'input',
+                        value       : Asc.c_oAscMathInputType.LaTeX
+                    }),
+                    { caption     : '--' },
+                    new Common.UI.MenuItem({
+                        caption     : this.currProfText,
+                        iconCls     : 'menu__icon professional-equation',
+                        type        : 'view',
+                        value       : {all: false, linear: false}
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.currLinearText,
+                        iconCls     : 'menu__icon linear-equation',
+                        type        : 'view',
+                        value       : {all: false, linear: true}
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.allProfText,
+                        iconCls     : 'menu__icon professional-equation',
+                        type        : 'view',
+                        value       : {all: true, linear: false}
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.allLinearText,
+                        iconCls     : 'menu__icon linear-equation',
+                        type        : 'view',
+                        value       : {all: true, linear: true}
+                    })
+                ]
+            });
         },
 
         txtSort:                'Sort',
@@ -1261,7 +1326,8 @@ define([
         txtScientific:      'Scientific',
         txtAccounting:      'Accounting',
         txtCurrency:        'Currency',
-        txtDate:            'Date',
+        txtDateShort:       'Short Date',
+        txtDateLong:        'Long Date',
         txtTime:            'Time',
         txtPercentage:      'Percentage',
         txtFraction:        'Fraction',
@@ -1301,6 +1367,7 @@ define([
         textBullets: 'Bullets',
         textNumbering: 'Numbering',
         textMacro: 'Assign Macro',
+        textSaveAsPicture: 'Save as picture',
         textEditPoints: 'Edit Points',
         tipNumCapitalLetters: 'A. B. C.',
         tipNumLettersParentheses: 'a) b) c)',
@@ -1319,7 +1386,15 @@ define([
         tipMarkersDash: 'Dash bullets',
         chartDataText: 'Select Chart Data',
         chartTypeText: 'Change Chart Type',
-        txtGetLink: 'Get link to this range'
+        txtGetLink: 'Get link to this range',
+        txtRefresh: 'Refresh',
+        advancedEquationText: 'Equation Settings',
+        unicodeText: 'Unicode',
+        latexText: 'LaTeX',
+        currProfText: 'Current - Professional',
+        currLinearText: 'Current - Linear',
+        allProfText: 'All - Professional',
+        allLinearText: 'All - Linear'
 
     }, SSE.Views.DocumentHolder || {}));
 });

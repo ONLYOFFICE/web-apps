@@ -477,7 +477,7 @@ const PageReorder = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textReorder} backLink={_t.textBack}>
+            <Navbar title={t('Edit.textArrange')} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
@@ -530,7 +530,7 @@ const EditShape = props => {
 
     if (controlProps) {
         let spectype = controlProps.get_SpecificType();
-        fixedSize = (spectype == Asc.c_oAscContentControlSpecificType.CheckBox || spectype == Asc. c_oAscContentControlSpecificType.ComboBox || spectype == Asc.c_oAscContentControlSpecificType.DropDownList || spectype == Asc.c_oAscContentControlSpecificType.None || spectype == Asc.c_oAscContentControlSpecificType.Picture) && controlProps.get_FormPr() && controlProps.get_FormPr().get_Fixed();
+        fixedSize = (spectype == Asc.c_oAscContentControlSpecificType.CheckBox || spectype == Asc. c_oAscContentControlSpecificType.ComboBox || spectype == Asc.c_oAscContentControlSpecificType.DropDownList || spectype == Asc.c_oAscContentControlSpecificType.None || spectype == Asc.c_oAscContentControlSpecificType.Picture || spectype == Asc.c_oAscContentControlSpecificType.Complex) && controlProps.get_FormPr() && controlProps.get_FormPr().get_Fixed();
     }
 
     let disableRemove = !!props.storeFocusObjects.paragraphObject || (lockType == Asc.c_oAscSdtLockType.SdtContentLocked || lockType == Asc.c_oAscSdtLockType.SdtLocked);
@@ -565,7 +565,7 @@ const EditShape = props => {
                         onReplace: props.onReplace
                     }}></ListItem>
                 }
-                {(wrapType !== 'inline' && !isSmartArtInternal && settings.indexOf('image') === -1) && <ListItem  title={_t.textReorder} link='/edit-shape-reorder/' routeProps={{
+                {(wrapType !== 'inline' && !isSmartArtInternal && settings.indexOf('image') === -1) && <ListItem title={t('Edit.textArrange')} link='/edit-shape-reorder/' routeProps={{
                     onReorder: props.onReorder
                 }}></ListItem> }
             </List>

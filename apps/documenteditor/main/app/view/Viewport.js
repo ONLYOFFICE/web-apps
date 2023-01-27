@@ -104,33 +104,46 @@ define([
 
             $container = $('#viewport-hbox-layout', this.$el);
             var items = $container.find(' > .layout-item');
+            let iarray = [{ // left menu chat & comment
+                el: items[0],
+                rely: true,
+                alias: 'left',
+                resize: {
+                    hidden: true,
+                    autohide: false,
+                    min: 300,
+                    max: 600
+                }}, { // history versions
+                el: items[3],
+                rely: true,
+                alias: 'history',
+                resize: {
+                    hidden: true,
+                    autohide: false,
+                    min: 300,
+                    max: 600
+                }
+            }, { // sdk
+                el: items[1],
+                stretch: true
+            }, { // right menu
+                el: $(items[2]).hide(),
+                rely: true
+            }
+            ];
+
+            if ( Common.UI.isRTL() ) {
+                iarray[0].resize.min = -600;
+                iarray[0].resize.max = -300;
+                [iarray[1].resize.min, iarray[1].resize.max] = [-600, -300];
+
+                [iarray[0], iarray[3]] = [iarray[3], iarray[0]];
+                [iarray[1], iarray[2]] = [iarray[2], iarray[1]];
+            }
+
             this.hlayout = new Common.UI.HBoxLayout({
                 box: $container,
-                items: [{ // left menu chat & comment
-                        el: items[0],
-                        rely: true,
-                        resize: {
-                            hidden: true,
-                            autohide: false,
-                            min: 300,
-                            max: 600
-                    }}, { // history versions
-                        el: items[3],
-                        rely: true,
-                        resize: {
-                                hidden: true,
-                                autohide: false,
-                                min: 300,
-                                max: 600
-                        }
-                    }, { // sdk
-                        el: items[1],
-                        stretch: true
-                    }, { // right menu
-                        el: $(items[2]).hide(),
-                        rely: true
-                    }
-                ]
+                items: iarray
             });
 
             return this;
@@ -141,9 +154,19 @@ define([
                 rightMenuView   = DE.getController('RightMenu').getView('RightMenu');
 
             me._rightMenu   = rightMenuView.render(this.mode);
+            var value = Common.UI.LayoutManager.getInitValue('rightMenu');
+            value = (value!==undefined) ? !value : false;
+            Common.localStorage.getBool("de-hidden-rightmenu", value) && me._rightMenu.hide();
+            Common.Utils.InternalSettings.set("de-hidden-rightmenu", Common.localStorage.getBool("de-hidden-rightmenu", value));
+        },
 
+        applyCommonMode: function() {
             if ( Common.localStorage.getBool('de-hidden-status') )
                 DE.getController('Statusbar').getView('Statusbar').setVisible(false);
+
+            var value = Common.UI.LayoutManager.getInitValue('leftMenu');
+            value = (value!==undefined) ? !value : false;
+            Common.localStorage.getBool("de-hidden-leftmenu", value) && DE.getController('LeftMenu').getView('LeftMenu').hide();
         },
 
         setMode: function(mode) {

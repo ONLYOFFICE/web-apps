@@ -46,7 +46,7 @@
                         <span class="btn-slot split" id="slot-btn-changeslide"></span>
                     </div>
                     <div class="elset">
-                        <span class="btn-slot" id="slot-btn-preview"></span>
+                        <span class="btn-slot split" id="slot-btn-preview"></span>
                     </div>
                 </div>
                 <div class="separator long"></div>
@@ -127,6 +127,7 @@
                     <span class="btn-slot text x-huge" id="slot-btn-instextart"></span>
                     <span class="btn-slot text x-huge slot-insertimg"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-insertchart"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-inssmartart"></span>
                 </div>
                 <div class="separator long invisible"></div>
                 <div class="group small" id="slot-combo-insertshape"></div>

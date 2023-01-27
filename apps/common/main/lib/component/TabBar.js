@@ -210,7 +210,7 @@ define([
                     event.dataTransfer.setDragImage(img, 0, 0);
                 } else if (Common.Utils.isIE) {
                     this.bar.selectTabs.forEach(function (tab) {
-                        tab.$el.find('span').prop('title', '');
+                        tab.$el.find('span').prop('tabtitle', '');
                     });
                 }
                 event.dataTransfer.effectAllowed = 'copyMove';
@@ -569,8 +569,8 @@ define([
 
         checkInvisible: function(suppress) {
             var result = {
-                first: !this.isTabVisible(0),
-                last: !this.isTabVisible(this.tabs.length-1)
+                first: !this.isTabVisible(Common.UI.isRTL() ? this.tabs.length-1 : 0),
+                last: !this.isTabVisible(Common.UI.isRTL() ? 0 : this.tabs.length-1)
             };
 
             !suppress && this.fireEvent('tab:invisible', this, result);
