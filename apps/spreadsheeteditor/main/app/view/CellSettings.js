@@ -433,7 +433,7 @@ define([
                     { value: Asc.c_oAscBorderStyles.DashDotDot,   imgId: "dash-dot-dot-s"},
                     { value: Asc.c_oAscBorderStyles.Medium, imgId: "solid-m"},
                     { value: Asc.c_oAscBorderStyles.MediumDashed,  imgId: "dashes-l"},
-                    { value: Asc.c_oAscBorderStyles.MediumDashDot,  imgId: "dash-dot-s"},
+                    { value: Asc.c_oAscBorderStyles.MediumDashDot,  imgId: "dash-dot-m"},
                     { value: Asc.c_oAscBorderStyles.MediumDashDotDot,  imgId: "dash-dot-dot-m"},
                     { value: Asc.c_oAscBorderStyles.Thick,  imgId: "solid-l"}
                 ],

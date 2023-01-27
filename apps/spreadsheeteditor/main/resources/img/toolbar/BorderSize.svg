@@ -1,8 +1,8 @@
 <svg aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <symbol id="solid-s" width="60" height="1" viewBox="0 0 60 1">
+    <symbol id="solid-s" width="60" viewBox="0 0 60 1">
         <path d="M0 0H60V1H0V0Z"/>
     </symbol>
-    <symbol id="dots-s" width="59" height="1" viewBox="0 0 59 1">
+    <symbol id="dots-s" width="59" height="1" viewBox="0 0 59 1" preserveAspectRatio="xMidYMid meet">
         <path d="M0 0H1V1H0V0Z"/>
         <path d="M2 0H3V1H2V0Z"/>
         <path d="M4 0H5V1H4V0Z"/>
@@ -34,7 +34,7 @@
         <path d="M56 0H57V1H56V0Z"/>
         <path d="M58 0H59V1H58V0Z"/>
     </symbol>
-    <symbol id="dashes-s" width="58" height="1" viewBox="0 0 58 1">
+    <symbol id="dashes-s" width="58" viewBox="0 0 58 1" preserveAspectRatio="xMidYMid meet">
         <path d="M0 0H2V1H0V0Z"/>
         <path d="M4 0H6V1H4V0Z"/>
         <path d="M8 0H10V1H8V0Z"/>
@@ -51,7 +51,7 @@
         <path d="M52 0H54V1H52V0Z"/>
         <path d="M56 0H58V1H56V0Z"/>
     </symbol>
-    <symbol id="dashes-m" width="59" height="1" viewBox="0 0 59 1">
+    <symbol id="dashes-m" width="59" viewBox="0 0 59 1" preserveAspectRatio="xMidYMid meet">
         <path d="M0 0H3V1H0V0Z"/>
         <path d="M4 0H7V1H4V0Z"/>
         <path d="M8 0H11V1H8V0Z"/>
@@ -68,7 +68,7 @@
         <path d="M52 0H55V1H52V0Z"/>
         <path d="M56 0H59V1H56V0Z"/>
     </symbol>
-    <symbol id="dash-dot-s" width="60" height="1" viewBox="0 0 60 1">
+    <symbol id="dash-dot-s" width="60" viewBox="0 0 60 1" preserveAspectRatio="xMidYMid meet">
         <path d="M0 0H9V1H0V0Z"/>
         <path d="M12 0H15V1H12V0Z"/>
         <path d="M18 0H27V1H18V0Z"/>
@@ -77,7 +77,7 @@
         <path d="M48 0H51V1H48V0Z"/>
         <path d="M54 0H60V1H54V0Z"/>
     </symbol>
-    <symbol id="dash-dot-dot-s" width="57" height="1" viewBox="0 0 57 1">
+    <symbol id="dash-dot-dot-s" width="57" viewBox="0 0 57 1" preserveAspectRatio="xMidYMid meet">
         <path d="M0 0H9V1H0V0Z"/>
         <path d="M12 0H15V1H12V0Z"/>
         <path d="M18 0H21V1H18V0Z"/>
@@ -86,17 +86,17 @@
         <path d="M42 0H45V1H42V0Z"/>
         <path d="M48 0H57V1H48V0Z"/>
     </symbol>
-    <symbol id="solid-m" width="60" height="2" viewBox="0 0 60 2">
+    <symbol id="solid-m" width="60" viewBox="0 0 60 2" preserveAspectRatio="xMidYMid meet">
         <path d="M0 0H60V2H0V0Z"/>
     </symbol>
-    <symbol id="dashes-l" width="57" height="2" viewBox="0 0 57 2">
+    <symbol id="dashes-l" width="57" viewBox="0 0 57 2" preserveAspectRatio="xMidYMid meet">
         <path d="M0 0H9V2H0V0Z"/>
         <path d="M12 0H21V2H12V0Z"/>
         <path d="M24 0H33V2H24V0Z"/>
         <path d="M36 0H45V2H36V0Z"/>
         <path d="M48 0H57V2H48V0Z"/>
     </symbol>
-    <symbol id="dash-dot-m" width="60" height="2" viewBox="0 0 60 2">
+    <symbol id="dash-dot-m" width="60" viewBox="0 0 60 2" preserveAspectRatio="xMidYMid meet">
         <path d="M0 0H9V2H0V0Z"/>
         <path d="M12 0H15V2H12V0Z"/>
         <path d="M18 0H27V2H18V0Z"/>
@@ -105,7 +105,7 @@
         <path d="M48 0H51V2H48V0Z"/>
         <path d="M54 0H60V2H54V0Z"/>
     </symbol>
-    <symbol id="dash-dot-dot-m" width="57" height="2" viewBox="0 0 57 2">
+    <symbol id="dash-dot-dot-m" width="57" viewBox="0 0 57 2" preserveAspectRatio="xMidYMid meet">
         <path d="M0 0H9V2H0V0Z"/>
         <path d="M12 0H15V2H12V0Z"/>
         <path d="M18 0H21V2H18V0Z"/>
@@ -114,7 +114,7 @@
         <path d="M42 0H45V2H42V0Z"/>
         <path d="M48 0H57V2H48V0Z"/>
     </symbol>
-    <symbol id="solid-l" width="60" height="3" viewBox="0 0 60 3">
+    <symbol id="solid-l" width="60" viewBox="0 0 60 3" preserveAspectRatio="xMidYMid meet">
         <path d="M0 0H60V3H0V0Z"/>
     </symbol>
 </svg>
