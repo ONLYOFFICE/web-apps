@@ -3012,6 +3012,8 @@ define([
         },
 
         onShowSpecialPasteOptions: function(specialPasteShowOptions) {
+            if (this.permissions && !this.permissions.isEdit) return;
+
             var me                  = this,
                 documentHolderView  = me.documentHolder,
                 coord  = specialPasteShowOptions.asc_getCellCoord(),
@@ -3163,13 +3165,22 @@ define([
             setTimeout(function() {
                 $(document).on('keyup', me.wrapEvents.onKeyUp);
             }, 10);
+            this.disableSpecialPaste();
         },
 
         onHideSpecialPasteOptions: function() {
+            if (!this.documentHolder || !this.documentHolder.cmpEl) return;
             var pasteContainer = this.documentHolder.cmpEl.find('#special-paste-container');
             if (pasteContainer.is(':visible')) {
                 pasteContainer.hide();
                 $(document).off('keyup', this.wrapEvents.onKeyUp);
+            }
+        },
+
+        disableSpecialPaste: function() {
+            var pasteContainer = this.documentHolder.cmpEl.find('#special-paste-container');
+            if (pasteContainer.length>0 && pasteContainer.is(':visible')) {
+                this.btnSpecialPaste.setDisabled(!!this._isDisabled);
             }
         },
 
@@ -4269,6 +4280,8 @@ define([
         },
 
         onShowMathTrack: function(bounds) {
+            if (this.permissions && !this.permissions.isEdit) return;
+
             if (bounds[3] < 0) {
                 this.onHideMathTrack();
                 return;
@@ -4395,6 +4408,7 @@ define([
         },
 
         onHideMathTrack: function() {
+            if (!this.documentHolder || !this.documentHolder.cmpEl) return;
             var eqContainer = this.documentHolder.cmpEl.find('#equation-container');
             if (eqContainer.is(':visible')) {
                 eqContainer.hide();
@@ -4475,6 +4489,12 @@ define([
             this._isDisabled = state;
             this._canProtect = state ? canProtect : true;
             this.disableEquationBar();
+            this.disableSpecialPaste();
+        },
+
+        clearSelection: function() {
+            this.onHideMathTrack();
+            this.onHideSpecialPasteOptions();
         },
 
         guestText               : 'Guest',

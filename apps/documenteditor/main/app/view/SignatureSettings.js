@@ -414,7 +414,7 @@ define([
                     chat: false,
                     review: true,
                     viewport: false,
-                    documentHolder: true,
+                    documentHolder: {clear: true, disable: true},
                     toolbar: true,
                     plugins: false,
                     protect: false

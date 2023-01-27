@@ -405,7 +405,7 @@ define([
                     chat: false,
                     review: true,
                     viewport: true,
-                    documentHolder: true,
+                    documentHolder: {clear: true, disable: true},
                     toolbar: true,
                     celleditor: {previewMode: true}
                 }, 'signature');

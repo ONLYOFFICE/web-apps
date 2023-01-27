@@ -1093,7 +1093,7 @@ define([
                     chat: true,
                     review: true,
                     viewport: true,
-                    documentHolder: true,
+                    documentHolder: {clear: !temp, disable: true},
                     toolbar: true
                 }, temp ? 'reconnect' : 'disconnect');
             },
@@ -1124,7 +1124,8 @@ define([
                     app.getController('Toolbar').DisableToolbar(disable, options.viewMode);
                 }
                 if (options.documentHolder) {
-                    app.getController('DocumentHolder').SetDisabled(disable);
+                    options.documentHolder.clear && app.getController('DocumentHolder').clearSelection();
+                    options.documentHolder.disable && app.getController('DocumentHolder').SetDisabled(disable);
                 }
                 if (options.leftMenu) {
                     if (options.leftMenu.disable)

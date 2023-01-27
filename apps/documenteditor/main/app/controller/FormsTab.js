@@ -365,7 +365,7 @@ define([
                     chat: false,
                     review: true,
                     viewport: false,
-                    documentHolder: true,
+                    documentHolder: {clear: false, disable: true},
                     toolbar: true,
                     plugins: true,
                     protect: true

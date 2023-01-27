@@ -815,7 +815,7 @@ define([
                     chat: true,
                     review: true,
                     viewport: true,
-                    documentHolder: true,
+                    documentHolder: {clear: !temp, disable: true},
                     toolbar: true,
                     plugins: false,
                     protect: false
@@ -848,7 +848,8 @@ define([
                     app.getController('Toolbar').DisableToolbar(disable, options.viewMode, options.reviewMode, options.fillFormMode);
                 }
                 if (options.documentHolder) {
-                    app.getController('DocumentHolder').SetDisabled(disable, options.allowProtect, options.fillFormMode);
+                    options.documentHolder.clear && app.getController('DocumentHolder').clearSelection();
+                    options.documentHolder.disable && app.getController('DocumentHolder').SetDisabled(disable, options.allowProtect, options.fillFormMode);
                 }
                 if (options.leftMenu) {
                     if (options.leftMenu.disable)

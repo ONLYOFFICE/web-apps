@@ -1105,6 +1105,8 @@ define([
         },
 
         onShowSpecialPasteOptions: function(specialPasteShowOptions) {
+            if (this.mode && !this.mode.isEdit) return;
+
             var me = this,
                 documentHolder = me.documentHolder;
             var coord  = specialPasteShowOptions.asc_getCellCoord(),
@@ -1167,13 +1169,25 @@ define([
                     $(document).on('keyup', me.wrapEvents.onKeyUp);
                 }, 10);
             }
+            this.disableSpecialPaste();
         },
 
         onHideSpecialPasteOptions: function() {
+            if (!this.documentHolder || !this.documentHolder.cmpEl) return;
             var pasteContainer = this.documentHolder.cmpEl.find('#special-paste-container');
             if (pasteContainer.is(':visible')) {
                 pasteContainer.hide();
                 $(document).off('keyup', this.wrapEvents.onKeyUp);
+            }
+        },
+
+        disableSpecialPaste: function() {
+            var pasteContainer = this.documentHolder.cmpEl.find('#special-paste-container'),
+                docProtection = this.documentHolder._docProtection,
+                disabled = this._isDisabled || docProtection.isReadOnly || docProtection.isCommentsOnly;
+
+            if (pasteContainer.length>0 && pasteContainer.is(':visible')) {
+                this.btnSpecialPaste.setDisabled(!!disabled);
             }
         },
 
@@ -1522,6 +1536,12 @@ define([
             this._isDisabled = state;
             this.documentHolder.SetDisabled(state, canProtect, fillFormMode);
             this.disableEquationBar();
+            this.disableSpecialPaste();
+        },
+
+        clearSelection: function() {
+            this.onHideMathTrack();
+            this.onHideSpecialPasteOptions();
         },
 
         onTextLanguage: function(langid) {
@@ -2333,6 +2353,8 @@ define([
         },
 
         onShowMathTrack: function(bounds) {
+            if (this.mode && !this.mode.isEdit) return;
+
             if (bounds[3] < 0) {
                 this.onHideMathTrack();
                 return;
@@ -2461,6 +2483,7 @@ define([
         },
 
         onHideMathTrack: function() {
+            if (!this.documentHolder || !this.documentHolder.cmpEl) return;
             var eqContainer = this.documentHolder.cmpEl.find('#equation-container');
             if (eqContainer.is(':visible')) {
                 eqContainer.hide();
@@ -2505,6 +2528,7 @@ define([
             if (props && this.documentHolder) {
                 this.documentHolder._docProtection = props;
                 this.disableEquationBar();
+                this.disableSpecialPaste();
             }
         },
 
