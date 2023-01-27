@@ -96,17 +96,17 @@ define([
                 allowDecimal: false,
                 width: 45,
                 defaultUnit : "",
-                value: '1',
+                value: 1,
                 maxValue: 30,
                 minValue: 1,
-                maskExp: /[1-9]/
+                maskExp: /[0-9]/
             });
             this.spnColumns.on('change', function(field, newValue, oldValue, eOpts){
-                if(newValue === oldValue) return;
-
-                var num = field.getNumberValue();
+                var num = parseInt(newValue);
 
                 if(me.columnsList.store.length > 0) {
+                    if(num == me.columnsList.store.length) return;
+
                     var spacing = me.columnsList.store.at(0).get('spacing'),
                         calcWidth = me.calcWidthForEqualColumns(num, spacing),
                         arrColumnObj = [];
@@ -319,12 +319,12 @@ define([
             if(widthSpin.getMaxValue() < valueInUserMetric) {
                 widthSpin.setMaxValue(this.decimalRouding(valueInUserMetric))
             }
-            widthSpin.setValue(this.decimalRouding(valueInUserMetric), true);
+            widthSpin.setValue(valueInUserMetric, true);
         },
 
         setSpacingColumnValue: function(item, value) {
             item.set('spacing', value, {silent: true});
-            item.get('spacingSpin').setValue(this.decimalRouding(Common.Utils.Metric.fnRecalcFromMM(value)), true);
+            item.get('spacingSpin').setValue(Common.Utils.Metric.fnRecalcFromMM(value), true);
             if(item.get('index') == 0)
                 this.setMaxColumns();
         },
