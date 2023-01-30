@@ -1703,7 +1703,8 @@ define([
             }
 
             if (!roles) {
-                roles = this.api.asc_GetOForm().asc_getAllRoles();
+                var oform = this.api.asc_GetOForm();
+                oform && (roles = oform.asc_getAllRoles());
 
                 // change to event asc_onRefreshRolesList
                 // roles = [
