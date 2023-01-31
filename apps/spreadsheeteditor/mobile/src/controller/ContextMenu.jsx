@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 import { f7 } from 'framework7-react';
 import { inject, observer } from "mobx-react";
 import { withTranslation} from 'react-i18next';
-import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage';
+import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage.mjs';
 
 import ContextMenuController from '../../../../common/mobile/lib/controller/ContextMenu';
 import { idContextMenuElement } from '../../../../common/mobile/lib/view/ContextMenu';
-import { Device } from '../../../../common/mobile/utils/device';
+// import { Device } from '../../../../common/mobile/utils/device';
 import EditorUIController from '../lib/patch';
 
 @inject (stores => ({
@@ -19,7 +19,10 @@ import EditorUIController from '../lib/patch';
     isDisconnected: stores.users.isDisconnected,
     storeSheets: stores.sheets,
     wsProps: stores.storeWorksheets.wsProps,
-    wsLock: stores.storeWorksheets.wsLock
+    wsLock: stores.storeWorksheets.wsLock,
+    objects: stores.storeFocusObjects.objects,
+    focusOn: stores.storeFocusObjects.focusOn,
+    isResolvedComments: stores.storeApplicationSettings.isResolvedComments
 }))
 class ContextMenu extends ContextMenuController {
     constructor(props) {
@@ -34,6 +37,7 @@ class ContextMenu extends ContextMenuController {
         this.isUserVisible = this.isUserVisible.bind(this);
         this.onApiMouseMove = this.onApiMouseMove.bind(this);
         this.onApiHyperlinkClick = this.onApiHyperlinkClick.bind(this);
+        this.checkShapeSelection = this.checkShapeSelection.bind(this);
     }
 
     static closeContextMenu() {
@@ -59,6 +63,7 @@ class ContextMenu extends ContextMenuController {
             api.asc_unregisterCallback('asc_onHideComment', this.onApiHideComment);
             api.asc_unregisterCallback('asc_onMouseMove', this.onApiMouseMove);
             api.asc_unregisterCallback('asc_onHyperlinkClick', this.onApiHyperlinkClick);
+            api.asc_unregisterCallback('asc_onShowPopMenu', this.checkShapeSelection);
         }
     }
 
@@ -230,6 +235,7 @@ class ContextMenu extends ContextMenuController {
         api.asc_registerCallback('asc_onHideComment', this.onApiHideComment);
         api.asc_registerCallback('asc_onMouseMove', this.onApiMouseMove);
         api.asc_registerCallback('asc_onHyperlinkClick', this.onApiHyperlinkClick);
+        api.asc_registerCallback('asc_onShowPopMenu', this.checkShapeSelection);
     }
 
     initMenuItems() {
@@ -243,7 +249,7 @@ class ContextMenu extends ContextMenuController {
         if (isEdit && EditorUIController.ContextMenu) {
             return EditorUIController.ContextMenu.mapMenuItems(this);
         } else {
-            const {canViewComments, canCoAuthoring, canComments} = this.props;
+            const {canViewComments, canCoAuthoring, canComments, isResolvedComments} = this.props;
 
             const api = Common.EditorApi.get();
             const cellinfo = api.asc_getCellInfo();
@@ -253,7 +259,8 @@ class ContextMenu extends ContextMenuController {
 
             let iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu;
             const seltype = cellinfo.asc_getSelectionType();
-            const hasComments = cellinfo.asc_getComments(); //prohibit adding multiple comments in one cell;
+            const comments = cellinfo.asc_getComments(); //prohibit adding multiple comments in one cell;
+            const isSolvedComment = comments?.length && comments[0].asc_getSolved();
 
             switch (seltype) {
                 case Asc.c_oAscSelectionType.RangeCells:     iscellmenu  = true;     break;
@@ -277,16 +284,20 @@ class ContextMenu extends ContextMenuController {
                         caption: _t.menuOpenLink,
                         event: 'openlink'
                     });
-                }
+                    itemsText.push({
+                        caption: t("ContextMenu.menuEditLink"),
+                        event: 'editlink'
+                    });
+                }``
                 if(!isDisconnected) {
-                    if (canViewComments && hasComments && hasComments.length>0) {
+                    if (canViewComments && comments && comments.length && ((!isSolvedComment && !isResolvedComments) || isResolvedComments)) {
                         itemsText.push({
                             caption: _t.menuViewComment,
                             event: 'viewcomment'
                         });
                     }
 
-                    if (iscellmenu && !api.isCellEdited && isRestrictedEdit && canCoAuthoring && canComments && hasComments && hasComments.length<1) {
+                    if (iscellmenu && !api.isCellEdited && isRestrictedEdit && canCoAuthoring && canComments && comments && comments.length<1) {
                         itemsText.push({
                             caption: _t.menuAddComment,
                             event: 'addcomment'
@@ -295,6 +306,16 @@ class ContextMenu extends ContextMenuController {
                 }
 
             return itemsIcon.concat(itemsText);
+        }
+    }
+
+    checkShapeSelection() {
+        const objects = this.props.objects;
+        const focusOn = this.props.focusOn;
+        const contextMenuElem = document.querySelector('#idx-context-menu-popover');
+
+        if(objects.indexOf('shape') > -1 && focusOn === 'obj') {
+            contextMenuElem.style.top = `${+(contextMenuElem.style.top.replace(/px$/, '')) - 40}px`;
         }
     }
 

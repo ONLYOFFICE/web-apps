@@ -89,7 +89,7 @@ define([
                     '</div>' +
                 '</div>' +
                 '<div class="separator long invisible"></div>' +
-                '<div class="group flex small" id="slot-field-pivot-styles" style="width: 324px;max-width: 324px;min-width: 105px;" data-group-width="324px">' +
+                '<div class="group flex small" id="slot-field-pivot-styles" style="width: 100%; min-width: 105px;" data-group-width="100%">' +
                 '</div>' +
             '</section>';
 
@@ -119,7 +119,11 @@ define([
             });
 
             this.btnRefreshPivot.on('click', function (e) {
-                me.fireEvent('pivottable:refresh');
+                me.fireEvent('pivottable:refresh', ['current']);
+            });
+
+            this.btnRefreshPivot.menu.on('item:click', function (menu, item, e) {
+                me.fireEvent('pivottable:refresh', [item.value]);
             });
 
             this.btnSelectPivot.on('click', function (e) {
@@ -254,6 +258,7 @@ define([
                     iconCls: 'toolbar__icon btn-update',
                     caption: this.txtRefresh,
                     disabled    : true,
+                    split       : true,
                     lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock, _set.wsLock],
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
@@ -274,15 +279,18 @@ define([
 
                 this.pivotStyles = new Common.UI.ComboDataView({
                     cls             : 'combo-pivot-template',
+                    style           : 'min-width: 103px; max-width: 517px;',
                     enableKeyEvents : true,
                     itemWidth       : 61,
                     itemHeight      : 49,
                     menuMaxHeight   : 300,
+                    groups          : new Common.UI.DataViewGroupStore(),
+                    autoWidth       : true,
                     lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock, _set['FormatCells'], _set['PivotTables']],
                     beforeOpenHandler: function(e) {
                         var cmp = this,
                             menu = cmp.openButton.menu,
-                            columnCount = 4;
+                            columnCount = 7;
 
                         if (menu.cmpEl) {
                             var itemEl = $(cmp.cmpEl.find('.dataview.inner .style').get(0)).parent();
@@ -330,7 +338,6 @@ define([
                     me.btnsAddPivot.forEach( function(btn) {
                         btn.updateHint(me.tipCreatePivot);
                     });
-                    me.btnRefreshPivot.updateHint(me.tipRefresh);
                     me.btnSelectPivot.updateHint(me.tipSelect);
                     me.btnPivotLayout.updateHint(me.capLayout);
                     me.btnPivotLayout.setMenu(new Common.UI.Menu({
@@ -370,6 +377,14 @@ define([
                             { caption: me.mniOnColumnsTotals, value: 3 }
                         ]
                     }));
+
+                    me.btnRefreshPivot.setMenu(new Common.UI.Menu({
+                        items: [
+                            { caption: me.txtRefresh,       value: 'current'},
+                            { caption: me.txtRefreshAll,    value: 'all'}
+                        ]
+                    }));
+                    me.btnRefreshPivot.updateHint([me.tipRefreshCurrent, me.tipRefresh]);
 
                     setEvents.call(me);
                 });
@@ -440,12 +455,21 @@ define([
             mniBottomSubtotals: 'Show all Subtotals at Bottom of Group',
             mniTopSubtotals: 'Show all Subtotals at Top of Group',
             txtRefresh: 'Refresh',
+            txtRefreshAll: 'Refresh All',
+            tipRefreshCurrent: 'Update the information from data source for the current table',
             tipRefresh: 'Update the information from data source',
             tipGrandTotals: 'Show or hide grand totals',
             tipSubtotals: 'Show or hide subtotals',
             txtSelect: 'Select',
             tipSelect: 'Select entire pivot table',
-            txtPivotTable: 'Pivot Table'
+            txtPivotTable: 'Pivot Table',
+            txtTable_PivotStyleMedium: 'Pivot Table Style Medium',
+            txtTable_PivotStyleDark: 'Pivot Table Style Dark',
+            txtTable_PivotStyleLight: 'Pivot Table Style Light',
+            txtGroupPivot_Custom: 'Custom',
+            txtGroupPivot_Light: 'Light',
+            txtGroupPivot_Medium: 'Medium',
+            txtGroupPivot_Dark: 'Dark'
         }
     }()), SSE.Views.PivotTable || {}));
 });

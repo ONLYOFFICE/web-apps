@@ -3,7 +3,7 @@ import { inject, observer } from "mobx-react";
 import { f7 } from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { withTranslation} from 'react-i18next';
-import { LocalStorage } from '../../../utils/LocalStorage';
+import { LocalStorage } from '../../../utils/LocalStorage.mjs';
 
 import {AddComment, EditComment, AddReply, EditReply, ViewComments, ViewCurrentComments} from '../../view/collaboration/Comments';
 
@@ -92,8 +92,10 @@ class CommentsController extends Component {
     }
     addComment (id, data) {
         const comment = this.readSDKComment(id, data);
+    
         if (comment) {
             this.storeComments.addComment(comment);
+            this.changeShowComments([comment.uid]);
         }
     }
     addComments (data) {
@@ -294,6 +296,7 @@ class AddCommentController extends Component {
             !!comment.asc_putDocumentFlag && comment.asc_putDocumentFlag(documentFlag);
 
             api.asc_addComment(comment);
+            Common.Notifications.trigger('viewcomment');
         }
     }
     render() {

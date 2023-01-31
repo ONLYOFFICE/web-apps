@@ -59,6 +59,9 @@
     "textTable": "표",
     "textTableSize": "표 크기",
     "txtNotUrl": "이 필드는 \"http://www.example.com\"형식의 URL이어야합니다.",
+    "textDone": "Done",
+    "textRecommended": "Recommended",
+    "textRequired": "Required",
     "textTableContents": "Table of Contents",
     "textWithBlueLinks": "With Blue Links",
     "textWithPageNumbers": "With Page Numbers"
@@ -160,7 +163,8 @@
       "textTryUndoRedo": "빠른 공동 편집 모드에서 실행 취소 / 다시 실행 기능을 사용할 수 없습니다.",
       "textUnderline": "밑줄",
       "textUsers": "사용자",
-      "textWidow": "개별 제어"
+      "textWidow": "개별 제어",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "채우기 없음"
@@ -198,6 +202,7 @@
     "textNumberingValue": "번호",
     "textOk": "확인",
     "textRows": "행",
+    "menuEditLink": "Edit Link",
     "textRefreshEntireTable": "Refresh entire table",
     "textRefreshPageNumbersOnly": "Refresh page numbers only",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
@@ -298,11 +303,8 @@
     "textPictureFromURL": "URL에서 그림",
     "textPt": "pt",
     "textRemoveChart": "차트 제거",
-    "textRemoveImage": "이미지 제거",
-    "textRemoveLink": "링크 제거",
     "textRemoveShape": "도형 제거",
     "textRemoveTable": "표 제거",
-    "textReorder": "재정렬",
     "textRepeatAsHeaderRow": "헤더 행으로 반복",
     "textReplace": "바꾸기",
     "textReplaceImage": "이미지 바꾸기",
@@ -338,11 +340,16 @@
     "textWe": "수요일",
     "textWrap": "줄 바꾸기",
     "textAmountOfLevels": "Amount of Levels",
+    "textArrange": "Arrange",
     "textCancel": "Cancel",
     "textCentered": "Centered",
+    "textChangeShape": "Change Shape",
     "textClassic": "Classic",
     "textCreateTextStyle": "Create new text style",
     "textCurrent": "Current",
+    "textCustomStyle": "Custom Style",
+    "textDeleteImage": "Delete Image",
+    "textDeleteLink": "Delete Link",
     "textDistinctive": "Distinctive",
     "textDone": "Done",
     "textEnterTitleNewStyle": "Enter title of a new style",
@@ -354,10 +361,12 @@
     "textOnline": "Online",
     "textPageNumbers": "Page Numbers",
     "textParagraphStyle": "Paragraph Style",
+    "textRecommended": "Recommended",
     "textRefresh": "Refresh",
     "textRefreshEntireTable": "Refresh entire table",
     "textRefreshPageNumbersOnly": "Refresh page numbers only",
     "textRemoveTableContent": "Remove table of contents",
+    "textRequired": "Required",
     "textRightAlign": "Right Align",
     "textSameCreatedNewStyle": "Same as created new style",
     "textSimple": "Simple",
@@ -365,7 +374,9 @@
     "textStructure": "Structure",
     "textStyles": "Styles",
     "textTableOfCont": "TOC",
-    "textTitle": "Title"
+    "textTextWrapping": "Text Wrapping",
+    "textTitle": "Title",
+    "textWrappingStyle": "Wrapping Style"
   },
   "Error": {
     "convertationTimeoutText": "변환 시간을 초과했습니다.",
@@ -406,9 +417,17 @@
     "uploadImageExtMessage": "알 수없는 이미지 형식입니다.",
     "uploadImageFileCountMessage": "이미지가 업로드되지 않았습니다.",
     "uploadImageSizeMessage": "이미지 크기 제한을 초과했습니다.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
     "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
     "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
-    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field.",
+    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "데이터로드 중 ...",
@@ -445,8 +464,8 @@
     "uploadImageTitleText": "이미지 업로드 중",
     "waitText": "잠시만 기다려주세요...",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textUndo": "Undo",
-    "textContinue": "Continue"
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Main": {
     "criticalErrorTitle": "오류",
@@ -545,6 +564,8 @@
     "warnNoLicense": "% 1 편집 연결 수 제한에 도달했습니다. 이 문서는 보기 모드로 열립니다. 개인적인 업그레이드 사항은 % 1 영업팀에 연락하십시오.",
     "warnNoLicenseUsers": "ONLYOFFICE 편집자의이 버전은 동시 사용자에게 일정한 제한이 있습니다. <br> 더 필요한 것이 있으면 현재 라이센스를 업그레이드하거나 상용 라이센스를 구입하십시오.",
     "warnProcessRightsChange": "파일을 편집 할 권한이 없습니다.",
+    "textDocumentProtected": "The document is protected. Edit settings are not available",
+    "textOk": "Ok",
     "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
   },
   "Settings": {

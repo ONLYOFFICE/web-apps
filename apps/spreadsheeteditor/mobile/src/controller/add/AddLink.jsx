@@ -1,9 +1,20 @@
 import React, {Component} from 'react';
-import { f7 } from 'framework7-react';
+import { f7, Popup, Popover, View } from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device';
 import {withTranslation} from 'react-i18next';
 
-import {AddLink} from '../../view/add/AddLink';
+import {AddLink, PageTypeLink, PageSheet} from '../../view/add/AddLink';
+
+const routes = [
+    {
+        path: '/add-link-type/',
+        component: PageTypeLink
+    },
+    {
+        path: '/add-link-sheet/',
+        component: PageSheet
+    }
+];
 
 class AddLinkController extends Component {
     constructor (props) {
@@ -99,29 +110,74 @@ class AddLinkController extends Component {
         }
 
         link.asc_setTooltip(args.tooltip);
-
         api.asc_insertHyperlink(link);
-
-        this.closeModal();
+        
+        if(this.props.isNavigate) {
+            f7.views.current.router.back();
+        } else {
+            this.closeModal();
+        }
     }
 
     closeModal () {
-        if ( Device.phone ) {
-            f7.sheet.close('.add-popup', true);
+        if (Device.phone) {
+            f7.popup.close('#add-link-popup');
         } else {
-            f7.popover.close('#add-popover');
+            f7.popover.close('#add-link-popover');
+        }
+    }
+
+    componentDidMount() {
+        if(!this.props.isNavigate) {
+            if(Device.phone) {
+                f7.popup.open('#add-link-popup', true);
+            } else {
+                f7.popover.open('#add-link-popover', '#btn-add');
+            }
         }
     }
 
     render () {
         return (
-            <AddLink inTabs={this.props.inTabs}
-                     allowInternal={this.allowInternal}
-                     displayText={this.displayText}
-                     sheets={this.sheets}
-                     activeSheet={this.activeSheet}
-                     onInsertLink={this.onInsertLink}
-            />
+            !this.props.isNavigate ?
+                Device.phone ?
+                    <Popup id="add-link-popup" onPopupClosed={() => this.props.onClosed('add-link')}>
+                        <View routes={routes} style={{height: '100%'}}>
+                            <AddLink 
+                                allowInternal={this.allowInternal}
+                                displayText={this.displayText}
+                                sheets={this.sheets}
+                                activeSheet={this.activeSheet}
+                                onInsertLink={this.onInsertLink}
+                                closeModal={this.closeModal} 
+                                isNavigate={this.props.isNavigate} 
+                            />
+                        </View>
+                    </Popup>
+                :
+                    <Popover id="add-link-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => this.props.onClosed('add-link')}>
+                        <View routes={routes} style={{height: '410px'}}>
+                            <AddLink 
+                                allowInternal={this.allowInternal}
+                                displayText={this.displayText}
+                                sheets={this.sheets}
+                                activeSheet={this.activeSheet}
+                                onInsertLink={this.onInsertLink}
+                                closeModal={this.closeModal} 
+                                isNavigate={this.props.isNavigate} 
+                            />
+                        </View>
+                    </Popover>
+            :
+                <AddLink 
+                    allowInternal={this.allowInternal}
+                    displayText={this.displayText}
+                    sheets={this.sheets}
+                    activeSheet={this.activeSheet}
+                    onInsertLink={this.onInsertLink}
+                    closeModal={this.closeModal} 
+                    isNavigate={this.props.isNavigate} 
+                />
         )
     }
 }

@@ -402,9 +402,8 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
             var arr = [
                     this.chReplaceType, this.inputReplace, this.inputBy, this.mathList, this.btnReset, this.btnEdit, this.btnDelete, // 0 tab
                     this.inputRecFind, this.mathRecList, this.btnResetRec, this.btnAddRec, this.btnDeleteRec, // 1 tab
-                    this.chHyperlink // 2 tab
                 ];
-            arr = arr.concat(this.chNewRows ? [this.chNewRows] : [this.chQuotes, this.chHyphens, this.chBulleted, this.chNumbered]);
+            arr = arr.concat(this.chNewRows ? [this.chHyperlink, this.chNewRows] : [this.chQuotes, this.chHyphens, this.chHyperlink, this.chDoubleSpaces, this.chBulleted, this.chNumbered]);
             arr = arr.concat(this.chFLSentence ? [this.chFLSentence, this.chFLCells] : []);
             return arr;
         },
@@ -487,22 +486,30 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
 
         onDelete: function() {
             var rec = this.mathList.getSelectedRec();
+            var path = '';
+            var val;
             if (rec) {
                 if (rec.get('defaultValue')) {
-                    var path = this.appPrefix + "settings-math-correct-rem";
+                    path = this.appPrefix + "settings-math-correct-rem";
                     var disabled = !rec.get('defaultDisabled');
                     rec.set('defaultDisabled', disabled);
                     if (disabled)
                         this.arrRem.push(rec.get('replaced'));
                     else
                         this.arrRem.splice(this.arrRem.indexOf(rec.get('replaced')), 1);
-                    var val = JSON.stringify(this.arrRem);
+                    val = JSON.stringify(this.arrRem);
                     Common.Utils.InternalSettings.set(path, val);
                     Common.localStorage.setItem(path, val);
                     this.btnDelete.setCaption(disabled ? this.textRestore : this.textDelete);
                     disabled ? this.api.asc_deleteFromAutoCorrectMathSymbols(rec.get('replaced')) : this.api.asc_AddOrEditFromAutoCorrectMathSymbols(rec.get('replaced'), rec.get('defaultValue'));
                 } else {
                     _mathStore.remove(rec);
+
+                    this.arrAdd.splice(this.arrAdd.indexOf(rec.get('replaced')), 1);
+                    path = this.appPrefix + "settings-math-correct-add";
+                    val = JSON.stringify(this.arrAdd);
+                    Common.Utils.InternalSettings.set(path, val);
+                    Common.localStorage.setItem(path, val);
                     this.mathList.scroller && this.mathList.scroller.update({});
                     this.api.asc_deleteFromAutoCorrectMathSymbols(rec.get('replaced'));
                 }
@@ -746,22 +753,30 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
 
         onDeleteRec: function() {
             var rec = this.mathRecList.getSelectedRec();
+            var path;
+            var val;
             if (rec) {
                 if (rec.get('defaultValue')) {
-                    var path = this.appPrefix + "settings-rec-functions-rem";
+                    path = this.appPrefix + "settings-rec-functions-rem";
                     var disabled = !rec.get('defaultDisabled');
                     rec.set('defaultDisabled', disabled);
                     if (disabled)
                         this.arrRemRec.push(rec.get('value'));
                     else
                         this.arrRemRec.splice(this.arrRemRec.indexOf(rec.get('value')), 1);
-                    var val = JSON.stringify(this.arrRemRec);
+                    val = JSON.stringify(this.arrRemRec);
                     Common.Utils.InternalSettings.set(path, val);
                     Common.localStorage.setItem(path, val);
                     this.btnDeleteRec.setCaption(disabled ? this.textRestore : this.textDelete);
                     disabled ? this.api.asc_deleteFromAutoCorrectMathFunctions(rec.get('value')) : this.api.asc_AddFromAutoCorrectMathFunctions(rec.get('value'));
                 } else {
                     _functionsStore.remove(rec);
+
+                    this.arrAddRec.splice(this.arrAddRec.indexOf(rec.get('value')), 1);
+                    path = this.appPrefix + "settings-rec-functions-add";
+                    val = JSON.stringify(this.arrAddRec);
+                    Common.Utils.InternalSettings.set(path, val);
+                    Common.localStorage.setItem(path, val);
                     this.mathRecList.scroller && this.mathRecList.scroller.update({});
                     this.api.asc_deleteFromAutoCorrectMathFunctions(rec.get('value'));
                 }

@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { observer, inject } from "mobx-react";
 import { Page, Navbar, Link } from "framework7-react";
 import { useTranslation } from "react-i18next";
+import { Device } from '../../utils/device';
 
 const PageAbout = props => {
     const { t } = useTranslation();
@@ -18,7 +19,7 @@ const PageAbout = props => {
     const infoCustomer = customer ? customer.info : null;
     const logoCustomer = customer ? customer.logo : null;
 
-    const publisherUrl = __PUBLISHER_URL__,
+    const publisherUrl = __PUBLISHER_URL__, 
         publisherPrintUrl = publisherUrl.replace(/https?:\/{2}|\/$/g,"");
     const publisherName = __PUBLISHER_NAME__.replace(/\\"/g, '"');
     
@@ -31,94 +32,88 @@ const PageAbout = props => {
     const nameEditor = (_t.textEditor || editors[editorType]).toUpperCase();
 
     return (
-        <Page className="about">
+        <Page className={"about" + (!Device.phone ? " about_tablet" : Device.ios ? " about_ios" : " about_android")}>
             <Navbar title={_t.textAbout} backLink={_t.textBack} />
             {licInfo && typeof licInfo == 'object' && typeof(customer) == 'object' ? (
                 <Fragment>
-                    <div className="content-block">
+                    <div className="logo-block">
                         {logoCustomer && logoCustomer.length ? (
-                            <div id="settings-about-logo" className="settings-about-logo">
+                            <div id="settings-about-logo" className="logo-block__elem">
                                 <img src={logoCustomer} alt="" />
                             </div>
                         ) : null}
                     </div>
-                    <div className="content-block">
-                        <h3>{nameEditor}</h3>
-                        <h3>{_t.textVersion} {__PRODUCT_VERSION__}</h3>
+                    <div className="about__editor">
+                        <p className="about__text">{nameEditor}</p>
+                        <p className="about__text">{_t.textVersion} {__PRODUCT_VERSION__}</p>
                     </div>
-                    <div className="content-block">
-                        {nameCustomer && nameCustomer.length ? (
-                            <h3 id="settings-about-name" className="vendor">{nameCustomer}</h3>
-                        ) : null}
-                        {addressCustomer && addressCustomer.length ? (
-                            <p>
-                                <label>{_t.textAddress}:</label>
-                                <Link id="settings-about-address" className="external">{addressCustomer}</Link>
+                    {mailCustomer || phoneCustomer ? (
+                        <div className="about__customer">
+                            {mailCustomer && mailCustomer.length ? (
+                                <p className="about__text">
+                                    <Link id="settings-about-email" external={true} href={"mailto:"+mailCustomer}>{mailCustomer}</Link>
+                                </p>
+                            ) : null}
+                            {phoneCustomer && phoneCustomer.length ? (
+                                <p className="about__text">
+                                    <Link id="settings-about-tel" external={true} href={"tel:"+phoneCustomer}>{phoneCustomer}</Link>
+                                </p>
+                            ) : null}
+                        </div>
+                    ) : null}
+                    {addressCustomer && addressCustomer.length ? (
+                        <div className="about__customer">
+                            <p className="about__text">
+                                <Link id="settings-about-address" external={true}>{addressCustomer}</Link>
                             </p>
+                        </div>
+                    ) : null}
+                    {nameCustomer || infoCustomer || urlCustomer ? (
+                        <div className="about__customer">
+                            {nameCustomer && nameCustomer.length ? (
+                                <p id="settings-about-name" className="about__text">{nameCustomer}</p>
+                            ) : null}
+                            {infoCustomer && infoCustomer.length ? (
+                                <p className="about__text">{infoCustomer}</p>
+                            ) : null}
+                            {urlCustomer && urlCustomer.length ? (
+                                <p className="about__text">
+                                    <Link id="settings-about-url" external={true} target="_blank" 
+                                        href={!/^https?:\/{2}/i.test(urlCustomer) ? "http:\/\/" : '' + urlCustomer}>
+                                        {urlCustomer}
+                                    </Link>
+                                </p>
                         ) : null}
-                        {mailCustomer && mailCustomer.length ? (
-                            <p>
-                                <label>{_t.textEmail}:</label>
-                                <Link id="settings-about-email" external={true} href={"mailto:"+mailCustomer}>{mailCustomer}</Link>
-                            </p>
-                        ) : null}
-                        {phoneCustomer && phoneCustomer.length ? (
-                            <p>
-                                <label>{_t.textTel}:</label>
-                                <Link id="settings-about-tel" external={true} href={"tel:"+phoneCustomer}>{phoneCustomer}</Link>
-                            </p>
-                        ) : null}
-
-                        {urlCustomer && urlCustomer.length ? (
-                            <p>
-                                <Link id="settings-about-url" className="external" target="_blank" 
-                                    href={!/^https?:\/{2}/i.test(urlCustomer) ? "http:\/\/" : '' + urlCustomer}>
-                                    {urlCustomer}
-                                </Link>
-                            </p>
-                        ) : null} 
-                        {infoCustomer && infoCustomer.length ? (
-                            <p>
-                                <label id="settings-about-info">{infoCustomer}</label>
-                            </p>
-                        ) : null}
-                    </div>
-                    <div className="content-block" id="settings-about-licensor">
-                        <div className="content-block-inner"></div>
-                        <p>
-                            <label>{_t.textPoweredBy}</label>
+                        </div>
+                    ) : null}
+                    <div className="about__contacts">
+                        <p className="about__text" id="settings-about-address">
+                            {__PUBLISHER_ADDRESS__}
                         </p>
-                        <h3 className="vendor">{publisherName}</h3>
-                        <p>
-                            <Link className="external" target="_blank" href={publisherUrl}>{publisherPrintUrl}</Link>
+                    </div>
+                    <div className="about__licensor" id="settings-about-licensor">
+                        <p className="about__text">{publisherName}</p>
+                        <p className="about__text">
+                            <Link external={true} target="_blank" href={publisherUrl}>{publisherPrintUrl}</Link>
                         </p>
                     </div>
                 </Fragment>
             ) : (
                 <Fragment>
-                    <div className="content-block">
-                        <div className="logo"></div>
+                    <div className="about__logo"></div>
+                    <div className="about__editor">
+                        <p className="about__text">{nameEditor}</p>
+                        <p className="about__text">{_t.textVersion} {__PRODUCT_VERSION__}</p>
                     </div>
-                    <div className="content-block">
-                        <h3>{nameEditor}</h3>
-                        <h3>{_t.textVersion} {__PRODUCT_VERSION__}</h3>
+                    <div className="about__contacts">
+                        <p className="about__text" id="settings-about-address">
+                            {__PUBLISHER_ADDRESS__}
+                        </p>
                     </div>
-                    <div className="content-block">
-                        <h3 id="settings-about-name" className="vendor">{publisherName}</h3>
-                        <p>
-                            <label>{_t.textAddress}:</label>
-                            <a id="settings-about-address" className="external">{__PUBLISHER_ADDRESS__}</a>
-                        </p>
-                        <p>
-                            <label>{_t.textEmail}:</label>
-                            <Link id="settings-about-email" external={true} href={`mailto:${__SUPPORT_EMAIL__}`}>{__SUPPORT_EMAIL__}</Link>
-                        </p>
-                        <p>
-                            <label>{_t.textTel}:</label>
-                            <Link id="settings-about-tel" external={true} href={`tel:${__PUBLISHER_PHONE__}`}>{__PUBLISHER_PHONE__}</Link>
-                        </p>
-                        <p>
-                            <a id="settings-about-url" className="external" target="_blank" href={publisherUrl}>{publisherPrintUrl}</a>
+                    <div className="about__licensor">
+                        <p className="about__text" id="settings-about-name">{publisherName}</p>
+                        <p className="about__text">
+                            <Link id="settings-about-url" external={true} target="_blank" href={publisherUrl}>{publisherPrintUrl}</Link>
                         </p>
                     </div>
                 </Fragment>

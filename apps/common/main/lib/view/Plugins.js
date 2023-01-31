@@ -74,14 +74,16 @@ define([
             _.extend(this, options);
             this._locked = false;
             this._state = {
-                DisabledControls: false
+                DisabledControls: false,
+                docProtection: {
+                    isReadOnly: false,
+                    isReviewOnly: false,
+                    isFormsOnly: false,
+                    isCommentsOnly: false
+                }
             };
             this.lockedControls = [];
             Common.UI.BaseView.prototype.initialize.call(this, arguments);
-
-            Common.NotificationCenter.on('app:ready', function (mode) {
-                Common.Utils.asyncCall(this._onAppReady, this, mode);
-            }.bind(this));
         },
 
         render: function(el) {
@@ -153,6 +155,7 @@ define([
             if ( !this.storePlugins.isEmpty() ) {
                 var me = this;
                 var _group = $('<div class="group"></div>');
+                var _set = Common.enumLock;
                 this.storePlugins.each(function (model) {
                     if (model.get('visible')) {
                         var modes = model.get('variations'),
@@ -167,6 +170,7 @@ define([
                                 split: modes && modes.length > 1,
                                 value: guid,
                                 hint: model.get('name'),
+                                lock: model.get('isDisplayedInViewer') ? [_set.viewMode, _set.previewReviewMode, _set.viewFormMode, _set.selRangeEdit, _set.editFormula] : [_set.viewMode, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.selRangeEdit, _set.editFormula],
                                 dataHint: '1',
                                 dataHintDirection: 'bottom',
                                 dataHintOffset: 'small'
@@ -179,6 +183,10 @@ define([
                         me.lockedControls.push(btn);
                     }
                 });
+                var docProtection = me._state.docProtection
+                Common.Utils.lockControls(Common.enumLock.docLockView, docProtection.isReadOnly, {array: me.lockedControls});
+                Common.Utils.lockControls(Common.enumLock.docLockForms, docProtection.isFormsOnly, {array: me.lockedControls});
+                Common.Utils.lockControls(Common.enumLock.docLockComments, docProtection.isCommentsOnly, {array: me.lockedControls});
 
                 parent.html(_group);
                 $('<div class="separator long"></div>').prependTo(parent);
@@ -201,6 +209,16 @@ define([
                 });
 
                 this.pluginsMask && this.pluginsMask.css('display', disable ? 'block' : 'none');
+            }
+        },
+
+        SetDisabled: function(disable, reviewMode, fillFormMode) {
+            if (reviewMode) {
+                Common.Utils.lockControls(Common.enumLock.previewReviewMode, disable, {array: this.lockedControls});
+            } else if (fillFormMode) {
+                Common.Utils.lockControls(Common.enumLock.viewFormMode, disable, {array: this.lockedControls});
+            } else {
+                Common.Utils.lockControls(Common.enumLock.viewMode, disable, {array: this.lockedControls});
             }
         },
 
@@ -287,9 +305,6 @@ define([
         _onLoad: function() {
             if (this.loadMask)
                 this.loadMask.hide();
-        },
-
-        _onAppReady: function (mode) {
         },
 
         parseIcons: function(icons) {
@@ -389,6 +404,7 @@ define([
                     });
             });
 
+            var _set = Common.enumLock;
             var btn = new Common.UI.Button({
                 cls: 'btn-toolbar x-huge icon-top',
                 iconImg: icon_url,
@@ -397,6 +413,7 @@ define([
                 split: _menu_items.length > 1,
                 value: guid,
                 hint: model.get('name'),
+                lock: model.get('isDisplayedInViewer') ? [_set.viewMode, _set.previewReviewMode, _set.viewFormMode, _set.selRangeEdit, _set.editFormula] : [_set.viewMode, _set.previewReviewMode, _set.viewFormMode, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.selRangeEdit, _set.editFormula ],
                 dataHint: '1',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'small'

@@ -26,6 +26,7 @@
     "textContinuousPage": "Folytatólagos oldal",
     "textCurrentPosition": "Jelen pozíció",
     "textDisplay": "Megjelenít",
+    "textDone": "Kész",
     "textEmptyImgUrl": "Meg kell adni a kép URL linkjét.",
     "textEvenPage": "Páros oldal",
     "textFootnote": "Lábjegyzet",
@@ -49,6 +50,8 @@
     "textPictureFromLibrary": "Kép a galériából",
     "textPictureFromURL": "Kép URL-en keresztül",
     "textPosition": "Pozíció",
+    "textRecommended": "Ajánlott",
+    "textRequired": "Szükséges",
     "textRightBottom": "Jobb alsó",
     "textRightTop": "Jobb felső",
     "textRows": "Sorok",
@@ -144,6 +147,7 @@
       "textReviewChange": "Változások áttekintése",
       "textRight": "Jobbra igazít",
       "textShape": "Alakzat",
+      "textSharingSettings": "Megosztási beállítások",
       "textShd": "Háttérszín",
       "textSmallCaps": "Kisbetűk",
       "textSpacing": "Térköz",
@@ -180,6 +184,7 @@
     "menuDelete": "Töröl",
     "menuDeleteTable": "Táblázat törlése",
     "menuEdit": "Szerkeszt",
+    "menuEditLink": "Link szerkesztése",
     "menuJoinList": "Csatlakozás az előző listához",
     "menuMerge": "Egyesít",
     "menuMore": "Több",
@@ -233,6 +238,7 @@
     "textCancel": "Mégse",
     "textCellMargins": "Cellamargók",
     "textCentered": "Középre igazított",
+    "textChangeShape": "Forma módosítása",
     "textChart": "Diagram",
     "textClassic": "Klasszikus",
     "textClose": "Bezár",
@@ -241,7 +247,10 @@
     "textCreateTextStyle": "Új szövegstílus létrehozása",
     "textCurrent": "Jelenlegi",
     "textCustomColor": "Egyéni szín",
+    "textCustomStyle": "Egyedi stílus",
     "textDecember": "December",
+    "textDeleteImage": "Kép törlése",
+    "textDeleteLink": "Link törlése",
     "textDesign": "Dizájn",
     "textDifferentFirstPage": "Eltérő első oldal",
     "textDifferentOddAndEvenPages": "Páros és páratlan oldalak eltérőek",
@@ -314,19 +323,18 @@
     "textPictureFromLibrary": "Kép a galériából",
     "textPictureFromURL": "Kép URL-en keresztül",
     "textPt": "pt",
+    "textRecommended": "Ajánlott",
     "textRefresh": "Frissít",
     "textRefreshEntireTable": "Teljes táblázat frissítése",
     "textRefreshPageNumbersOnly": "Csak az oldalszámok frissítése",
     "textRemoveChart": "Diagram eltávolítása",
-    "textRemoveImage": "Kép eltávolítása",
-    "textRemoveLink": "Link eltávolítása",
     "textRemoveShape": "Alakzat eltávolítása",
     "textRemoveTable": "Táblázat eltávolítása",
     "textRemoveTableContent": "Tartalomjegyzék eltávolítása",
-    "textReorder": "Újrarendez",
     "textRepeatAsHeaderRow": "Ismételje meg fejlécként",
     "textReplace": "Csere",
     "textReplaceImage": "Kép cseréje",
+    "textRequired": "Szükséges",
     "textResizeToFitContent": "Méret módosítása a tartalomhoz való illesztéshez",
     "textRightAlign": "Jobbra igazít",
     "textSa": "Szo",
@@ -356,6 +364,7 @@
     "textTableOfCont": "Tartalomjegyzék",
     "textTableOptions": "Táblázat beállítások",
     "textText": "Szöveg",
+    "textTextWrapping": "Szöveg tördelése",
     "textTh": "Csü",
     "textThrough": "Keresztül",
     "textTight": "Szűken",
@@ -365,7 +374,9 @@
     "textTu": "Ke",
     "textType": "Típus",
     "textWe": "Sze",
-    "textWrap": "Tördel"
+    "textWrap": "Tördel",
+    "textWrappingStyle": "Tördelés stílus",
+    "textArrange": "Arrange"
   },
   "Error": {
     "convertationTimeoutText": "A átalakítás időkorlátja lejárt.",
@@ -379,6 +390,7 @@
     "errorDataEncrypted": "Kódolt változások érkeztek, ezeket nem lehet visszafejteni.",
     "errorDataRange": "Hibás adattartomány.",
     "errorDefaultMessage": "Hibakód: %1",
+    "errorDirectUrl": "Kérjük, ellenőrizze a dokumentumra mutató hivatkozást.<br>Ennek a hivatkozásnak a letöltéshez közvetlen hivatkozásnak kell lennie.",
     "errorEditingDownloadas": "Hiba történt a dokumentummal végzett munka során.<br>Dokumentum letöltése a fájl biztonsági másolatának helyi mentéséhez.",
     "errorEmptyTOC": "Kezdje el a tartalomjegyzék létrehozását azzal, hogy a kiválasztott szöveghez a Stílusok galériából egy címsorstílust alkalmaz.",
     "errorFilePassProtect": "A fájl jelszóval védett, és nem lehetett megnyitni.",
@@ -393,6 +405,7 @@
     "errorSessionIdle": "A dokumentumot hosszú ideje nem szerkesztették. Kérem, töltse újra az oldalt.",
     "errorSessionToken": "A szerverrel való kapcsolat megszakadt. Kérjük, töltse újra az oldalt.",
     "errorStockChart": "Helytelen sorsorrend. Részvénydiagram felépítéséhez helyezze el az adatokat a lapon a következő sorrendben:<br> nyitóár, max. ár, min. ár, záróár.",
+    "errorTextFormWrongFormat": "A megadott érték nem felel meg a mező formátumának.",
     "errorUpdateVersionOnDisconnect": "Az internet kapcsolat helyreállt, és a fájl verziója megváltozott.<br>Mielőtt folytatná a munkát, töltse le a fájlt, vagy másolja vágólapra annak tartalmát, hogy megbizonyosodjon arról, hogy semmi nem veszik el, majd töltse újra az oldalt.",
     "errorUserDrop": "A fájl jelenleg nem érhető el.",
     "errorUsersExceed": "Túllépte a csomagja által engedélyezett felhasználók számát",
@@ -408,7 +421,13 @@
     "uploadImageExtMessage": "Ismeretlen képformátum.",
     "uploadImageFileCountMessage": "Nincsenek feltöltött képek.",
     "uploadImageSizeMessage": "A kép túl nagy. A maximális méret 25 MB.",
-    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "Adatok betöltése...",
@@ -445,8 +464,8 @@
     "uploadImageTitleText": "Kép feltöltése",
     "waitText": "Kérjük, várjon...",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textUndo": "Undo",
-    "textContinue": "Continue"
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Main": {
     "criticalErrorTitle": "Hiba",
@@ -533,7 +552,7 @@
     "textRemember": "Választás megjegyzése",
     "textReplaceSkipped": "A csere megtörtént. {0} események kihagyásra kerültek.",
     "textReplaceSuccess": "A keresés megtörtént. Cseréltek: {0}",
-    "textRequestMacros": "A makró kérést intéz az URL-hez. Szeretné engedélyezni a kérést a %1-hoz?",
+    "textRequestMacros": "A makró URL-kérést indít. Engedélyezi a %1 lekérdezését?",
     "textYes": "Igen",
     "titleLicenseExp": "Lejárt licenc",
     "titleServerVersion": "Szerkesztő frissítve",
@@ -545,7 +564,9 @@
     "warnLicenseUsersExceeded": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználó számának korlátját. További információért forduljon rendszergazdájához.",
     "warnNoLicense": "Ön elérte az egyidejű kapcsolódás határát a %1 szerkesztőhöz. Ez a dokumentum csak megtekintésre lesz megnyitva. Lépjen kapcsolatba a(z) %1 értékesítési csapattal a perszonális frissítés feltételéhez.",
     "warnNoLicenseUsers": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználói korlátját. Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes frissítési feltételekért.",
-    "warnProcessRightsChange": "Nincs jogosultsága a fájl szerkesztéséhez."
+    "warnProcessRightsChange": "Nincs jogosultsága a fájl szerkesztéséhez.",
+    "textDocumentProtected": "The document is protected. Edit settings are not available",
+    "textOk": "Ok"
   },
   "Settings": {
     "advDRMOptions": "Védett fájl",
@@ -610,6 +631,7 @@
     "textMargins": "Margók",
     "textMarginsH": "A felső és alsó margók túl magasak az adott oldal magasságához képest",
     "textMarginsW": "A szélső margók túl szélesek az adott oldal szélességéhez",
+    "textMobileView": "Mobil nézet",
     "textNavigation": "Navigáció",
     "textNo": "Nem",
     "textNoCharacters": "Nem nyomtatható karakterek",
@@ -673,8 +695,7 @@
     "txtScheme6": "Együttműködés",
     "txtScheme7": "Méltányosság",
     "txtScheme8": "Folyam",
-    "txtScheme9": "Öntöde",
-    "textMobileView": "Mobile View"
+    "txtScheme9": "Öntöde"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Vannak el nem mentett módosításai. Kattintson a 'Maradjon ezen az oldalon' gombra az automatikus mentéshez. Kattintson a 'Hagyja el ezt az oldalt' gombra a mentetlen módosítások elvetéséhez.",
@@ -682,7 +703,7 @@
     "leaveButtonText": "Oldal elhagyása",
     "stayButtonText": "Maradjon ezen az oldalon",
     "textOk": "OK",
-    "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view"
+    "textSwitchedMobileView": "Váltás Mobil nézetre",
+    "textSwitchedStandardView": "Normál nézetre váltott"
   }
 }

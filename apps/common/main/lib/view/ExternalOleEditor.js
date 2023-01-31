@@ -39,59 +39,25 @@
  */
 
 define([
-    'common/main/lib/component/Window'
+    'common/main/lib/view/ExternalEditor'
 ], function () { 'use strict';
 
-    Common.Views.ExternalOleEditor = Common.UI.Window.extend(_.extend({
+    Common.Views.ExternalOleEditor = Common.Views.ExternalEditor.extend(_.extend({
         initialize : function(options) {
             var _options = {};
-            var _inner_height = Common.Utils.innerHeight() - Common.Utils.InternalSettings.get('window-inactive-area-top');
             _.extend(_options,  {
+                id: 'id-external-ole-editor',
                 title: this.textTitle,
-                width: 910,
-                height: (_inner_height - 700)<0 ? _inner_height : 700,
-                cls: 'advanced-settings-dlg',
-                header: true,
-                toolclose: 'hide',
-                toolcallback: _.bind(this.onToolClose, this)
+                storageName: 'ole-editor',
+                sdkplaceholder: 'id-ole-editor-placeholder',
+                initwidth: 900,
+                initheight: 700,
+                minwidth: 860,
+                minheight: 275
             }, options);
 
-            this.template = [
-                '<div id="id-ole-editor-container" class="box" style="height:' + (_options.height-85) + 'px;">',
-                    '<div id="id-ole-editor-placeholder" style="width: 100%;height: 100%;"></div>',
-                '</div>',
-                '<div class="separator horizontal"></div>',
-                '<div class="footer" style="text-align: center;">',
-                    '<button id="id-btn-ole-editor-apply" class="btn normal dlg-btn primary custom" result="ok" data-hint="1" data-hint-direction="bottom" data-hint-offset="big">' + this.textSave + '</button>',
-                    '<button id="id-btn-ole-editor-cancel" class="btn normal dlg-btn" result="cancel" data-hint="1" data-hint-direction="bottom" data-hint-offset="big">' + this.textClose + '</button>',
-                '</div>'
-            ].join('');
-
-            _options.tpl = _.template(this.template)(_options);
-
-            this.handler = _options.handler;
             this._oleData = null;
-            this._isNewOle = true;
-            Common.UI.Window.prototype.initialize.call(this, _options);
-        },
-
-        render: function() {
-            Common.UI.Window.prototype.render.call(this);
-
-            this.btnSave = new Common.UI.Button({
-                el: $('#id-btn-ole-editor-apply'),
-                disabled: true
-            });
-            this.btnCancel = new Common.UI.Button({
-                el: $('#id-btn-ole-editor-cancel')
-            });
-
-            this.$window.find('.dlg-btn').on('click', _.bind(this.onDlgBtnClick, this));
-        },
-
-        show: function() {
-            this.setPlaceholder();
-            Common.UI.Window.prototype.show.apply(this, arguments);
+            Common.Views.ExternalEditor.prototype.initialize.call(this, _options);
         },
 
         setOleData: function(data) {
@@ -100,65 +66,6 @@ define([
                 this.fireEvent('setoledata', this);
         },
 
-        setEditMode: function(mode) {
-            this._isNewOle = !mode;
-        },
-
-        isEditMode: function() {
-            return !this._isNewOle;
-        },
-
-        setControlsDisabled: function(disable) {
-            this.btnSave.setDisabled(disable);
-            this.btnCancel.setDisabled(disable);
-            (disable) ? this.$window.find('.tool.close').addClass('disabled') : this.$window.find('.tool.close').removeClass('disabled');
-        },
-
-        onDlgBtnClick: function(event) {
-            if ( this.handler ) {
-                this.handler.call(this, event.currentTarget.attributes['result'].value);
-                return;
-            }
-            this.hide();
-        },
-
-        onToolClose: function() {
-            if ( this.handler ) {
-                this.handler.call(this, 'cancel');
-                return;
-            }
-            this.hide();
-        },
-
-        setHeight: function(height) {
-            if (height >= 0) {
-                var min = parseInt(this.$window.css('min-height'));
-                height < min && (height = min);
-                this.$window.height(height);
-
-                var header_height = (this.initConfig.header) ? parseInt(this.$window.find('> .header').css('height')) : 0;
-
-                this.$window.find('> .body').css('height', height-header_height);
-                this.$window.find('> .body > .box').css('height', height-85);
-
-                var top  = (Common.Utils.innerHeight() - Common.Utils.InternalSettings.get('window-inactive-area-top') - parseInt(height)) / 2;
-                var left = (Common.Utils.innerWidth() - parseInt(this.initConfig.width)) / 2;
-
-                this.$window.css('left',left);
-                this.$window.css('top', Common.Utils.InternalSettings.get('window-inactive-area-top') + top);
-            }
-        },
-
-        setPlaceholder: function(placeholder) {
-            this._placeholder = placeholder;
-        },
-
-        getPlaceholder: function() {
-            return this._placeholder;
-        },
-
-        textSave: 'Save & Exit',
-        textClose: 'Close',
         textTitle: 'Spreadsheet Editor'
     }, Common.Views.ExternalOleEditor || {}));
 });

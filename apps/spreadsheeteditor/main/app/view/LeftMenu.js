@@ -116,7 +116,7 @@ define([
 
             this.btnChat = new Common.UI.Button({
                 el: $markup.elementById('#left-btn-chat'),
-                hint: this.tipChat + Common.Utils.String.platformKey('Alt+Q'),
+                hint: this.tipChat + Common.Utils.String.platformKey('Alt+Q', ' (' + (Common.Utils.isMac ? Common.Utils.String.textCtrl + '+' : '') + '{0})'),
                 enableToggle: true,
                 disabled: true,
                 toggleGroup: 'leftMenuGroup'
@@ -179,7 +179,8 @@ define([
                     this.$el.width(Common.localStorage.getItem('sse-mainmenu-width') || MENU_SCALE_PART);
                 }
             } else if (!this._state.pluginIsRunning){
-                this.isVisible() && Common.localStorage.setItem('sse-mainmenu-width',this.$el.width());
+                var width = this.$el.width();
+                this.isVisible() && (width>SCALE_MIN) && Common.localStorage.setItem('sse-mainmenu-width',width);
                 this.$el.width(SCALE_MIN);
             }
             this.onCoauthOptions();

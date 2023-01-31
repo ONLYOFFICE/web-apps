@@ -39,6 +39,7 @@
     }
 
     &[disabled], &.disabled {
+        opacity: @component-disabled-opacity-ie;
         opacity: @component-disabled-opacity;
     }
     
@@ -215,6 +216,12 @@
         &.split {
             > .inner-box-icon {
                 .box-shadow(none);
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+            > .inner-box-caption {
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
             }
         }
     }
@@ -232,14 +239,14 @@
 
         .inner-box-caption {
             line-height: 18px;
-            padding: 1px 3px;
+            padding: 1px 4px 1px 3px;
             display: flex;
             //align-items: center;
             align-items: start;
             height: 24px;
 
             .caption {
-                max-width: 85px;
+                max-width: 160px;//85px;
                 max-height: 24px;
                 text-overflow: ellipsis;
 
@@ -505,6 +512,7 @@
     &[disabled],
     &.disabled {
         //color: #000;  btn-category has no text
+        opacity: @component-disabled-opacity-ie;
         opacity: @component-disabled-opacity;
     }
 }
@@ -575,6 +583,7 @@
                     }
                     &[disabled],
                     &.disabled {
+                        opacity: @component-disabled-opacity-ie;
                         opacity: @component-disabled-opacity;
                     }
                 }
@@ -592,6 +601,7 @@
         .dropdown-menu {
             &.scale-menu {
                 li.disabled {
+                    opacity: @component-disabled-opacity-ie;
                     opacity: @component-disabled-opacity;
                 }
             }
@@ -687,6 +697,7 @@
 
     &[disabled],
     &.disabled {
+        opacity: @component-disabled-opacity-ie;
         opacity: @component-disabled-opacity;
     }
 
@@ -823,6 +834,7 @@
 
     &[disabled],
     &.disabled {
+        opacity: @component-disabled-opacity-ie;
         opacity: @component-disabled-opacity;
     }
 }
@@ -862,6 +874,7 @@
 
     &[disabled],
     &.disabled {
+        opacity: @component-disabled-opacity-ie;
         opacity: @component-disabled-opacity;
     }
 }
@@ -874,6 +887,10 @@
     border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
     .border-radius(@border-radius-small);
+
+    &.auto {
+        width: auto;
+    }
 
     &.dropdown-toggle {
         width: 13px;
@@ -901,6 +918,7 @@
 
     &[disabled],
     &.disabled {
+        opacity: @component-disabled-opacity-ie;
         opacity: @component-disabled-opacity;
     }
 }
@@ -941,6 +959,7 @@
 
     &[disabled],
     &.disabled {
+        opacity: @component-disabled-opacity-ie;
         opacity: @component-disabled-opacity;
     }
 }
@@ -997,6 +1016,7 @@
         width: 52px;
         padding: 5px;
 
+        fill: @icon-normal-ie;
         fill: @icon-normal;
 
         .btn& {
@@ -1029,6 +1049,7 @@
 
     &[disabled],
     &.disabled {
+        opacity: @component-disabled-opacity-ie;
         opacity: @component-disabled-opacity;
     }
 
@@ -1079,6 +1100,7 @@
     }
 
     &[disabled] {
+        opacity: @component-disabled-opacity-ie;
         opacity: @component-disabled-opacity;
     }
 

@@ -69,7 +69,8 @@ define([
                         if (item.options.action === 'help') {
                             if ( panel.noHelpContents === true && navigator.onLine ) {
                                 this.fireEvent('item:click', [this, 'external-help', true]);
-                                window.open(panel.urlHelpCenter, '_blank');
+                                const helpCenter = Common.Utils.InternalSettings.get('url-help-center');
+                                !!helpCenter && window.open(helpCenter, '_blank');
                                 return;
                             }
                         }
@@ -87,6 +88,9 @@ define([
         },
 
         initialize: function () {
+            this._state = {
+                infoPreviewMode: false
+            };
         },
 
         render: function () {
@@ -375,6 +379,7 @@ define([
                     'info'      : (new DE.Views.FileMenuPanels.DocumentInfo({menu:this})).render(this.$el.find('#panel-info')),
                     'rights'    : (new DE.Views.FileMenuPanels.DocumentRights({menu:this})).render(this.$el.find('#panel-rights'))
                 };
+                this._state.infoPreviewMode && this.panels['info'].setPreviewMode(this._state.infoPreviewMode);
             }
 
             if (!this.mode) return;
@@ -587,6 +592,7 @@ define([
 
             options && options.protect && _btn_protect.setDisabled(disable);
             options && options.history && _btn_history.setDisabled(disable);
+            options && options.info && (this.panels ? this.panels['info'].setPreviewMode(disable) : this._state.infoPreviewMode = disable );
         },
 
         isVisible: function () {

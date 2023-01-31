@@ -16,4 +16,24 @@
     .actions-move-sheet .actions-button-text{
         color: @brandColor;
     }
+
+    .tooltip-cell-data {
+        border-radius: 4px;
+    }
+
+    .all-list.popover {
+        .view {
+            border-radius: var(--f7-popover-border-radius);
+        }
+        .page-content {
+            border-radius: var(--f7-popover-border-radius);
+
+            & > .list:last-child {
+                margin-bottom: 0;
+            }
+        }
+        .list {
+            overflow: hidden;
+        }
+    }
 }

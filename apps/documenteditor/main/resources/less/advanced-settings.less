@@ -73,3 +73,59 @@
     display: inline-block;
     vertical-align: middle;
 }
+
+.advanced-settings-dlg {
+    .roles-tableview {
+        &.no-borders > .listview .item {
+            border-width: 0 !important;
+        }
+        .item {
+            padding: 0 6px;
+        }
+
+        @item-width: 20px;
+        @item-height: 28px;
+        .list-item {
+            display: flex;
+            align-items: center;
+            height: @item-height;
+
+            span.color {
+                display: block;
+                width: 12px;
+                height: 12px;
+                border: @scaled-one-px-value-ie solid @border-color-shading-ie;
+                border: @scaled-one-px-value solid @border-color-shading;
+            }
+        }
+        .list-item > div{
+            vertical-align: middle;
+            display: inline-block;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: pre;
+        }
+
+        .listitem-icon {
+            width: @item-width;
+            height: @item-height;
+            margin-right: 5px;
+
+            svg {
+                width: @item-width;
+                height: @item-height;
+                fill: @text-normal-ie;
+                fill: @text-normal;
+            }
+        }
+
+        .selected {
+            .listitem-icon {
+                svg {
+                    fill: @text-normal-pressed-ie;
+                    fill: @text-normal-pressed;
+                }
+            }
+        }
+    }
+}

@@ -132,9 +132,33 @@ define([
             }
         },
 
+        checkPunctuation: function (text) {
+            if (!!text) {
+                var isPunctuation = false;
+                for (var l = 0; l < text.length; l++) {
+                    var charCode = text.charCodeAt(l),
+                        char = text.charAt(l);
+                    if (AscCommon.IsPunctuation(charCode) || char.trim() === '') {
+                        isPunctuation = true;
+                        break;
+                    }
+                }
+                if (isPunctuation) {
+                    if (this._state.matchWord) {
+                        this.view.chMatchWord.setValue(false, true);
+                        this._state.matchWord = false;
+                    }
+                    this.view.chMatchWord.setDisabled(true);
+                } else if (this.view.chMatchWord.isDisabled()) {
+                    this.view.chMatchWord.setDisabled(false);
+                }
+            }
+        },
+
         onSearchNext: function (type, text, e) {
             var isReturnKey = type === 'keydown' && e.keyCode === Common.UI.Keys.RETURN;
             if (text && text.length > 0 && (isReturnKey || type !== 'keydown')) {
+                this.checkPunctuation(text);
                 this._state.searchText = text;
                 this.onQuerySearch(type, !(this.searchTimer || isReturnKey));
             }
@@ -149,6 +173,7 @@ define([
                     this.searchTimer = setInterval(function(){
                         if ((new Date()) - me._lastInputChange < 400) return;
 
+                        me.checkPunctuation(me._state.newSearchText);
                         me._state.searchText = me._state.newSearchText;
                         if (!(me._state.newSearchText !== '' && me.onQuerySearch()) && me._state.newSearchText === '') {
                             me.api.asc_endFindText();
@@ -274,7 +299,7 @@ define([
         onEndTextAroundSearch: function () {
             if (this.view) {
                 this._state.isStartedAddingResults = false;
-                this.view.$resultsContainer.scroller.update({alwaysVisibleY: true});
+                this.view.updateScrollers();
             }
         },
 
@@ -338,6 +363,7 @@ define([
 
             var selectedText = this.api.asc_GetSelectedText(),
                 text = typeof findText === 'string' ? findText : (selectedText && selectedText.trim() || this._state.searchText);
+            this.checkPunctuation(text);
             if (text) {
                 this.view.setFindText(text);
             } else if (text !== undefined) { // panel was opened from empty searchbar, clear to start new search

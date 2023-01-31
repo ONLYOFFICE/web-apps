@@ -60,7 +60,7 @@
 @font-family-serif:       Georgia, "Times New Roman", Times, serif;
 @font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace;
 @font-family-tahoma:      tahoma, arial, verdana, sans-serif;
-@font-family-base:        @font-family-sans-serif;
+@font-family-base:        var(--font-family-base-custom, @font-family-sans-serif), @font-family-sans-serif;
 
 @font-size-base:          11px;
 @font-size-large:         13px;
@@ -194,7 +194,7 @@
 //** Small `.form-control` border radius
 @input-border-radius-small:      @border-radius-small;
 
-@input-color-placeholder:        #cfcfcf; // @gray;
+@input-color-placeholder:        @text-tertiary; //#cfcfcf; // @gray;
 
 @input-height-base:              (floor(@font-size-base * @line-height-base) + (@padding-base-vertical * 2) + 5);
 @input-height-large:             (ceil(@font-size-large * @line-height-large) + (@padding-large-vertical * 2) + 2);

@@ -76,6 +76,12 @@ define([
             this._currentParaObjDisabled = false;
             this._currLang        = {};
             this._isDisabled = false;
+            this._docProtection = {
+                isReadOnly: false,
+                isReviewOnly: false,
+                isFormsOnly: false,
+                isCommentsOnly: false
+            };
         },
 
         render: function () {
@@ -169,7 +175,7 @@ define([
                     }
 
                     me.menuViewUndo.setVisible(me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
-                    me.menuViewUndo.setDisabled(!me.api.asc_getCanUndo());
+                    me.menuViewUndo.setDisabled(!me.api.asc_getCanUndo() || me._docProtection.isReadOnly);
                     me.menuViewCopySeparator.setVisible(isInSign);
 
                     var isRequested = (signProps) ? signProps.asc_getRequested() : false;
@@ -187,15 +193,15 @@ define([
                     }
 
                     me.menuViewAddComment.setVisible(canComment);
-                    me.menuViewAddComment.setDisabled(value.paraProps && value.paraProps.locked === true);
+                    me.menuViewAddComment.setDisabled(value.paraProps && value.paraProps.locked === true || me._docProtection.isReadOnly || me._docProtection.isFormsOnly);
 
                     var disabled = value.paraProps && value.paraProps.locked === true;
                     var cancopy = me.api && me.api.can_CopyCut();
                     me.menuViewCopy.setDisabled(!cancopy);
                     me.menuViewCut.setVisible(me._fillFormMode && canEditControl);
-                    me.menuViewCut.setDisabled(disabled || !cancopy);
+                    me.menuViewCut.setDisabled(disabled || !cancopy || me._docProtection.isReadOnly || me._docProtection.isCommentsOnly);
                     me.menuViewPaste.setVisible(me._fillFormMode && canEditControl);
-                    me.menuViewPaste.setDisabled(disabled);
+                    me.menuViewPaste.setDisabled(disabled || me._docProtection.isReadOnly || me._docProtection.isCommentsOnly);
                     me.menuViewPrint.setVisible(me.mode.canPrint && !me._fillFormMode);
                     me.menuViewPrint.setDisabled(!cancopy);
 
@@ -1143,6 +1149,11 @@ define([
                 caption     : '--'
             });
 
+            me.menuTableEquation = new Common.UI.MenuItem({
+                caption     : me.advancedEquationText,
+                menu        : me.createEquationMenu('popuptableeqinput', 'tl-tr')
+            });
+
             me.menuTableSelectText = new Common.UI.MenuItem({
                 caption     : me.selectText,
                 menu        : new Common.UI.Menu({
@@ -1388,6 +1399,15 @@ define([
                         me.clearEquationMenu(false, 10);
                     menuEquationSeparatorInTable.setVisible(isEquation && eqlen>0);
 
+                    me.menuTableEquation.setVisible(isEquation);
+                    me.menuTableEquation.setDisabled(disabled);
+                    if (isEquation) {
+                        var eq = me.api.asc_GetMathInputType();
+                        me.menuTableEquation.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                        me.menuTableEquation.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                        me.menuTableEquation.menu.items[8].setChecked(me.api.asc_IsInlineMath());
+                    }
+
                     var control_lock = (value.paraProps) ? (!value.paraProps.value.can_DeleteBlockContentControl() || !value.paraProps.value.can_EditBlockContentControl() ||
                                                             !value.paraProps.value.can_DeleteInlineContentControl() || !value.paraProps.value.can_EditInlineContentControl()) : false;
                     var in_toc = me.api.asc_GetTableOfContentsPr(true),
@@ -1467,7 +1487,8 @@ define([
                     me.menuTableRemoveForm,
                     menuTableControl,
                     me.menuTableTOC,
-                    me.menuParagraphAdvancedInTable
+                    me.menuParagraphAdvancedInTable,
+                    me.menuTableEquation
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
                 if (me.suppressEditComplete) {
@@ -1581,6 +1602,10 @@ define([
                 caption     : me.advancedDropCapText
             });
 
+            me.menuParagraphEquation = new Common.UI.MenuItem({
+                caption     : me.advancedEquationText,
+                menu        : me.createEquationMenu('popupparaeqinput', 'tl-tr')
+            });
             /** coauthoring begin **/
             var menuCommentSeparatorPara = new Common.UI.MenuItem({
                 caption     : '--'
@@ -1951,6 +1976,15 @@ define([
                     me.menuEquationInsertCaption.setVisible(isEquation);
                     menuEquationInsertCaptionSeparator.setVisible(isEquation);
 
+                    me.menuParagraphEquation.setVisible(isEquation);
+                    me.menuParagraphEquation.setDisabled(disabled);
+                    if (isEquation) {
+                        var eq = me.api.asc_GetMathInputType();
+                        me.menuParagraphEquation.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                        me.menuParagraphEquation.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                        me.menuParagraphEquation.menu.items[8].setChecked(me.api.asc_IsInlineMath());
+                    }
+
                     var frame_pr = value.paraProps.value.get_FramePr();
                     me.menuFrameAdvanced.setVisible(frame_pr !== undefined);
                     me.menuDropCapAdvanced.setVisible(frame_pr !== undefined);
@@ -2051,6 +2085,7 @@ define([
                     me.menuParagraphAdvanced,
                     me.menuFrameAdvanced,
                     me.menuDropCapAdvanced,
+                    me.menuParagraphEquation,
                 /** coauthoring begin **/
                     menuCommentSeparatorPara,
                     me.menuAddCommentPara,
@@ -2828,6 +2863,67 @@ define([
             }
         },
 
+        createEquationMenu: function(toggleGroup, menuAlign) {
+            return new Common.UI.Menu({
+                cls: 'ppm-toolbar shifted-right',
+                menuAlign: menuAlign,
+                items   : [
+                    new Common.UI.MenuItem({
+                        caption     : this.unicodeText,
+                        iconCls     : 'menu__icon unicode',
+                        checkable   : true,
+                        checkmark   : false,
+                        checked     : false,
+                        toggleGroup : toggleGroup,
+                        type        : 'input',
+                        value       : Asc.c_oAscMathInputType.Unicode
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.latexText,
+                        iconCls     : 'menu__icon latex',
+                        checkable   : true,
+                        checkmark   : false,
+                        checked     : false,
+                        toggleGroup : toggleGroup,
+                        type        : 'input',
+                        value       : Asc.c_oAscMathInputType.LaTeX
+                    }),
+                    { caption     : '--' },
+                    new Common.UI.MenuItem({
+                        caption     : this.currProfText,
+                        iconCls     : 'menu__icon professional-equation',
+                        type        : 'view',
+                        value       : {all: false, linear: false}
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.currLinearText,
+                        iconCls     : 'menu__icon linear-equation',
+                        type        : 'view',
+                        value       : {all: false, linear: true}
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.allProfText,
+                        iconCls     : 'menu__icon professional-equation',
+                        type        : 'view',
+                        value       : {all: true, linear: false}
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.allLinearText,
+                        iconCls     : 'menu__icon linear-equation',
+                        type        : 'view',
+                        value       : {all: true, linear: true}
+                    }),
+                    { caption     : '--' },
+                    new Common.UI.MenuItem({
+                        caption     : this.eqToInlineText,
+                        checkable   : true,
+                        checked     : false,
+                        type        : 'mode'
+                    })
+                ]
+            });
+        },
+
         focus: function() {
             var me = this;
             _.defer(function(){  me.cmpEl.focus(); }, 50);
@@ -2835,7 +2931,7 @@ define([
 
         SetDisabled: function(state, canProtect, fillFormMode) {
             this._isDisabled = state;
-            this._canProtect = canProtect;
+            this._canProtect =  state ? canProtect : true;
             this._fillFormMode = state ? fillFormMode : false;
         },
 
@@ -3071,7 +3167,15 @@ define([
         txtWarnUrl: 'Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?',
         textEditPoints: 'Edit Points',
         textAccept: 'Accept Change',
-        textReject: 'Reject Change'
+        textReject: 'Reject Change',
+        advancedEquationText: 'Equation Settings',
+        unicodeText: 'Unicode',
+        latexText: 'LaTeX',
+        currProfText: 'Current - Professional',
+        currLinearText: 'Current - Linear',
+        allProfText: 'All - Professional',
+        allLinearText: 'All - Linear',
+        eqToInlineText: 'Change to Inline'
 
 }, DE.Views.DocumentHolder || {}));
 });

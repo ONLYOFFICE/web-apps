@@ -312,6 +312,7 @@ const PageWrap = props => {
     const storeShapeSettings = props.storeShapeSettings;
     const shapeObject = props.storeFocusObjects.shapeObject;
     let wrapType, align, moveText, overlap, distance;
+
     if (shapeObject) {
         wrapType = storeShapeSettings.getWrapType(shapeObject);
         align = storeShapeSettings.getAlign(shapeObject);
@@ -319,12 +320,15 @@ const PageWrap = props => {
         overlap = storeShapeSettings.getOverlap(shapeObject);
         distance = Common.Utils.Metric.fnRecalcFromMM(storeShapeSettings.getWrapDistance(shapeObject));
     }
+
     const metricText = Common.Utils.Metric.getCurrentMetricName();
     const [stateDistance, setDistance] = useState(distance);
+
     if (!shapeObject && Device.phone) {
         $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
         return null;
     }
+
     return (
         <Page>
             <Navbar title={_t.textWrap} backLink={_t.textBack}>
@@ -359,46 +363,7 @@ const PageWrap = props => {
                     {!isAndroid && <Icon slot="media" icon="icon-wrap-behind"></Icon>}
                 </ListItem>
             </List>
-            {
-                wrapType !== 'inline' &&
-                <Fragment>
-                <BlockTitle>{_t.textAlign}</BlockTitle>
-                <List>
-                    <ListItem className='buttons'>
-                        <Row>
-                            <a className={'button' + (align === Asc.c_oAscAlignH.Left ? ' active' : '')}
-                               onClick={() => {
-                                   props.onShapeAlign(Asc.c_oAscAlignH.Left)
-                               }}>
-                                <Icon slot="media" icon="icon-text-align-left"></Icon>
-                            </a>
-                            <a className={'button' + (align === Asc.c_oAscAlignH.Center ? ' active' : '')}
-                               onClick={() => {
-                                   props.onShapeAlign(Asc.c_oAscAlignH.Center)
-                               }}>
-                                <Icon slot="media" icon="icon-text-align-center"></Icon>
-                            </a>
-                            <a className={'button' + (align === Asc.c_oAscAlignH.Right ? ' active' : '')}
-                               onClick={() => {
-                                   props.onShapeAlign(Asc.c_oAscAlignH.Right)
-                               }}>
-                                <Icon slot="media" icon="icon-text-align-right"></Icon>
-                            </a>
-                        </Row>
-                    </ListItem>
-                </List>
-                </Fragment>
-            }
-            <List>
-                <ListItem title={_t.textMoveWithText} className={'inline' === wrapType ? 'disabled' : ''}>
-                    <Toggle checked={moveText} onToggleChange={() => {props.onMoveText(!moveText)}}/>
-                </ListItem>
-                <ListItem title={_t.textAllowOverlap}>
-                    <Toggle checked={overlap} onToggleChange={() => {props.onOverlap(!overlap)}}/>
-                </ListItem>
-            </List>
-            {
-                ('behind' !== wrapType && 'infront' !== wrapType) &&
+            {('behind' !== wrapType && 'infront' !== wrapType) &&
                 <Fragment>
                     <BlockTitle>{_t.textDistanceFromText}</BlockTitle>
                     <List>
@@ -416,6 +381,43 @@ const PageWrap = props => {
                     </List>
                 </Fragment>
             }
+            {wrapType !== 'inline' &&
+                <Fragment>
+                    <BlockTitle>{_t.textAlign}</BlockTitle>
+                    <List>
+                        <ListItem className='buttons'>
+                            <Row>
+                                <a className={'button' + (align === Asc.c_oAscAlignH.Left ? ' active' : '')}
+                                   onClick={() => {
+                                       props.onShapeAlign(Asc.c_oAscAlignH.Left)
+                                   }}>
+                                    <Icon slot="media" icon="icon-text-align-left"></Icon>
+                                </a>
+                                <a className={'button' + (align === Asc.c_oAscAlignH.Center ? ' active' : '')}
+                                   onClick={() => {
+                                       props.onShapeAlign(Asc.c_oAscAlignH.Center)
+                                   }}>
+                                    <Icon slot="media" icon="icon-text-align-center"></Icon>
+                                </a>
+                                <a className={'button' + (align === Asc.c_oAscAlignH.Right ? ' active' : '')}
+                                   onClick={() => {
+                                       props.onShapeAlign(Asc.c_oAscAlignH.Right)
+                                   }}>
+                                    <Icon slot="media" icon="icon-text-align-right"></Icon>
+                                </a>
+                            </Row>
+                        </ListItem>
+                    </List>
+                </Fragment>
+            }
+            <List>
+                <ListItem title={_t.textMoveWithText} className={'inline' === wrapType ? 'disabled' : ''}>
+                    <Toggle checked={moveText} onToggleChange={() => {props.onMoveText(!moveText)}}/>
+                </ListItem>
+                <ListItem title={_t.textAllowOverlap}>
+                    <Toggle checked={overlap} onToggleChange={() => {props.onOverlap(!overlap)}}/>
+                </ListItem>
+            </List>
         </Page>
     )
 };
@@ -475,7 +477,7 @@ const PageReorder = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textReorder} backLink={_t.textBack}>
+            <Navbar title={t('Edit.textArrange')} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
@@ -509,6 +511,7 @@ const EditShape = props => {
     const canFill = props.storeFocusObjects.shapeObject.get_ShapeProperties().get_CanFill();
     const shapeObject = props.storeFocusObjects.shapeObject;
     const wrapType = props.storeShapeSettings.getWrapType(shapeObject);
+    const settings = props.storeFocusObjects.settings;
 
     const shapeType = shapeObject.get_ShapeProperties().asc_getType();
     const hideChangeType = shapeObject.get_ShapeProperties().get_FromChart() || shapeObject.get_ShapeProperties().get_FromSmartArt() 
@@ -548,7 +551,7 @@ const EditShape = props => {
                             onBorderColor: props.onBorderColor
                         }}></ListItem>
                 : null}
-                { !isFromGroup &&
+                {(!isFromGroup && settings.indexOf('image') === -1) &&
                     <ListItem title={_t.textWrap} link='/edit-shape-wrap/' routeProps={{
                         onWrapType: props.onWrapType,
                         onShapeAlign: props.onShapeAlign,
@@ -558,17 +561,19 @@ const EditShape = props => {
                     }}></ListItem>
                 }
                 {(!hideChangeType && !fixedSize) &&
-                    <ListItem title={_t.textReplace} link='/edit-shape-replace/' routeProps={{
+                    <ListItem title={t('Edit.textChangeShape')} link='/edit-shape-replace/' routeProps={{
                         onReplace: props.onReplace
                     }}></ListItem>
                 }
-                { (wrapType !== 'inline' && !isSmartArtInternal) && <ListItem  title={_t.textReorder} link='/edit-shape-reorder/' routeProps={{
+                {(wrapType !== 'inline' && !isSmartArtInternal && settings.indexOf('image') === -1) && <ListItem title={t('Edit.textArrange')} link='/edit-shape-reorder/' routeProps={{
                     onReorder: props.onReorder
                 }}></ListItem> }
             </List>
-            <List className="buttons-list">
-                <ListButton title={_t.textRemoveShape} onClick={() => {props.onRemoveShape()}} className={`button-red button-fill button-raised${disableRemove ? ' disabled' : ''}`} />
-            </List>
+            {settings.indexOf('image') === -1 &&
+                <List className="buttons-list">
+                    <ListButton title={_t.textRemoveShape} onClick={() => {props.onRemoveShape()}} className={`button-red button-fill button-raised${disableRemove ? ' disabled' : ''}`} />
+                </List>
+            }
         </Fragment>
     )
 };

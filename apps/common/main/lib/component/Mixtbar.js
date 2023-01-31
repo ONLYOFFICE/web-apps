@@ -399,7 +399,9 @@ define([
                             _btns = data.buttons,
                             _flex = data.flex;
                         var more_section = $active.find('.more-box');
-
+                        if (more_section.length===0) {
+                            me.setMoreButton($active.attr('data-tab'), $active);
+                        }
                         if ( !_rightedge ) {
                             _rightedge = $active.get(0).getBoundingClientRect().right;
                         }
@@ -527,10 +529,30 @@ define([
                 this.$moreBar = btnsMore[tab].panel;
             },
 
+            clearMoreButton: function(tab) {
+                var panel = this.$panels.filter('[data-tab=' + tab + ']');
+                if ( panel.length ) {
+                    var data = panel.data();
+                    data.buttons = data.flex = data.rightedge = undefined;
+                    panel.find('.more-box').remove();
+                }
+                if (btnsMore[tab]) {
+                    var moreContainer = optsFold.$bar.find('.more-container[data-tab="' + tab + '"]');
+                    moreContainer.remove();
+                    btnsMore[tab].remove();
+                    delete btnsMore[tab];
+                }
+            },
+
             resizeToolbar: function(reset) {
                 var $active = this.$panels.filter('.active'),
-                    more_section = $active.find('.more-box'),
-                    more_section_width = parseInt(more_section.css('width')) || 0,
+                    more_section = $active.find('.more-box');
+
+                if (more_section.length===0) {
+                    this.setMoreButton($active.attr('data-tab'), $active);
+                }
+
+                var more_section_width = parseInt(more_section.css('width')) || 0,
                     box_controls_width = $active.parents('.box-controls').width(),
                     _maxright = box_controls_width,
                     _rightedge = $active.get(0).getBoundingClientRect().right,
@@ -793,7 +815,7 @@ define([
 
             hideMoreBtns: function() {
                 for (var btn in btnsMore) {
-                    btnsMore[btn] && btnsMore[btn].toggle(false);
+                    btnsMore[btn] && btnsMore[btn].isActive() && btnsMore[btn].toggle(false);
                 }
             }
         };

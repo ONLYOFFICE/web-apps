@@ -1,5 +1,5 @@
 import {makeObservable, action, observable} from 'mobx';
-import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage';
+import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage.mjs';
 
 export class storeAppOptions {
     constructor() {
@@ -29,11 +29,19 @@ export class storeAppOptions {
             changeViewerMode: action,
 
             isMobileView: observable,
-            changeMobileView: action
+            changeMobileView: action,
+
+            isProtected: observable,
+            setProtection: action
         });
     }
 
     isEdit = false;
+
+    isProtected = false;
+    setProtection(value) {
+        this.isProtected = value;
+    }
 
     isMobileView = true;
     changeMobileView() {
@@ -95,6 +103,7 @@ export class storeAppOptions {
         this.lang = config.lang;
         this.location = (typeof (config.location) == 'string') ? config.location.toLowerCase() : '';
         this.sharingSettingsUrl = config.sharingSettingsUrl;
+        this.canRequestSharingSettings = config.canRequestSharingSettings;
         this.fileChoiceUrl = config.fileChoiceUrl;
         this.mergeFolderUrl = config.mergeFolderUrl;
         this.canAnalytics = false;

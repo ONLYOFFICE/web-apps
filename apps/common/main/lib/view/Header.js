@@ -124,9 +124,10 @@ define([
                                 '<div id="header-logo"><i></i></div>' +
                             '</section>';
 
-        var templateTitleBox = '<section id="box-document-title">' +
+            var templateTitleBox = '<section id="box-document-title">' +
                                 '<div class="extra"></div>' +
                                 '<div class="hedset">' +
+                                    '<div class="btn-slot" id="slot-btn-dt-home"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-save" data-layout-name="header-save"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-print"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-print-quick"></div>' +

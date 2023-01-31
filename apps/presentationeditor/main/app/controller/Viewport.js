@@ -361,8 +361,9 @@ define([
                 return;
             }
             if (!this.searchBar) {
-                var isVisible = leftMenu && leftMenu.leftMenu && leftMenu.leftMenu.isVisible();
-                this.searchBar = new Common.UI.SearchBar( !isVisible ? {
+                var hideLeftPanel = this.appConfig.canBrandingExt &&
+                    (!Common.UI.LayoutManager.isElementVisible('leftMenu') || this.appConfig.customization && this.appConfig.customization.leftMenu === false);
+                this.searchBar = new Common.UI.SearchBar( hideLeftPanel ? {
                     showOpenPanel: false,
                     width: 303
                 } : {});

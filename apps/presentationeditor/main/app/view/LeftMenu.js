@@ -134,7 +134,7 @@ define([
 
             this.btnChat = new Common.UI.Button({
                 el: $markup.elementById('#left-btn-chat'),
-                hint: this.tipChat + Common.Utils.String.platformKey('Alt+Q'),
+                hint: this.tipChat + Common.Utils.String.platformKey('Alt+Q', ' (' + (Common.Utils.isMac ? Common.Utils.String.textCtrl + '+' : '') + '{0})'),
                 enableToggle: true,
                 disabled: true,
                 toggleGroup: 'leftMenuGroup'
@@ -182,8 +182,9 @@ define([
                 if (!btn.pressed && this._state.pluginIsRunning) {
                     this.$el.width(Common.localStorage.getItem('pe-mainmenu-width') || MENU_SCALE_PART);
                 } else {
-                    if (this.$el.width() > SCALE_MIN) {
-                        Common.localStorage.setItem('pe-mainmenu-width',this.$el.width());
+                    var width = this.$el.width();
+                    if (width > SCALE_MIN) {
+                        Common.localStorage.setItem('pe-mainmenu-width',width);
                         this.$el.width(SCALE_MIN);
                     }
                     if (this._state.pluginIsRunning) // hide comments or chat panel when plugin is running
@@ -195,7 +196,8 @@ define([
                         this.$el.width(Common.localStorage.getItem('pe-mainmenu-width') || MENU_SCALE_PART);
                     }
                 } else if (!this._state.pluginIsRunning){
-                    this.isVisible() && Common.localStorage.setItem('pe-mainmenu-width',this.$el.width());
+                    var width = this.$el.width();
+                    this.isVisible() && (width>SCALE_MIN) && Common.localStorage.setItem('pe-mainmenu-width',width);
                     this.$el.width(SCALE_MIN);
                 }
                 this.onCoauthOptions();

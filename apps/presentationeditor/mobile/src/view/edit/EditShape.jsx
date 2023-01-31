@@ -9,9 +9,9 @@ const EditShape = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const storeFocusObjects = props.storeFocusObjects;
+    const settings = storeFocusObjects.settings;
     const shapeObject = storeFocusObjects.shapeObject;
     const canFill = shapeObject && shapeObject.get_CanFill();
-
     const shapeType = shapeObject.asc_getType();
     const hideChangeType = shapeObject.get_FromChart() || shapeObject.get_FromSmartArt() 
     || shapeType=='line' || shapeType=='bentConnector2' || shapeType=='bentConnector3'
@@ -38,23 +38,27 @@ const EditShape = props => {
                         onBorderColor: props.onBorderColor
                     }}></ListItem>
                 }
-                { !hideChangeType &&
-                    <ListItem title={_t.textReplace} link="/edit-replace-shape/" routeProps={{
+                {!hideChangeType &&
+                    <ListItem title={t('View.Edit.textChangeShape')} link="/edit-replace-shape/" routeProps={{
                         onReplace: props.onReplace
                     }}></ListItem>
                 }
-                { !isSmartArtInternal &&
-                    <ListItem title={_t.textReorder} link="/edit-reorder-shape/" routeProps={{
+                {(!isSmartArtInternal && settings.indexOf('image') === -1) &&
+                    <ListItem title={t('View.Edit.textArrange')} link="/edit-reorder-shape/" routeProps={{
                         onReorder: props.onReorder
                     }}></ListItem>
                 }
-                <ListItem title={_t.textAlign} link="/edit-align-shape/" routeProps={{
-                    onAlign: props.onAlign
-                }}></ListItem>
+                {settings.indexOf('image') === -1 &&
+                    <ListItem title={_t.textAlign} link="/edit-align-shape/" routeProps={{
+                        onAlign: props.onAlign
+                    }}></ListItem>
+                }
             </List>
-            <List className="buttons-list">
-                <ListButton className={`button-red button-fill button-raised${disableRemove ? ' disabled' : ''}`} onClick={props.onRemoveShape}>{_t.textRemoveShape}</ListButton>
-            </List>
+            {settings.indexOf('image') === -1 &&
+                <List className="buttons-list">
+                    <ListButton className={`button-red button-fill button-raised${disableRemove ? ' disabled' : ''}`} onClick={props.onRemoveShape}>{_t.textRemoveShape}</ListButton>
+                </List>
+            }
         </Fragment>
     )
 };
@@ -354,7 +358,7 @@ const PageReorder = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textReorder} backLink={_t.textBack}>
+            <Navbar title={t('View.Edit.textArrange')} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>

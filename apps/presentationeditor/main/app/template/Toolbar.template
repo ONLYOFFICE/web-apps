@@ -8,10 +8,10 @@
         <section class="panel static">
             <div class="group no-mask small">
                 <div class="elset">
-                    <span class="btn-slot" id="slot-btn-print"></span>
+                    <span class="btn-slot" id="slot-btn-save" data-layout-name="toolbar-save"></span>
                 </div>
                 <div class="elset">
-                    <span class="btn-slot" id="slot-btn-save" data-layout-name="toolbar-save"></span>
+                    <span class="btn-slot" id="slot-btn-print"></span>
                 </div>
             </div>
             <div class="separator long"></div>
@@ -110,7 +110,7 @@
                     </div>
                 </div>
                 <div class="separator long invisible"></div>
-                <div class="group flex small field-styles" id="slot-field-styles" style="width: 100%; min-width: 140px;" data-group-width="100%"></div>
+                <div class="group flex small field-styles" id="slot-field-styles" style="width: 100%; min-width: 136px;" data-group-width="100%"></div>
             </section>
             <section class="panel" data-tab="ins">
                 <div class="group">
@@ -127,6 +127,7 @@
                     <span class="btn-slot text x-huge" id="slot-btn-instextart"></span>
                     <span class="btn-slot text x-huge slot-insertimg"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-insertchart"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-inssmartart"></span>
                 </div>
                 <div class="separator long invisible"></div>
                 <div class="group small" id="slot-combo-insertshape"></div>
@@ -153,7 +154,7 @@
                 </div>
             </section>
             <section id="transitions-panel" class="panel" data-tab="transit">
-                <div class="group flex small" id="transit-field-effects" style="width: 900px; max-width: 900px; min-width: 120px;" data-group-width="900px"></div>
+                <div class="group flex small" id="transit-field-effects" style="width: 854px; max-width: 854px; min-width: 120px;" data-group-width="854px"></div>
 
                 <div class="group small">
                     <span class="btn-slot text x-huge" id="transit-button-parameters"></span>
@@ -189,7 +190,7 @@
                 </div>
             </section>
             <section id="animation-panel" class="panel" data-tab="animate">
-                <div class="group flex small" id="animation-field-effects" style="width: 700px; max-width: 700px; min-width: 220px;" data-group-width="700px"></div>
+                <div class="group flex small" id="animation-field-effects" style="width: 670px; max-width: 670px; min-width: 220px;" data-group-width="670px"></div>
                 <div class="group small">
                     <span class="btn-slot text x-huge" id="animation-button-parameters"></span>
                 </div>

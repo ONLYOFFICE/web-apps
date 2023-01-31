@@ -7,6 +7,29 @@
         white-space: nowrap;
     }
 
+    .header-sorted {
+        label, div, span {
+            display: inline-block;
+            cursor: pointer;
+        }
+        .caret {
+            width: 4px;
+            height: 4px;
+            border: solid 1px @icon-normal-ie;
+            border: solid 1px @icon-normal;
+            border-bottom: none;
+            border-right: none;
+            background-image: none;
+
+            transition: transform 0.2s ease;
+            transform: rotate(-135deg) translate(1px,1px);
+
+            &.sort-desc {
+                transform: rotate(45deg);
+            }
+        }
+    }
+
     .range-tableview {
         .list-item > div{
             vertical-align: middle;
@@ -40,29 +63,6 @@
             background-color: #EE3525;
             color: #fff;
             text-align: center;
-        }
-    }
-
-    .header-sorted {
-        label, div, span {
-            display: inline-block;
-            cursor: pointer;
-        }
-        .caret {
-            width: 4px;
-            height: 4px;
-            border: solid 1px @icon-normal-ie;
-            border: solid 1px @icon-normal;
-            border-bottom: none;
-            border-right: none;
-            background-image: none;
-
-            transition: transform 0.2s ease;
-            transform: rotate(-135deg) translate(1px,1px);
-
-            &.sort-desc {
-                transform: rotate(45deg);
-            }
         }
     }
 }

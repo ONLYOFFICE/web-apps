@@ -85,7 +85,9 @@ define([
                     'insert:textart': this.onInsertTextart,
                     'change:scalespn': this.onClickChangeScaleInMenu.bind(me),
                     'click:customscale': this.onScaleClick.bind(me),
-                    'home:open'        : this.onHomeOpen
+                    'home:open'        : this.onHomeOpen,
+                    'generate:smartart' : this.generateSmartArt,
+                    'insert:smartart'   : this.onInsertSmartArt
                 },
                 'FileMenu': {
                     'menu:hide': me.onFileMenu.bind(me, 'hide'),
@@ -259,7 +261,10 @@ define([
 
             this.onApiEndAddShape = function() {
                 if (this.toolbar.btnInsertShape.pressed) this.toolbar.btnInsertShape.toggle(false, true);
-                if (this.toolbar.btnInsertText.pressed)  this.toolbar.btnInsertText.toggle(false, true);
+                if (this.toolbar.btnInsertText.pressed) {
+                    this.toolbar.btnInsertText.toggle(false, true);
+                    this.toolbar.btnInsertText.menu.clearAll();
+                }
                 $(document.body).off('mouseup', checkInsertAutoshape);
             };
         },
@@ -339,6 +344,7 @@ define([
                 toolbar.btnMerge.on('click',                                _.bind(this.onMergeCellsMenu, this, toolbar.btnMerge.menu, toolbar.btnMerge.menu.items[0]));
                 toolbar.btnMerge.menu.on('item:click',                      _.bind(this.onMergeCellsMenu, this));
                 toolbar.btnTableTemplate.menu.on('show:after',              _.bind(this.onTableTplMenuOpen, this));
+                toolbar.btnCellStyle.menu.on('show:after',                  _.bind(this.onCellStyleMenuOpen, this));
                 toolbar.btnVisibleArea.menu.on('item:click',              _.bind(this.onVisibleAreaMenu, this));
                 toolbar.btnVisibleAreaClose.on('click',                   _.bind(this.onVisibleAreaClose, this));
                 toolbar.cmbFontName.on('selected',                          _.bind(this.onFontNameSelect, this));
@@ -359,6 +365,7 @@ define([
             } else {
                 toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
                 toolbar.btnPrint.on('disabled',                             _.bind(this.onBtnChangeState, this, 'print:disabled'));
+                toolbar.btnPrint.menu && toolbar.btnPrint.menu.on('item:click', _.bind(this.onPrintMenu, this));
                 toolbar.btnSave.on('click',                                 _.bind(this.onSave, this));
                 toolbar.btnSave.on('disabled',                              _.bind(this.onBtnChangeState, this, 'save:disabled'));
                 toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
@@ -404,6 +411,7 @@ define([
                 toolbar.btnInsertImage.menu.on('item:click',                _.bind(this.onInsertImageMenu, this));
                 toolbar.btnInsertHyperlink.on('click',                      _.bind(this.onHyperlink, this));
                 toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
+                toolbar.btnInsertText.menu.on('item:click',                 _.bind(this.onMenuInsertTextClick, this));
                 toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
                 toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
                 toolbar.btnInsertSymbol.on('click',                         _.bind(this.onInsertSymbolClick, this));
@@ -492,6 +500,9 @@ define([
                 this.api.asc_registerCallback('asc_onUnLockCFManager',      _.bind(this.onUnLockCFManager, this));
                 this.api.asc_registerCallback('asc_onZoomChanged',          _.bind(this.onApiZoomChange, this));
                 Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
+                this.api.asc_registerCallback('asc_onBeginSmartArtPreview', _.bind(this.onApiBeginSmartArtPreview, this));
+                this.api.asc_registerCallback('asc_onAddSmartArtPreview', _.bind(this.onApiAddSmartArtPreview, this));
+                this.api.asc_registerCallback('asc_onEndSmartArtPreview', _.bind(this.onApiEndSmartArtPreview, this));
             } else if (config.isEditOle) {
                 Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
             } else if (config.isRestrictedEdit) {
@@ -523,7 +534,27 @@ define([
         },
 
         onPrint: function(e) {
-            Common.NotificationCenter.trigger('print', this.toolbar);
+            if (this.toolbar.btnPrint.options.printType == 'print') {
+                Common.NotificationCenter.trigger('print', this.toolbar);
+            } else {
+                var _main = this.getApplication().getController('Main');
+                _main.onPrintQuick();
+            }
+        },
+
+        onPrintMenu: function (btn, e){
+            var oldType = this.toolbar.btnPrint.options.printType;
+            var newType = e.value;
+
+            if(newType != oldType) {
+                this.toolbar.btnPrint.changeIcon({
+                    next: e.options.iconClsForMainBtn,
+                    curr: this.toolbar.btnPrint.menu.items.filter(function(item){return item.value == oldType;})[0].options.iconClsForMainBtn
+                });
+                this.toolbar.btnPrint.updateHint([e.caption + e.options.platformKey]);
+                this.toolbar.btnPrint.options.printType = newType;
+            }
+            this.onPrint(e);
         },
 
         onSave: function(e) {
@@ -1182,6 +1213,9 @@ define([
                                 case Asc.c_oAscError.ID.ComboSeriesError:
                                     msg = me.errorComboSeries;
                                     break;
+                                case Asc.c_oAscError.ID.MaxDataPointsError:
+                                    msg = me.errorMaxPoints;
+                                    break;
                             }
                             Common.UI.warning({
                                 msg: msg,
@@ -1251,8 +1285,35 @@ define([
         },
 
         onBtnInsertTextClick: function(btn, e) {
+            btn.menu.items.forEach(function(item) {
+                if(item.value == btn.options.textboxType) 
+                item.setChecked(true);
+            });
+            if(!this.toolbar.btnInsertText.pressed) {
+                this.toolbar.btnInsertText.menu.clearAll();
+            } 
+            this.onInsertText(btn.options.textboxType, btn, e);
+        },
+        
+        onMenuInsertTextClick: function(btn, e) {
+            var oldType = this.toolbar.btnInsertText.options.textboxType;
+            var newType = e.value;
+            this.toolbar.btnInsertText.toggle(true);
+
+            if(newType != oldType){
+                this.toolbar.btnInsertText.changeIcon({
+                    next: e.options.iconClsForMainBtn,
+                    curr: this.toolbar.btnInsertText.menu.items.filter(function(item){return item.value == oldType})[0].options.iconClsForMainBtn
+                });
+                this.toolbar.btnInsertText.updateHint([e.caption, this.views.Toolbar.prototype.tipInsertText]);
+                this.toolbar.btnInsertText.options.textboxType = newType;
+            }
+            this.onInsertText(newType, btn, e);
+        },
+
+        onInsertText: function(type, btn, e) {
             if (this.api)
-                this._addAutoshape(btn.pressed, 'textRect');
+                this._addAutoshape(this.toolbar.btnInsertText.pressed, type);
 
             if (this.toolbar.btnInsertShape.pressed)
                 this.toolbar.btnInsertShape.toggle(false, true);
@@ -2020,8 +2081,8 @@ define([
                         return false;
                     }
             };
-            shortcuts['command+shift+=,ctrl+shift+=' + (Common.Utils.isGecko ? ',command+shift+ff=,ctrl+shift+ff=' : '')] = function(e) {
-                        if (me.editMode && !me.toolbar.btnAddCell.isDisabled()) {
+            shortcuts['command+shift+=,ctrl+shift+=,command+shift+numplus,ctrl+shift+numplus' + (Common.Utils.isGecko ? ',command+shift+ff=,ctrl+shift+ff=' : '')] = function(e) {
+                        if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.toolbar.mode.isEditDiagram && !me.toolbar.mode.isEditOle && !me.toolbar.btnAddCell.isDisabled()) {
                             var cellinfo = me.api.asc_getCellInfo(),
                                 selectionType = cellinfo.asc_getSelectionType();
                             if (selectionType === Asc.c_oAscSelectionType.RangeRow || selectionType === Asc.c_oAscSelectionType.RangeCol) {
@@ -2051,8 +2112,8 @@ define([
 
                         return false;
                     };
-            shortcuts['command+shift+-,ctrl+shift+-' + (Common.Utils.isGecko ? ',command+shift+ff-,ctrl+shift+ff-' : '')] = function(e) {
-                        if (me.editMode && !me.toolbar.btnDeleteCell.isDisabled()) {
+            shortcuts['command+shift+-,ctrl+shift+-,command+shift+numminus,ctrl+shift+numminus' + (Common.Utils.isGecko ? ',command+shift+ff-,ctrl+shift+ff-' : '')] = function(e) {
+                        if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.toolbar.mode.isEditDiagram && !me.toolbar.mode.isEditOle && !me.toolbar.btnDeleteCell.isDisabled()) {
                             var cellinfo = me.api.asc_getCellInfo(),
                                 selectionType = cellinfo.asc_getSelectionType();
                             if (selectionType === Asc.c_oAscSelectionType.RangeRow || selectionType === Asc.c_oAscSelectionType.RangeCol) {
@@ -2116,6 +2177,7 @@ define([
                     el: element,
                     parentMenu  : menu,
                     restoreHeight: 300,
+                    groups: new Common.UI.DataViewGroupStore(),
                     style: 'max-height: 300px;',
                     store: me.getCollection('TableTemplates'),
                     itemTemplate: _.template('<div class="item-template"><img src="<%= imageUrl %>" id="<%= id %>" style="width:60px;height:44px;"></div>'),
@@ -2192,48 +2254,166 @@ define([
         onApiInitTableTemplates: function(images) {
             var me = this;
             var store = this.getCollection('TableTemplates');
+            this.fillTableTemplates();
+
             if (store) {
                 var templates = [];
+                var groups = [
+                    {id: 'menu-table-group-custom',    caption: me.txtGroupTable_Custom, templates: []},
+                    {id: 'menu-table-group-light',     caption: me.txtGroupTable_Light,  templates: []},
+                    {id: 'menu-table-group-medium',    caption: me.txtGroupTable_Medium, templates: []},
+                    {id: 'menu-table-group-dark',      caption: me.txtGroupTable_Dark,   templates: []},
+                    {id: 'menu-table-group-no-name',   caption: '&nbsp',                 templates: []},
+                ];
                 _.each(images, function(item) {
                     var tip = item.asc_getDisplayName();
+                    var groupItem = '';
+                    
                     if (item.asc_getType()==0) {
                         var arr = tip.split(' '),
                             last = arr.pop();
+                           
+                        if(tip == 'None'){
+                            groupItem = 'menu-table-group-light';
+                        }
+                        else {
+                            if(arr.length > 0){
+                                groupItem = 'menu-table-group-' + arr[arr.length - 1].toLowerCase();
+                            }
+                            if(groups.some(function(item) {return item.id === groupItem;}) == false) {
+                                groupItem = 'menu-table-group-no-name';
+                            }
+                        }
                         arr = 'txtTable_' + arr.join('');
                         tip = me[arr] ? me[arr] + ' ' + last : tip;
                     }
-                    templates.push({
+                    else {
+                        groupItem = 'menu-table-group-custom'
+                    }
+                    groups.filter(function(item){ return item.id == groupItem; })[0].templates.push({
                         name        : item.asc_getName(),
                         caption     : item.asc_getDisplayName(),
                         type        : item.asc_getType(),
                         imageUrl    : item.asc_getImage(),
+                        group       : groupItem,  
                         allowSelected : true,
                         selected    : false,
                         tip         : tip
                     });
                 });
 
+                groups = groups.filter(function(item, index){
+                    return item.templates.length > 0
+                });
+                
+                groups.forEach(function(item){
+                    templates = templates.concat(item.templates);
+                    delete item.templates;
+                });
+
+                me.toolbar.mnuTableTemplatePicker.groups.reset(groups);
                 store.reset(templates);
             }
-            this.fillTableTemplates();
+        },
+
+
+        onCellStyleMenuOpen: function(menu) {
+            if (menu && this.toolbar.mnuCellStylePicker) {
+                var picker = this.toolbar.mnuCellStylePicker,
+                    columnCount = 6;
+
+                if (picker.cmpEl) {
+                    var itemEl = $(picker.cmpEl.find('.dataview.inner .item').get(0)),
+                        itemMargin = parseFloat(itemEl.css('margin-left')) + parseFloat(itemEl.css('margin-right')),
+                        itemWidth = itemEl.is(':visible') ? parseFloat(itemEl.css('width')) : 106;
+
+                    var menuWidth = columnCount * (itemMargin + itemWidth) + 15, // for scroller
+                        menuMargins = parseFloat(picker.cmpEl.css('margin-left')) + parseFloat(picker.cmpEl.css('margin-right'));
+                    if (menuWidth + menuMargins>Common.Utils.innerWidth())
+                        menuWidth = Math.max(Math.floor((Common.Utils.innerWidth()-menuMargins-11)/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth) + 11;
+                    picker.cmpEl.css({
+                        'width': menuWidth
+                    });
+                    menu.alignPosition();
+                }
+            }
+
+            var scroller = this.toolbar.mnuCellStylePicker.scroller;
+            if (scroller) {
+                scroller.update({alwaysVisibleY: true});
+                scroller.scrollTop(0);
+            }
+
+            var val = this.toolbar.mnuCellStylePicker.store.findWhere({name: this._state.prstyle});
+            if (val)
+                this.toolbar.mnuCellStylePicker.selectRecord(val);
+            else
+                this.toolbar.mnuCellStylePicker.deselectAll();
         },
 
         onApiInitEditorStyles: function(styles){
             window.styles_loaded = false;
 
+            if(this.toolbar.mode.isEditOle) {
+                var me = this;
+                function createPicker(element, menu) {
+                    var picker = new Common.UI.DataView({
+                        el: element,
+                        parentMenu  : menu,
+                        restoreHeight: 380,
+                        groups: new Common.UI.DataViewGroupStore(),
+                        store : new Common.UI.DataViewStore(),
+                        style: 'max-height: 380px;',
+                        itemTemplate: _.template('<div class="style"><img src="<%= imageUrl %>" id="<%= id %>" style="width:100px;height:20px;"></div>'),
+                        delayRenderTips: true
+                    });
+    
+                    picker.on('item:click', function(picker, item, record) {
+                        me.onListStyleSelect(picker, record);
+                    });
+    
+                    if (picker.scroller) {
+                        picker.scroller.update({alwaysVisibleY: true});
+                    }
+    
+                    return picker;
+                }
+    
+                if (_.isUndefined(this.toolbar.mnuCellStylePicker)) {
+                    this.toolbar.mnuCellStylePicker = createPicker($('#id-toolbar-menu-cell-styles'), this.toolbar.btnCellStyle.menu);
+                }
+            }
+
             var self = this,
-                listStyles = self.toolbar.listStyles;
+                listStyles = this.toolbar.mode.isEditOle ? self.toolbar.mnuCellStylePicker: self.toolbar.listStyles;
 
             if (!listStyles) {
                 self.styles = styles;
                 return;
             }
-
+        
+            var menuPicker = this.toolbar.mode.isEditOle ? listStyles: listStyles.menuPicker;
             var mainController = this.getApplication().getController('Main');
-            var count = listStyles.menuPicker.store.length;
-            var rec = listStyles.menuPicker.getSelectedRec();
+            var count = menuPicker.store.length;
+            var rec = menuPicker.getSelectedRec();
+            var groupStore = [
+                {id: 'menu-style-group-custom',     caption: this.txtGroupCell_Custom},
+                {id: 'menu-style-group-color',      caption: this.txtGroupCell_GoodBadAndNeutral},
+                {id: 'menu-style-group-model',      caption: this.txtGroupCell_DataAndModel},
+                {id: 'menu-style-group-title',      caption: this.txtGroupCell_TitlesAndHeadings},
+                {id: 'menu-style-group-themed',     caption: this.txtGroupCell_ThemedCallStyles}, 
+                {id: 'menu-style-group-number',     caption: this.txtGroupCell_NumberFormat},
+                {id: 'menu-style-group-no-name',    caption: this.txtGroupCell_NoName}
+            ];
+            var groups = [];
+            for (var i = 0; i < 4; i++) { groups.push('menu-style-group-color'); }
+            for (var i = 0; i < 8; i++) { groups.push('menu-style-group-model'); }
+            for (var i = 0; i < 6; i++) { groups.push('menu-style-group-title'); }
+            for (var i = 0; i < 24; i++) { groups.push('menu-style-group-themed'); }
+            for (var i = 0; i < 5; i++) { groups.push('menu-style-group-number'); }
+            
             if (count>0 && count==styles.length) {
-                var data = listStyles.menuPicker.dataViewItems;
+                var data = menuPicker.dataViewItems;
                 data && _.each(styles, function(style, index){
                     var img = style.asc_getImage();
                     data[index].model.set('imageUrl', img, {silent: true});
@@ -2245,19 +2425,48 @@ define([
                 });
             } else {
                 var arr = [];
-                _.each(styles, function(style){
+                var countCustomStyles = 0;
+                var hasNoNameGroup = false;
+                _.each(styles, function(style, index){
+                    var styleGroup;
+                    if(style.asc_getType() == 0) {
+                        if(index - countCustomStyles < groups.length){
+                            styleGroup = groups[index - countCustomStyles];
+                        }
+                        else {
+                            styleGroup = 'menu-style-group-no-name';
+                            hasNoNameGroup = true;
+                        }
+                    }
+                    else {
+                        styleGroup = 'menu-style-group-custom';
+                    }
+                    
                     arr.push({
                         imageUrl: style.asc_getImage(),
                         name    : style.asc_getName(),
+                        group   : styleGroup,
                         tip     : mainController.translationTable[style.get_Name()] || style.get_Name(),
                         uid     : Common.UI.getId()
                     });
+                    if(style.asc_getType() == 1){
+                        countCustomStyles += 1;
+                    }
                 });
-                listStyles.menuPicker.store.reset(arr);
+
+                if(countCustomStyles == 0){
+                    groupStore = groupStore.filter(function(item) { return item.id != 'menu-style-group-custom'; });
+                }
+                if(hasNoNameGroup === false){
+                    groupStore = groupStore.filter(function(item) { return item.id != 'menu-style-group-no-name'; });
+                }
+                
+                menuPicker.groups.reset(groupStore);
+                menuPicker.store.reset(arr);
             }
-            if (listStyles.menuPicker.store.length > 0 && listStyles.rendered) {
-                rec = rec ? listStyles.menuPicker.store.findWhere({name: rec.get('name')}) : null;
-                listStyles.fillComboView(rec ? rec : listStyles.menuPicker.store.at(0), true, true);
+            if (!this.toolbar.mode.isEditOle && menuPicker.store.length > 0 && listStyles.rendered) {
+                rec = rec ? menuPicker.store.findWhere({name: rec.get('name')}) : null;
+                listStyles.fillComboView(rec ? rec : menuPicker.store.at(0), true, true);
             }
             window.styles_loaded = true;
         },
@@ -2339,9 +2548,10 @@ define([
                         clear: [Common.enumLock.editFormula, Common.enumLock.editText]
                 });
 
+                var hkComments = Common.Utils.isMac ? 'command+alt+a' : 'alt+h';
                 var is_cell_edited = (state == Asc.c_oAscCellEditorState.editStart);
-                (is_cell_edited) ? Common.util.Shortcuts.suspendEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, alt+h, command+1, ctrl+1') :
-                                   Common.util.Shortcuts.resumeEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, alt+h, command+1, ctrl+1');
+                (is_cell_edited) ? Common.util.Shortcuts.suspendEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, command+1, ctrl+1, ' + hkComments) :
+                                   Common.util.Shortcuts.resumeEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, command+1, ctrl+1, ' + hkComments);
 
                 if (is_cell_edited) {
                     toolbar.listStyles.suspendEvents();
@@ -2633,7 +2843,7 @@ define([
         },
 
         onApiSelectionChanged: function(info) {
-            if (!this.editMode || $('.asc-window.enable-key-events:visible').length>0) return;
+            if (!this.editMode || $('.asc-window.enable-key-events:visible').length>0 || !info) return;
             if ( this.toolbar.mode.isEditDiagram )
                 return this.onApiSelectionChanged_DiagramEditor(info); else
             if ( this.toolbar.mode.isEditMailMerge )
@@ -2697,6 +2907,12 @@ define([
 
             toolbar.lockToolbar(Common.enumLock['Objects'], !!this._state.wsProps['Objects']);
             toolbar.lockToolbar(Common.enumLock['FormatCells'], !!this._state.wsProps['FormatCells']);
+
+            // info.asc_getComments()===null - has comment, but no permissions to view it
+            toolbar.lockToolbar(Common.enumLock.commentLock, 
+                (selectionType == Asc.c_oAscSelectionType.RangeCells) && (!info.asc_getComments() || info.asc_getComments().length>0 || info.asc_getLocked()) 
+                || selectionType != Asc.c_oAscSelectionType.RangeCells,
+                { array: this.btnsComment });
 
             if (editOptionsDisabled) return;
 
@@ -2871,6 +3087,7 @@ define([
                             toolbar.btnAlignCenter.toggle(false, true);
                             toolbar.btnAlignJust.toggle(false, true);
                         }
+                        toolbar.btnWrap.allowDepress = (fontparam !== AscCommon.align_Justify);
                     }
 
                     need_disable = (fontparam == AscCommon.align_Justify || selectionType == Asc.c_oAscSelectionType.RangeShapeText || selectionType == Asc.c_oAscSelectionType.RangeShape);
@@ -3053,26 +3270,23 @@ define([
             }
             toolbar.lockToolbar(Common.enumLock.itemsDisabled, !enabled, {array: [toolbar.btnDeleteCell]});
 
-            // info.asc_getComments()===null - has comment, but no permissions to view it
-            toolbar.lockToolbar(Common.enumLock.commentLock, (selectionType == Asc.c_oAscSelectionType.RangeCells) && (!info.asc_getComments() || info.asc_getComments().length>0 || info.asc_getLocked()) ||
-                                                          this.toolbar.mode.compatibleFeatures && (selectionType != Asc.c_oAscSelectionType.RangeCells),
-                                { array: this.btnsComment });
 
             toolbar.lockToolbar(Common.enumLock.headerLock, info.asc_getLockedHeaderFooter(), {array: this.toolbar.btnsEditHeader});
         },
 
         onApiSelectionChangedRestricted: function(info) {
-            if (!this.appConfig.isRestrictedEdit) return;
+            if (!this.appConfig.isRestrictedEdit || !info) return;
 
             var selectionType = info.asc_getSelectionType();
-            this.toolbar.lockToolbar(Common.enumLock.commentLock, (selectionType == Asc.c_oAscSelectionType.RangeCells) && (!info.asc_getComments() || info.asc_getComments().length>0 || info.asc_getLocked()) ||
-                                    this.appConfig && this.appConfig.compatibleFeatures && (selectionType != Asc.c_oAscSelectionType.RangeCells),
-                                    { array: this.btnsComment });
+            this.toolbar.lockToolbar(Common.enumLock.commentLock, 
+                (selectionType == Asc.c_oAscSelectionType.RangeCells) && (!info.asc_getComments() || info.asc_getComments().length>0 || info.asc_getLocked())
+                || selectionType != Asc.c_oAscSelectionType.RangeCells,
+                { array: this.btnsComment });
             this.toolbar.lockToolbar(Common.enumLock['Objects'], !!this._state.wsProps['Objects'], { array: this.btnsComment });
         },
 
         onApiSelectionChanged_DiagramEditor: function(info) {
-            if ( !this.editMode || this.api.isCellEdited || this.api.isRangeSelection) return;
+            if ( !this.editMode || this.api.isCellEdited || this.api.isRangeSelection || !info) return;
 
             var me = this;
             var _disableEditOptions = function(seltype, coauth_disable) {
@@ -3142,7 +3356,7 @@ define([
         },
 
         onApiSelectionChanged_MailMergeEditor: function(info) {
-            if ( !this.editMode || this.api.isCellEdited || this.api.isRangeSelection) return;
+            if ( !this.editMode || this.api.isCellEdited || this.api.isRangeSelection || !info) return;
 
             var me = this;
             var _disableEditOptions = function(seltype, coauth_disable) {
@@ -3199,7 +3413,7 @@ define([
         },
 
         onApiSelectionChanged_OleEditor: function(info) {
-            if ( !this.editMode || this.api.isCellEdited || this.api.isRangeSelection) return;
+            if ( !this.editMode || this.api.isCellEdited || this.api.isRangeSelection || !info) return;
 
             var me = this;
             var _disableEditOptions = function(seltype, coauth_disable) {
@@ -3409,6 +3623,7 @@ define([
                     toolbar.btnHorizontalAlign.$icon.removeClass(toolbar.btnHorizontalAlign.options.icls).addClass(align);
                     toolbar.btnHorizontalAlign.options.icls = align;
                 }
+                toolbar.btnWrap.allowDepress = (fontparam !== AscCommon.align_Justify);
             }
 
              // read cell vertical align
@@ -3466,6 +3681,19 @@ define([
                 } else {
                     toolbar.mnuTableTemplatePicker.deselectAll();
                     this._state.tablestylename = null;
+                }
+            }
+
+            val = info.asc_getStyleName();
+            if (this._state.prstyle != val && this.toolbar.mnuCellStylePicker) {
+
+                val = this.toolbar.mnuCellStylePicker.store.findWhere({name: val});
+                if (val) {
+                    this.toolbar.mnuCellStylePicker.selectRecord(val);
+                    this._state.prstyle = val.get('name');
+                } else {
+                    this.toolbar.mnuCellStylePicker.deselectAll();
+                    this._state.prstyle = null;
                 }
             }
 
@@ -3787,7 +4015,7 @@ define([
                         items: [
                             { template: _.template('<div id="id-toolbar-menu-equationgroup' + i +
                                 '" class="menu-shape" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
-                                equationGroup.get('groupHeight') + 'margin-left:5px;"></div>') }
+                                equationGroup.get('groupHeightStr') + 'margin-left:5px;"></div>') }
                         ]
                     })
                 });
@@ -3854,16 +4082,21 @@ define([
             var me = this;
             var onShowBefore = function(menu) {
                 me.onMathTypes(me._equationTemp);
+                if (me._equationTemp && me._equationTemp.get_Data().length>0)
+                    me.fillEquations();
                 me.toolbar.btnInsertEquation.menu.off('show:before', onShowBefore);
             };
             me.toolbar.btnInsertEquation.menu.on('show:before', onShowBefore);
         },
 
         onMathTypes: function(equation) {
+            equation = equation || this._equationTemp;
+
             var equationgrouparray = [],
                 equationsStore = this.getCollection('EquationGroups');
 
-            equationsStore.reset();
+            if (equationsStore.length>0)
+                return;
 
             // equations groups
 
@@ -3871,18 +4104,18 @@ define([
 
             // [translate, count cells, scroll]
 
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Symbol       ] = [this.textSymbols, 11];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Fraction     ] = [this.textFraction, 4];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Script       ] = [this.textScript, 4];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Radical      ] = [this.textRadical, 4];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Integral     ] = [this.textIntegral, 3, true];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.LargeOperator] = [this.textLargeOperator, 5, true];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Bracket      ] = [this.textBracket, 4, true];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Function     ] = [this.textFunction, 3, true];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Accent       ] = [this.textAccent, 4];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.LimitLog     ] = [this.textLimitAndLog, 3];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Operator     ] = [this.textOperator, 4];
-            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Matrix       ] = [this.textMatrix, 4, true];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Symbol       ] = [this.textSymbols, 11, false, 'svg-icon-symbols'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Fraction     ] = [this.textFraction, 4, false, 'svg-icon-fraction'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Script       ] = [this.textScript, 4, false, 'svg-icon-script'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Radical      ] = [this.textRadical, 4, false, 'svg-icon-radical'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Integral     ] = [this.textIntegral, 3, true, 'svg-icon-integral'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.LargeOperator] = [this.textLargeOperator, 5, true, 'svg-icon-largeOperator'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Bracket      ] = [this.textBracket, 4, true, 'svg-icon-bracket'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Function     ] = [this.textFunction, 3, true, 'svg-icon-function'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Accent       ] = [this.textAccent, 4, false, 'svg-icon-accent'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.LimitLog     ] = [this.textLimitAndLog, 3, false, 'svg-icon-limAndLog'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Operator     ] = [this.textOperator, 4, false, 'svg-icon-operator'];
+            c_oAscMathMainTypeStrings[Common.define.c_oAscMathMainType.Matrix       ] = [this.textMatrix, 4, true, 'svg-icon-matrix'];
 
             // equations sub groups
 
@@ -3952,12 +4185,14 @@ define([
                                 groupName   : c_oAscMathMainTypeStrings[id][0],
                                 groupStore  : store,
                                 groupWidth  : width,
-                                groupHeight : c_oAscMathMainTypeStrings[id][2] ? ' height:'+ normHeight +'px!important; ' : ''
+                                groupHeight : normHeight,
+                                groupHeightStr : c_oAscMathMainTypeStrings[id][2] ? ' height:'+ normHeight +'px!important; ' : '',
+                                groupIcon: c_oAscMathMainTypeStrings[id][3]
                             });
                         }
                     }
                     equationsStore.add(equationgrouparray);
-                    this.fillEquations();
+                    // this.fillEquations();
                 }
             }
         },
@@ -4231,12 +4466,14 @@ define([
             toolbar.$el.find('.toolbar').toggleClass('masked', disable);
 
             this.toolbar.lockToolbar(Common.enumLock.menuFileOpen, disable);
+
+            var hkComments = Common.Utils.isMac ? 'command+alt+a' : 'alt+h';
             if(disable) {
                 mask = $("<div class='toolbar-mask'>").appendTo(toolbar.$el.find('.toolbar'));
-                Common.util.Shortcuts.suspendEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, command+alt+h, ctrl+alt+h, command+1, ctrl+1');
+                Common.util.Shortcuts.suspendEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, command+1, ctrl+1, ' + hkComments);
             } else {
                 mask.remove();
-                Common.util.Shortcuts.resumeEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, command+alt+h, ctrl+alt+h, command+1, ctrl+1');
+                Common.util.Shortcuts.resumeEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, command+1, ctrl+1, ' + hkComments);
             }
         },
 
@@ -4739,6 +4976,51 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Vertical align');
         },
 
+        generateSmartArt: function (groupName) {
+            this.api.asc_generateSmartArtPreviews(groupName);
+        },
+
+        onApiBeginSmartArtPreview: function () {
+            this.smartArtGroups = this.toolbar.btnInsertSmartArt.menu.items;
+            this.smartArtData = Common.define.smartArt.getSmartArtData();
+        },
+
+        onApiAddSmartArtPreview: function (previews) {
+            previews.forEach(_.bind(function (preview) {
+                var image = preview.asc_getImage(),
+                    sectionId = preview.asc_getSectionId(),
+                    section = _.findWhere(this.smartArtData, {sectionId: sectionId}),
+                    item = _.findWhere(section.items, {type: image.asc_getName()}),
+                    menu = _.findWhere(this.smartArtGroups, {value: sectionId}),
+                    menuPicker = menu.menuPicker;
+                if (item) {
+                    var arr = [{
+                        tip: item.tip,
+                        value: item.type,
+                        imageUrl: image.asc_getImage()
+                    }];
+                    if (menuPicker.store.length < 1) {
+                        menuPicker.store.reset(arr);
+                    } else {
+                        menuPicker.store.add(arr);
+                    }
+                }
+                this.currentSmartArtMenu = menu;
+            }, this));
+        },
+
+        onApiEndSmartArtPreview: function () {
+            if (this.currentSmartArtMenu) {
+                this.currentSmartArtMenu.menu.alignPosition();
+            }
+        },
+
+        onInsertSmartArt: function (value) {
+            if (this.api) {
+                this.api.asc_createSmartArt(value);
+            }
+        },
+
         textEmptyImgUrl     : 'You need to specify image URL.',
         warnMergeLostData   : 'Operation can destroy data in the selected cells.<br>Continue?',
         textWarning         : 'Warning',
@@ -5098,6 +5380,17 @@ define([
         txtTable_TableStyleMedium: 'Table Style Medium',
         txtTable_TableStyleDark: 'Table Style Dark',
         txtTable_TableStyleLight: 'Table Style Light',
+        txtGroupTable_Custom: 'Custom',
+        txtGroupTable_Light: 'Light',
+        txtGroupTable_Medium: 'Medium',
+        txtGroupTable_Dark: 'Dark',
+        txtGroupCell_Custom: 'Custom',
+        txtGroupCell_GoodBadAndNeutral: 'Good, Bad, and Neutral',
+        txtGroupCell_DataAndModel: 'Data and Model',
+        txtGroupCell_TitlesAndHeadings: 'Titles and Headings',
+        txtGroupCell_ThemedCallStyles: 'Themed Call Styles',
+        txtGroupCell_NumberFormat: 'Number Format',
+        txtGroupCell_NoName: 'No name',
         textInsert: 'Insert',
         txtInsertCells: 'Insert Cells',
         txtDeleteCells: 'Delete Cells',
@@ -5107,7 +5400,8 @@ define([
         textIndicator: 'Indicators',
         textRating: 'Ratings',
         txtLockSort: 'Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?',
-        textRecentlyUsed: 'Recently Used'
+        textRecentlyUsed: 'Recently Used',
+        errorMaxPoints: 'The maximum number of points in series per chart is 4096.'
 
     }, SSE.Controllers.Toolbar || {}));
 });

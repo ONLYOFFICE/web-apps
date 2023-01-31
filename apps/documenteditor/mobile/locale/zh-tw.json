@@ -61,7 +61,10 @@
     "textTableSize": "表格大小",
     "textWithBlueLinks": "帶有藍色連結",
     "textWithPageNumbers": "帶有頁碼",
-    "txtNotUrl": "此字段應為格式為“ http://www.example.com”的URL。"
+    "txtNotUrl": "此字段應為格式為“ http://www.example.com”的URL。",
+    "textDone": "Done",
+    "textRecommended": "Recommended",
+    "textRequired": "Required"
   },
   "Common": {
     "Collaboration": {
@@ -160,7 +163,8 @@
       "textTryUndoRedo": "在快速共同編輯模式下，撤消/重做功能被禁用。",
       "textUnderline": "底線",
       "textUsers": "使用者",
-      "textWidow": "遺留文字控制"
+      "textWidow": "遺留文字控制",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "沒有填充"
@@ -200,7 +204,8 @@
     "textRefreshEntireTable": "完整表格刷新",
     "textRefreshPageNumbersOnly": "等級數量",
     "textRows": "行列",
-    "txtWarnUrl": "這連結可能對您的設備和資料造成損害。<br> 您確定要繼續嗎？"
+    "txtWarnUrl": "這連結可能對您的設備和資料造成損害。<br> 您確定要繼續嗎？",
+    "menuEditLink": "Edit Link"
   },
   "Edit": {
     "notcriticalErrorTitle": "警告",
@@ -318,12 +323,9 @@
     "textRefreshEntireTable": "完整表格刷新",
     "textRefreshPageNumbersOnly": "等級數量",
     "textRemoveChart": "刪除圖表",
-    "textRemoveImage": "移除圖片",
-    "textRemoveLink": "刪除連結",
     "textRemoveShape": "刪除形狀",
     "textRemoveTable": "刪除表格",
     "textRemoveTableContent": "刪除目錄",
-    "textReorder": "重新排序",
     "textRepeatAsHeaderRow": "重複作為標題行",
     "textReplace": "取代",
     "textReplaceImage": "取代圖片",
@@ -365,7 +367,16 @@
     "textTu": "Tu",
     "textType": "類型",
     "textWe": "We",
-    "textWrap": "包覆"
+    "textWrap": "包覆",
+    "textArrange": "Arrange",
+    "textChangeShape": "Change Shape",
+    "textCustomStyle": "Custom Style",
+    "textDeleteImage": "Delete Image",
+    "textDeleteLink": "Delete Link",
+    "textRecommended": "Recommended",
+    "textRequired": "Required",
+    "textTextWrapping": "Text Wrapping",
+    "textWrappingStyle": "Wrapping Style"
   },
   "Error": {
     "convertationTimeoutText": "轉換逾時。",
@@ -408,7 +419,15 @@
     "uploadImageExtMessage": "圖片格式未知。",
     "uploadImageFileCountMessage": "無上傳圖片。",
     "uploadImageSizeMessage": "圖像超出最大大小限制。最大為25MB。",
-    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field.",
+    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "載入資料中...",
@@ -445,8 +464,8 @@
     "uploadImageTitleText": "上傳圖片中",
     "waitText": "請耐心等待...",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textUndo": "Undo",
-    "textContinue": "Continue"
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Main": {
     "criticalErrorTitle": "錯誤",
@@ -545,7 +564,9 @@
     "warnLicenseUsersExceeded": "您已達到％1個編輯器的用戶限制。請與您的管理員聯繫以了解更多信息。",
     "warnNoLicense": "您已達到同時連接到 %1 編輯器的限制。此文件將只提供檢視。有關個人升級條款，請聯繫 %1 業務團隊。",
     "warnNoLicenseUsers": "您已達到％1個編輯器的用戶限制。與％1銷售團隊聯繫以了解個人升級條款。",
-    "warnProcessRightsChange": "您沒有編輯這個文件的權限。"
+    "warnProcessRightsChange": "您沒有編輯這個文件的權限。",
+    "textDocumentProtected": "The document is protected. Edit settings are not available",
+    "textOk": "Ok"
   },
   "Settings": {
     "advDRMOptions": "受保護的檔案",
@@ -681,7 +702,7 @@
     "dlgLeaveTitleText": "您離開應用程式",
     "leaveButtonText": "離開這個頁面",
     "stayButtonText": "保持此頁上",
-    "textOk": "OK",
+    "textOk": "確定",
     "textSwitchedMobileView": "Switched to Mobile view",
     "textSwitchedStandardView": "Switched to Standard view"
   }

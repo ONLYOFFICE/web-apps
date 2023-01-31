@@ -8,10 +8,10 @@
         <section class="panel static">
             <div class="group no-mask small">
                 <div class="elset">
-                    <span class="btn-slot" id="slot-btn-print"></span>
+                    <span class="btn-slot" id="slot-btn-save" data-layout-name="toolbar-save"></span>
                 </div>
                 <div class="elset">
-                    <span class="btn-slot" id="slot-btn-save" data-layout-name="toolbar-save"></span>
+                    <span class="btn-slot" id="slot-btn-print"></span>
                 </div>
             </div>
             <div class="separator long"></div>
@@ -125,7 +125,7 @@
                     </div>
                 </div>
                 <div class="separator long invisible"></div>
-                <div class="group small flex field-styles" id="slot-field-styles" style="min-width: 168px;width: 100%;" data-group-width="100%"></div>
+                <div class="group small flex field-styles" id="slot-field-styles" style="min-width: 148px;width: 100%;" data-group-width="100%"></div>
             </section>
             <section class="panel" data-tab="ins">
                 <div class="group">
@@ -140,6 +140,7 @@
                     <span class="btn-slot text x-huge" id="slot-btn-instextart"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-inschart"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-inssparkline"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-inssmartart"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
@@ -213,12 +214,20 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-watch-window"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-calculate"></span>
                 </div>
             </section>
             <section class="panel" data-tab="data">
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-data-from-text"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-data-external-links"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">

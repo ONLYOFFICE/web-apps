@@ -126,7 +126,7 @@ define([
 
             this.btnChat = new Common.UI.Button({
                 el: $markup.elementById('#left-btn-chat'),
-                hint: this.tipChat + Common.Utils.String.platformKey('Alt+Q'),
+                hint: this.tipChat + Common.Utils.String.platformKey('Alt+Q', ' (' + (Common.Utils.isMac ? Common.Utils.String.textCtrl + '+' : '') + '{0})'),
                 enableToggle: true,
                 disabled: true,
                 toggleGroup: 'leftMenuGroup'
@@ -202,7 +202,8 @@ define([
                     this.$el.width(parseInt(Common.localStorage.getItem('de-mainmenu-width')) || MENU_SCALE_PART);
                 }
             } else if (!this._state.pluginIsRunning) {
-                this.isVisible() && Common.localStorage.setItem('de-mainmenu-width',this.$el.width());
+                var width = this.$el.width();
+                this.isVisible() && (width>SCALE_MIN) && Common.localStorage.setItem('de-mainmenu-width', width);
                 this.$el.width(SCALE_MIN);
             }
 
@@ -327,7 +328,7 @@ define([
                 }
                 if (this.panelNavigation) {
                     this.panelNavigation['hide']();
-                    this.btnNavigation.toggle(false, true);
+                    this.btnNavigation.toggle(false);
                 }
                 if (this.panelSearch) {
                     this.panelSearch['hide']();
@@ -414,6 +415,7 @@ define([
         setMode: function(mode) {
             this.mode = mode;
             this.btnAbout.panel.setMode(mode);
+            mode.canUseThumbnails && this.btnThumbnails.show();
             return this;
         },
 

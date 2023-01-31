@@ -59,6 +59,9 @@
     "textTable": "Таблиця",
     "textTableSize": "Розмір таблиці",
     "txtNotUrl": "Це поле має бути URL-адресою у форматі \"http://www.example.com\"",
+    "textDone": "Done",
+    "textRecommended": "Recommended",
+    "textRequired": "Required",
     "textTableContents": "Table of Contents",
     "textWithBlueLinks": "With Blue Links",
     "textWithPageNumbers": "With Page Numbers"
@@ -160,7 +163,8 @@
       "textTryUndoRedo": "Функції скасування і повтору дій відключені для режиму швидкого спільного редагування.",
       "textUnderline": "Підкреслений",
       "textUsers": "Користувачі",
-      "textWidow": "Заборона висячих рядків"
+      "textWidow": "Заборона висячих рядків",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "Без заливки"
@@ -198,6 +202,7 @@
     "textNumberingValue": "Початкове значення",
     "textOk": "Ок",
     "textRows": "Рядки",
+    "menuEditLink": "Edit Link",
     "textRefreshEntireTable": "Refresh entire table",
     "textRefreshPageNumbersOnly": "Refresh page numbers only",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
@@ -298,11 +303,8 @@
     "textPictureFromURL": "Зображення з URL",
     "textPt": "Пт",
     "textRemoveChart": "Видалити діаграму",
-    "textRemoveImage": "Видалити зображення",
-    "textRemoveLink": "Видалити посилання",
     "textRemoveShape": "Видалити форму",
     "textRemoveTable": "Видалити таблицю",
-    "textReorder": "Порядок",
     "textRepeatAsHeaderRow": "Повторювати як заголовок",
     "textReplace": "Замінити",
     "textReplaceImage": "Замінити зображення",
@@ -338,11 +340,16 @@
     "textWe": "Ср",
     "textWrap": "Стиль обтікання",
     "textAmountOfLevels": "Amount of Levels",
+    "textArrange": "Arrange",
     "textCancel": "Cancel",
     "textCentered": "Centered",
+    "textChangeShape": "Change Shape",
     "textClassic": "Classic",
     "textCreateTextStyle": "Create new text style",
     "textCurrent": "Current",
+    "textCustomStyle": "Custom Style",
+    "textDeleteImage": "Delete Image",
+    "textDeleteLink": "Delete Link",
     "textDistinctive": "Distinctive",
     "textDone": "Done",
     "textEnterTitleNewStyle": "Enter title of a new style",
@@ -354,10 +361,12 @@
     "textOnline": "Online",
     "textPageNumbers": "Page Numbers",
     "textParagraphStyle": "Paragraph Style",
+    "textRecommended": "Recommended",
     "textRefresh": "Refresh",
     "textRefreshEntireTable": "Refresh entire table",
     "textRefreshPageNumbersOnly": "Refresh page numbers only",
     "textRemoveTableContent": "Remove table of contents",
+    "textRequired": "Required",
     "textRightAlign": "Right Align",
     "textSameCreatedNewStyle": "Same as created new style",
     "textSimple": "Simple",
@@ -365,7 +374,9 @@
     "textStructure": "Structure",
     "textStyles": "Styles",
     "textTableOfCont": "TOC",
-    "textTitle": "Title"
+    "textTextWrapping": "Text Wrapping",
+    "textTitle": "Title",
+    "textWrappingStyle": "Wrapping Style"
   },
   "Error": {
     "convertationTimeoutText": "Перевищено час очікування конверсії.",
@@ -406,9 +417,17 @@
     "uploadImageExtMessage": "Невідомий формат зображення.",
     "uploadImageFileCountMessage": "Жодного зображення не завантажено.",
     "uploadImageSizeMessage": "Занадто велике зображення. Максимальний розмір – 25 MB.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
     "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
     "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
-    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field.",
+    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "Завантаження даних...",
@@ -445,8 +464,8 @@
     "uploadImageTitleText": "Завантаження зображення",
     "waitText": "Будь ласка, зачекайте...",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textUndo": "Undo",
-    "textContinue": "Continue"
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Main": {
     "criticalErrorTitle": "Помилка",
@@ -545,6 +564,8 @@
     "warnNoLicense": "Ви досягли ліміту на одночасне підключення до редакторів %1. Цей документ буде відкрито для перегляду. Напишіть у відділ продажу %1, щоб обговорити індивідуальні умови оновлення.",
     "warnNoLicenseUsers": "Ви досягли ліміту на одночасне підключення до редакторів %1.<br>Напишіть у відділ продаж %1, для обговорення індивідуальних умов ліцензування.",
     "warnProcessRightsChange": "У вас немає прав на редагування цього файлу.",
+    "textDocumentProtected": "The document is protected. Edit settings are not available",
+    "textOk": "Ok",
     "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
   },
   "Settings": {

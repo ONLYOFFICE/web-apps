@@ -456,8 +456,27 @@ define([
                     lang = (this.lang) ? this.lang.split(/[\-\_]/)[0] : 'en';
 
                 var me = this,
-                    name = '/Functions/' + this.funcprops.origin.toLocaleLowerCase().replace(/\./g, '-') + '.htm',
+                    func = this.funcprops.origin.toLocaleLowerCase().replace(/\./g, '-'),
+                    name = '/Functions/' + func + '.htm',
                     url = 'resources/help/' + lang + name;
+
+                if ( Common.Controllers.Desktop.isActive() ) {
+                    if ( Common.Controllers.Desktop.isHelpAvailable() )
+                        url = Common.Controllers.Desktop.helpUrl() + name;
+                    else {
+                        const helpCenter = Common.Utils.InternalSettings.get('url-help-center');
+                        if ( helpCenter ) {
+                            const _url_obj = new URL(helpCenter);
+                            if ( !!_url_obj.searchParams )
+                                _url_obj.searchParams.set('function', func);
+
+                            window.open(_url_obj.toString(), '_blank');
+                        }
+
+                        me.helpUrl = null;
+                        return;
+                    }
+                }
 
                 fetch(url).then(function(response){
                     if ( response.ok ) {
@@ -465,11 +484,10 @@ define([
                         me.helpUrl = url;
                         me.showHelp();
                     } else {
-                        lang = '{{DEFAULT_LANG}}';
-                        url = 'resources/help/' + lang + name;
+                        url = 'resources/help/' + '{{DEFAULT_LANG}}' + name;
                         fetch(url).then(function(response){
                             if ( response.ok ) {
-                                Common.Utils.InternalSettings.set("sse-settings-func-help", lang);
+                                Common.Utils.InternalSettings.set("sse-settings-func-help", '{{DEFAULT_LANG}}');
                                 me.helpUrl = url;
                                 me.showHelp();
                             } else {

@@ -328,7 +328,7 @@
 
         visible && (document.querySelector('.brendpanel').style.display = 'block');
         !(view || notoolbar) && (document.querySelector('.sktoolbar').style.display = 'block');
-        document.querySelector('.placeholder').style.display = 'block';
+        document.querySelector('.placeholder').style.display = 'flex';
 
         if (stopLoading) {
             document.body.removeChild(document.getElementById('loading-mask'));
@@ -345,6 +345,7 @@
     <img class="inline-svg" src="../../common/main/resources/img/header/icons.svg">
     <img class="inline-svg" src="../../common/main/resources/img/toolbar/shapetypes.svg">
     <img class="inline-svg" src="../../common/main/resources/img/toolbar/charttypes.svg">
+    <img class="inline-svg" src="../../common/main/resources/img/toolbar/equationicons.svg">
     <script>
         var svgpoints = document.querySelectorAll('img.inline-svg');
         SVGInjector(svgpoints);

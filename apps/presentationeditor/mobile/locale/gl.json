@@ -32,7 +32,8 @@
       "textReopen": "Volver a abrir",
       "textResolve": "Resolver",
       "textTryUndoRedo": "As funcións Desfacer/Refacer están activadas para o modo de coedición rápido.",
-      "textUsers": "Usuarios"
+      "textUsers": "Usuarios",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "Sen encher"
@@ -60,6 +61,7 @@
     "textCopyCutPasteActions": "Accións de copiar, cortar e pegar",
     "textDoNotShowAgain": "Non amosar de novo",
     "textRows": "Filas",
+    "menuEditLink": "Edit Link",
     "textOk": "Ok",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
@@ -169,7 +171,15 @@
     "unknownErrorText": "Erro descoñecido.",
     "uploadImageExtMessage": "Formato de imaxe descoñecido.",
     "uploadImageFileCountMessage": "Non hai imaxes subidas.",
-    "uploadImageSizeMessage": "A imaxe é demasiado grande. O tamaño máximo é de 25 MB."
+    "uploadImageSizeMessage": "A imaxe é demasiado grande. O tamaño máximo é de 25 MB.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "Cargando datos...",
@@ -202,8 +212,8 @@
     "uploadImageTitleText": "Cargando imaxe",
     "waitText": "Agarde...",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textUndo": "Undo",
-    "textContinue": "Continue"
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Ten cambios non gardados neste documento. Prema en \"Quedarse nesta páxina\" para esperar ata que se garden automaticamente. Prema en \"Saír desta pa´xina\" para descartar todos os cambios non gardados.",
@@ -248,7 +258,10 @@
       "textSlideNumber": "Número da diapositiva",
       "textTable": "Táboa",
       "textTableSize": "Tamaño da táboa",
-      "txtNotUrl": "Este campo debe ser unha URL no formato \"http://www.example.com\""
+      "txtNotUrl": "Este campo debe ser unha URL no formato \"http://www.example.com\"",
+      "textDone": "Done",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Edit": {
       "notcriticalErrorTitle": "Aviso",
@@ -354,11 +367,8 @@
       "textPt": "pt",
       "textPush": "Empurrar",
       "textRemoveChart": "Eliminar gráfico",
-      "textRemoveImage": "Eliminar imaxe",
-      "textRemoveLink": "Eliminar ligazón",
       "textRemoveShape": "Eliminar forma",
       "textRemoveTable": "Eliminar táboa",
-      "textReorder": "Reordenar",
       "textReplace": "Substituír",
       "textReplaceAll": "Substituír todo",
       "textReplaceImage": "Substituír imaxe",
@@ -399,7 +409,15 @@
       "textZoom": "Ampliar",
       "textZoomIn": "Ampliar",
       "textZoomOut": "Alonxar",
-      "textZoomRotate": "Ampliar e rotación"
+      "textZoomRotate": "Ampliar e rotación",
+      "textArrange": "Arrange",
+      "textCancel": "Cancel",
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
+      "textInsertImage": "Insert Image",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Settings": {
       "mniSlideStandard": "Estándar (4:3)",

@@ -63,10 +63,7 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 260px;">',
-                    '<div class="input-row">',
-                        '<label>' + this.textInfo + '</label>',
-                    '</div>',
+                '<div class="box" style="height: 250px;">',
                     '<div class="input-row">',
                         '<label>' + this.textInfoName + '</label>',
                     '</div>',
@@ -82,7 +79,7 @@ define([
                     '<div class="input-row">',
                         '<label>' + this.textInstructions + '</label>',
                     '</div>',
-                    '<textarea id="id-dlg-sign-settings-instructions" class="form-control" style="width: 100%;height: 35px;margin-bottom: 10px;resize: none;"></textarea>',
+                    '<div id="id-dlg-sign-settings-instructions"></div>',
                     '<div id="id-dlg-sign-settings-date"></div>',
                 '</div>',
                 '<div class="footer center">',
@@ -124,19 +121,18 @@ define([
                 disabled    : this.type=='view'
             });
 
-            me.textareaInstructions = this.$window.find('textarea');
-            me.textareaInstructions.keydown(function (event) {
-                if (event.keyCode == Common.UI.Keys.RETURN) {
-                    event.stopPropagation();
-                }
+            me.textareaInstructions = new Common.UI.TextareaField({
+                el          : $window.find('#id-dlg-sign-settings-instructions'),
+                style       : 'width: 100%; height: 35px;margin-bottom: 10px;',
+                value       : this.textDefInstruction,
+                disabled    : this.type=='view'
             });
-            (this.type=='view') ? this.textareaInstructions.attr('disabled', 'disabled') : this.textareaInstructions.removeAttr('disabled');
-            this.textareaInstructions.toggleClass('disabled', this.type=='view');
 
             this.chDate = new Common.UI.CheckBox({
                 el: $('#id-dlg-sign-settings-date'),
                 labelText: this.textShowDate,
-                disabled: this.type=='view'
+                disabled: this.type=='view',
+                value: 'checked'
             });
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
@@ -161,7 +157,7 @@ define([
                 value = props.asc_getEmail();
                 me.inputEmail.setValue(value ? value : '');
                 value = props.asc_getInstructions();
-                me.textareaInstructions.val(value ? value : '');
+                me.textareaInstructions.setValue(value ? value : '');
                 me.chDate.setValue(props.asc_getShowDate());
 
                 me._currentGuid = props.asc_getGuid();
@@ -175,7 +171,7 @@ define([
             props.asc_setSigner1(me.inputName.getValue());
             props.asc_setSigner2(me.inputTitle.getValue());
             props.asc_setEmail(me.inputEmail.getValue());
-            props.asc_setInstructions(me.textareaInstructions.val());
+            props.asc_setInstructions(me.textareaInstructions.getValue());
             props.asc_setShowDate(me.chDate.getValue()=='checked');
             (me._currentGuid!==undefined) && props.asc_setGuid(me._currentGuid);
 
@@ -198,13 +194,14 @@ define([
         },
 
         textInfo:           'Signer Info',
-        textInfoName:       'Name',
-        textInfoTitle:      'Signer Title',
-        textInfoEmail:      'E-mail',
-        textInstructions:   'Instructions for Signer',
+        textInfoName:       'Suggested signer',
+        textInfoTitle:      'Suggested signer\'s title',
+        textInfoEmail:      'Suggested signer\'s e-mail',
+        textInstructions:   'Instructions for signer',
         txtEmpty:           'This field is required',
         textAllowComment:   'Allow signer to add comment in the signature dialog',
         textShowDate:       'Show sign date in signature line',
-        textTitle:          'Signature Setup'
+        textTitle:          'Signature Setup',
+        textDefInstruction: 'Before signing this document, verify that the content you are signing is correct.'
     }, Common.Views.SignSettingsDialog || {}))
 });

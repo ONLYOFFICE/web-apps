@@ -384,6 +384,7 @@ define([
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
+            (Common.Utils.isIE || Common.Utils.isMac && Common.Utils.isGecko) && this.chUseAltKey.$el.parent().parent().hide();
 
             this.rbCoAuthModeFast = new Common.UI.RadioBox({
                 el          : $markup.findById('#fms-rb-coauth-mode-fast'),
@@ -534,7 +535,7 @@ define([
 
             var regdata = [{ value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0C07 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
                             { value: 0x040B }, { value: 0x040C }, { value: 0x100C }, { value: 0x0410 }, { value: 0x0810 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x040E }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
-                            { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }];
+                            { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }, { value: 0x0404 }];
             regdata.forEach(function(item) {
                 var langinfo = Common.util.LanguageInfo.getLocalLanguageName(item.value);
                 item.displayValue = langinfo[1];
@@ -799,7 +800,7 @@ define([
             $('tr.coauth.changes', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring && mode.canChangeCoAuthoring ? 'show' : 'hide']();
             $('tr.live-viewer', this.el)[mode.canLiveView && !mode.isOffline && mode.canChangeCoAuthoring ? 'show' : 'hide']();
             $('tr.macros', this.el)[(mode.customization && mode.customization.macros===false) ? 'hide' : 'show']();
-            $('tr.quick-print', this.el)[mode.canQuickPrint ? 'show' : 'hide']();
+            $('tr.quick-print', this.el)[mode.canQuickPrint && !(mode.customization && mode.customization.compactHeader && mode.isEdit) ? 'show' : 'hide']();
 
             if ( !Common.UI.Themes.available() ) {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
@@ -911,6 +912,7 @@ define([
             if (Common.UI.FeaturesManager.canChange('spellcheck') && this.mode.isEdit) {
 
                 var arrLang = SSE.getController('Spellcheck').loadLanguages(),
+                    defaultShortName = "en-US",
                     allLangs = arrLang[0],
                     langs = arrLang[1],
                     change = arrLang[2];
@@ -930,6 +932,8 @@ define([
                         item = this.cmbDictionaryLanguage.store.find(function (model) {
                             return model.get('shortName').indexOf(value) == 0;
                         });
+                        if(!item)
+                            item = this.cmbDictionaryLanguage.store.findWhere({shortName: defaultShortName})
                     }
                     this.cmbDictionaryLanguage.setValue(item ? item.get('value') : langs[0].value);
                     value = this.cmbDictionaryLanguage.getValue();
@@ -1178,7 +1182,7 @@ define([
         txtWorkspace: 'Workspace',
         strReferenceStyle: 'R1C1 reference style',
         txtUseAltKey: 'Use Alt key to navigate the user interface using the keyboard',
-        txtUseOptionKey: 'Use Option key to navigate the user interface using the keyboard',
+        txtUseOptionKey: 'Use ⌘F6 to navigate the user interface using the keyboard',
         txtRegion: 'Region',
         txtProofing: 'Proofing',
         strDictionaryLanguage: 'Dictionary language',
@@ -1373,6 +1377,10 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                         '<td class="right"><div id="id-info-title"></div></td>',
                     '</tr>',
                     '<tr>',
+                        '<td class="left"><label>' + this.txtTags + '</label></td>',
+                        '<td class="right"><div id="id-info-tags"></div></td>',
+                    '</tr>',
+                    '<tr>',
                         '<td class="left"><label>' + this.txtSubject + '</label></td>',
                         '<td class="right"><div id="id-info-subject"></div></td>',
                     '</tr>',
@@ -1452,6 +1460,15 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
 
             this.inputTitle = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-title'),
+                style       : 'width: 200px;',
+                placeHolder : this.txtAddText,
+                validateOnBlur: false,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            }).on('keydown:before', keyDownBefore);
+            this.inputTags = new Common.UI.InputField({
+                el          : $markup.findById('#id-info-tags'),
                 style       : 'width: 200px;',
                 placeHolder : this.txtAddText,
                 validateOnBlur: false,
@@ -1663,6 +1680,8 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
 
                 value = props.asc_getTitle();
                 this.inputTitle.setValue(value || '');
+                value = props.asc_getKeywords();
+                this.inputTags.setValue(value || '');
                 value = props.asc_getSubject();
                 this.inputSubject.setValue(value || '');
                 value = props.asc_getDescription();
@@ -1701,6 +1720,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
             this.tblAuthor.find('.close').toggleClass('hidden', !mode.isEdit);
             if (!mode.isEdit) {
                 this.inputTitle._input.attr('placeholder', '');
+                this.inputTags._input.attr('placeholder', '');
                 this.inputSubject._input.attr('placeholder', '');
                 this.inputComment._input.attr('placeholder', '');
                 this.inputAuthor._input.attr('placeholder', '');
@@ -1724,6 +1744,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         SetDisabled: function() {
             var disable = !this.mode.isEdit || this._locked;
             this.inputTitle.setDisabled(disable);
+            this.inputTags.setDisabled(disable);
             this.inputSubject.setDisabled(disable);
             this.inputComment.setDisabled(disable);
             this.inputAuthor.setDisabled(disable);
@@ -1735,6 +1756,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         applySettings: function() {
             if (this.coreProps && this.api) {
                 this.coreProps.asc_putTitle(this.inputTitle.getValue());
+                this.coreProps.asc_putKeywords(this.inputTags.getValue());
                 this.coreProps.asc_putSubject(this.inputSubject.getValue());
                 this.coreProps.asc_putDescription(this.inputComment.getValue());
                 this.coreProps.asc_putCreator(this.authors.join(';'));
@@ -1748,6 +1770,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         txtUploaded: 'Uploaded',
         txtAppName: 'Application',
         txtTitle: 'Title',
+        txtTags: 'Tags',
         txtSubject: 'Subject',
         txtComment: 'Comment',
         txtModifyDate: 'Last Modified',
@@ -1899,7 +1922,6 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
             this.menu = options.menu;
             this.urlPref = 'resources/help/{{DEFAULT_LANG}}/';
             this.openUrl = null;
-            this.urlHelpCenter = '{{HELP_CENTER_WEB_SSE}}';
 
             this.en_data = [
                 {"src": "ProgramInterface/ProgramInterface.htm", "name": "Introducing Spreadsheet Editor user interface", "headername": "Program Interface"},
@@ -2006,20 +2028,8 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                             store.url = 'resources/help/{{DEFAULT_LANG}}/Contents.json';
                             store.fetch(config);
                         } else {
-                            if ( Common.Controllers.Desktop.isActive() ) {
-                                if ( store.contentLang === '{{DEFAULT_LANG}}' || !Common.Controllers.Desktop.helpUrl() ) {
-                                    me.noHelpContents = true;
-                                    me.iFrame.src = '../../common/main/resources/help/download.html';
-                                } else {
-                                    store.contentLang = store.contentLang === lang ? '{{DEFAULT_LANG}}' : lang;
-                                    me.urlPref = Common.Controllers.Desktop.helpUrl() + '/' + store.contentLang + '/';
-                                    store.url = me.urlPref + 'Contents.json';
-                                    store.fetch(config);
-                                }
-                            } else {
-                                me.urlPref = 'resources/help/{{DEFAULT_LANG}}/';
-                                store.reset(me.en_data);
-                            }
+                            me.urlPref = 'resources/help/{{DEFAULT_LANG}}/';
+                            store.reset(me.en_data);
                         }
                     },
                     success: function () {
@@ -2033,9 +2043,21 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                         me.onSelectItem(me.openUrl ? me.openUrl : rec.get('src'));
                     }
                 };
-                store.url = 'resources/help/' + lang + '/Contents.json';
-                store.fetch(config);
-                this.urlPref = 'resources/help/' + lang + '/';
+
+                if ( Common.Controllers.Desktop.isActive() ) {
+                    if ( !Common.Controllers.Desktop.isHelpAvailable() ) {
+                        me.noHelpContents = true;
+                        me.iFrame.src = '../../common/main/resources/help/download.html';
+                    } else {
+                        me.urlPref = Common.Controllers.Desktop.helpUrl() + '/';
+                        store.url = me.urlPref + 'Contents.json';
+                        store.fetch(config);
+                    }
+                } else {
+                    store.url = 'resources/help/' + lang + '/Contents.json';
+                    store.fetch(config);
+                    this.urlPref = 'resources/help/' + lang + '/';
+                }
             }
         },
 
@@ -2397,19 +2419,19 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 takeFocusOnClose: true,
                 cls: 'input-group-nr',
                 data: [
-                    {value:'215.9|279.4',    displayValue:'US Letter (21,59cm x 27,94cm)', caption: 'US Letter'},
-                    {value:'215.9|355.6',    displayValue:'US Legal (21,59cm x 35,56cm)', caption: 'US Legal'},
-                    {value:'210|297',        displayValue:'A4 (21cm x 29,7cm)', caption: 'A4'},
-                    {value:'148|210',        displayValue:'A5 (14,8cm x 21cm)', caption: 'A5'},
-                    {value:'176|250',        displayValue:'B5 (17,6cm x 25cm)', caption: 'B5'},
-                    {value:'104.8|241.3',    displayValue:'Envelope #10 (10,48cm x 24,13cm)', caption: 'Envelope #10'},
-                    {value:'110|220',        displayValue:'Envelope DL (11cm x 22cm)', caption: 'Envelope DL'},
-                    {value:'279.4|431.8',    displayValue:'Tabloid (27,94cm x 43,18cm)', caption: 'Tabloid'},
-                    {value:'297|420',        displayValue:'A3 (29,7cm x 42cm)', caption: 'A3'},
-                    {value:'304.8|457.1',    displayValue:'Tabloid Oversize (30,48cm x 45,71cm)', caption: 'Tabloid Oversize'},
-                    {value:'196.8|273',      displayValue:'ROC 16K (19,68cm x 27,3cm)', caption: 'ROC 16K'},
-                    {value:'119.9|234.9',    displayValue:'Envelope Choukei 3 (11,99cm x 23,49cm)', caption: 'Envelope Choukei 3'},
-                    {value:'330.2|482.5',    displayValue:'Super B/A3 (33,02cm x 48,25cm)', caption: 'Super B/A3'}
+                    {value:'215.9|279.4',    displayValue:'US Letter (21,59 cm x 27,94 cm)', caption: 'US Letter'},
+                    {value:'215.9|355.6',    displayValue:'US Legal (21,59 cm x 35,56 cm)', caption: 'US Legal'},
+                    {value:'210|297',        displayValue:'A4 (21 cm x 29,7 cm)', caption: 'A4'},
+                    {value:'148|210',        displayValue:'A5 (14,8 cm x 21 cm)', caption: 'A5'},
+                    {value:'176|250',        displayValue:'B5 (17,6 cm x 25 cm)', caption: 'B5'},
+                    {value:'104.8|241.3',    displayValue:'Envelope #10 (10,48 cm x 24,13 cm)', caption: 'Envelope #10'},
+                    {value:'110|220',        displayValue:'Envelope DL (11 cm x 22 cm)', caption: 'Envelope DL'},
+                    {value:'279.4|431.8',    displayValue:'Tabloid (27,94 cm x 43,18 cm)', caption: 'Tabloid'},
+                    {value:'297|420',        displayValue:'A3 (29,7 cm x 42 cm)', caption: 'A3'},
+                    {value:'304.8|457.1',    displayValue:'Tabloid Oversize (30,48 cm x 45,71 cm)', caption: 'Tabloid Oversize'},
+                    {value:'196.8|273',      displayValue:'ROC 16K (19,68 cm x 27,3 cm)', caption: 'ROC 16K'},
+                    {value:'119.9|234.9',    displayValue:'Envelope Choukei 3 (11,99 cm x 23,49 cm)', caption: 'Envelope Choukei 3'},
+                    {value:'330.2|482.5',    displayValue:'Super B/A3 (33,02 cm x 48,25 cm)', caption: 'Super B/A3'}
                 ],
                 dataHint: '2',
                 dataHintDirection: 'bottom',
@@ -2707,8 +2729,8 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                     pagewidth = /^\d{3}\.?\d*/.exec(value),
                     pageheight = /\d{3}\.?\d*$/.exec(value);
 
-                item.set('displayValue', item.get('caption') + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(pagewidth).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
-                    parseFloat(Common.Utils.Metric.fnRecalcFromMM(pageheight).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
+                item.set('displayValue', item.get('caption') + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(pagewidth).toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
+                    parseFloat(Common.Utils.Metric.fnRecalcFromMM(pageheight).toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ')');
             }
             this.cmbPaperSize.onResetItems();
         },

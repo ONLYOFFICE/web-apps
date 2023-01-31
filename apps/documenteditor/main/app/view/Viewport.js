@@ -141,9 +141,19 @@ define([
                 rightMenuView   = DE.getController('RightMenu').getView('RightMenu');
 
             me._rightMenu   = rightMenuView.render(this.mode);
+            var value = Common.UI.LayoutManager.getInitValue('rightMenu');
+            value = (value!==undefined) ? !value : false;
+            Common.localStorage.getBool("de-hidden-rightmenu", value) && me._rightMenu.hide();
+            Common.Utils.InternalSettings.set("de-hidden-rightmenu", Common.localStorage.getBool("de-hidden-rightmenu", value));
+        },
 
+        applyCommonMode: function() {
             if ( Common.localStorage.getBool('de-hidden-status') )
                 DE.getController('Statusbar').getView('Statusbar').setVisible(false);
+
+            var value = Common.UI.LayoutManager.getInitValue('leftMenu');
+            value = (value!==undefined) ? !value : false;
+            Common.localStorage.getBool("de-hidden-leftmenu", value) && DE.getController('LeftMenu').getView('LeftMenu').hide();
         },
 
         setMode: function(mode) {

@@ -187,6 +187,7 @@ define([
                 this.toolbar = options.toolbar;
                 this.appConfig = options.mode;
                 this.$el = this.toolbar.toolbar.$el.find('#animation-panel');
+                var me = this;
                 var _set = Common.enumLock;
                 this.lockedControls = [];
                 this._arrEffectName = [{group:'none', value: AscFormat.ANIM_PRESET_NONE, iconCls: 'animation-none', displayValue: this.textNone}].concat(Common.define.effectData.getEffectData());
@@ -203,7 +204,7 @@ define([
                     cls: 'combo-transitions combo-animation',
                     itemWidth: itemWidth,
                     itemHeight: itemHeight,
-                    style: 'min-width:210px;',
+                    style: 'min-width:200px;',
                     itemTemplate: _.template([
                         '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + itemWidth + 'px;height: ' + itemHeight + 'px;">',
                             '<div class = "icon toolbar__icon <%= iconCls %>"></div>',
@@ -293,7 +294,7 @@ define([
 
                 this.lockedControls.push(this.btnAddAnimation);
 
-                this.cmbDuration = new Common.UI.ComboBox({
+                this.cmbDuration = new Common.UI.ComboBoxCustom({
                     el: this.$el.find('#animation-spin-duration'),
                     cls: 'input-group-nr',
                     menuStyle: 'min-width: 100%;',
@@ -309,7 +310,10 @@ define([
                     lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noAnimationDuration, _set.timingLock],
                     dataHint: '1',
                     dataHintDirection: 'top',
-                    dataHintOffset: 'small'
+                    dataHintOffset: 'small',
+                    updateFormControl: function(record) {
+                        record && this.setRawValue(record.get('value') + ' ' + me.txtSec);
+                    }
                 });
                 this.lockedControls.push(this.cmbDuration);
 

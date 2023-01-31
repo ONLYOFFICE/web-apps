@@ -70,7 +70,7 @@
         label {
             color: @text-normal-ie;
             color: @text-normal;
-            font: 12px arial;
+            font-size: 12px;
             line-height: normal;
             border-bottom: @scaled-one-px-value-ie dotted @text-normal-ie;
             border-bottom: @scaled-one-px-value dotted @text-normal;
@@ -120,7 +120,7 @@
 .dataview-ct {
     width: 100%;
     height: 100%;
-    font: 12px arial;
+    font-size: 12px;
     line-height: normal;
     position: relative;
     overflow: hidden;
@@ -364,6 +364,7 @@
             }
 
             &.disabled {
+                opacity: @component-disabled-opacity-ie;
                 opacity: @component-disabled-opacity;
                 cursor: default;
             }

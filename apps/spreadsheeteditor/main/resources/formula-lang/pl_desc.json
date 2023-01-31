@@ -1838,5 +1838,57 @@
 	"XOR": {
 		"a": "(logiczna1; [logiczna2]; ...)",
 		"d": "Zwraca wartość logiczną XOR (wyłączne LUB) wszystkich argumentów."
+	},
+	"TEXTBEFORE": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Zwraca tekst, który znajduje się przed znakami ograniczającymi."
+	},
+	"TEXTAFTER": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Zwraca tekst, który znajduje się po znakach ograniczających."
+	},
+	"TEXTSPLIT": {
+		"a": "(text, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
+		"d": "Dzieli tekst na wiersze lub kolumny przy użyciu ograniczników."
+	},
+	"WRAPROWS": {
+		"a": "(wektor, wrap_count, [pad_with])",
+		"d": " Zawija wektor wiersza lub kolumny po określonej liczbie wartości. Wektor lub odwołanie do zawijania."
+	},
+	"VSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": " Układa tablice w pionie tworząc jedną tablicę."
+	},
+	"HSTACK": {
+		"a": "(tablica1, [tablica2], ...)",
+		"d": " Układa tablice w poziomie w jedną tablicę."
+	},
+	"CHOOSEROWS": {
+		"a": "(tablica, row_num1, [row_num2], ...)",
+		"d": " Zwraca wiersze z tablicy lub odwołania."
+	},
+	"CHOOSECOLS": {
+		"a": "(tablica, col_num1, [col_num2], ...)",
+		"d": " Zwraca kolumny z tablicy lub odwołania."
+	},
+	"TOCOL": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": " Zwraca tablicę jako jedną kolumnę."
+	},
+	"TOROW": {
+		"a": "(tablica, [ignoruj], [skanuj_według_kolumn])",
+		"d": "Zwraca tablicę jako jeden wiersz."
+	},
+	"WRAPCOLS": {
+		"a": "(wektor, wrap_count, [pad_with])",
+		"d": " Zawija wektor wiersza lub kolumny po określonej liczbie wartości."
+	},
+	"TAKE": {
+		"a": "(array, rows, [columns])",
+		"d": " Zwraca wiersze lub kolumny z początku lub końca tablicy."
+	},
+	"DROP": {
+		"a": "(array, rows, [columns])",
+		"d": " Porzuca wiersze lub kolumny z początku lub końca tablicy."
 	}
 }

@@ -5,7 +5,7 @@
   "private": true,
   "dependencies": {
     "grunt": "^1.5.3",
-    "grunt-contrib-clean": "^2.0.0",
+    "grunt-contrib-clean": "^2.0.1",
     "grunt-contrib-concat": "^2.0.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-cssmin": "^4.0.0",
@@ -13,7 +13,7 @@
     "grunt-contrib-imagemin": "^4.0.0",
     "grunt-contrib-less": "^3.0.0",
     "grunt-contrib-requirejs": "^1.0.0",
-    "grunt-contrib-uglify": "^5.0.1",
+    "grunt-contrib-uglify": "^5.2.2",
     "grunt-exec": "^3.0.0",
     "grunt-inline": "file:plugins/grunt-inline",
     "grunt-json-minify": "^1.1.0",
@@ -25,12 +25,12 @@
     "iconv-lite": "^0.6.3",
     "less-plugin-clean-css": "1.5.1",
     "lodash": "^4.17.21",
-    "terser": "^5.12.1",
+    "terser": "^5.15.1",
     "vinyl-fs": "^3.0.3"
   },
   "devDependencies": {
-    "chai": "1.9.1",
-    "grunt-mocha": "^1.0.0",
-    "mocha": "^9.2.0"
+    "chai": "^4.3.6",
+    "grunt-mocha": "^1.2.0",
+    "mocha": "^9.2.2"
   }
 }

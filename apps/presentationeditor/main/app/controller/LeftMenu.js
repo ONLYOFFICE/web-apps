@@ -100,6 +100,9 @@ define([
                 },
                 'SearchBar': {
                     'search:show': _.bind(this.onShowHideSearch, this)
+                },
+                'ViewTab': {
+                    'leftmenu:hide': _.bind(this.onLeftMenuHide, this)
                 }
             });
             Common.NotificationCenter.on('leftmenu:change', _.bind(this.onMenuChange, this));
@@ -113,24 +116,21 @@ define([
         onLaunch: function() {
             this.leftMenu = this.createView('LeftMenu').render();
             this.leftMenu.btnThumbs.on('toggle', _.bind(this.onShowTumbnails, this));
-            this.isThumbsShown = true;
             this.leftMenu.btnSearchBar.on('toggle', _.bind(this.onMenuSearchBar, this));
 
-            Common.util.Shortcuts.delegateShortcuts({
-                shortcuts: {
-                    'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
-                    'command+f,ctrl+f': _.bind(this.onShortcut, this, 'search'),
-                    'ctrl+h': _.bind(this.onShortcut, this, 'replace'),
-                    'alt+f': _.bind(this.onShortcut, this, 'file'),
-                    'esc': _.bind(this.onShortcut, this, 'escape'),
-                    /** coauthoring begin **/
-                    'alt+q': _.bind(this.onShortcut, this, 'chat'),
-                    'command+shift+h,ctrl+shift+h': _.bind(this.onShortcut, this, 'comments'),
-                    /** coauthoring end **/
-                    'f1': _.bind(this.onShortcut, this, 'help')
-                }
-            });
-
+            var keymap = {
+                'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
+                'command+f,ctrl+f': _.bind(this.onShortcut, this, 'search'),
+                'ctrl+h': _.bind(this.onShortcut, this, 'replace'),
+                'esc': _.bind(this.onShortcut, this, 'escape'),
+                /** coauthoring begin **/
+                'command+shift+h,ctrl+shift+h': _.bind(this.onShortcut, this, 'comments'),
+                /** coauthoring end **/
+                'f1': _.bind(this.onShortcut, this, 'help')
+            };
+            keymap[Common.Utils.isMac ? 'ctrl+alt+f' : 'alt+f'] = _.bind(this.onShortcut, this, 'file');
+            keymap[Common.Utils.isMac ? 'ctrl+alt+q' : 'alt+q'] = _.bind(this.onShortcut, this, 'chat');
+            Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
             Common.util.Shortcuts.suspendEvents();
         },
 
@@ -163,7 +163,11 @@ define([
             this.leftMenu.getMenu('file').setApi(api);
             if (this.mode.canUseHistory)
                 this.getApplication().getController('Common.Controllers.History').setApi(this.api).setMode(this.mode);
-            this.leftMenu.btnThumbs.toggle(true);
+
+            var value = Common.UI.LayoutManager.getInitValue('leftMenu');
+            value = (value!==undefined) ? !value : false;
+            this.isThumbsShown = !Common.localStorage.getBool("pe-hidden-leftmenu", value);
+            this.leftMenu.btnThumbs.toggle(this.isThumbsShown);
             this.getApplication().getController('Search').setApi(this.api).setMode(this.mode);
             this.leftMenu.setOptionsPanel('advancedsearch', this.getApplication().getController('Search').getView('Common.Views.SearchPanel'));
             return this;
@@ -178,7 +182,8 @@ define([
                 Common.util.Shortcuts.removeShortcuts({
                     shortcuts: {
                         'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
-                        'alt+f': _.bind(this.onShortcut, this, 'file')
+                        'alt+f': _.bind(this.onShortcut, this, 'file'),
+                        'ctrl+alt+f': _.bind(this.onShortcut, this, 'file')
                     }
                 });
 
@@ -381,9 +386,11 @@ define([
                 value = parseInt(Common.localStorage.getItem("pe-settings-paste-button"));
                 Common.Utils.InternalSettings.set("pe-settings-paste-button", value);
                 this.api.asc_setVisiblePasteButton(!!value);
-            }
 
-            this.api.put_ShowSnapLines(Common.Utils.InternalSettings.get("pe-settings-showsnaplines"));
+                value = Common.localStorage.getBool("pe-settings-showsnaplines");
+                Common.Utils.InternalSettings.set("pe-settings-showsnaplines", value);
+                this.api.asc_setShowSmartGuides(value);
+            }
 
             menu.hide();
         },
@@ -664,6 +671,7 @@ define([
         onPluginOpen: function(panel, type, action) {
             if (type == 'onboard') {
                 if (action == 'open') {
+                    this.tryToShowLeftMenu();
                     this.leftMenu.close();
                     this.leftMenu.btnThumbs.toggle(false, false);
                     this.leftMenu.panelPlugins.show();
@@ -697,6 +705,7 @@ define([
             if (this.mode.canCoAuthoring && this.mode.canChat && !this.mode.isLightVersion) {
                 if (state) {
                     Common.UI.Menu.Manager.hideAll();
+                    this.tryToShowLeftMenu();
                     this.leftMenu.showMenu('chat');
                 } else {
                     this.leftMenu.btnChat.toggle(false, true);
@@ -708,6 +717,7 @@ define([
         onShowHideSearch: function (state, findText) {
             if (state) {
                 Common.UI.Menu.Manager.hideAll();
+                this.tryToShowLeftMenu();
                 this.leftMenu.showMenu('advancedsearch', undefined, true);
                 this.leftMenu.fireEvent('search:aftershow', this.leftMenu, findText);
             } else {
@@ -764,6 +774,29 @@ define([
 
         isCommentsVisible: function() {
             return this.leftMenu && this.leftMenu.panelComments && this.leftMenu.panelComments.isVisible();
+        },
+
+        onLeftMenuHide: function (view, status) {
+            if (this.leftMenu) {
+                if (status) {
+                    this.leftMenu.show();
+                } else {
+                    this.menuExpand(this, 'thumbs', false);
+                    this.leftMenu.close();
+                    this.leftMenu.hide();
+                }
+                Common.localStorage.setBool('pe-hidden-leftmenu', !status);
+
+                !view && this.leftMenu.fireEvent('view:hide', [this, !status]);
+            }
+
+            Common.NotificationCenter.trigger('layout:changed', 'main');
+            Common.NotificationCenter.trigger('edit:complete', this.leftMenu);
+        },
+
+        tryToShowLeftMenu: function() {
+            if ((!this.mode.canBrandingExt || !this.mode.customization || this.mode.customization.leftMenu !== false) && Common.UI.LayoutManager.isElementVisible('leftMenu'))
+                this.onLeftMenuHide(null, true);
         },
 
         clickToolbarPrint: function () {

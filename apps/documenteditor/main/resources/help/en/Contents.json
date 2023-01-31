@@ -46,7 +46,7 @@
     {"src": "UsageInstructions/InsertAutoshapes.htm", "name": "Insert autoshapes"},
     {"src": "UsageInstructions/InsertCharts.htm", "name": "Insert charts" },
     {"src": "UsageInstructions/InsertTextObjects.htm", "name": "Insert text objects" },
-    {"src": "UsageInstructions/SupportSmartArt.htm", "name": "Support of SmartArt" },
+    {"src": "UsageInstructions/InsertSmartArt.htm", "name": "Insert SmartArt objects" },
     { "src": "UsageInstructions/AddCaption.htm", "name": "Add caption" },
     { "src": "UsageInstructions/InsertSymbols.htm", "name": "Insert symbols and characters" },
     {"src": "UsageInstructions/AlignArrangeObjects.htm", "name": "Align and arrange objects on a page" },

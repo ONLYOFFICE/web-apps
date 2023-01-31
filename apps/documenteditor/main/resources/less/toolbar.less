@@ -83,6 +83,7 @@
         &.disabled {
             > .item {
                 cursor: default;
+                opacity: @component-disabled-opacity-ie;
                 opacity: @component-disabled-opacity;
 
                 &:hover {
@@ -129,7 +130,7 @@
     border-radius: 0;
     padding: 3px 10px;
     color: #ffffff;
-    font: 11px arial;
+    .font-size-normal();
     white-space: nowrap;
     letter-spacing: 1px;
     overflow: hidden;
@@ -162,7 +163,8 @@
     margin-left: 2px;
 }
 
-#special-paste-container {
+#special-paste-container,
+#equation-container {
     position: absolute;
     z-index: @zindex-dropdown - 20;
 
@@ -170,6 +172,16 @@
     background-color: @background-toolbar;
     border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
+}
+
+#equation-container {
+    padding: 4px;
+    .separator {
+        height: 20px;
+    }
+    &.has-open-menu {
+        z-index: @zindex-navbar + 1;
+    }
 }
 
 .dropdown-menu.list-settings-level {
@@ -191,5 +203,18 @@
         &:before {
             display: none !important;
         }
+    }
+}
+
+.dropdown-menu.menu-roles,
+.input-group-nr.menu-roles {
+    span.color {
+        display: inline-block;
+        vertical-align: text-top;
+        width: 12px;
+        height: 12px;
+        margin: 0 8px 0 2px;
+        border: @scaled-one-px-value-ie solid @border-color-shading-ie;
+        border: @scaled-one-px-value solid @border-color-shading;
     }
 }

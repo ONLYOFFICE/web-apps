@@ -471,6 +471,7 @@
                         &.selected {
                             background-color: @highlight-button-pressed-ie;
                             background-color: @highlight-button-pressed;
+                            color: @text-normal-pressed-ie;
                             color: @text-normal-pressed;
                         }
                     }
@@ -670,6 +671,7 @@
                         border-right: none;
                     }
                     &.disabled {
+                        opacity: @component-disabled-opacity-ie;
                         opacity: @component-disabled-opacity;
                     }
 
@@ -777,6 +779,7 @@
             top: 28px;
             width: 100%;
             overflow: hidden;
+            padding-bottom: 10px;
             .item {
                 padding: 0;
                 display: flex;

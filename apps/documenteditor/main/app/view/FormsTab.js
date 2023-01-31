@@ -61,25 +61,21 @@ define([
             '<div class="group forms-buttons" style="display: none;">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-email"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-phone"></span>' +
+                '<span class="btn-slot text x-huge" id="slot-btn-form-datetime"></span>' +
+                '<span class="btn-slot text x-huge" id="slot-btn-form-zipcode"></span>' +
+                '<span class="btn-slot text x-huge" id="slot-btn-form-credit"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-complex"></span>' +
             '</div>' +
-            '<div class="separator long forms" style="display: none;"></div>' +
-            '<div class="group no-group-mask inner-elset small" style="display: none;">' +
-                '<div class="elset no-group-mask form-view">' +
-                    '<span class="btn-slot text" id="slot-form-clear-fields"></span>' +
-                '</div>' +
-                '<div class="elset">' +
-                    '<span class="btn-slot text" id="slot-form-highlight"></span>' +
-                '</div>' +
+            '<div class="separator long forms-buttons" style="display: none;"></div>' +
+            '<div class="group forms-buttons" style="display: none;">' +
+                '<span class="btn-slot text x-huge" id="slot-btn-manager"></span>' +
             '</div>' +
-            '<div class="group no-group-mask form-view">' +
-                '<span class="btn-slot text x-huge" id="slot-btn-form-clear"></span>' +
+            '<div class="separator long forms-buttons" style="display: none;"></div>' +
+            '<div class="group no-group-mask" style="">' +
+                '<span class="btn-slot text x-huge" id="slot-btn-form-view-roles"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-prev"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-next"></span>' +
-            '</div>' +
-            '<div class="separator long submit" style="display: none;"></div>' +
-            '<div class="group no-group-mask form-view" style="display: none;">' +
-                '<span class="btn-slot text x-huge" id="slot-btn-form-view"></span>' +
+                '<span class="btn-slot text x-huge" id="slot-btn-form-clear"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-submit"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-save"></span>' +
             '</div>' +
@@ -88,7 +84,22 @@ define([
         function setEvents() {
             var me = this;
             this.btnTextField && this.btnTextField.on('click', function (b, e) {
-                me.fireEvent('forms:insert', ['text']);
+                me.fireEvent('forms:insert', ['text', {fixed: b.options.fieldType==='fixed'}]);
+            });
+            this.btnTextField && this.btnTextField.menu.on('item:click', function (menu, item) {
+                var oldType = me.btnTextField.options.fieldType;
+                var newType = item.value;
+
+                if(newType !== oldType){
+                    me.btnTextField.changeIcon({
+                        next: item.options.iconClsForMainBtn,
+                        curr: me.btnTextField.menu.items.filter(function(mnu){return mnu.value === oldType})[0].options.iconClsForMainBtn
+                    });
+                    me.btnTextField.updateHint(item.options.hintForMainBtn);
+                    me.btnTextField.options.fieldType = newType;
+                    Common.localStorage.setBool("de-text-form-fixed", newType==='fixed')
+                }
+                me.fireEvent('forms:insert', ['text', {fixed: newType==='fixed'}]);
             });
             this.btnComboBox && this.btnComboBox.on('click', function (b, e) {
                 me.fireEvent('forms:insert', ['combobox']);
@@ -114,23 +125,48 @@ define([
             this.btnPhoneField && this.btnPhoneField.on('click', function (b, e) {
                 me.fireEvent('forms:insert', ['text', {mask: "(999)999-9999", placeholder: '(999)999-9999'}]);
             });
-            this.btnViewForm && this.btnViewForm.on('click', function (b, e) {
-                me.fireEvent('forms:mode', [b.pressed]);
+            this.btnCreditCard && this.btnCreditCard.on('click', function (b, e) {
+                me.fireEvent('forms:insert', ['text', {mask: "9999-9999-9999-9999", placeholder: '9999-9999-9999-9999'}]);
             });
-            this.btnClearFields && this.btnClearFields.on('click', function (b, e) {
-                me.fireEvent('forms:clear');
+            this.btnZipCode && this.btnZipCode.on('click', function (b, e) {
+                me.fireEvent('forms:insert', ['text', {mask: "99999-9999", placeholder: '99999-9999'}]);
+            });
+            this.btnDateTime && this.btnDateTime.on('click', function (b, e) {
+                me.fireEvent('forms:insert', ['datetime']);
+            });
+            this.btnViewFormRoles && this.btnViewFormRoles.on('click', function (b, e) {
+                var item = b.menu.getChecked();
+                if (item) {
+                    item = item.caption;
+                } else if (me._state.roles && me._state.roles.length>0) {
+                    item = me._state.roles[0].asc_getSettings().asc_getName();
+                }
+                me.fireEvent('forms:mode', [b.pressed, item]);
+            });
+            this.btnViewFormRoles.menu.on('item:click', _.bind(function (menu, item) {
+                if (!!item.checked) {
+                    me.btnViewFormRoles.toggle(true, true);
+                    me.fireEvent('forms:mode', [true, item.caption]);
+                }
+            }, me));
+            this.btnViewFormRoles.menu.on('show:after',  function (menu) {
+                me.fillRolesMenu();
+            });
+
+            this.btnManager && this.btnManager.on('click', function (b, e) {
+                me.fireEvent('forms:manager');
             });
             this.btnClear && this.btnClear.on('click', function (b, e) {
                 me.fireEvent('forms:clear');
             });
-            if (this.mnuFormsColorPicker) {
-                this.btnHighlight.on('color:select', function(btn, color) {
-                    me.fireEvent('forms:select-color', [color]);
-                });
-                this.mnuNoFormsColor.on('click', function (item) {
-                    me.fireEvent('forms:no-color', [item]);
-                });
-            }
+            // if (this.mnuFormsColorPicker) {
+            //     this.btnHighlight.on('color:select', function(btn, color) {
+            //         me.fireEvent('forms:select-color', [color]);
+            //     });
+            //     this.mnuNoFormsColor.on('click', function (item) {
+            //         me.fireEvent('forms:no-color', [item]);
+            //     });
+            // }
             this.btnPrevForm && this.btnPrevForm.on('click', function (b, e) {
                 me.fireEvent('forms:goto', ['prev']);
             });
@@ -155,22 +191,23 @@ define([
                 this.appConfig = options.config;
 
                 this.paragraphControls = [];
+                this._state = {};
 
                 var me = this;
                 var _set = Common.enumLock;
 
                 if (this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) {
-                    this.btnClear = new Common.UI.Button({
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon clear-style',
-                        caption: this.textClear
-                    });
+
                 } else {
+                    var isfixed = Common.localStorage.getBool("de-text-form-fixed", true);
                     this.btnTextField = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-text-field',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
+                        iconCls: 'toolbar__icon ' + (isfixed ? 'btn-fixed-field' : 'btn-text-field'),
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal],
                         caption: this.capBtnText,
+                        fieldType: isfixed ? 'fixed' : 'inline',
+                        split: true,
+                        menu: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -180,7 +217,7 @@ define([
                     this.btnComboBox = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-combo-box',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal],
                         caption: this.capBtnComboBox,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -191,7 +228,7 @@ define([
                     this.btnDropDown = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-dropdown',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal],
                         caption: this.capBtnDropDown,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -202,7 +239,7 @@ define([
                     this.btnCheckBox = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-checkbox',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal],
                         caption: this.capBtnCheckBox,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -213,7 +250,7 @@ define([
                     this.btnRadioBox = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-radio-button',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal],
                         caption: this.capBtnRadioBox,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -224,7 +261,7 @@ define([
                     this.btnImageField = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-insertimage',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.complexForm, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.complexForm, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal],
                         caption: this.capBtnImage,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -232,10 +269,21 @@ define([
                     });
                     this.paragraphControls.push(this.btnImageField);
 
+                    this.btnManager = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-ic-sharing',
+                        lock: [ _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
+                        caption: this.capBtnManager,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.paragraphControls.push(this.btnManager);
+
                     this.btnEmailField = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-email',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal],
                         caption: this.capBtnEmail,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -246,7 +294,7 @@ define([
                     this.btnPhoneField = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-phone',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal],
                         caption: this.capBtnPhone,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -254,10 +302,43 @@ define([
                     });
                     this.paragraphControls.push(this.btnPhoneField);
 
+                    this.btnZipCode = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-zip-code',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal],
+                        caption: this.capZipCode,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.paragraphControls.push(this.btnZipCode);
+
+                    this.btnCreditCard = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-credit-card',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal],
+                        caption: this.capCreditCard,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.paragraphControls.push(this.btnCreditCard);
+
+                    this.btnDateTime = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-datetime',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal],
+                        caption: this.capDateTime,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.paragraphControls.push(this.btnDateTime);
+
                     this.btnComplexField = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon complex-field',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.complexForm, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.complexForm, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal],
                         caption: this.capBtnComplex,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -265,59 +346,65 @@ define([
                     });
                     this.paragraphControls.push(this.btnComplexField);
 
-                    this.btnViewForm = new Common.UI.Button({
+                    this.btnViewFormRoles = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-sheet-view',
-                        lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart],
+                        lock: [ _set.previewReviewMode, _set.formsNoRoles, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
                         caption: this.capBtnView,
+                        split: true,
+                        menu: new Common.UI.Menu({
+                            cls: 'menu-roles',
+                            maxHeight: 270,
+                            style: 'max-width: 400px;',
+                            items: []
+                        }),
                         enableToggle: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
                     });
-                    this.paragraphControls.push(this.btnViewForm);
+                    this.paragraphControls.push(this.btnViewFormRoles);
 
-                    this.btnClearFields = new Common.UI.Button({
-                        cls         : 'btn-toolbar',
-                        iconCls     : 'toolbar__icon btn-clearstyle',
-                        lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart],
-                        caption     : this.textClearFields,
-                        dataHint    : '1',
-                        dataHintDirection: 'left',
-                        dataHintOffset: 'small'
-                    });
-                    this.paragraphControls.push(this.btnClearFields);
-
-                    this.btnHighlight = new Common.UI.ButtonColored({
-                        cls         : 'btn-toolbar',
-                        iconCls     : 'toolbar__icon btn-highlight',
-                        lock: [ _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
-                        caption     : this.textHighlight,
-                        menu        : true,
-                        additionalItems: [ this.mnuNoFormsColor = new Common.UI.MenuItem({
-                                              id: 'id-toolbar-menu-no-highlight-form',
-                                              caption: this.textNoHighlight,
-                                              checkable: true,
-                                              style: 'padding-left: 20px;'
-                                          }),
-                                          {caption: '--'}],
-                        colors: ['000000', '993300', '333300', '003300', '003366', '000080', '333399', '333333', '800000', 'FF6600',
-                                    '808000', '00FF00', '008080', '0000FF', '666699', '808080', 'FF0000', 'FF9900', '99CC00', '339966',
-                                    '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00', 'FFFF00', '00FF00', '00FFFF', '00CCFF',
-                                    '993366', 'C0C0C0', 'FF99CC', 'FFCC99', 'FFFF99', 'CCFFCC', 'CCFFFF', 'C9C8FF', 'CC99FF', 'FFFFFF'
-                                ],
-                        dataHint: '1',
-                        dataHintDirection: 'left',
-                        dataHintOffset: 'small'
-                    });
-                    this.paragraphControls.push(this.btnHighlight);
+                    // this.btnHighlight = new Common.UI.ButtonColored({
+                    //     cls         : 'btn-toolbar',
+                    //     iconCls     : 'toolbar__icon btn-highlight',
+                    //     lock: [ _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
+                    //     caption     : this.textHighlight,
+                    //     menu        : true,
+                    //     additionalItems: [ this.mnuNoFormsColor = new Common.UI.MenuItem({
+                    //                           id: 'id-toolbar-menu-no-highlight-form',
+                    //                           caption: this.textNoHighlight,
+                    //                           checkable: true,
+                    //                           style: 'padding-left: 20px;'
+                    //                       }),
+                    //                       {caption: '--'}],
+                    //     colors: ['000000', '993300', '333300', '003300', '003366', '000080', '333399', '333333', '800000', 'FF6600',
+                    //                 '808000', '00FF00', '008080', '0000FF', '666699', '808080', 'FF0000', 'FF9900', '99CC00', '339966',
+                    //                 '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00', 'FFFF00', '00FF00', '00FFFF', '00CCFF',
+                    //                 '993366', 'C0C0C0', 'FF99CC', 'FFCC99', 'FFFF99', 'CCFFCC', 'CCFFFF', 'C9C8FF', 'CC99FF', 'FFFFFF'
+                    //             ],
+                    //     dataHint: '1',
+                    //     dataHintDirection: 'left',
+                    //     dataHintOffset: 'small'
+                    // });
                 }
+
+                this.btnClear = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon clear-style',
+                    caption: this.textClear,
+                    visible: false,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
 
                 this.btnPrevForm = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon previous-field',
-                    lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart],
+                    lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments],
                     caption: this.capBtnPrev,
+                    visible: false,
                     // disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -328,8 +415,9 @@ define([
                 this.btnNextForm = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon next-field',
-                    lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart],
+                    lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments],
                     caption: this.capBtnNext,
+                    visible: false,
                     // disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -355,7 +443,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         lock: [_set.lostConnect, _set.disableOnStart],
                         iconCls: 'toolbar__icon save-form',
-                        caption: this.appConfig.canRequestSaveAs || !!this.appConfig.saveAsUrl ? this.capBtnSaveForm : this.capBtnDownloadForm,
+                        caption: this.appConfig.canRequestSaveAs || !!this.appConfig.saveAsUrl || this.appConfig.isOffline ? this.capBtnSaveForm : this.capBtnDownloadForm,
                         // disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -380,29 +468,63 @@ define([
                     accept();
                 })).then(function(){
                     if (config.isEdit && config.canFeatureContentControl && config.canFeatureForms) {
-                        if (config.canEditContentControl) {
-                            me.btnHighlight.setMenu();
-                            me.mnuFormsColorPicker = me.btnHighlight.getPicker();
-                            me.btnHighlight.currentColor && me.mnuFormsColorPicker.selectByRGB(me.btnHighlight.currentColor, true);
-                            me.mnuNoFormsColor.setChecked(me.btnHighlight.currentColor === null);
-                            me.btnHighlight.setColor(me.btnHighlight.currentColor || 'transparent');
-                        } else {
-                            me.btnHighlight.cmpEl.parents('.group').hide().prev('.separator').hide();
-                        }
+                        // if (config.canEditContentControl) {
+                        //     me.btnHighlight.setMenu();
+                        //     me.mnuFormsColorPicker = me.btnHighlight.getPicker();
+                        //     me.btnHighlight.currentColor && me.mnuFormsColorPicker.selectByRGB(me.btnHighlight.currentColor, true);
+                        //     me.mnuNoFormsColor.setChecked(me.btnHighlight.currentColor === null);
+                        //     me.btnHighlight.setColor(me.btnHighlight.currentColor || 'transparent');
+                        // } else {
+                        //     me.btnHighlight.cmpEl.parents('.group').hide().prev('.separator').hide();
+                        // }
+                        var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem">'+
+                            '<% if (!_.isEmpty(iconCls)) { %>'+
+                            '<span class="menu-item-icon <%= iconCls %>"></span>'+
+                            '<% } %>'+
+                            '<div><%= caption %></div>' +
+                            '<% if (options.description !== null) { %><label style="cursor: pointer;white-space: normal;"><%= options.description %></label>' +
+                            '<% } %></a>');
 
-                        me.btnTextField.updateHint(me.tipTextField);
+                        me.btnTextField.setMenu(new Common.UI.Menu({
+                            style: 'max-width: 300px;',
+                            items: [
+                            {
+                                caption: me.txtInlineText,
+                                template: menuTemplate,
+                                description: me.txtInlineDesc,
+                                iconCls     : 'menu__icon btn-field',
+                                value: 'inline',
+                                iconClsForMainBtn: 'btn-text-field',
+                                hintForMainBtn: [me.tipInlineText, me.tipTextField]
+                            },
+                            {
+                                caption: me.txtFixedText,
+                                template: menuTemplate,
+                                description: me.txtFixedDesc,
+                                iconCls     : 'menu__icon btn-fixed-field',
+                                value: 'fixed',
+                                iconClsForMainBtn: 'btn-fixed-field',
+                                hintForMainBtn: [me.tipFixedText, me.tipTextField]
+                            }
+                            ]
+                        }));
+                        me.btnTextField.updateHint([Common.localStorage.getBool("de-text-form-fixed", true) ? me.tipFixedText : me.tipInlineText, me.tipTextField]);
+
                         me.btnComboBox.updateHint(me.tipComboBox);
                         me.btnDropDown.updateHint(me.tipDropDown);
                         me.btnCheckBox.updateHint(me.tipCheckBox);
                         me.btnRadioBox.updateHint(me.tipRadioBox);
                         me.btnImageField.updateHint(me.tipImageField);
-                        me.btnViewForm.updateHint(me.tipViewForm);
+                        me.btnViewFormRoles.updateHint(me.tipViewForm);
+                        me.btnManager.updateHint(me.tipManager);
                         me.btnEmailField.updateHint(me.tipEmailField);
                         me.btnPhoneField.updateHint(me.tipPhoneField);
                         me.btnComplexField.updateHint(me.tipComplexField);
-                    } else {
-                        me.btnClear.updateHint(me.textClearFields);
+                        me.btnZipCode.updateHint(me.tipZipCode);
+                        me.btnCreditCard.updateHint(me.tipCreditCard);
+                        me.btnDateTime.updateHint(me.tipDateTime);
                     }
+                    me.btnClear.updateHint(me.textClearFields);
                     me.btnPrevForm.updateHint(me.tipPrevForm);
                     me.btnNextForm.updateHint(me.tipNextForm);
                     me.btnSubmit && me.btnSubmit.updateHint(me.tipSubmit);
@@ -420,8 +542,6 @@ define([
                 this.appConfig.canDownloadForms && this.btnSaveForm.render($host.find('#slot-btn-form-save'));
 
                 if (this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) {
-                    this.btnClear.render($host.find('#slot-btn-form-clear'));
-                    (this.btnSubmit || this.btnSaveForm) && $host.find('.separator.submit').show().next('.group').show();
                 } else {
                     this.btnTextField.render($host.find('#slot-btn-form-field'));
                     this.btnComboBox.render($host.find('#slot-btn-form-combobox'));
@@ -429,21 +549,64 @@ define([
                     this.btnCheckBox.render($host.find('#slot-btn-form-checkbox'));
                     this.btnRadioBox.render($host.find('#slot-btn-form-radiobox'));
                     this.btnImageField.render($host.find('#slot-btn-form-image'));
-                    this.btnViewForm.render($host.find('#slot-btn-form-view'));
-                    this.btnClearFields.render($host.find('#slot-form-clear-fields'));
-                    this.btnHighlight.render($host.find('#slot-form-highlight'));
+                    this.btnViewFormRoles.render($host.find('#slot-btn-form-view-roles'));
+                    this.btnManager.render($host.find('#slot-btn-manager'));
+                    // this.btnHighlight.render($host.find('#slot-form-highlight'));
                     this.btnEmailField.render($host.find('#slot-btn-form-email'));
                     this.btnPhoneField.render($host.find('#slot-btn-form-phone'));
                     this.btnComplexField.render($host.find('#slot-btn-form-complex'));
+                    this.btnZipCode.render($host.find('#slot-btn-form-zipcode'));
+                    this.btnCreditCard.render($host.find('#slot-btn-form-credit'));
+                    this.btnDateTime.render($host.find('#slot-btn-form-datetime'));
 
                     $host.find('.forms-buttons').show();
-                    $host.find('.separator.forms').show().next('.group').show();
-                    $host.find('.separator.submit').show().next('.group').show();
                 }
+                this.btnClear.render($host.find('#slot-btn-form-clear'));
                 this.btnPrevForm.render($host.find('#slot-btn-form-prev'));
                 this.btnNextForm.render($host.find('#slot-btn-form-next'));
 
                 return this.$el;
+            },
+
+            fillRolesMenu: function(roles, lastViewRole) {
+                if (!(this.btnViewFormRoles && this.btnViewFormRoles.menu && this.btnViewFormRoles.menu.isVisible())) {
+                    this._state.roles = roles;
+                    this._state.lastViewRole = lastViewRole;
+                    return;
+                }
+                roles = roles || this._state.roles;
+                lastViewRole = lastViewRole || this._state.lastViewRole;
+                this._state.roles = this._state.lastViewRole = undefined;
+
+                if (!roles) return;
+
+                var checkedIndex = 0,
+                    me = this;
+
+                this.btnViewFormRoles.menu.removeAll();
+
+                roles && roles.forEach(function(item, index) {
+                    var role = item.asc_getSettings(),
+                        color = role.asc_getColor();
+                    if (role.asc_getName()===lastViewRole)
+                        checkedIndex = index;
+                    me.btnViewFormRoles.menu.addItem(new Common.UI.MenuItem({
+                        caption: role.asc_getName() || me.textAnyone,
+                        color: color ? '#' + Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()) : 'transparent',
+                        checkable: true,
+                        toggleGroup: 'formtab-view-role',
+                        template: _.template([
+                            '<a id="<%= id %>"  tabindex="-1" type="menuitem" class="<%= options.cls %>" style="overflow: hidden; text-overflow: ellipsis;">',
+                            '<span class="color" style="background: <%= options.color %>;"></span>',
+                            '<%= caption %>',
+                            '</a>'
+                        ].join(''))
+                    }));
+                });
+
+                var len = this.btnViewFormRoles.menu.items.length>0;
+                len && this.btnViewFormRoles.menu.items[checkedIndex].setChecked(true, true);
+                Common.Utils.lockControls(Common.enumLock.formsNoRoles, !len,{array: [this.btnViewFormRoles]});
             },
 
             show: function () {
@@ -453,6 +616,14 @@ define([
 
             getButtons: function() {
                 return this.paragraphControls;
+            },
+
+            setPreviewMode: function(state) {
+                this.btnClear.setVisible(state);
+                this.btnPrevForm.setVisible(state);
+                this.btnNextForm.setVisible(state);
+                this.btnSubmit && this.btnSubmit.setVisible(!state);
+                this.btnSaveForm && this.btnSaveForm.setVisible(!state);
             },
 
             SetDisabled: function (state) {
@@ -495,6 +666,8 @@ define([
             txtUntitled: 'Untitled',
             textCreateForm: 'Add fields and create a fillable OFORM document',
             textGotIt: 'Got it',
+            capBtnManager: 'Manage Roles',
+            tipManager: 'Manage Roles',
             capBtnDownloadForm: 'Download as oform',
             tipDownloadForm: 'Download a file as a fillable OFORM document',
             capBtnEmail: 'Email Address',
@@ -502,7 +675,20 @@ define([
             capBtnComplex: 'Complex Field',
             tipEmailField: 'Insert email address',
             tipPhoneField: 'Insert phone number',
-            tipComplexField: 'Insert complex field'
+            tipComplexField: 'Insert complex field',
+            textAnyone: 'Anyone',
+            txtInlineText: 'Inline',
+            txtInlineDesc: 'Insert inline text field',
+            txtFixedText: 'Fixed',
+            txtFixedDesc: 'Insert fixed text field',
+            tipInlineText: 'Insert inline text field',
+            tipFixedText: 'Insert fixed text field',
+            capZipCode: 'Zip Code',
+            capCreditCard: 'Credit Card',
+            tipZipCode: 'Insert zip code',
+            tipCreditCard: 'Insert credit card number',
+            capDateTime: 'Date & Time',
+            tipDateTime: 'Insert date and time'
         }
     }()), DE.Views.FormsTab || {}));
 });

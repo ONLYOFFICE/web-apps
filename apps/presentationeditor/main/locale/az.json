@@ -156,8 +156,6 @@
   "Common.Views.CopyWarningDialog.textToPaste": "Yerləşdirmək üçün",
   "Common.Views.DocumentAccessDialog.textLoading": "Yüklənir...",
   "Common.Views.DocumentAccessDialog.textTitle": "Paylaşma Parametrləri",
-  "Common.Views.ExternalDiagramEditor.textClose": "Bağla",
-  "Common.Views.ExternalDiagramEditor.textSave": "Yadda Saxla və Çıx",
   "Common.Views.ExternalDiagramEditor.textTitle": "Diaqram Redaktoru",
   "Common.Views.Header.labelCoUsersDescr": "Faylı redaktə edən istifadəçilər:",
   "Common.Views.Header.textAddFavorite": "Sevimli kimi işarələ",
@@ -334,7 +332,6 @@
   "Common.Views.SignDialog.tipFontName": "Şrift Adı",
   "Common.Views.SignDialog.tipFontSize": "Şrift Ölçüsü",
   "Common.Views.SignSettingsDialog.textAllowComment": "İmzalayana imza dialoq qutusuna şərh əlavə etmək icazəsi verin",
-  "Common.Views.SignSettingsDialog.textInfo": "İmzalayan haqqında məlumat",
   "Common.Views.SignSettingsDialog.textInfoEmail": "E-poçt",
   "Common.Views.SignSettingsDialog.textInfoName": "Ad",
   "Common.Views.SignSettingsDialog.textInfoTitle": "İmzalayanın Adı",
@@ -474,6 +471,7 @@
   "PE.Controllers.Main.textRenameLabel": "Əməkdaşlıq üçün istifadə ediləcək ad daxil edin",
   "PE.Controllers.Main.textShape": "Forma",
   "PE.Controllers.Main.textStrict": "Ciddi rejim",
+  "PE.Controllers.Main.textText": "Mətn",
   "PE.Controllers.Main.textTryUndoRedo": "Qaytar / Təkrarla funksiyaları sürətli birgə redaktə rejimi üçün qeyri-aktiv edilib. <br> Digər istifadəçilərin müdaxiləsi olmadan faylı redaktə etmək və fayllarınızı göndərmək üçün ciddi birgə redaktə rejiminə keçmək üçün \"Ciddi rejim\" düyməsinə klikləyin. Dəyişikliklər yalnız siz onları saxladıqdan sonra baş verir. Qabaqcıl redaktor parametrlərindən istifadə edərək birgə redaktə rejimləri arasında keçid edə bilərsiniz.",
   "PE.Controllers.Main.textTryUndoRedoWarn": "Qaytar/Təkrarla funksiyaları Sürətli birgə redaktə rejimi üçün qeyri-aktiv edilib.",
   "PE.Controllers.Main.titleLicenseExp": "Lisenziyanın müddəti bitdi",
@@ -1895,6 +1893,7 @@
   "PE.Views.Toolbar.textTabInsert": "Daxil edin",
   "PE.Views.Toolbar.textTabProtect": "Qoruma",
   "PE.Views.Toolbar.textTabTransitions": "Keçidlər",
+  "PE.Views.Toolbar.textTabView": "Görünüş",
   "PE.Views.Toolbar.textTitleError": "Xəta",
   "PE.Views.Toolbar.textUnderline": "Altından xətt çəkilmiş",
   "PE.Views.Toolbar.tipAddSlide": "Slayd əlavə et",
@@ -2009,5 +2008,7 @@
   "PE.Views.Transitions.txtApplyToAll": "Bütün Slaydlara Tətbiq et",
   "PE.Views.Transitions.txtParameters": "Parametreler",
   "PE.Views.Transitions.txtPreview": "Önbaxış",
-  "PE.Views.Transitions.txtSec": "s"
+  "PE.Views.Transitions.txtSec": "s",
+  "PE.Views.ViewTab.textInterfaceTheme": "İnterfeys mövzusu",
+  "PE.Views.ViewTab.tipInterfaceTheme": "İnterfeys mövzusu"
 }

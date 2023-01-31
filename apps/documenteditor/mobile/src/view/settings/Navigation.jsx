@@ -29,7 +29,7 @@ const NavigationPopover = inject('storeNavigation')(observer(props => {
                         <p className="empty-screens__text">{t('Settings.textEmptyScreens')}</p>
                     </div>
                 :
-                    <List className="navigation-list">
+                    <List className="navigation-list" style={!Device.phone ? { height: '352px', marginTop: 0 } : null}>
                         {arrHeaders.map((header, index) => {
                             return (
                                 <ListItem radio key={index} title={header.isEmptyItem ? t('Settings.textBeginningDocument') : header.name} checked={header.index === currentPosition} style={{paddingLeft: header.level * 16}} onClick={() => {
@@ -105,7 +105,7 @@ const NavigationSheet = inject('storeNavigation')(observer(props => {
     }, []);
 
     return (
-        <Sheet id="view-navigation-sheet" className="navigation-sheet" backdrop={false} closeByBackdropClick={false} closeByOutsideClick={true} onSheetClosed={() => props.onclosed()} style={{height: `${stateHeight}`, opacity: `${stateOpacity}`}}>
+        <Sheet id="view-navigation-sheet" className="navigation-sheet" backdrop={true} closeByBackdropClick={true} onSheetClosed={() => props.onclosed()} style={{height: `${stateHeight}`, opacity: `${stateOpacity}`}}>
             <div id='swipe-handler' className='swipe-container' onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
                 <Icon icon='icon icon-swipe'/>
             </div>

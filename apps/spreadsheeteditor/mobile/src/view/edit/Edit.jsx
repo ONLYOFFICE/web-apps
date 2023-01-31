@@ -17,7 +17,7 @@ import { PageImageReplace, PageImageReorder, PageLinkSettings } from './EditImag
 import { TextColorCell, FillColorCell, CustomTextColorCell, CustomFillColorCell, FontsCell, TextFormatCell, TextOrientationCell, BorderStyleCell, BorderColorCell, CustomBorderColorCell, BorderSizeCell, PageFormatCell, PageAccountingFormatCell, PageCurrencyFormatCell, PageDateFormatCell, PageTimeFormatCell, CellStyle } from './EditCell';
 import { PageTextFonts, PageTextFontColor, PageTextCustomFontColor } from './EditText';
 import { PageChartDesign,  PageChartDesignType, PageChartDesignStyle, PageChartDesignFill, PageChartDesignBorder, PageChartCustomFillColor, PageChartBorderColor, PageChartCustomBorderColor, PageChartReorder, PageChartLayout, PageLegend, PageChartTitle, PageHorizontalAxisTitle, PageVerticalAxisTitle, PageHorizontalGridlines, PageVerticalGridlines, PageDataLabels, PageChartVerticalAxis, PageVertAxisCrosses, PageDisplayUnits, PageVertMajorType, PageVertMinorType, PageVertLabelPosition, PageChartHorizontalAxis, PageHorAxisCrosses, PageHorAxisPosition, PageHorMajorType, PageHorMinorType, PageHorLabelPosition } from './EditChart';
-import { PageTypeLink, PageSheet } from './EditLink';
+import { PageEditTypeLink, PageEditSheet } from './EditLink';
 
 const routes = [
 
@@ -282,11 +282,11 @@ const routes = [
 
     {
         path: '/edit-link-type/',
-        component: PageTypeLink
+        component: PageEditTypeLink
     },
     {
         path: '/edit-link-sheet',
-        component: PageSheet
+        component: PageEditSheet
     }
 
 
@@ -363,11 +363,11 @@ const EditTabs = props => {
             component: <EmptyEditLayout />
         });
     } else {
-        if (settings.indexOf('cell') > -1) {
+        if (!(wsProps.Objects && store.isLockedShape) && settings.indexOf('image') > -1) {
             editors.push({
-                caption: _t.textCell,
-                id: 'edit-text',
-                component: <EditCellController />
+                caption: _t.textImage,
+                id: 'edit-image',
+                component: <EditImageController />
             })
         }
         if (!(wsProps.Objects && store.isLockedShape) && settings.indexOf('shape') > -1) {
@@ -377,11 +377,11 @@ const EditTabs = props => {
                 component: <EditShapeController />
             })
         }
-        if (!(wsProps.Objects && store.isLockedText) && settings.indexOf('text') > -1) {
+        if (settings.indexOf('cell') > -1) {
             editors.push({
-                caption: _t.textText,
+                caption: _t.textCell,
                 id: 'edit-text',
-                component: <EditTextController />
+                component: <EditCellController />
             })
         }
         if (!(wsProps.Objects && store.isLockedShape) && settings.indexOf('chart') > -1) {
@@ -391,22 +391,23 @@ const EditTabs = props => {
                 component: <EditChartController />
             })
         }
-        if (!(wsProps.Objects && store.isLockedShape) && settings.indexOf('image') > -1) {
+        if (!(wsProps.Objects && store.isLockedText) && settings.indexOf('text') > -1) {
             editors.push({
-                caption: _t.textImage,
-                id: 'edit-image',
-                component: <EditImageController />
+                caption: _t.textText,
+                id: 'edit-text',
+                component: <EditTextController />
             })
         }
-        if(!wsProps.Objects) {
-            if (settings.indexOf('hyperlink') > -1 || (props.hyperinfo && props.isAddShapeHyperlink)) {
-                editors.push({
-                    caption: _t.textHyperlink,
-                    id: 'edit-link',
-                    component: <EditLinkController />
-                })
-            }
-        }    
+
+        // if(!wsProps.Objects) {
+        //     if (settings.indexOf('hyperlink') > -1 || (props.hyperinfo && props.isAddShapeHyperlink)) {
+        //         editors.push({
+        //             caption: _t.textHyperlink,
+        //             id: 'edit-link',
+        //             component: <EditLinkController />
+        //         })
+        //     }
+        // }    
     }
 
     if(!editors.length) {

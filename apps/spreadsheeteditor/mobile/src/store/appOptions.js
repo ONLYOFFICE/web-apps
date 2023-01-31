@@ -1,5 +1,5 @@
 import {action, observable, makeObservable} from 'mobx';
-import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage';
+import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage.mjs';
 
 export class storeAppOptions {
     constructor() {
@@ -80,6 +80,7 @@ export class storeAppOptions {
             permissions.edit = false;
         this.canBranding = params.asc_getCustomization();
         this.canBrandingExt = params.asc_getCanBranding() && (typeof this.customization == 'object');
+        this.canModifyFilter = permissions.modifyFilter !== false;
         this.canAutosave = true;
         this.canAnalytics = params.asc_getIsAnalyticsEnable();
         this.canLicense = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);

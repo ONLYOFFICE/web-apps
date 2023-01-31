@@ -32,7 +32,8 @@
       "textReopen": "Riaprire",
       "textResolve": "Risolvere",
       "textTryUndoRedo": "Le funzioni Annulla/Ripeti sono disattivate nella modalità rapida di modifica collaborativa.",
-      "textUsers": "Utenti"
+      "textUsers": "Utenti",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "Nessun riempimento"
@@ -61,7 +62,8 @@
     "textDoNotShowAgain": "Non mostrare di nuovo",
     "textOk": "Ok",
     "textRows": "Righe",
-    "txtWarnUrl": "Fare clic su questo collegamento può danneggiare il tuo dispositivo e i tuoi dati.<br>Sei sicuro che vuoi continuare?"
+    "txtWarnUrl": "Fare clic su questo collegamento può danneggiare il tuo dispositivo e i tuoi dati.<br>Sei sicuro che vuoi continuare?",
+    "menuEditLink": "Edit Link"
   },
   "Controller": {
     "Main": {
@@ -169,7 +171,15 @@
     "unknownErrorText": "Errore sconosciuto.",
     "uploadImageExtMessage": "Formato d'immagine sconosciuto.",
     "uploadImageFileCountMessage": "Nessuna immagine caricata.",
-    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB."
+    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "Caricamento di dati...",
@@ -202,8 +212,8 @@
     "uploadImageTitleText": "Caricamento dell'immagine",
     "waitText": "Si prega di attendere",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textUndo": "Undo",
-    "textContinue": "Continue"
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Ci sono i cambiamenti non salvati in questo documento. Fai clic su \"Rimanere su questa pagina\" per attendere il salvataggio automatico. Fai clic su \"Lasciare questa pagina\" per eliminare tutti i cambiamenti non salvati.",
@@ -248,7 +258,10 @@
       "textSlideNumber": "Numero di diapositiva",
       "textTable": "Tabella",
       "textTableSize": "Dimensione di tabella",
-      "txtNotUrl": "Questo campo deve essere un URL nel formato \"http://www.example.com\""
+      "txtNotUrl": "Questo campo deve essere un URL nel formato \"http://www.example.com\"",
+      "textDone": "Done",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avvertimento",
@@ -354,11 +367,8 @@
       "textPt": "pt",
       "textPush": "Spinta",
       "textRemoveChart": "Eliminare il grafico",
-      "textRemoveImage": "Eliminare l'immagine",
-      "textRemoveLink": "Eliminare il link",
       "textRemoveShape": "Eliminare la forma",
       "textRemoveTable": "Eliminare la tabella",
-      "textReorder": "Riordinare",
       "textReplace": "Sostituire",
       "textReplaceAll": "Sostituire tutto",
       "textReplaceImage": "Sostituire l'immagine",
@@ -399,7 +409,15 @@
       "textZoom": "Zoom",
       "textZoomIn": "Ingrandire",
       "textZoomOut": "Rimpicciolire",
-      "textZoomRotate": "Zoom e rotazione"
+      "textZoomRotate": "Zoom e rotazione",
+      "textArrange": "Arrange",
+      "textCancel": "Cancel",
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
+      "textInsertImage": "Insert Image",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

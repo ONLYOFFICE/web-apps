@@ -32,7 +32,8 @@
       "textReopen": "重開",
       "textResolve": "解決",
       "textTryUndoRedo": "在快速共同編輯模式下，撤消/重做功能被禁用。",
-      "textUsers": "使用者"
+      "textUsers": "使用者",
+      "textSharingSettings": "Sharing Settings"
     },
     "ThemeColorPalette": {
       "textCustomColors": "自訂顏色",
@@ -65,7 +66,8 @@
     "textDoNotShowAgain": "不再顯示",
     "textOk": "確定",
     "txtWarnUrl": "這連結可能對您的設備和資料造成損害。<br> 您確定要繼續嗎？",
-    "warnMergeLostData": "只有左上角單元格中的數據會保留。<br>繼續嗎？"
+    "warnMergeLostData": "只有左上角單元格中的數據會保留。<br>繼續嗎？",
+    "menuEditLink": "Edit Link"
   },
   "Controller": {
     "Main": {
@@ -164,7 +166,9 @@
       "warnLicenseUsersExceeded": "您已達到 %1 個編輯器的使用者限制。請聯繫您的管理員以了解更多資訊。",
       "warnNoLicense": "您已達到同時連接到 %1 編輯器的限制。此文件將只提供檢視。有關個人升級條款，請聯繫 %1 業務團隊。",
       "warnNoLicenseUsers": "您已達到％1個編輯器的用戶限制。與％1銷售團隊聯繫以了解個人升級條款。",
-      "warnProcessRightsChange": "您沒有編輯此文件的權限。"
+      "warnProcessRightsChange": "您沒有編輯此文件的權限。",
+      "titleLicenseExp": "License expired",
+      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
     }
   },
   "Error": {
@@ -238,7 +242,17 @@
     "unknownErrorText": "未知錯誤。",
     "uploadImageExtMessage": "圖片格式未知。",
     "uploadImageFileCountMessage": "沒有上傳圖片。",
-    "uploadImageSizeMessage": "圖像超出最大大小限制。最大大小為25MB。"
+    "uploadImageSizeMessage": "圖像超出最大大小限制。最大大小為25MB。",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
+    "textCancel": "Cancel",
+    "textOk": "Ok"
   },
   "LongActions": {
     "advDRMPassword": "密碼",
@@ -281,8 +295,8 @@
     "uploadImageTitleText": "上載圖片",
     "waitText": "請耐心等待...",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textUndo": "Undo",
-    "textContinue": "Continue"
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Statusbar": {
     "notcriticalErrorTitle": "警告",
@@ -373,7 +387,9 @@
       "txtNotUrl": "此字段應為格式為\"http://www.example.com\"的URL。",
       "txtSorting": "排序",
       "txtSortSelected": "排序已選擇項目",
-      "txtYes": "是"
+      "txtYes": "是",
+      "textDone": "Done",
+      "textRecommended": "Recommended"
     },
     "Edit": {
       "notcriticalErrorTitle": "警告",
@@ -507,10 +523,7 @@
       "textPt": "pt",
       "textRange": "範圍",
       "textRemoveChart": "刪除圖表",
-      "textRemoveImage": "移除圖片",
-      "textRemoveLink": "刪除連結",
       "textRemoveShape": "去除形狀",
-      "textReorder": "重新排序",
       "textReplace": "取代",
       "textReplaceImage": "替換圖片",
       "textRequired": "需要",
@@ -555,7 +568,14 @@
       "textYen": "日圓",
       "txtNotUrl": "此字段應為格式為\"http://www.example.com\"的URL。",
       "txtSortHigh2Low": "最高到最低排序",
-      "txtSortLow2High": "從最低到最高排序"
+      "txtSortLow2High": "從最低到最高排序",
+      "textArrange": "Arrange",
+      "textCancel": "Cancel",
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
+      "textDone": "Done",
+      "textRecommended": "Recommended"
     },
     "Settings": {
       "advCSVOptions": "選擇CSV選項",

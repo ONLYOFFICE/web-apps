@@ -345,7 +345,7 @@ define([
                 this.cmbFuncGroup.store.shift();
                 this.cmbFuncGroup.onResetItems();
             }
-            this.cmbFuncGroup.setValue('Recommended');
+            this.cmbFuncGroup.setValue('Recommended', this.txtRecommended);
             this.recommended = arr;
             this.fillFunctions('Recommended');
         },

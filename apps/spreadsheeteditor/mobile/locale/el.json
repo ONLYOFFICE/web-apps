@@ -32,7 +32,8 @@
       "textReopen": "Άνοιγμα ξανά",
       "textResolve": "Επίλυση",
       "textTryUndoRedo": "Οι λειτουργίες Αναίρεση/Επανάληψη είναι απενεργοποιημένες στην κατάσταση Γρήγορης συν-επεξεργασίας.",
-      "textUsers": "Χρήστες"
+      "textUsers": "Χρήστες",
+      "textSharingSettings": "Sharing Settings"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Προσαρμοσμένα Χρώματα",
@@ -64,6 +65,7 @@
     "textCopyCutPasteActions": "Ενέργειες Αντιγραφής, Αποκοπής και Επικόλλησης",
     "textDoNotShowAgain": "Να μην εμφανιστεί ξανά",
     "warnMergeLostData": "Μόνο τα δεδομένα από το επάνω αριστερό κελί θα παραμείνουν στο συγχωνευμένο κελί.<br>Είστε σίγουροι ότι θέλετε να συνεχίσετε;",
+    "menuEditLink": "Edit Link",
     "textOk": "Ok",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
@@ -164,7 +166,9 @@
       "warnLicenseUsersExceeded": "Έχετε φτάσει το όριο χρήστη για συντάκτες %1.<br>Επικοινωνήστε με τον διαχειριστή σας για περισσότερες πληροφορίες.",
       "warnNoLicense": "Φτάσατε το όριο ταυτόχρονων συνδέσεων σε %1 συντάκτες. Το έγγραφο θα ανοίξει μόνο για ανάγνωση. Επικοινωνήστε με την ομάδα πωλήσεων %1 για τους όρους αναβάθμισης.",
       "warnNoLicenseUsers": "Έχετε φτάσει το όριο χρήστη για συντάκτες %1.<br>Επικοινωνήστε με την ομάδα πωλήσεων %1 για προσωπικούς όρους αναβάθμισης.",
-      "warnProcessRightsChange": "Δεν έχετε δικαίωμα επεξεργασίας του αρχείου."
+      "warnProcessRightsChange": "Δεν έχετε δικαίωμα επεξεργασίας του αρχείου.",
+      "titleLicenseExp": "License expired",
+      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
     }
   },
   "Error": {
@@ -238,7 +242,17 @@
     "unknownErrorText": "Άγνωστο σφάλμα.",
     "uploadImageExtMessage": "Άγνωστη μορφή εικόνας.",
     "uploadImageFileCountMessage": "Δεν μεταφορτώθηκαν εικόνες.",
-    "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB."
+    "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
+    "textCancel": "Cancel",
+    "textOk": "Ok"
   },
   "LongActions": {
     "advDRMPassword": "Συνθηματικό",
@@ -281,8 +295,8 @@
     "uploadImageTitleText": "Μεταφόρτωση Εικόνας",
     "waitText": "Παρακαλούμε, περιμένετε...",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textUndo": "Undo",
-    "textContinue": "Continue"
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Προειδοποίηση",
@@ -373,7 +387,9 @@
       "txtNotUrl": "Αυτό το πεδίο πρέπει να είναι μια διεύθυνση URL με τη μορφή «http://www.example.com»",
       "txtSorting": "Ταξινόμηση",
       "txtSortSelected": "Ταξινόμηση επιλεγμένων",
-      "txtYes": "Ναι"
+      "txtYes": "Ναι",
+      "textDone": "Done",
+      "textRecommended": "Recommended"
     },
     "Edit": {
       "notcriticalErrorTitle": "Προειδοποίηση",
@@ -507,10 +523,7 @@
       "textPt": "pt",
       "textRange": "Εύρος",
       "textRemoveChart": "Αφαίρεση Γραφήματος",
-      "textRemoveImage": "Αφαίρεση Εικόνας",
-      "textRemoveLink": "Αφαίρεση Συνδέσμου",
       "textRemoveShape": "Αφαίρεση Σχήματος",
-      "textReorder": "Αναδιάταξη",
       "textReplace": "Αντικατάσταση",
       "textReplaceImage": "Αντικατάσταση Εικόνας",
       "textRequired": "Απαιτείται",
@@ -555,7 +568,14 @@
       "textYen": "Γιέν",
       "txtNotUrl": "Αυτό το πεδίο πρέπει να είναι μια διεύθυνση URL με τη μορφή «http://www.example.com»",
       "txtSortHigh2Low": "Ταξινόμηση από το Υψηλότερο στο Χαμηλότερο",
-      "txtSortLow2High": "Ταξινόμηση από το Χαμηλότερο στο Υψηλότερο"
+      "txtSortLow2High": "Ταξινόμηση από το Χαμηλότερο στο Υψηλότερο",
+      "textArrange": "Arrange",
+      "textCancel": "Cancel",
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
+      "textDone": "Done",
+      "textRecommended": "Recommended"
     },
     "Settings": {
       "advCSVOptions": "Επιλέξτε CSV επιλογές",

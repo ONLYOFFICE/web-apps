@@ -61,7 +61,10 @@
     "textOk": "Ok",
     "textTableContents": "Table of Contents",
     "textWithPageNumbers": "With Page Numbers",
-    "textWithBlueLinks": "With Blue Links"
+    "textWithBlueLinks": "With Blue Links",
+    "textDone": "Done",
+    "textRecommended": "Recommended",
+    "textRequired": "Required"
   },
   "Common": {
     "Collaboration": {
@@ -160,7 +163,8 @@
       "textUnderline": "Underline",
       "textUsers": "Users",
       "textWidow": "Widow control",
-      "textOk": "Ok"
+      "textOk": "Ok",
+      "textSharingSettings": "Sharing Settings"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Custom Colors",
@@ -200,7 +204,8 @@
     "textNumberingValue": "Numbering Value",
     "textRefreshEntireTable": "Refresh entire table",
     "textRefreshPageNumbersOnly": "Refresh page numbers only",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?",
+    "menuEditLink": "Edit Link"
   },
   "Edit": {
     "notcriticalErrorTitle": "Warning",
@@ -366,7 +371,16 @@
     "textEnterTitleNewStyle": "Enter title of a new style",
     "textNextParagraphStyle": "Next paragraph style",
     "textSameCreatedNewStyle": "Same as created new style",
-    "textParagraphStyle": "Paragraph Style"
+    "textParagraphStyle": "Paragraph Style",
+    "textChangeShape": "Change Shape",
+    "textDeleteImage": "Delete Image",
+    "textDeleteLink": "Delete Link",
+    "textRecommended": "Recommended",
+    "textRequired": "Required",
+    "textTextWrapping": "Text Wrapping",
+    "textCustomStyle": "Custom Style",
+    "textWrappingStyle": "Wrapping Style",
+    "textArrange": "Arrange"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",
@@ -409,7 +423,15 @@
     "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator.",
     "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
     "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
-    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
+    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",
@@ -546,7 +568,9 @@
     "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
     "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
     "textNoTextFound": "Text not found",
-    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
+    "textDocumentProtected": "The document is protected. Edit settings are not available",
+    "textOk": "Ok"
   },
   "Settings": {
     "advDRMOptions": "Protected File",

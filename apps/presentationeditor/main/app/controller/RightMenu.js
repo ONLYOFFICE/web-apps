@@ -61,6 +61,9 @@ define([
             this.addListeners({
                 'RightMenu': {
                     'rightmenuclick': this.onRightMenuClick
+                },
+                'ViewTab': {
+                    'rightmenu:hide': _.bind(this.onRightMenuHide, this)
                 }
             });
         },
@@ -114,11 +117,11 @@ define([
             this.rightmenu.fireEvent('editcomplete', this.rightmenu);
         },
 
-        onFocusObject: function(SelectedObjects, forceSignature) {
+        onFocusObject: function(SelectedObjects, forceSignature, forceOpen) {
             if (!this.editMode && !forceSignature)
                 return;
 
-            var open = this._initSettings ? !Common.localStorage.getBool("pe-hide-right-settings", this.rightmenu.defaultHideRightMenu) : false;
+            var open = this._initSettings ? !Common.localStorage.getBool("pe-hide-right-settings", this.rightmenu.defaultHideRightMenu) : !!forceOpen;
             this._initSettings = false;
 
             var needhide = true;
@@ -203,13 +206,19 @@ define([
             if (!this.rightmenu.minimizedMode || open) {
                 var active;
 
-                if (priorityactive<0 && this._priorityArr.length>0) {
-                    for (i=0; i<this._priorityArr.length; i++) {
-                        var type = this._priorityArr[i],
-                            pnl = this._settings[type];
-                        if (pnl===undefined || pnl.btn===undefined || pnl.panel===undefined || pnl.hidden) continue;
-                        priorityactive = type;
-                        break;
+                if (priorityactive<0) {
+                    if (this._priorityArr.length>0) {
+                        for (i=0; i<this._priorityArr.length; i++) {
+                            var type = this._priorityArr[i],
+                                pnl = this._settings[type];
+                            if (pnl===undefined || pnl.btn===undefined || pnl.panel===undefined || pnl.hidden) continue;
+                            priorityactive = type;
+                            break;
+                        }
+                    } else if (this._lastVisibleSettings!==undefined) {
+                        var pnl = this._settings[this._lastVisibleSettings];
+                        if (pnl!==undefined && pnl.btn!==undefined && pnl.panel!==undefined && !pnl.hidden)
+                            priorityactive = this._lastVisibleSettings;
                     }
                 }
 
@@ -265,7 +274,8 @@ define([
                 } else {
                     var selectedElements = this.api.getSelectedElements();
                     if (selectedElements.length > 0)
-                        this.onFocusObject(selectedElements);
+                        this.onFocusObject(selectedElements, false, !Common.Utils.InternalSettings.get("pe-hide-right-settings") &&
+                                                                                 !Common.Utils.InternalSettings.get("pe-hidden-rightmenu"));
                 }
             }
         },
@@ -384,6 +394,38 @@ define([
                 case Asc.c_oAscTypeSelectElement.Chart:
                     return Common.Utils.documentSettingsType.Chart;
             }
+        },
+
+        onRightMenuHide: function (view, status) {
+            if (this.rightmenu) {
+                if (!status)  { // remember last active pane
+                    var active = this.rightmenu.GetActivePane(),
+                        type;
+                    if (active) {
+                        for (var i=0; i<this._settings.length; i++) {
+                            if (this._settings[i] && this._settings[i].panelId === active) {
+                                type = i;
+                                break;
+                            }
+                        }
+                        this._lastVisibleSettings = type;
+                    }
+                    this.rightmenu.clearSelection();
+                    this.rightmenu.hide();
+                    this.rightmenu.signatureSettings && this.rightmenu.signatureSettings.hideSignatureTooltip();
+                } else {
+                    this.rightmenu.show();
+                    var selectedElements = this.api.getSelectedElements();
+                    if (selectedElements.length > 0)
+                        this.onFocusObject(selectedElements, false, !Common.Utils.InternalSettings.get("pe-hide-right-settings"));
+                    this._lastVisibleSettings = undefined;
+                }
+                Common.localStorage.setBool('pe-hidden-rightmenu', !status);
+                Common.Utils.InternalSettings.set("pe-hidden-rightmenu", !status);
+            }
+
+            Common.NotificationCenter.trigger('layout:changed', 'main');
+            Common.NotificationCenter.trigger('edit:complete', this.rightmenu);
         }
     });
 });

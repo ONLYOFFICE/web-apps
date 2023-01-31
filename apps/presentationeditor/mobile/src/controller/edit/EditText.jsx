@@ -8,6 +8,26 @@ import { EditText } from '../../view/edit/EditText';
 class EditTextController extends Component {
     constructor (props) {
         super(props);
+
+        this.onApiImageLoaded = this.onApiImageLoaded.bind(this);
+    }
+
+    componentDidMount() {
+        const api = Common.EditorApi.get();
+        api.asc_registerCallback('asc_onBulletImageLoaded', this.onApiImageLoaded);
+    }
+
+    componentWillUnmount() {
+        const api = Common.EditorApi.get();
+        api.asc_unregisterCallback('asc_onBulletImageLoaded', this.onApiImageLoaded);
+    }
+
+    closeModal() {
+        if ( Device.phone ) {
+            f7.sheet.close('#edit-sheet', true);
+        } else {
+            f7.popover.close('#edit-popover');
+        }
     }
 
     toggleBold(value) {
@@ -247,6 +267,40 @@ class EditTextController extends Component {
         if (api) api.SetDrawImagePreviewBulletForMenu(arr, type);
     }
 
+    onApiImageLoaded(bullet) {
+        const api = Common.EditorApi.get();
+        const selectedElements = api.getSelectedElements();
+        const imageProp = {id: bullet.asc_getImageId(), redraw: true};
+
+        let selectItem = null;
+
+        if(selectedElements) {
+            for (var i = 0; i< selectedElements.length; i++) {
+                if (Asc.c_oAscTypeSelectElement.Paragraph == selectedElements[i].get_ObjectType()) {
+                    selectItem = selectedElements[i].get_ObjectValue();
+                    break;
+                }
+            }
+        }
+
+        bullet.asc_fillBulletImage(imageProp.id);
+        selectItem.asc_putBullet(bullet);
+        api.paraApply(selectItem);
+        this.closeModal();
+    }
+
+    onImageSelect() {
+        (new Asc.asc_CBullet()).asc_showFileDialog();
+    }
+
+    onInsertByUrl(value) {
+        var checkUrl = value.replace(/ /g, '');
+        
+        if(checkUrl) {
+            (new Asc.asc_CBullet()).asc_putImageUrl(checkUrl);
+        }
+    }
+
     onLineSpacing(value) {
         const api = Common.EditorApi.get();
         const LINERULE_AUTO = 1;
@@ -276,6 +330,8 @@ class EditTextController extends Component {
                 onBullet={this.onBullet}
                 onNumber={this.onNumber}
                 getIconsBulletsAndNumbers={this.getIconsBulletsAndNumbers}
+                onImageSelect={this.onImageSelect}
+                onInsertByUrl={this.onInsertByUrl}
                 onLineSpacing={this.onLineSpacing}
             />
         )

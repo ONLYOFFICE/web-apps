@@ -30,7 +30,8 @@
       '`': 192, '-': 189, '=': 187,
       ';': 186, '\'': 222,
       '[': 219, ']': 221, '\\': 220,
-      'ff-': 173, 'ff=': 61
+      'ff-': 173, 'ff=': 61,
+      numplus: 107, numminus: 109
     },
     code = function(x){
       return _MAP[x] || x.toUpperCase().charCodeAt(0);

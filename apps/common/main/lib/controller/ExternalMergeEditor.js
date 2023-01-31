@@ -51,7 +51,8 @@ define([
         var appLang         = '{{DEFAULT_LANG}}',
             customization   = undefined,
             targetApp       = '',
-            externalEditor  = null;
+            externalEditor  = null,
+            isAppFirstOpened = true;
 
 
         var createExternalEditor = function() {
@@ -96,24 +97,33 @@ define([
                         'drag': _.bind(function(o, state){
                             externalEditor && externalEditor.serviceCommand('window:drag', state == 'start');
                         },this),
+                        'resize': _.bind(function(o, state){
+                            externalEditor && externalEditor.serviceCommand('window:resize', state == 'start');
+                        },this),
                         'show': _.bind(function(cmp){
                             var h = this.mergeEditorView.getHeight(),
                                 innerHeight = Common.Utils.innerHeight();
-                            if (innerHeight>h && h<700 || innerHeight<h) {
-                                h = Math.min(innerHeight, 700);
-                                this.mergeEditorView.setHeight(h);
+                            if (innerHeight<h) {
+                                this.mergeEditorView.setHeight(innerHeight);
                             }
 
                             if (externalEditor) {
                                 externalEditor.serviceCommand('setAppDisabled',false);
+                                if (isAppFirstOpened && this.mergeEditorView._isExternalDocReady) {
+                                    isAppFirstOpened = false;
+                                    this.mergeEditorView._mergeData && this.setMergeData();
+                                }
                                 if (this.needDisableEditing && this.mergeEditorView._isExternalDocReady) {
                                     this.onMergeEditingDisabled();
                                 }
                                 externalEditor.attachMouseEvents();
                             } else {
-                                createExternalEditor.apply(this);
+                                require(['api'], function () {
+                                    createExternalEditor.apply(this);
+                                }.bind(this))
                             }
                             this.isExternalEditorVisible = true;
+                            this.isHandlerCalled = false;
                         }, this),
                         'hide':  _.bind(function(cmp){
                             if (externalEditor) {
@@ -139,14 +149,22 @@ define([
             },
 
             handler: function(result, value) {
-                externalEditor && externalEditor.serviceCommand('queryClose',{mr:result});
-                return true;
+                if (this.isHandlerCalled) return;
+                this.isHandlerCalled = true;
+                if (this.mergeEditorView._isExternalDocReady)
+                    externalEditor && externalEditor.serviceCommand('queryClose',{mr:result});
+                else {
+                    this.mergeEditorView.hide();
+                    this.isHandlerCalled = false;
+                }
             },
 
             setMergeData: function() {
-                externalEditor && externalEditor.serviceCommand('setMergeData', this.mergeEditorView._mergeData);
-                this.mergeEditorView.setEditMode(true);
-                this.mergeEditorView._mergeData = null;
+                if (!isAppFirstOpened) {
+                    externalEditor && externalEditor.serviceCommand('setMergeData', this.mergeEditorView._mergeData);
+                    this.mergeEditorView.setEditMode(true);
+                    this.mergeEditorView._mergeData = null;
+                }
             },
 
             loadConfig: function(data) {
@@ -185,6 +203,7 @@ define([
                 if (this.mergeEditorView) {
                     if (eventData.type == 'documentReady') {
                         this.mergeEditorView._isExternalDocReady = true;
+                        this.isExternalEditorVisible && (isAppFirstOpened = false);
                         this.mergeEditorView.setControlsDisabled(false);
                         if (this.mergeEditorView._mergeData) {
                             externalEditor && externalEditor.serviceCommand('setMergeData', this.mergeEditorView._mergeData);
@@ -207,16 +226,25 @@ define([
                             }
                             this.mergeEditorView.hide();
                         }
+                        this.isHandlerCalled = false;
                     } else
                     if (eventData.type == "processMouse") {
                         if (eventData.data.event == 'mouse:up') {
                             this.mergeEditorView.binding.dragStop();
+                            if (this.mergeEditorView.binding.resizeStop)  this.mergeEditorView.binding.resizeStop();
                         } else
                         if (eventData.data.event == 'mouse:move') {
                             var x = parseInt(this.mergeEditorView.$window.css('left')) + eventData.data.pagex,
                                 y = parseInt(this.mergeEditorView.$window.css('top')) + eventData.data.pagey + 34;
                             this.mergeEditorView.binding.drag({pageX:x, pageY:y});
+                            if (this.mergeEditorView.binding.resize)  this.mergeEditorView.binding.resize({pageX:x, pageY:y});
                         }
+                    } else
+                    if (eventData.type == "resize") {
+                        var w = eventData.data.width,
+                            h = eventData.data.height;
+                        if (w>0 && h>0)
+                            this.mergeEditorView.setInnerSize(w, h);
                     } else
                     if (eventData.type == "frameToGeneralData") {
                         this.api && this.api.asc_getInformationBetweenFrameAndGeneralEditor(eventData.data);

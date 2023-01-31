@@ -98,6 +98,17 @@ define([
                 var text = $(this.el).find('textarea');
                 return (text && text.length) ? text.val().trim() : '';
             },
+            disableTextBoxButton: function(textboxEl) {
+                var button = $(textboxEl.siblings('#id-comments-change')[0]);
+
+                if(textboxEl.val().trim().length > 0) {
+                    button.removeAttr('disabled');
+                    button.removeClass('disabled');
+                } else {
+                    button.attr('disabled', true);
+                    button.addClass('disabled');
+                }
+            },
             autoHeightTextBox: function () {
                 var view = this,
                     textBox = $(this.el).find('textarea'),
@@ -127,13 +138,19 @@ define([
                     view.autoScrollToEditButtons();
                 }
 
+                function onTextareaInput(event) {
+                    updateTextBoxHeight();
+                    view.disableTextBoxButton($(event.target));
+                }
+
                 if (textBox && textBox.length) {
                     domTextBox = textBox.get(0);
 
+                    view.disableTextBoxButton(textBox);
                     if (domTextBox) {
                         lineHeight = parseInt(textBox.css('lineHeight'), 10) * 0.25;
                         updateTextBoxHeight();
-                        textBox.bind('input propertychange', updateTextBoxHeight)
+                        textBox.bind('input propertychange', onTextareaInput)
                     }
                 }
 
@@ -171,7 +188,7 @@ define([
 
         addCommentHeight: 45,
         newCommentHeight: 110,
-        textBoxAutoSizeLocked: undefined, // disable autosize textbox
+        textBoxAutoSizeLocked: undefined, // disable autoHeightTextBoxsize textbox
         viewmode: false,
 
         _commentsViewOnItemClick: function (picker, item, record, e) {
@@ -694,7 +711,17 @@ define([
                 this.layout.setResizeValue(0, container.height() - this.addCommentHeight);
             }
         },
+        disableTextBoxButton: function(textboxEl) {
+            var button = $(textboxEl.parent().siblings('.add')[0]);
 
+            if(textboxEl.val().trim().length > 0) {
+                button.removeAttr('disabled');
+                button.removeClass('disabled');
+            } else {
+                button.attr('disabled', true);
+                button.addClass('disabled');
+            }
+        },
         autoHeightTextBox: function () {
             var me = this, domTextBox = null, lineHeight = 0, minHeight = 44;
             var textBox = $('#comment-msg-new', this.el);
@@ -736,9 +763,15 @@ define([
                         Math.min(height - contentHeight - textBoxMinHeightIndent, height - me.newCommentHeight)));
             }
 
+            function onTextareaInput(event) {
+                updateTextBoxHeight();
+                me.disableTextBoxButton($(event.target));
+            }
+
+            me.disableTextBoxButton(textBox);
             lineHeight = parseInt(textBox.css('lineHeight'), 10) * 0.25;
             updateTextBoxHeight();
-            textBox.bind('input propertychange', updateTextBoxHeight);
+            textBox.bind('input propertychange', onTextareaInput);
 
             this.textBox = textBox;
         },
@@ -806,11 +839,19 @@ define([
             return str_res;
         },
 
-        pickEMail: function (commentId, message) {
+        pickEMail: function (commentId, message, oldMessage) {
+            var old_arr = [];
+            if (oldMessage) {
+                old_arr = Common.Utils.String.htmlEncode(oldMessage).match(/\B[@+][A-Z0-9._%+-]+@[A-Z0-9._-]+\.[A-Z]+\b/gi);
+                old_arr = _.map(old_arr, function(str){
+                    return str.slice(1, str.length);
+                });
+            }
             var arr = Common.Utils.String.htmlEncode(message).match(/\B[@+][A-Z0-9._%+-]+@[A-Z0-9._-]+\.[A-Z]+\b/gi);
             arr = _.map(arr, function(str){
                 return str.slice(1, str.length);
             });
+            arr = _.difference(arr, old_arr);
             (arr.length>0) && Common.Gateway.requestSendNotify({
                 emails: arr,
                 actionId: commentId, // comment id

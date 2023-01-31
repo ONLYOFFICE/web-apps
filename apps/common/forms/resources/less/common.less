@@ -202,6 +202,13 @@
                 text-overflow: ellipsis;
             }
         }
+
+        .separator {
+            height: 22px;
+            margin: 0 9px;
+            border-left: 1px solid @border-divider-ie;
+            border-left: 1px solid @border-divider;
+        }
     }
 
     .margin-right-small {
@@ -589,6 +596,7 @@
         height: 100%;
 
         &.disabled {
+            opacity: @component-disabled-opacity-ie;
             opacity: @component-disabled-opacity;
             cursor: default !important;
         }

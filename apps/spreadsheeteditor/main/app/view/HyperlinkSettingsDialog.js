@@ -533,6 +533,8 @@ define([
                         me.dataRangeValid = dlg.getSettings();
                         me.inputRange.setValue(me.dataRangeValid);
                         me.inputRange.checkValidate();
+                        me.isAutoUpdate && me.inputDisplay.setValue(me.internalList.getSelectedRec().get('name') + (me.dataRangeValid!=='' ? '!' + me.dataRangeValid : ''));
+                        me.btnOk.setDisabled($.trim(me.dataRangeValid)=='');
                     }
                 };
 

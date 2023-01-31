@@ -322,7 +322,7 @@
 
         visible && (document.querySelector('.brendpanel').style.display = 'block');
         !(view || notoolbar) && (document.querySelector('.sktoolbar').style.display = 'block');
-        document.querySelector('.placeholder').style.display = 'block';
+        document.querySelector('.placeholder').style.display = 'flex';
 
         if (stopLoading) {
             document.body.removeChild(document.getElementById('loading-mask'));
@@ -365,6 +365,7 @@
     <inline src="../../common/main/resources/img/header/icons.svg" />
     <inline src="../../common/main/resources/img/toolbar/shapetypes.svg" />
     <inline src="../../common/main/resources/img/toolbar/charttypes.svg" />
+    <inline src="../../common/main/resources/img/toolbar/equationicons.svg" />
 
     <script src="../../../../../../sdkjs/common/device_scale.js?__inline=true"></script>
     <script data-main="app" src="../../../vendor/requirejs/require.js"></script>

@@ -78,16 +78,26 @@ define([
                     });
                 });
 
+                this.btnPwd.on('click', function (b, e) {
+                    !b.pressed && me.fireEvent('protect:password', [b, 'delete']);
+                });
                 this.btnPwd.menu.on('item:click', function (menu, item, e) {
                     me.fireEvent('protect:password', [menu, item.value]);
                 });
             }
 
             if (me.appConfig.isSignatureSupport) {
-                if (this.btnSignature.menu)
+                if (this.btnSignature.menu) {
                     this.btnSignature.menu.on('item:click', function (menu, item, e) {
                         me.fireEvent('protect:signature', [item.value, false]);
                     });
+                    this.btnSignature.menu.on('show:after', function (menu, e) {
+                        if (me._state) {
+                            var isProtected = me._state.docProtection ? me._state.docProtection.isReadOnly || me._state.docProtection.isFormsOnly || me._state.docProtection.isCommentsOnly : false;
+                            menu.items && menu.items[1].setDisabled(isProtected || me._state.disabled);
+                        }
+                    });
+                }
 
                 this.btnsInvisibleSignature.forEach(function(button) {
                     button.on('click', function (b, e) {
@@ -132,6 +142,8 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-ic-protect',
                         caption: this.txtEncrypt,
+                        split: true,
+                        enableToggle: true,
                         menu: true,
                         visible: false,
                         dataHint    : '1',
@@ -172,7 +184,7 @@ define([
                     if ( config.canProtect) {
                         if ( config.isPasswordSupport) {
                             me.btnAddPwd.updateHint(me.hintAddPwd);
-                            me.btnPwd.updateHint(me.hintPwd);
+                            me.btnPwd.updateHint([me.hintDelPwd, me.hintPwd]);
 
                             me.btnPwd.setMenu(
                                 new Common.UI.Menu({
@@ -309,13 +321,14 @@ define([
             SetDisabled: function (state, canProtect) {
                 this._state.disabled = state;
                 this._state.invisibleSignDisabled = state && !canProtect;
+                var isProtected = this._state.docProtection ? this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly || this._state.docProtection.isCommentsOnly : false;
                 this.btnsInvisibleSignature && this.btnsInvisibleSignature.forEach(function(button) {
                     if ( button ) {
                         button.setDisabled(state && !canProtect);
                     }
                 }, this);
                 if (this.btnSignature && this.btnSignature.menu) {
-                    this.btnSignature.menu.items && this.btnSignature.menu.items[1].setDisabled(state); // disable adding signature line
+                    this.btnSignature.menu.items && this.btnSignature.menu.items[1].setDisabled(state || isProtected); // disable adding signature line
                     this.btnSignature.setDisabled(state && !canProtect); // disable adding any signature
                 }
                 this.btnsAddPwd.concat(this.btnsDelPwd, this.btnsChangePwd).forEach(function(button) {
@@ -342,6 +355,7 @@ define([
                     }
                 }, this);
                 this.btnPwd.setVisible(hasPassword);
+                this.btnPwd.toggle(hasPassword, true);
             },
 
             txtEncrypt: 'Encrypt',
@@ -353,7 +367,8 @@ define([
             txtDeletePwd: 'Delete password',
             txtAddPwd: 'Add password',
             txtInvisibleSignature: 'Add digital signature',
-            txtSignatureLine: 'Add Signature line'
+            txtSignatureLine: 'Add Signature line',
+            hintDelPwd: 'Delete password'
         }
     }()), Common.Views.Protection || {}));
 });

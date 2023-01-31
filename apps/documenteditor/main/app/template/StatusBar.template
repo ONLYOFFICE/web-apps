@@ -7,6 +7,10 @@
             <div id="status-goto-page" style="display:inline-block;"></div>
         </div>
     </div>
+    <div class="separator short"></div>
+    <div class="status-group">
+        <div id="slot-status-btn-info" style="display: inline-block;" class="margin-top-small"></div>
+    </div>
     <div class="status-group" style="width:100%; text-align:center;">
         <label id="label-action" class="status-label margin-top-large" data-layout-name="statusBar-actionStatus"></label>
     </div>

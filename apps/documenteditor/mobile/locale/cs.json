@@ -26,6 +26,7 @@
     "textContinuousPage": "Pokračovat na stránce",
     "textCurrentPosition": "Aktuální pozice",
     "textDisplay": "Zobrazit",
+    "textDone": "Hotovo",
     "textEmptyImgUrl": "Musíte upřesnit URL obrázku.",
     "textEvenPage": "Sudá stránka",
     "textFootnote": "Poznámka pod čarou",
@@ -49,6 +50,8 @@
     "textPictureFromLibrary": "Obrázek z knihovny",
     "textPictureFromURL": "Obrázek z adresy URL",
     "textPosition": "Pozice",
+    "textRecommended": "Doporučeno",
+    "textRequired": "Požadováno",
     "textRightBottom": "Vpravo dole",
     "textRightTop": "Vpravo nahoře",
     "textRows": "Řádky",
@@ -144,6 +147,7 @@
       "textReviewChange": "Přehled změn",
       "textRight": "Zarovnat vpravo",
       "textShape": "Obrazec",
+      "textSharingSettings": "Nastavení sdílení",
       "textShd": "Barva pozadí",
       "textSmallCaps": "Malá písmena",
       "textSpacing": "Mezery",
@@ -180,6 +184,7 @@
     "menuDelete": "Odstranit",
     "menuDeleteTable": "Odstranit tabulku",
     "menuEdit": "Upravit",
+    "menuEditLink": "Upravit odkaz",
     "menuJoinList": "Připojit k předchozímu seznamu",
     "menuMerge": "Sloučit",
     "menuMore": "Více",
@@ -233,6 +238,7 @@
     "textCancel": "Zrušit",
     "textCellMargins": "Okraje buňky",
     "textCentered": "Vycentrováno",
+    "textChangeShape": "Vlastní tvar",
     "textChart": "Graf",
     "textClassic": "Klasické",
     "textClose": "Zavřít",
@@ -241,7 +247,10 @@
     "textCreateTextStyle": "Vytvořit nový styl textu",
     "textCurrent": "Aktuální",
     "textCustomColor": "Vlastní barva",
+    "textCustomStyle": "Vlastní styl",
     "textDecember": "prosinec",
+    "textDeleteImage": "Smazat obrázek",
+    "textDeleteLink": "Smazat odkaz",
     "textDesign": "Vzhled",
     "textDifferentFirstPage": "Odlišná první stránka",
     "textDifferentOddAndEvenPages": "Rozdílné liché a sudé stránky",
@@ -314,19 +323,18 @@
     "textPictureFromLibrary": "Obrázek z knihovny",
     "textPictureFromURL": "Obrázek z adresy URL",
     "textPt": "pt",
+    "textRecommended": "Doporučeno",
     "textRefresh": "Načíst znovu",
     "textRefreshEntireTable": "Obnovit celou tabulku",
     "textRefreshPageNumbersOnly": "Obnovit pouze číslování stránek",
     "textRemoveChart": "Odstranit graf",
-    "textRemoveImage": "Odstranit obrázek",
-    "textRemoveLink": "Odstranit odkaz",
     "textRemoveShape": "Odstranit obrazec",
     "textRemoveTable": "Odstranit tabulku",
     "textRemoveTableContent": "Odebrat obsah",
-    "textReorder": "Změnit řazení",
     "textRepeatAsHeaderRow": "Opakujte jako řádek záhlaví",
     "textReplace": "Nahradit",
     "textReplaceImage": "Nahradit obrázek",
+    "textRequired": "Požadováno",
     "textResizeToFitContent": "Změnit velikost pro přizpůsobení obsahu",
     "textRightAlign": "Zarovnat vpravo",
     "textSa": "so",
@@ -356,6 +364,7 @@
     "textTableOfCont": "Obsah",
     "textTableOptions": "Možnosti tabulky",
     "textText": "Text",
+    "textTextWrapping": "Obtékaní textu",
     "textTh": "čt",
     "textThrough": "Skrz",
     "textTight": "Těsné",
@@ -365,7 +374,9 @@
     "textTu": "út",
     "textType": "Typ",
     "textWe": "st",
-    "textWrap": "Obtékání"
+    "textWrap": "Obtékání",
+    "textWrappingStyle": "Obtékání textu",
+    "textArrange": "Arrange"
   },
   "Error": {
     "convertationTimeoutText": "Vypršel čas konverze.",
@@ -379,6 +390,7 @@
     "errorDataEncrypted": "Obdrženy šifrované změny – bez hesla je není možné zobrazit.",
     "errorDataRange": "Nesprávný datový rozsah.",
     "errorDefaultMessage": "Kód chyby: %1",
+    "errorDirectUrl": "Ověřte správnost odkazu na dokument.<br>Je třeba, aby se jednalo o přímý odkaz pro stažení souboru.",
     "errorEditingDownloadas": "Při práci s dokumentem došlo k chybě.<br>Stáhněte dokument pro vytvoření lokální zálohy souboru.",
     "errorEmptyTOC": "Začít vytvářet obsah aplikováním stylů pro nadpisy na vybraný text. ",
     "errorFilePassProtect": "Soubor je zabezpečen heslem a nemůže být otevřen.",
@@ -408,7 +420,14 @@
     "uploadImageExtMessage": "Neznámý formát obrázku.",
     "uploadImageFileCountMessage": "Nenahrány žádné obrázky.",
     "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB.",
-    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field.",
+    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "Načítání dat...",
@@ -439,14 +458,14 @@
     "saveTitleText": "Ukládání dokumentu",
     "sendMergeText": "Odesílaní hromadné zprávy…",
     "sendMergeTitle": "Odesílaní hromadné zprávy",
+    "textContinue": "Pokračovat",
     "textLoadingDocument": "Načítání dokumentu",
+    "textUndo": "Zpět",
     "txtEditingMode": "Nastavit režim úprav…",
     "uploadImageTextText": "Nahrávání obrázku...",
     "uploadImageTitleText": "Nahrávání obrázku",
     "waitText": "Čekejte prosím...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textUndo": "Undo",
-    "textContinue": "Continue"
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost)."
   },
   "Main": {
     "criticalErrorTitle": "Chyba",
@@ -545,7 +564,9 @@
     "warnLicenseUsersExceeded": "Došlo dosažení limitu %1 editorů v režimu spolupráce na úpravách. Ohledně podrobností se obraťte na svého správce.",
     "warnNoLicense": "Došlo k dosažení limitu souběžného připojení %1 editorů. Tento dokument bude otevřen pouze pro náhled. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
     "warnNoLicenseUsers": "Došlo k dosažení limitu %1 editorů. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
-    "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu."
+    "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu.",
+    "textDocumentProtected": "The document is protected. Edit settings are not available",
+    "textOk": "Ok"
   },
   "Settings": {
     "advDRMOptions": "Zabezpečený soubor",
@@ -610,6 +631,7 @@
     "textMargins": "Okraje",
     "textMarginsH": "Horní a spodní okraj je příliš velký vzhledem k dané výšce stránky",
     "textMarginsW": "Okraje vlevo a vpravo jsou příliš velké vzhledem k šířce stránky",
+    "textMobileView": "Mobilní zobrazení",
     "textNavigation": "Navigace",
     "textNo": "Ne",
     "textNoCharacters": "Netisknutelné znaky",
@@ -673,8 +695,7 @@
     "txtScheme6": "Hala",
     "txtScheme7": "Rovnost",
     "txtScheme8": "Tok",
-    "txtScheme9": "Slévárna",
-    "textMobileView": "Mobile View"
+    "txtScheme9": "Slévárna"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "V tomto dokumentu máte neuložené změny. Klikněte na 'Zůstat na této stránce'. Klikněte na 'Opustit tuto stránku' pro zahození neuložených změn.",
@@ -682,7 +703,7 @@
     "leaveButtonText": "Opustit tuto stránku",
     "stayButtonText": "Zůstat na této stránce",
     "textOk": "OK",
-    "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view"
+    "textSwitchedMobileView": "Přepnout na mobilní zobrazení",
+    "textSwitchedStandardView": "Přepnout na standartní zobrazení"
   }
 }

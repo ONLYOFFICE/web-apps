@@ -1,10 +1,21 @@
 import React, { Component } from 'react';
-import { f7 } from 'framework7-react';
+import { f7, Popup, Popover, View } from 'framework7-react';
 import { Device } from '../../../../../common/mobile/utils/device';
 import {observer, inject} from "mobx-react";
 import { withTranslation } from 'react-i18next';
 
-import { EditLink } from '../../view/edit/EditLink';
+import { EditLink, PageEditTypeLink, PageEditSheet} from '../../view/edit/EditLink';
+
+const routes = [
+    {
+        path: '/edit-link-type/',
+        component: PageEditTypeLink
+    },
+    {
+        path: '/edit-link-sheet/',
+        component: PageEditSheet
+    }
+];
 
 class EditLinkController extends Component {
     constructor (props) {
@@ -40,9 +51,9 @@ class EditLinkController extends Component {
 
     closeModal () {
         if ( Device.phone ) {
-            f7.sheet.close('#edit-sheet', true);
+            f7.popup.close('#edit-link-popup');
         } else {
-            f7.popover.close('#edit-popover');
+            f7.popover.close('#edit-link-popover');
         }
     }
 
@@ -115,26 +126,69 @@ class EditLinkController extends Component {
         linkProps.asc_setTooltip(tip);
 
         api.asc_insertHyperlink(linkProps);
-        this.closeModal();
+        this.props.isNavigate ? f7.views.current.router.back() : this.closeModal();
      
     }
 
     onRemoveLink() {
         const api = Common.EditorApi.get();
         api.asc_removeHyperlink();
-        this.closeModal();
+    }
+
+    componentDidMount() {
+        if(!this.props.isNavigate) {
+            if(Device.phone) {
+                f7.popup.open('#edit-link-popup', true);
+            } else {
+                f7.popover.open('#edit-link-popover', '#btn-add');
+            }
+        }
     }
 
     render () {
         return (
-            <EditLink 
-                linkInfo={this.linkInfo}
-                isLock={this.isLock}
-                sheets={this.sheets}
-                currentSheet={this.currentSheet}
-                onEditLink={this.onEditLink} 
-                onRemoveLink={this.onRemoveLink}
-            />
+            !this.props.isNavigate ?
+                Device.phone ?
+                    <Popup id="edit-link-popup" onPopupClosed={() => this.props.onClosed('edit-link')}>
+                        <View routes={routes} style={{height: '100%'}}>
+                            <EditLink 
+                                linkInfo={this.linkInfo}
+                                isLock={this.isLock}
+                                sheets={this.sheets}
+                                currentSheet={this.currentSheet}
+                                onEditLink={this.onEditLink} 
+                                onRemoveLink={this.onRemoveLink}
+                                closeModal={this.closeModal}
+                                isNavigate={this.props.isNavigate}
+                            />
+                        </View>
+                    </Popup>
+                :
+                    <Popover id="edit-link-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => this.props.onClosed('edit-link')}>
+                        <View routes={routes} style={{height: '410px'}}>
+                            <EditLink
+                                linkInfo={this.linkInfo}
+                                isLock={this.isLock}
+                                sheets={this.sheets}
+                                currentSheet={this.currentSheet}
+                                onEditLink={this.onEditLink} 
+                                onRemoveLink={this.onRemoveLink}
+                                closeModal={this.closeModal}
+                                isNavigate={this.props.isNavigate}
+                            />
+                        </View>
+                    </Popover>
+            :     
+                <EditLink
+                    linkInfo={this.linkInfo}
+                    isLock={this.isLock}
+                    sheets={this.sheets}
+                    currentSheet={this.currentSheet}
+                    onEditLink={this.onEditLink} 
+                    onRemoveLink={this.onRemoveLink}
+                    closeModal={this.closeModal}
+                    isNavigate={this.props.isNavigate}
+                />
         )
     }
 }

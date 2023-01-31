@@ -71,6 +71,7 @@ define([
                 tip: undefined
             };
             this._locked = false;
+            this._protected = false;
 
             this.render();
         },
@@ -154,6 +155,10 @@ define([
 
         setLocked: function (locked) {
             this._locked = locked;
+        },
+
+        setProtected: function (value) {
+            this._protected = value;
         },
 
         setMode: function(mode) {
@@ -288,7 +293,7 @@ define([
             menu.items[3].setVisible(!requested);
 
             menu.items[0].setDisabled(this._locked);
-            menu.items[3].setDisabled(this._locked);
+            menu.items[3].setDisabled(this._locked || this._protected);
 
             menu.items[1].cmpEl.attr('data-value', record.get('certificateId')); // view certificate
             menu.items[2].cmpEl.attr('data-value', signed ? 1 : 0); // view or edit signature settings
@@ -307,7 +312,7 @@ define([
                     this.api.asc_ViewCertificate(item.cmpEl.attr('data-value'));
                     break;
                 case 2:
-                    Common.NotificationCenter.trigger('protect:signature', 'visible', !!parseInt(item.cmpEl.attr('data-value')), guid);// can edit settings for requested signature
+                    Common.NotificationCenter.trigger('protect:signature', 'visible', !!parseInt(item.cmpEl.attr('data-value')) || this._protected, guid);// can edit settings for requested signature
                     break;
                 case 3:
                     var me = this;
@@ -386,6 +391,14 @@ define([
                 });
                 me._state.tip = tip;
                 tip.show();
+            }
+        },
+
+        hideSignatureTooltip: function() {
+            var tip = this._state.tip;
+            if (tip && tip.isVisible()) {
+                tip.close();
+                this._state.tip = undefined;
             }
         },
 

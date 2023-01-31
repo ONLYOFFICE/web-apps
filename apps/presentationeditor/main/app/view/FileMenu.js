@@ -72,7 +72,8 @@ define([
                         if (item.options.action === 'help') {
                             if ( panel.noHelpContents === true && navigator.onLine ) {
                                 this.fireEvent('item:click', [this, 'external-help', true]);
-                                window.open(panel.urlHelpCenter, '_blank');
+                                const helpCenter = Common.Utils.InternalSettings.get('url-help-center');
+                                !!helpCenter && window.open(helpCenter, '_blank');
                                 return;
                             }
                         }

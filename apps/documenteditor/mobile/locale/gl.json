@@ -61,7 +61,10 @@
     "textTableSize": "Tamaño da táboa",
     "textWithBlueLinks": "Con ligazóns azuis",
     "textWithPageNumbers": "Con números de páxina",
-    "txtNotUrl": "Este campo debe ser unha URL no formato \"http://www.example.com\""
+    "txtNotUrl": "Este campo debe ser unha URL no formato \"http://www.example.com\"",
+    "textDone": "Done",
+    "textRecommended": "Recommended",
+    "textRequired": "Required"
   },
   "Common": {
     "Collaboration": {
@@ -160,7 +163,8 @@
       "textTryUndoRedo": "As funcións Desfacer/Refacer están activadas para o modo de coedición rápido.",
       "textUnderline": "Subliñado",
       "textUsers": "Usuarios",
-      "textWidow": "Control de liñas orfas"
+      "textWidow": "Control de liñas orfas",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "Sen encher"
@@ -200,6 +204,7 @@
     "textRefreshEntireTable": "Actualizar toda a táboa",
     "textRefreshPageNumbersOnly": "Actualizar soamente os números de páxina",
     "textRows": "Filas",
+    "menuEditLink": "Edit Link",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Edit": {
@@ -318,12 +323,9 @@
     "textRefreshEntireTable": "Actualizar toda a táboa",
     "textRefreshPageNumbersOnly": "Actualizar soamente os números de páxina",
     "textRemoveChart": "Eliminar gráfico",
-    "textRemoveImage": "Eliminar imaxe",
-    "textRemoveLink": "Eliminar ligazón",
     "textRemoveShape": "Eliminar forma",
     "textRemoveTable": "Eliminar táboa",
     "textRemoveTableContent": "Elimine a táboa de contidos",
-    "textReorder": "Reordenar",
     "textRepeatAsHeaderRow": "Repetir como fila da cabeceira",
     "textReplace": "Substituír",
     "textReplaceImage": "Substituír imaxe",
@@ -365,7 +367,16 @@
     "textTu": "Ma",
     "textType": "Tipo",
     "textWe": "Me",
-    "textWrap": "Axuste"
+    "textWrap": "Axuste",
+    "textArrange": "Arrange",
+    "textChangeShape": "Change Shape",
+    "textCustomStyle": "Custom Style",
+    "textDeleteImage": "Delete Image",
+    "textDeleteLink": "Delete Link",
+    "textRecommended": "Recommended",
+    "textRequired": "Required",
+    "textTextWrapping": "Text Wrapping",
+    "textWrappingStyle": "Wrapping Style"
   },
   "Error": {
     "convertationTimeoutText": "Excedeu o tempo límite de conversión.",
@@ -408,7 +419,15 @@
     "uploadImageExtMessage": "Formato de imaxe descoñecido.",
     "uploadImageFileCountMessage": "Non hai imaxes subidas.",
     "uploadImageSizeMessage": "A imaxe é demasiado grande. O tamaño máximo é de 25 MB.",
-    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field.",
+    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "Cargando datos...",
@@ -445,8 +464,8 @@
     "uploadImageTitleText": "Cargando imaxe",
     "waitText": "Agarde...",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textUndo": "Undo",
-    "textContinue": "Continue"
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Main": {
     "criticalErrorTitle": "Erro",
@@ -545,7 +564,9 @@
     "warnLicenseUsersExceeded": "Alcanzou o límite de usuarios para os editores de %1. Por favor, contacte co se uadministrador para recibir máis información.",
     "warnNoLicense": "Alcanzou o límite de conexións simultáneas con %1 editores. Este documento abrirase para as úa visualización. Póñase en contacto co equipo de vendas de %1 para coñecer as condicións de actualización persoal.",
     "warnNoLicenseUsers": "Alcanzou o límite de usuarios para os editores de %1.<br>Contacte co equipo de vendas de %1 para coñecer os termos de actualización persoal.",
-    "warnProcessRightsChange": "Non ten permiso para editar este ficheiro."
+    "warnProcessRightsChange": "Non ten permiso para editar este ficheiro.",
+    "textDocumentProtected": "The document is protected. Edit settings are not available",
+    "textOk": "Ok"
   },
   "Settings": {
     "advDRMOptions": "Ficheiro protexido",

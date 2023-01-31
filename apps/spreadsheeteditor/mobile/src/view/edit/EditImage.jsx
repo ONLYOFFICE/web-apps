@@ -14,17 +14,17 @@ const EditImage = props => {
     return (
         <Fragment>
             <List>
-                <ListItem title={_t.textReplace} link="/edit-replace-image/" className={pluginGuid ? 'disabled' : ''} routeProps={{
+                <ListItem title={t('View.Edit.textReplaceImage')} link="/edit-replace-image/" className={pluginGuid ? 'disabled' : ''} routeProps={{
                     onReplaceByFile: props.onReplaceByFile,
                     onReplaceByUrl: props.onReplaceByUrl
                 }}></ListItem>
-                <ListItem title={_t.textReorder} link="/edit-reorder-image/" routeProps={{
+                <ListItem title={t('View.Edit.textArrange')} link="/edit-reorder-image/" routeProps={{
                     onReorder: props.onReorder
                 }}></ListItem>
             </List>
             <List className="buttons-list">
                 <ListButton className="button-fill button-raised" onClick={props.onDefaultSize}>{_t.textActualSize}</ListButton>
-                <ListButton className="button-red button-fill button-raised" onClick={props.onRemoveImage}>{_t.textRemoveImage}</ListButton>
+                <ListButton className="button-red button-fill button-raised" onClick={props.onRemoveImage}>{t('View.Edit.textDeleteImage')}</ListButton>
             </List>
         </Fragment>
     )
@@ -42,7 +42,7 @@ const PageReorder = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textReorder} backLink={_t.textBack}>
+            <Navbar title={t('View.Edit.textArrange')} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
                         <Link icon='icon-expand-down' sheetClose></Link>

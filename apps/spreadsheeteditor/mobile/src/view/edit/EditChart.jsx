@@ -346,7 +346,7 @@ const PageReorder = props => {
     }
     return (
         <Page>
-            <Navbar title={_t.textReorder} backLink={_t.textBack}>
+            <Navbar title={t('View.Edit.textArrange')} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
                         <Link icon='icon-expand-down' sheetClose></Link>
@@ -1522,7 +1522,7 @@ const EditChart = props => {
                     disableAxisPos,
                     needReverse
                 }}></ListItem>
-                <ListItem title={t('View.Edit.textReorder')} link='/edit-chart-reorder/' routeProps={{
+                <ListItem title={t('View.Edit.textArrange')} link='/edit-chart-reorder/' routeProps={{
                     onReorder: props.onReorder
                 }}></ListItem>
             </List>

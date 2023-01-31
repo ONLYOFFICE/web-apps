@@ -11,7 +11,9 @@ const PageWrap = props => {
     const _t = t('Edit', {returnObjects: true});
     const storeImageSettings = props.storeImageSettings;
     const imageObject = props.storeFocusObjects.imageObject;
+
     let wrapType, align, moveText, overlap, distance;
+
     if (imageObject) {
         wrapType = storeImageSettings.getWrapType(imageObject);
         align = storeImageSettings.getAlign(imageObject);
@@ -19,15 +21,28 @@ const PageWrap = props => {
         overlap = storeImageSettings.getOverlap(imageObject);
         distance = Common.Utils.Metric.fnRecalcFromMM(storeImageSettings.getWrapDistance(imageObject));
     }
+
     const metricText = Common.Utils.Metric.getCurrentMetricName();
     const [stateDistance, setDistance] = useState(distance);
+    const [wrappingStyle, setWrappingStyle] = useState(wrapType);
+    const typesWrapping = {
+        inline: _t.textInline,
+        square: _t.textSquare,
+        tight: _t.textTight,
+        through: _t.textThrough,
+        'top-bottom': _t.textTopAndBottom,
+        infront: _t.textInFront,
+        behind: _t.textBehind
+    };
+
     if (!imageObject && Device.phone) {
         $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
         return null;
     }
+
     return (
         <Page>
-            <Navbar title={_t.textWrap} backLink={_t.textBack}>
+            <Navbar title={t('Edit.textTextWrapping')} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
@@ -37,30 +52,31 @@ const PageWrap = props => {
                 }
             </Navbar>
             <List>
-                <ListItem title={_t.textInline} radio checked={wrapType === 'inline'} onClick={() => {props.onWrapType('inline')}}>
-                    {!isAndroid && <Icon slot="media" icon="icon-wrap-inline"></Icon>}
-                </ListItem>
-                <ListItem title={_t.textSquare} radio checked={wrapType === 'square'} onClick={() => {props.onWrapType('square')}}>
-                    {!isAndroid && <Icon slot="media" icon="icon-wrap-square"></Icon>}
-                </ListItem>
-                <ListItem title={_t.textTight} radio checked={wrapType === 'tight'} onClick={() => {props.onWrapType('tight')}}>
-                    {!isAndroid && <Icon slot="media" icon="icon-wrap-tight"></Icon>}
-                </ListItem>
-                <ListItem title={_t.textThrough} radio checked={wrapType === 'through'} onClick={() => {props.onWrapType('through')}}>
-                    {!isAndroid && <Icon slot="media" icon="icon-wrap-through"></Icon>}
-                </ListItem>
-                <ListItem title={_t.textTopAndBottom} radio checked={wrapType === 'top-bottom'} onClick={() => {props.onWrapType('top-bottom')}}>
-                    {!isAndroid && <Icon slot="media" icon="icon-wrap-top-bottom"></Icon>}
-                </ListItem>
-                <ListItem title={_t.textInFront} radio checked={wrapType === 'infront'} onClick={() => {props.onWrapType('infront')}}>
-                    {!isAndroid && <Icon slot="media" icon="icon-wrap-infront"></Icon>}
-                </ListItem>
-                <ListItem title={_t.textBehind} radio checked={wrapType === 'behind'} onClick={() => {props.onWrapType('behind')}}>
-                    {!isAndroid && <Icon slot="media" icon="icon-wrap-behind"></Icon>}
-                </ListItem>
+                <ListItem title={t('Edit.textWrappingStyle')} after={typesWrapping[wrappingStyle]} link='/edit-image-wrapping-style/' routeProps={{
+                    onWrapType: props.onWrapType,
+                    wrappingStyle,
+                    setWrappingStyle
+                }}></ListItem>
             </List>
-            {
-                wrapType !== 'inline' &&
+            {('inline' !== wrappingStyle && 'behind' !== wrappingStyle && 'infront' !== wrappingStyle) &&
+                <Fragment>
+                    <BlockTitle>{_t.textDistanceFromText}</BlockTitle>
+                    <List>
+                        <ListItem>
+                            <div slot='inner' style={{width: '100%'}}>
+                                <Range min={0} max={200} step={1} value={stateDistance}
+                                       onRangeChange={(value) => {setDistance(value)}}
+                                       onRangeChanged={(value) => {props.onWrapDistance(value)}}
+                                ></Range>
+                            </div>
+                            <div slot='inner-end' style={{minWidth: '60px', textAlign: 'right'}}>
+                                {stateDistance + ' ' + metricText}
+                            </div>
+                        </ListItem>
+                    </List>
+                </Fragment>
+            }
+            {wrapType !== 'inline' &&
                 <Fragment>
                     <BlockTitle>{_t.textAlign}</BlockTitle>
                     <List>
@@ -97,28 +113,87 @@ const PageWrap = props => {
                     <Toggle checked={overlap} onToggleChange={() => {props.onOverlap(!overlap)}}/>
                 </ListItem>
             </List>
-            {
-                ('inline' !== wrapType && 'behind' !== wrapType && 'infront' !== wrapType) &&
-                <Fragment>
-                    <BlockTitle>{_t.textDistanceFromText}</BlockTitle>
-                    <List>
-                        <ListItem>
-                            <div slot='inner' style={{width: '100%'}}>
-                                <Range min={0} max={200} step={1} value={stateDistance}
-                                       onRangeChange={(value) => {setDistance(value)}}
-                                       onRangeChanged={(value) => {props.onWrapDistance(value)}}
-                                ></Range>
-                            </div>
-                            <div slot='inner-end' style={{minWidth: '60px', textAlign: 'right'}}>
-                                {stateDistance + ' ' + metricText}
-                            </div>
-                        </ListItem>
-                    </List>
-                </Fragment>
-            }
         </Page>
     )
 };
+
+const PageWrappingStyle = props => {
+    const isAndroid = Device.android;
+    const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
+    const imageObject = props.storeFocusObjects.imageObject;
+    const [wrapType, setWrapType] = useState(props.wrappingStyle);
+
+    if (!imageObject && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
+
+    return (
+        <Page>
+            <Navbar title={t('Edit.textWrappingStyle')} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
+            <List>
+                <ListItem title={_t.textInline} radio checked={wrapType === 'inline'} onClick={() => {
+                    setWrapType('inline');
+                    props.setWrappingStyle('inline');
+                    props.onWrapType('inline');
+                }}>
+                    {!isAndroid && <Icon slot="media" icon="icon-wrap-inline"></Icon>}
+                </ListItem>
+                <ListItem title={_t.textSquare} radio checked={wrapType === 'square'} onClick={() => {
+                    setWrapType('square');
+                    props.setWrappingStyle('square');
+                    props.onWrapType('square');
+                }}>
+                    {!isAndroid && <Icon slot="media" icon="icon-wrap-square"></Icon>}
+                </ListItem>
+                <ListItem title={_t.textTight} radio checked={wrapType === 'tight'} onClick={() => {
+                    setWrapType('tight');
+                    props.setWrappingStyle('tight');
+                    props.onWrapType('tight');
+                }}>
+                    {!isAndroid && <Icon slot="media" icon="icon-wrap-tight"></Icon>}
+                </ListItem>
+                <ListItem title={_t.textThrough} radio checked={wrapType === 'through'} onClick={() => {
+                    setWrapType('through');
+                    props.setWrappingStyle('through');
+                    props.onWrapType('through');
+                }}>
+                    {!isAndroid && <Icon slot="media" icon="icon-wrap-through"></Icon>}
+                </ListItem>
+                <ListItem title={_t.textTopAndBottom} radio checked={wrapType === 'top-bottom'} onClick={() => {
+                    setWrapType('top-bottom');
+                    props.setWrappingStyle('top-bottom');
+                    props.onWrapType('top-bottom');
+                }}>
+                    {!isAndroid && <Icon slot="media" icon="icon-wrap-top-bottom"></Icon>}
+                </ListItem>
+                <ListItem title={_t.textInFront} radio checked={wrapType === 'infront'} onClick={() => {
+                    setWrapType('infront');
+                    props.setWrappingStyle('infront');
+                    props.onWrapType('infront');
+                }}>
+                    {!isAndroid && <Icon slot="media" icon="icon-wrap-infront"></Icon>}
+                </ListItem>
+                <ListItem title={_t.textBehind} radio checked={wrapType === 'behind'} onClick={() => {
+                    setWrapType('behind');
+                    props.setWrappingStyle('behind');
+                    props.onWrapType('behind');
+                }}>
+                    {!isAndroid && <Icon slot="media" icon="icon-wrap-behind"></Icon>}
+                </ListItem>
+            </List>
+        </Page>
+    )
+}
 
 const PageLinkSettings = props => {
     const { t } = useTranslation();
@@ -206,7 +281,7 @@ const PageReorder = props => {
     }
     return (
         <Page>
-            <Navbar title={_t.textReorder} backLink={_t.textBack}>
+            <Navbar title={t('Edit.textArrange')} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
@@ -244,24 +319,24 @@ const EditImage = props => {
     return (
         <Fragment>
             <List>
-                <ListItem title={_t.textWrap} link='/edit-image-wrap/' routeProps={{
+                <ListItem title={t('Edit.textTextWrapping')} link='/edit-image-wrap/' routeProps={{
                     onWrapType: props.onWrapType,
                     onAlign: props.onAlign,
                     onMoveText: props.onMoveText,
                     onOverlap: props.onOverlap,
                     onWrapDistance: props.onWrapDistance
                 }}></ListItem>
-                <ListItem title={_t.textReplace} link='/edit-image-replace/' className={pluginGuid ? 'disabled' : ''} routeProps={{
+                <ListItem title={t('Edit.textReplaceImage')} link='/edit-image-replace/' className={pluginGuid ? 'disabled' : ''} routeProps={{
                     onReplaceByFile: props.onReplaceByFile,
                     onReplaceByUrl: props.onReplaceByUrl
                 }}></ListItem>
-                { wrapType !== 'inline' && <ListItem title={_t.textReorder} link='/edit-image-reorder/' routeProps={{
+                { wrapType !== 'inline' && <ListItem title={t('Edit.textArrange')} link='/edit-image-reorder/' routeProps={{
                     onReorder: props.onReorder
                 }}></ListItem> }
             </List>
             <List className="buttons-list">
                 <ListButton className='button-fill button-raised' title={_t.textActualSize} onClick={() => {props.onDefaulSize()}}/>
-                <ListButton className='button-red button-fill button-raised' title={_t.textRemoveImage} onClick={() => {props.onRemoveImage()}}/>
+                <ListButton className='button-red button-fill button-raised' title={t('Edit.textDeleteImage')} onClick={() => {props.onRemoveImage()}}/>
             </List>
         </Fragment>
     )
@@ -272,9 +347,11 @@ const PageWrapContainer = inject("storeFocusObjects", "storeImageSettings")(obse
 const PageReplaceContainer = inject("storeFocusObjects")(observer(PageReplace));
 const PageReorderContainer = inject("storeFocusObjects")(observer(PageReorder));
 const PageLinkSettingsContainer = inject("storeFocusObjects")(observer(PageLinkSettings));
+const PageWrappingStyleContainer = inject("storeFocusObjects")(observer(PageWrappingStyle));
 
 export {EditImageContainer as EditImage,
         PageWrapContainer as PageImageWrap,
         PageReplaceContainer as PageImageReplace,
         PageReorderContainer as PageImageReorder,
-        PageLinkSettingsContainer as PageLinkSettings}
+        PageLinkSettingsContainer as PageLinkSettings,
+        PageWrappingStyleContainer as PageWrappingStyle}

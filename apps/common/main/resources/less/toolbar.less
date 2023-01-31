@@ -55,6 +55,9 @@
     //}
     }
 
+    --toolbar-tabs-scroller-height: 38px;
+    @tabs-scroller-height: var(--toolbar-tabs-scroller-height, 38px);
+
     .tabs {
         //flex-grow: 1;
         background-color: @header-background-color-ie;
@@ -164,7 +167,7 @@
 
             &.left{
                 box-shadow: 5px 0 20px 5px @header-background-color-ie;
-                box-shadow: 18px calc(38px - @scaled-one-px-value) 0 10px @border-toolbar-active-panel-top, 5px 0 20px 5px @header-background-color;
+                box-shadow: 18px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar-active-panel-top, 5px 0 20px 5px @header-background-color;
 
                 &:after {
                     transform: rotate(135deg);
@@ -173,7 +176,7 @@
             }
             &.right{
                 box-shadow: -5px 0 20px 5px @header-background-color-ie;
-                box-shadow: -10px calc(38px - @scaled-one-px-value) 0 10px @border-toolbar-active-panel-top, -5px 0 20px 5px @header-background-color;
+                box-shadow: -10px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar-active-panel-top, -5px 0 20px 5px @header-background-color;
 
                 &:after {
                     transform: rotate(-45deg);
@@ -387,8 +390,12 @@
         /* z-index: @zindex-tooltip + 1; */
     }
 
-    &.toolbar-view .toolbar-mask{
-        left: 0;
+    &.toolbar-view {
+        --toolbar-tabs-scroller-height: 42px;
+
+        .toolbar-mask {
+            left: 0;
+        }
     }
 
     .top-title > & {
@@ -641,10 +648,13 @@
 }
 
 .btn-toolbar {
-    &:active {
-        svg.icon {
-            fill: @icon-toolbar-header-ie;
-            fill: @icon-toolbar-header;
+    &:active,
+    &.active {
+        &:not(.disabled) {
+            svg.icon {
+                fill: @icon-normal-pressed-ie;
+                fill: @icon-normal-pressed;
+            }
         }
     }
 
@@ -701,17 +711,22 @@
             margin: 0;
             -webkit-box-shadow: none;
             box-shadow: none;
-            &:hover {
-                background-color: @highlight-button-hover-ie;
-                background-color: @highlight-button-hover;
-            }
-            &.active {
-                background-color: @highlight-button-pressed-ie;
-                background-color: @highlight-button-pressed;
+        }
 
-                svg.icon {
-                    fill: @icon-normal-pressed-ie;
-                    fill: @icon-normal-pressed;
+        &:not(.disabled) {
+            .item {
+                &:hover {
+                    background-color: @highlight-button-hover-ie;
+                    background-color: @highlight-button-hover;
+                }
+                &.active {
+                    background-color: @highlight-button-pressed-ie;
+                    background-color: @highlight-button-pressed;
+
+                    svg.icon {
+                        fill: @icon-normal-pressed-ie;
+                        fill: @icon-normal-pressed;
+                    }
                 }
             }
         }
