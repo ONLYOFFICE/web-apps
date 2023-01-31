@@ -787,7 +787,6 @@ define([
                     {
                         props: me._originalProps,
                         field: field,
-                        names: me._state.names,
                         api: me.api,
                         handler: function(result, value) {
                             if (result == 'ok' && me.api && value) {
@@ -805,7 +804,6 @@ define([
                         {
                             props: me._originalProps,
                             fieldIndex: pivotIndex,
-                            names: me._state.names,
                             api: me.api,
                             type: me._state.field.type,
                             handler: function(result, value) {

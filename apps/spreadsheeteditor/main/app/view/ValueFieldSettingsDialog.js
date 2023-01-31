@@ -107,7 +107,6 @@ define([
             this.handler    = options.handler;
             this.props      = options.props;
             this.field      = options.field || 0;
-            this.names      = options.names || [];
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -227,9 +226,10 @@ define([
                 this.cmbShowAs.setValue(show_as);
 
                 var data = [];
-                this.names.forEach(function(item, index){
-                    data.push({value: index, displayValue: item});
+                this.pivot_names.forEach(function (item, index) {
+                    data.push({value: index, displayValue: item.asc_getName() || me.cache_names[index].asc_getName()});
                 });
+
                 this.cmbBaseField.setData(data);
                 this.cmbBaseField.setValue(field.asc_getBaseField(), '');
                 this.cmbBaseField.setDisabled(show_as === Asc.c_oAscShowDataAs.Normal || show_as === Asc.c_oAscShowDataAs.PercentOfTotal || show_as === Asc.c_oAscShowDataAs.PercentOfRow ||
