@@ -367,10 +367,51 @@ define([
                 allowDepress: true
             });
 
+            me.mnuSummarize = new Common.UI.MenuItem({
+                caption     : this.txtSummarize,
+                menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign   : 'tl-tr',
+                    items: [
+                        {
+                            caption : me.txtSum,
+                            value   : Asc.c_oAscDataConsolidateFunction.Sum,
+                            checkable: true
+                        },{
+                            caption : me.txtCount,
+                            value   : Asc.c_oAscDataConsolidateFunction.Count,
+                            checkable: true
+                        },{
+                            caption : me.txtAverage,
+                            value   : Asc.c_oAscDataConsolidateFunction.Average,
+                            checkable: true
+                        },{
+                            caption : me.txtMax,
+                            value   : Asc.c_oAscDataConsolidateFunction.Max,
+                            checkable: true
+                        },{
+                            caption : me.txtMin,
+                            value   : Asc.c_oAscDataConsolidateFunction.Min,
+                            checkable: true
+                        },{
+                            caption : me.txtProduct,
+                            value   : Asc.c_oAscDataConsolidateFunction.Product,
+                            checkable: true
+                        },{
+                            caption : '--'
+                        },{
+                            caption : me.txtMoreOptions,
+                            value: -1
+                        }
+                    ]
+                })
+            });
+
             me.mnuPivotRefreshSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotSubtotalSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotSettingsSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotDeleteSeparator = new Common.UI.MenuItem({caption: '--'});
+            me.mnuPivotValueSeparator = new Common.UI.MenuItem({caption: '--'});
 
             me.pmiInsFunction = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-function',
@@ -620,6 +661,8 @@ define([
                     me.mnuUnGroupPivot,
                     me.mnuPivotDeleteSeparator,
                     me.mnuDeleteField,
+                    me.mnuPivotValueSeparator,
+                    me.mnuSummarize,
                     me.mnuPivotSettingsSeparator,
                     me.mnuFieldSettings,
                     me.mnuPivotSettings,
@@ -1435,7 +1478,16 @@ define([
         txtValueFieldSettings: 'Value field settings',
         txtDelField: 'Remove',
         txtSubtotalField: 'Subtotal',
-        txtGrandTotal: 'Grand total'
+        txtGrandTotal: 'Grand total',
+        txtSummarize: 'Summarize values by',
+        txtShowAs: 'Show values as',
+        txtMoreOptions: 'More options',
+        txtSum: 'Sum',
+        txtAverage: 'Average',
+        txtCount: 'Count',
+        txtMax: 'Max',
+        txtMin: 'Min',
+        txtProduct: 'Product'
 
     }, SSE.Views.DocumentHolder || {}));
 });
