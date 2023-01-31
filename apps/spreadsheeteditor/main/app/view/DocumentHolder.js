@@ -407,6 +407,90 @@ define([
                 })
             });
 
+            me.mnuShowAs = new Common.UI.MenuItem({
+                caption     : this.txtShowAs,
+                menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign   : 'tl-tr',
+                    items: [
+                        {
+                            caption : me.txtNormal,
+                            value   : Asc.c_oAscShowDataAs.Normal,
+                            checkable: true
+                        },{
+                            caption : me.txtPercentOfGrand,
+                            value   : Asc.c_oAscShowDataAs.PercentOfTotal,
+                            checkable: true
+                        },{
+                            caption : me.txtPercentOfCol,
+                            value   : Asc.c_oAscShowDataAs.PercentOfCol,
+                            checkable: true
+                        },{
+                            caption : me.txtPercentOfTotal,
+                            value   : Asc.c_oAscShowDataAs.PercentOfRow,
+                            checkable: true
+                        },{
+                            caption : me.txtPercent,
+                            value   : Asc.c_oAscShowDataAs.Percent,
+                            showMore: true,
+                            checkable: true
+                        },{
+                            caption : me.txtPercentOfParentRow,
+                            value   : Asc.c_oAscShowDataAs.PercentOfParentRow,
+                            checkable: true
+                        },{
+                            caption : me.txtPercentOfParentCol,
+                            value   : Asc.c_oAscShowDataAs.PercentOfParentCol,
+                            checkable: true
+                        },{
+                            caption : me.txtPercentOfParent,
+                            value   : Asc.c_oAscShowDataAs.PercentOfParent,
+                            showMore: true,
+                            checkable: true
+                        },{
+                            caption : me.txtDifference,
+                            value   : Asc.c_oAscShowDataAs.Difference,
+                            showMore: true,
+                            checkable: true
+                        },{
+                            caption : me.txtPercentDiff,
+                            value   : Asc.c_oAscShowDataAs.PercentDiff,
+                            showMore: true,
+                            checkable: true
+                        },{
+                            caption : me.txtRunTotal,
+                            value   : Asc.c_oAscShowDataAs.RunTotal,
+                            showMore: true,
+                            checkable: true
+                        },{
+                            caption : me.txtPercentOfRunTotal,
+                            value   : Asc.c_oAscShowDataAs.PercentOfRunningTotal,
+                            showMore: true,
+                            checkable: true
+                        },{
+                            caption : me.txtRankAscending,
+                            value   : Asc.c_oAscShowDataAs.RankAscending,
+                            showMore: true,
+                            checkable: true
+                        },{
+                            caption : me.txtRankDescending,
+                            value   : Asc.c_oAscShowDataAs.RankDescending,
+                            showMore: true,
+                            checkable: true
+                        },{
+                            caption : me.txtIndex,
+                            value   : Asc.c_oAscShowDataAs.Index,
+                            checkable: true
+                        },{
+                            caption : '--'
+                        },{
+                            caption : me.txtMoreOptions,
+                            value: -1
+                        }
+                    ]
+                })
+            });
+
             me.mnuPivotRefreshSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotSubtotalSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotSettingsSeparator = new Common.UI.MenuItem({caption: '--'});
@@ -663,6 +747,7 @@ define([
                     me.mnuDeleteField,
                     me.mnuPivotValueSeparator,
                     me.mnuSummarize,
+                    me.mnuShowAs,
                     me.mnuPivotSettingsSeparator,
                     me.mnuFieldSettings,
                     me.mnuPivotSettings,
@@ -1487,7 +1572,22 @@ define([
         txtCount: 'Count',
         txtMax: 'Max',
         txtMin: 'Min',
-        txtProduct: 'Product'
+        txtProduct: 'Product',
+        txtNormal: 'No calculation',
+        txtDifference: 'The difference from',
+        txtPercent: '% of',
+        txtPercentDiff: '% difference from',
+        txtRunTotal: 'Running total in',
+        txtPercentOfRunTotal: '% running total in',
+        txtPercentOfCol: '% of column total',
+        txtPercentOfTotal: '% of row total',
+        txtPercentOfGrand: '% of grand total',
+        txtIndex: 'Index',
+        txtPercentOfParentRow: '% of parent row total',
+        txtPercentOfParentCol: '% of parent column total',
+        txtPercentOfParent: '% of parent total',
+        txtRankAscending: 'Rank smallest to largest',
+        txtRankDescending: 'Rank largest to smallest'
 
     }, SSE.Views.DocumentHolder || {}));
 });

@@ -223,6 +223,7 @@ define([
                 view.mnuDeleteField.on('click',                     _.bind(me.onDeleteField, me));
                 view.mnuSubtotalField.on('click',                   _.bind(me.onSubtotalField, me));
                 view.mnuSummarize.menu.on('item:click',             _.bind(me.onSummarize, me));
+                view.mnuShowAs.menu.on('item:click',                _.bind(me.onShowAs, me));
                 view.pmiClear.menu.on('item:click',                 _.bind(me.onClear, me));
                 view.pmiSelectTable.menu.on('item:click',           _.bind(me.onSelectTable, me));
                 view.pmiInsertTable.menu.on('item:click',           _.bind(me.onInsertTable, me));
@@ -647,6 +648,7 @@ define([
                         {
                             props: props,
                             field: field,
+                            showAsValue: me.propsPivot.showAsValue,
                             api: me.api,
                             handler: function(result, value) {
                                 if (result === 'ok' && me.api && value) {
@@ -714,6 +716,21 @@ define([
             else if (item.value!==undefined && item.value!==null) {
                 var field = new Asc.CT_DataField();
                 field.asc_setSubtotal(item.value);
+                this.propsPivot.field.asc_set(this.api, this.propsPivot.originalProps, this.propsPivot.index, field);
+                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+            }
+        },
+
+        onShowAs: function(menu, item, e) {
+            if (!this.propsPivot.originalProps) return;
+
+            if (item.value===-1 || item.options.showMore) {
+                if (item.options.showMore)
+                    this.propsPivot.showAsValue = item.value;
+                this.onFieldSettings();
+            } else if (item.value!==undefined && item.value!==null) {
+                var field = new Asc.CT_DataField();
+                field.asc_setShowDataAs(item.value);
                 this.propsPivot.field.asc_set(this.api, this.propsPivot.originalProps, this.propsPivot.index, field);
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
             }
@@ -2513,7 +2530,7 @@ define([
                 documentHolder.pmiAddNamedRange.setVisible(iscellmenu && !iscelledit && !internaleditor);
 
                 var needshow = iscellmenu && !iscelledit && !diagramOrMergeEditor && inPivot,
-                    pageFieldIndex, rowFieldIndex, colFieldIndex = 0, dataFieldIndex, rowTotal, colTotal;
+                    pageFieldIndex, rowFieldIndex, colFieldIndex, dataFieldIndex, rowTotal, colTotal;
 
                 needshow && this.fillPivotProps(pageFieldIndex, rowFieldIndex, colFieldIndex, dataFieldIndex, rowTotal, colTotal);
                 documentHolder.mnuRefreshPivot.setVisible(needshow);
@@ -2528,6 +2545,7 @@ define([
                 documentHolder.mnuPivotSettings.setVisible(needshow);
                 documentHolder.mnuFieldSettings.setVisible(!!this.propsPivot.field);
                 documentHolder.mnuSummarize.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2));
+                documentHolder.mnuShowAs.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2) && !rowTotal && !colTotal);
                 documentHolder.mnuPivotValueSeparator.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2));
                 if (this.propsPivot.field) {
                     documentHolder.mnuDeleteField.setCaption(documentHolder.txtDelField + ' ' + (rowTotal || colTotal ? documentHolder.txtGrandTotal : '"' + Common.Utils.String.htmlEncode(this.propsPivot.fieldName) + '"'), true);
@@ -2538,6 +2556,13 @@ define([
                         for (var i = 0; i < documentHolder.mnuSummarize.menu.items.length; i++) {
                             var item = documentHolder.mnuSummarize.menu.items[i];
                             (item.value!==undefined) && item.setChecked(item.value===sumval, true);
+                        }
+                        if (!rowTotal && !colTotal) {
+                            sumval = this.propsPivot.field.asc_getShowDataAs();
+                            for (var i = 0; i < documentHolder.mnuShowAs.menu.items.length; i++) {
+                                var item = documentHolder.mnuShowAs.menu.items[i];
+                                (item.value!==undefined) && item.setChecked(item.value===sumval, true);
+                            }
                         }
                     } else {
                         documentHolder.mnuSubtotalField.setChecked(!!this.propsPivot.field.asc_getDefaultSubtotal(), true);
@@ -2644,6 +2669,7 @@ define([
                     documentHolder.mnuDeleteField.setDisabled(isPivotLocked || this._state.wsLock);
                     documentHolder.mnuSubtotalField.setDisabled(isPivotLocked || this._state.wsLock);
                     documentHolder.mnuSummarize.setDisabled(isPivotLocked || this._state.wsLock);
+                    documentHolder.mnuShowAs.setDisabled(isPivotLocked || this._state.wsLock);
                 }
 
                 if (showMenu) this.showPopupMenu(documentHolder.ssMenu, {}, event);

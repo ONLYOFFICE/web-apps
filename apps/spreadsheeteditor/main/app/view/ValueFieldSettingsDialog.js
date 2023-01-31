@@ -107,6 +107,7 @@ define([
             this.handler    = options.handler;
             this.props      = options.props;
             this.field      = options.field || 0;
+            this.showAsValue = options.showAsValue;
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -244,6 +245,11 @@ define([
                 this.cmbBaseItem.setDisabled(data.length<1 || show_as !== Asc.c_oAscShowDataAs.Difference && show_as !== Asc.c_oAscShowDataAs.Percent && show_as !== Asc.c_oAscShowDataAs.PercentDiff);
                 this.cmbBaseItem.setValue((data.length>0) && (show_as === Asc.c_oAscShowDataAs.Difference || show_as === Asc.c_oAscShowDataAs.Percent || show_as === Asc.c_oAscShowDataAs.PercentDiff) ? field.asc_getBaseItem() : '', '');
             }
+
+            if (this.showAsValue!==undefined) {
+                this.cmbShowAs.setValue(this.showAsValue);
+                this.onShowAsSelect(this.cmbShowAs, this.cmbShowAs.getSelectedRecord());
+            }
         },
 
         getSettings: function () {
@@ -300,7 +306,7 @@ define([
             this.cmbBaseItem.setData(data);
             var show_as = this.cmbShowAs.getValue();
             this.cmbBaseItem.setDisabled(data.length<1 || show_as !== Asc.c_oAscShowDataAs.Difference && show_as !== Asc.c_oAscShowDataAs.Percent && show_as !== Asc.c_oAscShowDataAs.PercentDiff);
-            this.cmbBaseItem.setValue((show_as === Asc.c_oAscShowDataAs.Difference || show_as === Asc.c_oAscShowDataAs.Percent || show_as === Asc.Asc.c_oAscShowDataAs.PercentDiff) && data.length>0 ?
+            this.cmbBaseItem.setValue((show_as === Asc.c_oAscShowDataAs.Difference || show_as === Asc.c_oAscShowDataAs.Percent || show_as === Asc.c_oAscShowDataAs.PercentDiff) && data.length>0 ?
                                         this.cmbBaseItem.store.at(0).get('value') : '', '');
         },
 
