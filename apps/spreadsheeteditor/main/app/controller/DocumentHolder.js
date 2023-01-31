@@ -74,7 +74,10 @@ define([
     'spreadsheeteditor/main/app/view/SpecialPasteDialog',
     'spreadsheeteditor/main/app/view/SlicerSettingsAdvanced',
     'spreadsheeteditor/main/app/view/PivotGroupDialog',
-    'spreadsheeteditor/main/app/view/MacroDialog'
+    'spreadsheeteditor/main/app/view/MacroDialog',
+    'spreadsheeteditor/main/app/view/FieldSettingsDialog',
+    'spreadsheeteditor/main/app/view/ValueFieldSettingsDialog',
+    'spreadsheeteditor/main/app/view/PivotSettingsAdvanced'
 ], function () {
     'use strict';
 
@@ -215,6 +218,10 @@ define([
                 view.mnuRefreshPivot.on('click',                    _.bind(me.onRefreshPivot, me));
                 view.mnuGroupPivot.on('click',                      _.bind(me.onGroupPivot, me));
                 view.mnuUnGroupPivot.on('click',                    _.bind(me.onGroupPivot, me));
+                view.mnuPivotSettings.on('click',                   _.bind(me.onPivotSettings, me));
+                view.mnuFieldSettings.on('click',                   _.bind(me.onFieldSettings, me));
+                view.mnuDeleteField.on('click',                     _.bind(me.onDeleteField, me));
+                view.mnuSubtotalField.on('click',                    _.bind(me.onSubtotalField, me));
                 view.pmiClear.menu.on('item:click',                 _.bind(me.onClear, me));
                 view.pmiSelectTable.menu.on('item:click',           _.bind(me.onSelectTable, me));
                 view.pmiInsertTable.menu.on('item:click',           _.bind(me.onInsertTable, me));
@@ -580,7 +587,7 @@ define([
 
         onRefreshPivot: function(){
             if (this.api) {
-                this.propsPivot.asc_refresh(this.api);
+                this.propsPivot.originalProps.asc_refresh(this.api);
             }
         },
 
@@ -603,6 +610,156 @@ define([
             });
             win.show();
             win.setSettings(rangePr, dateTypes, defRangePr);
+        },
+
+        onPivotSettings: function(){
+            var props = this.propsPivot.originalProps;
+            if (!props) return;
+
+            var me = this;
+            if (me.api){
+                (new SSE.Views.PivotSettingsAdvanced(
+                    {
+                        props: props,
+                        api: me.api,
+                        handler: function(result, value) {
+                            if (result == 'ok' && me.api && value) {
+                                props.asc_set(me.api, value);
+                                Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                            }
+
+                            Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                        }
+                    })).show();
+            }
+        },
+
+        onFieldSettings: function(){
+            var props = this.propsPivot.originalProps;
+            if (!props) return;
+
+            var me = this;
+            if (me.api){
+                if (me.propsPivot.fieldType === 2) { // value field
+                    var field = me.propsPivot.field;
+                    (new SSE.Views.ValueFieldSettingsDialog(
+                        {
+                            props: props,
+                            field: field,
+                            api: me.api,
+                            handler: function(result, value) {
+                                if (result === 'ok' && me.api && value) {
+                                    field.asc_set(me.api, props, me.propsPivot.index, value);
+                                    Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                                }
+
+                                Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                            }
+                        })).show();
+                } else {
+                    (new SSE.Views.FieldSettingsDialog(
+                        {
+                            props: props,
+                            fieldIndex: me.propsPivot.pivotIndex,
+                            api: me.api,
+                            type: me.propsPivot.fieldType,
+                            handler: function(result, value) {
+                                if (result === 'ok' && me.api && value) {
+                                    me.propsPivot.field.asc_set(me.api, props, me.propsPivot.pivotIndex, value);
+                                    Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                                }
+
+                                Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                            }
+                        })).show();
+                }
+            }
+        },
+
+        onDeleteField: function(){
+            if (this.api && this.propsPivot.originalProps && this.propsPivot.field) {
+                if (this.propsPivot.fieldType===2) { // value
+                    if (this.propsPivot.rowTotal || this.propsPivot.colTotal) {
+                        var props = new Asc.CT_pivotTableDefinition();
+                        props.asc_setRowGrandTotals(this.propsPivot.rowTotal ? false : this.propsPivot.originalProps.asc_getRowGrandTotals());
+                        props.asc_setColGrandTotals(this.propsPivot.colTotal ? false : this.propsPivot.originalProps.asc_getColGrandTotals());
+                        this.propsPivot.originalProps.asc_set(this.api, props);
+                    } else
+                        this.propsPivot.originalProps.asc_removeDataField(this.api, this.propsPivot.pivotIndex, this.propsPivot.index);
+                } else
+                    this.propsPivot.originalProps.asc_removeNoDataField(this.api, this.propsPivot.pivotIndex);
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+        },
+
+        onSubtotalField: function(item){
+            if (this.api && this.propsPivot.originalProps) {
+                var props = new Asc.CT_pivotTableDefinition();
+                if (item.checked) {
+                    props.asc_setDefaultSubtotal(true);
+                    props.asc_setSubtotalTop(true);
+                } else {
+                    props.asc_setDefaultSubtotal(false);
+                }
+                this.propsPivot.originalProps.asc_set(this.api, props);
+            }
+        },
+
+        fillPivotProps: function(pageFieldIndex, rowFieldIndex, colFieldIndex, dataFieldIndex, rowTotal, colTotal) {
+            var props = this.propsPivot.originalProps;
+            if (!props) return;
+
+            if (colFieldIndex!==undefined && colFieldIndex!==null) {
+                var fprops = props.asc_getColumnFields();
+                if (fprops) {
+                    var pivotIndex = fprops[colFieldIndex].asc_getIndex();
+                    if (pivotIndex>-1) {
+                        this.propsPivot.pivotIndex = pivotIndex;
+                        this.propsPivot.index = colFieldIndex;
+                        this.propsPivot.field = props.asc_getPivotFields()[pivotIndex];
+                        this.propsPivot.fieldType = 0;
+                        this.propsPivot.fieldName = this.propsPivot.field.asc_getName() || props.asc_getCacheFields()[pivotIndex].asc_getName();
+                    }
+                }
+            } else if (rowFieldIndex!==undefined && rowFieldIndex!==null) {
+                var fprops = props.asc_getRowFields();
+                if (fprops) {
+                    var pivotIndex = fprops[rowFieldIndex].asc_getIndex();
+                    if (pivotIndex>-1) {
+                        this.propsPivot.pivotIndex = pivotIndex;
+                        this.propsPivot.index = rowFieldIndex;
+                        this.propsPivot.field = props.asc_getPivotFields()[pivotIndex];
+                        this.propsPivot.fieldType = 1;
+                        this.propsPivot.fieldName = this.propsPivot.field.asc_getName() || props.asc_getCacheFields()[pivotIndex].asc_getName();
+                    }
+                }
+            }  else if (pageFieldIndex!==undefined && pageFieldIndex!==null) {
+                var fprops = props.asc_getPageFields();
+                if (fprops) {
+                    var pivotIndex = fprops[pageFieldIndex].asc_getIndex();
+                    if (pivotIndex>-1) {
+                        this.propsPivot.pivotIndex = pivotIndex;
+                        this.propsPivot.index = pageFieldIndex;
+                        this.propsPivot.field = props.asc_getPivotFields()[pivotIndex];
+                        this.propsPivot.fieldType = 3;
+                        this.propsPivot.fieldName = this.propsPivot.field.asc_getName() || props.asc_getCacheFields()[pivotIndex].asc_getName();
+                    }
+                }
+            }  else if (dataFieldIndex!==undefined && dataFieldIndex!==null) {
+                var fprops = props.asc_getDataFields();
+                if (fprops) {
+                    var pivotIndex = fprops[dataFieldIndex].asc_getIndex();
+                    if (pivotIndex>-1) {
+                        this.propsPivot.pivotIndex = pivotIndex;
+                        this.propsPivot.index = dataFieldIndex;
+                        this.propsPivot.field = fprops[dataFieldIndex];
+                        this.propsPivot.fieldType = 2;
+                        this.propsPivot.fieldName = this.propsPivot.field.asc_getName();
+                        this.propsPivot.rowTotal = rowTotal;
+                        this.propsPivot.colTotal = colTotal;
+                    }
+                }
+            }
         },
 
         onClear: function(menu, item, e) {
@@ -2306,17 +2463,21 @@ define([
                 seltype !== Asc.c_oAscSelectionType.RangeChart && seltype !== Asc.c_oAscSelectionType.RangeChartText &&
                 seltype !== Asc.c_oAscSelectionType.RangeShapeText && seltype !== Asc.c_oAscSelectionType.RangeSlicer)) {
                 if (!documentHolder.ssMenu || !showMenu && !documentHolder.ssMenu.isVisible()) return;
-                this.propsPivot = cellinfo.asc_getPivotTableInfo();
+                this.propsPivot = {
+                    originalProps: cellinfo.asc_getPivotTableInfo()
+                };
                 var iscelledit = this.api.isCellEdited,
                     formatTableInfo = cellinfo.asc_getFormatTableInfo(),
                     isinsparkline = (cellinfo.asc_getSparklineInfo()!==null),
                     isintable = (formatTableInfo !== null),
                     ismultiselect = cellinfo.asc_getMultiselect(),
-                    inPivot = !!this.propsPivot;
+                    inPivot = !!this.propsPivot.originalProps;
                 documentHolder.ssMenu.formatTableName = (isintable) ? formatTableInfo.asc_getTableName() : null;
                 documentHolder.ssMenu.cellColor = xfs.asc_getFillColor();
                 documentHolder.ssMenu.fontColor = xfs.asc_getFontColor();
 
+                documentHolder.pmiCut.setVisible(!inPivot);
+                documentHolder.pmiPaste.setVisible(!inPivot);
                 documentHolder.pmiInsertEntire.setVisible(isrowmenu||iscolmenu);
                 documentHolder.pmiInsertEntire.setCaption((isrowmenu) ? this.textInsertTop : this.textInsertLeft);
                 documentHolder.pmiDeleteEntire.setVisible(isrowmenu||iscolmenu);
@@ -2333,12 +2494,31 @@ define([
                 documentHolder.pmiFilterCells.setVisible(iscellmenu && !iscelledit && !diagramOrMergeEditor && !inPivot);
                 documentHolder.pmiReapply.setVisible((iscellmenu||isallmenu) && !iscelledit && !diagramOrMergeEditor && !inPivot);
                 documentHolder.pmiCondFormat.setVisible(!iscelledit && !diagramOrMergeEditor);
-                documentHolder.mnuRefreshPivot.setVisible(iscellmenu && !iscelledit && !diagramOrMergeEditor && inPivot);
-                documentHolder.mnuGroupPivot.setVisible(iscellmenu && !iscelledit && !diagramOrMergeEditor && inPivot);
-                documentHolder.mnuUnGroupPivot.setVisible(iscellmenu && !iscelledit && !diagramOrMergeEditor && inPivot);
                 documentHolder.ssMenu.items[12].setVisible((iscellmenu||isallmenu||isinsparkline) && !iscelledit);
                 documentHolder.pmiInsFunction.setVisible(iscellmenu && !iscelledit && !inPivot);
                 documentHolder.pmiAddNamedRange.setVisible(iscellmenu && !iscelledit && !internaleditor);
+
+                var needshow = iscellmenu && !iscelledit && !diagramOrMergeEditor && inPivot,
+                    pageFieldIndex, rowFieldIndex, colFieldIndex, dataFieldIndex = 0, rowTotal, colTotal;
+
+                needshow && this.fillPivotProps(pageFieldIndex, rowFieldIndex, colFieldIndex, dataFieldIndex, rowTotal, colTotal);
+                documentHolder.mnuRefreshPivot.setVisible(needshow);
+                documentHolder.mnuPivotRefreshSeparator.setVisible(needshow);
+                documentHolder.mnuSubtotalField.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType!==2));
+                documentHolder.mnuPivotSubtotalSeparator.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType!==2));
+                documentHolder.mnuGroupPivot.setVisible(needshow);
+                documentHolder.mnuUnGroupPivot.setVisible(needshow);
+                documentHolder.mnuDeleteField.setVisible(!!this.propsPivot.field);
+                documentHolder.mnuPivotDeleteSeparator.setVisible(!!this.propsPivot.field);
+                documentHolder.mnuPivotSettingsSeparator.setVisible(needshow);
+                documentHolder.mnuPivotSettings.setVisible(needshow);
+                documentHolder.mnuFieldSettings.setVisible(!!this.propsPivot.field);
+                if (this.propsPivot.field) {
+                    documentHolder.mnuDeleteField.setCaption(documentHolder.txtDelField + ' ' + (rowTotal || colTotal ? documentHolder.txtGrandTotal : '"' + Common.Utils.String.htmlEncode(this.propsPivot.fieldName) + '"'), true);
+                    documentHolder.mnuSubtotalField.setCaption(documentHolder.txtSubtotalField + ' "' + Common.Utils.String.htmlEncode(this.propsPivot.fieldName) + '"', true);
+                    documentHolder.mnuFieldSettings.setCaption(this.propsPivot.fieldType===2 ? documentHolder.txtValueFieldSettings : documentHolder.txtFieldSettings);
+                    (this.propsPivot.fieldType!==2) && documentHolder.mnuSubtotalField.setChecked(!!this.propsPivot.field.asc_getDefaultSubtotal());
+                }
 
                 if (isintable) {
                     documentHolder.pmiInsertTable.menu.items[0].setDisabled(!formatTableInfo.asc_getIsInsertRowAbove());
@@ -2365,7 +2545,7 @@ define([
 
                 /** coauthoring begin **/
                 var celcomments = cellinfo.asc_getComments(); // celcomments===null - has comment, but no permissions to view it
-                documentHolder.ssMenu.items[20].setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && celcomments && (celcomments.length < 1));
+                documentHolder.pmiAddCommentSeparator.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && celcomments && (celcomments.length < 1));
                 documentHolder.pmiAddComment.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && celcomments && (celcomments.length < 1));
                 /** coauthoring end **/
                 documentHolder.pmiCellMenuSeparator.setVisible(iscellmenu && !iscelledit || isrowmenu || iscolmenu || isallmenu);
@@ -2435,6 +2615,10 @@ define([
                     documentHolder.mnuGroupPivot.setDisabled(isPivotLocked || !canGroup || this._state.wsLock);
                     documentHolder.mnuUnGroupPivot.setDisabled(isPivotLocked || !canGroup || this._state.wsLock);
                     documentHolder.mnuRefreshPivot.setDisabled(isPivotLocked || this._state.wsLock);
+                    documentHolder.mnuPivotSettings.setDisabled(isPivotLocked || this._state.wsLock);
+                    documentHolder.mnuFieldSettings.setDisabled(isPivotLocked || this._state.wsLock);
+                    documentHolder.mnuDeleteField.setDisabled(isPivotLocked || this._state.wsLock);
+                    documentHolder.mnuSubtotalField.setDisabled(isPivotLocked || this._state.wsLock);
                 }
 
                 if (showMenu) this.showPopupMenu(documentHolder.ssMenu, {}, event);

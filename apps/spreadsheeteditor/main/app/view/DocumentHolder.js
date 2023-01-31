@@ -349,6 +349,29 @@ define([
                 value       : 'ungrouping'
             });
 
+            me.mnuPivotSettings = new Common.UI.MenuItem({
+                caption     : this.txtPivotSettings
+            });
+
+            me.mnuFieldSettings = new Common.UI.MenuItem({
+                caption     : this.txtFieldSettings
+            });
+
+            me.mnuDeleteField = new Common.UI.MenuItem({
+                caption     : this.txtDelField
+            });
+
+            me.mnuSubtotalField = new Common.UI.MenuItem({
+                caption     : this.txtSubtotalField,
+                checkable: true,
+                allowDepress: true
+            });
+
+            me.mnuPivotRefreshSeparator = new Common.UI.MenuItem({caption: '--'});
+            me.mnuPivotSubtotalSeparator = new Common.UI.MenuItem({caption: '--'});
+            me.mnuPivotSettingsSeparator = new Common.UI.MenuItem({caption: '--'});
+            me.mnuPivotDeleteSeparator = new Common.UI.MenuItem({caption: '--'});
+
             me.pmiInsFunction = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-function',
                 caption     : me.txtFormula
@@ -420,9 +443,13 @@ define([
                 caption     : me.txtAddComment
             });
 
+            me.pmiAddCommentSeparator =  new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
             me.pmiCellMenuSeparator =  new Common.UI.MenuItem({
                 caption     : '--'
-            })
+            });
 
             me.pmiFunctionSeparator =  new Common.UI.MenuItem({
                 caption     : '--'
@@ -586,9 +613,17 @@ define([
                     me.pmiFilterCells,
                     me.pmiReapply,
                     me.mnuRefreshPivot,
+                    me.mnuPivotRefreshSeparator,
+                    me.mnuSubtotalField,
+                    me.mnuPivotSubtotalSeparator,
                     me.mnuGroupPivot,
                     me.mnuUnGroupPivot,
-                    {caption: '--'},
+                    me.mnuPivotDeleteSeparator,
+                    me.mnuDeleteField,
+                    me.mnuPivotSettingsSeparator,
+                    me.mnuFieldSettings,
+                    me.mnuPivotSettings,
+                    me.pmiAddCommentSeparator,
                     me.pmiAddComment,
                     me.pmiCellMenuSeparator,
                     me.pmiNumFormat,
@@ -1394,7 +1429,13 @@ define([
         currProfText: 'Current - Professional',
         currLinearText: 'Current - Linear',
         allProfText: 'All - Professional',
-        allLinearText: 'All - Linear'
+        allLinearText: 'All - Linear',
+        txtPivotSettings: 'Pivot Table settings',
+        txtFieldSettings: 'Field settings',
+        txtValueFieldSettings: 'Value field settings',
+        txtDelField: 'Remove',
+        txtSubtotalField: 'Subtotal',
+        txtGrandTotal: 'Grand total'
 
     }, SSE.Views.DocumentHolder || {}));
 });
