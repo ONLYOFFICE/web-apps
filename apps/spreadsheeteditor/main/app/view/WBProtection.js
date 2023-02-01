@@ -70,6 +70,10 @@ define([
                 '<div class="elset">' +
                     '<span class="btn-slot text" id="slot-chk-locked-text"></span>' +
                 '</div>' +
+            '</div>' +
+            '<div class="separator long"></div>' +
+            '<div class="group">' +
+                '<span id="slot-btn-protect-range" class="btn-slot text x-huge"></span>' +
             '</div>';
 
         function setEvents() {
@@ -82,7 +86,7 @@ define([
                 me.fireEvent('protect:sheet', [btn.pressed]);
             });
             this.btnAllowRanges.on('click', function (btn, e) {
-                me.fireEvent('protect:ranges');
+                me.fireEvent('protect:allow-ranges');
             });
             this.chLockedCell.on('change', function (field, value) {
                 me.fireEvent('protect:lock-options', [0, value]);
@@ -96,7 +100,9 @@ define([
             this.chHiddenFormula.on('change', function (field, value) {
                 me.fireEvent('protect:lock-options', [3, value]);
             });
-
+            this.btnProtectRange.on('click', function (btn, e) {
+                me.fireEvent('protect:range');
+            });
             me._isSetEvents = true;
         }
 
@@ -184,6 +190,17 @@ define([
                 });
                 this.lockedControls.push(this.chHiddenFormula);
 
+                this.btnProtectRange = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon allow-edit-ranges',
+                    caption: this.txtProtectRange,
+                    lock        : [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
+                    dataHint    : '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btnProtectRange);
+
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -199,6 +216,7 @@ define([
                     me.btnProtectWB.updateHint(me.hintProtectWB);
                     me.btnProtectSheet.updateHint(me.hintProtectSheet);
                     me.btnAllowRanges.updateHint(me.hintAllowRanges);
+                    me.btnProtectRange.updateHint(me.hintProtectRange);
 
                     setEvents.call(me);
                 });
@@ -214,6 +232,7 @@ define([
                 this.chLockedShape.render(this.$el.find('#slot-chk-locked-shape'));
                 this.chLockedText.render(this.$el.find('#slot-chk-locked-text'));
                 this.chHiddenFormula.render(this.$el.find('#slot-chk-hidden-formula'));
+                this.btnProtectRange.render(this.$el.find('#slot-btn-protect-range'));
 
                 return this.$el;
             },
@@ -242,7 +261,9 @@ define([
             txtWBUnlockTitle: 'Unprotect Workbook',
             txtWBUnlockDescription: 'Enter a password to unprotect workbook',
             txtSheetUnlockTitle: 'Unprotect Sheet',
-            txtSheetUnlockDescription: 'Enter a password to unprotect sheet'
+            txtSheetUnlockDescription: 'Enter a password to unprotect sheet',
+            hintProtectRange: 'Protect range',
+            txtProtectRange: 'Protect Range'
         }
     }()), SSE.Views.WBProtection || {}));
 });

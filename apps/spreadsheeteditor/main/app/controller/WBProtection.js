@@ -43,7 +43,9 @@ define([
     'common/main/lib/view/Protection',
     'spreadsheeteditor/main/app/view/WBProtection',
     'spreadsheeteditor/main/app/view/ProtectDialog',
-    'spreadsheeteditor/main/app/view/ProtectRangesDlg'
+    'spreadsheeteditor/main/app/view/ProtectRangesDlg',
+    'spreadsheeteditor/main/app/view/ProtectedRangesManagerDlg',
+    'spreadsheeteditor/main/app/view/ProtectedRangesEditDlg'
 ], function () {
     'use strict';
 
@@ -60,10 +62,11 @@ define([
 
             this.addListeners({
                 'WBProtection': {
-                    'protect:workbook':      _.bind(this.onWorkbookClick, this),
-                    'protect:sheet':     _.bind(this.onSheetClick, this),
-                    'protect:ranges':     _.bind(this.onRangesClick, this),
-                    'protect:lock-options':     _.bind(this.onLockOptionClick, this)
+                    'protect:workbook':     _.bind(this.onWorkbookClick, this),
+                    'protect:sheet':        _.bind(this.onSheetClick, this),
+                    'protect:allow-ranges': _.bind(this.onAllowRangesClick, this),
+                    'protect:lock-options': _.bind(this.onLockOptionClick, this),
+                    'protect:range':       _.bind(this.onProtectRangeClick, this)
                 }
             });
         },
@@ -228,7 +231,7 @@ define([
             }
         },
 
-        onRangesClick: function() {
+        onAllowRangesClick: function() {
             var me = this,
                 props = me.api.asc_getProtectedRanges(),
                 win = new SSE.Views.ProtectRangesDlg({
@@ -268,6 +271,35 @@ define([
                     break;
             }
             Common.NotificationCenter.trigger('edit:complete', this);
+        },
+
+        onProtectRangeClick: function() {
+            var wc = this.api.asc_getWorksheetsCount(),
+                i = -1,
+                items = [], sheetNames = [];
+            while (++i < wc) {
+                if (!this.api.asc_isWorksheetHidden(i)) {
+                    sheetNames[i] = this.api.asc_getWorksheetName(i);
+                    items.push({displayValue: sheetNames[i], value: i});
+                }
+            }
+
+            var me = this,
+                props = me.api.asc_getProtectedRanges(),
+                win = new SSE.Views.ProtectedRangesManagerDlg({
+                    api: me.api,
+                    props: props,
+                    sheets: items,
+                    sheetNames: sheetNames,
+                    handler: function(result, settings) {
+                        if (result == 'ok') {
+                            me.api.asc_setProtectedRanges(settings.arr, settings.deletedArr);
+                        }
+                        Common.NotificationCenter.trigger('edit:complete');
+                    }
+                });
+
+            win.show();
         },
 
         onAppReady: function (config) {
