@@ -144,6 +144,7 @@ define([
         onPluginShow: function(plugin, variationIndex, frameId, urlAddition) {
             var variation = plugin.get_Variations()[variationIndex];
             if (variation.get_Visual()) {
+                var lang = this.appOptions && this.appOptions.lang ? this.appOptions.lang.split(/[\-_]/)[0] : 'en';
                 var url = variation.get_Url();
                 url = ((plugin.get_BaseUrl().length == 0) ? url : plugin.get_BaseUrl()) + url;
                 if (urlAddition)
@@ -167,7 +168,7 @@ define([
                 me.pluginDlg = new Common.Views.PluginDlg({
                     cls: isCustomWindow ? 'plain' : '',
                     header: !isCustomWindow,
-                    title: plugin.get_Name(),
+                    title: plugin.get_Name(lang),
                     width: size[0], // inner width
                     height: size[1], // inner height
                     url: url,
