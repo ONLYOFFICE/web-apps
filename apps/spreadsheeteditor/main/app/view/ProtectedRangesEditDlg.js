@@ -171,7 +171,7 @@ define([
 
             this.btnAdd = new Common.UI.Button({
                 parentEl: this.$window.find('#id-protected-range-add'),
-                cls: 'btn-toolbar',
+                cls: 'btn-toolbar border-off btn-options',
                 iconCls: 'toolbar__icon btn-zoomup',
                 hint: this.textTipAdd
             });
@@ -179,7 +179,7 @@ define([
 
             this.btnDelete = new Common.UI.Button({
                 parentEl: this.$window.find('#id-protected-range-delete'),
-                cls: 'btn-toolbar',
+                cls: 'btn-toolbar border-off btn-options',
                 iconCls: 'toolbar__icon cc-remove',
                 hint: this.textTipDelete
             });
