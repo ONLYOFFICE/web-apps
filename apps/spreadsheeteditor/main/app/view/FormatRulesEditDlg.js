@@ -618,6 +618,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 hint        : this.tipNumFormat,
                 itemsTemplate: formatTemplate,
                 editable    : false,
+                focusWhenNoSelection: false,
                 data        : this.numFormatData,
                 takeFocusOnClose: true,
                 updateFormControl: function (record){

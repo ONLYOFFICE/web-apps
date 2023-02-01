@@ -127,6 +127,7 @@ define([
                 this.valueField     = me.options.valueField;
                 this.search         = me.options.search;
                 this.scrollAlwaysVisible = me.options.scrollAlwaysVisible;
+                this.focusWhenNoSelection = (me.options.focusWhenNoSelection!==false);
                 me.rendered         = me.options.rendered || false;
 
                 this.lastValue = null;
@@ -337,7 +338,7 @@ define([
                         $list.scrollTop(height);
                     }
                     setTimeout(function(){$selected.find('a').focus();}, 1);
-                } else {
+                } else if (this.focusWhenNoSelection) {
                     var me = this;
                     setTimeout(function(){me.cmpEl.find('ul li:first a').focus();}, 1);
                 }
@@ -374,8 +375,12 @@ define([
                     this.openMenu();
                     this.onAfterShowMenu();
                     return false;
-                }
-                else if (e.keyCode == Common.UI.Keys.RETURN && (this.editable || this.isMenuOpen())) {
+                } else if (!this.focusWhenNoSelection && (e.keyCode == Common.UI.Keys.DOWN || e.keyCode == Common.UI.Keys.UP)) {
+                    var $items = this.cmpEl.find('ul > li a');
+                    if ($items.filter(':focus').length===0 && $items.length>0) {
+                        setTimeout(function(){$items[e.keyCode == Common.UI.Keys.DOWN ? 0 : $items.length-1].focus();}, 1);
+                    }
+                } else if (e.keyCode == Common.UI.Keys.RETURN && (this.editable || this.isMenuOpen())) {
                     var isopen = this.isMenuOpen();
                     $(e.target).click();
                     if (this.rendered) {
