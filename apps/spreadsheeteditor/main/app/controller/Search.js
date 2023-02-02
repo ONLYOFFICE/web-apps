@@ -292,6 +292,7 @@ define([
                 } else {
                     this.removeResultItems();
                 }
+                Common.NotificationCenter.trigger('search:updateresults');
                 return false;
             }
             this._state.isResults = true;
@@ -603,6 +604,10 @@ define([
 
         getSearchText: function () {
             return this._state.searchText;
+        },
+
+        getResultsNumber: function () {
+            return [this._state.currentResult, this._state.resultsNumber];
         },
 
         onApiUpdateSearchElem: function (data) { // [id, sheet, name, cell, value, formula]

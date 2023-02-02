@@ -372,8 +372,11 @@ define([
                 }, this));
             }
             if (this.header.btnSearch.pressed) {
-                var selectedText = this.api.asc_GetSelectedText();
-                this.searchBar.show(selectedText && selectedText.trim() || this.getApplication().getController('Search').getSearchText());
+                var selectedText = this.api.asc_GetSelectedText(),
+                    searchController = this.getApplication().getController('Search'),
+                    resultsNumber = searchController.getResultsNumber();
+                this.searchBar.show(selectedText && selectedText.trim() || searchController.getSearchText());
+                this.searchBar.updateResultsNumber(resultsNumber[0], resultsNumber[1]);
             } else {
                 this.searchBar.hide();
             }

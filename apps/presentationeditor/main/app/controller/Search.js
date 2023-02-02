@@ -183,6 +183,8 @@ define([
                             me.view.disableReplaceButtons(true);
                             clearInterval(me.searchTimer);
                             me.searchTimer = undefined;
+
+                            Common.NotificationCenter.trigger('search:updateresults');
                         }
                     }, 10);
                 }
@@ -208,6 +210,8 @@ define([
                 this._state.currentResult = 0;
                 this._state.resultsNumber = 0;
                 this.view.disableNavButtons();
+
+                Common.NotificationCenter.trigger('search:updateresults');
                 return false;
             }
 
@@ -433,6 +437,10 @@ define([
 
         getSearchText: function () {
             return this._state.searchText;
+        },
+
+        getResultsNumber: function () {
+            return [this._state.currentResult, this._state.resultsNumber];
         },
 
         notcriticalErrorTitle: 'Warning',
