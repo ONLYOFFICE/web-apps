@@ -203,8 +203,6 @@ define([
             else if (type == 'datetime'){
                 var props = new AscCommon.CContentControlPr(),
                     datePr = new AscCommon.CSdtDatePickerPr();
-                oPr = new AscCommon.CSdtTextFormPr();
-                props.put_TextFormPr(oPr);
                 props.put_FormPr(oFormPr);
                 props.put_DateTimePr(datePr);
                 props.put_PlaceholderText(datePr.get_String());
