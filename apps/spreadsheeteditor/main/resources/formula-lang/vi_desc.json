@@ -1890,5 +1890,9 @@
 	"DROP": {
 		"a": "(array, rows, [columns])",
 		"d": "Thả hàng hoặc cột từ đầu hoặc cuối mảng."
+	},
+	"SEQUENCE": {
+		"a": "(hàng, [cột], [bắt_đầu], [bước])",
+		"d": "Trả về một chuỗi số"
 	}
 }

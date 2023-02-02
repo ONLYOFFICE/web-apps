@@ -472,6 +472,7 @@
 	"WRAPCOLS": "BRYTKOLUMN",
 	"TAKE": "TA",
 	"DROP": "UTESLUT",
+	"SEQUENCE": "SEKVENS",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

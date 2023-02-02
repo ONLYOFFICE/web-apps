@@ -1890,5 +1890,9 @@
 	"DROP": {
 		"a": "(array, rows, [columns])",
 		"d": "Löscht Zeilen oder Spalten vom Anfang oder Ende der Matrix."
+	},
+	"SEQUENCE": {
+		"a": "(Zeilen, [Spalten], [Anfang], [Schritt])",
+		"d": "Gibt eine Abfolge von Zahlen zurück."
 	}
 }

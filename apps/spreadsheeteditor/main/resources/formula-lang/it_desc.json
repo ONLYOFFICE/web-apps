@@ -1850,5 +1850,9 @@
 	"DROP": {
 		"a": "(matrice, righe, [colonne])",
 		"d": "Elimina righe o colonne dall'inizio o dalla fine della matrice."
+	},
+	"SEQUENCE": {
+		"a": "(righe, [colonne], [inizio], [passaggio])",
+		"d": "Restituisce una sequenza di numeri"
 	}
 }

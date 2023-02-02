@@ -472,6 +472,7 @@
 	"WRAPCOLS": "ZAWIŃ.KOLUMNY",
 	"TAKE": "WYCINEK",
 	"DROP": "POMIŃ",
+	"SEQUENCE": "SEKWENCJA",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Wszystkie",

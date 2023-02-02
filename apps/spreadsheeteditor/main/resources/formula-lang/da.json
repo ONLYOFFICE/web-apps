@@ -472,6 +472,7 @@
 	"WRAPCOLS": "FOLDKOLONNER",
 	"TAKE": "TAG",
 	"DROP": "UDELAD",
+	"SEQUENCE": "SEKVENS",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

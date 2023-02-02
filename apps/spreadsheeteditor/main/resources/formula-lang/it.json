@@ -462,6 +462,7 @@
 	"WRAPCOLS": "A.CAPO.COL",
 	"TAKE": "INCLUDI",
 	"DROP": "ESCLUDI",
+	"SEQUENCE": "SEQUENZA",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

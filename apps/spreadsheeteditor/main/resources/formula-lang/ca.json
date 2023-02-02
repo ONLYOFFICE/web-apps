@@ -472,6 +472,7 @@
 	"WRAPCOLS": "AJUSTACOL",
 	"TAKE": "PREN",
 	"DROP": "EXCLOU",
+	"SEQUENCE": "SEQÜÈNCIA",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

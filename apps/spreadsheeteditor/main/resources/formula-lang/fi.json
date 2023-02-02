@@ -472,6 +472,7 @@
 	"WRAPCOLS": "RIVITÄSAR",
 	"TAKE": "OTA",
 	"DROP": "HYLKÄÄ",
+	"SEQUENCE": "JONO",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

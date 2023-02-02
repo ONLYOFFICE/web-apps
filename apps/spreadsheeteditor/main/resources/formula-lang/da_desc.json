@@ -1890,5 +1890,9 @@
 	"DROP": {
 		"a": "(matrix, rækker, [kolonner])",
 		"d": "Sletter rækker eller kolonner fra matrixens start eller slutning."
+	},
+	"SEQUENCE": {
+		"a": "(rækker, [kolonner], [start], [trin])",
+		"d": "Returnerer en sekvens af tal"
 	}
 }
