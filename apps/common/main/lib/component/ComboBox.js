@@ -184,6 +184,7 @@ define([
 
                     if (this.editable) {
                         el.on('change', 'input', _.bind(this.onInputChanged, this));
+                        el.on('input', 'input', _.bind(this.onInputChanging, this));
                         el.on('keydown', 'input', _.bind(this.onInputKeyDown, this));
                         el.on('focusin', 'input', _.bind(this.onInputFocusIn, this));
                         el.on('click', '.form-control', _.bind(this.onEditableInputClick, this));
@@ -514,6 +515,16 @@ define([
 
                 // trigger changed event
                 this.trigger('changed:after', this, record, e);
+            },
+
+            onInputChanging: function(e, extra) {
+                var newValue = $(e.target).val();
+
+                if (e.isDefaultPrevented())
+                    return;
+
+                // trigger changing event
+                this.trigger('changing', this, newValue, e);
             },
 
             onInputClick: function(e) {

@@ -155,17 +155,30 @@ define([
                 menuStyle   : 'min-width: 100%;max-height: 233px;',
                 editable: true,
                 data: [],
-                takeFocusOnClose: true
-            }).on ('changed:before', function (combo, record, e) {
-                me.btnAdd.setDisabled(record.value.length<1);
+                takeFocusOnClose: true,
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                    '<li id="<%= item.id %>" data-value="<%- item.value %>" <% if (item.hasDivider) { %> class="border-top" style="margin-top: 5px;padding-top: 5px;" <% } %>><a tabindex="-1" type="menuitem" style ="display: flex; flex-direction: column;">',
+                    '<label><%= scope.getDisplayValue(item) %></label><label class="comment-text"><%= Common.Utils.String.htmlEncode(item.value) %></label></a></li>',
+                    '<% }); %>'
+                ].join(''))
             });
-            // this.cmbUser.on('selected', this.onUserChanged.bind(this));
-            // this.cmbUser.on('changed:after', this.onKeyChangedAfter.bind(this));
-            // this.cmbUser.on('changed:before', this.onKeyChangedBefore.bind(this));
+            this.cmbUser.on('selected', this.onUserSelected.bind(this));
+            this.cmbUser.on('changing', this.onUserChanging.bind(this));
+            this.cmbUser.on('show:before',_.bind(this.onCmbUserOpen, this));
+            // this.cmbUser.on('changed:before', this.onUserChangedBefore.bind(this));
 
             this.listUser = new Common.UI.ListView({
                 el: this.$window.find('#id-protected-range-list-user'),
-                store: new Common.UI.DataViewStore()
+                store: new Common.UI.DataViewStore(),
+                itemTemplate: _.template([
+                    '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;">',
+                    '<div style="width:90px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;margin-right: 5px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
+                    '<div style="width:90px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;"><%= Common.Utils.String.htmlEncode(email) %></div>',
+                    '</div>'
+                ].join('')),
+                emptyText: '',
+                tabindex: 1
             });
             // this.listUser.on('item:select', _.bind(this.onSelectUser, this));
 
@@ -271,6 +284,58 @@ define([
                     validation: function() {return true;}
                 });
             }
+        },
+
+        onUserSelected: function(combo, record, e) {
+            var store = this.listUser.store,
+                value = record.userId;
+            if (value!==undefined && value!=='') {
+                var rec = store.findWhere({value: value});
+                if (!rec) {
+                    store.add({value: value, name: record.displayValue, email: record.email});
+                }
+            }
+        },
+
+        onUserChanging: function(combo) {
+            this.onUserMenu();
+        },
+
+        onCmbUserOpen: function(combo, record, e) {
+            this.onUserMenu();
+        },
+
+        onUserMenu: function() {
+            Common.UI.ExternalUsers.get(this.onUserMenuCallback.bind(this));
+        },
+
+        onUserMenuCallback: function(users) {
+            var arr = [],
+                str = this.cmbUser.getRawValue();
+
+            if (users.length>0) {
+                var strlc = str.toLowerCase();
+                users = _.filter(users, function(item) {
+                    return (item.id !== undefined && item.id !== null) &&
+                            (!strlc || item.email && 0 === item.email.toLowerCase().indexOf(strlc) || item.name && 0 === item.name.toLowerCase().indexOf(strlc));
+                });
+                var divider = false;
+                _.each(users, function(item, index) {
+                    arr.push({
+                        value: item.email,
+                        displayValue: item.name,
+                        userId: item.id,
+                        hasDivider: !item.hasAccess && !divider && (index>0)
+                    });
+                    if (!item.hasAccess)
+                        divider = true;
+                });
+            } else {
+
+            }
+            this.cmbUser.setData(arr);
+            this.cmbUser.setRawValue(str);
+            (arr.length>0) ? this.cmbUser.openMenu() : this.cmbUser.closeMenu();
         },
 
         txtProtect: 'Protect',

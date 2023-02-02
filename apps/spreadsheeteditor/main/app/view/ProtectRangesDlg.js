@@ -293,7 +293,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
             });
             
             me.hide();
-            win.show(xy.left + 65, xy.top + 77);
+            win.show(xy.left + 65, xy.top);
         },
 
         onDeleteRange: function () {
