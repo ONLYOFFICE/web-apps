@@ -736,11 +736,21 @@ define([
             }
         },
 
-        fillPivotProps: function(pageFieldIndex, rowFieldIndex, colFieldIndex, dataFieldIndex, rowTotal, colTotal) {
+        fillPivotProps: function() {
             var props = this.propsPivot.originalProps;
             if (!props) return;
 
-            if (colFieldIndex!==undefined && colFieldIndex!==null) {
+            var info = this.api.asc_getPivotContextMenuInfo(),
+                pageFieldIndex = info.asc_getPageFieldIndex(),
+                colFieldIndex = info.asc_getColFieldIndex(),
+                rowFieldIndex = info.asc_getRowFieldIndex(),
+                dataFieldIndex = info.asc_getDataFieldIndex();
+
+            this.propsPivot.canGroup = info.asc_canGroup();
+            this.propsPivot.rowTotal = info.asc_getRowGrandTotals();
+            this.propsPivot.colTotal = info.asc_getColGrandTotals();
+
+            if (colFieldIndex>-1) {
                 var fprops = props.asc_getColumnFields();
                 if (fprops) {
                     var pivotIndex = fprops[colFieldIndex].asc_getIndex();
@@ -752,7 +762,7 @@ define([
                         this.propsPivot.fieldName = this.propsPivot.field.asc_getName() || props.asc_getCacheFields()[pivotIndex].asc_getName();
                     }
                 }
-            } else if (rowFieldIndex!==undefined && rowFieldIndex!==null) {
+            } else if (rowFieldIndex>-1) {
                 var fprops = props.asc_getRowFields();
                 if (fprops) {
                     var pivotIndex = fprops[rowFieldIndex].asc_getIndex();
@@ -764,7 +774,7 @@ define([
                         this.propsPivot.fieldName = this.propsPivot.field.asc_getName() || props.asc_getCacheFields()[pivotIndex].asc_getName();
                     }
                 }
-            }  else if (pageFieldIndex!==undefined && pageFieldIndex!==null) {
+            }  else if (pageFieldIndex>-1) {
                 var fprops = props.asc_getPageFields();
                 if (fprops) {
                     var pivotIndex = fprops[pageFieldIndex].asc_getIndex();
@@ -776,7 +786,7 @@ define([
                         this.propsPivot.fieldName = this.propsPivot.field.asc_getName() || props.asc_getCacheFields()[pivotIndex].asc_getName();
                     }
                 }
-            }  else if (dataFieldIndex!==undefined && dataFieldIndex!==null) {
+            }  else if (dataFieldIndex>-1) {
                 var fprops = props.asc_getDataFields();
                 if (fprops) {
                     var pivotIndex = fprops[dataFieldIndex].asc_getIndex();
@@ -786,8 +796,6 @@ define([
                         this.propsPivot.field = fprops[dataFieldIndex];
                         this.propsPivot.fieldType = 2;
                         this.propsPivot.fieldName = this.propsPivot.field.asc_getName();
-                        this.propsPivot.rowTotal = rowTotal;
-                        this.propsPivot.colTotal = colTotal;
                     }
                 }
             }
@@ -2529,10 +2537,9 @@ define([
                 documentHolder.pmiInsFunction.setVisible(iscellmenu && !iscelledit && !inPivot);
                 documentHolder.pmiAddNamedRange.setVisible(iscellmenu && !iscelledit && !internaleditor);
 
-                var needshow = iscellmenu && !iscelledit && !diagramOrMergeEditor && inPivot,
-                    pageFieldIndex, rowFieldIndex, colFieldIndex, dataFieldIndex, rowTotal, colTotal;
+                var needshow = iscellmenu && !iscelledit && !diagramOrMergeEditor && inPivot;
 
-                needshow && this.fillPivotProps(pageFieldIndex, rowFieldIndex, colFieldIndex, dataFieldIndex, rowTotal, colTotal);
+                needshow && this.fillPivotProps();
                 documentHolder.mnuRefreshPivot.setVisible(needshow);
                 documentHolder.mnuPivotRefreshSeparator.setVisible(needshow);
                 documentHolder.mnuSubtotalField.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===0 || this.propsPivot.fieldType===1));
@@ -2545,10 +2552,10 @@ define([
                 documentHolder.mnuPivotSettings.setVisible(needshow);
                 documentHolder.mnuFieldSettings.setVisible(!!this.propsPivot.field);
                 documentHolder.mnuSummarize.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2));
-                documentHolder.mnuShowAs.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2) && !rowTotal && !colTotal);
+                documentHolder.mnuShowAs.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2) && !this.propsPivot.rowTotal && !this.propsPivot.colTotal);
                 documentHolder.mnuPivotValueSeparator.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2));
                 if (this.propsPivot.field) {
-                    documentHolder.mnuDeleteField.setCaption(documentHolder.txtDelField + ' ' + (rowTotal || colTotal ? documentHolder.txtGrandTotal : '"' + Common.Utils.String.htmlEncode(this.propsPivot.fieldName) + '"'), true);
+                    documentHolder.mnuDeleteField.setCaption(documentHolder.txtDelField + ' ' + (this.propsPivot.rowTotal || this.propsPivot.colTotal ? documentHolder.txtGrandTotal : '"' + Common.Utils.String.htmlEncode(this.propsPivot.fieldName) + '"'), true);
                     documentHolder.mnuSubtotalField.setCaption(documentHolder.txtSubtotalField + ' "' + Common.Utils.String.htmlEncode(this.propsPivot.fieldName) + '"', true);
                     documentHolder.mnuFieldSettings.setCaption(this.propsPivot.fieldType===2 ? documentHolder.txtValueFieldSettings : documentHolder.txtFieldSettings);
                     if (this.propsPivot.fieldType===2) {
@@ -2557,7 +2564,7 @@ define([
                             var item = documentHolder.mnuSummarize.menu.items[i];
                             (item.value!==undefined) && item.setChecked(item.value===sumval, true);
                         }
-                        if (!rowTotal && !colTotal) {
+                        if (!this.propsPivot.rowTotal && !this.propsPivot.colTotal) {
                             sumval = this.propsPivot.field.asc_getShowDataAs();
                             for (var i = 0; i < documentHolder.mnuShowAs.menu.items.length; i++) {
                                 var item = documentHolder.mnuShowAs.menu.items[i];
@@ -2660,9 +2667,8 @@ define([
                 documentHolder.pmiGetRangeList.setDisabled(false);
 
                 if (inPivot) {
-                    var canGroup = this.api.asc_canGroupPivot();
-                    documentHolder.mnuGroupPivot.setDisabled(isPivotLocked || !canGroup || this._state.wsLock);
-                    documentHolder.mnuUnGroupPivot.setDisabled(isPivotLocked || !canGroup || this._state.wsLock);
+                    documentHolder.mnuGroupPivot.setDisabled(isPivotLocked || !this.propsPivot.canGroup || this._state.wsLock);
+                    documentHolder.mnuUnGroupPivot.setDisabled(isPivotLocked || !this.propsPivot.canGroup || this._state.wsLock);
                     documentHolder.mnuRefreshPivot.setDisabled(isPivotLocked || this._state.wsLock);
                     documentHolder.mnuPivotSettings.setDisabled(isPivotLocked || this._state.wsLock);
                     documentHolder.mnuFieldSettings.setDisabled(isPivotLocked || this._state.wsLock);
