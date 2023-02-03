@@ -389,6 +389,14 @@ define([
             }
         },
 
+        hideSignatureTooltip: function() {
+            var tip = this._state.tip;
+            if (tip && tip.isVisible()) {
+                tip.close();
+                this._state.tip = undefined;
+            }
+        },
+
         disableEditing: function(disable) {
             if (this._state.DisabledEditing != disable) {
                 this._state.DisabledEditing = disable;

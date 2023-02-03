@@ -471,6 +471,7 @@
   "PE.Controllers.Main.textRenameLabel": "Əməkdaşlıq üçün istifadə ediləcək ad daxil edin",
   "PE.Controllers.Main.textShape": "Forma",
   "PE.Controllers.Main.textStrict": "Ciddi rejim",
+  "PE.Controllers.Main.textText": "Mətn",
   "PE.Controllers.Main.textTryUndoRedo": "Qaytar / Təkrarla funksiyaları sürətli birgə redaktə rejimi üçün qeyri-aktiv edilib. <br> Digər istifadəçilərin müdaxiləsi olmadan faylı redaktə etmək və fayllarınızı göndərmək üçün ciddi birgə redaktə rejiminə keçmək üçün \"Ciddi rejim\" düyməsinə klikləyin. Dəyişikliklər yalnız siz onları saxladıqdan sonra baş verir. Qabaqcıl redaktor parametrlərindən istifadə edərək birgə redaktə rejimləri arasında keçid edə bilərsiniz.",
   "PE.Controllers.Main.textTryUndoRedoWarn": "Qaytar/Təkrarla funksiyaları Sürətli birgə redaktə rejimi üçün qeyri-aktiv edilib.",
   "PE.Controllers.Main.titleLicenseExp": "Lisenziyanın müddəti bitdi",

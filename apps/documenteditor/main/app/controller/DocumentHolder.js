@@ -2533,12 +2533,18 @@ define([
         },
 
         onInsertImage: function(obj, x, y) {
+            if (!this.documentHolder || this.documentHolder._docProtection.isReadOnly || this.documentHolder._docProtection.isFormsOnly || this.documentHolder._docProtection.isCommentsOnly)
+                return;
+
             if (this.api)
                 this.api.asc_addImage(obj);
             this.editComplete();
         },
 
         onInsertImageUrl: function(obj, x, y) {
+            if (!this.documentHolder || this.documentHolder._docProtection.isReadOnly || this.documentHolder._docProtection.isFormsOnly || this.documentHolder._docProtection.isCommentsOnly)
+                return;
+
             var me = this;
             (new Common.Views.ImageFromUrlDialog({
                 handler: function(result, value) {

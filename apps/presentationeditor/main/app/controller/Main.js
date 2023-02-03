@@ -127,7 +127,8 @@ define([
                         'Loading': this.txtLoading,
                         'Click to add notes': this.txtAddNotes,
                         'Click to add first slide': this.txtAddFirstSlide,
-                        'None': this.txtNone
+                        'None': this.txtNone,
+                        'Text': this.textText
                     };
 
                 themeNames.forEach(function(item){
@@ -185,7 +186,9 @@ define([
                     if ( !Common.Utils.isIE ) {
                         if ( /^https?:\/\//.test('{{HELP_CENTER_WEB_PE}}') ) {
                             const _url_obj = new URL('{{HELP_CENTER_WEB_PE}}');
-                            _url_obj.searchParams.set('lang', Common.Locale.getCurrentLanguage());
+                            if ( !!_url_obj.searchParams )
+                                _url_obj.searchParams.set('lang', Common.Locale.getCurrentLanguage());
+
                             Common.Utils.InternalSettings.set("url-help-center", _url_obj.toString());
                         }
                     }
@@ -3127,7 +3130,8 @@ define([
             errorInconsistentExtPdf: 'An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.',
             errorInconsistentExt: 'An error has occurred while opening the file.<br>The file content does not match the file extension.',
             errorCannotPasteImg: 'We can\'t paste this image from the Clipboard, but you can save it to your device and \ninsert it from there, or you can copy the image without text and paste it into the presentation.',
-            textTryQuickPrint: 'You have selected Quick print: the entire document will be printed on the last selected or default printer.<br>Do you want to continue?'
+            textTryQuickPrint: 'You have selected Quick print: the entire document will be printed on the last selected or default printer.<br>Do you want to continue?',
+            textText: 'Text'
         }
     })(), PE.Controllers.Main || {}))
 });

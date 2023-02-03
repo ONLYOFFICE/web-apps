@@ -467,7 +467,8 @@ define([
                         const helpCenter = Common.Utils.InternalSettings.get('url-help-center');
                         if ( helpCenter ) {
                             const _url_obj = new URL(helpCenter);
-                            _url_obj.searchParams.set('function', func);
+                            if ( !!_url_obj.searchParams )
+                                _url_obj.searchParams.set('function', func);
 
                             window.open(_url_obj.toString(), '_blank');
                         }

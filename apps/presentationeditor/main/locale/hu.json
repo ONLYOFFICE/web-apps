@@ -742,6 +742,7 @@
   "PE.Controllers.Main.textRequestMacros": "A makró kérést intéz az URL-hez. Szeretné engedélyezni a kérést a %1-hoz?",
   "PE.Controllers.Main.textShape": "Alakzat",
   "PE.Controllers.Main.textStrict": "Biztonságos mód",
+  "PE.Controllers.Main.textText": "Szöveg",
   "PE.Controllers.Main.textTryUndoRedo": "A Visszavonás / Újra funkciók le vannak tiltva a Gyors együttes szerkesztés módban.<br>A \"Biztonságos mód\" gombra kattintva válthat a Biztonságos együttes szerkesztés módra, hogy a dokumentumot más felhasználókkal való interferencia nélkül tudja szerkeszteni, mentés után küldve el a módosításokat. A szerkesztési módok között a Speciális beállítások segítségével válthat.",
   "PE.Controllers.Main.textTryUndoRedoWarn": "A Visszavonás/Újra funkciók le vannak tiltva a Gyors társszerkesztés módban.",
   "PE.Controllers.Main.titleLicenseExp": "Lejárt licenc",

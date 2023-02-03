@@ -719,6 +719,7 @@
   "PE.Controllers.Main.textRequestMacros": "Makro vytváří požadavek na URL. Chcete povolit požadavek k přístupu na %1?",
   "PE.Controllers.Main.textShape": "Obrazec",
   "PE.Controllers.Main.textStrict": "Striktní režim",
+  "PE.Controllers.Main.textText": "Text",
   "PE.Controllers.Main.textTryUndoRedo": "Funkce zpět/znovu nejsou v režimu rychlé spolupráce na úpravách k dispozici.<br>Kliknutím na tlačítko „Striktní režim“ přejdete do striktního režimu spolupráce na úpravách, ve kterém soubor upravujte bez vyrušování ostatními uživateli a vámi provedené změny odesíláte pouze po jejich uložení. Mezi oběma režimy spolupráce na úpravách je možné přepínat v pokročilých nastaveních editoru.",
   "PE.Controllers.Main.textTryUndoRedoWarn": "Funkce Zpět/Znovu jsou vypnuty pro rychlý režim spolupráce.",
   "PE.Controllers.Main.titleLicenseExp": "Platnost licence skončila",

@@ -136,8 +136,8 @@ define([
                         'Grand Total': this.txtGrandTotal,
                         'Row Labels': this.txtRowLbls,
                         'Column Labels': this.txtColLbls,
-                        'Multi-Select (Alt+S)': this.txtMultiSelect,
-                        'Clear Filter (Alt+C)':  this.txtClearFilter,
+                        'Multi-Select (Alt+S)': this.txtMultiSelect + Common.Utils.String.platformKey('Alt+S', ' (' + (Common.Utils.isMac ? Common.Utils.String.textCtrl + '+' : '') + '{0})'),
+                        'Clear Filter (Alt+C)':  this.txtClearFilter + Common.Utils.String.platformKey('Alt+C', ' (' + (Common.Utils.isMac ? Common.Utils.String.textCtrl + '+' : '') + '{0})'),
                         '(blank)': this.txtBlank,
                         'Group': this.txtGroup,
                         'Seconds': this.txtSeconds,
@@ -148,7 +148,8 @@ define([
                         'Quarters': this.txtQuarters,
                         'Years': this.txtYears,
                         '%1 or %2': this.txtOr,
-                        'Qtr': this.txtQuarter
+                        'Qtr': this.txtQuarter,
+                        'Text': this.textText
                     };
 
                 styleNames.forEach(function(item){
@@ -200,7 +201,9 @@ define([
                 if ( !Common.Utils.isIE ) {
                     if ( /^https?:\/\//.test('{{HELP_CENTER_WEB_SSE}}') ) {
                         const _url_obj = new URL('{{HELP_CENTER_WEB_SSE}}');
-                        _url_obj.searchParams.set('lang', Common.Locale.getCurrentLanguage());
+                        if ( !!_url_obj.searchParams )
+                            _url_obj.searchParams.set('lang', Common.Locale.getCurrentLanguage());
+
                         Common.Utils.InternalSettings.set("url-help-center", _url_obj.toString());
                     }
                 }
@@ -3696,8 +3699,8 @@ define([
             txtColLbls: 'Column Labels',
             errNoDuplicates: 'No duplicate values found.',
             errRemDuplicates: 'Duplicate values found and deleted: {0}, unique values left: {1}.',
-            txtMultiSelect: 'Multi-Select (Alt+S)',
-            txtClearFilter: 'Clear Filter (Alt+C)',
+            txtMultiSelect: 'Multi-Select',
+            txtClearFilter: 'Clear Filter',
             txtBlank: '(blank)',
             textHasMacros: 'The file contains automatic macros.<br>Do you want to run macros?',
             textRemember: 'Remember my choice',
@@ -3775,7 +3778,8 @@ define([
             errorInconsistentExt: 'An error has occurred while opening the file.<br>The file content does not match the file extension.',
             errorCannotPasteImg: 'We can\'t paste this image from the Clipboard, but you can save it to your device and \ninsert it from there, or you can copy the image without text and paste it into the spreadsheet.',
             textTryQuickPrint: 'You have selected Quick print: the entire document will be printed on the last selected or default printer.<br>Do you want to continue?',
-            errorConvertXml: 'The file has an unsupported format.<br>Only XML Spreadsheet 2003 format can be used.'
+            errorConvertXml: 'The file has an unsupported format.<br>Only XML Spreadsheet 2003 format can be used.',
+            textText: 'Text'
         }
     })(), SSE.Controllers.Main || {}))
 });

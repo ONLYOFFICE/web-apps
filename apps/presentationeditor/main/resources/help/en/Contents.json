@@ -23,7 +23,7 @@
     {"src": "UsageInstructions/InsertImages.htm", "name": "Insert and adjust images"},
     {"src": "UsageInstructions/InsertCharts.htm", "name": "Insert and edit charts" },
     {"src": "UsageInstructions/InsertTables.htm", "name": "Insert and format tables" },
-    {"src": "UsageInstructions/SupportSmartArt.htm", "name": "Support of SmartArt" },
+    {"src": "UsageInstructions/InsertSmartArt.htm", "name": "Insert SmartArt objects" },
     {"src": "UsageInstructions/AddingAnimations.htm", "name": "Adding animations" },
     {"src": "UsageInstructions/MotionPath.htm", "name": "Creating a motion path animation" },
     {"src": "UsageInstructions/InsertSymbols.htm", "name": "Insert symbols and characters" },

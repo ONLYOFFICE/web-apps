@@ -300,6 +300,7 @@
   "DE.Controllers.Main.textNoLicenseTitle": "Phiên bản mã nguồn mở ONLYOFFICE",
   "DE.Controllers.Main.textShape": "Hình dạng",
   "DE.Controllers.Main.textStrict": "Chế độ nghiêm ngặt",
+  "DE.Controllers.Main.textText": "Văn bản",
   "DE.Controllers.Main.textTryUndoRedo": "Các chức năng Hoàn tác/Làm lại bị vô hiệu hóa cho chế độ đồng chỉnh sửa Nhanh.<br>Nhấp vào nút 'Chế độ nghiêm ngặt' để chuyển sang chế độ đồng chỉnh sửa Nghiêm ngặt để chỉnh sửa các file mà không có sự can thiệp của người dùng khác và gửi các thay đổi của bạn chỉ sau khi bạn đã lưu. Bạn có thể chuyển đổi giữa các chế độ đồng chỉnh sửa bằng cách sử dụng Cài đặt Nâng cao trình biên tập.",
   "DE.Controllers.Main.titleLicenseExp": "Giấy phép hết hạn",
   "DE.Controllers.Main.titleServerVersion": "Đã cập nhật trình chỉnh sửa",

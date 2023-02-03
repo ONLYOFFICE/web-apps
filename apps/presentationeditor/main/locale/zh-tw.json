@@ -720,6 +720,7 @@
   "PE.Controllers.Main.textRequestMacros": "有一個巨集指令要求連結至URL。是否允許該要求至%1?",
   "PE.Controllers.Main.textShape": "形狀",
   "PE.Controllers.Main.textStrict": "嚴格模式",
+  "PE.Controllers.Main.textText": "文字",
   "PE.Controllers.Main.textTryUndoRedo": "快速共同編輯模式禁用了“撤消/重做”功能。<br>單擊“嚴格模式”按鈕切換到“嚴格共同編輯”模式以編輯文件而不會受到其他用戶的干擾，並且僅在保存後發送更改他們。您可以使用編輯器的“高級”設置在共同編輯模式之間切換。",
   "PE.Controllers.Main.textTryUndoRedoWarn": "在快速共同編輯模式下，撤消/重做功能被禁用。",
   "PE.Controllers.Main.titleLicenseExp": "證件過期",

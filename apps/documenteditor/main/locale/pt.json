@@ -845,6 +845,7 @@
   "DE.Controllers.Main.textRequestMacros": "Uma macro faz uma solicitação para URL. Deseja permitir a solicitação para %1?",
   "DE.Controllers.Main.textShape": "Forma",
   "DE.Controllers.Main.textStrict": "Modo estrito",
+  "DE.Controllers.Main.textText": "Тexto",
   "DE.Controllers.Main.textTryQuickPrint": "Você selecionou Impressão rápida: todo o documento será impresso na última impressora selecionada ou padrão.<br>Deseja continuar?",
   "DE.Controllers.Main.textTryUndoRedo": "As funções Desfazer/Refazer ficam desabilitadas no modo de Coedição Rápida.<br>Selecione o modo 'Estrito' para editar o aquivo sem que outros usuários interfiram e envie suas mudanças somente ao salvar o documento. Você pode alternar entre os modos de coedição usando as Configurações Avançadas.\",",
   "DE.Controllers.Main.textTryUndoRedoWarn": "As funções Desfazer/Refazer estão desabilitadas para o modo de coedição rápido",

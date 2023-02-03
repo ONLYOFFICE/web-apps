@@ -962,7 +962,7 @@ define([
             this.lockedControls.push(this.chRightAngle);
             this.chRightAngle.on('change', _.bind(function(field, newValue, oldValue, eOpts) {
                 if (this.api){
-                    var props = this.api.asc_getChartObject();
+                    var props = this.api.asc_getChartObject(true);
                     if (props) {
                         var oView3D = props.getView3d();
                         if (oView3D) {
@@ -982,7 +982,7 @@ define([
             this.lockedControls.push(this.chAutoscale);
             this.chAutoscale.on('change', _.bind(function(field, newValue, oldValue, eOpts) {
                 if (this.api){
-                    var props = this.api.asc_getChartObject();
+                    var props = this.api.asc_getChartObject(true);
                     if (props) {
                         var oView3D = props.getView3d();
                         if (oView3D) {
@@ -1555,7 +1555,7 @@ define([
 
         onXRotation: function(field, newValue, oldValue, eOpts){
             if (this.api){
-                var props = this.api.asc_getChartObject();
+                var props = this.api.asc_getChartObject(true);
                 if (props) {
                     var oView3D = props.getView3d();
                     if (oView3D) {
@@ -1570,7 +1570,7 @@ define([
 
         onYRotation: function(field, newValue, oldValue, eOpts){
             if (this.api){
-                var props = this.api.asc_getChartObject();
+                var props = this.api.asc_getChartObject(true);
                 if (props) {
                     var oView3D = props.getView3d();
                     if (oView3D) {
@@ -1585,7 +1585,7 @@ define([
 
         onPerspective: function(field, newValue, oldValue, eOpts){
             if (this.api){
-                var props = this.api.asc_getChartObject();
+                var props = this.api.asc_getChartObject(true);
                 if (props) {
                     var oView3D = props.getView3d();
                     if (oView3D) {
@@ -1600,7 +1600,7 @@ define([
 
         on3DDepth: function(field, newValue, oldValue, eOpts){
             if (this.api){
-                var props = this.api.asc_getChartObject();
+                var props = this.api.asc_getChartObject(true);
                 if (props) {
                     var oView3D = props.getView3d();
                     if (oView3D) {
@@ -1615,7 +1615,7 @@ define([
 
         on3DHeight: function(field, newValue, oldValue, eOpts){
             if (this.api){
-                var props = this.api.asc_getChartObject();
+                var props = this.api.asc_getChartObject(true);
                 if (props) {
                     var oView3D = props.getView3d();
                     if (oView3D) {
@@ -1630,7 +1630,7 @@ define([
 
         onDefRotation: function() {
             if (this.api){
-                var props = this.api.asc_getChartObject();
+                var props = this.api.asc_getChartObject(true);
                 if (props) {
                     var oView3D = props.getView3d();
                     if (oView3D) {

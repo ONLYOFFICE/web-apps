@@ -121,10 +121,8 @@ define([
                 /** coauthoring end **/
                 'f1': _.bind(this.onShortcut, this, 'help')
             };
-            if (!Common.Utils.isMac) {
-                keymap['alt+f'] = _.bind(this.onShortcut, this, 'file');
-                keymap['alt+q'] = _.bind(this.onShortcut, this, 'chat');
-            }
+            keymap[Common.Utils.isMac ? 'ctrl+alt+f' : 'alt+f'] = _.bind(this.onShortcut, this, 'file');
+            keymap[Common.Utils.isMac ? 'ctrl+alt+q' : 'alt+q'] = _.bind(this.onShortcut, this, 'chat');
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
             Common.util.Shortcuts.suspendEvents();
 
@@ -192,7 +190,8 @@ define([
                 Common.util.Shortcuts.removeShortcuts({
                     shortcuts: {
                         'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
-                        'alt+f': _.bind(this.onShortcut, this, 'file')
+                        'alt+f': _.bind(this.onShortcut, this, 'file'),
+                        'ctrl+alt+f': _.bind(this.onShortcut, this, 'file')
                     }
                 });
 

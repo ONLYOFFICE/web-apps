@@ -854,6 +854,7 @@
   "SSE.Controllers.Main.textRequestMacros": "Una macro effettua una richiesta all'URL. Vuoi consentire la richiesta al %1?",
   "SSE.Controllers.Main.textShape": "Forma",
   "SSE.Controllers.Main.textStrict": "Modalità Rigorosa",
+  "SSE.Controllers.Main.textText": "Testo",
   "SSE.Controllers.Main.textTryUndoRedo": "Le funzioni Annulla/Ripristina sono disabilitate per la Modalità di Co-editing Veloce.<br>Clicca il pulsante 'Modalità Rigorosa' per passare alla Modalità di Co-editing Rigorosa per poter modificare il file senza l'interferenza di altri utenti e inviare le modifiche solamente dopo averle salvate. Puoi passare da una modalità all'altra di co-editing utilizzando le Impostazioni avanzate dell'editor.",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "Le funzioni Annulla/Ripeti sono disattivate nella modalità rapida di co-editing",
   "SSE.Controllers.Main.textUndo": "Annulla",

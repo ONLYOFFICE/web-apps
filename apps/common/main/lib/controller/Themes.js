@@ -133,6 +133,7 @@ define([
             "canvas-high-contrast-disabled",
 
             "canvas-cell-border",
+            "canvas-cell-title",
             "canvas-cell-title-border",
             "canvas-cell-title-border-hover",
             "canvas-cell-title-border-selected",
