@@ -105,6 +105,11 @@ class NavigationController extends Component {
         }
     };
 
+    componentDidMount() {
+        const api = Common.EditorApi.get();
+        api.asc_enableKeyEvents(false);
+    }
+
     render() {
         return (
             !Device.phone ? 

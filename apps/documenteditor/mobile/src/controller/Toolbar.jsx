@@ -57,7 +57,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         const onEngineCreated = api => {
             if(isAvailableExt && isViewer) {
                 api.SetMobileTopOffset(navbarHeight, navbarHeight);
-                // api.asc_registerCallback('onMobileScrollDelta', scrollHandler);
+                api.asc_registerCallback('onMobileScrollDelta', scrollHandler);
             }
         };
 
@@ -72,7 +72,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
 
             if (api && isAvailableExt && isViewer) {
                 api.SetMobileTopOffset(navbarHeight, navbarHeight);
-                // api.asc_unregisterCallback('onMobileScrollDelta', scrollHandler);
+                api.asc_unregisterCallback('onMobileScrollDelta', scrollHandler);
             }
 
             Common.Notifications.off('engineCreated', onEngineCreated);
