@@ -80,7 +80,8 @@ define([
             this.options.tpl = _.template(this.template)(this.options);
 
             this.totalWidth = 558.7;
-            this.minWidthCol = 10;      //Minimum column width in mm
+            this.minWidthCol = 10;          //Minimum column width in mm
+            this.defaultSpacing = 12.5;     //Default spacing for 2 columns
             this._noApply = false;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
@@ -102,24 +103,77 @@ define([
                 maskExp: /[0-9]/
             });
             this.spnColumns.on('change', function(field, newValue, oldValue, eOpts){
-                var num = parseInt(newValue);
+                var num = parseInt(newValue),
+                    storeLength = me.columnsList.store.length,
+                    isIncrease = (num > storeLength),
+                    isEqualWidth = me.chEqualWidth.getValue() == 'checked',
+                    arrColumnObj = [];
 
-                if(me.columnsList.store.length > 0) {
-                    if(num == me.columnsList.store.length) return;
+                if(storeLength == 0 || num == storeLength) return;
 
-                    var spacing = me.columnsList.store.at(0).get('spacing'),
-                        calcWidth = me.calcWidthForEqualColumns(num, spacing),
-                        arrColumnObj = [];
-    
+                if(isEqualWidth){
+                    var spacing = (storeLength == 1) ? me.defaultSpacing : me.columnsList.store.at(0).get('spacing'),
+                        columnWidth = (me.totalWidth - spacing * (num - 1)) / num;
+                    
+                    if(columnWidth < me.minWidthCol) {
+                        columnWidth = me.minWidthCol;
+                        spacing = (me.totalWidth - columnWidth * num) / (num - 1);
+                    }
                     for(var i = 0; i < num; i++) {
                         arrColumnObj.push({
-                            width: calcWidth,
+                            width: columnWidth,
                             spacing: spacing,
                         });
-                    }     
+                    }  
+                } 
+                else {
+                    var allSpacing = 0,
+                        widthKoefArr = [1];
 
-                    me.updateColumnsList(arrColumnObj);
+                    for(var i = 0; i < num; i++) {
+                        var spacing = me.defaultSpacing;
+
+                        if(i < num - 1) {
+                            if(isIncrease) {
+                                if(storeLength > 1)
+                                    spacing = me.columnsList.store.at(i < storeLength-1 ? i : storeLength-2).get('spacing');
+                                if(num > 2) {
+                                    for(var j = (storeLength > 1) ? storeLength : 2; j < num; j++) {
+                                        spacing = spacing / (1.1 / j + 1);
+                                    }
+                                }
+                            }
+                            else if(num > 1){
+                                spacing = me.columnsList.store.at(i).get('spacing');
+                                for(var j = storeLength; j > num; j--) {
+                                    spacing = spacing * (1.1 / (j-1) + 1);
+                                }
+                            }
+                        }
+                        else {
+                            spacing = 0;
+                        }
+
+                        if(i < storeLength)
+                            widthKoefArr[i] = me.columnsList.store.at(i).get('width') / me.columnsList.store.at(0).get('width');
+                        else 
+                            widthKoefArr[i] = widthKoefArr[storeLength - 1];
+
+                        arrColumnObj.push({
+                            spacing: spacing,
+                        });
+                        allSpacing += spacing;
+                    }  
+
+                    var totalWidthWithoutSpacing = me.totalWidth - allSpacing,
+                        widthFirstColumn = totalWidthWithoutSpacing / widthKoefArr.reduce(function(a, b) { return a + b; });
+                    for(var i = 0; i < num; i++) {
+                        arrColumnObj[i].width = widthFirstColumn * widthKoefArr[i];
+                    }
                 }
+                me.updateColumnsList(arrColumnObj);
+                if(!isIncrease)
+                    me.setMaxColumns();
 
                 me.chEqualWidth.setDisabled(num<2);
                 me.chSeparator.setDisabled(num<2);
@@ -158,6 +212,8 @@ define([
                         me.setMaxValueSpinsForColumn(col);
                     });
                 }
+                if(me.columnsList.store.length > 0)
+                    me.setMaxColumns();
             });
 
             this.chSeparator = new Common.UI.CheckBox({
@@ -203,6 +259,8 @@ define([
                 this.totalWidth = total;
                 this.spnColumns.setValue(num);
 
+                if(num == 1) props.get_Col(0).put_W(total);
+
                 for(var i = 0; i < num; i++) {
                     if(!equal) {
                         var currentCol = props.get_Col(i);
@@ -229,6 +287,8 @@ define([
                 this.chSeparator.setDisabled(num<2);
                 
                 this.updateColumnsList(arrColumnObj);
+
+                this.setMaxColumns();
             }
         },
 
@@ -265,16 +325,61 @@ define([
             this.columnsList.store.each(function(item, index) {
                 me.setMaxValueSpinsForColumn(item);
             });
-            this.setMaxColumns();
         },
 
         setMaxColumns: function() {
-            var spacing = this.columnsList.store.at(0).get('spacing'),
-                maxColumns = Math.floor((this.totalWidth + spacing) / (spacing + this.minWidthCol));
+            var maxPossibleColumns = Math.floor(this.totalWidth / this.minWidthCol);
 
-            if(this.spnColumns.getNumberValue() > maxColumns)
-                maxColumns = this.spnColumns.getNumberValue();
-            this.spnColumns.setMaxValue(maxColumns);
+            if(this.chEqualWidth.getValue() == 'checked') {
+                this.spnColumns.setMaxValue(maxPossibleColumns);
+            }
+            else {
+                var me = this,
+                    curNumColumns = this.columnsList.store.length,
+                    max = curNumColumns + 1,
+                    spacingArr = [],
+                    widthKoefArrTest = [];
+
+                if(curNumColumns > 1) {
+                    this.columnsList.store.each(function(item, index) {
+                        widthKoefArrTest[index] = item.get('width') / me.columnsList.store.at(0).get('width');
+                        spacingArr[index] = item.get('spacing');
+                    });
+                }
+                else {
+                    widthKoefArrTest = [1, 1];
+                    spacingArr = [this.defaultSpacing];
+                    max = 3;
+                }
+                
+                //Finding number of columns when the width column becomes less than 'this.minWidthCol'
+                while(max <= maxPossibleColumns) {
+                    var allSpacing = 0;
+    
+                    for(var i = 0; i < max - 1; i++) {
+                        if(i < max - 2) {
+                            spacingArr[i] = spacingArr[i] / (1.1 / (max - 1) + 1);
+                        }
+                        else {
+                            spacingArr[i] = spacingArr[i-1];
+                        }
+                        allSpacing += spacingArr[i];
+                    }
+                    widthKoefArrTest[max-1] = widthKoefArrTest[max-2];
+                    
+    
+                    var totalWidthWithoutSpacing = this.totalWidth - allSpacing,
+                        widthFirstColumn = totalWidthWithoutSpacing / widthKoefArrTest.reduce(function(a, b) { return a + b; });
+    
+                    if(widthFirstColumn * _.min(widthKoefArrTest) < this.minWidthCol){
+                        max -= 1;
+                        break;
+                    }
+
+                    max += 1;
+                }
+                this.spnColumns.setMaxValue(max);
+            }
         },
 
         lockSpinsForEqualColumns: function(bool) {
@@ -299,7 +404,7 @@ define([
             
             if(width < this.minWidthCol) {
                 width = this.minWidthCol + 0.0001;
-                spacing = (this.totalWidth - (num * width)) / (num - 1);
+                spacing = (num > 1) ? (this.totalWidth - (num * width)) / (num - 1) : 0;
             }
 
             this.columnsList.store.each(function(col, index) {
@@ -325,8 +430,6 @@ define([
         setSpacingColumnValue: function(item, value) {
             item.set('spacing', value, {silent: true});
             item.get('spacingSpin').setValue(Common.Utils.Metric.fnRecalcFromMM(value), true);
-            if(item.get('index') == 0)
-                this.setMaxColumns();
         },
 
         setMaxValueSpinsForColumn: function(item) {
@@ -335,10 +438,10 @@ define([
             if(this.chEqualWidth.getValue() == 'checked') {
                 var num = this.columnsList.store.length,
                     width = this.minWidthCol,
-                    maxSpacing = Common.Utils.Metric.fnRecalcFromMM((this.totalWidth - (num * width)) / (num - 1));
+                    maxSpacing = (num > 1) ? Common.Utils.Metric.fnRecalcFromMM((this.totalWidth - (num * width)) / (num - 1)) : 0;
 
                 item.get('widthSpin').setMaxValue(1000);                
-                item.get('spacingSpin').setMaxValue(this.decimalRouding(maxSpacing));
+                item.get('spacingSpin').setMaxValue(num > 1 ? this.decimalRouding(maxSpacing) : 0);
             }
             else {
                 var nextItem = this.columnsList.store.at(itemIndex != this.columnsList.store.length - 1 ? itemIndex + 1 : 0);    
@@ -389,6 +492,8 @@ define([
                 me.setMaxValueSpinsForColumn(previosItem);
                 me.setMaxValueSpinsForColumn(item);
                 me.setMaxValueSpinsForColumn(nextItem);
+
+                me.setMaxColumns();
             });
 
             var spinSpacing = new Common.UI.MetricSpinner({
@@ -417,8 +522,7 @@ define([
                     me.setMaxValueSpinsForColumn(item);
                 }
 
-                if(index == 0)
-                    me.setMaxColumns();
+                me.setMaxColumns();
             });
 
             item.set('widthSpin', spinWidth, {silent: true});
