@@ -167,6 +167,9 @@
       "warnNoLicense": "您已達到同時連接到 %1 編輯器的限制。此文件將只提供檢視。有關個人升級條款，請聯繫 %1 業務團隊。",
       "warnNoLicenseUsers": "您已達到％1個編輯器的用戶限制。與％1銷售團隊聯繫以了解個人升級條款。",
       "warnProcessRightsChange": "您沒有編輯此文件的權限。",
+      "textDontUpdate": "Don't Update",
+      "textUpdate": "Update",
+      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
       "titleLicenseExp": "License expired",
       "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
     }

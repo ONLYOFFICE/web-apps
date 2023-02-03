@@ -395,6 +395,11 @@
     "errorEmptyTOC": "开始创建一个目录并应用样式库中的标题样式到选择的文本。",
     "errorFilePassProtect": "该文件已启动密码保护，无法打开。",
     "errorFileSizeExceed": "文件大小超出了服务器的限制。<br>恳请你联系管理员。",
+    "errorInconsistentExt": "在打开文件时发生了错误。<br> 该文件的扩展名不一致：%1。",
+    "errorInconsistentExtDocx": "在打开文件时发生了错误。<br>文件内容对应于文本文档（如 docx），但该文件的扩展名不一致：%1。",
+    "errorInconsistentExtPdf": "在打开文件时发生了错误。<br>文件内容对应于以下格式之一：pdf/djvu/xps/oxps，但该文件的扩展名不一致：%1。",
+    "errorInconsistentExtPptx": "在打开文件时发生了错误。<br>文件内容对应于演示文稿（如 pptx），但该文件的扩展名不一致：%1。",
+    "errorInconsistentExtXlsx": "在打开文件时发生了错误。<br>文件内容对应于电子表格（如 xlsx），但该文件的扩展名不一致：%1。",
     "errorKeyEncrypt": "未知密钥描述",
     "errorKeyExpire": "密钥过期",
     "errorLoadingFont": "字体未加载。<br>请与文档服务器管理员联系。",
@@ -422,12 +427,7 @@
     "unknownErrorText": "未知错误。",
     "uploadImageExtMessage": "未知图像格式。",
     "uploadImageFileCountMessage": "没有图片上传",
-    "uploadImageSizeMessage": "图片太大了。最大允许的大小是 25 MB.",
-    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
-    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1."
+    "uploadImageSizeMessage": "图片太大了。最大允许的大小是 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "数据加载中…",
@@ -543,6 +543,7 @@
     "textClose": "关闭",
     "textContactUs": "联系销售",
     "textCustomLoader": "抱歉，你无权修改装载程序。请联系我们的销售部门以获取报价。",
+    "textDocumentProtected": "文件受保护。编辑设置不可用",
     "textGuest": "访客",
     "textHasMacros": "这个文件带有自动宏。<br> 是否要运行宏？",
     "textNo": "不",
@@ -565,8 +566,7 @@
     "warnLicenseUsersExceeded": "你触发了 %1 编辑器的同时在线数限制。可联系管理员来了解更多信息。",
     "warnNoLicense": "你已经触发了 %1 编辑器的同时在线数限制. 该文档打开后，你将只能查看。请联系 %1 的销售团队，获取个人升级条款。",
     "warnNoLicenseUsers": "你触发了 %1 编辑器的同时在线数限制。请与  %1  的销售团队联系，以获取个人升级条款。",
-    "warnProcessRightsChange": "你没有编辑这个文件的权限。",
-    "textDocumentProtected": "The document is protected. Edit settings are not available"
+    "warnProcessRightsChange": "你没有编辑这个文件的权限。"
   },
   "Settings": {
     "advDRMOptions": "受保护的文件",
