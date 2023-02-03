@@ -139,6 +139,7 @@
             options.asc_setNotSearchEmptyCells(true);
             if (!api.asc_findText(options)) {
                 common.view.SearchBar.disableNavButtons();
+                common.view.SearchBar.updateResultsNumber();
                 return false;
             }
             return true;
@@ -156,6 +157,7 @@
 
         var onApiUpdateSearchCurrent = function (current, all) {
             common.view.SearchBar.disableNavButtons(current, all);
+            common.view.SearchBar.updateResultsNumber(current, all);
         };
 
         var highlightResults = function (val) {
