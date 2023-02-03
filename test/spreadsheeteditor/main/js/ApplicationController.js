@@ -36,6 +36,7 @@ SSE.ApplicationController = new(function(){
         config = {},
         docConfig = {},
         permissions = {},
+        appOptions = {},
         maxPages = 0,
         created = false;
 
@@ -169,10 +170,16 @@ SSE.ApplicationController = new(function(){
     }
 
     function onEditorPermissions(params) {
+        var licType = params.asc_getLicenseType();
+        appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
+        appOptions.canBrandingExt = params.asc_getCanBranding();
+        appOptions.isEdit         = appOptions.canLicense && appOptions.canBrandingExt && (permissions.edit !== false) && (config.mode !== 'view');
+
         api.asc_SetFastCollaborative(true);
         api.asc_setAutoSaveGap(1);
 
         onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+        api.asc_setViewMode(!appOptions.isEdit);
         api.asc_LoadDocument();
     }
 
