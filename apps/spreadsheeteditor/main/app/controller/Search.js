@@ -262,6 +262,7 @@ define([
             }
 
             this.hideResults();
+            this.api.asc_closeCellEditor();
 
             var options = new Asc.asc_CFindOptions();
             options.asc_setFindWhat(this._state.searchText);
