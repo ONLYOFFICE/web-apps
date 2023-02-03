@@ -166,7 +166,10 @@
       "warnNoLicense": "ທ່ານໄດ້ຖືກຈຳກັດສິດພຽງເທົ່ານີ້ສຳຫລັບການເຊື່່ອມພ້ອມກັນກັບເຄື່ອງມືແກ້ໄຂ %1 ແລ້ວເອກະສານນີ້ຈະເປີດໃຫ້ເບີ່ງເທົ່ານັ້ນ ຕິດຕໍ່ທີມຂາຍ %1 ສຳຫລັບເງື່ອນໄຂການອັບເກດສ່ວນບຸກຄົນ",
       "warnNoLicenseUsers": "ຈໍານວນ ການເຊື່ອມຕໍ່ພ້ອມກັນກັບບັນນາທິການ ແມ່ນເກີນກໍານົດ % 1. ຕິດຕໍ່  ທີມຂາຍ% 1 ສຳ ລັບຂໍ້ ກຳນົດການຍົກລະດັບສິດ",
       "warnProcessRightsChange": "ທ່ານບໍ່ມີສິດໃນການແກ້ໄຂໄຟລ໌ນີ້.",
+      "textDontUpdate": "Don't Update",
       "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
+      "textUpdate": "Update",
+      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
       "titleLicenseExp": "License expired",
       "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
     }

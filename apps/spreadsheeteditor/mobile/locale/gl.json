@@ -167,6 +167,9 @@
       "warnNoLicense": "Alcanzou o límite de conexións simultáneas con %1 editores. Este documento abrirase para as úa visualización. Póñase en contacto co equipo de vendas de %1 para coñecer as condicións de actualización persoal.",
       "warnNoLicenseUsers": "Alcanzou o límite de usuarios para os editores de %1.<br>Contacte co equipo de vendas de %1 para coñecer os termos de actualización persoal.",
       "warnProcessRightsChange": "Non ten permiso para editar o ficheiro.",
+      "textDontUpdate": "Don't Update",
+      "textUpdate": "Update",
+      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
       "titleLicenseExp": "License expired",
       "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
     }

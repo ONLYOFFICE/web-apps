@@ -161,12 +161,15 @@
       "warnNoLicense": "Siz 1% redaktorlarına eyni vaxtda qoşulma limitinə çatdınız. Bu sənəd yalnız baxmaq üçün açılacaq. Şəxsi təkmilləşdirmə şərtləri üçün 1% satış komandası ilə əlaqə saxlayın.",
       "warnNoLicenseUsers": "1% redaktor üçün istifadəçi limitinə çatdınız. Şəxsi təkmilləşdirmə şərtləri üçün 1% satış komandası ilə əlaqə saxlayın.",
       "warnProcessRightsChange": "Faylı redaktə etmək icazəniz yoxdur.",
+      "textDontUpdate": "Don't Update",
       "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
       "textNoTextFound": "Text not found",
       "textOk": "Ok",
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
       "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
       "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
+      "textUpdate": "Update",
+      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
       "titleLicenseExp": "License expired",
       "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
     }

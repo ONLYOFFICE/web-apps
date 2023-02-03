@@ -168,7 +168,10 @@
       "warnLicenseUsersExceeded": "Atingiu o limite de %1 editores. Contacte o seu administrador para obter detalhes.",
       "warnNoLicense": "Atingiu o limite de ligações simultâneas a %1 editores. Este documento será aberto apenas para visualização. Contacte a %1 equipa de vendas para consultar os termos de atualização para si.",
       "warnNoLicenseUsers": "Atingiu o limite de %1 editores. Contacte a equipa comercial %1 para obter mais informações.",
-      "warnProcessRightsChange": "Não tem permissão para editar este ficheiro."
+      "warnProcessRightsChange": "Não tem permissão para editar este ficheiro.",
+      "textDontUpdate": "Don't Update",
+      "textUpdate": "Update",
+      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data."
     }
   },
   "Error": {
@@ -258,6 +261,7 @@
     "advDRMPassword": "Palavra-passe",
     "applyChangesTextText": "A carregar dados...",
     "applyChangesTitleText": "A carregar dados",
+    "confirmMaxChangesSize": "O tamanho das ações excede a limitação definida para o seu servidor.<br>Pressione \"Desfazer\" para cancelar a sua última ação ou pressione \"Continuar\" para manter a ação localmente (precisa de transferir o ficheiro ou copiar o seu conteúdo para garantir que nada seja perdido).",
     "confirmMoveCellRange": "O intervalo de células de destino pode conter dados. Continuar?",
     "confirmPutMergeRange": "Os dados de origem contêm células unidas.<br>A união de células será anulada antes de serem coladas na tabela.",
     "confirmReplaceFormulaInTable": "As fórmulas na linha de cabeçalho serão removidas e convertidas para texto estático.<br>Continuar?",
@@ -295,8 +299,7 @@
     "txtEditingMode": "Definir modo de edição…",
     "uploadImageTextText": "A carregar imagem...",
     "uploadImageTitleText": "A carregar imagem",
-    "waitText": "Aguarde...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost)."
+    "waitText": "Aguarde..."
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Aviso",

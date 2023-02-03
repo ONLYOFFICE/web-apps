@@ -1332,6 +1332,7 @@
   "SSE.Controllers.Statusbar.zoomText": "Zoom {0}%",
   "SSE.Controllers.Toolbar.confirmAddFontName": "El tipo de letra que usted va a guardar no está disponible en este dispositivo. <br>El estilo de letra se mostrará usando uno de los tipos de letra del sistema, el tipo de letra guardado va a usarse cuando esté disponible.<br>¿Desea continuar?",
   "SSE.Controllers.Toolbar.errorComboSeries": "Para crear un gráfico combinado, seleccione al menos dos series de datos.",
+  "SSE.Controllers.Toolbar.errorMaxPoints": "El número máximo de puntos en serie por gráfico es 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "¡ERROR! El número máximo de series de datos por gráfico es 225",
   "SSE.Controllers.Toolbar.errorStockChart": "Orden de las filas incorrecto. Para crear un gráfico de cotizaciones introduzca los datos en la hoja de la forma siguiente:<br> precio de apertura, precio máximo, precio mínimo, precio de cierre.",
   "SSE.Controllers.Toolbar.textAccent": "Acentos",
