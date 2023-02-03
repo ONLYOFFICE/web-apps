@@ -2690,6 +2690,7 @@
   "DE.Views.RolesManagerDlg.closeButtonText": "Fechar",
   "DE.Views.RolesManagerDlg.textAnyone": "Alguém",
   "DE.Views.RolesManagerDlg.textDelete": "Excluir",
+  "DE.Views.RolesManagerDlg.textDeleteLast": "Tem certeza de que deseja excluir a função {0}?<br>Depois de excluída, a função padrão será criada.",
   "DE.Views.RolesManagerDlg.textDescription": "Adicione funções e defina a ordem em que os responsáveis recebem e assinam o documento",
   "DE.Views.RolesManagerDlg.textDown": "Mover função para baixo",
   "DE.Views.RolesManagerDlg.textEdit": "Editar",
