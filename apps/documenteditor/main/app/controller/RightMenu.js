@@ -517,6 +517,8 @@ define([
                     var selectedElements = this.api.getSelectedElements();
                     if (selectedElements.length > 0)
                         this.onFocusObject(selectedElements, false, !Common.Utils.InternalSettings.get("de-hide-right-settings"));
+                } else {
+                    this.rightmenu.signatureSettings && this.rightmenu.signatureSettings.hideSignatureTooltip();
                 }
             }
 

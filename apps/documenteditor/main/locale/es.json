@@ -845,6 +845,7 @@
   "DE.Controllers.Main.textRequestMacros": "Una macro realiza una solicitud a la URL. ¿Quiere permitir la solicitud al %1?",
   "DE.Controllers.Main.textShape": "Forma",
   "DE.Controllers.Main.textStrict": "Modo estricto",
+  "DE.Controllers.Main.textText": "Texto",
   "DE.Controllers.Main.textTryQuickPrint": "Ha seleccionado Impresión rápida: todo el documento se imprimirá en la última impresora seleccionada o predeterminada.<br>¿Desea continuar?",
   "DE.Controllers.Main.textTryUndoRedo": "Las funciones Anular/Rehacer se desactivan para el modo co-edición rápido.<br>Haga Clic en el botón \"modo estricto\" para cambiar al modo de co-edición estricta para editar el archivo sin la interferencia de otros usuarios y enviar sus cambios sólo después de guardarlos. Se puede cambiar entre los modos de co-edición usando los ajustes avanzados de edición.",
   "DE.Controllers.Main.textTryUndoRedoWarn": "Las funciones Deshacer/Rehacer son desactivados en el modo de co-edición rápido.",

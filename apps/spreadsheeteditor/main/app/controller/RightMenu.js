@@ -494,6 +494,7 @@ define([
                     }
                     this.rightmenu.clearSelection();
                     this.rightmenu.hide();
+                    this.rightmenu.signatureSettings && this.rightmenu.signatureSettings.hideSignatureTooltip();
                 } else {
                     this.rightmenu.show();
                     this._openRightMenu = !Common.Utils.InternalSettings.get("sse-hide-right-settings");

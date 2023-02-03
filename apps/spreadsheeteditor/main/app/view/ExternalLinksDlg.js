@@ -94,6 +94,7 @@ define([
             this.handler    = options.handler;
             this.isUpdating = options.isUpdating || false;
             this.canRequestReferenceData = options.canRequestReferenceData || false;
+            this.isOffline = options.isOffline || false;
             this.linkStatus = [];
             this.wrapEvents = {
                 onUpdateExternalReferenceList: _.bind(this.refreshList, this)
@@ -224,16 +225,21 @@ define([
             if (this.isUpdating) return;
 
             var rec = this.linksList.getSelectedRec();
-            rec && this.api.asc_updateExternalReferences([rec.get('externalRef')]);
+            if (rec) {
+                this.isOffline && this.setLinkStatus(rec.get('linkid'), this.textOk);
+                this.api.asc_updateExternalReferences([rec.get('externalRef')]);
+            }
         },
 
         onUpdateMenu: function(menu, item) {
             if (this.isUpdating) return;
 
             if (item.value == 1) {
-                var arr = [];
+                var arr = [],
+                    me = this;
                 this.linksList.store.each(function(item){
                     arr.push(item.get('externalRef'));
+                    me.isOffline && me.setLinkStatus(item.get('linkid'), me.textOk);
                 }, this);
                 (arr.length>0) && this.api.asc_updateExternalReferences(arr);
             } else

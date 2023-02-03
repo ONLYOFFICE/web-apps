@@ -339,6 +339,7 @@
   "SSE.Controllers.Main.textPleaseWait": "Thao tác này có thể lâu hơn dự kiến. Vui lòng chờ...",
   "SSE.Controllers.Main.textShape": "Hình dạng",
   "SSE.Controllers.Main.textStrict": "Chế độ nghiêm ngặt",
+  "SSE.Controllers.Main.textText": "Văn bản",
   "SSE.Controllers.Main.textTryUndoRedo": "Các chức năng Hoàn tác/Làm lại bị vô hiệu hóa cho chế độ đồng chỉnh sửa Nhanh.<br>Nhấp vào nút 'Chế độ nghiêm ngặt' để chuyển sang chế độ đồng chỉnh sửa Nghiêm ngặt để chỉnh sửa các file mà không có sự can thiệp của người dùng khác và gửi các thay đổi của bạn chỉ sau khi bạn đã lưu. Bạn có thể chuyển đổi giữa các chế độ đồng chỉnh sửa bằng cách sử dụng Cài đặt Nâng cao trình biên tập.",
   "SSE.Controllers.Main.textYes": "Có",
   "SSE.Controllers.Main.titleLicenseExp": "Giấy phép hết hạn",

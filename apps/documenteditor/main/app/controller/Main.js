@@ -150,7 +150,8 @@ define([
                     "No table of figures entries found.": this.txtNoTableOfFigures,
                     "table of figures": this.txtTableOfFigures,
                     "TOC Heading": this.txtTOCHeading,
-                    "Anyone": this.textAnyone
+                    "Anyone": this.textAnyone,
+                    "Text": this.textText
                 };
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -212,7 +213,9 @@ define([
                     if ( !Common.Utils.isIE ) {
                         if ( /^https?:\/\//.test('{{HELP_CENTER_WEB_DE}}') ) {
                             const _url_obj = new URL('{{HELP_CENTER_WEB_DE}}');
-                            _url_obj.searchParams.set('lang', Common.Locale.getCurrentLanguage());
+                            if ( !!_url_obj.searchParams )
+                                _url_obj.searchParams.set('lang', Common.Locale.getCurrentLanguage());
+
                             Common.Utils.InternalSettings.set("url-help-center", _url_obj.toString());
                         }
                     }
@@ -3402,7 +3405,8 @@ define([
             errorInconsistentExt: 'An error has occurred while opening the file.<br>The file content does not match the file extension.',
             errorCannotPasteImg: 'We can\'t paste this image from the Clipboard, but you can save it to your device and \ninsert it from there, or you can copy the image without text and paste it into the document.',
             textTryQuickPrint: 'You have selected Quick print: the entire document will be printed on the last selected or default printer.<br>Do you want to continue?',
-            textAnyone: 'Anyone'
+            textAnyone: 'Anyone',
+            textText: 'Text'
         }
     })(), DE.Controllers.Main || {}))
 });

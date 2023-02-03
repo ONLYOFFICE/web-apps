@@ -668,6 +668,7 @@
   "PE.Controllers.Main.textRenameLabel": "Zadajte meno, ktoré sa bude používať pre spoluprácu",
   "PE.Controllers.Main.textShape": "Tvar",
   "PE.Controllers.Main.textStrict": "Prísny režim",
+  "PE.Controllers.Main.textText": "Text",
   "PE.Controllers.Main.textTryUndoRedo": "Funkcie späť/zopakovať sú vypnuté pre rýchly spolueditačný režim.<br>Kliknite na tlačítko \"Prísny režim\", aby ste prešli do prísneho spolueditačného režimu a aby ste upravovali súbor bez rušenia ostatných užívateľov a odosielali vaše zmeny iba po ich uložení. Pomocou Rozšírených nastavení editoru môžete prepínať medzi spolueditačnými režimami.",
   "PE.Controllers.Main.textTryUndoRedoWarn": "Funkcia Späť/Znova sú vypnuté pre rýchli režim spolupráce. ",
   "PE.Controllers.Main.titleLicenseExp": "Platnosť licencie uplynula",

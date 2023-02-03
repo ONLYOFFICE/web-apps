@@ -905,6 +905,7 @@
   "PE.Controllers.Main.textRequestMacros": "O macrocomandă trimite o solicitare URL. Doriți să permiteți ca solicitarea să fie trimisă către %1?",
   "PE.Controllers.Main.textShape": "Forma",
   "PE.Controllers.Main.textStrict": "Modul strict",
+  "PE.Controllers.Main.textText": "Text",
   "PE.Controllers.Main.textTryQuickPrint": "Dvs v-ați ales opțiunea de Imprimare rapidă: imprimanta este setată se inprime un document întreg este ultima imprimantă utilizată sau imprimantă implicită.<br>Doriți să continuați?",
   "PE.Controllers.Main.textTryUndoRedo": "Funcții Anulare/Refacere sunt dezactivate în modul Rapid de editare colaborativă.<br>Faceți clic pe Modul strict ca să comutați la modul Strict de editare colaborativă și să nu intrați în conflict cu alte persoane. Toate modificările vor fi trimise numai după ce le salvați. Ulilizati Setări avansate ale editorului ca să comutați între moduri de editare colaborativă. ",
   "PE.Controllers.Main.textTryUndoRedoWarn": "Funcții Anulare/Refacere sunt dezactivate în modul Rapid de editare colaborativă.",

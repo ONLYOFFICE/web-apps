@@ -1280,7 +1280,9 @@ define([
         txtQuickPrint: 'Show the Quick Print button in the editor header',
         txtQuickPrintTip: 'The document will be printed on the last selected or default printer',
         txtWorkspaceSettingChange: 'Workspace setting (RTL interface) change',
-        txtRestartEditor: 'Please restart spreadsheet editor so that your workspace settings can take effect'
+        txtRestartEditor: 'Please restart spreadsheet editor so that your workspace settings can take effect',
+        txtHy: 'Armenian',
+        txtExampleHy: 'ԳՈՒՄԱՐ; ՆՎԱԶ; ԱՌԱՎ․; ՀԱՇՎԱՐԿ'
 
 }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 

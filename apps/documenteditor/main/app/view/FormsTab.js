@@ -355,6 +355,7 @@ define([
                         menu: new Common.UI.Menu({
                             cls: 'menu-roles',
                             maxHeight: 270,
+                            style: 'max-width: 400px;',
                             items: []
                         }),
                         enableToggle: true,
@@ -481,10 +482,11 @@ define([
                             '<span class="menu-item-icon <%= iconCls %>"></span>'+
                             '<% } %>'+
                             '<div><%= caption %></div>' +
-                            '<% if (options.description !== null) { %><label style="display: block;cursor: pointer;white-space: normal;"><%= options.description %></label>' +
+                            '<% if (options.description !== null) { %><label style="cursor: pointer;white-space: normal;"><%= options.description %></label>' +
                             '<% } %></a>');
 
                         me.btnTextField.setMenu(new Common.UI.Menu({
+                            style: 'max-width: 300px;',
                             items: [
                             {
                                 caption: me.txtInlineText,
@@ -594,7 +596,7 @@ define([
                         checkable: true,
                         toggleGroup: 'formtab-view-role',
                         template: _.template([
-                            '<a id="<%= id %>"  tabindex="-1" type="menuitem" class="<%= options.cls %>">',
+                            '<a id="<%= id %>"  tabindex="-1" type="menuitem" class="<%= options.cls %>" style="overflow: hidden; text-overflow: ellipsis;">',
                             '<span class="color" style="background: <%= options.color %>;"></span>',
                             '<%= caption %>',
                             '</a>'

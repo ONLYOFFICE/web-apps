@@ -526,6 +526,10 @@ define([
             getDefaultPrinterName: function () {
                 return nativevars ? nativevars.defaultPrinterName : '';
             },
+            systemThemeType: function () {
+                return nativevars.theme && !!nativevars.theme.system ? nativevars.theme.system :
+                            window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            },
         };
     };
 

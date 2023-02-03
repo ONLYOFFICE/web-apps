@@ -903,6 +903,7 @@
   "PE.Controllers.Main.textRequestMacros": "マクロがURLに対してリクエストを行います。%1へのリクエストを許可しますか？",
   "PE.Controllers.Main.textShape": "図形",
   "PE.Controllers.Main.textStrict": "厳格モード",
+  "PE.Controllers.Main.textText": "テキスト",
   "PE.Controllers.Main.textTryQuickPrint": "クイックプリントが選択されています。ドキュメント全体が、最後に選択したプリンタまたはデフォルトのプリンタで印刷されます。<br>続行しますか?",
   "PE.Controllers.Main.textTryUndoRedo": "高速共同編集モードでは、元に戻す/やり直し機能は無効になります。<br>「厳格モード」ボタンをクリックすると、他のユーザーの干渉を受けずにファイルを編集し、保存後に変更内容を送信する厳格共同編集モードに切り替わります。共同編集モードの切り替えは、エディタの詳細設定を使用して行うことができます。",
   "PE.Controllers.Main.textTryUndoRedoWarn": "高速共同編集モードでは、元に戻す/やり直し機能が無効になります。",

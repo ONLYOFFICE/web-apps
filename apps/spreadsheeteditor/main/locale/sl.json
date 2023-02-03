@@ -306,6 +306,7 @@
   "SSE.Controllers.Main.textPleaseWait": "Dejanje lahko traja dlje od pričakovanja. Prosimo počakajte...",
   "SSE.Controllers.Main.textShape": "Oblika",
   "SSE.Controllers.Main.textStrict": "Strict mode",
+  "SSE.Controllers.Main.textText": "Tekst",
   "SSE.Controllers.Main.textTryUndoRedo": "The Undo/Redo functions are disabled for the Fast co-editing mode.<br>Click the 'Strict mode' button to switch to the Strict co-editing mode to edit the file without other users interference and send your changes only after you save them. You can switch between the co-editing modes using the editor Advanced settings.",
   "SSE.Controllers.Main.textYes": "Da",
   "SSE.Controllers.Main.titleServerVersion": "Urednik je bil posodobljen",

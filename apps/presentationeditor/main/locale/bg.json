@@ -311,6 +311,7 @@
   "PE.Controllers.Main.textPaidFeature": "Платена функция",
   "PE.Controllers.Main.textShape": "Форма",
   "PE.Controllers.Main.textStrict": "Строг режим",
+  "PE.Controllers.Main.textText": "Текст",
   "PE.Controllers.Main.textTryUndoRedo": "Функции за отмяна/възстановяване със загуба на режими на работа. <br> Кликнете върху бутона „Строг режим“, за да превключите в режим на стриктно съвместно редактиране, за да редактирате файла без намерение за други потребители и да изпратите промените само след като ги запазите. Можете да изключите режимите за съвместно редактиране с помощта на редактора.",
   "PE.Controllers.Main.titleLicenseExp": "Лицензът е изтекъл",
   "PE.Controllers.Main.titleServerVersion": "Редакторът е актуализиран",

@@ -79,6 +79,7 @@
       "errorUpdateVersion": "The file version has been changed. The page will be reloaded.",
       "leavePageText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
       "notcriticalErrorTitle": "Warning",
+      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
       "SDK": {
         "txtAccent": "Accent",
         "txtAll": "(All)",
@@ -152,6 +153,8 @@
       "textNoLicenseTitle": "License limit reached",
       "textNoTextFound": "Text not found",
       "textOk": "Ok",
+      "textUpdate": "Update",
+      "textDontUpdate": "Don't Update",
       "textPaidFeature": "Paid feature",
       "textRemember": "Remember my choice",
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
