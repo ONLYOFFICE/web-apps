@@ -722,6 +722,7 @@
   "Common.Views.SearchPanel.textContentChanged": "Documento alterado.",
   "Common.Views.SearchPanel.textFind": "Localizar",
   "Common.Views.SearchPanel.textFindAndReplace": "Localizar e substituir",
+  "Common.Views.SearchPanel.textItemsSuccessfullyReplaced": "{0} itens substituídos com sucesso.",
   "Common.Views.SearchPanel.textMatchUsingRegExp": "Corresponder usando expressões regulares",
   "Common.Views.SearchPanel.textNoMatches": "Nenhuma correspondência",
   "Common.Views.SearchPanel.textNoSearchResults": "Nenhum resultado de pesquisa",
