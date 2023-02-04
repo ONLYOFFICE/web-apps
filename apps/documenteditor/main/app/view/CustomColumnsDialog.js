@@ -130,40 +130,35 @@ define([
                     var allSpacing = 0,
                         widthKoefArr = [1];
 
-                    for(var i = 0; i < num; i++) {
-                        var spacing = me.defaultSpacing;
-
-                        if(i < num - 1) {
-                            if(isIncrease) {
-                                if(storeLength > 1)
-                                    spacing = me.columnsList.store.at(i < storeLength-1 ? i : storeLength-2).get('spacing');
-                                if(num > 2) {
-                                    for(var j = (storeLength > 1) ? storeLength : 2; j < num; j++) {
-                                        spacing = spacing / (1.1 / j + 1);
-                                    }
-                                }
-                            }
-                            else if(num > 1){
-                                spacing = me.columnsList.store.at(i).get('spacing');
-                                for(var j = storeLength; j > num; j--) {
-                                    spacing = spacing * (1.1 / (j-1) + 1);
-                                }
-                            }
+                    for(var i = 0, previosSpacingKoef = 0; i < num; i++){
+                        var spacingKoef = 0,
+                            columnSpacing = 0;
+                            
+                        //Calculation spacing
+                        //y = z / (0.5*x)   y <-- spacing when 'x' columns 
+                        //                  x <-- num columns
+                        //                  z <-- koeff (spacing when 2 columns)
+                        if(i < num -1) {
+                            if(i < me.columnsList.store.length - 1)
+                                spacingKoef = me.columnsList.store.at(i).get('spacing') * 0.5 * storeLength;
+                            else if(storeLength > 1)
+                                spacingKoef = previosSpacingKoef;
+                            else 
+                                spacingKoef = me.defaultSpacing;
+    
+                            columnSpacing = spacingKoef / (0.5 * num);
                         }
-                        else {
-                            spacing = 0;
-                        }
-
+                        
                         if(i < storeLength)
                             widthKoefArr[i] = me.columnsList.store.at(i).get('width') / me.columnsList.store.at(0).get('width');
                         else 
                             widthKoefArr[i] = widthKoefArr[storeLength - 1];
+                        
+                        arrColumnObj.push({spacing: columnSpacing}); 
+                        allSpacing += columnSpacing;
 
-                        arrColumnObj.push({
-                            spacing: spacing,
-                        });
-                        allSpacing += spacing;
-                    }  
+                        previosSpacingKoef = spacingKoef;
+                    }
 
                     var totalWidthWithoutSpacing = me.totalWidth - allSpacing,
                         widthFirstColumn = totalWidthWithoutSpacing / widthKoefArr.reduce(function(a, b) { return a + b; });
@@ -172,7 +167,7 @@ define([
                     }
                 }
                 me.updateColumnsList(arrColumnObj);
-                if(!isIncrease)
+                if(!isIncrease && !isEqualWidth)
                     me.setMaxColumns();
 
                 me.chEqualWidth.setDisabled(num<2);
@@ -254,15 +249,14 @@ define([
                 var equal = props.get_EqualWidth(),
                     num = (equal) ? props.get_Num() : props.get_ColsCount(),
                     total = props.get_TotalWidth(),
+                    calcWidthForEqual = (equal && num > 1) ? this.calcWidthForEqualColumns(num, props.get_Space()) : total,
                     arrColumnObj = [];
 
                 this.totalWidth = total;
                 this.spnColumns.setValue(num);
 
-                if(num == 1) props.get_Col(0).put_W(total);
-
                 for(var i = 0; i < num; i++) {
-                    if(!equal) {
+                    if(!equal && num > 1) {
                         var currentCol = props.get_Col(i);
                         arrColumnObj.push({
                             width: currentCol.get_W(),
@@ -273,9 +267,8 @@ define([
                             this.minWidthCol = currentCol.get_W();
                     }
                     else {
-                        var calcWidth = this.calcWidthForEqualColumns(num, props.get_Space());
                         arrColumnObj.push({
-                            width: calcWidth,
+                            width: calcWidthForEqual,
                             spacing: props.get_Space(),
                         });
                     }  
@@ -336,49 +329,48 @@ define([
             else {
                 var me = this,
                     curNumColumns = this.columnsList.store.length,
-                    max = curNumColumns + 1,
-                    spacingArr = [],
-                    widthKoefArrTest = [];
+                    widthKoefArr = [],
+                    spacingKoefArr = [];
 
                 if(curNumColumns > 1) {
-                    this.columnsList.store.each(function(item, index) {
-                        widthKoefArrTest[index] = item.get('width') / me.columnsList.store.at(0).get('width');
-                        spacingArr[index] = item.get('spacing');
-                    });
+                    for(var i = 0; i < curNumColumns; i++){
+                        if(i < curNumColumns -1) {
+                            if(i < me.columnsList.store.length - 1)
+                                spacingKoefArr[i] = me.columnsList.store.at(i).get('spacing') * 0.5 * curNumColumns;
+                            else if(storeLength > 1)
+                                spacingKoefArr[i] = spacingKoefArr[i-1];
+                            else 
+                                spacingKoefArr[i] = me.defaultSpacing;
+                        }
+                        
+                        if(i < curNumColumns)
+                            widthKoefArr[i] = me.columnsList.store.at(i).get('width') / me.columnsList.store.at(0).get('width');
+                        else 
+                            widthKoefArr[i] = widthKoefArr[curNumColumns - 1];
+                    }
                 }
                 else {
-                    widthKoefArrTest = [1, 1];
-                    spacingArr = [this.defaultSpacing];
-                    max = 3;
+                    curNumColumns = 2;
+                    widthKoefArr = [1, 1];
+                    spacingKoefArr = [me.defaultSpacing];
                 }
-                
-                //Finding number of columns when the width column becomes less than 'this.minWidthCol'
-                while(max <= maxPossibleColumns) {
-                    var allSpacing = 0;
-    
-                    for(var i = 0; i < max - 1; i++) {
-                        if(i < max - 2) {
-                            spacingArr[i] = spacingArr[i] / (1.1 / (max - 1) + 1);
-                        }
-                        else {
-                            spacingArr[i] = spacingArr[i-1];
-                        }
-                        allSpacing += spacingArr[i];
-                    }
-                    widthKoefArrTest[max-1] = widthKoefArrTest[max-2];
-                    
-    
-                    var totalWidthWithoutSpacing = this.totalWidth - allSpacing,
-                        widthFirstColumn = totalWidthWithoutSpacing / widthKoefArrTest.reduce(function(a, b) { return a + b; });
-    
-                    if(widthFirstColumn * _.min(widthKoefArrTest) < this.minWidthCol){
-                        max -= 1;
-                        break;
-                    }
 
-                    max += 1;
-                }
-                this.spnColumns.setMaxValue(max);
+                var minWidthKoef = _.min(widthKoefArr);
+                widthKoefArr = widthKoefArr.map(function(item) { return item / minWidthKoef; });
+
+                //Quadratic equation
+                //n     <-- number current columns
+                //MAX   <-- max columns
+                //(widthKoef(n)*this.minWidthCol) * MAX^2 + (-this.totalWidth + me.minWidthCol*(summ(widthKoef(1), ..., widthKoef(n-1)) + widthKoef(n)*(1-n)) + 2*spacingKoef(n-2)) * MAX + (2*(1-n)*spacingKoef(n-1) + 2*summ(spacingKoef(1), ..., spacingKoef(n-2))) = 0
+                var lastWidthKoef = widthKoefArr.pop(),
+                    lastSpacingKoef = spacingKoefArr.pop(),
+                    summSpacingKoef = spacingKoefArr.length > 0 ? spacingKoefArr.reduce(function(a, b) { return a + b ; }) : 0,
+                    a = lastWidthKoef * me.minWidthCol,
+                    b = -this.totalWidth + me.minWidthCol*(widthKoefArr.reduce(function(a, b) { return a + b ; })  + lastWidthKoef*(1-curNumColumns)) + 2*lastSpacingKoef,
+                    c = 2*(1-curNumColumns)*lastSpacingKoef + 2*summSpacingKoef,
+                    maxColumn = (Math.sqrt(b*b - 4*a*c) - b) / (2*a);
+                                    
+                this.spnColumns.setMaxValue(Math.floor(maxColumn));
             }
         },
 
@@ -440,7 +432,7 @@ define([
                     width = this.minWidthCol,
                     maxSpacing = (num > 1) ? Common.Utils.Metric.fnRecalcFromMM((this.totalWidth - (num * width)) / (num - 1)) : 0;
 
-                item.get('widthSpin').setMaxValue(1000);                
+                item.get('widthSpin').setMaxValue(1000000);                
                 item.get('spacingSpin').setMaxValue(num > 1 ? this.decimalRouding(maxSpacing) : 0);
             }
             else {
