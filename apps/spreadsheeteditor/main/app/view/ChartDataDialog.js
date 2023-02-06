@@ -525,7 +525,8 @@ define([
         },
 
         updateCategoryList: function(categories, afterAnimate) {
-            var store = this.categoryList.store,
+            var me = this,
+                store = this.categoryList.store,
                 len = categories.length;
             var getModels = function (data) {
                 var models = [];
@@ -539,6 +540,18 @@ define([
                 }
                 return models;
             }
+            var loadCategoryList = function (index) {
+                me._categoryListIndex = index;
+                var _loadCategoryListTimer = setInterval(function() {
+                    if (me._categoryListIndex + 1 >= len) {
+                        clearInterval(_loadCategoryListTimer);
+                        _loadCategoryListTimer = undefined;
+                        return;
+                    }
+                    store.add(getModels(categories.slice(me._categoryListIndex, me._categoryListIndex + 10)));
+                    me._categoryListIndex += 10;
+                }, 10);
+            }
             if (!afterAnimate) {
                 if (categories.length < 10) {
                     store.reset(getModels(categories));
@@ -547,13 +560,13 @@ define([
 
                     if (this._isOpen) {
                         _.defer(function () {
-                            store.add(getModels(categories.slice(10)));
+                            loadCategoryList(10);
                         }, 0);
                     }
                 }
                 (len>0) && this.categoryList.selectByIndex(0);
             } else if (len > store.length) {
-                store.add(getModels(categories.slice(10)));
+                loadCategoryList(10);
             }
         },
 
