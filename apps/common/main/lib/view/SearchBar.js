@@ -62,7 +62,10 @@ define([
 
             this.template = [
                 '<div class="box">',
-                    '<input type="text" id="search-bar-text" class="input-field form-control" maxlength="255" placeholder="'+this.textFind+'" autocomplete="off">',
+                    '<div class="search-input-group">',
+                        '<input type="text" id="search-bar-text" class="input-field form-control" maxlength="255" placeholder="'+this.textFind+'" autocomplete="off">',
+                        '<div id="search-bar-results">0/0</div>',
+                    '</div>',
                     '<div class="tools">',
                         '<div id="search-bar-back"></div>',
                         '<div id="search-bar-next"></div>',
@@ -128,9 +131,14 @@ define([
                 this.hide();
             }, this))
 
+            this.searchResults = $('#search-bar-results');
+
             this.on('animate:before', _.bind(this.focus, this));
 
-            Common.NotificationCenter.on('search:updateresults', _.bind(this.disableNavButtons, this));
+            Common.NotificationCenter.on('search:updateresults', _.bind(function (resultNumber, allResults) {
+                this.disableNavButtons(resultNumber, allResults);
+                this.updateResultsNumber(resultNumber, allResults);
+            }, this));
 
             return this;
         },
@@ -190,6 +198,12 @@ define([
             var disable = (this.inputSearch.val() === '' && !window.SSE) || !allResults;
             this.btnBack.setDisabled(disable);
             this.btnNext.setDisabled(disable);
+        },
+
+        updateResultsNumber: function (current, all) {
+            this.searchResults.text(!all || (this.inputSearch.val() === '' && !window.SSE) ? '0/0' :
+                (Common.UI.isRTL() ? all + '/' + (current + 1) : current + 1 + '/' + all));
+            this.inputSearch.css(Common.UI.isRTL() ? 'padding-left' : 'padding-right', this.searchResults.outerWidth() + 'px');
         },
 
         textFind: 'Find',

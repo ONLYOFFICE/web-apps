@@ -262,6 +262,7 @@ define([
             }
 
             this.hideResults();
+            this.api.asc_closeCellEditor();
 
             var options = new Asc.asc_CFindOptions();
             options.asc_setFindWhat(this._state.searchText);
@@ -292,6 +293,7 @@ define([
                 } else {
                     this.removeResultItems();
                 }
+                Common.NotificationCenter.trigger('search:updateresults');
                 return false;
             }
             this._state.isResults = true;
@@ -603,6 +605,10 @@ define([
 
         getSearchText: function () {
             return this._state.searchText;
+        },
+
+        getResultsNumber: function () {
+            return [this._state.currentResult, this._state.resultsNumber];
         },
 
         onApiUpdateSearchElem: function (data) { // [id, sheet, name, cell, value, formula]

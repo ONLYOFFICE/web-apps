@@ -119,6 +119,7 @@
                             onQuerySearch();
                         } else {
                             api.asc_endFindText();
+                            common.view.SearchBar.updateResultsNumber();
                         }
                         clearInterval(_searchTimer);
                         _searchTimer = undefined;
@@ -134,6 +135,7 @@
             searchSettings.put_WholeWords(false);
             if (!api.asc_findText(searchSettings, d != 'back')) {
                 common.view.SearchBar.disableNavButtons();
+                common.view.SearchBar.updateResultsNumber();
                 return false;
             }
             return true;
@@ -151,6 +153,7 @@
 
         var onApiUpdateSearchCurrent = function (current, all) {
             common.view.SearchBar.disableNavButtons(current, all);
+            common.view.SearchBar.updateResultsNumber(current, all);
         };
 
         return {
