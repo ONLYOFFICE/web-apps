@@ -289,7 +289,8 @@ define([
             }
         },
 
-        onRepeatComboOpen: function(needfocus, combo) {
+        onRepeatComboOpen: function(needfocus, combo, e, params) {
+            if (params && params.fromKeyDown) return;
             _.delay(function() {
                 var input = $('input', combo.cmpEl).select();
                 if (needfocus) input.focus();

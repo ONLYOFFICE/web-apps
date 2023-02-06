@@ -347,7 +347,7 @@ define([
                 if (this.scroller)
                     this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
 
-                this.trigger('show:after', this, e);
+                this.trigger('show:after', this, e, {fromKeyDown: e===undefined});
                 this._search = {};
             },
 
@@ -466,8 +466,10 @@ define([
                     this.closeMenu();
                     this.onAfterHideMenu(e);
                 } else if (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN) {
-                    if (!this.isMenuOpen())
+                    if (!this.isMenuOpen()) {
                         this.openMenu();
+                        this.onAfterShowMenu();
+                    }
 
                     _.delay(function() {
                         me._skipInputChange = true;

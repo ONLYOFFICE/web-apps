@@ -52,7 +52,7 @@ define([
             _.extend(_options,  {
                 title: options.title,
                 cls: 'modal-dlg',
-                width: 270,
+                width: 300,
                 height: 'auto',
                 buttons: ['ok', 'cancel']
             }, options);
@@ -76,28 +76,14 @@ define([
                         '<div class="input-row">',
                             '<label>' + t.txtWhoCanEdit + '</label>',
                         '</div>',
-                        '<table cols="2">',
-                        '<tr style="vertical-align: top;">',
-                            '<td class="padding-small">',
-                                '<div id="id-protected-range-cmb-user" class="input-group-nr" style="width:213px;margin-right: 5px;margin-bottom: 8px;"></div>',
-                            '</td>',
-                            '<td class="padding-small">',
-                                '<div id="id-protected-range-add" style="margin-bottom: 8px;"></div>',
-                            '</td>',
-                        '</tr>',
-                        '<tr style="vertical-align: top;">',
-                            '<td class="padding-small">',
-                                '<div id="id-protected-range-list-user" class="input-group-nr" style="width:213px;height: 95px;margin-right: 5px;"></div>',
-                            '</td>',
-                            '<td class="padding-small">',
-                                '<div id="id-protected-range-delete"></div>',
-                            '</td>',
-                        '</tr>',
-                    '</table>',
+                        '<div id="id-protected-range-cmb-user" class="input-row input-group-nr" style="margin-bottom: 8px;"></div>',
+                        '<div id="id-protected-range-list-user" class="input-group-nr" style="height: 95px;"></div>',
                     '</div>'
                 ].join('');
 
             _options.tpl        =   _.template(this.template)(_options);
+
+            this._userStr = '';
 
             Common.UI.Window.prototype.initialize.call(this, _options);
         },
@@ -165,7 +151,7 @@ define([
             });
             this.cmbUser.on('selected', this.onUserSelected.bind(this));
             this.cmbUser.on('changing', this.onUserChanging.bind(this));
-            this.cmbUser.on('show:before',_.bind(this.onCmbUserOpen, this));
+            this.cmbUser.on('show:after',_.bind(this.onCmbUserOpen, this));
             // this.cmbUser.on('changed:before', this.onUserChangedBefore.bind(this));
 
             this.listUser = new Common.UI.ListView({
@@ -173,22 +159,14 @@ define([
                 store: new Common.UI.DataViewStore(),
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;">',
-                    '<div style="width:90px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;margin-right: 5px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
-                    '<div style="width:90px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;"><%= Common.Utils.String.htmlEncode(email) %></div>',
+                    '<div style="width:115px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;margin-right: 4px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
+                    '<div style="width:135px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;"><%= Common.Utils.String.htmlEncode(email) %></div>',
                     '</div>'
                 ].join('')),
                 emptyText: '',
                 tabindex: 1
             });
             // this.listUser.on('item:select', _.bind(this.onSelectUser, this));
-
-            this.btnAdd = new Common.UI.Button({
-                parentEl: this.$window.find('#id-protected-range-add'),
-                cls: 'btn-toolbar border-off btn-options',
-                iconCls: 'toolbar__icon btn-zoomup',
-                hint: this.textTipAdd
-            });
-            // this.btnAdd.on('click', _.bind(this.onAddUser, this));
 
             this.btnDelete = new Common.UI.Button({
                 parentEl: this.$window.find('#id-protected-range-delete'),
@@ -202,7 +180,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.inputRangeName, this.txtDataRange, this.cmbUser, this.btnAdd, this.listUser, this.btnDelete];
+            return [this.inputRangeName, this.txtDataRange, this.cmbUser, this.listUser, this.btnDelete];
         },
 
         getDefaultFocusableComponent: function () {
@@ -292,16 +270,18 @@ define([
             if (value!==undefined && value!=='') {
                 var rec = store.findWhere({value: value});
                 if (!rec) {
-                    store.add({value: value, name: record.displayValue, email: record.email});
+                    store.add({value: value, name: record.displayValue, email: record.value});
                 }
             }
+            this.cmbUser.setRawValue(this._userStr);
         },
 
-        onUserChanging: function(combo) {
+        onUserChanging: function(combo, newValue) {
+            this._userStr = newValue;
             this.onUserMenu();
         },
 
-        onCmbUserOpen: function(combo, record, e) {
+        onCmbUserOpen: function(combo, e, params) {
             this.onUserMenu();
         },
 
