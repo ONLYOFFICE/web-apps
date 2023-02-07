@@ -230,7 +230,7 @@ define([
         },
 
         onAnimateAfter: function () {
-            if (this.chartSettings) {
+            if (this.chartSettings && !this._isOpen) {
                 this.updateCategoryList(this.chartSettings.getCatValues(), true);
                 this._isOpen = true;
             }
@@ -525,6 +525,11 @@ define([
         },
 
         updateCategoryList: function(categories, afterAnimate) {
+            if (this._loadCategoryListTimer) {
+                clearInterval(this._loadCategoryListTimer);
+                this._loadCategoryListTimer = undefined;
+            }
+
             var me = this,
                 store = this.categoryList.store,
                 len = categories.length;
@@ -542,10 +547,10 @@ define([
             }
             var loadCategoryList = function (index) {
                 me._categoryListIndex = index;
-                var _loadCategoryListTimer = setInterval(function() {
+                me._loadCategoryListTimer = setInterval(function() {
                     if (me._categoryListIndex + 1 >= len) {
-                        clearInterval(_loadCategoryListTimer);
-                        _loadCategoryListTimer = undefined;
+                        clearInterval(me._loadCategoryListTimer);
+                        me._loadCategoryListTimer = undefined;
                         return;
                     }
                     store.add(getModels(categories.slice(me._categoryListIndex, me._categoryListIndex + 10)));
