@@ -237,6 +237,8 @@ define([
         },
 
         close: function () {
+            this.clearCategoryListTimer();
+
             this.api.asc_onCloseChartFrame();
             Common.Views.AdvancedSettingsWindow.prototype.close.apply(this, arguments);
         },
@@ -525,10 +527,7 @@ define([
         },
 
         updateCategoryList: function(categories, afterAnimate) {
-            if (this._loadCategoryListTimer) {
-                clearInterval(this._loadCategoryListTimer);
-                this._loadCategoryListTimer = undefined;
-            }
+            this.clearCategoryListTimer();
 
             var me = this,
                 store = this.categoryList.store,
@@ -549,8 +548,7 @@ define([
                 me._categoryListIndex = index;
                 me._loadCategoryListTimer = setInterval(function() {
                     if (me._categoryListIndex + 1 >= len) {
-                        clearInterval(me._loadCategoryListTimer);
-                        me._loadCategoryListTimer = undefined;
+                        me.clearCategoryListTimer();
                         return;
                     }
                     store.add(getModels(categories.slice(me._categoryListIndex, me._categoryListIndex + 10)));
@@ -572,6 +570,13 @@ define([
                 (len>0) && this.categoryList.selectByIndex(0);
             } else if (len > store.length) {
                 loadCategoryList(10);
+            }
+        },
+
+        clearCategoryListTimer: function () {
+            if (this._loadCategoryListTimer) {
+                clearInterval(this._loadCategoryListTimer);
+                this._loadCategoryListTimer = undefined;
             }
         },
 
