@@ -162,26 +162,20 @@ define([
                     '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;">',
                     '<div style="width:115px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;margin-right: 4px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
                     '<div style="width:135px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;"><%= Common.Utils.String.htmlEncode(email) %></div>',
+                    '<div class="listitem-icon toolbar__icon cc-remove"></div>',
                     '</div>'
                 ].join('')),
                 emptyText: '',
                 tabindex: 1
             });
             this.listUser.on('item:keydown', _.bind(this.onKeyDown, this))
-
-            this.btnDelete = new Common.UI.Button({
-                parentEl: this.$window.find('#id-protected-range-delete'),
-                cls: 'btn-toolbar border-off btn-options',
-                iconCls: 'toolbar__icon cc-remove',
-                hint: this.textTipDelete
-            });
-            // this.btnDelete.on('click', _.bind(this.onDeleteUser, this));
+            this.listUser.on('item:click', _.bind(this.onListUserClick, this))
 
             this.afterRender();
         },
 
         getFocusedComponents: function() {
-            return [this.inputRangeName, this.txtDataRange, this.cmbUser, this.listUser, this.btnDelete];
+            return [this.inputRangeName, this.txtDataRange, this.cmbUser, this.listUser];
         },
 
         getDefaultFocusableComponent: function () {
@@ -340,10 +334,20 @@ define([
                 this.onDeleteUser();
         },
 
-        onDeleteUser: function() {
-            var rec = this.listUser.getSelectedRec();
+        onDeleteUser: function(rec) {
+            !rec && (rec = this.listUser.getSelectedRec());
             if (rec && !rec.get('isCurrent')) {
                 this.listUser.store.remove(rec);
+            }
+        },
+
+        onListUserClick: function(list, item, record, e) {
+            if (e) {
+                var btn = $(e.target);
+                if (btn && btn.hasClass('listitem-icon')) {
+                    this.onDeleteUser(record);
+                    return;
+                }
             }
         },
 
