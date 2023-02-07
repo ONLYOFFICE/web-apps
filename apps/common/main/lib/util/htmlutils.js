@@ -91,7 +91,7 @@ if ( !!params.uitheme && checkLocalStorage && !localStorage.getItem("ui-theme-id
 var ui_theme_name = checkLocalStorage && localStorage.getItem("ui-theme-id") ? localStorage.getItem("ui-theme-id") : params.uitheme;
 var ui_theme_type;
 if ( !ui_theme_name ) {
-    if ( (desktop && desktop.theme && desktop.theme.system == 'dark') ||
+    if ( (window.desktop && desktop.theme && desktop.theme.system == 'dark') ||
             (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) )
     {
         ui_theme_name = 'theme-dark';
