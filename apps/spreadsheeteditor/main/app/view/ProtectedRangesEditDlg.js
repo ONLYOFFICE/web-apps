@@ -62,6 +62,7 @@ define([
             this.names = options.names;
             this.isEdit = options.isEdit;
             this.api = options.api;
+            this.currentUser = options.currentUser;
 
             this.template = options.template || [
                     '<div class="box">',
@@ -129,7 +130,7 @@ define([
                 validateOnChange: true,
                 validateOnBlur: false,
                 validation  : function(value) {
-                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.ConditionalFormattingRule, value, true);
+                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, true);
                     return (isvalid!==Asc.c_oAscError.ID.DataRangeError) ? true : me.textInvalidRange;
                 }
             });
@@ -166,7 +167,7 @@ define([
                 emptyText: '',
                 tabindex: 1
             });
-            // this.listUser.on('item:select', _.bind(this.onSelectUser, this));
+            this.listUser.on('item:keydown', _.bind(this.onKeyDown, this))
 
             this.btnDelete = new Common.UI.Button({
                 parentEl: this.$window.find('#id-protected-range-delete'),
@@ -221,14 +222,30 @@ define([
         _setDefaults: function (props) {
             if (props) {
                 this.inputRangeName.setValue(props.asc_getName());
-                this.txtDataRange.setValue(props.asc_getSqref());
+                this.txtDataRange.setValue(props.asc_getRef());
+                this.listUser.store.add({value: this.currentUser.id, name: this.currentUser.name + ' (' + this.textYou + ')', email: '', isCurrent: true});
+                var me= this,
+                    rangeUsers = props.asc_getUsers();
+                if (rangeUsers && rangeUsers.length>0) {
+                    Common.UI.ExternalUsers.get(function(users) {
+                        if (users && users.length>0) {
+                            var store = me.listUser.store;
+                            rangeUsers.forEach(function(item) {
+                                var index = _.indexOf(users, item);
+                                if (index>=0)
+                                    store.add({value: item, name: users[index].name, email: users[index].email});
+                            });
+                        }
+                    });
+                }
             }
         },
 
         getSettings: function() {
-            var props = this.props ? this.props : new Asc.CProtectedRange();
+            var props = new Asc.CUserProtectedRange();
             props.asc_setName(this.inputRangeName.getValue());
-            props.asc_setSqref(this.txtDataRange.getValue());
+            props.asc_setRef(this.txtDataRange.getValue());
+            props.asc_setUsers(this.listUser.store.pluck("value"));
             return props;
         },
 
@@ -258,7 +275,7 @@ define([
                 win.setSettings({
                     api     : me.api,
                     range   : (!_.isEmpty(me.txtDataRange.getValue()) && (me.txtDataRange.checkValidate()==true)) ? me.txtDataRange.getValue() : me.dataRangeValid,
-                    type    : Asc.c_oAscSelectionDialogType.ConditionalFormattingRule,
+                    type    : Asc.c_oAscSelectionDialogType.Chart,
                     validation: function() {return true;}
                 });
             }
@@ -318,6 +335,18 @@ define([
             (arr.length>0) ? this.cmbUser.openMenu() : this.cmbUser.closeMenu();
         },
 
+        onKeyDown: function (lisvView, record, e) {
+            if (e.keyCode==Common.UI.Keys.DELETE)
+                this.onDeleteUser();
+        },
+
+        onDeleteUser: function() {
+            var rec = this.listUser.getSelectedRec();
+            if (rec && !rec.get('isCurrent')) {
+                this.listUser.store.remove(rec);
+            }
+        },
+
         txtProtect: 'Protect',
         txtRangeName: 'Title',
         txtRange: 'Range',
@@ -328,7 +357,8 @@ define([
         textInvalidName: 'The range title must begin with a letter and may only contain letters, numbers, and spaces.',
         textExistName: 'ERROR! Range with such a title already exists',
         textTipAdd: 'Add user',
-        textTipDelete: 'Delete user'
+        textTipDelete: 'Delete user',
+        textYou: 'you'
 
     }, SSE.Views.ProtectedRangesEditDlg || {}));
 });

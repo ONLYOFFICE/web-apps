@@ -291,6 +291,7 @@ define([
                     props: props,
                     sheets: items,
                     sheetNames: sheetNames,
+                    currentUserId: me.appConfig.user.id,
                     handler: function(result, settings) {
                         if (result == 'ok') {
                             me.api.asc_setProtectedRanges(settings.arr, settings.deletedArr);
