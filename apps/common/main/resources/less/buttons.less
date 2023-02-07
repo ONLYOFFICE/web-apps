@@ -882,6 +882,11 @@
         padding-right: 10px;
     }
 
+    &:not(.auto) {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
     &:focus:not(.disabled) {
         border-color: @border-control-focus-ie;
         border-color: @border-control-focus;
