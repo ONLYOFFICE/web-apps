@@ -517,17 +517,19 @@ class MainController extends Component {
             }
         });
 
-        this.api.asc_registerCallback('asc_onNeedUpdateExternalReferenceOnOpen', this.onNeedUpdateExternalReference);
+        this.api.asc_registerCallback('asc_onNeedUpdateExternalReferenceOnOpen', this.onNeedUpdateExternalReference.bind(this));
 
         const storeAppOptions = this.props.storeAppOptions;
         this.api.asc_setFilteringMode && this.api.asc_setFilteringMode(storeAppOptions.canModifyFilter);
     }
 
     onNeedUpdateExternalReference() {
+        const { t } = this.props;
+
         f7.dialog.create({
             title: t('Controller.Main.notcriticalErrorTitle'),
             text: t('Controller.Main.textWarnUpdateExternalData'),
-            button: [
+            buttons: [
                 {
                     text: t('Controller.Main.textUpdate'),
                     onClick: () => {
