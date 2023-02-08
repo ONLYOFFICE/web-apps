@@ -82,10 +82,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
             this.deletedArr = [];
 
             this.wrapEvents = {
-                onLockProtectedRangeManager: _.bind(this.onLockProtectedRangeManager, this),
-                onUnLockProtectedRangeManager: _.bind(this.onUnLockProtectedRangeManager, this),
-                onLockProtectedRange: _.bind(this.onLockProtectedRange, this),
-                onUnLockProtectedRange: _.bind(this.onUnLockProtectedRange, this)
+                onRefreshUserProtectedRangesList: _.bind(this.onRefreshUserProtectedRangesList, this)
             };
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
@@ -170,10 +167,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
             this.cmbFilter.setValue(this.currentSheet);
 
             this.refreshRangeList(props, 0);
-            this.api.asc_registerCallback('asc_onLockProtectedRangeManager', this.wrapEvents.onLockProtectedRangeManager);
-            this.api.asc_registerCallback('asc_onUnLockProtectedRangeManager', this.wrapEvents.onUnLockProtectedRangeManager);
-            this.api.asc_registerCallback('asc_onLockProtectedRange', this.wrapEvents.onLockProtectedRange);
-            this.api.asc_registerCallback('asc_onUnLockProtectedRange', this.wrapEvents.onUnLockProtectedRange);
+            this.api.asc_registerCallback('asc_onRefreshUserProtectedRangesList', this.wrapEvents.onRefreshUserProtectedRangesList);
         },
 
         refreshRangeList: function(ranges, selectedItem) {
@@ -287,7 +281,6 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
                         } else {
                             me.api.asc_addUserProtectedRange(newprops);
                         }
-                        me.refreshRangeList();
                     }
                 }
             }).on('close', function() {
@@ -305,7 +298,6 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
             if (rec) {
                 this.api.asc_deleteUserProtectedRange([rec.get('props')]);
             }
-            this.refreshRangeList();
         },
 
         getSettings: function() {
@@ -365,10 +357,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
 
         close: function () {
             this.userTipHide();
-            this.api.asc_unregisterCallback('asc_onLockProtectedRangeManager', this.wrapEvents.onLockProtectedRangeManager);
-            this.api.asc_unregisterCallback('asc_onUnLockProtectedRangeManager', this.wrapEvents.onUnLockProtectedRangeManager);
-            this.api.asc_unregisterCallback('asc_onLockProtectedRange', this.wrapEvents.onLockProtectedRange);
-            this.api.asc_unregisterCallback('asc_onUnLockProtectedRange', this.wrapEvents.onUnLockProtectedRange);
+            this.api.asc_unregisterCallback('asc_onRefreshUserProtectedRangesList', this.wrapEvents.onRefreshUserProtectedRangesList);
             Common.UI.Window.prototype.close.call(this);
         },
 
@@ -380,6 +369,10 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
         onDblClickItem: function (lisvView, record, e) {
             if (!this.btnEditRange.isDisabled())
                 this.onEditRange(true);
+        },
+
+        onRefreshUserProtectedRangesList: function() {
+            this.refreshRangeList();
         },
 
         onLockProtectedRangeManager: function(index) {
