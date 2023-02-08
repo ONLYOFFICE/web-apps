@@ -288,7 +288,6 @@ define([
                 props = me.api.asc_getProtectedRanges(),
                 win = new SSE.Views.ProtectedRangesManagerDlg({
                     api: me.api,
-                    props: props,
                     sheets: items,
                     sheetNames: sheetNames,
                     currentUserId: me.appConfig.user.id,

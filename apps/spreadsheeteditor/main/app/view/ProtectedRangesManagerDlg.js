@@ -72,7 +72,6 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
 
             this.api        = options.api;
             this.handler    = options.handler;
-            this.props      = options.props;
             this.locked     = options.locked || false;
             this.userTooltip = true;
             this.currentRange = undefined;
@@ -157,16 +156,16 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
         },
 
         afterRender: function() {
-            this._setDefaults(this.props);
+            this._setDefaults();
         },
 
-        _setDefaults: function (props) {
+        _setDefaults: function () {
             this.currentSheet = this.api.asc_getActiveWorksheetIndex();
 
             this.cmbFilter.setData([{value: undefined, displayValue: this.textFilterAll}].concat(this.sheets));
             this.cmbFilter.setValue(this.currentSheet);
 
-            this.refreshRangeList(props, 0);
+            this.refreshRangeList(null, 0);
             this.api.asc_registerCallback('asc_onRefreshUserProtectedRangesList', this.wrapEvents.onRefreshUserProtectedRangesList);
         },
 
