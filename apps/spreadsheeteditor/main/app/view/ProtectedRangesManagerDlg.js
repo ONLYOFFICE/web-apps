@@ -162,7 +162,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
         _setDefaults: function () {
             this.currentSheet = this.api.asc_getActiveWorksheetIndex();
 
-            this.cmbFilter.setData([{value: undefined, displayValue: this.textFilterAll}].concat(this.sheets));
+            this.cmbFilter.setData([{value: -1, displayValue: this.textFilterAll}].concat(this.sheets));
             this.cmbFilter.setValue(this.currentSheet);
 
             this.refreshRangeList(null, 0);
@@ -170,8 +170,10 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
         },
 
         refreshRangeList: function(ranges, selectedItem) {
-            if (!ranges)
-                ranges = this.api.asc_getUserProtectedRanges(this.api.asc_getWorksheetName(this.cmbFilter.getValue()));
+            if (!ranges) {
+                var sheetIndex = this.cmbFilter.getValue();
+                ranges = this.api.asc_getUserProtectedRanges(sheetIndex>=0 ? this.api.asc_getWorksheetName(sheetIndex) : undefined);
+            }
             if (ranges) {
                 var arr = [];
                 for (var i=0; i<ranges.length; i++) {
