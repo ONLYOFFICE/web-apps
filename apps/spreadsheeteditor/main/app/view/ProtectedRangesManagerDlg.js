@@ -81,7 +81,9 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
             this.deletedArr = [];
 
             this.wrapEvents = {
-                onRefreshUserProtectedRangesList: _.bind(this.onRefreshUserProtectedRangesList, this)
+                onRefreshUserProtectedRangesList: _.bind(this.onRefreshUserProtectedRangesList, this),
+                onLockUserProtectedManager: _.bind(this.onLockUserProtectedManager, this),
+                onUnLockUserProtectedManager: _.bind(this.onUnLockUserProtectedManager, this)
             };
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
@@ -167,6 +169,8 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
 
             this.refreshRangeList(null, 0);
             this.api.asc_registerCallback('asc_onRefreshUserProtectedRangesList', this.wrapEvents.onRefreshUserProtectedRangesList);
+            this.api.asc_registerCallback('asc_onLockUserProtectedManager', this.wrapEvents.onLockUserProtectedManager);
+            this.api.asc_registerCallback('asc_onUnLockUserProtectedManager', this.wrapEvents.onUnLockUserProtectedManager);
         },
 
         refreshRangeList: function(ranges, selectedItem) {
@@ -250,7 +254,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
 
         onEditRange: function (isEdit) {
             if (this.locked) {
-                Common.NotificationCenter.trigger('namedrange:locked');
+                Common.NotificationCenter.trigger('protectedrange:locked');
                 return;
             }
             var me = this,
@@ -359,6 +363,8 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
         close: function () {
             this.userTipHide();
             this.api.asc_unregisterCallback('asc_onRefreshUserProtectedRangesList', this.wrapEvents.onRefreshUserProtectedRangesList);
+            this.api.asc_unregisterCallback('asc_onLockUserProtectedManager', this.wrapEvents.onLockUserProtectedManager);
+            this.api.asc_unregisterCallback('asc_onUnLockUserProtectedManager', this.wrapEvents.onUnLockUserProtectedManager);
             Common.UI.Window.prototype.close.call(this);
         },
 
@@ -376,42 +382,16 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
             this.refreshRangeList();
         },
 
-        onLockProtectedRangeManager: function(index) {
-            if (this.currentSheet !== index) return;
+        onLockUserProtectedManager: function() {
             this.locked = true;
             this.updateButtons();
             if (this.userTooltip===true && this.rangeList.cmpEl.find('.lock-user').length>0)
                 this.rangeList.cmpEl.on('mouseover',  _.bind(this.onMouseOverLock, this)).on('mouseout',  _.bind(this.onMouseOutLock, this));
         },
 
-        onUnLockProtectedRangeManager: function(index) {
-            if (this.currentSheet !== index) return;
+        onUnLockUserProtectedManager: function() {
             this.locked = false;
             this.updateButtons();
-        },
-
-        onLockProtectedRange: function(index, rangeId, userId) {
-            if (this.currentSheet !== index) return;
-            var store = this.rangeList.store,
-                rec = store.findWhere({rangeId: rangeId});
-            if (rec) {
-                rec.set('lockuser', (userId) ? (this.isUserVisible(userId) ? this.getUserName(userId) : this.lockText) : this.guestText);
-                rec.set('lock', true);
-                this.updateButtons();
-            }
-            if (this.userTooltip===true && this.rangeList.cmpEl.find('.lock-user').length>0)
-                this.rangeList.cmpEl.on('mouseover',  _.bind(this.onMouseOverLock, this)).on('mouseout',  _.bind(this.onMouseOutLock, this));
-        },
-
-        onUnLockProtectedRange: function(index, rangeId) {
-            if (this.currentSheet !== index) return;
-            var store = this.rangeList.store,
-                rec = store.findWhere({rangeId: rangeId});
-            if (rec) {
-                rec.set('lockuser', '');
-                rec.set('lock', false);
-                this.updateButtons();
-            }
         },
 
         updateButtons: function() {
