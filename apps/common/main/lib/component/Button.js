@@ -276,7 +276,8 @@ define([
             visible         : true,
             dataHint        : '',
             dataHintDirection: '',
-            dataHintOffset: '0, 0'
+            dataHintOffset: '0, 0',
+            scaling         : false,
         },
 
         template: _.template([
@@ -347,28 +348,8 @@ define([
             } else if (me.options.parentEl)
                 me.render(me.options.parentEl);
 
-            const str_mq_250 = `screen and (-webkit-min-device-pixel-ratio: 2.5),
-                screen and (min-resolution: 2.5dppx), screen and (min-resolution: 240dpi)`;
-            window.matchMedia(str_mq_250).addEventListener('change', e => {
-                if ( e.matches ) {
-                    console.log('scaling 250%');
-
-                    if ( !me.$el.find('svg.icon').length ) {
-                        const re_icon_name = /btn-[^\s]+/.exec(me.iconCls);
-                        const icon_name = re_icon_name ? re_icon_name[0] : "null";
-                        const svg_icon = `<svg class="icon"><use class="zoom-int" href="#${icon_name}"></use></svg>`;
-
-                        me.$el.find('i.icon').after(svg_icon);
-                    }
-                } else {
-                    console.log('scaling less than 250%');
-
-                    if ( !me.$el.find('i.icon') ) {
-                        const png_icon = `<i class="icon ${me.iconCls}">&nbsp;</i>`;
-                        me.$el.find('svg.icon').after(png_icon);
-                    }
-                }
-            });
+            // TODO: for review scaling feature only. remove after
+            me.options.scaling = true;
         },
 
         getCaptionWithBreaks: function (caption) {
@@ -644,6 +625,25 @@ define([
 
                 // Register the button in the toggle manager
                 Common.UI.ToggleManager.register(me);
+
+                if ( me.options.scaling !== false ) {
+                    me.options.scaling = Common.UI.Scaling.currentRatio();
+                    el.attr('ratio', me.options.scaling);
+                    if ( me.options.scaling > 2 )
+                        me.applyScaling(me.options.scaling);
+
+                    const observer = new MutationObserver((records, observer) => {
+                        if ( /*records[0] == 'ratio' &&*/ me.options.scaling != Common.UI.Scaling.currentRatio() ) {
+                            me.options.scaling = Common.UI.Scaling.currentRatio();
+                            me.applyScaling(me.options.scaling);
+                        }
+                    })
+                    observer.observe(el.get(0), {
+                        attributes : true,
+                        attributeFilter : ['ratio']
+                    })
+
+                }
             }
 
             me.rendered = true;
@@ -875,7 +875,29 @@ define([
                 if (this.rendered)
                     this.menu.render(this.cmpEl);
             }
-        }
+        },
+
+        applyScaling: function (ratio) {
+            const me = this;
+            if ( ratio > 2 ) {
+                console.log('scaling 250%');
+
+                if ( !me.$el.find('svg.icon').length ) {
+                    const re_icon_name = /btn-[^\s]+/.exec(me.iconCls);
+                    const icon_name = re_icon_name ? re_icon_name[0] : "null";
+                    const svg_icon = `<svg class="icon"><use class="zoom-int" href="#${icon_name}"></use></svg>`;
+
+                    me.$el.find('i.icon').after(svg_icon);
+                }
+            } else {
+                console.log('scaling less than 250%');
+
+                if ( !me.$el.find('i.icon') ) {
+                    const png_icon = `<i class="icon ${me.iconCls}">&nbsp;</i>`;
+                    me.$el.find('svg.icon').after(png_icon);
+                }
+            }
+        },
     });
 });
 
