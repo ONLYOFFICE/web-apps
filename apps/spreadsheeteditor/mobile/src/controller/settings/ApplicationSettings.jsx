@@ -12,20 +12,20 @@ class ApplicationSettingsController extends Component {
         this.onChangeDisplayComments = this.onChangeDisplayComments.bind(this);
         this.onRegSettings = this.onRegSettings.bind(this);
         this.initRegSettings = this.initRegSettings.bind(this);
-        this.initFormuleLangsCollection = this.initFormuleLangsCollection.bind(this);
+        this.initFormulaLangsCollection = this.initFormulaLangsCollection.bind(this);
 
         this.props.storeApplicationSettings.initRegData();
         this.initRegSettings();
         this.props.storeApplicationSettings.changeUnitMeasurement(Common.Utils.Metric.getCurrentMetric());
-        this.props.storeApplicationSettings.setFormuleLangsCollection(this.initFormuleLangsCollection());
+        this.props.storeApplicationSettings.setFormulaLangsCollection(this.initFormulaLangsCollection());
     }
 
-    initFormuleLangsCollection() {
+    initFormulaLangsCollection() {
         const { t } = this.props;
         const _t = t("View.Settings", { returnObjects: true });
         const storeApplicationSettings = this.props.storeApplicationSettings;
-        const formuleLangs = storeApplicationSettings.formuleLangs;
-        const formuleLangsCollection = formuleLangs.map(lang => {
+        const formulaLangs = storeApplicationSettings.formulaLangs;
+        const formulaLangsCollection = formulaLangs.map(lang => {
             let str = lang.replace(/[\-_]/, '');
             str = str.charAt(0).toUpperCase() + str.substring(1, str.length);
 
@@ -35,13 +35,13 @@ class ApplicationSettingsController extends Component {
             }
         });
 
-        formuleLangsCollection.sort(function(a, b){
+        formulaLangsCollection.sort(function(a, b){
             if (a.displayValue < b.displayValue) return -1;
             if (a.displayValue > b.displayValue) return 1;
             return 0;
         });
 
-        return formuleLangsCollection;
+        return formulaLangsCollection;
     }
 
     initRegSettings() {

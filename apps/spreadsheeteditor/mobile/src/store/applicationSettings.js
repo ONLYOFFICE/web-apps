@@ -27,8 +27,8 @@ export class storeApplicationSettings {
             changeFormulaLang: action,
             directionMode: observable,
             changeDirectionMode: action,
-            formuleLangsColection: observable,
-            setFormuleLangsCollection: action
+            formulaLangsColection: observable,
+            setFormulaLangsCollection: action
         });
     }
     
@@ -43,15 +43,15 @@ export class storeApplicationSettings {
     isRefStyle = false;
     isComments = true;
     isResolvedComments = true; 
-    formuleLangs = ['en', 'be', 'bg', 'ca', 'zh', 'cs', 'da', 'nl', 'fi', 'fr', 'de', 'el', 'hu', 'id', 'it', 'ja', 'ko', 'lv', 'lo', 'nb', 'pl', 'pt-br', 'pt', 'ro', 'ru', 'sk', 'sl', 'sv', 'es', 'tr', 'uk', 'vi'];
-    formuleLangsColection = [];
+    formulaLangs = ['en', 'be', 'bg', 'ca', 'zh', 'cs', 'da', 'nl', 'fi', 'fr', 'de', 'el', 'hu', 'id', 'it', 'ja', 'ko', 'lv', 'lo', 'nb', 'pl', 'pt-br', 'pt', 'ro', 'ru', 'sk', 'sl', 'sv', 'es', 'tr', 'uk', 'vi'];
+    formulaLangsColection = [];
 
     changeDirectionMode(value) {
         this.directionMode = value;
     }
 
-    setFormuleLangsCollection(arr) {
-        this.formuleLangsColection = arr;
+    setFormulaLangsCollection(arr) {
+        this.formulaLangsColection = arr;
     }
 
     getRegDataCodes() {
