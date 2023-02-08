@@ -237,7 +237,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
             if (this._isWarningVisible) return;
             
             if (this.locked) {
-                Common.NotificationCenter.trigger('namedrange:locked');
+                Common.NotificationCenter.trigger('protectedrange:locked');
                 return;
             }
             var me = this,

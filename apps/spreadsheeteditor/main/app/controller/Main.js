@@ -224,6 +224,7 @@ define([
                 Common.NotificationCenter.on('api:disconnect',               _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('goback',                       _.bind(this.goBack, this));
                 Common.NotificationCenter.on('namedrange:locked',            _.bind(this.onNamedRangeLocked, this));
+                Common.NotificationCenter.on('protectedrange:locked',        _.bind(this.onProtectedRangeLocked, this));
                 Common.NotificationCenter.on('download:cancel',              _.bind(this.onDownloadCancel, this));
                 Common.NotificationCenter.on('download:advanced',            _.bind(this.onAdvancedOptions, this));
                 Common.NotificationCenter.on('showmessage',                  _.bind(this.onExternalMessage, this));
@@ -2835,6 +2836,20 @@ define([
                 }
             },
 
+            onProtectedRangeLocked: function() {
+                if ($('.asc-window.modal.alert:visible').length < 1) {
+                    Common.UI.alert({
+                        msg: this.errorCreateRange,
+                        title: this.notcriticalErrorTitle,
+                        iconCls: 'warn',
+                        buttons: ['ok'],
+                        callback: _.bind(function(btn){
+                            this.onEditComplete();
+                        }, this)
+                    });
+                }
+            },
+
             onTryUndoInFastCollaborative: function() {
                 var val = window.localStorage.getItem("sse-hide-try-undoredo");
                 if (!(val && parseInt(val) == 1))
@@ -3786,7 +3801,8 @@ define([
             textTryQuickPrint: 'You have selected Quick print: the entire document will be printed on the last selected or default printer.<br>Do you want to continue?',
             errorConvertXml: 'The file has an unsupported format.<br>Only XML Spreadsheet 2003 format can be used.',
             textText: 'Text',
-            errorProtectedRange: 'This range is not allowed for editing.'
+            errorProtectedRange: 'This range is not allowed for editing.',
+            errorCreateRange: 'The existing ranges cannot be edited and the new ones cannot be created<br>at the moment as some of them are being edited.'
         }
     })(), SSE.Controllers.Main || {}))
 });
