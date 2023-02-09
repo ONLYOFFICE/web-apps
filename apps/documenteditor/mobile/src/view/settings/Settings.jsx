@@ -15,6 +15,7 @@ import NavigationController from '../../controller/settings/Navigation';
 import SharingSettings from "../../../../../common/mobile/lib/view/SharingSettings";
 import ProtectionDocumentController from '../../controller/settings/DocumentProtection';
 import ProtectionController from '../../controller/settings/Protection';
+import FileEncryptionController from '../../controller/settings/FileEncryption';
 
 const routes = [
     {
@@ -85,6 +86,12 @@ const routes = [
     {
         path: '/protect',
         component: ProtectionDocumentController
+    },
+
+    // Encryption
+    {
+        path: '/encrypt',
+        component: FileEncryptionController
     }
 ];
 

@@ -756,9 +756,12 @@ class MainController extends Component {
         // Downloaded Advanced Options
         
         this.api.asc_registerCallback('asc_onAdvancedOptions', (type, advOptions, mode, formatOptions) => {
-            const {t} = this.props;
+            const { t } = this.props;
             const _t = t("Settings", { returnObjects: true });
+            const storeAppOptions = this.props.storeAppOptions;
+
             if(type == Asc.c_oAscAdvancedOptionsID.DRM) {
+                storeAppOptions.setEncryptionFile(true);
                 onAdvancedOptions(type, _t, this._isDocReady, this.props.storeAppOptions.canRequestClose, this.isDRM);
                 this.isDRM = true;
             }

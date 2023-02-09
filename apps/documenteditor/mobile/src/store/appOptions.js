@@ -35,11 +35,19 @@ export class storeAppOptions {
             setProtection: action,
 
             typeProtection: observable,
-            setTypeProtection: action
+            setTypeProtection: action,
+
+            isFileEncrypted: observable,
+            setEncryptionFile: action
         });
     }
 
     isEdit = false;
+
+    isFileEncrypted = false;
+    setEncryptionFile(value) {
+        this.isFileEncrypted = value;
+    }
 
     isProtected = false;
     setProtection(value) {
