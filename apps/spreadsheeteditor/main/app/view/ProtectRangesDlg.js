@@ -170,6 +170,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
                         range: ranges[i].asc_getSqref() || '',
                         rangeId: ranges[i].asc_getId(),
                         props: ranges[i],
+                        rangeChanged: false, // true if was edited in or was created, need to send this rule to sdk if true
                         lock: (id!==null && id!==undefined),
                         lockuser: (id) ? (this.isUserVisible(id) ? this.getUserName(id) : this.lockText) : this.guestText
                     });
@@ -271,6 +272,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
                             rec.set('name', props.asc_getName());
                             rec.set('range', props.asc_getSqref());
                             rec.set('pwd', props.asc_isPassword());
+                            rec.set('rangeChanged', true);
                         } else {
                             rec = me.rangeList.store.add({
                                 name: props.asc_getName(),
@@ -278,6 +280,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
                                 range: props.asc_getSqref(),
                                 props: props,
                                 isNew: true,
+                                rangeChanged: true,
                                 lock: false,
                                 lockuser: this.guestText
                             });
@@ -312,7 +315,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
         getSettings: function() {
             var arr = [];
             this.rangeList.store.each(function(item){
-                arr.push(item.get('props'));
+                item.get('rangeChanged') && arr.push(item.get('props'));
             });
             return {arr: arr, deletedArr: this.deletedArr};
         },
