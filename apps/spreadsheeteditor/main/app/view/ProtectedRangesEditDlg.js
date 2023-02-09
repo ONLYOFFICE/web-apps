@@ -142,6 +142,7 @@ define([
                 menuStyle   : 'min-width: 100%;max-height: 233px;',
                 editable: true,
                 data: [],
+                placeHolder: this.userPlaceholder,
                 takeFocusOnClose: true,
                 itemsTemplate: _.template([
                     '<% _.each(items, function(item) { %>',
@@ -362,7 +363,8 @@ define([
         textExistName: 'ERROR! Range with such a title already exists',
         textTipAdd: 'Add user',
         textTipDelete: 'Delete user',
-        textYou: 'you'
+        textYou: 'you',
+        userPlaceholder: 'Start type name or email'
 
     }, SSE.Views.ProtectedRangesEditDlg || {}));
 });
