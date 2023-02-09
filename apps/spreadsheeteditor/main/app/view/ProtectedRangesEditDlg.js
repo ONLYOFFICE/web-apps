@@ -225,9 +225,9 @@ define([
                         if (users && users.length>0) {
                             var store = me.listUser.store;
                             rangeUsers.forEach(function(item) {
-                                var index = _.indexOf(users, item);
-                                if (index>=0)
-                                    store.add({value: item, name: users[index].name, email: users[index].email});
+                                var rec = _.findWhere(users, {id: item});
+                                if (rec)
+                                    store.add({value: item, name: rec.name, email: rec.email});
                             });
                         }
                     });

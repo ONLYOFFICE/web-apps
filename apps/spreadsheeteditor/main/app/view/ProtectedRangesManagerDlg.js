@@ -75,15 +75,12 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
             this.locked     = options.locked || false;
             this.userTooltip = true;
             this.currentRange = undefined;
-            this.sheets     = options.sheets || [];
-            this.sheetNames = options.sheetNames || [];
             this.currentUserId = options.currentUserId;
-            this.deletedArr = [];
 
             this.wrapEvents = {
                 onRefreshUserProtectedRangesList: _.bind(this.onRefreshUserProtectedRangesList, this),
                 onLockUserProtectedManager: _.bind(this.onLockUserProtectedManager, this),
-                onUnLockUserProtectedManager: _.bind(this.onUnLockUserProtectedManager, this)
+                onApiSheetChanged: _.bind(this.onApiSheetChanged, this)
             };
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
@@ -162,15 +159,10 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
         },
 
         _setDefaults: function () {
-            this.currentSheet = this.api.asc_getActiveWorksheetIndex();
-
-            this.cmbFilter.setData([{value: -1, displayValue: this.textFilterAll}].concat(this.sheets));
-            this.cmbFilter.setValue(this.currentSheet);
-
-            this.refreshRangeList(null, 0);
+            this.onApiSheetChanged();
             this.api.asc_registerCallback('asc_onRefreshUserProtectedRangesList', this.wrapEvents.onRefreshUserProtectedRangesList);
             this.api.asc_registerCallback('asc_onLockUserProtectedManager', this.wrapEvents.onLockUserProtectedManager);
-            this.api.asc_registerCallback('asc_onUnLockUserProtectedManager', this.wrapEvents.onUnLockUserProtectedManager);
+            this.api.asc_registerCallback('asc_onSheetsChanged',            this.wrapEvents.onApiSheetChanged);
         },
 
         refreshRangeList: function(ranges, selectedItem) {
@@ -364,7 +356,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
             this.userTipHide();
             this.api.asc_unregisterCallback('asc_onRefreshUserProtectedRangesList', this.wrapEvents.onRefreshUserProtectedRangesList);
             this.api.asc_unregisterCallback('asc_onLockUserProtectedManager', this.wrapEvents.onLockUserProtectedManager);
-            this.api.asc_unregisterCallback('asc_onUnLockUserProtectedManager', this.wrapEvents.onUnLockUserProtectedManager);
+            this.api.asc_unregisterCallback('asc_onSheetsChanged',            this.wrapEvents.onApiSheetChanged);
             Common.UI.Window.prototype.close.call(this);
         },
 
@@ -382,16 +374,11 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
             this.refreshRangeList();
         },
 
-        onLockUserProtectedManager: function() {
-            this.locked = true;
+        onLockUserProtectedManager: function(lock) {
+            this.locked = !!lock;
             this.updateButtons();
-            if (this.userTooltip===true && this.rangeList.cmpEl.find('.lock-user').length>0)
+            if (this.locked && this.userTooltip===true && this.rangeList.cmpEl.find('.lock-user').length>0)
                 this.rangeList.cmpEl.on('mouseover',  _.bind(this.onMouseOverLock, this)).on('mouseout',  _.bind(this.onMouseOutLock, this));
-        },
-
-        onUnLockUserProtectedManager: function() {
-            this.locked = false;
-            this.updateButtons();
         },
 
         updateButtons: function() {
@@ -401,6 +388,21 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
                 canEdit = rec ? rec.get('canEdit') : false;
             this.btnDeleteRange.setDisabled(length<1 || lock || !canEdit);
             this.btnEditRange.setDisabled(length<1 || lock || !canEdit);
+        },
+
+        onApiSheetChanged: function() {
+            var oldValue = this.cmbFilter.store.length>0 ? this.cmbFilter.getValue() : this.api.asc_getActiveWorksheetIndex();
+            var wc = this.api.asc_getWorksheetsCount(),
+                i = -1,
+                items = [];
+            while (++i < wc) {
+                if (!this.api.asc_isWorksheetHidden(i)) {
+                    items.push({displayValue: this.api.asc_getWorksheetName(i), value: i});
+                }
+            }
+            this.cmbFilter.setData([{value: -1, displayValue: this.textFilterAll}].concat(items));
+            this.cmbFilter.setValue(oldValue, -1);
+            this.refreshRangeList(null, 0);
         },
 
         txtTitle: 'Protected Ranges',

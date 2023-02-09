@@ -274,27 +274,11 @@ define([
         },
 
         onProtectRangeClick: function() {
-            var wc = this.api.asc_getWorksheetsCount(),
-                i = -1,
-                items = [], sheetNames = [];
-            while (++i < wc) {
-                if (!this.api.asc_isWorksheetHidden(i)) {
-                    sheetNames[i] = this.api.asc_getWorksheetName(i);
-                    items.push({displayValue: sheetNames[i], value: i});
-                }
-            }
-
             var me = this,
-                props = me.api.asc_getProtectedRanges(),
                 win = new SSE.Views.ProtectedRangesManagerDlg({
                     api: me.api,
-                    sheets: items,
-                    sheetNames: sheetNames,
                     currentUserId: me.appConfig.user.id,
                     handler: function(result, settings) {
-                        if (result == 'ok') {
-                            me.api.asc_setProtectedRanges(settings.arr, settings.deletedArr);
-                        }
                         Common.NotificationCenter.trigger('edit:complete');
                     }
                 });
