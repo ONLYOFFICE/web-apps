@@ -32,9 +32,8 @@ define([
 
         const _callback = function (records, observer) {
             const _changed_ratio = _from_class_list(document.body.className);
-            console.log("body attr changed", records[0].attributeName, _changed_ratio);
             if ( _changed_ratio != _current_ratio_str ) {
-                $('[ratio="' + scales_map[_current_ratio_str] + '"]').attr('ratio', scales_map[_changed_ratio]);
+                $('[ratio]').trigger('app:scaling', {ratio: scales_map[_changed_ratio]});
 
                 _current_ratio_str = _changed_ratio;
             }

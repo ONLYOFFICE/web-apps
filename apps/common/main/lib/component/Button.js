@@ -627,22 +627,14 @@ define([
                 Common.UI.ToggleManager.register(me);
 
                 if ( me.options.scaling !== false ) {
-                    me.options.scaling = Common.UI.Scaling.currentRatio();
-                    el.attr('ratio', me.options.scaling);
-                    if ( me.options.scaling > 2 )
-                        me.applyScaling(me.options.scaling);
+                    el.attr('ratio', 'ratio');
+                    me.applyScaling(Common.UI.Scaling.currentRatio());
 
-                    const observer = new MutationObserver((records, observer) => {
-                        if ( /*records[0] == 'ratio' &&*/ me.options.scaling != Common.UI.Scaling.currentRatio() ) {
-                            me.options.scaling = Common.UI.Scaling.currentRatio();
-                            me.applyScaling(me.options.scaling);
+                    el.on('app:scaling', function (e, info) {
+                        if ( me.options.scaling != info.ratio ) {
+                            me.applyScaling(info.ratio);
                         }
-                    })
-                    observer.observe(el.get(0), {
-                        attributes : true,
-                        attributeFilter : ['ratio']
-                    })
-
+                    });
                 }
             }
 
@@ -879,22 +871,23 @@ define([
 
         applyScaling: function (ratio) {
             const me = this;
-            if ( ratio > 2 ) {
-                console.log('scaling 250%');
+            if ( me.options.scaling != ratio ) {
+                // me.cmpEl.attr('ratio', ratio);
+                me.options.scaling = ratio;
 
-                if ( !me.$el.find('svg.icon').length ) {
-                    const re_icon_name = /btn-[^\s]+/.exec(me.iconCls);
-                    const icon_name = re_icon_name ? re_icon_name[0] : "null";
-                    const svg_icon = `<svg class="icon"><use class="zoom-int" href="#${icon_name}"></use></svg>`;
+                if (ratio > 2) {
+                    if (!me.$el.find('svg.icon').length) {
+                        const re_icon_name = /btn-[^\s]+/.exec(me.iconCls);
+                        const icon_name = re_icon_name ? re_icon_name[0] : "null";
+                        const svg_icon = `<svg class="icon"><use class="zoom-int" href="#${icon_name}"></use></svg>`;
 
-                    me.$el.find('i.icon').after(svg_icon);
-                }
-            } else {
-                console.log('scaling less than 250%');
-
-                if ( !me.$el.find('i.icon') ) {
-                    const png_icon = `<i class="icon ${me.iconCls}">&nbsp;</i>`;
-                    me.$el.find('svg.icon').after(png_icon);
+                        me.$el.find('i.icon').after(svg_icon);
+                    }
+                } else {
+                    if (!me.$el.find('i.icon')) {
+                        const png_icon = `<i class="icon ${me.iconCls}">&nbsp;</i>`;
+                        me.$el.find('svg.icon').after(png_icon);
+                    }
                 }
             }
         },
