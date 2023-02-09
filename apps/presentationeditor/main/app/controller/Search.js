@@ -313,8 +313,8 @@ define([
                     var el = document.createElement("div"),
                         isSelected = ind === me._state.currentResult;
                     el.className = 'item';
-                    let innerHtml = "";
-                    for (let i = 0, count = item[1].length; i < count; ++i) {
+                    var innerHtml = "";
+                    for (var i = 0, count = item[1].length; i < count; ++i) {
                         if (1 == i)
                             innerHtml += "<b>" + Common.Utils.String.htmlEncode(item[1][i]) + "</b>";
                         else
