@@ -259,15 +259,10 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
                 props = new Asc.CUserProtectedRange();
                 props.asc_setRef(me.api.asc_getActiveRangeStr(Asc.referenceType.A));
             }
-            var names = [];
-            this.rangeList.store.each(function(item){
-                names.push(item.get('name').toLowerCase());
-            });
 
             var win = new SSE.Views.ProtectedRangesEditDlg({
                 title   : isEdit ? me.txtEditRange : me.txtNewRange,
                 props   : props,
-                names   : names,
                 isEdit  : isEdit,
                 api     : me.api,
                 currentUser: {id: me.currentUserId, name: me.getUserName(me.currentUserId, true)},
