@@ -416,7 +416,7 @@
     "errorUpdateVersionOnDisconnect": "La connexion a été rétablie et la version du fichier a été modifiée.<br>Avant de pouvoir continuer à travailler, vous devez télécharger le fichier ou copier son contenu pour vous assurer que rien n'est perdu, puis recharger cette page.",
     "errorUserDrop": "Le fichier ne peut pas être accédé tout de suite.",
     "errorUsersExceed": "Le nombre d'utilisateurs autorisés par le plan tarifaire a été dépassé",
-    "errorViewerDisconnect": "La connexion a été perdue. Vous pouvez toujours afficher le document,<br>mais ne pouvez pas le télécharger jusqu'à ce que la connexion soit rétablie et que la page soit rafraichit.",
+    "errorViewerDisconnect": "La connexion a été perdue. Vous pouvez toujours afficher le document,<br>mais vous ne pouvez pas le télécharger jusqu'à ce que la connexion soit rétablie et que la page soit rafraichit.",
     "notcriticalErrorTitle": "Avertissement",
     "openErrorText": "Une erreur s’est produite lors de l'ouverture du fichier",
     "saveErrorText": "Une erreur s'est produite lors de l'enregistrement du fichier",

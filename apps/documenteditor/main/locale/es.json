@@ -1494,7 +1494,7 @@
   "DE.Views.BookmarksDialog.textSort": "Ordenar por",
   "DE.Views.BookmarksDialog.textTitle": "Marcadores",
   "DE.Views.BookmarksDialog.txtInvalidName": "Nombre de marcador sólo puede contener letras, dígitos y barras bajas y debe comenzar con la letra",
-  "DE.Views.CaptionDialog.textAdd": "Agregar etiqueta",
+  "DE.Views.CaptionDialog.textAdd": "Agregar",
   "DE.Views.CaptionDialog.textAfter": "Después",
   "DE.Views.CaptionDialog.textBefore": "Antes",
   "DE.Views.CaptionDialog.textCaption": "Leyenda",
