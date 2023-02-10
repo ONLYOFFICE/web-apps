@@ -1967,13 +1967,15 @@ define([
             uitype: 'fillform',
             uithemes: true
         };
-        var api;
+        var api, nativevars;
 
         var native = window.desktop || window.AscDesktopEditor;
         !!native && native.execCommand('webapps:features', JSON.stringify(features));
 
         if ( !!native ) {
             $('#header-logo, .brand-logo').hide();
+
+            nativevars = window.RendererProcessVariable;
 
             window.on_native_message = function (cmd, param) {
                 if (/theme:changed/.test(cmd)) {
@@ -2021,6 +2023,9 @@ define([
             isActive: function () {
                 return !!native;
             },
+            isOffline: function () {
+                return api && api.asc_isOffline();
+            },
             process: function (opts) {
                 if ( !!native && !!api ) {
                     if ( opts == 'goback' ) {
@@ -2032,6 +2037,10 @@ define([
                 }
 
                 return false;
+            },
+            systemThemeType: function () {
+                return nativevars.theme && !!nativevars.theme.system ? nativevars.theme.system :
+                    window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
             },
         }
     };
