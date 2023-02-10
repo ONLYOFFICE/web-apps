@@ -472,6 +472,7 @@
 	"WRAPCOLS": "SÜTUNSAR",
 	"TAKE": "AL",
 	"DROP": "BIRAK",
+	"SEQUENCE": "SIRALI",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

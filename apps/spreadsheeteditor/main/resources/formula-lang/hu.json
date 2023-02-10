@@ -472,6 +472,7 @@
 	"WRAPCOLS": "OSZLOPTÖRDELÉS",
 	"TAKE": "ÁTHELYEZ",
 	"DROP": "ELTÁVOLÍT",
+	"SEQUENCE": "SORSZÁMLISTA",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

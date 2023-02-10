@@ -1735,7 +1735,7 @@
   "PE.Views.DocumentHolder.txtDeleteEq": "数式を削除",
   "PE.Views.DocumentHolder.txtDeleteGroupChar": "文字を削除",
   "PE.Views.DocumentHolder.txtDeleteRadical": "冪根を削除する",
-  "PE.Views.DocumentHolder.txtDeleteSlide": "スタンドを削除する",
+  "PE.Views.DocumentHolder.txtDeleteSlide": "スライドを削除する",
   "PE.Views.DocumentHolder.txtDistribHor": "左右に整列",
   "PE.Views.DocumentHolder.txtDistribVert": "上下に整列する",
   "PE.Views.DocumentHolder.txtDuplicateSlide": "スライドの複製",

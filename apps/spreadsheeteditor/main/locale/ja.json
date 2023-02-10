@@ -556,7 +556,7 @@
   "Common.Views.ReviewPopover.textMention": "+言及されるユーザーに文書にアクセスを提供して、メールで通知する",
   "Common.Views.ReviewPopover.textMentionNotify": "＋言及されるユーザーはメールで通知される",
   "Common.Views.ReviewPopover.textOpenAgain": "もう一度開く",
-  "Common.Views.ReviewPopover.textReply": "返事する",
+  "Common.Views.ReviewPopover.textReply": "返信",
   "Common.Views.ReviewPopover.textResolve": "解決する",
   "Common.Views.ReviewPopover.textViewResolved": "コメントを再開する権限がありません",
   "Common.Views.ReviewPopover.txtDeleteTip": "削除する",

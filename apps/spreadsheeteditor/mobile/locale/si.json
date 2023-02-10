@@ -145,6 +145,7 @@
       "textClose": "වසන්න",
       "textContactUs": "අලෙවිය අමතන්න",
       "textCustomLoader": "සමාවන්න, පූරකය වෙනස් කිරීමට ඔබට සුදුසුකමක් නැත. මිල කැඳවීමක් ගැනීමට අපගේ අලෙවි ක්‍රියාංශය අමතන්න.",
+      "textDontUpdate": "යාවත්කාල නොකරන්න",
       "textGuest": "අමුත්තා",
       "textHasMacros": "ගොනුවේ ස්වයංක්‍රීය සාර්ව අඩංගු වේ.<br>ඔබට සාර්ව ධාවනයට වුවමනාද?",
       "textNo": "නැහැ",
@@ -157,6 +158,8 @@
       "textReplaceSkipped": "ආදේශනය සිදු කර ඇත. සිදුවීම් {0}ක් මඟ හරින ලදී.",
       "textReplaceSuccess": "සෙවුම සිදු කර ඇත. ප්‍රතිස්ථාපනය කළ සිදුවීම්: {0}",
       "textRequestMacros": "සාර්වයක් ඒ.ස.නි. ට ඉල්ලීමක් කරයි. %1 වෙත ඉල්ලීමට ඉඩ දීමට වුවමනාද?",
+      "textUpdate": "යාවත්කාල",
+      "textWarnUpdateExternalData": "මෙම වැඩපොතෙහි අනාරක්‍ෂිත විය හැකි බාහිර මූලාශ්‍රයකට හෝ කිහිපයකට සබැඳි අඩංගු වේ. ඔබට එම සබැඳි විශ්වාස නම්, නවතම දත්ත ලබා ගැනීමට ඒවා යාවත්කාල කරන්න.",
       "textYes": "ඔව්",
       "titleLicenseExp": "බලපත්‍රය කල් ඉකුත්ය",
       "titleServerVersion": "සංස්කරකය යාවත්කාල විය",
@@ -168,10 +171,7 @@
       "warnLicenseUsersExceeded": "ඔබ %1 සංස්කරක සඳහා පරිශීලක සීමාවට ළඟා වී ඇත. තව දැන ගැනීමට ඔබගේ පරිපාලක අමතන්න.",
       "warnNoLicense": "ඔබ %1 සංස්කරක වෙත සමකාල සම්බන්ධතා සීමාවට ළඟා වී ඇත. මෙම ලේඛනය දැකීමට පමණක් විවෘත වේ. පුද්ගලික උත්ශ්‍රේණි නියම සඳහා %1 අලෙවි කණ්ඩායම අමතන්න.",
       "warnNoLicenseUsers": "ඔබ %1 සංස්කරක සඳහා පරිශීලක සීමාවට ළඟා වී ඇත. පුද්ගලික උත්ශ්‍රේණි නියම සඳහා %1 අලෙවි කණ්ඩායම අමතන්න.",
-      "warnProcessRightsChange": "ඔබට ගොනුව සංස්කරණය කිරීමට අවසර නැත.",
-      "textDontUpdate": "Don't Update",
-      "textUpdate": "Update",
-      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data."
+      "warnProcessRightsChange": "ඔබට ගොනුව සංස්කරණය කිරීමට අවසර නැත."
     }
   },
   "Error": {

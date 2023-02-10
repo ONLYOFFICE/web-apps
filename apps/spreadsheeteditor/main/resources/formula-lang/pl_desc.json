@@ -1890,5 +1890,9 @@
 	"DROP": {
 		"a": "(array, rows, [columns])",
 		"d": " Porzuca wiersze lub kolumny z początku lub końca tablicy."
+	},
+	"SEQUENCE": {
+		"a": "(wiersze, [kolumny], [początek], [krok])",
+		"d": "Zwraca sekwencję liczb"
 	}
 }

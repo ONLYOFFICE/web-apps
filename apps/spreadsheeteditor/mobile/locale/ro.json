@@ -27,7 +27,7 @@
       "textEditUser": "Fișierul este editat de către:",
       "textMessageDeleteComment": "Sunteți sigur că doriți să stergeți acest comentariu?",
       "textMessageDeleteReply": "Sinteți sigur că doriți să ștergeți acest răspuns?",
-      "textNoComments": "Documentul nu cuprinde comentarii",
+      "textNoComments": "Niciun comentariu",
       "textOk": "OK",
       "textReopen": "Redeschidere",
       "textResolve": "Rezolvare",
@@ -145,6 +145,7 @@
       "textClose": "Închidere",
       "textContactUs": "Contactați Departamentul de Vânzări",
       "textCustomLoader": "Cu părere de rău nu aveți dreptul să modificați programul de încărcare. Pentru obținerea unei cotații de preț vă rugăm să contactați Departamentul de Vânzari.",
+      "textDontUpdate": "Nu trebuie să actualizați",
       "textGuest": "Invitat",
       "textHasMacros": "Fișierul conține macrocomenzi.<br>Doriți să le rulați?",
       "textNo": "Nu",
@@ -157,6 +158,8 @@
       "textReplaceSkipped": "A avut loc o înlocuire. {0} apariții ignorate.",
       "textReplaceSuccess": "Căutarea a fost finalizată. Înlocuiri: {0}",
       "textRequestMacros": "O macrocomandă trimite o solicitare URL. Doriți să permiteți ca solicitarea să fie trimisă către %1?",
+      "textUpdate": "Actualizare",
+      "textWarnUpdateExternalData": "Acest registru de lucru conține legături la una sau mai multe surse externe ce pot fi nesigure. Dacă aveți încredere în linkuri, actualizați-le, pentru a obține cele mai recente date.",
       "textYes": "Da",
       "titleLicenseExp": "Licența a expirat",
       "titleServerVersion": "Editorul a fost actualizat",
@@ -168,10 +171,7 @@
       "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori ai %1 editoare. Pentru detalii, contactați administratorul dvs.",
       "warnNoLicense": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați %1 Departamentul de Vânzări pentru acordarea condițiilor personale de actualizare.",
       "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori ai %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
-      "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier.",
-      "textDontUpdate": "Don't Update",
-      "textUpdate": "Update",
-      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data."
+      "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier."
     }
   },
   "Error": {

@@ -1890,5 +1890,9 @@
 	"DROP": {
 		"a": "(array, rows, [columns])",
 		"d": "Poistaa rivit tai sarakkeet matriisin alusta tai lopusta."
+	},
+	"SEQUENCE": {
+		"a": "(rivit, [sarakkeet], [alku], [vaihe])",
+		"d": "Palauttaa numerosarjan"
 	}
 }

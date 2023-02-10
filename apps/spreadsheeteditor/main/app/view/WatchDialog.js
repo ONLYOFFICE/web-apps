@@ -102,6 +102,7 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
                 tabindex: 1
             });
             this.watchList.on('item:select', _.bind(this.onSelectWatch, this))
+                           .on('item:deselect', _.bind(this.onSelectWatch, this))
                            .on('item:keydown', _.bind(this.onKeyDown, this))
                            .on('item:dblclick', _.bind(this.onDblClickWatch, this))
                            .on('entervalue', _.bind(this.onEnterValue, this));

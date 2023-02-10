@@ -1890,5 +1890,9 @@
 	"DROP": {
 		"a": "(dizi, satırlar, [sütunlar])",
 		"d": "Dizinin başlangıcından veya sonundan satırları veya sütunları bırakır."
+	},
+	"SEQUENCE": {
+		"a": "(satırlar, [sütunlar], [başlangıç], [artış])",
+		"d": "Bir sayı dizisi döndürür"
 	}
 }

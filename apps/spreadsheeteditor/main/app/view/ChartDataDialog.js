@@ -125,11 +125,15 @@ define([
             this.api = this.options.api;
             this.chartSettings = this.options.chartSettings;
             this.currentChartType = Asc.c_oAscChartTypeSettings.barNormal;
+
+            this._isOpen = false;
         },
 
         render: function() {
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
             var me = this;
+
+            this.on('animate:after', _.bind(this.onAnimateAfter, this));
 
             this.txtDataRange = new Common.UI.InputFieldBtn({
                 el          : $('#chart-dlg-txt-range'),
@@ -225,7 +229,16 @@ define([
             this._setDefaults(this.chartSettings);
         },
 
+        onAnimateAfter: function () {
+            if (this.chartSettings && !this._isOpen) {
+                this.updateCategoryList(this.chartSettings.getCatValues(), true);
+                this._isOpen = true;
+            }
+        },
+
         close: function () {
+            this.clearCategoryListTimer();
+
             this.api.asc_onCloseChartFrame();
             Common.Views.AdvancedSettingsWindow.prototype.close.apply(this, arguments);
         },
@@ -513,20 +526,58 @@ define([
             (len>0) && this.seriesList.selectByIndex(Math.min(index || 0, store.length-1));
         },
 
-        updateCategoryList: function(categories) {
-            var arr = [];
-            var store = this.categoryList.store;
-            for (var i = 0, len = categories.length; i < len; i++)
-            {
-                var item = categories[i],
-                    rec = new Common.UI.DataViewModel();
-                rec.set({
-                    value: item
-                });
-                arr.push(rec);
+        updateCategoryList: function(categories, afterAnimate) {
+            this.clearCategoryListTimer();
+
+            var me = this,
+                store = this.categoryList.store,
+                len = categories.length;
+            var getModels = function (data) {
+                var models = [];
+                for (var i = 0, len = data.length; i < len; i++) {
+                    var item = data[i],
+                        rec = new Common.UI.DataViewModel();
+                    rec.set({
+                        value: item
+                    });
+                    models.push(rec);
+                }
+                return models;
             }
-            store.reset(arr);
-            (len>0) && this.categoryList.selectByIndex(0);
+            var loadCategoryList = function (index) {
+                me._categoryListIndex = index;
+                me._loadCategoryListTimer = setInterval(function() {
+                    if (me._categoryListIndex + 1 >= len) {
+                        me.clearCategoryListTimer();
+                        return;
+                    }
+                    store.add(getModels(categories.slice(me._categoryListIndex, me._categoryListIndex + 10)));
+                    me._categoryListIndex += 10;
+                }, 10);
+            }
+            if (!afterAnimate) {
+                if (categories.length < 10) {
+                    store.reset(getModels(categories));
+                } else {
+                    store.reset(getModels(categories.slice(0, 9)));
+
+                    if (this._isOpen) {
+                        _.defer(function () {
+                            loadCategoryList(10);
+                        }, 0);
+                    }
+                }
+                (len>0) && this.categoryList.selectByIndex(0);
+            } else if (len > store.length) {
+                loadCategoryList(10);
+            }
+        },
+
+        clearCategoryListTimer: function () {
+            if (this._loadCategoryListTimer) {
+                clearInterval(this._loadCategoryListTimer);
+                this._loadCategoryListTimer = undefined;
+            }
         },
 
         onSwitch: function() {

@@ -1494,7 +1494,7 @@
   "DE.Views.BookmarksDialog.textSort": "Trier par",
   "DE.Views.BookmarksDialog.textTitle": "Signets",
   "DE.Views.BookmarksDialog.txtInvalidName": "Nom du signet ne peut pas contenir que des lettres, des  chiffres et des barres de soulignement et doit commencer avec une lettre",
-  "DE.Views.CaptionDialog.textAdd": "Ajouter une étiquette",
+  "DE.Views.CaptionDialog.textAdd": "Ajouter",
   "DE.Views.CaptionDialog.textAfter": "Après",
   "DE.Views.CaptionDialog.textBefore": "Avant",
   "DE.Views.CaptionDialog.textCaption": "Légende",

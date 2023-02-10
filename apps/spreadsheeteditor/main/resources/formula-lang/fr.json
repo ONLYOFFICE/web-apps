@@ -471,6 +471,7 @@
 	"WRAPCOLS": "ORGA.COLS",
 	"TAKE": "PRENDRE",
 	"DROP": "EXCLURE",
+	"SEQUENCE": "SEQUENCE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "En-têtes",

@@ -1890,5 +1890,9 @@
 	"DROP": {
 		"a": "(matrise, rader, [kolonner])",
 		"d": "Sletter rader eller kolonner fra matrisestart eller -slutt."
+	},
+	"SEQUENCE": {
+		"a": "(rader, [kolonner], [start], [trinn])",
+		"d": "Returnerer en tallsekvens"
 	}
 }

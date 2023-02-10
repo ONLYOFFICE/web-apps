@@ -472,6 +472,7 @@
 	"WRAPCOLS": "AJUSTARCOLS",
 	"TAKE": "TOMAR",
 	"DROP": "EXCLUIR",
+	"SEQUENCE": "SECUENCIA",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Encabezados",

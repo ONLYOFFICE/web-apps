@@ -1890,5 +1890,9 @@
 	"DROP": {
 		"a": "(array, rows, [columns])",
 		"d": "Vypustí riadky alebo stĺpce zo začiatku alebo konca poľa."
+	},
+	"SEQUENCE": {
+		"a": "(riadky, [stĺpce], [začiatok], [krok])",
+		"d": "Vráti postupnosť čísel"
 	}
 }

@@ -1890,5 +1890,9 @@
 	"DROP": {
 		"a": "(matrice, rânduri, [coloane])",
 		"d": " Elimină rânduri sau coloane de la începutul sau sfârșitul matricei."
+	},
+	"SEQUENCE": {
+		"a": "(rânduri, [coloane], [start], [pas])",
+		"d": "Returnează o secvență de numere"
 	}
 }

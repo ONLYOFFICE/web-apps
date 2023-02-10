@@ -1890,5 +1890,9 @@
 	"DROP": {
 		"a": "(array, rows, [columns])",
 		"d": "배열 시작 또는 끝에서 행 또는 열을 삭제합니다."
+	},
+	"SEQUENCE": {
+		"a": "(rows, [columns], [start], [step])",
+		"d": "숫자 시퀀스를 반환합니다"
 	}
 }

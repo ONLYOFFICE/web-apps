@@ -472,6 +472,7 @@
 	"WRAPCOLS": "ZABALSLOUPCE",
 	"TAKE": "VZÍT",
 	"DROP": "ZAHODIT",
+	"SEQUENCE": "SEQUENCE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",
