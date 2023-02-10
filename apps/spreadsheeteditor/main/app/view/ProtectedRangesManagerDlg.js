@@ -103,6 +103,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
             this.rangeList = new Common.UI.ListView({
                 el: $('#protect-edit-ranges-list', this.$window),
                 store: new Common.UI.DataViewStore(),
+                multiSelect: true,
                 simpleAddMode: true,
                 emptyText: this.textEmpty,
                 itemTemplate: _.template([
@@ -124,6 +125,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
             //     return (n1<n2) ? -1 : 1;
             // };
             this.rangeList.on('item:select', _.bind(this.onSelectRangeItem, this))
+                .on('item:deselect', _.bind(this.onDeselectRangeItem, this))
                 .on('item:keydown', _.bind(this.onKeyDown, this))
                 .on('item:dblclick', _.bind(this.onDblClickItem, this))
                 .on('entervalue', _.bind(this.onDblClickItem, this));
@@ -176,6 +178,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
                     arr.push({
                         name: ranges[i].asc_getName() || '',
                         range: ranges[i].asc_getRef() || '',
+                        rangeId: ranges[i].asc_getId() || '',
                         users: users,
                         props: ranges[i],
                         canEdit: _.indexOf(users, this.currentUserId)>=0,
@@ -199,7 +202,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
                     }, 50);
 
                 } else if (selectedItem){ // object
-                    var rec = store.findWhere({name: selectedItem.asc_getName()});
+                    var rec = store.findWhere({rangeId: selectedItem.asc_getId()});
                     if (rec) {
                         this.rangeList.selectRecord(rec);
                         setTimeout(function() {
@@ -253,9 +256,10 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
                 xy = me.$window.offset(),
                 rec = this.rangeList.getSelectedRec(),
                 props;
-            if (isEdit)
-                props = rec.get('props');
-            else {
+            if (isEdit) {
+                if (!rec || rec.length!==1) return;
+                props = rec[0].get('props');
+            } else {
                 props = new Asc.CUserProtectedRange();
                 props.asc_setRef(me.api.asc_getActiveRangeStr(Asc.referenceType.A));
             }
@@ -287,17 +291,19 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
 
         onDeleteRange: function () {
             var rec = this.rangeList.getSelectedRec();
-            if (rec) {
+            if (rec && rec.length>0) {
                 var me = this;
                 me._isWarningVisible = true;
                 Common.UI.warning({
-                    msg: Common.Utils.String.format(me.warnDelete, rec.get('name')),
+                    msg: rec.length>1 ? me.warnDeleteRanges : Common.Utils.String.format(me.warnDelete, rec[0].get('name')),
                     maxwidth: 500,
                     buttons: ['ok', 'cancel'],
                     callback: function(btn) {
                         if (btn == 'ok') {
-                            me.currentdRange = _.indexOf(me.rangeList.store.models, rec);
-                            me.api.asc_deleteUserProtectedRange([rec.get('props')]);
+                            me.currentRange = _.indexOf(me.rangeList.store.models, rec[rec.length-1]) - rec.length + 1;
+                            me.api.asc_deleteUserProtectedRange(_.map(rec, function(item) {
+                                return item.get('props')
+                            }));
                         }
                         setTimeout(function(){ me.getDefaultFocusableComponent().focus(); }, 100);
                         me._isWarningVisible = false;
@@ -348,11 +354,16 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
             if (isViewSelect){
                 if (record.get('selected')) {
                     rawData = record.toJSON();
+                    this.currentRange = _.indexOf(this.rangeList.store.models, record);
                 } else {// record deselected
                     return;
                 }
-                this.currentRange = _.indexOf(this.rangeList.store.models, record);
             }
+            this.updateButtons();
+        },
+
+        onDeselectRangeItem: function(listView, itemView, record) {
+            this.userTipHide();
             this.updateButtons();
         },
 
@@ -392,11 +403,11 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
 
         updateButtons: function() {
             var rec = this.rangeList.getSelectedRec(),
-                lock = rec ? rec.get('lock') : false,
+                lock = rec && rec.length>0 ? _.find(rec, function(item) { return !!item.get('lock'); }) : true,
                 length = this.rangeList.store.length,
-                canEdit = rec ? rec.get('canEdit') : false;
+                canEdit = rec && rec.length>0 ? !_.find(rec, function(item) { return !item.get('canEdit'); }) : false;
             this.btnDeleteRange.setDisabled(length<1 || lock || !canEdit);
-            this.btnEditRange.setDisabled(length<1 || lock || !canEdit);
+            this.btnEditRange.setDisabled(length<1 || !(rec && rec.length===1) || lock || !canEdit);
         },
 
         onApiSheetChanged: function() {
@@ -425,6 +436,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
         guestText: 'Guest',
         tipIsLocked: 'This element is being edited by another user.',
         warnDelete: 'Are you sure you want to delete the protected range {0}?<br>Anyone who has edit access to the spreadsheet will be able to edit content in the range.',
+        warnDeleteRanges: 'Are you sure you want to delete the protected ranges?<br>Anyone who has edit access to the spreadsheet will be able to edit content in those ranges.',
         textProtect: 'Protect Sheet',
         txtEdit: 'Edit',
         txtView: 'View',
