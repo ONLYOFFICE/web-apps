@@ -1494,7 +1494,7 @@
   "DE.Views.BookmarksDialog.textSort": "Ordenar per",
   "DE.Views.BookmarksDialog.textTitle": "Marcadors",
   "DE.Views.BookmarksDialog.txtInvalidName": "El nom del marcador només pot contenir lletres, dígits i guions baixos i hauria de començar per la lletra",
-  "DE.Views.CaptionDialog.textAdd": "Afegeix una etiqueta",
+  "DE.Views.CaptionDialog.textAdd": "Afegeix",
   "DE.Views.CaptionDialog.textAfter": "Després",
   "DE.Views.CaptionDialog.textBefore": "Abans",
   "DE.Views.CaptionDialog.textCaption": "Llegenda",
