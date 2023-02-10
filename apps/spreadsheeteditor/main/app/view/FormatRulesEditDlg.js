@@ -51,7 +51,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
     SSE.Views.FormatRulesEditDlg =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             alias: 'FormatRulesEditDlg',
-            contentWidth: 490,
+            contentWidth: 491,
             height: 445
         },
 
