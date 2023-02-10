@@ -1890,5 +1890,9 @@
 	"DROP": {
 		"a": "(array, rows, [columns])",
 		"d": "Přemístí řádky nebo sloupce ze začátku nebo konce pole."
+	},
+	"SEQUENCE": {
+		"a": "(řádky, [sloupce], [začátek], [krok])",
+		"d": "Vrátí aritmetickou posloupnost."
 	}
 }

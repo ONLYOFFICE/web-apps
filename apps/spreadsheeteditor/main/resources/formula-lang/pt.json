@@ -472,6 +472,7 @@
 	"WRAPCOLS": "MOLDARCOLS",
 	"TAKE": "INCLUIR",
 	"DROP": "EXCLUIR",
+	"SEQUENCE": "SEQUÊNCIA",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

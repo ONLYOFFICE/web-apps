@@ -1890,5 +1890,9 @@
 	"DROP": {
 		"a": "(array, rows, [columns])",
 		"d": "从数组开头或结尾删除行或列。"
+	},
+	"SEQUENCE": {
+		"a": "(rows, [columns], [start], [step])",
+		"d": "返回一个数字序列"
 	}
 }

@@ -1890,5 +1890,9 @@
 	"DROP": {
 		"a": "(masīvs, rindas, [kolonnas])",
 		"d": "Nomet rindas vai kolonnas no masīva sākuma vai beigām."
+	},
+	"SEQUENCE": {
+		"a": "(rindas, [kolonnas], [sākums], [solis])",
+		"d": "Atgriež skaitļu secību"
 	}
 }

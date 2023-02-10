@@ -1890,5 +1890,9 @@
 	"DROP": {
 		"a": "(matriz, linhas, [colunas])",
 		"d": "Remove linhas ou colunas de início ou término da matriz."
+	},
+	"SEQUENCE": {
+		"a": "(linhas, [colunas], [início], [final])",
+		"d": "Retorna uma sequência de números"
 	}
 }

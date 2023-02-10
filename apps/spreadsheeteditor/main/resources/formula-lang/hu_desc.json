@@ -1890,5 +1890,9 @@
 	"DROP": {
 		"a": "(tömb, sorok, [oszlopok])",
 		"d": "Sorokat vagy oszlopokat távolít el a tömb elejéről vagy végéről."
+	},
+	"SEQUENCE": {
+		"a": "(sorok, [számok], [indítás], [lépés])",
+		"d": "Számsort ad vissza."
 	}
 }

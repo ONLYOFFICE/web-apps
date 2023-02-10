@@ -1890,5 +1890,9 @@
 	"DROP": {
 		"a": "(matris, rader, [kolumner])",
 		"d": "Tar bort rader eller kolumner från matrisens start eller slut."
+	},
+	"SEQUENCE": {
+		"a": "(rader, [kolumner], [start], [steg])",
+		"d": "Returnerar en sekvens med tal"
 	}
 }

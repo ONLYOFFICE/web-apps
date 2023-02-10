@@ -1890,5 +1890,9 @@
 	"DROP": {
 		"a": "(array, rows, [columns])",
 		"d": "Supprime les lignes ou les colonnes du début ou de la fin du tableau."
+	},
+	"SEQUENCE": {
+		"a": "(lignes, [colonnes], [début], [pas])",
+		"d": "Renvoie une séquence de nombres"
 	}
 }

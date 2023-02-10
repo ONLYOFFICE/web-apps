@@ -1890,5 +1890,9 @@
 	"DROP": {
 		"a": "(matrix, rijen, [kolommen])",
 		"d": "Rijen of kolommen worden verwijderd uit het begin of einde van de matrix."
+	},
+	"SEQUENCE": {
+		"a": "(rijen, [kolommen], [beginnen], [stap])",
+		"d": "Retourneert een reeks getallen"
 	}
 }

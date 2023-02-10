@@ -472,6 +472,7 @@
 	"WRAPCOLS": "OMLOOP.KOLOMMEN",
 	"TAKE": "NEMEN",
 	"DROP": "WEGLATEN",
+	"SEQUENCE": "REEKS",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

@@ -472,6 +472,7 @@
 	"WRAPCOLS": "WRAPCOLS",
 	"TAKE": "ໃຊ້",
 	"DROP": "ວາງລົງ",
+	"SEQUENCE": "SEQUENCE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

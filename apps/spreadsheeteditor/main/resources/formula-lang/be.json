@@ -472,6 +472,7 @@
 	"WRAPCOLS": "СВЕРНСТОЛБЦ",
 	"TAKE": "ВЗЯТЬ",
 	"DROP": "СБРОСИТЬ",
+	"SEQUENCE": "ПОСЛЕД",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Заголовки",
