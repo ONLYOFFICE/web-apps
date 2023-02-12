@@ -800,14 +800,18 @@ class MainController extends Component {
         let textWarningDialog;
 
         switch(props.type) {
-            case Asc.c_oAscEDocProtect.ReadOnly: 
-                textWarningDialog = t('Main.textDialogProtectedOnlyView')
+            case Asc.c_oAscEDocProtect.ReadOnly:
+                textWarningDialog = t('Main.textDialogProtectedOnlyView');
+                break;
             case Asc.c_oAscEDocProtect.Comments:
-                textWarningDialog = t('Main.textDialogProtectedEditComments')
+                textWarningDialog = t('Main.textDialogProtectedEditComments');
+                break;
             case Asc.c_oAscEDocProtect.TrackedChanges: 
                 textWarningDialog = t('Main.textDialogProtectedChangesTracked')
+                break;
             case Asc.c_oAscEDocProtect.Forms:
-                textWarningDialog = t('Main.textDialogProtectedFillForms')
+                textWarningDialog = t('Main.textDialogProtectedFillForms');
+                break;
         }
 
         storeAppOptions.setProtection(isProtected);

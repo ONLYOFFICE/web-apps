@@ -56,9 +56,11 @@ const EncryptionView = inject("storeAppOptions")(observer(props => {
                     </List>
                 </>
             }
+            {isFileEncrypted && isRequiredPassword &&
+                <BlockTitle>{t('Settings.textChangePassword')}</BlockTitle>
+            }
             {(isFileEncrypted && isRequiredPassword || !isFileEncrypted) &&
                 <>
-                    <BlockTitle>{t('Settings.textChangePassword')}</BlockTitle>
                     <List inlineLabels className="inputs-list">
                         <ListInput 
                             label={t('Settings.textPassword')}

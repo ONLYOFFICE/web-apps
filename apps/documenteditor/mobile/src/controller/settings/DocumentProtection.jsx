@@ -25,6 +25,7 @@ class ProtectionDocumentController extends React.Component {
         const protection = api.asc_getDocumentProtection() || new AscCommonWord.CDocProtect();
 
         appOptions.setProtection(true);
+        appOptions.setTypeProtection(typeProtection);
 
         if(typeProtection !== Asc.c_oAscEDocProtect.TrackedChanges && !isViewer) {
             appOptions.changeViewerMode();

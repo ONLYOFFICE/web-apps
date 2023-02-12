@@ -10,10 +10,11 @@ const ProtectionDocumentView = inject("storeAppOptions")(observer(props => {
     const isIos = Device.ios;
     const appOptions = props.storeAppOptions;
     const typeProtection = appOptions.typeProtection;
-    const [isPassword, setPassword] = useState(false);
+    const [stateTypeProtection, setStateTypeProtection] = useState(typeProtection);
+    const [isRequirePassword, setRequirePassword] = useState(false);
     const [password, changePassword] = useState('');
-    const [passwordRepeat, repeatPassword] = useState('');
-    const isDisabledProtection = isPassword && (!password.length || !passwordRepeat.length);
+    const [passwordRepeat, changeRepeationPassword] = useState('');
+    const isDisabledProtection = isRequirePassword ? ((!password.length || !passwordRepeat.length) || stateTypeProtection === null) : stateTypeProtection === null;
 
     const showErrorDialog = () => {
         f7.dialog.create({
@@ -26,29 +27,33 @@ const ProtectionDocumentView = inject("storeAppOptions")(observer(props => {
         }).open();
     };
 
+    const changeHanlder = () => {
+        if(isRequirePassword && password !== passwordRepeat) {
+            showErrorDialog();
+        } else {
+            props.onProtectDocument(stateTypeProtection, password);
+        }
+    }
+
     return (
         <Page>
             <Navbar title={t('Settings.textProtectDocument')} backLink={_t.textBack}>
                 <NavRight>
-                    <Link text={isIos && t('Settings.textSave')} className={isDisabledProtection && 'disabled'} onClick={() => {
-                        if(password !== passwordRepeat) {
-                            showErrorDialog();
-                        } else {
-                            props.onProtectDocument(typeProtection, password);
-                        }
-                    }}>
+                    <Link text={isIos && t('Settings.textSave')} className={isDisabledProtection && 'disabled'} onClick={changeHanlder}>
                         {Device.android && <Icon icon='icon-check'/>}
                     </Link>
                 </NavRight>
             </Navbar>
             <List>
                 <ListItem title={t('Settings.textSetPassword')}>
-                    <Toggle checked={isPassword} onToggleChange={() => {
-                        setPassword(!isPassword);
+                    <Toggle checked={isRequirePassword} onToggleChange={() => {
+                        setRequirePassword(!isRequirePassword);
+                        changePassword('');
+                        changeRepeationPassword('');
                     }} />
                 </ListItem>
             </List>
-            {isPassword &&
+            {isRequirePassword &&
                 <>
                     <List inlineLabels className="inputs-list">
                         <ListInput 
@@ -64,7 +69,7 @@ const ProtectionDocumentView = inject("storeAppOptions")(observer(props => {
                             type="password"
                             placeholder={t('Settings.textRequired')}
                             value={passwordRepeat}
-                            onInput={e => repeatPassword(e.target.value)}
+                            onInput={e => changeRepeationPassword(e.target.value)}
                             className={isIos ? 'list-input-right' : ''}
                         />
                     </List>
@@ -75,17 +80,17 @@ const ProtectionDocumentView = inject("storeAppOptions")(observer(props => {
             }
             <BlockTitle>{t('Settings.textTypeEditing')}</BlockTitle>
             <List>
-                <ListItem radio checked={typeProtection === Asc.c_oAscEDocProtect.ReadOnly} title={t('Settings.textNoChanges')} onClick={() => {
-                    appOptions.setTypeProtection(Asc.c_oAscEDocProtect.ReadOnly);
+                <ListItem radio checked={stateTypeProtection === Asc.c_oAscEDocProtect.ReadOnly} title={t('Settings.textNoChanges')} onClick={() => {
+                    setStateTypeProtection(Asc.c_oAscEDocProtect.ReadOnly);
                 }}></ListItem>
-                <ListItem radio checked={typeProtection === Asc.c_oAscEDocProtect.Forms} title={t('Settings.textFillingForms')} onClick={() => {
-                    appOptions.setTypeProtection(Asc.c_oAscEDocProtect.Forms);
+                <ListItem radio checked={stateTypeProtection === Asc.c_oAscEDocProtect.Forms} title={t('Settings.textFillingForms')} onClick={() => {
+                    setStateTypeProtection(Asc.c_oAscEDocProtect.Forms);
                 }}></ListItem>
-                <ListItem radio checked={typeProtection === Asc.c_oAscEDocProtect.TrackedChanges} title={t('Settings.textTrackedChanges')} onClick={() => {
-                    appOptions.setTypeProtection(Asc.c_oAscEDocProtect.TrackedChanges);
+                <ListItem radio checked={stateTypeProtection === Asc.c_oAscEDocProtect.TrackedChanges} title={t('Settings.textTrackedChanges')} onClick={() => {
+                    setStateTypeProtection(Asc.c_oAscEDocProtect.TrackedChanges);
                 }}></ListItem>
-                <ListItem radio checked={typeProtection === Asc.c_oAscEDocProtect.Comments} title={t('Settings.textComments')} onClick={() => {
-                    appOptions.setTypeProtection(Asc.c_oAscEDocProtect.Comments);
+                <ListItem radio checked={stateTypeProtection === Asc.c_oAscEDocProtect.Comments} title={t('Settings.textComments')} onClick={() => {
+                    setStateTypeProtection(Asc.c_oAscEDocProtect.Comments);
                 }}></ListItem>
             </List>
             <Block>

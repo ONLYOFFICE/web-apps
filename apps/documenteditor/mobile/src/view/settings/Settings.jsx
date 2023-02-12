@@ -132,6 +132,7 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
     // set mode
     const isViewer = appOptions.isViewer;
     const isMobileView = appOptions.isMobileView;
+    const isProtected = appOptions.isProtected;
 
     let _isEdit = false,
         _canDownload = false,
@@ -166,9 +167,16 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
                             <Icon slot="media" icon="icon-search"></Icon>
                         </ListItem>
                     }
-                    <ListItem title={t('Settings.textProtection')} link="#" onClick={onoptionclick.bind(this, '/protection')}>
-                        <Icon slot="media" icon="icon-protection"></Icon>
-                    </ListItem>
+                    {_isEdit && !isViewer &&
+                        <ListItem title={t('Settings.textProtection')} link="#" onClick={onoptionclick.bind(this, '/protection')}>
+                            <Icon slot="media" icon="icon-protection"></Icon>
+                        </ListItem>
+                    }
+                    {_isEdit && isViewer &&
+                        <ListItem title={isProtected ? t('Settings.textUnprotect') : t('Settings.textProtectDocument')} onClick={() => props.onProtectClick()} link="#">
+                            <Icon slot="media" icon="icon-protect-document" />
+                        </ListItem>
+                    }
                     <ListItem title={t('Settings.textNavigation')} link='#' onClick={() => {
                         if(Device.phone) {
                             onOpenNavigation();
@@ -257,13 +265,14 @@ class SettingsView extends Component {
 
     render() {
         const show_popover = this.props.usePopover;
+
         return (
             show_popover ?
                 <Popover id="settings-popover" closeByOutsideClick={false} className="popover__titled" onPopoverClosed={() => this.props.closeOptions('settings')}>
-                    <SettingsList inPopover={true} onOptionClick={this.onoptionclick} closeOptions={this.props.closeOptions} openOptions={this.props.openOptions} style={{height: '410px'}} onChangeMobileView={this.props.onChangeMobileView} onPrint={this.props.onPrint} showHelp={this.props.showHelp} showFeedback={this.props.showFeedback} onOrthographyCheck={this.props.onOrthographyCheck} onDownloadOrigin={this.props.onDownloadOrigin}/>
+                    <SettingsList inPopover={true} onOptionClick={this.onoptionclick} closeOptions={this.props.closeOptions} openOptions={this.props.openOptions} style={{height: '410px'}} onChangeMobileView={this.props.onChangeMobileView} onPrint={this.props.onPrint} showHelp={this.props.showHelp} showFeedback={this.props.showFeedback} onOrthographyCheck={this.props.onOrthographyCheck} onDownloadOrigin={this.props.onDownloadOrigin} onProtectClick={this.props.onProtectClick}/>
                 </Popover> :
                 <Popup className="settings-popup" onPopupClosed={() => this.props.closeOptions('settings')}>
-                    <SettingsList onOptionClick={this.onoptionclick} closeOptions={this.props.closeOptions} openOptions={this.props.openOptions} onChangeMobileView={this.props.onChangeMobileView} onPrint={this.props.onPrint} showHelp={this.props.showHelp} showFeedback={this.props.showFeedback} onOrthographyCheck={this.props.onOrthographyCheck} onDownloadOrigin={this.props.onDownloadOrigin}/>
+                    <SettingsList onOptionClick={this.onoptionclick} closeOptions={this.props.closeOptions} openOptions={this.props.openOptions} onChangeMobileView={this.props.onChangeMobileView} onPrint={this.props.onPrint} showHelp={this.props.showHelp} showFeedback={this.props.showFeedback} onOrthographyCheck={this.props.onOrthographyCheck} onDownloadOrigin={this.props.onDownloadOrigin} onProtectClick={this.props.onProtectClick}/>
                 </Popup>
         )
     }
