@@ -66,7 +66,7 @@ define([
                     '</div>',
                     '<label class="input-label" style="width:27px; font-weight: bold; margin-left:6px;">#</label>',
                     '<label class="input-label" style="width:114px; font-weight: bold;">' + this.textWidth + '</label>',
-                    '<label class="input-label" style="width:105px; font-weight: bold;">' + this.textSpacing + '</label>',
+                    '<label class="input-label" style="width:105px; font-weight: bold;">' + this.textTitleSpacing + '</label>',
                     '<div id="custom-columns-list" style="width:100%; height: 91px;"></div>',
                     '<div class="input-row" style="margin: 10px 0;">',
                         '<div id="custom-columns-equal-width"></div>',
@@ -618,7 +618,7 @@ define([
         textTitle: 'Columns',
         textColumns: 'Number of columns',
         textWidth: 'Width',
-        textSpacing: 'Spacing',
+        textTitleSpacing: 'Spacing',
         textEqualWidth: 'Equal column width',
         textSeparator: 'Column divider'
     }, DE.Views.CustomColumnsDialog || {}))
