@@ -211,7 +211,8 @@ define([
                 wsLock: false,
                 wsProps: [],
                 is_lockText: false,
-                is_lockShape: false
+                is_lockShape: false,
+                isUserProtected: false
             };
             this.binding = {};
 
@@ -1646,7 +1647,7 @@ define([
         onNamedRangeMenuOpen: function(menu) {
             if (this.api && menu) {
                 var names = this.api.asc_getDefinedNames(Asc.c_oAscGetDefinedNamesList.WorksheetWorkbook);
-                menu.items[2].setDisabled(names.length<1);
+                menu.items[2].setDisabled(names.length<1 || this._state.isUserProtected);
             }
         },
 
@@ -3271,8 +3272,10 @@ define([
             }
             toolbar.lockToolbar(Common.enumLock.itemsDisabled, !enabled, {array: [toolbar.btnDeleteCell]});
 
-
             toolbar.lockToolbar(Common.enumLock.headerLock, info.asc_getLockedHeaderFooter(), {array: this.toolbar.btnsEditHeader});
+
+            this._state.isUserProtected = info.asc_getUserProtected();
+            toolbar.lockToolbar(Common.enumLock.userProtected, this._state.isUserProtected);
         },
 
         onApiSelectionChangedRestricted: function(info) {

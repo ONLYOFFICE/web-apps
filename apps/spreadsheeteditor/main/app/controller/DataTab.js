@@ -140,9 +140,11 @@ define([
         onSelectionChanged: function(info) {
             if (!this.toolbar.editMode || !this.view) return;
 
+            var view = this.view;
             // special disable conditions
-            Common.Utils.lockControls(Common.enumLock.multiselectCols, info.asc_getSelectedColsCount()>1, {array: [this.view.btnTextToColumns]});
-            Common.Utils.lockControls(Common.enumLock.multiselect, info.asc_getMultiselect(), {array: [this.view.btnTextToColumns]});
+            Common.Utils.lockControls(Common.enumLock.multiselectCols, info.asc_getSelectedColsCount()>1, {array: [view.btnTextToColumns]});
+            Common.Utils.lockControls(Common.enumLock.multiselect, info.asc_getMultiselect(), {array: [view.btnTextToColumns]});
+            Common.Utils.lockControls(Common.enumLock.userProtected, info.asc_getUserProtected(), {array: view.lockedControls});
         },
 
         onUngroup: function(type) {

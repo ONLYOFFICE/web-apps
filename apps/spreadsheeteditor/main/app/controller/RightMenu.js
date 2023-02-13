@@ -178,7 +178,8 @@ define([
             var isCellLocked = cellInfo && cellInfo.asc_getLocked() || this._state.wsProps['FormatCells'],
                 isTableLocked = (cellInfo && cellInfo.asc_getLockedTable()===true || !this.rightmenu.mode.canModifyFilter) || this._state.wsProps['FormatCells'],
                 isSparkLocked = (cellInfo && cellInfo.asc_getLockedSparkline()===true) || this._state.wsLock,
-                isPivotLocked = (cellInfo && cellInfo.asc_getLockedPivotTable()===true) || this._state.wsProps['PivotTables'];
+                isPivotLocked = (cellInfo && cellInfo.asc_getLockedPivotTable()===true) || this._state.wsProps['PivotTables'],
+                isUserProtected = cellInfo && cellInfo.asc_getUserProtected()===true;
 
             for (var i=0; i<this._settings.length; ++i) {
                 if (i==Common.Utils.documentSettingsType.Signature) continue;
@@ -252,7 +253,7 @@ define([
             if (SelectedObjects.length<=0 && cellInfo) { // cell is selected
                 settingsType = Common.Utils.documentSettingsType.Cell;
                 this._settings[settingsType].props = cellInfo;
-                this._settings[settingsType].locked = isCellLocked;
+                this._settings[settingsType].locked = isCellLocked || isUserProtected;
                 this._settings[settingsType].hidden = 0;
             }
 
