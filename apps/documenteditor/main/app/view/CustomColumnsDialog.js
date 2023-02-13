@@ -175,8 +175,6 @@ define([
 
                 me.chEqualWidth.setDisabled(num<2);
                 me.chSeparator.setDisabled(num<2);
-
-                me.log();
             });
 
             this.columnsList = new Common.UI.ListView({
@@ -210,8 +208,6 @@ define([
                 if(me.columnsList.store.length > 0){
                     me.setMaxColumns();
                     me.setMaxValueSpinsForColumns();
-
-                    me.log();
                 }
             });
 
@@ -456,17 +452,6 @@ define([
             return Math.round(a * x) / x;
         },
 
-        log: function () {
-            var res = 0,
-                num = this.columnsList.store.length;
-            this.columnsList.store.each(function(item, index) {
-                res += item.get('width');
-                if(index < num - 1)
-                    res += item.get('spacing');
-            });
-            console.log(this.totalWidth, res);
-        },
-
         //type = width/spacing
         setNewValueSpinsForColumns: function(changedItemIndex, difference, type) {
             var me = this,
@@ -584,8 +569,6 @@ define([
                 
                 me.setNewValueSpinsForColumns(index, difference, 'width');
                 me.setMaxColumns();
-
-                me.log();
             });
 
             var spinSpacing = new Common.UI.MetricSpinner({
@@ -608,7 +591,6 @@ define([
                     me.setNewValueSpinsForColumns(index, difference, 'spacing');
                 
                 me.setMaxColumns();
-                me.log();
             });
 
             item.set('widthSpin', spinWidth, {silent: true});
