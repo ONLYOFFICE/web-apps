@@ -1,20 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { observer, inject } from "mobx-react";
 import ProtectionView from '../../view/settings/Protection';
-import { withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { f7 } from "framework7-react";
 import { Device } from '../../../../../common/mobile/utils/device';
+import Snackbar from '../../components/Snackbar/Snackbar';
 
-class ProtectionController extends React.Component {
-    constructor(props) {
-        super(props);
-        this.onProtectClick = this.onProtectClick.bind(this);
-    }
+const ProtectionController = props => {
+    const { t } = useTranslation();
+    const [isSnackbarVisible, setSnackbarVisible] = useState(false);
 
-    onProtectClick() {
+    const onProtectClick = () => {
         const api = Common.EditorApi.get();
-        const { t } = this.props;
-        const appOptions = this.props.storeAppOptions;
+        const appOptions = props.storeAppOptions;
         const isProtected = appOptions.isProtected;
         let propsProtection = api.asc_getDocumentProtection();
         const isPassword = propsProtection?.asc_getIsPassword();
@@ -52,15 +50,21 @@ class ProtectionController extends React.Component {
                 appOptions.setTypeProtection(null);
                 propsProtection.asc_setEditType(Asc.c_oAscEDocProtect.None);
                 api.asc_setDocumentProtection(propsProtection);
+
+                setSnackbarVisible(true);
             }
         } else {
             f7.views.current.router.navigate('/protect');
         }
     }
 
-    render() {
-        return <ProtectionView onProtectClick={this.onProtectClick} />
-    }
+    return (
+        <>
+            <ProtectionView onProtectClick={onProtectClick} />
+            <Snackbar isShowSnackbar={isSnackbarVisible} message={t('Settings.textProtectTurnOff')} closeCallback={() => setSnackbarVisible(false)} />
+        </>
+    );
+   
 }
 
-export default inject('storeAppOptions')(observer(withTranslation()(ProtectionController)));
+export default inject('storeAppOptions')(observer(ProtectionController));

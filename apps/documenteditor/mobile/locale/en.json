@@ -669,6 +669,7 @@
     "titleDialogUnprotect": "Unprotect Document",
     "textDialogUnprotect": "Enter a password to unprotect document",
     "textUnprotect": "Unprotect",
+    "textProtectTurnOff": "Protect turn off",
     "textSetPassword": "Set Password",
     "textTypeEditing": "Type Of Editing",
     "textNoChanges": "No changes (Read only)",
