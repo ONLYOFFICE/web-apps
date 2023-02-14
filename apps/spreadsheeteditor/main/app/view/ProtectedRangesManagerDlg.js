@@ -426,7 +426,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
         },
 
         txtTitle: 'Protected Ranges',
-        textRangesDesc: 'Ranges unlocked by a password when sheet is protected',
+        textRangesDesc: 'You can restrict editing ranges to selected people.',
         textTitle: 'Title',
         textRange: 'Range',
         textNew: 'New',

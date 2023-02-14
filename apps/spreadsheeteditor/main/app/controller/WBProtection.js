@@ -183,6 +183,7 @@ define([
                     win = new SSE.Views.ProtectDialog({
                         type: 'sheet',
                         props: props,
+                        api: me.api,
                         handler: function(result, value, props) {
                             btn = result;
                             if (result == 'ok') {

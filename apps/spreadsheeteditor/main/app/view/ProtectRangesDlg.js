@@ -64,11 +64,13 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
                     '</div>',
                     '<div class="separator horizontal"></div>'
                 ].join(''),
-                buttons: [{
-                    value: 'protect-sheet',
-                    caption: this.textProtect
-                }, 'ok','cancel'],
-                primary: 'protect-sheet'
+                buttons: [
+                // {
+                //     value: 'protect-sheet',
+                //     caption: this.textProtect
+                // },
+                    'ok','cancel']
+                // primary: 'protect-sheet'
             }, options);
 
             this.api        = options.api;
