@@ -358,7 +358,7 @@ define([
             this.$el.show();
             this.scroller.update();
             this.selectMenu(panel, opts, defPanel);
-            this.api.asc_enableKeyEvents(false);
+            this.api && this.api.asc_enableKeyEvents(false);
 
             this.fireEvent('menu:show', [this]);
         },
