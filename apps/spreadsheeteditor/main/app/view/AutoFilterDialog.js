@@ -1135,6 +1135,40 @@ define([
             });
             this.miTextFilter.menu.on('item:click', _.bind(this.onTextFilterMenuClick, this));
 
+            this.miDateFilter = new Common.UI.MenuItem({
+                caption     : this.txtDateFilter,
+                toggleGroup : 'menufilterfilter',
+                checkable   : true,
+                checked     : false,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        {value: 0, caption: this.txtEquals, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: 0, caption: this.txtBefore, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: 0, caption: this.txtAfter, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: 0, caption: this.txtBetween, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: 0, caption: this.txtTomorrow, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: 0, caption: this.txtToday, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: 0, caption: this.txtYesterday, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: 0, caption: this.txtNextWeek, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: 0, caption: this.txtThisWeek, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: 0, caption: this.txtLastWeek, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: 0, caption: this.txtNextMonth, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: 0, caption: this.txtThisMonth, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: 0, caption: this.txtLastMonth, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: 0, caption: this.txtNextQuarter, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: 0, caption: this.txtThisQuarter, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: 0, caption: this.txtLastQuarter, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: 0, caption: this.txtNextYear, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: 0, caption: this.txtThisYear, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: 0, caption: this.txtLastYear, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: 0, caption: this.txtYearToDate, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: 0, caption: this.txtAllDatesInThePeriod, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: -1, caption: this.btnCustomFilter + '...', checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters}
+                    ]
+                })
+            });
+
             this.miFilterCellColor = new Common.UI.MenuItem({
                 caption     : this.txtFilterCellColor,
                 toggleGroup : 'menufilterfilter',
@@ -1240,6 +1274,7 @@ define([
                     this.miValueFilter,
                     this.miNumFilter,
                     this.miTextFilter,
+                    this.miDateFilter,
                     this.miFilterCellColor,
                     this.miFilterFontColor,
                     this.miClear,
@@ -1727,6 +1762,7 @@ define([
                 isDynamicFilter = (this.initialFilterType === Asc.c_oAscAutoFilterTypes.DynamicFilter),
                 isTop10 = (this.initialFilterType === Asc.c_oAscAutoFilterTypes.Top10),
                 isTextFilter = this.configTo.asc_getIsTextFilter(),
+                //isDateFilter = true,
                 colorsFill = this.configTo.asc_getColorsFill(),
                 colorsFont = this.configTo.asc_getColorsFont(),
                 sort = this.configTo.asc_getSortState(),
@@ -1736,8 +1772,10 @@ define([
 
             this.miTextFilter.setVisible(!isPivot && isTextFilter);
             this.miNumFilter.setVisible(!isPivot && !isTextFilter);
+            this.miDateFilter.setVisible(!isPivot && true);
             this.miTextFilter.setChecked(isCustomFilter && isTextFilter, true);
             this.miNumFilter.setChecked((isCustomFilter || isDynamicFilter || isTop10) && !isTextFilter, true);
+            this.miDateFilter.setChecked(false, true);
 
             this.miValueFilter.setChecked(isPivot && isValueFilter, true);
             this.miLabelFilter.setChecked(isPivot && !isValueFilter && (isCustomFilter || isTop10), true);
@@ -1867,6 +1905,8 @@ define([
                 idxs = (me.filter) ? me.filteredIndexes : me.throughIndexes;
 
             this.configTo.asc_getValues().forEach(function (item) {
+                console.log(item.asc_getIsDateFormat(), item.asc_getYear(), item.asc_getMonth(), item.asc_getDay());
+
                 value       = item.asc_getText();
                 isnumber    = isNumeric(value);
                 applyfilter = true;
@@ -2064,6 +2104,7 @@ define([
         txtSortFontColor    : 'Sort by font color',
         txtNumFilter        : 'Number filter',
         txtTextFilter       : 'Text filter',
+        txtDateFilter       : 'Date Filter',
         txtFilterCellColor  : 'Filter by cells color',
         txtFilterFontColor  : 'Filter by font color',
         txtClear            : 'Clear',
@@ -2090,7 +2131,26 @@ define([
         txtLabelFilter: 'Label filter',
         warnFilterError: 'You need at least one field in the Values area in order to apply a value filter.',
         txtNotBetween: 'Not between...',
-        txtSortOption: 'More sort options...'
+        txtSortOption: 'More sort options...',
+        txtBefore: 'Before...',
+        txtAfter: 'After...',
+        txtTomorrow: 'Tomorrow',
+        txtToday: 'Today',
+        txtYesterday: 'Yesterday',
+        txtNextWeek: 'Next Week',
+        txtThisWeek: 'This Week',
+        txtLastWeek: 'Last Week',
+        txtNextMonth: 'Next Month',
+        txtThisMonth: 'This Month',
+        txtLastMonth: 'Last Month',
+        txtNextQuarter: 'Next Quarter',
+        txtThisQuarter: 'This Quarter',
+        txtLastQuarter: 'Last Quarter',
+        txtNextYear: 'Next Year',
+        txtThisYear: 'This Year',
+        txtLastYear: 'Last Year',
+        txtYearToDate: 'Year to Date',
+        txtAllDatesInThePeriod: 'All Dates in the Period'
 
     }, SSE.Views.AutoFilterDialog || {}));
 });
