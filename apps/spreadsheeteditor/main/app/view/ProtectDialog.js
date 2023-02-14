@@ -85,7 +85,7 @@ define([
                                 '<label>' + (t.txtSheetDescription + ' ' +  t.txtAllowDescription) + '</label>',
                             '</div>',
                             '<button type="button" class="btn btn-text-default auto" id="' + t.winId + '-id-range-btn-allow" style="min-width: 100px;margin-bottom: 10px;">' + t.txtAllowRanges + '</button>',
-                            '<label>' + t.txtWarning + '</label>',
+                            '<label class="light">' + t.txtWarning + '</label>',
                         '<% } else { %>',
                             '<div class="" style="margin-bottom: 10px;">',
                                 '<label>' + t.txtWBDescription + '</label>',
@@ -105,7 +105,7 @@ define([
                         '</div>',
                         '<div id="' + t.winId + '-protect-dlg-options" class="" style="width: 100%; height: 116px; overflow: hidden;margin-bottom: 10px;"></div>',
                         '<% } else { %>',
-                        '<label>' + t.txtWarning + '</label>',
+                        '<label class="light">' + t.txtWarning + '</label>',
                         '<% } %>',
                     '</div>'
                 ].join('');
