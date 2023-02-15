@@ -44,6 +44,27 @@ export class storeApplicationSettings {
     isComments = true;
     isResolvedComments = true; 
     formulaLangs = ['en', 'be', 'bg', 'ca', 'zh', 'cs', 'da', 'nl', 'fi', 'fr', 'de', 'el', 'hu', 'id', 'it', 'ja', 'ko', 'lv', 'lo', 'nb', 'pl', 'pt-br', 'pt', 'ro', 'ru', 'sk', 'sl', 'sv', 'es', 'tr', 'uk', 'vi'];
+    formulaLangsExamples = {
+        'txtExampleEn': 'SUM; MIN; MAX; COUNT',
+        'txtExampleDe': 'SUMME; MIN; MAX; ANZAHL',
+        'txtExampleRu': 'СУММ; МИН; МАКС; СЧЁТ',
+        'txtExamplePl': 'SUMA; MIN; MAX; ILE.LICZB',
+        'txtExampleEs': 'SUMA; MIN; MAX; CALCULAR',
+        'txtExampleFr': 'SOMME; MIN; MAX; NB',
+        'txtExampleIt': 'SOMMA; MIN; MAX; CONTA.NUMERI',
+        'txtExampleBe': 'СУММ; МИН; МАКС; СЧЁТ',
+        'txtExampleCa': 'SUMA; MIN; MAX; COMPT',
+        'txtExampleCs': 'SUMA; MIN; MAX; POČET',
+        'txtExampleDa': 'SUM; MIN; MAKS; TÆL',
+        'txtExampleNl': 'SOM; MIN; MAX; AANTAL',
+        'txtExampleFi': 'SUMMA; MIN; MAKS; LASKE',
+        'txtExampleHu': 'SZUM; MIN; MAX; DARAB',
+        'txtExampleNb': 'SUMMER; MIN; STØRST; ANTALL',
+        'txtExamplePt': 'SOMA; MÍNIMO; MÁXIMO; CONTAR',
+        'txtExamplePtbr': 'SOMA; MÍNIMO; MÁXIMO; CONT.NÚM',
+        'txtExampleSv': 'SUMMA; MIN; MAX; ANTAL',
+        'txtExampleTr': 'TOPLA; MİN; MAK; BAĞ_DEĞ_SAY'
+    }
     formulaLangsColection = [];
 
     changeDirectionMode(value) {
