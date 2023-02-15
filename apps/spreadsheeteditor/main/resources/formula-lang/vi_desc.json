@@ -1894,5 +1894,13 @@
 	"SEQUENCE": {
 		"a": "(hàng, [cột], [bắt_đầu], [bước])",
 		"d": "Trả về một chuỗi số"
+	},
+	"EXPAND": {
+		"a": "(array, rows, [columns], [pad_with])",
+		"d": "Mở rộng mảng theo kích thước đã chỉ định."
+	},
+	"XMATCH": {
+		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
+		"d": "Trả về vị trí tương đối của một mục trong mảng. Theo mặc định, yêu cầu phải khớp hoàn toàn"
 	}
 }

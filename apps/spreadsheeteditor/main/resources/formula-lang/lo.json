@@ -473,6 +473,8 @@
 	"TAKE": "ໃຊ້",
 	"DROP": "ວາງລົງ",
 	"SEQUENCE": "SEQUENCE",
+	"EXPAND": "ຂະຫຍາຍ",
+	"XMATCH": "XMATCH",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

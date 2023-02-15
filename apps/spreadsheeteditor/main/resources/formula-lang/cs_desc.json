@@ -1894,5 +1894,13 @@
 	"SEQUENCE": {
 		"a": "(řádky, [sloupce], [začátek], [krok])",
 		"d": "Vrátí aritmetickou posloupnost."
+	},
+	"EXPAND": {
+		"a": "(matice, řádky, [sloupce], [pad_with])",
+		"d": "Rozbalí pole na zadané dimenze."
+	},
+	"XMATCH": {
+		"a": "(hodnota_vyhledávání, pole_vyhledávání, [režim_shody], [režim_vyhledávání])",
+		"d": "Vrátí relativní polohu prvku pole. Ve výchozím nastavení se vyžaduje přesná shoda."
 	}
 }

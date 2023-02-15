@@ -473,6 +473,8 @@
 	"TAKE": "PEGAR",
 	"DROP": "DESCARTAR",
 	"SEQUENCE": "SEQUÊNCIA",
+	"EXPAND": "EXPANDIR",
+	"XMATCH": "CORRESPX",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

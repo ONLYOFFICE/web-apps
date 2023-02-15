@@ -473,6 +473,8 @@
 	"TAKE": "ВЗЯТЬ",
 	"DROP": "СБРОСИТЬ",
 	"SEQUENCE": "ПОСЛЕД",
+	"EXPAND": "РАЗВЕРНУТЬ",
+	"XMATCH": "ПОИСКПОЗX",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Заголовки",

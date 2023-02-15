@@ -473,6 +473,8 @@
 	"TAKE": "NEMEN",
 	"DROP": "WEGLATEN",
 	"SEQUENCE": "REEKS",
+	"EXPAND": "UITBREIDEN",
+	"XMATCH": "X.VERGELIJKEN",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

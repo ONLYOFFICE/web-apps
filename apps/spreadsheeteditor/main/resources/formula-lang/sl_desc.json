@@ -1894,5 +1894,13 @@
 	"SEQUENCE": {
 		"a": "(rows, [columns], [start], [step])",
 		"d": "Vrne zaporedje števil"
+	},
+	"EXPAND": {
+		"a": "(array, rows, [columns], [pad_with])",
+		"d": "Razširi polje na določene dimenzije."
+	},
+	"XMATCH": {
+		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
+		"d": "Vrne relativen položaj elementa v polju. Privzeto je zahtevano natančno ujemanje"
 	}
 }

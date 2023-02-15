@@ -1894,5 +1894,13 @@
 	"SEQUENCE": {
 		"a": "(rows, [columns], [start], [step])",
 		"d": "숫자 시퀀스를 반환합니다"
+	},
+	"EXPAND": {
+		"a": "(array, rows, [columns], [pad_with])",
+		"d": "배열을 지정된 차원으로 확장합니다."
+	},
+	"XMATCH": {
+		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
+		"d": "배열에 있는 항목의 상대 위치를 반환합니다. 기본적으로 정확히 일치해야 합니다"
 	}
 }

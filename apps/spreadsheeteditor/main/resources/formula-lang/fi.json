@@ -473,6 +473,8 @@
 	"TAKE": "OTA",
 	"DROP": "HYLKÄÄ",
 	"SEQUENCE": "JONO",
+	"EXPAND": "LAAJENNA",
+	"XMATCH": "XVASTINE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

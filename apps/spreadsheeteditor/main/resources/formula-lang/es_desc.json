@@ -1894,5 +1894,13 @@
 	"SEQUENCE": {
 		"a": "(filas, [columnas], [inicio], [paso])",
 		"d": "Devuelve una secuencia de números"
+	},
+	"EXPAND": {
+		"a": "(matriz, filas, [columnas], [pad_with])",
+		"d": "Expande una matriz a las dimensiones especificadas."
+	},
+	"XMATCH": {
+		"a": "(valor_buscado, matriz_buscada, [modo_de_coincidencia], [modo_de_búsqueda])",
+		"d": "Devuelve la posición relativa de un elemento en una matriz. De forma predeterminada, se requiere una coincidencia exacta"
 	}
 }

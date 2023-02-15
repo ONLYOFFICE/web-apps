@@ -473,6 +473,8 @@
 	"TAKE": "AL",
 	"DROP": "BIRAK",
 	"SEQUENCE": "SIRALI",
+	"EXPAND": "GENİŞLET",
+	"XMATCH": "ÇAPRAZEŞLEŞTİR",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

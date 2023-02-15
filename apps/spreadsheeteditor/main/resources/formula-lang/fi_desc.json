@@ -1894,5 +1894,13 @@
 	"SEQUENCE": {
 		"a": "(rivit, [sarakkeet], [alku], [vaihe])",
 		"d": "Palauttaa numerosarjan"
+	},
+	"EXPAND": {
+		"a": "(array, rows, [columns], [pad_with])",
+		"d": "Laajentaa matriisin määritettyyn kokoon."
+	},
+	"XMATCH": {
+		"a": "(hakuarvo, haku_matriisi, [vastaavuustila], [hakutila])",
+		"d": "Palauttaa matriisissa olevan kohteen suhteellisen sijainnin. Oletusarvoisesti tarkka vastaavuus vaaditaan"
 	}
 }

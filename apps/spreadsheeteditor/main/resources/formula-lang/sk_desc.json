@@ -1894,5 +1894,13 @@
 	"SEQUENCE": {
 		"a": "(riadky, [stĺpce], [začiatok], [krok])",
 		"d": "Vráti postupnosť čísel"
+	},
+	"EXPAND": {
+		"a": "(array, rows, [columns], [pad_with])",
+		"d": "Rozšíri pole na zadané rozmery."
+	},
+	"XMATCH": {
+		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
+		"d": "Vráti relatívnu pozíciu položky poľa. Štandardne sa vyžaduje presná zhoda."
 	}
 }
