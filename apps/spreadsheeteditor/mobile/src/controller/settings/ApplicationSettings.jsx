@@ -24,6 +24,7 @@ class ApplicationSettingsController extends Component {
         const { t } = this.props;
         const _t = t("View.Settings", { returnObjects: true });
         const storeApplicationSettings = this.props.storeApplicationSettings;
+        const formulaLangsExamples = storeApplicationSettings.formulaLangsExamples;
         const formulaLangs = storeApplicationSettings.formulaLangs;
         const formulaLangsCollection = formulaLangs.map(lang => {
             let str = lang.replace(/[\-_]/, '');
@@ -31,11 +32,11 @@ class ApplicationSettingsController extends Component {
 
             return {
                 value: lang, 
-                displayValue: _t[`txt${str}lang`] ? t(`View.Settings.txt${str}lang`) : t(`View.Settings.txt${str}`), exampleValue: _t[`txtExample${str}`] ? t(`View.Settings.txtExample${str}`) : t('View.Settings.txtExampleEn')
+                displayValue: _t[`txt${str}lang`] ? t(`View.Settings.txt${str}lang`) : t(`View.Settings.txt${str}`), exampleValue: formulaLangsExamples[`txtExample${str}`] || formulaLangsExamples['txtExampleEn']
             }
         });
 
-        formulaLangsCollection.sort(function(a, b){
+        formulaLangsCollection.sort(function(a, b) {
             if (a.displayValue < b.displayValue) return -1;
             if (a.displayValue > b.displayValue) return 1;
             return 0;
