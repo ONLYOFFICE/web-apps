@@ -1549,7 +1549,7 @@ define([
                 this.appOptions.isBeta         = params.asc_getIsBeta();
                 this.appOptions.isSignatureSupport= this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport() && (this.permissions.protect!==false);
                 this.appOptions.isPasswordSupport = this.appOptions.isEdit && this.api.asc_isProtectionSupport() && (this.permissions.protect!==false);
-                this.appOptions.canProtect     = (this.appOptions.isSignatureSupport || this.appOptions.isPasswordSupport);
+                this.appOptions.canProtect     = (this.permissions.protect!==false);
                 this.appOptions.canEditContentControl = (this.permissions.modifyContentControl!==false);
                 this.appOptions.canHelp        = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.help===false);
                 this.appOptions.canSubmitForms = false; // this.appOptions.canLicense && (typeof (this.editorConfig.customization) == 'object') && !!this.editorConfig.customization.submitForm;
