@@ -693,12 +693,23 @@
 }
 
 .btn-toolbar {
+    &:hover:not(.disabled) {
+        svg.icon {
+            .btn& {
+                opacity: 1;
+            }
+        }
+    }
+
     &:active,
     &.active {
         &:not(.disabled) {
             svg.icon {
                 fill: @icon-normal-pressed-ie;
                 fill: @icon-normal-pressed;
+                .btn& {
+                    opacity: 1;
+                }
             }
         }
     }
@@ -708,6 +719,9 @@
 
         fill: @icon-normal-ie;
         fill: @icon-normal;
+        .btn& {
+            opacity: 1;
+        }
     }
 
     &.borders--small {
