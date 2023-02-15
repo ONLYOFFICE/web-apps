@@ -375,6 +375,7 @@ define([
                     }
                 }
             }
+            Common.Utils.lockControls(Common.enumLock.userProtected, !!info.asc_getUserProtected(), { array: [this.view.chLockedCell, this.view.chHiddenFormula]});
         }
 
     }, SSE.Controllers.WBProtection || {}));
