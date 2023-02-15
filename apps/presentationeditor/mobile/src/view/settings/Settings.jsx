@@ -197,12 +197,16 @@ const SettingsList = inject("storeAppOptions", "storeToolbarSettings")(observer(
                     <ListItem title={_t.textPresentationInfo} link="#" onClick={onoptionclick.bind(this, "/presentation-info/")}>
                         <Icon slot="media" icon="icon-info"></Icon>
                     </ListItem>
-                    <ListItem title={_t.textHelp} link="#" className='no-indicator' onClick={showHelp}>
-                        <Icon slot="media" icon="icon-help"></Icon>
-                    </ListItem>
-                    <ListItem title={_t.textAbout} link="#" onClick={onoptionclick.bind(this, "/about/")}>
-                        <Icon slot="media" icon="icon-about"></Icon>
-                    </ListItem>
+                    {_canHelp &&
+                        <ListItem title={_t.textHelp} link="#" className='no-indicator' onClick={showHelp}>
+                            <Icon slot="media" icon="icon-help"></Icon>
+                        </ListItem>
+                    }
+                    {_canAbout &&
+                        <ListItem title={_t.textAbout} link="#" onClick={onoptionclick.bind(this, "/about/")}>
+                            <Icon slot="media" icon="icon-about"></Icon>
+                        </ListItem>
+                    }
                     <ListItem title={t('View.Settings.textFeedback')} link="#" className='no-indicator' onClick={showFeedback}>
                             <Icon slot="media" icon="icon-feedback"></Icon>
                     </ListItem>
