@@ -1337,18 +1337,30 @@ define([
                     simpleAddMode: true,
                     template: _.template(['<div class="listview inner" style="border:none;"></div>'].join('')),
                     itemTemplate: _.template([
-                        '<div>',
-                            '<label class="checkbox-indeterminate" style="position:absolute;">',
-                                '<input id="afcheckbox-<%= id %>" type="checkbox" class="button__checkbox">',
-                                '<label for="afcheckbox-<%= id %>" class="checkbox__shape"></label>',
-                            '</label>',
-                            '<div id="<%= id %>" class="list-item" style="pointer-events:none; margin-left: 20px;display: flex;">',
-                                '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(value) %></div>',
-                                '<% if (typeof count !=="undefined" && count) { %>',
-                                    '<div style="word-break: normal; margin-left: 10px; color: #afafaf;"><%= count%></div>',
-                                '<% } %>',
+                        '<% if (typeof isDate !=="undefined" && isDate) { %>',
+                            '<div style="margin-left:<%= 20*level %>px;">',
+                                '<label class="checkbox-indeterminate" style="position:absolute;">',
+                                    '<input id="afcheckbox-<%= id %>" type="checkbox" class="button__checkbox">',
+                                    '<label for="afcheckbox-<%= id %>" class="checkbox__shape"></label>',
+                                '</label>',
+                                '<div id="<%= id %>" class="list-item" style="pointer-events:none; margin-left: 20px;display: flex;">',
+                                    '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(dateValue) %></div>',
+                                '</div>',
                             '</div>',
-                        '</div>'
+                        '<% } else { %>',
+                            '<div>',
+                                '<label class="checkbox-indeterminate" style="position:absolute;">',
+                                    '<input id="afcheckbox-<%= id %>" type="checkbox" class="button__checkbox">',
+                                    '<label for="afcheckbox-<%= id %>" class="checkbox__shape"></label>',
+                                '</label>',
+                                '<div id="<%= id %>" class="list-item" style="pointer-events:none; margin-left: 20px;display: flex;">',
+                                    '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(value) %></div>',
+                                    '<% if (typeof count !=="undefined" && count) { %>',
+                                        '<div style="word-break: normal; margin-left: 10px; color: #afafaf;"><%= count%></div>',
+                                    '<% } %>',
+                                '</div>',
+                            '</div>',
+                        '<% } %>',
                     ].join(''))
                 });
                 this.cellsList.store.comparator = function(item1, item2) {
@@ -1895,6 +1907,30 @@ define([
                 return !isNaN(parseFloat(value)) && isFinite(value);
             }
 
+            function getDateLevel(lastDate, curDate) {
+                var level = 0;
+                if (lastDate) {
+                    for (var i = 0; i < lastDate.length; i++) {
+                        if (lastDate[i] !== curDate[i]) {
+                            level = i;
+                            break;
+                        }
+                    }
+                }
+                return level;
+            }
+
+            function getLastDateLevel(date) {
+                var lastLevel;
+                for (var i = 0; i < date.length; i++) {
+                    if (date[i] === undefined) {
+                        lastLevel = i - 1;
+                        break;
+                    }
+                }
+                return lastLevel;
+            }
+
             var me = this,
                 isnumber, value, count,
                 index = 0, throughIndex = 2,
@@ -1902,15 +1938,27 @@ define([
                 selectAllState = false,
                 selectedCells = 0,
                 arr = [], arrEx = [],
-                idxs = (me.filter) ? me.filteredIndexes : me.throughIndexes;
+                idxs = (me.filter) ? me.filteredIndexes : me.throughIndexes,
+                lastDate,
+                monthList = Common.define.autoFilter.getMonths();
+
 
             this.configTo.asc_getValues().forEach(function (item) {
-                console.log(item.asc_getIsDateFormat(), item.asc_getYear(), item.asc_getMonth(), item.asc_getDay());
-
                 value       = item.asc_getText();
                 isnumber    = isNumeric(value);
                 applyfilter = true;
                 count = item.asc_getRepeats ? item.asc_getRepeats() : undefined;
+
+                var isDate = item.asc_getIsDateFormat(),
+                    curDate,
+                    dateLevel,
+                    lastDateLevel;
+                if (isDate) {
+                    curDate = [item.asc_getYear(), item.asc_getMonth(), item.asc_getDay(),
+                        item.asc_setHour(), item.asc_setMinute(), item.asc_setSecond()];
+                    dateLevel = getDateLevel(lastDate, curDate);
+                    lastDateLevel = getLastDateLevel(curDate);
+                }
 
                 if (me.filter) {
                     if (null === value.match(me.filter)) {
@@ -1921,20 +1969,44 @@ define([
                     idxs[throughIndex] = item.asc_getVisible();
 
                 if (applyfilter) {
-                    arr.push(new Common.UI.DataViewModel({
-                        id              : ++index,
-                        selected        : false,
-                        allowSelected   : true,
-                        cellvalue       : value,
-                        value           : isnumber ? value : (value.length > 0 ? value: me.textEmptyItem),
-                        intval          : isnumber ? parseFloat(value) : undefined,
-                        strval          : !isnumber ? value : '',
-                        groupid         : '1',
-                        check           : idxs[throughIndex],
-                        throughIndex    : throughIndex,
-                        count: count ? count.toString() : ''
-                    }));
-                    if (idxs[throughIndex]) selectedCells++;
+                    if (isDate) {
+                        for (var i = dateLevel; i <= lastDateLevel; i++) {
+                            arr.push(new Common.UI.DataViewModel({
+                                id: ++index,
+                                selected: false,
+                                allowSelected: true,
+                                cellvalue: value,
+                                value: isnumber ? value : (value.length > 0 ? value : me.textEmptyItem),
+                                intval: isnumber ? parseFloat(value) : undefined,
+                                strval: !isnumber ? value : '',
+                                groupid: '1',
+                                check: idxs[throughIndex],
+                                throughIndex: throughIndex,
+                                count: count ? count.toString() : '',
+                                isDate: true,
+                                dateValue: i === 1 ? monthList[curDate[i]] : curDate[i],
+                                level: i,
+                                levelsExpanded: 2
+                            }));
+                            if (idxs[throughIndex]) selectedCells++;
+                        }
+                        lastDate = curDate;
+                    } else {
+                        arr.push(new Common.UI.DataViewModel({
+                            id: ++index,
+                            selected: false,
+                            allowSelected: true,
+                            cellvalue: value,
+                            value: isnumber ? value : (value.length > 0 ? value : me.textEmptyItem),
+                            intval: isnumber ? parseFloat(value) : undefined,
+                            strval: !isnumber ? value : '',
+                            groupid: '1',
+                            check: idxs[throughIndex],
+                            throughIndex: throughIndex,
+                            count: count ? count.toString() : ''
+                        }));
+                        if (idxs[throughIndex]) selectedCells++;
+                    }
                 } else {
                     arrEx.push(new Common.UI.DataViewModel({
                         cellvalue       : value
