@@ -1894,5 +1894,13 @@
 	"SEQUENCE": {
 		"a": "(wiersze, [kolumny], [początek], [krok])",
 		"d": "Zwraca sekwencję liczb"
+	},
+	"EXPAND": {
+		"a": "(array, rows, [columns], [pad_with])",
+		"d": "Rozwija tablicę do określonych wymiarów."
+	},
+	"XMATCH": {
+		"a": "(szukana_wartość, szukana_tablica, [tryb_dopasowywania], [tryb_wyszukiwania])",
+		"d": "Zwraca względne położenie elementu w tablicy. Domyślnie jest wymagane dokładne dopasowanie"
 	}
 }

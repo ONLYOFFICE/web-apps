@@ -473,6 +473,8 @@
 	"TAKE": "TA",
 	"DROP": "UTESLUT",
 	"SEQUENCE": "SEKVENS",
+	"EXPAND": "EXPANDERA",
+	"XMATCH": "XMATCHNING",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

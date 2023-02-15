@@ -473,6 +473,8 @@
 	"TAKE": "ÜBERNEHMEN",
 	"DROP": "WEGLASSEN",
 	"SEQUENCE": "SEQUENZ",
+	"EXPAND": "ERWEITERN",
+	"XMATCH": "XVERGLEICH",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Kopfzeilen",

@@ -1894,5 +1894,13 @@
 	"SEQUENCE": {
 		"a": "(Zeilen, [Spalten], [Anfang], [Schritt])",
 		"d": "Gibt eine Abfolge von Zahlen zurück."
+	},
+	"EXPAND": {
+		"a": "(array, rows, [columns], [pad_with])",
+		"d": "Erweitert eine Matrix auf die angegebenen Dimensionen."
+	},
+	"XMATCH": {
+		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
+		"d": "Gibt die relative Position eines Elements in einem Array zurück. Standardmäßig ist eine genaue Übereinstimmung erforderlich"
 	}
 }

@@ -1894,5 +1894,13 @@
 	"SEQUENCE": {
 		"a": "(rækker, [kolonner], [start], [trin])",
 		"d": "Returnerer en sekvens af tal"
+	},
+	"EXPAND": {
+		"a": "(matrix, rækker, [kolonner], [pad_with])",
+		"d": "Udvider en matrix til de angivne dimensioner."
+	},
+	"XMATCH": {
+		"a": "(opslagsværdi, opslagsmatrix, [matchtilstand], [søgetilstand])",
+		"d": "Returnerer den relative placering af et element i en matrix. Som standard kræves en nøjagtig match"
 	}
 }

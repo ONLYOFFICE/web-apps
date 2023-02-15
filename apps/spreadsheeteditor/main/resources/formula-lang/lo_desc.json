@@ -1894,5 +1894,13 @@
 	"SEQUENCE": {
 		"a": "(rows, [columns], [start], [step])",
 		"d": "ຕອບຊຸດຕົວເລກ"
+	},
+	"EXPAND": {
+		"a": "(array, rows, [columns], [pad_with])",
+		"d": "ຂະຫຍາຍແຖວທີ່ເປັນມິຕິພາບທີ່ກຳນົດໄວ້."
+	},
+	"XMATCH": {
+		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
+		"d": "ສົ່ງຄືນຕຳແໜ່ງສຳພັນຂອງລາຍການໃນອະເຣ. ຕາມຄ່າເລີ່ມຕົ້ນ, ຕ້ອງລະບຸຄ່າທີ່ກົງກັນທຸກປະການ"
 	}
 }

@@ -1894,5 +1894,13 @@
 	"SEQUENCE": {
 		"a": "(rows, [columns], [start], [step])",
 		"d": "Retorna una seqüència de nombres"
+	},
+	"EXPAND": {
+		"a": "(array, rows, [columns], [pad_with])",
+		"d": "Expandeix una matriu a les dimensions especificades"
+	},
+	"XMATCH": {
+		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
+		"d": "Retorna la posició relativa d'un element que forma part d'una matriu. Per defecte, cal una coincidència exacta"
 	}
 }

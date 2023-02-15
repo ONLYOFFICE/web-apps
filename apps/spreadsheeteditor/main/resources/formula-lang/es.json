@@ -473,6 +473,8 @@
 	"TAKE": "TOMAR",
 	"DROP": "EXCLUIR",
 	"SEQUENCE": "SECUENCIA",
+	"EXPAND": "EXPANDIR",
+	"XMATCH": "COINCIDIRX",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Encabezados",

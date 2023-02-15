@@ -473,6 +473,8 @@
 	"TAKE": "WYCINEK",
 	"DROP": "POMIŃ",
 	"SEQUENCE": "SEKWENCJA",
+	"EXPAND": "ROZSZERZ",
+	"XMATCH": "X.DOPASUJ",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Wszystkie",

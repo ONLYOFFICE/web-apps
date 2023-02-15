@@ -463,6 +463,8 @@
 	"TAKE": "INCLUDI",
 	"DROP": "ESCLUDI",
 	"SEQUENCE": "SEQUENZA",
+	"EXPAND": "ESPANDI",
+	"XMATCH": "CONFRONTA.X",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

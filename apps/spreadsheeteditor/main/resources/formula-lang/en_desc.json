@@ -1894,5 +1894,13 @@
 	"SEQUENCE": {
 		"a": "(rows, [columns], [start], [step])",
 		"d": "Returns a sequence of numbers"
+	},
+	"EXPAND": {
+		"a": "(array, rows, [columns], [pad_with])",
+		"d": "Expands an array to the specified dimensions."
+	},
+	"XMATCH": {
+		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
+		"d": "Returns the relative position of an item in an array. By default, an exact match is required"
 	}
 }

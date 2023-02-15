@@ -1894,5 +1894,13 @@
 	"SEQUENCE": {
 		"a": "(sorok, [számok], [indítás], [lépés])",
 		"d": "Számsort ad vissza."
+	},
+	"EXPAND": {
+		"a": "(tömb, sorok, [oszlopok], [kitöltéshez])",
+		"d": "Egy tömböt a megadott méretűre terjeszt ki."
+	},
+	"XMATCH": {
+		"a": "(keresési_érték, keresési_tömb, [egyeztetési_mód], [keresési_mód])",
+		"d": "Egy elem relatív helyét adja vissza egy tömbön belül. Alapértelmezés szerint pontos egyezésre van szükség"
 	}
 }
