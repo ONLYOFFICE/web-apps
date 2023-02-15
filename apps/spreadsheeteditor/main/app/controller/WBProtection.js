@@ -98,7 +98,7 @@ define([
         setMode: function(mode) {
             this.appConfig = mode;
 
-            this.appConfig.isEdit && (this.view = this.createView('WBProtection', {
+            this.appConfig.isEdit && this.appConfig.canProtect && (this.view = this.createView('WBProtection', {
                 mode: mode
             }));
 
