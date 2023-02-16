@@ -384,6 +384,24 @@ define([
             }
         },
 
+        findPagePreset: function (panel, w, h) {
+            var width = (w<h) ? w : h,
+                height = (w<h) ? h : w;
+            var store = panel.cmbPaperSize.store,
+                item = null;
+            for (var i=0; i<store.length-1; i++) {
+                var rec = store.at(i),
+                    value = rec.get('value'),
+                    pagewidth = parseFloat(/^\d{3}\.?\d*/.exec(value)),
+                    pageheight = parseFloat(/\d{3}\.?\d*$/.exec(value));
+                if (Math.abs(pagewidth - width) < 0.1 && Math.abs(pageheight - height) < 0.1) {
+                    item = rec;
+                    break;
+                }
+            }
+            return item ? item.get('caption') : undefined;
+        },
+
         resultPrintSettings: function(result, value) {
             var view = SSE.getController('Toolbar').getView('Toolbar');
             if (result == 'ok') {
@@ -404,7 +422,8 @@ define([
                     this.adjPrintParams.asc_setNativeOptions({
                         paperSize: {
                             w: size[0],
-                            h: size[1]
+                            h: size[1],
+                            preset: this.findPagePreset(this.printSettingsDlg, size[0], size[1])
                         },
                         paperOrientation: !orientation ? 'portrait' : 'landscape'
                     });
@@ -451,7 +470,8 @@ define([
                 this.adjPrintParams.asc_setNativeOptions({
                     paperSize: {
                         w: size[0],
-                        h: size[1]
+                        h: size[1],
+                        preset: this.findPagePreset(this.printSettings, size[0], size[1])
                     },
                     paperOrientation: !orientation ? 'portrait' : 'landscape'
                 });
