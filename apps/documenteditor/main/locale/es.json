@@ -388,7 +388,7 @@
   "Common.Views.AutoCorrectDialog.textAutoCorrect": "Autocorrección de texto",
   "Common.Views.AutoCorrectDialog.textAutoFormat": "Autoformato mientras escribe",
   "Common.Views.AutoCorrectDialog.textBulleted": "Listas con viñetas automáticas",
-  "Common.Views.AutoCorrectDialog.textBy": "Editado por",
+  "Common.Views.AutoCorrectDialog.textBy": "Por",
   "Common.Views.AutoCorrectDialog.textDelete": "Eliminar",
   "Common.Views.AutoCorrectDialog.textDoubleSpaces": "Añadir punto con doble espacio",
   "Common.Views.AutoCorrectDialog.textFLCells": "Poner en mayúsculas la primera letra de las celdas de la tabla",
