@@ -394,7 +394,7 @@
   "Common.Views.AutoCorrectDialog.textFLCells": "Poner en mayúsculas la primera letra de las celdas de la tabla",
   "Common.Views.AutoCorrectDialog.textFLSentence": "Poner en mayúscula la primera letra de las oraciones",
   "Common.Views.AutoCorrectDialog.textHyperlink": "Rutas de red e internet por hipervínculos",
-  "Common.Views.AutoCorrectDialog.textHyphens": "Guiones cortos (--) con guiones medios (—)",
+  "Common.Views.AutoCorrectDialog.textHyphens": "Guiones cortos (--) con rayas (—)",
   "Common.Views.AutoCorrectDialog.textMathCorrect": "Autocorrección matemática",
   "Common.Views.AutoCorrectDialog.textNumbered": "Listas con numeración automática",
   "Common.Views.AutoCorrectDialog.textQuotes": "\"Comillas rectas\" con \"comillas tipográficas\"",
