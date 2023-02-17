@@ -416,7 +416,7 @@
   "Common.Translation.warnFileLockedBtnEdit": "コピーを作成する",
   "Common.Translation.warnFileLockedBtnView": "閲覧するため開く",
   "Common.UI.ButtonColored.textAutoColor": "自動",
-  "Common.UI.ButtonColored.textNewColor": "新規カスタムカラーを追加",
+  "Common.UI.ButtonColored.textNewColor": "その他の色",
   "Common.UI.ComboBorderSize.txtNoBorders": "罫線なし",
   "Common.UI.ComboBorderSizeEditable.txtNoBorders": "罫線なし",
   "Common.UI.ComboDataView.emptyComboText": "スタイルなし",

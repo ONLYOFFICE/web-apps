@@ -416,7 +416,7 @@
   "Common.Translation.warnFileLockedBtnEdit": "Créer une copie",
   "Common.Translation.warnFileLockedBtnView": "Ouvrir pour visualisation",
   "Common.UI.ButtonColored.textAutoColor": "Automatique",
-  "Common.UI.ButtonColored.textNewColor": "Couleur personnalisée",
+  "Common.UI.ButtonColored.textNewColor": "Plus de couleurs",
   "Common.UI.ComboBorderSize.txtNoBorders": "Pas de bordures",
   "Common.UI.ComboBorderSizeEditable.txtNoBorders": "Pas de bordures",
   "Common.UI.ComboDataView.emptyComboText": "Aucun style",

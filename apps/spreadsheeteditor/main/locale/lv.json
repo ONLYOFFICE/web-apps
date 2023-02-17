@@ -2176,8 +2176,6 @@
   "SSE.Views.TableSettingsAdvanced.textAltTip": "Vizuālās objekta informācijas attainojums alternatīvā teksta veidā, kuru lasīs cilvēki ar redze vai uztveres traucējumiem un kuriem tas labāk palīdzēs izprast, kāda informācija ir ietverta tekstā, automātiskajā figūrā, diagrammā vai tabulā.",
   "SSE.Views.TableSettingsAdvanced.textAltTitle": "Nosaukums",
   "SSE.Views.TableSettingsAdvanced.textTitle": "Tabula - Papildu iestatījumi",
-  "SSE.Views.TableSettingsAdvanced.txtGroupTable_Custom": "Pielāgots",
-  "SSE.Views.TableSettingsAdvanced.txtGroupTable_Medium": "Vidējs",
   "SSE.Views.TextArtSettings.strBackground": "Background color",
   "SSE.Views.TextArtSettings.strColor": "Color",
   "SSE.Views.TextArtSettings.strFill": "Fill",

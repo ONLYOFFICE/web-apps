@@ -416,7 +416,7 @@
   "Common.Translation.warnFileLockedBtnEdit": "Создать копию",
   "Common.Translation.warnFileLockedBtnView": "Открыть на просмотр",
   "Common.UI.ButtonColored.textAutoColor": "Автоматический",
-  "Common.UI.ButtonColored.textNewColor": "Пользовательский цвет",
+  "Common.UI.ButtonColored.textNewColor": "Другие цвета",
   "Common.UI.ComboBorderSize.txtNoBorders": "Без границ",
   "Common.UI.ComboBorderSizeEditable.txtNoBorders": "Без границ",
   "Common.UI.ComboDataView.emptyComboText": "Без стилей",

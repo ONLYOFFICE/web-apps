@@ -416,7 +416,7 @@
   "Common.Translation.warnFileLockedBtnEdit": "创建拷贝",
   "Common.Translation.warnFileLockedBtnView": "打开以查看",
   "Common.UI.ButtonColored.textAutoColor": "自动",
-  "Common.UI.ButtonColored.textNewColor": "添加新的自定义颜色",
+  "Common.UI.ButtonColored.textNewColor": "更多颜色",
   "Common.UI.ComboBorderSize.txtNoBorders": "没有边框",
   "Common.UI.ComboBorderSizeEditable.txtNoBorders": "没有边框",
   "Common.UI.ComboDataView.emptyComboText": "没有风格",
