@@ -160,7 +160,16 @@ define([
             "canvas-scroll-arrow-pressed",
             "canvas-scroll-thumb-target",
             "canvas-scroll-thumb-target-hover",
-            "canvas-scroll-thumb-target-pressed"
+            "canvas-scroll-thumb-target-pressed",
+
+            "canvas-sheet-view-cell-background",
+            "canvas-sheet-view-cell-background-hover",
+            "canvas-sheet-view-cell-background-pressed",
+            "canvas-sheet-view-cell-title-label",
+
+            "canvas-freeze-line-1px",
+            "canvas-freeze-line-2px",
+            "canvas-select-all-icon"
         ];
 
         var get_current_theme_colors = function (colors) {
