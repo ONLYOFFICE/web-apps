@@ -910,16 +910,41 @@ define([
 
         loadDefaults: function () {
             if (this.properties) {
-                var pivotObj = this.properties.asc_getPivotObj(),
-                    idx = pivotObj.asc_getDataFieldIndexSorting(),
-                    fields = pivotObj.asc_getDataFields(),
-                    sort = this.properties.asc_getSortState();
+                var idx = 0,
+                    sort = Asc.c_oAscSortOptions.Ascending;
 
-                this.setTitle(this.txtTitle + ' (' + fields[0] + ')');
                 var arr = [];
-                fields && fields.forEach(function (item, index) {
-                    item && arr.push({value: index, displayValue: item});
-                });
+                if (this.properties.filter) {
+                    var filter = this.properties.filter,
+                        pivotObj = filter.asc_getPivotObj(),
+                        fields = pivotObj.asc_getDataFields();
+                    idx = pivotObj.asc_getDataFieldIndexSorting();
+                    sort = filter.asc_getSortState();
+                    fields && fields.forEach(function (item, index) {
+                        item && arr.push({value: index, displayValue: item, filter: filter, indexSorting: index});
+                    });
+                    this.setTitle(this.txtTitle + ' (' + fields[0] + ')');
+                } else {
+                    this.setTitle(this.txtTitleValue);
+                    var pivotObj = this.properties.rowFilter.asc_getPivotObj(),
+                        fields = pivotObj.asc_getDataFields(),
+                        idxRow = pivotObj.asc_getDataFieldIndexSorting();
+                    arr.push({value: 0, displayValue: fields[0], filter: this.properties.rowFilter, indexSorting: 1});
+
+                    pivotObj = this.properties.colFilter.asc_getPivotObj();
+                    fields = pivotObj.asc_getDataFields();
+                    var idxCol = pivotObj.asc_getDataFieldIndexSorting();
+                    arr.push({value: 1, displayValue: fields[0], filter: this.properties.colFilter, indexSorting: 1});
+
+                    if (idxRow>0 || idxRow===idxCol) {
+                        idx = 0;
+                        sort = this.properties.rowFilter.asc_getSortState();
+                    } else {
+                        idx = 1;
+                        sort = this.properties.colFilter.asc_getSortState();
+                    }
+                }
+
                 this.cmbFieldsAsc.setData(arr);
                 this.cmbFieldsAsc.setValue((idx>=0) ? idx : 0);
                 this.cmbFieldsDesc.setData(arr);
@@ -932,10 +957,14 @@ define([
         save: function () {
             if (this.api && this.properties) {
                 var combo = this.radioAsc.getValue() ? this.cmbFieldsAsc : this.cmbFieldsDesc;
-                var pivotObj = this.properties.asc_getPivotObj();
-                pivotObj.asc_setDataFieldIndexSorting(combo.getValue());
-                this.properties.asc_setSortState(this.radioAsc.getValue() ? Asc.c_oAscSortOptions.Ascending : Asc.c_oAscSortOptions.Descending);
-                this.api.asc_applyAutoFilter(this.properties);
+                var rec = combo.getSelectedRecord();
+                if (rec) {
+                    var filter = rec.filter,
+                        pivotObj = filter.asc_getPivotObj();
+                    pivotObj.asc_setDataFieldIndexSorting(rec.indexSorting);
+                    filter.asc_setSortState(this.radioAsc.getValue() ? Asc.c_oAscSortOptions.Ascending : Asc.c_oAscSortOptions.Descending);
+                    this.api.asc_applyAutoFilter(filter);
+                }
             }
         },
 
@@ -946,6 +975,7 @@ define([
         },
 
         txtTitle: "Sort",
+        txtTitleValue: "Sort by value",
         textAsc: 'Ascenging (A to Z) by',
         textDesc: 'Descending (Z to A) by'
 
@@ -1401,7 +1431,7 @@ define([
                 });
             this.close();
 
-            dlgSort.setSettings(this.configTo);
+            dlgSort.setSettings({filter : this.configTo});
             dlgSort.show();
         },
 

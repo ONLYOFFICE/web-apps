@@ -798,19 +798,19 @@ define([
         },
 
         onPivotSort: function(menu, item, e) {
-            if (!this.propsPivot.filter) return;
+            if (!(this.propsPivot.filter || this.propsPivot.rowFilter && this.propsPivot.colFilter)) return;
 
-            var filter = this.propsPivot.filter,
-                me = this;
+            var me = this;
             if (item.value==='advanced') {
                 var dlgSort = new SSE.Views.SortFilterDialog({api:this.api}).on({
                         'close': function() {
                             Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
                         }
                     });
-                dlgSort.setSettings(filter);
+                dlgSort.setSettings({filter : this.propsPivot.filter, rowFilter: this.propsPivot.rowFilter, colFilter: this.propsPivot.colFilter});
                 dlgSort.show();
             } else {
+                var filter = this.propsPivot.filter || this.propsPivot.rowFilter;
                 this.api.asc_sortColFilter(item.value, filter.asc_getCellId(), filter.asc_getDisplayName());
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
             }
@@ -2637,9 +2637,9 @@ define([
                 documentHolder.mnuSummarize.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2));
                 documentHolder.mnuShowAs.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2) && !this.propsPivot.rowTotal && !this.propsPivot.colTotal);
                 documentHolder.mnuPivotValueSeparator.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2));
-                documentHolder.mnuPivotSort.setVisible(!!this.propsPivot.filter);
+                documentHolder.mnuPivotSort.setVisible(this.propsPivot.filter || this.propsPivot.rowFilter && this.propsPivot.colFilter);
                 documentHolder.mnuPivotFilter.setVisible(!!this.propsPivot.filter);
-                documentHolder.mnuPivotFilterSeparator.setVisible(!!this.propsPivot.filter);
+                documentHolder.mnuPivotFilterSeparator.setVisible(this.propsPivot.filter || this.propsPivot.rowFilter && this.propsPivot.colFilter);
 
                 if (this.propsPivot.field) {
                     documentHolder.mnuDeleteField.setCaption(documentHolder.txtDelField + ' ' + (this.propsPivot.rowTotal || this.propsPivot.colTotal ? documentHolder.txtGrandTotal : '"' + Common.Utils.String.htmlEncode(this.propsPivot.fieldName) + '"'), true);
