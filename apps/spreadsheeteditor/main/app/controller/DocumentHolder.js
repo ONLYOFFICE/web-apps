@@ -224,6 +224,7 @@ define([
                 view.mnuSubtotalField.on('click',                   _.bind(me.onSubtotalField, me));
                 view.mnuSummarize.menu.on('item:click',             _.bind(me.onSummarize, me));
                 view.mnuShowAs.menu.on('item:click',                _.bind(me.onShowAs, me));
+                view.mnuPivotSort.menu.on('item:click',             _.bind(me.onPivotSort, me));
                 view.mnuPivotFilter.menu.on('item:click',           _.bind(me.onPivotFilter, me));
                 view.pmiClear.menu.on('item:click',                 _.bind(me.onClear, me));
                 view.pmiSelectTable.menu.on('item:click',           _.bind(me.onSelectTable, me));
@@ -782,11 +783,6 @@ define([
                 }
             } else if (item.value==='label') {
                 this.showCustomFilterDlg(filter, item.value);
-                // if (item.value == Asc.c_oAscCustomAutoFilter.isGreaterThan || item.value == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo || item.value == Asc.c_oAscCustomAutoFilter.isLessThan ||
-                //     item.value == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo || item.value == -2 || item.value == -3)
-                //     this.onNumCustomFilterItemClick(item);
-                // else
-                //     this.onTextFilterMenuClick(menu, item);
             } else if (item.value==='top10') {
                 var dlgTop10Filter = new SSE.Views.Top10FilterDialog({api:this.api, type: 'value'}).on({
                     'close': function() {
@@ -797,6 +793,25 @@ define([
                 dlgTop10Filter.show();
             } else if (item.value==='clear') {
                 this.api.asc_clearFilterColumn(filter.asc_getCellId(), filter.asc_getDisplayName());
+                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+            }
+        },
+
+        onPivotSort: function(menu, item, e) {
+            if (!this.propsPivot.filter) return;
+
+            var filter = this.propsPivot.filter,
+                me = this;
+            if (item.value==='advanced') {
+                var dlgSort = new SSE.Views.SortFilterDialog({api:this.api}).on({
+                        'close': function() {
+                            Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                        }
+                    });
+                dlgSort.setSettings(filter);
+                dlgSort.show();
+            } else {
+                this.api.asc_sortColFilter(item.value, filter.asc_getCellId(), filter.asc_getDisplayName());
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
             }
         },
@@ -2622,6 +2637,7 @@ define([
                 documentHolder.mnuSummarize.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2));
                 documentHolder.mnuShowAs.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2) && !this.propsPivot.rowTotal && !this.propsPivot.colTotal);
                 documentHolder.mnuPivotValueSeparator.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2));
+                documentHolder.mnuPivotSort.setVisible(!!this.propsPivot.filter);
                 documentHolder.mnuPivotFilter.setVisible(!!this.propsPivot.filter);
                 documentHolder.mnuPivotFilterSeparator.setVisible(!!this.propsPivot.filter);
 

@@ -382,6 +382,28 @@ define([
                 })
             });
 
+            me.mnuPivotSort = new Common.UI.MenuItem({
+                caption     : this.txtSort,
+                menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign   : 'tl-tr',
+                    items: [
+                        {
+                            iconCls: 'menu__icon btn-sort-down',
+                            caption : me.txtAscending,
+                            value   : Asc.c_oAscSortOptions.Ascending
+                        },{
+                            iconCls: 'menu__icon btn-sort-up',
+                            caption : me.txtDescending,
+                            value   : Asc.c_oAscSortOptions.Descending
+                        },{
+                            caption : me.txtSortOption,
+                            value   : 'advanced'
+                        }
+                    ]
+                })
+            });
+
             me.mnuDeleteField = new Common.UI.MenuItem({
                 caption     : this.txtDelField
             });
@@ -765,6 +787,7 @@ define([
                     me.pmiReapply,
                     me.mnuRefreshPivot,
                     me.mnuPivotRefreshSeparator,
+                    me.mnuPivotSort,
                     me.mnuPivotFilter,
                     me.mnuPivotFilterSeparator,
                     me.mnuSubtotalField,
@@ -1619,7 +1642,8 @@ define([
         txtValueFilter: 'Value filters',
         txtLabelFilter: 'Label filters',
         txtTop10: 'Top 10',
-        txtClearPivotField: 'Clear filter from {0}'
+        txtClearPivotField: 'Clear filter from {0}',
+        txtSortOption: 'More sort options'
 
     }, SSE.Views.DocumentHolder || {}));
 });
