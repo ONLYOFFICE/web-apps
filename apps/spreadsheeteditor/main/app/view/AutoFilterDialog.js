@@ -595,7 +595,7 @@ define([
                 this.lblAnd.toggleClass('hidden', !isBetween);
                 this.inputValue.$el.width(isBetween ? 100 : 225);
                 var me = this;
-                _.defer(function () {
+                setTimeout(function () {
                     if (me.inputValue) {
                         me.inputValue.focus();
                     }
@@ -615,7 +615,7 @@ define([
             this.cmbFields.setVisible(this.type=='value');
             this.cmbFields.on('selected', _.bind(function(combo, record) {
                 var me = this;
-                _.defer(function () {
+                setTimeout(function () {
                     if (me.inputValue) {
                         me.inputValue.focus();
                     }
