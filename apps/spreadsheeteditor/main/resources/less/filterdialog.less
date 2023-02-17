@@ -5,8 +5,23 @@
     height: 100%;
     overflow: hidden;
 
-    .list-item {
+    .item-container {
+      height: 22px;
+      padding-left: 6px;
+      .tree-item {
         word-break: break-all;
+        min-height: 18px;
+        padding-top: 4px;
+        padding-left: 0;
+        width: auto;
+      }
+      .tree-caret {
+        width: 22px;
+        height: 22px;
+      }
+      > label {
+        padding-top: 4px;
+      }
     }
 
     &.scroll-padding {

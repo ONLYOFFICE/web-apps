@@ -1328,32 +1328,34 @@ define([
                 me.setupDataCells();
             });
 
-            this.cells = new Common.UI.DataViewStore();
-            this.filterExcludeCells = new Common.UI.DataViewStore();
+            this.cells = new Common.UI.TreeViewStore();
+            this.filterExcludeCells = new Common.UI.TreeViewStore();
             if (this.cells) {
-                this.cellsList = new Common.UI.ListView({
+                this.cellsList = new Common.UI.TreeView({
                     el: $('#id-dlg-filter-values', this.$window),
                     store: this.cells,
-                    simpleAddMode: true,
-                    template: _.template(['<div class="listview inner" style="border:none;"></div>'].join('')),
+                    template: _.template(['<div class="treeview inner" style="border:none;"></div>'].join('')),
                     itemTemplate: _.template([
                         '<% if (typeof isDate !=="undefined" && isDate) { %>',
-                            '<div style="margin-left:<%= 20*level %>px;">',
+                            '<div class="item-container <% if (!isVisible) { %>' + 'hidden' + '<% } %>" style="display: block;padding-left: <%= level*16 + 24 %>px;">',
+                            '<% if (hasSubItems) { %>',
+                                '<div class="tree-caret img-commonctrl ' + '<% if (!isExpanded) { %>' + 'up' + '<% } %>' + '" style="margin-left:<%= level*16 %>px;"></div>',
+                            '<% } %>',
                                 '<label class="checkbox-indeterminate" style="position:absolute;">',
                                     '<input id="afcheckbox-<%= id %>" type="checkbox" class="button__checkbox">',
                                     '<label for="afcheckbox-<%= id %>" class="checkbox__shape"></label>',
                                 '</label>',
-                                '<div id="<%= id %>" class="list-item" style="pointer-events:none; margin-left: 20px;display: flex;">',
+                                '<div id="<%= id %>" class="tree-item" style="pointer-events:none; margin-left: 20px;display: flex;">',
                                     '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(dateValue) %></div>',
                                 '</div>',
                             '</div>',
                         '<% } else { %>',
-                            '<div>',
+                            '<div class="item-container">',
                                 '<label class="checkbox-indeterminate" style="position:absolute;">',
                                     '<input id="afcheckbox-<%= id %>" type="checkbox" class="button__checkbox">',
                                     '<label for="afcheckbox-<%= id %>" class="checkbox__shape"></label>',
                                 '</label>',
-                                '<div id="<%= id %>" class="list-item" style="pointer-events:none; margin-left: 20px;display: flex;">',
+                                '<div id="<%= id %>" class="tree-item" style="pointer-events:none; margin-left: 20px;display: flex;">',
                                     '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(value) %></div>',
                                     '<% if (typeof count !=="undefined" && count) { %>',
                                         '<div style="word-break: normal; margin-left: 10px; color: #afafaf;"><%= count%></div>',
@@ -1971,8 +1973,9 @@ define([
                 if (applyfilter) {
                     if (isDate) {
                         for (var i = dateLevel; i <= lastDateLevel; i++) {
-                            arr.push(new Common.UI.DataViewModel({
-                                id: ++index,
+                            index+=1;
+                            arr.push(new Common.UI.TreeViewModel({
+                                id: index,
                                 selected: false,
                                 allowSelected: true,
                                 cellvalue: value,
@@ -1986,13 +1989,15 @@ define([
                                 isDate: true,
                                 dateValue: i === 1 ? monthList[curDate[i]] : curDate[i],
                                 level: i,
-                                levelsExpanded: 2
+                                index: index,
+                                hasParent: i > 0,
+                                hasSubItems: i < lastDateLevel
                             }));
                             if (idxs[throughIndex]) selectedCells++;
                         }
                         lastDate = curDate;
                     } else {
-                        arr.push(new Common.UI.DataViewModel({
+                        arr.push(new Common.UI.TreeViewModel({
                             id: ++index,
                             selected: false,
                             allowSelected: true,
@@ -2008,7 +2013,7 @@ define([
                         if (idxs[throughIndex]) selectedCells++;
                     }
                 } else {
-                    arrEx.push(new Common.UI.DataViewModel({
+                    arrEx.push(new Common.UI.TreeViewModel({
                         cellvalue       : value
                     }));
                 }
@@ -2022,7 +2027,7 @@ define([
             if (me.filter || idxs[0]==undefined)
                 idxs[0] = true;
             if (!me.filter || arr.length>0)
-                arr.unshift(new Common.UI.DataViewModel({
+                arr.unshift(new Common.UI.TreeViewModel({
                     id              : ++index,
                     selected        : false,
                     allowSelected   : true,
@@ -2034,7 +2039,7 @@ define([
             if (me.filter && arr.length>1) {
                 if (idxs[1]==undefined)
                     idxs[1] = false;
-                arr.splice(1, 0, new Common.UI.DataViewModel({
+                arr.splice(1, 0, new Common.UI.TreeViewModel({
                     id              : ++index,
                     selected        : false,
                     allowSelected   : true,
