@@ -224,6 +224,7 @@ define([
                 view.mnuSubtotalField.on('click',                   _.bind(me.onSubtotalField, me));
                 view.mnuSummarize.menu.on('item:click',             _.bind(me.onSummarize, me));
                 view.mnuShowAs.menu.on('item:click',                _.bind(me.onShowAs, me));
+                view.mnuPivotFilter.menu.on('item:click',           _.bind(me.onPivotFilter, me));
                 view.pmiClear.menu.on('item:click',                 _.bind(me.onClear, me));
                 view.pmiSelectTable.menu.on('item:click',           _.bind(me.onSelectTable, me));
                 view.pmiInsertTable.menu.on('item:click',           _.bind(me.onInsertTable, me));
@@ -275,7 +276,6 @@ define([
                 view.pmiGetRangeList.on('click',                    _.bind(me.onGetLink, me));
                 view.menuParagraphEquation.menu.on('item:click',    _.bind(me.convertEquation, me));
                 view.menuSaveAsPicture.on('click',                  _.bind(me.saveAsPicture, me));
-
 
                 if (!me.permissions.isEditMailMerge && !me.permissions.isEditDiagram && !me.permissions.isEditOle) {
                     var oleEditor = me.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
@@ -736,6 +736,71 @@ define([
             }
         },
 
+        showCustomFilterDlg: function(filter, type) {
+            var filterObj = filter.asc_getFilterObj();
+            if (filterObj.asc_getType() !== Asc.c_oAscAutoFilterTypes.CustomFilters) {
+                var newCustomFilter = new Asc.CustomFilters();
+                newCustomFilter.asc_setCustomFilters([new Asc.CustomFilter()]);
+
+                var newCustomFilters = newCustomFilter.asc_getCustomFilters();
+                newCustomFilters[0].asc_setOperator(Asc.c_oAscCustomAutoFilter.equals);
+                newCustomFilter.asc_setAnd(true);
+                newCustomFilters[0].asc_setVal('');
+
+                filterObj.asc_setFilter(newCustomFilter);
+                filterObj.asc_setType(Asc.c_oAscAutoFilterTypes.CustomFilters);
+            }
+
+            var me = this,
+                dlgDigitalFilter = new SSE.Views.PivotDigitalFilterDialog({api:this.api, type: type}).on({
+                    'close': function() {
+                        Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                    }
+                });
+
+            dlgDigitalFilter.setSettings(filter);
+            dlgDigitalFilter.show();
+        },
+
+        onPivotFilter: function(menu, item, e) {
+            if (!this.propsPivot.filter) return;
+
+            var filter = this.propsPivot.filter,
+                me = this;
+            if (item.value==='value') {
+                var pivotObj = filter.asc_getPivotObj(),
+                    fields = pivotObj.asc_getDataFields();
+                if (fields.length<2) {
+                    Common.UI.warning({title: this.textWarning,
+                        msg: this.warnFilterError,
+                        callback: function() {
+                            Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                        }
+                    });
+                } else {
+                    this.showCustomFilterDlg(filter, item.value);
+                }
+            } else if (item.value==='label') {
+                this.showCustomFilterDlg(filter, item.value);
+                // if (item.value == Asc.c_oAscCustomAutoFilter.isGreaterThan || item.value == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo || item.value == Asc.c_oAscCustomAutoFilter.isLessThan ||
+                //     item.value == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo || item.value == -2 || item.value == -3)
+                //     this.onNumCustomFilterItemClick(item);
+                // else
+                //     this.onTextFilterMenuClick(menu, item);
+            } else if (item.value==='top10') {
+                var dlgTop10Filter = new SSE.Views.Top10FilterDialog({api:this.api, type: 'value'}).on({
+                    'close': function() {
+                        Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                    }
+                });
+                dlgTop10Filter.setSettings(filter);
+                dlgTop10Filter.show();
+            } else if (item.value==='clear') {
+                this.api.asc_clearFilterColumn(filter.asc_getCellId(), filter.asc_getDisplayName());
+                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+            }
+        },
+
         fillPivotProps: function() {
             var props = this.propsPivot.originalProps;
             if (!props) return;
@@ -749,6 +814,9 @@ define([
             this.propsPivot.canGroup = info.asc_canGroup();
             this.propsPivot.rowTotal = info.asc_getRowGrandTotals();
             this.propsPivot.colTotal = info.asc_getColGrandTotals();
+            this.propsPivot.filter = info.asc_getFilter();
+            this.propsPivot.rowFilter = info.asc_getFilterRow();
+            this.propsPivot.colFilter = info.asc_getFilterCol();
 
             if (colFieldIndex>-1) {
                 var fprops = props.asc_getColumnFields();
@@ -2554,6 +2622,9 @@ define([
                 documentHolder.mnuSummarize.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2));
                 documentHolder.mnuShowAs.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2) && !this.propsPivot.rowTotal && !this.propsPivot.colTotal);
                 documentHolder.mnuPivotValueSeparator.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2));
+                documentHolder.mnuPivotFilter.setVisible(!!this.propsPivot.filter);
+                documentHolder.mnuPivotFilterSeparator.setVisible(!!this.propsPivot.filter);
+
                 if (this.propsPivot.field) {
                     documentHolder.mnuDeleteField.setCaption(documentHolder.txtDelField + ' ' + (this.propsPivot.rowTotal || this.propsPivot.colTotal ? documentHolder.txtGrandTotal : '"' + Common.Utils.String.htmlEncode(this.propsPivot.fieldName) + '"'), true);
                     documentHolder.mnuSubtotalField.setCaption(documentHolder.txtSubtotalField + ' "' + Common.Utils.String.htmlEncode(this.propsPivot.fieldName) + '"', true);
@@ -2574,6 +2645,10 @@ define([
                     } else {
                         documentHolder.mnuSubtotalField.setChecked(!!this.propsPivot.field.asc_getDefaultSubtotal(), true);
                     }
+                }
+                if (this.propsPivot.filter) {
+                    documentHolder.mnuPivotFilter.menu.items[0].setCaption(this.propsPivot.fieldName ? Common.Utils.String.format(documentHolder.txtClearPivotField, ' "' + Common.Utils.String.htmlEncode(this.propsPivot.fieldName) + '"') : documentHolder.txtClear, true); // clear filter
+                    documentHolder.mnuPivotFilter.menu.items[0].setDisabled(this.propsPivot.filter.asc_getFilterObj().asc_getType() === Asc.c_oAscAutoFilterTypes.None); // clear filter
                 }
 
                 if (isintable) {
@@ -2676,6 +2751,7 @@ define([
                     documentHolder.mnuSubtotalField.setDisabled(isPivotLocked || this._state.wsLock);
                     documentHolder.mnuSummarize.setDisabled(isPivotLocked || this._state.wsLock);
                     documentHolder.mnuShowAs.setDisabled(isPivotLocked || this._state.wsLock);
+                    documentHolder.mnuPivotFilter.setDisabled(isPivotLocked || this._state.wsLock);
                 }
 
                 if (showMenu) this.showPopupMenu(documentHolder.ssMenu, {}, event);
@@ -4895,7 +4971,8 @@ define([
         txtDataTableHint: 'Returns the data cells of the table or specified table columns',
         txtHeadersTableHint: 'Returns the column headers for the table or specified table columns',
         txtTotalsTableHint: 'Returns the total rows for the table or specified table columns',
-        txtCopySuccess: 'Link copied to the clipboard'
+        txtCopySuccess: 'Link copied to the clipboard',
+        warnFilterError: 'You need at least one field in the Values area in order to apply a value filter.'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });

@@ -357,6 +357,31 @@ define([
                 caption     : this.txtFieldSettings
             });
 
+            me.mnuPivotFilter = new Common.UI.MenuItem({
+                caption     : this.txtFilter,
+                menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign   : 'tl-tr',
+                    items: [
+                        {
+                            caption : me.txtClear,
+                            value   : 'clear'
+                        },{
+                            caption : '--'
+                        },{
+                            caption : me.txtTop10,
+                            value   : 'top10'
+                        },{
+                            caption : me.txtValueFilter,
+                            value   : 'value'
+                        },{
+                            caption : me.txtLabelFilter,
+                            value   : 'label'
+                        }
+                    ]
+                })
+            });
+
             me.mnuDeleteField = new Common.UI.MenuItem({
                 caption     : this.txtDelField
             });
@@ -496,6 +521,7 @@ define([
             me.mnuPivotSettingsSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotDeleteSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotValueSeparator = new Common.UI.MenuItem({caption: '--'});
+            me.mnuPivotFilterSeparator = new Common.UI.MenuItem({caption: '--'});
 
             me.pmiInsFunction = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-function',
@@ -739,6 +765,8 @@ define([
                     me.pmiReapply,
                     me.mnuRefreshPivot,
                     me.mnuPivotRefreshSeparator,
+                    me.mnuPivotFilter,
+                    me.mnuPivotFilterSeparator,
                     me.mnuSubtotalField,
                     me.mnuPivotSubtotalSeparator,
                     me.mnuGroupPivot,
@@ -1587,7 +1615,11 @@ define([
         txtPercentOfParentCol: '% of parent column total',
         txtPercentOfParent: '% of parent total',
         txtRankAscending: 'Rank smallest to largest',
-        txtRankDescending: 'Rank largest to smallest'
+        txtRankDescending: 'Rank largest to smallest',
+        txtValueFilter: 'Value filters',
+        txtLabelFilter: 'Label filters',
+        txtTop10: 'Top 10',
+        txtClearPivotField: 'Clear filter from {0}'
 
     }, SSE.Views.DocumentHolder || {}));
 });
