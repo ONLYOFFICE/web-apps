@@ -471,7 +471,10 @@
 	"TOROW": "ՏԱՐԵԼ",
 	"WRAPCOLS": "ՓԱՓԿՈԼՆԵՐ",
 	"TAKE": "ՏԱՐԵԼ",
-	"DROP": "ԱՆԿՈՒՄ",
+    "DROP": "ԱՆԿՈՒՄ",
+    "SEQUENCE": "Հաջորդականություն",
+	"EXPAND": "Ընդարձակել",
+	"XMATCH": "ԻնդեքսիՀամընկնում",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "ԷՋԱԳԼՈՒԽՆԵՐ",
