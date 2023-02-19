@@ -28,6 +28,23 @@
     border-color: @border-control-focus;
   }
 
+  .table-header {
+    border-bottom: @scaled-one-px-value-ie solid @border-regular-control-ie;
+    border-bottom: @scaled-one-px-value solid @border-regular-control;
+    padding: 3px 6px;
+
+    .table-header-item {
+      color: @text-tertiary-ie;
+      color: @text-tertiary;
+      display: inline-block;
+
+      .caret {
+        border-color: @text-tertiary-ie;
+        border-color: @text-tertiary;
+      }
+    }
+  }
+
   & > .item {
 //    display: block;
     text-overflow: ellipsis;
