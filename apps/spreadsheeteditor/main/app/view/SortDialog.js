@@ -129,6 +129,11 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 store: new Common.UI.DataViewStore(),
                 emptyText: '',
                 enableKeyEvents: false,
+                headers: [
+                    {name: me.textColumn,   width: 212},
+                    {name: me.textSort,     width: 157},
+                    {name: me.textOrder,    width: 100},
+                ],
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                         '<div class="list-item" style="width: 100%;display: flex;align-items:center;" id="sort-dialog-item-<%= levelIndex %>">',
@@ -192,9 +197,6 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             });
             this.btnDown.on('click', _.bind(this.onMoveClick, this, false));
 
-            this.lblColumn = $('#sort-dialog-label-column');
-            this.lblSort = $('#sort-dialog-label-sort');
-
             this.afterRender();
         },
 
@@ -220,7 +222,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                     lockOrientation: !!props.asc_getLockChangeOrientation()
                 };
 
-                this.lblColumn.text(props.asc_getColumnSort() ? this.textColumn : this.textRow);
+                this.sortList.setHeaderName(0, (props.asc_getColumnSort() ? this.textColumn : this.textRow));
 
                 // get name from props
                 this.fillSortValues();
@@ -313,11 +315,15 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
         },
 
         initListHeaders: function() {
-            var pos = this.sortList.cmpEl.find('#sort-dialog-cmb-sort-0').position();
-            pos && this.lblColumn.width(Math.floor(pos.left)-3);
+            var widthLblSort = 0,
+                pos = this.sortList.cmpEl.find('#sort-dialog-cmb-sort-0').position();
+
+            pos && (widthLblSort = Math.floor(pos.left)-3);
+            this.sortList.setHeaderWidth(0, widthLblSort);
+            
             pos = this.sortList.cmpEl.find('#sort-dialog-btn-color-0').position();
             !pos && (pos = this.sortList.cmpEl.find('#sort-dialog-cmb-order-0').position());
-            pos && this.lblSort.width(Math.floor(pos.left)-5 - this.lblColumn.width());
+            pos && this.sortList.setHeaderWidth(1, Math.floor(pos.left)-5 - widthLblSort);
         },
 
         addControls: function(listView, itemView, item) {
@@ -414,7 +420,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 props: me.sortOptions,
                 handler : function(result, settings) {
                     if (result == 'ok' && settings) {
-                        me.lblColumn.text(settings.sortcol ? me.textColumn : me.textRow);
+                        me.sortList.setHeaderName(0, settings.sortcol ? me.textColumn : me.textRow);
                         me.props.asc_setHasHeaders(settings.headers);
                         // me.props.asc_setCaseSensitive(settings.sensitive);
                         me.props.asc_setColumnSort(settings.sortcol);

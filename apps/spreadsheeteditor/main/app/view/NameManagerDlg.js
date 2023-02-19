@@ -120,6 +120,12 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
                 store: new Common.UI.DataViewStore(),
                 simpleAddMode: true,
                 emptyText: this.textEmpty,
+                headers: [
+                    {name: me.textRanges,       width: 166, sortType:'name'},
+                    {name: me.textScope,        width: 117, sortType:'scopeName'},
+                    {name: me.textDataRange,    width: 100},
+                ],
+                initSort:{type: this.sort.type, direction: this.sort.direction},
                 itemTemplate: _.template([
                         '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;<% if (!lock) { %>pointer-events:none;<% } %>">',
                             '<div class="listitem-icon toolbar__icon <% print(isTable?"btn-menu-table":(isSlicer ? "btn-slicer" : "btn-named-range")) %>"></div>',
@@ -159,15 +165,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
             });
             this.btnDeleteRange.on('click', _.bind(this.onDeleteRange, this));
 
-            $('#name-manager-sort-name').on('click', _.bind(this.onSortNames, this, 'name'));
-            $('#name-manager-sort-scope').on('click', _.bind(this.onSortNames, this, 'scopeName'));
-            this.spanSortName = $('#name-manager-sort-name-span');
-            this.spanSortScope = $('#name-manager-sort-scope-span');
-            (this.sort.type=='name') ? this.spanSortScope.addClass('hidden') : this.spanSortName.addClass('hidden');
-            if (this.sort.direction<0) {
-                (this.sort.type=='name') ? this.spanSortName.addClass('sort-desc') : this.spanSortScope.addClass('sort-desc');
-            }
-
+            this.rangeList.on('header:click',  _.bind(this.onSortNames, this));
             this.afterRender();
         },
 
@@ -361,16 +359,8 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
             this.close();
         },
 
-        onSortNames: function(type) {
-            if (type !== this.sort.type) {
-                this.sort = {type: type, direction: 1};
-                this.spanSortName.toggleClass('hidden');
-                this.spanSortScope.toggleClass('hidden');
-            } else {
-                this.sort.direction = -this.sort.direction;
-            }
-            var sorted = (type=='name') ? this.spanSortName : this.spanSortScope;
-            (this.sort.direction>0) ? sorted.removeClass('sort-desc') : sorted.addClass('sort-desc');
+        onSortNames: function(type, direction) {
+            this.sort = {type: type, direction: direction};
 
             this.rangeList.store.sort();
             this.rangeList.onResetItems();
