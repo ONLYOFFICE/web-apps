@@ -952,6 +952,7 @@ define([
 
                 this.radioDesc.setValue(sort == Asc.c_oAscSortOptions.Descending, true);
                 this.cmbFieldsDesc.setDisabled(sort !== Asc.c_oAscSortOptions.Descending);
+                this.cmbFieldsAsc.setDisabled(sort === Asc.c_oAscSortOptions.Descending);
             }
         },
         save: function () {
