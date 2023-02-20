@@ -152,3 +152,150 @@
         opacity: 1 !important;
     }
 }
+
+
+.inline-svg-code( @code ) {
+    @-svg-code: escape(~'<?xml version="1.0" ?>@{code}');
+    @-inline-svg-code: ~'data:image/svg+xml,@{-svg-code}';
+    @-inline-svg-url: ~"url('@{-inline-svg-code}')";
+}
+.img-scroll-y(@color) {
+    @width: 5;
+    .inline-svg-code(~'<svg xmlns="http://www.w3.org/2000/svg" height="13px" stroke ="@{color}" width="@{width}px"><line x1="2.5" y1="0" x2="2.5" y2="13" stroke-width = "@{width}" stroke-dasharray ="1" /></svg>');
+    background-image: @-inline-svg-url;
+}
+.img-arrow(@color, @points){
+    .inline-svg-code(~'<svg xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" width="7" height="4" fill="@{color}"><polygon points="@{points}"/></svg>');
+    background-image: @-inline-svg-url;
+}
+.img-arrow-top(@color){
+    .img-arrow(@color, "3.5,4 0,0 7,0");
+}
+.img-arrow-down(@color){
+    .img-arrow(@color, "3.5,0 0,4 7,4");
+}
+
+textarea {
+    cursor: auto;
+    overflow: auto;
+    /*explorer*/
+    scrollbar-track-color:  #eee;
+    scrollbar-face-color: #f7f7f7;
+    scrollbar-highlight-color: #eee;
+    scrollbar-darkshadow-color: @canvas-scroll-thumb-border-hover-ie;
+    scrollbar-arrow-color:  #adadad;
+    /*----------------------------------------------------------*/
+
+    scrollbar-color: var(--canvas-scroll-thumb) @canvas-background;     //FireFox
+
+    .webkit-general-style {
+        border: @canvas-background 1px solid;
+        background: var(--canvas-scroll-thumb);
+        background-position: center;
+        background-repeat: no-repeat;
+
+        &:hover, &:active {
+            box-shadow: none;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        &:hover {
+            background-color: @canvas-scroll-thumb-hover;
+        }
+
+        &:active {
+            background-color: var(--canvas-scroll-thumb-pressed);
+        }
+    }
+
+    &::-webkit-scrollbar {
+        height: 14px;
+        width: 14px;
+        background: @canvas-background;
+
+        -o-transition: background-color .2s linear;
+        -webkit-transition: background-color .2s linear;
+        -moz-transition: background-color .2s linear;
+        transition: background-color .2s linear;
+    }
+
+    &::-webkit-scrollbar-corner {
+        background: @canvas-background;
+    }
+
+
+
+    &::-webkit-scrollbar-thumb {
+        box-shadow: inset 0px 0px 0px @scaled-one-px-value var(--canvas-scroll-thumb-border);
+        filter: none;
+        .webkit-general-style();
+        &:vertical {
+            min-height: 34px;
+            border-width: 0 @scaled-one-px-value 0 0;
+            .img-scroll-y( "#c0c0c0");
+            &:hover, &:active {
+                .img-scroll-y( "#ececec");
+            }
+        }
+    }
+
+    &::-webkit-scrollbar-button:single-button {
+        width: 14px;
+        height: 14px;
+        box-shadow: inset 0px 0px 0px @scaled-one-px-value var(--canvas-scroll-thumb-border);
+        background-position: center;
+        .webkit-general-style();
+
+        &:vertical {
+            background-position-y: calc(3px + @scaled-one-px-value);
+            height: 15px;
+            border-right-width: @scaled-one-px-value;
+            border-left-width: 0;
+
+            &:increment {
+                background-position-y: calc(4px + @scaled-one-px-value);
+                .img-arrow-top( "#c0c0c0");
+                &:hover, &:active {
+                    .img-arrow-top( "#ececec");
+                }
+            }
+
+            &:decrement {
+                .img-arrow-down( "#c0c0c0");
+                &:hover, &:active {
+                    .img-arrow-down( "#ececec");
+                }
+            }
+        }
+    }
+
+}
+
+.theme-dark textarea{
+    &::-webkit-scrollbar-thumb {
+        &:vertical {
+            .img-scroll-y("#999999");
+            &:hover, &:active {
+                .img-scroll-y("#404040");
+            }
+        }
+    }
+
+    &::-webkit-scrollbar-button:single-button {
+        &:vertical {
+            &:increment {
+                .img-arrow-top("#999999");
+                &:hover, &:active {
+                    .img-arrow-top("#404040");
+                }
+            }
+            &:decrement {
+                .img-arrow-down("#999999");
+                &:hover, &:active {
+                    .img-arrow-down("#404040");
+                }
+            }
+        }
+    }
+}
