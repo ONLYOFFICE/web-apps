@@ -172,9 +172,8 @@
       "warnNoLicense": "Ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
       "warnNoLicenseUsers": "Ha alcanzado el límite de usuarios para %1 editores. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
       "warnProcessRightsChange": "No tiene permiso para editar el archivo.",
-      "textDontUpdate": "Don't Update",
-      "textUpdate": "Update",
-      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data."
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+      "titleLicenseNotActive": "License not active"
     }
   },
   "Error": {

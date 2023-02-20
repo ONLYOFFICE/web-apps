@@ -566,7 +566,9 @@
     "warnNoLicenseUsers": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
     "warnProcessRightsChange": "Bu dosyayı düzenleme izniniz yok.",
     "textDocumentProtected": "The document is protected. Edit settings are not available",
-    "textOk": "Ok"
+    "textOk": "Ok",
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+    "titleLicenseNotActive": "License not active"
   },
   "Settings": {
     "advDRMOptions": "Korumalı dosya",

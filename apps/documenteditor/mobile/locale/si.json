@@ -566,7 +566,9 @@
     "warnLicenseUsersExceeded": "ඔබ %1 සංස්කරක සඳහා පරිශීලක සීමාවට ළඟා වී ඇත. තව දැන ගැනීමට ඔබගේ පරිපාලක අමතන්න.",
     "warnNoLicense": "ඔබ %1 සංස්කරක වෙත සමකාල සම්බන්ධතා සීමාවට ළඟා වී ඇත. මෙම ලේඛනය දැකීමට පමණක් විවෘත වේ. පුද්ගලික උත්ශ්‍රේණි නියම සඳහා %1 අලෙවි කණ්ඩායම අමතන්න.",
     "warnNoLicenseUsers": "ඔබ %1 සංස්කරක සඳහා පරිශීලක සීමාවට ළඟා වී ඇත. පුද්ගලික උත්ශ්‍රේණි නියම සඳහා %1 අලෙවි කණ්ඩායම අමතන්න.",
-    "warnProcessRightsChange": "ඔබට මෙම ගොනුව සංස්කරණයට අවසර නැත."
+    "warnProcessRightsChange": "ඔබට මෙම ගොනුව සංස්කරණයට අවසර නැත.",
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+    "titleLicenseNotActive": "License not active"
   },
   "Settings": {
     "advDRMOptions": "රක්‍ෂිත ගොනුවකි",

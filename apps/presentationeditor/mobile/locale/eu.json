@@ -132,7 +132,9 @@
       "warnLicenseUsersExceeded": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan zure administratzailearekin informazio gehiagorako.",
       "warnNoLicense": "Aldibereko %1 editoreren konexio-mugara iritsi zara. Dokumentu hau ikusteko bakarrik irekiko da. Jarri harremanetan %1 salmenta taldearekin eguneraketa pertsonalaren baldintzak jakiteko.",
       "warnNoLicenseUsers": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan %1 salmenta taldearekin mailaz igotzeko baldintzak ezagutzeko.",
-      "warnProcessRightsChange": "Ez duzu baimenik fitxategia editatzeko."
+      "warnProcessRightsChange": "Ez duzu baimenik fitxategia editatzeko.",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+      "titleLicenseNotActive": "License not active"
     }
   },
   "Error": {

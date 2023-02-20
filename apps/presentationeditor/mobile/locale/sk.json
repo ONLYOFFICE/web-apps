@@ -132,7 +132,9 @@
       "warnNoLicense": "Dosiahli ste limit pre simultánne pripojenia k %1 editorom. Tento dokument sa otvorí iba na prezeranie. Kontaktujte predajný tím %1 pre osobné podmienky inovácie.",
       "warnNoLicenseUsers": "Dosiahli ste limit %1 editora. Pre rozšírenie funkcií kontaktujte %1 obchodné oddelenie.",
       "warnProcessRightsChange": "Nemáte povolenie na úpravu súboru.",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+      "titleLicenseNotActive": "License not active"
     }
   },
   "Error": {

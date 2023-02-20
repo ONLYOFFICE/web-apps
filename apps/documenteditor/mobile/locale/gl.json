@@ -566,7 +566,9 @@
     "warnNoLicenseUsers": "Alcanzou o límite de usuarios para os editores de %1.<br>Contacte co equipo de vendas de %1 para coñecer os termos de actualización persoal.",
     "warnProcessRightsChange": "Non ten permiso para editar este ficheiro.",
     "textDocumentProtected": "The document is protected. Edit settings are not available",
-    "textOk": "Ok"
+    "textOk": "Ok",
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+    "titleLicenseNotActive": "License not active"
   },
   "Settings": {
     "advDRMOptions": "Ficheiro protexido",

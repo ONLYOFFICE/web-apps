@@ -566,7 +566,9 @@
     "textOk": "Ok",
     "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
     "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
-    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+    "titleLicenseNotActive": "License not active"
   },
   "Settings": {
     "advDRMOptions": "Beveiligd bestand",

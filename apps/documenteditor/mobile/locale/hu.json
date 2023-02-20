@@ -566,7 +566,9 @@
     "warnNoLicenseUsers": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználói korlátját. Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes frissítési feltételekért.",
     "warnProcessRightsChange": "Nincs jogosultsága a fájl szerkesztéséhez.",
     "textDocumentProtected": "The document is protected. Edit settings are not available",
-    "textOk": "Ok"
+    "textOk": "Ok",
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+    "titleLicenseNotActive": "License not active"
   },
   "Settings": {
     "advDRMOptions": "Védett fájl",

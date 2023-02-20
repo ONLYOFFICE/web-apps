@@ -566,7 +566,9 @@
     "warnNoLicenseUsers": "％1エディターのユーザー制限に達しました。 個人的なアップグレード条件については、％1営業チームを連絡してください。",
     "warnProcessRightsChange": "ファイルを編集する権限がありません！",
     "textDocumentProtected": "The document is protected. Edit settings are not available",
-    "textOk": "Ok"
+    "textOk": "Ok",
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+    "titleLicenseNotActive": "License not active"
   },
   "Settings": {
     "advDRMOptions": "保護されたファイル",

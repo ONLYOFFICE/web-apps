@@ -172,9 +172,8 @@
       "warnNoLicense": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați %1 Departamentul de Vânzări pentru acordarea condițiilor personale de actualizare.",
       "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori ai %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
       "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier.",
-      "textDontUpdate": "Don't Update",
-      "textUpdate": "Update",
-      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data."
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+      "titleLicenseNotActive": "License not active"
     }
   },
   "Error": {

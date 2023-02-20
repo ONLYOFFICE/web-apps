@@ -566,7 +566,9 @@
     "warnLicenseUsersExceeded": "Ha alcanzado el límite de usuarios para %1 editores. Póngase en contacto con su administrador para saber más.",
     "warnNoLicense": "Ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
     "warnNoLicenseUsers": "Ha alcanzado el límite de usuarios para %1 editores. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
-    "warnProcessRightsChange": "No tiene permiso para editar este archivo."
+    "warnProcessRightsChange": "No tiene permiso para editar este archivo.",
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+    "titleLicenseNotActive": "License not active"
   },
   "Settings": {
     "advDRMOptions": "Archivo protegido",

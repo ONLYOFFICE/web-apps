@@ -171,7 +171,9 @@
       "warnNoLicenseUsers": "Atingiu o limite de %1 editores. Contacte a equipa comercial %1 para obter mais informações.",
       "warnProcessRightsChange": "Não tem permissão para editar este ficheiro.",
       "textDontUpdate": "Don't Update",
-      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data."
+      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+      "titleLicenseNotActive": "License not active"
     }
   },
   "Error": {
