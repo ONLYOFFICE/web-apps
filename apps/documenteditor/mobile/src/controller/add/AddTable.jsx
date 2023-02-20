@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import { f7 } from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device';
-import { withTranslation} from 'react-i18next';
-
+import {observer, inject} from "mobx-react";
+import { withTranslation } from 'react-i18next';
 import AddTable from '../../view/add/AddTable';
 
 class AddTableController extends Component {
@@ -79,14 +79,24 @@ class AddTableController extends Component {
         }).open();
     }
 
+    async componentDidMount() {
+        const storeTableSettings = this.props.storeTableSettings;
+
+        if(!storeTableSettings.arrayStylesDefault.length) {
+            const api = Common.EditorApi.get();
+            const tableStylesPreviews = await api.asc_getTableStylesPreviews(true);
+
+            storeTableSettings.setStyles(tableStylesPreviews, 'default');
+        }
+    }
+
     render () {
         return (
-            <AddTable onStyleClick={this.onStyleClick}
-            />
+            <AddTable onStyleClick={this.onStyleClick} />
         )
     }
 }
 
-const AddTableWithTranslation = withTranslation()(AddTableController);
+const AddTableWithTranslation = inject('storeTableSettings')(observer(withTranslation()(AddTableController)));
 
 export {AddTableWithTranslation as AddTableController};
