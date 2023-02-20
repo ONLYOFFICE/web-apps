@@ -5,47 +5,34 @@
     height: 100%;
     overflow: hidden;
 
-    .item-container {
-      height: 22px;
-      padding-left: 6px;
-      .tree-item {
-        word-break: break-all;
-        min-height: 18px;
-        padding-top: 4px;
-        padding-left: 0;
-        width: auto;
-      }
-      .tree-caret {
-        width: 22px;
-        height: 22px;
-      }
-      > label {
-        padding-top: 4px;
+    .treeview {
+      border: @scaled-one-px-value-ie solid @input-border;
+      border: @scaled-one-px-value solid @input-border;
+      .item {
+        &.selected {
+          background-color: @highlight-button-hover-ie;
+          background-color: @highlight-button-hover;
+          border-color: @highlight-button-hover-ie;
+          border-color: @highlight-button-hover;
+          color: @text-normal-ie;
+          color: @text-normal;
+          border-width: @scaled-one-px-value-ie 0;
+          border-width: @scaled-one-px-value 0;
+        }
+        .tree-item {
+          word-break: break-all;
+          min-height: 26px;
+          padding: 0 6px;
+          &.date {
+            padding: 0 12px 0 24px;
+          }
+        }
       }
     }
 
     &.scroll-padding {
       .item {
         padding-right: 14px;
-      }
-    }
-  }
-
-  .border-values {
-    border: @scaled-one-px-value-ie solid @input-border;
-    border: @scaled-one-px-value solid @input-border;
-
-    .item {
-      &.selected {
-        background-color: @highlight-button-hover-ie;
-        background-color: @highlight-button-hover;
-        border-color: @highlight-button-hover-ie;
-        border-color: @highlight-button-hover;
-        color: @text-normal-ie;
-        color: @text-normal;
-        border-style: solid;
-        border-width: @scaled-one-px-value-ie 0;
-        border-width: @scaled-one-px-value 0;
       }
     }
   }
