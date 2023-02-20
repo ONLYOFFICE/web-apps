@@ -98,7 +98,7 @@ define([
             this.appConfig = mode;
             this.currentUserId = mode.user.id;
 
-            this.appConfig.isEdit && (this.view = this.createView('DocProtection', {
+            this.appConfig.isEdit && this.appConfig.canProtect && (this.view = this.createView('DocProtection', {
                 mode: mode
             }));
 

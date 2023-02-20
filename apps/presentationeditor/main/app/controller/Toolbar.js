@@ -2689,7 +2689,7 @@ define([
                 }
 
                 if ( config.isDesktopApp ) {
-                    if ( config.canProtect ) { // don't add protect panel to toolbar
+                    if (config.isSignatureSupport || config.isPasswordSupport) { // don't add protect panel to toolbar
                         tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
                         $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
                         if ($panel)

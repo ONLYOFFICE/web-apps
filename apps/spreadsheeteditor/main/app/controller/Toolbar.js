@@ -2560,7 +2560,7 @@ define([
                     this._state.prstyle = undefined;
                 }
 
-                if ( this.appConfig.isDesktopApp && this.appConfig.canProtect ) {
+                if ( this.appConfig.isDesktopApp && (this.appConfig.isSignatureSupport || this.appConfig.isPasswordSupport) ) {
                     this.getApplication().getController('Common.Controllers.Protection').SetDisabled(is_cell_edited, false);
                 }
             } else {
@@ -4567,23 +4567,25 @@ define([
                         me.toolbar.processPanelVisible(null, true, true);
                     }
 
-                    var tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
-                    var $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
-                    if ($panel) {
-                        config.canProtect && $panel.append($('<div class="separator long"></div>'));
-                        var wbtab = me.getApplication().getController('WBProtection');
-                        $panel.append(wbtab.createToolbarPanel());
-                        me.toolbar.addTab(tab, $panel, 7);
-                        me.toolbar.setVisible('protect', Common.UI.LayoutManager.isElementVisible('toolbar-protect'));
-                        Array.prototype.push.apply(me.toolbar.lockControls, wbtab.getView('WBProtection').getButtons());
+                    if ( config.canProtect ) {
+                        var tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
+                        var $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                        if ($panel) {
+                            (config.isSignatureSupport || config.isPasswordSupport) && $panel.append($('<div class="separator long"></div>'));
+                            var wbtab = me.getApplication().getController('WBProtection');
+                            $panel.append(wbtab.createToolbarPanel());
+                            me.toolbar.addTab(tab, $panel, 7);
+                            me.toolbar.setVisible('protect', Common.UI.LayoutManager.isElementVisible('toolbar-protect'));
+                            Array.prototype.push.apply(me.toolbar.lockControls, wbtab.getView('WBProtection').getButtons());
+                        }
                     }
                 }
             }
             if ( !config.isEditDiagram && !config.isEditMailMerge && !config.isEditOle ) {
-                tab = {caption: me.toolbar.textTabView, action: 'view', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-view', dataHintTitle: 'W'};
+                var tab = {caption: me.toolbar.textTabView, action: 'view', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-view', dataHintTitle: 'W'};
                 var viewtab = me.getApplication().getController('ViewTab');
                 viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
-                $panel = viewtab.createToolbarPanel();
+                var $panel = viewtab.createToolbarPanel();
                 if ($panel) {
                     me.toolbar.addTab(tab, $panel, 8);
                     me.toolbar.setVisible('view', Common.UI.LayoutManager.isElementVisible('toolbar-view'));

@@ -26,7 +26,9 @@ export class storeApplicationSettings {
             changeRefStyle: action, 
             changeFormulaLang: action,
             directionMode: observable,
-            changeDirectionMode: action
+            changeDirectionMode: action,
+            formulaLangsColection: observable,
+            setFormulaLangsCollection: action
         });
     }
     
@@ -34,30 +36,43 @@ export class storeApplicationSettings {
     unitMeasurement = Common.Utils.Metric.getCurrentMetric();
     macrosMode = 0;
     macrosRequest = 0;
-    formulaLang = LocalStorage.getItem('sse-settings-func-lang') || this.getFormulaLanguages()[0].value;
+    formulaLang = LocalStorage.getItem('sse-settings-func-lang') || 'en';
     regCode = undefined;
     regExample = '';
     regData = [];
     isRefStyle = false;
     isComments = true;
     isResolvedComments = true; 
+    formulaLangs = ['en', 'be', 'bg', 'ca', 'zh', 'cs', 'da', 'nl', 'fi', 'fr', 'de', 'el', 'hu', 'id', 'it', 'ja', 'ko', 'lv', 'lo', 'nb', 'pl', 'pt-br', 'pt', 'ro', 'ru', 'sk', 'sl', 'sv', 'es', 'tr', 'uk', 'vi'];
+    formulaLangsExamples = {
+        'txtExampleEn': 'SUM; MIN; MAX; COUNT',
+        'txtExampleDe': 'SUMME; MIN; MAX; ANZAHL',
+        'txtExampleRu': 'СУММ; МИН; МАКС; СЧЁТ',
+        'txtExamplePl': 'SUMA; MIN; MAX; ILE.LICZB',
+        'txtExampleEs': 'SUMA; MIN; MAX; CALCULAR',
+        'txtExampleFr': 'SOMME; MIN; MAX; NB',
+        'txtExampleIt': 'SOMMA; MIN; MAX; CONTA.NUMERI',
+        'txtExampleBe': 'СУММ; МИН; МАКС; СЧЁТ',
+        'txtExampleCa': 'SUMA; MIN; MAX; COMPT',
+        'txtExampleCs': 'SUMA; MIN; MAX; POČET',
+        'txtExampleDa': 'SUM; MIN; MAKS; TÆL',
+        'txtExampleNl': 'SOM; MIN; MAX; AANTAL',
+        'txtExampleFi': 'SUMMA; MIN; MAKS; LASKE',
+        'txtExampleHu': 'SZUM; MIN; MAX; DARAB',
+        'txtExampleNb': 'SUMMER; MIN; STØRST; ANTALL',
+        'txtExamplePt': 'SOMA; MÍNIMO; MÁXIMO; CONTAR',
+        'txtExamplePtbr': 'SOMA; MÍNIMO; MÁXIMO; CONT.NÚM',
+        'txtExampleSv': 'SUMMA; MIN; MAX; ANTAL',
+        'txtExampleTr': 'TOPLA; MİN; MAK; BAĞ_DEĞ_SAY'
+    }
+    formulaLangsColection = [];
 
     changeDirectionMode(value) {
         this.directionMode = value;
     }
 
-    getFormulaLanguages() {
-        const dataLang = [
-            { value: 'en', displayValue: 'English', exampleValue: ' SUM; MIN; MAX; COUNT' },
-            { value: 'de', displayValue: 'Deutsch', exampleValue: ' SUMME; MIN; MAX; ANZAHL' },
-            { value: 'es', displayValue: 'Spanish', exampleValue: ' SUMA; MIN; MAX; CALCULAR' },
-            { value: 'fr', displayValue: 'French', exampleValue: ' SOMME; MIN; MAX; NB' },
-            { value: 'it', displayValue: 'Italian', exampleValue: ' SOMMA; MIN; MAX; CONTA.NUMERI' },
-            { value: 'ru', displayValue: 'Russian', exampleValue: ' СУММ; МИН; МАКС; СЧЁТ' },
-            { value: 'pl', displayValue: 'Polish', exampleValue: ' SUMA; MIN; MAX; ILE.LICZB' }
-        ]
-
-        return dataLang;
+    setFormulaLangsCollection(arr) {
+        this.formulaLangsColection = arr;
     }
 
     getRegDataCodes() {

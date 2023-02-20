@@ -745,7 +745,7 @@ define([
                         this.tabMenu.items[7].setDisabled(select.length>1);
                         this.tabMenu.items[8].setDisabled(issheetlocked || isdocprotected);
 
-                        this.tabMenu.items[7].setVisible(!this.mode.isEditOle);
+                        this.tabMenu.items[7].setVisible(!this.mode.isEditOle && this.mode.canProtect);
                         this.tabMenu.items[7].setCaption(this.api.asc_isProtectedSheet() ? this.itemUnProtect : this.itemProtect);
 
                         if (select.length === 1) {

@@ -446,7 +446,7 @@ define([
                                     for (var i=0; i<_flex.length; i++) {
                                         var item = _flex[i].el;
                                         _rightedge = $active.outerWidth() + _staticPanelWidth;
-                                        if (item.outerWidth() > parseInt(item.css('min-width'))) {
+                                        if (Math.floor(item.outerWidth()) > parseInt(item.css('min-width'))) {
                                             data.rightedge = _rightedge;
                                             return;
                                         } else
