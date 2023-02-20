@@ -820,7 +820,7 @@ define([
             var props = this.propsPivot.originalProps;
             if (!props) return;
 
-            var info = this.api.asc_getPivotContextMenuInfo(),
+            var info = this.api.asc_getPivotInfo(),
                 pageFieldIndex = info.asc_getPageFieldIndex(),
                 colFieldIndex = info.asc_getColFieldIndex(),
                 rowFieldIndex = info.asc_getRowFieldIndex(),
