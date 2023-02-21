@@ -378,7 +378,7 @@ define([
                 if (format===undefined) {
                     this._saveAsFormat(undefined, format, ext); // download original
                     menu && menu.hide();
-                } else if (format == Asc.c_oAscFileType.PDF || format == Asc.c_oAscFileType.PDFA)
+                } else if (format == Asc.c_oAscFileType.PDF || format == Asc.c_oAscFileType.PDFA || format == Asc.c_oAscFileType.JPG || format == Asc.c_oAscFileType.PNG)
                     this._saveAsFormat(menu, format, ext);
                 else {
                     if (format == Asc.c_oAscFileType.TXT || format == Asc.c_oAscFileType.RTF) // don't show message about pdf/xps/oxps
