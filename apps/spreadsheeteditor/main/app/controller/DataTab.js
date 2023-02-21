@@ -387,19 +387,32 @@ define([
         },
 
         showCustomSort: function(expand) {
-            var me = this,
-                props = me.api.asc_getSortProps(expand);
-                // props = new Asc.CSortProperties();
-            if (props) {
-                (new SSE.Views.SortDialog({
-                    props: props,
-                    api: me.api,
-                    handler: function (result, settings) {
-                        if (me && me.api) {
-                            me.api.asc_setSortProps(settings, result != 'ok');
+            if (this.api.asc_getCellInfo().asc_getPivotTableInfo()) {
+                var info = this.api.asc_getPivotInfo();
+                if (info) {
+                    var dlgSort = new SSE.Views.SortFilterDialog({api:this.api}).on({
+                        'close': function() {
+                            Common.NotificationCenter.trigger('edit:complete');
                         }
-                    }
-                })).show();
+                    });
+                    dlgSort.setSettings({filter : info.asc_getFilter(), rowFilter: info.asc_getFilterRow(), colFilter: info.asc_getFilterCol()});
+                    dlgSort.show();
+                }
+            } else {
+                var me = this,
+                    props = me.api.asc_getSortProps(expand);
+                // props = new Asc.CSortProperties();
+                if (props) {
+                    (new SSE.Views.SortDialog({
+                        props: props,
+                        api: me.api,
+                        handler: function (result, settings) {
+                            if (me && me.api) {
+                                me.api.asc_setSortProps(settings, result != 'ok');
+                            }
+                        }
+                    })).show();
+                }
             }
         },
 
