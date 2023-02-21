@@ -252,7 +252,7 @@ define([
                     arrColumnObj = [];
                     
                 this.totalWidth = total;
-                this.spnColumns.setValue(num);
+                this.spnColumns.setValue(num, true);
                 
                 var calcWidthForEqual = (equal && num > 1) ? this.calcWidthForEqualColumns(num, props.get_Space()) : total;
 
@@ -275,7 +275,7 @@ define([
                     }  
                 }                
 
-                this.chEqualWidth.setValue(equal);
+                this.chEqualWidth.setValue(equal, true);
                 this.chEqualWidth.setDisabled(num<2);
                 this.chSeparator.setValue(props.get_Sep());
                 this.chSeparator.setDisabled(num<2);
@@ -333,12 +333,9 @@ define([
 
                 if(curNumColumns > 1) {
                     for(var i = 0; i < curNumColumns; i++){
-                        if(i < curNumColumns)
-                            widthKoefArr[i] = me.columnsList.store.at(i).get('width') / me.columnsList.store.at(0).get('width');
-                        else 
-                            widthKoefArr[i] = widthKoefArr[curNumColumns - 1];
+                        widthKoefArr[i] = me.columnsList.store.at(i).get('width') / me.columnsList.store.at(0).get('width');
                     }
-                    koef = (me.columnsList.store.at(curNumColumns - 1).get('width') + (curNumColumns > 1 ? me.columnsList.store.at(curNumColumns - 2).get('spacing') : 0)) / me.totalWidth;
+                    koef = (me.columnsList.store.at(curNumColumns - 1).get('width') + me.columnsList.store.at(curNumColumns - 2).get('spacing')) / me.totalWidth;
                 }
                 else {
                     curNumColumns = 2;
