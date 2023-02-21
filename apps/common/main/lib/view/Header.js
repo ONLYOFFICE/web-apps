@@ -825,7 +825,11 @@ define([
                         this._testCanvas.font = font;
                     }
                 }
-                return this._testCanvas ? this._testCanvas.measureText(text).width : -1;
+                if (this._testCanvas) {
+                    var mt = this._testCanvas.measureText(text);
+                    return (mt.actualBoundingBoxLeft!==undefined) ? Math.ceil(Math.abs(mt.actualBoundingBoxLeft) + Math.abs(mt.actualBoundingBoxRight)) : (mt.width || 0);
+                }
+                return -1;
             },
 
             setUserName: function(name) {
