@@ -3481,6 +3481,7 @@
   "SSE.Views.SortFilterDialog.textAsc": "Ascending (A to Z) by",
   "SSE.Views.SortFilterDialog.textDesc": "Descending (Z to A) by",
   "SSE.Views.SortFilterDialog.txtTitle": "Sort",
+  "SSE.Views.SortFilterDialog.txtTitleValue": "Sort by value",
   "SSE.Views.SortOptionsDialog.textCase": "Case sensitive",
   "SSE.Views.SortOptionsDialog.textHeaders": "My data has headers",
   "SSE.Views.SortOptionsDialog.textLeftRight": "Sort left to right",
