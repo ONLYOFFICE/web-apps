@@ -284,7 +284,7 @@ define([
                                 && (e.relatedTarget.localName != 'textarea' || /area_id/.test(e.relatedTarget.id))) /* Check if focus goes to textarea, but not to "area_id" */ {
                                 if (Common.Utils.isIE && e.originalEvent && e.originalEvent.target && /area_id/.test(e.originalEvent.target.id) && (e.originalEvent.target === e.originalEvent.srcElement))
                                     return;
-                                if (Common.Utils.Linux && me.appOptions && me.appOptions.isDesktopApp) {
+                                if (Common.Utils.isLinux && me.appOptions && me.appOptions.isDesktopApp) {
                                     if (e.relatedTarget || !e.originalEvent || e.originalEvent.sourceCapabilities)
                                         me.api.asc_enableKeyEvents(true);
                                 } else
