@@ -423,6 +423,7 @@ define([
                 this._watchDlg.on('close', function(win){
                     me.formulaTab.btnWatch.toggle(false, true);
                     me._watchDlg = null;
+                    Common.NotificationCenter.trigger('edit:complete');
                 }).show();
             } else if (this._watchDlg)
                 this._watchDlg.close();
