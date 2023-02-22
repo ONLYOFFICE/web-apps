@@ -1385,9 +1385,7 @@ define([
                 $(document.body).on('mousedown', checkDocumentClick);
             }, 100, this);
 
-            if(Common.Utils.InternalSettings.get('sse-settings-size-filter-window')) {
-                this.cellsList.scroller.update({minScrollbarLength  : this.cellsList.minScrollbarLength, alwaysVisibleY: true, suppressScrollX: true});
-            }
+            this.cellsList.scroller.update({minScrollbarLength  : this.cellsList.minScrollbarLength, alwaysVisibleY: true, suppressScrollX: true});
         },
 
         show: function (x, y) {
@@ -1974,7 +1972,6 @@ define([
             }
             this.btnOk.setDisabled(this.cells.length<1);
             this.cellsList.scroller.update({minScrollbarLength  : this.cellsList.minScrollbarLength, alwaysVisibleY: true, suppressScrollX: true});
-            this.cellsList.cmpEl.toggleClass('scroll-padding', this.cellsList.scroller.isVisible());
         },
 
         testFilter: function () {
