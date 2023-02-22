@@ -626,7 +626,9 @@ class MainController extends Component {
 
         this.api.asc_registerCallback('asc_onShowContentControlsActions', (obj, x, y) => {
             const storeAppOptions = this.props.storeAppOptions;
-            if (!storeAppOptions.isEdit && !(storeAppOptions.isRestrictedEdit && storeAppOptions.canFillForms) || this.props.users.isDisconnected) return;
+            const isViewer = storeAppOptions.isViewer;
+
+            if (!storeAppOptions.isEdit && !(storeAppOptions.isRestrictedEdit && storeAppOptions.canFillForms) || this.props.users.isDisconnected || isViewer) return;
 
             switch (obj.type) {
                 case Asc.c_oAscContentControlSpecificType.DateTime:
