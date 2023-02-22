@@ -515,6 +515,7 @@ define([
             });
             me.dlgCrossRefDialog.on('close', function(obj){
                 me.crossRefProps = me.dlgCrossRefDialog.getSettings();
+                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
             });
             me.dlgCrossRefDialog.show();
         },
