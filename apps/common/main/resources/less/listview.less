@@ -3,6 +3,7 @@
   border: @scaled-one-px-value solid @border-regular-control;
   .border-radius(@border-radius-small);
   line-height: 15px;
+  padding-top: 21px;
 
   &.inner {
     width: 100%;
@@ -28,25 +29,8 @@
     border-color: @border-control-focus;
   }
 
-  .table-header {
-    border-bottom: @scaled-one-px-value-ie solid @border-regular-control-ie;
-    border-bottom: @scaled-one-px-value solid @border-regular-control;
-    padding: 3px 6px;
-
-    .table-header-item {
-      color: @text-tertiary-ie;
-      color: @text-tertiary;
-      display: inline-block;
-
-      .caret {
-        border-color: @text-tertiary-ie;
-        border-color: @text-tertiary;
-      }
-    }
-  }
-
   & > .item {
-//    display: block;
+  //    display: block;
     text-overflow: ellipsis;
     padding: 3px 6px;
     cursor: pointer;
@@ -102,6 +86,35 @@
     pointer-events: none;
   }
 }
+
+.listview-table-header-wrapper {
+  width: 100%;
+  position: relative;
+
+  .listview-table-header {
+    z-index: 1;
+    background-color: @background-normal-ie;
+    background-color: @background-normal;
+    border-bottom: @scaled-one-px-value-ie solid @border-regular-control-ie;
+    border-bottom: @scaled-one-px-value solid @border-regular-control;
+    padding: 3px 6px;
+    position: absolute;
+    margin: @scaled-one-px-value;
+    width: calc(100% - 2 * @scaled-one-px-value);
+  
+    .table-header-item {
+      color: @text-tertiary-ie;
+      color: @text-tertiary;
+      display: inline-block;
+  
+      .caret {
+        border-color: @text-tertiary-ie;
+        border-color: @text-tertiary;
+      }
+    }
+  }
+}
+
 
 .no-borders > .listview .item {
   border-color: transparent;

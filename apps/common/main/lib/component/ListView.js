@@ -66,39 +66,52 @@ define([
             ].join('')),
 
             initialize : function(options) {
-                Common.UI.DataView.prototype.initialize.call(this, options);
-
                 if(this.options.initSort != null) {
                     this.activeSortType = this.options.initSort.type;
                     this.sortDirection = this.options.initSort.direction;
                 }
+                Common.UI.DataView.prototype.initialize.call(this, options);
             }, 
+
+            render: function() {
+                Common.UI.DataView.prototype.render.call(this);
+                this.insertHeaders();
+            },
 
             insertHeaders: function() {
                 if(this.options.headers.length == 0) return;
 
                 var template = _.template([
-                    '<div class="table-header">',
-                        '<% _.each(headers, function(header){ %>',
-                            '<%if (header.sortType) { %>',
-                                '<div class="table-header-item" style="width: <%=header.width%>px;" sort-type="<%=header.sortType%>">',
-                                    '<span class="header-sorted">',
-                                        '<label><%= header.name %></label>',
-                                        '<div style="width: 6px;height: 6px;"></div>',
-                                        '<span class="sort-direction caret <%if (sortDirection == -1) { %>sort-desc <% } if (activeSortType != header.sortType) { %>hidden<%}%>"></span>',
-                                    '</span>',
-                                '</div>',
-                            '<%} else { %>',
-                                '<label class="table-header-item" style="width: <%=header.width%>px;"><%= header.name %></label>',
-                            '<%}%>',
-                        '<% }); %>',
+                    '<div class="listview-table-header-wrapper">',
+                        '<div class="listview-table-header">',
+                            '<% _.each(headers, function(header){ %>',
+                                '<%if (header.sortType) { %>',
+                                    '<div class="table-header-item" style="width: <%=header.width%>px;" sort-type="<%=header.sortType%>">',
+                                        '<span class="header-sorted">',
+                                            '<label><%= header.name %></label>',
+                                            '<div style="width: 6px;height: 6px;"></div>',
+                                            '<span class="sort-direction caret <%if (sortDirection == -1) { %>sort-desc <% } if (activeSortType != header.sortType) { %>hidden<%}%>"></span>',
+                                        '</span>',
+                                    '</div>',
+                                '<%} else { %>',
+                                    '<label class="table-header-item" style="width: <%=header.width%>px;"><%= header.name %></label>',
+                                '<%}%>',
+                            '<% }); %>',
+                        '</div>',
                     '</div>'
-                ].join(''))({headers: this.options.headers, activeSortType: this.activeSortType, sortDirection: this.sortDirection});
-                this.$el.find('.listview').prepend(template);
+                ].join(''))({
+                    headers: this.options.headers, 
+                    activeSortType: this.options.initSort ? this.options.initSort.type : null, 
+                    sortDirection: this.options.initSort ? this.options.initSort.direction : null
+                });
+                this.$el.before(template);
 
-                var me = this;
-                this.$el.find('.table-header-item .header-sorted').on('click', function(e) {
-                    var selectedSortType = $(e.currentTarget).parent().attr('sort-type');
+                var me = this,
+                    headerEl = this.$el.prev();
+
+                headerEl.find('.table-header-item .header-sorted').on('click', function(e) {
+                    var selectedSortType = $(e.currentTarget).parent().attr('sort-type'),
+                        curCaretEl = $(e.currentTarget).find('.caret');
 
                     if(me.activeSortType === selectedSortType){
                         me.sortDirection = -me.sortDirection
@@ -108,8 +121,16 @@ define([
                         me.sortDirection = 1;
                     }
 
+                    headerEl.find('.caret').addClass('hidden');
+
+                    if(curCaretEl.removeClass('hidden'));
+                    if(me.sortDirection == -1) 
+                        curCaretEl.addClass('sort-desc');
+                    else 
+                        curCaretEl.removeClass('sort-desc');
+                    
+
                     me.trigger('header:click', me.activeSortType, me.sortDirection);
-                    me.focus();
                 });
             },
 
@@ -141,7 +162,6 @@ define([
                 this.innerEl = null;
                 Common.UI.DataView.prototype.onResetItems.call(this);
                 this.trigger('items:reset', this);
-                this.insertHeaders();
             },
 
             createNewItem: function(record) {
