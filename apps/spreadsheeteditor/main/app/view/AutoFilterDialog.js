@@ -1720,16 +1720,63 @@ define([
                     });
                 } else {
                     record.set('check', check);
+                    var selectAllState = check,
+                        i, cell;
                     idxs[parseInt(record.get('throughIndex'))] = check;
 
-                    var selectAllState = check;
-                    for (var i=0; i< this.cells.length; i++) {
-                        var cell = this.cells.at(i);
-                        if ('1' == cell.get('groupid') && cell.get('check') !== check) {
-                            selectAllState = 'indeterminate';
-                            break;
+                    if (record.get('isDate')) {
+                        var level = record.get('level'),
+                            startInnerItems = record.get('fullDate').slice(0, level + 1),
+                            state = {},
+                            lastLevel = -1;
+                        for (i = 0; i < this.cells.length; i++) {
+                            cell = this.cells.at(i);
+                            if ('1' == cell.get('groupid')) {
+                                if (cell.get('isDate')) {
+                                    if (cell.get('level') > level && startInnerItems.toString() === cell.get('fullDate').slice(0, level + 1).toString()) { // change checking of inner items
+                                        cell.get('check') !== check && cell.set('check', check);
+                                    }
+                                }
+                            }
+                        }
+                        for (i = this.cells.length - 1; i >= 0; i--) {
+                            cell = this.cells.at(i);
+                            if (cell.get('isDate')) {
+                                if (lastLevel === 0) {
+                                    var lastState = state[lastLevel];
+                                    state = {0: lastState};
+                                }
+                                var curLevel = cell.get('level'),
+                                    curCheck = cell.get('check');
+                                if (curLevel > lastLevel) {
+                                    state[curLevel] = curCheck;
+                                } else if (curLevel === lastLevel && curCheck !== state[curLevel]) {
+                                    state[curLevel] = 'indeterminate';
+                                } else if (curLevel < lastLevel) {
+                                    cell.set('check', state[lastLevel]);
+                                    if (state[curLevel] !== undefined && state[lastLevel] !== state[curLevel]) {
+                                        state[curLevel] = 'indeterminate';
+                                    } else if (state[curLevel] === undefined) {
+                                        state[curLevel] = state[lastLevel];
+                                    }
+                                }
+                                lastLevel = curLevel;
+                            } else if ('0' === cell.get('groupid') && selectAllState !== 'indeterminate') {
+                                selectAllState = state[0];
+                            } else if ('1' === cell.get('groupid') && cell.get('check') !== check) {
+                                selectAllState = 'indeterminate';
+                            }
+                        }
+                    } else {
+                        for (i = 0; i < this.cells.length; i++) {
+                            cell = this.cells.at(i);
+                            if ('1' == cell.get('groupid') && cell.get('check') !== check) {
+                                selectAllState = 'indeterminate';
+                                break;
+                            }
                         }
                     }
+
                     this.checkCellTrigerBlock = true;
                     this.cells.at(0).set('check', selectAllState);
                     this.checkCellTrigerBlock = undefined;
@@ -1994,6 +2041,7 @@ define([
                                 throughIndex: throughIndex,
                                 count: count ? count.toString() : '',
                                 isDate: true,
+                                fullDate: curDate,
                                 dateValue: i === 1 ? monthList[curDate[i]] : curDate[i],
                                 level: i,
                                 index: index,
