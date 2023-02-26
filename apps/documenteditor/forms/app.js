@@ -140,7 +140,10 @@ require([
             'ApplicationController',
             'Plugins',
             'SearchBar'
-        ]
+        ],
+        features: {
+            uitype: 'fillform',
+        },
     });
 
     Common.Locale.apply(
@@ -153,6 +156,7 @@ require([
                 'common/main/lib/util/utils',
                 'common/main/lib/util/LocalStorage',
                 'common/main/lib/controller/Themes',
+                'common/main/lib/controller/Desktop',
                 'common/main/lib/view/PluginDlg',
                 'common/main/lib/view/SearchBar',
                 'common/forms/lib/view/modals'
