@@ -1902,5 +1902,9 @@
 	"XMATCH": {
 		"a": "(valor_buscado, matriz_buscada, [modo_de_coincidencia], [modo_de_búsqueda])",
 		"d": "Devuelve la posición relativa de un elemento en una matriz. De forma predeterminada, se requiere una coincidencia exacta"
+	},
+	"FILTER": {
+		"a": "(array, include, [if_empty])",
+		"d": "Filtrar un rango o matriz"
 	}
 }

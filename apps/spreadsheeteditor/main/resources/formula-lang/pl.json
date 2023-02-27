@@ -475,6 +475,7 @@
 	"SEQUENCE": "SEKWENCJA",
 	"EXPAND": "ROZSZERZ",
 	"XMATCH": "X.DOPASUJ",
+	"FILTER": "FILTRUJ",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Wszystkie",

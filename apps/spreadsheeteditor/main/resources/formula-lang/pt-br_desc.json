@@ -1902,5 +1902,9 @@
 	"XMATCH": {
 		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
 		"d": "Retorna a posição relativa de um item em uma matriz. Por padrão, uma correspondência exata é necessária"
+	},
+	"FILTER": {
+		"a": "(matriz, incluir, [se_vazia])",
+		"d": "Filtrar um intervalo ou uma matriz"
 	}
 }

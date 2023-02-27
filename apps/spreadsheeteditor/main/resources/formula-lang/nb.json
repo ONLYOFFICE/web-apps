@@ -475,6 +475,7 @@
 	"SEQUENCE": "SEKVENS",
 	"EXPAND": "UTVID",
 	"XMATCH": "XSAMSVAR",
+	"FILTER": "FILTRER",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

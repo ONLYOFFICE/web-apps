@@ -475,6 +475,7 @@
 	"SEQUENCE": "SEQUENCE",
 	"EXPAND": "EXPAND",
 	"XMATCH": "XMATCH",
+	"FILTER": "FILTER",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

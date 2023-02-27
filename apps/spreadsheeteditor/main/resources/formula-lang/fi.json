@@ -475,6 +475,7 @@
 	"SEQUENCE": "JONO",
 	"EXPAND": "LAAJENNA",
 	"XMATCH": "XVASTINE",
+	"FILTER": "SUODATA",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

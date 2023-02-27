@@ -1902,5 +1902,9 @@
 	"XMATCH": {
 		"a": "(oppslag_verdi, oppslag_matrise, [treff_modus], [søk_modus])",
 		"d": "Returnerer den relative plasseringen av et element i en matrise. Som standard er et eksakt treff nødvendig"
+	},
+	"FILTER": {
+		"a": "(matrise, inkluder, [hvis_tom])",
+		"d": "Filtrerer et område eller en matrise"
 	}
 }

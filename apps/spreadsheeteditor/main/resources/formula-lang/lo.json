@@ -475,6 +475,7 @@
 	"SEQUENCE": "SEQUENCE",
 	"EXPAND": "ຂະຫຍາຍ",
 	"XMATCH": "XMATCH",
+	"FILTER": "ກັ່ນຕອງ",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

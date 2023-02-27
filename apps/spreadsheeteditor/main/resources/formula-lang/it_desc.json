@@ -1862,5 +1862,9 @@
 	"XMATCH": {
 		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
 		"d": "Restituisce la posizione relativa di un elemento in una matrice. Per impostazione predefinita, è necessaria una corrispondenza esatta"
+	},
+	"FILTER": {
+		"a": "(matrice, includi, [se_vuoto])",
+		"d": "Filtra un intervallo o una matrice"
 	}
 }

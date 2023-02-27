@@ -475,6 +475,7 @@
 	"SEQUENCE": "SECUENCIA",
 	"EXPAND": "EXPANDIR",
 	"XMATCH": "COINCIDIRX",
+	"FILTER": "FILTRAR",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Encabezados",

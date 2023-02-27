@@ -474,6 +474,7 @@
 	"SEQUENCE": "SEQUENCE",
 	"EXPAND": "ETENDRE",
 	"XMATCH": "EQUIVX",
+	"FILTER": "FILTRE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "En-têtes",

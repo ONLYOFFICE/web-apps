@@ -475,6 +475,7 @@
 	"SEQUENCE": "SIRALI",
 	"EXPAND": "GENİŞLET",
 	"XMATCH": "ÇAPRAZEŞLEŞTİR",
+	"FILTER": "FİLTRE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",
