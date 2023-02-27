@@ -1902,5 +1902,9 @@
 	"XMATCH": {
 		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
 		"d": "Gibt die relative Position eines Elements in einem Array zurück. Standardmäßig ist eine genaue Übereinstimmung erforderlich"
+	},
+	"FILTER": {
+		"a": "(Matrix, einschließen, [wenn_leer])",
+		"d": "Filtert einen Bereich oder eine Matrix."
 	}
 }

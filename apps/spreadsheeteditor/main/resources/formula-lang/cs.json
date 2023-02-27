@@ -475,6 +475,7 @@
 	"SEQUENCE": "SEQUENCE",
 	"EXPAND": "ROZBALIT",
 	"XMATCH": "XMATCH",
+	"FILTER": "FILTER",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

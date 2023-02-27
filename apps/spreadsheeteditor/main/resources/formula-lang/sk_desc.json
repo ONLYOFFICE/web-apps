@@ -1902,5 +1902,9 @@
 	"XMATCH": {
 		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
 		"d": "Vráti relatívnu pozíciu položky poľa. Štandardne sa vyžaduje presná zhoda."
+	},
+	"FILTER": {
+		"a": "(pole, zahrnúť, [ak_prázdne])",
+		"d": "Filtruje rozsah alebo pole"
 	}
 }

@@ -475,6 +475,7 @@
 	"SEQUENCE": "REEKS",
 	"EXPAND": "UITBREIDEN",
 	"XMATCH": "X.VERGELIJKEN",
+	"FILTER": "FILTER",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

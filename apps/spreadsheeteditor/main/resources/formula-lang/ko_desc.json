@@ -1902,5 +1902,9 @@
 	"XMATCH": {
 		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
 		"d": "배열에 있는 항목의 상대 위치를 반환합니다. 기본적으로 정확히 일치해야 합니다"
+	},
+	"FILTER": {
+		"a": "(배열, 포함, [if_empty])",
+		"d": "범위 또는 배열 필터링"
 	}
 }

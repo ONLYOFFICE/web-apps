@@ -475,6 +475,7 @@
 	"SEQUENCE": "SORSZÁMLISTA",
 	"EXPAND": "KITERJESZT",
 	"XMATCH": "XHOL.VAN",
+	"FILTER": "SZŰRŐ",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

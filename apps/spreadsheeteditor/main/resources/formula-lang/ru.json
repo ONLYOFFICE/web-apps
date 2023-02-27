@@ -475,6 +475,7 @@
 	"SEQUENCE": "ПОСЛЕД",
 	"EXPAND": "РАЗВЕРНУТЬ",
 	"XMATCH": "ПОИСКПОЗX",
+	"FILTER": "ФИЛЬТР",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Заголовки",

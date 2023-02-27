@@ -471,10 +471,11 @@
 	"TOROW": "TOROW",
 	"WRAPCOLS": "WRAPCOLS",
 	"TAKE": "TAKE",
-    "DROP": "DROP",
-    "SEQUENCE": "SEQUENCE",
+	"DROP": "DROP",
+	"SEQUENCE": "SEQUENCE",
 	"EXPAND": "EXPAND",
 	"XMATCH": "XMATCH",
+	"FILTER": "FILTER",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",
