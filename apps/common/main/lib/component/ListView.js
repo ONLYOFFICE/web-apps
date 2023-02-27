@@ -132,6 +132,19 @@ define([
 
                     me.trigger('header:click', me.activeSortType, me.sortDirection);
                 });
+                headerEl.on('click', function(e) {
+                    me.focus();
+                });
+                var onMouseDown = function (e) {
+                    me.innerEl.addClass('focused');
+                    $(document).on('mouseup',   onMouseUp);
+                };
+                var onMouseUp = function (e) {
+                    me.focus();
+                    me.innerEl.removeClass('focused');
+                    $(document).off('mouseup',   onMouseUp);
+                };
+                headerEl.on('mousedown', onMouseDown);
             },
 
             setHeaderName: function(index, name) {
@@ -233,10 +246,12 @@ define([
 
                 var div_top = div.position().top,
                     div_height = div.outerHeight(),
+                    div_first = this.dataViewItems[0].el,
+                    div_first_top = div_first ? div_first.offsetTop : 0,
                     newpos;
 
-                if (force || div_top<0)
-                    newpos = innerEl.scrollTop() + div_top;
+                if (force || div_top<div_first_top)
+                    newpos = innerEl.scrollTop() + div_top - div_first_top;
                 else if (div_top+div_height>innerHeight)
                     newpos = innerEl.scrollTop() + div_top + div_height - innerHeight;
 

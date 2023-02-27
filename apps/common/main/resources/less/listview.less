@@ -24,7 +24,8 @@
     }
   }
 
-  &:not(.no-focus):focus:not(.disabled) {
+  &:not(.no-focus):focus:not(.disabled),
+  &:not(.no-focus).focused:not(.disabled){
     border-color: @border-control-focus-ie;
     border-color: @border-control-focus;
   }
