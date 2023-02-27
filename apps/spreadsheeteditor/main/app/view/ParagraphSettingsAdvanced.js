@@ -245,7 +245,7 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
                 menuStyle   : 'min-width: 85px;',
                 takeFocusOnClose: true
             });
-            this.cmbLineRule.setValue(this.CurLineRuleIdx);
+            this.cmbLineRule.setValue('');
             this.cmbLineRule.on('selected', _.bind(this.onLineRuleSelect, this));
 
             this.numLineHeight = new Common.UI.MetricSpinner({
@@ -477,7 +477,7 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
                 this.numSpacingAfter.setValue((props.asc_getSpacing() !== null && props.asc_getSpacing().asc_getAfter() !== null) ? Common.Utils.Metric.fnRecalcFromMM(props.asc_getSpacing().asc_getAfter()) : '', true);
 
                 var linerule = props.asc_getSpacing().asc_getLineRule();
-                this.cmbLineRule.setValue((linerule !== null) ? linerule : '', true);
+                this.cmbLineRule.setValue((linerule !== null) ? linerule : '');
 
                 if(props.asc_getSpacing() !== null && props.asc_getSpacing().asc_getLine() !== null) {
                     this.numLineHeight.setValue((linerule==c_paragraphLinerule.LINERULE_AUTO) ? props.asc_getSpacing().asc_getLine() : Common.Utils.Metric.fnRecalcFromMM(props.asc_getSpacing().asc_getLine()), true);
@@ -541,8 +541,9 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
             this._arrLineRule[1].minValue = parseFloat(Common.Utils.Metric.fnRecalcFromMM(0.3).toFixed(2));
             this._arrLineRule[1].step = (Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt) ? 1 : 0.01;
             if (this.CurLineRuleIdx !== null) {
-                this.numLineHeight.setDefaultUnit(this._arrLineRule[this.CurLineRuleIdx].defaultUnit);
-                this.numLineHeight.setStep(this._arrLineRule[this.CurLineRuleIdx].step);
+                var rec = this._arrLineRule[this.CurLineRuleIdx !== -1 ? this.CurLineRuleIdx : 0];
+                this.numLineHeight.setDefaultUnit(rec.defaultUnit);
+                this.numLineHeight.setStep(rec.step);
             }
         },
 
