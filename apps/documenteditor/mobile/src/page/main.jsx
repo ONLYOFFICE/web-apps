@@ -137,22 +137,29 @@ class MainPage extends Component {
         const isProtected = appOptions.isProtected;
         const isFabShow = isViewer && !disabledSettings && !disabledControls && !isDisconnected && isAvailableExt && isEdit && !isProtected;
         const config = appOptions.config;
+        const isShowPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
 
-        let showLogo = !(config.customization && (config.customization.loaderName || config.customization.loaderLogo));
-        if (!Object.keys(config).length) {
-            showLogo = !/&(?:logo)=/.test(window.location.search);
+        let isHideLogo = true,
+            isCustomization = true,
+            isBranding = true;
+
+        if (!appOptions.isDisconnected && config?.customization) {
+            isCustomization = !!(config.customization && (config.customization.loaderName || config.customization.loaderLogo));
+            isBranding = appOptions.canBranding || appOptions.canBrandingExt;
+
+            if (!Object.keys(config).length) {
+                isCustomization = !/&(?:logo)=/.test(window.location.search);
+            }
+
+            isHideLogo = isCustomization && isBranding; 
         }
-
-        const showPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
-        const isBranding = appOptions.canBranding || appOptions.canBrandingExt;
         
-
         return (
-            <Page name="home" className={`editor${showLogo ? ' page-with-logo' : ''}`}>
+            <Page name="home" className={`editor${!isHideLogo ? ' page-with-logo' : ''}`}>
                 {/* Top Navbar */}
                 <Navbar id='editor-navbar'
-                        className={`main-navbar${(!isBranding && showLogo) ? ' navbar-with-logo' : ''}`}>
-                    {(!isBranding && showLogo) &&
+                        className={`main-navbar${!isHideLogo ? ' navbar-with-logo' : ''}`}>
+                    {!isHideLogo &&
                         <div className="main-logo" onClick={() => {
                             window.open(`${__PUBLISHER_URL__}`, "_blank");
                         }}><Icon icon="icon-logo"></Icon></div>}
@@ -168,7 +175,7 @@ class MainPage extends Component {
                 <View id="editor_sdk">
                 </View>
 
-                {showPlaceholder ?
+                {isShowPlaceholder ?
                     <div className="doc-placeholder-container">
                         <div className="doc-placeholder">
                             <div className="line"></div>

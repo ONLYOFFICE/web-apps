@@ -100,31 +100,39 @@ class MainPage extends Component {
         }, 1);
     };
 
-  render() {
-      const appOptions = this.props.storeAppOptions;
-      const storeWorksheets = this.props.storeWorksheets;
-      const wsProps = storeWorksheets.wsProps;
-      const wsLock = storeWorksheets.wsLock;
-      const config = appOptions.config;
+    render() {
+        const appOptions = this.props.storeAppOptions;
+        const storeWorksheets = this.props.storeWorksheets;
+        const wsProps = storeWorksheets.wsProps;
+        const wsLock = storeWorksheets.wsLock;
+        const config = appOptions.config;
+        const isShowPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
 
-      let showLogo = !(config.customization && (config.customization.loaderName || config.customization.loaderLogo));
-      if ( !Object.keys(config).length ) {
-          showLogo = !/&(?:logo)=/.test(window.location.search);
-      }
+        let isHideLogo = true,
+            isCustomization = true,
+            isBranding = true;
 
-      const showPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
-      const isBranding = appOptions.canBranding || appOptions.canBrandingExt;
+        if (!appOptions.isDisconnected && config?.customization) {
+            isCustomization = !!(config.customization && (config.customization.loaderName || config.customization.loaderLogo));
+            isBranding = appOptions.canBranding || appOptions.canBrandingExt;
 
-      if ( $$('.skl-container').length ) {
-          $$('.skl-container').remove();
-      }
+            if (!Object.keys(config).length) {
+                isCustomization = !/&(?:logo)=/.test(window.location.search);
+            }
 
-      return (
-            <Page name="home" className={`editor${ showLogo ? ' page-with-logo' : ''}`}>
+            isHideLogo = isCustomization && isBranding; 
+        }
+
+        if ($$('.skl-container').length) {
+            $$('.skl-container').remove();
+        }
+
+        return (
+            <Page name="home" className={`editor${!isHideLogo ? ' page-with-logo' : ''}`}>
                 {/* Top Navbar */}
                 <Navbar id='editor-navbar'
-                        className={`main-navbar${(!isBranding && showLogo) ? ' navbar-with-logo' : ''}`}>
-                    {(!isBranding && showLogo) && <div className="main-logo" onClick={() => {
+                        className={`main-navbar${!isHideLogo ? ' navbar-with-logo' : ''}`}>
+                    {!isHideLogo && <div className="main-logo" onClick={() => {
                         window.open(`${__PUBLISHER_URL__}`, "_blank");
                     }}><Icon icon="icon-logo"></Icon></div>}
                     <Subnavbar>
@@ -137,7 +145,7 @@ class MainPage extends Component {
                 <CellEditor onClickToOpenAddOptions={(panels, button) => this.handleClickToOpenOptions('add', {panels: panels, button: button})}/>
                 {/* Page content */}
                 <View id="editor_sdk" />
-                {showPlaceholder ?
+                {isShowPlaceholder ?
                     <div className="doc-placeholder">
                         <div className="columns"></div>
                         <div className="columns"></div>
@@ -181,8 +189,8 @@ class MainPage extends Component {
 
                 <FunctionGroups /> {/* hidden component*/}
             </Page>
-      )
-  }
+        )
+    }
 }
 
 export default inject("storeAppOptions", "storeWorksheets")(observer(MainPage));
