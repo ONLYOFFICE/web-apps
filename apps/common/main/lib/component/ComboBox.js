@@ -127,6 +127,7 @@ define([
                 this.valueField     = me.options.valueField;
                 this.search         = me.options.search;
                 this.scrollAlwaysVisible = me.options.scrollAlwaysVisible;
+                this.focusWhenNoSelection = (me.options.focusWhenNoSelection!==false);
                 me.rendered         = me.options.rendered || false;
 
                 this.lastValue = null;
@@ -153,7 +154,8 @@ define([
                         scope       : me,
                         dataHint    : this.options.dataHint,
                         dataHintDirection: this.options.dataHintDirection,
-                        dataHintOffset: this.options.dataHintOffset
+                        dataHintOffset: this.options.dataHintOffset,
+                        isRTL       : Common.UI.isRTL()
                     }));
                     if (this.itemsTemplate)
                         this.cmpEl.find('ul').html(
@@ -311,7 +313,10 @@ define([
                 var $list = this.cmpEl.find('ul');
                 if ($list.hasClass('menu-absolute')) {
                     var offset = this.cmpEl.offset();
-                    $list.css({left: offset.left, top: offset.top + this.cmpEl.outerHeight() + 2});
+                    var left = offset.left;
+                    if (left + $list.outerWidth()>Common.Utils.innerWidth())
+                        left += (this.cmpEl.outerWidth() - $list.outerWidth());
+                    $list.css({left: left, top: offset.top + this.cmpEl.outerHeight() + 2});
                 } else if ($list.hasClass('menu-aligned')) {
                     var offset = this.cmpEl.offset();
                     $list.toggleClass('show-top', offset.top + this.cmpEl.outerHeight() + $list.outerHeight() > Common.Utils.innerHeight());
@@ -333,7 +338,7 @@ define([
                         $list.scrollTop(height);
                     }
                     setTimeout(function(){$selected.find('a').focus();}, 1);
-                } else {
+                } else if (this.focusWhenNoSelection) {
                     var me = this;
                     setTimeout(function(){me.cmpEl.find('ul li:first a').focus();}, 1);
                 }
@@ -370,8 +375,12 @@ define([
                     this.openMenu();
                     this.onAfterShowMenu();
                     return false;
-                }
-                else if (e.keyCode == Common.UI.Keys.RETURN && (this.editable || this.isMenuOpen())) {
+                } else if (!this.focusWhenNoSelection && (e.keyCode == Common.UI.Keys.DOWN || e.keyCode == Common.UI.Keys.UP)) {
+                    var $items = this.cmpEl.find('ul > li a');
+                    if ($items.filter(':focus').length===0 && $items.length>0) {
+                        setTimeout(function(){$items[e.keyCode == Common.UI.Keys.DOWN ? 0 : $items.length-1].focus();}, 1);
+                    }
+                } else if (e.keyCode == Common.UI.Keys.RETURN && (this.editable || this.isMenuOpen())) {
                     var isopen = this.isMenuOpen();
                     $(e.target).click();
                     if (this.rendered) {
@@ -634,6 +643,11 @@ define([
                 $('#' + this._selectedItem.get('id'), $(this.el)).addClass('selected');
             },
 
+            clearSelection: function (){
+                $('.selected', $(this.el)).removeClass('selected');
+                this._selectedItem = null;
+            },
+
             itemClicked: function (e) {
                 var el = $(e.target).closest('li');
 
@@ -710,8 +724,8 @@ define([
                 this.options.updateFormControl.call(this, this._selectedItem);
         },
 
-        setValue: function(value) {
-            Common.UI.ComboBox.prototype.setValue.call(this, value);
+        setValue: function(value, defValue) {
+            Common.UI.ComboBox.prototype.setValue.call(this, value, defValue);
             if (this.options.updateFormControl)
                 this.options.updateFormControl.call(this, this._selectedItem);
         },

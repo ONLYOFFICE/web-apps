@@ -550,10 +550,10 @@ define([
 
         onEditorPermissions: function(params) {
             var licType = params.asc_getLicenseType();
-            if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType || Asc.c_oLicenseResult.ExpiredTrial === licType) {
+            if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType || Asc.c_oLicenseResult.ExpiredTrial === licType || Asc.c_oLicenseResult.NotBefore === licType) {
                 Common.UI.warning({
-                    title: this.titleLicenseExp,
-                    msg: this.warnLicenseExp,
+                    title: Asc.c_oLicenseResult.NotBefore === licType ? this.titleLicenseNotActive : this.titleLicenseExp,
+                    msg: Asc.c_oLicenseResult.NotBefore === licType ? this.warnLicenseBefore : this.warnLicenseExp,
                     buttons: [],
                     closable: false
                 });
@@ -603,6 +603,9 @@ define([
                 me.view.btnPrev.setVisible(false);
                 me.view.btnNext.setVisible(false);
                 me.view.btnClear.setVisible(false);
+                me.view.btnUndo.setVisible(false);
+                me.view.btnRedo.setVisible(false);
+                me.view.btnRedo.$el.next().hide();
             } else {
                 me.view.btnPrev.on('click', function(){
                     me.api.asc_MoveToFillingForm(false);
@@ -625,6 +628,12 @@ define([
                             me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, me.isFromBtnDownload));
                         }
                     }
+                });
+                me.view.btnUndo.on('click', function(){
+                    me.api.Undo(false);
+                });
+                me.view.btnRedo.on('click', function(){
+                    me.api.Redo(false);
                 });
 
                 this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
@@ -1363,6 +1372,8 @@ define([
             if (this.appOptions.canFillForms) {
                 this.api.asc_registerCallback('asc_onShowContentControlsActions', _.bind(this.onShowContentControlsActions, this));
                 this.api.asc_registerCallback('asc_onHideContentControlsActions', _.bind(this.onHideContentControlsActions, this));
+                this.api.asc_registerCallback('asc_onCanUndo', _.bind(this.onApiCanRevert, this, 'undo'));
+                this.api.asc_registerCallback('asc_onCanRedo', _.bind(this.onApiCanRevert, this, 'redo'));
                 this.api.asc_SetHighlightRequiredFields(true);
                 Common.Gateway.on('insertimage',        _.bind(this.insertImage, this));
                 Common.NotificationCenter.on('storage:image-load', _.bind(this.openImageFromStorage, this)); // try to load image from storage
@@ -1800,9 +1811,10 @@ define([
                 this.textMenu.items[0].setDisabled(disabled || !this.api.asc_getCanUndo()); // undo
                 this.textMenu.items[1].setDisabled(disabled || !this.api.asc_getCanRedo()); // redo
 
-                this.textMenu.items[3].setDisabled(disabled || !cancopy); // cut
-                this.textMenu.items[4].setDisabled(!cancopy); // copy
-                this.textMenu.items[5].setDisabled(disabled) // paste;
+                this.textMenu.items[3].setDisabled(disabled); // clear
+                this.textMenu.items[5].setDisabled(disabled || !cancopy); // cut
+                this.textMenu.items[6].setDisabled(!cancopy); // copy
+                this.textMenu.items[7].setDisabled(disabled) // paste;
 
                 this.showPopupMenu(this.textMenu, {}, event);
             }
@@ -1832,6 +1844,14 @@ define([
                         }
                     }
                     break;
+                case 'clear':
+                    if (this.api) {
+                        var props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null;
+                        if (props) {
+                            this.api.asc_ClearContentControl(props.get_InternalId());
+                        }
+                    }
+                    break;
             }
         },
 
@@ -1839,6 +1859,8 @@ define([
             this._state.isDisconnected = true;
             this._isDisabled = true;
             this.view && this.view.btnClear && this.view.btnClear.setDisabled(true);
+            this.view && this.view.btnUndo && this.view.btnUndo.setDisabled(true);
+            this.view && this.view.btnRedo && this.view.btnRedo.setDisabled(true);
             if (!enableDownload) {
                 this.appOptions.canPrint = this.appOptions.canDownload = false;
                 this.view && this.view.btnDownload.setDisabled(true);
@@ -1850,6 +1872,12 @@ define([
                     this.view.btnOptions.menu.items[2].setDisabled(true); // download pdf
                 }
             }
+        },
+
+        onApiCanRevert: function(which, can) {
+            if (!this.view) return;
+
+            (which=='undo') ? this.view.btnUndo.setDisabled(!can) : this.view.btnRedo.setDisabled(!can);
         },
 
         errorDefaultMessage     : 'Error code: %1',
@@ -1928,7 +1956,9 @@ define([
         errorInconsistentExtXlsx: 'An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.',
         errorInconsistentExtPptx: 'An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.',
         errorInconsistentExtPdf: 'An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.',
-        errorInconsistentExt: 'An error has occurred while opening the file.<br>The file content does not match the file extension.'
+        errorInconsistentExt: 'An error has occurred while opening the file.<br>The file content does not match the file extension.',
+        warnLicenseBefore: 'License not active.<br>Please contact your administrator.',
+        titleLicenseNotActive: 'License not active'
 
     }, DE.Controllers.ApplicationController));
 
@@ -1939,13 +1969,15 @@ define([
             uitype: 'fillform',
             uithemes: true
         };
-        var api;
+        var api, nativevars;
 
         var native = window.desktop || window.AscDesktopEditor;
         !!native && native.execCommand('webapps:features', JSON.stringify(features));
 
         if ( !!native ) {
             $('#header-logo, .brand-logo').hide();
+
+            nativevars = window.RendererProcessVariable;
 
             window.on_native_message = function (cmd, param) {
                 if (/theme:changed/.test(cmd)) {
@@ -1993,6 +2025,9 @@ define([
             isActive: function () {
                 return !!native;
             },
+            isOffline: function () {
+                return api && api.asc_isOffline();
+            },
             process: function (opts) {
                 if ( !!native && !!api ) {
                     if ( opts == 'goback' ) {
@@ -2004,6 +2039,10 @@ define([
                 }
 
                 return false;
+            },
+            systemThemeType: function () {
+                return nativevars.theme && !!nativevars.theme.system ? nativevars.theme.system :
+                    window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
             },
         }
     };

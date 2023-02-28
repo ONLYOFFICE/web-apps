@@ -49,7 +49,8 @@ define([
             height: 410,
             style: 'min-width: 240px;',
             cls: 'modal-dlg',
-            modal: false
+            modal: false,
+            id: 'window-cross-ref'
         },
 
         initialize : function(options) {
@@ -62,11 +63,11 @@ define([
                 '<div class="box">',
                     '<table cols="2" style="width: 100%;">',
                         '<tr>',
-                            '<td style="padding-right: 5px;">',
+                            '<td class="padding-right">',
                                 '<label class="input-label">' + this.txtType + '</label>',
                                 '<div id="id-dlg-cross-type" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
                             '</td>',
-                            '<td style="padding-left: 5px;">',
+                            '<td class="padding-left">',
                                 '<label class="input-label">' + this.txtReference + '</label>',
                                 '<div id="id-dlg-cross-ref" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
                             '</td>',
@@ -83,7 +84,7 @@ define([
                         '</tr>',
                         '<tr>',
                             '<td colspan="2" style="padding-bottom: 10px;">',
-                                '<div id="id-dlg-cross-separate" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
+                                '<div id="id-dlg-cross-separate" style="display: inline-block;vertical-align: middle;"></div>',
                                 '<div id="id-dlg-cross-separator" style="display: inline-block;vertical-align: middle;"></div>',
                             '</td>',
                         '</tr>',

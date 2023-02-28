@@ -1,0 +1,27 @@
+<div class="settings-panel active">
+    <div class="inner-content">
+        <table cols="2" style="width: 100%;">
+            <tr>
+                <td class="padding-small">
+                    <label><%= scope.textDescription %></label>
+                </td>
+                <td class="padding-small" style="width: 60px;">
+                    <div id="roles-manager-btn-down" style="display: inline-block;float: right;margin-left: 5px;"></div>
+                    <div id="roles-manager-btn-up" style="display: inline-block;float: right;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan=2 class="padding-small">
+                    <div id="roles-manager-roles-list" class="roles-tableview no-borders" style="width:480px; height: 170px;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan=2 class="padding-large">
+                    <button type="button" class="btn btn-text-default" id="roles-manager-btn-new" style="min-width: 100px;margin-right:5px;"><%= scope.textNew %></button>
+                    <button type="button" class="btn btn-text-default" id="roles-manager-btn-edit" style="min-width: 100px;"><%= scope.textEdit %></button>
+                    <button type="button" class="btn btn-text-default" id="roles-manager-btn-delete" style="min-width: 100px; float: right;"><%= scope.textDelete %></button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

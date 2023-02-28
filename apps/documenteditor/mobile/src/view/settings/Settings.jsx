@@ -122,7 +122,9 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
         _canDownloadOrigin = false,
         _canAbout = true,
         _canHelp = true,
-        _canPrint = false;
+        _canPrint = false,
+        _canFeedback = true;
+
     if (appOptions.isDisconnected) {
         _isEdit = false;
         if (!appOptions.enableDownload)
@@ -132,11 +134,14 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
         _canDownload = appOptions.canDownload;
         _canDownloadOrigin = appOptions.canDownloadOrigin;
         _canPrint = appOptions.canPrint;
+
         if (appOptions.customization && appOptions.canBrandingExt) {
-            _canAbout = (appOptions.customization.about!==false);
+            _canAbout = appOptions.customization.about !== false;
         }
+
         if (appOptions.customization) {
-            _canHelp = (appOptions.customization.help!==false);
+            _canHelp = appOptions.customization.help !== false;
+            _canFeedback = appOptions.customization.feedback !== false;
         }
     }
 
@@ -171,13 +176,10 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
                     {!isViewer && Device.phone &&
                         <ListItem title={t('Settings.textMobileView')}>
                             <Icon slot="media" icon="icon-mobile-view"></Icon>
-                            <Toggle checked={isMobileView} onToggleChange={async () => {
-                                await props.onChangeMobileView();
-                                await closeModal();
-                                await props.openOptions('snackbar');
-                                setTimeout(() => {
-                                    props.closeOptions('snackbar');
-                                },  1500);
+                            <Toggle checked={isMobileView} onToggleChange={() => {
+                                closeModal();
+                                props.onChangeMobileView();
+                                props.openOptions('snackbar');
                             }} />
                         </ListItem>
                     }
@@ -190,9 +192,6 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
                     <ListItem title={_t.textApplicationSettings} link="#"
                               onClick={onoptionclick.bind(this, "/application-settings/")}>
                         <Icon slot="media" icon="icon-app-settings"></Icon>
-                    </ListItem>
-                    <ListItem title={t('Common.Collaboration.textSharingSettings')} link="#" onClick={onoptionclick.bind(this, "/sharing-settings/")}>
-                        <Icon slot="media" icon="icon-sharing-settings"></Icon>
                     </ListItem>
                     {_canDownload &&
                         <ListItem title={_t.textDownload} link="#" onClick={onoptionclick.bind(this, "/download/")}>
@@ -222,9 +221,11 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
                             <Icon slot="media" icon="icon-about"></Icon>
                         </ListItem>
                     }
-                    <ListItem title={t('Settings.textFeedback')} link="#" className='no-indicator' onClick={props.showFeedback}>
-                            <Icon slot="media" icon="icon-feedback"></Icon>
-                    </ListItem>
+                    {_canFeedback &&
+                        <ListItem title={t('Settings.textFeedback')} link="#" className='no-indicator' onClick={props.showFeedback}>
+                                <Icon slot="media" icon="icon-feedback"></Icon>
+                        </ListItem>
+                    }
                 </List>
             </Page>
         </View>

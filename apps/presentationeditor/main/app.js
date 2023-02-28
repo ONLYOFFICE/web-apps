@@ -103,7 +103,6 @@ require.config({
         sdk: {
             deps: [
                 'jquery',
-                'underscore',
                 'allfonts',
                 'xregexp',
                 'socketio'
@@ -123,15 +122,14 @@ require.config({
 });
 
 require([
+    'sdk',
     'backbone',
     'bootstrap',
     'core',
-    'sdk',
-    'api',
     'analytics',
     'gateway',
     'locale'
-], function (Backbone, Bootstrap, Core) {
+], function (Sdk, Backbone, Bootstrap, Core) {
     if (Backbone.History && Backbone.History.started)
         return;
     Backbone.history.start();
@@ -152,6 +150,7 @@ require([
             'Main',
             'ViewTab',
             'Search',
+            'Print',
             'Common.Controllers.Fonts',
             'Common.Controllers.History'
             /** coauthoring begin **/
@@ -182,6 +181,7 @@ require([
             'presentationeditor/main/app/controller/Main',
             'presentationeditor/main/app/controller/ViewTab',
             'presentationeditor/main/app/controller/Search',
+            'presentationeditor/main/app/controller/Print',
             'presentationeditor/main/app/view/FileMenuPanels',
             'presentationeditor/main/app/view/ParagraphSettings',
             'presentationeditor/main/app/view/ImageSettings',

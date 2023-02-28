@@ -305,7 +305,6 @@
     "textRemoveChart": "Видалити діаграму",
     "textRemoveShape": "Видалити форму",
     "textRemoveTable": "Видалити таблицю",
-    "textReorder": "Порядок",
     "textRepeatAsHeaderRow": "Повторювати як заголовок",
     "textReplace": "Замінити",
     "textReplaceImage": "Замінити зображення",
@@ -341,6 +340,7 @@
     "textWe": "Ср",
     "textWrap": "Стиль обтікання",
     "textAmountOfLevels": "Amount of Levels",
+    "textArrange": "Arrange",
     "textCancel": "Cancel",
     "textCentered": "Centered",
     "textChangeShape": "Change Shape",
@@ -419,13 +419,15 @@
     "uploadImageSizeMessage": "Занадто велике зображення. Максимальний розмір – 25 MB.",
     "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
     "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
     "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
     "errorTextFormWrongFormat": "The value entered does not match the format of the field.",
-    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
-    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension."
+    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "Завантаження даних...",
@@ -562,7 +564,11 @@
     "warnNoLicense": "Ви досягли ліміту на одночасне підключення до редакторів %1. Цей документ буде відкрито для перегляду. Напишіть у відділ продажу %1, щоб обговорити індивідуальні умови оновлення.",
     "warnNoLicenseUsers": "Ви досягли ліміту на одночасне підключення до редакторів %1.<br>Напишіть у відділ продаж %1, для обговорення індивідуальних умов ліцензування.",
     "warnProcessRightsChange": "У вас немає прав на редагування цього файлу.",
-    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+    "textDocumentProtected": "The document is protected. Edit settings are not available",
+    "textOk": "Ok",
+    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+    "titleLicenseNotActive": "License not active"
   },
   "Settings": {
     "advDRMOptions": "Захищений файл",

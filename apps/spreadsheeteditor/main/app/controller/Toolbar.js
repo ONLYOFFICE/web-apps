@@ -101,6 +101,10 @@ define([
                         var _main = this.getApplication().getController('Main');
                         _main.onPrint();
                     },
+                    'print-quick': function (opts) {
+                        var _main = this.getApplication().getController('Main');
+                        _main.onPrintQuick();
+                    },
                     'save': function (opts) {
                         this.api.asc_Save();
                     },
@@ -361,6 +365,7 @@ define([
             } else {
                 toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
                 toolbar.btnPrint.on('disabled',                             _.bind(this.onBtnChangeState, this, 'print:disabled'));
+                toolbar.btnPrint.menu && toolbar.btnPrint.menu.on('item:click', _.bind(this.onPrintMenu, this));
                 toolbar.btnSave.on('click',                                 _.bind(this.onSave, this));
                 toolbar.btnSave.on('disabled',                              _.bind(this.onBtnChangeState, this, 'save:disabled'));
                 toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
@@ -529,7 +534,27 @@ define([
         },
 
         onPrint: function(e) {
-            Common.NotificationCenter.trigger('print', this.toolbar);
+            if (this.toolbar.btnPrint.options.printType == 'print') {
+                Common.NotificationCenter.trigger('print', this.toolbar);
+            } else {
+                var _main = this.getApplication().getController('Main');
+                _main.onPrintQuick();
+            }
+        },
+
+        onPrintMenu: function (btn, e){
+            var oldType = this.toolbar.btnPrint.options.printType;
+            var newType = e.value;
+
+            if(newType != oldType) {
+                this.toolbar.btnPrint.changeIcon({
+                    next: e.options.iconClsForMainBtn,
+                    curr: this.toolbar.btnPrint.menu.items.filter(function(item){return item.value == oldType;})[0].options.iconClsForMainBtn
+                });
+                this.toolbar.btnPrint.updateHint([e.caption + e.options.platformKey]);
+                this.toolbar.btnPrint.options.printType = newType;
+            }
+            this.onPrint(e);
         },
 
         onSave: function(e) {
@@ -666,7 +691,7 @@ define([
                 btnSubscript.options.icls = item.options.icls;
             }
 
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar, {restorefocus:true});
             Common.component.Analytics.trackEvent('ToolBar', (item.value == 'sub') ? 'Subscript' : 'Superscript');
         },
 
@@ -681,7 +706,7 @@ define([
                 this.api.asc_setCellSuperscript(btn.pressed);
             }
 
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar, {restorefocus:true});
             Common.component.Analytics.trackEvent('ToolBar', (subscript) ? 'Subscript' : 'Superscript');
         },
 
@@ -1043,7 +1068,7 @@ define([
                 win.setSettings({
                     sheets  : items,
                     ranges  : me.api.asc_getDefinedNames(Asc.c_oAscGetDefinedNamesList.All, true),
-                    currentSheet: me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex()),
+                    currentSheet: me.api.asc_getActiveWorksheetIndex(),
                     props   : props,
                     text    : cell.asc_getText(),
                     isLock  : cell.asc_getLockText(),
@@ -1187,6 +1212,9 @@ define([
                                     break;
                                 case Asc.c_oAscError.ID.ComboSeriesError:
                                     msg = me.errorComboSeries;
+                                    break;
+                                case Asc.c_oAscError.ID.MaxDataPointsError:
+                                    msg = me.errorMaxPoints;
                                     break;
                             }
                             Common.UI.warning({
@@ -2053,8 +2081,8 @@ define([
                         return false;
                     }
             };
-            shortcuts['command+shift+=,ctrl+shift+=' + (Common.Utils.isGecko ? ',command+shift+ff=,ctrl+shift+ff=' : '')] = function(e) {
-                        if (me.editMode && !me.toolbar.btnAddCell.isDisabled()) {
+            shortcuts['command+shift+=,ctrl+shift+=,command+shift+numplus,ctrl+shift+numplus' + (Common.Utils.isGecko ? ',command+shift+ff=,ctrl+shift+ff=' : '')] = function(e) {
+                        if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.toolbar.mode.isEditDiagram && !me.toolbar.mode.isEditOle && !me.toolbar.btnAddCell.isDisabled()) {
                             var cellinfo = me.api.asc_getCellInfo(),
                                 selectionType = cellinfo.asc_getSelectionType();
                             if (selectionType === Asc.c_oAscSelectionType.RangeRow || selectionType === Asc.c_oAscSelectionType.RangeCol) {
@@ -2084,8 +2112,8 @@ define([
 
                         return false;
                     };
-            shortcuts['command+shift+-,ctrl+shift+-' + (Common.Utils.isGecko ? ',command+shift+ff-,ctrl+shift+ff-' : '')] = function(e) {
-                        if (me.editMode && !me.toolbar.btnDeleteCell.isDisabled()) {
+            shortcuts['command+shift+-,ctrl+shift+-,command+shift+numminus,ctrl+shift+numminus' + (Common.Utils.isGecko ? ',command+shift+ff-,ctrl+shift+ff-' : '')] = function(e) {
+                        if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.toolbar.mode.isEditDiagram && !me.toolbar.mode.isEditOle && !me.toolbar.btnDeleteCell.isDisabled()) {
                             var cellinfo = me.api.asc_getCellInfo(),
                                 selectionType = cellinfo.asc_getSelectionType();
                             if (selectionType === Asc.c_oAscSelectionType.RangeRow || selectionType === Asc.c_oAscSelectionType.RangeCol) {
@@ -2520,9 +2548,10 @@ define([
                         clear: [Common.enumLock.editFormula, Common.enumLock.editText]
                 });
 
+                var hkComments = Common.Utils.isMac ? 'command+alt+a' : 'alt+h';
                 var is_cell_edited = (state == Asc.c_oAscCellEditorState.editStart);
-                (is_cell_edited) ? Common.util.Shortcuts.suspendEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, alt+h, command+1, ctrl+1') :
-                                   Common.util.Shortcuts.resumeEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, alt+h, command+1, ctrl+1');
+                (is_cell_edited) ? Common.util.Shortcuts.suspendEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, command+1, ctrl+1, ' + hkComments) :
+                                   Common.util.Shortcuts.resumeEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, command+1, ctrl+1, ' + hkComments);
 
                 if (is_cell_edited) {
                     toolbar.listStyles.suspendEvents();
@@ -2531,7 +2560,7 @@ define([
                     this._state.prstyle = undefined;
                 }
 
-                if ( this.appConfig.isDesktopApp && this.appConfig.canProtect ) {
+                if ( this.appConfig.isDesktopApp && (this.appConfig.isSignatureSupport || this.appConfig.isPasswordSupport) ) {
                     this.getApplication().getController('Common.Controllers.Protection').SetDisabled(is_cell_edited, false);
                 }
             } else {
@@ -3058,6 +3087,7 @@ define([
                             toolbar.btnAlignCenter.toggle(false, true);
                             toolbar.btnAlignJust.toggle(false, true);
                         }
+                        toolbar.btnWrap.allowDepress = (fontparam !== AscCommon.align_Justify);
                     }
 
                     need_disable = (fontparam == AscCommon.align_Justify || selectionType == Asc.c_oAscSelectionType.RangeShapeText || selectionType == Asc.c_oAscSelectionType.RangeShape);
@@ -3145,8 +3175,7 @@ define([
                 toolbar.lockToolbar(Common.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate, toolbar.btnInsertHyperlink, toolbar.btnInsertTable]});
 
                 this._state.inpivot = !!info.asc_getPivotTableInfo();
-                toolbar.lockToolbar(Common.enumLock.editPivot, this._state.inpivot, { array: toolbar.btnsSetAutofilter.concat(toolbar.btnCustomSort,
-                                                                                          toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnInsertTable, toolbar.btnRemoveDuplicates, toolbar.btnDataValidation)});
+                toolbar.lockToolbar(Common.enumLock.editPivot, this._state.inpivot, { array: toolbar.btnsSetAutofilter.concat(toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnInsertTable, toolbar.btnRemoveDuplicates, toolbar.btnDataValidation)});
                 toolbar.lockToolbar(Common.enumLock.noSlicerSource, !(this._state.inpivot || formatTableInfo), { array: [toolbar.btnInsertSlicer]});
 
                 need_disable = !this.appConfig.canModifyFilter;
@@ -3161,8 +3190,8 @@ define([
 				this._state.numformatinfo = val;
 				val = val.asc_getType();
 				if (this._state.numformattype !== val) {
-					toolbar.cmbNumberFormat.setValue(val, toolbar.txtCustom);
-					this._state.numformattype = val;
+                    toolbar.cmbNumberFormat.setValue(val, toolbar.txtCustom);
+                    this._state.numformattype = val;
 				}
             }
 
@@ -3593,6 +3622,7 @@ define([
                     toolbar.btnHorizontalAlign.$icon.removeClass(toolbar.btnHorizontalAlign.options.icls).addClass(align);
                     toolbar.btnHorizontalAlign.options.icls = align;
                 }
+                toolbar.btnWrap.allowDepress = (fontparam !== AscCommon.align_Justify);
             }
 
              // read cell vertical align
@@ -3947,7 +3977,6 @@ define([
                         parentMenu: menu.items[i].menu,
                         store: equationsStore.at(i).get('groupStore'),
                         scrollAlwaysVisible: true,
-                        restoreHeight: 10000,
                         itemTemplate: _.template(
                             '<div class="item-equation">' +
                                 '<div class="equation-icon" style="background-position:<%= posX %>px <%= posY %>px;width:<%= width %>px;height:<%= height %>px;" id="<%= id %>"></div>' +
@@ -4436,12 +4465,14 @@ define([
             toolbar.$el.find('.toolbar').toggleClass('masked', disable);
 
             this.toolbar.lockToolbar(Common.enumLock.menuFileOpen, disable);
+
+            var hkComments = Common.Utils.isMac ? 'command+alt+a' : 'alt+h';
             if(disable) {
                 mask = $("<div class='toolbar-mask'>").appendTo(toolbar.$el.find('.toolbar'));
-                Common.util.Shortcuts.suspendEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, command+alt+h, ctrl+alt+h, command+1, ctrl+1');
+                Common.util.Shortcuts.suspendEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, command+1, ctrl+1, ' + hkComments);
             } else {
                 mask.remove();
-                Common.util.Shortcuts.resumeEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, command+alt+h, ctrl+alt+h, command+1, ctrl+1');
+                Common.util.Shortcuts.resumeEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, command+1, ctrl+1, ' + hkComments);
             }
         },
 
@@ -4535,23 +4566,25 @@ define([
                         me.toolbar.processPanelVisible(null, true, true);
                     }
 
-                    var tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
-                    var $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
-                    if ($panel) {
-                        config.canProtect && $panel.append($('<div class="separator long"></div>'));
-                        var wbtab = me.getApplication().getController('WBProtection');
-                        $panel.append(wbtab.createToolbarPanel());
-                        me.toolbar.addTab(tab, $panel, 7);
-                        me.toolbar.setVisible('protect', Common.UI.LayoutManager.isElementVisible('toolbar-protect'));
-                        Array.prototype.push.apply(me.toolbar.lockControls, wbtab.getView('WBProtection').getButtons());
+                    if ( config.canProtect ) {
+                        var tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
+                        var $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                        if ($panel) {
+                            (config.isSignatureSupport || config.isPasswordSupport) && $panel.append($('<div class="separator long"></div>'));
+                            var wbtab = me.getApplication().getController('WBProtection');
+                            $panel.append(wbtab.createToolbarPanel());
+                            me.toolbar.addTab(tab, $panel, 7);
+                            me.toolbar.setVisible('protect', Common.UI.LayoutManager.isElementVisible('toolbar-protect'));
+                            Array.prototype.push.apply(me.toolbar.lockControls, wbtab.getView('WBProtection').getButtons());
+                        }
                     }
                 }
             }
             if ( !config.isEditDiagram && !config.isEditMailMerge && !config.isEditOle ) {
-                tab = {caption: me.toolbar.textTabView, action: 'view', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-view', dataHintTitle: 'W'};
+                var tab = {caption: me.toolbar.textTabView, action: 'view', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-view', dataHintTitle: 'W'};
                 var viewtab = me.getApplication().getController('ViewTab');
                 viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
-                $panel = viewtab.createToolbarPanel();
+                var $panel = viewtab.createToolbarPanel();
                 if ($panel) {
                     me.toolbar.addTab(tab, $panel, 8);
                     me.toolbar.setVisible('view', Common.UI.LayoutManager.isElementVisible('toolbar-view'));
@@ -5368,7 +5401,8 @@ define([
         textIndicator: 'Indicators',
         textRating: 'Ratings',
         txtLockSort: 'Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?',
-        textRecentlyUsed: 'Recently Used'
+        textRecentlyUsed: 'Recently Used',
+        errorMaxPoints: 'The maximum number of points in series per chart is 4096.'
 
     }, SSE.Controllers.Toolbar || {}));
 });

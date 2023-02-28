@@ -27,7 +27,7 @@
       "textEditUser": "Usuários que estão editando o arquivo:",
       "textMessageDeleteComment": "Você quer realmente excluir este comentário?",
       "textMessageDeleteReply": "Você realmente quer apagar esta resposta?",
-      "textNoComments": "O documento não contém comentários",
+      "textNoComments": "Nenhum comentário",
       "textOk": "OK",
       "textReopen": "Reabrir",
       "textResolve": "Resolver",
@@ -126,13 +126,15 @@
       "txtIncorrectPwd": "A senha está incorreta",
       "txtProtected": "Ao abrir o arquivo com sua senha, a senha atual será redefinida.",
       "warnLicenseExceeded": "Você atingiu o limite de conexões simultâneas para% 1 editores. Este documento será aberto apenas para visualização. Contate seu administrador para saber mais.",
-      "warnLicenseExp": "Sua licença expirou. Por favor, atualize-o e atualize a página.",
+      "warnLicenseExp": "Sua licença expirou. Por favor, atualize sua licença e atualize a página.",
       "warnLicenseLimitedNoAccess": "Licença expirada. Você não tem acesso à funcionalidade de edição de documentos. Por favor, contate seu administrador.",
       "warnLicenseLimitedRenewed": "A licença precisa ser renovada. Você tem acesso limitado à funcionalidade de edição de documentos. <br> Entre em contato com o administrador para obter acesso total",
       "warnLicenseUsersExceeded": "Você atingiu o limite de usuários para editores %1. Entre em contato com seu administrador para saber mais.",
       "warnNoLicense": "Você atingiu o limite de conexões simultâneas para% 1 editores. Este documento será aberto apenas para visualização. Contate a equipe de vendas% 1 para termos de atualização pessoal.",
       "warnNoLicenseUsers": "Você atingiu o limite de usuários para editores %1.<br>Entre em contato com a equipe de vendas da %1 para obter os termos de atualização pessoais.",
-      "warnProcessRightsChange": "Você não tem permissão para editar o arquivo."
+      "warnProcessRightsChange": "Você não tem permissão para editar o arquivo.",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+      "titleLicenseNotActive": "License not active"
     }
   },
   "Error": {
@@ -151,6 +153,11 @@
     "errorEditingDownloadas": "Ocorreu um erro durante o trabalho com o documento. <br> Use a opção 'Download' para salvar a cópia de backup do arquivo localmente.",
     "errorFilePassProtect": "O arquivo é protegido por senha e não pôde ser aberto.",
     "errorFileSizeExceed": "O tamanho do arquivo excede o limite do servidor. <br> Entre em contato com o administrador.",
+    "errorInconsistentExt": "Ocorreu um erro ao abrir o arquivo.<br>O conteúdo do arquivo não corresponde à extensão do arquivo.",
+    "errorInconsistentExtDocx": "Ocorreu um erro ao abrir o arquivo.<br>O conteúdo do arquivo corresponde a documentos de texto (por exemplo, docx), mas o arquivo tem a extensão inconsistente: %1.",
+    "errorInconsistentExtPdf": "Ocorreu um erro ao abrir o arquivo.<br>O conteúdo do arquivo corresponde a um dos seguintes formatos: pdf/djvu/xps/oxps, mas o arquivo tem a extensão inconsistente: %1.",
+    "errorInconsistentExtPptx": "Ocorreu um erro ao abrir o arquivo.<br>O conteúdo do arquivo corresponde a apresentações (por exemplo, pptx), mas o arquivo tem a extensão inconsistente: %1.",
+    "errorInconsistentExtXlsx": "Ocorreu um erro ao abrir o arquivo.<br>O conteúdo do arquivo corresponde a planilhas (por exemplo, xlsx), mas o arquivo tem a extensão inconsistente: %1.",
     "errorKeyEncrypt": "Descritor de chave desconhecido",
     "errorKeyExpire": "Descritor de chave expirado",
     "errorLoadingFont": "As fontes não foram carregadas. <br> Entre em contato com o administrador do Document Server.",
@@ -158,6 +165,8 @@
     "errorSessionIdle": "O documento não é editado há muito tempo. Por favor recarregue a página.",
     "errorSessionToken": "A conexão com o servidor foi interrompida. Por favor recarregue a página.",
     "errorStockChart": "Ordem incorreta das linhas. Para construir um gráfico de ações, coloque os dados na folha na seguinte ordem: <br> preço de abertura, preço máximo, preço mínimo, preço de fechamento.",
+    "errorToken": "O token de segurança do documento não foi formado corretamente. <br> Entre em contato com o administrador do Document Server.",
+    "errorTokenExpire": "O token de segurança do documento expirou. <br> Entre em contato com o administrador do Document Server.",
     "errorUpdateVersionOnDisconnect": "A conexão com a Internet foi restaurada e a versão do arquivo foi alterada. <br> Antes de continuar a trabalhar, baixe o arquivo ou copie seu conteúdo para garantir que nada seja perdido e, em seguida, recarregue esta página.",
     "errorUserDrop": "O arquivo não pode ser acessado agora.",
     "errorUsersExceed": "O número de usuários permitidos pelo plano de preços foi excedido",
@@ -172,16 +181,12 @@
     "unknownErrorText": "Erro desconhecido.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Sem imagens carregadas.",
-    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB.",
-    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
-    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension."
+    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Carregando dados...",
     "applyChangesTitleText": "Carregando dados",
+    "confirmMaxChangesSize": "O tamanho das ações excede a limitação definida para seu servidor.<br>Pressione \"Desfazer\" para cancelar sua última ação ou pressione \"Continue\" para manter a ação localmente (você precisa baixar o arquivo ou copiar seu conteúdo para garantir que nada seja perdido).",
     "downloadTextText": "Baixando documento...",
     "downloadTitleText": "Baixando documento",
     "loadFontsTextText": "Carregando dados...",
@@ -204,14 +209,13 @@
     "savePreparingTitle": "Preparando para salvar. Aguarde...",
     "saveTextText": "Salvando documento...",
     "saveTitleText": "Salvando documento",
+    "textContinue": "Continuar",
     "textLoadingDocument": "Carregando documento",
+    "textUndo": "Desfazer",
     "txtEditingMode": "Definir modo de edição...",
     "uploadImageTextText": "Carregando imagem...",
     "uploadImageTitleText": "Carregando imagem",
-    "waitText": "Por favor, aguarde...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textContinue": "Continue",
-    "textUndo": "Undo"
+    "waitText": "Por favor, aguarde..."
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Você tem alterações não salvas neste documento. Clique em 'Permanecer nesta página' para aguardar o salvamento automático. Clique em 'Sair desta página' para descartar todas as alterações não salvas.",
@@ -263,7 +267,7 @@
     },
     "Edit": {
       "notcriticalErrorTitle": "Atenção",
-      "textActualSize": "Tamanho atual",
+      "textActualSize": "Tamanho padrão",
       "textAddCustomColor": "Adicionar Cor Personalizada",
       "textAdditional": "Adicional",
       "textAdditionalFormatting": "Formatação adicional",

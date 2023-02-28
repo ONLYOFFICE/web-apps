@@ -326,7 +326,6 @@
     "textRemoveShape": "刪除形狀",
     "textRemoveTable": "刪除表格",
     "textRemoveTableContent": "刪除目錄",
-    "textReorder": "重新排序",
     "textRepeatAsHeaderRow": "重複作為標題行",
     "textReplace": "取代",
     "textReplaceImage": "取代圖片",
@@ -369,6 +368,7 @@
     "textType": "類型",
     "textWe": "We",
     "textWrap": "包覆",
+    "textArrange": "Arrange",
     "textChangeShape": "Change Shape",
     "textCustomStyle": "Custom Style",
     "textDeleteImage": "Delete Image",
@@ -420,12 +420,14 @@
     "uploadImageFileCountMessage": "無上傳圖片。",
     "uploadImageSizeMessage": "圖像超出最大大小限制。最大為25MB。",
     "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
-    "errorTextFormWrongFormat": "The value entered does not match the format of the field.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
     "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
-    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension."
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field.",
+    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "載入資料中...",
@@ -562,7 +564,11 @@
     "warnLicenseUsersExceeded": "您已達到％1個編輯器的用戶限制。請與您的管理員聯繫以了解更多信息。",
     "warnNoLicense": "您已達到同時連接到 %1 編輯器的限制。此文件將只提供檢視。有關個人升級條款，請聯繫 %1 業務團隊。",
     "warnNoLicenseUsers": "您已達到％1個編輯器的用戶限制。與％1銷售團隊聯繫以了解個人升級條款。",
-    "warnProcessRightsChange": "您沒有編輯這個文件的權限。"
+    "warnProcessRightsChange": "您沒有編輯這個文件的權限。",
+    "textDocumentProtected": "The document is protected. Edit settings are not available",
+    "textOk": "Ok",
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+    "titleLicenseNotActive": "License not active"
   },
   "Settings": {
     "advDRMOptions": "受保護的檔案",

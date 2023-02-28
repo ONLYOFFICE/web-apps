@@ -195,6 +195,7 @@
                     },
                     font: {
                         name: "Arial",
+                        size: "11px";
                     },
                     chat: true,
                     comments: true,
@@ -388,7 +389,7 @@
             if ( msg ) {
                 if ( msg.type === "onExternalPluginMessage" ) {
                     _sendCommand(msg);
-                } else if (msg.type === "onExternalPluginMessageCallback") {
+                } else if ((window.parent !== window) && msg.type === "onExternalPluginMessageCallback") {
                     postMessage(window.parent, msg);
                 } else
                 if ( msg.frameEditorId == placeholderId ) {

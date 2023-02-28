@@ -333,27 +333,47 @@ define([
                                 {caption: me.mniInsEndnote, value: 'ins_endnote'},
                                 {caption: '--'},
                                 new Common.UI.MenuItem({
-                                    template: _.template([
+                                    template: !Common.UI.isRTL() ? _.template([
                                         '<div class="menu-zoom" style="height: 26px;" ',
                                         '<% if(!_.isUndefined(options.stopPropagation)) { %>',
                                         'data-stopPropagation="true"',
                                         '<% } %>', '>',
                                         '<label class="title">' + me.textGotoFootnote + '</label>',
-                                        '<button id="id-menu-goto-footnote-next-' + index + '" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><i class="icon menu__icon btn-nextitem">&nbsp;</i></button>',
-                                        '<button id="id-menu-goto-footnote-prev-' + index + '" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><i class="icon menu__icon btn-previtem">&nbsp;</i></button>',
+                                        '<button id="id-menu-goto-footnote-next-' + index + '" type="button" class="btn small btn-toolbar next"><i class="icon menu__icon btn-nextitem">&nbsp;</i></button>',
+                                        '<button id="id-menu-goto-footnote-prev-' + index + '" type="button" class="btn small btn-toolbar prev"><i class="icon menu__icon btn-previtem">&nbsp;</i></button>',
+                                        '</div>'
+                                    ].join('')) :
+                                    _.template([
+                                        '<div class="menu-zoom" style="height: 26px;" ',
+                                        '<% if(!_.isUndefined(options.stopPropagation)) { %>',
+                                        'data-stopPropagation="true"',
+                                        '<% } %>', '>',
+                                        '<label class="title">' + me.textGotoFootnote + '</label>',
+                                        '<button id="id-menu-goto-footnote-prev-' + index + '" type="button" class="btn small btn-toolbar prev"><i class="icon menu__icon btn-previtem">&nbsp;</i></button>',
+                                        '<button id="id-menu-goto-footnote-next-' + index + '" type="button" class="btn small btn-toolbar next"><i class="icon menu__icon btn-nextitem">&nbsp;</i></button>',
                                         '</div>'
                                     ].join('')),
                                     stopPropagation: true
                                 }),
                                 new Common.UI.MenuItem({
-                                    template: _.template([
+                                    template: !Common.UI.isRTL() ? _.template([
                                         '<div class="menu-zoom" style="height: 26px;" ',
                                         '<% if(!_.isUndefined(options.stopPropagation)) { %>',
                                         'data-stopPropagation="true"',
                                         '<% } %>', '>',
                                         '<label class="title">' + me.textGotoEndnote + '</label>',
-                                        '<button id="id-menu-goto-endnote-next-' + index + '" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><i class="icon menu__icon btn-nextitem">&nbsp;</i></button>',
-                                        '<button id="id-menu-goto-endnote-prev-' + index + '" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><i class="icon menu__icon btn-previtem">&nbsp;</i></button>',
+                                        '<button id="id-menu-goto-endnote-next-' + index + '" type="button" class="btn small btn-toolbar next"><i class="icon menu__icon btn-nextitem">&nbsp;</i></button>',
+                                        '<button id="id-menu-goto-endnote-prev-' + index + '" type="button" class="btn small btn-toolbar prev"><i class="icon menu__icon btn-previtem">&nbsp;</i></button>',
+                                        '</div>'
+                                    ].join('')) :
+                                    _.template([
+                                        '<div class="menu-zoom" style="height: 26px;" ',
+                                        '<% if(!_.isUndefined(options.stopPropagation)) { %>',
+                                        'data-stopPropagation="true"',
+                                        '<% } %>', '>',
+                                        '<label class="title">' + me.textGotoEndnote + '</label>',
+                                        '<button id="id-menu-goto-endnote-prev-' + index + '" type="button" class="btn small btn-toolbar prev"><i class="icon menu__icon btn-previtem">&nbsp;</i></button>',
+                                        '<button id="id-menu-goto-endnote-next-' + index + '" type="button" class="btn small btn-toolbar next"><i class="icon menu__icon btn-nextitem">&nbsp;</i></button>',
                                         '</div>'
                                     ].join('')),
                                     stopPropagation: true

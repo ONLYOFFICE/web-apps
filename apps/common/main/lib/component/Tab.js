@@ -56,7 +56,7 @@ define([
         this.iconTitle = '';
         this.index = -1;
         this.template   = _.template(['<li class="list-item <% if(active){ %>active selected<% } %> <% if(cls.length){%><%= cls %><%}%><% if(iconVisible){%> icon-visible <%}%>" data-label="<%- label %>">',
-                                            '<span title="<%- label %>" draggable="true" oo_editor_input="true" tabindex="-1" data-index="<%= index %>">',
+                                            '<span tabtitle="<%- label %>" draggable="true" oo_editor_input="true" tabindex="-1" data-index="<%= index %>">',
                                             '<div class="toolbar__icon <% if(iconCls.length){%><%= iconCls %><%}%>" title="<% if(iconTitle.length){%><%=iconTitle%><%}%>"></div>',
                                             '<%- label %>',
                                             '</span>',
@@ -74,7 +74,9 @@ define([
         render: function() {
             var el      = this.template(this);
             this.$el    = $(el);
-
+            this.$el.find('span').tooltip({
+                title: this.label,
+                placement: 'cursor'});
             this.rendered = true;
             this.disable(this.disabled);
             return this;

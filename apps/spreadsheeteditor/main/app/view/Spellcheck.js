@@ -65,7 +65,7 @@ define([
                         '<label class="header" style="display: block;"><%= scope.txtDictionaryLanguage %></label>',
                         '<div id="spellcheck-dictionary-language"></div>',
                         '<div id="spellcheck-complete" class="hidden">',
-                            '<i class="btn-resolve" style="display: inline-block;margin-right: 10px;"></i>',
+                            '<i class="btn-resolve"></i>',
                             '<%= scope.txtComplete %>' ,
                         '</div>',
                     '</div>',
@@ -110,7 +110,6 @@ define([
 
             this.buttonNext = new Common.UI.Button({
                 parentEl: $('#spellcheck-next'),
-                style: 'margin-left: 5px;',
                 cls: 'btn-toolbar bg-white',
                 iconCls: 'toolbar__icon btn-nextitem',
                 hint: this.txtNextTip,

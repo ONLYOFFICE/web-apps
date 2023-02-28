@@ -148,7 +148,7 @@ define([
             };
 
             var keymap = {};
-            me.hkComments = 'alt+h';
+            me.hkComments = Common.Utils.isMac ? 'command+alt+a' : 'alt+h';
             keymap[me.hkComments] = function() {
                 if (me.api.can_AddQuotedComment()!==false) {
                     me.addComment();
@@ -214,6 +214,9 @@ define([
                     this.api.asc_registerCallback('asc_onUnLockDocumentProps',      _.bind(this.onApiUnLockDocumentProps, this));
                     this.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(this.onShowMathTrack, this));
                     this.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(this.onHideMathTrack, this));
+                    this.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Image, _.bind(this.onInsertImage, this));
+                    this.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.ImageUrl, _.bind(this.onInsertImageUrl, this));
+
                 }
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',        _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect',                      _.bind(this.onCoAuthoringDisconnect, this));
@@ -429,6 +432,7 @@ define([
             view.menuParagraphEquation.menu.on('item:click', _.bind(me.convertEquation, me));
             view.menuTableListIndents.on('click', _.bind(me.onListIndents, me));
             view.menuParaListIndents.on('click', _.bind(me.onListIndents, me));
+            view.menuSaveAsPicture.on('click', _.bind(me.saveAsPicture, me));
             me.onChangeProtectDocument();
         },
 
@@ -1018,7 +1022,7 @@ define([
                             changes = changes[0];
                         if (changes) {
                             ToolTip = '<b>'+ Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(changes.get('username'))) +'  </b>';
-                            ToolTip += '<span style="font-size:10px; opacity: 0.7;">'+ changes.get('date') +'</span><br>';
+                            ToolTip += '<span class="review-date">'+ changes.get('date') +'</span><br>';
                             ToolTip += changes.get('changetext');
                             if (ToolTip.length>1000)
                                 ToolTip = ToolTip.substr(0, 1000) + '...';
@@ -1102,6 +1106,8 @@ define([
         },
 
         onShowSpecialPasteOptions: function(specialPasteShowOptions) {
+            if (this.mode && !this.mode.isEdit) return;
+
             var me = this,
                 documentHolder = me.documentHolder;
             var coord  = specialPasteShowOptions.asc_getCellCoord(),
@@ -1125,7 +1131,7 @@ define([
                     parentEl: $('#id-document-holder-btn-special-paste'),
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-paste',
-                    caption     : Common.Utils.String.platformKey('Ctrl', '({0})'),
+                    caption     : Common.Utils.String.format('({0})', Common.Utils.String.textCtrl),
                     menu        : new Common.UI.Menu({items: []})
                 });
                 me.initSpecialPasteEvents();
@@ -1164,13 +1170,25 @@ define([
                     $(document).on('keyup', me.wrapEvents.onKeyUp);
                 }, 10);
             }
+            this.disableSpecialPaste();
         },
 
         onHideSpecialPasteOptions: function() {
+            if (!this.documentHolder || !this.documentHolder.cmpEl) return;
             var pasteContainer = this.documentHolder.cmpEl.find('#special-paste-container');
             if (pasteContainer.is(':visible')) {
                 pasteContainer.hide();
                 $(document).off('keyup', this.wrapEvents.onKeyUp);
+            }
+        },
+
+        disableSpecialPaste: function() {
+            var pasteContainer = this.documentHolder.cmpEl.find('#special-paste-container'),
+                docProtection = this.documentHolder._docProtection,
+                disabled = this._isDisabled || docProtection.isReadOnly || docProtection.isCommentsOnly;
+
+            if (pasteContainer.length>0 && pasteContainer.is(':visible')) {
+                this.btnSpecialPaste.setDisabled(!!disabled);
             }
         },
 
@@ -1284,15 +1302,11 @@ define([
                     handler: function(dlg, result) {
                         if (result == 'ok') {
                             var props = dlg.getSettings();
-                            var mnu = DE.getController('Toolbar').toolbar.btnPageMargins.menu.items[0];
-                            mnu.setVisible(true);
-                            mnu.setChecked(true);
-                            mnu.options.value = mnu.value = [props.get_TopMargin(), props.get_LeftMargin(), props.get_BottomMargin(), props.get_RightMargin()];
-                            $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
                             Common.localStorage.setItem("de-pgmargins-top", props.get_TopMargin());
                             Common.localStorage.setItem("de-pgmargins-left", props.get_LeftMargin());
                             Common.localStorage.setItem("de-pgmargins-bottom", props.get_BottomMargin());
                             Common.localStorage.setItem("de-pgmargins-right", props.get_RightMargin());
+                            Common.NotificationCenter.trigger('margins:update', props);
 
                             me.api.asc_SetSectionProps(props);
                             me.editComplete();
@@ -1523,6 +1537,12 @@ define([
             this._isDisabled = state;
             this.documentHolder.SetDisabled(state, canProtect, fillFormMode);
             this.disableEquationBar();
+            this.disableSpecialPaste();
+        },
+
+        clearSelection: function() {
+            this.onHideMathTrack();
+            this.onHideSpecialPasteOptions();
         },
 
         onTextLanguage: function(langid) {
@@ -2334,6 +2354,8 @@ define([
         },
 
         onShowMathTrack: function(bounds) {
+            if (this.mode && !this.mode.isEdit) return;
+
             if (bounds[3] < 0) {
                 this.onHideMathTrack();
                 return;
@@ -2443,6 +2465,9 @@ define([
             eqContainer.css({left: showPoint[0], top : showPoint[1]});
 
             var menuAlign = (me._Height - showPoint[1] - eqContainer.outerHeight() < 220) ? 'bl-tl' : 'tl-bl';
+            if (Common.UI.isRTL()) {
+                menuAlign = menuAlign === 'bl-tl' ? 'br-tr' : 'tr-br';
+            }
             me.equationBtns.forEach(function(item){
                 item && (item.menu.menuAlign = menuAlign);
             });
@@ -2459,6 +2484,7 @@ define([
         },
 
         onHideMathTrack: function() {
+            if (!this.documentHolder || !this.documentHolder.cmpEl) return;
             var eqContainer = this.documentHolder.cmpEl.find('#equation-container');
             if (eqContainer.is(':visible')) {
                 eqContainer.hide();
@@ -2511,6 +2537,12 @@ define([
             })).show();
         },
 
+        saveAsPicture: function() {
+            if(this.api) {
+                this.api.asc_SaveDrawingAsPicture();
+            }
+        },
+
         onChangeProtectDocument: function(props) {
             if (!props) {
                 var docprotect = this.getApplication().getController('DocProtection');
@@ -2519,7 +2551,37 @@ define([
             if (props && this.documentHolder) {
                 this.documentHolder._docProtection = props;
                 this.disableEquationBar();
+                this.disableSpecialPaste();
             }
+        },
+
+        onInsertImage: function(obj, x, y) {
+            if (!this.documentHolder || this.documentHolder._docProtection.isReadOnly || this.documentHolder._docProtection.isFormsOnly || this.documentHolder._docProtection.isCommentsOnly)
+                return;
+
+            if (this.api)
+                this.api.asc_addImage(obj);
+            this.editComplete();
+        },
+
+        onInsertImageUrl: function(obj, x, y) {
+            if (!this.documentHolder || this.documentHolder._docProtection.isReadOnly || this.documentHolder._docProtection.isFormsOnly || this.documentHolder._docProtection.isCommentsOnly)
+                return;
+
+            var me = this;
+            (new Common.Views.ImageFromUrlDialog({
+                handler: function(result, value) {
+                    if (result == 'ok') {
+                        if (me.api) {
+                            var checkUrl = value.replace(/ /g, '');
+                            if (!_.isEmpty(checkUrl)) {
+                                me.api.AddImageUrl([checkUrl], undefined, undefined, obj);
+                            }
+                        }
+                    }
+                    me.editComplete();
+                }
+            })).show();
         },
 
         editComplete: function() {

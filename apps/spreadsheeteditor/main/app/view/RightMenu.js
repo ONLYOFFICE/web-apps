@@ -174,6 +174,7 @@ define([
 
             this.defaultHideRightMenu = mode.customization && !!mode.customization.hideRightMenu;
             var open = !Common.localStorage.getBool("sse-hide-right-settings", this.defaultHideRightMenu);
+            Common.Utils.InternalSettings.set("sse-hide-right-settings", !open);
             el.css('width', ((open) ? MENU_SCALE_PART : SCALE_MIN) + 'px');
             el.css('z-index', 101);
             el.show();
@@ -280,6 +281,7 @@ define([
                     target_pane_parent.css("display", "inline-block" );
                     this.minimizedMode = false;
                     Common.localStorage.setItem("sse-hide-right-settings", 0);
+                    Common.Utils.InternalSettings.set("sse-hide-right-settings", false);
                 }
                 target_pane_parent.find('> .active').removeClass('active');
                 target_pane.addClass("active");
@@ -292,6 +294,7 @@ define([
                 $(this.el).width(SCALE_MIN);
                 this.minimizedMode = true;
                 Common.localStorage.setItem("sse-hide-right-settings", 1);
+                Common.Utils.InternalSettings.set("sse-hide-right-settings", true);
             }
 
             this.fireEvent('rightmenuclick', [this, btn.options.asctype, this.minimizedMode, e]);

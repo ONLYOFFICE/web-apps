@@ -66,7 +66,7 @@ define([
                         if ( !appOptions.isEditMailMerge && !appOptions.isEditDiagram && !appOptions.isEditOle ) {
                             var tab = {action: 'plugins', caption: me.panelPlugins.groupCaption, dataHintTitle: 'E', layoutname: 'toolbar-plugins'};
                             me.$toolbarPanelPlugins = me.panelPlugins.getPanel();
-
+                            me.toolbar = toolbar;
                             toolbar.addTab(tab, me.$toolbarPanelPlugins, 10);     // TODO: clear plugins list in left panel
                         }
                     }
@@ -248,6 +248,7 @@ define([
             me.appOptions.canPlugins = !collection.isEmpty();
             if ( me.$toolbarPanelPlugins ) {
                 me.$toolbarPanelPlugins.empty();
+                me.toolbar && me.toolbar.clearMoreButton('plugins');
 
                 var _group = $('<div class="group"></div>'),
                     rank = -1,
@@ -262,7 +263,7 @@ define([
                     } else {
                         _group.appendTo(me.$toolbarPanelPlugins);
                         $('<div class="separator long invisible"></div>').appendTo(me.$toolbarPanelPlugins);
-                        _group = $('<div class="group" style="padding-left: 0;"></div>');
+                        _group = $('<div class="group" style="' + (Common.UI.isRTL() ? 'padding-right: 0;' : 'padding-left: 0;') + '"></div>');
                     }
 
                     var btn = me.panelPlugins.createPluginButton(model);
@@ -274,6 +275,7 @@ define([
                     rank = new_rank;
                 });
                 _group.appendTo(me.$toolbarPanelPlugins);
+                me.toolbar && me.toolbar.isTabActive('plugins') && me.toolbar.processPanelVisible(null, true, true);
                 var docProtection = me.panelPlugins._state.docProtection;
                 Common.Utils.lockControls(Common.enumLock.docLockView, docProtection.isReadOnly, {array: me.panelPlugins.lockedControls});
                 Common.Utils.lockControls(Common.enumLock.docLockForms, docProtection.isFormsOnly, {array: me.panelPlugins.lockedControls});
@@ -367,12 +369,13 @@ define([
         onPluginShow: function(plugin, variationIndex, frameId, urlAddition) {
             var variation = plugin.get_Variations()[variationIndex];
             if (variation.get_Visual()) {
+                var lang = this.appOptions && this.appOptions.lang ? this.appOptions.lang.split(/[\-_]/)[0] : 'en';
                 var url = variation.get_Url();
                 url = ((plugin.get_BaseUrl().length == 0) ? url : plugin.get_BaseUrl()) + url;
                 if (urlAddition)
                     url += urlAddition;
                 if (variation.get_InsideMode()) {
-                    if (!this.panelPlugins.openInsideMode(plugin.get_Name(), url, frameId))
+                    if (!this.panelPlugins.openInsideMode(plugin.get_Name(lang), url, frameId))
                         this.api.asc_pluginButtonClick(-1);
                 } else {
                     var me = this,
@@ -394,7 +397,7 @@ define([
                     me.pluginDlg = new Common.Views.PluginDlg({
                         cls: isCustomWindow ? 'plain' : '',
                         header: !isCustomWindow,
-                        title: plugin.get_Name(),
+                        title: plugin.get_Name(lang),
                         width: size[0], // inner width
                         height: size[1], // inner height
                         url: url,

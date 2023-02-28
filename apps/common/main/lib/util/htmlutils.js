@@ -1,3 +1,17 @@
+var checkLocalStorage = (function () {
+    try {
+        var storage = window['localStorage'];
+        return true;
+    }
+    catch(e) {
+        return false;
+    }
+})();
+
+if ( checkLocalStorage && localStorage.getItem("ui-rtl") === '1' ) {
+    document.body.setAttribute('dir', 'rtl');
+    document.body.classList.add('rtl');
+}
 
 function checkScaling() {
     var matches = {
@@ -42,16 +56,6 @@ var params = (function() {
     return urlParams;
 })();
 
-var checkLocalStorage = (function () {
-    try {
-        var storage = window['localStorage'];
-        return true;
-    }
-    catch(e) {
-        return false;
-    }
-})();
-
 if ( window.desktop ) {
     var theme = desktop.theme
 
@@ -91,7 +95,9 @@ if ( !!params.uitheme && checkLocalStorage && !localStorage.getItem("ui-theme-id
 var ui_theme_name = checkLocalStorage && localStorage.getItem("ui-theme-id") ? localStorage.getItem("ui-theme-id") : params.uitheme;
 var ui_theme_type;
 if ( !ui_theme_name ) {
-    if ( window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ) {
+    if ( (window.desktop && desktop.theme && desktop.theme.system == 'dark') ||
+            (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) )
+    {
         ui_theme_name = 'theme-dark';
         ui_theme_type = 'dark';
         checkLocalStorage && localStorage.removeItem("ui-theme");

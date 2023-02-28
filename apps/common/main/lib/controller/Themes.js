@@ -133,6 +133,7 @@ define([
             "canvas-high-contrast-disabled",
 
             "canvas-cell-border",
+            "canvas-cell-title",
             "canvas-cell-title-border",
             "canvas-cell-title-border-hover",
             "canvas-cell-title-border-selected",
@@ -159,7 +160,16 @@ define([
             "canvas-scroll-arrow-pressed",
             "canvas-scroll-thumb-target",
             "canvas-scroll-thumb-target-hover",
-            "canvas-scroll-thumb-target-pressed"
+            "canvas-scroll-thumb-target-pressed",
+
+            "canvas-sheet-view-cell-background",
+            "canvas-sheet-view-cell-background-hover",
+            "canvas-sheet-view-cell-background-pressed",
+            "canvas-sheet-view-cell-title-label",
+
+            "canvas-freeze-line-1px",
+            "canvas-freeze-line-2px",
+            "canvas-select-all-icon"
         ];
 
         var get_current_theme_colors = function (colors) {
@@ -280,7 +290,12 @@ define([
         };
 
         const is_theme_type_system = function (id) { return themes_map[id].type == THEME_TYPE_SYSTEM; }
-        const get_system_theme_type = function () { return window.matchMedia('(prefers-color-scheme: dark)').matches ? THEME_TYPE_DARK : THEME_TYPE_LIGHT; }
+        const get_system_theme_type = function () {
+            if ( Common.Controllers.Desktop && Common.Controllers.Desktop.isActive() )
+                return Common.Controllers.Desktop.systemThemeType();
+
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? THEME_TYPE_DARK : THEME_TYPE_LIGHT;
+        }
         const get_system_default_theme = function () {
             const id = get_system_theme_type() == THEME_TYPE_DARK ?
                 id_default_dark_theme : id_default_light_theme;

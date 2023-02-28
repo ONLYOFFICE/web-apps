@@ -50,6 +50,7 @@ define([
             header: true,
             style: 'min-width: 215px;',
             cls: 'modal-dlg',
+            id: 'window-scale',
             buttons: ['ok', 'cancel']
         },
 
@@ -66,7 +67,7 @@ define([
             this.template = [
                 '<div class="box">',
                 '<div id="radio-fit-to" style="margin-bottom: 4px;"></div>',
-                '<div style="padding-left: 22px;">',
+                '<div class="padding-left">',
                     '<div>',
                         '<label style="height: 22px;width: 55px;padding-top: 4px;display: inline-block;margin-bottom: 4px;">' + this.textWidth + '</label>',
                         '<div id="scale-width" style="display: inline-block;margin-bottom: 4px;"></div>',
@@ -77,7 +78,7 @@ define([
                     '</div>',
                 '</div>',
                 '<div id="radio-scale-to" style="margin-bottom: 6px;"></div>',
-                '<div id="scale" style="padding-left: 22px; margin-bottom: 6px;"></div>',
+                '<div id="scale" class="padding-left" style="margin-bottom: 6px;"></div>',
                 '</div>'
             ].join('');
 

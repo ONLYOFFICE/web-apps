@@ -1,0 +1,43 @@
+{
+    "name": "testspreadsheeteditor",
+    "version": "4.3.0",
+    "build": 1153,
+    "homepage": "http://www.onlyoffice.com",
+    "private": true,
+    "test": {
+        "clean": {
+            "prebuild": [
+                "../deploy/web-apps/test/spreadsheeteditor/main"
+            ]
+        },
+        "js": {
+            "src": [
+                "../test/common/Gateway.js",
+                "../test/common/main/lib/util/utils.js",
+                "../test/spreadsheeteditor/main/js/CellEditorView.js",
+                "../test/spreadsheeteditor/main/js/CellEditorController.js",
+                "../test/spreadsheeteditor/main/js/ApplicationView.js",
+                "../test/spreadsheeteditor/main/js/ApplicationController.js",
+                "../test/spreadsheeteditor/main/js/application.js"
+            ],
+            "dist": "../deploy/web-apps/test/spreadsheeteditor/main/app-all.js"
+        },
+        "less": {
+            "files": {
+                "src": "../test/spreadsheeteditor/main/resources/less/application.less",
+                "dist": "../deploy/web-apps/test/spreadsheeteditor/main/resources/css/app-all.css"
+            }
+        },
+        "copy": {
+            "index-page": {
+                "../deploy/web-apps/test/spreadsheeteditor/main/index.html": "../test/spreadsheeteditor/main/index.html.deploy"
+            }
+        }
+    },
+    "tasks": {
+        "deploy": [
+            "increment-build",
+            "deploy-app-test"
+        ]
+    }
+}

@@ -92,8 +92,10 @@ class CommentsController extends Component {
     }
     addComment (id, data) {
         const comment = this.readSDKComment(id, data);
+    
         if (comment) {
             this.storeComments.addComment(comment);
+            this.changeShowComments([comment.uid]);
         }
     }
     addComments (data) {
@@ -294,6 +296,7 @@ class AddCommentController extends Component {
             !!comment.asc_putDocumentFlag && comment.asc_putDocumentFlag(documentFlag);
 
             api.asc_addComment(comment);
+            Common.Notifications.trigger('viewcomment');
         }
     }
     render() {

@@ -471,6 +471,7 @@
   "PE.Controllers.Main.textRenameLabel": "Əməkdaşlıq üçün istifadə ediləcək ad daxil edin",
   "PE.Controllers.Main.textShape": "Forma",
   "PE.Controllers.Main.textStrict": "Ciddi rejim",
+  "PE.Controllers.Main.textText": "Mətn",
   "PE.Controllers.Main.textTryUndoRedo": "Qaytar / Təkrarla funksiyaları sürətli birgə redaktə rejimi üçün qeyri-aktiv edilib. <br> Digər istifadəçilərin müdaxiləsi olmadan faylı redaktə etmək və fayllarınızı göndərmək üçün ciddi birgə redaktə rejiminə keçmək üçün \"Ciddi rejim\" düyməsinə klikləyin. Dəyişikliklər yalnız siz onları saxladıqdan sonra baş verir. Qabaqcıl redaktor parametrlərindən istifadə edərək birgə redaktə rejimləri arasında keçid edə bilərsiniz.",
   "PE.Controllers.Main.textTryUndoRedoWarn": "Qaytar/Təkrarla funksiyaları Sürətli birgə redaktə rejimi üçün qeyri-aktiv edilib.",
   "PE.Controllers.Main.titleLicenseExp": "Lisenziyanın müddəti bitdi",
@@ -1892,6 +1893,7 @@
   "PE.Views.Toolbar.textTabInsert": "Daxil edin",
   "PE.Views.Toolbar.textTabProtect": "Qoruma",
   "PE.Views.Toolbar.textTabTransitions": "Keçidlər",
+  "PE.Views.Toolbar.textTabView": "Görünüş",
   "PE.Views.Toolbar.textTitleError": "Xəta",
   "PE.Views.Toolbar.textUnderline": "Altından xətt çəkilmiş",
   "PE.Views.Toolbar.tipAddSlide": "Slayd əlavə et",
@@ -2006,5 +2008,7 @@
   "PE.Views.Transitions.txtApplyToAll": "Bütün Slaydlara Tətbiq et",
   "PE.Views.Transitions.txtParameters": "Parametreler",
   "PE.Views.Transitions.txtPreview": "Önbaxış",
-  "PE.Views.Transitions.txtSec": "s"
+  "PE.Views.Transitions.txtSec": "s",
+  "PE.Views.ViewTab.textInterfaceTheme": "İnterfeys mövzusu",
+  "PE.Views.ViewTab.tipInterfaceTheme": "İnterfeys mövzusu"
 }

@@ -85,6 +85,7 @@ define([
                 height: 120,
                 header: false,
                 modal: false,
+                automove: false,
                 alias: 'Common.Views.ReviewPopover'
             }, options);
 
@@ -173,6 +174,17 @@ define([
                         var text = $(this.el).find('textarea');
                         return (text && text.length) ? text.val().trim() : '';
                     },
+                    disableTextBoxButton: function(textboxEl) {
+                        var button = $(textboxEl.siblings('#id-comments-change-popover')[0]);
+
+                        if(textboxEl.val().trim().length > 0) {
+                            button.removeAttr('disabled');
+                            button.removeClass('disabled');
+                        } else {
+                            button.attr('disabled', true);
+                            button.addClass('disabled');
+                        }
+                    },
                     autoHeightTextBox: function () {
                         var view = this,
                             textBox = this.$el.find('textarea'),
@@ -182,6 +194,7 @@ define([
                             scrollPos = 0,
                             oldHeight = 0,
                             newHeight = 0;
+
 
                         function updateTextBoxHeight() {
                             scrollPos = parentView.scroller.getScrollTop();
@@ -211,13 +224,20 @@ define([
                             parentView.autoScrollToEditButtons();
                         }
 
+                        function onTextareaInput(event) {
+                            updateTextBoxHeight();
+                            view.disableTextBoxButton($(event.target));
+                        }
+
+
                         if (textBox && textBox.length && parentView.scroller) {
                             domTextBox = textBox.get(0);
 
+                            view.disableTextBoxButton(textBox);
                             if (domTextBox) {
                                 lineHeight = parseInt(textBox.css('lineHeight'), 10) * 0.25;
                                 updateTextBoxHeight();
-                                textBox.bind('input propertychange', updateTextBoxHeight)
+                                textBox.bind('input propertychange', onTextareaInput)
                             }
                         }
 
@@ -240,13 +260,14 @@ define([
                         el: $('#id-comments-popover'),
                         itemTemplate: _.template(replaceWords(commentsTemplate, {
                                 textAddReply: me.textAddReply,
+                                textMentionReply: me.canRequestSendNotify ? (me.mentionShare ? me.textMention : me.textMentionNotify) : me.textAddReply,
                                 textAdd: me.textAdd,
                                 textCancel: me.textCancel,
                                 textEdit: me.textEdit,
                                 textReply: me.textReply,
                                 textClose: me.textClose,
                                 maxCommLength: Asc.c_oAscMaxCellOrCommentLength,
-                                textMention: me.canRequestSendNotify ? (me.mentionShare ? me.textMention : me.textMentionNotify) : ''
+                                textMentionComment: me.canRequestSendNotify ? (me.mentionShare ? me.textMention : me.textMentionNotify) : me.textEnterComment
                             })
                         )
                     });
@@ -321,7 +342,9 @@ define([
 
                             if (record.get('hint')) {
                                 me.fireEvent('comment:disableHint', [record]);
-                                return;
+
+                                if(!record.get('fullInfoInHint'))
+                                    return;
                             }
 
                             if (btn.hasClass('btn-edit')) {
@@ -490,6 +513,7 @@ define([
                     this.emailMenu = new Common.UI.Menu({
                         maxHeight: 200,
                         cyclic: false,
+                        cls: 'font-size-medium',
                         items: []
                     }).on('render:after', function(mnu) {
                         this.scroller = new Common.UI.Scroller({
@@ -516,8 +540,10 @@ define([
                         },
                         'animate:before': function () {
                             var text = me.$window.find('textarea');
-                            if (text && text.length)
+                            if (text && text.length){
                                 text.focus();
+                                me.commentsView.disableTextBoxButton(text);
+                            }
                         }
                     });
                 }
@@ -1229,7 +1255,7 @@ define([
                             return (item.email && 0 === item.email.toLowerCase().indexOf(str) || item.name && 0 === item.name.toLowerCase().indexOf(str))
                         });
                     }
-                    var tpl = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" style="font-size: 12px;">' +
+                    var tpl = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem">' +
                                             '<div style="overflow: hidden; text-overflow: ellipsis; max-width: 195px;"><%= Common.Utils.String.htmlEncode(caption) %></div>' +
                                             '<div style="overflow: hidden; text-overflow: ellipsis; max-width: 195px; color: #909090;"><%= Common.Utils.String.htmlEncode(options.value) %></div>' +
                                         '</a>'),
@@ -1292,6 +1318,7 @@ define([
         textFollowMove          : 'Follow Move',
         textMention             : '+mention will provide access to the document and send an email',
         textMentionNotify       : '+mention will notify the user via email',
+        textEnterComment        : 'Enter your comment here',
         textViewResolved        : 'You have not permission for reopen comment',
         txtAccept: 'Accept',
         txtReject: 'Reject',

@@ -111,21 +111,19 @@ define([
             this.leftMenu = this.createView('LeftMenu').render();
             this.leftMenu.btnSearchBar.on('toggle', _.bind(this.onMenuSearchBar, this));
 
-            Common.util.Shortcuts.delegateShortcuts({
-                shortcuts: {
-                    'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
-                    'command+f,ctrl+f': _.bind(this.onShortcut, this, 'search'),
-                    'ctrl+h': _.bind(this.onShortcut, this, 'replace'),
-                    'alt+f': _.bind(this.onShortcut, this, 'file'),
-                    'esc': _.bind(this.onShortcut, this, 'escape'),
-                    /** coauthoring begin **/
-                    'alt+q': _.bind(this.onShortcut, this, 'chat'),
-                    'command+shift+h,ctrl+shift+h': _.bind(this.onShortcut, this, 'comments'),
-                    /** coauthoring end **/
-                    'f1': _.bind(this.onShortcut, this, 'help')
-                }
-            });
-
+            var keymap = {
+                'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
+                'command+f,ctrl+f': _.bind(this.onShortcut, this, 'search'),
+                'ctrl+h': _.bind(this.onShortcut, this, 'replace'),
+                'esc': _.bind(this.onShortcut, this, 'escape'),
+                /** coauthoring begin **/
+                'command+shift+h,ctrl+shift+h': _.bind(this.onShortcut, this, 'comments'),
+                /** coauthoring end **/
+                'f1': _.bind(this.onShortcut, this, 'help')
+            };
+            keymap[Common.Utils.isMac ? 'ctrl+alt+f' : 'alt+f'] = _.bind(this.onShortcut, this, 'file');
+            keymap[Common.Utils.isMac ? 'ctrl+alt+q' : 'alt+q'] = _.bind(this.onShortcut, this, 'chat');
+            Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
             Common.util.Shortcuts.suspendEvents();
 
             var me = this;
@@ -192,7 +190,8 @@ define([
                 Common.util.Shortcuts.removeShortcuts({
                     shortcuts: {
                         'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
-                        'alt+f': _.bind(this.onShortcut, this, 'file')
+                        'alt+f': _.bind(this.onShortcut, this, 'file'),
+                        'ctrl+alt+f': _.bind(this.onShortcut, this, 'file')
                     }
                 });
 
@@ -857,6 +856,7 @@ define([
         onShowHideSearch: function (state, findText) {
             if (state) {
                 Common.UI.Menu.Manager.hideAll();
+                this.tryToShowLeftMenu();
                 this.leftMenu.showMenu('advancedsearch');
                 this.leftMenu.fireEvent('search:aftershow', [findText]);
             } else {

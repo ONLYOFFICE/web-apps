@@ -19,6 +19,7 @@ import PluginsController from '../../../../common/mobile/lib/controller/Plugins.
 import EncodingController from "./Encoding";
 import DropdownListController from "./DropdownList";
 import { Device } from '../../../../common/mobile/utils/device';
+
 @inject(
     "users",
     "storeAppOptions",
@@ -46,7 +47,8 @@ class MainController extends Component {
         this._state = {
             licenseType: false,
             isFromGatewayDownloadAs: false,
-            isDocModified: false
+            isDocModified: false,
+            docProtection: false
         };
 
         this.defaultTitleText = __APP_TITLE_TEXT__;
@@ -193,10 +195,11 @@ class MainController extends Component {
                 // check licType
                 if (Asc.c_oLicenseResult.Expired === licType ||
                     Asc.c_oLicenseResult.Error === licType ||
-                    Asc.c_oLicenseResult.ExpiredTrial === licType) {
+                    Asc.c_oLicenseResult.ExpiredTrial === licType ||
+                    Asc.c_oLicenseResult.NotBefore === licType) {
                     f7.dialog.create({
-                        title   : _t.titleLicenseExp,
-                        text    : _t.warnLicenseExp
+                        title   : Asc.c_oLicenseResult.NotBefore === licType ? _t.titleLicenseNotActive : _t.titleLicenseExp,
+                        text    : Asc.c_oLicenseResult.NotBefore === licType ? _t.warnLicenseBefore : _t.warnLicenseExp
                     }).open();
                     return;
                 }
@@ -234,6 +237,9 @@ class MainController extends Component {
 
                 const appOptions = this.props.storeAppOptions;
                 const appSettings = this.props.storeApplicationSettings;
+                const storeDocumentInfo = this.props.storeDocumentInfo;
+                const dataDoc = storeDocumentInfo.dataDoc;
+                const isExtRestriction = dataDoc.fileType !== 'oform';
 
                 f7.emit('resize');
 
@@ -266,7 +272,7 @@ class MainController extends Component {
 
                 value = LocalStorage.getBool('mobile-view', true);
 
-                if(value) {
+                if(value && isExtRestriction) {
                     this.api.ChangeReaderMode();
                 } else {
                     appOptions.changeMobileView();
@@ -762,6 +768,10 @@ class MainController extends Component {
             }
         });
 
+        // Protection document
+        this.api.asc_registerCallback('asc_onChangeDocumentProtection', this.onChangeProtectDocument.bind(this));
+        // this.api.asc_registerCallback('asc_onLockDocumentProtection', this.onLockDocumentProtection.bind(this));
+
         // Toolbar settings
 
         const storeToolbarSettings = this.props.storeToolbarSettings;
@@ -781,6 +791,69 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onViewerBookmarksUpdate', (bookmarks) => {
             storeNavigation.initBookmarks(bookmarks);
         });
+    }
+
+    onChangeProtectDocument() {
+        const { t } = this.props;
+        const storeAppOptions = this.props.storeAppOptions;
+        const props = this.getDocProps(true);
+        const isProtected = props && (props.isReadOnly || props.isCommentsOnly || props.isFormsOnly || props.isReviewOnly);
+
+        storeAppOptions.setProtection(isProtected);
+        props && this.applyRestrictions(props.type);
+        Common.Notifications.trigger('protect:doclock', props);
+
+        if(isProtected) {
+            f7.dialog.create({
+                title: t('Main.notcriticalErrorTitle'),
+                text: t('Main.textDocumentProtected'),
+                buttons: [
+                    {
+                        text: t('Main.textOk')
+                    }
+                ]
+            }).open();
+        }
+    }
+
+    applyRestrictions(type) {
+        const storeAppOptions = this.props.storeAppOptions;
+
+        if (type === Asc.c_oAscEDocProtect.ReadOnly) {
+            this.api.asc_setRestriction(Asc.c_oAscRestrictionType.View);
+        } else if (type === Asc.c_oAscEDocProtect.Comments) {
+            this.api.asc_setRestriction(storeAppOptions.canComments ? Asc.c_oAscRestrictionType.OnlyComments : Asc.c_oAscRestrictionType.View);
+        } else if (type === Asc.c_oAscEDocProtect.Forms) {
+            this.api.asc_setRestriction(storeAppOptions.canFillForms ? Asc.c_oAscRestrictionType.OnlyForms : Asc.c_oAscRestrictionType.View);
+        } else { 
+            if (storeAppOptions?.isRestrictedEdit) {
+                storeAppOptions.canComments && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
+                storeAppOptions.canFillForms && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
+            } else {
+                this.api.asc_setRestriction(Asc.c_oAscRestrictionType.None);
+            }
+        }
+    };
+
+    getDocProps(isUpdate) {
+        const storeAppOptions = this.props.storeAppOptions;
+       
+        if (!storeAppOptions || !storeAppOptions.isEdit && !storeAppOptions.isRestrictedEdit) return;
+
+        if (isUpdate || !this.state.docProtection) {
+            const props = this.api.asc_getDocumentProtection();
+            const type = props ? props.asc_getEditType() : Asc.c_oAscEDocProtect.None;
+
+            this._state.docProtection = {
+                type: type,
+                isReadOnly: type === Asc.c_oAscEDocProtect.ReadOnly,
+                isCommentsOnly: type === Asc.c_oAscEDocProtect.Comments,
+                isReviewOnly: type === Asc.c_oAscEDocProtect.TrackedChanges,
+                isFormsOnly: type === Asc.c_oAscEDocProtect.Forms
+            };
+        }
+
+        return this._state.docProtection;
     }
 
     onApiTextReplaced(found, replaced) {

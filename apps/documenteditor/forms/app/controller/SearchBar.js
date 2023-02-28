@@ -96,7 +96,10 @@ define([
         },
 
         onApiUpdateSearchCurrent: function (current, all) {
-            this.searchBar && this.searchBar.disableNavButtons(current, all);
+            if (this.searchBar) {
+                this.searchBar.disableNavButtons(current, all);
+                this.searchBar.updateResultsNumber(current, all);
+            }
         },
 
         onSearchNext: function (type, arg) {
@@ -120,6 +123,7 @@ define([
             searchSettings.put_WholeWords(false);
             if (!this.api.asc_findText(searchSettings, d != 'back')) {
                 this.searchBar.disableNavButtons();
+                this.searchBar.updateResultsNumber();
                 return false;
             }
             return true;
@@ -140,6 +144,7 @@ define([
                             me.onQuerySearch();
                         } else {
                             me.api.asc_endFindText();
+                            me.searchBar.updateResultsNumber();
                         }
                         clearInterval(me._searchTimer);
                         me._searchTimer = undefined;

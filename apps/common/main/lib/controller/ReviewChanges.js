@@ -81,6 +81,7 @@ define([
                     'reviewchange:preview':     _.bind(this.onBtnPreviewClick, this),
                     'reviewchange:view':        _.bind(this.onReviewViewClick, this),
                     'reviewchange:compare':     _.bind(this.onCompareClick, this),
+                    'reviewchange:combine':     _.bind(this.onCombineClick, this),
                     'lang:document':            _.bind(this.onDocLanguage, this),
                     'collaboration:coauthmode': _.bind(this.onCoAuthMode, this),
                     'protect:update':           _.bind(this.onChangeProtectDocument, this)
@@ -401,7 +402,7 @@ define([
                         if (value.Get_SmallCaps() !== undefined)
                             proptext += ((value.Get_SmallCaps() ? '' : me.textNot) + me.textSmallCaps + ', ');
                         if (value.Get_VertAlign() !== undefined)
-                            proptext += (((value.Get_VertAlign()==1) ? me.textSuperScript : ((value.Get_VertAlign()==2) ? me.textSubScript : me.textBaseline)) + ', ');
+                            proptext += (((value.Get_VertAlign()===Asc.vertalign_SuperScript) ? me.textSuperScript : ((value.Get_VertAlign()===Asc.vertalign_SubScript) ? me.textSubScript : me.textBaseline)) + ', ');
                         if (value.Get_Color() !== undefined)
                             proptext += (me.textColor + ', ');
                         if (value.Get_Highlight() !== undefined)
@@ -718,6 +719,36 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
+        onCombineClick: function(item) {
+            if(this.api) {
+                var me = this;
+                if (!this._state.compareSettings) {
+                    this._state.compareSettings = new AscCommonWord.ComparisonOptions();
+                    this._state.compareSettings.putWords(!Common.localStorage.getBool("de-compare-char"));
+                }
+                if (item === 'file') {
+                    this.api.asc_MergeDocumentFile(this._state.compareSettings);
+                    Common.NotificationCenter.trigger('edit:complete', this.view);
+                } else if (item === 'url') {
+                    (new Common.Views.ImageFromUrlDialog({
+                        title: me.textUrl,
+                        handler: function(result, value) {
+                            if (result == 'ok') {
+                                if (me.api) {
+                                    var checkUrl = value.replace(/ /g, '');
+                                    if (!_.isEmpty(checkUrl)) {
+                                        me.api.asc_MergeDocumentUrl(checkUrl, me._state.compareSettings);
+                                    }
+                                }
+                                Common.NotificationCenter.trigger('edit:complete', me.view);
+                            }
+                        }
+                    })).show();
+                }
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
         setRevisedFile: function(data) {
             if (!this._state.compareSettings) {
                 this._state.compareSettings = new AscCommonWord.ComparisonOptions();
@@ -832,7 +863,7 @@ define([
                 chat: false,
                 review: true,
                 viewport: false,
-                documentHolder: true,
+                documentHolder: {clear: false, disable: true},
                 toolbar: true,
                 plugins: true,
                 protect: true
@@ -1014,7 +1045,7 @@ define([
                     if (!item.asc_getView())
                         length++;
                 });
-                Common.Utils.lockControls(Common.enumLock.hasCoeditingUsers, length>1, {array: [this.view.btnCompare]});
+                Common.Utils.lockControls(Common.enumLock.hasCoeditingUsers, length>1, {array: [this.view.btnCompare, this.view.btnCombine]});
             }
         },
 
@@ -1053,12 +1084,13 @@ define([
                     Common.Utils.lockControls(Common.enumLock.docLockReview, props.isReviewOnly, {array: [this.dlgChanges.btnAccept, this.dlgChanges.btnReject]});
                     Common.Utils.lockControls(Common.enumLock.docLockComments, props.isCommentsOnly, {array: [this.dlgChanges.btnAccept, this.dlgChanges.btnReject]});
                 }
-                if (this.appConfig.canReview) {
+                if (!this.appConfig.isReviewOnly) {
+                    // protection in document is more important than permissions.review, call asc_SetLocalTrackRevisions even if canReview is false
                     if (props.isReviewOnly) {
-                        this.onTurnPreview(true);
+                        this.api.asc_SetLocalTrackRevisions(true);
                         this.onApiShowChange();
                     } else if (this._state.prevReviewProtected) {
-                        this.onTurnPreview(false);
+                        this.api.asc_SetLocalTrackRevisions(false);
                         this.onApiShowChange();
                     }
                     this._state.prevReviewProtected = props.isReviewOnly;

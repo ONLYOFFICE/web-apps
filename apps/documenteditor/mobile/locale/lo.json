@@ -305,7 +305,6 @@
     "textRemoveChart": "ລົບແຜນວາດ",
     "textRemoveShape": "ລົບຮ່າງ",
     "textRemoveTable": "ລົບຕາຕະລາງ",
-    "textReorder": "ຈັດຮຽງໃໝ່",
     "textRepeatAsHeaderRow": "ເຮັດລື້ມຄືນ ຕາມ ແຖວຫົວເລື່ອງ",
     "textReplace": "ປ່ຽນແທນ",
     "textReplaceImage": "ປ່ຽນແທນຮູບ",
@@ -341,6 +340,7 @@
     "textWe": "ພວກເຮົາ",
     "textWrap": "ຫໍ່",
     "textAmountOfLevels": "Amount of Levels",
+    "textArrange": "Arrange",
     "textCancel": "Cancel",
     "textCentered": "Centered",
     "textChangeShape": "Change Shape",
@@ -419,13 +419,15 @@
     "uploadImageSizeMessage": "ຮູບພາບໃຫຍ່ເກີນໄປ. ຂະຫນາດສູງສຸດແມ່ນ 25 MB.",
     "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
     "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
     "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
     "errorTextFormWrongFormat": "The value entered does not match the format of the field.",
-    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
-    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension."
+    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "ກຳລັງດາວໂຫຼດຂໍ້ມູນ...",
@@ -562,7 +564,11 @@
     "warnNoLicense": "ທ່ານໄດ້ຖືກຈຳກັດສິດພຽງເທົ່ານີ້ສຳຫລັບການເຊື່່ອມພ້ອມກັນກັບເຄື່ອງມືແກ້ໄຂ %1 ແລ້ວເອກະສານນີ້ຈະເປີດໃຫ້ເບີ່ງເທົ່ານັ້ນ ຕິດຕໍ່ທີມຂາຍ %1 ສຳຫລັບເງື່ອນໄຂການອັບເກດສ່ວນບຸກຄົນ",
     "warnNoLicenseUsers": "ຈໍານວນການເຊື່ອມຕໍ່ພ້ອມກັນກັບບັນນາທິການ ແມ່ນເກີນກໍານົດ % 1. ຕິດຕໍ່ ທີມຂາຍ %1 ສຳລັບຂໍ້ກຳນົດການຍົກລະດັບສິດ",
     "warnProcessRightsChange": "ທ່ານບໍ່ມີສິດໃນການແກ້ໄຂໄຟລ໌ນີ້.",
-    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+    "textDocumentProtected": "The document is protected. Edit settings are not available",
+    "textOk": "Ok",
+    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+    "titleLicenseNotActive": "License not active"
   },
   "Settings": {
     "advDRMOptions": "ເອກະສານທີ່ໄດ້ຮັບການປົກປ້ອງ",

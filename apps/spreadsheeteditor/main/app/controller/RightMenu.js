@@ -281,6 +281,12 @@ define([
             if (!this.rightmenu.minimizedMode || this._openRightMenu) {
                 var active;
 
+                if (priorityactive<0 && this._lastVisibleSettings!==undefined) {
+                    var pnl = this._settings[this._lastVisibleSettings];
+                    if (pnl!==undefined && pnl.btn!==undefined && pnl.panel!==undefined && !pnl.hidden)
+                        priorityactive = this._lastVisibleSettings;
+                }
+
                 if (priorityactive<0 && !this._settings[Common.Utils.documentSettingsType.Cell].hidden &&
                                         (!this._settings[Common.Utils.documentSettingsType.Table].hidden || !this._settings[Common.Utils.documentSettingsType.Pivot].hidden ||
                                          !this._settings[Common.Utils.documentSettingsType.Chart].hidden)) {
@@ -372,7 +378,8 @@ define([
             var me = this;
             if (this.api) {
                 this._openRightMenu = !Common.localStorage.getBool("sse-hide-right-settings", this.rightmenu.defaultHideRightMenu);
-                
+                Common.Utils.InternalSettings.set("sse-hide-right-settings", !this._openRightMenu);
+
                 this.api.asc_registerCallback('asc_onSelectionChanged', _.bind(this.onSelectionChanged, this));
                 this.api.asc_registerCallback('asc_doubleClickOnObject', _.bind(this.onDoubleClickOnObject, this));
                 // this.rightmenu.shapeSettings.createDelayedElements();
@@ -473,8 +480,27 @@ define([
 
         onRightMenuHide: function (view, status) {
             if (this.rightmenu) {
-                !status && this.rightmenu.clearSelection();
-                status ? this.rightmenu.show() : this.rightmenu.hide();
+                if (!status)  { // remember last active pane
+                    var active = this.rightmenu.GetActivePane(),
+                        type;
+                    if (active) {
+                        for (var i=0; i<this._settings.length; i++) {
+                            if (this._settings[i] && this._settings[i].panelId === active) {
+                                type = i;
+                                break;
+                            }
+                        }
+                        this._lastVisibleSettings = type;
+                    }
+                    this.rightmenu.clearSelection();
+                    this.rightmenu.hide();
+                    this.rightmenu.signatureSettings && this.rightmenu.signatureSettings.hideSignatureTooltip();
+                } else {
+                    this.rightmenu.show();
+                    this._openRightMenu = !Common.Utils.InternalSettings.get("sse-hide-right-settings");
+                    this.onSelectionChanged(this.api.asc_getCellInfo());
+                    this._lastVisibleSettings = undefined;
+                }
                 Common.localStorage.setBool('sse-hidden-rightmenu', !status);
             }
 

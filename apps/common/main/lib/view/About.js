@@ -58,6 +58,7 @@ define([
             !(/\s$/.test(this.txtAddress)) && (this.txtAddress += " ");
             !(/\s$/.test(this.txtMail)) && (this.txtMail += " ");
             !(/\s$/.test(this.txtTel)) && (this.txtTel += " ");
+            !(/\s$/.test(this.txtVersion)) && (this.txtVersion += " ");
 
             this.template = _.template([
                 '<table id="id-about-licensor-logo" cols="1" style="width: 100%; margin-top: 20px;">',

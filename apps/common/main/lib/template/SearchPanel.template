@@ -3,6 +3,7 @@
         <label id="search-adv-title"></label>
         <div id="search-btn-close"></div>
     </div>
+    <div id="search-container">
     <div id="search-adv-settings">
         <table cols="1">
             <tbody>
@@ -59,5 +60,6 @@
         </table>
     </div>
     <div id="search-results" class="ps-container oo">
+    </div>
     </div>
 </div>

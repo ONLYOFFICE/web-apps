@@ -979,7 +979,7 @@ Common.Utils.warningDocumentIsLocked = function (opts) {
         callback: function(btn){
             if (btn == 'edit') {
                 if ( opts.disablefunc ) opts.disablefunc(false);
-                app.getController('Main').api.asc_setIsReadOnly(false);
+                app.getController('Main').api.asc_setLocalRestrictions(Asc.c_oAscLocalRestrictionType.None);
             }
         }
     });
@@ -1096,3 +1096,14 @@ Common.Utils.getKeyByValue = function(obj, value) {
         }
     }
 };
+
+if (Common.UI) {
+    Common.UI.isRTL = function () {
+        if ( window.isrtl == undefined ) {
+            window.isrtl = Common.localStorage.itemExists('ui-rtl') ?
+                Common.localStorage.getBool("ui-rtl") : Common.Locale.isCurrentLanguageRtl();
+        }
+
+        return window.isrtl;
+    };
+}

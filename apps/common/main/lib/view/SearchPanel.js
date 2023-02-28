@@ -176,6 +176,13 @@ define([
                 this.$resultsContainer = $('#search-results');
                 this.$resultsContainer.hide();
 
+                this.$searchContainer = $('#search-container');
+                this.$searchContainer.scroller = new Common.UI.Scroller({
+                    el              : $('#search-container'),
+                    useKeyboard     : true,
+                    minScrollbarLength: 40
+                });
+
                 Common.NotificationCenter.on('search:updateresults', _.bind(this.disableNavButtons, this));
                 if (window.SSE) {
                     this.cmbWithin = new Common.UI.ComboBox({
@@ -276,6 +283,7 @@ define([
                         minScrollbarLength: 40,
                         alwaysVisibleY: true
                     });
+                    this.$resultsTable = this.$resultsContainer.find('.search-table');
                 } else {
                     this.$resultsContainer.scroller = new Common.UI.Scroller({
                         el: this.$resultsContainer,
@@ -327,23 +335,44 @@ define([
         ChangeSettings: function(props) {
         },
 
+        updateScrollers: function () {
+            this.$resultsContainer.scroller.update({alwaysVisibleY: true});
+            this.$searchContainer.scroller.update({alwaysVisibleY: true});
+
+            setTimeout(_.bind(function () {
+                if (this.$searchContainer.find('> .ps-scrollbar-y-rail').is(':visible')) {
+                    this.$resultsContainer.find('.ps-scrollbar-y-rail').addClass('set-left');
+                } else {
+                    this.$resultsContainer.find('.ps-scrollbar-y-rail').removeClass('set-left');
+                }
+            }, this), 100);
+        },
+
         updateResultsContainerHeight: function () {
             if (this.$resultsContainer) {
-                this.$resultsContainer.outerHeight($('#search-box').outerHeight() - $('#search-header').outerHeight() - $('#search-adv-settings').outerHeight());
-                this.$resultsContainer.scroller.update({alwaysVisibleY: true});
+                this.$resultsContainer.outerHeight(Math.max($('#search-box').outerHeight() - $('#search-header').outerHeight() - $('#search-adv-settings').outerHeight(), 112));
+                this.updateScrollers();
             }
         },
 
         updateResultsNumber: function (current, count) {
             var text;
-            if (count > 300) {
-                text = this.textTooManyResults;
-            } else {
-                text = current === 'no-results' ? this.textNoSearchResults :
-                    (current === 'stop' ? this.textSearchHasStopped :
-                    (current === 'content-changed' ? (this.textContentChanged + ' ' + Common.Utils.String.format(this.textSearchAgain, '<a class="search-again">','</a>')) :
-                    (!count ? this.textNoMatches : Common.Utils.String.format(this.textSearchResults, current + 1, count))));
+            if (this.$resultsContainer && current !== 'content-changed' && current !== 'replace-all' && current !== 'replace') {
+                if (count > 300) {
+                    this.showToManyResults();
+                } else {
+                    this.$resultsContainer.find('.many-results').remove();
+                    if (window.SSE) {
+                        this.$resultsTable.show();
+                    }
+                }
             }
+            text = current === 'no-results' ? this.textNoSearchResults :
+                (current === 'stop' ? this.textSearchHasStopped :
+                (current === 'content-changed' ? (this.textContentChanged + ' ' + Common.Utils.String.format(this.textSearchAgain, '<a class="search-again">','</a>')) :
+                (current === 'replace-all' ? Common.Utils.String.format(this.textItemsSuccessfullyReplaced, count) :
+                (current === 'replace' ? Common.Utils.String.format(this.textPartOfItemsNotReplaced, count[0], count[1], count[2]) :
+                (!count ? this.textNoMatches : Common.Utils.String.format(this.textSearchResults, current + 1, count))))));
             if (current === 'content-changed') {
                 var me = this;
                 this.$reaultsNumber.html(text);
@@ -355,6 +384,20 @@ define([
             }
             this.updateResultsContainerHeight();
             !window.SSE && this.disableReplaceButtons(!count);
+        },
+
+        showToManyResults: function () {
+            if (!window.SSE) {
+                this.$resultsContainer.empty();
+            } else {
+                this.$resultsTable.hide();
+                this.$resultsTable.find('.search-items').empty();
+                this.$resultsContainer.find('.many-results').remove();
+            }
+            this.$resultsContainer.append('<div class="many-results">' + this.textTooManyResults + '</div>');
+            if (!this.$resultsContainer.is(':visible')) {
+                this.$resultsContainer.show();
+            }
         },
 
         onClickClosePanel: function() {
@@ -439,7 +482,9 @@ define([
         textFormula: 'Formula',
         textSearchHasStopped: 'Search has stopped',
         textContentChanged: 'Document changed.',
-        textSearchAgain: '{0}Perform new search{1} for accurate results.'
+        textSearchAgain: '{0}Perform new search{1} for accurate results.',
+        textItemsSuccessfullyReplaced: '{0} items successfully replaced.',
+        textPartOfItemsNotReplaced: '{0}/{1} items replaced. Remaining {2} items are locked by other users.'
 
     }, Common.Views.SearchPanel || {}));
 });

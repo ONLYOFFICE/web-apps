@@ -73,7 +73,6 @@ define([    'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.templa
             this.handler    = options.handler;
             this.props      = options.props;
             this.fieldIndex = options.fieldIndex || 0;
-            this.names      = options.names || [];
             this.type       = options.type || 0; // 0 - columns, 1 - rows, 3 - filters
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);

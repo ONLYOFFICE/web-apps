@@ -136,8 +136,8 @@ define([
                         'Grand Total': this.txtGrandTotal,
                         'Row Labels': this.txtRowLbls,
                         'Column Labels': this.txtColLbls,
-                        'Multi-Select (Alt+S)': this.txtMultiSelect,
-                        'Clear Filter (Alt+C)':  this.txtClearFilter,
+                        'Multi-Select (Alt+S)': this.txtMultiSelect + Common.Utils.String.platformKey('Alt+S', ' (' + (Common.Utils.isMac ? Common.Utils.String.textCtrl + '+' : '') + '{0})'),
+                        'Clear Filter (Alt+C)':  this.txtClearFilter + Common.Utils.String.platformKey('Alt+C', ' (' + (Common.Utils.isMac ? Common.Utils.String.textCtrl + '+' : '') + '{0})'),
                         '(blank)': this.txtBlank,
                         'Group': this.txtGroup,
                         'Seconds': this.txtSeconds,
@@ -148,7 +148,8 @@ define([
                         'Quarters': this.txtQuarters,
                         'Years': this.txtYears,
                         '%1 or %2': this.txtOr,
-                        'Qtr': this.txtQuarter
+                        'Qtr': this.txtQuarter,
+                        'Text': this.textText
                     };
 
                 styleNames.forEach(function(item){
@@ -196,6 +197,16 @@ define([
                 if (value===null) value = '3';
                 Common.Utils.InternalSettings.set("sse-settings-fontrender", value);
                 this.api.asc_setFontRenderingMode(parseInt(value));
+
+                if ( !Common.Utils.isIE ) {
+                    if ( /^https?:\/\//.test('{{HELP_CENTER_WEB_SSE}}') ) {
+                        const _url_obj = new URL('{{HELP_CENTER_WEB_SSE}}');
+                        if ( !!_url_obj.searchParams )
+                            _url_obj.searchParams.set('lang', Common.Locale.getCurrentLanguage());
+
+                        Common.Utils.InternalSettings.set("url-help-center", _url_obj.toString());
+                    }
+                }
 
                 this.api.asc_registerCallback('asc_onOpenDocumentProgress',  _.bind(this.onOpenDocument, this));
                 this.api.asc_registerCallback('asc_onEndAction',             _.bind(this.onLongActionEnd, this));
@@ -388,6 +399,10 @@ define([
                         }
                         document.documentElement.style.setProperty("--font-family-base-custom", arr.join(','));
                     }
+                    if (this.appOptions.customization.font.size) {
+                        var size = parseInt(this.appOptions.customization.font.size);
+                        !isNaN(size) && document.documentElement.style.setProperty("--font-size-base-app-custom", size + "px");
+                    }
                 }
 
                 this.editorConfig.user          =
@@ -428,6 +443,7 @@ define([
                 this.appOptions.canMakeActionLink = this.editorConfig.canMakeActionLink;
                 this.appOptions.canFeaturePivot = true;
                 this.appOptions.canFeatureViews = true;
+                this.appOptions.uiRtl = Common.localStorage.getBool("ui-rtl");
                 this.appOptions.canRequestReferenceData = this.editorConfig.canRequestReferenceData;
 
                 if (this.appOptions.user.guest && this.appOptions.canRenameAnonymous && !this.appOptions.isEditDiagram && !this.appOptions.isEditMailMerge && !this.appOptions.isEditOle)
@@ -592,7 +608,9 @@ define([
                         Asc.c_oAscFileType.PDFA,
                         Asc.c_oAscFileType.XLTX,
                         Asc.c_oAscFileType.OTS,
-                        Asc.c_oAscFileType.XLSM
+                        Asc.c_oAscFileType.XLSM,
+                        Asc.c_oAscFileType.JPG,
+                        Asc.c_oAscFileType.PNG
                     ];
 
                 if ( !_format || _supported.indexOf(_format) < 0 )
@@ -671,8 +689,11 @@ define([
 
             onEditComplete: function(cmp, opts) {
                 if (opts && opts.restorefocus && this.api.isCEditorFocused) {
-                    this.formulaInput.blur();
-                    this.formulaInput.focus();
+                    var me = this;
+                    setTimeout(function () {
+                            me.formulaInput.blur();
+                            me.formulaInput.focus();
+                        }, 0);
                 } else {
                     this.getApplication().getController('DocumentHolder').getView('DocumentHolder').focus();
                     this.api.isCEditorFocused = false;
@@ -1071,6 +1092,8 @@ define([
                 Common.Gateway.documentReady();
                 if (this.appOptions.user.guest && this.appOptions.canRenameAnonymous && !this.appOptions.isEditDiagram && !this.appOptions.isEditMailMerge && !this.appOptions.isEditOle && (Common.Utils.InternalSettings.get("guest-username")===null))
                     this.showRenameUserDialog();
+                if (this._needToSaveAsFile) // warning received before document is ready
+                    this.getApplication().getController('LeftMenu').leftMenu.showMenu('file:saveas');
             },
 
             onLicenseChanged: function(params) {
@@ -1139,7 +1162,7 @@ define([
                     }
                 } else if (!this.appOptions.isDesktopApp && !this.appOptions.canBrandingExt && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge || this.appOptions.isEditOle) &&
                     this.editorConfig && this.editorConfig.customization && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo ||
-                                                                             this.editorConfig.customization.font && this.editorConfig.customization.font.name)) {
+                    this.editorConfig.customization.font && (this.editorConfig.customization.font.size || this.editorConfig.customization.font.name))) {
                     Common.UI.warning({
                         title: this.textPaidFeature,
                         msg  : this.textCustomLoader,
@@ -1166,7 +1189,7 @@ define([
                     chat: true,
                     review: true,
                     viewport: true,
-                    documentHolder: true,
+                    documentHolder: {clear: !temp, disable: true},
                     toolbar: true,
                     celleditor: {previewMode: true}
                 }, temp ? 'reconnect' : 'disconnect');
@@ -1198,7 +1221,8 @@ define([
                     app.getController('Toolbar').DisableToolbar(disable, options.viewMode);
                 }
                 if (options.documentHolder) {
-                    app.getController('DocumentHolder').SetDisabled(disable, options.allowProtect);
+                    options.documentHolder.clear && app.getController('DocumentHolder').clearSelection();
+                    options.documentHolder.disable && app.getController('DocumentHolder').SetDisabled(disable, options.allowProtect);
                 }
                 if (options.leftMenu) {
                     if (options.leftMenu.disable)
@@ -1241,10 +1265,10 @@ define([
             onEditorPermissions: function(params) {
                 var licType = params ? params.asc_getLicenseType() : Asc.c_oLicenseResult.Error;
                 if ( params && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge || this.appOptions.isEditOle)) {
-                    if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType || Asc.c_oLicenseResult.ExpiredTrial === licType) {
+                    if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType || Asc.c_oLicenseResult.ExpiredTrial === licType || Asc.c_oLicenseResult.NotBefore === licType) {
                         Common.UI.warning({
-                            title: this.titleLicenseExp,
-                            msg: this.warnLicenseExp,
+                            title: Asc.c_oLicenseResult.NotBefore === licType ? this.titleLicenseNotActive : this.titleLicenseExp,
+                            msg: Asc.c_oLicenseResult.NotBefore === licType ? this.warnLicenseBefore : this.warnLicenseExp,
                             buttons: [],
                             closable: false
                         });
@@ -1308,7 +1332,8 @@ define([
                                                  (this.editorConfig.canRequestEditRights || this.editorConfig.mode !== 'view'); // if mode=="view" -> canRequestEditRights must be defined
                 this.appOptions.isEdit         = (this.appOptions.canLicense || this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge || this.appOptions.isEditOle) && this.permissions.edit !== false && this.editorConfig.mode !== 'view';
                 this.appOptions.canDownload    = (this.permissions.download !== false);
-                this.appOptions.canPrint       = (this.permissions.print !== false);
+                this.appOptions.canPrint       = (this.permissions.print !== false) && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge || this.appOptions.isEditOle);
+                this.appOptions.canQuickPrint = this.appOptions.canPrint && !Common.Utils.isMac && this.appOptions.isDesktopApp;
                 this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge || this.appOptions.isEditOle) &&
                                                 (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
@@ -1323,7 +1348,7 @@ define([
                                                     && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge || this.appOptions.isEditOle);
                 this.appOptions.isPasswordSupport = this.appOptions.isEdit && this.api.asc_isProtectionSupport() && (this.permissions.protect!==false)
                                                     && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge || this.appOptions.isEditOle);
-                this.appOptions.canProtect     = (this.appOptions.isSignatureSupport || this.appOptions.isPasswordSupport);
+                this.appOptions.canProtect     = (this.permissions.protect!==false) && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge || this.appOptions.isEditOle);
                 this.appOptions.canHelp        = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.help===false);
                 this.appOptions.isRestrictedEdit = !this.appOptions.isEdit && this.appOptions.canComments;
 
@@ -1472,6 +1497,7 @@ define([
                     commentsController.setConfig({
                             config      : this.editorConfig,
                             sdkviewname : '#ws-canvas-outer',
+                            fullInfoHintMode : true,
                             hintmode    : true},
                         this.api);
                 }
@@ -1570,6 +1596,9 @@ define([
                 if (id == Asc.c_oAscError.ID.LoadingScriptError) {
                     this.showTips([this.scriptLoadError]);
                     this.tooltip && this.tooltip.getBSTip().$tip.css('z-index', 10000);
+                    return;
+                } else if (id == Asc.c_oAscError.ID.CanNotPasteImage) {
+                    this.showTips([this.errorCannotPasteImg], {timeout: 7000, hideCloseTip: true});
                     return;
                 }
 
@@ -1996,7 +2025,9 @@ define([
 
                     case Asc.c_oAscError.ID.ConvertationOpenFormat:
                         config.maxwidth = 600;
-                        if (errData === 'pdf')
+                        if (Common.Utils.InternalSettings.get('import-xml-start'))
+                            config.msg = this.errorConvertXml;
+                        else if (errData === 'pdf')
                             config.msg = this.errorInconsistentExtPdf.replace('%1', this.appOptions.spreadsheet.fileType || '');
                         else if  (errData === 'docx')
                             config.msg = this.errorInconsistentExtDocx.replace('%1', this.appOptions.spreadsheet.fileType || '');
@@ -2041,7 +2072,11 @@ define([
                     config.callback = _.bind(function(btn){
                         if (id == Asc.c_oAscError.ID.Warning && btn == 'ok' && this.appOptions.canDownload) {
                             Common.UI.Menu.Manager.hideAll();
-                            (this.appOptions.isDesktopApp && this.appOptions.isOffline) ? this.api.asc_DownloadAs() : this.getApplication().getController('LeftMenu').leftMenu.showMenu('file:saveas');
+                            if (this.appOptions.isDesktopApp && this.appOptions.isOffline)
+                                this.api.asc_DownloadAs();
+                            else {
+                                this._isDocReady ? this.getApplication().getController('LeftMenu').leftMenu.showMenu('file:saveas') : (this._needToSaveAsFile = true);
+                            }
                         } else if (id == Asc.c_oAscError.ID.EditingError) {
                             this.disableEditing(true);
                             Common.NotificationCenter.trigger('api:disconnect', true); // enable download and print
@@ -2262,7 +2297,9 @@ define([
             onServerVersion: function(buildVersion) {
                 if (this.changeServerVersion) return true;
 
-                if (DocsAPI.DocEditor.version() !== buildVersion && !window.compareVersions) {
+                const cur_version = this.getApplication().getController('LeftMenu').leftMenu.getMenu('about').txtVersionNum;
+                const cropped_version = cur_version.match(/^(\d+.\d+.\d+)/);
+                if (!window.compareVersions && (!cropped_version || cropped_version[1] !== buildVersion)) {
                     this.changeServerVersion = true;
                     Common.UI.warning({
                         title: this.titleServerVersion,
@@ -2924,6 +2961,39 @@ define([
                     };
                 }
                 if (url) this.iframePrint.src = url;
+            },
+
+            onPrintQuick: function() {
+                if (!this.appOptions.canQuickPrint) return;
+
+                var value = Common.localStorage.getBool("sse-hide-quick-print-warning"),
+                    me = this,
+                    handler = function () {
+                        var printopt = new Asc.asc_CAdjustPrint();
+                        printopt.asc_setNativeOptions({quickPrint: true});
+                        var opts = new Asc.asc_CDownloadOptions();
+                        opts.asc_setAdvancedOptions(printopt);
+                        me.api.asc_Print(opts);
+                        Common.component.Analytics.trackEvent('Print');
+                    };
+
+                if (value) {
+                    handler.call(this);
+                } else {
+                    Common.UI.warning({
+                        msg: this.textTryQuickPrint,
+                        buttons: ['yes', 'no'],
+                        primary: 'yes',
+                        dontshow: true,
+                        maxwidth: 500,
+                        callback: function(btn, dontshow){
+                            dontshow && Common.localStorage.setBool("sse-hide-quick-print-warning", true);
+                            if (btn === 'yes') {
+                                setTimeout(handler, 1);
+                            }
+                        }
+                    });
+                }
             },
 
             warningDocumentIsLocked: function() {
@@ -3637,8 +3707,8 @@ define([
             txtColLbls: 'Column Labels',
             errNoDuplicates: 'No duplicate values found.',
             errRemDuplicates: 'Duplicate values found and deleted: {0}, unique values left: {1}.',
-            txtMultiSelect: 'Multi-Select (Alt+S)',
-            txtClearFilter: 'Clear Filter (Alt+C)',
+            txtMultiSelect: 'Multi-Select',
+            txtClearFilter: 'Clear Filter',
             txtBlank: '(blank)',
             textHasMacros: 'The file contains automatic macros.<br>Do you want to run macros?',
             textRemember: 'Remember my choice',
@@ -3713,7 +3783,13 @@ define([
             errorInconsistentExtXlsx: 'An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.',
             errorInconsistentExtPptx: 'An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.',
             errorInconsistentExtPdf: 'An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.',
-            errorInconsistentExt: 'An error has occurred while opening the file.<br>The file content does not match the file extension.'
+            errorInconsistentExt: 'An error has occurred while opening the file.<br>The file content does not match the file extension.',
+            errorCannotPasteImg: 'We can\'t paste this image from the Clipboard, but you can save it to your device and \ninsert it from there, or you can copy the image without text and paste it into the spreadsheet.',
+            textTryQuickPrint: 'You have selected Quick print: the entire document will be printed on the last selected or default printer.<br>Do you want to continue?',
+            errorConvertXml: 'The file has an unsupported format.<br>Only XML Spreadsheet 2003 format can be used.',
+            textText: 'Text',
+            warnLicenseBefore: 'License not active.<br>Please contact your administrator.',
+            titleLicenseNotActive: 'License not active'
         }
     })(), SSE.Controllers.Main || {}))
 });

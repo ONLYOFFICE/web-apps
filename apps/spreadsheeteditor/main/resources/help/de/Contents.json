@@ -35,12 +35,13 @@
   { "src": "UsageInstructions/InsertFunction.htm", "name": "Funktionen einfügen", "headername": "Mit Funktionen arbeiten" },
   {"src": "UsageInstructions/InsertArrayFormulas.htm", "name": "Matrixformeln einfügen"},
   { "src": "UsageInstructions/UseNamedRanges.htm", "name": "Namensbereiche verwenden" },
+  {"src": "UsageInstructions/WatchWindow.htm", "name": "Überwachungsfenster"},
   { "src": "UsageInstructions/InsertImages.htm", "name": "Bilder einfügen", "headername": "Objekte bearbeiten" },
   { "src": "UsageInstructions/InsertChart.htm", "name": "Diagramme einfügen" },
   {"src": "UsageInstructions/InsertSparklines.htm", "name": "Sparklines einfügen"},
   { "src": "UsageInstructions/InsertAutoshapes.htm", "name": "AutoFormen einfügen und formatieren" },
   { "src": "UsageInstructions/InsertTextObjects.htm", "name": "Textobjekte einfügen" },
-  {"src": "UsageInstructions/SupportSmartArt.htm", "name": "Unterstützung von SmartArt" },
+  {"src": "UsageInstructions/InsertSmartArt.htm", "name": "SmartArt-Objekte einfügen" },
   { "src": "UsageInstructions/InsertSymbols.htm", "name": "Symbole und Sonderzeichen einfügen" },
   { "src": "UsageInstructions/ManipulateObjects.htm", "name": "Objekte formatieren" },
   { "src": "UsageInstructions/InsertEquation.htm", "name": "Formeln einfügen", "headername": "Mathematische Formeln" },
@@ -71,4 +72,5 @@
   { "src": "HelpfulHints/About.htm", "name": "Über den Kalkulationstabelleneditor", "headername": "Nützliche Hinweise" },
   { "src": "HelpfulHints/SupportedFormats.htm", "name": "Unterstützte Formate für Kalkulationstabellen" },
   { "src": "HelpfulHints/KeyboardShortcuts.htm", "name": "Tastenkombinationen" }
+  
 ]

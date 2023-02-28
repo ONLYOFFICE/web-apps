@@ -171,10 +171,15 @@ Common.Locale = new(function() {
         } else require(polyfills, _requireLang);
     } else _requireLang();
 
+    const _isCurrentRtl = function () {
+        return false;
+    };
+
     return {
         apply: _applyLocalization,
         get: _get,
         getCurrentLanguage: _getCurrentLanguage,
+        isCurrentLanguageRtl: _isCurrentRtl,
         getDefaultLanguage: _getDefaultLanguage
     };
     

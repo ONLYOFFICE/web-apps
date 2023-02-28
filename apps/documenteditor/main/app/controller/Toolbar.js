@@ -131,6 +131,10 @@ define([
                         var _main = this.getApplication().getController('Main');
                         _main.onPrint();
                     },
+                    'print-quick': function (opts) {
+                        var _main = this.getApplication().getController('Main');
+                        _main.onPrintQuick();
+                    },
                     'save': function (opts) {
                         this.api.asc_Save();
                     },
@@ -376,6 +380,7 @@ define([
             Common.Gateway.on('setmailmergerecipients',                 _.bind(this.setMailMergeRecipients, this));
             $('#id-toolbar-menu-new-control-color').on('click',         _.bind(this.onNewControlsColor, this));
             toolbar.listStylesAdditionalMenuItem.on('click', this.onMenuSaveStyle.bind(this));
+            toolbar.btnPrint.menu && toolbar.btnPrint.menu.on('item:click', _.bind(this.onPrintMenu, this));
 
             this.onSetupCopyStyleButton();
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
@@ -885,8 +890,8 @@ define([
                                                                                     toolbar.btnInsDateTime, toolbar.btnBlankPage, toolbar.btnInsertEquation, toolbar.btnInsertSymbol ])});
 
             this.toolbar.lockToolbar(Common.enumLock.inChart,       in_chart,           {array: toolbar.textOnlyControls.concat([toolbar.btnClearStyle, toolbar.btnInsertEquation])});
-            this.toolbar.lockToolbar(Common.enumLock.inSmartart,    in_smart_art,       {array: toolbar.textOnlyControls.concat([toolbar.btnClearStyle])});
-            this.toolbar.lockToolbar(Common.enumLock.inSmartartInternal, in_smart_art_internal,    {array: toolbar.textOnlyControls.concat([toolbar.btnClearStyle, toolbar.btnDecLeftOffset, toolbar.btnIncLeftOffset])});
+            this.toolbar.lockToolbar(Common.enumLock.inSmartart,    in_smart_art,       {array: toolbar.textOnlyControls.concat([toolbar.btnClearStyle, toolbar.btnContentControls])});
+            this.toolbar.lockToolbar(Common.enumLock.inSmartartInternal, in_smart_art_internal,    {array: toolbar.textOnlyControls.concat([toolbar.btnClearStyle, toolbar.btnDecLeftOffset, toolbar.btnIncLeftOffset, toolbar.btnContentControls])});
             this.toolbar.lockToolbar(Common.enumLock.inEquation,    in_equation,        {array: toolbar.btnsPageBreak.concat([toolbar.btnDropCap, toolbar.btnInsertTable, toolbar.btnBlankPage, toolbar.btnInsertShape,
                     toolbar.btnInsertText, toolbar.btnInsertTextArt, toolbar.btnInsertImage, toolbar.btnInsertSmartArt, toolbar.btnSuperscript, toolbar.btnSubscript, toolbar.btnEditHeader])});
 
@@ -896,16 +901,22 @@ define([
                 control_plain = (in_control&&control_props) ? (control_props.get_ContentControlType()==Asc.c_oAscSdtLevelType.Inline) : false;
             (lock_type===undefined) && (lock_type = Asc.c_oAscSdtLockType.Unlocked);
             var content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
+            var if_form = control_props && control_props.get_FormPr();
 
             if (!toolbar.btnContentControls.isDisabled()) {
-                var control_disable = control_plain || content_locked,
-                    if_form = control_props && control_props.get_FormPr();
+                var control_disable = control_plain || content_locked;
                 for (var i=0; i<7; i++)
                     toolbar.btnContentControls.menu.items[i].setDisabled(control_disable);
                 toolbar.btnContentControls.menu.items[8].setDisabled(!in_control || lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked || if_form);
                 toolbar.btnContentControls.menu.items[10].setDisabled(!in_control || if_form);
             }
 
+            this.toolbar.lockToolbar(Common.enumLock.fixedForm, if_form && if_form.get_Fixed() && in_para, {array: [
+                toolbar.btnAlignLeft, toolbar.btnAlignCenter, toolbar.btnAlignRight, toolbar.btnAlignJust,
+                toolbar.btnMarkers, toolbar.btnNumbers, toolbar.btnMultilevels,
+                toolbar.btnDecLeftOffset, toolbar.btnIncLeftOffset,
+                toolbar.btnLineSpace
+            ]});  
             this.toolbar.lockToolbar(Common.enumLock.controlPlain, control_plain, {array: [toolbar.btnInsertTable, toolbar.btnInsertImage,  toolbar.btnInsertChart,  toolbar.btnInsertText, toolbar.btnInsertTextArt,
                                                                                 toolbar.btnInsertShape, toolbar.btnInsertSmartArt, toolbar.btnInsertEquation, toolbar.btnDropCap, toolbar.btnColumns, toolbar.mnuInsertPageNum ]});
             if (enable_dropcap && frame_pr) {
@@ -1112,13 +1123,31 @@ define([
         },
 
         onPrint: function(e) {
-            if (this.api)
-                this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isOpera == true use asc_onPrintUrl event
-
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-
+            if (this.toolbar.btnPrint.options.printType == 'print') {
+                Common.NotificationCenter.trigger('file:print', this.toolbar);
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            } else {
+                var _main = this.getApplication().getController('Main');
+                _main.onPrintQuick();
+            }
             Common.component.Analytics.trackEvent('Print');
             Common.component.Analytics.trackEvent('ToolBar', 'Print');
+
+        },
+
+        onPrintMenu: function (btn, e){
+            var oldType = this.toolbar.btnPrint.options.printType;
+            var newType = e.value;
+
+            if(newType != oldType) {
+                this.toolbar.btnPrint.changeIcon({
+                    next: e.options.iconClsForMainBtn,
+                    curr: this.toolbar.btnPrint.menu.items.filter(function(item){return item.value == oldType;})[0].options.iconClsForMainBtn
+                });
+                this.toolbar.btnPrint.updateHint([e.caption + e.options.platformKey]);
+                this.toolbar.btnPrint.options.printType = newType;
+            }
+            this.onPrint(e);
         },
 
         onSave: function(e) {
@@ -1844,15 +1873,11 @@ define([
                         handler: function(dlg, result) {
                             if (result == 'ok') {
                                 props = dlg.getSettings();
-                                var mnu = me.toolbar.btnPageMargins.menu.items[0];
-                                mnu.setVisible(true);
-                                mnu.setChecked(true);
-                                mnu.options.value = mnu.value = [props.get_TopMargin(), props.get_LeftMargin(), props.get_BottomMargin(), props.get_RightMargin()];
-                                $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
                                 Common.localStorage.setItem("de-pgmargins-top", props.get_TopMargin());
                                 Common.localStorage.setItem("de-pgmargins-left", props.get_LeftMargin());
                                 Common.localStorage.setItem("de-pgmargins-bottom", props.get_BottomMargin());
                                 Common.localStorage.setItem("de-pgmargins-right", props.get_RightMargin());
+                                Common.NotificationCenter.trigger('margins:update', props);
 
                                 me.api.asc_SetSectionProps(props);
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -3207,7 +3232,8 @@ define([
                     toolbar.onCollaborativeChanges();
                 }
             }
-            disable ? Common.util.Shortcuts.suspendEvents('alt+h') : Common.util.Shortcuts.resumeEvents('alt+h');
+            var hkComments = Common.Utils.isMac ? 'command+alt+a' : 'alt+h';
+            disable ? Common.util.Shortcuts.suspendEvents(hkComments) : Common.util.Shortcuts.resumeEvents(hkComments);
         },
 
         onSelectRecepientsClick: function(menu, item, e) {
@@ -3315,16 +3341,17 @@ define([
                 //         if ($panel) me.toolbar.addTab(tab, $panel, 6);
                 //     }
                 // }
-
-                tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
-                $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
-                if ($panel) {
-                    config.canProtect && $panel.append($('<div class="separator long"></div>'));
-                    var doctab = me.getApplication().getController('DocProtection');
-                    $panel.append(doctab.createToolbarPanel());
-                    me.toolbar.addTab(tab, $panel, 6);
-                    me.toolbar.setVisible('protect', Common.UI.LayoutManager.isElementVisible('toolbar-protect'));
-                    Array.prototype.push.apply(me.toolbar.lockControls, doctab.getView('DocProtection').getButtons());
+                if ( config.canProtect ) {
+                    tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
+                    $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                    if ($panel) {
+                        (config.isSignatureSupport || config.isPasswordSupport) && $panel.append($('<div class="separator long"></div>'));
+                        var doctab = me.getApplication().getController('DocProtection');
+                        $panel.append(doctab.createToolbarPanel());
+                        me.toolbar.addTab(tab, $panel, 6);
+                        me.toolbar.setVisible('protect', Common.UI.LayoutManager.isElementVisible('toolbar-protect'));
+                        Array.prototype.push.apply(me.toolbar.lockControls, doctab.getView('DocProtection').getButtons());
+                    }
                 }
 
                 var links = me.getApplication().getController('Links');

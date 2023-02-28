@@ -510,7 +510,8 @@ define([
 
         onGradientChange: function(slider, newValue, oldValue){
             this.GradColor.values = slider.getValues();
-            this.spnGradPosition.setValue(this.GradColor.values[this.GradColor.currentIdx], true);
+            var curValue = this.GradColor.values[this.GradColor.currentIdx];
+            this.spnGradPosition.setValue(Common.UI.isRTL() ? this.sldrGradient.maxValue - curValue : curValue, true);
             this._sliderChanged = true;
             if (this.api && !this._noApply) {
                 if (this._sendUndoPoint)  {
@@ -943,7 +944,8 @@ define([
                         me.GradColor.currentIdx = 0;
                     }
                     this.sldrGradient.setActiveThumb(me.GradColor.currentIdx);
-                    this.spnGradPosition.setValue(this.GradColor.values[this.GradColor.currentIdx]);
+                    var curValue = me.GradColor.values[me.GradColor.currentIdx];
+                    this.spnGradPosition.setValue(Common.UI.isRTL() ? me.sldrGradient.maxValue - curValue : curValue);
                     this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_GRAD;
                     this.FGColor = {Value: 1, Color: this.GradColor.colors[0]};
                     this.BGColor = {Value: 1, Color: 'ffffff'};
@@ -1043,7 +1045,7 @@ define([
 
                             if (w!==null) w = this._mm2pt(w);
                             var _selectedItem = (w===null) ? w : _.find(this.cmbBorderSize.store.models, function(item) {
-                                if ( w<item.attributes.value+0.00001 && w>item.attributes.value-0.00001) {
+                                if ( w<item.attributes.value+0.0001 && w>item.attributes.value-0.0001) {
                                     return true;
                                 }
                             });
@@ -1145,7 +1147,7 @@ define([
                     this._state.GradColor = color;
                 }
 
-                this.chShadow.setDisabled(!!props.get_FromChart());
+                this.chShadow.setDisabled(!!props.get_FromChart() || this._locked);
                 this.chShadow.setValue(!!props.asc_getShadow(), true);
 
                 this._noApply = false;
@@ -1287,7 +1289,7 @@ define([
             this.cmbGradType = new Common.UI.ComboBox({
                 el: $('#shape-combo-grad-type'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 90px;',
+                menuStyle: 'min-width: 100%;',
                 editable: false,
                 data: this._arrGradType,
                 dataHint: '1',
@@ -1360,7 +1362,7 @@ define([
                 me.btnGradColor.setColor(color);
                 me.colorsGrad.select(color,false);
                 var pos = me.GradColor.values[me.GradColor.currentIdx];
-                me.spnGradPosition.setValue(pos, true);
+                me.spnGradPosition.setValue(Common.UI.isRTL() ? me.sldrGradient.maxValue - pos : pos, true);
             });
             this.sldrGradient.on('thumbdblclick', function(cmp){
                 me.btnGradColor.cmpEl.find('button').dropdown('toggle');
@@ -1876,8 +1878,11 @@ define([
         },
 
         onPositionChange: function(btn) {
-            var pos = btn.getNumberValue(),
-                minValue = (this.GradColor.currentIdx-1<0) ? 0 : this.GradColor.values[this.GradColor.currentIdx-1],
+            var pos = btn.getNumberValue();
+            if (Common.UI.isRTL()) {
+                pos = this.sldrGradient.maxValue - pos;
+            }
+            var minValue = (this.GradColor.currentIdx-1<0) ? 0 : this.GradColor.values[this.GradColor.currentIdx-1],
                 maxValue = (this.GradColor.currentIdx+1<this.GradColor.values.length) ? this.GradColor.values[this.GradColor.currentIdx+1] : 100,
                 needSort = pos < minValue || pos > maxValue;
             if (this.api) {

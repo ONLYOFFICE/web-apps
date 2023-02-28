@@ -71,7 +71,8 @@ define([
             this.addListeners({
                 'FileMenu': {
                     'menu:hide': me.onFileMenu.bind(me, 'hide'),
-                    'menu:show': me.onFileMenu.bind(me, 'show')
+                    'menu:show': me.onFileMenu.bind(me, 'show'),
+                    'settings:apply': me.applySettings.bind(me)
                 },
                 'Toolbar': {
                     'render:before' : function (toolbar) {
@@ -79,6 +80,11 @@ define([
                         toolbar.setExtra('right', me.header.getPanel('right', config));
                         if (!config.isEdit || config.customization && !!config.customization.compactHeader)
                             toolbar.setExtra('left', me.header.getPanel('left', config));
+
+                        var value = Common.localStorage.getBool("de-settings-quick-print-button", true);
+                        Common.Utils.InternalSettings.set("de-settings-quick-print-button", value);
+                        if (me.header && me.header.btnPrintQuick)
+                            me.header.btnPrintQuick[value ? 'show' : 'hide']();
                     },
                     'view:compact'  : function (toolbar, state) {
                         me.viewport.vlayout.getItem('toolbar').height = state ?
@@ -100,6 +106,8 @@ define([
                     'print:disabled' : function (state) {
                         if ( me.header.btnPrint )
                             me.header.btnPrint.setDisabled(state);
+                        if ( me.header.btnPrintQuick )
+                            me.header.btnPrintQuick.setDisabled(state);
                     },
                     'save:disabled' : function (state) {
                         if ( me.header.btnSave )
@@ -212,7 +220,7 @@ define([
                 this.viewport.hlayout.doLayout();
                 break;
             case 'history':
-                var panel = this.viewport.hlayout.items[1];
+                var panel = this.viewport.hlayout.getItem('history');
                 if (panel.resize.el) {
                     this.boxSdk.css('border-left', '');
                     panel.resize.el.show();
@@ -220,7 +228,7 @@ define([
                 this.viewport.hlayout.doLayout();
                 break;
             case 'leftmenu':
-                var panel = this.viewport.hlayout.items[0];
+                var panel = this.viewport.hlayout.getItem('left');
                 if (panel.resize.el) {
                     if (panel.el.width() > 40) {
                         this.boxSdk.css('border-left', '');
@@ -255,12 +263,21 @@ define([
             me.header.lockHeaderBtns( 'users', _need_disable );
         },
 
+        applySettings: function () {
+            var value = Common.localStorage.getBool("de-settings-quick-print-button", true);
+            Common.Utils.InternalSettings.set("de-settings-quick-print-button", value);
+            if (this.header && this.header.btnPrintQuick)
+                this.header.btnPrintQuick[value ? 'show' : 'hide']();
+        },
+
         onApiCoAuthoringDisconnect: function(enableDownload) {
             if (this.header) {
                 if (this.header.btnDownload && !enableDownload)
                     this.header.btnDownload.hide();
                 if (this.header.btnPrint && !enableDownload)
                     this.header.btnPrint.hide();
+                if (this.header.btnPrintQuick && !enableDownload)
+                    this.header.btnPrintQuick.hide();
                 if (this.header.btnEdit)
                     this.header.btnEdit.hide();
                 this.header.lockHeaderBtns( 'rename-user', true);
@@ -283,8 +300,9 @@ define([
                 return;
             }
             if (!this.searchBar) {
-                var isVisible = leftMenu && leftMenu.leftMenu && leftMenu.leftMenu.isVisible();
-                this.searchBar = new Common.UI.SearchBar( !isVisible ? {
+                var hideLeftPanel = this.appConfig.canBrandingExt &&
+                    (!Common.UI.LayoutManager.isElementVisible('leftMenu') || this.appConfig.customization && this.appConfig.customization.leftMenu === false);
+                this.searchBar = new Common.UI.SearchBar( hideLeftPanel ? {
                     showOpenPanel: false,
                     width: 303
                 } : {});
@@ -293,8 +311,11 @@ define([
                 }, this));
             }
             if (this.header.btnSearch.pressed) {
-                var selectedText = this.api.asc_GetSelectedText();
-                this.searchBar.show(selectedText && selectedText.trim() || this.getApplication().getController('Search').getSearchText());
+                var selectedText = this.api.asc_GetSelectedText(),
+                    searchController = this.getApplication().getController('Search'),
+                    resultsNumber = searchController.getResultsNumber();
+                this.searchBar.show(selectedText && selectedText.trim() || searchController.getSearchText());
+                this.searchBar.updateResultsNumber(resultsNumber[0], resultsNumber[1]);
             } else {
                 this.searchBar.hide();
             }

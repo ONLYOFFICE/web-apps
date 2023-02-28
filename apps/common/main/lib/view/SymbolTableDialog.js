@@ -411,17 +411,17 @@ define([
             this.template = [
                 '<div class="box">',
                     '<div style="margin-bottom: 16px;" class="'+ (this.special ? '' : 'hidden') +'">',
-                        '<button type="button" class="btn btn-text-default auto" id="symbol-table-symbols" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">', this.textSymbols,'</button>',
-                        '<button type="button" class="btn btn-text-default auto" id="symbol-table-special" style="border-top-left-radius: 0;border-bottom-left-radius: 0;border-left-width: 0;margin-left: -1px;">', this.textSpecial,'</button>',
+                        '<button type="button" class="btn btn-text-default auto" id="symbol-table-symbols">', this.textSymbols,'</button>',
+                        '<button type="button" class="btn btn-text-default auto" id="symbol-table-special">', this.textSpecial,'</button>',
                     '</div>',
                     '<div id="symbol-table-pnl-symbols">',
                         '<table cols="2" style="width: 100%;max-width: 497px;">',
                             '<tr>',
-                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 50%;">',
+                                '<td class="padding-right" style="padding-bottom: 8px;width: 50%;">',
                                     '<label class="input-label">' + this.textFont + '</label>',
                                     '<div id="symbol-table-cmb-fonts"></div>',
                                 '</td>',
-                                '<td style="padding-left: 5px;padding-bottom: 8px;">',
+                                '<td class="padding-left" style="padding-bottom: 8px;">',
                                     '<label class="input-label">' + this.textRange + '</label>',
                                     '<div id="symbol-table-cmb-range"></div>',
                                 '</td>',
@@ -450,17 +450,17 @@ define([
                         '</table>',
                         '<table cols="2" style="width: 100%;max-width: 497px;">',
                             '<tr>',
-                                '<td style="padding-right: 5px; width: 50%;">',
+                                '<td class="padding-right" style="width: 50%;">',
                                     '<label class="input-label">' + this.textCode + '</label>',
                                 '</td>',
-                                '<td style="padding-left: 5px;">',
+                                '<td class="padding-left">',
                                 '</td>',
                             '</tr>',
                             '<tr>',
-                                '<td style="padding-right: 5px;">',
+                                '<td class="padding-right">',
                                     '<div id="symbol-table-text-code" oo_editor_input="true"></div>',
                                 '</td>',
-                                '<td style="padding-left: 5px;">',
+                                '<td class="padding-left">',
                                     '<div id="symbol-table-label-font" style="overflow: hidden; text-overflow: ellipsis;white-space: nowrap;max-width: 160px;"></div>',
                                 '</td>',
                             '</tr>',
@@ -471,7 +471,7 @@ define([
                             '<tr>',
                                 '<td>',
                                     '<label>' + this.textCharacter + '</label>',
-                                    '<label id="symbol-table-lbl-shortcut" style="float: right; width: 107px;">' + this.textShortcut + '</label>',
+                                    '<label id="symbol-table-lbl-shortcut" style="width: 112px;">' + this.textShortcut + '</label>',
                                 '</td>',
                             '</tr>',
                             '<tr>',
@@ -729,14 +729,14 @@ define([
             this.updateView(undefined, undefined, undefined, true);
 
             // special
-            var data = [{symbol: '—',  description: this.textEmDash,       shortcutKey: 'Alt+Ctrl+Num -', code: '2014'},
+            var data = [{symbol: '—',  description: this.textEmDash,       shortcutKey: Common.Utils.String.platformKey(Common.Utils.isMac ? 'Alt Shift -' : 'Alt+Ctrl+Num -', '{0}'), code: '2014'},
                         {symbol: '–',   description: this.textEnDash,       shortcutKey: '', code: '2013'},
-                        {symbol: '‑',   description: this.textNBHyphen,     shortcutKey: 'Ctrl+Shift+_', code: '002D', special: {"NonBreakingHyphen":true}},
+                        {symbol: '‑',   description: this.textNBHyphen,     shortcutKey: Common.Utils.String.platformKey(Common.Utils.isMac ? 'Ctrl Shift _' : 'Ctrl+Shift+_', '{0}'), code: '002D', special: {"NonBreakingHyphen":true}},
                         // {symbol: '',    description: this.textSHyphen,      shortcutKey: 'Alt+-', code: '00AD'},
                         {symbol: '',    description: this.textEmSpace,      shortcutKey: '', code: '2003'},
                         {symbol: '',    description: this.textEnSpace,      shortcutKey: '', code: '2002'},
                         {symbol: '',    description: this.textQEmSpace,     shortcutKey: '', code: '2005'},
-                        {symbol: '°',   description: this.textNBSpace,      shortcutKey: 'Ctrl+Shift+Space', code: '00A0'},
+                        {symbol: '°',   description: this.textNBSpace,      shortcutKey: Common.Utils.String.platformKey(Common.Utils.isMac ? 'Alt ' : 'Ctrl+Shift+', '{0}') + 'Space', code: '00A0'},
                         {symbol: '©',   description: this.textCopyright,    shortcutKey: '', code: '00A9'},
                         {symbol: '®',   description: this.textRegistered,   shortcutKey: '', code: '00AE'},
                         {symbol: '™',  description: this.textTradeMark,    shortcutKey: '', code: '2122'},
@@ -758,7 +758,7 @@ define([
                         '<div style="width:70px;text-align: center; padding-right: 5px;"><%= symbol %></div>',
                         '<div style="flex-grow:1;padding-right: 5px;"><%= description %></div>',
                         '<% if (' + this.showShortcutKey + ') { %>',
-                            '<div style="width:100px;"><%= shortcutKey %></div>',
+                            '<div style="width:105px;"><%= shortcutKey %></div>',
                         '<% } %>',
                     '</div>'
                 ].join(''))
@@ -1094,7 +1094,7 @@ define([
                 oCell.css('border-bottom', 'none');
                 oRecentsDiv.append(oCell);
                 if(i === (nCols - 1)){
-                    oCell.css('border-right', 'none');
+                    oCell.css(Common.UI.isRTL() ? 'border-left' : 'border-right', 'none');
                 }
             }
         },

@@ -49,7 +49,8 @@ define([
     DE.Views.TableOfContentsSettings = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 500,
-            height: 455
+            height: 455,
+            id: 'window-table-contents'
         },
 
         initialize : function(options) {
@@ -69,7 +70,7 @@ define([
                                         '<div id="tableofcontents-chb-pages"></div>',
                                         '</td>',
                                         '<td rowspan="5" class="padding-small" style="vertical-align: top;">',
-                                        '<div class="canvas-box" style="width: 240px; height: 182px; float: right;position:relative;overflow:hidden;">',
+                                        '<div class="canvas-box" style="width: 240px; height: 182px; position:relative; overflow:hidden;">',
                                             '<div id="tableofcontents-img" style="width: 230px; height: 100%;"></div>',
                                         '</div>',
                                         '</td>',
@@ -82,7 +83,7 @@ define([
                                     '<tr>',
                                         '<td class="padding-large">',
                                             '<label class="input-label">' + me.textLeader + '</label>',
-                                            '<div id="tableofcontents-combo-leader" class="input-group-nr" style="display: inline-block; width:95px; margin-left: 10px;"></div>',
+                                            '<div id="tableofcontents-combo-leader" class="input-group-nr margin-left" style="display: inline-block; width:95px;"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
@@ -116,11 +117,11 @@ define([
                                         '<% } else { %>',
                                             '<div id="tableofcontents-from-levels" style="width:220px;">',
                                                 '<label class="input-label">' + me.textLevels + '</label>',
-                                                '<div id="tableofcontents-spin-levels" style="display: inline-block; width:95px; margin-left: 10px;"></div>',
+                                                '<div id="tableofcontents-spin-levels" class="margin-left" style="display: inline-block; width:95px;"></div>',
                                             '</div>',
                                             '<div id="tableofcontents-from-styles" class="hidden">',
                                                 '<table><tr><td style="height: 25px;">',
-                                                        '<label class="input-label" style="width: 144px; margin-left: 23px;">' + me.textStyle + '</label>',
+                                                        '<label class="input-label label-style" style="width: 144px;">' + me.textStyle + '</label>',
                                                         '<label class="input-label" style="">' + me.textLevel + '</label>',
                                                     '</td></tr>',
                                                     '<tr><td>',
@@ -130,8 +131,8 @@ define([
                                         '<% } %>',
                                         '</td>',
                                         '<td class="padding-small" style="vertical-align: top;">',
-                                            '<label class="input-label" style="margin-left: 10px;">' + me.textStyles + '</label>',
-                                            '<div id="tableofcontents-combo-styles" class="input-group-nr" style="display: inline-block; width:95px; margin-left: 10px;"></div>',
+                                            '<label class="input-label margin-left">' + me.textStyles + '</label>',
+                                            '<div id="tableofcontents-combo-styles" class="input-group-nr margin-left" style="display: inline-block; width:95px;"></div>',
                                         '</td>',
                                     '</tr>',
                                 '</table>',
@@ -368,7 +369,7 @@ define([
                         template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                         itemTemplate: _.template([
                             '<div id="<%= id %>" class="list-item">',
-                            '<div class="<% if (checked) { %>checked<% } %>"><%= displayValue %></div>',
+                            '<div class="<% if (checked) { %>checked<% } %>"><%= Common.Utils.String.htmlEncode(displayValue) %></div>',
                             '<div>',
                             '<div class="input-field" style="width:40px;"><input type="text" class="form-control" value="<%= value %>" style="text-align: right;" maxLength="1">',
                             '</div>',

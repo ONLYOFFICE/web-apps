@@ -49,7 +49,8 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
         options: {
             contentWidth: 360,
             height: 380,
-            buttons: null
+            buttons: null,
+            id: 'window-header-footer'
         },
 
         initialize : function(options) {
@@ -67,8 +68,8 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                             '</div>',
                             '<div class="separator"></div>',
                             '<div class="menu-panel" style="width: 130px; padding-top: 17px;">',
-                                '<label  style="display:block; margin-left: 15px;" class="input-label">' + me.textPreview + '</label>',
-                                '<div style="width: 100px; height: 80px; padding: 5px; margin-left: 15px; border: 1px solid #AFAFAF; border-radius: 2px; background: #ffffff;">',
+                                '<label  style="display:block;" class="input-label preview-label">' + me.textPreview + '</label>',
+                                '<div class="preview-canvas" style="width: 100px; height: 80px; padding: 5px; border: 1px solid #AFAFAF; border-radius: 2px; background: #ffffff;">',
                                     '<div id="hf-dlg-canvas-preview" style="width: 100%;height: 100%;"></div>',
                                 '</div>',
                             '</div>',
@@ -124,7 +125,7 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
 
             var data = [{ value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0C07 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
                 { value: 0x040B }, { value: 0x040C }, { value: 0x100C }, { value: 0x0410 }, { value: 0x0810 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x040E }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
-                { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }];
+                { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }, { value: 0x0404 }];
             data.forEach(function(item) {
                 var langinfo = Common.util.LanguageInfo.getLocalLanguageName(item.value);
                 item.displayValue = langinfo[1];

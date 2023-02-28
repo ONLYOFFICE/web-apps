@@ -50,6 +50,7 @@ define([
         options: {
             contentWidth: 300,
             height: 395,
+            id: 'window-note-settings',
             buttons: null
         },
 
@@ -71,13 +72,13 @@ define([
                                     '<tr>',
                                         '<td class="padding-small">',
                                             '<div id="note-settings-radio-foot" style="margin-top: 4px;display: inline-block"></div>',
-                                            '<div id="note-settings-combo-footnote" class="input-group-nr" style="display: inline-block; width:150px;float:right;"></div>',
+                                            '<div id="note-settings-combo-footnote" class="input-group-nr" style="display: inline-block; width:150px;"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-large">',
                                             '<div id="note-settings-radio-end" style="margin-top: 4px;display: inline-block"></div>',
-                                            '<div id="note-settings-combo-endnote" class="input-group-nr" style="display: inline-block; width:150px;float:right;"></div>',
+                                            '<div id="note-settings-combo-endnote" class="input-group-nr" style="display: inline-block; width:150px;"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
@@ -87,7 +88,7 @@ define([
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-small">',
-                                            '<div style="display: inline-block; margin-right: 10px; vertical-align: middle;">',
+                                            '<div class="margin-right" style="display: inline-block; vertical-align: middle;">',
                                                 '<label class="input-label">', me.textNumFormat,'</label>',
                                                 '<div id="note-settings-combo-format" class="input-group-nr" style="width:150px;"></div>',
                                             '</div>','<div style="display: inline-block; vertical-align: middle;">',
