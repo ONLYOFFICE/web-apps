@@ -1398,9 +1398,29 @@ define([
             // this._state.bullets.subtype = undefined;
             if (this.api)
                 this.api.put_ListTypeCustom(JSON.parse(rawData.numberingInfo));
+            this.addListTypeToRecent(picker, record);
 
             Common.component.Analytics.trackEvent('ToolBar', 'List Type');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        addListTypeToRecent: function(picker, record) {
+            var rec = picker.groups.findWhere({type: 0});
+            if (!rec) {
+                picker.groups.add({id: picker.options.listSettings.recentGroup, caption: this.toolbar.txtGroupRecent, type: 0}, {at: 0});
+            }
+            var recents = picker.store.where({type: 0});
+            picker.store.add({
+                id: 'id-recent-list-' + Common.UI.getId(),
+                numberingInfo: record.get('numberingInfo'),
+                skipRenderOnChange: true,
+                group : picker.options.listSettings.recentGroup,
+                type: 0}, {at: 0});
+            if (record.get('type')===0) // click recent
+                picker.store.remove(record);
+            else if (recents && recents.length>=picker.options.listSettings.recentCount)
+                picker.store.remove(recents[recents.length]);
+            this.toolbar.saveListPresetToStorage(picker);
         },
 
         onMarkerSettingsClick: function(type) {

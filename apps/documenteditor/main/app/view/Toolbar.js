@@ -2100,7 +2100,7 @@ define([
                         cls: 'shifted-left',
                         style: 'min-width: 145px',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 153px;"></div>')},
+                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 200px;"></div>')},
                             {caption: '--'},
                             this.mnuMarkerChangeLevel = new Common.UI.MenuItem({
                                 cls: 'list-level',
@@ -2364,23 +2364,32 @@ define([
                     '{"Type":"bullet","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"¨","rPr":{"rFonts":{"ascii":"Symbol","cs":"Symbol","eastAsia":"Symbol","hAnsi":"Symbol"}}}]}',
                     '{"Type":"bullet","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"–","rPr":{"rFonts":{"ascii":"Arial","cs":"Arial","eastAsia":"Arial","hAnsi":"Arial"}}}]}'
                 ];
+
+                var listSettings = {recentPath: 'de-recent-bullets', recentCount: 8, recentGroup: 'menu-bullets-group-recent', docGroup: 'menu-bullets-group-doc'},
+                    recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup),
+                    groups = (recents.length>0) ? [{id: listSettings.recentGroup, caption: this.txtGroupRecent, type: 0}] : [],
+                    libGroup = 'menu-bullets-group-lib';
+                groups.push({id: libGroup, caption: this.txtGroupBulletLib, type: 1});
+
                 this.mnuMarkersPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-markers'),
                     parentMenu: this.btnMarkers.menu,
                     outerMenu:  {menu: this.btnMarkers.menu, index: 0},
-                    restoreHeight: 144,
+                    restoreHeight: 175,
                     delayRenderTips: true,
-                    store: new Common.UI.DataViewStore([
-                        {id: 'id-markers-' + Common.UI.getId(), numberingInfo: me._markersArr[0], skipRenderOnChange: true, tip: this.textNone},
-                        {id: 'id-markers-' + Common.UI.getId(), numberingInfo: me._markersArr[1], skipRenderOnChange: true, tip: this.tipMarkersFRound},
-                        {id: 'id-markers-' + Common.UI.getId(), numberingInfo: me._markersArr[2], skipRenderOnChange: true, tip: this.tipMarkersHRound},
-                        {id: 'id-markers-' + Common.UI.getId(), numberingInfo: me._markersArr[3], skipRenderOnChange: true, tip: this.tipMarkersFSquare},
-                        {id: 'id-markers-' + Common.UI.getId(), numberingInfo: me._markersArr[4], skipRenderOnChange: true, tip: this.tipMarkersStar},
-                        {id: 'id-markers-' + Common.UI.getId(), numberingInfo: me._markersArr[5], skipRenderOnChange: true, tip: this.tipMarkersArrow},
-                        {id: 'id-markers-' + Common.UI.getId(), numberingInfo: me._markersArr[6], skipRenderOnChange: true, tip: this.tipMarkersCheckmark},
-                        {id: 'id-markers-' + Common.UI.getId(), numberingInfo: me._markersArr[7], skipRenderOnChange: true, tip: this.tipMarkersFRhombus},
-                        {id: 'id-markers-' + Common.UI.getId(), numberingInfo: me._markersArr[8], skipRenderOnChange: true, tip: this.tipMarkersDash}
-                    ]),
+                    listSettings: listSettings,
+                    groups: new Common.UI.DataViewGroupStore(groups),
+                    store: new Common.UI.DataViewStore(recents.concat([
+                        {id: 'id-markers-' + Common.UI.getId(), numberingInfo: me._markersArr[0], skipRenderOnChange: true, tip: this.textNone, group : libGroup, type: 1},
+                        {id: 'id-markers-' + Common.UI.getId(), numberingInfo: me._markersArr[1], skipRenderOnChange: true, tip: this.tipMarkersFRound, group : libGroup, type: 1},
+                        {id: 'id-markers-' + Common.UI.getId(), numberingInfo: me._markersArr[2], skipRenderOnChange: true, tip: this.tipMarkersHRound, group : libGroup, type: 1},
+                        {id: 'id-markers-' + Common.UI.getId(), numberingInfo: me._markersArr[3], skipRenderOnChange: true, tip: this.tipMarkersFSquare, group : libGroup, type: 1},
+                        {id: 'id-markers-' + Common.UI.getId(), numberingInfo: me._markersArr[4], skipRenderOnChange: true, tip: this.tipMarkersStar, group : libGroup, type: 1},
+                        {id: 'id-markers-' + Common.UI.getId(), numberingInfo: me._markersArr[5], skipRenderOnChange: true, tip: this.tipMarkersArrow, group : libGroup, type: 1},
+                        {id: 'id-markers-' + Common.UI.getId(), numberingInfo: me._markersArr[6], skipRenderOnChange: true, tip: this.tipMarkersCheckmark, group : libGroup, type: 1},
+                        // {id: 'id-markers-' + Common.UI.getId(), numberingInfo: me._markersArr[7], skipRenderOnChange: true, tip: this.tipMarkersFRhombus, group : libGroup, type: 1},
+                        {id: 'id-markers-' + Common.UI.getId(), numberingInfo: me._markersArr[8], skipRenderOnChange: true, tip: this.tipMarkersDash, group : libGroup, type: 1}
+                    ])),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist"></div>')
                 });
                 this.btnMarkers.menu.setInnerMenu([{menu: this.mnuMarkersPicker, index: 0}]);
@@ -2401,31 +2410,39 @@ define([
                     '{"Type":"number","Lvl":[{"lvlJc":"left","numFmt":{"val":"russianLower"},"lvlText":"%1."}]}',
                     '{"Type":"number","Lvl":[{"lvlJc":"left","numFmt":{"val":"russianLower"},"lvlText":"%1)"}]}'
                 ];
+
+                listSettings = {recentPath: 'de-recent-numbering', recentCount: 6, recentGroup: 'menu-numbering-group-recent', docGroup: 'menu-numbering-group-doc'};
+                recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup);
+                libGroup = 'menu-numbering-group-lib';
+                groups = (recents.length>0) ? [{id: listSettings.recentGroup, caption: this.txtGroupRecent, type: 0}] : [];
+                groups.push({id: libGroup, caption: this.txtGroupNumLib, type: 1});
                 var items = [
-                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[0], skipRenderOnChange: true, tip: this.textNone},
-                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[1], skipRenderOnChange: true, tip: this.tipNumCapitalLetters},
-                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[2], skipRenderOnChange: true, tip: this.tipNumLettersParentheses},
-                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[3], skipRenderOnChange: true, tip: this.tipNumLettersPoints},
-                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[4], skipRenderOnChange: true, tip: this.tipNumNumbersPoint},
-                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[5], skipRenderOnChange: true, tip: this.tipNumNumbersParentheses},
-                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[6], skipRenderOnChange: true, tip: this.tipNumRoman},
-                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[7], skipRenderOnChange: true, tip: this.tipNumRomanSmall}
+                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[0], skipRenderOnChange: true, tip: this.textNone, group : libGroup, type: 1},
+                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[1], skipRenderOnChange: true, tip: this.tipNumCapitalLetters, group : libGroup, type: 1},
+                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[2], skipRenderOnChange: true, tip: this.tipNumLettersParentheses, group : libGroup, type: 1},
+                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[3], skipRenderOnChange: true, tip: this.tipNumLettersPoints, group : libGroup, type: 1},
+                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[4], skipRenderOnChange: true, tip: this.tipNumNumbersPoint, group : libGroup, type: 1},
+                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[5], skipRenderOnChange: true, tip: this.tipNumNumbersParentheses, group : libGroup, type: 1},
+                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[6], skipRenderOnChange: true, tip: this.tipNumRoman, group : libGroup, type: 1},
+                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[7], skipRenderOnChange: true, tip: this.tipNumRomanSmall, group : libGroup, type: 1}
                 ];
                 if (Common.Locale.getDefaultLanguage() === 'ru') {
                     items = items.concat([
-                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[8], skipRenderOnChange: true, tip: this.tipRusUpperPoints},
-                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[9], skipRenderOnChange: true, tip: this.tipRusUpperParentheses},
-                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[10], skipRenderOnChange: true, tip: this.tipRusLowerPoints},
-                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[11], skipRenderOnChange: true, tip: this.tipRusLowerParentheses}
+                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[8], skipRenderOnChange: true, tip: this.tipRusUpperPoints, group : libGroup, type: 1},
+                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[9], skipRenderOnChange: true, tip: this.tipRusUpperParentheses, group : libGroup, type: 1},
+                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[10], skipRenderOnChange: true, tip: this.tipRusLowerPoints, group : libGroup, type: 1},
+                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[11], skipRenderOnChange: true, tip: this.tipRusLowerParentheses, group : libGroup, type: 1}
                     ]);
                 }
                 this.mnuNumbersPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-numbering'),
                     parentMenu: this.btnNumbers.menu,
                     outerMenu:  {menu: this.btnNumbers.menu, index: 0},
-                    restoreHeight: 265,
+                    restoreHeight: 300,
                     delayRenderTips: true,
-                    store: new Common.UI.DataViewStore(items),
+                    listSettings: listSettings,
+                    groups: new Common.UI.DataViewGroupStore(groups),
+                    store: new Common.UI.DataViewStore(recents.concat(items)),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist"></div>')
                 });
                 this.btnNumbers.menu.setInnerMenu([{menu: this.mnuNumbersPicker, index: 0}]);
@@ -2827,6 +2844,26 @@ define([
                     this.btnPageMargins.menu.items[0].setVisible(false);
             },
 
+            loadListPresetsFromStorage: function(path, groupId) {
+                var recents = Common.localStorage.getItem(path),
+                    arr = [];
+                recents = recents ? JSON.parse(recents) : [];
+                for (var i=0; i<recents.length; i++) {
+                    arr.push({id: 'id-recent-list-' + Common.UI.getId(), numberingInfo: recents[i], skipRenderOnChange: true, group : groupId, type: 0});
+                }
+                return arr;
+            },
+
+            saveListPresetToStorage: function(picker) {
+                if (picker) {
+                    var arr = [];
+                    _.each(picker.store.where({type: 0}), function(rec){
+                        arr.push(rec.get('numberingInfo'));
+                    });
+                    Common.localStorage.setItem(picker.options.listSettings.recentPath, JSON.stringify(arr));
+                }
+            },
+
             lockToolbar: function (causes, lock, opts) {
                 Common.Utils.lockControls(causes, lock, opts, this.lockControls);
             },
@@ -3078,7 +3115,10 @@ define([
             tipMultiLevelArticl: '',
             tipMultiLevelChapter: '',
             tipMultiLevelHeadings: '',
-            tipMultiLevelHeadVarious: ''
+            tipMultiLevelHeadVarious: '',
+            txtGroupRecent: 'Recently used',
+            txtGroupBulletLib: 'Bullet library',
+            txtGroupNumLib: 'Numbering library'
         }
     })(), DE.Views.Toolbar || {}));
 });
