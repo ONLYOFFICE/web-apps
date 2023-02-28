@@ -174,6 +174,33 @@
 .img-arrow-down(@color){
     .img-arrow(@color, "3.5,0 0,4 7,4");
 }
+.img-for-theme(@color-normal, @color-active){
+    &::-webkit-scrollbar-thumb {
+        &:vertical {
+            .img-scroll-y(@color-normal);
+            &:hover, &:active {
+                .img-scroll-y(@color-active);
+            }
+        }
+    }
+
+    &::-webkit-scrollbar-button:single-button {
+        &:vertical {
+            &:increment {
+                .img-arrow-top(@color-normal);
+                &:hover, &:active {
+                    .img-arrow-top(@color-active);
+                }
+            }
+            &:decrement {
+                .img-arrow-down(@color-normal);
+                &:hover, &:active {
+                    .img-arrow-down(@color-active);
+                }
+            }
+        }
+    }
+}
 
 textarea {
     cursor: auto;
@@ -224,8 +251,6 @@ textarea {
         background: @canvas-background;
     }
 
-
-
     &::-webkit-scrollbar-thumb {
         box-shadow: inset 0px 0px 0px @scaled-one-px-value var(--canvas-scroll-thumb-border);
         filter: none;
@@ -233,10 +258,6 @@ textarea {
         &:vertical {
             min-height: 34px;
             border-width: 0 @scaled-one-px-value 0 0;
-            .img-scroll-y( "#c0c0c0");
-            &:hover, &:active {
-                .img-scroll-y( "#ececec");
-            }
         }
     }
 
@@ -255,47 +276,13 @@ textarea {
 
             &:increment {
                 background-position-y: calc(4px + @scaled-one-px-value);
-                .img-arrow-top( "#c0c0c0");
-                &:hover, &:active {
-                    .img-arrow-top( "#ececec");
-                }
-            }
-
-            &:decrement {
-                .img-arrow-down( "#c0c0c0");
-                &:hover, &:active {
-                    .img-arrow-down( "#ececec");
-                }
             }
         }
     }
 
+    .img-for-theme("#c0c0c0", "#ececec");
 }
 
 .theme-dark textarea{
-    &::-webkit-scrollbar-thumb {
-        &:vertical {
-            .img-scroll-y("#999999");
-            &:hover, &:active {
-                .img-scroll-y("#404040");
-            }
-        }
-    }
-
-    &::-webkit-scrollbar-button:single-button {
-        &:vertical {
-            &:increment {
-                .img-arrow-top("#999999");
-                &:hover, &:active {
-                    .img-arrow-top("#404040");
-                }
-            }
-            &:decrement {
-                .img-arrow-down("#999999");
-                &:hover, &:active {
-                    .img-arrow-down("#404040");
-                }
-            }
-        }
-    }
+    .img-for-theme("#999999", "#404040");
 }
