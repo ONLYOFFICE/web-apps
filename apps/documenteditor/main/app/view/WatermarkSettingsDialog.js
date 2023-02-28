@@ -77,7 +77,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
     DE.Views.WatermarkSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 400,
-            height: 442
+            height: 442,
+            id: 'window-watermark'
         },
 
         initialize : function(options) {

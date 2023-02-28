@@ -462,6 +462,10 @@
         width: 14px;
         height: 3px;
         background-color: red;
+        .rtl & {
+            left: auto;
+            right: 3px;
+        }
         &.bordered {
             border: @scaled-one-px-value-ie solid @border-regular-control-ie;
             border: @scaled-one-px-value solid @border-regular-control;
