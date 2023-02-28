@@ -401,7 +401,6 @@ define([
                 this.api.asc_registerCallback('asc_onVerticalAlign', _.bind(this.onApiVerticalAlign, this));
                 this.api.asc_registerCallback('asc_onCanUndo', _.bind(this.onApiCanRevert, this, 'undo'));
                 this.api.asc_registerCallback('asc_onCanRedo', _.bind(this.onApiCanRevert, this, 'redo'));
-                this.api.asc_registerCallback('asc_onListType', _.bind(this.onApiBullets, this));
                 this.api.asc_registerCallback('asc_onPrAlign', _.bind(this.onApiParagraphAlign, this));
                 this.api.asc_registerCallback('asc_onTextColor', _.bind(this.onApiTextColor, this));
                 this.api.asc_registerCallback('asc_onParaSpacingLine', _.bind(this.onApiLineSpacing, this));
@@ -539,117 +538,26 @@ define([
             }
         },
 
-        onApiBullets: function(v) {
-            var listId = this.api.asc_GetCurrentNumberingId();
-            if (listId !== null) {
-                var numLvl = this.api.asc_GetNumberingPr(listId).get_Lvl(this.api.asc_GetCurrentNumberingLvl()),
-                    format = numLvl.get_Format();
-                this._state.bullets.format = format;
-                this._state.bullets.numberingInfo = v; // must be json - custom list type
-            } else {
-                this._state.bullets.format = Asc.c_oAscNumberingFormat.None;
-            }
-            this.toolbar.btnMarkers.toggle(this._state.bullets.format===Asc.c_oAscNumberingFormat.Bullet, true);
-            this.toolbar.btnNumbers.toggle(this._state.bullets.format!==Asc.c_oAscNumberingFormat.None && this._state.bullets.format!==Asc.c_oAscNumberingFormat.Bullet, true);
-            // TODO: compare v with numberingInfo from dataview store
+        showSelectedBulletOnOpen: function(type, picker) {
+            var listId = this.api.asc_GetCurrentNumberingId(),
+                format = (listId !== null) ? this.api.asc_GetNumberingPr(listId).get_Lvl(this.api.asc_GetCurrentNumberingLvl()).get_Format() : Asc.c_oAscNumberingFormat.None;
 
-            return;
-
-            var type = v.get_ListType();
-            if (this._state.bullets.type != type || this._state.bullets.subtype != v.get_ListSubType() ||
-                this.toolbar.btnMarkers.pressed && (type!==0) || this.toolbar.btnNumbers.pressed && (type!==1) || this.toolbar.btnMultilevels.pressed && (type!==2) ) {
-                this._state.bullets.type = type;
-                this._state.bullets.subtype = v.get_ListSubType();
-
-                this._clearBullets();
-
-                switch(this._state.bullets.type) {
-                    case 0:
-                        this.toolbar.btnMarkers.toggle(true, true);
-                        if (this._state.bullets.subtype>0)
-                            this.toolbar.mnuMarkersPicker.selectByIndex(this._state.bullets.subtype, true);
-                        else
-                            this.toolbar.mnuMarkersPicker.deselectAll(true);
-                        this.toolbar.mnuMultilevelPicker.deselectAll(true);
-                        this.toolbar.mnuMarkerSettings && this.toolbar.mnuMarkerSettings.setDisabled(this._state.bullets.subtype<0);
-                        this.toolbar.mnuMarkerChangeLevel && this.toolbar.mnuMarkerChangeLevel.setDisabled(this._state.bullets.subtype<0);
-                        this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(this._state.bullets.subtype<0);
-                        this.toolbar.mnuMultiChangeLevel && this.toolbar.mnuMultiChangeLevel.setDisabled(this._state.bullets.subtype<0);
-                        break;
-                    case 1:
-                        var idx;
-                        switch(this._state.bullets.subtype) {
-                            case 1:
-                                idx = 4;
-                                break;
-                            case 2:
-                                idx = 5;
-                                break;
-                            case 3:
-                                idx = 6;
-                                break;
-                            case 4:
-                                idx = 1;
-                                break;
-                            case 5:
-                                idx = 2;
-                                break;
-                            case 6:
-                                idx = 3;
-                                break;
-                            case 7:
-                                idx = 7;
-                                break;
-                        }
-                        if (Common.Locale.getDefaultLanguage() === 'ru') {
-                            if (this._state.bullets.subtype>7 && this._state.bullets.subtype<=11) {
-                                idx = this._state.bullets.subtype;
-                            }
-                        }
-                        this.toolbar.btnNumbers.toggle(true, true);
-                        if (idx!==undefined)
-                            this.toolbar.mnuNumbersPicker.selectByIndex(idx, true);
-                        else
-                            this.toolbar.mnuNumbersPicker.deselectAll(true);
-                        this.toolbar.mnuMultilevelPicker.deselectAll(true);
-                        this.toolbar.mnuNumberSettings && this.toolbar.mnuNumberSettings.setDisabled(idx==0);
-                        this.toolbar.mnuNumberChangeLevel && this.toolbar.mnuNumberChangeLevel.setDisabled(idx==0);
-                        this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(idx==0);
-                        this.toolbar.mnuMultiChangeLevel && this.toolbar.mnuMultiChangeLevel.setDisabled(idx==0);
-                        break;
-                    case 2:
-                        this.toolbar.btnMultilevels.toggle(true, true);
-                        this.toolbar.mnuMultilevelPicker.selectByIndex(this._state.bullets.subtype, true);
-                        break;
+            picker.deselectAll(true);
+            var store = picker.store;
+            for (var i=0; i<store.length; i++) {
+                var item = store.at(i);
+                if (this.api.asc_IsCurrentNumberingPreset(item.get('numberingInfo'), type!==2)) {
+                    picker.selectByIndex(i, true);
+                    break;
                 }
             }
-        },
-
-        showSelectedBulletOnOpen: function(type, picker) {
-            var format = this._state.bullets.format,
-                numberingInfo = (format !== Asc.c_oAscNumberingFormat.None) ? JSON.stringify(this._state.bullets.numberingInfo) : '{"Type":"remove"}';
-            picker.deselectAll(true);
 
             if (type===2) { // multilevel
-                (format === Asc.c_oAscNumberingFormat.None) && picker.selectByIndex(0, true);
-                this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(format === Asc.c_oAscNumberingFormat.None);
                 this.toolbar.mnuMultiChangeLevel && this.toolbar.mnuMultiChangeLevel.setDisabled(format === Asc.c_oAscNumberingFormat.None);
+            } else if (type===0) {
+                this.toolbar.mnuMarkerChangeLevel && this.toolbar.mnuMarkerChangeLevel.setDisabled(format !== Asc.c_oAscNumberingFormat.Bullet);
             } else {
-                var store = picker.store;
-                for (var i=0; i<store.length; i++) {
-                    var item = store.at(i);
-                    if (item.get('numberingInfo')===numberingInfo) {
-                        picker.selectByIndex(i, true);
-                        break;
-                    }
-                }
-                if (type===0) {
-                    this.toolbar.mnuMarkerSettings && this.toolbar.mnuMarkerSettings.setDisabled(format !== Asc.c_oAscNumberingFormat.Bullet);
-                    this.toolbar.mnuMarkerChangeLevel && this.toolbar.mnuMarkerChangeLevel.setDisabled(format !== Asc.c_oAscNumberingFormat.Bullet);
-                } else {
-                    this.toolbar.mnuNumberSettings && this.toolbar.mnuNumberSettings.setDisabled(format === Asc.c_oAscNumberingFormat.Bullet || format === Asc.c_oAscNumberingFormat.None);
-                    this.toolbar.mnuNumberChangeLevel && this.toolbar.mnuNumberChangeLevel.setDisabled(format === Asc.c_oAscNumberingFormat.Bullet || format === Asc.c_oAscNumberingFormat.None);
-                }
+                this.toolbar.mnuNumberChangeLevel && this.toolbar.mnuNumberChangeLevel.setDisabled(format === Asc.c_oAscNumberingFormat.Bullet || format === Asc.c_oAscNumberingFormat.None);
             }
         },
 
@@ -981,6 +889,11 @@ define([
                 this._state.suppress_num = !!frame_pr.get_SuppressLineNumbers();
             }
             this._state.in_equation = in_equation;
+
+            var listId = this.api.asc_GetCurrentNumberingId(),
+                numformat = (listId !== null) ? this.api.asc_GetNumberingPr(listId).get_Lvl(this.api.asc_GetCurrentNumberingLvl()).get_Format() : Asc.c_oAscNumberingFormat.None;
+            this.toolbar.btnMarkers.toggle(numformat===Asc.c_oAscNumberingFormat.Bullet, true);
+            this.toolbar.btnNumbers.toggle(numformat!==Asc.c_oAscNumberingFormat.None && numformat!==Asc.c_oAscNumberingFormat.Bullet, true);
         },
 
         onApiStyleChange: function(v) {
@@ -1494,7 +1407,12 @@ define([
             var me      = this;
             var listId = me.api.asc_GetCurrentNumberingId(),
                 level = me.api.asc_GetCurrentNumberingLvl(),
-                props = (listId !== null) ? me.api.asc_GetNumberingPr(listId) : null;
+                isNew = (listId === null),
+                props = isNew ? new Asc.CAscNumbering() : me.api.asc_GetNumberingPr(listId);
+            if (isNew) {
+                var picker = (type===0) ? me.toolbar.mnuMarkersPicker : (type===1 ? me.toolbar.mnuNumbersPicker : me.toolbar.mnuMultilevelPicker);
+                picker && picker.store.length>1 && props.put_FromJSON(picker.store.at(1).get('numberingInfo'));
+            }
             if (props) {
                 var me = this;
                 if (_.isUndefined(me.fontstore)) {
@@ -1512,14 +1430,14 @@ define([
                 (new DE.Views.ListSettingsDialog({
                     api: me.api,
                     props: props,
-                    level: level,
+                    level: isNew ? 0 : level,
                     type: type,
                     fontStore: me.fontstore,
                     interfaceLang: me.mode.lang,
                     handler: function(result, value) {
                         if (result == 'ok') {
                             if (me.api) {
-                                me.api.asc_ChangeNumberingLvl(listId, value.props, value.num);
+                                isNew ? me.api.put_ListTypeCustom(props.get_JSONNumbering(type!==2)) : me.api.asc_ChangeNumberingLvl(listId, value.props, value.num);
                             }
                         }
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -2584,22 +2502,6 @@ define([
                 newStyle.put_Name(this._state.prstyle);
                 this.api.asc_AddNewStyle(newStyle);
             }
-        },
-
-        _clearBullets: function() {
-            this.toolbar.btnMarkers.toggle(false, true);
-            this.toolbar.btnNumbers.toggle(false, true);
-            this.toolbar.btnMultilevels.toggle(false, true);
-
-            this.toolbar.mnuMarkersPicker.selectByIndex(0, true);
-            this.toolbar.mnuNumbersPicker.selectByIndex(0, true);
-            this.toolbar.mnuMultilevelPicker.selectByIndex(0, true);
-            this.toolbar.mnuMarkerSettings && this.toolbar.mnuMarkerSettings.setDisabled(true);
-            this.toolbar.mnuNumberSettings && this.toolbar.mnuNumberSettings.setDisabled(true);
-            this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(true);
-            this.toolbar.mnuMarkerChangeLevel && this.toolbar.mnuMarkerChangeLevel.setDisabled(true);
-            this.toolbar.mnuNumberChangeLevel && this.toolbar.mnuNumberChangeLevel.setDisabled(true);
-            this.toolbar.mnuMultiChangeLevel && this.toolbar.mnuMultiChangeLevel.setDisabled(true);
         },
 
         _getApiTextSize: function () {
