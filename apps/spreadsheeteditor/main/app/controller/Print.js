@@ -225,6 +225,11 @@ define([
             item = panel.cmbPaperOrientation.store.findWhere({value: opt.asc_getOrientation()});
             if (item) panel.cmbPaperOrientation.setValue(item.get('value'));
 
+            if (panel.spnFirstPage) {
+                value = opt.asc_getFirstPageNumber();
+                panel.spnFirstPage.setValue(value ? value : 1, true);
+            }
+
             opt = props.asc_getPageMargins();
             panel.spnMarginLeft.setValue(Common.Utils.Metric.fnRecalcFromMM(opt.asc_getLeft()), true);
             panel.spnMarginTop.setValue(Common.Utils.Metric.fnRecalcFromMM(opt.asc_getTop()), true);
@@ -314,6 +319,11 @@ define([
                 opt.asc_setFitToHeight(this.fitHeight);
                 opt.asc_setScale(this.fitScale);
             }
+
+            if (panel.spnFirstPage) {
+                opt.asc_setFirstPageNumber(panel.spnFirstPage.getValue());
+            }
+
             if (!this._changedProps[sheet]) {
                 props.asc_setPageSetup(opt);
             }
@@ -585,6 +595,9 @@ define([
             panel.txtRangeLeft.on('button:click', _.bind(this.onPresetSelect, this, panel, 'left', panel.btnPresetsLeft.menu, {value: 'select'}));
             panel.btnPresetsTop.menu.on('item:click', _.bind(this.onPresetSelect, this, panel, 'top'));
             panel.btnPresetsLeft.menu.on('item:click', _.bind(this.onPresetSelect, this, panel, 'left'));
+            if (panel.spnFirstPage) {
+                panel.spnFirstPage.on('change', _.bind(this.propertyChange, this, panel));
+            }
         },
 
         propertyChange: function(panel, scale, combo, record) {
