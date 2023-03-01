@@ -527,6 +527,7 @@ define([
                         this.trigger('item:add', this, view, record);
                 }
             }
+            this._layoutParams = undefined;
         },
 
         onAddGroup: function(group) {
@@ -644,6 +645,7 @@ define([
             if (!this.isSuspendEvents) {
                 this.trigger('item:remove', this, view, record);
             }
+            this._layoutParams = undefined;
         },
 
         onClickItem: function(view, record, e) {

@@ -1243,7 +1243,7 @@ define([
                 numberingInfo: btn.pressed ? '{"Type":"bullet"}' : '{"Type":"remove"}'
             };
 
-            this.onSelectBullets(null, null, null, record);
+            this.onSelectBullets(null, this.toolbar.mnuMarkersPicker, null, record);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -1252,7 +1252,7 @@ define([
             var record = {
                 numberingInfo: btn.pressed ? '{"Type":"number"}' : '{"Type":"remove"}'
             };
-            this.onSelectBullets(null, null, null, record);
+            this.onSelectBullets(null,  this.toolbar.mnuNumbersPicker, null, record);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -1398,27 +1398,36 @@ define([
             // this._state.bullets.subtype = undefined;
             if (this.api)
                 this.api.put_ListTypeCustom(JSON.parse(rawData.numberingInfo));
-            this.addListTypeToRecent(picker, record);
+            this.addListTypeToRecent(picker, rawData);
 
             Common.component.Analytics.trackEvent('ToolBar', 'List Type');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
-        addListTypeToRecent: function(picker, record) {
+        addListTypeToRecent: function(picker, data) {
+            if (this.api.asc_CompareNumberingPresets('{"Type":"remove"}', data.numberingInfo))
+                return;
+
             var rec = picker.groups.findWhere({type: 0});
             if (!rec) {
                 picker.groups.add({id: picker.options.listSettings.recentGroup, caption: this.toolbar.txtGroupRecent, type: 0}, {at: 0});
             }
-            var recents = picker.store.where({type: 0});
+            var recents = picker.store.where({type: 0}),
+                numberingInfo = data.numberingInfo;
+            for (var i=0; i<recents.length; i++) {
+                var item = recents[i];
+                if (this.api.asc_CompareNumberingPresets(item.get('numberingInfo'), numberingInfo)) {
+                    picker.store.remove(item);
+                    break;
+                }
+            }
             picker.store.add({
                 id: 'id-recent-list-' + Common.UI.getId(),
-                numberingInfo: record.get('numberingInfo'),
+                numberingInfo: data.numberingInfo,
                 skipRenderOnChange: true,
                 group : picker.options.listSettings.recentGroup,
                 type: 0}, {at: 0});
-            if (record.get('type')===0) // click recent
-                picker.store.remove(record);
-            else if (recents && recents.length>=picker.options.listSettings.recentCount)
+            if (recents && recents.length>=picker.options.listSettings.recentCount)
                 picker.store.remove(recents[recents.length]);
             this.toolbar.saveListPresetToStorage(picker);
         },
