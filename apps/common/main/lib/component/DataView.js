@@ -891,19 +891,21 @@ define([
                             : this.parentMenu.cmpEl.find('[role=menu]'),
                 docH = Common.Utils.innerHeight()-10,
                 innerEl = $(this.el).find('.inner').addBack().filter('.inner'),
-                parent = innerEl.parent(),
-                margins =  parseInt(parent.css('margin-top')) + parseInt(parent.css('margin-bottom')) + parseInt(menuRoot.css('margin-top')),
-                paddings = parseInt(menuRoot.css('padding-top')) + parseInt(menuRoot.css('padding-bottom')),
+                // parent = innerEl.parent(),
+                // margins =  parseInt(parent.css('margin-top')) + parseInt(parent.css('margin-bottom')) + parseInt(menuRoot.css('margin-top')),
+                // paddings = parseInt(menuRoot.css('padding-top')) + parseInt(menuRoot.css('padding-bottom')),
                 menuH = menuRoot.outerHeight(),
+                innerH = innerEl.height(),
+                diff = Math.max(menuH - innerH, 0),
                 top = parseInt(menuRoot.css('top')),
                 props = {minScrollbarLength  : this.minScrollbarLength};
             this.scrollAlwaysVisible && (props.alwaysVisibleY = this.scrollAlwaysVisible);
 
             if (top + menuH > docH ) {
-                innerEl.css('max-height', (docH - top - paddings - margins) + 'px');
+                innerEl.css('max-height', (docH - top - diff) + 'px');
                 if (this.allowScrollbar) this.scroller.update(props);
-            } else if ( top + menuH < docH && innerEl.height() < this.options.restoreHeight ) {
-                innerEl.css('max-height', (Math.min(docH - top - paddings - margins, this.options.restoreHeight)) + 'px');
+            } else if ( top + menuH < docH && innerH < this.options.restoreHeight ) {
+                innerEl.css('max-height', (Math.min(docH - top - diff, this.options.restoreHeight)) + 'px');
                 if (this.allowScrollbar) this.scroller.update(props);
             }
         },
