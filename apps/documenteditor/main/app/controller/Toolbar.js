@@ -440,6 +440,7 @@ define([
                 this.api.asc_registerCallback('asc_onBeginSmartArtPreview', _.bind(this.onApiBeginSmartArtPreview, this));
                 this.api.asc_registerCallback('asc_onAddSmartArtPreview', _.bind(this.onApiAddSmartArtPreview, this));
                 this.api.asc_registerCallback('asc_onEndSmartArtPreview', _.bind(this.onApiEndSmartArtPreview, this));
+                this.api.asc_registerCallback('asc_updateListPatterns', _.bind(this.onApiUpdateListPatterns, this));
             } else if (this.mode.isRestrictedEdit) {
                 this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObjectRestrictedEdit, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
@@ -535,29 +536,6 @@ define([
             if (this._state.can_copycut !== can) {
                 this.toolbar.lockToolbar(Common.enumLock.copyLock, !can, {array: [this.toolbar.btnCopy, this.toolbar.btnCut]});
                 this._state.can_copycut = can;
-            }
-        },
-
-        showSelectedBulletOnOpen: function(type, picker) {
-            var listId = this.api.asc_GetCurrentNumberingId(),
-                format = (listId !== null) ? this.api.asc_GetNumberingPr(listId).get_Lvl(this.api.asc_GetCurrentNumberingLvl()).get_Format() : Asc.c_oAscNumberingFormat.None;
-
-            picker.deselectAll(true);
-            var store = picker.store;
-            for (var i=0; i<store.length; i++) {
-                var item = store.at(i);
-                if (item.get('type')>0 && this.api.asc_IsCurrentNumberingPreset(item.get('numberingInfo'), type!==2)) {
-                    picker.selectByIndex(i, true);
-                    break;
-                }
-            }
-
-            if (type===2) { // multilevel
-                this.toolbar.mnuMultiChangeLevel && this.toolbar.mnuMultiChangeLevel.setDisabled(format === Asc.c_oAscNumberingFormat.None);
-            } else if (type===0) {
-                this.toolbar.mnuMarkerChangeLevel && this.toolbar.mnuMarkerChangeLevel.setDisabled(format !== Asc.c_oAscNumberingFormat.Bullet);
-            } else {
-                this.toolbar.mnuNumberChangeLevel && this.toolbar.mnuNumberChangeLevel.setDisabled(format === Asc.c_oAscNumberingFormat.Bullet || format === Asc.c_oAscNumberingFormat.None);
             }
         },
 
@@ -1358,9 +1336,35 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
+        showSelectedBulletOnOpen: function(type, picker) {
+            var listId = this.api.asc_GetCurrentNumberingId(),
+                format = (listId !== null) ? this.api.asc_GetNumberingPr(listId).get_Lvl(this.api.asc_GetCurrentNumberingLvl()).get_Format() : Asc.c_oAscNumberingFormat.None;
+
+            picker.deselectAll(true);
+            var store = picker.store;
+            for (var i=0; i<store.length; i++) {
+                var item = store.at(i);
+                if (item.get('type')>0 && this.api.asc_IsCurrentNumberingPreset(item.get('numberingInfo'), type!==2)) {
+                    picker.selectByIndex(i, true);
+                    break;
+                }
+            }
+
+            if (type===2) { // multilevel
+                this.toolbar.mnuMultiChangeLevel && this.toolbar.mnuMultiChangeLevel.setDisabled(format === Asc.c_oAscNumberingFormat.None);
+            } else if (type===0) {
+                this.toolbar.mnuMarkerChangeLevel && this.toolbar.mnuMarkerChangeLevel.setDisabled(format !== Asc.c_oAscNumberingFormat.Bullet);
+            } else {
+                this.toolbar.mnuNumberChangeLevel && this.toolbar.mnuNumberChangeLevel.setDisabled(format === Asc.c_oAscNumberingFormat.Bullet || format === Asc.c_oAscNumberingFormat.None);
+            }
+        },
+
         onListShowAfter: function(type, picker, menu, e) {
             if (!(e && e.target===e.currentTarget))
                 return;
+
+            this.fillDocListPatterns(type, picker);
+
             var store = picker.store;
             var arr = [];
             store.each(function(item){
@@ -1373,6 +1377,38 @@ define([
                 this.api.SetDrawImagePreviewBulletForMenu(arr, type);
             }
             this.showSelectedBulletOnOpen(type, picker);
+        },
+
+        onApiUpdateListPatterns: function(data) {
+            if (!data) return;
+            this._listPatterns = [data.singleBullet, data.singleNumbering, data.multiLevel];
+        },
+
+        fillDocListPatterns: function(type, picker) {
+            if (!this._listPatterns) return;
+
+            var patterns = this._listPatterns[type];
+            if (!patterns) return;
+
+            var rec = picker.groups.findWhere({type: 2});
+            if (!rec && patterns.length>0)
+                picker.groups.add({id: picker.options.listSettings.docGroup, caption: picker.options.listSettings.docName, type: 2});
+            else if (rec && patterns.length===0)
+                picker.groups.remove(rec);
+            picker.store.remove(picker.store.where({type: 2}));
+
+            for (var i=0; i<patterns.length; i++) {
+                var item = patterns[i];
+                picker.store.add({
+                    id: 'id-doc-list-' + Common.UI.getId(),
+                    numberingInfo: typeof item === 'string' ? item : JSON.stringify(item),
+                    skipRenderOnChange: true,
+                    group : picker.options.listSettings.docGroup,
+                    type: 2
+                });
+            }
+            picker.scroller && picker.scroller.update();
+            this._listPatterns[type] = null;
         },
 
         onSelectBullets: function(btn, picker, itemView, record) {
@@ -1396,7 +1432,7 @@ define([
                     var me = this;
                     res.then(function (data) {
                         if (data) {
-                            data = JSON.stringify(data);
+                            data = typeof data === 'string' ? data : JSON.stringify(data);
                             me.addListTypeToRecent(picker, {numberingInfo: data});
                         }
                     });
@@ -1426,7 +1462,7 @@ define([
             }
             picker.store.add({
                 id: 'id-recent-list-' + Common.UI.getId(),
-                numberingInfo: data.numberingInfo,
+                numberingInfo: typeof data.numberingInfo === 'string' ? data.numberingInfo : JSON.stringify(data.numberingInfo),
                 skipRenderOnChange: true,
                 group : picker.options.listSettings.recentGroup,
                 type: 0}, {at: 0});

@@ -2365,7 +2365,7 @@ define([
                     '{"Type":"bullet","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"–","rPr":{"rFonts":{"ascii":"Arial","cs":"Arial","eastAsia":"Arial","hAnsi":"Arial"}}}]}'
                 ];
 
-                var listSettings = {recentPath: 'de-recent-bullets', recentCount: 8, recentGroup: 'menu-bullets-group-recent', docGroup: 'menu-bullets-group-doc'},
+                var listSettings = {recentPath: 'de-recent-bullets', recentCount: 8, recentGroup: 'menu-bullets-group-recent', docGroup: 'menu-bullets-group-doc', docName: this.txtGroupBulletDoc},
                     recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup),
                     groups = (recents.length>0) ? [{id: listSettings.recentGroup, caption: this.txtGroupRecent, type: 0}] : [],
                     libGroup = 'menu-bullets-group-lib';
@@ -2377,6 +2377,7 @@ define([
                     outerMenu:  {menu: this.btnMarkers.menu, index: 0},
                     restoreHeight: 175,
                     delayRenderTips: true,
+                    scrollAlwaysVisible: true,
                     listSettings: listSettings,
                     groups: new Common.UI.DataViewGroupStore(groups),
                     store: new Common.UI.DataViewStore(recents.concat([
@@ -2411,7 +2412,7 @@ define([
                     '{"Type":"number","Lvl":[{"lvlJc":"left","numFmt":{"val":"russianLower"},"lvlText":"%1)"}]}'
                 ];
 
-                listSettings = {recentPath: 'de-recent-numbering', recentCount: 6, recentGroup: 'menu-numbering-group-recent', docGroup: 'menu-numbering-group-doc'};
+                listSettings = {recentPath: 'de-recent-numbering', recentCount: 6, recentGroup: 'menu-numbering-group-recent', docGroup: 'menu-numbering-group-doc', docName: this.txtGroupNumDoc};
                 recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup);
                 libGroup = 'menu-numbering-group-lib';
                 groups = (recents.length>0) ? [{id: listSettings.recentGroup, caption: this.txtGroupRecent, type: 0}] : [];
@@ -2438,8 +2439,9 @@ define([
                     el: $('#id-toolbar-menu-numbering'),
                     parentMenu: this.btnNumbers.menu,
                     outerMenu:  {menu: this.btnNumbers.menu, index: 0},
-                    restoreHeight: 300,
+                    restoreHeight: 403,
                     delayRenderTips: true,
+                    scrollAlwaysVisible: true,
                     listSettings: listSettings,
                     groups: new Common.UI.DataViewGroupStore(groups),
                     store: new Common.UI.DataViewStore(recents.concat(items)),
@@ -2449,7 +2451,7 @@ define([
                 _conf && this.mnuNumbersPicker.selectByIndex(_conf.index, true);
 
                 _conf = this.mnuMultilevelPicker.conf;
-                listSettings = {recentPath: 'de-recent-multilevels', recentCount: 6, recentGroup: 'menu-multilevels-group-recent', docGroup: 'menu-multilevels-group-doc'};
+                listSettings = {recentPath: 'de-recent-multilevels', recentCount: 6, recentGroup: 'menu-multilevels-group-recent', docGroup: 'menu-multilevels-group-doc', docName: this.txtGroupMultiDoc};
                 recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup);
                 libGroup = 'menu-multilevels-group-lib';
                 groups = (recents.length>0) ? [{id: listSettings.recentGroup, caption: this.txtGroupRecent, type: 0}] : [];
@@ -2468,19 +2470,20 @@ define([
                     el: $('#id-toolbar-menu-multilevels'),
                     parentMenu: this.btnMultilevels.menu,
                     outerMenu:  {menu: this.btnMultilevels.menu, index: 0},
-                    restoreHeight: 176,
+                    restoreHeight: 403,
                     delayRenderTips: true,
+                    scrollAlwaysVisible: true,
                     listSettings: listSettings,
                     groups: new Common.UI.DataViewGroupStore(groups),
                     store: new Common.UI.DataViewStore(recents.concat([
-                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: this._multilevelArr[0], skipRenderOnChange: true, tip: this.textNone},
-                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: this._multilevelArr[1], skipRenderOnChange: true, tip: this.tipMultiLevelVarious},
-                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: this._multilevelArr[2], skipRenderOnChange: true, tip: this.tipMultiLevelNumbered},
-                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: this._multilevelArr[3], skipRenderOnChange: true, tip: this.tipMultiLevelSymbols},
-                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: this._multilevelArr[4], skipRenderOnChange: true, tip: this.tipMultiLevelArticl},
-                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: this._multilevelArr[5], skipRenderOnChange: true, tip: this.tipMultiLevelChapter},
-                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: this._multilevelArr[6], skipRenderOnChange: true, tip: this.tipMultiLevelHeadings},
-                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: this._multilevelArr[7], skipRenderOnChange: true, tip: this.tipMultiLevelHeadVarious}
+                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: this._multilevelArr[0], skipRenderOnChange: true, tip: this.textNone, group : libGroup, type: 1},
+                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: this._multilevelArr[1], skipRenderOnChange: true, tip: this.tipMultiLevelVarious, group : libGroup, type: 1},
+                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: this._multilevelArr[2], skipRenderOnChange: true, tip: this.tipMultiLevelNumbered, group : libGroup, type: 1},
+                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: this._multilevelArr[3], skipRenderOnChange: true, tip: this.tipMultiLevelSymbols, group : libGroup, type: 1},
+                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: this._multilevelArr[4], skipRenderOnChange: true, tip: this.tipMultiLevelArticl, group : libGroup, type: 1},
+                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: this._multilevelArr[5], skipRenderOnChange: true, tip: this.tipMultiLevelChapter, group : libGroup, type: 1},
+                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: this._multilevelArr[6], skipRenderOnChange: true, tip: this.tipMultiLevelHeadings, group : libGroup, type: 1},
+                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: this._multilevelArr[7], skipRenderOnChange: true, tip: this.tipMultiLevelHeadVarious, group : libGroup, type: 1}
                     ])),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist"></div>')
                 });
@@ -3126,7 +3129,10 @@ define([
             txtGroupRecent: 'Recently used',
             txtGroupBulletLib: 'Bullet library',
             txtGroupNumLib: 'Numbering library',
-            txtGroupMultiLib: 'List library'
+            txtGroupMultiLib: 'List library',
+            txtGroupBulletDoc: 'Document bullets',
+            txtGroupNumDoc: 'Document numbering formats',
+            txtGroupMultiDoc: 'Lists in current document'
         }
     })(), DE.Views.Toolbar || {}));
 });
