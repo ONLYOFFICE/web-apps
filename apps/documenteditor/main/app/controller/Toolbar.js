@@ -1479,8 +1479,10 @@ define([
             var me      = this;
             var listId = me.api.asc_GetCurrentNumberingId(),
                 level = me.api.asc_GetCurrentNumberingLvl(),
-                isNew = (listId === null),
-                props = isNew ? new Asc.CAscNumbering() : me.api.asc_GetNumberingPr(listId),
+                levelProps = (listId === null) ? null : me.api.asc_GetNumberingPr(listId),
+                format = (listId === null) ? Asc.c_oAscNumberingFormat.None : levelProps.get_Lvl(level).get_Format(),
+                isNew = listId === null || type===0 && format!==Asc.c_oAscNumberingFormat.Bullet || type===1 && format===Asc.c_oAscNumberingFormat.Bullet,
+                props = isNew ? new Asc.CAscNumbering() : levelProps,
                 picker = (type===0) ? me.toolbar.mnuMarkersPicker : (type===1 ? me.toolbar.mnuNumbersPicker : me.toolbar.mnuMultilevelPicker);
             if (isNew && picker && picker.store.length>1) {
                 var recent = picker.store.findWhere({type: 0}); // find first recent
