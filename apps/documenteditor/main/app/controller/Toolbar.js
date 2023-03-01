@@ -1390,12 +1390,13 @@ define([
             var patterns = this._listPatterns[type];
             if (!patterns) return;
 
+            picker.store.remove(picker.store.where({type: 2}));
+
             var rec = picker.groups.findWhere({type: 2});
             if (!rec && patterns.length>0)
                 picker.groups.add({id: picker.options.listSettings.docGroup, caption: picker.options.listSettings.docName, type: 2});
             else if (rec && patterns.length===0)
                 picker.groups.remove(rec);
-            picker.store.remove(picker.store.where({type: 2}));
 
             for (var i=0; i<patterns.length; i++) {
                 var item = patterns[i];
@@ -1407,7 +1408,10 @@ define([
                     type: 2
                 });
             }
-            picker.scroller && picker.scroller.update();
+            if (picker.scroller) {
+                picker.scroller.update();
+                picker.scroller.scrollTop(0);
+            }
             this._listPatterns[type] = null;
         },
 

@@ -328,7 +328,10 @@ define([
                 if (this.listenStoreEvents) {
                     this.listenTo(this.store, 'add',    this.onAddItem);
                     this.listenTo(this.store, 'reset',  this.onResetItems);
-                    this.groups && this.listenTo(this.groups, 'add',  this.onAddGroup);
+                    if (this.groups) {
+                        this.listenTo(this.groups, 'add',  this.onAddGroup);
+                        this.listenTo(this.groups, 'remove',  this.onRemoveGroup);
+                    }
                 }
                 this.onResetItems();
 
@@ -557,6 +560,15 @@ define([
                     (innerDivs.length > 0) ? $(innerDivs[idx]).before(el) : innerEl.append(el);
                 }
             }
+        },
+
+        onRemoveGroup: function(group) {
+            var innerEl = $(this.el).find('.inner').addBack().filter('.inner');
+            if (innerEl) {
+                var div = innerEl.find('#' + group.get('id') + '.grouped-data');
+                div && div.remove();
+            }
+            this._layoutParams = undefined;
         },
 
         onResetItems: function() {

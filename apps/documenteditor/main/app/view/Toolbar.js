@@ -2375,7 +2375,7 @@ define([
                     el: $('#id-toolbar-menu-markers'),
                     parentMenu: this.btnMarkers.menu,
                     outerMenu:  {menu: this.btnMarkers.menu, index: 0},
-                    restoreHeight: 175,
+                    restoreHeight: 250,
                     delayRenderTips: true,
                     scrollAlwaysVisible: true,
                     listSettings: listSettings,
