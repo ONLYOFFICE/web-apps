@@ -72,8 +72,8 @@ export class storeAppOptions {
         this.readerMode = !this.readerMode;
     }
 
-    canBrandingExt = false;
-    canBranding = false;
+    canBrandingExt = true;
+    canBranding = true;
 
     isDocReady = false;
     changeDocReady (value) {

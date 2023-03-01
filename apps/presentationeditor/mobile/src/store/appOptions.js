@@ -21,8 +21,8 @@ export class storeAppOptions {
 
     isEdit = false;
     canViewComments = false;
-    canBrandingExt = false;
-    canBranding = false;
+    canBrandingExt = true;
+    canBranding = true;
     config = {};
 
     lostEditingRights = false;
