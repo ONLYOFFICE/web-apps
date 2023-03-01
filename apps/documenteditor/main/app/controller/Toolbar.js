@@ -546,7 +546,7 @@ define([
             var store = picker.store;
             for (var i=0; i<store.length; i++) {
                 var item = store.at(i);
-                if (this.api.asc_IsCurrentNumberingPreset(item.get('numberingInfo'), type!==2)) {
+                if (item.get('type')>0 && this.api.asc_IsCurrentNumberingPreset(item.get('numberingInfo'), type!==2)) {
                     picker.selectByIndex(i, true);
                     break;
                 }
@@ -1408,7 +1408,7 @@ define([
         },
 
         addListTypeToRecent: function(picker, data) {
-            if (this.api.asc_CompareNumberingPresets('{"Type":"remove"}', data.numberingInfo))
+            if (!picker || !data || this.api.asc_CompareNumberingPresets('{"Type":"remove"}', data.numberingInfo))
                 return;
 
             var rec = picker.groups.findWhere({type: 0});
@@ -1440,14 +1440,12 @@ define([
             var listId = me.api.asc_GetCurrentNumberingId(),
                 level = me.api.asc_GetCurrentNumberingLvl(),
                 isNew = (listId === null),
-                props = isNew ? new Asc.CAscNumbering() : me.api.asc_GetNumberingPr(listId);
-            if (isNew) {
-                var picker = (type===0) ? me.toolbar.mnuMarkersPicker : (type===1 ? me.toolbar.mnuNumbersPicker : me.toolbar.mnuMultilevelPicker);
-                if (picker && picker.store.length>1) {
-                    var recent = picker.store.findWhere({type: 0}); // find first recent
-                    !recent && (recent = picker.store.at(1)); // get from library, not None
-                    recent && props.put_FromJSON(recent.get('numberingInfo'));
-                }
+                props = isNew ? new Asc.CAscNumbering() : me.api.asc_GetNumberingPr(listId),
+                picker = (type===0) ? me.toolbar.mnuMarkersPicker : (type===1 ? me.toolbar.mnuNumbersPicker : me.toolbar.mnuMultilevelPicker);
+            if (isNew && picker && picker.store.length>1) {
+                var recent = picker.store.findWhere({type: 0}); // find first recent
+                !recent && (recent = picker.store.at(1)); // get from library, not None
+                recent && props.put_FromJSON(recent.get('numberingInfo'));
             }
             if (props) {
                 var me = this;
@@ -1473,7 +1471,9 @@ define([
                     handler: function(result, value) {
                         if (result == 'ok') {
                             if (me.api) {
-                                isNew ? me.api.put_ListTypeCustom(props.get_JSONNumbering(type!==2)) : me.api.asc_ChangeNumberingLvl(listId, value.props, value.num);
+                                var numberingInfo = props.get_JSONNumbering(type!==2);
+                                isNew ? me.api.put_ListTypeCustom(numberingInfo) : me.api.asc_ChangeNumberingLvl(listId, value.props, value.num);
+                                me.addListTypeToRecent(picker, {numberingInfo: JSON.stringify(numberingInfo)});
                             }
                         }
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
