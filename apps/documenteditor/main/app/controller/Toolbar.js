@@ -1390,15 +1390,18 @@ define([
                 rawData = record;
             }
 
-            // if (btn) {
-            //     btn.toggle(rawData.data.subtype > -1, true);
-            // }
-
-            // this._state.bullets.type = undefined;
-            // this._state.bullets.subtype = undefined;
-            if (this.api)
-                this.api.put_ListTypeCustom(JSON.parse(rawData.numberingInfo));
-            this.addListTypeToRecent(picker, rawData);
+            if (this.api) {
+                var res = this.api.put_ListTypeCustom(JSON.parse(rawData.numberingInfo));
+                if (res) {
+                    var me = this;
+                    res.then(function (data) {
+                        if (data) {
+                            data = JSON.stringify(data);
+                            me.addListTypeToRecent(picker, {numberingInfo: data});
+                        }
+                    });
+                }
+            }
 
             Common.component.Analytics.trackEvent('ToolBar', 'List Type');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
@@ -1440,7 +1443,11 @@ define([
                 props = isNew ? new Asc.CAscNumbering() : me.api.asc_GetNumberingPr(listId);
             if (isNew) {
                 var picker = (type===0) ? me.toolbar.mnuMarkersPicker : (type===1 ? me.toolbar.mnuNumbersPicker : me.toolbar.mnuMultilevelPicker);
-                picker && picker.store.length>1 && props.put_FromJSON(picker.store.at(1).get('numberingInfo'));
+                if (picker && picker.store.length>1) {
+                    var recent = picker.store.findWhere({type: 0}); // find first recent
+                    !recent && (recent = picker.store.at(1)); // get from library, not None
+                    recent && props.put_FromJSON(recent.get('numberingInfo'));
+                }
             }
             if (props) {
                 var me = this;
