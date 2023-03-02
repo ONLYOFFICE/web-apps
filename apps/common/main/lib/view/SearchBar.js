@@ -144,7 +144,8 @@ define([
 
         show: function(text) {
             var top = ($('#app-title').length > 0 ? $('#app-title').height() : 0) + $('#toolbar').height() + 2,
-                left = Common.Utils.innerWidth() - ($('#right-menu').is(':visible') ? $('#right-menu').width() : 0) - this.options.width - 32;
+                left = !Common.UI.isRTL() ? Common.Utils.innerWidth() - ($('#right-menu').is(':visible') ? $('#right-menu').width() : 0) - this.options.width - 32 :
+                    ($('#right-menu').is(':visible') ? $('#right-menu').width() : 0) + 32;
             Common.UI.Window.prototype.show.call(this, left, top);
 
             this.disableNavButtons();
@@ -180,7 +181,8 @@ define([
 
         onLayoutChanged: function () {
             var top = $('#app-title').height() + $('#toolbar').height() + 2,
-                left = Common.Utils.innerWidth() - ($('#right-menu').is(':visible') ? $('#right-menu').width() : 0) - this.options.width - 32;
+                left = !Common.UI.isRTL() ? Common.Utils.innerWidth() - ($('#right-menu').is(':visible') ? $('#right-menu').width() : 0) - this.options.width - 32 :
+                    ($('#right-menu').is(':visible') ? $('#right-menu').width() : 0) + 32;
             this.$window.css({left: left, top: top});
         },
 
