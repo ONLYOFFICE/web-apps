@@ -660,25 +660,6 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onVerticalAlign', (typeBaseline) => {
             storeTextSettings.resetTypeBaseline(typeBaseline);
         });
-        this.api.asc_registerCallback('asc_onListType', (data) => {
-            let type    = data.get_ListType();
-            let subtype = data.get_ListSubType();
-            storeTextSettings.resetListType(type);
-            switch (type) {
-                case 0:
-                    storeTextSettings.resetBullets(subtype);
-                    storeTextSettings.resetNumbers(-1);
-                    break;
-                case 1:
-                    storeTextSettings.resetNumbers(subtype);
-                    storeTextSettings.resetBullets(-1);
-                    break;
-                default: 
-                    storeTextSettings.resetBullets(-1);
-                    storeTextSettings.resetNumbers(-1);
-                    storeTextSettings.resetMultiLevel(-1);
-            }
-        });
         this.api.asc_registerCallback('asc_onPrAlign', (align) => {
             storeTextSettings.resetParagraphAlign(align);
         });
