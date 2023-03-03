@@ -1637,7 +1637,6 @@
   "DE.Views.CrossReferenceDialog.txtType": "Bezugstyp",
   "DE.Views.CustomColumnsDialog.textColumns": "Anzahl von Spalten",
   "DE.Views.CustomColumnsDialog.textSeparator": "Spaltenunterteilers",
-  "DE.Views.CustomColumnsDialog.textSpacing": "Abstand zwischen Spalten",
   "DE.Views.CustomColumnsDialog.textTitle": "Spalten",
   "DE.Views.DateTimeDialog.confirmDefault": "Standardformat für {0}: \"{1}\" festlegen",
   "DE.Views.DateTimeDialog.textDefault": "Als Standardeinstellung festlegen",

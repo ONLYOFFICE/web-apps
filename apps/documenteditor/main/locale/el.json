@@ -1518,7 +1518,6 @@
   "DE.Views.CrossReferenceDialog.txtType": "Τύπος παραπομπής",
   "DE.Views.CustomColumnsDialog.textColumns": "Αριθμός στηλών",
   "DE.Views.CustomColumnsDialog.textSeparator": "Διαχωριστής στήλης",
-  "DE.Views.CustomColumnsDialog.textSpacing": "Απόσταση μεταξύ στηλών",
   "DE.Views.CustomColumnsDialog.textTitle": "Στήλες",
   "DE.Views.DateTimeDialog.confirmDefault": "Ορισμός προεπιλεγμένης μορφής για {0}: \"{1}\"",
   "DE.Views.DateTimeDialog.textDefault": "Ορισμός ως προεπιλογή",

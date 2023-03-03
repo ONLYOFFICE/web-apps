@@ -1637,7 +1637,6 @@
   "DE.Views.CrossReferenceDialog.txtType": "Erreferentzia-mota",
   "DE.Views.CustomColumnsDialog.textColumns": "Zutabe-kopurua",
   "DE.Views.CustomColumnsDialog.textSeparator": "Zutabearen banatzailea",
-  "DE.Views.CustomColumnsDialog.textSpacing": "Tartea zutabeen artean",
   "DE.Views.CustomColumnsDialog.textTitle": "Zutabeak",
   "DE.Views.DateTimeDialog.confirmDefault": "Ezarri formatu lehenetsia {0}(r)entzat: \"{1}\"",
   "DE.Views.DateTimeDialog.textDefault": "Ezarri lehenetsi bezala",

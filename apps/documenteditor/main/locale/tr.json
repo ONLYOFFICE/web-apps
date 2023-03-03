@@ -1405,7 +1405,6 @@
   "DE.Views.CrossReferenceDialog.txtType": "Referans türü",
   "DE.Views.CustomColumnsDialog.textColumns": "Sütun sayısı",
   "DE.Views.CustomColumnsDialog.textSeparator": "Sütun ayracı",
-  "DE.Views.CustomColumnsDialog.textSpacing": "Sütunlar arasında boşluk",
   "DE.Views.CustomColumnsDialog.textTitle": "Sütunlar",
   "DE.Views.DateTimeDialog.confirmDefault": "{0} için varsayılan formatı \"{1}\" olarak ata",
   "DE.Views.DateTimeDialog.textDefault": "Varsayılan olarak ata",

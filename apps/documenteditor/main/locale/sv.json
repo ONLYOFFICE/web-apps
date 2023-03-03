@@ -1502,7 +1502,6 @@
   "DE.Views.CrossReferenceDialog.txtType": "Referens typ",
   "DE.Views.CustomColumnsDialog.textColumns": "Antal kolumner",
   "DE.Views.CustomColumnsDialog.textSeparator": "Kolumndelare",
-  "DE.Views.CustomColumnsDialog.textSpacing": "Avstånd mellan kolumner",
   "DE.Views.CustomColumnsDialog.textTitle": "Kolumner",
   "DE.Views.DateTimeDialog.confirmDefault": "Ange standardformat för {0}: \"{1}\"",
   "DE.Views.DateTimeDialog.textDefault": "Ange som standard",
