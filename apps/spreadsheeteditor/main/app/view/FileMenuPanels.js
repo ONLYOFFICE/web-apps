@@ -2450,6 +2450,10 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                                     '<tr><td class="padding-small"><div id="print-chb-grid" style="width: 248px;"></div></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-chb-rows" style="width: 248px;"></div></td></tr>',
                                     '<tr class="header-settings"><td class="padding-large"><label class="link" id="print-header-footer-settings" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtHeaderFooterSettings %></label></td></tr>',
+                                    '<tr><td class="padding-large first-page">',
+                                        '<label><%= scope.txtFirstPageNumber %></label>',
+                                        '<div id="print-spin-first-page"></div>',
+                                    '</td></tr>',
                                     //'<tr><td class="padding-large"><button type="button" class="btn btn-text-default" id="print-apply-all" style="width: 118px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtApplyToAllSheets %></button></td></tr>',
                                     '<tr class="fms-btn-apply"><td>',
                                         '<div class="footer justify">',
@@ -2749,6 +2753,19 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 dataHintOffset: 'small'
             });
 
+            this.spnFirstPage = new Common.UI.MetricSpinner({
+                el: $markup.findById('#print-spin-first-page'),
+                step: 1,
+                width: 60,
+                defaultUnit : "",
+                value: '1',
+                maxValue: 32767,
+                minValue: 1,
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+
             /*this.btnApplyAll = new Common.UI.Button({
                 el: $markup.findById('#print-apply-all')
             });*/
@@ -3034,7 +3051,8 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         txtOf: 'of {0}',
         txtSheet: 'Sheet: {0}',
         txtPageNumInvalid: 'Page number invalid',
-        txtEmptyTable: 'There is nothing to print because the table is empty'
+        txtEmptyTable: 'There is nothing to print because the table is empty',
+        txtFirstPageNumber: 'First page number:',
     }, SSE.Views.PrintWithPreview || {}));
 
 });
