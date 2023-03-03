@@ -1906,5 +1906,9 @@
 	"FILTER": {
 		"a": "(array, include, [if_empty])",
 		"d": "Filter rentang atau larik"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(array, [format])",
+		"d": "Mengembalikan representasi teks larik"
 	}
 }

@@ -476,6 +476,7 @@
 	"EXPAND": "UTVID",
 	"XMATCH": "XSAMSVAR",
 	"FILTER": "FILTRER",
+	"ARRAYTOTEXT": "MATRISETILTEKST",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

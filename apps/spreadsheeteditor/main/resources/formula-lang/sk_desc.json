@@ -1906,5 +1906,9 @@
 	"FILTER": {
 		"a": "(pole, zahrnúť, [ak_prázdne])",
 		"d": "Filtruje rozsah alebo pole"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(pole, [formát])",
+		"d": "Vráti textové znázornenie poľa"
 	}
 }

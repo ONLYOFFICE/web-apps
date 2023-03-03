@@ -1906,5 +1906,9 @@
 	"FILTER": {
 		"a": "(array, include, [if_empty])",
 		"d": "Filtrera ett intervall eller en matris"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(matris, [format])",
+		"d": "Returnerar en textrepresentation av en matris"
 	}
 }

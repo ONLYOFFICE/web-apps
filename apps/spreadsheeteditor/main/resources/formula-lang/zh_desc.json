@@ -1906,5 +1906,9 @@
 	"FILTER": {
 		"a": "(array, include, [if_empty])",
 		"d": "筛选区域或数组"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(array, [format])",
+		"d": "返回数组的文本表示形式"
 	}
 }

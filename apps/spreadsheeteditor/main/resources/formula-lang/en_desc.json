@@ -1906,5 +1906,9 @@
 	"FILTER": {
 		"a": "(array, include, [if_empty])",
 		"d": "Filter a range or array"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(array, [format])",
+		"d": "Returns a text representation of an array"
 	}
 }

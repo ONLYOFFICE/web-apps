@@ -476,6 +476,7 @@
 	"EXPAND": "LAAJENNA",
 	"XMATCH": "XVASTINE",
 	"FILTER": "SUODATA",
+	"ARRAYTOTEXT": "MATRIISI.TEKSTIKSI",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

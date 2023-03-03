@@ -1906,5 +1906,9 @@
 	"FILTER": {
 		"a": "(tableau, inclure, [si_vide])",
 		"d": "Filtrer une plage ou un tableau"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(matrice, [format])",
+		"d": "Renvoie une représentation textuelle d’un tableau"
 	}
 }

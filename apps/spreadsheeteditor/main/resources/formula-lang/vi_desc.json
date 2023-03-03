@@ -1906,5 +1906,9 @@
 	"FILTER": {
 		"a": "(mảng, bao_gồm, [nếu_trống])",
 		"d": "Lọc dải ô hoặc mảng"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(mảng, [định_dạng])",
+		"d": "Trả về biểu diễn bằng văn bản của một mảng"
 	}
 }
