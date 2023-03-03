@@ -868,7 +868,8 @@ define([
                         this.propsPivot.fieldName = this.propsPivot.field.asc_getName() || props.asc_getCacheFields()[pivotIndex].asc_getName();
                     }
                 }
-            }  else if (dataFieldIndex>-1) {
+            }
+            if (dataFieldIndex>-1) {
                 var fprops = props.asc_getDataFields();
                 if (fprops) {
                     var pivotIndex = fprops[dataFieldIndex].asc_getIndex();
