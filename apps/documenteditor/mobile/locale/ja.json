@@ -543,11 +543,13 @@
     "textClose": "閉じる",
     "textContactUs": "営業部に連絡する",
     "textCustomLoader": "あいにく、あなたはローダーを変更できません。見積を受けるように販売部門を連絡してください。",
+    "textDocumentProtected": "このドキュメントは保護されています。編集設定は利用できません。",
     "textGuest": "ゲスト",
     "textHasMacros": "ファイルには自動マクロが含まれています。<br>マクロを実行しますか？",
     "textNo": "いいえ",
     "textNoLicenseTitle": "ライセンス制限に達しました",
     "textNoTextFound": "テキストが見つかりませんでした",
+    "textOk": "OK",
     "textPaidFeature": "有料機能",
     "textRemember": "選択を覚える",
     "textReplaceSkipped": "置換が完了しました。{0}つスキップされました。",
@@ -565,10 +567,8 @@
     "warnNoLicense": "％１エディター　時接続数の制限に達しました。この文書が見るだけのために開かれる。個人的なアップグレード条件については、％1営業チームを連絡してください。",
     "warnNoLicenseUsers": "％1エディターのユーザー制限に達しました。 個人的なアップグレード条件については、％1営業チームを連絡してください。",
     "warnProcessRightsChange": "ファイルを編集する権限がありません！",
-    "textDocumentProtected": "The document is protected. Edit settings are not available",
-    "textOk": "Ok",
-    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-    "titleLicenseNotActive": "License not active"
+    "titleLicenseNotActive": "License not active",
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator."
   },
   "Settings": {
     "advDRMOptions": "保護されたファイル",

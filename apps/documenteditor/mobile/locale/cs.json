@@ -567,8 +567,8 @@
     "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu.",
     "textDocumentProtected": "The document is protected. Edit settings are not available",
     "textOk": "Ok",
-    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-    "titleLicenseNotActive": "License not active"
+    "titleLicenseNotActive": "License not active",
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator."
   },
   "Settings": {
     "advDRMOptions": "Zabezpečený soubor",

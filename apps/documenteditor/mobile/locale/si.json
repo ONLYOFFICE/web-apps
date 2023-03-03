@@ -557,8 +557,10 @@
     "textRequestMacros": "සාර්වයක් ඒ.ස.නි. ට ඉල්ලීමක් කරයි. %1 වෙත ඉල්ලීමට ඉඩ දීමට වුවමනාද?",
     "textYes": "ඔව්",
     "titleLicenseExp": "බලපත්‍රය කල් ඉකුත්ය",
+    "titleLicenseNotActive": "බලපත්‍රය සක්‍රිය නැත",
     "titleServerVersion": "සංස්කරකය යාවත්කාල විය",
     "titleUpdateVersion": "අනුවාදය වෙනස් විය",
+    "warnLicenseBefore": "බලපත්‍රය සක්‍රිය නැත.<br>කරුණාකර ඔබගේ පරිපාලක අමතන්න.",
     "warnLicenseExceeded": "ඔබ %1 සංස්කරක වෙත සමකාල සම්බන්ධතා සීමාවට ළඟා වී ඇත. මෙම ලේඛනය දැකීමට පමණක් විවෘත වේ. තව දැන ගැනීමට ඔබගේ පරිපාලක අමතන්න.",
     "warnLicenseExp": "ඔබගේ බලපත්‍රය කල් ඉකුත්ය. බලපත්‍රය යාවත්කාල කර පිටුව නැවුම් කරන්න.",
     "warnLicenseLimitedNoAccess": "බලපත්‍රය කල් ඉකුත්ය. ඔබට ලේඛන සංස්කරණය කිරීමට ප්‍රවේශයක් නැත. කරුණාකර, ඔබගේ පරිපාලක අමතන්න.",
@@ -566,9 +568,7 @@
     "warnLicenseUsersExceeded": "ඔබ %1 සංස්කරක සඳහා පරිශීලක සීමාවට ළඟා වී ඇත. තව දැන ගැනීමට ඔබගේ පරිපාලක අමතන්න.",
     "warnNoLicense": "ඔබ %1 සංස්කරක වෙත සමකාල සම්බන්ධතා සීමාවට ළඟා වී ඇත. මෙම ලේඛනය දැකීමට පමණක් විවෘත වේ. පුද්ගලික උත්ශ්‍රේණි නියම සඳහා %1 අලෙවි කණ්ඩායම අමතන්න.",
     "warnNoLicenseUsers": "ඔබ %1 සංස්කරක සඳහා පරිශීලක සීමාවට ළඟා වී ඇත. පුද්ගලික උත්ශ්‍රේණි නියම සඳහා %1 අලෙවි කණ්ඩායම අමතන්න.",
-    "warnProcessRightsChange": "ඔබට මෙම ගොනුව සංස්කරණයට අවසර නැත.",
-    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-    "titleLicenseNotActive": "License not active"
+    "warnProcessRightsChange": "ඔබට මෙම ගොනුව සංස්කරණයට අවසර නැත."
   },
   "Settings": {
     "advDRMOptions": "රක්‍ෂිත ගොනුවකි",

@@ -133,8 +133,8 @@
       "warnNoLicenseUsers": "Dosiahli ste limit %1 editora. Pre rozšírenie funkcií kontaktujte %1 obchodné oddelenie.",
       "warnProcessRightsChange": "Nemáte povolenie na úpravu súboru.",
       "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-      "titleLicenseNotActive": "License not active"
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {

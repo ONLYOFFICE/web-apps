@@ -123,7 +123,7 @@
       "textMultiple": "multiple ",
       "textNoBreakBefore": "Pas de saut de page avant",
       "textNoChanges": "Aucune modification",
-      "textNoComments": "Il n'y a pas de commentaires dans ce document",
+      "textNoComments": "Aucun commentaire",
       "textNoContextual": "Ajouter un intervalle entre les paragraphes du même style",
       "textNoKeepLines": "Ne gardez pas de lignes ensemble",
       "textNoKeepNext": "Ne gardez pas avec la prochaine",
@@ -167,7 +167,7 @@
       "textWidow": "Contrôle des veuves"
     },
     "HighlightColorPalette": {
-      "textNoFill": "Pas de remplissage"
+      "textNoFill": "Aucun remplissage"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Couleurs personnalisées",
@@ -557,8 +557,10 @@
     "textRequestMacros": "Une macro fait une demande à l'URL. Voulez-vous autoriser la demande à l'adresse %1 ?",
     "textYes": "Oui",
     "titleLicenseExp": "Licence expirée",
+    "titleLicenseNotActive": "Licence non active",
     "titleServerVersion": "L'éditeur est mis à jour",
     "titleUpdateVersion": "La version a été modifiée",
+    "warnLicenseBefore": "Licence non active.<br>Veuillez contacter votre administrateur.",
     "warnLicenseExceeded": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule. Pour en savoir plus, contactez votre administrateur.",
     "warnLicenseExp": "Votre licence a expiré. Veuillez mettre à jour votre licence et actualisez la page.",
     "warnLicenseLimitedNoAccess": "La licence est expirée. Vous n'avez plus d'accès aux outils d'édition. Veuillez contacter votre administrateur.",
@@ -566,9 +568,7 @@
     "warnLicenseUsersExceeded": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Pour en savoir plus, contactez votre administrateur.",
     "warnNoLicense": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
     "warnNoLicenseUsers": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
-    "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier.",
-    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-    "titleLicenseNotActive": "License not active"
+    "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier."
   },
   "Settings": {
     "advDRMOptions": "Fichier protégé",

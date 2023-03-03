@@ -557,8 +557,10 @@
     "textRequestMacros": "宏发起一个请求至URL。你是否允许请求到％1？",
     "textYes": "是",
     "titleLicenseExp": "许可证过期",
+    "titleLicenseNotActive": "许可证未激活",
     "titleServerVersion": "编辑器已更新",
     "titleUpdateVersion": "版本已变化",
+    "warnLicenseBefore": "许可证未激活。<br>请联系管理员。",
     "warnLicenseExceeded": "你触发了 %1 编辑器的同时在线数限制。该文档打开后，你将只能查看。可联系管理员来了解更多信息。",
     "warnLicenseExp": "你的许可证已过期。恳请你更新许可证，然后刷新该页面。",
     "warnLicenseLimitedNoAccess": "许可证已过期。你将不能使用文档编辑功能。恳请你联系你的管理员。",
@@ -566,9 +568,7 @@
     "warnLicenseUsersExceeded": "你触发了 %1 编辑器的同时在线数限制。可联系管理员来了解更多信息。",
     "warnNoLicense": "你已经触发了 %1 编辑器的同时在线数限制. 该文档打开后，你将只能查看。请联系 %1 的销售团队，获取个人升级条款。",
     "warnNoLicenseUsers": "你触发了 %1 编辑器的同时在线数限制。请与  %1  的销售团队联系，以获取个人升级条款。",
-    "warnProcessRightsChange": "你没有编辑这个文件的权限。",
-    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-    "titleLicenseNotActive": "License not active"
+    "warnProcessRightsChange": "你没有编辑这个文件的权限。"
   },
   "Settings": {
     "advDRMOptions": "受保护的文件",

@@ -27,7 +27,7 @@
       "textEditUser": "ファイルを編集しているユーザー：",
       "textMessageDeleteComment": "このコメントを削除してもよろしいですか？",
       "textMessageDeleteReply": "この返信を削除してもよろしいですか？",
-      "textNoComments": "この文書にはコメントがない",
+      "textNoComments": "この文書にはコメントがありません",
       "textOk": "OK",
       "textReopen": "もう一度開く",
       "textResolve": "解決する",
@@ -133,8 +133,8 @@
       "warnNoLicense": "％１エディター　時接続数の制限に達しました。この文書が見るだけのために開かれる。個人的なアップグレード条件については、％1営業チームを連絡してください。",
       "warnNoLicenseUsers": "％1エディターのユーザー制限に達しました。 個人的なアップグレード条件については、％1営業チームを連絡してください。",
       "warnProcessRightsChange": "ファイルを編集する権限がありません！",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-      "titleLicenseNotActive": "License not active"
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {
