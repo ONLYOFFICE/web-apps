@@ -367,6 +367,7 @@ define([
                     if (tip.dontShow===undefined)
                         tip.dontShow = true;
                     el.removeData('bs.tooltip');
+                    (tip.tip()).remove();
                 }
                 if (record.get('tip')) {
                     el.attr('data-toggle', 'tooltip');

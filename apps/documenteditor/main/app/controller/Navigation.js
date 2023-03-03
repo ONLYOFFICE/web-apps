@@ -133,6 +133,11 @@ define([
 
             if (!this._navigationObject) return;
 
+            if (this.timerUpdateId) {
+                clearTimeout(this.timerUpdateId);
+                this.timerUpdateId = 0;
+            }
+
             var count = this._navigationObject.get_ElementsCount(),
                 prev_level = -1,
                 header_level = -1,
@@ -172,14 +177,24 @@ define([
 
             function addToPanel() {
                 if (arr.length<1) {
+                    if (me.timerUpdateId) {
+                        clearTimeout(me.timerUpdateId);
+                        me.timerUpdateId = 0;
+                    }
                     me.panelNavigation.viewNavigationList.scroller && me.panelNavigation.viewNavigationList.scroller.update({alwaysVisibleY: true});
                     if (me._currentPos>-1 && me._currentPos<store.length)
                         me.onChangeOutlinePosition(me._currentPos);
                     me._currentPos = -1;
                     return;
                 }
-                setTimeout(function () {
-                    store.add(arr.splice(0, 100));
+                me.timerUpdateId = setTimeout(function () {
+                    var added = arr.splice(0, 100);
+                    added.forEach(function(item) {
+                        var idx = item.get('index');
+                        item.set('name', me._navigationObject.get_Text(idx));
+                        item.set('isEmptyItem', me._navigationObject.isEmptyItem(idx));
+                    });
+                    store.add(added);
                     if (me._currentPos>-1 && me._currentPos<store.length) {
                         me.onChangeOutlinePosition(me._currentPos);
                         me._currentPos = -1;
@@ -196,7 +211,10 @@ define([
 
             if (!this._navigationObject) return;
 
-            var item = this.getApplication().getCollection('Navigation').at(index);
+            var navList = this.getApplication().getCollection('Navigation');
+            if (navList.length<=index) return;
+
+            var item = navList.at(index);
             if (item.get('level') !== this._navigationObject.get_Level(index) ||
                 index==0 && item.get('isNotHeader') !== this._navigationObject.isFirstItemNotHeader()) {
                 this.updateNavigation();
