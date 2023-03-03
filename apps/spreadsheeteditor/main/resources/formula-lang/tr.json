@@ -476,6 +476,7 @@
 	"EXPAND": "GENİŞLET",
 	"XMATCH": "ÇAPRAZEŞLEŞTİR",
 	"FILTER": "FİLTRE",
+	"ARRAYTOTEXT": "DİZİMETİN",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

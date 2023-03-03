@@ -475,6 +475,7 @@
 	"EXPAND": "ETENDRE",
 	"XMATCH": "EQUIVX",
 	"FILTER": "FILTRE",
+	"ARRAYTOTEXT": "TABLEAU.EN.TEXTE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "En-têtes",

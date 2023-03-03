@@ -1906,5 +1906,9 @@
 	"FILTER": {
 		"a": "(Matrix, einschließen, [wenn_leer])",
 		"d": "Filtert einen Bereich oder eine Matrix."
+	},
+	"ARRAYTOTEXT": {
+		"a": "(Matrix, [Format])",
+		"d": "Gibt eine Textdarstellung einer Matrix zurück."
 	}
 }

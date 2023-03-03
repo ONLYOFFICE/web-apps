@@ -1906,5 +1906,9 @@
 	"FILTER": {
 		"a": "(matriz, incluir, [se_vazia])",
 		"d": "Filtrar um intervalo ou matriz"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(matriz, [formato])",
+		"d": "Devolve uma representação de texto de uma matriz"
 	}
 }

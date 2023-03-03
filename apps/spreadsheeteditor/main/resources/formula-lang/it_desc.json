@@ -1866,5 +1866,9 @@
 	"FILTER": {
 		"a": "(matrice, includi, [se_vuoto])",
 		"d": "Filtra un intervallo o una matrice"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(matrice, [formato])",
+		"d": "Restituisce una rappresentazione testuale di una matrice"
 	}
 }

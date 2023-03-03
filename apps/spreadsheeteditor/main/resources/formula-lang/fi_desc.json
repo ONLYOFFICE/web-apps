@@ -1906,5 +1906,9 @@
 	"FILTER": {
 		"a": "(matriisi, sisältää, [jos_tyhjä])",
 		"d": "Suodata alue tai matriisi"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(matriisi, [muoto])",
+		"d": "Palauttaa matriisin tekstin."
 	}
 }

@@ -1906,5 +1906,9 @@
 	"FILTER": {
 		"a": "(tömb, belefoglalás, [ha_üres])",
 		"d": "Tartomány vagy tömb szűrése"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(tömb, [formátum])",
+		"d": "Az adott tömb szöveges alakját adja vissza."
 	}
 }

@@ -476,6 +476,7 @@
 	"EXPAND": "UDVID",
 	"XMATCH": "XSAMMENLIGN",
 	"FILTER": "FILTRER",
+	"ARRAYTOTEXT": "MATRIXTILTEKST",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

@@ -1906,5 +1906,9 @@
 	"FILTER": {
 		"a": "(matrice, include, [dacă_gol])",
 		"d": "Filtrați o zonă sau o matrice"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(matrice, [format])",
+		"d": "Returnează o reprezentare text a unei matrice"
 	}
 }

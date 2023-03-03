@@ -1906,5 +1906,9 @@
 	"FILTER": {
 		"a": "(tablica, uwzględnienie, [jeśli_puste])",
 		"d": "Filtruj zakres lub tablicę"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(tablica, [format])",
+		"d": "Zwraca reprezentację tekstową tablicy"
 	}
 }

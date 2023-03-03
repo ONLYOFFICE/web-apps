@@ -1906,5 +1906,9 @@
 	"FILTER": {
 		"a": "(dizi, ekle, [boşsa])",
 		"d": "Bir aralığı veya diziyi filtreler"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(dizi, [biçim])",
+		"d": "Dizinin metin olarak temsilini döndürür"
 	}
 }

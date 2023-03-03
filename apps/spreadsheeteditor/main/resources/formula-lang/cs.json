@@ -476,6 +476,7 @@
 	"EXPAND": "ROZBALIT",
 	"XMATCH": "XMATCH",
 	"FILTER": "FILTER",
+	"ARRAYTOTEXT": "ARRAYTOTEXT",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

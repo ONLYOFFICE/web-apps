@@ -1906,5 +1906,9 @@
 	"FILTER": {
 		"a": "(array, include, [if_empty])",
 		"d": "Filtriraj obseg ali polje"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(matrika, [oblika])",
+		"d": "Vrne predstavitev besedila matrike"
 	}
 }
