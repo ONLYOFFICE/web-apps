@@ -2242,7 +2242,7 @@ define([
                         el: $('#id-toolbar-menu-insertchart'),
                         parentMenu: menu,
                         showLast: false,
-                        restoreHeight: 465,
+                        restoreHeight: 535,
                         groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                         store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
                         itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
