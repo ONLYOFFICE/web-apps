@@ -797,7 +797,7 @@ define([
         },
 
         onPivotSort: function(menu, item, e) {
-            if (!(this.propsPivot.filter || this.propsPivot.rowFilter && this.propsPivot.colFilter)) return;
+            if (!(this.propsPivot.filter || this.propsPivot.rowFilter || this.propsPivot.colFilter)) return;
 
             var me = this;
             if (item.value==='advanced') {
@@ -809,7 +809,7 @@ define([
                 dlgSort.setSettings({filter : this.propsPivot.filter, rowFilter: this.propsPivot.rowFilter, colFilter: this.propsPivot.colFilter});
                 dlgSort.show();
             } else {
-                var filter = this.propsPivot.filter || this.propsPivot.rowFilter;
+                var filter = this.propsPivot.filter || this.propsPivot.rowFilter || this.propsPivot.colFilter;
                 this.api.asc_sortColFilter(item.value, filter.asc_getCellId(), filter.asc_getDisplayName());
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
             }
@@ -2637,9 +2637,9 @@ define([
                 documentHolder.mnuSummarize.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2));
                 documentHolder.mnuShowAs.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2) && !this.propsPivot.rowTotal && !this.propsPivot.colTotal);
                 documentHolder.mnuPivotValueSeparator.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2));
-                documentHolder.mnuPivotSort.setVisible(this.propsPivot.filter || this.propsPivot.rowFilter && this.propsPivot.colFilter);
+                documentHolder.mnuPivotSort.setVisible(this.propsPivot.filter || this.propsPivot.rowFilter || this.propsPivot.colFilter);
                 documentHolder.mnuPivotFilter.setVisible(!!this.propsPivot.filter);
-                documentHolder.mnuPivotFilterSeparator.setVisible(this.propsPivot.filter || this.propsPivot.rowFilter && this.propsPivot.colFilter);
+                documentHolder.mnuPivotFilterSeparator.setVisible(this.propsPivot.filter || this.propsPivot.rowFilter || this.propsPivot.colFilter);
 
                 if (this.propsPivot.field) {
                     documentHolder.mnuDeleteField.setCaption(documentHolder.txtDelField + ' ' + (this.propsPivot.rowTotal || this.propsPivot.colTotal ? documentHolder.txtGrandTotal : '"' + Common.Utils.String.htmlEncode(this.propsPivot.fieldName) + '"'), true);
@@ -2665,6 +2665,9 @@ define([
                 if (this.propsPivot.filter) {
                     documentHolder.mnuPivotFilter.menu.items[0].setCaption(this.propsPivot.fieldName ? Common.Utils.String.format(documentHolder.txtClearPivotField, ' "' + Common.Utils.String.htmlEncode(this.propsPivot.fieldName) + '"') : documentHolder.txtClear, true); // clear filter
                     documentHolder.mnuPivotFilter.menu.items[0].setDisabled(this.propsPivot.filter.asc_getFilterObj().asc_getType() === Asc.c_oAscAutoFilterTypes.None); // clear filter
+                }
+                if (inPivot) {
+                    documentHolder.mnuPivotSort.menu.items[2].setDisabled(!(this.propsPivot.filter || this.propsPivot.rowFilter && this.propsPivot.colFilter));
                 }
 
                 if (isintable) {

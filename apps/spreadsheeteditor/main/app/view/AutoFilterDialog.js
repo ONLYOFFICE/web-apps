@@ -923,7 +923,7 @@ define([
                         item && arr.push({value: index, displayValue: item, filter: filter, indexSorting: index});
                     });
                     this.setTitle(this.txtTitle + ' (' + fields[0] + ')');
-                } else {
+                } else if (this.properties.rowFilter && this.properties.colFilter) {
                     this.setTitle(this.txtTitleValue);
                     var pivotObj = this.properties.rowFilter.asc_getPivotObj(),
                         fields = pivotObj.asc_getDataFields(),
