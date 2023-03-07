@@ -220,13 +220,14 @@ define([
                     me.menuViewAddComment
                 ]
             }).on('hide:after', function (menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
+                me.currentMenu = null;
                 if (me.suppressEditComplete) {
                     me.suppressEditComplete = false;
                     return;
                 }
 
                 if (!isFromInputControl) me.fireEvent('editcomplete', me);
-                me.currentMenu = null;
             });
 
             this.fireEvent('createdelayedelements', [this, 'view']);
@@ -250,13 +251,14 @@ define([
                     me.menuPDFViewCopy
                 ]
             }).on('hide:after', function (menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
+                me.currentMenu = null;
                 if (me.suppressEditComplete) {
                     me.suppressEditComplete = false;
                     return;
                 }
 
                 if (!isFromInputControl) me.fireEvent('editcomplete', me);
-                me.currentMenu = null;
             });
 
             this.fireEvent('createdelayedelements', [this, 'pdf']);
@@ -784,6 +786,7 @@ define([
                     me.menuImageAdvanced
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
                 if (!isFromInputControl) me.fireEvent('editcomplete', me);
                 me.currentMenu = null;
             });
@@ -1486,13 +1489,14 @@ define([
                     me.menuTableEquation
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
+                me.currentMenu = null;
                 if (me.suppressEditComplete) {
                     me.suppressEditComplete = false;
                     return;
                 }
 
                 if (!isFromInputControl) me.fireEvent('editcomplete', me);
-                me.currentMenu = null;
             });
 
             /* text menu */
@@ -2099,13 +2103,14 @@ define([
                     menuStyle
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
+                me.currentMenu = null;
                 if (me.suppressEditComplete) {
                     me.suppressEditComplete = false;
                     return;
                 }
 
                 if (!isFromInputControl) me.fireEvent('editcomplete', me);
-                me.currentMenu = null;
             });
 
             /* header/footer menu */
@@ -2132,6 +2137,7 @@ define([
                     menuEditHeaderFooter
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
                 if (!isFromInputControl) me.fireEvent('editcomplete', me);
                 me.currentMenu = null;
             });
@@ -2918,6 +2924,81 @@ define([
                     })
                 ]
             });
+        },
+
+        addCustomItems: function(menu, data) {
+            if (!menu || !data) return;
+
+            var me = this,
+                lang = me.mode && me.mode.lang ? me.mode.lang.split(/[\-_]/)[0] : 'en';
+
+            var getMenu = function(items, guid) {
+                var arr = [];
+                items.forEach(function(item) {
+                    if (item.text) {
+                        var caption = ((typeof item.text == 'object') ? item.text[lang] || item.text['en'] : item.text) || '';
+                        arr.push({
+                            caption     : caption,
+                            isCustomItem: true,
+                            value: item.id,
+                            guid: guid,
+                            menu: item.items && item.items.length>0 ? getMenu(item.items, guid) : false,
+                            disabled: !item.enabled
+                        });
+                    }
+                });
+
+                var submenu = new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign: 'tl-tr',
+                    items: arr
+                });
+                submenu.on('item:click', function(menu, item, e) {
+                    me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
+                });
+                return submenu;
+            }
+
+            if (data && data.length>0) {
+                menu.addItem(new Common.UI.MenuItem({
+                    caption: '--',
+                    isCustomItem: true
+                }));
+                data.forEach(function(plugin) {
+                    if (plugin && plugin.items && plugin.items.length>0) {
+                        plugin.items.forEach(function(item) {
+                            if (item.text) {
+                                var caption = ((typeof item.text == 'object') ? item.text[lang] || item.text['en'] : item.text) || '';
+                                var mnu = new Common.UI.MenuItem({
+                                    caption     : caption,
+                                    isCustomItem: true,
+                                    value: item.id,
+                                    guid: plugin.guid,
+                                    menu: item.items && item.items.length>0 ? getMenu(item.items, plugin.guid) : false,
+                                    disabled: !item.enabled
+                                }).on('click', function(item, e) {
+                                    me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
+                                });
+                                menu.addItem(mnu);
+                            }
+                        });
+                    }
+                });
+            }
+
+            menu.alignPosition();
+
+        },
+
+        clearCustomItems: function(menu) {
+            if (menu && menu.items.length>0) {
+                for (var i = 0; i < menu.items.length; i++) {
+                    if (menu.items[i].options.isCustomItem) {
+                        menu.removeItem(menu.items[i]);
+                        i--;
+                    }
+                }
+            }
         },
 
         focus: function() {
