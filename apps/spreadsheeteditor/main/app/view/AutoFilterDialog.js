@@ -42,7 +42,8 @@
 
 define([
     'common/main/lib/component/Window',
-    'common/main/lib/component/ColorPaletteExt'
+    'common/main/lib/component/ColorPaletteExt',
+    'common/main/lib/component/Calendar'
 ], function () {
     'use strict';
 
@@ -299,6 +300,289 @@ define([
         txtTitle            : "Custom Filter"
 
     }, SSE.Views.DigitalFilterDialog || {}));
+
+    SSE.Views.DataFilterDialog = Common.UI.Window.extend(_.extend({
+
+        initialize: function (options) {
+            var t = this, _options = {};
+
+            _.extend(_options,  {
+                width           : 528,
+                height          : 230,
+                contentWidth    : 180,
+                header          : true,
+                cls             : 'filter-dlg date-filter',
+                contentTemplate : '',
+                title           : t.txtTitle,
+                items           : []
+            }, options);
+
+            this.template   =   options.template || [
+                '<div class="box" style="height:' + (_options.height - 85) + 'px;">',
+                    '<div class="content-panel" >',
+                        '<label class="header">', t.textShowRows, '</label>',
+                        '<div class="combo-container-1">',
+                            '<div id="id-search-begin-digital-combo" class="input-group-nr"></div>',
+                            '<div id="id-sd-cell-search-begin"></div>',
+                            '<div id="id-btn-date-picker-1"></div>',
+                        '</div>',
+                        '<div>',
+                            '<div id="id-and-radio" class="padding-small"></div>',
+                            '<div id="id-or-radio" class="padding-small"></div>',
+                        '</div>',
+                        '<div class="combo-container-2">',
+                            '<div id="id-search-end-digital-combo" class="input-group-nr"></div>',
+                            '<div id="id-sd-cell-search-end"></div>',
+                            '<div id="id-btn-date-picker-2"></div>',
+                        '</div>',
+                    '</div>',
+                '</div>',
+                '<div class="separator horizontal"></div>',
+                '<div class="footer center">',
+                    '<button class="btn normal dlg-btn primary" result="ok">', t.okButtonText, '</button>',
+                    '<button class="btn normal dlg-btn" result="cancel">', t.cancelButtonText, '</button>',
+                '</div>'
+            ].join('');
+
+            this.api        =   options.api;
+            this.handler    =   options.handler;
+
+            this.datePickers = [];
+
+            _options.tpl    =   _.template(this.template)(_options);
+
+            Common.UI.Window.prototype.initialize.call(this, _options);
+        },
+        render: function () {
+            Common.UI.Window.prototype.render.call(this);
+
+            this.conditions = [
+                {value: 0, displayValue: this.capCondition1},
+                {value: 0, displayValue: this.capCondition2},
+                {value: 0, displayValue: this.capCondition3},
+                {value: 0, displayValue: this.capCondition4},
+                {value: 0, displayValue: this.capCondition5},
+                {value: 0, displayValue: this.capCondition6},
+                {value: 0, displayValue: this.capCondition7},
+                {value: 0, displayValue: this.capCondition8},
+                {value: 0, displayValue: this.capCondition9},
+                {value: 0, displayValue: this.capCondition10},
+                {value: 0, displayValue: this.capCondition11},
+                {value: 0, displayValue: this.capCondition12}
+            ];
+
+            this.cmbCondition1 = new Common.UI.ComboBox({
+                el          : $('#id-search-begin-digital-combo', this.$window),
+                menuStyle   : 'min-width: 225px;max-height: 135px;',
+                cls         : 'input-group-nr',
+                data        : this.conditions,
+                scrollAlwaysVisible: true,
+                editable    : false,
+                takeFocusOnClose: true
+            });
+            //this.cmbCondition1.setValue(); TO DO
+
+            this.conditions.splice(0, 0,  {value: 0, displayValue: this.textNoFilter});
+
+            this.cmbCondition2 = new Common.UI.ComboBox({
+                el          : $('#id-search-end-digital-combo', this.$window),
+                menuStyle   : 'min-width: 225px;max-height: 135px;',
+                cls         : 'input-group-nr',
+                data        : this.conditions,
+                scrollAlwaysVisible: true,
+                editable    : false,
+                takeFocusOnClose: true
+            });
+            this.cmbCondition2.setValue(0);
+
+            this.rbAnd = new Common.UI.RadioBox({
+                el: $('#id-and-radio', this.$window),
+                labelText: this.capAnd,
+                name : 'asc-radio-filter-tab',
+                checked: true
+            });
+
+            this.rbOr = new Common.UI.RadioBox({
+                el: $('#id-or-radio', this.$window),
+                labelText: this.capOr,
+                name : 'asc-radio-filter-tab'
+            });
+
+            this.cmbValue1 = new Common.UI.ComboBox({
+                el          : $('#id-sd-cell-search-begin', this.$window),
+                cls         : 'input-group-nr',
+                menuStyle   : 'min-width: 225px;max-height: 135px;',
+                scrollAlwaysVisible: true,
+                data        : [],
+                takeFocusOnClose: true
+            });
+
+            this.cmbValue2 = new Common.UI.ComboBox({
+                el          : $('#id-sd-cell-search-end', this.$window),
+                cls         : 'input-group-nr',
+                menuStyle   : 'min-width: 225px;max-height: 135px;',
+                scrollAlwaysVisible: true,
+                data        : [],
+                takeFocusOnClose: true
+            });
+
+            this.btnDatePicker1 = new Common.UI.Button({
+                parentEl: $('#id-btn-date-picker-1', this.$window),
+                cls: 'btn-toolbar bg-white',
+                iconCls: 'toolbar__icon',
+                hint: this.txtDatePicker
+            });
+            this.btnDatePicker1.on('click', _.bind(this.showDatePicker, this));
+
+            this.btnDatePicker2 = new Common.UI.Button({
+                parentEl: $('#id-btn-date-picker-2', this.$window),
+                cls: 'btn-toolbar bg-white',
+                iconCls: 'toolbar__icon',
+                hint: this.txtDatePicker
+            });
+            this.btnDatePicker2.on('click', _.bind(this.showDatePicker, this));
+
+            var comparator = function(item1, item2) {
+                var n1 = item1.get('intval'),
+                    n2 = item2.get('intval'),
+                    isN1 = n1!==undefined,
+                    isN2 = n2!==undefined;
+                if (isN1 !== isN2) return (isN1) ? -1 : 1;
+                !isN1 && (n1 = item1.get('value').toLowerCase()) && (n2 = item2.get('value').toLowerCase());
+                if (n1===n2) return 0;
+                return (n2==='' || n1!=='' && n1<n2) ? -1 : 1;
+            };
+            this.cmbValue1.store.comparator = this.cmbValue2.store.comparator = comparator;
+
+            this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
+
+            this.loadDefaults();
+        },
+
+        getFocusedComponents: function() {
+            return [this.cmbCondition1, this.cmbValue1, this.rbAnd, this.rbOr, this.cmbCondition2, this.cmbValue2];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.cmbValue1;
+        },
+
+        close: function () {
+            if (this.api) {
+                this.api.asc_enableKeyEvents(true);
+            }
+            Common.UI.Window.prototype.close.call(this);
+        },
+
+        onBtnClick: function (event) {
+            if (event.currentTarget.attributes &&  event.currentTarget.attributes.result) {
+                if ('ok' === event.currentTarget.attributes.result.value) {
+                    this.save();
+                }
+
+                this.close();
+            }
+        },
+
+        setSettings: function (properties) {
+            this.properties = properties;
+        },
+
+        loadDefaults: function () {
+            if (this.properties && this.rbOr && this.rbAnd &&
+                this.cmbCondition1 && this.cmbCondition2 && this.cmbValue1 && this.cmbValue2) {
+
+                var arr = [];
+                this.properties.asc_getValues().forEach(function (item) {
+                    var value    = item.asc_getText();
+                    if (!_.isEmpty(value)) {
+                        arr.push({value: value, displayValue: value,
+                            intval: (!isNaN(parseFloat(value)) && isFinite(value)) ? parseFloat(value) : undefined});
+                    }
+                });
+                this.cmbValue1.setData(arr);
+                this.cmbValue2.setData(arr);
+                var filterObj = this.properties.asc_getFilterObj();
+                if (filterObj.asc_getType() == Asc.c_oAscAutoFilterTypes.CustomFilters) {
+                    var customFilter = filterObj.asc_getFilter(),
+                        customFilters = customFilter.asc_getCustomFilters();
+
+                    (customFilter.asc_getAnd()) ? this.rbAnd.setValue(true) : this.rbOr.setValue(true);
+
+                    this.cmbCondition1.setValue(customFilters[0].asc_getOperator() || Asc.c_oAscCustomAutoFilter.equals);
+                    this.cmbCondition2.setValue((customFilters.length>1) ? (customFilters[1].asc_getOperator() || 0) : 0);
+
+                    this.cmbValue1.setValue(null === customFilters[0].asc_getVal() ? '' : customFilters[0].asc_getVal());
+                    this.cmbValue2.setValue((customFilters.length>1) ? (null === customFilters[1].asc_getVal() ? '' : customFilters[1].asc_getVal()) : '');
+                }
+            }
+        },
+
+        save: function () {
+
+        },
+
+        onPrimary: function() {
+            this.save();
+            this.close();
+            return false;
+        },
+
+        showDatePicker: function (btn) {
+            Common.UI.Menu.Manager.hideAll();
+
+            var id = btn.$el.attr('id'),
+                index = parseInt(id.slice(-1)),
+                $picker,
+                cmb = index === 1 ? this.cmbValue1 : this.cmbValue2;
+            if (!this.datePickers[index]) {
+                $picker = $('<div id="date-picker-' + index + '"><div id="date-picker-control' + index + '"></div></div>');
+                btn.$el.append($picker);
+
+                this.datePickers[index] = new Common.UI.Calendar({
+                    el: $picker.find('#date-picker-control' + index),
+                    enableKeyEvents: true,
+                    firstday: 1
+                });
+
+                this.datePickers[index].on('date:click', _.bind(function (cmp, date) {
+                    cmb.setValue(new Date(date).toLocaleString().split(',')[0].replace(/\./g,'/'));
+                    $picker.hide();
+                }, this));
+
+                $(document).on('mousedown', function(e) {
+                    if (e.target.localName !== 'canvas' && $picker.is(':visible') && $picker.find(e.target).length==0) {
+                        $picker.hide();
+                    }
+                });
+            } else {
+                $picker = btn.$el.find('#date-picker-' + index);
+            }
+            $picker.show();
+        },
+
+        capAnd              : "And",
+        capCondition1       : "equals",
+        capCondition2       : "does not equal",
+        capCondition3       : "is after",
+        capCondition4       : "is after or equal to",
+        capCondition5       : "is before",
+        capCondition6       : "is before or equal to",
+        capCondition7       : "begins with",
+        capCondition8       : "does not begin with",
+        capCondition9       : "ends with",
+        capCondition10      : "does not end with",
+        capCondition11      : "contains",
+        capCondition12      : "does not contain",
+        capOr               : "Or",
+        textNoFilter        : "no filter",
+        textShowRows        : "Show rows where",
+        textUse1            : "Use ? to present any single character",
+        textUse2            : "Use * to present any series of character",
+        txtTitle            : "Custom Filter",
+        txtDatePicker       : "Date Picker"
+
+    }, SSE.Views.DataFilterDialog || {}));
 
     SSE.Views.Top10FilterDialog = Common.UI.Window.extend(_.extend({
 
@@ -1163,11 +1447,35 @@ define([
                         {value: 0, caption: this.txtThisYear, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
                         {value: 0, caption: this.txtLastYear, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
                         {value: 0, caption: this.txtYearToDate, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                        {value: 0, caption: this.txtAllDatesInThePeriod, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        this.miDatesInThePeriod = new Common.UI.MenuItem({
+                            caption: this.txtAllDatesInThePeriod,
+                            menu: new Common.UI.Menu({
+                                menuAlign: 'tl-tr',
+                                items: [
+                                    {value: 0, caption: this.txtQuarter1, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                                    {value: 0, caption: this.txtQuarter2, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                                    {value: 0, caption: this.txtQuarter3, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                                    {value: 0, caption: this.txtQuarter4, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                                    {value: 0, caption: this.txtJanuary, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                                    {value: 0, caption: this.txtFebruary, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                                    {value: 0, caption: this.txtMarch, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                                    {value: 0, caption: this.txtApril, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                                    {value: 0, caption: this.txtMay, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                                    {value: 0, caption: this.txtJune, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                                    {value: 0, caption: this.txtJuly, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                                    {value: 0, caption: this.txtAugust, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                                    {value: 0, caption: this.txtSeptember, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                                    {value: 0, caption: this.txtOctober, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                                    {value: 0, caption: this.txtNovember, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                                    {value: 0, caption: this.txtDecember, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters}
+                                ]
+                            })
+                        }),
                         {value: -1, caption: this.btnCustomFilter + '...', checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters}
                     ]
                 })
             });
+            this.miDateFilter.menu.on('item:click', _.bind(this.onDataFilterMenuClick, this));
 
             this.miFilterCellColor = new Common.UI.MenuItem({
                 caption     : this.txtFilterCellColor,
@@ -1604,6 +1912,19 @@ define([
             dlgTop10Filter.show();
         },
 
+        onDataFilterMenuClick: function (item) {
+            var me = this,
+                dlgDateFilter = new SSE.Views.DataFilterDialog({api:this.api, type: item.options.pivottype}).on({
+                    'close': function() {
+                        me.close();
+                    }
+                });
+            this.close();
+
+            dlgDateFilter.setSettings(this.configTo);
+            dlgDateFilter.show();
+        },
+
         onLabelFilterMenuClick: function(menu, item) {
             if (item.value == Asc.c_oAscCustomAutoFilter.isGreaterThan || item.value == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo || item.value == Asc.c_oAscCustomAutoFilter.isLessThan ||
                 item.value == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo || item.value == -2 || item.value == -3)
@@ -1996,7 +2317,20 @@ define([
                 arr = [], arrEx = [],
                 idxs = (me.filter) ? me.filteredIndexes : me.throughIndexes,
                 lastDate,
-                monthList = Common.define.autoFilter.getMonths();
+                monthList = [
+                    this.txtJanuary,
+                    this.txtFebruary,
+                    this.txtMarch,
+                    this.txtApril,
+                    this.txtMay,
+                    this.txtJune,
+                    this.txtJuly,
+                    this.txtAugust,
+                    this.txtSeptember,
+                    this.txtOctober,
+                    this.txtNovember,
+                    this.txtDecember
+                ];
 
 
             this.configTo.asc_getValues().forEach(function (item) {
@@ -2282,7 +2616,23 @@ define([
         txtThisYear: 'This Year',
         txtLastYear: 'Last Year',
         txtYearToDate: 'Year to Date',
-        txtAllDatesInThePeriod: 'All Dates in the Period'
+        txtAllDatesInThePeriod: 'All Dates in the Period',
+        txtQuarter1: 'Quarter 1',
+        txtQuarter2: 'Quarter 1',
+        txtQuarter3: 'Quarter 1',
+        txtQuarter4: 'Quarter 1',
+        txtJanuary: 'January',
+        txtFebruary: 'February',
+        txtMarch: 'March',
+        txtApril: 'April',
+        txtMay: 'May',
+        txtJune: 'June',
+        txtJuly: 'July',
+        txtAugust: 'August',
+        txtSeptember: 'September',
+        txtOctober: 'October',
+        txtNovember: 'November',
+        txtDecember: 'December'
 
     }, SSE.Views.AutoFilterDialog || {}));
 });

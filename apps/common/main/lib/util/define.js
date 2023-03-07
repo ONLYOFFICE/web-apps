@@ -1067,39 +1067,4 @@ define(function(){ 'use strict';
             },
         }
     })(), Common.define.smartArt || {});
-
-    Common.define.autoFilter = _.extend( new(function() {
-        return {
-            txtJanuary: 'January',
-            txtFebruary: 'February',
-            txtMarch: 'March',
-            txtApril: 'April',
-            txtMay: 'May',
-            txtJune: 'June',
-            txtJuly: 'July',
-            txtAugust: 'August',
-            txtSeptember: 'September',
-            txtOctober: 'October',
-            txtNovember: 'November',
-            txtDecember: 'December',
-
-
-            getMonths: function() {
-                return [
-                    this.txtJanuary,
-                    this.txtFebruary,
-                    this.txtMarch,
-                    this.txtApril,
-                    this.txtMay,
-                    this.txtJune,
-                    this.txtJuly,
-                    this.txtAugust,
-                    this.txtSeptember,
-                    this.txtOctober,
-                    this.txtNovember,
-                    this.txtDecember
-                ];
-            },
-        }
-    })(), Common.define.autoFilter || {});
 });
