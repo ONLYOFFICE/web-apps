@@ -85,6 +85,7 @@ define([
                 displayField: 'displayValue',
                 valueField  : 'value',
                 search      : false,
+                placeHolder : '',
                 scrollAlwaysVisible: false,
                 takeFocusOnClose: false,
                 dataHint: '',
@@ -94,7 +95,7 @@ define([
 
             template: _.template([
                 '<span class="input-group combobox <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                    '<input type="text" class="form-control" spellcheck="false"  data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">',
+                    '<input type="text" class="form-control" spellcheck="false" placeholder="<%= placeHolder %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">',
                     '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">',
                         '<span class="caret"></span>',
                     '</button>',
@@ -124,6 +125,7 @@ define([
                 this.store          = me.options.store || new Common.UI.ComboBoxStore();
                 this.displayField   = me.options.displayField;
                 this.valueField     = me.options.valueField;
+                this.placeHolder    = me.options.placeHolder;
                 this.search         = me.options.search;
                 this.scrollAlwaysVisible = me.options.scrollAlwaysVisible;
                 this.focusWhenNoSelection = (me.options.focusWhenNoSelection!==false);
@@ -151,6 +153,7 @@ define([
                         menuStyle   : this.menuStyle,
                         items       : items,
                         scope       : me,
+                        placeHolder : this.placeHolder,
                         dataHint    : this.options.dataHint,
                         dataHintDirection: this.options.dataHintDirection,
                         dataHintOffset: this.options.dataHintOffset,
@@ -184,6 +187,7 @@ define([
 
                     if (this.editable) {
                         el.on('change', 'input', _.bind(this.onInputChanged, this));
+                        el.on('input', 'input', _.bind(this.onInputChanging, this));
                         el.on('keydown', 'input', _.bind(this.onInputKeyDown, this));
                         el.on('focusin', 'input', _.bind(this.onInputFocusIn, this));
                         el.on('click', '.form-control', _.bind(this.onEditableInputClick, this));
@@ -345,7 +349,7 @@ define([
                 if (this.scroller)
                     this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
 
-                this.trigger('show:after', this, e);
+                this.trigger('show:after', this, e, {fromKeyDown: e===undefined});
                 this._search = {};
             },
 
@@ -464,8 +468,10 @@ define([
                     this.closeMenu();
                     this.onAfterHideMenu(e);
                 } else if (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN) {
-                    if (!this.isMenuOpen())
+                    if (!this.isMenuOpen()) {
                         this.openMenu();
+                        this.onAfterShowMenu();
+                    }
 
                     _.delay(function() {
                         me._skipInputChange = true;
@@ -518,6 +524,16 @@ define([
 
                 // trigger changed event
                 this.trigger('changed:after', this, record, e);
+            },
+
+            onInputChanging: function(e, extra) {
+                var newValue = $(e.target).val();
+
+                if (e.isDefaultPrevented())
+                    return;
+
+                // trigger changing event
+                this.trigger('changing', this, newValue, e);
             },
 
             onInputClick: function(e) {

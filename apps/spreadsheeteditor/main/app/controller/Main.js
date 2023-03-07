@@ -58,7 +58,8 @@ define([
     'spreadsheeteditor/main/app/controller/FormulaDialog',
     'common/main/lib/controller/FocusManager',
     'common/main/lib/controller/HintManager',
-    'common/main/lib/controller/LayoutManager'
+    'common/main/lib/controller/LayoutManager',
+    'common/main/lib/controller/ExternalUsers'
 ], function () {
     'use strict';
 
@@ -222,6 +223,7 @@ define([
                 Common.NotificationCenter.on('api:disconnect',               _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('goback',                       _.bind(this.goBack, this));
                 Common.NotificationCenter.on('namedrange:locked',            _.bind(this.onNamedRangeLocked, this));
+                Common.NotificationCenter.on('protectedrange:locked',        _.bind(this.onProtectedRangeLocked, this));
                 Common.NotificationCenter.on('download:cancel',              _.bind(this.onDownloadCancel, this));
                 Common.NotificationCenter.on('download:advanced',            _.bind(this.onAdvancedOptions, this));
                 Common.NotificationCenter.on('showmessage',                  _.bind(this.onExternalMessage, this));
@@ -1362,6 +1364,7 @@ define([
                     this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
                     this.editorConfig.customization && Common.UI.LayoutManager.init(this.editorConfig.customization.layout, this.appOptions.canBrandingExt);
                     this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
+                    Common.UI.ExternalUsers.init(this.appOptions.canRequestUsers);
                 }
 
                 this.appOptions.canUseHistory  = this.appOptions.canLicense && this.editorConfig.canUseHistory && this.appOptions.canCoAuthoring && !this.appOptions.isOffline;
@@ -2036,6 +2039,10 @@ define([
                             config.msg = this.errorInconsistentExtPptx.replace('%1', this.appOptions.spreadsheet.fileType || '');
                         else
                             config.msg = this.errorInconsistentExt;
+                        break;
+
+                    case Asc.c_oAscError.ID.ProtectedRangeByOtherUser:
+                        config.msg = this.errorProtectedRange;
                         break;
 
                     default:
@@ -2826,6 +2833,20 @@ define([
                 if ($('.asc-window.modal.alert:visible').length < 1) {
                     Common.UI.alert({
                         msg: this.errorCreateDefName,
+                        title: this.notcriticalErrorTitle,
+                        iconCls: 'warn',
+                        buttons: ['ok'],
+                        callback: _.bind(function(btn){
+                            this.onEditComplete();
+                        }, this)
+                    });
+                }
+            },
+
+            onProtectedRangeLocked: function() {
+                if ($('.asc-window.modal.alert:visible').length < 1) {
+                    Common.UI.alert({
+                        msg: this.errorCreateRange,
                         title: this.notcriticalErrorTitle,
                         iconCls: 'warn',
                         buttons: ['ok'],
@@ -3788,7 +3809,9 @@ define([
             errorConvertXml: 'The file has an unsupported format.<br>Only XML Spreadsheet 2003 format can be used.',
             textText: 'Text',
             warnLicenseBefore: 'License not active.<br>Please contact your administrator.',
-            titleLicenseNotActive: 'License not active'
+            titleLicenseNotActive: 'License not active',
+            errorProtectedRange: 'This range is not allowed for editing.',
+            errorCreateRange: 'The existing ranges cannot be edited and the new ones cannot be created<br>at the moment as some of them are being edited.'
         }
     })(), SSE.Controllers.Main || {}))
 });

@@ -42,7 +42,9 @@ define([
     'common/main/lib/view/Protection',
     'spreadsheeteditor/main/app/view/WBProtection',
     'spreadsheeteditor/main/app/view/ProtectDialog',
-    'spreadsheeteditor/main/app/view/ProtectRangesDlg'
+    'spreadsheeteditor/main/app/view/ProtectRangesDlg',
+    'spreadsheeteditor/main/app/view/ProtectedRangesManagerDlg',
+    'spreadsheeteditor/main/app/view/ProtectedRangesEditDlg'
 ], function () {
     'use strict';
 
@@ -59,10 +61,11 @@ define([
 
             this.addListeners({
                 'WBProtection': {
-                    'protect:workbook':      _.bind(this.onWorkbookClick, this),
-                    'protect:sheet':     _.bind(this.onSheetClick, this),
-                    'protect:ranges':     _.bind(this.onRangesClick, this),
-                    'protect:lock-options':     _.bind(this.onLockOptionClick, this)
+                    'protect:workbook':     _.bind(this.onWorkbookClick, this),
+                    'protect:sheet':        _.bind(this.onSheetClick, this),
+                    'protect:allow-ranges': _.bind(this.onAllowRangesClick, this),
+                    'protect:lock-options': _.bind(this.onLockOptionClick, this),
+                    'protect:range':       _.bind(this.onProtectRangeClick, this)
                 }
             });
         },
@@ -179,6 +182,7 @@ define([
                     win = new SSE.Views.ProtectDialog({
                         type: 'sheet',
                         props: props,
+                        api: me.api,
                         handler: function(result, value, props) {
                             btn = result;
                             if (result == 'ok') {
@@ -227,7 +231,7 @@ define([
             }
         },
 
-        onRangesClick: function() {
+        onAllowRangesClick: function() {
             var me = this,
                 props = me.api.asc_getProtectedRanges(),
                 win = new SSE.Views.ProtectRangesDlg({
@@ -267,6 +271,19 @@ define([
                     break;
             }
             Common.NotificationCenter.trigger('edit:complete', this);
+        },
+
+        onProtectRangeClick: function() {
+            var me = this,
+                win = new SSE.Views.ProtectedRangesManagerDlg({
+                    api: me.api,
+                    currentUserId: me.appConfig.user.id,
+                    handler: function(result, settings) {
+                        Common.NotificationCenter.trigger('edit:complete');
+                    }
+                });
+
+            win.show();
         },
 
         onAppReady: function (config) {
@@ -357,6 +374,7 @@ define([
                     }
                 }
             }
+            Common.Utils.lockControls(Common.enumLock.userProtected, !!info.asc_getUserProtected(), { array: [this.view.chLockedCell, this.view.chHiddenFormula]});
         }
 
     }, SSE.Controllers.WBProtection || {}));

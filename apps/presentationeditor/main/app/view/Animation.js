@@ -115,8 +115,8 @@ define([
                 me.cmbDuration.on('selected', function (combo, record) {
                     me.fireEvent('animation:durationselected', [combo, record]);
                 }, me);
-                me.cmbDuration.on('show:after', function (combo) {
-                    me.fireEvent('animation:durationfocusin', [true, combo]);
+                me.cmbDuration.on('show:after', function (combo, e, params) {
+                    me.fireEvent('animation:durationfocusin', [true, combo, e, params]);
                 }, me);
                 me.cmbDuration.on('combo:focusin', function (combo) {
                     me.fireEvent('animation:durationfocusin', [false, combo]);
@@ -146,8 +146,8 @@ define([
                 me.cmbRepeat.on('selected', function (combo, record) {
                     me.fireEvent('animation:repeatselected', [combo, record]);
                 }, me);
-                me.cmbRepeat.on('show:after', function (combo) {
-                    me.fireEvent('animation:repeatfocusin', [true, combo]);
+                me.cmbRepeat.on('show:after', function (combo, e, params) {
+                    me.fireEvent('animation:repeatfocusin', [true, combo, e, params]);
                 }, me);
                 me.cmbRepeat.on('combo:focusin', function (combo) {
                     me.fireEvent('animation:repeatfocusin', [false, combo]);

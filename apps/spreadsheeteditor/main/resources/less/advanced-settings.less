@@ -560,7 +560,7 @@
     }
 }
 
-#protect-dlg-options {
+.protect-sheet-options {
     .list-item {
         pointer-events:none;
         margin-left: 20px;
@@ -985,5 +985,37 @@
     #format-rules-edit-txt-value-1 {
         height: 22px;
     }
+}
 
+#id-protected-range-list-user {
+    .listview:not(.disabled) > .item {
+        .list-item {
+            position: relative;
+        }
+        .listitem-icon {
+            position: absolute;
+            display: none;
+            width: 20px;
+            height: 20px;
+            right: -5px;
+            top: -3px;
+        }
+        &:not(:first-child):hover {
+            .listitem-icon {
+                display: block;
+            }
+        }
+        &.selected {
+            .listitem-icon {
+                background-position-x: -20px;
+                background-position-x: @button-small-active-icon-offset-x;
+            }
+        }
+    }
+}
+
+#protect-edit-ranges-list {
+    .lock-user {
+        top: 2px;
+    }
 }

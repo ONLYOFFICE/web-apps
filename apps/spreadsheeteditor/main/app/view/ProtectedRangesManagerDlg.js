@@ -1,4 +1,5 @@
 /*
+ *
  * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
@@ -12,7 +13,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -28,17 +29,17 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
- */
+*/
 /**
  *
- *  ProtectRangesDlg.js
+ *  ProtectedRangesManagerDlg.js
  *
- *  Created by Julia.Radzhabova on 22.06.21
- *  Copyright (c) 2021 Ascensio System SIA. All rights reserved.
+ *  Created by Julia.Radzhabova on 01.02.23
+ *  Copyright (c) 2023 Ascensio System SIA. All rights reserved.
  *
  */
 
-define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
+define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.template',
     'common/main/lib/view/AdvancedSettingsWindow',
     'common/main/lib/component/ListView'
 ], function (contentTemplate) {
@@ -46,11 +47,12 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
 
     SSE.Views = SSE.Views || {};
 
-    SSE.Views.ProtectRangesDlg =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
+    SSE.Views.ProtectedRangesManagerDlg =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
-            alias: 'ProtectRangesDlg',
+            alias: 'ProtectedRangesManagerDlg',
             contentWidth: 480,
-            height: 353
+            height: 353,
+            buttons: null
         },
 
         initialize: function (options) {
@@ -61,30 +63,24 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
                     '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
                     '<div class="content-panel" style="padding: 0;">' + _.template(contentTemplate)({scope: this}) + '</div>',
                     '</div>',
-                    '<div class="separator horizontal"></div>'
-                ].join(''),
-                buttons: [
-                // {
-                //     value: 'protect-sheet',
-                //     caption: this.textProtect
-                // },
-                    'ok','cancel']
-                // primary: 'protect-sheet'
+                    '<div class="separator horizontal"></div>',
+                    '<div class="footer center">',
+                    '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.closeButtonText + '</button>',
+                    '</div>'
+                ].join('')
             }, options);
 
             this.api        = options.api;
             this.handler    = options.handler;
-            this.props      = options.props;
             this.locked     = options.locked || false;
             this.userTooltip = true;
-            this.currentRange = undefined;
-            this.deletedArr = [];
+            this.currentRange = 0;
+            this.currentUserId = options.currentUserId;
 
             this.wrapEvents = {
-                onLockProtectedRangeManager: _.bind(this.onLockProtectedRangeManager, this),
-                onUnLockProtectedRangeManager: _.bind(this.onUnLockProtectedRangeManager, this),
-                onLockProtectedRange: _.bind(this.onLockProtectedRange, this),
-                onUnLockProtectedRange: _.bind(this.onUnLockProtectedRange, this)
+                onRefreshUserProtectedRangesList: _.bind(this.onRefreshUserProtectedRangesList, this),
+                onLockUserProtectedManager: _.bind(this.onLockUserProtectedManager, this),
+                onApiSheetChanged: _.bind(this.onApiSheetChanged, this)
             };
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
@@ -93,46 +89,59 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
             var me = this;
 
+            this.cmbFilter = new Common.UI.ComboBox({
+                el          : $('#protect-edit-ranges-combo-filter'),
+                menuStyle   : 'min-width: 100%;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [],
+                takeFocusOnClose: true
+            }).on('selected', function(combo, record) {
+                me.refreshRangeList(0);
+            });
+
             this.rangeList = new Common.UI.ListView({
-                el: $('#protect-ranges-list', this.$window),
+                el: $('#protect-edit-ranges-list', this.$window),
                 store: new Common.UI.DataViewStore(),
+                multiSelect: true,
                 simpleAddMode: true,
                 emptyText: this.textEmpty,
                 itemTemplate: _.template([
-                        '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;<% if (!lock) { %>pointer-events:none;<% } %>">',
-                            '<div style="width:184px;padding-right: 5px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
-                            '<div style="width:191px;padding-right: 5px;"><%= range %></div>',
-                            '<div style="width:70px;"><% if (pwd) { %>', me.txtYes, '<% } else { %>', me.txtNo, '<% } %></div>',
-                            '<% if (lock) { %>',
-                                '<div class="lock-user"><%=lockuser%></div>',
-                            '<% } %>',
-                        '</div>'
+                    '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;<% if (!lock) { %>pointer-events:none;<% } %>">',
+                    '<div style="width:184px;padding-right: 5px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
+                    '<div style="width:191px;padding-right: 5px;"><%= range %></div>',
+                    '<div style="width:70px;"><% if (canEdit) { %>', me.txtEdit, '<% } else { %>', me.txtView, '<% } %></div>',
+                    '<% if (lock) { %>',
+                    '<div class="lock-user"><%=lockuser%></div>',
+                    '<% } %>',
+                    '</div>'
                 ].join('')),
                 tabindex: 1
             });
-            this.rangeList.store.comparator = function(item1, item2) {
-                var n1 = item1.get('name').toLowerCase(),
-                    n2 = item2.get('name').toLowerCase();
-                if (n1==n2) return 0;
-                return (n1<n2) ? -1 : 1;
-            };
+            // this.rangeList.store.comparator = function(item1, item2) {
+            //     var n1 = item1.get('name').toLowerCase(),
+            //         n2 = item2.get('name').toLowerCase();
+            //     if (n1==n2) return 0;
+            //     return (n1<n2) ? -1 : 1;
+            // };
             this.rangeList.on('item:select', _.bind(this.onSelectRangeItem, this))
-                          .on('item:keydown', _.bind(this.onKeyDown, this))
-                          .on('item:dblclick', _.bind(this.onDblClickItem, this))
-                          .on('entervalue', _.bind(this.onDblClickItem, this));
+                .on('item:deselect', _.bind(this.onDeselectRangeItem, this))
+                .on('item:keydown', _.bind(this.onKeyDown, this))
+                .on('item:dblclick', _.bind(this.onDblClickItem, this))
+                .on('entervalue', _.bind(this.onDblClickItem, this));
 
             this.btnNewRange = new Common.UI.Button({
-                el: $('#protect-ranges-btn-new')
+                el: $('#protect-edit-ranges-btn-new')
             });
             this.btnNewRange.on('click', _.bind(this.onEditRange, this, false));
 
             this.btnEditRange = new Common.UI.Button({
-                el: $('#protect-ranges-btn-edit')
+                el: $('#protect-edit-ranges-btn-edit')
             });
             this.btnEditRange.on('click', _.bind(this.onEditRange, this, true));
-            
+
             this.btnDeleteRange = new Common.UI.Button({
-                el: $('#protect-ranges-btn-delete')
+                el: $('#protect-edit-ranges-btn-delete')
             });
             this.btnDeleteRange.on('click', _.bind(this.onDeleteRange, this));
 
@@ -140,7 +149,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
         },
 
         getFocusedComponents: function() {
-            return [ this.rangeList, this.btnNewRange, this.btnEditRange, this.btnDeleteRange ];
+            return [ this.cmbFilter, this.rangeList, this.btnNewRange, this.btnEditRange, this.btnDeleteRange ];
         },
 
         getDefaultFocusableComponent: function () {
@@ -148,30 +157,31 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
         },
 
         afterRender: function() {
-            this._setDefaults(this.props);
+            this._setDefaults();
         },
 
-        _setDefaults: function (props) {
-            this.refreshRangeList(props, 0);
-            this.currentSheet = this.api.asc_getActiveWorksheetIndex();
-            this.api.asc_registerCallback('asc_onLockProtectedRangeManager', this.wrapEvents.onLockProtectedRangeManager);
-            this.api.asc_registerCallback('asc_onUnLockProtectedRangeManager', this.wrapEvents.onUnLockProtectedRangeManager);
-            this.api.asc_registerCallback('asc_onLockProtectedRange', this.wrapEvents.onLockProtectedRange);
-            this.api.asc_registerCallback('asc_onUnLockProtectedRange', this.wrapEvents.onUnLockProtectedRange);
+        _setDefaults: function () {
+            this.onApiSheetChanged();
+            this.api.asc_registerCallback('asc_onRefreshUserProtectedRangesList', this.wrapEvents.onRefreshUserProtectedRangesList);
+            this.api.asc_registerCallback('asc_onLockUserProtectedManager', this.wrapEvents.onLockUserProtectedManager);
+            this.api.asc_registerCallback('asc_onSheetsChanged',            this.wrapEvents.onApiSheetChanged);
         },
 
-        refreshRangeList: function(ranges, selectedItem) {
+        refreshRangeList: function(selectedItem) {
+            var sheetIndex = this.cmbFilter.getValue();
+            var ranges = this.api.asc_getUserProtectedRanges(sheetIndex>=0 ? this.api.asc_getWorksheetName(sheetIndex) : undefined);
             if (ranges) {
                 var arr = [];
                 for (var i=0; i<ranges.length; i++) {
-                    var id = ranges[i].asc_getIsLock();
+                    var id = ranges[i].asc_getIsLock(),
+                        users = ranges[i].asc_getUsers();
                     arr.push({
                         name: ranges[i].asc_getName() || '',
-                        pwd: ranges[i].asc_isPassword(),
-                        range: ranges[i].asc_getSqref() || '',
-                        rangeId: ranges[i].asc_getId(),
+                        range: ranges[i].asc_getRef() || '',
+                        rangeId: ranges[i].asc_getId() || '',
+                        users: users,
                         props: ranges[i],
-                        rangeChanged: false, // true if was edited in or was created, need to send this rule to sdk if true
+                        canEdit: _.indexOf(users, this.currentUserId)>=0,
                         lock: (id!==null && id!==undefined),
                         lockuser: (id) ? (this.isUserVisible(id) ? this.getUserName(id) : this.lockText) : this.guestText
                     });
@@ -192,7 +202,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
                     }, 50);
 
                 } else if (selectedItem){ // object
-                    var rec = store.findWhere({name: selectedItem.asc_getName(true)});
+                    var rec = store.findWhere({rangeId: selectedItem.asc_getId()});
                     if (rec) {
                         this.rangeList.selectRecord(rec);
                         setTimeout(function() {
@@ -237,7 +247,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
 
         onEditRange: function (isEdit) {
             if (this._isWarningVisible) return;
-            
+
             if (this.locked) {
                 Common.NotificationCenter.trigger('protectedrange:locked');
                 return;
@@ -246,48 +256,27 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
                 xy = me.$window.offset(),
                 rec = this.rangeList.getSelectedRec(),
                 props;
-            if (isEdit)
-                props = rec.get('props');
-            else {
-                props = new Asc.CProtectedRange();
-                props.asc_setSqref(me.api.asc_getActiveRangeStr(Asc.referenceType.A));
+            if (isEdit) {
+                if (!rec || rec.length!==1) return;
+                props = rec[0].get('props');
+            } else {
+                props = new Asc.CUserProtectedRange();
+                props.asc_setRef(me.api.asc_getActiveRangeStr(Asc.referenceType.A));
             }
-            var names = [];
-            this.rangeList.store.each(function(item){
-                names.push(item.get('name').toLowerCase());
-            });
 
-            var win = new SSE.Views.ProtectDialog({
+            var win = new SSE.Views.ProtectedRangesEditDlg({
                 title   : isEdit ? me.txtEditRange : me.txtNewRange,
-                type    : 'range',
                 props   : props,
-                names   : names,
                 isEdit  : isEdit,
                 api     : me.api,
-                buttons : ['ok', 'cancel'],
-                handler : function(result, value, props) {
+                currentUser: {id: me.currentUserId, name: me.getUserName(me.currentUserId, true)},
+                handler : function(result, newprops) {
                     if (result == 'ok') {
-                        value && props.asc_setPassword(value);
+                        me.currentRange = newprops;
                         if (isEdit) {
-                            rec.set('props', props);
-                            rec.set('name', props.asc_getName());
-                            rec.set('range', props.asc_getSqref());
-                            rec.set('pwd', props.asc_isPassword());
-                            rec.set('rangeChanged', true);
+                            me.api.asc_changeUserProtectedRange(props, newprops);
                         } else {
-                            rec = me.rangeList.store.add({
-                                name: props.asc_getName(),
-                                pwd: props.asc_isPassword(),
-                                range: props.asc_getSqref(),
-                                props: props,
-                                isNew: true,
-                                rangeChanged: true,
-                                lock: false,
-                                lockuser: this.guestText
-                            });
-                            me.rangeList.selectRecord(rec);
-                            me.rangeList.scrollToRecord(me.rangeList.getSelectedRec());
-                            me.updateButtons();
+                            me.api.asc_addUserProtectedRange(newprops);
                         }
                     }
                 }
@@ -295,30 +284,35 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
                 me.show();
                 setTimeout(function(){ me.getDefaultFocusableComponent().focus(); }, 100);
             });
-            
+
             me.hide();
             win.show(xy.left + 65, xy.top);
         },
 
         onDeleteRange: function () {
-            var store = this.rangeList.store,
-                rec = this.rangeList.getSelectedRec();
-            if (rec) {
-                !rec.get('isNew') && this.deletedArr.push(rec.get('props'));
-                var index = store.indexOf(rec);
-                store.remove(rec);
-                (store.length>0) && this.rangeList.selectByIndex(index);
-                this.rangeList.scrollToRecord(this.rangeList.getSelectedRec());
+            var rec = this.rangeList.getSelectedRec();
+            if (rec && rec.length>0) {
+                var me = this;
+                me._isWarningVisible = true;
+                Common.UI.warning({
+                    msg: rec.length>1 ? me.warnDeleteRanges : Common.Utils.String.format(me.warnDelete, rec[0].get('name')),
+                    maxwidth: 500,
+                    buttons: ['ok', 'cancel'],
+                    callback: function(btn) {
+                        if (btn == 'ok') {
+                            me.currentRange = _.indexOf(me.rangeList.store.models, rec[rec.length-1]) - rec.length + 1;
+                            me.api.asc_deleteUserProtectedRange(_.map(rec, function(item) {
+                                return item.get('props')
+                            }));
+                        }
+                        setTimeout(function(){ me.getDefaultFocusableComponent().focus(); }, 100);
+                        me._isWarningVisible = false;
+                    }
+                });
             }
-            this.updateButtons();
         },
 
         getSettings: function() {
-            var arr = [];
-            this.rangeList.store.each(function(item){
-                item.get('rangeChanged') && arr.push(item.get('props'));
-            });
-            return {arr: arr, deletedArr: this.deletedArr};
         },
 
         onPrimary: function() {
@@ -330,10 +324,10 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
             this.close();
         },
 
-        getUserName: function(id){
+        getUserName: function(id, original){
             var usersStore = SSE.getCollection('Common.Collections.Users');
             if (usersStore){
-                var rec = usersStore.findUser(id);
+                var rec = original ? usersStore.findOriginalUser(id) : usersStore.findUser(id);
                 if (rec)
                     return AscCommon.UserInfoParser.getParsedName(rec.get('username'));
             }
@@ -360,11 +354,16 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
             if (isViewSelect){
                 if (record.get('selected')) {
                     rawData = record.toJSON();
+                    this.currentRange = _.indexOf(this.rangeList.store.models, record);
                 } else {// record deselected
                     return;
                 }
-                this.currentNamedRange = _.indexOf(this.rangeList.store.models, record);
             }
+            this.updateButtons();
+        },
+
+        onDeselectRangeItem: function(listView, itemView, record) {
+            this.userTipHide();
             this.updateButtons();
         },
 
@@ -375,10 +374,9 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
 
         close: function () {
             this.userTipHide();
-            this.api.asc_unregisterCallback('asc_onLockProtectedRangeManager', this.wrapEvents.onLockProtectedRangeManager);
-            this.api.asc_unregisterCallback('asc_onUnLockProtectedRangeManager', this.wrapEvents.onUnLockProtectedRangeManager);
-            this.api.asc_unregisterCallback('asc_onLockProtectedRange', this.wrapEvents.onLockProtectedRange);
-            this.api.asc_unregisterCallback('asc_onUnLockProtectedRange', this.wrapEvents.onUnLockProtectedRange);
+            this.api.asc_unregisterCallback('asc_onRefreshUserProtectedRangesList', this.wrapEvents.onRefreshUserProtectedRangesList);
+            this.api.asc_unregisterCallback('asc_onLockUserProtectedManager', this.wrapEvents.onLockUserProtectedManager);
+            this.api.asc_unregisterCallback('asc_onSheetsChanged',            this.wrapEvents.onApiSheetChanged);
             Common.UI.Window.prototype.close.call(this);
         },
 
@@ -392,70 +390,62 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
                 this.onEditRange(true);
         },
 
-        onLockProtectedRangeManager: function(index) {
-            if (this.currentSheet !== index) return;
-            this.locked = true;
+        onRefreshUserProtectedRangesList: function() {
+            this.refreshRangeList(this.currentRange);
+        },
+
+        onLockUserProtectedManager: function(lock) {
+            this.locked = !!lock;
             this.updateButtons();
-            if (this.userTooltip===true && this.rangeList.cmpEl.find('.lock-user').length>0)
+            if (this.locked && this.userTooltip===true && this.rangeList.cmpEl.find('.lock-user').length>0)
                 this.rangeList.cmpEl.on('mouseover',  _.bind(this.onMouseOverLock, this)).on('mouseout',  _.bind(this.onMouseOutLock, this));
-        },
-
-        onUnLockProtectedRangeManager: function(index) {
-            if (this.currentSheet !== index) return;
-            this.locked = false;
-            this.updateButtons();
-        },
-
-        onLockProtectedRange: function(index, rangeId, userId) {
-            if (this.currentSheet !== index) return;
-            var store = this.rangeList.store,
-                rec = store.findWhere({rangeId: rangeId});
-            if (rec) {
-                rec.set('lockuser', (userId) ? (this.isUserVisible(userId) ? this.getUserName(userId) : this.lockText) : this.guestText);
-                rec.set('lock', true);
-                this.updateButtons();
-            }
-            if (this.userTooltip===true && this.rangeList.cmpEl.find('.lock-user').length>0)
-                this.rangeList.cmpEl.on('mouseover',  _.bind(this.onMouseOverLock, this)).on('mouseout',  _.bind(this.onMouseOutLock, this));
-        },
-
-        onUnLockProtectedRange: function(index, rangeId) {
-            if (this.currentSheet !== index) return;
-            var store = this.rangeList.store,
-                rec = store.findWhere({rangeId: rangeId});
-            if (rec) {
-                rec.set('lockuser', '');
-                rec.set('lock', false);
-                this.updateButtons();
-            }
         },
 
         updateButtons: function() {
             var rec = this.rangeList.getSelectedRec(),
-                lock = rec ? rec.get('lock') : false,
-                length = this.rangeList.store.length;
-            this.btnDeleteRange.setDisabled(length<1 || lock);
-            this.btnEditRange.setDisabled(length<1 || lock);
+                lock = rec && rec.length>0 ? _.find(rec, function(item) { return !!item.get('lock'); }) : true,
+                length = this.rangeList.store.length,
+                canEdit = rec && rec.length>0 ? !_.find(rec, function(item) { return !item.get('canEdit'); }) : false;
+            this.btnDeleteRange.setDisabled(length<1 || lock || !canEdit);
+            this.btnEditRange.setDisabled(length<1 || !(rec && rec.length===1) || lock || !canEdit);
         },
 
-        txtTitle: 'Allow Users to Edit Ranges',
-        textRangesDesc: 'Ranges unlocked by a password when sheet is protected (this works only for locked cells)',
+        onApiSheetChanged: function() {
+            var oldValue = this.cmbFilter.store.length>0 ? this.cmbFilter.getValue() : this.api.asc_getActiveWorksheetIndex();
+            var wc = this.api.asc_getWorksheetsCount(),
+                i = -1,
+                items = [];
+            while (++i < wc) {
+                if (!this.api.asc_isWorksheetHidden(i)) {
+                    items.push({displayValue: this.api.asc_getWorksheetName(i), value: i});
+                }
+            }
+            this.cmbFilter.setData([{value: -1, displayValue: this.textFilterAll}].concat(items));
+            this.cmbFilter.setValue(oldValue, -1);
+            this.refreshRangeList(this.cmbFilter.getValue()!==oldValue ? 0 : this.currentRange);
+        },
+
+        txtTitle: 'Protected Ranges',
+        textRangesDesc: 'You can restrict editing ranges to selected people.',
         textTitle: 'Title',
         textRange: 'Range',
-        textPwd: 'Password',
         textNew: 'New',
         textEdit: 'Edit',
         textDelete: 'Delete',
-        textEmpty: 'No ranges allowed for edit.',
+        textEmpty: 'No protected ranges have been created yet.<br>Create at least one protected range and it will appear in this field.',
         guestText: 'Guest',
         tipIsLocked: 'This element is being edited by another user.',
-        warnDelete: 'Are you sure you want to delete the name {0}?',
+        warnDelete: 'Are you sure you want to delete the protected range {0}?<br>Anyone who has edit access to the spreadsheet will be able to edit content in the range.',
+        warnDeleteRanges: 'Are you sure you want to delete the protected ranges?<br>Anyone who has edit access to the spreadsheet will be able to edit content in those ranges.',
         textProtect: 'Protect Sheet',
-        txtYes: 'Yes',
-        txtNo: 'No',
+        txtEdit: 'Edit',
+        txtView: 'View',
         txtEditRange: 'Edit Range',
         txtNewRange: 'New Range',
-        lockText: 'Locked'
+        lockText: 'Locked',
+        textFilter: 'Filter',
+        textFilterAll: 'All',
+        textYouCan: 'You can'
 
-    }, SSE.Views.ProtectRangesDlg || {}));
+    }, SSE.Views.ProtectedRangesManagerDlg || {}));
 });

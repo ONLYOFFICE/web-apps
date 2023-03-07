@@ -2593,7 +2593,8 @@ define([
                     isinsparkline = (cellinfo.asc_getSparklineInfo()!==null),
                     isintable = (formatTableInfo !== null),
                     ismultiselect = cellinfo.asc_getMultiselect(),
-                    inPivot = !!this.propsPivot.originalProps;
+                    inPivot = !!this.propsPivot.originalProps,
+                    isUserProtected = cellinfo.asc_getUserProtected()===true;
                 documentHolder.ssMenu.formatTableName = (isintable) ? formatTableInfo.asc_getTableName() : null;
                 documentHolder.ssMenu.cellColor = xfs.asc_getFillColor();
                 documentHolder.ssMenu.fontColor = xfs.asc_getFontColor();
@@ -2730,32 +2731,32 @@ define([
                 documentHolder.pmiGetRangeList.setVisible(!Common.Utils.isIE && iscellmenu && !iscelledit && !ismultiselect && !internaleditor && this.permissions.canMakeActionLink && !!navigator.clipboard);
 
                 _.each(documentHolder.ssMenu.items, function(item) {
-                    item.setDisabled(isCellLocked);
+                    item.setDisabled(isCellLocked || isUserProtected);
                 });
                 documentHolder.pmiCopy.setDisabled(false);
                 documentHolder.pmiSelectTable.setDisabled(this._state.wsLock);
-                documentHolder.pmiInsertEntire.setDisabled(isCellLocked || isTableLocked || isrowmenu && this._state.wsProps['InsertRows'] || iscolmenu && this._state.wsProps['InsertColumns']);
-                documentHolder.pmiInsertCells.setDisabled(isCellLocked || isTableLocked || inPivot || this._state.wsLock);
-                documentHolder.pmiInsertTable.setDisabled(isCellLocked || isTableLocked || this._state.wsLock);
-                documentHolder.pmiDeleteEntire.setDisabled(isCellLocked || isTableLocked || isrowmenu && this._state.wsProps['DeleteRows'] || iscolmenu && this._state.wsProps['DeleteColumns']);
-                documentHolder.pmiDeleteCells.setDisabled(isCellLocked || isTableLocked || inPivot || this._state.wsLock);
-                documentHolder.pmiDeleteTable.setDisabled(isCellLocked || isTableLocked || this._state.wsLock);
-                documentHolder.pmiClear.setDisabled(isCellLocked || inPivot);
-                documentHolder.pmiFilterCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot || !filterInfo && !this.permissions.canModifyFilter || this._state.wsLock);
-                documentHolder.pmiSortCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot || !this.permissions.canModifyFilter || this._state.wsProps['Sort']);
-                documentHolder.pmiReapply.setDisabled(isCellLocked || isTableLocked|| (isApplyAutoFilter!==true));
-                documentHolder.pmiCondFormat.setDisabled(isCellLocked || isTableLocked || this._state.wsProps['FormatCells']);
-                documentHolder.menuHyperlink.setDisabled(isCellLocked || inPivot || this._state.wsProps['InsertHyperlinks']);
-                documentHolder.menuAddHyperlink.setDisabled(isCellLocked || inPivot || this._state.wsProps['InsertHyperlinks']);
-                documentHolder.pmiInsFunction.setDisabled(isCellLocked || inPivot);
+                documentHolder.pmiInsertEntire.setDisabled(isCellLocked || isTableLocked || isrowmenu && this._state.wsProps['InsertRows'] || iscolmenu && this._state.wsProps['InsertColumns'] || isUserProtected);
+                documentHolder.pmiInsertCells.setDisabled(isCellLocked || isTableLocked || inPivot || this._state.wsLock || isUserProtected);
+                documentHolder.pmiInsertTable.setDisabled(isCellLocked || isTableLocked || this._state.wsLock || isUserProtected);
+                documentHolder.pmiDeleteEntire.setDisabled(isCellLocked || isTableLocked || isrowmenu && this._state.wsProps['DeleteRows'] || iscolmenu && this._state.wsProps['DeleteColumns'] || isUserProtected);
+                documentHolder.pmiDeleteCells.setDisabled(isCellLocked || isTableLocked || inPivot || this._state.wsLock || isUserProtected);
+                documentHolder.pmiDeleteTable.setDisabled(isCellLocked || isTableLocked || this._state.wsLock || isUserProtected);
+                documentHolder.pmiClear.setDisabled(isCellLocked || inPivot || isUserProtected);
+                documentHolder.pmiFilterCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot || !filterInfo && !this.permissions.canModifyFilter || this._state.wsLock || isUserProtected);
+                documentHolder.pmiSortCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot || !this.permissions.canModifyFilter || this._state.wsProps['Sort'] || isUserProtected);
+                documentHolder.pmiReapply.setDisabled(isCellLocked || isTableLocked|| (isApplyAutoFilter!==true) || isUserProtected);
+                documentHolder.pmiCondFormat.setDisabled(isCellLocked || isTableLocked || this._state.wsProps['FormatCells'] || isUserProtected);
+                documentHolder.menuHyperlink.setDisabled(isCellLocked || inPivot || this._state.wsProps['InsertHyperlinks'] || isUserProtected);
+                documentHolder.menuAddHyperlink.setDisabled(isCellLocked || inPivot || this._state.wsProps['InsertHyperlinks'] || isUserProtected);
+                documentHolder.pmiInsFunction.setDisabled(isCellLocked || inPivot || isUserProtected);
                 documentHolder.pmiFreezePanes.setDisabled(this.api.asc_isWorksheetLockedOrDeleted(this.api.asc_getActiveWorksheetIndex()));
                 documentHolder.pmiRowHeight.setDisabled(isCellLocked || this._state.wsProps['FormatRows']);
                 documentHolder.pmiColumnWidth.setDisabled(isCellLocked || this._state.wsProps['FormatColumns']);
                 documentHolder.pmiEntireHide.setDisabled(isCellLocked || iscolmenu && this._state.wsProps['FormatColumns'] || isrowmenu && this._state.wsProps['FormatRows']);
                 documentHolder.pmiEntireShow.setDisabled(isCellLocked || iscolmenu && this._state.wsProps['FormatColumns'] ||isrowmenu && this._state.wsProps['FormatRows']);
-                documentHolder.pmiNumFormat.setDisabled(isCellLocked || this._state.wsProps['FormatCells']);
-                documentHolder.pmiSparklines.setDisabled(isCellLocked || this._state.wsLock);
-                documentHolder.pmiEntriesList.setDisabled(isCellLocked || this._state.wsLock);
+                documentHolder.pmiNumFormat.setDisabled(isCellLocked || this._state.wsProps['FormatCells'] || isUserProtected);
+                documentHolder.pmiSparklines.setDisabled(isCellLocked || this._state.wsLock || isUserProtected);
+                documentHolder.pmiEntriesList.setDisabled(isCellLocked || this._state.wsLock || isUserProtected);
                 documentHolder.pmiAddNamedRange.setDisabled(isCellLocked || this._state.wsLock);
                 documentHolder.pmiAddComment.setDisabled(isCellLocked || this._state.wsProps['Objects']);
                 documentHolder.pmiGetRangeList.setDisabled(false);
