@@ -2943,7 +2943,7 @@ define([
                             value: item.id,
                             guid: guid,
                             menu: item.items && item.items.length>0 ? getMenu(item.items, guid) : false,
-                            disabled: !item.enabled
+                            disabled: !!item.disabled
                         });
                     }
                 });
@@ -2975,7 +2975,7 @@ define([
                                     value: item.id,
                                     guid: plugin.guid,
                                     menu: item.items && item.items.length>0 ? getMenu(item.items, plugin.guid) : false,
-                                    disabled: !item.enabled
+                                    disabled: !!item.disabled
                                 }).on('click', function(item, e) {
                                     me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
                                 });
