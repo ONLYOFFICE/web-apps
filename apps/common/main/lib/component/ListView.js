@@ -179,6 +179,7 @@ define([
                 if(!this.headerEl) return;
                 var headerHeight = Math.floor(this.headerEl.outerHeight());
                 this.headerHeight = headerHeight;
+                this.scrollYStyle = _.extend({}, this.scrollYStyle, {'margin-top': headerHeight+1 + 'px'});
             },
 
             setOffsetFromHeader: function(isCalcNewHeaderHeight) {
@@ -188,6 +189,7 @@ define([
                     this.calcOffsetFromHeader();
                 }
                 this.$el.find('.listview').css({'padding-top': this.headerHeight + 'px'});
+                this.scroller.update(isCalcNewHeaderHeight ? {scrollYStyle: this.scrollYStyle} : undefined);
             },
 
             onResetItems : function() {

@@ -224,6 +224,7 @@ define([
             allowScrollbar: true,
             scrollAlwaysVisible: false,
             minScrollbarLength: 40,
+            scrollYStyle: null,
             showLast: true,
             useBSKeydown: false,
             cls: ''
@@ -274,6 +275,7 @@ define([
             me.allowScrollbar = (me.options.allowScrollbar!==undefined) ? me.options.allowScrollbar : true;
             me.scrollAlwaysVisible = me.options.scrollAlwaysVisible || false;
             me.minScrollbarLength = me.options.minScrollbarLength || 40;
+            me.scrollYStyle    = me.options.scrollYStyle;
             me.tabindex = me.options.tabindex || 0;
             me.delayRenderTips = me.options.delayRenderTips || false;
             if (me.parentMenu)
@@ -359,6 +361,7 @@ define([
                     el: $(this.el).find('.inner').addBack().filter('.inner'),
                     useKeyboard: this.enableKeyEvents && !this.handleSelect,
                     minScrollbarLength  : this.minScrollbarLength,
+                    scrollYStyle: this.scrollYStyle,
                     wheelSpeed: 10,
                     alwaysVisibleY: this.scrollAlwaysVisible
                 });
@@ -599,6 +602,7 @@ define([
                     el: $(this.el).find('.inner').addBack().filter('.inner'),
                     useKeyboard: this.enableKeyEvents && !this.handleSelect,
                     minScrollbarLength  : this.minScrollbarLength,
+                    scrollYStyle: this.scrollYStyle,
                     wheelSpeed: 10,
                     alwaysVisibleY: this.scrollAlwaysVisible
                 });
@@ -1066,6 +1070,7 @@ define([
                     el: $(this.el).find('.inner').addBack().filter('.inner'),
                     useKeyboard: this.enableKeyEvents && !this.handleSelect,
                     minScrollbarLength  : this.minScrollbarLength,
+                    scrollYStyle: this.scrollYStyle,
                     wheelSpeed: 10,
                     alwaysVisibleY: this.scrollAlwaysVisible
                 });
@@ -1158,6 +1163,7 @@ define([
                 el: $(this.el).find('.inner').addBack().filter('.inner'),
                 useKeyboard: this.enableKeyEvents && !this.handleSelect,
                 minScrollbarLength  : this.minScrollbarLength,
+                scrollYStyle: this.scrollYStyle,
                 wheelSpeed: 10,
                 alwaysVisibleY: this.scrollAlwaysVisible
             });
