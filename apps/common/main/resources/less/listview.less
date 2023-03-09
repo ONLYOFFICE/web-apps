@@ -3,7 +3,6 @@
   border: @scaled-one-px-value solid @border-regular-control;
   .border-radius(@border-radius-small);
   line-height: 15px;
-  padding-top: 21px;
 
   &.inner {
     width: 100%;
@@ -107,6 +106,9 @@
       color: @text-tertiary-ie;
       color: @text-tertiary;
       display: inline-block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      vertical-align: bottom;
   
       .caret {
         border-color: @text-tertiary-ie;

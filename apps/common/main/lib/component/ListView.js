@@ -70,17 +70,18 @@ define([
                     this.activeSortType = this.options.initSort.type;
                     this.sortDirection = this.options.initSort.direction;
                 }
+                this.headerEl = null;
+                this.headerHeight = 0;
+
                 Common.UI.DataView.prototype.initialize.call(this, options);
             }, 
 
             render: function() {
+                (this.options.headers.length > 0) && (this.insertHeaders());
                 Common.UI.DataView.prototype.render.call(this);
-                this.insertHeaders();
             },
 
-            insertHeaders: function() {
-                if(this.options.headers.length == 0) return;
-
+            insertHeaders: function() {                
                 var template = _.template([
                     '<div class="listview-table-header-wrapper">',
                         '<div class="listview-table-header">',
@@ -94,7 +95,7 @@ define([
                                         '</span>',
                                     '</div>',
                                 '<%} else { %>',
-                                    '<label class="table-header-item" style="width: <%=header.width%>px;"><%= header.name %></label>',
+                                    '<label class="table-header-item" style="<% if (header.width) {%>width: <%=header.width%>px; <%}%> <% if (header.style) { %> <%= header.style %> <%}%>"><%= header.name %></label>',
                                 '<%}%>',
                             '<% }); %>',
                         '</div>',
@@ -107,7 +108,7 @@ define([
                 this.$el.before(template);
 
                 var me = this,
-                    headerEl = this.$el.prev();
+                    headerEl = this.$el.prev().children();
 
                 headerEl.find('.table-header-item .header-sorted').on('click', function(e) {
                     var selectedSortType = $(e.currentTarget).parent().attr('sort-type'),
@@ -136,21 +137,24 @@ define([
                     me.focus();
                 });
                 var onMouseDown = function (e) {
-                    me.innerEl.addClass('focused');
+                    me.$el.find('.inner').addClass('focused');
                     $(document).on('mouseup',   onMouseUp);
                 };
                 var onMouseUp = function (e) {
                     me.focus();
-                    me.innerEl.removeClass('focused');
+                    me.$el.find('.inner').removeClass('focused');
                     $(document).off('mouseup',   onMouseUp);
                 };
                 headerEl.on('mousedown', onMouseDown);
+
+                this.headerEl = headerEl; 
+                this.calcOffsetFromHeader()
             },
 
             setHeaderName: function(index, name) {
-                if(index < 0 || index > this.options.headers.length - 1) return;
+                if(index < 0 || index > this.options.headers.length - 1 || !headerEl) return;
 
-                var labelEl = $(this.$el.find('.table-header-item')[index]);
+                var labelEl = $(this.headerEl.find('.table-header-item')[index]);
                 if(labelEl.attr('sort-type')) {
                     labelEl = labelEl.find('label')[0];
                 }
@@ -160,9 +164,9 @@ define([
             },
 
             setHeaderWidth: function(index, width) {
-                if(index < 0 || index > this.options.headers.length - 1) return;
+                if(index < 0 || index > this.options.headers.length - 1 || !headerEl) return;
 
-                var labelEl = $(this.$el.find('.table-header-item')[index]);
+                var labelEl = $(this.headerEl.find('.table-header-item')[index]);
                 if(labelEl.attr('sort-type')) {
                     labelEl = labelEl.find('label')[0];
                 }
@@ -171,10 +175,28 @@ define([
                 $(labelEl).width(width);
             },
 
+            calcOffsetFromHeader: function() {
+                if(!this.headerEl) return;
+                var headerHeight = Math.floor(this.headerEl.outerHeight());
+                this.headerHeight = headerHeight;
+            },
+
+            setOffsetFromHeader: function(isCalcNewHeaderHeight) {
+                if(!this.headerEl) return;
+
+                if(isCalcNewHeaderHeight === true){
+                    this.calcOffsetFromHeader();
+                }
+                this.$el.find('.listview').css({'padding-top': this.headerHeight + 'px'});
+            },
+
             onResetItems : function() {
                 this.innerEl = null;
                 Common.UI.DataView.prototype.onResetItems.call(this);
                 this.trigger('items:reset', this);
+                if(this.headerEl) {
+                    this.setOffsetFromHeader();
+                }
             },
 
             createNewItem: function(record) {
