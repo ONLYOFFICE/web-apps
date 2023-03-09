@@ -216,7 +216,8 @@ textarea {
     scrollbar-color: var(--canvas-scroll-thumb) @canvas-background;     //FireFox
 
     .webkit-general-style {
-        border: @canvas-background 1px solid;
+        border: @canvas-background @scaled-one-px-value solid;
+        border-left-width: 0;
         background: var(--canvas-scroll-thumb);
         background-position: center;
         background-repeat: no-repeat;
@@ -257,7 +258,6 @@ textarea {
         .webkit-general-style();
         &:vertical {
             min-height: 34px;
-            border-width: 0 @scaled-one-px-value 0 0;
         }
     }
 
@@ -269,13 +269,12 @@ textarea {
         .webkit-general-style();
 
         &:vertical {
-            background-position-y: calc(3px + @scaled-one-px-value);
-            height: 15px;
-            border-right-width: @scaled-one-px-value;
-            border-left-width: 0;
-
             &:increment {
-                background-position-y: calc(4px + @scaled-one-px-value);
+                border-top-width: 0;
+            }
+            &:decrement {
+                background-position-y: calc(3px + @scaled-one-px-value);
+                border-bottom-width: 0;
             }
         }
     }

@@ -131,6 +131,7 @@ define([
                 useKeyboard     : true,
                 minScrollbarLength  : 40
             });
+            this.panelOptions.scroller = new Common.UI.Scroller({el: $('#chat-options')});
 
             $('#chat-msg-btn-add', this.el).on('click', _.bind(this._onBtnAddMessage, this));
             this.txtMessage.on('keydown', _.bind(this._onKeyDown, this));

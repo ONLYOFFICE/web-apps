@@ -428,6 +428,8 @@ define([
                 this.menuFilterGroups.menu.on('item:toggle', _.bind(this.onFilterGroupsClick, this));
 
                 this.txtComment = $('#comment-msg-new', this.el);
+                this.scrollerNewCommet = new Common.UI.Scroller({el: $('.new-comment-ct') });
+
                 this.txtComment.keydown(function (event) {
                     if ((event.ctrlKey || event.metaKey) && !event.altKey && event.keyCode == Common.UI.Keys.RETURN) {
                         me.onClickAddDocumentComment();
