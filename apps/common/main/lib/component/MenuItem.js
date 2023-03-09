@@ -245,7 +245,7 @@ define([
             this.caption = caption;
 
             if (this.rendered)
-                this.cmpEl.find('a').contents().last()[0].textContent = (noencoding) ? caption : Common.Utils.String.htmlEncode(caption);
+                this.cmpEl.find('> a').contents().last()[0].textContent = (noencoding) ? caption : Common.Utils.String.htmlEncode(caption);
         },
 
         setIconCls: function(iconCls) {
