@@ -257,7 +257,7 @@ define([
 
             scrollToRecord: function (record, force) {
                 if (!this._fromKeyDown) {
-                    Common.UI.DataView.prototype.scrollToRecord.call(this, record, force);
+                    Common.UI.DataView.prototype.scrollToRecord.call(this, record, force, this.headerHeight);
                     return;
                 }
 
