@@ -2020,7 +2020,7 @@ define([
                 this.updateCellCheck(listView, listView.getSelectedRec());
 
             } else {
-                Common.UI.DataView.prototype.onKeyDown.call(this.cellsList, e, data);
+                Common.UI.TreeView.prototype.onKeyDown.call(this.cellsList, e, data);
             }
         },
 
