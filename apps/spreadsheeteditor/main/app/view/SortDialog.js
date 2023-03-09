@@ -132,7 +132,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 headers: [
                     {name: me.textColumn,   width: 212},
                     {name: me.textSort,     width: 157},
-                    {name: me.textOrder,    width: 100},
+                    {name: me.textOrder},
                 ],
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
