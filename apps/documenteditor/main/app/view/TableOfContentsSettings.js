@@ -49,14 +49,14 @@ define([
     DE.Views.TableOfContentsSettings = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 500,
-            height: 455,
+            height: 460,
             id: 'window-table-contents'
         },
 
         initialize : function(options) {
             var me = this;
 
-            var height = options.type ? 385 : 455;
+            var height = options.type ? 385 : 460;
             _.extend(this.options, {
                 title: options.type ? this.textTitleTOF : this.textTitle,
                 height: height,
@@ -120,13 +120,13 @@ define([
                                                 '<div id="tableofcontents-spin-levels" class="margin-left" style="display: inline-block; width:95px;"></div>',
                                             '</div>',
                                             '<div id="tableofcontents-from-styles" class="hidden">',
-                                                '<table><tr><td style="height: 25px;">',
-                                                        '<label class="input-label label-style" style="width: 144px;">' + me.textStyle + '</label>',
-                                                        '<label class="input-label" style="">' + me.textLevel + '</label>',
-                                                    '</td></tr>',
-                                                    '<tr><td>',
-                                                        '<div id="tableofcontents-styles-list" class="header-styles-tableview" style="width:100%; height: 121px;"></div>',
-                                                '</td></tr></table>',
+                                                '<table>',
+                                                    '<tr>',
+                                                        '<td>',
+                                                            '<div id="tableofcontents-styles-list" class="header-styles-tableview" style="width:100%; height: 143px;"></div>',
+                                                        '</td>',
+                                                    '</tr>',
+                                                '</table>',
                                             '</div>',
                                         '<% } %>',
                                         '</td>',
@@ -149,6 +149,7 @@ define([
             this.type       = options.type || 0; // 0 - TOC, 1 - TOF
             this.startLevel = 1;
             this.endLevel = 3;
+            this.isInitStylesListHeaders = false;
             this._noApply = true;
             this._originalProps = null;
 
@@ -334,6 +335,12 @@ define([
                     if (newValue) {
                         this.stylesContainer.toggleClass('hidden', !newValue);
                         this.levelsContainer.toggleClass('hidden', newValue);
+
+                        if(newValue && !this.isInitStylesListHeaders) {
+                            this.initListHeaders();
+                            this.stylesList.setOffsetFromHeader(true);
+                            this.isInitStylesListHeaders = true;
+                        }
                         if (this._needUpdateStyles)
                             this.synchronizeLevelsFromOutline();
                         this.stylesList.scroller.update({alwaysVisibleY: true});
@@ -366,6 +373,10 @@ define([
                         simpleAddMode: true,
                         showLast: false,
                         tabindex: 1,
+                        headers: [
+                            {name: me.textStyle, width: 144, style: 'margin-left: 16px;'},
+                            {name: me.textLevel},
+                        ],
                         template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                         itemTemplate: _.template([
                             '<div id="<%= id %>" class="list-item">',
@@ -505,6 +516,18 @@ define([
             this.scrollerY.update();
 
             this._noApply = false;
+        },
+
+        initListHeaders: function() {
+            var headersArr = this.stylesList.headerEl.find('.table-header-item'),
+                widthHeader = this.stylesList.headerEl.width(),
+                widthFirstHeader = $(headersArr[0]).width(),
+                marginFirstHeader = parseFloat($(headersArr[0]).css('margin-left')),
+                widthLastHeader = $(headersArr[1]).width();
+                
+            if(marginFirstHeader + widthFirstHeader + widthLastHeader > widthHeader) {
+                this.stylesList.setHeaderWidth(0, widthHeader - widthLastHeader - marginFirstHeader);
+            }
         },
 
         fillTOCProps: function(props) {
