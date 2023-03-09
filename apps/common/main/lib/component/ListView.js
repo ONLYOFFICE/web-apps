@@ -152,7 +152,7 @@ define([
             },
 
             setHeaderName: function(index, name) {
-                if(index < 0 || index > this.options.headers.length - 1 || !headerEl) return;
+                if(index < 0 || index > this.options.headers.length - 1 || !this.headerEl) return;
 
                 var labelEl = $(this.headerEl.find('.table-header-item')[index]);
                 if(labelEl.attr('sort-type')) {
@@ -164,7 +164,7 @@ define([
             },
 
             setHeaderWidth: function(index, width) {
-                if(index < 0 || index > this.options.headers.length - 1 || !headerEl) return;
+                if(index < 0 || index > this.options.headers.length - 1 || !this.headerEl) return;
 
                 var labelEl = $(this.headerEl.find('.table-header-item')[index]);
                 if(labelEl.attr('sort-type')) {
