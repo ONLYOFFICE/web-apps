@@ -2564,7 +2564,7 @@ define([
 
         onPluginContextMenu: function(data) {
             if (data && data.length>0 && this.documentHolder && this.documentHolder.currentMenu && this.documentHolder.currentMenu.isVisible()){
-                this.documentHolder.addCustomItems(this.documentHolder.currentMenu, data);
+                this.documentHolder.updateCustomItems(this.documentHolder.currentMenu, data);
             }
         },
 
