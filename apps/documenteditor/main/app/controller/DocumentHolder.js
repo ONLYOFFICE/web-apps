@@ -465,7 +465,6 @@ define([
                 });
 
                 menu.show();
-                me.api.onPluginContextMenuShow && me.api.onPluginContextMenuShow();
 
                 if (_.isFunction(menu.options.initMenu)) {
                     menu.options.initMenu(value);
@@ -476,6 +475,7 @@ define([
                 }, 10);
 
                 me.documentHolder.currentMenu = menu;
+                me.api.onPluginContextMenuShow && me.api.onPluginContextMenuShow();
             }
         },
 
