@@ -9,7 +9,7 @@
             </tr>
             <tr>
                 <td colspan=2 class="padding-small">
-                    <div id="name-manager-range-list" class="range-tableview" style="width:100%; height: 162px;"></div>
+                    <div id="name-manager-range-list" class="range-tableview" style="width:100%; height: 163px;"></div>
                 </td>
             </tr>
             <tr>

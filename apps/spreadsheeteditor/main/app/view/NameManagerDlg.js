@@ -123,7 +123,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
                 headers: [
                     {name: me.textRanges,       width: 166, sortType:'name'},
                     {name: me.textScope,        width: 117, sortType:'scopeName'},
-                    {name: me.textDataRange,    width: 100},
+                    {name: me.textDataRange,    width: 208},
                 ],
                 initSort:{type: this.sort.type, direction: this.sort.direction},
                 itemTemplate: _.template([
