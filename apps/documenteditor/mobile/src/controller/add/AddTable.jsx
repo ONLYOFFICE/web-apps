@@ -79,17 +79,6 @@ class AddTableController extends Component {
         }).open();
     }
 
-    async componentDidMount() {
-        const storeTableSettings = this.props.storeTableSettings;
-
-        if(!storeTableSettings.arrayStylesDefault.length) {
-            const api = Common.EditorApi.get();
-            const tableStylesPreviews = await api.asc_getTableStylesPreviews(true);
-
-            storeTableSettings.setStyles(tableStylesPreviews, 'default');
-        }
-    }
-
     render () {
         return (
             <AddTable onStyleClick={this.onStyleClick} />
