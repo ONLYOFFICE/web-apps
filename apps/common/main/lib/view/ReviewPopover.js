@@ -796,8 +796,13 @@ define([
                             this.sdkBounds.width -= sdkPanelThumbsWidth;
                         }
 
-                        leftPos = Math.min(sdkBoundsLeft + posX + this.arrow.width, sdkBoundsLeft + this.sdkBounds.width - this.$window.outerWidth() - 25);
-                        leftPos = Math.max(sdkBoundsLeft + sdkPanelLeftWidth + this.arrow.width, leftPos);
+                        if (!Common.UI.isRTL()) {
+                            leftPos = Math.min(sdkBoundsLeft + posX + this.arrow.width, sdkBoundsLeft + this.sdkBounds.width - this.$window.outerWidth() - 25);
+                            leftPos = Math.max(sdkBoundsLeft + sdkPanelLeftWidth + this.arrow.width, leftPos);
+                        } else {
+                            leftPos = Math.max(sdkBoundsLeft + sdkPanelLeftWidth + 25, sdkBoundsLeft + this.sdkBounds.width - this.$window.outerWidth() - posX + 7);
+                            leftPos = Math.min(sdkBoundsLeft + this.sdkBounds.width - this.$window.outerWidth() - 25, leftPos);
+                        }
 
                         arrowView.removeClass('right top bottom').addClass('left');
                         arrowView.css({left: ''});
