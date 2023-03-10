@@ -557,8 +557,10 @@
     "textRequestMacros": "Makro batek URL baterako eskaera egiten du. %1 URL-rako eskaera onartu nahi duzu?",
     "textYes": "Bai",
     "titleLicenseExp": "Lizentzia iraungi da",
+    "titleLicenseNotActive": "Lizentzia ez dago aktibo",
     "titleServerVersion": "Editorea eguneratu da",
     "titleUpdateVersion": "Bertsioa aldatu da",
+    "warnLicenseBefore": "Lizentzia ez dago aktibo.<br>Jarri zure administratzailearekin harremanetan.",
     "warnLicenseExceeded": "Aldibereko %1 editoreren konexio-mugara iritsi zara. Dokumentu hau ikusteko bakarrik irekiko da. Jarri harremanetan administratzailearekin informazio gehiago lortzeko.",
     "warnLicenseExp": "Zure lizentzia iraungi da. Mesedez, eguneratu zure lizentzia eta freskatu orria.",
     "warnLicenseLimitedNoAccess": "Lizentzia iraungi da. Ez daukazu dokumentu-edizio funtzionalitaterako sarbidea. Mesedez, kontaktatu zure administratzailea.",
@@ -566,9 +568,7 @@
     "warnLicenseUsersExceeded": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan zure administratzailearekin informazio gehiagorako.",
     "warnNoLicense": "Aldibereko %1 editoreren konexio-mugara iritsi zara. Dokumentu hau ikusteko bakarrik irekiko da. Jarri harremanetan %1 salmenta taldearekin eguneraketa pertsonalaren baldintzak jakiteko.",
     "warnNoLicenseUsers": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan %1 salmenta taldearekin mailaz igotzeko baldintzak ezagutzeko.",
-    "warnProcessRightsChange": "Ez duzu fitxategi hau editatzeko baimenik.",
-    "titleLicenseNotActive": "License not active",
-    "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+    "warnProcessRightsChange": "Ez duzu fitxategi hau editatzeko baimenik."
   },
   "Settings": {
     "advDRMOptions": "Babestutako fitxategia",

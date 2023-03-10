@@ -3151,6 +3151,7 @@
   "SSE.Views.PrintWithPreview.txtCustom": "Particularizat",
   "SSE.Views.PrintWithPreview.txtCustomOptions": "Opțiuni particularizate",
   "SSE.Views.PrintWithPreview.txtEmptyTable": "Nu s-a găsit nimic de tipărit deoarece tabelul este necompletat",
+  "SSE.Views.PrintWithPreview.txtFirstPageNumber": "Numărul primei pagini:",
   "SSE.Views.PrintWithPreview.txtFitCols": "Se potrivesc toate coloanele pe o singură pagină",
   "SSE.Views.PrintWithPreview.txtFitPage": "Se potrivește foaia pe o singură pagină",
   "SSE.Views.PrintWithPreview.txtFitRows": "Se potrivesc toate rândurile pe o pagină",

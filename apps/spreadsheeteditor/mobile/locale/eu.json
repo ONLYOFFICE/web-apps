@@ -162,8 +162,10 @@
       "textWarnUpdateExternalData": "Laneko liburu honek seguruak izan ez daitezkeen beste datu-iturburu batzuetarako estekak ditu. Estekak fidagarritzat jotzen badituzu, eguneratu daturik berrienak lortzeko.",
       "textYes": "Bai",
       "titleLicenseExp": "Lizentzia iraungi da",
+      "titleLicenseNotActive": "Lizentzia ez dago aktibo",
       "titleServerVersion": "Editorea eguneratu da",
       "titleUpdateVersion": "Bertsioa aldatu da",
+      "warnLicenseBefore": "Lizentzia ez dago aktibo.<br>Jarri zure administratzailearekin harremanetan.",
       "warnLicenseExceeded": "Aldibereko %1 editoreren konexio-mugara iritsi zara. Dokumentu hau bistaratzeko bakarrik irekiko da. Jarri harremanetan administratzailearekin informazio gehiago lortzeko.",
       "warnLicenseExp": "Zure lizentzia iraungi da. Mesedez, eguneratu zure lizentzia eta freskatu orria.",
       "warnLicenseLimitedNoAccess": "Lizentzia iraungi da. Ez daukazu dokumentu-edizio funtzionalitaterako sarbidea. Mesedez, kontaktatu zure administratzailea.",
@@ -171,9 +173,7 @@
       "warnLicenseUsersExceeded": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan zure administratzailearekin informazio gehiagorako.",
       "warnNoLicense": "Aldibereko konexioen mugara iritsi zara %1 editorerekin. Dokumentu hau bere bistaratzerako bakarrik irekiko da. Jarri harremanetan  %1 salmenta taldearekin eguneraketa pertsonalaren baldintzak jakiteko.",
       "warnNoLicenseUsers": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan %1 salmenta taldearekin mailaz igotzeko baldintzak ezagutzeko.",
-      "warnProcessRightsChange": "Ez duzu baimenik fitxategia editatzeko.",
-      "titleLicenseNotActive": "License not active",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "warnProcessRightsChange": "Ez duzu baimenik fitxategia editatzeko."
     }
   },
   "Error": {
@@ -692,6 +692,7 @@
       "txtComma": "Koma",
       "txtCs": "Txekiera",
       "txtDa": "Daniera",
+      "txtDe": "Alemana",
       "txtDelimiter": "Mugatzailea",
       "txtDownloadCsv": "Deskargatu CSV",
       "txtEl": "Greziera",
@@ -749,8 +750,7 @@
       "txtUk": "Ukrainera",
       "txtVi": "Vietnamera",
       "txtZh": "Txinera",
-      "warnDownloadAs": "Formatu honetan gordetzen baduzu, testua ez diren ezaugarri guztiak galduko dira.<br> Ziur zaude aurrera jarraitu nahi duzula?",
-      "txtDe": "Deutsch"
+      "warnDownloadAs": "Formatu honetan gordetzen baduzu, testua ez diren ezaugarri guztiak galduko dira.<br> Ziur zaude aurrera jarraitu nahi duzula?"
     }
   }
 }
