@@ -810,8 +810,8 @@ define([
                         if (!_.isUndefined(leftX)) {
                             windowWidth = this.$window.outerWidth();
                             if (windowWidth) {
-                                if ((posX + windowWidth > this.sdkBounds.width - this.arrow.width + 5) && (this.leftX > windowWidth)) {
-                                    leftPos = this.leftX - windowWidth + sdkBoundsLeft - this.arrow.width;
+                                if ((posX + windowWidth > this.sdkBounds.width - this.arrow.width + 5) && (this.leftX > windowWidth) || (Common.UI.isRTL() && sdkBoundsLeft + this.leftX > windowWidth + this.arrow.width)) {
+                                    leftPos = sdkBoundsLeft + this.leftX - windowWidth - this.arrow.width;
                                     arrowView.removeClass('left').addClass('right');
                                 } else {
                                     leftPos = sdkBoundsLeft + posX + this.arrow.width;
