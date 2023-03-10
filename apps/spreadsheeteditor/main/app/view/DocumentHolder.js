@@ -767,6 +767,7 @@ define([
             me.ssMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
+                scrollToCheckedItem: false,
                 id          : 'id-context-menu-cell',
                 items       : [
                     me.pmiCut,
@@ -1078,6 +1079,7 @@ define([
             this.imgMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
+                scrollToCheckedItem: false,
                 items: [
                     me.pmiImgCut,
                     me.pmiImgCopy,
@@ -1301,6 +1303,7 @@ define([
 
             this.textInShapeMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
+                scrollToCheckedItem: false,
                 items: [
                     me.pmiTextCut,
                     me.pmiTextCopy,

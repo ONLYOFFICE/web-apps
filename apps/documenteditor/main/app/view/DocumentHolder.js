@@ -597,6 +597,7 @@ define([
             this.pictureMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
+                scrollToCheckedItem: false,
                 initMenu: function(value){
                     if (_.isUndefined(value.imgProps))
                         return;
@@ -978,7 +979,8 @@ define([
                     restoreHeight: 285,
                     items   : [],
                     itemTemplate: langTemplate,
-                    search: true
+                    search: true,
+                    focusToCheckedItem: true
                 })
             });
 
@@ -1241,6 +1243,7 @@ define([
             this.tableMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
+                scrollToCheckedItem: false,
                 initMenu: function(value){
                     // table properties
                     if (_.isUndefined(value.tableProps))
@@ -1688,7 +1691,8 @@ define([
                     restoreHeight: 285,
                     items   : [],
                     itemTemplate: langTemplate,
-                    search: true
+                    search: true,
+                    focusToCheckedItem: true
                 })
             });
 
@@ -1833,6 +1837,7 @@ define([
             this.textMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
+                scrollToCheckedItem: false,
                 initMenu: function(value){
                     var isInShape = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ShapeProperties()));
                     var isInChart = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ChartProperties()));

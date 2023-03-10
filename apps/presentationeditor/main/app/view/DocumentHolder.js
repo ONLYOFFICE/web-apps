@@ -999,6 +999,7 @@ define([
             me.slideMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
+                scrollToCheckedItem: false,
                 initMenu: function(value) {
                     var selectedLast = me.api.asc_IsLastSlideSelected(),
                         selectedFirst = me.api.asc_IsFirstSlideSelected();
@@ -1375,7 +1376,8 @@ define([
                     restoreHeight: 285,
                     items   : [],
                     itemTemplate: langTemplate,
-                    search: true
+                    search: true,
+                    focusToCheckedItem: true
                 })
             });
 
@@ -1444,7 +1446,8 @@ define([
                     restoreHeight: 285,
                     items   : [],
                     itemTemplate: langTemplate,
-                    search: true
+                    search: true,
+                    focusToCheckedItem: true
                 })
             });
 
@@ -1948,6 +1951,7 @@ define([
 
             me.textMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
+                scrollToCheckedItem: false,
                 initMenu: function(value){
                     var isInShape = (value.shapeProps && !_.isNull(value.shapeProps.value));
                     var isInChart = (value.chartProps && !_.isNull(value.chartProps.value));
@@ -2116,6 +2120,7 @@ define([
             me.tableMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
+                scrollToCheckedItem: false,
                 initMenu: function(value){
                     // table properties
                     if (_.isUndefined(value.tableProps))
@@ -2283,6 +2288,7 @@ define([
             me.pictureMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
+                scrollToCheckedItem: false,
                 initMenu: function(value){
                     if (me.api) {
                         me.mnuUnGroupImg.setDisabled(!me.api.canUnGroup());
