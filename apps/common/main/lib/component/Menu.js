@@ -149,7 +149,9 @@ define([
                 offset      : [0, 0],
                 cyclic      : true,
                 search      : false,
-                scrollAlwaysVisible: true
+                scrollAlwaysVisible: true,
+                scrollToCheckedItem: true, // if true - scroll menu to checked item on menu show
+                focusToCheckedItem: false // if true - move focus to checked item on menu show
             },
 
             template: _.template([
@@ -407,12 +409,12 @@ define([
                         var itemTop = $selected.position().top,
                             itemHeight = $selected.outerHeight(),
                             listHeight = menuRoot.outerHeight();
-                        if (itemTop < 0 || itemTop + itemHeight > listHeight) {
+                        if (!!this.options.scrollToCheckedItem && (itemTop < 0 || itemTop + itemHeight > listHeight)) {
                             var height = menuRoot.scrollTop() + itemTop + (itemHeight - listHeight)/2;
                             height = (Math.floor(height/itemHeight) * itemHeight);
                             menuRoot.scrollTop(height);
                         }
-                        setTimeout(function(){$selected.focus();}, 1);
+                        !!this.options.focusToCheckedItem && setTimeout(function(){$selected.focus();}, 1);
                     }
                 }
                 this._search = {};
@@ -767,7 +769,9 @@ define([
             offset      : [0, 0],
             cyclic      : true,
             search      : false,
-            scrollAlwaysVisible: true
+            scrollAlwaysVisible: true,
+            scrollToCheckedItem: true, // if true - scroll menu to checked item on menu show
+            focusToCheckedItem: false // if true - move focus to checked item on menu show
         },
 
         template: _.template([
@@ -1029,12 +1033,12 @@ define([
                     var itemTop = $selected.position().top,
                         itemHeight = $selected.outerHeight(),
                         listHeight = menuRoot.outerHeight();
-                    if (itemTop < 0 || itemTop + itemHeight > listHeight) {
+                    if (!!this.options.scrollToCheckedItem && (itemTop < 0 || itemTop + itemHeight > listHeight)) {
                         var height = menuRoot.scrollTop() + itemTop + (itemHeight - listHeight)/2;
                         height = (Math.floor(height/itemHeight) * itemHeight);
                         menuRoot.scrollTop(height);
                     }
-                    setTimeout(function(){$selected.focus();}, 1);
+                    !!this.options.focusToCheckedItem && setTimeout(function(){$selected.focus();}, 1);
                 }
             }
             this._search = {};

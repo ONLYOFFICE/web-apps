@@ -245,7 +245,7 @@ define([
             this.caption = caption;
 
             if (this.rendered)
-                this.cmpEl.find('a').contents().last()[0].textContent = (noencoding) ? caption : Common.Utils.String.htmlEncode(caption);
+                this.cmpEl.find('> a').contents().last()[0].textContent = (noencoding) ? caption : Common.Utils.String.htmlEncode(caption);
         },
 
         setIconCls: function(iconCls) {
@@ -390,6 +390,28 @@ define([
                         me.cmpEl.closest('ul').focus();
                     }
                 }
+            }
+        },
+
+        setMenu: function (m) {
+            if (m && _.isObject(m) && _.isFunction(m.render)){
+                if (this.rendered) {
+                    if (this.menu && (this.menu instanceof Common.UI.Menu || this.menu instanceof Common.UI.MenuSimple)) {
+                        Common.UI.Menu.Manager.unregister(this.menu);
+                        this.menu.cmpEl && this.menu.cmpEl.remove();
+                    }
+                    this.menu = m;
+                    var el = this.cmpEl;
+                    el.addClass('dropdown-submenu');
+                    this.menu.render(el);
+                    el.mouseenter(_.bind(this.menu.alignPosition, this.menu));
+                    el.focusout(_.bind(this.onBlurItem, this));
+                    el.hover(
+                        _.bind(this.onHoverItem, this),
+                        _.bind(this.onUnHoverItem, this)
+                    );
+                } else
+                    this.menu = m;
             }
         }
     });

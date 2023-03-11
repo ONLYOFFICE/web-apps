@@ -231,6 +231,7 @@ define([
                     this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
                     this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
                 }
+                this.api.asc_registerCallback('onPluginContextMenu',                 _.bind(this.onPluginContextMenu, this));
                 this.documentHolder.setApi(this.api);
             }
 
@@ -474,6 +475,7 @@ define([
                 }, 100);
 
                 me.documentHolder.currentMenu = menu;
+                me.api.onPluginContextMenuShow && me.api.onPluginContextMenuShow();
             }
         },
 
@@ -2558,6 +2560,12 @@ define([
                     me.editComplete();
                 }
             })).show();
+        },
+
+        onPluginContextMenu: function(data) {
+            if (data && data.length>0 && this.documentHolder && this.documentHolder.currentMenu && this.documentHolder.currentMenu.isVisible()){
+                this.documentHolder.updateCustomItems(this.documentHolder.currentMenu, data);
+            }
         },
 
         editComplete: function() {

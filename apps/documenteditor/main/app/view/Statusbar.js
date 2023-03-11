@@ -254,7 +254,8 @@ define([
                         '</a>'
                     ].join('')),
                     menuAlign: 'bl-tl',
-                    search: true
+                    search: true,
+                    focusToCheckedItem: true
                 });
 
                 this.zoomMenu = new Common.UI.Menu({

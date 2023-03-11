@@ -96,7 +96,6 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
             this.rangeList = new Common.UI.ListView({
                 el: $('#protect-ranges-list', this.$window),
                 store: new Common.UI.DataViewStore(),
-                simpleAddMode: true,
                 emptyText: this.textEmpty,
                 itemTemplate: _.template([
                         '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;<% if (!lock) { %>pointer-events:none;<% } %>">',
