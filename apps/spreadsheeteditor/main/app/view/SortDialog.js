@@ -132,7 +132,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 headers: [
                     {name: me.textColumn,   width: 212},
                     {name: me.textSort,     width: 157},
-                    {name: me.textOrder},
+                    {name: me.textOrder,    width: 156},
                 ],
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
@@ -315,15 +315,22 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
         },
 
         initListHeaders: function() {
-            var widthLblSort = 0,
+            var firstLabelWidth = 0,
+                secondLabelWidth = 0,
+                thirdLabelWidth = 0,
                 pos = this.sortList.cmpEl.find('#sort-dialog-cmb-sort-0').position();
 
-            pos && (widthLblSort = Math.floor(pos.left)-3);
-            this.sortList.setHeaderWidth(0, widthLblSort);
+            pos && (firstLabelWidth = Math.floor(pos.left)-3);
             
             pos = this.sortList.cmpEl.find('#sort-dialog-btn-color-0').position();
             !pos && (pos = this.sortList.cmpEl.find('#sort-dialog-cmb-order-0').position());
-            pos && this.sortList.setHeaderWidth(1, Math.floor(pos.left)-5 - widthLblSort);
+            pos && (secondLabelWidth = Math.floor(pos.left)-5 - firstLabelWidth);
+
+            thirdLabelWidth = this.sortList.headerEl.width() - firstLabelWidth - secondLabelWidth;
+            
+            this.sortList.setHeaderWidth(0, firstLabelWidth);
+            this.sortList.setHeaderWidth(1, secondLabelWidth);
+            this.sortList.setHeaderWidth(2, thirdLabelWidth);
         },
 
         addControls: function(listView, itemView, item) {
