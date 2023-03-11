@@ -102,13 +102,20 @@
     margin: @scaled-one-px-value;
     width: calc(100% - 2 * @scaled-one-px-value);
   
+    label {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      vertical-align: bottom;
+    }
+
     .table-header-item {
       color: @text-tertiary-ie;
       color: @text-tertiary;
       display: inline-block;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      vertical-align: bottom;
+
+      &.one-line {
+        white-space: nowrap;
+      }
   
       .caret {
         border-color: @text-tertiary-ie;

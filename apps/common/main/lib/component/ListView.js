@@ -53,8 +53,9 @@ define([
                 enableKeyEvents: true,
                 showLast: true,
                 simpleAddMode: false,
-                headers: [],
-                initSort: null,         //{type: 'string', direction: -1 or 1}
+                headers: [],            //{name: 'string', width: 'number'(optional for last), sortType: 'string'(optional), style: 'string'(optional)} ---> example {name:text, width: 100, sortType: name, style: 'margin-left:10px;} 
+                headerOneLine: true,
+                initSort: null,         //{type: 'string', direction: -1 or 1} ---> example {type:name, direction:1}
                 keyMoveDirection: 'vertical',
                 itemTemplate: _.template('<div id="<%= id %>" class="list-item" style=""><%= value %></div>'),
                 cls: ''
@@ -87,7 +88,7 @@ define([
                         '<div class="listview-table-header">',
                             '<% _.each(headers, function(header){ %>',
                                 '<%if (header.sortType) { %>',
-                                    '<div class="table-header-item" style="width: <%=header.width%>px;" sort-type="<%=header.sortType%>">',
+                                    '<div class="table-header-item one-line" style="<% if (header.width) {%>width: <%=header.width%>px; <%}%> <% if (header.style) { %> <%= header.style %> <%}%>" sort-type="<%=header.sortType%>">',
                                         '<span class="header-sorted">',
                                             '<label><%= header.name %></label>',
                                             '<div style="width: 6px;height: 6px;"></div>',
@@ -95,7 +96,7 @@ define([
                                         '</span>',
                                     '</div>',
                                 '<%} else { %>',
-                                    '<label class="table-header-item" style="<% if (header.width) {%>width: <%=header.width%>px; <%}%> <% if (header.style) { %> <%= header.style %> <%}%>"><%= header.name %></label>',
+                                    '<label class="table-header-item <% if (headerOneLine) {%>one-line<%}%>" style="<% if (header.width) {%>width: <%=header.width%>px; <%}%> <% if (header.style) { %> <%= header.style %> <%}%>"><%= header.name %></label>',
                                 '<%}%>',
                             '<% }); %>',
                         '</div>',
@@ -103,7 +104,8 @@ define([
                 ].join(''))({
                     headers: this.options.headers, 
                     activeSortType: this.options.initSort ? this.options.initSort.type : null, 
-                    sortDirection: this.options.initSort ? this.options.initSort.direction : null
+                    sortDirection: this.options.initSort ? this.options.initSort.direction : null,
+                    headerOneLine: this.options.headerOneLine
                 });
                 this.$el.before(template);
 
@@ -133,19 +135,22 @@ define([
 
                     me.trigger('header:click', me.activeSortType, me.sortDirection);
                 });
-                headerEl.on('click', function(e) {
-                    me.focus();
-                });
-                var onMouseDown = function (e) {
-                    me.$el.find('.inner').addClass('focused');
-                    $(document).on('mouseup',   onMouseUp);
-                };
-                var onMouseUp = function (e) {
-                    me.focus();
-                    me.$el.find('.inner').removeClass('focused');
-                    $(document).off('mouseup',   onMouseUp);
-                };
-                headerEl.on('mousedown', onMouseDown);
+
+                if(this.tabindex != 0){
+                    headerEl.on('click', function(e) {
+                        me.focus();
+                    });
+                    var onMouseDown = function (e) {
+                        me.$el.find('.inner').addClass('focused');
+                        $(document).on('mouseup',   onMouseUp);
+                    };
+                    var onMouseUp = function (e) {
+                        me.focus();
+                        me.$el.find('.inner').removeClass('focused');
+                        $(document).off('mouseup',   onMouseUp);
+                    };
+                    headerEl.on('mousedown', onMouseDown);
+                }
 
                 this.headerEl = headerEl; 
                 this.calcOffsetFromHeader()
