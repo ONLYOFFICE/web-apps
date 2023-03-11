@@ -2121,7 +2121,7 @@ define([
             var me = this;
             _.delay(function(){
                 me.showObjectMenu.call(me, event);
-            },10);
+            },100);
         },
 
         onAfterRender: function(view){

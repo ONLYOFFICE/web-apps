@@ -471,7 +471,7 @@ define([
                 }
                 _.delay(function() {
                     menu.cmpEl.focus();
-                }, 10);
+                }, 100);
 
                 me.documentHolder.currentMenu = menu;
             }
