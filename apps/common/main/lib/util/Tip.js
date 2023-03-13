@@ -154,10 +154,16 @@
                     if (typeof this.options.placement === 'function') {
                         this.options.placement.call(this, $tip[0], this.$element[0]);
                     } else if (typeof at == 'object') {
-                        var tp = {top: at[1] + 15, left: at[0] + 18},
+                        var tp = {
+                                top: at[1] + 15,
+                                left: !Common.UI.isRTL() ? at[0] + 18 : at[0] - $tip.width() - 9
+                            },
                             innerWidth = Common.Utils.innerWidth(),
                             innerHeight = Common.Utils.innerHeight();
 
+                        if (tp.left < 0) {
+                            tp.left = at[0] + 18;
+                        }
                         if (tp.left + $tip.width() > innerWidth) {
                             tp.left = innerWidth - $tip.width() - 30;
                         }
