@@ -236,7 +236,6 @@ define([
                 box.focus(); // for IE
 
                 this.api.goToPage(page-1);
-                this.api.asc_enableKeyEvents(true);
                 return false;
             }
         },

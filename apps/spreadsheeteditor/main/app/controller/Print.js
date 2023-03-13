@@ -803,7 +803,6 @@ define([
                 box.focus(); // for IE
 
                 this.api.asc_drawPrintPreview(page-1);
-                this.api.asc_enableKeyEvents(true);
                 this.updateNavigationButtons(page-1, this._navigationPreview.pageCount);
 
                 return false;
