@@ -11,11 +11,11 @@
         </tr>
         <tr class="hasformat">
             <td class="padding-large">
-                <div id="format-rules-edit-combo-rule" class="input-group-nr"></div>
-                <div id="format-rules-edit-txt-r1" class="input-row"></div>
-                <div id="format-rules-edit-txt-r2" class="input-row"></div>
-                <div id="format-rules-edit-spin-rank" class="input-row"></div>
-                <div id="format-rules-edit-combo-percent" class="input-row"></div>
+                <div id="format-rules-edit-combo-rule" class="input-group-nr"></div><!--
+                --><div id="format-rules-edit-txt-r1" class="input-row"></div><!--
+                --><div id="format-rules-edit-txt-r2" class="input-row"></div><!--
+                --><div id="format-rules-edit-spin-rank" class="input-row"></div><!--
+                --><div id="format-rules-edit-combo-percent" class="input-row"></div>
             </td>
         </tr>
         <tr class="hasformat">
@@ -36,8 +36,8 @@
                     <div id="format-rules-fontcolor"></div>
                     <div id="format-rules-fillcolor"></div>
                     <div id="format-rules-borders"></div>
-                    <div id="format-rules-edit-combo-num-format" class="input-group-nr"></div>
-                    <button type="button" class="btn btn-text-default auto" id="format-rules-edit-btn-clear"><%= scope.textClear %></button>
+                    <div id="format-rules-edit-combo-num-format" class="input-group-nr"></div><!--
+                    --><button type="button" class="btn btn-text-default auto" id="format-rules-edit-btn-clear"><%= scope.textClear %></button>
                     </div>
                 </td>
             </tr>
@@ -56,14 +56,14 @@
                     <div id="format-rules-edit-combo-scale-1" class="input-group-nr"></div>
                     <div id="format-rules-edit-txt-scale-1"></div>
                     <div id="format-rules-edit-color-scale-1"></div>
-                </div>
-                <div class="scale-2">
+                </div><!--
+                --><div class="scale-2">
                     <label id="format-rules-edit-lbl-scale-2"><%= scope.textMidpoint %></label>
                     <div id="format-rules-edit-combo-scale-2" class="input-group-nr"></div>
                     <div id="format-rules-edit-txt-scale-2"></div>
                     <div id="format-rules-edit-color-scale-2"></div>
-                </div>
-                <div class="scale-3">
+                </div><!--
+                --><div class="scale-3">
                     <label><%= scope.textMaxpoint %></label>
                     <div id="format-rules-edit-combo-scale-3" class="input-group-nr"></div>
                     <div id="format-rules-edit-txt-scale-3"></div>
@@ -85,8 +85,8 @@
                     <label style="display: block;"><%= scope.textMinimum %></label>
                     <div id="format-rules-edit-combo-bar-1" class="input-group-nr"></div>
                     <div id="format-rules-edit-txt-bar-1"></div>
-                    </div>
-                <div class="bar-2">
+                </div><!--
+                 --><div class="bar-2">
                     <label style="display: block;"><%= scope.textMaximum %></label>
                     <div id="format-rules-edit-combo-bar-2" class="input-group-nr"></div>
                     <div id="format-rules-edit-txt-bar-2"></div>
@@ -112,8 +112,8 @@
                         <div id="format-rules-edit-color-neg-fill"></div>
                     </div>
                     <div id="format-rules-edit-chk-fill"></div>
-                </div>
-                <div class="border">
+                </div><!--
+                --><div class="border">
                     <label><%= scope.textBorder %></label>
                     <div id="format-rules-edit-combo-border" class="input-group-nr"></div>
                     <div class="color-pos-border">
@@ -125,8 +125,8 @@
                         <div id="format-rules-edit-color-neg-border"></div>
                         </div>
                     <div id="format-rules-edit-chk-border"></div>
-                </div>
-                <div class="direction">
+                </div><!--
+                --><div class="direction">
                     <label><%= scope.textBarDirection %></label>
                     <div id="format-rules-edit-combo-direction" class="input-group-nr"></div>
                     <div id="format-rules-edit-chk-show-bar"></div>
@@ -164,47 +164,47 @@
                     </tr>
                     <tr class="icons-5">
                         <td class="padding-small">
-                            <div id="format-rules-combo-icon-5"></div>
-                            <div id="format-rules-txt-icon-5" class="iconset-label"></div>
-                            <div id="format-rules-edit-combo-op-5" class="input-group-nr"></div>
-                            <div id="format-rules-edit-txt-value-5"></div>
-                            <div id="format-rules-edit-combo-type-5" class="input-group-nr"></div>
+                            <div id="format-rules-combo-icon-5"></div><!--
+                            --><div id="format-rules-txt-icon-5" class="iconset-label"></div><!--
+                            --><div id="format-rules-edit-combo-op-5" class="input-group-nr"></div><!--
+                            --><div id="format-rules-edit-txt-value-5"></div><!--
+                            --><div id="format-rules-edit-combo-type-5" class="input-group-nr"></div>
                         </td>
                     </tr>
                     <tr class="icons-4">
                         <td class="padding-small">
-                            <div id="format-rules-combo-icon-4"></div>
-                            <div id="format-rules-txt-icon-4" class="iconset-label"></div>
-                            <div id="format-rules-edit-combo-op-4" class="input-group-nr"></div>
-                            <div id="format-rules-edit-txt-value-4"></div>
-                            <div id="format-rules-edit-combo-type-4" class="input-group-nr"></div>
+                            <div id="format-rules-combo-icon-4"></div><!--
+                            --><div id="format-rules-txt-icon-4" class="iconset-label"></div><!--
+                            --><div id="format-rules-edit-combo-op-4" class="input-group-nr"></div><!--
+                            --><div id="format-rules-edit-txt-value-4"></div><!--
+                            --><div id="format-rules-edit-combo-type-4" class="input-group-nr"></div>
                         </td>
                     </tr>
                     <tr class="icons-3">
                         <td class="padding-small">
-                            <div id="format-rules-combo-icon-3"></div>
-                            <div id="format-rules-txt-icon-3" class="iconset-label"></div>
-                            <div id="format-rules-edit-combo-op-3" class="input-group-nr"></div>
-                            <div id="format-rules-edit-txt-value-3"></div>
-                            <div id="format-rules-edit-combo-type-3" class="input-group-nr"></div>
+                            <div id="format-rules-combo-icon-3"></div><!--
+                            --><div id="format-rules-txt-icon-3" class="iconset-label"></div><!--
+                            --><div id="format-rules-edit-combo-op-3" class="input-group-nr"></div><!--
+                            --><div id="format-rules-edit-txt-value-3"></div><!--
+                            --><div id="format-rules-edit-combo-type-3" class="input-group-nr"></div>
                         </td>
                     </tr>
                     <tr class="icons-2">
                         <td class="padding-small">
-                            <div id="format-rules-combo-icon-2"></div>
-                            <div id="format-rules-txt-icon-2" class="iconset-label"></div>
-                            <div id="format-rules-edit-combo-op-2" class="input-group-nr"></div>
-                            <div id="format-rules-edit-txt-value-2"></div>
-                            <div id="format-rules-edit-combo-type-2" class="input-group-nr"></div>
+                            <div id="format-rules-combo-icon-2"></div><!--
+                            --><div id="format-rules-txt-icon-2" class="iconset-label"></div><!--
+                            --><div id="format-rules-edit-combo-op-2" class="input-group-nr"></div><!--
+                            --><div id="format-rules-edit-txt-value-2"></div><!--
+                            --><div id="format-rules-edit-combo-type-2" class="input-group-nr"></div>
                         </td>
                     </tr>
                     <tr class="icons-1">
                         <td class="padding-small">
-                            <div id="format-rules-combo-icon-1"></div>
-                            <div id="format-rules-txt-icon-1" class="iconset-label"></div>
-                            <div id="format-rules-edit-combo-op-1" class="input-group-nr hidden"></div>
-                            <div id="format-rules-edit-txt-value-1" class="hidden"></div>
-                            <div id="format-rules-edit-combo-type-1" class="input-group-nr hidden"></div>
+                            <div id="format-rules-combo-icon-1"></div><!--
+                            --><div id="format-rules-txt-icon-1" class="iconset-label"></div><!--
+                            --><div id="format-rules-edit-combo-op-1" class="input-group-nr hidden"></div><!--
+                            --><div id="format-rules-edit-txt-value-1" class="hidden"></div><!--
+                            --><div id="format-rules-edit-combo-type-1" class="input-group-nr hidden"></div>
                         </td>
                     </tr>
                 </table>
