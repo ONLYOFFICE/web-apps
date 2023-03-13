@@ -1461,7 +1461,7 @@ define([
             var findCustomItem = function(guid, id) {
                 if (menu && menu.items.length>0) {
                     for (var i = menu.items.length-1; i >=0 ; i--) {
-                        if (menu.items[i].options.isCustomItem && (guid===undefined && id===undefined  || menu.items[i].options.guid === guid && menu.items[i].value === id)) {
+                        if (menu.items[i].options.isCustomItem && (id===undefined && menu.items[i].options.guid === guid || menu.items[i].options.guid === guid && menu.items[i].value === id)) {
                             return menu.items[i];
                         }
                     }
@@ -1482,6 +1482,11 @@ define([
                     });
                 }
                 items.forEach(function(item) {
+                    item.separator && toMenu.addItem({
+                        caption: '--',
+                        isCustomItem: true,
+                        guid: guid
+                    });
                     item.text && toMenu.addItem({
                         caption: ((typeof item.text == 'object') ? item.text[lang] || item.text['en'] : item.text) || '',
                         isCustomItem: true,
@@ -1494,16 +1499,20 @@ define([
                 return toMenu;
             }
 
-            // add separator
-            !findCustomItem() && menu.addItem(new Common.UI.MenuItem({
-                caption: '--',
-                isCustomItem: true
-            }));
-
             var focused;
             data.forEach(function(plugin) {
+                var isnew = !findCustomItem(plugin.guid);
                 if (plugin && plugin.items && plugin.items.length>0) {
                     plugin.items.forEach(function(item) {
+                        if (item.separator && isnew) {// add separator only to new plugins menu
+                            menu.addItem({
+                                caption: '--',
+                                isCustomItem: true,
+                                guid: plugin.guid
+                            });
+                            return;
+                        }
+
                         if (!item.text) return;
                         var mnu = findCustomItem(plugin.guid, item.id),
                             caption = ((typeof item.text == 'object') ? item.text[lang] || item.text['en'] : item.text) || '';

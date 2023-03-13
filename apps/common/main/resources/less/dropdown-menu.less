@@ -184,6 +184,11 @@
         background-color: @border-divider-ie;
         background-color: @border-divider;
         margin: 4px 0;
+        & + .divider,
+        &:last-of-type,
+        &:first-of-type {
+            display: none;
+        }
     }
 
     .dataview {
