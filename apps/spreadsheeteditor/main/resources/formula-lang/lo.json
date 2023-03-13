@@ -475,6 +475,8 @@
 	"SEQUENCE": "SEQUENCE",
 	"EXPAND": "ຂະຫຍາຍ",
 	"XMATCH": "XMATCH",
+	"FILTER": "ກັ່ນຕອງ",
+	"ARRAYTOTEXT": "ການຈັດຮອບວຽນເປັນຂໍ້ຄວາມ",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

@@ -62,7 +62,7 @@
 
         <% if (!showReply && !scope.viewmode) { %>
             <% if (replys.length && !add_arrow) { %>
-                <label class="user-reply" style="margin-left: 20px; margin-top: 5px;" role="presentation" tabindex="-1">textAddReply</label>
+                <label class="user-reply with-reply" role="presentation" tabindex="-1">textAddReply</label>
             <% } else { %>
                 <label class="user-reply" role="presentation" tabindex="-1">textAddReply</label>
             <% } %>

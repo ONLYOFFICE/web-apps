@@ -1451,7 +1451,6 @@
   "DE.Views.CrossReferenceDialog.txtType": "Tipo de Referência",
   "DE.Views.CustomColumnsDialog.textColumns": "Número de colunas",
   "DE.Views.CustomColumnsDialog.textSeparator": "Separador de colunas",
-  "DE.Views.CustomColumnsDialog.textSpacing": "Espaçamento entre colunas",
   "DE.Views.CustomColumnsDialog.textTitle": "Colunas",
   "DE.Views.DateTimeDialog.confirmDefault": "Definir formato predefinido para {0}: \"{1}\"",
   "DE.Views.DateTimeDialog.textDefault": "Definir como predefinido",

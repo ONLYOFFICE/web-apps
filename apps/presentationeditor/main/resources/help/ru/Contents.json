@@ -23,7 +23,7 @@
     {"src": "UsageInstructions/InsertImages.htm", "name": "Вставка и настройка изображений"},
     { "src": "UsageInstructions/InsertCharts.htm", "name": "Вставка и редактирование диаграмм" },
     { "src": "UsageInstructions/InsertTables.htm", "name": "Вставка и форматирование таблиц" },
-    {"src": "UsageInstructions/SupportSmartArt.htm", "name": "Поддержка SmartArt" },
+    {"src": "UsageInstructions/InsertSmartArt.htm", "name": "Вставка объектов SmartArt" },
     {"src": "UsageInstructions/AddingAnimations.htm", "name": "Добавление анимации" },
     {"src": "UsageInstructions/MotionPath.htm", "name": "Создание анимации пути перемещения" },
     { "src": "UsageInstructions/InsertSymbols.htm", "name": "Вставка символов и знаков" },

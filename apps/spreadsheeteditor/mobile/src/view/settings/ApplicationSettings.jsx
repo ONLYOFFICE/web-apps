@@ -13,8 +13,8 @@ const PageApplicationSettings = props => {
     const regData = storeApplicationSettings.regData;
     const regCode = storeApplicationSettings.regCode;
     const regExample = storeApplicationSettings.regExample;
-    const dataLang = storeApplicationSettings.getFormulaLanguages();
-    const defineFormulaLang = () => dataLang.find(obj => obj.value === formulaLang);
+    const formulaLangsColection = storeApplicationSettings.formulaLangsColection;
+    const defineFormulaLang = () => formulaLangsColection.find(obj => obj.value === formulaLang);
     const currentFormulaLang = defineFormulaLang();
     const defineRegSetting = () => regData.find(obj => regCode === obj.code);
     const currentRegSetting = defineRegSetting();
@@ -178,14 +178,14 @@ const PageFormulaLanguage = props => {
     const { t } = useTranslation();
     const _t = t("View.Settings", { returnObjects: true });
     const storeApplicationSettings = props.storeApplicationSettings;
+    const formulaLangsColection = storeApplicationSettings.formulaLangsColection;
     const formulaLang = storeApplicationSettings.formulaLang;
-    const dataLang = storeApplicationSettings.getFormulaLanguages();
 
     return (
         <Page>
             <Navbar title={_t.textFormulaLanguage} backLink={_t.textBack} />
             <List mediaList>
-                {dataLang.map((elem, index) => {
+                {formulaLangsColection.map((elem, index) => {
                     return (
                         <ListItem radio key={index} title={elem.displayValue} subtitle={`${t('View.Settings.textExample')}: ${elem.exampleValue}`} checked={elem.value === formulaLang}
                             onChange={() => {

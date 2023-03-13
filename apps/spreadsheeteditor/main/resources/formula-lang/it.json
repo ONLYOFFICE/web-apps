@@ -465,6 +465,8 @@
 	"SEQUENCE": "SEQUENZA",
 	"EXPAND": "ESPANDI",
 	"XMATCH": "CONFRONTA.X",
+	"FILTER": "FILTRO",
+	"ARRAYTOTEXT": "MATRICE.A.TESTO",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

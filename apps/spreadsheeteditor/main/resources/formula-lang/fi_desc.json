@@ -1902,5 +1902,13 @@
 	"XMATCH": {
 		"a": "(hakuarvo, haku_matriisi, [vastaavuustila], [hakutila])",
 		"d": "Palauttaa matriisissa olevan kohteen suhteellisen sijainnin. Oletusarvoisesti tarkka vastaavuus vaaditaan"
+	},
+	"FILTER": {
+		"a": "(matriisi, sisältää, [jos_tyhjä])",
+		"d": "Suodata alue tai matriisi"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(matriisi, [muoto])",
+		"d": "Palauttaa matriisin tekstin."
 	}
 }

@@ -475,6 +475,8 @@
 	"SEQUENCE": "SEQUENZ",
 	"EXPAND": "ERWEITERN",
 	"XMATCH": "XVERGLEICH",
+	"FILTER": "FILTER",
+	"ARRAYTOTEXT": "MATRIXZUTEXT",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Kopfzeilen",

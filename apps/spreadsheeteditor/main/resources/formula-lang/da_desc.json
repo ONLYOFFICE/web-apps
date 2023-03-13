@@ -1902,5 +1902,13 @@
 	"XMATCH": {
 		"a": "(opslagsværdi, opslagsmatrix, [matchtilstand], [søgetilstand])",
 		"d": "Returnerer den relative placering af et element i en matrix. Som standard kræves en nøjagtig match"
+	},
+	"FILTER": {
+		"a": "(matrix, inkluder, [hvis_tom])",
+		"d": "Filtrer et område eller en matrix"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(array, [format])",
+		"d": "Returnerer en tekstrepræsentation af arrayet"
 	}
 }

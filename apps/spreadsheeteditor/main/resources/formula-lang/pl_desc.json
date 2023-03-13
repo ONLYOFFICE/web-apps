@@ -1902,5 +1902,13 @@
 	"XMATCH": {
 		"a": "(szukana_wartość, szukana_tablica, [tryb_dopasowywania], [tryb_wyszukiwania])",
 		"d": "Zwraca względne położenie elementu w tablicy. Domyślnie jest wymagane dokładne dopasowanie"
+	},
+	"FILTER": {
+		"a": "(tablica, uwzględnienie, [jeśli_puste])",
+		"d": "Filtruj zakres lub tablicę"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(tablica, [format])",
+		"d": "Zwraca reprezentację tekstową tablicy"
 	}
 }

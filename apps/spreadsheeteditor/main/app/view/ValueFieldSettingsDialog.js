@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -107,8 +106,8 @@ define([
             this.handler    = options.handler;
             this.props      = options.props;
             this.field      = options.field || 0;
-            this.names      = options.names || [];
-
+            this.showAsValue = options.showAsValue;
+            this.baseFieldChanged = false;
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
 
@@ -227,13 +226,16 @@ define([
                 this.cmbShowAs.setValue(show_as);
 
                 var data = [];
-                this.names.forEach(function(item, index){
-                    data.push({value: index, displayValue: item});
+                this.pivot_names.forEach(function (item, index) {
+                    data.push({value: index, displayValue: item.asc_getName() || me.cache_names[index].asc_getName()});
                 });
+
+                var defValue = this.api.asc_getPivotShowValueAsInfo(Asc.c_oAscShowDataAs.Difference);
                 this.cmbBaseField.setData(data);
-                this.cmbBaseField.setValue(field.asc_getBaseField(), '');
-                this.cmbBaseField.setDisabled(show_as === Asc.c_oAscShowDataAs.Normal || show_as === Asc.c_oAscShowDataAs.PercentOfTotal || show_as === Asc.c_oAscShowDataAs.PercentOfRow ||
-                                              show_as === Asc.c_oAscShowDataAs.PercentOfCol || show_as === Asc.c_oAscShowDataAs.PercentOfParentRow || show_as === Asc.c_oAscShowDataAs.PercentOfParentCol || show_as === Asc.c_oAscShowDataAs.Index);
+                var disabled = (show_as === Asc.c_oAscShowDataAs.Normal || show_as === Asc.c_oAscShowDataAs.PercentOfTotal || show_as === Asc.c_oAscShowDataAs.PercentOfRow || show_as === Asc.c_oAscShowDataAs.PercentOfCol ||
+                                show_as === Asc.c_oAscShowDataAs.PercentOfParentRow || show_as === Asc.c_oAscShowDataAs.PercentOfParentCol || show_as === Asc.c_oAscShowDataAs.Index);
+                this.cmbBaseField.setDisabled(disabled);
+                this.cmbBaseField.setValue(disabled ? defValue.asc_getBaseField() : field.asc_getBaseField() , '');
 
                 data = [];
                 var baseitems = this.pivot_names[field.asc_getBaseField()].asc_getBaseItemObject(this.cache_names[field.asc_getBaseField()]);
@@ -243,6 +245,11 @@ define([
                 this.cmbBaseItem.setData(data);
                 this.cmbBaseItem.setDisabled(data.length<1 || show_as !== Asc.c_oAscShowDataAs.Difference && show_as !== Asc.c_oAscShowDataAs.Percent && show_as !== Asc.c_oAscShowDataAs.PercentDiff);
                 this.cmbBaseItem.setValue((data.length>0) && (show_as === Asc.c_oAscShowDataAs.Difference || show_as === Asc.c_oAscShowDataAs.Percent || show_as === Asc.c_oAscShowDataAs.PercentDiff) ? field.asc_getBaseItem() : '', '');
+            }
+
+            if (this.showAsValue!==undefined) {
+                this.cmbShowAs.setValue(this.showAsValue);
+                this.onShowAsSelect(this.cmbShowAs, this.cmbShowAs.getSelectedRecord());
             }
         },
 
@@ -280,16 +287,27 @@ define([
         },
 
         onShowAsSelect: function(combo, record) {
-            var show_as = record.value;
-            this.cmbBaseField.setDisabled(show_as === Asc.c_oAscShowDataAs.Normal || show_as === Asc.c_oAscShowDataAs.PercentOfTotal || show_as === Asc.c_oAscShowDataAs.PercentOfRow ||
-                                          show_as === Asc.c_oAscShowDataAs.PercentOfCol || show_as === Asc.c_oAscShowDataAs.PercentOfParentRow || show_as === Asc.c_oAscShowDataAs.PercentOfParentCol || show_as === Asc.c_oAscShowDataAs.Index);
-
+            var show_as = record.value,
+                disabled = (show_as === Asc.c_oAscShowDataAs.Normal || show_as === Asc.c_oAscShowDataAs.PercentOfTotal || show_as === Asc.c_oAscShowDataAs.PercentOfRow || show_as === Asc.c_oAscShowDataAs.PercentOfCol ||
+                            show_as === Asc.c_oAscShowDataAs.PercentOfParentRow || show_as === Asc.c_oAscShowDataAs.PercentOfParentCol || show_as === Asc.c_oAscShowDataAs.Index);
+            this.cmbBaseField.setDisabled(disabled);
+            if (!this.baseFieldChanged) {
+                var defValue = this.api.asc_getPivotShowValueAsInfo(show_as);
+                this.cmbBaseField.setValue(defValue.asc_getBaseField(), '');
+                this.cmbBaseField.getSelectedRecord() && this.changeBaseField(defValue.asc_getBaseItem());
+            } else {
+                this.cmbBaseItem.setValue((show_as === Asc.c_oAscShowDataAs.Difference || show_as === Asc.c_oAscShowDataAs.Percent || show_as === Asc.c_oAscShowDataAs.PercentDiff) && this.cmbBaseItem.store.length>0 ?
+                                            this.cmbBaseItem.store.at(this.cmbBaseItem.store.length>2 ? 2 : 0).get('value') : '', '');
+            }
             this.cmbBaseItem.setDisabled(this.cmbBaseItem.store.length<1 || show_as !== Asc.c_oAscShowDataAs.Difference && show_as !== Asc.c_oAscShowDataAs.Percent && show_as !== Asc.c_oAscShowDataAs.PercentDiff);
-            this.cmbBaseItem.setValue((show_as === Asc.c_oAscShowDataAs.Difference || show_as === Asc.c_oAscShowDataAs.Percent || show_as === Asc.c_oAscShowDataAs.PercentDiff) && this.cmbBaseItem.store.length>0 ?
-                                        this.cmbBaseItem.store.at(0).get('value') : '', '');
         },
 
         onBaseFieldSelect: function(combo, record) {
+            this.changeBaseField();
+            this.baseFieldChanged = true;
+        },
+
+        changeBaseField: function(value) {
             var field = this.cmbBaseField.getValue(),
                 baseitems = this.pivot_names[field].asc_getBaseItemObject(this.cache_names[field]),
                 data = [],
@@ -298,10 +316,13 @@ define([
                 data.push({value: item["baseItem"], displayValue: index===0 ? me.textPrev : (index===1 ? me.textNext : item["name"])});
             });
             this.cmbBaseItem.setData(data);
+            if (value===undefined && data.length>0) {
+                value = this.cmbBaseItem.store.at(data.length>2 ? 2 : 0).get('value');
+            }
             var show_as = this.cmbShowAs.getValue();
             this.cmbBaseItem.setDisabled(data.length<1 || show_as !== Asc.c_oAscShowDataAs.Difference && show_as !== Asc.c_oAscShowDataAs.Percent && show_as !== Asc.c_oAscShowDataAs.PercentDiff);
-            this.cmbBaseItem.setValue((show_as === Asc.c_oAscShowDataAs.Difference || show_as === Asc.c_oAscShowDataAs.Percent || show_as === Asc.Asc.c_oAscShowDataAs.PercentDiff) && data.length>0 ?
-                                        this.cmbBaseItem.store.at(0).get('value') : '', '');
+            this.cmbBaseItem.setValue((show_as === Asc.c_oAscShowDataAs.Difference || show_as === Asc.c_oAscShowDataAs.Percent || show_as === Asc.c_oAscShowDataAs.PercentDiff) && data.length>0 ?
+                                    value : '', '');
         },
 
         onBaseItemSelect: function(combo, record) {

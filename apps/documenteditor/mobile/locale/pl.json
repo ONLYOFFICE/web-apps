@@ -570,7 +570,9 @@
     "textNoTextFound": "Text not found",
     "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
     "textDocumentProtected": "The document is protected. Edit settings are not available",
-    "textOk": "Ok"
+    "textOk": "Ok",
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+    "titleLicenseNotActive": "License not active"
   },
   "Settings": {
     "advDRMOptions": "Protected File",

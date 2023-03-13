@@ -1902,5 +1902,13 @@
 	"XMATCH": {
 		"a": "(letauppvärde, letauppvektor, [matchningsläge], [sökläge])",
 		"d": "Returnerar den relativa positionen för ett objekt i en matris. Som standard krävs en exakt matchning"
+	},
+	"FILTER": {
+		"a": "(array, include, [if_empty])",
+		"d": "Filtrera ett intervall eller en matris"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(matris, [format])",
+		"d": "Returnerar en textrepresentation av en matris"
 	}
 }

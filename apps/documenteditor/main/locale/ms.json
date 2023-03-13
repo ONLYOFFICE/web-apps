@@ -1418,7 +1418,6 @@
   "DE.Views.CrossReferenceDialog.txtType": "Jenis rujukan",
   "DE.Views.CustomColumnsDialog.textColumns": "Bilangan Lajur",
   "DE.Views.CustomColumnsDialog.textSeparator": "Pembahagi lajur",
-  "DE.Views.CustomColumnsDialog.textSpacing": "Penjarakan antara lajur",
   "DE.Views.CustomColumnsDialog.textTitle": "Lajur",
   "DE.Views.DateTimeDialog.confirmDefault": "Tetapkan format lalai bagi {0}: \"{1}\"",
   "DE.Views.DateTimeDialog.textDefault": "Tetapkan sebagai lalai",

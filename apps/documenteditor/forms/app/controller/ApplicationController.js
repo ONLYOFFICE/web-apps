@@ -1,3 +1,34 @@
+/*
+ * (c) Copyright Ascensio System SIA 2010-2023
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
+ * street, Riga, Latvia, EU, LV-1050.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ */
 define([
     'core',
     'irregularstack',
@@ -550,10 +581,10 @@ define([
 
         onEditorPermissions: function(params) {
             var licType = params.asc_getLicenseType();
-            if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType || Asc.c_oLicenseResult.ExpiredTrial === licType) {
+            if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType || Asc.c_oLicenseResult.ExpiredTrial === licType || Asc.c_oLicenseResult.NotBefore === licType) {
                 Common.UI.warning({
-                    title: this.titleLicenseExp,
-                    msg: this.warnLicenseExp,
+                    title: Asc.c_oLicenseResult.NotBefore === licType ? this.titleLicenseNotActive : this.titleLicenseExp,
+                    msg: Asc.c_oLicenseResult.NotBefore === licType ? this.warnLicenseBefore : this.warnLicenseExp,
                     buttons: [],
                     closable: false
                 });
@@ -1956,7 +1987,9 @@ define([
         errorInconsistentExtXlsx: 'An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.',
         errorInconsistentExtPptx: 'An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.',
         errorInconsistentExtPdf: 'An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.',
-        errorInconsistentExt: 'An error has occurred while opening the file.<br>The file content does not match the file extension.'
+        errorInconsistentExt: 'An error has occurred while opening the file.<br>The file content does not match the file extension.',
+        warnLicenseBefore: 'License not active.<br>Please contact your administrator.',
+        titleLicenseNotActive: 'License not active'
 
     }, DE.Controllers.ApplicationController));
 
@@ -1967,13 +2000,15 @@ define([
             uitype: 'fillform',
             uithemes: true
         };
-        var api;
+        var api, nativevars;
 
         var native = window.desktop || window.AscDesktopEditor;
         !!native && native.execCommand('webapps:features', JSON.stringify(features));
 
         if ( !!native ) {
             $('#header-logo, .brand-logo').hide();
+
+            nativevars = window.RendererProcessVariable;
 
             window.on_native_message = function (cmd, param) {
                 if (/theme:changed/.test(cmd)) {
@@ -2021,6 +2056,9 @@ define([
             isActive: function () {
                 return !!native;
             },
+            isOffline: function () {
+                return api && api.asc_isOffline();
+            },
             process: function (opts) {
                 if ( !!native && !!api ) {
                     if ( opts == 'goback' ) {
@@ -2032,6 +2070,10 @@ define([
                 }
 
                 return false;
+            },
+            systemThemeType: function () {
+                return nativevars.theme && !!nativevars.theme.system ? nativevars.theme.system :
+                    window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
             },
         }
     };

@@ -1902,5 +1902,13 @@
 	"XMATCH": {
 		"a": "(hodnota_vyhledávání, pole_vyhledávání, [režim_shody], [režim_vyhledávání])",
 		"d": "Vrátí relativní polohu prvku pole. Ve výchozím nastavení se vyžaduje přesná shoda."
+	},
+	"FILTER": {
+		"a": "(matice, zahrnuje, [pokud_prázdné])",
+		"d": "Filtruje oblast nebo matici."
+	},
+	"ARRAYTOTEXT": {
+		"a": "(pole, [formát])",
+		"d": "Vrátí textové vyjádření pole."
 	}
 }

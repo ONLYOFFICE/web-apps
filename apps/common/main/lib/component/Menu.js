@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  Menu.js
  *
@@ -150,7 +149,9 @@ define([
                 offset      : [0, 0],
                 cyclic      : true,
                 search      : false,
-                scrollAlwaysVisible: true
+                scrollAlwaysVisible: true,
+                scrollToCheckedItem: true, // if true - scroll menu to checked item on menu show
+                focusToCheckedItem: false // if true - move focus to checked item on menu show
             },
 
             template: _.template([
@@ -408,12 +409,12 @@ define([
                         var itemTop = $selected.position().top,
                             itemHeight = $selected.outerHeight(),
                             listHeight = menuRoot.outerHeight();
-                        if (itemTop < 0 || itemTop + itemHeight > listHeight) {
+                        if (!!this.options.scrollToCheckedItem && (itemTop < 0 || itemTop + itemHeight > listHeight)) {
                             var height = menuRoot.scrollTop() + itemTop + (itemHeight - listHeight)/2;
                             height = (Math.floor(height/itemHeight) * itemHeight);
                             menuRoot.scrollTop(height);
                         }
-                        setTimeout(function(){$selected.focus();}, 1);
+                        !!this.options.focusToCheckedItem && setTimeout(function(){$selected.focus();}, 1);
                     }
                 }
                 this._search = {};
@@ -768,7 +769,9 @@ define([
             offset      : [0, 0],
             cyclic      : true,
             search      : false,
-            scrollAlwaysVisible: true
+            scrollAlwaysVisible: true,
+            scrollToCheckedItem: true, // if true - scroll menu to checked item on menu show
+            focusToCheckedItem: false // if true - move focus to checked item on menu show
         },
 
         template: _.template([
@@ -1030,12 +1033,12 @@ define([
                     var itemTop = $selected.position().top,
                         itemHeight = $selected.outerHeight(),
                         listHeight = menuRoot.outerHeight();
-                    if (itemTop < 0 || itemTop + itemHeight > listHeight) {
+                    if (!!this.options.scrollToCheckedItem && (itemTop < 0 || itemTop + itemHeight > listHeight)) {
                         var height = menuRoot.scrollTop() + itemTop + (itemHeight - listHeight)/2;
                         height = (Math.floor(height/itemHeight) * itemHeight);
                         menuRoot.scrollTop(height);
                     }
-                    setTimeout(function(){$selected.focus();}, 1);
+                    !!this.options.focusToCheckedItem && setTimeout(function(){$selected.focus();}, 1);
                 }
             }
             this._search = {};

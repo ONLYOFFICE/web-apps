@@ -1902,5 +1902,13 @@
 	"XMATCH": {
 		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
 		"d": "Vrne relativen položaj elementa v polju. Privzeto je zahtevano natančno ujemanje"
+	},
+	"FILTER": {
+		"a": "(array, include, [if_empty])",
+		"d": "Filtriraj obseg ali polje"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(matrika, [oblika])",
+		"d": "Vrne predstavitev besedila matrike"
 	}
 }

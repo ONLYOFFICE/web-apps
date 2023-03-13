@@ -195,10 +195,11 @@ class MainController extends Component {
                 // check licType
                 if (Asc.c_oLicenseResult.Expired === licType ||
                     Asc.c_oLicenseResult.Error === licType ||
-                    Asc.c_oLicenseResult.ExpiredTrial === licType) {
+                    Asc.c_oLicenseResult.ExpiredTrial === licType ||
+                    Asc.c_oLicenseResult.NotBefore === licType) {
                     f7.dialog.create({
-                        title   : _t.titleLicenseExp,
-                        text    : _t.warnLicenseExp
+                        title   : Asc.c_oLicenseResult.NotBefore === licType ? _t.titleLicenseNotActive : _t.titleLicenseExp,
+                        text    : Asc.c_oLicenseResult.NotBefore === licType ? _t.warnLicenseBefore : _t.warnLicenseExp
                     }).open();
                     return;
                 }

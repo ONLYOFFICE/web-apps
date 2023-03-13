@@ -1619,7 +1619,6 @@
   "DE.Views.CrossReferenceDialog.txtType": "Tipe referensi",
   "DE.Views.CustomColumnsDialog.textColumns": "Jumlah Kolom",
   "DE.Views.CustomColumnsDialog.textSeparator": "Pembagi kolom",
-  "DE.Views.CustomColumnsDialog.textSpacing": "Spacing di antara kolom",
   "DE.Views.CustomColumnsDialog.textTitle": "Kolom",
   "DE.Views.DateTimeDialog.confirmDefault": "Atur format default untuk {0}: \"{1}\"",
   "DE.Views.DateTimeDialog.textDefault": "Atur sesuai default",

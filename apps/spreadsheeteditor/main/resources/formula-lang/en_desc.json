@@ -1902,5 +1902,13 @@
 	"XMATCH": {
 		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
 		"d": "Returns the relative position of an item in an array. By default, an exact match is required"
+	},
+	"FILTER": {
+		"a": "(array, include, [if_empty])",
+		"d": "Filter a range or array"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(array, [format])",
+		"d": "Returns a text representation of an array"
 	}
 }
