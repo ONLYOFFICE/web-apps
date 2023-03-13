@@ -1654,8 +1654,15 @@ define([
                 return strTime;
             }
 
-            // MM/dd/yyyy hh:mm AM
+            var lang = (this.mode ? this.mode.lang || 'en' : 'en').replace('_', '-').toLowerCase();
+            try {
+                return date.toLocaleString(lang, {dateStyle: 'short', timeStyle: 'short'});
+            } catch (e) {
+                lang = 'en';
+                return date.toLocaleString(lang, {dateStyle: 'short', timeStyle: 'short'});
+            }
 
+            // MM/dd/yyyy hh:mm AM
             return (date.getMonth() + 1) + '/' + (date.getDate()) + '/' + date.getFullYear() + ' ' + format(date);
         },
 

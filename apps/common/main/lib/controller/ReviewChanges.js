@@ -550,6 +550,14 @@ define([
                 return strTime;
             }
 
+            var lang = (this.appConfig ? this.appConfig.lang || 'en' : 'en').replace('_', '-').toLowerCase();
+            try {
+                return date.toLocaleString(lang, {dateStyle: 'short', timeStyle: 'short'});
+            } catch (e) {
+                lang = 'en';
+                return date.toLocaleString(lang, {dateStyle: 'short', timeStyle: 'short'});
+            }
+
             // MM/dd/yyyy hh:mm AM
             return (date.getMonth() + 1) + '/' + (date.getDate()) + '/' + date.getFullYear() + ' ' + format(date);
         },
