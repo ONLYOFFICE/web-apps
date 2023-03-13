@@ -174,12 +174,13 @@
 .img-arrow-down(@color){
     .img-arrow(@color, "3.5,0 0,4 7,4");
 }
-.img-for-theme(@color-normal, @color-active){
+
+.img-for-theme(@color-arrow-normal, @color-arrow-active, @color-thumb-normal, @color-thumb-active){
     &::-webkit-scrollbar-thumb {
         &:vertical {
-            .img-scroll-y(@color-normal);
+            .img-scroll-y(@color-thumb-normal);
             &:hover, &:active {
-                .img-scroll-y(@color-active);
+                .img-scroll-y(@color-thumb-active);
             }
         }
     }
@@ -187,15 +188,15 @@
     &::-webkit-scrollbar-button:single-button {
         &:vertical {
             &:increment {
-                .img-arrow-top(@color-normal);
+                .img-arrow-top(@color-arrow-normal);
                 &:hover, &:active {
-                    .img-arrow-top(@color-active);
+                    .img-arrow-top(@color-arrow-active);
                 }
             }
             &:decrement {
-                .img-arrow-down(@color-normal);
+                .img-arrow-down(@color-arrow-normal);
                 &:hover, &:active {
-                    .img-arrow-down(@color-active);
+                    .img-arrow-down(@color-arrow-active);
                 }
             }
         }
@@ -279,9 +280,11 @@ textarea {
         }
     }
 
-    .img-for-theme("#c0c0c0", "#ececec");
+    .img-for-theme("#adadad", "#f7f7f7", "#c0c0c0", "#f7f7f7");
 }
-
+.theme-classic-light{
+    .img-for-theme("#c0c0c0", "#ececec", "#cfcfcf", "#f1f1f1");
+}
 .theme-dark textarea{
-    .img-for-theme("#999999", "#404040");
+    .img-for-theme("#999999", "#404040", "#999999", "#404040");
 }
