@@ -174,16 +174,28 @@
 #slot-field-fontname {
     float: left;
     width: 84px;
+    .rtl & {
+        float: right;
+    }
 }
 
 #slot-field-fontsize {
     float: left;
     width: 45px;
     margin-left: 2px;
+    .rtl & {
+        float: right;
+        margin-left: 0;
+        margin-right: 2px;
+    }
 }
 
 #slot-btn-incfont, #slot-btn-decfont, #slot-btn-changecase {
     margin-left: 2px;
+    .rtl & {
+        margin-left: 0;
+        margin-right: 2px;
+    }
 }
 
 #special-paste-container,

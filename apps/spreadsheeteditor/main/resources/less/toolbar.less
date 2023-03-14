@@ -22,10 +22,18 @@
     .font-attr {
         > .btn-slot:not(:last-child):not(.split) {
             margin-right: 2px;
+            .rtl & {
+                margin-right: 0;
+                margin-left: 2px;
+            }
         }
 
         > .btn-slot.split:not(:last-child) {
             margin-right: 2px;
+            .rtl & {
+                margin-right: 0;
+                margin-left: 2px;
+            }
         }
     }
 
@@ -34,9 +42,16 @@
 
         > .btn-slot {
             float: left;
+            .rtl & {
+                float: right;
+            }
 
             &:not(:first-child) {
                 margin-left: 2px;
+                .rtl & {
+                    margin-left: 0;
+                    margin-right: 2px;
+                }
             }
         }
 
