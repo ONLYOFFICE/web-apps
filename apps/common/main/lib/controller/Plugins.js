@@ -114,38 +114,37 @@ define([
         },
 
         loadPlugins: function() {
+            this.configPlugins.plugins =
+            this.serverPlugins.plugins = false;
+
             if (this.configPlugins.config) {
                 this.getPlugins(this.configPlugins.config.pluginsData)
-                    .then(function(loaded)
-                    {
+                    .then(function(loaded) {
                         me.configPlugins.plugins = loaded;
                         me.mergePlugins();
                     })
-                    .catch(function(err)
-                    {
+                    .catch(function(err) {
                         me.configPlugins.plugins = false;
                     });
-            } else
-                this.configPlugins.plugins = false;
+            }
 
-            var server_plugins_url = '../../../../plugins.json',
-                me = this;
-            Common.Utils.loadConfig(server_plugins_url, function (obj) {
-                if ( obj != 'error' ) {
-                    me.serverPlugins.config = obj;
-                    me.getPlugins(me.serverPlugins.config.pluginsData)
-                        .then(function(loaded)
-                        {
-                            me.serverPlugins.plugins = loaded;
-                            me.mergePlugins();
-                        })
-                        .catch(function(err)
-                        {
-                            me.serverPlugins.plugins = false;
-                        });
-                } else
-                    me.serverPlugins.plugins = false;
-            });
+            if ( !Common.Controllers.Desktop.isActive() || !Common.Controllers.Desktop.isOffline() ) {
+                var server_plugins_url = '../../../../plugins.json',
+                    me = this;
+                Common.Utils.loadConfig(server_plugins_url, function (obj) {
+                    if (obj != 'error') {
+                        me.serverPlugins.config = obj;
+                        me.getPlugins(me.serverPlugins.config.pluginsData)
+                            .then(function (loaded) {
+                                me.serverPlugins.plugins = loaded;
+                                me.mergePlugins();
+                            })
+                            .catch(function (err) {
+                                me.serverPlugins.plugins = false;
+                            });
+                    }
+                });
+            }
         },
 
         onAppShowed: function (config) {
