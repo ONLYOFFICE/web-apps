@@ -277,6 +277,7 @@ define([
             var me = this,
                 win = new SSE.Views.ProtectedRangesManagerDlg({
                     api: me.api,
+                    canRequestUsers: me.appConfig.canRequestUsers,
                     currentUserId: me.appConfig.user.id,
                     handler: function(result, settings) {
                         Common.NotificationCenter.trigger('edit:complete');

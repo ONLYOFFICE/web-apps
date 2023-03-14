@@ -62,6 +62,7 @@ define([
             this.isEdit = options.isEdit;
             this.api = options.api;
             this.currentUser = options.currentUser;
+            this.canRequestUsers = options.canRequestUsers;
 
             this.template = options.template || [
                     '<div class="box">',
@@ -73,11 +74,17 @@ define([
                             '<label>' + t.txtRange + '</label>',
                         '</div>',
                         '<div id="id-protected-range-txt" class="input-row" style="margin-bottom: 8px;"></div>',
+                        '<% if (canRequestUsers) { %>',
                         '<div class="input-row">',
                             '<label>' + t.txtWhoCanEdit + '</label>',
                         '</div>',
                         '<div id="id-protected-range-cmb-user" class="input-row input-group-nr" style="margin-bottom: 8px;"></div>',
                         '<div id="id-protected-range-list-user" class="input-group-nr" style="height: 95px;"></div>',
+                        '<% } else { %>',
+                        '<div class="input-row" style="margin-bottom: 8px;">',
+                            '<label>' + t.txtYouCanEdit + '</label>',
+                        '</div>',
+                        '<% } %>',
                     '</div>'
                 ].join('');
 
@@ -140,7 +147,9 @@ define([
             this.cmbUser.on('selected', this.onUserSelected.bind(this));
             this.cmbUser.on('changing', this.onUserChanging.bind(this));
             this.cmbUser.on('show:after',_.bind(this.onCmbUserOpen, this));
+            this.cmbUser.on('show:before',_.bind(this.onCmbUserBeforeOpen, this));
             // this.cmbUser.on('changed:before', this.onUserChangedBefore.bind(this));
+            Common.Utils.isChrome && this.cmbUser._input && this.cmbUser._input.attr('autocomplete', '1'); // Don't show browser menu with email addresses
 
             this.listUser = new Common.UI.ListView({
                 el: this.$window.find('#id-protected-range-list-user'),
@@ -279,6 +288,13 @@ define([
             this.onUserMenu();
         },
 
+        onCmbUserBeforeOpen: function(combo, e, params) {
+            if (combo.store.length<1) {
+                e.preventDefault();
+                this.onUserMenu();
+            }
+        },
+
         onCmbUserOpen: function(combo, e, params) {
             this.onUserMenu();
         },
@@ -313,7 +329,12 @@ define([
             }
             this.cmbUser.setData(arr);
             this.cmbUser.setRawValue(str);
-            (arr.length>0) ? this.cmbUser.openMenu() : this.cmbUser.closeMenu();
+            if (arr.length>0)
+                this.cmbUser.openMenu()
+            else {
+                this.cmbUser.closeMenu();
+                this.cmbUser.focus();
+            }
         },
 
         onKeyDown: function (lisvView, record, e) {
@@ -349,7 +370,8 @@ define([
         textTipAdd: 'Add user',
         textTipDelete: 'Delete user',
         textYou: 'you',
-        userPlaceholder: 'Start type name or email'
+        userPlaceholder: 'Start type name or email',
+        txtYouCanEdit: 'Only you can edit this range'
 
     }, SSE.Views.ProtectedRangesEditDlg || {}));
 });

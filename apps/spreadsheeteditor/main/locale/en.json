@@ -3232,6 +3232,7 @@
   "SSE.Views.ProtectedRangesEditDlg.txtProtect": "Protect",
   "SSE.Views.ProtectedRangesEditDlg.txtRange": "Range",
   "SSE.Views.ProtectedRangesEditDlg.txtRangeName": "Title",
+  "SSE.Views.ProtectedRangesEditDlg.txtYouCanEdit": "Only you can edit this range",
   "SSE.Views.ProtectedRangesEditDlg.txtWhoCanEdit": "Who can edit",
   "SSE.Views.ProtectedRangesEditDlg.userPlaceholder": "Start typing name or email",
   "SSE.Views.ProtectedRangesManagerDlg.guestText": "Guest",

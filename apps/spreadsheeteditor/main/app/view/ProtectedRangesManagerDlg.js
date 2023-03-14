@@ -76,6 +76,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
             this.userTooltip = true;
             this.currentRange = 0;
             this.currentUserId = options.currentUserId;
+            this.canRequestUsers = options.canRequestUsers;
 
             this.wrapEvents = {
                 onRefreshUserProtectedRangesList: _.bind(this.onRefreshUserProtectedRangesList, this),
@@ -269,6 +270,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
                 props   : props,
                 isEdit  : isEdit,
                 api     : me.api,
+                canRequestUsers: me.canRequestUsers,
                 currentUser: {id: me.currentUserId, name: me.getUserName(me.currentUserId, true)},
                 handler : function(result, newprops) {
                     if (result == 'ok') {
