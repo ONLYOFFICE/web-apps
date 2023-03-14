@@ -578,8 +578,9 @@ define([
                 var data = self.mnuTableTemplatePicker.dataViewItems;
                 data && _.each(Templates, function(template, index){
                     var img = template.asc_getImage();
-                    data[index].model.set('imageUrl', img, {silent: true});
-                    $(data[index].el).find('img').attr('src', img);
+                    var dataViewItem = data.filter(function(item) {return item.model.get('caption') === template.asc_getDisplayName();})[0];
+                    dataViewItem && dataViewItem.model.set('imageUrl', img, {silent: true});
+                    dataViewItem && $(dataViewItem.el).find('img').attr('src', img);
                 });
             } else {            
                 var templates = [];
