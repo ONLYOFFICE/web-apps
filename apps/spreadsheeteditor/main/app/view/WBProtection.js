@@ -196,7 +196,8 @@ define([
                     lock        : [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'small'
+                    dataHintOffset: 'small',
+                    visible: !this.appConfig.isOffline
                 });
                 this.lockedControls.push(this.btnProtectRange);
 
@@ -216,6 +217,8 @@ define([
                     me.btnProtectSheet.updateHint(me.hintProtectSheet);
                     me.btnAllowRanges.updateHint(me.hintAllowRanges);
                     me.btnProtectRange.updateHint(me.hintProtectRange);
+
+                    config.isOffline && me.btnProtectRange.cmpEl.parents('.group').hide().prev('.separator').hide();
 
                     setEvents.call(me);
                 });
