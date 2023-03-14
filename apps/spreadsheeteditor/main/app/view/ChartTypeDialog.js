@@ -192,7 +192,6 @@ define([
                     {name: me.textType, width: 105},
                     {name: me.textSecondary, width: 123, style:'text-align: center;'},
                 ],
-                headerOneLine: false,
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                     '<div class="list-item" style="width: 100%;" id="chart-type-dlg-item-<%= seriesIndex %>">',

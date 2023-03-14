@@ -54,7 +54,6 @@ define([
                 showLast: true,
                 simpleAddMode: false,
                 headers: [],            //{name: 'string', width: 'number'(optional for last), sortType: 'string'(optional), style: 'string'(optional)} ---> example {name:text, width: 100, sortType: name, style: 'margin-left:10px;} 
-                headerOneLine: true,
                 initSort: null,         //{type: 'string', direction: -1 or 1} ---> example {type:name, direction:1}
                 keyMoveDirection: 'vertical',
                 itemTemplate: _.template('<div id="<%= id %>" class="list-item" style=""><%= value %></div>'),
@@ -88,15 +87,16 @@ define([
                         '<div class="listview-table-header">',
                             '<% _.each(headers, function(header){ %>',
                                 '<%if (header.sortType) { %>',
-                                    '<div class="table-header-item one-line" style="<% if (header.width) {%>width: <%=header.width%>px; <%}%> <% if (header.style) { %> <%= header.style %> <%}%>" sort-type="<%=header.sortType%>">',
-                                        '<span class="header-sorted">',
-                                            '<label><%= header.name %></label>',
-                                            '<div style="width: 6px;height: 6px;"></div>',
-                                            '<span class="sort-direction caret <%if (sortDirection == -1) { %>sort-desc <% } if (activeSortType != header.sortType) { %>hidden<%}%>"></span>',
-                                        '</span>',
+                                    '<div class="table-header-item" style="<% if (header.width) {%>width: <%=header.width%>px; <%}%> <% if (header.style) { %> <%= header.style %> <%}%>" sort-type="<%=header.sortType%>">',
+                                        '<div class="header-sorted-wrapper">',
+                                            '<span class="header-sorted">',
+                                                '<label><%= header.name %></label>',
+                                                '<span class="sort-direction caret <%if (sortDirection == -1) { %>sort-desc <% } if (activeSortType != header.sortType) { %>caret-hidden<%}%>"></span>',
+                                            '</span>',
+                                        '</div>',
                                     '</div>',
                                 '<%} else { %>',
-                                    '<label class="table-header-item <% if (headerOneLine) {%>one-line<%}%>" style="<% if (header.width) {%>width: <%=header.width%>px; <%}%> <% if (header.style) { %> <%= header.style %> <%}%>"><%= header.name %></label>',
+                                    '<label class="table-header-item" style="<% if (header.width) {%>width: <%=header.width%>px; <%}%> <% if (header.style) { %> <%= header.style %> <%}%>"><%= header.name %></label>',
                                 '<%}%>',
                             '<% }); %>',
                         '</div>',
@@ -105,15 +105,38 @@ define([
                     headers: this.options.headers, 
                     activeSortType: this.options.initSort ? this.options.initSort.type : null, 
                     sortDirection: this.options.initSort ? this.options.initSort.direction : null,
-                    headerOneLine: this.options.headerOneLine
                 });
                 this.$el.before(template);
 
                 var me = this,
                     headerEl = this.$el.prev().children();
+                
+                //Calculating the width of a multiline label in sort header
+                for(var i = 0, sortHeaderIndex = 0; i < this.options.headers.length; i++){
+                    var header = this.options.headers[i];
+                    if(header.sortType){
+                        var headerWords = header.name.split(' '),
+                            labelEl = $(headerEl.find('.table-header-item .header-sorted label')[sortHeaderIndex]),
+                            tempEl = $('<label>A</label>');
+
+                        me.$el.before(tempEl);
+
+                        if(headerWords.length > 1 && labelEl.height() > Math.ceil(tempEl.height())) {
+                            var maxWidthWord = 0;
+
+                            headerWords.forEach(function(word) {
+                                tempEl.text(word);
+                                (tempEl.width() > maxWidthWord) && (maxWidthWord = tempEl.width());
+                            });
+                            (maxWidthWord < labelEl.width()) && labelEl.width(maxWidthWord);
+                        }
+                        tempEl.remove();
+                        sortHeaderIndex++;
+                    }
+                };
 
                 headerEl.find('.table-header-item .header-sorted').on('click', function(e) {
-                    var selectedSortType = $(e.currentTarget).parent().attr('sort-type'),
+                    var selectedSortType = $(e.currentTarget).parent().parent().attr('sort-type'),
                         curCaretEl = $(e.currentTarget).find('.caret');
 
                     if(me.activeSortType === selectedSortType){
@@ -124,9 +147,9 @@ define([
                         me.sortDirection = 1;
                     }
 
-                    headerEl.find('.caret').addClass('hidden');
+                    headerEl.find('.caret').addClass('caret-hidden');
 
-                    if(curCaretEl.removeClass('hidden'));
+                    if(curCaretEl.removeClass('caret-hidden'));
                     if(me.sortDirection == -1) 
                         curCaretEl.addClass('sort-desc');
                     else 

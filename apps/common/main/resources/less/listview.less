@@ -101,25 +101,44 @@
     position: absolute;
     margin: @scaled-one-px-value;
     width: calc(100% - 2 * @scaled-one-px-value);
+    display: flex;
+    align-items: center;
   
     label {
       overflow: hidden;
       text-overflow: ellipsis;
-      vertical-align: bottom;
     }
 
     .table-header-item {
       color: @text-tertiary-ie;
       color: @text-tertiary;
       display: inline-block;
+      
+      .header-sorted-wrapper {
+        display: flex;
 
-      &.one-line {
-        white-space: nowrap;
-      }
+        .header-sorted {
+          display: flex;
+          align-items: center;
+          overflow: hidden;
+          padding-right: 1px;
+          cursor: pointer;
   
-      .caret {
-        border-color: @text-tertiary-ie;
-        border-color: @text-tertiary;
+          label {
+            padding-right: 6px;
+          }
+  
+          .caret {
+            border-color: @text-tertiary-ie;
+            border-color: @text-tertiary;
+            min-width: 4px;
+            min-height: 4px;
+    
+            &.caret-hidden {
+              visibility: hidden;
+            }
+          }
+        }
       }
     }
   }
