@@ -31,7 +31,11 @@
     cursor: default;
     background-color: @background-normal-ie;
     background-color: @background-normal;
-   .user-select(none);
+    .user-select(none);
+    &:-ms-input-placeholder {
+        color: @text-normal-ie;
+    }
+    .placeholder(@text-normal);
 }
 
 .input-row {

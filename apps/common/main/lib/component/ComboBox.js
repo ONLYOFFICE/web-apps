@@ -266,6 +266,8 @@ define([
             },
 
             openMenu: function(delay) {
+                if (this.store.length<1) return;
+
                 var me = this;
 
                 if ( !this.scroller ) {

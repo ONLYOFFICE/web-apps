@@ -216,9 +216,14 @@ define([
                 this.listUser.store.add({value: this.currentUser.id, name: this.currentUser.name + ' (' + this.textYou + ')', email: '', isCurrent: true});
                 var me= this,
                     rangeUsers = props.asc_getUsers();
-                if (rangeUsers && rangeUsers.length>0) {
-                    Common.UI.ExternalUsers.get(function(users) {
-                        if (users && users.length>0) {
+                Common.UI.ExternalUsers.get(function(users) {
+                    if (users && users.length>0) {
+                        if (!_.find(users, function(item) { return item.id!==undefined && item.id!==null; })) { // no id in user info
+                            me.cmbUser.setDisabled(true);
+                            me.cmbUser._input && me.cmbUser._input.attr('placeholder', me.txtYouCanEdit);
+                        }
+
+                        if (rangeUsers && rangeUsers.length>0) {
                             var store = me.listUser.store;
                             rangeUsers.forEach(function(item) {
                                 var rec = _.findWhere(users, {id: item});
@@ -226,8 +231,11 @@ define([
                                     store.add({value: item, name: rec.name, email: rec.email});
                             });
                         }
-                    });
-                }
+                    } else {
+                        me.cmbUser.setDisabled(true);
+                        me.cmbUser._input && me.cmbUser._input.attr('placeholder', me.txtYouCanEdit);
+                    }
+                });
             }
         },
 

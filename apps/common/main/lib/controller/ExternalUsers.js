@@ -45,7 +45,7 @@ if (Common.UI === undefined) {
 }
 
 Common.UI.ExternalUsers = new( function() {
-    var externalUsers = [],
+    var externalUsers = null,
         getCallback,
         isUsersLoading = false;
 
@@ -53,12 +53,12 @@ Common.UI.ExternalUsers = new( function() {
         if (isUsersLoading) return;
 
         getCallback = null;
-        if (externalUsers.length>0)
-            callback(externalUsers);
-        else {
+        if (externalUsers===null) {
             getCallback = callback;
             isUsersLoading = true;
             Common.Gateway.requestUsers();
+        } else {
+            callback(externalUsers);
         }
     };
 
@@ -72,7 +72,7 @@ Common.UI.ExternalUsers = new( function() {
             getCallback = null;
         });
         Common.NotificationCenter.on('mentions:clearusers',   function() {
-            externalUsers = [];
+            externalUsers = null;
         });
     };
 
