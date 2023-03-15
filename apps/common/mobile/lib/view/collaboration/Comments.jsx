@@ -1,4 +1,4 @@
-import React, {useState, useEffect, Fragment} from 'react';
+import React, {useState, useEffect, Fragment, useRef} from 'react';
 import {observer, inject} from "mobx-react";
 import { f7, Popup, Sheet, Popover, Page, Toolbar, Navbar, NavLeft, NavRight, NavTitle, Link, Input, Icon, List, ListItem, Actions, ActionsGroup, ActionsButton } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
@@ -21,12 +21,18 @@ const sliceQuote = (text) => {
 const AddCommentPopup = inject("storeComments")(observer(props => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
-    useEffect(() => {
-        f7.popup.open('.add-comment-popup');
-        if(!Device.android) f7.input.focus('.input-comment');
-    });
     const userInfo = props.userInfo;
     const [stateText, setText] = useState('');
+    let refInputComment = useRef(null);
+
+    useEffect(() => {
+        f7.popup.open('.add-comment-popup', false);
+
+        if(refInputComment) {
+            refInputComment.focus();
+        }
+    }, []);
+
     return (
         <Popup className="add-comment-popup">
             <Navbar>
@@ -60,7 +66,7 @@ const AddCommentPopup = inject("storeComments")(observer(props => {
                     <div className='name'>{userInfo.name}</div>
                 </div>
                 <div className='wrap-textarea'>
-                    <Input className="input-comment" autofocus type='textarea' placeholder={_t.textAddComment} value={stateText} onChange={(event) => {setText(event.target.value);}}></Input>
+                    <textarea autoFocus type='textarea' placeholder={_t.textAddComment} value={stateText} onChange={(event) => {setText(event.target.value);}} ref={el => refInputComment = el}></textarea>
                 </div>
             </div>
         </Popup>
@@ -72,6 +78,8 @@ const AddCommentDialog = inject("storeComments")(observer(props => {
     const _t = t('Common.Collaboration', {returnObjects: true});
     const userInfo = props.userInfo;
     const templateInitials = `<div class="initials" style="background-color: ${userInfo.color};">${userInfo.initials}</div>`;
+    let refContainerDialog = useRef(null);
+
     useEffect(() => {
         f7.dialog.create({
             destroyOnClose: true,
@@ -127,9 +135,15 @@ const AddCommentDialog = inject("storeComments")(observer(props => {
                 }
             }
         }).open();
-    });
+
+        if(refContainerDialog) {
+            const inputComment = refContainerDialog.querySelector('#comment-text');
+            inputComment.focus();
+        }
+    }, []);
+
     return (
-        <div id='add-comment-dialog' className="add-comment-dialog"></div>
+        <div id='add-comment-dialog' ref={el => refContainerDialog = el} className="add-comment-dialog"></div>
     );
 }));
 
