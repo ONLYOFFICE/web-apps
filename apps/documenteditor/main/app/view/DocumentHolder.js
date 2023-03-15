@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  DocumentHolder.js
  *
@@ -221,13 +220,14 @@ define([
                     me.menuViewAddComment
                 ]
             }).on('hide:after', function (menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
+                me.currentMenu = null;
                 if (me.suppressEditComplete) {
                     me.suppressEditComplete = false;
                     return;
                 }
 
                 if (!isFromInputControl) me.fireEvent('editcomplete', me);
-                me.currentMenu = null;
             });
 
             this.fireEvent('createdelayedelements', [this, 'view']);
@@ -251,13 +251,14 @@ define([
                     me.menuPDFViewCopy
                 ]
             }).on('hide:after', function (menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
+                me.currentMenu = null;
                 if (me.suppressEditComplete) {
                     me.suppressEditComplete = false;
                     return;
                 }
 
                 if (!isFromInputControl) me.fireEvent('editcomplete', me);
-                me.currentMenu = null;
             });
 
             this.fireEvent('createdelayedelements', [this, 'pdf']);
@@ -596,6 +597,7 @@ define([
             this.pictureMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
+                scrollToCheckedItem: false,
                 initMenu: function(value){
                     if (_.isUndefined(value.imgProps))
                         return;
@@ -785,6 +787,7 @@ define([
                     me.menuImageAdvanced
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
                 if (!isFromInputControl) me.fireEvent('editcomplete', me);
                 me.currentMenu = null;
             });
@@ -976,7 +979,8 @@ define([
                     restoreHeight: 285,
                     items   : [],
                     itemTemplate: langTemplate,
-                    search: true
+                    search: true,
+                    focusToCheckedItem: true
                 })
             });
 
@@ -1146,6 +1150,7 @@ define([
 
             me.menuTableEquation = new Common.UI.MenuItem({
                 caption     : me.advancedEquationText,
+                iconCls     : 'menu__icon btn-equation',
                 menu        : me.createEquationMenu('popuptableeqinput', 'tl-tr')
             });
 
@@ -1238,6 +1243,7 @@ define([
             this.tableMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
+                scrollToCheckedItem: false,
                 initMenu: function(value){
                     // table properties
                     if (_.isUndefined(value.tableProps))
@@ -1486,13 +1492,14 @@ define([
                     me.menuTableEquation
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
+                me.currentMenu = null;
                 if (me.suppressEditComplete) {
                     me.suppressEditComplete = false;
                     return;
                 }
 
                 if (!isFromInputControl) me.fireEvent('editcomplete', me);
-                me.currentMenu = null;
             });
 
             /* text menu */
@@ -1599,6 +1606,7 @@ define([
 
             me.menuParagraphEquation = new Common.UI.MenuItem({
                 caption     : me.advancedEquationText,
+                iconCls     : 'menu__icon btn-equation',
                 menu        : me.createEquationMenu('popupparaeqinput', 'tl-tr')
             });
             /** coauthoring begin **/
@@ -1683,7 +1691,8 @@ define([
                     restoreHeight: 285,
                     items   : [],
                     itemTemplate: langTemplate,
-                    search: true
+                    search: true,
+                    focusToCheckedItem: true
                 })
             });
 
@@ -1828,6 +1837,7 @@ define([
             this.textMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
+                scrollToCheckedItem: false,
                 initMenu: function(value){
                     var isInShape = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ShapeProperties()));
                     var isInChart = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ChartProperties()));
@@ -2098,13 +2108,14 @@ define([
                     menuStyle
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
+                me.currentMenu = null;
                 if (me.suppressEditComplete) {
                     me.suppressEditComplete = false;
                     return;
                 }
 
                 if (!isFromInputControl) me.fireEvent('editcomplete', me);
-                me.currentMenu = null;
             });
 
             /* header/footer menu */
@@ -2131,6 +2142,7 @@ define([
                     menuEditHeaderFooter
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
                 if (!isFromInputControl) me.fireEvent('editcomplete', me);
                 me.currentMenu = null;
             });
@@ -2917,6 +2929,118 @@ define([
                     })
                 ]
             });
+        },
+
+        updateCustomItems: function(menu, data) {
+            if (!menu || !data || data.length<1) return;
+
+            var me = this,
+                lang = me.mode && me.mode.lang ? me.mode.lang.split(/[\-_]/)[0] : 'en';
+
+            var findCustomItem = function(guid, id) {
+                if (menu && menu.items.length>0) {
+                    for (var i = menu.items.length-1; i >=0 ; i--) {
+                        if (menu.items[i].options.isCustomItem && (id===undefined && menu.items[i].options.guid === guid || menu.items[i].options.guid === guid && menu.items[i].value === id)) {
+                            return menu.items[i];
+                        }
+                    }
+                }
+            }
+
+            var getMenu = function(items, guid, toMenu) {
+                if (toMenu)
+                    toMenu.removeAll();
+                else {
+                    toMenu = new Common.UI.Menu({
+                        cls: 'shifted-right',
+                        menuAlign: 'tl-tr',
+                        items: []
+                    });
+                    toMenu.on('item:click', function(menu, item, e) {
+                        me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
+                    });
+                }
+                items.forEach(function(item) {
+                    item.separator && toMenu.addItem({
+                        caption: '--',
+                        isCustomItem: true,
+                        guid: guid
+                    });
+                    item.text && toMenu.addItem({
+                        caption: ((typeof item.text == 'object') ? item.text[lang] || item.text['en'] : item.text) || '',
+                        isCustomItem: true,
+                        value: item.id,
+                        guid: guid,
+                        menu: item.items ? getMenu(item.items, guid) : false,
+                        disabled: !!item.disabled
+                    });
+                });
+                return toMenu;
+            }
+
+            var focused;
+            data.forEach(function(plugin) {
+                var isnew = !findCustomItem(plugin.guid);
+                if (plugin && plugin.items && plugin.items.length>0) {
+                    plugin.items.forEach(function(item) {
+                        if (item.separator && isnew) {// add separator only to new plugins menu
+                            menu.addItem({
+                                caption: '--',
+                                isCustomItem: true,
+                                guid: plugin.guid
+                            });
+                            return;
+                        }
+
+                        if (!item.text) return;
+                        var mnu = findCustomItem(plugin.guid, item.id),
+                            caption = ((typeof item.text == 'object') ? item.text[lang] || item.text['en'] : item.text) || '';
+                        if (mnu) {
+                            mnu.setCaption(caption);
+                            mnu.setDisabled(!!item.disabled);
+                            if (item.items) {
+                                if (mnu.menu) {
+                                    if (mnu.menu.isVisible() && mnu.menu.cmpEl.find(' > li:not(.divider):not(.disabled):visible').find('> a').filter(':focus').length>0) {
+                                        mnu.menu.isOver = true;
+                                        focused = mnu.cmpEl;
+                                    }
+                                    getMenu(item.items, plugin.guid, mnu.menu);
+                                } else
+                                    mnu.setMenu(getMenu(item.items, plugin.guid));
+                            }
+                        } else {
+                            var mnu = new Common.UI.MenuItem({
+                                caption     : caption,
+                                isCustomItem: true,
+                                value: item.id,
+                                guid: plugin.guid,
+                                menu: item.items && item.items.length>=0 ? getMenu(item.items, plugin.guid) : false,
+                                disabled: !!item.disabled
+                            }).on('click', function(item, e) {
+                                me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
+                            });
+                            menu.addItem(mnu);
+                        }
+                    });
+                }
+            });
+
+            if (focused) {
+                var $subitems = $('> [role=menu]', focused).find('> li:not(.divider):not(.disabled):visible > a');
+                ($subitems.length>0) && $subitems.eq(0).focus();
+            }
+            menu.alignPosition();
+        },
+
+        clearCustomItems: function(menu) {
+            if (menu && menu.items.length>0) {
+                for (var i = 0; i < menu.items.length; i++) {
+                    if (menu.items[i].options.isCustomItem) {
+                        menu.removeItem(menu.items[i]);
+                        i--;
+                    }
+                }
+            }
         },
 
         focus: function() {

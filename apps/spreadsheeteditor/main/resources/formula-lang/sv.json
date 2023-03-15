@@ -473,6 +473,10 @@
 	"TAKE": "TA",
 	"DROP": "UTESLUT",
 	"SEQUENCE": "SEKVENS",
+	"EXPAND": "EXPANDERA",
+	"XMATCH": "XMATCHNING",
+	"FILTER": "FILTER",
+	"ARRAYTOTEXT": "MATRISTILLTEXT",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

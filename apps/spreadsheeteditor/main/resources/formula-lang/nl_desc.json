@@ -1894,5 +1894,21 @@
 	"SEQUENCE": {
 		"a": "(rijen, [kolommen], [beginnen], [stap])",
 		"d": "Retourneert een reeks getallen"
+	},
+	"EXPAND": {
+		"a": "(matrix, rijen, [kolommen], [pad_with])",
+		"d": "Hiermee wordt een matrix uitgevouwen naar de opgegeven dimensies."
+	},
+	"XMATCH": {
+		"a": "(zoekwaarde, zoeken-matrix, [overeenkomstmodus], [zoekmodus])",
+		"d": "Retourneert de relatieve positie van een item in een matrix. Standaard is een exacte overeenkomst vereist"
+	},
+	"FILTER": {
+		"a": "(matrix, opnemen, [als_leeg])",
+		"d": "Een matrix of bereik filteren"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(matrix, [Format])",
+		"d": "Retourneert een tekstweergave van een matrix"
 	}
 }

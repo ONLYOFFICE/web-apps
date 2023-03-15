@@ -1398,7 +1398,6 @@
   "DE.Views.CrossReferenceDialog.txtType": "Typ odsyłacza",
   "DE.Views.CustomColumnsDialog.textColumns": "Ilość kolumn",
   "DE.Views.CustomColumnsDialog.textSeparator": "Podział kolumn",
-  "DE.Views.CustomColumnsDialog.textSpacing": "Przerwa między kolumnami",
   "DE.Views.CustomColumnsDialog.textTitle": "Kolumny",
   "DE.Views.DateTimeDialog.confirmDefault": "Ustaw domyślny format dla {0}: \"{1}\"",
   "DE.Views.DateTimeDialog.textDefault": "Ustaw jako domyślne",

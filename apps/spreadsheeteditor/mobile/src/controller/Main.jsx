@@ -211,11 +211,12 @@ class MainController extends Component {
                
                 if (Asc.c_oLicenseResult.Expired === licType ||
                     Asc.c_oLicenseResult.Error === licType ||
-                    Asc.c_oLicenseResult.ExpiredTrial === licType) {
+                    Asc.c_oLicenseResult.ExpiredTrial === licType ||
+                    Asc.c_oLicenseResult.NotBefore === licType) {
 
                     f7.dialog.create({
-                        title: t('Controller.Main.titleLicenseExp'),
-                        text: t('Controller.Main.warnLicenseExp')
+                        title: Asc.c_oLicenseResult.NotBefore === licType ? t('Controller.Main.titleLicenseNotActive') : t('Controller.Main.titleLicenseExp'),
+                        text: Asc.c_oLicenseResult.NotBefore === licType ? t('Controller.Main.warnLicenseBefore') : t('Controller.Main.warnLicenseExp')
                     }).open();
 
                     return;
@@ -517,17 +518,19 @@ class MainController extends Component {
             }
         });
 
-        this.api.asc_registerCallback('asc_onNeedUpdateExternalReferenceOnOpen', this.onNeedUpdateExternalReference);
+        this.api.asc_registerCallback('asc_onNeedUpdateExternalReferenceOnOpen', this.onNeedUpdateExternalReference.bind(this));
 
         const storeAppOptions = this.props.storeAppOptions;
         this.api.asc_setFilteringMode && this.api.asc_setFilteringMode(storeAppOptions.canModifyFilter);
     }
 
     onNeedUpdateExternalReference() {
+        const { t } = this.props;
+
         f7.dialog.create({
             title: t('Controller.Main.notcriticalErrorTitle'),
             text: t('Controller.Main.textWarnUpdateExternalData'),
-            button: [
+            buttons: [
                 {
                     text: t('Controller.Main.textUpdate'),
                     onClick: () => {

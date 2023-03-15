@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 define([
     'core',
     'spreadsheeteditor/main/app/view/FileMenuPanels',
@@ -225,6 +224,11 @@ define([
             item = panel.cmbPaperOrientation.store.findWhere({value: opt.asc_getOrientation()});
             if (item) panel.cmbPaperOrientation.setValue(item.get('value'));
 
+            if (panel.spnFirstPage) {
+                value = opt.asc_getFirstPageNumber();
+                panel.spnFirstPage.setValue(value ? value : 1, true);
+            }
+
             opt = props.asc_getPageMargins();
             panel.spnMarginLeft.setValue(Common.Utils.Metric.fnRecalcFromMM(opt.asc_getLeft()), true);
             panel.spnMarginTop.setValue(Common.Utils.Metric.fnRecalcFromMM(opt.asc_getTop()), true);
@@ -314,6 +318,11 @@ define([
                 opt.asc_setFitToHeight(this.fitHeight);
                 opt.asc_setScale(this.fitScale);
             }
+
+            if (panel.spnFirstPage) {
+                opt.asc_setFirstPageNumber(panel.spnFirstPage.getValue());
+            }
+
             if (!this._changedProps[sheet]) {
                 props.asc_setPageSetup(opt);
             }
@@ -401,6 +410,24 @@ define([
             }
         },
 
+        findPagePreset: function (panel, w, h) {
+            var width = (w<h) ? w : h,
+                height = (w<h) ? h : w;
+            var store = panel.cmbPaperSize.store,
+                item = null;
+            for (var i=0; i<store.length-1; i++) {
+                var rec = store.at(i),
+                    value = rec.get('value'),
+                    pagewidth = parseFloat(/^\d{3}\.?\d*/.exec(value)),
+                    pageheight = parseFloat(/\d{3}\.?\d*$/.exec(value));
+                if (Math.abs(pagewidth - width) < 0.1 && Math.abs(pageheight - height) < 0.1) {
+                    item = rec;
+                    break;
+                }
+            }
+            return item ? item.get('caption') : undefined;
+        },
+
         resultPrintSettings: function(result, value) {
             var view = SSE.getController('Toolbar').getView('Toolbar');
             if (result == 'ok') {
@@ -422,6 +449,20 @@ define([
                     this.adjPrintParams.asc_setStartPageIndex(pageFrom > 0 ? pageFrom - 1 : null);
                     this.adjPrintParams.asc_setEndPageIndex(pageTo > 0 ? pageTo - 1 : null);
                     Common.localStorage.setItem("sse-print-settings-range", printtype);
+
+                    var sheetIndex = printtype === Asc.c_oAscPrintType.EntireWorkbook ? 0 : this.api.asc_getActiveWorksheetIndex(),
+                        props = this._changedProps[sheetIndex] || this.api.asc_getPageOptions(sheetIndex),
+                        pageSetup = props.asc_getPageSetup(),
+                        size = [pageSetup.asc_getWidth(), pageSetup.asc_getHeight()],
+                        orientation = pageSetup.asc_getOrientation();
+                    this.adjPrintParams.asc_setNativeOptions({
+                        paperSize: {
+                            w: size[0],
+                            h: size[1],
+                            preset: this.findPagePreset(this.printSettingsDlg, size[0], size[1])
+                        },
+                        paperOrientation: !orientation ? 'portrait' : 'landscape'
+                    });
 
                     if ( this.printSettingsDlg.type=='print' ) {
                         var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
@@ -466,6 +507,20 @@ define([
                 this.adjPrintParams.asc_setStartPageIndex(pageFrom > 0 ? pageFrom - 1 : null);
                 this.adjPrintParams.asc_setEndPageIndex(pageTo > 0 ? pageTo - 1 : null);
                 Common.localStorage.setItem("sse-print-settings-range", printType);
+
+                var sheetIndex = printType === Asc.c_oAscPrintType.EntireWorkbook ? 0 : this.api.asc_getActiveWorksheetIndex(),
+                    props = this._changedProps[sheetIndex] || this.api.asc_getPageOptions(sheetIndex),
+                    pageSetup = props.asc_getPageSetup(),
+                    size = [pageSetup.asc_getWidth(), pageSetup.asc_getHeight()],
+                    orientation = pageSetup.asc_getOrientation();
+                this.adjPrintParams.asc_setNativeOptions({
+                    paperSize: {
+                        w: size[0],
+                        h: size[1],
+                        preset: this.findPagePreset(this.printSettings, size[0], size[1])
+                    },
+                    paperOrientation: !orientation ? 'portrait' : 'landscape'
+                });
 
                 if (print === 'print') {
                     var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
@@ -539,6 +594,9 @@ define([
             panel.txtRangeLeft.on('button:click', _.bind(this.onPresetSelect, this, panel, 'left', panel.btnPresetsLeft.menu, {value: 'select'}));
             panel.btnPresetsTop.menu.on('item:click', _.bind(this.onPresetSelect, this, panel, 'top'));
             panel.btnPresetsLeft.menu.on('item:click', _.bind(this.onPresetSelect, this, panel, 'left'));
+            if (panel.spnFirstPage) {
+                panel.spnFirstPage.on('change', _.bind(this.propertyChange, this, panel));
+            }
         },
 
         propertyChange: function(panel, scale, combo, record) {
@@ -745,7 +803,6 @@ define([
                 box.focus(); // for IE
 
                 this.api.asc_drawPrintPreview(page-1);
-                this.api.asc_enableKeyEvents(true);
                 this.updateNavigationButtons(page-1, this._navigationPreview.pageCount);
 
                 return false;

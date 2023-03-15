@@ -560,7 +560,7 @@
     }
 }
 
-#protect-dlg-options {
+.protect-sheet-options {
     .list-item {
         pointer-events:none;
         margin-left: 20px;
@@ -619,5 +619,403 @@
 
     label, div {
         display: inline-block;
+    }
+}
+
+#window-format-rules {
+    .inner-content > table {
+        width: 100%;
+    }
+    .rule {
+        width:150px;
+    }
+    .rule,
+    #format-rules-edit-combo-rule,
+    #format-rules-edit-txt-r1,
+    #format-rules-edit-txt-r2,
+    #format-rules-edit-spin-rank,
+    #format-rules-edit-combo-percent {
+        display: inline-block;
+        vertical-align: top;
+    }
+    .rule,
+    #format-rules-edit-combo-rule,
+    #format-rules-edit-txt-r1,
+    #format-rules-edit-spin-rank {
+        margin-right: 10px;
+        .rtl & {
+            margin-right: 0;
+            margin-left: 10px;
+        }
+    }
+    #format-rules-edit-combo-num-format {
+        .item-container {
+            position: relative;
+            .name {
+                width: 100px;
+                position: absolute;
+                left: 0;
+                .rtl & {
+                    left: auto;
+                    right: 0;
+                }
+            }
+            .example {
+                display: inline-block;
+                width: 100%;
+                max-width: 300px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                text-align: right;
+                vertical-align: bottom;
+                padding-left: 100px;
+                color: silver;
+                white-space: nowrap;
+                .rtl & {
+                    text-align: left;
+                    padding-left: 0;
+                    padding-right: 100px;
+                }
+            }
+        }
+    }
+    #format-rules-format-preset,
+    #format-rules-edit-combo-num-format {
+        display: inline-block;
+        vertical-align: middle;
+    }
+    #format-rules-bold {
+        display: inline-block;
+    }
+    #format-rules-italic,
+    #format-rules-underline,
+    #format-rules-strikeout,
+    #format-rules-fontcolor,
+    #format-rules-fillcolor,
+    #format-rules-borders,
+    #format-rules-edit-combo-num-format {
+        display: inline-block;
+        margin-left: 3px;
+        .rtl & {
+            margin-left: 0;
+            margin-right: 3px;
+        }
+    }
+    #format-rules-edit-btn-clear {
+        display: inline-block;
+        vertical-align: middle;
+        min-width: 80px;
+        margin-left: 10px;
+        .rtl & {
+            margin-left: 0;
+            margin-right: 10px;
+        }
+    }
+    .edit-preview-format {
+        border: 1px solid #cbcbcb;
+        width: 150px;
+        height: 40px;
+        padding: 3px;
+    }
+    #format-rules-edit-preview-format {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        margin: 0 auto;
+        background-color: #ffffff;
+    }
+    .scale-container {
+        padding-top: 8px;
+        label {
+            display: block;
+        }
+        .scale-1 {
+            vertical-align: top;
+        }
+        .scale-1,
+        .scale-2,
+        .scale-3 {
+            width: 150px;
+            display: inline-block;
+        }
+        .scale-1,
+        .scale-2 {
+            margin-right: 10px;
+            .rtl & {
+                margin-right: 0;
+                margin-left: 10px;
+            }
+        }
+        #format-rules-edit-combo-scale-1,
+        #format-rules-edit-txt-scale-1,
+        #format-rules-edit-combo-scale-2,
+        #format-rules-edit-txt-scale-2,
+        #format-rules-edit-combo-scale-3,
+        #format-rules-edit-txt-scale-3 {
+            margin-bottom: 8px;
+        }
+        #format-rules-edit-txt-scale-1,
+        #format-rules-edit-txt-scale-2,
+        #format-rules-edit-txt-scale-3 {
+            height: 22px;
+        }
+    }
+    .preview-scale {
+        width: 100%;
+        height: 40px;
+        padding: 3px;
+        border: 1px solid #cbcbcb;
+        #format-rules-edit-preview-scale {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            margin: 0 auto;
+        }
+    }
+    .databar-container {
+        padding-top: 8px;
+        .bar-1 {
+            width:150px;
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 10px;
+            .rtl & {
+                margin-right: 0;
+                margin-left: 10px;
+            }
+        }
+        .bar-2 {
+            width:150px;
+            display: inline-block;
+        }
+        #format-rules-edit-combo-bar-1,
+        #format-rules-edit-combo-bar-2 {
+            margin-bottom: 8px;
+        }
+        #format-rules-edit-txt-bar-1,
+        #format-rules-edit-txt-bar-2 {
+            height: 22px;
+        }
+    }
+    .fill, .border, .direction {
+        width: 150px;
+        display: inline-block;
+        vertical-align: top;
+        > label {
+            display: block;
+        }
+    }
+    .fill, .border {
+        margin-right: 10px;
+        .rtl & {
+            margin-right: 0;
+            margin-left: 10px;
+        }
+    }
+    #format-rules-edit-combo-fill,
+    #format-rules-edit-combo-border,
+    #format-rules-edit-combo-direction {
+        margin-bottom: 8px;
+    }
+    .color-pos-fill,
+    .color-pos-border {
+        margin-bottom: 4px;
+    }
+    .color-neg-fill,
+    .color-neg-border {
+        margin-bottom: 8px;
+    }
+    .color-pos-fill,
+    .color-neg-fill,
+    .color-pos-border,
+    .color-neg-border {
+        width: 100%;
+        height: 23px;
+        label {
+            margin-top: 4px;
+        }
+        #format-rules-edit-color-pos-fill,
+        #format-rules-edit-color-neg-fill,
+        #format-rules-edit-color-pos-border,
+        #format-rules-edit-color-neg-border {
+            float: right;
+            .rtl & {
+                float: left;
+            }
+        }
+    }
+    #format-rules-edit-chk-show-bar {
+        margin-top: 12px;
+    }
+    .axis {
+        float: left;
+        .rtl & {
+            float: right;
+        }
+        .header {
+            display: block;
+        }
+        #format-rules-edit-color-axis-color,
+        #format-rules-edit-combo-axis-pos {
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .position-label {
+            margin-top: 1px;
+            vertical-align: middle;
+        }
+        .position-label,
+        #format-rules-edit-combo-axis-pos {
+            margin-right: 10px;
+            .rtl & {
+                margin-right: 0;
+                margin-left: 10px;
+            }
+        }
+    }
+    .preview {
+        float:right;
+        width: 155px;
+        .rtl & {
+            float: left;
+        }
+        .header {
+            display: block;
+        }
+        .preview-databar {
+            border: 1px solid #cbcbcb;
+            width: 150px;
+            height: 40px;
+            padding: 3px;
+            #format-rules-edit-preview-databar {
+                width: 100%;
+                height: 100%;
+                position: relative;
+                margin: 0 auto;
+            }
+        }
+    }
+    .icon-style {
+        padding-top: 8px;
+        #format-rules-icon-style,
+        #format-rules-edit-chk-icon-show {
+            display: inline-block;
+            vertical-align: middle;
+        }
+        #format-rules-edit-chk-icon-show {
+            margin-left: 10px;
+            .rtl & {
+                margin-left: 0;
+                margin-right: 10px;
+            }
+        }
+        #format-rules-edit-btn-icon-reverse {
+            display: inline-block;
+            float: right;
+            .rtl & {
+                float: left;
+            }
+        }
+    }
+    #format-rules-combo-icon-5,
+    #format-rules-txt-icon-5,
+    #format-rules-edit-combo-op-5,
+    #format-rules-edit-txt-value-5,
+    #format-rules-edit-combo-type-5,
+    #format-rules-combo-icon-4,
+    #format-rules-txt-icon-4,
+    #format-rules-edit-combo-op-4,
+    #format-rules-edit-txt-value-4,
+    #format-rules-edit-combo-type-4,
+    #format-rules-combo-icon-3,
+    #format-rules-txt-icon-3,
+    #format-rules-edit-combo-op-3,
+    #format-rules-edit-txt-value-3,
+    #format-rules-edit-combo-type-3,
+    #format-rules-combo-icon-2,
+    #format-rules-txt-icon-2,
+    #format-rules-edit-combo-op-2,
+    #format-rules-edit-txt-value-2,
+    #format-rules-edit-combo-type-2,
+    #format-rules-combo-icon-1,
+    #format-rules-txt-icon-1,
+    #format-rules-edit-combo-op-1,
+    #format-rules-edit-txt-value-1,
+    #format-rules-edit-combo-type-1 {
+        display: inline-block;
+        vertical-align: middle;
+    }
+    #format-rules-combo-icon-5,
+    #format-rules-txt-icon-5,
+    #format-rules-edit-combo-op-5,
+    #format-rules-edit-txt-value-5,
+    #format-rules-combo-icon-4,
+    #format-rules-txt-icon-4,
+    #format-rules-edit-combo-op-4,
+    #format-rules-edit-txt-value-4,
+    #format-rules-combo-icon-3,
+    #format-rules-txt-icon-3,
+    #format-rules-edit-combo-op-3,
+    #format-rules-edit-txt-value-3,
+    #format-rules-combo-icon-2,
+    #format-rules-txt-icon-2,
+    #format-rules-edit-combo-op-2,
+    #format-rules-edit-txt-value-2,
+    #format-rules-combo-icon-1,
+    #format-rules-txt-icon-1,
+    #format-rules-edit-combo-op-1,
+    #format-rules-edit-txt-value-1 {
+        margin-right: 5px;
+        .rtl & {
+            margin-right: 0;
+            margin-left: 5px;
+        }
+    }
+    #format-rules-txt-icon-5,
+    #format-rules-txt-icon-4,
+    #format-rules-txt-icon-3,
+    #format-rules-txt-icon-2,
+    #format-rules-txt-icon-1 {
+        width: 130px;
+    }
+    #format-rules-edit-txt-value-5,
+    #format-rules-edit-txt-value-4,
+    #format-rules-edit-txt-value-3,
+    #format-rules-edit-txt-value-2,
+    #format-rules-edit-txt-value-1 {
+        height: 22px;
+    }
+}
+
+#id-protected-range-list-user {
+    .listview:not(.disabled) > .item {
+        .list-item {
+            position: relative;
+        }
+        .listitem-icon {
+            position: absolute;
+            display: none;
+            width: 20px;
+            height: 20px;
+            right: -5px;
+            top: -3px;
+        }
+        &:not(:first-child):hover {
+            .listitem-icon {
+                display: block;
+            }
+        }
+        &.selected {
+            .listitem-icon {
+                background-position-x: -20px;
+                background-position-x: @button-small-active-icon-offset-x;
+            }
+        }
+    }
+}
+
+#protect-edit-ranges-list {
+    .lock-user {
+        top: 2px;
     }
 }

@@ -566,7 +566,9 @@
     "warnNoLicenseUsers": "Anda telah mencapai had pengguna untuk editor %1. Hubungi pasukan jualan %1 untuk naik taraf terma peribadi.",
     "warnProcessRightsChange": "Anda tidak mempunyai keizinan untuk edit fail ini.",
     "textDocumentProtected": "The document is protected. Edit settings are not available",
-    "textOk": "Ok"
+    "textOk": "Ok",
+    "titleLicenseNotActive": "License not active",
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator."
   },
   "Settings": {
     "advDRMOptions": "Fail Dilindungi",

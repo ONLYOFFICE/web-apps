@@ -174,16 +174,28 @@
 #slot-field-fontname {
     float: left;
     width: 84px;
+    .rtl & {
+        float: right;
+    }
 }
 
 #slot-field-fontsize {
     float: left;
     width: 45px;
     margin-left: 2px;
+    .rtl & {
+        float: right;
+        margin-left: 0;
+        margin-right: 2px;
+    }
 }
 
 #slot-btn-incfont, #slot-btn-decfont, #slot-btn-changecase {
     margin-left: 2px;
+    .rtl & {
+        margin-left: 0;
+        margin-right: 2px;
+    }
 }
 
 #special-paste-container,
@@ -251,24 +263,6 @@
 }
 
 .list-settings {
-    .padding-right {
-        padding-right: 5px;
-
-        .rtl & {
-            padding-right: 0;
-            padding-left: 5px;
-        }
-    }
-
-    .padding-left {
-        padding-left: 5px;
-
-        .rtl & {
-            padding-left: 0;
-            padding-right: 5px;
-        }
-    }
-
     .padding-right-big {
         padding-right: 10px;
 
@@ -477,24 +471,6 @@
 }
 
 #window-cross-ref {
-    .padding-right {
-        padding-right: 5px;
-
-        .rtl & {
-            padding-right: 0;
-            padding-left: 5px;
-        }
-    }
-
-    .padding-left {
-        padding-left: 5px;
-
-        .rtl & {
-            padding-left: 0;
-            padding-right: 5px;
-        }
-    }
-
     #id-dlg-cross-separate {
         margin-right: 10px;
 

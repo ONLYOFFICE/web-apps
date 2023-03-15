@@ -1894,5 +1894,21 @@
 	"SEQUENCE": {
 		"a": "(rindas, [kolonnas], [sākums], [solis])",
 		"d": "Atgriež skaitļu secību"
+	},
+	"EXPAND": {
+		"a": "(masīvs, rindas, [kolonnas], [pad_with])",
+		"d": "Paplašina masīvu līdz norādītajiem izmēriem."
+	},
+	"XMATCH": {
+		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
+		"d": "Atgriež vienuma relatīvo pozīciju masīvā. Pēc noklusējuma ir nepieciešama precīza atbilstība"
+	},
+	"FILTER": {
+		"a": "(masīvs, iekļaut, [ja_tukšs])",
+		"d": "Filtrēt diapazonu vai masīvu"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(masīvs, [formāts])",
+		"d": "Atgriež masīva teksta attēlojumu"
 	}
 }

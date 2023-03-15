@@ -473,6 +473,10 @@
 	"TAKE": "WYCINEK",
 	"DROP": "POMIŃ",
 	"SEQUENCE": "SEKWENCJA",
+	"EXPAND": "ROZSZERZ",
+	"XMATCH": "X.DOPASUJ",
+	"FILTER": "FILTRUJ",
+	"ARRAYTOTEXT": "TABLICA.NA.TEKST",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Wszystkie",

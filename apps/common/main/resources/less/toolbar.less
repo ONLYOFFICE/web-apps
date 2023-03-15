@@ -285,6 +285,9 @@
         }
         .group {
             height: 52px !important;
+            &.flex {
+                vertical-align: bottom;
+            }
         }
         &[data-tab=pivot] {
             padding: 5px 10px 0 0;
@@ -693,12 +696,23 @@
 }
 
 .btn-toolbar {
+    &:hover:not(.disabled) {
+        svg.icon {
+            .btn& {
+                opacity: 1;
+            }
+        }
+    }
+
     &:active,
     &.active {
         &:not(.disabled) {
             svg.icon {
                 fill: @icon-normal-pressed-ie;
                 fill: @icon-normal-pressed;
+                .btn& {
+                    opacity: 1;
+                }
             }
         }
     }
@@ -708,6 +722,9 @@
 
         fill: @icon-normal-ie;
         fill: @icon-normal;
+        .btn& {
+            opacity: 1;
+        }
     }
 
     &.borders--small {
@@ -835,7 +852,6 @@
         .rtl & {
             padding: 0;
             padding-right: 4px;
-            text-align: right;
         }
     }
 
@@ -949,10 +965,6 @@
 
     .rtl & {
         margin: 5px 10px 0 5px;
-    }
-
-    .group-description {
-        text-align: right;
     }
 
     .group-items-container > div {

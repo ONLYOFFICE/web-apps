@@ -1405,7 +1405,6 @@
   "DE.Views.CrossReferenceDialog.txtType": "Type referentie",
   "DE.Views.CustomColumnsDialog.textColumns": "Aantal kolommen",
   "DE.Views.CustomColumnsDialog.textSeparator": "Scheidingsmarkering kolommen",
-  "DE.Views.CustomColumnsDialog.textSpacing": "Afstand tussen kolommen",
   "DE.Views.CustomColumnsDialog.textTitle": "Kolommen",
   "DE.Views.DateTimeDialog.confirmDefault": "Stel de standaardindeling in voor {0}: \"{1}\"",
   "DE.Views.DateTimeDialog.textDefault": "stel in als standaard",

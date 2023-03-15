@@ -473,6 +473,10 @@
 	"TAKE": "TA",
 	"DROP": "UTELAT",
 	"SEQUENCE": "SEKVENS",
+	"EXPAND": "UTVID",
+	"XMATCH": "XSAMSVAR",
+	"FILTER": "FILTRER",
+	"ARRAYTOTEXT": "MATRISETILTEKST",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

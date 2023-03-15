@@ -473,6 +473,10 @@
 	"TAKE": "ÁTHELYEZ",
 	"DROP": "ELTÁVOLÍT",
 	"SEQUENCE": "SORSZÁMLISTA",
+	"EXPAND": "KITERJESZT",
+	"XMATCH": "XHOL.VAN",
+	"FILTER": "SZŰRŐ",
+	"ARRAYTOTEXT": "TÖMB.SZÖVEGGÉ",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",
