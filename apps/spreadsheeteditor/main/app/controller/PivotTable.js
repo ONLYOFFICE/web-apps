@@ -359,10 +359,19 @@ define([
 
             if (count>0 && count==Templates.length) {
                 var data = styles.menuPicker.dataViewItems;
+                var findDataViewItem = function(template) {
+                    for(var i = 0; i < data.length; i++) {
+                        if(data[i].model.get('name') && data[i].model.get('name') === template.asc_getName()) return data[i];
+                        else if(data[i].model.get('caption') === template.asc_getDisplayName()) return data[i];
+                    }
+                    return undefined;
+                };
+
                 data && _.each(Templates, function(template, index){
                     var img = template.asc_getImage();
-                    data[index].model.set('imageUrl', img, {silent: true});
-                    $(data[index].el).find('img').attr('src', img);
+                    var dataViewItem = findDataViewItem(template);
+                    dataViewItem && dataViewItem.model.set('imageUrl', img, {silent: true});
+                    dataViewItem && $(dataViewItem.el).find('img').attr('src', img);
                 });
                 styles.fieldPicker.store.reset(styles.fieldPicker.store.models);
             } else {
