@@ -127,7 +127,8 @@ define([
                     '</section>';
 
                 this.$layout = $(options.template({
-                    tabsmarkup: _.template(_template_tabs)({items: options.tabs})
+                    tabsmarkup: _.template(_template_tabs)({items: options.tabs}),
+                    isRTL: Common.UI.isRTL()
                 }));
 
                 config.tabs = options.tabs;
