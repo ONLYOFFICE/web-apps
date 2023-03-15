@@ -521,9 +521,12 @@ define([
             var headersArr = this.stylesList.headerEl.find('.table-header-item'),
                 widthHeader = this.stylesList.headerEl.width(),
                 widthFirstHeader = $(headersArr[0]).width(),
-                marginFirstHeader = parseFloat($(headersArr[0]).css('margin-left')),
-                widthLastHeader = $(headersArr[1]).width();
-                
+                marginFirstHeader = parseFloat($(headersArr[0]).css('margin-left'));
+            
+            $(headersArr[0]).addClass('hidden');
+            var widthLastHeader = $(headersArr[1]).width();
+            $(headersArr[0]).removeClass('hidden');
+
             if(marginFirstHeader + widthFirstHeader + widthLastHeader > widthHeader) {
                 this.stylesList.setHeaderWidth(0, widthHeader - widthLastHeader - marginFirstHeader);
             }
