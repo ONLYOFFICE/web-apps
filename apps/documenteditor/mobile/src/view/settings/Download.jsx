@@ -9,6 +9,7 @@ const Download = props => {
     const storeDocumentInfo = props.storeDocumentInfo;
     const dataDoc = storeDocumentInfo.dataDoc;
     const canFeatureForms = props.storeAppOptions.canFeatureForms;
+    const isAvailableExt = dataDoc.fileType === 'docxf' || dataDoc.fileType === 'docx' || dataDoc.fileType === 'pdf' || dataDoc.fileType === 'pdfa';
 
     return (
         <Page>
@@ -18,7 +19,7 @@ const Download = props => {
                 <ListItem title="DOCX" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.DOCX)}>
                     <Icon slot="media" icon="icon-format-docx"></Icon>
                 </ListItem>
-                {canFeatureForms && (dataDoc.fileType === 'docxf' || dataDoc.fileType === 'docx') ? [
+                {canFeatureForms || isAvailableExt ? [
                     <ListItem title="DOCXF" key="DOCXF" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.DOCXF)}>
                         <Icon slot="media" icon="icon-format-docxf"></Icon>
                     </ListItem>,
@@ -51,7 +52,13 @@ const Download = props => {
                     </ListItem>,
                     <ListItem title="OTT" key="OTT" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.OTT)}>
                         <Icon slot="media" icon="icon-format-ott"></Icon>
-                    </ListItem>
+                    </ListItem>,
+                    <ListItem title="FB2" key="FB2" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.FB2)}>
+                        <Icon slot="media" icon="icon-format-fb2"></Icon>
+                    </ListItem>,
+                    <ListItem title="EPUB" key="EPUB" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.EPUB)}>
+                        <Icon slot="media" icon="icon-format-epub"></Icon>
+                    </ListItem>,
                     ]
                 : null}
             </List>

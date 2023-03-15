@@ -368,8 +368,8 @@ define([
             this.miEdit[!this.mode.isEdit && this.mode.canEdit && this.mode.canRequestEditRights ?'show':'hide']();
             this.miPrintWithPreview[this.mode.canPrint?'show':'hide']();
             this.miRename[(this.mode.canRename && !this.mode.isDesktopApp) ?'show':'hide']();
-            this.miProtect[this.mode.canProtect ?'show':'hide']();
-            separatorVisible = (this.mode.canDownload || this.mode.isEdit && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') || this.mode.canPrint || this.mode.canProtect ||
+            this.miProtect[(this.mode.isSignatureSupport || this.mode.isPasswordSupport) ?'show':'hide']();
+            separatorVisible = (this.mode.canDownload || this.mode.isEdit && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') || this.mode.canPrint || (this.mode.isSignatureSupport || this.mode.isPasswordSupport) ||
                                 !this.mode.isEdit && this.mode.canEdit && this.mode.canRequestEditRights || this.mode.canRename && !this.mode.isDesktopApp) && !this.mode.isDisconnected;
             this.miProtect.$el.find('+.devider')[separatorVisible?'show':'hide']();
             separatorVisible && (lastSeparator = this.miProtect.$el.find('+.devider'));
@@ -429,7 +429,7 @@ define([
                 !this.panels['recent'] && (this.panels['recent'] = (new SSE.Views.FileMenuPanels.RecentFiles({menu:this, recent: this.mode.recent})).render());
             }
 
-            if (this.mode.canProtect) {
+            if (this.mode.isSignatureSupport || this.mode.isPasswordSupport) {
                 !this.panels['protect'] && (this.panels['protect'] = (new SSE.Views.FileMenuPanels.ProtectDoc({menu:this})).render());
                 this.panels['protect'].setMode(this.mode);
             }

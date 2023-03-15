@@ -281,7 +281,12 @@ define([
         };
 
         const is_theme_type_system = function (id) { return themes_map[id].type == THEME_TYPE_SYSTEM; }
-        const get_system_theme_type = function () { return window.matchMedia('(prefers-color-scheme: dark)').matches ? THEME_TYPE_DARK : THEME_TYPE_LIGHT; }
+        const get_system_theme_type = function () {
+            if ( Common.Controllers.Desktop && Common.Controllers.Desktop.isActive() )
+                return Common.Controllers.Desktop.systemThemeType();
+
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? THEME_TYPE_DARK : THEME_TYPE_LIGHT;
+        }
         const get_system_default_theme = function () {
             const id = get_system_theme_type() == THEME_TYPE_DARK ?
                 id_default_dark_theme : id_default_light_theme;

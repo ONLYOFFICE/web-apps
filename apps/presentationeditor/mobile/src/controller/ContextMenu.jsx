@@ -111,7 +111,7 @@ class ContextMenu extends ContextMenuController {
         const objects = this.props.objects;
         const contextMenuElem = document.querySelector('#idx-context-menu-popover');
 
-        if(objects.indexOf('shape') > -1) {
+        if(objects?.indexOf('shape') > -1) {
             contextMenuElem.style.top = `${+(contextMenuElem.style.top.replace(/px$/, '')) - 40}px`;
         }
     }

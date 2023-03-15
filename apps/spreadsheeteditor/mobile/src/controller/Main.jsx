@@ -517,8 +517,31 @@ class MainController extends Component {
             }
         });
 
+        this.api.asc_registerCallback('asc_onNeedUpdateExternalReferenceOnOpen', this.onNeedUpdateExternalReference.bind(this));
+
         const storeAppOptions = this.props.storeAppOptions;
         this.api.asc_setFilteringMode && this.api.asc_setFilteringMode(storeAppOptions.canModifyFilter);
+    }
+
+    onNeedUpdateExternalReference() {
+        const { t } = this.props;
+
+        f7.dialog.create({
+            title: t('Controller.Main.notcriticalErrorTitle'),
+            text: t('Controller.Main.textWarnUpdateExternalData'),
+            buttons: [
+                {
+                    text: t('Controller.Main.textUpdate'),
+                    onClick: () => {
+                        const links = this.api.asc_getExternalReferences();
+                        (links && links.length) && this.api.asc_updateExternalReferences(links);
+                    } 
+                },
+                {
+                    text: t('Controller.Main.textDontUpdate')
+                }
+            ]
+        }).open();
     }
 
     onEntriesListMenu(validation, textArr, addArr) {

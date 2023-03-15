@@ -1332,6 +1332,7 @@
   "SSE.Controllers.Statusbar.zoomText": "Zoom {0}%",
   "SSE.Controllers.Toolbar.confirmAddFontName": "A fonte que você vai salvar não está disponível no dispositivo atual. <br> O estilo do texto será exibido usando uma das fontes do dispositivo, a fonte salva será usada quando estiver disponível. <br> Deseja continuar ?",
   "SSE.Controllers.Toolbar.errorComboSeries": "Para criar uma tabela de combinação, selecione pelo menos duas séries de dados.",
+  "SSE.Controllers.Toolbar.errorMaxPoints": "O máximo número de pontos em séries por gráfico é 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "ERRO! O número máximo de séries de dado por gráfico é 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Ordem da linha incorreta. Para criar um gráfico de ações coloque os dados na planilha na seguinte ordem:<br> preço de abertura, preço máx., preço mín., preço de fechamento.",
   "SSE.Controllers.Toolbar.textAccent": "Acentos",

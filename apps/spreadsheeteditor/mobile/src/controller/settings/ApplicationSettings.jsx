@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { ApplicationSettings } from "../../view/settings/ApplicationSettings";
 import {observer, inject} from "mobx-react";
 import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage.mjs';
+import { withTranslation } from 'react-i18next';
 import {FunctionGroups} from '../../controller/add/AddFunction';
 
 class ApplicationSettingsController extends Component {
@@ -11,9 +12,37 @@ class ApplicationSettingsController extends Component {
         this.onChangeDisplayComments = this.onChangeDisplayComments.bind(this);
         this.onRegSettings = this.onRegSettings.bind(this);
         this.initRegSettings = this.initRegSettings.bind(this);
+        this.initFormulaLangsCollection = this.initFormulaLangsCollection.bind(this);
+
         this.props.storeApplicationSettings.initRegData();
         this.initRegSettings();
         this.props.storeApplicationSettings.changeUnitMeasurement(Common.Utils.Metric.getCurrentMetric());
+        this.props.storeApplicationSettings.setFormulaLangsCollection(this.initFormulaLangsCollection());
+    }
+
+    initFormulaLangsCollection() {
+        const { t } = this.props;
+        const _t = t("View.Settings", { returnObjects: true });
+        const storeApplicationSettings = this.props.storeApplicationSettings;
+        const formulaLangsExamples = storeApplicationSettings.formulaLangsExamples;
+        const formulaLangs = storeApplicationSettings.formulaLangs;
+        const formulaLangsCollection = formulaLangs.map(lang => {
+            let str = lang.replace(/[\-_]/, '');
+            str = str.charAt(0).toUpperCase() + str.substring(1, str.length);
+
+            return {
+                value: lang, 
+                displayValue: _t[`txt${str}lang`] ? t(`View.Settings.txt${str}lang`) : t(`View.Settings.txt${str}`), exampleValue: formulaLangsExamples[`txtExample${str}`] || formulaLangsExamples['txtExampleEn']
+            }
+        });
+
+        formulaLangsCollection.sort(function(a, b) {
+            if (a.displayValue < b.displayValue) return -1;
+            if (a.displayValue > b.displayValue) return 1;
+            return 0;
+        });
+
+        return formulaLangsCollection;
     }
 
     initRegSettings() {
@@ -111,4 +140,4 @@ class ApplicationSettingsController extends Component {
 }
 
 
-export default inject("storeApplicationSettings", "storeAppOptions")(observer(ApplicationSettingsController));
+export default inject("storeApplicationSettings", "storeAppOptions")(observer(withTranslation()(ApplicationSettingsController)));

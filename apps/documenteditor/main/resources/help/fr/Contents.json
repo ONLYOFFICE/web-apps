@@ -29,6 +29,7 @@
         "src": "ProgramInterface/ReviewTab.htm",
         "name": "Onglet Collaboration"
     },
+    {"src": "ProgramInterface/ProtectionTab.htm", "name": "Onglet Protection" },
     {"src": "ProgramInterface/ViewTab.htm", "name": "Onglet Affichage"},
   {
     "src": "ProgramInterface/PluginsTab.htm",
@@ -166,7 +167,7 @@
         "src": "UsageInstructions/InsertTextObjects.htm",
         "name": "Insérer des objets textuels"
     },
-    {"src": "UsageInstructions/SupportSmartArt.htm", "name": "Prise en charge des graphiques SmartArt" },
+    {"src": "UsageInstructions/InsertSmartArt.htm", "name": "Insérer des graphiques SmartArt" },
     { "src": "UsageInstructions/AddCaption.htm", "name": "Ajouter une légende" },
     { "src": "UsageInstructions/InsertSymbols.htm", "name": "Insérer des symboles et des caractères" },
   {

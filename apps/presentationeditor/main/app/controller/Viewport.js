@@ -369,6 +369,7 @@ define([
                 } : {});
                 this.searchBar.on('hide', _.bind(function () {
                     this.header.btnSearch.toggle(false, true);
+                    Common.NotificationCenter.trigger('edit:complete');
                 }, this));
             }
             if (this.header.btnSearch.pressed) {

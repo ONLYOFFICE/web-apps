@@ -384,6 +384,24 @@ define([
             }
         },
 
+        findPagePreset: function (panel, w, h) {
+            var width = (w<h) ? w : h,
+                height = (w<h) ? h : w;
+            var store = panel.cmbPaperSize.store,
+                item = null;
+            for (var i=0; i<store.length-1; i++) {
+                var rec = store.at(i),
+                    value = rec.get('value'),
+                    pagewidth = parseFloat(/^\d{3}\.?\d*/.exec(value)),
+                    pageheight = parseFloat(/\d{3}\.?\d*$/.exec(value));
+                if (Math.abs(pagewidth - width) < 0.1 && Math.abs(pageheight - height) < 0.1) {
+                    item = rec;
+                    break;
+                }
+            }
+            return item ? item.get('caption') : undefined;
+        },
+
         resultPrintSettings: function(result, value) {
             var view = SSE.getController('Toolbar').getView('Toolbar');
             if (result == 'ok') {
@@ -395,6 +413,20 @@ define([
                     this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
                     this.adjPrintParams.asc_setIgnorePrintArea(this.printSettingsDlg.getIgnorePrintArea());
                     Common.localStorage.setItem("sse-print-settings-range", printtype);
+
+                    var sheetIndex = printtype === Asc.c_oAscPrintType.EntireWorkbook ? 0 : this.api.asc_getActiveWorksheetIndex(),
+                        props = this._changedProps[sheetIndex] || this.api.asc_getPageOptions(sheetIndex),
+                        pageSetup = props.asc_getPageSetup(),
+                        size = [pageSetup.asc_getWidth(), pageSetup.asc_getHeight()],
+                        orientation = pageSetup.asc_getOrientation();
+                    this.adjPrintParams.asc_setNativeOptions({
+                        paperSize: {
+                            w: size[0],
+                            h: size[1],
+                            preset: this.findPagePreset(this.printSettingsDlg, size[0], size[1])
+                        },
+                        paperOrientation: !orientation ? 'portrait' : 'landscape'
+                    });
 
                     if ( this.printSettingsDlg.type=='print' ) {
                         var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
@@ -429,6 +461,20 @@ define([
                 this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
                 this.adjPrintParams.asc_setIgnorePrintArea(this.printSettings.getIgnorePrintArea());
                 Common.localStorage.setItem("sse-print-settings-range", printType);
+
+                var sheetIndex = printType === Asc.c_oAscPrintType.EntireWorkbook ? 0 : this.api.asc_getActiveWorksheetIndex(),
+                    props = this._changedProps[sheetIndex] || this.api.asc_getPageOptions(sheetIndex),
+                    pageSetup = props.asc_getPageSetup(),
+                    size = [pageSetup.asc_getWidth(), pageSetup.asc_getHeight()],
+                    orientation = pageSetup.asc_getOrientation();
+                this.adjPrintParams.asc_setNativeOptions({
+                    paperSize: {
+                        w: size[0],
+                        h: size[1],
+                        preset: this.findPagePreset(this.printSettings, size[0], size[1])
+                    },
+                    paperOrientation: !orientation ? 'portrait' : 'landscape'
+                });
 
                 if (print) {
                     var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);

@@ -184,6 +184,7 @@
   "LongActions": {
     "applyChangesTextText": "A carregar dados...",
     "applyChangesTitleText": "A carregar dados",
+    "confirmMaxChangesSize": "O tamanho das ações excede a limitação definida para o seu servidor.<br>Pressione \"Desfazer\" para cancelar a sua última ação ou pressione \"Continuar\" para manter a ação localmente (precisa de transferir o ficheiro ou copiar o seu conteúdo para garantir que nada seja perdido).",
     "downloadTextText": "A descarregar documento...",
     "downloadTitleText": "A descarregar documento",
     "loadFontsTextText": "A carregar dados...",
@@ -212,8 +213,7 @@
     "txtEditingMode": "Definir modo de edição…",
     "uploadImageTextText": "A carregar imagem...",
     "uploadImageTitleText": "A carregar imagem",
-    "waitText": "Aguarde…",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost)."
+    "waitText": "Aguarde…"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Este documento tem alterações não guardadas. Clique 'Ficar na página' para que o documento seja guardado automaticamente. Clique 'Sair da página' para rejeitar todas as alterações.",

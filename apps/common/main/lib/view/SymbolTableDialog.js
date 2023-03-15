@@ -471,7 +471,7 @@ define([
                             '<tr>',
                                 '<td>',
                                     '<label>' + this.textCharacter + '</label>',
-                                    '<label id="symbol-table-lbl-shortcut" style="float: right; width: 107px;">' + this.textShortcut + '</label>',
+                                    '<label id="symbol-table-lbl-shortcut" style="float: right; min-width: 112px;">' + this.textShortcut + '</label>',
                                 '</td>',
                             '</tr>',
                             '<tr>',
@@ -729,14 +729,14 @@ define([
             this.updateView(undefined, undefined, undefined, true);
 
             // special
-            var data = [{symbol: '—',  description: this.textEmDash,       shortcutKey: 'Alt+Ctrl+Num -', code: '2014'},
+            var data = [{symbol: '—',  description: this.textEmDash,       shortcutKey: Common.Utils.String.platformKey(Common.Utils.isMac ? 'Alt Shift -' : 'Alt+Ctrl+Num -', '{0}'), code: '2014'},
                         {symbol: '–',   description: this.textEnDash,       shortcutKey: '', code: '2013'},
-                        {symbol: '‑',   description: this.textNBHyphen,     shortcutKey: 'Ctrl+Shift+_', code: '002D', special: {"NonBreakingHyphen":true}},
+                        {symbol: '‑',   description: this.textNBHyphen,     shortcutKey: Common.Utils.String.platformKey(Common.Utils.isMac ? 'Ctrl Shift _' : 'Ctrl+Shift+_', '{0}'), code: '002D', special: {"NonBreakingHyphen":true}},
                         // {symbol: '',    description: this.textSHyphen,      shortcutKey: 'Alt+-', code: '00AD'},
                         {symbol: '',    description: this.textEmSpace,      shortcutKey: '', code: '2003'},
                         {symbol: '',    description: this.textEnSpace,      shortcutKey: '', code: '2002'},
                         {symbol: '',    description: this.textQEmSpace,     shortcutKey: '', code: '2005'},
-                        {symbol: '°',   description: this.textNBSpace,      shortcutKey: 'Ctrl+Shift+Space', code: '00A0'},
+                        {symbol: '°',   description: this.textNBSpace,      shortcutKey: Common.Utils.String.platformKey(Common.Utils.isMac ? 'Alt ' : 'Ctrl+Shift+', '{0}') + 'Space', code: '00A0'},
                         {symbol: '©',   description: this.textCopyright,    shortcutKey: '', code: '00A9'},
                         {symbol: '®',   description: this.textRegistered,   shortcutKey: '', code: '00AE'},
                         {symbol: '™',  description: this.textTradeMark,    shortcutKey: '', code: '2122'},
@@ -758,7 +758,7 @@ define([
                         '<div style="width:70px;text-align: center; padding-right: 5px;"><%= symbol %></div>',
                         '<div style="flex-grow:1;padding-right: 5px;"><%= description %></div>',
                         '<% if (' + this.showShortcutKey + ') { %>',
-                            '<div style="width:100px;"><%= shortcutKey %></div>',
+                            '<div style="width:105px;"><%= shortcutKey %></div>',
                         '<% } %>',
                     '</div>'
                 ].join(''))

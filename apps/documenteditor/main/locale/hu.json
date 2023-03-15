@@ -1484,7 +1484,7 @@
   "DE.Views.BookmarksDialog.textSort": "Rendezés",
   "DE.Views.BookmarksDialog.textTitle": "Könyvjelzők",
   "DE.Views.BookmarksDialog.txtInvalidName": "A könyvjelző neve kizárólag betűket, számokat és alulvonást tartalmazhat, és betűvel kezdődhet.",
-  "DE.Views.CaptionDialog.textAdd": "Címke hozzáadás",
+  "DE.Views.CaptionDialog.textAdd": "Hozzáadás",
   "DE.Views.CaptionDialog.textAfter": "Utána",
   "DE.Views.CaptionDialog.textBefore": "Elötte",
   "DE.Views.CaptionDialog.textCaption": "Felirat",

@@ -243,7 +243,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 menuStyle   : 'min-width: 85px;',
                 takeFocusOnClose: true
             });
-            this.cmbLineRule.setValue(this.CurLineRuleIdx);
+            this.cmbLineRule.setValue('');
             this.cmbLineRule.on('selected', _.bind(this.onLineRuleSelect, this));
 
             this.numLineHeight = new Common.UI.MetricSpinner({
@@ -855,7 +855,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 this.numSpacingAfter.setValue((value !== null) ? (value<0 ? value : Common.Utils.Metric.fnRecalcFromMM(value)) : '', true);
 
                 var linerule = props.get_Spacing().get_LineRule();
-                this.cmbLineRule.setValue((linerule !== null) ? linerule : '', true);
+                this.cmbLineRule.setValue((linerule !== null) ? linerule : '');
 
                 if(props.get_Spacing() !== null && props.get_Spacing().get_Line() !== null) {
                     this.numLineHeight.setValue((linerule==c_paragraphLinerule.LINERULE_AUTO) ? props.get_Spacing().get_Line() : Common.Utils.Metric.fnRecalcFromMM(props.get_Spacing().get_Line()), true);
@@ -995,8 +995,9 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             this._arrLineRule[2].minValue =  this._arrLineRule[0].minValue = parseFloat(Common.Utils.Metric.fnRecalcFromMM(0.3).toFixed(2));
             this._arrLineRule[2].step =  this._arrLineRule[0].step = (Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt) ? 1 : 0.01;
             if (this.CurLineRuleIdx !== null) {
-                this.numLineHeight.setDefaultUnit(this._arrLineRule[this.CurLineRuleIdx].defaultUnit);
-                this.numLineHeight.setStep(this._arrLineRule[this.CurLineRuleIdx].step);
+                var rec = this._arrLineRule[this.CurLineRuleIdx !== -1 ? this.CurLineRuleIdx : 0];
+                this.numLineHeight.setDefaultUnit(rec.defaultUnit);
+                this.numLineHeight.setStep(rec.step);
             }
         },
 

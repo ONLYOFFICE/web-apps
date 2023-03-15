@@ -261,18 +261,24 @@ define([
                     if ( me.helpUrl() ) {
                         fetch(build_url(me.helpUrl(), Common.Locale.getDefaultLanguage(), '/Contents.json'))
                             .then(function (response) {
-                                if ( response.ok ) {
-                                    /* remote help avail */
-                                    fetch(build_url(me.helpUrl(), Common.Locale.getCurrentLanguage(), '/Contents.json'))
-                                        .then(function (response) {
-                                            if ( response.ok ) {
-                                                helpUrl = build_url(me.helpUrl(), Common.Locale.getCurrentLanguage(), '');
-                                            }
-                                        })
-                                        .catch(function (e) {
-                                            helpUrl = build_url(me.helpUrl(), Common.Locale.getDefaultLanguage(), '');
-                                        });
-                                }
+                                // if ( response.ok )
+                                    return response.json();
+                            })
+                            .then(function (text) {
+                                /* remote help avail */
+                                fetch(build_url(me.helpUrl(), Common.Locale.getCurrentLanguage(), '/Contents.json'))
+                                    .then(function (response) {
+                                        // if ( response.ok )
+                                            return response.json();
+                                    })
+                                    .then(function (t) {
+                                        helpUrl = build_url(me.helpUrl(), Common.Locale.getCurrentLanguage(), '');
+                                    })
+                                    .catch(function (e) {
+                                        helpUrl = build_url(me.helpUrl(), Common.Locale.getDefaultLanguage(), '');
+                                    });
+                            })
+                            .catch(function (e){
                             })
                     }
                 });
@@ -525,6 +531,10 @@ define([
             },
             getDefaultPrinterName: function () {
                 return nativevars ? nativevars.defaultPrinterName : '';
+            },
+            systemThemeType: function () {
+                return nativevars.theme && !!nativevars.theme.system ? nativevars.theme.system :
+                            window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
             },
         };
     };

@@ -112,23 +112,31 @@ class MainPage extends Component {
     render() {
         const appOptions = this.props.storeAppOptions;
         const config = appOptions.config;
+        const isShowPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
 
-        let showLogo = !(config.customization && (config.customization.loaderName || config.customization.loaderLogo));
-        if ( !Object.keys(config).length ) {
-            showLogo = !/&(?:logo)=/.test(window.location.search);
+        let isHideLogo = true,
+            isCustomization = true,
+            isBranding = true;
+
+        if (!appOptions.isDisconnected && config?.customization) {
+            isCustomization = !!(config.customization && (config.customization.loaderName || config.customization.loaderLogo));
+            isBranding = appOptions.canBranding || appOptions.canBrandingExt;
+
+            if (!Object.keys(config).length) {
+                isCustomization = !/&(?:logo)=/.test(window.location.search);
+            }
+
+            isHideLogo = isCustomization && isBranding; 
         }
-
-        const showPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
-        const isBranding = appOptions.canBranding || appOptions.canBrandingExt;
 
         return (
             <Fragment>
                 {!this.state.previewVisible ? null : <Preview onclosed={this.handleOptionsViewClosed.bind(this, 'preview')} />}
-                <Page name="home" className={`editor${ showLogo ? ' page-with-logo' : ''}`}>
+                <Page name="home" className={`editor${!isHideLogo ? ' page-with-logo' : ''}`}>
                     {/* Top Navbar */}
                     <Navbar id='editor-navbar'
-                            className={`main-navbar${(!isBranding && showLogo) ? ' navbar-with-logo' : ''}`}>
-                        {(!isBranding && showLogo) && <div className="main-logo" onClick={() => {
+                            className={`main-navbar${!isHideLogo ? ' navbar-with-logo' : ''}`}>
+                        {!isHideLogo && <div className="main-logo" onClick={() => {
                             window.open(`${__PUBLISHER_URL__}`, "_blank");
                         }}><Icon icon="icon-logo"></Icon></div>}
                         <Subnavbar>
@@ -140,7 +148,7 @@ class MainPage extends Component {
                     {/* Page content */}
                     <View id="editor_sdk" />
 
-                    {showPlaceholder ?
+                    {isShowPlaceholder ?
                         <div className="doc-placeholder">
                             <div className="slide-h">
                                 <div className="slide-v">

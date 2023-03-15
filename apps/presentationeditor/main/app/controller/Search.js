@@ -313,7 +313,14 @@ define([
                     var el = document.createElement("div"),
                         isSelected = ind === me._state.currentResult;
                     el.className = 'item';
-                    el.innerHTML = item[1].trim();
+                    var innerHtml = "";
+                    for (var i = 0, count = item[1].length; i < count; ++i) {
+                        if (1 == i)
+                            innerHtml += "<b>" + Common.Utils.String.htmlEncode(item[1][i]) + "</b>";
+                        else
+                            innerHtml += Common.Utils.String.htmlEncode(item[1][i]);
+                    }
+                    el.innerHTML = innerHtml.trim();
                     me.view.$resultsContainer.append(el);
                     if (isSelected) {
                         $(el).addClass('selected');
