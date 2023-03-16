@@ -75,7 +75,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
             this.locked     = options.locked || false;
             this.userTooltip = true;
             this.currentRange = 0;
-            this.currentUserId = options.currentUserId;
+            this.currentUser = options.currentUser;
             this.canRequestUsers = options.canRequestUsers;
 
             this.wrapEvents = {
@@ -182,7 +182,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
                         rangeId: ranges[i].asc_getId() || '',
                         users: users,
                         props: ranges[i],
-                        canEdit: _.indexOf(users, this.currentUserId)>=0,
+                        canEdit: _.indexOf(users, this.currentUser.id)>=0,
                         lock: (id!==null && id!==undefined),
                         lockuser: (id) ? (this.isUserVisible(id) ? this.getUserName(id) : this.lockText) : this.guestText
                     });
@@ -271,7 +271,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
                 isEdit  : isEdit,
                 api     : me.api,
                 canRequestUsers: me.canRequestUsers,
-                currentUser: {id: me.currentUserId, name: me.getUserName(me.currentUserId, true)},
+                currentUser: {id: me.currentUser.id, name: me.getUserName(me.currentUser.id, true)},
                 handler : function(result, newprops) {
                     if (result == 'ok') {
                         me.currentRange = newprops;
@@ -408,8 +408,9 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
                 lock = rec && rec.length>0 ? _.find(rec, function(item) { return !!item.get('lock'); }) : true,
                 length = this.rangeList.store.length,
                 canEdit = rec && rec.length>0 ? !_.find(rec, function(item) { return !item.get('canEdit'); }) : false;
-            this.btnDeleteRange.setDisabled(length<1 || lock || !canEdit);
-            this.btnEditRange.setDisabled(length<1 || !(rec && rec.length===1) || lock || !canEdit);
+            this.btnDeleteRange.setDisabled(length<1 || lock || !canEdit || !!this.currentUser.anonymous);
+            this.btnEditRange.setDisabled(length<1 || !(rec && rec.length===1) || lock || !canEdit || !!this.currentUser.anonymous);
+            this.btnNewRange.setDisabled(!!this.currentUser.anonymous);
         },
 
         onApiSheetChanged: function() {
