@@ -21,41 +21,63 @@ class DownloadController extends Component {
 
     onSaveFormat(format) {
         const api = Common.EditorApi.get();
+        const storeDocumentInfo = this.props.storeDocumentInfo;
+        const dataDoc = storeDocumentInfo.dataDoc;
+        const fileType = dataDoc.fileType;
         const { t } = this.props;
         const _t = t("Settings", { returnObjects: true });
 
-        if(format) {
-            this.closeModal();
-            if (format == Asc.c_oAscFileType.TXT || format == Asc.c_oAscFileType.RTF) {
-                f7.dialog.create({
-                    title: _t.notcriticalErrorTitle,
-                    text: (format === Asc.c_oAscFileType.TXT) ? _t.textDownloadTxt : _t.textDownloadRtf,
-                    buttons: [
-                        {
-                            text: _t.textCancel
-                        },
-                        {
-                            text: _t.textOk,
-                            onClick: () => {
-                                if (format == Asc.c_oAscFileType.TXT) {
-                                    const advOptions = api.asc_getAdvancedOptions();
-                                    Common.Notifications.trigger('openEncoding', Asc.c_oAscAdvancedOptionsID.TXT, advOptions, 2, new Asc.asc_CDownloadOptions(format));
-                                }
-                                else {
-                                    setTimeout(() => {
-                                        api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
-                                    }, 400);
+        if(/^pdf|xps|oxps|djvu$/.test(fileType)) {
+            if(format) {
+                this.closeModal();
+
+                if (format == Asc.c_oAscFileType.TXT || format == Asc.c_oAscFileType.RTF) {
+                    f7.dialog.create({
+                        title: _t.notcriticalErrorTitle,
+                        text: (format === Asc.c_oAscFileType.TXT) ? _t.textDownloadTxt : _t.textDownloadRtf,
+                        buttons: [
+                            {
+                                text: _t.textCancel
+                            },
+                            {
+                                text: _t.textOk,
+                                onClick: () => {
+                                    if (format == Asc.c_oAscFileType.TXT) {
+                                        const advOptions = api.asc_getAdvancedOptions();
+                                        Common.Notifications.trigger('openEncoding', Asc.c_oAscAdvancedOptionsID.TXT, advOptions, 2, new Asc.asc_CDownloadOptions(format));
+                                    } else {
+                                        setTimeout(() => {
+                                            api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
+                                        }, 400);
+                                    }
                                 }
                             }
-                        }
-                    ],
-                }).open();
-            } 
-            else {
-                setTimeout(() => {
-                    api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
-                }, 400);
+                        ],
+                    }).open();
+                } else {
+                    f7.dialog.create({
+                        title: _t.notcriticalErrorTitle,
+                        text: t('Main.warnDownloadAsPdf').replaceAll('{0}', fileType.toUpperCase()), 
+                        buttons: [
+                            {
+                                text: _t.textCancel
+                            },
+                            {
+                                text: _t.textOk,
+                                onClick: () => {
+                                    const options = new Asc.asc_CDownloadOptions(format);
+                                    options.asc_setTextParams(new AscCommon.asc_CTextParams(Asc.c_oAscTextAssociation.PlainLine));
+                                    api.asc_DownloadAs(options);
+                                }
+                            }
+                        ],
+                    }).open();
+                }
             }
+        } else {
+            setTimeout(() => {
+                api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
+            }, 400);
         }
     }
 
@@ -66,7 +88,7 @@ class DownloadController extends Component {
     }
 }
 
-const DownloadWithTranslation = inject("storeAppOptions")(observer(withTranslation()(DownloadController)));
+const DownloadWithTranslation = inject("storeAppOptions", "storeDocumentInfo")(observer(withTranslation()(DownloadController)));
 
 const onAdvancedOptions = (type, _t, isDocReady, canRequestClose, isDRM) => {
     if ($$('.dlg-adv-options.modal-in').length > 0) return;

@@ -11,7 +11,9 @@ export class storeAppOptions {
 
             lostEditingRights: observable,
             changeEditingRights: action,
+            
             canBranding: observable,
+            canBrandingExt: observable,
 
             isDocReady: observable,
             changeDocReady: action
@@ -26,7 +28,9 @@ export class storeAppOptions {
         this.canViewComments = value;
     }
 
-    canBranding = undefined;
+    canBranding = true;
+    canBrandingExt = true;
+
     lostEditingRights = false;
     changeEditingRights (value) {
         this.lostEditingRights = value;

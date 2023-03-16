@@ -72,8 +72,8 @@ export class storeAppOptions {
         this.readerMode = !this.readerMode;
     }
 
-    canBrandingExt = false;
-    canBranding = false;
+    canBrandingExt = true;
+    canBranding = true;
 
     isDocReady = false;
     changeDocReady (value) {
@@ -160,8 +160,9 @@ export class storeAppOptions {
         this.trialMode = params.asc_getLicenseMode();
 
         const type = /^(?:(pdf|djvu|xps|oxps))$/.exec(document.fileType);
-        this.canDownloadOrigin = permissions.download !== false && (type && typeof type[1] === 'string');
-        this.canDownload = permissions.download !== false && (!type || typeof type[1] !== 'string');
+        
+        this.canDownloadOrigin = false;
+        this.canDownload = permissions.download !== false;
         this.canReader = (!type || typeof type[1] !== 'string');
 
         this.canBranding = params.asc_getCustomization();

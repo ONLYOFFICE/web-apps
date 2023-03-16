@@ -57,16 +57,24 @@ const routes = [
     }
 ];
 
-const AddLayoutNavbar = ({ tabs, inPopover }) => {
+const AddLayoutNavbar = ({ tabs, inPopover, storeTableSettings }) => {
     const isAndroid = Device.android;
     const { t } = useTranslation();
     const _t = t('Add', {returnObjects: true});
+
+    const getTableStylesPreviews = async () => {
+        if(!storeTableSettings.arrayStylesDefault.length) {
+            const api = Common.EditorApi.get();
+            setTimeout(() => storeTableSettings.setStyles(api.asc_getTableStylesPreviews(true), 'default'), 1);
+        }
+    };
+
     return (
         <Navbar>
             {tabs.length > 1 ?
                 <div className='tab-buttons tabbar'>
                     {tabs.map((item, index) =>
-                        <Link key={"de-link-" + item.id} tabLink={"#" + item.id} tabLinkActive={index === 0}>
+                        <Link key={"de-link-" + item.id} onClick={() => getTableStylesPreviews()} tabLink={"#" + item.id} tabLinkActive={index === 0}>
                             <Icon slot="media" icon={item.icon}></Icon>
                         </Link>)}
                     {isAndroid && <span className='tab-link-highlight' style={{width: 100 / tabs.lenght + '%'}}></span>}
@@ -78,11 +86,11 @@ const AddLayoutNavbar = ({ tabs, inPopover }) => {
     )
 };
 
-const AddLayoutContent = ({ tabs, onGetTableStylesPreviews }) => {
+const AddLayoutContent = ({ tabs }) => {
     return (
         <Tabs animated>
             {tabs.map((item, index) =>
-                <Tab key={"de-tab-" + item.id} onTabShow={(e) => {e.id === 'add-table' && onGetTableStylesPreviews()}} id={item.id} className="page-content" tabActive={index === 0}>
+                <Tab key={"de-tab-" + item.id} id={item.id} className="page-content" tabActive={index === 0}>
                     {item.component}
                 </Tab>
             )}
@@ -90,7 +98,7 @@ const AddLayoutContent = ({ tabs, onGetTableStylesPreviews }) => {
     )
 };
 
-const AddTabs = inject("storeFocusObjects", "storeTableSettings")(observer(({storeFocusObjects,storeTableSettings, showPanels, style, inPopover, onCloseLinkSettings}) => {
+const AddTabs = inject("storeFocusObjects", "storeTableSettings")(observer(({storeFocusObjects, showPanels, storeTableSettings, style, inPopover, onCloseLinkSettings}) => {
     const { t } = useTranslation();
     const _t = t('Add', {returnObjects: true});
     const api = Common.EditorApi.get();
@@ -197,18 +205,11 @@ const AddTabs = inject("storeFocusObjects", "storeTableSettings")(observer(({sto
     //     });
     // }
 
-    const onGetTableStylesPreviews = () => {
-        if(storeTableSettings.arrayStylesDefault.length == 0) {
-            const api = Common.EditorApi.get();
-            setTimeout(() => storeTableSettings.setStyles(api.asc_getTableStylesPreviews(true), 'default'), 1);
-        }
-    }
-
     return (
         <View style={style} stackPages={true} routes={routes}>
             <Page pageContent={false}>
-                <AddLayoutNavbar tabs={tabs} inPopover={inPopover}/>
-                <AddLayoutContent tabs={tabs} onGetTableStylesPreviews={onGetTableStylesPreviews}/>
+                <AddLayoutNavbar tabs={tabs} inPopover={inPopover} storeTableSettings={storeTableSettings} />
+                <AddLayoutContent tabs={tabs} />
             </Page>
         </View>
     )
