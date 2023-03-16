@@ -385,7 +385,7 @@ define([
             }
             this.api.asc_registerCallback('asc_onShowForeignCursorLabel',       _.bind(this.onShowForeignCursorLabel, this));
             this.api.asc_registerCallback('asc_onHideForeignCursorLabel',       _.bind(this.onHideForeignCursorLabel, this));
-
+            this.api.asc_registerCallback('onPluginContextMenu',                _.bind(this.onPluginContextMenu, this));
             return this;
         },
 
@@ -2558,6 +2558,7 @@ define([
 
                 menu.show();
                 me.currentMenu = menu;
+                me.api.onPluginContextMenuShow && me.api.onPluginContextMenuShow();
             }
         },
 
@@ -4465,6 +4466,12 @@ define([
             this._isDisabled = state;
             this._canProtect = state ? canProtect : true;
             this.disableEquationBar();
+        },
+
+        onPluginContextMenu: function(data) {
+            if (data && data.length>0 && this.documentHolder && this.currentMenu && this.currentMenu.isVisible()){
+                this.documentHolder.updateCustomItems(this.currentMenu, data);
+            }
         },
 
         guestText               : 'Guest',
