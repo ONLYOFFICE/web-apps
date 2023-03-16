@@ -16,15 +16,8 @@
                 <td colspan=2 class="padding-very-small"></td>
             </tr>
             <tr>
-                <td colspan=2>
-                    <label class="header" style="width: 188px;"><%= scope.textTitle %></label>
-                    <label class="header" style="width: 188px;"><%= scope.textRange %></label>
-                    <label class="header" style=""><%= scope.textYouCan %></label>
-                </td>
-            </tr>
-            <tr>
                 <td colspan=2 class="padding-small">
-                    <div id="protect-edit-ranges-list" class="range-tableview" style="width:100%; height: 130px;"></div>
+                    <div id="protect-edit-ranges-list" class="range-tableview" style="width:100%; height: 141px;"></div>
                 </td>
             </tr>
             <tr>
