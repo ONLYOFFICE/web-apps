@@ -3235,6 +3235,7 @@
   "SSE.Views.ProtectedRangesEditDlg.txtYouCanEdit": "Only you can edit this range",
   "SSE.Views.ProtectedRangesEditDlg.txtWhoCanEdit": "Who can edit",
   "SSE.Views.ProtectedRangesEditDlg.userPlaceholder": "Start typing name or email",
+  "SSE.Views.ProtectedRangesEditDlg.textAnonymous": "Anonymous",
   "SSE.Views.ProtectedRangesManagerDlg.guestText": "Guest",
   "SSE.Views.ProtectedRangesManagerDlg.lockText": "Locked",
   "SSE.Views.ProtectedRangesManagerDlg.textDelete": "Delete",

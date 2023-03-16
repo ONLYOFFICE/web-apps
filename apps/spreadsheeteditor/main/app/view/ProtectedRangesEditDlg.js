@@ -227,6 +227,15 @@ define([
                 this.inputRangeName.setValue(props.asc_getName());
                 this.txtDataRange.setValue(props.asc_getRef());
                 this.listUser.store.add({value: this.currentUser.id, name: this.currentUser.name + ' (' + this.textYou + ')', email: '', isCurrent: true});
+                var me = this,
+                    rangeUsers = this.props.asc_getUsers(); // TODO: get user id and name
+                if (rangeUsers && rangeUsers.length>0) {
+                    var store = me.listUser.store,
+                        count = 1;
+                    rangeUsers.forEach(function(item) {
+                        (item!==me.currentUser.id) && store.add({value: item, name: me.textAnonymous + ' ' + count++, email: ''}); // TODO: get user name
+                    });
+                }
                 this.onUserMenu(true);
             }
         },
@@ -235,7 +244,7 @@ define([
             var props = new Asc.CUserProtectedRange();
             props.asc_setName(this.inputRangeName.getValue());
             props.asc_setRef(this.txtDataRange.getValue());
-            props.asc_setUsers(this.listUser.store.pluck("value"));
+            props.asc_setUsers(this.listUser.store.pluck("value")); // TODO: set user id and name
             return props;
         },
 
@@ -312,22 +321,19 @@ define([
             if (type!=='protect') return;
 
             if (this._initSettings) {
-                var me= this,
-                    rangeUsers = this.props.asc_getUsers();
-                if (users && users.length>0) {
-                    if (_.find(users, function(item) { return item.id!==undefined && item.id!==null; })) { // has id in user info
-                        me.cmbUser.setDisabled(false);
-                        me.cmbUser._input && me.cmbUser._input.attr('placeholder', me.userPlaceholder);
-                    }
-                    if (rangeUsers && rangeUsers.length>0) {
-                        var store = me.listUser.store;
-                        rangeUsers.forEach(function(item) {
-                            var rec = _.findWhere(users, {id: item});
-                            if (rec)
-                                store.add({value: item, name: rec.name || '', email: rec.email || ''});
-                        });
-                    }
+                var me = this;
+                if (users && _.find(users, function(item) { return item.id!==undefined && item.id!==null; })) { // has id in user info
+                    me.cmbUser.setDisabled(false);
+                    me.cmbUser._input && me.cmbUser._input.attr('placeholder', me.userPlaceholder);
                 }
+                users && users.length>0 && this.listUser.store.each(function(item){
+                    if (item.get('value')===me.currentUser.id) return;
+                    var rec = _.findWhere(users, {id: item.get('value')});
+                    if (rec) {
+                        rec.name && item.set('name', rec.name);
+                        rec.email && item.set('email', rec.email);
+                    }
+                });
                 this._initSettings = false;
             }
 
@@ -345,8 +351,8 @@ define([
                 var divider = false;
                 _.each(users, function(item, index) {
                     arr.push({
-                        value: item.email,
-                        displayValue: item.name,
+                        value: item.email || '',
+                        displayValue: item.name || '',
                         userId: item.id,
                         hasDivider: !item.hasAccess && !divider && (index>0)
                     });
@@ -399,7 +405,8 @@ define([
         textTipDelete: 'Delete user',
         textYou: 'you',
         userPlaceholder: 'Start type name or email',
-        txtYouCanEdit: 'Only you can edit this range'
+        txtYouCanEdit: 'Only you can edit this range',
+        textAnonymous: 'Anonymous'
 
     }, SSE.Views.ProtectedRangesEditDlg || {}));
 });
