@@ -29,7 +29,6 @@ const AddCommentPopup = inject("storeComments")(observer(props => {
         f7.popup.open('.add-comment-popup', false);
 
         if(refInputComment) {
-            console.log(refInputComment);
             refInputComment.focus();
         }
     }, []);
