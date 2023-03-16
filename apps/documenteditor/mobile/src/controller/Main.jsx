@@ -598,12 +598,8 @@ class MainController extends Component {
             this.api.Resize();
         });
 
-        $$(window).on('popover:open popup:open sheet:open actions:open dialog:open', () => {
+        $$(window).on('popover:open popup:open sheet:open actions:open dialog:open searchbar:enable', () => {
             this.api.asc_enableKeyEvents(false);
-        });
-
-        $$(window).on('popover:close popup:close sheet:close actions:close dialog:close', () => {
-            this.api.asc_enableKeyEvents(true);
         });
 
         this.api.asc_registerCallback('asc_onDocumentUpdateVersion', this.onUpdateVersion.bind(this));
