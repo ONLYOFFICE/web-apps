@@ -158,7 +158,7 @@ define([
                     me.trigger('header:click', me.activeSortType, me.sortDirection);
                 });
 
-                if(this.tabindex != 0){
+                if(this.tabindex != 0 && this.handleSelect){
                     headerEl.on('click', function(e) {
                         me.focus();
                     });
