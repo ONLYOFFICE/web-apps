@@ -45,20 +45,18 @@ if (Common.UI === undefined) {
 }
 
 Common.UI.ExternalUsers = new( function() {
-    var externalUsers = null,
-        getCallback,
+    var externalUsers = [],
         isUsersLoading = false;
 
-    var _get = function(callback) {
+    var _get = function(type) {
         if (isUsersLoading) return;
 
-        getCallback = null;
-        if (externalUsers===null) {
-            getCallback = callback;
+        type = type || 'mention';
+        if (externalUsers[type]===undefined) {
             isUsersLoading = true;
-            Common.Gateway.requestUsers();
+            Common.Gateway.requestUsers(type || 'mention');
         } else {
-            callback(externalUsers);
+            Common.NotificationCenter.trigger('mentions:setusers', type, externalUsers[type]);
         }
     };
 
@@ -66,13 +64,17 @@ Common.UI.ExternalUsers = new( function() {
         if (!canRequestUsers) return;
 
         Common.Gateway.on('setusers', function(data) {
-            externalUsers = data.users || [];
+            if (data.users===null) {// clear user lists
+                externalUsers = [];
+                return;
+            }
+            var type = data.c || 'mention';
+            externalUsers[type] = data.users || [];
             isUsersLoading = false;
-            getCallback && getCallback(externalUsers);
-            getCallback = null;
+            Common.NotificationCenter.trigger('mentions:setusers', type, externalUsers[type]);
         });
         Common.NotificationCenter.on('mentions:clearusers',   function() {
-            externalUsers = null;
+            externalUsers = [];
         });
     };
 

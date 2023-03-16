@@ -322,8 +322,8 @@ if (window.Common === undefined) {
                 _postMessage({event:'onMakeActionLink', data: config});
             },
 
-            requestUsers:  function () {
-                _postMessage({event:'onRequestUsers'});
+            requestUsers:  function (command) {
+                _postMessage({event:'onRequestUsers', data: {c: command}});
             },
 
             requestSendNotify:  function (emails) {

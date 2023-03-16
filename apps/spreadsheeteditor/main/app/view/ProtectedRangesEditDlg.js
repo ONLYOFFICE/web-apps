@@ -91,6 +91,7 @@ define([
             _options.tpl        =   _.template(this.template)(_options);
 
             this._userStr = '';
+            this._initSettings = true;
 
             Common.UI.Window.prototype.initialize.call(this, _options);
         },
@@ -135,7 +136,8 @@ define([
                 menuStyle   : 'min-width: 100%;max-height: 233px;',
                 editable: true,
                 data: [],
-                placeHolder: this.userPlaceholder,
+                placeHolder: this.txtYouCanEdit,
+                disabled: true,
                 takeFocusOnClose: true,
                 itemsTemplate: _.template([
                     '<% _.each(items, function(item) { %>',
@@ -148,6 +150,7 @@ define([
             this.cmbUser.on('changing', this.onUserChanging.bind(this));
             this.cmbUser.on('show:after',_.bind(this.onCmbUserOpen, this));
             this.cmbUser.on('show:before',_.bind(this.onCmbUserBeforeOpen, this));
+            this.cmbUser.on('hide:after',_.bind(this.onCmbUserAfterHide, this));
             // this.cmbUser.on('changed:before', this.onUserChangedBefore.bind(this));
             Common.Utils.isChrome && this.cmbUser._input && this.cmbUser._input.attr('autocomplete', '1'); // Don't show browser menu with email addresses
 
@@ -178,7 +181,17 @@ define([
             return this.inputRangeName;
         },
 
+        close: function() {
+            this.canRequestUsers && Common.NotificationCenter.off('mentions:setusers', this.binding.onUserMenuCallback);
+            Common.UI.Window.prototype.close.apply(this, arguments);
+        },
+
         afterRender: function() {
+            if (this.canRequestUsers) {
+                this.binding = { onUserMenuCallback: _.bind(this.onUserMenuCallback, this) };
+                Common.NotificationCenter.on('mentions:setusers',   this.binding.onUserMenuCallback);
+            }
+
             this._setDefaults(this.props);
         },
 
@@ -214,28 +227,7 @@ define([
                 this.inputRangeName.setValue(props.asc_getName());
                 this.txtDataRange.setValue(props.asc_getRef());
                 this.listUser.store.add({value: this.currentUser.id, name: this.currentUser.name + ' (' + this.textYou + ')', email: '', isCurrent: true});
-                var me= this,
-                    rangeUsers = props.asc_getUsers();
-                Common.UI.ExternalUsers.get(function(users) {
-                    if (users && users.length>0) {
-                        if (!_.find(users, function(item) { return item.id!==undefined && item.id!==null; })) { // no id in user info
-                            me.cmbUser.setDisabled(true);
-                            me.cmbUser._input && me.cmbUser._input.attr('placeholder', me.txtYouCanEdit);
-                        }
-
-                        if (rangeUsers && rangeUsers.length>0) {
-                            var store = me.listUser.store;
-                            rangeUsers.forEach(function(item) {
-                                var rec = _.findWhere(users, {id: item});
-                                if (rec)
-                                    store.add({value: item, name: rec.name, email: rec.email});
-                            });
-                        }
-                    } else {
-                        me.cmbUser.setDisabled(true);
-                        me.cmbUser._input && me.cmbUser._input.attr('placeholder', me.txtYouCanEdit);
-                    }
-                });
+                this.onUserMenu(true);
             }
         },
 
@@ -291,6 +283,10 @@ define([
             this.cmbUser.setRawValue(this._userStr);
         },
 
+        onCmbUserAfterHide: function(combo, e, params) {
+            this._forceOpen = false; // need when setUsers event initiated not from combobox
+        },
+
         onUserChanging: function(combo, newValue) {
             this._userStr = newValue;
             this.onUserMenu();
@@ -307,15 +303,40 @@ define([
             this.onUserMenu();
         },
 
-        onUserMenu: function() {
-            Common.UI.ExternalUsers.get(this.onUserMenuCallback.bind(this));
+        onUserMenu: function(preventOpen) {
+            this._forceOpen = !preventOpen;
+            Common.UI.ExternalUsers.get('protect');
         },
 
-        onUserMenuCallback: function(users) {
+        onUserMenuCallback: function(type, users) {
+            if (type!=='protect') return;
+
+            if (this._initSettings) {
+                var me= this,
+                    rangeUsers = this.props.asc_getUsers();
+                if (users && users.length>0) {
+                    if (_.find(users, function(item) { return item.id!==undefined && item.id!==null; })) { // has id in user info
+                        me.cmbUser.setDisabled(false);
+                        me.cmbUser._input && me.cmbUser._input.attr('placeholder', me.userPlaceholder);
+                    }
+                    if (rangeUsers && rangeUsers.length>0) {
+                        var store = me.listUser.store;
+                        rangeUsers.forEach(function(item) {
+                            var rec = _.findWhere(users, {id: item});
+                            if (rec)
+                                store.add({value: item, name: rec.name || '', email: rec.email || ''});
+                        });
+                    }
+                }
+                this._initSettings = false;
+            }
+
+            if (!this._forceOpen && !this.cmbUser.isMenuOpen()) return;
+
             var arr = [],
                 str = this.cmbUser.getRawValue();
 
-            if (users.length>0) {
+            if (users && users.length>0) {
                 var strlc = str.toLowerCase();
                 users = _.filter(users, function(item) {
                     return (item.id !== undefined && item.id !== null) &&
@@ -332,11 +353,10 @@ define([
                     if (!item.hasAccess)
                         divider = true;
                 });
-            } else {
-
             }
             this.cmbUser.setData(arr);
             this.cmbUser.setRawValue(str);
+
             if (arr.length>0)
                 this.cmbUser.openMenu()
             else {

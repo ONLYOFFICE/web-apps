@@ -113,6 +113,10 @@ define([
 
             Common.UI.Window.prototype.initialize.call(this, _options);
 
+            if (this.canRequestUsers) {
+                Common.NotificationCenter.on('mentions:setusers',   _.bind(this.onEmailListMenuCallback, this));
+            }
+
             return this;
         },
         render: function (comments, review) {
@@ -1195,15 +1199,15 @@ define([
                     left: left,
                     right: right
                 };
-                Common.UI.ExternalUsers.get(this.onEmailListMenuCallback.bind(this));
+                Common.UI.ExternalUsers.get('mention');
             } else {
                 this._state.emailSearch = null;
                 this.emailMenu.rendered && this.emailMenu.cmpEl.css('display', 'none');
             }
         },
 
-        onEmailListMenuCallback: function(users) {
-            if (!this._state.emailSearch || users.length<1) return;
+        onEmailListMenuCallback: function(type, users) {
+            if (!this._state.emailSearch || users.length<1 || type && type!=='mention') return;
 
             var me   = this,
                 menu = me.emailMenu,
