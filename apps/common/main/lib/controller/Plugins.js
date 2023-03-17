@@ -770,39 +770,6 @@ define([
 
         // Plugin can create windows
         onPluginWindowShow: function(frameId, variation) {
-            frameId = "123";
-            variation = {
-                "description": "Highlight code",
-                "descriptionLocale": {
-                    "ru": "Подсветка кода",
-                    "fr": "Code en surbrillance",
-                    "es": "Resaltar el código",
-                    "de": "Code hervorheben"
-                },
-                "url": "http://127.0.0.1:8000/sdkjs-plugins/plugin-highlightcode/index.html?lang=en-EN&theme-type=light",
-                "isViewer": false,
-                "EditorsSupport": [ "word", "cell", "slide" ],
-                "isVisual": true,
-                "isModal": true,
-                "isInsideMode": false,
-                "isUpdateOleOnResize": false,
-                "buttons": [
-                {
-                    "text": "Ok",
-                    "primary": true
-                },
-                {
-                    "text": "Cancel",
-                    "primary": false,
-                    "textLocale": {
-                        "ru": "Отмена",
-                        "fr": "Annuler",
-                        "es": "Cancelar",
-                        "de": "Abbrechen"
-                    }
-                }]
-            };
-
             if (variation.isVisual) {
                 if (this.customPluginsDlg[frameId]) return;
 
@@ -875,7 +842,6 @@ define([
         },
 
         onPluginWindowClose: function(frameId) {
-            frameId = "123";
             if (this.customPluginsDlg[frameId])
                 this.customPluginsDlg[frameId].close();
         },
