@@ -100,6 +100,7 @@ define([
 
             this._moveOffset = {x:0, y:0};
             this.autostart = [];
+            this.customPluginsDlg = [];
 
             Common.Gateway.on('init', this.loadConfig.bind(this));
             Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
@@ -175,6 +176,12 @@ define([
                 this.api.asc_registerCallback('asc_onPluginsInit', _.bind(this.onPluginsInit, this));
                 this.api.asc_registerCallback('asc_onPluginShowButton', _.bind(this.onPluginShowButton, this));
                 this.api.asc_registerCallback('asc_onPluginHideButton', _.bind(this.onPluginHideButton, this));
+
+                this.api.asc_registerCallback("asc_onPluginWindowShow", _.bind(this.onPluginWindowShow, this));
+                this.api.asc_registerCallback("asc_onPluginWindowClose", _.bind(this.onPluginWindowClose, this));
+                this.api.asc_registerCallback("asc_onPluginWindowResize", _.bind(this.onPluginWindowResize, this));
+                this.api.asc_registerCallback("asc_onPluginWindowMouseUp", _.bind(this.onPluginWindowMouseUp, this));
+                this.api.asc_registerCallback("asc_onPluginWindowMouseMove", _.bind(this.onPluginWindowMouseMove, this));
 
                 this.loadPlugins();
             }
@@ -759,6 +766,146 @@ define([
                 Common.Utils.lockControls(Common.enumLock.docLockForms, props.isFormsOnly, {array: this.panelPlugins.lockedControls});
                 Common.Utils.lockControls(Common.enumLock.docLockComments, props.isCommentsOnly, {array: this.panelPlugins.lockedControls});
             }
+        },
+
+        // Plugin can create windows
+        onPluginWindowShow: function(frameId, variation) {
+            frameId = "123";
+            variation = {
+                "description": "Highlight code",
+                "descriptionLocale": {
+                    "ru": "Подсветка кода",
+                    "fr": "Code en surbrillance",
+                    "es": "Resaltar el código",
+                    "de": "Code hervorheben"
+                },
+                "url": "http://127.0.0.1:8000/sdkjs-plugins/plugin-highlightcode/index.html?lang=en-EN&theme-type=light",
+                "isViewer": false,
+                "EditorsSupport": [ "word", "cell", "slide" ],
+                "isVisual": true,
+                "isModal": true,
+                "isInsideMode": false,
+                "isUpdateOleOnResize": false,
+                "buttons": [
+                {
+                    "text": "Ok",
+                    "primary": true
+                },
+                {
+                    "text": "Cancel",
+                    "primary": false,
+                    "textLocale": {
+                        "ru": "Отмена",
+                        "fr": "Annuler",
+                        "es": "Cancelar",
+                        "de": "Abbrechen"
+                    }
+                }]
+            };
+
+            if (variation.isVisual) {
+                if (this.customPluginsDlg[frameId]) return;
+
+                var lang = this.appOptions && this.appOptions.lang ? this.appOptions.lang.split(/[\-_]/)[0] : 'en';
+                var url = variation.url; // full url
+                var visible = (this.appOptions.isEdit || variation.isViewer && (variation.isDisplayedInViewer!==false)) && _.contains(variation.EditorsSupport, this.editor) && !variation.isSystem;
+                if (visible && !variation.isInsideMode) {
+                    var me = this,
+                        isCustomWindow = variation.isCustomWindow,
+                        arrBtns = variation.buttons,
+                        newBtns = [],
+                        size = variation.size,
+                        isModal = variation.isModal;
+                    if (!size || size.length<2) size = [800, 600];
+
+                    var description = variation.description;
+                    if (typeof variation.descriptionLocale == 'object')
+                        description = variation.descriptionLocale[lang] || variation.descriptionLocale['en'] || description || '';
+
+                    _.isArray(arrBtns) && _.each(arrBtns, function(b, index){
+                        if (typeof b.textLocale == 'object')
+                            b.text = b.textLocale[lang] || b.textLocale['en'] || b.text || '';
+                        if (me.appOptions.isEdit || b.isViewer !== false)
+                            newBtns[index] = {caption: b.text, value: index, primary: b.primary, frameId: frameId};
+                    });
+
+                    var help = variation.help;
+                    me.customPluginsDlg[frameId] = new Common.Views.PluginDlg({
+                        cls: isCustomWindow ? 'plain' : '',
+                        header: !isCustomWindow,
+                        title: description,
+                        width: size[0], // inner width
+                        height: size[1], // inner height
+                        url: url,
+                        frameId : frameId,
+                        buttons: isCustomWindow ? undefined : newBtns,
+                        toolcallback: function(event) {
+                            me.api.asc_pluginButtonClick(-1, frameId);
+                        },
+                        help: !!help,
+                        modal: isModal!==undefined ? isModal : true
+                    });
+                    me.customPluginsDlg[frameId].on({
+                        'render:after': function(obj){
+                            obj.getChild('.footer .dlg-btn').on('click', function(event) {
+                                me.api.asc_pluginButtonClick(parseInt(event.currentTarget.attributes['result'].value), frameId);
+                            });
+                            me.customPluginsDlg[frameId].options.pluginContainer = me.customPluginsDlg[frameId].$window.find('#id-plugin-container');
+                        },
+                        'close': function(obj){
+                            me.customPluginsDlg[frameId] = undefined;
+                        },
+                        'drag': function(args){
+                            me.api.asc_pluginEnableMouseEvents(args[1]=='start', frameId);
+                        },
+                        'resize': function(args){
+                            me.api.asc_pluginEnableMouseEvents(args[1]=='start', frameId);
+                        },
+                        'help': function(){
+                            help && window.open(help, '_blank');
+                        },
+                        'header:click': function(type){
+                            me.api.asc_pluginButtonClick(type, frameId);
+                        }
+                    });
+
+                    me.customPluginsDlg[frameId].show();
+                }
+            }
+        },
+
+        onPluginWindowClose: function(frameId) {
+            frameId = "123";
+            if (this.customPluginsDlg[frameId])
+                this.customPluginsDlg[frameId].close();
+        },
+
+        onPluginWindowResize: function(frameId, size, minSize, maxSize, callback ) {
+            if (this.customPluginsDlg[frameId]) {
+                var resizable = (minSize && minSize.length>1 && maxSize && maxSize.length>1 && (maxSize[0] > minSize[0] || maxSize[1] > minSize[1] || maxSize[0]==0 || maxSize[1] == 0));
+                this.customPluginsDlg[frameId].setResizable(resizable, minSize, maxSize);
+                this.customPluginsDlg[frameId].setInnerSize(size[0], size[1]);
+                if (callback)
+                    callback.call();
+            }
+        },
+
+        onPluginWindowMouseUp: function(frameId, x, y) {
+            if (this.customPluginsDlg[frameId]) {
+                if (this.customPluginsDlg[frameId].binding.dragStop) this.customPluginsDlg[frameId].binding.dragStop();
+                if (this.customPluginsDlg[frameId].binding.resizeStop) this.customPluginsDlg[frameId].binding.resizeStop();
+            } else
+                Common.NotificationCenter.trigger('frame:mouseup', { pageX: x*Common.Utils.zoom()+this._moveOffset.x, pageY: y*Common.Utils.zoom()+this._moveOffset.y });
+        },
+
+        onPluginWindowMouseMove: function(frameId, x, y) {
+            if (this.customPluginsDlg[frameId]) {
+                var offset = this.customPluginsDlg[frameId].options.pluginContainer.offset();
+                if (this.customPluginsDlg[frameId].binding.drag) this.customPluginsDlg[frameId].binding.drag({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
+                if (this.customPluginsDlg[frameId].binding.resize) this.customPluginsDlg[frameId].binding.resize({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
+            } else
+                Common.NotificationCenter.trigger('frame:mousemove', { pageX: x*Common.Utils.zoom()+this._moveOffset.x, pageY: y*Common.Utils.zoom()+this._moveOffset.y });
         }
+
     }, Common.Controllers.Plugins || {}));
 });
