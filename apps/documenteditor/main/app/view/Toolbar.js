@@ -557,7 +557,7 @@ define([
                     this.btnMarkers = new Common.UI.Button({
                         id: 'id-toolbar-btn-markers',
                         cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-setmarkers',
+                        iconCls: 'toolbar__icon ' + (!Common.UI.isRTL() ? 'btn-setmarkers' : 'btn-setmarkers-rtl'),
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inChart, _set.inSmartart, _set.inSmartartInternal, _set.previewReviewMode, _set.viewFormMode,
                             _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm],
                         enableToggle: true,
@@ -574,7 +574,7 @@ define([
                     this.btnNumbers = new Common.UI.Button({
                         id: 'id-toolbar-btn-numbering',
                         cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-numbering',
+                        iconCls: 'toolbar__icon ' + (!Common.UI.isRTL() ? 'btn-numbering' : 'btn-numbering-rtl'),
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inChart, _set.inSmartart, _set.inSmartartInternal,  _set.previewReviewMode, _set.viewFormMode,
                             _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm],
                         enableToggle: true,
@@ -591,7 +591,7 @@ define([
                     this.btnMultilevels = new Common.UI.Button({
                         id: 'id-toolbar-btn-multilevels',
                         cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-multilevels',
+                        iconCls: 'toolbar__icon ' + (!Common.UI.isRTL() ? 'btn-multilevels' : 'btn-multilevels-rtl'),
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inChart, _set.inSmartart, _set.inSmartartInternal, _set.previewReviewMode, _set.viewFormMode,
                                 _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm],
                         menu: true,

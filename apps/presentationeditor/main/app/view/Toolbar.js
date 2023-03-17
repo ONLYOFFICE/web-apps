@@ -510,7 +510,7 @@ define([
                     me.btnMarkers = new Common.UI.Button({
                         id: 'id-toolbar-btn-markers',
                         cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-setmarkers',
+                        iconCls: 'toolbar__icon ' + (!Common.UI.isRTL() ? 'btn-setmarkers' : 'btn-setmarkers-rtl'),
                         lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal],
                         enableToggle: true,
                         toggleGroup: 'markersGroup',
@@ -525,7 +525,7 @@ define([
                     me.btnNumbers = new Common.UI.Button({
                         id: 'id-toolbar-btn-numbering',
                         cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-numbering',
+                        iconCls: 'toolbar__icon ' + (!Common.UI.isRTL() ? 'btn-numbering' : 'btn-numbering-rtl'),
                         lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal],
                         enableToggle: true,
                         toggleGroup: 'markersGroup',
