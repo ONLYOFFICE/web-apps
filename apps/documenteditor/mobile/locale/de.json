@@ -568,7 +568,8 @@
     "warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
     "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten.",
     "titleLicenseNotActive": "License not active",
-    "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics."
   },
   "Settings": {
     "advDRMOptions": "Geschützte Datei",

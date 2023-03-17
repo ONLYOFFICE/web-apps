@@ -568,7 +568,8 @@
     "warnLicenseUsersExceeded": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Pour en savoir plus, contactez votre administrateur.",
     "warnNoLicense": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
     "warnNoLicenseUsers": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
-    "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier."
+    "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier.",
+    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics."
   },
   "Settings": {
     "advDRMOptions": "Fichier protégé",

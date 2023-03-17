@@ -6,7 +6,7 @@
   "common.view.modals.txtWidth": "Шырыня",
   "common.view.SearchBar.textFind": "Пошук",
   "PE.ApplicationController.convertationErrorText": "Не ўдалося канверсаваць.",
-  "PE.ApplicationController.convertationTimeoutText": "Час чакання пераўтварэння сышоў.",
+  "PE.ApplicationController.convertationTimeoutText": "Час чакання ператварэння скончыўся.",
   "PE.ApplicationController.criticalErrorTitle": "Памылка",
   "PE.ApplicationController.downloadErrorText": "Не ўдалося спампаваць.",
   "PE.ApplicationController.downloadTextText": "Спампоўванне прэзентацыі…",

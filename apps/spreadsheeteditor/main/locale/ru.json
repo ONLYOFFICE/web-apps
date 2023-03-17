@@ -3233,6 +3233,7 @@
   "SSE.Views.ProtectedRangesEditDlg.txtRange": "Диапазон",
   "SSE.Views.ProtectedRangesEditDlg.txtRangeName": "Название",
   "SSE.Views.ProtectedRangesEditDlg.txtWhoCanEdit": "Кто может редактировать",
+  "SSE.Views.ProtectedRangesEditDlg.txtYouCanEdit": "Только вы можете редактировать этот диапазон",
   "SSE.Views.ProtectedRangesEditDlg.userPlaceholder": "Начните вводить имя или email",
   "SSE.Views.ProtectedRangesManagerDlg.guestText": "Гость",
   "SSE.Views.ProtectedRangesManagerDlg.lockText": "Заблокирован",
