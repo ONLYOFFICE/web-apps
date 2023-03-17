@@ -826,7 +826,7 @@ define([
                 }
                 if (this._testCanvas) {
                     var mt = this._testCanvas.measureText(text);
-                    return (mt.actualBoundingBoxLeft!==undefined) ? Math.ceil(Math.abs(mt.actualBoundingBoxLeft) + Math.abs(mt.actualBoundingBoxRight)) : (mt.width || 0);
+                    return (mt.actualBoundingBoxLeft!==undefined) ? Math.ceil(Math.abs(mt.actualBoundingBoxLeft) + Math.abs(mt.actualBoundingBoxRight)) : (mt.width ? Math.ceil(mt.width)+1 : 0);
                 }
                 return -1;
             },
