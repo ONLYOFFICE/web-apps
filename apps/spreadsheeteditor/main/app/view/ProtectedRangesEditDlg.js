@@ -159,7 +159,7 @@ define([
                 store: new Common.UI.DataViewStore(),
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;">',
-                    '<div style="width:115px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;margin-right: 4px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
+                    '<div style="width:115px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;margin-right: 4px;"><%= Common.Utils.String.htmlEncode(displayName) %></div>',
                     '<div style="width:135px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;"><%= Common.Utils.String.htmlEncode(email) %></div>',
                     '<div class="listitem-icon toolbar__icon cc-remove"></div>',
                     '</div>'
@@ -226,14 +226,14 @@ define([
             if (props) {
                 this.inputRangeName.setValue(props.asc_getName());
                 this.txtDataRange.setValue(props.asc_getRef());
-                this.listUser.store.add({value: this.currentUser.id, name: this.currentUser.name + ' (' + this.textYou + ')', email: '', isCurrent: true});
+                this.listUser.store.add({value: this.currentUser.id, name: this.currentUser.name,  displayName: this.currentUser.name + ' (' + this.textYou + ')', email: '', isCurrent: true});
                 var me = this,
-                    rangeUsers = this.props.asc_getUsers(); // TODO: get user id and name
+                    rangeUsers = this.props.asc_getUsers();
                 if (rangeUsers && rangeUsers.length>0) {
                     var store = me.listUser.store,
                         count = 1;
                     rangeUsers.forEach(function(item) {
-                        (item!==me.currentUser.id) && store.add({value: item, name: me.textAnonymous + ' ' + count++, email: ''}); // TODO: get user name
+                        (item.asc_getId()!==me.currentUser.id) && store.add({value: item.asc_getId(), name: item.asc_getName() || me.textAnonymous, displayName: item.asc_getName() || me.textAnonymous + ' ' + count++, email: ''});
                     });
                 }
                 this.onUserMenu(true);
@@ -244,7 +244,15 @@ define([
             var props = new Asc.CUserProtectedRange();
             props.asc_setName(this.inputRangeName.getValue());
             props.asc_setRef(this.txtDataRange.getValue());
-            props.asc_setUsers(this.listUser.store.pluck("value")); // TODO: set user id and name
+            var arr = [];
+            this.listUser.store.each(function(item){
+                var user = new Asc.CUserProtectedRangeUserInfo();
+                user.asc_setId(item.get('value'));
+                user.asc_setName(item.get('name'));
+                arr.push(user);
+            });
+
+            props.asc_setUsers(arr);
             return props;
         },
 
@@ -286,7 +294,7 @@ define([
             if (value!==undefined && value!=='') {
                 var rec = store.findWhere({value: value});
                 if (!rec) {
-                    store.add({value: value, name: record.displayValue, email: record.value});
+                    store.add({value: value, name: record.displayValue, displayName: record.displayValue, email: record.value});
                 }
             }
             this.cmbUser.setRawValue(this._userStr);
@@ -331,6 +339,7 @@ define([
                     var rec = _.findWhere(users, {id: item.get('value')});
                     if (rec) {
                         rec.name && item.set('name', rec.name);
+                        rec.name && item.set('displayName', rec.name);
                         rec.email && item.set('email', rec.email);
                     }
                 });
