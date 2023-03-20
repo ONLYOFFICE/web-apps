@@ -113,12 +113,15 @@ define([
                 ],
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;">',
-                        '<div style="width:240px;padding-right: 5px;"><%= value %></div>',
-                        '<div style="width:175px;"><%= status %></div>',
+                        '<div style="width:240px;padding-right: 5px;" data-toggle="tooltip"><%= value %></div>',
+                        '<div style="width:175px;" data-toggle="tooltip"><%= status %></div>',
                     '</div>'
                 ].join('')),
                 tabindex: 1
             });
+            this.linksList.on('item:add', _.bind(this.addTooltips, this));
+            this.linksList.on('item:change', _.bind(this.addTooltips, this));
+            this.linksList.on('reset:before', _.bind(this.resetItemsBefore, this));
 
             this.btnUpdate = new Common.UI.Button({
                 parentEl: $('#external-links-btn-update', this.$window),
@@ -286,7 +289,6 @@ define([
         },
 
         setIsUpdating: function(status, immediately) {
-            console.log(status);
             immediately = immediately || !status; // set timeout when start updating only
             this.isUpdating = status;
             if (!status && this.timerId) {
@@ -309,6 +311,65 @@ define([
         setLinkStatus: function(id, result) {
             if (!id) return;
             this.linkStatus[id] = result || this.textOk;
+        },
+
+        resetItemsBefore: function (dataview) {
+            dataview.dataViewItems && _.each(dataview.dataViewItems, function(view) {
+                if (view.tipsArray) {
+                    view.tipsArray.forEach(function (item) {
+                        if (item) {
+                            if (item.dontShow===undefined)
+                                item.dontShow = true;
+                            (item.tip()).remove();
+                        }
+                    });
+                }
+            }, this);
+        },
+
+        addTooltips: function (dataview, view, record) {
+            if (view.tipsArray) {
+                view.tipsArray.forEach(function (item) {
+                    if (item) {
+                        if (item.dontShow===undefined)
+                            item.dontShow = true;
+                        (item.tip()).remove();
+                    }
+                });
+            }
+
+            var el = document.createElement('span');
+            el.style.fontSize = document.documentElement.style.getPropertyValue("--font-size-base-app-custom") || '11px';
+            el.style.fontFamily = document.documentElement.style.getPropertyValue("--font-family-base-custom") || 'Arial, Helvetica, "Helvetica Neue", sans-serif';
+            el.style.position = "absolute";
+            el.style.top = '-1000px';
+            el.style.left = '-1000px';
+            document.body.appendChild(el);
+
+            var divs = $(view.el).find('.list-item > div');
+            this.checkTextOfItem(el, view, $(divs[0]), record.get('value'), this.linksList.options.headers[0].width );
+            this.checkTextOfItem(el, view, $(divs[1]), record.get('status'), this.linksList.options.headers[1].width );
+
+            document.body.removeChild(el);
+            view.tipsArray = [];
+        },
+
+        checkTextOfItem: function (test_el, view, div, txt, limit ) {
+            test_el.innerHTML = txt;
+
+            var dataview = this.linksList;
+            if (test_el.offsetWidth > limit) {
+                div.one('mouseenter', function(e){ // hide tooltip when mouse is over menu
+                    var $target = $(e.target);
+                    $target.tooltip({
+                        title       : txt, // use actual tip, because it can be changed
+                        placement   : 'cursor',
+                        zIndex : dataview.tipZIndex
+                    });
+                    $target.mouseenter();
+                    view.tipsArray.push($target.data('bs.tooltip'));
+                });
+            }
         },
 
         txtTitle: 'External Links',
