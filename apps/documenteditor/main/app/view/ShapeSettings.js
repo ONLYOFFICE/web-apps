@@ -605,6 +605,7 @@ define([
                         stroke.put_color(Common.Utils.ThemeColor.getRgbColor(Common.Utils.ThemeColor.colorValue2EffectId(this.BorderColor.Color)));
                     stroke.asc_putPrstDash(this.BorderType);
                     stroke.put_width(this._pt2mm(this.BorderSize));
+                    stroke.put_transparent(this._state.LineTransparency);
                 }
                 props.put_stroke(stroke);
                 this.imgprops.put_ShapeProperties(props);
@@ -655,6 +656,7 @@ define([
                     stroke.put_color(Common.Utils.ThemeColor.getRgbColor(this.BorderColor.Color));
                     stroke.put_width(this._pt2mm(this.BorderSize));
                     stroke.asc_putPrstDash(this.BorderType);
+                    stroke.put_transparent(this._state.LineTransparency);
                 }
                 props.put_stroke(stroke);
                 this.imgprops.put_ShapeProperties(props);
@@ -675,6 +677,7 @@ define([
                     stroke.put_color(Common.Utils.ThemeColor.getRgbColor(this.BorderColor.Color));
                     stroke.put_width(this._pt2mm(this.BorderSize));
                     stroke.asc_putPrstDash(this.BorderType);
+                    stroke.put_transparent(this._state.LineTransparency);
                 }
                 props.put_stroke(stroke);
                 this.imgprops.put_ShapeProperties(props);
@@ -1107,7 +1110,7 @@ define([
                     strokeType = stroke.get_type(),
                     borderType,
                     update = (this._state.StrokeColor == 'transparent' && this.BorderColor.Color !== 'transparent'); // border color was changed for shape without line and then shape was reselected (or apply other settings)
-                var transparency = stroke.get_transparent();
+                transparency = stroke.get_transparent();
                 if ( Math.abs(this._state.LineTransparency-transparency)>0.001 || Math.abs(this.numLineTransparency.getNumberValue()-transparency)>0.001 ||
                     (this._state.LineTransparency===null || transparency===null)&&(this._state.LineTransparency!==transparency || this.numLineTransparency.getNumberValue()!==transparency)) {
 
