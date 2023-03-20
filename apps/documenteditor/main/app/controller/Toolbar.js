@@ -332,6 +332,7 @@ define([
             toolbar.btnFontColor.on('auto:select',                      _.bind(this.onAutoFontColor, this));
             toolbar.btnParagraphColor.on('click',                       _.bind(this.onBtnParagraphColor, this));
             toolbar.btnParagraphColor.on('color:select',                _.bind(this.onParagraphColorPickerSelect, this));
+            toolbar.btnParagraphColor.on('eyedropper:start',            _.bind(this.onParagraphColorEyedropperStart, this));
             toolbar.mnuHighlightColorPicker.on('select',                _.bind(this.onSelectHighlightColor, this));
             toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
             toolbar.mnuLineSpace.on('item:toggle',                      _.bind(this.onLineSpaceToggle, this));
@@ -2597,6 +2598,10 @@ define([
             }
 
             Common.NotificationCenter.trigger('edit:complete', this);
+        },
+
+        onParagraphColorEyedropperStart: function (btn) {
+            this.api.asc_startEyedropper(_.bind(btn.eyedropperEnd, btn));
         },
 
         onBtnHighlightColor: function(btn) {

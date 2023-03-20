@@ -418,6 +418,7 @@ define([
                         split: true,
                         transparent: true,
                         menu: true,
+                        eyeDropper: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '0, -16'
