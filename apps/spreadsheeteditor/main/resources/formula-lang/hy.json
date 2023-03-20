@@ -477,6 +477,7 @@
 	"XMATCH": "XMATCH",
 	"FILTER": "FILTER",
 	"ARRAYTOTEXT": "ARRAYTOTEXT",
+	"SORT": "SORT",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "ԷՋԱԳԼՈՒԽՆԵՐ",

@@ -477,6 +477,7 @@
 	"XMATCH": "XSAMMENLIGN",
 	"FILTER": "FILTRER",
 	"ARRAYTOTEXT": "MATRIXTILTEKST",
+	"SORT": "SORTER",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

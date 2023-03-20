@@ -1910,5 +1910,9 @@
 	"ARRAYTOTEXT": {
 		"a": "(Matrix, [Format])",
 		"d": "Gibt eine Textdarstellung einer Matrix zurück."
+	},
+	"SORT": {
+		"a": "(Matrix, [Sortierindex], [Sortierreihenfolge], [nach_Spalte])",
+		"d": "Sortiert einen Bereich oder eine Matrix."
 	}
 }

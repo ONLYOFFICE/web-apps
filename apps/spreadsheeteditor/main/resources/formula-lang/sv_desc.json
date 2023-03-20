@@ -1910,5 +1910,9 @@
 	"ARRAYTOTEXT": {
 		"a": "(matris, [format])",
 		"d": "Returnerar en textrepresentation av en matris"
+	},
+	"SORT": {
+		"a": "(matris, [sortera_index], [sorteringsordning], [efter_kol])",
+		"d": "Sorterar ett intervall eller en matris"
 	}
 }

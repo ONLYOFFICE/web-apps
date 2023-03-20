@@ -1910,5 +1910,9 @@
 	"ARRAYTOTEXT": {
 		"a": "(matrice, [format])",
 		"d": "Returnează o reprezentare text a unei matrice"
+	},
+	"SORT": {
+		"a": "(matrice, [index_sortare], [ordine_sortare], [după_coloană])",
+		"d": "Sortează o zonă sau o matrice"
 	}
 }

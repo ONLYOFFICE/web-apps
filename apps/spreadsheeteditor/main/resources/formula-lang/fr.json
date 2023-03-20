@@ -476,6 +476,7 @@
 	"XMATCH": "EQUIVX",
 	"FILTER": "FILTRE",
 	"ARRAYTOTEXT": "TABLEAU.EN.TEXTE",
+	"SORT": "TRIER",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "En-têtes",

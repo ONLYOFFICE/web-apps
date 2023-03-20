@@ -467,6 +467,7 @@
 	"XMATCH": "CONFRONTA.X",
 	"FILTER": "FILTRO",
 	"ARRAYTOTEXT": "MATRICE.A.TESTO",
+	"SORT": "DATI.ORDINA",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

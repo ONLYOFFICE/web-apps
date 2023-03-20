@@ -1910,5 +1910,9 @@
 	"ARRAYTOTEXT": {
 		"a": "(masīvs, [formāts])",
 		"d": "Atgriež masīva teksta attēlojumu"
+	},
+	"SORT": {
+		"a": "(masīvs, [kārt_indekss], [kārt_secība], [pēc_kol])",
+		"d": "Kārto diapazonu vai masīvu"
 	}
 }

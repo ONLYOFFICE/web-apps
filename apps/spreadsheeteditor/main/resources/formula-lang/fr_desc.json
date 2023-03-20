@@ -1910,5 +1910,9 @@
 	"ARRAYTOTEXT": {
 		"a": "(matrice, [format])",
 		"d": "Renvoie une représentation textuelle d’un tableau"
+	},
+	"SORT": {
+		"a": "(tableau, [index_tri], [ordre_tri], [par_col])",
+		"d": "Trie une plage ou un tableau"
 	}
 }
