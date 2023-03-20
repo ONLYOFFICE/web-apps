@@ -462,6 +462,10 @@ define(function(){ 'use strict';
             textComboBarLineSecondary: 'Clustered column - line on secondary axis',
             textComboAreaBar: 'Stacked area - clustered column',
             textComboCustom: 'Custom combination',
+            textRadar: 'Radar',
+            textRadarMarker: 'Radar with markers',
+            textRadarFilled: 'Filled radar',
+
 
             getChartGroupData: function(headername) {
                 return [
@@ -472,6 +476,7 @@ define(function(){ 'use strict';
                     {id: 'menu-chart-group-area', caption: this.textArea, inline: true},
                     {id: 'menu-chart-group-stock', caption: this.textStock, inline: true},
                     {id: 'menu-chart-group-scatter', caption: this.textPoint},
+                    {id: 'menu-chart-group-radar', caption: this.textRadar},
                     {id: 'menu-chart-group-combo', caption: this.textCombo}
                     // {id: 'menu-chart-group-surface', caption: this.textSurface}
                 ];
@@ -511,6 +516,9 @@ define(function(){ 'use strict';
                     { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatterLineMarker,  iconCls: 'point-line-marker', tip: this.textScatterLineMarker},
                     { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatterLine,        iconCls: 'point-line', tip: this.textScatterLine},
                     { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              iconCls: 'stock-normal', tip: this.textStock},
+                    { group: 'menu-chart-group-radar',   type: Asc.c_oAscChartTypeSettings.radar,              iconCls: 'radar', tip: this.textRadar},
+                    { group: 'menu-chart-group-radar',   type: Asc.c_oAscChartTypeSettings.radarMarker,        iconCls: 'radar-with-markers', tip: this.textRadarMarker},
+                    { group: 'menu-chart-group-radar',   type: Asc.c_oAscChartTypeSettings.radarFilled,        iconCls: 'filled-radar', tip: this.textRadarFilled},
                     { group: 'menu-chart-group-combo',   type: Asc.c_oAscChartTypeSettings.comboBarLine,       iconCls: 'combo-bar-line', tip: this.textComboBarLine},
                     { group: 'menu-chart-group-combo',   type: Asc.c_oAscChartTypeSettings.comboBarLineSecondary, iconCls: 'combo-bar-line-sec', tip: this.textComboBarLineSecondary},
                     { group: 'menu-chart-group-combo',   type: Asc.c_oAscChartTypeSettings.comboAreaBar,       iconCls: 'combo-area-bar', tip: this.textComboAreaBar},

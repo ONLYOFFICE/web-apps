@@ -154,7 +154,7 @@ define([
                 me.mnuChartTypePicker = new Common.UI.DataView({
                     el: $('#chart-type-dlg-menu-type', me.$window),
                     parentMenu: btn.menu,
-                    restoreHeight: 465,
+                    restoreHeight: 535,
                     groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                     store: new Common.UI.DataViewStore(arr),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
@@ -443,7 +443,7 @@ define([
                 var picker = new Common.UI.DataView({
                     el: $('#chart-type-dlg-series-menu-' + index),
                     parentMenu: menu,
-                    restoreHeight: 465,
+                    restoreHeight: 535,
                     groups: new Common.UI.DataViewGroupStore(me._arrSeriesGroups),
                     store: store,
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
