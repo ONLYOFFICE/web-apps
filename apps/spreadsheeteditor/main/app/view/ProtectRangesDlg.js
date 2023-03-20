@@ -50,7 +50,8 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
         options: {
             alias: 'ProtectRangesDlg',
             contentWidth: 480,
-            height: 353
+            height: 333,
+            id: 'window-protect-ranges'
         },
 
         initialize: function (options) {
@@ -61,7 +62,6 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
                     '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
                     '<div class="content-panel" style="padding: 0;">' + _.template(contentTemplate)({scope: this}) + '</div>',
                     '</div>',
-                    '<div class="separator horizontal"></div>'
                 ].join(''),
                 buttons: [
                 // {
