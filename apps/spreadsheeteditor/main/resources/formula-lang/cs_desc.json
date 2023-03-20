@@ -1910,5 +1910,9 @@
 	"ARRAYTOTEXT": {
 		"a": "(pole, [formát])",
 		"d": "Vrátí textové vyjádření pole."
+	},
+	"SORT": {
+		"a": "(pole, [index_řazení], [pořadí_řazení], [podle_sloupce])",
+		"d": "Seřadí oblast nebo pole."
 	}
 }

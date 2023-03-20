@@ -1910,5 +1910,9 @@
 	"ARRAYTOTEXT": {
 		"a": "(matriz, [formato])",
 		"d": "Retorna uma representação de texto de uma matriz"
+	},
+	"SORT": {
+		"a": "(matriz, [índice_de_classificação], [ordem_de_classificação], [por_col])",
+		"d": "Classifica um intervalo ou uma matriz"
 	}
 }

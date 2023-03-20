@@ -1910,5 +1910,9 @@
 	"ARRAYTOTEXT": {
 		"a": "(pole, [formát])",
 		"d": "Vráti textové znázornenie poľa"
+	},
+	"SORT": {
+		"a": "(pole, [index_zoradenia], [poradie_zoradenia], [podľa_stĺpca])",
+		"d": "Zoradí rozsah alebo pole"
 	}
 }

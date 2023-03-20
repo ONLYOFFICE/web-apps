@@ -1910,5 +1910,9 @@
 	"ARRAYTOTEXT": {
 		"a": "(array, [format])",
 		"d": "Returns a text representation of an array"
+	},
+	"SORT": {
+		"a": "(array, [sort_index], [sort_order], [by_col])",
+		"d": "Sorts a range or array"
 	}
 }

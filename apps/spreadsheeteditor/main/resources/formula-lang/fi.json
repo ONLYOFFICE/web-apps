@@ -477,6 +477,7 @@
 	"XMATCH": "XVASTINE",
 	"FILTER": "SUODATA",
 	"ARRAYTOTEXT": "MATRIISI.TEKSTIKSI",
+	"SORT": "LAJITTELE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

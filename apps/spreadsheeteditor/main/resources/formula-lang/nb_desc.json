@@ -1910,5 +1910,9 @@
 	"ARRAYTOTEXT": {
 		"a": "(matrise, [format])",
 		"d": "Returnerer en tekstrepresentasjon av en matrise"
+	},
+	"SORT": {
+		"a": "(matrise, [sorteringsindeks], [sorteringsrekkefølge], [etter_kolonne])",
+		"d": "Sorterer et område eller en matrise"
 	}
 }

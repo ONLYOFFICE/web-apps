@@ -1910,5 +1910,9 @@
 	"ARRAYTOTEXT": {
 		"a": "(dizi, [biçim])",
 		"d": "Dizinin metin olarak temsilini döndürür"
+	},
+	"SORT": {
+		"a": "(dizi, [sıralama_dizini], [sıralama_düzeni], [sütuna_göre])",
+		"d": "Aralığı veya diziyi sıralar"
 	}
 }

@@ -1910,5 +1910,9 @@
 	"ARRAYTOTEXT": {
 		"a": "(array, [format])",
 		"d": "배열의 텍스트 표현을 반환 합니다."
+	},
+	"SORT": {
+		"a": "(array, [sort_index], [sort_order], [by_col])",
+		"d": "범위 또는 배열을 정렬"
 	}
 }

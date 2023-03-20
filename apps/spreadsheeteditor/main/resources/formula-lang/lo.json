@@ -477,6 +477,7 @@
 	"XMATCH": "XMATCH",
 	"FILTER": "ກັ່ນຕອງ",
 	"ARRAYTOTEXT": "ການຈັດຮອບວຽນເປັນຂໍ້ຄວາມ",
+	"SORT": "ຈັດຮຽງ",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

@@ -477,6 +477,7 @@
 	"XMATCH": "ПОИСКПОЗX",
 	"FILTER": "ФИЛЬТР",
 	"ARRAYTOTEXT": "МАССИВВТЕКСТ",
+	"SORT": "СОРТ",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Заголовки",
