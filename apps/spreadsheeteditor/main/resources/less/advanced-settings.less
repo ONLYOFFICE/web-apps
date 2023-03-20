@@ -600,12 +600,27 @@
 }
 
 #window-name-manager {
+    .name-manager-td-btn {
+        display: inline-block;
+        vertical-align: bottom;
+    }
+
     #name-manager-btn-new {
         margin-right: 5px;
+        margin-left: 52px;
+
+        .rtl & {
+            margin-right: 52px;
+            margin-left: 5px;
+        }
+    }
+
+    #name-manager-btn-edit {
+        margin-right: 15px;
 
         .rtl & {
             margin-right: 0;
-            margin-left: 5px;
+            margin-left: 15px;
         }
     }
 }
