@@ -146,6 +146,11 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 el: $('#format-manager-rules-list', this.$window),
                 store: new Common.UI.DataViewStore(),
                 emptyText: '',
+                headers: [
+                    {name: this.textRules, width: 182},
+                    {name: this.textApply, width: 180},
+                    {name: this.textFormat, width: 114},
+                ],
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                     '<div class="list-item" style="width: 100%;display:inline-block;" id="format-manager-item-<%= ruleIndex %>">',

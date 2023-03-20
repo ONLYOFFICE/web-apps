@@ -223,6 +223,7 @@ define([
             allowScrollbar: true,
             scrollAlwaysVisible: false,
             minScrollbarLength: 40,
+            scrollYStyle: null,
             showLast: true,
             useBSKeydown: false,
             cls: ''
@@ -273,6 +274,7 @@ define([
             me.allowScrollbar = (me.options.allowScrollbar!==undefined) ? me.options.allowScrollbar : true;
             me.scrollAlwaysVisible = me.options.scrollAlwaysVisible || false;
             me.minScrollbarLength = me.options.minScrollbarLength || 40;
+            me.scrollYStyle    = me.options.scrollYStyle;
             me.tabindex = me.options.tabindex || 0;
             me.delayRenderTips = me.options.delayRenderTips || false;
             if (me.parentMenu)
@@ -358,6 +360,7 @@ define([
                     el: $(this.el).find('.inner').addBack().filter('.inner'),
                     useKeyboard: this.enableKeyEvents && !this.handleSelect,
                     minScrollbarLength  : this.minScrollbarLength,
+                    scrollYStyle: this.scrollYStyle,
                     wheelSpeed: 10,
                     alwaysVisibleY: this.scrollAlwaysVisible
                 });
@@ -598,6 +601,7 @@ define([
                     el: $(this.el).find('.inner').addBack().filter('.inner'),
                     useKeyboard: this.enableKeyEvents && !this.handleSelect,
                     minScrollbarLength  : this.minScrollbarLength,
+                    scrollYStyle: this.scrollYStyle,
                     wheelSpeed: 10,
                     alwaysVisibleY: this.scrollAlwaysVisible
                 });
@@ -702,10 +706,10 @@ define([
             }
         },
 
-        scrollToRecord: function (record, force) {
+        scrollToRecord: function (record, force, offsetTop) {
             if (!record) return;
             var innerEl = $(this.el).find('.inner'),
-                inner_top = innerEl.offset().top,
+                inner_top = innerEl.offset().top + (offsetTop ? offsetTop : 0),
                 idx = _.indexOf(this.store.models, record),
                 div = (idx>=0 && this.dataViewItems.length>idx) ? $(this.dataViewItems[idx].el) : innerEl.find('#' + record.get('id'));
             if (div.length<=0) return;
@@ -1065,6 +1069,7 @@ define([
                     el: $(this.el).find('.inner').addBack().filter('.inner'),
                     useKeyboard: this.enableKeyEvents && !this.handleSelect,
                     minScrollbarLength  : this.minScrollbarLength,
+                    scrollYStyle: this.scrollYStyle,
                     wheelSpeed: 10,
                     alwaysVisibleY: this.scrollAlwaysVisible
                 });
@@ -1157,6 +1162,7 @@ define([
                 el: $(this.el).find('.inner').addBack().filter('.inner'),
                 useKeyboard: this.enableKeyEvents && !this.handleSelect,
                 minScrollbarLength  : this.minScrollbarLength,
+                scrollYStyle: this.scrollYStyle,
                 wheelSpeed: 10,
                 alwaysVisibleY: this.scrollAlwaysVisible
             });

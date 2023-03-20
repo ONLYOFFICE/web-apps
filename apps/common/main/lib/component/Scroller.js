@@ -63,7 +63,8 @@ define([
                 includePadding          : true,
                 includeMargin           : true,
                 alwaysVisibleX          : false,
-                alwaysVisibleY          : false
+                alwaysVisibleY          : false,
+                scrollYStyle            : null
             },
 
             initialize: function(options) {
@@ -85,6 +86,8 @@ define([
 
                     this.setAlwaysVisibleX(me.options.alwaysVisibleX);
                     this.setAlwaysVisibleY(me.options.alwaysVisibleY);
+
+                    (this.options.scrollYStyle) && (this.setOptionStyleY(this.options.scrollYStyle));
                 }
 
                 return this;
@@ -107,6 +110,8 @@ define([
 
                 this.setAlwaysVisibleX(options.alwaysVisibleX);
                 this.setAlwaysVisibleY(options.alwaysVisibleY);
+                
+                (options.scrollYStyle) && (this.setOptionStyleY(options.scrollYStyle));
 
                 // Emulate capture scroller
                 var mouseDownHandler = function(e) {
@@ -164,6 +169,11 @@ define([
                     $(this.el).find('.ps-scrollbar-y-rail').removeClass('always-visible-y');
                     $(this.el).find('.ps-scrollbar-y').addClass('always-visible-y');
                 }
+            },
+
+            setOptionStyleY: function (style) {
+                $(this.el).find('.ps-scrollbar-y-rail').css(style);
+                this.cmpEl.perfectScrollbar('update');
             },
 
             isVisible: function() {

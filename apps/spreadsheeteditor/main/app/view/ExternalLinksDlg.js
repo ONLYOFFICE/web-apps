@@ -74,9 +74,7 @@ define([
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-small">',
-                                            '<label class="header" style="display: inline-block; width: 245px;">', me.textSource,'</label>',
-                                            '<label class="header" style="display: inline-block;">', me.textStatus,'</label>',
-                                            '<div id="external-links-list" class="range-tableview" style="width:100%; height: 148px;"></div>',
+                                            '<div id="external-links-list" class="range-tableview" style="width:100%; height: 171px;"></div>',
                                         '</td>',
                                     '</tr>',
                                 '</table>',
@@ -109,6 +107,10 @@ define([
                 el: $('#external-links-list', this.$window),
                 store: new Common.UI.DataViewStore(),
                 simpleAddMode: true,
+                headers: [
+                    {name: me.textSource, width: 240},
+                    {name: me.textStatus, width: 175}
+                ],
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;">',
                         '<div style="width:240px;padding-right: 5px;"><%= value %></div>',

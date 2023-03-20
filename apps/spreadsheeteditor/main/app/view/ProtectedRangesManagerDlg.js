@@ -107,6 +107,11 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
                 multiSelect: true,
                 simpleAddMode: true,
                 emptyText: this.textEmpty,
+                headers: [
+                    {name: this.textTitle,  width: 184},
+                    {name: this.textRange,  width: 191},
+                    {name: this.textYouCan, width: 70},
+                ],
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;<% if (!lock) { %>pointer-events:none;<% } %>">',
                     '<div style="width:184px;padding-right: 5px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
