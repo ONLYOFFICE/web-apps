@@ -108,6 +108,7 @@ define([
             this.flg = {};
             this.diagramEditor = null;
             this._isAddingShape = false;
+            this._isEyedropperStart = false;
             this.editMode = true;
             this.binding = {};
 
@@ -330,9 +331,12 @@ define([
             toolbar.btnFontColor.on('click',                            _.bind(this.onBtnFontColor, this));
             toolbar.btnFontColor.on('color:select',                     _.bind(this.onSelectFontColor, this));
             toolbar.btnFontColor.on('auto:select',                      _.bind(this.onAutoFontColor, this));
+            toolbar.btnFontColor.on('eyedropper:start',                 _.bind(this.onParagraphColorEyedropperStart, this));
+            toolbar.btnFontColor.on('eyedropper:end',                   _.bind(this.onParagraphColorEyedropperEnd, this));
             toolbar.btnParagraphColor.on('click',                       _.bind(this.onBtnParagraphColor, this));
             toolbar.btnParagraphColor.on('color:select',                _.bind(this.onParagraphColorPickerSelect, this));
             toolbar.btnParagraphColor.on('eyedropper:start',            _.bind(this.onParagraphColorEyedropperStart, this));
+            toolbar.btnParagraphColor.on('eyedropper:end',              _.bind(this.onParagraphColorEyedropperEnd, this));
             toolbar.mnuHighlightColorPicker.on('select',                _.bind(this.onSelectHighlightColor, this));
             toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
             toolbar.mnuLineSpace.on('item:toggle',                      _.bind(this.onLineSpaceToggle, this));
@@ -2601,7 +2605,12 @@ define([
         },
 
         onParagraphColorEyedropperStart: function (btn) {
+            this.toolbar._isEyedropperStart = true;
             this.api.asc_startEyedropper(_.bind(btn.eyedropperEnd, btn));
+        },
+
+        onParagraphColorEyedropperEnd: function () {
+            this.toolbar._isEyedropperStart = false;
         },
 
         onBtnHighlightColor: function(btn) {

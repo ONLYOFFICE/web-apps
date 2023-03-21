@@ -970,6 +970,9 @@ define([
                     this.api.SetMarkerFormat(false);
                     toolbarView.btnHighlightColor.toggle(false, false);
                 }
+                if (this.appOptions.isEdit && toolbarView && toolbarView._isEyedropperStart) {
+                    this.api.asc_cancelEyedropper();
+                }
                 application.getController('DocumentHolder').getView().focus();
 
                 if (this.api && this.appOptions.isEdit && !toolbarView._state.previewmode) {
