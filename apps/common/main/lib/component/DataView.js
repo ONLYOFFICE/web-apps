@@ -561,6 +561,8 @@ define([
         },
 
         onResetItems: function() {
+            this.trigger('reset:before', this);
+
             _.each(this.dataViewItems, function(item) {
                 var tip = item.$el.data('bs.tooltip');
                 if (tip) {
