@@ -74,7 +74,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
         options: {
             alias: 'SortDialog',
             contentWidth: 560,
-            height: 294,
+            height: 315,
             buttons: ['ok', 'cancel']
         },
 
@@ -136,7 +136,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                         '<div class="list-item" style="width: 100%;display: flex;align-items:center;" id="sort-dialog-item-<%= levelIndex %>">',
-                            '<label class="level-caption" style="padding-right: 5px;width: ' + captionWidth + 'px;flex-shrink:0;cursor: pointer;"></label>',
+                            '<label class="level-caption" style="width: ' + captionWidth + 'px;flex-shrink:0;cursor: pointer;"></label>',
                             '<div style="display:inline-block;flex-grow: 1;">',
                                 '<div style="width: 33%;padding: 0 5px;display: inline-block;vertical-align: top;"><div id="sort-dialog-cmb-col-<%= levelIndex %>" class="input-group-nr" style=""></div></div>',
                                 '<div style="width: 33%;padding: 0 5px;display: inline-block;vertical-align: top;"><div id="sort-dialog-cmb-sort-<%= levelIndex %>" class="input-group-nr"></div></div>',
@@ -314,18 +314,34 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
         },
 
         initListHeaders: function() {
-            var firstLabelWidth = 0,
+            var isRTL = Common.UI.isRTL(),
+                firstLabelWidth = 0,
                 secondLabelWidth = 0,
                 thirdLabelWidth = 0,
-                pos = this.sortList.cmpEl.find('#sort-dialog-cmb-sort-0').position();
+                cmbEl = this.sortList.cmpEl.find('#sort-dialog-cmb-sort-0'),
+                widthHeaderEl = this.sortList.headerEl.width(),
+                paddingHeaderEl = parseFloat(this.sortList.headerEl.css(isRTL ? 'padding-right' : 'padding-left')),
+                pos = cmbEl.position();
 
-            pos && (firstLabelWidth = Math.floor(pos.left)-3);
+            if(isRTL) {
+                pos && (firstLabelWidth = widthHeaderEl + paddingHeaderEl - (Math.floor(pos.left) + cmbEl.width()));
+            }
+            else {
+                pos && (firstLabelWidth = Math.floor(pos.left) - paddingHeaderEl);
+            }
             
-            pos = this.sortList.cmpEl.find('#sort-dialog-btn-color-0').position();
-            !pos && (pos = this.sortList.cmpEl.find('#sort-dialog-cmb-order-0').position());
-            pos && (secondLabelWidth = Math.floor(pos.left)-5 - firstLabelWidth);
+            cmbEl = this.sortList.cmpEl.find('#sort-dialog-btn-color-0');
+            (!cmbEl[0]) && (cmbEl = this.sortList.cmpEl.find('#sort-dialog-cmb-order-0'));
+            pos = cmbEl.position();
 
-            thirdLabelWidth = this.sortList.headerEl.width() - firstLabelWidth - secondLabelWidth;
+            if(isRTL) {
+                pos && (secondLabelWidth = (widthHeaderEl + paddingHeaderEl - (Math.floor(pos.left) + cmbEl.width())) - firstLabelWidth);
+            }
+            else {
+                pos && (secondLabelWidth = Math.floor(pos.left)-paddingHeaderEl - firstLabelWidth);
+            }
+
+            thirdLabelWidth = widthHeaderEl - firstLabelWidth - secondLabelWidth;
             
             this.sortList.setHeaderWidth(0, firstLabelWidth);
             this.sortList.setHeaderWidth(1, secondLabelWidth);
@@ -750,9 +766,10 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
         },
 
         txtTitle: 'Sort',
-        textAdd: 'Add level',
-        textDelete: 'Delete level',
-        textCopy: 'Copy level',
+        textLevels: 'Levels',
+        textBtnNew: 'New',
+        textBtnDelete: 'Delete',
+        textBtnCopy: 'Copy',
         textColumn: 'Column',
         textRow: 'Row',
         textSort: 'Sort on',
