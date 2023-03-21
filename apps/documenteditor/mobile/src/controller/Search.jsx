@@ -94,14 +94,6 @@ const Search = withTranslation()(props => {
     const { t } = props;
     const _t = t('Settings', {returnObjects: true});
 
-    useEffect(() => {
-        if(f7.searchbar.get('.searchbar')?.enabled && Device.phone) {
-            const api = Common.EditorApi.get();
-            $$('.searchbar-input').focus();
-            api.asc_enableKeyEvents(false);
-        }
-    }, []);
-
     const onSearchQuery = params => {
         const api = Common.EditorApi.get();
 
