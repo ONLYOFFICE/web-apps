@@ -67,9 +67,9 @@
                         <span class="btn-slot split" id="slot-btn-linespace"></span>
                     </div>
                     <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-align-left"></span>
+                        <span class="btn-slot split" id="<% if (!isRTL) { %>slot-btn-align-left<% } else { %>slot-btn-align-right<% } %>"></span>
                         <span class="btn-slot split" id="slot-btn-align-center"></span>
-                        <span class="btn-slot split" id="slot-btn-align-right"></span>
+                        <span class="btn-slot split" id="<% if (!isRTL) { %>slot-btn-align-right<% } else { %>slot-btn-align-left<% } %>"></span>
                         <span class="btn-slot split" id="slot-btn-align-just"></span>
                         <span class="btn-slot split" id="slot-btn-hidenchars"></span>
                         <span class="btn-slot split" id="slot-btn-paracolor"></span>

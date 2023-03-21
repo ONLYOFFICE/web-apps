@@ -472,6 +472,11 @@
 	"WRAPCOLS": "СВЕРНСТОЛБЦ",
 	"TAKE": "ВЗЯТЬ",
 	"DROP": "СБРОСИТЬ",
+	"SEQUENCE": "ПОСЛЕД",
+	"EXPAND": "РАЗВЕРНУТЬ",
+	"XMATCH": "ПОИСКПОЗX",
+	"FILTER": "ФИЛЬТР",
+	"ARRAYTOTEXT": "МАССИВВТЕКСТ",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Заголовки",

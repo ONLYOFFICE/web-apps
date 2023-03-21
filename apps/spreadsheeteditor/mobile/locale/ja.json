@@ -145,6 +145,7 @@
       "textClose": "閉じる",
       "textContactUs": "営業部を連絡する",
       "textCustomLoader": "あいにく、あなたはローダーを変更できません。見積を受けるように販売部門を連絡してください。",
+      "textDontUpdate": "アップデートしない",
       "textGuest": "ゲスト",
       "textHasMacros": "ファイルには自動マクロが含まれています。<br>マクロを実行しますか？",
       "textNo": "いいえ",
@@ -157,6 +158,8 @@
       "textReplaceSkipped": "置換が完了しました。{0}つスキップされました。",
       "textReplaceSuccess": "検索が完了しました。{0}つが置換されました。",
       "textRequestMacros": "マクロがURLに対してリクエストを行います。%1へのリクエストを許可しますか？",
+      "textUpdate": "更新",
+      "textWarnUpdateExternalData": "このワークブックには、安全でない可能性のある1つまたは複数の外部リンクが含まれています。リンクを信頼する場合は、最新のデータを取得するためにそれらを更新してください。",
       "textYes": "Yes",
       "titleLicenseExp": "ライセンスの有効期限が切れています",
       "titleServerVersion": "編集者が更新された",
@@ -169,9 +172,8 @@
       "warnNoLicense": "％１エディター　時接続数の制限に達しました。この文書が見るだけのために開かれる。個人的なアップグレード条件については、％1営業チームを連絡してください。",
       "warnNoLicenseUsers": "％1エディターのユーザー制限に達しました。 個人的なアップグレード条件については、％1営業チームを連絡してください。",
       "warnProcessRightsChange": "ファイルを編集する権限がありません！",
-      "textDontUpdate": "Don't Update",
-      "textUpdate": "Update",
-      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data."
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {

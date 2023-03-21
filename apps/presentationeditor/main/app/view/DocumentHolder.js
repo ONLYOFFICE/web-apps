@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 define([
     'jquery',
     'underscore',
@@ -831,13 +830,14 @@ define([
                     me.menuViewAddComment
                 ]
             }).on('hide:after', function (menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
+                me.currentMenu = null;
                 if (me.suppressEditComplete) {
                     me.suppressEditComplete = false;
                     return;
                 }
 
                 if (!isFromInputControl) me.fireEvent('editcomplete', me);
-                me.currentMenu = null;
             });
 
             me.mnuPreview = new Common.UI.MenuItem({
@@ -869,13 +869,14 @@ define([
                     me.mnuPreview
                 ]
             }).on('hide:after', function (menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
+                me.currentMenu = null;
                 if (me.suppressEditComplete) {
                     me.suppressEditComplete = false;
                     return;
                 }
 
                 if (!isFromInputControl) me.fireEvent('editcomplete', me);
-                me.currentMenu = null;
             });
 
             this.fireEvent('createdelayedelements', [this, 'view']);
@@ -998,6 +999,7 @@ define([
             me.slideMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
+                scrollToCheckedItem: false,
                 initMenu: function(value) {
                     var selectedLast = me.api.asc_IsLastSlideSelected(),
                         selectedFirst = me.api.asc_IsFirstSlideSelected();
@@ -1134,13 +1136,14 @@ define([
                     me.mnuPreview
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
+                me.currentMenu = null;
                 if (me.suppressEditComplete) {
                     me.suppressEditComplete = false;
                     return;
                 }
 
                 if (!isFromInputControl) me.fireEvent('editcomplete', me);
-                me.currentMenu = null;
             }).on('render:after', function(cmp) {
                 me.slideLayoutMenu = new Common.UI.DataView({
                     el          : $('#id-docholder-menu-changeslide'),
@@ -1247,6 +1250,14 @@ define([
                         })
                     ]
                 })
+            });
+
+            me.menuTableSaveAsPicture = new Common.UI.MenuItem({
+                caption     : me.textSaveAsPicture
+            });
+
+            var menuTableSaveAsPictureSeparator = new Common.UI.MenuItem({
+                caption     : '--'
             });
 
             me.menuTableDistRows = new Common.UI.MenuItem({
@@ -1365,7 +1376,8 @@ define([
                     restoreHeight: 285,
                     items   : [],
                     itemTemplate: langTemplate,
-                    search: true
+                    search: true,
+                    focusToCheckedItem: true
                 })
             });
 
@@ -1434,7 +1446,8 @@ define([
                     restoreHeight: 285,
                     items   : [],
                     itemTemplate: langTemplate,
-                    search: true
+                    search: true,
+                    focusToCheckedItem: true
                 })
             });
 
@@ -1465,6 +1478,10 @@ define([
                 caption     : me.advancedTableText
             });
 
+            var menuTableSettingsSeparator = new Common.UI.MenuItem({
+                caption : '--'
+            });
+
             me.menuImageAdvanced = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-menu-image',
                 caption     : me.advancedImageText
@@ -1485,6 +1502,10 @@ define([
                 caption     : me.advancedChartText
             });
 
+            var menuAdvancedSettingsSeparator = new Common.UI.MenuItem({
+                caption : '--'
+            });
+ 
             var menuCommentParaSeparator = new Common.UI.MenuItem({
                 caption : '--'
             });
@@ -1805,11 +1826,11 @@ define([
                 })
             });
 
-            me.menuSaveAsPicture = new Common.UI.MenuItem({
+            me.menuImgSaveAsPicture = new Common.UI.MenuItem({
                 caption     : me.textSaveAsPicture
             });
 
-            var menuSaveAsPictureSeparator = new Common.UI.MenuItem({
+            var menuImgSaveAsPictureSeparator = new Common.UI.MenuItem({
                 caption     : '--'
             });
 
@@ -1900,17 +1921,23 @@ define([
                 caption     : '--'
             });
 
-            var menuEquationSeparatorInTable = new Common.UI.MenuItem({
+            var menuTableEquationSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
+            var menuTableEquationSettingsSeparator = new Common.UI.MenuItem({
                 caption     : '--'
             });
 
             me.menuParagraphEquation = new Common.UI.MenuItem({
                 caption     : me.advancedEquationText,
+                iconCls     : 'menu__icon btn-equation',
                 menu        : me.createEquationMenu('popupparaeqinput', 'tl-tr')
             });
 
-            me.menuTableEquation = new Common.UI.MenuItem({
+            me.menuTableEquationSettings = new Common.UI.MenuItem({
                 caption     : me.advancedEquationText,
+                iconCls     : 'menu__icon btn-equation',
                 menu        : me.createEquationMenu('popuptableeqinput', 'tl-tr')
             });
 
@@ -1922,12 +1949,9 @@ define([
                 caption: me.textEditPoints
             });
 
-            var menuImgEditPointsSeparator = new Common.UI.MenuItem({
-                caption     : '--'
-            });
-
             me.textMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
+                scrollToCheckedItem: false,
                 initMenu: function(value){
                     var isInShape = (value.shapeProps && !_.isNull(value.shapeProps.value));
                     var isInChart = (value.chartProps && !_.isNull(value.chartProps.value));
@@ -2083,25 +2107,27 @@ define([
                     menuHyperlinkPara
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
+                me.currentMenu = null;
                 if (me.suppressEditComplete) {
                     me.suppressEditComplete = false;
                     return;
                 }
 
                 if (!isFromInputControl) me.fireEvent('editcomplete', me);
-                me.currentMenu = null;
             });
 
             me.tableMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
+                scrollToCheckedItem: false,
                 initMenu: function(value){
                     // table properties
                     if (_.isUndefined(value.tableProps))
                         return;
 
                     var isEquation= (value.mathProps && value.mathProps.value);
-                    for (var i = 6; i < 19; i++) {
+                    for (var i = 6; i < 18; i++) {
                         me.tableMenu.items[i].setVisible(!isEquation);
                     }
 
@@ -2136,7 +2162,13 @@ define([
                     me.tableMenu.items[8].setDisabled(value.tableProps.locked || disabled);
 
                     me.menuTableCellAlign.setDisabled(value.tableProps.locked || disabled);
+
+                    me.menuTableSaveAsPicture.setVisible(!isEquation);
+                    menuTableSaveAsPictureSeparator.setVisible(!isEquation);
+
+                    me.menuTableAdvanced.setVisible(!isEquation);
                     me.menuTableAdvanced.setDisabled(value.tableProps.locked || disabled);
+                    menuTableSettingsSeparator.setVisible(me.menuTableAdvanced.isVisible());
 
                     var cancopy = me.api && me.api.can_CopyCut();
                     me.menuTableCopy.setDisabled(!cancopy);
@@ -2152,6 +2184,7 @@ define([
 
                     me.menuAddHyperlinkTable.setVisible(!_.isUndefined(value.paraProps) && _.isUndefined(value.hyperProps) && text!==false);
                     menuHyperlinkTable.setVisible(!_.isUndefined(value.paraProps) && !_.isUndefined(value.hyperProps));
+                    menuHyperlinkSeparator.setVisible(me.menuAddHyperlinkTable.isVisible() || menuHyperlinkTable.isVisible());
 
                     me.menuEditHyperlinkTable.hyperProps = value.hyperProps;
 
@@ -2169,8 +2202,8 @@ define([
                      /** coauthoring begin **/
                     me.menuAddCommentTable.setVisible(me.api.can_AddQuotedComment()!==false && me.mode.canCoAuthoring && me.mode.canComments);
                     me.menuAddCommentTable.setDisabled(!_.isUndefined(value.paraProps) && value.paraProps.locked || disabled);
+                    menuHyperlinkSeparator.setVisible(menuHyperlinkSeparator.isVisible() || me.menuAddCommentTable.isVisible());
                     /** coauthoring end **/
-                    menuHyperlinkSeparator.setVisible(me.menuAddHyperlinkTable.isVisible() || menuHyperlinkTable.isVisible() /** coauthoring begin **/|| me.menuAddCommentTable.isVisible()/** coauthoring end **/);
 
                     me.menuSpellCheckTable.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
                     me.menuToDictionaryTable.setVisible(me.mode.isDesktopApp);
@@ -2194,61 +2227,68 @@ define([
                     var eqlen = 0;
                     if (isEquation) {
                         eqlen = me.addEquationMenu(false, 6);
-                        menuHyperlinkSeparator.setVisible(menuHyperlinkSeparator.isVisible() && eqlen>0);
                     } else
                         me.clearEquationMenu(false, 6);
-
-                    me.menuTableEquation.setVisible(isEquation);
-                    me.menuTableEquation.setDisabled(disabled);
+                    
+                    menuTableEquationSeparator.setVisible(eqlen>0);
+                    me.menuTableEquationSettings.setVisible(isEquation);
+                    menuTableEquationSettingsSeparator.setVisible(isEquation);
+                    me.menuTableEquationSettings.setDisabled(disabled);
                     if (isEquation) {
                         var eq = me.api.asc_GetMathInputType();
-                        me.menuTableEquation.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
-                        me.menuTableEquation.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                        me.menuTableEquationSettings.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                        me.menuTableEquationSettings.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
                     }
                 },
                 items: [
-                    me.menuSpellCheckTable,
-                    menuSpellcheckTableSeparator,
-                    me.menuTableCut,
-                    me.menuTableCopy,
-                    me.menuTablePaste,
-                    { caption: '--' },
-                    me.menuTableSelectText,
-                    me.menuTableInsertText,
-                    me.menuTableDeleteText,
-                    { caption: '--' },
-                    me.mnuTableMerge,
-                    me.mnuTableSplit,
-                    { caption: '--' },
-                    me.menuTableDistRows,
-                    me.menuTableDistCols,
-                    { caption: '--' },
-                    me.menuTableCellAlign,
-                    { caption: '--' },
-                    me.menuTableAdvanced,
-                    menuHyperlinkSeparator,
+                    me.menuSpellCheckTable,         //0
+                    menuSpellcheckTableSeparator,   //1
+                    me.menuTableCut,                //2
+                    me.menuTableCopy,               //3
+                    me.menuTablePaste,              //4
+                    { caption: '--' },              //5
+                    me.menuTableSelectText,         //6
+                    me.menuTableInsertText,         //7
+                    me.menuTableDeleteText,         //8
+                    { caption: '--' },              //9
+                    me.mnuTableMerge,               //10
+                    me.mnuTableSplit,               //11
+                    { caption: '--' },              //12
+                    me.menuTableDistRows,           //13
+                    me.menuTableDistCols,           //14
+                    { caption: '--' },              //15
+                    me.menuTableCellAlign,          //16
+                    { caption: '--'},               //17
+                    menuTableEquationSeparator,     //18
+                    me.menuTableSaveAsPicture,      //19
+                    menuTableSaveAsPictureSeparator,//20
+                    me.menuTableAdvanced,           //21
+                    menuTableSettingsSeparator,     //22
+                    me.menuTableEquationSettings,           //23
+                    menuTableEquationSettingsSeparator,     //24
                 /** coauthoring begin **/
-                    me.menuAddCommentTable,
-                    me.menuTableEquation,
+                    me.menuAddCommentTable,         //25
                 /** coauthoring end **/
-                    me.menuAddHyperlinkTable,
-                    menuHyperlinkTable,
-                    { caption: '--' },
-                    me.menuAddToLayoutTable
+                    me.menuAddHyperlinkTable,       //26
+                    menuHyperlinkTable,             //27
+                    menuHyperlinkSeparator,         //28
+                    me.menuAddToLayoutTable         //29
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
+                me.currentMenu = null;
                 if (me.suppressEditComplete) {
                     me.suppressEditComplete = false;
                     return;
                 }
 
                 if (!isFromInputControl) me.fireEvent('editcomplete', me);
-                me.currentMenu = null;
             });
 
             me.pictureMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
+                scrollToCheckedItem: false,
                 initMenu: function(value){
                     if (me.api) {
                         me.mnuUnGroupImg.setDisabled(!me.api.canUnGroup());
@@ -2291,7 +2331,6 @@ define([
 
                     var canEditPoints = me.api && me.api.asc_canEditGeometry();
                     me.menuImgEditPoints.setVisible(canEditPoints);
-                    menuImgEditPointsSeparator.setVisible(canEditPoints);
                     canEditPoints && me.menuImgEditPoints.setDisabled(disabled);
 
                     me.menuImageAdvanced.setVisible(isimage);
@@ -2299,6 +2338,12 @@ define([
                     me.menuChartEdit.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart));
                     me.menuChartAdvanced.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart));
                     menuImgShapeSeparator.setVisible(me.menuImageAdvanced.isVisible() || me.menuShapeAdvanced.isVisible() || me.menuChartEdit.isVisible() || me.menuChartAdvanced.isVisible());
+                    menuAdvancedSettingsSeparator.setVisible(
+                        me.menuImgCrop.isVisible() || me.menuImgOriginalSize.isVisible() || 
+                        me.menuImgReplace.isVisible() || me.menuImageAdvanced.isVisible() ||
+                        me.menuImgEditPoints.isVisible() || me.menuShapeAdvanced.isVisible() ||
+                        me.menuChartEdit.isVisible() || me.menuChartAdvanced.isVisible()
+                    );
                 
                     /** coauthoring begin **/
                     me.menuAddCommentImg.setVisible(me.api.can_AddQuotedComment()!==false && me.mode.canCoAuthoring && me.mode.canComments);
@@ -2318,49 +2363,49 @@ define([
                     if (me.menuChartEdit.isVisible())
                         me.menuChartEdit.setDisabled(disabled);
 
+
                     var cancopy = me.api && me.api.can_CopyCut();
                     me.menuImgCopy.setDisabled(!cancopy);
                     me.menuImgCut.setDisabled(disabled || !cancopy);
                     me.menuImgPaste.setDisabled(disabled);
                     menuImgShapeArrange.setDisabled(disabled);
-                    me.menuSaveAsPicture.setDisabled(disabled);
                     me.menuAddToLayoutImg.setDisabled(disabled);
                 },
                 items: [
                     me.menuImgCut,
                     me.menuImgCopy,
                     me.menuImgPaste,
-                    { caption: '--' },
-                    me.menuImgEditPoints,
-                    menuImgEditPointsSeparator,
+                    { caption: '--' },              //Separator
                     menuImgShapeArrange,
                     me.menuImgShapeAlign,
                     me.menuImgShapeRotate,
-                    menuImgShapeSeparator,
+                    menuImgShapeSeparator,          //Separator
+                    me.menuImgSaveAsPicture,
+                    menuImgSaveAsPictureSeparator,     //Separator
                     me.menuImgCrop,
                     me.menuImgOriginalSize,
                     me.menuImgReplace,
                     me.menuImageAdvanced,
-                    me.menuShapeAdvanced
-                    ,me.menuChartEdit
-                    ,me.menuChartAdvanced
-                    ,menuSaveAsPictureSeparator
-                    ,me.menuSaveAsPicture
+                    me.menuImgEditPoints,
+                    me.menuShapeAdvanced,
+                    me.menuChartEdit,
+                    me.menuChartAdvanced,
+                    menuAdvancedSettingsSeparator,  //Separator
                 /** coauthoring begin **/
-                    ,menuCommentSeparatorImg,
                     me.menuAddCommentImg,
+                    menuCommentSeparatorImg,        //Separator
                 /** coauthoring end **/
-                    { caption: '--' },
                     me.menuAddToLayoutImg
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
+                me.currentMenu = null;
                 if (me.suppressEditComplete) {
                     me.suppressEditComplete = false;
                     return;
                 }
 
                 if (!isFromInputControl) me.fireEvent('editcomplete', me);
-                me.currentMenu = null;
             });
 
             var nextpage = $('#id_buttonNextPage');
@@ -2452,6 +2497,118 @@ define([
                     })
                 ]
             });
+        },
+
+        updateCustomItems: function(menu, data) {
+            if (!menu || !data || data.length<1) return;
+
+            var me = this,
+                lang = me.mode && me.mode.lang ? me.mode.lang.split(/[\-_]/)[0] : 'en';
+
+            var findCustomItem = function(guid, id) {
+                if (menu && menu.items.length>0) {
+                    for (var i = menu.items.length-1; i >=0 ; i--) {
+                        if (menu.items[i].options.isCustomItem && (id===undefined && menu.items[i].options.guid === guid || menu.items[i].options.guid === guid && menu.items[i].value === id)) {
+                            return menu.items[i];
+                        }
+                    }
+                }
+            }
+
+            var getMenu = function(items, guid, toMenu) {
+                if (toMenu)
+                    toMenu.removeAll();
+                else {
+                    toMenu = new Common.UI.Menu({
+                        cls: 'shifted-right',
+                        menuAlign: 'tl-tr',
+                        items: []
+                    });
+                    toMenu.on('item:click', function(menu, item, e) {
+                        me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
+                    });
+                }
+                items.forEach(function(item) {
+                    item.separator && toMenu.addItem({
+                        caption: '--',
+                        isCustomItem: true,
+                        guid: guid
+                    });
+                    item.text && toMenu.addItem({
+                        caption: ((typeof item.text == 'object') ? item.text[lang] || item.text['en'] : item.text) || '',
+                        isCustomItem: true,
+                        value: item.id,
+                        guid: guid,
+                        menu: item.items ? getMenu(item.items, guid) : false,
+                        disabled: !!item.disabled
+                    });
+                });
+                return toMenu;
+            }
+
+            var focused;
+            data.forEach(function(plugin) {
+                var isnew = !findCustomItem(plugin.guid);
+                if (plugin && plugin.items && plugin.items.length>0) {
+                    plugin.items.forEach(function(item) {
+                        if (item.separator && isnew) {// add separator only to new plugins menu
+                            menu.addItem({
+                                caption: '--',
+                                isCustomItem: true,
+                                guid: plugin.guid
+                            });
+                            return;
+                        }
+
+                        if (!item.text) return;
+                        var mnu = findCustomItem(plugin.guid, item.id),
+                            caption = ((typeof item.text == 'object') ? item.text[lang] || item.text['en'] : item.text) || '';
+                        if (mnu) {
+                            mnu.setCaption(caption);
+                            mnu.setDisabled(!!item.disabled);
+                            if (item.items) {
+                                if (mnu.menu) {
+                                    if (mnu.menu.isVisible() && mnu.menu.cmpEl.find(' > li:not(.divider):not(.disabled):visible').find('> a').filter(':focus').length>0) {
+                                        mnu.menu.isOver = true;
+                                        focused = mnu.cmpEl;
+                                    }
+                                    getMenu(item.items, plugin.guid, mnu.menu);
+                                } else
+                                    mnu.setMenu(getMenu(item.items, plugin.guid));
+                            }
+                        } else {
+                            var mnu = new Common.UI.MenuItem({
+                                caption     : caption,
+                                isCustomItem: true,
+                                value: item.id,
+                                guid: plugin.guid,
+                                menu: item.items && item.items.length>=0 ? getMenu(item.items, plugin.guid) : false,
+                                disabled: !!item.disabled
+                            }).on('click', function(item, e) {
+                                me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
+                            });
+                            menu.addItem(mnu);
+                        }
+                    });
+                }
+            });
+
+            if (focused) {
+                var $subitems = $('> [role=menu]', focused).find('> li:not(.divider):not(.disabled):visible > a');
+                ($subitems.length>0) && $subitems.eq(0).focus();
+            }
+            menu.alignPosition();
+        },
+
+        clearCustomItems: function(menu) {
+            if (menu && menu.items.length>0) {
+                for (var i = 0; i < menu.items.length; i++) {
+                    if (menu.items[i].options.isCustomItem) {
+                        menu.removeItem(menu.items[i]);
+                        i--;
+                    }
+                }
+            }
         },
 
         unitsChanged: function(m) {

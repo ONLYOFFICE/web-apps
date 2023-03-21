@@ -472,6 +472,11 @@
 	"WRAPCOLS": "AJUSTACOL",
 	"TAKE": "PREN",
 	"DROP": "EXCLOU",
+	"SEQUENCE": "SEQÜÈNCIA",
+	"EXPAND": "EXPANDEIX",
+	"XMATCH": "XMATCH",
+	"FILTER": "FILTRA",
+	"ARRAYTOTEXT": "MATRIUATEXT",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

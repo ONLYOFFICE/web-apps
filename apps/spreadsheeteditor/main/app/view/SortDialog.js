@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *
  *  SortDialog.js
@@ -129,6 +128,11 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 store: new Common.UI.DataViewStore(),
                 emptyText: '',
                 enableKeyEvents: false,
+                headers: [
+                    {name: me.textColumn,   width: 212},
+                    {name: me.textSort,     width: 157},
+                    {name: me.textOrder,    width: 156},
+                ],
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                         '<div class="list-item" style="width: 100%;display: flex;align-items:center;" id="sort-dialog-item-<%= levelIndex %>">',
@@ -192,9 +196,6 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             });
             this.btnDown.on('click', _.bind(this.onMoveClick, this, false));
 
-            this.lblColumn = $('#sort-dialog-label-column');
-            this.lblSort = $('#sort-dialog-label-sort');
-
             this.afterRender();
         },
 
@@ -220,7 +221,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                     lockOrientation: !!props.asc_getLockChangeOrientation()
                 };
 
-                this.lblColumn.text(props.asc_getColumnSort() ? this.textColumn : this.textRow);
+                this.sortList.setHeaderName(0, (props.asc_getColumnSort() ? this.textColumn : this.textRow));
 
                 // get name from props
                 this.fillSortValues();
@@ -313,11 +314,22 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
         },
 
         initListHeaders: function() {
-            var pos = this.sortList.cmpEl.find('#sort-dialog-cmb-sort-0').position();
-            pos && this.lblColumn.width(Math.floor(pos.left)-3);
+            var firstLabelWidth = 0,
+                secondLabelWidth = 0,
+                thirdLabelWidth = 0,
+                pos = this.sortList.cmpEl.find('#sort-dialog-cmb-sort-0').position();
+
+            pos && (firstLabelWidth = Math.floor(pos.left)-3);
+            
             pos = this.sortList.cmpEl.find('#sort-dialog-btn-color-0').position();
             !pos && (pos = this.sortList.cmpEl.find('#sort-dialog-cmb-order-0').position());
-            pos && this.lblSort.width(Math.floor(pos.left)-5 - this.lblColumn.width());
+            pos && (secondLabelWidth = Math.floor(pos.left)-5 - firstLabelWidth);
+
+            thirdLabelWidth = this.sortList.headerEl.width() - firstLabelWidth - secondLabelWidth;
+            
+            this.sortList.setHeaderWidth(0, firstLabelWidth);
+            this.sortList.setHeaderWidth(1, secondLabelWidth);
+            this.sortList.setHeaderWidth(2, thirdLabelWidth);
         },
 
         addControls: function(listView, itemView, item) {
@@ -414,7 +426,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 props: me.sortOptions,
                 handler : function(result, settings) {
                     if (result == 'ok' && settings) {
-                        me.lblColumn.text(settings.sortcol ? me.textColumn : me.textRow);
+                        me.sortList.setHeaderName(0, settings.sortcol ? me.textColumn : me.textRow);
                         me.props.asc_setHasHeaders(settings.headers);
                         // me.props.asc_setCaseSensitive(settings.sensitive);
                         me.props.asc_setColumnSort(settings.sortcol);

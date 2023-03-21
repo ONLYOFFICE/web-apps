@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  ThemeColorPalette.js
  *
@@ -64,11 +63,11 @@ define([
 
         template    :
             _.template(
-                '<div style="padding: 4px 0 0 12px;">' +
+                '<div class="palette-inner">' +
                 '<% var me = this; var idx = 0; %>' +
                 '<% $(colors).each(function(num, item) { %>' +
-                    '<% if (me.isBlankSeparator(item)) { %> <div class="palette-color-spacer" style="width:100%;height:8px;float:left;"></div>' +
-                    '<% } else if (me.isSeparator(item)) { %> </div><div class="divider" style="width:100%;float:left;"></div><div style="padding: 12px;">' +
+                    '<% if (me.isBlankSeparator(item)) { %> <div class="palette-color-spacer"></div>' +
+                    '<% } else if (me.isSeparator(item)) { %> </div><div class="divider"></div><div style="padding: 12px;">' +
                     '<% } else if (me.isColor(item)) { %> ' +
                         '<a class="palette-color color-<%=item%>" style="background:#<%=item%>" idx="<%=idx++%>">' +
                         '<em><span style="background:#<%=item%>;" unselectable="on">&#160;</span></em>' +
@@ -79,20 +78,20 @@ define([
                         '</a>' +
                     '<% } else if (me.isEffect(item)) { %>' +
                         '<% if (idx>0 && me.columns>0 && idx%me.columns===0) { %> ' +
-                        '<div style="width:100%;height:0;float:left;"></div>' +
+                        '<div class="color-divider"></div>' +
                         '<% } %>' +
                         '<a effectid="<%=item.effectId%>" effectvalue="<%=item.effectValue%>" class="palette-color-effect color-<%=item.color%>" style="background:#<%=item.color%>" idx="<%=idx++%>">' +
                         '<em><span style="background:#<%=item.color%>;" unselectable="on">&#160;</span></em>' +
                         '</a>' +
                     '<% } else if (me.isCaption(item)) { %>' +
-                    '<div class="palette-color-caption" style="width:100%;float:left;font-size: 11px;"><%=item%></div>' +
+                    '<div class="palette-color-caption"><%=item%></div>' +
                     '<% } %>' +
                 '<% }); %>' +
                 '</div>' +
                 '<% if (me.options.dynamiccolors!==undefined) { %>' +
-                '<div class="palette-color-dynamiccolors" style="padding: 4px 0 0 12px">' +
-                    '<div class="palette-color-spacer" style="width:100%;height:8px;float:left;"></div>' +
-                    '<div class="palette-color-caption" style="width:100%;float:left;font-size: 11px;"><%=me.textRecentColors%></div>' +
+                '<div class="palette-color-dynamiccolors">' +
+                    '<div class="palette-color-spacer"></div>' +
+                    '<div class="palette-color-caption"><%=me.textRecentColors%></div>' +
                     '<% for (var i=0; i<me.options.dynamiccolors; i++) { %>' +
                         '<a class="color-dynamic-<%=i%> dynamic-empty-color <%= me.emptyColorsClass %>" color="" idx="<%=idx++%>">' +
                         '<em><span unselectable="on">&#160;</span></em></a>' +

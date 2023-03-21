@@ -145,6 +145,7 @@
       "textClose": "Cerrar",
       "textContactUs": "Contactar con el equipo de ventas",
       "textCustomLoader": "Por desgracia, no tiene derecho a cambiar el cargador. Por favor, póngase en contacto con nuestro departamento de ventas para obtener una cotización.",
+      "textDontUpdate": "No actualizar",
       "textGuest": "Invitado",
       "textHasMacros": "El archivo contiene macros automáticas.<br>¿Quiere ejecutar macros?",
       "textNo": "No",
@@ -157,6 +158,8 @@
       "textReplaceSkipped": "Se ha realizado la sustitución. Se han omitido {0} ocurrencias.",
       "textReplaceSuccess": "Se ha realizado la búsqueda. Ocurrencias reemplazadas: {0}",
       "textRequestMacros": "Una macro realiza una solicitud a la URL. ¿Quiere permitir la solicitud al %1?",
+      "textUpdate": "Actualizar",
+      "textWarnUpdateExternalData": "Este libro contiene enlaces a una o varias fuentes externas que podrían no ser seguras. Si confía en los enlaces, actualícelos para obtener los datos más recientes.",
       "textYes": "Sí",
       "titleLicenseExp": "Licencia ha expirado",
       "titleServerVersion": "Editor ha sido actualizado",
@@ -169,9 +172,8 @@
       "warnNoLicense": "Ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
       "warnNoLicenseUsers": "Ha alcanzado el límite de usuarios para %1 editores. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
       "warnProcessRightsChange": "No tiene permiso para editar el archivo.",
-      "textDontUpdate": "Don't Update",
-      "textUpdate": "Update",
-      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data."
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {

@@ -566,7 +566,10 @@
     "warnProcessRightsChange": "ທ່ານບໍ່ມີສິດໃນການແກ້ໄຂໄຟລ໌ນີ້.",
     "textDocumentProtected": "The document is protected. Edit settings are not available",
     "textOk": "Ok",
-    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
+    "titleLicenseNotActive": "License not active",
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics."
   },
   "Settings": {
     "advDRMOptions": "ເອກະສານທີ່ໄດ້ຮັບການປົກປ້ອງ",

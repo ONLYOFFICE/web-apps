@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  * User: Julia.Radzhabova
  * Date: 17.05.16
@@ -115,38 +114,37 @@ define([
         },
 
         loadPlugins: function() {
+            this.configPlugins.plugins =
+            this.serverPlugins.plugins = false;
+
             if (this.configPlugins.config) {
                 this.getPlugins(this.configPlugins.config.pluginsData)
-                    .then(function(loaded)
-                    {
+                    .then(function(loaded) {
                         me.configPlugins.plugins = loaded;
                         me.mergePlugins();
                     })
-                    .catch(function(err)
-                    {
+                    .catch(function(err) {
                         me.configPlugins.plugins = false;
                     });
-            } else
-                this.configPlugins.plugins = false;
+            }
 
-            var server_plugins_url = '../../../../plugins.json',
-                me = this;
-            Common.Utils.loadConfig(server_plugins_url, function (obj) {
-                if ( obj != 'error' ) {
-                    me.serverPlugins.config = obj;
-                    me.getPlugins(me.serverPlugins.config.pluginsData)
-                        .then(function(loaded)
-                        {
-                            me.serverPlugins.plugins = loaded;
-                            me.mergePlugins();
-                        })
-                        .catch(function(err)
-                        {
-                            me.serverPlugins.plugins = false;
-                        });
-                } else
-                    me.serverPlugins.plugins = false;
-            });
+            if ( !Common.Controllers.Desktop.isActive() || !Common.Controllers.Desktop.isOffline() ) {
+                var server_plugins_url = '../../../../plugins.json',
+                    me = this;
+                Common.Utils.loadConfig(server_plugins_url, function (obj) {
+                    if (obj != 'error') {
+                        me.serverPlugins.config = obj;
+                        me.getPlugins(me.serverPlugins.config.pluginsData)
+                            .then(function (loaded) {
+                                me.serverPlugins.plugins = loaded;
+                                me.mergePlugins();
+                            })
+                            .catch(function (err) {
+                                me.serverPlugins.plugins = false;
+                            });
+                    }
+                });
+            }
         },
 
         onAppShowed: function (config) {
@@ -263,7 +261,7 @@ define([
                     } else {
                         _group.appendTo(me.$toolbarPanelPlugins);
                         $('<div class="separator long invisible"></div>').appendTo(me.$toolbarPanelPlugins);
-                        _group = $('<div class="group" style="padding-left: 0;"></div>');
+                        _group = $('<div class="group" style="' + (Common.UI.isRTL() ? 'padding-right: 0;' : 'padding-left: 0;') + '"></div>');
                     }
 
                     var btn = me.panelPlugins.createPluginButton(model);

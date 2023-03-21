@@ -157,6 +157,7 @@
       "textReplaceSkipped": "A substituição foi realizada. {0} ocorrências foram ignoradas.",
       "textReplaceSuccess": "A pesquisa foi realizada. Ocorrências substituídas: {0}",
       "textRequestMacros": "Uma macro faz um pedido de URL. Deseja permitir o acesso a %1?",
+      "textUpdate": "Atualizar",
       "textYes": "Sim",
       "titleLicenseExp": "Licença expirada",
       "titleServerVersion": "Editor atualizado",
@@ -170,8 +171,9 @@
       "warnNoLicenseUsers": "Atingiu o limite de %1 editores. Contacte a equipa comercial %1 para obter mais informações.",
       "warnProcessRightsChange": "Não tem permissão para editar este ficheiro.",
       "textDontUpdate": "Don't Update",
-      "textUpdate": "Update",
-      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data."
+      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {
