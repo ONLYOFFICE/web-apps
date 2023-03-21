@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *    FileMenu.js
  *
@@ -397,8 +396,8 @@ define([
             this.miPrint[this.mode.canPrint && !this.mode.canPreviewPrint ?'show':'hide']();
             this.miPrintWithPreview[this.mode.canPreviewPrint?'show':'hide']();
             this.miRename[(this.mode.canRename && !this.mode.isDesktopApp) ?'show':'hide']();
-            this.miProtect[this.mode.canProtect ?'show':'hide']();
-            separatorVisible = (this.mode.canDownload || this.mode.isEdit && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') || this.mode.canPrint || this.mode.canProtect ||
+            this.miProtect[(this.mode.isSignatureSupport || this.mode.isPasswordSupport) ?'show':'hide']();
+            separatorVisible = (this.mode.canDownload || this.mode.isEdit && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') || this.mode.canPrint || (this.mode.isSignatureSupport || this.mode.isPasswordSupport) ||
                                 !this.mode.isEdit && this.mode.canEdit && this.mode.canRequestEditRights || this.mode.canRename && !this.mode.isDesktopApp) && !this.mode.isDisconnected;
             this.miProtect.$el.find('+.devider')[separatorVisible?'show':'hide']();
             separatorVisible && (lastSeparator = this.miProtect.$el.find('+.devider'));
@@ -458,7 +457,7 @@ define([
                 !this.panels['recent'] && (this.panels['recent'] = (new PE.Views.FileMenuPanels.RecentFiles({menu:this, recent: this.mode.recent})).render());
             }
 
-            if (this.mode.canProtect) {
+            if (this.mode.isSignatureSupport || this.mode.isPasswordSupport) {
                 !this.panels['protect'] && (this.panels['protect'] = (new PE.Views.FileMenuPanels.ProtectDoc({menu:this})).render());
                 this.panels['protect'].setMode(this.mode);
             }

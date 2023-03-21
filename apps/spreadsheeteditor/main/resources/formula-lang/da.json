@@ -472,6 +472,11 @@
 	"WRAPCOLS": "FOLDKOLONNER",
 	"TAKE": "TAG",
 	"DROP": "UDELAD",
+	"SEQUENCE": "SEKVENS",
+	"EXPAND": "UDVID",
+	"XMATCH": "XSAMMENLIGN",
+	"FILTER": "FILTRER",
+	"ARRAYTOTEXT": "MATRIXTILTEKST",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

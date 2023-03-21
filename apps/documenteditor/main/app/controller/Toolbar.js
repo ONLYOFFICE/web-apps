@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  Toolbar.js
  *
@@ -855,16 +854,22 @@ define([
                 control_plain = (in_control&&control_props) ? (control_props.get_ContentControlType()==Asc.c_oAscSdtLevelType.Inline) : false;
             (lock_type===undefined) && (lock_type = Asc.c_oAscSdtLockType.Unlocked);
             var content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
+            var if_form = control_props && control_props.get_FormPr();
 
             if (!toolbar.btnContentControls.isDisabled()) {
-                var control_disable = control_plain || content_locked,
-                    if_form = control_props && control_props.get_FormPr();
+                var control_disable = control_plain || content_locked;
                 for (var i=0; i<7; i++)
                     toolbar.btnContentControls.menu.items[i].setDisabled(control_disable);
                 toolbar.btnContentControls.menu.items[8].setDisabled(!in_control || lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked || if_form);
                 toolbar.btnContentControls.menu.items[10].setDisabled(!in_control || if_form);
             }
 
+            this.toolbar.lockToolbar(Common.enumLock.fixedForm, if_form && if_form.get_Fixed() && in_para, {array: [
+                toolbar.btnAlignLeft, toolbar.btnAlignCenter, toolbar.btnAlignRight, toolbar.btnAlignJust,
+                toolbar.btnMarkers, toolbar.btnNumbers, toolbar.btnMultilevels,
+                toolbar.btnDecLeftOffset, toolbar.btnIncLeftOffset,
+                toolbar.btnLineSpace
+            ]});  
             this.toolbar.lockToolbar(Common.enumLock.controlPlain, control_plain, {array: [toolbar.btnInsertTable, toolbar.btnInsertImage,  toolbar.btnInsertChart,  toolbar.btnInsertText, toolbar.btnInsertTextArt,
                                                                                 toolbar.btnInsertShape, toolbar.btnInsertSmartArt, toolbar.btnInsertEquation, toolbar.btnDropCap, toolbar.btnColumns, toolbar.mnuInsertPageNum ]});
             if (enable_dropcap && frame_pr) {
@@ -1329,7 +1334,8 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
-        onComboOpen: function(needfocus, combo) {
+        onComboOpen: function(needfocus, combo, e, params) {
+            if (params && params.fromKeyDown) return;
             _.delay(function() {
                 var input = $('input', combo.cmpEl).select();
                 if (needfocus) input.focus();
@@ -2838,6 +2844,9 @@ define([
                 me.dlgSymbolTable.on('symbol:dblclick', function(cmp, result, settings) {
                     me.api.asc_insertSymbol(settings.font ? settings.font : me.api.get_TextProps().get_TextPr().get_FontFamily().get_Name(), settings.code, settings.special);
                 });
+                me.dlgSymbolTable.on('close', function(obj){
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                });
             }
         },
 
@@ -3275,16 +3284,17 @@ define([
                 //         if ($panel) me.toolbar.addTab(tab, $panel, 6);
                 //     }
                 // }
-
-                tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
-                $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
-                if ($panel) {
-                    config.canProtect && $panel.append($('<div class="separator long"></div>'));
-                    var doctab = me.getApplication().getController('DocProtection');
-                    $panel.append(doctab.createToolbarPanel());
-                    me.toolbar.addTab(tab, $panel, 6);
-                    me.toolbar.setVisible('protect', Common.UI.LayoutManager.isElementVisible('toolbar-protect'));
-                    Array.prototype.push.apply(me.toolbar.lockControls, doctab.getView('DocProtection').getButtons());
+                if ( config.canProtect ) {
+                    tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
+                    $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                    if ($panel) {
+                        (config.isSignatureSupport || config.isPasswordSupport) && $panel.append($('<div class="separator long"></div>'));
+                        var doctab = me.getApplication().getController('DocProtection');
+                        $panel.append(doctab.createToolbarPanel());
+                        me.toolbar.addTab(tab, $panel, 6);
+                        me.toolbar.setVisible('protect', Common.UI.LayoutManager.isElementVisible('toolbar-protect'));
+                        Array.prototype.push.apply(me.toolbar.lockControls, doctab.getView('DocProtection').getButtons());
+                    }
                 }
 
                 var links = me.getApplication().getController('Links');

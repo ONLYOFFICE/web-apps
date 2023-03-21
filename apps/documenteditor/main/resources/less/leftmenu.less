@@ -16,6 +16,11 @@
     background-color: @background-toolbar-ie;
     background-color: @background-toolbar;
     overflow: hidden;
+
+    .rtl & {
+        left: 0;
+        right: 40px;
+    }
 }
 
 #developer-hint, #beta-hint, #limit-hint {
@@ -33,4 +38,9 @@
     -o-transform: rotate(180deg);
     transform: rotate(180deg);
     cursor: default;
+}
+
+#search-results {
+    background-color: @background-normal-ie;
+    background-color: @background-normal;
 }

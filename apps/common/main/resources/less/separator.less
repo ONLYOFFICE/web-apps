@@ -15,6 +15,12 @@
     padding: 0;
     width: 0;
 
+    .rtl & {
+        border-left: none;
+        border-right: @scaled-one-px-value-ie solid @border-divider-ie;
+        border-right: @scaled-one-px-value solid @border-divider;
+    }
+
     &.horizontal {
         height: 0;
         display: block;

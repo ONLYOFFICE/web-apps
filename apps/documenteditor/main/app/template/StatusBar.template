@@ -1,9 +1,9 @@
 
 <div class="statusbar" style="display:table;">
     <div class="status-group dropup">
-        <label id="label-pages" class="status-label dropdown-toggle margin-top-large" style="margin-left: 40px;" data-toggle="dropdown" data-hint="0" data-hint-direction="top"><%= textPageNumber %></label>
+        <label id="label-pages" class="status-label dropdown-toggle margin-top-large" data-toggle="dropdown" data-hint="0" data-hint-direction="top"><%= textPageNumber %></label>
         <div id="status-goto-box" class="dropdown-menu">
-            <label style="float:left;line-height:22px;"><%= textGotoPage %></label>
+            <label><%= textGotoPage %></label>
             <div id="status-goto-page" style="display:inline-block;"></div>
         </div>
     </div>
@@ -35,6 +35,6 @@
                 <label id="label-zoom" class="status-label">Zoom 100%</label>
             </div>
         </div>
-        <button id="btn-zoom-up" type="button" class="btn small btn-toolbar margin-top-small" style="margin-right:40px;"><span class="icon toolbar__icon btn-zoomup">&nbsp;</span></button>
+        <button id="btn-zoom-up" type="button" class="btn small btn-toolbar margin-top-small"><span class="icon toolbar__icon btn-zoomup">&nbsp;</span></button>
     </div>
 </div>

@@ -472,6 +472,11 @@
 	"WRAPCOLS": "WRAPCOLS",
 	"TAKE": "TAKE",
 	"DROP": "DROP",
+	"SEQUENCE": "SEQUENCE",
+	"EXPAND": "EXPAND",
+	"XMATCH": "XMATCH",
+	"FILTER": "FILTER",
+	"ARRAYTOTEXT": "ARRAYTOTEXT",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",
