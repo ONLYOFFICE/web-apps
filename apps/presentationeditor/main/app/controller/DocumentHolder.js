@@ -1549,7 +1549,7 @@ define([
                     cls: 'shifted-left',
                     items: [
                         {template: _.template('<div id="id-placeholder-menu-tablepicker" class="dimension-picker" style="margin: 5px 10px;"></div>')},
-                        {caption: me.mniCustomTable, value: 'custom'}
+                        {caption: me.documentHolder.mniCustomTable, value: 'custom'}
                     ]
                 });
                 // Prepare menu container
