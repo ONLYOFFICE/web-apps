@@ -324,6 +324,8 @@ var themecolor = new(function() {
         txtaccent: 'Accent',
         txtDarker: 'Darker',
         txtLighter: 'Lighter',
+        txtBrightGreen: 'Bright green',
+        txtViolet: 'Violet',
 
         ThemeValues: [6, 15, 7, 16, 0, 1, 2, 3, 4, 5],
 

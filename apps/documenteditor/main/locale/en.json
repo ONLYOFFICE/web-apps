@@ -416,6 +416,8 @@
   "Common.Utils.ThemeColor.txtaccent": "Accent",
   "Common.Utils.ThemeColor.txtDarker": "Darker",
   "Common.Utils.ThemeColor.txtLighter": "Lighter",
+  "Common.Utils.ThemeColor.txtBrightGreen": "Bright green",
+  "Common.Utils.ThemeColor.txtViolet": "Violet",
   "Common.Views.About.txtAddress": "address: ",
   "Common.Views.About.txtLicensee": "LICENSEE",
   "Common.Views.About.txtLicensor": "LICENSOR",

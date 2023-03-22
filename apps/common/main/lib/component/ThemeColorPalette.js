@@ -58,6 +58,7 @@ define([
             transparent: false,
             value: '000000',
             enableKeyEvents: true,
+            colorHints: true,
             keyMoveDirection: 'both' // 'vertical', 'horizontal'
         },
 
@@ -115,6 +116,7 @@ define([
             this.outerMenu = me.options.outerMenu;
             this.lastSelectedIdx = -1;
             this.emptyColorsClass = me.options.hideEmptyColors ? 'hidden' : '';
+            this.colorHints = me.options.colorHints;
 
             me.colorItems = [];
             if (me.options.keyMoveDirection=='vertical')
@@ -159,7 +161,11 @@ define([
             if (modalParents.length > 0) {
                 this.tipZIndex = parseInt(modalParents.css('z-index')) + 10;
             }
-            this.options.transparent && this.createTip(this.$el.find('a.color-transparent'), this.textTransparent);
+            if (this.colorHints) {
+                this.options.transparent && this.createTip(this.$el.find('a.color-transparent'), this.textTransparent);
+                !this.options.themecolors && !this.options.effects && this.updateHints(typeof this.colorHints==='object' ? this.colorHints : undefined);
+                this.colorHints = !!this.colorHints;
+            }
 
             return this;
         },
@@ -216,7 +222,7 @@ define([
                         this.lastSelectedIdx = parseInt(colorEl.attr('idx'));
                         color = undefined; //select only first found color
                     }
-                    this.createTip(colorEl, Common.Utils.ThemeColor.getTranslation(Common.Utils.ThemeColor.getRgbColor(colors[i]).asc_getName()));
+                    this.colorHints && this.createTip(colorEl, Common.Utils.ThemeColor.getTranslation(Common.Utils.ThemeColor.getRgbColor(colors[i]).asc_getName()));
                 }
                 while (i < this.options.dynamiccolors) {
                     colorEl = el.find('.color-dynamic-'+ i);
@@ -458,7 +464,7 @@ define([
                     aEl.addClass('color-'+me.colors[i]);
                     aEl.css({background: "#"+me.colors[i]});
                     aEl.find('span').first().css({background: "#"+me.colors[i]});
-                    me.createTip(aEl, standartcolors[aColorIdx].tip);
+                    me.colorHints && me.createTip(aEl, standartcolors[aColorIdx].tip);
                     aColorIdx++;
                 } else if ( typeof(me.colors[i]) == 'object' && me.colors[i].effectId !== undefined) {
                     if (aEffectIdx>=effectcolors.length)
@@ -481,7 +487,7 @@ define([
                         aEl.attr('effectvalue', '' + effectcolors[aEffectIdx].effectValue);
 
                     me.colors[i] = effectcolors[aEffectIdx];
-                    me.createTip(aEl, effectcolors[aEffectIdx].tip);
+                    me.colorHints && me.createTip(aEl, effectcolors[aEffectIdx].tip);
                     aEffectIdx++;
                 }
             }
@@ -695,6 +701,20 @@ define([
 
         focusInner: function(e) {
             this.focus(e.keyCode == Common.UI.Keys.DOWN ? 'first' : 'last');
+        },
+
+        updateHints: function(values) { // use for hex colors (without effectId)
+            if (!this.colorHints) return;
+
+            var me = this;
+            (me.$el || $(me.el)).find('a.palette-color').each(function(num, item) {
+                if (values && values[num])
+                    me.createTip($(item), values[num]);
+                else {
+                    var color = item.className.match(me.colorRe)[1];
+                    me.createTip($(item), Common.Utils.ThemeColor.getTranslation(Common.Utils.ThemeColor.getRgbColor(color).asc_getName()));
+                }
+            });
         },
 
         textThemeColors         : 'Theme Colors',
