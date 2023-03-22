@@ -90,8 +90,8 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
     SSE.Views.FormatRulesManagerDlg =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             alias: 'FormatRulesManagerDlg',
-            contentWidth: 510,
-            height: 361,
+            contentWidth: 560,
+            height: 340,
             buttons: ['ok', 'cancel']
         },
 
@@ -103,7 +103,6 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                     '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
                     '<div class="content-panel" style="padding: 0;">' + _.template(contentTemplate)({scope: this}) + '</div>',
                     '</div>',
-                    '<div class="separator horizontal"/>'
                 ].join('')
             }, options);
 
@@ -147,21 +146,23 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 store: new Common.UI.DataViewStore(),
                 emptyText: '',
                 headers: [
-                    {name: this.textRules, width: 182},
-                    {name: this.textApply, width: 180},
-                    {name: this.textFormat, width: 114},
+                    {name: this.textRules, width: 198},
+                    {name: this.textApply, width: 196},
+                    {name: this.textFormat, width: 130},
                 ],
+                isRTL: true,
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                     '<div class="list-item" style="width: 100%;display:inline-block;" id="format-manager-item-<%= ruleIndex %>">',
-                        '<div style="width:181px;padding-right: 10px;display: inline-block;vertical-align: middle;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= name %></div>',
-                        '<div style="width:181px;padding-right: 10px;display: inline-block;vertical-align: middle;"><div id="format-manager-txt-rule-<%= ruleIndex %>" style=""></div></div>',
-                        '<div style="width:112px;display: inline-block;vertical-align: middle;"><div id="format-manager-item-preview-<%= ruleIndex %>" style="height:22px;background-color: #ffffff;"></div></div>',
+                        '<div style="width:197px;padding-<% if (Common.UI.isRTL()) { %>left<% } else {%>right<% } %>: 10px;display: inline-block;vertical-align: middle;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= name %></div>',
+                        '<div style="width:197px;padding-<% if (Common.UI.isRTL()) { %>left<% } else {%>right<% } %>: 10px;display: inline-block;vertical-align: middle;"><div id="format-manager-txt-rule-<%= ruleIndex %>" style=""></div></div>',
+                        '<div style="width:128px;display: inline-block;vertical-align: middle;"><div id="format-manager-item-preview-<%= ruleIndex %>" style="height:22px;background-color: #ffffff;"></div></div>',
                         '<% if (lock) { %>',
                             '<div class="lock-user"><%=lockuser%></div>',
                         '<% } %>',
                     '</div>'
                 ].join('')),
+        
                 tabindex: 1
             });
             this.rulesList.createNewItem = function(record) {

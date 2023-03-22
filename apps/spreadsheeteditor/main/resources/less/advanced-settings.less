@@ -85,6 +85,36 @@
     }
 }
 
+#format-manager-btn-group {
+    text-align: right;
+    vertical-align:bottom;
+
+    .rtl & {
+        text-align: left;
+    }
+
+    #format-manager-btn-down {
+        margin-right: 15px;
+
+        .rtl & {
+            margin-right: 0px;
+            margin-left: 15px;
+        }
+    }
+
+    .format-manager-btn-text {
+        min-width: 80px;
+        &:not(#format-manager-btn-delete) {
+            margin-right: 5px;
+        }
+    
+        .rtl &:not(#format-manager-btn-delete) {
+            margin-right: 0;
+            margin-left: 5px;
+        }
+    }
+}
+
 .input-row--tabs {
     border-bottom: @scaled-one-px-value-ie solid @border-divider-ie;
     border-bottom: @scaled-one-px-value solid @border-divider;
