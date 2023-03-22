@@ -144,6 +144,9 @@ define([
                 if (/althints:show/.test(cmd)) {
                     if ( /false|hide/.test(param) )
                         Common.NotificationCenter.trigger('hints:clear');
+                } else
+                if (/updates:checking/.test(cmd)) {
+                    nativevars.update = true;
                 }
             };
 
@@ -234,6 +237,20 @@ define([
                     };
                     native.execCommand('title:button', JSON.stringify(obj));
                 }
+            }
+        }
+
+        const _onFileMenuShow = function () {
+            if ( nativevars.update && !config.linkupdate ) {
+                const strmarkup = `<div class="fill-devider"></div>
+                                    <div id="fm-box-updates">
+                                        <label class='link'>New app version is available</label>
+                                    </div>`;
+                const menuitem = $('#file-menu-panel .panel-menu .fm-btn').last();
+                config.linkupdate = $(strmarkup).insertAfter(menuitem);
+                config.linkupdate.click(e => {
+                    native.execCommand('go:update', '');
+                });
             }
         }
 
@@ -465,6 +482,7 @@ define([
                                 }
                             },
                             'settings:apply': _onApplySettings.bind(this),
+                            'menu:show': _onFileMenuShow.bind(this),
                         },
                     }, {id: 'desktop'});
 
