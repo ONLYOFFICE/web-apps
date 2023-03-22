@@ -73,7 +73,7 @@ define([
                         '<em><span style="background:#<%=item%>;" unselectable="on">&#160;</span></em>' +
                         '</a>' +
                     '<% } else if (me.isTransparent(item)) { %>' +
-                        '<a class="color-<%=item%>" idx="<%=idx++%>">' +
+                        '<a class="color-<%=item%>" data-toggle="tooltip" idx="<%=idx++%>">' +
                         '<em><span unselectable="on">&#160;</span></em>' +
                         '</a>' +
                     '<% } else if (me.isEffect(item)) { %>' +
@@ -93,7 +93,7 @@ define([
                     '<div class="palette-color-spacer"></div>' +
                     '<div class="palette-color-caption"><%=me.textRecentColors%></div>' +
                     '<% for (var i=0; i<me.options.dynamiccolors; i++) { %>' +
-                        '<a class="color-dynamic-<%=i%> data-toggle="tooltip" dynamic-empty-color <%= me.emptyColorsClass %>" color="" idx="<%=idx++%>">' +
+                        '<a class="color-dynamic-<%=i%> dynamic-empty-color <%= me.emptyColorsClass %>" data-toggle="tooltip" color="" idx="<%=idx++%>">' +
                         '<em><span unselectable="on">&#160;</span></em></a>' +
                     '<% } %>' +
                 '<% } %>' +
@@ -159,6 +159,8 @@ define([
             if (modalParents.length > 0) {
                 this.tipZIndex = parseInt(modalParents.css('z-index')) + 10;
             }
+            this.options.transparent && this.createTip(this.$el.find('a.color-transparent'), this.textTransparent);
+
             return this;
         },
 
@@ -214,6 +216,7 @@ define([
                         this.lastSelectedIdx = parseInt(colorEl.attr('idx'));
                         color = undefined; //select only first found color
                     }
+                    this.createTip(colorEl, Common.Utils.ThemeColor.getTranslation(Common.Utils.ThemeColor.getRgbColor(colors[i]).asc_getName()));
                 }
                 while (i < this.options.dynamiccolors) {
                     colorEl = el.find('.color-dynamic-'+ i);
@@ -696,6 +699,7 @@ define([
 
         textThemeColors         : 'Theme Colors',
         textStandartColors      : 'Standard Colors',
-        textRecentColors        : 'Recent Colors'
+        textRecentColors        : 'Recent Colors',
+        textTransparent         : 'Transparent'
     }, Common.UI.ThemeColorPalette || {}));
 });
