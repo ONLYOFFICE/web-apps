@@ -307,6 +307,17 @@ body {
 #file-menu-panel .panel-menu {
     display: flex;
     flex-flow: column;
+
+    .fm-btn {
+        flex-shrink: 0;
+    }
+
+    #viewport-vbox-layout &
+        li.devider
+    {
+        margin-top: 7px;
+        flex-shrink: 0;
+    }
 }
 
 .fill-devider {
