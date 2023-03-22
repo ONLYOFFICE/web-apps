@@ -222,7 +222,7 @@ define([
             }
         },
 
-        openInsideMode: function(name, url, frameId) {
+        openInsideMode: function(name, url, frameId, guid) {
             if (!this.pluginsPanel) return false;
 
             this.pluginsPanel.toggleClass('hidden', true);
@@ -249,7 +249,7 @@ define([
 
                 this.iframePlugin.src = url;
             }
-
+            this._state.insidePlugin = guid;
             this.fireEvent('plugin:open', [this, 'onboard', 'open']);
             return true;
         },
@@ -263,7 +263,7 @@ define([
             }
             this.currentPluginPanel.toggleClass('hidden', true);
             // this.pluginsPanel.toggleClass('hidden', false);
-
+            this._state.insidePlugin = undefined;
             this.fireEvent('plugin:open', [this, 'onboard', 'close']);
         },
 

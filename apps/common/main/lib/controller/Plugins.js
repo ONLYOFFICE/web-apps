@@ -382,8 +382,8 @@ define([
                 if (urlAddition)
                     url += urlAddition;
                 if (variation.get_InsideMode()) {
-                    if (!this.panelPlugins.openInsideMode(plugin.get_Name(lang), url, frameId))
-                        this.api.asc_pluginButtonClick(-1);
+                    if (!this.panelPlugins.openInsideMode(plugin.get_Name(lang), url, frameId, plugin.get_Guid()))
+                        this.api.asc_pluginButtonClick(-1, plugin.get_Guid());
                 } else {
                     var me = this,
                         isCustomWindow = variation.get_CustomWindow(),
@@ -410,14 +410,18 @@ define([
                         url: url,
                         frameId : frameId,
                         buttons: isCustomWindow ? undefined : newBtns,
-                        toolcallback: _.bind(this.onToolClose, this),
+                        toolcallback: function(event) {
+                            me.api.asc_pluginButtonClick(-1, plugin.get_Guid());
+                        },
                         help: !!help,
                         loader: plugin.get_Loader(),
                         modal: isModal!==undefined ? isModal : true
                     });
                     me.pluginDlg.on({
                         'render:after': function(obj){
-                            obj.getChild('.footer .dlg-btn').on('click', _.bind(me.onDlgBtnClick, me));
+                            obj.getChild('.footer .dlg-btn').on('click', function(event) {
+                                me.api.asc_pluginButtonClick(parseInt(event.currentTarget.attributes['result'].value), plugin.get_Guid());
+                            });
                             me.pluginContainer = me.pluginDlg.$window.find('#id-plugin-container');
                         },
                         'close': function(obj){
@@ -433,7 +437,7 @@ define([
                             help && window.open(help, '_blank');
                         },
                         'header:click': function(type){
-                            me.api.asc_pluginButtonClick(type);
+                            me.api.asc_pluginButtonClick(type, plugin.get_Guid());
                         }
                     });
 
@@ -461,14 +465,9 @@ define([
                     callback.call();
             }
         },
-        
-        onDlgBtnClick: function(event) {
-            var state = event.currentTarget.attributes['result'].value;
-            this.api.asc_pluginButtonClick(parseInt(state));
-        },
 
         onToolClose: function() {
-            this.api.asc_pluginButtonClick(-1);
+            this.api.asc_pluginButtonClick(-1, this.panelPlugins ? this.panelPlugins._state.insidePlugin : undefined);
         },
 
         onPluginMouseUp: function(x, y) {
@@ -807,7 +806,7 @@ define([
                         frameId : frameId,
                         buttons: isCustomWindow ? undefined : newBtns,
                         toolcallback: function(event) {
-                            me.api.asc_pluginButtonClick(-1, undefined, frameId);
+                            me.api.asc_pluginButtonClick(-1, variation.guid, frameId);
                         },
                         help: !!help,
                         modal: isModal!==undefined ? isModal : true
@@ -815,7 +814,7 @@ define([
                     me.customPluginsDlg[frameId].on({
                         'render:after': function(obj){
                             obj.getChild('.footer .dlg-btn').on('click', function(event) {
-                                me.api.asc_pluginButtonClick(parseInt(event.currentTarget.attributes['result'].value), undefined, frameId);
+                                me.api.asc_pluginButtonClick(parseInt(event.currentTarget.attributes['result'].value), variation.guid, frameId);
                             });
                             me.customPluginsDlg[frameId].options.pluginContainer = me.customPluginsDlg[frameId].$window.find('#id-plugin-container');
                         },
@@ -832,7 +831,7 @@ define([
                             help && window.open(help, '_blank');
                         },
                         'header:click': function(type){
-                            me.api.asc_pluginButtonClick(type, undefined, frameId);
+                            me.api.asc_pluginButtonClick(type, variation.guid, frameId);
                         }
                     });
 
