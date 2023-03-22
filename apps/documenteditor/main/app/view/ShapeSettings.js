@@ -77,6 +77,8 @@ define([
             this.imgprops = null;
             this._sendUndoPoint = true;
             this._sliderChanged = false;
+            this._sendLineUndoPoint = true;
+            this._sliderLineChanged = false;
             this._texturearray = null;
 
             this.txtPt = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt);
@@ -144,6 +146,7 @@ define([
             this.FillPatternContainer = $('#shape-panel-pattern-fill');
             this.FillGradientContainer = $('#shape-panel-gradient-fill');
             this.TransparencyContainer = $('#shape-panel-transparent-fill');
+            this.LineTransparencyContainer = $('#shape-line-panel-transparent');
             this.ShapeOnlySettings = $('.shape-only');
             this.CanChangeType = $('.change-type');
             this.RotationSettings = $('.shape-rotation');
@@ -602,6 +605,7 @@ define([
                         stroke.put_color(Common.Utils.ThemeColor.getRgbColor(Common.Utils.ThemeColor.colorValue2EffectId(this.BorderColor.Color)));
                     stroke.asc_putPrstDash(this.BorderType);
                     stroke.put_width(this._pt2mm(this.BorderSize));
+                    stroke.put_transparent(this._state.LineTransparency);
                 }
                 props.put_stroke(stroke);
                 this.imgprops.put_ShapeProperties(props);
@@ -652,6 +656,7 @@ define([
                     stroke.put_color(Common.Utils.ThemeColor.getRgbColor(this.BorderColor.Color));
                     stroke.put_width(this._pt2mm(this.BorderSize));
                     stroke.asc_putPrstDash(this.BorderType);
+                    stroke.put_transparent(this._state.LineTransparency);
                 }
                 props.put_stroke(stroke);
                 this.imgprops.put_ShapeProperties(props);
@@ -672,12 +677,60 @@ define([
                     stroke.put_color(Common.Utils.ThemeColor.getRgbColor(this.BorderColor.Color));
                     stroke.put_width(this._pt2mm(this.BorderSize));
                     stroke.asc_putPrstDash(this.BorderType);
+                    stroke.put_transparent(this._state.LineTransparency);
                 }
                 props.put_stroke(stroke);
                 this.imgprops.put_ShapeProperties(props);
                 this.api.ImgApply(this.imgprops);
             }
             this.fireEvent('editcomplete', this);
+        },
+
+        onNumLineTransparencyChange: function(field, newValue, oldValue, eOpts){
+            this.sldrLineTransparency.setValue(field.getNumberValue(), true);
+            if (this.api)  {
+                var props = new Asc.asc_CShapeProperty();
+                var stroke = new Asc.asc_CStroke();
+                this._state.LineTransparency = field.getNumberValue() * 2.55;
+                stroke.put_transparent(this._state.LineTransparency);
+                props.put_stroke(stroke);
+                this.imgprops.put_ShapeProperties(props);
+                this.api.ImgApply(this.imgprops);
+            }
+        },
+
+        onLineTransparencyChange: function(field, newValue, oldValue){
+            this._sliderLineChanged = newValue;
+            this.numLineTransparency.setValue(newValue, true);
+            if (this._sendLineUndoPoint) {
+                this.api.setStartPointHistory();
+                this._sendLineUndoPoint = false;
+                this.updatesliderline = setInterval(_.bind(this._transparencyLineApplyFunc, this), 100);
+            }
+        },
+
+        onLineTransparencyChangeComplete: function(field, newValue, oldValue){
+            clearInterval(this.updatesliderline);
+            this._sliderlineChanged = newValue;
+            if (!this._sendLineUndoPoint) { // start point was added
+                this.api.setEndPointHistory();
+                this._transparencyLineApplyFunc();
+            }
+            this._sendLineUndoPoint = true;
+        },
+
+        _transparencyLineApplyFunc: function() {
+            if (this._sliderLineChanged!==undefined) {
+                var props = new Asc.asc_CShapeProperty();
+                var stroke = new Asc.asc_CStroke();
+                this._state.LineTransparency = this._sliderLineChanged * 2.55;
+                stroke.put_transparent(this._state.LineTransparency);
+                props.put_stroke(stroke);
+
+                this.imgprops.put_ShapeProperties(props);
+                this.api.ImgApply(this.imgprops);
+                this._sliderLineChanged = undefined;
+            }
         },
 
         _ImgWrapStyleChanged: function(style) {
@@ -1058,8 +1111,18 @@ define([
                     strokeType = stroke.get_type(),
                     borderType,
                     update = (this._state.StrokeColor == 'transparent' && this.BorderColor.Color !== 'transparent'); // border color was changed for shape without line and then shape was reselected (or apply other settings)
-
                 if (stroke) {
+                    transparency = stroke.get_transparent();
+                    if ( Math.abs(this._state.LineTransparency-transparency)>0.001 || Math.abs(this.numLineTransparency.getNumberValue()-transparency)>0.001 ||
+                        (this._state.LineTransparency===null || transparency===null)&&(this._state.LineTransparency!==transparency || this.numLineTransparency.getNumberValue()!==transparency)) {
+
+                        if (transparency !== undefined) {
+                            this.sldrLineTransparency.setValue((transparency===null) ? 100 : transparency/255*100, true);
+                            this.numLineTransparency.setValue(this.sldrLineTransparency.getValue(), true);
+                        }
+                        this._state.LineTransparency=transparency;
+                    }
+
                     if ( strokeType == Asc.c_oAscStrokeType.STROKE_COLOR ) {
                         color = stroke.get_color();
                         if (color) {
@@ -1578,6 +1641,36 @@ define([
             this.BorderType = Asc.c_oDashType.solid;
             this.cmbBorderType.setValue(this.BorderType);
             this.lockedControls.push(this.cmbBorderType);
+
+            this.sldrLineTransparency = new Common.UI.SingleSlider({
+                el: $('#shape-line-slider-transparency'),
+                width: 75,
+                minValue: 0,
+                maxValue: 100,
+                value: 100
+            });
+            this.sldrLineTransparency.on('change', _.bind(this.onLineTransparencyChange, this));
+            this.sldrLineTransparency.on('changecomplete', _.bind(this.onLineTransparencyChangeComplete, this));/**/
+            this.lockedControls.push(this.sldrLineTransparency);
+
+            this.lockedControls.push( $(this.el).find('#shape-line-lbl-transparency-start'));
+            this.lockedControls.push( $(this.el).find('#shape-line-lbl-transparency-end'));
+
+            this.numLineTransparency = new Common.UI.MetricSpinner({
+                el: $('#shape-line-spin-transparency'),
+                step: 1,
+                width: 62,
+                value: '100 %',
+                defaultUnit : "%",
+                maxValue: 100,
+                minValue: 0,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.numLineTransparency.on('change', _.bind(this.onNumLineTransparencyChange, this));
+            this.numLineTransparency.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.lockedControls.push(this.numLineTransparency);
 
             this.btnRotate270 = new Common.UI.Button({
                 parentEl: $('#shape-button-270', me.$el),
