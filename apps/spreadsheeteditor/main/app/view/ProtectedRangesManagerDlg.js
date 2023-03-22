@@ -50,8 +50,8 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
     SSE.Views.ProtectedRangesManagerDlg =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             alias: 'ProtectedRangesManagerDlg',
-            contentWidth: 480,
-            height: 353,
+            contentWidth: 490,
+            height: 365,
             buttons: null
         },
 
@@ -63,7 +63,6 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
                     '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
                     '<div class="content-panel" style="padding: 0;">' + _.template(contentTemplate)({scope: this}) + '</div>',
                     '</div>',
-                    '<div class="separator horizontal"></div>',
                     '<div class="footer center">',
                     '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.closeButtonText + '</button>',
                     '</div>'
