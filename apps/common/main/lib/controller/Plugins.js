@@ -807,7 +807,7 @@ define([
                         frameId : frameId,
                         buttons: isCustomWindow ? undefined : newBtns,
                         toolcallback: function(event) {
-                            me.api.asc_pluginButtonClick(-1, frameId);
+                            me.api.asc_pluginButtonClick(-1, undefined, frameId);
                         },
                         help: !!help,
                         modal: isModal!==undefined ? isModal : true
@@ -815,7 +815,7 @@ define([
                     me.customPluginsDlg[frameId].on({
                         'render:after': function(obj){
                             obj.getChild('.footer .dlg-btn').on('click', function(event) {
-                                me.api.asc_pluginButtonClick(parseInt(event.currentTarget.attributes['result'].value), frameId);
+                                me.api.asc_pluginButtonClick(parseInt(event.currentTarget.attributes['result'].value), undefined, frameId);
                             });
                             me.customPluginsDlg[frameId].options.pluginContainer = me.customPluginsDlg[frameId].$window.find('#id-plugin-container');
                         },
@@ -832,7 +832,7 @@ define([
                             help && window.open(help, '_blank');
                         },
                         'header:click': function(type){
-                            me.api.asc_pluginButtonClick(type, frameId);
+                            me.api.asc_pluginButtonClick(type, undefined, frameId);
                         }
                     });
 
