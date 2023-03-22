@@ -69,6 +69,7 @@ define([
                 this.api.asc_registerCallback('asc_onWorksheetLocked',      _.bind(this.onWorksheetLocked, this));
                 this.api.asc_registerCallback('asc_onSheetsChanged',            this.onApiSheetChanged.bind(this));
                 this.api.asc_registerCallback('asc_onUpdateSheetViewSettings',  this.onApiSheetChanged.bind(this));
+                this.api.asc_registerCallback('asc_updateSheetViewType',    this.onApiUpdateSheetViewType.bind(this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
             }
@@ -98,7 +99,8 @@ define([
                     'viewtab:showview': this.onShowView,
                     'viewtab:openview': this.onOpenView,
                     'viewtab:createview': this.onCreateView,
-                    'viewtab:manager': this.onOpenManager
+                    'viewtab:manager': this.onOpenManager,
+                    'viewtab:viewmode': this.onPreviewMode
                 },
                 'Statusbar': {
                     'sheet:changed': this.onApiSheetChanged.bind(this),
@@ -251,7 +253,8 @@ define([
 
         onWorksheetLocked: function(index,locked) {
             if (index == this.api.asc_getActiveWorksheetIndex()) {
-                Common.Utils.lockControls(Common.enumLock.sheetLock, locked, {array: [this.view.chHeadings, this.view.chGridlines, this.view.btnFreezePanes, this.view.chZeros]});
+                Common.Utils.lockControls(Common.enumLock.sheetLock, locked, {array: [this.view.chHeadings, this.view.chGridlines, this.view.btnFreezePanes, this.view.chZeros,
+                                                                                            this.view.btnViewNormal, this.view.btnViewPageBreak]});
             }
         },
 
@@ -266,6 +269,7 @@ define([
 
             var currentSheet = this.api.asc_getActiveWorksheetIndex();
             this.onWorksheetLocked(currentSheet, this.api.asc_isWorksheetLockedOrDeleted(currentSheet));
+            this.onApiUpdateSheetViewType(currentSheet);
         },
 
         onLayoutChanged: function(area) {
@@ -289,7 +293,20 @@ define([
                     menu_item.setChecked(true, true);
                 }
             }
+        },
+
+        onPreviewMode: function(value) {
+            this.api && this.api.asc_SetSheetViewType(value);
+        },
+
+        onApiUpdateSheetViewType: function(index) {
+            if (this.view && this.api && index === this.api.asc_getActiveWorksheetIndex()) {
+                var value = this.api.asc_GetSheetViewType(index);
+                this.view.btnViewPageBreak.toggle(value===Asc.c_oAscESheetViewType.pageBreakPreview, true);
+                this.view.btnViewNormal.toggle(value===Asc.c_oAscESheetViewType.normal, true);
+            }
         }
+
 
     }, SSE.Controllers.ViewTab || {}));
 });
