@@ -67,6 +67,15 @@
     }
 }
 
+#name-manager-range-list {
+    .listitem-icon{
+        .rtl & {
+            margin-right: 0px;
+            margin-left: 5px;
+        }
+    }
+}
+
 #sort-dialog-btn-down {
     margin-right: 5px;
 
@@ -634,17 +643,20 @@
 }
 
 #window-name-manager {
-    .name-manager-td-btn {
-        display: inline-block;
+    #name-manager-group-btn {
         vertical-align: bottom;
+        text-align: right;
+
+        .rtl & {
+            text-align: left;
+        }
     }
 
     #name-manager-btn-new {
         margin-right: 5px;
-        margin-left: 52px;
 
         .rtl & {
-            margin-right: 52px;
+            margin-right: 0px;
             margin-left: 5px;
         }
     }
