@@ -284,18 +284,85 @@ var utils = new(function() {
 
 Common.Utils = _extend_object(Common.Utils, utils);
 
-Common.Utils.ThemeColor = new(function() {
+var themecolor = new(function() {
+    var initnames = true;
+
     return {
+        txtBlack: 'Black',
+        txtWhite: 'White',
+        txtRed: 'Red',
+        txtGreen: 'Green',
+        txtBlue: 'Blue',
+        txtYellow: 'Yellow',
+        txtPurple: 'Purple',
+        txtAqua: 'Aqua',
+        txtDarkRed: 'Dark red',
+        txtDarkGreen: 'Dark green',
+        txtDarkBlue: 'Dark blue',
+        txtDarkYellow: 'Dark yellow',
+        txtDarkPurple: 'Dark purple',
+        txtDarkTeal: 'Dark teal',
+        txtLightGray: 'Light gray',
+        txtGray: 'Gray',
+        txtLightBlue: 'Light blue',
+        txtPink: 'Pink',
+        txtLightYellow: 'Light yellow',
+        txtSkyBlue: 'Sky blue',
+        txtRose: 'Rose',
+        txtTurquosie: 'Turquosie',
+        txtLightGreen: 'Light green',
+        txtLavender: 'Lavender',
+        txtLightOrange: 'Light orange',
+        txtTeal: 'Teal',
+        txtGold: 'Gold',
+        txtOrange: 'Orange',
+        txtIndigo: 'Indigo',
+        txtBrown: 'Brown',
+        txtDarkGray: 'Dark gray',
+        txtbackground: 'Background',
+        txttext: 'Text',
+        txtaccent: 'Accent',
+        txtDarker: 'Darker',
+        txtLighter: 'Lighter',
+
         ThemeValues: [6, 15, 7, 16, 0, 1, 2, 3, 4, 5],
 
+        getTranslation: function(name) {
+            if (!name) return '';
+
+            return this['txt' + name.replace(' ', '')] || name
+        },
+
+        getEffectTranslation: function(value) {
+            value =  parseInt(value*100);
+            if (value !== 0) {
+                return (value>0 ? this.txtLighter : this.txtDarker) + ' ' + Math.abs(value) + '%';
+            }
+            return '';
+        },
+
         setColors: function(colors, standart_colors) {
+            if (initnames) {
+                for (var i=1; i<3; i++) {
+                    this['txtbackground'+i] = this.txtbackground + ' ' + i;
+                    this['txttext'+i] = this.txttext + ' ' + i;
+                }
+                for (var i=1; i<7; i++) {
+                    this['txtaccent'+i] = this.txtaccent + ' ' + i;
+                }
+                initnames = false;
+            }
+
             var i, j, item;
 
             if (standart_colors && standart_colors.length > 0) {
                 var standartcolors = [];
 
                 for (i = 0; i < standart_colors.length; i++) {
-                    item = this.getHexColor(standart_colors[i].get_r(), standart_colors[i].get_g(), standart_colors[i].get_b());
+                    item = {
+                        color: this.getHexColor(standart_colors[i].get_r(), standart_colors[i].get_g(), standart_colors[i].get_b()),
+                        tip: this.getTranslation(standart_colors[i].asc_getName())
+                    };
                     standartcolors.push(item);
                 }
 
@@ -307,10 +374,18 @@ Common.Utils.ThemeColor = new(function() {
             for (i = 0; i < 6; i++) {
                 for (j = 0; j < 10; j++) {
                     var idx = i + j * 6;
+                    var colorName = this.getTranslation(colors[idx].asc_getName()),
+                        schemeName = this.getTranslation(colors[idx].asc_getNameInColorScheme()),
+                        effectName = this.getEffectTranslation(colors[idx].asc_getEffectValue());
+                    if (colorName) {
+                        schemeName && (colorName += ', ' + schemeName);
+                        effectName && (colorName += ', ' + effectName);
+                    }
                     item = {
                         color: this.getHexColor(colors[idx].get_r(), colors[idx].get_g(), colors[idx].get_b()),
                         effectId: idx,
-                        effectValue: this.ThemeValues[j]
+                        effectValue: this.ThemeValues[j],
+                        tip: colorName
                     };
                     effectСolors.push(item);
                 }
@@ -366,6 +441,7 @@ Common.Utils.ThemeColor = new(function() {
         }
     }
 })();
+Common.Utils.ThemeColor = _extend_object(themecolor, Common.Utils.ThemeColor);
 
 var metrics = new(function() {
     var me = this;

@@ -69,7 +69,7 @@ define([
                     '<% if (me.isBlankSeparator(item)) { %> <div class="palette-color-spacer"></div>' +
                     '<% } else if (me.isSeparator(item)) { %> </div><div class="divider"></div><div style="padding: 12px;">' +
                     '<% } else if (me.isColor(item)) { %> ' +
-                        '<a class="palette-color color-<%=item%>" style="background:#<%=item%>" idx="<%=idx++%>">' +
+                        '<a class="palette-color color-<%=item%>" data-toggle="tooltip" style="background:#<%=item%>" idx="<%=idx++%>">' +
                         '<em><span style="background:#<%=item%>;" unselectable="on">&#160;</span></em>' +
                         '</a>' +
                     '<% } else if (me.isTransparent(item)) { %>' +
@@ -80,7 +80,7 @@ define([
                         '<% if (idx>0 && me.columns>0 && idx%me.columns===0) { %> ' +
                         '<div class="color-divider"></div>' +
                         '<% } %>' +
-                        '<a effectid="<%=item.effectId%>" effectvalue="<%=item.effectValue%>" class="palette-color-effect color-<%=item.color%>" style="background:#<%=item.color%>" idx="<%=idx++%>">' +
+                        '<a effectid="<%=item.effectId%>" effectvalue="<%=item.effectValue%>" data-toggle="tooltip" class="palette-color-effect color-<%=item.color%>" style="background:#<%=item.color%>" idx="<%=idx++%>">' +
                         '<em><span style="background:#<%=item.color%>;" unselectable="on">&#160;</span></em>' +
                         '</a>' +
                     '<% } else if (me.isCaption(item)) { %>' +
@@ -93,7 +93,7 @@ define([
                     '<div class="palette-color-spacer"></div>' +
                     '<div class="palette-color-caption"><%=me.textRecentColors%></div>' +
                     '<% for (var i=0; i<me.options.dynamiccolors; i++) { %>' +
-                        '<a class="color-dynamic-<%=i%> dynamic-empty-color <%= me.emptyColorsClass %>" color="" idx="<%=idx++%>">' +
+                        '<a class="color-dynamic-<%=i%> data-toggle="tooltip" dynamic-empty-color <%= me.emptyColorsClass %>" color="" idx="<%=idx++%>">' +
                         '<em><span unselectable="on">&#160;</span></em></a>' +
                     '<% } %>' +
                 '<% } %>' +
@@ -154,6 +154,11 @@ define([
                 me.colorItems.push({el: item, index: num});
             });
             this.attachKeyEvents();
+
+            var modalParents = this.$el.closest('.asc-window');
+            if (modalParents.length > 0) {
+                this.tipZIndex = parseInt(modalParents.css('z-index')) + 10;
+            }
             return this;
         },
 
@@ -445,11 +450,12 @@ define([
                     aEl = $(me.aColorElements[aColorIdx]);
                     aEl.removeClass('color-'+me.colors[i]);
 
-                    me.colors[i] = standartcolors[aColorIdx].toUpperCase();
+                    me.colors[i] = standartcolors[aColorIdx].color = standartcolors[aColorIdx].color.toUpperCase();
 
                     aEl.addClass('color-'+me.colors[i]);
                     aEl.css({background: "#"+me.colors[i]});
                     aEl.find('span').first().css({background: "#"+me.colors[i]});
+                    me.createTip(aEl, standartcolors[aColorIdx].tip);
                     aColorIdx++;
                 } else if ( typeof(me.colors[i]) == 'object' && me.colors[i].effectId !== undefined) {
                     if (aEffectIdx>=effectcolors.length)
@@ -472,7 +478,7 @@ define([
                         aEl.attr('effectvalue', '' + effectcolors[aEffectIdx].effectValue);
 
                     me.colors[i] = effectcolors[aEffectIdx];
-
+                    me.createTip(aEl, effectcolors[aEffectIdx].tip);
                     aEffectIdx++;
                 }
             }
@@ -486,6 +492,22 @@ define([
                 }
             }
             this.options.updateColorsArr = undefined;
+        },
+
+        createTip: function(view, name) {
+            var tipZIndex = this.tipZIndex;
+            (view.attr('color-name')===undefined) && view.one('mouseenter', function(e){ // hide tooltip when mouse is over menu
+                var $target = $(e.currentTarget);
+                $target.tooltip({
+                    title: $target.attr('color-name'),
+                    placement   : 'cursor',
+                    zIndex : tipZIndex
+                });
+                $target.mouseenter();
+            });
+            var tip = view.data('bs.tooltip');
+            tip && tip.updateTitle(name);
+            view.attr('color-name', name || '');
         },
 
         clearSelection: function(suppressEvent) {
