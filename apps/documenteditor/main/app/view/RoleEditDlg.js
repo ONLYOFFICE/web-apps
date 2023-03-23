@@ -116,6 +116,7 @@ define([
                 color: this.lastColor,
                 themecolors: 0,
                 effects: 0,
+                colorHints: false,
                 cls: 'move-focus',
                 takeFocusOnClose: true
             });

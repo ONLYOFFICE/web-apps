@@ -1538,6 +1538,7 @@ define([
                     themecolors: 0,
                     effects: 0,
                     dataHint: '1',
+                    colorHints: false,
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
                 });

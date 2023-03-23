@@ -63,6 +63,7 @@ define([
                 (this.options.hideEmptyColors!==undefined) && (config['hideEmptyColors'] = this.options.hideEmptyColors);
                 (this.options.themecolors!==undefined) && (config['themecolors'] = this.options.themecolors);
                 (this.options.effects!==undefined) && (config['effects'] = this.options.effects);
+                (this.options.colorHints!==undefined) && (config['colorHints'] = this.options.colorHints);
 
                 this.colorPicker = new Common.UI.ThemeColorPalette(config);
                 this.colorPicker.on('select', _.bind(this.onColorSelect, this));
