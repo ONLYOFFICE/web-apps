@@ -955,7 +955,8 @@ define([
 //                this.getMainMenu().closeFullScaleMenu();
                 var application = this.getApplication(),
                     toolbarController = application.getController('Toolbar'),
-                    toolbarView = toolbarController.getView();
+                    toolbarView = toolbarController.getView(),
+                    rightMenu = application.getController('RightMenu').getView('RightMenu');
 
                 if (this.appOptions.isEdit && toolbarView && (toolbarView.btnInsertShape.pressed || toolbarView.btnInsertText.pressed) &&
                     ( !_.isObject(arguments[1]) || arguments[1].id !== 'tlbtn-insertshape')) { // TODO: Event from api is needed to clear btnInsertShape state
@@ -970,7 +971,7 @@ define([
                     this.api.SetMarkerFormat(false);
                     toolbarView.btnHighlightColor.toggle(false, false);
                 }
-                if (this.appOptions.isEdit && toolbarView && toolbarView._isEyedropperStart) {
+                if (this.appOptions.isEdit && (toolbarView && toolbarView._isEyedropperStart || rightMenu && rightMenu._isEyedropperStart)) {
                     this.api.asc_cancelEyedropper();
                 }
                 application.getController('DocumentHolder').getView().focus();

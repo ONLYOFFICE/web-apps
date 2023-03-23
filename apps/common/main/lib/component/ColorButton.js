@@ -101,13 +101,14 @@ define([
                 if (options.eyeDropper) {
                     eyedropper.push({
                         id: id + '-eyedropper',
-                        caption: this.textEyedropper
+                        caption: this.textEyedropper,
+                        iconCls: 'menu__icon btn-eyedropper'
                     });
                 }
 
                 var menu = new Common.UI.Menu({
                     id: id,
-                    cls: 'shifted-left',
+                    cls: 'color-menu ' + (options.eyeDropper ? 'shifted-right' : 'shifted-left'),
                     additionalAlign: options.additionalAlign,
                     items: (options.additionalItems ? options.additionalItems : []).concat(auto).concat([
                         { template: _.template('<div id="' + id + '-color-menu" style="width: 164px; height:' + height + '; display: inline-block;"></div>') },

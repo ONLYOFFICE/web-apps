@@ -250,12 +250,13 @@ define([
             var me = this;
             me.api = api;
             var _fire_editcomplete = function() {me.fireEvent('editcomplete', me);};
-            this.paragraphSettings.setApi(api).on('editcomplete', _fire_editcomplete);
+            var _isEyedropperStart = function (isStart) {this._isEyedropperStart = isStart;};
+            this.paragraphSettings.setApi(api).on('editcomplete', _fire_editcomplete).on('eyedropper', _.bind(_isEyedropperStart, this));
             this.headerSettings.setApi(api).on('editcomplete', _fire_editcomplete);
             this.imageSettings.setApi(api).on('editcomplete', _fire_editcomplete);
             this.chartSettings.setApi(api).on('editcomplete', _fire_editcomplete);
-            this.tableSettings.setApi(api).on('editcomplete', _fire_editcomplete);
-            this.shapeSettings.setApi(api).on('editcomplete', _fire_editcomplete);
+            this.tableSettings.setApi(api).on('editcomplete', _fire_editcomplete).on('eyedropper', _.bind(_isEyedropperStart, this));
+            this.shapeSettings.setApi(api).on('editcomplete', _fire_editcomplete).on('eyedropper', _.bind(_isEyedropperStart, this));
             this.textartSettings.setApi(api).on('editcomplete', _fire_editcomplete);
             if (this.mergeSettings) this.mergeSettings.setApi(api).on('editcomplete', _fire_editcomplete);
             if (this.signatureSettings) this.signatureSettings.setApi(api).on('editcomplete', _fire_editcomplete);
