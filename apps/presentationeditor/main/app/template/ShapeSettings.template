@@ -135,6 +135,19 @@
         </td>
     </tr>
     <tr>
+        <td>
+            <div class="padding-small" id="shape-line-panel-transparent" style="width: 100%;">
+                <label class="header" style="display:block;"><%= scope.strTransparency %></label>
+                <div style="display: inline-block; margin-top: 3px;">
+                    <label id="shape-line-lbl-transparency-start">0</label>
+                    <div id="shape-line-slider-transparency" style="display: inline-block;margin: 0 4px; vertical-align: middle;"></div>
+                    <label id="shape-line-lbl-transparency-end">100</label>
+                </div>
+                <div id="shape-line-spin-transparency"></div>
+            </div>
+        </td>
+    </tr>
+    <tr>
         <td class="padding-small">
         <div style="display:inline-block;width:100px;vertical-align: middle;">
             <label class="input-label" style=""><%= scope.strType %></label>

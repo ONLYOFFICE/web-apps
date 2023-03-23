@@ -594,6 +594,7 @@ define([
                         stroke.put_color(Common.Utils.ThemeColor.getRgbColor(Common.Utils.ThemeColor.colorValue2EffectId(this.BorderColor.Color)));
                     stroke.asc_putPrstDash(this.BorderType);
                     stroke.put_width(this._pt2mm(this.BorderSize));
+                    stroke.put_transparent(this._state.LineTransparency);
                 }
                 props.asc_putLine(stroke);
                 this.shapeprops.put_TextArtProperties(props);
@@ -644,6 +645,7 @@ define([
                     stroke.put_color(Common.Utils.ThemeColor.getRgbColor(this.BorderColor.Color));
                     stroke.put_width(this._pt2mm(this.BorderSize));
                     stroke.asc_putPrstDash(this.BorderType);
+                    stroke.put_transparent(this._state.LineTransparency);
                 }
                 props.asc_putLine(stroke);
                 this.shapeprops.put_TextArtProperties(props);
@@ -664,12 +666,60 @@ define([
                     stroke.put_color(Common.Utils.ThemeColor.getRgbColor(this.BorderColor.Color));
                     stroke.put_width(this._pt2mm(this.BorderSize));
                     stroke.asc_putPrstDash(this.BorderType);
+                    stroke.put_transparent(this._state.LineTransparency);
                 }
                 props.asc_putLine(stroke);
                 this.shapeprops.put_TextArtProperties(props);
                 this.api.ShapeApply(this.shapeprops);
             }
             this.fireEvent('editcomplete', this);
+        },
+
+        onNumLineTransparencyChange: function(field, newValue, oldValue, eOpts){
+            this.sldrLineTransparency.setValue(field.getNumberValue(), true);
+            if (this.api)  {
+                this._state.LineTransparency = field.getNumberValue() * 2.55;
+                var props = new Asc.asc_TextArtProperties();
+                var stroke = new Asc.asc_CStroke();
+                stroke.put_transparent(this._state.LineTransparency);
+                props.asc_putLine(stroke);
+                this.shapeprops.put_TextArtProperties(props);
+                this.api.ShapeApply(this.shapeprops);
+            }
+        },
+
+        onLineTransparencyChange: function(field, newValue, oldValue){
+            this._sliderChangedLine = newValue;
+            this.numLineTransparency.setValue(newValue, true);
+
+            if (this._sendLineUndoPoint) {
+                this.api.setStartPointHistory();
+                this._sendLineUndoPoint = false;
+                this.updatesliderline = setInterval(_.bind(this._transparencyLineApplyFunc, this), 100);
+            }
+        },
+
+        onLineTransparencyChangeComplete: function(field, newValue, oldValue){
+            clearInterval(this.updatesliderline);
+            this._sliderChangedLine = newValue;
+            if (!this._sendLineUndoPoint) { // start point was added
+                this.api.setEndPointHistory();
+                this._transparencyLineApplyFunc();
+            }
+            this._sendLineUndoPoint = true;
+        },
+
+        _transparencyLineApplyFunc: function() {
+            if (this._sliderChangedLine!==undefined) {
+                var props = new Asc.asc_TextArtProperties();
+                var stroke = new Asc.asc_CStroke();
+                this._state.LineTransparency = this._sliderChangedLine * 2.55;
+                stroke.put_transparent(this._state.LineTransparency);
+                props.asc_putLine(stroke);
+                this.shapeprops.put_TextArtProperties(props);
+                this.api.ShapeApply(this.shapeprops);
+                this._sliderChangedLine = undefined;
+            }
         },
 
         insertFromUrl: function() {
@@ -924,6 +974,17 @@ define([
                     update = (this._state.StrokeColor == 'transparent' && this.BorderColor.Color !== 'transparent'); // border color was changed for shape without line and then shape was reselected (or apply other settings)
 
                 if (stroke) {
+                        var transparency = stroke.get_transparent();
+                        if ( Math.abs(this._state.LineTransparency-transparency)>0.001 || Math.abs(this.numLineTransparency.getNumberValue()-transparency)>0.001 ||
+                            (this._state.LineTransparency===null || transparency===null)&&(this._state.LineTransparency!==transparency || this.numLineTransparency.getNumberValue()!==transparency)) {
+
+                            if (transparency !== undefined) {
+                                this.sldrLineTransparency.setValue((transparency===null) ? 100 : transparency/255*100, true);
+                                this.numLineTransparency.setValue(this.sldrLineTransparency.getValue(), true);
+                            }
+                            this._state.LineTransparency=transparency;
+                        }
+                    
                     if ( strokeType == Asc.c_oAscStrokeType.STROKE_COLOR ) {
                         color = stroke.get_color();
                         if (color) {
@@ -1441,6 +1502,37 @@ define([
             this.BorderType = Asc.c_oDashType.solid;
             this.cmbBorderType.setValue(this.BorderType);
             this.lockedControls.push(this.cmbBorderType);
+
+
+            this.numLineTransparency = new Common.UI.MetricSpinner({
+                el: $('#textart-line-spin-transparency'),
+                step: 1,
+                width: 62,
+                value: '100 %',
+                defaultUnit : "%",
+                maxValue: 100,
+                minValue: 0,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.numLineTransparency.on('change', _.bind(this.onNumLineTransparencyChange, this));
+            this.numLineTransparency.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.lockedControls.push(this.numLineTransparency);
+
+            this.sldrLineTransparency = new Common.UI.SingleSlider({
+                el: $('#textart-line-slider-transparency'),
+                width: 75,
+                minValue: 0,
+                maxValue: 100,
+                value: 100
+            });
+            this.sldrLineTransparency.on('change', _.bind(this.onLineTransparencyChange, this));
+            this.sldrLineTransparency.on('changecomplete', _.bind(this.onLineTransparencyChangeComplete, this));
+            this.lockedControls.push(this.sldrTransparency);
+
+            this.lockedControls.push($(this.el).find('#textart-lbl-transparency-start'));
+            this.lockedControls.push( $(this.el).find('#textart-lbl-transparency-end'));
 
             this.cmbTransform = new Common.UI.ComboDataView({
                 itemWidth: 50,
