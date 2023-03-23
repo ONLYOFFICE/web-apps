@@ -241,6 +241,11 @@
             clearTimeout(self.timeout);
             self.hoverState = 'in';
 
+            if (this._updateTitle) {
+                this.tip().find('.tooltip-inner')[this.options.html ? 'html' : 'text'](this.options.title);
+                this._updateTitle = undefined;
+            }
+
             if (!self.options.delay || !self.options.delay.show) { 
                 self.show(); 
             } else {
@@ -268,6 +273,11 @@
             }
 
             return out;
+        },
+
+        updateTitle: function(title) {
+            this.options.title = title;
+            this._updateTitle = title;
         }
     });
 

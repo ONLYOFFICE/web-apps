@@ -58,6 +58,7 @@ define([
             transparent: false,
             value: '000000',
             enableKeyEvents: true,
+            colorHints: true,
             keyMoveDirection: 'both' // 'vertical', 'horizontal'
         },
 
@@ -69,18 +70,18 @@ define([
                     '<% if (me.isBlankSeparator(item)) { %> <div class="palette-color-spacer"></div>' +
                     '<% } else if (me.isSeparator(item)) { %> </div><div class="divider"></div><div style="padding: 12px;">' +
                     '<% } else if (me.isColor(item)) { %> ' +
-                        '<a class="palette-color color-<%=item%>" style="background:#<%=item%>" idx="<%=idx++%>">' +
+                        '<a class="palette-color color-<%=item%>" data-toggle="tooltip" style="background:#<%=item%>" idx="<%=idx++%>">' +
                         '<em><span style="background:#<%=item%>;" unselectable="on">&#160;</span></em>' +
                         '</a>' +
                     '<% } else if (me.isTransparent(item)) { %>' +
-                        '<a class="color-<%=item%>" idx="<%=idx++%>">' +
+                        '<a class="color-<%=item%>" data-toggle="tooltip" idx="<%=idx++%>">' +
                         '<em><span unselectable="on">&#160;</span></em>' +
                         '</a>' +
                     '<% } else if (me.isEffect(item)) { %>' +
                         '<% if (idx>0 && me.columns>0 && idx%me.columns===0) { %> ' +
                         '<div class="color-divider"></div>' +
                         '<% } %>' +
-                        '<a effectid="<%=item.effectId%>" effectvalue="<%=item.effectValue%>" class="palette-color-effect color-<%=item.color%>" style="background:#<%=item.color%>" idx="<%=idx++%>">' +
+                        '<a effectid="<%=item.effectId%>" effectvalue="<%=item.effectValue%>" data-toggle="tooltip" class="palette-color-effect color-<%=item.color%>" style="background:#<%=item.color%>" idx="<%=idx++%>">' +
                         '<em><span style="background:#<%=item.color%>;" unselectable="on">&#160;</span></em>' +
                         '</a>' +
                     '<% } else if (me.isCaption(item)) { %>' +
@@ -93,7 +94,7 @@ define([
                     '<div class="palette-color-spacer"></div>' +
                     '<div class="palette-color-caption"><%=me.textRecentColors%></div>' +
                     '<% for (var i=0; i<me.options.dynamiccolors; i++) { %>' +
-                        '<a class="color-dynamic-<%=i%> dynamic-empty-color <%= me.emptyColorsClass %>" color="" idx="<%=idx++%>">' +
+                        '<a class="color-dynamic-<%=i%> dynamic-empty-color <%= me.emptyColorsClass %>" data-toggle="tooltip" color="" idx="<%=idx++%>">' +
                         '<em><span unselectable="on">&#160;</span></em></a>' +
                     '<% } %>' +
                 '<% } %>' +
@@ -115,6 +116,7 @@ define([
             this.outerMenu = me.options.outerMenu;
             this.lastSelectedIdx = -1;
             this.emptyColorsClass = me.options.hideEmptyColors ? 'hidden' : '';
+            this.colorHints = me.options.colorHints;
 
             me.colorItems = [];
             if (me.options.keyMoveDirection=='vertical')
@@ -154,6 +156,17 @@ define([
                 me.colorItems.push({el: item, index: num});
             });
             this.attachKeyEvents();
+
+            var modalParents = this.$el.closest('.asc-window');
+            if (modalParents.length > 0) {
+                this.tipZIndex = parseInt(modalParents.css('z-index')) + 10;
+            }
+            if (this.colorHints) {
+                this.options.transparent && this.createTip(this.$el.find('a.color-transparent'), this.textTransparent);
+                !this.options.themecolors && !this.options.effects && this.updateHints(typeof this.colorHints==='object' ? this.colorHints : undefined);
+                this.colorHints = !!this.colorHints;
+            }
+
             return this;
         },
 
@@ -209,6 +222,7 @@ define([
                         this.lastSelectedIdx = parseInt(colorEl.attr('idx'));
                         color = undefined; //select only first found color
                     }
+                    this.colorHints && this.createTip(colorEl, Common.Utils.ThemeColor.getTranslation(Common.Utils.ThemeColor.getRgbColor(colors[i]).asc_getName()));
                 }
                 while (i < this.options.dynamiccolors) {
                     colorEl = el.find('.color-dynamic-'+ i);
@@ -445,11 +459,12 @@ define([
                     aEl = $(me.aColorElements[aColorIdx]);
                     aEl.removeClass('color-'+me.colors[i]);
 
-                    me.colors[i] = standartcolors[aColorIdx].toUpperCase();
+                    me.colors[i] = standartcolors[aColorIdx].color = standartcolors[aColorIdx].color.toUpperCase();
 
                     aEl.addClass('color-'+me.colors[i]);
                     aEl.css({background: "#"+me.colors[i]});
                     aEl.find('span').first().css({background: "#"+me.colors[i]});
+                    me.colorHints && me.createTip(aEl, standartcolors[aColorIdx].tip);
                     aColorIdx++;
                 } else if ( typeof(me.colors[i]) == 'object' && me.colors[i].effectId !== undefined) {
                     if (aEffectIdx>=effectcolors.length)
@@ -472,7 +487,7 @@ define([
                         aEl.attr('effectvalue', '' + effectcolors[aEffectIdx].effectValue);
 
                     me.colors[i] = effectcolors[aEffectIdx];
-
+                    me.colorHints && me.createTip(aEl, effectcolors[aEffectIdx].tip);
                     aEffectIdx++;
                 }
             }
@@ -486,6 +501,22 @@ define([
                 }
             }
             this.options.updateColorsArr = undefined;
+        },
+
+        createTip: function(view, name) {
+            var tipZIndex = this.tipZIndex;
+            (view.attr('color-name')===undefined) && view.one('mouseenter', function(e){ // hide tooltip when mouse is over menu
+                var $target = $(e.currentTarget);
+                $target.tooltip({
+                    title: $target.attr('color-name'),
+                    placement   : 'cursor',
+                    zIndex : tipZIndex
+                });
+                $target.mouseenter();
+            });
+            var tip = view.data('bs.tooltip');
+            tip && tip.updateTitle(name);
+            view.attr('color-name', name || '');
         },
 
         clearSelection: function(suppressEvent) {
@@ -672,8 +703,23 @@ define([
             this.focus(e.keyCode == Common.UI.Keys.DOWN ? 'first' : 'last');
         },
 
+        updateHints: function(values) { // use for hex colors (without effectId)
+            if (!this.colorHints) return;
+
+            var me = this;
+            (me.$el || $(me.el)).find('a.palette-color').each(function(num, item) {
+                if (values && values[num])
+                    me.createTip($(item), values[num]);
+                else {
+                    var color = item.className.match(me.colorRe)[1];
+                    me.createTip($(item), Common.Utils.ThemeColor.getTranslation(Common.Utils.ThemeColor.getRgbColor(color).asc_getName()));
+                }
+            });
+        },
+
         textThemeColors         : 'Theme Colors',
         textStandartColors      : 'Standard Colors',
-        textRecentColors        : 'Recent Colors'
+        textRecentColors        : 'Recent Colors',
+        textTransparent         : 'Transparent'
     }, Common.UI.ThemeColorPalette || {}));
 });
