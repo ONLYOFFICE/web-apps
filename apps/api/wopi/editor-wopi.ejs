@@ -257,12 +257,19 @@ div {
                 showError();
                 return;
             }
-
+            var type;
+            if (queryParams.embed === "1") {
+                type = "embedded"
+            } else if (queryParams.mobile === "1") {
+                type = "mobile"
+            } else {
+                type = "desktop"
+            }
 			var fileType = fileInfo.BaseFileName ? fileInfo.BaseFileName.substr(fileInfo.BaseFileName.lastIndexOf('.') + 1) : "";
 			var config = {
 				"width": "100%",
 				"height": "100%",
-				"type": queryParams.embed==="1" ? "embedded" : "desktop",
+				"type": type,
 				"documentType": documentType,
 				"token": token,
 				"document": {

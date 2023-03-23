@@ -140,7 +140,8 @@ const SettingsList = inject("storeAppOptions")(observer(props => {
         _canDownloadOrigin = false,
         _canAbout = true,
         _canHelp = true,
-        _canPrint = false;
+        _canPrint = false,
+        _canFeedback = true;
         
     if (appOptions.isDisconnected) {
         _isEdit = false;
@@ -151,11 +152,14 @@ const SettingsList = inject("storeAppOptions")(observer(props => {
         _canDownload = appOptions.canDownload;
         _canDownloadOrigin = appOptions.canDownloadOrigin;
         _canPrint = appOptions.canPrint;
+
         if (appOptions.customization && appOptions.canBrandingExt) {
-            _canAbout = (appOptions.customization.about!==false);
+            _canAbout = appOptions.customization.about !== false;
         }
+
         if (appOptions.customization) {
-            _canHelp = (appOptions.customization.help!==false);
+            _canHelp = appOptions.customization.help !== false;
+            _canFeedback = appOptions.customization.feedback !== false;
         }
     }
 
@@ -207,15 +211,21 @@ const SettingsList = inject("storeAppOptions")(observer(props => {
                     <ListItem title={_t.textSpreadsheetInfo} link="#" onClick={onoptionclick.bind(this, "/spreadsheet-info/")}>
                         <Icon slot="media" icon="icon-info"></Icon>
                     </ListItem>
-                    <ListItem title={_t.textHelp} link="#" className='no-indicator' onClick={showHelp}>
-                        <Icon slot="media" icon="icon-help"></Icon>
-                    </ListItem>
-                    <ListItem title={_t.textAbout} link="#" onClick={onoptionclick.bind(this, "/about/")}>
-                        <Icon slot="media" icon="icon-about"></Icon>
-                    </ListItem>
-                    <ListItem title={t('View.Settings.textFeedback')} link="#" className='no-indicator' onClick={showFeedback}>
-                            <Icon slot="media" icon="icon-feedback"></Icon>
-                    </ListItem>
+                    {_canHelp &&
+                        <ListItem title={_t.textHelp} link="#" className='no-indicator' onClick={showHelp}>
+                            <Icon slot="media" icon="icon-help"></Icon>
+                        </ListItem>
+                    }
+                    {_canAbout &&
+                        <ListItem title={_t.textAbout} link="#" onClick={onoptionclick.bind(this, "/about/")}>
+                            <Icon slot="media" icon="icon-about"></Icon>
+                        </ListItem>
+                    }
+                    {_canFeedback &&
+                        <ListItem title={t('View.Settings.textFeedback')} link="#" className='no-indicator' onClick={showFeedback}>
+                                <Icon slot="media" icon="icon-feedback"></Icon>
+                        </ListItem>
+                    }
                 </List>
             </Page>
         </View>

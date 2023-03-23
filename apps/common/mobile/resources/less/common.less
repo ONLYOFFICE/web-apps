@@ -94,6 +94,10 @@
     }
 }
 
+.sheet-modal.coauth__sheet {
+    transition: all .3s;
+}
+
 .disabled, [disabled] {
     opacity: .55;
     pointer-events: none;
@@ -900,6 +904,15 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .statusbar .statusbar--box-tabs > ul > .locked a {
     box-shadow: inset 0 2px red;
+}
+
+.statusbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 10000;
 }
 
 // Fonts List 

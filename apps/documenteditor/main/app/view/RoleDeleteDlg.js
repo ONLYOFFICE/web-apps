@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2022
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  RoleDeleteDlg.js
  *
@@ -83,14 +82,19 @@ define([
             this.cmbRole = new Common.UI.ComboBox({
                 el: $('#id-role-del-remove', $window),
                 style: 'width: 100%;',
-                menuStyle: 'min-width: 100%;max-height: 190px;',
+                menuStyle: 'min-width: 100%;max-height: 190px;max-width: 400px;',
                 cls: 'input-group-nr',
                 data: [],
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem" style="overflow: hidden; text-overflow: ellipsis;"><%= scope.getDisplayValue(item) %></a></li>',
+                    '<% }); %>'
+                ].join('')),
                 editable: false,
                 takeFocusOnClose: true
             });
 
-
+            
             this.afterRender();
         },
 

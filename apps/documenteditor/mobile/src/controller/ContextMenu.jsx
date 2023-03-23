@@ -3,16 +3,15 @@ import { f7 } from 'framework7-react';
 import { inject, observer } from "mobx-react";
 import { withTranslation} from 'react-i18next';
 import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage.mjs';
-
 import ContextMenuController from '../../../../common/mobile/lib/controller/ContextMenu';
 import { idContextMenuElement } from '../../../../common/mobile/lib/view/ContextMenu';
-import { Device } from '../../../../common/mobile/utils/device';
 import EditorUIController from '../lib/patch';
 
 @inject ( stores => ({
     isEdit: stores.storeAppOptions.isEdit,
     canComments: stores.storeAppOptions.canComments,
     canViewComments: stores.storeAppOptions.canViewComments,
+    canEditComments: stores.storeAppOptions.canEditComments,
     canCoAuthoring: stores.storeAppOptions.canCoAuthoring,
     canReview: stores.storeAppOptions.canReview,
     canFillForms: stores.storeAppOptions.canFillForms,
@@ -140,8 +139,8 @@ class ContextMenu extends ContextMenuController {
     checkShapeSelection() {
         const objects = this.props.objects;
         const contextMenuElem = document.querySelector('#idx-context-menu-popover');
-
-        if(objects.indexOf('shape') > -1) {
+       
+        if(objects?.indexOf('shape') > -1) {
             contextMenuElem.style.top = `${+(contextMenuElem.style.top.replace(/px$/, '')) - 40}px`;
         }
     }
@@ -277,7 +276,7 @@ class ContextMenu extends ContextMenuController {
     initMenuItems() {
         if ( !Common.EditorApi ) return [];
 
-        const { isEdit, canFillForms, isDisconnected, isViewer } = this.props;
+        const { isEdit, canFillForms, isDisconnected, isViewer, canEditComments } = this.props;
 
         if (isEdit && EditorUIController.ContextMenu) {
             return EditorUIController.ContextMenu.mapMenuItems(this);
@@ -349,7 +348,7 @@ class ContextMenu extends ContextMenuController {
                     });
                 }
 
-                if (api.can_AddQuotedComment() !== false && canCoAuthoring && canComments && !locked && !(!isText && isObject) && !isViewer && (isAllowedEditing || isAllowedCommenting)) {
+                if (api.can_AddQuotedComment() !== false && canCoAuthoring && canComments && !locked && !(!isText && isObject) && !isViewer && canEditComments && (isAllowedEditing || isAllowedCommenting)) {
                     itemsText.push({
                         caption: _t.menuAddComment,
                         event: 'addcomment'

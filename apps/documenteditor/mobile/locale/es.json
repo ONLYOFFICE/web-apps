@@ -123,7 +123,7 @@
       "textMultiple": "múltiple",
       "textNoBreakBefore": "Sin salto de página antes",
       "textNoChanges": "No hay cambios.",
-      "textNoComments": "Este documento no contiene comentarios",
+      "textNoComments": "No hay comentarios",
       "textNoContextual": "Agregar intervalo entre párrafos del mismo estilo",
       "textNoKeepLines": "No mantener líneas juntas",
       "textNoKeepNext": "No mantener con el siguiente",
@@ -222,6 +222,7 @@
     "textAllowOverlap": "Permitir solapamientos",
     "textAmountOfLevels": "Cantidad de niveles",
     "textApril": "abril",
+    "textArrange": "Organizar",
     "textAugust": "agosto",
     "textAuto": "Auto",
     "textAutomatic": "Automático",
@@ -375,8 +376,7 @@
     "textType": "Tipo",
     "textWe": "mi.",
     "textWrap": "Ajuste",
-    "textWrappingStyle": "Estilo de ajuste",
-    "textArrange": "Arrange"
+    "textWrappingStyle": "Estilo de ajuste"
   },
   "Error": {
     "convertationTimeoutText": "Tiempo de conversión está superado.",
@@ -543,11 +543,13 @@
     "textClose": "Cerrar",
     "textContactUs": "Contactar con el equipo de ventas",
     "textCustomLoader": "No tiene permiso para cambiar el cargador. Póngase en contacto con nuestro departamento de ventas para obtener un presupuesto.",
+    "textDocumentProtected": "El documento está protegido. Los ajustes de edición no están disponibles",
     "textGuest": "Invitado",
     "textHasMacros": "El archivo contiene macros automáticas.<br>¿Quiere ejecutar macros?",
     "textNo": "No",
     "textNoLicenseTitle": "Se ha alcanzado el límite de licencia",
     "textNoTextFound": "Texto no encontrado",
+    "textOk": "OK",
     "textPaidFeature": "Característica de pago",
     "textRemember": "Recordar mi elección",
     "textReplaceSkipped": "Se ha realizado la sustitución. Se han omitido {0} ocurrencias.",
@@ -565,8 +567,9 @@
     "warnNoLicense": "Ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
     "warnNoLicenseUsers": "Ha alcanzado el límite de usuarios para %1 editores. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
     "warnProcessRightsChange": "No tiene permiso para editar este archivo.",
-    "textDocumentProtected": "The document is protected. Edit settings are not available",
-    "textOk": "Ok"
+    "titleLicenseNotActive": "License not active",
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics."
   },
   "Settings": {
     "advDRMOptions": "Archivo protegido",

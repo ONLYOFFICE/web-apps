@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -136,10 +135,15 @@ define([
             });
             this.btnViewFormRoles && this.btnViewFormRoles.on('click', function (b, e) {
                 var item = b.menu.getChecked();
-                me.fireEvent('forms:mode', [b.pressed, item ? item.caption : undefined]);
+                if (item) {
+                    item = item.caption;
+                } else if (me._state.roles && me._state.roles.length>0) {
+                    item = me._state.roles[0].asc_getSettings().asc_getName();
+                }
+                me.fireEvent('forms:mode', [b.pressed, item]);
             });
-            this.btnViewFormRoles.menu.on('item:toggle', _.bind(function (menu, item, state) {
-                if (!!state) {
+            this.btnViewFormRoles.menu.on('item:click', _.bind(function (menu, item) {
+                if (!!item.checked) {
                     me.btnViewFormRoles.toggle(true, true);
                     me.fireEvent('forms:mode', [true, item.caption]);
                 }
@@ -350,6 +354,7 @@ define([
                         menu: new Common.UI.Menu({
                             cls: 'menu-roles',
                             maxHeight: 270,
+                            style: 'max-width: 400px;',
                             items: []
                         }),
                         enableToggle: true,
@@ -476,10 +481,11 @@ define([
                             '<span class="menu-item-icon <%= iconCls %>"></span>'+
                             '<% } %>'+
                             '<div><%= caption %></div>' +
-                            '<% if (options.description !== null) { %><label style="display: block;cursor: pointer;white-space: normal;"><%= options.description %></label>' +
+                            '<% if (options.description !== null) { %><label style="cursor: pointer;white-space: normal;"><%= options.description %></label>' +
                             '<% } %></a>');
 
                         me.btnTextField.setMenu(new Common.UI.Menu({
+                            style: 'max-width: 300px;',
                             items: [
                             {
                                 caption: me.txtInlineText,
@@ -589,7 +595,7 @@ define([
                         checkable: true,
                         toggleGroup: 'formtab-view-role',
                         template: _.template([
-                            '<a id="<%= id %>"  tabindex="-1" type="menuitem" class="<%= options.cls %>">',
+                            '<a id="<%= id %>"  tabindex="-1" type="menuitem" class="<%= options.cls %>" style="overflow: hidden; text-overflow: ellipsis;">',
                             '<span class="color" style="background: <%= options.color %>;"></span>',
                             '<%= caption %>',
                             '</a>'

@@ -260,7 +260,7 @@ class ContextMenu extends ContextMenuController {
             let iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu;
             const seltype = cellinfo.asc_getSelectionType();
             const comments = cellinfo.asc_getComments(); //prohibit adding multiple comments in one cell;
-            const isSolvedComment = comments[0].asc_getSolved();
+            const isSolvedComment = comments?.length && comments[0].asc_getSolved();
 
             switch (seltype) {
                 case Asc.c_oAscSelectionType.RangeCells:     iscellmenu  = true;     break;
@@ -314,7 +314,7 @@ class ContextMenu extends ContextMenuController {
         const focusOn = this.props.focusOn;
         const contextMenuElem = document.querySelector('#idx-context-menu-popover');
 
-        if(objects.indexOf('shape') > -1 && focusOn === 'obj') {
+        if(objects?.indexOf('shape') > -1 && focusOn === 'obj') {
             contextMenuElem.style.top = `${+(contextMenuElem.style.top.replace(/px$/, '')) - 40}px`;
         }
     }

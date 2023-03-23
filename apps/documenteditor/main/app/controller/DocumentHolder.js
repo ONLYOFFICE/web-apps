@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  DocumentHolder.js
  *
@@ -148,7 +147,7 @@ define([
             };
 
             var keymap = {};
-            me.hkComments = 'alt+h';
+            me.hkComments = Common.Utils.isMac ? 'command+alt+a' : 'alt+h';
             keymap[me.hkComments] = function() {
                 if (me.api.can_AddQuotedComment()!==false) {
                     me.addComment();
@@ -232,6 +231,7 @@ define([
                     this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
                     this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
                 }
+                this.api.asc_registerCallback('onPluginContextMenu',                 _.bind(this.onPluginContextMenu, this));
                 this.documentHolder.setApi(this.api);
             }
 
@@ -430,6 +430,7 @@ define([
             view.menuParaTOCSettings.on('click', _.bind(me.onParaTOCSettings, me));
             view.menuTableEquation.menu.on('item:click', _.bind(me.convertEquation, me));
             view.menuParagraphEquation.menu.on('item:click', _.bind(me.convertEquation, me));
+            view.menuSaveAsPicture.on('click', _.bind(me.saveAsPicture, me));
 
             me.onChangeProtectDocument();
         },
@@ -474,6 +475,7 @@ define([
                 }, 10);
 
                 me.documentHolder.currentMenu = menu;
+                me.api.onPluginContextMenuShow && me.api.onPluginContextMenuShow();
             }
         },
 
@@ -1020,7 +1022,7 @@ define([
                             changes = changes[0];
                         if (changes) {
                             ToolTip = '<b>'+ Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(changes.get('username'))) +'  </b>';
-                            ToolTip += '<span style="font-size:10px; opacity: 0.7;">'+ changes.get('date') +'</span><br>';
+                            ToolTip += '<span class="review-date">'+ changes.get('date') +'</span><br>';
                             ToolTip += changes.get('changetext');
                             if (ToolTip.length>1000)
                                 ToolTip = ToolTip.substr(0, 1000) + '...';
@@ -1104,6 +1106,8 @@ define([
         },
 
         onShowSpecialPasteOptions: function(specialPasteShowOptions) {
+            if (this.mode && !this.mode.isEdit) return;
+
             var me = this,
                 documentHolder = me.documentHolder;
             var coord  = specialPasteShowOptions.asc_getCellCoord(),
@@ -1127,7 +1131,7 @@ define([
                     parentEl: $('#id-document-holder-btn-special-paste'),
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-paste',
-                    caption     : Common.Utils.String.platformKey('Ctrl', '({0})'),
+                    caption     : Common.Utils.String.format('({0})', Common.Utils.String.textCtrl),
                     menu        : new Common.UI.Menu({items: []})
                 });
                 me.initSpecialPasteEvents();
@@ -1166,13 +1170,25 @@ define([
                     $(document).on('keyup', me.wrapEvents.onKeyUp);
                 }, 10);
             }
+            this.disableSpecialPaste();
         },
 
         onHideSpecialPasteOptions: function() {
+            if (!this.documentHolder || !this.documentHolder.cmpEl) return;
             var pasteContainer = this.documentHolder.cmpEl.find('#special-paste-container');
             if (pasteContainer.is(':visible')) {
                 pasteContainer.hide();
                 $(document).off('keyup', this.wrapEvents.onKeyUp);
+            }
+        },
+
+        disableSpecialPaste: function() {
+            var pasteContainer = this.documentHolder.cmpEl.find('#special-paste-container'),
+                docProtection = this.documentHolder._docProtection,
+                disabled = this._isDisabled || docProtection.isReadOnly || docProtection.isCommentsOnly;
+
+            if (pasteContainer.length>0 && pasteContainer.is(':visible')) {
+                this.btnSpecialPaste.setDisabled(!!disabled);
             }
         },
 
@@ -1521,6 +1537,12 @@ define([
             this._isDisabled = state;
             this.documentHolder.SetDisabled(state, canProtect, fillFormMode);
             this.disableEquationBar();
+            this.disableSpecialPaste();
+        },
+
+        clearSelection: function() {
+            this.onHideMathTrack();
+            this.onHideSpecialPasteOptions();
         },
 
         onTextLanguage: function(langid) {
@@ -2332,6 +2354,8 @@ define([
         },
 
         onShowMathTrack: function(bounds) {
+            if (this.mode && !this.mode.isEdit) return;
+
             if (bounds[3] < 0) {
                 this.onHideMathTrack();
                 return;
@@ -2441,6 +2465,9 @@ define([
             eqContainer.css({left: showPoint[0], top : showPoint[1]});
 
             var menuAlign = (me._Height - showPoint[1] - eqContainer.outerHeight() < 220) ? 'bl-tl' : 'tl-bl';
+            if (Common.UI.isRTL()) {
+                menuAlign = menuAlign === 'bl-tl' ? 'br-tr' : 'tr-br';
+            }
             me.equationBtns.forEach(function(item){
                 item && (item.menu.menuAlign = menuAlign);
             });
@@ -2457,6 +2484,7 @@ define([
         },
 
         onHideMathTrack: function() {
+            if (!this.documentHolder || !this.documentHolder.cmpEl) return;
             var eqContainer = this.documentHolder.cmpEl.find('#equation-container');
             if (eqContainer.is(':visible')) {
                 eqContainer.hide();
@@ -2487,6 +2515,12 @@ define([
             }
         },
 
+        saveAsPicture: function() {
+            if(this.api) {
+                this.api.asc_SaveDrawingAsPicture();
+            }
+        },
+
         onChangeProtectDocument: function(props) {
             if (!props) {
                 var docprotect = this.getApplication().getController('DocProtection');
@@ -2495,16 +2529,23 @@ define([
             if (props && this.documentHolder) {
                 this.documentHolder._docProtection = props;
                 this.disableEquationBar();
+                this.disableSpecialPaste();
             }
         },
 
         onInsertImage: function(obj, x, y) {
+            if (!this.documentHolder || this.documentHolder._docProtection.isReadOnly || this.documentHolder._docProtection.isFormsOnly || this.documentHolder._docProtection.isCommentsOnly)
+                return;
+
             if (this.api)
                 this.api.asc_addImage(obj);
             this.editComplete();
         },
 
         onInsertImageUrl: function(obj, x, y) {
+            if (!this.documentHolder || this.documentHolder._docProtection.isReadOnly || this.documentHolder._docProtection.isFormsOnly || this.documentHolder._docProtection.isCommentsOnly)
+                return;
+
             var me = this;
             (new Common.Views.ImageFromUrlDialog({
                 handler: function(result, value) {
@@ -2519,6 +2560,12 @@ define([
                     me.editComplete();
                 }
             })).show();
+        },
+
+        onPluginContextMenu: function(data) {
+            if (data && data.length>0 && this.documentHolder && this.documentHolder.currentMenu && this.documentHolder.currentMenu.isVisible()){
+                this.documentHolder.updateCustomItems(this.documentHolder.currentMenu, data);
+            }
         },
 
         editComplete: function() {

@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  Toolbar.js
  *
@@ -211,7 +210,8 @@ define([
                 wsLock: false,
                 wsProps: [],
                 is_lockText: false,
-                is_lockShape: false
+                is_lockShape: false,
+                isUserProtected: false
             };
             this.binding = {};
 
@@ -691,7 +691,7 @@ define([
                 btnSubscript.options.icls = item.options.icls;
             }
 
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar, {restorefocus:true});
             Common.component.Analytics.trackEvent('ToolBar', (item.value == 'sub') ? 'Subscript' : 'Superscript');
         },
 
@@ -706,7 +706,7 @@ define([
                 this.api.asc_setCellSuperscript(btn.pressed);
             }
 
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar, {restorefocus:true});
             Common.component.Analytics.trackEvent('ToolBar', (subscript) ? 'Subscript' : 'Superscript');
         },
 
@@ -1068,7 +1068,7 @@ define([
                 win.setSettings({
                     sheets  : items,
                     ranges  : me.api.asc_getDefinedNames(Asc.c_oAscGetDefinedNamesList.All, true),
-                    currentSheet: me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex()),
+                    currentSheet: me.api.asc_getActiveWorksheetIndex(),
                     props   : props,
                     text    : cell.asc_getText(),
                     isLock  : cell.asc_getLockText(),
@@ -1646,7 +1646,7 @@ define([
         onNamedRangeMenuOpen: function(menu) {
             if (this.api && menu) {
                 var names = this.api.asc_getDefinedNames(Asc.c_oAscGetDefinedNamesList.WorksheetWorkbook);
-                menu.items[2].setDisabled(names.length<1);
+                menu.items[2].setDisabled(names.length<1 || this._state.isUserProtected);
             }
         },
 
@@ -1744,7 +1744,8 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar, {restorefocus:true});
         },
 
-        onComboOpen: function(needfocus, combo) {
+        onComboOpen: function(needfocus, combo, e, params) {
+            if (params && params.fromKeyDown) return;
             _.delay(function() {
                 var input = $('input', combo.cmpEl).select();
                 if (needfocus) input.focus();
@@ -2548,9 +2549,10 @@ define([
                         clear: [Common.enumLock.editFormula, Common.enumLock.editText]
                 });
 
+                var hkComments = Common.Utils.isMac ? 'command+alt+a' : 'alt+h';
                 var is_cell_edited = (state == Asc.c_oAscCellEditorState.editStart);
-                (is_cell_edited) ? Common.util.Shortcuts.suspendEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, alt+h, command+1, ctrl+1') :
-                                   Common.util.Shortcuts.resumeEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, alt+h, command+1, ctrl+1');
+                (is_cell_edited) ? Common.util.Shortcuts.suspendEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, command+1, ctrl+1, ' + hkComments) :
+                                   Common.util.Shortcuts.resumeEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, command+1, ctrl+1, ' + hkComments);
 
                 if (is_cell_edited) {
                     toolbar.listStyles.suspendEvents();
@@ -2559,7 +2561,7 @@ define([
                     this._state.prstyle = undefined;
                 }
 
-                if ( this.appConfig.isDesktopApp && this.appConfig.canProtect ) {
+                if ( this.appConfig.isDesktopApp && (this.appConfig.isSignatureSupport || this.appConfig.isPasswordSupport) ) {
                     this.getApplication().getController('Common.Controllers.Protection').SetDisabled(is_cell_edited, false);
                 }
             } else {
@@ -3086,6 +3088,7 @@ define([
                             toolbar.btnAlignCenter.toggle(false, true);
                             toolbar.btnAlignJust.toggle(false, true);
                         }
+                        toolbar.btnWrap.allowDepress = (fontparam !== AscCommon.align_Justify);
                     }
 
                     need_disable = (fontparam == AscCommon.align_Justify || selectionType == Asc.c_oAscSelectionType.RangeShapeText || selectionType == Asc.c_oAscSelectionType.RangeShape);
@@ -3173,8 +3176,7 @@ define([
                 toolbar.lockToolbar(Common.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate, toolbar.btnInsertHyperlink, toolbar.btnInsertTable]});
 
                 this._state.inpivot = !!info.asc_getPivotTableInfo();
-                toolbar.lockToolbar(Common.enumLock.editPivot, this._state.inpivot, { array: toolbar.btnsSetAutofilter.concat(toolbar.btnCustomSort,
-                                                                                          toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnInsertTable, toolbar.btnRemoveDuplicates, toolbar.btnDataValidation)});
+                toolbar.lockToolbar(Common.enumLock.editPivot, this._state.inpivot, { array: toolbar.btnsSetAutofilter.concat(toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnInsertTable, toolbar.btnRemoveDuplicates, toolbar.btnDataValidation)});
                 toolbar.lockToolbar(Common.enumLock.noSlicerSource, !(this._state.inpivot || formatTableInfo), { array: [toolbar.btnInsertSlicer]});
 
                 need_disable = !this.appConfig.canModifyFilter;
@@ -3189,8 +3191,8 @@ define([
 				this._state.numformatinfo = val;
 				val = val.asc_getType();
 				if (this._state.numformattype !== val) {
-					toolbar.cmbNumberFormat.setValue(val, toolbar.txtCustom);
-					this._state.numformattype = val;
+                    toolbar.cmbNumberFormat.setValue(val, toolbar.txtCustom);
+                    this._state.numformattype = val;
 				}
             }
 
@@ -3268,8 +3270,10 @@ define([
             }
             toolbar.lockToolbar(Common.enumLock.itemsDisabled, !enabled, {array: [toolbar.btnDeleteCell]});
 
-
             toolbar.lockToolbar(Common.enumLock.headerLock, info.asc_getLockedHeaderFooter(), {array: this.toolbar.btnsEditHeader});
+
+            this._state.isUserProtected = info.asc_getUserProtected();
+            toolbar.lockToolbar(Common.enumLock.userProtected, this._state.isUserProtected);
         },
 
         onApiSelectionChangedRestricted: function(info) {
@@ -3621,6 +3625,7 @@ define([
                     toolbar.btnHorizontalAlign.$icon.removeClass(toolbar.btnHorizontalAlign.options.icls).addClass(align);
                     toolbar.btnHorizontalAlign.options.icls = align;
                 }
+                toolbar.btnWrap.allowDepress = (fontparam !== AscCommon.align_Justify);
             }
 
              // read cell vertical align
@@ -4463,12 +4468,14 @@ define([
             toolbar.$el.find('.toolbar').toggleClass('masked', disable);
 
             this.toolbar.lockToolbar(Common.enumLock.menuFileOpen, disable);
+
+            var hkComments = Common.Utils.isMac ? 'command+alt+a' : 'alt+h';
             if(disable) {
                 mask = $("<div class='toolbar-mask'>").appendTo(toolbar.$el.find('.toolbar'));
-                Common.util.Shortcuts.suspendEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, command+alt+h, ctrl+alt+h, command+1, ctrl+1');
+                Common.util.Shortcuts.suspendEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, command+1, ctrl+1, ' + hkComments);
             } else {
                 mask.remove();
-                Common.util.Shortcuts.resumeEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, command+alt+h, ctrl+alt+h, command+1, ctrl+1');
+                Common.util.Shortcuts.resumeEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, command+1, ctrl+1, ' + hkComments);
             }
         },
 
@@ -4562,23 +4569,25 @@ define([
                         me.toolbar.processPanelVisible(null, true, true);
                     }
 
-                    var tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
-                    var $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
-                    if ($panel) {
-                        config.canProtect && $panel.append($('<div class="separator long"></div>'));
-                        var wbtab = me.getApplication().getController('WBProtection');
-                        $panel.append(wbtab.createToolbarPanel());
-                        me.toolbar.addTab(tab, $panel, 7);
-                        me.toolbar.setVisible('protect', Common.UI.LayoutManager.isElementVisible('toolbar-protect'));
-                        Array.prototype.push.apply(me.toolbar.lockControls, wbtab.getView('WBProtection').getButtons());
+                    if ( config.canProtect ) {
+                        var tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
+                        var $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                        if ($panel) {
+                            (config.isSignatureSupport || config.isPasswordSupport) && $panel.append($('<div class="separator long"></div>'));
+                            var wbtab = me.getApplication().getController('WBProtection');
+                            $panel.append(wbtab.createToolbarPanel());
+                            me.toolbar.addTab(tab, $panel, 7);
+                            me.toolbar.setVisible('protect', Common.UI.LayoutManager.isElementVisible('toolbar-protect'));
+                            Array.prototype.push.apply(me.toolbar.lockControls, wbtab.getView('WBProtection').getButtons());
+                        }
                     }
                 }
             }
             if ( !config.isEditDiagram && !config.isEditMailMerge && !config.isEditOle ) {
-                tab = {caption: me.toolbar.textTabView, action: 'view', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-view', dataHintTitle: 'W'};
+                var tab = {caption: me.toolbar.textTabView, action: 'view', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-view', dataHintTitle: 'W'};
                 var viewtab = me.getApplication().getController('ViewTab');
                 viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
-                $panel = viewtab.createToolbarPanel();
+                var $panel = viewtab.createToolbarPanel();
                 if ($panel) {
                     me.toolbar.addTab(tab, $panel, 8);
                     me.toolbar.setVisible('view', Common.UI.LayoutManager.isElementVisible('toolbar-view'));

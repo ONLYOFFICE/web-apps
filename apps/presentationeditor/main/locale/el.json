@@ -704,6 +704,7 @@
   "PE.Controllers.Main.textRequestMacros": "Μια μακροεντολή κάνει ένα αίτημα στη διεύθυνση URL. Θέλετε να επιτρέψετε το αίτημα στο %1;",
   "PE.Controllers.Main.textShape": "Σχήμα",
   "PE.Controllers.Main.textStrict": "Αυστηρή κατάσταση",
+  "PE.Controllers.Main.textText": "Κείμενο",
   "PE.Controllers.Main.textTryUndoRedo": "Οι λειτουργίες Αναίρεση/Επανάληψη είναι απενεργοποιημένες στην κατάσταση Γρήγορης συν-επεξεργασίας.<br>Κάντε κλικ στο κουμπί 'Αυστηρή κατάσταση' για να μεταβείτε στην Αυστηρή κατάσταση συν-επεξεργασίας όπου επεξεργάζεστε το αρχείο χωρίς παρέμβαση άλλων χρηστών και στέλνετε τις αλλαγές σας αφού τις αποθηκεύσετε. Η μετάβαση μεταξύ των δύο καταστάσεων γίνεται μέσω των Προηγμένων Ρυθμίσεων.",
   "PE.Controllers.Main.textTryUndoRedoWarn": "Οι λειτουργίες Αναίρεση/Επανάληψη απενεργοποιούνται για τη λειτουργία γρήγορης συν-επεξεργασίας.",
   "PE.Controllers.Main.titleLicenseExp": "Η άδεια έληξε",
@@ -2343,7 +2344,9 @@
   "PE.Views.ViewTab.textFitToSlide": "Προσαρμογή Στη Διαφάνεια",
   "PE.Views.ViewTab.textFitToWidth": "Προσαρμογή Στο Πλάτος",
   "PE.Views.ViewTab.textInterfaceTheme": "Θέμα διεπαφής",
+  "PE.Views.ViewTab.textLeftMenu": "Αριστερό πλαίσιο",
   "PE.Views.ViewTab.textNotes": "Σημειώσεις",
+  "PE.Views.ViewTab.textRightMenu": "Δεξιό πλαίσιο",
   "PE.Views.ViewTab.textRulers": "Χάρακες",
   "PE.Views.ViewTab.textStatusBar": "Γραμμή Κατάστασης",
   "PE.Views.ViewTab.textZoom": "Εστίαση"

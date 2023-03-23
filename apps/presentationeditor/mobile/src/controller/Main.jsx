@@ -168,11 +168,12 @@ class MainController extends Component {
                
                 if (Asc.c_oLicenseResult.Expired === licType ||
                     Asc.c_oLicenseResult.Error === licType ||
-                    Asc.c_oLicenseResult.ExpiredTrial === licType) {
+                    Asc.c_oLicenseResult.ExpiredTrial === licType ||
+                    Asc.c_oLicenseResult.NotBefore === licType) {
 
                     f7.dialog.create({
-                        title: t('Controller.Main.titleLicenseExp'),
-                        text: t('Controller.Main.warnLicenseExp')
+                        title: Asc.c_oLicenseResult.NotBefore === licType ? t('Controller.Main.titleLicenseNotActive') : t('Controller.Main.titleLicenseExp'),
+                        text: Asc.c_oLicenseResult.NotBefore === licType ? t('Controller.Main.warnLicenseBefore') : t('Controller.Main.warnLicenseExp')
                     }).open();
 
                     return;
@@ -330,12 +331,8 @@ class MainController extends Component {
             this.api.Resize();
         });
 
-        $$(window).on('popup:open sheet:open actions:open', () => {
+        $$(window).on('popup:open sheet:open actions:open searchbar:enable', () => {
             this.api.asc_enableKeyEvents(false);
-        });
-
-        $$(window).on('popup:close sheet:close actions:close', () => {
-            this.api.asc_enableKeyEvents(true);
         });
 
         this.api.asc_registerCallback('asc_onDocumentContentReady', this.onDocumentContentReady.bind(this));

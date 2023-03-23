@@ -18,11 +18,11 @@ const PageTable = props => {
                     {!styles.length ?
                         Array.from({ length: 70 }).map((item,index) => (
                         <li className='skeleton-list' key={index}>    
-                            <SkeletonBlock  width='70px' height='8px'  effect='wave'/>
-                            <SkeletonBlock  width='70px' height='8px'  effect='wave' />
-                            <SkeletonBlock  width='70px' height='8px'  effect='wave' />
-                            <SkeletonBlock  width='70px' height='8px'  effect='wave' />
-                            <SkeletonBlock  width='70px' height='8px'  effect='wave' />
+                            <SkeletonBlock width='70px' height='8px' effect="fade" />
+                            <SkeletonBlock width='70px' height='8px' effect="fade" />
+                            <SkeletonBlock width='70px' height='8px' effect="fade" />
+                            <SkeletonBlock width='70px' height='8px' effect="fade" />
+                            <SkeletonBlock width='70px' height='8px' effect="fade" />
                         </li>
                         )) :
                             styles.map((style, index) => {

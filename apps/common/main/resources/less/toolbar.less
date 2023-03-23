@@ -32,7 +32,7 @@
 
     .box-tabs {
         height: @height-tabs;
-        font-size: 12px;
+        .font-size-medium();
 
         display: flex;
         align-items: stretch;
@@ -54,6 +54,9 @@
     //  z-index: 1;
     //}
     }
+
+    --toolbar-tabs-scroller-height: 38px;
+    @tabs-scroller-height: var(--toolbar-tabs-scroller-height, 38px);
 
     .tabs {
         //flex-grow: 1;
@@ -100,7 +103,7 @@
                 padding: 0 12px;
                 text-decoration: none;
                 cursor: default;
-                font-size: 12px;
+                .font-size-medium();
                 text-align: center;
                 color: @text-toolbar-header-ie;
                 color: @text-toolbar-header;
@@ -164,20 +167,30 @@
 
             &.left{
                 box-shadow: 5px 0 20px 5px @header-background-color-ie;
-                box-shadow: 18px calc(38px - @scaled-one-px-value) 0 10px @border-toolbar-active-panel-top, 5px 0 20px 5px @header-background-color;
+                box-shadow: 18px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar-active-panel-top, 5px 0 20px 5px @header-background-color;
 
                 &:after {
                     transform: rotate(135deg);
                     margin-left: 8px;
+
+                    .rtl & {
+                        margin-left: 0;
+                        margin-right: 4px;
+                    }
                 }
             }
             &.right{
                 box-shadow: -5px 0 20px 5px @header-background-color-ie;
-                box-shadow: -10px calc(38px - @scaled-one-px-value) 0 10px @border-toolbar-active-panel-top, -5px 0 20px 5px @header-background-color;
+                box-shadow: -10px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar-active-panel-top, -5px 0 20px 5px @header-background-color;
 
                 &:after {
                     transform: rotate(-45deg);
                     margin-left: 4px;
+
+                    .rtl & {
+                        margin-left: 0;
+                        margin-right: 8px;
+                    }
                 }
             }
 
@@ -210,6 +223,11 @@
         flex-grow: 1;
         -ms-flex: 1;
         padding-right: 6px;
+
+        .rtl & {
+            padding-right: 0;
+            padding-left: 6px;
+        }
 
         .panel:not(.active) {
             display: none;
@@ -245,6 +263,9 @@
         padding: 12px 10px 7px 0;
         border-radius: 0;
         z-index:999;
+        .rtl & {
+            padding: 12px 0 7px 10px;
+        }
         .compactwidth {
             .btn-group, .btn-toolbar {
                 &.x-huge {
@@ -264,6 +285,9 @@
         }
         .group {
             height: 52px !important;
+            &.flex {
+                vertical-align: bottom;
+            }
         }
         &[data-tab=pivot] {
             padding: 5px 10px 0 0;
@@ -280,6 +304,18 @@
     .more-box {
         background-color: @background-toolbar-ie;
         background-color: @background-toolbar;
+        position: absolute;
+        right: 0;
+        padding-left: 12px;
+        padding-right: 6px;
+        display: none;
+
+        .rtl & {
+            right: unset;
+            left: 0;
+            padding-left: 6px;
+            padding-right: 12px;
+        }
     }
 
     background-color: @background-toolbar-ie;
@@ -296,11 +332,26 @@
         padding-left: 6px;
         font-size: 0;
 
+        .rtl & {
+            padding-left: 0;
+            padding-right: 6px;
+        }
+
         &.small {
             padding-left: 10px;
 
+            .rtl & {
+                padding-left: 0;
+                padding-right: 10px;
+            }
+
             + .separator:not(.invisible) {
                 margin-left: 10px;
+
+                .rtl & {
+                    margin-left: 0;
+                    margin-right: 10px;
+                }
             }
         }
 
@@ -387,8 +438,12 @@
         /* z-index: @zindex-tooltip + 1; */
     }
 
-    &.toolbar-view .toolbar-mask{
-        left: 0;
+    &.toolbar-view {
+        --toolbar-tabs-scroller-height: 42px;
+
+        .toolbar-mask {
+            left: 0;
+        }
     }
 
     .top-title > & {
@@ -641,12 +696,23 @@
 }
 
 .btn-toolbar {
+    &:hover:not(.disabled) {
+        svg.icon {
+            .btn& {
+                opacity: 1;
+            }
+        }
+    }
+
     &:active,
     &.active {
         &:not(.disabled) {
             svg.icon {
                 fill: @icon-normal-pressed-ie;
                 fill: @icon-normal-pressed;
+                .btn& {
+                    opacity: 1;
+                }
             }
         }
     }
@@ -656,6 +722,9 @@
 
         fill: @icon-normal-ie;
         fill: @icon-normal;
+        .btn& {
+            opacity: 1;
+        }
     }
 
     &.borders--small {
@@ -695,6 +764,10 @@
     height: 46px;
     .view {
         padding-right: 14px;
+        .rtl & {
+            padding-right: 0;
+            padding-left: 14px;
+        }
     }
     .dataview.field-picker {
         height: 100%;
@@ -769,13 +842,26 @@
 .menu-insertchart {
     margin: 5px 5px 0 10px;
 
+    .rtl & {
+        margin: 5px 10px 0 5px;
+    }
+
     .group-description {
         padding-left: 4px;
+
+        .rtl & {
+            padding: 0;
+            padding-right: 4px;
+        }
     }
 
     .group-items-container {
         float: left;
         position: relative;
+
+        .rtl & {
+            float: right;
+        }
     }
 }
 
@@ -800,6 +886,10 @@
         &.colors {
             display: inline-block;
             margin-right: 15px;
+            .rtl & {
+                margin-right: 0;
+                margin-left: 15px;
+            }
         }
 
         &.color {
@@ -815,6 +905,9 @@
         &.text {
             vertical-align: middle;
         }
+    }
+    a{
+        height: 27px;
     }
     &.checked {
         &:before {
@@ -870,8 +963,18 @@
 .menu-iconsets {
     margin: 5px 5px 0 10px;
 
+    .rtl & {
+        margin: 5px 10px 0 5px;
+    }
+
     .group-items-container > div {
         margin-right: 8px !important;
+
+        .rtl & {
+            margin-right: 4px !important;
+            margin-left: 8px !important;
+        }
+
         &:not(:hover),
         &:not(.selected) {
             .box-shadow(none);
@@ -880,6 +983,10 @@
     .item-iconset {
         img {
             margin: 2px;
+
+            .rtl & {
+                float: right;
+            }
         }
 
         width: 100px;

@@ -113,11 +113,12 @@ class MainPage extends Component {
         const api = Common.EditorApi.get();
         const appOptions = this.props.storeAppOptions;
 
+        f7.popover.close('.document-menu.modal-in', false);
+        f7.navbar.show('.main-navbar', false);
+
         appOptions.changeViewerMode();
         api.asc_removeRestriction(Asc.c_oAscRestrictionType.View)
         api.asc_addRestriction(Asc.c_oAscRestrictionType.None);
-
-        f7.navbar.show('.main-navbar');
     };
 
     render() {
@@ -125,7 +126,7 @@ class MainPage extends Component {
         const appOptions = this.props.storeAppOptions;
         const storeDocumentInfo = this.props.storeDocumentInfo;
         const docExt = storeDocumentInfo.dataDoc ? storeDocumentInfo.dataDoc.fileType : '';
-        const isAvailableExt = docExt && docExt !== 'djvu' && docExt !== 'pdf' && docExt !== 'xps';
+        const isAvailableExt = docExt && docExt !== 'djvu' && docExt !== 'pdf' && docExt !== 'xps' && docExt !== 'oform';
         const storeToolbarSettings = this.props.storeToolbarSettings;
         const isDisconnected = this.props.users.isDisconnected;
         const isViewer = appOptions.isViewer;
@@ -137,22 +138,29 @@ class MainPage extends Component {
         const typeProtection = appOptions.typeProtection;
         const isFabShow = isViewer && !disabledSettings && !disabledControls && !isDisconnected && isAvailableExt && isEdit && (!isProtected || typeProtection === Asc.c_oAscEDocProtect.TrackedChanges);
         const config = appOptions.config;
+        const isShowPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
 
-        let showLogo = !(config.customization && (config.customization.loaderName || config.customization.loaderLogo));
-        if (!Object.keys(config).length) {
-            showLogo = !/&(?:logo)=/.test(window.location.search);
+        let isHideLogo = true,
+            isCustomization = true,
+            isBranding = true;
+
+        if (!appOptions.isDisconnected && config?.customization) {
+            isCustomization = !!(config.customization && (config.customization.loaderName || config.customization.loaderLogo));
+            isBranding = appOptions.canBranding || appOptions.canBrandingExt;
+
+            if (!Object.keys(config).length) {
+                isCustomization = !/&(?:logo)=/.test(window.location.search);
+            }
+
+            isHideLogo = isCustomization && isBranding; 
         }
-
-        const showPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
-        const isBranding = appOptions.canBranding || appOptions.canBrandingExt;
         
-
         return (
-            <Page name="home" className={`editor${showLogo ? ' page-with-logo' : ''}`}>
+            <Page name="home" className={`editor${!isHideLogo ? ' page-with-logo' : ''}`}>
                 {/* Top Navbar */}
                 <Navbar id='editor-navbar'
-                        className={`main-navbar${(!isBranding && showLogo) ? ' navbar-with-logo' : ''}`}>
-                    {(!isBranding && showLogo) &&
+                        className={`main-navbar${!isHideLogo ? ' navbar-with-logo' : ''}`}>
+                    {!isHideLogo &&
                         <div className="main-logo" onClick={() => {
                             window.open(`${__PUBLISHER_URL__}`, "_blank");
                         }}><Icon icon="icon-logo"></Icon></div>}
@@ -168,7 +176,7 @@ class MainPage extends Component {
                 <View id="editor_sdk">
                 </View>
 
-                {showPlaceholder ?
+                {isShowPlaceholder ?
                     <div className="doc-placeholder-container">
                         <div className="doc-placeholder">
                             <div className="line"></div>

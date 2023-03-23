@@ -27,7 +27,7 @@
       "textEditUser": "Fitxategia editatzen ari diren erabiltzaileak:",
       "textMessageDeleteComment": "Ziur zaude iruzkin hau ezabatu nahi duzula?",
       "textMessageDeleteReply": "Ziur zaude erantzun hau ezabatu nahi duzula?",
-      "textNoComments": "Dokumentu honetan ez dago iruzkinik",
+      "textNoComments": "Iruzkinik ez",
       "textOk": "Ados",
       "textReopen": "Ireki berriro",
       "textResolve": "Ebatzi",
@@ -41,7 +41,7 @@
     "ThemeColorPalette": {
       "textCustomColors": "Kolore pertsonalizatuak",
       "textStandartColors": "Kolore estandarrak",
-      "textThemeColors": "Itxuraren koloreak"
+      "textThemeColors": "Gaiaren koloreak"
     }
   },
   "ContextMenu": {
@@ -121,12 +121,14 @@
       "textRequestMacros": "Makro batek URL baterako eskaera egiten du. %1 URL-rako eskaera onartu nahi duzu?",
       "textYes": "Bai",
       "titleLicenseExp": "Lizentzia iraungi da",
+      "titleLicenseNotActive": "Lizentzia ez dago aktibo",
       "titleServerVersion": "Editorea eguneratu da",
       "titleUpdateVersion": "Bertsioa aldatu da",
       "txtIncorrectPwd": "Pasahitza ez da zuzena",
       "txtProtected": "Behin pasahitza sartu eta fitxategia ireki duzula, uneko pasahitza berrezarri egingo da",
+      "warnLicenseBefore": "Lizentzia ez dago aktibo.<br>Jarri zure administratzailearekin harremanetan.",
       "warnLicenseExceeded": "Aldibereko %1 editoreren konexio-mugara iritsi zara. Dokumentu hau ikusteko bakarrik irekiko da. Jarri harremanetan administratzailearekin informazio gehiago lortzeko.",
-      "warnLicenseExp": "Zure lizentzia iraungi da. Mesedez, eguneratu lizentzia eta kargatu berriro orria.",
+      "warnLicenseExp": "Zure lizentzia iraungi da. Mesedez, eguneratu zure lizentzia eta freskatu orria.",
       "warnLicenseLimitedNoAccess": "Lizentzia iraungi da. Ez daukazu sarbiderik dokumentu-edizio funtzionalitatera. Mesedez, kontaktatu zure administratzailea.",
       "warnLicenseLimitedRenewed": "Lizentzia berritu behar da. Dokumentu-edizioaren funtzionalitatera sarbide mugatua duzu.<br>Mesedez jarri harremanetan zure administratzailearekin sarbide osoa lortzeko",
       "warnLicenseUsersExceeded": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan zure administratzailearekin informazio gehiagorako.",

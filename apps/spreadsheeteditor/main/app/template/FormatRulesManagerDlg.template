@@ -8,15 +8,8 @@
                 </td>
             </tr>
             <tr>
-                <td colspan=2>
-                    <label id="format-manager-label-column" class="header" style="width: 186px;"><%= scope.textRules %></label>
-                    <label id="format-manager-label-sort" class="header" style="width: 177px;"><%= scope.textApply %></label>
-                    <label class="header" style=""><%= scope.textFormat %></label>
-                </td>
-            </tr>
-            <tr>
                 <td colspan=2 class="padding-small">
-                    <div id="format-manager-rules-list" class="range-tableview" style="width:100%; height: 151px;"></div>
+                    <div id="format-manager-rules-list" class="range-tableview" style="width:100%; height: 173px;"></div>
                 </td>
             </tr>
             <tr>

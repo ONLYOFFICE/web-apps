@@ -123,7 +123,7 @@
       "textMultiple": "hainbat",
       "textNoBreakBefore": "Lerro jauzirik ez aurretik",
       "textNoChanges": "Ez dago aldaketarik.",
-      "textNoComments": "Dokumentu honetan ez dago iruzkinik",
+      "textNoComments": "Iruzkinik ez",
       "textNoContextual": "Gehitu estilo berdineko paragrafoen arteko tartea",
       "textNoKeepLines": "Ez mantendu lerroak elkarrekin",
       "textNoKeepNext": "Ez mantendu hurrengoarekin",
@@ -172,7 +172,7 @@
     "ThemeColorPalette": {
       "textCustomColors": "Kolore pertsonalizatuak",
       "textStandartColors": "Kolore estandarrak",
-      "textThemeColors": "Itxuraren koloreak"
+      "textThemeColors": "Gaiaren koloreak"
     }
   },
   "ContextMenu": {
@@ -543,11 +543,13 @@
     "textClose": "Itxi",
     "textContactUs": "Jarri harremanetan salmenta-sailarekin",
     "textCustomLoader": "Sentitzen dugu, ez duzu kargatzailea aldatzeko baimenik. Jarri harremanetan gure salmenta-sailarekin aurrekontu bat lortzeko.",
+    "textDocumentProtected": "Dokumentua babestuta dago. Edizioko ezarpenak ez daude erabilgarri.",
     "textGuest": "Gonbidatua",
     "textHasMacros": "Fitxategiak makro automatikoak dauzka.<br>Makroak exekutatu nahi dituzu?",
     "textNo": "Ez",
     "textNoLicenseTitle": "Lizentzien mugara iritsi zara",
     "textNoTextFound": "Ez da testua aurkitu",
+    "textOk": "Ados",
     "textPaidFeature": "Ordainpeko ezaugarria",
     "textRemember": "Gogoratu nire aukera",
     "textReplaceSkipped": "Ordezkapena burutu da. {0} agerraldi saltatu dira.",
@@ -555,8 +557,10 @@
     "textRequestMacros": "Makro batek URL baterako eskaera egiten du. %1 URL-rako eskaera onartu nahi duzu?",
     "textYes": "Bai",
     "titleLicenseExp": "Lizentzia iraungi da",
+    "titleLicenseNotActive": "Lizentzia ez dago aktibo",
     "titleServerVersion": "Editorea eguneratu da",
     "titleUpdateVersion": "Bertsioa aldatu da",
+    "warnLicenseBefore": "Lizentzia ez dago aktibo.<br>Jarri zure administratzailearekin harremanetan.",
     "warnLicenseExceeded": "Aldibereko %1 editoreren konexio-mugara iritsi zara. Dokumentu hau ikusteko bakarrik irekiko da. Jarri harremanetan administratzailearekin informazio gehiago lortzeko.",
     "warnLicenseExp": "Zure lizentzia iraungi da. Mesedez, eguneratu zure lizentzia eta freskatu orria.",
     "warnLicenseLimitedNoAccess": "Lizentzia iraungi da. Ez daukazu dokumentu-edizio funtzionalitaterako sarbidea. Mesedez, kontaktatu zure administratzailea.",
@@ -565,8 +569,7 @@
     "warnNoLicense": "Aldibereko %1 editoreren konexio-mugara iritsi zara. Dokumentu hau ikusteko bakarrik irekiko da. Jarri harremanetan %1 salmenta taldearekin eguneraketa pertsonalaren baldintzak jakiteko.",
     "warnNoLicenseUsers": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan %1 salmenta taldearekin mailaz igotzeko baldintzak ezagutzeko.",
     "warnProcessRightsChange": "Ez duzu fitxategi hau editatzeko baimenik.",
-    "textDocumentProtected": "The document is protected. Edit settings are not available",
-    "textOk": "Ok"
+    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics."
   },
   "Settings": {
     "advDRMOptions": "Babestutako fitxategia",
@@ -602,7 +605,7 @@
     "textDocumentTitle": "Dokumentuaren izenburua",
     "textDone": "Eginda",
     "textDownload": "Deskargatu",
-    "textDownloadAs": "Deskargatu horrela",
+    "textDownloadAs": "Deskargatu honela",
     "textDownloadRtf": "Formatu honetan gordetzen baduzu formatuaren zati bat galdu daiteke. Ziur zaude jarraitu nahi duzula?",
     "textDownloadTxt": "Formatu honetan gordetzen baduzu ezaugarri guztiak galduko dira testua izan ezik. Ziur zaude jarraitu nahi duzula?",
     "textEmptyHeading": "Goiburu hutsa",

@@ -35,12 +35,13 @@
     {"src": "UsageInstructions/InsertFunction.htm", "name": "Вставка функций", "headername": "Работа с функциями" },	
     {"src": "UsageInstructions/InsertArrayFormulas.htm", "name": "Вставка формул массива"},
     {"src": "UsageInstructions/UseNamedRanges.htm", "name": "Использование именованных диапазонов"},
+    {"src": "UsageInstructions/WatchWindow.htm", "name": "Окно контрольных значений"},
 	{"src": "UsageInstructions/InsertImages.htm", "name": "Вставка изображений", "headername": "Действия над объектами"},	
 	{"src": "UsageInstructions/InsertChart.htm", "name": "Вставка диаграмм"},
     {"src": "UsageInstructions/InsertSparklines.htm", "name": "Вставка спарклайнов" },  
     {"src": "UsageInstructions/InsertAutoshapes.htm", "name": "Вставка и форматирование автофигур" },
     { "src": "UsageInstructions/InsertTextObjects.htm", "name": "Вставка текстовых объектов" },
-    {"src": "UsageInstructions/SupportSmartArt.htm", "name": "Поддержка SmartArt" },
+    {"src": "UsageInstructions/InsertSmartArt.htm", "name": "Вставка объектов SmartArt" },
     { "src": "UsageInstructions/InsertSymbols.htm", "name": "Вставка символов и знаков" },
     {"src": "UsageInstructions/ManipulateObjects.htm", "name": "Работа с объектами"},
     { "src": "UsageInstructions/InsertEquation.htm", "name": "Вставка формул", "headername": "Математические формулы" },
@@ -62,9 +63,8 @@
     { "src": "HelpfulHints/Search.htm", "name": "Функция поиска и замены" },
     { "src": "HelpfulHints/SpellChecking.htm", "name": "Проверка орфографии" },
     {"src": "UsageInstructions/MathAutoCorrect.htm", "name": "Функции автозамены" },
-	{"src": "HelpfulHints/Password.htm", "name": "Защита с помощью пароля"},
     {"src": "HelpfulHints/ImportData.htm", "name": "Получение данных из текстового/CSV-файла" },
     {"src": "HelpfulHints/About.htm", "name": "О редакторе электронных таблиц", "headername": "Полезные советы"},
-	{"src": "HelpfulHints/SupportedFormats.htm", "name": "Поддерживаемые форматы электронных таблиц"},	
-	{"src": "HelpfulHints/KeyboardShortcuts.htm", "name": "Сочетания клавиш"}
+	{"src": "HelpfulHints/SupportedFormats.htm", "name": "Поддерживаемые форматы электронных таблиц"},
+    {"src": "HelpfulHints/KeyboardShortcuts.htm", "name": "Сочетания клавиш" }
 ]

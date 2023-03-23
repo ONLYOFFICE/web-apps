@@ -27,7 +27,7 @@
       "textEditUser": "Usuarios que están editando el archivo:",
       "textMessageDeleteComment": "¿Realmente quiere eliminar este comentario?",
       "textMessageDeleteReply": "¿Realmente quiere eliminar esta respuesta?",
-      "textNoComments": "Este documento no contiene comentarios",
+      "textNoComments": "No hay comentarios",
       "textOk": "OK",
       "textReopen": "Volver a abrir",
       "textResolve": "Resolver",
@@ -132,7 +132,9 @@
       "warnLicenseUsersExceeded": "Ha alcanzado el límite de usuarios para los editores de %1. Contacte con su administrador para recibir más información.",
       "warnNoLicense": "Ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
       "warnNoLicenseUsers": "Ha alcanzado el límite de usuarios para los editores de %1. <br>Contacte con el equipo de ventas de %1 para conocer los términos de actualización personal.",
-      "warnProcessRightsChange": "No tiene permiso para editar el archivo."
+      "warnProcessRightsChange": "No tiene permiso para editar el archivo.",
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {

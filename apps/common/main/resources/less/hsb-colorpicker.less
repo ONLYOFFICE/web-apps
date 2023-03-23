@@ -42,7 +42,7 @@
         display: inline-block;
         width: 10px;
         height: 196px;
-        margin: 0 8px;
+        margin: 0 8px 0 10px;
     }
 
     .cnt-sat {
@@ -51,7 +51,7 @@
         position: relative;
         border: @scaled-one-px-value-ie solid @border-regular-control-ie;
         border: @scaled-one-px-value solid @border-regular-control;
-        background-position: -195px 0;
+        background-position: -196px 0;
     }
 
     .cnt-hb-arrow {
@@ -78,10 +78,16 @@
         width: 20px;
         height: 12px;
         margin-top: -6px;
-        margin-left: -4px;
-        margin-left: calc(-3px - @scaled-one-px-value);
+        margin-left: -5px;
+        margin-left: calc(-4px - @scaled-one-px-value);
         position: absolute;
-        background-position: -12px -196px;
+        background-position: -168px -200px;
+
+        .rtl & {
+            margin-left: 0;
+            margin-right: -4px;
+            margin-right: calc(-3px - @scaled-one-px-value);
+        }
     }
 
     .empty-color {

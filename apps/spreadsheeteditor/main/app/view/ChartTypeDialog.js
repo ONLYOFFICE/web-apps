@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -96,15 +95,8 @@ define([
                                     '</td>',
                                 '</tr>',
                                 '<tr class="combined-chart">',
-                                    '<td>',
-                                        '<label id="chart-type-dlg-label-column" class="header" style="width: 115px;">', me.textSeries, '</label>',
-                                        '<label id="chart-type-dlg-label-sort" class="header" style="width: 100px;">', me.textType, '</label>',
-                                        '<label class="header" style="width: 134px;text-align: center;">', me.textSecondary, '</label>',
-                                    '</td>',
-                                '</tr>',
-                                '<tr class="combined-chart">',
                                     '<td class="padding-small">',
-                                        '<div id="chart-type-dlg-series-list" class="" style="width:100%; height: 180px;"></div>',
+                                        '<div id="chart-type-dlg-series-list" class="" style="width:100%; height: 203px;"></div>',
                                     '</td>',
                                 '</tr>',
                             '</table>',
@@ -162,7 +154,7 @@ define([
                 me.mnuChartTypePicker = new Common.UI.DataView({
                     el: $('#chart-type-dlg-menu-type', me.$window),
                     parentMenu: btn.menu,
-                    restoreHeight: 465,
+                    restoreHeight: 535,
                     groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                     store: new Common.UI.DataViewStore(arr),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
@@ -194,13 +186,18 @@ define([
                 emptyText: '',
                 enableKeyEvents: false,
                 scrollAlwaysVisible: true,
+                headers: [
+                    {name: me.textSeries, width: 108},
+                    {name: me.textType, width: 105},
+                    {name: me.textSecondary, width: 123, style:'text-align: center;'},
+                ],
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                     '<div class="list-item" style="width: 100%;" id="chart-type-dlg-item-<%= seriesIndex %>">',
-                        '<div style="width:8px;height:12px;display: inline-block;vertical-align: middle;" id="chart-type-dlg-series-preview-<%= seriesIndex %>"></div>',
-                        '<div style="width:95px;padding-left: 5px;display: inline-block;vertical-align: middle;overflow: hidden; text-overflow: ellipsis;white-space: nowrap;"><%= value %></div>',
-                        '<div style="width: 110px;padding-left: 5px;display: inline-block;vertical-align: middle;"><div id="chart-type-dlg-cmb-series-<%= seriesIndex %>" class="input-group-nr" style=""></div></div>',
-                        '<div style="padding-left: 55px;display: inline-block;vertical-align: middle;"><div id="chart-type-dlg-chk-series-<%= seriesIndex %>" style=""></div></div>',
+                        '<div class="series-color" id="chart-type-dlg-series-preview-<%= seriesIndex %>"></div>',
+                        '<div class="series-value"><%= value %></div>',
+                        '<div class="series-cmb"><div id="chart-type-dlg-cmb-series-<%= seriesIndex %>" class="input-group-nr" style=""></div></div>',
+                        '<div class="series-chk"><div id="chart-type-dlg-chk-series-<%= seriesIndex %>" style=""></div></div>',
                     '</div>'
                 ].join(''))
             });
@@ -446,7 +443,7 @@ define([
                 var picker = new Common.UI.DataView({
                     el: $('#chart-type-dlg-series-menu-' + index),
                     parentMenu: menu,
-                    restoreHeight: 465,
+                    restoreHeight: 535,
                     groups: new Common.UI.DataViewGroupStore(me._arrSeriesGroups),
                     store: store,
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')

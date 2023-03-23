@@ -1,0 +1,34 @@
+<div class="settings-panel active">
+    <div class="inner-content">
+        <table cols="2" style="width: 100%;">
+            <tr>
+                <td colspan=2 class="padding-very-small">
+                    <label><%= scope.textRangesDesc %></label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan=2 class="padding-small">
+                    <label class="header"><%= scope.textFilter %></label>
+                    <div id="protect-edit-ranges-combo-filter" class="input-group-nr" style="width:210px;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan=2 class="padding-very-small"></td>
+            </tr>
+            <tr>
+                <td colspan=2 class="padding-small">
+                    <div id="protect-edit-ranges-list" class="range-tableview" style="width:100%; height: 141px;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-large">
+                    <button type="button" class="btn btn-text-default" id="protect-edit-ranges-btn-new" style="min-width: 100px;margin-right:5px;"><%= scope.textNew %></button>
+                    <button type="button" class="btn btn-text-default" id="protect-edit-ranges-btn-edit" style="min-width: 100px;"><%= scope.textEdit %></button>
+                </td>
+                <td class="padding-large" style="text-align: right;width:90px;">
+                    <button type="button" class="btn btn-text-default" id="protect-edit-ranges-btn-delete" style="min-width: 100px;"><%= scope.textDelete %></button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

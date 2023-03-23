@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -200,9 +199,14 @@ define([
                 this.api.asc_AddContentControlCheckBox(oPr, oFormPr);
             } else if (type == 'combobox' || type == 'dropdown')
                 this.api.asc_AddContentControlList(type == 'combobox', oPr, oFormPr);
-            else if (type == 'datetime')
-                this.api.asc_AddContentControlDatePicker(); // !!!! change for datetime form
-            else if (type == 'text') {
+            else if (type == 'datetime'){
+                var props = new AscCommon.CContentControlPr(),
+                    datePr = new AscCommon.CSdtDatePickerPr();
+                props.put_FormPr(oFormPr);
+                props.put_DateTimePr(datePr);
+                props.put_PlaceholderText(datePr.get_String());
+                this.api.asc_AddContentControlDatePicker(props);
+            } else if (type == 'text') {
                 var props = new AscCommon.CContentControlPr();
                 oPr = new AscCommon.CSdtTextFormPr();
                 if (options) {
@@ -349,7 +353,7 @@ define([
                     allowMerge: false,
                     allowSignature: false,
                     allowProtect: false,
-                    rightMenu: {clear: disable, disable: true},
+                    rightMenu: {clear: false, disable: true},
                     statusBar: true,
                     leftMenu: {disable: false, previewMode: true},
                     fileMenu: {info: true},
@@ -358,7 +362,7 @@ define([
                     chat: false,
                     review: true,
                     viewport: false,
-                    documentHolder: true,
+                    documentHolder: {clear: false, disable: true},
                     toolbar: true,
                     plugins: true,
                     protect: true

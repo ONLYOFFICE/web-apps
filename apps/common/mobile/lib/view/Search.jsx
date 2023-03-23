@@ -87,6 +87,7 @@ class SearchView extends Component {
             replaceQuery: ''
         };
 
+        this.refSearchbarInput = React.createRef();
         this.onSettingsClick = this.onSettingsClick.bind(this);
         this.onSearchClick = this.onSearchClick.bind(this);
         this.onReplaceClick = this.onReplaceClick.bind(this);
@@ -116,6 +117,9 @@ class SearchView extends Component {
                             api.asc_selectSearchingResults(false);
                         }
                     },
+                    searchbarEnable: (sb) => {
+                        this.refSearchbarInput.focus();
+                    }
                 }
             });
         }
@@ -264,7 +268,7 @@ class SearchView extends Component {
                         <div className="searchbar-input-wrap">
                             <input className="searchbar-input" value={searchQuery} placeholder={_t.textSearch} type="search" maxLength="255"
                                 onKeyDown={e => this.onSearchKeyBoard(e)}
-                                onChange={e => {this.changeSearchQuery(e.target.value)}} />
+                                onChange={e => {this.changeSearchQuery(e.target.value)}} ref={el => this.refSearchbarInput = el} />
                             {isIos ? <i className="searchbar-icon" /> : null}
                             <span className="input-clear-button" onClick={() => this.changeSearchQuery('')} />
                         </div>

@@ -140,8 +140,8 @@ const Search = withTranslation()(props => {
     useEffect(() => {
         if (f7.searchbar.get('.searchbar')?.enabled && Device.phone) {
             const api = Common.EditorApi.get();
-            $$('.searchbar-input').focus();
             api.asc_enableKeyEvents(false);
+            $$('.searchbar-input').focus();
         }
     });
 
@@ -149,7 +149,7 @@ const Search = withTranslation()(props => {
         const api = Common.EditorApi.get();
       
         let lookIn = +params.lookIn === 0;
-        let searchIn = +params.searchIn === 1;
+        let searchIn = +params.searchIn;
         let searchBy = +params.searchBy === 0;
 
         if (params.find && params.find.length) {
@@ -180,7 +180,7 @@ const Search = withTranslation()(props => {
     const onReplaceQuery = params => {
         const api = Common.EditorApi.get();
         let lookIn = +params.lookIn === 0;
-        let searchIn = +params.searchIn === 1;
+        let searchIn = +params.searchIn;
         let searchBy = +params.searchBy === 0;
 
         // if (params.find && params.find.length) {
@@ -204,7 +204,7 @@ const Search = withTranslation()(props => {
     const onReplaceAllQuery = params => {
         const api = Common.EditorApi.get();
         let lookIn = +params.lookIn === 0;
-        let searchIn = +params.searchIn === 1;
+        let searchIn = +params.searchIn;
         let searchBy = +params.searchBy === 0;
 
         // if (params.find && params.find.length) {

@@ -27,6 +27,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     const docInfo = props.storeDocumentInfo;
     const docExt = docInfo.dataDoc ? docInfo.dataDoc.fileType : '';
     const docTitle = docInfo.dataDoc ? docInfo.dataDoc.title : '';
+    const isAvailableExt = docExt && docExt !== 'oform';
 
     useEffect(() => {
         Common.Gateway.on('init', loadConfig);
@@ -54,7 +55,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         const navbarHeight = navbarBgHeight + subnavbarHeight;
 
         const onEngineCreated = api => {
-            if(isViewer) {
+            if(isAvailableExt && isViewer) {
                 api.SetMobileTopOffset(navbarHeight, navbarHeight);
                 api.asc_registerCallback('onMobileScrollDelta', scrollHandler);
             }
@@ -69,14 +70,14 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         return () => {
             const api = Common.EditorApi.get();
 
-            if (api) {
+            if (api && isAvailableExt && isViewer) {
                 api.SetMobileTopOffset(navbarHeight, navbarHeight);
                 api.asc_unregisterCallback('onMobileScrollDelta', scrollHandler);
             }
 
             Common.Notifications.off('engineCreated', onEngineCreated);
         }
-    }, [isViewer]);
+    }, [isAvailableExt, isViewer]);
 
     // Scroll handler
 
@@ -86,11 +87,11 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         const subnavbarHeight = document.querySelector('.subnavbar').clientHeight;
         const navbarHeight = navbarBgHeight + subnavbarHeight;
 
-        if(offset > navbarHeight) {
+        if(offset > 0) {
             f7.navbar.hide('.main-navbar');
             props.closeOptions('fab');
             api.SetMobileTopOffset(undefined, 0);
-        } else if(offset < -navbarHeight) {
+        } else if(offset <= 0) {
             f7.navbar.show('.main-navbar');
             props.openOptions('fab');
             api.SetMobileTopOffset(undefined, navbarHeight);
@@ -176,6 +177,8 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
 
     const turnOnViewerMode = () => {
         const api = Common.EditorApi.get();
+
+        f7.popover.close('.document-menu.modal-in', false);
 
         appOptions.changeViewerMode();
         api.asc_addRestriction(Asc.c_oAscRestrictionType.View);

@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2022
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  RoleEditDlg.js
  *
@@ -72,7 +71,8 @@ define([
 
             this.options.tpl = _.template(this.template)(this.options);
             this.props = this.options.props;
-            this.lastColor = 'C9C8FF';
+            this.colors = this.options.colors;
+            this.lastColor = 'FFEFBF';
             this.oformManager = this.options.oformManager;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
@@ -111,9 +111,12 @@ define([
                                   }),
                                   {caption: '--'}],
                 additionalAlign: this.menuAddAlign,
-                colors: ['FEF8E5', 'FFEFBF', 'E2EFD8', 'C6E0B3', 'EDEDED', 'DBDBDB', 'CDD6E4', 'A2B2CA', '800000', 'FF6600', 'F2F2F2', 'D9D9D9', 'DDEBF6', 'C2DDF2', 'FBECE2',
+                colors: ['FEF8E5', 'FFEFBF', 'E2EFD8', 'C6E0B3', 'EDEDED', 'DBDBDB', 'CDD6E4', 'A2B2CA', 'F2F2F2', 'D9D9D9', 'DDEBF6', 'C2DDF2', 'FBECE2',
                         'F7D9C6', 'D6E3EE', 'B9CAE7', 'F2DADA', 'F2C2C2', 'F0DDF6', 'E5C2F2', 'E6FBD6', 'CDF7AC', 'EED6D6', 'E7B9B9', 'CCE1FF', '9AC4FF', 'E4CDDB', 'D9ADC7'],
                 color: this.lastColor,
+                themecolors: 0,
+                effects: 0,
+                colorHints: false,
                 cls: 'move-focus',
                 takeFocusOnClose: true
             });
@@ -135,18 +138,24 @@ define([
 
         setSettings: function (props) {
             if (props) {
-                var clr = props.color,
-                    show = !!clr;
-                this.mnuNoFormsColor.setChecked(!show, true);
+                var clr = props.color;
+                this.mnuNoFormsColor.setChecked(!clr, true);
                 this.mnuColorPicker.clearSelection();
                 if (clr) {
-                    clr = Common.Utils.ThemeColor.getHexColor(clr.get_r(), clr.get_g(), clr.get_b());
                     this.mnuColorPicker.selectByRGB(clr, true);
                     this.lastColor = clr;
                 }
                 this.btnColor.setColor(clr || 'transparent');
 
                 this.inputName.setValue(props.name || '');
+            } else {
+                var arr = _.difference(this.btnColor.options.colors, this.colors);
+                if (arr.length>0) {
+                    var i = Math.floor(Math.random() * arr.length);
+                    this.lastColor = arr[i];
+                    this.mnuColorPicker.selectByRGB(this.lastColor, true);
+                    this.btnColor.setColor(this.lastColor);
+                }
             }
         },
 
@@ -164,6 +173,7 @@ define([
                 this.btnColor.setColor(this.lastColor);
                 this.mnuColorPicker.selectByRGB(this.lastColor, true);
             } else {
+                this.btnColor.setColor('transparent');
                 this.mnuColorPicker.clearSelection();
             }
         },

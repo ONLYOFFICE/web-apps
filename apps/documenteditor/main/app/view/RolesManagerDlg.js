@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2022
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *
  *  RolesManagerDlg.js
@@ -80,6 +79,7 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
             this.wrapEvents = {
                 onRefreshRolesList: _.bind(this.onRefreshRolesList, this)
             };
+            this.arrColors = [];
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -93,13 +93,13 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
                 emptyText: this.textEmpty,
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="">',
-                    '<div class="listitem-icon"><svg class=""><use xlink:href="#svg-icon-<%= scope.getIconCls(index) %>"></use></svg></div>',
-                    '<div style="min-width: 25px;text-align:center; padding-right: 5px;"><%= index+1 %></div>',
-                    '<div style="min-width: 25px;">',
-                        '<span class="color" style="background: <% if (color) { %>#<%= Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()) %><% } else { %> transparent <% } %>;"></span>',
+                    '<div class="listitem-icon" style="flex-shrink: 0;"><svg class=""><use xlink:href="#svg-icon-<%= scope.getIconCls(index) %>"></use></svg></div>',
+                    '<div style="width: 25px;text-align:center; padding-right: 5px;flex-shrink: 0;"><%= index+1 %></div>',
+                    '<div style="width: 25px;flex-shrink: 0;">',
+                        '<span class="color" style="background: <% if (color) { %>#<%= color %><% } else { %> transparent <% } %>;"></span>',
                     '</div>',
                     '<div style="flex-grow: 1;padding-right: 5px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
-                    '<div style="min-width: 25px;text-align: right;opacity: 0.8;"><%= fields %></div>',
+                    '<div style="width: 25px;text-align: right;opacity: 0.8;flex-shrink: 0;"><%= fields %></div>',
                     '</div>'
                 ].join('')),
                 tabindex: 1
@@ -171,17 +171,21 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
                 var rec = this.rolesList.getSelectedRec();
                 rec && (selectedRole = rec.get('name'));
             }
+            this.arrColors = [];
             if (roles) {
                 var arr = [];
                 for (var i=0; i<roles.length; i++) {
-                    var role = roles[i].asc_getSettings();
+                    var role = roles[i].asc_getSettings(),
+                        color = role.asc_getColor();
+                    color && (color = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()));
                     arr.push({
                         name: role.asc_getName() || this.textAnyone,
-                        color: role.asc_getColor(),
+                        color: color,
                         fields: role.asc_getFieldCount() || 0,
                         index: i,
                         scope: this
                     });
+                    color && this.arrColors.push(color.toUpperCase());
                 }
                 this.rolesList.store.reset(arr);
             }
@@ -219,6 +223,7 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
             var win = new DE.Views.RoleEditDlg({
                 oformManager: me.oformManager,
                 props   : (isEdit && rec) ? {name: rec.get('name'), color: rec.get('color')} : null,
+                colors  : me.arrColors,
                 isEdit  : (isEdit && rec),
                 handler : function(result, settings) {
                     if (result == 'ok' && settings) {
@@ -250,23 +255,16 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
 
             if (!rec) return;
 
-            if (store.length===1 && rec.get('fields')>0) {
-                Common.UI.warning({
-                    msg: me.warnCantDelete,
-                    buttons: ['ok']
-                });
-                return;
-            }
-
             var callback = function(toRole) {
                 me.lastSelectedRole = store.indexOf(rec);
                 me.oformManager.asc_removeRole(rec.get('name'), toRole); // remove role and move it's fields
             };
 
-            if (rec.get('fields')<1) {
+            if (store.length===1 || rec.get('fields')<1) {
                 me._isWarningVisible = true;
                 Common.UI.warning({
-                    msg: Common.Utils.String.format(me.warnDelete, rec.get('name')),
+                    msg: Common.Utils.String.format(store.length===1 ? me.textDeleteLast : me.warnDelete, rec.get('name')),
+                    maxwidth: 600,
                     buttons: ['ok', 'cancel'],
                     callback: function(btn) {
                         if (btn == 'ok') {
@@ -366,7 +364,8 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
         textUp: 'Move role up',
         textDown: 'Move role down',
         textDescription: 'Add roles and set the order in which the fillers receive and sign the document',
-        textAnyone: 'Anyone'
+        textAnyone: 'Anyone',
+        textDeleteLast: 'Are you sure you want to delete the role {0}?<br>Once deleted, the default role will be created.'
 
     }, DE.Views.RolesManagerDlg || {}));
 });

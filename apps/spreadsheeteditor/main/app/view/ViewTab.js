@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -59,12 +58,17 @@ define([
                 '</div>' +
             '</div>' +
             '<div class="separator long sheet-views"></div>' +
+                '<div class="group">' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-view-normal"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-view-pagebreak"></span>' +
+                '</div>' +
+            '<div class="separator long doc-preview"></div>' +
             '<div class="group small">' +
                 '<div class="elset" style="display: flex;">' +
                     '<span class="btn-slot" id="slot-field-zoom" style="flex-grow: 1;"></span>' +
                 '</div>' +
                 '<div class="elset" style="text-align: center;">' +
-                    '<span class="btn-slot text" id="slot-lbl-zoom" style="font-size: 11px;text-align: center;margin-top: 4px;"></span>' +
+                    '<span class="btn-slot text font-size-normal" id="slot-lbl-zoom" style="text-align: center;margin-top: 4px;"></span>' +
                 '</div>' +
             '</div>' +
             '<div class="separator long"></div>' +
@@ -163,6 +167,12 @@ define([
             me.chRightMenu.on('change', _.bind(function (checkbox, state) {
                 me.fireEvent('rightmenu:hide', [me.chRightMenu, state === 'checked']);
             }, me));
+            me.btnViewNormal.on('click', function (btn, e) {
+                btn.pressed && me.fireEvent('viewtab:viewmode', [Asc.c_oAscESheetViewType.normal]);
+            });
+            me.btnViewPageBreak.on('click', function (btn, e) {
+                btn.pressed && me.fireEvent('viewtab:viewmode', [Asc.c_oAscESheetViewType.pageBreakPreview]);
+            });
         }
 
         return {
@@ -255,6 +265,32 @@ define([
                         dataHintOffset: 'small'
                     });
                     this.lockedControls.push(this.chZeros);
+
+                    this.btnViewNormal = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon normal-view',
+                        enableToggle: true,
+                        allowDepress: false,
+                        caption: this.txtViewNormal,
+                        lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
+                        dataHint    : '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.lockedControls.push(this.btnViewNormal);
+
+                    this.btnViewPageBreak = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon page-break-preview',
+                        enableToggle: true,
+                        allowDepress: false,
+                        caption: this.txtViewPageBreak,
+                        lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
+                        dataHint    : '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.lockedControls.push(this.btnViewPageBreak);
                 }
 
                 this.cmbZoom = new Common.UI.ComboBox({
@@ -369,6 +405,8 @@ define([
                 this.chZeros && this.chZeros.render($host.find('#slot-chk-zeros'));
                 this.chLeftMenu.render($host.find('#slot-chk-leftmenu'));
                 this.chRightMenu.render($host.find('#slot-chk-rightmenu'));
+                this.btnViewNormal.render($host.find('#slot-btn-view-normal'));
+                this.btnViewPageBreak.render($host.find('#slot-btn-view-pagebreak'));
                 return this.$el;
             },
 
@@ -415,7 +453,10 @@ define([
                             ]
                         }));
                         me.btnFreezePanes.updateHint(me.tipFreeze);
+                        me.btnViewNormal.updateHint(me.tipViewNormal);
+                        me.btnViewPageBreak.updateHint(me.tipViewPageBreak);
                     } else {
+                        me.toolbar && me.toolbar.$el.find('.group.sheet-doc-preview').hide();
                         me.toolbar && me.toolbar.$el.find('.group.sheet-freeze').hide();
                         me.toolbar && me.toolbar.$el.find('.separator.sheet-freeze').hide();
                         me.toolbar && me.toolbar.$el.find('.group.sheet-gridlines').hide();
@@ -559,7 +600,8 @@ define([
                 }, this);
             },
 
-            onComboOpen: function (needfocus, combo) {
+            onComboOpen: function (needfocus, combo, e, params) {
+                if (params && params.fromKeyDown) return;
                 _.delay(function() {
                     var input = $('input', combo.cmpEl).select();
                     if (needfocus) input.focus();
@@ -591,7 +633,11 @@ define([
             textShowFrozenPanesShadow: 'Show frozen panes shadow',
             tipInterfaceTheme: 'Interface theme',
             textLeftMenu: 'Left panel',
-            textRightMenu: 'Right panel'
+            textRightMenu: 'Right panel',
+            txtViewNormal: 'Normal',
+            txtViewPageBreak: 'Page Break Preview',
+            tipViewNormal: 'See your document in Normal view',
+            tipViewPageBreak: 'See where the page breaks will appear when your document is printed'
         }
     }()), SSE.Views.ViewTab || {}));
 });

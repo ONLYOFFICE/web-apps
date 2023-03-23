@@ -132,7 +132,9 @@
       "warnLicenseUsersExceeded": "Anda telah mencapai had pengguna untuk editor %1. Hubungi pentadbir anda untuk ketahui selanjutnya.",
       "warnNoLicense": "Anda telah mencapai had pengguna untuk sambungan serentak kepada editor %1. Dokumen ini akan dibuka untuk dilihat sahaja. Hubungi pasukan jualan %1 untuk naik taraf terma peribadi.",
       "warnNoLicenseUsers": "Anda telah mencapai had pengguna untuk editor %1. Hubungi pasukan jualan %1 untuk naik taraf terma peribadi.",
-      "warnProcessRightsChange": "Anda tidak mempunyai keizinan untuk edit fail ini."
+      "warnProcessRightsChange": "Anda tidak mempunyai keizinan untuk edit fail ini.",
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {

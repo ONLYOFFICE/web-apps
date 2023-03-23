@@ -123,7 +123,7 @@
       "textMultiple": "Múltiplo",
       "textNoBreakBefore": "Sem quebra de página antes",
       "textNoChanges": "Não há mudanças.",
-      "textNoComments": "O documento não contém comentários",
+      "textNoComments": "Nenhum comentário",
       "textNoContextual": "Adicionar intervalo entre parágrafos do mesmo estilo",
       "textNoKeepLines": "Não mantenha linhas juntas",
       "textNoKeepNext": "Não mantenha com o próximo",
@@ -557,8 +557,10 @@
     "textRequestMacros": "Uma macro faz uma solicitação para URL. Deseja permitir a solicitação para %1?",
     "textYes": "Sim",
     "titleLicenseExp": "A licença expirou",
+    "titleLicenseNotActive": "Licença inativa",
     "titleServerVersion": "Editor atualizado",
     "titleUpdateVersion": "Versão alterada",
+    "warnLicenseBefore": "Licença inativa.<br>Entre em contato com seu administrador.",
     "warnLicenseExceeded": "Você atingiu o limite de conexões simultâneas para% 1 editores. Este documento será aberto apenas para visualização. Contate seu administrador para saber mais.",
     "warnLicenseExp": "Sua licença expirou. Por favor, atualize sua licença e atualize a página.",
     "warnLicenseLimitedNoAccess": "A licença expirou. Você não tem acesso à funcionalidade de edição de documentos. Por favor, entre em contato com seu administrador.",
@@ -566,7 +568,8 @@
     "warnLicenseUsersExceeded": "Você atingiu o limite de usuários para editores %1. Entre em contato com seu administrador para saber mais.",
     "warnNoLicense": "Você atingiu o limite de conexões simultâneas para% 1 editores. Este documento será aberto apenas para visualização. Contate a equipe de vendas% 1 para termos de atualização pessoal.",
     "warnNoLicenseUsers": "Você atingiu o limite de usuários para editores %1.<br>Entre em contato com a equipe de vendas da %1 para obter os termos de atualização pessoais.",
-    "warnProcessRightsChange": "Você não tem permissão para editar este arquivo."
+    "warnProcessRightsChange": "Você não tem permissão para editar este arquivo.",
+    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics."
   },
   "Settings": {
     "advDRMOptions": "Arquivo protegido",
