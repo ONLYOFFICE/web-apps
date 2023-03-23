@@ -54,34 +54,26 @@ const ProtectionDocumentView = inject("storeAppOptions")(observer(props => {
                     }} />
                 </ListItem>
             </List>
-           
             {isRequirePassword &&
                 <>
-                    {Device.android ? 
-                        <List inlineLabels className="inputs-list">
-                            <FieldPassword label={t('Settings.textPassword')} value={password} placeholder={t('Settings.textRequired')} onInput={e => changePassword(e.target.value)} />
-                            <FieldPassword label={t('Settings.textVerify')} value={passwordRepeat} placeholder={t('Settings.textRequired')} onInput={e => changeRepeationPassword(e.target.value)} />
-                        </List>
-                    :
-                        <List inlineLabels className="inputs-list">
-                            <ListInput 
-                                label={t('Settings.textPassword')}
-                                type="password"
-                                placeholder={t('Settings.textRequired')}
-                                value={password}
-                                onInput={e => changePassword(e.target.value)}
-                                className={isIos ? 'list-input-right' : ''} 
-                            />
-                            <ListInput 
-                                label={t('Settings.textVerify')}
-                                type="password"
-                                placeholder={t('Settings.textRequired')}
-                                value={passwordRepeat}
-                                onInput={e => changeRepeationPassword(e.target.value)}
-                                className={isIos ? 'list-input-right' : ''} 
-                            />
-                        </List>
-                    }
+                    <List inlineLabels className="inputs-list">
+                        <ListInput 
+                            label={t('Settings.textPassword')}
+                            type="password"
+                            placeholder={t('Settings.textRequired')}
+                            value={password}
+                            onInput={e => changePassword(e.target.value)}
+                            className={isIos ? 'list-input-right' : ''} 
+                        />
+                        <ListInput 
+                            label={t('Settings.textVerify')}
+                            type="password"
+                            placeholder={t('Settings.textRequired')}
+                            value={passwordRepeat}
+                            onInput={e => changeRepeationPassword(e.target.value)}
+                            className={isIos ? 'list-input-right' : ''} 
+                        />
+                    </List>
                     <Block>
                         <p>If the password is forgotten or lost, it cannot be recovered.</p>
                     </Block>
