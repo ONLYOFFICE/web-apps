@@ -257,7 +257,7 @@ define([
             this.chartSettings.setApi(api).on('editcomplete', _fire_editcomplete);
             this.tableSettings.setApi(api).on('editcomplete', _fire_editcomplete).on('eyedropper', _.bind(_isEyedropperStart, this));
             this.shapeSettings.setApi(api).on('editcomplete', _fire_editcomplete).on('eyedropper', _.bind(_isEyedropperStart, this));
-            this.textartSettings.setApi(api).on('editcomplete', _fire_editcomplete);
+            this.textartSettings.setApi(api).on('editcomplete', _fire_editcomplete).on('eyedropper', _.bind(_isEyedropperStart, this));
             if (this.mergeSettings) this.mergeSettings.setApi(api).on('editcomplete', _fire_editcomplete);
             if (this.signatureSettings) this.signatureSettings.setApi(api).on('editcomplete', _fire_editcomplete);
             if (this.formSettings) this.formSettings.setApi(api).on('editcomplete', _fire_editcomplete);
