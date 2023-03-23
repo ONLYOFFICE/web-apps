@@ -332,8 +332,12 @@ define([
                 toolbar.btnTextColor.on('click',                            _.bind(this.onTextColor, this));
                 toolbar.btnTextColor.on('color:select',                     _.bind(this.onTextColorSelect, this));
                 toolbar.btnTextColor.on('auto:select',                      _.bind(this.onAutoFontColor, this));
+                toolbar.btnTextColor.on('eyedropper:start',                 _.bind(this.onEyedropperStart, this));
+                toolbar.btnTextColor.on('eyedropper:end',                   _.bind(this.onEyedropperEnd, this));
                 toolbar.btnBackColor.on('click',                            _.bind(this.onBackColor, this));
                 toolbar.btnBackColor.on('color:select',                     _.bind(this.onBackColorSelect, this));
+                toolbar.btnBackColor.on('eyedropper:start',                 _.bind(this.onEyedropperStart, this));
+                toolbar.btnBackColor.on('eyedropper:end',                  _.bind(this.onEyedropperEnd, this));
                 toolbar.btnBorders.on('click',                              _.bind(this.onBorders, this));
                 if (toolbar.btnBorders.rendered) {
                     toolbar.btnBorders.menu.on('item:click',                    _.bind(this.onBordersMenu, this));
@@ -387,8 +391,12 @@ define([
                 toolbar.btnTextColor.on('click',                            _.bind(this.onTextColor, this));
                 toolbar.btnTextColor.on('color:select',                     _.bind(this.onTextColorSelect, this));
                 toolbar.btnTextColor.on('auto:select',                      _.bind(this.onAutoFontColor, this));
+                toolbar.btnTextColor.on('eyedropper:start',                 _.bind(this.onEyedropperStart, this));
+                toolbar.btnTextColor.on('eyedropper:end',                  _.bind(this.onEyedropperEnd, this));
                 toolbar.btnBackColor.on('click',                            _.bind(this.onBackColor, this));
                 toolbar.btnBackColor.on('color:select',                     _.bind(this.onBackColorSelect, this));
+                toolbar.btnBackColor.on('eyedropper:start',                 _.bind(this.onEyedropperStart, this));
+                toolbar.btnBackColor.on('eyedropper:end',                  _.bind(this.onEyedropperEnd, this));
                 toolbar.btnBorders.on('click',                              _.bind(this.onBorders, this));
                 if (toolbar.btnBorders.rendered) {
                     toolbar.btnBorders.menu.on('item:click',                    _.bind(this.onBordersMenu, this));
@@ -5023,6 +5031,15 @@ define([
             if (this.api) {
                 this.api.asc_createSmartArt(value);
             }
+        },
+
+        onEyedropperStart: function (btn) {
+            this.toolbar._isEyedropperStart = true;
+            this.api.asc_startEyedropper(_.bind(btn.eyedropperEnd, btn));
+        },
+
+        onEyedropperEnd: function () {
+            this.toolbar._isEyedropperStart = false;
         },
 
         textEmptyImgUrl     : 'You need to specify image URL.',

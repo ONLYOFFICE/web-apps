@@ -972,6 +972,7 @@ define([
                     toolbarView.btnHighlightColor.toggle(false, false);
                 }
                 if (this.appOptions.isEdit && (toolbarView && toolbarView._isEyedropperStart || rightMenu && rightMenu._isEyedropperStart)) {
+                    toolbarView._isEyedropperStart ? toolbarView._isEyedropperStart = false : rightMenu._isEyedropperStart = false;
                     this.api.asc_cancelEyedropper();
                 }
                 application.getController('DocumentHolder').getView().focus();
