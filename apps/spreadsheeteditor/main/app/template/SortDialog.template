@@ -10,7 +10,7 @@
                 <td class="padding-small">
                     <button type="button" class="btn btn-text-default auto sort-dialog-btn-text" id="sort-dialog-btn-add"><%= scope.textBtnNew %></button>
                     <button type="button" class="btn btn-text-default auto sort-dialog-btn-text" id="sort-dialog-btn-copy"><%= scope.textBtnCopy %></button>
-                    <button type="button" class="btn btn-text-default auto sort-dialog-btn-text" id="sort-dialog-btn-options" style="min-width: 100px;"><%= scope.textOptions %></button>
+                    <button type="button" class="btn btn-text-default auto sort-dialog-btn-text" id="sort-dialog-btn-options"><%= scope.textOptions %></button>
                     <div id="sort-dialog-btn-up" style="display: inline-block;"></div>
                     <div id="sort-dialog-btn-down" style="display: inline-block;"></div>
                 </td>
