@@ -671,8 +671,8 @@ define([
 
         onNumLineTransparencyChange: function(field, newValue, oldValue, eOpts){
             this.sldrLineTransparency.setValue(field.getNumberValue(), true);
-            if (this.api)  {
-                this._state.LineTransparency = field.getNumberValue() * 2.55;
+            this._state.LineTransparency = field.getNumberValue() * 2.55;
+            if (this.api && this.BorderSize>0 && !this._noApply)  {
                 var props = new Asc.asc_TextArtProperties();
                 var stroke = new Asc.asc_CStroke();
                 stroke.asc_putTransparent(this._state.LineTransparency);
@@ -685,29 +685,20 @@ define([
         onLineTransparencyChange: function(field, newValue, oldValue){
             this._sliderChangedLine = newValue;
             this.numLineTransparency.setValue(newValue, true);
-
-            if (this._sendLineUndoPoint) {
-                this.api.setStartPointHistory();
-                this._sendLineUndoPoint = false;
-                this.updatesliderline = setInterval(_.bind(this._transparencyLineApplyFunc, this), 100);
-            }
+            this.updatesliderline = setInterval(_.bind(this._transparencyLineApplyFunc, this), 100);
         },
 
         onLineTransparencyChangeComplete: function(field, newValue, oldValue){
             clearInterval(this.updatesliderline);
             this._sliderChangedLine = newValue;
-            if (!this._sendLineUndoPoint) { // start point was added
-                this.api.setEndPointHistory();
-                this._transparencyLineApplyFunc();
-            }
-            this._sendUndoPoint = true;
+            this._transparencyLineApplyFunc();
         },
 
         _transparencyLineApplyFunc: function() {
             if (this._sliderChangedLine!==undefined) {
+                this._state.LineTransparency = this._sliderChangedLine * 2.55;
                 var props = new Asc.asc_TextArtProperties();
                 var stroke = new Asc.asc_CStroke();
-                this._state.LineTransparency = this._sliderChangedLine * 2.55;
                 stroke.asc_putTransparent(this._state.LineTransparency);
                 props.asc_putLine(stroke);
                 this.shapeprops.put_TextArtProperties(props);
@@ -1487,7 +1478,7 @@ define([
             this.lockedControls.push(this.cmbBorderSize);
 
             this.cmbBorderType = new Common.UI.ComboBorderType({
-                el: $('#textart-line-combo-border-type'),
+                el: $('#textart-combo-border-type'),
                 style: "width: 93px;",
                 menuStyle: 'min-width: 93px;',
                 dataHint: '1',
@@ -1526,8 +1517,8 @@ define([
             this.sldrLineTransparency.on('changecomplete', _.bind(this.onLineTransparencyChangeComplete, this));
             this.lockedControls.push(this.sldrLineTransparency);
 
-            this.lockedControls.push($(this.el).find('#textart-line-lbl-transparency-start'));
-            this.lockedControls.push($(this.el).find('#textart-line-lbl-transparency-end'));
+            this.lblLineTransparencyStart = $(this.el).find('#textart-line-lbl-transparency-start');
+            this.lblLineTransparencyEnd = $(this.el).find('#textart-line-lbl-transparency-end');
 
             this.cmbTransform = new Common.UI.ComboDataView({
                 itemWidth: 50,
@@ -1844,6 +1835,8 @@ define([
                     item.setDisabled(disable);
                 });
                 this.numGradientAngle.setDisabled(disable || this.GradFillType !== Asc.c_oAscFillGradType.GRAD_LINEAR);
+                this.lblLineTransparencyStart.toggleClass('disabled', disable);
+                this.lblLineTransparencyEnd.toggleClass('disabled', disable);
             }
         },
 

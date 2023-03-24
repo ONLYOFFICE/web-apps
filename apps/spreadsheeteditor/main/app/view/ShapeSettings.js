@@ -677,9 +677,9 @@ define([
         },
 
         onNumLineTransparencyChange: function(field, newValue, oldValue, eOpts){
-            this.sldrTransparency.setValue(field.getNumberValue(), true);
-            if (this.api)  {
-                this._state.LineTransparency = field.getNumberValue() * 2.55;
+            this.sldrLineTransparency.setValue(field.getNumberValue(), true);
+            this._state.LineTransparency = field.getNumberValue() * 2.55;
+            if (this.api && !this._noApply)  {
                 var props = new Asc.asc_CShapeProperty();
                 var stroke = new Asc.asc_CStroke();
                 stroke.asc_putTransparent(this._state.LineTransparency);
@@ -692,29 +692,20 @@ define([
         onLineTransparencyChange: function(field, newValue, oldValue){
             this._sliderChangedLine = newValue;
             this.numLineTransparency.setValue(newValue, true);
-
-            if (this._sendLineUndoPoint) {
-                this.api.setStartPointHistory();
-                this._sendLineUndoPoint = false;
-                this.updatesliderline = setInterval(_.bind(this._transparencyLineApplyFunc, this), 100);
-            }
+            this.updatesliderline = setInterval(_.bind(this._transparencyLineApplyFunc, this), 100);
         },
 
         onLineTransparencyChangeComplete: function(field, newValue, oldValue){
             clearInterval(this.updatesliderline);
             this._sliderChangedLine = newValue;
-            if (!this._sendLineUndoPoint) { // start point was added
-                this.api.setEndPointHistory();
-                this._transparencyLineApplyFunc();
-            }
-            this._sendLineUndoPoint = true;
+            this._transparencyLineApplyFunc();
         },
 
         _transparencyLineApplyFunc: function() {
             if (this._sliderChangedLine!==undefined) {
+                this._state.LineTransparency = this._sliderChangedLine * 2.55;
                 var props = new Asc.asc_CShapeProperty();
                 var stroke = new Asc.asc_CStroke();
-                this._state.LineTransparency = this._sliderChangedLine * 2.55;
                 stroke.asc_putTransparent(this._state.LineTransparency);
                 props.asc_putStroke(stroke);
                 this.imgprops.asc_putShapeProperties(props);
@@ -1588,8 +1579,8 @@ define([
             this.sldrLineTransparency.on('changecomplete', _.bind(this.onLineTransparencyChangeComplete, this));
             this.lockedControls.push(this.sldrLineTransparency);
 
-            this.lockedControls.push($(this.el).find('#shape-lbl-transparency-start'));
-            this.lockedControls.push($(this.el).find('#shape-lbl-transparency-end'));
+            this.lblLineTransparencyStart = $(this.el).find('#shape-line-lbl-transparency-start');
+            this.lblLineTransparencyEnd = $(this.el).find('#shape-line-lbl-transparency-end');
 
             this.btnChangeShape = new Common.UI.Button({
                 parentEl: $('#shape-btn-change'),
@@ -1958,6 +1949,8 @@ define([
                     item.setDisabled(disable);
                 });
                 this.linkAdvanced.toggleClass('disabled', disable);
+                this.lblLineTransparencyStart.toggleClass('disabled', disable);
+                this.lblLineTransparencyEnd.toggleClass('disabled', disable);
             }
             this.btnFlipV.setDisabled(disable || this._state.isFromSmartArtInternal);
             this.btnFlipH.setDisabled(disable || this._state.isFromSmartArtInternal);

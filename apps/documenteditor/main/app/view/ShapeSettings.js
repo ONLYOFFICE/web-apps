@@ -77,8 +77,7 @@ define([
             this.imgprops = null;
             this._sendUndoPoint = true;
             this._sliderChanged = false;
-            this._sendLineUndoPoint = true;
-            this._sliderLineChanged = false;
+            this._sliderChangedLine = false;
             this._texturearray = null;
 
             this.txtPt = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt);
@@ -146,7 +145,6 @@ define([
             this.FillPatternContainer = $('#shape-panel-pattern-fill');
             this.FillGradientContainer = $('#shape-panel-gradient-fill');
             this.TransparencyContainer = $('#shape-panel-transparent-fill');
-            this.LineTransparencyContainer = $('#shape-line-panel-transparent');
             this.ShapeOnlySettings = $('.shape-only');
             this.CanChangeType = $('.change-type');
             this.RotationSettings = $('.shape-rotation');
@@ -688,10 +686,10 @@ define([
 
         onNumLineTransparencyChange: function(field, newValue, oldValue, eOpts){
             this.sldrLineTransparency.setValue(field.getNumberValue(), true);
-            if (this.api)  {
+            this._state.LineTransparency = field.getNumberValue() * 2.55;
+            if (this.api && this.BorderSize>0 && !this._noApply) {
                 var props = new Asc.asc_CShapeProperty();
                 var stroke = new Asc.asc_CStroke();
-                this._state.LineTransparency = field.getNumberValue() * 2.55;
                 stroke.put_transparent(this._state.LineTransparency);
                 props.put_stroke(stroke);
                 this.imgprops.put_ShapeProperties(props);
@@ -700,36 +698,27 @@ define([
         },
 
         onLineTransparencyChange: function(field, newValue, oldValue){
-            this._sliderLineChanged = newValue;
+            this._sliderChangedLine = newValue;
             this.numLineTransparency.setValue(newValue, true);
-            if (this._sendLineUndoPoint) {
-                this.api.setStartPointHistory();
-                this._sendLineUndoPoint = false;
-                this.updatesliderline = setInterval(_.bind(this._transparencyLineApplyFunc, this), 100);
-            }
+            this.updatesliderline = setInterval(_.bind(this._transparencyLineApplyFunc, this), 100);
         },
 
         onLineTransparencyChangeComplete: function(field, newValue, oldValue){
             clearInterval(this.updatesliderline);
-            this._sliderlineChanged = newValue;
-            if (!this._sendLineUndoPoint) { // start point was added
-                this.api.setEndPointHistory();
-                this._transparencyLineApplyFunc();
-            }
-            this._sendLineUndoPoint = true;
+            this._sliderChangedLine = newValue;
+            this._transparencyLineApplyFunc();
         },
 
         _transparencyLineApplyFunc: function() {
-            if (this._sliderLineChanged!==undefined) {
+            if (this._sliderChangedLine!==undefined) {
+                this._state.LineTransparency = this._sliderChangedLine * 2.55;
                 var props = new Asc.asc_CShapeProperty();
                 var stroke = new Asc.asc_CStroke();
-                this._state.LineTransparency = this._sliderLineChanged * 2.55;
                 stroke.put_transparent(this._state.LineTransparency);
                 props.put_stroke(stroke);
-
                 this.imgprops.put_ShapeProperties(props);
                 this.api.ImgApply(this.imgprops);
-                this._sliderLineChanged = undefined;
+                this._sliderChangedLine = undefined;
             }
         },
 
@@ -1653,8 +1642,8 @@ define([
             this.sldrLineTransparency.on('changecomplete', _.bind(this.onLineTransparencyChangeComplete, this));/**/
             this.lockedControls.push(this.sldrLineTransparency);
 
-            this.lockedControls.push( $(this.el).find('#shape-line-lbl-transparency-start'));
-            this.lockedControls.push( $(this.el).find('#shape-line-lbl-transparency-end'));
+            this.lblLineTransparencyStart = $(this.el).find('#shape-line-lbl-transparency-start');
+            this.lblLineTransparencyEnd = $(this.el).find('#shape-line-lbl-transparency-end');
 
             this.numLineTransparency = new Common.UI.MetricSpinner({
                 el: $('#shape-line-spin-transparency'),
@@ -2078,6 +2067,8 @@ define([
                     item.setDisabled(disable);
                 });
                 this.linkAdvanced.toggleClass('disabled', disable);
+                this.lblLineTransparencyStart.toggleClass('disabled', disable);
+                this.lblLineTransparencyEnd.toggleClass('disabled', disable);
             }
             this.btnFlipV.setDisabled(disable || this._state.isFromSmartArtInternal);
             this.btnFlipH.setDisabled(disable || this._state.isFromSmartArtInternal);
