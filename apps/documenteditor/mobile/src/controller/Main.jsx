@@ -758,9 +758,12 @@ class MainController extends Component {
         // Downloaded Advanced Options
         
         this.api.asc_registerCallback('asc_onAdvancedOptions', (type, advOptions, mode, formatOptions) => {
-            const {t} = this.props;
+            const { t } = this.props;
             const _t = t("Settings", { returnObjects: true });
+            const storeAppOptions = this.props.storeAppOptions;
+
             if(type == Asc.c_oAscAdvancedOptionsID.DRM) {
+                storeAppOptions.setEncryptionFile(true);
                 onAdvancedOptions(type, _t, this._isDocReady, this.props.storeAppOptions.canRequestClose, this.isDRM);
                 this.isDRM = true;
             }
@@ -796,6 +799,22 @@ class MainController extends Component {
         const storeAppOptions = this.props.storeAppOptions;
         const props = this.getDocProps(true);
         const isProtected = props && (props.isReadOnly || props.isCommentsOnly || props.isFormsOnly || props.isReviewOnly);
+        let textWarningDialog;
+
+        switch(props.type) {
+            case Asc.c_oAscEDocProtect.ReadOnly:
+                textWarningDialog = t('Main.textDialogProtectedOnlyView');
+                break;
+            case Asc.c_oAscEDocProtect.Comments:
+                textWarningDialog = t('Main.textDialogProtectedEditComments');
+                break;
+            case Asc.c_oAscEDocProtect.TrackedChanges: 
+                textWarningDialog = t('Main.textDialogProtectedChangesTracked')
+                break;
+            case Asc.c_oAscEDocProtect.Forms:
+                textWarningDialog = t('Main.textDialogProtectedFillForms');
+                break;
+        }
 
         storeAppOptions.setProtection(isProtected);
         props && this.applyRestrictions(props.type);
@@ -803,8 +822,8 @@ class MainController extends Component {
 
         if(isProtected) {
             f7.dialog.create({
-                title: t('Main.notcriticalErrorTitle'),
-                text: t('Main.textDocumentProtected'),
+                title: t('Main.titleDialogProtectedDocument'),
+                text: textWarningDialog,
                 buttons: [
                     {
                         text: t('Main.textOk')
@@ -838,7 +857,7 @@ class MainController extends Component {
        
         if (!storeAppOptions || !storeAppOptions.isEdit && !storeAppOptions.isRestrictedEdit) return;
 
-        if (isUpdate || !this.state.docProtection) {
+        if (isUpdate || !this._state.docProtection) {
             const props = this.api.asc_getDocumentProtection();
             const type = props ? props.asc_getEditType() : Asc.c_oAscEDocProtect.None;
 
