@@ -61,13 +61,34 @@ function checkScaling() {
         }
     }
 
-    if ( !window.matchMedia("screen and (-webkit-device-pixel-ratio: 1.5)," +
-                            "screen and (-webkit-device-pixel-ratio: 1)," +
-                            "screen and (-webkit-device-pixel-ratio: 2)").matches )
-    {
-        // don't add zoom for mobile devices
-        // if (!(/android|avantgo|playbook|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od|ad)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent || navigator.vendor || window.opera)))
-        //     document.getElementsByTagName('html')[0].setAttribute('style', 'zoom: ' + (1 / window.devicePixelRatio) + ';');
+    matches = {
+        'pixel-ratio__2_5': `screen and (-webkit-min-device-pixel-ratio: 2.5), screen and (min-resolution: 2.5dppx)`,
+    };
+    for (let c in matches) {
+        if ( window.matchMedia(matches[c]).matches ) {
+            document.body.classList.add(c);
+            Common.Utils.injectSvgIcons();
+            break;
+        }
+    }
+}
+
+window.Common = {
+    Utils: {
+        injectSvgIcons: function () {
+            const el = document.querySelector('div.inlined-svg');
+            if (!el || !el.innerHTML.firstChild) {
+                fetch('./resources/img/iconssmall@2.5x.svg')
+                    .then(r => {
+                        if (r.ok) return r.text();
+                        else {/* error */
+                        }
+                    }).then(text => {
+                        const el = document.querySelector('div.inlined-svg')
+                        el.innerHTML = text;
+                    }).catch(console.error.bind(console));
+            }
+        }
     }
 }
 
