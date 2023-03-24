@@ -177,7 +177,8 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
             var sheetIndex = this.cmbFilter.getValue();
             var ranges = this.api.asc_getUserProtectedRanges(sheetIndex>=0 ? this.api.asc_getWorksheetName(sheetIndex) : undefined);
             if (ranges) {
-                var arr = [];
+                var arr = [],
+                    currentId = this.currentUser.id;
                 for (var i=0; i<ranges.length; i++) {
                     var id = ranges[i].asc_getIsLock(),
                         users = ranges[i].asc_getUsers();
@@ -187,7 +188,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
                         rangeId: ranges[i].asc_getId() || '',
                         users: users,
                         props: ranges[i],
-                        canEdit: _.indexOf(users, this.currentUser.id)>=0,
+                        canEdit: !!_.find(users, function(item) { return (item.asc_getId()===currentId); }),
                         lock: (id!==null && id!==undefined),
                         lockuser: (id) ? (this.isUserVisible(id) ? this.getUserName(id) : this.lockText) : this.guestText
                     });
