@@ -18,6 +18,7 @@
     "grunt-inline": "file:plugins/grunt-inline",
     "grunt-json-minify": "^1.1.0",
     "grunt-spritesmith": "^6.9.0",
+    "grunt-svg-sprite": "^2.0.2",
     "grunt-svgmin": "^6.0.1",
     "grunt-terser": "^2.0.0",
     "grunt-text-replace": "0.4.0",
