@@ -313,8 +313,10 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('prebuild-icons-sprite', function() {
+        process.chdir('./sprites');
         require('./sprites/Gruntfile.js')(grunt, '../');
         grunt.task.run('all-icons-sprite');
+        process.chdir('../');
     });
 
     grunt.registerTask('main-app-init', function() {
