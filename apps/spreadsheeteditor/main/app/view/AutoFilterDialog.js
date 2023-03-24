@@ -2151,7 +2151,7 @@ define([
                 isDynamicFilter = (this.initialFilterType === Asc.c_oAscAutoFilterTypes.DynamicFilter),
                 isTop10 = (this.initialFilterType === Asc.c_oAscAutoFilterTypes.Top10),
                 isTextFilter = this.configTo.asc_getIsTextFilter(),
-                //isDateFilter = true,
+                isDateFilter = this.configTo.asc_getIsDateFilter(),
                 colorsFill = this.configTo.asc_getColorsFill(),
                 colorsFont = this.configTo.asc_getColorsFont(),
                 sort = this.configTo.asc_getSortState(),
@@ -2160,11 +2160,11 @@ define([
             if (sortColor) sortColor = Common.Utils.ThemeColor.getHexColor(sortColor.get_r(), sortColor.get_g(), sortColor.get_b()).toLocaleUpperCase();
 
             this.miTextFilter.setVisible(!isPivot && isTextFilter);
-            this.miNumFilter.setVisible(!isPivot && !isTextFilter);
-            this.miDateFilter.setVisible(!isPivot && true);
+            this.miDateFilter.setVisible(!isPivot && isDateFilter);
+            this.miNumFilter.setVisible(!isPivot && !isTextFilter && !isDateFilter);
             this.miTextFilter.setChecked(isCustomFilter && isTextFilter, true);
             this.miNumFilter.setChecked((isCustomFilter || isDynamicFilter || isTop10) && !isTextFilter, true);
-            this.miDateFilter.setChecked(false, true);
+            this.miDateFilter.setChecked(isDynamicFilter && isDateFilter, true);
 
             this.miValueFilter.setChecked(isPivot && isValueFilter, true);
             this.miLabelFilter.setChecked(isPivot && !isValueFilter && (isCustomFilter || isTop10), true);
