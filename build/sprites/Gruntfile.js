@@ -250,6 +250,9 @@ module.exports = function (grunt, rootpathprefix) {
                     },
                 },
                 shape: {
+                    id: {
+                        separator: ""
+                    },
                     transform: [{
                         svgo: {
                             plugins: [
