@@ -32,15 +32,31 @@ export class storeAppOptions {
             changeMobileView: action,
 
             isProtected: observable,
-            setProtection: action
+            setProtection: action,
+
+            typeProtection: observable,
+            setTypeProtection: action,
+
+            isFileEncrypted: observable,
+            setEncryptionFile: action
         });
     }
 
     isEdit = false;
 
+    isFileEncrypted = false;
+    setEncryptionFile(value) {
+        this.isFileEncrypted = value;
+    }
+
     isProtected = false;
     setProtection(value) {
         this.isProtected = value;
+    }
+
+    typeProtection = null;
+    setTypeProtection(type) {
+        this.typeProtection = type;
     }
 
     isMobileView = true;

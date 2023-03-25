@@ -50,8 +50,8 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
     SSE.Views.ProtectedRangesManagerDlg =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             alias: 'ProtectedRangesManagerDlg',
-            contentWidth: 480,
-            height: 353,
+            contentWidth: 490,
+            height: 365,
             buttons: null
         },
 
@@ -63,7 +63,6 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
                     '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
                     '<div class="content-panel" style="padding: 0;">' + _.template(contentTemplate)({scope: this}) + '</div>',
                     '</div>',
-                    '<div class="separator horizontal"></div>',
                     '<div class="footer center">',
                     '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.closeButtonText + '</button>',
                     '</div>'
@@ -155,7 +154,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
         },
 
         getFocusedComponents: function() {
-            return [ this.cmbFilter, this.rangeList, this.btnNewRange, this.btnEditRange, this.btnDeleteRange ];
+            return [ this.cmbFilter, this.btnNewRange, this.btnEditRange, this.btnDeleteRange, this.rangeList];
         },
 
         getDefaultFocusableComponent: function () {
@@ -177,7 +176,8 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
             var sheetIndex = this.cmbFilter.getValue();
             var ranges = this.api.asc_getUserProtectedRanges(sheetIndex>=0 ? this.api.asc_getWorksheetName(sheetIndex) : undefined);
             if (ranges) {
-                var arr = [];
+                var arr = [],
+                    currentId = this.currentUser.id;
                 for (var i=0; i<ranges.length; i++) {
                     var id = ranges[i].asc_getIsLock(),
                         users = ranges[i].asc_getUsers();
@@ -187,7 +187,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
                         rangeId: ranges[i].asc_getId() || '',
                         users: users,
                         props: ranges[i],
-                        canEdit: _.indexOf(users, this.currentUser.id)>=0,
+                        canEdit: !!_.find(users, function(item) { return (item.asc_getId()===currentId); }),
                         lock: (id!==null && id!==undefined),
                         lockuser: (id) ? (this.isUserVisible(id) ? this.getUserName(id) : this.lockText) : this.guestText
                     });

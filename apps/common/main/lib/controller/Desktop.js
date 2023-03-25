@@ -40,21 +40,21 @@ define([
 ], function () {
     'use strict';
 
-    var features = {
-        version: '{{PRODUCT_VERSION}}',
-        eventloading: true,
-        titlebuttons: true,
-        uithemes: true,
-        btnhome: true,
-        quickprint: true
-    };
+    var webapp = window.DE || window.PE || window.SSE;
+    var features = Object.assign({
+                        version: '{{PRODUCT_VERSION}}',
+                        eventloading: true,
+                        titlebuttons: true,
+                        uithemes: true,
+                        btnhome: true,
+                        quickprint: true,
+                    }, webapp.features);
 
     var native = window.desktop || window.AscDesktopEditor;
     !!native && native.execCommand('webapps:features', JSON.stringify(features));
 
     var Desktop = function () {
         var config = {version:'{{PRODUCT_VERSION}}'};
-        var webapp = window.DE || window.PE || window.SSE;
         var titlebuttons;
         var btnsave_icons = {
             'btn-save': 'save',
@@ -97,7 +97,12 @@ define([
                     if ( obj.singlewindow !== undefined ) {
                         // $('#box-document-title .hedset')[obj.singlewindow ? 'hide' : 'show']();
                         native.features.singlewindow = obj.singlewindow;
-                        titlebuttons.home && titlebuttons.home.btn.setVisible(obj.singlewindow);
+
+                        if ( config.isFillFormApp ) {
+                            $("#title-doc-name")[obj.singlewindow ? 'hide' : 'show']();
+                        } else {
+                            titlebuttons.home && titlebuttons.home.btn.setVisible(obj.singlewindow);
+                        }
                     }
                 } else
                 if (/editor:config/.test(cmd)) {
@@ -212,7 +217,7 @@ define([
         }
 
         var _onKeyDown = function (e) {
-            if ( Common.UI.HintManager.isHintVisible() ) {
+            if ( Common.UI.HintManager && Common.UI.HintManager.isHintVisible() ) {
                 native.execCommand('althints:keydown', JSON.stringify({code:e.keyCode}));
                 console.log('hint keydown', e.keyCode);
             }
@@ -468,6 +473,11 @@ define([
                     }, {id: 'desktop'});
 
                     $(document).on('keydown', _onKeyDown.bind(this));
+
+                    if ( features.uitype == 'fillform' ) {
+                        config.isFillFormApp = true;
+                        $('#header-logo, .brand-logo').hide();
+                    }
                 }
             },
             process: function (opts) {
@@ -538,5 +548,6 @@ define([
         };
     };
 
+    !Common.Controllers && (Common.Controllers = {});
     Common.Controllers.Desktop = new Desktop();
 });

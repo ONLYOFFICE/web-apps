@@ -471,6 +471,8 @@ define([
             this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop';
             this.appOptions.lang            = this.editorConfig.lang;
             this.appOptions.canPlugins      = false;
+
+            Common.Controllers.Desktop.init(this.appOptions);
         },
 
         onExternalMessage: function(msg) {
@@ -872,7 +874,7 @@ define([
                             }
                         } else {
                             Common.Gateway.requestClose();
-                            DE.Controllers.Desktop.requestClose();
+                            Common.Controllers.Desktop.requestClose();
                         }
                         me._openDlg = null;
                     }
@@ -1446,7 +1448,7 @@ define([
                     Common.Analytics.trackEvent('Print');
                     break;
                 case 'close':
-                    if (!DE.Controllers.Desktop.process('goback') &&
+                    if (!Common.Controllers.Desktop.process('goback') &&
                             this.appOptions.customization && this.appOptions.customization.goback)
                     {
                         if (this.appOptions.customization.goback.requestClose && this.appOptions.canRequestClose)
@@ -1993,7 +1995,7 @@ define([
 
     }, DE.Controllers.ApplicationController));
 
-    var Desktop = function () {
+/*    var Desktop = function () {
         var features = {
             version: '{{PRODUCT_VERSION}}',
             // eventloading: true,
@@ -2077,7 +2079,8 @@ define([
             },
         }
     };
-    DE.Controllers.Desktop = new Desktop();
-    Common.Controllers = Common.Controllers || {};
-    Common.Controllers.Desktop = DE.Controllers.Desktop;
+ */
+    // DE.Controllers.Desktop = new Desktop();
+    // Common.Controllers = Common.Controllers || {};
+    // Common.Controllers.Desktop = DE.Controllers.Desktop;
 });

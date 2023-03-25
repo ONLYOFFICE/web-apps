@@ -173,14 +173,18 @@ define([
                     url: url,
                     frameId : frameId,
                     buttons: isCustomWindow ? undefined : newBtns,
-                    toolcallback: _.bind(this.onToolClose, this),
+                    toolcallback: function(event) {
+                        me.api.asc_pluginButtonClick(-1, plugin.get_Guid());
+                    },
                     help: !!help,
                     loader: plugin.get_Loader(),
                     modal: isModal!==undefined ? isModal : true
                 });
                 me.pluginDlg.on({
                     'render:after': function(obj){
-                        obj.getChild('.footer .dlg-btn').on('click', _.bind(me.onDlgBtnClick, me));
+                        obj.getChild('.footer .dlg-btn').on('click', function(event) {
+                            me.api.asc_pluginButtonClick(parseInt(event.currentTarget.attributes['result'].value), plugin.get_Guid());
+                        });
                         me.pluginContainer = me.pluginDlg.$window.find('#id-plugin-container');
                     },
                     'close': function(obj){
@@ -215,15 +219,6 @@ define([
                 if (callback)
                     callback.call();
             }
-        },
-
-        onDlgBtnClick: function(event) {
-            var state = event.currentTarget.attributes['result'].value;
-            this.api.asc_pluginButtonClick(parseInt(state));
-        },
-
-        onToolClose: function() {
-            this.api.asc_pluginButtonClick(-1);
         },
 
         onPluginMouseUp: function(x, y) {

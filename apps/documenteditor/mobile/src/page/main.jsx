@@ -15,7 +15,7 @@ import { Toolbar } from "../controller/Toolbar";
 import NavigationController from '../controller/settings/Navigation';
 import { AddLinkController } from '../controller/add/AddLink';
 import EditHyperlink from '../controller/edit/EditHyperlink';
-import Snackbar from "../components/Snackbar/Snackbar";
+import Snackbar from '../components/Snackbar/Snackbar';
 
 class MainPage extends Component {
     constructor(props) {
@@ -135,7 +135,8 @@ class MainPage extends Component {
         const disabledControls = storeToolbarSettings.disabledControls;
         const disabledSettings = storeToolbarSettings.disabledSettings;
         const isProtected = appOptions.isProtected;
-        const isFabShow = isViewer && !disabledSettings && !disabledControls && !isDisconnected && isAvailableExt && isEdit && !isProtected;
+        const typeProtection = appOptions.typeProtection;
+        const isFabShow = isViewer && !disabledSettings && !disabledControls && !isDisconnected && isAvailableExt && isEdit && (!isProtected || typeProtection === Asc.c_oAscEDocProtect.TrackedChanges);
         const config = appOptions.config;
         const isShowPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
 
@@ -205,23 +206,12 @@ class MainPage extends Component {
                 {/* {
                     Device.phone ? null : <SearchSettings />
                 } */}
-                <CSSTransition
-                    in={this.state.snackbarVisible}
-                    timeout={1500}
-                    classNames="snackbar"
-                    mountOnEnter
-                    unmountOnExit
-                    onEntered={(node, isAppearing) => {
-                        if(!isAppearing) {
-                            this.setState({
-                                snackbarVisible: false
-                            });
-                        }
-                    }}
-                >
-                    <Snackbar
-                        text={isMobileView ? t("Toolbar.textSwitchedMobileView") : t("Toolbar.textSwitchedStandardView")}/>
-                </CSSTransition>
+
+                <Snackbar 
+                    isShowSnackbar={this.state.snackbarVisible} 
+                    closeCallback={() => this.handleOptionsViewClosed('snackbar')}
+                    message={isMobileView ? t("Toolbar.textSwitchedMobileView") : t("Toolbar.textSwitchedStandardView")} 
+                />
                 <SearchSettings useSuspense={false}/>
                 {
                     !this.state.editOptionsVisible ? null :

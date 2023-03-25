@@ -701,6 +701,9 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
     const comments = storeComments.groupCollectionFilter || storeComments.collectionComments;
     const isEdit = storeAppOptions.isEdit || storeAppOptions.isRestrictedEdit;
     const sortComments = comments.length > 0 ? [...comments].sort((a, b) => a.time > b.time ? -1 : 1) : null;
+    const isProtected = storeAppOptions.isProtected;
+    const typeProtection = storeAppOptions.typeProtection;
+    const isAvailableCommenting = !isProtected || typeProtection === Asc.c_oAscEDocProtect.TrackedChanges || typeProtection === Asc.c_oAscEDocProtect.Comments;
 
     const [clickComment, setComment] = useState();
     const [commentActionsOpened, openActionComment] = useState(false);
@@ -737,8 +740,8 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
                                     </div>
                                     {isEdit && !viewMode &&
                                         <div className='right'>
-                                            {(comment.editable && displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments)) && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'} /></div> }
-                                            {(displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments)) &&
+                                            {(comment.editable && displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'} /></div> }
+                                            {(displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) &&
                                                 <div className='comment-menu'
                                                     onClick={() => {setComment(comment); openActionComment(true);}}>
                                                     <Icon icon='icon-menu-comment'/>
@@ -768,7 +771,7 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
                                                                             <div className='reply-date'>{reply.date}</div>
                                                                         </div>
                                                                     </div>
-                                                                    {isEdit && !viewMode && reply.editable && (!isViewer || canEditComments) &&
+                                                                    {isEdit && !viewMode && reply.editable && (!isViewer || canEditComments) && isAvailableCommenting &&
                                                                         <div className='right'>
                                                                             <div className='reply-menu'
                                                                                  onClick={() => {setComment(comment); setReply(reply); openActionReply(true);}}
@@ -812,6 +815,9 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
     const viewMode = !storeAppOptions.canComments;
     const isEdit = storeAppOptions.isEdit || storeAppOptions.isRestrictedEdit;
     const comments = storeComments.showComments;
+    const isProtected = storeAppOptions.isProtected;
+    const typeProtection = storeAppOptions.typeProtection;
+    const isAvailableCommenting = !isProtected || typeProtection === Asc.c_oAscEDocProtect.TrackedChanges || typeProtection === Asc.c_oAscEDocProtect.Comments;
 
     const [currentIndex, setCurrentIndex] = useState(0);
     const comment = comments[currentIndex];
@@ -848,7 +854,7 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
         <Fragment>
             <Toolbar position='bottom'>
                 {isEdit && !viewMode &&
-                    <Link className={`btn-add-reply${(wsProps?.Objects || isViewer) && !canEditComments ? ' disabled' : ''}`} href='#' onClick={() => {onCommentMenuClick('addReply', comment);}}>{_t.textAddReply}</Link>
+                    <Link className={`btn-add-reply${((wsProps?.Objects || isViewer) && !canEditComments || !isAvailableCommenting) ? ' disabled' : ''}`} href='#' onClick={() => {onCommentMenuClick('addReply', comment);}}>{_t.textAddReply}</Link>
                 }
                 {comments.length > 1 &&
                     <div className='comment-navigation row'>
@@ -870,15 +876,15 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
                                     </div>
                                 </div>
                                 {isEdit && !viewMode &&
-                                <div className='right'>
-                                    {(comment.editable && displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments)) && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'}/></div>}
-                                    {(displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments)) &&
-                                        <div className='comment-menu'
-                                            onClick={() => {openActionComment(true);}}>
-                                            <Icon icon='icon-menu-comment'/>
-                                        </div>
-                                    }
-                                </div>
+                                    <div className='right'>
+                                        {(comment.editable && displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'}/></div>}
+                                        {(displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) &&
+                                            <div className='comment-menu'
+                                                onClick={() => {openActionComment(true);}}>
+                                                <Icon icon='icon-menu-comment'/>
+                                            </div>
+                                        }
+                                    </div>
                                 }
                             </div>
                             <div slot='footer'>
@@ -902,7 +908,7 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
                                                                             <div className='reply-date'>{reply.date}</div>
                                                                         </div>
                                                                     </div>
-                                                                    {isEdit && !viewMode && reply.editable && (!isViewer || canEditComments) &&
+                                                                    {isEdit && !viewMode && reply.editable && (!isViewer || canEditComments) && isAvailableCommenting &&
                                                                         <div className='right'>
                                                                             <div className='reply-menu'
                                                                                 onClick={() => {setReply(reply); openActionReply(true);}}

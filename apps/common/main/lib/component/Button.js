@@ -275,7 +275,8 @@ define([
             visible         : true,
             dataHint        : '',
             dataHintDirection: '',
-            dataHintOffset: '0, 0'
+            dataHintOffset: '0, 0',
+            scaling         : false,
         },
 
         template: _.template([
@@ -345,6 +346,9 @@ define([
                 me.render();
             } else if (me.options.parentEl)
                 me.render(me.options.parentEl);
+
+            // TODO: for review scaling feature only. remove after
+            me.options.scaling = true;
         },
 
         getCaptionWithBreaks: function (caption) {
@@ -620,6 +624,17 @@ define([
 
                 // Register the button in the toggle manager
                 Common.UI.ToggleManager.register(me);
+
+                if ( me.options.scaling !== false ) {
+                    el.attr('ratio', 'ratio');
+                    me.applyScaling(Common.UI.Scaling.currentRatio());
+
+                    el.on('app:scaling', function (e, info) {
+                        if ( me.options.scaling != info.ratio ) {
+                            me.applyScaling(info.ratio);
+                        }
+                    });
+                }
             }
 
             me.rendered = true;
@@ -851,7 +866,30 @@ define([
                 if (this.rendered)
                     this.menu.render(this.cmpEl);
             }
-        }
+        },
+
+        applyScaling: function (ratio) {
+            const me = this;
+            if ( me.options.scaling != ratio ) {
+                // me.cmpEl.attr('ratio', ratio);
+                me.options.scaling = ratio;
+
+                if (ratio > 2) {
+                    if (!me.$el.find('svg.icon').length) {
+                        const re_icon_name = /btn-[^\s]+/.exec(me.iconCls);
+                        const icon_name = re_icon_name ? re_icon_name[0] : "null";
+                        const svg_icon = `<svg class="icon"><use class="zoom-int" href="#${icon_name}"></use></svg>`;
+
+                        me.$el.find('i.icon').after(svg_icon);
+                    }
+                } else {
+                    if (!me.$el.find('i.icon')) {
+                        const png_icon = `<i class="icon ${me.iconCls}">&nbsp;</i>`;
+                        me.$el.find('svg.icon').after(png_icon);
+                    }
+                }
+            }
+        },
     });
 });
 
