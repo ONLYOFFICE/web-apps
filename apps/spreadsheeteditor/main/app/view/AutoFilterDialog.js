@@ -1427,47 +1427,47 @@ define([
                 menu        : new Common.UI.Menu({
                     menuAlign: 'tl-tr',
                     items: [
-                        {value: 0, caption: this.txtEquals, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                        {value: 0, caption: this.txtBefore, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                        {value: 0, caption: this.txtAfter, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                        {value: 0, caption: this.txtBetween, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                        {value: 0, caption: this.txtTomorrow, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                        {value: 0, caption: this.txtToday, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                        {value: 0, caption: this.txtYesterday, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                        {value: 0, caption: this.txtNextWeek, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                        {value: 0, caption: this.txtThisWeek, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                        {value: 0, caption: this.txtLastWeek, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                        {value: 0, caption: this.txtNextMonth, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                        {value: 0, caption: this.txtThisMonth, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                        {value: 0, caption: this.txtLastMonth, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                        {value: 0, caption: this.txtNextQuarter, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                        {value: 0, caption: this.txtThisQuarter, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                        {value: 0, caption: this.txtLastQuarter, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                        {value: 0, caption: this.txtNextYear, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                        {value: 0, caption: this.txtThisYear, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                        {value: 0, caption: this.txtLastYear, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                        {value: 0, caption: this.txtYearToDate, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: Asc.c_oAscCustomAutoFilter.equals, caption: this.txtEquals, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: Asc.c_oAscCustomAutoFilter.isLessThan, caption: this.txtBefore, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: Asc.c_oAscCustomAutoFilter.isGreaterThan, caption: this.txtAfter, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: -2, caption: this.txtBetween, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {value: Asc.c_oAscDynamicAutoFilter.tomorrow, caption: this.txtTomorrow, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                        {value: Asc.c_oAscDynamicAutoFilter.today, caption: this.txtToday, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                        {value: Asc.c_oAscDynamicAutoFilter.yesterday, caption: this.txtYesterday, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                        {value: Asc.c_oAscDynamicAutoFilter.nextWeek, caption: this.txtNextWeek, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                        {value: Asc.c_oAscDynamicAutoFilter.thisWeek, caption: this.txtThisWeek, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                        {value: Asc.c_oAscDynamicAutoFilter.lastWeek, caption: this.txtLastWeek, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                        {value: Asc.c_oAscDynamicAutoFilter.nextMonth, caption: this.txtNextMonth, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                        {value: Asc.c_oAscDynamicAutoFilter.thisMonth, caption: this.txtThisMonth, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                        {value: Asc.c_oAscDynamicAutoFilter.lastMonth, caption: this.txtLastMonth, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                        {value: Asc.c_oAscDynamicAutoFilter.nextQuarter, caption: this.txtNextQuarter, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                        {value: Asc.c_oAscDynamicAutoFilter.thisQuarter, caption: this.txtThisQuarter, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                        {value: Asc.c_oAscDynamicAutoFilter.lastQuarter, caption: this.txtLastQuarter, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                        {value: Asc.c_oAscDynamicAutoFilter.nextYear, caption: this.txtNextYear, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                        {value: Asc.c_oAscDynamicAutoFilter.thisYear, caption: this.txtThisYear, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                        {value: Asc.c_oAscDynamicAutoFilter.lastYear, caption: this.txtLastYear, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                        {value: Asc.c_oAscDynamicAutoFilter.yearToDate, caption: this.txtYearToDate, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
                         this.miDatesInThePeriod = new Common.UI.MenuItem({
                             caption: this.txtAllDatesInThePeriod,
                             menu: new Common.UI.Menu({
                                 menuAlign: 'tl-tr',
                                 items: [
-                                    {value: 0, caption: this.txtQuarter1, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                                    {value: 0, caption: this.txtQuarter2, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                                    {value: 0, caption: this.txtQuarter3, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                                    {value: 0, caption: this.txtQuarter4, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                                    {value: 0, caption: this.txtJanuary, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                                    {value: 0, caption: this.txtFebruary, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                                    {value: 0, caption: this.txtMarch, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                                    {value: 0, caption: this.txtApril, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                                    {value: 0, caption: this.txtMay, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                                    {value: 0, caption: this.txtJune, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                                    {value: 0, caption: this.txtJuly, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                                    {value: 0, caption: this.txtAugust, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                                    {value: 0, caption: this.txtSeptember, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                                    {value: 0, caption: this.txtOctober, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                                    {value: 0, caption: this.txtNovember, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
-                                    {value: 0, caption: this.txtDecember, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters}
+                                    {value: Asc.c_oAscDynamicAutoFilter.q1, caption: this.txtQuarter1, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                                    {value: Asc.c_oAscDynamicAutoFilter.q2, caption: this.txtQuarter2, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                                    {value: Asc.c_oAscDynamicAutoFilter.q3, caption: this.txtQuarter3, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                                    {value: Asc.c_oAscDynamicAutoFilter.q4, caption: this.txtQuarter4, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                                    {value: Asc.c_oAscDynamicAutoFilter.m1, caption: this.txtJanuary, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                                    {value: Asc.c_oAscDynamicAutoFilter.m2, caption: this.txtFebruary, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                                    {value: Asc.c_oAscDynamicAutoFilter.m3, caption: this.txtMarch, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                                    {value: Asc.c_oAscDynamicAutoFilter.m4, caption: this.txtApril, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                                    {value: Asc.c_oAscDynamicAutoFilter.m5, caption: this.txtMay, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                                    {value: Asc.c_oAscDynamicAutoFilter.m6, caption: this.txtJune, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                                    {value: Asc.c_oAscDynamicAutoFilter.m7, caption: this.txtJuly, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                                    {value: Asc.c_oAscDynamicAutoFilter.m8, caption: this.txtAugust, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                                    {value: Asc.c_oAscDynamicAutoFilter.m9, caption: this.txtSeptember, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                                    {value: Asc.c_oAscDynamicAutoFilter.m10, caption: this.txtOctober, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                                    {value: Asc.c_oAscDynamicAutoFilter.m11, caption: this.txtNovember, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                                    {value: Asc.c_oAscDynamicAutoFilter.m12, caption: this.txtDecember, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter}
                                 ]
                             })
                         }),
@@ -1475,7 +1475,11 @@ define([
                     ]
                 })
             });
-            this.miDateFilter.menu.on('item:click', _.bind(this.onDataFilterMenuClick, this));
+            items = this.miDateFilter.menu.items;
+            for (i=0; i<items.length; i++) {
+                items[i].on('click', _.bind(items[i].options.type === Asc.c_oAscAutoFilterTypes.CustomFilters ? this.onDataFilterMenuClick : this.onNumDynamicFilterItemClick, this));
+            }
+            this.miDatesInThePeriod.menu.on('item:click', _.bind(this.onNumDynamicFilterItemClick, this));
 
             this.miFilterCellColor = new Common.UI.MenuItem({
                 caption     : this.txtFilterCellColor,
