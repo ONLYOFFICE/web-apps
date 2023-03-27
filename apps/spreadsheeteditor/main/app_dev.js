@@ -161,6 +161,7 @@ require([
     Common.Locale.apply(function(){
         require([
             'common/main/lib/util/LocalStorage',
+            'common/main/lib/controller/Scaling',
             'common/main/lib/controller/Themes',
             'common/main/lib/controller/Desktop',
             'spreadsheeteditor/main/app/controller/Viewport',
