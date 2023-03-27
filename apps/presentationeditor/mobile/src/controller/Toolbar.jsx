@@ -89,7 +89,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeFocusObjects'
                 if (!current && appOptions.customization.goback.blank !== false) {
                     window.open(href, "_blank");
                 } else {
-                    parent.location.href = href;
+                    window.location.href = href;
                 }
             }
         //}
