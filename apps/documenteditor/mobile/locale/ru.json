@@ -427,7 +427,8 @@
     "unknownErrorText": "Неизвестная ошибка.",
     "uploadImageExtMessage": "Неизвестный формат рисунка.",
     "uploadImageFileCountMessage": "Ни одного рисунка не загружено.",
-    "uploadImageSizeMessage": "Слишком большой рисунок. Максимальный размер - 25 MB."
+    "uploadImageSizeMessage": "Слишком большой рисунок. Максимальный размер - 25 MB.",
+    "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization."
   },
   "LongActions": {
     "applyChangesTextText": "Загрузка данных...",
@@ -560,6 +561,7 @@
     "titleLicenseNotActive": "Лицензия неактивна",
     "titleServerVersion": "Редактор обновлен",
     "titleUpdateVersion": "Версия изменилась",
+    "warnDownloadAsPdf": "{0} будет сконвертирован в редактируемый формат. Это может занять некоторое время. Получившийся в результате документ будет оптимизирован для редактирования текста, поэтому он может отличаться от исходного {0}, особенно если исходный файл содержит много графических элементов.",
     "warnLicenseBefore": "Лицензия неактивна.<br>Пожалуйста, обратитесь к администратору.",
     "warnLicenseExceeded": "Вы достигли лимита на одновременные подключения к редакторам %1. Этот документ будет открыт только на просмотр. Свяжитесь с администратором, чтобы узнать больше.",
     "warnLicenseExp": "Истек срок действия лицензии. Обновите лицензию, а затем обновите страницу.",
@@ -569,7 +571,11 @@
     "warnNoLicense": "Вы достигли лимита на одновременные подключения к редакторам %1. Этот документ будет открыт на просмотр. Напишите в отдел продаж %1, чтобы обсудить индивидуальные условия обновления.",
     "warnNoLicenseUsers": "Вы достигли лимита на количество пользователей редакторов %1. Напишите в отдел продаж %1, чтобы обсудить индивидуальные условия обновления.",
     "warnProcessRightsChange": "У вас нет прав на редактирование этого файла.",
-    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics."
+    "titleDialogProtectedDocument": "The document is protected",
+    "textDialogProtectedOnlyView": "You may only view this document",
+    "textDialogProtectedFillForms": "You may only fill in forms in this document",
+    "textDialogProtectedChangesTracked": "You may edit this document, but all changes will be tracked",
+    "textDialogProtectedEditComments": "You may only insert comments to this document"
   },
   "Settings": {
     "advDRMOptions": "Защищенный файл",
@@ -698,7 +704,26 @@
     "txtScheme6": "Открытая",
     "txtScheme7": "Справедливость",
     "txtScheme8": "Поток",
-    "txtScheme9": "Литейная"
+    "txtScheme9": "Литейная",
+    "textProtection": "Protection",
+    "textProtectDocument": "Protect Document",
+    "titleDialogUnprotect": "Unprotect Document",
+    "textDialogUnprotect": "Enter a password to unprotect document",
+    "textUnprotect": "Unprotect",
+    "textProtectTurnOff": "Protect turn off",
+    "textSetPassword": "Set Password",
+    "textTypeEditing": "Type Of Editing",
+    "textNoChanges": "No changes (Read only)",
+    "textFillingForms": "Filling forms",
+    "textTrackedChanges": "Tracked changes",
+    "textPassword": "Password",
+    "textVerify": "Verify",
+    "textSave": "Save",
+    "textRequired": "Required",
+    "textPasswordNotMatched": "Passwords DonвЂ™t Match",
+    "textEncryptFile": "Encrypt File",
+    "textRequirePassword": "Require Password",
+    "textChangePassword": "Change Password"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "В документе есть несохраненные изменения. Нажмите 'Остаться на странице', чтобы дождаться автосохранения. Нажмите 'Уйти со страницы', чтобы сбросить все несохраненные изменения.",
