@@ -28,6 +28,8 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     const docExt = docInfo.dataDoc ? docInfo.dataDoc.fileType : '';
     const docTitle = docInfo.dataDoc ? docInfo.dataDoc.title : '';
     const isAvailableExt = docExt && docExt !== 'oform';
+    console.log(parent);
+    console.log(window);
 
     useEffect(() => {
         Common.Gateway.on('init', loadConfig);
@@ -140,7 +142,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             if (!current && appOptions.customization.goback.blank !== false) {
                 window.open(href, "_blank");
             } else {
-                parent.location.href = href;
+                window.location.href = href;
             }
         }
     }
