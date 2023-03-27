@@ -427,7 +427,8 @@
     "unknownErrorText": "Erreur inconnue.",
     "uploadImageExtMessage": "Format d'image inconnu.",
     "uploadImageFileCountMessage": "Aucune image chargée.",
-    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo."
+    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo.",
+    "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization."
   },
   "LongActions": {
     "applyChangesTextText": "Chargement des données en cours...",
@@ -560,6 +561,7 @@
     "titleLicenseNotActive": "Licence non active",
     "titleServerVersion": "L'éditeur est mis à jour",
     "titleUpdateVersion": "La version a été modifiée",
+    "warnDownloadAsPdf": "Votre {0} sera converti en un format modifiable. Cette opération peut prendre quelque temps. Le document résultant sera optimisé pour l'édition de texte, il peut donc être différent de l'original {0}, surtout si le fichier original contient de nombreux éléments graphiques.",
     "warnLicenseBefore": "Licence non active.<br>Veuillez contacter votre administrateur.",
     "warnLicenseExceeded": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule. Pour en savoir plus, contactez votre administrateur.",
     "warnLicenseExp": "Votre licence a expiré. Veuillez mettre à jour votre licence et actualisez la page.",
@@ -569,7 +571,11 @@
     "warnNoLicense": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
     "warnNoLicenseUsers": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
     "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier.",
-    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics."
+    "titleDialogProtectedDocument": "The document is protected",
+    "textDialogProtectedOnlyView": "You may only view this document",
+    "textDialogProtectedFillForms": "You may only fill in forms in this document",
+    "textDialogProtectedChangesTracked": "You may edit this document, but all changes will be tracked",
+    "textDialogProtectedEditComments": "You may only insert comments to this document"
   },
   "Settings": {
     "advDRMOptions": "Fichier protégé",
@@ -698,7 +704,26 @@
     "txtScheme6": "Rotonde",
     "txtScheme7": "Capitaux",
     "txtScheme8": "Flux",
-    "txtScheme9": "Fonderie"
+    "txtScheme9": "Fonderie",
+    "textProtection": "Protection",
+    "textProtectDocument": "Protect Document",
+    "titleDialogUnprotect": "Unprotect Document",
+    "textDialogUnprotect": "Enter a password to unprotect document",
+    "textUnprotect": "Unprotect",
+    "textProtectTurnOff": "Protect turn off",
+    "textSetPassword": "Set Password",
+    "textTypeEditing": "Type Of Editing",
+    "textNoChanges": "No changes (Read only)",
+    "textFillingForms": "Filling forms",
+    "textTrackedChanges": "Tracked changes",
+    "textPassword": "Password",
+    "textVerify": "Verify",
+    "textSave": "Save",
+    "textRequired": "Required",
+    "textPasswordNotMatched": "Passwords DonвЂ™t Match",
+    "textEncryptFile": "Encrypt File",
+    "textRequirePassword": "Require Password",
+    "textChangePassword": "Change Password"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Vous avez des modifications non enregistrées dans ce document. Cliquez sur Rester sur cette page et attendez l'enregistrement automatique. Cliquez sur Quitter cette page pour annuler toutes les modifications non enregistrées.",
