@@ -197,7 +197,7 @@ define([
         },
 
         eyedropperEnd: function (r, g, b) {
-            var color = r.toString(16) + g.toString(16) + b.toString(16);
+            var color = Common.Utils.ThemeColor.getHexColor(r, g, b);
             this.colorPicker.setCustomColor('#' + color);
             this.onColorSelect(this.colorPicker, color);
             this.trigger('eyedropper:end', this);
