@@ -75,7 +75,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
                     {
                         text: _t.leaveButtonText,
                         onClick: function() {
-                            goBack(true);
+                            goBack();
                         }
                     },
                     {
@@ -85,7 +85,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
                 ]
             }).open();
         } else {
-            goBack(true);
+            goBack();
         }
     };
     const goBack = (current) => {

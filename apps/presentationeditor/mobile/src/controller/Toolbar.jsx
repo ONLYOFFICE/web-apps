@@ -67,7 +67,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeFocusObjects'
                     {
                         text: _t.leaveButtonText,
                         onClick: function() {
-                            goBack(true);
+                            goBack();
                         }
                     },
                     {
@@ -77,7 +77,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeFocusObjects'
                 ]
             }).open();
         } else {
-            goBack(true);
+            goBack();
         }
     };
     const goBack = (current) => {
