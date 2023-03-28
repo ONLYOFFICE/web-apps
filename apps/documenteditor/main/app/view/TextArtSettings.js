@@ -1242,6 +1242,7 @@ define([
                 this.btnBorderColor = new Common.UI.ColorButton({
                     parentEl: $('#textart-border-color-btn'),
                     color: '000000',
+                    eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -1249,10 +1250,13 @@ define([
                 this.lockedControls.push(this.btnBorderColor);
                 this.colorsBorder = this.btnBorderColor.getPicker();
                 this.btnBorderColor.on('color:select', _.bind(this.onColorsBorderSelect, this));
+                this.btnBorderColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                this.btnBorderColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
 
                 this.btnGradColor = new Common.UI.ColorButton({
                     parentEl: $('#textart-gradient-color-btn'),
                     color: '000000',
+                    eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -1260,11 +1264,14 @@ define([
                 this.lockedControls.push(this.btnGradColor);
                 this.colorsGrad = this.btnGradColor.getPicker();
                 this.btnGradColor.on('color:select', _.bind(this.onColorsGradientSelect, this));
+                this.btnGradColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                this.btnGradColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
 
                 this.btnBackColor = new Common.UI.ColorButton({
                     parentEl: $('#textart-back-color-btn'),
                     transparent: true,
                     color: 'transparent',
+                    eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -1272,6 +1279,8 @@ define([
                 this.lockedControls.push(this.btnBackColor);
                 this.colorsBack = this.btnBackColor.getPicker();
                 this.btnBackColor.on('color:select', _.bind(this.onColorsBackSelect, this));
+                this.btnBackColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                this.btnBackColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
             }
             this.colorsBorder.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
@@ -1396,6 +1405,15 @@ define([
                 this._state.HideTransformSettings = value;
                 this.TransformSettings.toggleClass('hidden', value === true);
             }
+        },
+
+        onEyedropperStart: function (btn) {
+            this.api.asc_startEyedropper(_.bind(btn.eyedropperEnd, btn));
+            this.fireEvent('eyedropper', true);
+        },
+
+        onEyedropperEnd: function () {
+            this.fireEvent('eyedropper', false);
         },
 
         txtNoBorders            : 'No Line',

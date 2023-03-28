@@ -144,6 +144,7 @@ define([
                 transparent: true,
                 menu: true,
                 color: 'ffffff',
+                eyeDropper: true,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
@@ -1078,11 +1079,14 @@ define([
             if (!this.colorsBack) {
                 this.btnBackColor.setMenu();
                 this.btnBackColor.on('color:select', _.bind(this.onColorsBackSelect, this));
+                this.btnBackColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                this.btnBackColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
                 this.colorsBack = this.btnBackColor.getPicker();
 
                 this.btnFGColor = new Common.UI.ColorButton({
                     parentEl: $('#slide-foreground-color-btn'),
                     color: '000000',
+                    eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -1090,10 +1094,13 @@ define([
                 this.FillItems.push(this.btnFGColor);
                 this.colorsFG = this.btnFGColor.getPicker();
                 this.btnFGColor.on('color:select', _.bind(this.onColorsFGSelect, this));
+                this.btnFGColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                this.btnFGColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
 
                 this.btnBGColor = new Common.UI.ColorButton({
                     parentEl: $('#slide-background-color-btn'),
                     color: 'ffffff',
+                    eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -1101,10 +1108,13 @@ define([
                 this.FillItems.push(this.btnBGColor);
                 this.colorsBG = this.btnBGColor.getPicker();
                 this.btnBGColor.on('color:select', _.bind(this.onColorsBGSelect, this));
+                this.btnBGColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                this.btnBGColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
 
                 this.btnGradColor = new Common.UI.ColorButton({
                     parentEl: $('#slide-gradient-color-btn'),
                     color: '000000',
+                    eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -1112,6 +1122,8 @@ define([
                 this.FillItems.push(this.btnGradColor);
                 this.colorsGrad = this.btnGradColor.getPicker();
                 this.btnGradColor.on('color:select', _.bind(this.onColorsGradientSelect, this));
+                this.btnGradColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                this.btnGradColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
             }
             
             this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
@@ -1522,6 +1534,15 @@ define([
                 props.put_background(fill);
                 this.api.SetSlideProps(props);
             }
+        },
+
+        onEyedropperStart: function (btn) {
+            this.api.asc_startEyedropper(_.bind(btn.eyedropperEnd, btn));
+            this.fireEvent('eyedropper', true);
+        },
+
+        onEyedropperEnd: function () {
+            this.fireEvent('eyedropper', false);
         },
 
         strColor                : 'Color',

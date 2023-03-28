@@ -493,6 +493,7 @@ define([
                         lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormat, _set.editVisibleArea],
                         menu: true,
                         auto: true,
+                        eyeDropper: true,
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
                     });
@@ -506,6 +507,7 @@ define([
                         lock        : [_set.selImage, _set.editCell, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormatFill, _set.editVisibleArea],
                         transparent: true,
                         menu: true,
+                        eyeDropper: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom'
                     });
@@ -945,6 +947,7 @@ define([
                     lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormat, _set.userProtected],
                     menu: true,
                     auto: true,
+                    eyeDropper: true,
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -16'
@@ -959,6 +962,7 @@ define([
                     lock        : [_set.selImage, _set.editCell, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormatFill, _set.userProtected],
                     transparent: true,
                     menu: true,
+                    eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -16'

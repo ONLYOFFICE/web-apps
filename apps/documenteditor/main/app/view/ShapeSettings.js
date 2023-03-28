@@ -1884,6 +1884,7 @@ define([
                     parentEl: $('#shape-back-color-btn'),
                     transparent: true,
                     color: 'transparent',
+                    eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -1891,10 +1892,13 @@ define([
                 this.fillControls.push(this.btnBackColor);
                 this.colorsBack = this.btnBackColor.getPicker();
                 this.btnBackColor.on('color:select', _.bind(this.onColorsBackSelect, this));
+                this.btnBackColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                this.btnBackColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
 
                 this.btnFGColor = new Common.UI.ColorButton({
                     parentEl: $('#shape-foreground-color-btn'),
                     color: '000000',
+                    eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -1902,10 +1906,13 @@ define([
                 this.fillControls.push(this.btnFGColor);
                 this.colorsFG = this.btnFGColor.getPicker();
                 this.btnFGColor.on('color:select', _.bind(this.onColorsFGSelect, this));
+                this.btnFGColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                this.btnFGColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
 
                 this.btnBGColor = new Common.UI.ColorButton({
                     parentEl: $('#shape-background-color-btn'),
                     color: 'ffffff',
+                    eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -1913,10 +1920,13 @@ define([
                 this.fillControls.push(this.btnBGColor);
                 this.colorsBG = this.btnBGColor.getPicker();
                 this.btnBGColor.on('color:select', _.bind(this.onColorsBGSelect, this));
+                this.btnBGColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                this.btnBGColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
 
                 this.btnGradColor = new Common.UI.ColorButton({
                     parentEl: $('#shape-gradient-color-btn'),
                     color: '000000',
+                    eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -1924,10 +1934,13 @@ define([
                 this.fillControls.push(this.btnGradColor);
                 this.colorsGrad = this.btnGradColor.getPicker();
                 this.btnGradColor.on('color:select', _.bind(this.onColorsGradientSelect, this));
+                this.btnGradColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                this.btnGradColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
 
                 this.btnBorderColor = new Common.UI.ColorButton({
                     parentEl: $('#shape-border-color-btn'),
                     color: '000000',
+                    eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -1935,6 +1948,8 @@ define([
                 this.lockedControls.push(this.btnBorderColor);
                 this.colorsBorder = this.btnBorderColor.getPicker();
                 this.btnBorderColor.on('color:select', _.bind(this.onColorsBorderSelect, this));
+                this.btnBorderColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                this.btnBorderColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
             }
             this.colorsBorder.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
@@ -2092,6 +2107,15 @@ define([
                 this.imgprops.put_ShapeProperties(props);
                 this.api.ImgApply(this.imgprops);
             }
+        },
+
+        onEyedropperStart: function (btn) {
+            this.api.asc_startEyedropper(_.bind(btn.eyedropperEnd, btn));
+            this.fireEvent('eyedropper', true);
+        },
+
+        onEyedropperEnd: function () {
+            this.fireEvent('eyedropper', false);
         },
 
         txtNoBorders            : 'No Line',
