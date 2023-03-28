@@ -107,6 +107,7 @@ define([
         },
 
         onSelect: function(btn){
+            this.view && this.view.depressButtons(btn);
             this.api && this.api.asc_StopInkDrawer();
         },
 
