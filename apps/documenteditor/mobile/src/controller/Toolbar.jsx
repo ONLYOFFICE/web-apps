@@ -119,7 +119,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
                     {
                         text: _t.leaveButtonText,
                         onClick: function() {
-                            goBack(true);
+                            goBack();
                         }
                     },
                     {
@@ -129,7 +129,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
                 ]
             }).open();
         } else {
-            goBack(true);
+            goBack();
         }
     };
     const goBack = (current) => {
