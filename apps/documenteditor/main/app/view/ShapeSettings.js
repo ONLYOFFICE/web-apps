@@ -698,15 +698,23 @@ define([
         },
 
         onLineTransparencyChange: function(field, newValue, oldValue){
-            this._sliderChangedLine = newValue;
             this.numLineTransparency.setValue(newValue, true);
-            this.updatesliderline = setInterval(_.bind(this._transparencyLineApplyFunc, this), 100);
+            this._sliderChangedLine = newValue;
+            if (this._sendUndoPoint) {
+                this.api.setStartPointHistory();
+                this._sendUndoPoint = false;
+                this.updatesliderline = setInterval(_.bind(this._transparencyLineApplyFunc, this), 100);
+            }
         },
 
         onLineTransparencyChangeComplete: function(field, newValue, oldValue){
             clearInterval(this.updatesliderline);
             this._sliderChangedLine = newValue;
-            this._transparencyLineApplyFunc();
+            if (!this._sendUndoPoint) { // start point was added
+                this.api.setEndPointHistory();
+                this._transparencyLineApplyFunc();
+            }
+            this._sendUndoPoint = true;
         },
 
         _transparencyLineApplyFunc: function() {

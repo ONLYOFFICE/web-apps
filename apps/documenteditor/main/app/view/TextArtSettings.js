@@ -74,6 +74,7 @@ define([
             this.shapeprops = null;
             this._sendUndoPoint = true;
             this._sliderChanged = false;
+            this._sliderChangedLine = this._sliderChanged;
 
             this.txtPt = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt);
             
@@ -557,7 +558,7 @@ define([
                 var props = new Asc.asc_TextArtProperties();
                 var stroke = new Asc.asc_CStroke();
                 stroke.put_transparent(this._state.LineTransparency);
-                props.put_stroke(stroke);
+                props.asc_putLine(stroke);
                 this.shapeprops.put_TextArtProperties(props);
                 this.api.ImgApply(this.imgprops);
             }
@@ -566,13 +567,21 @@ define([
         onLineTransparencyChange: function(field, newValue, oldValue){
             this._sliderChangedLine = newValue;
             this.numLineTransparency.setValue(newValue, true);
-            this.updatesliderline = setInterval(_.bind(this._transparencyLineApplyFunc, this), 100);
+            if (this._sendUndoPoint) {
+                this.api.setStartPointHistory();
+                this._sendUndoPoint = false;
+                this.updatesliderline = setInterval(_.bind(this._transparencyLineApplyFunc, this), 100);
+            }
         },
 
         onLineTransparencyChangeComplete: function(field, newValue, oldValue){
             clearInterval(this.updatesliderline);
             this._sliderChangedLine = newValue;
-            this._transparencyLineApplyFunc();
+            if (!this._sendUndoPoint) { // start point was added
+                this.api.setEndPointHistory();
+                this._transparencyLineApplyFunc();
+            }
+            this._sendUndoPoint = true;
         },
 
         _transparencyLineApplyFunc: function() {
