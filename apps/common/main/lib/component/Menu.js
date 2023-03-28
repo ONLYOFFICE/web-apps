@@ -255,6 +255,20 @@ define([
                             item.on('click',  _.bind(me.onItemClick, me));
                             item.on('toggle', _.bind(me.onItemToggle, me));
                         });
+                        menuRoot.on( "mousedown", function(e) {
+                            if (me.preventCloseOnClick) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                return false;
+                            }
+                        });
+                        menuRoot.on( "click", function(e) {
+                            if (me.preventCloseOnClick) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                return false;
+                            }
+                        });
                     }
 
                     if (this.options.maxHeight) {

@@ -75,6 +75,7 @@ define([
             this._currentParaObjDisabled = false;
             this._currLang        = {};
             this._isDisabled = false;
+            this._preventCustomClick = null;
             this._docProtection = {
                 isReadOnly: false,
                 isReviewOnly: false,
@@ -2937,6 +2938,13 @@ define([
             var me = this,
                 lang = me.mode && me.mode.lang ? me.mode.lang.split(/[\-_]/)[0] : 'en';
 
+            console.log('updateCustomItems ' + me._preventCustomClick);
+            me._preventCustomClick && clearTimeout(me._preventCustomClick);
+            me._preventCustomClick = setTimeout(function () {
+                console.log('clear');
+                me._preventCustomClick = null;
+            },500);
+
             var findCustomItem = function(guid, id) {
                 if (menu && menu.items.length>0) {
                     for (var i = menu.items.length-1; i >=0 ; i--) {
@@ -2957,7 +2965,12 @@ define([
                         items: []
                     });
                     toMenu.on('item:click', function(menu, item, e) {
-                        me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
+                        console.log('try click ' + me._preventCustomClick);
+                        if (!me._preventCustomClick) {
+                            console.log('   click ');
+                            !me._preventCustomClick && me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
+                        }
+                        // !me._preventCustomClick && me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
                     });
                 }
                 items.forEach(function(item) {
@@ -3017,7 +3030,12 @@ define([
                                 menu: item.items && item.items.length>=0 ? getMenu(item.items, plugin.guid) : false,
                                 disabled: !!item.disabled
                             }).on('click', function(item, e) {
-                                me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
+                                console.log('try click ' + me._preventCustomClick);
+                                if (!me._preventCustomClick) {
+                                    console.log('   click ');
+                                    !me._preventCustomClick && me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
+                                }
+                                // !me._preventCustomClick && me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
                             });
                             menu.addItem(mnu);
                         }
