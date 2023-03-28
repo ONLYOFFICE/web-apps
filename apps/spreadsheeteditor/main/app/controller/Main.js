@@ -704,6 +704,14 @@ define([
                     this.api.isCEditorFocused = false;
                 }
 
+                var application = this.getApplication(),
+                    toolbarView = application.getController('Toolbar').getView('Toolbar'),
+                    rightMenu = application.getController('RightMenu').getView('RightMenu');
+                if (this.appOptions.isEdit && (toolbarView && toolbarView._isEyedropperStart || rightMenu && rightMenu._isEyedropperStart)) {
+                    toolbarView._isEyedropperStart ? toolbarView._isEyedropperStart = false : rightMenu._isEyedropperStart = false;
+                    this.api.asc_cancelEyedropper();
+                }
+
                 Common.UI.HintManager.clearHints(true);
             },
 

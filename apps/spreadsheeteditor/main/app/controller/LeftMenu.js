@@ -324,19 +324,41 @@ define([
             }
         },
 
+        showLostDataWarning: function(callback) {
+            Common.UI.warning({
+                title: this.textWarning,
+                msg: this.warnDownloadAs,
+                buttons: ['ok', 'cancel'],
+                callback: _.bind(function (btn) {
+                    if (btn == 'ok') {
+                        callback.call();
+                    }
+                }, this)
+            });
+        },
+
         clickSaveAsFormat: function(menu, format) {
             if (format == Asc.c_oAscFileType.CSV) {
-                Common.UI.warning({
-                    title: this.textWarning,
-                    msg: this.warnDownloadAs,
-                    buttons: ['ok', 'cancel'],
-                    callback: _.bind(function(btn){
-                        if (btn == 'ok') {
-                            Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.CSV, this.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format));
-                            menu.hide();
-                        }
-                    }, this)
-                });
+                var me = this;
+                if (this.api.asc_getWorksheetsCount()>1) {
+                    Common.UI.warning({
+                        title: this.textWarning,
+                        msg: this.warnDownloadCsvSheets,
+                        buttons: [{value: 'ok', caption: this.textSave}, 'cancel'],
+                        callback: _.bind(function (btn) {
+                            if (btn == 'ok') {
+                                me.showLostDataWarning(function () {
+                                    Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.CSV, me.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format));
+                                    menu.hide();
+                                });
+                            }
+                        }, this)
+                    });
+                } else
+                    this.showLostDataWarning(function () {
+                        Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.CSV, me.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format));
+                        menu.hide();
+                    });
             } else if (format == Asc.c_oAscFileType.PDF || format == Asc.c_oAscFileType.PDFA) {
                 menu.hide();
                 Common.NotificationCenter.trigger('download:settings', this.leftMenu, format);
@@ -348,18 +370,28 @@ define([
 
         clickSaveCopyAsFormat: function(menu, format, ext) {
             if (format == Asc.c_oAscFileType.CSV) {
-                Common.UI.warning({
-                    title: this.textWarning,
-                    msg: this.warnDownloadAs,
-                    buttons: ['ok', 'cancel'],
-                    callback: _.bind(function(btn){
-                        if (btn == 'ok') {
-                            this.isFromFileDownloadAs = ext;
-                            Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.CSV, this.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format, true));
-                            menu.hide();
-                        }
-                    }, this)
-                });
+                var me = this;
+                if (this.api.asc_getWorksheetsCount()>1) {
+                    Common.UI.warning({
+                        title: this.textWarning,
+                        msg: this.warnDownloadCsvSheets,
+                        buttons: [{value: 'ok', caption: this.textSave}, 'cancel'],
+                        callback: _.bind(function (btn) {
+                            if (btn == 'ok') {
+                                me.showLostDataWarning(function () {
+                                    me.isFromFileDownloadAs = ext;
+                                    Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.CSV, me.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format, true));
+                                    menu.hide();
+                                });
+                            }
+                        }, this)
+                    });
+                } else
+                    me.showLostDataWarning(function () {
+                        me.isFromFileDownloadAs = ext;
+                        Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.CSV, me.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format, true));
+                        menu.hide();
+                    });
             } else if (format == Asc.c_oAscFileType.PDF || format == Asc.c_oAscFileType.PDFA) {
                 this.isFromFileDownloadAs = ext;
                 menu.hide();
@@ -943,6 +975,8 @@ define([
         textLookin: 'Look in',
         txtUntitled: 'Untitled',
         textLoadHistory         : 'Loading version history...',
-        leavePageText: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.'
+        leavePageText: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
+        warnDownloadCsvSheets: 'The CSV format does not support saving a multi-sheet file.<br>To keep the selected format and save only the current sheet, press Save.<br>To save the current spreadsheet, click Cancel and save it in a different format.',
+        textSave: 'Save'
     }, SSE.Controllers.LeftMenu || {}));
 });

@@ -249,14 +249,15 @@ define([
 
         setApi: function(api) {
             this.api = api;
+            var _isEyedropperStart = function (isStart) {this._isEyedropperStart = isStart;};
             this.paragraphSettings.setApi(api);
             this.imageSettings.setApi(api);
             this.chartSettings.setApi(api);
-            this.shapeSettings.setApi(api);
-            this.textartSettings.setApi(api);
+            this.shapeSettings.setApi(api).on('eyedropper', _.bind(_isEyedropperStart, this));
+            this.textartSettings.setApi(api).on('eyedropper', _.bind(_isEyedropperStart, this));
             this.tableSettings.setApi(api);
             this.pivotSettings.setApi(api);
-            this.cellSettings.setApi(api);
+            this.cellSettings.setApi(api).on('eyedropper', _.bind(_isEyedropperStart, this));
             this.slicerSettings.setApi(api);
             if (this.signatureSettings) this.signatureSettings.setApi(api);
             return this;
