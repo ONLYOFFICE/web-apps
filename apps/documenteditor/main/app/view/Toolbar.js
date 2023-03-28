@@ -3057,7 +3057,8 @@ define([
             tipMultiLevelArticl: '',
             tipMultiLevelChapter: '',
             tipMultiLevelHeadings: '',
-            tipMultiLevelHeadVarious: ''
+            tipMultiLevelHeadVarious: '',
+            textTabDraw: 'Draw'
         }
     })(), DE.Views.Toolbar || {}));
 });

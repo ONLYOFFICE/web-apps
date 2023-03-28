@@ -149,10 +149,10 @@ define([
             this.menu.setInnerMenu([{menu: this.colorPicker, index: index}]);
         },
       
-        setMenu: function (m) {
+        setMenu: function (m, preventCreatePicker) {
             m = m || this.getMenu();
             Common.UI.Button.prototype.setMenu.call(this, m);
-            this.getPicker(this.options.color, this.options.colors);
+            !preventCreatePicker && this.getPicker(this.options.color, this.options.colors);
         },
 
         onColorSelect: function(picker, color) {

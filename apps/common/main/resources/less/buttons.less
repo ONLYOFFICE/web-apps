@@ -299,6 +299,9 @@
             }
         }
 
+        .emptycaption & {
+            min-width: 42px;
+        }
     }
 
     .inner-box-icon {
@@ -470,7 +473,15 @@
             border: @scaled-one-px-value-ie solid @border-regular-control-ie;
             border: @scaled-one-px-value solid @border-regular-control;
         }
-
+        .x-huge & {
+            left: 9px;
+            width: 24px;
+            height: 4px;
+            .rtl & {
+                left: auto;
+                right: 9px;
+            }
+        }
 
         .pixel-ratio__1_5 & {
             height: 4px;
