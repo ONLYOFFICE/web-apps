@@ -103,11 +103,11 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
             onRequestClose();
         } else {
             const href = appOptions.customization.goback.url;
-            
+
             if (!current && appOptions.customization.goback.blank !== false) {
                 window.open(href, "_blank");
             } else {
-                window.location.href = href;
+                parent.location.href = href;
             }
         }
     }

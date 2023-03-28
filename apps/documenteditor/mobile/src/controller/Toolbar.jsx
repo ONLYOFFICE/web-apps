@@ -151,7 +151,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             if (!current && appOptions.customization.goback.blank !== false) {
                 window.open(href, "_blank");
             } else {
-                window.location.href = href;
+                parent.location.href = href;
             }
         }
     }
@@ -162,7 +162,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             api.Undo();
         }
     };
-    
+
     const onRedo = () => {
         const api = Common.EditorApi.get();
         if (api) {
