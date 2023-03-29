@@ -59,7 +59,8 @@ define([
             value: '000000',
             enableKeyEvents: true,
             colorHints: true,
-            keyMoveDirection: 'both' // 'vertical', 'horizontal'
+            keyMoveDirection: 'both', // 'vertical', 'horizontal',
+            storageSuffix: ''
         },
 
         template    :
@@ -204,7 +205,7 @@ define([
                     this.lastSelectedIdx = -1;
                 }
 
-                var colors = Common.localStorage.getItem('asc.'+Common.localStorage.getId()+'.colors.custom');
+                var colors = Common.localStorage.getItem('asc.'+Common.localStorage.getId()+'.colors.custom' + this.options.storageSuffix);
                 colors = colors ? colors.split(',') : [];
 
                 var i = -1, colorEl, c = colors.length < this.options.dynamiccolors ? colors.length : this.options.dynamiccolors;
@@ -325,7 +326,7 @@ define([
         },
 
         saveCustomColor: function(color) {
-            var key_name = 'asc.'+Common.localStorage.getId()+'.colors.custom';
+            var key_name = 'asc.'+Common.localStorage.getId()+'.colors.custom' + this.options.storageSuffix;
             var colors = Common.localStorage.getItem(key_name);
             colors = colors ? colors.split(',') : [];
             if (colors.push(color) > this.options.dynamiccolors) colors.shift();

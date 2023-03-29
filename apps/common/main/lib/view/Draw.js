@@ -204,7 +204,8 @@ define([
                     themecolors: 0,
                     effects: 0,
                     columns: 4,
-                    outerMenu: {menu: button.menu, index: 0, focusOnShow: true}
+                    outerMenu: {menu: button.menu, index: 0, focusOnShow: true},
+                    storageSuffix: '-draw'
                 });
                 button.setPicker(picker);
                 picker.on('select', _.bind(button.onColorSelect, button));
