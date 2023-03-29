@@ -73,6 +73,11 @@ define([
                     me.fireEvent('draw:pen', [b]);
                 });
                 button.on('color:select', function (b, color) {
+                    if (!b.pressed) {
+                        b.toggle(true, true);
+                        me.depressButtons(b);
+                    }
+
                     b.options.penOptions.color = color;
                     me.updateButtonHint(b);
                     me.fireEvent('draw:pen', [b]);
@@ -182,10 +187,6 @@ define([
                             }
                         ]
                     }), true );
-                button.menu.on('show:after', function(menu) {
-                    button.toggle(true, true);
-                    me.depressButtons(button);
-                })
                 button.currentColor = config.color;
                 button.setColor(button.currentColor);
                 var picker = new Common.UI.ThemeColorPalette({
