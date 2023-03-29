@@ -99,6 +99,7 @@ define([
                 var filter = Common.localStorage.getKeysFilter();
                 this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
+                var _set = Common.enumLock;
                 var penOptions = [
                         {hint: this.txtPen,  color: 'FF0000',  opacity: 100, size: {arr: [0.25, 0.5, 1, 2, 3.5], idx: 2}},
                         {hint: this.txtPen,  color: '00FF00',  opacity: 100, size: {arr: [0.25, 0.5, 1, 2, 3.5], idx: 2}},
@@ -117,7 +118,8 @@ define([
                         dataHint    : '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small',
-                        penOptions: props
+                        penOptions: props,
+                        lock: [_set.headerLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments]
                     });
                     me.btnsPen.push(btn);
                     me.lockedControls.push(btn);
@@ -131,7 +133,8 @@ define([
                     allowDepress: true,
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'small'
+                    dataHintOffset: 'small',
+                    lock: [_set.headerLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments]
                 });
                 this.lockedControls.push(this.btnEraser);
 
@@ -141,7 +144,8 @@ define([
                     caption: this.txtSelect,
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'small'
+                    dataHintOffset: 'small',
+                    lock: [_set.headerLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments]
                 });
                 this.lockedControls.push(this.btnSelect);
 

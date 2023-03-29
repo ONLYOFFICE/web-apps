@@ -3306,6 +3306,8 @@ define([
                     tab = {action: 'draw', caption: me.toolbar.textTabDraw, extcls: 'canedit', layoutname: 'toolbar-draw', dataHintTitle: 'D'};
                     me.toolbar.addTab(tab, $panel, 2);
                     me.toolbar.setVisible('draw', Common.UI.LayoutManager.isElementVisible('toolbar-draw'));
+                    Array.prototype.push.apply(me.toolbar.lockControls, drawtab.getView().getButtons());
+                    Array.prototype.push.apply(me.toolbar.paragraphControls, drawtab.getView().getButtons());
                 }
 
                 if ( config.canProtect ) {
