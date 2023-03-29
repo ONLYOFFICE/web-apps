@@ -637,6 +637,18 @@ define([
                     });
                 });
 
+                var reverseArr = function(arr, indexStart) {
+                    for(var i = 0; i < Math.floor((arr.length-indexStart)/2); i++) {
+                        var temp = arr[indexStart + i];
+                        arr[indexStart + i] = arr[arr.length-1 - i];
+                        arr[arr.length-1 - i] = temp;
+                    }
+                };
+
+                reverseArr(groups[1].templates, groups[1].templates[0].tip == 'None' ? 1 : 0);
+                reverseArr(groups[2].templates, 0);
+                reverseArr(groups[3].templates, 0);
+
                 groups = groups.filter(function(item, index){
                     return item.templates.length > 0
                 });
