@@ -109,6 +109,7 @@ define([
         onSelect: function(btn){
             this.view && this.view.depressButtons(btn);
             this.api && this.api.asc_StopInkDrawer();
+            Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
         onEraser: function(btn){
@@ -117,7 +118,6 @@ define([
                     this.api.asc_StopInkDrawer();
                 else {
                     this.view.depressButtons(btn);
-                    this.api.asc_StopInkDrawer();
                     this.api.asc_StartInkEraser();
                 }
             }
@@ -137,11 +137,9 @@ define([
                     stroke.asc_putPrstDash(Asc.c_oDashType.solid);
                     stroke.put_width(options.size);
                     stroke.put_transparent(options.opacity * 2.55);
-                    this.api.asc_StopInkDrawer();
                     this.api.asc_StartDrawInk(stroke);
                 }
             }
-            // Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
         createToolbarPanel: function() {
