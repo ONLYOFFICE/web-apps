@@ -2275,12 +2275,13 @@ define([
                     {id: 'menu-table-group-no-name',   caption: '&nbsp',                 templates: []},
                 ];
                 _.each(images, function(item) {
-                    var tip = item.asc_getDisplayName();
-                    var groupItem = '';
-                    
+                    var tip = item.asc_getDisplayName(),
+                        groupItem = '',
+                        lastWordInTip = null;
+
                     if (item.asc_getType()==0) {
-                        var arr = tip.split(' '),
-                            last = arr.pop();
+                        var arr = tip.split(' ');
+                        lastWordInTip = arr.pop();
                            
                         if(tip == 'None'){
                             groupItem = 'menu-table-group-light';
@@ -2294,7 +2295,8 @@ define([
                             }
                         }
                         arr = 'txtTable_' + arr.join('');
-                        tip = me[arr] ? me[arr] + ' ' + last : tip;
+                        tip = me[arr] ? me[arr] + ' ' + lastWordInTip : tip;
+                        lastWordInTip = parseInt(lastWordInTip);
                     }
                     else {
                         groupItem = 'menu-table-group-custom'
@@ -2307,21 +2309,21 @@ define([
                         group       : groupItem,  
                         allowSelected : true,
                         selected    : false,
-                        tip         : tip
+                        tip         : tip,
+                        numInGroup  : (lastWordInTip != null && !isNaN(lastWordInTip) ? lastWordInTip : null)
                     });
                 });
 
-                var reverseArr = function(arr, indexStart) {
-                    for(var i = 0; i < Math.floor((arr.length-indexStart)/2); i++) {
-                        var temp = arr[indexStart + i];
-                        arr[indexStart + i] = arr[arr.length-1 - i];
-                        arr[arr.length-1 - i] = temp;
-                    }
+                var sortFunc = function(a, b) {
+                    var aNum = a.numInGroup,
+                        bNum = b.numInGroup;
+                    return aNum - bNum;
                 };
 
-                reverseArr(groups[1].templates, groups[1].templates[0].tip == 'None' ? 1 : 0);
-                reverseArr(groups[2].templates, 0);
-                reverseArr(groups[3].templates, 0);
+                
+                groups[1].templates.sort(sortFunc);
+                groups[2].templates.sort(sortFunc);
+                groups[3].templates.sort(sortFunc);
 
                 groups = groups.filter(function(item, index){
                     return item.templates.length > 0
