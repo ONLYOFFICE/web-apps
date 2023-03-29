@@ -87,6 +87,7 @@ define([
         setApi: function (api) {
             if (api) {
                 this.api = api;
+                this.api.asc_registerCallback('asc_onInkDrawerStop',_.bind(this.onInkDrawerStop, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
             }
             return this;
@@ -106,8 +107,11 @@ define([
             this.view && this.view.SetDisabled(state);
         },
 
+        onInkDrawerStop: function() {
+            this.view && this.view.depressButtons();
+        },
+
         onSelect: function(btn){
-            this.view && this.view.depressButtons(btn);
             this.api && this.api.asc_StopInkDrawer();
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
