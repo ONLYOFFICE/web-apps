@@ -50,15 +50,16 @@ define([
             options: {
                 caption: '',
                 iconUpCls: 'btn-zoomup',
-                iconDownCls: 'btn-zoomdown'
+                iconDownCls: 'btn-zoomdown',
+                minWidth: 40
             },
             disabled    : false,
 
             template:_.template([
                 '<label class="title"><%= options.caption %></label>',
-                '<button type="button" class="btn small btn-toolbar updown-picker-button-up"><i class="icon toolbar__icon <%= options.iconUpCls %>">&nbsp;</i></button>',
-                '<label class="updown-picker-value"></label>',
-                '<button type="button" class="btn small btn-toolbar updown-picker-button-down"><i class="icon toolbar__icon <%= options.iconDownCls %>">&nbsp;</i></button>'
+                '<button type="button" class="btn small btn-toolbar updown-picker-button-up"><i class="icon menu__icon <%= options.iconUpCls %>">&nbsp;</i></button>',
+                '<label class="updown-picker-value" style="min-width: <%= options.minWidth %>px;"></label>',
+                '<button type="button" class="btn small btn-toolbar updown-picker-button-down"><i class="icon menu__icon <%= options.iconDownCls %>">&nbsp;</i></button>'
             ].join('')),
 
             initialize : function(options) {

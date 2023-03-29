@@ -47,7 +47,8 @@ define([
     'common/main/lib/util/utils',
     'common/main/lib/component/BaseView',
     'common/main/lib/component/Layout',
-    'common/main/lib/component/Window'
+    'common/main/lib/component/Window',
+    'common/main/lib/component/UpDownPicker'
 ], function (template) {
     'use strict';
 
@@ -73,14 +74,7 @@ define([
                     me.fireEvent('draw:pen', [b]);
                 });
                 button.on('color:select', function (b, color) {
-                    if (!b.pressed) {
-                        b.toggle(true, true);
-                        me.depressButtons(b);
-                    }
-
-                    b.options.penOptions.color = color;
-                    me.updateButtonHint(b);
-                    me.fireEvent('draw:pen', [b]);
+                    me.fireEvent('draw:color', [b, color]);
                 });
             });
             me.btnSelect.on('click', function (b) {
@@ -106,9 +100,9 @@ define([
                 this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
                 var penOptions = [
-                        {hint: this.txtPen,  color: 'FF0000',  size: 1,  opacity: 100},
-                        {hint: this.txtPen,  color: '00FF00',  size: 1,  opacity: 100},
-                        {hint: this.txtPen,  color: '0000FF',  size: 5,  opacity: 50}
+                        {hint: this.txtPen,  color: 'FF0000',  opacity: 100, size: {arr: [0.25, 0.5, 1, 2, 3.5], idx: 2}},
+                        {hint: this.txtPen,  color: '00FF00',  opacity: 100, size: {arr: [0.25, 0.5, 1, 2, 3.5], idx: 2}},
+                        {hint: this.txtPen,  color: '0000FF',  opacity: 50, size: {arr: [2, 4, 6, 8, 10], idx: 2}}
                     ],
                     me = this;
                 penOptions.forEach(function (props) {
@@ -163,7 +157,8 @@ define([
 
             updateButtonHint: function(button) {
                 var config = button.options.penOptions;
-                button.updateHint(config.hint + ': ' + Common.Utils.ThemeColor.getTranslation(Common.Utils.ThemeColor.getRgbColor(config.color).asc_getName()) + ', ' + config.size + ' ' + this.txtMM);
+                button.updateHint(config.hint + ': ' + Common.Utils.ThemeColor.getTranslation(Common.Utils.ThemeColor.getRgbColor(config.color).asc_getName()) + ', ' + config.size.arr[config.size.idx] + ' ' + this.txtMM);
+                button.sizePicker && button.sizePicker.setValue(config.size.arr[config.size.idx] + ' ' + this.txtMM);
             },
 
             createPen: function(button) {
@@ -176,17 +171,22 @@ define([
                         cls: 'shifted-left',
                         style: 'min-width: 100px;',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-draw-pen-' + id + '" style="width: 145px; display: inline-block;" class="palette-large"></div>')},
+                            {
+                                template: _.template('<div id="id-toolbar-menu-draw-pen-' + id + '" style="width: 145px; display: inline-block;" class="palette-large"></div>'),
+                                stopPropagation: true
+                            },
                             {
                                 id: id + '-color-new',
                                 template: _.template('<a tabindex="-1" type="menuitem" style="">' + button.textNewColor + '</a>')
                             },
                             {caption: '--'},
                             {
-                                caption: this.txtSize
+                                template: _.template('<div id="id-toolbar-draw-updownpicker-' + id + '" class="custom-scale" data-stopPropagation="true"></div>'),
+                                stopPropagation: true
                             }
                         ]
                     }), true );
+                // color
                 button.currentColor = config.color;
                 button.setColor(button.currentColor);
                 var picker = new Common.UI.ThemeColorPalette({
@@ -208,6 +208,21 @@ define([
                 button.menu.cmpEl.find('#' + id + '-color-new').on('click',  function() {
                     picker.addNewColor(button.currentColor);
                 });
+                // size
+                var onShowAfter = function(menu) {
+                    var sizePicker = new Common.UI.UpDownPicker({
+                        el: $('#id-toolbar-draw-updownpicker-' + id),
+                        caption: me.txtSize,
+                        minWidth: 50
+                    });
+                    sizePicker.on('click', function (direction) {
+                        me.fireEvent('draw:size', [button, direction]);
+                    });
+                    sizePicker.setValue(button.options.penOptions.size.arr[button.options.penOptions.size.idx] + ' ' + me.txtMM);
+                    button.sizePicker = sizePicker;
+                    menu.off('show:after', onShowAfter);
+                };
+                button.menu.on('show:after', onShowAfter);
             },
 
             onAppReady: function (config) {

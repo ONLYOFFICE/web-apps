@@ -66,7 +66,9 @@ define([
                 'Common.Views.Draw': {
                     'draw:select':      _.bind(this.onSelect, this),
                     'draw:eraser':      _.bind(this.onEraser, this),
-                    'draw:pen':     _.bind(this.onDrawPen, this)
+                    'draw:pen':     _.bind(this.onDrawPen, this),
+                    'draw:size':     _.bind(this.onDrawSizeClick, this),
+                    'draw:color':     _.bind(this.onDrawColorClick, this)
                 }
             });
         },
@@ -139,11 +141,36 @@ define([
                     stroke.put_type( Asc.c_oAscStrokeType.STROKE_COLOR);
                     stroke.put_color(Common.Utils.ThemeColor.getRgbColor(options.color));
                     stroke.asc_putPrstDash(Asc.c_oDashType.solid);
-                    stroke.put_width(options.size);
+                    stroke.put_width(options.size.arr[options.size.idx]);
                     stroke.put_transparent(options.opacity * 2.55);
                     this.api.asc_StartDrawInk(stroke);
                 }
             }
+        },
+
+        onDrawSizeClick: function(btn, direction){
+            if (!btn.pressed) {
+                btn.toggle(true, true);
+                this.view && this.view.depressButtons(btn);
+            }
+
+            var options = btn.options.penOptions;
+            options.size.idx =  (direction==='up') ? Math.min(options.size.idx+1, options.size.arr.length-1) : Math.max(options.size.idx-1, 0);
+            this.view && this.view.updateButtonHint(btn);
+
+            this.onDrawPen(btn);
+        },
+
+        onDrawColorClick: function(btn, color){
+            if (!btn.pressed) {
+                btn.toggle(true, true);
+                this.view && this.view.depressButtons(btn);
+            }
+
+            btn.options.penOptions.color = color;
+            this.view && this.view.updateButtonHint(btn);
+
+            this.onDrawPen(btn);
         },
 
         createToolbarPanel: function() {

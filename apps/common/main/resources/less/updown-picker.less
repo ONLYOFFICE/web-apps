@@ -7,6 +7,7 @@
   .rtl & {
     padding: 5px 20px 5px 5px;
   }
+
   .title {
     padding-top: 3px;
     padding-right: 5px;
@@ -16,21 +17,30 @@
       float: right;
     }
   }
+
+  .shifted-left & {
+    padding-left: 12px;
+    .rtl & {
+      padding-right: 12px;
+    }
+  }
+
   .updown-picker-button-up {
     float:right;
     .rtl & {
       float: left;
     }
   }
+
   .updown-picker-value {
     float:right;
     padding: 3px 3px;
-    min-width: 40px;
     text-align: center;
     .rtl & {
       float: left;
     }
   }
+
   .updown-picker-button-down {
     float:right;
     .rtl & {
