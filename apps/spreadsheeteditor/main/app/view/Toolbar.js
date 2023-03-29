@@ -50,6 +50,7 @@ define([
     'common/main/lib/component/ThemeColorPalette',
     'common/main/lib/component/Menu',
     'common/main/lib/component/DimensionPicker',
+    'common/main/lib/component/UpDownPicker',
     'common/main/lib/component/Window',
     'common/main/lib/component/ComboBoxFonts',
     'common/main/lib/component/ComboDataView'
@@ -1946,17 +1947,7 @@ define([
                 });
 
                 me.mnuCustomScale = new Common.UI.MenuItem({
-                    template: _.template([
-                        '<div class="checkable custom-scale font-size-normal"',
-                        '<% if(!_.isUndefined(options.stopPropagation)) { %>',
-                        'data-stopPropagation="true"',
-                        '<% } %>', '>',
-                        '<label class="title">' + me.textScale + '</label>',
-                        '<button id="custom-scale-up" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomup">&nbsp;</i></button>',
-                        '<label id="value-custom-scale"></label>',
-                        '<button id="custom-scale-down" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomdown">&nbsp;</i></button>',
-                        '</div>'
-                    ].join('')),
+                    template: _.template('<div id="id-toolbar-scale-updownpicker" class="custom-scale" data-stopPropagation="true"></div>'),
                     stopPropagation: true,
                     value: 4
                 });
@@ -2138,39 +2129,31 @@ define([
 
         onAfterShowMenuScale: function () {
             var me = this;
+            if (!me.mnuScalePicker) {
+                me.mnuScalePicker = new Common.UI.UpDownPicker({
+                    el: $('#id-toolbar-scale-updownpicker'),
+                    caption: me.textScale
+                });
+                me.mnuScalePicker.on('click', _.bind(function (direction) {
+                    me.fireEvent('change:scalespn', [direction, me.valueCustomScale], me);
+                }, me));
+            }
             if (me.api) {
-                var scale = me.api.asc_getPageOptions().asc_getPageSetup().asc_getScale();
-                $('#value-custom-scale', me.mnuCustomScale.$el).html(scale + '%');
-                me.valueCustomScale = scale;
+                me.valueCustomScale = me.api.asc_getPageOptions().asc_getPageSetup().asc_getScale();
+                me.mnuScalePicker.setValue(me.valueCustomScale + '%');
             }
             if (!me.itemCustomScale) {
                 me.itemCustomScale = $('.custom-scale', me.mnuCustomScale.$el).on('click', _.bind(function () {
-                    me.fireEvent('click:customscale', ['scale', undefined, undefined, undefined, me.valueCustomScale], this);
-                }, this));
-            }
-            if (!me.btnCustomScaleUp) {
-                me.btnCustomScaleUp = new Common.UI.Button({
-                    el: $('#custom-scale-up', me.mnuCustomScale.$el),
-                    cls: 'btn-toolbar'
-                }).on('click', _.bind(function () {
-                    me.fireEvent('change:scalespn', ['up', me.valueCustomScale], this);
-                }, this));
-            }
-            if (!me.btnCustomScaleDown) {
-                me.btnCustomScaleDown = new Common.UI.Button({
-                    el: $('#custom-scale-down', me.mnuCustomScale.$el),
-                    cls: 'btn-toolbar'
-                }).on('click', _.bind(function () {
-                    me.fireEvent('change:scalespn', ['down', me.valueCustomScale], this);
-                }, this));
+                    me.fireEvent('click:customscale', ['scale', undefined, undefined, undefined, me.valueCustomScale], me);
+                }, me));
             }
             SSE.getController('Toolbar').onChangeScaleSettings();
         },
 
         setValueCustomScale: function(val) {
             if (this.api && val !== null && val !== undefined) {
-                $('#value-custom-scale', this.mnuCustomScale.$el).html(val + '%');
                 this.valueCustomScale = val;
+                this.mnuScalePicker && this.mnuScalePicker.setValue(this.valueCustomScale + '%');
             }
         },
 

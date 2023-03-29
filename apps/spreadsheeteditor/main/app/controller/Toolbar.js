@@ -2707,18 +2707,16 @@ define([
                     if (!isHeight) {
                         this.toolbar.menuHeightScale.items[11].setChecked(true);
                     }
-                    if (this.toolbar.btnCustomScaleUp && this.toolbar.btnCustomScaleDown) {
-                        this.toolbar.btnCustomScaleUp.setDisabled(!(!width && !height));
-                        this.toolbar.btnCustomScaleDown.setDisabled(!(!width && !height));
+                    if (this.toolbar.mnuScalePicker) {
+                        this.toolbar.mnuScalePicker.setDisabled(!(!width && !height));
                         this.toolbar.mnuCustomScale.setDisabled(!(!width && !height));
                     }
                     this._state.scaleWidth = width;
                     this._state.scaleHeight = height;
                     this._state.scale = scale;
                 } else {
-                    if (this.toolbar.btnCustomScaleUp && this.toolbar.btnCustomScaleDown) {
-                        this.toolbar.btnCustomScaleUp.setDisabled(!(!this._state.scaleWidth && !this._state.scaleHeight));
-                        this.toolbar.btnCustomScaleDown.setDisabled(!(!this._state.scaleWidth && !this._state.scaleHeight));
+                    if (this.toolbar.mnuScalePicker) {
+                        this.toolbar.mnuScalePicker.setDisabled(!(!this._state.scaleWidth && !this._state.scaleHeight));
                         this.toolbar.mnuCustomScale.setDisabled(!(!this._state.scaleWidth && !this._state.scaleHeight));
                     }
                 }
