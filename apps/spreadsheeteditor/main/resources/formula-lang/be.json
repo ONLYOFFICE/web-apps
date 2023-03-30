@@ -478,6 +478,7 @@
 	"FILTER": "ФИЛЬТР",
 	"ARRAYTOTEXT": "МАССИВВТЕКСТ",
 	"SORT": "СОРТ",
+	"SORTBY": "СОРТПО",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Заголовки",
