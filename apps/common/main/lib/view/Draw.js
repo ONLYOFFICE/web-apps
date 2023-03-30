@@ -103,14 +103,17 @@ define([
                 var penOptions = [
                         {hint: this.txtPen,  color: 'FF0000',  opacity: 100, size: {arr: [0.25, 0.5, 1, 2, 3.5], idx: 2}},
                         {hint: this.txtPen,  color: '00FF00',  opacity: 100, size: {arr: [0.25, 0.5, 1, 2, 3.5], idx: 2}},
-                        {hint: this.txtPen,  color: '0000FF',  opacity: 50, size: {arr: [2, 4, 6, 8, 10], idx: 2}}
+                        {hint: this.txtHighlighter,  color: '0000FF',  opacity: 50, size: {arr: [2, 4, 6, 8, 10], idx: 2}}
                     ],
+                    lock = (this.appPrefix === 'de-') ? [_set.headerLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments] :
+                           (this.appPrefix === 'pe-') ? [_set.slideDeleted, _set.lostConnect, _set.noSlides] :
+                                                        [_set.editCell, _set.lostConnect, _set.coAuth, _set['Objects']],
                     me = this;
                 penOptions.forEach(function (props) {
                     var btn = new Common.UI.ButtonColored({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-ic-signature',
-                        caption: me.txtPen,
+                        caption: ' ',
                         menu: true,
                         split: true,
                         enableToggle: true,
@@ -119,7 +122,7 @@ define([
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small',
                         penOptions: props,
-                        lock: [_set.headerLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments]
+                        lock: lock
                     });
                     me.btnsPen.push(btn);
                     me.lockedControls.push(btn);
@@ -134,7 +137,7 @@ define([
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small',
-                    lock: [_set.headerLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments]
+                    lock: lock
                 });
                 this.lockedControls.push(this.btnEraser);
 
@@ -145,7 +148,7 @@ define([
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small',
-                    lock: [_set.headerLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments]
+                    lock: lock
                 });
                 this.lockedControls.push(this.btnSelect);
 
