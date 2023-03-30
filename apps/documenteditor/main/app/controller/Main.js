@@ -956,7 +956,8 @@ define([
                 var application = this.getApplication(),
                     toolbarController = application.getController('Toolbar'),
                     toolbarView = toolbarController.getView(),
-                    rightMenu = application.getController('RightMenu').getView('RightMenu');
+                    rightMenu = application.getController('RightMenu').getView('RightMenu'),
+                    documentHolder = application.getController('DocumentHolder');
 
                 if (this.appOptions.isEdit && toolbarView && (toolbarView.btnInsertShape.pressed || toolbarView.btnInsertText.pressed) &&
                     ( !_.isObject(arguments[1]) || arguments[1].id !== 'tlbtn-insertshape')) { // TODO: Event from api is needed to clear btnInsertShape state
@@ -975,7 +976,8 @@ define([
                     toolbarView._isEyedropperStart ? toolbarView._isEyedropperStart = false : rightMenu._isEyedropperStart = false;
                     this.api.asc_cancelEyedropper();
                 }
-                application.getController('DocumentHolder').getView().focus();
+                documentHolder.hideEyedropper();
+                documentHolder.getView().focus();
 
                 if (this.api && this.appOptions.isEdit && !toolbarView._state.previewmode) {
                     var cansave = this.api.asc_isDocumentCanSave(),
