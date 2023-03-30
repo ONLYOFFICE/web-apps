@@ -3476,6 +3476,7 @@ define([
         tipSelectAll: 'Select all',
         tipCut: 'Cut',
         tipInsertSmartArt: 'Insert SmartArt',
-        capBtnInsSmartArt: 'SmartArt'
+        capBtnInsSmartArt: 'SmartArt',
+        textTabDraw: 'Draw'
     }, SSE.Views.Toolbar || {}));
 });
