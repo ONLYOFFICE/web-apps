@@ -74,6 +74,7 @@ define([
             this.shapeprops = null;
             this._sendUndoPoint = true;
             this._sliderChanged = false;
+            this._sliderChangedLine = this._sliderChanged;
 
             this.txtPt = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt);
             
@@ -125,7 +126,7 @@ define([
             this.FillColorContainer = $('#textart-panel-color-fill');
             this.FillGradientContainer = $('#textart-panel-gradient-fill');
             this.TransparencyContainer = $('#textart-panel-transparent-fill');
-
+            this.LineTransparencyContainer = $('#textart-line-panel-transparent');
             this.TransformSettings = $('.textart-transform');
 
             $(window).on('resize', _.bind(this.onWindowResize, this));
@@ -469,6 +470,7 @@ define([
                         stroke.put_color(Common.Utils.ThemeColor.getRgbColor(Common.Utils.ThemeColor.colorValue2EffectId(this.BorderColor.Color)));
                     stroke.asc_putPrstDash(this.BorderType);
                     stroke.put_width(this._pt2mm(this.BorderSize));
+                    stroke.put_transparent(this._state.LineTransparency);
                 }
                 props.asc_putLine(stroke);
                 this.shapeprops.put_TextArtProperties(props);
@@ -519,6 +521,7 @@ define([
                     stroke.put_color(Common.Utils.ThemeColor.getRgbColor(this.BorderColor.Color));
                     stroke.put_width(this._pt2mm(this.BorderSize));
                     stroke.asc_putPrstDash(this.BorderType);
+                    stroke.put_transparent(this._state.LineTransparency);
                 }
                 props.asc_putLine(stroke);
                 this.shapeprops.put_TextArtProperties(props);
@@ -539,12 +542,59 @@ define([
                     stroke.put_color(Common.Utils.ThemeColor.getRgbColor(this.BorderColor.Color));
                     stroke.put_width(this._pt2mm(this.BorderSize));
                     stroke.asc_putPrstDash(this.BorderType);
+                    stroke.put_transparent(this._state.LineTransparency);
                 }
                 props.asc_putLine(stroke);
                 this.shapeprops.put_TextArtProperties(props);
                 this.api.ImgApply(this.imgprops);
             }
             this.fireEvent('editcomplete', this);
+        },
+
+        onNumLineTransparencyChange: function(field, newValue, oldValue, eOpts){
+            this.sldrLineTransparency.setValue(field.getNumberValue(), true);
+            this._state.LineTransparency = field.getNumberValue() * 2.55;
+            if (this.api && this.BorderSize>0 && !this._noApply) {
+                var props = new Asc.asc_TextArtProperties();
+                var stroke = new Asc.asc_CStroke();
+                stroke.put_transparent(this._state.LineTransparency);
+                props.asc_putLine(stroke);
+                this.shapeprops.put_TextArtProperties(props);
+                this.api.ImgApply(this.imgprops);
+            }
+        },
+
+        onLineTransparencyChange: function(field, newValue, oldValue){
+            this._sliderChangedLine = newValue;
+            this.numLineTransparency.setValue(newValue, true);
+            if (this._sendUndoPoint) {
+                this.api.setStartPointHistory();
+                this._sendUndoPoint = false;
+                this.updatesliderline = setInterval(_.bind(this._transparencyLineApplyFunc, this), 100);
+            }
+        },
+
+        onLineTransparencyChangeComplete: function(field, newValue, oldValue){
+            clearInterval(this.updatesliderline);
+            this._sliderChangedLine = newValue;
+            if (!this._sendUndoPoint) { // start point was added
+                this.api.setEndPointHistory();
+                this._transparencyLineApplyFunc();
+            }
+            this._sendUndoPoint = true;
+        },
+
+        _transparencyLineApplyFunc: function() {
+            if (this._sliderChangedLine!==undefined) {
+                this._state.LineTransparency = this._sliderChangedLine * 2.55;
+                var props = new Asc.asc_TextArtProperties();
+                var stroke = new Asc.asc_CStroke();
+                stroke.put_transparent(this._state.LineTransparency);
+                props.asc_putLine(stroke);
+                this.shapeprops.put_TextArtProperties(props);
+                this.api.ImgApply(this.imgprops);
+                this._sliderChangedLine = undefined;
+            }
         },
 
         ChangeSettings: function(props) {
@@ -721,6 +771,16 @@ define([
                     update = (this._state.StrokeColor == 'transparent' && this.BorderColor.Color !== 'transparent'); // border color was changed for shape without line and then shape was reselected (or apply other settings)
 
                 if (stroke) {
+                    var transparency = stroke.get_transparent();
+                    if ( Math.abs(this._state.LineTransparency-transparency)>0.001 || Math.abs(this.numLineTransparency.getNumberValue()-transparency)>0.001 ||
+                        (this._state.LineTransparency===null || transparency===null)&&(this._state.LineTransparency!==transparency || this.numLineTransparency.getNumberValue()!==transparency)) {
+
+                        if (transparency !== undefined) {
+                            this.sldrLineTransparency.setValue((transparency===null) ? 100 : transparency/255*100, true);
+                            this.numLineTransparency.setValue(this.sldrLineTransparency.getValue(), true);
+                        }
+                        this._state.LineTransparency=transparency;
+                    }
                     if ( strokeType == Asc.c_oAscStrokeType.STROKE_COLOR ) {
                         color = stroke.get_color();
                         if (color) {
@@ -1122,6 +1182,36 @@ define([
             this.cmbBorderType.setValue(this.BorderType);
             this.lockedControls.push(this.cmbBorderType);
 
+            this.numLineTransparency = new Common.UI.MetricSpinner({
+                el: $('#textart-line-spin-transparency'),
+                step: 1,
+                width: 62,
+                value: '100 %',
+                defaultUnit : "%",
+                maxValue: 100,
+                minValue: 0,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.numLineTransparency.on('change', _.bind(this.onNumLineTransparencyChange, this));
+            this.numLineTransparency.on('inputleave', function(){ me.fireEvent('editcomplete', me);});/**/
+            this.lockedControls.push(this.numLineTransparency);
+
+            this.sldrLineTransparency = new Common.UI.SingleSlider({
+                el: $('#textart-line-slider-transparency'),
+                width: 75,
+                minValue: 0,
+                maxValue: 100,
+                value: 100
+            });
+            this.sldrLineTransparency.on('change', _.bind(this.onLineTransparencyChange, this));
+            this.sldrLineTransparency.on('changecomplete', _.bind(this.onLineTransparencyChangeComplete, this));
+            this.lockedControls.push(this.sldrLineTransparency);
+
+            this.lblLineTransparencyStart = $(this.el).find('#textart-line-lbl-transparency-start');
+            this.lblLineTransparencyEnd = $(this.el).find('#textart-line-lbl-transparency-end');
+            
             this.cmbTransform = new Common.UI.ComboDataView({
                 itemWidth: 50,
                 itemHeight: 50,
@@ -1314,6 +1404,8 @@ define([
                     item.setDisabled(disable);
                 });
                 this.numGradientAngle.setDisabled(disable || this.GradFillType !== Asc.c_oAscFillGradType.GRAD_LINEAR);
+                this.lblLineTransparencyStart.toggleClass('disabled', disable);
+                this.lblLineTransparencyEnd.toggleClass('disabled', disable);
             }
         },
 
