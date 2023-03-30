@@ -188,7 +188,9 @@ define([
 
         afterRender: function() {
             if (this.canRequestUsers) {
-                this.binding = { onUserMenuCallback: _.bind(this.onUserMenuCallback, this) };
+                if (!this.binding)
+                    this.binding = {};
+                this.binding.onUserMenuCallback = _.bind(this.onUserMenuCallback, this);
                 Common.NotificationCenter.on('mentions:setusers',   this.binding.onUserMenuCallback);
             }
 
