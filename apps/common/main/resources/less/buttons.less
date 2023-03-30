@@ -265,6 +265,17 @@
                         margin: 0 4px 0 1px;
                     }
                 }
+
+                .emptycaption & {
+                    width: 37px;
+                    .caret {
+                        margin: 0 1px 0 2px;
+
+                        .rtl & {
+                            margin: 0 2px 0 1px;
+                        }
+                    }
+                }
             }
         }
 
@@ -297,10 +308,6 @@
             .caption {
                 //max-width: 100px;
             }
-        }
-
-        .emptycaption & {
-            min-width: 42px;
         }
     }
 
@@ -474,13 +481,17 @@
             border: @scaled-one-px-value solid @border-regular-control;
         }
         .x-huge & {
-            left: 9px;
-            width: 24px;
-            height: 4px;
+            left: 8px;
+            width: 28px;
+            height: 6px;
             .rtl & {
                 left: auto;
-                right: 9px;
+                right: 8px;
             }
+        }
+        .x-huge.split & {
+            bottom: auto;
+            top: 4px;
         }
 
         .pixel-ratio__1_5 & {

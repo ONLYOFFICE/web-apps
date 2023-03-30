@@ -101,9 +101,13 @@ define([
 
                 var _set = Common.enumLock;
                 var penOptions = [
-                        {hint: this.txtPen,  color: 'FF0000',  opacity: 100, size: {arr: [0.25, 0.5, 1, 2, 3.5], idx: 2}},
-                        {hint: this.txtPen,  color: '00FF00',  opacity: 100, size: {arr: [0.25, 0.5, 1, 2, 3.5], idx: 2}},
-                        {hint: this.txtHighlighter,  color: '0000FF',  opacity: 50, size: {arr: [2, 4, 6, 8, 10], idx: 2}}
+                        {hint: this.txtPen,  color: '3D8A44',  opacity: 100, size: {arr: [0.25, 0.5, 1, 2, 3.5], idx: 2}, iconCls: 'pen-tool'},
+                        {hint: this.txtPen,  color: 'D43230',  opacity: 100, size: {arr: [0.25, 0.5, 1, 2, 3.5], idx: 2}, iconCls: 'pen-tool'},
+                        {hint: this.txtHighlighter,  color: 'FFFC54',  opacity: 50, size: {arr: [2, 4, 6, 8, 10], idx: 2}, iconCls: 'highlighter-tool',
+                         colors: [
+                             'FFFC54', '72F54A', '74F9FD', 'EB51F7', 'A900F9', 'EF8B3A', '7272FF', 'FF63A4', '1DFF92', '03DA18',
+                             '249B01', '7272FF', '0633D1', 'FFF7A0', 'FF0303', 'FFFFFF', 'D3D3D4', '969696', '606060', '000000'
+                         ]}
                     ],
                     lock = (this.appPrefix === 'de-') ? [_set.headerLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments] :
                            (this.appPrefix === 'pe-') ? [_set.slideDeleted, _set.lostConnect, _set.noSlides] :
@@ -112,7 +116,7 @@ define([
                 penOptions.forEach(function (props) {
                     var btn = new Common.UI.ButtonColored({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-ic-signature',
+                        iconCls: 'toolbar__icon ' + props.iconCls,
                         caption: ' ',
                         menu: true,
                         split: true,
@@ -179,7 +183,7 @@ define([
                         style: 'min-width: 100px;',
                         items: [
                             {
-                                template: _.template('<div id="id-toolbar-menu-draw-pen-' + id + '" style="width: 145px; display: inline-block;" class="palette-large"></div>'),
+                                template: _.template('<div id="id-toolbar-menu-draw-pen-' + id + '" style="width: 174px; display: inline-block;" class="palette-large"></div>'),
                                 stopPropagation: true
                             },
                             {
@@ -199,14 +203,14 @@ define([
                 var picker = new Common.UI.ThemeColorPalette({
                     el: $('#id-toolbar-menu-draw-pen-' + id),
                     colors: config.colors || [
-                        'FFFF00', '00FF00', '00FFFF', 'FF00FF', '0000FF', 'FF0000', '00008B', '008B8B',
-                        '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3', 'A9A9A9', '000000'
+                        '1755A0', 'D43230', 'F5C346', 'EA3368', '12A489', '552F8B', '9D1F87', 'BB2765', '479ED2', '67C9FA',
+                        '3D8A44', '80CA3D', '1C19B4', '7F4B0F', 'FF7E07', 'FFFFFF', 'D3D3D4', '879397', '575757', '000000'
                     ],
                     value: button.currentColor,
-                    dynamiccolors: 4,
+                    dynamiccolors: 5,
                     themecolors: 0,
                     effects: 0,
-                    columns: 4,
+                    columns: 5,
                     outerMenu: {menu: button.menu, index: 0, focusOnShow: true},
                     storageSuffix: '-draw'
                 });
