@@ -378,11 +378,11 @@ define([
                 styles.menuPicker.store.reset([]);
                 var templates = [];
                 var groups = [
-                    {id: 'menu-table-group-custom',    caption: self.view.__proto__.txtGroupPivot_Custom, templates: []},
-                    {id: 'menu-table-group-light',     caption: self.view.__proto__.txtGroupPivot_Light,  templates: []},
-                    {id: 'menu-table-group-medium',    caption: self.view.__proto__.txtGroupPivot_Medium, templates: []},
-                    {id: 'menu-table-group-dark',      caption: self.view.__proto__.txtGroupPivot_Dark,   templates: []},
-                    {id: 'menu-table-group-no-name',   caption: '&nbsp',                                  templates: []},
+                    {id: 'menu-table-group-custom',    caption: self.view.txtGroupPivot_Custom, templates: []},
+                    {id: 'menu-table-group-light',     caption: self.view.txtGroupPivot_Light,  templates: []},
+                    {id: 'menu-table-group-medium',    caption: self.view.txtGroupPivot_Medium, templates: []},
+                    {id: 'menu-table-group-dark',      caption: self.view.txtGroupPivot_Dark,   templates: []},
+                    {id: 'menu-table-group-no-name',   caption: '&nbsp',                        templates: []},
                 ];
                 _.each(Templates, function(template, index){
                     var tip = template.asc_getDisplayName(),
@@ -405,7 +405,7 @@ define([
                             }
                         }
                         arr = 'txtTable_' + arr.join('');
-                        tip = self.view.__proto__[arr] ? self.view.__proto__[arr] + ' ' + lastWordInTip : tip;
+                        tip = self.view[arr] ? self.view[arr] + ' ' + lastWordInTip : tip;
                         lastWordInTip = parseInt(lastWordInTip);
                     }
                     else {
