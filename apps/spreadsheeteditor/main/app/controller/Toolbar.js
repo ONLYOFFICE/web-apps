@@ -2707,18 +2707,16 @@ define([
                     if (!isHeight) {
                         this.toolbar.menuHeightScale.items[11].setChecked(true);
                     }
-                    if (this.toolbar.btnCustomScaleUp && this.toolbar.btnCustomScaleDown) {
-                        this.toolbar.btnCustomScaleUp.setDisabled(!(!width && !height));
-                        this.toolbar.btnCustomScaleDown.setDisabled(!(!width && !height));
+                    if (this.toolbar.mnuScalePicker) {
+                        this.toolbar.mnuScalePicker.setDisabled(!(!width && !height));
                         this.toolbar.mnuCustomScale.setDisabled(!(!width && !height));
                     }
                     this._state.scaleWidth = width;
                     this._state.scaleHeight = height;
                     this._state.scale = scale;
                 } else {
-                    if (this.toolbar.btnCustomScaleUp && this.toolbar.btnCustomScaleDown) {
-                        this.toolbar.btnCustomScaleUp.setDisabled(!(!this._state.scaleWidth && !this._state.scaleHeight));
-                        this.toolbar.btnCustomScaleDown.setDisabled(!(!this._state.scaleWidth && !this._state.scaleHeight));
+                    if (this.toolbar.mnuScalePicker) {
+                        this.toolbar.mnuScalePicker.setDisabled(!(!this._state.scaleWidth && !this._state.scaleHeight));
                         this.toolbar.mnuCustomScale.setDisabled(!(!this._state.scaleWidth && !this._state.scaleHeight));
                     }
                 }
@@ -4515,7 +4513,7 @@ define([
                 var tab = {action: 'review', caption: me.toolbar.textTabCollaboration, layoutname: 'toolbar-collaboration', dataHintTitle: 'U'};
                 var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
                 if ($panel) {
-                    me.toolbar.addTab(tab, $panel, 6);
+                    me.toolbar.addTab(tab, $panel, 7);
                     me.toolbar.setVisible('review', (config.isEdit || config.canViewReview || config.canCoAuthoring && config.canComments) && Common.UI.LayoutManager.isElementVisible('toolbar-collaboration'));
                 }
             }
@@ -4530,6 +4528,16 @@ define([
                 me.toolbar.setApi(me.api);
 
                 if ( !config.isEditDiagram && !config.isEditMailMerge && !config.isEditOle ) {
+                    var drawtab = me.getApplication().getController('Common.Controllers.Draw');
+                    drawtab.setApi(me.api).setMode(config);
+                    $panel = drawtab.createToolbarPanel();
+                    if ($panel) {
+                        tab = {action: 'draw', caption: me.toolbar.textTabDraw, extcls: 'canedit', layoutname: 'toolbar-draw', dataHintTitle: 'C'};
+                        me.toolbar.addTab(tab, $panel, 2);
+                        me.toolbar.setVisible('draw', Common.UI.LayoutManager.isElementVisible('toolbar-draw'));
+                        Array.prototype.push.apply(me.toolbar.lockControls, drawtab.getView().getButtons());
+                    }
+
                     var datatab = me.getApplication().getController('DataTab');
                     datatab.setApi(me.api).setConfig({toolbar: me});
 
@@ -4557,7 +4565,7 @@ define([
                         pivottab.setApi(me.api).setConfig({toolbar: me});
                         $panel = pivottab.createToolbarPanel();
                         if ($panel) {
-                            me.toolbar.addTab(tab, $panel, 5);
+                            me.toolbar.addTab(tab, $panel, 6);
                             me.toolbar.setVisible('pivot', true);
                             Array.prototype.push.apply(me.toolbar.lockControls, pivottab.getView('PivotTable').getButtons());
                         }
@@ -4584,7 +4592,7 @@ define([
                             (config.isSignatureSupport || config.isPasswordSupport) && $panel.append($('<div class="separator long"></div>'));
                             var wbtab = me.getApplication().getController('WBProtection');
                             $panel.append(wbtab.createToolbarPanel());
-                            me.toolbar.addTab(tab, $panel, 7);
+                            me.toolbar.addTab(tab, $panel, 8);
                             me.toolbar.setVisible('protect', Common.UI.LayoutManager.isElementVisible('toolbar-protect'));
                             Array.prototype.push.apply(me.toolbar.lockControls, wbtab.getView('WBProtection').getButtons());
                         }
@@ -4597,7 +4605,7 @@ define([
                 viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
                 var $panel = viewtab.createToolbarPanel();
                 if ($panel) {
-                    me.toolbar.addTab(tab, $panel, 8);
+                    me.toolbar.addTab(tab, $panel, 9);
                     me.toolbar.setVisible('view', Common.UI.LayoutManager.isElementVisible('toolbar-view'));
                 }
                 config.isEdit && Array.prototype.push.apply(me.toolbar.lockControls, viewtab.getView('ViewTab').getButtons());

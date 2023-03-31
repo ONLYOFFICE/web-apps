@@ -152,6 +152,7 @@ require([
             /** coauthoring begin **/
             ,'Common.Controllers.Chat'
             ,'Common.Controllers.Comments'
+            ,'Common.Controllers.Draw'
             /** coauthoring end **/
             ,'Common.Controllers.Plugins'
             ,'Common.Controllers.ExternalDiagramEditor'
@@ -205,7 +206,8 @@ require([
                 ,'common/main/lib/controller/ExternalMergeEditor'
                 ,'common/main/lib/controller/ExternalOleEditor'
                 ,'common/main/lib/controller/ReviewChanges'
-                ,'common/main/lib/controller/Protection'
+                ,'common/main/lib/controller/Protection',
+                ,'common/main/lib/controller/Draw'
             ], function() {
                 window.compareVersions = true;
                 app.start();

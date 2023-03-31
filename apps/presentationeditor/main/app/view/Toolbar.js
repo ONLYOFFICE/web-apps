@@ -2209,7 +2209,8 @@ define([
             textTabView: 'View',
             mniInsertSSE: 'Insert Spreadsheet',
             tipSelectAll: 'Select all',
-            tipCut: 'Cut'
+            tipCut: 'Cut',
+            textTabDraw: 'Draw'
         }
     }()), PE.Views.Toolbar || {}));
 });

@@ -265,6 +265,17 @@
                         margin: 0 4px 0 1px;
                     }
                 }
+
+                .emptycaption & {
+                    width: 37px;
+                    .caret {
+                        margin: 0 1px 0 2px;
+
+                        .rtl & {
+                            margin: 0 2px 0 1px;
+                        }
+                    }
+                }
             }
         }
 
@@ -298,7 +309,6 @@
                 //max-width: 100px;
             }
         }
-
     }
 
     .inner-box-icon {
@@ -470,7 +480,19 @@
             border: @scaled-one-px-value-ie solid @border-regular-control-ie;
             border: @scaled-one-px-value solid @border-regular-control;
         }
-
+        .x-huge & {
+            left: 8px;
+            width: 28px;
+            height: 6px;
+            .rtl & {
+                left: auto;
+                right: 8px;
+            }
+        }
+        .x-huge.split & {
+            bottom: auto;
+            top: 4px;
+        }
 
         .pixel-ratio__1_5 & {
             height: 4px;

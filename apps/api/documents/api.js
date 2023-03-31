@@ -162,6 +162,7 @@
                             layout:  false / true, // layout tab
                             references:  false / true, // de references tab
                             collaboration:  false / true // collaboration tab
+                            draw:  false / true // draw tab
                             protect:  false / true, // protect tab
                             plugins:  false / true // plugins tab
                             view: {
