@@ -134,7 +134,7 @@ define([
 
                 this.btnEraser = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-ic-signature',
+                    iconCls: 'toolbar__icon eraser',
                     caption: this.txtEraser,
                     enableToggle: true,
                     allowDepress: true,
@@ -147,7 +147,7 @@ define([
 
                 this.btnSelect = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-ic-signature',
+                    iconCls: 'toolbar__icon btn-select',
                     caption: this.txtSelect,
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
