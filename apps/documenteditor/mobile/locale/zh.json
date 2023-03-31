@@ -561,6 +561,7 @@
     "titleLicenseNotActive": "许可证未激活",
     "titleServerVersion": "编辑器已更新",
     "titleUpdateVersion": "版本已变化",
+    "warnDownloadAsPdf": "您的 {0} 将转换成一份可修改的文件。系统需要处理一段时间。转换后的文件即可随之修改，但可能不完全跟您的原 {0} 相同，特别是如果原文件有过多的图像将会更有差异。",
     "warnLicenseBefore": "许可证未激活。<br>请联系管理员。",
     "warnLicenseExceeded": "你触发了 %1 编辑器的同时在线数限制。该文档打开后，你将只能查看。可联系管理员来了解更多信息。",
     "warnLicenseExp": "你的许可证已过期。恳请你更新许可证，然后刷新该页面。",
@@ -574,8 +575,7 @@
     "textDialogProtectedOnlyView": "You may only view this document",
     "textDialogProtectedFillForms": "You may only fill in forms in this document",
     "textDialogProtectedChangesTracked": "You may edit this document, but all changes will be tracked",
-    "textDialogProtectedEditComments": "You may only insert comments to this document",
-    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics."
+    "textDialogProtectedEditComments": "You may only insert comments to this document"
   },
   "Settings": {
     "advDRMOptions": "受保护的文件",

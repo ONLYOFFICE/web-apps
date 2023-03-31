@@ -561,6 +561,7 @@
     "titleLicenseNotActive": "Licența nu este activă",
     "titleServerVersion": "Editorul a fost actualizat",
     "titleUpdateVersion": "Versiunea s-a modificat",
+    "warnDownloadAsPdf": "Fișierul dvs {0} va fi convertit într-un format editabil. Convertirea poate dura ceva timp. Documentul rezultat va fi optimizat pentru a vă permite să editați textul, dar s-ar putea să nu arate exact ca original {0}, mai ales dacă fișierul original conține mai multe elemente grafice.",
     "warnLicenseBefore": "Licența nu este activă.<br>Contactaţi administratorul.",
     "warnLicenseExceeded": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați administratorul dvs pentru mai multe detalii.",
     "warnLicenseExp": "Licența dvs. a expirat. Licența urmează să fie reînnoită iar pagina reîmprospătată.",
@@ -574,8 +575,7 @@
     "textDialogProtectedOnlyView": "You may only view this document",
     "textDialogProtectedFillForms": "You may only fill in forms in this document",
     "textDialogProtectedChangesTracked": "You may edit this document, but all changes will be tracked",
-    "textDialogProtectedEditComments": "You may only insert comments to this document",
-    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics."
+    "textDialogProtectedEditComments": "You may only insert comments to this document"
   },
   "Settings": {
     "advDRMOptions": "Fișierul protejat",
