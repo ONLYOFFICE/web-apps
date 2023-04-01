@@ -378,19 +378,20 @@ define([
                 styles.menuPicker.store.reset([]);
                 var templates = [];
                 var groups = [
-                    {id: 'menu-table-group-custom',    caption: self.view.__proto__.txtGroupPivot_Custom, templates: []},
-                    {id: 'menu-table-group-light',     caption: self.view.__proto__.txtGroupPivot_Light,  templates: []},
-                    {id: 'menu-table-group-medium',    caption: self.view.__proto__.txtGroupPivot_Medium, templates: []},
-                    {id: 'menu-table-group-dark',      caption: self.view.__proto__.txtGroupPivot_Dark,   templates: []},
-                    {id: 'menu-table-group-no-name',   caption: '&nbsp',                                  templates: []},
+                    {id: 'menu-table-group-custom',    caption: self.view.txtGroupPivot_Custom, templates: []},
+                    {id: 'menu-table-group-light',     caption: self.view.txtGroupPivot_Light,  templates: []},
+                    {id: 'menu-table-group-medium',    caption: self.view.txtGroupPivot_Medium, templates: []},
+                    {id: 'menu-table-group-dark',      caption: self.view.txtGroupPivot_Dark,   templates: []},
+                    {id: 'menu-table-group-no-name',   caption: '&nbsp',                        templates: []},
                 ];
                 _.each(Templates, function(template, index){
-                    var tip = template.asc_getDisplayName();
-                    var groupItem = '';
+                    var tip = template.asc_getDisplayName(),
+                        groupItem = '',
+                        lastWordInTip = null;
                     
                     if (template.asc_getType()==0) {
-                        var arr = tip.split(' '),
-                            last = arr.pop();
+                        var arr = tip.split(' ');
+                        lastWordInTip = arr.pop();
                             
                         if(tip == 'None'){
                             groupItem = 'menu-table-group-light';
@@ -404,7 +405,8 @@ define([
                             }
                         }
                         arr = 'txtTable_' + arr.join('');
-                        tip = self.view.__proto__[arr] ? self.view.__proto__[arr] + ' ' + last : tip;
+                        tip = self.view[arr] ? self.view[arr] + ' ' + lastWordInTip : tip;
+                        lastWordInTip = parseInt(lastWordInTip);
                     }
                     else {
                         groupItem = 'menu-table-group-custom'
@@ -418,9 +420,21 @@ define([
                         group       : groupItem, 
                         allowSelected : true,
                         selected    : false,
-                        tip         : tip
+                        tip         : tip,
+                        numInGroup  : (lastWordInTip != null && !isNaN(lastWordInTip) ? lastWordInTip : null)
                     });
                 });
+
+                var sortFunc = function(a, b) {
+                    var aNum = a.numInGroup,
+                        bNum = b.numInGroup;
+                    return aNum - bNum;
+                };
+
+                groups[1].templates.sort(sortFunc);
+                groups[2].templates.sort(sortFunc);
+                groups[3].templates.sort(sortFunc);
+
                 groups = groups.filter(function(item, index){
                     return item.templates.length > 0
                 });
