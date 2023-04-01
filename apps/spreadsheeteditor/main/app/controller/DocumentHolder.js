@@ -109,6 +109,9 @@ define([
                 input_msg: {},
                 foreignSelect: {
                     ttHeight: 20
+                },
+                eyedropper: {
+                    isHidden: true
                 }
             };
             me.mouse = {};
@@ -1516,6 +1519,17 @@ define([
             }
         },
 
+        hideEyedropperTip: function () {
+            if (!this.tooltips.eyedropper.isHidden) {
+                this.tooltips.eyedropper.color.css({left: '-1000px', top: '-1000px'});
+                if (this.tooltips.eyedropper.ref) {
+                    this.tooltips.eyedropper.ref.hide();
+                    this.tooltips.eyedropper.ref = undefined;
+                }
+                this.tooltips.eyedropper.isHidden = true;
+            }
+        },
+
         onApiMouseMove: function(dataarray) {
             if (!this._isFullscreenMenu && dataarray.length) {
                 var index_hyperlink,
@@ -1526,7 +1540,8 @@ define([
                         index_column, index_row,
                         index_filter,
                         index_slicer,
-                        index_foreign;
+                        index_foreign,
+                        index_eyedropper;
                 for (var i = dataarray.length; i > 0; i--) {
                     switch (dataarray[i-1].asc_getType()) {
                         case Asc.c_oAscMouseMoveType.Hyperlink:
@@ -1555,6 +1570,9 @@ define([
                         case Asc.c_oAscMouseMoveType.ForeignSelect:
                             index_foreign = i;
                             break;
+                        case Asc.c_oAscMouseMoveType.Eyedropper:
+                            index_eyedropper = i;
+                            break;
                     }
                 }
 
@@ -1569,6 +1587,7 @@ define([
                     filterTip       = me.tooltips.filter,
                     slicerTip       = me.tooltips.slicer,
                     foreignSelect   = me.tooltips.foreignSelect,
+                    eyedropperTip   = me.tooltips.eyedropper,
                     pos             = [
                         me.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
                         me.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
@@ -1625,6 +1644,9 @@ define([
                         filterTip.text = '';
                         filterTip.isHidden = true;
                     }
+                }
+                if (!index_eyedropper) {
+                    me.hideEyedropperTip();
                 }
                 // show tooltips
 
@@ -1935,6 +1957,72 @@ define([
                             top : showPoint[1] + 'px',
                             left: showPoint[0] + 'px'
                         });
+                    }
+                }
+
+                if (index_eyedropper) {
+                    eyedropperTip.isHidden = false;
+                    if (eyedropperTip.ref) {
+                        eyedropperTip.ref.hide();
+                        eyedropperTip.ref = undefined;
+                    }
+
+                    var data  = dataarray[index_eyedropper-1],
+                        color = data.asc_getColor(),
+                        r = color.get_r(),
+                        g = color.get_g(),
+                        b = color.get_b();
+                    if (r) {
+                        var hex = Common.Utils.ThemeColor.getHexColor(r, g, b),
+                            name = color.asc_getName();
+
+                        if (!eyedropperTip.color) {
+                            var colorEl = $(document.createElement("div"));
+                            colorEl.addClass('eyedropper-color');
+                            colorEl.appendTo(document.body);
+                            eyedropperTip.color = colorEl;
+                            $('#ws-canvas-outer').on('mouseleave', _.bind(me.hideEyedropperTip, me));
+                        }
+                        eyedropperTip.color.css({
+                            backgroundColor: '#' + hex,
+                            left: (data.asc_getX() + pos[0] + 23) + 'px',
+                            top: (data.asc_getY() + pos[1] - 53) + 'px'
+                        });
+                        if (eyedropperTip.tipInterval) {
+                            clearInterval(eyedropperTip.tipInterval);
+                        }
+                        eyedropperTip.tipInterval = setInterval(function () {
+                            clearInterval(eyedropperTip.tipInterval);
+                            if (!me.tooltips.eyedropper.isHidden) {
+                                if (!eyedropperTip.parentEl) {
+                                    eyedropperTip.parentEl = $('<div id="tip-container-eyedroppertip" style="position: absolute; z-index: 10000;"></div>');
+                                    me.documentHolder.cmpEl.append(eyedropperTip.parentEl);
+                                }
+
+                                var title = '<div>RGB(' + r + ',' + g + ',' + b + ')</div>' +
+                                    '<div>' + name + '</div>';
+                                if (!eyedropperTip.ref) {
+                                    eyedropperTip.ref = new Common.UI.Tooltip({
+                                        owner   : eyedropperTip.parentEl,
+                                        html    : true,
+                                        title   : title,
+                                        cls     : 'eyedropper-tooltip'
+                                    });
+                                }
+                                eyedropperTip.ref.show([-10000, -10000]);
+                                eyedropperTip.tipWidth = eyedropperTip.ref.getBSTip().$tip.width();
+                                showPoint = [data.asc_getX(), data.asc_getY()];
+                                showPoint[1] += (pos[1] - 57);
+                                showPoint[0] += (pos[0] + 58);
+                                if (showPoint[0] + eyedropperTip.tipWidth > me.tooltips.coauth.bodyWidth ) {
+                                    showPoint[0] = showPoint[0] - eyedropperTip.tipWidth - 40;
+                                }
+                                eyedropperTip.ref.getBSTip().$tip.css({
+                                    top: showPoint[1] + 'px',
+                                    left: showPoint[0] + 'px'
+                                });
+                            }
+                        }, 800);
                     }
                 }
             }

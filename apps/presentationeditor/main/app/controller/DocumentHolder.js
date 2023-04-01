@@ -117,6 +117,18 @@ define([
                 isHidden: true,
                 isVisible: false
             };
+            me.eyedropperTip = {
+                toolTip: new Common.UI.Tooltip({
+                    owner: this,
+                    html: true,
+                    cls: 'eyedropper-tooltip'
+                }),
+                isHidden: true,
+                isVisible: false,
+                eyedropperColor: null,
+                tipInterval: null,
+                isTipVisible: false
+            }
 
             me.userTooltip = true;
             me.wrapEvents = {
@@ -161,6 +173,7 @@ define([
                     /** coauthoring begin **/
                     me.userTipHide();
                     /** coauthoring end **/
+                    me.hideEyedropper();
                     me.mode && me.mode.isDesktopApp && me.api && me.api.asc_onShowPopupWindow();
                 },
                 'modal:show': function(e){
@@ -173,6 +186,7 @@ define([
                     me.userTipHide();
                     /** coauthoring end **/
                     me.hideTips();
+                    me.hideEyedropper();
                     me.onDocumentHolderResize();
                 },
                 'preview:show': function(e){
@@ -838,6 +852,9 @@ define([
                 this.screenTip.isVisible = false;
                 this.screenTip.toolTip.hide();
             }
+            if (this.eyedropperTip.isHidden) {
+                this.hideEyedropper();
+            }
         },
 
         onMouseMove: function(moveData) {
@@ -895,6 +912,57 @@ define([
                             showPoint[0] = me._BodyWidth - screenTip.tipWidth;
                         screenTip.toolTip.getBSTip().$tip.css({top: showPoint[1] + 'px', left: showPoint[0] + 'px'});
                     }
+                }
+                else if (moveData.get_Type()==Asc.c_oAscMouseMoveDataTypes.Eyedropper) {
+                    if (me.eyedropperTip.isTipVisible) {
+                        me.eyedropperTip.isTipVisible = false;
+                        me.eyedropperTip.toolTip.hide();
+                    }
+
+                    var color = moveData.get_EyedropperColor().asc_getColor(),
+                        r = color.get_r(),
+                        g = color.get_g(),
+                        b = color.get_b(),
+                        hex = Common.Utils.ThemeColor.getHexColor(r,g,b);
+                    if (!me.eyedropperTip.eyedropperColor) {
+                        var colorEl = $(document.createElement("div"));
+                        colorEl.addClass('eyedropper-color');
+                        colorEl.appendTo(document.body);
+                        me.eyedropperTip.eyedropperColor = colorEl;
+                        $('#id_main_view').on('mouseleave', _.bind(me.hideEyedropper, me));
+                    }
+                    me.eyedropperTip.eyedropperColor.css({
+                        backgroundColor: '#' + hex,
+                        left: (moveData.get_X() + me._XY[0] + 23) + 'px',
+                        top: (moveData.get_Y() + me._XY[1] - 53) + 'px'
+                    });
+                    me.eyedropperTip.isVisible = true;
+
+                    if (me.eyedropperTip.tipInterval) {
+                        clearInterval(me.eyedropperTip.tipInterval);
+                    }
+                    me.eyedropperTip.tipInterval = setInterval(function () {
+                        clearInterval(me.eyedropperTip.tipInterval);
+                        if (me.eyedropperTip.isVisible) {
+                            ToolTip = '<div>RGB(' + r + ',' + g + ',' + b + ')</div>' +
+                                '<div>' + moveData.get_EyedropperColor().asc_getName() + '</div>';
+                            me.eyedropperTip.toolTip.setTitle(ToolTip);
+                            me.eyedropperTip.isTipVisible = true;
+                            me.eyedropperTip.toolTip.show([-10000, -10000]);
+                            me.eyedropperTip.tipWidth = me.eyedropperTip.toolTip.getBSTip().$tip.width();
+                            showPoint = [moveData.get_X(), moveData.get_Y()];
+                            showPoint[1] += (me._XY[1] - 57);
+                            showPoint[0] += (me._XY[0] + 58);
+                            if (showPoint[0] + me.eyedropperTip.tipWidth > me._BodyWidth ) {
+                                showPoint[0] = showPoint[0] - me.eyedropperTip.tipWidth - 40;
+                            }
+                            me.eyedropperTip.toolTip.getBSTip().$tip.css({
+                                top: showPoint[1] + 'px',
+                                left: showPoint[0] + 'px'
+                            });
+                        }
+                    }, 800);
+                    me.eyedropperTip.isHidden = false;
                 }
                 /** coauthoring begin **/
                 else if (moveData.get_Type()==2 && me.mode.isEdit && me.isUserVisible(moveData.get_UserId())) { // 2 - locked object
@@ -970,6 +1038,17 @@ define([
                 }
             }
             /** coauthoring end **/
+        },
+
+        hideEyedropper: function () {
+            if (this.eyedropperTip.isVisible) {
+                this.eyedropperTip.isVisible = false;
+                this.eyedropperTip.eyedropperColor.css({left: '-1000px', top: '-1000px'});
+            }
+            if (this.eyedropperTip.isTipVisible) {
+                this.eyedropperTip.isTipVisible = false;
+                this.eyedropperTip.toolTip.hide();
+            }
         },
 
         onDialogAddHyperlink: function() {
