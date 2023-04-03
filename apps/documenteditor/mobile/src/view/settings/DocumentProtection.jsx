@@ -58,8 +58,8 @@ const ProtectionDocumentView = inject("storeAppOptions")(observer(props => {
                 <>
                     <div className='inputs-list list inline-labels'>
                         <ul>
-                            <PasswordField label={t('Settings.textPassword')} placeholder={t('Settings.textRequired')} value={password} handlerChange={changePassword} />
-                            <PasswordField label={t('Settings.textVerify')} placeholder={t('Settings.textRequired')} value={passwordRepeat} handlerChange={changeRepeationPassword} />
+                            <PasswordField label={t('Settings.textPassword')} placeholder={t('Settings.textRequired')} value={password} handlerChange={changePassword} maxLength={15} />
+                            <PasswordField label={t('Settings.textVerify')} placeholder={t('Settings.textRequired')} value={passwordRepeat} handlerChange={changeRepeationPassword} maxLength={15} />
                         </ul>
                     </div>
                     <Block>
