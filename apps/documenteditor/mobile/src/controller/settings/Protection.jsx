@@ -23,7 +23,7 @@ const ProtectionController = props => {
                     title: t('Settings.titleDialogUnprotect'),
                     text: t('Settings.textDialogUnprotect'),
                     content: Device.ios ?
-                        '<div class="input-field"><input type="password" class="modal-text-input" name="protection-password" placeholder="' + t('Settings.advDRMPassword') + '" id="protection-password"></div>' : '<div class="input-field"><div class="inputs-list list inline-labels"><ul><li><div class="item-content item-input"><div class="item-inner"><div class="item-input-wrap"><input type="password" name="protection-password" id="protection-password" placeholder=' + t('Settings.advDRMPassword') + '></div></div></div></li></ul></div></div>',
+                        '<div class="input-field"><input type="password" maxlength="15" class="modal-text-input" name="protection-password" placeholder="' + t('Settings.advDRMPassword') + '" id="protection-password"></div>' : '<div class="input-field"><div class="inputs-list list inline-labels"><ul><li><div class="item-content item-input"><div class="item-inner"><div class="item-input-wrap"><input type="password" name="protection-password" maxlength="15" id="protection-password" placeholder=' + t('Settings.advDRMPassword') + '></div></div></div></li></ul></div></div>',
                     cssClass: 'dlg-adv-options',
                     buttons: [
                         {
