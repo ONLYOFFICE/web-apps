@@ -2524,7 +2524,7 @@ define([
                                 '<tr><td class="padding-small"><div id="print-combo-range" style="width: 248px;"></div></td></tr>',
                                 '<tr><td class="padding-large">',
                                     '<table style="width: 100%;"><tbody><tr>',
-                                        '<td><%= scope.txtPages %></td><td><div id="print-txt-pages" style="width: 100%;padding-left: 5px;"></div></td>',
+                                        '<td><%= scope.txtPages %></td><td><div id="print-txt-pages" style="width: 100%;"></div></td>',
                                     '</tr></tbody></table>',
                                 '</td></tr>',
                                 '<tr><td><label class="header"><%= scope.txtPageSize %></label></td></tr>',
@@ -2544,11 +2544,16 @@ define([
                         '</div>',
                     '</div>',
                 '</div>',
-                '<div id="print-preview-box" style="position: absolute; left: 280px; top: 0; right: 0; bottom: 0;" class="no-padding">',
+                '<div id="print-preview-box" class="no-padding">',
                     '<div id="print-preview"></div>',
                     '<div id="print-navigation">',
-                        '<div id="print-prev-page" style="display: inline-block; margin-right: 4px;"></div>',
-                        '<div id="print-next-page" style="display: inline-block;"></div>',
+                        '<% if (!isRTL) { %>',
+                            '<div id="print-prev-page"></div>',
+                            '<div id="print-next-page"></div>',
+                        '<% } else { %>',
+                            '<div id="print-next-page"></div>',
+                            '<div id="print-prev-page"></div>',
+                        '<% } %>',
                         '<div class="page-number">',
                             '<label><%= scope.txtPage %></label>',
                             '<div id="print-number-page"></div>',
@@ -2570,7 +2575,7 @@ define([
         render: function(node) {
             var me = this;
 
-            var $markup = $(this.template({scope: this}));
+            var $markup = $(this.template({scope: this, isRTL: Common.UI.isRTL()}));
 
             this.cmbRange = new Common.UI.ComboBox({
                 el: $markup.findById('#print-combo-range'),
