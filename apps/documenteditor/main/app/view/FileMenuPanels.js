@@ -2521,12 +2521,15 @@ define([
                             '<table style="width: 100%;">',
                             '<tbody>',
                                 '<tr><td><label class="header"><%= scope.txtPrintRange %></label></td></tr>',
-                                '<tr><td class="padding-small"><div id="print-combo-range" style="width: 248px;"></div></td></tr>',
+                                '<tr><td class="padding-large"><div id="print-combo-range" style="width: 248px;"></div></td></tr>',
                                 '<tr><td class="padding-large">',
-                                    '<table style="width: 100%;"><tbody><tr>',
-                                        '<td><%= scope.txtPages %></td><td><div id="print-txt-pages" style="width: 100%;"></div></td>',
-                                    '</tr></tbody></table>',
+                                    '<table style="width: 100%;"><tbody>',
+                                        '<tr><td class="padding-large"><%= scope.txtPages %>:</td><td class="padding-large" style="width: 100%;"><div id="print-txt-pages" style="width: 100%;"></div></td></tr>',
+                                        '<tr><td><%= scope.txtCopies %>:</td><td style="width: 100%;"><div id="print-txt-copies" style="width: 60px;"></div></td></tr>',
+                                    '</tbody></table>',
                                 '</td></tr>',
+                                '<tr><td><label class="header"><%= scope.txtPrintSides %></label></td></tr>',
+                                '<tr><td class="padding-large"><div id="print-combo-sides" style="width: 248px;"></div></td></tr>',
                                 '<tr><td><label class="header"><%= scope.txtPageSize %></label></td></tr>',
                                 '<tr><td class="padding-large"><div id="print-combo-pages" style="width: 248px;"></div></td></tr>',
                                 '<tr><td><label class="header"><%= scope.txtPageOrientation %></label></td></tr>',
@@ -2604,6 +2607,42 @@ define([
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
+
+            this.spnCopies = new Common.UI.MetricSpinner({
+                el: $markup.findById('#print-txt-copies'),
+                step: 1,
+                width: 60,
+                defaultUnit : '',
+                value: 1,
+                maxValue: 32767,
+                minValue: 1,
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+
+            this.cmbSides = new Common.UI.ComboBox({
+                el          : $markup.findById('#print-combo-sides'),
+                menuStyle   : 'min-width:100%;',
+                editable: false,
+                takeFocusOnClose: true,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: 'one', displayValue: this.txtOneSide, descValue: this.txtOneSideDesc },
+                    { value: 'both-long', displayValue: this.txtBothSides, descValue: this.txtBothSidesLongDesc },
+                    { value: 'both-short', displayValue: this.txtBothSides, descValue: this.txtBothSidesShortDesc }
+                ],
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                    '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem" style ="display: flex; flex-direction: column;">',
+                    '<label><%= scope.getDisplayValue(item) %></label><label class="comment-text"><%= item.descValue %></label></a></li>',
+                    '<% }); %>'
+                ].join('')),
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbSides.setValue('one');
 
             this.cmbPaperSize = new Common.UI.ComboBox({
                 el: $markup.findById('#print-combo-pages'),
@@ -2847,7 +2886,14 @@ define([
         textMarginsUsNormal: 'US Normal',
         textMarginsNarrow: 'Narrow',
         textMarginsModerate: 'Moderate',
-        textMarginsWide: 'Wide'
+        textMarginsWide: 'Wide',
+        txtCopies: 'Copies',
+        txtPrintSides: 'Print sides',
+        txtOneSide: 'Print one sided',
+        txtOneSideDesc: 'Only print on one side of the page',
+        txtBothSides: 'Print on both sides',
+        txtBothSidesLongDesc: 'Flip pages on long edge',
+        txtBothSidesShortDesc: 'Flip pages on short edge'
 
     }, DE.Views.PrintWithPreview || {}));
 });
