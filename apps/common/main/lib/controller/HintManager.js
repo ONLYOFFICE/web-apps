@@ -119,8 +119,11 @@ Common.UI.HintManager = new(function() {
         _isEditDiagram = false,
         _usedTitles = [],
         _appPrefix,
-        _staticHints = { // for desktop buttons
+        _staticHints = { // for 0 level
             // "btnhome": 'K'
+            // "quick-print": 'Q'
+            "scroll-right": 'R',
+            "scroll-left": 'V'
         };
 
     var _api;
