@@ -310,6 +310,7 @@ define([
                     if (event.target ) {
                         var target = $(event.target);
                         if (target.closest('.combobox').length>0 || target.closest('.dropdown-menu').length>0 ||
+                            target.closest('.input-field').length>0 || target.closest('.spinner').length>0 || target.closest('.textarea-field').length>0 ||
                             target.closest('.ribtab').length>0 || target.closest('.combo-dataview').length>0) {
                             event.preventDefault();
                         }
