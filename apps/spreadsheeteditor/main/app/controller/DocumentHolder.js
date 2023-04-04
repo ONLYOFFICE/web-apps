@@ -396,6 +396,7 @@ define([
                 }
                 this.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(this.onShowMathTrack, this));
                 this.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(this.onHideMathTrack, this));
+                this.api.asc_registerCallback('asc_onHideEyedropper',           _.bind(this.hideEyedropperTip, this));
             }
             this.api.asc_registerCallback('asc_onShowForeignCursorLabel',       _.bind(this.onShowForeignCursorLabel, this));
             this.api.asc_registerCallback('asc_onHideForeignCursorLabel',       _.bind(this.onHideForeignCursorLabel, this));
@@ -1981,7 +1982,6 @@ define([
                             colorEl.addClass('eyedropper-color');
                             colorEl.appendTo(document.body);
                             eyedropperTip.color = colorEl;
-                            $('#ws-canvas-outer').on('mouseleave', _.bind(me.hideEyedropperTip, me));
                         }
                         eyedropperTip.color.css({
                             backgroundColor: '#' + hex,
