@@ -51,6 +51,18 @@
             <div id="form-txt-help"></div>
         </td>
     </tr>
+    <tr>
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textDefValue %></label>
+            <div id="form-txt-def-value"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textDefValue %></label>
+            <div id="form-combo-def-value" style="width: 100%;"></div>
+        </td>
+    </tr>
     <tr class="form-textfield">
         <td class="padding-small">
             <label class="input-label"><%= scope.textFormat %></label>
@@ -114,6 +126,11 @@
     </tr>
 </table>
 <table cols="1">
+    <tr class="form-checkbox">
+        <td class="padding-small">
+            <div id="form-chb-def-value"></div>
+        </td>
+    </tr>
     <tr class="form-fixed">
         <td class="padding-small">
             <div id="form-chb-fixed"></div>
