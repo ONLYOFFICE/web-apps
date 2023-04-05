@@ -190,17 +190,23 @@ define([
             this.textareaHelp.on('changed:after', this.onHelpChanged.bind(this));
             this.textareaHelp.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
-            this.textareaDefValue = new Common.UI.TextareaField({
+            this.txtDefValue = new Common.UI.InputField({
                 el          : $markup.findById('#form-txt-def-value'),
-                style       : 'width: 100%; height: 36px;',
+                allowBlank  : true,
+                validateOnChange: false,
+                validateOnBlur: false,
+                style       : 'width: 100%;',
                 value       : '',
                 dataHint    : '1',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
-            this.lockedControls.push(this.textareaDefValue);
-            this.textareaDefValue.on('changed:after', this.onTextAreaDefChanged.bind(this));
-            this.textareaDefValue.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.lockedControls.push(this.txtDefValue);
+            this.txtDefValue.on('changed:after', this.onTxtDefChanged.bind(this));
+            this.txtDefValue.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.txtDefValue.cmpEl.on('focus', 'input.form-control', function() {
+                setTimeout(function(){me.txtDefValue._input && me.txtDefValue._input.select();}, 1);
+            });
 
             this.cmbDefValue = new Common.UI.ComboBox({
                 el: $markup.findById('#form-combo-def-value'),
@@ -785,7 +791,7 @@ define([
             }
         },
 
-        onTextAreaDefChanged: function(input, newValue, oldValue, e) {
+        onTxtDefChanged: function(input, newValue, oldValue, e) {
             if (this.api && !this._noApply && (newValue!==oldValue)) {
                 // var props   = this._originalProps || new AscCommon.CContentControlPr();
                 // var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
@@ -1280,7 +1286,7 @@ define([
                         } else {
                             // val = this.api.asc_GetFormValue(this.internalId);
                             // if ( this._state.DefValue!==val ) {
-                            //     this.textareaDefValue.setValue(val || '');
+                            //     this.txtDefValue.setValue(val || '');
                             //     this._state.DefValue=val;
                             // }
                         }
@@ -1563,7 +1569,7 @@ define([
 
                     // val = this.api.asc_GetFormValue(this.internalId);
                     // if ( this._state.DefValue!==val ) {
-                    //     this.textareaDefValue.setValue(val || '');
+                    //     this.txtDefValue.setValue(val || '');
                     //     this._state.DefValue=val;
                     // }
                 } else
@@ -1730,7 +1736,7 @@ define([
             this.FixedSettings.toggleClass('hidden', imageOnly || isSimpleInsideComplex);
             this.NotInComplexSettings.toggleClass('hidden', isSimpleInsideComplex);
             this.DateOnlySettings.toggleClass('hidden', !dateOnly);
-            this.DefValueText.toggleClass('hidden', !(type == Asc.c_oAscContentControlSpecificType.ComboBox || textOnly));
+            this.DefValueText.toggleClass('hidden', !(type === Asc.c_oAscContentControlSpecificType.ComboBox || textOnly));
             this.DefValueDropDown.toggleClass('hidden', type !== Asc.c_oAscContentControlSpecificType.DropDownList);
         },
 
