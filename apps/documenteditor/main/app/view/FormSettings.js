@@ -227,7 +227,7 @@ define([
                 setTimeout(function(){me.txtDateDefValue._input && me.txtDateDefValue._input.select();}, 1);
             });
 
-            this.cmbDefValue = new Common.UI.ComboBox({
+            this.cmbDefValue = new Common.UI.ComboBoxCustom({
                 el: $markup.findById('#form-combo-def-value'),
                 cls: 'input-group-nr',
                 menuCls: 'menu-absolute',
@@ -236,7 +236,10 @@ define([
                 data: [],
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                updateFormControl: function(record) {
+                    record && this.setRawValue(record.get('value'));
+                }
             });
             this.cmbDefValue.setValue('');
             this.lockedControls.push(this.cmbDefValue);
@@ -812,11 +815,6 @@ define([
 
         onTxtDefChanged: function(input, newValue, oldValue, e) {
             if (this.api && !this._noApply && (newValue!==oldValue)) {
-                // var props   = this._originalProps || new AscCommon.CContentControlPr();
-                // var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
-                // formPr.put_DefValueText(newValue);
-                // props.put_FormPr(formPr);
-                // this.api.asc_SetContentControlProperties(props, this.internalId);
                 this.api.asc_SetFormValue(newValue, this.internalId);
                 if (!e.relatedTarget || (e.relatedTarget.localName != 'input' && e.relatedTarget.localName != 'textarea') || !/form-control/.test(e.relatedTarget.className))
                     this.fireEvent('editcomplete', this);
@@ -825,11 +823,6 @@ define([
 
         onDateDefClick: function(input, date) {
             if (this.api && !this._noApply) {
-                // var props   = this._originalProps || new AscCommon.CContentControlPr();
-                // var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
-                // formPr.put_DefValueText(newValue);
-                // props.put_FormPr(formPr);
-                // this.api.asc_SetContentControlProperties(props, this.internalId);
                 var formDatePr = new AscCommon.CSdtDatePickerPr();
                 formDatePr.put_DateFormat(this.cmbDateFormat.getValue());
                 formDatePr.put_LangId(this.cmbLang.getValue());
@@ -842,11 +835,6 @@ define([
 
         onComboDefChanged: function(combo, record) {
             if (this.api && !this._noApply) {
-                // var props   = this._originalProps || new AscCommon.CContentControlPr();
-                // var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
-                // formPr.put_DefValueText(record.value);
-                // props.put_FormPr(formPr);
-                // this.api.asc_SetContentControlProperties(props, this.internalId);
                 this.api.asc_SetFormValue(record.value, this.internalId);
                 this.fireEvent('editcomplete', this);
             }
@@ -1316,15 +1304,16 @@ define([
                             arr.forEach(function(item) {
                                 item.value = item.displayValue = item.name;
                             });
+                            arr.unshift({value: '', displayValue: (this._state.placeholder.trim()!=='') ? this._state.placeholder : this.txtEmpty});
                             this.cmbDefValue.setData(arr);
                             this.cmbDefValue.setDisabled(arr.length<1);
-                            //this.cmbDefValue.setValue(this.api.asc_GetFormValue(this.internalId));
+                            this.cmbDefValue.setValue(this.api.asc_GetFormValue(this.internalId) || '');
                         } else {
-                            // val = this.api.asc_GetFormValue(this.internalId);
-                            // if ( this._state.DefValue!==val ) {
-                            //     this.txtDefValue.setValue(val || '');
-                            //     this._state.DefValue=val;
-                            // }
+                            val = this.api.asc_GetFormValue(this.internalId);
+                            if ( this._state.DefValue!==val ) {
+                                this.txtDefValue.setValue(val || '');
+                                this._state.DefValue=val;
+                            }
                         }
                     }
                     this.disableListButtons();
@@ -1404,11 +1393,11 @@ define([
                         this.labelFormName.text(ischeckbox ? this.textCheckbox : this.textRadiobox);
                         this.chDefValue.setCaption(ischeckbox ? this.textCheckDefault : this.textRadioDefault);
 
-                        // val = this.api.asc_GetFormValue(this.internalId);
-                        // if (this._state.ChDefValue!==val) {
-                        //     this.chDefValue.setValue(!!val, true);
-                        //     this._state.ChDefValue=val;
-                        // }
+                        val = this.api.asc_GetFormValue(this.internalId);
+                        if (this._state.ChDefValue!==val) {
+                            this.chDefValue.setValue(!!val, true);
+                            this._state.ChDefValue=val;
+                        }
                     }
 
                     if (type !== Asc.c_oAscContentControlSpecificType.Picture) {
@@ -1603,11 +1592,11 @@ define([
                         this._state.MaxChars=val;
                     }
 
-                    // val = this.api.asc_GetFormValue(this.internalId);
-                    // if ( this._state.DefValue!==val ) {
-                    //     this.txtDefValue.setValue(val || '');
-                    //     this._state.DefValue=val;
-                    // }
+                    val = this.api.asc_GetFormValue(this.internalId);
+                    if ( this._state.DefValue!==val ) {
+                        this.txtDefValue.setValue(val || '');
+                        this._state.DefValue=val;
+                    }
                 } else
                     this._originalTextFormProps = null;
 
@@ -1626,12 +1615,12 @@ define([
                     this.cmbDateFormat.setValue(format, datePr.get_String());
                     this._state.DateFormat=format;
 
-                    // val = this.api.asc_GetFormValue(this.internalId);
-                    // if ( this._state.DefDateValue!==val ) {
-                    //     this.txtDateDefValue.setValue(val || '');
-                    //     this.setDate(new Date(val));
-                    //     this._state.DefDateValue=val;
-                    // }
+                    val = this.api.asc_GetFormValue(this.internalId);
+                    if ( this._state.DefDateValue!==val ) {
+                        this.txtDateDefValue.setValue(val || '');
+                        this.txtDateDefValue.setDate(new Date(val));
+                        this._state.DefDateValue=val;
+                    }
                 }
 
                 var isComplex = !!props.get_ComplexFormPr(), // is complex form
@@ -1998,7 +1987,8 @@ define([
         textLang: 'Language',
         textDefValue: 'Default value',
         textCheckDefault: 'Checkbox is checked by default',
-        textRadioDefault: 'Button is checked by default'
+        textRadioDefault: 'Button is checked by default',
+        txtEmpty: '(Empty)'
 
     }, DE.Views.FormSettings || {}));
 });
