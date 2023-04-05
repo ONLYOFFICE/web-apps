@@ -63,6 +63,12 @@
             <div id="form-txt-def-value"></div>
         </td>
     </tr>
+    <tr class="form-datetime">
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textDefValue %></label>
+            <div id="form-date-def-value"></div>
+        </td>
+    </tr>
     <tr class="form-textfield">
         <td class="padding-small">
             <div class="separator horizontal"></div>

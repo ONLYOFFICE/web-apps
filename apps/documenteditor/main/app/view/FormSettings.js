@@ -208,6 +208,25 @@ define([
                 setTimeout(function(){me.txtDefValue._input && me.txtDefValue._input.select();}, 1);
             });
 
+            this.txtDateDefValue = new Common.UI.InputFieldBtnCalendar({
+                el          : $markup.findById('#form-date-def-value'),
+                allowBlank  : true,
+                validateOnChange: false,
+                validateOnBlur: false,
+                style       : 'width: 100%;',
+                value       : '',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.lockedControls.push(this.txtDefValue);
+            this.txtDateDefValue.on('changed:after', this.onTxtDefChanged.bind(this));
+            this.txtDateDefValue.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.txtDateDefValue.on('date:click', this.onDateDefClick.bind(this));
+            this.txtDateDefValue.cmpEl.on('focus', 'input.form-control', function() {
+                setTimeout(function(){me.txtDateDefValue._input && me.txtDateDefValue._input.select();}, 1);
+            });
+
             this.cmbDefValue = new Common.UI.ComboBox({
                 el: $markup.findById('#form-combo-def-value'),
                 cls: 'input-group-nr',
@@ -801,6 +820,23 @@ define([
                 this.api.asc_SetFormValue(newValue, this.internalId);
                 if (!e.relatedTarget || (e.relatedTarget.localName != 'input' && e.relatedTarget.localName != 'textarea') || !/form-control/.test(e.relatedTarget.className))
                     this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onDateDefClick: function(input, date) {
+            if (this.api && !this._noApply) {
+                // var props   = this._originalProps || new AscCommon.CContentControlPr();
+                // var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
+                // formPr.put_DefValueText(newValue);
+                // props.put_FormPr(formPr);
+                // this.api.asc_SetContentControlProperties(props, this.internalId);
+                var formDatePr = new AscCommon.CSdtDatePickerPr();
+                formDatePr.put_DateFormat(this.cmbDateFormat.getValue());
+                formDatePr.put_LangId(this.cmbLang.getValue());
+                var str = formDatePr.get_String();
+                input.setValue(str);
+                this.api.asc_SetFormValue(str, this.internalId);
+                this.fireEvent('editcomplete', this);
             }
         },
 
@@ -1589,6 +1625,13 @@ define([
                     var format = datePr.get_DateFormat();
                     this.cmbDateFormat.setValue(format, datePr.get_String());
                     this._state.DateFormat=format;
+
+                    // val = this.api.asc_GetFormValue(this.internalId);
+                    // if ( this._state.DefDateValue!==val ) {
+                    //     this.txtDateDefValue.setValue(val || '');
+                    //     this.setDate(new Date(val));
+                    //     this._state.DefDateValue=val;
+                    // }
                 }
 
                 var isComplex = !!props.get_ComplexFormPr(), // is complex form

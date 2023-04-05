@@ -667,7 +667,7 @@ define([
                 cls: '',
                 style: '',
                 value: '',
-                type: 'date',
+                type: 'text',
                 name: '',
                 validation: null,
                 allowBlank: true,
