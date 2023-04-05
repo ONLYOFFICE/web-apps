@@ -5,13 +5,11 @@ import { Page, Navbar, List, ListItem, BlockTitle, Toggle, NavRight, f7, Link, L
 import { useTranslation } from "react-i18next";
 import PasswordField from '../../components/PasswordField/PasswordField';
 
-const ProtectionDocumentView = inject("storeAppOptions")(observer(props => {
+const ProtectionDocumentView = props => {
     const { t } = useTranslation();
     const _t = t("Settings", { returnObjects: true });
     const isIos = Device.ios;
-    const appOptions = props.storeAppOptions;
-    const typeProtection = appOptions.typeProtection;
-    const [stateTypeProtection, setStateTypeProtection] = useState(typeProtection);
+    const [stateTypeProtection, setStateTypeProtection] = useState(Asc.c_oAscEDocProtect.ReadOnly);
     const [isRequirePassword, setRequirePassword] = useState(false);
     const [password, changePassword] = useState('');
     const [passwordRepeat, changeRepeationPassword] = useState('');
@@ -87,6 +85,6 @@ const ProtectionDocumentView = inject("storeAppOptions")(observer(props => {
             </Block>
         </Page>
     )
-}));
+};
 
 export default ProtectionDocumentView;
