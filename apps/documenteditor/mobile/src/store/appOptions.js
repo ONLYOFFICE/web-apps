@@ -54,7 +54,7 @@ export class storeAppOptions {
         this.isProtected = value;
     }
 
-    typeProtection = null;
+    typeProtection;
     setTypeProtection(type) {
         this.typeProtection = type;
     }
