@@ -101,7 +101,7 @@ define([
                         if ( config.isFillFormApp ) {
                             $("#title-doc-name")[obj.singlewindow ? 'hide' : 'show']();
                         } else {
-                            titlebuttons.home && titlebuttons.home.btn.setVisible(obj.singlewindow);
+                            titlebuttons && titlebuttons.home && titlebuttons.home.btn.setVisible(obj.singlewindow);
                         }
                     }
                 } else
