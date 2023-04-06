@@ -828,13 +828,13 @@ define([
 
         onDateDefClick: function(input, date) {
             if (this.api && !this._noApply) {
-                var formDatePr = new AscCommon.CSdtDatePickerPr();
-                formDatePr.put_DateFormat(this.cmbDateFormat.getValue());
-                formDatePr.put_LangId(this.cmbLang.getValue());
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var formDatePr = this._originalDateProps || new AscCommon.CSdtDatePickerPr();
                 formDatePr.put_FullDate(date);
-                var str = formDatePr.get_String();
-                input.setValue(str);
-                this.api.asc_SetFormValue(str, this.internalId);
+                props.put_DateTimePr(formDatePr);
+                props.put_PlaceholderText(formDatePr.get_String());
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+
                 this.fireEvent('editcomplete', this);
             }
         },
