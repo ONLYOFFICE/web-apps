@@ -219,7 +219,7 @@ define([
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
-            this.lockedControls.push(this.txtDefValue);
+            this.lockedControls.push(this.txtDateDefValue);
             this.txtDateDefValue.on('changed:after', this.onTxtDefChanged.bind(this));
             this.txtDateDefValue.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
             this.txtDateDefValue.on('date:click', this.onDateDefClick.bind(this));
