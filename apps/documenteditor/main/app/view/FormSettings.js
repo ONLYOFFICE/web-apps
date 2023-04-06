@@ -831,6 +831,7 @@ define([
                 var formDatePr = new AscCommon.CSdtDatePickerPr();
                 formDatePr.put_DateFormat(this.cmbDateFormat.getValue());
                 formDatePr.put_LangId(this.cmbLang.getValue());
+                formDatePr.put_FullDate(date);
                 var str = formDatePr.get_String();
                 input.setValue(str);
                 this.api.asc_SetFormValue(str, this.internalId);
