@@ -237,6 +237,11 @@ define([
                 dataHint: '1',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big',
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem" style="<% if (item.value=="") { %> opacity: 0.6 <% } %>"><%= scope.getDisplayValue(item) %></a></li>',
+                    '<% }); %>'
+                ].join('')),
                 updateFormControl: function(record) {
                     record && this.setRawValue(record.get('value'));
                 }
@@ -1304,7 +1309,7 @@ define([
                             arr.forEach(function(item) {
                                 item.value = item.displayValue = item.name;
                             });
-                            arr.unshift({value: '', displayValue: (this._state.placeholder.trim()!=='') ? this._state.placeholder : this.txtEmpty});
+                            (arr.length>0) && arr.unshift({value: '', displayValue: this.txtEmpty});
                             this.cmbDefValue.setData(arr);
                             this.cmbDefValue.setDisabled(arr.length<1);
                             this.cmbDefValue.setValue(this.api.asc_GetFormValue(this.internalId) || '');
