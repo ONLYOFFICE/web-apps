@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -186,6 +185,8 @@ define([
                             me.view.disableReplaceButtons(true);
                             clearInterval(me.searchTimer);
                             me.searchTimer = undefined;
+
+                            Common.NotificationCenter.trigger('search:updateresults');
                         }
                     }, 10);
                 }
@@ -211,6 +212,8 @@ define([
                 this._state.currentResult = 0;
                 this._state.resultsNumber = 0;
                 this.view.disableNavButtons();
+
+                Common.NotificationCenter.trigger('search:updateresults');
                 return false;
             }
             if (update && this.view.$el.is(':visible') && this.view.$resultsContainer.find('.many-results').length === 0) {
@@ -348,7 +351,14 @@ define([
                     var el = document.createElement("div"),
                         isSelected = ind === me._state.currentResult;
                     el.className = 'item';
-                    el.innerHTML = item[1].trim();
+                    var innerHtml = "";
+                    for (var i = 0, count = item[1].length; i < count; ++i) {
+                        if (1 == i)
+                            innerHtml += "<b>" + Common.Utils.String.htmlEncode(item[1][i]) + "</b>";
+                        else
+                            innerHtml += Common.Utils.String.htmlEncode(item[1][i]);
+                    }
+                    el.innerHTML = innerHtml.trim();
                     me.view.$resultsContainer.append(el);
                     if (isSelected) {
                         $(el).addClass('selected');
@@ -483,6 +493,10 @@ define([
 
         getSearchText: function () {
             return this._state.searchText;
+        },
+
+        getResultsNumber: function () {
+            return [this._state.currentResult, this._state.resultsNumber];
         },
 
         notcriticalErrorTitle: 'Warning',

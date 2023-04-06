@@ -140,8 +140,8 @@ const Search = withTranslation()(props => {
     useEffect(() => {
         if (f7.searchbar.get('.searchbar')?.enabled && Device.phone) {
             const api = Common.EditorApi.get();
-            $$('.searchbar-input').focus();
             api.asc_enableKeyEvents(false);
+            $$('.searchbar-input').focus();
         }
     });
 

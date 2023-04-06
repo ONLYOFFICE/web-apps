@@ -93,7 +93,7 @@ const AddLink = props => {
             <Navbar className="navbar-link-settings">
                 <NavLeft>
                     <Link text={Device.ios ? t('View.Add.textCancel') : ''} onClick={() => {
-                        props.isNavigate ? f7.views.current.router.back() : props.closeModal();
+                        props.isNavigate ? f7.views.current.router.back() : props.closeModal('#add-link-popup', '#add-link-popover');
                     }}>
                         {Device.android && <Icon icon='icon-close' />}
                     </Link>

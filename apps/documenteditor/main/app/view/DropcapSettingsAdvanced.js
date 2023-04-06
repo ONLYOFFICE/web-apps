@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  DropcapSettingsAdvanced.js
  *
@@ -142,18 +141,7 @@ define([
             this.cmbBorderSize = new Common.UI.ComboBorderSize({
                 el          : $('#drop-advanced-input-bordersize'),
                 style       : 'width: 90px;',
-                store       : new Backbone.Collection(),
-                takeFocusOnClose: true,
-                data: [
-                    {id: Common.UI.getId(), displayValue: this.txtNoBorders,   value: 0,    borderstyle: ''},
-                    {id: Common.UI.getId(), displayValue: '0.5 ' + txtPt,            value: 0.5,  pxValue: 0.5,   offsety: 0},
-                    {id: Common.UI.getId(), displayValue: '1 ' + txtPt,              value: 1,    pxValue: 1,     offsety: 20},
-                    {id: Common.UI.getId(), displayValue: '1.5 ' + txtPt,            value: 1.5,  pxValue: 2,     offsety: 40},
-                    {id: Common.UI.getId(), displayValue: '2.25 ' + txtPt,           value: 2.25, pxValue: 3,     offsety: 60},
-                    {id: Common.UI.getId(), displayValue: '3 ' + txtPt,              value: 3,    pxValue: 4,     offsety: 80},
-                    {id: Common.UI.getId(), displayValue: '4.5 ' + txtPt,            value: 4.5,  pxValue: 6,     offsety: 100},
-                    {id: Common.UI.getId(), displayValue: '6 ' + txtPt,              value: 6,    pxValue: 8,     offsety: 120}
-                ]
+                takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
                 this.BorderSize = {ptValue: record.value, pxValue: record.pxValue};
                 this.tableStyler.setVirtualBorderSize(this.BorderSize.pxValue);
@@ -1170,7 +1158,6 @@ define([
         textBorderColor:        'Border Color',
         textBackColor:          'Background Color',
         textBorderDesc:         'Click on diagramm or use buttons to select borders',
-        txtNoBorders:           'No borders',
         textPosition: 'Position',
         textAlign: 'Alignment',
         textTop:            'Top',

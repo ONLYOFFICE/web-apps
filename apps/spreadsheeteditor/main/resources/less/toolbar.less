@@ -22,10 +22,18 @@
     .font-attr {
         > .btn-slot:not(:last-child):not(.split) {
             margin-right: 2px;
+            .rtl & {
+                margin-right: 0;
+                margin-left: 2px;
+            }
         }
 
         > .btn-slot.split:not(:last-child) {
             margin-right: 2px;
+            .rtl & {
+                margin-right: 0;
+                margin-left: 2px;
+            }
         }
     }
 
@@ -34,9 +42,16 @@
 
         > .btn-slot {
             float: left;
+            .rtl & {
+                float: right;
+            }
 
             &:not(:first-child) {
                 margin-left: 2px;
+                .rtl & {
+                    margin-left: 0;
+                    margin-right: 2px;
+                }
             }
         }
 
@@ -81,28 +96,16 @@
 #id-toolbar-mnu-item-border-width,
 #format-rules-borders-border-width {
     .border-size-item {
-        background: ~"url(@{app-image-const-path}/toolbar/BorderSize.png) no-repeat scroll 0 0";
-        background-size: 60px auto;
         width: 60px;
         height: 20px;
         margin: -3px 10px -2px;
-        filter: @img-border-type-filter;
-
-        .pixel-ratio__1_25 & {
-            background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize@1.25x.png)";
-        }
-
-        .pixel-ratio__1_5 & {
-            background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize@1.5x.png)";
-            //background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize@1.5x.png)";
-        }
-
-        .pixel-ratio__1_75 & {
-            background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize@1.75x.png)";
-        }
-
-        .pixel-ratio__2 & {
-            background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize@2x.png)";
+        svg{
+            display: inline-block;
+            height: 3px;
+            width: 100%;
+            fill: @text-normal-ie;
+            fill: @text-normal;
+            shape-rendering: crispEdges;
         }
     }
 }
@@ -159,47 +162,6 @@
     }
 }
 
-.custom-scale {
-    padding: 5px 5px 5px 20px;
-    font-weight: normal;
-    line-height: 1.42857143;
-    font-size: 11px;
-    height: 32px;
-    .rtl & {
-        padding: 5px 20px 5px 5px;
-    }
-    .title {
-        padding-top: 3px;
-        padding-right: 5px;
-        .rtl & {
-            padding-right: 0;
-            padding-left: 5px;
-            float: right;
-        }
-    }
-    #custom-scale-up {
-        float:right;
-        .rtl & {
-            float: left;
-        }
-    }
-    #value-custom-scale {
-        float:right;
-        padding: 3px 3px;
-        min-width: 40px;
-        text-align: center;
-        .rtl & {
-            float: left;
-        }
-    }
-    #custom-scale-down {
-        float:right;
-        .rtl & {
-            float: left;
-        }
-    }
-}
-
 #id-toolbar-menu-table-templates {
     .group-description {
         padding: 3px 0 3px 10px;
@@ -242,7 +204,6 @@
 
         .rtl & {
             padding: 3px 10px 3px 0;
-            text-align: right;
         }
     } 
     

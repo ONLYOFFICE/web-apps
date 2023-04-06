@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -512,7 +511,7 @@ define([
             var itemsTemplate =
                 [
                     '<% _.each(items, function(item) { %>',
-                        '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem" style="padding-left: 10px;">',
+                        '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem" style="padding-left: 10px;overflow: hidden; text-overflow: ellipsis;">',
                             '<span class="color" style="background: <%= item.color %>;"></span>',
                             '<%= item.displayValue %>',
                         '</a></li>',
@@ -521,7 +520,7 @@ define([
 
             var template = [
                 '<div class="input-group combobox input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                    '<div class="form-control" style="display: block; padding-top:3px; line-height: 14px; cursor: pointer; <%= style %>"></div>',
+                    '<div class="form-control" style="display: block; padding-top:3px; line-height: 14px; cursor: pointer; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;<%= style %>"></div>',
                     '<div style="display: table-cell;"></div>',
                     '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>',
                     '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">'].concat(itemsTemplate).concat([
@@ -533,8 +532,8 @@ define([
                 el: $markup.findById('#form-combo-roles'),
                 cls: 'menu-roles',
                 menuCls: 'menu-absolute',
-                menuStyle: 'min-width: 195px; max-height: 190px;',
-                style: 'width: 100%;',
+                menuStyle: 'min-width: 194px; max-height: 190px;max-width: 400px;',
+                style: 'width: 194px;',
                 editable: false,
                 template    : _.template(template.join('')),
                 itemsTemplate: _.template(itemsTemplate.join('')),
@@ -660,7 +659,7 @@ define([
                 setTimeout(function(){me.cmbDateFormat._input && me.cmbDateFormat._input.select();}, 1);
             });
 
-            var data = [{ value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0C07 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
+            var data = [{ value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0406 }, { value: 0x0C07 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
                 { value: 0x040B }, { value: 0x040C }, { value: 0x100C }, { value: 0x0410 }, { value: 0x0810 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x040E }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
                 { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }];
             data.forEach(function(item) {
@@ -1536,7 +1535,10 @@ define([
                     menu        : true,
                     colors: ['FEF8E5', 'FFEFBF', 'E2EFD8', 'C6E0B3', 'EDEDED', 'DBDBDB', 'CDD6E4', 'A2B2CA', 'F2F2F2', 'D9D9D9', 'DDEBF6', 'C2DDF2', 'FBECE2',
                             'F7D9C6', 'D6E3EE', 'B9CAE7', 'F2DADA', 'F2C2C2', 'F0DDF6', 'E5C2F2', 'E6FBD6', 'CDF7AC', 'EED6D6', 'E7B9B9', 'CCE1FF', '9AC4FF', 'E4CDDB', 'D9ADC7'],
+                    themecolors: 0,
+                    effects: 0,
                     dataHint: '1',
+                    colorHints: false,
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
                 });
@@ -1703,7 +1705,8 @@ define([
             }
 
             if (!roles) {
-                roles = this.api.asc_GetOForm().asc_getAllRoles();
+                var oform = this.api.asc_GetOForm();
+                oform && (roles = oform.asc_getAllRoles());
 
                 // change to event asc_onRefreshRolesList
                 // roles = [

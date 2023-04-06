@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  DocumentHolder.js
  *
@@ -140,6 +139,18 @@ define([
                 isHidden: true,
                 isVisible: false
             };
+            me.eyedropperTip = {
+                toolTip: new Common.UI.Tooltip({
+                    owner: this,
+                    html: true,
+                    cls: 'eyedropper-tooltip'
+                }),
+                isHidden: true,
+                isVisible: false,
+                eyedropperColor: null,
+                tipInterval: null,
+                isTipVisible: false
+            }
             me.userTooltip = true;
             me.wrapEvents = {
                 userTipMousover: _.bind(me.userTipMousover, me),
@@ -171,6 +182,7 @@ define([
                     /** coauthoring begin **/
                     me.userTipHide();
                     /** coauthoring end **/
+                    me.hideEyedropper();
                     me.mode && me.mode.isDesktopApp && me.api && me.api.asc_onShowPopupWindow();
 
                 },
@@ -184,6 +196,7 @@ define([
                     me.userTipHide();
                     /** coauthoring end **/
                     me.hideTips();
+                    me.hideEyedropper();
                     me.onDocumentHolderResize();
                 }
             });
@@ -216,7 +229,7 @@ define([
                     this.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(this.onHideMathTrack, this));
                     this.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Image, _.bind(this.onInsertImage, this));
                     this.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.ImageUrl, _.bind(this.onInsertImageUrl, this));
-
+                    this.api.asc_registerCallback('asc_onHideEyedropper',           _.bind(this.hideEyedropper, this));
                 }
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',        _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect',                      _.bind(this.onCoAuthoringDisconnect, this));
@@ -232,6 +245,7 @@ define([
                     this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
                     this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
                 }
+                this.api.asc_registerCallback('onPluginContextMenu',                 _.bind(this.onPluginContextMenu, this));
                 this.documentHolder.setApi(this.api);
             }
 
@@ -475,6 +489,7 @@ define([
                 }, 10);
 
                 me.documentHolder.currentMenu = menu;
+                me.api.onPluginContextMenuShow && me.api.onPluginContextMenuShow();
             }
         },
 
@@ -945,6 +960,17 @@ define([
             /** coauthoring end **/
         },
 
+        hideEyedropper: function () {
+            if (this.eyedropperTip.isVisible) {
+                this.eyedropperTip.isVisible = false;
+                this.eyedropperTip.eyedropperColor.css({left: '-1000px', top: '-1000px'});
+            }
+            if (this.eyedropperTip.isTipVisible) {
+                this.eyedropperTip.isTipVisible = false;
+                this.eyedropperTip.toolTip.hide();
+            }
+        },
+
         onMouseMoveStart: function() {
             var me = this;
             me.screenTip.isHidden = true;
@@ -974,6 +1000,9 @@ define([
                     me.mouseMoveData = null;
                 });
             }
+            if (me.eyedropperTip.isHidden) {
+                me.hideEyedropper();
+            }
         },
 
         onMouseMove: function(moveData) {
@@ -995,7 +1024,7 @@ define([
                     type = moveData.get_Type();
 
                 if (type==Asc.c_oAscMouseMoveDataTypes.Hyperlink || type==Asc.c_oAscMouseMoveDataTypes.Footnote || type==Asc.c_oAscMouseMoveDataTypes.Form ||
-                    type==Asc.c_oAscMouseMoveDataTypes.Review && me.mode.reviewHoverMode) {
+                    type==Asc.c_oAscMouseMoveDataTypes.Review && me.mode.reviewHoverMode || type==Asc.c_oAscMouseMoveDataTypes.Eyedropper) {
                     if (me.isTooltipHiding) {
                         me.mouseMoveData = moveData;
                         return;
@@ -1026,6 +1055,57 @@ define([
                             if (ToolTip.length>1000)
                                 ToolTip = ToolTip.substr(0, 1000) + '...';
                         }
+                    } else if (type==Asc.c_oAscMouseMoveDataTypes.Eyedropper) {
+                        if (me.eyedropperTip.isTipVisible) {
+                            me.eyedropperTip.isTipVisible = false;
+                            me.eyedropperTip.toolTip.hide();
+                        }
+
+                        var color = moveData.get_EyedropperColor().asc_getColor(),
+                            r = color.get_r(),
+                            g = color.get_g(),
+                            b = color.get_b(),
+                            hex = Common.Utils.ThemeColor.getHexColor(r,g,b);
+                        if (!me.eyedropperTip.eyedropperColor) {
+                            var colorEl = $(document.createElement("div"));
+                            colorEl.addClass('eyedropper-color');
+                            colorEl.appendTo(document.body);
+                            me.eyedropperTip.eyedropperColor = colorEl;
+                            $('#id_main_view').on('mouseleave', _.bind(me.hideEyedropper, me));
+                        }
+                        me.eyedropperTip.eyedropperColor.css({
+                            backgroundColor: '#' + hex,
+                            left: (moveData.get_X() + me._XY[0] + 23) + 'px',
+                            top: (moveData.get_Y() + me._XY[1] - 53) + 'px'
+                        });
+                        me.eyedropperTip.isVisible = true;
+
+                        if (me.eyedropperTip.tipInterval) {
+                            clearInterval(me.eyedropperTip.tipInterval);
+                        }
+                        me.eyedropperTip.tipInterval = setInterval(function () {
+                            clearInterval(me.eyedropperTip.tipInterval);
+                            if (me.eyedropperTip.isVisible) {
+                                ToolTip = '<div>RGB(' + r + ',' + g + ',' + b + ')</div>' +
+                                    '<div>' + moveData.get_EyedropperColor().asc_getName() + '</div>';
+                                me.eyedropperTip.toolTip.setTitle(ToolTip);
+                                me.eyedropperTip.isTipVisible = true;
+                                me.eyedropperTip.toolTip.show([-10000, -10000]);
+                                me.eyedropperTip.tipWidth = me.eyedropperTip.toolTip.getBSTip().$tip.width();
+                                showPoint = [moveData.get_X(), moveData.get_Y()];
+                                showPoint[1] += (me._XY[1] - 57);
+                                showPoint[0] += (me._XY[0] + 58);
+                                if (showPoint[0] + me.eyedropperTip.tipWidth > me._BodyWidth ) {
+                                    showPoint[0] = showPoint[0] - me.eyedropperTip.tipWidth - 40;
+                                }
+                                me.eyedropperTip.toolTip.getBSTip().$tip.css({
+                                    top: showPoint[1] + 'px',
+                                    left: showPoint[0] + 'px'
+                                });
+                            }
+                        }, 800);
+                        me.eyedropperTip.isHidden = false;
+                        return;
                     }
 
                     var recalc = false;
@@ -2533,12 +2613,18 @@ define([
         },
 
         onInsertImage: function(obj, x, y) {
+            if (!this.documentHolder || this.documentHolder._docProtection.isReadOnly || this.documentHolder._docProtection.isFormsOnly || this.documentHolder._docProtection.isCommentsOnly)
+                return;
+
             if (this.api)
                 this.api.asc_addImage(obj);
             this.editComplete();
         },
 
         onInsertImageUrl: function(obj, x, y) {
+            if (!this.documentHolder || this.documentHolder._docProtection.isReadOnly || this.documentHolder._docProtection.isFormsOnly || this.documentHolder._docProtection.isCommentsOnly)
+                return;
+
             var me = this;
             (new Common.Views.ImageFromUrlDialog({
                 handler: function(result, value) {
@@ -2553,6 +2639,12 @@ define([
                     me.editComplete();
                 }
             })).show();
+        },
+
+        onPluginContextMenu: function(data) {
+            if (data && data.length>0 && this.documentHolder && this.documentHolder.currentMenu && this.documentHolder.currentMenu.isVisible()){
+                this.documentHolder.updateCustomItems(this.documentHolder.currentMenu, data);
+            }
         },
 
         editComplete: function() {

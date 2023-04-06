@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2022
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  * User: Julia.Radzhabova
  * Date: 22.02.2022
@@ -144,6 +143,7 @@ define([
         onPluginShow: function(plugin, variationIndex, frameId, urlAddition) {
             var variation = plugin.get_Variations()[variationIndex];
             if (variation.get_Visual()) {
+                var lang = this.appOptions && this.appOptions.lang ? this.appOptions.lang.split(/[\-_]/)[0] : 'en';
                 var url = variation.get_Url();
                 url = ((plugin.get_BaseUrl().length == 0) ? url : plugin.get_BaseUrl()) + url;
                 if (urlAddition)
@@ -167,20 +167,24 @@ define([
                 me.pluginDlg = new Common.Views.PluginDlg({
                     cls: isCustomWindow ? 'plain' : '',
                     header: !isCustomWindow,
-                    title: plugin.get_Name(),
+                    title: plugin.get_Name(lang),
                     width: size[0], // inner width
                     height: size[1], // inner height
                     url: url,
                     frameId : frameId,
                     buttons: isCustomWindow ? undefined : newBtns,
-                    toolcallback: _.bind(this.onToolClose, this),
+                    toolcallback: function(event) {
+                        me.api.asc_pluginButtonClick(-1, plugin.get_Guid());
+                    },
                     help: !!help,
                     loader: plugin.get_Loader(),
                     modal: isModal!==undefined ? isModal : true
                 });
                 me.pluginDlg.on({
                     'render:after': function(obj){
-                        obj.getChild('.footer .dlg-btn').on('click', _.bind(me.onDlgBtnClick, me));
+                        obj.getChild('.footer .dlg-btn').on('click', function(event) {
+                            me.api.asc_pluginButtonClick(parseInt(event.currentTarget.attributes['result'].value), plugin.get_Guid());
+                        });
                         me.pluginContainer = me.pluginDlg.$window.find('#id-plugin-container');
                     },
                     'close': function(obj){
@@ -215,15 +219,6 @@ define([
                 if (callback)
                     callback.call();
             }
-        },
-
-        onDlgBtnClick: function(event) {
-            var state = event.currentTarget.attributes['result'].value;
-            this.api.asc_pluginButtonClick(parseInt(state));
-        },
-
-        onToolClose: function() {
-            this.api.asc_pluginButtonClick(-1);
         },
 
         onPluginMouseUp: function(x, y) {

@@ -87,8 +87,30 @@
     .box {
         padding: 15px;
         display: flex;
-        input[type=text] {
-            width: 192px;
+        .search-input-group {
+            display: flex;
+            position: relative;
+            input[type=text] {
+                width: 192px;
+                padding-right: 25px;
+                .rtl & {
+                    padding-right: 3px;
+                    padding-left: 25px;
+                }
+            }
+            #search-bar-results {
+                position: absolute;
+                right: 0;
+                height: 100%;
+                line-height: 22px;
+                padding: 0 4px;
+                color: @text-secondary-ie;
+                color: @text-secondary;
+                .rtl & {
+                    right: auto;
+                    left: 0;
+                }
+            }
         }
         .tools {
             display: flex;
@@ -97,6 +119,14 @@
                 margin-left: 5px;
                 &:first-of-type {
                     margin-left: 7px;
+                    .rtl & {
+                        margin-left: 0;
+                        margin-right: 7px;
+                    }
+                }
+                .rtl & {
+                    margin-left: 0;
+                    margin-right: 5px;
                 }
             }
         }
@@ -264,7 +294,6 @@
         width: 100%;
         border-top: @scaled-one-px-value-ie solid @border-toolbar-ie;
         border-top: @scaled-one-px-value solid @border-toolbar;
-        padding: 12px 0;
         overflow: hidden;
 
         .item {

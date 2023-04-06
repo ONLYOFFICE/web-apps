@@ -265,6 +265,17 @@
                         margin: 0 4px 0 1px;
                     }
                 }
+
+                .emptycaption & {
+                    width: 37px;
+                    .caret {
+                        margin: 0 1px 0 2px;
+
+                        .rtl & {
+                            margin: 0 2px 0 1px;
+                        }
+                    }
+                }
             }
 
             .pixel-ratio__2_5 & {
@@ -302,7 +313,6 @@
                 //max-width: 100px;
             }
         }
-
     }
 
     .inner-box-icon {
@@ -480,11 +490,27 @@
         width: 14px;
         height: 3px;
         background-color: red;
+        .rtl & {
+            left: auto;
+            right: 3px;
+        }
         &.bordered {
             border: @scaled-one-px-value-ie solid @border-regular-control-ie;
             border: @scaled-one-px-value solid @border-regular-control;
         }
-
+        .x-huge & {
+            left: 8px;
+            width: 28px;
+            height: 6px;
+            .rtl & {
+                left: auto;
+                right: 8px;
+            }
+        }
+        .x-huge.split & {
+            bottom: auto;
+            top: 4px;
+        }
 
         .pixel-ratio__1_5 & {
             height: 4px;
@@ -503,16 +529,6 @@
         .rtl & {
             text-align: right;
         }
-    }
-
-    .pixel-ratio__2_5 & {
-        i.icon {
-            display: none;
-        }
-    }
-
-    & svg.icon:not(.pixel-ratio__2_5 *) {
-        display: none;
     }
 }
 
@@ -852,6 +868,27 @@
     }
 }
 
+.color-menu.dropdown-menu.shifted-right {
+    li > a {
+        padding-left: 32px;
+
+        .rtl & {
+            padding-left: 20px;
+            padding-right: 32px;
+        }
+
+        span.color-auto {
+            margin-left: -18px;
+            margin-top: 1px;
+
+            .rtl & {
+                margin-left: 0;
+                margin-right: -18px;
+            }
+        }
+    }
+}
+
 
 .btn-options {
     padding: 0;
@@ -922,6 +959,11 @@
         width: auto;
         padding-left: 10px;
         padding-right: 10px;
+    }
+
+    &:not(.auto) {
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     &:focus:not(.disabled) {

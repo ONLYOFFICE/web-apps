@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *    FileMenuPanels.js
  *
@@ -154,18 +153,18 @@ define([
         menu: undefined,
 
         formats: [[
-            {name: 'PPTX',  imgCls: 'pptx',  type: Asc.c_oAscFileType.PPTX},
-            {name: 'PPSX',  imgCls: 'ppsx',  type: Asc.c_oAscFileType.PPSX},
-            {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF},
-            {name: 'ODP',   imgCls: 'odp',   type: Asc.c_oAscFileType.ODP}
+            {name: 'PPTX',  imgCls: 'pptx',  type: Asc.c_oAscFileType.PPTX, ext: '.pptx'},
+            {name: 'PPSX',  imgCls: 'ppsx',  type: Asc.c_oAscFileType.PPSX, ext: '.ppsx'},
+            {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF, ext: '.pdf'},
+            {name: 'ODP',   imgCls: 'odp',   type: Asc.c_oAscFileType.ODP, ext: '.odp'}
         ],[
-            {name: 'POTX',  imgCls: 'potx',   type: Asc.c_oAscFileType.POTX},
-            {name: 'PPTM',  imgCls: 'pptm',  type: Asc.c_oAscFileType.PPTM},
-            {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA},
-            {name: 'OTP',   imgCls: 'otp',   type: Asc.c_oAscFileType.OTP}
+            {name: 'POTX',  imgCls: 'potx',   type: Asc.c_oAscFileType.POTX, ext: '.potx'},
+            {name: 'PPTM',  imgCls: 'pptm',  type: Asc.c_oAscFileType.PPTM, ext: '.pptm'},
+            {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA, ext: '.pdf'},
+            {name: 'OTP',   imgCls: 'otp',   type: Asc.c_oAscFileType.OTP, ext: '.otp'}
         ], [
-            {name: 'JPG',   imgCls: 'jpg',  type: Asc.c_oAscFileType.JPG},
-            {name: 'PNG',   imgCls: 'png',  type: Asc.c_oAscFileType.PNG}
+            {name: 'JPG',   imgCls: 'jpg',  type: Asc.c_oAscFileType.JPG, ext: '.zip'},
+            {name: 'PNG',   imgCls: 'png',  type: Asc.c_oAscFileType.PNG, ext: '.zip'}
         ]],
 
         template: _.template([
@@ -174,8 +173,8 @@ define([
                 '<div class="format-items">',
                     '<% _.each(rows, function(row) { %>',
                         '<% _.each(row, function(item) { %>',
-                            '<% if (item.type!==Asc.c_oAscFileType.DOCM || fileType=="docm") { %>',
-                                '<div class="format-item"><div class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
+                            '<% if (item.type!==Asc.c_oAscFileType.PPTM || fileType=="pptm") { %>',
+                                '<div class="format-item"><div class="btn-doc-format" format="<%= item.type %>" format-ext="<%= item.ext %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
                                     '<div class ="svg-format-<%= item.imgCls %>"></div>',
                                 '</div></div>',
                             '<% } %>',
@@ -256,7 +255,7 @@ define([
         template: _.template([
         '<div class="flex-settings">',
             '<div class="header"><%= scope.txtAdvancedSettings %></div>',
-            '<table style="margin: 0 14px 0 20px;"><tbody>',
+            '<table><tbody>',
                 '<tr class="editsave">',
                     '<td colspan="2" class="group-name top"><label><%= scope.txtEditingSaving %></label></td>',
                 '</tr>',
@@ -2002,7 +2001,7 @@ define([
                                     '<tr class="fms-btn-apply"><td>',
                                         '<div class="footer justify">',
                                             '<button id="print-btn-print" class="btn normal dlg-btn primary" result="print" style="width: 96px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrint %></button>',
-                                            '<button id="print-btn-print-pdf" class="btn normal dlg-btn" result="pdf" style="width: 96px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrintPdf %></button>',
+                                            '<button id="print-btn-print-pdf" class="btn normal dlg-btn" result="pdf" style="min-width: 96px;width: auto;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrintPdf %></button>',
                                         '</div>',
                                     '</td></tr>',
                                 '</tbody>',

@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  Toolbar.js
  *
@@ -211,7 +210,8 @@ define([
                 wsLock: false,
                 wsProps: [],
                 is_lockText: false,
-                is_lockShape: false
+                is_lockShape: false,
+                isUserProtected: false
             };
             this.binding = {};
 
@@ -332,8 +332,12 @@ define([
                 toolbar.btnTextColor.on('click',                            _.bind(this.onTextColor, this));
                 toolbar.btnTextColor.on('color:select',                     _.bind(this.onTextColorSelect, this));
                 toolbar.btnTextColor.on('auto:select',                      _.bind(this.onAutoFontColor, this));
+                toolbar.btnTextColor.on('eyedropper:start',                 _.bind(this.onEyedropperStart, this));
+                toolbar.btnTextColor.on('eyedropper:end',                   _.bind(this.onEyedropperEnd, this));
                 toolbar.btnBackColor.on('click',                            _.bind(this.onBackColor, this));
                 toolbar.btnBackColor.on('color:select',                     _.bind(this.onBackColorSelect, this));
+                toolbar.btnBackColor.on('eyedropper:start',                 _.bind(this.onEyedropperStart, this));
+                toolbar.btnBackColor.on('eyedropper:end',                  _.bind(this.onEyedropperEnd, this));
                 toolbar.btnBorders.on('click',                              _.bind(this.onBorders, this));
                 if (toolbar.btnBorders.rendered) {
                     toolbar.btnBorders.menu.on('item:click',                    _.bind(this.onBordersMenu, this));
@@ -387,8 +391,12 @@ define([
                 toolbar.btnTextColor.on('click',                            _.bind(this.onTextColor, this));
                 toolbar.btnTextColor.on('color:select',                     _.bind(this.onTextColorSelect, this));
                 toolbar.btnTextColor.on('auto:select',                      _.bind(this.onAutoFontColor, this));
+                toolbar.btnTextColor.on('eyedropper:start',                 _.bind(this.onEyedropperStart, this));
+                toolbar.btnTextColor.on('eyedropper:end',                  _.bind(this.onEyedropperEnd, this));
                 toolbar.btnBackColor.on('click',                            _.bind(this.onBackColor, this));
                 toolbar.btnBackColor.on('color:select',                     _.bind(this.onBackColorSelect, this));
+                toolbar.btnBackColor.on('eyedropper:start',                 _.bind(this.onEyedropperStart, this));
+                toolbar.btnBackColor.on('eyedropper:end',                  _.bind(this.onEyedropperEnd, this));
                 toolbar.btnBorders.on('click',                              _.bind(this.onBorders, this));
                 if (toolbar.btnBorders.rendered) {
                     toolbar.btnBorders.menu.on('item:click',                    _.bind(this.onBordersMenu, this));
@@ -1646,7 +1654,7 @@ define([
         onNamedRangeMenuOpen: function(menu) {
             if (this.api && menu) {
                 var names = this.api.asc_getDefinedNames(Asc.c_oAscGetDefinedNamesList.WorksheetWorkbook);
-                menu.items[2].setDisabled(names.length<1);
+                menu.items[2].setDisabled(names.length<1 || this._state.isUserProtected);
             }
         },
 
@@ -1744,7 +1752,8 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar, {restorefocus:true});
         },
 
-        onComboOpen: function(needfocus, combo) {
+        onComboOpen: function(needfocus, combo, e, params) {
+            if (params && params.fromKeyDown) return;
             _.delay(function() {
                 var input = $('input', combo.cmpEl).select();
                 if (needfocus) input.focus();
@@ -2266,12 +2275,13 @@ define([
                     {id: 'menu-table-group-no-name',   caption: '&nbsp',                 templates: []},
                 ];
                 _.each(images, function(item) {
-                    var tip = item.asc_getDisplayName();
-                    var groupItem = '';
-                    
+                    var tip = item.asc_getDisplayName(),
+                        groupItem = '',
+                        lastWordInTip = null;
+
                     if (item.asc_getType()==0) {
-                        var arr = tip.split(' '),
-                            last = arr.pop();
+                        var arr = tip.split(' ');
+                        lastWordInTip = arr.pop();
                            
                         if(tip == 'None'){
                             groupItem = 'menu-table-group-light';
@@ -2285,7 +2295,8 @@ define([
                             }
                         }
                         arr = 'txtTable_' + arr.join('');
-                        tip = me[arr] ? me[arr] + ' ' + last : tip;
+                        tip = me[arr] ? me[arr] + ' ' + lastWordInTip : tip;
+                        lastWordInTip = parseInt(lastWordInTip);
                     }
                     else {
                         groupItem = 'menu-table-group-custom'
@@ -2298,9 +2309,21 @@ define([
                         group       : groupItem,  
                         allowSelected : true,
                         selected    : false,
-                        tip         : tip
+                        tip         : tip,
+                        numInGroup  : (lastWordInTip != null && !isNaN(lastWordInTip) ? lastWordInTip : null)
                     });
                 });
+
+                var sortFunc = function(a, b) {
+                    var aNum = a.numInGroup,
+                        bNum = b.numInGroup;
+                    return aNum - bNum;
+                };
+
+                
+                groups[1].templates.sort(sortFunc);
+                groups[2].templates.sort(sortFunc);
+                groups[3].templates.sort(sortFunc);
 
                 groups = groups.filter(function(item, index){
                     return item.templates.length > 0
@@ -2560,7 +2583,7 @@ define([
                     this._state.prstyle = undefined;
                 }
 
-                if ( this.appConfig.isDesktopApp && this.appConfig.canProtect ) {
+                if ( this.appConfig.isDesktopApp && (this.appConfig.isSignatureSupport || this.appConfig.isPasswordSupport) ) {
                     this.getApplication().getController('Common.Controllers.Protection').SetDisabled(is_cell_edited, false);
                 }
             } else {
@@ -2698,18 +2721,16 @@ define([
                     if (!isHeight) {
                         this.toolbar.menuHeightScale.items[11].setChecked(true);
                     }
-                    if (this.toolbar.btnCustomScaleUp && this.toolbar.btnCustomScaleDown) {
-                        this.toolbar.btnCustomScaleUp.setDisabled(!(!width && !height));
-                        this.toolbar.btnCustomScaleDown.setDisabled(!(!width && !height));
+                    if (this.toolbar.mnuScalePicker) {
+                        this.toolbar.mnuScalePicker.setDisabled(!(!width && !height));
                         this.toolbar.mnuCustomScale.setDisabled(!(!width && !height));
                     }
                     this._state.scaleWidth = width;
                     this._state.scaleHeight = height;
                     this._state.scale = scale;
                 } else {
-                    if (this.toolbar.btnCustomScaleUp && this.toolbar.btnCustomScaleDown) {
-                        this.toolbar.btnCustomScaleUp.setDisabled(!(!this._state.scaleWidth && !this._state.scaleHeight));
-                        this.toolbar.btnCustomScaleDown.setDisabled(!(!this._state.scaleWidth && !this._state.scaleHeight));
+                    if (this.toolbar.mnuScalePicker) {
+                        this.toolbar.mnuScalePicker.setDisabled(!(!this._state.scaleWidth && !this._state.scaleHeight));
                         this.toolbar.mnuCustomScale.setDisabled(!(!this._state.scaleWidth && !this._state.scaleHeight));
                     }
                 }
@@ -3175,8 +3196,7 @@ define([
                 toolbar.lockToolbar(Common.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate, toolbar.btnInsertHyperlink, toolbar.btnInsertTable]});
 
                 this._state.inpivot = !!info.asc_getPivotTableInfo();
-                toolbar.lockToolbar(Common.enumLock.editPivot, this._state.inpivot, { array: toolbar.btnsSetAutofilter.concat(toolbar.btnCustomSort,
-                                                                                          toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnInsertTable, toolbar.btnRemoveDuplicates, toolbar.btnDataValidation)});
+                toolbar.lockToolbar(Common.enumLock.editPivot, this._state.inpivot, { array: toolbar.btnsSetAutofilter.concat(toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnInsertTable, toolbar.btnRemoveDuplicates, toolbar.btnDataValidation)});
                 toolbar.lockToolbar(Common.enumLock.noSlicerSource, !(this._state.inpivot || formatTableInfo), { array: [toolbar.btnInsertSlicer]});
 
                 need_disable = !this.appConfig.canModifyFilter;
@@ -3270,8 +3290,10 @@ define([
             }
             toolbar.lockToolbar(Common.enumLock.itemsDisabled, !enabled, {array: [toolbar.btnDeleteCell]});
 
-
             toolbar.lockToolbar(Common.enumLock.headerLock, info.asc_getLockedHeaderFooter(), {array: this.toolbar.btnsEditHeader});
+
+            this._state.isUserProtected = info.asc_getUserProtected();
+            toolbar.lockToolbar(Common.enumLock.userProtected, this._state.isUserProtected);
         },
 
         onApiSelectionChangedRestricted: function(info) {
@@ -4505,7 +4527,7 @@ define([
                 var tab = {action: 'review', caption: me.toolbar.textTabCollaboration, layoutname: 'toolbar-collaboration', dataHintTitle: 'U'};
                 var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
                 if ($panel) {
-                    me.toolbar.addTab(tab, $panel, 6);
+                    me.toolbar.addTab(tab, $panel, 7);
                     me.toolbar.setVisible('review', (config.isEdit || config.canViewReview || config.canCoAuthoring && config.canComments) && Common.UI.LayoutManager.isElementVisible('toolbar-collaboration'));
                 }
             }
@@ -4520,6 +4542,16 @@ define([
                 me.toolbar.setApi(me.api);
 
                 if ( !config.isEditDiagram && !config.isEditMailMerge && !config.isEditOle ) {
+                    var drawtab = me.getApplication().getController('Common.Controllers.Draw');
+                    drawtab.setApi(me.api).setMode(config);
+                    $panel = drawtab.createToolbarPanel();
+                    if ($panel) {
+                        tab = {action: 'draw', caption: me.toolbar.textTabDraw, extcls: 'canedit', layoutname: 'toolbar-draw', dataHintTitle: 'C'};
+                        me.toolbar.addTab(tab, $panel, 2);
+                        me.toolbar.setVisible('draw', Common.UI.LayoutManager.isElementVisible('toolbar-draw'));
+                        Array.prototype.push.apply(me.toolbar.lockControls, drawtab.getView().getButtons());
+                    }
+
                     var datatab = me.getApplication().getController('DataTab');
                     datatab.setApi(me.api).setConfig({toolbar: me});
 
@@ -4547,7 +4579,7 @@ define([
                         pivottab.setApi(me.api).setConfig({toolbar: me});
                         $panel = pivottab.createToolbarPanel();
                         if ($panel) {
-                            me.toolbar.addTab(tab, $panel, 5);
+                            me.toolbar.addTab(tab, $panel, 6);
                             me.toolbar.setVisible('pivot', true);
                             Array.prototype.push.apply(me.toolbar.lockControls, pivottab.getView('PivotTable').getButtons());
                         }
@@ -4567,25 +4599,27 @@ define([
                         me.toolbar.processPanelVisible(null, true, true);
                     }
 
-                    var tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
-                    var $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
-                    if ($panel) {
-                        config.canProtect && $panel.append($('<div class="separator long"></div>'));
-                        var wbtab = me.getApplication().getController('WBProtection');
-                        $panel.append(wbtab.createToolbarPanel());
-                        me.toolbar.addTab(tab, $panel, 7);
-                        me.toolbar.setVisible('protect', Common.UI.LayoutManager.isElementVisible('toolbar-protect'));
-                        Array.prototype.push.apply(me.toolbar.lockControls, wbtab.getView('WBProtection').getButtons());
+                    if ( config.canProtect ) {
+                        var tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
+                        var $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                        if ($panel) {
+                            (config.isSignatureSupport || config.isPasswordSupport) && $panel.append($('<div class="separator long"></div>'));
+                            var wbtab = me.getApplication().getController('WBProtection');
+                            $panel.append(wbtab.createToolbarPanel());
+                            me.toolbar.addTab(tab, $panel, 8);
+                            me.toolbar.setVisible('protect', Common.UI.LayoutManager.isElementVisible('toolbar-protect'));
+                            Array.prototype.push.apply(me.toolbar.lockControls, wbtab.getView('WBProtection').getButtons());
+                        }
                     }
                 }
             }
             if ( !config.isEditDiagram && !config.isEditMailMerge && !config.isEditOle ) {
-                tab = {caption: me.toolbar.textTabView, action: 'view', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-view', dataHintTitle: 'W'};
+                var tab = {caption: me.toolbar.textTabView, action: 'view', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-view', dataHintTitle: 'W'};
                 var viewtab = me.getApplication().getController('ViewTab');
                 viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
-                $panel = viewtab.createToolbarPanel();
+                var $panel = viewtab.createToolbarPanel();
                 if ($panel) {
-                    me.toolbar.addTab(tab, $panel, 8);
+                    me.toolbar.addTab(tab, $panel, 9);
                     me.toolbar.setVisible('view', Common.UI.LayoutManager.isElementVisible('toolbar-view'));
                 }
                 config.isEdit && Array.prototype.push.apply(me.toolbar.lockControls, viewtab.getView('ViewTab').getButtons());
@@ -5019,6 +5053,15 @@ define([
             if (this.api) {
                 this.api.asc_createSmartArt(value);
             }
+        },
+
+        onEyedropperStart: function (btn) {
+            this.toolbar._isEyedropperStart = true;
+            this.api.asc_startEyedropper(_.bind(btn.eyedropperEnd, btn));
+        },
+
+        onEyedropperEnd: function () {
+            this.toolbar._isEyedropperStart = false;
         },
 
         textEmptyImgUrl     : 'You need to specify image URL.',

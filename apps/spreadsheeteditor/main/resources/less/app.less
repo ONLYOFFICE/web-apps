@@ -123,6 +123,8 @@
 @import "../../../../common/main/resources/less/symboltable.less";
 @import "../../../../common/main/resources/less/hint-manager.less";
 @import "../../../../common/main/resources/less/history.less";
+@import "../../../../common/main/resources/less/bigscaling.less";
+@import "../../../../common/main/resources/less/updown-picker.less";
 
 // App
 // --------------------------------------------------
@@ -160,6 +162,7 @@
 }
 
 .font-size-normal {
+    .fontsize(11px); // 11px
     .fontsize(@font-size-base-app); // 11px
 }
 
@@ -194,10 +197,10 @@
     border: 1px solid #dfdfdf;
     white-space: nowrap;
 
-    -webkit-animation: flickerAnimation 2s infinite ease-in-out;
-    -moz-animation: flickerAnimation 2s infinite ease-in-out;
-    -o-animation: flickerAnimation 2s infinite ease-in-out;
-    animation: flickerAnimation 2s infinite ease-in-out;
+    //-webkit-animation: flickerAnimation 2s infinite ease-in-out;
+    //-moz-animation: flickerAnimation 2s infinite ease-in-out;
+    //-o-animation: flickerAnimation 2s infinite ease-in-out;
+    //animation: flickerAnimation 2s infinite ease-in-out;
     
     > .columns {
         width: 100%;

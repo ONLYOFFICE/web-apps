@@ -247,6 +247,10 @@
             .header {
                 margin: 30px 0 20px 30px;
                 .font-size-very-huge();
+
+                .rtl & {
+                    margin: 30px 30px 20px 0;
+                }
             }
         }
 
@@ -258,6 +262,9 @@
             .header {
                 margin: 30px 0 16px 30px;
                 .font-size-very-huge();
+                .rtl & {
+                    margin: 30px 30px 16px 0;
+                }
             }
 
             #id-settings-menu {
@@ -299,6 +306,15 @@
                                 background-position-x: @button-small-active-icon-offset-x;
                             }
                         }
+                    }
+                }
+            }
+
+            .flex-settings {
+                table {
+                    margin: 0 14px 0 20px;
+                    .rtl & {
+                        margin: 0 20px 0 14px;
                     }
                 }
             }
@@ -795,7 +811,7 @@
                         font-weight: 700;
                     }
                 }
-                .pages {
+                .pages, .first-page {
                     label, #print-spin-pages-from {
                         margin-right: 6px;
                         .rtl & {
@@ -1058,7 +1074,8 @@
             top: 28px;
             width: 100%;
             overflow: hidden;
-            padding-bottom: 10px;
+            background-color: @background-normal-ie;
+            background-color: @background-normal;
             .item {
                 padding: 0;
                 display: flex;

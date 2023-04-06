@@ -427,7 +427,8 @@
     "unknownErrorText": "Errore ezezaguna.",
     "uploadImageExtMessage": "Irudi-formatu ezezaguna.",
     "uploadImageFileCountMessage": "Ez da irudirik kargatu.",
-    "uploadImageSizeMessage": "Irudia handiegia da. Gehienezko tamaina 25 MB da."
+    "uploadImageSizeMessage": "Irudia handiegia da. Gehienezko tamaina 25 MB da.",
+    "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization."
   },
   "LongActions": {
     "applyChangesTextText": "Datuak kargatzen...",
@@ -557,8 +558,10 @@
     "textRequestMacros": "Makro batek URL baterako eskaera egiten du. %1 URL-rako eskaera onartu nahi duzu?",
     "textYes": "Bai",
     "titleLicenseExp": "Lizentzia iraungi da",
+    "titleLicenseNotActive": "Lizentzia ez dago aktibo",
     "titleServerVersion": "Editorea eguneratu da",
     "titleUpdateVersion": "Bertsioa aldatu da",
+    "warnLicenseBefore": "Lizentzia ez dago aktibo.<br>Jarri zure administratzailearekin harremanetan.",
     "warnLicenseExceeded": "Aldibereko %1 editoreren konexio-mugara iritsi zara. Dokumentu hau ikusteko bakarrik irekiko da. Jarri harremanetan administratzailearekin informazio gehiago lortzeko.",
     "warnLicenseExp": "Zure lizentzia iraungi da. Mesedez, eguneratu zure lizentzia eta freskatu orria.",
     "warnLicenseLimitedNoAccess": "Lizentzia iraungi da. Ez daukazu dokumentu-edizio funtzionalitaterako sarbidea. Mesedez, kontaktatu zure administratzailea.",
@@ -566,7 +569,13 @@
     "warnLicenseUsersExceeded": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan zure administratzailearekin informazio gehiagorako.",
     "warnNoLicense": "Aldibereko %1 editoreren konexio-mugara iritsi zara. Dokumentu hau ikusteko bakarrik irekiko da. Jarri harremanetan %1 salmenta taldearekin eguneraketa pertsonalaren baldintzak jakiteko.",
     "warnNoLicenseUsers": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan %1 salmenta taldearekin mailaz igotzeko baldintzak ezagutzeko.",
-    "warnProcessRightsChange": "Ez duzu fitxategi hau editatzeko baimenik."
+    "warnProcessRightsChange": "Ez duzu fitxategi hau editatzeko baimenik.",
+    "titleDialogProtectedDocument": "The document is protected",
+    "textDialogProtectedOnlyView": "You may only view this document",
+    "textDialogProtectedFillForms": "You may only fill in forms in this document",
+    "textDialogProtectedChangesTracked": "You may edit this document, but all changes will be tracked",
+    "textDialogProtectedEditComments": "You may only insert comments to this document",
+    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics."
   },
   "Settings": {
     "advDRMOptions": "Babestutako fitxategia",
@@ -602,7 +611,7 @@
     "textDocumentTitle": "Dokumentuaren izenburua",
     "textDone": "Eginda",
     "textDownload": "Deskargatu",
-    "textDownloadAs": "Deskargatu horrela",
+    "textDownloadAs": "Deskargatu honela",
     "textDownloadRtf": "Formatu honetan gordetzen baduzu formatuaren zati bat galdu daiteke. Ziur zaude jarraitu nahi duzula?",
     "textDownloadTxt": "Formatu honetan gordetzen baduzu ezaugarri guztiak galduko dira testua izan ezik. Ziur zaude jarraitu nahi duzula?",
     "textEmptyHeading": "Goiburu hutsa",
@@ -695,7 +704,26 @@
     "txtScheme6": "Zabaldegia",
     "txtScheme7": "Berdintza",
     "txtScheme8": "Fluxua",
-    "txtScheme9": "Sortzailea"
+    "txtScheme9": "Sortzailea",
+    "textProtection": "Protection",
+    "textProtectDocument": "Protect Document",
+    "titleDialogUnprotect": "Unprotect Document",
+    "textDialogUnprotect": "Enter a password to unprotect document",
+    "textUnprotect": "Unprotect",
+    "textProtectTurnOff": "Protect turn off",
+    "textSetPassword": "Set Password",
+    "textTypeEditing": "Type Of Editing",
+    "textNoChanges": "No changes (Read only)",
+    "textFillingForms": "Filling forms",
+    "textTrackedChanges": "Tracked changes",
+    "textPassword": "Password",
+    "textVerify": "Verify",
+    "textSave": "Save",
+    "textRequired": "Required",
+    "textPasswordNotMatched": "Passwords DonвЂ™t Match",
+    "textEncryptFile": "Encrypt File",
+    "textRequirePassword": "Require Password",
+    "textChangePassword": "Change Password"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Gorde gabeko aldaketak dituzu. Egin klik \"Jarraitu orri honetan\" gordetze-automatikoari itxaroteko. Egin klik \"Utzi orri hau\" gorde gabeko aldaketa guztiak baztertzeko.",

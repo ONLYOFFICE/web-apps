@@ -427,7 +427,8 @@
     "unknownErrorText": "不明なエラー",
     "uploadImageExtMessage": "不明なイメージの形式",
     "uploadImageFileCountMessage": "アップロードしたイメージがない",
-    "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。"
+    "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。",
+    "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization."
   },
   "LongActions": {
     "applyChangesTextText": "データの読み込み中...",
@@ -543,11 +544,13 @@
     "textClose": "閉じる",
     "textContactUs": "営業部に連絡する",
     "textCustomLoader": "あいにく、あなたはローダーを変更できません。見積を受けるように販売部門を連絡してください。",
+    "textDocumentProtected": "このドキュメントは保護されています。編集設定は利用できません。",
     "textGuest": "ゲスト",
     "textHasMacros": "ファイルには自動マクロが含まれています。<br>マクロを実行しますか？",
     "textNo": "いいえ",
     "textNoLicenseTitle": "ライセンス制限に達しました",
     "textNoTextFound": "テキストが見つかりませんでした",
+    "textOk": "OK",
     "textPaidFeature": "有料機能",
     "textRemember": "選択を覚える",
     "textReplaceSkipped": "置換が完了しました。{0}つスキップされました。",
@@ -565,8 +568,14 @@
     "warnNoLicense": "％１エディター　時接続数の制限に達しました。この文書が見るだけのために開かれる。個人的なアップグレード条件については、％1営業チームを連絡してください。",
     "warnNoLicenseUsers": "％1エディターのユーザー制限に達しました。 個人的なアップグレード条件については、％1営業チームを連絡してください。",
     "warnProcessRightsChange": "ファイルを編集する権限がありません！",
-    "textDocumentProtected": "The document is protected. Edit settings are not available",
-    "textOk": "Ok"
+    "titleDialogProtectedDocument": "The document is protected",
+    "textDialogProtectedOnlyView": "You may only view this document",
+    "textDialogProtectedFillForms": "You may only fill in forms in this document",
+    "textDialogProtectedChangesTracked": "You may edit this document, but all changes will be tracked",
+    "textDialogProtectedEditComments": "You may only insert comments to this document",
+    "titleLicenseNotActive": "License not active",
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics."
   },
   "Settings": {
     "advDRMOptions": "保護されたファイル",
@@ -695,7 +704,26 @@
     "txtScheme6": "コンコース",
     "txtScheme7": "株主資本",
     "txtScheme8": "フロー",
-    "txtScheme9": "ファウンドリ"
+    "txtScheme9": "ファウンドリ",
+    "textProtection": "Protection",
+    "textProtectDocument": "Protect Document",
+    "titleDialogUnprotect": "Unprotect Document",
+    "textDialogUnprotect": "Enter a password to unprotect document",
+    "textUnprotect": "Unprotect",
+    "textProtectTurnOff": "Protect turn off",
+    "textSetPassword": "Set Password",
+    "textTypeEditing": "Type Of Editing",
+    "textNoChanges": "No changes (Read only)",
+    "textFillingForms": "Filling forms",
+    "textTrackedChanges": "Tracked changes",
+    "textPassword": "Password",
+    "textVerify": "Verify",
+    "textSave": "Save",
+    "textRequired": "Required",
+    "textPasswordNotMatched": "Passwords DonвЂ™t Match",
+    "textEncryptFile": "Encrypt File",
+    "textRequirePassword": "Require Password",
+    "textChangePassword": "Change Password"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "保存されていない変更があります。自動保存を待つように「このページから移動しない」をクリックしてください。保存されていない変更を破棄ように「このページから移動する」をクリックしてください。",

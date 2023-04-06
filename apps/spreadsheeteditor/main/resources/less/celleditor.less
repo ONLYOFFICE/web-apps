@@ -141,6 +141,19 @@
             line-height: 18px;
             padding-bottom: 0;
 
+            &::-webkit-scrollbar-button:single-button{
+                height: 9px;
+                background-size: 6px;
+                background-position: center;
+            }
+            &::-webkit-scrollbar-thumb{
+                min-height: 0;
+                height: 0;
+            }
+            &::-webkit-scrollbar{
+                height: 18px;
+            }
+
             &[disabled] {
                 color: @border-preview-select-ie;
                 color: @border-preview-select;

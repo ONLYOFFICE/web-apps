@@ -8,18 +8,8 @@
                 </td>
             </tr>
             <tr>
-                <td>
-                    <label class="header" style="width: 76px;overflow: hidden;text-overflow: ellipsis;vertical-align: middle;"><%= scope.textBook %></label><!--
-                    --><label class="header" style="width: 70px;overflow: hidden;text-overflow: ellipsis;vertical-align: middle;"><%= scope.textSheet %></label><!--
-                    --><label class="header" style="width: 70px;overflow: hidden;text-overflow: ellipsis;vertical-align: middle;"><%= scope.textName %></label><!--
-                    --><label class="header" style="width: 70px;overflow: hidden;text-overflow: ellipsis;vertical-align: middle;"><%= scope.textCell %></label><!--
-                    --><label class="header" style="width: 110px;overflow: hidden;text-overflow: ellipsis;vertical-align: middle;"><%= scope.textValue %></label><!--
-                    --><label class="header" style="width: 140px;overflow: hidden;text-overflow: ellipsis;vertical-align: middle;"><%= scope.textFormula %></label>
-                </td>
-            </tr>
-            <tr>
                 <td class="padding-small">
-                    <div id="watch-dialog-list" class="range-tableview" style="width:100%; height: 143px;"></div>
+                    <div id="watch-dialog-list" class="range-tableview" style="width:100%; height: 164px;"></div>
                 </td>
             </tr>
         </table>

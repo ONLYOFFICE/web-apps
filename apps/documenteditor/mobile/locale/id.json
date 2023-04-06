@@ -427,7 +427,8 @@
     "unknownErrorText": "Kesalahan tidak diketahui.",
     "uploadImageExtMessage": "Format gambar tidak dikenal.",
     "uploadImageFileCountMessage": "Tidak ada gambar yang diunggah.",
-    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB."
+    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB.",
+    "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization."
   },
   "LongActions": {
     "applyChangesTextText": "Memuat data...",
@@ -565,8 +566,16 @@
     "warnNoLicense": "Anda sudah mencapai batas untuk koneksi bersamaan ke %1 editor. Dokumen ini akan dibuka untuk dilihat saja. Hubungi %1 tim sales untuk syarat personal upgrade.",
     "warnNoLicenseUsers": "Anda sudah mencapai batas user untuk %1 editor. Hubungi %1 tim sales untuk syarat personal upgrade.",
     "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini.",
+    "titleDialogProtectedDocument": "The document is protected",
+    "textDialogProtectedOnlyView": "You may only view this document",
+    "textDialogProtectedFillForms": "You may only fill in forms in this document",
+    "textDialogProtectedChangesTracked": "You may edit this document, but all changes will be tracked",
+    "textDialogProtectedEditComments": "You may only insert comments to this document",
     "textDocumentProtected": "The document is protected. Edit settings are not available",
-    "textOk": "Ok"
+    "textOk": "Ok",
+    "titleLicenseNotActive": "License not active",
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics."
   },
   "Settings": {
     "advDRMOptions": "File yang Diproteksi",
@@ -695,7 +704,26 @@
     "txtScheme6": "Himpunan",
     "txtScheme7": "Margin Sisa",
     "txtScheme8": "Alur",
-    "txtScheme9": "Cetakan"
+    "txtScheme9": "Cetakan",
+    "textProtection": "Protection",
+    "textProtectDocument": "Protect Document",
+    "titleDialogUnprotect": "Unprotect Document",
+    "textDialogUnprotect": "Enter a password to unprotect document",
+    "textUnprotect": "Unprotect",
+    "textProtectTurnOff": "Protect turn off",
+    "textSetPassword": "Set Password",
+    "textTypeEditing": "Type Of Editing",
+    "textNoChanges": "No changes (Read only)",
+    "textFillingForms": "Filling forms",
+    "textTrackedChanges": "Tracked changes",
+    "textPassword": "Password",
+    "textVerify": "Verify",
+    "textSave": "Save",
+    "textRequired": "Required",
+    "textPasswordNotMatched": "Passwords DonвЂ™t Match",
+    "textEncryptFile": "Encrypt File",
+    "textRequirePassword": "Require Password",
+    "textChangePassword": "Change Password"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Anda memiliki perubahan yang belum tersimpan. Klik 'Tetap di Halaman Ini' untuk menunggu simpan otomatis. Klik ‘Tinggalkan Halaman Ini’ untuk membatalkan semua perubahan yang belum disimpan.",

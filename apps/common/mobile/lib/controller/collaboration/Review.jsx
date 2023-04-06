@@ -152,7 +152,7 @@ class ReviewChange extends Component {
         this.appConfig = props.storeAppOptions;
     }
     
-    dateToLocaleTimeString (date) {
+    dateToLocaleTimeString (date, lang) {
         const format = (date) => {
             let strTime,
                 hours = date.getHours(),
@@ -166,6 +166,14 @@ class ReviewChange extends Component {
 
             return strTime;
         };
+
+        lang = (lang || 'en').replace('_', '-').toLowerCase();
+        try {
+            return date.toLocaleString(lang, {dateStyle: 'short', timeStyle: 'short'});
+        } catch (e) {
+            lang = 'en';
+            return date.toLocaleString(lang, {dateStyle: 'short', timeStyle: 'short'});
+        }
 
         // MM/dd/yyyy hh:mm AM
         return (date.getMonth() + 1) + '/' + (date.getDate()) + '/' + date.getFullYear() + ' ' + format(date);
@@ -434,7 +442,7 @@ class ReviewChange extends Component {
             const user = item.get_UserName();
             const userColor = item.get_UserColor();
             const goto = (item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveTo || item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveFrom);
-            date = this.dateToLocaleTimeString(date);
+            date = this.dateToLocaleTimeString(date, this.appConfig.lang);
             const editable = this.appConfig.isReviewOnly && (item.get_UserId() == this.appConfig.user.id) || !this.appConfig.isReviewOnly && (!this.appConfig.canUseReviewPermissions || AscCommon.UserInfoParser.canEditReview(item.get_UserName()));
             arr.push({date: date, user: user, userColor: userColor, changeText: changeText, goto: goto, editable: editable});
         });

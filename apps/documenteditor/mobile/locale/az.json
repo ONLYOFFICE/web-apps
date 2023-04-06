@@ -427,7 +427,8 @@
     "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
     "errorTextFormWrongFormat": "The value entered does not match the format of the field.",
     "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
-    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
+    "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization."
   },
   "LongActions": {
     "applyChangesTextText": "Məlumat yüklənir...",
@@ -561,12 +562,20 @@
     "warnNoLicense": "Siz 1% redaktorlarına eyni vaxtda qoşulma limitinə çatdınız. Bu sənəd yalnız baxmaq üçün açılacaq. Şəxsi təkmilləşdirmə şərtləri üçün 1% satış komandası ilə əlaqə saxlayın.",
     "warnNoLicenseUsers": "1% redaktor üçün istifadəçi limitinə çatdınız. Şəxsi təkmilləşdirmə şərtləri üçün 1% satış komandası ilə əlaqə saxlayın.",
     "warnProcessRightsChange": "Bu faylı redaktə etmək icazəniz yoxdur.",
+    "titleDialogProtectedDocument": "The document is protected",
+    "textDialogProtectedOnlyView": "You may only view this document",
+    "textDialogProtectedFillForms": "You may only fill in forms in this document",
+    "textDialogProtectedChangesTracked": "You may edit this document, but all changes will be tracked",
+    "textDialogProtectedEditComments": "You may only insert comments to this document",
     "textDocumentProtected": "The document is protected. Edit settings are not available",
     "textNoTextFound": "Text not found",
     "textOk": "Ok",
     "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
     "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
-    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
+    "titleLicenseNotActive": "License not active",
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics."
   },
   "Settings": {
     "advDRMOptions": "Qorunan Fayl",
@@ -695,6 +704,25 @@
     "textPdfVer": "PDF Version",
     "textRestartApplication": "Please restart the application for the changes to take effect",
     "textRightToLeft": "Right To Left",
+    "textProtection": "Protection",
+    "textProtectDocument": "Protect Document",
+    "titleDialogUnprotect": "Unprotect Document",
+    "textDialogUnprotect": "Enter a password to unprotect document",
+    "textUnprotect": "Unprotect",
+    "textProtectTurnOff": "Protect turn off",
+    "textSetPassword": "Set Password",
+    "textTypeEditing": "Type Of Editing",
+    "textNoChanges": "No changes (Read only)",
+    "textFillingForms": "Filling forms",
+    "textTrackedChanges": "Tracked changes",
+    "textPassword": "Password",
+    "textVerify": "Verify",
+    "textSave": "Save",
+    "textRequired": "Required",
+    "textPasswordNotMatched": "Passwords DonвЂ™t Match",
+    "textEncryptFile": "Encrypt File",
+    "textRequirePassword": "Require Password",
+    "textChangePassword": "Change Password",
     "textYes": "Yes"
   },
   "Toolbar": {

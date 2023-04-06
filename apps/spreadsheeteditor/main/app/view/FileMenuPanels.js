@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 define([
     'common/main/lib/view/DocumentAccessDialog',
     'common/main/lib/view/AutoCorrectDialog'
@@ -143,18 +142,18 @@ define([
         menu: undefined,
 
         formats: [[
-            {name: 'XLSX', imgCls: 'xlsx', type: Asc.c_oAscFileType.XLSX},
-            {name: 'ODS',  imgCls: 'ods',  type: Asc.c_oAscFileType.ODS},
-            {name: 'CSV',  imgCls: 'csv',  type: Asc.c_oAscFileType.CSV},
-            {name: 'PDF',  imgCls: 'pdf',  type: Asc.c_oAscFileType.PDF}
+            {name: 'XLSX', imgCls: 'xlsx', type: Asc.c_oAscFileType.XLSX, ext: '.xlsx'},
+            {name: 'ODS',  imgCls: 'ods',  type: Asc.c_oAscFileType.ODS, ext: '.ods'},
+            {name: 'CSV',  imgCls: 'csv',  type: Asc.c_oAscFileType.CSV, ext: '.csv'},
+            {name: 'PDF',  imgCls: 'pdf',  type: Asc.c_oAscFileType.PDF, ext: '.pdf'}
         ],[
-            {name: 'XLTX', imgCls: 'xltx', type: Asc.c_oAscFileType.XLTX},
-            {name: 'OTS',  imgCls: 'ots',  type: Asc.c_oAscFileType.OTS},
-            {name: 'XLSM', imgCls: 'xlsm',  type: Asc.c_oAscFileType.XLSM},
-            {name: 'PDFA', imgCls: 'pdfa', type: Asc.c_oAscFileType.PDFA}
+            {name: 'XLTX', imgCls: 'xltx', type: Asc.c_oAscFileType.XLTX, ext: '.xltx'},
+            {name: 'OTS',  imgCls: 'ots',  type: Asc.c_oAscFileType.OTS, ext: '.ots'},
+            {name: 'XLSM', imgCls: 'xlsm',  type: Asc.c_oAscFileType.XLSM, ext: '.xlsm'},
+            {name: 'PDFA', imgCls: 'pdfa', type: Asc.c_oAscFileType.PDFA, ext: '.pdf'}
         ], [
-            {name: 'JPG',   imgCls: 'jpg',  type: Asc.c_oAscFileType.JPG},
-            {name: 'PNG',   imgCls: 'png',  type: Asc.c_oAscFileType.PNG}
+            {name: 'JPG',   imgCls: 'jpg',  type: Asc.c_oAscFileType.JPG, ext: '.zip'},
+            {name: 'PNG',   imgCls: 'png',  type: Asc.c_oAscFileType.PNG, ext: '.zip'}
         ]],
 
         template: _.template([
@@ -163,8 +162,8 @@ define([
                 '<div class="format-items">',
                     '<% _.each(rows, function(row) { %>',
                         '<% _.each(row, function(item) { %>',
-                            '<% if (item.type!==Asc.c_oAscFileType.DOCM || fileType=="docm") { %>',
-                                '<div class="format-item"><div class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
+                            '<% if (item.type!==Asc.c_oAscFileType.XLSM || fileType=="xlsm") { %>',
+                                '<div class="format-item"><div class="btn-doc-format" format="<%= item.type %>" format-ext="<%= item.ext %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
                                     '<div class ="svg-format-<%= item.imgCls %>"></div>',
                                 '</div></div>',
                             '<% } %>',
@@ -245,7 +244,7 @@ define([
         template: _.template([
         '<div class="flex-settings">',
             '<div class="header"><%= scope.txtAdvancedSettings %></div>',
-            '<table class="main" style="margin: 0 14px 0 20px;"><tbody>',
+            '<table class="main"><tbody>',
                 '<tr class="editsave">',
                     '<td class="group-name top" colspan="2"><label><%= scope.txtEditingSaving %></label></td>',
                 '</tr>',
@@ -593,7 +592,7 @@ define([
                 me.updateFuncExample(record.exampleValue);
             });
 
-            var regdata = [{ value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0C07 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
+            var regdata = [{ value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0406 }, { value: 0x0C07 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
                             { value: 0x040B }, { value: 0x040C }, { value: 0x100C }, { value: 0x0410 }, { value: 0x0810 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x040E }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
                             { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }, { value: 0x0404 }];
             regdata.forEach(function(item) {
@@ -1280,7 +1279,9 @@ define([
         txtQuickPrint: 'Show the Quick Print button in the editor header',
         txtQuickPrintTip: 'The document will be printed on the last selected or default printer',
         txtWorkspaceSettingChange: 'Workspace setting (RTL interface) change',
-        txtRestartEditor: 'Please restart spreadsheet editor so that your workspace settings can take effect'
+        txtRestartEditor: 'Please restart spreadsheet editor so that your workspace settings can take effect',
+        txtHy: 'Armenian',
+        txtExampleHy: 'ԳՈՒՄԱՐ; ՆՎԱԶ; ԱՌԱՎ․; ՀԱՇՎԱՐԿ'
 
 }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
@@ -2449,6 +2450,10 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                                     '<tr><td class="padding-small"><div id="print-chb-grid" style="width: 248px;"></div></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-chb-rows" style="width: 248px;"></div></td></tr>',
                                     '<tr class="header-settings"><td class="padding-large"><label class="link" id="print-header-footer-settings" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtHeaderFooterSettings %></label></td></tr>',
+                                    '<tr><td class="padding-large first-page">',
+                                        '<label><%= scope.txtFirstPageNumber %></label>',
+                                        '<div id="print-spin-first-page"></div>',
+                                    '</td></tr>',
                                     //'<tr><td class="padding-large"><button type="button" class="btn btn-text-default" id="print-apply-all" style="width: 118px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtApplyToAllSheets %></button></td></tr>',
                                     '<tr class="fms-btn-apply"><td>',
                                         '<div class="footer justify">',
@@ -2748,6 +2753,19 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 dataHintOffset: 'small'
             });
 
+            this.spnFirstPage = new Common.UI.MetricSpinner({
+                el: $markup.findById('#print-spin-first-page'),
+                step: 1,
+                width: 60,
+                defaultUnit : "",
+                value: '1',
+                maxValue: 32767,
+                minValue: 1,
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+
             /*this.btnApplyAll = new Common.UI.Button({
                 el: $markup.findById('#print-apply-all')
             });*/
@@ -3033,7 +3051,8 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         txtOf: 'of {0}',
         txtSheet: 'Sheet: {0}',
         txtPageNumInvalid: 'Page number invalid',
-        txtEmptyTable: 'There is nothing to print because the table is empty'
+        txtEmptyTable: 'There is nothing to print because the table is empty',
+        txtFirstPageNumber: 'First page number:',
     }, SSE.Views.PrintWithPreview || {}));
 
 });

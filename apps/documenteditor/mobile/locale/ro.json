@@ -427,7 +427,8 @@
     "unknownErrorText": "Eroare necunoscută.",
     "uploadImageExtMessage": "Format de imagine nerecunoscut.",
     "uploadImageFileCountMessage": "Nicio imagine nu a fost încărcată.",
-    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB."
+    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB.",
+    "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization."
   },
   "LongActions": {
     "applyChangesTextText": "Încărcarea datelor...",
@@ -557,8 +558,11 @@
     "textRequestMacros": "O macrocomandă trimite o solicitare URL. Doriți să permiteți ca solicitarea să fie trimisă către %1?",
     "textYes": "Da",
     "titleLicenseExp": "Licența a expirat",
+    "titleLicenseNotActive": "Licența nu este activă",
     "titleServerVersion": "Editorul a fost actualizat",
     "titleUpdateVersion": "Versiunea s-a modificat",
+    "warnDownloadAsPdf": "Fișierul dvs {0} va fi convertit într-un format editabil. Convertirea poate dura ceva timp. Documentul rezultat va fi optimizat pentru a vă permite să editați textul, dar s-ar putea să nu arate exact ca original {0}, mai ales dacă fișierul original conține mai multe elemente grafice.",
+    "warnLicenseBefore": "Licența nu este activă.<br>Contactaţi administratorul.",
     "warnLicenseExceeded": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați administratorul dvs pentru mai multe detalii.",
     "warnLicenseExp": "Licența dvs. a expirat. Licența urmează să fie reînnoită iar pagina reîmprospătată.",
     "warnLicenseLimitedNoAccess": "Licența dvs. a expirat. Nu aveți acces la funcții de editare a documentului.Contactați administratorul dvs. de rețeea.",
@@ -566,7 +570,12 @@
     "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori ai %1 editoare. Pentru detalii, contactați administratorul dvs.",
     "warnNoLicense": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați %1 Departamentul de Vânzări pentru acordarea condițiilor personale de actualizare.",
     "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori ai %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
-    "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier."
+    "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier.",
+    "titleDialogProtectedDocument": "The document is protected",
+    "textDialogProtectedOnlyView": "You may only view this document",
+    "textDialogProtectedFillForms": "You may only fill in forms in this document",
+    "textDialogProtectedChangesTracked": "You may edit this document, but all changes will be tracked",
+    "textDialogProtectedEditComments": "You may only insert comments to this document"
   },
   "Settings": {
     "advDRMOptions": "Fișierul protejat",
@@ -695,7 +704,26 @@
     "txtScheme6": "Concurență",
     "txtScheme7": "Echilibru",
     "txtScheme8": "Flux",
-    "txtScheme9": "Forjă"
+    "txtScheme9": "Forjă",
+    "textProtection": "Protection",
+    "textProtectDocument": "Protect Document",
+    "titleDialogUnprotect": "Unprotect Document",
+    "textDialogUnprotect": "Enter a password to unprotect document",
+    "textUnprotect": "Unprotect",
+    "textProtectTurnOff": "Protect turn off",
+    "textSetPassword": "Set Password",
+    "textTypeEditing": "Type Of Editing",
+    "textNoChanges": "No changes (Read only)",
+    "textFillingForms": "Filling forms",
+    "textTrackedChanges": "Tracked changes",
+    "textPassword": "Password",
+    "textVerify": "Verify",
+    "textSave": "Save",
+    "textRequired": "Required",
+    "textPasswordNotMatched": "Passwords DonвЂ™t Match",
+    "textEncryptFile": "Encrypt File",
+    "textRequirePassword": "Require Password",
+    "textChangePassword": "Change Password"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",

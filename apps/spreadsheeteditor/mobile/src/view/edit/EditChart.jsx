@@ -1183,6 +1183,7 @@ const PageHorizontalAxis = props => {
 
     const currentCrossesValue = axisProps.getCrosses();
     const [crossesValue, setCrossesValue] = useState(!currentCrossesValue ? '' : currentCrossesValue);
+    const isRadar = axisProps.isRadarAxis();
 
     if ((!props.storeFocusObjects.chartObject || props.storeFocusObjects.focusOn === 'cell') && Device.phone) {
         $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
@@ -1199,7 +1200,7 @@ const PageHorizontalAxis = props => {
                 }
             </Navbar>
             <List inlineLabels className="inputs-list">
-                <ListItem title={_t.textAxisCrosses} link="/edit-hor-axis-crosses/" after={currentAxisCrosses.display} routeProps={{
+                <ListItem title={_t.textAxisCrosses} link="/edit-hor-axis-crosses/" after={currentAxisCrosses.display} disabled={isRadar} routeProps={{
                     axisCrosses,
                     onHorAxisCrossType: props.onHorAxisCrossType,
                     currentAxisCrosses,
@@ -1219,14 +1220,14 @@ const PageHorizontalAxis = props => {
             </List>
             <List>
                 {!props.disableAxisPos ? 
-                    <ListItem title={_t.textAxisPosition} link="/edit-hor-axis-position/" after={axisPosition.display} routeProps={{
+                    <ListItem title={_t.textAxisPosition} link="/edit-hor-axis-position/" after={axisPosition.display} disabled={isRadar} routeProps={{
                         horAxisPosition,
                         onHorAxisPos: props.onHorAxisPos,
                         axisPosition,
                         setAxisPosition
                     }}></ListItem>
                 : null}
-                <ListItem title={_t.textValuesInReverseOrder}>
+                <ListItem title={_t.textValuesInReverseOrder} disabled={isRadar}>
                     <div slot="after">
                         <Toggle checked={valuesReverseOrder} 
                             onToggleChange={() => {
@@ -1238,13 +1239,13 @@ const PageHorizontalAxis = props => {
             </List>
             <BlockTitle>{_t.textTickOptions}</BlockTitle>
             <List>
-                <ListItem title={_t.textMajorType} after={currentMajorType.display} link="/edit-hor-major-type/" routeProps={{
+                <ListItem title={_t.textMajorType} after={currentMajorType.display} link="/edit-hor-major-type/" disabled={isRadar} routeProps={{
                     tickOptions,
                     onHorAxisTickMajor: props.onHorAxisTickMajor,
                     currentMajorType,
                     setMajorType
                 }}></ListItem>
-                <ListItem title={_t.textMinorType} after={currentMinorType.display} link="/edit-hor-minor-type/" routeProps={{
+                <ListItem title={_t.textMinorType} after={currentMinorType.display} link="/edit-hor-minor-type/" disabled={isRadar} routeProps={{
                     tickOptions,
                     onHorAxisTickMinor: props.onHorAxisTickMinor,
                     currentMinorType,
@@ -1253,7 +1254,7 @@ const PageHorizontalAxis = props => {
             </List>
             <BlockTitle>{_t.textLabelOptions}</BlockTitle>
             <List>
-                <ListItem title={_t.textLabelPosition} after={currentLabelsPosition.display} link="/edit-hor-label-position/" routeProps={{
+                <ListItem title={_t.textLabelPosition} after={currentLabelsPosition.display} link="/edit-hor-label-position/" disabled={isRadar} routeProps={{
                     horAxisLabelsPosition,
                     onHorAxisLabelPos: props.onHorAxisLabelPos,
                     currentLabelsPosition,

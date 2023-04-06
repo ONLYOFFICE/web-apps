@@ -427,7 +427,8 @@
     "unknownErrorText": "Անհայտ սխալ։",
     "uploadImageExtMessage": "Նկարի անհայտ ձևաչափ։",
     "uploadImageFileCountMessage": "Ոչ մի նկար չի բեռնվել։",
-    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:"
+    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:",
+    "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization."
   },
   "LongActions": {
     "applyChangesTextText": "Տվյալների բեռնում...",
@@ -557,8 +558,10 @@
     "textRequestMacros": "Մակրոն հարցում է անում URL-ին: Ցանկանու՞մ եք թույլ տալ հարցումը %1-ին:",
     "textYes": "Այո",
     "titleLicenseExp": "Լիցենզիայի ժամկետը լրացել է",
+    "titleLicenseNotActive": "Լիցենզիան ակտիվ չէ",
     "titleServerVersion": "Խմբագրիչը արդիացվել է",
     "titleUpdateVersion": "Տարբերակը փոխվել է",
+    "warnLicenseBefore": "Լիցենզիան ակտիվ չէ:<br> Խնդրում ենք կապվել ձեր ադմինիստրատորի հետ:",
     "warnLicenseExceeded": "Դուք հասել եք %1 խմբագիրների հետ միաժամանակյա միացումների սահմանաչափին:Այս փաստաթուղթը կբացվի միայն դիտելու համար:Կապվեք Ձեր ադմինիստրատորի հետ՝ ավելին իմանալու համար:",
     "warnLicenseExp": "Ձեր լիցենզիայի ժամկետը լրացել է:Խնդրում ենք թարմացնել Ձեր լիցենզիան և թարմացնել էջը:",
     "warnLicenseLimitedNoAccess": "Լիցենզիայի ժամկետը լրացել է․Փաստաթղթերի խմբագրման գործառույթից օգտվելու հնարավորություն չունեք:Խնդրում ենք կապվել Ձեր ադմինիստրատորի հետ:",
@@ -566,7 +569,13 @@
     "warnLicenseUsersExceeded": "Դուք հասել եք %1 խմբագրիչներին միաժամանակ միանալու սահմանափակմանը։Կապվեք Ձեր ադմինիստրատորի հետ՝ ավելին իմանալու համար:",
     "warnNoLicense": "Դուք հասել եք %1 խմբագիրների հետ միաժամանակյա միացումների սահմանաչափին:Այս փաստաթուղթը կբացվի միայն դիտելու համար:նձնական թարմացման պայմանների համար կապվեք %1 վաճառքի թիմի հետ:",
     "warnNoLicenseUsers": "Դուք հասել եք %1 խմբագիրների օգտվողի սահմանաչափին:Անձնական թարմացման պայմանների համար կապվեք %1 վաճառքի թիմի հետ:",
-    "warnProcessRightsChange": "Դուք այս ֆայլը խմբագրելու թույլտվություն չունեք:"
+    "warnProcessRightsChange": "Դուք այս ֆայլը խմբագրելու թույլտվություն չունեք:",
+    "titleDialogProtectedDocument": "The document is protected",
+    "textDialogProtectedOnlyView": "You may only view this document",
+    "textDialogProtectedFillForms": "You may only fill in forms in this document",
+    "textDialogProtectedChangesTracked": "You may edit this document, but all changes will be tracked",
+    "textDialogProtectedEditComments": "You may only insert comments to this document",
+    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics."
   },
   "Settings": {
     "advDRMOptions": "Պաշտպանված նիշք",
@@ -695,7 +704,26 @@
     "txtScheme6": "Համագումար ",
     "txtScheme7": "Սեփական կապիտալ",
     "txtScheme8": "Հոսք",
-    "txtScheme9": "Հրատարակիչ"
+    "txtScheme9": "Հրատարակիչ",
+    "textProtection": "Protection",
+    "textProtectDocument": "Protect Document",
+    "titleDialogUnprotect": "Unprotect Document",
+    "textDialogUnprotect": "Enter a password to unprotect document",
+    "textUnprotect": "Unprotect",
+    "textProtectTurnOff": "Protect turn off",
+    "textSetPassword": "Set Password",
+    "textTypeEditing": "Type Of Editing",
+    "textNoChanges": "No changes (Read only)",
+    "textFillingForms": "Filling forms",
+    "textTrackedChanges": "Tracked changes",
+    "textPassword": "Password",
+    "textVerify": "Verify",
+    "textSave": "Save",
+    "textRequired": "Required",
+    "textPasswordNotMatched": "Passwords DonвЂ™t Match",
+    "textEncryptFile": "Encrypt File",
+    "textRequirePassword": "Require Password",
+    "textChangePassword": "Change Password"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Դուք չպահված փոփոխություններ ունեք:Սեղմեք «Մնա այս էջում»՝ սպասելու ավտոմատ պահպանմանը:Սեղմեք «Լքել այս էջը»՝ չպահված բոլոր փոփոխությունները մերժելու համար:",
