@@ -344,6 +344,7 @@ define([
 
         const _onHidePreloader = function (mode) {
             features.viewmode = !mode.isEdit;
+            features.viewmode && (features.btnhome = false);
             features.crypted = mode.isCrypted;
             native.execCommand('webapps:features', JSON.stringify(features));
 
