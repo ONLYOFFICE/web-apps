@@ -1733,6 +1733,7 @@
   "DE.Views.DocumentHolder.editHeaderText": "Edit header",
   "DE.Views.DocumentHolder.editHyperlinkText": "Edit Hyperlink",
   "DE.Views.DocumentHolder.eqToInlineText": "Change to Inline",
+  "DE.Views.DocumentHolder.eqToDisplayText": "Change to Display",
   "DE.Views.DocumentHolder.guestText": "Guest",
   "DE.Views.DocumentHolder.hyperlinkText": "Hyperlink",
   "DE.Views.DocumentHolder.ignoreAllSpellText": "Ignore all",

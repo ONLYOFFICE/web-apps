@@ -1403,10 +1403,13 @@ define([
                     me.menuTableEquation.setVisible(isEquation);
                     me.menuTableEquation.setDisabled(disabled);
                     if (isEquation) {
-                        var eq = me.api.asc_GetMathInputType();
+                        var eq = me.api.asc_GetMathInputType(),
+                            isInlineMath = me.api.asc_IsInlineMath();
+                            
                         me.menuTableEquation.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                         me.menuTableEquation.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
-                        me.menuTableEquation.menu.items[8].setChecked(me.api.asc_IsInlineMath());
+                        me.menuTableEquation.menu.items[8].setChecked(isInlineMath);
+                        me.menuTableEquation.menu.items[8].setCaption(isInlineMath ? me.eqToDisplayText : me.eqToInlineText);
                     }
 
                     var control_lock = (value.paraProps) ? (!value.paraProps.value.can_DeleteBlockContentControl() || !value.paraProps.value.can_EditBlockContentControl() ||
@@ -1984,10 +1987,13 @@ define([
                     me.menuParagraphEquation.setVisible(isEquation);
                     me.menuParagraphEquation.setDisabled(disabled);
                     if (isEquation) {
-                        var eq = me.api.asc_GetMathInputType();
+                        var eq = me.api.asc_GetMathInputType(),
+                            isInlineMath = me.api.asc_IsInlineMath();
+
                         me.menuParagraphEquation.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                         me.menuParagraphEquation.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
-                        me.menuParagraphEquation.menu.items[8].setChecked(me.api.asc_IsInlineMath());
+                        me.menuParagraphEquation.menu.items[8].setChecked(isInlineMath);
+                        me.menuParagraphEquation.menu.items[8].setCaption(isInlineMath ? me.eqToDisplayText : me.eqToInlineText);
                     }
 
                     var frame_pr = value.paraProps.value.get_FramePr();
@@ -2925,6 +2931,7 @@ define([
                         caption     : this.eqToInlineText,
                         checkable   : true,
                         checked     : false,
+                        checkmark   : false,
                         type        : 'mode'
                     })
                 ]
@@ -3295,7 +3302,8 @@ define([
         currLinearText: 'Current - Linear',
         allProfText: 'All - Professional',
         allLinearText: 'All - Linear',
-        eqToInlineText: 'Change to Inline'
+        eqToInlineText: 'Change to Inline',
+        eqToDisplayText: 'Change to Display',
 
 }, DE.Views.DocumentHolder || {}));
 });
