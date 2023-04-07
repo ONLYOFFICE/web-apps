@@ -146,6 +146,8 @@ define([
                 }
             };
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
+
+            Common.Utils.InternalSettings.set('pe-equation-toolbar-hide', eval(Common.localStorage.getItem('pe-equation-toolbar-hide')));
         },
 
         onLaunch: function() {
@@ -2269,7 +2271,7 @@ define([
         onShowMathTrack: function(bounds) {
             if (this.mode && !this.mode.isEdit) return;
 
-            if (bounds[3] < 0) {
+            if (bounds[3] < 0 || Common.Utils.InternalSettings.get('pe-equation-toolbar-hide')) {
                 this.onHideMathTrack();
                 return;
             }
@@ -2354,10 +2356,14 @@ define([
                     menu        : me.documentHolder.createEquationMenu('popuptbeqinput', 'tl-bl')
                 });
                 me.equationSettingsBtn.menu.options.initMenu = function() {
-                    var eq = me.api.asc_GetMathInputType();
-                    var menu = me.equationSettingsBtn.menu;
+                    var eq = me.api.asc_GetMathInputType(),
+                        menu = me.equationSettingsBtn.menu,
+                        isEqToolbarHide = Common.Utils.InternalSettings.get('pe-equation-toolbar-hide');
+                        
                     menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                     menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    menu.items[8].setChecked(isEqToolbarHide);
+                    menu.items[8].setCaption(isEqToolbarHide ? me.documentHolder.showEqToolbar : me.documentHolder.hideEqToolbar);
                 };
                 me.equationSettingsBtn.menu.on('item:click', _.bind(me.convertEquation, me));
                 me.equationSettingsBtn.menu.on('show:before', function(menu) {
@@ -2417,6 +2423,11 @@ define([
                     this.api.asc_SetMathInputType(item.value);
                 else if (item.options.type=='view')
                     this.api.asc_ConvertMathView(item.value.linear, item.value.all);
+                else if(item.options.type=='hide') {
+                    if(item.checked) this.onHideMathTrack();
+                    Common.Utils.InternalSettings.set('pe-equation-toolbar-hide', item.checked);
+                    Common.localStorage.setItem('pe-equation-toolbar-hide', item.checked);
+                }
             }
         },
 

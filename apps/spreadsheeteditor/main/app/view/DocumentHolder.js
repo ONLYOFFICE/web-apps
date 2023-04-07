@@ -1447,6 +1447,14 @@ define([
                         iconCls     : 'menu__icon linear-equation',
                         type        : 'view',
                         value       : {all: true, linear: true}
+                    }),
+                    { caption     : '--' },
+                    new Common.UI.MenuItem({
+                        caption     : this.hideEqToolbar,
+                        checkable   : true,
+                        checked     : false,
+                        checkmark   : false,
+                        type        : 'hide',
                     })
                 ]
             });
@@ -1732,6 +1740,8 @@ define([
         currLinearText: 'Current - Linear',
         allProfText: 'All - Professional',
         allLinearText: 'All - Linear',
+        hideEqToolbar: 'Hide Equation Toolbar',
+        showEqToolbar: 'Show Equation Toolbar',
         txtPivotSettings: 'Pivot Table settings',
         txtFieldSettings: 'Field settings',
         txtValueFieldSettings: 'Value field settings',

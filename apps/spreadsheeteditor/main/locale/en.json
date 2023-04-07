@@ -2190,6 +2190,8 @@
   "SSE.Views.DocumentHolder.advancedSlicerText": "Slicer advanced settings",
   "SSE.Views.DocumentHolder.allLinearText": "All - Linear",
   "SSE.Views.DocumentHolder.allProfText": "All - Professional",
+  "SSE.Views.DocumentHolder.hideEqToolbar": "Hide Equation Toolbar",
+  "SSE.Views.DocumentHolder.showEqToolbar": "Show Equation Toolbar",
   "SSE.Views.DocumentHolder.bottomCellText": "Align Bottom",
   "SSE.Views.DocumentHolder.bulletsText": "Bullets and Numbering",
   "SSE.Views.DocumentHolder.centerCellText": "Align Middle",

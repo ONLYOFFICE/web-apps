@@ -155,6 +155,7 @@ define([
             };
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
 
+            Common.Utils.InternalSettings.set('de-equation-toolbar-hide', eval(Common.localStorage.getItem('de-equation-toolbar-hide')));
         },
 
         onLaunch: function() {
@@ -2356,7 +2357,7 @@ define([
         onShowMathTrack: function(bounds) {
             if (this.mode && !this.mode.isEdit) return;
 
-            if (bounds[3] < 0) {
+            if (bounds[3] < 0 || Common.Utils.InternalSettings.get('de-equation-toolbar-hide')) {
                 this.onHideMathTrack();
                 return;
             }
@@ -2443,12 +2444,15 @@ define([
                 me.equationSettingsBtn.menu.options.initMenu = function() {
                     var eq = me.api.asc_GetMathInputType(),
                         menu = me.equationSettingsBtn.menu,
-                        isInlineMath = me.api.asc_IsInlineMath();
+                        isInlineMath = me.api.asc_IsInlineMath(),
+                        isEqToolbarHide = Common.Utils.InternalSettings.get('de-equation-toolbar-hide');
 
                     menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                     menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
                     menu.items[8].setChecked(isInlineMath);
                     menu.items[8].setCaption(isInlineMath ? me.documentHolder.eqToDisplayText : me.documentHolder.eqToInlineText);
+                    menu.items[9].setChecked(isEqToolbarHide);
+                    menu.items[9].setCaption(isEqToolbarHide ? me.documentHolder.showEqToolbar : me.documentHolder.hideEqToolbar);
                 };
                 me.equationSettingsBtn.menu.on('item:click', _.bind(me.convertEquation, me));
                 me.equationSettingsBtn.menu.on('show:before', function(menu) {
@@ -2515,6 +2519,11 @@ define([
                     this.api.asc_ConvertMathView(item.value.linear, item.value.all);
                 else if (item.options.type=='mode')
                     this.api.asc_ConvertMathDisplayMode(item.checked);
+                else if(item.options.type=='hide') {
+                    if(item.checked) this.onHideMathTrack();
+                    Common.Utils.InternalSettings.set('de-equation-toolbar-hide', item.checked);
+                    Common.localStorage.setItem('de-equation-toolbar-hide', item.checked);
+                }
             }
         },
 

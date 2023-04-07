@@ -1404,12 +1404,15 @@ define([
                     me.menuTableEquation.setDisabled(disabled);
                     if (isEquation) {
                         var eq = me.api.asc_GetMathInputType(),
-                            isInlineMath = me.api.asc_IsInlineMath();
+                            isInlineMath = me.api.asc_IsInlineMath(),
+                            isEqToolbarHide = Common.Utils.InternalSettings.get('de-equation-toolbar-hide');
                             
                         me.menuTableEquation.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                         me.menuTableEquation.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
                         me.menuTableEquation.menu.items[8].setChecked(isInlineMath);
                         me.menuTableEquation.menu.items[8].setCaption(isInlineMath ? me.eqToDisplayText : me.eqToInlineText);
+                        me.menuTableEquation.menu.items[9].setChecked(isEqToolbarHide);
+                        me.menuTableEquation.menu.items[9].setCaption(isEqToolbarHide ? me.showEqToolbar : me.hideEqToolbar);
                     }
 
                     var control_lock = (value.paraProps) ? (!value.paraProps.value.can_DeleteBlockContentControl() || !value.paraProps.value.can_EditBlockContentControl() ||
@@ -1988,12 +1991,15 @@ define([
                     me.menuParagraphEquation.setDisabled(disabled);
                     if (isEquation) {
                         var eq = me.api.asc_GetMathInputType(),
-                            isInlineMath = me.api.asc_IsInlineMath();
+                            isInlineMath = me.api.asc_IsInlineMath(),
+                            isEqToolbarHide = Common.Utils.InternalSettings.get('de-equation-toolbar-hide');
 
                         me.menuParagraphEquation.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                         me.menuParagraphEquation.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
                         me.menuParagraphEquation.menu.items[8].setChecked(isInlineMath);
                         me.menuParagraphEquation.menu.items[8].setCaption(isInlineMath ? me.eqToDisplayText : me.eqToInlineText);
+                        me.menuParagraphEquation.menu.items[9].setChecked(isEqToolbarHide);
+                        me.menuParagraphEquation.menu.items[9].setCaption(isEqToolbarHide ? me.showEqToolbar : me.hideEqToolbar);
                     }
 
                     var frame_pr = value.paraProps.value.get_FramePr();
@@ -2933,6 +2939,13 @@ define([
                         checked     : false,
                         checkmark   : false,
                         type        : 'mode'
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.hideEqToolbar,
+                        checkable   : true,
+                        checked     : false,
+                        checkmark   : false,
+                        type        : 'hide',
                     })
                 ]
             });
@@ -3304,6 +3317,8 @@ define([
         allLinearText: 'All - Linear',
         eqToInlineText: 'Change to Inline',
         eqToDisplayText: 'Change to Display',
+        hideEqToolbar: 'Hide Equation Toolbar',
+        showEqToolbar: 'Show Equation Toolbar'
 
 }, DE.Views.DocumentHolder || {}));
 });

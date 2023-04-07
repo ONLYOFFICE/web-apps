@@ -142,6 +142,8 @@ define([
                 return false;
             };
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
+
+            Common.Utils.InternalSettings.set('sse-equation-toolbar-hide', eval(Common.localStorage.getItem('sse-equation-toolbar-hide')));
         },
 
         onLaunch: function() {
@@ -2573,9 +2575,13 @@ define([
                 documentHolder.menuParagraphEquation.setVisible(isEquation);
                 documentHolder.menuParagraphEquation.setDisabled(isObjLocked);
                 if (isEquation) {
-                    var eq = this.api.asc_GetMathInputType();
+                    var eq = this.api.asc_GetMathInputType(),
+                        isEqToolbarHide = Common.Utils.InternalSettings.get('sse-equation-toolbar-hide');
+
                     documentHolder.menuParagraphEquation.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                     documentHolder.menuParagraphEquation.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    documentHolder.menuParagraphEquation.menu.items[8].setChecked(isEqToolbarHide);
+                    documentHolder.menuParagraphEquation.menu.items[8].setCaption(isEqToolbarHide ? documentHolder.showEqToolbar : documentHolder.hideEqToolbar);
                 }
 
                 if (showMenu) this.showPopupMenu(documentHolder.textInShapeMenu, {}, event);
@@ -4621,7 +4627,7 @@ define([
         onShowMathTrack: function(bounds) {
             if (this.permissions && !this.permissions.isEdit) return;
 
-            if (bounds[3] < 0) {
+            if (bounds[3] < 0 || Common.Utils.InternalSettings.get('sse-equation-toolbar-hide')) {
                 this.onHideMathTrack();
                 return;
             }
@@ -4706,10 +4712,14 @@ define([
                     menu        : me.documentHolder.createEquationMenu('popuptbeqinput', 'tl-bl')
                 });
                 me.equationSettingsBtn.menu.options.initMenu = function() {
-                    var eq = me.api.asc_GetMathInputType();
-                    var menu = me.equationSettingsBtn.menu;
+                    var eq = me.api.asc_GetMathInputType(),
+                        menu = me.equationSettingsBtn.menu,
+                        isEqToolbarHide = Common.Utils.InternalSettings.get('sse-equation-toolbar-hide');
+
                     menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                     menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    menu.items[8].setChecked(isEqToolbarHide);
+                    menu.items[8].setCaption(isEqToolbarHide ? me.documentHolder.showEqToolbar : me.documentHolder.hideEqToolbar);
                 };
                 me.equationSettingsBtn.menu.on('item:click', _.bind(me.convertEquation, me));
                 me.equationSettingsBtn.menu.on('show:before', function(menu) {
@@ -4772,6 +4782,11 @@ define([
                     this.api.asc_SetMathInputType(item.value);
                 else if (item.options.type=='view')
                     this.api.asc_ConvertMathView(item.value.linear, item.value.all);
+                else if(item.options.type=='hide') {
+                    if(item.checked) this.onHideMathTrack();
+                    Common.Utils.InternalSettings.set('sse-equation-toolbar-hide', item.checked);
+                    Common.localStorage.setItem('sse-equation-toolbar-hide', item.checked);
+                }
             }
         },
 

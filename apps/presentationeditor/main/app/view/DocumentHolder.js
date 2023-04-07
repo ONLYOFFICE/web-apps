@@ -2076,9 +2076,13 @@ define([
                     me.menuParagraphEquation.setVisible(isEquation);
                     me.menuParagraphEquation.setDisabled(disabled);
                     if (isEquation) {
-                        var eq = me.api.asc_GetMathInputType();
+                        var eq = me.api.asc_GetMathInputType(),
+                            isEqToolbarHide = Common.Utils.InternalSettings.get('pe-equation-toolbar-hide');
+
                         me.menuParagraphEquation.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                         me.menuParagraphEquation.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                        me.menuParagraphEquation.menu.items[8].setChecked(isEqToolbarHide);
+                        me.menuParagraphEquation.menu.items[8].setCaption(isEqToolbarHide ? me.showEqToolbar : me.hideEqToolbar);
                     }
                 },
                 items: [
@@ -2235,9 +2239,13 @@ define([
                     menuTableEquationSettingsSeparator.setVisible(isEquation);
                     me.menuTableEquationSettings.setDisabled(disabled);
                     if (isEquation) {
-                        var eq = me.api.asc_GetMathInputType();
+                        var eq = me.api.asc_GetMathInputType(),
+                            isEqToolbarHide = Common.Utils.InternalSettings.get('pe-equation-toolbar-hide');
+
                         me.menuTableEquationSettings.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                         me.menuTableEquationSettings.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                        me.menuTableEquationSettings.menu.items[8].setChecked(isEqToolbarHide);
+                        me.menuTableEquationSettings.menu.items[8].setCaption(isEqToolbarHide ? me.showEqToolbar : me.hideEqToolbar);
                     }
                 },
                 items: [
@@ -2494,6 +2502,14 @@ define([
                         iconCls     : 'menu__icon linear-equation',
                         type        : 'view',
                         value       : {all: true, linear: true}
+                    }),
+                    { caption     : '--' },
+                    new Common.UI.MenuItem({
+                        caption     : this.hideEqToolbar,
+                        checkable   : true,
+                        checked     : false,
+                        checkmark   : false,
+                        type        : 'hide',
                     })
                 ]
             });
@@ -2823,7 +2839,9 @@ define([
         currProfText: 'Current - Professional',
         currLinearText: 'Current - Linear',
         allProfText: 'All - Professional',
-        allLinearText: 'All - Linear'
+        allLinearText: 'All - Linear',
+        hideEqToolbar: 'Hide Equation Toolbar',
+        showEqToolbar: 'Show Equation Toolbar'
 
     }, PE.Views.DocumentHolder || {}));
 });
