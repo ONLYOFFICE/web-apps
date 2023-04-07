@@ -29,6 +29,15 @@ const ProtectionController = props => {
                         opened: () => {
                             const passwordIcon = document.querySelector('.modal-password__icon');
                             const passwordField = document.querySelector('#protection-password');
+                            const btnUnprotect = document.querySelector('.btn-unprotect');
+
+                            passwordField.addEventListener('input', () => {
+                                if(passwordField.value) {
+                                    btnUnprotect.classList.remove('disabled');
+                                } else {
+                                    btnUnprotect.classList.add('disabled');
+                                }
+                            });
             
                             passwordIcon.addEventListener('click', () => {
                                 passwordIcon.classList.toggle('icon-show-password');
@@ -43,6 +52,7 @@ const ProtectionController = props => {
                         },
                         {
                             text: t('Settings.textOk'),
+                            cssClass: 'btn-unprotect disabled',
                             onClick: () => {
                                 const passwordField = document.querySelector('#protection-password');
                                 const passwordValue = passwordField?.value;
