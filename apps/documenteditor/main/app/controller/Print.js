@@ -520,7 +520,9 @@ define([
                     h: size ? size['H'] : undefined,
                     preset: size ? this.findPagePreset(size['W'], size['H']) : undefined
                 },
-                paperOrientation: size ? (size['H'] > size['W'] ? 'portrait' : 'landscape') : null
+                paperOrientation: size ? (size['H'] > size['W'] ? 'portrait' : 'landscape') : null,
+                copies: this.printSettings.spnCopies.getNumberValue() || 1,
+                sides: this.printSettings.cmbSides.getValue()
             });
 
             this.printSettings.menu.hide();
