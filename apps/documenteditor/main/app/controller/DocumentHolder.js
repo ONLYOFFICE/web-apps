@@ -2447,8 +2447,8 @@ define([
                         isInlineMath = me.api.asc_IsInlineMath(),
                         isEqToolbarHide = Common.Utils.InternalSettings.get('de-equation-toolbar-hide');
 
-                    menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
-                    menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                    menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
                     menu.items[8].setChecked(isInlineMath);
                     menu.items[8].setCaption(isInlineMath ? me.documentHolder.eqToDisplayText : me.documentHolder.eqToInlineText);
                     menu.items[9].setChecked(isEqToolbarHide);

@@ -2360,8 +2360,8 @@ define([
                         menu = me.equationSettingsBtn.menu,
                         isEqToolbarHide = Common.Utils.InternalSettings.get('pe-equation-toolbar-hide');
                         
-                    menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
-                    menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                    menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
                     menu.items[8].setChecked(isEqToolbarHide);
                     menu.items[8].setCaption(isEqToolbarHide ? me.documentHolder.showEqToolbar : me.documentHolder.hideEqToolbar);
                 };

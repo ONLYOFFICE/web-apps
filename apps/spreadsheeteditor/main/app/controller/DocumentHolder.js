@@ -2578,8 +2578,8 @@ define([
                     var eq = this.api.asc_GetMathInputType(),
                         isEqToolbarHide = Common.Utils.InternalSettings.get('sse-equation-toolbar-hide');
 
-                    documentHolder.menuParagraphEquation.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
-                    documentHolder.menuParagraphEquation.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    documentHolder.menuParagraphEquation.menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                    documentHolder.menuParagraphEquation.menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
                     documentHolder.menuParagraphEquation.menu.items[8].setChecked(isEqToolbarHide);
                     documentHolder.menuParagraphEquation.menu.items[8].setCaption(isEqToolbarHide ? documentHolder.showEqToolbar : documentHolder.hideEqToolbar);
                 }
@@ -4716,8 +4716,8 @@ define([
                         menu = me.equationSettingsBtn.menu,
                         isEqToolbarHide = Common.Utils.InternalSettings.get('sse-equation-toolbar-hide');
 
-                    menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
-                    menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                    menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
                     menu.items[8].setChecked(isEqToolbarHide);
                     menu.items[8].setCaption(isEqToolbarHide ? me.documentHolder.showEqToolbar : me.documentHolder.hideEqToolbar);
                 };
