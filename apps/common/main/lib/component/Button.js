@@ -186,8 +186,7 @@ define([
                 '<img src="<%= iconImg %>">' +
             '<% } else { %>' +
                 '<% if (/svgicon/.test(iconCls)) {' +
-                    'print(\'<svg class=\"icon uni-scale\"><use class=\"zoom-int\" xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'\"></use>' +
-                                                    '<use class=\"zoom-grit\" xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'-150\"></use></svg>\');' +
+                    'print(\'<svg class=\"icon uni-scale\"><use class=\"zoom-int\" xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'\"></use></svg>\');' +
             '} else ' +
                     'print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); %>' +
             '<% } %>';
@@ -285,8 +284,7 @@ define([
                 // '<% if (iconCls != "") { print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); }} %>',
                 '<% if (iconCls != "") { ' +
                     ' if (/svgicon/.test(iconCls)) {' +
-                        'print(\'<svg class=\"icon uni-scale\"><use class=\"zoom-int\" xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'\"></use>' +
-                            '<use class=\"zoom-grit\" xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'-150\"></use></svg>\');' +
+                        'print(\'<svg class=\"icon uni-scale\"><use class=\"zoom-int\" xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'\"></use></svg>\');' +
                     '} else ' +
                         'print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); ' +
                 '}} %>',
@@ -749,7 +747,6 @@ define([
             if (/svgicon/.test(this.iconCls)) {
                 var icon = /svgicon\s(\S+)/.exec(this.iconCls);
                 btnIconEl.find('use.zoom-int').attr('xlink:href', icon && icon.length>1 ? '#' + icon[1]: '');
-                btnIconEl.find('use.zoom-grit').attr('xlink:href', icon && icon.length>1 ? '#' + icon[1] + '-150' : '');
             } else {
                 btnIconEl.removeClass(oldCls);
                 btnIconEl.addClass(cls || '');
