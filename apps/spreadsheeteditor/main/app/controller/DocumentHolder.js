@@ -193,9 +193,9 @@ define([
             Common.Gateway.on('setactionlink', _.bind(me.onSetActionLink, me));
         },
 
-        onCreateDelayedElements: function(view) {
+        onCreateDelayedElements: function(view, type) {
             var me = this;
-            if (me.permissions.isEdit && !me._isDisabled) {
+            if (type==='edit') {
                 view.pmiCut.on('click',                             _.bind(me.onCopyPaste, me));
                 view.pmiCopy.on('click',                            _.bind(me.onCopyPaste, me));
                 view.pmiPaste.on('click',                           _.bind(me.onCopyPaste, me));
