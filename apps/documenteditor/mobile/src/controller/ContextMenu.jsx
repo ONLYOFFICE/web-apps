@@ -348,7 +348,7 @@ class ContextMenu extends ContextMenuController {
                     });
                 }
 
-                if (api.can_AddQuotedComment() !== false && canCoAuthoring && canComments && !locked && !(!isText && isObject) && !isViewer && canEditComments && (isAllowedEditing || isAllowedCommenting)) {
+                if (api.can_AddQuotedComment() !== false && canCoAuthoring && canComments && !locked && !(!isText && isObject) && (!isViewer || canEditComments) && (isAllowedEditing || isAllowedCommenting)) {
                     itemsText.push({
                         caption: _t.menuAddComment,
                         event: 'addcomment'
