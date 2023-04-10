@@ -263,7 +263,8 @@
       "txtNotUrl": "Questo campo deve essere un URL nel formato \"http://www.example.com\"",
       "textDone": "Done",
       "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "textRequired": "Required",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avvertimento",

@@ -64,7 +64,8 @@
     "textTableSize": "Taille du tableau",
     "textWithBlueLinks": "Avec les liens bleus",
     "textWithPageNumbers": "Avec les numéros de page",
-    "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\""
+    "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\"",
+    "textPasteImageUrl": "Paste an image URL"
   },
   "Common": {
     "Collaboration": {

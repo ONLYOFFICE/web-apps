@@ -64,7 +64,8 @@
     "textTableSize": "Աղյուսակի չափ",
     "textWithBlueLinks": "Կապույտ հղումներով",
     "textWithPageNumbers": "Էջի համարներով",
-    "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ "
+    "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ ",
+    "textPasteImageUrl": "Paste an image URL"
   },
   "Common": {
     "Collaboration": {

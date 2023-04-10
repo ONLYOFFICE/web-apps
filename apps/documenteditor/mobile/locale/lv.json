@@ -64,7 +64,8 @@
     "textInsertFootnote": "Insert Footnote",
     "textRecommended": "Recommended",
     "textWithBlueLinks": "With Blue Links",
-    "textWithPageNumbers": "With Page Numbers"
+    "textWithPageNumbers": "With Page Numbers",
+    "textPasteImageUrl": "Paste an image URL"
   },
   "Common": {
     "Collaboration": {

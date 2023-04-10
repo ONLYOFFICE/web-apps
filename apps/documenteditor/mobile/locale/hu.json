@@ -64,7 +64,8 @@
     "textTableSize": "Táblázat mérete",
     "textWithBlueLinks": "Kék linkkel",
     "textWithPageNumbers": "Oldalszámokkal",
-    "txtNotUrl": "A mező URL-címének a \"http://www.example.com\" formátumban kell lennie"
+    "txtNotUrl": "A mező URL-címének a \"http://www.example.com\" formátumban kell lennie",
+    "textPasteImageUrl": "Paste an image URL"
   },
   "Common": {
     "Collaboration": {

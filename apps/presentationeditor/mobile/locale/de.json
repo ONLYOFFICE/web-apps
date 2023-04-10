@@ -263,7 +263,8 @@
       "textSlideNumber": "Foliennummer",
       "textTable": "Tabelle",
       "textTableSize": "Tabellengröße",
-      "txtNotUrl": "In dieses Feld soll eine URL im Format \"http://www.example.com\" eingetragen werden."
+      "txtNotUrl": "In dieses Feld soll eine URL im Format \"http://www.example.com\" eingetragen werden.",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warnung",

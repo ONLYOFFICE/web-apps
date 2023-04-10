@@ -263,7 +263,8 @@
       "textDone": "Done",
       "textOk": "Ok",
       "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "textRequired": "Required",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Xəbərdarlıq",

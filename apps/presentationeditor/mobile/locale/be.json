@@ -263,7 +263,8 @@
       "textDone": "Done",
       "textEmptyImgUrl": "You need to specify the image URL.",
       "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "textRequired": "Required",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Увага",

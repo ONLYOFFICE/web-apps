@@ -64,7 +64,8 @@
     "textTableSize": "Mida de la taula",
     "textWithBlueLinks": "Amb enllaços blaus",
     "textWithPageNumbers": "Amb números de pàgina",
-    "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\""
+    "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
+    "textPasteImageUrl": "Paste an image URL"
   },
   "Common": {
     "Collaboration": {

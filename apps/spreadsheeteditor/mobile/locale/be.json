@@ -388,7 +388,8 @@
       "txtNo": "No",
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSorting": "Sorting",
-      "txtSortSelected": "Sort selected"
+      "txtSortSelected": "Sort selected",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Увага",

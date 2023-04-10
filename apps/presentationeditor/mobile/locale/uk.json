@@ -223,7 +223,8 @@
       "textSlideNumber": "Slide Number",
       "textTable": "Table",
       "textTableSize": "Table Size",
-      "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\""
+      "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "textActualSize": "Реальний розмір",

@@ -263,7 +263,8 @@
       "textSlideNumber": "Număr diapozitiv",
       "textTable": "Tabel",
       "textTableSize": "Dimensiune tabel",
-      "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\""
+      "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertisment",

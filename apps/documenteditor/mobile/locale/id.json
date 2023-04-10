@@ -64,7 +64,8 @@
     "textTableSize": "Ukuran Tabel",
     "textWithBlueLinks": "Dengan Tautan Warna Biru",
     "textWithPageNumbers": "Dengan Nomor Halaman",
-    "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”"
+    "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”",
+    "textPasteImageUrl": "Paste an image URL"
   },
   "Common": {
     "Collaboration": {

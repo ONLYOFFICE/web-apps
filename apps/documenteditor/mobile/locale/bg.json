@@ -64,7 +64,8 @@
     "textWithBlueLinks": "With Blue Links",
     "textDone": "Done",
     "textRecommended": "Recommended",
-    "textRequired": "Required"
+    "textRequired": "Required",
+    "textPasteImageUrl": "Paste an image URL"
   },
   "Common": {
     "Collaboration": {

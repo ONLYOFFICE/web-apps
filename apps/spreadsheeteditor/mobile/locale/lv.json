@@ -394,7 +394,8 @@
       "textRecommended": "Recommended",
       "textThisRowHint": "Choose only this row of the specified column",
       "textTotalsTableHint": "Returns the total rows for the table or specified table columns",
-      "txtLockSort": "Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?"
+      "txtLockSort": "Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Brīdinājums",

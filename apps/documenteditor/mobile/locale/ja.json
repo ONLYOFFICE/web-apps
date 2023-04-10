@@ -64,7 +64,8 @@
     "textTableSize": "表のサイズ",
     "textWithBlueLinks": "ブルーリンク付き",
     "textWithPageNumbers": "ページ番号付き",
-    "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります。"
+    "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります。",
+    "textPasteImageUrl": "Paste an image URL"
   },
   "Common": {
     "Collaboration": {

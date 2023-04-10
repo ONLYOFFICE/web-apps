@@ -263,7 +263,8 @@
       "textSlideNumber": "Diapositiba zenbakia",
       "textTable": "Taula",
       "textTableSize": "Taularen tamaina",
-      "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa"
+      "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Abisua",

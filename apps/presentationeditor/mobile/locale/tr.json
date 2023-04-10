@@ -263,7 +263,8 @@
       "txtNotUrl": "Bu alan, \"http://www.example.com\" biçiminde bir URL olmalıdır.",
       "textDone": "Done",
       "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "textRequired": "Required",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Uyarı",
