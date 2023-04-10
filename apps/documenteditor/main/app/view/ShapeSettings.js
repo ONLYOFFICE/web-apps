@@ -838,6 +838,7 @@ define([
                 if (!hidechangetype && this.btnChangeShape.menu.items.length) {
                     this.btnChangeShape.shapePicker.hideTextRect(shapeprops.get_FromImage() || this._state.isFromSmartArtInternal);
                 }
+                this.btnEditShape.menu.items[0].setVisible(this.api && this.api.asc_canEditGeometry());
 
                 var value = props.get_WrappingStyle();
                 if (this._state.WrappingStyle!==value) {
@@ -1667,20 +1668,34 @@ define([
             });
             this.lockedControls.push(this.cmbWrapType);
 
-            this.btnChangeShape = new Common.UI.Button({
-                parentEl: $('#shape-btn-change'),
-                cls: 'btn-icon-default',
-                iconCls: 'btn-change-shape',
-                menu        : new Common.UI.Menu({
-                    menuAlign: 'tr-br',
-                    cls: 'menu-shapes menu-change-shape',
-                    items: []
+            this.btnEditShape = new Common.UI.Button({
+                parentEl: $('#shape-button-edit-shape'),
+                cls: 'btn-text-menu-default',
+                caption: this.textEditShape,
+                style: "width:100%;",
+                menu: new Common.UI.Menu({
+                    style: 'min-width: 194px;',
+                    maxHeight: 200,
+                    items: [
+                        {caption: this.textEditPoints, value: 0, iconCls: 'toolbar__icon select-all'},
+                        {
+                            caption: this.strChange,
+                            value: 1,
+                            iconCls: 'toolbar__icon btn-menu-shape',
+                            menu        : new Common.UI.Menu({
+                                menuAlign: 'tl-tl',
+                                cls: 'menu-shapes menu-change-shape',
+                                items: []
+                            })}
+                    ]
                 }),
                 dataHint: '1',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
-            this.lockedControls.push(this.btnChangeShape);
+            this.lockedControls.push(this.btnEditShape);
+            this.btnChangeShape = this.btnEditShape.menu.items[1];
+            this.btnEditShape.menu.items[0].on('click', _.bind(this.onShapeEditPoints, this));
 
             this.chShadow = new Common.UI.CheckBox({
                 el: $('#shape-checkbox-shadow'),
@@ -1824,6 +1839,10 @@ define([
                 properties.asc_putFlipVInvert(true);
             this.api.ImgApply(properties);
             this.fireEvent('editcomplete', this);
+        },
+
+        onShapeEditPoints: function (){
+            this.api && this.api.asc_editPointsGeometry();
         },
 
         onCheckShadow: function(field, newValue, oldValue, eOpts) {
@@ -2157,6 +2176,8 @@ define([
         tipAddGradientPoint: 'Add gradient point',
         tipRemoveGradientPoint: 'Remove gradient point',
         textAngle: 'Angle',
-        textRecentlyUsed: 'Recently Used'
+        textRecentlyUsed: 'Recently Used',
+        textEditShape: 'Edit shape',
+        textEditPoints: 'Edit points'
     }, DE.Views.ShapeSettings || {}));
 });

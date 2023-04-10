@@ -181,8 +181,7 @@
     </tr>
     <tr class="change-type">
         <td class="padding-small">
-            <label class="header" style="margin-top: 3px;"><%= scope.strChange %></label>
-            <div id="shape-btn-change"></div>
+            <div id="shape-button-edit-shape" style="width:100%;"></div>
         </td>
     </tr>
     <tr>

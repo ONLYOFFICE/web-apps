@@ -2785,6 +2785,8 @@
   "DE.Views.ShapeSettings.textBorderSizeErr": "The entered value is incorrect.<br>Please enter a value between 0 pt and 1584 pt.",
   "DE.Views.ShapeSettings.textColor": "Color Fill",
   "DE.Views.ShapeSettings.textDirection": "Direction",
+  "DE.Views.ShapeSettings.textEditPoints": "Edit points",
+  "DE.Views.ShapeSettings.textEditShape": "Edit shape",
   "DE.Views.ShapeSettings.textEmptyPattern": "No Pattern",
   "DE.Views.ShapeSettings.textFlip": "Flip",
   "DE.Views.ShapeSettings.textFromFile": "From File",
