@@ -73,7 +73,7 @@
     <tr>
         <td class="padding-small" colspan=2>
             <div id="cell-combo-border-type"></div>
-            <div class="border-color">
+            <div class="border-color color-btn-wrap">
                 <label class="input-label"><%= scope.textBorderColor %></label>
                 <div id="cell-border-color-btn"></div>
             </div>
