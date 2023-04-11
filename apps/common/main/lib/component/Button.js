@@ -276,7 +276,7 @@ define([
             dataHint        : '',
             dataHintDirection: '',
             dataHintOffset: '0, 0',
-            scaling         : false,
+            scaling         : true,
         },
 
         template: _.template([
@@ -346,9 +346,6 @@ define([
                 me.render();
             } else if (me.options.parentEl)
                 me.render(me.options.parentEl);
-
-            // TODO: for review scaling feature only. remove after
-            me.options.scaling = true;
         },
 
         getCaptionWithBreaks: function (caption) {
