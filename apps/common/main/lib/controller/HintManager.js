@@ -267,15 +267,14 @@ Common.UI.HintManager = new(function() {
                 var el = $(item);
                 if (_lang !== 'en') {
                     var title = el.attr('data-hint-title').toLowerCase(),
-                        firstLetter = title.substr(0, 1);
+                        firstLetter = title.charAt(0);
                     if (_arrAlphabet.indexOf(firstLetter) === -1) { // tip is in English
                         var newTip = '';
                         for (var i = 0; i < title.length; i++) {
-                            var letter = title.substr(i, 1),
-                                ind = _arrEnAlphabet.indexOf(letter);
-                            newTip = newTip + _arrAlphabet[ind].toUpperCase();
+                            var letter = title.charAt(i);
+                            newTip += _getLetterInUILanguage(letter);
                         }
-                        el.attr('data-hint-title', newTip);
+                        el.attr('data-hint-title', newTip.toUpperCase());
                     }
 
                 }
@@ -287,33 +286,50 @@ Common.UI.HintManager = new(function() {
             _usedLetters = [];
         if (_currentLevel === 0) {
             for (var key in _staticHints) {
-                var t = _staticHints[key].toLowerCase();
+                var t = _staticHints[key].charAt(0).toLowerCase();
                 _usedTitles.push(t);
-                _usedLetters.push(_arrAlphabet.indexOf(t));
+                var i = _arrAlphabet.indexOf(t);
+                if (_usedLetters.indexOf(i) < 0) {
+                    _usedLetters.push(i);
+                }
             }
         }
         if (visibleItems.length > _arrAlphabet.length) {
             visibleItemsWithTitle.forEach(function (item) {
-                var t = $(item).data('hint-title').toLowerCase();
+                var t = $(item).data('hint-title').charAt(0).toLowerCase();
                 t = _getLetterInUILanguage(t);
-                _usedTitles.push(t);
+                if (_usedTitles.indexOf(t) < 0) {
+                    _usedTitles.push(t);
+                }
             });
-            _arrLetters = _getLetters(visibleItems.length + (_currentLevel === 0 ? _.size(_staticHints) : 0));
+            _arrLetters = _getLetters(visibleItems.length + (_currentLevel === 0 ? _.size(_staticHints) : 0)); // TO DO count
         } else {
             _arrLetters = _arrAlphabet.slice();
         }
         if (arrItemsWithTitle.length > 0) {
             visibleItems.forEach(function (item) {
-                var el = $(item);
-                var title = el.attr('data-hint-title');
+                var el = $(item),
+                    title = el.attr('data-hint-title');
                 if (title) {
-                    var ind = _arrEnAlphabet.indexOf(title.toLowerCase());
+                    title = title.toLowerCase();
+                    var firstLetter = title.charAt(0),
+                        ind = _arrEnAlphabet.indexOf(firstLetter),
+                        i;
                     if (ind === -1) { // we have already changed
-                        _usedLetters.push(_arrAlphabet.indexOf(title.toLowerCase()));
+                        i = _arrAlphabet.indexOf(firstLetter);
+                        if (_usedLetters.indexOf(i) < 0) {
+                            _usedLetters.push(i);
+                        }
                     } else {
-                        _usedLetters.push(ind);
+                        if (_usedLetters.indexOf(ind) < 0) {
+                            _usedLetters.push(ind);
+                        }
                         if (_lang !== 'en') {
-                            el.attr('data-hint-title', _arrLetters[ind].toUpperCase());
+                            var newTitle = '';
+                            for (i = 0; i < title.length; i++) {
+                                newTitle += _getLetterInUILanguage(title.charAt(i));
+                            }
+                            el.attr('data-hint-title', newTitle.toUpperCase());
                         }
                     }
                 }
