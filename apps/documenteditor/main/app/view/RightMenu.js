@@ -80,6 +80,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.Paragraph,
                 enableToggle: true,
                 disabled: true,
+                iconCls: 'btn-paragraph',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
@@ -88,6 +89,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.Table,
                 enableToggle: true,
                 disabled: true,
+                iconCls: 'btn-menu-table',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
@@ -96,6 +98,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.Image,
                 enableToggle: true,
                 disabled: true,
+                iconCls: 'btn-menu-image',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
@@ -104,6 +107,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.Header,
                 enableToggle: true,
                 disabled: true,
+                iconCls: 'btn-menu-header',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
@@ -112,6 +116,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.Chart,
                 enableToggle: true,
                 disabled: true,
+                iconCls: 'btn-menu-chart',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
@@ -120,6 +125,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.Shape,
                 enableToggle: true,
                 disabled: true,
+                iconCls: 'btn-menu-shape',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
@@ -129,6 +135,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.TextArt,
                 enableToggle: true,
                 disabled: true,
+                iconCls: 'btn-menu-textart',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
@@ -187,6 +194,7 @@ define([
                     asctype: Common.Utils.documentSettingsType.MailMerge,
                     enableToggle: true,
                     disabled: true,
+                    iconCls: 'btn-mailmerge',
                     toggleGroup: 'tabpanelbtnsGroup',
                     allowMouseEventsOnDisabled: true
                 });
@@ -202,6 +210,7 @@ define([
                     asctype: Common.Utils.documentSettingsType.Signature,
                     enableToggle: true,
                     disabled: true,
+                    iconCls: 'btn-menu-signature',
                     toggleGroup: 'tabpanelbtnsGroup',
                     allowMouseEventsOnDisabled: true
                 });
@@ -217,6 +226,7 @@ define([
                     asctype: Common.Utils.documentSettingsType.Form,
                     enableToggle: true,
                     disabled: true,
+                    iconCls: 'btn-field',
                     toggleGroup: 'tabpanelbtnsGroup',
                     allowMouseEventsOnDisabled: true
                 });
