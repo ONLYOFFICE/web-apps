@@ -2197,7 +2197,6 @@
   "DE.Views.FormSettings.textDefValue": "Default value",
   "DE.Views.FormSettings.textCheckDefault": "Checkbox is checked by default",
   "DE.Views.FormSettings.textRadioDefault": "Button is checked by default",
-  "DE.Views.FormSettings.txtEmpty": "(Empty)",
   "DE.Views.FormsTab.capBtnCheckBox": "Checkbox",
   "DE.Views.FormsTab.capBtnComboBox": "Combo Box",
   "DE.Views.FormsTab.capBtnComplex": "Complex Field",

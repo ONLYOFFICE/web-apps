@@ -227,7 +227,7 @@ define([
                 setTimeout(function(){me.txtDateDefValue._input && me.txtDateDefValue._input.select();}, 1);
             });
 
-            this.cmbDefValue = new Common.UI.ComboBoxCustom({
+            this.cmbDefValue = new Common.UI.ComboBox({
                 el: $markup.findById('#form-combo-def-value'),
                 cls: 'input-group-nr',
                 menuCls: 'menu-absolute',
@@ -236,15 +236,7 @@ define([
                 data: [],
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big',
-                itemsTemplate: _.template([
-                    '<% _.each(items, function(item) { %>',
-                        '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem" style="<% if (item.value=="") { %> opacity: 0.6 <% } %>"><%= scope.getDisplayValue(item) %></a></li>',
-                    '<% }); %>'
-                ].join('')),
-                updateFormControl: function(record) {
-                    record && this.setRawValue(record.get('value'));
-                }
+                dataHintOffset: 'big'
             });
             this.cmbDefValue.setValue('');
             this.lockedControls.push(this.cmbDefValue);
@@ -1310,7 +1302,7 @@ define([
                             arr.forEach(function(item) {
                                 item.value = item.displayValue = item.name;
                             });
-                            (arr.length>0) && arr.unshift({value: '', displayValue: this.txtEmpty});
+                            (arr.length>0) && arr.unshift({value: '', displayValue: this.textNone});
                             this.cmbDefValue.setData(arr);
                             this.cmbDefValue.setDisabled(arr.length<1);
                             this.cmbDefValue.setValue(this.api.asc_GetFormValue(this.internalId) || '');
@@ -1993,8 +1985,7 @@ define([
         textLang: 'Language',
         textDefValue: 'Default value',
         textCheckDefault: 'Checkbox is checked by default',
-        textRadioDefault: 'Button is checked by default',
-        txtEmpty: '(Empty)'
+        textRadioDefault: 'Button is checked by default'
 
     }, DE.Views.FormSettings || {}));
 });
