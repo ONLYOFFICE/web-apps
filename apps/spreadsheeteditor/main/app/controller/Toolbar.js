@@ -3766,29 +3766,29 @@ define([
             }
             val = fontobj.asc_getFontItalic();
             if (this._state.italic !== val) {
-                toolbar.btnTextFormatting.menu.items[1](val === true);
+                toolbar.btnTextFormatting.menu.items[1].setChecked(val === true);
                 this._state.italic = val;
             }
             val = fontobj.asc_getFontUnderline();
             if (this._state.underline !== val) {
-                toolbar.btnTextFormatting.menu.items[2](val === true);
+                toolbar.btnTextFormatting.menu.items[2].setChecked(val === true);
                 this._state.underline = val;
             }
             val = fontobj.asc_getFontStrikeout();
             if (this._state.strikeout !== val) {
-                toolbar.btnTextFormatting.menu.items[3](val === true);
+                toolbar.btnTextFormatting.menu.items[3].setChecked(val === true);
                 this._state.strikeout = val;
             }
 
             val = fontobj.asc_getFontSubscript();
             if (this._state.subscript !== val) {
-                toolbar.btnTextFormatting.menu.items[4](val === true);
+                toolbar.btnTextFormatting.menu.items[4].setChecked(val === true);
                 this._state.subscript = val;
             }
 
             val = fontobj.asc_getFontSuperscript();
             if (this._state.superscript !== val) {
-                toolbar.btnTextFormatting.menu.items[5](val === true);
+                toolbar.btnTextFormatting.menu.items[5].setChecked(val === true);
                 this._state.superscript = val;
             }
 
