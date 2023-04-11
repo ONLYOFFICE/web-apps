@@ -394,7 +394,8 @@
       "txtSortSelected": "Isih Terpilih",
       "txtYes": "Ya",
       "textDone": "Done",
-      "textRecommended": "Recommended"
+      "textRecommended": "Recommended",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Amaran",

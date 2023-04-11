@@ -263,7 +263,8 @@
       "textSlideNumber": "スライド番号",
       "textTable": "表",
       "textTableSize": "表のサイズ",
-      "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要がある"
+      "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要がある",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": " 警告",

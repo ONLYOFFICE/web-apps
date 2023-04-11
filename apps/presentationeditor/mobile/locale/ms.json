@@ -263,7 +263,8 @@
       "txtNotUrl": "Medan ini perlu sebagai URL dalam “http://www.example.com” formatnya",
       "textDone": "Done",
       "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "textRequired": "Required",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Amaran",

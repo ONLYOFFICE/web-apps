@@ -263,7 +263,8 @@
       "textSlideNumber": "Numéro de diapositive",
       "textTable": "Tableau",
       "textTableSize": "Taille du tableau",
-      "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\""
+      "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\"",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertissement",

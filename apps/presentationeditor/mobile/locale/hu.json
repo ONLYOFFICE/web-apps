@@ -263,7 +263,8 @@
       "textSlideNumber": "Dia száma",
       "textTable": "Táblázat",
       "textTableSize": "Táblázat mérete",
-      "txtNotUrl": "Ennek a mezőnek URL formátumúnak kell lennie, pl.: „http://www.pelda.hu”"
+      "txtNotUrl": "Ennek a mezőnek URL formátumúnak kell lennie, pl.: „http://www.pelda.hu”",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Figyelmeztetés",

@@ -263,7 +263,8 @@
       "txtNotUrl": "Toto pole by malo byť vo formáte \"http://www.example.com\"",
       "textDone": "Done",
       "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "textRequired": "Required",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Upozornenie",

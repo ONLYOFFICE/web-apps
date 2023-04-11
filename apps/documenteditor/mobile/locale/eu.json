@@ -64,7 +64,8 @@
     "textTableSize": "Taularen tamaina",
     "textWithBlueLinks": "Esteka urdinekin",
     "textWithPageNumbers": "Orri-zenbakiekin",
-    "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa"
+    "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa",
+    "textPasteImageUrl": "Paste an image URL"
   },
   "Common": {
     "Collaboration": {

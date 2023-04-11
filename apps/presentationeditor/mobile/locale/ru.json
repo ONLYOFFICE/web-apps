@@ -263,7 +263,8 @@
       "textSlideNumber": "Номер слайда",
       "textTable": "Таблица",
       "textTableSize": "Размер таблицы",
-      "txtNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\""
+      "txtNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\"",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Внимание",

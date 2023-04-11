@@ -64,7 +64,8 @@
     "textTableSize": "Tabellengröße",
     "textWithBlueLinks": "Mit blauen Links",
     "textWithPageNumbers": "Mit Seitennummern",
-    "txtNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein."
+    "txtNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein.",
+    "textPasteImageUrl": "Paste an image URL"
   },
   "Common": {
     "Collaboration": {

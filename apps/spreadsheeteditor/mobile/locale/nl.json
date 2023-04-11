@@ -394,7 +394,8 @@
       "textDataTableHint": "Returns the data cells of the table or specified table columns",
       "textHeadersTableHint": "Returns the column headers for the table or specified table columns",
       "textOk": "Ok",
-      "textTotalsTableHint": "Returns the total rows for the table or specified table columns"
+      "textTotalsTableHint": "Returns the total rows for the table or specified table columns",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Waarschuwing",

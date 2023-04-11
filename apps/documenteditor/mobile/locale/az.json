@@ -64,7 +64,8 @@
     "textRequired": "Required",
     "textTableContents": "Table of Contents",
     "textWithBlueLinks": "With Blue Links",
-    "textWithPageNumbers": "With Page Numbers"
+    "textWithPageNumbers": "With Page Numbers",
+    "textPasteImageUrl": "Paste an image URL"
   },
   "Common": {
     "Collaboration": {

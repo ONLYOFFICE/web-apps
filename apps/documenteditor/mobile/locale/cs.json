@@ -64,7 +64,8 @@
     "textTableSize": "Velikost tabulky",
     "textWithBlueLinks": "s modrými odkazy",
     "textWithPageNumbers": "s číslováním stránek",
-    "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\""
+    "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\"",
+    "textPasteImageUrl": "Paste an image URL"
   },
   "Common": {
     "Collaboration": {

@@ -263,7 +263,8 @@
       "txtNotUrl": "此字段應為格式為“ http://www.example.com”的URL。",
       "textDone": "Done",
       "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "textRequired": "Required",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "警告",
