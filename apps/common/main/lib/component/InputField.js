@@ -667,7 +667,7 @@ define([
                 cls: '',
                 style: '',
                 value: '',
-                type: 'date',
+                type: 'text',
                 name: '',
                 validation: null,
                 allowBlank: true,
@@ -679,9 +679,16 @@ define([
                 validateOnBlur: true,
                 disabled: false,
                 editable: true,
-                iconCls: 'toolbar__icon btn-datetime',
+                iconCls: 'toolbar__icon btn-date',
                 btnHint: '',
                 menu: true
+            },
+
+            initialize : function(options) {
+                options = options || {};
+                options.btnHint = options.btnHint || this.textDate;
+
+                Common.UI.InputFieldBtn.prototype.initialize.call(this, options);
             },
 
             render: function (parentEl) {
@@ -718,7 +725,9 @@ define([
             setDate: function(date) {
                 if (this.cmpCalendar && date && date instanceof Date && !isNaN(date))
                     this.cmpCalendar && this.cmpCalendar.setDate(date);
-            }
+            },
+
+            textDate: 'Select date'
         }
     })());
 });
