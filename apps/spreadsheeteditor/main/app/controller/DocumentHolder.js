@@ -121,6 +121,7 @@ define([
             me._state = {wsLock: false, wsProps: []};
             me.fastcoauthtips = [];
             me._TtHeight = 20;
+            me.lastMathTrackBounds = [];
 
             /** coauthoring begin **/
             this.wrapEvents = {
@@ -4627,6 +4628,7 @@ define([
         onShowMathTrack: function(bounds) {
             if (this.permissions && !this.permissions.isEdit) return;
 
+            this.lastMathTrackBounds = bounds;
             if (bounds[3] < 0 || Common.Utils.InternalSettings.get('sse-equation-toolbar-hide')) {
                 this.onHideMathTrack();
                 return;
@@ -4783,9 +4785,10 @@ define([
                 else if (item.options.type=='view')
                     this.api.asc_ConvertMathView(item.value.linear, item.value.all);
                 else if(item.options.type=='hide') {
-                    if(item.checked) this.onHideMathTrack();
                     Common.Utils.InternalSettings.set('sse-equation-toolbar-hide', item.checked);
                     Common.localStorage.setItem('sse-equation-toolbar-hide', item.checked);
+                    if(item.checked) this.onHideMathTrack();
+                    else this.onShowMathTrack(this.lastMathTrackBounds);
                 }
             }
         },

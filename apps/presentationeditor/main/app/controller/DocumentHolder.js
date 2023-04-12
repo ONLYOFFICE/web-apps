@@ -105,6 +105,7 @@ define([
             me._state = {};
             me.mode = {};
             me._isDisabled = false;
+            me.lastMathTrackBounds = [];
 
             me.screenTip = {
                 toolTip: new Common.UI.Tooltip({
@@ -2271,6 +2272,7 @@ define([
         onShowMathTrack: function(bounds) {
             if (this.mode && !this.mode.isEdit) return;
 
+            this.lastMathTrackBounds = bounds;
             if (bounds[3] < 0 || Common.Utils.InternalSettings.get('pe-equation-toolbar-hide')) {
                 this.onHideMathTrack();
                 return;
@@ -2424,9 +2426,10 @@ define([
                 else if (item.options.type=='view')
                     this.api.asc_ConvertMathView(item.value.linear, item.value.all);
                 else if(item.options.type=='hide') {
-                    if(item.checked) this.onHideMathTrack();
                     Common.Utils.InternalSettings.set('pe-equation-toolbar-hide', item.checked);
                     Common.localStorage.setItem('pe-equation-toolbar-hide', item.checked);
+                    if(item.checked) this.onHideMathTrack();
+                    else this.onShowMathTrack(this.lastMathTrackBounds);
                 }
             }
         },
