@@ -946,7 +946,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
 
             rec = this.rulesList.store.findWhere({ruleId: ruleId});
             if (rec) {
-                rec.set('lockuser', ruleStore[rec.get('indexInStore')]);
+                rec.set('lockuser', ruleStore[rec.get('indexInStore')].lockuser);
                 rec.set('lock', true);
                 this.updateButtons();
             }
