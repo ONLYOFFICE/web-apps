@@ -1,6 +1,6 @@
 import React, {Fragment, useState, useEffect} from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, List, ListItem, Icon, Row, Button, Page, Navbar, Segmented, BlockTitle, NavRight, Link, Toggle, Swiper, SwiperSlide} from 'framework7-react';
+import {f7, List, ListItem, Icon, Row, Button, Page, Navbar, Segmented, BlockTitle, NavRight, Link, Toggle, Swiper, SwiperSlide, ListInput, Block} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
@@ -101,7 +101,9 @@ const EditCell = props => {
                             onCurrencyCellFormat: props.onCurrencyCellFormat,
                             onAccountingCellFormat: props.onAccountingCellFormat,
                             dateFormats: props.dateFormats,
-                            timeFormats: props.timeFormats
+                            timeFormats: props.timeFormats,
+                            setCustomFormat: props.setCustomFormat,
+                            customFormats: props.customFormats
                         }}>
                             {!isAndroid ?
                                 <Icon slot="media" icon="icon-format-general"></Icon> : null
@@ -876,6 +878,12 @@ const PageFormatCell = props => {
                 }
             </Navbar>
             <List>
+                <ListItem link='/custom-format/' className='no-indicator' title={t('View.Edit.textCustomFormat')} routeProps={{
+                    setCustomFormat: props.setCustomFormat,
+                    customFormats: props.customFormats
+                }}>
+                    <Icon slot="media" icon="icon-plus"></Icon>
+                </ListItem>
                 <ListItem link='#' className='no-indicator' title={_t.textGeneral} onClick={() => props.onCellFormat('General')}>
                     <Icon slot="media" icon="icon-format-general"></Icon>
                 </ListItem>
@@ -921,7 +929,89 @@ const PageFormatCell = props => {
     )
 }
 
-const PageAccountingFormatCell = props => {
+const PageCustomFormat = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+    const customFormats = props.customFormats;
+    const [renderList, setRenderList] = useState(false);
+
+    useEffect(() => {
+        if (customFormats?.length) {
+            setRenderList(true);
+        }
+    }, [customFormats]);
+  
+
+    const handleCellFormatClick = (value) => {
+        props.setCustomFormat(value);
+        f7.views.current.router.back();
+    };
+
+    return (
+        <Page>
+            <Navbar title={t('View.Edit.textCustomFormat')} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
+            <List>
+                <ListItem title={t('View.Edit.textCreateCustomFormat')} link="/create-custom-format/" className='no-indicator' routeProps={{
+                    setCustomFormat: props.setCustomFormat,
+                    customFormats: props.customFormats
+                }}></ListItem>
+            </List>
+            {renderList && (
+                <List>
+                    {customFormats.map((item, idx) => (
+                        <ListItem
+                            link='#'
+                            className='no-indicator'
+                            key={idx}
+                            title={item.format}
+                            value={item.value}
+                            onClick={() => handleCellFormatClick(item.value)}
+                        />
+                    ))}
+                </List>
+            )}
+        </Page>
+    )
+}
+
+const PageCreationCustomFormat = observer(props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+    const [formatValue, setFormatValue] = useState('');
+    const isIos = Device.ios;
+
+    return (
+        <Page>
+            <Navbar title={t('View.Edit.textCreateFormat')} backLink={_t.textBack}>
+                <NavRight>
+                    <Link text={isIos ? t('View.Edit.textSave') : ''} icon={!isIos ? 'icon-check' : null} className={!formatValue && 'disabled'} onClick={() => props.setCustomFormat(formatValue)}></Link>
+                </NavRight>
+            </Navbar>
+            <>
+                <List className="inputs-list">
+                    <ListInput 
+                        label={!isIos ? t('View.Edit.textFormat') : null}
+                        type="text"
+                        placeholder={t('View.Edit.textEnterFormat')}
+                        value={formatValue}
+                        onInput={e => setFormatValue(e.target.value)}
+                    />
+                </List>
+                <Block>
+                    <p>{t('View.Edit.textCustomFormatWarning')}</p>
+                </Block>
+            </>
+        </Page>
+    )
+});
+
+const PageAccountingFormatCell = observer(props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
 
@@ -953,7 +1043,7 @@ const PageAccountingFormatCell = props => {
             </List>
         </Page>
     )
-}
+});
 
 const PageCurrencyFormatCell = props => {
     const { t } = useTranslation();
@@ -1074,5 +1164,7 @@ export {
     PageCurrencyFormatCell,
     PageDateFormatCell,
     PageTimeFormatCell,
-    CellStyle
+    CellStyle,
+    PageCustomFormat,
+    PageCreationCustomFormat
 };
