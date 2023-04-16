@@ -842,6 +842,7 @@ define([
                 this.pressedShift = false;
             if(e.keyCode == Common.UI.Keys.CTRL)
                 this.pressedCtrl = false;
+            this.trigger('item:keyup', this, e);
         },
 
         attachKeyEvents: function() {

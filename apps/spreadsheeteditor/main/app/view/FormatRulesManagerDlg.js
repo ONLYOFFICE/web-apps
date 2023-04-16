@@ -126,6 +126,8 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             this.itemHeight = 30;
             this.previewListHeight = 203;
             this.maxItemsCount = parseInt(this.previewListHeight/this.itemHeight);
+            this._keydowncounter = 0;
+            this._keydownTimer = undefined;
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -165,7 +167,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                         '<% } %>',
                     '</div>'
                 ].join('')),
-        
+                allowScrollbar: false,
                 tabindex: 1
             });
             this.rulesList.moveKeys = [];
@@ -176,7 +178,8 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 });
             };
             this.rulesList.on('item:select', _.bind(this.onSelectRule, this))
-                            .on('item:keydown', _.bind(this.onKeyDown, this));
+                            .on('item:keydown', _.bind(this.onKeyDown, this))
+                            .on('item:keyup', _.bind(this.onKeyUp, this));
 
             this.btnNew = new Common.UI.Button({
                 el: $('#format-manager-btn-new')
@@ -357,10 +360,11 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             this.listSettings.end = end;
             var ruleStore = this.rulesStores[this.currentSheet],
                 arr = [];
+            this.rulesList.store.remove(this.rulesList.store.models);
             for (var i=start; i<=end; i++) {
                 arr.push(ruleStore[this.listSettings.data[i]]);
             }
-            this.rulesList.store.reset(arr);
+            this.rulesList.store.add(arr);
             if (this.listSettings.current<=this.listSettings.end)
                 this.rulesList.selectByIndex(this.listSettings.current-this.listSettings.start);
             if (!this._preventUpdateScroll) {
@@ -875,12 +879,38 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
         },
 
         onKeyDown: function (list, record, e) {
-            if (e.keyCode==Common.UI.Keys.DELETE && !this.btnDelete.isDisabled() && !/form-control/.test(e.target.className)) {
-                this.onDeleteRule();
-                list.focus();
-            } else if (e.keyCode==Common.UI.Keys.UP || e.keyCode==Common.UI.Keys.DOWN) {
+            if (e.keyCode==Common.UI.Keys.UP || e.keyCode==Common.UI.Keys.DOWN) {
                 e.preventDefault();
                 e.stopPropagation();
+            }
+
+            if (this._keydowncounter===0) {
+                this._keydowncounter++;
+                this.onKeyEvent(list, e);
+            } else {
+                if (!this._keyEventBusy) {
+                    this._keyEventBusy = true;
+                    var me = this;
+                    this._keydownTimer = setTimeout(function() {
+                        me.onKeyEvent(list, e, true);
+                    }, 1);
+                }
+            }
+        },
+
+        onKeyUp: function (list, e) {
+            this._keydowncounter = 0;
+            if (this._keydownTimer) {
+                clearTimeout(this._keydownTimer);
+                this._keydownTimer = undefined;
+            }
+            this._keyEventBusy = undefined;
+        },
+
+        onKeyEvent: function (list, e, repeat) {
+            if (e.keyCode==Common.UI.Keys.DELETE && !this.btnDelete.isDisabled() && !/form-control/.test(e.target.className)) {
+                this.onDeleteRule();
+            } else if (e.keyCode==Common.UI.Keys.UP || e.keyCode==Common.UI.Keys.DOWN) {
                 var rec = list.getSelectedRec();
                 var idx = _.indexOf(list.store.models, rec);
                 if (idx>=0) {
@@ -892,7 +922,6 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                         } else if (this.listSettings.start>0) {
                             this.listSettings.current--;
                             this.previewDataBlock(this.listSettings.start-1, this.listSettings.end-1);
-                            list.focus();
                         }
                     }
                     if (e.keyCode==Common.UI.Keys.DOWN) {
@@ -903,11 +932,15 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                         } else if (this.listSettings.end<this.listSettings.data.length-1) {
                             this.listSettings.current++;
                             this.previewDataBlock(this.listSettings.start+1, this.listSettings.end+1);
-                            list.focus();
                         }
                     }
                 }
             }
+            var me = this;
+            if (repeat)
+                this._keydownTimer = setTimeout(function() {
+                    me.onKeyEvent(list, e, true);
+                }, 1);
         },
 
         close: function () {
