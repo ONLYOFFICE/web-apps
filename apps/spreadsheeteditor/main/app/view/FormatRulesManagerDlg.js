@@ -347,12 +347,12 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
 
             var startPos = this.scrollerY.getScrollTop(),
                 start = Math.floor(startPos/this.itemHeight+0.5),
-                end = start + this.maxItemsCount;
-            if (end>this.listSettings.data.length) {
-                end = this.listSettings.data.length;
-                start = Math.max(0, this.listSettings.data.length - this.maxItemsCount);
+                end = start + this.maxItemsCount - 1;
+            if (end>this.listSettings.data.length-1) {
+                end = this.listSettings.data.length-1;
+                start = Math.max(0, end - this.maxItemsCount + 1);
             }
-            this.previewDataBlock(start, end-1);
+            this.previewDataBlock(start, end);
         },
 
         previewDataBlock: function(start, end) {
@@ -740,7 +740,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 var index = store.indexOf(rec);
                 this.updateRulesCount(true);
                 var start = this.listSettings.start;
-                var end = start + this.maxItemsCount;
+                var end = start + this.maxItemsCount - 1;
                 if (end>this.listSettings.data.length-1) {
                     end = this.listSettings.data.length-1;
                     start = Math.max(0, end - this.maxItemsCount + 1);
@@ -767,7 +767,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 ruleStore.splice(index, 1, newrec);
 
                 var start = selectedIndex===0 && up ? this.listSettings.start-1 : (!up && selectedIndex>=this.maxItemsCount-1 ? this.listSettings.start+1 : this.listSettings.start);
-                var end = start + this.maxItemsCount;
+                var end = start + this.maxItemsCount - 1;
                 if (end>this.listSettings.data.length-1) {
                     end = this.listSettings.data.length-1;
                     start = Math.max(0, end - this.maxItemsCount + 1);
@@ -949,7 +949,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             this.api.asc_unregisterCallback('asc_onUnLockCFManager', this.wrapEvents.onUnLockCFManager);
             this.api.asc_unregisterCallback('asc_onLockCFRule', this.wrapEvents.onLockCFRule);
             this.api.asc_unregisterCallback('asc_onUnLockCFRule', this.wrapEvents.onUnLockCFRule);
-
+            this._keydownTimer && clearTimeout(this._keydownTimer);
             Common.UI.Window.prototype.close.call(this);
         },
 
