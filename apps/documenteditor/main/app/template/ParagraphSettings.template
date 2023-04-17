@@ -72,8 +72,10 @@
     </tr>
     <tr class="text-only">
         <td class="padding-small" colspan=2>
-            <div id="paragraph-color-btn" style="display: inline-block;"></div>
-            <label class="input-label" style="margin-left: 5px;"><%= scope.textBackColor %></label>
+            <div class="color-btn-wrap">
+                <div id="paragraph-color-btn" style="display: inline-block;"></div>
+                <label class="input-label margin"><%= scope.textBackColor %></label>
+            </div>
         </td>
     </tr>
     <tr>

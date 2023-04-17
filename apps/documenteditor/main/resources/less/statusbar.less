@@ -6,6 +6,22 @@
         position: relative;
     }
 
+    #label-pages {
+        margin-left: 40px;
+        .rtl & {
+            margin-left: 0;
+            margin-right: 40px;
+        }
+    }
+
+    #btn-zoom-up {
+        margin-right: 40px;
+        .rtl & {
+            margin-right: 0;
+            margin-left: 40px;
+        }
+    }
+
     #label-pages, #label-zoom {
         cursor: pointer;
     }
@@ -26,12 +42,12 @@
         text-align: center;
     }
 
-    #btn-zoom-topage {
+    #btn-zoom-topage, #btn-zoom-towidth {
         margin-right: 8px;
-    }
-
-    #btn-zoom-towidth {
-        margin-right: 8px;
+        .rtl & {
+            margin-right: 0;
+            margin-left: 8px;
+        }
     }
 
     .status-group {
@@ -70,6 +86,10 @@
     #slot-status-btn-info {
         button {
             font-weight: 700;
+            .pixel-ratio__2_5 & {
+                display: flex;
+                align-items: center;
+            }
         }
     }
 
@@ -80,6 +100,11 @@
         .dropdown-menu {
             min-width: 80px;
             margin-left: -4px;
+
+            .rtl & {
+                margin-left: 0;
+                margin-right: -4px;
+            }
 
             li {
                 text-align: center;
@@ -97,6 +122,9 @@
 
         li {
             text-align: left;
+            .rtl & {
+                text-align: right;
+            }
         }
     }
 
@@ -106,9 +134,21 @@
         margin-bottom: 2px;
         min-width: 130px;
 
+        .rtl & {
+            margin-left: 0;
+            margin-right: 40px;
+        }
+
         > label {
             display: inline-block;
             margin-right: 10px;
+            float:left;
+            line-height:22px;
+            .rtl & {
+                margin-right: 0;
+                margin-left: 10px;
+                float: right;
+            }
         }
 
         > input[type=text] {
@@ -123,7 +163,13 @@
         margin-left: 137px;
         margin-bottom: 2px;
         width: 285px;
-        font-size: 12px;
+        .font-size-medium();
+
+        .rtl & {
+            padding: 14px 14px 14px 0;
+            margin-left: 0;
+            margin-right: 137px;
+        }
 
         > label {
             white-space: normal;
@@ -144,6 +190,11 @@
                     padding: 2px 0;
                     margin-right: 15px;
                     overflow: hidden;
+
+                    .rtl & {
+                        margin-right: 0;
+                        margin-left: 15px;
+                    }
 
                     &.offline, &.viewmode {
                         display: none;
@@ -167,6 +218,10 @@
                 white-space: nowrap;
                 text-overflow: ellipsis;
                 vertical-align: middle;
+                .rtl & {
+                    padding-left: 0;
+                    padding-right: 16px;
+                }
             }
         }
     }
@@ -177,5 +232,19 @@
 
     #btn-select-tool {
         margin-right: 8px;
+        .rtl & {
+            margin-right: 0;
+            margin-left: 8px;
+        }
+    }
+
+    .lang-menu {
+        li a {
+            padding-left: 28px !important;
+            .rtl & {
+                padding-left: 20px !important;
+                padding-right: 28px !important;
+            }
+        }
     }
 }

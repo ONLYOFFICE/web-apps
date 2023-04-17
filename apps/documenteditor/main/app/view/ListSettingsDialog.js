@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -72,11 +71,11 @@ define([
         }, options || {});
 
             this.template = [
-                '<div class="box">',
+                '<div class="box list-settings">',
                 '<% if (type == 2) { %>',
                     '<table cols="4" style="width: 100%;">',
                         '<tr>',
-                            '<td style="padding-right: 5px;">',
+                            '<td class="padding-right">',
                                 '<label class="input-label">' + this.txtType + '</label>',
                                 '<div id="id-dlg-numbering-format" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
                             '</td>',
@@ -88,7 +87,7 @@ define([
                                 '<label class="input-label">' + this.txtSize + '</label>',
                                 '<div id="id-dlg-bullet-size" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
                             '</td>',
-                            '<td style="padding-left: 5px;">',
+                            '<td class="padding-left">',
                                 '<label class="input-label">' + this.txtColor + '</label>',
                                 '<div id="id-dlg-bullet-color" style="margin-bottom: 10px;"></div>',
                             '</td>',
@@ -97,7 +96,7 @@ define([
                 '<% } else {%>',
                     '<table cols="2" style="width: 100%;">',
                         '<tr>',
-                            '<td style="padding-right: 5px;">',
+                            '<td class="padding-right">',
                                 '<% if (type == 0) { %>',
                                 '<label class="input-label">' + this.txtBullet + '</label>',
                                 '<button type="button" class="btn btn-text-default" id="id-dlg-bullet-font" style="width: 100%;margin-bottom: 10px;">' + this.txtFont + '</button>',
@@ -106,17 +105,17 @@ define([
                                 '<div id="id-dlg-numbering-format" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
                                 '<% } %>',
                             '</td>',
-                            '<td style="padding-left: 5px;">',
+                            '<td class="padding-left">',
                                 '<label class="input-label">' + this.txtAlign + '</label>',
                                 '<div id="id-dlg-bullet-align" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
                             '</td>',
                         '</tr>',
                         '<tr>',
-                            '<td style="padding-right: 5px;">',
+                            '<td class="padding-right">',
                                 '<label class="input-label">' + this.txtSize + '</label>',
                                 '<div id="id-dlg-bullet-size" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
                             '</td>',
-                            '<td style="padding-left: 5px;">',
+                            '<td class="padding-left">',
                                 '<label class="input-label">' + this.txtColor + '</label>',
                                 '<div id="id-dlg-bullet-color" style="margin-bottom: 10px;"></div>',
                             '</td>',
@@ -125,7 +124,7 @@ define([
                 '<% } %>',
                 '<table cols="2" style="width: 100%;">',
                         '<tr>',
-                            '<td class="<% if (type != 2) { %> hidden <% } %>" style="width: 50px; padding-right: 10px;">',
+                            '<td class="padding-right-big <% if (type != 2) { %> hidden <% } %>" style="width: 50px;">',
                                 '<label>' + this.textLevel + '</label>',
                                 '<div id="levels-list" class="no-borders" style="width:100%; height:208px;margin-top: 2px; "></div>',
                             '</td>',

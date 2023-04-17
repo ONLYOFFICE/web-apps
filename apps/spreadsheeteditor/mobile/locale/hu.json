@@ -157,6 +157,7 @@
       "textReplaceSkipped": "A csere megtörtént. {0} események kihagyásra kerültek.",
       "textReplaceSuccess": "A keresés megtörtént. Helyettesített események: {0}",
       "textRequestMacros": "A makró URL-kérést indít. Engedélyezi a %1 lekérdezését?",
+      "textUpdate": "Frissítés",
       "textYes": "Igen",
       "titleLicenseExp": "Lejárt licenc",
       "titleServerVersion": "Szerkesztő frissítve",
@@ -170,8 +171,9 @@
       "warnNoLicenseUsers": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználói korlátját. Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes frissítési feltételekért.",
       "warnProcessRightsChange": "Nincs engedélye a fájl szerkesztésére.",
       "textDontUpdate": "Don't Update",
-      "textUpdate": "Update",
-      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data."
+      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {
@@ -286,10 +288,12 @@
     "saveTextText": "Dokumentum mentése...",
     "saveTitleText": "Dokumentum mentése",
     "textCancel": "Mégsem",
+    "textContinue": "Folytatás",
     "textErrorWrongPassword": "A megadott jelszó nem megfelelő.",
     "textLoadingDocument": "Dokumentum betöltése",
     "textNo": "Nem",
     "textOk": "OK",
+    "textUndo": "Vissza",
     "textUnlockRange": "Tartomány feloldása",
     "textUnlockRangeWarning": "A módosítani kívánt tartomány jelszóval védett.",
     "textYes": "Igen",
@@ -297,9 +301,7 @@
     "uploadImageTextText": "Kép feltöltése...",
     "uploadImageTitleText": "Kép feltöltése",
     "waitText": "Kérjük várjon...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textContinue": "Continue",
-    "textUndo": "Undo"
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost)."
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Figyelmeztetés",
@@ -392,7 +394,8 @@
       "txtNotUrl": "Ennek a mezőnek URL formátumúnak kell lennie, pl.: „http://www.pelda.hu”",
       "txtSorting": "Rendezés",
       "txtSortSelected": "Kiválasztottak renezése",
-      "txtYes": "Igen"
+      "txtYes": "Igen",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Figyelmeztetés",

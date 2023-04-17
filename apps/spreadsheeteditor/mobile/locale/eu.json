@@ -145,6 +145,7 @@
       "textClose": "Itxi",
       "textContactUs": "Jarri harremanetan salmenta-sailarekin",
       "textCustomLoader": "Ez daukazu kargadorea aldatzeko baimenik. Mesedez, jarri harremanetan gure erosketa sailarekin aurrekontu bat lortzeko.",
+      "textDontUpdate": "Ez eguneratu",
       "textGuest": "Gonbidatua",
       "textHasMacros": "Fitxategiak makro automatikoak dauzka.<br>Makroak exekutatu nahi dituzu?",
       "textNo": "Ez",
@@ -157,10 +158,14 @@
       "textReplaceSkipped": "Ordezkapena burutu da. {0} agerraldi saltatu dira.",
       "textReplaceSuccess": "Bilaketa burutu da. Ordezkatu diren agerraldiak: {0}",
       "textRequestMacros": "Makro batek URL baterako eskaera egiten du. %1 URL-rako eskaera onartu nahi duzu?",
+      "textUpdate": "Eguneratu",
+      "textWarnUpdateExternalData": "Laneko liburu honek seguruak izan ez daitezkeen beste datu-iturburu batzuetarako estekak ditu. Estekak fidagarritzat jotzen badituzu, eguneratu daturik berrienak lortzeko.",
       "textYes": "Bai",
       "titleLicenseExp": "Lizentzia iraungi da",
+      "titleLicenseNotActive": "Lizentzia ez dago aktibo",
       "titleServerVersion": "Editorea eguneratu da",
       "titleUpdateVersion": "Bertsioa aldatu da",
+      "warnLicenseBefore": "Lizentzia ez dago aktibo.<br>Jarri zure administratzailearekin harremanetan.",
       "warnLicenseExceeded": "Aldibereko %1 editoreren konexio-mugara iritsi zara. Dokumentu hau bistaratzeko bakarrik irekiko da. Jarri harremanetan administratzailearekin informazio gehiago lortzeko.",
       "warnLicenseExp": "Zure lizentzia iraungi da. Mesedez, eguneratu zure lizentzia eta freskatu orria.",
       "warnLicenseLimitedNoAccess": "Lizentzia iraungi da. Ez daukazu dokumentu-edizio funtzionalitaterako sarbidea. Mesedez, kontaktatu zure administratzailea.",
@@ -168,10 +173,7 @@
       "warnLicenseUsersExceeded": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan zure administratzailearekin informazio gehiagorako.",
       "warnNoLicense": "Aldibereko konexioen mugara iritsi zara %1 editorerekin. Dokumentu hau bere bistaratzerako bakarrik irekiko da. Jarri harremanetan  %1 salmenta taldearekin eguneraketa pertsonalaren baldintzak jakiteko.",
       "warnNoLicenseUsers": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan %1 salmenta taldearekin mailaz igotzeko baldintzak ezagutzeko.",
-      "warnProcessRightsChange": "Ez duzu baimenik fitxategia editatzeko.",
-      "textDontUpdate": "Don't Update",
-      "textUpdate": "Update",
-      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data."
+      "warnProcessRightsChange": "Ez duzu baimenik fitxategia editatzeko."
     }
   },
   "Error": {
@@ -392,7 +394,8 @@
       "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa",
       "txtSorting": "Antolaketa",
       "txtSortSelected": "Antolatu hautaturiko objetuak",
-      "txtYes": "Bai"
+      "txtYes": "Bai",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Abisua",
@@ -618,7 +621,7 @@
       "textDisableAllMacrosWithoutNotification": "Desgaitu makro guztiak jakinarazpenik gabe",
       "textDone": "Eginda",
       "textDownload": "Deskargatu",
-      "textDownloadAs": "Deskargatu horrela",
+      "textDownloadAs": "Deskargatu honela",
       "textEmail": "Posta elektronikoa",
       "textEnableAll": "Gaitu guztiak",
       "textEnableAllMacrosWithoutNotification": "Gaitu makro guztiak jakinarazpenik gabe",
@@ -690,6 +693,7 @@
       "txtComma": "Koma",
       "txtCs": "Txekiera",
       "txtDa": "Daniera",
+      "txtDe": "Alemana",
       "txtDelimiter": "Mugatzailea",
       "txtDownloadCsv": "Deskargatu CSV",
       "txtEl": "Greziera",
@@ -747,8 +751,7 @@
       "txtUk": "Ukrainera",
       "txtVi": "Vietnamera",
       "txtZh": "Txinera",
-      "warnDownloadAs": "Formatu honetan gordetzen baduzu, testua ez diren ezaugarri guztiak galduko dira.<br> Ziur zaude aurrera jarraitu nahi duzula?",
-      "txtDe": "Deutsch"
+      "warnDownloadAs": "Formatu honetan gordetzen baduzu, testua ez diren ezaugarri guztiak galduko dira.<br> Ziur zaude aurrera jarraitu nahi duzula?"
     }
   }
 }

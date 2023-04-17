@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import {f7} from 'framework7-react';
 import { observer, inject } from "mobx-react";
 import {Device} from '../../../../../common/mobile/utils/device';
-
 import SettingsView from "../../view/settings/Settings";
 import {LocalStorage} from "../../../../../common/mobile/utils/LocalStorage.mjs";
 

@@ -1,0 +1,147 @@
+<svg aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <symbol id="no-arrow-5" viewBox="0 0 44 20">
+        <rect x="11" y="8" width="22" height="3"/>
+    </symbol>
+    <symbol id="arrow-1" viewBox="0 0 44 20">
+        <path d="M17 7V9H34V12H17V14L9 10.5L17 7Z"/>
+    </symbol>
+    <symbol id="arrow-2" viewBox="0 0 44 20">
+        <path d="M21 7V9H34V12H21V14L9 10.5L21 7Z"/>
+    </symbol>
+    <symbol id="arrow-3" viewBox="0 0 44 20">
+        <path d="M28 7V9H34V12H28V14L9 10.5L28 7Z"/>
+    </symbol>
+    <symbol id="arrow-4" viewBox="0 0 44 20">
+        <path d="M17 5V8H34V11H17V14L9 9.5L17 5Z"/>
+    </symbol>
+    <symbol id="arrow-5" viewBox="0 0 44 20">
+        <path d="M23 5V8H34V11H23V14L9 9.5L23 5Z"/>
+    </symbol>
+    <symbol id="arrow-6" viewBox="0 0 44 20">
+        <path d="M28 6V8H34V11H28V13L9 9.5L28 6Z"/>
+    </symbol>
+    <symbol id="arrow-7" viewBox="0 0 44 20">
+        <path d="M17 3V8H34V11H17V16L9 9.5L17 3Z"/>
+    </symbol>
+    <symbol id="arrow-8" viewBox="0 0 44 20">
+        <path d="M22 3V8H34V11H22V16L9 9.5L22 3Z"/>
+    </symbol>
+    <symbol id="arrow-9" viewBox="0 0 44 20">
+        <path d="M30 3V8H34V11H30V16L9 9.5L30 3Z"/>
+    </symbol>
+    <symbol id="dimond-arrow-1" viewBox="0 0 44 20">
+        <path d="M16.5 5L19.5 8H34V11H19.5L16.5 14L12 9.5L16.5 5Z"/>
+    </symbol>
+    <symbol id="dimond-arrow-2" viewBox="0 0 44 20">
+        <path d="M16.5 5L21.5 8H34V11H21.5L16.5 14L10 9.5L16.5 5Z"/>
+    </symbol>
+    <symbol id="dimond-arrow-3" viewBox="0 0 44 20">
+        <path d="M16.5 5L23.5 8H34V11H23.5L16.5 14L8 9.5L16.5 5Z"/>
+    </symbol>
+    <symbol id="dimond-arrow-4" viewBox="0 0 44 20">
+        <path d="M17.5 4L19.5 8H34V11H19.5L17.5 15L14.5 9.5L17.5 4Z"/>
+    </symbol>
+    <symbol id="dimond-arrow-5" viewBox="0 0 44 20">
+        <path d="M17.5 4L21.5 8H34V11H21.5L17.5 15L12.5 9.5L17.5 4Z"/>
+    </symbol>
+    <symbol id="dimond-arrow-6" viewBox="0 0 44 20">
+        <path d="M17.5 4L23.5 8H34V11H23.5L17.5 15L10 9.5L17.5 4Z"/>
+    </symbol>
+    <symbol id="dimond-arrow-7" viewBox="0 0 44 20">
+        <path d="M17.5 3L20 8H34V11H20L17.5 16L14 9.5L17.5 3Z"/>
+    </symbol>
+    <symbol id="dimond-arrow-8" viewBox="0 0 44 20">
+        <path d="M17.5 3L21 8H34V11H21L17.5 16L13 9.5L17.5 3Z"/>
+    </symbol>
+    <symbol id="dimond-arrow-9" viewBox="0 0 44 20">
+        <path d="M17.5 3L22.5 8H34V11H22.5L17.5 16L11 9.5L17.5 3Z"/>
+    </symbol>
+    <symbol id="open-arrow-1" viewBox="0 0 44 20">
+        <path d="M13.1693 4.78973L8.41882 9.54019L13.1693 14.2906L15.2906 12.1693L14.1213 11H34V8.00002H14.2016L15.2906 6.91105L13.1693 4.78973Z"/>
+    </symbol>
+    <symbol id="open-arrow-2" viewBox="0 0 44 20">
+        <path d="M18.8988 4.62573L7.75769 9.49998L18.8988 14.3742L20.1013 11.6257L18.671 11H34V7.99998H18.6709L20.1013 7.3742L18.8988 4.62573Z"/>
+    </symbol>
+    <symbol id="open-arrow-3" viewBox="0 0 44 20">
+        <path d="M25.0739 4.06183L6.71997 9.50003L25.0739 14.9382L25.9261 12.0618L22.3426 11H34V8.00003H22.3426L25.9261 6.93822L25.0739 4.06183Z"/>
+    </symbol>
+    <symbol id="open-arrow-4" viewBox="0 0 44 20">
+        <path d="M13.997 3.88458L7.80774 9.44993L13.9871 15.1064L16.0128 12.8935L13.9442 11H34V7.99998H13.907L16.0029 6.11536L13.997 3.88458Z"/>
+    </symbol>
+    <symbol id="open-arrow-5" viewBox="0 0 44 20">
+        <path d="M19.3316 3.65717L7.698 9.44792L19.322 15.338L20.678 12.662L17.3981 11H34V7.99998H17.3392L20.6684 6.34285L19.3316 3.65717Z"/>
+    </symbol>
+    <symbol id="open-arrow-6" viewBox="0 0 44 20">
+        <path d="M24.5435 3.57117L6.151 9.44716L24.536 15.4265L25.4639 12.5736L20.6256 11H34V8.00001H20.5386L25.4564 6.42887L24.5435 3.57117Z"/>
+    </symbol>
+    <symbol id="open-arrow-7" viewBox="0 0 44 20">
+        <path d="M14.9864 2.89429L7.78015 9.50002L14.9864 16.1057L17.0136 13.8943L13.8562 11H34V8.00002H13.8562L17.0136 5.10575L14.9864 2.89429Z"/>
+    </symbol>
+    <symbol id="open-arrow-8" viewBox="0 0 44 20">
+        <path d="M18.7178 2.72009L7.62341 9.50002L18.7178 16.2799L20.2822 13.7201L15.8311 11H34V8.00002H15.8311L20.2822 5.27994L18.7178 2.72009Z"/>
+    </symbol>
+    <symbol id="open-arrow-9" viewBox="0 0 44 20">
+        <path d="M25.9837 2.59167L7.14282 9.49999L25.9837 16.4083L27.0164 13.5917L19.9482 11H34V7.99999H19.9482L27.0164 5.4083L25.9837 2.59167Z"/>
+    </symbol>
+    <symbol id="oval-arrow-1" viewBox="0 0 44 20">
+        <path d="M19.6632 11C19.1015 12.1825 17.8962 13 16.5 13C14.567 13 13 11.433 13 9.5C13 7.567 14.567 6 16.5 6C17.8962 6 19.1015 6.81753 19.6632 8H34V11H19.6632Z"/>
+    </symbol>
+    <symbol id="oval-arrow-2" viewBox="0 0 44 20">
+        <path d="M21.4707 11C20.588 12.1825 18.694 13 16.5 13C13.4624 13 11 11.433 11 9.5C11 7.567 13.4624 6 16.5 6C18.694 6 20.588 6.81753 21.4707 8H34V11H21.4707Z"/>
+    </symbol>
+    <symbol id="oval-arrow-3" viewBox="0 0 44 20">
+        <path d="M22.3745 11C21.3313 12.1825 19.0929 13 16.5 13C12.9101 13 10 11.433 10 9.5C10 7.567 12.9101 6 16.5 6C19.0929 6 21.3313 6.81753 22.3745 8H34V11H22.3745Z"/>
+    </symbol>
+    <symbol id="oval-arrow-4" viewBox="0 0 44 20">
+        <path d="M20.8008 11C20.3204 12.7478 19.0239 14 17.5 14C15.567 14 14 11.9853 14 9.5C14 7.01472 15.567 5 17.5 5C19.0239 5 20.3204 6.25221 20.8008 8H34V11H20.8008Z"/>
+    </symbol>
+    <symbol id="oval-arrow-5" viewBox="0 0 44 20">
+        <path d="M21.7439 11C21.1262 12.7478 19.4593 14 17.5 14C15.0147 14 13 11.9853 13 9.5C13 7.01472 15.0147 5 17.5 5C19.4593 5 21.1262 6.25221 21.7439 8H34V11H21.7439Z"/>
+    </symbol>
+    <symbol id="oval-arrow-6" viewBox="0 0 44 20">
+        <path d="M23.5732 11C22.5436 12.7478 19.7655 14 16.5 14C12.3579 14 9 11.9853 9 9.5C9 7.01472 12.3579 5 16.5 5C19.7655 5 22.5436 6.25221 23.5732 8H34V11H23.5732Z"/>
+    </symbol>
+    <symbol id="oval-arrow-7" viewBox="0 0 44 20">
+        <path d="M20.8683 11C20.4528 13.3085 19.1021 15 17.5 15C15.567 15 14 12.5376 14 9.5C14 6.46243 15.567 4 17.5 4C19.1021 4 20.4528 5.69149 20.8683 8H34V11H20.8683Z"/>
+    </symbol >
+    <symbol id="oval-arrow-8" viewBox="0 0 44 20">
+        <path d="M21.8306 11C21.2964 13.3085 19.5598 15 17.5 15C15.0147 15 13 12.5376 13 9.5C13 6.46243 15.0147 4 17.5 4C19.5598 4 21.2964 5.69149 21.8306 8H34V11H21.8306Z"/>
+    </symbol>
+    <symbol id="oval-arrow-9" viewBox="0 0 44 20">
+        <path d="M22.793 11C22.14 13.3085 20.0176 15 17.5 15C14.4624 15 12 12.5376 12 9.5C12 6.46243 14.4624 4 17.5 4C20.0176 4 22.14 5.69149 22.793 8H34V11H22.793Z"/>
+    </symbol>
+    <symbol id="stealth-arrow-1" viewBox="0 0 44 20">
+        <path d="M17 6L16 8H34V11H16L17 13L9 9.5L17 6Z"/>
+    </symbol>
+    <symbol id="stealth-arrow-2" viewBox="0 0 44 20">
+        <path d="M21 6L19 8H34V11H19L21 13L9 9.5L21 6Z"/>
+    </symbol>
+    <symbol id="stealth-arrow-3" viewBox="0 0 44 20">
+        <path  d="M29 6L27 8H34V11H27L29 13L9 9.5L29 6Z"/>
+    </symbol>
+    <symbol id="stealth-arrow-4" viewBox="0 0 44 20">
+        <path d="M17 5L15 8H34V11H15L17 14L9 9.5L17 5Z" />
+    </symbol>
+    <symbol id="stealth-arrow-5" viewBox="0 0 44 20">
+        <path d="M20 5L18 8H34V11H18L20 14L9 9.5L20 5Z"/>
+    </symbol>
+    <symbol id="stealth-arrow-6" viewBox="0 0 44 20">
+        <path d="M29 5L27 8H34V11H27L29 14L9 9.5L29 5Z" />
+    </symbol>
+    <symbol id="stealth-arrow-7" viewBox="0 0 44 20">
+        <path d="M17 3L14 8H34V11H14L17 16L9 9.5L17 3Z"/>
+    </symbol>
+    <symbol id="stealth-arrow-8" viewBox="0 0 44 20">
+        <path d="M21 3L18 8H34V11H18L21 16L9 9.5L21 3Z"/>
+    </symbol>
+    <symbol id="stealth-arrow-9" viewBox="0 0 44 20">
+        <path d="M29 3L26 8H34V11H26L29 16L9 9.5L29 3Z" />
+    </symbol>
+</svg>
+
+
+
+
+
+
+

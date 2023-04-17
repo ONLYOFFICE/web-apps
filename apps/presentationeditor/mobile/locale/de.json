@@ -27,7 +27,7 @@
       "textEditUser": "Benutzer, die diese Datei bearbeiten:",
       "textMessageDeleteComment": "Möchten Sie diesen Kommentar wirklich löschen?",
       "textMessageDeleteReply": "Möchten Sie diese Antwort wirklich löschen?",
-      "textNoComments": "Dieses Dokument enthält keine Kommentare",
+      "textNoComments": "Keine Kommentare",
       "textOk": "OK",
       "textReopen": "Wiederöffnen",
       "textResolve": "Lösen",
@@ -132,7 +132,9 @@
       "warnLicenseUsersExceeded": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte wenden Sie sich an Ihren Administrator, um weitere Informationen zu erhalten.",
       "warnNoLicense": "Sie haben die maximale Anzahl von gleichzeitigen Verbindungen in %1-Editoren erreicht. Die Bearbeitung ist jetzt in diesem Dokument nicht verfügbar. Bitte kontaktieren Sie unser Verkaufsteam, um individuelle Upgrade-Bedingungen zu erhalten.",
       "warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte kontaktieren Sie unser Verkaufsteam, um individuelle Upgrade-Bedingungen zu erhalten.",
-      "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten."
+      "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten.",
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {
@@ -261,7 +263,8 @@
       "textSlideNumber": "Foliennummer",
       "textTable": "Tabelle",
       "textTableSize": "Tabellengröße",
-      "txtNotUrl": "In dieses Feld soll eine URL im Format \"http://www.example.com\" eingetragen werden."
+      "txtNotUrl": "In dieses Feld soll eine URL im Format \"http://www.example.com\" eingetragen werden.",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warnung",

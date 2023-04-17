@@ -121,10 +121,12 @@
       "textRequestMacros": "宏发起一个请求至URL。您是否允许请求到％1？",
       "textYes": "是",
       "titleLicenseExp": "许可证过期",
+      "titleLicenseNotActive": "许可证未激活",
       "titleServerVersion": "编辑器已更新",
       "titleUpdateVersion": "版本已变化",
       "txtIncorrectPwd": "密码有误",
       "txtProtected": "在您输入密码和打开文件后，该文件的当前密码将被重置",
+      "warnLicenseBefore": "许可证未激活。<br>请联系管理员。",
       "warnLicenseExceeded": "你触发了 %1 编辑器的同时在线数限制。该文档打开后，你将只能查看。可联系管理员来了解更多信息。",
       "warnLicenseExp": "你的许可证过期了。请更新你的许可证，然后刷新该页。",
       "warnLicenseLimitedNoAccess": "许可证已经过期。你现在无法使用文档编辑功能。恳请你联系您的管理员。",
@@ -261,7 +263,8 @@
       "textSlideNumber": "幻灯片编号",
       "textTable": "表格",
       "textTableSize": "表格大小",
-      "txtNotUrl": "该字段应为“http://www.example.com”格式的URL"
+      "txtNotUrl": "该字段应为“http://www.example.com”格式的URL",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "警告",

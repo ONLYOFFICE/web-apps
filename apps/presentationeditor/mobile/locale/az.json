@@ -132,7 +132,9 @@
       "textNoTextFound": "Text not found",
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
       "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {
@@ -260,6 +262,7 @@
       "txtNotUrl": "Bu sahədə \"http://www.example.com\" formatında URL olmalıdır",
       "textDone": "Done",
       "textOk": "Ok",
+      "textPasteImageUrl": "Paste an image URL",
       "textRecommended": "Recommended",
       "textRequired": "Required"
     },

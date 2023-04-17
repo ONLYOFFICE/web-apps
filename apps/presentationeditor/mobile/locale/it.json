@@ -132,7 +132,9 @@
       "warnLicenseUsersExceeded": "Hai raggiunto il limite degli utenti per gli editor %1. Ti preghiamo di contattare il tuo amministratore per maggior informazioni.",
       "warnNoLicense": "Hai raggiunto il limite delle connessioni simultanee agli editor %1. Questo documento sarà aperto solo in modalità di visualizzazione.  Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
       "warnNoLicenseUsers": "Hai raggiunto il limite degli utenti per gli editor %1. Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
-      "warnProcessRightsChange": "Non hai il permesso di modificare il file."
+      "warnProcessRightsChange": "Non hai il permesso di modificare il file.",
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {
@@ -260,6 +262,7 @@
       "textTableSize": "Dimensione di tabella",
       "txtNotUrl": "Questo campo deve essere un URL nel formato \"http://www.example.com\"",
       "textDone": "Done",
+      "textPasteImageUrl": "Paste an image URL",
       "textRecommended": "Recommended",
       "textRequired": "Required"
     },

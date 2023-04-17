@@ -132,7 +132,9 @@
       "warnLicenseUsersExceeded": "Has arribat al límit d'usuari per a %1 editors. Posa't en contacte amb l'administrador per a més informació.",
       "warnNoLicense": "Has arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Posa't en contacte amb l'equip de vendes %1 per conèixer les condicions d'actualització personal.",
       "warnNoLicenseUsers": "Has arribat al límit d'usuaris per a %1 editors. Posa't en contacte amb l'equip de vendes de %1 per obtenir les condicions de millora personals dels serveis.",
-      "warnProcessRightsChange": "No tens permís per editar el fitxer."
+      "warnProcessRightsChange": "No tens permís per editar el fitxer.",
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {
@@ -261,7 +263,8 @@
       "textSlideNumber": "Número de diapositiva",
       "textTable": "Taula",
       "textTableSize": "Mida de la taula",
-      "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\""
+      "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertiment",

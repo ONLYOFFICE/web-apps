@@ -211,11 +211,12 @@ class MainController extends Component {
                
                 if (Asc.c_oLicenseResult.Expired === licType ||
                     Asc.c_oLicenseResult.Error === licType ||
-                    Asc.c_oLicenseResult.ExpiredTrial === licType) {
+                    Asc.c_oLicenseResult.ExpiredTrial === licType ||
+                    Asc.c_oLicenseResult.NotBefore === licType) {
 
                     f7.dialog.create({
-                        title: t('Controller.Main.titleLicenseExp'),
-                        text: t('Controller.Main.warnLicenseExp')
+                        title: Asc.c_oLicenseResult.NotBefore === licType ? t('Controller.Main.titleLicenseNotActive') : t('Controller.Main.titleLicenseExp'),
+                        text: Asc.c_oLicenseResult.NotBefore === licType ? t('Controller.Main.warnLicenseBefore') : t('Controller.Main.warnLicenseExp')
                     }).open();
 
                     return;
@@ -369,11 +370,11 @@ class MainController extends Component {
             this.api.asc_Resize();
         });
 
-        $$(window).on('popover:open popup:open sheet:open actions:open', () => {
+        $$(window).on('popover:open popup:open sheet:open actions:open searchbar:enable', () => {
             this.api.asc_enableKeyEvents(false);
         });
 
-        $$(window).on('popover:close popup:close sheet:close actions:close', () => {
+        $$(window).on('popover:close popup:close sheet:close actions:close searchbar:disable', () => {
             this.api.asc_enableKeyEvents(true);
         });
 
@@ -1142,7 +1143,37 @@ class MainController extends Component {
     }
 
     onRequestClose () {
-        Common.Gateway.requestClose();
+        const { t } = this.props;
+        const _t = t("Toolbar", { returnObjects: true });
+
+        if (this.api.isDocumentModified()) {
+            this.api.asc_stopSaving();
+
+            f7.dialog.create({
+                title: _t.dlgLeaveTitleText,
+                text: _t.dlgLeaveMsgText,
+                verticalButtons: true,
+                buttons : [
+                    {
+                        text: _t.leaveButtonText,
+                        onClick: () => {
+                            this.api.asc_undoAllChanges();
+                            this.api.asc_continueSaving();
+                            Common.Gateway.requestClose();
+                        }
+                    },
+                    {
+                        text: _t.stayButtonText,
+                        bold: true,
+                        onClick: () => {
+                            this.api.asc_continueSaving();
+                        }
+                    }
+                ]
+            }).open();
+        } else {
+            Common.Gateway.requestClose();
+        }
     }
 
     render() {

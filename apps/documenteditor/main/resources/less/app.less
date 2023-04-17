@@ -125,6 +125,8 @@
 @import "../../../../common/main/resources/less/calendar.less";
 @import "../../../../common/main/resources/less/symboltable.less";
 @import "../../../../common/main/resources/less/hint-manager.less";
+@import "../../../../common/main/resources/less/bigscaling.less";
+@import "../../../../common/main/resources/less/updown-picker.less";
 
 // App
 // --------------------------------------------------
@@ -191,16 +193,39 @@
     @huge-icon-background-image: var(--huge-icon-background-image);
 }
 
+.font-size-tiny {
+    .fontsize(9px); // 9px
+    .fontsize(calc(@font-size-base-app - 2px)); // 9px
+}
+
 .font-size-small {
-    .fontsize(@font-size-small);
+    .fontsize(10px); // 10px
+    .fontsize(calc(@font-size-base-app - 1px)); // 10px
 }
 
 .font-size-normal {
-    .fontsize(@font-size-base);
+    .fontsize(11px); // 11px
+    .fontsize(@font-size-base-app); // 11px
+}
+
+.font-size-medium {
+    .fontsize(12px); // 12px
+    .fontsize(calc(@font-size-base-app + 1px)); // 12px
 }
 
 .font-size-large {
-    .fontsize(@font-size-large);
+    .fontsize(13px); // 13px
+    .fontsize(calc(@font-size-base-app + 2px)); // 13px
+}
+
+.font-size-huge {
+    .fontsize(14px); // 14px
+    .fontsize(calc(@font-size-base-app + 3px)); // 14px
+}
+
+.font-size-very-huge {
+    .fontsize(16px); // 16px
+    .fontsize(calc(@font-size-base-app + 5px)); // 16px
 }
 
 // Skeleton of document

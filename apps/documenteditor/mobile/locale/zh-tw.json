@@ -63,6 +63,7 @@
     "textWithPageNumbers": "帶有頁碼",
     "txtNotUrl": "此字段應為格式為“ http://www.example.com”的URL。",
     "textDone": "Done",
+    "textPasteImageUrl": "Paste an image URL",
     "textRecommended": "Recommended",
     "textRequired": "Required"
   },
@@ -425,6 +426,7 @@
     "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
     "errorTextFormWrongFormat": "The value entered does not match the format of the field.",
     "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
     "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
@@ -565,9 +567,16 @@
     "warnNoLicense": "您已達到同時連接到 %1 編輯器的限制。此文件將只提供檢視。有關個人升級條款，請聯繫 %1 業務團隊。",
     "warnNoLicenseUsers": "您已達到％1個編輯器的用戶限制。與％1銷售團隊聯繫以了解個人升級條款。",
     "warnProcessRightsChange": "您沒有編輯這個文件的權限。",
+    "textDialogProtectedChangesTracked": "You may edit this document, but all changes will be tracked",
+    "textDialogProtectedEditComments": "You may only insert comments to this document",
+    "textDialogProtectedFillForms": "You may only fill in forms in this document",
+    "textDialogProtectedOnlyView": "You may only view this document",
     "textDocumentProtected": "The document is protected. Edit settings are not available",
     "textOk": "Ok",
-    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics."
+    "titleDialogProtectedDocument": "The document is protected",
+    "titleLicenseNotActive": "License not active",
+    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator."
   },
   "Settings": {
     "advDRMOptions": "受保護的檔案",
@@ -696,7 +705,26 @@
     "txtScheme7": "產權",
     "txtScheme8": "流程",
     "txtScheme9": "鑄造廠",
-    "textMobileView": "Mobile View"
+    "textChangePassword": "Change Password",
+    "textDialogUnprotect": "Enter a password to unprotect document",
+    "textEncryptFile": "Encrypt File",
+    "textFillingForms": "Filling forms",
+    "textMobileView": "Mobile View",
+    "textNoChanges": "No changes (Read only)",
+    "textPassword": "Password",
+    "textPasswordNotMatched": "Passwords DonвЂ™t Match",
+    "textProtectDocument": "Protect Document",
+    "textProtection": "Protection",
+    "textProtectTurnOff": "Protection is turned off",
+    "textRequired": "Required",
+    "textRequirePassword": "Require Password",
+    "textSave": "Save",
+    "textSetPassword": "Set Password",
+    "textTrackedChanges": "Tracked changes",
+    "textTypeEditing": "Type Of Editing",
+    "textUnprotect": "Unprotect",
+    "textVerify": "Verify",
+    "titleDialogUnprotect": "Unprotect Document"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "您有未儲存的變更。點擊“留在此頁面”以等待自動儲存。點擊“離開此頁面”以放棄所有未儲存的變更。",

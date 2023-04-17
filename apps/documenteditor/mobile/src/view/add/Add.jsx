@@ -62,7 +62,7 @@ const AddLayoutNavbar = ({ tabs, inPopover, storeTableSettings }) => {
     const { t } = useTranslation();
     const _t = t('Add', {returnObjects: true});
 
-    const getTableStylesPreviews = async () => {
+    const getTableStylesPreviews = () => {
         if(!storeTableSettings.arrayStylesDefault.length) {
             const api = Common.EditorApi.get();
             setTimeout(() => storeTableSettings.setStyles(api.asc_getTableStylesPreviews(true), 'default'), 1);

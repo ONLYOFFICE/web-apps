@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *    TabBar.js
  *
@@ -210,7 +209,7 @@ define([
                     event.dataTransfer.setDragImage(img, 0, 0);
                 } else if (Common.Utils.isIE) {
                     this.bar.selectTabs.forEach(function (tab) {
-                        tab.$el.find('span').prop('title', '');
+                        tab.$el.find('span').prop('tabtitle', '');
                     });
                 }
                 event.dataTransfer.effectAllowed = 'copyMove';
@@ -569,8 +568,8 @@ define([
 
         checkInvisible: function(suppress) {
             var result = {
-                first: !this.isTabVisible(0),
-                last: !this.isTabVisible(this.tabs.length-1)
+                first: !this.isTabVisible(Common.UI.isRTL() ? this.tabs.length-1 : 0),
+                last: !this.isTabVisible(Common.UI.isRTL() ? 0 : this.tabs.length-1)
             };
 
             !suppress && this.fireEvent('tab:invisible', this, result);

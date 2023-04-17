@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -70,6 +69,7 @@ define([
                 this.api.asc_registerCallback('asc_onWorksheetLocked',      _.bind(this.onWorksheetLocked, this));
                 this.api.asc_registerCallback('asc_onSheetsChanged',            this.onApiSheetChanged.bind(this));
                 this.api.asc_registerCallback('asc_onUpdateSheetViewSettings',  this.onApiSheetChanged.bind(this));
+                this.api.asc_registerCallback('asc_updateSheetViewType',    this.onApiUpdateSheetViewType.bind(this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
             }
@@ -99,7 +99,8 @@ define([
                     'viewtab:showview': this.onShowView,
                     'viewtab:openview': this.onOpenView,
                     'viewtab:createview': this.onCreateView,
-                    'viewtab:manager': this.onOpenManager
+                    'viewtab:manager': this.onOpenManager,
+                    'viewtab:viewmode': this.onPreviewMode
                 },
                 'Statusbar': {
                     'sheet:changed': this.onApiSheetChanged.bind(this),
@@ -252,7 +253,8 @@ define([
 
         onWorksheetLocked: function(index,locked) {
             if (index == this.api.asc_getActiveWorksheetIndex()) {
-                Common.Utils.lockControls(Common.enumLock.sheetLock, locked, {array: [this.view.chHeadings, this.view.chGridlines, this.view.btnFreezePanes, this.view.chZeros]});
+                Common.Utils.lockControls(Common.enumLock.sheetLock, locked, {array: [this.view.chHeadings, this.view.chGridlines, this.view.btnFreezePanes, this.view.chZeros,
+                                                                                            this.view.btnViewNormal, this.view.btnViewPageBreak]});
             }
         },
 
@@ -267,6 +269,7 @@ define([
 
             var currentSheet = this.api.asc_getActiveWorksheetIndex();
             this.onWorksheetLocked(currentSheet, this.api.asc_isWorksheetLockedOrDeleted(currentSheet));
+            this.onApiUpdateSheetViewType(currentSheet);
         },
 
         onLayoutChanged: function(area) {
@@ -290,7 +293,20 @@ define([
                     menu_item.setChecked(true, true);
                 }
             }
+        },
+
+        onPreviewMode: function(value) {
+            this.api && this.api.asc_SetSheetViewType(value);
+        },
+
+        onApiUpdateSheetViewType: function(index) {
+            if (this.view && this.api && index === this.api.asc_getActiveWorksheetIndex()) {
+                var value = this.api.asc_GetSheetViewType(index);
+                this.view.btnViewPageBreak && this.view.btnViewPageBreak.toggle(value===Asc.c_oAscESheetViewType.pageBreakPreview, true);
+                this.view.btnViewNormal && this.view.btnViewNormal.toggle(value===Asc.c_oAscESheetViewType.normal, true);
+            }
         }
+
 
     }, SSE.Controllers.ViewTab || {}));
 });

@@ -31,9 +31,9 @@
       "textOk": "確定",
       "textReopen": "重開",
       "textResolve": "解決",
+      "textSharingSettings": "分享設定",
       "textTryUndoRedo": "在快速共同編輯模式下，撤消/重做功能被禁用。",
-      "textUsers": "使用者",
-      "textSharingSettings": "Sharing Settings"
+      "textUsers": "使用者"
     },
     "ThemeColorPalette": {
       "textCustomColors": "自訂顏色",
@@ -50,6 +50,7 @@
     "menuCell": "單元格",
     "menuDelete": "刪除",
     "menuEdit": "編輯",
+    "menuEditLink": "編輯連結",
     "menuFreezePanes": "凍結窗格",
     "menuHide": "隱藏",
     "menuMerge": "合併",
@@ -66,8 +67,7 @@
     "textDoNotShowAgain": "不再顯示",
     "textOk": "確定",
     "txtWarnUrl": "這連結可能對您的設備和資料造成損害。<br> 您確定要繼續嗎？",
-    "warnMergeLostData": "只有左上角單元格中的數據會保留。<br>繼續嗎？",
-    "menuEditLink": "Edit Link"
+    "warnMergeLostData": "只有左上角單元格中的數據會保留。<br>繼續嗎？"
   },
   "Controller": {
     "Main": {
@@ -171,6 +171,8 @@
       "textUpdate": "Update",
       "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
       "titleLicenseExp": "License expired",
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
       "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
     }
   },
@@ -199,6 +201,7 @@
     "errorDataRange": "不正確的資料範圍",
     "errorDataValidate": "您輸入的值無效。<br>用戶具有可以在此單元格中輸入的限制值。",
     "errorDefaultMessage": "錯誤編號：%1",
+    "errorDirectUrl": "請驗證指向文檔的連結。<br>此連結必須是指向要下載文件的直接連結。",
     "errorEditingDownloadas": "處理文件檔時發生錯誤。<br>請使用\"下載\"來儲存一份備份檔案到本機端。",
     "errorFilePassProtect": "此文件使用密碼保護功能，無法開啟。",
     "errorFileRequest": "外部錯誤。<br>檔案請求。請聯絡支援。",
@@ -229,6 +232,7 @@
     "errorSessionIdle": "無 該文件已經有一段時間沒有進行編輯了。 請重新載入頁面。",
     "errorSessionToken": "主機連線被中斷，請重新載入此頁面。",
     "errorStockChart": "行序錯誤。要建立股票圖表，請將數據按照以下順序工作表：<br> 開盤價、最高價、最低價、收盤價。 ",
+    "errorToken": "文檔安全令牌的格式不正確。<br>請與您的Document Server管理員聯繫。",
     "errorUnexpectedGuid": "外部錯誤。<br>未預期的導向。請聯絡支援。",
     "errorUpdateVersionOnDisconnect": "網路連接已恢復，文件版本已更改。<br>在繼續工作之前，您需要下載文件或複制其內容以確保沒有丟失，然後重新加載此頁面。",
     "errorUserDrop": "目前無法存取該文件。",
@@ -241,21 +245,19 @@
     "pastInMergeAreaError": "無法改變合併儲存格內的一部分",
     "saveErrorText": "存檔時發生錯誤",
     "scriptLoadError": "連線速度過慢，某些組件無法加載。 請重新載入頁面。",
+    "textCancel": "取消",
     "textErrorPasswordIsNotCorrect": "密碼錯誤。<br>核實蓋帽封鎖鍵關閉並且是肯定使用正確資本化。",
+    "textOk": "確定",
     "unknownErrorText": "未知錯誤。",
     "uploadImageExtMessage": "圖片格式未知。",
     "uploadImageFileCountMessage": "沒有上傳圖片。",
     "uploadImageSizeMessage": "圖像超出最大大小限制。最大大小為25MB。",
-    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
     "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
     "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
-    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
-    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
-    "textCancel": "Cancel",
-    "textOk": "Ok"
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "advDRMPassword": "密碼",
@@ -286,10 +288,12 @@
     "saveTextText": "儲存文件...",
     "saveTitleText": "儲存文件",
     "textCancel": "取消",
+    "textContinue": "繼續",
     "textErrorWrongPassword": "密碼錯誤",
     "textLoadingDocument": "載入文件",
     "textNo": "沒有",
     "textOk": "確定",
+    "textUndo": "復原",
     "textUnlockRange": "範圍解鎖",
     "textUnlockRangeWarning": "試圖改變的範圍受密碼保護。",
     "textYes": "是",
@@ -297,9 +301,7 @@
     "uploadImageTextText": "正在上傳圖片...",
     "uploadImageTitleText": "上載圖片",
     "waitText": "請耐心等待...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textContinue": "Continue",
-    "textUndo": "Undo"
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost)."
   },
   "Statusbar": {
     "notcriticalErrorTitle": "警告",
@@ -375,6 +377,7 @@
       "textPictureFromLibrary": "圖片來自圖書館",
       "textPictureFromURL": "網址圖片",
       "textRange": "範圍",
+      "textRecommended": "推薦的",
       "textRequired": "需要",
       "textScreenTip": "屏幕提示",
       "textSelectedRange": "選擇範圍",
@@ -392,7 +395,7 @@
       "txtSortSelected": "排序已選擇項目",
       "txtYes": "是",
       "textDone": "Done",
-      "textRecommended": "Recommended"
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "警告",
@@ -410,6 +413,7 @@
       "textAllBorders": "所有邊界",
       "textAngleClockwise": "順時針旋轉角度",
       "textAngleCounterclockwise": "逆時針旋轉角度",
+      "textArrange": "安排",
       "textAuto": "自動",
       "textAutomatic": "自動",
       "textAxisCrosses": "軸十字",
@@ -424,6 +428,7 @@
       "textBottom": "底部",
       "textBottomBorder": "底部邊框",
       "textBringToForeground": "移到前景",
+      "textCancel": "取消",
       "textCell": "單元格",
       "textCellStyle": "單元格樣式",
       "textCenter": "中心",
@@ -525,6 +530,7 @@
       "textPound": "英鎊",
       "textPt": "pt",
       "textRange": "範圍",
+      "textRecommended": "推薦的",
       "textRemoveChart": "刪除圖表",
       "textRemoveShape": "去除形狀",
       "textReplace": "取代",
@@ -572,13 +578,10 @@
       "txtNotUrl": "此字段應為格式為\"http://www.example.com\"的URL。",
       "txtSortHigh2Low": "最高到最低排序",
       "txtSortLow2High": "從最低到最高排序",
-      "textArrange": "Arrange",
-      "textCancel": "Cancel",
       "textChangeShape": "Change Shape",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
-      "textDone": "Done",
-      "textRecommended": "Recommended"
+      "textDone": "Done"
     },
     "Settings": {
       "advCSVOptions": "選擇CSV選項",

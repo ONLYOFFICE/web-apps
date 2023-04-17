@@ -171,7 +171,9 @@
       "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini.",
       "textDontUpdate": "Don't Update",
       "textUpdate": "Update",
-      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data."
+      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {
@@ -392,7 +394,8 @@
       "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”",
       "txtSorting": "Sorting",
       "txtSortSelected": "Sortir dipilih",
-      "txtYes": "Ya"
+      "txtYes": "Ya",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Peringatan",

@@ -171,6 +171,8 @@
       "textUpdate": "Update",
       "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
       "titleLicenseExp": "License expired",
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
       "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
     }
   },
@@ -390,6 +392,7 @@
       "textDone": "Done",
       "textHeadersTableHint": "Returns the column headers for the table or specified table columns",
       "textOk": "Ok",
+      "textPasteImageUrl": "Paste an image URL",
       "textRecommended": "Recommended",
       "textThisRowHint": "Choose only this row of the specified column",
       "textTotalsTableHint": "Returns the total rows for the table or specified table columns"
