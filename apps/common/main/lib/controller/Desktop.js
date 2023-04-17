@@ -101,7 +101,7 @@ define([
                         if ( config.isFillFormApp ) {
                             $("#title-doc-name")[obj.singlewindow ? 'hide' : 'show']();
                         } else {
-                            titlebuttons.home && titlebuttons.home.btn.setVisible(obj.singlewindow);
+                            titlebuttons && titlebuttons.home && titlebuttons.home.btn.setVisible(obj.singlewindow);
                         }
                     }
                 } else
@@ -344,6 +344,7 @@ define([
 
         const _onHidePreloader = function (mode) {
             features.viewmode = !mode.isEdit;
+            features.viewmode && (features.btnhome = false);
             features.crypted = mode.isCrypted;
             native.execCommand('webapps:features', JSON.stringify(features));
 

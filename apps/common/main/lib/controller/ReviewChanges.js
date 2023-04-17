@@ -677,7 +677,7 @@ define([
                 }
                 if (item === 'file') {
                     if (this.api)
-                        this.api.asc_CompareDocumentFile(this._state.compareSettings);
+                        setTimeout(function() {me.api.asc_CompareDocumentFile(me._state.compareSettings);}, 1);
                     Common.NotificationCenter.trigger('edit:complete', this.view);
                 } else if (item === 'url') {
                     (new Common.Views.ImageFromUrlDialog({
@@ -734,7 +734,7 @@ define([
                     this._state.compareSettings.putWords(!Common.localStorage.getBool("de-compare-char"));
                 }
                 if (item === 'file') {
-                    this.api.asc_MergeDocumentFile(this._state.compareSettings);
+                    setTimeout(function() {me.api.asc_MergeDocumentFile(me._state.compareSettings);}, 1);
                     Common.NotificationCenter.trigger('edit:complete', this.view);
                 } else if (item === 'url') {
                     (new Common.Views.ImageFromUrlDialog({

@@ -714,16 +714,20 @@ define([
                      parentEl: $('#table-border-color-btn'),
                      color: 'auto',
                      auto: true,
+                     eyeDropper: true,
                      dataHint: '1',
                      dataHintDirection: 'bottom',
                      dataHintOffset: 'big'
                  });
                  this.lockedControls.push(this.btnBorderColor);
                  this.borderColor = this.btnBorderColor.getPicker();
+                 this.btnBorderColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                 this.btnBorderColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
 
                  this.btnBackColor = new Common.UI.ColorButton({
                      parentEl: $('#table-back-color-btn'),
                      transparent: true,
+                     eyeDropper: true,
                      dataHint: '1',
                      dataHintDirection: 'bottom',
                      dataHintOffset: 'big'
@@ -731,6 +735,8 @@ define([
                  this.lockedControls.push(this.btnBackColor);
                  this.colorsBack = this.btnBackColor.getPicker();
                  this.btnBackColor.on('color:select', _.bind(this.onColorsBackSelect, this));
+                 this.btnBackColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                 this.btnBackColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
              }
              this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
              this.borderColor.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
@@ -982,6 +988,15 @@ define([
                 });
                 this.linkAdvanced && this.linkAdvanced.toggleClass('disabled', disable);
             }
+        },
+
+        onEyedropperStart: function (btn) {
+            this.api.asc_startEyedropper(_.bind(btn.eyedropperEnd, btn));
+            this.fireEvent('eyedropper', true);
+        },
+
+        onEyedropperEnd: function () {
+            this.fireEvent('eyedropper', false);
         },
 
         textBorders:        'Border\'s Style',

@@ -394,7 +394,8 @@
       "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa",
       "txtSorting": "Antolaketa",
       "txtSortSelected": "Antolatu hautaturiko objetuak",
-      "txtYes": "Bai"
+      "txtYes": "Bai",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Abisua",

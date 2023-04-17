@@ -394,7 +394,8 @@
       "txtNotUrl": "ຊ່ອງຂໍ້ມູນນີ້ຄວນຈະເປັນ URL ໃນຮູບແບບ \"http://www.example.com\"",
       "txtSorting": "ການລຽງລຳດັບ",
       "txtSortSelected": "ຈັດລຽງທີ່ເລືອກ",
-      "txtYes": "ແມ່ນແລ້ວ"
+      "txtYes": "ແມ່ນແລ້ວ",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "ເຕືອນ",

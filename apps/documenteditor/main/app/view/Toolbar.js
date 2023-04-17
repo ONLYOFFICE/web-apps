@@ -403,6 +403,7 @@ define([
                         split: true,
                         menu: true,
                         auto: true,
+                        eyeDropper: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '0, -16'
@@ -418,6 +419,7 @@ define([
                         split: true,
                         transparent: true,
                         menu: true,
+                        eyeDropper: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '0, -16'
@@ -3055,7 +3057,8 @@ define([
             tipMultiLevelArticl: '',
             tipMultiLevelChapter: '',
             tipMultiLevelHeadings: '',
-            tipMultiLevelHeadVarious: ''
+            tipMultiLevelHeadVarious: '',
+            textTabDraw: 'Draw'
         }
     })(), DE.Views.Toolbar || {}));
 });

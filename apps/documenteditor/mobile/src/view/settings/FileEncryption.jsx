@@ -3,6 +3,7 @@ import { observer, inject } from "mobx-react";
 import { Device } from '../../../../../common/mobile/utils/device';
 import { Page, Navbar, List, ListItem, BlockTitle, Toggle, NavRight, f7, Link, ListInput, Icon, Block } from "framework7-react";
 import { useTranslation } from "react-i18next";
+import PasswordField from '../../components/PasswordField/PasswordField';
 
 const EncryptionView = inject("storeAppOptions")(observer(props => {
     const { t } = useTranslation();
@@ -61,24 +62,12 @@ const EncryptionView = inject("storeAppOptions")(observer(props => {
             }
             {(isFileEncrypted && isRequiredPassword || !isFileEncrypted) &&
                 <>
-                    <List inlineLabels className="inputs-list">
-                        <ListInput 
-                            label={t('Settings.textPassword')}
-                            type="password"
-                            placeholder={t('Settings.textRequired')}
-                            value={password}
-                            onInput={e => changePassword(e.target.value)}
-                            className={isIos ? 'list-input-right' : ''}
-                        />
-                        <ListInput 
-                            label={t('Settings.textVerify')}
-                            type="password"
-                            placeholder={t('Settings.textRequired')}
-                            value={passwordRepeat}
-                            onInput={e => repeatPassword(e.target.value)}
-                            className={isIos ? 'list-input-right' : ''}
-                        />
-                    </List>
+                    <div className='inputs-list list inline-labels'>
+                        <ul>
+                            <PasswordField label={t('Settings.textPassword')} placeholder={t('Settings.textRequired')} value={password} handlerChange={changePassword} />
+                            <PasswordField label={t('Settings.textVerify')} placeholder={t('Settings.textRequired')} value={passwordRepeat} handlerChange={repeatPassword} />
+                        </ul>
+                    </div>
                     <Block>
                         <p>If the password is forgotten or lost, it cannot be recovered.</p>
                     </Block>

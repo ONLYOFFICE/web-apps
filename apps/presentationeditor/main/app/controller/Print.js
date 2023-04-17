@@ -302,7 +302,9 @@ define([
                     w: rec ? rec.size[0] : undefined,
                     h: rec ? rec.size[1] : undefined,
                     preset: rec ? rec.caption : undefined
-                }
+                },
+                copies: this.printSettings.spnCopies.getNumberValue() || 1,
+                sides: this.printSettings.cmbSides.getValue()
             });
 
             if ( print ) {

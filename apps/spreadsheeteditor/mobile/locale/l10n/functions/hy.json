@@ -472,6 +472,12 @@
 	"WRAPCOLS": "ՓԱՓԿՈԼՆԵՐ",
 	"TAKE": "ՏԱՐԵԼ",
 	"DROP": "ԱՆԿՈՒՄ",
+	"SEQUENCE": "SEQUENCE",
+	"EXPAND": "EXPAND",
+	"XMATCH": "XMATCH",
+	"FILTER": "FILTER",
+	"ARRAYTOTEXT": "ARRAYTOTEXT",
+	"SORT": "SORT",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "ԷՋԱԳԼՈՒԽՆԵՐ",

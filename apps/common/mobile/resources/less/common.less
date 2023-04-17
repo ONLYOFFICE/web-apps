@@ -1141,6 +1141,24 @@ input[type="number"]::-webkit-inner-spin-button {
     }
 }
 
+.list input[type='password'], 
+.list input[type='text'] {
+    background: transparent;
+}
+
+// Dialog with password
+.dialog {
+    .modal-password {
+        position: relative;
+
+        &__icon {
+            position: absolute;
+            right: 4px;
+            top: calc(50% - 12.5px);
+        }
+    }
+}
+
 
 
 

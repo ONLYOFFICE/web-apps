@@ -3,15 +3,13 @@ import { observer, inject } from "mobx-react";
 import { Device } from '../../../../../common/mobile/utils/device';
 import { Page, Navbar, List, ListItem, BlockTitle, Toggle, NavRight, f7, Link, ListInput, Icon, Block } from "framework7-react";
 import { useTranslation } from "react-i18next";
-import FieldPassword from '../../components/FieldPassword/FieldPassword';
+import PasswordField from '../../components/PasswordField/PasswordField';
 
-const ProtectionDocumentView = inject("storeAppOptions")(observer(props => {
+const ProtectionDocumentView = props => {
     const { t } = useTranslation();
     const _t = t("Settings", { returnObjects: true });
     const isIos = Device.ios;
-    const appOptions = props.storeAppOptions;
-    const typeProtection = appOptions.typeProtection;
-    const [stateTypeProtection, setStateTypeProtection] = useState(typeProtection);
+    const [stateTypeProtection, setStateTypeProtection] = useState(Asc.c_oAscEDocProtect.ReadOnly);
     const [isRequirePassword, setRequirePassword] = useState(false);
     const [password, changePassword] = useState('');
     const [passwordRepeat, changeRepeationPassword] = useState('');
@@ -56,24 +54,12 @@ const ProtectionDocumentView = inject("storeAppOptions")(observer(props => {
             </List>
             {isRequirePassword &&
                 <>
-                    <List inlineLabels className="inputs-list">
-                        <ListInput 
-                            label={t('Settings.textPassword')}
-                            type="password"
-                            placeholder={t('Settings.textRequired')}
-                            value={password}
-                            onInput={e => changePassword(e.target.value)}
-                            className={isIos ? 'list-input-right' : ''} 
-                        />
-                        <ListInput 
-                            label={t('Settings.textVerify')}
-                            type="password"
-                            placeholder={t('Settings.textRequired')}
-                            value={passwordRepeat}
-                            onInput={e => changeRepeationPassword(e.target.value)}
-                            className={isIos ? 'list-input-right' : ''} 
-                        />
-                    </List>
+                    <div className='inputs-list list inline-labels'>
+                        <ul>
+                            <PasswordField label={t('Settings.textPassword')} placeholder={t('Settings.textRequired')} value={password} handlerChange={changePassword} maxLength={15} />
+                            <PasswordField label={t('Settings.textVerify')} placeholder={t('Settings.textRequired')} value={passwordRepeat} handlerChange={changeRepeationPassword} maxLength={15} />
+                        </ul>
+                    </div>
                     <Block>
                         <p>If the password is forgotten or lost, it cannot be recovered.</p>
                     </Block>
@@ -99,6 +85,6 @@ const ProtectionDocumentView = inject("storeAppOptions")(observer(props => {
             </Block>
         </Page>
     )
-}));
+};
 
 export default ProtectionDocumentView;
