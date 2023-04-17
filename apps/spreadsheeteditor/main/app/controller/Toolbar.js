@@ -382,6 +382,7 @@ define([
                 toolbar.btnSelectAll.on('click',                            _.bind(this.onSelectAll, this));
                 toolbar.btnIncFontSize.on('click',                          _.bind(this.onIncreaseFontSize, this));
                 toolbar.btnDecFontSize.on('click',                          _.bind(this.onDecreaseFontSize, this));
+                toolbar.mnuChangeCase.on('item:click',                      _.bind(this.onChangeCase, this));
                 toolbar.btnBold.on('click',                                 _.bind(this.onBold, this));
                 toolbar.btnItalic.on('click',                               _.bind(this.onItalic, this));
                 toolbar.btnUnderline.on('click',                            _.bind(this.onUnderline, this));
@@ -646,6 +647,12 @@ define([
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar, {restorefocus:true});
             Common.component.Analytics.trackEvent('ToolBar', 'Font Size');
+        },
+
+        onChangeCase: function(menu, item, e) {
+            if (this.api)
+                this.api.asc_ChangeTextCase(item.value);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onBold: function(btn, e) {
@@ -2592,7 +2599,7 @@ define([
                 if (state == Asc.c_oAscCellEditorState.editEmptyCell) is_text = is_formula = false;
 
                 toolbar.lockToolbar(Common.enumLock.editFormula, is_formula,
-                        { array: [toolbar.cmbFontName, toolbar.cmbFontSize, toolbar.btnIncFontSize, toolbar.btnDecFontSize,
+                        { array: [toolbar.cmbFontName, toolbar.cmbFontSize, toolbar.btnIncFontSize, toolbar.btnDecFontSize, toolbar.btnChangeCase,
                             toolbar.btnBold, toolbar.btnItalic, toolbar.btnUnderline, toolbar.btnStrikeout, toolbar.btnSubscript, toolbar.btnTextColor]});
                 toolbar.lockToolbar(Common.enumLock.editText, is_text, {array: [toolbar.btnInsertFormula].concat(toolbar.btnsFormula)});
             }

@@ -862,6 +862,25 @@ define([
                     dataHintDirection: 'top'
                 });
 
+                me.btnChangeCase = new Common.UI.Button({
+                    id: 'id-toolbar-btn-case',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-change-case',
+                    lock: [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormat, _set.userProtected],
+                    menu: new Common.UI.Menu({
+                        items: [
+                            {caption: me.mniSentenceCase, value: Asc.c_oAscChangeTextCaseType.SentenceCase},
+                            {caption: me.mniLowerCase, value: Asc.c_oAscChangeTextCaseType.LowerCase},
+                            {caption: me.mniUpperCase, value: Asc.c_oAscChangeTextCaseType.UpperCase},
+                            {caption: me.mniCapitalizeWords, value: Asc.c_oAscChangeTextCaseType.CapitalizeWords},
+                            {caption: me.mniToggleCase, value: Asc.c_oAscChangeTextCaseType.ToggleCase}
+                        ]
+                    }),
+                    dataHint: '1',
+                    dataHintDirection: 'top'
+                });
+                me.mnuChangeCase = me.btnChangeCase.menu;
+
                 me.btnBold = new Common.UI.Button({
                     id          : 'id-toolbar-btn-bold',
                     cls         : 'btn-toolbar',
@@ -2101,7 +2120,7 @@ define([
             me.lockControls = [];
             if (config.isEdit) {
                 me.lockControls = [
-                    me.cmbFontName, me.cmbFontSize, me.btnIncFontSize, me.btnDecFontSize, me.btnBold,
+                    me.cmbFontName, me.cmbFontSize, me.btnIncFontSize, me.btnDecFontSize, me.btnChangeCase, me.btnBold,
                     me.btnItalic, me.btnUnderline, me.btnStrikeout, me.btnSubscript, me.btnTextColor, me.btnAlignLeft,
                     me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust, me.btnAlignTop,
                     me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor, me.btnInsertTable,
@@ -2329,6 +2348,7 @@ define([
             _injectComponent('#slot-btn-formatting',  this.btnTextFormatting);
             _injectComponent('#slot-btn-halign',  this.btnHorizontalAlign);
             _injectComponent('#slot-btn-valign',  this.btnVerticalAlign);
+            _injectComponent('#slot-btn-changecase', this.btnChangeCase);
 
             this.btnsEditHeader = Common.Utils.injectButtons($host.find('.slot-editheader'), 'tlbtn-editheader-', 'toolbar__icon btn-editheader', this.capBtnInsHeader,
                                 [Common.enumLock.editCell, Common.enumLock.selRangeEdit, Common.enumLock.headerLock, Common.enumLock.lostConnect, Common.enumLock.coAuth], undefined, undefined, undefined, '1', 'bottom', 'small');
@@ -2356,6 +2376,7 @@ define([
             _updateHint(this.btnRedo, this.tipRedo + Common.Utils.String.platformKey('Ctrl+Y'));
             _updateHint(this.btnIncFontSize, this.tipIncFont + Common.Utils.String.platformKey('Ctrl+]'));
             _updateHint(this.btnDecFontSize, this.tipDecFont + Common.Utils.String.platformKey('Ctrl+['));
+            _updateHint(this.btnChangeCase, this.tipChangeCase);
             _updateHint(this.btnBold, this.textBold + Common.Utils.String.platformKey('Ctrl+B'));
             _updateHint(this.btnItalic, this.textItalic + Common.Utils.String.platformKey('Ctrl+I'));
             _updateHint(this.btnUnderline, this.textUnderline + Common.Utils.String.platformKey('Ctrl+U'));
@@ -3477,6 +3498,12 @@ define([
         tipCut: 'Cut',
         tipInsertSmartArt: 'Insert SmartArt',
         capBtnInsSmartArt: 'SmartArt',
-        textTabDraw: 'Draw'
+        textTabDraw: 'Draw',
+        tipChangeCase: 'Change case',
+        mniSentenceCase: 'Sentence case.',
+        mniLowerCase: 'lowercase',
+        mniUpperCase: 'UPPERCASE',
+        mniCapitalizeWords: 'Capitalize Each Word',
+        mniToggleCase: 'tOGGLE cASE'
     }, SSE.Views.Toolbar || {}));
 });
