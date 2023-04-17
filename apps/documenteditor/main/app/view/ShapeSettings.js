@@ -144,6 +144,8 @@ define([
             this.FillPatternContainer = $('#shape-panel-pattern-fill');
             this.FillGradientContainer = $('#shape-panel-gradient-fill');
             this.TransparencyContainer = $('#shape-panel-transparent-fill');
+            this.EditShapeContainer = $('#shape-button-edit-shape-container');
+            this.EditChangeShapeContainer = $('#shape-button-change-shape-container');
             this.ShapeOnlySettings = $('.shape-only');
             this.CanChangeType = $('.change-type');
             this.RotationSettings = $('.shape-rotation');
@@ -830,6 +832,8 @@ define([
                 this.hideShapeOnlySettings(shapeprops.get_FromChart() || !!shapeprops.get_FromImage());
                 this.hideRotationSettings(shapeprops.get_FromChart() || !!shapeprops.get_FromImage() || shapeprops.get_FromSmartArt());
 
+                this.canEditPoint = this.api && this.api.asc_canEditGeometry();
+                this.toggleBtnEditShape();
                 var hidechangetype = shapeprops.get_FromChart() || shapeprops.get_FromSmartArt() || shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
                     || shapetype=='bentConnector4' || shapetype=='bentConnector5' || shapetype=='curvedConnector2'
                     || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
@@ -838,7 +842,6 @@ define([
                 if (!hidechangetype && this.btnChangeShape.menu.items.length) {
                     this.btnChangeShape.shapePicker.hideTextRect(shapeprops.get_FromImage() || this._state.isFromSmartArtInternal);
                 }
-                this.btnEditShape.menu.items[0].setVisible(this.api && this.api.asc_canEditGeometry());
 
                 var value = props.get_WrappingStyle();
                 if (this._state.WrappingStyle!==value) {
@@ -1670,18 +1673,19 @@ define([
 
             this.btnEditShape = new Common.UI.Button({
                 parentEl: $('#shape-button-edit-shape'),
-                cls: 'btn-text-menu-default',
+                cls: 'btn-toolbar align-left',
                 caption: this.textEditShape,
+                iconCls: 'toolbar__icon btn-menu-shape',
                 style: "width:100%;",
                 menu: new Common.UI.Menu({
                     style: 'min-width: 194px;',
                     maxHeight: 200,
+                    cls: 'shifted-right',
                     items: [
                         {caption: this.textEditPoints, value: 0, iconCls: 'toolbar__icon select-all'},
                         {
                             caption: this.strChange,
                             value: 1,
-                            iconCls: 'toolbar__icon btn-menu-shape',
                             menu        : new Common.UI.Menu({
                                 menuAlign: 'tl-tl',
                                 cls: 'menu-shapes menu-change-shape',
@@ -1696,6 +1700,23 @@ define([
             this.lockedControls.push(this.btnEditShape);
             this.btnChangeShape = this.btnEditShape.menu.items[1];
             this.btnEditShape.menu.items[0].on('click', _.bind(this.onShapeEditPoints, this));
+
+            this.btnEditChangeShape = new Common.UI.Button({
+                parentEl: $('#shape-button-change-shape'),
+                cls: 'btn-toolbar align-left',
+                caption: this.textEditShape,
+                iconCls: 'toolbar__icon btn-menu-shape',
+                style: "width:100%;",
+                menu: new Common.UI.Menu({
+                    menuAlign: 'tr-br',
+                    cls: 'menu-shapes menu-change-shape',
+                    items: []
+                }),
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.lockedControls.push(this.btnEditChangeShape);
 
             this.chShadow = new Common.UI.CheckBox({
                 el: $('#shape-checkbox-shadow'),
@@ -1747,7 +1768,8 @@ define([
             }
 
             this.onInitStandartTextures();
-            this.onApiAutoShapes();
+            this.onApiAutoShapes(this.btnEditShape.menu.items[1]);
+            this.onApiAutoShapes(this.btnEditChangeShape);
             this.UpdateThemeColors();
         },
 
@@ -1841,6 +1863,13 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
+        toggleBtnEditShape: function()
+        {
+            this.EditShapeContainer.toggleClass('settings-hidden', !this.canEditPoint);
+            this.EditChangeShapeContainer.toggleClass('settings-hidden', this.canEditPoint);
+            this.btnChangeShape = this.canEditPoint ? this.btnEditShape.menu.items[1] : this.btnEditChangeShape;
+        },
+
         onShapeEditPoints: function (){
             this.api && this.api.asc_editPointsGeometry();
         },
@@ -1855,26 +1884,26 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
-        onApiAutoShapes: function() {
+        onApiAutoShapes: function(btnChangeShape) {
             var me = this;
             var onShowBefore = function(menu) {
                 me.fillAutoShapes();
                 menu.off('show:before', onShowBefore);
             };
-            me.btnChangeShape.menu.on('show:before', onShowBefore);
+            btnChangeShape.menu.on('show:before', onShowBefore);
         },
 
         fillAutoShapes: function() {
             var me = this,
-                recents = Common.localStorage.getItem('de-recent-shapes');
-
+                recents = Common.localStorage.getItem('de-recent-shapes'),
+                menuitemId = me.canEditPoint ? 'id-edit-shape-menu' : 'id-change-shape-menu';
             var menuitem = new Common.UI.MenuItem({
-                template: _.template('<div id="id-change-shape-menu" class="menu-insertshape"></div>'),
+                template: _.template('<div id="' + menuitemId +'" class="menu-insertshape"></div>')
             });
             me.btnChangeShape.menu.addItem(menuitem);
 
             me.btnChangeShape.shapePicker = new Common.UI.DataViewShape({
-                el: $('#id-change-shape-menu'),
+                el: $('#' + menuitemId),
                 itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                 groups: me.application.getCollection('ShapeGroups'),
                 parentMenu: me.btnChangeShape.menu,
