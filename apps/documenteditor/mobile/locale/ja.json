@@ -47,6 +47,7 @@
     "textOther": "その他",
     "textPageBreak": "改ページ",
     "textPageNumber": "ページ番号",
+    "textPasteImageUrl": "画像のURLを貼り付ける",
     "textPictureFromLibrary": "ライブラリからのイメージ",
     "textPictureFromURL": "URLからのイメージ",
     "textPosition": "場所",
@@ -64,8 +65,7 @@
     "textTableSize": "表のサイズ",
     "textWithBlueLinks": "ブルーリンク付き",
     "textWithPageNumbers": "ページ番号付き",
-    "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります。",
-    "textPasteImageUrl": "Paste an image URL"
+    "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります。"
   },
   "Common": {
     "Collaboration": {

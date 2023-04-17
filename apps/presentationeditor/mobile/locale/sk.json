@@ -262,9 +262,9 @@
       "textTableSize": "Veľkosť tabuľky",
       "txtNotUrl": "Toto pole by malo byť vo formáte \"http://www.example.com\"",
       "textDone": "Done",
+      "textPasteImageUrl": "Paste an image URL",
       "textRecommended": "Recommended",
-      "textRequired": "Required",
-      "textPasteImageUrl": "Paste an image URL"
+      "textRequired": "Required"
     },
     "Edit": {
       "notcriticalErrorTitle": "Upozornenie",

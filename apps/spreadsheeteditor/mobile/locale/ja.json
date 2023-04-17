@@ -375,6 +375,7 @@
       "textLinkType": "リンクのタイプ",
       "textOk": "OK",
       "textOther": "その他",
+      "textPasteImageUrl": "画像のURLを貼り付ける",
       "textPictureFromLibrary": "ライブラリからのイメージ",
       "textPictureFromURL": "URLからのイメージ",
       "textRange": "範囲",
@@ -394,8 +395,7 @@
       "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります。",
       "txtSorting": "並べ替え中",
       "txtSortSelected": "選択したを並べ替える",
-      "txtYes": "Yes",
-      "textPasteImageUrl": "Paste an image URL"
+      "txtYes": "Yes"
     },
     "Edit": {
       "notcriticalErrorTitle": " 警告",

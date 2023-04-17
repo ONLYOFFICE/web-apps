@@ -262,9 +262,9 @@
       "textTableSize": "Saiz Jadual",
       "txtNotUrl": "Medan ini perlu sebagai URL dalam “http://www.example.com” formatnya",
       "textDone": "Done",
+      "textPasteImageUrl": "Paste an image URL",
       "textRecommended": "Recommended",
-      "textRequired": "Required",
-      "textPasteImageUrl": "Paste an image URL"
+      "textRequired": "Required"
     },
     "Edit": {
       "notcriticalErrorTitle": "Amaran",

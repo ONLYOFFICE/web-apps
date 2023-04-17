@@ -263,8 +263,8 @@
       "textTableSize": "Tabulas izmērs",
       "txtNotUrl": "Šim laukam ir jābūt URL formātā \"http://www.example.com\"",
       "textEmptyImgUrl": "You need to specify the image URL.",
-      "textRecommended": "Recommended",
-      "textPasteImageUrl": "Paste an image URL"
+      "textPasteImageUrl": "Paste an image URL",
+      "textRecommended": "Recommended"
     },
     "Edit": {
       "notcriticalErrorTitle": "Brīdinājums",

@@ -391,11 +391,11 @@
       "textDataTableHint": "Returns the data cells of the table or specified table columns",
       "textEmptyImgUrl": "You need to specify the image URL.",
       "textHeadersTableHint": "Returns the column headers for the table or specified table columns",
+      "textPasteImageUrl": "Paste an image URL",
       "textRecommended": "Recommended",
       "textThisRowHint": "Choose only this row of the specified column",
       "textTotalsTableHint": "Returns the total rows for the table or specified table columns",
-      "txtLockSort": "Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?",
-      "textPasteImageUrl": "Paste an image URL"
+      "txtLockSort": "Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?"
     },
     "Edit": {
       "notcriticalErrorTitle": "Brīdinājums",

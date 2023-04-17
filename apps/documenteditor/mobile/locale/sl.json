@@ -47,6 +47,7 @@
     "textOther": "Other",
     "textPageBreak": "Page Break",
     "textPageNumber": "Page Number",
+    "textPasteImageUrl": "Paste an image URL",
     "textPictureFromLibrary": "Picture from Library",
     "textPictureFromURL": "Picture from URL",
     "textPosition": "Position",
@@ -64,8 +65,7 @@
     "textTableSize": "Table Size",
     "textWithBlueLinks": "With Blue Links",
     "textWithPageNumbers": "With Page Numbers",
-    "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
-    "textPasteImageUrl": "Paste an image URL"
+    "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\""
   },
   "Common": {
     "Collaboration": {

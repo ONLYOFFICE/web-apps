@@ -60,12 +60,12 @@
     "textTableSize": "Розмір таблиці",
     "txtNotUrl": "Це поле має бути URL-адресою у форматі \"http://www.example.com\"",
     "textDone": "Done",
+    "textPasteImageUrl": "Paste an image URL",
     "textRecommended": "Recommended",
     "textRequired": "Required",
     "textTableContents": "Table of Contents",
     "textWithBlueLinks": "With Blue Links",
-    "textWithPageNumbers": "With Page Numbers",
-    "textPasteImageUrl": "Paste an image URL"
+    "textWithPageNumbers": "With Page Numbers"
   },
   "Common": {
     "Collaboration": {

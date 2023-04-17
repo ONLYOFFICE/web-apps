@@ -250,6 +250,7 @@
       "textNextSlide": "Diapozitivul următor",
       "textOk": "OK",
       "textOther": "Altele",
+      "textPasteImageUrl": "Lipește URL-ul imaginii",
       "textPictureFromLibrary": "Imagine dintr-o bibliotecă ",
       "textPictureFromURL": "Imaginea prin URL",
       "textPreviousSlide": "Diapozitivul anterior",
@@ -263,8 +264,7 @@
       "textSlideNumber": "Număr diapozitiv",
       "textTable": "Tabel",
       "textTableSize": "Dimensiune tabel",
-      "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
-      "textPasteImageUrl": "Paste an image URL"
+      "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\""
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertisment",

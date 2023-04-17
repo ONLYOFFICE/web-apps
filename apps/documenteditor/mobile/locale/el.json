@@ -63,9 +63,9 @@
     "textWithPageNumbers": "Με Αριθμούς Σελίδων",
     "txtNotUrl": "Αυτό το πεδίο πρέπει να είναι μια διεύθυνση URL με τη μορφή «http://www.example.com»",
     "textDone": "Done",
+    "textPasteImageUrl": "Paste an image URL",
     "textRecommended": "Recommended",
-    "textRequired": "Required",
-    "textPasteImageUrl": "Paste an image URL"
+    "textRequired": "Required"
   },
   "Common": {
     "Collaboration": {

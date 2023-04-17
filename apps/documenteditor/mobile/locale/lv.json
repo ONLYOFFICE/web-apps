@@ -62,10 +62,10 @@
     "textBelowText": "Below text",
     "textBreak": "Break",
     "textInsertFootnote": "Insert Footnote",
+    "textPasteImageUrl": "Paste an image URL",
     "textRecommended": "Recommended",
     "textWithBlueLinks": "With Blue Links",
-    "textWithPageNumbers": "With Page Numbers",
-    "textPasteImageUrl": "Paste an image URL"
+    "textWithPageNumbers": "With Page Numbers"
   },
   "Common": {
     "Collaboration": {

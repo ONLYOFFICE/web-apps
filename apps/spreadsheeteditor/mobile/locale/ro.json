@@ -375,6 +375,7 @@
       "textLinkType": "Tip link",
       "textOk": "OK",
       "textOther": "Altele",
+      "textPasteImageUrl": "Lipește URL-ul imaginii",
       "textPictureFromLibrary": "Imagine dintr-o bibliotecă ",
       "textPictureFromURL": "Imaginea prin URL",
       "textRange": "Zona",
@@ -394,8 +395,7 @@
       "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
       "txtSorting": "Sortare",
       "txtSortSelected": "Sortarea selecției",
-      "txtYes": "Da",
-      "textPasteImageUrl": "Paste an image URL"
+      "txtYes": "Da"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertisment",

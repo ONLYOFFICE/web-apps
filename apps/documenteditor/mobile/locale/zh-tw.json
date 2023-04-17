@@ -63,9 +63,9 @@
     "textWithPageNumbers": "帶有頁碼",
     "txtNotUrl": "此字段應為格式為“ http://www.example.com”的URL。",
     "textDone": "Done",
+    "textPasteImageUrl": "Paste an image URL",
     "textRecommended": "Recommended",
-    "textRequired": "Required",
-    "textPasteImageUrl": "Paste an image URL"
+    "textRequired": "Required"
   },
   "Common": {
     "Collaboration": {

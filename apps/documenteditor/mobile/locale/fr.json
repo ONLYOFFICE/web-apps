@@ -47,6 +47,7 @@
     "textOther": "Autre",
     "textPageBreak": "Saut de page",
     "textPageNumber": "Numéro de page",
+    "textPasteImageUrl": "Coller l'URL de l'image",
     "textPictureFromLibrary": "Image depuis la bibliothèque",
     "textPictureFromURL": "Image depuis URL",
     "textPosition": "Position",
@@ -64,8 +65,7 @@
     "textTableSize": "Taille du tableau",
     "textWithBlueLinks": "Avec les liens bleus",
     "textWithPageNumbers": "Avec les numéros de page",
-    "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\"",
-    "textPasteImageUrl": "Paste an image URL"
+    "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\""
   },
   "Common": {
     "Collaboration": {

@@ -250,6 +250,7 @@
       "textNextSlide": "次のスライド",
       "textOk": "OK",
       "textOther": "その他",
+      "textPasteImageUrl": "画像のURLを貼り付ける",
       "textPictureFromLibrary": "ライブラリからのイメージ",
       "textPictureFromURL": "URLからのイメージ",
       "textPreviousSlide": "前のスライド",
@@ -263,8 +264,7 @@
       "textSlideNumber": "スライド番号",
       "textTable": "表",
       "textTableSize": "表のサイズ",
-      "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要がある",
-      "textPasteImageUrl": "Paste an image URL"
+      "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要がある"
     },
     "Edit": {
       "notcriticalErrorTitle": " 警告",
