@@ -60,12 +60,12 @@
     "textTableSize": "Veľkosť tabuľky",
     "txtNotUrl": "Toto pole by malo byť vo formáte \"http://www.example.com\"",
     "textDone": "Done",
+    "textPasteImageUrl": "Paste an image URL",
     "textRecommended": "Recommended",
     "textRequired": "Required",
     "textTableContents": "Table of Contents",
     "textWithBlueLinks": "With Blue Links",
-    "textWithPageNumbers": "With Page Numbers",
-    "textPasteImageUrl": "Paste an image URL"
+    "textWithPageNumbers": "With Page Numbers"
   },
   "Common": {
     "Collaboration": {

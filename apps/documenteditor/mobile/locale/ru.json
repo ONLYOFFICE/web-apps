@@ -47,6 +47,7 @@
     "textOther": "Другое",
     "textPageBreak": "Разрыв страницы",
     "textPageNumber": "Номер страницы",
+    "textPasteImageUrl": "Вставить URL изображения",
     "textPictureFromLibrary": "Рисунок из библиотеки",
     "textPictureFromURL": "Рисунок по URL",
     "textPosition": "Положение",
@@ -64,8 +65,7 @@
     "textTableSize": "Размер таблицы",
     "textWithBlueLinks": "С синими ссылками",
     "textWithPageNumbers": "С номерами страниц",
-    "txtNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\"",
-    "textPasteImageUrl": "Paste an image URL"
+    "txtNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\""
   },
   "Common": {
     "Collaboration": {

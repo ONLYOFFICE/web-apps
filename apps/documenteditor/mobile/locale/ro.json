@@ -47,6 +47,7 @@
     "textOther": "Altele",
     "textPageBreak": "Sfârșit pagină",
     "textPageNumber": "Număr de pagină",
+    "textPasteImageUrl": "Lipește URL-ul imaginii",
     "textPictureFromLibrary": "Imagine dintr-o bibliotecă ",
     "textPictureFromURL": "Imaginea prin URL",
     "textPosition": "Poziție",
@@ -64,8 +65,7 @@
     "textTableSize": "Dimensiune tabel",
     "textWithBlueLinks": "Cu linkuri albastre",
     "textWithPageNumbers": "Cu numere de pagină",
-    "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
-    "textPasteImageUrl": "Paste an image URL"
+    "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\""
   },
   "Common": {
     "Collaboration": {

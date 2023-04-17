@@ -375,6 +375,7 @@
       "textLinkType": "Тип ссылки",
       "textOk": "Ok",
       "textOther": "Другое",
+      "textPasteImageUrl": "Вставить URL изображения",
       "textPictureFromLibrary": "Рисунок из библиотеки",
       "textPictureFromURL": "Рисунок по URL",
       "textRange": "Диапазон",
@@ -394,8 +395,7 @@
       "txtNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\"",
       "txtSorting": "Сортировка",
       "txtSortSelected": "Сортировать выделенное",
-      "txtYes": "Да",
-      "textPasteImageUrl": "Paste an image URL"
+      "txtYes": "Да"
     },
     "Edit": {
       "notcriticalErrorTitle": "Внимание",

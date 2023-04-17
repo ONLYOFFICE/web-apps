@@ -262,9 +262,9 @@
       "textTableSize": "표 크기",
       "txtNotUrl": "이 필드는 \"http://www.example.com\"형식의 URL이어야합니다.",
       "textDone": "Done",
+      "textPasteImageUrl": "Paste an image URL",
       "textRecommended": "Recommended",
-      "textRequired": "Required",
-      "textPasteImageUrl": "Paste an image URL"
+      "textRequired": "Required"
     },
     "Edit": {
       "notcriticalErrorTitle": "경고",

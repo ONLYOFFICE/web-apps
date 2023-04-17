@@ -375,6 +375,7 @@
       "textLinkType": "Link Type",
       "textOk": "Ok",
       "textOther": "Other",
+      "textPasteImageUrl": "Paste an image URL",
       "textPictureFromLibrary": "Picture from library",
       "textPictureFromURL": "Picture from URL",
       "textRange": "Range",
@@ -394,8 +395,7 @@
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSorting": "Sorting",
       "txtSortSelected": "Sort selected",
-      "txtYes": "Yes",
-      "textPasteImageUrl": "Paste an image URL"
+      "txtYes": "Yes"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warning",

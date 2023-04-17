@@ -63,9 +63,9 @@
     "textTableContents": "İçindekiler Tablosu",
     "textTableSize": "Tablo Boyutu",
     "txtNotUrl": "Bu alan \"http://www.example.com\" formatında bir URL olmak zorundadır",
+    "textPasteImageUrl": "Paste an image URL",
     "textWithBlueLinks": "With Blue Links",
-    "textWithPageNumbers": "With Page Numbers",
-    "textPasteImageUrl": "Paste an image URL"
+    "textWithPageNumbers": "With Page Numbers"
   },
   "Common": {
     "Collaboration": {

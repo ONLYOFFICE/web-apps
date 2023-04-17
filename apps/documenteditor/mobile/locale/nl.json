@@ -60,12 +60,12 @@
     "txtNotUrl": "Dit veld moet een URL bevatten in de notatie \"http://www.internet.nl\"",
     "textDone": "Done",
     "textOk": "Ok",
+    "textPasteImageUrl": "Paste an image URL",
     "textRecommended": "Recommended",
     "textRequired": "Required",
     "textTableContents": "Table of Contents",
     "textWithBlueLinks": "With Blue Links",
-    "textWithPageNumbers": "With Page Numbers",
-    "textPasteImageUrl": "Paste an image URL"
+    "textWithPageNumbers": "With Page Numbers"
   },
   "Common": {
     "Collaboration": {

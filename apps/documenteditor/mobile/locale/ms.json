@@ -61,11 +61,11 @@
     "textTableSize": "Saiz Jadual",
     "txtNotUrl": "Medan ini perlu sebagai URL dalam \"http://www.example.com\" formatnya",
     "textDone": "Done",
+    "textPasteImageUrl": "Paste an image URL",
     "textRecommended": "Recommended",
     "textRequired": "Required",
     "textWithBlueLinks": "With Blue Links",
-    "textWithPageNumbers": "With Page Numbers",
-    "textPasteImageUrl": "Paste an image URL"
+    "textWithPageNumbers": "With Page Numbers"
   },
   "Common": {
     "Collaboration": {

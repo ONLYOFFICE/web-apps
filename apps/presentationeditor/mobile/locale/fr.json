@@ -250,6 +250,7 @@
       "textNextSlide": "Diapositive suivante",
       "textOk": "Accepter",
       "textOther": "Autre",
+      "textPasteImageUrl": "Coller l'URL de l'image",
       "textPictureFromLibrary": "Image depuis la bibliothèque",
       "textPictureFromURL": "Image depuis URL",
       "textPreviousSlide": "Diapositive précédente",
@@ -263,8 +264,7 @@
       "textSlideNumber": "Numéro de diapositive",
       "textTable": "Tableau",
       "textTableSize": "Taille du tableau",
-      "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\"",
-      "textPasteImageUrl": "Paste an image URL"
+      "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\""
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertissement",

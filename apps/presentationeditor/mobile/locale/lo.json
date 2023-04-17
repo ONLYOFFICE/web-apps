@@ -262,9 +262,9 @@
       "textTableSize": "ຂະໜາດຕາຕະລາງ",
       "txtNotUrl": "ຊ່ອງຂໍ້ມູນນີ້ຄວນຈະເປັນ URL ໃນຮູບແບບ \"http://www.example.com\"",
       "textDone": "Done",
+      "textPasteImageUrl": "Paste an image URL",
       "textRecommended": "Recommended",
-      "textRequired": "Required",
-      "textPasteImageUrl": "Paste an image URL"
+      "textRequired": "Required"
     },
     "Edit": {
       "notcriticalErrorTitle": "ເຕືອນ",

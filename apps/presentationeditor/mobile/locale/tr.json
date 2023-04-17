@@ -262,9 +262,9 @@
       "textTableSize": "Tablo Boyutu",
       "txtNotUrl": "Bu alan, \"http://www.example.com\" biçiminde bir URL olmalıdır.",
       "textDone": "Done",
+      "textPasteImageUrl": "Paste an image URL",
       "textRecommended": "Recommended",
-      "textRequired": "Required",
-      "textPasteImageUrl": "Paste an image URL"
+      "textRequired": "Required"
     },
     "Edit": {
       "notcriticalErrorTitle": "Uyarı",
