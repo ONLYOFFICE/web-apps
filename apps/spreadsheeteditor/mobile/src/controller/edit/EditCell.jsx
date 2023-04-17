@@ -2,14 +2,17 @@ import React, {Component} from 'react';
 import { EditCell } from '../../view/edit/EditCell';
 import { f7 } from 'framework7-react';
 import {observer, inject} from "mobx-react";
+import { Device } from '../../../../../common/mobile/utils/device';
 
 class EditCellController extends Component {
     constructor (props) {
         super(props);
         this.dateFormats = this.initFormats(Asc.c_oAscNumFormatType.Date, 38822);
         this.timeFormats = this.initFormats(Asc.c_oAscNumFormatType.Time, 1.534);
-        this.customFormats = this.initCustomFormats();
+        this.initCustomFormats = this.initCustomFormats.bind(this);
+        this.setCustomFormat = this.setCustomFormat.bind(this);
         this.onBorderStyle = this.onBorderStyle.bind(this);
+        this.initCustomFormats();
     }
 
     initFormats(type, exampleVal) {
@@ -30,7 +33,10 @@ class EditCellController extends Component {
     }
 
     initCustomFormats() {
+        if(this.props.storeCellSettings.customFormats?.length) return;
+
         const api = Common.EditorApi.get();
+        const storeCellSettings = this.props.storeCellSettings;
         const info = new Asc.asc_CFormatCellsInfo();
         const valSymbol = api.asc_getLocale();
 
@@ -43,12 +49,19 @@ class EditCellController extends Component {
             format: item
         }));
 
-        return data;
+        storeCellSettings.initCustomFormats(data);
     }
 
     setCustomFormat(value) {
         const api = Common.EditorApi.get();
         const format = api.asc_convertNumFormatLocal2NumFormat(value);
+        const storeCellSettings = this.props.storeCellSettings;
+        // const isPhone = Device.phone;
+    
+        storeCellSettings.addCustomFormat({
+            value: api.asc_convertNumFormat2NumFormatLocal(format),
+            format
+        });
         api.asc_setCellFormat(format);
 
         f7.views.current.router.back();
@@ -244,7 +257,6 @@ class EditCellController extends Component {
                 timeFormats={this.timeFormats}
                 onTextColorAuto={this.onTextColorAuto}
                 setCustomFormat={this.setCustomFormat}
-                customFormats={this.customFormats}
             />
         )
     }

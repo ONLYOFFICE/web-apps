@@ -1,6 +1,6 @@
 import React, {Fragment, useState, useEffect} from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, List, ListItem, Icon, Row, Button, Page, Navbar, Segmented, BlockTitle, NavRight, Link, Toggle, Swiper, SwiperSlide, ListInput, Block} from 'framework7-react';
+import {f7, f7router, List, ListItem, Icon, Row, Button, Page, Navbar, Segmented, BlockTitle, NavRight, Link, Toggle, Swiper, SwiperSlide, ListInput, Block} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
@@ -103,7 +103,7 @@ const EditCell = props => {
                             dateFormats: props.dateFormats,
                             timeFormats: props.timeFormats,
                             setCustomFormat: props.setCustomFormat,
-                            customFormats: props.customFormats
+                            onCellFormat: props.onCellFormat
                         }}>
                             {!isAndroid ?
                                 <Icon slot="media" icon="icon-format-general"></Icon> : null
@@ -867,6 +867,7 @@ const PageBorderSizeCell = props => {
 const PageFormatCell = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+    const isIos = Device.ios;
 
     return (
         <Page>
@@ -880,9 +881,9 @@ const PageFormatCell = props => {
             <List>
                 <ListItem link='/custom-format/' className='no-indicator' title={t('View.Edit.textCustomFormat')} routeProps={{
                     setCustomFormat: props.setCustomFormat,
-                    customFormats: props.customFormats
+                    onCellFormat: props.onCellFormat
                 }}>
-                    <Icon slot="media" icon="icon-plus"></Icon>
+                    <Icon slot="media" icon={isIos ? 'icon-plus' : 'icon-add-custom-format'}></Icon>
                 </ListItem>
                 <ListItem link='#' className='no-indicator' title={_t.textGeneral} onClick={() => props.onCellFormat('General')}>
                     <Icon slot="media" icon="icon-format-general"></Icon>
@@ -929,21 +930,22 @@ const PageFormatCell = props => {
     )
 }
 
-const PageCustomFormat = props => {
+const PageCustomFormats = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const customFormats = props.customFormats;
+    const storeCellSettings = props.storeCellSettings;
+    const customFormats = storeCellSettings.customFormats;
     const [renderList, setRenderList] = useState(false);
+    // const isPhone = Device.phone;
 
     useEffect(() => {
         if (customFormats?.length) {
             setRenderList(true);
         }
     }, [customFormats]);
-  
 
-    const handleCellFormatClick = (value) => {
-        props.setCustomFormat(value);
+    const handleCellFormatClick = (format) => {
+        props.onCellFormat(format);
         f7.views.current.router.back();
     };
 
@@ -1145,6 +1147,7 @@ const BorderColorCell = inject("storeCellSettings", "storePalette")(observer(Pag
 const CustomBorderColorCell = inject("storeCellSettings", "storePalette")(observer(PageCustomBorderColorCell));
 const BorderSizeCell = inject("storeCellSettings")(observer(PageBorderSizeCell));
 const CellStyle = inject("storeCellSettings")(observer(PageCellStyle));
+const CustomFormats = inject("storeCellSettings")(observer(PageCustomFormats));
 
 export {
     PageEditCell as EditCell,
@@ -1165,6 +1168,6 @@ export {
     PageDateFormatCell,
     PageTimeFormatCell,
     CellStyle,
-    PageCustomFormat,
+    CustomFormats,
     PageCreationCustomFormat
 };
