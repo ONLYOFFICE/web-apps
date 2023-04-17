@@ -231,13 +231,13 @@
             </div>
         </div>
         <div style="width: 100%;">
-            <div id="tableadv-panel-cell-back">
-                <label class="input-label back-color"><%= scope.textBackColor %></label>
-                <div id="tableadv-button-back-color"></div>
-            </div>
             <div id="tableadv-panel-table-back">
                 <label class="input-label back-color"><%= scope.textTableBackColor %></label>
                 <div id="tableadv-button-table-back-color"></div>
+            </div>
+            <div id="tableadv-panel-cell-back">
+                <label class="input-label back-color"><%= scope.textBackColor %></label>
+                <div id="tableadv-button-back-color"></div>
             </div>
         </div>
     </div>
