@@ -1794,6 +1794,7 @@ define([
                 first = 0;
             while (!this.dataViewItems[first].el.is(":visible")) { // if first elem is hidden
                 first++;
+                if (!this.dataViewItems[first]) return;
                 el = this.dataViewItems[first].el;
             }
 
