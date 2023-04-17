@@ -76,17 +76,28 @@ function checkScaling() {
 window.Common = {
     Utils: {
         injectSvgIcons: function () {
-            const el = document.querySelector('div.inlined-svg');
-            if (!el || !el.innerHTML.firstChild) {
-                fetch('./resources/img/iconssmall@2.5x.svg')
-                    .then(r => {
-                        if (r.ok) return r.text();
-                        else {/* error */
-                        }
-                    }).then(text => {
-                        const el = document.querySelector('div.inlined-svg')
-                        el.innerHTML = text;
-                    }).catch(console.error.bind(console));
+            let runonce;
+            // const el = document.querySelector('div.inlined-svg');
+            // if (!el || !el.innerHTML.firstChild) {
+            if ( !runonce ) {
+                runonce = true;
+                function htmlToElements(html) {
+                    var template = document.createElement('template');
+                    template.innerHTML = html;
+                    // return template.content.childNodes;
+                    return template.content.firstChild;
+                }
+
+                ['./resources/img/iconssmall@2.5x.svg','./resources/img/iconsbig@2.5x.svg']
+                    .map(url => fetch(url)
+                            .then(r => {
+                                if (r.ok) return r.text();
+                                else {/* error */}
+                            }).then(text => {
+                                const el = document.querySelector('div.inlined-svg')
+                                el.append(htmlToElements(text));
+                            }).catch(console.error.bind(console))
+                    )
             }
         }
     }
