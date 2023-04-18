@@ -2721,23 +2721,23 @@ define([
                 needshow && this.fillPivotProps();
                 documentHolder.mnuRefreshPivot.setVisible(needshow);
                 documentHolder.mnuPivotRefreshSeparator.setVisible(needshow);
-                documentHolder.mnuSubtotalField.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===0 || this.propsPivot.fieldType===1));
-                documentHolder.mnuPivotSubtotalSeparator.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===0 || this.propsPivot.fieldType===1));
-                documentHolder.mnuGroupPivot.setVisible(needshow);
-                documentHolder.mnuUnGroupPivot.setVisible(needshow);
-                documentHolder.mnuDeleteField.setVisible(!!this.propsPivot.field);
-                documentHolder.mnuPivotDeleteSeparator.setVisible(!!this.propsPivot.field);
-                documentHolder.mnuPivotSettingsSeparator.setVisible(needshow);
-                documentHolder.mnuPivotSettings.setVisible(needshow);
-                documentHolder.mnuFieldSettings.setVisible(!!this.propsPivot.field);
-                documentHolder.mnuSummarize.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2));
-                documentHolder.mnuShowAs.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2) && !this.propsPivot.rowTotal && !this.propsPivot.colTotal);
-                documentHolder.mnuShowDetails.setVisible(!!this.propsPivot.showDetails);
-                documentHolder.mnuShowDetailsSeparator.setVisible(!!this.propsPivot.showDetails);
-                documentHolder.mnuPivotValueSeparator.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2));
                 documentHolder.mnuPivotSort.setVisible(this.propsPivot.filter || this.propsPivot.rowFilter || this.propsPivot.colFilter);
                 documentHolder.mnuPivotFilter.setVisible(!!this.propsPivot.filter);
                 documentHolder.mnuPivotFilterSeparator.setVisible(this.propsPivot.filter || this.propsPivot.rowFilter || this.propsPivot.colFilter);
+                documentHolder.mnuSubtotalField.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===0 || this.propsPivot.fieldType===1));
+                documentHolder.mnuPivotSubtotalSeparator.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===0 || this.propsPivot.fieldType===1));
+                documentHolder.mnuGroupPivot.setVisible(!!this.propsPivot.canGroup);
+                documentHolder.mnuUnGroupPivot.setVisible(!!this.propsPivot.canGroup);
+                documentHolder.mnuPivotGroupSeparator.setVisible(!!this.propsPivot.canGroup);
+                documentHolder.mnuDeleteField.setVisible(!!this.propsPivot.field);
+                documentHolder.mnuPivotDeleteSeparator.setVisible(!!this.propsPivot.field);
+                documentHolder.mnuSummarize.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2));
+                documentHolder.mnuShowAs.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2) && !this.propsPivot.rowTotal && !this.propsPivot.colTotal);
+                documentHolder.mnuPivotValueSeparator.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2));
+                documentHolder.mnuShowDetails.setVisible(!!this.propsPivot.showDetails);
+                documentHolder.mnuShowDetailsSeparator.setVisible(!!this.propsPivot.showDetails);
+                documentHolder.mnuPivotSettings.setVisible(needshow);
+                documentHolder.mnuFieldSettings.setVisible(!!this.propsPivot.field);
 
                 if (this.propsPivot.field) {
                     documentHolder.mnuDeleteField.setCaption(documentHolder.txtDelField + ' ' + (this.propsPivot.rowTotal || this.propsPivot.colTotal ? documentHolder.txtGrandTotal : '"' + Common.Utils.String.htmlEncode(this.propsPivot.fieldName) + '"'), true);
@@ -2859,8 +2859,8 @@ define([
                 documentHolder.pmiGetRangeList.setDisabled(false);
 
                 if (inPivot) {
-                    documentHolder.mnuGroupPivot.setDisabled(isPivotLocked || !this.propsPivot.canGroup || this._state.wsLock);
-                    documentHolder.mnuUnGroupPivot.setDisabled(isPivotLocked || !this.propsPivot.canGroup || this._state.wsLock);
+                    documentHolder.mnuGroupPivot.setDisabled(isPivotLocked || this._state.wsLock);
+                    documentHolder.mnuUnGroupPivot.setDisabled(isPivotLocked || this._state.wsLock);
                     documentHolder.mnuRefreshPivot.setDisabled(isPivotLocked || this._state.wsLock);
                     documentHolder.mnuPivotSettings.setDisabled(isPivotLocked || this._state.wsLock);
                     documentHolder.mnuFieldSettings.setDisabled(isPivotLocked || this._state.wsLock);

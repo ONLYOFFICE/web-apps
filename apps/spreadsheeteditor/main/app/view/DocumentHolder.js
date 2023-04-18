@@ -545,7 +545,7 @@ define([
 
             me.mnuPivotRefreshSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotSubtotalSeparator = new Common.UI.MenuItem({caption: '--'});
-            me.mnuPivotSettingsSeparator = new Common.UI.MenuItem({caption: '--'});
+            me.mnuPivotGroupSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotDeleteSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotValueSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotFilterSeparator = new Common.UI.MenuItem({caption: '--'});
@@ -801,14 +801,14 @@ define([
                     me.mnuPivotSubtotalSeparator,
                     me.mnuGroupPivot,
                     me.mnuUnGroupPivot,
-                    me.mnuPivotDeleteSeparator,
+                    me.mnuPivotGroupSeparator,
                     me.mnuDeleteField,
-                    me.mnuPivotValueSeparator,
+                    me.mnuPivotDeleteSeparator,
                     me.mnuSummarize,
                     me.mnuShowAs,
-                    me.mnuShowDetailsSeparator,
+                    me.mnuPivotValueSeparator,
                     me.mnuShowDetails,
-                    me.mnuPivotSettingsSeparator,
+                    me.mnuShowDetailsSeparator,
                     me.mnuFieldSettings,
                     me.mnuPivotSettings,
                     me.pmiAddCommentSeparator,
