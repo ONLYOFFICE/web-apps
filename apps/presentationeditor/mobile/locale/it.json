@@ -262,6 +262,7 @@
       "textTableSize": "Dimensione di tabella",
       "txtNotUrl": "Questo campo deve essere un URL nel formato \"http://www.example.com\"",
       "textDone": "Done",
+      "textPasteImageUrl": "Paste an image URL",
       "textRecommended": "Recommended",
       "textRequired": "Required"
     },

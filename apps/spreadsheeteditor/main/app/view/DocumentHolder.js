@@ -129,7 +129,7 @@ define([
                 me.clearCustomItems(menu);
             });
 
-            me.fireEvent('createdelayedelements', [me]);
+            me.fireEvent('createdelayedelements', [me, 'view']);
         },
 
         createDelayedElements: function() {
@@ -1391,7 +1391,7 @@ define([
                 ]
             });
 
-            me.fireEvent('createdelayedelements', [me]);
+            me.fireEvent('createdelayedelements', [me, 'edit']);
         },
 
         setMenuItemCommentCaptionMode: function (item, add, editable) {

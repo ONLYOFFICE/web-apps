@@ -394,7 +394,8 @@
       "txtSorting": "排序",
       "txtSortSelected": "排序已選擇項目",
       "txtYes": "是",
-      "textDone": "Done"
+      "textDone": "Done",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "警告",

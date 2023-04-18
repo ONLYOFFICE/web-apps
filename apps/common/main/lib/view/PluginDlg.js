@@ -105,10 +105,11 @@ define([
             iframe.onload       = _.bind(this._onLoad,this);
 
             var me = this;
+            var pholder = this.$window.find('#id-plugin-placeholder');
             if (this.loader) {
                 setTimeout(function(){
                     if (me.isLoaded) return;
-                    me.loadMask = new Common.UI.LoadMask({owner: $('#id-plugin-placeholder')});
+                    me.loadMask = new Common.UI.LoadMask({owner: pholder});
                     me.loadMask.setTitle(me.textLoading);
                     me.loadMask.show();
                     if (me.isLoaded) me.loadMask.hide();
@@ -116,7 +117,7 @@ define([
             }
 
             iframe.src = this.url;
-            $('#id-plugin-placeholder').append(iframe);
+            pholder.append(iframe);
 
             this.on('resizing', function(args){
                 me.boxEl.css('height', parseInt(me.$window.css('height')) - me._headerFooterHeight);

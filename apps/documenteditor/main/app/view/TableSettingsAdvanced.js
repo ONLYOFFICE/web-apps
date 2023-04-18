@@ -2123,8 +2123,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         ShowHideSpacing: function(spacing) {
             this.BordersContainer.toggleClass('settings-hidden', spacing);
             this.BordersSpacingContainer.toggleClass('settings-hidden', !spacing);
-            this.TableBackContainer.css('display', (!spacing && !this._allTable) ? 'none' : 'inline-block');
-            this.CellBackContainer.css('display', (!spacing && this._allTable) ? 'none' : 'inline-block');
+            this.TableBackContainer.css('display', (!spacing && !this._allTable) ? 'none' : 'flex');
+            this.CellBackContainer.css('display', (!spacing && this._allTable) ? 'none' : 'flex');
             this.TableBackContainer.css('float', (!spacing && this._allTable) ? 'none' : 'right');
             (spacing) ? this._UpdateBordersSpacing_() : this._UpdateBordersNoSpacing_();
         },

@@ -262,6 +262,7 @@
       "txtNotUrl": "Гэтае поле мусіць быць URL-адрасам фармату \"http://www.example.com\"",
       "textDone": "Done",
       "textEmptyImgUrl": "You need to specify the image URL.",
+      "textPasteImageUrl": "Paste an image URL",
       "textRecommended": "Recommended",
       "textRequired": "Required"
     },

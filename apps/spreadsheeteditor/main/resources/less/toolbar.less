@@ -17,6 +17,17 @@
         .separator.short {
             margin-top: 1px;
         }
+
+        .elset {
+            .pixel-ratio__2_5 & {
+                display: flex;
+                align-items: center;
+
+                .btn-text-default {
+                    justify-content: center;
+                }
+            }
+        }
     }
 
     .font-attr {
@@ -159,47 +170,6 @@
 #menu-list-bullet-group {
     .item {
         margin-right: 2px;
-    }
-}
-
-.custom-scale {
-    padding: 5px 5px 5px 20px;
-    font-weight: normal;
-    line-height: 1.42857143;
-    font-size: 11px;
-    height: 32px;
-    .rtl & {
-        padding: 5px 20px 5px 5px;
-    }
-    .title {
-        padding-top: 3px;
-        padding-right: 5px;
-        .rtl & {
-            padding-right: 0;
-            padding-left: 5px;
-            float: right;
-        }
-    }
-    #custom-scale-up {
-        float:right;
-        .rtl & {
-            float: left;
-        }
-    }
-    #value-custom-scale {
-        float:right;
-        padding: 3px 3px;
-        min-width: 40px;
-        text-align: center;
-        .rtl & {
-            float: left;
-        }
-    }
-    #custom-scale-down {
-        float:right;
-        .rtl & {
-            float: left;
-        }
     }
 }
 

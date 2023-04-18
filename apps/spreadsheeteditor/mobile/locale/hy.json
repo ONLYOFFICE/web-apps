@@ -394,7 +394,8 @@
       "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ ",
       "txtSorting": "Տեսակավորում",
       "txtSortSelected": "Ընտրված տեսակավորում",
-      "txtYes": "Այո"
+      "txtYes": "Այո",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Զգուշացում",
@@ -688,7 +689,7 @@
       "txtBe": "Բելառուսերեն",
       "txtBg": "Բուլղարերեն",
       "txtCa": "Կատալոներեն",
-      "txtColon": "երկկետ",
+      "txtColon": "Միջակետ",
       "txtComma": "Ստորակետ",
       "txtCs": "Չեխերեն",
       "txtDa": "Դանիերեն",

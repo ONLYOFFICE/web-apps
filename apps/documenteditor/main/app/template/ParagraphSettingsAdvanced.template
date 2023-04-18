@@ -89,12 +89,12 @@
 </div>
 <div id="id-adv-paragraph-borders" class="settings-panel">
     <div class="inner-content">
-        <div style="width: 100%;" class="padding-small">
+        <div class="settings-wrap padding-small">
             <label class="input-label"><%= scope.textBorderWidth %></label>
-            <div id="paragraphadv-combo-border-size" style="display: inline-block; vertical-align: middle; width: 93px;"></div>
-            <div class="border-color" style="display: inline-block; vertical-align: middle;">
+            <div id="paragraphadv-combo-border-size"></div>
+            <div class="border-color">
                 <label class="input-label" ><%= scope.textBorderColor %></label>
-                <div id="paragraphadv-border-color-btn" style="display: inline-block;"></div>
+                <div id="paragraphadv-border-color-btn"></div>
             </div>
         </div>
         <label class="input-label padding-small" style="width: 100%;"><%= scope.textBorderDesc %></label>
@@ -111,9 +111,9 @@
                 <div id="paragraphadv-button-border-none" style="display: inline-block;"></div>
             </div>
         </div>
-        <div style="width: 100%;" class="padding-small">
+        <div class="color-btn-wrap" class="padding-small">
             <label class="input-label back-color"><%= scope.textBackColor %></label>
-            <div id="paragraphadv-back-color-btn" style="display: inline-block;"></div>
+            <div id="paragraphadv-back-color-btn"></div>
         </div>
     </div>
 </div>

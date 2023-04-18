@@ -472,6 +472,12 @@
 	"WRAPCOLS": "OSZLOPTÖRDELÉS",
 	"TAKE": "ÁTHELYEZ",
 	"DROP": "ELTÁVOLÍT",
+	"SEQUENCE": "SORSZÁMLISTA",
+	"EXPAND": "KITERJESZT",
+	"XMATCH": "XHOL.VAN",
+	"FILTER": "SZŰRŐ",
+	"ARRAYTOTEXT": "TÖMB.SZÖVEGGÉ",
+	"SORT": "SORBA.RENDEZ",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",
