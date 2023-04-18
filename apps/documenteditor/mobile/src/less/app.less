@@ -290,12 +290,15 @@
         background-color: @brandColor;
         color: @fill-white;
     }
+    .calendar-day-selected.calendar-day-weekend .calendar-day-number {
+        color: @fill-white;
+    }
     .calendar-day-today .calendar-day-number {
         border: 1px solid @brandColor;
         background-color: transparent;
     }
     .calendar-day-weekend .calendar-day-number {
-       color: #D25252;
+        color: @text-secondary;
     }
     .calendar-day-number {
         color: @text-normal;
