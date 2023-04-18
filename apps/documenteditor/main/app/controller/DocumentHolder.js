@@ -2451,9 +2451,9 @@ define([
 
                     menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                     menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
-                    menu.items[8].setChecked(isInlineMath);
+                    menu.items[8].options.isEquationInline = isInlineMath;
                     menu.items[8].setCaption(isInlineMath ? me.documentHolder.eqToDisplayText : me.documentHolder.eqToInlineText);
-                    menu.items[9].setChecked(isEqToolbarHide);
+                    menu.items[9].options.isToolbarHide = isEqToolbarHide;
                     menu.items[9].setCaption(isEqToolbarHide ? me.documentHolder.showEqToolbar : me.documentHolder.hideEqToolbar);
                 };
                 me.equationSettingsBtn.menu.on('item:click', _.bind(me.convertEquation, me));
@@ -2519,12 +2519,15 @@ define([
                     this.api.asc_SetMathInputType(item.value);
                 else if (item.options.type=='view')
                     this.api.asc_ConvertMathView(item.value.linear, item.value.all);
-                else if (item.options.type=='mode')
-                    this.api.asc_ConvertMathDisplayMode(item.checked);
+                else if (item.options.type=='mode'){
+                    item.options.isEquationInline = !item.options.isEquationInline;
+                    this.api.asc_ConvertMathDisplayMode(item.options.isEquationInline);
+                }
                 else if(item.options.type=='hide') {
-                    Common.Utils.InternalSettings.set('de-equation-toolbar-hide', item.checked);
-                    Common.localStorage.setItem('de-equation-toolbar-hide', item.checked);
-                    if(item.checked) this.onHideMathTrack();
+                    item.options.isToolbarHide = !item.options.isToolbarHide; 
+                    Common.Utils.InternalSettings.set('de-equation-toolbar-hide', item.options.isToolbarHide);
+                    Common.localStorage.setItem('de-equation-toolbar-hide', item.options.isToolbarHide);
+                    if(item.options.isToolbarHide) this.onHideMathTrack();
                     else this.onShowMathTrack(this.lastMathTrackBounds);
                 }
             }

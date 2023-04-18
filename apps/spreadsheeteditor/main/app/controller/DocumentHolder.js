@@ -2581,7 +2581,7 @@ define([
 
                     documentHolder.menuParagraphEquation.menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                     documentHolder.menuParagraphEquation.menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
-                    documentHolder.menuParagraphEquation.menu.items[8].setChecked(isEqToolbarHide);
+                    documentHolder.menuParagraphEquation.menu.items[8].options.isToolbarHide = isEqToolbarHide;
                     documentHolder.menuParagraphEquation.menu.items[8].setCaption(isEqToolbarHide ? documentHolder.showEqToolbar : documentHolder.hideEqToolbar);
                 }
 
@@ -4720,7 +4720,7 @@ define([
 
                     menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                     menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
-                    menu.items[8].setChecked(isEqToolbarHide);
+                    menu.items[8].options.isToolbarHide = isEqToolbarHide;
                     menu.items[8].setCaption(isEqToolbarHide ? me.documentHolder.showEqToolbar : me.documentHolder.hideEqToolbar);
                 };
                 me.equationSettingsBtn.menu.on('item:click', _.bind(me.convertEquation, me));
@@ -4785,9 +4785,10 @@ define([
                 else if (item.options.type=='view')
                     this.api.asc_ConvertMathView(item.value.linear, item.value.all);
                 else if(item.options.type=='hide') {
-                    Common.Utils.InternalSettings.set('sse-equation-toolbar-hide', item.checked);
-                    Common.localStorage.setItem('sse-equation-toolbar-hide', item.checked);
-                    if(item.checked) this.onHideMathTrack();
+                    item.options.isToolbarHide = !item.options.isToolbarHide;
+                    Common.Utils.InternalSettings.set('sse-equation-toolbar-hide', item.options.isToolbarHide);
+                    Common.localStorage.setItem('sse-equation-toolbar-hide', item.options.isToolbarHide);
+                    if(item.options.isToolbarHide) this.onHideMathTrack();
                     else this.onShowMathTrack(this.lastMathTrackBounds);
                 }
             }

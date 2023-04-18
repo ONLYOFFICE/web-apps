@@ -1447,9 +1447,7 @@ define([
                     { caption     : '--' },
                     new Common.UI.MenuItem({
                         caption     : this.hideEqToolbar,
-                        checkable   : true,
-                        checked     : false,
-                        checkmark   : false,
+                        isToolbarHide: false,
                         type        : 'hide',
                     })
                 ]
