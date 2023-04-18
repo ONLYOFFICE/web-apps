@@ -73,9 +73,9 @@ define([
         render: function() {
             var el      = this.template(this);
             this.$el    = $(el);
-            this.$el.find('span').tooltip({
+            /*this.$el.find('span').tooltip({
                 title: this.label,
-                placement: 'cursor'});
+                placement: 'cursor'});*/
             this.rendered = true;
             this.disable(this.disabled);
             return this;

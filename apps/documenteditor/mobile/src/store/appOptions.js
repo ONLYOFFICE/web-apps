@@ -54,7 +54,7 @@ export class storeAppOptions {
         this.isProtected = value;
     }
 
-    typeProtection = null;
+    typeProtection;
     setTypeProtection(type) {
         this.typeProtection = type;
     }
@@ -170,6 +170,7 @@ export class storeAppOptions {
         this.fileKey = document.key;
         const typeForm = /^(?:(oform))$/.exec(document.fileType); // can fill forms only in oform format
         this.canFillForms = this.canLicense && !!(typeForm && typeof typeForm[1] === 'string') && ((permissions.fillForms===undefined) ? this.isEdit : permissions.fillForms) && (this.config.mode !== 'view');
+        this.canProtect = permissions.protect !== false;
         this.isRestrictedEdit = !this.isEdit && (this.canComments || this.canFillForms) && isSupportEditFeature;
         if (this.isRestrictedEdit && this.canComments && this.canFillForms) // must be one restricted mode, priority for filling forms
             this.canComments = false;

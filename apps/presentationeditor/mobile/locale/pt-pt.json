@@ -263,7 +263,8 @@
       "textSlideNumber": "Número do diapositivo",
       "textTable": "Tabela",
       "textTableSize": "Tamanho da tabela",
-      "txtNotUrl": "Este campo deve ser um URL no formato \"http://www.exemplo.com\""
+      "txtNotUrl": "Este campo deve ser um URL no formato \"http://www.exemplo.com\"",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Aviso",

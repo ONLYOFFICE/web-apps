@@ -100,6 +100,7 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
     const { t } = useTranslation();
     const _t = t('Settings', {returnObjects: true});
     const appOptions = props.storeAppOptions;
+    const canProtect = appOptions.canProtect;
     const storeReview = props.storeReview;
     const displayMode = storeReview.displayMode;
     const navbar = <Navbar title={_t.textSettings}>
@@ -171,7 +172,7 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
                             <Icon slot="media" icon="icon-search"></Icon>
                         </ListItem>
                     }
-                    {_isEdit &&
+                    {(_isEdit && canProtect) &&
                         <ListItem title={t('Settings.textProtection')} link="#" onClick={onoptionclick.bind(this, '/protection')}>
                             <Icon slot="media" icon="icon-protection"></Icon>
                         </ListItem>

@@ -198,7 +198,7 @@ define([
                 this.previewPanel = this.$window.find('#id-preview-data');
                 this.previewParent = this.previewPanel.parent();
                 this.previewScrolled = this.$window.find('#id-preview');
-                this.previewInner = this.previewScrolled.find('div:first-child');
+                this.previewInner = this.previewScrolled.find('> div:first-child');
 
                 if (this.type == Common.Utils.importTextType.DRM) {
                     this.inputPwd = new Common.UI.InputFieldBtnPassword({

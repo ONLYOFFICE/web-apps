@@ -145,6 +145,7 @@ require([
                 'documenteditor/forms/app/view/ApplicationView',
                 'common/main/lib/util/utils',
                 'common/main/lib/util/LocalStorage',
+                'common/main/lib/controller/Scaling',
                 'common/main/lib/controller/Themes',
                 'common/main/lib/controller/Desktop',
                 'common/main/lib/view/PluginDlg',

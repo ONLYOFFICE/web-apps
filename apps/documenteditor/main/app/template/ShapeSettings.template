@@ -142,6 +142,19 @@
         </div>
         </td>
     </tr>
+    <tr class="no-form">
+        <td>
+           <div class="padding-small" id="shape-line-panel-transparent">
+               <label class="header"><%= scope.strTransparency %></label>
+               <div class="shape-slider">
+                   <label id="shape-line-lbl-transparency-start">0</label>
+                   <div id="shape-line-slider-transparency"></div>
+                   <label id="shape-line-lbl-transparency-end">100</label>
+               </div>
+               <div id="shape-line-spin-transparency"></div>
+           </div>
+        </td>
+    </tr>
     <tr class="shape-only-separator">
         <td class="padding-small">
             <div class="separator horizontal"></div>

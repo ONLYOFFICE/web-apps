@@ -311,6 +311,15 @@ define([
                         this._settings[active].panel.ChangeSettings.call(this._settings[active].panel, this._settings[active].props);
                     else
                         this._settings[active].panel.ChangeSettings.call(this._settings[active].panel);
+                } else if (activePane) { // lock active pane if no selected objects (ex. drawing)
+                    for (var i=0; i<this._settings.length; i++) {
+                        if (this._settings[i] && this._settings[i].panelId === activePane) {
+                            this._settings[i].locked = true;
+                            this._settings[i].panel.setLocked(true);
+                            this._settings[i].panel.disableControls(true);
+                            break;
+                        }
+                    }
                 }
             }
 

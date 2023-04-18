@@ -302,8 +302,8 @@ define([
         onApiUpdateSheetViewType: function(index) {
             if (this.view && this.api && index === this.api.asc_getActiveWorksheetIndex()) {
                 var value = this.api.asc_GetSheetViewType(index);
-                this.view.btnViewPageBreak.toggle(value===Asc.c_oAscESheetViewType.pageBreakPreview, true);
-                this.view.btnViewNormal.toggle(value===Asc.c_oAscESheetViewType.normal, true);
+                this.view.btnViewPageBreak && this.view.btnViewPageBreak.toggle(value===Asc.c_oAscESheetViewType.pageBreakPreview, true);
+                this.view.btnViewNormal && this.view.btnViewNormal.toggle(value===Asc.c_oAscESheetViewType.normal, true);
             }
         }
 

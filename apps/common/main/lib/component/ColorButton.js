@@ -42,7 +42,12 @@ define([
         render: function(parentEl) {
             Common.UI.Button.prototype.render.call(this, parentEl);
 
-            $('button:first-child', this.cmpEl).append( $('<div class="btn-color-value-line"></div>'));
+            if (/huge/.test(this.options.cls) &&  this.options.split === true ) {
+                var btnEl = $('button', this.cmpEl),
+                    btnMenuEl = $(btnEl[1]);
+                btnMenuEl && btnMenuEl.append( $('<div class="btn-color-value-line"></div>'));
+            } else
+                $('button:first-child', this.cmpEl).append( $('<div class="btn-color-value-line"></div>'));
             this.colorEl = this.cmpEl.find('.btn-color-value-line');
 
             if (this.options.auto)
@@ -73,6 +78,9 @@ define([
                     this.colorAuto = this.cmpEl.find('#' + this.menu.id + '-color-auto > a');
                     (color == 'auto') && this.setAutoColor(true);
                 }
+                if (this.options.eyeDropper) {
+                    this.cmpEl.find('#' + this.menu.id + '-eyedropper').on('click', _.bind(this.onEyedropperStart, this));
+                }
                 this.initInnerMenu();
             }
             return this.colorPicker;
@@ -87,7 +95,8 @@ define([
                 options = options || this.options;
                 var height = options.paletteHeight ? options.paletteHeight + 'px' : 'auto',
                     id = Common.UI.getId(),
-                    auto = [];
+                    auto = [],
+                    eyedropper = [];
                 if (options.auto) {
                     this.autocolor = (typeof options.auto == 'object') ? options.auto.color || '000000' : '000000';
                     auto.push({
@@ -97,14 +106,22 @@ define([
                     });
                     auto.push({caption: '--'});
                 }
+                if (options.eyeDropper) {
+                    eyedropper.push({
+                        id: id + '-eyedropper',
+                        caption: this.textEyedropper,
+                        iconCls: 'menu__icon btn-eyedropper'
+                    });
+                }
 
                 var menu = new Common.UI.Menu({
                     id: id,
-                    cls: 'shifted-left',
+                    cls: 'color-menu ' + (options.eyeDropper ? 'shifted-right' : 'shifted-left'),
                     additionalAlign: options.additionalAlign,
                     items: (options.additionalItems ? options.additionalItems : []).concat(auto).concat([
                         { template: _.template('<div id="' + id + '-color-menu" style="width: 164px; height:' + height + '; display: inline-block;"></div>') },
-                        {caption: '--'},
+                        {caption: '--'}
+                        ]).concat(eyedropper).concat([
                         {
                             id: id + '-color-new',
                             template: _.template('<a tabindex="-1" type="menuitem" style="">' + this.textNewColor + '</a>')
@@ -137,10 +154,10 @@ define([
             this.menu.setInnerMenu([{menu: this.colorPicker, index: index}]);
         },
       
-        setMenu: function (m) {
+        setMenu: function (m, preventCreatePicker) {
             m = m || this.getMenu();
             Common.UI.Button.prototype.setMenu.call(this, m);
-            this.getPicker(this.options.color, this.options.colors);
+            !preventCreatePicker && this.getPicker(this.options.color, this.options.colors);
         },
 
         onColorSelect: function(picker, color) {
@@ -183,6 +200,17 @@ define([
             this.colorPicker && this.colorPicker.addNewColor((typeof(this.color) == 'object') ? this.color.color : this.color);
         },
 
+        onEyedropperStart: function () {
+            this.trigger('eyedropper:start', this);
+        },
+
+        eyedropperEnd: function (r, g, b) {
+            var color = Common.Utils.ThemeColor.getHexColor(r, g, b);
+            this.colorPicker.setCustomColor('#' + color);
+            this.onColorSelect(this.colorPicker, color);
+            this.trigger('eyedropper:end', this);
+        },
+
         onBeforeKeyDown: function(menu, e) {
             if ((e.keyCode == Common.UI.Keys.DOWN || e.keyCode == Common.UI.Keys.SPACE) && !this.isMenuOpen()) {
                 $('button', this.cmpEl).click();
@@ -195,7 +223,8 @@ define([
         },
 
         textNewColor: 'Add New Custom Color',
-        textAutoColor: 'Automatic'
+        textAutoColor: 'Automatic',
+        textEyedropper: 'Eyedropper'
 
     }, Common.UI.ButtonColored || {}));
 

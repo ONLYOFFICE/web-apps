@@ -120,20 +120,34 @@ const onAdvancedOptions = (type, _t, isDocReady, canRequestClose, isDRM) => {
         }).open();
     }
 
-    if (canRequestClose)
+    if (canRequestClose) {
         buttons.push({
             text: _t.closeButtonText,
             onClick: function () {
                 Common.Gateway.requestClose();
             }
         });
+    }
+
     f7.dialog.create({
         title: _t.advDRMOptions,
         text: _t.textOpenFile,
         content: Device.ios ?
-        '<div class="input-field"><input type="password" class="modal-text-input" name="modal-password" placeholder="' + _t.advDRMPassword + '" id="modal-password"></div>' : '<div class="input-field"><div class="inputs-list list inline-labels"><ul><li><div class="item-content item-input"><div class="item-inner"><div class="item-input-wrap"><input type="password" name="modal-password" id="modal-password" placeholder=' + _t.advDRMPassword + '></div></div></div></li></ul></div></div>',
+        '<div class="input-field modal-password"><input type="password" class="modal-text-input" name="modal-password" placeholder="' + _t.advDRMPassword + '" id="modal-password"><i class="modal-password__icon icon icon-show-password"></i></div>' : '<div class="input-field modal-password"><div class="inputs-list list inline-labels"><ul><li><div class="item-content item-input"><div class="item-inner"><div class="item-input-wrap"><input type="password" name="modal-password" id="modal-password" placeholder=' + _t.advDRMPassword + '><i class="modal-password__icon icon icon-show-password"></i></div></div></div></li></ul></div></div>',
         buttons: buttons,
-        cssClass: 'dlg-adv-options'
+        cssClass: 'dlg-adv-options',
+        on: {
+            opened: () => {
+                const passwordIcon = document.querySelector('.modal-password__icon');
+                const passwordField = document.querySelector('#modal-password');
+
+                passwordIcon.addEventListener('click', () => {
+                    passwordIcon.classList.toggle('icon-show-password');
+                    passwordIcon.classList.toggle('icon-hide-password');
+                    passwordField.type = passwordField.type === 'password' ? 'text' : 'password';
+                });
+            },
+        }
     }).open();
 };
 

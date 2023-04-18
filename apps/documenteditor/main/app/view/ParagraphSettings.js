@@ -191,6 +191,7 @@ define([
                 disabled: this._locked,
                 transparent: true,
                 menu: true,
+                eyeDropper: true,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'medium'
@@ -273,6 +274,8 @@ define([
             this.cmbLineRule.on('selected', this.onLineRuleSelect.bind(this));
             this.cmbLineRule.on('hide:after', this.onHideMenus.bind(this));
             this.btnColor.on('color:select', this.onColorPickerSelect.bind(this));
+            this.btnColor.on('eyedropper:start', this.onEyedropperStart.bind(this));
+            this.btnColor.on('eyedropper:end', this.onEyedropperEnd.bind(this));
             this.numIndentsLeft.on('change', this.onNumIndentsLeftChange.bind(this));
             this.numIndentsRight.on('change', this.onNumIndentsRightChange.bind(this));
             this.numSpecialBy.on('change', this.onFirstLineChange.bind(this));
@@ -685,6 +688,15 @@ define([
                 this._state.HideTextOnlySettings = value;
                 this.TextOnlySettings.toggleClass('hidden', value==true);
             }
+        },
+
+        onEyedropperStart: function (btn) {
+            this.api.asc_startEyedropper(_.bind(btn.eyedropperEnd, btn));
+            this.fireEvent('eyedropper', true);
+        },
+
+        onEyedropperEnd: function () {
+            this.fireEvent('eyedropper', false);
         },
 
         strParagraphSpacing:    'Paragraph Spacing',

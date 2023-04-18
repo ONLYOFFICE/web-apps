@@ -235,7 +235,7 @@ define([
                 var disabled = (show_as === Asc.c_oAscShowDataAs.Normal || show_as === Asc.c_oAscShowDataAs.PercentOfTotal || show_as === Asc.c_oAscShowDataAs.PercentOfRow || show_as === Asc.c_oAscShowDataAs.PercentOfCol ||
                                 show_as === Asc.c_oAscShowDataAs.PercentOfParentRow || show_as === Asc.c_oAscShowDataAs.PercentOfParentCol || show_as === Asc.c_oAscShowDataAs.Index);
                 this.cmbBaseField.setDisabled(disabled);
-                this.cmbBaseField.setValue(disabled ? defValue.asc_getBaseField() : field.asc_getBaseField() , '');
+                this.cmbBaseField.setValue(disabled && defValue ? defValue.asc_getBaseField() : field.asc_getBaseField() , '');
 
                 data = [];
                 var baseitems = this.pivot_names[field.asc_getBaseField()].asc_getBaseItemObject(this.cache_names[field.asc_getBaseField()]);
@@ -293,8 +293,10 @@ define([
             this.cmbBaseField.setDisabled(disabled);
             if (!this.baseFieldChanged) {
                 var defValue = this.api.asc_getPivotShowValueAsInfo(show_as);
-                this.cmbBaseField.setValue(defValue.asc_getBaseField(), '');
-                this.cmbBaseField.getSelectedRecord() && this.changeBaseField(defValue.asc_getBaseItem());
+                if (defValue) {
+                    this.cmbBaseField.setValue(defValue.asc_getBaseField(), '');
+                    this.cmbBaseField.getSelectedRecord() && this.changeBaseField(defValue.asc_getBaseItem());
+                }
             } else {
                 this.cmbBaseItem.setValue((show_as === Asc.c_oAscShowDataAs.Difference || show_as === Asc.c_oAscShowDataAs.Percent || show_as === Asc.c_oAscShowDataAs.PercentDiff) && this.cmbBaseItem.store.length>0 ?
                                             this.cmbBaseItem.store.at(this.cmbBaseItem.store.length>2 ? 2 : 0).get('value') : '', '');

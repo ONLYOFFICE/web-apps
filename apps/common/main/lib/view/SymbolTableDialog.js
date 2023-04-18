@@ -721,7 +721,7 @@ define([
             this.previewPanel = $window.find('#id-preview-data');
             this.previewParent = this.previewPanel.parent();
             this.previewScrolled = $window.find('#id-preview');
-            this.previewInner = this.previewScrolled.find('div:first-child');
+            this.previewInner = this.previewScrolled.find('> div:first-child');
             this.recentPanel = $window.find('#symbol-table-recent');
             this.fontLabel = $window.find("#symbol-table-label-font");
             this.boxPanel = $window.find('.box');

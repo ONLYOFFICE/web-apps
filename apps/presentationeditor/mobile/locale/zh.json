@@ -263,7 +263,8 @@
       "textSlideNumber": "幻灯片编号",
       "textTable": "表格",
       "textTableSize": "表格大小",
-      "txtNotUrl": "该字段应为“http://www.example.com”格式的URL"
+      "txtNotUrl": "该字段应为“http://www.example.com”格式的URL",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "警告",

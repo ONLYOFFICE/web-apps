@@ -23,16 +23,39 @@ const ProtectionController = props => {
                     title: t('Settings.titleDialogUnprotect'),
                     text: t('Settings.textDialogUnprotect'),
                     content: Device.ios ?
-                        '<div class="input-field"><input type="password" class="modal-text-input" name="protection-password" placeholder="' + t('Settings.advDRMPassword') + '" id="protection-password"></div>' : '<div class="input-field"><div class="inputs-list list inline-labels"><ul><li><div class="item-content item-input"><div class="item-inner"><div class="item-input-wrap"><input type="password" name="protection-password" id="protection-password" placeholder=' + t('Settings.advDRMPassword') + '></div></div></div></li></ul></div></div>',
+                        '<div class="input-field modal-password"><input type="password" maxlength="15" class="modal-text-input" name="protection-password" placeholder="' + t('Settings.advDRMPassword') + '" id="protection-password"><i class="modal-password__icon icon icon-show-password"></i></div>' : '<div class="input-field modal-password"><div class="inputs-list list inline-labels"><ul><li><div class="item-content item-input"><div class="item-inner"><div class="item-input-wrap"><input type="password" name="protection-password" maxlength="15" id="protection-password" placeholder=' + t('Settings.advDRMPassword') + '><i class="modal-password__icon icon icon-show-password"></i></div></div></div></li></ul></div></div>',
                     cssClass: 'dlg-adv-options',
+                    on: {
+                        opened: () => {
+                            const passwordIcon = document.querySelector('.modal-password__icon');
+                            const passwordField = document.querySelector('#protection-password');
+                            const btnUnprotect = document.querySelector('.btn-unprotect');
+
+                            passwordField.addEventListener('input', () => {
+                                if(passwordField.value) {
+                                    btnUnprotect.classList.remove('disabled');
+                                } else {
+                                    btnUnprotect.classList.add('disabled');
+                                }
+                            });
+            
+                            passwordIcon.addEventListener('click', () => {
+                                passwordIcon.classList.toggle('icon-show-password');
+                                passwordIcon.classList.toggle('icon-hide-password');
+                                passwordField.type = passwordField.type === 'password' ? 'text' : 'password';
+                            });
+                        },
+                    },
                     buttons: [
                         {
                             text: t('Settings.textCancel')
                         },
                         {
                             text: t('Settings.textOk'),
+                            cssClass: 'btn-unprotect disabled',
                             onClick: () => {
-                                const passwordValue = document.querySelector('#protection-password')?.value;
+                                const passwordField = document.querySelector('#protection-password');
+                                const passwordValue = passwordField?.value;
                                
                                 if(passwordValue) {
                                     propsProtection.asc_setEditType(Asc.c_oAscEDocProtect.None);

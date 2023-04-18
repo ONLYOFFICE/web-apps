@@ -394,7 +394,8 @@
       "txtNotUrl": "该字段应为“http://www.example.com”格式的URL",
       "txtSorting": "排序",
       "txtSortSelected": "排序选定的",
-      "txtYes": "是"
+      "txtYes": "是",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "警告",

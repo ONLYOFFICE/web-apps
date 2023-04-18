@@ -394,7 +394,8 @@
       "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
       "txtSorting": "Ordenació",
       "txtSortSelected": "Ordenar els objectes seleccionats",
-      "txtYes": "Sí"
+      "txtYes": "Sí",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertiment",
