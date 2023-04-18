@@ -56,15 +56,12 @@ class EditCellController extends Component {
         const api = Common.EditorApi.get();
         const format = api.asc_convertNumFormatLocal2NumFormat(value);
         const storeCellSettings = this.props.storeCellSettings;
-        // const isPhone = Device.phone;
     
         storeCellSettings.addCustomFormat({
             value: api.asc_convertNumFormat2NumFormatLocal(format),
             format
         });
         api.asc_setCellFormat(format);
-
-        f7.views.current.router.back();
     }
 
     toggleBold(value) {

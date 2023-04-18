@@ -936,7 +936,6 @@ const PageCustomFormats = props => {
     const storeCellSettings = props.storeCellSettings;
     const customFormats = storeCellSettings.customFormats;
     const [renderList, setRenderList] = useState(false);
-    // const isPhone = Device.phone;
 
     useEffect(() => {
         if (customFormats?.length) {
@@ -946,7 +945,7 @@ const PageCustomFormats = props => {
 
     const handleCellFormatClick = (format) => {
         props.onCellFormat(format);
-        f7.views.current.router.back();
+        props.f7router.back();
     };
 
     return (
@@ -988,11 +987,16 @@ const PageCreationCustomFormat = observer(props => {
     const [formatValue, setFormatValue] = useState('');
     const isIos = Device.ios;
 
+    const handleSetCustomFormat = (value) => {
+        props.setCustomFormat(value);
+        props.f7router.back();
+    }
+
     return (
         <Page>
             <Navbar title={t('View.Edit.textCreateFormat')} backLink={_t.textBack}>
                 <NavRight>
-                    <Link text={isIos ? t('View.Edit.textSave') : ''} icon={!isIos ? 'icon-check' : null} className={!formatValue && 'disabled'} onClick={() => props.setCustomFormat(formatValue)}></Link>
+                    <Link text={isIos ? t('View.Edit.textSave') : ''} icon={!isIos ? 'icon-check' : null} className={!formatValue && 'disabled'} onClick={() => handleSetCustomFormat(formatValue)}></Link>
                 </NavRight>
             </Navbar>
             <>
