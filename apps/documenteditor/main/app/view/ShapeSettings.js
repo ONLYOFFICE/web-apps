@@ -130,6 +130,8 @@ define([
             this.fillControls = [];
             this.gradientColorsStr="#000, #fff";
             this.typeGradient = 90 ;
+            this.shapeRestoreHeight = 615;
+
             this.render();
         },
 
@@ -1689,7 +1691,11 @@ define([
                             menu        : new Common.UI.Menu({
                                 menuAlign: 'tl-tl',
                                 cls: 'menu-shapes menu-change-shape',
-                                items: []
+                                items: [],
+                                restoreHeightAndTop: true,
+                                additionalAlign: function(menuRoot, left, top) {
+                                    menuRoot.css({left: left, top: Math.max($(me.el).parent().offset().top, Common.Utils.innerHeight() - 10 - me.shapeRestoreHeight) - parseInt(menuRoot.css('margin-top'))});
+                                }
                             })}
                     ]
                 }),
@@ -1907,7 +1913,7 @@ define([
                 itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                 groups: me.application.getCollection('ShapeGroups'),
                 parentMenu: me.btnChangeShape.menu,
-                restoreHeight: 652,
+                restoreHeight: me.shapeRestoreHeight,
                 textRecentlyUsed: me.textRecentlyUsed,
                 recentShapes: recents ? JSON.parse(recents) : null,
                 hideTextRect: me._state.isFromImage || me._state.isFromSmartArtInternal,
