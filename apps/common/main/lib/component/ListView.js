@@ -216,7 +216,7 @@ define([
                     this.calcOffsetFromHeader();
                 }
                 this.$el.find('.listview').css({'padding-top': this.headerHeight + 'px'});
-                this.scroller.update(isCalcNewHeaderHeight ? {scrollYStyle: this.scrollYStyle} : undefined);
+                this.scroller && this.scroller.update(isCalcNewHeaderHeight ? {scrollYStyle: this.scrollYStyle} : undefined);
             },
 
             onResetItems : function() {
