@@ -1687,7 +1687,6 @@ define([
                         {caption: this.textEditPoints, value: 0, iconCls: 'toolbar__icon select-all'},
                         {
                             caption: this.strChange,
-                            value: 1,
                             menu        : new Common.UI.Menu({
                                 menuAlign: 'tl-tl',
                                 cls: 'menu-shapes menu-change-shape',
@@ -1924,8 +1923,10 @@ define([
                     me.api.ChangeShapeType(record.get('data').shapeType);
                     me.fireEvent('editcomplete', me);
                 }
-                if (e.type !== 'click')
-                    me.btnChangeShape.menu.hide();
+                if (e.type !== 'click') {
+                    var menu = me.canEditPoint ? me.btnEditShape.menu : me.btnEditChangeShape.menu;
+                    menu.hide();
+                }
             });
         },
 
