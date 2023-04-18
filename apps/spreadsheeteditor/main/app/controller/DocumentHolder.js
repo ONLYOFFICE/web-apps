@@ -226,6 +226,7 @@ define([
                 view.mnuSubtotalField.on('click',                   _.bind(me.onSubtotalField, me));
                 view.mnuSummarize.menu.on('item:click',             _.bind(me.onSummarize, me));
                 view.mnuShowAs.menu.on('item:click',                _.bind(me.onShowAs, me));
+                view.mnuShowDetails.on('click',                     _.bind(me.onShowDetails, me));
                 view.mnuPivotSort.menu.on('item:click',             _.bind(me.onPivotSort, me));
                 view.mnuPivotFilter.menu.on('item:click',           _.bind(me.onPivotFilter, me));
                 view.pmiClear.menu.on('item:click',                 _.bind(me.onClear, me));
@@ -820,6 +821,10 @@ define([
             }
         },
 
+        onShowDetails: function(item, e) {
+            this.propsPivot.originalProps && this.api && this.api.asc_pivotShowDetails(this.propsPivot.originalProps);
+        },
+
         fillPivotProps: function() {
             var props = this.propsPivot.originalProps;
             if (!props) return;
@@ -836,6 +841,7 @@ define([
             this.propsPivot.filter = info.asc_getFilter();
             this.propsPivot.rowFilter = info.asc_getFilterRow();
             this.propsPivot.colFilter = info.asc_getFilterCol();
+            this.propsPivot.showDetails = info.asc_showDetails();
 
             if (colFieldIndex>-1) {
                 var fprops = props.asc_getColumnFields();
@@ -2726,6 +2732,8 @@ define([
                 documentHolder.mnuFieldSettings.setVisible(!!this.propsPivot.field);
                 documentHolder.mnuSummarize.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2));
                 documentHolder.mnuShowAs.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2) && !this.propsPivot.rowTotal && !this.propsPivot.colTotal);
+                documentHolder.mnuShowDetails.setVisible(!!this.propsPivot.showDetails);
+                documentHolder.mnuShowDetailsSeparator.setVisible(!!this.propsPivot.showDetails);
                 documentHolder.mnuPivotValueSeparator.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2));
                 documentHolder.mnuPivotSort.setVisible(this.propsPivot.filter || this.propsPivot.rowFilter || this.propsPivot.colFilter);
                 documentHolder.mnuPivotFilter.setVisible(!!this.propsPivot.filter);
@@ -2860,6 +2868,7 @@ define([
                     documentHolder.mnuSubtotalField.setDisabled(isPivotLocked || this._state.wsLock);
                     documentHolder.mnuSummarize.setDisabled(isPivotLocked || this._state.wsLock);
                     documentHolder.mnuShowAs.setDisabled(isPivotLocked || this._state.wsLock);
+                    documentHolder.mnuShowDetails.setDisabled(this.api.asc_isWorkbookLocked() || this.api.asc_isProtectedWorkbook());
                     documentHolder.mnuPivotFilter.setDisabled(isPivotLocked || this._state.wsLock);
                 }
 

@@ -539,12 +539,17 @@ define([
                 })
             });
 
+            me.mnuShowDetails = new Common.UI.MenuItem({
+                caption     : me.txtShowDetails
+            });
+
             me.mnuPivotRefreshSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotSubtotalSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotSettingsSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotDeleteSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotValueSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotFilterSeparator = new Common.UI.MenuItem({caption: '--'});
+            me.mnuShowDetailsSeparator = new Common.UI.MenuItem({caption: '--'});
 
             me.pmiInsFunction = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-function',
@@ -801,6 +806,8 @@ define([
                     me.mnuPivotValueSeparator,
                     me.mnuSummarize,
                     me.mnuShowAs,
+                    me.mnuShowDetailsSeparator,
+                    me.mnuShowDetails,
                     me.mnuPivotSettingsSeparator,
                     me.mnuFieldSettings,
                     me.mnuPivotSettings,
@@ -1766,7 +1773,8 @@ define([
         txtLabelFilter: 'Label filters',
         txtTop10: 'Top 10',
         txtClearPivotField: 'Clear filter from {0}',
-        txtSortOption: 'More sort options'
+        txtSortOption: 'More sort options',
+        txtShowDetails: 'Show details'
 
     }, SSE.Views.DocumentHolder || {}));
 });
