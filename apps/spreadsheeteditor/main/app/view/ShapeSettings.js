@@ -1516,7 +1516,7 @@ define([
                     style: 'min-width: 194px;',
                     maxHeight: 200,
                     items: [
-                        {caption: this.textEditPoints, value: 0, iconCls: 'toolbar__icon select-all'},
+                        {caption: this.textEditPoints, value: 0, iconCls: 'toolbar__icon btn-edit-points'},
                         {
                             caption: this.strChange,
                             menu        : new Common.UI.Menu({

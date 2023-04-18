@@ -1684,7 +1684,7 @@ define([
                     maxHeight: 200,
                     cls: 'shifted-right',
                     items: [
-                        {caption: this.textEditPoints, value: 0, iconCls: 'toolbar__icon select-all'},
+                        {caption: this.textEditPoints, value: 0, iconCls: 'toolbar__icon btn-edit-points'},
                         {
                             caption: this.strChange,
                             menu        : new Common.UI.Menu({
