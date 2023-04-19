@@ -1627,6 +1627,9 @@ define([
             if (!this.appOptions.canBackToFolder) {
                 menuItems[11].setVisible(false);
                 itemsCount--;
+            } else {
+                var text = this.appOptions.customization.goback.text;
+                text && (typeof text == 'string') && menuItems[11].setCaption(text);
             }
 
             if ( !this.embedConfig.embedUrl || this.appOptions.isOFORM) {
