@@ -211,9 +211,17 @@
         </td>
     </tr>
     <tr class="change-type">
-        <td class="padding-small">
-            <label class="header"><%= scope.strChange %></label>
-            <div id="shape-btn-change"></div>
+        <td>
+            <div class="padding-small" id="shape-button-edit-shape-container">
+                <div id="shape-button-edit-shape" style="width:100%;"></div>
+            </div>
+        </td>
+    </tr>
+    <tr class="change-type">
+        <td>
+            <div class="padding-small" id="shape-button-change-shape-container">
+                <div id="shape-button-change-shape" style="width:100%;"></div>
+            </div>
         </td>
     </tr>
     <tr class="no-form">

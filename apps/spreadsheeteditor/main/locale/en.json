@@ -3379,6 +3379,8 @@
   "SSE.Views.ShapeSettings.textAngle": "Angle",
   "SSE.Views.ShapeSettings.textBorderSizeErr": "The entered value is incorrect.<br>Please enter a value between 0 pt and 1584 pt.",
   "SSE.Views.ShapeSettings.textColor": "Color Fill",
+  "SSE.Views.ShapeSettings.textEditPoints": "Edit points",
+  "SSE.Views.ShapeSettings.textEditShape": "Edit shape",
   "SSE.Views.ShapeSettings.textDirection": "Direction",
   "SSE.Views.ShapeSettings.textEmptyPattern": "No Pattern",
   "SSE.Views.ShapeSettings.textFlip": "Flip",
