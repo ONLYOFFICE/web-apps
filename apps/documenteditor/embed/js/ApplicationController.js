@@ -423,6 +423,9 @@ DE.ApplicationController = new(function(){
         if (!config.canBackToFolder) {
             $('#idt-close').hide();
             itemsCount--;
+        } else {
+            var text = config.customization.goback.text;
+            text && (typeof text == 'string') && $('#idt-close .caption').text(text);
         }
 
         if (itemsCount < 7) {
