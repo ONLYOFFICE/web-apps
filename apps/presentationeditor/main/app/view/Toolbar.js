@@ -770,7 +770,7 @@ define([
                     this.btnInsertSmartArt = new Common.UI.Button({
                         id: 'tlbtn-insertsmartart',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon smart-art',
+                        iconCls: 'toolbar__icon btn-smart-art',
                         lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                         caption: me.capBtnInsSmartArt,
                         menu: true,

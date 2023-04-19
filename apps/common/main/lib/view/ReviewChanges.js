@@ -308,7 +308,7 @@ define([
                             cls: 'btn-toolbar  x-huge icon-top',
                             caption: this.txtCombine,
                             split: true,
-                            iconCls: 'toolbar__icon combine',
+                            iconCls: 'toolbar__icon btn-combine',
                             lock: [_set.hasCoeditingUsers, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments],
                             dataHint: '1',
                             dataHintDirection: 'bottom',

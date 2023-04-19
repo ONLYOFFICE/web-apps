@@ -1245,7 +1245,7 @@ define([
                 this.btnInsertSmartArt = new Common.UI.Button({
                     id: 'tlbtn-insertsmartart',
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon smart-art',
+                    iconCls: 'toolbar__icon btn-smart-art',
                     lock: [_set.editCell, _set.lostConnect, _set.coAuth, _set['Objects']],
                     caption: me.capBtnInsSmartArt,
                     menu: true,
