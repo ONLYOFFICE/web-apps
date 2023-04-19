@@ -1336,6 +1336,7 @@ define([
                         });
                         this.cmbKey.setData(arr);
                         this._state.arrKey=data;
+                        this._state.Key = undefined;
                     }
 
                     val = formPr.get_Role();
@@ -1380,6 +1381,7 @@ define([
                                 });
                                 this.cmbGroupKey.setData(arr);
                                 this._state.arrGroupKey=data;
+                                this._state.groupKey = undefined;
                             }
 
                             if (this._state.groupKey!==val) {
