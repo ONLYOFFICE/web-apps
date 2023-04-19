@@ -60,6 +60,7 @@ define([
             'btn-save': 'save',
             'btn-save-coauth': 'coauth',
             'btn-synch': 'synch' };
+        let recents;
 
         var nativevars,
             helpUrl;
@@ -159,6 +160,11 @@ define([
             }
 
             native.execCommand('webapps:features', JSON.stringify(features));
+
+            window.onupdaterecents = function (params) {
+                recents = _parseRecents(params);
+                Common.NotificationCenter.trigger('update:recents');
+            }
 
             // hide mask for modal window
             var style = document.createElement('style');
@@ -430,6 +436,32 @@ define([
             }
         }
 
+        const _parseRecents = function (rawarray) {
+            let _files_arr = [];
+
+            const _is_win = /Win/.test(navigator.platform);
+            const _re_name = !_is_win ? /([^/]+\.[a-zA-Z0-9]{1,})$/ : /([^\\/]+\.[a-zA-Z0-9]{1,})$/;
+            for ( let _f_ of rawarray ) {
+                let fn = _f_.path;
+                if ( _re_name.test(fn) ) {
+                    let name = _re_name.exec(_f_.path)[1],
+                        path = _f_.path.slice(0, fn.length - name.length - 1);
+
+                    _files_arr.push({
+                        fileid: _f_.id,
+                        type: _f_.type,
+                        format: utils.parseFileFormat(_f_.type),
+                        name: name,
+                        descr: path,
+                        date: _f_.modifyed,
+                        path: fn,
+                    });
+                }
+            }
+
+            return _files_arr;
+        }
+
         return {
             init: function (opts) {
                 _.extend(config, opts);
@@ -545,6 +577,9 @@ define([
             systemThemeType: function () {
                 return nativevars.theme && !!nativevars.theme.system ? nativevars.theme.system :
                             window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            },
+            recentFiles: function () {
+                return recents;
             },
         };
     };
