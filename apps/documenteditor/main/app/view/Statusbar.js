@@ -303,7 +303,7 @@ define([
                 this.btnDocInfo = new Common.UI.Button({
                     cls         : 'btn-toolbar no-caret',
                     caption     : this.txtWordCount,
-                    iconCls: 'toolbar__icon word-count',
+                    iconCls: 'toolbar__icon btn-word-count',
                     hintAnchor  : 'top-left',
                     dataHint    : '0',
                     dataHintDirection: 'top',

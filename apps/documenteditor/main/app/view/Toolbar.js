@@ -274,7 +274,7 @@ define([
                     this.btnSelectAll = new Common.UI.Button({
                         id: 'id-toolbar-btn-select-all',
                         cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon select-all',
+                        iconCls: 'toolbar__icon btn-select-all',
                         lock: [_set.viewFormMode, _set.disableOnStart],
                         dataHint: '1',
                         dataHintDirection: 'bottom'
