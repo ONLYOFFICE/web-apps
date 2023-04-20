@@ -870,7 +870,8 @@ define([
 
                 if (ratio > 2) {
                     if (!me.$el.find('svg.icon').length) {
-                        const re_icon_name = /btn-[^\s]+/.exec(me.iconCls);
+                        const iconCls = me.iconCls || me.$el.find('i.icon').attr('class');
+                        const re_icon_name = /btn-[^\s]+/.exec(iconCls);
                         const icon_name = re_icon_name ? re_icon_name[0] : "null";
                         const svg_icon = '<svg class="icon"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name);
 

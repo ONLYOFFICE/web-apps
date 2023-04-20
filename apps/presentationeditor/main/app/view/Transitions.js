@@ -121,7 +121,7 @@ define([
                 this.lockedControls = [];
 
                 this._arrEffectName = [
-                    {title: this.textNone, imageUrl: "transition-none", value: Asc.c_oAscSlideTransitionTypes.None, id: Common.UI.getId()},
+                    {title: this.textNone, imageUrl: "btn-transition-none", value: Asc.c_oAscSlideTransitionTypes.None, id: Common.UI.getId()},
                     {title: this.textFade, imageUrl: "transition-fade", value: Asc.c_oAscSlideTransitionTypes.Fade, id: Common.UI.getId()},
                     {title: this.textPush, imageUrl: "transition-push", value: Asc.c_oAscSlideTransitionTypes.Push, id: Common.UI.getId()},
                     {title: this.textWipe, imageUrl: "transition-wipe", value: Asc.c_oAscSlideTransitionTypes.Wipe, id: Common.UI.getId()},
@@ -196,7 +196,7 @@ define([
                 this.btnParameters = new Common.UI.Button({
                     cls: 'btn-toolbar  x-huge icon-top',
                     caption: this.txtParameters,
-                    iconCls: 'toolbar__icon icon transition-none',
+                    iconCls: 'toolbar__icon icon btn-transition-none',
                     menu: new Common.UI.Menu({
                         items: this.createParametersMenuItems()}),
                     lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
@@ -210,7 +210,7 @@ define([
                     cls: 'btn-toolbar',
                     caption: this.txtApplyToAll,
                     split: true,
-                    iconCls: 'toolbar__icon transition-apply-all',
+                    iconCls: 'toolbar__icon btn-transition-apply-all',
                     lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
                     dataHint: '1',
                     dataHintDirection: 'left',

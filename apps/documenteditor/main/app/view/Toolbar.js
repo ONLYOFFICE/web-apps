@@ -274,7 +274,7 @@ define([
                     this.btnSelectAll = new Common.UI.Button({
                         id: 'id-toolbar-btn-select-all',
                         cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon select-all',
+                        iconCls: 'toolbar__icon btn-select-all',
                         lock: [_set.viewFormMode, _set.disableOnStart],
                         dataHint: '1',
                         dataHintDirection: 'bottom'
@@ -792,7 +792,7 @@ define([
                     this.btnInsertSmartArt = new Common.UI.Button({
                         id: 'tlbtn-insertsmartart',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon smart-art',
+                        iconCls: 'toolbar__icon btn-smart-art',
                         lock: [_set.paragraphLock, _set.headerLock, _set.inEquation, _set.controlPlain,  _set.contentLock,  _set.inFootnote, _set.previewReviewMode, _set.viewFormMode,
                             _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
                         caption: me.capBtnInsSmartArt,
