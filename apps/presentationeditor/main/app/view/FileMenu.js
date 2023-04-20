@@ -42,7 +42,8 @@
 define([
     'text!presentationeditor/main/app/template/FileMenu.template',
     'underscore',
-    'common/main/lib/component/BaseView'
+    'common/main/lib/component/BaseView',
+    'common/main/lib/view/RecentFiles'
 ], function (tpl, _) {
     'use strict';
 
@@ -454,7 +455,7 @@ define([
             }
 
             if ( this.mode.canOpenRecent && this.mode.recent ) {
-                !this.panels['recent'] && (this.panels['recent'] = (new PE.Views.FileMenuPanels.RecentFiles({menu:this, recent: this.mode.recent})).render());
+                !this.panels['recent'] && (this.panels['recent'] = (new Common.Views.RecentFiles({ el: '#panel-recentfiles', menu:this, recent: this.mode.recent})).render());
             }
 
             if (this.mode.isSignatureSupport || this.mode.isPasswordSupport) {
