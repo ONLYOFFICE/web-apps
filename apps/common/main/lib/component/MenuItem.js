@@ -311,7 +311,7 @@ define([
         },
 
         onItemClick: function(e) {
-            if (e.which != 1 && (e.which !== undefined || this.menu) || this.preventCloseOnClick)
+            if (e.which != 1 && (e.which !== undefined || this.menu))
                 return false;
 
             if (!this.disabled && (this.allowDepress || !(this.checked && this.toggleGroup)) && !this.menu)

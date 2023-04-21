@@ -2962,7 +2962,6 @@ define([
                     toMenu = new Common.UI.Menu({
                         cls: 'shifted-right',
                         menuAlign: 'tl-tr',
-                        canPreventCloseOnClick: true,
                         items: []
                     });
                     toMenu.on('item:click', function(menu, item, e) {
