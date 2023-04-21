@@ -76,6 +76,7 @@ define([
             this._currLang        = {};
             this._isDisabled = false;
             this._preventCustomClick = null;
+            this._hasCustomItems = false;
             this._docProtection = {
                 isReadOnly: false,
                 isReviewOnly: false,
@@ -2938,12 +2939,11 @@ define([
             var me = this,
                 lang = me.mode && me.mode.lang ? me.mode.lang.split(/[\-_]/)[0] : 'en';
 
-            console.log('updateCustomItems ' + me._preventCustomClick);
             me._preventCustomClick && clearTimeout(me._preventCustomClick);
-            me._preventCustomClick = setTimeout(function () {
-                console.log('clear');
+            me._hasCustomItems && (me._preventCustomClick = setTimeout(function () {
                 me._preventCustomClick = null;
-            },500);
+            },500)); // set delay only on update existing items
+            me._hasCustomItems = true;
 
             var findCustomItem = function(guid, id) {
                 if (menu && menu.items.length>0) {
@@ -2962,15 +2962,14 @@ define([
                     toMenu = new Common.UI.Menu({
                         cls: 'shifted-right',
                         menuAlign: 'tl-tr',
+                        canPreventCloseOnClick: true,
                         items: []
                     });
                     toMenu.on('item:click', function(menu, item, e) {
-                        console.log('try click ' + me._preventCustomClick);
-                        if (!me._preventCustomClick) {
-                            console.log('   click ');
-                            !me._preventCustomClick && me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
-                        }
-                        // !me._preventCustomClick && me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
+                        !me._preventCustomClick && me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
+                    });
+                    toMenu.on('menu:click', function(menu, e) {
+                        me._preventCustomClick && e.stopPropagation();
                     });
                 }
                 items.forEach(function(item) {
@@ -3030,12 +3029,7 @@ define([
                                 menu: item.items && item.items.length>=0 ? getMenu(item.items, plugin.guid) : false,
                                 disabled: !!item.disabled
                             }).on('click', function(item, e) {
-                                console.log('try click ' + me._preventCustomClick);
-                                if (!me._preventCustomClick) {
-                                    console.log('   click ');
-                                    !me._preventCustomClick && me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
-                                }
-                                // !me._preventCustomClick && me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
+                                !me._preventCustomClick && me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
                             });
                             menu.addItem(mnu);
                         }
@@ -3059,6 +3053,7 @@ define([
                     }
                 }
             }
+            this._hasCustomItems = false;
         },
 
         focus: function() {
