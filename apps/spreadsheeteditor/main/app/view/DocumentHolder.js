@@ -59,6 +59,8 @@ define([
 
         initialize: function() {
             var me = this;
+            me._preventCustomClick = null;
+            me._hasCustomItems = false;
 
             this.setApi = function(api) {
                 me.api = api;
@@ -1458,6 +1460,12 @@ define([
             var me = this,
                 lang = me.mode && me.mode.lang ? me.mode.lang.split(/[\-_]/)[0] : 'en';
 
+            me._preventCustomClick && clearTimeout(me._preventCustomClick);
+            me._hasCustomItems && (me._preventCustomClick = setTimeout(function () {
+                me._preventCustomClick = null;
+            },500)); // set delay only on update existing items
+            me._hasCustomItems = true;
+
             var findCustomItem = function(guid, id) {
                 if (menu && menu.items.length>0) {
                     for (var i = menu.items.length-1; i >=0 ; i--) {
@@ -1478,7 +1486,10 @@ define([
                         items: []
                     });
                     toMenu.on('item:click', function(menu, item, e) {
-                        me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
+                        !me._preventCustomClick && me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
+                    });
+                    toMenu.on('menu:click', function(menu, e) {
+                        me._preventCustomClick && e.stopPropagation();
                     });
                 }
                 items.forEach(function(item) {
@@ -1538,7 +1549,7 @@ define([
                                 menu: item.items && item.items.length>=0 ? getMenu(item.items, plugin.guid) : false,
                                 disabled: !!item.disabled
                             }).on('click', function(item, e) {
-                                me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
+                                !me._preventCustomClick && me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
                             });
                             menu.addItem(mnu);
                         }
@@ -1562,6 +1573,7 @@ define([
                     }
                 }
             }
+            this._hasCustomItems = false;
         },
 
         txtSort:                'Sort',
