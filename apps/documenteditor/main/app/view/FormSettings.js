@@ -820,12 +820,9 @@ define([
 
         onDateDefClick: function(input, date) {
             if (this.api && !this._noApply) {
-                var props   = this._originalProps || new AscCommon.CContentControlPr();
                 var formDatePr = this._originalDateProps || new AscCommon.CSdtDatePickerPr();
                 formDatePr.put_FullDate(date);
-                props.put_DateTimePr(formDatePr);
-                props.put_PlaceholderText(formDatePr.get_String());
-                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.api.asc_SetContentControlDatePickerPr(formDatePr, this.internalId, true);
 
                 this.fireEvent('editcomplete', this);
             }
@@ -1618,8 +1615,9 @@ define([
                     val = this.api.asc_GetFormValue(this.internalId);
                     if ( this._state.DefDateValue!==val ) {
                         this.txtDateDefValue.setValue(val || '');
-                        this.txtDateDefValue.setDate(new Date(val));
                         this._state.DefDateValue=val;
+                        val = datePr.get_FullDate();
+                        this.txtDateDefValue.setDate(val ? new Date(val) : new Date());
                     }
                 }
 
