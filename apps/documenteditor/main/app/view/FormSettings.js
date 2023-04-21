@@ -820,12 +820,9 @@ define([
 
         onDateDefClick: function(input, date) {
             if (this.api && !this._noApply) {
-                var props   = this._originalProps || new AscCommon.CContentControlPr();
                 var formDatePr = this._originalDateProps || new AscCommon.CSdtDatePickerPr();
                 formDatePr.put_FullDate(date);
-                props.put_DateTimePr(formDatePr);
-                props.put_PlaceholderText(formDatePr.get_String());
-                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.api.asc_SetContentControlDatePickerPr(formDatePr, this.internalId, true);
 
                 this.fireEvent('editcomplete', this);
             }
