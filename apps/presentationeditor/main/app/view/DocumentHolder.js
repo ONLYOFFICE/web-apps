@@ -2620,6 +2620,7 @@ define([
                     }
                 }
             }
+            this._hasCustomItems = false;
         },
 
         unitsChanged: function(m) {

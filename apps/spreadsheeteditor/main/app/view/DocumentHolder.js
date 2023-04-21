@@ -1573,6 +1573,7 @@ define([
                     }
                 }
             }
+            this._hasCustomItems = false;
         },
 
         txtSort:                'Sort',
