@@ -1615,8 +1615,9 @@ define([
                     val = this.api.asc_GetFormValue(this.internalId);
                     if ( this._state.DefDateValue!==val ) {
                         this.txtDateDefValue.setValue(val || '');
-                        this.txtDateDefValue.setDate(new Date(val));
                         this._state.DefDateValue=val;
+                        val = datePr.get_FullDate();
+                        this.txtDateDefValue.setDate(val ? new Date(val) : new Date());
                     }
                 }
 
