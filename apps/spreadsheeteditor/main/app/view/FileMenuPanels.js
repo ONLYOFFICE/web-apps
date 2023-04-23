@@ -2433,28 +2433,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                                         '</tr></tbody></table>',
                                     '</td></tr>',
                                     '<tr><td class="padding-small"><label class="header"><%= scope.txtMargins %></label></td></tr>',
-                                    '<tr><td>',
-                                        '<table>',
-                                            '<tbody>',
-                                                '<tr>',
-                                                    '<td><label><%= scope.txtTop %></label></td>',
-                                                    '<td><label><%= scope.txtBottom %></label></td>',
-                                                '</tr>',
-                                                '<tr>',
-                                                    '<td class="padding-small"><div id="print-spin-margin-top"></div></td>',
-                                                    '<td class="padding-small"><div id="print-spin-margin-bottom"></div></td>',
-                                                '</tr>',
-                                                '<tr>',
-                                                    '<td><label><%= scope.txtLeft %></label></td>',
-                                                    '<td><label><%= scope.txtRight %></label></td>',
-                                                '</tr>',
-                                                '<tr>',
-                                                    '<td class="padding-large"><div id="print-spin-margin-left"></div></td>',
-                                                    '<td class="padding-large"><div id="print-spin-margin-right"></div></td>',
-                                                '</tr>',
-                                            '</tbody>',
-                                        '</table>',
-                                    '</td></tr>',
+                                    '<tr><td class="padding-large"><div id="print-combo-margins" style="width: 248px;"></div></td></tr>',
                                     '<tr><td class="padding-small"><label class="header"><%= scope.txtGridlinesAndHeadings %></label></td></tr>',
                                     '<tr><td class="padding-small"><div id="print-chb-grid" style="width: 248px;"></div></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-chb-rows" style="width: 248px;"></div></td></tr>',
@@ -2510,7 +2489,6 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
 
             this.menu = options.menu;
 
-            this.spinners = [];
             this._initSettings = true;
         },
 
@@ -2726,61 +2704,34 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 dataHintOffset: 'big'
             });
 
-            this.spnMarginTop = new Common.UI.MetricSpinner({
-                el: $markup.findById('#print-spin-margin-top'),
-                step: .1,
-                width: 120,
-                defaultUnit : "cm",
-                value: '0 cm',
-                maxValue: 48.25,
-                minValue: 0,
+            this.cmbPaperMargins = new Common.UI.ComboBox({
+                el: $markup.findById('#print-combo-margins'),
+                menuStyle: 'max-height: 280px; min-width: 248px;',
+                editable: false,
+                takeFocusOnClose: true,
+                cls: 'input-group-nr',
+                data: [
+                    { value: 0, displayValue: this.txtMarginsNormal, size: [19.1, 17.8, 19.1, 17.8]},
+                    { value: 1, displayValue: this.txtMarginsNarrow, size: [19.1, 6.4, 19.1, 6.4]},
+                    { value: 2, displayValue: this.txtMarginsWide, size: [25.4, 25.4, 25.4, 25.4]},
+                    { value: -1, displayValue: this.txtCustom, size: null}
+                ],
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem">',
+                        '<div><b><%= scope.getDisplayValue(item) %></b></div>',
+                        '<% if (item.size !== null) { %><div style="display: inline-block;margin-right: 20px;min-width: 80px;">' +
+                        '<label style="display: block;">' + this.txtTop + ': <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[0]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
+                        '<label style="display: block;">' + this.txtLeft + ': <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div><div style="display: inline-block;">' +
+                        '<label style="display: block;">' + this.txtBottom + ': <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[2]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
+                        '<label style="display: block;">' + this.txtRight + ': <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[3]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div>' +
+                        '<% } %>',
+                    '<% }); %>'
+                ].join('')),
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
-            this.spinners.push(this.spnMarginTop);
-
-            this.spnMarginBottom = new Common.UI.MetricSpinner({
-                el: $markup.findById('#print-spin-margin-bottom'),
-                step: .1,
-                width: 120,
-                defaultUnit : "cm",
-                value: '0 cm',
-                maxValue: 48.25,
-                minValue: 0,
-                dataHint: '2',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
-            });
-            this.spinners.push(this.spnMarginBottom);
-
-            this.spnMarginLeft = new Common.UI.MetricSpinner({
-                el: $markup.findById('#print-spin-margin-left'),
-                step: .1,
-                width: 120,
-                defaultUnit : "cm",
-                value: '0.19 cm',
-                maxValue: 48.25,
-                minValue: 0,
-                dataHint: '2',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
-            });
-            this.spinners.push(this.spnMarginLeft);
-
-            this.spnMarginRight = new Common.UI.MetricSpinner({
-                el: $markup.findById('#print-spin-margin-right'),
-                step: .1,
-                width: 120,
-                defaultUnit : "cm",
-                value: '0.19 cm',
-                maxValue: 48.25,
-                minValue: 0,
-                dataHint: '2',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
-            });
-            this.spinners.push(this.spnMarginRight);
 
             this.chPrintGrid = new Common.UI.CheckBox({
                 el: $markup.findById('#print-chb-grid'),
@@ -2955,13 +2906,6 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         },
 
         updateMetricUnit: function() {
-            if (this.spinners) {
-                for (var i=0; i<this.spinners.length; i++) {
-                    var spinner = this.spinners[i];
-                    spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
-                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
-                }
-            }
             var store = this.cmbPaperSize.store;
             for (var i=0; i<store.length; i++) {
                 var item = store.at(i),
@@ -2973,6 +2917,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                     parseFloat(Common.Utils.Metric.fnRecalcFromMM(pageheight).toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ')');
             }
             this.cmbPaperSize.onResetItems();
+            this.cmbPaperMargins.onResetItems();
         },
 
         addCustomScale: function (add) {
@@ -3105,7 +3050,11 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         txtOneSideDesc: 'Only print on one side of the page',
         txtBothSides: 'Print on both sides',
         txtBothSidesLongDesc: 'Flip pages on long edge',
-        txtBothSidesShortDesc: 'Flip pages on short edge'
+        txtBothSidesShortDesc: 'Flip pages on short edge',
+        txtMarginsNormal: 'Normal',
+        txtMarginsNarrow: 'Narrow',
+        txtMarginsWide: 'Wide',
+        txtMarginsLast: 'Last Custom'
 
     }, SSE.Views.PrintWithPreview || {}));
 

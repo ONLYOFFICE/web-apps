@@ -230,10 +230,26 @@ define([
             }
 
             opt = props.asc_getPageMargins();
-            panel.spnMarginLeft.setValue(Common.Utils.Metric.fnRecalcFromMM(opt.asc_getLeft()), true);
-            panel.spnMarginTop.setValue(Common.Utils.Metric.fnRecalcFromMM(opt.asc_getTop()), true);
-            panel.spnMarginRight.setValue(Common.Utils.Metric.fnRecalcFromMM(opt.asc_getRight()), true);
-            panel.spnMarginBottom.setValue(Common.Utils.Metric.fnRecalcFromMM(opt.asc_getBottom()), true);
+            var left = opt.asc_getLeft(),
+                top = opt.asc_getTop(),
+                right = opt.asc_getRight(),
+                bottom = opt.asc_getBottom();
+            store = panel.cmbPaperMargins.store;
+            item = null;
+            for (var i = 0; i < store.length - 1; i++) {
+                var rec = store.at(i),
+                    size = rec.get('size');
+                if (typeof(size) == 'object' &&
+                    Math.abs(size[0] - top) < 0.1 && Math.abs(size[1] - left) < 0.1 &&
+                    Math.abs(size[2] - bottom) < 0.1 && Math.abs(size[3] - right) < 0.1) {
+                    item = rec;
+                    break;
+                }
+            }
+            if (item)
+                panel.cmbPaperMargins.setValue(item.get('value'));
+            else
+                panel.cmbPaperMargins.setValue(this.txtCustom);
 
             panel.chPrintGrid.setValue(props.asc_getGridLines(), true);
             panel.chPrintRows.setValue(props.asc_getHeadings(), true);
@@ -328,10 +344,11 @@ define([
             }
 
             opt = this._changedProps[sheet] ? this._changedProps[sheet].asc_getPageMargins() : new Asc.asc_CPageMargins();
-            opt.asc_setLeft(panel.spnMarginLeft.getValue() == '-' ? undefined : Common.Utils.Metric.fnRecalcToMM(panel.spnMarginLeft.getNumberValue()));    // because 1.91*10=19.0999999...
-            opt.asc_setTop(panel.spnMarginTop.getValue() == '-' ? undefined : Common.Utils.Metric.fnRecalcToMM(panel.spnMarginTop.getNumberValue()));
-            opt.asc_setRight(panel.spnMarginRight.getValue() == '-' ? undefined : Common.Utils.Metric.fnRecalcToMM(panel.spnMarginRight.getNumberValue()));
-            opt.asc_setBottom(panel.spnMarginBottom.getValue() == '-' ? undefined : Common.Utils.Metric.fnRecalcToMM(panel.spnMarginBottom.getNumberValue()));
+            value = panel.cmbPaperMargins.getSelectedRecord().size;
+            opt.asc_setTop(value[0]);
+            opt.asc_setLeft(value[1]);
+            opt.asc_setBottom(value[3]);
+            opt.asc_setRight(value[4]);
 
             if (!this._changedProps[sheet]) {
                 props.asc_setPageMargins(opt);
@@ -584,10 +601,7 @@ define([
             panel.cmbPaperSize.on('selected', _.bind(this.propertyChange, this, panel));
             panel.cmbPaperOrientation.on('selected', _.bind(this.propertyChange, this, panel));
             panel.cmbLayout.on('selected', _.bind(this.propertyChange, this, panel, 'scale'));
-            panel.spnMarginTop.on('change', _.bind(this.propertyChange, this, panel));
-            panel.spnMarginBottom.on('change', _.bind(this.propertyChange, this, panel));
-            panel.spnMarginLeft.on('change', _.bind(this.propertyChange, this, panel));
-            panel.spnMarginRight.on('change', _.bind(this.propertyChange, this, panel));
+            panel.cmbPaperMargins.on('selected', _.bind(this.propertyChange, this, panel, 'margins'));
             panel.chPrintGrid.on('change', _.bind(this.propertyChange, this, panel));
             panel.chPrintRows.on('change', _.bind(this.propertyChange, this, panel));
             panel.txtRangeTop.on('changed:after', _.bind(this.propertyChange, this, panel));
@@ -601,8 +615,8 @@ define([
             }
         },
 
-        propertyChange: function(panel, scale, combo, record) {
-            if (scale === 'scale' && record.value === 'customoptions') {
+        propertyChange: function(panel, property, combo, record) {
+            if (property === 'scale' && record.value === 'customoptions') {
                 var me = this,
                     props = (me._changedProps.length > 0 && me._changedProps[panel.cmbSheet.getValue()]) ? me._changedProps[panel.cmbSheet.getValue()] : me.api.asc_getPageOptions(panel.cmbSheet.getValue(), true);
                 var win = new SSE.Views.ScaleDialog({
@@ -633,6 +647,22 @@ define([
                 });
                 win.show();
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            } else if (property === 'margins' && record.value === -1) {
+                var me = this,
+                    props = (me._changedProps.length > 0 && me._changedProps[panel.cmbSheet.getValue()]) ? me._changedProps[panel.cmbSheet.getValue()] : me.api.asc_getPageOptions(panel.cmbSheet.getValue(), true);
+                var win = new SSE.Views.PageMarginsDialog({
+                    api: me.api,
+                    handler: function(dlg, result) {
+                        if (result == 'ok') {
+                            var opt = dlg.getSettings();
+                            props.asc_setPageMargins(opt);
+                            me.setLastCustomMargins(panel, opt);
+                            Common.NotificationCenter.trigger('edit:complete');
+                        }
+                    }
+                });
+                win.show();
+                win.setSettings(props);
             } else {
                 if (this._changedProps) {
                     var currentSheet = panel.cmbSheet.getValue();
@@ -655,6 +685,23 @@ define([
             else value = 4;
             panel.addCustomScale(value === 4);
             panel.cmbLayout.setValue(value, true);
+        },
+
+        setLastCustomMargins: function(panel, props) {
+            if (props) {
+                var top = props.asc_getTop(),
+                    left = props.asc_getLeft(),
+                    bottom = props.asc_getBottom(),
+                    right = props.asc_getRight();
+                if ( top !== null && left !== null && bottom !== null && right !== null ) {
+                    var rec = panel.cmbPaperMargins.store.at(0);
+                    if (rec.get('value') === -2)
+                        rec.set('size', [parseFloat(top), parseFloat(left), parseFloat(bottom), parseFloat(right)]);
+                    else
+                        panel.cmbPaperMargins.store.unshift({ value: -2, displayValue: panel.txtMarginsLast, size: [parseFloat(top), parseFloat(left), parseFloat(bottom), parseFloat(right)]});
+                    panel.cmbPaperMargins.onResetItems();
+                }
+            }
         },
 
         fillComponents: function(panel, selectdata) {
