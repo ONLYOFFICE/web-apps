@@ -96,7 +96,7 @@ const routes = [
 ];
 
 
-const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => {
+const SettingsList = inject("storeAppOptions", "storeReview", "storeDocumentInfo")(observer(props => {
     const { t } = useTranslation();
     const _t = t('Settings', {returnObjects: true});
     const appOptions = props.storeAppOptions;
@@ -106,6 +106,9 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
     const navbar = <Navbar title={_t.textSettings}>
                     {!props.inPopover  && <NavRight><Link popupClose=".settings-popup">{_t.textDone}</Link></NavRight>}
                     </Navbar>;
+    const docInfo = props.storeDocumentInfo;
+    const docExt = docInfo.dataDoc ? docInfo.dataDoc.fileType : '';
+    const isNotForm = docExt && docExt !== 'oform';
 
     const onoptionclick = page => {
         if ( props.onOptionClick )
@@ -211,10 +214,12 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
                             <Icon slot="media" icon="icon-doc-setup"></Icon>
                         </ListItem>
                     }
-                    <ListItem title={_t.textApplicationSettings} link="#"
-                              onClick={onoptionclick.bind(this, "/application-settings/")}>
-                        <Icon slot="media" icon="icon-app-settings"></Icon>
-                    </ListItem>
+                    {isNotForm &&
+                        <ListItem title={_t.textApplicationSettings} link="#"
+                                onClick={onoptionclick.bind(this, "/application-settings/")}>
+                            <Icon slot="media" icon="icon-app-settings"></Icon>
+                        </ListItem>
+                    }
                     {_canDownload &&
                         <ListItem title={_t.textDownload} link="#" onClick={onoptionclick.bind(this, "/download/")}>
                             <Icon slot="media" icon="icon-download"></Icon>
@@ -238,7 +243,7 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
                             <Icon slot="media" icon="icon-help"></Icon>
                         </ListItem>
                     }
-                    {_canAbout &&
+                    {(_canAbout && isNotForm) &&
                         <ListItem title={_t.textAbout} link="#" onClick={onoptionclick.bind(this, "/about/")}>
                             <Icon slot="media" icon="icon-about"></Icon>
                         </ListItem>
