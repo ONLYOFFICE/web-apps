@@ -2552,6 +2552,8 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 value: '',
                 maxValue: 1000000,
                 minValue: 1,
+                allowDecimal: false,
+                maskExp: /[0-9]/,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
@@ -2565,6 +2567,8 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 value: '',
                 maxValue: 1000000,
                 minValue: 1,
+                allowDecimal: false,
+                maskExp: /[0-9]/,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
@@ -2806,6 +2810,8 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 value: '1',
                 maxValue: 32767,
                 minValue: 1,
+                allowDecimal: false,
+                maskExp: /[0-9]/,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'

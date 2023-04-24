@@ -101,8 +101,8 @@ define([
                 '</div>' +
                 '<div class="separator long review"></div>' +
                 '<div class="group">' +
-                    '<span id="btn-compare" class="btn-slot text x-huge"></span>' +
-                    '<span id="btn-combine" class="btn-slot text x-huge"></span>' +
+                    '<span id="slot-btn-compare" class="btn-slot text x-huge"></span>' +
+                    '<span id="slot-btn-combine" class="btn-slot text x-huge"></span>' +
                 '</div>' +
                 '<div class="separator long compare"></div>' +
                 '<div class="group no-group-mask review form-view">' +
@@ -735,8 +735,8 @@ define([
                 if ( this.appConfig.canReview ) {
                     this.btnAccept.render(this.$el.find('#btn-change-accept'));
                     this.btnReject.render(this.$el.find('#btn-change-reject'));
-                    this.appConfig.canFeatureComparison && this.btnCompare.render(this.$el.find('#btn-compare'));
-                    this.appConfig.canFeatureComparison && this.btnCombine.render(this.$el.find('#btn-combine'));
+                    this.appConfig.canFeatureComparison && this.btnCompare.render(this.$el.find('#slot-btn-compare'));
+                    this.appConfig.canFeatureComparison && this.btnCombine.render(this.$el.find('#slot-btn-combine'));
                     this.btnTurnOn.render(this.$el.find('#btn-review-on'));
                 }
                 this.btnPrev && this.btnPrev.render(this.$el.find('#btn-change-prev'));
