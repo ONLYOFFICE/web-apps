@@ -409,6 +409,12 @@ define([
             },
 
             map: function () {
+                if ( Common.Controllers.Desktop.isActive() && !Common.Controllers.Desktop.systemThemeSupported() ) {
+                    const new_map = Object.assign({}, themes_map);
+                    delete new_map['theme-system'];
+
+                    return new_map;
+                }
                 return themes_map
             },
 
