@@ -1973,7 +1973,7 @@ define([
                         r = color.get_r(),
                         g = color.get_g(),
                         b = color.get_b();
-                    if (r) {
+                    if (r !== undefined && r !== null) {
                         var hex = Common.Utils.ThemeColor.getHexColor(r, g, b),
                             name = color.asc_getName();
 
