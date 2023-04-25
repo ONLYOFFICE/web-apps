@@ -230,26 +230,7 @@ define([
             }
 
             opt = props.asc_getPageMargins();
-            var left = opt.asc_getLeft(),
-                top = opt.asc_getTop(),
-                right = opt.asc_getRight(),
-                bottom = opt.asc_getBottom();
-            store = panel.cmbPaperMargins.store;
-            item = null;
-            for (var i = 0; i < store.length - 1; i++) {
-                var rec = store.at(i),
-                    size = rec.get('size');
-                if (typeof(size) == 'object' &&
-                    Math.abs(size[0] - top) < 0.1 && Math.abs(size[1] - left) < 0.1 &&
-                    Math.abs(size[2] - bottom) < 0.1 && Math.abs(size[3] - right) < 0.1) {
-                    item = rec;
-                    break;
-                }
-            }
-            if (item)
-                panel.cmbPaperMargins.setValue(item.get('value'));
-            else
-                panel.cmbPaperMargins.setValue(this.txtCustom);
+            this.setMargins(opt);
 
             panel.chPrintGrid.setValue(props.asc_getGridLines(), true);
             panel.chPrintRows.setValue(props.asc_getHeadings(), true);
@@ -347,8 +328,8 @@ define([
             value = panel.cmbPaperMargins.getSelectedRecord().size;
             opt.asc_setTop(value[0]);
             opt.asc_setLeft(value[1]);
-            opt.asc_setBottom(value[3]);
-            opt.asc_setRight(value[4]);
+            opt.asc_setBottom(value[2]);
+            opt.asc_setRight(value[3]);
 
             if (!this._changedProps[sheet]) {
                 props.asc_setPageMargins(opt);
@@ -566,28 +547,22 @@ define([
             pagewidth = pagewidth ? parseFloat(pagewidth[0]) : (this._originalPageSettings ? this._originalPageSettings.asc_getWidth() : 0);
             pageheight = pageheight ? parseFloat(pageheight[0]) : (this._originalPageSettings ? this._originalPageSettings.asc_getHeight() : 0);
 
-            var ml = Common.Utils.Metric.fnRecalcToMM(panel.spnMarginLeft.getNumberValue());
-            var mr = Common.Utils.Metric.fnRecalcToMM(panel.spnMarginRight.getNumberValue());
-            var mt = Common.Utils.Metric.fnRecalcToMM(panel.spnMarginTop.getNumberValue());
-            var mb = Common.Utils.Metric.fnRecalcToMM(panel.spnMarginBottom.getNumberValue());
+            var margins = panel.cmbPaperMargins.getSelectedRecord().size,
+                mt = margins[0],
+                ml = margins[1],
+                mb = margins[2],
+                mr = margins[3];
 
             var result = false;
-            if (ml > pagewidth) result = 'left'; else
-            if (mr > pagewidth-ml) result = 'right'; else
-            if (mt > pageheight) result = 'top'; else
-            if (mb > pageheight-mt) result = 'bottom';
+            if (ml > pagewidth || mr > pagewidth-ml || mt > pageheight || mb > pageheight-mt)
+                result = true;
 
             if (result) {
                 Common.UI.warning({
                     title: this.textWarning,
                     msg: this.warnCheckMargings,
-                    callback: function(btn,text) {
-                        switch(result) {
-                            case 'left':    panel.spnMarginLeft.$el.focus(); return;
-                            case 'right':   panel.spnMarginRight.$el.focus(); return;
-                            case 'top':     panel.spnMarginTop.$el.focus(); return;
-                            case 'bottom':  panel.spnMarginBottom.$el.focus(); return;
-                        }
+                    callback: function() {
+                        Common.NotificationCenter.trigger('edit:complete');
                     }
                 });
 
@@ -616,9 +591,16 @@ define([
         },
 
         propertyChange: function(panel, property, combo, record) {
+            var me = this;
+            var setChanges = function () {
+                if (me._changedProps) {
+                    var currentSheet = panel.cmbSheet.getValue();
+                    me._changedProps[currentSheet] = me.getPageOptions(panel, currentSheet);
+                    me.updatePreview();
+                }
+            };
             if (property === 'scale' && record.value === 'customoptions') {
-                var me = this,
-                    props = (me._changedProps.length > 0 && me._changedProps[panel.cmbSheet.getValue()]) ? me._changedProps[panel.cmbSheet.getValue()] : me.api.asc_getPageOptions(panel.cmbSheet.getValue(), true);
+                var props = (me._changedProps.length > 0 && me._changedProps[panel.cmbSheet.getValue()]) ? me._changedProps[panel.cmbSheet.getValue()] : me.api.asc_getPageOptions(panel.cmbSheet.getValue(), true);
                 var win = new SSE.Views.ScaleDialog({
                     api: me.api,
                     props: props,
@@ -629,11 +611,7 @@ define([
                                 me.fitHeight = result.height;
                                 me.fitScale = result.scale;
                                 me.setScaling(panel, me.fitWidth, me.fitHeight, me.fitScale);
-                                if (me._changedProps) {
-                                    var currentSheet = panel.cmbSheet.getValue();
-                                    me._changedProps[currentSheet] = me.getPageOptions(panel, currentSheet);
-                                    me.updatePreview();
-                                }
+                                setChanges();
                             }
                         } else {
                             var opt = props.asc_getPageSetup(),
@@ -648,27 +626,25 @@ define([
                 win.show();
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             } else if (property === 'margins' && record.value === -1) {
-                var me = this,
-                    props = (me._changedProps.length > 0 && me._changedProps[panel.cmbSheet.getValue()]) ? me._changedProps[panel.cmbSheet.getValue()] : me.api.asc_getPageOptions(panel.cmbSheet.getValue(), true);
+                var props = (me._changedProps.length > 0 && me._changedProps[panel.cmbSheet.getValue()]) ? me._changedProps[panel.cmbSheet.getValue()] : me.api.asc_getPageOptions(panel.cmbSheet.getValue(), true);
                 var win = new SSE.Views.PageMarginsDialog({
                     api: me.api,
                     handler: function(dlg, result) {
+                        var opt;
                         if (result == 'ok') {
-                            var opt = dlg.getSettings();
-                            props.asc_setPageMargins(opt);
+                            opt = dlg.getSettings();
                             me.setLastCustomMargins(panel, opt);
+                            setChanges();
                             Common.NotificationCenter.trigger('edit:complete');
+                        } else {
+                            me.setMargins(panel, props.asc_getPageMargins());
                         }
                     }
                 });
                 win.show();
                 win.setSettings(props);
             } else {
-                if (this._changedProps) {
-                    var currentSheet = panel.cmbSheet.getValue();
-                    this._changedProps[currentSheet] = this.getPageOptions(panel, currentSheet);
-                    this.updatePreview();
-                }
+                setChanges();
             }
         },
 
@@ -687,6 +663,31 @@ define([
             panel.cmbLayout.setValue(value, true);
         },
 
+        setMargins: function (panel, props) {
+            if (props) {
+                var left = props.asc_getLeft(),
+                    top = props.asc_getTop(),
+                    right = props.asc_getRight(),
+                    bottom = props.asc_getBottom(),
+                    store = panel.cmbPaperMargins.store,
+                    item = null;
+                for (var i = 0; i < store.length - 1; i++) {
+                    var rec = store.at(i),
+                        size = rec.get('size');
+                    if (typeof(size) == 'object' &&
+                        Math.abs(size[0] - top) < 0.1 && Math.abs(size[1] - left) < 0.1 &&
+                        Math.abs(size[2] - bottom) < 0.1 && Math.abs(size[3] - right) < 0.1) {
+                        item = rec;
+                        break;
+                    }
+                }
+                if (item)
+                    panel.cmbPaperMargins.setValue(item.get('value'));
+                else
+                    panel.cmbPaperMargins.setValue(this.txtCustom);
+            }
+        },
+
         setLastCustomMargins: function(panel, props) {
             if (props) {
                 var top = props.asc_getTop(),
@@ -700,6 +701,7 @@ define([
                     else
                         panel.cmbPaperMargins.store.unshift({ value: -2, displayValue: panel.txtMarginsLast, size: [parseFloat(top), parseFloat(left), parseFloat(bottom), parseFloat(right)]});
                     panel.cmbPaperMargins.onResetItems();
+                    panel.cmbPaperMargins.setValue(panel.cmbPaperMargins.store.at(0).get('value'));
                 }
             }
         },

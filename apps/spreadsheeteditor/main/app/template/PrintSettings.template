@@ -41,24 +41,7 @@
             </table>
         </div>
         <div class="padding-large inner-content" >
-            <table cols="2" class="no-padding">
-            <tr>
-                <td><label><%= scope.strTop %></label></td>
-                <td><label><%= scope.strBottom %></label></td>
-                </tr>
-            <tr>
-                <td class="padding-small"><div id="printadv-dlg-spin-margin-top" style="margin-right: 19px;"></div></td>
-                <td class="padding-small"><div id="printadv-dlg-spin-margin-bottom"></div></td>
-            </tr>
-            <tr>
-                <td><label><%= scope.strLeft %></label></td>
-                <td><label><%= scope.strRight %></label></td>
-                </tr>
-            <tr>
-                <td><div id="printadv-dlg-spin-margin-left" style="margin-right: 15px;"></div></td>
-                <td><div id="printadv-dlg-spin-margin-right"></div></td>
-                </tr>
-            </table>
+            <span id="printadv-dlg-combo-margins"></span>
         </div>
         <div class="padding-small"></div>
         <div class="inner-content">
