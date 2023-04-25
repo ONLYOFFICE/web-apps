@@ -418,8 +418,14 @@ define([
                 this.appOptions.user.anonymous && Common.localStorage.setItem("guest-id", this.appOptions.user.id);
 
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop' || Common.Controllers.Desktop.isActive();
+                if(this.appOptions.isDesktopApp){
+                    var desktoppRecent = Common.Controllers.Desktop.recentFiles();
+                    if (desktoppRecent && desktoppRecent.length > 0)
+                        this.editorConfig.recent = !this.editorConfig.recent ? desktoppRecent : this.editorConfig.recent =  this.editorConfig.recent.concat(desktoppRecent);
+                }
+
                 this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl) || this.editorConfig.templates && this.editorConfig.templates.length;
-                this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined && !this.appOptions.isDesktopApp;
+                this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined;
                 this.appOptions.templates       = this.editorConfig.templates;
                 this.appOptions.recent          = this.editorConfig.recent;
                 this.appOptions.createUrl       = this.editorConfig.createUrl;
