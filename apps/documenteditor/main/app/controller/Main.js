@@ -422,9 +422,9 @@ define([
 
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop' || Common.Controllers.Desktop.isActive();
                 if(this.appOptions.isDesktopApp){
-                    var desktoppRecent = Common.Controllers.Desktop.recentFiles();
-                    if (desktoppRecent && desktoppRecent.length > 0)
-                        this.editorConfig.recent = !this.editorConfig.recent ? desktoppRecent : this.editorConfig.recent =  this.editorConfig.recent.concat(desktoppRecent);
+                    var desktopRecent = Common.Controllers.Desktop.recentFiles();
+                    if (desktopRecent && desktopRecent.length > 0)
+                        this.editorConfig.recent = !this.editorConfig.recent ? desktopRecent : this.editorConfig.recent =  this.editorConfig.recent.concat(desktopRecent);
                 }
 
                 this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl) || this.editorConfig.templates && this.editorConfig.templates.length;
