@@ -320,7 +320,7 @@ define([
             }
 
             if (panel.spnFirstPage) {
-                opt.asc_setFirstPageNumber(panel.spnFirstPage.getValue());
+                opt.asc_setFirstPageNumber(panel.spnFirstPage.getNumberValue());
             }
 
             if (!this._changedProps[sheet]) {
@@ -369,6 +369,7 @@ define([
             this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
 
             this.fillPrintOptions(this.adjPrintParams, false);
+            this.adjPrintParams.asc_setActiveSheetsArray(this.printSettings.getRange() === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
 
             var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
             opts.asc_setAdvancedOptions(this.adjPrintParams);
