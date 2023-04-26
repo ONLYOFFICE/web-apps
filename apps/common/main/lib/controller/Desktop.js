@@ -586,6 +586,30 @@ define([
             recentFiles: function () {
                 return recents;
             },
+            openRecent: function (model) {
+                if ( this.isActive() ) {
+                    let params;
+                    if ( model.get('fileid') ) {
+                        params = {
+                            id: model.fileid,
+                            name: Common.Utils.htmlDecode(model.title),
+                            path: Common.Utils.htmlDecode(model.url),
+                            type: model.type,
+                        };
+                    } else {
+                        const params = {
+                            id: -1,
+                            name: Common.Utils.htmlDecode(model.title),
+                            path: Common.Utils.htmlDecode(model.url),
+                        };
+                    }
+
+                    native.execCommand("open:recent", JSON.stringify(params));
+                    return true
+                }
+
+                return false;
+            },
         };
     };
 
