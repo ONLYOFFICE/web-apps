@@ -1229,7 +1229,7 @@ define([
             }
         },
 
-        ChangeSettings: function(props) {
+        ChangeSettings: function(props, isShape) {
             if (this._initSettings)
                 this.createDelayedElements();
 
@@ -1403,6 +1403,7 @@ define([
                             this.chFixed.setValue(!!val, true);
                             this._state.Fixed=val;
                         }
+                        this.chFixed.setDisabled(!val && isShape); // disable fixed size for forms in shape
                     }
 
                     var brd = formPr.get_Border();
