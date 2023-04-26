@@ -2809,9 +2809,9 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 defaultUnit : "",
                 value: '1',
                 maxValue: 32767,
-                minValue: 1,
+                minValue: -32767,
                 allowDecimal: false,
-                maskExp: /[0-9]/,
+                maskExp: /[0-9,\-]/,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
