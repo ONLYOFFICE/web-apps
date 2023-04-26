@@ -923,7 +923,7 @@ define([
             this.cmbAlign.setValue((levelProps.get_Align()!==undefined) ? levelProps.get_Align() : '');
             var format = levelProps.get_Format(),
                 text = levelProps.get_Text();
-            if (text && format == Asc.c_oAscNumberingFormat.Bullet) {
+            if (text && text.length && format == Asc.c_oAscNumberingFormat.Bullet) {
                 this.bulletProps.symbol = text[0].get_Value();
             }
 
