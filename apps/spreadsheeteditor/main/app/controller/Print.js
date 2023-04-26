@@ -320,7 +320,7 @@ define([
             }
 
             if (panel.spnFirstPage) {
-                opt.asc_setFirstPageNumber(panel.spnFirstPage.getValue());
+                opt.asc_setFirstPageNumber(panel.spnFirstPage.getNumberValue());
             }
 
             if (!this._changedProps[sheet]) {
