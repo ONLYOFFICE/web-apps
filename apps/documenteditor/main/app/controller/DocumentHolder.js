@@ -168,7 +168,7 @@ define([
             };
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
 
-            Common.Utils.InternalSettings.set('de-equation-toolbar-hide', eval(Common.localStorage.getItem('de-equation-toolbar-hide')));
+            Common.Utils.InternalSettings.set('de-equation-toolbar-hide', Common.localStorage.getBool('de-equation-toolbar-hide'));
         },
 
         onLaunch: function() {
@@ -2604,7 +2604,7 @@ define([
                 else if(item.options.type=='hide') {
                     item.options.isToolbarHide = !item.options.isToolbarHide; 
                     Common.Utils.InternalSettings.set('de-equation-toolbar-hide', item.options.isToolbarHide);
-                    Common.localStorage.setItem('de-equation-toolbar-hide', item.options.isToolbarHide);
+                    Common.localStorage.setBool('de-equation-toolbar-hide', item.options.isToolbarHide);
                     if(item.options.isToolbarHide) this.onHideMathTrack();
                     else this.onShowMathTrack(this.lastMathTrackBounds);
                 }
