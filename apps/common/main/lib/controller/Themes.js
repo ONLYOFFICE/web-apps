@@ -271,29 +271,6 @@ define([
                     }
                 }
             );
-            // fetch(url, {
-            //     method: 'get',
-            //     headers: {
-            //         'Accept': 'application/json',
-            //     },
-            // }).then(function(response) {
-            //     if (!response.ok) {
-            //         throw new Error('server error');
-            //     }
-            //     return response.json();
-            // }).then(function(response) {
-            //     if ( response.then ) {
-            //         // return response.json();
-            //     } else {
-            //         parse_themes_object(response);
-            //
-            //         /* to break promises chain */
-            //         throw new Error('loaded');
-            //     }
-            // }).catch(function(e) {
-            //     if ( e.message == 'loaded' ) {
-            //     } else console.log('fetch error: ' + e);
-            // });
         }
 
         var on_document_ready = function (el) {
