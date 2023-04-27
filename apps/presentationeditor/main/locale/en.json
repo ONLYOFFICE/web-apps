@@ -1675,6 +1675,8 @@
   "PE.Views.DocumentHolder.advancedTableText": "Table advanced settings",
   "PE.Views.DocumentHolder.alignmentText": "Alignment",
   "PE.Views.DocumentHolder.allLinearText": "All - Linear",
+  "PE.Views.DocumentHolder.hideEqToolbar": "Hide Equation Toolbar",
+  "PE.Views.DocumentHolder.showEqToolbar": "Show Equation Toolbar",
   "PE.Views.DocumentHolder.allProfText": "All - Professional",
   "PE.Views.DocumentHolder.belowText": "Below",
   "PE.Views.DocumentHolder.cellAlignText": "Cell vertical alignment",
