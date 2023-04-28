@@ -262,10 +262,20 @@ define([
         }
 
         var get_themes_config = function (url) {
+            const me = this;
+
             Common.Utils.loadConfig(url,
                 function ( obj ) {
                     if ( obj != 'error' ) {
                         parse_themes_object(obj);
+
+                        const match = document.body.className.match(/theme-(?!type)[\w-]+/g);
+                        if ( match.length > 1 && themes_map[match[0]] ) {
+                            const s = Common.localStorage.getItem('ui-theme');
+                            if ( !s || get_ui_theme_name(s) !== match[0] ) {
+                                me.setTheme(match[0])
+                            }
+                        }
                     } else {
                         console.warn('failed to load/parse themes.json');
                     }
@@ -276,7 +286,7 @@ define([
         var on_document_ready = function (el) {
             // get_themes_config('../../common/main/resources/themes/themes.json');
             if ( !Common.Controllers.Desktop.isActive() || !Common.Controllers.Desktop.isOffline() )
-                get_themes_config('../../../../themes.json');
+                get_themes_config.call(this, '../../../../themes.json');
         }
 
         var get_ui_theme_name = function (objtheme) {
