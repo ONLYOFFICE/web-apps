@@ -101,8 +101,9 @@ define([
         },
 
         onRecentFileClick: function(view, itemview, record){
-            if ( this.menu )
-                this.menu.fireEvent('recent:open', [this.menu, record.get('url')]);
+            if ( this.menu ) {
+                !Common.Controllers.Desktop.openRecent(record) && this.menu.fireEvent('recent:open', [this.menu, record.get('url')]);
+            }
         },
 
         txtOpenRecent: 'Open Recent'
