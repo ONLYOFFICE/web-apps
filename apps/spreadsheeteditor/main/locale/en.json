@@ -2976,6 +2976,8 @@
   "SSE.Views.PageMarginsDialog.textRight": "Right",
   "SSE.Views.PageMarginsDialog.textTitle": "Margins",
   "SSE.Views.PageMarginsDialog.textTop": "Top",
+  "SSE.Views.PageMarginsDialog.textWarning": "Warning",
+  "SSE.Views.PageMarginsDialog.warnCheckMargings": "Margins are incorrect",
   "SSE.Views.ParagraphSettings.strLineHeight": "Line Spacing",
   "SSE.Views.ParagraphSettings.strParagraphSpacing": "Paragraph Spacing",
   "SSE.Views.ParagraphSettings.strSpacingAfter": "After",
