@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *    Main.js
  *
@@ -59,7 +58,8 @@ define([
     'spreadsheeteditor/main/app/controller/FormulaDialog',
     'common/main/lib/controller/FocusManager',
     'common/main/lib/controller/HintManager',
-    'common/main/lib/controller/LayoutManager'
+    'common/main/lib/controller/LayoutManager',
+    'common/main/lib/controller/ExternalUsers'
 ], function () {
     'use strict';
 
@@ -149,7 +149,8 @@ define([
                         'Years': this.txtYears,
                         '%1 or %2': this.txtOr,
                         'Qtr': this.txtQuarter,
-                        'Text': this.textText
+                        'Text': this.textText,
+                        'Sheet': this.txtSheet
                     };
 
                 styleNames.forEach(function(item){
@@ -223,6 +224,7 @@ define([
                 Common.NotificationCenter.on('api:disconnect',               _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('goback',                       _.bind(this.goBack, this));
                 Common.NotificationCenter.on('namedrange:locked',            _.bind(this.onNamedRangeLocked, this));
+                Common.NotificationCenter.on('protectedrange:locked',        _.bind(this.onProtectedRangeLocked, this));
                 Common.NotificationCenter.on('download:cancel',              _.bind(this.onDownloadCancel, this));
                 Common.NotificationCenter.on('download:advanced',            _.bind(this.onAdvancedOptions, this));
                 Common.NotificationCenter.on('showmessage',                  _.bind(this.onExternalMessage, this));
@@ -286,7 +288,11 @@ define([
                             && (e.relatedTarget.localName != 'textarea' || /area_id/.test(e.relatedTarget.id))) /* Check if focus goes to textarea, but not to "area_id" */ {
                             if (Common.Utils.isIE && e.originalEvent && e.originalEvent.target && /area_id/.test(e.originalEvent.target.id) && (e.originalEvent.target === e.originalEvent.srcElement))
                                 return;
-                            me.api.asc_enableKeyEvents(true);
+                            if (Common.Utils.isLinux && me.appOptions && me.appOptions.isDesktopApp) {
+                                if (e.relatedTarget || !e.originalEvent || e.originalEvent.sourceCapabilities)
+                                    me.api.asc_enableKeyEvents(true);
+                            } else
+                                me.api.asc_enableKeyEvents(true);
                             if (/msg-reply/.test(e.target.className))
                                 me.dontCloseDummyComment = false;
                             else if (/textarea-control/.test(e.target.className))
@@ -305,6 +311,7 @@ define([
                     if (event.target ) {
                         var target = $(event.target);
                         if (target.closest('.combobox').length>0 || target.closest('.dropdown-menu').length>0 ||
+                            target.closest('.input-field').length>0 || target.closest('.spinner').length>0 || target.closest('.textarea-field').length>0 ||
                             target.closest('.ribtab').length>0 || target.closest('.combo-dataview').length>0) {
                             event.preventDefault();
                         }
@@ -697,6 +704,14 @@ define([
                 } else {
                     this.getApplication().getController('DocumentHolder').getView('DocumentHolder').focus();
                     this.api.isCEditorFocused = false;
+                }
+
+                var application = this.getApplication(),
+                    toolbarView = application.getController('Toolbar').getView('Toolbar'),
+                    rightMenu = application.getController('RightMenu').getView('RightMenu');
+                if (this.appOptions.isEdit && (toolbarView && toolbarView._isEyedropperStart || rightMenu && rightMenu._isEyedropperStart)) {
+                    toolbarView._isEyedropperStart ? toolbarView._isEyedropperStart = false : rightMenu._isEyedropperStart = false;
+                    this.api.asc_cancelEyedropper();
                 }
 
                 Common.UI.HintManager.clearHints(true);
@@ -1363,6 +1378,7 @@ define([
                     this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
                     this.editorConfig.customization && Common.UI.LayoutManager.init(this.editorConfig.customization.layout, this.appOptions.canBrandingExt);
                     this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
+                    Common.UI.ExternalUsers.init(this.appOptions.canRequestUsers);
                 }
 
                 this.appOptions.canUseHistory  = this.appOptions.canLicense && this.editorConfig.canUseHistory && this.appOptions.canCoAuthoring && !this.appOptions.isOffline;
@@ -2037,6 +2053,10 @@ define([
                             config.msg = this.errorInconsistentExtPptx.replace('%1', this.appOptions.spreadsheet.fileType || '');
                         else
                             config.msg = this.errorInconsistentExt;
+                        break;
+
+                    case Asc.c_oAscError.ID.ProtectedRangeByOtherUser:
+                        config.msg = this.errorProtectedRange;
                         break;
 
                     default:
@@ -2827,6 +2847,20 @@ define([
                 if ($('.asc-window.modal.alert:visible').length < 1) {
                     Common.UI.alert({
                         msg: this.errorCreateDefName,
+                        title: this.notcriticalErrorTitle,
+                        iconCls: 'warn',
+                        buttons: ['ok'],
+                        callback: _.bind(function(btn){
+                            this.onEditComplete();
+                        }, this)
+                    });
+                }
+            },
+
+            onProtectedRangeLocked: function() {
+                if ($('.asc-window.modal.alert:visible').length < 1) {
+                    Common.UI.alert({
+                        msg: this.errorCreateRange,
                         title: this.notcriticalErrorTitle,
                         iconCls: 'warn',
                         buttons: ['ok'],
@@ -3789,7 +3823,10 @@ define([
             errorConvertXml: 'The file has an unsupported format.<br>Only XML Spreadsheet 2003 format can be used.',
             textText: 'Text',
             warnLicenseBefore: 'License not active.<br>Please contact your administrator.',
-            titleLicenseNotActive: 'License not active'
+            titleLicenseNotActive: 'License not active',
+            errorProtectedRange: 'This range is not allowed for editing.',
+            errorCreateRange: 'The existing ranges cannot be edited and the new ones cannot be created<br>at the moment as some of them are being edited.',
+            txtSheet: 'Sheet'
         }
     })(), SSE.Controllers.Main || {}))
 });

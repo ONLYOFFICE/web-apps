@@ -476,6 +476,8 @@
 	"EXPAND": "EXPANDIR",
 	"XMATCH": "CORRESPX",
 	"FILTER": "FILTRO",
+	"ARRAYTOTEXT": "MATRIZPARATEXTO",
+	"SORT": "CLASSIFICAR",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

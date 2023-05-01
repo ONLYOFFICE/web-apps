@@ -172,8 +172,8 @@
       "warnProcessRightsChange": "Não tem permissão para editar este ficheiro.",
       "textDontUpdate": "Don't Update",
       "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-      "titleLicenseNotActive": "License not active"
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {
@@ -394,7 +394,8 @@
       "txtNotUrl": "Este campo deve ser um URL no formato \"http://www.exemplo.com\"",
       "txtSorting": "Ordenação",
       "txtSortSelected": "Ordenar seleção",
-      "txtYes": "Sim"
+      "txtYes": "Sim",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Aviso",

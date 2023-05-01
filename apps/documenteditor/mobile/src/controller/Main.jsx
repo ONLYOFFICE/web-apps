@@ -599,12 +599,8 @@ class MainController extends Component {
             this.api.Resize();
         });
 
-        $$(window).on('popover:open popup:open sheet:open actions:open dialog:open', () => {
+        $$(window).on('popover:open popup:open sheet:open actions:open dialog:open searchbar:enable', () => {
             this.api.asc_enableKeyEvents(false);
-        });
-
-        $$(window).on('popover:close popup:close sheet:close actions:close dialog:close', () => {
-            this.api.asc_enableKeyEvents(true);
         });
 
         this.api.asc_registerCallback('asc_onDocumentUpdateVersion', this.onUpdateVersion.bind(this));
@@ -627,6 +623,8 @@ class MainController extends Component {
 
         this.api.asc_registerCallback('asc_onShowContentControlsActions', (obj, x, y) => {
             const storeAppOptions = this.props.storeAppOptions;
+            const isViewer = storeAppOptions.isViewer;
+
             if (!storeAppOptions.isEdit && !(storeAppOptions.isRestrictedEdit && storeAppOptions.canFillForms) || this.props.users.isDisconnected) return;
 
             switch (obj.type) {
@@ -636,7 +634,7 @@ class MainController extends Component {
                 case Asc.c_oAscContentControlSpecificType.Picture:
                     if (obj.pr && obj.pr.get_Lock) {
                         let lock = obj.pr.get_Lock();
-                        if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock == Asc.c_oAscSdtLockType.ContentLocked)
+                        if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock == Asc.c_oAscSdtLockType.ContentLocked || isViewer)
                             return;
                     }
                     this.api.asc_addImage(obj);
@@ -741,9 +739,12 @@ class MainController extends Component {
         // Downloaded Advanced Options
         
         this.api.asc_registerCallback('asc_onAdvancedOptions', (type, advOptions, mode, formatOptions) => {
-            const {t} = this.props;
+            const { t } = this.props;
             const _t = t("Settings", { returnObjects: true });
+            const storeAppOptions = this.props.storeAppOptions;
+
             if(type == Asc.c_oAscAdvancedOptionsID.DRM) {
+                storeAppOptions.setEncryptionFile(true);
                 onAdvancedOptions(type, _t, this._isDocReady, this.props.storeAppOptions.canRequestClose, this.isDRM);
                 this.isDRM = true;
             }
@@ -779,6 +780,22 @@ class MainController extends Component {
         const storeAppOptions = this.props.storeAppOptions;
         const props = this.getDocProps(true);
         const isProtected = props && (props.isReadOnly || props.isCommentsOnly || props.isFormsOnly || props.isReviewOnly);
+        let textWarningDialog;
+
+        switch(props.type) {
+            case Asc.c_oAscEDocProtect.ReadOnly:
+                textWarningDialog = t('Main.textDialogProtectedOnlyView');
+                break;
+            case Asc.c_oAscEDocProtect.Comments:
+                textWarningDialog = t('Main.textDialogProtectedEditComments');
+                break;
+            case Asc.c_oAscEDocProtect.TrackedChanges: 
+                textWarningDialog = t('Main.textDialogProtectedChangesTracked')
+                break;
+            case Asc.c_oAscEDocProtect.Forms:
+                textWarningDialog = t('Main.textDialogProtectedFillForms');
+                break;
+        }
 
         storeAppOptions.setProtection(isProtected);
         props && this.applyRestrictions(props.type);
@@ -786,8 +803,8 @@ class MainController extends Component {
 
         if(isProtected) {
             f7.dialog.create({
-                title: t('Main.notcriticalErrorTitle'),
-                text: t('Main.textDocumentProtected'),
+                title: t('Main.titleDialogProtectedDocument'),
+                text: textWarningDialog,
                 buttons: [
                     {
                         text: t('Main.textOk')
@@ -821,7 +838,7 @@ class MainController extends Component {
        
         if (!storeAppOptions || !storeAppOptions.isEdit && !storeAppOptions.isRestrictedEdit) return;
 
-        if (isUpdate || !this.state.docProtection) {
+        if (isUpdate || !this._state.docProtection) {
             const props = this.api.asc_getDocumentProtection();
             const type = props ? props.asc_getEditType() : Asc.c_oAscEDocProtect.None;
 
@@ -864,13 +881,14 @@ class MainController extends Component {
 
         controlsContainer.css({left: `${x}px`, top: `${y}px`});
 
+        const val = specProps ? specProps.get_FullDate() : undefined;
         this.cmpCalendar = f7.calendar.create({
             inputEl: '#calendar-target-element',
             dayNamesShort: [t('Edit.textSu'), t('Edit.textMo'), t('Edit.textTu'), t('Edit.textWe'), t('Edit.textTh'), t('Edit.textFr'), t('Edit.textSa')],
             monthNames: [t('Edit.textJanuary'), t('Edit.textFebruary'), t('Edit.textMarch'), t('Edit.textApril'), t('Edit.textMay'), t('Edit.textJune'), t('Edit.textJuly'), t('Edit.textAugust'), t('Edit.textSeptember'), t('Edit.textOctober'), t('Edit.textNovember'), t('Edit.textDecember')],
             backdrop: isPhone ? false : true,
             closeByBackdropClick: isPhone ? false : true,
-            value: [new Date(specProps ? specProps.get_FullDate() : undefined)],
+            value: [val ? new Date(val) : new Date()],
             openIn: isPhone ? 'sheet' : 'popover',
             on: {
                 change: (calendar, value) => {
@@ -969,7 +987,37 @@ class MainController extends Component {
     }
 
     onRequestClose () {
-        Common.Gateway.requestClose();
+        const { t } = this.props;
+        const _t = t("Toolbar", { returnObjects: true });
+
+        if (this.api.isDocumentModified()) {
+            this.api.asc_stopSaving();
+
+            f7.dialog.create({
+                title: _t.dlgLeaveTitleText,
+                text: _t.dlgLeaveMsgText,
+                verticalButtons: true,
+                buttons : [
+                    {
+                        text: _t.leaveButtonText,
+                        onClick: () => {
+                            this.api.asc_undoAllChanges();
+                            this.api.asc_continueSaving();
+                            Common.Gateway.requestClose();
+                        }
+                    },
+                    {
+                        text: _t.stayButtonText,
+                        bold: true,
+                        onClick: () => {
+                            this.api.asc_continueSaving();
+                        }
+                    }
+                ]
+            }).open();
+        } else {
+            Common.Gateway.requestClose();
+        }
     }
 
     onUpdateVersion (callback) {

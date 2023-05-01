@@ -1906,5 +1906,13 @@
 	"FILTER": {
 		"a": "(masīvs, iekļaut, [ja_tukšs])",
 		"d": "Filtrēt diapazonu vai masīvu"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(masīvs, [formāts])",
+		"d": "Atgriež masīva teksta attēlojumu"
+	},
+	"SORT": {
+		"a": "(masīvs, [kārt_indekss], [kārt_secība], [pēc_kol])",
+		"d": "Kārto diapazonu vai masīvu"
 	}
 }

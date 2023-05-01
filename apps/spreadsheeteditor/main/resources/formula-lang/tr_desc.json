@@ -1906,5 +1906,13 @@
 	"FILTER": {
 		"a": "(dizi, ekle, [boşsa])",
 		"d": "Bir aralığı veya diziyi filtreler"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(dizi, [biçim])",
+		"d": "Dizinin metin olarak temsilini döndürür"
+	},
+	"SORT": {
+		"a": "(dizi, [sıralama_dizini], [sıralama_düzeni], [sütuna_göre])",
+		"d": "Aralığı veya diziyi sıralar"
 	}
 }

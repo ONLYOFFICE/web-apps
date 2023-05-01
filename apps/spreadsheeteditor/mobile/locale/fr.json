@@ -80,7 +80,7 @@
       "leavePageText": "Vous avez des modifications non enregistrées dans ce document. Cliquez sur Rester sur cette page et attendez l'enregistrement automatique. Cliquez sur Quitter cette page pour annuler toutes les modifications non enregistrées.",
       "notcriticalErrorTitle": "Avertissement",
       "SDK": {
-        "txtAccent": "Accentuation",
+        "txtAccent": "Accent",
         "txtAll": "(Tous)",
         "txtArt": "Votre texte ici",
         "txtBlank": "(vide)",
@@ -162,8 +162,10 @@
       "textWarnUpdateExternalData": "Ce livre contient des liens vers une ou plusieurs sources externes qui pourraient être dangereuses. Si vous faites confiance à ces liens, mettez-les à jour pour obtenir les données les plus récentes.",
       "textYes": "Oui",
       "titleLicenseExp": "Licence expirée",
+      "titleLicenseNotActive": "Licence non active",
       "titleServerVersion": "L'éditeur est mis à jour",
       "titleUpdateVersion": "La version a été modifiée",
+      "warnLicenseBefore": "Licence non active.<br>Veuillez contacter votre administrateur.",
       "warnLicenseExceeded": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule. Pour en savoir plus, contactez votre administrateur.",
       "warnLicenseExp": "Votre licence a expiré. Veuillez mettre à jour votre licence et rafraîchir la page.",
       "warnLicenseLimitedNoAccess": "La licence est expirée. Vous n'avez plus d'accès aux outils d'édition. Veuillez contacter votre administrateur.",
@@ -171,9 +173,7 @@
       "warnLicenseUsersExceeded": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Pour en savoir plus, contactez votre administrateur.",
       "warnNoLicense": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
       "warnNoLicenseUsers": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
-      "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier.",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-      "titleLicenseNotActive": "License not active"
+      "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier."
     }
   },
   "Error": {
@@ -375,6 +375,7 @@
       "textLinkType": "Type de lien",
       "textOk": "Accepter",
       "textOther": "Autre",
+      "textPasteImageUrl": "Coller l'URL de l'image",
       "textPictureFromLibrary": "Image depuis la bibliothèque",
       "textPictureFromURL": "Image à partir d'une URL",
       "textRange": "Plage",
@@ -399,7 +400,7 @@
     "Edit": {
       "notcriticalErrorTitle": "Avertissement",
       "textAccounting": "Comptabilité",
-      "textActualSize": "Taille par défaut",
+      "textActualSize": "Taille actuelle",
       "textAddCustomColor": "Ajouter une couleur personnalisée",
       "textAddress": "Adresse",
       "textAlign": "Aligner",
@@ -476,9 +477,9 @@
       "textHorizontal": "Horizontal",
       "textHorizontalAxis": "Axe horizontal",
       "textHorizontalText": "Texte horizontal",
-      "textHundredMil": "100000000",
+      "textHundredMil": "100 000 000",
       "textHundreds": "Centaines",
-      "textHundredThousands": "100000",
+      "textHundredThousands": "100 000",
       "textHyperlink": "Lien hypertexte",
       "textImage": "Image",
       "textImageURL": "URL d'image",

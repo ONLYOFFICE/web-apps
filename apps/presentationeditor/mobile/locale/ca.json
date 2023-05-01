@@ -121,10 +121,12 @@
       "textRequestMacros": "Una macro fa una sol·licitud a l'URL. Vols permetre la sol·licitud a %1?",
       "textYes": "Sí",
       "titleLicenseExp": "La llicència ha caducat",
+      "titleLicenseNotActive": "Llicència inactiva",
       "titleServerVersion": "S'ha actualitzat l'editor",
       "titleUpdateVersion": "S'ha canviat la versió",
       "txtIncorrectPwd": "La contrasenya no és correcta",
       "txtProtected": "Un cop hagis introduït la contrasenya i obert el fitxer, es restablirà la contrasenya actual del fitxer",
+      "warnLicenseBefore": "Llicència inactiva. <br> Contacta amb l'administrador.",
       "warnLicenseExceeded": "Has arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Posa't en contacte amb l'administrador per a més informació.",
       "warnLicenseExp": "La llicència ha caducat. Actualitza-la i recarrega la pàgina.",
       "warnLicenseLimitedNoAccess": "La llicència ha caducat. No pots editar documents. Posa't en contacte amb l'administrador.",
@@ -132,9 +134,7 @@
       "warnLicenseUsersExceeded": "Has arribat al límit d'usuari per a %1 editors. Posa't en contacte amb l'administrador per a més informació.",
       "warnNoLicense": "Has arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Posa't en contacte amb l'equip de vendes %1 per conèixer les condicions d'actualització personal.",
       "warnNoLicenseUsers": "Has arribat al límit d'usuaris per a %1 editors. Posa't en contacte amb l'equip de vendes de %1 per obtenir les condicions de millora personals dels serveis.",
-      "warnProcessRightsChange": "No tens permís per editar el fitxer.",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-      "titleLicenseNotActive": "License not active"
+      "warnProcessRightsChange": "No tens permís per editar el fitxer."
     }
   },
   "Error": {
@@ -250,6 +250,7 @@
       "textNextSlide": "Diapositiva següent",
       "textOk": "D'acord",
       "textOther": "Altre",
+      "textPasteImageUrl": "Enganxa l'URL d'una imatge",
       "textPictureFromLibrary": "Imatge de la biblioteca",
       "textPictureFromURL": "Imatge de l'URL",
       "textPreviousSlide": "Diapositiva anterior",

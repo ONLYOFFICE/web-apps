@@ -171,9 +171,9 @@
       "textUpdate": "Update",
       "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
       "titleLicenseExp": "License expired",
-      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page.",
+      "titleLicenseNotActive": "License not active",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-      "titleLicenseNotActive": "License not active"
+      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
     }
   },
   "Error": {
@@ -394,6 +394,7 @@
       "txtSortSelected": "Isih Terpilih",
       "txtYes": "Ya",
       "textDone": "Done",
+      "textPasteImageUrl": "Paste an image URL",
       "textRecommended": "Recommended"
     },
     "Edit": {

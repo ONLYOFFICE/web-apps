@@ -1082,7 +1082,6 @@
   "DE.Views.ControlSettingsDialog.txtLockEdit": "Съдържанието не може да се редактира",
   "DE.Views.CustomColumnsDialog.textColumns": "Брой колони",
   "DE.Views.CustomColumnsDialog.textSeparator": "Разделител на колони",
-  "DE.Views.CustomColumnsDialog.textSpacing": "Разстояние между колоните",
   "DE.Views.CustomColumnsDialog.textTitle": "Колони",
   "DE.Views.DateTimeDialog.textLang": "Език",
   "DE.Views.DocumentHolder.aboveText": "Над",

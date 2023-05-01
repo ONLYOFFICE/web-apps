@@ -133,8 +133,8 @@
       "warnNoLicense": "Anda sudah mencapai batas untuk koneksi bersamaan ke %1 editor. Dokumen ini akan dibuka untuk dilihat saja. Hubungi %1 tim sales untuk syarat personal upgrade.",
       "warnNoLicenseUsers": "Anda sudah mencapai batas user untuk %1 editor. Hubungi %1 tim sales untuk syarat personal upgrade.",
       "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini.",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-      "titleLicenseNotActive": "License not active"
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {
@@ -263,7 +263,8 @@
       "textSlideNumber": "Nomor Slide",
       "textTable": "Tabel",
       "textTableSize": "Ukuran Tabel",
-      "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”"
+      "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Peringatan",

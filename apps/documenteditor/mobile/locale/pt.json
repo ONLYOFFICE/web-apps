@@ -64,7 +64,8 @@
     "textTableSize": "Tamanho da tabela",
     "textWithBlueLinks": "Com links azuis",
     "textWithPageNumbers": "Com números de página",
-    "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\""
+    "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
+    "textPasteImageUrl": "Paste an image URL"
   },
   "Common": {
     "Collaboration": {
@@ -427,7 +428,8 @@
     "unknownErrorText": "Erro desconhecido.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Sem imagens carregadas.",
-    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB."
+    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB.",
+    "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization."
   },
   "LongActions": {
     "applyChangesTextText": "Carregando dados...",
@@ -557,8 +559,11 @@
     "textRequestMacros": "Uma macro faz uma solicitação para URL. Deseja permitir a solicitação para %1?",
     "textYes": "Sim",
     "titleLicenseExp": "A licença expirou",
+    "titleLicenseNotActive": "Licença inativa",
     "titleServerVersion": "Editor atualizado",
     "titleUpdateVersion": "Versão alterada",
+    "warnDownloadAsPdf": "Seu {0} será convertido em um formato editável. Isso pode demorar um pouco. O documento resultante será otimizado para permitir que você edite o texto, portanto, pode não parecer exatamente com o {0} original, especialmente se o arquivo original contiver muitos gráficos.",
+    "warnLicenseBefore": "Licença inativa.<br>Entre em contato com seu administrador.",
     "warnLicenseExceeded": "Você atingiu o limite de conexões simultâneas para% 1 editores. Este documento será aberto apenas para visualização. Contate seu administrador para saber mais.",
     "warnLicenseExp": "Sua licença expirou. Por favor, atualize sua licença e atualize a página.",
     "warnLicenseLimitedNoAccess": "A licença expirou. Você não tem acesso à funcionalidade de edição de documentos. Por favor, entre em contato com seu administrador.",
@@ -567,8 +572,11 @@
     "warnNoLicense": "Você atingiu o limite de conexões simultâneas para% 1 editores. Este documento será aberto apenas para visualização. Contate a equipe de vendas% 1 para termos de atualização pessoal.",
     "warnNoLicenseUsers": "Você atingiu o limite de usuários para editores %1.<br>Entre em contato com a equipe de vendas da %1 para obter os termos de atualização pessoais.",
     "warnProcessRightsChange": "Você não tem permissão para editar este arquivo.",
-    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-    "titleLicenseNotActive": "License not active"
+    "textDialogProtectedChangesTracked": "You may edit this document, but all changes will be tracked",
+    "textDialogProtectedEditComments": "You may only insert comments to this document",
+    "textDialogProtectedFillForms": "You may only fill in forms in this document",
+    "textDialogProtectedOnlyView": "You may only view this document",
+    "titleDialogProtectedDocument": "The document is protected"
   },
   "Settings": {
     "advDRMOptions": "Arquivo protegido",
@@ -697,7 +705,26 @@
     "txtScheme6": "Concurso",
     "txtScheme7": "Patrimônio Líquido",
     "txtScheme8": "Fluxo",
-    "txtScheme9": "Fundição"
+    "txtScheme9": "Fundição",
+    "textChangePassword": "Change Password",
+    "textDialogUnprotect": "Enter a password to unprotect document",
+    "textEncryptFile": "Encrypt File",
+    "textFillingForms": "Filling forms",
+    "textNoChanges": "No changes (Read only)",
+    "textPassword": "Password",
+    "textPasswordNotMatched": "Passwords DonвЂ™t Match",
+    "textProtectDocument": "Protect Document",
+    "textProtection": "Protection",
+    "textProtectTurnOff": "Protection is turned off",
+    "textRequired": "Required",
+    "textRequirePassword": "Require Password",
+    "textSave": "Save",
+    "textSetPassword": "Set Password",
+    "textTrackedChanges": "Tracked changes",
+    "textTypeEditing": "Type Of Editing",
+    "textUnprotect": "Unprotect",
+    "textVerify": "Verify",
+    "titleDialogUnprotect": "Unprotect Document"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Você tem mudanças não salvas. Clique em 'Ficar nesta página' para esperar pela auto-salvar. Clique em 'Sair desta página' para descartar todas as mudanças não salvas.",

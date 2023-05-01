@@ -70,6 +70,12 @@
 
         .group-description {
             .font-size-normal();
+            color: @text-normal-ie;
+            color: @text-normal;
+            
+            .rtl & {
+                text-align: right;
+            }
         }
 
         .group-items-container {
@@ -132,7 +138,6 @@
 
         .rtl & {
             padding: 3px 4px 3px 0;
-            text-align: right;
         }
     }
 

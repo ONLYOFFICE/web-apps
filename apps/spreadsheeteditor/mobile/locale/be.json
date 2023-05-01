@@ -162,8 +162,10 @@
       "textUpdate": "Update",
       "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
       "titleLicenseExp": "License expired",
+      "titleLicenseNotActive": "License not active",
       "titleServerVersion": "Editor updated",
       "titleUpdateVersion": "Version changed",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
       "warnLicenseExceeded": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact your administrator to learn more.",
       "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page.",
       "warnLicenseLimitedNoAccess": "License expired. You have no access to document editing functionality. Please, contact your admin.",
@@ -171,9 +173,7 @@
       "warnLicenseUsersExceeded": "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
       "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
       "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
-      "warnProcessRightsChange": "You don't have permission to edit the file.",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-      "titleLicenseNotActive": "License not active"
+      "warnProcessRightsChange": "You don't have permission to edit the file."
     }
   },
   "Error": {
@@ -376,6 +376,7 @@
       "textLinkType": "Link Type",
       "textOk": "Ok",
       "textOther": "Other",
+      "textPasteImageUrl": "Paste an image URL",
       "textPictureFromLibrary": "Picture from library",
       "textPictureFromURL": "Picture from URL",
       "textRequired": "Required",

@@ -162,8 +162,10 @@
       "textWarnUpdateExternalData": "Acest registru de lucru conține legături la una sau mai multe surse externe ce pot fi nesigure. Dacă aveți încredere în linkuri, actualizați-le, pentru a obține cele mai recente date.",
       "textYes": "Da",
       "titleLicenseExp": "Licența a expirat",
+      "titleLicenseNotActive": "Licența nu este activă",
       "titleServerVersion": "Editorul a fost actualizat",
       "titleUpdateVersion": "Versiunea s-a modificat",
+      "warnLicenseBefore": "Licența nu este activă.<br>Contactaţi administratorul.",
       "warnLicenseExceeded": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați administratorul dvs pentru mai multe detalii.",
       "warnLicenseExp": "Licența dvs. a expirat. Licența urmează să fie reînnoită iar pagina reîmprospătată.",
       "warnLicenseLimitedNoAccess": "Licența dvs. a expirat. Nu aveți acces la funcții de editare a documentului.Contactați administratorul dvs. de rețeea.",
@@ -171,9 +173,7 @@
       "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori ai %1 editoare. Pentru detalii, contactați administratorul dvs.",
       "warnNoLicense": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați %1 Departamentul de Vânzări pentru acordarea condițiilor personale de actualizare.",
       "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori ai %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
-      "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier.",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-      "titleLicenseNotActive": "License not active"
+      "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier."
     }
   },
   "Error": {
@@ -375,6 +375,7 @@
       "textLinkType": "Tip link",
       "textOk": "OK",
       "textOther": "Altele",
+      "textPasteImageUrl": "Lipește URL-ul imaginii",
       "textPictureFromLibrary": "Imagine dintr-o bibliotecă ",
       "textPictureFromURL": "Imaginea prin URL",
       "textRange": "Zona",

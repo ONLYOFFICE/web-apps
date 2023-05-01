@@ -1418,7 +1418,6 @@
   "DE.Views.CrossReferenceDialog.txtType": "參考類型",
   "DE.Views.CustomColumnsDialog.textColumns": "列數",
   "DE.Views.CustomColumnsDialog.textSeparator": "欄位分隔線",
-  "DE.Views.CustomColumnsDialog.textSpacing": "欄之前的距離",
   "DE.Views.CustomColumnsDialog.textTitle": "欄",
   "DE.Views.DateTimeDialog.confirmDefault": "設置{0}的預設格式：“ {1}”",
   "DE.Views.DateTimeDialog.textDefault": "設為預設",

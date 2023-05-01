@@ -476,6 +476,8 @@
 	"EXPAND": "EXPANDIR",
 	"XMATCH": "COINCIDIRX",
 	"FILTER": "FILTRAR",
+	"ARRAYTOTEXT": "MATRIZATEXTO",
+	"SORT": "ORDENAR",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Encabezados",

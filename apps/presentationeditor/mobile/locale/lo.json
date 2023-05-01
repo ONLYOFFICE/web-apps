@@ -133,8 +133,8 @@
       "warnNoLicenseUsers": "ຈໍານວນການເຊື່ອມຕໍ່ພ້ອມກັນກັບບັນນາທິການ ແມ່ນເກີນກໍານົດ % 1. ຕິດຕໍ່ ທີມຂາຍ %1 ສຳລັບຂໍ້ກຳນົດການຍົກລະດັບສິດ",
       "warnProcessRightsChange": "ທ່ານບໍ່ມີສິດໃນການແກ້ໄຂໄຟລ໌ນີ້.",
       "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-      "titleLicenseNotActive": "License not active"
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {
@@ -262,6 +262,7 @@
       "textTableSize": "ຂະໜາດຕາຕະລາງ",
       "txtNotUrl": "ຊ່ອງຂໍ້ມູນນີ້ຄວນຈະເປັນ URL ໃນຮູບແບບ \"http://www.example.com\"",
       "textDone": "Done",
+      "textPasteImageUrl": "Paste an image URL",
       "textRecommended": "Recommended",
       "textRequired": "Required"
     },

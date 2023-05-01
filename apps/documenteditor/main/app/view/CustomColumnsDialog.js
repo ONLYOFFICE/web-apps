@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  CustomColumnsDialog.js
  *
@@ -64,10 +63,7 @@ define([
                     '<div class="input-row" style="margin-bottom: 10px;">',
                         '<label class="input-label">' + this.textColumns + '</label><div id="custom-columns-spin-num" style="float: right;"></div>',
                     '</div>',
-                    '<label class="input-label" style="width:27px; font-weight: bold; margin-left:6px;">#</label>',
-                    '<label class="input-label" style="width:114px; font-weight: bold;">' + this.textWidth + '</label>',
-                    '<label class="input-label" style="width:105px; font-weight: bold;">' + this.textTitleSpacing + '</label>',
-                    '<div id="custom-columns-list" style="width:100%; height: 91px;"></div>',
+                    '<div id="custom-columns-list" style="width:100%; height: 113px;"></div>',
                     '<div class="input-row" style="margin: 10px 0;">',
                         '<div id="custom-columns-equal-width"></div>',
                     '</div>',
@@ -182,8 +178,13 @@ define([
                 store: new Common.UI.DataViewStore(),
                 showLast: false,
                 handleSelect: false,
-                tabindex: 1,
+                tabindex: 0,
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
+                headers: [
+                    {name: '#',                     width:26},
+                    {name: this.textWidth,          width:115},
+                    {name: this.textTitleSpacing,   width:113},
+                ],
                 itemTemplate: _.template([
                     '<div id="custom-columns-list-item-<%= index %>" class="list-item" style="display:flex; align-items:center; width=100%;">',
                         '<label class="level-caption" style="padding-right:5px; flex-shrink:0; width:20px;"><%= index + 1 %></label>',

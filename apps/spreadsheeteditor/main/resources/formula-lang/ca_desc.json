@@ -1906,5 +1906,13 @@
 	"FILTER": {
 		"a": "(array, include, [if_empty])",
 		"d": "Filtra un interval o una matriu"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(matriu, [format])",
+		"d": "Retorna una representació de text d'una matriu"
+	},
+	"SORT": {
+		"a": "(matriu, [índex_ordenació], [criteri_ordenació], [per_columna])",
+		"d": "Ordena un interval o una matriu"
 	}
 }

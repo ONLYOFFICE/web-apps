@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  DataView.js
  *
@@ -224,6 +223,7 @@ define([
             allowScrollbar: true,
             scrollAlwaysVisible: false,
             minScrollbarLength: 40,
+            scrollYStyle: null,
             showLast: true,
             useBSKeydown: false,
             cls: ''
@@ -274,6 +274,7 @@ define([
             me.allowScrollbar = (me.options.allowScrollbar!==undefined) ? me.options.allowScrollbar : true;
             me.scrollAlwaysVisible = me.options.scrollAlwaysVisible || false;
             me.minScrollbarLength = me.options.minScrollbarLength || 40;
+            me.scrollYStyle    = me.options.scrollYStyle;
             me.tabindex = me.options.tabindex || 0;
             me.delayRenderTips = me.options.delayRenderTips || false;
             if (me.parentMenu)
@@ -362,6 +363,7 @@ define([
                     el: $(this.el).find('.inner').addBack().filter('.inner'),
                     useKeyboard: this.enableKeyEvents && !this.handleSelect,
                     minScrollbarLength  : this.minScrollbarLength,
+                    scrollYStyle: this.scrollYStyle,
                     wheelSpeed: 10,
                     alwaysVisibleY: this.scrollAlwaysVisible
                 });
@@ -572,6 +574,8 @@ define([
         },
 
         onResetItems: function() {
+            this.trigger('reset:before', this);
+
             _.each(this.dataViewItems, function(item) {
                 var tip = item.$el.data('bs.tooltip');
                 if (tip) {
@@ -612,6 +616,7 @@ define([
                     el: $(this.el).find('.inner').addBack().filter('.inner'),
                     useKeyboard: this.enableKeyEvents && !this.handleSelect,
                     minScrollbarLength  : this.minScrollbarLength,
+                    scrollYStyle: this.scrollYStyle,
                     wheelSpeed: 10,
                     alwaysVisibleY: this.scrollAlwaysVisible
                 });
@@ -717,10 +722,10 @@ define([
             }
         },
 
-        scrollToRecord: function (record, force) {
+        scrollToRecord: function (record, force, offsetTop) {
             if (!record) return;
             var innerEl = $(this.el).find('.inner'),
-                inner_top = innerEl.offset().top,
+                inner_top = innerEl.offset().top + (offsetTop ? offsetTop : 0),
                 idx = _.indexOf(this.store.models, record),
                 div = (idx>=0 && this.dataViewItems.length>idx) ? $(this.dataViewItems[idx].el) : innerEl.find('#' + record.get('id'));
             if (div.length<=0) return;
@@ -1082,6 +1087,7 @@ define([
                     el: $(this.el).find('.inner').addBack().filter('.inner'),
                     useKeyboard: this.enableKeyEvents && !this.handleSelect,
                     minScrollbarLength  : this.minScrollbarLength,
+                    scrollYStyle: this.scrollYStyle,
                     wheelSpeed: 10,
                     alwaysVisibleY: this.scrollAlwaysVisible
                 });
@@ -1174,6 +1180,7 @@ define([
                 el: $(this.el).find('.inner').addBack().filter('.inner'),
                 useKeyboard: this.enableKeyEvents && !this.handleSelect,
                 minScrollbarLength  : this.minScrollbarLength,
+                scrollYStyle: this.scrollYStyle,
                 wheelSpeed: 10,
                 alwaysVisibleY: this.scrollAlwaysVisible
             });

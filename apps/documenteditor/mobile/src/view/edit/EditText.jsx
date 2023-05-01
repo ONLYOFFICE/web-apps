@@ -282,32 +282,35 @@ const PageBulletsAndNumbers = props => {
                     </NavRight>
                 }
             </Navbar>
-            <Swiper pagination>
-                <SwiperSlide>
-                    <PageNumbers 
-                        storeTextSettings={storeTextSettings} 
-                        onNumber={props.onNumber} 
-                        getIconsBulletsAndNumbers={props.getIconsBulletsAndNumbers} 
-                        updateBulletsNumbers={props.updateBulletsNumbers}
-                    />
-                </SwiperSlide> 
-                <SwiperSlide>
-                    <PageBullets 
-                        storeTextSettings={storeTextSettings} 
-                        onBullet={props.onBullet} 
-                        getIconsBulletsAndNumbers={props.getIconsBulletsAndNumbers}
-                        updateBulletsNumbers={props.updateBulletsNumbers}
-                    />
-                </SwiperSlide>
-                <SwiperSlide> 
-                    <PageMultiLevel 
-                        storeTextSettings={storeTextSettings} 
-                        onMultiLevelList={props.onMultiLevelList} 
-                        getIconsBulletsAndNumbers={props.getIconsBulletsAndNumbers}
-                        updateBulletsNumbers={props.updateBulletsNumbers}
-                    />
-                </SwiperSlide>
-            </Swiper>
+            <div className="swiper-container swiper-init" data-pagination='{"el": ".swiper-pagination"}'>
+                <div className="swiper-wrapper">
+                    <div className="swiper-slide">
+                        <PageNumbers 
+                            storeTextSettings={storeTextSettings} 
+                            onNumber={props.onNumber} 
+                            getIconsBulletsAndNumbers={props.getIconsBulletsAndNumbers}
+                            updateBulletsNumbers={props.updateBulletsNumbers}
+                        />
+                    </div>
+                    <div className="swiper-slide">
+                        <PageBullets 
+                            storeTextSettings={storeTextSettings} 
+                            onBullet={props.onBullet} 
+                            getIconsBulletsAndNumbers={props.getIconsBulletsAndNumbers}
+                            updateBulletsNumbers={props.updateBulletsNumbers}
+                        />
+                    </div>
+                    <div className="swiper-slide">
+                        <PageMultiLevel 
+                            storeTextSettings={storeTextSettings} 
+                            onMultiLevelList={props.onMultiLevelList} 
+                            getIconsBulletsAndNumbers={props.getIconsBulletsAndNumbers}
+                            updateBulletsNumbers={props.updateBulletsNumbers}
+                        />
+                    </div>
+                </div>
+                <div className="swiper-pagination"></div>
+            </div>
         </Page>
     )
 };

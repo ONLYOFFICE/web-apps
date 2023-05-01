@@ -133,8 +133,8 @@
       "warnNoLicenseUsers": "ONLYOFFICE 편집자의이 버전은 동시 사용자에게 일정한 제한이 있습니다. <br> 더 필요한 것이 있으면 현재 라이센스를 업그레이드하거나 상용 라이센스를 구입하십시오.",
       "warnProcessRightsChange": "파일을 수정할 수 있는 권한이 없습니다.",
       "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-      "titleLicenseNotActive": "License not active"
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {
@@ -262,6 +262,7 @@
       "textTableSize": "표 크기",
       "txtNotUrl": "이 필드는 \"http://www.example.com\"형식의 URL이어야합니다.",
       "textDone": "Done",
+      "textPasteImageUrl": "Paste an image URL",
       "textRecommended": "Recommended",
       "textRequired": "Required"
     },

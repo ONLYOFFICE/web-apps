@@ -1906,5 +1906,13 @@
 	"FILTER": {
 		"a": "(matice, zahrnuje, [pokud_prázdné])",
 		"d": "Filtruje oblast nebo matici."
+	},
+	"ARRAYTOTEXT": {
+		"a": "(pole, [formát])",
+		"d": "Vrátí textové vyjádření pole."
+	},
+	"SORT": {
+		"a": "(pole, [index_řazení], [pořadí_řazení], [podle_sloupce])",
+		"d": "Seřadí oblast nebo pole."
 	}
 }

@@ -1427,7 +1427,6 @@
   "DE.Views.CrossReferenceDialog.txtType": "Henvisningstype",
   "DE.Views.CustomColumnsDialog.textColumns": "Antal kolonner",
   "DE.Views.CustomColumnsDialog.textSeparator": "Kolonnedeler",
-  "DE.Views.CustomColumnsDialog.textSpacing": "Afstand mellem kolonner",
   "DE.Views.CustomColumnsDialog.textTitle": "Kolonner",
   "DE.Views.DateTimeDialog.confirmDefault": "Indstil standardformat for {0}: \"{1}\"",
   "DE.Views.DateTimeDialog.textDefault": "Indstil som standard",

@@ -1906,5 +1906,13 @@
 	"FILTER": {
 		"a": "(matriz, incluir, [se_vazia])",
 		"d": "Filtrar um intervalo ou matriz"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(matriz, [formato])",
+		"d": "Devolve uma representação de texto de uma matriz"
+	},
+	"SORT": {
+		"a": "(matriz, [ordenar_índice], [ordenar_ordem], [por_col])",
+		"d": "Ordena um intervalo ou matriz"
 	}
 }

@@ -162,8 +162,10 @@
       "textWarnUpdateExternalData": "本工作簿包含一个或多个外部来源的链接，这些链接可能是不安全的。如果您信任这些链接，请更新它们以获得最新的数据。",
       "textYes": "是",
       "titleLicenseExp": "许可证已过期",
+      "titleLicenseNotActive": "许可证未激活",
       "titleServerVersion": "编辑器已更新",
       "titleUpdateVersion": "版本已变化",
+      "warnLicenseBefore": "许可证未激活。<br>请联系管理员。",
       "warnLicenseExceeded": "你触发了 %1 编辑器的同时在线数限制。该文档打开后，你将只能查看。可联系管理员来了解更多信息。",
       "warnLicenseExp": "您的许可证已过期。烦请您更新许可证，然后刷新该页面。",
       "warnLicenseLimitedNoAccess": "许可证已过期。你将不能使用文档编辑功能。恳请你联系你的管理员。",
@@ -171,9 +173,7 @@
       "warnLicenseUsersExceeded": "你触发了 %1 编辑器的同时在线数限制。可联系管理员来了解更多信息。",
       "warnNoLicense": "你已经触发了 %1 编辑器的同时在线数限制. 该文档打开后，你将只能查看。请联系 %1 的销售团队，获取个人升级条款。",
       "warnNoLicenseUsers": "你触发了 %1 编辑器的同时在线数限制。请与  %1  的销售团队联系，以获取个人升级条款。",
-      "warnProcessRightsChange": "你没有编辑文件的权限。",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-      "titleLicenseNotActive": "License not active"
+      "warnProcessRightsChange": "你没有编辑文件的权限。"
     }
   },
   "Error": {
@@ -394,7 +394,8 @@
       "txtNotUrl": "该字段应为“http://www.example.com”格式的URL",
       "txtSorting": "排序",
       "txtSortSelected": "排序选定的",
-      "txtYes": "是"
+      "txtYes": "是",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "警告",

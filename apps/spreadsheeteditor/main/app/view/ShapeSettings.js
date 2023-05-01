@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  ShapeSettings.js
  *
@@ -596,6 +595,7 @@ define([
                         stroke.asc_putColor(Common.Utils.ThemeColor.getRgbColor(Common.Utils.ThemeColor.colorValue2EffectId(this.BorderColor.Color)));
                     stroke.asc_putPrstDash(this.BorderType);
                     stroke.asc_putWidth(this._pt2mm(this.BorderSize));
+                    stroke.asc_putTransparent(this._state.LineTransparency);
                 }
                 props.asc_putStroke(stroke);
                 this.imgprops.asc_putShapeProperties(props);
@@ -646,6 +646,7 @@ define([
                     stroke.put_color(Common.Utils.ThemeColor.getRgbColor(this.BorderColor.Color));
                     stroke.put_width(this._pt2mm(this.BorderSize));
                     stroke.asc_putPrstDash(this.BorderType);
+                    stroke.asc_putTransparent(this._state.LineTransparency);
                 }
                 props.put_stroke(stroke);
                 this.imgprops.asc_putShapeProperties(props);
@@ -666,12 +667,59 @@ define([
                     stroke.asc_putColor(Common.Utils.ThemeColor.getRgbColor(this.BorderColor.Color));
                     stroke.asc_putWidth(this._pt2mm(this.BorderSize));
                     stroke.asc_putPrstDash(this.BorderType);
+                    stroke.asc_putTransparent(this._state.LineTransparency);
                 }
                 props.asc_putStroke(stroke);
                 this.imgprops.asc_putShapeProperties(props);
                 this.api.asc_setGraphicObjectProps(this.imgprops);
             }
             Common.NotificationCenter.trigger('edit:complete', this);
+        },
+
+        onNumLineTransparencyChange: function(field, newValue, oldValue, eOpts){
+            this.sldrLineTransparency.setValue(field.getNumberValue(), true);
+            this._state.LineTransparency = field.getNumberValue() * 2.55;
+            if (this.api && !this._noApply)  {
+                var props = new Asc.asc_CShapeProperty();
+                var stroke = new Asc.asc_CStroke();
+                stroke.asc_putTransparent(this._state.LineTransparency);
+                props.asc_putStroke(stroke);
+                this.imgprops.asc_putShapeProperties(props);
+                this.api.asc_setGraphicObjectProps(this.imgprops);
+            }
+        },
+
+        onLineTransparencyChange: function(field, newValue, oldValue){
+            this._sliderChangedLine = newValue;
+            this.numLineTransparency.setValue(newValue, true);
+            if (this._sendUndoPoint) {
+                this.api.setStartPointHistory();
+                this._sendUndoPoint = false;
+                this.updatesliderline = setInterval(_.bind(this._transparencyLineApplyFunc, this), 100);
+            }
+        },
+
+        onLineTransparencyChangeComplete: function(field, newValue, oldValue){
+            clearInterval(this.updatesliderline);
+            this._sliderChangedLine = newValue;
+            if (!this._sendUndoPoint) { // start point was added
+                this.api.setEndPointHistory();
+                this._transparencyLineApplyFunc();
+            }
+            this._sendUndoPoint = true;
+        },
+
+        _transparencyLineApplyFunc: function() {
+            if (this._sliderChangedLine!==undefined) {
+                this._state.LineTransparency = this._sliderChangedLine * 2.55;
+                var props = new Asc.asc_CShapeProperty();
+                var stroke = new Asc.asc_CStroke();
+                stroke.asc_putTransparent(this._state.LineTransparency);
+                props.asc_putStroke(stroke);
+                this.imgprops.asc_putShapeProperties(props);
+                this.api.asc_setGraphicObjectProps(this.imgprops);
+                this._sliderChangedLine = undefined;
+            }
         },
 
         setImageUrl: function(url, token) {
@@ -987,6 +1035,16 @@ define([
                     update = (this._state.StrokeColor == 'transparent' && this.BorderColor.Color !== 'transparent'); // border color was changed for shape without line and then shape was reselected (or apply other settings)
 
                 if (stroke) {
+                    transparency = stroke.asc_getTransparent();
+                    if ( Math.abs(this._state.LineTransparency-transparency)>0.001 || Math.abs(this.numLineTransparency.getNumberValue()-transparency)>0.001 ||
+                        (this._state.LineTransparency===null || transparency===null)&&(this._state.LineTransparency!==transparency || this.numLineTransparency.getNumberValue()!==transparency)) {
+
+                        if (transparency !== undefined) {
+                            this.sldrLineTransparency.setValue((transparency===null) ? 100 : transparency/255*100, true);
+                            this.numLineTransparency.setValue(this.sldrLineTransparency.getValue(), true);
+                        }
+                        this._state.LineTransparency=transparency;
+                    }
                     if ( strokeType == Asc.c_oAscStrokeType.STROKE_COLOR ) {
                         color = stroke.asc_getColor();
                         if (color) {
@@ -1502,6 +1560,36 @@ define([
             this.cmbBorderType.setValue(this.BorderType);
             this.lockedControls.push(this.cmbBorderType);
 
+            this.numLineTransparency = new Common.UI.MetricSpinner({
+                el: $('#shape-line-spin-transparency'),
+                step: 1,
+                width: 62,
+                value: '100 %',
+                defaultUnit : "%",
+                maxValue: 100,
+                minValue: 0,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.numLineTransparency.on('change', _.bind(this.onNumLineTransparencyChange, this));
+            this.numLineTransparency.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
+            this.lockedControls.push(this.numLineTransparency);
+
+            this.sldrLineTransparency = new Common.UI.SingleSlider({
+                el: $('#shape-line-slider-transparency'),
+                width: 75,
+                minValue: 0,
+                maxValue: 100,
+                value: 100
+            });
+            this.sldrLineTransparency.on('change', _.bind(this.onLineTransparencyChange, this));
+            this.sldrLineTransparency.on('changecomplete', _.bind(this.onLineTransparencyChangeComplete, this));
+            this.lockedControls.push(this.sldrLineTransparency);
+
+            this.lblLineTransparencyStart = $(this.el).find('#shape-line-lbl-transparency-start');
+            this.lblLineTransparencyEnd = $(this.el).find('#shape-line-lbl-transparency-end');
+
             this.btnChangeShape = new Common.UI.Button({
                 parentEl: $('#shape-btn-change'),
                 cls: 'btn-icon-default',
@@ -1767,6 +1855,7 @@ define([
                     parentEl: $('#shape-back-color-btn'),
                     transparent: true,
                     color: 'transparent',
+                    eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'medium'
@@ -1774,10 +1863,13 @@ define([
                 this.fillControls.push(this.btnBackColor);
                 this.colorsBack = this.btnBackColor.getPicker();
                 this.btnBackColor.on('color:select', _.bind(this.onColorsBackSelect, this));
+                this.btnBackColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                this.btnBackColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
 
                 this.btnBorderColor = new Common.UI.ColorButton({
                     parentEl: $('#shape-border-color-btn'),
                     color: '000000',
+                    eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -1785,10 +1877,13 @@ define([
                 this.lockedControls.push(this.btnBorderColor);
                 this.colorsBorder = this.btnBorderColor.getPicker();
                 this.btnBorderColor.on('color:select', _.bind(this.onColorsBorderSelect, this));
+                this.btnBorderColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                this.btnBorderColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
 
                 this.btnFGColor = new Common.UI.ColorButton({
                     parentEl: $('#shape-foreground-color-btn'),
                     color: '000000',
+                    eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -1796,10 +1891,13 @@ define([
                 this.fillControls.push(this.btnFGColor);
                 this.colorsFG = this.btnFGColor.getPicker();
                 this.btnFGColor.on('color:select', _.bind(this.onColorsFGSelect, this));
+                this.btnFGColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                this.btnFGColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
 
                 this.btnBGColor = new Common.UI.ColorButton({
                     parentEl: $('#shape-background-color-btn'),
                     color: 'ffffff',
+                    eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -1807,10 +1905,13 @@ define([
                 this.fillControls.push(this.btnBGColor);
                 this.colorsBG = this.btnBGColor.getPicker();
                 this.btnBGColor.on('color:select', _.bind(this.onColorsBGSelect, this));
+                this.btnBGColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                this.btnBGColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
 
                 this.btnGradColor = new Common.UI.ColorButton({
                     parentEl: $('#shape-gradient-color-btn'),
                     color: '000000',
+                    eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -1818,6 +1919,8 @@ define([
                 this.fillControls.push(this.btnGradColor);
                 this.colorsGrad = this.btnGradColor.getPicker();
                 this.btnGradColor.on('color:select', _.bind(this.onColorsGradientSelect, this));
+                this.btnGradColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                this.btnGradColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
             }
             
             this.colorsBorder.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
@@ -1869,6 +1972,8 @@ define([
                     item.setDisabled(disable);
                 });
                 this.linkAdvanced.toggleClass('disabled', disable);
+                this.lblLineTransparencyStart.toggleClass('disabled', disable);
+                this.lblLineTransparencyEnd.toggleClass('disabled', disable);
             }
             this.btnFlipV.setDisabled(disable || this._state.isFromSmartArtInternal);
             this.btnFlipH.setDisabled(disable || this._state.isFromSmartArtInternal);
@@ -1969,6 +2074,15 @@ define([
                 this.imgprops.asc_putShapeProperties(props);
                 this.api.asc_setGraphicObjectProps(this.imgprops);
             }
+        },
+
+        onEyedropperStart: function (btn) {
+            this.api.asc_startEyedropper(_.bind(btn.eyedropperEnd, btn));
+            this.fireEvent('eyedropper', true);
+        },
+
+        onEyedropperEnd: function () {
+            this.fireEvent('eyedropper', false);
         },
 
         txtNoBorders            : 'No Line',

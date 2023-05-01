@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import { f7 } from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device';
-import { withTranslation} from 'react-i18next';
-
+import {observer, inject} from "mobx-react";
+import { withTranslation } from 'react-i18next';
 import AddTable from '../../view/add/AddTable';
 
 class AddTableController extends Component {
@@ -81,12 +81,11 @@ class AddTableController extends Component {
 
     render () {
         return (
-            <AddTable onStyleClick={this.onStyleClick}
-            />
+            <AddTable onStyleClick={this.onStyleClick} />
         )
     }
 }
 
-const AddTableWithTranslation = withTranslation()(AddTableController);
+const AddTableWithTranslation = inject('storeTableSettings')(observer(withTranslation()(AddTableController)));
 
 export {AddTableWithTranslation as AddTableController};

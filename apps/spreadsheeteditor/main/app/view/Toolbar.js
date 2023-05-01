@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  Toolbar.js
  *
@@ -51,6 +50,7 @@ define([
     'common/main/lib/component/ThemeColorPalette',
     'common/main/lib/component/Menu',
     'common/main/lib/component/DimensionPicker',
+    'common/main/lib/component/UpDownPicker',
     'common/main/lib/component/Window',
     'common/main/lib/component/ComboBoxFonts',
     'common/main/lib/component/ComboDataView'
@@ -110,7 +110,8 @@ define([
         wsLockFormat: 'worksheet-lock-format',
         inSmartartInternal: 'in-smartart-internal',
         wsLockFormatFill: 'worksheet-lock-format-fill',
-        editVisibleArea: 'is-visible-area'
+        editVisibleArea: 'is-visible-area',
+        userProtected: 'cell-user-protected'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -207,7 +208,7 @@ define([
                 id          : 'id-toolbar-btn-paste',
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-paste',
-                lock        : [/*_set.editCell,*/ _set.coAuth, _set.lostConnect, _set.editVisibleArea],
+                lock        : [/*_set.editCell,*/ _set.coAuth, _set.lostConnect, _set.editVisibleArea, _set.userProtected],
                 dataHint    : '1',
                 dataHintDirection: (config.isEditDiagram || config.isEditMailMerge || config.isEditOle) ? 'bottom' : 'top',
                 dataHintTitle: 'V'
@@ -493,6 +494,7 @@ define([
                         lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormat, _set.editVisibleArea],
                         menu: true,
                         auto: true,
+                        eyeDropper: true,
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
                     });
@@ -506,6 +508,7 @@ define([
                         lock        : [_set.selImage, _set.editCell, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormatFill, _set.editVisibleArea],
                         transparent: true,
                         menu: true,
+                        eyeDropper: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom'
                     });
@@ -761,7 +764,7 @@ define([
                     id: 'id-toolbar-btn-cut',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-cut',
-                    lock: [_set.coAuth, _set.lostConnect, _set.disableOnStart],
+                    lock: [_set.coAuth, _set.lostConnect, _set.disableOnStart, _set.userProtected],
                     dataHint: '1',
                     dataHintDirection: 'top',
                     dataHintTitle: 'X'
@@ -770,7 +773,7 @@ define([
                 me.btnSelectAll = new Common.UI.Button({
                     id: 'id-toolbar-btn-select-all',
                     cls: 'btn-toolbar',
-                    iconCls: 'toolbar__icon select-all',
+                    iconCls: 'toolbar__icon btn-select-all',
                     lock: [_set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'bottom'
@@ -780,7 +783,7 @@ define([
                     cls         : 'input-group-nr',
                     menuStyle   : 'min-width: 55px;',
                     hint        : me.tipFontSize,
-                    lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect],
+                    lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.userProtected],
                     data        : [
                         { value: 8, displayValue: "8" },
                         { value: 9, displayValue: "9" },
@@ -809,7 +812,7 @@ define([
                     menuCls     : 'scrollable-menu',
                     menuStyle   : 'min-width: 325px;',
                     hint        : me.tipFontName,
-                    lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect],
+                    lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.userProtected],
                     store       : new Common.Collections.Fonts(),
                     dataHint: '1',
                     dataHintDirection: 'top'
@@ -845,7 +848,7 @@ define([
                     id          : 'id-toolbar-btn-incfont',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-incfont',
-                    lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormat],
+                    lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormat, _set.userProtected],
                     dataHint    : '1',
                     dataHintDirection: 'top'
                 });
@@ -854,16 +857,35 @@ define([
                     id          : 'id-toolbar-btn-decfont',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-decfont',
-                    lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormat],
+                    lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormat, _set.userProtected],
                     dataHint    : '1',
                     dataHintDirection: 'top'
                 });
+
+                me.btnChangeCase = new Common.UI.Button({
+                    id: 'id-toolbar-btn-case',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-change-case',
+                    lock: [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormat, _set.userProtected],
+                    menu: new Common.UI.Menu({
+                        items: [
+                            {caption: me.mniSentenceCase, value: Asc.c_oAscChangeTextCaseType.SentenceCase},
+                            {caption: me.mniLowerCase, value: Asc.c_oAscChangeTextCaseType.LowerCase},
+                            {caption: me.mniUpperCase, value: Asc.c_oAscChangeTextCaseType.UpperCase},
+                            {caption: me.mniCapitalizeWords, value: Asc.c_oAscChangeTextCaseType.CapitalizeWords},
+                            {caption: me.mniToggleCase, value: Asc.c_oAscChangeTextCaseType.ToggleCase}
+                        ]
+                    }),
+                    dataHint: '1',
+                    dataHintDirection: 'top'
+                });
+                me.mnuChangeCase = me.btnChangeCase.menu;
 
                 me.btnBold = new Common.UI.Button({
                     id          : 'id-toolbar-btn-bold',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-bold',
-                    lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormat],
+                    lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormat, _set.userProtected],
                     enableToggle: true,
                     dataHint    : '1',
                     dataHintDirection: 'bottom'
@@ -873,7 +895,7 @@ define([
                     id          : 'id-toolbar-btn-italic',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-italic',
-                    lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormat],
+                    lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormat, _set.userProtected],
                     enableToggle: true,
                     dataHint    : '1',
                     dataHintDirection: 'bottom'
@@ -883,7 +905,7 @@ define([
                     id          : 'id-toolbar-btn-underline',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-underline',
-                    lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormat],
+                    lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormat, _set.userProtected],
                     enableToggle: true,
                     dataHint    : '1',
                     dataHintDirection: 'bottom'
@@ -893,7 +915,7 @@ define([
                     id: 'id-toolbar-btn-strikeout',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-strikeout',
-                    lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormat],
+                    lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormat, _set.userProtected],
                     enableToggle: true,
                     dataHint    : '1',
                     dataHintDirection: 'bottom'
@@ -906,7 +928,7 @@ define([
                     icls     : 'btn-subscript',
                     split       : true,
                     enableToggle: true,
-                    lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormat],
+                    lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormat, _set.userProtected],
                     menu        : new Common.UI.Menu({
                         items: [
                             {
@@ -942,9 +964,10 @@ define([
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-fontcolor',
                     split       : true,
-                    lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormat],
+                    lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormat, _set.userProtected],
                     menu: true,
                     auto: true,
+                    eyeDropper: true,
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -16'
@@ -956,9 +979,10 @@ define([
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-paracolor',
                     split       : true,
-                    lock        : [_set.selImage, _set.editCell, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormatFill],
+                    lock        : [_set.selImage, _set.editCell, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormatFill, _set.userProtected],
                     transparent: true,
                     menu: true,
+                    eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -16'
@@ -971,7 +995,7 @@ define([
                     icls        : 'btn-border-out',
                     borderId    : 'outer',
                     borderswidth: Asc.c_oAscBorderStyles.Thin,
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells']],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells'], _set.userProtected],
                     split       : true,
                     menu        : true,
                     dataHint    : '1',
@@ -984,7 +1008,7 @@ define([
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-align-left',
                     enableToggle: true,
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.wsLockFormat],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.wsLockFormat, _set.userProtected],
                     toggleGroup : 'alignGroup',
                     dataHint    : '1',
                     dataHintDirection: 'bottom'
@@ -995,7 +1019,7 @@ define([
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-align-center',
                     enableToggle: true,
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.wsLockFormat],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.wsLockFormat, _set.userProtected],
                     toggleGroup : 'alignGroup',
                     dataHint    : '1',
                     dataHintDirection: 'bottom'
@@ -1006,7 +1030,7 @@ define([
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-align-right',
                     enableToggle: true,
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.wsLockFormat],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.wsLockFormat, _set.userProtected],
                     toggleGroup : 'alignGroup',
                     dataHint    : '1',
                     dataHintDirection: 'bottom'
@@ -1017,7 +1041,7 @@ define([
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-align-just',
                     enableToggle: true,
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.wsLockFormat],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.wsLockFormat, _set.userProtected],
                     toggleGroup: 'alignGroup',
                     dataHint    : '1',
                     dataHintDirection: 'bottom'
@@ -1030,7 +1054,7 @@ define([
                     enableToggle: true,
                     allowDepress: true,
                     split       : true,
-                    lock        : [_set.editCell, _set.selShape, _set.selShapeText, _set.selChart, _set.selChartText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.ruleMerge, _set.editPivot, _set.wsLock],
+                    lock        : [_set.editCell, _set.selShape, _set.selShapeText, _set.selChart, _set.selChartText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.ruleMerge, _set.editPivot, _set.wsLock, _set.userProtected],
                     menu        : new Common.UI.Menu({
                         items: [
                             {
@@ -1064,7 +1088,7 @@ define([
                     id          : 'id-toolbar-rtn-valign-top',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-align-top',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.wsLockFormat],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.wsLockFormat, _set.userProtected],
                     enableToggle: true,
                     toggleGroup : 'vAlignGroup',
                     dataHint    : '1',
@@ -1076,7 +1100,7 @@ define([
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-align-middle',
                     enableToggle: true,
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.wsLockFormat],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.wsLockFormat, _set.userProtected],
                     toggleGroup : 'vAlignGroup',
                     dataHint    : '1',
                     dataHintDirection: 'top'
@@ -1086,7 +1110,7 @@ define([
                     id          : 'id-toolbar-rtn-valign-bottom',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-align-bottom',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.wsLockFormat],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.wsLockFormat, _set.userProtected],
                     enableToggle: true,
                     toggleGroup : 'vAlignGroup',
                     dataHint    : '1',
@@ -1097,7 +1121,7 @@ define([
                     id          : 'id-toolbar-rtn-wrap',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-wrap',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells']],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells'], _set.userProtected],
                     enableToggle: true,
                     allowDepress: true,
                     dataHint    : '1',
@@ -1108,7 +1132,7 @@ define([
                     id          : 'id-toolbar-rtn-textorient',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon text-orient-ccw',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.wsLockFormat],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.wsLockFormat, _set.userProtected],
                     menu        : new Common.UI.Menu({
                         items: [
                             {
@@ -1188,7 +1212,7 @@ define([
                     cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'toolbar__icon btn-inserthyperlink',
                     caption     : me.capInsertHyperlink,
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selShape, _set.cantHyperlink, _set.selSlicer, _set.multiselect, _set.lostConnect, _set.coAuth, _set.editPivot, _set['InsertHyperlinks']],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selShape, _set.cantHyperlink, _set.selSlicer, _set.multiselect, _set.lostConnect, _set.coAuth, _set.editPivot, _set['InsertHyperlinks'], _set.userProtected],
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -1210,7 +1234,7 @@ define([
                     id          : 'tlbtn-insertsparkline',
                     cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'toolbar__icon btn-sparkline',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selShape, _set.selSlicer, _set.multiselect, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.editPivot, _set.wsLock],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selShape, _set.selSlicer, _set.multiselect, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.editPivot, _set.wsLock, _set.userProtected],
                     caption     : me.capInsertSpark,
                     menu        : true,
                     dataHint    : '1',
@@ -1221,7 +1245,7 @@ define([
                 this.btnInsertSmartArt = new Common.UI.Button({
                     id: 'tlbtn-insertsmartart',
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon smart-art',
+                    iconCls: 'toolbar__icon btn-smart-art',
                     lock: [_set.editCell, _set.lostConnect, _set.coAuth, _set['Objects']],
                     caption: me.capBtnInsSmartArt,
                     menu: true,
@@ -1254,7 +1278,7 @@ define([
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small', 
-                    textboxType: 'textRect',
+                    textboxType: 'textRect'
                 });
 
                 me.btnInsertTextArt = new Common.UI.Button({
@@ -1313,7 +1337,7 @@ define([
                     id          : 'id-toolbar-btn-ttempl',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-menu-table',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.multiselect, _set.cantModifyFilter, _set.wsLock],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.multiselect, _set.cantModifyFilter, _set.wsLock, _set.userProtected],
                     menu        : new Common.UI.Menu({
                         items: [
                             { template: _.template('<div id="id-toolbar-menu-table-templates" style="width: 487px; height: 300px; margin: 0px 4px;"></div>') }
@@ -1329,7 +1353,7 @@ define([
                     cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'toolbar__icon btn-inserttable',
                     caption     : me.capInsertTable,
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.multiselect, _set.cantModifyFilter, _set.ruleMerge, _set.editPivot, _set.wsLock],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.multiselect, _set.cantModifyFilter, _set.ruleMerge, _set.editPivot, _set.wsLock, _set.userProtected],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -1343,7 +1367,7 @@ define([
                     style: 'min-width:135px; max-width: 660px;',
                     groups: new Common.UI.DataViewGroupStore(),
                     menuMaxHeight   : 380,
-                    lock            : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells']],
+                    lock            : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells'], _set.userProtected],
                     dataHint        : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset  : '-16, -4',
@@ -1403,7 +1427,7 @@ define([
                     style       : 'width: 113px;',
                     menuStyle   : 'min-width: 180px;',
                     hint        : me.tipNumFormat,
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set['FormatCells']],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set['FormatCells'], _set.userProtected],
                     itemsTemplate: formatTemplate,
                     editable    : false,
                     focusWhenNoSelection: false,
@@ -1421,7 +1445,7 @@ define([
                     id          : 'id-toolbar-btn-percent-style',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-percent-style',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells']],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells'], _set.userProtected],
                     styleName   : 'Percent',
                     dataHint    : '1',
                     dataHintDirection: 'bottom'
@@ -1431,7 +1455,7 @@ define([
                     id          : 'id-toolbar-btn-accounting-style',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-currency-style',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells']],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells'], _set.userProtected],
                     styleName    : 'Currency',
                     split       : true,
                     menu        : new Common.UI.Menu({
@@ -1472,7 +1496,7 @@ define([
                     id          : 'id-toolbar-btn-decdecimal',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-decdecimal',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells']],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells'], _set.userProtected],
                     dataHint    : '1',
                     dataHintDirection: 'bottom'
                 });
@@ -1481,7 +1505,7 @@ define([
                     id          : 'id-toolbar-btn-incdecimal',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-incdecimal',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells']],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells'], _set.userProtected],
                     dataHint    : '1',
                     dataHintDirection: 'bottom'
                 });
@@ -1491,7 +1515,7 @@ define([
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-formula',
                     split       : true,
-                    lock        : [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.userProtected],
                     menu        : new Common.UI.Menu({
                         style : 'min-width: 110px',
                         items : [
@@ -1533,6 +1557,7 @@ define([
                             },
                             {
                                 caption: me.txtPasteRange,
+                                lock: [_set.userProtected],
                                 value: 'paste'
                             }
                         ]
@@ -1546,7 +1571,7 @@ define([
                     id          : 'id-toolbar-btn-clear',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-clearstyle',
-                    lock        : [_set.lostConnect, _set.coAuth, _set.selRangeEdit, _set.selSlicer],
+                    lock        : [_set.lostConnect, _set.coAuth, _set.selRangeEdit, _set.selSlicer, _set.userProtected],
                     menu        : new Common.UI.Menu({
                         style : 'min-width: 110px',
                         items : [
@@ -1596,7 +1621,7 @@ define([
                     id          : 'id-toolbar-btn-addcell',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-addcell',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.itemsDisabled, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.itemsDisabled, _set.lostConnect, _set.coAuth, _set.userProtected],
                     menu        : new Common.UI.Menu({
                         items : [
                             {
@@ -1628,7 +1653,7 @@ define([
                     id          : 'id-toolbar-btn-delcell',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-delcell',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.itemsDisabled, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.itemsDisabled, _set.lostConnect, _set.coAuth, _set.userProtected],
                     menu        : new Common.UI.Menu({
                         items : [
                             {
@@ -1660,7 +1685,7 @@ define([
                     id          : 'id-toolbar-btn-condformat',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-cond-format',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set['FormatCells']],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set['FormatCells'], _set.userProtected],
                     menu        : true,
                     dataHint    : '1',
                     dataHintDirection: 'top',
@@ -1941,17 +1966,7 @@ define([
                 });
 
                 me.mnuCustomScale = new Common.UI.MenuItem({
-                    template: _.template([
-                        '<div class="checkable custom-scale font-size-normal"',
-                        '<% if(!_.isUndefined(options.stopPropagation)) { %>',
-                        'data-stopPropagation="true"',
-                        '<% } %>', '>',
-                        '<label class="title">' + me.textScale + '</label>',
-                        '<button id="custom-scale-up" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomup">&nbsp;</i></button>',
-                        '<label id="value-custom-scale"></label>',
-                        '<button id="custom-scale-down" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomdown">&nbsp;</i></button>',
-                        '</div>'
-                    ].join('')),
+                    template: _.template('<div id="id-toolbar-scale-updownpicker" class="custom-scale" data-stopPropagation="true"></div>'),
                     stopPropagation: true,
                     value: 4
                 });
@@ -2105,7 +2120,7 @@ define([
             me.lockControls = [];
             if (config.isEdit) {
                 me.lockControls = [
-                    me.cmbFontName, me.cmbFontSize, me.btnIncFontSize, me.btnDecFontSize, me.btnBold,
+                    me.cmbFontName, me.cmbFontSize, me.btnIncFontSize, me.btnDecFontSize, me.btnChangeCase, me.btnBold,
                     me.btnItalic, me.btnUnderline, me.btnStrikeout, me.btnSubscript, me.btnTextColor, me.btnAlignLeft,
                     me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust, me.btnAlignTop,
                     me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor, me.btnInsertTable,
@@ -2133,39 +2148,31 @@ define([
 
         onAfterShowMenuScale: function () {
             var me = this;
+            if (!me.mnuScalePicker) {
+                me.mnuScalePicker = new Common.UI.UpDownPicker({
+                    el: $('#id-toolbar-scale-updownpicker'),
+                    caption: me.textScale
+                });
+                me.mnuScalePicker.on('click', _.bind(function (direction) {
+                    me.fireEvent('change:scalespn', [direction, me.valueCustomScale], me);
+                }, me));
+            }
             if (me.api) {
-                var scale = me.api.asc_getPageOptions().asc_getPageSetup().asc_getScale();
-                $('#value-custom-scale', me.mnuCustomScale.$el).html(scale + '%');
-                me.valueCustomScale = scale;
+                me.valueCustomScale = me.api.asc_getPageOptions().asc_getPageSetup().asc_getScale();
+                me.mnuScalePicker.setValue(me.valueCustomScale + '%');
             }
             if (!me.itemCustomScale) {
                 me.itemCustomScale = $('.custom-scale', me.mnuCustomScale.$el).on('click', _.bind(function () {
-                    me.fireEvent('click:customscale', ['scale', undefined, undefined, undefined, me.valueCustomScale], this);
-                }, this));
-            }
-            if (!me.btnCustomScaleUp) {
-                me.btnCustomScaleUp = new Common.UI.Button({
-                    el: $('#custom-scale-up', me.mnuCustomScale.$el),
-                    cls: 'btn-toolbar'
-                }).on('click', _.bind(function () {
-                    me.fireEvent('change:scalespn', ['up', me.valueCustomScale], this);
-                }, this));
-            }
-            if (!me.btnCustomScaleDown) {
-                me.btnCustomScaleDown = new Common.UI.Button({
-                    el: $('#custom-scale-down', me.mnuCustomScale.$el),
-                    cls: 'btn-toolbar'
-                }).on('click', _.bind(function () {
-                    me.fireEvent('change:scalespn', ['down', me.valueCustomScale], this);
-                }, this));
+                    me.fireEvent('click:customscale', ['scale', undefined, undefined, undefined, me.valueCustomScale], me);
+                }, me));
             }
             SSE.getController('Toolbar').onChangeScaleSettings();
         },
 
         setValueCustomScale: function(val) {
             if (this.api && val !== null && val !== undefined) {
-                $('#value-custom-scale', this.mnuCustomScale.$el).html(val + '%');
                 this.valueCustomScale = val;
+                this.mnuScalePicker && this.mnuScalePicker.setValue(this.valueCustomScale + '%');
             }
         },
 
@@ -2341,6 +2348,7 @@ define([
             _injectComponent('#slot-btn-formatting',  this.btnTextFormatting);
             _injectComponent('#slot-btn-halign',  this.btnHorizontalAlign);
             _injectComponent('#slot-btn-valign',  this.btnVerticalAlign);
+            _injectComponent('#slot-btn-changecase', this.btnChangeCase);
 
             this.btnsEditHeader = Common.Utils.injectButtons($host.find('.slot-editheader'), 'tlbtn-editheader-', 'toolbar__icon btn-editheader', this.capBtnInsHeader,
                                 [Common.enumLock.editCell, Common.enumLock.selRangeEdit, Common.enumLock.headerLock, Common.enumLock.lostConnect, Common.enumLock.coAuth], undefined, undefined, undefined, '1', 'bottom', 'small');
@@ -2368,6 +2376,7 @@ define([
             _updateHint(this.btnRedo, this.tipRedo + Common.Utils.String.platformKey('Ctrl+Y'));
             _updateHint(this.btnIncFontSize, this.tipIncFont + Common.Utils.String.platformKey('Ctrl+]'));
             _updateHint(this.btnDecFontSize, this.tipDecFont + Common.Utils.String.platformKey('Ctrl+['));
+            _updateHint(this.btnChangeCase, this.tipChangeCase);
             _updateHint(this.btnBold, this.textBold + Common.Utils.String.platformKey('Ctrl+B'));
             _updateHint(this.btnItalic, this.textItalic + Common.Utils.String.platformKey('Ctrl+I'));
             _updateHint(this.btnUnderline, this.textUnderline + Common.Utils.String.platformKey('Ctrl+U'));
@@ -2587,7 +2596,7 @@ define([
                         el: $('#id-toolbar-menu-insertchart'),
                         parentMenu: menu,
                         showLast: false,
-                        restoreHeight: 465,
+                        restoreHeight: 535,
                         groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()/*.concat(Common.define.chartData.getSparkGroupData(true))*/),
                         store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()/*.concat(Common.define.chartData.getSparkData())*/),
                         itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
@@ -3488,6 +3497,13 @@ define([
         tipSelectAll: 'Select all',
         tipCut: 'Cut',
         tipInsertSmartArt: 'Insert SmartArt',
-        capBtnInsSmartArt: 'SmartArt'
+        capBtnInsSmartArt: 'SmartArt',
+        textTabDraw: 'Draw',
+        tipChangeCase: 'Change case',
+        mniSentenceCase: 'Sentence case.',
+        mniLowerCase: 'lowercase',
+        mniUpperCase: 'UPPERCASE',
+        mniCapitalizeWords: 'Capitalize Each Word',
+        mniToggleCase: 'tOGGLE cASE'
     }, SSE.Views.Toolbar || {}));
 });

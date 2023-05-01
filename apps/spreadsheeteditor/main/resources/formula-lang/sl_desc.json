@@ -1906,5 +1906,13 @@
 	"FILTER": {
 		"a": "(array, include, [if_empty])",
 		"d": "Filtriraj obseg ali polje"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(matrika, [oblika])",
+		"d": "Vrne predstavitev besedila matrike"
+	},
+	"SORT": {
+		"a": "(array, [sort_index], [sort_order], [by_col])",
+		"d": "Razvrstite obseg ali polje"
 	}
 }

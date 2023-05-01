@@ -1906,5 +1906,13 @@
 	"FILTER": {
 		"a": "(matrix, opnemen, [als_leeg])",
 		"d": "Een matrix of bereik filteren"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(matrix, [Format])",
+		"d": "Retourneert een tekstweergave van een matrix"
+	},
+	"SORT": {
+		"a": "(matrix, [sorteerindex], [sorteervolgorde], [op_kol])",
+		"d": "Sorteert een bereik of matrix"
 	}
 }

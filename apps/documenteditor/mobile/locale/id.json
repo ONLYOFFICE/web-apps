@@ -64,7 +64,8 @@
     "textTableSize": "Ukuran Tabel",
     "textWithBlueLinks": "Dengan Tautan Warna Biru",
     "textWithPageNumbers": "Dengan Nomor Halaman",
-    "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”"
+    "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”",
+    "textPasteImageUrl": "Paste an image URL"
   },
   "Common": {
     "Collaboration": {
@@ -427,7 +428,8 @@
     "unknownErrorText": "Kesalahan tidak diketahui.",
     "uploadImageExtMessage": "Format gambar tidak dikenal.",
     "uploadImageFileCountMessage": "Tidak ada gambar yang diunggah.",
-    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB."
+    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB.",
+    "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization."
   },
   "LongActions": {
     "applyChangesTextText": "Memuat data...",
@@ -565,10 +567,16 @@
     "warnNoLicense": "Anda sudah mencapai batas untuk koneksi bersamaan ke %1 editor. Dokumen ini akan dibuka untuk dilihat saja. Hubungi %1 tim sales untuk syarat personal upgrade.",
     "warnNoLicenseUsers": "Anda sudah mencapai batas user untuk %1 editor. Hubungi %1 tim sales untuk syarat personal upgrade.",
     "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini.",
+    "textDialogProtectedChangesTracked": "You may edit this document, but all changes will be tracked",
+    "textDialogProtectedEditComments": "You may only insert comments to this document",
+    "textDialogProtectedFillForms": "You may only fill in forms in this document",
+    "textDialogProtectedOnlyView": "You may only view this document",
     "textDocumentProtected": "The document is protected. Edit settings are not available",
     "textOk": "Ok",
-    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-    "titleLicenseNotActive": "License not active"
+    "titleDialogProtectedDocument": "The document is protected",
+    "titleLicenseNotActive": "License not active",
+    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator."
   },
   "Settings": {
     "advDRMOptions": "File yang Diproteksi",
@@ -697,7 +705,26 @@
     "txtScheme6": "Himpunan",
     "txtScheme7": "Margin Sisa",
     "txtScheme8": "Alur",
-    "txtScheme9": "Cetakan"
+    "txtScheme9": "Cetakan",
+    "textChangePassword": "Change Password",
+    "textDialogUnprotect": "Enter a password to unprotect document",
+    "textEncryptFile": "Encrypt File",
+    "textFillingForms": "Filling forms",
+    "textNoChanges": "No changes (Read only)",
+    "textPassword": "Password",
+    "textPasswordNotMatched": "Passwords DonвЂ™t Match",
+    "textProtectDocument": "Protect Document",
+    "textProtection": "Protection",
+    "textProtectTurnOff": "Protection is turned off",
+    "textRequired": "Required",
+    "textRequirePassword": "Require Password",
+    "textSave": "Save",
+    "textSetPassword": "Set Password",
+    "textTrackedChanges": "Tracked changes",
+    "textTypeEditing": "Type Of Editing",
+    "textUnprotect": "Unprotect",
+    "textVerify": "Verify",
+    "titleDialogUnprotect": "Unprotect Document"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Anda memiliki perubahan yang belum tersimpan. Klik 'Tetap di Halaman Ini' untuk menunggu simpan otomatis. Klik ‘Tinggalkan Halaman Ini’ untuk membatalkan semua perubahan yang belum disimpan.",

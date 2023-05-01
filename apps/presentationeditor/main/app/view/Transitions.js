@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  Transitions.js
  *
@@ -122,7 +121,7 @@ define([
                 this.lockedControls = [];
 
                 this._arrEffectName = [
-                    {title: this.textNone, imageUrl: "transition-none", value: Asc.c_oAscSlideTransitionTypes.None, id: Common.UI.getId()},
+                    {title: this.textNone, imageUrl: "btn-transition-none", value: Asc.c_oAscSlideTransitionTypes.None, id: Common.UI.getId()},
                     {title: this.textFade, imageUrl: "transition-fade", value: Asc.c_oAscSlideTransitionTypes.Fade, id: Common.UI.getId()},
                     {title: this.textPush, imageUrl: "transition-push", value: Asc.c_oAscSlideTransitionTypes.Push, id: Common.UI.getId()},
                     {title: this.textWipe, imageUrl: "transition-wipe", value: Asc.c_oAscSlideTransitionTypes.Wipe, id: Common.UI.getId()},
@@ -197,7 +196,7 @@ define([
                 this.btnParameters = new Common.UI.Button({
                     cls: 'btn-toolbar  x-huge icon-top',
                     caption: this.txtParameters,
-                    iconCls: 'toolbar__icon icon transition-none',
+                    iconCls: 'toolbar__icon icon btn-transition-none',
                     menu: new Common.UI.Menu({
                         items: this.createParametersMenuItems()}),
                     lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
@@ -211,7 +210,7 @@ define([
                     cls: 'btn-toolbar',
                     caption: this.txtApplyToAll,
                     split: true,
-                    iconCls: 'toolbar__icon transition-apply-all',
+                    iconCls: 'toolbar__icon btn-transition-apply-all',
                     lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
                     dataHint: '1',
                     dataHintDirection: 'left',

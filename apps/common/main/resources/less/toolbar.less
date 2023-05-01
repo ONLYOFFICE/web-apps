@@ -471,6 +471,14 @@
             left: 0;
         }
     }
+
+    .btn-group,
+    .btn-toolbar {
+        .pixel-ratio__2_5 & {
+            display: flex;
+            align-items: center;
+        }
+    }
 }
 
 .style-off-tabs {
@@ -852,7 +860,6 @@
         .rtl & {
             padding: 0;
             padding-right: 4px;
-            text-align: right;
         }
     }
 
@@ -966,10 +973,6 @@
 
     .rtl & {
         margin: 5px 10px 0 5px;
-    }
-
-    .group-description {
-        text-align: right;
     }
 
     .group-items-container > div {

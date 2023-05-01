@@ -476,6 +476,8 @@
 	"EXPAND": "ERWEITERN",
 	"XMATCH": "XVERGLEICH",
 	"FILTER": "FILTER",
+	"ARRAYTOTEXT": "MATRIXZUTEXT",
+	"SORT": "SORTIEREN",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Kopfzeilen",

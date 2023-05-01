@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 define([
     'core',
     'spreadsheeteditor/main/app/view/FileMenuPanels',
@@ -225,6 +224,11 @@ define([
             item = panel.cmbPaperOrientation.store.findWhere({value: opt.asc_getOrientation()});
             if (item) panel.cmbPaperOrientation.setValue(item.get('value'));
 
+            if (panel.spnFirstPage) {
+                value = opt.asc_getFirstPageNumber();
+                panel.spnFirstPage.setValue(value ? value : 1, true);
+            }
+
             opt = props.asc_getPageMargins();
             panel.spnMarginLeft.setValue(Common.Utils.Metric.fnRecalcFromMM(opt.asc_getLeft()), true);
             panel.spnMarginTop.setValue(Common.Utils.Metric.fnRecalcFromMM(opt.asc_getTop()), true);
@@ -314,6 +318,11 @@ define([
                 opt.asc_setFitToHeight(this.fitHeight);
                 opt.asc_setScale(this.fitScale);
             }
+
+            if (panel.spnFirstPage) {
+                opt.asc_setFirstPageNumber(panel.spnFirstPage.getNumberValue());
+            }
+
             if (!this._changedProps[sheet]) {
                 props.asc_setPageSetup(opt);
             }
@@ -360,6 +369,7 @@ define([
             this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
 
             this.fillPrintOptions(this.adjPrintParams, false);
+            this.adjPrintParams.asc_setActiveSheetsArray(this.printSettings.getRange() === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
 
             var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
             opts.asc_setAdvancedOptions(this.adjPrintParams);
@@ -510,7 +520,9 @@ define([
                         h: size[1],
                         preset: this.findPagePreset(this.printSettings, size[0], size[1])
                     },
-                    paperOrientation: !orientation ? 'portrait' : 'landscape'
+                    paperOrientation: !orientation ? 'portrait' : 'landscape',
+                    copies: this.printSettings.spnCopies ? this.printSettings.spnCopies.getNumberValue() || 1 : 1,
+                    sides: this.printSettings.cmbSides ? this.printSettings.cmbSides.getValue() : 'one'
                 });
 
                 if (print === 'print') {
@@ -585,6 +597,9 @@ define([
             panel.txtRangeLeft.on('button:click', _.bind(this.onPresetSelect, this, panel, 'left', panel.btnPresetsLeft.menu, {value: 'select'}));
             panel.btnPresetsTop.menu.on('item:click', _.bind(this.onPresetSelect, this, panel, 'top'));
             panel.btnPresetsLeft.menu.on('item:click', _.bind(this.onPresetSelect, this, panel, 'left'));
+            if (panel.spnFirstPage) {
+                panel.spnFirstPage.on('change', _.bind(this.propertyChange, this, panel));
+            }
         },
 
         propertyChange: function(panel, scale, combo, record) {
@@ -791,7 +806,6 @@ define([
                 box.focus(); // for IE
 
                 this.api.asc_drawPrintPreview(page-1);
-                this.api.asc_enableKeyEvents(true);
                 this.updateNavigationButtons(page-1, this._navigationPreview.pageCount);
 
                 return false;

@@ -247,6 +247,10 @@
             .header {
                 margin: 30px 0 20px 30px;
                 .font-size-very-huge();
+
+                .rtl & {
+                    margin: 30px 30px 20px 0;
+                }
             }
         }
 
@@ -258,6 +262,9 @@
             .header {
                 margin: 30px 0 16px 30px;
                 .font-size-very-huge();
+                .rtl & {
+                    margin: 30px 30px 16px 0;
+                }
             }
 
             #id-settings-menu {
@@ -299,6 +306,15 @@
                                 background-position-x: @button-small-active-icon-offset-x;
                             }
                         }
+                    }
+                }
+            }
+
+            .flex-settings {
+                table {
+                    margin: 0 14px 0 20px;
+                    .rtl & {
+                        margin: 0 20px 0 14px;
                     }
                 }
             }
@@ -747,6 +763,9 @@
                 margin: 18px 0 20px 0;
             }
             padding: 0;
+            .comment-text{
+                opacity: 0.45;
+            }
             #print-preview-empty {
                 padding: 14px;
                 color: @text-tertiary-ie;
@@ -795,7 +814,7 @@
                         font-weight: 700;
                     }
                 }
-                .pages {
+                .pages, .first-page {
                     label, #print-spin-pages-from {
                         margin-right: 6px;
                         .rtl & {
