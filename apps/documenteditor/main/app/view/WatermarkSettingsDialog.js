@@ -316,13 +316,14 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
 
             this.btnTextColor = new Common.UI.ButtonColored({
                 parentEl: $('#watermark-textcolor'),
-                cls         : 'btn-toolbar',
+                cls         : 'btn-toolbar move-focus',
                 iconCls     : 'toolbar__icon btn-fontcolor',
                 hint        : this.textColor,
                 additionalAlign: this.menuAddAlign,
                 auto: true,
                 color: 'c0c0c0',
-                menu: true
+                menu: true,
+                takeFocusOnClose: true
             });
             this.btnTextColor.setMenu();
             this.mnuTextColorPicker = this.btnTextColor.getPicker();
@@ -363,7 +364,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
         },
 
         getFocusedComponents: function() {
-            return [ this.radioNone, this.radioText, this.cmbLang, this.cmbText, this.cmbFonts, this.chTransparency, this.radioDiag, this.radioHor, this.radioImage, this.cmbFontSize, this.cmbScale ];
+            return [ this.radioNone, this.radioText, this.cmbLang, this.cmbText, this.cmbFonts, this.cmbFontSize, this.btnTextColor, this.btnBold, this.btnItalic, this.btnUnderline, this.btnStrikeout,
+                     this.chTransparency, this.radioDiag, this.radioHor, this.radioImage, this.cmbScale ];
         },
 
         getDefaultFocusableComponent: function () {

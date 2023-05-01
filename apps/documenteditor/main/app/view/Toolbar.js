@@ -2101,7 +2101,7 @@ define([
                         cls: 'shifted-left',
                         style: 'min-width: 145px',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 153px;"></div>')},
+                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 200px;"></div>')},
                             {caption: '--'},
                             this.mnuMarkerChangeLevel = new Common.UI.MenuItem({
                                 cls: 'list-level',
@@ -2116,7 +2116,6 @@ define([
                             }),
                             this.mnuMarkerSettings = new Common.UI.MenuItem({
                                 caption: this.textListSettings,
-                                disabled: (this.mnuMarkersPicker.conf.index || 0)==0,
                                 value: 'settings'
                             })
                         ]
@@ -2147,7 +2146,6 @@ define([
                             }),
                             this.mnuNumberSettings = new Common.UI.MenuItem({
                                 caption: this.textListSettings,
-                                disabled: (this.mnuNumbersPicker.conf.index || 0)==0,
                                 value: 'settings'
                             })
                         ]
@@ -2178,7 +2176,6 @@ define([
                             }),
                             this.mnuMultilevelSettings = new Common.UI.MenuItem({
                                 caption: this.textListSettings,
-                                disabled: (this.mnuMultilevelPicker.conf.index || 0)==0,
                                 value: 'settings'
                             })
                         ]
@@ -2357,76 +2354,138 @@ define([
                 // set dataviews
 
                 var _conf = this.mnuMarkersPicker.conf;
+                this._markersArr = [
+                    '{"Type":"remove"}',
+                    '{"Type":"bullet","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"·","rPr":{"rFonts":{"ascii":"Symbol","cs":"Symbol","eastAsia":"Symbol","hAnsi":"Symbol"}}}]}',
+                    '{"Type":"bullet","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"o","rPr":{"rFonts":{"ascii":"Courier New","cs":"Courier New","eastAsia":"Courier New","hAnsi":"Courier New"}}}]}',
+                    '{"Type":"bullet","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"§","rPr":{"rFonts":{"ascii":"Wingdings","cs":"Wingdings","eastAsia":"Wingdings","hAnsi":"Wingdings"}}}]}',
+                    '{"Type":"bullet","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"v","rPr":{"rFonts":{"ascii":"Wingdings","cs":"Wingdings","eastAsia":"Wingdings","hAnsi":"Wingdings"}}}]}',
+                    '{"Type":"bullet","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"Ø","rPr":{"rFonts":{"ascii":"Wingdings","cs":"Wingdings","eastAsia":"Wingdings","hAnsi":"Wingdings"}}}]}',
+                    '{"Type":"bullet","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"ü","rPr":{"rFonts":{"ascii":"Wingdings","cs":"Wingdings","eastAsia":"Wingdings","hAnsi":"Wingdings"}}}]}',
+                    '{"Type":"bullet","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"¨","rPr":{"rFonts":{"ascii":"Symbol","cs":"Symbol","eastAsia":"Symbol","hAnsi":"Symbol"}}}]}',
+                    '{"Type":"bullet","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"–","rPr":{"rFonts":{"ascii":"Arial","cs":"Arial","eastAsia":"Arial","hAnsi":"Arial"}}}]}'
+                ];
+
+                var listSettings = {recentPath: 'de-recent-bullets', recentCount: 8, recentGroup: 'menu-bullets-group-recent', docGroup: 'menu-bullets-group-doc', docName: this.txtGroupBulletDoc},
+                    recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup),
+                    groups = (recents.length>0) ? [{id: listSettings.recentGroup, caption: this.txtGroupRecent, type: 0}] : [],
+                    libGroup = 'menu-bullets-group-lib';
+                groups.push({id: libGroup, caption: this.txtGroupBulletLib, type: 1});
+
                 this.mnuMarkersPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-markers'),
                     parentMenu: this.btnMarkers.menu,
                     outerMenu:  {menu: this.btnMarkers.menu, index: 0},
-                    restoreHeight: 144,
+                    restoreHeight: 290,
                     delayRenderTips: true,
-                    store: new Common.UI.DataViewStore([
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: -1}, skipRenderOnChange: true, tip: this.textNone},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 1}, skipRenderOnChange: true, tip: this.tipMarkersFRound},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 2}, skipRenderOnChange: true, tip: this.tipMarkersHRound},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 3}, skipRenderOnChange: true, tip: this.tipMarkersFSquare},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 4}, skipRenderOnChange: true, tip: this.tipMarkersStar},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 5}, skipRenderOnChange: true, tip: this.tipMarkersArrow},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 6}, skipRenderOnChange: true, tip: this.tipMarkersCheckmark},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 7}, skipRenderOnChange: true, tip: this.tipMarkersFRhombus},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 8}, skipRenderOnChange: true, tip: this.tipMarkersDash}
-                    ]),
+                    scrollAlwaysVisible: true,
+                    listSettings: listSettings,
+                    groups: new Common.UI.DataViewGroupStore(groups),
+                    store: new Common.UI.DataViewStore(recents.concat([
+                        {id: 'id-markers-' + Common.UI.getId(), numberingInfo: me._markersArr[0], skipRenderOnChange: true, tip: this.textNone, group : libGroup, type: 1},
+                        {id: 'id-markers-' + Common.UI.getId(), numberingInfo: me._markersArr[1], skipRenderOnChange: true, tip: this.tipMarkersFRound, group : libGroup, type: 1},
+                        {id: 'id-markers-' + Common.UI.getId(), numberingInfo: me._markersArr[2], skipRenderOnChange: true, tip: this.tipMarkersHRound, group : libGroup, type: 1},
+                        {id: 'id-markers-' + Common.UI.getId(), numberingInfo: me._markersArr[3], skipRenderOnChange: true, tip: this.tipMarkersFSquare, group : libGroup, type: 1},
+                        {id: 'id-markers-' + Common.UI.getId(), numberingInfo: me._markersArr[4], skipRenderOnChange: true, tip: this.tipMarkersStar, group : libGroup, type: 1},
+                        {id: 'id-markers-' + Common.UI.getId(), numberingInfo: me._markersArr[5], skipRenderOnChange: true, tip: this.tipMarkersArrow, group : libGroup, type: 1},
+                        {id: 'id-markers-' + Common.UI.getId(), numberingInfo: me._markersArr[6], skipRenderOnChange: true, tip: this.tipMarkersCheckmark, group : libGroup, type: 1},
+                        // {id: 'id-markers-' + Common.UI.getId(), numberingInfo: me._markersArr[7], skipRenderOnChange: true, tip: this.tipMarkersFRhombus, group : libGroup, type: 1},
+                        {id: 'id-markers-' + Common.UI.getId(), numberingInfo: me._markersArr[8], skipRenderOnChange: true, tip: this.tipMarkersDash, group : libGroup, type: 1}
+                    ])),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist"></div>')
                 });
                 this.btnMarkers.menu.setInnerMenu([{menu: this.mnuMarkersPicker, index: 0}]);
                 _conf && this.mnuMarkersPicker.selectByIndex(_conf.index, true);
 
                 _conf = this.mnuNumbersPicker.conf;
+                this._numbersArr = [
+                    '{"Type":"remove"}',
+                    '{"Type":"number","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"upperLetter"},"lvlText":"%1."}]}',
+                    '{"Type":"number","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"%1)"}]}',
+                    '{"Type":"number","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"%1."}]}',
+                    '{"Type":"number","Lvl":[{"lvlJc":"right","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1."}]}',
+                    '{"Type":"number","Lvl":[{"lvlJc":"right","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1)"}]}',
+                    '{"Type":"number","Lvl":[{"lvlJc":"right","suff":"tab","numFmt":{"val":"upperRoman"},"lvlText":"%1."}]}',
+                    '{"Type":"number","Lvl":[{"lvlJc":"right","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"%1."}]}',
+                    '{"Type":"number","Lvl":[{"lvlJc":"left","numFmt":{"val":"russianUpper"},"lvlText":"%1."}]}',
+                    '{"Type":"number","Lvl":[{"lvlJc":"left","numFmt":{"val":"russianUpper"},"lvlText":"%1)"}]}',
+                    '{"Type":"number","Lvl":[{"lvlJc":"left","numFmt":{"val":"russianLower"},"lvlText":"%1."}]}',
+                    '{"Type":"number","Lvl":[{"lvlJc":"left","numFmt":{"val":"russianLower"},"lvlText":"%1)"}]}'
+                ];
+
+                listSettings = {recentPath: 'de-recent-numbering', recentCount: 6, recentGroup: 'menu-numbering-group-recent', docGroup: 'menu-numbering-group-doc', docName: this.txtGroupNumDoc};
+                recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup);
+                libGroup = 'menu-numbering-group-lib';
+                groups = (recents.length>0) ? [{id: listSettings.recentGroup, caption: this.txtGroupRecent, type: 0}] : [];
+                groups.push({id: libGroup, caption: this.txtGroupNumLib, type: 1});
                 var items = [
-                    {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: -1}, skipRenderOnChange: true, tip: this.textNone},
-                    {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 4}, skipRenderOnChange: true, tip: this.tipNumCapitalLetters},
-                    {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 5}, skipRenderOnChange: true, tip: this.tipNumLettersParentheses},
-                    {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 6}, skipRenderOnChange: true, tip: this.tipNumLettersPoints},
-                    {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 1}, skipRenderOnChange: true, tip: this.tipNumNumbersPoint},
-                    {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 2}, skipRenderOnChange: true, tip: this.tipNumNumbersParentheses},
-                    {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 3}, skipRenderOnChange: true, tip: this.tipNumRoman},
-                    {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 7}, skipRenderOnChange: true, tip: this.tipNumRomanSmall}
+                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[0], skipRenderOnChange: true, tip: this.textNone, group : libGroup, type: 1},
+                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[1], skipRenderOnChange: true, tip: this.tipNumCapitalLetters, group : libGroup, type: 1},
+                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[2], skipRenderOnChange: true, tip: this.tipNumLettersParentheses, group : libGroup, type: 1},
+                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[3], skipRenderOnChange: true, tip: this.tipNumLettersPoints, group : libGroup, type: 1},
+                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[4], skipRenderOnChange: true, tip: this.tipNumNumbersPoint, group : libGroup, type: 1},
+                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[5], skipRenderOnChange: true, tip: this.tipNumNumbersParentheses, group : libGroup, type: 1},
+                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[6], skipRenderOnChange: true, tip: this.tipNumRoman, group : libGroup, type: 1},
+                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[7], skipRenderOnChange: true, tip: this.tipNumRomanSmall, group : libGroup, type: 1}
                 ];
                 if (Common.Locale.getDefaultLanguage() === 'ru') {
                     items = items.concat([
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 8}, skipRenderOnChange: true, tip: this.tipRusUpperPoints},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 9}, skipRenderOnChange: true, tip: this.tipRusUpperParentheses},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 10}, skipRenderOnChange: true, tip: this.tipRusLowerPoints},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 11}, skipRenderOnChange: true, tip: this.tipRusLowerParentheses}
+                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[8], skipRenderOnChange: true, tip: this.tipRusUpperPoints, group : libGroup, type: 1},
+                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[9], skipRenderOnChange: true, tip: this.tipRusUpperParentheses, group : libGroup, type: 1},
+                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[10], skipRenderOnChange: true, tip: this.tipRusLowerPoints, group : libGroup, type: 1},
+                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[11], skipRenderOnChange: true, tip: this.tipRusLowerParentheses, group : libGroup, type: 1}
                     ]);
                 }
                 this.mnuNumbersPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-numbering'),
                     parentMenu: this.btnNumbers.menu,
                     outerMenu:  {menu: this.btnNumbers.menu, index: 0},
-                    restoreHeight: 265,
+                    restoreHeight: 403,
                     delayRenderTips: true,
-                    store: new Common.UI.DataViewStore(items),
+                    scrollAlwaysVisible: true,
+                    listSettings: listSettings,
+                    groups: new Common.UI.DataViewGroupStore(groups),
+                    store: new Common.UI.DataViewStore(recents.concat(items)),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist"></div>')
                 });
                 this.btnNumbers.menu.setInnerMenu([{menu: this.mnuNumbersPicker, index: 0}]);
                 _conf && this.mnuNumbersPicker.selectByIndex(_conf.index, true);
 
                 _conf = this.mnuMultilevelPicker.conf;
+                listSettings = {recentPath: 'de-recent-multilevels', recentCount: 6, recentGroup: 'menu-multilevels-group-recent', docGroup: 'menu-multilevels-group-doc', docName: this.txtGroupMultiDoc};
+                recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup);
+                libGroup = 'menu-multilevels-group-lib';
+                groups = (recents.length>0) ? [{id: listSettings.recentGroup, caption: this.txtGroupRecent, type: 0}] : [];
+                groups.push({id: libGroup, caption: this.txtGroupMultiLib, type: 1});
+                this._multilevelArr = [
+                    '{"Type":"remove"}',
+                    '{"Type":"number","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1)","pPr":{"ind":{"left":360,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"%2)","pPr":{"ind":{"left":720,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"%3)","pPr":{"ind":{"left":1080,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%4)","pPr":{"ind":{"left":1440,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"%5)","pPr":{"ind":{"left":1800,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"%6)","pPr":{"ind":{"left":2160,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%7)","pPr":{"ind":{"left":2520,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"%8)","pPr":{"ind":{"left":2880,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"%9)","pPr":{"ind":{"left":3240,"firstLine":-360}}}]}',
+                    '{"Type":"number","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.","pPr":{"ind":{"left":360,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.","pPr":{"ind":{"left":792,"firstLine":-432}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.","pPr":{"ind":{"left":1224,"firstLine":-504}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.","pPr":{"ind":{"left":1728,"firstLine":-648}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.%5.","pPr":{"ind":{"left":2232,"firstLine":-792}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.%5.%6.","pPr":{"ind":{"left":2736,"firstLine":-936}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.%5.%6.%7.","pPr":{"ind":{"left":3240,"firstLine":-1080}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.%5.%6.%7.%8.","pPr":{"ind":{"left":3744,"firstLine":-1224}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.%5.%6.%7.%8.%9.","pPr":{"ind":{"left":4320,"firstLine":-1440}}}]}',
+                    '{"Type":"bullet","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"v","pPr":{"ind":{"left":360,"firstLine":-360}},"rPr":{"rFonts":{"ascii":"Wingdings","cs":"Wingdings","eastAsia":"Wingdings","hAnsi":"Wingdings"}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"Ø","pPr":{"ind":{"left":720,"firstLine":-360}},"rPr":{"rFonts":{"ascii":"Wingdings","cs":"Wingdings","eastAsia":"Wingdings","hAnsi":"Wingdings"}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"§","pPr":{"ind":{"left":1080,"firstLine":-360}},"rPr":{"rFonts":{"ascii":"Wingdings","cs":"Wingdings","eastAsia":"Wingdings","hAnsi":"Wingdings"}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"·","pPr":{"ind":{"left":1440,"firstLine":-360}},"rPr":{"rFonts":{"ascii":"Symbol","cs":"Symbol","eastAsia":"Symbol","hAnsi":"Symbol"}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"¨","pPr":{"ind":{"left":1800,"firstLine":-360}},"rPr":{"rFonts":{"ascii":"Symbol","cs":"Symbol","eastAsia":"Symbol","hAnsi":"Symbol"}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"Ø","pPr":{"ind":{"left":2160,"firstLine":-360}},"rPr":{"rFonts":{"ascii":"Wingdings","cs":"Wingdings","eastAsia":"Wingdings","hAnsi":"Wingdings"}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"§","pPr":{"ind":{"left":2520,"firstLine":-360}},"rPr":{"rFonts":{"ascii":"Wingdings","cs":"Wingdings","eastAsia":"Wingdings","hAnsi":"Wingdings"}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"·","pPr":{"ind":{"left":2880,"firstLine":-360}},"rPr":{"rFonts":{"ascii":"Symbol","cs":"Symbol","eastAsia":"Symbol","hAnsi":"Symbol"}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"¨","pPr":{"ind":{"left":3240,"firstLine":-360}},"rPr":{"rFonts":{"ascii":"Symbol","cs":"Symbol","eastAsia":"Symbol","hAnsi":"Symbol"}}}]}',
+                    '{"Type":"number","Headings":true,"Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"upperRoman"},"lvlText":"Article %1.","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimalZero"},"lvlText":"Section %1.%2","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"(%3)","pPr":{"ind":{"left":720,"firstLine":-432}}},{"lvlJc":"right","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"(%4)","pPr":{"ind":{"left":864,"firstLine":-144}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%5)","pPr":{"ind":{"left":1008,"firstLine":-432}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"%6)","pPr":{"ind":{"left":1152,"firstLine":-432}}},{"lvlJc":"right","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"%7)","pPr":{"ind":{"left":1296,"firstLine":-288}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"%8.","pPr":{"ind":{"left":1440,"firstLine":-432}}},{"lvlJc":"right","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"%9.","pPr":{"ind":{"left":1584,"firstLine":-144}}}]}',
+                    '{"Type":"number","Headings":true,"Lvl":[{"lvlJc":"left","suff":"space","numFmt":{"val":"decimal"},"lvlText":"Chapter %1","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}}]}',
+                    '{"Type":"number","Headings":true,"Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"upperRoman"},"lvlText":"%1.","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"upperLetter"},"lvlText":"%2.","pPr":{"ind":{"left":720,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%3.","pPr":{"ind":{"left":1440,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"%4)","pPr":{"ind":{"left":2160,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"(%5)","pPr":{"ind":{"left":2880,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"(%6)","pPr":{"ind":{"left":3600,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"(%7)","pPr":{"ind":{"left":4320,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"(%8)","pPr":{"ind":{"left":5040,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"(%9)","pPr":{"ind":{"left":5760,"firstLine":0}}}]}',
+                    '{"Type":"number","Headings":true,"Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.","pPr":{"ind":{"left":432,"firstLine":-432}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.","pPr":{"ind":{"left":576,"firstLine":-576}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.","pPr":{"ind":{"left":720,"firstLine":-720}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.","pPr":{"ind":{"left":864,"firstLine":-864}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.%5.","pPr":{"ind":{"left":1008,"firstLine":-1008}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.%5.%6.","pPr":{"ind":{"left":1152,"firstLine":-1152}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.%5.%6.%7.","pPr":{"ind":{"left":1296,"firstLine":-1296}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.%5.%6.%7.%8.","pPr":{"ind":{"left":1440,"firstLine":-1440}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.%5.%6.%7.%8.%9.","pPr":{"ind":{"left":1584,"firstLine":-1584}}}]}'
+                ];
                 this.mnuMultilevelPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-multilevels'),
                     parentMenu: this.btnMultilevels.menu,
                     outerMenu:  {menu: this.btnMultilevels.menu, index: 0},
-                    restoreHeight: 176,
+                    restoreHeight: 403,
                     delayRenderTips: true,
-                    store: new Common.UI.DataViewStore([
-                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: -1}, skipRenderOnChange: true, tip: this.textNone},
-                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 1}, skipRenderOnChange: true, tip: this.tipMultiLevelVarious},
-                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 2}, skipRenderOnChange: true, tip: this.tipMultiLevelNumbered},
-                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 3}, skipRenderOnChange: true, tip: this.tipMultiLevelSymbols},
-                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 4}, skipRenderOnChange: true, tip: this.tipMultiLevelArticl},
-                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 5}, skipRenderOnChange: true, tip: this.tipMultiLevelChapter},
-                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 6}, skipRenderOnChange: true, tip: this.tipMultiLevelHeadings},
-                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 7}, skipRenderOnChange: true, tip: this.tipMultiLevelHeadVarious}
-                    ]),
+                    scrollAlwaysVisible: true,
+                    listSettings: listSettings,
+                    groups: new Common.UI.DataViewGroupStore(groups),
+                    store: new Common.UI.DataViewStore(recents.concat([
+                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: this._multilevelArr[0], skipRenderOnChange: true, tip: this.textNone, group : libGroup, type: 1},
+                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: this._multilevelArr[1], skipRenderOnChange: true, tip: this.tipMultiLevelVarious, group : libGroup, type: 1},
+                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: this._multilevelArr[2], skipRenderOnChange: true, tip: this.tipMultiLevelNumbered, group : libGroup, type: 1},
+                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: this._multilevelArr[3], skipRenderOnChange: true, tip: this.tipMultiLevelSymbols, group : libGroup, type: 1},
+                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: this._multilevelArr[4], skipRenderOnChange: true, tip: this.tipMultiLevelArticl, group : libGroup, type: 1},
+                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: this._multilevelArr[5], skipRenderOnChange: true, tip: this.tipMultiLevelChapter, group : libGroup, type: 1},
+                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: this._multilevelArr[6], skipRenderOnChange: true, tip: this.tipMultiLevelHeadings, group : libGroup, type: 1},
+                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: this._multilevelArr[7], skipRenderOnChange: true, tip: this.tipMultiLevelHeadVarious, group : libGroup, type: 1}
+                    ])),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist"></div>')
                 });
                 this.btnMultilevels.menu.setInnerMenu([{menu: this.mnuMultilevelPicker, index: 0}]);
@@ -2806,6 +2865,26 @@ define([
                     this.btnPageMargins.menu.items[0].setVisible(false);
             },
 
+            loadListPresetsFromStorage: function(path, groupId) {
+                var recents = Common.localStorage.getItem(path),
+                    arr = [];
+                recents = recents ? JSON.parse(recents) : [];
+                for (var i=0; i<recents.length; i++) {
+                    arr.push({id: 'id-recent-list-' + Common.UI.getId(), numberingInfo: recents[i], skipRenderOnChange: true, group : groupId, type: 0});
+                }
+                return arr;
+            },
+
+            saveListPresetToStorage: function(picker) {
+                if (picker) {
+                    var arr = [];
+                    _.each(picker.store.where({type: 0}), function(rec){
+                        arr.push(rec.get('numberingInfo'));
+                    });
+                    Common.localStorage.setItem(picker.options.listSettings.recentPath, JSON.stringify(arr));
+                }
+            },
+
             lockToolbar: function (causes, lock, opts) {
                 Common.Utils.lockControls(causes, lock, opts, this.lockControls);
             },
@@ -3058,6 +3137,13 @@ define([
             tipMultiLevelChapter: '',
             tipMultiLevelHeadings: '',
             tipMultiLevelHeadVarious: '',
+            txtGroupRecent: 'Recently used',
+            txtGroupBulletLib: 'Bullet library',
+            txtGroupNumLib: 'Numbering library',
+            txtGroupMultiLib: 'List library',
+            txtGroupBulletDoc: 'Document bullets',
+            txtGroupNumDoc: 'Document numbering formats',
+            txtGroupMultiDoc: 'Lists in current document',
             textTabDraw: 'Draw'
         }
     })(), DE.Views.Toolbar || {}));
