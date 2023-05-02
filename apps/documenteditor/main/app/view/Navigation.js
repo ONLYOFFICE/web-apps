@@ -203,7 +203,7 @@ define([
                         caption     : '--'
                     },
                     {
-                        iconCls     : 'menu__icon select-all',
+                        iconCls     : 'menu__icon btn-select-all',
                         caption     : this.txtSelect,
                         value: 'select'
                     },

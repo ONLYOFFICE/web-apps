@@ -546,6 +546,9 @@ define([
                 return nativevars.theme && !!nativevars.theme.system ? nativevars.theme.system :
                             window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
             },
+            systemThemeSupported: function () {
+                return nativevars.theme && nativevars.theme.system !== 'disabled';
+            },
         };
     };
 

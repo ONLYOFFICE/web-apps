@@ -349,6 +349,7 @@ define([
                     me.setCustomColor(win.getColor());
                     me.fireEvent('select', me, win.getColor());
                 }
+                me.fireEvent('close:extended', me, mr==1);
             });
             me._isdlgopen = true;
             win.setColor((me.value!==undefined && me.value!==false) ? me.value : ((defcolor!==undefined) ? defcolor : '000000'));

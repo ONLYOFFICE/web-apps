@@ -446,8 +446,9 @@ define([
             view.menuParaTOCSettings.on('click', _.bind(me.onParaTOCSettings, me));
             view.menuTableEquation.menu.on('item:click', _.bind(me.convertEquation, me));
             view.menuParagraphEquation.menu.on('item:click', _.bind(me.convertEquation, me));
+            view.menuTableListIndents.on('click', _.bind(me.onListIndents, me));
+            view.menuParaListIndents.on('click', _.bind(me.onListIndents, me));
             view.menuSaveAsPicture.on('click', _.bind(me.saveAsPicture, me));
-
             me.onChangeProtectDocument();
         },
 
@@ -1468,7 +1469,8 @@ define([
                 });
 
             }
-            this.cmpCalendar.setDate(new Date(specProps ? specProps.get_FullDate() : undefined));
+            var val = specProps ? specProps.get_FullDate() : undefined;
+            this.cmpCalendar.setDate(val ? new Date(val) : new Date());
 
             // align
             var offset  = controlsContainer.offset(),
@@ -2609,6 +2611,28 @@ define([
                     else this.onShowMathTrack(this.lastMathTrackBounds);
                 }
             }
+        },
+
+        onListIndents: function(item, e) {
+            if (this.api && !this.api.asc_IsShowListIndentsSettings()) {
+                this.documentHolder.fireEvent('list:settings', [2]); // multilevel list
+                return;
+            }
+
+            var me = this;
+            me.api && (new DE.Views.ListIndentsDialog({
+                api: me.api,
+                props: item.value.props,
+                isBullet: item.value.format === Asc.c_oAscNumberingFormat.Bullet,
+                handler: function(result, value) {
+                    if (result == 'ok') {
+                        if (me.api) {
+                            me.api.asc_ChangeNumberingLvl(item.value.listId, value, item.value.level);
+                        }
+                    }
+                    me.editComplete();
+                }
+            })).show();
         },
 
         saveAsPicture: function() {

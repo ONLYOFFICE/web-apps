@@ -1353,7 +1353,8 @@ define([
                 });
 
             }
-            this.cmpCalendar.setDate(new Date(specProps ? specProps.get_FullDate() : undefined));
+            var val = specProps ? specProps.get_FullDate() : undefined;
+            this.cmpCalendar.setDate(val ? new Date(val) : new Date());
 
             // align
             var offset  = controlsContainer.offset(),
@@ -1627,6 +1628,9 @@ define([
             if (!this.appOptions.canBackToFolder) {
                 menuItems[11].setVisible(false);
                 itemsCount--;
+            } else {
+                var text = this.appOptions.customization.goback.text;
+                text && (typeof text == 'string') && menuItems[11].setCaption(text);
             }
 
             if ( !this.embedConfig.embedUrl || this.appOptions.isOFORM) {

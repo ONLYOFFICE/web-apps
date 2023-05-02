@@ -208,7 +208,7 @@ define([
 
                 this.btnInterfaceTheme = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon day',
+                    iconCls: 'toolbar__icon btn-day',
                     lock: [_set.lostConnect, _set.disableOnStart],
                     caption: this.textInterfaceTheme,
                     menu: true,

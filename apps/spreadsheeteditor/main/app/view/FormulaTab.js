@@ -324,7 +324,7 @@ define([
                 this.btnWatch = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-watch-window'),
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon watch-window',
+                    iconCls: 'toolbar__icon btn-watch-window',
                     caption: this.txtWatch,
                     hint: this.tipWatch,
                     disabled: true,

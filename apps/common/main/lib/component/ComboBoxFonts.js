@@ -210,20 +210,20 @@ define([
             this.getImage = function(index, canvas, ctx) {
 
                 //var t1 = performance.now();
-                if (!canvas)
-                {
-                    canvas = document.createElement("canvas");
-                    canvas.width = this.width;
-                    canvas.height = this.heightOne;
-                    canvas.style.width = iconWidth + "px";
-                    canvas.style.height = iconHeight + "px";
-
-                    ctx = canvas.getContext("2d");
-                }
-
                 if (this.supportBinaryFormat) {
                     if (!this.data && !this.offsets) {
                         this.openBinary(this.binaryFormat);
+                    }
+
+                    if (!canvas)
+                    {
+                        canvas = document.createElement("canvas");
+                        canvas.width = this.width;
+                        canvas.height = this.heightOne;
+                        canvas.style.width = iconWidth + "px";
+                        canvas.style.height = iconHeight + "px";
+
+                        ctx = canvas.getContext("2d");
                     }
 
                     var dataTmp = ctx.createImageData(this.width, this.heightOne);
@@ -271,6 +271,17 @@ define([
                     }
                     ctx.putImageData(dataTmp, 0, 0);
                 } else {
+                    if (!canvas)
+                    {
+                        canvas = document.createElement("canvas");
+                        canvas.width = this.width;
+                        canvas.height = this.heightOne;
+                        canvas.style.width = iconWidth + "px";
+                        canvas.style.height = iconHeight + "px";
+
+                        ctx = canvas.getContext("2d");
+                    }
+
                     ctx.clearRect(0, 0, this.width, this.heightOne);
                     ctx.drawImage(this.image, 0, -this.heightOne * index);
                 }

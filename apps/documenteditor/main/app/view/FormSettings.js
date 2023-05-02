@@ -820,12 +820,9 @@ define([
 
         onDateDefClick: function(input, date) {
             if (this.api && !this._noApply) {
-                var props   = this._originalProps || new AscCommon.CContentControlPr();
                 var formDatePr = this._originalDateProps || new AscCommon.CSdtDatePickerPr();
                 formDatePr.put_FullDate(date);
-                props.put_DateTimePr(formDatePr);
-                props.put_PlaceholderText(formDatePr.get_String());
-                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.api.asc_SetContentControlDatePickerPr(formDatePr, this.internalId, true);
 
                 this.fireEvent('editcomplete', this);
             }
@@ -1232,7 +1229,7 @@ define([
             }
         },
 
-        ChangeSettings: function(props) {
+        ChangeSettings: function(props, isShape) {
             if (this._initSettings)
                 this.createDelayedElements();
 
@@ -1336,6 +1333,7 @@ define([
                         });
                         this.cmbKey.setData(arr);
                         this._state.arrKey=data;
+                        this._state.Key = undefined;
                     }
 
                     val = formPr.get_Role();
@@ -1380,6 +1378,7 @@ define([
                                 });
                                 this.cmbGroupKey.setData(arr);
                                 this._state.arrGroupKey=data;
+                                this._state.groupKey = undefined;
                             }
 
                             if (this._state.groupKey!==val) {
@@ -1404,6 +1403,7 @@ define([
                             this.chFixed.setValue(!!val, true);
                             this._state.Fixed=val;
                         }
+                        this.chFixed.setDisabled(!val && isShape); // disable fixed size for forms in shape
                     }
 
                     var brd = formPr.get_Border();
@@ -1616,8 +1616,9 @@ define([
                     val = this.api.asc_GetFormValue(this.internalId);
                     if ( this._state.DefDateValue!==val ) {
                         this.txtDateDefValue.setValue(val || '');
-                        this.txtDateDefValue.setDate(new Date(val));
                         this._state.DefDateValue=val;
+                        val = datePr.get_FullDate();
+                        this.txtDateDefValue.setDate(val ? new Date(val) : new Date());
                     }
                 }
 

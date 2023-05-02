@@ -159,10 +159,13 @@
       "textReplaceSuccess": "S'ha fet la cerca. S'han substituït les coincidències: {0}",
       "textRequestMacros": "Una macro fa una sol·licitud a l'URL. Vols permetre la sol·licitud a %1?",
       "textUpdate": "Actualitza",
+      "textWarnUpdateExternalData": "Aquest llibre de treball conté enllaços a una o més fonts externes que poden ser insegures. Si confies en els enllaços, actualitza'ls per obtenir les dades més recents.",
       "textYes": "Sí",
       "titleLicenseExp": "La llicència ha caducat",
+      "titleLicenseNotActive": "Llicència inactiva",
       "titleServerVersion": "S'ha actualitzat l'editor",
       "titleUpdateVersion": "S'ha canviat la versió",
+      "warnLicenseBefore": "Llicència inactiva. <br> Contacta amb l'administrador.",
       "warnLicenseExceeded": "Has arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Posa't en contacte amb l'administrador per a més informació.",
       "warnLicenseExp": "La llicència ha caducat. Actualitza-la i recarrega la pàgina.",
       "warnLicenseLimitedNoAccess": "La llicència ha caducat. No tens accés a la funció d'edició de documents. Posa't en contacte amb l'administrador.",
@@ -170,10 +173,7 @@
       "warnLicenseUsersExceeded": "Has arribat al límit d'usuari per a %1 editors. Posa't en contacte amb l'administrador per a més informació.",
       "warnNoLicense": "Has arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Posa't en contacte amb l'equip de vendes %1 per conèixer les condicions d'actualització personal.",
       "warnNoLicenseUsers": "Has arribat al límit d'usuaris per a %1 editors. Posa't en contacte amb l'equip de vendes de %1 per obtenir les condicions de millora personals dels serveis.",
-      "warnProcessRightsChange": "No tens permís per editar el fitxer.",
-      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
-      "titleLicenseNotActive": "License not active",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "warnProcessRightsChange": "No tens permís per editar el fitxer."
     }
   },
   "Error": {
@@ -375,6 +375,7 @@
       "textLinkType": "Tipus d'enllaç",
       "textOk": "D'acord",
       "textOther": "Altre",
+      "textPasteImageUrl": "Enganxa l'URL d'una imatge",
       "textPictureFromLibrary": "Imatge de la biblioteca",
       "textPictureFromURL": "Imatge de l'URL",
       "textRange": "Interval",
@@ -394,8 +395,7 @@
       "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
       "txtSorting": "Ordenació",
       "txtSortSelected": "Ordenar els objectes seleccionats",
-      "txtYes": "Sí",
-      "textPasteImageUrl": "Paste an image URL"
+      "txtYes": "Sí"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertiment",
@@ -590,6 +590,7 @@
       "advDRMPassword": "Contrasenya",
       "closeButtonText": "Tancar el fitxer",
       "notcriticalErrorTitle": "Advertiment",
+      "strFuncLocale": "Llenguatge de la fórmula",
       "strFuncLocaleEx": "Exemple: SUM; MIN; MAX; COUNT",
       "textAbout": "Quant a",
       "textAddress": "Adreça",
@@ -750,8 +751,7 @@
       "txtUk": "Ucraïnès",
       "txtVi": "Vietnamita",
       "txtZh": "Xinès",
-      "warnDownloadAs": "Si continues i deses en aquest format, es perdran totes les característiques, excepte el text. <br>Vols continuar?",
-      "strFuncLocale": "Formula Language"
+      "warnDownloadAs": "Si continues i deses en aquest format, es perdran totes les característiques, excepte el text. <br>Vols continuar?"
     }
   }
 }

@@ -56,7 +56,8 @@ define([
     'documenteditor/main/app/view/TableSettingsAdvanced',
     'documenteditor/main/app/view/ControlSettingsDialog',
     'documenteditor/main/app/view/NumberingValueDialog',
-    'documenteditor/main/app/view/CellsAddDialog'
+    'documenteditor/main/app/view/CellsAddDialog',
+    'documenteditor/main/app/view/ListIndentsDialog'
 ], function ($, _, Backbone, gateway) { 'use strict';
 
     DE.Views.DocumentHolder =  Backbone.View.extend(_.extend({
@@ -75,6 +76,8 @@ define([
             this._currentParaObjDisabled = false;
             this._currLang        = {};
             this._isDisabled = false;
+            this._preventCustomClick = null;
+            this._hasCustomItems = false;
             this._docProtection = {
                 isReadOnly: false,
                 isReviewOnly: false,
@@ -1127,6 +1130,10 @@ define([
                 caption: me.textContinueNumbering
             });
 
+            me.menuTableListIndents = new Common.UI.MenuItem({
+                caption: me.textIndents
+            });
+
             var menuNumberingTable = new Common.UI.MenuItem({
                 caption     : me.bulletsText,
                 menu        : new Common.UI.Menu({
@@ -1135,7 +1142,8 @@ define([
                     items   : [
                         me.menuTableStartNewList,
                         me.menuTableStartNumberingFrom,
-                        me.menuTableContinueNumbering
+                        me.menuTableContinueNumbering,
+                        me.menuTableListIndents
                     ]
                 })
             });
@@ -1332,6 +1340,7 @@ define([
                         me.menuTableStartNumberingFrom.value = {format: format, start: start};
                         me.menuTableStartNewList.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textSeparateList : me.textStartNewList);
                         me.menuTableContinueNumbering.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textJoinList : me.textContinueNumbering);
+                        me.menuTableListIndents.value = {format: format, props: numLvl};
                     }
 
                     // hyperlink properties
@@ -1828,6 +1837,10 @@ define([
                 caption: me.textContinueNumbering
             });
 
+            me.menuParaListIndents = new Common.UI.MenuItem({
+                caption: me.textIndents
+            });
+
             var menuParaNumberingSeparator = new Common.UI.MenuItem({
                 caption     : '--'
             });
@@ -2055,8 +2068,10 @@ define([
                     me.menuParaStartNewList.setVisible(in_list);
                     me.menuParaStartNumberingFrom.setVisible(in_list);
                     me.menuParaContinueNumbering.setVisible(in_list);
+                    me.menuParaListIndents.setVisible(in_list);
                     if (in_list) {
-                        var numLvl = me.api.asc_GetNumberingPr(listId).get_Lvl(me.api.asc_GetCurrentNumberingLvl()),
+                        var level = me.api.asc_GetCurrentNumberingLvl(),
+                            numLvl = me.api.asc_GetNumberingPr(listId).get_Lvl(level),
                             format = numLvl.get_Format(),
                             start = me.api.asc_GetCalculatedNumberingValue();
                         me.menuParaStartNewList.setVisible(numLvl.get_Start()!=start);
@@ -2065,6 +2080,7 @@ define([
                         me.menuParaStartNumberingFrom.value = {format: format, start: start};
                         me.menuParaStartNewList.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textSeparateList : me.textStartNewList);
                         me.menuParaContinueNumbering.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textJoinList : me.textContinueNumbering);
+                        me.menuParaListIndents.value = {listId: listId, level: level, format: format, props: numLvl};
                     }
                 },
                 items: [
@@ -2116,6 +2132,7 @@ define([
                     me.menuParaStartNewList,
                     me.menuParaStartNumberingFrom,
                     me.menuParaContinueNumbering,
+                    me.menuParaListIndents,
                     menuStyleSeparator,
                     menuStyle
                 ]
@@ -2949,6 +2966,12 @@ define([
             var me = this,
                 lang = me.mode && me.mode.lang ? me.mode.lang.split(/[\-_]/)[0] : 'en';
 
+            me._preventCustomClick && clearTimeout(me._preventCustomClick);
+            me._hasCustomItems && (me._preventCustomClick = setTimeout(function () {
+                me._preventCustomClick = null;
+            },500)); // set delay only on update existing items
+            me._hasCustomItems = true;
+
             var findCustomItem = function(guid, id) {
                 if (menu && menu.items.length>0) {
                     for (var i = menu.items.length-1; i >=0 ; i--) {
@@ -2969,7 +2992,10 @@ define([
                         items: []
                     });
                     toMenu.on('item:click', function(menu, item, e) {
-                        me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
+                        !me._preventCustomClick && me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
+                    });
+                    toMenu.on('menu:click', function(menu, e) {
+                        me._preventCustomClick && e.stopPropagation();
                     });
                 }
                 items.forEach(function(item) {
@@ -3029,7 +3055,7 @@ define([
                                 menu: item.items && item.items.length>=0 ? getMenu(item.items, plugin.guid) : false,
                                 disabled: !!item.disabled
                             }).on('click', function(item, e) {
-                                me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
+                                !me._preventCustomClick && me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
                             });
                             menu.addItem(mnu);
                         }
@@ -3053,6 +3079,7 @@ define([
                     }
                 }
             }
+            this._hasCustomItems = false;
         },
 
         focus: function() {
@@ -3310,7 +3337,8 @@ define([
         eqToInlineText: 'Change to Inline',
         eqToDisplayText: 'Change to Display',
         hideEqToolbar: 'Hide Equation Toolbar',
-        showEqToolbar: 'Show Equation Toolbar'
+        showEqToolbar: 'Show Equation Toolbar',
+        textIndents: 'Adjust list indents'
 
 }, DE.Views.DocumentHolder || {}));
 });

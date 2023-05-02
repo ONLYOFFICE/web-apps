@@ -2552,6 +2552,8 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 value: '',
                 maxValue: 1000000,
                 minValue: 1,
+                allowDecimal: false,
+                maskExp: /[0-9]/,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
@@ -2565,6 +2567,8 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 value: '',
                 maxValue: 1000000,
                 minValue: 1,
+                allowDecimal: false,
+                maskExp: /[0-9]/,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
@@ -2805,7 +2809,9 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 defaultUnit : "",
                 value: '1',
                 maxValue: 32767,
-                minValue: 1,
+                minValue: -32767,
+                allowDecimal: false,
+                maskExp: /[0-9,\-]/,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
@@ -3024,11 +3030,11 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         },
 
         getPagesFrom: function () {
-            return this.spnPagesFrom.getValue();
+            return this.spnPagesFrom.getNumberValue();
         },
 
         getPagesTo: function () {
-            return this.spnPagesTo.getValue();
+            return this.spnPagesTo.getNumberValue();
         },
 
         comboRangeChange: function(combo, record) {

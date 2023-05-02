@@ -247,7 +247,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.inputPurpose, this.inputName, this.cmbFonts, this.cmbFontSize];
+            return [this.inputPurpose, this.inputName, this.cmbFonts, this.cmbFontSize, this.btnBold, this.btnItalic, this.btnSelectImage, this.btnChangeCertificate];
         },
 
         show: function() {

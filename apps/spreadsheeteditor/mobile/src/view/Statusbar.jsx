@@ -37,7 +37,7 @@ const PageListMove = props => {
     )
 };
 
-const PageAllList = (props) => {
+const PageAllList = observer((props) => {
     const { t } = useTranslation();
     const { sheets, onTabListClick } = props;
     const allSheets = sheets.sheets;
@@ -65,18 +65,21 @@ const PageAllList = (props) => {
                 <List>
                     {allSheets.map((model, sheetIndex) =>
                         <ListItem className='item-list' key={model.name} title={model.name} checkbox checked={model.active} onClick={() => onTabListClick(sheetIndex)}>
-                            {model.hidden ?     
-                                <div slot='after'>
-                                    {t('Statusbar.textHidden')}
-                                </div>
-                            : null}
-                        </ListItem>)
-                    }
+                            <div slot='after'>
+                                {model.hidden ? 
+                                    t('Statusbar.textHidden')
+                                :
+                                    <div className='marker-color-sheet' style={{
+                                        background: model.color ? '#' + Common.Utils.ThemeColor.getHexColor(model.color.get_r(), model.color.get_g(), model.color.get_b()) : 'transparent'}}></div>
+                                }
+                            </div>
+                        </ListItem>
+                    )}
                 </List>
             </Page>
         </View>
     )
-};
+});
 
 const PageCustomTabColor =  inject("storePalette")(observer (props => {
     const { t } = useTranslation();

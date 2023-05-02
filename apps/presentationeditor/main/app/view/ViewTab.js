@@ -236,7 +236,7 @@ define([
 
                 this.btnInterfaceTheme = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon day',
+                    iconCls: 'toolbar__icon btn-day',
                     caption: this.textInterfaceTheme,
                     lock: [_set.disableOnStart],
                     menu: true,
@@ -288,7 +288,7 @@ define([
 
                 this.btnGuides = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon guides',
+                    iconCls: 'toolbar__icon btn-guides',
                     caption: this.textGuides,
                     lock: [_set.disableOnStart],
                     enableToggle: true,
@@ -304,7 +304,7 @@ define([
 
                 this.btnGridlines = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon gridlines',
+                    iconCls: 'toolbar__icon btn-gridlines',
                     caption: this.textGridlines,
                     lock: [_set.disableOnStart],
                     enableToggle: true,
