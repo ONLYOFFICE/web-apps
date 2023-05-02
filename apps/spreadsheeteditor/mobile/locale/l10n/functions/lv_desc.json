@@ -1914,5 +1914,9 @@
 	"SORT": {
 		"a": "(masīvs, [kārt_indekss], [kārt_secība], [pēc_kol])",
 		"d": "Kārto diapazonu vai masīvu"
+	},
+	"SORTBY": {
+		"a": "(masīvs, pēc_masīva, [kārtošanas_secība], ...)",
+		"d": "Kārto diapazonu vai masīvu pēc vērtībām atbilstošā diapazonā vai masīvā"
 	}
 }

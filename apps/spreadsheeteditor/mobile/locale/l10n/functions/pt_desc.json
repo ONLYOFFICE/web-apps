@@ -1914,5 +1914,9 @@
 	"SORT": {
 		"a": "(matriz, [ordenar_índice], [ordenar_ordem], [por_col])",
 		"d": "Ordena um intervalo ou matriz"
+	},
+	"SORTBY": {
+		"a": "(matriz, por_matriz, [sequência_ordenação], ...)",
+		"d": "Ordena um intervalo ou matriz com base nos valores num intervalo ou matriz correspondente"
 	}
 }

@@ -478,6 +478,7 @@
 	"FILTER": "FILTRO",
 	"ARRAYTOTEXT": "MATRIZPARATEXTO",
 	"SORT": "CLASSIFICAR",
+	"SORTBY": "CLASSIFICARPOR",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",
