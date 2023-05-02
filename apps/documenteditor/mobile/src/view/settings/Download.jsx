@@ -16,12 +16,10 @@ const Download = props => {
             <Navbar title={_t.textDownload} backLink={_t.textBack} />
             <BlockTitle>{_t.textDownloadAs}</BlockTitle>
             <List>
-                {isAvailableExt ? [
-                    <ListItem title="DOCX" key="DOCX" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.DOCX)}>
-                        <Icon slot="media" icon="icon-format-docx"></Icon>
-                    </ListItem>
-                ] : null}
-                {canFeatureForms || isAvailableExt ? [
+                <ListItem title="DOCX" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.DOCX)}>
+                    <Icon slot="media" icon="icon-format-docx"></Icon>
+                </ListItem>
+                {canFeatureForms && isAvailableExt ? [
                     <ListItem title="DOCXF" key="DOCXF" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.DOCXF)}>
                         <Icon slot="media" icon="icon-format-docxf"></Icon>
                     </ListItem>,

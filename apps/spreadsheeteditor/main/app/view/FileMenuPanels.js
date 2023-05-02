@@ -2400,6 +2400,15 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                                             '<div id="print-spin-pages-to"></div>',
                                         '</div>',
                                     '</td></tr>',
+                                    '<tr class="desktop-settings"><td class="padding-large">',
+                                        '<div class="pages">',
+                                            '<label><%= scope.txtCopies %>:</label>',
+                                            '<div id="print-txt-copies"></div>',
+                                        '</div>',
+                                    '</td></tr>',
+                                    '<tr class="desktop-settings"><td><label class="header"><%= scope.txtPrintSides %></label></td></tr>',
+                                    '<tr class="desktop-settings"><td class="padding-large"><div id="print-combo-sides" style="width: 248px;"></div></td></tr>',
+                                    '<tr class="desktop-settings"><td class="padding-large"><div class="separator horizontal" style="width: 248px;"></div></td></tr>',
                                     '<tr><td><label class="header"><%= scope.txtSettingsOfSheet %></label></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-combo-sheets" style="width: 248px;"></div></td></tr>',
                                     '<tr><td><label class="header"><%= scope.txtPageSize %></label></td></tr>',
@@ -2543,6 +2552,8 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 value: '',
                 maxValue: 1000000,
                 minValue: 1,
+                allowDecimal: false,
+                maskExp: /[0-9]/,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
@@ -2556,10 +2567,48 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 value: '',
                 maxValue: 1000000,
                 minValue: 1,
+                allowDecimal: false,
+                maskExp: /[0-9]/,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
+
+            this.spnCopies = new Common.UI.MetricSpinner({
+                el: $markup.findById('#print-txt-copies'),
+                step: 1,
+                width: 60,
+                defaultUnit : '',
+                value: 1,
+                maxValue: 32767,
+                minValue: 1,
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+
+            this.cmbSides = new Common.UI.ComboBox({
+                el          : $markup.findById('#print-combo-sides'),
+                menuStyle   : 'min-width:100%;',
+                editable: false,
+                takeFocusOnClose: true,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: 'one', displayValue: this.txtOneSide, descValue: this.txtOneSideDesc },
+                    { value: 'both-long', displayValue: this.txtBothSides, descValue: this.txtBothSidesLongDesc },
+                    { value: 'both-short', displayValue: this.txtBothSides, descValue: this.txtBothSidesShortDesc }
+                ],
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                    '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem" style ="display: flex; flex-direction: column;">',
+                    '<label><%= scope.getDisplayValue(item) %></label><label class="comment-text"><%= item.descValue %></label></a></li>',
+                    '<% }); %>'
+                ].join('')),
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbSides.setValue('one');
 
             this.cmbSheet = new Common.UI.ComboBox({
                 el: $markup.findById('#print-combo-sheets'),
@@ -2760,7 +2809,9 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 defaultUnit : "",
                 value: '1',
                 maxValue: 32767,
-                minValue: 1,
+                minValue: -32767,
+                allowDecimal: false,
+                maskExp: /[0-9,\-]/,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
@@ -2853,6 +2904,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
             } else {
                 this.$el.on('click', '#print-header-footer-settings', _.bind(this.openHeaderSettings, this));
             }
+            !this.mode.isDesktopApp && $markup.find('.desktop-settings').hide();
 
             this.$previewBox = $('#print-preview-box');
             this.$previewEmpty = $('#print-preview-empty');
@@ -2978,11 +3030,11 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         },
 
         getPagesFrom: function () {
-            return this.spnPagesFrom.getValue();
+            return this.spnPagesFrom.getNumberValue();
         },
 
         getPagesTo: function () {
-            return this.spnPagesTo.getValue();
+            return this.spnPagesTo.getNumberValue();
         },
 
         comboRangeChange: function(combo, record) {
@@ -3053,6 +3105,14 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         txtPageNumInvalid: 'Page number invalid',
         txtEmptyTable: 'There is nothing to print because the table is empty',
         txtFirstPageNumber: 'First page number:',
+        txtCopies: 'Copies',
+        txtPrintSides: 'Print sides',
+        txtOneSide: 'Print one sided',
+        txtOneSideDesc: 'Only print on one side of the page',
+        txtBothSides: 'Print on both sides',
+        txtBothSidesLongDesc: 'Flip pages on long edge',
+        txtBothSidesShortDesc: 'Flip pages on short edge'
+
     }, SSE.Views.PrintWithPreview || {}));
 
 });

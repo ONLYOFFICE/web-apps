@@ -44,6 +44,8 @@ if ( checkLocalStorage && localStorage.getItem("ui-rtl") === '1' ) {
     document.body.classList.add('rtl');
 }
 
+const isIE = /msie|trident/i.test(navigator.userAgent);
+
 function checkScaling() {
     var matches = {
         'pixel-ratio__1_25': "screen and (-webkit-min-device-pixel-ratio: 1.25) and (-webkit-max-device-pixel-ratio: 1.49), " +
@@ -61,14 +63,16 @@ function checkScaling() {
         }
     }
 
-    matches = {
-        'pixel-ratio__2_5': `screen and (-webkit-min-device-pixel-ratio: 2.5), screen and (min-resolution: 2.5dppx)`,
-    };
-    for (let c in matches) {
-        if ( window.matchMedia(matches[c]).matches ) {
-            document.body.classList.add(c);
-            Common.Utils.injectSvgIcons();
-            break;
+    if ( !isIE ) {
+        matches = {
+            'pixel-ratio__2_5': 'screen and (-webkit-min-device-pixel-ratio: 2.5), screen and (min-resolution: 2.5dppx)',
+        };
+        for (let c in matches) {
+            if ( window.matchMedia(matches[c]).matches ) {
+                document.body.classList.add(c);
+                Common.Utils.injectSvgIcons();
+                break;
+            }
         }
     }
 }
@@ -76,17 +80,31 @@ function checkScaling() {
 window.Common = {
     Utils: {
         injectSvgIcons: function () {
-            const el = document.querySelector('div.inlined-svg');
-            if (!el || !el.innerHTML.firstChild) {
-                fetch('./resources/img/iconssmall@2.5x.svg')
-                    .then(r => {
-                        if (r.ok) return r.text();
-                        else {/* error */
-                        }
-                    }).then(text => {
-                        const el = document.querySelector('div.inlined-svg')
-                        el.innerHTML = text;
-                    }).catch(console.error.bind(console));
+            if ( isIE ) return;
+
+            let runonce;
+            // const el = document.querySelector('div.inlined-svg');
+            // if (!el || !el.innerHTML.firstChild) {
+            if ( !runonce ) {
+                runonce = true;
+                function htmlToElements(html) {
+                    var template = document.createElement('template');
+                    template.innerHTML = html;
+                    // return template.content.childNodes;
+                    return template.content.firstChild;
+                }
+
+                ['./resources/img/iconssmall@2.5x.svg', './resources/img/iconsbig@2.5x.svg']
+                    .map(function (url) {
+                            fetch(url)
+                                .then(function (r) {
+                                    if (r.ok) return r.text();
+                                    else {/* error */}
+                                }).then(function (text) {
+                                const el = document.querySelector('div.inlined-svg')
+                                el.append(htmlToElements(text));
+                            }).catch(console.error.bind(console))
+                        })
             }
         }
     }

@@ -396,7 +396,8 @@
       "textHeadersTableHint": "Returns the column headers for the table or specified table columns",
       "textTotalsTableHint": "Returns the total rows for the table or specified table columns",
       "textDone": "Done",
-      "textRecommended": "Recommended"
+      "textRecommended": "Recommended",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warning",

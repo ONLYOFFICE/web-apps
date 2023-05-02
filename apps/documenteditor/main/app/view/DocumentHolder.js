@@ -56,7 +56,8 @@ define([
     'documenteditor/main/app/view/TableSettingsAdvanced',
     'documenteditor/main/app/view/ControlSettingsDialog',
     'documenteditor/main/app/view/NumberingValueDialog',
-    'documenteditor/main/app/view/CellsAddDialog'
+    'documenteditor/main/app/view/CellsAddDialog',
+    'documenteditor/main/app/view/ListIndentsDialog'
 ], function ($, _, Backbone, gateway) { 'use strict';
 
     DE.Views.DocumentHolder =  Backbone.View.extend(_.extend({
@@ -75,6 +76,8 @@ define([
             this._currentParaObjDisabled = false;
             this._currLang        = {};
             this._isDisabled = false;
+            this._preventCustomClick = null;
+            this._hasCustomItems = false;
             this._docProtection = {
                 isReadOnly: false,
                 isReviewOnly: false,
@@ -1127,6 +1130,10 @@ define([
                 caption: me.textContinueNumbering
             });
 
+            me.menuTableListIndents = new Common.UI.MenuItem({
+                caption: me.textIndents
+            });
+
             var menuNumberingTable = new Common.UI.MenuItem({
                 caption     : me.bulletsText,
                 menu        : new Common.UI.Menu({
@@ -1135,7 +1142,8 @@ define([
                     items   : [
                         me.menuTableStartNewList,
                         me.menuTableStartNumberingFrom,
-                        me.menuTableContinueNumbering
+                        me.menuTableContinueNumbering,
+                        me.menuTableListIndents
                     ]
                 })
             });
@@ -1332,6 +1340,7 @@ define([
                         me.menuTableStartNumberingFrom.value = {format: format, start: start};
                         me.menuTableStartNewList.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textSeparateList : me.textStartNewList);
                         me.menuTableContinueNumbering.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textJoinList : me.textContinueNumbering);
+                        me.menuTableListIndents.value = {format: format, props: numLvl};
                     }
 
                     // hyperlink properties
@@ -1403,10 +1412,16 @@ define([
                     me.menuTableEquation.setVisible(isEquation);
                     me.menuTableEquation.setDisabled(disabled);
                     if (isEquation) {
-                        var eq = me.api.asc_GetMathInputType();
-                        me.menuTableEquation.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
-                        me.menuTableEquation.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
-                        me.menuTableEquation.menu.items[8].setChecked(me.api.asc_IsInlineMath());
+                        var eq = me.api.asc_GetMathInputType(),
+                            isInlineMath = me.api.asc_IsInlineMath(),
+                            isEqToolbarHide = Common.Utils.InternalSettings.get('de-equation-toolbar-hide');
+                            
+                        me.menuTableEquation.menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                        me.menuTableEquation.menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                        me.menuTableEquation.menu.items[8].options.isEquationInline = isInlineMath;
+                        me.menuTableEquation.menu.items[8].setCaption(isInlineMath ? me.eqToDisplayText : me.eqToInlineText);
+                        me.menuTableEquation.menu.items[9].options.isToolbarHide = isEqToolbarHide;
+                        me.menuTableEquation.menu.items[9].setCaption(isEqToolbarHide ? me.showEqToolbar : me.hideEqToolbar);
                     }
 
                     var control_lock = (value.paraProps) ? (!value.paraProps.value.can_DeleteBlockContentControl() || !value.paraProps.value.can_EditBlockContentControl() ||
@@ -1822,6 +1837,10 @@ define([
                 caption: me.textContinueNumbering
             });
 
+            me.menuParaListIndents = new Common.UI.MenuItem({
+                caption: me.textIndents
+            });
+
             var menuParaNumberingSeparator = new Common.UI.MenuItem({
                 caption     : '--'
             });
@@ -1984,10 +2003,16 @@ define([
                     me.menuParagraphEquation.setVisible(isEquation);
                     me.menuParagraphEquation.setDisabled(disabled);
                     if (isEquation) {
-                        var eq = me.api.asc_GetMathInputType();
-                        me.menuParagraphEquation.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
-                        me.menuParagraphEquation.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
-                        me.menuParagraphEquation.menu.items[8].setChecked(me.api.asc_IsInlineMath());
+                        var eq = me.api.asc_GetMathInputType(),
+                            isInlineMath = me.api.asc_IsInlineMath(),
+                            isEqToolbarHide = Common.Utils.InternalSettings.get('de-equation-toolbar-hide');
+
+                        me.menuParagraphEquation.menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                        me.menuParagraphEquation.menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                        me.menuParagraphEquation.menu.items[8].options.isEquationInline = isInlineMath;
+                        me.menuParagraphEquation.menu.items[8].setCaption(isInlineMath ? me.eqToDisplayText : me.eqToInlineText);
+                        me.menuParagraphEquation.menu.items[9].options.isToolbarHide = isEqToolbarHide;
+                        me.menuParagraphEquation.menu.items[9].setCaption(isEqToolbarHide ? me.showEqToolbar : me.hideEqToolbar);
                     }
 
                     var frame_pr = value.paraProps.value.get_FramePr();
@@ -2043,8 +2068,10 @@ define([
                     me.menuParaStartNewList.setVisible(in_list);
                     me.menuParaStartNumberingFrom.setVisible(in_list);
                     me.menuParaContinueNumbering.setVisible(in_list);
+                    me.menuParaListIndents.setVisible(in_list);
                     if (in_list) {
-                        var numLvl = me.api.asc_GetNumberingPr(listId).get_Lvl(me.api.asc_GetCurrentNumberingLvl()),
+                        var level = me.api.asc_GetCurrentNumberingLvl(),
+                            numLvl = me.api.asc_GetNumberingPr(listId).get_Lvl(level),
                             format = numLvl.get_Format(),
                             start = me.api.asc_GetCalculatedNumberingValue();
                         me.menuParaStartNewList.setVisible(numLvl.get_Start()!=start);
@@ -2053,6 +2080,7 @@ define([
                         me.menuParaStartNumberingFrom.value = {format: format, start: start};
                         me.menuParaStartNewList.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textSeparateList : me.textStartNewList);
                         me.menuParaContinueNumbering.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textJoinList : me.textContinueNumbering);
+                        me.menuParaListIndents.value = {listId: listId, level: level, format: format, props: numLvl};
                     }
                 },
                 items: [
@@ -2104,6 +2132,7 @@ define([
                     me.menuParaStartNewList,
                     me.menuParaStartNumberingFrom,
                     me.menuParaContinueNumbering,
+                    me.menuParaListIndents,
                     menuStyleSeparator,
                     menuStyle
                 ]
@@ -2876,27 +2905,6 @@ define([
                 menuAlign: menuAlign,
                 items   : [
                     new Common.UI.MenuItem({
-                        caption     : this.unicodeText,
-                        iconCls     : 'menu__icon unicode',
-                        checkable   : true,
-                        checkmark   : false,
-                        checked     : false,
-                        toggleGroup : toggleGroup,
-                        type        : 'input',
-                        value       : Asc.c_oAscMathInputType.Unicode
-                    }),
-                    new Common.UI.MenuItem({
-                        caption     : this.latexText,
-                        iconCls     : 'menu__icon latex',
-                        checkable   : true,
-                        checkmark   : false,
-                        checked     : false,
-                        toggleGroup : toggleGroup,
-                        type        : 'input',
-                        value       : Asc.c_oAscMathInputType.LaTeX
-                    }),
-                    { caption     : '--' },
-                    new Common.UI.MenuItem({
                         caption     : this.currProfText,
                         iconCls     : 'menu__icon professional-equation',
                         type        : 'view',
@@ -2922,10 +2930,31 @@ define([
                     }),
                     { caption     : '--' },
                     new Common.UI.MenuItem({
-                        caption     : this.eqToInlineText,
+                        caption     : this.unicodeText,
                         checkable   : true,
                         checked     : false,
+                        toggleGroup : toggleGroup,
+                        type        : 'input',
+                        value       : Asc.c_oAscMathInputType.Unicode
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.latexText,
+                        checkable   : true,
+                        checked     : false,
+                        toggleGroup : toggleGroup,
+                        type        : 'input',
+                        value       : Asc.c_oAscMathInputType.LaTeX
+                    }),
+                    { caption     : '--' },
+                    new Common.UI.MenuItem({
+                        caption     : this.eqToInlineText,
+                        isEquationInline: false,
                         type        : 'mode'
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.hideEqToolbar,
+                        isToolbarHide: false,
+                        type        : 'hide',
                     })
                 ]
             });
@@ -2936,6 +2965,12 @@ define([
 
             var me = this,
                 lang = me.mode && me.mode.lang ? me.mode.lang.split(/[\-_]/)[0] : 'en';
+
+            me._preventCustomClick && clearTimeout(me._preventCustomClick);
+            me._hasCustomItems && (me._preventCustomClick = setTimeout(function () {
+                me._preventCustomClick = null;
+            },500)); // set delay only on update existing items
+            me._hasCustomItems = true;
 
             var findCustomItem = function(guid, id) {
                 if (menu && menu.items.length>0) {
@@ -2957,7 +2992,10 @@ define([
                         items: []
                     });
                     toMenu.on('item:click', function(menu, item, e) {
-                        me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
+                        !me._preventCustomClick && me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
+                    });
+                    toMenu.on('menu:click', function(menu, e) {
+                        me._preventCustomClick && e.stopPropagation();
                     });
                 }
                 items.forEach(function(item) {
@@ -3017,7 +3055,7 @@ define([
                                 menu: item.items && item.items.length>=0 ? getMenu(item.items, plugin.guid) : false,
                                 disabled: !!item.disabled
                             }).on('click', function(item, e) {
-                                me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
+                                !me._preventCustomClick && me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
                             });
                             menu.addItem(mnu);
                         }
@@ -3041,6 +3079,7 @@ define([
                     }
                 }
             }
+            this._hasCustomItems = false;
         },
 
         focus: function() {
@@ -3295,7 +3334,11 @@ define([
         currLinearText: 'Current - Linear',
         allProfText: 'All - Professional',
         allLinearText: 'All - Linear',
-        eqToInlineText: 'Change to Inline'
+        eqToInlineText: 'Change to Inline',
+        eqToDisplayText: 'Change to Display',
+        hideEqToolbar: 'Hide Equation Toolbar',
+        showEqToolbar: 'Show Equation Toolbar',
+        textIndents: 'Adjust list indents'
 
 }, DE.Views.DocumentHolder || {}));
 });

@@ -109,6 +109,9 @@ define([
                 input_msg: {},
                 foreignSelect: {
                     ttHeight: 20
+                },
+                eyedropper: {
+                    isHidden: true
                 }
             };
             me.mouse = {};
@@ -121,6 +124,7 @@ define([
             me._state = {wsLock: false, wsProps: []};
             me.fastcoauthtips = [];
             me._TtHeight = 20;
+            me.lastMathTrackBounds = [];
 
             /** coauthoring begin **/
             this.wrapEvents = {
@@ -142,6 +146,8 @@ define([
                 return false;
             };
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
+
+            Common.Utils.InternalSettings.set('sse-equation-toolbar-hide', Common.localStorage.getBool('sse-equation-toolbar-hide'));
         },
 
         onLaunch: function() {
@@ -190,9 +196,9 @@ define([
             Common.Gateway.on('setactionlink', _.bind(me.onSetActionLink, me));
         },
 
-        onCreateDelayedElements: function(view) {
+        onCreateDelayedElements: function(view, type) {
             var me = this;
-            if (me.permissions.isEdit && !me._isDisabled) {
+            if (type==='edit') {
                 view.pmiCut.on('click',                             _.bind(me.onCopyPaste, me));
                 view.pmiCopy.on('click',                            _.bind(me.onCopyPaste, me));
                 view.pmiPaste.on('click',                           _.bind(me.onCopyPaste, me));
@@ -393,6 +399,7 @@ define([
                 }
                 this.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(this.onShowMathTrack, this));
                 this.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(this.onHideMathTrack, this));
+                this.api.asc_registerCallback('asc_onHideEyedropper',           _.bind(this.hideEyedropperTip, this));
             }
             this.api.asc_registerCallback('asc_onShowForeignCursorLabel',       _.bind(this.onShowForeignCursorLabel, this));
             this.api.asc_registerCallback('asc_onHideForeignCursorLabel',       _.bind(this.onHideForeignCursorLabel, this));
@@ -1252,21 +1259,17 @@ define([
             }
 
             if (rawData.type===0 && rawData.subtype===0x1000) {// custom bullet
-                var bullet = new Asc.asc_CBullet();
-                if (rawData.drawdata.type===Asc.asc_PreviewBulletType.char) {
-                    bullet.asc_putSymbol(rawData.drawdata.char);
-                    bullet.asc_putFont(rawData.drawdata.specialFont);
-                } else if (rawData.drawdata.type===Asc.asc_PreviewBulletType.image)
-                    bullet.asc_fillBulletImage(rawData.drawdata.imageId);
-
-                var props;
-                var selectedObjects = this.api.asc_getGraphicObjectProps();
-                for (var i = 0; i < selectedObjects.length; i++) {
-                    if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Paragraph) {
-                        props = selectedObjects[i].asc_getObjectValue();
-                        props.asc_putBullet(bullet);
-                        this.api.asc_setGraphicObjectProps(props);
-                        break;
+                var bullet = rawData.customBullet;
+                if (bullet) {
+                    var props;
+                    var selectedObjects = this.api.asc_getGraphicObjectProps();
+                    for (var i = 0; i < selectedObjects.length; i++) {
+                        if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Paragraph) {
+                            props = selectedObjects[i].asc_getObjectValue();
+                            props.asc_putBullet(bullet);
+                            this.api.asc_setGraphicObjectProps(props);
+                            break;
+                        }
                     }
                 }
             } else
@@ -1516,6 +1519,17 @@ define([
             }
         },
 
+        hideEyedropperTip: function () {
+            if (!this.tooltips.eyedropper.isHidden) {
+                this.tooltips.eyedropper.color.css({left: '-1000px', top: '-1000px'});
+                if (this.tooltips.eyedropper.ref) {
+                    this.tooltips.eyedropper.ref.hide();
+                    this.tooltips.eyedropper.ref = undefined;
+                }
+                this.tooltips.eyedropper.isHidden = true;
+            }
+        },
+
         onApiMouseMove: function(dataarray) {
             if (!this._isFullscreenMenu && dataarray.length) {
                 var index_hyperlink,
@@ -1526,7 +1540,8 @@ define([
                         index_column, index_row,
                         index_filter,
                         index_slicer,
-                        index_foreign;
+                        index_foreign,
+                        index_eyedropper;
                 for (var i = dataarray.length; i > 0; i--) {
                     switch (dataarray[i-1].asc_getType()) {
                         case Asc.c_oAscMouseMoveType.Hyperlink:
@@ -1555,6 +1570,9 @@ define([
                         case Asc.c_oAscMouseMoveType.ForeignSelect:
                             index_foreign = i;
                             break;
+                        case Asc.c_oAscMouseMoveType.Eyedropper:
+                            index_eyedropper = i;
+                            break;
                     }
                 }
 
@@ -1569,6 +1587,7 @@ define([
                     filterTip       = me.tooltips.filter,
                     slicerTip       = me.tooltips.slicer,
                     foreignSelect   = me.tooltips.foreignSelect,
+                    eyedropperTip   = me.tooltips.eyedropper,
                     pos             = [
                         me.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
                         me.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
@@ -1625,6 +1644,9 @@ define([
                         filterTip.text = '';
                         filterTip.isHidden = true;
                     }
+                }
+                if (!index_eyedropper) {
+                    me.hideEyedropperTip();
                 }
                 // show tooltips
 
@@ -1935,6 +1957,71 @@ define([
                             top : showPoint[1] + 'px',
                             left: showPoint[0] + 'px'
                         });
+                    }
+                }
+
+                if (index_eyedropper) {
+                    eyedropperTip.isHidden = false;
+                    if (eyedropperTip.ref) {
+                        eyedropperTip.ref.hide();
+                        eyedropperTip.ref = undefined;
+                    }
+
+                    var data  = dataarray[index_eyedropper-1],
+                        color = data.asc_getColor(),
+                        r = color.get_r(),
+                        g = color.get_g(),
+                        b = color.get_b();
+                    if (r !== undefined && r !== null) {
+                        var hex = Common.Utils.ThemeColor.getHexColor(r, g, b),
+                            name = color.asc_getName();
+
+                        if (!eyedropperTip.color) {
+                            var colorEl = $(document.createElement("div"));
+                            colorEl.addClass('eyedropper-color');
+                            colorEl.appendTo(document.body);
+                            eyedropperTip.color = colorEl;
+                        }
+                        eyedropperTip.color.css({
+                            backgroundColor: '#' + hex,
+                            left: (data.asc_getX() + pos[0] + 23) + 'px',
+                            top: (data.asc_getY() + pos[1] - 53) + 'px'
+                        });
+                        if (eyedropperTip.tipInterval) {
+                            clearInterval(eyedropperTip.tipInterval);
+                        }
+                        eyedropperTip.tipInterval = setInterval(function () {
+                            clearInterval(eyedropperTip.tipInterval);
+                            if (!me.tooltips.eyedropper.isHidden) {
+                                if (!eyedropperTip.parentEl) {
+                                    eyedropperTip.parentEl = $('<div id="tip-container-eyedroppertip" style="position: absolute; z-index: 10000;"></div>');
+                                    me.documentHolder.cmpEl.append(eyedropperTip.parentEl);
+                                }
+
+                                var title = '<div>RGB(' + r + ',' + g + ',' + b + ')</div>' +
+                                    '<div>' + name + '</div>';
+                                if (!eyedropperTip.ref) {
+                                    eyedropperTip.ref = new Common.UI.Tooltip({
+                                        owner   : eyedropperTip.parentEl,
+                                        html    : true,
+                                        title   : title,
+                                        cls     : 'eyedropper-tooltip'
+                                    });
+                                }
+                                eyedropperTip.ref.show([-10000, -10000]);
+                                eyedropperTip.tipWidth = eyedropperTip.ref.getBSTip().$tip.width();
+                                showPoint = [data.asc_getX(), data.asc_getY()];
+                                showPoint[1] += (pos[1] - 57);
+                                showPoint[0] += (pos[0] + 58);
+                                if (showPoint[0] + eyedropperTip.tipWidth > me.tooltips.coauth.bodyWidth ) {
+                                    showPoint[0] = showPoint[0] - eyedropperTip.tipWidth - 40;
+                                }
+                                eyedropperTip.ref.getBSTip().$tip.css({
+                                    top: showPoint[1] + 'px',
+                                    left: showPoint[0] + 'px'
+                                });
+                            }
+                        }, 800);
                     }
                 }
             }
@@ -2507,9 +2594,14 @@ define([
                                 if (bullettype === Asc.asc_PreviewBulletType.char) {
                                     var symbol = bullet.asc_getChar();
                                     if (symbol) {
+                                        var custombullet = new Asc.asc_CBullet();
+                                        custombullet.asc_putSymbol(symbol);
+                                        custombullet.asc_putFont(bullet.asc_getSpecialFont());
+
                                         rec = defrec;
                                         rec.set('subtype', 0x1000);
-                                        rec.set('drawdata', {type: bullettype, char: symbol, specialFont: bullet.asc_getSpecialFont()});
+                                        rec.set('customBullet', custombullet);
+                                        rec.set('numberingInfo', JSON.stringify(custombullet.asc_getJsonBullet()));
                                         rec.set('tip', '');
                                         documentHolder.paraBulletsPicker.dataViewItems && this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], '');
                                         drawDefBullet = false;
@@ -2518,9 +2610,13 @@ define([
                                 } else if (bullettype === Asc.asc_PreviewBulletType.image) {
                                     var id = bullet.asc_getImageId();
                                     if (id) {
+                                        var custombullet = new Asc.asc_CBullet();
+                                        custombullet.asc_fillBulletImage(id);
+
                                         rec = defrec;
                                         rec.set('subtype', 0x1000);
-                                        rec.set('drawdata', {type: bullettype, imageId: id});
+                                        rec.set('customBullet', custombullet);
+                                        rec.set('numberingInfo', JSON.stringify(custombullet.asc_getJsonBullet()));
                                         rec.set('tip', '');
                                         documentHolder.paraBulletsPicker.dataViewItems && this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], '');
                                         drawDefBullet = false;
@@ -2531,7 +2627,7 @@ define([
                         documentHolder.paraBulletsPicker.selectRecord(rec, true);
                         if (drawDefBullet) {
                             defrec.set('subtype', 8);
-                            defrec.set('drawdata', documentHolder._markersArr[7]);
+                            defrec.set('numberingInfo', documentHolder._markersArr[7]);
                             defrec.set('tip', documentHolder.tipMarkersDash);
                             documentHolder.paraBulletsPicker.dataViewItems && this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], documentHolder.tipMarkersDash);
                         }
@@ -2573,9 +2669,13 @@ define([
                 documentHolder.menuParagraphEquation.setVisible(isEquation);
                 documentHolder.menuParagraphEquation.setDisabled(isObjLocked);
                 if (isEquation) {
-                    var eq = this.api.asc_GetMathInputType();
-                    documentHolder.menuParagraphEquation.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
-                    documentHolder.menuParagraphEquation.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    var eq = this.api.asc_GetMathInputType(),
+                        isEqToolbarHide = Common.Utils.InternalSettings.get('sse-equation-toolbar-hide');
+
+                    documentHolder.menuParagraphEquation.menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                    documentHolder.menuParagraphEquation.menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    documentHolder.menuParagraphEquation.menu.items[8].options.isToolbarHide = isEqToolbarHide;
+                    documentHolder.menuParagraphEquation.menu.items[8].setCaption(isEqToolbarHide ? documentHolder.showEqToolbar : documentHolder.hideEqToolbar);
                 }
 
                 if (showMenu) this.showPopupMenu(documentHolder.textInShapeMenu, {}, event);
@@ -4377,12 +4477,10 @@ define([
             var store = this.documentHolder.paraBulletsPicker.store;
             var arrNum = [], arrMarker = [];
             store.each(function(item){
-                var data = item.get('drawdata');
-                data['divId'] = item.get('id');
-                if (item.get('group')==='menu-list-bullet-group')
-                    arrMarker.push(data);
-                else
-                    arrNum.push(data);
+                (item.get('group')==='menu-list-bullet-group' ? arrMarker : arrNum).push({
+                    numberingInfo: {bullet: item.get('numberingInfo')==='undefined' ? undefined : JSON.parse(item.get('numberingInfo'))},
+                    divId: item.get('id')
+                });
             });
 
             if (this.api && this.api.SetDrawImagePreviewBulletForMenu) {
@@ -4621,7 +4719,8 @@ define([
         onShowMathTrack: function(bounds) {
             if (this.permissions && !this.permissions.isEdit) return;
 
-            if (bounds[3] < 0) {
+            this.lastMathTrackBounds = bounds;
+            if (bounds[3] < 0 || Common.Utils.InternalSettings.get('sse-equation-toolbar-hide')) {
                 this.onHideMathTrack();
                 return;
             }
@@ -4638,11 +4737,10 @@ define([
 
                 me.equationBtns = [];
                 for (var i = 0; i < equationsStore.length; ++i) {
-                    var style = 'margin-right: 8px;' + (i==0 ? 'margin-left: 5px;' : '');
-                    eqStr += '<span id="id-document-holder-btn-equation-' + i + '" style="' + style +'"></span>';
+                    eqStr += '<span id="id-document-holder-btn-equation-' + i + '"></span>';
                 }
                 eqStr += '<div class="separator"></div>';
-                eqStr += '<span id="id-document-holder-btn-equation-settings" style="margin-right: 5px; margin-left: 8px;"></span>';
+                eqStr += '<span id="id-document-holder-btn-equation-settings"></span>';
                 eqStr += '</div>';
                 eqContainer = $(eqStr);
                 documentHolder.cmpEl.append(eqContainer);
@@ -4706,10 +4804,14 @@ define([
                     menu        : me.documentHolder.createEquationMenu('popuptbeqinput', 'tl-bl')
                 });
                 me.equationSettingsBtn.menu.options.initMenu = function() {
-                    var eq = me.api.asc_GetMathInputType();
-                    var menu = me.equationSettingsBtn.menu;
-                    menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
-                    menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    var eq = me.api.asc_GetMathInputType(),
+                        menu = me.equationSettingsBtn.menu,
+                        isEqToolbarHide = Common.Utils.InternalSettings.get('sse-equation-toolbar-hide');
+
+                    menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                    menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    menu.items[8].options.isToolbarHide = isEqToolbarHide;
+                    menu.items[8].setCaption(isEqToolbarHide ? me.documentHolder.showEqToolbar : me.documentHolder.hideEqToolbar);
                 };
                 me.equationSettingsBtn.menu.on('item:click', _.bind(me.convertEquation, me));
                 me.equationSettingsBtn.menu.on('show:before', function(menu) {
@@ -4772,6 +4874,13 @@ define([
                     this.api.asc_SetMathInputType(item.value);
                 else if (item.options.type=='view')
                     this.api.asc_ConvertMathView(item.value.linear, item.value.all);
+                else if(item.options.type=='hide') {
+                    item.options.isToolbarHide = !item.options.isToolbarHide;
+                    Common.Utils.InternalSettings.set('sse-equation-toolbar-hide', item.options.isToolbarHide);
+                    Common.localStorage.setBool('sse-equation-toolbar-hide', item.options.isToolbarHide);
+                    if(item.options.isToolbarHide) this.onHideMathTrack();
+                    else this.onShowMathTrack(this.lastMathTrackBounds);
+                }
             }
         },
 

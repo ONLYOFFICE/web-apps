@@ -906,15 +906,6 @@ input[type="number"]::-webkit-inner-spin-button {
     box-shadow: inset 0 2px red;
 }
 
-.statusbar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    z-index: 10000;
-}
-
 // Fonts List 
 
 .font-item {
@@ -1138,6 +1129,24 @@ input[type="number"]::-webkit-inner-spin-button {
         padding: 0;
         position: relative;
         background: var(--f7-list-bg-color);
+    }
+}
+
+.list input[type='password'], 
+.list input[type='text'] {
+    background: transparent;
+}
+
+// Dialog with password
+.dialog {
+    .modal-password {
+        position: relative;
+
+        &__icon {
+            position: absolute;
+            right: 4px;
+            top: calc(50% - 12.5px);
+        }
     }
 }
 

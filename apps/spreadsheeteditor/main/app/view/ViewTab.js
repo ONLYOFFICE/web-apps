@@ -58,10 +58,10 @@ define([
                 '</div>' +
             '</div>' +
             '<div class="separator long sheet-views"></div>' +
-                '<div class="group">' +
-                    '<span class="btn-slot text x-huge" id="slot-btn-view-normal"></span>' +
-                    '<span class="btn-slot text x-huge" id="slot-btn-view-pagebreak"></span>' +
-                '</div>' +
+            '<div class="group doc-preview">' +
+                '<span class="btn-slot text x-huge" id="slot-btn-view-normal"></span>' +
+                '<span class="btn-slot text x-huge" id="slot-btn-view-pagebreak"></span>' +
+            '</div>' +
             '<div class="separator long doc-preview"></div>' +
             '<div class="group small">' +
                 '<div class="elset" style="display: flex;">' +
@@ -167,10 +167,10 @@ define([
             me.chRightMenu.on('change', _.bind(function (checkbox, state) {
                 me.fireEvent('rightmenu:hide', [me.chRightMenu, state === 'checked']);
             }, me));
-            me.btnViewNormal.on('click', function (btn, e) {
+            me.btnViewNormal && me.btnViewNormal.on('click', function (btn, e) {
                 btn.pressed && me.fireEvent('viewtab:viewmode', [Asc.c_oAscESheetViewType.normal]);
             });
-            me.btnViewPageBreak.on('click', function (btn, e) {
+            me.btnViewPageBreak && me.btnViewPageBreak.on('click', function (btn, e) {
                 btn.pressed && me.fireEvent('viewtab:viewmode', [Asc.c_oAscESheetViewType.pageBreakPreview]);
             });
         }
@@ -268,7 +268,7 @@ define([
 
                     this.btnViewNormal = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon normal-view',
+                        iconCls: 'toolbar__icon btn-normal-view',
                         enableToggle: true,
                         allowDepress: false,
                         caption: this.txtViewNormal,
@@ -281,7 +281,7 @@ define([
 
                     this.btnViewPageBreak = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon page-break-preview',
+                        iconCls: 'toolbar__icon btn-page-break-preview',
                         enableToggle: true,
                         allowDepress: false,
                         caption: this.txtViewPageBreak,
@@ -319,7 +319,7 @@ define([
 
                 this.btnInterfaceTheme = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon day',
+                    iconCls: 'toolbar__icon btn-day',
                     caption: this.textInterfaceTheme,
                     menu: true,
                     dataHint: '1',
@@ -405,8 +405,8 @@ define([
                 this.chZeros && this.chZeros.render($host.find('#slot-chk-zeros'));
                 this.chLeftMenu.render($host.find('#slot-chk-leftmenu'));
                 this.chRightMenu.render($host.find('#slot-chk-rightmenu'));
-                this.btnViewNormal.render($host.find('#slot-btn-view-normal'));
-                this.btnViewPageBreak.render($host.find('#slot-btn-view-pagebreak'));
+                this.btnViewNormal && this.btnViewNormal.render($host.find('#slot-btn-view-normal'));
+                this.btnViewPageBreak && this.btnViewPageBreak.render($host.find('#slot-btn-view-pagebreak'));
                 return this.$el;
             },
 
@@ -456,7 +456,8 @@ define([
                         me.btnViewNormal.updateHint(me.tipViewNormal);
                         me.btnViewPageBreak.updateHint(me.tipViewPageBreak);
                     } else {
-                        me.toolbar && me.toolbar.$el.find('.group.sheet-doc-preview').hide();
+                        me.toolbar && me.toolbar.$el.find('.group.doc-preview').hide();
+                        me.toolbar && me.toolbar.$el.find('.separator.doc-preview').hide();
                         me.toolbar && me.toolbar.$el.find('.group.sheet-freeze').hide();
                         me.toolbar && me.toolbar.$el.find('.separator.sheet-freeze').hide();
                         me.toolbar && me.toolbar.$el.find('.group.sheet-gridlines').hide();

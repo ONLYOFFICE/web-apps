@@ -389,6 +389,7 @@
       "textEmptyImgUrl": "You need to specify the image URL.",
       "textHeadersTableHint": "Returns the column headers for the table or specified table columns",
       "textOk": "Ok",
+      "textPasteImageUrl": "Paste an image URL",
       "textSelectedRange": "Selected Range",
       "textShape": "Shape",
       "textThisRowHint": "Choose only this row of the specified column",

@@ -105,6 +105,7 @@ define([
             me._state = {};
             me.mode = {};
             me._isDisabled = false;
+            me.lastMathTrackBounds = [];
 
             me.screenTip = {
                 toolTip: new Common.UI.Tooltip({
@@ -117,6 +118,18 @@ define([
                 isHidden: true,
                 isVisible: false
             };
+            me.eyedropperTip = {
+                toolTip: new Common.UI.Tooltip({
+                    owner: this,
+                    html: true,
+                    cls: 'eyedropper-tooltip'
+                }),
+                isHidden: true,
+                isVisible: false,
+                eyedropperColor: null,
+                tipInterval: null,
+                isTipVisible: false
+            }
 
             me.userTooltip = true;
             me.wrapEvents = {
@@ -146,6 +159,8 @@ define([
                 }
             };
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
+
+            Common.Utils.InternalSettings.set('pe-equation-toolbar-hide', Common.localStorage.getBool('pe-equation-toolbar-hide'));
         },
 
         onLaunch: function() {
@@ -161,6 +176,7 @@ define([
                     /** coauthoring begin **/
                     me.userTipHide();
                     /** coauthoring end **/
+                    me.hideEyedropper();
                     me.mode && me.mode.isDesktopApp && me.api && me.api.asc_onShowPopupWindow();
                 },
                 'modal:show': function(e){
@@ -173,6 +189,7 @@ define([
                     me.userTipHide();
                     /** coauthoring end **/
                     me.hideTips();
+                    me.hideEyedropper();
                     me.onDocumentHolderResize();
                 },
                 'preview:show': function(e){
@@ -224,6 +241,7 @@ define([
                     me.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(me.onHideMathTrack, me));
                     me.api.asc_registerCallback('asc_onLockViewProps',          _.bind(me.onLockViewProps, me, true));
                     me.api.asc_registerCallback('asc_onUnLockViewProps',        _.bind(me.onLockViewProps, me, false));
+                    me.api.asc_registerCallback('asc_onHideEyedropper',         _.bind(me.hideEyedropper, me));
                 }
                 me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(me.onCoAuthoringDisconnect, me));
                 Common.NotificationCenter.on('api:disconnect',              _.bind(me.onCoAuthoringDisconnect, me));
@@ -838,6 +856,9 @@ define([
                 this.screenTip.isVisible = false;
                 this.screenTip.toolTip.hide();
             }
+            if (this.eyedropperTip.isHidden) {
+                this.hideEyedropper();
+            }
         },
 
         onMouseMove: function(moveData) {
@@ -895,6 +916,57 @@ define([
                             showPoint[0] = me._BodyWidth - screenTip.tipWidth;
                         screenTip.toolTip.getBSTip().$tip.css({top: showPoint[1] + 'px', left: showPoint[0] + 'px'});
                     }
+                }
+                else if (moveData.get_Type()==Asc.c_oAscMouseMoveDataTypes.Eyedropper) {
+                    if (me.eyedropperTip.isTipVisible) {
+                        me.eyedropperTip.isTipVisible = false;
+                        me.eyedropperTip.toolTip.hide();
+                    }
+
+                    var color = moveData.get_EyedropperColor().asc_getColor(),
+                        r = color.get_r(),
+                        g = color.get_g(),
+                        b = color.get_b(),
+                        hex = Common.Utils.ThemeColor.getHexColor(r,g,b);
+                    if (!me.eyedropperTip.eyedropperColor) {
+                        var colorEl = $(document.createElement("div"));
+                        colorEl.addClass('eyedropper-color');
+                        colorEl.appendTo(document.body);
+                        me.eyedropperTip.eyedropperColor = colorEl;
+                        $('#id_main_view').on('mouseleave', _.bind(me.hideEyedropper, me));
+                    }
+                    me.eyedropperTip.eyedropperColor.css({
+                        backgroundColor: '#' + hex,
+                        left: (moveData.get_X() + me._XY[0] + 23) + 'px',
+                        top: (moveData.get_Y() + me._XY[1] - 53) + 'px'
+                    });
+                    me.eyedropperTip.isVisible = true;
+
+                    if (me.eyedropperTip.tipInterval) {
+                        clearInterval(me.eyedropperTip.tipInterval);
+                    }
+                    me.eyedropperTip.tipInterval = setInterval(function () {
+                        clearInterval(me.eyedropperTip.tipInterval);
+                        if (me.eyedropperTip.isVisible) {
+                            ToolTip = '<div>RGB(' + r + ',' + g + ',' + b + ')</div>' +
+                                '<div>' + moveData.get_EyedropperColor().asc_getName() + '</div>';
+                            me.eyedropperTip.toolTip.setTitle(ToolTip);
+                            me.eyedropperTip.isTipVisible = true;
+                            me.eyedropperTip.toolTip.show([-10000, -10000]);
+                            me.eyedropperTip.tipWidth = me.eyedropperTip.toolTip.getBSTip().$tip.width();
+                            showPoint = [moveData.get_X(), moveData.get_Y()];
+                            showPoint[1] += (me._XY[1] - 57);
+                            showPoint[0] += (me._XY[0] + 58);
+                            if (showPoint[0] + me.eyedropperTip.tipWidth > me._BodyWidth ) {
+                                showPoint[0] = showPoint[0] - me.eyedropperTip.tipWidth - 40;
+                            }
+                            me.eyedropperTip.toolTip.getBSTip().$tip.css({
+                                top: showPoint[1] + 'px',
+                                left: showPoint[0] + 'px'
+                            });
+                        }
+                    }, 800);
+                    me.eyedropperTip.isHidden = false;
                 }
                 /** coauthoring begin **/
                 else if (moveData.get_Type()==2 && me.mode.isEdit && me.isUserVisible(moveData.get_UserId())) { // 2 - locked object
@@ -970,6 +1042,17 @@ define([
                 }
             }
             /** coauthoring end **/
+        },
+
+        hideEyedropper: function () {
+            if (this.eyedropperTip.isVisible) {
+                this.eyedropperTip.isVisible = false;
+                this.eyedropperTip.eyedropperColor.css({left: '-1000px', top: '-1000px'});
+            }
+            if (this.eyedropperTip.isTipVisible) {
+                this.eyedropperTip.isTipVisible = false;
+                this.eyedropperTip.toolTip.hide();
+            }
         },
 
         onDialogAddHyperlink: function() {
@@ -2269,7 +2352,8 @@ define([
         onShowMathTrack: function(bounds) {
             if (this.mode && !this.mode.isEdit) return;
 
-            if (bounds[3] < 0) {
+            this.lastMathTrackBounds = bounds;
+            if (bounds[3] < 0 || Common.Utils.InternalSettings.get('pe-equation-toolbar-hide')) {
                 this.onHideMathTrack();
                 return;
             }
@@ -2286,11 +2370,10 @@ define([
 
                 me.equationBtns = [];
                 for (var i = 0; i < equationsStore.length; ++i) {
-                    var style = 'margin-right: 8px;' + (i==0 ? 'margin-left: 5px;' : '');
-                    eqStr += '<span id="id-document-holder-btn-equation-' + i + '" style="' + style +'"></span>';
+                    eqStr += '<span id="id-document-holder-btn-equation-' + i + '"></span>';
                 }
                 eqStr += '<div class="separator"></div>';
-                eqStr += '<span id="id-document-holder-btn-equation-settings" style="margin-right: 5px; margin-left: 8px;"></span>';
+                eqStr += '<span id="id-document-holder-btn-equation-settings"></span>';
                 eqStr += '</div>';
                 eqContainer = $(eqStr);
                 documentHolder.cmpEl.append(eqContainer);
@@ -2354,10 +2437,14 @@ define([
                     menu        : me.documentHolder.createEquationMenu('popuptbeqinput', 'tl-bl')
                 });
                 me.equationSettingsBtn.menu.options.initMenu = function() {
-                    var eq = me.api.asc_GetMathInputType();
-                    var menu = me.equationSettingsBtn.menu;
-                    menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
-                    menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    var eq = me.api.asc_GetMathInputType(),
+                        menu = me.equationSettingsBtn.menu,
+                        isEqToolbarHide = Common.Utils.InternalSettings.get('pe-equation-toolbar-hide');
+                        
+                    menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                    menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    menu.items[8].options.isToolbarHide = isEqToolbarHide;
+                    menu.items[8].setCaption(isEqToolbarHide ? me.documentHolder.showEqToolbar : me.documentHolder.hideEqToolbar);
                 };
                 me.equationSettingsBtn.menu.on('item:click', _.bind(me.convertEquation, me));
                 me.equationSettingsBtn.menu.on('show:before', function(menu) {
@@ -2417,6 +2504,13 @@ define([
                     this.api.asc_SetMathInputType(item.value);
                 else if (item.options.type=='view')
                     this.api.asc_ConvertMathView(item.value.linear, item.value.all);
+                else if(item.options.type=='hide') {
+                    item.options.isToolbarHide = !item.options.isToolbarHide;
+                    Common.Utils.InternalSettings.set('pe-equation-toolbar-hide', item.options.isToolbarHide);
+                    Common.localStorage.setBool('pe-equation-toolbar-hide', item.options.isToolbarHide);
+                    if(item.options.isToolbarHide) this.onHideMathTrack();
+                    else this.onShowMathTrack(this.lastMathTrackBounds);
+                }
             }
         },
 

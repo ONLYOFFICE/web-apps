@@ -304,7 +304,8 @@ module.exports = function (grunt, rootpathprefix) {
                 },
             },
             deiconssmall: {
-                src: [`${_prefix}apps/common/main/resources/img/toolbar/2.5x/*.svg`],
+                src: [`${_prefix}apps/common/main/resources/img/toolbar/2.5x/*.svg`,
+                        `${_prefix}apps/documenteditor/main/resources/img/toolbar/2.5x/*.svg`],
                 dest: `${_prefix}apps/documenteditor/main/resources/img/`,
                 options: {
                     mode: {
@@ -317,8 +318,65 @@ module.exports = function (grunt, rootpathprefix) {
                 }
             },
             deiconsbig: {
-                src: [`${_prefix}apps/common/main/resources/img/toolbar/2.5x/big/*.svg`],
+                src: [`${_prefix}apps/common/main/resources/img/toolbar/2.5x/big/*.svg`,
+                        `${_prefix}apps/documenteditor/main/resources/img/toolbar/2.5x/big/*.svg`],
                 dest: `${_prefix}apps/documenteditor/main/resources/img/`,
+                options: {
+                    mode: {
+                        symbol: {
+                            inline: true,
+                            dest: './',
+                            sprite: `iconsbig@2.5x.svg`,
+                        },
+                    },
+                }
+            },
+            peiconssmall: {
+                src: [`${_prefix}apps/common/main/resources/img/toolbar/2.5x/*.svg`,
+                        `${_prefix}apps/presentationeditor/main/resources/img/toolbar/2.5x/*.svg`],
+                dest: `${_prefix}apps/presentationeditor/main/resources/img/`,
+                options: {
+                    mode: {
+                        symbol: {
+                            inline: true,
+                            dest: './',
+                            sprite: `iconssmall@2.5x.svg`,
+                        },
+                    },
+                }
+            },
+            peiconsbig: {
+                src: [`${_prefix}apps/common/main/resources/img/toolbar/2.5x/big/*.svg`,
+                        `${_prefix}apps/presentationeditor/main/resources/img/toolbar/2.5x/big/*.svg`],
+                dest: `${_prefix}apps/presentationeditor/main/resources/img/`,
+                options: {
+                    mode: {
+                        symbol: {
+                            inline: true,
+                            dest: './',
+                            sprite: `iconsbig@2.5x.svg`,
+                        },
+                    },
+                }
+            },
+            sseiconssmall: {
+                src: [`${_prefix}apps/common/main/resources/img/toolbar/2.5x/*.svg`,
+                        `${_prefix}apps/spreadsheeteditor/main/resources/img/toolbar/2.5x/*.svg`],
+                dest: `${_prefix}apps/spreadsheeteditor/main/resources/img/`,
+                options: {
+                    mode: {
+                        symbol: {
+                            inline: true,
+                            dest: './',
+                            sprite: `iconssmall@2.5x.svg`,
+                        },
+                    },
+                }
+            },
+            sseiconsbig: {
+                src: [`${_prefix}apps/common/main/resources/img/toolbar/2.5x/big/*.svg`,
+                        `${_prefix}apps/spreadsheeteditor/main/resources/img/toolbar/2.5x/big/*.svg`],
+                dest: `${_prefix}apps/spreadsheeteditor/main/resources/img/`,
                 options: {
                     mode: {
                         symbol: {

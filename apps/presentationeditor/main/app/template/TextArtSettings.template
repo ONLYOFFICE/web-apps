@@ -160,6 +160,19 @@
         </div>
         </td>
     </tr>
+    <tr>
+        <td>
+            <div class="padding-small" id="textart-line-panel-transparent" style="width: 100%;">
+                <label class="header" style="display:block;"><%= scope.strTransparency %></label>
+                <div style="display: inline-block; margin-top: 3px;">
+                    <label id="textart-line-lbl-transparency-start">0</label>
+                    <div id="textart-line-slider-transparency" style="display: inline-block;margin: 0 4px; vertical-align: middle;"></div>
+                    <label id="textart-line-lbl-transparency-end">100</label>
+                </div>
+                <div id="textart-line-spin-transparency"></div>
+            </div>
+        </td>
+    </tr>
     <tr class="textart-transform">
         <td class="padding-small">
             <div class="separator horizontal"></div>

@@ -105,7 +105,7 @@
 }
 
 // menu zoom
-.menu-zoom {
+.dropdown-menu .menu-zoom {
     line-height: @line-height-base;
     .title {
         padding: 5px 5px 5px 20px;
@@ -127,7 +127,7 @@
         text-align: center;
     }
 
-    .next {
+    .btn.next {
         float: right;
         margin: 2px 5px 0 0;
         .rtl & {
@@ -136,7 +136,7 @@
         }
     }
 
-    .prev {
+    .btn.prev {
         float: right;
         margin-top: 2px;
         .rtl & {
@@ -207,15 +207,26 @@
     background-color: @background-toolbar;
     border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
+
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.2);
 }
 
 #equation-container {
-    padding: 4px;
     .separator {
-        height: 20px;
+        height: 30px;
     }
     &.has-open-menu {
         z-index: @zindex-navbar + 1;
+    }
+    .btn-toolbar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 0px;
     }
 }
 
@@ -245,10 +256,10 @@
 #id-toolbar-btn-numbering,
 #id-toolbar-btn-multilevels {
     .menu-markers {
-        margin: 0 0 0 9px;
+        margin: 2px 0 0 9px;
 
         .rtl & {
-            margin: 0 9px 0 0;
+            margin: 2px 9px 0 0;
         }
     }
 

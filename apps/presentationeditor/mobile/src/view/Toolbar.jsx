@@ -39,7 +39,7 @@ const ToolbarView = props => {
     return (
         <Fragment>
             <NavLeft>
-                {props.isShowBack && <Link className={`btn-doc-back${props.disabledControls && ' disabled'}`} icon='icon-back' onClick={props.onBack}></Link>}
+                {props.isShowBack && <Link className={`btn-doc-back${props.disabledControls && ' disabled'}`} icon='icon-back' onClick={() => Common.Notifications.trigger('goback')}></Link>}
                 {Device.ios && props.isEdit && EditorUIController.getUndoRedo && EditorUIController.getUndoRedo({
                     disabledUndo: !props.isCanUndo || isDisconnected,
                     disabledRedo: !props.isCanRedo || isDisconnected,

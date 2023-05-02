@@ -59,7 +59,8 @@ define([
             value: '000000',
             enableKeyEvents: true,
             colorHints: true,
-            keyMoveDirection: 'both' // 'vertical', 'horizontal'
+            keyMoveDirection: 'both', // 'vertical', 'horizontal',
+            storageSuffix: ''
         },
 
         template    :
@@ -204,7 +205,7 @@ define([
                     this.lastSelectedIdx = -1;
                 }
 
-                var colors = Common.localStorage.getItem('asc.'+Common.localStorage.getId()+'.colors.custom');
+                var colors = Common.localStorage.getItem('asc.'+Common.localStorage.getId()+'.colors.custom' + this.options.storageSuffix);
                 colors = colors ? colors.split(',') : [];
 
                 var i = -1, colorEl, c = colors.length < this.options.dynamiccolors ? colors.length : this.options.dynamiccolors;
@@ -303,33 +304,38 @@ define([
             var el = this.$el || $(this.el);
             color = /#?([a-fA-F0-9]{6})/.exec(color);
             if (color) {
-                this.saveCustomColor(color[1]);
+                var isNew = this.saveCustomColor(color[1]);
                 this.clearSelection(true);
-
                 var child = el.find('.dynamic-empty-color');
                 if (child.length==0) {
                     this.updateCustomColors();
                     child = el.find('.color-dynamic-' + (this.options.dynamiccolors - 1));
                 } else {
-                    if (this.options.hideEmptyColors && this._layoutParams) // recalc indexed
+                    if (isNew && this.options.hideEmptyColors && this._layoutParams) // recalc indexed
                         this._layoutParams = undefined;
                 }
 
-                child.first().removeClass('dynamic-empty-color').removeClass(this.emptyColorsClass).addClass(this.selectedCls).attr('color', color[1]);
-                child.first().find('span').css({
-                    'background-color': '#'+color[1]
-                });
+                if (isNew) {
+                    child.first().removeClass('dynamic-empty-color').removeClass(this.emptyColorsClass).addClass(this.selectedCls).attr('color', color[1]);
+                    child.first().find('span').css({
+                        'background-color': '#' + color[1]
+                    });
+                }
                 el.find('.palette-color-dynamiccolors').removeClass(this.emptyColorsClass);
                 this.select(color[1], true);
             }
         },
 
         saveCustomColor: function(color) {
-            var key_name = 'asc.'+Common.localStorage.getId()+'.colors.custom';
+            var key_name = 'asc.'+Common.localStorage.getId()+'.colors.custom' + this.options.storageSuffix;
             var colors = Common.localStorage.getItem(key_name);
             colors = colors ? colors.split(',') : [];
-            if (colors.push(color) > this.options.dynamiccolors) colors.shift();
-            Common.localStorage.setItem(key_name, colors.join().toUpperCase());
+            var index = _.indexOf(colors, color.toUpperCase());
+            if (index < 0) {
+                if (colors.push(color) > this.options.dynamiccolors) colors.shift();
+                Common.localStorage.setItem(key_name, colors.join().toUpperCase());
+            }
+            return index < 0;
         },
 
         addNewColor: function(defcolor) {
@@ -343,6 +349,7 @@ define([
                     me.setCustomColor(win.getColor());
                     me.fireEvent('select', me, win.getColor());
                 }
+                me.fireEvent('close:extended', me, mr==1);
             });
             me._isdlgopen = true;
             win.setColor((me.value!==undefined && me.value!==false) ? me.value : ((defcolor!==undefined) ? defcolor : '000000'));

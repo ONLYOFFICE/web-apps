@@ -288,9 +288,9 @@ class SearchView extends Component {
                             <a id="replace-all-link" className={"link " + (searchQuery.trim().length ? "" : "disabled")} style={!usereplace ? hidden: null} onClick={() => this.onReplaceAllClick()}>{_t.textReplaceAll}</a> */}
 
                             {isReplaceAll ? (
-                                <a id="replace-all-link" className={"link " + (replaceQuery.trim().length || searchQuery.trim().length ? "" : "disabled")} onClick={() => this.onReplaceAllClick()}>{_t.textReplaceAll}</a>
+                                <a id="replace-all-link" className={"link " + (searchQuery.trim().length ? "" : "disabled")} onClick={() => this.onReplaceAllClick()}>{_t.textReplaceAll}</a>
                             ) : usereplace ? (
-                                <a id="replace-link" className={"link " + (replaceQuery.trim().length || searchQuery.trim().length ? "" : "disabled")} onClick={() => this.onReplaceClick()}>{_t.textReplace}</a>
+                                <a id="replace-link" className={"link " + (searchQuery.trim().length ? "" : "disabled")} onClick={() => this.onReplaceClick()}>{_t.textReplace}</a>
                             ) : null}
                         </div>
                         <div className="buttons-row">

@@ -9,7 +9,7 @@ const PageLinkSettings = props => {
     const [stateValue, setValue] = useState('');
     return (
         <Page>
-            <Navbar title={_t.textLinkSettings} backLink={_t.textBack}></Navbar>
+            <Navbar title={t('View.Add.textPasteImageUrl')} backLink={_t.textBack}></Navbar>
             <BlockTitle>{_t.textAddress}</BlockTitle>
             <List className='add-image'>
                 <ListInput

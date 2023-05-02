@@ -59,6 +59,8 @@ define([
 
         initialize: function() {
             var me = this;
+            me._preventCustomClick = null;
+            me._hasCustomItems = false;
 
             this.setApi = function(api) {
                 me.api = api;
@@ -129,7 +131,7 @@ define([
                 me.clearCustomItems(menu);
             });
 
-            me.fireEvent('createdelayedelements', [me]);
+            me.fireEvent('createdelayedelements', [me, 'view']);
         },
 
         createDelayedElements: function() {
@@ -1208,34 +1210,43 @@ define([
             });
 
             me._markersArr = [
-                {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00B7), specialFont: 'Symbol'},
-                {type: Asc.asc_PreviewBulletType.char, char: 'o',                                specialFont: 'Courier New'},
-                {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00A7), specialFont: 'Wingdings'},
-                {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x0076), specialFont: 'Wingdings'},
-                {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00D8), specialFont: 'Wingdings'},
-                {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00FC), specialFont: 'Wingdings'},
-                {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00A8), specialFont: 'Symbol'},
-                {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x2013), specialFont: 'Arial'}
+                '{"bulletTypeface":{"type":"bufont","typeface":"Symbol"},"bulletType":{"type":"char","char":"·","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Courier New"},"bulletType":{"type":"char","char":"o","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"§","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"v","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"Ø","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"ü","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Symbol"},"bulletType":{"type":"char","char":"¨","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"char","char":"–","startAt":null}}'
+            ];
+            me._numbersArr = [
+                '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"alphaUcPeriod","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"alphaLcParenR","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"alphaLcPeriod","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"arabicPeriod","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"arabicParenR","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"romanUcPeriod","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"romanLcPeriod","startAt":null}}'
             ];
             me.paraBulletsPicker = {
                 conf: {rec: null},
                 delayRenderTips: true,
                 store       : new Common.UI.DataViewStore([
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 1, drawdata: me._markersArr[0], skipRenderOnChange: true, tip: this.tipMarkersFRound},
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 2, drawdata: me._markersArr[1], skipRenderOnChange: true, tip: this.tipMarkersHRound},
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 3, drawdata: me._markersArr[2], skipRenderOnChange: true, tip: this.tipMarkersFSquare},
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 4, drawdata: me._markersArr[3], skipRenderOnChange: true, tip: this.tipMarkersStar},
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 5, drawdata: me._markersArr[4], skipRenderOnChange: true, tip: this.tipMarkersArrow},
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 6, drawdata: me._markersArr[5], skipRenderOnChange: true, tip: this.tipMarkersCheckmark},
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 7, drawdata: me._markersArr[6], skipRenderOnChange: true, tip: this.tipMarkersFRhombus},
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 8, drawdata: me._markersArr[7], skipRenderOnChange: true, tip: this.tipMarkersDash},
-                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 4, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.UpperLetterDot_Left}, skipRenderOnChange: true, tip: this.tipNumCapitalLetters},
-                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 5, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerLetterBracket_Left}, skipRenderOnChange: true, tip: this.tipNumLettersParentheses},
-                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 6, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerLetterDot_Left}, skipRenderOnChange: true, tip: this.tipNumLettersPoints},
-                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 1, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.DecimalDot_Right}, skipRenderOnChange: true, tip: this.tipNumNumbersPoint},
-                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 2, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.DecimalBracket_Right}, skipRenderOnChange: true, tip: this.tipNumNumbersParentheses},
-                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 3, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.UpperRomanDot_Right}, skipRenderOnChange: true, tip: this.tipNumRoman},
-                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 7, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerRomanDot_Right}, skipRenderOnChange: true, tip: this.tipNumRomanSmall}
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 1, numberingInfo: me._markersArr[0], skipRenderOnChange: true, tip: this.tipMarkersFRound},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 2, numberingInfo: me._markersArr[1], skipRenderOnChange: true, tip: this.tipMarkersHRound},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 3, numberingInfo: me._markersArr[2], skipRenderOnChange: true, tip: this.tipMarkersFSquare},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 4, numberingInfo: me._markersArr[3], skipRenderOnChange: true, tip: this.tipMarkersStar},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 5, numberingInfo: me._markersArr[4], skipRenderOnChange: true, tip: this.tipMarkersArrow},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 6, numberingInfo: me._markersArr[5], skipRenderOnChange: true, tip: this.tipMarkersCheckmark},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 7, numberingInfo: me._markersArr[6], skipRenderOnChange: true, tip: this.tipMarkersFRhombus},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 8, numberingInfo: me._markersArr[7], skipRenderOnChange: true, tip: this.tipMarkersDash},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 4, numberingInfo: me._numbersArr[0], skipRenderOnChange: true, tip: this.tipNumCapitalLetters},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 5, numberingInfo: me._numbersArr[1], skipRenderOnChange: true, tip: this.tipNumLettersParentheses},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 6, numberingInfo: me._numbersArr[2], skipRenderOnChange: true, tip: this.tipNumLettersPoints},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 1, numberingInfo: me._numbersArr[3], skipRenderOnChange: true, tip: this.tipNumNumbersPoint},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 2, numberingInfo: me._numbersArr[4], skipRenderOnChange: true, tip: this.tipNumNumbersParentheses},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 3, numberingInfo: me._numbersArr[5], skipRenderOnChange: true, tip: this.tipNumRoman},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 7, numberingInfo: me._numbersArr[6], skipRenderOnChange: true, tip: this.tipNumRomanSmall}
                 ]),
                 groups: new Common.UI.DataViewGroupStore([
                     {id: 'menu-list-bullet-group', caption: this.textBullets},
@@ -1391,7 +1402,7 @@ define([
                 ]
             });
 
-            me.fireEvent('createdelayedelements', [me]);
+            me.fireEvent('createdelayedelements', [me, 'edit']);
         },
 
         setMenuItemCommentCaptionMode: function (item, add, editable) {
@@ -1403,27 +1414,6 @@ define([
                 cls: 'ppm-toolbar shifted-right',
                 menuAlign: menuAlign,
                 items   : [
-                    new Common.UI.MenuItem({
-                        caption     : this.unicodeText,
-                        iconCls     : 'menu__icon unicode',
-                        checkable   : true,
-                        checkmark   : false,
-                        checked     : false,
-                        toggleGroup : toggleGroup,
-                        type        : 'input',
-                        value       : Asc.c_oAscMathInputType.Unicode
-                    }),
-                    new Common.UI.MenuItem({
-                        caption     : this.latexText,
-                        iconCls     : 'menu__icon latex',
-                        checkable   : true,
-                        checkmark   : false,
-                        checked     : false,
-                        toggleGroup : toggleGroup,
-                        type        : 'input',
-                        value       : Asc.c_oAscMathInputType.LaTeX
-                    }),
-                    { caption     : '--' },
                     new Common.UI.MenuItem({
                         caption     : this.currProfText,
                         iconCls     : 'menu__icon professional-equation',
@@ -1447,6 +1437,29 @@ define([
                         iconCls     : 'menu__icon linear-equation',
                         type        : 'view',
                         value       : {all: true, linear: true}
+                    }),
+                    { caption     : '--' },
+                    new Common.UI.MenuItem({
+                        caption     : this.unicodeText,
+                        checkable   : true,
+                        checked     : false,
+                        toggleGroup : toggleGroup,
+                        type        : 'input',
+                        value       : Asc.c_oAscMathInputType.Unicode
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.latexText,
+                        checkable   : true,
+                        checked     : false,
+                        toggleGroup : toggleGroup,
+                        type        : 'input',
+                        value       : Asc.c_oAscMathInputType.LaTeX
+                    }),
+                    { caption     : '--' },
+                    new Common.UI.MenuItem({
+                        caption     : this.hideEqToolbar,
+                        isToolbarHide: false,
+                        type        : 'hide',
                     })
                 ]
             });
@@ -1457,6 +1470,12 @@ define([
 
             var me = this,
                 lang = me.mode && me.mode.lang ? me.mode.lang.split(/[\-_]/)[0] : 'en';
+
+            me._preventCustomClick && clearTimeout(me._preventCustomClick);
+            me._hasCustomItems && (me._preventCustomClick = setTimeout(function () {
+                me._preventCustomClick = null;
+            },500)); // set delay only on update existing items
+            me._hasCustomItems = true;
 
             var findCustomItem = function(guid, id) {
                 if (menu && menu.items.length>0) {
@@ -1478,7 +1497,10 @@ define([
                         items: []
                     });
                     toMenu.on('item:click', function(menu, item, e) {
-                        me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
+                        !me._preventCustomClick && me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
+                    });
+                    toMenu.on('menu:click', function(menu, e) {
+                        me._preventCustomClick && e.stopPropagation();
                     });
                 }
                 items.forEach(function(item) {
@@ -1538,7 +1560,7 @@ define([
                                 menu: item.items && item.items.length>=0 ? getMenu(item.items, plugin.guid) : false,
                                 disabled: !!item.disabled
                             }).on('click', function(item, e) {
-                                me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
+                                !me._preventCustomClick && me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
                             });
                             menu.addItem(mnu);
                         }
@@ -1562,6 +1584,7 @@ define([
                     }
                 }
             }
+            this._hasCustomItems = false;
         },
 
         txtSort:                'Sort',
@@ -1732,6 +1755,8 @@ define([
         currLinearText: 'Current - Linear',
         allProfText: 'All - Professional',
         allLinearText: 'All - Linear',
+        hideEqToolbar: 'Hide Equation Toolbar',
+        showEqToolbar: 'Show Equation Toolbar',
         txtPivotSettings: 'Pivot Table settings',
         txtFieldSettings: 'Field settings',
         txtValueFieldSettings: 'Value field settings',

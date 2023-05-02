@@ -33,6 +33,9 @@ export class storeCellSettings {
             changeBorderSize: action, 
             changeBorderStyle: action,
             setAutoColor: action,
+            customFormats: observable,
+            initCustomFormats: action,
+            addCustomFormat: action
         });
     }
 
@@ -67,6 +70,16 @@ export class storeCellSettings {
     orientationStr = 'horizontal';
 
     colorAuto = 'auto';
+
+    customFormats;
+
+    initCustomFormats(formatsArr) {
+        this.customFormats = formatsArr;
+    }
+
+    addCustomFormat(format) {
+        this.customFormats.push(format);
+    }
 
     setAutoColor(value) {
         this.colorAuto = value;

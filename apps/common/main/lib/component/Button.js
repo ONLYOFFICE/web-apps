@@ -186,8 +186,7 @@ define([
                 '<img src="<%= iconImg %>">' +
             '<% } else { %>' +
                 '<% if (/svgicon/.test(iconCls)) {' +
-                    'print(\'<svg class=\"icon\"><use class=\"zoom-int\" xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'\"></use>' +
-                                                    '<use class=\"zoom-grit\" xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'-150\"></use></svg>\');' +
+                    'print(\'<svg class=\"icon uni-scale\"><use class=\"zoom-int\" xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'\"></use></svg>\');' +
             '} else ' +
                     'print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); %>' +
             '<% } %>';
@@ -276,7 +275,7 @@ define([
             dataHint        : '',
             dataHintDirection: '',
             dataHintOffset: '0, 0',
-            scaling         : false,
+            scaling         : true,
         },
 
         template: _.template([
@@ -285,8 +284,7 @@ define([
                 // '<% if (iconCls != "") { print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); }} %>',
                 '<% if (iconCls != "") { ' +
                     ' if (/svgicon/.test(iconCls)) {' +
-                        'print(\'<svg class=\"icon\"><use class=\"zoom-int\" xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'\"></use>' +
-                            '<use class=\"zoom-grit\" xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'-150\"></use></svg>\');' +
+                        'print(\'<svg class=\"icon uni-scale\"><use class=\"zoom-int\" xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'\"></use></svg>\');' +
                     '} else ' +
                         'print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); ' +
                 '}} %>',
@@ -346,9 +344,6 @@ define([
                 me.render();
             } else if (me.options.parentEl)
                 me.render(me.options.parentEl);
-
-            // TODO: for review scaling feature only. remove after
-            me.options.scaling = true;
         },
 
         getCaptionWithBreaks: function (caption) {
@@ -749,7 +744,6 @@ define([
             if (/svgicon/.test(this.iconCls)) {
                 var icon = /svgicon\s(\S+)/.exec(this.iconCls);
                 btnIconEl.find('use.zoom-int').attr('xlink:href', icon && icon.length>1 ? '#' + icon[1]: '');
-                btnIconEl.find('use.zoom-grit').attr('xlink:href', icon && icon.length>1 ? '#' + icon[1] + '-150' : '');
             } else {
                 btnIconEl.removeClass(oldCls);
                 btnIconEl.addClass(cls || '');
@@ -876,15 +870,16 @@ define([
 
                 if (ratio > 2) {
                     if (!me.$el.find('svg.icon').length) {
-                        const re_icon_name = /btn-[^\s]+/.exec(me.iconCls);
+                        const iconCls = me.iconCls || me.$el.find('i.icon').attr('class');
+                        const re_icon_name = /btn-[^\s]+/.exec(iconCls);
                         const icon_name = re_icon_name ? re_icon_name[0] : "null";
-                        const svg_icon = `<svg class="icon"><use class="zoom-int" href="#${icon_name}"></use></svg>`;
+                        const svg_icon = '<svg class="icon"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name);
 
                         me.$el.find('i.icon').after(svg_icon);
                     }
                 } else {
                     if (!me.$el.find('i.icon')) {
-                        const png_icon = `<i class="icon ${me.iconCls}">&nbsp;</i>`;
+                        const png_icon = '<i class="icon %cls">&nbsp;</i>'.replace('%cls', me.iconCls);
                         me.$el.find('svg.icon').after(png_icon);
                     }
                 }

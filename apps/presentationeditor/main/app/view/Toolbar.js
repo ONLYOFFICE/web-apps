@@ -291,7 +291,7 @@ define([
                     me.btnSelectAll = new Common.UI.Button({
                         id: 'id-toolbar-btn-select-all',
                         cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon select-all',
+                        iconCls: 'toolbar__icon btn-select-all',
                         lock: [_set.noSlides, _set.disableOnStart],
                         dataHint: '1',
                         dataHintDirection: 'bottom'
@@ -459,6 +459,7 @@ define([
                         lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
                         split: true,
                         menu: true,
+                        eyeDropper: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '0, -16'
@@ -769,7 +770,7 @@ define([
                     this.btnInsertSmartArt = new Common.UI.Button({
                         id: 'tlbtn-insertsmartart',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon smart-art',
+                        iconCls: 'toolbar__icon btn-smart-art',
                         lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                         caption: me.capBtnInsSmartArt,
                         menu: true,
@@ -1622,16 +1623,17 @@ define([
                 // set dataviews
 
                 this._markersArr = [
-                    {type: Asc.asc_PreviewBulletType.text, text: 'None'},
-                    {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00B7), specialFont: 'Symbol'},
-                    {type: Asc.asc_PreviewBulletType.char, char: 'o',                                specialFont: 'Courier New'},
-                    {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00A7), specialFont: 'Wingdings'},
-                    {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x0076), specialFont: 'Wingdings'},
-                    {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00D8), specialFont: 'Wingdings'},
-                    {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00FC), specialFont: 'Wingdings'},
-                    {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00A8), specialFont: 'Symbol'},
-                    {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x2013), specialFont: 'Arial'}
+                    'undefined',
+                    '{"bulletTypeface":{"type":"bufont","typeface":"Symbol"},"bulletType":{"type":"char","char":"·","startAt":null}}',
+                    '{"bulletTypeface":{"type":"bufont","typeface":"Courier New"},"bulletType":{"type":"char","char":"o","startAt":null}}',
+                    '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"§","startAt":null}}',
+                    '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"v","startAt":null}}',
+                    '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"Ø","startAt":null}}',
+                    '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"ü","startAt":null}}',
+                    '{"bulletTypeface":{"type":"bufont","typeface":"Symbol"},"bulletType":{"type":"char","char":"¨","startAt":null}}',
+                    '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"char","char":"–","startAt":null}}'
                 ];
+
                 var _conf = this.mnuMarkersPicker.conf;
                 this.mnuMarkersPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-markers'),
@@ -1641,20 +1643,31 @@ define([
                     allowScrollbar: false,
                     delayRenderTips: true,
                     store: new Common.UI.DataViewStore([
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: -1},drawdata: this._markersArr[0], skipRenderOnChange: true, tip: this.tipNone},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 1}, drawdata: this._markersArr[1], skipRenderOnChange: true, tip: this.tipMarkersFRound},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 2}, drawdata: this._markersArr[2], skipRenderOnChange: true, tip: this.tipMarkersHRound},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 3}, drawdata: this._markersArr[3], skipRenderOnChange: true, tip: this.tipMarkersFSquare},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 4}, drawdata: this._markersArr[4], skipRenderOnChange: true, tip: this.tipMarkersStar},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 5}, drawdata: this._markersArr[5], skipRenderOnChange: true, tip: this.tipMarkersArrow},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 6}, drawdata: this._markersArr[6], skipRenderOnChange: true, tip: this.tipMarkersCheckmark},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 7}, drawdata: this._markersArr[7], skipRenderOnChange: true, tip: this.tipMarkersFRhombus},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 8}, drawdata: this._markersArr[8], skipRenderOnChange: true, tip: this.tipMarkersDash}
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: -1},numberingInfo: this._markersArr[0], skipRenderOnChange: true, tip: this.tipNone},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 1}, numberingInfo: this._markersArr[1], skipRenderOnChange: true, tip: this.tipMarkersFRound},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 2}, numberingInfo: this._markersArr[2], skipRenderOnChange: true, tip: this.tipMarkersHRound},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 3}, numberingInfo: this._markersArr[3], skipRenderOnChange: true, tip: this.tipMarkersFSquare},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 4}, numberingInfo: this._markersArr[4], skipRenderOnChange: true, tip: this.tipMarkersStar},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 5}, numberingInfo: this._markersArr[5], skipRenderOnChange: true, tip: this.tipMarkersArrow},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 6}, numberingInfo: this._markersArr[6], skipRenderOnChange: true, tip: this.tipMarkersCheckmark},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 7}, numberingInfo: this._markersArr[7], skipRenderOnChange: true, tip: this.tipMarkersFRhombus},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 8}, numberingInfo: this._markersArr[8], skipRenderOnChange: true, tip: this.tipMarkersDash}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist"></div>')
                 });
                 this.btnMarkers.menu.setInnerMenu([{menu: this.mnuMarkersPicker, index: 0}]);
                 _conf && this.mnuMarkersPicker.selectByIndex(_conf.index, true);
+
+                this._numbersArr = [
+                    'undefined',
+                    '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"alphaUcPeriod","startAt":null}}',
+                    '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"alphaLcParenR","startAt":null}}',
+                    '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"alphaLcPeriod","startAt":null}}',
+                    '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"arabicPeriod","startAt":null}}',
+                    '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"arabicParenR","startAt":null}}',
+                    '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"romanUcPeriod","startAt":null}}',
+                    '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"romanLcPeriod","startAt":null}}'
+                ];
 
                 _conf = this.mnuNumbersPicker.conf;
                 this.mnuNumbersPicker = new Common.UI.DataView({
@@ -1665,14 +1678,14 @@ define([
                     allowScrollbar: false,
                     delayRenderTips: true,
                     store: new Common.UI.DataViewStore([
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: -1},drawdata: {type: Asc.asc_PreviewBulletType.text, text: 'None'}, skipRenderOnChange: true, tip: this.tipNone},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 4}, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.UpperLetterDot_Left}, skipRenderOnChange: true, tip: this.tipNumCapitalLetters},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 5}, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerLetterBracket_Left}, skipRenderOnChange: true, tip: this.tipNumLettersParentheses},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 6}, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerLetterDot_Left}, skipRenderOnChange: true, tip: this.tipNumLettersPoints},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 1}, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.DecimalDot_Right}, skipRenderOnChange: true, tip: this.tipNumNumbersPoint},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 2}, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.DecimalBracket_Right}, skipRenderOnChange: true, tip: this.tipNumNumbersParentheses},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 3}, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.UpperRomanDot_Right}, skipRenderOnChange: true, tip: this.tipNumRoman},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 7}, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerRomanDot_Right}, skipRenderOnChange: true, tip: this.tipNumRomanSmall}
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: -1}, numberingInfo: this._numbersArr[0], skipRenderOnChange: true, tip: this.tipNone},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 4}, numberingInfo: this._numbersArr[1], skipRenderOnChange: true, tip: this.tipNumCapitalLetters},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 5}, numberingInfo: this._numbersArr[2], skipRenderOnChange: true, tip: this.tipNumLettersParentheses},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 6}, numberingInfo: this._numbersArr[3], skipRenderOnChange: true, tip: this.tipNumLettersPoints},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 1}, numberingInfo: this._numbersArr[4], skipRenderOnChange: true, tip: this.tipNumNumbersPoint},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 2}, numberingInfo: this._numbersArr[5], skipRenderOnChange: true, tip: this.tipNumNumbersParentheses},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 3}, numberingInfo: this._numbersArr[6], skipRenderOnChange: true, tip: this.tipNumRoman},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 7}, numberingInfo: this._numbersArr[7], skipRenderOnChange: true, tip: this.tipNumRomanSmall}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist"></div>')
                 });
@@ -2208,7 +2221,8 @@ define([
             textTabView: 'View',
             mniInsertSSE: 'Insert Spreadsheet',
             tipSelectAll: 'Select all',
-            tipCut: 'Cut'
+            tipCut: 'Cut',
+            textTabDraw: 'Draw'
         }
     }()), PE.Views.Toolbar || {}));
 });

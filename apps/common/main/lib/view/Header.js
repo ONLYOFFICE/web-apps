@@ -108,12 +108,13 @@ define([
                                     '<div class="btn-slot" id="slot-btn-search"></div>' +
                                 '</div>' +
                                 '<div class="hedset">' +
-                                    // '<div class="btn-slot slot-btn-user-name"></div>' +
-                                    '<button type="button" class="btn btn-header slot-btn-user-name hidden">' +
-                                        '<div class="color-user-name"></div>' +
-                                    '</button>' +
-                                    '<div class="btn-current-user hidden">' +
-                                        '<div class="color-user-name"></div>' +
+                                    '<div class="btn-slot">' +
+                                        '<button type="button" class="btn btn-header slot-btn-user-name hidden">' +
+                                            '<div class="color-user-name"></div>' +
+                                        '</button>' +
+                                        '<div class="btn-current-user hidden">' +
+                                            '<div class="color-user-name"></div>' +
+                                        '</div>' +
                                     '</div>' +
                                 '</div>' +
                             '</section>' +
@@ -138,12 +139,13 @@ define([
                                     '<input id="title-doc-name" autofill="off" autocomplete="off"/></input>' +
                                 '</div>' +
                                 '<div class="hedset">' +
-                                    // '<div class="btn-slot slot-btn-user-name"></div>' +
-                                    '<button type="button" class="btn btn-header slot-btn-user-name hidden">' +
-                                        '<div class="color-user-name"></div>' +
-                                    '</button>' +
-                                    '<div class="btn-current-user hidden">' +
-                                        '<div class="color-user-name"></div>' +
+                                    '<div class="btn-slot">' +
+                                        '<button type="button" class="btn btn-header slot-btn-user-name hidden">' +
+                                            '<div class="color-user-name"></div>' +
+                                        '</button>' +
+                                        '<div class="btn-current-user hidden">' +
+                                            '<div class="color-user-name"></div>' +
+                                        '</div>' +
                                     '</div>' +
                                 '</div>' +
                             '</section>';

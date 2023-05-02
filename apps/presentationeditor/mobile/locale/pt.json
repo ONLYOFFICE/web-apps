@@ -263,7 +263,8 @@
       "textSlideNumber": "Número do slide",
       "textTable": "Tabela",
       "textTableSize": "Tamanho da tabela",
-      "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\""
+      "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Atenção",

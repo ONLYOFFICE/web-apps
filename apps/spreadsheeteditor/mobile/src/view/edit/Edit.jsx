@@ -10,11 +10,11 @@ import EditShapeController from "../../controller/edit/EditShape";
 import EditImageController from "../../controller/edit/EditImage";
 import EditTextController from "../../controller/edit/EditText";
 import EditChartController from "../../controller/edit/EditChart";
-import { EditLinkController } from "../../controller/edit/EditLink";
+// import { EditLinkController } from "../../controller/edit/EditLink";
 
 import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorderContainer, PageShapeBorderColor, PageShapeCustomBorderColor, PageShapeCustomFillColor } from './EditShape';
 import { PageImageReplace, PageImageReorder, PageLinkSettings } from './EditImage';
-import { TextColorCell, FillColorCell, CustomTextColorCell, CustomFillColorCell, FontsCell, TextFormatCell, TextOrientationCell, BorderStyleCell, BorderColorCell, CustomBorderColorCell, BorderSizeCell, PageFormatCell, PageAccountingFormatCell, PageCurrencyFormatCell, PageDateFormatCell, PageTimeFormatCell, CellStyle } from './EditCell';
+import { TextColorCell, FillColorCell, CustomTextColorCell, CustomFillColorCell, FontsCell, TextFormatCell, TextOrientationCell, BorderStyleCell, BorderColorCell, CustomBorderColorCell, BorderSizeCell, PageFormatCell, PageAccountingFormatCell, PageCurrencyFormatCell, PageDateFormatCell, PageTimeFormatCell, CellStyle, PageCreationCustomFormat, CustomFormats } from './EditCell';
 import { PageTextFonts, PageTextFontColor, PageTextCustomFontColor } from './EditText';
 import { PageChartDesign,  PageChartDesignType, PageChartDesignStyle, PageChartDesignFill, PageChartDesignBorder, PageChartCustomFillColor, PageChartBorderColor, PageChartCustomBorderColor, PageChartReorder, PageChartLayout, PageLegend, PageChartTitle, PageHorizontalAxisTitle, PageVerticalAxisTitle, PageHorizontalGridlines, PageVerticalGridlines, PageDataLabels, PageChartVerticalAxis, PageVertAxisCrosses, PageDisplayUnits, PageVertMajorType, PageVertMinorType, PageVertLabelPosition, PageChartHorizontalAxis, PageHorAxisCrosses, PageHorAxisPosition, PageHorMajorType, PageHorMinorType, PageHorLabelPosition } from './EditChart';
 import { PageEditTypeLink, PageEditSheet } from './EditLink';
@@ -279,7 +279,6 @@ const routes = [
     },
 
     // Link 
-
     {
         path: '/edit-link-type/',
         component: PageEditTypeLink
@@ -287,9 +286,17 @@ const routes = [
     {
         path: '/edit-link-sheet',
         component: PageEditSheet
+    },
+
+    // Add custom format
+    {
+        path: '/custom-format/',
+        component: CustomFormats
+    },
+    {
+        path: '/create-custom-format/',
+        component: PageCreationCustomFormat
     }
-
-
 ];
 
 const EmptyEditLayout = () => {

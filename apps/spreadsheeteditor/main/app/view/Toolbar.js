@@ -50,6 +50,7 @@ define([
     'common/main/lib/component/ThemeColorPalette',
     'common/main/lib/component/Menu',
     'common/main/lib/component/DimensionPicker',
+    'common/main/lib/component/UpDownPicker',
     'common/main/lib/component/Window',
     'common/main/lib/component/ComboBoxFonts',
     'common/main/lib/component/ComboDataView'
@@ -493,6 +494,7 @@ define([
                         lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormat, _set.editVisibleArea],
                         menu: true,
                         auto: true,
+                        eyeDropper: true,
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
                     });
@@ -506,6 +508,7 @@ define([
                         lock        : [_set.selImage, _set.editCell, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormatFill, _set.editVisibleArea],
                         transparent: true,
                         menu: true,
+                        eyeDropper: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom'
                     });
@@ -770,7 +773,7 @@ define([
                 me.btnSelectAll = new Common.UI.Button({
                     id: 'id-toolbar-btn-select-all',
                     cls: 'btn-toolbar',
-                    iconCls: 'toolbar__icon select-all',
+                    iconCls: 'toolbar__icon btn-select-all',
                     lock: [_set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'bottom'
@@ -859,6 +862,25 @@ define([
                     dataHintDirection: 'top'
                 });
 
+                me.btnChangeCase = new Common.UI.Button({
+                    id: 'id-toolbar-btn-case',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-change-case',
+                    lock: [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormat, _set.userProtected],
+                    menu: new Common.UI.Menu({
+                        items: [
+                            {caption: me.mniSentenceCase, value: Asc.c_oAscChangeTextCaseType.SentenceCase},
+                            {caption: me.mniLowerCase, value: Asc.c_oAscChangeTextCaseType.LowerCase},
+                            {caption: me.mniUpperCase, value: Asc.c_oAscChangeTextCaseType.UpperCase},
+                            {caption: me.mniCapitalizeWords, value: Asc.c_oAscChangeTextCaseType.CapitalizeWords},
+                            {caption: me.mniToggleCase, value: Asc.c_oAscChangeTextCaseType.ToggleCase}
+                        ]
+                    }),
+                    dataHint: '1',
+                    dataHintDirection: 'top'
+                });
+                me.mnuChangeCase = me.btnChangeCase.menu;
+
                 me.btnBold = new Common.UI.Button({
                     id          : 'id-toolbar-btn-bold',
                     cls         : 'btn-toolbar',
@@ -945,6 +967,7 @@ define([
                     lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormat, _set.userProtected],
                     menu: true,
                     auto: true,
+                    eyeDropper: true,
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -16'
@@ -959,6 +982,7 @@ define([
                     lock        : [_set.selImage, _set.editCell, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormatFill, _set.userProtected],
                     transparent: true,
                     menu: true,
+                    eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -16'
@@ -1221,7 +1245,7 @@ define([
                 this.btnInsertSmartArt = new Common.UI.Button({
                     id: 'tlbtn-insertsmartart',
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon smart-art',
+                    iconCls: 'toolbar__icon btn-smart-art',
                     lock: [_set.editCell, _set.lostConnect, _set.coAuth, _set['Objects']],
                     caption: me.capBtnInsSmartArt,
                     menu: true,
@@ -1942,17 +1966,7 @@ define([
                 });
 
                 me.mnuCustomScale = new Common.UI.MenuItem({
-                    template: _.template([
-                        '<div class="checkable custom-scale font-size-normal"',
-                        '<% if(!_.isUndefined(options.stopPropagation)) { %>',
-                        'data-stopPropagation="true"',
-                        '<% } %>', '>',
-                        '<label class="title">' + me.textScale + '</label>',
-                        '<button id="custom-scale-up" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomup">&nbsp;</i></button>',
-                        '<label id="value-custom-scale"></label>',
-                        '<button id="custom-scale-down" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomdown">&nbsp;</i></button>',
-                        '</div>'
-                    ].join('')),
+                    template: _.template('<div id="id-toolbar-scale-updownpicker" class="custom-scale" data-stopPropagation="true"></div>'),
                     stopPropagation: true,
                     value: 4
                 });
@@ -2106,7 +2120,7 @@ define([
             me.lockControls = [];
             if (config.isEdit) {
                 me.lockControls = [
-                    me.cmbFontName, me.cmbFontSize, me.btnIncFontSize, me.btnDecFontSize, me.btnBold,
+                    me.cmbFontName, me.cmbFontSize, me.btnIncFontSize, me.btnDecFontSize, me.btnChangeCase, me.btnBold,
                     me.btnItalic, me.btnUnderline, me.btnStrikeout, me.btnSubscript, me.btnTextColor, me.btnAlignLeft,
                     me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust, me.btnAlignTop,
                     me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor, me.btnInsertTable,
@@ -2134,39 +2148,31 @@ define([
 
         onAfterShowMenuScale: function () {
             var me = this;
+            if (!me.mnuScalePicker) {
+                me.mnuScalePicker = new Common.UI.UpDownPicker({
+                    el: $('#id-toolbar-scale-updownpicker'),
+                    caption: me.textScale
+                });
+                me.mnuScalePicker.on('click', _.bind(function (direction) {
+                    me.fireEvent('change:scalespn', [direction, me.valueCustomScale], me);
+                }, me));
+            }
             if (me.api) {
-                var scale = me.api.asc_getPageOptions().asc_getPageSetup().asc_getScale();
-                $('#value-custom-scale', me.mnuCustomScale.$el).html(scale + '%');
-                me.valueCustomScale = scale;
+                me.valueCustomScale = me.api.asc_getPageOptions().asc_getPageSetup().asc_getScale();
+                me.mnuScalePicker.setValue(me.valueCustomScale + '%');
             }
             if (!me.itemCustomScale) {
                 me.itemCustomScale = $('.custom-scale', me.mnuCustomScale.$el).on('click', _.bind(function () {
-                    me.fireEvent('click:customscale', ['scale', undefined, undefined, undefined, me.valueCustomScale], this);
-                }, this));
-            }
-            if (!me.btnCustomScaleUp) {
-                me.btnCustomScaleUp = new Common.UI.Button({
-                    el: $('#custom-scale-up', me.mnuCustomScale.$el),
-                    cls: 'btn-toolbar'
-                }).on('click', _.bind(function () {
-                    me.fireEvent('change:scalespn', ['up', me.valueCustomScale], this);
-                }, this));
-            }
-            if (!me.btnCustomScaleDown) {
-                me.btnCustomScaleDown = new Common.UI.Button({
-                    el: $('#custom-scale-down', me.mnuCustomScale.$el),
-                    cls: 'btn-toolbar'
-                }).on('click', _.bind(function () {
-                    me.fireEvent('change:scalespn', ['down', me.valueCustomScale], this);
-                }, this));
+                    me.fireEvent('click:customscale', ['scale', undefined, undefined, undefined, me.valueCustomScale], me);
+                }, me));
             }
             SSE.getController('Toolbar').onChangeScaleSettings();
         },
 
         setValueCustomScale: function(val) {
             if (this.api && val !== null && val !== undefined) {
-                $('#value-custom-scale', this.mnuCustomScale.$el).html(val + '%');
                 this.valueCustomScale = val;
+                this.mnuScalePicker && this.mnuScalePicker.setValue(this.valueCustomScale + '%');
             }
         },
 
@@ -2342,6 +2348,7 @@ define([
             _injectComponent('#slot-btn-formatting',  this.btnTextFormatting);
             _injectComponent('#slot-btn-halign',  this.btnHorizontalAlign);
             _injectComponent('#slot-btn-valign',  this.btnVerticalAlign);
+            _injectComponent('#slot-btn-changecase', this.btnChangeCase);
 
             this.btnsEditHeader = Common.Utils.injectButtons($host.find('.slot-editheader'), 'tlbtn-editheader-', 'toolbar__icon btn-editheader', this.capBtnInsHeader,
                                 [Common.enumLock.editCell, Common.enumLock.selRangeEdit, Common.enumLock.headerLock, Common.enumLock.lostConnect, Common.enumLock.coAuth], undefined, undefined, undefined, '1', 'bottom', 'small');
@@ -2369,6 +2376,7 @@ define([
             _updateHint(this.btnRedo, this.tipRedo + Common.Utils.String.platformKey('Ctrl+Y'));
             _updateHint(this.btnIncFontSize, this.tipIncFont + Common.Utils.String.platformKey('Ctrl+]'));
             _updateHint(this.btnDecFontSize, this.tipDecFont + Common.Utils.String.platformKey('Ctrl+['));
+            _updateHint(this.btnChangeCase, this.tipChangeCase);
             _updateHint(this.btnBold, this.textBold + Common.Utils.String.platformKey('Ctrl+B'));
             _updateHint(this.btnItalic, this.textItalic + Common.Utils.String.platformKey('Ctrl+I'));
             _updateHint(this.btnUnderline, this.textUnderline + Common.Utils.String.platformKey('Ctrl+U'));
@@ -3489,6 +3497,13 @@ define([
         tipSelectAll: 'Select all',
         tipCut: 'Cut',
         tipInsertSmartArt: 'Insert SmartArt',
-        capBtnInsSmartArt: 'SmartArt'
+        capBtnInsSmartArt: 'SmartArt',
+        textTabDraw: 'Draw',
+        tipChangeCase: 'Change case',
+        mniSentenceCase: 'Sentence case.',
+        mniLowerCase: 'lowercase',
+        mniUpperCase: 'UPPERCASE',
+        mniCapitalizeWords: 'Capitalize Each Word',
+        mniToggleCase: 'tOGGLE cASE'
     }, SSE.Views.Toolbar || {}));
 });
