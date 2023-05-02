@@ -478,6 +478,7 @@
 	"FILTER": "FILTRER",
 	"ARRAYTOTEXT": "MATRISETILTEKST",
 	"SORT": "SORTER",
+	"SORTBY": "SORTER.ETTER",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

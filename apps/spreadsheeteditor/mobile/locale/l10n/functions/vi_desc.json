@@ -1914,5 +1914,9 @@
 	"SORT": {
 		"a": "(mảng, [chỉ_mục_sắp_xếp], [thứ_tự_sắp_xếp], [theo_cột])",
 		"d": "Sắp xếp dải ô hoặc mảng"
+	},
+	"SORTBY": {
+		"a": "(mảng, theo_mảng, [thứ_tự_sắp_xếp], ...)",
+		"d": "Sắp xếp một dải ô hoặc mảng dựa trên các giá trị trong dải ô hoặc mảng tương ứng"
 	}
 }

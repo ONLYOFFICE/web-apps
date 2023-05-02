@@ -468,6 +468,7 @@
 	"FILTER": "FILTRO",
 	"ARRAYTOTEXT": "MATRICE.A.TESTO",
 	"SORT": "DATI.ORDINA",
+	"SORTBY": "DATI.ORDINA.PER",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

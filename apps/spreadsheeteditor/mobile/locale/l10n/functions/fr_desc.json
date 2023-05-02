@@ -1914,5 +1914,9 @@
 	"SORT": {
 		"a": "(tableau, [index_tri], [ordre_tri], [par_col])",
 		"d": "Trie une plage ou un tableau"
+	},
+	"SORTBY": {
+		"a": "(tableau, par_tableau, [ordre_tri], ...)",
+		"d": "Trie une plage ou un tableau sur la base des valeurs d’une plage ou d’un tableau correspondant"
 	}
 }
