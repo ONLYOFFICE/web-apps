@@ -1517,7 +1517,7 @@ define([
         },
 
         hideEyedropperTip: function () {
-            if (!this.tooltips.eyedropper.isHidden) {
+            if (!this.tooltips.eyedropper.isHidden && this.tooltips.eyedropper.color) {
                 this.tooltips.eyedropper.color.css({left: '-1000px', top: '-1000px'});
                 if (this.tooltips.eyedropper.ref) {
                     this.tooltips.eyedropper.ref.hide();

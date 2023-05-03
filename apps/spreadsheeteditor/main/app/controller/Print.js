@@ -141,12 +141,6 @@ define([
         updateSheetsInfo: function() {
             if (this.printSettings.isVisible()) {
                 this.updateSettings(this.printSettings);
-                this.printSettings.cmbSheet.store.each(function (item) {
-                    var sheetIndex = item.get('value');
-                    if (!this._changedProps[sheetIndex]) {
-                        this._changedProps[sheetIndex] = this.api.asc_getPageOptions(sheetIndex, true, true);
-                    }
-                }, this);
             } else {
                 this.isFillSheets = false;
             }
@@ -166,6 +160,9 @@ define([
                             displayValue: this.api.asc_getWorksheetName(i),
                             value: i
                         });
+                        if (!this._changedProps[i]) {
+                            this._changedProps[i] = this.api.asc_getPageOptions(i, true, true);
+                        }
                     }
                 }
             }
@@ -362,10 +359,6 @@ define([
             } else {
                 this.resetSheets(this.printSettings);
             }
-            this.printSettings.cmbSheet.store.each(function (item) {
-                var sheetIndex = item.get('value');
-                me._changedProps[sheetIndex] = me.api.asc_getPageOptions(sheetIndex, true, true);
-            }, this);
             this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
 
             this.fillPrintOptions(this.adjPrintParams, false);
