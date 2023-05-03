@@ -2415,25 +2415,32 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                                     '<tr><td class="padding-large"><div id="print-combo-pages" style="width: 248px;"></div></td></tr>',
                                     '<tr><td><label class="header"><%= scope.txtPageOrientation %></label></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-combo-orient" style="width: 134px;"></div></td></tr>',
+                                    '<tr><td><label class="header"><%= scope.txtMargins %></label></td></tr>',
+                                    '<tr><td class="padding-large"><div id="print-combo-margins" style="width: 248px;"></div></td></tr>',
                                     '<tr><td><label class="header"><%= scope.txtScaling %></label></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-combo-layout" style="width: 248px;"></div></td></tr>',
-                                    '<tr><td class="padding-small"><label class="header"><%= scope.txtPrintTitles %></label></td></tr>',
-                                    '<tr><td><label><%= scope.txtRepeatRowsAtTop %></label></td></tr>',
-                                    '<tr><td class="padding-small">',
-                                        '<table><tbody><tr>',
-                                            '<td><div id="print-txt-top" style="width: 163px;"></div></td>',
-                                            '<td><div id="print-presets-top" style="width: 77px;"></div></td>',
-                                        '</tr></tbody></table>',
-                                    '</td></tr>',
-                                    '<tr><td><label><%= scope.txtRepeatColumnsAtLeft %></label></td></tr>',
                                     '<tr><td class="padding-large">',
-                                        '<table><tbody><tr>',
-                                            '<td><div id="print-txt-left" style="width: 163px;"></div></td>',
-                                            '<td><div id="print-presets-left" style="width: 77px;"></div></td>',
-                                        '</tr></tbody></table>',
+                                        '<table class="print-titles-container"><tbody>',
+                                            '<tr class="print-titles-header"><td>',
+                                                '<span class="print-titles-caret img-commonctrl"></span>',
+                                                '<label class="header"><%= scope.txtPrintTitles %></label>',
+                                            '</td></tr>',
+                                            '<tr class="print-titles-options"><td><label><%= scope.txtRepeatRowsAtTop %></label></td></tr>',
+                                            '<tr class="print-titles-options"><td class="padding-small">',
+                                                '<table><tbody><tr>',
+                                                    '<td><div id="print-txt-top" style="width: 163px;"></div></td>',
+                                                    '<td><div id="print-presets-top" style="width: 77px;"></div></td>',
+                                                '</tr></tbody></table>',
+                                            '</td></tr>',
+                                            '<tr class="print-titles-options"><td><label><%= scope.txtRepeatColumnsAtLeft %></label></td></tr>',
+                                            '<tr class="print-titles-options"><td>',
+                                                '<table><tbody><tr>',
+                                                    '<td><div id="print-txt-left" style="width: 163px;"></div></td>',
+                                                    '<td><div id="print-presets-left" style="width: 77px;"></div></td>',
+                                                '</tr></tbody></table>',
+                                            '</td></tr>',
+                                        '</tbody></table>',
                                     '</td></tr>',
-                                    '<tr><td class="padding-small"><label class="header"><%= scope.txtMargins %></label></td></tr>',
-                                    '<tr><td class="padding-large"><div id="print-combo-margins" style="width: 248px;"></div></td></tr>',
                                     '<tr><td class="padding-small"><label class="header"><%= scope.txtGridlinesAndHeadings %></label></td></tr>',
                                     '<tr><td class="padding-small"><div id="print-chb-grid" style="width: 248px;"></div></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-chb-rows" style="width: 248px;"></div></td></tr>',
@@ -2490,6 +2497,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
             this.menu = options.menu;
 
             this._initSettings = true;
+            this.extendedPrintTitles = Common.localStorage.getBool('sse-print-titles-extended', true);
         },
 
         render: function(node) {
@@ -2703,6 +2711,14 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
+
+            this.$printTitlesHeader = $markup.find('.print-titles-header');
+            this.$printTitlesHeader.on('click', _.bind(this.expandPrintTitles, this));
+
+            this.$printTitlesBlock = $markup.find('.print-titles-container');
+            if (!this.extendedPrintTitles) {
+                this.$printTitlesBlock.addClass('no-expand');
+            }
 
             this.cmbPaperMargins = new Common.UI.ComboBox({
                 el: $markup.findById('#print-combo-margins'),
@@ -2999,6 +3015,12 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
 
         updateCurrentPage: function (index) {
             this.txtNumberPage.setValue(index + 1);
+        },
+
+        expandPrintTitles: function () {
+            this.extendedPrintTitles = !this.extendedPrintTitles;
+            this.$printTitlesBlock[this.extendedPrintTitles ? 'removeClass' : 'addClass']('no-expand');
+            Common.localStorage.setBool('sse-print-titles-extended', this.extendedPrintTitles);
         },
 
         txtPrint: 'Print',
