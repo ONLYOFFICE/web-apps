@@ -73,7 +73,7 @@ define([
                     '<div class="recent-wrap">',
                         '<div class="recent-icon">',
                             '<div>',
-                                '<div class= <% if (typeof format !== "undefined") {%> "svg-format-<%=format %>"<% } else {%> "svg-file-recent"<%} %>></div>',
+                                '<div class= <% if (typeof format !== "undefined") {%> "img-format-<%=format %>"<% } else {%> "svg-file-recent"<%} %>></div>',
                             '</div>',
                         '</div>',
                         '<div class="file-name"><% if (typeof title !== "undefined") {%><%= Common.Utils.String.htmlEncode(title || "") %><% } %></div>',

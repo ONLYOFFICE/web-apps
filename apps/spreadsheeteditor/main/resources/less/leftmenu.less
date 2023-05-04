@@ -46,8 +46,6 @@
     div{
         background-size: 80px 100px !important;
     }
-}
-.btn-doc-format, .recent-icon {
     .svg-format- {
         &xlsx {
             background: ~"url('@{common-image-const-path}/doc-formats/xlsx.svg') no-repeat center";
@@ -523,12 +521,59 @@
 
                 .recent-icon {
                     float: left;
-                    width: 30px;
+                    width: 24px;
                     height: 30px;
                     margin-top: 1px;
                     div {
                         width: 100%;
                         height: 100%;
+                        div{
+                            background: ~"url(@{common-image-const-path}/doc-formats/formats.png)";
+                            background-size: 744px 30px;
+                            &:not(.svg-file-recent) {
+                                .pixel-ratio__1_25 & {
+                                    background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.25x.png)";
+                                }
+
+                                .pixel-ratio__1_5 & {
+                                    background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.5x.png)";
+                                }
+
+                                .pixel-ratio__1_75 & {
+                                    background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.75x.png)";
+                                }
+
+                                .pixel-ratio__2 & {
+                                    background-image: ~"url(@{common-image-const-path}/doc-formats/formats@2x.png)";
+                                }
+                            }
+                        }
+                        .img-format- {
+                            &xlsx {
+                                background-position: 600px 0px;
+                            }
+                            &pdf, &pdfa {
+                                background-position: 408px 0px;
+                            }
+                            &ods {
+                                background-position: 552px 0px;
+                            }
+                            &csv {
+                                background-position: 528px 0px;
+                            }
+                            &xltx {
+                                background-position: 216px 0px;
+                            }
+                            &ots {
+                                background-position: 144px 0px;
+                            }
+                            &xls {
+                                background-position: 576px 0px;
+                            }
+                            &xps {
+                                background-position: 360px 0px;
+                            }
+                        }
                         .svg-file-recent {
                             background: ~"url(@{app-image-const-path}/recent-file.svg) no-repeat top";
                         }
