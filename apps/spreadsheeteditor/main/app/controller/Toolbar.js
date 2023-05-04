@@ -2159,6 +2159,7 @@ define([
                         return false;
                     };
             Common.util.Shortcuts.delegateShortcuts({shortcuts: shortcuts});
+            Common.Utils.injectSvgIcons();
 
             this.onChangeProtectSheet();
             this.attachToControlEvents();
