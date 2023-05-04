@@ -558,7 +558,7 @@ define([
                     me.btnTextFormatting = new Common.UI.Button({
                         id          : 'id-toolbar-btn-formatting',
                         cls         : 'btn-toolbar no-caret',
-                        iconCls     : 'toolbar__icon more-vertical',
+                        iconCls     : 'toolbar__icon btn-more-vertical',
                         lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormat, _set.editVisibleArea],
                         menu        : new Common.UI.Menu({
                             items: [

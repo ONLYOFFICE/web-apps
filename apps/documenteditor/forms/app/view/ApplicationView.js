@@ -45,7 +45,7 @@ define([
         render: function() {
             this.btnOptions = new Common.UI.Button({
                 cls: 'btn-toolbar no-caret',
-                iconCls: 'svg-icon more-vertical',
+                iconCls: 'svg-icon btn-more-vertical',
                 menu: new Common.UI.Menu({
                     cls: 'shifted-right',
                     items: [
