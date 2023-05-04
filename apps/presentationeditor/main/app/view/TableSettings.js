@@ -800,6 +800,7 @@ define([
             if (!this.btnTableTemplate) {
                 this.btnTableTemplate = new Common.UI.Button({
                     cls         : 'btn-large-dataview template-table',
+                    scaling     : false,
                     iconCls     : 'icon-template-table',
                     menu        : new Common.UI.Menu({
                         style: 'width: 588px;',
