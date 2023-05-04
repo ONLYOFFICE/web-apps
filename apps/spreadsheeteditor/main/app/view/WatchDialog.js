@@ -174,7 +174,7 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
                                 sheet: item.asc_getSheet(),
                                 name: item.asc_getName(),
                                 cell: item.asc_getCell(),
-                                value: item.asc_getValue(),
+                                value: Common.Utils.String.htmlEncode(item.asc_getValue()),
                                 formula: item.asc_getFormula(),
                                 props: item
                             });
@@ -192,7 +192,7 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
                             sheet: watch.asc_getSheet(),
                             name: watch.asc_getName(),
                             cell: watch.asc_getCell(),
-                            value: watch.asc_getValue(),
+                            value: Common.Utils.String.htmlEncode(watch.asc_getValue()),
                             formula: watch.asc_getFormula(),
                             props: watch
                         });
