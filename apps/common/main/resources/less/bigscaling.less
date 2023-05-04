@@ -4,7 +4,9 @@
         .btn-category
     {
         i.icon {
-            display: none;
+            &:not(.scaling-off) {
+                display: none;
+            }
         }
     }
 }
