@@ -2502,42 +2502,42 @@ define([
                     showLast: false,
                     store: new Common.UI.DataViewStore([
                         {
-                            iconname: 'page-number-top-left',
+                            iconname: 'btn-page-number-top-left',
                             data: {
                                 type: c_pageNumPosition.PAGE_NUM_POSITION_TOP,
                                 subtype: c_pageNumPosition.PAGE_NUM_POSITION_LEFT
                             }
                         },
                         {
-                            iconname: 'page-number-top-center',
+                            iconname: 'btn-page-number-top-center',
                             data: {
                                 type: c_pageNumPosition.PAGE_NUM_POSITION_TOP,
                                 subtype: c_pageNumPosition.PAGE_NUM_POSITION_CENTER
                             }
                         },
                         {
-                            iconname: 'page-number-top-right',
+                            iconname: 'btn-page-number-top-right',
                             data: {
                                 type: c_pageNumPosition.PAGE_NUM_POSITION_TOP,
                                 subtype: c_pageNumPosition.PAGE_NUM_POSITION_RIGHT
                             }
                         },
                         {
-                            iconname: 'page-number-bottom-left',
+                            iconname: 'btn-page-number-bottom-left',
                             data: {
                                 type: c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,
                                 subtype: c_pageNumPosition.PAGE_NUM_POSITION_LEFT
                             }
                         },
                         {
-                            iconname: 'page-number-bottom-center',
+                            iconname: 'btn-page-number-bottom-center',
                             data: {
                                 type: c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,
                                 subtype: c_pageNumPosition.PAGE_NUM_POSITION_CENTER
                             }
                         },
                         {
-                            iconname: 'page-number-bottom-right',
+                            iconname: 'btn-page-number-bottom-right',
                             data: {
                                 type: c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,
                                 subtype: c_pageNumPosition.PAGE_NUM_POSITION_RIGHT
