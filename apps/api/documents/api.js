@@ -428,7 +428,8 @@
                         'presentation': 'pptx',
                         'word': 'docx',
                         'cell': 'xlsx',
-                        'slide': 'pptx'
+                        'slide': 'pptx',
+                        'pdf': 'pdf'
                     }, app;
 
                 if (_config.documentType=='text' || _config.documentType=='spreadsheet' ||_config.documentType=='presentation')
@@ -446,7 +447,7 @@
 
                 if (typeof _config.document.fileType === 'string' && _config.document.fileType != '') {
                     _config.document.fileType = _config.document.fileType.toLowerCase();
-                    var type = /^(?:(xls|xlsx|ods|csv|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|sxc|et|ett)|(pps|ppsx|ppt|pptx|odp|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|sxi|dps|dpt)|(doc|docx|odt|gdoc|txt|rtf|pdf|mht|htm|html|mhtml|epub|djvu|xps|oxps|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf|sxw|stw|wps|wpt))$/
+                    var type = /^(?:(xls|xlsx|ods|csv|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|sxc|et|ett)|(pps|ppsx|ppt|pptx|odp|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|sxi|dps|dpt)|(pdf)|(doc|docx|odt|gdoc|txt|rtf|mht|htm|html|mhtml|epub|djvu|xps|oxps|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf|sxw|stw|wps|wpt))$/
                                     .exec(_config.document.fileType);
                     if (!type) {
                         window.alert("The \"document.fileType\" parameter for the config object is invalid. Please correct it.");
@@ -454,7 +455,8 @@
                     } else if (typeof _config.documentType !== 'string' || _config.documentType == ''){
                         if (typeof type[1] === 'string') _config.documentType = 'cell'; else
                         if (typeof type[2] === 'string') _config.documentType = 'slide'; else
-                        if (typeof type[3] === 'string') _config.documentType = 'word';
+                        if (typeof type[3] === 'string') _config.documentType = 'pdf'; else
+                        if (typeof type[4] === 'string') _config.documentType = 'word';
                     }
                 }
 
@@ -902,7 +904,8 @@
                 'presentation': 'presentationeditor',
                 'word': 'documenteditor',
                 'cell': 'spreadsheeteditor',
-                'slide': 'presentationeditor'
+                'slide': 'presentationeditor',
+                'pdf': 'pdfeditor'
             },
             app = appMap['word'];
 
@@ -910,11 +913,12 @@
             app = appMap[config.documentType.toLowerCase()];
         } else
         if (!!config.document && typeof config.document.fileType === 'string') {
-            var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp))$/
+            var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp)|(pdf))$/
                             .exec(config.document.fileType);
             if (type) {
                 if (typeof type[1] === 'string') app = appMap['cell']; else
-                if (typeof type[2] === 'string') app = appMap['slide'];
+                if (typeof type[2] === 'string') app = appMap['slide']; else
+                if (typeof type[3] === 'string') app = appMap['pdf'];
             }
         }
 
