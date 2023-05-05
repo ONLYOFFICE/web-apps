@@ -103,12 +103,13 @@ const SettingsList = inject("storeAppOptions", "storeReview", "storeDocumentInfo
     const canProtect = appOptions.canProtect;
     const storeReview = props.storeReview;
     const displayMode = storeReview.displayMode;
-    const navbar = <Navbar title={_t.textSettings}>
-                    {!props.inPopover  && <NavRight><Link popupClose=".settings-popup">{_t.textDone}</Link></NavRight>}
-                    </Navbar>;
     const docInfo = props.storeDocumentInfo;
+    const docTitle = docInfo.dataDoc.title;
     const docExt = docInfo.dataDoc ? docInfo.dataDoc.fileType : '';
     const isNotForm = docExt && docExt !== 'oform';
+    const navbar = <Navbar title={docTitle}>
+                    {!props.inPopover  && <NavRight><Link popupClose=".settings-popup">{_t.textDone}</Link></NavRight>}
+                    </Navbar>;
 
     const onoptionclick = page => {
         if ( props.onOptionClick )
