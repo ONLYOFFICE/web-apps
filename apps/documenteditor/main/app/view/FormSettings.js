@@ -575,9 +575,9 @@ define([
             var itemsTemplate =
                 [
                     '<% _.each(items, function(item) { %>',
-                        '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem" style="padding-left: 10px;overflow: hidden; text-overflow: ellipsis;">',
+                        '<li id="<%= item.id %>" data-value="<%= Common.Utils.String.htmlEncode(item.value) %>"><a tabindex="-1" type="menuitem" style="padding-left: 10px;overflow: hidden; text-overflow: ellipsis;">',
                             '<span class="color" style="background: <%= item.color %>;"></span>',
-                            '<%= item.displayValue %>',
+                            '<%= Common.Utils.String.htmlEncode(item.displayValue) %>',
                         '</a></li>',
                     '<% }); %>'
                 ];
@@ -608,7 +608,7 @@ define([
                 updateFormControl: function(record) {
                     var formcontrol = $(this.el).find('.form-control');
                     if (record) {
-                        formcontrol[0].innerHTML = '<span class="color" style="background:' + record.get('color') + ';"></span>' + record.get('displayValue');
+                        formcontrol[0].innerHTML = '<span class="color" style="background:' + record.get('color') + ';"></span>' + Common.Utils.String.htmlEncode(record.get('displayValue'));
                     } else
                         formcontrol[0].innerHTML = '';
                 }

@@ -872,6 +872,7 @@ define([
                 this.btnTableTemplate = new Common.UI.Button({
                     cls         : 'btn-large-dataview template-table',
                     iconCls     : 'icon-template-table',
+                    scaling     : false,
                     menu        : new Common.UI.Menu({
                         style: 'width: 588px;',
                         items: [

@@ -234,6 +234,7 @@ define([
                     parentEl: $('#'+item[3]),
                     cls: 'btn-options huge-1 bg-white',
                     iconCls: 'options__icon options__icon-huge ' + item[2],
+                    scaling: false,
                     posWhere:item[0],
                     posAlign:item[1],
                     hint: item[4],

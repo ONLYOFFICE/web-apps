@@ -522,6 +522,7 @@ define([
                 this.btnTableTemplate = new Common.UI.Button({
                     cls         : 'btn-large-dataview sheet-template-table',
                     iconCls     : 'icon-template-table',
+                    scaling     : false,
                     menu        : new Common.UI.Menu({
                         items: [
                             { template: _.template('<div id="id-table-menu-template" class="menu-table-template"  style="margin: 0 4px;"></div>') }
