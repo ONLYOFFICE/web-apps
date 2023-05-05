@@ -381,7 +381,7 @@ define([
             this.btnFrameInline = new Common.UI.Button({
                 parentEl: $('#frame-advanced-button-inline'),
                 cls         : 'btn huge-1 btn-options',
-                iconCls     : 'options__icon options__icon-huge table-align-center',
+                iconCls     : 'options__icon options__icon-huge btn-table-align-center',
                 enableToggle: true,
                 toggleGroup : 'frameAdvGroup',
                 allowDepress: false,
@@ -397,7 +397,7 @@ define([
             this.btnFrameFlow = new Common.UI.Button({
                 parentEl: $('#frame-advanced-button-flow'),
                 cls         : 'btn huge-1 btn-options',
-                iconCls     : 'options__icon options__icon-huge table-flow',
+                iconCls     : 'options__icon options__icon-huge btn-table-flow',
                 enableToggle: true,
                 toggleGroup : 'frameAdvGroup',
                 allowDepress: false,
