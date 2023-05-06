@@ -1599,6 +1599,7 @@ define([
                     cls: 'menu-shapes menu-change-shape',
                     items: []
                 }),
+                scaling: false,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'

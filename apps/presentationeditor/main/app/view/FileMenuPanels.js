@@ -74,7 +74,7 @@ define([
                 '<div class="format-items">',
                     '<% _.each(rows, function(row) { %>',
                         '<% _.each(row, function(item) { %>',
-                            '<% if (item.type!==Asc.c_oAscFileType.DOCM || fileType=="docm") { %>',
+                            '<% if (item.type!==Asc.c_oAscFileType.PPTM || fileType=="pptm") { %>',
                                 '<div class="format-item"><div class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
                                     '<div class ="svg-format-<%= item.imgCls %>"></div>',
                                 '</div></div>',
