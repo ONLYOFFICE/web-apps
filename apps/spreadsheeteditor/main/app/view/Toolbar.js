@@ -1131,7 +1131,7 @@ define([
                 me.btnTextOrient = new Common.UI.Button({
                     id          : 'id-toolbar-rtn-textorient',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'toolbar__icon text-orient-ccw',
+                    iconCls     : 'toolbar__icon btn-text-orient-ccw',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.wsLockFormat, _set.userProtected],
                     menu        : new Common.UI.Menu({
                         items: [
@@ -1145,7 +1145,7 @@ define([
                             },
                             {
                                 caption     : me.textCounterCw,
-                                iconCls     : 'menu__icon text-orient-ccw',
+                                iconCls     : 'menu__icon btn-text-orient-ccw',
                                 checkable   : true,
                                 checkmark   : false,
                                 toggleGroup : 'textorientgroup',
