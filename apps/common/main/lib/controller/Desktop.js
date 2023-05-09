@@ -297,6 +297,7 @@ define([
         const _onAppReady = function (opts) {
             _.extend(config, opts);
             !!native && native.execCommand('doc:onready', '');
+            !!native && native.LocalFileRecents();
 
             $('.toolbar').addClass('editor-native-color');
         }
@@ -588,20 +589,15 @@ define([
             },
             openRecent: function (model) {
                 if ( this.isActive() ) {
-                    let params;
+                    const params = {
+                        name: Common.Utils.String.htmlDecode(model.get('title')),
+                        path: Common.Utils.String.htmlDecode(model.get('url')),
+                    };
                     if ( model.get('fileid') ) {
-                        params = {
-                            id: model.fileid,
-                            name: Common.Utils.htmlDecode(model.title),
-                            path: Common.Utils.htmlDecode(model.url),
-                            type: model.type,
-                        };
+                        params.id = model.fileid;
+                        params.type = model.type;
                     } else {
-                        const params = {
-                            id: -1,
-                            name: Common.Utils.htmlDecode(model.title),
-                            path: Common.Utils.htmlDecode(model.url),
-                        };
+                        params.id = -1;
                     }
 
                     native.execCommand("open:recent", JSON.stringify(params));
