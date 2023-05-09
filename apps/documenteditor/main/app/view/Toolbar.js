@@ -981,7 +981,7 @@ define([
                                 },
                                 {
                                     caption: this.textColumnsTwo,
-                                    iconCls: 'menu__icon columns-two',
+                                    iconCls: 'menu__icon btn-columns-two',
                                     checkable: true,
                                     checkmark: false,
                                     toggleGroup: 'menuColumns',
@@ -1837,7 +1837,7 @@ define([
                     me.btnImgForward.setMenu(new Common.UI.Menu({
                         items: [{
                                 caption : _holder_view.textArrangeFront,
-                                iconCls : 'menu__icon arrange-front',
+                                iconCls : 'menu__icon btn-arrange-front',
                                 valign  : Asc.c_oAscChangeLevel.BringToFront
                             }, {
                                 caption : _holder_view.textArrangeForward,
@@ -1902,7 +1902,7 @@ define([
                         cls: 'shifted-right',
                         items: [{
                                 caption : _holder_view.textShapeAlignLeft,
-                                iconCls : 'menu__icon shape-align-left',
+                                iconCls : 'menu__icon btn-shape-align-left',
                                 value: Asc.c_oAscAlignShapeType.ALIGN_LEFT
                             }, {
                                 caption : _holder_view.textShapeAlignCenter,

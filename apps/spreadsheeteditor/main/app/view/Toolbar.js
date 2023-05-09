@@ -3147,7 +3147,7 @@ define([
             me.btnImgForward.setMenu(new Common.UI.Menu({
                 items: [{
                     caption : _holder_view.textArrangeFront,
-                    iconCls : 'menu__icon arrange-front',
+                    iconCls : 'menu__icon btn-arrange-front',
                     value  : Asc.c_oAscDrawingLayerType.BringToFront
                 }, {
                     caption : _holder_view.textArrangeForward,
@@ -3174,7 +3174,7 @@ define([
             me.btnImgAlign.setMenu(new Common.UI.Menu({
                 items: [{
                     caption : _holder_view.textShapeAlignLeft,
-                    iconCls : 'menu__icon shape-align-left',
+                    iconCls : 'menu__icon btn-shape-align-left',
                     value   : 0
                 }, {
                     caption : _holder_view.textShapeAlignCenter,
