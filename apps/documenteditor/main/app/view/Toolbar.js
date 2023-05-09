@@ -923,7 +923,7 @@ define([
                                 {caption: '--'},
                                 {
                                     caption: this.textRemoveControl,
-                                    iconCls: 'menu__icon cc-remove',
+                                    iconCls: 'menu__icon btn-cc-remove',
                                     value: 'remove'
                                 },
                                 {caption: '--'},

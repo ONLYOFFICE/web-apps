@@ -425,7 +425,7 @@ define([
             this.btnListDelete = new Common.UI.Button({
                 parentEl: $markup.findById('#form-list-delete'),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon cc-remove',
+                iconCls: 'toolbar__icon btn-cc-remove',
                 hint: this.textTipDelete,
                 dataHint: '1',
                 dataHintDirection: 'left',
@@ -483,10 +483,9 @@ define([
 
             this.btnRemForm = new Common.UI.Button({
                 parentEl: $markup.findById('#form-btn-delete'),
-                cls         : 'btn-toolbar',
-                iconCls     : 'toolbar__icon cc-remove',
+                cls         : 'btn-toolbar align-left',
+                iconCls     : 'toolbar__icon btn-cc-remove',
                 caption     : this.textDelete,
-                style       : 'text-align: left;',
                 dataHint    : '1',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -498,10 +497,9 @@ define([
 
             this.btnLockForm = new Common.UI.Button({
                 parentEl: $markup.findById('#form-btn-lock'),
-                cls         : 'btn-toolbar',
+                cls         : 'btn-toolbar align-left',
                 iconCls     : 'toolbar__icon btn-lock',
                 caption     : this.textLock,
-                style       : 'text-align: left;',
                 dataHint    : '1',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'

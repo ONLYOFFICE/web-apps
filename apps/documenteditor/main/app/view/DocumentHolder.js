@@ -579,7 +579,7 @@ define([
             });
 
             me.menuImgRemoveControl = new Common.UI.MenuItem({
-                iconCls: 'menu__icon cc-remove',
+                iconCls: 'menu__icon btn-cc-remove',
                 caption: me.textRemoveControl,
                 value: 'remove'
             });
@@ -884,13 +884,13 @@ define([
             });
 
             me.menuTableRemoveForm = new Common.UI.MenuItem({
-                iconCls: 'menu__icon cc-remove',
+                iconCls: 'menu__icon btn-cc-remove',
                 caption: me.textRemove,
                 value: 'remove'
             });
 
             me.menuTableRemoveControl = new Common.UI.MenuItem({
-                iconCls: 'menu__icon cc-remove',
+                iconCls: 'menu__icon btn-cc-remove',
                 caption: me.textRemoveControl,
                 value: 'remove'
             });
@@ -1769,7 +1769,7 @@ define([
             });
 
             me.menuParaRemoveControl = new Common.UI.MenuItem({
-                iconCls: 'menu__icon cc-remove',
+                iconCls: 'menu__icon btn-cc-remove',
                 caption: me.textRemoveControl,
                 value: 'remove'
             });
