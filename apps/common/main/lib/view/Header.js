@@ -466,7 +466,7 @@ define([
                 this.isModified = false;
 
                 me.btnGoBack = new Common.UI.Button({
-                    id: 'btn-goback',
+                    id: 'btn-go-back',
                     cls: 'btn-header',
                     iconCls: 'toolbar__icon icon--inverse btn-goback',
                     dataHint: '0',
