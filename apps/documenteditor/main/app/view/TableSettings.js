@@ -353,7 +353,7 @@ define([
             this.btnEdit = new Common.UI.Button({
                 parentEl: $('#table-btn-edit'),
                 cls         : 'btn-toolbar align-left',
-                iconCls     : 'toolbar__icon rows-and-columns',
+                iconCls     : 'toolbar__icon btn-rows-and-columns',
                 caption     : this.textEdit,
                 style       : 'width: 100%;',
                 menu: new Common.UI.Menu({
@@ -480,8 +480,8 @@ define([
 
             this.btnConvert = new Common.UI.Button({
                 parentEl: $('#table-btn-convert-to-text'),
-                cls         : 'btn-toolbar',
-                iconCls     : 'toolbar__icon table-to-text',
+                cls         : 'btn-toolbar align-left',
+                iconCls     : 'toolbar__icon btn-table-to-text',
                 caption     : this.textConvert,
                 dataHint    : '1',
                 dataHintDirection: 'left',

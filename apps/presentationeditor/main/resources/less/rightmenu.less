@@ -7,6 +7,19 @@
         vertical-align: baseline;
     }
 
+    .btn.align-left {
+        text-align: left;
+
+        .rtl & {
+            text-align: right;
+        }
+
+        .pixel-ratio__2_5 & {
+            display: flex;
+            align-items: center;
+        }
+    }
+
     &#id-slide-settings {
         #slide-spin-transparency {
             display: inline-block;
