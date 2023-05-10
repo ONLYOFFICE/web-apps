@@ -3,7 +3,7 @@ import { observer, inject } from "mobx-react";
 import { Page, Navbar, List, ListItem, BlockTitle } from "framework7-react";
 import { useTranslation } from "react-i18next";
 
-const PageDocumentInfo = (props) => {
+const PageDocumentInfo = props => {
     const { t } = useTranslation();
     const _t = t("Settings", { returnObjects: true });
     const storeInfo = props.storeDocumentInfo;
@@ -44,7 +44,7 @@ const PageDocumentInfo = (props) => {
                 <Fragment>
                     <BlockTitle>{_t.textDocumentTitle}</BlockTitle>
                     <List>
-                        <ListItem title={dataDoc.title}></ListItem>
+                        <ListItem href="#" title={dataDoc.title} onClick={props.changeTitleHandler}></ListItem>
                     </List>
                 </Fragment>
             ) : null}
