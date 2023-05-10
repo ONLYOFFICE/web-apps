@@ -695,7 +695,7 @@ define([
                     me.btnColumns = new Common.UI.Button({
                         id: 'id-toolbar-btn-columns',
                         cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon columns-two',
+                        iconCls: 'toolbar__icon btn-columns-two',
                         lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected, _set.noColumns],
                         menu: new Common.UI.Menu({
                             cls: 'ppm-toolbar shifted-right',
@@ -710,7 +710,7 @@ define([
                                 },
                                 {
                                     caption: this.textColumnsTwo,
-                                    iconCls: 'menu__icon columns-two',
+                                    iconCls: 'menu__icon btn-columns-two',
                                     checkable: true,
                                     checkmark: false,
                                     toggleGroup: 'menuColumns',
@@ -941,14 +941,14 @@ define([
                     me.btnShapeAlign = new Common.UI.Button({
                         id: 'id-toolbar-btn-shape-align',
                         cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon shape-align-left',
+                        iconCls: 'toolbar__icon btn-shape-align-left',
                         lock: [_set.slideDeleted, _set.shapeLock, _set.lostConnect, _set.noSlides, _set.noObjectSelected, _set.disableOnStart],
                         menu: new Common.UI.Menu({
                             cls: 'shifted-right',
                             items: [
                                 {
                                     caption: me.textShapeAlignLeft,
-                                    iconCls: 'menu__icon shape-align-left',
+                                    iconCls: 'menu__icon btn-shape-align-left',
                                     value: Asc.c_oAscAlignShapeType.ALIGN_LEFT
                                 },
                                 {
@@ -994,13 +994,13 @@ define([
                     me.btnShapeArrange = new Common.UI.Button({
                         id: 'id-toolbar-btn-shape-arrange',
                         cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon arrange-front',
+                        iconCls: 'toolbar__icon btn-arrange-front',
                         lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.noObjectSelected, _set.disableOnStart],
                         menu: new Common.UI.Menu({
                             items: [
                                 me.mnuArrangeFront = new Common.UI.MenuItem({
                                     caption: me.textArrangeFront,
-                                    iconCls: 'menu__icon arrange-front',
+                                    iconCls: 'menu__icon btn-arrange-front',
                                     value: 1
                                 }),
                                 me.mnuArrangeBack = new Common.UI.MenuItem({

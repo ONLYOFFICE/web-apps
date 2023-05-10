@@ -294,7 +294,7 @@ define([
                     items: [
                         new Common.UI.MenuItem({
                             caption : me.textShapeAlignLeft,
-                            iconCls : 'menu__icon shape-align-left',
+                            iconCls : 'menu__icon btn-shape-align-left',
                             value: Asc.c_oAscAlignShapeType.ALIGN_LEFT
                         }),
                         new Common.UI.MenuItem({
@@ -355,7 +355,7 @@ define([
                     items: [
                         new Common.UI.MenuItem({
                             caption : me.textArrangeFront,
-                            iconCls : 'menu__icon arrange-front',
+                            iconCls : 'menu__icon btn-arrange-front',
                             valign  : Asc.c_oAscChangeLevel.BringToFront
                         }),
                         new Common.UI.MenuItem({
@@ -579,7 +579,7 @@ define([
             });
 
             me.menuImgRemoveControl = new Common.UI.MenuItem({
-                iconCls: 'menu__icon cc-remove',
+                iconCls: 'menu__icon btn-cc-remove',
                 caption: me.textRemoveControl,
                 value: 'remove'
             });
@@ -884,13 +884,13 @@ define([
             });
 
             me.menuTableRemoveForm = new Common.UI.MenuItem({
-                iconCls: 'menu__icon cc-remove',
+                iconCls: 'menu__icon btn-cc-remove',
                 caption: me.textRemove,
                 value: 'remove'
             });
 
             me.menuTableRemoveControl = new Common.UI.MenuItem({
-                iconCls: 'menu__icon cc-remove',
+                iconCls: 'menu__icon btn-cc-remove',
                 caption: me.textRemoveControl,
                 value: 'remove'
             });
@@ -1769,7 +1769,7 @@ define([
             });
 
             me.menuParaRemoveControl = new Common.UI.MenuItem({
-                iconCls: 'menu__icon cc-remove',
+                iconCls: 'menu__icon btn-cc-remove',
                 caption: me.textRemoveControl,
                 value: 'remove'
             });
