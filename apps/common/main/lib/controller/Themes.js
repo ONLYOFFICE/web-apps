@@ -353,12 +353,13 @@ define([
             document.body.className = document.body.className.replace(/theme-[\w-]+\s?/gi, '').trim();
             document.body.classList.add(theme_id, 'theme-type-' + themes_map[theme_id].type);
 
-            if ( themes_map[theme_id].type == 'dark' ) {
-                this.api.asc_setContentDarkMode(this.isContentThemeDark());
-                Common.NotificationCenter.trigger('contenttheme:dark', this.isContentThemeDark());
-            } else {
-                this.api.asc_setContentDarkMode(false);
-            }
+            if ( this.api.asc_setContentDarkMode )
+                if ( themes_map[theme_id].type == 'dark' ) {
+                    this.api.asc_setContentDarkMode(this.isContentThemeDark());
+                    Common.NotificationCenter.trigger('contenttheme:dark', this.isContentThemeDark());
+                } else {
+                    this.api.asc_setContentDarkMode(false);
+                }
 
             const colors_obj = get_current_theme_colors();
             colors_obj.type = themes_map[theme_id].type;
@@ -413,7 +414,8 @@ define([
                 api.asc_setSkin(obj);
 
                 const is_content_dark = themes_map[theme_id] && themes_map[theme_id].type == 'dark' && window.uitheme.iscontentdark;
-                api.asc_setContentDarkMode(is_content_dark);
+                if ( api.asc_setContentDarkMode )
+                    api.asc_setContentDarkMode(is_content_dark);
 
                 if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) )
                     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', on_system_theme_dark.bind(this));
