@@ -107,9 +107,11 @@ const SettingsList = inject("storeAppOptions", "storeReview", "storeDocumentInfo
     const docTitle = docInfo.dataDoc.title;
     const docExt = docInfo.dataDoc ? docInfo.dataDoc.fileType : '';
     const isNotForm = docExt && docExt !== 'oform';
-    const navbar = <Navbar title={docTitle}>
-                    {!props.inPopover  && <NavRight><Link popupClose=".settings-popup">{_t.textDone}</Link></NavRight>}
-                    </Navbar>;
+    const navbar = 
+        <Navbar>
+            <div className="title" onClick={props.changeTitleHandler}>{docTitle}</div>
+            {!props.inPopover  && <NavRight><Link popupClose=".settings-popup">{_t.textDone}</Link></NavRight>}
+        </Navbar>;
 
     const onoptionclick = page => {
         if ( props.onOptionClick )
@@ -277,10 +279,10 @@ class SettingsView extends Component {
         return (
             show_popover ?
                 <Popover id="settings-popover" closeByOutsideClick={false} className="popover__titled" onPopoverClosed={() => this.props.closeOptions('settings')}>
-                    <SettingsList inPopover={true} onOptionClick={this.onoptionclick} closeOptions={this.props.closeOptions} openOptions={this.props.openOptions} style={{height: '410px'}} onChangeMobileView={this.props.onChangeMobileView} onPrint={this.props.onPrint} showHelp={this.props.showHelp} showFeedback={this.props.showFeedback} onOrthographyCheck={this.props.onOrthographyCheck} onDownloadOrigin={this.props.onDownloadOrigin} />
+                    <SettingsList inPopover={true} onOptionClick={this.onoptionclick} closeOptions={this.props.closeOptions} openOptions={this.props.openOptions} style={{height: '410px'}} onChangeMobileView={this.props.onChangeMobileView} onPrint={this.props.onPrint} showHelp={this.props.showHelp} showFeedback={this.props.showFeedback} onOrthographyCheck={this.props.onOrthographyCheck} onDownloadOrigin={this.props.onDownloadOrigin} changeTitleHandler={this.props.changeTitleHandler} />
                 </Popover> :
                 <Popup className="settings-popup" onPopupClosed={() => this.props.closeOptions('settings')}>
-                    <SettingsList onOptionClick={this.onoptionclick} closeOptions={this.props.closeOptions} openOptions={this.props.openOptions} onChangeMobileView={this.props.onChangeMobileView} onPrint={this.props.onPrint} showHelp={this.props.showHelp} showFeedback={this.props.showFeedback} onOrthographyCheck={this.props.onOrthographyCheck} onDownloadOrigin={this.props.onDownloadOrigin} />
+                    <SettingsList onOptionClick={this.onoptionclick} closeOptions={this.props.closeOptions} openOptions={this.props.openOptions} onChangeMobileView={this.props.onChangeMobileView} onPrint={this.props.onPrint} showHelp={this.props.showHelp} showFeedback={this.props.showFeedback} onOrthographyCheck={this.props.onOrthographyCheck} onDownloadOrigin={this.props.onDownloadOrigin} changeTitleHandler={this.props.changeTitleHandler} />
                 </Popup>
         )
     }
