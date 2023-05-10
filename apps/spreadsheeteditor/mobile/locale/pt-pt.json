@@ -257,7 +257,8 @@
     "unknownErrorText": "Erro desconhecido.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Nenhuma imagem foi carregada.",
-    "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo é de 25 MB."
+    "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo é de 25 MB.",
+    "errorProtectedRange": "This range is not allowed for editing."
   },
   "LongActions": {
     "advDRMPassword": "Palavra-passe",
