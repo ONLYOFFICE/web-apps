@@ -560,7 +560,7 @@ define([
                 disabled: false,
                 editable: true,
                 showCls: 'toolbar__icon btn-sheet-view',
-                hideCls: 'toolbar__icon hide-password',
+                hideCls: 'toolbar__icon btn-hide-password',
                 btnHint: '',
                 repeatInput: null,
                 showPwdOnClick: true
