@@ -53,6 +53,19 @@ if ( window.AscDesktopEditor ) {
                 id: theme.id,
                 type: theme.type,
             }
+
+            if ( theme.system && theme.system != 'disabled' ) {
+                window.uitheme.system = theme.system;
+                if ( theme.system != 'disabled' ) {
+                    window.uitheme.is_system_theme_dark = function () {
+                        return window.uitheme.system == 'dark';
+                    }
+                } else {
+                    window.uitheme.is_system_theme_dark = function () {
+                        return false;
+                    }
+                }
+            }
         }
     }
 

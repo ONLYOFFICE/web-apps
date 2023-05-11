@@ -327,16 +327,9 @@ define([
         };
 
         const is_theme_type_system = function (id) { return themes_map[id].type == THEME_TYPE_SYSTEM; }
-        const get_system_theme_type = function () {
-            if ( Common.Controllers.Desktop && Common.Controllers.Desktop.isActive() )
-                return Common.Controllers.Desktop.systemThemeType();
 
-            return window.matchMedia('(prefers-color-scheme: dark)').matches ? THEME_TYPE_DARK : THEME_TYPE_LIGHT;
-        }
         const get_system_default_theme = function () {
-            const id = get_system_theme_type() == THEME_TYPE_DARK ?
-                id_default_dark_theme : id_default_light_theme;
-
+            const id = window.uitheme.is_system_theme_dark() ? id_default_dark_theme : id_default_light_theme;
             return {id: id, info: themes_map[id]};
         };
 
@@ -393,16 +386,17 @@ define([
         return {
             init: function (api) {
                 Common.Gateway.on('opendocument', on_document_open.bind(this));
-                $(window).on('storage', function (e) {
-                    if ( e.key == 'ui-theme-id' && !Common.Controllers.Desktop.isActive() ) {
-                        if ( !!e.originalEvent.newValue ) {
-                            refresh_theme.call(this);
+                if ( !Common.Controllers.Desktop.isActive() )
+                    $(window).on('storage', function (e) {
+                        if ( e.key == 'ui-theme-id' ) {
+                            if ( !!e.originalEvent.newValue ) {
+                                refresh_theme.call(this);
+                            }
+                        } else
+                        if ( e.key == 'content-theme' ) {
+                            this.setContentTheme(e.originalEvent.newValue, true);
                         }
-                    } else
-                    if ( e.key == 'content-theme' ) {
-                        this.setContentTheme(e.originalEvent.newValue, true);
-                    }
-                }.bind(this))
+                    }.bind(this))
 
                 this.api = api;
 
@@ -415,8 +409,12 @@ define([
                 const is_content_dark = themes_map[theme_id] && themes_map[theme_id].type == 'dark' && window.uitheme.iscontentdark;
                 api.asc_setContentDarkMode(is_content_dark);
 
-                if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) )
+                if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) &&
+                        (window.uitheme.system === undefined || window.uitheme.system == 'disabled') )
+                {
                     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', on_system_theme_dark.bind(this));
+                }
+
                 Common.NotificationCenter.on('document:ready', on_document_ready.bind(this));
             },
 
@@ -429,7 +427,7 @@ define([
             },
 
             map: function () {
-                if ( Common.Controllers.Desktop.isActive() && !Common.Controllers.Desktop.systemThemeSupported() ) {
+                if ( window.uitheme.system === 'disabled' ) {
                     const new_map = Object.assign({}, themes_map);
                     delete new_map['theme-system'];
 
