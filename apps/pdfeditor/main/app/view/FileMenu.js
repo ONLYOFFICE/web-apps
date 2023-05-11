@@ -40,13 +40,13 @@
  */
 
 define([
-    'text!documenteditor/main/app/template/FileMenu.template',
+    'text!pdfeditor/main/app/template/FileMenu.template',
     'underscore',
     'common/main/lib/component/BaseView'
 ], function (tpl, _) {
     'use strict';
 
-    DE.Views.FileMenu = Common.UI.BaseView.extend(_.extend({
+    PDFE.Views.FileMenu = Common.UI.BaseView.extend(_.extend({
         el: '#file-menu-panel',
         rendered: false,
         options: {alias:'FileMenu'},
@@ -374,9 +374,9 @@ define([
 
             if (!this.panels) {
                 this.panels = {
-                    'opts'      : (new DE.Views.FileMenuPanels.Settings({menu:this})).render(this.$el.find('#panel-settings')),
-                    'info'      : (new DE.Views.FileMenuPanels.DocumentInfo({menu:this})).render(this.$el.find('#panel-info')),
-                    'rights'    : (new DE.Views.FileMenuPanels.DocumentRights({menu:this})).render(this.$el.find('#panel-rights'))
+                    'opts'      : (new PDFE.Views.FileMenuPanels.Settings({menu:this})).render(this.$el.find('#panel-settings')),
+                    'info'      : (new PDFE.Views.FileMenuPanels.DocumentInfo({menu:this})).render(this.$el.find('#panel-info')),
+                    'rights'    : (new PDFE.Views.FileMenuPanels.DocumentRights({menu:this})).render(this.$el.find('#panel-rights'))
                 };
                 this._state.infoPreviewMode && this.panels['info'].setPreviewMode(this._state.infoPreviewMode);
             }
@@ -453,35 +453,30 @@ define([
 
             if ( this.mode.canCreateNew ) {
                 if (this.mode.templates && this.mode.templates.length) {
-                    !this.panels['new'] && (this.panels['new'] = ((new DE.Views.FileMenuPanels.CreateNew({menu: this, docs: this.mode.templates, blank: this.mode.canRequestCreateNew || !!this.mode.createUrl})).render()));
+                    !this.panels['new'] && (this.panels['new'] = ((new PDFE.Views.FileMenuPanels.CreateNew({menu: this, docs: this.mode.templates, blank: this.mode.canRequestCreateNew || !!this.mode.createUrl})).render()));
                 }
             }
 
             if ( this.mode.canOpenRecent && this.mode.recent ) {
-                !this.panels['recent'] && (this.panels['recent'] = (new DE.Views.FileMenuPanels.RecentFiles({menu:this, recent: this.mode.recent})).render());
-            }
-
-            if (this.mode.isSignatureSupport || this.mode.isPasswordSupport) {
-                !this.panels['protect'] && (this.panels['protect'] = (new DE.Views.FileMenuPanels.ProtectDoc({menu:this})).render());
-                this.panels['protect'].setMode(this.mode);
+                !this.panels['recent'] && (this.panels['recent'] = (new PDFE.Views.FileMenuPanels.RecentFiles({menu:this, recent: this.mode.recent})).render());
             }
 
             if (this.mode.canDownload) {
-                !this.panels['saveas'] && (this.panels['saveas'] = ((new DE.Views.FileMenuPanels.ViewSaveAs({menu: this, fileType: this.document.fileType, mode: this.mode})).render()));
+                !this.panels['saveas'] && (this.panels['saveas'] = ((new PDFE.Views.FileMenuPanels.ViewSaveAs({menu: this, fileType: this.document.fileType, mode: this.mode})).render()));
             } else if (this.mode.canDownloadOrigin)
                 $('a',this.miDownload.$el).text(this.textDownload);
 
             if (this.mode.canDownload && (this.mode.canRequestSaveAs || this.mode.saveAsUrl)) {
-                !this.panels['save-copy'] && (this.panels['save-copy'] = ((new DE.Views.FileMenuPanels.ViewSaveCopy({menu: this, fileType: this.document.fileType, mode: this.mode})).render()));
+                !this.panels['save-copy'] && (this.panels['save-copy'] = ((new PDFE.Views.FileMenuPanels.ViewSaveCopy({menu: this, fileType: this.document.fileType, mode: this.mode})).render()));
             }
 
             if (this.mode.canHelp && !this.panels['help']) {
-                this.panels['help'] = ((new DE.Views.FileMenuPanels.Help({menu: this})).render());
+                this.panels['help'] = ((new PDFE.Views.FileMenuPanels.Help({menu: this})).render());
                 this.panels['help'].setLangConfig(this.mode.lang);
             }
 
             if (this.mode.canPreviewPrint) {
-                var printPanel = DE.getController('Print').getView('PrintWithPreview');
+                var printPanel = PDFE.getController('Print').getView('PrintWithPreview');
                 printPanel.menu = this;
                 !this.panels['printpreview'] && (this.panels['printpreview'] = printPanel.render(this.$el.find('#panel-print')));
             }
@@ -649,5 +644,5 @@ define([
         btnSaveCopyAsCaption    : 'Save Copy as...',
         btnExitCaption          : 'Exit',
         btnFileOpenCaption      : 'Open...'
-    }, DE.Views.FileMenu || {}));
+    }, PDFE.Views.FileMenu || {}));
 });

@@ -38,7 +38,7 @@
  */
 
 define([
-    'text!documenteditor/main/app/template/LeftMenu.template',
+    'text!pdfeditor/main/app/template/LeftMenu.template',
     'jquery',
     'underscore',
     'backbone',
@@ -48,19 +48,18 @@ define([
     'common/main/lib/view/Comments',
     'common/main/lib/view/Chat',
     /** coauthoring end **/
-    'common/main/lib/view/History',
     'common/main/lib/view/Plugins',
     'common/main/lib/view/About',
     'common/main/lib/view/SearchDialog',
-    'documenteditor/main/app/view/FileMenu',
-    'documenteditor/main/app/view/Navigation'
+    'pdfeditor/main/app/view/FileMenu',
+    'pdfeditor/main/app/view/Navigation'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
     var SCALE_MIN = 40;
     var MENU_SCALE_PART = 300;
 
-    DE.Views.LeftMenu = Backbone.View.extend(_.extend({
+    PDFE.Views.LeftMenu = Backbone.View.extend(_.extend({
         el: '#left-menu',
 
         template: _.template(menuTemplate),
@@ -163,7 +162,7 @@ define([
             });
             this.btnNavigation.on('click',         this.onBtnMenuClick.bind(this));
 
-            this.menuFile = new DE.Views.FileMenu();
+            this.menuFile = new PDFE.Views.FileMenu();
             this.btnAbout.panel = new Common.Views.About({el: '#about-menu-panel', appName: this.txtEditor});
 
             this.btnThumbnails = new Common.UI.Button({
@@ -190,7 +189,7 @@ define([
             } else {
                 btn.panel['hide']();
             }
-            DE.getController('Toolbar').DisableToolbar(state==true);
+            PDFE.getController('Toolbar').DisableToolbar(state==true);
             if (!this.supressEvents)
                 Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
@@ -527,5 +526,5 @@ define([
         tipOutline: 'Headings',
         txtLimit: 'Limit Access',
         txtEditor: 'Document Editor'
-    }, DE.Views.LeftMenu || {}));
+    }, PDFE.Views.LeftMenu || {}));
 });

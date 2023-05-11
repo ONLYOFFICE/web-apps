@@ -34,6 +34,11 @@
                 </div>
             </div>
             <div class="separator long"></div>
+            <div class="group" data-layout-name="toolbar-view-navigation">
+                <span class="btn-slot text x-huge" id="slot-btn-select-tool"></span>
+                <span class="btn-slot text x-huge" id="slot-btn-hand-tool"></span>
+            </div>
+            <div class="separator long"></div>
         </section>
         <section class="box-panels">
             <section class="panel" data-tab="home">

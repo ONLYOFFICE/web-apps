@@ -41,12 +41,12 @@
 
 define([
     'core',
-    'documenteditor/main/app/view/Statusbar',
+    'pdfeditor/main/app/view/Statusbar',
     'common/main/lib/util/LanguageInfo'
 ], function () {
     'use strict';
 
-    DE.Controllers.Statusbar = Backbone.Controller.extend(_.extend({
+    PDFE.Controllers.Statusbar = Backbone.Controller.extend(_.extend({
         models: [],
         collections: [],
         views: [
@@ -94,28 +94,28 @@ define([
                 lblzoom.text(Common.Utils.String.format(me.zoomText, 100));
 
                 if ( cfg.isEdit ) {
-                    var review = me.getApplication().getController('Common.Controllers.ReviewChanges').getView();
-                    if (cfg.canReview) {
-                        me.btnTurnReview = review.getButton('turn', 'statusbar');
-                        me.btnTurnReview.render(me.statusbar.$layout.find('#btn-doc-review'));
-                        me.statusbar.btnTurnReview = me.btnTurnReview;
-                    } else {
-                        me.statusbar.$el.find('.el-review').hide();
-                    }
+                    // var review = me.getApplication().getController('Common.Controllers.ReviewChanges').getView();
+                    // if (cfg.canReview) {
+                    //     me.btnTurnReview = review.getButton('turn', 'statusbar');
+                    //     me.btnTurnReview.render(me.statusbar.$layout.find('#btn-doc-review'));
+                    //     me.statusbar.btnTurnReview = me.btnTurnReview;
+                    // } else {
+                    //     me.statusbar.$el.find('.el-review').hide();
+                    // }
+                    //
+                    // me.btnSpelling = review.getButton('spelling', 'statusbar');
+                    // me.btnSpelling.render( me.statusbar.$layout.find('#btn-doc-spell') );
+                    // me.btnDocLang = review.getButton('doclang', 'statusbar');
+                    // me.btnDocLang.render( me.statusbar.$layout.find('#btn-doc-lang') );
 
-                    me.btnSpelling = review.getButton('spelling', 'statusbar');
-                    me.btnSpelling.render( me.statusbar.$layout.find('#btn-doc-spell') );
-                    me.btnDocLang = review.getButton('doclang', 'statusbar');
-                    me.btnDocLang.render( me.statusbar.$layout.find('#btn-doc-lang') );
-
-                    var isVisible = (Common.UI.LayoutManager.isElementVisible('statusBar-textLang') || Common.UI.LayoutManager.isElementVisible('statusBar-docLang'))
-                                    && Common.UI.FeaturesManager.canChange('spellcheck');
-                    me.btnDocLang.$el.find('+.separator.space')[isVisible?'show':'hide']();
-                    isVisible = Common.UI.LayoutManager.isElementVisible('statusBar-textLang') || Common.UI.LayoutManager.isElementVisible('statusBar-docLang')
-                                || Common.UI.FeaturesManager.canChange('spellcheck');
-                    me.statusbar.$el.find('.el-lang')[isVisible?'show':'hide']();
+                    // var isVisible = (Common.UI.LayoutManager.isElementVisible('statusBar-textLang') || Common.UI.LayoutManager.isElementVisible('statusBar-docLang'))
+                    //                 && Common.UI.FeaturesManager.canChange('spellcheck');
+                    // me.btnDocLang.$el.find('+.separator.space')[isVisible?'show':'hide']();
+                    // isVisible = Common.UI.LayoutManager.isElementVisible('statusBar-textLang') || Common.UI.LayoutManager.isElementVisible('statusBar-docLang')
+                    //             || Common.UI.FeaturesManager.canChange('spellcheck');
+                    // me.statusbar.$el.find('.el-lang')[isVisible?'show':'hide']();
                 } else {
-                    me.statusbar.$el.find('.el-edit, .el-review').hide();
+                    // me.statusbar.$el.find('.el-edit, .el-review').hide();
                 }
                 if (cfg.canUseSelectHandTools) {
                     me.statusbar.$el.find('.hide-select-tools').removeClass('hide-select-tools');
@@ -362,5 +362,5 @@ define([
         tipReview       : 'Review',
         textSetTrackChanges: 'You are in Track Changes mode',
         textDisconnect: '<b>Connection is lost</b><br>Trying to connect. Please check connection settings.'
-    }, DE.Controllers.Statusbar || {}));
+    }, PDFE.Controllers.Statusbar || {}));
 });

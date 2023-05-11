@@ -44,7 +44,7 @@ define([
 ], function () {
     'use strict';
 
-    DE.Controllers.Search = Backbone.Controller.extend(_.extend({
+    PDFE.Controllers.Search = Backbone.Controller.extend(_.extend({
         sdkViewName : '#id_main',
 
         views: [
@@ -505,5 +505,5 @@ define([
         textReplaceSkipped: 'The replacement has been made. {0} occurrences were skipped.',
         textNoTextFound: 'The data you have been searching for could not be found. Please adjust your search options.'
 
-    }, DE.Controllers.Search || {}));
+    }, PDFE.Controllers.Search || {}));
 });

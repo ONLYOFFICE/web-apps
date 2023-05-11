@@ -38,14 +38,14 @@
  */
 
 define([
-    'text!documenteditor/main/app/template/StatusBar.template',
+    'text!pdfeditor/main/app/template/StatusBar.template',
     'jquery',
     'underscore',
     'backbone',
     'tip',
     'common/main/lib/component/Menu',
     'common/main/lib/component/Window',
-    'documenteditor/main/app/model/Pages'
+    'pdfeditor/main/app/model/Pages'
  ],
     function(template, $, _, Backbone){
         'use strict';
@@ -165,7 +165,7 @@ define([
             me.onChangeProtectDocument();
         }
 
-        DE.Views.Statusbar = Backbone.View.extend(_.extend({
+        PDFE.Views.Statusbar = Backbone.View.extend(_.extend({
             el: '#statusbar',
             template: _.template(template),
 
@@ -177,7 +177,7 @@ define([
 
             initialize: function (options) {
                 _.extend(this, options);
-                this.pages = new DE.Models.Pages({current:1, count:1});
+                this.pages = new PDFE.Models.Pages({current:1, count:1});
                 this.pages.on('change', _.bind(_updatePagesCaption,this));
                 this._state = {
                     docProtection: {
@@ -454,14 +454,14 @@ define([
             },
 
             onChangeProtectDocument: function(props) {
-                if (!props) {
-                    var docprotect = DE.getController('DocProtection');
-                    props = docprotect ? docprotect.getDocProps() : null;
-                }
-                if (props) {
-                    this._state.docProtection = props;
-                    this.SetDisabled(this._isDisabled);
-                }
+                // if (!props) {
+                //     var docprotect = DE.getController('DocProtection');
+                //     props = docprotect ? docprotect.getDocProps() : null;
+                // }
+                // if (props) {
+                //     this._state.docProtection = props;
+                //     this.SetDisabled(this._isDisabled);
+                // }
             },
 
             onDocInfoShow: function() {
@@ -532,6 +532,6 @@ define([
             txtParagraphs: 'Paragraphs',
             txtSymbols: 'Symbols',
             txtSpaces: 'Symbols with spaces'
-        }, DE.Views.Statusbar || {}));
+        }, PDFE.Views.Statusbar || {}));
     }
 );

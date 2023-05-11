@@ -111,7 +111,8 @@ define([
         loadConfig: function(data) {
             var me = this;
             me.configPlugins.config = data.config.plugins;
-            me.editor = !!window.DE ? 'word' : !!window.PE ? 'slide' : 'cell';
+            me.editor = (!!window.DE || !!window.PDFE) ? 'word' : !!window.PE ? 'slide' : 'cell';
+            me.isPDFEditor = !!window.PDFE;
         },
 
         loadPlugins: function() {
@@ -528,7 +529,7 @@ define([
         parsePlugins: function(pluginsdata, uiCustomize) {
             var me = this;
             var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins'),
-                isEdit = me.appOptions.isEdit,
+                isEdit = me.appOptions.isEdit && !me.isPDFEditor,
                 editor = me.editor,
                 apiVersion = me.api ? me.api.GetVersion() : undefined;
             if ( pluginsdata instanceof Array ) {
@@ -772,7 +773,7 @@ define([
 
                 var lang = this.appOptions && this.appOptions.lang ? this.appOptions.lang.split(/[\-_]/)[0] : 'en';
                 var url = variation.url; // full url
-                var visible = (this.appOptions.isEdit || variation.isViewer && (variation.isDisplayedInViewer!==false)) && _.contains(variation.EditorsSupport, this.editor) && !variation.isSystem;
+                var visible = (this.appOptions.isEdit && !this.isPDFEditor || variation.isViewer && (variation.isDisplayedInViewer!==false)) && _.contains(variation.EditorsSupport, this.editor) && !variation.isSystem;
                 if (visible && !variation.isInsideMode) {
                     var me = this,
                         isCustomWindow = variation.isCustomWindow,
@@ -789,7 +790,7 @@ define([
                     _.isArray(arrBtns) && _.each(arrBtns, function(b, index){
                         if (typeof b.textLocale == 'object')
                             b.text = b.textLocale[lang] || b.textLocale['en'] || b.text || '';
-                        if (me.appOptions.isEdit || b.isViewer !== false)
+                        if (me.appOptions.isEdit && !me.isPDFEditor || b.isViewer !== false)
                             newBtns[index] = {caption: b.text, value: index, primary: b.primary, frameId: frameId};
                     });
 

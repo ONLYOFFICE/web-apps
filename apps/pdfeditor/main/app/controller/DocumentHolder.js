@@ -96,11 +96,11 @@ var c_tableBorder = {
 
 define([
     'core',
-    'documenteditor/main/app/view/DocumentHolder'
+    'pdfeditor/main/app/view/DocumentHolder'
 ], function () {
     'use strict';
 
-    DE.Controllers.DocumentHolder = Backbone.Controller.extend({
+    PDFE.Controllers.DocumentHolder = Backbone.Controller.extend({
         models: [],
         collections: [],
         views: [
@@ -223,14 +223,11 @@ define([
                     this.api.asc_registerCallback('asc_doubleClickOnChart',         _.bind(this.onDoubleClickOnChart, this));
                     this.api.asc_registerCallback('asc_doubleClickOnTableOleObject', _.bind(this.onDoubleClickOnTableOleObject, this));
                     this.api.asc_registerCallback('asc_onSpellCheckVariantsFound',  _.bind(this.onSpellCheckVariantsFound, this));
-                    this.api.asc_registerCallback('asc_onRulerDblClick',            _.bind(this.onRulerDblClick, this));
                     this.api.asc_registerCallback('asc_ChangeCropState',            _.bind(this.onChangeCropState, this));
                     this.api.asc_registerCallback('asc_onLockDocumentProps',        _.bind(this.onApiLockDocumentProps, this));
                     this.api.asc_registerCallback('asc_onUnLockDocumentProps',      _.bind(this.onApiUnLockDocumentProps, this));
                     this.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(this.onShowMathTrack, this));
                     this.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(this.onHideMathTrack, this));
-                    this.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Image, _.bind(this.onInsertImage, this));
-                    this.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.ImageUrl, _.bind(this.onInsertImageUrl, this));
                     this.api.asc_registerCallback('asc_onHideEyedropper',           _.bind(this.hideEyedropper, this));
                 }
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',        _.bind(this.onCoAuthoringDisconnect, this));
@@ -287,68 +284,6 @@ define([
 
             // type == 'edit'
 
-            var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
-            if (diagramEditor) {
-                diagramEditor.on('internalmessage', _.bind(function(cmp, message) {
-                    var command = message.data.command;
-                    var data = message.data.data;
-                    if (this.api) {
-                        (diagramEditor.isEditMode())
-                            ? this.api.asc_editChartDrawingObject(data)
-                            : this.api.asc_addChartDrawingObject(data);
-                    }
-                }, this));
-                diagramEditor.on('hide', _.bind(function(cmp, message) {
-                    if (this.api) {
-                        this.api.asc_onCloseChartFrame();
-                        this.api.asc_enableKeyEvents(true);
-                    }
-                    setTimeout(function(){
-                        me.editComplete();
-                    }, 10);
-                }, this));
-            }
-
-            var mergeEditor = this.getApplication().getController('Common.Controllers.ExternalMergeEditor').getView('Common.Views.ExternalMergeEditor');
-            if (mergeEditor) {
-                mergeEditor.on('internalmessage', _.bind(function(cmp, message) {
-                    var command = message.data.command;
-                    var data = message.data.data;
-                    if (this.api)
-                        this.api.asc_setMailMergeData(data);
-                }, this));
-                mergeEditor.on('hide', _.bind(function(cmp, message) {
-                    if (this.api) {
-                        this.api.asc_enableKeyEvents(true);
-                    }
-                    setTimeout(function(){
-                        me.editComplete();
-                    }, 10);
-                }, this));
-            }
-
-            var oleEditor = this.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
-            if (oleEditor) {
-                oleEditor.on('internalmessage', _.bind(function(cmp, message) {
-                    var command = message.data.command;
-                    var data = message.data.data;
-                    if (this.api) {
-                        oleEditor.isEditMode()
-                            ? this.api.asc_editTableOleObject(data)
-                            : this.api.asc_addTableOleObject(data);
-                    }
-                }, this));
-                oleEditor.on('hide', _.bind(function(cmp, message) {
-                    if (this.api) {
-                        this.api.asc_enableKeyEvents(true);
-                        this.api.asc_onCloseChartFrame();
-                    }
-                    setTimeout(function(){
-                        me.editComplete();
-                    }, 10);
-                }, this));
-            }
-
             view.menuInsertCaption.on('click', _.bind(me.onInsertCaption, me));
             view.menuEquationInsertCaption.on('click', _.bind(me.onInsertCaption, me));
             view.menuTableInsertCaption.on('click', _.bind(me.onInsertCaption, me));
@@ -386,7 +321,6 @@ define([
             view.menuParaRemoveControl.on('click', _.bind(me.onControlsSelect, me));
             view.menuParaControlSettings.on('click', _.bind(me.onControlsSelect, me));
             view.menuTableCellAlign.menu.on('item:click', _.bind(me.tableCellsVAlign, me));
-            view.menuTableAdvanced.on('click', _.bind(me.advancedTableClick, me));
             view.menuParagraphAdvancedInTable.on('click', _.bind(me.advancedParagraphClick, me));
             view.menuParagraphAdvanced.on('click', _.bind(me.advancedParagraphClick, me));
             view.menuEditHyperlinkTable.on('click', _.bind(me.editHyperlink, me));
@@ -418,7 +352,6 @@ define([
             view.mnuUnGroup.on('click', _.bind(me.onImgUnGroup, me));
             view.menuWrapPolygon.on('click', _.bind(me.onImgWrapPolygon, me));
             view.menuImageWrap.menu.on('item:click', _.bind(me.onImgWrap, me));
-            view.menuImageAdvanced.on('click', _.bind(me.onImgAdvanced, me));
             view.menuOriginalSize.on('click', _.bind(me.onImgOriginalSize, me));
             view.menuImgReplace.menu.on('item:click', _.bind(me.onImgReplace, me));
             view.menuImgEditPoints.on('click', _.bind(me.onImgEditPoints, me));
@@ -786,7 +719,7 @@ define([
         },
 
         getUserName: function(id){
-            var usersStore = DE.getCollection('Common.Collections.Users');
+            var usersStore = PDFE.getCollection('Common.Collections.Users');
             if (usersStore){
                 var rec = usersStore.findUser(id);
                 if (rec)
@@ -796,7 +729,7 @@ define([
         },
 
         isUserVisible: function(id){
-            var usersStore = DE.getCollection('Common.Collections.Users');
+            var usersStore = PDFE.getCollection('Common.Collections.Users');
             if (usersStore){
                 var rec = usersStore.findUser(id);
                 if (rec)
@@ -890,7 +823,7 @@ define([
                 text = me.api.can_AddHyperlink();
 
                 if (text !== false) {
-                    win = new DE.Views.HyperlinkSettingsDialog({
+                    win = new PDFE.Views.HyperlinkSettingsDialog({
                         api: me.api,
                         handler: handlerDlg
                     });
@@ -909,7 +842,7 @@ define([
                         });
                     }
                     if (props) {
-                        win = new DE.Views.HyperlinkSettingsDialog({
+                        win = new PDFE.Views.HyperlinkSettingsDialog({
                             api: me.api,
                             handler: handlerDlg
                         });
@@ -1048,16 +981,16 @@ define([
                         if (ToolTip.length>1000)
                             ToolTip = ToolTip.substr(0, 1000) + '...';
                     } else if (type==Asc.c_oAscMouseMoveDataTypes.Review && moveData.get_ReviewChange()) {
-                        var changes = me.getApplication().getController("Common.Controllers.ReviewChanges").readSDKChange([moveData.get_ReviewChange()]);
-                        if (changes && changes.length>0)
-                            changes = changes[0];
-                        if (changes) {
-                            ToolTip = '<b>'+ Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(changes.get('username'))) +'  </b>';
-                            ToolTip += '<span class="review-date">'+ changes.get('date') +'</span><br>';
-                            ToolTip += changes.get('changetext');
-                            if (ToolTip.length>1000)
-                                ToolTip = ToolTip.substr(0, 1000) + '...';
-                        }
+                        // var changes = me.getApplication().getController("Common.Controllers.ReviewChanges").readSDKChange([moveData.get_ReviewChange()]);
+                        // if (changes && changes.length>0)
+                        //     changes = changes[0];
+                        // if (changes) {
+                        //     ToolTip = '<b>'+ Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(changes.get('username'))) +'  </b>';
+                        //     ToolTip += '<span class="review-date">'+ changes.get('date') +'</span><br>';
+                        //     ToolTip += changes.get('changetext');
+                        //     if (ToolTip.length>1000)
+                        //         ToolTip = ToolTip.substr(0, 1000) + '...';
+                        // }
                     } else if (type==Asc.c_oAscMouseMoveDataTypes.Eyedropper) {
                         if (me.eyedropperTip.isTipVisible) {
                             me.eyedropperTip.isTipVisible = false;
@@ -1363,52 +1296,6 @@ define([
 
         onChangeCropState: function(state) {
             this.documentHolder.menuImgCrop && this.documentHolder.menuImgCrop.menu.items[0].setChecked(state, true);
-        },
-
-        onRulerDblClick: function(type) {
-            Common.UI.Menu.Manager.hideAll();
-
-            var win, me = this;
-            if (type == 'tables') {
-                win = this.advancedTableClick();
-                if (win)
-                    win.setActiveCategory(4);
-            } else if (type == 'indents' || type == 'tabs') {
-                win = this.advancedParagraphClick({isChart: false});
-                if (win)
-                    win.setActiveCategory(type == 'indents' ? 0 : 4);
-            } else if (type == 'margins') {
-                if (me._state.lock_doc) return;
-                win = new DE.Views.PageMarginsDialog({
-                    api: me.api,
-                    handler: function(dlg, result) {
-                        if (result == 'ok') {
-                            var props = dlg.getSettings();
-                            Common.localStorage.setItem("de-pgmargins-top", props.get_TopMargin());
-                            Common.localStorage.setItem("de-pgmargins-left", props.get_LeftMargin());
-                            Common.localStorage.setItem("de-pgmargins-bottom", props.get_BottomMargin());
-                            Common.localStorage.setItem("de-pgmargins-right", props.get_RightMargin());
-                            Common.NotificationCenter.trigger('margins:update', props);
-
-                            me.api.asc_SetSectionProps(props);
-                            me.editComplete();
-                        }
-                    }
-                });
-                win.show();
-                win.setSettings(me.api.asc_GetSectionProps());
-            } else if (type == 'columns') {
-                win = new DE.Views.CustomColumnsDialog({
-                    handler: function(dlg, result) {
-                        if (result == 'ok') {
-                            me.api.asc_SetColumnsProps(dlg.getSettings());
-                            me.editComplete();
-                        }
-                    }
-                });
-                win.show();
-                win.setSettings(me.api.asc_GetColumnsProps());
-            }
         },
 
         onApiParagraphStyleChange: function(name) {
@@ -1724,7 +1611,7 @@ define([
         addHyperlink: function(item, e, eOpt){
             var win, me = this;
             if (me.api){
-                win = new DE.Views.HyperlinkSettingsDialog({
+                win = new PDFE.Views.HyperlinkSettingsDialog({
                     api: me.api,
                     handler: function(dlg, result) {
                         if (result == 'ok') {
@@ -1744,7 +1631,7 @@ define([
         editHyperlink: function(item, e, eOpt){
             var win, me = this;
             if (me.api){
-                win = new DE.Views.HyperlinkSettingsDialog({
+                win = new PDFE.Views.HyperlinkSettingsDialog({
                     api: me.api,
                     handler: function(dlg, result) {
                         if (result == 'ok') {
@@ -1764,7 +1651,7 @@ define([
         },
 
         editChartClick: function(){
-            var diagramEditor = DE.getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
+            var diagramEditor = PDFE.getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
             if (diagramEditor) {
                 diagramEditor.setEditMode(true);
                 diagramEditor.show();
@@ -1787,7 +1674,7 @@ define([
                         elValue = selectedElements[i].get_ObjectValue();
 
                         if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
-                            win = new DE.Views.ParagraphSettingsAdvanced({
+                            win = new PDFE.Views.ParagraphSettingsAdvanced({
                                 tableStylerRows     : 2,
                                 tableStylerColumns  : 1,
                                 paragraphProps      : elValue,
@@ -1821,47 +1708,6 @@ define([
             Common.NotificationCenter.trigger('dropcap:settings', isFrame);
         },
 
-        advancedTableClick: function(item, e, eOpt){
-            var win, me = this;
-            if (me.api){
-                var selectedElements = me.api.getSelectedElements();
-
-                if (selectedElements && _.isArray(selectedElements)){
-                    for (var i = selectedElements.length - 1; i >= 0; i--) {
-                        var elType, elValue;
-
-                        elType  = selectedElements[i].get_ObjectType();
-                        elValue = selectedElements[i].get_ObjectValue();
-
-                        if (Asc.c_oAscTypeSelectElement.Table == elType) {
-                            win = new DE.Views.TableSettingsAdvanced({
-                                tableStylerRows     : (elValue.get_CellBorders().get_InsideH()===null && elValue.get_CellSelect()==true) ? 1 : 2,
-                                tableStylerColumns  : (elValue.get_CellBorders().get_InsideV()===null && elValue.get_CellSelect()==true) ? 1 : 2,
-                                tableProps          : elValue,
-                                borderProps         : me.borderAdvancedProps,
-                                sectionProps        : me.api.asc_GetSectionProps(),
-                                handler             : function(result, value) {
-                                    if (result == 'ok') {
-                                        if (me.api) {
-                                            me.borderAdvancedProps = value.borderProps;
-                                            me.api.tblApply(value.tableProps);
-                                        }
-                                    }
-                                    me.editComplete();
-                                }
-                            });
-                            break;
-                        }
-                    }
-                }
-            }
-
-            if (win) {
-                win.show();
-                return win;
-            }
-        },
-
         onMenuSaveStyle:function(item, e, eOpt){
             var me = this;
             if (me.api) {
@@ -1880,7 +1726,7 @@ define([
             if (this.api && this.mode.canCoAuthoring && this.mode.canComments) {
                 this.documentHolder.suppressEditComplete = true;
 
-                var controller = DE.getController('Common.Controllers.Comments');
+                var controller = PDFE.getController('Common.Controllers.Comments');
                 if (controller) {
                     controller.addDummyComment();
                 }
@@ -1936,7 +1782,7 @@ define([
             var props = this.api.asc_GetContentControlProperties();
             if (props) {
                 if (item.value == 'settings') {
-                    (new DE.Views.ControlSettingsDialog({
+                    (new PDFE.Views.ControlSettingsDialog({
                         props: props,
                         api: me.api,
                         handler: function (result, value) {
@@ -1968,7 +1814,7 @@ define([
                 this.api.asc_RestartNumbering(item.value.start);
             else {
                 var me = this;
-                (new DE.Views.NumberingValueDialog({
+                (new PDFE.Views.NumberingValueDialog({
                     title: me.documentHolder.textNumberingValue,
                     props: item.value,
                     handler: function (result, value) {
@@ -2008,7 +1854,7 @@ define([
 
         onCellsAdd: function() {
             var me = this;
-            (new DE.Views.CellsAddDialog({
+            (new PDFE.Views.CellsAddDialog({
                 handler: function (result, settings) {
                     if (result == 'ok') {
                         if (settings.row) {
@@ -2232,48 +2078,6 @@ define([
                 me.api.ImgApply(properties);
             }
             me.editComplete();
-        },
-
-        onImgAdvanced: function(item, e) {
-            var elType, elValue;
-            var me = this;
-            if (me.api){
-                var selectedElements = me.api.getSelectedElements();
-
-                if (selectedElements && _.isArray(selectedElements)) {
-                    for (var i = selectedElements.length - 1; i >= 0; i--) {
-                        elType  = selectedElements[i].get_ObjectType();
-                        elValue = selectedElements[i].get_ObjectValue();
-
-                        if (Asc.c_oAscTypeSelectElement.Image == elType) {
-                            var imgsizeOriginal;
-                            if ( !elValue.get_ChartProperties() && !elValue.get_ShapeProperties() && !me.documentHolder.menuOriginalSize.isDisabled() && me.documentHolder.menuOriginalSize.isVisible()) {
-                                imgsizeOriginal = me.api.get_OriginalSizeImage();
-                                if (imgsizeOriginal)
-                                    imgsizeOriginal = {width:imgsizeOriginal.get_ImageWidth(), height:imgsizeOriginal.get_ImageHeight()};
-                            }
-
-                            var win = new DE.Views.ImageSettingsAdvanced({
-                                imageProps  : elValue,
-                                sizeOriginal: imgsizeOriginal,
-                                api         : me.api,
-                                sectionProps: me.api.asc_GetSectionProps(),
-                                handler     : function(result, value) {
-                                    if (result == 'ok') {
-                                        if (me.api) {
-                                            me.api.ImgApply(value.imageProps);
-                                        }
-                                    }
-                                    me.editComplete();
-                                }
-                            });
-                            win.show();
-                            win.btnOriginalSize.setVisible(me.documentHolder.menuOriginalSize.isVisible());
-                            break;
-                        }
-                    }
-                }
-            }
         },
 
         onImgOriginalSize: function(item, e) {
@@ -2620,7 +2424,7 @@ define([
             }
 
             var me = this;
-            me.api && (new DE.Views.ListIndentsDialog({
+            me.api && (new PDFE.Views.ListIndentsDialog({
                 api: me.api,
                 props: item.value.props,
                 isBullet: item.value.format === Asc.c_oAscNumberingFormat.Bullet,
@@ -2651,35 +2455,6 @@ define([
                 this.disableEquationBar();
                 this.disableSpecialPaste();
             }
-        },
-
-        onInsertImage: function(obj, x, y) {
-            if (!this.documentHolder || this.documentHolder._docProtection.isReadOnly || this.documentHolder._docProtection.isFormsOnly || this.documentHolder._docProtection.isCommentsOnly)
-                return;
-
-            if (this.api)
-                this.api.asc_addImage(obj);
-            this.editComplete();
-        },
-
-        onInsertImageUrl: function(obj, x, y) {
-            if (!this.documentHolder || this.documentHolder._docProtection.isReadOnly || this.documentHolder._docProtection.isFormsOnly || this.documentHolder._docProtection.isCommentsOnly)
-                return;
-
-            var me = this;
-            (new Common.Views.ImageFromUrlDialog({
-                handler: function(result, value) {
-                    if (result == 'ok') {
-                        if (me.api) {
-                            var checkUrl = value.replace(/ /g, '');
-                            if (!_.isEmpty(checkUrl)) {
-                                me.api.AddImageUrl([checkUrl], undefined, undefined, obj);
-                            }
-                        }
-                    }
-                    me.editComplete();
-                }
-            })).show();
         },
 
         onPluginContextMenu: function(data) {

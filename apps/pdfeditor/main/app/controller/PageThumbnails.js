@@ -36,12 +36,12 @@
 
 define([
     'core',
-    /*'documenteditor/main/app/collection/Thumbnails',*/
-    'documenteditor/main/app/view/PageThumbnails'
+    /*'pdfeditor/main/app/collection/Thumbnails',*/
+    'pdfeditor/main/app/view/PageThumbnails'
 ], function () {
     'use strict';
 
-    DE.Controllers.PageThumbnails = Backbone.Controller.extend(_.extend({
+    PDFE.Controllers.PageThumbnails = Backbone.Controller.extend(_.extend({
         models: [],
         /*collections: [
             'Thumbnails'
@@ -94,7 +94,7 @@ define([
             }, this));
 
 
-            var viewport = DE.getController('Viewport').getView('Viewport');
+            var viewport = PDFE.getController('Viewport').getView('Viewport');
             viewport.hlayout.on('layout:resizedrag',  _.bind(function () {
                 if (!this.firstShow) {
                     this.api.asc_viewerThumbnailsResize();
@@ -121,5 +121,5 @@ define([
             }
         },
 
-    }, DE.Controllers.PageThumbnails || {}));
+    }, PDFE.Controllers.PageThumbnails || {}));
 });

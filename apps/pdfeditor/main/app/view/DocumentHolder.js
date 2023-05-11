@@ -49,18 +49,10 @@ define([
     'common/main/lib/component/Calendar',
     'common/main/lib/view/InsertTableDialog',
     'common/main/lib/view/CopyWarningDialog',
-    'common/main/lib/view/OptionsDialog',
-    'documenteditor/main/app/view/DropcapSettingsAdvanced',
-    'documenteditor/main/app/view/HyperlinkSettingsDialog',
-    'documenteditor/main/app/view/ParagraphSettingsAdvanced',
-    'documenteditor/main/app/view/TableSettingsAdvanced',
-    'documenteditor/main/app/view/ControlSettingsDialog',
-    'documenteditor/main/app/view/NumberingValueDialog',
-    'documenteditor/main/app/view/CellsAddDialog',
-    'documenteditor/main/app/view/ListIndentsDialog'
+    'common/main/lib/view/OptionsDialog'
 ], function ($, _, Backbone, gateway) { 'use strict';
 
-    DE.Views.DocumentHolder =  Backbone.View.extend(_.extend({
+    PDFE.Views.DocumentHolder =  Backbone.View.extend(_.extend({
         el: '#editor_sdk',
 
         // Compile our stats template
@@ -2025,7 +2017,7 @@ define([
                     menuStyleSeparator.setVisible(edit_style);
                     menuStyle.setVisible(edit_style);
                     if (edit_style) {
-                        me.menuStyleUpdate.setCaption(me.updateStyleText.replace('%1', DE.getController('Main').translationTable[window.currentStyleName] || window.currentStyleName));
+                        me.menuStyleUpdate.setCaption(me.updateStyleText.replace('%1', PDFE.getController('Main').translationTable[window.currentStyleName] || window.currentStyleName));
                     }
 
                     var control_lock = (value.paraProps) ? (!value.paraProps.value.can_DeleteBlockContentControl() || !value.paraProps.value.can_EditBlockContentControl() ||
@@ -3340,5 +3332,5 @@ define([
         showEqToolbar: 'Show Equation Toolbar',
         textIndents: 'Adjust list indents'
 
-}, DE.Views.DocumentHolder || {}));
+}, PDFE.Views.DocumentHolder || {}));
 });

@@ -42,7 +42,7 @@ define([
 ], function (template) {
     'use strict';
 
-    DE.Views.Navigation = Common.UI.BaseView.extend(_.extend({
+    PDFE.Views.Navigation = Common.UI.BaseView.extend(_.extend({
         el: '#left-panel-navigation',
 
         storeNavigation: undefined,
@@ -286,5 +286,5 @@ define([
         txtClosePanel: "Close headings",
         txtSettings: "Headings settings"
 
-    }, DE.Views.Navigation || {}));
+    }, PDFE.Views.Navigation || {}));
 });

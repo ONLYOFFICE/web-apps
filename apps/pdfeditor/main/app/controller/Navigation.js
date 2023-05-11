@@ -36,12 +36,12 @@
 
 define([
     'core',
-    'documenteditor/main/app/collection/Navigation',
-    'documenteditor/main/app/view/Navigation'
+    'pdfeditor/main/app/collection/Navigation',
+    'pdfeditor/main/app/view/Navigation'
 ], function () {
     'use strict';
 
-    DE.Controllers.Navigation = Backbone.Controller.extend(_.extend({
+    PDFE.Controllers.Navigation = Backbone.Controller.extend(_.extend({
         models: [],
         collections: [
             'Navigation'
@@ -386,5 +386,5 @@ define([
         txtBeginning: 'Beginning of document',
         txtGotoBeginning: 'Go to the beginning of the document'
 
-    }, DE.Controllers.Navigation || {}));
+    }, PDFE.Controllers.Navigation || {}));
 });

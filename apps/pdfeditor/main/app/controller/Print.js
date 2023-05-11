@@ -31,11 +31,11 @@
  */
 define([
     'core',
-    'documenteditor/main/app/view/FileMenuPanels'
+    'pdfeditor/main/app/view/FileMenuPanels'
 ], function () {
     'use strict';
 
-    DE.Controllers.Print = Backbone.Controller.extend(_.extend({
+    PDFE.Controllers.Print = Backbone.Controller.extend(_.extend({
         views: [
             'PrintWithPreview'
         ],
@@ -570,5 +570,5 @@ define([
         txtPrintRangeInvalid: 'Invalid print range',
         textMarginsLast: 'Last Custom',
         txtPrintRangeSingleRange: 'Enter either a single page number or a single page range (for example, 5-12). Or you can Print to PDF.'
-    }, DE.Controllers.Print || {}));
+    }, PDFE.Controllers.Print || {}));
 });

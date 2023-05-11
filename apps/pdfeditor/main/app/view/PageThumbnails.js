@@ -38,11 +38,12 @@ define([
     'common/main/lib/util/utils',
     'common/main/lib/component/BaseView',
     'common/main/lib/component/Layout',
-    'common/main/lib/component/TreeView'
+    'common/main/lib/component/TreeView',
+    'common/main/lib/component/Slider'
 ], function (template) {
     'use strict';
 
-    DE.Views.PageThumbnails = Common.UI.BaseView.extend(_.extend({
+    PDFE.Views.PageThumbnails = Common.UI.BaseView.extend(_.extend({
         el: '#left-panel-thumbnails',
 
         storeThumbnails: undefined,
@@ -152,5 +153,5 @@ define([
         textThumbnailsSize: 'Thumbnails size',
         textHighlightVisiblePart: 'Highlight visible part of page'
 
-    }, DE.Views.PageThumbnails || {}));
+    }, PDFE.Views.PageThumbnails || {}));
 });

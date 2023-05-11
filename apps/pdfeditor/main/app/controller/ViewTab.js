@@ -40,11 +40,11 @@
 
 define([
     'core',
-    'documenteditor/main/app/view/ViewTab'
+    'pdfeditor/main/app/view/ViewTab'
 ], function () {
     'use strict';
 
-    DE.Controllers.ViewTab = Backbone.Controller.extend(_.extend({
+    PDFE.Controllers.ViewTab = Backbone.Controller.extend(_.extend({
         models : [],
         collections : [
         ],
@@ -85,7 +85,6 @@ define([
                 'ViewTab': {
                     'zoom:topage': _.bind(this.onBtnZoomTo, this, 'topage'),
                     'zoom:towidth': _.bind(this.onBtnZoomTo, this, 'towidth'),
-                    'rulers:change': _.bind(this.onChangeRulers, this),
                     'darkmode:change': _.bind(this.onChangeDarkMode, this)
                 },
                 'Toolbar': {
@@ -149,22 +148,8 @@ define([
                         emptyGroup.shift().append(me.view.chLeftMenu.$el[0]);
                     }
 
-                    if (!config.isEdit || config.canBrandingExt && config.customization && config.customization.rightMenu === false || !Common.UI.LayoutManager.isElementVisible('rightMenu')) {
-                        emptyGroup.push(me.view.chRightMenu.$el.closest('.elset'));
-                        me.view.chRightMenu.$el.remove();
-                    } else if (emptyGroup.length>0) {
-                        emptyGroup.push(me.view.chRightMenu.$el.closest('.elset'));
-                        emptyGroup.shift().append(me.view.chRightMenu.$el[0]);
-                    }
-
                     if (emptyGroup.length>1) { // remove empty group
                         emptyGroup[emptyGroup.length-1].closest('.group').remove();
-                    }
-
-                    if (!config.isEdit) {
-                        me.view.chRulers.$el.closest('.group').remove();
-                        me.view.chRulers.$el.remove();
-                        me.view.$el.find('.separator-rulers').remove();
                     }
 
                     me.view.cmbZoom.on('selected', _.bind(me.onSelectedZoomValue, me))
@@ -274,14 +259,6 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
-        onChangeRulers: function (btn, checked) {
-            Common.localStorage.setBool('de-hidden-rulers', !checked);
-            Common.Utils.InternalSettings.set("de-hidden-rulers", !checked);
-            this.api.asc_SetViewRulers(checked);
-            Common.NotificationCenter.trigger('layout:changed', 'rulers');
-            Common.NotificationCenter.trigger('edit:complete', this.view);
-        },
-
         onChangeDarkMode: function () {
             Common.UI.Themes.toggleContentTheme();
         },
@@ -306,5 +283,5 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.view);
         }
 
-    }, DE.Controllers.ViewTab || {}));
+    }, PDFE.Controllers.ViewTab || {}));
 });

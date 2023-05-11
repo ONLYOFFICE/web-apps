@@ -38,7 +38,8 @@ define([
     'common/main/lib/util/utils',
     'common/main/lib/component/BaseView',
     'common/main/lib/component/Layout',
-    'common/main/lib/component/TreeView'
+    'common/main/lib/component/TreeView',
+    'common/main/lib/component/Slider'
 ], function (template) {
     'use strict';
 

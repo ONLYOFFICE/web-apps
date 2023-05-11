@@ -40,14 +40,13 @@
  */
 
 define([
-    'common/main/lib/view/DocumentAccessDialog',
-    'common/main/lib/view/AutoCorrectDialog'
+    'common/main/lib/view/DocumentAccessDialog'
 ], function () {
     'use strict';
 
-    !DE.Views.FileMenuPanels && (DE.Views.FileMenuPanels = {});
+    !PDFE.Views.FileMenuPanels && (PDFE.Views.FileMenuPanels = {});
 
-    DE.Views.FileMenuPanels.ViewSaveAs = Common.UI.BaseView.extend({
+    PDFE.Views.FileMenuPanels.ViewSaveAs = Common.UI.BaseView.extend({
         el: '#panel-saveas',
         menu: undefined,
 
@@ -170,7 +169,7 @@ define([
         textDownloadAs: "Download as"
     });
 
-    DE.Views.FileMenuPanels.ViewSaveCopy = Common.UI.BaseView.extend({
+    PDFE.Views.FileMenuPanels.ViewSaveCopy = Common.UI.BaseView.extend({
         el: '#panel-savecopy',
         menu: undefined,
 
@@ -295,7 +294,7 @@ define([
         textSaveCopyAs: "Save Copy as"
     });
 
-    DE.Views.FileMenuPanels.Settings = Common.UI.BaseView.extend(_.extend({
+    PDFE.Views.FileMenuPanels.Settings = Common.UI.BaseView.extend(_.extend({
         el: '#panel-settings',
         menu: undefined,
 
@@ -1039,11 +1038,11 @@ define([
         },
 
         autoCorrect: function() {
-            if (this.dlgAutoCorrect && this.dlgAutoCorrect.isVisible()) return;
-            this.dlgAutoCorrect = new Common.Views.AutoCorrectDialog({
-                api: this.api
-            });
-            this.dlgAutoCorrect.show();
+            // if (this.dlgAutoCorrect && this.dlgAutoCorrect.isVisible()) return;
+            // this.dlgAutoCorrect = new Common.Views.AutoCorrectDialog({
+            //     api: this.api
+            // });
+            // this.dlgAutoCorrect.show();
         },
 
         strZoom: 'Default Zoom Value',
@@ -1108,9 +1107,9 @@ define([
         txtQuickPrintTip: 'The document will be printed on the last selected or default printer',
         txtWorkspaceSettingChange: 'Workspace setting (RTL interface) change',
         txtRestartEditor: 'Please restart document editor so that your workspace settings can take effect'
-    }, DE.Views.FileMenuPanels.Settings || {}));
+    }, PDFE.Views.FileMenuPanels.Settings || {}));
 
-    DE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
+    PDFE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         el: '#panel-recentfiles',
         menu: undefined,
 
@@ -1171,7 +1170,7 @@ define([
         txtOpenRecent: 'Open Recent'
     });
 
-    DE.Views.FileMenuPanels.CreateNew = Common.UI.BaseView.extend(_.extend({
+    PDFE.Views.FileMenuPanels.CreateNew = Common.UI.BaseView.extend(_.extend({
         el: '#panel-createnew',
         menu: undefined,
 
@@ -1259,9 +1258,9 @@ define([
 
         txtBlank: 'Blank document',
         txtCreateNew: 'Create New'
-    }, DE.Views.FileMenuPanels.CreateNew || {}));
+    }, PDFE.Views.FileMenuPanels.CreateNew || {}));
 
-    DE.Views.FileMenuPanels.DocumentInfo = Common.UI.BaseView.extend(_.extend({
+    PDFE.Views.FileMenuPanels.DocumentInfo = Common.UI.BaseView.extend(_.extend({
         el: '#panel-info',
         menu: undefined,
 
@@ -1917,13 +1916,13 @@ define([
         },
 
         onChangeProtectDocument: function(props) {
-            if (!props) {
-                var docprotect = DE.getController('DocProtection');
-                props = docprotect ? docprotect.getDocProps() : null;
-            }
-            if (props) {
-                this._state.docProtection = props;
-            }
+            // if (!props) {
+            //     var docprotect = DE.getController('DocProtection');
+            //     props = docprotect ? docprotect.getDocProps() : null;
+            // }
+            // if (props) {
+            //     this._state.docProtection = props;
+            // }
         },
 
         SetDisabled: function() {
@@ -1983,9 +1982,9 @@ define([
         txtPdfProducer: 'PDF Producer',
         txtDocumentInfo: 'Document Info'
 
-    }, DE.Views.FileMenuPanels.DocumentInfo || {}));
+    }, PDFE.Views.FileMenuPanels.DocumentInfo || {}));
 
-    DE.Views.FileMenuPanels.DocumentRights = Common.UI.BaseView.extend(_.extend({
+    PDFE.Views.FileMenuPanels.DocumentRights = Common.UI.BaseView.extend(_.extend({
         el: '#panel-rights',
         menu: undefined,
 
@@ -2112,9 +2111,9 @@ define([
         txtRights: 'Persons who have rights',
         txtBtnAccessRights: 'Change access rights',
         txtAccessRights: 'Access Rights'
-    }, DE.Views.FileMenuPanels.DocumentRights || {}));
+    }, PDFE.Views.FileMenuPanels.DocumentRights || {}));
 
-    DE.Views.FileMenuPanels.Help = Common.UI.BaseView.extend({
+    PDFE.Views.FileMenuPanels.Help = Common.UI.BaseView.extend({
         el: '#panel-help',
         menu: undefined,
 
@@ -2316,7 +2315,7 @@ define([
         }
     });
 
-    DE.Views.PrintWithPreview = Common.UI.BaseView.extend(_.extend({
+    PDFE.Views.PrintWithPreview = Common.UI.BaseView.extend(_.extend({
         el: '#panel-print',
         menu: undefined,
 
@@ -2703,5 +2702,5 @@ define([
         txtBothSidesLongDesc: 'Flip pages on long edge',
         txtBothSidesShortDesc: 'Flip pages on short edge'
 
-    }, DE.Views.PrintWithPreview || {}));
+    }, PDFE.Views.PrintWithPreview || {}));
 });

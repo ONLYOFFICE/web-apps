@@ -40,7 +40,7 @@ define([
 ], function () {
     'use strict';
 
-    var webapp = window.DE || window.PE || window.SSE;
+    var webapp = window.DE || window.PE || window.SSE || window.PDFE;
     var features = Object.assign({
                         version: '{{PRODUCT_VERSION}}',
                         eventloading: true,

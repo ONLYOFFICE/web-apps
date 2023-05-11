@@ -43,13 +43,13 @@ define([
     'core',
     'common/main/lib/util/Shortcuts',
     'common/main/lib/view/SaveAsDlg',
-    'documenteditor/main/app/view/LeftMenu',
-    'documenteditor/main/app/view/FileMenu',
-    'documenteditor/main/app/view/ViewTab'
+    'pdfeditor/main/app/view/LeftMenu',
+    'pdfeditor/main/app/view/FileMenu',
+    'pdfeditor/main/app/view/ViewTab'
 ], function () {
     'use strict';
 
-    DE.Controllers.LeftMenu = Backbone.Controller.extend(_.extend({
+    PDFE.Controllers.LeftMenu = Backbone.Controller.extend(_.extend({
         views: [
             'LeftMenu',
             'FileMenu',
@@ -95,9 +95,9 @@ define([
                     'file:close': this.clickToolbarTab.bind(this, 'other'),
                     'save:disabled': this.changeToolbarSaveState.bind(this)
                 },
-                'Common.Views.ReviewChanges': {
-                    'collaboration:chat': _.bind(this.onShowHideChat, this)
-                },
+                // 'Common.Views.ReviewChanges': {
+                //     'collaboration:chat': _.bind(this.onShowHideChat, this)
+                // },
                 'ViewTab': {
                     'viewtab:navigation': _.bind(this.onShowHideNavigation, this),
                     'leftmenu:hide': _.bind(this.onLeftMenuHide, this)
@@ -475,7 +475,7 @@ define([
             if (this.mode.canViewComments && this.leftMenu.panelComments && this.leftMenu.panelComments.isVisible())
                 value = resolved = true;
             (value) ? this.api.asc_showComments(resolved) : this.api.asc_hideComments();
-            this.getApplication().getController('Common.Controllers.ReviewChanges').commentsShowHide(value ? 'show' : 'hide');
+            // this.getApplication().getController('Common.Controllers.ReviewChanges').commentsShowHide(value ? 'show' : 'hide');
             /** coauthoring end **/
 
             value = Common.localStorage.getBool("de-settings-cachemode", true);
@@ -663,7 +663,7 @@ define([
                     Common.UI.Menu.Manager.hideAll();
                     me.leftMenu.showMenu('comments');
 
-                    var ctrl = DE.getController('Common.Controllers.Comments');
+                    var ctrl = PDFE.getController('Common.Controllers.Comments');
                     ctrl.getView().showEditContainer(true);
                     ctrl.onAfterShow();
                 });
@@ -795,7 +795,7 @@ define([
                         return false;
                     }
 
-                    var statusbar = DE.getController('Statusbar');
+                    var statusbar = PDFE.getController('Statusbar');
                     var menu_opened = statusbar.statusbar.$el.find('.open > [data-toggle="dropdown"]');
                     if (menu_opened.length) {
                         $.fn.dropdown.Constructor.prototype.keydown.call(menu_opened[0], e);
@@ -852,7 +852,7 @@ define([
 
         showHistory: function() {
             if (!this.mode.wopi) {
-                var maincontroller = DE.getController('Main');
+                var maincontroller = PDFE.getController('Main');
                 if (!maincontroller.loadMask)
                     maincontroller.loadMask = new Common.UI.LoadMask({owner: $('#viewport')});
                 maincontroller.loadMask.setTitle(this.textLoadHistory);
@@ -956,5 +956,5 @@ define([
         warnDownloadAsPdf: 'Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.',
         warnReplaceString: '{0} is not a valid special character for the Replace With box.'
 
-    }, DE.Controllers.LeftMenu || {}));
+    }, PDFE.Controllers.LeftMenu || {}));
 });

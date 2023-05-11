@@ -39,7 +39,7 @@
 
 define([
     'backbone',
-    'documenteditor/main/app/model/ShapeGroup'
+    'pdfeditor/main/app/model/ShapeGroup'
 ], function(Backbone){ 'use strict';
     if (Common === undefined)
         var Common = {};

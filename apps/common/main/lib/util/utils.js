@@ -789,7 +789,7 @@ Common.Utils.isBrowserSupported = function() {
 
 Common.Utils.showBrowserRestriction = function() {
     if (document.getElementsByClassName && document.getElementsByClassName('app-error-panel').length>0) return;
-    var editor = (window.DE ? 'Document' : window.SSE ? 'Spreadsheet' : window.PE ? 'Presentation' : 'that');
+    var editor = (window.DE ? 'Document' : window.SSE ? 'Spreadsheet' : window.PE ? 'Presentation' : window.PDFE ? 'PDF' : 'that');
     var newDiv = document.createElement("div");
     newDiv.innerHTML = '<div class="app-error-panel">' +
                             '<div class="message-block">' +
@@ -1052,7 +1052,7 @@ Common.Utils.warningDocumentIsLocked = function (opts) {
     if ( opts.disablefunc )
         opts.disablefunc(true);
 
-    var app = window.DE || window.PE || window.SSE;
+    var app = window.DE || window.PE || window.SSE || window.PDFE;
 
     Common.UI.warning({
         msg: Common.Locale.get("warnFileLocked",{name:"Common.Translation", default: "You can't edit this file. Document is in use by another application."}),
