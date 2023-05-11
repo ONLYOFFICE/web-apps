@@ -12,9 +12,6 @@
         min-width: @value;
         height: @value;
         line-height: @value - 2px;
-        .pixel-ratio__2_5 & {
-            width: @value;
-        }
     }
 
     &.small {
@@ -954,6 +951,12 @@
     .pixel-ratio__2_5 & {
         svg.icon {
             width: 100%;
+        }
+    }
+
+    &.huge-1 {
+        .pixel-ratio__2_5 & {
+            width: 40px;
         }
     }
 
