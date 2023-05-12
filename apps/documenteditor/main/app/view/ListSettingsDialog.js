@@ -377,7 +377,7 @@ define([
                 itemsTemplate: _.template(itemsTemplate.join('')),
                 takeFocusOnClose: true,
                 data        : [],
-                updateFormControl: function(record) {
+                updateFormControl: function(record, defValue) {
                     var formcontrol = $(this.el).find('.form-control');
                     if (record) {
                         if (record.get('value')==Asc.c_oAscNumberingFormat.Bullet)
@@ -385,7 +385,7 @@ define([
                         else
                             formcontrol[0].innerHTML = record.get('displayValue');
                     } else
-                        formcontrol[0].innerHTML = '';
+                        formcontrol[0].innerHTML = defValue ? defValue : '';
                 }
             });
             this.cmbFormat.on('selected', _.bind(function (combo, record) {
@@ -1001,8 +1001,10 @@ define([
                     store.push(this._itemNewBullet);
                     this.cmbFormat.setData(store);
                 }
-                if (format == Asc.c_oAscNumberingFormat.Bullet)
+                if (format === Asc.c_oAscNumberingFormat.Bullet)
                     this.cmbFormat.selectRecord(this.cmbFormat.store.findWhere({value: Asc.c_oAscNumberingFormat.Bullet, symbol: this.bulletProps.symbol, font: this.bulletProps.font || ''}));
+                else if (this.type===0 && format === Asc.c_oAscNumberingFormat.None)
+                    this.cmbFormat.setValue(Asc.c_oAscNumberingFormat.None, this.txtNone);
                 else
                     this.cmbFormat.setValue((format!==undefined) ? format : '');
             }

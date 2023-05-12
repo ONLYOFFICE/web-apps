@@ -12,6 +12,9 @@
         min-width: @value;
         height: @value;
         line-height: @value - 2px;
+        .pixel-ratio__2_5 & {
+            width: @value;
+        }
     }
 
     &.small {
@@ -946,6 +949,12 @@
         margin: 0;
         display: inline-block;
         background-repeat: no-repeat;
+    }
+
+    .pixel-ratio__2_5 & {
+        svg.icon {
+            width: 100%;
+        }
     }
 
     box-shadow: inset 0 0 0 @scaled-one-px-value-ie @border-regular-control-ie;

@@ -558,7 +558,7 @@ define([
                     me.btnTextFormatting = new Common.UI.Button({
                         id          : 'id-toolbar-btn-formatting',
                         cls         : 'btn-toolbar no-caret',
-                        iconCls     : 'toolbar__icon more-vertical',
+                        iconCls     : 'toolbar__icon btn-more-vertical',
                         lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormat, _set.editVisibleArea],
                         menu        : new Common.UI.Menu({
                             items: [
@@ -1131,7 +1131,7 @@ define([
                 me.btnTextOrient = new Common.UI.Button({
                     id          : 'id-toolbar-rtn-textorient',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'toolbar__icon text-orient-ccw',
+                    iconCls     : 'toolbar__icon btn-text-orient-ccw',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.wsLockFormat, _set.userProtected],
                     menu        : new Common.UI.Menu({
                         items: [
@@ -1145,7 +1145,7 @@ define([
                             },
                             {
                                 caption     : me.textCounterCw,
-                                iconCls     : 'menu__icon text-orient-ccw',
+                                iconCls     : 'menu__icon btn-text-orient-ccw',
                                 checkable   : true,
                                 checkmark   : false,
                                 toggleGroup : 'textorientgroup',
@@ -3147,7 +3147,7 @@ define([
             me.btnImgForward.setMenu(new Common.UI.Menu({
                 items: [{
                     caption : _holder_view.textArrangeFront,
-                    iconCls : 'menu__icon arrange-front',
+                    iconCls : 'menu__icon btn-arrange-front',
                     value  : Asc.c_oAscDrawingLayerType.BringToFront
                 }, {
                     caption : _holder_view.textArrangeForward,
@@ -3174,7 +3174,7 @@ define([
             me.btnImgAlign.setMenu(new Common.UI.Menu({
                 items: [{
                     caption : _holder_view.textShapeAlignLeft,
-                    iconCls : 'menu__icon shape-align-left',
+                    iconCls : 'menu__icon btn-shape-align-left',
                     value   : 0
                 }, {
                     caption : _holder_view.textShapeAlignCenter,

@@ -138,6 +138,16 @@ define([
                 if (/theme:changed/.test(cmd)) {
                     Common.UI.Themes.setTheme(param);
                 } else
+                if (/renderervars:changed/.test(cmd)) {
+                    const opts = JSON.parse(param);
+
+                    if ( opts.theme && opts.theme.system ) {
+                        window.RendererProcessVariable.theme.system = opts.theme.system;
+
+                        if ( Common.UI.Themes.currentThemeId() == 'theme-system' )
+                            Common.UI.Themes.setTheme('theme-system');
+                    }
+                } else
                 if (/element:show/.test(cmd)) {
                     var _mr = /title:(?:(true|show)|(false|hide))/.exec(param);
                     if ( _mr ) {

@@ -257,7 +257,8 @@
     "unknownErrorText": "නොදන්නා දෝෂයකි.",
     "uploadImageExtMessage": "නොදන්නා අනුරුවක ආකෘතියකි.",
     "uploadImageFileCountMessage": "අනුරුවක් උඩුගත කර නැත.",
-    "uploadImageSizeMessage": "අනුරුව ඉතා විශාලට. උ. ප්‍රමාණය මෙ.බ. 25."
+    "uploadImageSizeMessage": "අනුරුව ඉතා විශාලට. උ. ප්‍රමාණය මෙ.බ. 25.",
+    "errorProtectedRange": "This range is not allowed for editing."
   },
   "LongActions": {
     "advDRMPassword": "මුරපදය",
@@ -375,6 +376,7 @@
       "textLinkType": "සබැඳියේ වර්ගය",
       "textOk": "හරි",
       "textOther": "වෙනත්",
+      "textPasteImageUrl": "රූපයක ඒ.ස.නි. අලවන්න",
       "textPictureFromLibrary": "ගබඩාවෙන් ඡායාරූපය",
       "textPictureFromURL": "ඒ.ස.නි. වෙතින් ඡායාරූපය",
       "textRange": "පරාසය",
@@ -394,8 +396,7 @@
       "txtNotUrl": "මෙම ක්‍ෂේත්‍රය \"http://උපවසම.උදාහරණය.ලංකා\" ආකෘතියේ ඒ.ස.නි. ක් විය යුතුය.",
       "txtSorting": "වර්ග කිරීම",
       "txtSortSelected": "තේරූ දෑ වර්ග කරන්න",
-      "txtYes": "ඔව්",
-      "textPasteImageUrl": "Paste an image URL"
+      "txtYes": "ඔව්"
     },
     "Edit": {
       "notcriticalErrorTitle": "අවවාදයයි",

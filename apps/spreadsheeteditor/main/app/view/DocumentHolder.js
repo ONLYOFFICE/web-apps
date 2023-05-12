@@ -945,7 +945,7 @@ define([
 
             me.mnuBringToFront = new Common.UI.MenuItem({
                 caption : this.textArrangeFront,
-                iconCls : 'menu__icon arrange-front',
+                iconCls : 'menu__icon btn-arrange-front',
                 type    : 'arrange',
                 value   : Asc.c_oAscDrawingLayerType.BringToFront
             });
@@ -992,7 +992,7 @@ define([
                     menuAlign: 'tl-tr',
                     items: [{
                         caption : me.textShapeAlignLeft,
-                        iconCls : 'menu__icon shape-align-left',
+                        iconCls : 'menu__icon btn-shape-align-left',
                         value   : 0
                     }, {
                         caption : me.textShapeAlignCenter,
