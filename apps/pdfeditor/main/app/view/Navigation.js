@@ -161,8 +161,8 @@ define([
             this.viewNavigationList = new Common.UI.TreeView({
                 el: $('#navigation-list'),
                 store: this.storeNavigation,
-                enableKeyEvents: false,
-                emptyText: this.txtEmpty,
+                enableKeyEvents: true,
+                emptyText: this.txtEmptyViewer,
                 emptyItemText: this.txtEmptyItem,
                 style: 'border: none;',
                 delayRenderTips: true,
@@ -174,42 +174,7 @@ define([
             isWrap && this.viewNavigationList.$el.addClass( 'wrap');
             this.navigationMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
-                items: [{
-                        iconCls     : 'menu__icon promote',
-                        caption     : this.txtPromote,
-                        value: 'promote'
-                    },
-                    {
-                        iconCls     : 'menu__icon demote',
-                        caption     : this.txtDemote,
-                        value: 'demote'
-                    },
-                    {
-                        caption     : '--'
-                    },
-                    {
-                        caption     : this.txtHeadingBefore,
-                        value: 'before'
-                    },
-                    {
-                        caption     : this.txtHeadingAfter,
-                        value: 'after'
-                    },
-                    {
-                        caption     : this.txtNewHeading,
-                        value: 'new'
-                    },
-                    {
-                        caption     : '--'
-                    },
-                    {
-                        iconCls     : 'menu__icon btn-select-all',
-                        caption     : this.txtSelect,
-                        value: 'select'
-                    },
-                    {
-                        caption     : '--'
-                    },
+                items: [
                     {
                         iconCls     : 'menu__icon expand-all',
                         caption     : this.txtExpand,
@@ -265,16 +230,9 @@ define([
         ChangeSettings: function(props) {
         },
 
-        txtPromote: 'Promote',
-        txtDemote: 'Demote',
-        txtHeadingBefore: 'New heading before',
-        txtHeadingAfter: 'New heading after',
-        txtNewHeading: 'New subheading',
-        txtSelect: 'Select content',
         txtExpand: 'Expand all',
         txtCollapse: 'Collapse all',
         txtExpandToLevel: 'Expand to level...',
-        txtEmpty: 'There are no headings in the document.<br>Apply a heading style to the text so that it appears in the table of contents.',
         txtEmptyItem: 'Empty Heading',
         txtEmptyViewer: 'There are no headings in the document.',
         strNavigate: "Headings",

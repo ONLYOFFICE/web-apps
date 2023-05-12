@@ -234,7 +234,7 @@ define([
                     this.btnSelectTool = new Common.UI.Button({
                         id: 'tlbtn-selecttool',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-select-tool',
+                        iconCls: 'toolbar__icon btn-select',
                         lock: [_set.disableOnStart],
                         caption: me.capBtnSelect,
                         toggleGroup: 'select-tools-tb',
