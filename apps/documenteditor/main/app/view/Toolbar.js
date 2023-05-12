@@ -683,7 +683,7 @@ define([
                     this.btnInsertText = new Common.UI.Button({
                         id: 'tlbtn-inserttext',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-text',
+                        iconCls: 'toolbar__icon btn-big-text',
                         lock: [_set.paragraphLock, _set.headerLock, _set.inEquation, _set.controlPlain, _set.contentLock, _set.inFootnote, _set.previewReviewMode, _set.viewFormMode,
                             _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
                         caption: me.capBtnInsTextbox,
@@ -2337,7 +2337,7 @@ define([
                             iconCls     : 'menu__icon btn-text',
                             toggleGroup: 'textbox',
                             value: 'textRect',
-                            iconClsForMainBtn: 'btn-text'
+                            iconClsForMainBtn: 'btn-big-text'
                         },
                         {
                             caption: this.tipInsertVerticalText,
@@ -2346,7 +2346,7 @@ define([
                             iconCls     : 'menu__icon btn-text-vertical',
                             toggleGroup: 'textbox',
                             value: 'textRectVertical',
-                            iconClsForMainBtn: 'btn-text-vertical'
+                            iconClsForMainBtn: 'btn-big-text-vertical'
                         },
                     ]
                 }));
