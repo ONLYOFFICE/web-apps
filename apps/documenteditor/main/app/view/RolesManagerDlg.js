@@ -128,6 +128,7 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
                 parentEl: $('#roles-manager-btn-up', this.$window),
                 cls: 'btn-toolbar bg-white',
                 iconCls: 'caret-up',
+                scaling: false,
                 hint: this.textUp
             });
             this.btnUp.on('click', _.bind(this.onMoveClick, this, true));
@@ -136,6 +137,7 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
                 parentEl: $('#roles-manager-btn-down', this.$window),
                 cls: 'btn-toolbar bg-white',
                 iconCls: 'caret-down',
+                scaling: false,
                 hint: this.textDown
             });
             this.btnDown.on('click', _.bind(this.onMoveClick, this, false));

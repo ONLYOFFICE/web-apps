@@ -124,7 +124,7 @@
       "textMultiple": "banyak",
       "textNoBreakBefore": "Tanpa break halaman sebelum",
       "textNoChanges": "Tidak ada perubahan.",
-      "textNoComments": "Dokumen ini tidak memiliki komentar",
+      "textNoComments": "Tidak Ada Komentar",
       "textNoContextual": "Tambah interval di antara paragraf dengan gaya sama",
       "textNoKeepLines": "Jangan satukan garis",
       "textNoKeepNext": "Jangan satukan dengan berikutnya",
@@ -594,6 +594,7 @@
     "textCancel": "Batalkan",
     "textCaseSensitive": "Harus sama persis",
     "textCentimeter": "Sentimeter",
+    "textChangePassword": "Ubah Kata Sandi",
     "textChooseEncoding": "Pilih Encoding",
     "textChooseTxtOptions": "Pilih Opsi TXT",
     "textCollaboration": "Kolaborasi",
@@ -603,6 +604,7 @@
     "textCommentsDisplay": "Display Komentar",
     "textCreated": "Dibuat",
     "textCustomSize": "Custom Ukuran",
+    "textDialogUnprotect": "Masukkan kata sandi untuk membuka proteksi dokumen",
     "textDirection": "Arah",
     "textDisableAll": "Nonaktifkan Semua",
     "textDisableAllMacrosWithNotification": "Nonaktifkan semua macros dengan notifikasi",
@@ -620,6 +622,7 @@
     "textEnableAll": "Aktifkan Semua",
     "textEnableAllMacrosWithoutNotification": "Aktifkan semua macros tanpa notifikasi",
     "textEncoding": "Enkoding",
+    "textEncryptFile": "Enkripsi Berkas",
     "textFastWV": "Tampilan Web Cepat",
     "textFeedback": "Masukan & Dukungan",
     "textFind": "Cari",
@@ -706,9 +709,6 @@
     "txtScheme7": "Margin Sisa",
     "txtScheme8": "Alur",
     "txtScheme9": "Cetakan",
-    "textChangePassword": "Change Password",
-    "textDialogUnprotect": "Enter a password to unprotect document",
-    "textEncryptFile": "Encrypt File",
     "textFillingForms": "Filling forms",
     "textNoChanges": "No changes (Read only)",
     "textPassword": "Password",
@@ -733,6 +733,8 @@
     "stayButtonText": "Tetap di halaman ini",
     "textOk": "OK",
     "textSwitchedMobileView": "Beralih ke Tampilan seluler",
-    "textSwitchedStandardView": "Beralih ke Tampilan standar"
+    "textSwitchedStandardView": "Beralih ke Tampilan standar",
+    "textRenameFile": "Rename File",
+    "textEnterNewFileName": "Enter a new file name"
   }
 }

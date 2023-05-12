@@ -257,7 +257,8 @@
     "unknownErrorText": "Անհայտ սխալ։",
     "uploadImageExtMessage": "Նկարի անհայտ ձևաչափ։",
     "uploadImageFileCountMessage": "Ոչ մի նկար չի բեռնվել։",
-    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:"
+    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:",
+    "errorProtectedRange": "This range is not allowed for editing."
   },
   "LongActions": {
     "advDRMPassword": "Գաղտնաբառ",
@@ -581,7 +582,13 @@
       "textYen": "Յուան",
       "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ ",
       "txtSortHigh2Low": "Տեսակավորել բարձրից ցածր:",
-      "txtSortLow2High": "Տեսակավորել ցածրից բարձր:"
+      "txtSortLow2High": "Տեսակավորել ցածրից բարձր:",
+      "textCustomFormat": "Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textSave": "Save",
+      "textEnterFormat": "Enter Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
     },
     "Settings": {
       "advCSVOptions": "Ընտրել CSV-ի հարաչափերը",

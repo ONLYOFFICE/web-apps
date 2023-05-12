@@ -46,7 +46,14 @@ if ( window.AscDesktopEditor ) {
     }
 
     if ( !!window.RendererProcessVariable ) {
-        desktop.theme = window.RendererProcessVariable.theme;
+        const theme = desktop.theme = window.RendererProcessVariable.theme;
+
+        if ( theme ) {
+            window.uitheme = {
+                id: theme.id,
+                type: theme.type,
+            }
+        }
     }
 
     window.desktop.execCommand('webapps:entry', (window.features && JSON.stringify(window.features)) || '');

@@ -873,7 +873,7 @@ define([
 
             var listId = this.api.asc_GetCurrentNumberingId(),
                 numformat = (listId !== null) ? this.api.asc_GetNumberingPr(listId).get_Lvl(this.api.asc_GetCurrentNumberingLvl()).get_Format() : Asc.c_oAscNumberingFormat.None;
-            this.toolbar.btnMarkers.toggle(numformat===Asc.c_oAscNumberingFormat.Bullet, true);
+            this.toolbar.btnMarkers.toggle(numformat===Asc.c_oAscNumberingFormat.Bullet || numformat===Asc.c_oAscNumberingFormat.None && (listId !== null), true);
             this.toolbar.btnNumbers.toggle(numformat!==Asc.c_oAscNumberingFormat.None && numformat!==Asc.c_oAscNumberingFormat.Bullet, true);
         },
 
@@ -1357,7 +1357,7 @@ define([
             if (type===2) { // multilevel
                 this.toolbar.mnuMultiChangeLevel && this.toolbar.mnuMultiChangeLevel.setDisabled(format === Asc.c_oAscNumberingFormat.None);
             } else if (type===0) {
-                this.toolbar.mnuMarkerChangeLevel && this.toolbar.mnuMarkerChangeLevel.setDisabled(format !== Asc.c_oAscNumberingFormat.Bullet);
+                this.toolbar.mnuMarkerChangeLevel && this.toolbar.mnuMarkerChangeLevel.setDisabled(!(format === Asc.c_oAscNumberingFormat.Bullet || format===Asc.c_oAscNumberingFormat.None && (listId !== null)));
             } else {
                 this.toolbar.mnuNumberChangeLevel && this.toolbar.mnuNumberChangeLevel.setDisabled(format === Asc.c_oAscNumberingFormat.Bullet || format === Asc.c_oAscNumberingFormat.None);
             }
@@ -1485,7 +1485,8 @@ define([
                 level = me.api.asc_GetCurrentNumberingLvl(),
                 levelProps = (listId === null) ? null : me.api.asc_GetNumberingPr(listId),
                 format = (listId === null) ? Asc.c_oAscNumberingFormat.None : levelProps.get_Lvl(level).get_Format(),
-                isNew = listId === null || type===0 && format!==Asc.c_oAscNumberingFormat.Bullet || type===1 && format===Asc.c_oAscNumberingFormat.Bullet,
+                isNew = listId === null || type===0 && !(format===Asc.c_oAscNumberingFormat.Bullet || format===Asc.c_oAscNumberingFormat.None) ||
+                        type===1 && format===Asc.c_oAscNumberingFormat.Bullet,
                 props = isNew ? new Asc.CAscNumbering() : levelProps,
                 picker = (type===0) ? me.toolbar.mnuMarkersPicker : (type===1 ? me.toolbar.mnuNumbersPicker : me.toolbar.mnuMultilevelPicker);
             if (isNew && picker && picker.store.length>1) {

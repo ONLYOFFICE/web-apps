@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import { f7, Link, Fab, Icon, FabButtons, FabButton, Page, View, Navbar, Subnavbar } from 'framework7-react';
+import { f7, Icon, FabButtons, FabButton, Page, View, Navbar, Subnavbar } from 'framework7-react';
 import { observer, inject } from "mobx-react";
 import { withTranslation } from 'react-i18next';
 import EditOptions from '../view/edit/Edit';
@@ -206,7 +206,19 @@ class MainPage extends Component {
                 {/* {
                     Device.phone ? null : <SearchSettings />
                 } */}
-
+                {isFabShow &&
+                    <CSSTransition
+                        in={this.state.fabVisible}
+                        timeout={500}
+                        classNames="fab"
+                        mountOnEnter
+                        unmountOnExit
+                    >
+                        <div className="fab fab-right-bottom" onClick={() => this.turnOffViewerMode()}>
+                            <a href="#"><i className="icon icon-edit-mode"></i></a>
+                        </div>
+                    </CSSTransition>
+                }
                 <Snackbar 
                     isShowSnackbar={this.state.snackbarVisible} 
                     closeCallback={() => this.handleOptionsViewClosed('snackbar')}
@@ -241,19 +253,6 @@ class MainPage extends Component {
                 {
                     !this.state.navigationVisible ? null :
                         <NavigationController onclosed={this.handleOptionsViewClosed.bind(this, 'navigation')}/>
-                }
-                {isFabShow &&
-                    <CSSTransition
-                        in={this.state.fabVisible}
-                        timeout={500}
-                        classNames="fab"
-                        mountOnEnter
-                        unmountOnExit
-                    >
-                        <Fab position="right-bottom" slot="fixed" onClick={() => this.turnOffViewerMode()}>
-                            <Icon icon="icon-edit-mode"/>
-                        </Fab>
-                    </CSSTransition>
                 }
                 {appOptions.isDocReady && <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)}/>}
             </Page>

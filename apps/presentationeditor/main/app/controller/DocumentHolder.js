@@ -2432,7 +2432,7 @@ define([
                 me.equationSettingsBtn = new Common.UI.Button({
                     parentEl: $('#id-document-holder-btn-equation-settings', documentHolder.cmpEl),
                     cls         : 'btn-toolbar no-caret',
-                    iconCls     : 'toolbar__icon more-vertical',
+                    iconCls     : 'toolbar__icon btn-more-vertical',
                     hint        : me.documentHolder.advancedEquationText,
                     menu        : me.documentHolder.createEquationMenu('popuptbeqinput', 'tl-bl')
                 });

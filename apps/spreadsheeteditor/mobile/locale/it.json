@@ -257,7 +257,8 @@
     "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
     "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
-    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
+    "errorProtectedRange": "This range is not allowed for editing."
   },
   "LongActions": {
     "advDRMPassword": "Password",
@@ -581,7 +582,13 @@
       "txtSortHigh2Low": "Ordinare dal più alto al più basso",
       "txtSortLow2High": "Ordinare dal più basso al più alto",
       "textChangeShape": "Change Shape",
-      "textDeleteImage": "Delete Image"
+      "textDeleteImage": "Delete Image",
+      "textCustomFormat": "Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textSave": "Save",
+      "textEnterFormat": "Enter Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
     },
     "Settings": {
       "advCSVOptions": "Scegliere le opzioni CSV",

@@ -257,7 +257,8 @@
     "unknownErrorText": "Error desconegut.",
     "uploadImageExtMessage": "Format d'imatge desconegut.",
     "uploadImageFileCountMessage": "No s'ha carregat cap imatge.",
-    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB."
+    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB.",
+    "errorProtectedRange": "This range is not allowed for editing."
   },
   "LongActions": {
     "advDRMPassword": "Contrasenya",
@@ -581,7 +582,13 @@
       "textYen": "Ien",
       "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
       "txtSortHigh2Low": "Ordenar de major a menor",
-      "txtSortLow2High": "Ordenar de menor a major"
+      "txtSortLow2High": "Ordenar de menor a major",
+      "textCustomFormat": "Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textSave": "Save",
+      "textEnterFormat": "Enter Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
     },
     "Settings": {
       "advCSVOptions": "Triar les opcions CSV",

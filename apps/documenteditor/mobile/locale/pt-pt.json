@@ -47,6 +47,7 @@
     "textOther": "Outros",
     "textPageBreak": "Quebra de página",
     "textPageNumber": "Número de página",
+    "textPasteImageUrl": "Colar um URL de imagem",
     "textPictureFromLibrary": "Imagem da biblioteca",
     "textPictureFromURL": "Imagem de um URL",
     "textPosition": "Posição",
@@ -64,8 +65,7 @@
     "textTableSize": "Tamanho da tabela",
     "textWithBlueLinks": "Com ligações azuis",
     "textWithPageNumbers": "Com números de página",
-    "txtNotUrl": "Este campo deve ser um URL no formato \"http://www.exemplo.com\"",
-    "textPasteImageUrl": "Paste an image URL"
+    "txtNotUrl": "Este campo deve ser um URL no formato \"http://www.exemplo.com\""
   },
   "Common": {
     "Collaboration": {
@@ -693,6 +693,7 @@
     "textTrackedChanges": "Alterações registadas",
     "textUnitOfMeasurement": "Unidade de medida",
     "textUploaded": "Carregado",
+    "textVerify": "Verificar",
     "textWords": "Palavras",
     "textYes": "Sim",
     "txtDownloadTxt": "Descarregar TXT",
@@ -723,7 +724,6 @@
     "txtScheme9": "Fundição",
     "textTypeEditing": "Type Of Editing",
     "textUnprotect": "Unprotect",
-    "textVerify": "Verify",
     "titleDialogUnprotect": "Unprotect Document"
   },
   "Toolbar": {
@@ -733,6 +733,8 @@
     "stayButtonText": "Ficar na página",
     "textOk": "Aceitar",
     "textSwitchedMobileView": "Alterado para vista móvel",
-    "textSwitchedStandardView": "Alterado para a vista predefinida"
+    "textSwitchedStandardView": "Alterado para a vista predefinida",
+    "textRenameFile": "Rename File",
+    "textEnterNewFileName": "Enter a new file name"
   }
 }

@@ -471,14 +471,6 @@
             left: 0;
         }
     }
-
-    .btn-group,
-    .btn-toolbar {
-        .pixel-ratio__2_5 & {
-            display: flex;
-            align-items: center;
-        }
-    }
 }
 
 .style-off-tabs {
@@ -1009,4 +1001,15 @@
 
 section .field-styles {
     width: 100%;
+}
+
+.toolbar,
+#special-paste-container {
+    .btn-group,
+    .btn-toolbar {
+        .pixel-ratio__2_5 & {
+            display: flex;
+            align-items: center;
+        }
+    }
 }

@@ -257,7 +257,8 @@
     "unknownErrorText": "不明なエラー",
     "uploadImageExtMessage": "不明なイメージ形式",
     "uploadImageFileCountMessage": "アップロードしたイメージがない",
-    "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。"
+    "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。",
+    "errorProtectedRange": "This range is not allowed for editing."
   },
   "LongActions": {
     "advDRMPassword": "パスワード",
@@ -581,7 +582,13 @@
       "textYen": "円",
       "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります。",
       "txtSortHigh2Low": " 大きい順に並べ替えます",
-      "txtSortLow2High": "小さい順に並べ替えます。"
+      "txtSortLow2High": "小さい順に並べ替えます。",
+      "textCustomFormat": "Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textSave": "Save",
+      "textEnterFormat": "Enter Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
     },
     "Settings": {
       "advCSVOptions": "CSVオプションを選択する",

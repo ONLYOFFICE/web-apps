@@ -420,6 +420,20 @@ module.exports = function (grunt, rootpathprefix) {
                     },
                 }
             },
+            deiconshuge: {
+                src: [`${_prefix}apps/common/main/resources/img/toolbar/2.5x/huge/*.svg`,
+                        `${_prefix}apps/documenteditor/main/resources/img/toolbar/2.5x/huge/*.svg`],
+                dest: `${_prefix}apps/documenteditor/main/resources/img/`,
+                options: {
+                    mode: {
+                        symbol: {
+                            inline: true,
+                            dest: './',
+                            sprite: `iconshuge@2.5x.svg`,
+                        },
+                    },
+                }
+            },
             peiconssmall: {
                 src: [`${_prefix}apps/common/main/resources/img/toolbar/2.5x/*.svg`,
                         `${_prefix}apps/presentationeditor/main/resources/img/toolbar/2.5x/*.svg`],

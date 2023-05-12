@@ -872,6 +872,7 @@ define([
                 this.btnTableTemplate = new Common.UI.Button({
                     cls         : 'btn-large-dataview template-table',
                     iconCls     : 'icon-template-table',
+                    scaling     : false,
                     menu        : new Common.UI.Menu({
                         style: 'width: 588px;',
                         items: [
@@ -891,6 +892,7 @@ define([
                         store: new Common.UI.DataViewStore(),
                         itemTemplate: _.template('<div id="<%= id %>" class="item"><img src="<%= imageUrl %>" height="52" width="72"></div>'),
                         style: 'max-height: 350px;',
+                        cls: 'classic',
                         delayRenderTips: true
                     });
                 });

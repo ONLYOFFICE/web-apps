@@ -257,7 +257,8 @@
     "unknownErrorText": "Errore ezezaguna.",
     "uploadImageExtMessage": "Irudi formatu ezezaguna.",
     "uploadImageFileCountMessage": "Ez da irudirik kargatu.",
-    "uploadImageSizeMessage": "Irudia handiegia da. Gehienezko tamaina 25 MB da."
+    "uploadImageSizeMessage": "Irudia handiegia da. Gehienezko tamaina 25 MB da.",
+    "errorProtectedRange": "This range is not allowed for editing."
   },
   "LongActions": {
     "advDRMPassword": "Pasahitza",
@@ -581,7 +582,13 @@
       "textYen": "Yen",
       "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa",
       "txtSortHigh2Low": "Antolatu handienetik txikienera",
-      "txtSortLow2High": "Antolatu txikienetik handienera"
+      "txtSortLow2High": "Antolatu txikienetik handienera",
+      "textCustomFormat": "Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textSave": "Save",
+      "textEnterFormat": "Enter Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
     },
     "Settings": {
       "advCSVOptions": "Hautatu CSV aukerak",

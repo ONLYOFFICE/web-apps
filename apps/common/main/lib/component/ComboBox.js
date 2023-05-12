@@ -744,7 +744,7 @@ define([
         setValue: function(value, defValue) {
             Common.UI.ComboBox.prototype.setValue.call(this, value, defValue);
             if (this.options.updateFormControl)
-                this.options.updateFormControl.call(this, this._selectedItem);
+                this.options.updateFormControl.call(this, this._selectedItem, defValue);
         },
 
         selectRecord: function(record) {

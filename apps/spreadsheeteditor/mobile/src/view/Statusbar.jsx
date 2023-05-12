@@ -81,7 +81,7 @@ const PageAllList = observer((props) => {
     )
 });
 
-const PageCustomTabColor =  inject("storePalette")(observer (props => {
+const PageCustomTabColor = inject("storePalette")(observer (props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
 
@@ -106,7 +106,7 @@ const PageCustomTabColor =  inject("storePalette")(observer (props => {
     )
 }));
 
-const PageTabColor =  inject("storePalette")(observer(props =>  {
+const PageTabColor = inject("storePalette")(observer(props =>  {
     const { t } = useTranslation();
     const {sheets, allSheets = sheets.sheets} = props;
     const storePalette = props.storePalette;
@@ -180,19 +180,19 @@ const PopoverAllList = (props) => {
     )
 };
 
-const StatusbarView = inject('storeAppOptions', 'sheets', 'users')(observer(props => {
+const StatusbarView = inject('storeAppOptions', 'storeWorksheets', 'users')(observer(props => {
     const { t } = useTranslation();
     const _t = t('Statusbar', {returnObjects: true});
     const isAndroid = Device.android;
     const isPhone = Device.isPhone;
-    const {sheets, storeAppOptions, users} = props;
-    const allSheets = sheets.sheets;
-    const hiddenSheets = sheets.hiddenWorksheets();
-    const isWorkbookLocked = sheets.isWorkbookLocked;
-    const isProtectedWorkbook = sheets.isProtectedWorkbook;
+    const {storeWorksheets, storeAppOptions, users} = props;
+    const allSheets = storeWorksheets.sheets;
+    const hiddenSheets = storeWorksheets.hiddenWorksheets();
+    const isWorkbookLocked = storeWorksheets.isWorkbookLocked;
+    const isProtectedWorkbook = storeWorksheets.isProtectedWorkbook;
     const isEdit = storeAppOptions.isEdit;
     const isDisconnected = users.isDisconnected;
-    const isDisabledEditSheet = sheets.isDisabledEditSheet;
+    const isDisabledEditSheet = storeWorksheets.isDisabledEditSheet;
 
     return (
         <Fragment>
@@ -264,18 +264,18 @@ const StatusbarView = inject('storeAppOptions', 'sheets', 'users')(observer(prop
                 </Actions>
             ) : null}
             {
-                <PopoverAllList sheets={sheets} onTabListClick={props.onTabListClick}/>
+                <PopoverAllList sheets={storeWorksheets} onTabListClick={props.onTabListClick}/>
             }
             {isPhone ? 
                 <Sheet style={{height: '48%'}} className='move-sheet' swipeToClose={true}>
                     <div className='swipe-container'>
                         <Icon icon='icon-swipe'/>
                     </div>
-                    <PageListMove sheets={sheets} onMenuMoveClick={props.onMenuMoveClick}/>
+                    <PageListMove sheets={storeWorksheets} onMenuMoveClick={props.onMenuMoveClick}/>
                 </Sheet>
                 :
                 <Popover id="idx-move-sheet-popover" closeByOutsideClick={false}>
-                    <PageListMove sheets={sheets} onMenuMoveClick={props.onMenuMoveClick}/>
+                    <PageListMove sheets={storeWorksheets} onMenuMoveClick={props.onMenuMoveClick}/>
                 </Popover>
             }
             { isPhone ?
@@ -286,13 +286,13 @@ const StatusbarView = inject('storeAppOptions', 'sheets', 'users')(observer(prop
                         $$('.statusbar').css('top', '0%');
                     }}>
                         <View routes={routes} name='tabColorView'>
-                            <PageTabColor sheets={sheets} onSetWorkSheetColor={props.onSetWorkSheetColor}/>
+                            <PageTabColor sheets={storeWorksheets} onSetWorkSheetColor={props.onSetWorkSheetColor}/>
                         </View>
                 </Sheet>
                 : 
                 <Popover id="idx-tab-color-popover" backdrop={false}>
                     <View style={{height: '450px'}} routes={routes} name='tabColorView'> 
-                        <PageTabColor sheets={sheets} onSetWorkSheetColor={props.onSetWorkSheetColor}/>
+                        <PageTabColor sheets={storeWorksheets} onSetWorkSheetColor={props.onSetWorkSheetColor}/>
                     </View>
                 </Popover>
             }

@@ -1520,7 +1520,7 @@ define([
         },
 
         hideEyedropperTip: function () {
-            if (!this.tooltips.eyedropper.isHidden) {
+            if (!this.tooltips.eyedropper.isHidden && this.tooltips.eyedropper.color) {
                 this.tooltips.eyedropper.color.css({left: '-1000px', top: '-1000px'});
                 if (this.tooltips.eyedropper.ref) {
                     this.tooltips.eyedropper.ref.hide();
@@ -4799,7 +4799,7 @@ define([
                 me.equationSettingsBtn = new Common.UI.Button({
                     parentEl: $('#id-document-holder-btn-equation-settings', documentHolder.cmpEl),
                     cls         : 'btn-toolbar no-caret',
-                    iconCls     : 'toolbar__icon more-vertical',
+                    iconCls     : 'toolbar__icon btn-more-vertical',
                     hint        : me.documentHolder.advancedEquationText,
                     menu        : me.documentHolder.createEquationMenu('popuptbeqinput', 'tl-bl')
                 });

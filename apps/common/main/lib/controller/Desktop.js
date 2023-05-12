@@ -138,6 +138,16 @@ define([
                 if (/theme:changed/.test(cmd)) {
                     Common.UI.Themes.setTheme(param);
                 } else
+                if (/renderervars:changed/.test(cmd)) {
+                    const opts = JSON.parse(param);
+
+                    if ( opts.theme && opts.theme.system ) {
+                        window.RendererProcessVariable.theme.system = opts.theme.system;
+
+                        if ( Common.UI.Themes.currentThemeId() == 'theme-system' )
+                            Common.UI.Themes.setTheme('theme-system');
+                    }
+                } else
                 if (/element:show/.test(cmd)) {
                     var _mr = /title:(?:(true|show)|(false|hide))/.exec(param);
                     if ( _mr ) {
@@ -446,7 +456,7 @@ define([
                         'modal:close': _onModalDialog.bind(this, 'close'),
                         'modal:hide': _onModalDialog.bind(this, 'hide'),
                         'uitheme:changed' : function (name) {
-                            if (Common.localStorage.getBool('ui-theme-use-system', false)) {
+                            if ( window.uitheme.is_theme_system() ) {
                                 native.execCommand("uitheme:changed", JSON.stringify({name:'theme-system'}));
                             } else {
                                 var theme = Common.UI.Themes.get(name);
