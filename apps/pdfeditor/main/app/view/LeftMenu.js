@@ -205,11 +205,11 @@ define([
 
             if (btn.pressed) {
                 if (!(this.$el.width() > SCALE_MIN)) {
-                    this.$el.width(parseInt(Common.localStorage.getItem('de-mainmenu-width')) || MENU_SCALE_PART);
+                    this.$el.width(parseInt(Common.localStorage.getItem('pdfe-mainmenu-width')) || MENU_SCALE_PART);
                 }
             } else if (!this._state.pluginIsRunning) {
                 var width = this.$el.width();
-                this.isVisible() && (width>SCALE_MIN) && Common.localStorage.setItem('de-mainmenu-width', width);
+                this.isVisible() && (width>SCALE_MIN) && Common.localStorage.setItem('pdfe-mainmenu-width', width);
                 this.$el.width(SCALE_MIN);
             }
 
@@ -277,9 +277,6 @@ define([
             } else if (name == 'comment') {
                 this.panelComments = panel;
             } else /** coauthoring end **/
-            if (name == 'history') {
-                this.panelHistory = panel.render('#left-panel-history');
-            } else
             if (name == 'plugins' && !this.panelPlugins) {
                 this.panelPlugins = panel.render(/*'#left-panel-plugins'*/);
             } else
@@ -423,13 +420,6 @@ define([
             this.btnAbout.panel.setMode(mode);
             mode.canUseThumbnails && this.btnThumbnails.show();
             return this;
-        },
-
-        showHistory: function() {
-            this._state.pluginIsRunning = false;
-            this.panelHistory.show();
-            this.panelHistory.$el.width((parseInt(Common.localStorage.getItem('de-mainmenu-width')) || MENU_SCALE_PART) - SCALE_MIN);
-            Common.NotificationCenter.trigger('layout:changed', 'history');
         },
 
         setDeveloperMode: function(mode, beta, version) {

@@ -1339,9 +1339,8 @@ define([
                 toolbarController   && toolbarController.setApi(me.api);
 
                 if (this.appOptions.isEdit) {
-                    var fontsControllers    = application.getController('Common.Controllers.Fonts');
-                    fontsControllers    && fontsControllers.setApi(me.api);
-
+                    // var fontsControllers    = application.getController('Common.Controllers.Fonts');
+                    // fontsControllers    && fontsControllers.setApi(me.api);
                     // application.getController('Common.Controllers.Protection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
 
                     var viewport = this.getApplication().getController('Viewport').getView('Viewport');

@@ -53,12 +53,9 @@ define([
         formats: [[
             {name: 'DOCX',  imgCls: 'docx',  type: Asc.c_oAscFileType.DOCX},
             {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF},
-            {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT},
-            {name: 'DOCXF',  imgCls: 'docxf',  type: Asc.c_oAscFileType.DOCXF},
-            {name: 'OFORM',  imgCls: 'oform',  type: Asc.c_oAscFileType.OFORM}
+            {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT}
         ],[
             {name: 'DOTX',  imgCls: 'dotx',  type: Asc.c_oAscFileType.DOTX},
-            {name: 'DOCM',  imgCls: 'docm',  type: Asc.c_oAscFileType.DOCM},
             {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA},
             {name: 'OTT',   imgCls: 'ott',   type: Asc.c_oAscFileType.OTT}
         ],[
@@ -78,11 +75,9 @@ define([
                 '<div class="format-items">',
                     '<% _.each(rows, function(row) { %>',
                             '<% _.each(row, function(item) { %>',
-                                '<% if (item.type!==Asc.c_oAscFileType.DOCM || fileType=="docm") { %>',
-                                    '<div class="format-item"><div class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
-                                        '<div class ="svg-format-<%= item.imgCls %>"></div>',
-                                    '</div></div>',
-                                '<% } %>',
+                                '<div class="format-item"><div class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
+                                    '<div class ="svg-format-<%= item.imgCls %>"></div>',
+                                '</div></div>',
                             '<% }) %>',
                         '<div class="divider"></div>',
                     '<% }) %>',
@@ -111,7 +106,7 @@ define([
         render: function() {
             if (/^pdf$/.test(this.fileType)) {
                 this.formats[0].splice(1, 1, {name: 'PDF',  imgCls: 'pdf', type: ''}); // remove pdf
-                this.formats[1].splice(2, 1); // remove pdfa
+                this.formats[1].splice(1, 1); // remove pdfa
             } else if (/^xps|oxps$/.test(this.fileType)) {
                 this.formats[0].push({name: this.fileType.toUpperCase(),  imgCls: this.fileType, type: ''}); // original xps/oxps
             } else if (/^djvu$/.test(this.fileType)) {
@@ -119,10 +114,6 @@ define([
                     {name: 'DJVU',  imgCls: 'djvu',  type: ''}, // original djvu
                     {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF}
                 ]];
-            }
-
-            if (this.mode && !this.mode.canFeatureForms && this.formats.length>2) {
-                this.formats[0].splice(3, 2); // remove docxf and oform
             }
 
             this.$el.html(this.template({rows:this.formats, fileType: (this.fileType || 'docx').toLowerCase(), header: this.textDownloadAs}));
@@ -176,12 +167,9 @@ define([
         formats: [[
             {name: 'DOCX',  imgCls: 'docx',  type: Asc.c_oAscFileType.DOCX, ext: '.docx'},
             {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF, ext: '.pdf'},
-            {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT, ext: '.odt'},
-            {name: 'DOCXF',  imgCls: 'docxf',  type: Asc.c_oAscFileType.DOCXF, ext: '.docxf'},
-            {name: 'OFORM',  imgCls: 'oform',  type: Asc.c_oAscFileType.OFORM, ext: '.oform'}
+            {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT, ext: '.odt'}
         ],[
             {name: 'DOTX',  imgCls: 'dotx',  type: Asc.c_oAscFileType.DOTX, ext: '.dotx'},
-            {name: 'DOCM',  imgCls: 'docm',  type: Asc.c_oAscFileType.DOCM, ext: '.docm'},
             {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA, ext: '.pdf'},
             {name: 'OTT',   imgCls: 'ott',   type: Asc.c_oAscFileType.OTT, ext: '.ott'}
         ],[
@@ -202,11 +190,9 @@ define([
                 '<div class="format-items">',
                     '<% _.each(rows, function(row) { %>',
                         '<% _.each(row, function(item) { %>',
-                            '<% if (item.type!==Asc.c_oAscFileType.DOCM || fileType=="docm") { %>',
-                                '<div class="format-item"><div class="btn-doc-format" format="<%= item.type %>" format-ext="<%= item.ext %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
-                                    '<div class ="svg-format-<%= item.imgCls %>"></div>',
-                                '</div></div>',
-                            '<% } %>',
+                            '<div class="format-item"><div class="btn-doc-format" format="<%= item.type %>" format-ext="<%= item.ext %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
+                                '<div class ="svg-format-<%= item.imgCls %>"></div>',
+                            '</div></div>',
                         '<% }) %>',
                         '<div class="divider"></div>',
                     '<% }) %>',
@@ -235,7 +221,7 @@ define([
         render: function() {
             if (/^pdf$/.test(this.fileType)) {
                 this.formats[0].splice(1, 1, {name: 'PDF',  imgCls: 'pdf', type: '', ext: true}); // remove pdf
-                this.formats[1].splice(2, 1); // remove pdfa
+                this.formats[1].splice(1, 1); // remove pdfa
             } else if (/^xps|oxps$/.test(this.fileType)) {
                 this.formats[0].push({name: this.fileType.toUpperCase(),  imgCls: this.fileType, type: '', ext: true}); // original xps/oxps
             } else if (/^djvu$/.test(this.fileType)) {
@@ -243,10 +229,6 @@ define([
                     {name: 'DJVU',  imgCls: 'djvu',  type: '', ext: true}, // original djvu
                     {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF, ext: '.pdf'}
                 ]];
-            }
-
-            if (this.mode && !this.mode.canFeatureForms && this.formats.length>2) {
-                this.formats[0].splice(3, 2); // remove docxf and oform
             }
 
             this.$el.html(this.template({rows:this.formats, fileType: (this.fileType || 'docx').toLowerCase(), header: this.textSaveCopyAs}));
@@ -311,12 +293,6 @@ define([
                 '<tr class="forcesave">',
                     '<td colspan="2"><span id="fms-chb-forcesave"></span></td>',
                 '</tr>',
-                '<tr class="edit">',
-                    '<td colspan="2"><div id="fms-chb-paste-settings"></div></td>',
-                '</tr>',
-                '<tr class="edit">',
-                    '<td colspan="2"><span id="fms-chb-compatible"></span></td>',
-                '</tr>',
                 '<tr class ="editsave divider-group"></tr>',
                 '<tr class="collaboration">',
                     '<td colspan="2" class="group-name"><label><%= scope.txtCollaboration %></label></td>',
@@ -337,16 +313,6 @@ define([
                     '</div></td>',
                 '</tr>',
                 '<tr class ="divider-subgroup coauth changes-mode"></tr>',
-                '<tr class="view-review">',
-                    '<td colspan="2" class="subgroup-name"><label><%= scope.txtShowTrackChanges %></label></td>',
-                '</tr>',
-                '<tr class="view-review">',
-                    '<td colspan="2"><div id="fms-rb-show-track-ballons"></div></td>',
-                '</tr>',
-                '<tr class="view-review">',
-                    '<td colspan="2"><div id="fms-rb-show-track-tooltips"></div></td>',
-                '</tr>',
-                '<tr class ="divider-subgroup  view-review"></tr>',
                 '<tr class="coauth changes-show">',
                     '<td colspan="2" class="subgroup-name"><label><%= scope.strShowChanges %></label></td>',
                 '</tr>',
@@ -370,27 +336,8 @@ define([
                     '<td colspan="2"><div id="fms-chb-resolved-comment"></div></td>',
                 '</tr>',
                 '<tr class ="collaboration divider-group"></tr>',
-                '<tr class ="edit">',
-                    '<td colspan="2" class="group-name proofing"><label><%= scope.txtProofing %></label></td>',
-                '</tr>',
-                '<tr class="edit spellcheck">',
-                    '<td colspan="2"><div id="fms-chb-spell-check"></div></td>',
-                '</tr>',
-                '<tr class="edit spellcheck">',
-                    '<td colspan="2"><span id="fms-chb-ignore-uppercase-words"></span></td>',
-                '</tr>',
-                '<tr class="edit spellcheck">',
-                    '<td colspan="2"><span id="fms-chb-ignore-numbers-words"></span></td>',
-                '</tr>',
-                '<tr class="edit">',
-                    '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtAutoCorrect %></button></div></td>',
-                '</tr>',
-                '<tr class ="edit divider-group"></tr>',
                 '<tr>',
                     '<td colspan="2" class="group-name"><label><%= scope.txtWorkspace %></label></td>',
-                '</tr>',
-                '<tr class="edit">',
-                    '<td colspan="2"><span id="fms-chb-align-guides"></span></td>',
                 '</tr>',
                 '<tr>',
                     '<td colspan="2"><div id="fms-chb-use-alt-key"></div></td>',
@@ -410,10 +357,6 @@ define([
                         '<div><div id="fms-cmb-theme"></div>',
                         '<div id="fms-chb-dark-mode"></div></div></td>',
                 '</tr>',
-                '<tr class="edit">',
-                    '<td><label><%= scope.strUnit %></label></td>',
-                    '<td><span id="fms-cmb-unit"></span></td>',
-                '</tr>',
                 '<tr>',
                     '<td><label><%= scope.strZoom %></label></td>',
                     '<td><div id="fms-cmb-zoom" class="input-group-nr"></div></td>',
@@ -421,11 +364,6 @@ define([
                 '<tr>',
                     '<td><label><%= scope.strFontRender %></label></td>',
                     '<td><span id="fms-cmb-font-render"></span></td>',
-                '</tr>',
-                '<tr class="macros">',
-                    '<td><label><%= scope.strMacrosSettings %></label></td>',
-                    '<td>',
-                        '<div><div id="fms-cmb-macros"></div>',
                 '</tr>',
                 '<tr class ="divider-group"></tr>',
                 '<tr class="fms-btn-apply">',
@@ -484,41 +422,6 @@ define([
             });
             /** coauthoring end **/
 
-            this.chSpell = new Common.UI.CheckBox({
-                el: $markup.findById('#fms-chb-spell-check'),
-                labelText: this.txtSpellCheck,
-                dataHint: '2',
-                dataHintDirection: 'left',
-                dataHintOffset: 'small'
-            }).on('change', function(field, newValue, oldValue, eOpts){
-                me.chIgnoreUppercase.setDisabled(field.getValue()!=='checked');
-                me.chIgnoreNumbers.setDisabled(field.getValue()!=='checked');
-            });
-
-            this.chIgnoreUppercase = new Common.UI.CheckBox({
-                el: $markup.findById('#fms-chb-ignore-uppercase-words'),
-                labelText: this.strIgnoreWordsInUPPERCASE,
-                dataHint: '2',
-                dataHintDirection: 'left',
-                dataHintOffset: 'small'
-            });
-
-            this.chIgnoreNumbers = new Common.UI.CheckBox({
-                el: $markup.findById('#fms-chb-ignore-numbers-words'),
-                labelText: this.strIgnoreWordsWithNumbers,
-                dataHint: '2',
-                dataHintDirection: 'left',
-                dataHintOffset: 'small'
-            });
-
-            this.chCompatible = new Common.UI.CheckBox({
-                el: $markup.findById('#fms-chb-compatible'),
-                labelText: this.textOldVersions,
-                dataHint: '2',
-                dataHintDirection: 'left',
-                dataHintOffset: 'small'
-            });
-
             this.chAutosave = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-autosave'),
                 labelText: this.textAutoSave,
@@ -535,14 +438,6 @@ define([
             this.chForcesave = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-forcesave'),
                 labelText: this.textForceSave,
-                dataHint: '2',
-                dataHintDirection: 'left',
-                dataHintOffset: 'small'
-            });
-
-            this.chAlignGuides = new Common.UI.CheckBox({
-                el: $markup.findById('#fms-chb-align-guides'),
-                labelText: this.textAlignGuides,
                 dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -600,24 +495,6 @@ define([
             });
             this.rbCoAuthModeStrict.on('change', _.bind(this.onChangeCoAuthMode, this,0));
             this.rbCoAuthModeStrict.$el.parent().on('click', function (){me.rbCoAuthModeStrict.setValue(true);});
-
-            this.rbChangesBallons = new Common.UI.RadioBox({
-                el          :$markup.findById('#fms-rb-show-track-ballons'),
-                name        : 'show-track-changes',
-                labelText   : this.txtChangesBalloons,
-                dataHint: '2',
-                dataHintDirection: 'left',
-                dataHintOffset: 'small'
-            });
-
-            this.rbChangesTip = new Common.UI.RadioBox({
-                el          :$markup.findById('#fms-rb-show-track-tooltips'),
-                name        : 'show-track-changes',
-                labelText   : this.txtChangesTip,
-                dataHint: '2',
-                dataHintDirection: 'left',
-                dataHintOffset: 'small'
-            });
 
             this.rbShowChangesNone = new Common.UI.RadioBox({
                 el          :$markup.findById('#fms-rb-show-changes-none'),
@@ -681,59 +558,6 @@ define([
                 dataHintOffset: 'big'
             });
             this.cmbFontRender.on('selected', _.bind(this.onFontRenderSelected, this));
-
-            this.cmbUnit = new Common.UI.ComboBox({
-                el          : $markup.findById('#fms-cmb-unit'),
-                style       : 'width: 160px;',
-                menuCls     : 'menu-aligned',
-                menuStyle   : 'min-width:100%;',
-                editable    : false,
-                cls         : 'input-group-nr',
-                data        : [
-                    { value: Common.Utils.Metric.c_MetricUnits['cm'], displayValue: this.txtCm },
-                    { value: Common.Utils.Metric.c_MetricUnits['pt'], displayValue: this.txtPt },
-                    { value: Common.Utils.Metric.c_MetricUnits['inch'], displayValue: this.txtInch }
-                ],
-                dataHint: '2',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
-            });
-
-            this.cmbMacros = new Common.UI.ComboBox({
-                el          : $markup.findById('#fms-cmb-macros'),
-                style       : 'width: 160px;',
-                editable    : false,
-                menuCls     : 'menu-aligned',
-                menuStyle   : 'min-width:100%;',
-                cls         : 'input-group-nr',
-                data        : [
-                    { value: 2, displayValue: this.txtStopMacros, descValue: this.txtStopMacrosDesc },
-                    { value: 0, displayValue: this.txtWarnMacros, descValue: this.txtWarnMacrosDesc },
-                    { value: 1, displayValue: this.txtRunMacros, descValue: this.txtRunMacrosDesc }
-                ],
-                itemsTemplate: _.template([
-                    '<% _.each(items, function(item) { %>',
-                    '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem" style ="display: flex; flex-direction: column;">',
-                    '<label><%= scope.getDisplayValue(item) %></label><label class="comment-text"><%= item.descValue %></label></a></li>',
-                    '<% }); %>'
-                ].join('')),
-                dataHint: '2',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
-            });
-
-            this.chPaste = new Common.UI.CheckBox({
-                el: $markup.findById('#fms-chb-paste-settings'),
-                labelText: this.strPasteButton,
-                dataHint: '2',
-                dataHintDirection: 'left',
-                dataHintOffset: 'small'
-            });
-
-            this.btnAutoCorrect = new Common.UI.Button({
-                el: $markup.findById('#fms-btn-auto-correct')
-            });
-            this.btnAutoCorrect.on('click', _.bind(this.autoCorrect, this));
 
             this.cmbTheme = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-theme'),
@@ -828,7 +652,7 @@ define([
         setMode: function(mode) {
             this.mode = mode;
 
-            var fast_coauth = Common.Utils.InternalSettings.get("de-settings-coauthmode");
+            var fast_coauth = Common.Utils.InternalSettings.get("pdfe-settings-coauthmode");
 
             $('tr.edit', this.el)[mode.isEdit?'show':'hide']();
             $('tr.autosave', this.el)[mode.isEdit && (mode.canChangeCoAuthoring || !fast_coauth) ? 'show' : 'hide']();
@@ -843,13 +667,10 @@ define([
             $('tr.coauth.changes-mode', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring && mode.canChangeCoAuthoring ? 'show' : 'hide']();
             $('tr.coauth.changes-show', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring ? 'show' : 'hide']();
             $('tr.live-viewer', this.el)[mode.canLiveView && !mode.isOffline && mode.canChangeCoAuthoring ? 'show' : 'hide']();
-            $('tr.view-review', this.el)[mode.canViewReview ? 'show' : 'hide']();
-            $('tr.spellcheck', this.el)[mode.isEdit && Common.UI.FeaturesManager.canChange('spellcheck') ? 'show' : 'hide']();
             $('tr.comments', this.el)[mode.canCoAuthoring ? 'show' : 'hide']();
             /** coauthoring end **/
 
             $('tr.quick-print', this.el)[mode.canQuickPrint && !(mode.customization && mode.customization.compactHeader && mode.isEdit) ? 'show' : 'hide']();
-            $('tr.macros', this.el)[(mode.customization && mode.customization.macros===false) ? 'hide' : 'show']();
             if ( !Common.UI.Themes.available() ) {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
             }
@@ -861,65 +682,48 @@ define([
         },
 
         updateSettings: function() {
-            this.chUseAltKey.setValue(Common.Utils.InternalSettings.get("de-settings-show-alt-hints"));
+            this.chUseAltKey.setValue(Common.Utils.InternalSettings.get("pdfe-settings-show-alt-hints"));
 
-            var value = Common.Utils.InternalSettings.get("de-settings-zoom");
+            var value = Common.Utils.InternalSettings.get("pdfe-settings-zoom");
             value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : 100);
             var item = this.cmbZoom.store.findWhere({value: value});
             this.cmbZoom.setValue(item ? parseInt(item.get('value')) : (value>0 ? value+'%' : 100));
 
             /** coauthoring begin **/
-            this.chLiveComment.setValue(Common.Utils.InternalSettings.get("de-settings-livecomment"));
-            this.chResolvedComment.setValue(Common.Utils.InternalSettings.get("de-settings-resolvedcomment"));
+            this.chLiveComment.setValue(Common.Utils.InternalSettings.get("pdfe-settings-livecomment"));
+            this.chResolvedComment.setValue(Common.Utils.InternalSettings.get("pdfe-settings-resolvedcomment"));
 
-            var fast_coauth = Common.Utils.InternalSettings.get("de-settings-coauthmode");
+            var fast_coauth = Common.Utils.InternalSettings.get("pdfe-settings-coauthmode");
             this.rbCoAuthModeFast.setValue(fast_coauth);
             this.rbCoAuthModeStrict.setValue(!fast_coauth);
             this.fillShowChanges(fast_coauth);
 
-            this.chLiveViewer.setValue(Common.Utils.InternalSettings.get("de-settings-coauthmode"));
+            this.chLiveViewer.setValue(Common.Utils.InternalSettings.get("pdfe-settings-coauthmode"));
 
-            value = Common.Utils.InternalSettings.get((fast_coauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict");
+            value = Common.Utils.InternalSettings.get((fast_coauth) ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict");
 
             this.rbShowChangesNone.setValue(value=='none');
             this.rbShowChangesLast.setValue(value=='last');
             this.rbShowChangesAll.setValue(value=='all');
             /** coauthoring end **/
 
-            value = Common.Utils.InternalSettings.get("de-settings-fontrender");
+            value = Common.Utils.InternalSettings.get("pdfe-settings-fontrender");
             item = this.cmbFontRender.store.findWhere({value: parseInt(value)});
             this.cmbFontRender.setValue(item ? item.get('value') : 0);
             this._fontRender = this.cmbFontRender.getValue();
 
-            value = Common.Utils.InternalSettings.get("de-settings-cachemode");
+            value = Common.Utils.InternalSettings.get("pdfe-settings-cachemode");
             item = this.cmbFontRender.store.findWhere({value: 'custom'});
             item && value && item.set('checked', !!value);
             item && value && this.cmbFontRender.cmpEl.find('#' + item.get('id') + ' a').addClass('checked');
 
-            value = Common.Utils.InternalSettings.get("de-settings-unit");
-            item = this.cmbUnit.store.findWhere({value: value});
-            this.cmbUnit.setValue(item ? parseInt(item.get('value')) : Common.Utils.Metric.getDefaultMetric());
-            this._oldUnits = this.cmbUnit.getValue();
-
-            value = Common.Utils.InternalSettings.get("de-settings-autosave");
+            value = Common.Utils.InternalSettings.get("pdfe-settings-autosave");
             this.chAutosave.setValue(value == 1);
 
             if (this.mode.canForcesave)
-                this.chForcesave.setValue(Common.Utils.InternalSettings.get("de-settings-forcesave"));
+                this.chForcesave.setValue(Common.Utils.InternalSettings.get("pdfe-settings-forcesave"));
 
-            if (Common.UI.FeaturesManager.canChange('spellcheck')) {
-                this.chSpell.setValue(Common.Utils.InternalSettings.get("de-settings-spellcheck"));
-                this.chIgnoreUppercase.setValue(Common.Utils.InternalSettings.get("de-spellcheck-ignore-uppercase-words"));
-                this.chIgnoreNumbers.setValue(Common.Utils.InternalSettings.get("de-spellcheck-ignore-numbers-words"));
-            }
-            this.chAlignGuides.setValue(Common.Utils.InternalSettings.get("de-settings-showsnaplines"));
-            this.chCompatible.setValue(Common.Utils.InternalSettings.get("de-settings-compatible"));
-
-            item = this.cmbMacros.store.findWhere({value: Common.Utils.InternalSettings.get("de-macros-mode")});
-            this.cmbMacros.setValue(item ? item.get('value') : 0);
-
-            this.chPaste.setValue(Common.Utils.InternalSettings.get("de-settings-paste-button"));
-            this.chQuickPrint.setValue(Common.Utils.InternalSettings.get("de-settings-quick-print-button"));
+            this.chQuickPrint.setValue(Common.Utils.InternalSettings.get("pdfe-settings-quick-print-button"));
 
             var data = [];
             for (var t in Common.UI.Themes.map()) {
@@ -934,65 +738,39 @@ define([
             this.chDarkMode.setValue(Common.UI.Themes.isContentThemeDark());
             this.chDarkMode.setDisabled(!Common.UI.Themes.isDarkTheme());
             this.chRTL.setValue(Common.localStorage.getBool("ui-rtl"));
-
-            if (this.mode.canViewReview) {
-                value = Common.Utils.InternalSettings.get("de-settings-review-hover-mode");
-                this.rbChangesTip.setValue(value);
-                this.rbChangesBallons.setValue(!value);
-            }
         },
 
         applySettings: function() {
             Common.UI.Themes.setTheme(this.cmbTheme.getValue());
             if (!this.chDarkMode.isDisabled() && (this.chDarkMode.isChecked() !== Common.UI.Themes.isContentThemeDark()))
                 Common.UI.Themes.toggleContentTheme();
-            Common.localStorage.setItem("de-settings-show-alt-hints", this.chUseAltKey.isChecked() ? 1 : 0);
-            Common.Utils.InternalSettings.set("de-settings-show-alt-hints", Common.localStorage.getBool("de-settings-show-alt-hints"));
-            Common.localStorage.setItem("de-settings-zoom", this.cmbZoom.getValue());
-            Common.Utils.InternalSettings.set("de-settings-zoom", Common.localStorage.getItem("de-settings-zoom"));
+            Common.localStorage.setItem("pdfe-settings-show-alt-hints", this.chUseAltKey.isChecked() ? 1 : 0);
+            Common.Utils.InternalSettings.set("pdfe-settings-show-alt-hints", Common.localStorage.getBool("pdfe-settings-show-alt-hints"));
+            Common.localStorage.setItem("pdfe-settings-zoom", this.cmbZoom.getValue());
+            Common.Utils.InternalSettings.set("pdfe-settings-zoom", Common.localStorage.getItem("pdfe-settings-zoom"));
 
             /** coauthoring begin **/
-            Common.localStorage.setItem("de-settings-livecomment", this.chLiveComment.isChecked() ? 1 : 0);
-            Common.localStorage.setItem("de-settings-resolvedcomment", this.chResolvedComment.isChecked() ? 1 : 0);
+            Common.localStorage.setItem("pdfe-settings-livecomment", this.chLiveComment.isChecked() ? 1 : 0);
+            Common.localStorage.setItem("pdfe-settings-resolvedcomment", this.chResolvedComment.isChecked() ? 1 : 0);
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
-                this.mode.canChangeCoAuthoring && Common.localStorage.setItem("de-settings-coauthmode", this.rbCoAuthModeFast.getValue() ? 1 : 0 );
-                Common.localStorage.setItem(this.rbCoAuthModeFast.getValue() ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict",
+                this.mode.canChangeCoAuthoring && Common.localStorage.setItem("pdfe-settings-coauthmode", this.rbCoAuthModeFast.getValue() ? 1 : 0 );
+                Common.localStorage.setItem(this.rbCoAuthModeFast.getValue() ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict",
                     this.rbShowChangesNone.getValue()?'none':this.rbShowChangesLast.getValue()?'last':'all');
             } else if (this.mode.canLiveView && !this.mode.isOffline && this.mode.canChangeCoAuthoring) { // viewer
-                Common.localStorage.setItem("de-settings-view-coauthmode", this.chLiveViewer.isChecked() ? 1 : 0);
+                Common.localStorage.setItem("pdfe-settings-view-coauthmode", this.chLiveViewer.isChecked() ? 1 : 0);
             }
             /** coauthoring end **/
-            Common.localStorage.setItem("de-settings-fontrender", this.cmbFontRender.getValue());
+            Common.localStorage.setItem("pdfe-settings-fontrender", this.cmbFontRender.getValue());
             var item = this.cmbFontRender.store.findWhere({value: 'custom'});
-            Common.localStorage.setItem("de-settings-cachemode", item && !item.get('checked') ? 0 : 1);
-            Common.localStorage.setItem("de-settings-unit", this.cmbUnit.getValue());
-            if (this.mode.isEdit && (this.mode.canChangeCoAuthoring || !Common.Utils.InternalSettings.get("de-settings-coauthmode")))
-                Common.localStorage.setItem("de-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
+            Common.localStorage.setItem("pdfe-settings-cachemode", item && !item.get('checked') ? 0 : 1);
+            if (this.mode.isEdit && (this.mode.canChangeCoAuthoring || !Common.Utils.InternalSettings.get("pdfe-settings-coauthmode")))
+                Common.localStorage.setItem("pdfe-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
             if (this.mode.canForcesave)
-                Common.localStorage.setItem("de-settings-forcesave", this.chForcesave.isChecked() ? 1 : 0);
-            if (Common.UI.FeaturesManager.canChange('spellcheck') && this.mode.isEdit) {
-                Common.localStorage.setItem("de-settings-spellcheck", this.chSpell.isChecked() ? 1 : 0);
-                Common.localStorage.setBool("de-spellcheck-ignore-uppercase-words", this.chIgnoreUppercase.isChecked());
-                Common.localStorage.setBool("de-spellcheck-ignore-numbers-words", this.chIgnoreNumbers.isChecked());
-            }
-            Common.localStorage.setItem("de-settings-compatible", this.chCompatible.isChecked() ? 1 : 0);
-            Common.Utils.InternalSettings.set("de-settings-compatible", this.chCompatible.isChecked() ? 1 : 0);
-            Common.Utils.InternalSettings.set("de-settings-showsnaplines", this.chAlignGuides.isChecked());
+                Common.localStorage.setItem("pdfe-settings-forcesave", this.chForcesave.isChecked() ? 1 : 0);
 
-            Common.localStorage.setItem("de-macros-mode", this.cmbMacros.getValue());
-            Common.Utils.InternalSettings.set("de-macros-mode", this.cmbMacros.getValue());
-
-            if (this.mode.canViewReview) {
-                var val = this.rbChangesTip.getValue();
-                Common.localStorage.setBool("de-settings-review-hover-mode", val);
-                Common.Utils.InternalSettings.set("de-settings-review-hover-mode", val);
-                this.mode.reviewHoverMode = val;
-            }
-
-            Common.localStorage.setItem("de-settings-paste-button", this.chPaste.isChecked() ? 1 : 0);
             var isRtlChanged = this.chRTL.$el.is(':visible') && Common.localStorage.getBool("ui-rtl") !== this.chRTL.isChecked();
             Common.localStorage.setBool("ui-rtl", this.chRTL.isChecked());
-            Common.localStorage.setBool("de-settings-quick-print-button", this.chQuickPrint.isChecked());
+            Common.localStorage.setBool("pdfe-settings-quick-print-button", this.chQuickPrint.isChecked());
 
             Common.localStorage.save();
 
@@ -1037,14 +815,6 @@ define([
             this._fontRender = combo.getValue();
         },
 
-        autoCorrect: function() {
-            // if (this.dlgAutoCorrect && this.dlgAutoCorrect.isVisible()) return;
-            // this.dlgAutoCorrect = new Common.Views.AutoCorrectDialog({
-            //     api: this.api
-            // });
-            // this.dlgAutoCorrect.show();
-        },
-
         strZoom: 'Default Zoom Value',
         /** coauthoring begin **/
         strShowChanges: 'Real-time Collaboration Changes',
@@ -1057,40 +827,20 @@ define([
         txtMac: 'as OS X',
         txtNative: 'Native',
         strFontRender: 'Font Hinting',
-        strUnit: 'Unit of Measurement',
-        txtCm: 'Centimeter',
-        txtPt: 'Point',
         textAutoSave: 'Autosave',
-        txtSpellCheck: 'Spell Checking',
-        textAlignGuides: 'Alignment Guides',
         strCoAuthMode: 'Co-editing mode',
         strFast: 'Fast',
         strStrict: 'Strict',
         textAutoRecover: 'Autorecover',
-        txtInch: 'Inch',
         txtFitPage: 'Fit to Page',
         txtFitWidth: 'Fit to Width',
         textForceSave: 'Save to Server',
-        textOldVersions: 'Make the files compatible with older MS Word versions when saved as DOCX',
         txtCacheMode: 'Default cache mode',
         strRTLSupport: 'RTL interface',
-        strMacrosSettings: 'Macros Settings',
-        txtWarnMacros: 'Show Notification',
-        txtRunMacros: 'Enable All',
-        txtStopMacros: 'Disable All',
-        txtWarnMacrosDesc: 'Disable all macros with notification',
-        txtRunMacrosDesc: 'Enable all macros without notification',
-        txtStopMacrosDesc: 'Disable all macros without notification',
-        strPasteButton: 'Show Paste Options button when content is pasted',
-        txtProofing: 'Proofing',
         strTheme: 'Theme',
-        txtAutoCorrect: 'AutoCorrect options...',
-        txtChangesTip: 'Show by hover in tooltips',
-        txtChangesBalloons: 'Show by click in balloons',
         txtDarkMode: 'Turn on document dark mode',
         txtEditingSaving: 'Editing and saving',
         txtCollaboration: 'Collaboration',
-        txtShowTrackChanges: 'Show track changes',
         txtWorkspace: 'Workspace',
         txtHieroglyphs: 'Hieroglyphs',
         txtUseAltKey: 'Use Alt key to navigate the user interface using the keyboard',
@@ -1099,8 +849,6 @@ define([
         strShowResolvedComments: 'Show resolved comments',
         txtFastTip: 'Real-time co-editing. All changes are saved automatically',
         txtStrictTip: 'Use the \'Save\' button to sync the changes you and others make',
-        strIgnoreWordsInUPPERCASE: 'Ignore words in UPPERCASE',
-        strIgnoreWordsWithNumbers: 'Ignore words with numbers',
         strShowOthersChanges: 'Show changes from other users',
         txtAdvancedSettings: 'Advanced Settings',
         txtQuickPrint: 'Show the Quick Print button in the editor header',
@@ -1412,12 +1160,6 @@ define([
             this.authors = [];
             this._state = {
                 _locked: false,
-                docProtection: {
-                    isReadOnly: false,
-                    isReviewOnly: false,
-                    isFormsOnly: false,
-                    isCommentsOnly: false
-                },
                 disableEditing: false
             };
         },
@@ -1832,8 +1574,6 @@ define([
             this.api.asc_registerCallback('asc_onGetDocInfoEnd', _.bind(this._onGetDocInfoEnd, this));
             // this.api.asc_registerCallback('asc_onDocumentName',  _.bind(this.onDocumentName, this));
             this.api.asc_registerCallback('asc_onLockCore',  _.bind(this.onLockCore, this));
-            Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
-            this.onChangeProtectDocument();
             this.updateInfo(this.doc);
             return this;
         },
@@ -1915,19 +1655,8 @@ define([
             this.updateFileInfo();
         },
 
-        onChangeProtectDocument: function(props) {
-            // if (!props) {
-            //     var docprotect = DE.getController('DocProtection');
-            //     props = docprotect ? docprotect.getDocProps() : null;
-            // }
-            // if (props) {
-            //     this._state.docProtection = props;
-            // }
-        },
-
         SetDisabled: function() {
-            var isProtected = this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly || this._state.docProtection.isCommentsOnly;
-            var disable = !this.mode.isEdit || this._state._locked || isProtected || this._state.disableEditing;
+            var disable = !this.mode.isEdit || this._state._locked || this._state.disableEditing;
             this.inputTitle.setDisabled(disable);
             this.inputTags.setDisabled(disable);
             this.inputSubject.setDisabled(disable);

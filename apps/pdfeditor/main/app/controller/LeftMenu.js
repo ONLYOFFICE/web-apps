@@ -62,12 +62,6 @@ define([
                 'Common.Views.Chat': {
                     'hide': _.bind(this.onHideChat, this)
                 },
-                'Common.Views.Header': {
-                    'history:show': function () {
-                        if ( !this.leftMenu.panelHistory.isVisible() )
-                            this.clickMenuFileItem('header', 'history');
-                    }.bind(this)
-                },
                 'Common.Views.About': {
                     'show':    _.bind(this.aboutShowHide, this, false),
                     'hide':    _.bind(this.aboutShowHide, this, true)
@@ -109,11 +103,6 @@ define([
 
             Common.NotificationCenter.on('leftmenu:change', _.bind(this.onMenuChange, this));
             Common.NotificationCenter.on('app:comment:add', _.bind(this.onAppAddComment, this));
-            Common.NotificationCenter.on('collaboration:history', _.bind(function () {
-                if ( !this.leftMenu.panelHistory.isVisible() )
-                    this.clickMenuFileItem(null, 'history');
-            }, this));
-            Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
             Common.NotificationCenter.on('file:print', _.bind(this.clickToolbarPrint, this));
         },
 
@@ -121,19 +110,12 @@ define([
             this.leftMenu = this.createView('LeftMenu').render();
             this.leftMenu.btnSearchBar.on('toggle', _.bind(this.onMenuSearchBar, this));
             this._state = {
-                disableEditing: false,
-                docProtection: {
-                    isReadOnly: false,
-                    isReviewOnly: false,
-                    isFormsOnly: false,
-                    isCommentsOnly: false
-                }
+                disableEditing: false
             };
 
             var keymap = {
                 'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
                 'command+f,ctrl+f': _.bind(this.onShortcut, this, 'search'),
-                'ctrl+h': _.bind(this.onShortcut, this, 'replace'),
                 'esc': _.bind(this.onShortcut, this, 'escape'),
                 /** coauthoring begin **/
                 'command+shift+h,ctrl+shift+h': _.bind(this.onShortcut, this, 'comments'),
@@ -159,7 +141,7 @@ define([
                     this.api.asc_registerCallback('asc_onAddComment', _.bind(this.onApiAddComment, this));
                     this.api.asc_registerCallback('asc_onAddComments', _.bind(this.onApiAddComments, this));
                     var collection = this.getApplication().getCollection('Common.Collections.Comments'),
-                        resolved = Common.Utils.InternalSettings.get("de-settings-resolvedcomment");
+                        resolved = Common.Utils.InternalSettings.get("pdfe-settings-resolvedcomment");
                     for (var i = 0; i < collection.length; ++i) {
                         var comment = collection.at(i);
                         if (!comment.get('hide') && comment.get('userid') !== this.mode.user.id && (resolved || !comment.get('resolved'))) {
@@ -171,8 +153,6 @@ define([
             }
             /** coauthoring end **/
             this.leftMenu.getMenu('file').setApi(api);
-            if (this.mode.canUseHistory)
-                this.getApplication().getController('Common.Controllers.History').setApi(this.api).setMode(this.mode);
             this.getApplication().getController('PageThumbnails').setApi(this.api).setMode(this.mode);
             this.getApplication().getController('Search').setApi(this.api).setMode(this.mode);
             this.leftMenu.setOptionsPanel('advancedsearch', this.getApplication().getController('Search').getView('Common.Views.SearchPanel'));
@@ -212,9 +192,6 @@ define([
             }
             /** coauthoring end **/
 
-            if (this.mode.canUseHistory)
-                this.leftMenu.setOptionsPanel('history', this.getApplication().getController('Common.Controllers.History').getView('Common.Views.History'));
-
             this.leftMenu.setOptionsPanel('navigation', this.getApplication().getController('Navigation').getView('Navigation'));
 
             if (this.mode.canUseThumbnails) {
@@ -224,7 +201,6 @@ define([
             }
 
             (this.mode.trialMode || this.mode.isBeta) && this.leftMenu.setDeveloperMode(this.mode.trialMode, this.mode.isBeta, this.mode.buildVersion);
-            this.onChangeProtectDocument();
             Common.util.Shortcuts.resumeEvents();
             return this;
         },
@@ -262,31 +238,6 @@ define([
             case 'new':
                 if ( isopts ) close_menu = false;
                 else this.onCreateNew(undefined, 'blank');
-                break;
-            case 'history':
-                if (!this.leftMenu.panelHistory.isVisible()) {
-                    if (this.api.isDocumentModified()) {
-                        var me = this;
-                        this.api.asc_stopSaving();
-                        Common.UI.warning({
-                            closable: false,
-                            width: 500,
-                            title: this.notcriticalErrorTitle,
-                            msg: this.leavePageText,
-                            buttons: ['ok', 'cancel'],
-                            primary: 'ok',
-                            callback: function(btn) {
-                                if (btn == 'ok') {
-                                    me.api.asc_undoAllChanges();
-                                    me.api.asc_continueSaving();
-                                    me.showHistory();
-                                } else
-                                    me.api.asc_continueSaving();
-                            }
-                        });
-                    } else
-                        this.showHistory();
-                }
                 break;
             case 'rename':
                 var me = this,
@@ -336,7 +287,7 @@ define([
                         }, this)
                     });
                 } else if (format == Asc.c_oAscFileType.DOCX) {
-                    if (!Common.Utils.InternalSettings.get("de-settings-compatible") && !Common.localStorage.getBool("de-hide-save-compatible") && this.api.asc_isCompatibilityMode()) {
+                    if (!Common.Utils.InternalSettings.get("pdfe-settings-compatible") && !Common.localStorage.getBool("pdfe-hide-save-compatible") && this.api.asc_isCompatibilityMode()) {
                         Common.UI.warning({
                             closable: false,
                             width: 600,
@@ -345,7 +296,7 @@ define([
                             buttons: ['ok', 'cancel'],
                             dontshow: true,
                             callback: _.bind(function(btn, dontshow){
-                                if (dontshow) Common.localStorage.setItem("de-hide-save-compatible", 1);
+                                if (dontshow) Common.localStorage.setItem("pdfe-hide-save-compatible", 1);
                                 if (btn == 'ok') {
                                     this.isFromFileDownloadAs = ext;
                                     this.api.asc_DownloadAs(options);
@@ -355,7 +306,7 @@ define([
                         });
                     } else {
                         this.isFromFileDownloadAs = ext;
-                        options.asc_setCompatible(!!Common.Utils.InternalSettings.get("de-settings-compatible"));
+                        options.asc_setCompatible(!!Common.Utils.InternalSettings.get("pdfe-settings-compatible"));
                         this.api.asc_DownloadAs(options);
                         menu.hide();
                     }
@@ -444,17 +395,17 @@ define([
         applySettings: function(menu) {
             var value;
 
-            var fast_coauth = Common.Utils.InternalSettings.get("de-settings-coauthmode");
+            var fast_coauth = Common.Utils.InternalSettings.get("pdfe-settings-coauthmode");
             /** coauthoring begin **/
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring ) {
                 if (this.mode.canChangeCoAuthoring) {
-                    fast_coauth = Common.localStorage.getBool("de-settings-coauthmode", true);
-                    Common.Utils.InternalSettings.set("de-settings-coauthmode", fast_coauth);
+                    fast_coauth = Common.localStorage.getBool("pdfe-settings-coauthmode", true);
+                    Common.Utils.InternalSettings.set("pdfe-settings-coauthmode", fast_coauth);
                     this.api.asc_SetFastCollaborative(fast_coauth);
                 }
 
-                value = Common.localStorage.getItem((fast_coauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict");
-                Common.Utils.InternalSettings.set((fast_coauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict", value);
+                value = Common.localStorage.getItem((fast_coauth) ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict");
+                Common.Utils.InternalSettings.set((fast_coauth) ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict", value);
                 switch(value) {
                 case 'all': value = Asc.c_oAscCollaborativeMarksShowType.All; break;
                 case 'none': value = Asc.c_oAscCollaborativeMarksShowType.None; break;
@@ -463,27 +414,27 @@ define([
                 }
                 this.api.SetCollaborativeMarksShowType(value);
             } else if (this.mode.canLiveView && !this.mode.isOffline && this.mode.canChangeCoAuthoring) { // viewer
-                fast_coauth = Common.localStorage.getBool("de-settings-view-coauthmode", false);
-                Common.Utils.InternalSettings.set("de-settings-coauthmode", fast_coauth);
+                fast_coauth = Common.localStorage.getBool("pdfe-settings-view-coauthmode", false);
+                Common.Utils.InternalSettings.set("pdfe-settings-coauthmode", fast_coauth);
                 this.api.asc_SetFastCollaborative(fast_coauth);
             }
 
-            value = Common.localStorage.getBool("de-settings-livecomment", true);
-            Common.Utils.InternalSettings.set("de-settings-livecomment", value);
-            var resolved = Common.localStorage.getBool("de-settings-resolvedcomment");
-            Common.Utils.InternalSettings.set("de-settings-resolvedcomment", resolved);
+            value = Common.localStorage.getBool("pdfe-settings-livecomment", true);
+            Common.Utils.InternalSettings.set("pdfe-settings-livecomment", value);
+            var resolved = Common.localStorage.getBool("pdfe-settings-resolvedcomment");
+            Common.Utils.InternalSettings.set("pdfe-settings-resolvedcomment", resolved);
             if (this.mode.canViewComments && this.leftMenu.panelComments && this.leftMenu.panelComments.isVisible())
                 value = resolved = true;
             (value) ? this.api.asc_showComments(resolved) : this.api.asc_hideComments();
             // this.getApplication().getController('Common.Controllers.ReviewChanges').commentsShowHide(value ? 'show' : 'hide');
             /** coauthoring end **/
 
-            value = Common.localStorage.getBool("de-settings-cachemode", true);
-            Common.Utils.InternalSettings.set("de-settings-cachemode", value);
+            value = Common.localStorage.getBool("pdfe-settings-cachemode", true);
+            Common.Utils.InternalSettings.set("pdfe-settings-cachemode", value);
             this.api.asc_setDefaultBlitMode(value);
 
-            value = Common.localStorage.getItem("de-settings-fontrender");
-            Common.Utils.InternalSettings.set("de-settings-fontrender", value);
+            value = Common.localStorage.getItem("pdfe-settings-fontrender");
+            Common.Utils.InternalSettings.set("pdfe-settings-fontrender", value);
             switch (value) {
             case '1':     this.api.SetFontRenderingMode(1); break;
             case '2':     this.api.SetFontRenderingMode(2); break;
@@ -492,31 +443,13 @@ define([
 
             if (this.mode.isEdit) {
                 if (this.mode.canChangeCoAuthoring || !fast_coauth) {// can change co-auth. mode or for strict mode
-                    value = parseInt(Common.localStorage.getItem("de-settings-autosave"));
-                    Common.Utils.InternalSettings.set("de-settings-autosave", value);
+                    value = parseInt(Common.localStorage.getItem("pdfe-settings-autosave"));
+                    Common.Utils.InternalSettings.set("pdfe-settings-autosave", value);
                     this.api.asc_setAutoSaveGap(value);
                 }
-
-                if (Common.UI.FeaturesManager.canChange('spellcheck')) {
-                    value = Common.localStorage.getBool("de-settings-spellcheck", true);
-                    Common.Utils.InternalSettings.set("de-settings-spellcheck", value);
-                    this.api.asc_setSpellCheck(value);
-                    var spprops = new AscCommon.CSpellCheckSettings();
-                    value = Common.localStorage.getBool("de-spellcheck-ignore-uppercase-words", true);
-                    Common.Utils.InternalSettings.set("de-spellcheck-ignore-uppercase-words", value);
-                    spprops.put_IgnoreWordsInUppercase(value);
-                    value = Common.localStorage.getBool("de-spellcheck-ignore-numbers-words", true);
-                    Common.Utils.InternalSettings.set("de-spellcheck-ignore-numbers-words", value);
-                    spprops.put_IgnoreWordsWithNumbers(value);
-                    this.api.asc_setSpellCheckSettings(spprops);
-                }
-
-                value = parseInt(Common.localStorage.getItem("de-settings-paste-button"));
-                Common.Utils.InternalSettings.set("de-settings-paste-button", value);
-                this.api.asc_setVisiblePasteButton(!!value);
             }
 
-            this.api.put_ShowSnapLines(Common.Utils.InternalSettings.get("de-settings-showsnaplines"));
+            this.api.put_ShowSnapLines(Common.Utils.InternalSettings.get("pdfe-settings-showsnaplines"));
 
             menu.hide();
         },
@@ -601,11 +534,9 @@ define([
         },
 
         updatePreviewMode: function() {
-            var viewmode = this._state.disableEditing || this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly || this._state.docProtection.isCommentsOnly;
+            var viewmode = this._state.disableEditing;
             if (this.viewmode === viewmode) return;
             this.viewmode = viewmode;
-
-            this.leftMenu.panelSearch && this.leftMenu.panelSearch.setSearchMode(this.viewmode ? 'no-replace' : 'search');
         },
 
         SetDisabled: function(disable, options) {
@@ -639,13 +570,13 @@ define([
         },
 
         onApiAddComment: function(id, data) {
-            var resolved = Common.Utils.InternalSettings.get("de-settings-resolvedcomment");
+            var resolved = Common.Utils.InternalSettings.get("pdfe-settings-resolvedcomment");
             if (data && data.asc_getUserId() !== this.mode.user.id && (resolved || !data.asc_getSolved()) && AscCommon.UserInfoParser.canViewComment(data.asc_getUserName()))
                 this.leftMenu.markCoauthOptions('comments');
         },
 
         onApiAddComments: function(data) {
-            var resolved = Common.Utils.InternalSettings.get("de-settings-resolvedcomment");
+            var resolved = Common.Utils.InternalSettings.get("pdfe-settings-resolvedcomment");
             for (var i = 0; i < data.length; ++i) {
                 if (data[i].asc_getUserId() !== this.mode.user.id && (resolved || !data[i].asc_getSolved()) && AscCommon.UserInfoParser.canViewComment(data.asc_getUserName())) {
                     this.leftMenu.markCoauthOptions('comments');
@@ -671,8 +602,8 @@ define([
         },
 
         commentsShowHide: function(mode) {
-            var value = Common.Utils.InternalSettings.get("de-settings-livecomment"),
-                resolved = Common.Utils.InternalSettings.get("de-settings-resolvedcomment");
+            var value = Common.Utils.InternalSettings.get("pdfe-settings-livecomment"),
+                resolved = Common.Utils.InternalSettings.get("pdfe-settings-resolvedcomment");
 
             if (!value || !resolved) {
                 (mode === 'show') ? this.api.asc_showComments(true) : ((value) ? this.api.asc_showComments(resolved) : this.api.asc_hideComments());
@@ -732,7 +663,6 @@ define([
             if (!this.mode) return;
 
             switch (s) {
-                case 'replace':
                 case 'search':
                     this.leftMenu.btnAbout.toggle(false);
                     Common.UI.Menu.Manager.hideAll();
@@ -850,17 +780,6 @@ define([
             }
         },
 
-        showHistory: function() {
-            if (!this.mode.wopi) {
-                var maincontroller = PDFE.getController('Main');
-                if (!maincontroller.loadMask)
-                    maincontroller.loadMask = new Common.UI.LoadMask({owner: $('#viewport')});
-                maincontroller.loadMask.setTitle(this.textLoadHistory);
-                maincontroller.loadMask.show();
-            }
-            Common.Gateway.requestHistory();
-        },
-
         onShowHideChat: function(state) {
             if (this.mode.canCoAuthoring && this.mode.canChat && !this.mode.isLightVersion) {
                 if (state) {
@@ -899,8 +818,7 @@ define([
 
         onMenuSearchBar: function(obj, show) {
             if (show) {
-                var mode = this.mode.isEdit && !this.viewmode ? undefined : 'no-replace';
-                this.leftMenu.panelSearch.setSearchMode(mode);
+                this.leftMenu.panelSearch.setSearchMode('no-replace');
             }
         },
 
@@ -912,22 +830,11 @@ define([
             return this.leftMenu && this.leftMenu.panelComments && this.leftMenu.panelComments.isVisible();
         },
 
-        onChangeProtectDocument: function(props) {
-            if (!props) {
-                var docprotect = this.getApplication().getController('DocProtection');
-                props = docprotect ? docprotect.getDocProps() : null;
-            }
-            if (props) {
-                this._state.docProtection = props;
-                this.updatePreviewMode();
-            }
-        },
-
         onLeftMenuHide: function (view, status) {
             if (this.leftMenu) {
                 !status && this.leftMenu.close();
                 status ? this.leftMenu.show() : this.leftMenu.hide();
-                Common.localStorage.setBool('de-hidden-leftmenu', !status);
+                Common.localStorage.setBool('pdfe-hidden-leftmenu', !status);
 
                 !view && this.leftMenu.fireEvent('view:hide', [this, !status]);
             }
@@ -945,16 +852,13 @@ define([
         newDocumentTitle        : 'Unnamed document',
         requestEditRightsText   : 'Requesting editing rights...',
         textReplaceSuccess      : 'Search has been done. {0} occurrences have been replaced',
-        textReplaceSkipped      : 'The replacement has been made. {0} occurrences were skipped.',
-        textLoadHistory         : 'Loading version history...',
         notcriticalErrorTitle: 'Warning',
         leavePageText: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
         warnDownloadAs          : 'If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?',
         warnDownloadAsRTF       : 'If you continue saving in this format some of the formatting might be lost.<br>Are you sure you want to continue?',
         txtUntitled: 'Untitled',
         txtCompatible: 'The document will be saved to the new format. It will allow to use all the editor features, but might affect the document layout.<br>Use the \'Compatibility\' option of the advanced settings if you want to make the files compatible with older MS Word versions.',
-        warnDownloadAsPdf: 'Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.',
-        warnReplaceString: '{0} is not a valid special character for the Replace With box.'
+        warnDownloadAsPdf: 'Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.'
 
     }, PDFE.Controllers.LeftMenu || {}));
 });
