@@ -911,6 +911,11 @@
 
         if (typeof config.documentType === 'string') {
             app = appMap[config.documentType.toLowerCase()];
+            if (!!config.document && typeof config.document.fileType === 'string') {
+                var type = /^(?:(pdf))$/.exec(config.document.fileType);
+                if (type && typeof type[1] === 'string')
+                    app = appMap['pdf'];
+            }
         } else
         if (!!config.document && typeof config.document.fileType === 'string') {
             var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp)|(pdf))$/
