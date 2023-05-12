@@ -448,7 +448,7 @@ define([
             this.btnDistributeRows = new Common.UI.Button({
                 parentEl: $('#table-btn-distrub-rows', me.$el),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon distribute-rows',
+                iconCls: 'toolbar__icon btn-distribute-rows',
                 hint: this.textDistributeRows,
                 dataHint: '1',
                 dataHintDirection: 'top'
@@ -461,7 +461,7 @@ define([
             this.btnDistributeCols = new Common.UI.Button({
                 parentEl: $('#table-btn-distrub-cols', me.$el),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon distribute-columns',
+                iconCls: 'toolbar__icon btn-distribute-columns',
                 hint: this.textDistributeCols,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
