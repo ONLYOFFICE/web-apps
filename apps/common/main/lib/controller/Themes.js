@@ -467,7 +467,7 @@ define([
                     if ( this.isDarkTheme() )
                         this.api.asc_setContentDarkMode(set_dark);
 
-                    window.uitheme.iscontentdark = mode;
+                    window.uitheme.iscontentdark = set_dark;
                     if ( Common.localStorage.getItem('content-theme') != mode )
                         Common.localStorage.setItem('content-theme', mode);
 

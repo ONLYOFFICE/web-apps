@@ -140,11 +140,16 @@ define([
                 } else
                 if (/renderervars:changed/.test(cmd)) {
                     const opts = JSON.parse(param);
-                    if ( opts.theme && opts.theme.system ) {
-                        window.uitheme.system = opts.theme.system;
+                    if ( opts.theme ) {
+                        if ( opts.theme.system ) {
+                            window.uitheme.system = opts.theme.system;
 
-                        if ( window.uitheme.is_theme_system() )
-                            Common.UI.Themes.setTheme('theme-system');
+                            if ( window.uitheme.is_theme_system() )
+                                Common.UI.Themes.setTheme('theme-system');
+                        } else
+                        if ( opts.theme.content ) {
+                            Common.UI.Themes.setContentTheme(opts.theme.content);
+                        }
                     }
                 } else
                 if (/element:show/.test(cmd)) {
@@ -348,6 +353,11 @@ define([
                 }
 
                 _checkHelpAvailable.call(this);
+
+                // const fn_set_content_color_scheme = Common.UI.Themes.toggleContentTheme;
+                Common.UI.Themes.toggleContentTheme = function () {
+                    native.execCommand('contentmode:change', !window.uitheme.iscontentdark ? 'dark' : 'light');
+                }
             }
         }
 

@@ -52,6 +52,7 @@ if ( window.AscDesktopEditor ) {
             window.uitheme = {
                 id: theme.id,
                 type: theme.type,
+                iscontentdark: theme.content == 'dark',
             }
 
             if ( theme.system && theme.system != 'disabled' ) {
