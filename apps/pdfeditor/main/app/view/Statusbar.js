@@ -65,28 +65,14 @@ define([
                 Common.Utils.String.format(this.pageIndexText, model.get('current'), model.get('count')) );
         }
 
-        function _clickLanguage(menu, item) {
-            this.langMenu.prevTip = item.value.value;
-            this.btnLanguage.setCaption(item.caption);
-            this.fireEvent('langchanged', [this, item.value.code, item.caption]);
-        }
-
         function _onAppReady(config) {
             var me = this;
             me.btnZoomToPage.updateHint(me.tipFitPage);
             me.btnZoomToWidth.updateHint(me.tipFitWidth);
             me.btnZoomDown.updateHint(me.tipZoomOut + Common.Utils.String.platformKey('Ctrl+-'));
             me.btnZoomUp.updateHint(me.tipZoomIn + Common.Utils.String.platformKey('Ctrl++'));
-
-            if (config.canUseSelectHandTools) {
-                me.btnSelectTool.updateHint(me.tipSelectTool);
-                me.btnHandTool.updateHint(me.tipHandTool);
-            }
-
-            if (me.btnLanguage && me.btnLanguage.cmpEl) {
-                me.btnLanguage.updateHint(me.tipSetLang);
-                me.langMenu.on('item:click', _.bind(_clickLanguage, this));
-            }
+            me.btnPagePrev.updateHint(me.tipPagePrev);
+            me.btnPageNext.updateHint(me.tipPageNext);
 
             me.cntZoom.updateHint(me.tipZoomFactor);
             me.cntZoom.cmpEl.on({
@@ -159,10 +145,6 @@ define([
             me.zoomMenu.on('item:click', function(menu, item) {
                 me.fireEvent('zoom:value', [item.value]);
             });
-
-            me.btnDocInfo.menu.on('show:after', _.bind(this.onDocInfoShow, this));
-
-            me.onChangeProtectDocument();
         }
 
         PDFE.Views.Statusbar = Backbone.View.extend(_.extend({
@@ -180,12 +162,6 @@ define([
                 this.pages = new PDFE.Models.Pages({current:1, count:1});
                 this.pages.on('change', _.bind(_updatePagesCaption,this));
                 this._state = {
-                    docProtection: {
-                        isReadOnly: false,
-                        isReviewOnly: false,
-                        isFormsOnly: false,
-                        isCommentsOnly: false
-                    }
                 };
                 this._isDisabled = false;
 
@@ -194,20 +170,6 @@ define([
                     textGotoPage: this.goToPageText,
                     textPageNumber: Common.Utils.String.format(this.pageIndexText, 1, 1)
                 }));
-
-                this.btnSelectTool = new Common.UI.Button({
-                    hintAnchor: 'top',
-                    toggleGroup: 'select-tools',
-                    enableToggle: true,
-                    allowDepress: false
-                });
-
-                this.btnHandTool = new Common.UI.Button({
-                    hintAnchor: 'top',
-                    toggleGroup: 'select-tools',
-                    enableToggle: true,
-                    allowDepress: false
-                });
 
                 this.btnZoomToPage = new Common.UI.Button({
                     hintAnchor: 'top',
@@ -231,31 +193,6 @@ define([
 
                 this.btnZoomUp = new Common.UI.Button({
                     hintAnchor: 'top-right'
-                });
-
-                this.btnLanguage = new Common.UI.Button({
-                    cls         : 'btn-toolbar',
-                    caption     : 'English (United States)',
-                    hintAnchor  : 'top-left',
-                    disabled: true,
-                    dataHint    : '0',
-                    dataHintDirection: 'top',
-                    menu: true
-                });
-
-                this.langMenu = new Common.UI.MenuSimple({
-                    cls: 'lang-menu',
-                    style: 'margin-top:-5px;',
-                    restoreHeight: 285,
-                    itemTemplate: _.template([
-                        '<a id="<%= id %>" tabindex="-1" type="menuitem" langval="<%= value.value %>" class="<% if (checked) { %> checked <% } %>">',
-                            '<i class="icon <% if (spellcheck) { %> toolbar__icon btn-ic-docspell spellcheck-lang <% } %>"></i>',
-                            '<%= caption %>',
-                        '</a>'
-                    ].join('')),
-                    menuAlign: 'bl-tl',
-                    search: true,
-                    focusToCheckedItem: true
                 });
 
                 this.zoomMenu = new Common.UI.Menu({
@@ -291,34 +228,20 @@ define([
                     }
                 });
 
-                var template = _.template(
-                    // '<a id="<%= id %>" tabindex="-1" type="menuitem">' +
-                    '<div style="display: flex;padding: 5px 20px;line-height: 16px;">' +
-                        '<div style="flex-grow: 1;"><%= caption %></div>' +
-                        '<div style="word-break: normal; margin-left: 20px; min-width: 35px;text-align: right;"><%= options.value%></div>' +
-                    '</div>'
-                    // '</a>'
-                );
+                this.btnPagePrev = new Common.UI.Button({
+                    cls         : 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-page-up',
+                    hintAnchor  : 'top',
+                    dataHint    : '0',
+                    dataHintDirection: 'top'
+                });
 
-                this.btnDocInfo = new Common.UI.Button({
-                    cls         : 'btn-toolbar no-caret',
-                    caption     : this.txtWordCount,
-                    iconCls: 'toolbar__icon btn-word-count',
+                this.btnPageNext = new Common.UI.Button({
+                    cls         : 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-page-down',
                     hintAnchor  : 'top-left',
                     dataHint    : '0',
-                    dataHintDirection: 'top',
-                    menu: new Common.UI.Menu({
-                        style: 'margin-top:-5px;',
-                        menuAlign: 'bl-tl',
-                        itemTemplate: template,
-                        items: [
-                            { caption: this.txtPages, value: 0 },
-                            { caption: this.txtParagraphs, value: 0 },
-                            { caption: this.txtWords, value: 0 },
-                            { caption: this.txtSymbols, value: 0 },
-                            { caption: this.txtSpaces, value: 0 }
-                        ]
-                    })
+                    dataHintDirection: 'top'
                 });
 
                 var promise = new Promise(function (accept, reject) {
@@ -347,20 +270,10 @@ define([
                 _btn_render(me.btnZoomUp, $('#btn-zoom-up', me.$layout));
                 _btn_render(me.txtGoToPage, $('#status-goto-page', me.$layout));
 
-                if ( !config || config.isEdit ) {
-                    me.btnLanguage.render($('#btn-cnt-lang', me.$layout));
-                    me.btnLanguage.setMenu(me.langMenu);
-                    me.langMenu.prevTip = 'en';
-                }
-                me.btnDocInfo.render($('#slot-status-btn-info', me.$layout));
-
-                if (config.canUseSelectHandTools) {
-                    _btn_render(me.btnSelectTool, $('#btn-select-tool', me.$layout));
-                    _btn_render(me.btnHandTool, $('#btn-hand-tool', me.$layout));
-                }
-
                 me.zoomMenu.render($('.cnt-zoom',me.$layout));
                 me.zoomMenu.cmpEl.attr({tabindex: -1});
+                me.btnPagePrev.render($('#slot-status-btn-prev', me.$layout));
+                me.btnPageNext.render($('#slot-status-btn-next', me.$layout));
 
                 this.$el.html(me.$layout);
                 this.fireEvent('render:after', [this]);
@@ -374,13 +287,8 @@ define([
                 if (this.api) {
                     this.api.asc_registerCallback('asc_onCountPages',   _.bind(_onCountPages, this));
                     this.api.asc_registerCallback('asc_onCurrentPage',  _.bind(_onCurrentPage, this));
-                    this.api.asc_registerCallback('asc_onGetDocInfoStart', _.bind(this.onGetDocInfoStart, this));
-                    this.api.asc_registerCallback('asc_onGetDocInfoStop', _.bind(this.onGetDocInfoEnd, this));
-                    this.api.asc_registerCallback('asc_onDocInfo', _.bind(this.onDocInfo, this));
-                    this.api.asc_registerCallback('asc_onGetDocInfoEnd', _.bind(this.onGetDocInfoEnd, this));
                     this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('api:disconnect',      _.bind(this.onApiCoAuthoringDisconnect, this));
-                    Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
                 }
                 return this;
 
@@ -400,40 +308,6 @@ define([
                 return this.$el && this.$el.is(':visible');
             },
 
-            reloadLanguages: function(array) {
-                var arr = [],
-                    saved = this.langMenu.saved;
-                _.each(array, function(item) {
-                    arr.push({
-                        caption     : item['displayValue'],
-                        value       : {value: item['value'], code: item['code']},
-                        checkable   : true,
-                        checked     : saved == item['displayValue'],
-                        spellcheck  : item['spellcheck']
-                    });
-                });
-                this.langMenu.resetItems(arr);
-                if (this.langMenu.items.length>0) {
-                    var isProtected = this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly || this._state.docProtection.isCommentsOnly;
-                    this.btnLanguage.setDisabled(this._isDisabled || !!this.mode.isDisconnected || isProtected);
-                }
-            },
-
-            setLanguage: function(info) {
-                if (this.langMenu.prevTip != info.value && info.code !== undefined) {
-                    this.btnLanguage.setCaption(info.displayValue);
-                    this.langMenu.prevTip = info.value;
-
-                    var lang = _.find(this.langMenu.items, function(item) { return item.caption == info.displayValue; });
-                    if (lang) {
-                        this.langMenu.setChecked(this.langMenu.items.indexOf(lang), true);
-                    } else {
-                        this.langMenu.saved = info.displayValue;
-                        this.langMenu.clearAll();
-                    }
-                }
-            },
-
             getStatusLabel: function() {
                 return $('.statusbar #label-action');
             },
@@ -448,64 +322,6 @@ define([
 
             SetDisabled: function(disable) {
                 this._isDisabled = disable;
-                var isProtected = this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly || this._state.docProtection.isCommentsOnly;
-                this.btnLanguage.setDisabled(disable || this.langMenu.items.length<1 || isProtected);
-                this.btnTurnReview && this.btnTurnReview.setDisabled(disable || isProtected);
-            },
-
-            onChangeProtectDocument: function(props) {
-                // if (!props) {
-                //     var docprotect = DE.getController('DocProtection');
-                //     props = docprotect ? docprotect.getDocProps() : null;
-                // }
-                // if (props) {
-                //     this._state.docProtection = props;
-                //     this.SetDisabled(this._isDisabled);
-                // }
-            },
-
-            onDocInfoShow: function() {
-                this.api && this.api.startGetDocInfo();
-            },
-
-            onGetDocInfoStart: function() {
-                this.infoObj = {PageCount: 0, WordsCount: 0, ParagraphCount: 0, SymbolsCount: 0, SymbolsWSCount:0};
-            },
-
-            onDocInfo: function(obj) {
-                if (obj && this.btnDocInfo && this.btnDocInfo.menu) {
-                    if (obj.get_PageCount()>-1)
-                        this.btnDocInfo.menu.items[0].options.value = obj.get_PageCount();
-                    if (obj.get_ParagraphCount()>-1)
-                        this.btnDocInfo.menu.items[1].options.value = obj.get_ParagraphCount();
-                    if (obj.get_WordsCount()>-1)
-                        this.btnDocInfo.menu.items[2].options.value = obj.get_WordsCount();
-                    if (obj.get_SymbolsCount()>-1)
-                        this.btnDocInfo.menu.items[3].options.value = obj.get_SymbolsCount();
-                    if (obj.get_SymbolsWSCount()>-1)
-                        this.btnDocInfo.menu.items[4].options.value = obj.get_SymbolsWSCount();
-                    if (!this.timerDocInfo) { // start timer for filling info
-                        var me = this;
-                        this.timerDocInfo = setInterval(function(){
-                            me.fillDocInfo();
-                        }, 300);
-                        this.fillDocInfo();
-                    }
-                }
-            },
-
-            onGetDocInfoEnd: function() {
-                clearInterval(this.timerDocInfo);
-                this.timerDocInfo = undefined;
-                this.fillDocInfo();
-            },
-
-            fillDocInfo:  function() {
-                if (!this.btnDocInfo || !this.btnDocInfo.menu || !this.btnDocInfo.menu.isVisible()) return;
-
-                this.btnDocInfo.menu.items.forEach(function(item){
-                    $(item.el).html(item.template({id: item.id, caption : item.caption, options : item.options}));
-                });
             },
 
             onApiCoAuthoringDisconnect: function() {
@@ -520,18 +336,9 @@ define([
             tipZoomIn           : 'Zoom In',
             tipZoomOut          : 'Zoom Out',
             tipZoomFactor       : 'Magnification',
-            tipSetLang          : 'Set Text Language',
             txtPageNumInvalid   : 'Page number invalid',
-            textTrackChanges    : 'Track Changes',
-            textChangesPanel    : 'Changes panel',
-            tipSelectTool       : 'Select tool',
-            tipHandTool         : 'Hand tool',
-            txtWordCount: 'Word count',
-            txtPages: 'Pages',
-            txtWords: 'Words',
-            txtParagraphs: 'Paragraphs',
-            txtSymbols: 'Symbols',
-            txtSpaces: 'Symbols with spaces'
+            tipPagePrev: 'Go to previous page',
+            tipPageNext: 'Go to nex page'
         }, PDFE.Views.Statusbar || {}));
     }
 );
