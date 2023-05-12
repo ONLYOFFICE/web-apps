@@ -257,7 +257,8 @@
     "unknownErrorText": "නොදන්නා දෝෂයකි.",
     "uploadImageExtMessage": "නොදන්නා අනුරුවක ආකෘතියකි.",
     "uploadImageFileCountMessage": "අනුරුවක් උඩුගත කර නැත.",
-    "uploadImageSizeMessage": "අනුරුව ඉතා විශාලට. උ. ප්‍රමාණය මෙ.බ. 25."
+    "uploadImageSizeMessage": "අනුරුව ඉතා විශාලට. උ. ප්‍රමාණය මෙ.බ. 25.",
+    "errorProtectedRange": "This range is not allowed for editing."
   },
   "LongActions": {
     "advDRMPassword": "මුරපදය",

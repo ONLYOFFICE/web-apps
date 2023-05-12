@@ -257,7 +257,8 @@
     "unknownErrorText": "不明なエラー",
     "uploadImageExtMessage": "不明なイメージ形式",
     "uploadImageFileCountMessage": "アップロードしたイメージがない",
-    "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。"
+    "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。",
+    "errorProtectedRange": "This range is not allowed for editing."
   },
   "LongActions": {
     "advDRMPassword": "パスワード",

@@ -257,7 +257,8 @@
     "unknownErrorText": "Erreur inconnue.",
     "uploadImageExtMessage": "Format d'image inconnu.",
     "uploadImageFileCountMessage": "Aucune image chargée.",
-    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo."
+    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo.",
+    "errorProtectedRange": "This range is not allowed for editing."
   },
   "LongActions": {
     "advDRMPassword": "Mot de passe",
