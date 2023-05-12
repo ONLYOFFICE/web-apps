@@ -94,7 +94,9 @@ window.Common = {
                     return template.content.firstChild;
                 }
 
-                ['./resources/img/iconssmall@2.5x.svg', './resources/img/iconsbig@2.5x.svg']
+                ['./resources/img/iconssmall@2.5x.svg',
+                        './resources/img/iconsbig@2.5x.svg',
+                        './resources/img/iconshuge@2.5x.svg']
                     .map(function (url) {
                             fetch(url)
                                 .then(function (r) {
