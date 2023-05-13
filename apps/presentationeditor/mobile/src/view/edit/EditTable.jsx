@@ -1,6 +1,6 @@
 import React, {Fragment, useState, useEffect} from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, Page, Navbar, List, ListItem, ListButton, Row, BlockTitle,SkeletonBlock, Range, Toggle, Icon, Link, Tabs, Tab, NavRight} from 'framework7-react';
+import {f7, Page, Navbar, List, ListItem, ListButton, BlockTitle,SkeletonBlock, Range, Toggle, Icon, Link, Tabs, Tab, NavRight} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import {CustomColorPicker, ThemeColorPalette} from "../../../../../common/mobile/lib/component/ThemeColorPalette.jsx";
@@ -25,7 +25,7 @@ const StyleTemplates = inject("storeFocusObjects","storeTableSettings")(observer
     return (
         <div className="dataview table-styles">
             <ul className="row">
-                { !styles.length ?
+                {!styles.length ?
                         Array.from({ length: 34 }).map((item,index) => (
                         <li className='skeleton-list' key={index}>    
                             <SkeletonBlock  width='70px' height='8px'  effect='wave'/>
@@ -56,6 +56,7 @@ const PageStyleOptions = props => {
 
     const tableObject = props.storeFocusObjects.tableObject;
     let tableLook, isFirstRow, isLastRow, isBandHor, isFirstCol, isLastCol, isBandVer;
+
     if (tableObject) {
         tableLook = tableObject.get_TableLook();
         isFirstRow = tableLook.get_FirstRow();
@@ -291,7 +292,7 @@ const TabBorder = inject("storeFocusObjects", "storeTableSettings")(observer(pro
                 ></span>
             </ListItem>
             <ListItem className='buttons table-presets'>
-                <Row>
+                <div className="row">
                     <a className={'item-link button'} onClick={() => {onBorderType("lrtbcm")}}>
                         <Icon slot="media" icon="icon-table-borders-all"></Icon>
                     </a>
@@ -307,10 +308,10 @@ const TabBorder = inject("storeFocusObjects", "storeTableSettings")(observer(pro
                     <a className={'item-link button'} onClick={() => {onBorderType("l")}}>
                         <Icon slot="media" icon="icon icon-table-borders-left"></Icon>
                     </a>
-                </Row>
+                </div>
             </ListItem>
             <ListItem className='buttons table-presets'>
-                <Row>
+                <div className="row">
                     <a className={'item-link button'} onClick={() => {onBorderType("c")}}>
                         <Icon slot="media" icon="icon-table-borders-center"></Icon>
                     </a>
@@ -326,7 +327,7 @@ const TabBorder = inject("storeFocusObjects", "storeTableSettings")(observer(pro
                     <a className={'item-link button'} onClick={() => {onBorderType("b")}}>
                         <Icon slot="media" icon="icon-table-borders-bottom"></Icon>
                     </a>
-                </Row>
+                </div>
             </ListItem>
         </List>
     )
@@ -487,7 +488,7 @@ const EditTable = props => {
         <Fragment>
             <List>
                 <ListItem className='buttons'>
-                    <Row>
+                    <div className="row">
                         <a className={'item-link button'} onClick={() => {props.onAddColumnLeft()}}>
                             <Icon slot="media" icon="icon-table-add-column-left"></Icon>
                         </a>
@@ -500,17 +501,17 @@ const EditTable = props => {
                         <a className={'item-link button'} onClick={() => {props.onAddRowBelow()}}>
                             <Icon slot="media" icon="icon-table-add-row-below"></Icon>
                         </a>
-                    </Row>
+                    </div>
                 </ListItem>
                 <ListItem className='buttons'>
-                    <Row>
+                    <div className="row">
                         <a className={'item-link button'} onClick={() => {props.onRemoveColumn()}}>
                             <Icon slot="media" icon="icon-table-remove-column"></Icon>
                         </a>
                         <a className={'item-link button'} onClick={() => {props.onRemoveRow()}}>
                             <Icon slot="media" icon="icon icon-table-remove-row"></Icon>
                         </a>
-                    </Row>
+                    </div>
                 </ListItem>
                 <List className="buttons-list">
                     <ListButton title={_t.textRemoveTable} onClick={() => {props.onRemoveTable()}} className='button-red button-fill button-raised'></ListButton>

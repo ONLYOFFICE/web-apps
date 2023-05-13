@@ -1,9 +1,10 @@
 import React, {Fragment, useState, useEffect} from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, Swiper, View, SwiperSlide, List, ListItem, ListButton, ListInput, Icon, Row,  Button, Page, Navbar, Segmented, BlockTitle, NavRight, Link} from 'framework7-react';
+import {f7, View, List, ListItem, ListButton, ListInput, Icon,  Button, Page, Navbar, Segmented, BlockTitle, NavRight, Link} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage.mjs';
 import HighlightColorPalette from '../../../../../common/mobile/lib/component/HighlightColorPalette.jsx';
 
@@ -67,12 +68,12 @@ const EditText = props => {
                     changeFontFamily: props.changeFontFamily
                 }}/>
                 <ListItem className='buttons'>
-                    <Row>
+                    <div className="row">
                         <a className={'button' + (isBold ? ' active' : '')} onClick={() => { props.toggleBold(!isBold)}}><b>B</b></a>
                         <a className={'button' + (isItalic ? ' active' : '')} onClick={() => {props.toggleItalic(!isItalic)}}><i>I</i></a>
                         <a className={'button' + (isUnderline ? ' active' : '')} onClick={() => {props.toggleUnderline(!isUnderline)}} style={{textDecoration: "underline"}}>U</a>
                         <a className={'button' + (isStrikethrough ? ' active' : '')} onClick={() => {props.toggleStrikethrough(!isStrikethrough)}} style={{textDecoration: "line-through"}}>S</a>
-                    </Row>
+                    </div>
                 </ListItem>
                 <ListItem title={_t.textFontColor} link="/edit-text-font-color/" routeProps={{
                     onTextColor: props.onTextColor
@@ -102,7 +103,7 @@ const EditText = props => {
                 <Fragment>
                     <List>
                         <ListItem className='buttons'>
-                            <Row>
+                            <div className="row">
                                 <a className={'button' + (paragraphAlign === 'left' ? ' active' : '')} onClick={() => {props.onParagraphAlign('left')}}>
                                     <Icon slot="media" icon="icon-text-align-left"></Icon>
                                 </a>
@@ -115,10 +116,10 @@ const EditText = props => {
                                 <a className={'button' + (paragraphAlign === 'just' ? ' active' : '')} onClick={() => {props.onParagraphAlign('just')}}>
                                     <Icon slot="media" icon="icon-text-align-just"></Icon>
                                 </a>
-                            </Row>
+                            </div>
                         </ListItem>
                         <ListItem className='buttons'>
-                            <Row>
+                            <div className="row">
                                 <a className={'button' + (paragraphValign === 'top' ? ' active' : '')} onClick={() => {props.onParagraphValign('top')}}>
                                     <Icon slot="media" icon="icon-text-valign-top"></Icon>
                                 </a>
@@ -128,17 +129,17 @@ const EditText = props => {
                                 <a className={'button' + (paragraphValign === 'bottom' ? ' active' : '')} onClick={() => {props.onParagraphValign('bottom')}}>
                                     <Icon slot="media" icon="icon-text-valign-bottom"></Icon>
                                 </a>
-                            </Row>
+                            </div>
                         </ListItem>
                         <ListItem className='buttons'>
-                            <Row>
+                            <div className="row">
                                 <a className={'button item-link' + (!canDecreaseIndent ? ' disabled' : '') } onClick={() => {props.onParagraphMove('left')}}>
                                     <Icon slot="media" icon="icon-de-indent"></Icon>
                                 </a>
                                 <a className={'button item-link' + (!canIncreaseIndent ? ' disabled' : '') } onClick={() => {props.onParagraphMove('right')}}>
                                     <Icon slot="media" icon="icon-in-indent"></Icon>
                                 </a>
-                            </Row>
+                            </div>
                         </ListItem>
                         <ListItem title={_t.textBulletsAndNumbers} link='/edit-bullets-and-numbers/' routeProps={{
                             onBullet: props.onBullet,

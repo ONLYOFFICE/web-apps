@@ -1,6 +1,6 @@
 import React, {Fragment, useState, useEffect} from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, f7router, List, ListItem, Icon, Row, Button, Page, Navbar, Segmented, BlockTitle, NavRight, Link, Toggle, Swiper, SwiperSlide, ListInput, Block} from 'framework7-react';
+import {f7, List, ListItem, Icon, Button, Page, Navbar, Segmented, BlockTitle, NavRight, Link, Toggle, ListInput, Block} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
@@ -48,11 +48,11 @@ const EditCell = props => {
                 <>
                     <List>
                         <ListItem className='buttons'>
-                            <Row>
+                            <div className="row">
                                 <a className={'button' + (isBold ? ' active' : '')} onClick={() => {props.toggleBold(!isBold)}}><b>B</b></a>
                                 <a className={'button' + (isItalic ? ' active' : '')} onClick={() => {props.toggleItalic(!isItalic)}}><i>I</i></a>
                                 <a className={'button' + (isUnderline ? ' active' : '')} onClick={() => {props.toggleUnderline(!isUnderline)}} style={{textDecoration: "underline"}}>U</a>
-                            </Row>
+                            </div>
                         </ListItem>
                         <ListItem title={_t.textTextColor} link="/edit-cell-text-color/" routeProps={{
                             onTextColor: props.onTextColor,
