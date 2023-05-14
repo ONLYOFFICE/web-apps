@@ -1153,7 +1153,7 @@ define([
                             },
                             {
                                 caption     : me.textClockwise,
-                                iconCls     : 'menu__icon text-orient-cw',
+                                iconCls     : 'menu__icon btn-text-orient-cw',
                                 checkable   : true,
                                 checkmark   : false,
                                 toggleGroup : 'textorientgroup',
@@ -1161,7 +1161,7 @@ define([
                             },
                             {
                                 caption     : me.textVertical,
-                                iconCls     : 'menu__icon text-orient-vertical',
+                                iconCls     : 'menu__icon btn-text-orient-vertical',
                                 checkable   : true,
                                 checkmark   : false,
                                 toggleGroup : 'textorientgroup',
