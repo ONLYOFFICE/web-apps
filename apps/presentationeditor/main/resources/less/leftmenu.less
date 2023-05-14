@@ -409,12 +409,10 @@
                 .font-size-very-huge();
             }
 
-            .dataview {
-                & > div:not([class^=ps-scrollbar]) {
-                    border: none;
-                    width: calc(100% - 3px);
-                    .box-shadow(none);
-                }
+            .item {
+                border: none;
+                width: calc(100% - 3px);
+                .box-shadow(none);
             }
 
             .recent-wrap {
@@ -492,7 +490,7 @@
                     }
                 }
 
-                .file-name {
+                > div:not(:first-child) {
                     display: block;
                     padding-left: 10px;
                     overflow: hidden;
@@ -501,12 +499,8 @@
                 }
 
                 .file-info {
-                    display: block;
-                    padding-left: 10px;
-                    overflow: hidden;
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
-                    color: #999;
+                    color: @text-secondary-ie;
+                    color: @text-secondary;
                 }
             }
         }
