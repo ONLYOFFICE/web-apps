@@ -737,6 +737,13 @@ define([
             } else if (item.value!==undefined && item.value!==null) {
                 var field = new Asc.CT_DataField();
                 field.asc_setShowDataAs(item.value);
+
+                var info = new Asc.asc_CFormatCellsInfo();
+                info.asc_setType(item.options.numFormat);
+                info.asc_setDecimalPlaces(item.options.numFormat===Asc.c_oAscNumFormatType.Percent ? 2 : 0);
+                info.asc_setSeparator(false);
+                field.asc_setNumFormat(this.api.asc_getFormatCells(info)[0]);
+
                 this.propsPivot.field.asc_set(this.api, this.propsPivot.originalProps, this.propsPivot.index, field);
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
             }
