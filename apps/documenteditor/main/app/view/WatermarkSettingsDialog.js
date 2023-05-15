@@ -187,6 +187,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             this.imageControls.push(this.btnSelectImage);
             this.btnSelectImage.menu.on('item:click', _.bind(this.onImageSelect, this));
             this.btnSelectImage.menu.items[2].setVisible(this.storage);
+            this.btnSelectImage.menu.items[1].setDisabled(this.options.disableNetworkFunctionality);
+            this.btnSelectImage.menu.items[2].setDisabled(this.options.disableNetworkFunctionality);
 
             this._arrScale = [
                 {displayValue: this.textAuto,   value: -1},

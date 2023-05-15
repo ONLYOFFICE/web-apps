@@ -2407,6 +2407,7 @@ define([
                         props: me.api.asc_GetWatermarkProps(),
                         api: me.api,
                         lang: me.mode.lang,
+                        disableNetworkFunctionality: me.mode.disableNetworkFunctionality,
                         storage: me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1,
                         fontStore: me.fontstore,
                         handler: function(result, value) {
