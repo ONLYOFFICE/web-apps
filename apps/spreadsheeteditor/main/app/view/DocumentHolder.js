@@ -466,70 +466,85 @@ define([
                         {
                             caption : me.txtNormal,
                             value   : Asc.c_oAscShowDataAs.Normal,
+                            numFormat: Asc.c_oAscNumFormatType.General,
                             checkable: true
                         },{
                             caption : me.txtPercentOfGrand,
                             value   : Asc.c_oAscShowDataAs.PercentOfTotal,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
                             checkable: true
                         },{
                             caption : me.txtPercentOfCol,
                             value   : Asc.c_oAscShowDataAs.PercentOfCol,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
                             checkable: true
                         },{
                             caption : me.txtPercentOfTotal,
                             value   : Asc.c_oAscShowDataAs.PercentOfRow,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
                             checkable: true
                         },{
                             caption : me.txtPercent,
                             value   : Asc.c_oAscShowDataAs.Percent,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
                             showMore: true,
                             checkable: true
                         },{
                             caption : me.txtPercentOfParentRow,
                             value   : Asc.c_oAscShowDataAs.PercentOfParentRow,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
                             checkable: true
                         },{
                             caption : me.txtPercentOfParentCol,
                             value   : Asc.c_oAscShowDataAs.PercentOfParentCol,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
                             checkable: true
                         },{
                             caption : me.txtPercentOfParent,
                             value   : Asc.c_oAscShowDataAs.PercentOfParent,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
                             showMore: true,
                             checkable: true
                         },{
                             caption : me.txtDifference,
                             value   : Asc.c_oAscShowDataAs.Difference,
+                            numFormat: Asc.c_oAscNumFormatType.General,
                             showMore: true,
                             checkable: true
                         },{
                             caption : me.txtPercentDiff,
                             value   : Asc.c_oAscShowDataAs.PercentDiff,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
                             showMore: true,
                             checkable: true
                         },{
                             caption : me.txtRunTotal,
                             value   : Asc.c_oAscShowDataAs.RunTotal,
+                            numFormat: Asc.c_oAscNumFormatType.General,
                             showMore: true,
                             checkable: true
                         },{
                             caption : me.txtPercentOfRunTotal,
                             value   : Asc.c_oAscShowDataAs.PercentOfRunningTotal,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
                             showMore: true,
                             checkable: true
                         },{
                             caption : me.txtRankAscending,
                             value   : Asc.c_oAscShowDataAs.RankAscending,
+                            numFormat: Asc.c_oAscNumFormatType.General,
                             showMore: true,
                             checkable: true
                         },{
                             caption : me.txtRankDescending,
                             value   : Asc.c_oAscShowDataAs.RankDescending,
+                            numFormat: Asc.c_oAscNumFormatType.General,
                             showMore: true,
                             checkable: true
                         },{
                             caption : me.txtIndex,
                             value   : Asc.c_oAscShowDataAs.Index,
+                            numFormat: Asc.c_oAscNumFormatType.General,
                             checkable: true
                         },{
                             caption : '--'

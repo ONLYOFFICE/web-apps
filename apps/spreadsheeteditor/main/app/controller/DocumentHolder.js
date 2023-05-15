@@ -721,6 +721,7 @@ define([
             else if (item.value!==undefined && item.value!==null) {
                 var field = new Asc.CT_DataField();
                 field.asc_setSubtotal(item.value);
+                this.propsPivot.fieldSourceName && field.asc_setName(this.txtByField.replace('%1', item.caption).replace('%2',  this.propsPivot.fieldSourceName));
                 this.propsPivot.field.asc_set(this.api, this.propsPivot.originalProps, this.propsPivot.index, field);
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
             }
@@ -736,6 +737,13 @@ define([
             } else if (item.value!==undefined && item.value!==null) {
                 var field = new Asc.CT_DataField();
                 field.asc_setShowDataAs(item.value);
+
+                var info = new Asc.asc_CFormatCellsInfo();
+                info.asc_setType(item.options.numFormat);
+                info.asc_setDecimalPlaces(item.options.numFormat===Asc.c_oAscNumFormatType.Percent ? 2 : 0);
+                info.asc_setSeparator(false);
+                field.asc_setNumFormat(this.api.asc_getFormatCells(info)[0]);
+
                 this.propsPivot.field.asc_set(this.api, this.propsPivot.originalProps, this.propsPivot.index, field);
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
             }
@@ -884,6 +892,7 @@ define([
                         this.propsPivot.field = fprops[dataFieldIndex];
                         this.propsPivot.fieldType = 2;
                         this.propsPivot.fieldName = this.propsPivot.field.asc_getName();
+                        this.propsPivot.fieldSourceName = props.asc_getCacheFields()[pivotIndex].asc_getName();
                     }
                 }
             }
@@ -5091,7 +5100,8 @@ define([
         txtHeadersTableHint: 'Returns the column headers for the table or specified table columns',
         txtTotalsTableHint: 'Returns the total rows for the table or specified table columns',
         txtCopySuccess: 'Link copied to the clipboard',
-        warnFilterError: 'You need at least one field in the Values area in order to apply a value filter.'
+        warnFilterError: 'You need at least one field in the Values area in order to apply a value filter.',
+        txtByField: '%1 of %2'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });
