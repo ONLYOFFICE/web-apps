@@ -85,9 +85,9 @@ define([
                             '<% } %>', '>',
                             '<label>' + this.textThumbnailsSize + '</label>',
                             '<div class="thumbnails-sld-box">',
-                                '<span class="menu-item-icon menu__icon thumbnail-small"></span>',
+                                '<span class="menu-item-icon menu__icon btn-thumbnail-small"></span>',
                                 '<div id="sld-thumbnails-size"></div>',
-                                '<span class="menu-item-icon menu__icon thumbnail-big"></span>',
+                                '<span class="menu-item-icon menu__icon btn-thumbnail-big"></span>',
                             '</div>',
                         '</div>'
                     ].join('')),

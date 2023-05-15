@@ -182,6 +182,7 @@ define([
                 parentEl: $('#chart-dlg-btn-up'),
                 cls: 'btn-toolbar bg-white',
                 iconCls: 'caret-up',
+                scaling: false,
                 hint: this.textUp
             });
             this.btnUp.on('click', _.bind(this.onMoveClick, this, true));
@@ -190,6 +191,7 @@ define([
                 parentEl: $('#chart-dlg-btn-down'),
                 cls: 'btn-toolbar bg-white',
                 iconCls: 'caret-down',
+                scaling: false,
                 hint: this.textDown
             });
             this.btnDown.on('click', _.bind(this.onMoveClick, this, false));

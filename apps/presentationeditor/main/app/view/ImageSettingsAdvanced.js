@@ -143,7 +143,7 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
             this.btnRatio = new Common.UI.Button({
                 parentEl: $('#image-advanced-button-ratio'),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon advanced-btn-ratio',
+                iconCls: 'toolbar__icon btn-advanced-ratio',
                 style: 'margin-bottom: 1px;',
                 enableToggle: true,
                 hint: this.textKeepRatio

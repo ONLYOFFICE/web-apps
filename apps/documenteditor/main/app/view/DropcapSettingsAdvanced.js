@@ -365,7 +365,7 @@ define([
             this.btnFrameNone = new Common.UI.Button({
                 parentEl: $('#frame-advanced-button-none'),
                 cls         : 'btn huge-1 btn-options',
-                iconCls     : 'options__icon options__icon-huge none',
+                iconCls     : 'options__icon options__icon-huge btn-none',
                 enableToggle: true,
                 toggleGroup : 'frameAdvGroup',
                 allowDepress: false,

@@ -7,6 +7,19 @@
         vertical-align: baseline;
     }
 
+    .btn.align-left {
+        text-align: left;
+
+        .rtl & {
+            text-align: right;
+        }
+
+        .pixel-ratio__2_5 & {
+            display: flex;
+            align-items: center;
+        }
+    }
+
     &#id-cell-settings {
         #cell-combo-border-type {
             display: inline-block;
@@ -203,11 +216,6 @@
         #chart-btn-select-data .btn,
         #chart-btn-switch .btn {
             width: 100%;
-            text-align: left;
-
-            .rtl & {
-                text-align: right;
-            }
         }
     }
 

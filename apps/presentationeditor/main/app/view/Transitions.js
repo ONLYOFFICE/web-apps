@@ -185,7 +185,7 @@ define([
                     cls: 'btn-toolbar', // x-huge icon-top',
                     caption: this.txtPreview,
                     split: false,
-                    iconCls: 'toolbar__icon preview-transitions',
+                    iconCls: 'toolbar__icon btn-preview-transitions',
                     lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
                     dataHint: '1',
                     dataHintDirection: 'left',
@@ -235,7 +235,7 @@ define([
 
                 this.lblDuration = new Common.UI.Label({
                     el: this.$el.find('#transit-duration'),
-                    iconCls: 'toolbar__icon animation-duration',
+                    iconCls: 'toolbar__icon btn-animation-duration',
                     caption: this.strDuration,
                     lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock]
                 });
