@@ -2,6 +2,13 @@ body {
     margin: 0;
 }
 
+body.theme-type-light {
+    --background-navbar-ios: #ffffff;
+    --background-navbar-word: #446995;
+    --background-navbar-cell: #40865c;
+    --background-navbar-slide: #aa5252;
+}
+
 body.theme-type-dark {
     --background-navbar-ios: #232323;
     --background-navbar-word: #232323;
@@ -143,13 +150,13 @@ body.theme-type-dark {
 }
 
 .md .cell-editor {
-    --f7-navbar-bg-color: var(--background-navbar-word, #40865c);
-    --f7-subnavbar-bg-color: var(--background-navbar-word, #40865c);
+    --f7-navbar-bg-color: var(--background-navbar-cell, #40865c);
+    --f7-subnavbar-bg-color: var(--background-navbar-cell, #40865c);
     --f7-subnavbar-height: 56px;
 }
 
 .md .slide-editor {
-    --f7-navbar-bg-color: var(--background-navbar-word, #aa5252);
-    --f7-subnavbar-bg-color: var(--background-navbar-word, #aa5252);
+    --f7-navbar-bg-color: var(--background-navbar-slide, #aa5252);
+    --f7-subnavbar-bg-color: var(--background-navbar-slide, #aa5252);
     --f7-subnavbar-height: 56px;
 }
