@@ -340,7 +340,7 @@ define([
             me.style        = me.options.style;
             me.rendered     = false;
 
-            if ( me.options.scaling === false ) {
+            if ( me.options.scaling === false && me.options.iconCls) {
                 me.iconCls = me.options.iconCls + ' scaling-off';
             }
 

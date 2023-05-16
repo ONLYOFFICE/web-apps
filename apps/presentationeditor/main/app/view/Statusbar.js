@@ -269,6 +269,7 @@ define([
                 this.btnLanguage = new Common.UI.Button({
                     parentEl: $('#btn-cnt-lang', this.el),
                     cls         : 'btn-toolbar',
+                    scaling     : false,
                     caption     : 'English (United States)',
                     hint: this.tipSetLang,
                     hintAnchor  : 'top-left',
