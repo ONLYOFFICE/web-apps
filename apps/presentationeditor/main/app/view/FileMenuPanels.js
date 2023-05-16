@@ -2084,6 +2084,8 @@ define([
                 value: 1,
                 maxValue: 32767,
                 minValue: 1,
+                allowDecimal: false,
+                maskExp: /[0-9]/,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
