@@ -2591,7 +2591,7 @@ define([
                     ]
                 }));
 
-                var onShowBefore = function(menu) {
+                var onShowBeforeChart = function(menu) {
                     var picker = new Common.UI.DataView({
                         el: $('#id-toolbar-menu-insertchart'),
                         parentMenu: menu,
@@ -2606,9 +2606,9 @@ define([
                             me.fireEvent('add:chart', [record.get('group'), record.get('type')]);
                         if (e.type !== 'click') menu.hide();
                     });
-                    menu.off('show:before', onShowBefore);
+                    menu.off('show:before', onShowBeforeChart);
                 };
-                this.btnInsertChart.menu.on('show:before', onShowBefore);
+                this.btnInsertChart.menu.on('show:before', onShowBeforeChart);
             }
 
             if (this.btnInsertSmartArt) {
