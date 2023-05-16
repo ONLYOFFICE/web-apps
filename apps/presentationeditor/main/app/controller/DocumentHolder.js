@@ -2442,8 +2442,10 @@ define([
                 };
                 me.equationSettingsBtn.menu.on('item:click', _.bind(me.convertEquation, me));
                 me.equationSettingsBtn.menu.on('show:before', function(menu) {
+                    bringForward();
                     menu.options.initMenu();
                 });
+                me.equationSettingsBtn.menu.on('hide:after', sendBackward);
             }
 
             var showPoint = [(bounds[0] + bounds[2])/2 - eqContainer.outerWidth()/2, bounds[1] - eqContainer.outerHeight() - 10];
@@ -2453,7 +2455,19 @@ define([
             showPoint[1] = Math.min(me._Height - eqContainer.outerHeight(), Math.max(0, showPoint[1]));
             eqContainer.css({left: showPoint[0], top : showPoint[1]});
 
-            var menuAlign = (me._Height - showPoint[1] - eqContainer.outerHeight() < 220) ? 'bl-tl' : 'tl-bl';
+            if (_.isUndefined(me._XY)) {
+                me._XY = [
+                    documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
+                    documentHolder.cmpEl.offset().top - $(window).scrollTop()
+                ];
+                me._Width       = documentHolder.cmpEl.width();
+                me._Height      = documentHolder.cmpEl.height();
+                me._BodyWidth   = $('body').width();
+            }
+
+            var diffDown = me._Height - showPoint[1] - eqContainer.outerHeight(),
+                diffUp = me._XY[1] + showPoint[1],
+                menuAlign = (diffDown < 220 && diffDown < diffUp*0.9) ? 'bl-tl' : 'tl-bl';
             if (Common.UI.isRTL()) {
                 menuAlign = menuAlign === 'bl-tl' ? 'br-tr' : 'tr-br';
             }
