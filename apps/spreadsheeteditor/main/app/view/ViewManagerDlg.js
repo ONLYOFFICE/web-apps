@@ -78,7 +78,7 @@ define([
                                         '<button type="button" class="btn btn-text-default auto" id="view-manager-btn-new" style="min-width: 80px;margin-right:5px;">' + this.textNew + '</button>',
                                         '<button type="button" class="btn btn-text-default auto" id="view-manager-btn-rename" style="min-width: 80px;margin-right:5px;">' + this.textRename + '</button>',
                                         '<button type="button" class="btn btn-text-default auto" id="view-manager-btn-duplicate" style="min-width: 80px;">' + this.textDuplicate + '</button>',
-                                        '<button type="button" class="btn btn-text-default auto" id="view-manager-btn-delete" style="min-width: 80px;float: right;">' + this.textDelete + '</button>',
+                                        '<button type="button" class="btn btn-text-default auto float-right" id="view-manager-btn-delete" style="min-width: 80px;">' + this.textDelete + '</button>',
                                     '</td>',
                                 '</tr>',
                             '</table>',

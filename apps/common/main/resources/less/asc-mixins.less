@@ -394,6 +394,20 @@
     }
 }
 
+.float-right {
+    float: right;
+    .rtl & {
+        float: left;
+    }
+}
+
+.float-left {
+    float: left;
+    .rtl & {
+        float: right;
+    }
+}
+
 //.adaptive-solid-border(@width, @color, @borderside: all) {
 //    @lb-border: if((@borderside = all), border, e('border-@{borderside}'));
 //    @lb-border-width: if((@borderside = all), border-width, e('border-@{borderside}-width'));

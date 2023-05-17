@@ -90,7 +90,7 @@ define([
                                 '<label class="header">', me.txtBaseField,'</label>',
                                 '<div id="value-field-settings-field" class="input-group-nr" style="width:128px;"></div>',
                             '</td>',
-                            '<td style="float: right;">',
+                            '<td class="float-right">',
                                 '<label class="header">', me.txtBaseItem,'</label>',
                                 '<div id="value-field-settings-item" class="input-group-nr" style="width:128px;"></div>',
                             '</td>',

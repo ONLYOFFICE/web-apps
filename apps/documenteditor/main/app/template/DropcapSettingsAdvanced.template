@@ -69,7 +69,7 @@
             </tr>
             <tr>
                 <td class="settins-cell padding-small" colspan="2" style="padding-right: 10px;">
-                    <label class="input-label" style="float: right;"><%= scope.textDistance %></label>
+                    <label class="input-label float-right"><%= scope.textDistance %></label>
                 </td>
                 <td class="settins-cell padding-small">
                     <div id="frame-advanced-input-hdist"></div>
@@ -104,7 +104,7 @@
             </tr>
             <tr>
                 <td class="settins-cell padding-small" colspan="2" style="padding-right: 10px;">
-                    <label class="input-label" style="float: right;"><%= scope.textDistance %></label>
+                    <label class="input-label float-right"><%= scope.textDistance %></label>
                 </td>
                 <td class="settins-cell padding-small">
                     <div id="frame-advanced-input-vdist"></div>
