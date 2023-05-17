@@ -746,9 +746,12 @@ define([
                 svgIcon = btnIconEl.find('use.zoom-int');
 
             this.iconCls = cls;
-            if (svgIcon.length) {
+            if (/svgicon/.test(this.iconCls)) {
+                var icon = /svgicon\s(\S+)/.exec(this.iconCls);
+                svgIcon.attr('xlink:href', icon && icon.length > 1 ? '#' + icon[1] : '');
+            } else if (svgIcon.length) {
                 var icon = /btn-[^\s]+/.exec(this.iconCls);
-                btnIconEl.find('use.zoom-int').attr('href', icon ? '#' + icon[0]: '');
+                svgIcon.attr('href', icon ? '#' + icon[0]: '');
             } else {
                 btnIconEl.removeClass(oldCls);
                 btnIconEl.addClass(cls || '');
