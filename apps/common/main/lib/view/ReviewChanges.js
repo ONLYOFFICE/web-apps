@@ -592,6 +592,8 @@ define([
                                 ]
                             }));
                             me.btnCompare.menu.items[2].setVisible(me.appConfig.canRequestCompareFile || me.appConfig.fileChoiceUrl && me.appConfig.fileChoiceUrl.indexOf("{documentType}")>-1);
+                            me.btnCompare.menu.items[1].setDisabled(me.appConfig.disableNetworkFunctionality);
+                            me.btnCompare.menu.items[2].setDisabled(me.appConfig.disableNetworkFunctionality);
                             me.btnCompare.updateHint(me.tipCompare);
 
 
@@ -601,6 +603,7 @@ define([
                                     {caption: me.mniFromUrl, value: 'url'},
                                 ]
                             }));
+                            me.btnCombine.menu.items[1].setDisabled(me.appConfig.disableNetworkFunctionality);
                             me.btnCombine.updateHint(me.tipCombine);
                         }
 

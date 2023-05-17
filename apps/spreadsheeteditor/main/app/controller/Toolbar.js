@@ -652,7 +652,7 @@ define([
         onChangeCase: function(menu, item, e) {
             if (this.api)
                 this.api.asc_ChangeTextCase(item.value);
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar, {restorefocus:true});
         },
 
         onBold: function(btn, e) {

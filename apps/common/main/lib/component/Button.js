@@ -742,12 +742,13 @@ define([
 
         setIconCls: function(cls) {
             var btnIconEl = $(this.el).find('.icon'),
-                oldCls = this.iconCls;
+                oldCls = this.iconCls,
+                svgIcon = btnIconEl.find('use.zoom-int');
 
             this.iconCls = cls;
-            if (/svgicon/.test(this.iconCls)) {
-                var icon = /svgicon\s(\S+)/.exec(this.iconCls);
-                btnIconEl.find('use.zoom-int').attr('xlink:href', icon && icon.length>1 ? '#' + icon[1]: '');
+            if (svgIcon.length) {
+                var icon = /btn-[^\s]+/.exec(this.iconCls);
+                btnIconEl.find('use.zoom-int').attr('href', icon ? '#' + icon[0]: '');
             } else {
                 btnIconEl.removeClass(oldCls);
                 btnIconEl.addClass(cls || '');
@@ -755,10 +756,16 @@ define([
         },
 
         changeIcon: function(opts) {
-            var me = this;
-            if ( opts && (opts.curr || opts.next) && me.$icon) {
-                !!opts.curr && (me.$icon.removeClass(opts.curr));
-                !!opts.next && !me.$icon.hasClass(opts.next) && (me.$icon.addClass(opts.next));
+            var me = this,
+                btnIconEl = $(this.el).find('.icon');
+            if (opts && (opts.curr || opts.next) && btnIconEl) {
+                var svgIcon = btnIconEl.find('use.zoom-int');
+                if (svgIcon.length) {
+                    !!opts.next && svgIcon.attr('href', '#' + opts.next);
+                } else {
+                    !!opts.curr && (btnIconEl.removeClass(opts.curr));
+                    !!opts.next && !btnIconEl.hasClass(opts.next) && (btnIconEl.addClass(opts.next));
+                }
 
                 if ( !!me.options.signals ) {
                     if ( !(me.options.signals.indexOf('icon:changed') < 0) ) {

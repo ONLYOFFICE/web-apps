@@ -971,8 +971,8 @@ define([
                     items: [
                         { caption: me.textShowGuides, value: 'show', checkable: true },
                         { caption: '--'},
-                        { caption: me.textAddVGuides, iconCls: 'menu__icon vertical-guide', value: 'add-vert' },
-                        { caption: me.textAddHGuides, iconCls: 'menu__icon horizontal-guide', value: 'add-hor' },
+                        { caption: me.textAddVGuides, iconCls: 'menu__icon btn-vertical-guide', value: 'add-vert' },
+                        { caption: me.textAddHGuides, iconCls: 'menu__icon btn-horizontal-guide', value: 'add-hor' },
                         { caption: me.textDeleteGuide, value: 'del-guide' },
                         { caption: '--'},
                         { caption: me.textSmartGuides, value: 'smart', checkable: true },
@@ -1570,12 +1570,12 @@ define([
 
             me.mnuGroupImg = new Common.UI.MenuItem({
                 caption     : this.txtGroup,
-                iconCls     : 'menu__icon shape-group'
+                iconCls     : 'menu__icon btn-shape-group'
             });
 
             me.mnuUnGroupImg = new Common.UI.MenuItem({
                 caption     : this.txtUngroup,
-                iconCls     : 'menu__icon shape-ungroup'
+                iconCls     : 'menu__icon btn-shape-ungroup'
             });
 
             me.mnuArrangeFront = new Common.UI.MenuItem({
@@ -1585,17 +1585,17 @@ define([
 
             me.mnuArrangeBack = new Common.UI.MenuItem({
                 caption     : this.textArrangeBack,
-                iconCls     : 'menu__icon arrange-back'
+                iconCls     : 'menu__icon btn-arrange-back'
             });
 
             me.mnuArrangeForward = new Common.UI.MenuItem({
                 caption     : this.textArrangeForward,
-                iconCls     : 'menu__icon arrange-forward'
+                iconCls     : 'menu__icon btn-arrange-forward'
             });
 
             me.mnuArrangeBackward = new Common.UI.MenuItem({
                 caption     : this.textArrangeBackward,
-                iconCls     : 'menu__icon arrange-backward'
+                iconCls     : 'menu__icon btn-arrange-backward'
             });
 
             var menuImgShapeArrange = new Common.UI.MenuItem({
@@ -1628,38 +1628,38 @@ define([
                         }),
                         new Common.UI.MenuItem({
                             caption     : me.textShapeAlignCenter,
-                            iconCls     : 'menu__icon shape-align-center',
+                            iconCls     : 'menu__icon btn-shape-align-center',
                             value       : Asc.c_oAscAlignShapeType.ALIGN_CENTER
                         }),
                         new Common.UI.MenuItem({
                             caption     : me.textShapeAlignRight,
-                            iconCls     : 'menu__icon shape-align-right',
+                            iconCls     : 'menu__icon btn-shape-align-right',
                             value       : Asc.c_oAscAlignShapeType.ALIGN_RIGHT
                         }),
                         new Common.UI.MenuItem({
                             caption     : me.textShapeAlignTop,
-                            iconCls     : 'menu__icon shape-align-top',
+                            iconCls     : 'menu__icon btn-shape-align-top',
                             value       : Asc.c_oAscAlignShapeType.ALIGN_TOP
                         }),
                         new Common.UI.MenuItem({
                             caption     : me.textShapeAlignMiddle,
-                            iconCls     : 'menu__icon shape-align-middle',
+                            iconCls     : 'menu__icon btn-shape-align-middle',
                             value       : Asc.c_oAscAlignShapeType.ALIGN_MIDDLE
                         }),
                         new Common.UI.MenuItem({
                             caption     : me.textShapeAlignBottom,
-                            iconCls     : 'menu__icon shape-align-bottom',
+                            iconCls     : 'menu__icon btn-shape-align-bottom',
                             value       : Asc.c_oAscAlignShapeType.ALIGN_BOTTOM
                         }),
                         {caption    : '--'},
                         new Common.UI.MenuItem({
                             caption     : me.txtDistribHor,
-                            iconCls     : 'menu__icon shape-distribute-hor',
+                            iconCls     : 'menu__icon btn-shape-distribute-hor',
                             value       : 6
                         }),
                         new Common.UI.MenuItem({
                             caption     : me.txtDistribVert,
-                            iconCls     : 'menu__icon shape-distribute-vert',
+                            iconCls     : 'menu__icon btn-shape-distribute-vert',
                             value       : 7
                         })
                     ]
@@ -1706,7 +1706,7 @@ define([
             });
 
             me.menuParagraphDirection = new Common.UI.MenuItem({
-                iconCls: 'menu__icon text-orient-hor',
+                iconCls: 'menu__icon btn-text-orient-hor',
                 caption     : me.directionText,
                 menu        : new Common.UI.Menu({
                     cls: 'shifted-right',
@@ -1714,7 +1714,7 @@ define([
                     items   : [
                         me.menuParagraphDirectH = new Common.UI.MenuItem({
                             caption     : me.directHText,
-                            iconCls     : 'menu__icon text-orient-hor',
+                            iconCls     : 'menu__icon btn-text-orient-hor',
                             checkable   : true,
                             checkmark   : false,
                             checked     : false,
@@ -1723,7 +1723,7 @@ define([
                         }),
                         me.menuParagraphDirect90 = new Common.UI.MenuItem({
                             caption     : me.direct90Text,
-                            iconCls     : 'menu__icon text-orient-rdown',
+                            iconCls     : 'menu__icon btn-text-orient-rdown',
                             checkable   : true,
                             checkmark   : false,
                             checked     : false,
@@ -1732,7 +1732,7 @@ define([
                         }),
                         me.menuParagraphDirect270 = new Common.UI.MenuItem({
                             caption     : me.direct270Text,
-                            iconCls     : 'menu__icon text-orient-rup',
+                            iconCls     : 'menu__icon btn-text-orient-rup',
                             checkable   : true,
                             checkmark   : false,
                             checked     : false,
@@ -1989,13 +1989,13 @@ define([
                         cls = '';
                         switch (dir) {
                             case Asc.c_oAscVertDrawingText.normal:
-                                cls = 'menu__icon text-orient-hor';
+                                cls = 'menu__icon btn-text-orient-hor';
                                 break;
                             case Asc.c_oAscVertDrawingText.vert:
-                                cls = 'menu__icon text-orient-rdown';
+                                cls = 'menu__icon btn-text-orient-rdown';
                                 break;
                             case Asc.c_oAscVertDrawingText.vert270:
-                                cls = 'menu__icon text-orient-rup';
+                                cls = 'menu__icon btn-text-orient-rup';
                                 break;
                         }
                         me.menuParagraphDirection.setIconCls(cls);
@@ -2462,25 +2462,25 @@ define([
                 items   : [
                     new Common.UI.MenuItem({
                         caption     : this.currProfText,
-                        iconCls     : 'menu__icon professional-equation',
+                        iconCls     : 'menu__icon btn-professional-equation',
                         type        : 'view',
                         value       : {all: false, linear: false}
                     }),
                     new Common.UI.MenuItem({
                         caption     : this.currLinearText,
-                        iconCls     : 'menu__icon linear-equation',
+                        iconCls     : 'menu__icon btn-linear-equation',
                         type        : 'view',
                         value       : {all: false, linear: true}
                     }),
                     new Common.UI.MenuItem({
                         caption     : this.allProfText,
-                        iconCls     : 'menu__icon professional-equation',
+                        iconCls     : 'menu__icon btn-professional-equation',
                         type        : 'view',
                         value       : {all: true, linear: false}
                     }),
                     new Common.UI.MenuItem({
                         caption     : this.allLinearText,
-                        iconCls     : 'menu__icon linear-equation',
+                        iconCls     : 'menu__icon btn-linear-equation',
                         type        : 'view',
                         value       : {all: true, linear: true}
                     }),

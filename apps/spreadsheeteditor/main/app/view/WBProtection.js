@@ -144,7 +144,7 @@ define([
 
                 this.btnAllowRanges = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon allow-edit-ranges',
+                    iconCls: 'toolbar__icon btn-allow-edit-ranges',
                     caption: this.txtAllowRanges,
                     lock        : [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
                     dataHint    : '1',
