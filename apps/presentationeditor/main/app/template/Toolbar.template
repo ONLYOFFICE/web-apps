@@ -52,8 +52,8 @@
                 <div class="separator long"></div>
                 <div class="group small">
                     <div class="elset" style="width:208px;">
-                        <span class="btn-slot" id="slot-field-fontname"></span>
-                        <span class="btn-slot" id="slot-field-fontsize"></span>
+                        <span class="btn-slot float-left" id="slot-field-fontname"></span>
+                        <span class="btn-slot float-left" id="slot-field-fontsize"></span>
                         <span class="btn-slot" id="slot-btn-incfont"></span>
                         <span class="btn-slot" id="slot-btn-decfont"></span>
                         <span class="btn-slot split" id="slot-btn-changecase"></span>

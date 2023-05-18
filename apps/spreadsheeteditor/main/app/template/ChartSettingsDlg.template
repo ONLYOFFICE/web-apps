@@ -125,7 +125,7 @@
                     <div id="chart-dlg-check-v-logscale-0"></div>
                 </td>
                 <td class="padding-large">
-                    <div class="base">
+                    <div class="base float-right">
                         <label class="input-label"><%= scope.textBase %></label>
                         <div id="chart-dlg-input-base-0" style="display: inline-block;"></div>
                     </div>
@@ -246,7 +246,7 @@
                     <div id="chart-dlg-check-v-logscale-1"></div>
                 </td>
                 <td class="padding-large">
-                    <div class="base">
+                    <div class="base float-right">
                         <label class="input-label"><%= scope.textBase %></label>
                         <div id="chart-dlg-input-base-1" style="display: inline-block;"></div>
                     </div>
@@ -397,7 +397,7 @@
                 <td width="100%" colspan="2">
                     <div id="chart-dlg-combo-label-int-0" class="input-group-nr" style="display: inline-block;width: 100px;vertical-align: middle;"></div>
                     <div id="chart-dlg-input-label-int-0" style="display: inline-block;width: 60px;vertical-align: middle;"></div>
-                    <button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-h-format-0" style="min-width:100px; vertical-align: middle;"><%= scope.textFormat %></button>
+                    <button type="button" class="btn btn-text-default auto float-right" id="chart-dlg-btn-h-format-0" style="min-width:100px; vertical-align: middle;"><%= scope.textFormat %></button>
                 </td>
             </tr>
         </table>
@@ -506,7 +506,7 @@
                 <td width="100%" colspan="2">
                     <div id="chart-dlg-combo-label-int-1" class="input-group-nr" style="display: inline-block;width: 100px;vertical-align: middle;"></div>
                     <div id="chart-dlg-input-label-int-1" style="display: inline-block;margin-left: 3px;width: 60px;vertical-align: middle;"></div>
-                    <button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-h-format-1" style="min-width:100px;vertical-align: middle;"><%= scope.textFormat %></button>
+                    <button type="button" class="btn btn-text-default auto float-right" id="chart-dlg-btn-h-format-1" style="min-width:100px;vertical-align: middle;"><%= scope.textFormat %></button>
                 </td>
             </tr>
         </table>

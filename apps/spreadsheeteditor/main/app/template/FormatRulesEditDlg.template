@@ -105,11 +105,11 @@
                     <div id="format-rules-edit-combo-fill" class="input-group-nr"></div>
                     <div class="color-pos-fill">
                         <label><%= scope.textPositive %></label>
-                        <div id="format-rules-edit-color-pos-fill"></div>
+                        <div id="format-rules-edit-color-pos-fill" class="float-right"></div>
                     </div>
                     <div class="color-neg-fill">
                         <label style="margin-top: 4px;"><%= scope.textNegative %></label>
-                        <div id="format-rules-edit-color-neg-fill"></div>
+                        <div id="format-rules-edit-color-neg-fill" class="float-right"></div>
                     </div>
                     <div id="format-rules-edit-chk-fill"></div>
                 </div><!--
@@ -118,11 +118,11 @@
                     <div id="format-rules-edit-combo-border" class="input-group-nr"></div>
                     <div class="color-pos-border">
                         <label><%= scope.textPositive %></label>
-                        <div id="format-rules-edit-color-pos-border"></div>
+                        <div id="format-rules-edit-color-pos-border" class="float-right"></div>
                         </div>
                     <div class="color-neg-border">
                         <label><%= scope.textNegative %></label>
-                        <div id="format-rules-edit-color-neg-border"></div>
+                        <div id="format-rules-edit-color-neg-border" class="float-right"></div>
                         </div>
                     <div id="format-rules-edit-chk-border"></div>
                 </div><!--
@@ -135,7 +135,7 @@
         </tr>
         <tr class="databar">
             <td class="padding-small">
-                <div class="axis">
+                <div class="axis float-left">
                     <label class="header"><%= scope.textAxis %></label>
                     <label class="position-label"><%= scope.textPosition %></label>
                     <div id="format-rules-edit-combo-axis-pos" class="input-group-nr"></div>
@@ -158,7 +158,7 @@
                             <div>
                                 <div id="format-rules-icon-style" class="input-group-nr"></div>
                                 <div id="format-rules-edit-chk-icon-show"></div>
-                                <button type="button" class="btn btn-text-default auto" id="format-rules-edit-btn-icon-reverse"><%= scope.textReverse %></button>
+                                <button type="button" class="btn btn-text-default auto float-right" id="format-rules-edit-btn-icon-reverse"><%= scope.textReverse %></button>
                             </div>
                         </td>
                     </tr>

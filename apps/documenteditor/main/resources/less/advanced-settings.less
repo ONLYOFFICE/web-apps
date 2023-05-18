@@ -23,6 +23,19 @@
                     background-position: @menu-check-offset-x @menu-check-offset-y;
                 }
             }
+
+            .rtl & {
+                padding-right:16px;
+                padding-left: 5px;
+
+                &.checked {
+                    &:before {
+                        float: right;
+                        margin-left: 0;
+                        margin-right: -18px;
+                    }
+                }
+            }
         }
 
         padding-right: 6px;
@@ -31,6 +44,11 @@
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: pre;
+
+        .rtl & {
+            padding-right: 0;
+            padding-left: 6px;
+        }
     }
 }
 

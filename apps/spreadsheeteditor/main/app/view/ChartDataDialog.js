@@ -84,7 +84,7 @@ define([
                                         '<button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-add">', me.textAdd, '</button>',
                                         '<button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-edit">', me.textEdit, '</button>',
                                         '<button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-delete">', me.textDelete, '</button>',
-                                        '<div class="up-down-btns">',
+                                        '<div class="up-down-btns float-right">',
                                         '<div id="chart-dlg-btn-up"></div>',
                                         '<div id="chart-dlg-btn-down"></div>',
                                         '</div>',
