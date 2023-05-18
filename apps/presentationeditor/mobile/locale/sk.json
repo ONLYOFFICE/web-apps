@@ -134,7 +134,9 @@
       "warnProcessRightsChange": "Nemáte povolenie na úpravu súboru.",
       "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
       "titleLicenseNotActive": "License not active",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   },
   "Error": {
@@ -420,7 +422,9 @@
       "textDeleteLink": "Delete Link",
       "textInsertImage": "Insert Image",
       "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "textRequired": "Required",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     },
     "Settings": {
       "mniSlideStandard": "Štandard (4:3)",
@@ -505,7 +509,9 @@
       "textFeedback": "Feedback & Support",
       "textOk": "Ok",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "textRTL": "RTL"
+      "textRTL": "RTL",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   }
 }

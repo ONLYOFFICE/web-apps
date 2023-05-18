@@ -576,7 +576,9 @@
     "warnLicenseUsersExceeded": "Has arribat al límit d'usuari per a %1 editors. Posa't en contacte amb l'administrador per a més informació.",
     "warnNoLicense": "Has arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Posa't en contacte amb l'equip de vendes %1 per conèixer les condicions d'actualització personal.",
     "warnNoLicenseUsers": "Has arribat al límit d'usuaris per a %1 editors. Contacta amb l'equip de vendes de %1 per obtenir les condicions de millora personals dels teus serveis.",
-    "warnProcessRightsChange": "No tens permís per editar aquest fitxer."
+    "warnProcessRightsChange": "No tens permís per editar aquest fitxer.",
+    "del_textNoTextFound": "Text not found",
+    "textNoMatches": "No Matches"
   },
   "Settings": {
     "advDRMOptions": "El fitxer està protegit",
@@ -724,7 +726,9 @@
     "txtScheme6": "Esplanada",
     "txtScheme7": "Equitat",
     "txtScheme8": "Flux",
-    "txtScheme9": "Foneria"
+    "txtScheme9": "Foneria",
+    "del_textNoTextFound": "Text not found",
+    "textNoMatches": "No Matches"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Tens canvis sense desar. Fes clic a \"Mantingueu-vos en aquesta pàgina\" per esperar al desament automàtic. Fes clic a \"Deixar aquesta pàgina\" per descartar tots els canvis no desats.",

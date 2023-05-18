@@ -173,7 +173,9 @@
       "titleLicenseExp": "License expired",
       "titleLicenseNotActive": "License not active",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
+      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page.",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   },
   "Error": {
@@ -752,7 +754,9 @@
       "txtVi": "越南語",
       "txtZh": "中文",
       "warnDownloadAs": "如果繼續以這種格式保存，則除文本外的所有功能都將丟失。<br>確定要繼續嗎？",
-      "txtDe": "Deutsch"
+      "txtDe": "Deutsch",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   }
 }

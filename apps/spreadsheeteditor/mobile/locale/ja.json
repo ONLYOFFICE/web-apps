@@ -173,7 +173,9 @@
       "warnLicenseUsersExceeded": "％1エディターのユーザー制限に達しました。 詳細についてはアドミニストレータを連絡してください。",
       "warnNoLicense": "％１エディター　時接続数の制限に達しました。この文書が見るだけのために開かれる。個人的なアップグレード条件については、％1営業チームを連絡してください。",
       "warnNoLicenseUsers": "％1エディターのユーザー制限に達しました。 個人的なアップグレード条件については、％1営業チームを連絡してください。",
-      "warnProcessRightsChange": "ファイルを編集する権限がありません！"
+      "warnProcessRightsChange": "ファイルを編集する権限がありません！",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   },
   "Error": {
@@ -752,7 +754,9 @@
       "txtUk": "ウクライナ語",
       "txtVi": "ベトナム語",
       "txtZh": "中国語",
-      "warnDownloadAs": "この形式で保存する続けば、テクスト除いて全てが失います。続けてもよろしいですか？"
+      "warnDownloadAs": "この形式で保存する続けば、テクスト除いて全てが失います。続けてもよろしいですか？",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   }
 }

@@ -173,7 +173,9 @@
       "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
       "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
       "titleLicenseNotActive": "License not active",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   },
   "Error": {
@@ -752,7 +754,9 @@
       "warnDownloadAs": "Bu formatta kaydetmeye devam ederseniz, metin dışındaki tüm özellikler kaybolacak.<br>Devam etmek istediğinize emin misiniz?",
       "textDirection": "Direction",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "txtDe": "Deutsch"
+      "txtDe": "Deutsch",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   }
 }

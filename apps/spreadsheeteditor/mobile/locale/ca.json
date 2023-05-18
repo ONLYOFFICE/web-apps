@@ -173,7 +173,9 @@
       "warnLicenseUsersExceeded": "Has arribat al límit d'usuari per a %1 editors. Posa't en contacte amb l'administrador per a més informació.",
       "warnNoLicense": "Has arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Posa't en contacte amb l'equip de vendes %1 per conèixer les condicions d'actualització personal.",
       "warnNoLicenseUsers": "Has arribat al límit d'usuaris per a %1 editors. Posa't en contacte amb l'equip de vendes de %1 per obtenir les condicions de millora personals dels serveis.",
-      "warnProcessRightsChange": "No tens permís per editar el fitxer."
+      "warnProcessRightsChange": "No tens permís per editar el fitxer.",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   },
   "Error": {
@@ -752,7 +754,9 @@
       "txtUk": "Ucraïnès",
       "txtVi": "Vietnamita",
       "txtZh": "Xinès",
-      "warnDownloadAs": "Si continues i deses en aquest format, es perdran totes les característiques, excepte el text. <br>Vols continuar?"
+      "warnDownloadAs": "Si continues i deses en aquest format, es perdran totes les característiques, excepte el text. <br>Vols continuar?",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   }
 }

@@ -103,7 +103,9 @@
       "warnLicenseUsersExceeded": "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
       "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
       "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
-      "warnProcessRightsChange": "You don't have permission to edit the file."
+      "warnProcessRightsChange": "You don't have permission to edit the file.",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   },
   "About": {
@@ -752,7 +754,9 @@
       "txtUk": "Ukrainian",
       "txtVi": "Vietnamese",
       "txtZh": "Chinese",
-      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?"
+      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   }
 }

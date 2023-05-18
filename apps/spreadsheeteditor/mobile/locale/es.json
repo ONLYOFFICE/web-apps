@@ -173,7 +173,9 @@
       "warnNoLicenseUsers": "Ha alcanzado el límite de usuarios para %1 editores. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
       "warnProcessRightsChange": "No tiene permiso para editar el archivo.",
       "titleLicenseNotActive": "License not active",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   },
   "Error": {
@@ -752,7 +754,9 @@
       "txtUk": "Ucraniano",
       "txtVi": "Vietnamita",
       "txtZh": "Chino",
-      "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?"
+      "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   }
 }

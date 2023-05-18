@@ -173,7 +173,9 @@
       "warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
       "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten.",
       "titleLicenseNotActive": "License not active",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   },
   "Error": {
@@ -752,7 +754,9 @@
       "txtUk": "Ukrainisch",
       "txtVi": "Vietnamesisch",
       "txtZh": "Chinesisch ",
-      "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?"
+      "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   }
 }

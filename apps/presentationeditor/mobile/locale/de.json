@@ -134,7 +134,9 @@
       "warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte kontaktieren Sie unser Verkaufsteam, um individuelle Upgrade-Bedingungen zu erhalten.",
       "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten.",
       "titleLicenseNotActive": "License not active",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   },
   "Error": {
@@ -420,7 +422,9 @@
       "textZoom": "Zoom",
       "textZoomIn": "Vergrößern",
       "textZoomOut": "Verkleinern",
-      "textZoomRotate": "Vergrößern und drehen"
+      "textZoomRotate": "Vergrößern und drehen",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
@@ -505,7 +509,9 @@
       "txtScheme6": "Concourse",
       "txtScheme7": "Eigenkapital",
       "txtScheme8": "Flow",
-      "txtScheme9": "Foundry"
+      "txtScheme9": "Foundry",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   }
 }

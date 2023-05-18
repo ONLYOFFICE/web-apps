@@ -134,7 +134,9 @@
       "warnLicenseUsersExceeded": "Դուք հասել եք %1 խմբագրիչներին միաժամանակ միանալու սահմանափակմանը։Կապվեք Ձեր ադմինիստրատորի հետ՝ ավելին իմանալու համար:",
       "warnNoLicense": "Դուք հասել եք %1 խմբագիրների հետ միաժամանակյա միացումների սահմանաչափին:Այս փաստաթուղթը կբացվի միայն դիտելու համար:նձնական թարմացման պայմանների համար կապվեք %1 վաճառքի թիմի հետ:",
       "warnNoLicenseUsers": "Դուք հասել եք %1 խմբագիրների օգտվողի սահմանաչափին:Անձնական թարմացման պայմանների համար կապվեք %1 վաճառքի թիմի հետ:",
-      "warnProcessRightsChange": "Դուք ֆայլը խմբագրելու թույլտվություն չունեք:"
+      "warnProcessRightsChange": "Դուք ֆայլը խմբագրելու թույլտվություն չունեք:",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   },
   "Error": {
@@ -420,7 +422,9 @@
       "textZoom": "Խոշորացնել",
       "textZoomIn": "Մեծացնել",
       "textZoomOut": "Փոքրացնել",
-      "textZoomRotate": "Դիտափոխում և պտտում"
+      "textZoomRotate": "Դիտափոխում և պտտում",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     },
     "Settings": {
       "mniSlideStandard": "Ստանդարտ (4:3)",
@@ -505,7 +509,9 @@
       "txtScheme6": "Համագումար ",
       "txtScheme7": "Սեփական կապիտալ",
       "txtScheme8": "Հոսք",
-      "txtScheme9": "Հրատարակիչ"
+      "txtScheme9": "Հրատարակիչ",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   }
 }

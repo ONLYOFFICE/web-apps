@@ -134,7 +134,9 @@
       "warnNoLicenseUsers": "Anda sudah mencapai batas user untuk %1 editor. Hubungi %1 tim sales untuk syarat personal upgrade.",
       "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini.",
       "titleLicenseNotActive": "License not active",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   },
   "Error": {
@@ -420,7 +422,9 @@
       "textZoom": "Pembesaran",
       "textZoomIn": "Perbesar",
       "textZoomOut": "Perkecil",
-      "textZoomRotate": "Zoom dan Rotasi"
+      "textZoomRotate": "Zoom dan Rotasi",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
@@ -505,7 +509,9 @@
       "txtScheme6": "Himpunan",
       "txtScheme7": "Margin Sisa",
       "txtScheme8": "Alur",
-      "txtScheme9": "Cetakan"
+      "txtScheme9": "Cetakan",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   }
 }

@@ -134,7 +134,9 @@
       "warnLicenseUsersExceeded": "你触发了 %1 编辑器的同时在线数限制。可联系管理员来了解更多信息。",
       "warnNoLicense": "你已经触发了 %1 编辑器的同时在线数限制. 该文档打开后，你将只能查看。请联系 %1 的销售团队，获取个人升级条款。",
       "warnNoLicenseUsers": "你触发了 %1 编辑器的同时在线数限制。可联系管理员来了解更多信息。",
-      "warnProcessRightsChange": "你没有编辑文件的权限。"
+      "warnProcessRightsChange": "你没有编辑文件的权限。",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   },
   "Error": {
@@ -420,7 +422,9 @@
       "textZoom": "放大",
       "textZoomIn": "放大",
       "textZoomOut": "缩小",
-      "textZoomRotate": "缩放并旋转"
+      "textZoomRotate": "缩放并旋转",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     },
     "Settings": {
       "mniSlideStandard": "标准（4：3）",
@@ -505,7 +509,9 @@
       "txtScheme6": "中央大厅",
       "txtScheme7": "公平",
       "txtScheme8": "流动",
-      "txtScheme9": "发现"
+      "txtScheme9": "发现",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   }
 }

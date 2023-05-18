@@ -576,7 +576,9 @@
     "warnLicenseUsersExceeded": "你触发了 %1 编辑器的同时在线数限制。可联系管理员来了解更多信息。",
     "warnNoLicense": "你已经触发了 %1 编辑器的同时在线数限制. 该文档打开后，你将只能查看。请联系 %1 的销售团队，获取个人升级条款。",
     "warnNoLicenseUsers": "你触发了 %1 编辑器的同时在线数限制。请与  %1  的销售团队联系，以获取个人升级条款。",
-    "warnProcessRightsChange": "你没有编辑这个文件的权限。"
+    "warnProcessRightsChange": "你没有编辑这个文件的权限。",
+    "del_textNoTextFound": "Text not found",
+    "textNoMatches": "No Matches"
   },
   "Settings": {
     "advDRMOptions": "受保护的文件",
@@ -724,7 +726,9 @@
     "txtScheme6": "汇合",
     "txtScheme7": "公平",
     "txtScheme8": "流动",
-    "txtScheme9": "发现"
+    "txtScheme9": "发现",
+    "del_textNoTextFound": "Text not found",
+    "textNoMatches": "No Matches"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "你有未保存的修改。点击“留在该页”可等待自动保存完成。点击“离开该页”将丢弃全部未经保存的修改。",

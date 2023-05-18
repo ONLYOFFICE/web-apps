@@ -134,7 +134,9 @@
       "warnNoLicenseUsers": "Atingiu o limite de %1 editores. Contacte a equipa comercial %1 para obter mais informações.",
       "warnProcessRightsChange": "Não tem autorização para editar este ficheiro.",
       "titleLicenseNotActive": "License not active",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   },
   "Error": {
@@ -420,7 +422,9 @@
       "textZoom": "Ampliação",
       "textZoomIn": "Ampliar",
       "textZoomOut": "Reduzir",
-      "textZoomRotate": "Ampliação e rotação"
+      "textZoomRotate": "Ampliação e rotação",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     },
     "Settings": {
       "mniSlideStandard": "Padrão (4:3)",
@@ -505,7 +509,9 @@
       "txtScheme6": "Concurso",
       "txtScheme7": "Equidade",
       "txtScheme8": "Fluxo",
-      "txtScheme9": "Fundição"
+      "txtScheme9": "Fundição",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   }
 }

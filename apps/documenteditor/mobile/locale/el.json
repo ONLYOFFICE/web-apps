@@ -576,7 +576,9 @@
     "titleDialogProtectedDocument": "The document is protected",
     "titleLicenseNotActive": "License not active",
     "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
-    "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+    "del_textNoTextFound": "Text not found",
+    "textNoMatches": "No Matches"
   },
   "Settings": {
     "advDRMOptions": "Προστατευμένο Αρχείο",
@@ -724,7 +726,9 @@
     "textTypeEditing": "Type Of Editing",
     "textUnprotect": "Unprotect",
     "textVerify": "Verify",
-    "titleDialogUnprotect": "Unprotect Document"
+    "titleDialogUnprotect": "Unprotect Document",
+    "del_textNoTextFound": "Text not found",
+    "textNoMatches": "No Matches"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Έχετε μη αποθηκευμένες αλλαγές. Πατήστε 'Παραμονή στη Σελίδα' για να περιμένετε την αυτόματη αποθήκευση. Πατήστε 'Έξοδος από τη Σελίδα' για να απορρίψετε όλες τις μη αποθηκευμένες αλλαγές.",

@@ -134,7 +134,9 @@
       "warnLicenseUsersExceeded": "Вы достигли лимита на количество пользователей редакторов %1. Свяжитесь с администратором, чтобы узнать больше.",
       "warnNoLicense": "Вы достигли лимита на одновременные подключения к редакторам %1. Этот документ будет открыт на просмотр. Напишите в отдел продаж %1, чтобы обсудить индивидуальные условия обновления.",
       "warnNoLicenseUsers": "Вы достигли лимита на количество пользователей редакторов %1. Напишите в отдел продаж %1, чтобы обсудить индивидуальные условия обновления.",
-      "warnProcessRightsChange": "У вас нет прав на редактирование этого файла."
+      "warnProcessRightsChange": "У вас нет прав на редактирование этого файла.",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   },
   "Error": {
@@ -420,7 +422,9 @@
       "textZoom": "Масштабирование",
       "textZoomIn": "Увеличение",
       "textZoomOut": "Уменьшение",
-      "textZoomRotate": "Увеличение с поворотом"
+      "textZoomRotate": "Увеличение с поворотом",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     },
     "Settings": {
       "mniSlideStandard": "Стандартный (4:3)",
@@ -505,7 +509,9 @@
       "txtScheme6": "Открытая",
       "txtScheme7": "Справедливость",
       "txtScheme8": "Поток",
-      "txtScheme9": "Литейная"
+      "txtScheme9": "Литейная",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   }
 }

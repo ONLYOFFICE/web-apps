@@ -173,7 +173,9 @@
       "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
       "titleLicenseNotActive": "License not active",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
+      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page.",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   },
   "Error": {
@@ -752,7 +754,9 @@
       "txtVi": "Vietnamita",
       "txtZh": "Chinés",
       "warnDownloadAs": "Se segue gardando neste formato, todas as características a excepción do texto perderanse.<br>Te na certeza de que desexa continuar?",
-      "txtDe": "Deutsch"
+      "txtDe": "Deutsch",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   }
 }
