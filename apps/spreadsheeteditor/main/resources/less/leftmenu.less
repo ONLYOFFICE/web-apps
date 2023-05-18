@@ -770,6 +770,7 @@
             padding: 0;
             .comment-text{
                 opacity: 0.45;
+                white-space: normal;
             }
             #print-preview-empty {
                 padding: 14px;
@@ -863,6 +864,16 @@
                     }
                     .footer {
                         margin-top: 24px;
+                    }
+                    #print-combo-sides {
+                        .dropdown-menu li > a {
+                            padding-right: 5px;
+                            padding-left: 20px;
+                            .rtl & {
+                                padding-right: 20px;
+                                padding-left: 5px;
+                            }
+                        }
                     }
                 }
                 .fms-flex-apply {
