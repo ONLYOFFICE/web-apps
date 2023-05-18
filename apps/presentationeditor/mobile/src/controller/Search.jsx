@@ -85,7 +85,7 @@ const Search = withTranslation()(props => {
             options.put_MatchCase(params.caseSensitive);
 
             api.asc_findText(options, params.forward, function(resultCount) {
-                !resultCount && f7.dialog.alert(null, _t.textNoTextFound);
+                !resultCount && f7.dialog.alert(null, t('View.Settings.textNoMatches'));
             });
 
         // }
@@ -107,7 +107,7 @@ const Search = withTranslation()(props => {
 
             api.asc_findText(options, params.forward, function(resultCount) {
                 if(!resultCount) {
-                    f7.dialog.alert(null, _t.textNoTextFound);
+                    f7.dialog.alert(null, t('View.Settings.textNoMatches'));
                     return;
                 }
 
@@ -126,7 +126,7 @@ const Search = withTranslation()(props => {
 
             api.asc_findText(options, params.forward, function(resultCount) {
                 if(!resultCount) {
-                    f7.dialog.alert(null, _t.textNoTextFound);
+                    f7.dialog.alert(null, t('View.Settings.textNoMatches'));
                     return;
                 }
 
