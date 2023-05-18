@@ -54,7 +54,7 @@
     <tr>
         <td class="padding-small" colspan=2>
             <div id="table-combo-border-size"></div>
-            <div class="table-color color-btn-wrap">
+            <div class="table-color color-btn-wrap float-right">
                 <label class="input-label"><%= scope.textBorderColor %></label>
                 <div id="table-border-color-btn"></div>
             </div>
@@ -114,15 +114,15 @@
     <tr>
         <td class="padding-small" colspan=2>
             <label style="margin-top: 3px;"><%= scope.textHeight %></label>
-            <div id="table-btn-distrub-rows"></div>
-            <div id="table-spin-cell-height"></div>
+            <div id="table-btn-distrub-rows" class="float-right"></div>
+            <div id="table-spin-cell-height" class="float-right"></div>
         </td>
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
             <label style="margin-top: 3px;"><%= scope.textWidth %></label>
-            <div id="table-btn-distrub-cols"></div>
-            <div id="table-spin-cell-width"></div>
+            <div id="table-btn-distrub-cols" class="float-right"></div>
+            <div id="table-spin-cell-width" class="float-right"></div>
         </td>
     </tr>
     <tr>

@@ -61,7 +61,7 @@
                             </div>
                         </td>
                         <td rowspan="2" style="width: 100%;">
-                            <div class="shape-direction">
+                            <div class="float-right">
                                 <label class="input-label"><%= scope.textDirection %></label>
                                 <div id="shape-button-direction"></div>
                             </div>
@@ -108,7 +108,7 @@
                     <div id="shape-slider-transparency"></div>
                     <label id="shape-lbl-transparency-end">100</label>
                 </div>
-                <div id="shape-spin-transparency"></div>
+                <div id="shape-spin-transparency" class="float-right"></div>
             </div>
         </td>
     </tr>
@@ -151,7 +151,7 @@
                    <div id="shape-line-slider-transparency"></div>
                    <label id="shape-line-lbl-transparency-end">100</label>
                </div>
-               <div id="shape-line-spin-transparency"></div>
+               <div id="shape-line-spin-transparency" class="float-right"></div>
            </div>
         </td>
     </tr>

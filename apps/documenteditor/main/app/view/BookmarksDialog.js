@@ -98,7 +98,7 @@ define([
                                                     '<button id="id-dlg-copy-btn" class="btn btn-text-default" style="width: 86px;">' + me.textCopy + '</button>',
                                                 '</div>',
                                             '</div>',
-                                            '<button type="button" class="btn btn-text-default" id="bookmarks-btn-delete">', me.textDelete,'</button>',
+                                            '<button type="button" class="btn btn-text-default float-right" id="bookmarks-btn-delete">', me.textDelete,'</button>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',

@@ -59,7 +59,7 @@ define([
 
             this.template = [
                 '<div class="box" style="height: 245px;">',
-                    '<div class="margins-settings">',
+                    '<div class="float-left">',
                         '<label style="font-weight: bold;">' + this.textTitle + '</label>',
                         '<div style="margin-top: 2px;">',
                             '<div style="display: inline-block;">',
@@ -97,7 +97,7 @@ define([
                             '<div id="page-margins-cmb-multiple-pages"></div>',
                         '</div>',
                     '</div>',
-                    '<div class="margins-preview">',
+                    '<div class="float-right">',
                         '<label style="font-weight: bold;">' + this.textPreview + '</label>',
                         '<div id="page-margins-preview" style="margin-top: 2px; height: 120px; width: 162px;"></div>',
                     '</div>',

@@ -61,7 +61,7 @@
                             </div>
                         </td>
                         <td rowspan="2" style="width: 100%;">
-                            <div class="shape-direction">
+                            <div class="float-right">
                                 <label class="input-label"><%= scope.textDirection %></label>
                                 <div id="shape-button-direction"></div>
                             </div>

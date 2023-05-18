@@ -73,7 +73,7 @@ define([
                     '<div id="datetime-dlg-format" class="" style="margin-bottom: 10px;width: 100%; height: 162px; overflow: hidden;"></div>',
                     '<div class="input-row">',
                         '<div id="datetime-dlg-update" style="margin-top: 3px;"></div>',
-                        '<button type="button" class="btn btn-text-default auto" id="datetime-dlg-default">' + this.textDefault + '</button>',
+                        '<button type="button" class="btn btn-text-default auto float-right" id="datetime-dlg-default">' + this.textDefault + '</button>',
                     '</div>',
                 '</div>'
             ].join('');

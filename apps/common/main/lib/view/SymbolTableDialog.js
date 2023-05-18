@@ -470,7 +470,7 @@ define([
                             '<tr>',
                                 '<td>',
                                     '<label>' + this.textCharacter + '</label>',
-                                    '<label id="symbol-table-lbl-shortcut" style="width: 112px;">' + this.textShortcut + '</label>',
+                                    '<label id="symbol-table-lbl-shortcut" style="width: 112px;" class="float-right">' + this.textShortcut + '</label>',
                                 '</td>',
                             '</tr>',
                             '<tr>',
