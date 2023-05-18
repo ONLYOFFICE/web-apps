@@ -2625,7 +2625,7 @@ define([
 
             this.cmbSides = new Common.UI.ComboBox({
                 el          : $markup.findById('#print-combo-sides'),
-                menuStyle   : 'min-width:100%;',
+                menuStyle   : 'width:100%;',
                 editable: false,
                 takeFocusOnClose: true,
                 cls         : 'input-group-nr',
