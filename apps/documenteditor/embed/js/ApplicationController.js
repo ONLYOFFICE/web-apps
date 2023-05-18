@@ -768,6 +768,9 @@ DE.ApplicationController = new(function(){
                     message = me.errorInconsistentExt;
                 break;
 
+            case Asc.c_oAscError.ID.SessionToken: // don't show error message
+                return;
+
             default:
                 message = me.errorDefaultMessage.replace('%1', id);
                 break;

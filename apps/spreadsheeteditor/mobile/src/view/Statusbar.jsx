@@ -64,7 +64,7 @@ const PageAllList = observer((props) => {
             <Page>
                 <List>
                     {allSheets.map((model, sheetIndex) =>
-                        <ListItem className='item-list' key={model.name} title={model.name} checkbox checked={model.active} onClick={() => onTabListClick(sheetIndex)}>
+                        <ListItem className={`item-list ${model.active ? 'active' : null}`} key={model.name} title={model.name} checkbox checked={model.active} onClick={() => onTabListClick(sheetIndex)}>
                             <div slot='after'>
                                 {model.hidden ? 
                                     t('Statusbar.textHidden')
