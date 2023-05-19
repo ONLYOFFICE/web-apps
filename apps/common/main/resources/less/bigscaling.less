@@ -21,16 +21,17 @@
     }
 }
 
-.btn-category {
+.btn-category,
+.btn-options {
     &:active,
     &.active {
         &:not(.disabled) {
             svg.icon {
                 fill: @icon-normal-pressed-ie;
                 fill: @icon-normal-pressed;
-                //.btn& {
-                //    opacity: 1;
-                //}
+                .btn& {
+                    opacity: 1;
+                }
             }
         }
     }
@@ -40,7 +41,7 @@
         fill: @icon-normal;
 
         .btn& {
-            //opacity: 1;
+            opacity: 1;
         }
     }
 }
