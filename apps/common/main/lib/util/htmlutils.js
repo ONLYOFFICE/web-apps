@@ -77,10 +77,7 @@ function checkScaling() {
     }
 }
 
-let svg_icons = ['./resources/img/iconssmall@2.5x.svg',
-                    './resources/img/iconsbig@2.5x.svg',
-                    './resources/img/iconshuge@2.5x.svg'];
-
+let svg_icons;
 window.Common = {
     Utils: {
         injectSvgIcons: function () {
@@ -96,6 +93,14 @@ window.Common = {
                     template.innerHTML = html;
                     // return template.content.childNodes;
                     return template.content.firstChild;
+                }
+
+                if ( svg_icons === undefined ) {
+                    svg_icons = ['./resources/img/iconssmall@2.5x.svg',
+                                    './resources/img/iconsbig@2.5x.svg'];
+
+                    if ( window.DE )
+                        svg_icons.push('./resources/img/iconshuge@2.5x.svg');
                 }
 
                 svg_icons.map(function (url) {
