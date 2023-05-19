@@ -113,14 +113,14 @@ define([
 
             this._btnsBorderPosition = [];
             _.each([
-                [c_tableBorder.BORDER_HORIZONTAL_TOP,     't',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-top',       '00'],
-                [c_tableBorder.BORDER_HORIZONTAL_CENTER,  'm',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-inner',     '01'],
-                [c_tableBorder.BORDER_HORIZONTAL_BOTTOM,  'b',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-bottom',    '10'],
-                [c_tableBorder.BORDER_OUTER,              'lrtb',  'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-outer',     '11'],
-                [c_tableBorder.BORDER_VERTICAL_LEFT,      'l',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-left',      '20'],
-                [c_tableBorder.BORDER_ALL,                'lrtbm', 'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-all',       '21'],
-                [c_tableBorder.BORDER_VERTICAL_RIGHT,     'r',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-right',     '30'],
-                [c_tableBorder.BORDER_NONE,               '',      'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-none',      '31']
+                [c_tableBorder.BORDER_HORIZONTAL_TOP,     't',     'toolbar__icon toolbar__icon-big btn-paragraph-borders-top',       '00'],
+                [c_tableBorder.BORDER_HORIZONTAL_CENTER,  'm',     'toolbar__icon toolbar__icon-big btn-paragraph-borders-inner',     '01'],
+                [c_tableBorder.BORDER_HORIZONTAL_BOTTOM,  'b',     'toolbar__icon toolbar__icon-big btn-paragraph-borders-bottom',    '10'],
+                [c_tableBorder.BORDER_OUTER,              'lrtb',  'toolbar__icon toolbar__icon-big btn-paragraph-borders-outer',     '11'],
+                [c_tableBorder.BORDER_VERTICAL_LEFT,      'l',     'toolbar__icon toolbar__icon-big btn-paragraph-borders-left',      '20'],
+                [c_tableBorder.BORDER_ALL,                'lrtbm', 'toolbar__icon toolbar__icon-big btn-paragraph-borders-all',       '21'],
+                [c_tableBorder.BORDER_VERTICAL_RIGHT,     'r',     'toolbar__icon toolbar__icon-big btn-paragraph-borders-right',     '30'],
+                [c_tableBorder.BORDER_NONE,               '',      'toolbar__icon toolbar__icon-big btn-paragraph-borders-none',      '31']
             ], function(item, index) {
                 var _btn = new Common.UI.Button({
                     parentEl: $('#drop-advanced-button-borderline-' + item[3]),

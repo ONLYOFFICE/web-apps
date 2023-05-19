@@ -397,14 +397,14 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             });
 
             var _arrBorderPresets = [
-                ['lrtb',    'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-outer',    'paragraphadv-button-border-outer', this.tipOuter],
-                ['lrtbm',   'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-all',      'paragraphadv-button-border-all',    this.tipAll],
-                ['',        'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-none',     'paragraphadv-button-border-none',       this.tipNone],
-                ['l',       'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-left',     'paragraphadv-button-border-left',      this.tipLeft],
-                ['r',       'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-right',    'paragraphadv-button-border-right',     this.tipRight],
-                ['t',       'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-top',      'paragraphadv-button-border-top',         this.tipTop],
-                ['m',       'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-inner',    'paragraphadv-button-border-inner-hor', this.tipInner],
-                ['b',       'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-bottom',   'paragraphadv-button-border-bottom',  this.tipBottom]
+                ['lrtb',    'toolbar__icon toolbar__icon-big btn-paragraph-borders-outer',    'paragraphadv-button-border-outer', this.tipOuter],
+                ['lrtbm',   'toolbar__icon toolbar__icon-big btn-paragraph-borders-all',      'paragraphadv-button-border-all',    this.tipAll],
+                ['',        'toolbar__icon toolbar__icon-big btn-paragraph-borders-none',     'paragraphadv-button-border-none',       this.tipNone],
+                ['l',       'toolbar__icon toolbar__icon-big btn-paragraph-borders-left',     'paragraphadv-button-border-left',      this.tipLeft],
+                ['r',       'toolbar__icon toolbar__icon-big btn-paragraph-borders-right',    'paragraphadv-button-border-right',     this.tipRight],
+                ['t',       'toolbar__icon toolbar__icon-big btn-paragraph-borders-top',      'paragraphadv-button-border-top',         this.tipTop],
+                ['m',       'toolbar__icon toolbar__icon-big btn-paragraph-borders-inner',    'paragraphadv-button-border-inner-hor', this.tipInner],
+                ['b',       'toolbar__icon toolbar__icon-big btn-paragraph-borders-bottom',   'paragraphadv-button-border-bottom',  this.tipBottom]
             ];
 
             this._btnsBorderPosition = [];
