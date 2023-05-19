@@ -1308,7 +1308,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 store: new Common.UI.DataViewStore(this.recent),
                 itemTemplate: _.template([
                     '<div class="recent-wrap">',
-                        '<div class="recent-icon">',
+                        '<div class="recent-icon float-left">',
                             '<div>',
                                 '<div class="svg-file-recent"></div>',
                             '</div>',

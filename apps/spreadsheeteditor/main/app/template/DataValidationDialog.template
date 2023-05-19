@@ -91,11 +91,11 @@
                     <div style="display: inline-block; margin-right: 5px;vertical-align: bottom;">
                         <div id="data-validation-img-style" class="icon  error" style="margin-bottom: -1px;"></div>
                     </div>
-                    <div style="display: inline-block;">
+                    <div class="float-right">
                         <label class="input-label"><%= scope.textStyle %></label>
                         <div id="data-validation-cmb-style"></div>
                     </div>
-                    <div style="float: right;">
+                    <div class="float-right">
                         <label class="input-label"><%= scope.textTitle %></label>
                         <div id="data-validation-error-title"></div>
                     </div>

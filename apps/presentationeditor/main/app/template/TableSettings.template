@@ -114,13 +114,13 @@
     <tr>
         <td class="padding-small" colspan=2>
             <label style="margin-top: 3px;"><%= scope.textHeight %></label>
-            <div id="table-spin-cell-height"></div>
+            <div id="table-spin-cell-height" class="float-right"></div>
         </td>
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
             <label style="margin-top: 3px;"><%= scope.textWidth %></label>
-            <div id="table-spin-cell-width"></div>
+            <div id="table-spin-cell-width" class="float-right"></div>
         </td>
     </tr>
     <tr>

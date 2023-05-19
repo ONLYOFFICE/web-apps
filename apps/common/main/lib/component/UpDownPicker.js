@@ -56,10 +56,10 @@ define([
             disabled    : false,
 
             template:_.template([
-                '<label class="title"><%= options.caption %></label>',
-                '<button type="button" class="btn small btn-toolbar updown-picker-button-up"><i class="icon menu__icon <%= options.iconUpCls %>">&nbsp;</i></button>',
-                '<label class="updown-picker-value" style="min-width: <%= options.minWidth %>px;"></label>',
-                '<button type="button" class="btn small btn-toolbar updown-picker-button-down"><i class="icon menu__icon <%= options.iconDownCls %>">&nbsp;</i></button>'
+                '<label class="title float-left"><%= options.caption %></label>',
+                '<button type="button" class="btn small btn-toolbar updown-picker-button-up float-right"><i class="icon menu__icon <%= options.iconUpCls %>">&nbsp;</i></button>',
+                '<label class="updown-picker-value float-right" style="min-width: <%= options.minWidth %>px;"></label>',
+                '<button type="button" class="btn small btn-toolbar updown-picker-button-down float-right"><i class="icon menu__icon <%= options.iconDownCls %>">&nbsp;</i></button>'
             ].join('')),
 
             initialize : function(options) {

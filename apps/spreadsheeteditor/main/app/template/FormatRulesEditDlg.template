@@ -141,7 +141,7 @@
                     <div id="format-rules-edit-combo-axis-pos" class="input-group-nr"></div>
                     <div id="format-rules-edit-color-axis-color"></div>
                     </div>
-                <div class="preview">
+                <div class="preview float-right">
                     <label class="header"><%= scope.textPreview %></label>
                     <div class="preview-databar">
                         <div id="format-rules-edit-preview-databar"></div>

@@ -200,7 +200,7 @@
             <div id="form-combo-width-rule" style="width: 82px;"></div>
         </td>
         <td class="padding-small">
-            <div id="form-spin-width" style="float:right;"></div>
+            <div id="form-spin-width" class="float-right"></div>
         </td>
     </tr>
 </table>

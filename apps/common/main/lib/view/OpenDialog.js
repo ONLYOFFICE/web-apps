@@ -133,7 +133,7 @@ define([
                             '<div>',
                                 '<div id="id-delimiters-combo" class="input-group-nr" style="max-width: 100px;display: inline-block; vertical-align: middle;"></div>',
                                 '<div id="id-delimiter-other" class="input-row" style="display: inline-block; vertical-align: middle;margin-left: 10px;"></div>',
-                                '<button type="button" class="btn auto btn-text-default" id="id-delimiters-advanced" style="min-width:100px; display: inline-block;float:right;">' + t.txtAdvanced + '</button>',
+                                '<button type="button" class="btn auto btn-text-default float-right" id="id-delimiters-advanced" style="min-width:100px; display: inline-block;">' + t.txtAdvanced + '</button>',
                             '</div>',
                         '</div>',
                         '<% } %>',

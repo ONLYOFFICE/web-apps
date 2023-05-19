@@ -71,7 +71,7 @@ define([
                 '</div>',
                 '<div id="spellcheck-header">',
                     '<label><%= scope.txtSpelling %></label>',
-                    '<div id="spellcheck-btn-close" style="float:right; margin-left: 4px;"></div>',
+                    '<div id="spellcheck-btn-close" style="margin-left: 4px;" class="float-right"></div>',
                 '</div>',
             '</div>'
         ].join('')),
