@@ -158,6 +158,9 @@ define([
                 if (/althints:show/.test(cmd)) {
                     if ( /false|hide/.test(param) )
                         Common.NotificationCenter.trigger('hints:clear');
+                } else
+                if (/file:print/.test(cmd)) {
+                    webapp.getController('Main').onPrint();
                 }
             };
 
