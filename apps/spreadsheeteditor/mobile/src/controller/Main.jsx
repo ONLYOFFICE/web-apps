@@ -470,6 +470,10 @@ class MainController extends Component {
                 const sdk = document.querySelector('#editor_sdk');
                 const rect = sdk.getBoundingClientRect();
 
+                if(document.querySelector('.tooltip-cell-data')) {
+                    document.querySelector('.tooltip-cell-data').remove();
+                }
+
                 f7.popover.create({
                     targetX: -10000,
                     targetY: -10000,
