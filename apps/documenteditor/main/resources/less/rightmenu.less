@@ -28,12 +28,7 @@
 
     &#id-paragraph-settings {
         .input-label.margin {
-            margin-left: 5px;
-
-            .rtl & {
-                margin-left: 0;
-                margin-right: 5px;
-            }
+            .margin-left-5();
         }
     }
 
@@ -63,42 +58,14 @@
 
         .table-color {
             vertical-align: middle;
-
-            .input-label {
-                margin-right: 5px;
-
-                .rtl & {
-                    margin-right: 0;
-                    margin-left: 5px;
-                }
-            }
-
             #table-border-color-btn {
                 display: inline-block;
-            }
-        }
-
-        .input-label.margin {
-            margin-right: 5px;
-
-            .rtl & {
-                margin-right: 0;
-                margin-left: 5px;
             }
         }
 
         #table-btn-distrub-rows, #table-btn-distrub-cols,
         #table-spin-cell-height, #table-spin-cell-width {
             display: inline-block;
-        }
-
-        #table-btn-distrub-rows, #table-btn-distrub-cols {
-            margin-left: 4px;
-
-            .rtl & {
-                margin-left: 0;
-                margin-right: 4px;
-            }
         }
 
         #table-btn-convert-to-text {
@@ -132,16 +99,7 @@
             }
         }
 
-        #shape-button-270, #shape-button-fliph {
-            display: inline-block;
-            margin-right: 4px;
-
-            .rtl & {
-                margin-right: 0;
-                margin-left: 4px;
-            }
-        }
-
+        #shape-button-270, #shape-button-fliph,
         #shape-button-90, #shape-button-flipv {
             display: inline-block;
         }
@@ -153,22 +111,8 @@
         }
 
         .angle-label {
-            margin-right: 5px;
+            .margin-right-5();
             margin-bottom: 3px;
-
-            .rtl & {
-                margin-right: 0;
-                margin-left: 5px;
-            }
-        }
-
-        .gradient-position {
-            margin-left: 10px;
-
-            .rtl & {
-                margin-left: 0;
-                margin-right: 10px;
-            }
         }
 
         #id-shape-menu-direction {
@@ -194,16 +138,7 @@
     }
 
     &#id-image-settings {
-        #image-button-270, #image-button-fliph {
-            display: inline-block;
-            margin-right: 4px;
-
-            .rtl & {
-                margin-right: 0;
-                margin-left: 4px;
-            }
-        }
-
+        #image-button-270, #image-button-fliph,
         #image-button-90, #image-button-flipv {
             display: inline-block;
         }
@@ -213,12 +148,7 @@
         #headerfooter-radio-from {
             display: inline-block;
             vertical-align: middle;
-            margin-right: 2px;
-
-            .rtl & {
-                margin-right: 0;
-                margin-left: 2px;
-            }
+            .margin-right-2();
         }
 
         #headerfooter-radio-prev {
@@ -237,12 +167,7 @@
         #headerfooter-button-bottom-center,
         #headerfooter-button-bottom-right {
             display: inline-block;
-            margin-right: 5px;
-
-            .rtl & {
-                margin-right: 0;
-                margin-left: 5px;
-            }
+            .margin-right-5();
         }
     }
 
@@ -253,12 +178,7 @@
 
         .angle-label {
             margin-bottom: 3px;
-            margin-right: 5px;
-
-            .rtl & {
-                margin-right: 0;
-                margin-left: 5px;
-            }
+            .margin-right-5();
         }
 
         #id-textart-menu-direction {
@@ -268,27 +188,13 @@
                 }
             }
         }
-
-        .gradient-position {
-            margin-left: 10px;
-
-            .rtl & {
-                margin-left: 0;
-                margin-right: 10px;
-            }
-        }
     }
 
     &#id-mail-merge-settings {
         #mmerge-button-first,
         #mmerge-button-prev {
             display: inline-block;
-            margin-right: 4px;
-
-            .rtl & {
-                margin-right: 0;
-                margin-left: 4px;
-            }
+            .margin-right-4();
         }
 
         #mmerge-field-num {
@@ -299,12 +205,7 @@
         #mmerge-button-next,
         #mmerge-button-last {
             display: inline-block;
-            margin-left: 4px;
-
-            .rtl & {
-                margin-left: 0;
-                margin-right: 4px;
-            }
+            .margin-left-4();
         }
 
         #mmerge-radio-all, #mmerge-radio-current {
@@ -314,12 +215,7 @@
         #mmerge-radio-from-to {
             display: inline-block;
             vertical-align: middle;
-            margin-right: 2px;
-
-            .rtl & {
-                margin-right: 0;
-                margin-left: 2px;
-            }
+            .margin-right-2();
         }
 
         #mmerge-field-from, #mmerge-field-to {
@@ -331,12 +227,10 @@
             width: 30px;
             text-align: right;
             vertical-align: middle;
-            margin-right: 2px;
+            .margin-right-2();
 
             .rtl & {
                 text-align: left;
-                margin-right: 0;
-                margin-left: 2px;
             }
         }
 

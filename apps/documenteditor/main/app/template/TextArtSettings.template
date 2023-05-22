@@ -64,7 +64,7 @@
                         <label class="input-label" style=""><%= scope.strColor %></label>
                         <div id="textart-gradient-color-btn"></div>
                     </div>
-                    <div class="gradient-position">
+                    <div class="margin-left-10">
                         <label class="input-label" style=""><%= scope.textPosition %></label>
                         <div id="textart-gradient-position"></div>
                     </div>

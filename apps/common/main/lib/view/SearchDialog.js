@@ -98,9 +98,9 @@
                 '<div class="separator horizontal"></div>',
                 '<div class="footer right">',
                     '<button class="btn normal dlg-btn" result="replace">'+this.txtBtnReplace+'</button>',
-                    '<button class="btn normal dlg-btn" result="replaceall" style="margin-left: 6px;width: auto;min-width: 100px;">'+this.txtBtnReplaceAll+'</button>',
+                    '<button class="btn normal dlg-btn margin-left-6" result="replaceall" style="width: auto;min-width: 100px;">'+this.txtBtnReplaceAll+'</button>',
                     '<button class="btn normal dlg-btn iconic" result="back"><span class="icon img-commonctrl back"></span></button>',
-                    '<button class="btn normal dlg-btn iconic" result="next" style="margin-left: 6px;"><span class="icon img-commonctrl next"></span></button>',
+                    '<button class="btn normal dlg-btn iconic margin-left-6" result="next"><span class="icon img-commonctrl next"></span></button>',
                 '</div>'
             ].join('');
 

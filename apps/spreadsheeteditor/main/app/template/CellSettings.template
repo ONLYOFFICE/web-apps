@@ -47,7 +47,7 @@
                         <label class="input-label" style=""><%= scope.textGradientColor %></label>
                         <div id="cell-gradient-color-btn"></div>
                     </div>
-                    <div class="gradient-position">
+                    <div class="margin-left-10">
                         <label class="input-label" style=""><%= scope.textPosition %></label>
                         <div id="cell-gradient-position"></div>
                     </div>

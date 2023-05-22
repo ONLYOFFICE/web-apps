@@ -87,7 +87,7 @@ define([
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-small">',
-                                            '<div class="margin-right" style="display: inline-block; vertical-align: middle;">',
+                                            '<div class="margin-right-10" style="display: inline-block; vertical-align: middle;">',
                                                 '<label class="input-label">', me.textNumFormat,'</label>',
                                                 '<div id="note-settings-combo-format" class="input-group-nr" style="width:150px;"></div>',
                                             '</div>','<div style="display: inline-block; vertical-align: middle;">',

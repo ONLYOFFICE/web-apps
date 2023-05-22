@@ -50,7 +50,7 @@ define([
             '<div id="navigation-box" class="layout-ct vbox">',
             '<div id="navigation-header" className="">',
                 '<label><%= scope.strNavigate%></label>',
-                '<div id="navigation-btn-close" class="float-right"></div>',
+                '<div id="navigation-btn-close" class="float-right margin-left-4"></div>',
                 '<div id="navigation-btn-settings" class="float-right"></div>',
             '</div>',
                 '<div id="navigation-list" class="">',

@@ -83,7 +83,7 @@ define([
                         '</tr>',
                         '<tr>',
                             '<td colspan="2" style="padding-bottom: 10px;">',
-                                '<div id="id-dlg-cross-separate" style="display: inline-block;vertical-align: middle;"></div>',
+                                '<div id="id-dlg-cross-separate" class="margin-right-10" style="display: inline-block;vertical-align: middle;"></div>',
                                 '<div id="id-dlg-cross-separator" style="display: inline-block;vertical-align: middle;"></div>',
                             '</td>',
                         '</tr>',

@@ -972,8 +972,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             _.each(_arrTableBorderPresets, function(item, index, list){
                 var _btn = new Common.UI.Button({
                     parentEl: $('#'+item[3]),
-                    style: 'margin-left: 4px; margin-bottom: 4px;',
-                    cls: 'btn-options large border-off',
+                    style: 'margin-bottom: 4px;',
+                    cls: 'btn-options large border-off  margin-left-4',
                     iconCls: item[2],
                     strCellId  :item[0],
                     strTableId :item[1],
@@ -2125,7 +2125,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.BordersSpacingContainer.toggleClass('settings-hidden', !spacing);
             this.TableBackContainer.css('display', (!spacing && !this._allTable) ? 'none' : 'flex');
             this.CellBackContainer.css('display', (!spacing && this._allTable) ? 'none' : 'flex');
-            this.TableBackContainer.css('float', (!spacing && this._allTable) ? 'none' : 'right');
+            this.TableBackContainer.toggleClass('float-right', spacing || !this._allTable);
             (spacing) ? this._UpdateBordersSpacing_() : this._UpdateBordersNoSpacing_();
         },
 

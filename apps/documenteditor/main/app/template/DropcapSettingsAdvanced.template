@@ -8,8 +8,8 @@
             </tr>
             <tr>
                 <td colspan="3" class="settins-cell padding-large">
-                    <span id="frame-advanced-button-none" style="margin-right:5px;"></span>
-                    <span id="frame-advanced-button-inline" style="margin-right:5px;"></span>
+                    <span id="frame-advanced-button-none" class="margin-right-5"></span>
+                    <span id="frame-advanced-button-inline" class="margin-right-5"></span>
                     <span id="frame-advanced-button-flow"></span>
                 </td>
             </tr>
@@ -122,9 +122,9 @@
     <div class="inner-content">
         <label class="header padding-small" style="width: 100%;"><%= scope.textPosition %></label>
         <div class="padding-small" style="width: 100%">
-            <span id="drop-advanced-button-none" style="margin-right:5px;"></span>
-            <span id="drop-advanced-button-intext" style="margin-right:5px;"></span>
-            <span id="drop-advanced-button-inmargin" style="margin-right:5px;"></span>
+            <span id="drop-advanced-button-none" class="margin-right-5"></span>
+            <span id="drop-advanced-button-intext" class="margin-right-5"></span>
+            <span id="drop-advanced-button-inmargin" class="margin-right-5"></span>
         </div>
         <label class="header padding-small" style="width: 100%;"><%= scope.textParameters %></label>
         <label class="input-label"><%= scope.textFont %></label>
@@ -148,10 +148,10 @@
 <div id="id-adv-dropcap-borders" class="settings-panel">
     <div class="inner-content">
         <div style="width: 100%;" class="padding-small">
-            <label class="input-label" style="margin-right: 5px;"><%= scope.textBorderWidth %></label>
+            <label class="input-label margin-right-5"><%= scope.textBorderWidth %></label>
             <div id="drop-advanced-input-bordersize" style="display: inline-block; vertical-align: middle; width: 93px;"></div>
             <div style="display: inline-block; vertical-align: middle;" class="float-right">
-                <label class="input-label" style="margin-right: 5px;"><%= scope.textBorderColor %></label>
+                <label class="input-label margin-right-5"><%= scope.textBorderColor %></label>
                 <div id="drop-advanced-button-bordercolor" style="display: inline-block;"></div>
             </div>
         </div>
@@ -170,7 +170,7 @@
             </div>
         </div>
         <div style="width: 100%;" class="padding-small">
-            <label class="input-label" style="margin-right: 5px;"><%= scope.textBackColor %></label>
+            <label class="input-label margin-right-5"><%= scope.textBackColor %></label>
             <div id="drop-advanced-button-color" style="display: inline-block;"></div>
         </div>
     </div>

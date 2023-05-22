@@ -11,11 +11,11 @@
 
     .font-attr {
         > .btn-slot:not(:last-child):not(.split) {
-            margin-right: 4px;
+            .margin-right-4();
         }
 
         > .btn-slot:not(:last-child).split {
-            margin-right: 2px;
+            .margin-right-2();
         }
     }
 }
@@ -164,19 +164,6 @@
 
 #slot-field-fontsize {
     width: 45px;
-    margin-left: 2px;
-    .rtl & {
-        margin-left: 0;
-        margin-right: 2px;
-    }
-}
-
-#slot-btn-incfont, #slot-btn-decfont, #slot-btn-changecase {
-    margin-left: 2px;
-    .rtl & {
-        margin-left: 0;
-        margin-right: 2px;
-    }
 }
 
 #special-paste-container,
@@ -265,17 +252,6 @@
     }
 }
 
-#window-page-margins {
-    .margin-left {
-        margin-left: 8px;
-
-        .rtl & {
-            margin-left: 0;
-            margin-right: 8px;
-        }
-    }
-}
-
 #window-page-size {
     .padding-right {
         padding-right: 10px;
@@ -283,48 +259,6 @@
         .rtl & {
             padding-right: 0;
             padding-left: 10px;
-        }
-    }
-}
-
-#window-line-numbers {
-    .margin-right {
-        margin-right: 9px;
-
-        .rtl & {
-            margin-right: 0;
-            margin-left: 9px;
-        }
-    }
-}
-
-#window-note-settings {
-    .margin-right {
-        margin-right: 10px;
-
-        .rtl & {
-            margin-right: 0;
-            margin-left: 10px;
-        }
-    }
-}
-
-#window-table-contents {
-    .margin-left {
-        margin-left: 10px;
-
-        .rtl & {
-            margin-left: 0;
-            margin-right: 10px;
-        }
-    }
-
-    .label-style {
-        margin-left: 23px;
-
-        .rtl & {
-            margin-left: 0;
-            margin-right: 23px;
         }
     }
 }
@@ -346,79 +280,22 @@
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
         border-left-width: 0;
-        margin-left: -1px;
+        .margin-left(-1px);
 
         .rtl & {
             border: @scaled-one-px-value solid @border-regular-control;
             .border-radius(@border-radius-small);
-            margin-left: 0;
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
             border-right-width: 0;
-            margin-right: -1px;
         }
     }
 }
 
 #window-bookmarks {
-    .margin-right {
-        margin-right: 10px;
-
-        .rtl & {
-            margin-right: 0;
-            margin-left: 10px;
-        }
-    }
-
-    #bookmarks-btn-goto {
-        margin-right: 5px;
-
-        .rtl & {
-            margin-right: 0;
-            margin-left: 5px;
-        }
-    }
-
-    #id-dlg-copy-btn {
-        margin-left: 5px;
-
-        .rtl & {
-            margin-left: 0;
-            margin-right: 5px;
-        }
-    }
-
     #bookmarks-radio-name {
         display: inline-block;
-        margin-right: 10px;
         vertical-align: middle;
-
-        .rtl & {
-            margin-right: 0;
-            margin-left: 10px;
-        }
-    }
-}
-
-#window-caption {
-    .margin-right {
-        margin-right: 10px;
-
-        .rtl & {
-            margin-right: 0;
-            margin-left: 10px;
-        }
-    }
-}
-
-#window-cross-ref {
-    #id-dlg-cross-separate {
-        margin-right: 10px;
-
-        .rtl & {
-            margin-right: 0;
-            margin-left: 10px;
-        }
     }
 }
 
@@ -432,13 +309,5 @@
         margin: 0 8px 0 2px;
         border: @scaled-one-px-value-ie solid @border-color-shading-ie;
         border: @scaled-one-px-value solid @border-color-shading;
-    }
-}
-
-#id-toolbar-menu-insart {
-    margin-left: 5px;
-    .rtl & {
-        margin-left: 0;
-        margin-right: 5px;
     }
 }
