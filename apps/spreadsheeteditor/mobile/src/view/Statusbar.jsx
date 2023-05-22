@@ -106,11 +106,9 @@ const PageCustomTabColor = inject("storePalette")(observer (props => {
     )
 }));
 
-const PageTabColor = inject("storePalette", "storeWorksheets")(observer(props =>  {
+const PageTabColor = inject("storePalette")(observer(props =>  {
     const { t } = useTranslation();
-    const sheets = props.storeWorksheets;
-    const allSheets = sheets.sheets;
-    // const {sheets, allSheets = sheets.sheets} = props;
+    const {sheets, allSheets = sheets.sheets} = props;
     const storePalette = props.storePalette;
     const customColors = storePalette.customColors;
     const activeIndex = sheets.activeWorksheet;
