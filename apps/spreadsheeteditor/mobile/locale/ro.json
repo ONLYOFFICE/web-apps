@@ -233,6 +233,7 @@
     "errorOperandExpected": "Sintaxa funcției incorectă. Verificați încadrarea în paranteze - '(' sau ')'.",
     "errorPasteMaxRange": "Zona de copiere nu corespunde zonei de lipire. Pentru lipirea celulelor copiate, selectați o zonă de aceeași demensiune sau faceți clic pe prima celula din rând.",
     "errorPrintMaxPagesCount": "Din păcate, imprimarea a 1500 de pagini deodată nu este posibilă la versiunea curentă a aplicației<br>Această restricție va fi eliminată într-o versiunea nouă.",
+    "errorProtectedRange": "Modificarea acestei zone nu este permisă.",
     "errorSessionAbsolute": "Sesiunea de editare a expirat. Încercați să reîmprospătați pagina.",
     "errorSessionIdle": "Acțiunile de editare a documentului nu s-au efectuat de ceva timp. Încercați să reîmprospătați pagina.",
     "errorSessionToken": "Conexeunea la server s-a întrerupt. Încercați să reîmprospătati pagina.",
@@ -257,8 +258,7 @@
     "unknownErrorText": "Eroare necunoscută.",
     "uploadImageExtMessage": "Format de imagine nerecunoscut.",
     "uploadImageFileCountMessage": "Nicio imagine nu a fost încărcată.",
-    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB.",
-    "errorProtectedRange": "This range is not allowed for editing."
+    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Parola",

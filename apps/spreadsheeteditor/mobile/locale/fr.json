@@ -233,6 +233,7 @@
     "errorOperandExpected": "La syntaxe de la saisie est incorrecte. Veuillez vérifier si l'une des parenthèses - '(' ou ')' est manquante.",
     "errorPasteMaxRange": "La zone de copie ne correspond pas à la zone de collage.<br>Sélectionnez une zone avec la même taille ou cliquez sur la première cellule d'une ligne pour coller les cellules sélectionnées.",
     "errorPrintMaxPagesCount": "Malheureusement, il n’est pas possible d’imprimer plus de 1500 pages à la fois sous version actuelle.<br>Cette restriction sera supprimée dans une version future.",
+    "errorProtectedRange": "Cette plage ne peut pas être modifiée.",
     "errorSessionAbsolute": "Votre session a expiré. Veuillez recharger la page.",
     "errorSessionIdle": "Le document n'a pas été modifié depuis trop longtemps. Veuillez recharger la page.",
     "errorSessionToken": "La connexion au serveur a été interrompue. Veuillez recharger la page.",
@@ -257,8 +258,7 @@
     "unknownErrorText": "Erreur inconnue.",
     "uploadImageExtMessage": "Format d'image inconnu.",
     "uploadImageFileCountMessage": "Aucune image chargée.",
-    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo.",
-    "errorProtectedRange": "This range is not allowed for editing."
+    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo."
   },
   "LongActions": {
     "advDRMPassword": "Mot de passe",

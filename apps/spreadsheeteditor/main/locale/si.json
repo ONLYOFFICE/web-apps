@@ -754,6 +754,7 @@
   "SSE.Controllers.DocumentHolder.txtBlanks": "(හිස්තැන්)",
   "SSE.Controllers.DocumentHolder.txtBorderProps": "දාරයේ ගුණාංග",
   "SSE.Controllers.DocumentHolder.txtBottom": "පහළ",
+  "SSE.Controllers.DocumentHolder.txtByField": "%2 න් %1",
   "SSE.Controllers.DocumentHolder.txtColumn": "තීරුව",
   "SSE.Controllers.DocumentHolder.txtColumnAlign": "තීරුව ඉදියුම",
   "SSE.Controllers.DocumentHolder.txtContains": "අඩංගුය",

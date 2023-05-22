@@ -233,6 +233,7 @@
     "errorOperandExpected": "A sintaxe da função inserida não está correta. Por favor, verifique se você perdeu um dos parênteses - '(' ou ')'.",
     "errorPasteMaxRange": "A área de cópia e cola não corresponde. Por favor, selecione uma área do mesmo tamanho ou clique na primeira célula de uma linha para colar as células copiadas.",
     "errorPrintMaxPagesCount": "Infelizmente, não é possível imprimir mais de 1500 páginas ao mesmo tempo na versão atual do programa.<br>Esta restrição será eliminada nos próximos lançamentos.",
+    "errorProtectedRange": "Este intervalo não é permitido para edição.",
     "errorSessionAbsolute": "A sessão de edição do documento expirou. Por favor recarregue a página.",
     "errorSessionIdle": "O documento não é editado há muito tempo. Por favor recarregue a página.",
     "errorSessionToken": "A conexão com o servidor foi interrompida. Por favor recarregue a página.",
@@ -257,8 +258,7 @@
     "unknownErrorText": "Erro desconhecido.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Sem imagens carregadas.",
-    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB.",
-    "errorProtectedRange": "This range is not allowed for editing."
+    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Senha",

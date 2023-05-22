@@ -769,6 +769,7 @@
   "SSE.Controllers.DocumentHolder.txtBlanks": "(Пустые)",
   "SSE.Controllers.DocumentHolder.txtBorderProps": "Свойства границ",
   "SSE.Controllers.DocumentHolder.txtBottom": "По нижнему краю",
+  "SSE.Controllers.DocumentHolder.txtByField": "%1 из %2",
   "SSE.Controllers.DocumentHolder.txtColumn": "Столбец",
   "SSE.Controllers.DocumentHolder.txtColumnAlign": "Выравнивание столбца",
   "SSE.Controllers.DocumentHolder.txtContains": "Содержит",

@@ -233,6 +233,7 @@
     "errorOperandExpected": "The entered function syntax is not correct. Please, check if you missed one of the parentheses - '(' or ')'.",
     "errorPasteMaxRange": "The copy and paste area does not match. Please, select an area of the same size or click the first cell in a row to paste the copied cells.",
     "errorPrintMaxPagesCount": "Unfortunately, itвЂ™s not possible to print more than 1500 pages at once in the current version of the program.<br>This restriction will be eliminated in upcoming releases.",
+    "errorProtectedRange": "This range is not allowed for editing.",
     "errorSessionAbsolute": "The document editing session has expired. Please, reload the page.",
     "errorSessionIdle": "The document has not been edited for quite a long time. Please, reload the page.",
     "errorSessionToken": "The connection to the server has been interrupted. Please, reload the page.",
@@ -257,8 +258,7 @@
     "unknownErrorText": "Unknown error.",
     "uploadImageExtMessage": "Unknown image format.",
     "uploadImageFileCountMessage": "No images uploaded.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
-    "errorProtectedRange": "This range is not allowed for editing."
+    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Password",

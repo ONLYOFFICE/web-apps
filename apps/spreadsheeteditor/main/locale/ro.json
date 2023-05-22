@@ -769,6 +769,7 @@
   "SSE.Controllers.DocumentHolder.txtBlanks": "(Necompletate)",
   "SSE.Controllers.DocumentHolder.txtBorderProps": "Proprietăți bordura",
   "SSE.Controllers.DocumentHolder.txtBottom": "Jos",
+  "SSE.Controllers.DocumentHolder.txtByField": "%1 din %2",
   "SSE.Controllers.DocumentHolder.txtColumn": "Coloană",
   "SSE.Controllers.DocumentHolder.txtColumnAlign": "Alinierea coloanei",
   "SSE.Controllers.DocumentHolder.txtContains": "conține",
