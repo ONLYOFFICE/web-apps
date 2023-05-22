@@ -397,6 +397,7 @@ define([
                 this.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(this.onShowMathTrack, this));
                 this.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(this.onHideMathTrack, this));
                 this.api.asc_registerCallback('asc_onHideEyedropper',           _.bind(this.hideEyedropperTip, this));
+                this.api.asc_SetMathInputType(Common.localStorage.getBool("sse-equation-input-latex") ? Asc.c_oAscMathInputType.LaTeX : Asc.c_oAscMathInputType.Unicode);
             }
             this.api.asc_registerCallback('asc_onShowForeignCursorLabel',       _.bind(this.onShowForeignCursorLabel, this));
             this.api.asc_registerCallback('asc_onHideForeignCursorLabel',       _.bind(this.onHideForeignCursorLabel, this));
@@ -721,6 +722,7 @@ define([
             else if (item.value!==undefined && item.value!==null) {
                 var field = new Asc.CT_DataField();
                 field.asc_setSubtotal(item.value);
+                this.propsPivot.fieldSourceName && field.asc_setName(this.txtByField.replace('%1', item.caption).replace('%2',  this.propsPivot.fieldSourceName));
                 this.propsPivot.field.asc_set(this.api, this.propsPivot.originalProps, this.propsPivot.index, field);
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
             }
@@ -736,6 +738,13 @@ define([
             } else if (item.value!==undefined && item.value!==null) {
                 var field = new Asc.CT_DataField();
                 field.asc_setShowDataAs(item.value);
+
+                var info = new Asc.asc_CFormatCellsInfo();
+                info.asc_setType(item.options.numFormat);
+                info.asc_setDecimalPlaces(item.options.numFormat===Asc.c_oAscNumFormatType.Percent ? 2 : 0);
+                info.asc_setSeparator(false);
+                field.asc_setNumFormat(this.api.asc_getFormatCells(info)[0]);
+
                 this.propsPivot.field.asc_set(this.api, this.propsPivot.originalProps, this.propsPivot.index, field);
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
             }
@@ -884,6 +893,7 @@ define([
                         this.propsPivot.field = fprops[dataFieldIndex];
                         this.propsPivot.fieldType = 2;
                         this.propsPivot.fieldName = this.propsPivot.field.asc_getName();
+                        this.propsPivot.fieldSourceName = props.asc_getCacheFields()[pivotIndex].asc_getName();
                     }
                 }
             }
@@ -1256,21 +1266,17 @@ define([
             }
 
             if (rawData.type===0 && rawData.subtype===0x1000) {// custom bullet
-                var bullet = new Asc.asc_CBullet();
-                if (rawData.drawdata.type===Asc.asc_PreviewBulletType.char) {
-                    bullet.asc_putSymbol(rawData.drawdata.char);
-                    bullet.asc_putFont(rawData.drawdata.specialFont);
-                } else if (rawData.drawdata.type===Asc.asc_PreviewBulletType.image)
-                    bullet.asc_fillBulletImage(rawData.drawdata.imageId);
-
-                var props;
-                var selectedObjects = this.api.asc_getGraphicObjectProps();
-                for (var i = 0; i < selectedObjects.length; i++) {
-                    if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Paragraph) {
-                        props = selectedObjects[i].asc_getObjectValue();
-                        props.asc_putBullet(bullet);
-                        this.api.asc_setGraphicObjectProps(props);
-                        break;
+                var bullet = rawData.customBullet;
+                if (bullet) {
+                    var props;
+                    var selectedObjects = this.api.asc_getGraphicObjectProps();
+                    for (var i = 0; i < selectedObjects.length; i++) {
+                        if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Paragraph) {
+                            props = selectedObjects[i].asc_getObjectValue();
+                            props.asc_putBullet(bullet);
+                            this.api.asc_setGraphicObjectProps(props);
+                            break;
+                        }
                     }
                 }
             } else
@@ -1521,7 +1527,7 @@ define([
         },
 
         hideEyedropperTip: function () {
-            if (!this.tooltips.eyedropper.isHidden) {
+            if (!this.tooltips.eyedropper.isHidden && this.tooltips.eyedropper.color) {
                 this.tooltips.eyedropper.color.css({left: '-1000px', top: '-1000px'});
                 if (this.tooltips.eyedropper.ref) {
                     this.tooltips.eyedropper.ref.hide();
@@ -1973,7 +1979,7 @@ define([
                         r = color.get_r(),
                         g = color.get_g(),
                         b = color.get_b();
-                    if (r) {
+                    if (r !== undefined && r !== null) {
                         var hex = Common.Utils.ThemeColor.getHexColor(r, g, b),
                             name = color.asc_getName();
 
@@ -1999,7 +2005,7 @@ define([
                                     me.documentHolder.cmpEl.append(eyedropperTip.parentEl);
                                 }
 
-                                var title = '<div>RGB(' + r + ',' + g + ',' + b + ')</div>' +
+                                var title = '<div>RGB (' + r + ',' + g + ',' + b + ')</div>' +
                                     '<div>' + name + '</div>';
                                 if (!eyedropperTip.ref) {
                                     eyedropperTip.ref = new Common.UI.Tooltip({
@@ -2566,13 +2572,13 @@ define([
                         cls = '';
                         switch (direct) {
                             case Asc.c_oAscVertDrawingText.normal:
-                                cls = 'menu__icon text-orient-hor';
+                                cls = 'menu__icon btn-text-orient-hor';
                                 break;
                             case Asc.c_oAscVertDrawingText.vert:
-                                cls = 'menu__icon text-orient-rdown';
+                                cls = 'menu__icon btn-text-orient-rdown';
                                 break;
                             case Asc.c_oAscVertDrawingText.vert270:
-                                cls = 'menu__icon text-orient-rup';
+                                cls = 'menu__icon btn-text-orient-rup';
                                 break;
                         }
                         documentHolder.menuParagraphDirection.setIconCls(cls);
@@ -2595,9 +2601,14 @@ define([
                                 if (bullettype === Asc.asc_PreviewBulletType.char) {
                                     var symbol = bullet.asc_getChar();
                                     if (symbol) {
+                                        var custombullet = new Asc.asc_CBullet();
+                                        custombullet.asc_putSymbol(symbol);
+                                        custombullet.asc_putFont(bullet.asc_getSpecialFont());
+
                                         rec = defrec;
                                         rec.set('subtype', 0x1000);
-                                        rec.set('drawdata', {type: bullettype, char: symbol, specialFont: bullet.asc_getSpecialFont()});
+                                        rec.set('customBullet', custombullet);
+                                        rec.set('numberingInfo', JSON.stringify(custombullet.asc_getJsonBullet()));
                                         rec.set('tip', '');
                                         documentHolder.paraBulletsPicker.dataViewItems && this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], '');
                                         drawDefBullet = false;
@@ -2606,9 +2617,13 @@ define([
                                 } else if (bullettype === Asc.asc_PreviewBulletType.image) {
                                     var id = bullet.asc_getImageId();
                                     if (id) {
+                                        var custombullet = new Asc.asc_CBullet();
+                                        custombullet.asc_fillBulletImage(id);
+
                                         rec = defrec;
                                         rec.set('subtype', 0x1000);
-                                        rec.set('drawdata', {type: bullettype, imageId: id});
+                                        rec.set('customBullet', custombullet);
+                                        rec.set('numberingInfo', JSON.stringify(custombullet.asc_getJsonBullet()));
                                         rec.set('tip', '');
                                         documentHolder.paraBulletsPicker.dataViewItems && this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], '');
                                         drawDefBullet = false;
@@ -2619,7 +2634,7 @@ define([
                         documentHolder.paraBulletsPicker.selectRecord(rec, true);
                         if (drawDefBullet) {
                             defrec.set('subtype', 8);
-                            defrec.set('drawdata', documentHolder._markersArr[7]);
+                            defrec.set('numberingInfo', documentHolder._markersArr[7]);
                             defrec.set('tip', documentHolder.tipMarkersDash);
                             documentHolder.paraBulletsPicker.dataViewItems && this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], documentHolder.tipMarkersDash);
                         }
@@ -4465,12 +4480,10 @@ define([
             var store = this.documentHolder.paraBulletsPicker.store;
             var arrNum = [], arrMarker = [];
             store.each(function(item){
-                var data = item.get('drawdata');
-                data['divId'] = item.get('id');
-                if (item.get('group')==='menu-list-bullet-group')
-                    arrMarker.push(data);
-                else
-                    arrNum.push(data);
+                (item.get('group')==='menu-list-bullet-group' ? arrMarker : arrNum).push({
+                    numberingInfo: {bullet: item.get('numberingInfo')==='undefined' ? undefined : JSON.parse(item.get('numberingInfo'))},
+                    divId: item.get('id')
+                });
             });
 
             if (this.api && this.api.SetDrawImagePreviewBulletForMenu) {
@@ -4789,7 +4802,7 @@ define([
                 me.equationSettingsBtn = new Common.UI.Button({
                     parentEl: $('#id-document-holder-btn-equation-settings', documentHolder.cmpEl),
                     cls         : 'btn-toolbar no-caret',
-                    iconCls     : 'toolbar__icon more-vertical',
+                    iconCls     : 'toolbar__icon btn-more-vertical',
                     hint        : me.documentHolder.advancedEquationText,
                     menu        : me.documentHolder.createEquationMenu('popuptbeqinput', 'tl-bl')
                 });
@@ -4801,8 +4814,10 @@ define([
                 };
                 me.equationSettingsBtn.menu.on('item:click', _.bind(me.convertEquation, me));
                 me.equationSettingsBtn.menu.on('show:before', function(menu) {
+                    bringForward();
                     menu.options.initMenu();
                 });
+                me.equationSettingsBtn.menu.on('hide:after', sendBackward);
             }
 
             if (!me.tooltips.coauth.XY)
@@ -4815,7 +4830,9 @@ define([
             showPoint[1] = Math.min(me.tooltips.coauth.apiHeight - eqContainer.outerHeight(), Math.max(0, showPoint[1]));
             eqContainer.css({left: showPoint[0], top : showPoint[1]});
 
-            var menuAlign = (me.tooltips.coauth.apiHeight - showPoint[1] - eqContainer.outerHeight() < 220) ? 'bl-tl' : 'tl-bl';
+            var diffDown = me.tooltips.coauth.apiHeight - showPoint[1] - eqContainer.outerHeight(),
+                diffUp = me.tooltips.coauth.XY[1] + showPoint[1],
+                menuAlign = (diffDown < 220 && diffDown < diffUp*0.9) ? 'bl-tl' : 'tl-bl';
             if (Common.UI.isRTL()) {
                 menuAlign = menuAlign === 'bl-tl' ? 'br-tr' : 'tr-br';
             }
@@ -4856,9 +4873,10 @@ define([
 
         convertEquation: function(menu, item, e) {
             if (this.api) {
-                if (item.options.type=='input')
+                if (item.options.type=='input') {
                     this.api.asc_SetMathInputType(item.value);
-                else if (item.options.type=='view')
+                    Common.localStorage.setBool("sse-equation-input-latex", item.value===Asc.c_oAscMathInputType.LaTeX)
+                } else if (item.options.type=='view')
                     this.api.asc_ConvertMathView(item.value.linear, item.value.all);
             }
         },
@@ -5088,7 +5106,8 @@ define([
         txtHeadersTableHint: 'Returns the column headers for the table or specified table columns',
         txtTotalsTableHint: 'Returns the total rows for the table or specified table columns',
         txtCopySuccess: 'Link copied to the clipboard',
-        warnFilterError: 'You need at least one field in the Values area in order to apply a value filter.'
+        warnFilterError: 'You need at least one field in the Values area in order to apply a value filter.',
+        txtByField: '%1 of %2'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });

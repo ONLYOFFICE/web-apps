@@ -563,8 +563,13 @@ define([
                                 if (type == Asc.asc_PreviewBulletType.char) {
                                     var symbol = bullet.asc_getChar();
                                     if (symbol) {
+                                        var custombullet = new Asc.asc_CBullet();
+                                        custombullet.asc_putSymbol(symbol);
+                                        custombullet.asc_putFont(bullet.asc_getSpecialFont());
+
                                         rec.get('data').subtype = 0x1000;
-                                        rec.set('drawdata', {type: type, char: symbol, specialFont: bullet.asc_getSpecialFont()});
+                                        rec.set('customBullet', custombullet);
+                                        rec.set('numberingInfo', JSON.stringify(custombullet.asc_getJsonBullet()));
                                         rec.set('tip', '');
                                         this.toolbar.mnuMarkersPicker.dataViewItems && this.updateBulletTip(this.toolbar.mnuMarkersPicker.dataViewItems[8], '');
                                         drawDefBullet = false;
@@ -573,8 +578,12 @@ define([
                                 } else if (type == Asc.asc_PreviewBulletType.image) {
                                     var id = bullet.asc_getImageId();
                                     if (id) {
+                                        var custombullet = new Asc.asc_CBullet();
+                                        custombullet.asc_fillBulletImage(id);
+
                                         rec.get('data').subtype = 0x1000;
-                                        rec.set('drawdata', {type: type, imageId: id});
+                                        rec.set('customBullet', custombullet);
+                                        rec.set('numberingInfo', JSON.stringify(custombullet.asc_getJsonBullet()));
                                         rec.set('tip', '');
                                         this.toolbar.mnuMarkersPicker.dataViewItems && this.updateBulletTip(this.toolbar.mnuMarkersPicker.dataViewItems[8], '');
                                         drawDefBullet = false;
@@ -621,7 +630,7 @@ define([
                 }
                 if (drawDefBullet) {
                     rec.get('data').subtype = 8;
-                    rec.set('drawdata', this.toolbar._markersArr[8]);
+                    rec.set('numberingInfo', this.toolbar._markersArr[8]);
                     rec.set('tip', this.toolbar.tipMarkersDash);
                     this.toolbar.mnuMarkersPicker.dataViewItems && this.updateBulletTip(this.toolbar.mnuMarkersPicker.dataViewItems[8], this.toolbar.tipMarkersDash);
                 }
@@ -1466,9 +1475,10 @@ define([
             var store = picker.store;
             var arr = [];
             store.each(function(item){
-                var data = item.get('drawdata');
-                data['divId'] = item.get('id');
-                arr.push(data);
+                arr.push({
+                    numberingInfo: {bullet: item.get('numberingInfo')==='undefined' ? undefined : JSON.parse(item.get('numberingInfo'))},
+                    divId: item.get('id')
+                });
             });
             if (this.api && this.api.SetDrawImagePreviewBulletForMenu) {
                 this.api.SetDrawImagePreviewBulletForMenu(arr, type);
@@ -1496,20 +1506,17 @@ define([
 
             if (this.api){
                 if (rawData.data.type===0 && rawData.data.subtype===0x1000) {// custom bullet
-                    var bullet = new Asc.asc_CBullet();
-                    if (rawData.drawdata.type===Asc.asc_PreviewBulletType.char) {
-                        bullet.asc_putSymbol(rawData.drawdata.char);
-                        bullet.asc_putFont(rawData.drawdata.specialFont);
-                    } else if (rawData.drawdata.type===Asc.asc_PreviewBulletType.image)
-                        bullet.asc_fillBulletImage(rawData.drawdata.imageId);
-                    var selectedElements = this.api.getSelectedElements();
-                    if (selectedElements && _.isArray(selectedElements)) {
-                        for (var i = 0; i< selectedElements.length; i++) {
-                            if (Asc.c_oAscTypeSelectElement.Paragraph == selectedElements[i].get_ObjectType()) {
-                                var props = selectedElements[i].get_ObjectValue();
-                                props.asc_putBullet(bullet);
-                                this.api.paraApply(props);
-                                break;
+                    var bullet = rawData.customBullet;
+                    if (bullet) {
+                        var selectedElements = this.api.getSelectedElements();
+                        if (selectedElements && _.isArray(selectedElements)) {
+                            for (var i = 0; i< selectedElements.length; i++) {
+                                if (Asc.c_oAscTypeSelectElement.Paragraph == selectedElements[i].get_ObjectType()) {
+                                    var props = selectedElements[i].get_ObjectValue();
+                                    props.asc_putBullet(bullet);
+                                    this.api.paraApply(props);
+                                    break;
+                                }
                             }
                         }
                     }
@@ -2642,6 +2649,7 @@ define([
             this.toolbar.createDelayedElements();
             this.attachUIEvents(this.toolbar);
             this._state.needCallApiBullets && this.onApiBullets(this._state.needCallApiBullets);
+            Common.Utils.injectSvgIcons();
         },
 
         onAppShowed: function (config) {

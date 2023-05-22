@@ -2616,6 +2616,8 @@ define([
                 value: 1,
                 maxValue: 32767,
                 minValue: 1,
+                allowDecimal: false,
+                maskExp: /[0-9]/,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
@@ -2623,7 +2625,7 @@ define([
 
             this.cmbSides = new Common.UI.ComboBox({
                 el          : $markup.findById('#print-combo-sides'),
-                menuStyle   : 'min-width:100%;',
+                menuStyle   : 'width:100%;',
                 editable: false,
                 takeFocusOnClose: true,
                 cls         : 'input-group-nr',

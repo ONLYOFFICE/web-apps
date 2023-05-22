@@ -84,6 +84,11 @@ define([
                 title       : this.tipFormula,
                 placement   : 'cursor'
             });
+            this.$btnfunc.attr('ratio', 'ratio');
+            this.applyScaling(Common.UI.Scaling.currentRatio());
+            this.$btnfunc.on('app:scaling', function (e, info) {
+                me.applyScaling(info.ratio);
+            });
 
             return this;
         },
@@ -97,6 +102,14 @@ define([
         cellNameDisabled: function(disabled){
             (disabled) ? this.$cellname.attr('disabled', 'disabled') : this.$cellname.removeAttr('disabled');
             this.btnNamedRanges.setDisabled(disabled);
+        },
+
+        applyScaling: function (ratio) {
+            if (ratio > 2 && !this.$btnfunc.find('svg.icon').length) {
+                var icon_name = 'btn-function',
+                    svg_icon = '<svg class="icon"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name);
+                this.$btnfunc.find('i.icon').after(svg_icon);
+            }
         },
 
         tipFormula: 'Insert Function',

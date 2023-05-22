@@ -336,7 +336,7 @@ define([
 
                     this.btnComplexField = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon complex-field',
+                        iconCls: 'toolbar__icon btn-complex-field',
                         lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.complexForm, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal],
                         caption: this.capBtnComplex,
                         dataHint: '1',
@@ -597,7 +597,7 @@ define([
                         template: _.template([
                             '<a id="<%= id %>"  tabindex="-1" type="menuitem" class="<%= options.cls %>" style="overflow: hidden; text-overflow: ellipsis;">',
                             '<span class="color" style="background: <%= options.color %>;"></span>',
-                            '<%= caption %>',
+                            '<%= Common.Utils.String.htmlEncode(caption) %>',
                             '</a>'
                         ].join(''))
                     }));

@@ -143,7 +143,7 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
             this.btnRatio = new Common.UI.Button({
                 parentEl: $('#image-advanced-button-ratio'),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon advanced-btn-ratio',
+                iconCls: 'toolbar__icon btn-advanced-ratio',
                 style: 'margin-bottom: 1px;',
                 enableToggle: true,
                 hint: this.textKeepRatio
@@ -249,7 +249,7 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
 
         getFocusedComponents: function() {
             return [
-                this.spnWidth, this.spnHeight, this.btnOriginalSize, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY,// 0 tab
+                this.spnWidth, this.btnRatio, this.spnHeight, this.btnOriginalSize, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY,// 0 tab
                 this.spnAngle, this.chFlipHor, this.chFlipVert, // 1 tab
                 this.inputAltTitle, this.textareaAltDescription  // 2 tab
             ];

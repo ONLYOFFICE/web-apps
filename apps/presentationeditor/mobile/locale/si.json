@@ -252,6 +252,7 @@
       "textNextSlide": "ඊළඟ චිත්‍රකාචය",
       "textOk": "හරි",
       "textOther": "වෙනත්",
+      "textPasteImageUrl": "රූපයක ඒ.ස.නි. අලවන්න",
       "textPictureFromLibrary": "ගබඩාවෙන් ඡායාරූපය",
       "textPictureFromURL": "ඒ.ස.නි. වෙතින් ඡායාරූපය",
       "textPreviousSlide": "කලින් චිත්‍රකාචය",
@@ -265,8 +266,7 @@
       "textSlideNumber": "චිත්‍රකාචයේ අංකය",
       "textTable": "වගුව",
       "textTableSize": "වගුවේ ප්‍රමාණය",
-      "txtNotUrl": "මෙම ක්‍ෂේත්‍රය \"http://උපවසම.උදාහරණය.ලංකා\" ආකෘතියේ ඒ.ස.නි. ක් විය යුතුය.",
-      "textPasteImageUrl": "Paste an image URL"
+      "txtNotUrl": "මෙම ක්‍ෂේත්‍රය \"http://උපවසම.උදාහරණය.ලංකා\" ආකෘතියේ ඒ.ස.නි. ක් විය යුතුය."
     },
     "Edit": {
       "notcriticalErrorTitle": "අවවාදයයි",

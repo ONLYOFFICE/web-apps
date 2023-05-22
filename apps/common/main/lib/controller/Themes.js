@@ -262,44 +262,31 @@ define([
         }
 
         var get_themes_config = function (url) {
+            const me = this;
+
             Common.Utils.loadConfig(url,
                 function ( obj ) {
                     if ( obj != 'error' ) {
                         parse_themes_object(obj);
+
+                        const match = document.body.className.match(/theme-(?!type)[\w-]+/g);
+                        if ( match.length > 1 && themes_map[match[0]] ) {
+                            const s = Common.localStorage.getItem('ui-theme');
+                            if ( !s || get_ui_theme_name(s) !== match[0] ) {
+                                me.setTheme(match[0])
+                            }
+                        }
                     } else {
                         console.warn('failed to load/parse themes.json');
                     }
                 }
             );
-            // fetch(url, {
-            //     method: 'get',
-            //     headers: {
-            //         'Accept': 'application/json',
-            //     },
-            // }).then(function(response) {
-            //     if (!response.ok) {
-            //         throw new Error('server error');
-            //     }
-            //     return response.json();
-            // }).then(function(response) {
-            //     if ( response.then ) {
-            //         // return response.json();
-            //     } else {
-            //         parse_themes_object(response);
-            //
-            //         /* to break promises chain */
-            //         throw new Error('loaded');
-            //     }
-            // }).catch(function(e) {
-            //     if ( e.message == 'loaded' ) {
-            //     } else console.log('fetch error: ' + e);
-            // });
         }
 
         var on_document_ready = function (el) {
             // get_themes_config('../../common/main/resources/themes/themes.json');
             if ( !Common.Controllers.Desktop.isActive() || !Common.Controllers.Desktop.isOffline() )
-                get_themes_config('../../../../themes.json');
+                get_themes_config.call(this, '../../../../themes.json');
         }
 
         var get_ui_theme_name = function (objtheme) {
@@ -409,6 +396,12 @@ define([
             },
 
             map: function () {
+                if ( Common.Controllers.Desktop.isActive() && !Common.Controllers.Desktop.systemThemeSupported() ) {
+                    const new_map = Object.assign({}, themes_map);
+                    delete new_map['theme-system'];
+
+                    return new_map;
+                }
                 return themes_map
             },
 

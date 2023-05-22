@@ -235,6 +235,7 @@ define([
 
                 this.btnLanguage = new Common.UI.Button({
                     cls         : 'btn-toolbar',
+                    scaling     : false,
                     caption     : 'English (United States)',
                     hintAnchor  : 'top-left',
                     disabled: true,
@@ -355,8 +356,8 @@ define([
                 me.btnDocInfo.render($('#slot-status-btn-info', me.$layout));
 
                 if (config.canUseSelectHandTools) {
-                    _btn_render(me.btnSelectTool, $('#btn-select-tool', me.$layout));
-                    _btn_render(me.btnHandTool, $('#btn-hand-tool', me.$layout));
+                    _btn_render(me.btnSelectTool, $('#status-btn-select-tool', me.$layout));
+                    _btn_render(me.btnHandTool, $('#status-btn-hand-tool', me.$layout));
                 }
 
                 me.zoomMenu.render($('.cnt-zoom',me.$layout));

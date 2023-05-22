@@ -1393,6 +1393,7 @@ define([
 
             this.btnDirection = new Common.UI.Button({
                 cls         : 'btn-large-dataview',
+                scaling     : false,
                 iconCls     : 'item-gradient gradient-left',
                 menu        : new Common.UI.Menu({
                     style: 'min-width: 60px;',
@@ -1599,6 +1600,7 @@ define([
                     cls: 'menu-shapes menu-change-shape',
                     items: []
                 }),
+                scaling: false,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'

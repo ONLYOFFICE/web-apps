@@ -555,14 +555,14 @@ const PageBullets = observer(props => {
     const storeTextSettings = props.storeTextSettings;
     const typeBullets = storeTextSettings.typeBullets;
     const bulletArrays = [
-        {id: 'id-markers-0', type: 0, subtype: -1, drawdata: {type: Asc.asc_PreviewBulletType.text, text: 'None'} },
-        {id: 'id-markers-1', type: 0, subtype: 1, drawdata: {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00B7), specialFont: 'Symbol'} },
-        {id: 'id-markers-2', type: 0, subtype: 2, drawdata: {type: Asc.asc_PreviewBulletType.char, char: 'o', specialFont: 'Courier New'} },
-        {id: 'id-markers-3', type: 0, subtype: 3, drawdata: {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00A7), specialFont: 'Wingdings'} },
-        {id: 'id-markers-4', type: 0, subtype: 4, drawdata: {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x0076), specialFont: 'Wingdings'} },
-        {id: 'id-markers-5', type: 0, subtype: 5, drawdata: {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00D8), specialFont: 'Wingdings'} },
-        {id: 'id-markers-6', type: 0, subtype: 6, drawdata: {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00FC), specialFont: 'Wingdings'} },
-        {id: 'id-markers-7', type: 0, subtype: 7, drawdata: {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00A8), specialFont: 'Symbol'} }
+        {id: 'id-markers-0', type: 0, subtype: -1, numberingInfo: 'undefined'},
+        {id: 'id-markers-1', type: 0, subtype: 1, numberingInfo: '{"bulletTypeface":{"type":"bufont","typeface":"Symbol"},"bulletType":{"type":"char","char":"·","startAt":null}}' },
+        {id: 'id-markers-2', type: 0, subtype: 2, numberingInfo: '{"bulletTypeface":{"type":"bufont","typeface":"Courier New"},"bulletType":{"type":"char","char":"o","startAt":null}}'},
+        {id: 'id-markers-3', type: 0, subtype: 3, numberingInfo: '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"§","startAt":null}}' },
+        {id: 'id-markers-4', type: 0, subtype: 4, numberingInfo: '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"v","startAt":null}}' },
+        {id: 'id-markers-5', type: 0, subtype: 5, numberingInfo: '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"Ø","startAt":null}}' },
+        {id: 'id-markers-6', type: 0, subtype: 6, numberingInfo: '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"ü","startAt":null}}' },
+        {id: 'id-markers-7', type: 0, subtype: 7, numberingInfo: '{"bulletTypeface":{"type":"bufont","typeface":"Symbol"},"bulletType":{"type":"char","char":"¨","startAt":null}}' }
     ];
 
     useEffect(() => {
@@ -607,14 +607,14 @@ const PageNumbers = observer(props => {
     const storeTextSettings = props.storeTextSettings;
     const typeNumbers = storeTextSettings.typeNumbers;
     const numberArrays = [
-            {id: 'id-numbers-0', type: 1, subtype: -1, drawdata: {type: Asc.asc_PreviewBulletType.text, text: 'None'}},
-            {id: 'id-numbers-4', type: 1, subtype: 4, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.UpperLetterDot_Left}},
-            {id: 'id-numbers-5', type: 1, subtype: 5, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerLetterBracket_Left}},
-            {id: 'id-numbers-6', type: 1, subtype: 6, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerLetterDot_Left}},
-            {id: 'id-numbers-1', type: 1, subtype: 1, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.DecimalDot_Right}},
-            {id: 'id-numbers-2', type: 1, subtype: 2, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.DecimalBracket_Right}},
-            {id: 'id-numbers-3', type: 1, subtype: 3, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.UpperRomanDot_Right}},
-            {id: 'id-numbers-7', type: 1, subtype: 7, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerRomanDot_Right}}
+            {id: 'id-numbers-0', type: 1, subtype: -1, numberingInfo: 'undefined'},
+            {id: 'id-numbers-4', type: 1, subtype: 4, numberingInfo: '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"alphaUcPeriod","startAt":null}}'},
+            {id: 'id-numbers-5', type: 1, subtype: 5, numberingInfo: '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"alphaLcParenR","startAt":null}}'},
+            {id: 'id-numbers-6', type: 1, subtype: 6, numberingInfo: '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"alphaLcPeriod","startAt":null}}'},
+            {id: 'id-numbers-1', type: 1, subtype: 1, numberingInfo: '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"arabicPeriod","startAt":null}}'},
+            {id: 'id-numbers-2', type: 1, subtype: 2, numberingInfo: '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"arabicParenR","startAt":null}}'},
+            {id: 'id-numbers-3', type: 1, subtype: 3, numberingInfo: '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"romanUcPeriod","startAt":null}}'},
+            {id: 'id-numbers-7', type: 1, subtype: 7, numberingInfo: '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"romanLcPeriod","startAt":null}}'}
     ];
 
     useEffect(() => {

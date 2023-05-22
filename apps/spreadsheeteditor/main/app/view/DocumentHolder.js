@@ -466,70 +466,85 @@ define([
                         {
                             caption : me.txtNormal,
                             value   : Asc.c_oAscShowDataAs.Normal,
+                            numFormat: Asc.c_oAscNumFormatType.General,
                             checkable: true
                         },{
                             caption : me.txtPercentOfGrand,
                             value   : Asc.c_oAscShowDataAs.PercentOfTotal,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
                             checkable: true
                         },{
                             caption : me.txtPercentOfCol,
                             value   : Asc.c_oAscShowDataAs.PercentOfCol,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
                             checkable: true
                         },{
                             caption : me.txtPercentOfTotal,
                             value   : Asc.c_oAscShowDataAs.PercentOfRow,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
                             checkable: true
                         },{
                             caption : me.txtPercent,
                             value   : Asc.c_oAscShowDataAs.Percent,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
                             showMore: true,
                             checkable: true
                         },{
                             caption : me.txtPercentOfParentRow,
                             value   : Asc.c_oAscShowDataAs.PercentOfParentRow,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
                             checkable: true
                         },{
                             caption : me.txtPercentOfParentCol,
                             value   : Asc.c_oAscShowDataAs.PercentOfParentCol,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
                             checkable: true
                         },{
                             caption : me.txtPercentOfParent,
                             value   : Asc.c_oAscShowDataAs.PercentOfParent,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
                             showMore: true,
                             checkable: true
                         },{
                             caption : me.txtDifference,
                             value   : Asc.c_oAscShowDataAs.Difference,
+                            numFormat: Asc.c_oAscNumFormatType.General,
                             showMore: true,
                             checkable: true
                         },{
                             caption : me.txtPercentDiff,
                             value   : Asc.c_oAscShowDataAs.PercentDiff,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
                             showMore: true,
                             checkable: true
                         },{
                             caption : me.txtRunTotal,
                             value   : Asc.c_oAscShowDataAs.RunTotal,
+                            numFormat: Asc.c_oAscNumFormatType.General,
                             showMore: true,
                             checkable: true
                         },{
                             caption : me.txtPercentOfRunTotal,
                             value   : Asc.c_oAscShowDataAs.PercentOfRunningTotal,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
                             showMore: true,
                             checkable: true
                         },{
                             caption : me.txtRankAscending,
                             value   : Asc.c_oAscShowDataAs.RankAscending,
+                            numFormat: Asc.c_oAscNumFormatType.General,
                             showMore: true,
                             checkable: true
                         },{
                             caption : me.txtRankDescending,
                             value   : Asc.c_oAscShowDataAs.RankDescending,
+                            numFormat: Asc.c_oAscNumFormatType.General,
                             showMore: true,
                             checkable: true
                         },{
                             caption : me.txtIndex,
                             value   : Asc.c_oAscShowDataAs.Index,
+                            numFormat: Asc.c_oAscNumFormatType.General,
                             checkable: true
                         },{
                             caption : '--'
@@ -831,14 +846,14 @@ define([
 
             me.mnuGroupImg = new Common.UI.MenuItem({
                 caption     : this.txtGroup,
-                iconCls     : 'menu__icon shape-group',
+                iconCls     : 'menu__icon btn-shape-group',
                 type        : 'group',
                 value       : 'grouping'
             });
 
             me.mnuUnGroupImg = new Common.UI.MenuItem({
                 caption     : this.txtUngroup,
-                iconCls     : 'menu__icon shape-ungroup',
+                iconCls     : 'menu__icon btn-shape-ungroup',
                 type        : 'group',
                 value       : 'ungrouping'
             });
@@ -945,25 +960,25 @@ define([
 
             me.mnuBringToFront = new Common.UI.MenuItem({
                 caption : this.textArrangeFront,
-                iconCls : 'menu__icon arrange-front',
+                iconCls : 'menu__icon btn-arrange-front',
                 type    : 'arrange',
                 value   : Asc.c_oAscDrawingLayerType.BringToFront
             });
             me.mnuSendToBack = new Common.UI.MenuItem({
                 caption : this.textArrangeBack,
-                iconCls : 'menu__icon arrange-back',
+                iconCls : 'menu__icon btn-arrange-back',
                 type    : 'arrange',
                 value   : Asc.c_oAscDrawingLayerType.SendToBack
             });
             me.mnuBringForward = new Common.UI.MenuItem({
                 caption : this.textArrangeForward,
-                iconCls : 'menu__icon arrange-forward',
+                iconCls : 'menu__icon btn-arrange-forward',
                 type    : 'arrange',
                 value   : Asc.c_oAscDrawingLayerType.BringForward
             });
             me.mnuSendBackward = new Common.UI.MenuItem({
                 caption: this.textArrangeBackward,
-                iconCls : 'menu__icon arrange-backward',
+                iconCls : 'menu__icon btn-arrange-backward',
                 type    : 'arrange',
                 value   : Asc.c_oAscDrawingLayerType.SendBackward
             });
@@ -992,38 +1007,38 @@ define([
                     menuAlign: 'tl-tr',
                     items: [{
                         caption : me.textShapeAlignLeft,
-                        iconCls : 'menu__icon shape-align-left',
+                        iconCls : 'menu__icon btn-shape-align-left',
                         value   : 0
                     }, {
                         caption : me.textShapeAlignCenter,
-                        iconCls : 'menu__icon shape-align-center',
+                        iconCls : 'menu__icon btn-shape-align-center',
                         value   : 4
                     }, {
                         caption : me.textShapeAlignRight,
-                        iconCls : 'menu__icon shape-align-right',
+                        iconCls : 'menu__icon btn-shape-align-right',
                         value   : 1
                     }, {
                         caption : me.textShapeAlignTop,
-                        iconCls : 'menu__icon shape-align-top',
+                        iconCls : 'menu__icon btn-shape-align-top',
                         value   : 3
                     }, {
                         caption : me.textShapeAlignMiddle,
-                        iconCls : 'menu__icon shape-align-middle',
+                        iconCls : 'menu__icon btn-shape-align-middle',
                         value   : 5
                     }, {
                         caption : me.textShapeAlignBottom,
-                        iconCls : 'menu__icon shape-align-bottom',
+                        iconCls : 'menu__icon btn-shape-align-bottom',
                         value   : 2
                     },
                     {caption: '--'},
                     {
                         caption: me.txtDistribHor,
-                        iconCls: 'menu__icon shape-distribute-hor',
+                        iconCls: 'menu__icon btn-shape-distribute-hor',
                         value: 6
                     },
                     {
                         caption: me.txtDistribVert,
-                        iconCls: 'menu__icon shape-distribute-vert',
+                        iconCls: 'menu__icon btn-shape-distribute-vert',
                         value: 7
                     }]
                 })
@@ -1149,7 +1164,7 @@ define([
             });
 
             me.menuParagraphDirection = new Common.UI.MenuItem({
-                iconCls: 'menu__icon text-orient-hor',
+                iconCls: 'menu__icon btn-text-orient-hor',
                 caption     : me.directionText,
                 menu        : new Common.UI.Menu({
                     cls: 'shifted-right',
@@ -1157,7 +1172,7 @@ define([
                     items   : [
                         me.menuParagraphDirectH = new Common.UI.MenuItem({
                             caption     : me.directHText,
-                            iconCls     : 'menu__icon text-orient-hor',
+                            iconCls     : 'menu__icon btn-text-orient-hor',
                             checkable   : true,
                             checkmark   : false,
                             checked     : false,
@@ -1166,7 +1181,7 @@ define([
                         }),
                         me.menuParagraphDirect90 = new Common.UI.MenuItem({
                             caption     : me.direct90Text,
-                            iconCls     : 'menu__icon text-orient-rdown',
+                            iconCls     : 'menu__icon btn-text-orient-rdown',
                             checkable   : true,
                             checkmark   : false,
                             checked     : false,
@@ -1175,7 +1190,7 @@ define([
                         }),
                         me.menuParagraphDirect270 = new Common.UI.MenuItem({
                             caption     : me.direct270Text,
-                            iconCls     : 'menu__icon text-orient-rup',
+                            iconCls     : 'menu__icon btn-text-orient-rup',
                             checkable   : true,
                             checkmark   : false,
                             checked     : false,
@@ -1210,34 +1225,43 @@ define([
             });
 
             me._markersArr = [
-                {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00B7), specialFont: 'Symbol'},
-                {type: Asc.asc_PreviewBulletType.char, char: 'o',                                specialFont: 'Courier New'},
-                {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00A7), specialFont: 'Wingdings'},
-                {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x0076), specialFont: 'Wingdings'},
-                {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00D8), specialFont: 'Wingdings'},
-                {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00FC), specialFont: 'Wingdings'},
-                {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00A8), specialFont: 'Symbol'},
-                {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x2013), specialFont: 'Arial'}
+                '{"bulletTypeface":{"type":"bufont","typeface":"Symbol"},"bulletType":{"type":"char","char":"·","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Courier New"},"bulletType":{"type":"char","char":"o","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"§","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"v","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"Ø","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"ü","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Symbol"},"bulletType":{"type":"char","char":"¨","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"char","char":"–","startAt":null}}'
+            ];
+            me._numbersArr = [
+                '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"alphaUcPeriod","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"alphaLcParenR","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"alphaLcPeriod","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"arabicPeriod","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"arabicParenR","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"romanUcPeriod","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"romanLcPeriod","startAt":null}}'
             ];
             me.paraBulletsPicker = {
                 conf: {rec: null},
                 delayRenderTips: true,
                 store       : new Common.UI.DataViewStore([
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 1, drawdata: me._markersArr[0], skipRenderOnChange: true, tip: this.tipMarkersFRound},
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 2, drawdata: me._markersArr[1], skipRenderOnChange: true, tip: this.tipMarkersHRound},
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 3, drawdata: me._markersArr[2], skipRenderOnChange: true, tip: this.tipMarkersFSquare},
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 4, drawdata: me._markersArr[3], skipRenderOnChange: true, tip: this.tipMarkersStar},
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 5, drawdata: me._markersArr[4], skipRenderOnChange: true, tip: this.tipMarkersArrow},
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 6, drawdata: me._markersArr[5], skipRenderOnChange: true, tip: this.tipMarkersCheckmark},
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 7, drawdata: me._markersArr[6], skipRenderOnChange: true, tip: this.tipMarkersFRhombus},
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 8, drawdata: me._markersArr[7], skipRenderOnChange: true, tip: this.tipMarkersDash},
-                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 4, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.UpperLetterDot_Left}, skipRenderOnChange: true, tip: this.tipNumCapitalLetters},
-                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 5, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerLetterBracket_Left}, skipRenderOnChange: true, tip: this.tipNumLettersParentheses},
-                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 6, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerLetterDot_Left}, skipRenderOnChange: true, tip: this.tipNumLettersPoints},
-                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 1, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.DecimalDot_Right}, skipRenderOnChange: true, tip: this.tipNumNumbersPoint},
-                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 2, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.DecimalBracket_Right}, skipRenderOnChange: true, tip: this.tipNumNumbersParentheses},
-                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 3, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.UpperRomanDot_Right}, skipRenderOnChange: true, tip: this.tipNumRoman},
-                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 7, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerRomanDot_Right}, skipRenderOnChange: true, tip: this.tipNumRomanSmall}
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 1, numberingInfo: me._markersArr[0], skipRenderOnChange: true, tip: this.tipMarkersFRound},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 2, numberingInfo: me._markersArr[1], skipRenderOnChange: true, tip: this.tipMarkersHRound},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 3, numberingInfo: me._markersArr[2], skipRenderOnChange: true, tip: this.tipMarkersFSquare},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 4, numberingInfo: me._markersArr[3], skipRenderOnChange: true, tip: this.tipMarkersStar},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 5, numberingInfo: me._markersArr[4], skipRenderOnChange: true, tip: this.tipMarkersArrow},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 6, numberingInfo: me._markersArr[5], skipRenderOnChange: true, tip: this.tipMarkersCheckmark},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 7, numberingInfo: me._markersArr[6], skipRenderOnChange: true, tip: this.tipMarkersFRhombus},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 8, numberingInfo: me._markersArr[7], skipRenderOnChange: true, tip: this.tipMarkersDash},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 4, numberingInfo: me._numbersArr[0], skipRenderOnChange: true, tip: this.tipNumCapitalLetters},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 5, numberingInfo: me._numbersArr[1], skipRenderOnChange: true, tip: this.tipNumLettersParentheses},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 6, numberingInfo: me._numbersArr[2], skipRenderOnChange: true, tip: this.tipNumLettersPoints},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 1, numberingInfo: me._numbersArr[3], skipRenderOnChange: true, tip: this.tipNumNumbersPoint},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 2, numberingInfo: me._numbersArr[4], skipRenderOnChange: true, tip: this.tipNumNumbersParentheses},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 3, numberingInfo: me._numbersArr[5], skipRenderOnChange: true, tip: this.tipNumRoman},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 7, numberingInfo: me._numbersArr[6], skipRenderOnChange: true, tip: this.tipNumRomanSmall}
                 ]),
                 groups: new Common.UI.DataViewGroupStore([
                     {id: 'menu-list-bullet-group', caption: this.textBullets},
@@ -1407,7 +1431,7 @@ define([
                 items   : [
                     new Common.UI.MenuItem({
                         caption     : this.unicodeText,
-                        iconCls     : 'menu__icon unicode',
+                        iconCls     : 'menu__icon btn-unicode',
                         checkable   : true,
                         checkmark   : false,
                         checked     : false,
@@ -1417,7 +1441,7 @@ define([
                     }),
                     new Common.UI.MenuItem({
                         caption     : this.latexText,
-                        iconCls     : 'menu__icon latex',
+                        iconCls     : 'menu__icon btn-latex',
                         checkable   : true,
                         checkmark   : false,
                         checked     : false,
@@ -1428,25 +1452,25 @@ define([
                     { caption     : '--' },
                     new Common.UI.MenuItem({
                         caption     : this.currProfText,
-                        iconCls     : 'menu__icon professional-equation',
+                        iconCls     : 'menu__icon btn-professional-equation',
                         type        : 'view',
                         value       : {all: false, linear: false}
                     }),
                     new Common.UI.MenuItem({
                         caption     : this.currLinearText,
-                        iconCls     : 'menu__icon linear-equation',
+                        iconCls     : 'menu__icon btn-linear-equation',
                         type        : 'view',
                         value       : {all: false, linear: true}
                     }),
                     new Common.UI.MenuItem({
                         caption     : this.allProfText,
-                        iconCls     : 'menu__icon professional-equation',
+                        iconCls     : 'menu__icon btn-professional-equation',
                         type        : 'view',
                         value       : {all: true, linear: false}
                     }),
                     new Common.UI.MenuItem({
                         caption     : this.allLinearText,
-                        iconCls     : 'menu__icon linear-equation',
+                        iconCls     : 'menu__icon btn-linear-equation',
                         type        : 'view',
                         value       : {all: true, linear: true}
                     })

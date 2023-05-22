@@ -145,7 +145,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             this.btnRatio = new Common.UI.Button({
                 parentEl: $('#shape-advanced-button-ratio'),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon advanced-btn-ratio',
+                iconCls: 'toolbar__icon btn-advanced-ratio',
                 style: 'margin-bottom: 1px;',
                 enableToggle: true,
                 hint: this.textKeepRatio
@@ -583,7 +583,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
 
         getFocusedComponents: function() {
             return [
-                this.spnWidth, this.spnHeight, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY, // 0 tab
+                this.spnWidth, this.btnRatio, this.spnHeight, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY, // 0 tab
                 this.spnAngle, this.chFlipHor, this.chFlipVert, // 1 tab
                 this.cmbCapType, this.cmbJoinType, // 2 tab
                 this.radioNofit, this.radioShrink, this.radioFit, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, // 3 tab
