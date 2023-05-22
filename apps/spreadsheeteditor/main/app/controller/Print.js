@@ -141,12 +141,6 @@ define([
         updateSheetsInfo: function() {
             if (this.printSettings.isVisible()) {
                 this.updateSettings(this.printSettings);
-                this.printSettings.cmbSheet.store.each(function (item) {
-                    var sheetIndex = item.get('value');
-                    if (!this._changedProps[sheetIndex]) {
-                        this._changedProps[sheetIndex] = this.api.asc_getPageOptions(sheetIndex, true, true);
-                    }
-                }, this);
             } else {
                 this.isFillSheets = false;
             }
@@ -166,6 +160,9 @@ define([
                             displayValue: this.api.asc_getWorksheetName(i),
                             value: i
                         });
+                        if (!this._changedProps[i]) {
+                            this._changedProps[i] = this.api.asc_getPageOptions(i, true, true);
+                        }
                     }
                 }
             }
@@ -320,7 +317,7 @@ define([
             }
 
             if (panel.spnFirstPage) {
-                opt.asc_setFirstPageNumber(panel.spnFirstPage.getValue());
+                opt.asc_setFirstPageNumber(panel.spnFirstPage.getNumberValue());
             }
 
             if (!this._changedProps[sheet]) {
@@ -362,13 +359,10 @@ define([
             } else {
                 this.resetSheets(this.printSettings);
             }
-            this.printSettings.cmbSheet.store.each(function (item) {
-                var sheetIndex = item.get('value');
-                me._changedProps[sheetIndex] = me.api.asc_getPageOptions(sheetIndex, true, true);
-            }, this);
             this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
 
             this.fillPrintOptions(this.adjPrintParams, false);
+            this.adjPrintParams.asc_setActiveSheetsArray(this.printSettings.getRange() === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
 
             var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
             opts.asc_setAdvancedOptions(this.adjPrintParams);

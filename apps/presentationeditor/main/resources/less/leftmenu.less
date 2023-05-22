@@ -242,6 +242,11 @@
                         float: left;
                         width: 0;
                         height: 0;
+
+                        &:last-of-type {
+                            float: none;
+                            clear: both;
+                        }
                     }
 
                 }
@@ -680,6 +685,7 @@
             }
             .comment-text{
                 opacity: 0.45;
+                white-space: normal;
             }
             #print-preview-empty {
                 padding: 14px;
@@ -756,6 +762,16 @@
                         .rtl & {
                             padding-left: 0;
                             padding-right: 5px;
+                        }
+                    }
+                    #print-combo-sides {
+                        .dropdown-menu li > a {
+                            padding-right: 5px;
+                            padding-left: 20px;
+                            .rtl & {
+                                padding-right: 20px;
+                                padding-left: 5px;
+                            }
                         }
                     }
                 }

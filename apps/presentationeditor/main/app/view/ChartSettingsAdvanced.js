@@ -137,7 +137,7 @@ define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.tem
             this.btnRatio = new Common.UI.Button({
                 parentEl: $('#chart-advanced-button-ratio'),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon advanced-btn-ratio',
+                iconCls: 'toolbar__icon btn-advanced-ratio',
                 style: 'margin-bottom: 1px;',
                 enableToggle: true,
                 hint: this.textKeepRatio
@@ -234,7 +234,7 @@ define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.tem
 
         getFocusedComponents: function() {
             return [
-                this.spnWidth, this.spnHeight, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY, // 0 tab
+                this.spnWidth, this.btnRatio, this.spnHeight, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY, // 0 tab
                 this.inputAltTitle, this.textareaAltDescription  // 1 tab
             ];
         },

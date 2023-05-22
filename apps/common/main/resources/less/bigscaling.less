@@ -1,10 +1,13 @@
 .pixel-ratio__2_5 {
     .btn-toolbar,
         .btn-header,
-        .btn-category
+        .btn-category,
+        .btn-options
     {
         i.icon {
-            display: none;
+            &:not(.scaling-off) {
+                display: none;
+            }
         }
     }
 }
@@ -18,16 +21,17 @@
     }
 }
 
-.btn-category {
+.btn-category,
+.btn-options {
     &:active,
     &.active {
         &:not(.disabled) {
             svg.icon {
                 fill: @icon-normal-pressed-ie;
                 fill: @icon-normal-pressed;
-                //.btn& {
-                //    opacity: 1;
-                //}
+                .btn& {
+                    opacity: 1;
+                }
             }
         }
     }
@@ -37,7 +41,7 @@
         fill: @icon-normal;
 
         .btn& {
-            //opacity: 1;
+            opacity: 1;
         }
     }
 }

@@ -70,7 +70,7 @@ common.view.LoadMask = function(owner) {
                     ownerEl.append(maskedEl);
                     ownerEl.append(loaderEl);
 
-                    loaderEl.css('min-width', $('.asc-loadmask-title', loaderEl).width() + 105);
+                    loaderEl.css('min-width', $('.asc-loadmask-title', loaderEl).width() + 108);
                 },500);
             }
         },
@@ -92,7 +92,7 @@ common.view.LoadMask = function(owner) {
             if (ownerEl && loaderEl){
                 var el = $('.asc-loadmask-title', loaderEl);
                 el.html(title);
-                loaderEl.css('min-width', el.width() + 105);
+                loaderEl.css('min-width', el.width() + 108);
             }
         }
     }

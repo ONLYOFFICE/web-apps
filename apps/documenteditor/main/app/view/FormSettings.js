@@ -425,7 +425,7 @@ define([
             this.btnListDelete = new Common.UI.Button({
                 parentEl: $markup.findById('#form-list-delete'),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon cc-remove',
+                iconCls: 'toolbar__icon btn-cc-remove',
                 hint: this.textTipDelete,
                 dataHint: '1',
                 dataHintDirection: 'left',
@@ -483,10 +483,9 @@ define([
 
             this.btnRemForm = new Common.UI.Button({
                 parentEl: $markup.findById('#form-btn-delete'),
-                cls         : 'btn-toolbar',
-                iconCls     : 'toolbar__icon cc-remove',
+                cls         : 'btn-toolbar align-left',
+                iconCls     : 'toolbar__icon btn-cc-remove',
                 caption     : this.textDelete,
-                style       : 'text-align: left;',
                 dataHint    : '1',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -498,10 +497,9 @@ define([
 
             this.btnLockForm = new Common.UI.Button({
                 parentEl: $markup.findById('#form-btn-lock'),
-                cls         : 'btn-toolbar',
+                cls         : 'btn-toolbar align-left',
                 iconCls     : 'toolbar__icon btn-lock',
                 caption     : this.textLock,
-                style       : 'text-align: left;',
                 dataHint    : '1',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -575,9 +573,9 @@ define([
             var itemsTemplate =
                 [
                     '<% _.each(items, function(item) { %>',
-                        '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem" style="padding-left: 10px;overflow: hidden; text-overflow: ellipsis;">',
+                        '<li id="<%= item.id %>" data-value="<%= Common.Utils.String.htmlEncode(item.value) %>"><a tabindex="-1" type="menuitem" style="padding-left: 10px;overflow: hidden; text-overflow: ellipsis;">',
                             '<span class="color" style="background: <%= item.color %>;"></span>',
-                            '<%= item.displayValue %>',
+                            '<%= Common.Utils.String.htmlEncode(item.displayValue) %>',
                         '</a></li>',
                     '<% }); %>'
                 ];
@@ -608,7 +606,7 @@ define([
                 updateFormControl: function(record) {
                     var formcontrol = $(this.el).find('.form-control');
                     if (record) {
-                        formcontrol[0].innerHTML = '<span class="color" style="background:' + record.get('color') + ';"></span>' + record.get('displayValue');
+                        formcontrol[0].innerHTML = '<span class="color" style="background:' + record.get('color') + ';"></span>' + Common.Utils.String.htmlEncode(record.get('displayValue'));
                     } else
                         formcontrol[0].innerHTML = '';
                 }
@@ -1229,7 +1227,7 @@ define([
             }
         },
 
-        ChangeSettings: function(props) {
+        ChangeSettings: function(props, isShape) {
             if (this._initSettings)
                 this.createDelayedElements();
 
@@ -1403,6 +1401,7 @@ define([
                             this.chFixed.setValue(!!val, true);
                             this._state.Fixed=val;
                         }
+                        this.chFixed.setDisabled(!val && isShape); // disable fixed size for forms in shape
                     }
 
                     var brd = formPr.get_Border();

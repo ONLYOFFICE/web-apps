@@ -230,6 +230,7 @@ define([
                     this.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Image, _.bind(this.onInsertImage, this));
                     this.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.ImageUrl, _.bind(this.onInsertImageUrl, this));
                     this.api.asc_registerCallback('asc_onHideEyedropper',           _.bind(this.hideEyedropper, this));
+                    this.api.asc_SetMathInputType(Common.localStorage.getBool("de-equation-input-latex") ? Asc.c_oAscMathInputType.LaTeX : Asc.c_oAscMathInputType.Unicode);
                 }
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',        _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect',                      _.bind(this.onCoAuthoringDisconnect, this));
@@ -444,8 +445,9 @@ define([
             view.menuParaTOCSettings.on('click', _.bind(me.onParaTOCSettings, me));
             view.menuTableEquation.menu.on('item:click', _.bind(me.convertEquation, me));
             view.menuParagraphEquation.menu.on('item:click', _.bind(me.convertEquation, me));
+            view.menuTableListIndents.on('click', _.bind(me.onListIndents, me));
+            view.menuParaListIndents.on('click', _.bind(me.onListIndents, me));
             view.menuSaveAsPicture.on('click', _.bind(me.saveAsPicture, me));
-
             me.onChangeProtectDocument();
         },
 
@@ -1086,7 +1088,7 @@ define([
                         me.eyedropperTip.tipInterval = setInterval(function () {
                             clearInterval(me.eyedropperTip.tipInterval);
                             if (me.eyedropperTip.isVisible) {
-                                ToolTip = '<div>RGB(' + r + ',' + g + ',' + b + ')</div>' +
+                                ToolTip = '<div>RGB (' + r + ',' + g + ',' + b + ')</div>' +
                                     '<div>' + moveData.get_EyedropperColor().asc_getName() + '</div>';
                                 me.eyedropperTip.toolTip.setTitle(ToolTip);
                                 me.eyedropperTip.isTipVisible = true;
@@ -2516,7 +2518,7 @@ define([
                 me.equationSettingsBtn = new Common.UI.Button({
                     parentEl: $('#id-document-holder-btn-equation-settings', documentHolder.cmpEl),
                     cls         : 'btn-toolbar no-caret',
-                    iconCls     : 'toolbar__icon more-vertical',
+                    iconCls     : 'toolbar__icon btn-more-vertical',
                     hint        : me.documentHolder.advancedEquationText,
                     menu        : me.documentHolder.createEquationMenu('popuptbeqinput', 'tl-bl')
                 });
@@ -2529,8 +2531,10 @@ define([
                 };
                 me.equationSettingsBtn.menu.on('item:click', _.bind(me.convertEquation, me));
                 me.equationSettingsBtn.menu.on('show:before', function(menu) {
+                    bringForward();
                     menu.options.initMenu();
                 });
+                me.equationSettingsBtn.menu.on('hide:after', sendBackward);
             }
 
             var showPoint = [(bounds[0] + bounds[2])/2 - eqContainer.outerWidth()/2, bounds[1] - eqContainer.outerHeight() - 10];
@@ -2544,7 +2548,19 @@ define([
             showPoint[1] = Math.min(me._Height - eqContainer.outerHeight(), Math.max(0, showPoint[1]));
             eqContainer.css({left: showPoint[0], top : showPoint[1]});
 
-            var menuAlign = (me._Height - showPoint[1] - eqContainer.outerHeight() < 220) ? 'bl-tl' : 'tl-bl';
+            if (me._XY === undefined) {
+                me._XY = [
+                    documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
+                    documentHolder.cmpEl.offset().top - $(window).scrollTop()
+                ];
+                me._Height = documentHolder.cmpEl.height();
+                me._Width = documentHolder.cmpEl.width();
+                me._BodyWidth = $('body').width();
+            }
+
+            var diffDown = me._Height - showPoint[1] - eqContainer.outerHeight(),
+                diffUp = me._XY[1] + (!Common.Utils.InternalSettings.get("de-hidden-rulers") ? 26 : 0) + showPoint[1],
+                menuAlign = (diffDown < 220 && diffDown < diffUp*0.9) ? 'bl-tl' : 'tl-bl';
             if (Common.UI.isRTL()) {
                 menuAlign = menuAlign === 'bl-tl' ? 'br-tr' : 'tr-br';
             }
@@ -2586,13 +2602,36 @@ define([
 
         convertEquation: function(menu, item, e) {
             if (this.api) {
-                if (item.options.type=='input')
+                if (item.options.type=='input') {
                     this.api.asc_SetMathInputType(item.value);
-                else if (item.options.type=='view')
+                    Common.localStorage.setBool("de-equation-input-latex", item.value===Asc.c_oAscMathInputType.LaTeX)
+                } else if (item.options.type=='view')
                     this.api.asc_ConvertMathView(item.value.linear, item.value.all);
                 else if (item.options.type=='mode')
                     this.api.asc_ConvertMathDisplayMode(item.checked);
             }
+        },
+
+        onListIndents: function(item, e) {
+            if (this.api && !this.api.asc_IsShowListIndentsSettings()) {
+                this.documentHolder.fireEvent('list:settings', [2]); // multilevel list
+                return;
+            }
+
+            var me = this;
+            me.api && (new DE.Views.ListIndentsDialog({
+                api: me.api,
+                props: item.value.props,
+                isBullet: item.value.format === Asc.c_oAscNumberingFormat.Bullet,
+                handler: function(result, value) {
+                    if (result == 'ok') {
+                        if (me.api) {
+                            me.api.asc_ChangeNumberingLvl(item.value.listId, value, item.value.level);
+                        }
+                    }
+                    me.editComplete();
+                }
+            })).show();
         },
 
         saveAsPicture: function() {

@@ -7,6 +7,19 @@
         vertical-align: baseline;
     }
 
+    .btn.align-left {
+        text-align: left;
+
+        .rtl & {
+            text-align: right;
+        }
+
+        .pixel-ratio__2_5 & {
+            display: flex;
+            align-items: center;
+        }
+    }
+
     &#id-slide-settings {
         #slide-spin-transparency {
             display: inline-block;
@@ -194,20 +207,6 @@
 
                 .rtl & {
                     padding: 3px 10px 3px 0;
-                }
-            }
-
-            .group-items-container {
-                .item {
-                    &:hover {
-                        .box-shadow(0 0 0 2px @border-preview-hover-ie) !important;
-                        .box-shadow(0 0 0 @scaled-two-px-value @border-preview-hover) !important;
-                    }
-
-                    &.selected {
-                        .box-shadow(0 0 0 2px @border-preview-select-ie) !important;
-                        .box-shadow(0 0 0 @scaled-two-px-value @border-preview-select) !important;
-                    }
                 }
             }
         }
