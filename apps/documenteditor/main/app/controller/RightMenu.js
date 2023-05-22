@@ -166,6 +166,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.Signature].locked = false;
 
             var isChart = false,
+                isShape = false,
                 isSmartArtInternal = false,
                 isProtected = this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly || this._state.docProtection.isCommentsOnly;
 
@@ -192,6 +193,7 @@ define([
                         isChart = true;
                         settingsType = Common.Utils.documentSettingsType.Chart;
                     } else if (value.get_ShapeProperties() !== null) {
+                        isShape = true;
                         isChart = value.get_ShapeProperties().get_FromChart();
                         isSmartArtInternal = value.get_ShapeProperties().get_FromSmartArtInternal();
                         settingsType = Common.Utils.documentSettingsType.Shape;
@@ -307,7 +309,9 @@ define([
                 
                 if (active !== undefined) {
                     this.rightmenu.SetActivePane(active, open);
-                    if (active!=Common.Utils.documentSettingsType.MailMerge && active!=Common.Utils.documentSettingsType.Signature)
+                    if (active === Common.Utils.documentSettingsType.Form)
+                        this._settings[active].panel.ChangeSettings.call(this._settings[active].panel, this._settings[active].props, isShape);
+                    else if (active!=Common.Utils.documentSettingsType.MailMerge && active!=Common.Utils.documentSettingsType.Signature)
                         this._settings[active].panel.ChangeSettings.call(this._settings[active].panel, this._settings[active].props);
                     else
                         this._settings[active].panel.ChangeSettings.call(this._settings[active].panel);

@@ -257,7 +257,8 @@
     "textErrorPasswordIsNotCorrect": "The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
     "textOk": "Ok",
     "uploadImageExtMessage": "Unknown image format.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
+    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
+    "errorProtectedRange": "This range is not allowed for editing."
   },
   "LongActions": {
     "advDRMPassword": "Kodeord",
@@ -581,7 +582,13 @@
       "textTop": "Top",
       "textType": "Type",
       "textVertical": "Vertical",
-      "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\""
+      "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
+      "textCustomFormat": "Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textSave": "Save",
+      "textEnterFormat": "Enter Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
     },
     "Settings": {
       "advCSVOptions": "Vælg CSV-muligheder",

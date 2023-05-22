@@ -91,12 +91,12 @@ define([
                         {
                             caption: this.txtExpand,
                             value: 'expand',
-                            iconCls     : 'menu__icon expand-all'
+                            iconCls     : 'menu__icon btn-expand-all'
                         },
                         {
                             caption: this.txtCollapse,
                             value: 'collapse',
-                            iconCls     : 'menu__icon collapse-all'
+                            iconCls     : 'menu__icon btn-collapse-all'
                         },
                         {
                             caption: this.txtExpandToLevel,
@@ -175,12 +175,12 @@ define([
             this.navigationMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 items: [{
-                        iconCls     : 'menu__icon promote',
+                        iconCls     : 'menu__icon btn-promote',
                         caption     : this.txtPromote,
                         value: 'promote'
                     },
                     {
-                        iconCls     : 'menu__icon demote',
+                        iconCls     : 'menu__icon btn-demote',
                         caption     : this.txtDemote,
                         value: 'demote'
                     },
@@ -203,7 +203,7 @@ define([
                         caption     : '--'
                     },
                     {
-                        iconCls     : 'menu__icon select-all',
+                        iconCls     : 'menu__icon btn-select-all',
                         caption     : this.txtSelect,
                         value: 'select'
                     },
@@ -211,12 +211,12 @@ define([
                         caption     : '--'
                     },
                     {
-                        iconCls     : 'menu__icon expand-all',
+                        iconCls     : 'menu__icon btn-expand-all',
                         caption     : this.txtExpand,
                         value: 'expand'
                     },
                     {
-                        iconCls     : 'menu__icon collapse-all',
+                        iconCls     : 'menu__icon btn-collapse-all',
                         caption     : this.txtCollapse,
                         value: 'collapse'
                     },

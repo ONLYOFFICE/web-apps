@@ -74,7 +74,7 @@ define([
                 '<div class="format-items">',
                     '<% _.each(rows, function(row) { %>',
                         '<% _.each(row, function(item) { %>',
-                            '<% if (item.type!==Asc.c_oAscFileType.DOCM || fileType=="docm") { %>',
+                            '<% if (item.type!==Asc.c_oAscFileType.PPTM || fileType=="pptm") { %>',
                                 '<div class="format-item"><div class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
                                     '<div class ="svg-format-<%= item.imgCls %>"></div>',
                                 '</div></div>',
@@ -2084,6 +2084,8 @@ define([
                 value: 1,
                 maxValue: 32767,
                 minValue: 1,
+                allowDecimal: false,
+                maskExp: /[0-9]/,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
@@ -2091,7 +2093,7 @@ define([
 
             this.cmbSides = new Common.UI.ComboBox({
                 el          : $markup.findById('#print-combo-sides'),
-                menuStyle   : 'min-width:100%;',
+                menuStyle   : 'width:100%;',
                 editable: false,
                 takeFocusOnClose: true,
                 cls         : 'input-group-nr',

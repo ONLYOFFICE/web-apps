@@ -1914,5 +1914,9 @@
 	"SORT": {
 		"a": "(matris, [sortera_index], [sorteringsordning], [efter_kol])",
 		"d": "Sorterar ett intervall eller en matris"
+	},
+	"SORTBY": {
+		"a": "(matris, efter_matris, [sorteringsordning], ...)",
+		"d": "Sorterar ett intervall eller en matris utifrån värdena i ett motsvarande intervall eller en motsvarande matris"
 	}
 }

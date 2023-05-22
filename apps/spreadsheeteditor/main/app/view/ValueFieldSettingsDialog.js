@@ -153,21 +153,21 @@ define([
                 menuStyle: 'min-width: 264px;max-height:160px;',
                 editable: false,
                 data: [
-                    { value: Asc.c_oAscShowDataAs.Normal,           displayValue: this.txtNormal },
-                    { value: Asc.c_oAscShowDataAs.PercentOfTotal,     displayValue: this.txtPercentOfGrand },
-                    { value: Asc.c_oAscShowDataAs.PercentOfCol,     displayValue: this.txtPercentOfCol },
-                    { value: Asc.c_oAscShowDataAs.PercentOfRow,     displayValue: this.txtPercentOfTotal },
-                    { value: Asc.c_oAscShowDataAs.Percent,          displayValue: this.txtPercent },
-                    { value: Asc.c_oAscShowDataAs.PercentOfParentRow, displayValue: this.txtPercentOfParentRow },
-                    { value: Asc.c_oAscShowDataAs.PercentOfParentCol, displayValue: this.txtPercentOfParentCol },
-                    { value: Asc.c_oAscShowDataAs.PercentOfParent, displayValue: this.txtPercentOfParent },
-                    { value: Asc.c_oAscShowDataAs.Difference,       displayValue: this.txtDifference },
-                    { value: Asc.c_oAscShowDataAs.PercentDiff,      displayValue: this.txtPercentDiff },
-                    { value: Asc.c_oAscShowDataAs.RunTotal,         displayValue: this.txtRunTotal },
-                    { value: Asc.c_oAscShowDataAs.PercentOfRunningTotal,   displayValue: this.txtPercentOfRunTotal },
-                    { value: Asc.c_oAscShowDataAs.RankAscending,   displayValue: this.txtRankAscending },
-                    { value: Asc.c_oAscShowDataAs.RankDescending,   displayValue: this.txtRankDescending },
-                    { value: Asc.c_oAscShowDataAs.Index,            displayValue: this.txtIndex }
+                    { value: Asc.c_oAscShowDataAs.Normal,               displayValue: this.txtNormal,           numFormat: Asc.c_oAscNumFormatType.General },
+                    { value: Asc.c_oAscShowDataAs.PercentOfTotal,       displayValue: this.txtPercentOfGrand,   numFormat: Asc.c_oAscNumFormatType.Percent },
+                    { value: Asc.c_oAscShowDataAs.PercentOfCol,         displayValue: this.txtPercentOfCol,     numFormat: Asc.c_oAscNumFormatType.Percent },
+                    { value: Asc.c_oAscShowDataAs.PercentOfRow,         displayValue: this.txtPercentOfTotal,   numFormat: Asc.c_oAscNumFormatType.Percent },
+                    { value: Asc.c_oAscShowDataAs.Percent,              displayValue: this.txtPercent,          numFormat: Asc.c_oAscNumFormatType.Percent },
+                    { value: Asc.c_oAscShowDataAs.PercentOfParentRow,   displayValue: this.txtPercentOfParentRow, numFormat: Asc.c_oAscNumFormatType.Percent },
+                    { value: Asc.c_oAscShowDataAs.PercentOfParentCol,   displayValue: this.txtPercentOfParentCol, numFormat: Asc.c_oAscNumFormatType.Percent },
+                    { value: Asc.c_oAscShowDataAs.PercentOfParent,      displayValue: this.txtPercentOfParent,  numFormat: Asc.c_oAscNumFormatType.Percent },
+                    { value: Asc.c_oAscShowDataAs.Difference,           displayValue: this.txtDifference,       numFormat: Asc.c_oAscNumFormatType.General },
+                    { value: Asc.c_oAscShowDataAs.PercentDiff,          displayValue: this.txtPercentDiff,      numFormat: Asc.c_oAscNumFormatType.Percent },
+                    { value: Asc.c_oAscShowDataAs.RunTotal,             displayValue: this.txtRunTotal,         numFormat: Asc.c_oAscNumFormatType.General },
+                    { value: Asc.c_oAscShowDataAs.PercentOfRunningTotal,displayValue: this.txtPercentOfRunTotal,numFormat: Asc.c_oAscNumFormatType.Percent },
+                    { value: Asc.c_oAscShowDataAs.RankAscending,        displayValue: this.txtRankAscending,    numFormat: Asc.c_oAscNumFormatType.General },
+                    { value: Asc.c_oAscShowDataAs.RankDescending,       displayValue: this.txtRankDescending,   numFormat: Asc.c_oAscNumFormatType.General },
+                    { value: Asc.c_oAscShowDataAs.Index,                displayValue: this.txtIndex,            numFormat: Asc.c_oAscNumFormatType.General }
                 ]
             });
             this.cmbShowAs.setValue(Asc.c_oAscShowDataAs.Normal);
@@ -257,8 +257,17 @@ define([
             var field = new Asc.CT_DataField();
             field.asc_setName(this.inputCustomName.getValue());
             field.asc_setSubtotal(this.cmbSummarize.getValue());
-            var show_as = this.cmbShowAs.getValue();
-            field.asc_setShowDataAs(show_as);
+            field.asc_setShowDataAs(this.cmbShowAs.getValue());
+
+            var show_as = this.cmbShowAs.getSelectedRecord();
+            if (show_as) {
+                var info = new Asc.asc_CFormatCellsInfo();
+                info.asc_setType(show_as.numFormat);
+                info.asc_setDecimalPlaces(show_as.numFormat===Asc.c_oAscNumFormatType.Percent ? 2 : 0);
+                info.asc_setSeparator(false);
+                field.asc_setNumFormat(this.api.asc_getFormatCells(info)[0]);
+            }
+
             if (!this.cmbBaseField.isDisabled())
                 field.asc_setBaseField(this.cmbBaseField.getValue());
             if (!this.cmbBaseItem.isDisabled())

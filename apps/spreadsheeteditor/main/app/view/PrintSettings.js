@@ -334,11 +334,11 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         },
 
         getPagesFrom: function () {
-            return this.spnPagesFrom.getValue();
+            return this.spnPagesFrom.getNumberValue();
         },
 
         getPagesTo: function () {
-            return this.spnPagesTo.getValue();
+            return this.spnPagesTo.getNumberValue();
         },
 
         comboRangeChange: function(combo, record) {

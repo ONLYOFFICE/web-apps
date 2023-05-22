@@ -993,6 +993,7 @@ define([
         checkRecent: function(sSymbol, sFont){
             if(aRecents.length === 0){
                 aRecents.push({symbol: sSymbol, font: sFont});
+                this.saveRecent();
                 return;
             }
             for(var i = 0; i < aRecents.length; ++i){

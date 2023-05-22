@@ -63,7 +63,7 @@ define([
                 '<div class="format-items">',
                     '<% _.each(rows, function(row) { %>',
                         '<% _.each(row, function(item) { %>',
-                            '<% if (item.type!==Asc.c_oAscFileType.DOCM || fileType=="docm") { %>',
+                            '<% if (item.type!==Asc.c_oAscFileType.XLSM || fileType=="xlsm") { %>',
                                 '<div class="format-item"><div class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
                                     '<div class ="svg-format-<%= item.imgCls %>"></div>',
                                 '</div></div>',
@@ -1280,8 +1280,7 @@ define([
         txtQuickPrintTip: 'The document will be printed on the last selected or default printer',
         txtWorkspaceSettingChange: 'Workspace setting (RTL interface) change',
         txtRestartEditor: 'Please restart spreadsheet editor so that your workspace settings can take effect',
-        txtHy: 'Armenian',
-        txtExampleHy: 'ԳՈՒՄԱՐ; ՆՎԱԶ; ԱՌԱՎ․; ՀԱՇՎԱՐԿ'
+        txtHy: 'Armenian'
 
 }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
@@ -2538,6 +2537,8 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 value: '',
                 maxValue: 1000000,
                 minValue: 1,
+                allowDecimal: false,
+                maskExp: /[0-9]/,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
@@ -2551,6 +2552,8 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 value: '',
                 maxValue: 1000000,
                 minValue: 1,
+                allowDecimal: false,
+                maskExp: /[0-9]/,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
@@ -2564,6 +2567,8 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 value: 1,
                 maxValue: 32767,
                 minValue: 1,
+                allowDecimal: false,
+                maskExp: /[0-9]/,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
@@ -2571,7 +2576,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
 
             this.cmbSides = new Common.UI.ComboBox({
                 el          : $markup.findById('#print-combo-sides'),
-                menuStyle   : 'min-width:100%;',
+                menuStyle   : 'width:100%;',
                 editable: false,
                 takeFocusOnClose: true,
                 cls         : 'input-group-nr',
@@ -2772,7 +2777,9 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 defaultUnit : "",
                 value: '1',
                 maxValue: 32767,
-                minValue: 1,
+                minValue: -32767,
+                allowDecimal: false,
+                maskExp: /[0-9,\-]/,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
@@ -2985,11 +2992,11 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         },
 
         getPagesFrom: function () {
-            return this.spnPagesFrom.getValue();
+            return this.spnPagesFrom.getNumberValue();
         },
 
         getPagesTo: function () {
-            return this.spnPagesTo.getValue();
+            return this.spnPagesTo.getNumberValue();
         },
 
         comboRangeChange: function(combo, record) {

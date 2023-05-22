@@ -551,6 +551,7 @@
     "textNoLicenseTitle": "Licentielimiet bereikt",
     "textPaidFeature": "Betaalde functie",
     "textRemember": "Bewaar mijn keuze",
+    "textRequestMacros": "Een macro doet een verzoek naar een URL. Wilt u het verzoek naar de %1 toestaan?",
     "textYes": "Ja",
     "titleLicenseExp": "Licentie vervallen",
     "titleServerVersion": "Editor bijgewerkt",
@@ -572,7 +573,6 @@
     "textOk": "Ok",
     "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
     "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
-    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
     "titleDialogProtectedDocument": "The document is protected",
     "titleLicenseNotActive": "License not active",
     "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
@@ -733,6 +733,8 @@
     "stayButtonText": "Op deze pagina blijven",
     "textOk": "OK",
     "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view"
+    "textSwitchedStandardView": "Switched to Standard view",
+    "textRenameFile": "Rename File",
+    "textEnterNewFileName": "Enter a new file name"
   }
 }

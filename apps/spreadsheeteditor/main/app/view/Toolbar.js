@@ -574,7 +574,7 @@ define([
                     me.btnTextFormatting = new Common.UI.Button({
                         id          : 'id-toolbar-btn-formatting',
                         cls         : 'btn-toolbar no-caret',
-                        iconCls     : 'toolbar__icon more-vertical',
+                        iconCls     : 'toolbar__icon btn-more-vertical',
                         lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormat, _set.editVisibleArea],
                         menu        : new Common.UI.Menu({
                             items: [
@@ -789,7 +789,7 @@ define([
                 me.btnSelectAll = new Common.UI.Button({
                     id: 'id-toolbar-btn-select-all',
                     cls: 'btn-toolbar',
-                    iconCls: 'toolbar__icon select-all',
+                    iconCls: 'toolbar__icon btn-select-all',
                     lock: [_set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'bottom'
@@ -1147,13 +1147,13 @@ define([
                 me.btnTextOrient = new Common.UI.Button({
                     id          : 'id-toolbar-rtn-textorient',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'toolbar__icon text-orient-ccw',
+                    iconCls     : 'toolbar__icon btn-text-orient-ccw',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.wsLockFormat, _set.userProtected],
                     menu        : new Common.UI.Menu({
                         items: [
                             {
                                 caption     : me.textHorizontal,
-                                iconCls     : 'menu__icon text-orient-hor',
+                                iconCls     : 'menu__icon btn-text-orient-hor',
                                 checkable   : true,
                                 checkmark   : false,
                                 toggleGroup : 'textorientgroup',
@@ -1161,7 +1161,7 @@ define([
                             },
                             {
                                 caption     : me.textCounterCw,
-                                iconCls     : 'menu__icon text-orient-ccw',
+                                iconCls     : 'menu__icon btn-text-orient-ccw',
                                 checkable   : true,
                                 checkmark   : false,
                                 toggleGroup : 'textorientgroup',
@@ -1169,7 +1169,7 @@ define([
                             },
                             {
                                 caption     : me.textClockwise,
-                                iconCls     : 'menu__icon text-orient-cw',
+                                iconCls     : 'menu__icon btn-text-orient-cw',
                                 checkable   : true,
                                 checkmark   : false,
                                 toggleGroup : 'textorientgroup',
@@ -1177,7 +1177,7 @@ define([
                             },
                             {
                                 caption     : me.textVertical,
-                                iconCls     : 'menu__icon text-orient-vertical',
+                                iconCls     : 'menu__icon btn-text-orient-vertical',
                                 checkable   : true,
                                 checkmark   : false,
                                 toggleGroup : 'textorientgroup',
@@ -1185,7 +1185,7 @@ define([
                             },
                             {
                                 caption     : me.textRotateUp,
-                                iconCls     : 'menu__icon text-orient-rup',
+                                iconCls     : 'menu__icon btn-text-orient-rup',
                                 checkable   : true,
                                 checkmark   : false,
                                 toggleGroup : 'textorientgroup',
@@ -1193,7 +1193,7 @@ define([
                             },
                             {
                                 caption     : me.textRotateDown,
-                                iconCls     : 'menu__icon text-orient-rdown',
+                                iconCls     : 'menu__icon btn-text-orient-rdown',
                                 checkable   : true,
                                 checkmark   : false,
                                 toggleGroup : 'textorientgroup',
@@ -1261,7 +1261,7 @@ define([
                 this.btnInsertSmartArt = new Common.UI.Button({
                     id: 'tlbtn-insertsmartart',
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon smart-art',
+                    iconCls: 'toolbar__icon btn-smart-art',
                     lock: [_set.editCell, _set.lostConnect, _set.coAuth, _set['Objects']],
                     caption: me.capBtnInsSmartArt,
                     menu: true,
@@ -1286,7 +1286,7 @@ define([
                 me.btnInsertText = new Common.UI.Button({
                     id          : 'tlbtn-inserttext',
                     cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'toolbar__icon btn-text',
+                    iconCls     : 'toolbar__icon btn-big-text',
                     caption     : me.capInsertText,
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth, _set['Objects']],
                     enableToggle: true,
@@ -1739,7 +1739,7 @@ define([
                         items: [
                             {
                                 caption: me.textPortrait,
-                                iconCls: 'menu__icon page-portrait',
+                                iconCls: 'menu__icon btn-page-portrait',
                                 checkable: true,
                                 checkmark: false,
                                 toggleGroup: 'menuOrient',
@@ -1747,7 +1747,7 @@ define([
                             },
                             {
                                 caption: me.textLandscape,
-                                iconCls: 'menu__icon page-landscape',
+                                iconCls: 'menu__icon btn-page-landscape',
                                 checkable: true,
                                 checkmark: false,
                                 toggleGroup: 'menuOrient',
@@ -2598,7 +2598,7 @@ define([
                     ]
                 }));
 
-                var onShowBefore = function(menu) {
+                var onShowBeforeChart = function(menu) {
                     var picker = new Common.UI.DataView({
                         el: $('#id-toolbar-menu-insertchart'),
                         parentMenu: menu,
@@ -2613,9 +2613,9 @@ define([
                             me.fireEvent('add:chart', [record.get('group'), record.get('type')]);
                         if (e.type !== 'click') menu.hide();
                     });
-                    menu.off('show:before', onShowBefore);
+                    menu.off('show:before', onShowBeforeChart);
                 };
-                this.btnInsertChart.menu.on('show:before', onShowBefore);
+                this.btnInsertChart.menu.on('show:before', onShowBeforeChart);
             }
 
             if (this.btnInsertSmartArt) {
@@ -2712,7 +2712,7 @@ define([
                             iconCls     : 'menu__icon btn-text',
                             toggleGroup: 'textbox',
                             value: 'textRect',
-                            iconClsForMainBtn: 'btn-text'
+                            iconClsForMainBtn: 'btn-big-text'
                         },
                         {
                             caption: this.tipInsertVerticalText,
@@ -2721,7 +2721,7 @@ define([
                             iconCls     : 'menu__icon btn-text-vertical',
                             toggleGroup: 'textbox',
                             value: 'textRectVertical',
-                            iconClsForMainBtn: 'btn-text-vertical'
+                            iconClsForMainBtn: 'btn-big-text-vertical'
                         },
                     ]
                 }));
@@ -3154,11 +3154,11 @@ define([
             me.btnImgForward.setMenu(new Common.UI.Menu({
                 items: [{
                     caption : _holder_view.textArrangeFront,
-                    iconCls : 'menu__icon arrange-front',
+                    iconCls : 'menu__icon btn-arrange-front',
                     value  : Asc.c_oAscDrawingLayerType.BringToFront
                 }, {
                     caption : _holder_view.textArrangeForward,
-                    iconCls : 'menu__icon arrange-forward',
+                    iconCls : 'menu__icon btn-arrange-forward',
                     value  : Asc.c_oAscDrawingLayerType.BringForward
                 }
                 ]})
@@ -3168,11 +3168,11 @@ define([
             me.btnImgBackward.setMenu(new Common.UI.Menu({
                 items: [{
                     caption : _holder_view.textArrangeBack,
-                    iconCls : 'menu__icon arrange-back',
+                    iconCls : 'menu__icon btn-arrange-back',
                     value  : Asc.c_oAscDrawingLayerType.SendToBack
                 }, {
                     caption : _holder_view.textArrangeBackward,
-                    iconCls : 'menu__icon arrange-backward',
+                    iconCls : 'menu__icon btn-arrange-backward',
                     value  : Asc.c_oAscDrawingLayerType.SendBackward
                 }]
             }));
@@ -3181,38 +3181,38 @@ define([
             me.btnImgAlign.setMenu(new Common.UI.Menu({
                 items: [{
                     caption : _holder_view.textShapeAlignLeft,
-                    iconCls : 'menu__icon shape-align-left',
+                    iconCls : 'menu__icon btn-shape-align-left',
                     value   : 0
                 }, {
                     caption : _holder_view.textShapeAlignCenter,
-                    iconCls : 'menu__icon shape-align-center',
+                    iconCls : 'menu__icon btn-shape-align-center',
                     value   : 4
                 }, {
                     caption : _holder_view.textShapeAlignRight,
-                    iconCls : 'menu__icon shape-align-right',
+                    iconCls : 'menu__icon btn-shape-align-right',
                     value   : 1
                 }, {
                     caption : _holder_view.textShapeAlignTop,
-                    iconCls : 'menu__icon shape-align-top',
+                    iconCls : 'menu__icon btn-shape-align-top',
                     value   : 3
                 }, {
                     caption : _holder_view.textShapeAlignMiddle,
-                    iconCls : 'menu__icon shape-align-middle',
+                    iconCls : 'menu__icon btn-shape-align-middle',
                     value   : 5
                 }, {
                     caption : _holder_view.textShapeAlignBottom,
-                    iconCls : 'menu__icon shape-align-bottom',
+                    iconCls : 'menu__icon btn-shape-align-bottom',
                     value   : 2
                 },
                 {caption: '--'},
                 {
                     caption: _holder_view.txtDistribHor,
-                    iconCls: 'menu__icon shape-distribute-hor',
+                    iconCls: 'menu__icon btn-shape-distribute-hor',
                     value: 6
                 },
                 {
                     caption: _holder_view.txtDistribVert,
-                    iconCls: 'menu__icon shape-distribute-vert',
+                    iconCls: 'menu__icon btn-shape-distribute-vert',
                     value: 7
                 }]
             }));
@@ -3221,11 +3221,11 @@ define([
             me.btnImgGroup.setMenu(new Common.UI.Menu({
                 items: [{
                     caption : _holder_view.txtGroup,
-                    iconCls : 'menu__icon shape-group',
+                    iconCls : 'menu__icon btn-shape-group',
                     value: 'grouping'
                 }, {
                     caption : _holder_view.txtUngroup,
-                    iconCls : 'menu__icon shape-ungroup',
+                    iconCls : 'menu__icon btn-shape-ungroup',
                     value: 'ungrouping'
                 }]
             }));

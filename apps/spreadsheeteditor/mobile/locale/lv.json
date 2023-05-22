@@ -257,7 +257,8 @@
     "pastInMergeAreaError": "Cannot change a part of a merged cell",
     "scriptLoadError": "The connection is too slow, some of the components could not be loaded. Please, reload the page.",
     "textErrorPasswordIsNotCorrect": "The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
+    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
+    "errorProtectedRange": "This range is not allowed for editing."
   },
   "LongActions": {
     "advDRMPassword": "Parole",
@@ -581,7 +582,13 @@
       "textHorizontalText": "Horizontal Text",
       "textRecommended": "Recommended",
       "textSelectObjectToEdit": "Select object to edit",
-      "textTextOrientation": "Text Orientation"
+      "textTextOrientation": "Text Orientation",
+      "textCustomFormat": "Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textSave": "Save",
+      "textEnterFormat": "Enter Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
     },
     "Settings": {
       "advCSVOptions": "Izvēlēties CSV parametrus",

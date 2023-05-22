@@ -260,7 +260,9 @@ define([
                 if (record.value === _BulletTypes.newSymbol) {
                     var me = this,
                         props = me.bulletProps,
+                        btn,
                         handler = function(dlg, result, settings) {
+                            btn = result;
                             if (result == 'ok') {
                                 props.changed = true;
                                 props.code = settings.code;
@@ -292,6 +294,9 @@ define([
                             font: props.font,
                             symbol: props.symbol,
                             handler: handler
+                        }).on('close', function(obj){
+                            (btn===undefined) && handler && handler.call(me);
+                            setTimeout(function(){me.cmbBulletFormat.focus();}, 1);
                         });
                     win.show();
                     win.on('symbol:dblclick', handler);

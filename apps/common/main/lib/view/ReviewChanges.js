@@ -101,8 +101,8 @@ define([
                 '</div>' +
                 '<div class="separator long review"></div>' +
                 '<div class="group">' +
-                    '<span id="btn-compare" class="btn-slot text x-huge"></span>' +
-                    '<span id="btn-combine" class="btn-slot text x-huge"></span>' +
+                    '<span id="slot-btn-compare" class="btn-slot text x-huge"></span>' +
+                    '<span id="slot-btn-combine" class="btn-slot text x-huge"></span>' +
                 '</div>' +
                 '<div class="separator long compare"></div>' +
                 '<div class="group no-group-mask review form-view">' +
@@ -308,7 +308,7 @@ define([
                             cls: 'btn-toolbar  x-huge icon-top',
                             caption: this.txtCombine,
                             split: true,
-                            iconCls: 'toolbar__icon combine',
+                            iconCls: 'toolbar__icon btn-combine',
                             lock: [_set.hasCoeditingUsers, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments],
                             dataHint: '1',
                             dataHintDirection: 'bottom',
@@ -592,6 +592,8 @@ define([
                                 ]
                             }));
                             me.btnCompare.menu.items[2].setVisible(me.appConfig.canRequestCompareFile || me.appConfig.fileChoiceUrl && me.appConfig.fileChoiceUrl.indexOf("{documentType}")>-1);
+                            me.btnCompare.menu.items[1].setDisabled(me.appConfig.disableNetworkFunctionality);
+                            me.btnCompare.menu.items[2].setDisabled(me.appConfig.disableNetworkFunctionality);
                             me.btnCompare.updateHint(me.tipCompare);
 
 
@@ -601,6 +603,7 @@ define([
                                     {caption: me.mniFromUrl, value: 'url'},
                                 ]
                             }));
+                            me.btnCombine.menu.items[1].setDisabled(me.appConfig.disableNetworkFunctionality);
                             me.btnCombine.updateHint(me.tipCombine);
                         }
 
@@ -735,8 +738,8 @@ define([
                 if ( this.appConfig.canReview ) {
                     this.btnAccept.render(this.$el.find('#btn-change-accept'));
                     this.btnReject.render(this.$el.find('#btn-change-reject'));
-                    this.appConfig.canFeatureComparison && this.btnCompare.render(this.$el.find('#btn-compare'));
-                    this.appConfig.canFeatureComparison && this.btnCombine.render(this.$el.find('#btn-combine'));
+                    this.appConfig.canFeatureComparison && this.btnCompare.render(this.$el.find('#slot-btn-compare'));
+                    this.appConfig.canFeatureComparison && this.btnCombine.render(this.$el.find('#slot-btn-combine'));
                     this.btnTurnOn.render(this.$el.find('#btn-review-on'));
                 }
                 this.btnPrev && this.btnPrev.render(this.$el.find('#btn-change-prev'));

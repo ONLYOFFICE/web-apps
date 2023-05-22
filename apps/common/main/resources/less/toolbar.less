@@ -471,14 +471,6 @@
             left: 0;
         }
     }
-
-    .btn-group,
-    .btn-toolbar {
-        .pixel-ratio__2_5 & {
-            display: flex;
-            align-items: center;
-        }
-    }
 }
 
 .style-off-tabs {
@@ -746,6 +738,11 @@
         & {
             width: 21px;
             height: 21px;
+
+            .pixel-ratio__2_5 & {
+                width: 20px;
+                height: 20px;
+            }
         }
 
         .icon {
@@ -753,7 +750,8 @@
             height: 22px;
 
             .pixel-ratio__1_25 &,
-            .pixel-ratio__1_75 & {
+            .pixel-ratio__1_75 &,
+            .pixel-ratio__2_5 & {
                 width: 20px;
                 height: 20px;
             }
@@ -1009,4 +1007,15 @@
 
 section .field-styles {
     width: 100%;
+}
+
+.toolbar,
+#special-paste-container {
+    .btn-group,
+    .btn-toolbar {
+        .pixel-ratio__2_5 & {
+            display: flex;
+            align-items: center;
+        }
+    }
 }

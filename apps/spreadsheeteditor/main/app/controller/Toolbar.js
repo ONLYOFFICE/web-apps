@@ -652,7 +652,7 @@ define([
         onChangeCase: function(menu, item, e) {
             if (this.api)
                 this.api.asc_ChangeTextCase(item.value);
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar, {restorefocus:true});
         },
 
         onBold: function(btn, e) {
@@ -2159,6 +2159,7 @@ define([
                         return false;
                     };
             Common.util.Shortcuts.delegateShortcuts({shortcuts: shortcuts});
+            Common.Utils.injectSvgIcons();
 
             this.onChangeProtectSheet();
             this.attachToControlEvents();
@@ -2195,6 +2196,7 @@ define([
                     restoreHeight: 300,
                     groups: new Common.UI.DataViewGroupStore(),
                     style: 'max-height: 300px;',
+                    cls: 'classic',
                     store: me.getCollection('TableTemplates'),
                     itemTemplate: _.template('<div class="item-template"><img src="<%= imageUrl %>" id="<%= id %>" style="width:60px;height:44px;"></div>'),
                     delayRenderTips: true

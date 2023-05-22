@@ -268,7 +268,7 @@ define([
 
                     this.btnViewNormal = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon normal-view',
+                        iconCls: 'toolbar__icon btn-normal-view',
                         enableToggle: true,
                         allowDepress: false,
                         caption: this.txtViewNormal,
@@ -281,7 +281,7 @@ define([
 
                     this.btnViewPageBreak = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon page-break-preview',
+                        iconCls: 'toolbar__icon btn-page-break-preview',
                         enableToggle: true,
                         allowDepress: false,
                         caption: this.txtViewPageBreak,
@@ -319,7 +319,7 @@ define([
 
                 this.btnInterfaceTheme = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon day',
+                    iconCls: 'toolbar__icon btn-day',
                     caption: this.textInterfaceTheme,
                     menu: true,
                     dataHint: '1',

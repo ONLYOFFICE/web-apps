@@ -232,6 +232,9 @@ SSE.ApplicationController = new(function(){
         if (!config.canBackToFolder) {
             $('#idt-close').hide();
             itemsCount--;
+        } else {
+            var text = config.customization.goback.text;
+            text && (typeof text == 'string') && $('#idt-close .caption').text(text);
         }
 
         if (itemsCount < 7) {
@@ -537,6 +540,9 @@ SSE.ApplicationController = new(function(){
                 else
                     message = me.errorInconsistentExt;
                 break;
+
+            case Asc.c_oAscError.ID.SessionToken: // don't show error message
+                return;
 
             default:
                 message = me.errorDefaultMessage.replace('%1', id);

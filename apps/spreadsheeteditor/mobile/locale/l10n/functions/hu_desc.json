@@ -1914,5 +1914,9 @@
 	"SORT": {
 		"a": "(tömb, [rendezési_index], [rendezési_sorrend], [oszlop_szerint])",
 		"d": "Tartományt vagy tömböt rendez"
+	},
+	"SORTBY": {
+		"a": "(tömb, tömb_szerint, [rendezési_sorrend], ...)",
+		"d": "Tartományt vagy tömböt rendez a megfelelő tartományban vagy tömbben lévő értékek alapján."
 	}
 }
