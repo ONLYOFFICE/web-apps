@@ -76,7 +76,7 @@ define([
                             '<p class="message">' + this.textToPaste + '</p>',
                         '</div>',
                     '</div>',
-                    '<div id="copy-warning-checkbox" style="margin-top: 20px; text-align: left;"></div>',
+                    '<div id="copy-warning-checkbox" class="text-align-left" style="margin-top: 20px;"></div>',
                 '</div>',
                 '<div class="separator horizontal"></div>'
             ].join('');

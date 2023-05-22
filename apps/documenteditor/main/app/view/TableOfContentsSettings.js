@@ -373,7 +373,7 @@ define([
                         showLast: false,
                         tabindex: 1,
                         headers: [
-                            {name: me.textStyle, width: 144, style: 'margin-left: 16px;'},
+                            {name: me.textStyle, width: 144, style: Common.UI.isRTL() ? 'margin-right: 16px;' : 'margin-left: 16px;'},
                             {name: me.textLevel},
                         ],
                         template: _.template(['<div class="listview inner" style=""></div>'].join('')),

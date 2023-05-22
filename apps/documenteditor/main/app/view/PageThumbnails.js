@@ -50,7 +50,7 @@ define([
             '<div id="thumbnails-box" class="layout-ct vbox">',
                 '<div id="thumbnails-header">',
                     '<label><%= scope.textPageThumbnails %></label>',
-                    '<div id="thumbnails-btn-close" class="float-right"></div>',
+                    '<div id="thumbnails-btn-close" class="float-right margin-left-4"></div>',
                     '<div id="thumbnails-btn-settings" class="float-right"></div>',
                 '</div>',
                 '<div id="thumbnails-list">',
