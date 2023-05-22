@@ -769,6 +769,7 @@
   "SSE.Controllers.DocumentHolder.txtBlanks": "(Vides)",
   "SSE.Controllers.DocumentHolder.txtBorderProps": "Propriétés de la bordure",
   "SSE.Controllers.DocumentHolder.txtBottom": "En bas",
+  "SSE.Controllers.DocumentHolder.txtByField": "%1 de %2",
   "SSE.Controllers.DocumentHolder.txtColumn": "Colonne",
   "SSE.Controllers.DocumentHolder.txtColumnAlign": "L'alignement de la colonne",
   "SSE.Controllers.DocumentHolder.txtContains": "Contient",

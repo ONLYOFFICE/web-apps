@@ -250,6 +250,7 @@
       "textNextSlide": "下一张幻灯片",
       "textOk": "好",
       "textOther": "其他",
+      "textPasteImageUrl": "粘贴图像 URL",
       "textPictureFromLibrary": "图库",
       "textPictureFromURL": "来自网络的图片",
       "textPreviousSlide": "上一张幻灯片",
@@ -263,8 +264,7 @@
       "textSlideNumber": "幻灯片编号",
       "textTable": "表格",
       "textTableSize": "表格大小",
-      "txtNotUrl": "该字段应为“http://www.example.com”格式的URL",
-      "textPasteImageUrl": "Paste an image URL"
+      "txtNotUrl": "该字段应为“http://www.example.com”格式的URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "警告",

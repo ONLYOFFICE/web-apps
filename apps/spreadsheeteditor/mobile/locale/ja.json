@@ -233,6 +233,7 @@
     "errorOperandExpected": "入力した関数の構文が正しくありません。'('　または　')'があるのことをチェックしてください。",
     "errorPasteMaxRange": "コピーする範囲と貼り付けの範囲が一致しません。同じなサイズの範囲を選択するまたは貼り付くように行の一番セルをクリックしてください。",
     "errorPrintMaxPagesCount": "あいにくこのバージョンに１５００以上ページを印刷できません。<br>　次回のアプリにこの制限が消去済されます。",
+    "errorProtectedRange": "この範囲は編集不可です。",
     "errorSessionAbsolute": "文書を変更のセッションの有効期間が満期しました。ページを再びお読み込みしてください。",
     "errorSessionIdle": "文書が長いとこ変更されませんでした。ページを再び読み込みしてください。",
     "errorSessionToken": "サーバの接続が中断されました。ページを再びお読み込みしてください。",
@@ -257,8 +258,7 @@
     "unknownErrorText": "不明なエラー",
     "uploadImageExtMessage": "不明なイメージ形式",
     "uploadImageFileCountMessage": "アップロードしたイメージがない",
-    "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。",
-    "errorProtectedRange": "This range is not allowed for editing."
+    "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。"
   },
   "LongActions": {
     "advDRMPassword": "パスワード",

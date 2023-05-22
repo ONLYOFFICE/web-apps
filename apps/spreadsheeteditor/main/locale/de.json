@@ -719,6 +719,7 @@
   "SSE.Controllers.DocumentHolder.txtBlanks": "(Leerstellen)",
   "SSE.Controllers.DocumentHolder.txtBorderProps": "Rahmeneigenschaften",
   "SSE.Controllers.DocumentHolder.txtBottom": "Unten",
+  "SSE.Controllers.DocumentHolder.txtByField": "%1 von %2",
   "SSE.Controllers.DocumentHolder.txtColumn": "Spalte",
   "SSE.Controllers.DocumentHolder.txtColumnAlign": "Spaltenausrichtung",
   "SSE.Controllers.DocumentHolder.txtContains": "Enthält",

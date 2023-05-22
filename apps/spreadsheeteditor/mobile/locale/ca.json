@@ -233,6 +233,7 @@
     "errorOperandExpected": "La sintaxi de la funció introduïda no és correcta. Comprova si has omès algun dels parèntesis - '(' o ')'.",
     "errorPasteMaxRange": "L’àrea de copiar i enganxar no coincideixen. Selecciona una àrea de la mateixa mida o fes clic a la primera cel·la d'una fila per enganxar les cel·les copiades.",
     "errorPrintMaxPagesCount": "No es poden imprimir més de 1500 pàgines alhora amb la versió actual del programa. <br> Aquesta restricció s'eliminarà en les pròximes versions.",
+    "errorProtectedRange": "No es permet editar aquest interval.",
     "errorSessionAbsolute": "La sessió d'edició del document ha caducat. Torna a carregar la pàgina.",
     "errorSessionIdle": "Fa molt de temps que no s'edita el document. Torna a carregar la pàgina.",
     "errorSessionToken": "S'ha interromput la connexió amb el servidor. Torna a carregar la pàgina.",
@@ -257,8 +258,7 @@
     "unknownErrorText": "Error desconegut.",
     "uploadImageExtMessage": "Format d'imatge desconegut.",
     "uploadImageFileCountMessage": "No s'ha carregat cap imatge.",
-    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB.",
-    "errorProtectedRange": "This range is not allowed for editing."
+    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Contrasenya",
