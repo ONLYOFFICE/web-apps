@@ -606,7 +606,7 @@ define([
                             Common.localStorage.setItem("sse-pgmargins-bottom", opt.asc_getBottom());
                             Common.localStorage.setItem("sse-pgmargins-right", opt.asc_getRight());
                             Common.NotificationCenter.trigger('margins:update', opt, panel);
-                            panel.cmbPaperMargins.setValue(-2);
+                            me.setMargins(panel, opt);
                             me._margins[panel.cmbSheet.getValue()] = opt;
                             setChanges();
                             Common.NotificationCenter.trigger('edit:complete');
@@ -652,7 +652,6 @@ define([
                         Math.abs(size[0] - top) < 0.1 && Math.abs(size[1] - left) < 0.1 &&
                         Math.abs(size[2] - bottom) < 0.1 && Math.abs(size[3] - right) < 0.1) {
                         item = rec;
-                        break;
                     }
                 }
                 if (item)
