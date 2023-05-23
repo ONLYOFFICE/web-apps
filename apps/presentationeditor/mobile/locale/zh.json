@@ -136,7 +136,8 @@
       "warnNoLicenseUsers": "你触发了 %1 编辑器的同时在线数限制。可联系管理员来了解更多信息。",
       "warnProcessRightsChange": "你没有编辑文件的权限。",
       "del_textNoTextFound": "Text not found",
-      "textNoMatches": "No Matches"
+      "textNoMatches": "No Matches",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
     }
   },
   "Error": {
