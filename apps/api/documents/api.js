@@ -274,6 +274,7 @@
                 'onRequestSharingSettings': <request sharing settings>,// must call setSharingSettings method
                 'onRequestCreateNew': <try to create document>,
                 'onRequestReferenceData': <try to refresh external data>,
+                'onRequestOpen': <try to open external link>,
             }
         }
 
@@ -338,6 +339,7 @@
         _config.editorConfig.canRequestSharingSettings = _config.events && !!_config.events.onRequestSharingSettings;
         _config.editorConfig.canRequestCreateNew = _config.events && !!_config.events.onRequestCreateNew;
         _config.editorConfig.canRequestReferenceData = _config.events && !!_config.events.onRequestReferenceData;
+        _config.editorConfig.canRequestOpen = _config.events && !!_config.events.onRequestOpen;
         _config.frameEditorId = placeholderId;
         _config.parentOrigin = window.location.origin;
 

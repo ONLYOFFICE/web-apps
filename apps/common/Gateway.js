@@ -354,6 +354,10 @@ if (window.Common === undefined) {
                 _postMessage({event:'onRequestReferenceData', data: data});
             },
 
+            requestOpen:  function (data) {
+                _postMessage({event:'onRequestOpen', data: data});
+            },
+
             pluginsReady: function() {
                 _postMessage({ event: 'onPluginsReady' });
             },
