@@ -298,7 +298,7 @@ define([
                             };
                             break;
                     }
-                    Common.Gateway.requestReferenceData(data);
+                    Common.Gateway.requestOpen(data);
                 }
             }
         },
