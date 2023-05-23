@@ -141,7 +141,11 @@ if (window.Common === undefined) {
 
             'setReferenceData': function(data) {
                 $me.trigger('setreferencedata', data);
-            }
+            },
+
+            'setRequestedFile': function(data) {
+                $me.trigger('setrequestedfile', data);
+            },
         };
 
         var _postMessage = function(msg) {
@@ -356,6 +360,10 @@ if (window.Common === undefined) {
 
             requestOpen:  function (data) {
                 _postMessage({event:'onRequestOpen', data: data});
+            },
+
+            requestFile:  function (command, documentType) {
+                _postMessage({event:'onRequestFile', data: {c: command, documentType: documentType}});
             },
 
             pluginsReady: function() {

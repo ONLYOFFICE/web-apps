@@ -275,6 +275,7 @@
                 'onRequestCreateNew': <try to create document>,
                 'onRequestReferenceData': <try to refresh external data>,
                 'onRequestOpen': <try to open external link>,
+                'onRequestFile': <try to open file>, // used for insert images, compare documents, external links in sse. must call setRequestedFile method
             }
         }
 
@@ -340,6 +341,7 @@
         _config.editorConfig.canRequestCreateNew = _config.events && !!_config.events.onRequestCreateNew;
         _config.editorConfig.canRequestReferenceData = _config.events && !!_config.events.onRequestReferenceData;
         _config.editorConfig.canRequestOpen = _config.events && !!_config.events.onRequestOpen;
+        _config.editorConfig.canRequestFile = _config.events && !!_config.events.onRequestFile;
         _config.frameEditorId = placeholderId;
         _config.parentOrigin = window.location.origin;
 
