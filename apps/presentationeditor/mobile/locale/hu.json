@@ -134,7 +134,9 @@
       "warnNoLicenseUsers": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználók számának korlátját. Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes frissítési feltételekért.",
       "warnProcessRightsChange": "Nincs engedélye a fájl szerkesztésére.",
       "titleLicenseNotActive": "License not active",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   },
   "Error": {
@@ -420,7 +422,9 @@
       "textZoom": "Zoom",
       "textZoomIn": "Nagyítás",
       "textZoomOut": "Kicsinyítés",
-      "textZoomRotate": "Zoom és elforgatás"
+      "textZoomRotate": "Zoom és elforgatás",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     },
     "Settings": {
       "mniSlideStandard": "Sztenderd (4:3)",
@@ -505,7 +509,9 @@
       "txtScheme6": "Előcsarnok",
       "txtScheme7": "Saját tőke",
       "txtScheme8": "Folyam",
-      "txtScheme9": "Öntöde"
+      "txtScheme9": "Öntöde",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   }
 }

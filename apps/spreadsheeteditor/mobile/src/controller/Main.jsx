@@ -470,6 +470,11 @@ class MainController extends Component {
                 const sdk = document.querySelector('#editor_sdk');
                 const rect = sdk.getBoundingClientRect();
 
+                if(document.querySelector('.tooltip-cell-data')) {
+                    document.querySelector('.tooltip-cell-data').remove();
+                    document.querySelector('.popover-backdrop').remove();
+                }
+
                 f7.popover.create({
                     targetX: -10000,
                     targetY: -10000,
@@ -587,7 +592,7 @@ class MainController extends Component {
         const { t } = this.props;
 
         if (this.api.isReplaceAll) { 
-            f7.dialog.alert(null, (found) ? ((!found - replaced) ? t('Controller.Main.textReplaceSuccess').replace(/\{0\}/, `${replaced}`) : t('Controller.Main.textReplaceSkipped').replace(/\{0\}/, `${found - replaced}`)) : t('Controller.Main.textNoTextFound'));
+            f7.dialog.alert(null, (found) ? ((!found - replaced) ? t('Controller.Main.textReplaceSuccess').replace(/\{0\}/, `${replaced}`) : t('Controller.Main.textReplaceSkipped').replace(/\{0\}/, `${found - replaced}`)) : t('Controller.Main.textNoMatches'));
         }
     }
 

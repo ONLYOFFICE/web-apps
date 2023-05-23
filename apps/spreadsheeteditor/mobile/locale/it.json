@@ -173,7 +173,9 @@
       "textDontUpdate": "Don't Update",
       "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
       "titleLicenseNotActive": "License not active",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   },
   "Error": {
@@ -752,7 +754,9 @@
       "warnDownloadAs": "Se continui a salvare in questo formato, tutte le funzioni tranne il testo saranno perse.<br>Sei sicuro di voler continuare?",
       "strFuncLocale": "Formula Language",
       "strFuncLocaleEx": "Example: SUM; MIN; MAX; COUNT",
-      "txtDe": "Deutsch"
+      "txtDe": "Deutsch",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   }
 }

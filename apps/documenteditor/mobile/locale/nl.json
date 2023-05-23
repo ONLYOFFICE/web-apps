@@ -576,7 +576,9 @@
     "titleDialogProtectedDocument": "The document is protected",
     "titleLicenseNotActive": "License not active",
     "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
-    "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+    "del_textNoTextFound": "Text not found",
+    "textNoMatches": "No Matches"
   },
   "Settings": {
     "advDRMOptions": "Beveiligd bestand",
@@ -724,7 +726,9 @@
     "textUnprotect": "Unprotect",
     "textVerify": "Verify",
     "textYes": "Yes",
-    "titleDialogUnprotect": "Unprotect Document"
+    "titleDialogUnprotect": "Unprotect Document",
+    "del_textNoTextFound": "Text not found",
+    "textNoMatches": "No Matches"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "U heeft nog niet opgeslagen wijzigingen. Klik op 'Blijf op deze pagina' om te wachten op automatisch opslaan. Klik op 'Verlaat deze pagina' om alle niet-opgeslagen wijzigingen te verwijderen.",

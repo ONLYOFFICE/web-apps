@@ -134,7 +134,9 @@
       "warnNoLicenseUsers": "Anda telah mencapai had pengguna untuk editor %1. Hubungi pasukan jualan %1 untuk naik taraf terma peribadi.",
       "warnProcessRightsChange": "Anda tidak mempunyai keizinan untuk edit fail ini.",
       "titleLicenseNotActive": "License not active",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   },
   "Error": {
@@ -420,7 +422,9 @@
       "textDeleteLink": "Delete Link",
       "textInsertImage": "Insert Image",
       "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "textRequired": "Required",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
@@ -505,7 +509,9 @@
       "txtScheme6": "Konkos",
       "txtScheme7": "Ekuiti",
       "txtScheme8": "Aliran",
-      "txtScheme9": "Faundri"
+      "txtScheme9": "Faundri",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   }
 }

@@ -173,7 +173,9 @@
       "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
       "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
       "titleLicenseNotActive": "License not active",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   },
   "Error": {
@@ -752,7 +754,9 @@
       "warnDownloadAs": "이 형식으로 저장을 계속하면 텍스트를 제외한 모든 기능이 손실됩니다. 계속 하시겠습니까?",
       "textDirection": "Direction",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "txtDe": "Deutsch"
+      "txtDe": "Deutsch",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   }
 }

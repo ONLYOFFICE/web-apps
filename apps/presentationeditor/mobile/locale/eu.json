@@ -134,7 +134,9 @@
       "warnLicenseUsersExceeded": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan zure administratzailearekin informazio gehiagorako.",
       "warnNoLicense": "Aldibereko %1 editoreren konexio-mugara iritsi zara. Dokumentu hau ikusteko bakarrik irekiko da. Jarri harremanetan %1 salmenta taldearekin eguneraketa pertsonalaren baldintzak jakiteko.",
       "warnNoLicenseUsers": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan %1 salmenta taldearekin mailaz igotzeko baldintzak ezagutzeko.",
-      "warnProcessRightsChange": "Ez duzu baimenik fitxategia editatzeko."
+      "warnProcessRightsChange": "Ez duzu baimenik fitxategia editatzeko.",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   },
   "Error": {
@@ -420,7 +422,9 @@
       "textZoom": "Zooma",
       "textZoomIn": "Handiagotu",
       "textZoomOut": "Txikiagotu",
-      "textZoomRotate": "Zoom eta biratu"
+      "textZoomRotate": "Zoom eta biratu",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     },
     "Settings": {
       "mniSlideStandard": "Estandarra (4:3)",
@@ -505,7 +509,9 @@
       "txtScheme6": "Zabaldegia",
       "txtScheme7": "Berdintza",
       "txtScheme8": "Fluxua",
-      "txtScheme9": "Sortzailea"
+      "txtScheme9": "Sortzailea",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   }
 }

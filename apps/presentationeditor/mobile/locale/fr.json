@@ -134,7 +134,9 @@
       "warnLicenseUsersExceeded": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Pour en savoir plus, contactez votre administrateur.",
       "warnNoLicense": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
       "warnNoLicenseUsers": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
-      "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier."
+      "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier.",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   },
   "Error": {
@@ -420,7 +422,9 @@
       "textZoom": "Zoom",
       "textZoomIn": "Zoom avant",
       "textZoomOut": "Zoom arrière",
-      "textZoomRotate": "Zoom et rotation"
+      "textZoomRotate": "Zoom et rotation",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
@@ -505,7 +509,9 @@
       "txtScheme6": "Rotonde",
       "txtScheme7": "Capitaux",
       "txtScheme8": "Flux",
-      "txtScheme9": "Fonderie"
+      "txtScheme9": "Fonderie",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   }
 }

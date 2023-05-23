@@ -860,7 +860,7 @@ class MainController extends Component {
         if (found) { 
             f7.dialog.alert(null, !(found - replaced > 0) ? t('Main.textReplaceSuccess').replace(/\{0\}/, `${replaced}`) : t('Main.textReplaceSkipped').replace(/\{0\}/, `${found - replaced}`));
         } else {
-            f7.dialog.alert(null, t('Main.textNoTextFound'));
+            f7.dialog.alert(null, t('Main.textNoMatches'));
         }
     }
 

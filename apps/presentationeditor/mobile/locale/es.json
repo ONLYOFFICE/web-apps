@@ -134,7 +134,9 @@
       "warnNoLicenseUsers": "Ha alcanzado el límite de usuarios para los editores de %1. <br>Contacte con el equipo de ventas de %1 para conocer los términos de actualización personal.",
       "warnProcessRightsChange": "No tiene permiso para editar el archivo.",
       "titleLicenseNotActive": "License not active",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   },
   "Error": {
@@ -420,7 +422,9 @@
       "textZoom": "Zoom",
       "textZoomIn": "Acercar",
       "textZoomOut": "Alejar",
-      "textZoomRotate": "Zoom y giro"
+      "textZoomRotate": "Zoom y giro",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     },
     "Settings": {
       "mniSlideStandard": "Estándar (4:3)",
@@ -505,7 +509,9 @@
       "txtScheme6": "Concurrencia",
       "txtScheme7": "Equidad ",
       "txtScheme8": "Flujo",
-      "txtScheme9": "Fundición"
+      "txtScheme9": "Fundición",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   }
 }

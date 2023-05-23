@@ -134,7 +134,9 @@
       "warnNoLicenseUsers": "Došlo k dosažení limitu %1 editorů. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
       "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu.",
       "titleLicenseNotActive": "License not active",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   },
   "Error": {
@@ -420,7 +422,9 @@
       "textDeleteLink": "Delete Link",
       "textInsertImage": "Insert Image",
       "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "textRequired": "Required",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     },
     "Settings": {
       "mniSlideStandard": "Standardní (4:3)",
@@ -505,7 +509,9 @@
       "txtScheme6": "Hala",
       "txtScheme7": "Rovnost",
       "txtScheme8": "Tok",
-      "txtScheme9": "Slévárna"
+      "txtScheme9": "Slévárna",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   }
 }

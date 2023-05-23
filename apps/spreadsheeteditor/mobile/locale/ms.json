@@ -173,7 +173,9 @@
       "titleLicenseExp": "License expired",
       "titleLicenseNotActive": "License not active",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
+      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page.",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   },
   "Error": {
@@ -752,7 +754,9 @@
       "txtTr": "Turkish",
       "txtUk": "Ukrainian",
       "txtVi": "Vietnamese",
-      "txtZh": "Chinese"
+      "txtZh": "Chinese",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   }
 }

@@ -134,7 +134,9 @@
       "warnNoLicenseUsers": "您已達到％1個編輯器的用戶限制。與％1銷售團隊聯繫以了解個人升級條款。",
       "warnProcessRightsChange": "您沒有編輯此文件的權限。",
       "titleLicenseNotActive": "License not active",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   },
   "Error": {
@@ -420,7 +422,9 @@
       "textDeleteLink": "Delete Link",
       "textInsertImage": "Insert Image",
       "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "textRequired": "Required",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     },
     "Settings": {
       "mniSlideStandard": "標準(4:3)",
@@ -505,7 +509,9 @@
       "txtScheme6": "大堂",
       "txtScheme7": "產權",
       "txtScheme8": "流程",
-      "txtScheme9": "鑄造廠"
+      "txtScheme9": "鑄造廠",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   }
 }

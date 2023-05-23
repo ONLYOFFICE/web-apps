@@ -576,7 +576,9 @@
     "textDialogProtectedEditComments": "You may only insert comments to this document",
     "textDialogProtectedFillForms": "You may only fill in forms in this document",
     "textDialogProtectedOnlyView": "You may only view this document",
-    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics."
+    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
+    "del_textNoTextFound": "Text not found",
+    "textNoMatches": "No Matches"
   },
   "Settings": {
     "advDRMOptions": "Ficheiro protegido",
@@ -724,7 +726,10 @@
     "txtScheme9": "Fundição",
     "textTypeEditing": "Type Of Editing",
     "textUnprotect": "Unprotect",
-    "titleDialogUnprotect": "Unprotect Document"
+    "textVerify": "Verify",
+    "titleDialogUnprotect": "Unprotect Document",
+    "del_textNoTextFound": "Text not found",
+    "textNoMatches": "No Matches"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Existem alterações não guardadas. Clique 'Ficar na página' para guardar automaticamente. Clique 'Sair da página' para rejeitar todas as alterações.",

@@ -194,6 +194,28 @@ const StatusbarView = inject('storeAppOptions', 'storeWorksheets', 'users')(obse
     const isDisconnected = users.isDisconnected;
     const isDisabledEditSheet = storeWorksheets.isDisabledEditSheet;
 
+    const setSheetColor = sheet => {
+        if(sheet) {
+            let color;
+
+            if (sheet.color) {
+                color = '#' + Common.Utils.ThemeColor.getHexColor(sheet.color.get_r(), sheet.color.get_g(), sheet.color.get_b());
+            } else {
+                color = '';
+            }
+
+            if(color) {
+                if(!sheet.active) {
+                    color = '0px 3px 0 ' + Common.Utils.RGBColor(color).toRGBA(0.7) + ' inset';
+                } else {
+                    color = '0px 3px 0 ' + color + ' inset';
+                }
+            }
+
+            return color;
+        }
+    };
+
     return (
         <Fragment>
             <View id="idx-statusbar" className="statusbar" style={viewStyle}>
@@ -209,10 +231,10 @@ const StatusbarView = inject('storeAppOptions', 'storeWorksheets', 'users')(obse
                 }
                 <div className="statusbar--box-tabs">
                     <ul className="sheet-tabs bottom">
-                        {allSheets.map((model,i) => 
+                        {allSheets.map((model, i) => 
                             model.hidden ? null : 
                                 <li className={`tab${model.active ? ' active' : ''} ${model.locked ? 'locked' : ''}`} key={i} onClick={(e) => props.onTabClick(i, e.target)}>
-                                    <a className={`tab-color-${model.index}`}>{model.name}</a>
+                                    <a style={{boxShadow: setSheetColor(model)}} className={`tab-color-${model.index}`}>{model.name}</a>
                                 </li>
                             
                         )}

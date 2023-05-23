@@ -173,7 +173,9 @@
       "titleLicenseExp": "License expired",
       "titleLicenseNotActive": "License not active",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
+      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page.",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   },
   "Error": {
@@ -752,7 +754,9 @@
       "warnDownloadAs": "Αν προχωρήσετε με την αποθήκευση σε αυτή τη μορφή, όλα τα χαρακτηριστικά πλην του κειμένου θα χαθούν.<br>Θέλετε σίγουρα να συνεχίσετε;",
       "strFuncLocale": "Formula Language",
       "txtDe": "Deutsch",
-      "txtZh": "Chinese"
+      "txtZh": "Chinese",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   }
 }

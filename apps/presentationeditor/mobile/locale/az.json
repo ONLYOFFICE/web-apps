@@ -134,7 +134,9 @@
       "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
       "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
       "titleLicenseNotActive": "License not active",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   },
   "Error": {
@@ -420,7 +422,9 @@
       "textInsertImage": "Insert Image",
       "textOk": "Ok",
       "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "textRequired": "Required",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     },
     "Settings": {
       "mniSlideStandard": "Standart (4:3)",
@@ -505,7 +509,9 @@
       "textFeedback": "Feedback & Support",
       "textOk": "Ok",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "textRTL": "RTL"
+      "textRTL": "RTL",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   }
 }

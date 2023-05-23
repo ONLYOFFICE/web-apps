@@ -173,7 +173,9 @@
       "warnLicenseUsersExceeded": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Pour en savoir plus, contactez votre administrateur.",
       "warnNoLicense": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
       "warnNoLicenseUsers": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
-      "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier."
+      "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier.",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   },
   "Error": {
@@ -752,7 +754,9 @@
       "txtUk": "Ukrainien",
       "txtVi": "Vietnamien",
       "txtZh": "Chinois",
-      "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?"
+      "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   }
 }

@@ -165,7 +165,7 @@ const Search = withTranslation()(props => {
         if (params.highlight) api.asc_selectSearchingResults(true);
 
         api.asc_findText(options, function(resultCount) {
-            !resultCount && f7.dialog.alert(null, _t.textNoTextFound);
+            !resultCount && f7.dialog.alert(null, t('View.Settings.textNoMatches'));
         });
     };
 
@@ -197,7 +197,7 @@ const Search = withTranslation()(props => {
 
         api.asc_findText(options, function(resultCount) {
             if(!resultCount) {
-                f7.dialog.alert(null, _t.textNoTextFound);
+                f7.dialog.alert(null, t('View.Settings.textNoMatches'));
                 return;
             }
             
@@ -227,7 +227,7 @@ const Search = withTranslation()(props => {
 
         api.asc_findText(options, function(resultCount) {
             if(!resultCount) {
-                f7.dialog.alert(null, _t.textNoTextFound);
+                f7.dialog.alert(null, t('View.Settings.textNoMatches'));
                 return;
             }
 

@@ -576,7 +576,9 @@
     "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori ai %1 editoare. Pentru detalii, contactați administratorul dvs.",
     "warnNoLicense": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați %1 Departamentul de Vânzări pentru acordarea condițiilor personale de actualizare.",
     "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori ai %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
-    "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier."
+    "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier.",
+    "del_textNoTextFound": "Text not found",
+    "textNoMatches": "No Matches"
   },
   "Settings": {
     "advDRMOptions": "Fișierul protejat",
@@ -724,7 +726,9 @@
     "txtScheme6": "Concurență",
     "txtScheme7": "Echilibru",
     "txtScheme8": "Flux",
-    "txtScheme9": "Forjă"
+    "txtScheme9": "Forjă",
+    "del_textNoTextFound": "Text not found",
+    "textNoMatches": "No Matches"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",

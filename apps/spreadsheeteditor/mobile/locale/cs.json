@@ -173,7 +173,9 @@
       "titleLicenseExp": "License expired",
       "titleLicenseNotActive": "License not active",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
+      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page.",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   },
   "Error": {
@@ -752,7 +754,9 @@
       "txtVi": "vietnamština",
       "txtZh": "čínština",
       "warnDownloadAs": "Pokud budete pokračovat v ukládání v tomto formátu, vše kromě textu bude ztraceno.<br>Opravdu chcete pokračovat?",
-      "txtCa": "Catalan"
+      "txtCa": "Catalan",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   }
 }
