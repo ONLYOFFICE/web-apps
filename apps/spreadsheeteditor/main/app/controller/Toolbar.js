@@ -4698,15 +4698,12 @@ define([
                         handler: function(dlg, result) {
                             if (result == 'ok') {
                                 props = dlg.getSettings();
-                                var mnu = me.toolbar.btnPageMargins.menu.items[0];
-                                mnu.setVisible(true);
-                                mnu.setChecked(true);
-                                mnu.options.value = mnu.value = [props.asc_getTop(), props.asc_getLeft(), props.asc_getBottom(), props.asc_getRight()];
-                                $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
                                 Common.localStorage.setItem("sse-pgmargins-top", props.asc_getTop());
                                 Common.localStorage.setItem("sse-pgmargins-left", props.asc_getLeft());
                                 Common.localStorage.setItem("sse-pgmargins-bottom", props.asc_getBottom());
                                 Common.localStorage.setItem("sse-pgmargins-right", props.asc_getRight());
+                                Common.NotificationCenter.trigger('margins:update', props);
+                                me.toolbar.btnPageMargins.menu.items[0].setChecked(true);
 
                                 me.api.asc_changePageMargins( props.asc_getLeft(), props.asc_getRight(), props.asc_getTop(), props.asc_getBottom(), me.api.asc_getActiveWorksheetIndex());
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
