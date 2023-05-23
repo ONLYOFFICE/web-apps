@@ -105,7 +105,8 @@
       "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
       "warnProcessRightsChange": "You don't have permission to edit the file.",
       "del_textNoTextFound": "Text not found",
-      "textNoMatches": "No Matches"
+      "textNoMatches": "No Matches",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
     }
   },
   "View": {

@@ -582,7 +582,8 @@
     "textDialogProtectedChangesTracked": "You may edit this document, but all changes will be tracked",
     "textDialogProtectedEditComments": "You may only insert comments to this document",
     "del_textNoTextFound": "Text not found",
-    "textNoMatches": "No Matches"
+    "textNoMatches": "No Matches",
+    "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
   },
   "Settings": {
     "advDRMOptions": "Protected File",

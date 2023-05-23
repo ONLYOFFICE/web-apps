@@ -175,7 +175,8 @@
       "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
       "titleLicenseNotActive": "License not active",
       "del_textNoTextFound": "Text not found",
-      "textNoMatches": "No Matches"
+      "textNoMatches": "No Matches",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
     }
   },
   "Error": {

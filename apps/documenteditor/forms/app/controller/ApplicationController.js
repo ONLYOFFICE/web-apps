@@ -619,6 +619,7 @@ define([
             this.appOptions.canPrint          = (this.permissions.print !== false);
 
             this.appOptions.fileKey = this.document.key;
+            this.appOptions.isAnonymousSupport = !!this.api.asc_isAnonymousSupport();
 
             AscCommon.UserInfoParser.setParser(true);
             AscCommon.UserInfoParser.setCurrentName(this.appOptions.user.fullname);
@@ -728,7 +729,14 @@ define([
         },
 
         applyLicense: function() {
-            if (this._state.licenseType) {
+            if (!this.appOptions.isAnonymousSupport && !!this.appOptions.user.anonymous) {
+                Common.NotificationCenter.trigger('api:disconnect');
+                Common.UI.warning({
+                    title: this.notcriticalErrorTitle,
+                    msg  : this.warnLicenseAnonymous,
+                    buttons: ['ok']
+                });
+            } else if (this._state.licenseType) {
                 var license = this._state.licenseType,
                     buttons = ['ok'],
                     primary = 'ok';
@@ -1995,7 +2003,8 @@ define([
         errorInconsistentExtPdf: 'An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.',
         errorInconsistentExt: 'An error has occurred while opening the file.<br>The file content does not match the file extension.',
         warnLicenseBefore: 'License not active.<br>Please contact your administrator.',
-        titleLicenseNotActive: 'License not active'
+        titleLicenseNotActive: 'License not active',
+        warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.'
 
     }, DE.Controllers.ApplicationController));
 

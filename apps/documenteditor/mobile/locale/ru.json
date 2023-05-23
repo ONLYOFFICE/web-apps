@@ -578,7 +578,8 @@
     "warnNoLicenseUsers": "Вы достигли лимита на количество пользователей редакторов %1. Напишите в отдел продаж %1, чтобы обсудить индивидуальные условия обновления.",
     "warnProcessRightsChange": "У вас нет прав на редактирование этого файла.",
     "del_textNoTextFound": "Text not found",
-    "textNoMatches": "No Matches"
+    "textNoMatches": "No Matches",
+    "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
   },
   "Settings": {
     "advDRMOptions": "Защищенный файл",

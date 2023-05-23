@@ -576,11 +576,10 @@
     "textDialogProtectedOnlyView": "You may only view this document",
     "textDocumentProtected": "The document is protected. Edit settings are not available",
     "titleDialogProtectedDocument": "The document is protected",
-    "titleLicenseNotActive": "License not active",
     "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
-    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
     "del_textNoTextFound": "Text not found",
-    "textNoMatches": "No Matches"
+    "textNoMatches": "No Matches",
+    "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
   },
   "Settings": {
     "advDRMOptions": "Προστατευμένο Αρχείο",
