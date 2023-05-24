@@ -781,6 +781,7 @@ class MainController extends Component {
         } else if (!appOptions.isAnonymousSupport && !!appOptions.config.user.anonymous) {
             Common.Notifications.trigger('toolbar:activatecontrols');
             Common.Notifications.trigger('toolbar:deactivateeditcontrols');
+            this.api.asc_coAuthoringDisconnect();
             Common.Notifications.trigger('api:disconnect');
             f7.dialog.create({
                 title: _t.notcriticalErrorTitle,
@@ -819,6 +820,7 @@ class MainController extends Component {
             } else {
                 Common.Notifications.trigger('toolbar:activatecontrols');
                 Common.Notifications.trigger('toolbar:deactivateeditcontrols');
+                this.api.asc_coAuthoringDisconnect();
                 Common.Notifications.trigger('api:disconnect');
             }
 
