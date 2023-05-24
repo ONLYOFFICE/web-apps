@@ -1451,7 +1451,7 @@ define([
 
             this.miDateFilter = new Common.UI.MenuItem({
                 caption     : this.txtDateFilter,
-                toggleGroup : 'menufilterfilter',
+                toggleGroup : 'menudatefilter',
                 checkable   : true,
                 checked     : false,
                 menu        : new Common.UI.Menu({
@@ -1479,6 +1479,8 @@ define([
                         {value: Asc.c_oAscDynamicAutoFilter.yearToDate, caption: this.txtYearToDate, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
                         this.miDatesInThePeriod = new Common.UI.MenuItem({
                             caption: this.txtAllDatesInThePeriod,
+                            toggleGroup : 'menudateperiod',
+                            checkable: true,
                             menu: new Common.UI.Menu({
                                 menuAlign: 'tl-tr',
                                 items: [
@@ -1505,11 +1507,10 @@ define([
                     ]
                 })
             });
-            items = this.miDateFilter.menu.items;
+            items = this.miDateFilter.menu.items.concat(this.miDatesInThePeriod.menu.items);
             for (i=0; i<items.length; i++) {
                 items[i].on('click', _.bind(items[i].options.type === Asc.c_oAscAutoFilterTypes.CustomFilters ? this.onDataFilterMenuClick : this.onNumDynamicFilterItemClick, this));
             }
-            this.miDatesInThePeriod.menu.on('item:click', _.bind(this.onNumDynamicFilterItemClick, this));
 
             this.miFilterCellColor = new Common.UI.MenuItem({
                 caption     : this.txtFilterCellColor,
@@ -2282,11 +2283,26 @@ define([
                 }
             } else if (isDynamicFilter || isTop10) {
                 var dynType = (isDynamicFilter) ? filterObj.asc_getFilter().asc_getType() : null,
-                    items = isPivot ? this.miValueFilter.menu.items : this.miNumFilter.menu.items;
+                    items = isPivot ? this.miValueFilter.menu.items : (isDateFilter ? this.miDateFilter.menu.items : this.miNumFilter.menu.items);
                 items.forEach(function(item){
                     item.setChecked(isDynamicFilter && (item.options.type == Asc.c_oAscAutoFilterTypes.DynamicFilter) && (item.value == dynType) ||
                                     isTop10 && (item.options.type == Asc.c_oAscAutoFilterTypes.Top10), true);
                 });
+                if (isDateFilter) {
+                    var item = this.miDateFilter.menu.getChecked();
+                    if (!item) {
+                        var isChecked = false;
+                        items = this.miDatesInThePeriod.menu.items;
+                        items.forEach(function(item){
+                            var value = item.value == dynType;
+                            item.setChecked(value, true);
+                            if (value) {
+                                isChecked = true;
+                            }
+                        });
+                        isChecked && this.miDateFilter.menu.items[20].setChecked(isChecked, true);
+                    }
+                }
             }
 
             this.miClear.setDisabled(this.initialFilterType === Asc.c_oAscAutoFilterTypes.None);
