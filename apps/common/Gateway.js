@@ -146,6 +146,10 @@ if (window.Common === undefined) {
             'setRequestedDocument': function(data) {
                 $me.trigger('setrequesteddocument', data);
             },
+
+            'setRequestedSpreadsheet': function(data) {
+                $me.trigger('setrequestedspreadsheet', data);
+            }
         };
 
         var _postMessage = function(msg) {
@@ -365,6 +369,9 @@ if (window.Common === undefined) {
             requestSelectDocument:  function (command) {
                 _postMessage({event:'onRequestSelectDocument', data: {c: command}});
             },
+
+            requestSelectSpreadsheet:  function (command) {
+                _postMessage({event:'onRequestSelectSpreadsheet', data: {c: command}});
             },
 
             pluginsReady: function() {

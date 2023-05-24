@@ -276,6 +276,7 @@
                 'onRequestReferenceData': <try to refresh external data>,
                 'onRequestOpen': <try to open external link>,
                 'onRequestSelectDocument': <try to open document>, // used for compare and combine documents. must call setRequestedDocument method. use instead of onRequestCompareFile/setRevisedFile
+                'onRequestSelectSpreadsheet': <try to open spreadsheet>, // used for mailmerge id de and external links in sse. must call setRequestedSpreadsheet method. use instead of onRequestMailMergeRecipients/setMailMergeRecipients
             }
         }
 
@@ -342,6 +343,7 @@
         _config.editorConfig.canRequestReferenceData = _config.events && !!_config.events.onRequestReferenceData;
         _config.editorConfig.canRequestOpen = _config.events && !!_config.events.onRequestOpen;
         _config.editorConfig.canRequestSelectDocument = _config.events && !!_config.events.onRequestSelectDocument;
+        _config.editorConfig.canRequestSelectSpreadsheet = _config.events && !!_config.events.onRequestSelectSpreadsheet;
         _config.frameEditorId = placeholderId;
         _config.parentOrigin = window.location.origin;
 
@@ -713,6 +715,13 @@
             });
         };
 
+        var _setRequestedSpreadsheet = function(data) {
+            _sendCommand({
+                command: 'setRequestedSpreadsheet',
+                data: data
+            });
+        };
+
         var _setFavorite = function(data) {
             _sendCommand({
                 command: 'setFavorite',
@@ -801,7 +810,8 @@
             grabFocus           : _grabFocus,
             blurFocus           : _blurFocus,
             setReferenceData    : _setReferenceData,
-            setRequestedDocument: _setRequestedDocument
+            setRequestedDocument: _setRequestedDocument,
+            setRequestedSpreadsheet: _setRequestedSpreadsheet
         }
     };
 
