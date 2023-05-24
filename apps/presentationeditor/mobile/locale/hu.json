@@ -132,7 +132,9 @@
       "warnLicenseUsersExceeded": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználók számának korlátját. További információért forduljon rendszergazdájához.",
       "warnNoLicense": "Ön elérte az egyidejű kapcsolódáok számának határát a(z) %1 szerkesztőhöz. Ez a dokumentum csak megtekintésre lesz megnyitva. Lépjen kapcsolatba a(z) %1 értékesítési csapattal a perszonális frissítés feltételéhez.",
       "warnNoLicenseUsers": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználók számának korlátját. Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes frissítési feltételekért.",
-      "warnProcessRightsChange": "Nincs engedélye a fájl szerkesztésére."
+      "warnProcessRightsChange": "Nincs engedélye a fájl szerkesztésére.",
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {
@@ -261,7 +263,8 @@
       "textSlideNumber": "Dia száma",
       "textTable": "Táblázat",
       "textTableSize": "Táblázat mérete",
-      "txtNotUrl": "Ennek a mezőnek URL formátumúnak kell lennie, pl.: „http://www.pelda.hu”"
+      "txtNotUrl": "Ennek a mezőnek URL formátumúnak kell lennie, pl.: „http://www.pelda.hu”",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Figyelmeztetés",

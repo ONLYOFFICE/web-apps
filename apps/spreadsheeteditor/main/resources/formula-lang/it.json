@@ -463,6 +463,12 @@
 	"TAKE": "INCLUDI",
 	"DROP": "ESCLUDI",
 	"SEQUENCE": "SEQUENZA",
+	"EXPAND": "ESPANDI",
+	"XMATCH": "CONFRONTA.X",
+	"FILTER": "FILTRO",
+	"ARRAYTOTEXT": "MATRICE.A.TESTO",
+	"SORT": "DATI.ORDINA",
+	"SORTBY": "DATI.ORDINA.PER",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

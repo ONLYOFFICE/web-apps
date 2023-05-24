@@ -1890,5 +1890,33 @@
 	"DROP": {
 		"a": "(array, rows, [columns])",
 		"d": "从数组开头或结尾删除行或列。"
+	},
+	"SEQUENCE": {
+		"a": "(rows, [columns], [start], [step])",
+		"d": "返回一个数字序列"
+	},
+	"EXPAND": {
+		"a": "(array, rows, [columns], [pad_with])",
+		"d": "将数组扩展到指定维度。"
+	},
+	"XMATCH": {
+		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
+		"d": "返回项目在数组中的相对位置。默认情况下，需要精确匹配"
+	},
+	"FILTER": {
+		"a": "(array, include, [if_empty])",
+		"d": "筛选区域或数组"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(array, [format])",
+		"d": "返回数组的文本表示形式"
+	},
+	"SORT": {
+		"a": "(array, [sort_index], [sort_order], [by_col])",
+		"d": "对范围或数组进行排序"
+	},
+	"SORTBY": {
+		"a": "(array, by_array, [sort_order], ...)",
+		"d": "根据相应范围或数组中的值对范围或数组排序"
 	}
 }

@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2021
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -120,8 +119,11 @@ Common.UI.HintManager = new(function() {
         _isEditDiagram = false,
         _usedTitles = [],
         _appPrefix,
-        _staticHints = { // for desktop buttons
+        _staticHints = { // for 0 level
             // "btnhome": 'K'
+            // "quick-print": 'Q'
+            "scroll-right": 'R',
+            "scroll-left": 'V'
         };
 
     var _api;
@@ -265,15 +267,14 @@ Common.UI.HintManager = new(function() {
                 var el = $(item);
                 if (_lang !== 'en') {
                     var title = el.attr('data-hint-title').toLowerCase(),
-                        firstLetter = title.substr(0, 1);
+                        firstLetter = title.charAt(0);
                     if (_arrAlphabet.indexOf(firstLetter) === -1) { // tip is in English
                         var newTip = '';
                         for (var i = 0; i < title.length; i++) {
-                            var letter = title.substr(i, 1),
-                                ind = _arrEnAlphabet.indexOf(letter);
-                            newTip = newTip + _arrAlphabet[ind].toUpperCase();
+                            var letter = title.charAt(i);
+                            newTip += _getLetterInUILanguage(letter);
                         }
-                        el.attr('data-hint-title', newTip);
+                        el.attr('data-hint-title', newTip.toUpperCase());
                     }
 
                 }
@@ -285,33 +286,50 @@ Common.UI.HintManager = new(function() {
             _usedLetters = [];
         if (_currentLevel === 0) {
             for (var key in _staticHints) {
-                var t = _staticHints[key].toLowerCase();
+                var t = _staticHints[key].charAt(0).toLowerCase();
                 _usedTitles.push(t);
-                _usedLetters.push(_arrAlphabet.indexOf(t));
+                var i = _arrAlphabet.indexOf(t);
+                if (_usedLetters.indexOf(i) < 0) {
+                    _usedLetters.push(i);
+                }
             }
         }
         if (visibleItems.length > _arrAlphabet.length) {
             visibleItemsWithTitle.forEach(function (item) {
-                var t = $(item).data('hint-title').toLowerCase();
+                var t = $(item).data('hint-title').charAt(0).toLowerCase();
                 t = _getLetterInUILanguage(t);
-                _usedTitles.push(t);
+                if (_usedTitles.indexOf(t) < 0) {
+                    _usedTitles.push(t);
+                }
             });
-            _arrLetters = _getLetters(visibleItems.length + (_currentLevel === 0 ? _.size(_staticHints) : 0));
+            _arrLetters = _getLetters(visibleItems.length + (_currentLevel === 0 ? _.size(_staticHints) : 0)); // TO DO count
         } else {
             _arrLetters = _arrAlphabet.slice();
         }
         if (arrItemsWithTitle.length > 0) {
             visibleItems.forEach(function (item) {
-                var el = $(item);
-                var title = el.attr('data-hint-title');
+                var el = $(item),
+                    title = el.attr('data-hint-title');
                 if (title) {
-                    var ind = _arrEnAlphabet.indexOf(title.toLowerCase());
+                    title = title.toLowerCase();
+                    var firstLetter = title.charAt(0),
+                        ind = _arrEnAlphabet.indexOf(firstLetter),
+                        i;
                     if (ind === -1) { // we have already changed
-                        _usedLetters.push(_arrAlphabet.indexOf(title.toLowerCase()));
+                        i = _arrAlphabet.indexOf(firstLetter);
+                        if (_usedLetters.indexOf(i) < 0) {
+                            _usedLetters.push(i);
+                        }
                     } else {
-                        _usedLetters.push(ind);
+                        if (_usedLetters.indexOf(ind) < 0) {
+                            _usedLetters.push(ind);
+                        }
                         if (_lang !== 'en') {
-                            el.attr('data-hint-title', _arrLetters[ind].toUpperCase());
+                            var newTitle = '';
+                            for (i = 0; i < title.length; i++) {
+                                newTitle += _getLetterInUILanguage(title.charAt(i));
+                            }
+                            el.attr('data-hint-title', newTitle.toUpperCase());
                         }
                     }
                 }
@@ -584,7 +602,7 @@ Common.UI.HintManager = new(function() {
                                         }
                                     }
                                 }
-                                if (curr.prop('id') === 'btn-goback' || curr.closest('.btn-slot').prop('id') === 'slot-btn-options' ||
+                                if (curr.prop('id') === 'btn-go-back' || curr.closest('.btn-slot').prop('id') === 'slot-btn-options' ||
                                     curr.closest('.btn-slot').prop('id') === 'slot-btn-mode' || curr.prop('id') === 'btn-favorite' || curr.parent().prop('id') === 'tlb-box-users' ||
                                     curr.prop('id') === 'left-btn-thumbs' || curr.hasClass('scroll') || curr.prop('id') === 'left-btn-about' ||
                                     curr.prop('id') === 'left-btn-support' || curr.closest('.btn-slot').prop('id') === 'slot-btn-search') {

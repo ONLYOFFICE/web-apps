@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -41,21 +40,21 @@ define([
 ], function () {
     'use strict';
 
-    var features = {
-        version: '{{PRODUCT_VERSION}}',
-        eventloading: true,
-        titlebuttons: true,
-        uithemes: true,
-        btnhome: true,
-        quickprint: true
-    };
+    var webapp = window.DE || window.PE || window.SSE;
+    var features = Object.assign({
+                        version: '{{PRODUCT_VERSION}}',
+                        eventloading: true,
+                        titlebuttons: true,
+                        uithemes: true,
+                        btnhome: true,
+                        quickprint: true,
+                    }, webapp.features);
 
     var native = window.desktop || window.AscDesktopEditor;
     !!native && native.execCommand('webapps:features', JSON.stringify(features));
 
     var Desktop = function () {
         var config = {version:'{{PRODUCT_VERSION}}'};
-        var webapp = window.DE || window.PE || window.SSE;
         var titlebuttons;
         var btnsave_icons = {
             'btn-save': 'save',
@@ -98,7 +97,12 @@ define([
                     if ( obj.singlewindow !== undefined ) {
                         // $('#box-document-title .hedset')[obj.singlewindow ? 'hide' : 'show']();
                         native.features.singlewindow = obj.singlewindow;
-                        titlebuttons.home && titlebuttons.home.btn.setVisible(obj.singlewindow);
+
+                        if ( config.isFillFormApp ) {
+                            $("#title-doc-name")[obj.singlewindow ? 'hide' : 'show']();
+                        } else {
+                            titlebuttons && titlebuttons.home && titlebuttons.home.btn.setVisible(obj.singlewindow);
+                        }
                     }
                 } else
                 if (/editor:config/.test(cmd)) {
@@ -133,6 +137,16 @@ define([
                 } else
                 if (/theme:changed/.test(cmd)) {
                     Common.UI.Themes.setTheme(param);
+                } else
+                if (/renderervars:changed/.test(cmd)) {
+                    const opts = JSON.parse(param);
+
+                    if ( opts.theme && opts.theme.system ) {
+                        window.RendererProcessVariable.theme.system = opts.theme.system;
+
+                        if ( Common.UI.Themes.currentThemeId() == 'theme-system' )
+                            Common.UI.Themes.setTheme('theme-system');
+                    }
                 } else
                 if (/element:show/.test(cmd)) {
                     var _mr = /title:(?:(true|show)|(false|hide))/.exec(param);
@@ -213,7 +227,7 @@ define([
         }
 
         var _onKeyDown = function (e) {
-            if ( Common.UI.HintManager.isHintVisible() ) {
+            if ( Common.UI.HintManager && Common.UI.HintManager.isHintVisible() ) {
                 native.execCommand('althints:keydown', JSON.stringify({code:e.keyCode}));
                 console.log('hint keydown', e.keyCode);
             }
@@ -261,18 +275,24 @@ define([
                     if ( me.helpUrl() ) {
                         fetch(build_url(me.helpUrl(), Common.Locale.getDefaultLanguage(), '/Contents.json'))
                             .then(function (response) {
-                                if ( response.ok ) {
-                                    /* remote help avail */
-                                    fetch(build_url(me.helpUrl(), Common.Locale.getCurrentLanguage(), '/Contents.json'))
-                                        .then(function (response) {
-                                            if ( response.ok ) {
-                                                helpUrl = build_url(me.helpUrl(), Common.Locale.getCurrentLanguage(), '');
-                                            }
-                                        })
-                                        .catch(function (e) {
-                                            helpUrl = build_url(me.helpUrl(), Common.Locale.getDefaultLanguage(), '');
-                                        });
-                                }
+                                // if ( response.ok )
+                                    return response.json();
+                            })
+                            .then(function (text) {
+                                /* remote help avail */
+                                fetch(build_url(me.helpUrl(), Common.Locale.getCurrentLanguage(), '/Contents.json'))
+                                    .then(function (response) {
+                                        // if ( response.ok )
+                                            return response.json();
+                                    })
+                                    .then(function (t) {
+                                        helpUrl = build_url(me.helpUrl(), Common.Locale.getCurrentLanguage(), '');
+                                    })
+                                    .catch(function (e) {
+                                        helpUrl = build_url(me.helpUrl(), Common.Locale.getDefaultLanguage(), '');
+                                    });
+                            })
+                            .catch(function (e){
                             })
                     }
                 });
@@ -334,6 +354,7 @@ define([
 
         const _onHidePreloader = function (mode) {
             features.viewmode = !mode.isEdit;
+            features.viewmode && (features.btnhome = false);
             features.crypted = mode.isCrypted;
             native.execCommand('webapps:features', JSON.stringify(features));
 
@@ -435,7 +456,7 @@ define([
                         'modal:close': _onModalDialog.bind(this, 'close'),
                         'modal:hide': _onModalDialog.bind(this, 'hide'),
                         'uitheme:changed' : function (name) {
-                            if (Common.localStorage.getBool('ui-theme-use-system', false)) {
+                            if ( window.uitheme.is_theme_system() ) {
                                 native.execCommand("uitheme:changed", JSON.stringify({name:'theme-system'}));
                             } else {
                                 var theme = Common.UI.Themes.get(name);
@@ -463,6 +484,11 @@ define([
                     }, {id: 'desktop'});
 
                     $(document).on('keydown', _onKeyDown.bind(this));
+
+                    if ( features.uitype == 'fillform' ) {
+                        config.isFillFormApp = true;
+                        $('#header-logo, .brand-logo').hide();
+                    }
                 }
             },
             process: function (opts) {
@@ -530,8 +556,12 @@ define([
                 return nativevars.theme && !!nativevars.theme.system ? nativevars.theme.system :
                             window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
             },
+            systemThemeSupported: function () {
+                return nativevars.theme && nativevars.theme.system !== 'disabled';
+            },
         };
     };
 
+    !Common.Controllers && (Common.Controllers = {});
     Common.Controllers.Desktop = new Desktop();
 });

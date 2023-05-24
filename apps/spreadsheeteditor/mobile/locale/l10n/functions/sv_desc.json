@@ -1890,5 +1890,33 @@
 	"DROP": {
 		"a": "(matris, rader, [kolumner])",
 		"d": "Tar bort rader eller kolumner från matrisens start eller slut."
+	},
+	"SEQUENCE": {
+		"a": "(rader, [kolumner], [start], [steg])",
+		"d": "Returnerar en sekvens med tal"
+	},
+	"EXPAND": {
+		"a": "(matris, rader, [kolumner], [pad_with])",
+		"d": "Expanderar en matris till de angivna dimensionerna."
+	},
+	"XMATCH": {
+		"a": "(letauppvärde, letauppvektor, [matchningsläge], [sökläge])",
+		"d": "Returnerar den relativa positionen för ett objekt i en matris. Som standard krävs en exakt matchning"
+	},
+	"FILTER": {
+		"a": "(array, include, [if_empty])",
+		"d": "Filtrera ett intervall eller en matris"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(matris, [format])",
+		"d": "Returnerar en textrepresentation av en matris"
+	},
+	"SORT": {
+		"a": "(matris, [sortera_index], [sorteringsordning], [efter_kol])",
+		"d": "Sorterar ett intervall eller en matris"
+	},
+	"SORTBY": {
+		"a": "(matris, efter_matris, [sorteringsordning], ...)",
+		"d": "Sorterar ett intervall eller en matris utifrån värdena i ett motsvarande intervall eller en motsvarande matris"
 	}
 }

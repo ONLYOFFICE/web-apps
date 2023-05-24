@@ -233,6 +233,11 @@
                         float: left;
                         width: 0;
                         height: 0;
+
+                        &:last-of-type {
+                            float: none;
+                            clear: both;
+                        }
                     }
 
                 }
@@ -247,6 +252,10 @@
             .header {
                 margin: 30px 0 20px 30px;
                 .font-size-very-huge();
+
+                .rtl & {
+                    margin: 30px 30px 20px 0;
+                }
             }
         }
 
@@ -258,6 +267,9 @@
             .header {
                 margin: 30px 0 16px 30px;
                 .font-size-very-huge();
+                .rtl & {
+                    margin: 30px 30px 16px 0;
+                }
             }
 
             #id-settings-menu {
@@ -299,6 +311,15 @@
                                 background-position-x: @button-small-active-icon-offset-x;
                             }
                         }
+                    }
+                }
+            }
+
+            .flex-settings {
+                table {
+                    margin: 0 14px 0 20px;
+                    .rtl & {
+                        margin: 0 20px 0 14px;
                     }
                 }
             }
@@ -747,6 +768,10 @@
                 margin: 18px 0 20px 0;
             }
             padding: 0;
+            .comment-text{
+                opacity: 0.45;
+                white-space: normal;
+            }
             #print-preview-empty {
                 padding: 14px;
                 color: @text-tertiary-ie;
@@ -795,7 +820,7 @@
                         font-weight: 700;
                     }
                 }
-                .pages {
+                .pages, .first-page {
                     label, #print-spin-pages-from {
                         margin-right: 6px;
                         .rtl & {
@@ -839,6 +864,63 @@
                     }
                     .footer {
                         margin-top: 24px;
+                    }
+                    #print-combo-sides {
+                        .dropdown-menu li > a {
+                            padding-right: 5px;
+                            padding-left: 20px;
+
+                            .rtl & {
+                                padding-right: 20px;
+                                padding-left: 5px;
+                            }
+                        }
+                    }
+                    .print-titles-header {
+                        cursor: pointer;
+                        .print-titles-caret {
+                            width: 24px;
+                            height: 24px;
+                            background-position: 3px -270px;
+                            display: inline-block;
+                            position: absolute;
+                            left: 0;
+                            margin-left: 8px;
+                            cursor: pointer;
+
+                            .rtl & {
+                                margin-left: 0;
+                                margin-right: 8px;
+                                left: unset;
+                                right: 0;
+                            }
+                        }
+                        .header {
+                            cursor: pointer;
+                            padding-left: 15px;
+                            line-height: 24px;
+
+                            .rtl & {
+                                padding-left: 0;
+                                padding-right: 15px;
+                            }
+                        }
+                    }
+                    .no-expand {
+                        .print-titles-options {
+                            display: none;
+                        }
+                        .print-titles-caret {
+                            transform: rotate(270deg);
+                            .rtl & {
+                                transform: rotate(90deg);
+                            }
+                        }
+                    }
+                    .print-titles-options {
+                        &:first-of-type label {
+                            padding-top: 3px;
+                        }
                     }
                 }
                 .fms-flex-apply {

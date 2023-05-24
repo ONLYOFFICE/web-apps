@@ -473,6 +473,12 @@
 	"TAKE": "VZÍT",
 	"DROP": "ZAHODIT",
 	"SEQUENCE": "SEQUENCE",
+	"EXPAND": "ROZBALIT",
+	"XMATCH": "XMATCH",
+	"FILTER": "FILTER",
+	"ARRAYTOTEXT": "ARRAYTOTEXT",
+	"SORT": "SORT",
+	"SORTBY": "SORTBY",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

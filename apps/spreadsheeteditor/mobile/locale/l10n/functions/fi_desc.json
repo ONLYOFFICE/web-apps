@@ -1890,5 +1890,33 @@
 	"DROP": {
 		"a": "(array, rows, [columns])",
 		"d": "Poistaa rivit tai sarakkeet matriisin alusta tai lopusta."
+	},
+	"SEQUENCE": {
+		"a": "(rivit, [sarakkeet], [alku], [vaihe])",
+		"d": "Palauttaa numerosarjan"
+	},
+	"EXPAND": {
+		"a": "(array, rows, [columns], [pad_with])",
+		"d": "Laajentaa matriisin määritettyyn kokoon."
+	},
+	"XMATCH": {
+		"a": "(hakuarvo, haku_matriisi, [vastaavuustila], [hakutila])",
+		"d": "Palauttaa matriisissa olevan kohteen suhteellisen sijainnin. Oletusarvoisesti tarkka vastaavuus vaaditaan"
+	},
+	"FILTER": {
+		"a": "(matriisi, sisältää, [jos_tyhjä])",
+		"d": "Suodata alue tai matriisi"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(matriisi, [muoto])",
+		"d": "Palauttaa matriisin tekstin."
+	},
+	"SORT": {
+		"a": "(matriisi, [lajitteluindeksi], [lajittelujärjestys], [sarakkeen_mukaanl])",
+		"d": "Lajittelee alueen tai matriisin"
+	},
+	"SORTBY": {
+		"a": "(matriisi, matriisin_mukaan, [lajittelujärjestys], ...)",
+		"d": "Lajittelee alueen tai matriisin vastaavan alueen tai matriisin arvojen perusteella"
 	}
 }

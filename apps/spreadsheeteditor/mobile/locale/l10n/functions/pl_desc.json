@@ -1890,5 +1890,33 @@
 	"DROP": {
 		"a": "(array, rows, [columns])",
 		"d": " Porzuca wiersze lub kolumny z początku lub końca tablicy."
+	},
+	"SEQUENCE": {
+		"a": "(wiersze, [kolumny], [początek], [krok])",
+		"d": "Zwraca sekwencję liczb"
+	},
+	"EXPAND": {
+		"a": "(array, rows, [columns], [pad_with])",
+		"d": "Rozwija tablicę do określonych wymiarów."
+	},
+	"XMATCH": {
+		"a": "(szukana_wartość, szukana_tablica, [tryb_dopasowywania], [tryb_wyszukiwania])",
+		"d": "Zwraca względne położenie elementu w tablicy. Domyślnie jest wymagane dokładne dopasowanie"
+	},
+	"FILTER": {
+		"a": "(tablica, uwzględnienie, [jeśli_puste])",
+		"d": "Filtruj zakres lub tablicę"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(tablica, [format])",
+		"d": "Zwraca reprezentację tekstową tablicy"
+	},
+	"SORT": {
+		"a": "(tablica, [indeks_sortowania], [kolejność_sortowania], [według_kolumny])",
+		"d": "Sortuje zakres lub tablicę"
+	},
+	"SORTBY": {
+		"a": "(tablica, według_tablicy, [kolejność_sortowania], ...)",
+		"d": "Sortuje zakres lub tablicę na podstawie wartości w odpowiednim zakresie lub odpowiedniej tablicy"
 	}
 }

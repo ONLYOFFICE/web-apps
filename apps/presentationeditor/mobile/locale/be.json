@@ -124,7 +124,9 @@
       "textCustomLoader": "Sorry, you are not entitled to change the loader. Please, contact our sales department to get a quote.",
       "textRemember": "Remember my choice",
       "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
+      "titleLicenseNotActive": "License not active",
       "txtIncorrectPwd": "Password is incorrect",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
       "warnLicenseExceeded": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact your administrator to learn more.",
       "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page.",
       "warnLicenseLimitedNoAccess": "License expired. You have no access to document editing functionality. Please, contact your administrator.",
@@ -260,6 +262,7 @@
       "txtNotUrl": "Гэтае поле мусіць быць URL-адрасам фармату \"http://www.example.com\"",
       "textDone": "Done",
       "textEmptyImgUrl": "You need to specify the image URL.",
+      "textPasteImageUrl": "Paste an image URL",
       "textRecommended": "Recommended",
       "textRequired": "Required"
     },

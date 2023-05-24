@@ -106,10 +106,11 @@
         "headername": "Travailler avec les fonctions"
     },    
     {"src": "UsageInstructions/InsertArrayFormulas.htm", "name": "Insérer des formules de tableau"},
-  {
-    "src": "UsageInstructions/UseNamedRanges.htm",
-    "name": "Utiliser les plages nommées"
-  },
+    {
+        "src": "UsageInstructions/UseNamedRanges.htm",
+        "name": "Utiliser les plages nommées"
+    },
+    {"src": "UsageInstructions/WatchWindow.htm", "name": "Fenêtre Espions"},
   {
     "src": "UsageInstructions/InsertImages.htm",
     "name": "Insérer des images",
@@ -129,7 +130,7 @@
         "src": "UsageInstructions/InsertTextObjects.htm",
         "name": "Insérer des objets textuels"
     },
-     {"src": "UsageInstructions/SupportSmartArt.htm", "name": "Prise en charge des graphiques SmartArt" },
+     {"src": "UsageInstructions/InsertSmartArt.htm", "name": "Insérer des graphiques SmartArt" },
     { "src": "UsageInstructions/InsertSymbols.htm", "name": "Insérer des symboles et des caractères" },
   {
     "src": "UsageInstructions/ManipulateObjects.htm",

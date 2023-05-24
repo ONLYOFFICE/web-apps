@@ -142,6 +142,19 @@
         </div>
         </td>
     </tr>
+    <tr>
+        <td>
+            <div class="padding-small" id="shape-line-panel-transparent" style="width: 100%;">
+                <label class="header" style="display:block;"><%= scope.strTransparency %></label>
+                <div style="display: inline-block; margin-top: 3px;">
+                    <label id="shape-line-lbl-transparency-start">0</label>
+                    <div id="shape-line-slider-transparency" style="display: inline-block;margin: 0 4px; vertical-align: middle;"></div>
+                    <label id="shape-line-lbl-transparency-end">100</label>
+                </div>
+                <div id="shape-line-spin-transparency"></div>
+            </div>
+        </td>
+    </tr>
     <tr class="shape-rotation">
         <td class="padding-small">
             <div class="separator horizontal"></div>
@@ -180,9 +193,17 @@
         </td>
     </tr>
     <tr class="change-type">
-        <td class="padding-small">
-            <label class="header" style="margin-top: 3px;"><%= scope.strChange %></label>
-            <div id="shape-btn-change"></div>
+        <td>
+            <div class="padding-small" id="shape-button-edit-shape-container">
+                <div id="shape-button-edit-shape" style="width:100%;"></div>
+            </div>
+        </td>
+    </tr>
+    <tr class="change-type">
+        <td>
+            <div class="padding-small" id="shape-button-change-shape-container">
+                <div id="shape-button-change-shape" style="width:100%;"></div>
+            </div>
         </td>
     </tr>
     <tr>

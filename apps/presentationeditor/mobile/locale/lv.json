@@ -123,8 +123,10 @@
       "textRemember": "Remember my choice",
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
       "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
+      "titleLicenseNotActive": "License not active",
       "txtIncorrectPwd": "Password is incorrect",
       "txtProtected": "Once you enter the password and open the file, the current password to the file will be reset",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
       "warnLicenseExceeded": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact your administrator to learn more.",
       "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page.",
       "warnLicenseLimitedNoAccess": "License expired. You have no access to document editing functionality. Please, contact your administrator.",
@@ -261,6 +263,7 @@
       "textTableSize": "Tabulas izmērs",
       "txtNotUrl": "Šim laukam ir jābūt URL formātā \"http://www.example.com\"",
       "textEmptyImgUrl": "You need to specify the image URL.",
+      "textPasteImageUrl": "Paste an image URL",
       "textRecommended": "Recommended"
     },
     "Edit": {

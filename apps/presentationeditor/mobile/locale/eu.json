@@ -121,10 +121,12 @@
       "textRequestMacros": "Makro batek URL baterako eskaera egiten du. %1 URL-rako eskaera onartu nahi duzu?",
       "textYes": "Bai",
       "titleLicenseExp": "Lizentzia iraungi da",
+      "titleLicenseNotActive": "Lizentzia ez dago aktibo",
       "titleServerVersion": "Editorea eguneratu da",
       "titleUpdateVersion": "Bertsioa aldatu da",
       "txtIncorrectPwd": "Pasahitza ez da zuzena",
       "txtProtected": "Behin pasahitza sartu eta fitxategia ireki duzula, uneko pasahitza berrezarri egingo da",
+      "warnLicenseBefore": "Lizentzia ez dago aktibo.<br>Jarri zure administratzailearekin harremanetan.",
       "warnLicenseExceeded": "Aldibereko %1 editoreren konexio-mugara iritsi zara. Dokumentu hau ikusteko bakarrik irekiko da. Jarri harremanetan administratzailearekin informazio gehiago lortzeko.",
       "warnLicenseExp": "Zure lizentzia iraungi da. Mesedez, eguneratu zure lizentzia eta freskatu orria.",
       "warnLicenseLimitedNoAccess": "Lizentzia iraungi da. Ez daukazu sarbiderik dokumentu-edizio funtzionalitatera. Mesedez, kontaktatu zure administratzailea.",
@@ -261,7 +263,8 @@
       "textSlideNumber": "Diapositiba zenbakia",
       "textTable": "Taula",
       "textTableSize": "Taularen tamaina",
-      "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa"
+      "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Abisua",

@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  DocumentHolder.js
  *
@@ -74,7 +73,10 @@ define([
     'spreadsheeteditor/main/app/view/SpecialPasteDialog',
     'spreadsheeteditor/main/app/view/SlicerSettingsAdvanced',
     'spreadsheeteditor/main/app/view/PivotGroupDialog',
-    'spreadsheeteditor/main/app/view/MacroDialog'
+    'spreadsheeteditor/main/app/view/MacroDialog',
+    'spreadsheeteditor/main/app/view/FieldSettingsDialog',
+    'spreadsheeteditor/main/app/view/ValueFieldSettingsDialog',
+    'spreadsheeteditor/main/app/view/PivotSettingsAdvanced'
 ], function () {
     'use strict';
 
@@ -107,6 +109,9 @@ define([
                 input_msg: {},
                 foreignSelect: {
                     ttHeight: 20
+                },
+                eyedropper: {
+                    isHidden: true
                 }
             };
             me.mouse = {};
@@ -119,6 +124,7 @@ define([
             me._state = {wsLock: false, wsProps: []};
             me.fastcoauthtips = [];
             me._TtHeight = 20;
+            me.lastMathTrackBounds = [];
 
             /** coauthoring begin **/
             this.wrapEvents = {
@@ -140,6 +146,8 @@ define([
                 return false;
             };
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
+
+            Common.Utils.InternalSettings.set('sse-equation-toolbar-hide', Common.localStorage.getBool('sse-equation-toolbar-hide'));
         },
 
         onLaunch: function() {
@@ -188,9 +196,9 @@ define([
             Common.Gateway.on('setactionlink', _.bind(me.onSetActionLink, me));
         },
 
-        onCreateDelayedElements: function(view) {
+        onCreateDelayedElements: function(view, type) {
             var me = this;
-            if (me.permissions.isEdit && !me._isDisabled) {
+            if (type==='edit') {
                 view.pmiCut.on('click',                             _.bind(me.onCopyPaste, me));
                 view.pmiCopy.on('click',                            _.bind(me.onCopyPaste, me));
                 view.pmiPaste.on('click',                           _.bind(me.onCopyPaste, me));
@@ -215,6 +223,14 @@ define([
                 view.mnuRefreshPivot.on('click',                    _.bind(me.onRefreshPivot, me));
                 view.mnuGroupPivot.on('click',                      _.bind(me.onGroupPivot, me));
                 view.mnuUnGroupPivot.on('click',                    _.bind(me.onGroupPivot, me));
+                view.mnuPivotSettings.on('click',                   _.bind(me.onPivotSettings, me));
+                view.mnuFieldSettings.on('click',                   _.bind(me.onFieldSettings, me));
+                view.mnuDeleteField.on('click',                     _.bind(me.onDeleteField, me));
+                view.mnuSubtotalField.on('click',                   _.bind(me.onSubtotalField, me));
+                view.mnuSummarize.menu.on('item:click',             _.bind(me.onSummarize, me));
+                view.mnuShowAs.menu.on('item:click',                _.bind(me.onShowAs, me));
+                view.mnuPivotSort.menu.on('item:click',             _.bind(me.onPivotSort, me));
+                view.mnuPivotFilter.menu.on('item:click',           _.bind(me.onPivotFilter, me));
                 view.pmiClear.menu.on('item:click',                 _.bind(me.onClear, me));
                 view.pmiSelectTable.menu.on('item:click',           _.bind(me.onSelectTable, me));
                 view.pmiInsertTable.menu.on('item:click',           _.bind(me.onInsertTable, me));
@@ -266,7 +282,6 @@ define([
                 view.pmiGetRangeList.on('click',                    _.bind(me.onGetLink, me));
                 view.menuParagraphEquation.menu.on('item:click',    _.bind(me.convertEquation, me));
                 view.menuSaveAsPicture.on('click',                  _.bind(me.saveAsPicture, me));
-
 
                 if (!me.permissions.isEditMailMerge && !me.permissions.isEditDiagram && !me.permissions.isEditOle) {
                     var oleEditor = me.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
@@ -384,9 +399,12 @@ define([
                 }
                 this.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(this.onShowMathTrack, this));
                 this.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(this.onHideMathTrack, this));
+                this.api.asc_registerCallback('asc_onHideEyedropper',           _.bind(this.hideEyedropperTip, this));
+                this.api.asc_SetMathInputType(Common.localStorage.getBool("sse-equation-input-latex") ? Asc.c_oAscMathInputType.LaTeX : Asc.c_oAscMathInputType.Unicode);
             }
             this.api.asc_registerCallback('asc_onShowForeignCursorLabel',       _.bind(this.onShowForeignCursorLabel, this));
             this.api.asc_registerCallback('asc_onHideForeignCursorLabel',       _.bind(this.onHideForeignCursorLabel, this));
+            this.api.asc_registerCallback('onPluginContextMenu',                _.bind(this.onPluginContextMenu, this));
 
             return this;
         },
@@ -580,7 +598,7 @@ define([
 
         onRefreshPivot: function(){
             if (this.api) {
-                this.propsPivot.asc_refresh(this.api);
+                this.propsPivot.originalProps.asc_refresh(this.api);
             }
         },
 
@@ -603,6 +621,285 @@ define([
             });
             win.show();
             win.setSettings(rangePr, dateTypes, defRangePr);
+        },
+
+        onPivotSettings: function(){
+            var props = this.propsPivot.originalProps;
+            if (!props) return;
+
+            var me = this;
+            if (me.api){
+                (new SSE.Views.PivotSettingsAdvanced(
+                    {
+                        props: props,
+                        api: me.api,
+                        handler: function(result, value) {
+                            if (result == 'ok' && me.api && value) {
+                                props.asc_set(me.api, value);
+                                Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                            }
+
+                            Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                        }
+                    })).show();
+            }
+        },
+
+        onFieldSettings: function(){
+            var props = this.propsPivot.originalProps;
+            if (!props) return;
+
+            var me = this;
+            if (me.api){
+                if (me.propsPivot.fieldType === 2) { // value field
+                    var field = me.propsPivot.field;
+                    (new SSE.Views.ValueFieldSettingsDialog(
+                        {
+                            props: props,
+                            field: field,
+                            showAsValue: me.propsPivot.showAsValue,
+                            api: me.api,
+                            handler: function(result, value) {
+                                if (result === 'ok' && me.api && value) {
+                                    field.asc_set(me.api, props, me.propsPivot.index, value);
+                                    Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                                }
+
+                                Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                            }
+                        })).show();
+                } else {
+                    (new SSE.Views.FieldSettingsDialog(
+                        {
+                            props: props,
+                            fieldIndex: me.propsPivot.pivotIndex,
+                            api: me.api,
+                            type: me.propsPivot.fieldType,
+                            handler: function(result, value) {
+                                if (result === 'ok' && me.api && value) {
+                                    me.propsPivot.field.asc_set(me.api, props, me.propsPivot.pivotIndex, value);
+                                    Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                                }
+
+                                Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                            }
+                        })).show();
+                }
+            }
+        },
+
+        onDeleteField: function(){
+            if (this.api && this.propsPivot.originalProps && this.propsPivot.field) {
+                if (this.propsPivot.fieldType===2) { // value
+                    if (this.propsPivot.rowTotal || this.propsPivot.colTotal) {
+                        var props = new Asc.CT_pivotTableDefinition();
+                        props.asc_setRowGrandTotals(this.propsPivot.rowTotal ? false : this.propsPivot.originalProps.asc_getRowGrandTotals());
+                        props.asc_setColGrandTotals(this.propsPivot.colTotal ? false : this.propsPivot.originalProps.asc_getColGrandTotals());
+                        this.propsPivot.originalProps.asc_set(this.api, props);
+                    } else
+                        this.propsPivot.originalProps.asc_removeDataField(this.api, this.propsPivot.pivotIndex, this.propsPivot.index);
+                } else
+                    this.propsPivot.originalProps.asc_removeNoDataField(this.api, this.propsPivot.pivotIndex);
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+        },
+
+        onSubtotalField: function(item){
+            if (this.api && this.propsPivot.originalProps) {
+                var props = new Asc.CT_pivotTableDefinition();
+                if (item.checked) {
+                    props.asc_setDefaultSubtotal(true);
+                    props.asc_setSubtotalTop(true);
+                } else {
+                    props.asc_setDefaultSubtotal(false);
+                }
+                this.propsPivot.originalProps.asc_set(this.api, props);
+            }
+        },
+
+        onSummarize: function(menu, item, e) {
+            if (!this.propsPivot.originalProps) return;
+
+            if (item.value===-1)
+                this.onFieldSettings();
+            else if (item.value!==undefined && item.value!==null) {
+                var field = new Asc.CT_DataField();
+                field.asc_setSubtotal(item.value);
+                this.propsPivot.fieldSourceName && field.asc_setName(this.txtByField.replace('%1', item.caption).replace('%2',  this.propsPivot.fieldSourceName));
+                this.propsPivot.field.asc_set(this.api, this.propsPivot.originalProps, this.propsPivot.index, field);
+                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+            }
+        },
+
+        onShowAs: function(menu, item, e) {
+            if (!this.propsPivot.originalProps) return;
+
+            if (item.value===-1 || item.options.showMore) {
+                if (item.options.showMore)
+                    this.propsPivot.showAsValue = item.value;
+                this.onFieldSettings();
+            } else if (item.value!==undefined && item.value!==null) {
+                var field = new Asc.CT_DataField();
+                field.asc_setShowDataAs(item.value);
+
+                var info = new Asc.asc_CFormatCellsInfo();
+                info.asc_setType(item.options.numFormat);
+                info.asc_setDecimalPlaces(item.options.numFormat===Asc.c_oAscNumFormatType.Percent ? 2 : 0);
+                info.asc_setSeparator(false);
+                field.asc_setNumFormat(this.api.asc_getFormatCells(info)[0]);
+
+                this.propsPivot.field.asc_set(this.api, this.propsPivot.originalProps, this.propsPivot.index, field);
+                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+            }
+        },
+
+        showCustomFilterDlg: function(filter, type) {
+            var filterObj = filter.asc_getFilterObj();
+            if (filterObj.asc_getType() !== Asc.c_oAscAutoFilterTypes.CustomFilters) {
+                var newCustomFilter = new Asc.CustomFilters();
+                newCustomFilter.asc_setCustomFilters([new Asc.CustomFilter()]);
+
+                var newCustomFilters = newCustomFilter.asc_getCustomFilters();
+                newCustomFilters[0].asc_setOperator(Asc.c_oAscCustomAutoFilter.equals);
+                newCustomFilter.asc_setAnd(true);
+                newCustomFilters[0].asc_setVal('');
+
+                filterObj.asc_setFilter(newCustomFilter);
+                filterObj.asc_setType(Asc.c_oAscAutoFilterTypes.CustomFilters);
+            }
+
+            var me = this,
+                dlgDigitalFilter = new SSE.Views.PivotDigitalFilterDialog({api:this.api, type: type}).on({
+                    'close': function() {
+                        Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                    }
+                });
+
+            dlgDigitalFilter.setSettings(filter);
+            dlgDigitalFilter.show();
+        },
+
+        onPivotFilter: function(menu, item, e) {
+            if (!this.propsPivot.filter) return;
+
+            var filter = this.propsPivot.filter,
+                me = this;
+            if (item.value==='value') {
+                var pivotObj = filter.asc_getPivotObj(),
+                    fields = pivotObj.asc_getDataFields();
+                if (fields.length<2) {
+                    Common.UI.warning({title: this.textWarning,
+                        msg: this.warnFilterError,
+                        callback: function() {
+                            Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                        }
+                    });
+                } else {
+                    this.showCustomFilterDlg(filter, item.value);
+                }
+            } else if (item.value==='label') {
+                this.showCustomFilterDlg(filter, item.value);
+            } else if (item.value==='top10') {
+                var dlgTop10Filter = new SSE.Views.Top10FilterDialog({api:this.api, type: 'value'}).on({
+                    'close': function() {
+                        Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                    }
+                });
+                dlgTop10Filter.setSettings(filter);
+                dlgTop10Filter.show();
+            } else if (item.value==='clear') {
+                this.api.asc_clearFilterColumn(filter.asc_getCellId(), filter.asc_getDisplayName());
+                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+            }
+        },
+
+        onPivotSort: function(menu, item, e) {
+            if (!(this.propsPivot.filter || this.propsPivot.rowFilter || this.propsPivot.colFilter)) return;
+
+            var me = this;
+            if (item.value==='advanced') {
+                var dlgSort = new SSE.Views.SortFilterDialog({api:this.api}).on({
+                        'close': function() {
+                            Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                        }
+                    });
+                dlgSort.setSettings({filter : this.propsPivot.filter, rowFilter: this.propsPivot.rowFilter, colFilter: this.propsPivot.colFilter});
+                dlgSort.show();
+            } else {
+                var filter = this.propsPivot.filter || this.propsPivot.rowFilter || this.propsPivot.colFilter;
+                this.api.asc_sortColFilter(item.value, filter.asc_getCellId(), filter.asc_getDisplayName());
+                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+            }
+        },
+
+        fillPivotProps: function() {
+            var props = this.propsPivot.originalProps;
+            if (!props) return;
+
+            var info = this.api.asc_getPivotInfo(),
+                pageFieldIndex = info.asc_getPageFieldIndex(),
+                colFieldIndex = info.asc_getColFieldIndex(),
+                rowFieldIndex = info.asc_getRowFieldIndex(),
+                dataFieldIndex = info.asc_getDataFieldIndex();
+
+            this.propsPivot.canGroup = info.asc_canGroup();
+            this.propsPivot.rowTotal = info.asc_getRowGrandTotals();
+            this.propsPivot.colTotal = info.asc_getColGrandTotals();
+            this.propsPivot.filter = info.asc_getFilter();
+            this.propsPivot.rowFilter = info.asc_getFilterRow();
+            this.propsPivot.colFilter = info.asc_getFilterCol();
+
+            if (colFieldIndex>-1) {
+                var fprops = props.asc_getColumnFields();
+                if (fprops) {
+                    var pivotIndex = fprops[colFieldIndex].asc_getIndex();
+                    if (pivotIndex>-1) {
+                        this.propsPivot.pivotIndex = pivotIndex;
+                        this.propsPivot.index = colFieldIndex;
+                        this.propsPivot.field = props.asc_getPivotFields()[pivotIndex];
+                        this.propsPivot.fieldType = 0;
+                        this.propsPivot.fieldName = this.propsPivot.field.asc_getName() || props.asc_getCacheFields()[pivotIndex].asc_getName();
+                    }
+                }
+            } else if (rowFieldIndex>-1) {
+                var fprops = props.asc_getRowFields();
+                if (fprops) {
+                    var pivotIndex = fprops[rowFieldIndex].asc_getIndex();
+                    if (pivotIndex>-1) {
+                        this.propsPivot.pivotIndex = pivotIndex;
+                        this.propsPivot.index = rowFieldIndex;
+                        this.propsPivot.field = props.asc_getPivotFields()[pivotIndex];
+                        this.propsPivot.fieldType = 1;
+                        this.propsPivot.fieldName = this.propsPivot.field.asc_getName() || props.asc_getCacheFields()[pivotIndex].asc_getName();
+                    }
+                }
+            }  else if (pageFieldIndex>-1) {
+                var fprops = props.asc_getPageFields();
+                if (fprops) {
+                    var pivotIndex = fprops[pageFieldIndex].asc_getIndex();
+                    if (pivotIndex>-1) {
+                        this.propsPivot.pivotIndex = pivotIndex;
+                        this.propsPivot.index = pageFieldIndex;
+                        this.propsPivot.field = props.asc_getPivotFields()[pivotIndex];
+                        this.propsPivot.fieldType = 3;
+                        this.propsPivot.fieldName = this.propsPivot.field.asc_getName() || props.asc_getCacheFields()[pivotIndex].asc_getName();
+                    }
+                }
+            }
+            if (dataFieldIndex>-1) {
+                var fprops = props.asc_getDataFields();
+                if (fprops) {
+                    var pivotIndex = fprops[dataFieldIndex].asc_getIndex();
+                    if (pivotIndex>-1) {
+                        this.propsPivot.pivotIndex = pivotIndex;
+                        this.propsPivot.index = dataFieldIndex;
+                        this.propsPivot.field = fprops[dataFieldIndex];
+                        this.propsPivot.fieldType = 2;
+                        this.propsPivot.fieldName = this.propsPivot.field.asc_getName();
+                        this.propsPivot.fieldSourceName = props.asc_getCacheFields()[pivotIndex].asc_getName();
+                    }
+                }
+            }
         },
 
         onClear: function(menu, item, e) {
@@ -972,21 +1269,17 @@ define([
             }
 
             if (rawData.type===0 && rawData.subtype===0x1000) {// custom bullet
-                var bullet = new Asc.asc_CBullet();
-                if (rawData.drawdata.type===Asc.asc_PreviewBulletType.char) {
-                    bullet.asc_putSymbol(rawData.drawdata.char);
-                    bullet.asc_putFont(rawData.drawdata.specialFont);
-                } else if (rawData.drawdata.type===Asc.asc_PreviewBulletType.image)
-                    bullet.asc_fillBulletImage(rawData.drawdata.imageId);
-
-                var props;
-                var selectedObjects = this.api.asc_getGraphicObjectProps();
-                for (var i = 0; i < selectedObjects.length; i++) {
-                    if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Paragraph) {
-                        props = selectedObjects[i].asc_getObjectValue();
-                        props.asc_putBullet(bullet);
-                        this.api.asc_setGraphicObjectProps(props);
-                        break;
+                var bullet = rawData.customBullet;
+                if (bullet) {
+                    var props;
+                    var selectedObjects = this.api.asc_getGraphicObjectProps();
+                    for (var i = 0; i < selectedObjects.length; i++) {
+                        if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Paragraph) {
+                            props = selectedObjects[i].asc_getObjectValue();
+                            props.asc_putBullet(bullet);
+                            this.api.asc_setGraphicObjectProps(props);
+                            break;
+                        }
                     }
                 }
             } else
@@ -1236,6 +1529,17 @@ define([
             }
         },
 
+        hideEyedropperTip: function () {
+            if (!this.tooltips.eyedropper.isHidden && this.tooltips.eyedropper.color) {
+                this.tooltips.eyedropper.color.css({left: '-1000px', top: '-1000px'});
+                if (this.tooltips.eyedropper.ref) {
+                    this.tooltips.eyedropper.ref.hide();
+                    this.tooltips.eyedropper.ref = undefined;
+                }
+                this.tooltips.eyedropper.isHidden = true;
+            }
+        },
+
         onApiMouseMove: function(dataarray) {
             if (!this._isFullscreenMenu && dataarray.length) {
                 var index_hyperlink,
@@ -1246,7 +1550,8 @@ define([
                         index_column, index_row,
                         index_filter,
                         index_slicer,
-                        index_foreign;
+                        index_foreign,
+                        index_eyedropper;
                 for (var i = dataarray.length; i > 0; i--) {
                     switch (dataarray[i-1].asc_getType()) {
                         case Asc.c_oAscMouseMoveType.Hyperlink:
@@ -1275,6 +1580,9 @@ define([
                         case Asc.c_oAscMouseMoveType.ForeignSelect:
                             index_foreign = i;
                             break;
+                        case Asc.c_oAscMouseMoveType.Eyedropper:
+                            index_eyedropper = i;
+                            break;
                     }
                 }
 
@@ -1289,6 +1597,7 @@ define([
                     filterTip       = me.tooltips.filter,
                     slicerTip       = me.tooltips.slicer,
                     foreignSelect   = me.tooltips.foreignSelect,
+                    eyedropperTip   = me.tooltips.eyedropper,
                     pos             = [
                         me.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
                         me.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
@@ -1345,6 +1654,9 @@ define([
                         filterTip.text = '';
                         filterTip.isHidden = true;
                     }
+                }
+                if (!index_eyedropper) {
+                    me.hideEyedropperTip();
                 }
                 // show tooltips
 
@@ -1655,6 +1967,71 @@ define([
                             top : showPoint[1] + 'px',
                             left: showPoint[0] + 'px'
                         });
+                    }
+                }
+
+                if (index_eyedropper) {
+                    eyedropperTip.isHidden = false;
+                    if (eyedropperTip.ref) {
+                        eyedropperTip.ref.hide();
+                        eyedropperTip.ref = undefined;
+                    }
+
+                    var data  = dataarray[index_eyedropper-1],
+                        color = data.asc_getColor(),
+                        r = color.get_r(),
+                        g = color.get_g(),
+                        b = color.get_b();
+                    if (r !== undefined && r !== null) {
+                        var hex = Common.Utils.ThemeColor.getHexColor(r, g, b),
+                            name = color.asc_getName();
+
+                        if (!eyedropperTip.color) {
+                            var colorEl = $(document.createElement("div"));
+                            colorEl.addClass('eyedropper-color');
+                            colorEl.appendTo(document.body);
+                            eyedropperTip.color = colorEl;
+                        }
+                        eyedropperTip.color.css({
+                            backgroundColor: '#' + hex,
+                            left: (data.asc_getX() + pos[0] + 23) + 'px',
+                            top: (data.asc_getY() + pos[1] - 53) + 'px'
+                        });
+                        if (eyedropperTip.tipInterval) {
+                            clearInterval(eyedropperTip.tipInterval);
+                        }
+                        eyedropperTip.tipInterval = setInterval(function () {
+                            clearInterval(eyedropperTip.tipInterval);
+                            if (!me.tooltips.eyedropper.isHidden) {
+                                if (!eyedropperTip.parentEl) {
+                                    eyedropperTip.parentEl = $('<div id="tip-container-eyedroppertip" style="position: absolute; z-index: 10000;"></div>');
+                                    me.documentHolder.cmpEl.append(eyedropperTip.parentEl);
+                                }
+
+                                var title = '<div>RGB(' + r + ',' + g + ',' + b + ')</div>' +
+                                    '<div>' + name + '</div>';
+                                if (!eyedropperTip.ref) {
+                                    eyedropperTip.ref = new Common.UI.Tooltip({
+                                        owner   : eyedropperTip.parentEl,
+                                        html    : true,
+                                        title   : title,
+                                        cls     : 'eyedropper-tooltip'
+                                    });
+                                }
+                                eyedropperTip.ref.show([-10000, -10000]);
+                                eyedropperTip.tipWidth = eyedropperTip.ref.getBSTip().$tip.width();
+                                showPoint = [data.asc_getX(), data.asc_getY()];
+                                showPoint[1] += (pos[1] - 57);
+                                showPoint[0] += (pos[0] + 58);
+                                if (showPoint[0] + eyedropperTip.tipWidth > me.tooltips.coauth.bodyWidth ) {
+                                    showPoint[0] = showPoint[0] - eyedropperTip.tipWidth - 40;
+                                }
+                                eyedropperTip.ref.getBSTip().$tip.css({
+                                    top: showPoint[1] + 'px',
+                                    left: showPoint[0] + 'px'
+                                });
+                            }
+                        }, 800);
                     }
                 }
             }
@@ -2198,13 +2575,13 @@ define([
                         cls = '';
                         switch (direct) {
                             case Asc.c_oAscVertDrawingText.normal:
-                                cls = 'menu__icon text-orient-hor';
+                                cls = 'menu__icon btn-text-orient-hor';
                                 break;
                             case Asc.c_oAscVertDrawingText.vert:
-                                cls = 'menu__icon text-orient-rdown';
+                                cls = 'menu__icon btn-text-orient-rdown';
                                 break;
                             case Asc.c_oAscVertDrawingText.vert270:
-                                cls = 'menu__icon text-orient-rup';
+                                cls = 'menu__icon btn-text-orient-rup';
                                 break;
                         }
                         documentHolder.menuParagraphDirection.setIconCls(cls);
@@ -2227,9 +2604,14 @@ define([
                                 if (bullettype === Asc.asc_PreviewBulletType.char) {
                                     var symbol = bullet.asc_getChar();
                                     if (symbol) {
+                                        var custombullet = new Asc.asc_CBullet();
+                                        custombullet.asc_putSymbol(symbol);
+                                        custombullet.asc_putFont(bullet.asc_getSpecialFont());
+
                                         rec = defrec;
                                         rec.set('subtype', 0x1000);
-                                        rec.set('drawdata', {type: bullettype, char: symbol, specialFont: bullet.asc_getSpecialFont()});
+                                        rec.set('customBullet', custombullet);
+                                        rec.set('numberingInfo', JSON.stringify(custombullet.asc_getJsonBullet()));
                                         rec.set('tip', '');
                                         documentHolder.paraBulletsPicker.dataViewItems && this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], '');
                                         drawDefBullet = false;
@@ -2238,9 +2620,13 @@ define([
                                 } else if (bullettype === Asc.asc_PreviewBulletType.image) {
                                     var id = bullet.asc_getImageId();
                                     if (id) {
+                                        var custombullet = new Asc.asc_CBullet();
+                                        custombullet.asc_fillBulletImage(id);
+
                                         rec = defrec;
                                         rec.set('subtype', 0x1000);
-                                        rec.set('drawdata', {type: bullettype, imageId: id});
+                                        rec.set('customBullet', custombullet);
+                                        rec.set('numberingInfo', JSON.stringify(custombullet.asc_getJsonBullet()));
                                         rec.set('tip', '');
                                         documentHolder.paraBulletsPicker.dataViewItems && this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], '');
                                         drawDefBullet = false;
@@ -2251,7 +2637,7 @@ define([
                         documentHolder.paraBulletsPicker.selectRecord(rec, true);
                         if (drawDefBullet) {
                             defrec.set('subtype', 8);
-                            defrec.set('drawdata', documentHolder._markersArr[7]);
+                            defrec.set('numberingInfo', documentHolder._markersArr[7]);
                             defrec.set('tip', documentHolder.tipMarkersDash);
                             documentHolder.paraBulletsPicker.dataViewItems && this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], documentHolder.tipMarkersDash);
                         }
@@ -2293,9 +2679,13 @@ define([
                 documentHolder.menuParagraphEquation.setVisible(isEquation);
                 documentHolder.menuParagraphEquation.setDisabled(isObjLocked);
                 if (isEquation) {
-                    var eq = this.api.asc_GetMathInputType();
-                    documentHolder.menuParagraphEquation.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
-                    documentHolder.menuParagraphEquation.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    var eq = this.api.asc_GetMathInputType(),
+                        isEqToolbarHide = Common.Utils.InternalSettings.get('sse-equation-toolbar-hide');
+
+                    documentHolder.menuParagraphEquation.menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                    documentHolder.menuParagraphEquation.menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    documentHolder.menuParagraphEquation.menu.items[8].options.isToolbarHide = isEqToolbarHide;
+                    documentHolder.menuParagraphEquation.menu.items[8].setCaption(isEqToolbarHide ? documentHolder.showEqToolbar : documentHolder.hideEqToolbar);
                 }
 
                 if (showMenu) this.showPopupMenu(documentHolder.textInShapeMenu, {}, event);
@@ -2306,17 +2696,22 @@ define([
                 seltype !== Asc.c_oAscSelectionType.RangeChart && seltype !== Asc.c_oAscSelectionType.RangeChartText &&
                 seltype !== Asc.c_oAscSelectionType.RangeShapeText && seltype !== Asc.c_oAscSelectionType.RangeSlicer)) {
                 if (!documentHolder.ssMenu || !showMenu && !documentHolder.ssMenu.isVisible()) return;
-                this.propsPivot = cellinfo.asc_getPivotTableInfo();
+                this.propsPivot = {
+                    originalProps: cellinfo.asc_getPivotTableInfo()
+                };
                 var iscelledit = this.api.isCellEdited,
                     formatTableInfo = cellinfo.asc_getFormatTableInfo(),
                     isinsparkline = (cellinfo.asc_getSparklineInfo()!==null),
                     isintable = (formatTableInfo !== null),
                     ismultiselect = cellinfo.asc_getMultiselect(),
-                    inPivot = !!this.propsPivot;
+                    inPivot = !!this.propsPivot.originalProps,
+                    isUserProtected = cellinfo.asc_getUserProtected()===true;
                 documentHolder.ssMenu.formatTableName = (isintable) ? formatTableInfo.asc_getTableName() : null;
                 documentHolder.ssMenu.cellColor = xfs.asc_getFillColor();
                 documentHolder.ssMenu.fontColor = xfs.asc_getFontColor();
 
+                documentHolder.pmiCut.setVisible(!inPivot);
+                documentHolder.pmiPaste.setVisible(!inPivot);
                 documentHolder.pmiInsertEntire.setVisible(isrowmenu||iscolmenu);
                 documentHolder.pmiInsertEntire.setCaption((isrowmenu) ? this.textInsertTop : this.textInsertLeft);
                 documentHolder.pmiDeleteEntire.setVisible(isrowmenu||iscolmenu);
@@ -2333,12 +2728,59 @@ define([
                 documentHolder.pmiFilterCells.setVisible(iscellmenu && !iscelledit && !diagramOrMergeEditor && !inPivot);
                 documentHolder.pmiReapply.setVisible((iscellmenu||isallmenu) && !iscelledit && !diagramOrMergeEditor && !inPivot);
                 documentHolder.pmiCondFormat.setVisible(!iscelledit && !diagramOrMergeEditor);
-                documentHolder.mnuRefreshPivot.setVisible(iscellmenu && !iscelledit && !diagramOrMergeEditor && inPivot);
-                documentHolder.mnuGroupPivot.setVisible(iscellmenu && !iscelledit && !diagramOrMergeEditor && inPivot);
-                documentHolder.mnuUnGroupPivot.setVisible(iscellmenu && !iscelledit && !diagramOrMergeEditor && inPivot);
                 documentHolder.ssMenu.items[12].setVisible((iscellmenu||isallmenu||isinsparkline) && !iscelledit);
                 documentHolder.pmiInsFunction.setVisible(iscellmenu && !iscelledit && !inPivot);
                 documentHolder.pmiAddNamedRange.setVisible(iscellmenu && !iscelledit && !internaleditor);
+
+                var needshow = iscellmenu && !iscelledit && !diagramOrMergeEditor && inPivot;
+
+                needshow && this.fillPivotProps();
+                documentHolder.mnuRefreshPivot.setVisible(needshow);
+                documentHolder.mnuPivotRefreshSeparator.setVisible(needshow);
+                documentHolder.mnuSubtotalField.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===0 || this.propsPivot.fieldType===1));
+                documentHolder.mnuPivotSubtotalSeparator.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===0 || this.propsPivot.fieldType===1));
+                documentHolder.mnuGroupPivot.setVisible(needshow);
+                documentHolder.mnuUnGroupPivot.setVisible(needshow);
+                documentHolder.mnuDeleteField.setVisible(!!this.propsPivot.field);
+                documentHolder.mnuPivotDeleteSeparator.setVisible(!!this.propsPivot.field);
+                documentHolder.mnuPivotSettingsSeparator.setVisible(needshow);
+                documentHolder.mnuPivotSettings.setVisible(needshow);
+                documentHolder.mnuFieldSettings.setVisible(!!this.propsPivot.field);
+                documentHolder.mnuSummarize.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2));
+                documentHolder.mnuShowAs.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2) && !this.propsPivot.rowTotal && !this.propsPivot.colTotal);
+                documentHolder.mnuPivotValueSeparator.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2));
+                documentHolder.mnuPivotSort.setVisible(this.propsPivot.filter || this.propsPivot.rowFilter || this.propsPivot.colFilter);
+                documentHolder.mnuPivotFilter.setVisible(!!this.propsPivot.filter);
+                documentHolder.mnuPivotFilterSeparator.setVisible(this.propsPivot.filter || this.propsPivot.rowFilter || this.propsPivot.colFilter);
+
+                if (this.propsPivot.field) {
+                    documentHolder.mnuDeleteField.setCaption(documentHolder.txtDelField + ' ' + (this.propsPivot.rowTotal || this.propsPivot.colTotal ? documentHolder.txtGrandTotal : '"' + Common.Utils.String.htmlEncode(this.propsPivot.fieldName) + '"'), true);
+                    documentHolder.mnuSubtotalField.setCaption(documentHolder.txtSubtotalField + ' "' + Common.Utils.String.htmlEncode(this.propsPivot.fieldName) + '"', true);
+                    documentHolder.mnuFieldSettings.setCaption(this.propsPivot.fieldType===2 ? documentHolder.txtValueFieldSettings : documentHolder.txtFieldSettings);
+                    if (this.propsPivot.fieldType===2) {
+                        var sumval = this.propsPivot.field.asc_getSubtotal();
+                        for (var i = 0; i < documentHolder.mnuSummarize.menu.items.length; i++) {
+                            var item = documentHolder.mnuSummarize.menu.items[i];
+                            (item.value!==undefined) && item.setChecked(item.value===sumval, true);
+                        }
+                        if (!this.propsPivot.rowTotal && !this.propsPivot.colTotal) {
+                            sumval = this.propsPivot.field.asc_getShowDataAs();
+                            for (var i = 0; i < documentHolder.mnuShowAs.menu.items.length; i++) {
+                                var item = documentHolder.mnuShowAs.menu.items[i];
+                                (item.value!==undefined) && item.setChecked(item.value===sumval, true);
+                            }
+                        }
+                    } else {
+                        documentHolder.mnuSubtotalField.setChecked(!!this.propsPivot.field.asc_getDefaultSubtotal(), true);
+                    }
+                }
+                if (this.propsPivot.filter) {
+                    documentHolder.mnuPivotFilter.menu.items[0].setCaption(this.propsPivot.fieldName ? Common.Utils.String.format(documentHolder.txtClearPivotField, ' "' + Common.Utils.String.htmlEncode(this.propsPivot.fieldName) + '"') : documentHolder.txtClear, true); // clear filter
+                    documentHolder.mnuPivotFilter.menu.items[0].setDisabled(this.propsPivot.filter.asc_getFilterObj().asc_getType() === Asc.c_oAscAutoFilterTypes.None); // clear filter
+                }
+                if (inPivot) {
+                    documentHolder.mnuPivotSort.menu.items[2].setDisabled(!(this.propsPivot.filter || this.propsPivot.rowFilter && this.propsPivot.colFilter));
+                }
 
                 if (isintable) {
                     documentHolder.pmiInsertTable.menu.items[0].setDisabled(!formatTableInfo.asc_getIsInsertRowAbove());
@@ -2365,7 +2807,7 @@ define([
 
                 /** coauthoring begin **/
                 var celcomments = cellinfo.asc_getComments(); // celcomments===null - has comment, but no permissions to view it
-                documentHolder.ssMenu.items[20].setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && celcomments && (celcomments.length < 1));
+                documentHolder.pmiAddCommentSeparator.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && celcomments && (celcomments.length < 1));
                 documentHolder.pmiAddComment.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && celcomments && (celcomments.length < 1));
                 /** coauthoring end **/
                 documentHolder.pmiCellMenuSeparator.setVisible(iscellmenu && !iscelledit || isrowmenu || iscolmenu || isallmenu);
@@ -2400,41 +2842,47 @@ define([
                 documentHolder.pmiGetRangeList.setVisible(!Common.Utils.isIE && iscellmenu && !iscelledit && !ismultiselect && !internaleditor && this.permissions.canMakeActionLink && !!navigator.clipboard);
 
                 _.each(documentHolder.ssMenu.items, function(item) {
-                    item.setDisabled(isCellLocked);
+                    item.setDisabled(isCellLocked || isUserProtected);
                 });
                 documentHolder.pmiCopy.setDisabled(false);
                 documentHolder.pmiSelectTable.setDisabled(this._state.wsLock);
-                documentHolder.pmiInsertEntire.setDisabled(isCellLocked || isTableLocked || isrowmenu && this._state.wsProps['InsertRows'] || iscolmenu && this._state.wsProps['InsertColumns']);
-                documentHolder.pmiInsertCells.setDisabled(isCellLocked || isTableLocked || inPivot || this._state.wsLock);
-                documentHolder.pmiInsertTable.setDisabled(isCellLocked || isTableLocked || this._state.wsLock);
-                documentHolder.pmiDeleteEntire.setDisabled(isCellLocked || isTableLocked || isrowmenu && this._state.wsProps['DeleteRows'] || iscolmenu && this._state.wsProps['DeleteColumns']);
-                documentHolder.pmiDeleteCells.setDisabled(isCellLocked || isTableLocked || inPivot || this._state.wsLock);
-                documentHolder.pmiDeleteTable.setDisabled(isCellLocked || isTableLocked || this._state.wsLock);
-                documentHolder.pmiClear.setDisabled(isCellLocked || inPivot);
-                documentHolder.pmiFilterCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot || !filterInfo && !this.permissions.canModifyFilter || this._state.wsLock);
-                documentHolder.pmiSortCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot || !this.permissions.canModifyFilter || this._state.wsProps['Sort']);
-                documentHolder.pmiReapply.setDisabled(isCellLocked || isTableLocked|| (isApplyAutoFilter!==true));
-                documentHolder.pmiCondFormat.setDisabled(isCellLocked || isTableLocked || this._state.wsProps['FormatCells']);
-                documentHolder.menuHyperlink.setDisabled(isCellLocked || inPivot || this._state.wsProps['InsertHyperlinks']);
-                documentHolder.menuAddHyperlink.setDisabled(isCellLocked || inPivot || this._state.wsProps['InsertHyperlinks']);
-                documentHolder.pmiInsFunction.setDisabled(isCellLocked || inPivot);
+                documentHolder.pmiInsertEntire.setDisabled(isCellLocked || isTableLocked || isrowmenu && this._state.wsProps['InsertRows'] || iscolmenu && this._state.wsProps['InsertColumns'] || isUserProtected);
+                documentHolder.pmiInsertCells.setDisabled(isCellLocked || isTableLocked || inPivot || this._state.wsLock || isUserProtected);
+                documentHolder.pmiInsertTable.setDisabled(isCellLocked || isTableLocked || this._state.wsLock || isUserProtected);
+                documentHolder.pmiDeleteEntire.setDisabled(isCellLocked || isTableLocked || isrowmenu && this._state.wsProps['DeleteRows'] || iscolmenu && this._state.wsProps['DeleteColumns'] || isUserProtected);
+                documentHolder.pmiDeleteCells.setDisabled(isCellLocked || isTableLocked || inPivot || this._state.wsLock || isUserProtected);
+                documentHolder.pmiDeleteTable.setDisabled(isCellLocked || isTableLocked || this._state.wsLock || isUserProtected);
+                documentHolder.pmiClear.setDisabled(isCellLocked || inPivot || isUserProtected);
+                documentHolder.pmiFilterCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot || !filterInfo && !this.permissions.canModifyFilter || this._state.wsLock || isUserProtected);
+                documentHolder.pmiSortCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot || !this.permissions.canModifyFilter || this._state.wsProps['Sort'] || isUserProtected);
+                documentHolder.pmiReapply.setDisabled(isCellLocked || isTableLocked|| (isApplyAutoFilter!==true) || isUserProtected);
+                documentHolder.pmiCondFormat.setDisabled(isCellLocked || isTableLocked || this._state.wsProps['FormatCells'] || isUserProtected);
+                documentHolder.menuHyperlink.setDisabled(isCellLocked || inPivot || this._state.wsProps['InsertHyperlinks'] || isUserProtected);
+                documentHolder.menuAddHyperlink.setDisabled(isCellLocked || inPivot || this._state.wsProps['InsertHyperlinks'] || isUserProtected);
+                documentHolder.pmiInsFunction.setDisabled(isCellLocked || inPivot || isUserProtected);
                 documentHolder.pmiFreezePanes.setDisabled(this.api.asc_isWorksheetLockedOrDeleted(this.api.asc_getActiveWorksheetIndex()));
                 documentHolder.pmiRowHeight.setDisabled(isCellLocked || this._state.wsProps['FormatRows']);
                 documentHolder.pmiColumnWidth.setDisabled(isCellLocked || this._state.wsProps['FormatColumns']);
                 documentHolder.pmiEntireHide.setDisabled(isCellLocked || iscolmenu && this._state.wsProps['FormatColumns'] || isrowmenu && this._state.wsProps['FormatRows']);
                 documentHolder.pmiEntireShow.setDisabled(isCellLocked || iscolmenu && this._state.wsProps['FormatColumns'] ||isrowmenu && this._state.wsProps['FormatRows']);
-                documentHolder.pmiNumFormat.setDisabled(isCellLocked || this._state.wsProps['FormatCells']);
-                documentHolder.pmiSparklines.setDisabled(isCellLocked || this._state.wsLock);
-                documentHolder.pmiEntriesList.setDisabled(isCellLocked || this._state.wsLock);
+                documentHolder.pmiNumFormat.setDisabled(isCellLocked || this._state.wsProps['FormatCells'] || isUserProtected);
+                documentHolder.pmiSparklines.setDisabled(isCellLocked || this._state.wsLock || isUserProtected);
+                documentHolder.pmiEntriesList.setDisabled(isCellLocked || this._state.wsLock || isUserProtected);
                 documentHolder.pmiAddNamedRange.setDisabled(isCellLocked || this._state.wsLock);
                 documentHolder.pmiAddComment.setDisabled(isCellLocked || this._state.wsProps['Objects']);
                 documentHolder.pmiGetRangeList.setDisabled(false);
 
                 if (inPivot) {
-                    var canGroup = this.api.asc_canGroupPivot();
-                    documentHolder.mnuGroupPivot.setDisabled(isPivotLocked || !canGroup || this._state.wsLock);
-                    documentHolder.mnuUnGroupPivot.setDisabled(isPivotLocked || !canGroup || this._state.wsLock);
+                    documentHolder.mnuGroupPivot.setDisabled(isPivotLocked || !this.propsPivot.canGroup || this._state.wsLock);
+                    documentHolder.mnuUnGroupPivot.setDisabled(isPivotLocked || !this.propsPivot.canGroup || this._state.wsLock);
                     documentHolder.mnuRefreshPivot.setDisabled(isPivotLocked || this._state.wsLock);
+                    documentHolder.mnuPivotSettings.setDisabled(isPivotLocked || this._state.wsLock);
+                    documentHolder.mnuFieldSettings.setDisabled(isPivotLocked || this._state.wsLock);
+                    documentHolder.mnuDeleteField.setDisabled(isPivotLocked || this._state.wsLock);
+                    documentHolder.mnuSubtotalField.setDisabled(isPivotLocked || this._state.wsLock);
+                    documentHolder.mnuSummarize.setDisabled(isPivotLocked || this._state.wsLock);
+                    documentHolder.mnuShowAs.setDisabled(isPivotLocked || this._state.wsLock);
+                    documentHolder.mnuPivotFilter.setDisabled(isPivotLocked || this._state.wsLock);
                 }
 
                 if (showMenu) this.showPopupMenu(documentHolder.ssMenu, {}, event);
@@ -2559,6 +3007,7 @@ define([
 
                 menu.show();
                 me.currentMenu = menu;
+                me.api.onPluginContextMenuShow && me.api.onPluginContextMenuShow();
             }
         },
 
@@ -4038,12 +4487,10 @@ define([
             var store = this.documentHolder.paraBulletsPicker.store;
             var arrNum = [], arrMarker = [];
             store.each(function(item){
-                var data = item.get('drawdata');
-                data['divId'] = item.get('id');
-                if (item.get('group')==='menu-list-bullet-group')
-                    arrMarker.push(data);
-                else
-                    arrNum.push(data);
+                (item.get('group')==='menu-list-bullet-group' ? arrMarker : arrNum).push({
+                    numberingInfo: {bullet: item.get('numberingInfo')==='undefined' ? undefined : JSON.parse(item.get('numberingInfo'))},
+                    divId: item.get('id')
+                });
             });
 
             if (this.api && this.api.SetDrawImagePreviewBulletForMenu) {
@@ -4282,7 +4729,8 @@ define([
         onShowMathTrack: function(bounds) {
             if (this.permissions && !this.permissions.isEdit) return;
 
-            if (bounds[3] < 0) {
+            this.lastMathTrackBounds = bounds;
+            if (bounds[3] < 0 || Common.Utils.InternalSettings.get('sse-equation-toolbar-hide')) {
                 this.onHideMathTrack();
                 return;
             }
@@ -4299,11 +4747,10 @@ define([
 
                 me.equationBtns = [];
                 for (var i = 0; i < equationsStore.length; ++i) {
-                    var style = 'margin-right: 8px;' + (i==0 ? 'margin-left: 5px;' : '');
-                    eqStr += '<span id="id-document-holder-btn-equation-' + i + '" style="' + style +'"></span>';
+                    eqStr += '<span id="id-document-holder-btn-equation-' + i + '"></span>';
                 }
                 eqStr += '<div class="separator"></div>';
-                eqStr += '<span id="id-document-holder-btn-equation-settings" style="margin-right: 5px; margin-left: 8px;"></span>';
+                eqStr += '<span id="id-document-holder-btn-equation-settings"></span>';
                 eqStr += '</div>';
                 eqContainer = $(eqStr);
                 documentHolder.cmpEl.append(eqContainer);
@@ -4362,20 +4809,26 @@ define([
                 me.equationSettingsBtn = new Common.UI.Button({
                     parentEl: $('#id-document-holder-btn-equation-settings', documentHolder.cmpEl),
                     cls         : 'btn-toolbar no-caret',
-                    iconCls     : 'toolbar__icon more-vertical',
+                    iconCls     : 'toolbar__icon btn-more-vertical',
                     hint        : me.documentHolder.advancedEquationText,
                     menu        : me.documentHolder.createEquationMenu('popuptbeqinput', 'tl-bl')
                 });
                 me.equationSettingsBtn.menu.options.initMenu = function() {
-                    var eq = me.api.asc_GetMathInputType();
-                    var menu = me.equationSettingsBtn.menu;
-                    menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
-                    menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    var eq = me.api.asc_GetMathInputType(),
+                        menu = me.equationSettingsBtn.menu,
+                        isEqToolbarHide = Common.Utils.InternalSettings.get('sse-equation-toolbar-hide');
+
+                    menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                    menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    menu.items[8].options.isToolbarHide = isEqToolbarHide;
+                    menu.items[8].setCaption(isEqToolbarHide ? me.documentHolder.showEqToolbar : me.documentHolder.hideEqToolbar);
                 };
                 me.equationSettingsBtn.menu.on('item:click', _.bind(me.convertEquation, me));
                 me.equationSettingsBtn.menu.on('show:before', function(menu) {
+                    bringForward();
                     menu.options.initMenu();
                 });
+                me.equationSettingsBtn.menu.on('hide:after', sendBackward);
             }
 
             if (!me.tooltips.coauth.XY)
@@ -4388,7 +4841,9 @@ define([
             showPoint[1] = Math.min(me.tooltips.coauth.apiHeight - eqContainer.outerHeight(), Math.max(0, showPoint[1]));
             eqContainer.css({left: showPoint[0], top : showPoint[1]});
 
-            var menuAlign = (me.tooltips.coauth.apiHeight - showPoint[1] - eqContainer.outerHeight() < 220) ? 'bl-tl' : 'tl-bl';
+            var diffDown = me.tooltips.coauth.apiHeight - showPoint[1] - eqContainer.outerHeight(),
+                diffUp = me.tooltips.coauth.XY[1] + showPoint[1],
+                menuAlign = (diffDown < 220 && diffDown < diffUp*0.9) ? 'bl-tl' : 'tl-bl';
             if (Common.UI.isRTL()) {
                 menuAlign = menuAlign === 'bl-tl' ? 'br-tr' : 'tr-br';
             }
@@ -4429,10 +4884,18 @@ define([
 
         convertEquation: function(menu, item, e) {
             if (this.api) {
-                if (item.options.type=='input')
+                if (item.options.type=='input') {
                     this.api.asc_SetMathInputType(item.value);
-                else if (item.options.type=='view')
+                    Common.localStorage.setBool("sse-equation-input-latex", item.value===Asc.c_oAscMathInputType.LaTeX)
+                } else if (item.options.type=='view')
                     this.api.asc_ConvertMathView(item.value.linear, item.value.all);
+                else if(item.options.type=='hide') {
+                    item.options.isToolbarHide = !item.options.isToolbarHide;
+                    Common.Utils.InternalSettings.set('sse-equation-toolbar-hide', item.options.isToolbarHide);
+                    Common.localStorage.setBool('sse-equation-toolbar-hide', item.options.isToolbarHide);
+                    if(item.options.isToolbarHide) this.onHideMathTrack();
+                    else this.onShowMathTrack(this.lastMathTrackBounds);
+                }
             }
         },
 
@@ -4495,6 +4958,12 @@ define([
         clearSelection: function() {
             this.onHideMathTrack();
             this.onHideSpecialPasteOptions();
+        },
+
+        onPluginContextMenu: function(data) {
+            if (data && data.length>0 && this.documentHolder && this.currentMenu && this.currentMenu.isVisible()){
+                this.documentHolder.updateCustomItems(this.currentMenu, data);
+            }
         },
 
         guestText               : 'Guest',
@@ -4654,7 +5123,9 @@ define([
         txtDataTableHint: 'Returns the data cells of the table or specified table columns',
         txtHeadersTableHint: 'Returns the column headers for the table or specified table columns',
         txtTotalsTableHint: 'Returns the total rows for the table or specified table columns',
-        txtCopySuccess: 'Link copied to the clipboard'
+        txtCopySuccess: 'Link copied to the clipboard',
+        warnFilterError: 'You need at least one field in the Values area in order to apply a value filter.',
+        txtByField: '%1 of %2'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });

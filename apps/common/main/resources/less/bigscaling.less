@@ -1,0 +1,46 @@
+.pixel-ratio__2_5 {
+    .btn-toolbar,
+        .btn-header,
+        .btn-category,
+        .btn-options
+    {
+        i.icon {
+            &:not(.scaling-off) {
+                display: none;
+            }
+        }
+    }
+}
+
+.btn-toolbar,
+    .btn-header,
+    .btn-category
+{
+    svg.icon:not(.uni-scale):not(.pixel-ratio__2_5 *) {
+        display: none;
+    }
+}
+
+.btn-category {
+    &:active,
+    &.active {
+        &:not(.disabled) {
+            svg.icon {
+                fill: @icon-normal-pressed-ie;
+                fill: @icon-normal-pressed;
+                //.btn& {
+                //    opacity: 1;
+                //}
+            }
+        }
+    }
+
+    svg.icon {
+        fill: @icon-normal-ie;
+        fill: @icon-normal;
+
+        .btn& {
+            //opacity: 1;
+        }
+    }
+}

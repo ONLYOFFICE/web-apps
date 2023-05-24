@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  CellSettings.js
  *
@@ -248,6 +247,7 @@ define([
 
             this.btnDirection = new Common.UI.Button({
                 cls         : 'btn-large-dataview',
+                scaling     : false,
                 iconCls     : 'item-gradient gradient-left',
                 menu        : new Common.UI.Menu({
                     style: 'min-width: 60px;',
@@ -451,6 +451,7 @@ define([
                 menu        : true,
                 color: 'auto',
                 auto: true,
+                eyeDropper: true,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'medium'
@@ -463,6 +464,7 @@ define([
                 menu        : true,
                 transparent : true,
                 color: 'transparent',
+                eyeDropper: true,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'medium'
@@ -1109,15 +1111,20 @@ define([
                 // create color buttons
                  this.btnBorderColor.setMenu();
                  this.borderColor = this.btnBorderColor.getPicker();
+                 this.btnBorderColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                 this.btnBorderColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
 
                  this.btnBackColor.setMenu();
                  this.btnBackColor.on('color:select', _.bind(this.onColorsBackSelect, this));
+                 this.btnBackColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                 this.btnBackColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
                  this.colorsBack = this.btnBackColor.getPicker();
                  this.fillControls.push(this.btnBackColor);
 
                  this.btnGradColor = new Common.UI.ColorButton({
                      parentEl: $('#cell-gradient-color-btn'),
                      color: '000000',
+                     eyeDropper: true,
                      dataHint: '1',
                      dataHintDirection: 'bottom',
                      dataHintOffset: 'big'
@@ -1125,10 +1132,13 @@ define([
                  this.fillControls.push(this.btnGradColor);
                  this.colorsGrad = this.btnGradColor.getPicker();
                  this.btnGradColor.on('color:select', _.bind(this.onColorsGradientSelect, this));
+                 this.btnGradColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                 this.btnGradColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
 
                  this.btnFGColor = new Common.UI.ColorButton({
                      parentEl: $('#cell-foreground-color-btn'),
                      color: '000000',
+                     eyeDropper: true,
                      dataHint: '1',
                      dataHintDirection: 'bottom',
                      dataHintOffset: 'medium'
@@ -1136,10 +1146,13 @@ define([
                  this.fillControls.push(this.btnFGColor);
                  this.colorsFG = this.btnFGColor.getPicker();
                  this.btnFGColor.on('color:select', _.bind(this.onColorsFGSelect, this));
+                 this.btnFGColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                 this.btnFGColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
 
                  this.btnBGColor = new Common.UI.ColorButton({
                      parentEl: $('#cell-background-color-btn'),
                      color: 'ffffff',
+                     eyeDropper: true,
                      dataHint: '1',
                      dataHintDirection: 'bottom',
                      dataHintOffset: 'medium'
@@ -1147,6 +1160,8 @@ define([
                  this.fillControls.push(this.btnBGColor);
                  this.colorsBG = this.btnBGColor.getPicker();
                  this.btnBGColor.on('color:select', _.bind(this.onColorsBGSelect, this));
+                 this.btnBGColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                 this.btnBGColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
              }
              this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
              this.borderColor.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
@@ -1573,6 +1588,15 @@ define([
                 this.GradColor.currentIdx = newIndex;
             }
             this.sldrGradient.setActiveThumb(this.GradColor.currentIdx);
+        },
+
+        onEyedropperStart: function (btn) {
+            this.api.asc_startEyedropper(_.bind(btn.eyedropperEnd, btn));
+            this.fireEvent('eyedropper', true);
+        },
+
+        onEyedropperEnd: function () {
+            this.fireEvent('eyedropper', false);
         },
 
         textBorders:        'Border\'s Style',

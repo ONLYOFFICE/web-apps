@@ -1890,5 +1890,33 @@
 	"DROP": {
 		"a": "(array, rows, [columns])",
 		"d": "Thả hàng hoặc cột từ đầu hoặc cuối mảng."
+	},
+	"SEQUENCE": {
+		"a": "(hàng, [cột], [bắt_đầu], [bước])",
+		"d": "Trả về một chuỗi số"
+	},
+	"EXPAND": {
+		"a": "(array, rows, [columns], [pad_with])",
+		"d": "Mở rộng mảng theo kích thước đã chỉ định."
+	},
+	"XMATCH": {
+		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
+		"d": "Trả về vị trí tương đối của một mục trong mảng. Theo mặc định, yêu cầu phải khớp hoàn toàn"
+	},
+	"FILTER": {
+		"a": "(mảng, bao_gồm, [nếu_trống])",
+		"d": "Lọc dải ô hoặc mảng"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(mảng, [định_dạng])",
+		"d": "Trả về biểu diễn bằng văn bản của một mảng"
+	},
+	"SORT": {
+		"a": "(mảng, [chỉ_mục_sắp_xếp], [thứ_tự_sắp_xếp], [theo_cột])",
+		"d": "Sắp xếp dải ô hoặc mảng"
+	},
+	"SORTBY": {
+		"a": "(mảng, theo_mảng, [thứ_tự_sắp_xếp], ...)",
+		"d": "Sắp xếp một dải ô hoặc mảng dựa trên các giá trị trong dải ô hoặc mảng tương ứng"
 	}
 }

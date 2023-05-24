@@ -1890,5 +1890,33 @@
 	"DROP": {
 		"a": "(masīvs, rindas, [kolonnas])",
 		"d": "Nomet rindas vai kolonnas no masīva sākuma vai beigām."
+	},
+	"SEQUENCE": {
+		"a": "(rindas, [kolonnas], [sākums], [solis])",
+		"d": "Atgriež skaitļu secību"
+	},
+	"EXPAND": {
+		"a": "(masīvs, rindas, [kolonnas], [pad_with])",
+		"d": "Paplašina masīvu līdz norādītajiem izmēriem."
+	},
+	"XMATCH": {
+		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
+		"d": "Atgriež vienuma relatīvo pozīciju masīvā. Pēc noklusējuma ir nepieciešama precīza atbilstība"
+	},
+	"FILTER": {
+		"a": "(masīvs, iekļaut, [ja_tukšs])",
+		"d": "Filtrēt diapazonu vai masīvu"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(masīvs, [formāts])",
+		"d": "Atgriež masīva teksta attēlojumu"
+	},
+	"SORT": {
+		"a": "(masīvs, [kārt_indekss], [kārt_secība], [pēc_kol])",
+		"d": "Kārto diapazonu vai masīvu"
+	},
+	"SORTBY": {
+		"a": "(masīvs, pēc_masīva, [kārtošanas_secība], ...)",
+		"d": "Kārto diapazonu vai masīvu pēc vērtībām atbilstošā diapazonā vai masīvā"
 	}
 }

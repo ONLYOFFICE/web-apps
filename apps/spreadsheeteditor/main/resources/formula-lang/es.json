@@ -473,6 +473,12 @@
 	"TAKE": "TOMAR",
 	"DROP": "EXCLUIR",
 	"SEQUENCE": "SECUENCIA",
+	"EXPAND": "EXPANDIR",
+	"XMATCH": "COINCIDIRX",
+	"FILTER": "FILTRAR",
+	"ARRAYTOTEXT": "MATRIZATEXTO",
+	"SORT": "ORDENAR",
+	"SORTBY": "ORDENARPOR",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Encabezados",

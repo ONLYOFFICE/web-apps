@@ -1890,5 +1890,33 @@
 	"DROP": {
 		"a": "(matrice, rânduri, [coloane])",
 		"d": " Elimină rânduri sau coloane de la începutul sau sfârșitul matricei."
+	},
+	"SEQUENCE": {
+		"a": "(rânduri, [coloane], [start], [pas])",
+		"d": "Returnează o secvență de numere"
+	},
+	"EXPAND": {
+		"a": "(matrice, rânduri, [coloane], [pad_with])",
+		"d": "Extinde o matrice la dimensiunile specificate."
+	},
+	"XMATCH": {
+		"a": "(valoare_căutare, matrice_căutare, [mod_potrivire], [mod_căutare])",
+		"d": "Returnează poziția relativă a unui element dintr-o matrice. În mod implicit, este necesară o potrivire exactă"
+	},
+	"FILTER": {
+		"a": "(matrice, include, [dacă_gol])",
+		"d": "Filtrați o zonă sau o matrice"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(matrice, [format])",
+		"d": "Returnează o reprezentare text a unei matrice"
+	},
+	"SORT": {
+		"a": "(matrice, [index_sortare], [ordine_sortare], [după_coloană])",
+		"d": "Sortează o zonă sau o matrice"
+	},
+	"SORTBY": {
+		"a": "(matrice, după_matrice, [ordine_sortare], ...)",
+		"d": "Sortează o zonă sau o matrice pe baza valorilor dintr-o zonă sau dintr-o matrice corespunzătoare"
 	}
 }

@@ -104,15 +104,26 @@
     background-color: @background-toolbar;
     border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
+
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.2);
 }
 
 #equation-container {
-    padding: 4px;
     .separator {
-        height: 20px;
+        height: 30px;
     }
     &.has-open-menu {
         z-index: @zindex-navbar + 1;
+    }
+    .btn-toolbar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 0px;
     }
 }
 
@@ -125,4 +136,29 @@
 
 #slot-btn-incfont, #slot-btn-decfont, #slot-btn-changecase {
     margin-left: 2px;
+    .rtl & {
+        margin-left: 0;
+        margin-right: 2px;
+    }
+}
+
+#slot-field-fontname {
+    width: 89px;
+    float: left;
+
+    .rtl & {
+        float: right;
+    }
+}
+
+#slot-field-fontsize {
+    width: 40px;
+    float: left;
+    margin-left: 2px;
+
+    .rtl & {
+        float: right;
+        margin-left: 0;
+        margin-right: 2px;
+    }
 }

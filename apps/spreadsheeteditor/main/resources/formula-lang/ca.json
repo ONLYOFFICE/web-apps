@@ -473,6 +473,12 @@
 	"TAKE": "PREN",
 	"DROP": "EXCLOU",
 	"SEQUENCE": "SEQÜÈNCIA",
+	"EXPAND": "EXPANDEIX",
+	"XMATCH": "XMATCH",
+	"FILTER": "FILTRA",
+	"ARRAYTOTEXT": "MATRIUATEXT",
+	"SORT": "ORDENA",
+	"SORTBY": "ORDENAPER",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

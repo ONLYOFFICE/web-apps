@@ -1890,5 +1890,33 @@
 	"DROP": {
 		"a": "(dizi, satırlar, [sütunlar])",
 		"d": "Dizinin başlangıcından veya sonundan satırları veya sütunları bırakır."
+	},
+	"SEQUENCE": {
+		"a": "(satırlar, [sütunlar], [başlangıç], [artış])",
+		"d": "Bir sayı dizisi döndürür"
+	},
+	"EXPAND": {
+		"a": "(dizi, satırlar, [sütunlar], [pad_with])",
+		"d": "Bir diziyi belirtilen boyutlara genişletir."
+	},
+	"XMATCH": {
+		"a": "(arama_değeri, arama_dizisi, [eşleştirme_modu], [arama_modu])",
+		"d": "Bir dizideki öğenin göreli konumunu döndürür. Varsayılan olarak tam eşleşme gereklidir"
+	},
+	"FILTER": {
+		"a": "(dizi, ekle, [boşsa])",
+		"d": "Bir aralığı veya diziyi filtreler"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(dizi, [biçim])",
+		"d": "Dizinin metin olarak temsilini döndürür"
+	},
+	"SORT": {
+		"a": "(dizi, [sıralama_dizini], [sıralama_düzeni], [sütuna_göre])",
+		"d": "Aralığı veya diziyi sıralar"
+	},
+	"SORTBY": {
+		"a": "(dizi, diziye_göre, [sıralama_düzeni], ...)",
+		"d": "Bir aralığı veya diziyi, karşılık gelen aralık veya dizideki değerlere göre sıralar"
 	}
 }

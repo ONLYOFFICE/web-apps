@@ -28,15 +28,15 @@ const StandartColors = ({ options, standartColors, onColorClick, curColor }) => 
     return (
         <div className='palette'>
             {standartColors?.length && standartColors.map((color, index) => {
-                return(
+                return (
                     index === 0 && options.transparent ?
                         <a key={`sc-${index}`}
                            className={`transparent ${'transparent' === curColor ? 'active' : ''}`}
                            onClick={() => {onColorClick('transparent')}}
                         ></a> :
                         <a key={`sc-${index}`}
-                           className={curColor && curColor === color ? ' active' : ''}
-                           style={{ background: `#${color}` }}
+                           className={curColor && (curColor?.color === color?.color || curColor === color?.color) ? ' active' : ''}
+                           style={{ background: `#${color?.color}` }}
                            onClick={() => {onColorClick(color)}}
                         ></a>
                 )

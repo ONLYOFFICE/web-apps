@@ -1890,5 +1890,33 @@
 	"DROP": {
 		"a": "(array, rows, [columns])",
 		"d": "Löscht Zeilen oder Spalten vom Anfang oder Ende der Matrix."
+	},
+	"SEQUENCE": {
+		"a": "(Zeilen, [Spalten], [Anfang], [Schritt])",
+		"d": "Gibt eine Abfolge von Zahlen zurück."
+	},
+	"EXPAND": {
+		"a": "(array, rows, [columns], [pad_with])",
+		"d": "Erweitert eine Matrix auf die angegebenen Dimensionen."
+	},
+	"XMATCH": {
+		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
+		"d": "Gibt die relative Position eines Elements in einem Array zurück. Standardmäßig ist eine genaue Übereinstimmung erforderlich"
+	},
+	"FILTER": {
+		"a": "(Matrix, einschließen, [wenn_leer])",
+		"d": "Filtert einen Bereich oder eine Matrix."
+	},
+	"ARRAYTOTEXT": {
+		"a": "(Matrix, [Format])",
+		"d": "Gibt eine Textdarstellung einer Matrix zurück."
+	},
+	"SORT": {
+		"a": "(Matrix, [Sortierindex], [Sortierreihenfolge], [nach_Spalte])",
+		"d": "Sortiert einen Bereich oder eine Matrix."
+	},
+	"SORTBY": {
+		"a": "(Matrix, nach_Matrix, [Sortierreihenfolge], ...)",
+		"d": "Sortiert einen Bereich oder eine Matrix, basierend auf den Werten in einem entsprechenden Bereich oder einer entsprechenden Matrix."
 	}
 }

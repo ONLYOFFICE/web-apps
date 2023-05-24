@@ -472,6 +472,13 @@
 	"WRAPCOLS": "BRYTKOL",
 	"TAKE": "TA",
 	"DROP": "UTELAT",
+	"SEQUENCE": "SEKVENS",
+	"EXPAND": "UTVID",
+	"XMATCH": "XSAMSVAR",
+	"FILTER": "FILTRER",
+	"ARRAYTOTEXT": "MATRISETILTEKST",
+	"SORT": "SORTER",
+	"SORTBY": "SORTER.ETTER",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

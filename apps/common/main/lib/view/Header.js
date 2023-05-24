@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  Header.js
  *
@@ -109,12 +108,13 @@ define([
                                     '<div class="btn-slot" id="slot-btn-search"></div>' +
                                 '</div>' +
                                 '<div class="hedset">' +
-                                    // '<div class="btn-slot slot-btn-user-name"></div>' +
-                                    '<button type="button" class="btn btn-header slot-btn-user-name hidden">' +
-                                        '<div class="color-user-name"></div>' +
-                                    '</button>' +
-                                    '<div class="btn-current-user hidden">' +
-                                        '<div class="color-user-name"></div>' +
+                                    '<div class="btn-slot">' +
+                                        '<button type="button" class="btn btn-header slot-btn-user-name hidden">' +
+                                            '<div class="color-user-name"></div>' +
+                                        '</button>' +
+                                        '<div class="btn-current-user hidden">' +
+                                            '<div class="color-user-name"></div>' +
+                                        '</div>' +
                                     '</div>' +
                                 '</div>' +
                             '</section>' +
@@ -139,12 +139,13 @@ define([
                                     '<input id="title-doc-name" autofill="off" autocomplete="off"/></input>' +
                                 '</div>' +
                                 '<div class="hedset">' +
-                                    // '<div class="btn-slot slot-btn-user-name"></div>' +
-                                    '<button type="button" class="btn btn-header slot-btn-user-name hidden">' +
-                                        '<div class="color-user-name"></div>' +
-                                    '</button>' +
-                                    '<div class="btn-current-user hidden">' +
-                                        '<div class="color-user-name"></div>' +
+                                    '<div class="btn-slot">' +
+                                        '<button type="button" class="btn btn-header slot-btn-user-name hidden">' +
+                                            '<div class="color-user-name"></div>' +
+                                        '</button>' +
+                                        '<div class="btn-current-user hidden">' +
+                                            '<div class="color-user-name"></div>' +
+                                        '</div>' +
                                     '</div>' +
                                 '</div>' +
                             '</section>';
@@ -467,7 +468,7 @@ define([
                 this.isModified = false;
 
                 me.btnGoBack = new Common.UI.Button({
-                    id: 'btn-goback',
+                    id: 'btn-go-back',
                     cls: 'btn-header',
                     iconCls: 'toolbar__icon icon--inverse btn-goback',
                     dataHint: '0',
@@ -825,7 +826,11 @@ define([
                         this._testCanvas.font = font;
                     }
                 }
-                return this._testCanvas ? this._testCanvas.measureText(text).width : -1;
+                if (this._testCanvas) {
+                    var mt = this._testCanvas.measureText(text);
+                    return (mt.actualBoundingBoxLeft!==undefined) ? Math.ceil(Math.abs(mt.actualBoundingBoxLeft) + Math.abs(mt.actualBoundingBoxRight)) + 1 : (mt.width ? Math.ceil(mt.width)+2 : 0);
+                }
+                return -1;
             },
 
             setUserName: function(name) {

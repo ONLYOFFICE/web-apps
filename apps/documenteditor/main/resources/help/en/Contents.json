@@ -7,6 +7,7 @@
     { "src": "ProgramInterface/ReferencesTab.htm", "name": "References tab" },
     {"src": "ProgramInterface/FormsTab.htm", "name": "Forms tab"},
     {"src": "ProgramInterface/ReviewTab.htm", "name": "Collaboration tab" },
+	{"src": "ProgramInterface/ProtectionTab.htm", "name": "Protection tab" },
     {"src": "ProgramInterface/ViewTab.htm", "name": "View tab"},
     {"src": "ProgramInterface/PluginsTab.htm", "name": "Plugins tab"},
     {"src": "UsageInstructions/OpenCreateNew.htm", "name": "Create a new document or open an existing one", "headername": "Basic operations"},

@@ -29,6 +29,11 @@ label {
         text-overflow: ellipsis;
         overflow: hidden;
     }
+
+    &.light {
+        color: @text-tertiary-ie;
+        color: @text-tertiary;
+    }
 }
 
 .menu-shapes {
@@ -121,6 +126,13 @@ label {
 
     #left-panel-search {
         height: 100%;
+    }
+
+    .btn-group > .btn {
+        .pixel-ratio__2_5 & {
+            display: flex;
+            align-items: center;
+        }
     }
 }
 
@@ -363,4 +375,9 @@ body {
     label {
         display: block;
     }
+}
+
+.color-btn-wrap {
+    display: flex;
+    align-items: center;
 }

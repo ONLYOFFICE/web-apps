@@ -471,6 +471,13 @@
 	"WRAPCOLS": "ORGA.COLS",
 	"TAKE": "PRENDRE",
 	"DROP": "EXCLURE",
+	"SEQUENCE": "SEQUENCE",
+	"EXPAND": "ETENDRE",
+	"XMATCH": "EQUIVX",
+	"FILTER": "FILTRE",
+	"ARRAYTOTEXT": "TABLEAU.EN.TEXTE",
+	"SORT": "TRIER",
+	"SORTBY": "TRIERPAR",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "En-têtes",

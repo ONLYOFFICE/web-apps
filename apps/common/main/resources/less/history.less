@@ -26,6 +26,11 @@
             background-color: @highlight-button-hover-ie;
             background-color: @highlight-button-hover;
         }
+
+        .rtl & {
+            padding-left: 0;
+            padding-right: 20px;
+        }
     }
 }
 
@@ -46,6 +51,11 @@
         padding-left: 20px;
         .font-size-large();
         cursor: pointer;
+
+        .rtl & {
+            padding-left: 0;
+            padding-right: 20px;
+        }
 
         &:hover {
             background-color: @highlight-button-hover-ie;
@@ -96,6 +106,10 @@
         color: @text-normal;
         text-overflow: ellipsis;
 
+        .rtl & {
+            padding: 10px 20px 15px 2px;
+        }
+
         .user-date {
             display: inline-block;
             .font-size-medium();
@@ -103,6 +117,11 @@
             margin-right: 12px;
             white-space: nowrap;
             overflow: hidden;
+
+            .rtl & {
+                margin-right: 0;
+                margin-left: 12px;
+            }
         }
 
         .user-version {
@@ -132,6 +151,11 @@
             cursor: pointer;
             text-overflow: ellipsis;
             padding-right: 35px;
+
+            .rtl & {
+                padding-right: 0;
+                padding-left: 35px;
+            }
         }
 
         .color {
@@ -141,6 +165,10 @@
             border: @scaled-one-px-value solid @border-toolbar;
             margin: 0 5px 3px 0;
             vertical-align: middle;
+
+            .rtl & {
+                margin: 0 0 3px 5px;
+            }
         }
 
         .revision-expand {
@@ -157,6 +185,11 @@
             margin: 15px;
             //transition: transform 0.2s ease;
             transform: rotate(-135deg) ;
+
+            .rtl & {
+                right: auto;
+                left: 2px;
+            }
 
             &.up {
                 transform: rotate(45deg);

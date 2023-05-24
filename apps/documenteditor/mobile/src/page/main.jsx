@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import { f7, Link, Fab, Icon, FabButtons, FabButton, Page, View, Navbar, Subnavbar } from 'framework7-react';
+import { f7, Icon, FabButtons, FabButton, Page, View, Navbar, Subnavbar } from 'framework7-react';
 import { observer, inject } from "mobx-react";
 import { withTranslation } from 'react-i18next';
 import EditOptions from '../view/edit/Edit';
@@ -15,7 +15,7 @@ import { Toolbar } from "../controller/Toolbar";
 import NavigationController from '../controller/settings/Navigation';
 import { AddLinkController } from '../controller/add/AddLink';
 import EditHyperlink from '../controller/edit/EditHyperlink';
-import Snackbar from "../components/Snackbar/Snackbar";
+import Snackbar from '../components/Snackbar/Snackbar';
 
 class MainPage extends Component {
     constructor(props) {
@@ -135,24 +135,32 @@ class MainPage extends Component {
         const disabledControls = storeToolbarSettings.disabledControls;
         const disabledSettings = storeToolbarSettings.disabledSettings;
         const isProtected = appOptions.isProtected;
-        const isFabShow = isViewer && !disabledSettings && !disabledControls && !isDisconnected && isAvailableExt && isEdit && !isProtected;
+        const typeProtection = appOptions.typeProtection;
+        const isFabShow = isViewer && !disabledSettings && !disabledControls && !isDisconnected && isAvailableExt && isEdit && (!isProtected || typeProtection === Asc.c_oAscEDocProtect.TrackedChanges);
         const config = appOptions.config;
+        const isShowPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
 
-        let showLogo = !(config.customization && (config.customization.loaderName || config.customization.loaderLogo));
-        if (!Object.keys(config).length) {
-            showLogo = !/&(?:logo)=/.test(window.location.search);
+        let isHideLogo = true,
+            isCustomization = true,
+            isBranding = true;
+
+        if (!appOptions.isDisconnected && config?.customization) {
+            isCustomization = !!(config.customization && (config.customization.loaderName || config.customization.loaderLogo));
+            isBranding = appOptions.canBranding || appOptions.canBrandingExt;
+
+            if (!Object.keys(config).length) {
+                isCustomization = !/&(?:logo)=/.test(window.location.search);
+            }
+
+            isHideLogo = isCustomization && isBranding; 
         }
-
-        const showPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
-        const isBranding = appOptions.canBranding || appOptions.canBrandingExt;
         
-
         return (
-            <Page name="home" className={`editor${showLogo ? ' page-with-logo' : ''}`}>
+            <Page name="home" className={`editor${!isHideLogo ? ' page-with-logo' : ''}`}>
                 {/* Top Navbar */}
                 <Navbar id='editor-navbar'
-                        className={`main-navbar${(!isBranding && showLogo) ? ' navbar-with-logo' : ''}`}>
-                    {(!isBranding && showLogo) &&
+                        className={`main-navbar${!isHideLogo ? ' navbar-with-logo' : ''}`}>
+                    {!isHideLogo &&
                         <div className="main-logo" onClick={() => {
                             window.open(`${__PUBLISHER_URL__}`, "_blank");
                         }}><Icon icon="icon-logo"></Icon></div>}
@@ -168,7 +176,7 @@ class MainPage extends Component {
                 <View id="editor_sdk">
                 </View>
 
-                {showPlaceholder ?
+                {isShowPlaceholder ?
                     <div className="doc-placeholder-container">
                         <div className="doc-placeholder">
                             <div className="line"></div>
@@ -198,23 +206,11 @@ class MainPage extends Component {
                 {/* {
                     Device.phone ? null : <SearchSettings />
                 } */}
-                <CSSTransition
-                    in={this.state.snackbarVisible}
-                    timeout={1500}
-                    classNames="snackbar"
-                    mountOnEnter
-                    unmountOnExit
-                    onEntered={(node, isAppearing) => {
-                        if(!isAppearing) {
-                            this.setState({
-                                snackbarVisible: false
-                            });
-                        }
-                    }}
-                >
-                    <Snackbar
-                        text={isMobileView ? t("Toolbar.textSwitchedMobileView") : t("Toolbar.textSwitchedStandardView")}/>
-                </CSSTransition>
+                <Snackbar 
+                    isShowSnackbar={this.state.snackbarVisible} 
+                    closeCallback={() => this.handleOptionsViewClosed('snackbar')}
+                    message={isMobileView ? t("Toolbar.textSwitchedMobileView") : t("Toolbar.textSwitchedStandardView")} 
+                />
                 <SearchSettings useSuspense={false}/>
                 {
                     !this.state.editOptionsVisible ? null :
@@ -253,9 +249,9 @@ class MainPage extends Component {
                         mountOnEnter
                         unmountOnExit
                     >
-                        <Fab position="right-bottom" slot="fixed" onClick={() => this.turnOffViewerMode()}>
-                            <Icon icon="icon-edit-mode"/>
-                        </Fab>
+                        <div className="fab fab-right-bottom" onClick={() => this.turnOffViewerMode()}>
+                            <a href="#"><i className="icon icon-edit-mode"></i></a>
+                        </div>
                     </CSSTransition>
                 }
                 {appOptions.isDocReady && <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)}/>}

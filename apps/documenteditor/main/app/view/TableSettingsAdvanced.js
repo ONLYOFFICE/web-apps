@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  TableSettingsAdvanced.js
  *
@@ -509,7 +508,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.btnWrapNone = new Common.UI.Button({
                 parentEl: $('#tableadv-button-wrap-none'),
                 cls: 'btn-options huge-1',
-                iconCls: 'options__icon options__icon-huge table-align-center',
+                iconCls: 'options__icon options__icon-huge btn-table-align-center',
                 posId: c_tableWrap.TABLE_WRAP_NONE,
                 hint: this.textWrapNoneTooltip,
                 enableToggle: true,
@@ -521,7 +520,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.btnWrapParallel = new Common.UI.Button({
                 parentEl: $('#tableadv-button-wrap-parallel'),
                 cls: 'btn-options huge-1',
-                iconCls: 'options__icon options__icon-huge table-flow',
+                iconCls: 'options__icon options__icon-huge btn-table-flow',
                 posId: c_tableWrap.TABLE_WRAP_PARALLEL,
                 hint: this.textWrapParallelTooltip,
                 enableToggle: true,
@@ -533,7 +532,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.btnAlignLeft = new Common.UI.Button({
                 parentEl: $('#tableadv-button-align-left'),
                 cls: 'btn-options huge-1',
-                iconCls: 'options__icon options__icon-huge table-align-left',
+                iconCls: 'options__icon options__icon-huge btn-table-align-left',
                 posId: c_tableAlign.TABLE_ALIGN_LEFT,
                 hint: this.textLeftTooltip,
                 enableToggle: true,
@@ -552,7 +551,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.btnAlignCenter = new Common.UI.Button({
                 parentEl: $('#tableadv-button-align-center'),
                 cls: 'btn-options huge-1',
-                iconCls: 'options__icon options__icon-huge table-align-center',
+                iconCls: 'options__icon options__icon-huge btn-table-align-center',
                 posId: c_tableAlign.TABLE_ALIGN_CENTER,
                 hint: this.textCenterTooltip,
                 enableToggle: true,
@@ -571,7 +570,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.btnAlignRight = new Common.UI.Button({
                 parentEl: $('#tableadv-button-align-right'),
                 cls: 'btn-options huge-1',
-                iconCls: 'options__icon options__icon-huge table-align-right',
+                iconCls: 'options__icon options__icon-huge btn-table-align-right',
                 posId: c_tableAlign.TABLE_ALIGN_RIGHT,
                 hint: this.textRightTooltip,
                 enableToggle: true,
@@ -2124,8 +2123,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         ShowHideSpacing: function(spacing) {
             this.BordersContainer.toggleClass('settings-hidden', spacing);
             this.BordersSpacingContainer.toggleClass('settings-hidden', !spacing);
-            this.TableBackContainer.css('display', (!spacing && !this._allTable) ? 'none' : 'inline-block');
-            this.CellBackContainer.css('display', (!spacing && this._allTable) ? 'none' : 'inline-block');
+            this.TableBackContainer.css('display', (!spacing && !this._allTable) ? 'none' : 'flex');
+            this.CellBackContainer.css('display', (!spacing && this._allTable) ? 'none' : 'flex');
             this.TableBackContainer.css('float', (!spacing && this._allTable) ? 'none' : 'right');
             (spacing) ? this._UpdateBordersSpacing_() : this._UpdateBordersNoSpacing_();
         },

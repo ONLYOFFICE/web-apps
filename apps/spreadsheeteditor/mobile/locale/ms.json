@@ -171,6 +171,8 @@
       "textUpdate": "Update",
       "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
       "titleLicenseExp": "License expired",
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
       "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
     }
   },
@@ -255,7 +257,8 @@
     "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
     "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
     "textCancel": "Cancel",
-    "textOk": "Ok"
+    "textOk": "Ok",
+    "errorProtectedRange": "This range is not allowed for editing."
   },
   "LongActions": {
     "advDRMPassword": "Kata laluan",
@@ -392,6 +395,7 @@
       "txtSortSelected": "Isih Terpilih",
       "txtYes": "Ya",
       "textDone": "Done",
+      "textPasteImageUrl": "Paste an image URL",
       "textRecommended": "Recommended"
     },
     "Edit": {
@@ -578,7 +582,13 @@
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textDone": "Done",
-      "textRecommended": "Recommended"
+      "textRecommended": "Recommended",
+      "textCustomFormat": "Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textSave": "Save",
+      "textEnterFormat": "Enter Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
     },
     "Settings": {
       "advCSVOptions": "Pilih pilihan CSV",
@@ -714,7 +724,41 @@
       "txtSemicolon": "Koma bertindih",
       "txtSpace": "Jarak",
       "txtTab": "Tab",
-      "warnDownloadAs": "Jika anda terus menyimpan dalam format ini semua ciri kecuali teks akan hilang.<br>Adakah anda pasti mahu teruskan?"
+      "warnDownloadAs": "Jika anda terus menyimpan dalam format ini semua ciri kecuali teks akan hilang.<br>Adakah anda pasti mahu teruskan?",
+      "strFuncLocale": "Formula Language",
+      "strFuncLocaleEx": "Example: SUM; MIN; MAX; COUNT",
+      "txtBe": "Belarusian",
+      "txtBg": "Bulgarian",
+      "txtCa": "Catalan",
+      "txtCs": "Czech",
+      "txtDa": "Danish",
+      "txtDe": "Deutsch",
+      "txtEl": "Greek",
+      "txtEn": "English",
+      "txtEs": "Spanish",
+      "txtFi": "Finnish",
+      "txtFr": "French",
+      "txtHu": "Hungarian",
+      "txtId": "Indonesian",
+      "txtIt": "Italian",
+      "txtJa": "Japanese",
+      "txtKo": "Korean",
+      "txtLo": "Lao",
+      "txtLv": "Latvian",
+      "txtNb": "Norwegian",
+      "txtNl": "Dutch",
+      "txtPl": "Polish",
+      "txtPtbr": "Portuguese (Brazil)",
+      "txtPtlang": "Portuguese (Portugal)",
+      "txtRo": "Romanian",
+      "txtRu": "Russian",
+      "txtSk": "Slovak",
+      "txtSl": "Slovenian",
+      "txtSv": "Swedish",
+      "txtTr": "Turkish",
+      "txtUk": "Ukrainian",
+      "txtVi": "Vietnamese",
+      "txtZh": "Chinese"
     }
   }
 }

@@ -132,7 +132,9 @@
       "warnLicenseUsersExceeded": "您已達到％1個編輯器的用戶限制。請與您的管理員聯繫以了解更多信息。",
       "warnNoLicense": "您已達到同時連接到 %1 編輯器的限制。此文件將只提供檢視。有關個人升級條款，請聯繫 %1 業務團隊。",
       "warnNoLicenseUsers": "您已達到％1個編輯器的用戶限制。與％1銷售團隊聯繫以了解個人升級條款。",
-      "warnProcessRightsChange": "您沒有編輯此文件的權限。"
+      "warnProcessRightsChange": "您沒有編輯此文件的權限。",
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {
@@ -260,6 +262,7 @@
       "textTableSize": "表格大小",
       "txtNotUrl": "此字段應為格式為“ http://www.example.com”的URL。",
       "textDone": "Done",
+      "textPasteImageUrl": "Paste an image URL",
       "textRecommended": "Recommended",
       "textRequired": "Required"
     },

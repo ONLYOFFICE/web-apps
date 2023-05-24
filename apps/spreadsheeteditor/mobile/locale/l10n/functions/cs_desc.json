@@ -1890,5 +1890,33 @@
 	"DROP": {
 		"a": "(array, rows, [columns])",
 		"d": "Přemístí řádky nebo sloupce ze začátku nebo konce pole."
+	},
+	"SEQUENCE": {
+		"a": "(řádky, [sloupce], [začátek], [krok])",
+		"d": "Vrátí aritmetickou posloupnost."
+	},
+	"EXPAND": {
+		"a": "(matice, řádky, [sloupce], [pad_with])",
+		"d": "Rozbalí pole na zadané dimenze."
+	},
+	"XMATCH": {
+		"a": "(hodnota_vyhledávání, pole_vyhledávání, [režim_shody], [režim_vyhledávání])",
+		"d": "Vrátí relativní polohu prvku pole. Ve výchozím nastavení se vyžaduje přesná shoda."
+	},
+	"FILTER": {
+		"a": "(matice, zahrnuje, [pokud_prázdné])",
+		"d": "Filtruje oblast nebo matici."
+	},
+	"ARRAYTOTEXT": {
+		"a": "(pole, [formát])",
+		"d": "Vrátí textové vyjádření pole."
+	},
+	"SORT": {
+		"a": "(pole, [index_řazení], [pořadí_řazení], [podle_sloupce])",
+		"d": "Seřadí oblast nebo pole."
+	},
+	"SORTBY": {
+		"a": "(matice, podle_matice, [pořadí_řazení], ...)",
+		"d": "Seřadí oblast nebo matici na základě hodnot v odpovídající oblasti nebo matici."
 	}
 }
