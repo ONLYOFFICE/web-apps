@@ -730,6 +730,7 @@ define([
 
         applyLicense: function() {
             if (!this.appOptions.isAnonymousSupport && !!this.appOptions.user.anonymous) {
+                this.api.asc_coAuthoringDisconnect();
                 Common.NotificationCenter.trigger('api:disconnect');
                 Common.UI.warning({
                     title: this.notcriticalErrorTitle,
@@ -752,6 +753,7 @@ define([
                 }
 
                 if (this._state.licenseType!==Asc.c_oLicenseResult.SuccessLimit && this.appOptions.canFillForms) {
+                    this.api.asc_coAuthoringDisconnect();
                     Common.NotificationCenter.trigger('api:disconnect');
                 }
 

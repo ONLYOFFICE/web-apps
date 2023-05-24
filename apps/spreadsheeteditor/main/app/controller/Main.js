@@ -1138,6 +1138,7 @@ define([
                     }
                 } else if (!this.appOptions.isAnonymousSupport && !!this.appOptions.user.anonymous) {
                     this.disableEditing(true);
+                    this.api.asc_coAuthoringDisconnect();
                     Common.NotificationCenter.trigger('api:disconnect');
                     Common.UI.warning({
                         title: this.notcriticalErrorTitle,
@@ -1162,6 +1163,7 @@ define([
 
                     if (this._state.licenseType!==Asc.c_oLicenseResult.SuccessLimit && (this.appOptions.isEdit || this.appOptions.isRestrictedEdit)) {
                         this.disableEditing(true);
+                        this.api.asc_coAuthoringDisconnect();
                         Common.NotificationCenter.trigger('api:disconnect');
                     }
 
