@@ -270,12 +270,12 @@
                 'onRequestUsers': <request users list for mentions>,// must call setUsers method
                 'onRequestSendNotify': //send when user is mentioned in a comment,
                 'onRequestInsertImage': <try to insert image>,// must call insertImage method
-                'onRequestCompareFile': <request file to compare>,// must call setRevisedFile method
+                'onRequestCompareFile': <request file to compare>,// must call setRevisedFile method. must be deprecated
                 'onRequestSharingSettings': <request sharing settings>,// must call setSharingSettings method
                 'onRequestCreateNew': <try to create document>,
                 'onRequestReferenceData': <try to refresh external data>,
                 'onRequestOpen': <try to open external link>,
-                'onRequestFile': <try to open file>, // used for insert images, compare documents, external links in sse. must call setRequestedFile method
+                'onRequestSelectDocument': <try to open document>, // used for compare and combine documents. must call setRequestedDocument method. use instead of onRequestCompareFile/setRevisedFile
             }
         }
 
@@ -341,7 +341,7 @@
         _config.editorConfig.canRequestCreateNew = _config.events && !!_config.events.onRequestCreateNew;
         _config.editorConfig.canRequestReferenceData = _config.events && !!_config.events.onRequestReferenceData;
         _config.editorConfig.canRequestOpen = _config.events && !!_config.events.onRequestOpen;
-        _config.editorConfig.canRequestFile = _config.events && !!_config.events.onRequestFile;
+        _config.editorConfig.canRequestSelectDocument = _config.events && !!_config.events.onRequestSelectDocument;
         _config.frameEditorId = placeholderId;
         _config.parentOrigin = window.location.origin;
 
@@ -706,6 +706,13 @@
             });
         };
 
+        var _setRequestedDocument = function(data) {
+            _sendCommand({
+                command: 'setRequestedDocument',
+                data: data
+            });
+        };
+
         var _setFavorite = function(data) {
             _sendCommand({
                 command: 'setFavorite',
@@ -793,7 +800,8 @@
             requestClose        : _requestClose,
             grabFocus           : _grabFocus,
             blurFocus           : _blurFocus,
-            setReferenceData    : _setReferenceData
+            setReferenceData    : _setReferenceData,
+            setRequestedDocument: _setRequestedDocument
         }
     };
 

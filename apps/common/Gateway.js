@@ -143,8 +143,8 @@ if (window.Common === undefined) {
                 $me.trigger('setreferencedata', data);
             },
 
-            'setRequestedFile': function(data) {
-                $me.trigger('setrequestedfile', data);
+            'setRequestedDocument': function(data) {
+                $me.trigger('setrequesteddocument', data);
             },
         };
 
@@ -362,8 +362,9 @@ if (window.Common === undefined) {
                 _postMessage({event:'onRequestOpen', data: data});
             },
 
-            requestFile:  function (command, documentType) {
-                _postMessage({event:'onRequestFile', data: {c: command, documentType: documentType}});
+            requestSelectDocument:  function (command) {
+                _postMessage({event:'onRequestSelectDocument', data: {c: command}});
+            },
             },
 
             pluginsReady: function() {
