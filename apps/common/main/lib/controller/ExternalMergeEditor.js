@@ -55,6 +55,7 @@ define([
 
 
         var createExternalEditor = function() {
+            Common.UI.HintManager.setInternalEditorLoading(true);
             externalEditor = new DocsAPI.DocEditor('id-merge-editor-placeholder', {
                 width       : '100%',
                 height      : '100%',
@@ -129,6 +130,7 @@ define([
                                 externalEditor.detachMouseEvents();
                                 this.isExternalEditorVisible = false;
                             }
+                            Common.UI.HintManager.setInternalEditorLoading(false);
                         }, this)
                     }
                 });

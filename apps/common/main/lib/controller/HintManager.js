@@ -117,6 +117,7 @@ Common.UI.HintManager = new(function() {
         _inputTimer,
         _isDocReady = false,
         _isEditDiagram = false,
+        _isInternalEditorLoading = false,
         _usedTitles = [],
         _appPrefix,
         _staticHints = { // for 0 level
@@ -644,7 +645,7 @@ Common.UI.HintManager = new(function() {
                 (!Common.Utils.isMac && e.keyCode == Common.UI.Keys.ALT || Common.Utils.isMac && e.metaKey && e.keyCode === Common.UI.Keys.F6) &&
                 !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0 &&
                 !(window.PE && $('#pe-preview').is(':visible')));
-            if (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && !Common.Utils.isMac && e.altKey && e.keyCode !== 115) {
+            if (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && !Common.Utils.isMac && e.altKey && e.keyCode !== 115 && (_isInternalEditorLoading || _isEditDiagram)) {
                 e.preventDefault();
             }
         });
@@ -716,12 +717,17 @@ Common.UI.HintManager = new(function() {
         return _staticHints[key];
     };
 
+    var _setInternalEditorLoading = function (load) {
+        _isInternalEditorLoading = load;
+    };
+
     return {
         init: _init,
         setMode: _setMode,
         clearHints: _clearHints,
         needCloseFileMenu: _needCloseFileMenu,
         isHintVisible: _isHintVisible,
-        getStaticHint: _getStaticHint
+        getStaticHint: _getStaticHint,
+        setInternalEditorLoading: _setInternalEditorLoading
     }
 })();
