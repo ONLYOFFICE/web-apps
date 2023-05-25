@@ -312,7 +312,7 @@
     @1d5ximage: replace(@common-controls, '\.png$', '@1.5x.png');
     @1d75ximage: replace(@common-controls, '\.png$', '@1.75x.png');
     @2ximage: replace(@common-controls, '\.png$', '@2x.png');
-    @2d5ximage: replace(@common-controls, '\.png$', '@2.5x.png');
+    //@2d5ximage: replace(@common-controls, '\.png$', '@2.5x.png');
 
     @media only screen {
         @media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
@@ -343,7 +343,7 @@
     }
 
     .pixel-ratio__2_5 & {
-        background-image: ~"url(@{common-image-const-path}/@{2d5ximage})";
+        background-image: ~"url(@{common-image-const-path}/@{2ximage})";
         background-size: @common-controls-width auto;
     }
 }
