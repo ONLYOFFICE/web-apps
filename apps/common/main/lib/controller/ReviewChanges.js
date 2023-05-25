@@ -152,6 +152,11 @@ define([
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
 
                 Common.Gateway.on('setrevisedfile', _.bind(this.setRevisedFile, this));
+                if (this.appConfig.canFeatureComparison) {
+                    Common.NotificationCenter.on('storage:document-load', _.bind(this.openDocumentFromStorage, this));
+                    Common.NotificationCenter.on('storage:document-insert', _.bind(this.insertDocumentFromStorage, this));
+                    Common.Gateway.on('setrequesteddocument', _.bind(this.setRequestedDocument, this));
+                }
             }
         },
 
@@ -695,15 +700,7 @@ define([
                         }
                     })).show();
                 } else if (item === 'storage') {
-                    if (this.appConfig.canRequestCompareFile) {
-                        Common.Gateway.requestCompareFile();
-                    } else {
-                        (new Common.Views.SelectFileDlg({
-                            fileChoiceUrl: this.appConfig.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "DocumentsOnly")
-                        })).on('selectfile', function(obj, file){
-                            me.setRevisedFile(file, me._state.compareSettings);
-                        }).show();
-                    }
+                    Common.NotificationCenter.trigger('storage:document-load', 'compare');
                 } else if (item === 'settings') {
                     var value = me._state.compareSettings ? me._state.compareSettings.getWords() : true;
                     (new Common.Views.OptionsDialog({
@@ -751,19 +748,16 @@ define([
                             }
                         }
                     })).show();
+                } else if (item === 'storage') {
+                    Common.NotificationCenter.trigger('storage:document-load', 'combine');
                 }
             }
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
         setRevisedFile: function(data) {
-            if (!this._state.compareSettings) {
-                this._state.compareSettings = new AscCommonWord.ComparisonOptions();
-                this._state.compareSettings.putWords(!Common.localStorage.getBool("de-compare-char"));
-            }
-            if (data && data.url) {
-                this.api.asc_CompareDocumentUrl(data.url, this._state.compareSettings, data.token);// for loading from storage
-            }
+            data && (data.c = 'compare');
+            this.setRequestedDocument(data);
         },
 
         onAcceptChangesBeforeCompare: function(callback) {
@@ -780,6 +774,38 @@ define([
                     Common.NotificationCenter.trigger('edit:complete', this.view);
                 }
             });
+        },
+
+        openDocumentFromStorage: function(type) {
+            var me = this;
+            if (this.appConfig.canRequestSelectDocument) {
+                Common.Gateway.requestSelectDocument(type);
+            } else if (this.appConfig.canRequestCompareFile) {
+                console.log("Obsolete: The 'onRequestCompareFile' event is deprecated. Please use 'onRequestSelectDocument' event instead.");
+                Common.Gateway.requestCompareFile();
+            } else {
+                (new Common.Views.SelectFileDlg({
+                    fileChoiceUrl: this.appConfig.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "DocumentsOnly")
+                })).on('selectfile', function(obj, file){
+                    file && (file.c = type);
+                    me.setRequestedDocument(file);
+                }).show();
+            }
+        },
+
+        setRequestedDocument: function(data) { // gateway
+            Common.NotificationCenter.trigger('storage:document-insert', data);
+        },
+
+        insertDocumentFromStorage: function(data) {
+            if (data && data.url && (data.c==='compare' || data.c==='combine')) {
+                if (!this._state.compareSettings) {
+                    this._state.compareSettings = new AscCommonWord.ComparisonOptions();
+                    this._state.compareSettings.putWords(!Common.localStorage.getBool("de-compare-char"));
+                }
+                (data.c==='compare') && this.api.asc_CompareDocumentUrl(data.url, this._state.compareSettings, data.token);
+                (data.c==='combine') && this.api.asc_MergeDocumentUrl(data.url, this._state.compareSettings, data.token);
+            }
         },
 
         turnDisplayMode: function(mode) {
