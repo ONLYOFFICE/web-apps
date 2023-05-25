@@ -2082,7 +2082,7 @@ define([
                 this.btnPageMargins.updateHint(this.tipPageMargins);
                 this.btnLineNumbers.updateHint(this.tipLineNumbers);
                 this.btnClearStyle.updateHint(this.tipClearStyle);
-                this.btnCopyStyle.updateHint(this.tipCopyStyle + Common.Utils.String.platformKey('Ctrl+Shift+C'));
+                this.btnCopyStyle.updateHint(this.tipCopyStyle + Common.Utils.String.platformKey('Alt+Ctrl+C'));
                 this.btnColorSchemas.updateHint(this.tipColorSchemas);
                 this.btnMailRecepients.updateHint(this.tipMailRecepients);
 

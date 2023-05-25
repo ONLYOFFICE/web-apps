@@ -736,7 +736,7 @@ define([
                         {symbol: '',    description: this.textEnSpace,      shortcutKey: '', code: '2002'},
                         {symbol: '',    description: this.textQEmSpace,     shortcutKey: '', code: '2005'},
                         {symbol: '°',   description: this.textNBSpace,      shortcutKey: Common.Utils.String.platformKey(Common.Utils.isMac ? 'Alt ' : 'Ctrl+Shift+', '{0}') + 'Space', code: '00A0'},
-                        {symbol: '©',   description: this.textCopyright,    shortcutKey: '', code: '00A9'},
+                        {symbol: '©',   description: this.textCopyright,    shortcutKey: Common.Utils.String.platformKey(Common.Utils.isMac ? 'Alt Ctrl ' : 'Alt+Ctrl+', '{0}') + 'G', code: '00A9'},
                         {symbol: '®',   description: this.textRegistered,   shortcutKey: '', code: '00AE'},
                         {symbol: '™',  description: this.textTradeMark,    shortcutKey: '', code: '2122'},
                         {symbol: '§',   description: this.textSection,      shortcutKey: '', code: '00A7'},
