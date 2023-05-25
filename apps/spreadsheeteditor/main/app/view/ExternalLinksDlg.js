@@ -298,6 +298,8 @@ define([
                             };
                             break;
                     }
+                    data.windowName = 'wname-' + Date.now();
+                    window.open("", data.windowName);
                     Common.Gateway.requestOpen(data);
                 }
             }
