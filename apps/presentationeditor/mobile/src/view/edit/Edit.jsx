@@ -355,7 +355,7 @@ const EditView = props => {
             <Popover id="edit-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => props.onClosed()}>
                 <EditTabsContainer inPopover={true} onOptionClick={onOptionClick} style={{height: '410px'}} />
             </Popover> :
-            <Sheet id="edit-sheet" push onSheetClosed={() => props.onClosed()}>
+            <Sheet id="edit-sheet" onSheetClosed={() => props.onClosed()}>
                 <EditTabsContainer onOptionClick={onOptionClick} />
             </Sheet>
     )

@@ -450,7 +450,7 @@ const EditView = props => {
             <Popover id="edit-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => props.onClosed()}>
                 <EditTabsContainer isAddShapeHyperlink={props.isAddShapeHyperlink} hyperinfo={props.hyperinfo} inPopover={true} wsLock={props.wsLock} wsProps={props.wsProps} onOptionClick={onOptionClick} style={{height: '410px'}} />
             </Popover> :
-            <Sheet id="edit-sheet" push onSheetClosed={() => props.onClosed()}>
+            <Sheet id="edit-sheet" onSheetClosed={() => props.onClosed()}>
                 <EditTabsContainer isAddShapeHyperlink={props.isAddShapeHyperlink} hyperinfo={props.hyperinfo} onOptionClick={onOptionClick} wsLock={props.wsLock} wsProps={props.wsProps} />
             </Sheet>
     )
