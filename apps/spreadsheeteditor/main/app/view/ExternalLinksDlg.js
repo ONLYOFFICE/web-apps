@@ -92,6 +92,7 @@ define([
             this.isUpdating = options.isUpdating || false;
             this.canRequestReferenceData = options.canRequestReferenceData || false;
             this.canRequestOpen = options.canRequestOpen || false;
+            this.canRequestSelectSpreadsheet = options.canRequestSelectSpreadsheet || false;
             this.isOffline = options.isOffline || false;
             this.linkStatus = [];
             this.wrapEvents = {
@@ -182,7 +183,7 @@ define([
                 parentEl: $('#external-links-btn-change', this.$window),
                 cls: 'btn-text-default auto',
                 caption: this.textChange,
-                visible: false
+                visible: !!this.canRequestSelectSpreadsheet
             });
             this.btnChange.on('click', _.bind(this.onChange, this));
 
@@ -304,7 +305,14 @@ define([
         },
 
         onChange: function() {
+            var rec = this.linksList.getSelectedRec();
+            if (rec) {
+                if (this.isOffline)
+                    this.api.updateSourceFromFile(rec.get('externalRef'));
+                else
+                    this.fireEvent('change:source', this, rec.get('externalRef'));
 
+            }
         },
 
         updateButtons: function() {
