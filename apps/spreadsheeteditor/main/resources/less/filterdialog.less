@@ -132,51 +132,31 @@
       padding-right: 30px;
     }
   }
-}
 
-.date-filter {
   .combo-container-1 {
     margin-top: 15px;
-    display: flex;
   }
 
   .combo-container-2 {
     margin-top: 10px;
-    display: flex;
   }
 
   #id-search-begin-digital-combo,
   #id-search-end-digital-combo {
     width: 225px;
+    display: inline-block;
     vertical-align: top;
   }
 
   #id-sd-cell-search-begin,
   #id-sd-cell-search-end {
     width: 225px;
+    display: inline-block;
     margin-left: 18px;
     .rtl & {
       margin-left: 0;
       margin-right: 18px;
     }
-  }
-
-  #id-btn-date-picker-1,
-  #id-btn-date-picker-2 {
-    position: relative;
-    margin-left: 5px;
-    .rtl & {
-      margin-left: 0;
-      margin-right: 5px;
-    }
-  }
-
-  #date-picker-1,
-  #date-picker-2 {
-    position: absolute;
-    left: 0;
-    top : 100%;
-    z-index: 1;
   }
 
   #id-and-radio {
@@ -195,5 +175,30 @@
 
   .separator {
     width:100%
+  }
+}
+
+.date-filter {
+  .combo-container-1,
+  .combo-container-2 {
+    display: flex;
+  }
+
+  #id-btn-date-picker-1,
+  #id-btn-date-picker-2 {
+    position: relative;
+    margin-left: 5px;
+    .rtl & {
+      margin-left: 0;
+      margin-right: 5px;
+    }
+  }
+
+  #date-picker-1,
+  #date-picker-2 {
+    position: absolute;
+    left: 0;
+    top : 100%;
+    z-index: 1;
   }
 }

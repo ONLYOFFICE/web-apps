@@ -54,11 +54,11 @@ define([
             var t = this, _options = {};
 
             _.extend(_options,  {
-                width           : 501,
+                width           : options.type === 'date' ? 528 : 501,
                 height          : 230,
                 contentWidth    : 180,
                 header          : true,
-                cls             : 'filter-dlg',
+                cls             : 'filter-dlg' + (options.type === 'date' ? ' date-filter' : ''),
                 contentTemplate : '',
                 title           : t.txtTitle,
                 items           : []
@@ -68,21 +68,27 @@ define([
                 '<div class="box" style="height:' + (_options.height - 85) + 'px;">',
                     '<div class="content-panel" >',
                         '<label class="header">', t.textShowRows, '</label>',
-                        '<div style="margin-top:15px;">',
-                            '<div id="id-search-begin-digital-combo" class="input-group-nr" style="vertical-align:top;width:225px;display:inline-block;"></div>',
-                            '<div id="id-sd-cell-search-begin" class="" style="width:225px;display:inline-block;margin-left:18px;"></div>',
+                        '<div class="combo-container-1">',
+                            '<div id="id-search-begin-digital-combo" class="input-group-nr"></div>',
+                            '<div id="id-sd-cell-search-begin"></div>',
+                            '<% if (type === "date") {%>',
+                                '<div id="id-btn-date-picker-1"></div>',
+                            '<% } %>',
                         '</div>',
                         '<div>',
-                            '<div id="id-and-radio" class="padding-small" style="display: inline-block; margin-top:10px;"></div>',
-                            '<div id="id-or-radio" class="padding-small" style="display: inline-block; margin-left:25px;"></div>',
+                            '<div id="id-and-radio" class="padding-small"></div>',
+                            '<div id="id-or-radio" class="padding-small"></div>',
                         '</div>',
-                        '<div style="margin-top:10px;">',
-                            '<div id="id-search-end-digital-combo" class="input-group-nr" style="vertical-align:top;width:225px;display:inline-block;"></div>',
-                            '<div id="id-sd-cell-search-end" class="" style="width:225px;display:inline-block;margin-left:18px;"></div>',
+                        '<div class="combo-container-2">',
+                            '<div id="id-search-end-digital-combo" class="input-group-nr"></div>',
+                            '<div id="id-sd-cell-search-end"></div>',
+                            '<% if (type === "date") {%>',
+                                '<div id="id-btn-date-picker-2"></div>',
+                            '<% } %>',
                         '</div>',
                     '</div>',
                 '</div>',
-                '<div class="separator horizontal" style="width:100%"></div>',
+                '<div class="separator horizontal"></div>',
                 '<div class="footer center">',
                     '<button class="btn normal dlg-btn primary" result="ok">', t.okButtonText, '</button>',
                     '<button class="btn normal dlg-btn" result="cancel">', t.cancelButtonText, '</button>',
@@ -92,6 +98,10 @@ define([
             this.api        =   options.api;
             this.handler    =   options.handler;
             this.type       =   options.type || 'number';
+
+            if (this.type === 'date') {
+                this.datePickers = [];
+            }
 
             _options.tpl    =   _.template(this.template)(_options);
 
@@ -103,12 +113,12 @@ define([
             this.conditions = [
                 {value: Asc.c_oAscCustomAutoFilter.equals,                   displayValue: this.capCondition1},
                 {value: Asc.c_oAscCustomAutoFilter.doesNotEqual,             displayValue: this.capCondition2},
-                {value: Asc.c_oAscCustomAutoFilter.isGreaterThan,            displayValue: this.capCondition3},
-                {value: Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo,   displayValue: this.capCondition4},
-                {value: Asc.c_oAscCustomAutoFilter.isLessThan,               displayValue: this.capCondition5},
-                {value: Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo,      displayValue: this.capCondition6}
+                {value: Asc.c_oAscCustomAutoFilter.isGreaterThan,            displayValue: this.type !== 'date' ? this.capCondition3 : this.capCondition30},
+                {value: Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo,   displayValue: this.type !== 'date' ? this.capCondition4 : this.capCondition40},
+                {value: Asc.c_oAscCustomAutoFilter.isLessThan,               displayValue: this.type !== 'date' ? this.capCondition5 : this.capCondition50},
+                {value: Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo,      displayValue: this.type !== 'date' ? this.capCondition6 : this.capCondition60}
             ];
-            if (this.type=='text') this.conditions = this.conditions.concat([
+            if (this.type=='text' || this.type=='date') this.conditions = this.conditions.concat([
                 {value: Asc.c_oAscCustomAutoFilter.beginsWith,               displayValue: this.capCondition7},
                 {value: Asc.c_oAscCustomAutoFilter.doesNotBeginWith,         displayValue: this.capCondition8},
                 {value: Asc.c_oAscCustomAutoFilter.endsWith,                 displayValue: this.capCondition9},
@@ -171,6 +181,24 @@ define([
                 data        : [],
                 takeFocusOnClose: true
             });
+
+            if (this.type === 'date') {
+                this.btnDatePicker1 = new Common.UI.Button({
+                    parentEl: $('#id-btn-date-picker-1', this.$window),
+                    cls: 'btn-toolbar bg-white',
+                    iconCls: 'toolbar__icon',
+                    hint: this.txtDatePicker
+                });
+                this.btnDatePicker1.on('click', _.bind(this.showDatePicker, this));
+
+                this.btnDatePicker2 = new Common.UI.Button({
+                    parentEl: $('#id-btn-date-picker-2', this.$window),
+                    cls: 'btn-toolbar bg-white',
+                    iconCls: 'toolbar__icon',
+                    hint: this.txtDatePicker
+                });
+                this.btnDatePicker2.on('click', _.bind(this.showDatePicker, this));
+            }
 
             var comparator = function(item1, item2) {
                 var n1 = item1.get('intval'),
@@ -278,255 +306,6 @@ define([
             return false;
         },
 
-        capAnd              : "And",
-        capCondition1       : "equals",
-        capCondition10      : "does not end with",
-        capCondition11      : "contains",
-        capCondition12      : "does not contain",
-        capCondition2       : "does not equal",
-        capCondition3       : "is greater than",
-        capCondition4       : "is greater than or equal to",
-        capCondition5       : "is less than",
-        capCondition6       : "is less than or equal to",
-        capCondition7       : "begins with",
-        capCondition8       : "does not begin with",
-        capCondition9       : "ends with",
-        capOr               : "Or",
-        textNoFilter        : "no filter",
-        textShowRows        : "Show rows where",
-        textUse1            : "Use ? to present any single character",
-        textUse2            : "Use * to present any series of character",
-        txtTitle            : "Custom Filter"
-
-    }, SSE.Views.DigitalFilterDialog || {}));
-
-    SSE.Views.DataFilterDialog = Common.UI.Window.extend(_.extend({
-
-        initialize: function (options) {
-            var t = this, _options = {};
-
-            _.extend(_options,  {
-                width           : 528,
-                height          : 230,
-                contentWidth    : 180,
-                header          : true,
-                cls             : 'filter-dlg date-filter',
-                contentTemplate : '',
-                title           : t.txtTitle,
-                items           : []
-            }, options);
-
-            this.template   =   options.template || [
-                '<div class="box" style="height:' + (_options.height - 85) + 'px;">',
-                    '<div class="content-panel" >',
-                        '<label class="header">', t.textShowRows, '</label>',
-                        '<div class="combo-container-1">',
-                            '<div id="id-search-begin-digital-combo" class="input-group-nr"></div>',
-                            '<div id="id-sd-cell-search-begin"></div>',
-                            '<div id="id-btn-date-picker-1"></div>',
-                        '</div>',
-                        '<div>',
-                            '<div id="id-and-radio" class="padding-small"></div>',
-                            '<div id="id-or-radio" class="padding-small"></div>',
-                        '</div>',
-                        '<div class="combo-container-2">',
-                            '<div id="id-search-end-digital-combo" class="input-group-nr"></div>',
-                            '<div id="id-sd-cell-search-end"></div>',
-                            '<div id="id-btn-date-picker-2"></div>',
-                        '</div>',
-                    '</div>',
-                '</div>',
-                '<div class="separator horizontal"></div>',
-                '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok">', t.okButtonText, '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel">', t.cancelButtonText, '</button>',
-                '</div>'
-            ].join('');
-
-            this.api        =   options.api;
-            this.handler    =   options.handler;
-
-            this.datePickers = [];
-
-            _options.tpl    =   _.template(this.template)(_options);
-
-            Common.UI.Window.prototype.initialize.call(this, _options);
-        },
-        render: function () {
-            Common.UI.Window.prototype.render.call(this);
-
-            this.conditions = [
-                {value: 0, displayValue: this.capCondition1},
-                {value: 0, displayValue: this.capCondition2},
-                {value: 0, displayValue: this.capCondition3},
-                {value: 0, displayValue: this.capCondition4},
-                {value: 0, displayValue: this.capCondition5},
-                {value: 0, displayValue: this.capCondition6},
-                {value: 0, displayValue: this.capCondition7},
-                {value: 0, displayValue: this.capCondition8},
-                {value: 0, displayValue: this.capCondition9},
-                {value: 0, displayValue: this.capCondition10},
-                {value: 0, displayValue: this.capCondition11},
-                {value: 0, displayValue: this.capCondition12}
-            ];
-
-            this.cmbCondition1 = new Common.UI.ComboBox({
-                el          : $('#id-search-begin-digital-combo', this.$window),
-                menuStyle   : 'min-width: 225px;max-height: 135px;',
-                cls         : 'input-group-nr',
-                data        : this.conditions,
-                scrollAlwaysVisible: true,
-                editable    : false,
-                takeFocusOnClose: true
-            });
-            //this.cmbCondition1.setValue(); TO DO
-
-            this.conditions.splice(0, 0,  {value: 0, displayValue: this.textNoFilter});
-
-            this.cmbCondition2 = new Common.UI.ComboBox({
-                el          : $('#id-search-end-digital-combo', this.$window),
-                menuStyle   : 'min-width: 225px;max-height: 135px;',
-                cls         : 'input-group-nr',
-                data        : this.conditions,
-                scrollAlwaysVisible: true,
-                editable    : false,
-                takeFocusOnClose: true
-            });
-            this.cmbCondition2.setValue(0);
-
-            this.rbAnd = new Common.UI.RadioBox({
-                el: $('#id-and-radio', this.$window),
-                labelText: this.capAnd,
-                name : 'asc-radio-filter-tab',
-                checked: true
-            });
-
-            this.rbOr = new Common.UI.RadioBox({
-                el: $('#id-or-radio', this.$window),
-                labelText: this.capOr,
-                name : 'asc-radio-filter-tab'
-            });
-
-            this.cmbValue1 = new Common.UI.ComboBox({
-                el          : $('#id-sd-cell-search-begin', this.$window),
-                cls         : 'input-group-nr',
-                menuStyle   : 'min-width: 225px;max-height: 135px;',
-                scrollAlwaysVisible: true,
-                data        : [],
-                takeFocusOnClose: true
-            });
-
-            this.cmbValue2 = new Common.UI.ComboBox({
-                el          : $('#id-sd-cell-search-end', this.$window),
-                cls         : 'input-group-nr',
-                menuStyle   : 'min-width: 225px;max-height: 135px;',
-                scrollAlwaysVisible: true,
-                data        : [],
-                takeFocusOnClose: true
-            });
-
-            this.btnDatePicker1 = new Common.UI.Button({
-                parentEl: $('#id-btn-date-picker-1', this.$window),
-                cls: 'btn-toolbar bg-white',
-                iconCls: 'toolbar__icon',
-                hint: this.txtDatePicker
-            });
-            this.btnDatePicker1.on('click', _.bind(this.showDatePicker, this));
-
-            this.btnDatePicker2 = new Common.UI.Button({
-                parentEl: $('#id-btn-date-picker-2', this.$window),
-                cls: 'btn-toolbar bg-white',
-                iconCls: 'toolbar__icon',
-                hint: this.txtDatePicker
-            });
-            this.btnDatePicker2.on('click', _.bind(this.showDatePicker, this));
-
-            var comparator = function(item1, item2) {
-                var n1 = item1.get('intval'),
-                    n2 = item2.get('intval'),
-                    isN1 = n1!==undefined,
-                    isN2 = n2!==undefined;
-                if (isN1 !== isN2) return (isN1) ? -1 : 1;
-                !isN1 && (n1 = item1.get('value').toLowerCase()) && (n2 = item2.get('value').toLowerCase());
-                if (n1===n2) return 0;
-                return (n2==='' || n1!=='' && n1<n2) ? -1 : 1;
-            };
-            this.cmbValue1.store.comparator = this.cmbValue2.store.comparator = comparator;
-
-            this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
-
-            this.loadDefaults();
-        },
-
-        getFocusedComponents: function() {
-            return [this.cmbCondition1, this.cmbValue1, this.rbAnd, this.rbOr, this.cmbCondition2, this.cmbValue2];
-        },
-
-        getDefaultFocusableComponent: function () {
-            return this.cmbValue1;
-        },
-
-        close: function () {
-            if (this.api) {
-                this.api.asc_enableKeyEvents(true);
-            }
-            Common.UI.Window.prototype.close.call(this);
-        },
-
-        onBtnClick: function (event) {
-            if (event.currentTarget.attributes &&  event.currentTarget.attributes.result) {
-                if ('ok' === event.currentTarget.attributes.result.value) {
-                    this.save();
-                }
-
-                this.close();
-            }
-        },
-
-        setSettings: function (properties) {
-            this.properties = properties;
-        },
-
-        loadDefaults: function () {
-            if (this.properties && this.rbOr && this.rbAnd &&
-                this.cmbCondition1 && this.cmbCondition2 && this.cmbValue1 && this.cmbValue2) {
-
-                var arr = [];
-                this.properties.asc_getValues().forEach(function (item) {
-                    var value    = item.asc_getText();
-                    if (!_.isEmpty(value)) {
-                        arr.push({value: value, displayValue: value,
-                            intval: (!isNaN(parseFloat(value)) && isFinite(value)) ? parseFloat(value) : undefined});
-                    }
-                });
-                this.cmbValue1.setData(arr);
-                this.cmbValue2.setData(arr);
-                var filterObj = this.properties.asc_getFilterObj();
-                if (filterObj.asc_getType() == Asc.c_oAscAutoFilterTypes.CustomFilters) {
-                    var customFilter = filterObj.asc_getFilter(),
-                        customFilters = customFilter.asc_getCustomFilters();
-
-                    (customFilter.asc_getAnd()) ? this.rbAnd.setValue(true) : this.rbOr.setValue(true);
-
-                    this.cmbCondition1.setValue(customFilters[0].asc_getOperator() || Asc.c_oAscCustomAutoFilter.equals);
-                    this.cmbCondition2.setValue((customFilters.length>1) ? (customFilters[1].asc_getOperator() || 0) : 0);
-
-                    this.cmbValue1.setValue(null === customFilters[0].asc_getVal() ? '' : customFilters[0].asc_getVal());
-                    this.cmbValue2.setValue((customFilters.length>1) ? (null === customFilters[1].asc_getVal() ? '' : customFilters[1].asc_getVal()) : '');
-                }
-            }
-        },
-
-        save: function () {
-
-        },
-
-        onPrimary: function() {
-            this.save();
-            this.close();
-            return false;
-        },
-
         showDatePicker: function (btn) {
             Common.UI.Menu.Manager.hideAll();
 
@@ -562,17 +341,21 @@ define([
 
         capAnd              : "And",
         capCondition1       : "equals",
-        capCondition2       : "does not equal",
-        capCondition3       : "is after",
-        capCondition4       : "is after or equal to",
-        capCondition5       : "is before",
-        capCondition6       : "is before or equal to",
-        capCondition7       : "begins with",
-        capCondition8       : "does not begin with",
-        capCondition9       : "ends with",
         capCondition10      : "does not end with",
         capCondition11      : "contains",
         capCondition12      : "does not contain",
+        capCondition2       : "does not equal",
+        capCondition3       : "is greater than",
+        capCondition30      : "is after",
+        capCondition4       : "is greater than or equal to",
+        capCondition40      : "is after or equal to",
+        capCondition5       : "is less than",
+        capCondition50      : "is before",
+        capCondition6       : "is less than or equal to",
+        capCondition60      : "is before or equal to",
+        capCondition7       : "begins with",
+        capCondition8       : "does not begin with",
+        capCondition9       : "ends with",
         capOr               : "Or",
         textNoFilter        : "no filter",
         textShowRows        : "Show rows where",
@@ -581,7 +364,7 @@ define([
         txtTitle            : "Custom Filter",
         txtDatePicker       : "Date Picker"
 
-    }, SSE.Views.DataFilterDialog || {}));
+    }, SSE.Views.DigitalFilterDialog || {}));
 
     SSE.Views.Top10FilterDialog = Common.UI.Window.extend(_.extend({
 
@@ -1918,6 +1701,57 @@ define([
             dlgDigitalFilter.show();
         },
 
+        onDataFilterMenuClick: function (item) {
+            var filterObj = this.configTo.asc_getFilterObj(),
+                value1 = '', value2 = '',
+                cond1 = Asc.c_oAscCustomAutoFilter.equals,
+                cond2 = 0, isAnd = true;
+            if (filterObj.asc_getType() == Asc.c_oAscAutoFilterTypes.CustomFilters) {
+                var customFilter = filterObj.asc_getFilter(),
+                    customFilters = customFilter.asc_getCustomFilters();
+
+                isAnd = (customFilter.asc_getAnd());
+                cond1 = customFilters[0].asc_getOperator();
+                cond2 = ((customFilters.length>1) ? (customFilters[1].asc_getOperator() || 0) : 0);
+
+                value1 = (null === customFilters[0].asc_getVal() ? '' : customFilters[0].asc_getVal());
+                value2 = ((customFilters.length>1) ? (null === customFilters[1].asc_getVal() ? '' : customFilters[1].asc_getVal()) : '');
+            }
+
+            if (item.value!==-1) {
+                var newCustomFilter = new Asc.CustomFilters();
+                newCustomFilter.asc_setCustomFilters((item.value == -2 || item.value == -3) ? [new Asc.CustomFilter(), new Asc.CustomFilter()]: [new Asc.CustomFilter()]);
+
+                var newCustomFilters = newCustomFilter.asc_getCustomFilters();
+                newCustomFilters[0].asc_setOperator((item.value == -2) ? Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo : ((item.value == -3) ? Asc.c_oAscCustomAutoFilter.isLessThan : item.value));
+
+                if (item.value == -2) {
+                    var isBetween = (cond1 == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo && cond2 == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo);
+                    newCustomFilter.asc_setAnd(isBetween ? isAnd : true);
+                    newCustomFilters[0].asc_setVal(isBetween ? value1 : '');
+                    newCustomFilters[1].asc_setOperator(Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo);
+                    newCustomFilters[1].asc_setVal(isBetween ? value2 : '');
+                } else {
+                    newCustomFilter.asc_setAnd(true);
+                    newCustomFilters[0].asc_setVal((item.value == cond1) ? value1 : '');
+                }
+
+                filterObj.asc_setFilter(newCustomFilter);
+                filterObj.asc_setType(Asc.c_oAscAutoFilterTypes.CustomFilters);
+            }
+
+            var me = this,
+                dlgDigitalFilter = new SSE.Views.DigitalFilterDialog({api:this.api, type: 'date'}).on({
+                    'close': function() {
+                        me.close();
+                    }
+                });
+            this.close();
+
+            dlgDigitalFilter.setSettings(this.configTo);
+            dlgDigitalFilter.show();
+        },
+
         onNumDynamicFilterItemClick: function(item) {
             var filterObj = this.configTo.asc_getFilterObj();
 
@@ -1943,19 +1777,6 @@ define([
 
             dlgTop10Filter.setSettings(this.configTo);
             dlgTop10Filter.show();
-        },
-
-        onDataFilterMenuClick: function (item) {
-            var me = this,
-                dlgDateFilter = new SSE.Views.DataFilterDialog({api:this.api, type: item.options.pivottype}).on({
-                    'close': function() {
-                        me.close();
-                    }
-                });
-            this.close();
-
-            dlgDateFilter.setSettings(this.configTo);
-            dlgDateFilter.show();
         },
 
         onLabelFilterMenuClick: function(menu, item) {
@@ -2197,7 +2018,7 @@ define([
             this.miNumFilter.setVisible(!isPivot && !isTextFilter && !isDateFilter);
             this.miTextFilter.setChecked(isCustomFilter && isTextFilter, true);
             this.miNumFilter.setChecked((isCustomFilter || isDynamicFilter || isTop10) && !isTextFilter, true);
-            this.miDateFilter.setChecked(isDynamicFilter && isDateFilter, true);
+            this.miDateFilter.setChecked((isDynamicFilter || isCustomFilter) && isDateFilter, true);
 
             this.miValueFilter.setChecked(isPivot && isValueFilter, true);
             this.miLabelFilter.setChecked(isPivot && !isValueFilter && (isCustomFilter || isTop10), true);
@@ -2251,7 +2072,8 @@ define([
                     isAnd = (customFilter.asc_getAnd()),
                     cond1 = customFilters[0].asc_getOperator(),
                     cond2 = ((customFilters.length>1) ? (customFilters[1].asc_getOperator() || 0) : 0),
-                    items = isPivot ? (isValueFilter ? this.miValueFilter.menu.items : this.miLabelFilter.menu.items) : ((isTextFilter) ? this.miTextFilter.menu.items : this.miNumFilter.menu.items),
+                    items = isPivot ? (isValueFilter ? this.miValueFilter.menu.items : this.miLabelFilter.menu.items) :
+                        (isTextFilter ? this.miTextFilter.menu.items : (isDateFilter ? this.miDateFilter.menu.items : this.miNumFilter.menu.items)),
                     isCustomConditions = true;
 
                 if (customFilters.length==1)
@@ -2261,7 +2083,7 @@ define([
                         if (checked) isCustomConditions = false;
                     });
                 else if ((isPivot || !isTextFilter) && (cond1 == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo && cond2 == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo)){
-                    items[isPivot && !isValueFilter ? 13 : 6].setChecked(true, true); // between filter
+                    items[isDateFilter ? 3 : (isPivot && !isValueFilter ? 13 : 6)].setChecked(true, true); // between filter
                     isCustomConditions = false;
                 } else if (isPivot && (cond1 == Asc.c_oAscCustomAutoFilter.isLessThan && cond2 == Asc.c_oAscCustomAutoFilter.isGreaterThan)) {
                     items[!isValueFilter ? 14 : 7].setChecked(true, true); // not between filter
