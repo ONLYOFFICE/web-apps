@@ -117,6 +117,7 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
                 parentEl: $('#sliceradv-btn-style'),
                 cls         : 'btn-large-dataview sheet-template-slicer',
                 iconCls     : 'icon-template-slicer',
+                scaling     : false,
                 menu        : new Common.UI.Menu({
                     style: 'width: 333px;',
                     additionalAlign: this.menuAddAlign,
