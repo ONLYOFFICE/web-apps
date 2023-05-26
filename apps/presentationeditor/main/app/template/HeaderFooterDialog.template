@@ -3,7 +3,7 @@
         <div id="hf-dlg-chb-datetime"></div>
     </td></tr>
     <tr><td class="padding-large">
-        <table id="hf-dlg-tbl-datetime" cols="2">
+        <table id="hf-dlg-tbl-datetime" class="margin-left-22" cols="2">
             <tr>
                 <td colspan="2" class="padding-very-small">
                     <div id="hf-dlg-radio-update"></div>
@@ -26,7 +26,7 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <div id="hf-dlg-input-fixed" class="input-row"></div>
+                    <div id="hf-dlg-input-fixed" class="input-row margin-left-22"></div>
                 </td>
             </tr>
         </table>
@@ -38,7 +38,7 @@
         <div id="hf-dlg-chb-text"></div>
     </td></tr>
     <tr><td class="padding-large">
-        <div id="hf-dlg-text" class="input-row"></div>
+        <div id="hf-dlg-text" class="input-row margin-left-22"></div>
     </td></tr>
     <tr><td class="padding-small"></td></tr>
     <tr><td class="padding-small">

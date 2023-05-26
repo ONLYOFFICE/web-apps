@@ -9,11 +9,11 @@
 
     .font-attr {
         > .btn-slot:not(:last-child):not(.split) {
-            margin-right: 4px;
+            .margin-right-4();
         }
 
         > .btn-slot:not(:last-child).split {
-            margin-right: 2px;
+            .margin-right-2();
         }
     }
 }
@@ -115,24 +115,10 @@
     background-size: cover
 }
 
-#slot-btn-incfont, #slot-btn-decfont, #slot-btn-changecase {
-    margin-left: 2px;
-    .rtl & {
-        margin-left: 0;
-        margin-right: 2px;
-    }
-}
-
 #slot-field-fontname {
     width: 89px;
 }
 
 #slot-field-fontsize {
     width: 40px;
-    margin-left: 2px;
-
-    .rtl & {
-        margin-left: 0;
-        margin-right: 2px;
-    }
 }

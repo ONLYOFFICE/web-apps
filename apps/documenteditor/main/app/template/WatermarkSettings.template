@@ -6,7 +6,7 @@
         <div id="watermark-radio-text"></div>
     </td></tr>
     <tr><td class="padding-large">
-        <table id="watermark-tbl-text" cols="2">
+        <table id="watermark-tbl-text" class="margin-left-22" cols="2">
             <tr>
                 <td class="language padding-small">
                     <label class="input-label"><%= scope.textLanguage %></label>
@@ -45,7 +45,7 @@
         <div id="watermark-radio-image"></div>
     </td></tr>
     <tr><td class="padding-small">
-        <table id="watermark-tbl-image" cols="2">
+        <table id="watermark-tbl-image" class="margin-left-22" cols="2">
             <tr>
                 <td class="select-image">
                     <div id="watermark-select-image"></div>
