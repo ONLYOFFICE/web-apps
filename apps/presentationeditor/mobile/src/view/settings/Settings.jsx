@@ -57,6 +57,12 @@ const routes = [
     }*/
 ];
 
+routes.forEach(route => {
+    route.options = {
+        ...route.options,
+        transition: 'f7-push'
+    };
+});
 
 const SettingsList = inject("storeAppOptions", "storeToolbarSettings")(observer(props => {
     const { t } = useTranslation();

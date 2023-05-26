@@ -87,6 +87,13 @@ const routes = [
     }
 ];
 
+routes.forEach(route => {
+    route.options = {
+        ...route.options,
+        transition: 'f7-push'
+    };
+});
+
 const PageCollaboration = inject('storeAppOptions', 'users')(observer(props => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});

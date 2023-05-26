@@ -269,10 +269,13 @@
             .item-input, .item-link {
                 .item-inner {
                     display: block;
+                    padding-right: 0;
+
                     .item-title, .item-label {
                         width: 100%;
                         font-size: 12px;
                     }
+                    
                     .item-input-wrap {
                         margin-left: 0;
                     }
@@ -522,6 +525,7 @@
             }
             .item-input, .item-inner {
                 padding: 0;
+                margin: 0;
             }
         }
     }
@@ -545,8 +549,10 @@
         }
     }
 
-    // Popover 
-    .popover-arrow:after {
-        background: @brandColor;
+    // Popover arrows
+    .popover.popover__titled {
+        .popover-arrow:after {
+            background: @brandColor;
+        }
     }
 }

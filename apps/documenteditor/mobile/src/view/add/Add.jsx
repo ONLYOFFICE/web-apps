@@ -57,6 +57,13 @@ const routes = [
     }
 ];
 
+routes.forEach(route => {
+    route.options = {
+        ...route.options,
+        transition: 'f7-push'
+    };
+});
+
 const AddLayoutNavbar = ({ tabs, inPopover, storeTableSettings }) => {
     const isAndroid = Device.android;
     const { t } = useTranslation();

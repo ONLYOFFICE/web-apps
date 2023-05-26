@@ -225,6 +225,13 @@ const routes = [
     }
 ];
 
+routes.forEach(route => {
+    route.options = {
+        ...route.options,
+        transition: 'f7-push'
+    };
+});
+
 const EmptyEditLayout = () => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});

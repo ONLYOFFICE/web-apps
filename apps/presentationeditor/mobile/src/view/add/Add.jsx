@@ -61,6 +61,13 @@ const routes = [
     }
 ];
 
+routes.forEach(route => {
+    route.options = {
+        ...route.options,
+        transition: 'f7-push'
+    };
+});
+
 const AddLayoutNavbar = ({ tabs, inPopover }) => {
     const isAndroid = Device.android;
     return (

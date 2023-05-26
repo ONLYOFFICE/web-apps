@@ -225,8 +225,21 @@ const routes = [
     {
         path: '/edit-structure-table-contents/',
         component: PageEditStructureTableContents
-    }
+    },
+    // {
+    //     path: '(.*)',
+    //     options: {
+    //         transition: 'f7-push',
+    //     },
+    // },
 ];
+
+routes.forEach(route => {
+    route.options = {
+        ...route.options,
+        transition: 'f7-push'
+    };
+});
 
 const EmptyEditLayout = () => {
     const { t } = useTranslation();
@@ -354,7 +367,7 @@ const EditTabs = props => {
             })
         }
     }
-
+   
     return (
         <View style={props.style} stackPages={true} routes={routes}>
             <Page pageContent={false}>
