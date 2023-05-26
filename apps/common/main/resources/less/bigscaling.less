@@ -10,6 +10,23 @@
             }
         }
     }
+
+    .left-panel,
+    .modal-dlg:not(#window-header-footer),
+    .advanced-settings-dlg {
+        :not(.input-row) > .btn-group {
+             &.split,
+             > .btn {
+                 display: flex;
+                 align-items: center;
+            }
+        }
+    }
+
+    .scaling-flex-row {
+        display: flex;
+        align-items: center;
+    }
 }
 
 .btn-toolbar,

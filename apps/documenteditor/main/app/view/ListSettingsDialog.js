@@ -696,6 +696,7 @@ define([
                 parentEl: $window.findById('#id-dlg-btn-more'),
                 cls: 'btn-toolbar bg-white',
                 iconCls: this.extended ? 'caret-double-left' : 'caret-double-right',
+                scaling: false,
                 hint: this.extended ? this.textHide : this.textMore
             });
             this.btnMore.on('click', _.bind(this.onMoreClick, this));
