@@ -13,11 +13,11 @@
         </div>
         <div class="padding-very-small"><label class="header"><%= scope.strSize %></label></div>
         <div class="padding-large">
-            <div class="margin-right" style="display: inline-block;">
+            <div class="margin-right-5" style="display: inline-block;">
                 <label class="input-label"><%= scope.strWidth %></label>
                 <div id="sliceradv-spin-width"></div>
             </div>
-            <div id="sliceradv-button-ratio" class="margin-right"></div>
+            <div id="sliceradv-button-ratio" class="margin-right-5"></div>
             <div style="display: inline-block;">
                 <label class="input-label"><%= scope.strHeight %></label>
                 <div id="sliceradv-spin-height"></div>
@@ -25,7 +25,7 @@
         </div>
         <div class="padding-very-small"><label class="header"><%= scope.strButtons %></label></div>
         <div>
-            <div class="margin-right" style="display: inline-block;">
+            <div class="margin-right-5" style="display: inline-block;">
                 <label class="input-label"><%= scope.strColumns %></label>
                 <div id="sliceradv-spin-columns"></div>
             </div>

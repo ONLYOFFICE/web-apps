@@ -82,7 +82,7 @@ define([
                                 '<label class="link dropdown-toggle float-right" data-toggle="dropdown" id="id-dlg-hyperlink-get-link">' + this.textGetLink + '</label>',
                                 '<div id="id-clip-copy-box" class="dropdown-menu">',
                                     '<div id="id-dlg-clip-copy"></div>',
-                                    '<button id="id-dlg-copy-btn" class="btn btn-text-default">' + this.textCopy + '</button>',
+                                    '<button id="id-dlg-copy-btn" class="btn btn-text-default margin-left-5">' + this.textCopy + '</button>',
                                 '</div>',
                             '</div>',
                         '</div>',

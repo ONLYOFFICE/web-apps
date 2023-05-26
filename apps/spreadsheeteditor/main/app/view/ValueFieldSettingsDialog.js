@@ -63,7 +63,7 @@ define([
                         '<table cols="2" style="width: 100%;">',
                         '<tr>',
                             '<td colspan="2" class="padding-small" style="white-space: nowrap;">',
-                                '<label class="header" style="vertical-align: middle; margin-right: 4px;">' + me.txtSourceName + '</label>',
+                                '<label class="header" class="margin-right-4" style="vertical-align: middle;">' + me.txtSourceName + '</label>',
                                 '<label id="value-field-settings-source" style="vertical-align: middle; max-width: 220px; overflow: hidden; text-overflow: ellipsis;"></label>',
                             '</td>',
                         '</tr>',

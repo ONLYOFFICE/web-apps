@@ -66,7 +66,7 @@ define([
                                 '<table cols="1" style="width: 100%;">',
                                     '<tr>',
                                         '<td class="padding-large">',
-                                            '<div id="external-links-btn-update" style="display: inline-block;"></div>',
+                                            '<div id="external-links-btn-update" class="margin-right-5" style="display: inline-block;"></div>',
                                             '<div id="external-links-btn-delete" style="display: inline-block;"></div>',
                                             // '<button type="button" class="btn btn-text-default auto sort-dialog-btn-text" id="external-links-btn-open">', me.textOpen ,'</button>',
                                             // '<button type="button" class="btn btn-text-default auto sort-dialog-btn-text" id="external-links-btn-change">', me.textChange ,'</button>',

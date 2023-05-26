@@ -126,7 +126,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
                 initSort:{type: this.sort.type, direction: this.sort.direction},
                 itemTemplate: _.template([
                         '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;<% if (!lock) { %>pointer-events:none;<% } %>">',
-                            '<div class="listitem-icon toolbar__icon <% print(isTable?"btn-menu-table":(isSlicer ? "btn-slicer" : "btn-named-range")) %>"></div>',
+                            '<div class="listitem-icon toolbar__icon margin-right-5 <% print(isTable?"btn-menu-table":(isSlicer ? "btn-slicer" : "btn-named-range")) %>"></div>',
                             '<div style="width:146px;padding-<% if (Common.UI.isRTL()) { %>left<% } else {%>right<% } %>: 5px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
                             '<div style="width:122px;padding-<% if (Common.UI.isRTL()) { %>left<% } else {%>right<% } %>: 5px;"><%= scopeName %></div>',
                             '<div style="width:209px;"><%= range %></div>',

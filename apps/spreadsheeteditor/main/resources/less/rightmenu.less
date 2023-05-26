@@ -30,15 +30,6 @@
         .border-color {
             vertical-align: middle;
 
-            .input-label {
-                margin-right: 5px;
-
-                .rtl & {
-                    margin-right: 0;
-                    margin-left: 5px;
-                }
-            }
-
             #cell-border-color-btn {
                 display: inline-block;
             }
@@ -46,12 +37,6 @@
 
         #cell-spin-angle {
             display: inline-block;
-            margin-left: 5px;
-
-            .rtl & {
-                margin-left: 0;
-                margin-right: 5px;
-            }
         }
 
         #cell-panel-gradient-fill {
@@ -91,28 +76,14 @@
             display: inline-block;
         }
 
-        #shape-button-270, #shape-button-fliph {
-            display: inline-block;
-            margin-right: 4px;
-
-            .rtl & {
-                margin-right: 0;
-                margin-left: 4px;
-            }
-        }
-
+        #shape-button-270, #shape-button-fliph,
         #shape-button-90, #shape-button-flipv {
             display: inline-block;
         }
 
         .angle-label {
-            margin-right: 5px;
+            .margin-right-5();
             margin-bottom: 3px;
-
-            .rtl & {
-                margin-right: 0;
-                margin-left: 5px;
-            }
         }
 
         .texture-img {
@@ -151,13 +122,8 @@
         }
 
         .angle-label {
-            margin-right: 5px;
+            .margin-right-5();
             margin-bottom: 3px;
-
-            .rtl & {
-                margin-right: 0;
-                margin-left: 5px;
-            }
         }
 
         .texture-img {
@@ -184,12 +150,6 @@
     &#id-slicer-settings {
         #slicer-spin-cols {
             display: inline-block;
-            margin-left: 5px;
-
-            .rtl & {
-                margin-left: 0;
-                margin-right: 5px;
-            }
         }
     }
 }
@@ -243,17 +203,12 @@
 
     .list-item {
         width: 146px;
-        margin-left: 20px;
+        .margin-left-20();
         display: inline-block;
         white-space: pre;
         overflow: hidden;
         text-overflow: ellipsis;
         vertical-align: middle;
-
-        .rtl & {
-            margin-left: 0;
-            margin-right: 20px;
-        }
     }
 
     .listitem-icon {

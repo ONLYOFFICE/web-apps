@@ -74,7 +74,7 @@
         <td class="padding-small" colspan=2>
             <div id="cell-combo-border-type"></div>
             <div class="border-color color-btn-wrap float-right">
-                <label class="input-label"><%= scope.textBorderColor %></label>
+                <label class="input-label margin-right-5"><%= scope.textBorderColor %></label>
                 <div id="cell-border-color-btn"></div>
             </div>
         </td>
@@ -127,7 +127,7 @@
     <tr>
         <td class="padding-large" colspan=2>
             <label class="input-label"><%= scope.textAngle %></label>
-            <div id="cell-spin-angle"></div>
+            <div id="cell-spin-angle" class="margin-left-5"></div>
         </td>
     </tr>
     <tr>

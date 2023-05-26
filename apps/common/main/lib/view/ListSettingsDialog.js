@@ -199,7 +199,7 @@ define([
                     '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem">',
                     '<%= item.displayValue %>',
                     '<% if (item.value === 0) { %><span style="font-family:<%=item.font%>;"><%=item.symbol%></span>',
-                    '<% } else if (item.value === 2) { %><span id="id-dlg-list-bullet-image-preview" style="width:12px; height: 12px; margin-left: 4px; margin-bottom: 1px;display: inline-block; vertical-align: middle;"></span><% } %>',
+                    '<% } else if (item.value === 2) { %><span id="id-dlg-list-bullet-image-preview" class="margin-left-4" style="width:12px; height: 12px; margin-bottom: 1px;display: inline-block; vertical-align: middle;"></span><% } %>',
                     '</a></li>',
                     '<% }); %>'
                 ];
@@ -239,7 +239,7 @@ define([
                         if (record.get('value')===_BulletTypes.symbol)
                             formcontrol[0].innerHTML = record.get('displayValue') + '<span style="font-family:' + (record.get('font') || 'Arial') + '">' + record.get('symbol') + '</span>';
                         else if (record.get('value')===_BulletTypes.image) {
-                            formcontrol[0].innerHTML = record.get('displayValue') + '<span id="id-dlg-list-bullet-combo-preview" style="width:12px; height: 12px; margin-left: 2px; margin-bottom: 1px;display: inline-block; vertical-align: middle;"></span>';
+                            formcontrol[0].innerHTML = record.get('displayValue') + '<span id="id-dlg-list-bullet-combo-preview" class="margin-left-2" style="width:12px; height: 12px; margin-bottom: 1px;display: inline-block; vertical-align: middle;"></span>';
                             var bullet = new Asc.asc_CBullet();
                             bullet.asc_fillBulletImage(me.imageProps.id);
                             bullet.drawSquareImage('id-dlg-list-bullet-combo-preview');

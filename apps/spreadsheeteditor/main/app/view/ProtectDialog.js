@@ -171,7 +171,7 @@ define([
                         '<input id="pdcheckbox-<%= id %>" type="checkbox" class="button__checkbox">',
                         '<label for="pdcheckbox-<%= id %>" class="checkbox__shape" ></label>',
                         '</label>',
-                        '<div id="<%= id %>" class="list-item">',
+                        '<div id="<%= id %>" class="list-item margin-left-20">',
                         '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(value) %></div>',
                         '</div>',
                         '</div>'
