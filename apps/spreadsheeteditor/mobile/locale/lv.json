@@ -144,7 +144,6 @@
       "textGuest": "Viesis",
       "textNo": "Nē",
       "textNoChoices": "Nav variantu šūnas aizpildei.<br>Tikai teksts no kolonnas var tikt ievietots.",
-      "textNoTextFound": "Teksts nav atrasts",
       "textOk": "OK",
       "textReplaceSuccess": "Meklēšana pabeigta. Aizvietotie rezultāti: {0}",
       "textYes": "Jā",
@@ -158,6 +157,7 @@
       "textDontUpdate": "Don't Update",
       "textHasMacros": "The file contains automatic macros.<br>Do you want to run macros?",
       "textNoLicenseTitle": "License limit reached",
+      "textNoMatches": "No Matches",
       "textPaidFeature": "Paid feature",
       "textRemember": "Remember my choice",
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
@@ -165,6 +165,7 @@
       "textUpdate": "Update",
       "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
       "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
       "warnLicenseExceeded": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact your administrator to learn more.",
       "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page.",
@@ -173,10 +174,7 @@
       "warnLicenseUsersExceeded": "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
       "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
       "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
-      "warnProcessRightsChange": "You don't have permission to edit the file.",
-      "del_textNoTextFound": "Text not found",
-      "textNoMatches": "No Matches",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
+      "warnProcessRightsChange": "You don't have permission to edit the file."
     }
   },
   "Error": {
@@ -626,7 +624,6 @@
       "textMargins": "Piemales",
       "textMatchCase": "Atbilstība burtu izmēriem",
       "textMatchCell": "Atbilstība šūnai",
-      "textNoTextFound": "Teksts nav atrasts",
       "textOk": "OK",
       "textOpenFile": "Ievadiet paroli, lai atvērtu failu",
       "textOrientation": "Orientācija",
@@ -696,6 +693,7 @@
       "textLeftToRight": "Left To Right",
       "textLookIn": "Look In",
       "textMacrosSettings": "Macros Settings",
+      "textNoMatches": "No Matches",
       "textR1C1Style": "R1C1 Reference Style",
       "textRegionalSettings": "Regional Settings",
       "textResolvedComments": "Resolved Comments",
@@ -755,9 +753,7 @@
       "txtTr": "Turkish",
       "txtUk": "Ukrainian",
       "txtVi": "Vietnamese",
-      "txtZh": "Chinese",
-      "del_textNoTextFound": "Text not found",
-      "textNoMatches": "No Matches"
+      "txtZh": "Chinese"
     }
   }
 }

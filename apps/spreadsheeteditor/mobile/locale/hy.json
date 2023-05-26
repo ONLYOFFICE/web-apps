@@ -151,7 +151,6 @@
       "textNo": "Ոչ",
       "textNoChoices": "Վանդակը լցնելու համար ընտրություն չկա:<br>Փոխարինման համար կարող են ընտրվել միայն սյունակից տեքստային արժեքները:",
       "textNoLicenseTitle": "Լիցենզիայի սահմանաչափը հասել է",
-      "textNoTextFound": "Տեքստը չի գտնվել",
       "textOk": "Լավ",
       "textPaidFeature": "Վճարովի գործառույթ",
       "textRemember": "Հիշել իմ ընտրությունը",
@@ -174,7 +173,6 @@
       "warnNoLicense": "Դուք հասել եք %1 խմբագիրների հետ միաժամանակյա միացումների սահմանաչափին:Այս փաստաթուղթը կբացվի միայն դիտելու համար:նձնական թարմացման պայմանների համար կապվեք %1 վաճառքի թիմի հետ:",
       "warnNoLicenseUsers": "Դուք հասել եք %1 խմբագիրների օգտվողի սահմանաչափին:Անձնական թարմացման պայմանների համար կապվեք %1 վաճառքի թիմի հետ:",
       "warnProcessRightsChange": "Դուք ֆայլը խմբագրելու թույլտվություն չունեք:",
-      "del_textNoTextFound": "Text not found",
       "textNoMatches": "No Matches",
       "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
     }
@@ -654,7 +652,6 @@
       "textMargins": "Լուսանցքներ",
       "textMatchCase": "Ճշգրիտ համընկում",
       "textMatchCell": "Վանդակները համընկեցնել",
-      "textNoTextFound": "Տեքստը չի գտնվել",
       "textOk": "Լավ",
       "textOpenFile": "Մուտքագրել գաղտնաբառ՝ ֆայլը բացելու համար",
       "textOrientation": "Կողմնորոշում",
@@ -756,7 +753,6 @@
       "txtVi": "Վիետնամերեն",
       "txtZh": "Չինական",
       "warnDownloadAs": "Եթե շարունակեք պահպանումն այս ձևաչափով, բոլոր հատկությունները՝ տեքստից բացի, կկորչեն։<br>Վստա՞հ եք, որ ցանկանում եք շարունակել:",
-      "del_textNoTextFound": "Text not found",
       "textNoMatches": "No Matches"
     }
   }

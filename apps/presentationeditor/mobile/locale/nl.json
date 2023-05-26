@@ -112,7 +112,6 @@
       "textHasMacros": "Het bestand bevat automatische macro's. <br> Wilt u macro's uitvoeren?",
       "textNo": "Nee",
       "textNoLicenseTitle": "Licentielimiet bereikt",
-      "textNoTextFound": "Tekst niet gevonden",
       "textOpenFile": "Voer een wachtwoord in om dit bestand te openen",
       "textPaidFeature": "Betaalde functie",
       "textRemember": "Bewaar mijn keuze",
@@ -130,14 +129,13 @@
       "warnNoLicense": "U hebt de limiet bereikt voor gelijktijdige verbindingen met %1 gelijktijdige gebruikers. Dit document wordt alleen geopend om te bekijken. Neem contact op met %1 verkoopteam voor persoonlijke upgradevoorwaarden.",
       "warnNoLicenseUsers": "U heeft de gebruikerslimiet voor %1 gelijktijdige gebruikers bereikt. Neem contact op met de verkoopafdeling voor persoonlijke upgradevoorwaarden.",
       "warnProcessRightsChange": "Je hebt geen toestemming om het bestand te bewerken.",
+      "textNoMatches": "No Matches",
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
       "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
       "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
       "titleLicenseNotActive": "License not active",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-      "del_textNoTextFound": "Text not found",
-      "textNoMatches": "No Matches",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {
@@ -361,7 +359,6 @@
       "textNextSlide": "Volgende dia",
       "textNone": "Geen",
       "textNoStyles": "Geen stijlen voor dit type grafiek.",
-      "textNoTextFound": "Tekst niet gevonden",
       "textNotUrl": "Dit veld moet een URL bevatten in de notatie \"http://www.internet.nl\"",
       "textNumbers": "Nummers",
       "textOk": "OK",
@@ -422,10 +419,9 @@
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textInsertImage": "Insert Image",
+      "textNoMatches": "No Matches",
       "textRecommended": "Recommended",
-      "textRequired": "Required",
-      "del_textNoTextFound": "Text not found",
-      "textNoMatches": "No Matches"
+      "textRequired": "Required"
     },
     "Settings": {
       "mniSlideStandard": "Standaard (4:3)",
@@ -463,7 +459,6 @@
       "textLoading": "Bezig met laden...",
       "textLocation": "Locatie",
       "textMacrosSettings": "Macro instellingen",
-      "textNoTextFound": "Tekst niet gevonden",
       "textOwner": "Eigenaar",
       "textPoint": "Punt",
       "textPoweredBy": "Aangedreven door",
@@ -508,11 +503,10 @@
       "txtScheme9": "Gieterij",
       "notcriticalErrorTitle": "Warning",
       "textFeedback": "Feedback & Support",
+      "textNoMatches": "No Matches",
       "textOk": "Ok",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "textRTL": "RTL",
-      "del_textNoTextFound": "Text not found",
-      "textNoMatches": "No Matches"
+      "textRTL": "RTL"
     }
   }
 }

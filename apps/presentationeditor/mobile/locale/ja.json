@@ -112,7 +112,6 @@
       "textHasMacros": "ファイルには自動マクロが含まれています。<br>マクロを実行しますか？",
       "textNo": "いいえ",
       "textNoLicenseTitle": "ライセンス制限に達しました",
-      "textNoTextFound": "テキストが見つかりませんでした",
       "textOpenFile": "ファイルを開くためにパスワードを入力してください",
       "textPaidFeature": "有料機能",
       "textRemember": "選択を覚える",
@@ -135,7 +134,6 @@
       "warnNoLicense": "％１エディター　時接続数の制限に達しました。この文書が見るだけのために開かれる。個人的なアップグレード条件については、％1営業チームを連絡してください。",
       "warnNoLicenseUsers": "％1エディターのユーザー制限に達しました。 個人的なアップグレード条件については、％1営業チームを連絡してください。",
       "warnProcessRightsChange": "ファイルを編集する権限がありません！",
-      "del_textNoTextFound": "Text not found",
       "textNoMatches": "No Matches",
       "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
     }
@@ -367,7 +365,6 @@
       "textNextSlide": "次のスライド",
       "textNone": "なし",
       "textNoStyles": "このチャットのタイプためにスタイルがない",
-      "textNoTextFound": "テキストが見つかりませんでした",
       "textNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります。",
       "textNumbers": "数",
       "textOk": "OK",
@@ -424,7 +421,6 @@
       "textZoomIn": "拡大",
       "textZoomOut": "縮小",
       "textZoomRotate": "ズームと回転",
-      "del_textNoTextFound": "Text not found",
       "textNoMatches": "No Matches"
     },
     "Settings": {
@@ -465,7 +461,6 @@
       "textLoading": "読み込み中...",
       "textLocation": "場所",
       "textMacrosSettings": "マクロの設定",
-      "textNoTextFound": "テキストが見つかりませんでした",
       "textOk": "OK",
       "textOwner": "所有者",
       "textPoint": "ポイント",
@@ -511,7 +506,6 @@
       "txtScheme7": "株主資本",
       "txtScheme8": "フロー",
       "txtScheme9": "ファウンドリ",
-      "del_textNoTextFound": "Text not found",
       "textNoMatches": "No Matches"
     }
   }

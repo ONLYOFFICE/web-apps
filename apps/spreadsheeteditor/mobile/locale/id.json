@@ -151,7 +151,6 @@
       "textNo": "Tidak",
       "textNoChoices": "Tidak ada pilihan untuk mengisi sel.<br>Hanya nilai teks dari kolom yang bisa dipilih untuk diganti.",
       "textNoLicenseTitle": "Batas lisensi sudah tercapai",
-      "textNoTextFound": "Teks tidak ditemukan",
       "textOk": "OK",
       "textPaidFeature": "Fitur berbayar",
       "textRemember": "Ingat pilihan saya",
@@ -174,7 +173,6 @@
       "warnNoLicense": "Anda sudah mencapai batas untuk koneksi bersamaan ke %1 editor. Dokumen ini akan dibuka untuk dilihat saja. Hubungi %1 tim sales untuk syarat personal upgrade.",
       "warnNoLicenseUsers": "Anda sudah mencapai batas user untuk %1 editor. Hubungi %1 tim sales untuk syarat personal upgrade.",
       "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini.",
-      "del_textNoTextFound": "Text not found",
       "textNoMatches": "No Matches",
       "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
     }
@@ -654,7 +652,6 @@
       "textMargins": "Margin",
       "textMatchCase": "Sesuakian Case",
       "textMatchCell": "Sesuakian Sel",
-      "textNoTextFound": "Teks tidak ditemukan",
       "textOk": "OK",
       "textOpenFile": "Masukkan kata sandi untuk buka file",
       "textOrientation": "Orientasi",
@@ -756,7 +753,6 @@
       "txtVi": "Vietnam",
       "txtZh": "China",
       "warnDownloadAs": "Jika Anda lanjut simpan dengan format ini, semua fitur kecuali teks akan hilang.<br>Apakah Anda ingin melanjutkan?",
-      "del_textNoTextFound": "Text not found",
       "textNoMatches": "No Matches"
     }
   }

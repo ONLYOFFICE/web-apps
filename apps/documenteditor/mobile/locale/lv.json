@@ -542,7 +542,6 @@
     "textContactUs": "Sazināties ar pārdošanas daļu",
     "textGuest": "Viesis",
     "textNo": "Nē",
-    "textNoTextFound": "Teksts nav atrasts",
     "textOk": "OK",
     "textReplaceSuccess": "Meklēšana pabeigta. Aizvietotie rezultāti: {0}",
     "textYes": "Jā",
@@ -561,6 +560,7 @@
     "textDocumentProtected": "The document is protected. Edit settings are not available",
     "textHasMacros": "The file contains automatic macros.<br>Do you want to run macros?",
     "textNoLicenseTitle": "License limit reached",
+    "textNoMatches": "No Matches",
     "textPaidFeature": "Paid feature",
     "textRemember": "Remember my choice",
     "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
@@ -568,6 +568,7 @@
     "titleDialogProtectedDocument": "The document is protected",
     "titleLicenseNotActive": "License not active",
     "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
+    "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
     "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
     "warnLicenseExceeded": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact your administrator to learn more.",
     "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page.",
@@ -576,10 +577,7 @@
     "warnLicenseUsersExceeded": "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
     "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
     "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
-    "warnProcessRightsChange": "You don't have permission to edit this file.",
-    "del_textNoTextFound": "Text not found",
-    "textNoMatches": "No Matches",
-    "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
+    "warnProcessRightsChange": "You don't have permission to edit this file."
   },
   "Settings": {
     "advDRMOptions": "Aizsargāts fails",
@@ -622,7 +620,6 @@
     "textMargins": "Piemales",
     "textNo": "Nē",
     "textNoCharacters": "Nedrukājamās rakstzīmes",
-    "textNoTextFound": "Teksts nav atrasts",
     "textOk": "OK",
     "textOpenFile": "Ievadiet paroli, lai atvērtu failu",
     "textOrientation": "Orientācija",
@@ -687,6 +684,7 @@
     "textMobileView": "Mobile View",
     "textNavigation": "Navigation",
     "textNoChanges": "No changes (Read only)",
+    "textNoMatches": "No Matches",
     "textPassword": "Password",
     "textPasswordNotMatched": "Passwords DonвЂ™t Match",
     "textPdfProducer": "PDF Producer",
@@ -727,9 +725,7 @@
     "txtScheme5": "Civic",
     "txtScheme6": "Concourse",
     "txtScheme7": "Equity",
-    "txtScheme9": "Foundry",
-    "del_textNoTextFound": "Text not found",
-    "textNoMatches": "No Matches"
+    "txtScheme9": "Foundry"
   },
   "Toolbar": {
     "dlgLeaveTitleText": "Jūs pametat lietotni",

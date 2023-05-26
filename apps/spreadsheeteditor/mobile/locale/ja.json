@@ -151,7 +151,6 @@
       "textNo": "いいえ",
       "textNoChoices": "セルを記入する選択肢がありません。<br>置換対象として選択できるのは列のテキスト値のみです。",
       "textNoLicenseTitle": "ライセンス制限に達しました",
-      "textNoTextFound": "テキストが見つかりませんでした",
       "textOk": "OK",
       "textPaidFeature": "有料機能",
       "textRemember": "選択を覚える",
@@ -174,7 +173,6 @@
       "warnNoLicense": "％１エディター　時接続数の制限に達しました。この文書が見るだけのために開かれる。個人的なアップグレード条件については、％1営業チームを連絡してください。",
       "warnNoLicenseUsers": "％1エディターのユーザー制限に達しました。 個人的なアップグレード条件については、％1営業チームを連絡してください。",
       "warnProcessRightsChange": "ファイルを編集する権限がありません！",
-      "del_textNoTextFound": "Text not found",
       "textNoMatches": "No Matches",
       "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
     }
@@ -654,7 +652,6 @@
       "textMargins": "余白",
       "textMatchCase": "大文字と小文字の斟酌で",
       "textMatchCell": "セルの照合",
-      "textNoTextFound": "テキストが見つかりませんでした",
       "textOk": "OK",
       "textOpenFile": "ファイルを開くためにパスワードを入力してください",
       "textOrientation": "向き",
@@ -756,7 +753,6 @@
       "txtVi": "ベトナム語",
       "txtZh": "中国語",
       "warnDownloadAs": "この形式で保存する続けば、テクスト除いて全てが失います。続けてもよろしいですか？",
-      "del_textNoTextFound": "Text not found",
       "textNoMatches": "No Matches"
     }
   }

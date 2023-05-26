@@ -554,7 +554,6 @@
     "textHasMacros": "ගොනුවේ ස්වයංක්‍රීය සාර්ව අඩංගු වේ.<br>ඔබට සාර්ව ධාවනයට වුවමනාද?",
     "textNo": "නැහැ",
     "textNoLicenseTitle": "බලපත්‍රයේ සීමාවට ලඟාවුණි",
-    "textNoTextFound": "පාඨය හමු නොවිණි",
     "textOk": "හරි",
     "textPaidFeature": "ගෙවන විශේෂාංගයකි",
     "textRemember": "මාගේ තේරීම මතක තබාගන්න",
@@ -577,7 +576,6 @@
     "warnNoLicense": "ඔබ %1 සංස්කරක වෙත සමකාල සම්බන්ධතා සීමාවට ළඟා වී ඇත. මෙම ලේඛනය දැකීමට පමණක් විවෘත වේ. පුද්ගලික උත්ශ්‍රේණි නියම සඳහා %1 අලෙවි කණ්ඩායම අමතන්න.",
     "warnNoLicenseUsers": "ඔබ %1 සංස්කරක සඳහා පරිශීලක සීමාවට ළඟා වී ඇත. පුද්ගලික උත්ශ්‍රේණි නියම සඳහා %1 අලෙවි කණ්ඩායම අමතන්න.",
     "warnProcessRightsChange": "ඔබට මෙම ගොනුව සංස්කරණයට අවසර නැත.",
-    "del_textNoTextFound": "Text not found",
     "textNoMatches": "No Matches",
     "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
   },
@@ -653,7 +651,6 @@
     "textNo": "නැහැ",
     "textNoChanges": "වෙනස්කම් නැත (කියවීමට පමණි)",
     "textNoCharacters": "මුද්‍රණය නොවන අකුරු",
-    "textNoTextFound": "පාඨය හමු නොවිණි",
     "textOk": "හරි",
     "textOpenFile": "ගොනුව විවෘත කිරීමට මුරපදයක් යොදන්න",
     "textOrientation": "හැඩගැස්ම",
@@ -728,7 +725,6 @@
     "txtScheme7": "සමකොටස්",
     "txtScheme8": "ගලායාම",
     "txtScheme9": "වාත්තු පොළ",
-    "del_textNoTextFound": "Text not found",
     "textNoMatches": "No Matches"
   },
   "Toolbar": {

@@ -152,6 +152,7 @@
   "DE.Controllers.ApplicationController.uploadImageExtMessage": "Неизвестный формат изображения.",
   "DE.Controllers.ApplicationController.uploadImageSizeMessage": "Слишком большое изображение. Максимальный размер - 25 MB.",
   "DE.Controllers.ApplicationController.waitText": "Пожалуйста, подождите...",
+  "DE.Controllers.ApplicationController.warnLicenseAnonymous": "Доступ запрещен для анонимных пользователей.<br>Этот документ будет открыт только на просмотр.",
   "DE.Controllers.ApplicationController.warnLicenseBefore": "Лицензия неактивна.<br>Пожалуйста, обратитесь к администратору.",
   "DE.Controllers.ApplicationController.warnLicenseExceeded": "Вы достигли лимита на одновременные подключения к редакторам %1. Этот документ будет открыт только на просмотр.<br>Свяжитесь с администратором, чтобы узнать больше.",
   "DE.Controllers.ApplicationController.warnLicenseExp": "Истек срок действия лицензии.<br>Обновите лицензию, а затем обновите страницу.",

@@ -112,7 +112,6 @@
       "textHasMacros": "File berisi macros otomatis.<br>Apakah Anda ingin menjalankan macros?",
       "textNo": "Tidak",
       "textNoLicenseTitle": "Batas lisensi sudah tercapai",
-      "textNoTextFound": "Teks tidak ditemukan",
       "textOpenFile": "Masukkan kata sandi untuk buka file",
       "textPaidFeature": "Fitur berbayar",
       "textRemember": "Ingat pilihan saya",
@@ -135,7 +134,6 @@
       "warnNoLicense": "Anda sudah mencapai batas untuk koneksi bersamaan ke %1 editor. Dokumen ini akan dibuka untuk dilihat saja. Hubungi %1 tim sales untuk syarat personal upgrade.",
       "warnNoLicenseUsers": "Anda sudah mencapai batas user untuk %1 editor. Hubungi %1 tim sales untuk syarat personal upgrade.",
       "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini.",
-      "del_textNoTextFound": "Text not found",
       "textNoMatches": "No Matches",
       "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
     }
@@ -367,7 +365,6 @@
       "textNextSlide": "Slide Berikutnya",
       "textNone": "Tidak ada",
       "textNoStyles": "Tanpa style untuk tipe grafik ini.",
-      "textNoTextFound": "Teks tidak ditemukan",
       "textNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”",
       "textNumbers": "Nomor",
       "textOk": "OK",
@@ -424,7 +421,6 @@
       "textZoomIn": "Perbesar",
       "textZoomOut": "Perkecil",
       "textZoomRotate": "Zoom dan Rotasi",
-      "del_textNoTextFound": "Text not found",
       "textNoMatches": "No Matches"
     },
     "Settings": {
@@ -465,7 +461,6 @@
       "textLoading": "Memuat...",
       "textLocation": "Lokasi",
       "textMacrosSettings": "Pengaturan Macros",
-      "textNoTextFound": "Teks tidak ditemukan",
       "textOk": "OK",
       "textOwner": "Pemilik",
       "textPoint": "Titik",
@@ -511,7 +506,6 @@
       "txtScheme7": "Margin Sisa",
       "txtScheme8": "Alur",
       "txtScheme9": "Cetakan",
-      "del_textNoTextFound": "Text not found",
       "textNoMatches": "No Matches"
     }
   }

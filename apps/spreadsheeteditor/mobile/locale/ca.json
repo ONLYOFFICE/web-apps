@@ -151,7 +151,6 @@
       "textNo": "No",
       "textNoChoices": "No hi ha opcions per omplir la cel·la. <br>Només es poden seleccionar valors de text de la columna per substituir-los.",
       "textNoLicenseTitle": "S'ha assolit el límit de llicència",
-      "textNoTextFound": "No s'ha trobat cap text",
       "textOk": "D'acord",
       "textPaidFeature": "Funció de pagament",
       "textRemember": "Recordar la meva elecció",
@@ -174,7 +173,6 @@
       "warnNoLicense": "Has arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Posa't en contacte amb l'equip de vendes %1 per conèixer les condicions d'actualització personal.",
       "warnNoLicenseUsers": "Has arribat al límit d'usuaris per a %1 editors. Posa't en contacte amb l'equip de vendes de %1 per obtenir les condicions de millora personals dels serveis.",
       "warnProcessRightsChange": "No tens permís per editar el fitxer.",
-      "del_textNoTextFound": "Text not found",
       "textNoMatches": "No Matches",
       "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
     }
@@ -654,7 +652,6 @@
       "textMargins": "Marges",
       "textMatchCase": "Coincidir majúscules i minúscules",
       "textMatchCell": "Coincidir la cel·la",
-      "textNoTextFound": "No s'ha trobat cap text",
       "textOk": "D'acord",
       "textOpenFile": "Introduir una contrasenya per obrir el fitxer",
       "textOrientation": "Orientació",
@@ -756,7 +753,6 @@
       "txtVi": "Vietnamita",
       "txtZh": "Xinès",
       "warnDownloadAs": "Si continues i deses en aquest format, es perdran totes les característiques, excepte el text. <br>Vols continuar?",
-      "del_textNoTextFound": "Text not found",
       "textNoMatches": "No Matches"
     }
   }

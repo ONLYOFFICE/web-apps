@@ -151,7 +151,7 @@
       "textNo": "Não",
       "textNoChoices": "Não há escolhas para preenchimento de célula.<br>Apenas valores de texto da coluna podem ser selecionados para substituição.",
       "textNoLicenseTitle": "Limite de licença atingido",
-      "textNoTextFound": "Texto não encontrado",
+      "textNoMatches": "Nenhuma correspondência",
       "textOk": "OK",
       "textPaidFeature": "Recurso pago",
       "textRemember": "Lembrar minha escolha",
@@ -165,6 +165,7 @@
       "titleLicenseNotActive": "Licença inativa",
       "titleServerVersion": "Editor atualizado",
       "titleUpdateVersion": "Versão alterada",
+      "warnLicenseAnonymous": "Acesso negado para usuários anônimos.<br>Este documento será aberto apenas para visualização.",
       "warnLicenseBefore": "Licença inativa.<br>Entre em contato com seu administrador.",
       "warnLicenseExceeded": "Você atingiu o limite de conexões simultâneas para% 1 editores. Este documento será aberto apenas para visualização. Contate seu administrador para saber mais.",
       "warnLicenseExp": "Sua licença expirou. Por favor, atualize sua licença e atualize a página.",
@@ -173,10 +174,7 @@
       "warnLicenseUsersExceeded": "Você atingiu o limite de usuários para editores %1. Entre em contato com seu administrador para saber mais.",
       "warnNoLicense": "Você atingiu o limite de conexões simultâneas para% 1 editores. Este documento será aberto apenas para visualização. Contate a equipe de vendas% 1 para termos de atualização pessoal.",
       "warnNoLicenseUsers": "Você atingiu o limite de usuários para editores %1.<br>Entre em contato com a equipe de vendas da %1 para obter os termos de atualização pessoais.",
-      "warnProcessRightsChange": "Você não tem permissão para editar o arquivo.",
-      "del_textNoTextFound": "Text not found",
-      "textNoMatches": "No Matches",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
+      "warnProcessRightsChange": "Você não tem permissão para editar o arquivo."
     }
   },
   "Error": {
@@ -379,6 +377,7 @@
       "textLinkType": "Tipo de link",
       "textOk": "OK",
       "textOther": "Outro",
+      "textPasteImageUrl": "Cole um URL de imagem",
       "textPictureFromLibrary": "Imagem da biblioteca",
       "textPictureFromURL": "Imagem da URL",
       "textRange": "Intervalo",
@@ -398,8 +397,7 @@
       "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
       "txtSorting": "Classificação",
       "txtSortSelected": "Classificar selecionado",
-      "txtYes": "Sim",
-      "textPasteImageUrl": "Paste an image URL"
+      "txtYes": "Sim"
     },
     "Edit": {
       "notcriticalErrorTitle": "Aviso",
@@ -654,7 +652,7 @@
       "textMargins": "Margens",
       "textMatchCase": "Diferenciar maiúsculas/minúsculas",
       "textMatchCell": "Combinar célula",
-      "textNoTextFound": "Texto não encontrado",
+      "textNoMatches": "Nenhuma correspondência",
       "textOk": "OK",
       "textOpenFile": "Inserir a Senha para Abrir o Arquivo",
       "textOrientation": "Orientação",
@@ -755,9 +753,7 @@
       "txtUk": "Ucraniano",
       "txtVi": "Vietnamita",
       "txtZh": "Chinês",
-      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
-      "del_textNoTextFound": "Text not found",
-      "textNoMatches": "No Matches"
+      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?"
     }
   }
 }

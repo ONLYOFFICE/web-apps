@@ -164,6 +164,8 @@
   "DE.Views.ApplicationView.textSubmit": "傳送",
   "DE.Views.ApplicationView.textUndo": "復原",
   "DE.Views.ApplicationView.textZoom": "放大",
+  "DE.Views.ApplicationView.tipRedo": "重做",
+  "DE.Views.ApplicationView.tipUndo": "復原",
   "DE.Views.ApplicationView.txtDarkMode": "夜間模式",
   "DE.Views.ApplicationView.txtDownload": "下載",
   "DE.Views.ApplicationView.txtDownloadDocx": "下載及儲存為docx",

@@ -151,7 +151,6 @@
       "textNo": "Nein",
       "textNoChoices": "Es gibt keine Möglichkeit zum Füllung der Zelle.<br>Nur die Textwerte aus der Spalte kann für den Ersatz gewählt werden. ",
       "textNoLicenseTitle": "Lizenzlimit erreicht",
-      "textNoTextFound": "Der Text wurde nicht gefunden.",
       "textOk": "OK",
       "textPaidFeature": "Kostenpflichtige Funktion",
       "textRemember": "Auswahl speichern",
@@ -172,11 +171,10 @@
       "warnNoLicense": "Sie haben die maximale Anzahl von gleichzeitigen Verbindungen in %1-Editoren erreicht. Die Bearbeitung ist jetzt in diesem Dokument nicht verfügbar. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
       "warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
       "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten.",
-      "titleLicenseNotActive": "License not active",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-      "del_textNoTextFound": "Text not found",
       "textNoMatches": "No Matches",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {
@@ -654,7 +652,6 @@
       "textMargins": "Ränder",
       "textMatchCase": "Groß-/Kleinschreibung beachten",
       "textMatchCell": "Zelle anpassen",
-      "textNoTextFound": "Der Text wurde nicht gefunden",
       "textOk": "OK",
       "textOpenFile": "Kennwort zum Öffnen der Datei eingeben",
       "textOrientation": "Orientierung",
@@ -756,7 +753,6 @@
       "txtVi": "Vietnamesisch",
       "txtZh": "Chinesisch ",
       "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?",
-      "del_textNoTextFound": "Text not found",
       "textNoMatches": "No Matches"
     }
   }

@@ -112,7 +112,6 @@
       "textHasMacros": "The file contains automatic macros.<br>Do you want to run macros?",
       "textNo": "No",
       "textNoLicenseTitle": "License limit reached",
-      "del_textNoTextFound": "Text not found",
       "textNoMatches": "No Matches",
       "textOpenFile": "Enter a password to open the file",
       "textPaidFeature": "Paid feature",
@@ -127,6 +126,7 @@
       "titleUpdateVersion": "Version changed",
       "txtIncorrectPwd": "Password is incorrect",
       "txtProtected": "Once you enter the password and open the file, the current password to the file will be reset",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
       "warnLicenseExceeded": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact your administrator to learn more.",
       "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page.",
@@ -135,8 +135,7 @@
       "warnLicenseUsersExceeded": "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
       "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
       "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
-      "warnProcessRightsChange": "You don't have permission to edit the file.",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
+      "warnProcessRightsChange": "You don't have permission to edit the file."
     }
   },
   "Error": {
@@ -364,10 +363,9 @@
       "textMoveBackward": "Move Backward",
       "textMoveForward": "Move Forward",
       "textNextSlide": "Next Slide",
+      "textNoMatches": "No Matches",
       "textNone": "None",
       "textNoStyles": "No styles for this type of chart.",
-      "del_textNoTextFound": "Text not found",
-      "textNoMatches": "No Matches",
       "textNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "textNumbers": "Numbers",
       "textOk": "Ok",
@@ -463,7 +461,6 @@
       "textLoading": "Loading...",
       "textLocation": "Location",
       "textMacrosSettings": "Macros Settings",
-      "del_textNoTextFound": "Text not found",
       "textNoMatches": "No Matches",
       "textOk": "Ok",
       "textOwner": "Owner",

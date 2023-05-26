@@ -150,7 +150,6 @@
       "textNo": "No",
       "textNoChoices": "Non ci sono alternative per riempire la cella.<br>Solo i valori testo dalla colonna possono essere selezionati per la sostituzione",
       "textNoLicenseTitle": "È stato raggiunto il limite della licenza",
-      "textNoTextFound": "Testo non trovato",
       "textOk": "OK",
       "textPaidFeature": "Funzionalità a pagamento",
       "textRemember": "Ricordare la mia scelta",
@@ -171,12 +170,11 @@
       "warnNoLicenseUsers": "Hai raggiunto il limite degli utenti per gli editor %1. Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
       "warnProcessRightsChange": "Non hai il permesso di modificare il file.",
       "textDontUpdate": "Don't Update",
+      "textNoMatches": "No Matches",
       "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
       "titleLicenseNotActive": "License not active",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-      "del_textNoTextFound": "Text not found",
-      "textNoMatches": "No Matches",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {
@@ -652,7 +650,6 @@
       "textMargins": "Margini",
       "textMatchCase": "Maiuscole/minuscole",
       "textMatchCell": "Abbinare celle",
-      "textNoTextFound": "Testo non trovato",
       "textOk": "OK",
       "textOpenFile": "Inserisci la password per aprire il file",
       "textOrientation": "Orientamento",
@@ -755,9 +752,8 @@
       "warnDownloadAs": "Se continui a salvare in questo formato, tutte le funzioni tranne il testo saranno perse.<br>Sei sicuro di voler continuare?",
       "strFuncLocale": "Formula Language",
       "strFuncLocaleEx": "Example: SUM; MIN; MAX; COUNT",
-      "txtDe": "Deutsch",
-      "del_textNoTextFound": "Text not found",
-      "textNoMatches": "No Matches"
+      "textNoMatches": "No Matches",
+      "txtDe": "Deutsch"
     }
   }
 }

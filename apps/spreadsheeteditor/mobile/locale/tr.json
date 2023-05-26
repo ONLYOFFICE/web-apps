@@ -150,7 +150,6 @@
       "textNo": "Hayır",
       "textNoChoices": "Hücreyi doldurmak için seçenek bulunmuyor.<br>Yalnızca sütundaki metin değerleri ile değiştirilebilir.",
       "textNoLicenseTitle": "Lisans limitine ulaşıldı.",
-      "textNoTextFound": "Metin bulunamadı",
       "textOk": "Tamam",
       "textPaidFeature": "Ücretli Özellik",
       "textRemember": "Seçimimi hatırla",
@@ -170,13 +169,12 @@
       "warnNoLicenseUsers": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
       "warnProcessRightsChange": "Dosyayı düzenleme izniniz yok.",
       "textDontUpdate": "Don't Update",
+      "textNoMatches": "No Matches",
       "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
       "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
       "titleLicenseNotActive": "License not active",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-      "del_textNoTextFound": "Text not found",
-      "textNoMatches": "No Matches",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {
@@ -653,7 +651,6 @@
       "textMargins": "Kenar Boşlukları",
       "textMatchCase": "Büyük Küçük Harfe Duyarlı",
       "textMatchCell": "Hücre Eşleştir",
-      "textNoTextFound": "Metin Bulunamadı",
       "textOk": "Tamam",
       "textOpenFile": "Dosyayı Açmak için Parola Girin",
       "textOrientation": "Oryantasyon",
@@ -754,10 +751,9 @@
       "txtZh": "Çince",
       "warnDownloadAs": "Bu formatta kaydetmeye devam ederseniz, metin dışındaki tüm özellikler kaybolacak.<br>Devam etmek istediğinize emin misiniz?",
       "textDirection": "Direction",
+      "textNoMatches": "No Matches",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "txtDe": "Deutsch",
-      "del_textNoTextFound": "Text not found",
-      "textNoMatches": "No Matches"
+      "txtDe": "Deutsch"
     }
   }
 }
