@@ -150,7 +150,6 @@
       "textNo": "Tidak",
       "textNoChoices": "Tidak ada pilihan untuk mengisi sel.<br>Hanya nilai teks dari lajur yang boleh dipilih untuk penggantian.",
       "textNoLicenseTitle": "Had lesen telah dicapai",
-      "textNoTextFound": "Teks tidak dijumpai",
       "textOk": "Okey",
       "textPaidFeature": "Ciri Berbayar",
       "textRemember": "Ingat pilihan saya",
@@ -168,15 +167,14 @@
       "warnNoLicenseUsers": "Anda telah mencapai had pengguna untuk editor %1. Hubungi pasukan jualan %1 untuk naik taraf terma peribadi.",
       "warnProcessRightsChange": "Anda tidak mempunyai keizinan untuk edit fail ini.",
       "textDontUpdate": "Don't Update",
+      "textNoMatches": "No Matches",
       "textUpdate": "Update",
       "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
       "titleLicenseExp": "License expired",
       "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page.",
-      "del_textNoTextFound": "Text not found",
-      "textNoMatches": "No Matches",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
+      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
     }
   },
   "Error": {
@@ -652,7 +650,6 @@
       "textMargins": "Margin",
       "textMatchCase": "Kes Sepadan",
       "textMatchCell": "Sel Sepadan",
-      "textNoTextFound": "Teks tidak dijumpai",
       "textOk": "Okey",
       "textOpenFile": "Masukkan kata laluan untuk membuka fail",
       "textOrientation": "Orientasi",
@@ -724,6 +721,7 @@
       "warnDownloadAs": "Jika anda terus menyimpan dalam format ini semua ciri kecuali teks akan hilang.<br>Adakah anda pasti mahu teruskan?",
       "strFuncLocale": "Formula Language",
       "strFuncLocaleEx": "Example: SUM; MIN; MAX; COUNT",
+      "textNoMatches": "No Matches",
       "txtBe": "Belarusian",
       "txtBg": "Bulgarian",
       "txtCa": "Catalan",
@@ -755,9 +753,7 @@
       "txtTr": "Turkish",
       "txtUk": "Ukrainian",
       "txtVi": "Vietnamese",
-      "txtZh": "Chinese",
-      "del_textNoTextFound": "Text not found",
-      "textNoMatches": "No Matches"
+      "txtZh": "Chinese"
     }
   }
 }

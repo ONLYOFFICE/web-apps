@@ -112,7 +112,6 @@
       "textHasMacros": "Ֆայլում կան ինքնաշխատ մակրոներ։<br>Գործարկե՞լ դրանք։",
       "textNo": "Ոչ",
       "textNoLicenseTitle": "Լիցենզիայի սահմանաչափը հասել է",
-      "textNoTextFound": "Տեքստը չի գտնվել",
       "textOpenFile": "Մուտքագրել գաղտնաբառ՝ ֆայլը բացելու համար",
       "textPaidFeature": "Վճարովի գործառույթ",
       "textRemember": "Հիշել իմ ընտրությունը",
@@ -135,7 +134,6 @@
       "warnNoLicense": "Դուք հասել եք %1 խմբագիրների հետ միաժամանակյա միացումների սահմանաչափին:Այս փաստաթուղթը կբացվի միայն դիտելու համար:նձնական թարմացման պայմանների համար կապվեք %1 վաճառքի թիմի հետ:",
       "warnNoLicenseUsers": "Դուք հասել եք %1 խմբագիրների օգտվողի սահմանաչափին:Անձնական թարմացման պայմանների համար կապվեք %1 վաճառքի թիմի հետ:",
       "warnProcessRightsChange": "Դուք ֆայլը խմբագրելու թույլտվություն չունեք:",
-      "del_textNoTextFound": "Text not found",
       "textNoMatches": "No Matches",
       "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
     }
@@ -367,7 +365,6 @@
       "textNextSlide": "Հաջորդ սահիկ",
       "textNone": "Ոչ մեկը",
       "textNoStyles": "Այս տեսակի գծապատկերների համար ոճեր չկան:",
-      "textNoTextFound": "Տեքստը չի գտնվել",
       "textNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ ",
       "textNumbers": "Թվեր",
       "textOk": "Լավ",
@@ -424,7 +421,6 @@
       "textZoomIn": "Մեծացնել",
       "textZoomOut": "Փոքրացնել",
       "textZoomRotate": "Դիտափոխում և պտտում",
-      "del_textNoTextFound": "Text not found",
       "textNoMatches": "No Matches"
     },
     "Settings": {
@@ -465,7 +461,6 @@
       "textLoading": "Բեռնում...",
       "textLocation": "Տեղ",
       "textMacrosSettings": "Մակրոների կարգավորումներ",
-      "textNoTextFound": "Տեքստը չի գտնվել",
       "textOk": "Լավ",
       "textOwner": "Տնօրինող",
       "textPoint": "Կետ",
@@ -511,7 +506,6 @@
       "txtScheme7": "Սեփական կապիտալ",
       "txtScheme8": "Հոսք",
       "txtScheme9": "Հրատարակիչ",
-      "del_textNoTextFound": "Text not found",
       "textNoMatches": "No Matches"
     }
   }

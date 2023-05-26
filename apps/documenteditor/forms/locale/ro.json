@@ -152,6 +152,7 @@
   "DE.Controllers.ApplicationController.uploadImageExtMessage": "Format de imagine nerecunoscut.",
   "DE.Controllers.ApplicationController.uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB.",
   "DE.Controllers.ApplicationController.waitText": "Vă rugăm să așteptați...",
+  "DE.Controllers.ApplicationController.warnLicenseAnonymous": "Acces refuzat pentru utilizatori anonimi.<br>Acest document va fi accesibil numai în modul de vizualizare.",
   "DE.Controllers.ApplicationController.warnLicenseBefore": "Licența nu este activă.<br>Contactaţi administratorul.",
   "DE.Controllers.ApplicationController.warnLicenseExceeded": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare.<br>Pentru detalii, contactați administratorul dvs.",
   "DE.Controllers.ApplicationController.warnLicenseExp": "Licența dvs. a expirat.<br>Licența urmează să fie reînnoită iar pagina reîmprospătată.",

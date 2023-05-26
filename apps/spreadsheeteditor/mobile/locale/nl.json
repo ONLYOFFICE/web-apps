@@ -149,7 +149,6 @@
       "textHasMacros": "Het bestand bevat automatische macro's. <br>Wilt u macro's uitvoeren?",
       "textNo": "Nee",
       "textNoLicenseTitle": "Licentielimiet bereikt",
-      "textNoTextFound": "Tekst niet gevonden",
       "textPaidFeature": "Betaalde functie",
       "textRemember": "Bewaar mijn keuze",
       "textRequestMacros": "Een macro maakt een verzoek naar een URL. Wil je dit verzoek naar %1 toestaan?",
@@ -165,6 +164,7 @@
       "warnProcessRightsChange": "Je hebt geen toestemming om het bestand te bewerken.",
       "textDontUpdate": "Don't Update",
       "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
+      "textNoMatches": "No Matches",
       "textOk": "Ok",
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
       "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
@@ -172,11 +172,9 @@
       "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
       "titleLicenseExp": "License expired",
       "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page.",
-      "del_textNoTextFound": "Text not found",
-      "textNoMatches": "No Matches",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
+      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
     }
   },
   "Error": {
@@ -652,7 +650,6 @@
       "textMargins": "Marges",
       "textMatchCase": "Identiek hoofdlettergebruik",
       "textMatchCell": "Identiek aan cel",
-      "textNoTextFound": "Tekst niet gevonden",
       "textOk": "OK",
       "textOpenFile": "Voer een wachtwoord in om dit bestand te openen",
       "textOrientation": "Oriëntatie ",
@@ -753,11 +750,10 @@
       "warnDownloadAs": "Als u doorgaat met opslaan in dit formaat, gaat alle opmaak verloren en blijft alleen de tekst behouden.<br>Wilt u doorgaan?",
       "textDirection": "Direction",
       "textFeedback": "Feedback & Support",
+      "textNoMatches": "No Matches",
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRightToLeft": "Right To Left",
-      "txtDe": "Deutsch",
-      "del_textNoTextFound": "Text not found",
-      "textNoMatches": "No Matches"
+      "txtDe": "Deutsch"
     }
   }
 }

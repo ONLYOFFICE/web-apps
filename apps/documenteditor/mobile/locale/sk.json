@@ -549,7 +549,6 @@
     "textHasMacros": "Súbor obsahuje automatické makrá.<br>Naozaj chcete makra spustiť?",
     "textNo": "Nie",
     "textNoLicenseTitle": "Bol dosiahnutý limit licencie",
-    "textNoTextFound": "Text nebol nájdený",
     "textPaidFeature": "Platená funkcia",
     "textRemember": "Zapamätaj si moju voľbu",
     "textReplaceSkipped": "Nahradenie bolo uskutočnené. {0} výskytov bolo preskočených.",
@@ -571,15 +570,14 @@
     "textDialogProtectedFillForms": "You may only fill in forms in this document",
     "textDialogProtectedOnlyView": "You may only view this document",
     "textDocumentProtected": "The document is protected. Edit settings are not available",
+    "textNoMatches": "No Matches",
     "textOk": "Ok",
     "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
     "titleDialogProtectedDocument": "The document is protected",
     "titleLicenseNotActive": "License not active",
     "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
-    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-    "del_textNoTextFound": "Text not found",
-    "textNoMatches": "No Matches",
-    "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
+    "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator."
   },
   "Settings": {
     "advDRMOptions": "Chránený súbor",
@@ -638,7 +636,6 @@
     "textMarginsH": "Horné a spodné okraje sú pre danú výšku stránky príliš vysoké",
     "textMarginsW": "Ľavé a pravé okraje sú príliš široké pre danú šírku stránky",
     "textNoCharacters": "Formátovacie značky",
-    "textNoTextFound": "Text nebol nájdený",
     "textOk": "OK",
     "textOpenFile": "Zadajte heslo na otvorenie súboru",
     "textOrientation": "Orientácia",
@@ -707,6 +704,7 @@
     "textNavigation": "Navigation",
     "textNo": "No",
     "textNoChanges": "No changes (Read only)",
+    "textNoMatches": "No Matches",
     "textPageSize": "Page Size",
     "textPassword": "Password",
     "textPasswordNotMatched": "Passwords DonвЂ™t Match",
@@ -727,9 +725,7 @@
     "textUnprotect": "Unprotect",
     "textVerify": "Verify",
     "textYes": "Yes",
-    "titleDialogUnprotect": "Unprotect Document",
-    "del_textNoTextFound": "Text not found",
-    "textNoMatches": "No Matches"
+    "titleDialogUnprotect": "Unprotect Document"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Máte neuložené zmeny. Kliknite na „Zostať na tejto stránke“ a počkajte na automatické uloženie. Kliknutím na „Opustiť túto stránku“ zahodíte všetky neuložené zmeny.",

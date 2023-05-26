@@ -112,7 +112,6 @@
       "textHasMacros": "O ficheiro contém macros automáticas.<br>Deseja executar as macros?",
       "textNo": "Não",
       "textNoLicenseTitle": "Atingiu o limite da licença",
-      "textNoTextFound": "Texto não encontrado",
       "textOpenFile": "Introduza a palavra-passe para abrir o ficheiro",
       "textPaidFeature": "Funcionalidade paga",
       "textRemember": "Memorizar a minha escolha",
@@ -133,11 +132,10 @@
       "warnNoLicense": "Atingiu o limite de ligações simultâneas a %1 editores. Este documento será aberto apenas para visualização. Contacte a %1 equipa de vendas para consultar os termos de atualização para si.",
       "warnNoLicenseUsers": "Atingiu o limite de %1 editores. Contacte a equipa comercial %1 para obter mais informações.",
       "warnProcessRightsChange": "Não tem autorização para editar este ficheiro.",
-      "titleLicenseNotActive": "License not active",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-      "del_textNoTextFound": "Text not found",
       "textNoMatches": "No Matches",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {
@@ -367,7 +365,6 @@
       "textNextSlide": "Diapositivo seguinte",
       "textNone": "Nenhum",
       "textNoStyles": "Sem estilos para este tipo de gráficos.",
-      "textNoTextFound": "Texto não encontrado",
       "textNotUrl": "Este campo deve ser um URL no formato \"http://www.exemplo.com\"",
       "textNumbers": "Números",
       "textOk": "OK",
@@ -424,7 +421,6 @@
       "textZoomIn": "Ampliar",
       "textZoomOut": "Reduzir",
       "textZoomRotate": "Ampliação e rotação",
-      "del_textNoTextFound": "Text not found",
       "textNoMatches": "No Matches"
     },
     "Settings": {
@@ -465,7 +461,6 @@
       "textLoading": "A carregar...",
       "textLocation": "Localização",
       "textMacrosSettings": "Definições de macros",
-      "textNoTextFound": "Texto não encontrado",
       "textOk": "OK",
       "textOwner": "Proprietário",
       "textPoint": "Ponto",
@@ -511,7 +506,6 @@
       "txtScheme7": "Equidade",
       "txtScheme8": "Fluxo",
       "txtScheme9": "Fundição",
-      "del_textNoTextFound": "Text not found",
       "textNoMatches": "No Matches"
     }
   }

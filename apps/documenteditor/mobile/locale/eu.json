@@ -550,7 +550,6 @@
     "textHasMacros": "Fitxategiak makro automatikoak dauzka.<br>Makroak exekutatu nahi dituzu?",
     "textNo": "Ez",
     "textNoLicenseTitle": "Lizentzien mugara iritsi zara",
-    "textNoTextFound": "Ez da testua aurkitu",
     "textOk": "Ados",
     "textPaidFeature": "Ordainpeko ezaugarria",
     "textRemember": "Gogoratu nire aukera",
@@ -575,10 +574,9 @@
     "textDialogProtectedEditComments": "You may only insert comments to this document",
     "textDialogProtectedFillForms": "You may only fill in forms in this document",
     "textDialogProtectedOnlyView": "You may only view this document",
+    "textNoMatches": "No Matches",
     "titleDialogProtectedDocument": "The document is protected",
     "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
-    "del_textNoTextFound": "Text not found",
-    "textNoMatches": "No Matches",
     "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
   },
   "Settings": {
@@ -648,7 +646,6 @@
     "textNavigation": "Nabigazioa",
     "textNo": "Ez",
     "textNoCharacters": "Inprimatzekoak ez diren karaktereak",
-    "textNoTextFound": "Ez da testua aurkitu",
     "textOk": "Ados",
     "textOpenFile": "Idatzi pasahitza fitxategia irekitzeko",
     "textOrientation": "Orientazioa",
@@ -714,6 +711,7 @@
     "textEncryptFile": "Encrypt File",
     "textFillingForms": "Filling forms",
     "textNoChanges": "No changes (Read only)",
+    "textNoMatches": "No Matches",
     "textPassword": "Password",
     "textPasswordNotMatched": "Passwords DonвЂ™t Match",
     "textProtectDocument": "Protect Document",
@@ -727,9 +725,7 @@
     "textTypeEditing": "Type Of Editing",
     "textUnprotect": "Unprotect",
     "textVerify": "Verify",
-    "titleDialogUnprotect": "Unprotect Document",
-    "del_textNoTextFound": "Text not found",
-    "textNoMatches": "No Matches"
+    "titleDialogUnprotect": "Unprotect Document"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Gorde gabeko aldaketak dituzu. Egin klik \"Jarraitu orri honetan\" gordetze-automatikoari itxaroteko. Egin klik \"Utzi orri hau\" gorde gabeko aldaketa guztiak baztertzeko.",

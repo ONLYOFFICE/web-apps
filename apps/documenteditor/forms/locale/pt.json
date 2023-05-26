@@ -152,6 +152,7 @@
   "DE.Controllers.ApplicationController.uploadImageExtMessage": "Formato de imagem desconhecido.",
   "DE.Controllers.ApplicationController.uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB.",
   "DE.Controllers.ApplicationController.waitText": "Por favor, aguarde...",
+  "DE.Controllers.ApplicationController.warnLicenseAnonymous": "Acesso negado para usuários anônimos.<br>Este documento será aberto apenas para visualização.",
   "DE.Controllers.ApplicationController.warnLicenseBefore": "Licença inativa.<br>Entre em contato com seu administrador.",
   "DE.Controllers.ApplicationController.warnLicenseExceeded": "Você atingiu o limite de conexões simultâneas para editores %1. Este documento será aberto apenas para visualização.<br>Entre em contato com seu administrador para saber mais.",
   "DE.Controllers.ApplicationController.warnLicenseExp": "Sua licença expirou.<br>Atualize sua licença e refresque a página.",

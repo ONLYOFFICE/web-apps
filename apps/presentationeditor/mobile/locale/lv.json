@@ -105,7 +105,6 @@
       "textContactUs": "Sazināties ar pārdošanas daļu",
       "textGuest": "Viesis",
       "textNo": "Nē",
-      "textNoTextFound": "Teksts nav atrasts",
       "textOpenFile": "Ievadiet paroli, lai atvērtu failu",
       "textReplaceSuccess": "Meklēšana pabeigta. Aizvietotie rezultāti: {0}",
       "textYes": "Jā",
@@ -119,6 +118,7 @@
       "textCustomLoader": "Sorry, you are not entitled to change the loader. Please, contact our sales department to get a quote.",
       "textHasMacros": "The file contains automatic macros.<br>Do you want to run macros?",
       "textNoLicenseTitle": "License limit reached",
+      "textNoMatches": "No Matches",
       "textPaidFeature": "Paid feature",
       "textRemember": "Remember my choice",
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
@@ -126,6 +126,7 @@
       "titleLicenseNotActive": "License not active",
       "txtIncorrectPwd": "Password is incorrect",
       "txtProtected": "Once you enter the password and open the file, the current password to the file will be reset",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
       "warnLicenseExceeded": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact your administrator to learn more.",
       "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page.",
@@ -134,10 +135,7 @@
       "warnLicenseUsersExceeded": "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
       "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
       "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
-      "warnProcessRightsChange": "You don't have permission to edit the file.",
-      "del_textNoTextFound": "Text not found",
-      "textNoMatches": "No Matches",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
+      "warnProcessRightsChange": "You don't have permission to edit the file."
     }
   },
   "Error": {
@@ -357,7 +355,6 @@
       "textMoveForward": "Pārnest uz priekšu",
       "textNextSlide": "Nākamais slaids",
       "textNone": "Neviens",
-      "textNoTextFound": "Teksts nav atrasts",
       "textNotUrl": "Šim laukam ir jābūt URL formātā \"http://www.example.com\"",
       "textNumbers": "Skaitļi",
       "textOk": "OK",
@@ -421,11 +418,10 @@
       "textDeleteLink": "Delete Link",
       "textEmptyImgUrl": "You need to specify the image URL.",
       "textFinalMessage": "The end of slide preview. Click to exit.",
+      "textNoMatches": "No Matches",
       "textNoStyles": "No styles for this type of chart.",
       "textRecommended": "Recommended",
-      "textSelectObjectToEdit": "Select object to edit",
-      "del_textNoTextFound": "Text not found",
-      "textNoMatches": "No Matches"
+      "textSelectObjectToEdit": "Select object to edit"
     },
     "Settings": {
       "mniSlideStandard": "Standarta (4:3)",
@@ -450,7 +446,6 @@
       "textInch": "Colla",
       "textLoading": "Ielādē...",
       "textLocation": "Atrašanās vieta",
-      "textNoTextFound": "Teksts nav atrasts",
       "textOk": "OK",
       "textOwner": "Īpašnieks",
       "textPoint": "Punkts",
@@ -490,6 +485,7 @@
       "textLastModified": "Last Modified",
       "textLastModifiedBy": "Last Modified By",
       "textMacrosSettings": "Macros Settings",
+      "textNoMatches": "No Matches",
       "textPresentationSettings": "Presentation Settings",
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRTL": "RTL",
@@ -510,9 +506,7 @@
       "txtScheme5": "Civic",
       "txtScheme6": "Concourse",
       "txtScheme7": "Equity",
-      "txtScheme9": "Foundry",
-      "del_textNoTextFound": "Text not found",
-      "textNoMatches": "No Matches"
+      "txtScheme9": "Foundry"
     }
   }
 }
