@@ -3278,7 +3278,7 @@ define([
             if (this.toolbar.mode.canRequestSelectSpreadsheet) {
                 Common.Gateway.requestSelectSpreadsheet(type);
             } else if (this.toolbar.mode.canRequestMailMergeRecipients) {
-                console.log("с");
+                console.log("Obsolete: The 'onRequestMailMergeRecipients' event is deprecated. Please use 'onRequestSelectSpreadsheet' event instead.");
                 Common.Gateway.requestMailMergeRecipients();
             } else {
                 me._mailMergeDlg = new Common.Views.SelectFileDlg({
