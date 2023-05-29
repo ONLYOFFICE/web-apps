@@ -472,7 +472,7 @@ class MainController extends Component {
 
                 if(document.querySelector('.tooltip-cell-data')) {
                     document.querySelector('.tooltip-cell-data').remove();
-                    document.querySelector('.popover-backdrop').remove();
+                    document.querySelector('.popover-backdrop')?.remove();
                 }
 
                 f7.popover.create({
