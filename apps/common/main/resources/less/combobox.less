@@ -221,6 +221,9 @@
         margin: 0 0 0 -10px;
         padding-top: 0;
         padding-bottom: 0;
+        .rtl & {
+            margin: 0 -10px 0 0;
+        }
     }
 
     .dropdown-menu.menu-absolute {
@@ -261,11 +264,7 @@
             img {
                 width:16px;
                 height:16px;
-                margin-right: 5px;
-               .rtl & {
-                   margin-right: 0;
-                   margin-left: 5px;
-               }
+                .margin-right-5();
             }
         }
     }

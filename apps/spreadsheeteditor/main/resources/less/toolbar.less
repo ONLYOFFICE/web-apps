@@ -31,20 +31,9 @@
     }
 
     .font-attr {
-        > .btn-slot:not(:last-child):not(.split) {
-            margin-right: 2px;
-            .rtl & {
-                margin-right: 0;
-                margin-left: 2px;
-            }
-        }
-
+        > .btn-slot:not(:last-child):not(.split),
         > .btn-slot.split:not(:last-child) {
-            margin-right: 2px;
-            .rtl & {
-                margin-right: 0;
-                margin-left: 2px;
-            }
+            .margin-right-2();
         }
     }
 
@@ -52,39 +41,11 @@
         width: 218px;
 
         > .btn-slot {
-            float: left;
-            .rtl & {
-                float: right;
-            }
-
             &:not(:first-child) {
-                margin-left: 2px;
-                .rtl & {
-                    margin-left: 0;
-                    margin-right: 2px;
-                }
+                .margin-left-2();
             }
         }
 
-    }
-}
-
-// menu zoom
-.menu-zoom {
-    line-height: @line-height-base;
-    .title {
-        padding: 5px 5px 5px 20px;
-        float: left;
-        max-width: 95px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .zoom {
-        padding: 5px 3px;
-        float: right;
-        min-width: 40px;
-        text-align: center;
     }
 }
 
@@ -158,6 +119,13 @@
     width: 45px;
 }
 
+#id-docholder-menu-bullets {
+    margin: 4px 2px 4px 6px;
+    .rtl & {
+        margin: 4px 6px 4px 2px;
+    }
+}
+
 .item-markerlist {
     width: 40px;
     height: 40px;
@@ -171,7 +139,12 @@
 #menu-list-number-group {
     .item {
         margin-right: 10px;
+        margin-left: 4px;
         margin-bottom: 9px;
+        .rtl & {
+            margin-right: 4px;
+            margin-left: 10px;
+        }
     }
     .group-items-container {
         margin-bottom: 0;
@@ -181,6 +154,11 @@
 #menu-list-bullet-group {
     .item {
         margin-right: 2px;
+        margin-left: 4px;
+        .rtl & {
+            margin-right: 4px;
+            margin-left: 2px;
+        }
     }
 }
 
@@ -316,13 +294,5 @@
 #id-toolbar-btn-cstyle {
     .style  {
         background-color: @canvas-content-background;
-    }
-}
-
-#id-toolbar-menu-insart {
-    margin-left: 5px;
-    .rtl & {
-        margin-left: 0;
-        margin-right: 5px;
     }
 }

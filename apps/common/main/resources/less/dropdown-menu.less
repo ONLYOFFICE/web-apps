@@ -78,15 +78,9 @@
                 width: 16px;
                 height: 16px;
                 display: inline-block;
-                float: left;
-                margin-left: -18px;
+                .float-left();
+                .margin-left(-18px);
                 background-position: @menu-check-offset-x @menu-check-offset-y;
-
-                .rtl & {
-                    float: right;
-                    margin-left: 0;
-                    margin-right: -18px;
-                }
             }
         }
 

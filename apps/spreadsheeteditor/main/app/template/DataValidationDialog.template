@@ -88,16 +88,16 @@
             </tr>
             <tr>
                 <td class="padding-small">
-                    <div style="display: inline-block; margin-right: 5px;vertical-align: bottom;">
+                    <div class="margin-right-5" style="display: inline-block; vertical-align: bottom;">
                         <div id="data-validation-img-style" class="icon  error" style="margin-bottom: -1px;"></div>
                     </div>
-                    <div style="display: inline-block;">
-                        <label class="input-label"><%= scope.textStyle %></label>
-                        <div id="data-validation-cmb-style"></div>
-                    </div>
-                    <div style="float: right;">
+                    <div class="float-right">
                         <label class="input-label"><%= scope.textTitle %></label>
                         <div id="data-validation-error-title"></div>
+                    </div>
+                    <div class="float-right margin-right-5">
+                        <label class="input-label"><%= scope.textStyle %></label>
+                        <div id="data-validation-cmb-style"></div>
                     </div>
                 </td>
             </tr>

@@ -61,7 +61,7 @@ define([
             this.template = [
                 '<div class="box" style="height: 203px;">',
                     '<div class="input-row" style="margin-bottom: 10px;">',
-                        '<label class="input-label">' + this.textColumns + '</label><div id="custom-columns-spin-num" style="float: right;"></div>',
+                        '<label class="input-label">' + this.textColumns + '</label><div id="custom-columns-spin-num" class="float-right"></div>',
                     '</div>',
                     '<div id="custom-columns-list" style="width:100%; height: 113px;"></div>',
                     '<div class="input-row" style="margin: 10px 0;">',

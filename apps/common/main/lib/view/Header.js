@@ -59,7 +59,7 @@ define([
                     '<div class="user-name">' +
                         '<div class="color" style="background-color: <%= user.get("color") %>;"></div>'+
                         '<label><%= fnEncode(user.get("username")) %></label>' +
-                        '<% if (len>1) { %><label style="margin-left:3px;">(<%=len%>)</label><% } %>' +
+                        '<% if (len>1) { %><label class="margin-left-3">(<%=len%>)</label><% } %>' +
                     '</div>'+
                 '</li>';
 
