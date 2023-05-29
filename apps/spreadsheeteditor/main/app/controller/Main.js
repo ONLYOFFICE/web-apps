@@ -453,7 +453,7 @@ define([
                 this.appOptions.uiRtl = Common.localStorage.getBool("ui-rtl");
                 this.appOptions.canRequestReferenceData = this.editorConfig.canRequestReferenceData;
                 this.appOptions.canRequestOpen = this.editorConfig.canRequestOpen;
-                this.appOptions.canRequestSelectSpreadsheet = this.editorConfig.canRequestSelectSpreadsheet;
+                this.appOptions.canRequestReferenceSource = this.editorConfig.canRequestReferenceSource;
                 
                 if (this.appOptions.user.guest && this.appOptions.canRenameAnonymous && !this.appOptions.isEditDiagram && !this.appOptions.isEditMailMerge && !this.appOptions.isEditOle)
                     Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));

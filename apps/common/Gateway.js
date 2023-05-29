@@ -149,6 +149,10 @@ if (window.Common === undefined) {
 
             'setRequestedSpreadsheet': function(data) {
                 $me.trigger('setrequestedspreadsheet', data);
+            },
+
+            'setReferenceSource': function(data) {
+                $me.trigger('setreferencesource', data);
             }
         };
 
@@ -372,6 +376,10 @@ if (window.Common === undefined) {
 
             requestSelectSpreadsheet:  function (command) {
                 _postMessage({event:'onRequestSelectSpreadsheet', data: {c: command}});
+            },
+
+            requestReferenceSource:  function () {
+                _postMessage({event:'onRequestReferenceSource'});
             },
 
             pluginsReady: function() {

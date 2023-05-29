@@ -499,9 +499,6 @@ define([
                     this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onContextMenu, this));
                     Common.NotificationCenter.on('storage:image-load',          _.bind(this.openImageFromStorage, this));
                     Common.NotificationCenter.on('storage:image-insert',        _.bind(this.insertImageFromStorage, this));
-                    Common.NotificationCenter.on('storage:spreadsheet-load',    _.bind(this.openSpreadsheetFromStorage, this));
-                    Common.Gateway.on('setrequestedspreadsheet',          _.bind(this.setRequestedSpreadsheet, this));
-
                     this.api.asc_registerCallback('asc_onSelectionMathChanged',   _.bind(this.onApiMathChanged, this));
                 }
                 this.api.asc_registerCallback('asc_onInitEditorStyles',     _.bind(this.onApiInitEditorStyles, this));
@@ -5071,14 +5068,6 @@ define([
 
         onEyedropperEnd: function () {
             this.toolbar._isEyedropperStart = false;
-        },
-
-        openSpreadsheetFromStorage: function(type) {
-            Common.Gateway.requestSelectSpreadsheet(type);
-        },
-
-        setRequestedSpreadsheet: function(data) { // gateway
-            Common.NotificationCenter.trigger('storage:spreadsheet-insert', data);
         },
 
         textEmptyImgUrl     : 'You need to specify image URL.',

@@ -92,7 +92,7 @@ define([
             this.isUpdating = options.isUpdating || false;
             this.canRequestReferenceData = options.canRequestReferenceData || false;
             this.canRequestOpen = options.canRequestOpen || false;
-            this.canRequestSelectSpreadsheet = options.canRequestSelectSpreadsheet || false;
+            this.canRequestReferenceSource = options.canRequestReferenceSource || false;
             this.isOffline = options.isOffline || false;
             this.linkStatus = [];
             this.wrapEvents = {
@@ -183,7 +183,7 @@ define([
                 parentEl: $('#external-links-btn-change', this.$window),
                 cls: 'btn-text-default auto',
                 caption: this.textChange,
-                visible: !!this.canRequestSelectSpreadsheet
+                visible: !!this.canRequestReferenceSource
             });
             this.btnChange.on('click', _.bind(this.onChange, this));
 
