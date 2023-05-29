@@ -147,6 +147,13 @@ define([
             this.view.inputSelectRange.on('button:click', _.bind(this.onRangeSelect, this));
         },
 
+        changeWithinSheet: function (value) {
+            this._state.withinSheet = value;
+            this.view.inputSelectRange.setDisabled(value !== Asc.c_oAscSearchBy.Range);
+            this.view.inputSelectRange.$el[value === Asc.c_oAscSearchBy.Range ? 'show' : 'hide']();
+            this.view.updateResultsContainerHeight();
+        },
+
         onChangeSearchOption: function (option, value, noSearch) {
             var runSearch = true;
             switch (option) {
@@ -160,13 +167,10 @@ define([
                     this._state.useRegExp = value;
                     break;
                 case 'within':
-                    this._state.withinSheet = value === 0 ? Asc.c_oAscSearchBy.Sheet : (value === 1 ? Asc.c_oAscSearchBy.Workbook : Asc.c_oAscSearchBy.Range);
-                    this.view.inputSelectRange.setDisabled(value !== Asc.c_oAscSearchBy.Range);
+                    this.changeWithinSheet(value);
                     if (value === Asc.c_oAscSearchBy.Range) {
                         runSearch = this._state.isValidSelectedRange && !!this._state.selectedRange;
                     }
-                    this.view.inputSelectRange.$el[value === Asc.c_oAscSearchBy.Range ? 'show' : 'hide']();
-                    this.view.updateResultsContainerHeight();
                     break;
                 case 'range':
                     this._state.selectedRange = value;
@@ -518,6 +522,18 @@ define([
                 viewport.searchBar.hide();
             }
 
+            var activeRange = this.api.asc_getActiveRangeStr(Asc.referenceType.A, null, null, true),
+                isRangeChanged = false;
+            if (activeRange !== null) {
+                this.changeWithinSheet(Asc.c_oAscSearchBy.Range);
+                this._state.selectedRange = activeRange;
+
+                this.view.cmbWithin.setValue(Asc.c_oAscSearchBy.Range);
+                this.view.inputSelectRange.setValue(activeRange);
+
+                isRangeChanged = true;
+            }
+
             var selectedText = this.api.asc_GetSelectedText(),
                 text = typeof findText === 'string' ? findText : (selectedText && selectedText.trim() || this._state.searchText);
             if (this.resultItems && this.resultItems.length > 0 || (!text && this._state.isResults)) {
@@ -526,8 +542,8 @@ define([
                     this.onQuerySearch();
                     return;
                 }
-                if (!this._state.matchCase && text && text.toLowerCase() === this.view.inputText.getValue().toLowerCase() ||
-                    this._state.matchCase && text === this.view.inputText.getValue()) { // show old results
+                if (!isRangeChanged && (!this._state.matchCase && text && text.toLowerCase() === this.view.inputText.getValue().toLowerCase() ||
+                    this._state.matchCase && text === this.view.inputText.getValue())) { // show old results
                     return;
                 }
             }
@@ -541,7 +557,7 @@ define([
             }
 
             this.hideResults();
-            if (this._state.searchText !== undefined && text && text === this._state.searchText && this._state.isResults) { // search was made
+            if (!isRangeChanged && this._state.searchText !== undefined && text && text === this._state.searchText && this._state.isResults) { // search was made
                 this.api.asc_StartTextAroundSearch();
             } else if (this._state.searchText) { // search wasn't made
                 this._state.searchText = text;
