@@ -766,6 +766,10 @@ define([
                     if (e.target.localName == 'canvas')
                         Common.UI.Menu.Manager.hideAll();
                 });
+                meEl.on('touchstart', function(e){
+                    if (e.target.localName == 'canvas')
+                        Common.UI.Menu.Manager.hideAll();
+                });
 
                 //NOTE: set mouse wheel handler
 

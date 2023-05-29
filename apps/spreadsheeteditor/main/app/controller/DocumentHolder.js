@@ -337,6 +337,10 @@ define([
                                     documentHolderEl.focus();
                             }
                         }
+                    },
+                    touchstart: function(e){
+                        if (e.target.localName == 'canvas')
+                            Common.UI.Menu.Manager.hideAll();
                     }
                 });
 
