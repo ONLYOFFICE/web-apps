@@ -4119,6 +4119,7 @@
   "SSE.Views.ValueFieldSettingsDialog.txtSummarize": "Summarize value field by",
   "SSE.Views.ValueFieldSettingsDialog.txtVar": "Var",
   "SSE.Views.ValueFieldSettingsDialog.txtVarp": "Varp",
+  "SSE.Views.ValueFieldSettingsDialog.textNumFormat": "Number format",
   "SSE.Views.ViewManagerDlg.closeButtonText": "Close",
   "SSE.Views.ViewManagerDlg.guestText": "Guest",
   "SSE.Views.ViewManagerDlg.lockText": "Locked",
