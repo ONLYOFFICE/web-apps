@@ -782,6 +782,14 @@ class MainController extends Component {
         const isProtected = props && (props.isReadOnly || props.isCommentsOnly || props.isFormsOnly || props.isReviewOnly);
         let textWarningDialog;
 
+        if(!storeAppOptions.isReviewOnly) {
+            if(props.isReviewOnly) {
+                this.api.asc_SetLocalTrackRevisions(true);
+            } else {
+                this.api.asc_SetLocalTrackRevisions(false);
+            }
+        }
+
         switch(props.type) {
             case Asc.c_oAscEDocProtect.ReadOnly:
                 textWarningDialog = t('Main.textDialogProtectedOnlyView');
