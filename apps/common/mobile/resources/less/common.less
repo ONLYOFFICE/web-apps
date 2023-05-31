@@ -114,9 +114,13 @@
 
 .list {
     max-width: 100%;
+    --menu-list-offset: 0px;
+
     ul {
         width: 100%;
+        background: var(--f7-list-bg-color);
     }
+
     li.no-indicator {
         .item-link {
             .item-inner{
@@ -1145,8 +1149,6 @@ input[type="number"]::-webkit-inner-spin-button {
 
 // Dialog with password
 .dialog {
-    border-radius: 0;
-    
     .modal-password {
         position: relative;
 
@@ -1156,14 +1158,6 @@ input[type="number"]::-webkit-inner-spin-button {
             top: calc(50% - 12.5px);
         }
     }
-}
-
-.md .item-input:not(.item-input-outline) .item-content::before, .md .item-input:not(.item-input-outline).item-content::before {
-    background: transparent;
-}
-
-.md .item-input .item-content, .md .item-input.item-content {
-    padding-left: 0;
 }
 
 

@@ -39,8 +39,9 @@
     --f7-searchbar-search-icon-color: @text-tertiary;
     --f7-searchbar-input-clear-button-color: @text-tertiary;
 
-    --f7-toggle-inactive-color: @background-menu-divider;
-    --f7-toggle-border-color: @background-menu-divider;
+    --f7-toggle-inactive-border-color: @background-menu-divider;
+    --f7-toggle-inactive-bg-color: @background-menu-divider;
+
     --f7-actions-button-border-color: @background-menu-divider;
     --f7-popover-bg-color: @background-primary;
     --f7-dialog-bg-color-rgb: @background-secondary;
@@ -232,6 +233,22 @@
         .list-input-right input {
             text-align: right;
         }
+    }
+
+    .links-list a:after, .list .item-inner:after, .simple-list li:after {
+        background-color: var(--f7-list-item-border-color);
+        bottom: 0;
+        content: "";
+        display: block;
+        height: 1px;
+        left: 0;
+        position: absolute;
+        right: auto;
+        top: auto;
+        transform: scaleY(calc(1/var(--f7-device-pixel-ratio)));
+        transform-origin: 50% 100%;
+        width: 100%;
+        z-index: 15;
     }
 
     .tab-buttons {
@@ -545,9 +562,9 @@
 
     // Toggle Icon 
 
-    .toggle-icon {
-        background: transparent;
-    }
+    // .toggle-icon {
+    //     background: transparent;
+    // }
 
     // Edit Comment Popup
 

@@ -226,12 +226,6 @@ const routes = [
         path: '/edit-structure-table-contents/',
         component: PageEditStructureTableContents
     },
-    // {
-    //     path: '(.*)',
-    //     options: {
-    //         transition: 'f7-push',
-    //     },
-    // },
 ];
 
 routes.forEach(route => {
@@ -369,7 +363,7 @@ const EditTabs = props => {
     }
    
     return (
-        <View style={props.style} stackPages={true} routes={routes}>
+        <View style={props.style} routes={routes}>
             <Page pageContent={false}>
                 <EditLayoutNavbar editors={editors} inPopover={props.inPopover}/>
                 <EditLayoutContent editors={editors} />
@@ -391,7 +385,7 @@ const EditView = props => {
             <Popover id="edit-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => props.onClosed()}>
                 <EditTabsContainer inPopover={true} onOptionClick={onOptionClick} style={{height: '410px'}} />
             </Popover> :
-            <Sheet id="edit-sheet" closeByOutsideClick={true} closeByBackdropClick={false} backdrop={false} onSheetClosed={() => props.onClosed()}>
+            <Sheet id="edit-sheet" closeByOutsideClick={false} onSheetClosed={() => props.onClosed()}>
                 <EditTabsContainer onOptionClick={onOptionClick} />
             </Sheet>
     )
