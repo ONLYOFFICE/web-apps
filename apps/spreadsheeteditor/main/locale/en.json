@@ -2433,6 +2433,7 @@
   "SSE.Views.FieldSettingsDialog.txtTop": "Show at top of group",
   "SSE.Views.FieldSettingsDialog.txtVar": "Var",
   "SSE.Views.FieldSettingsDialog.txtVarp": "Varp",
+  "SSE.Views.FieldSettingsDialog.textNumFormat": "Number format",
   "SSE.Views.FileMenu.btnBackCaption": "Open file location",
   "SSE.Views.FileMenu.btnCloseMenuCaption": "Close Menu",
   "SSE.Views.FileMenu.btnCreateNewCaption": "Create New",
