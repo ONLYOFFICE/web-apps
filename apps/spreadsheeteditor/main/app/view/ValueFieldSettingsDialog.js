@@ -277,7 +277,7 @@ define([
                 this.cmbBaseItem.setDisabled(data.length<1 || show_as !== Asc.c_oAscShowDataAs.Difference && show_as !== Asc.c_oAscShowDataAs.Percent && show_as !== Asc.c_oAscShowDataAs.PercentDiff);
                 this.cmbBaseItem.setValue((data.length>0) && (show_as === Asc.c_oAscShowDataAs.Difference || show_as === Asc.c_oAscShowDataAs.Percent || show_as === Asc.c_oAscShowDataAs.PercentDiff) ? field.asc_getBaseItem() : '', '');
 
-                this.btnFormat.setDisabled(this.props.getFieldGroupType(field.asc_getIndex()) === c_oAscGroupType.Text);
+                this.btnFormat.setDisabled(this.props.getFieldGroupType(field.asc_getIndex()) === Asc.c_oAscGroupType.Text);
                 if (this.getDefFormat(show_as)===Asc.c_oAscNumFormatType.General)
                     this.format.defFormats[Asc.c_oAscNumFormatType.General] = {formatStr: this.format.formatStr, formatInfo: this.format.formatInfo }
             }
@@ -294,7 +294,7 @@ define([
             field.asc_setSubtotal(this.cmbSummarize.getValue());
             field.asc_setShowDataAs(this.cmbShowAs.getValue());
 
-            this.cmbShowAs.getSelectedRecord() && field.asc_setNumFormat(this.format.formatStr);
+            this.format.isChanged && this.cmbShowAs.getSelectedRecord() && field.asc_setNumFormat(this.format.formatStr);
 
             if (!this.cmbBaseField.isDisabled())
                 field.asc_setBaseField(this.cmbBaseField.getValue());
@@ -341,6 +341,7 @@ define([
             this.cmbBaseItem.setDisabled(this.cmbBaseItem.store.length<1 || show_as !== Asc.c_oAscShowDataAs.Difference && show_as !== Asc.c_oAscShowDataAs.Percent && show_as !== Asc.c_oAscShowDataAs.PercentDiff);
             var newFormat = this.getDefFormat(show_as);
             if (newFormat !== this.getDefFormat(this.format.show_as)) {
+                this.format.isChanged = true;
                 this.format.formatStr = this.format.defFormats[newFormat].formatStr;
                 this.format.formatInfo = this.format.defFormats[newFormat].formatInfo;
             }
@@ -383,6 +384,7 @@ define([
                 api: me.api,
                 handler: function(result, settings) {
                     if (result=='ok' && settings) {
+                        me.format.isChanged = true;
                         me.format.formatStr = settings.format;
                         me.format.formatInfo = settings.formatInfo;
                         if (me.getDefFormat(me.format.show_as)===Asc.c_oAscNumFormatType.General) {
