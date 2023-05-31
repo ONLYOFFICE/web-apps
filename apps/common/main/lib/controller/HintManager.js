@@ -117,7 +117,7 @@ Common.UI.HintManager = new(function() {
         _inputTimer,
         _isDocReady = false,
         _isEditDiagram = false,
-        _isInternalEditorLoading = false,
+        _isInternalEditorLoading = true,
         _usedTitles = [],
         _appPrefix,
         _staticHints = { // for 0 level
@@ -645,7 +645,7 @@ Common.UI.HintManager = new(function() {
                 (!Common.Utils.isMac && e.keyCode == Common.UI.Keys.ALT || Common.Utils.isMac && e.metaKey && e.keyCode === Common.UI.Keys.F6) &&
                 !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0 &&
                 !(window.PE && $('#pe-preview').is(':visible')));
-            if (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && !Common.Utils.isMac && e.altKey && e.keyCode !== 115 && (_isInternalEditorLoading || _isEditDiagram)) {
+            if (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && !Common.Utils.isMac && e.altKey && e.keyCode !== 115 && _isInternalEditorLoading) {
                 e.preventDefault();
             }
         });
@@ -711,6 +711,7 @@ Common.UI.HintManager = new(function() {
 
     var _setMode = function (mode) {
         _isEditDiagram = mode.isEditDiagram || mode.isEditMailMerge || mode.isEditOle;
+        _setInternalEditorLoading(!!_isEditDiagram);
     };
 
     var _getStaticHint = function (key) {
@@ -718,7 +719,9 @@ Common.UI.HintManager = new(function() {
     };
 
     var _setInternalEditorLoading = function (load) {
-        _isInternalEditorLoading = load;
+        if (_isInternalEditorLoading !== load) {
+            _isInternalEditorLoading = load;
+        }
     };
 
     return {
