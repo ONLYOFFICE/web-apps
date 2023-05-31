@@ -150,7 +150,8 @@ define([
                         '%1 or %2': this.txtOr,
                         'Qtr': this.txtQuarter,
                         'Text': this.textText,
-                        'Sheet': this.txtSheet
+                        'Sheet': this.txtSheet,
+                        'None': this.txtNone
                     };
 
                 styleNames.forEach(function(item){
@@ -3828,7 +3829,8 @@ define([
             titleLicenseNotActive: 'License not active',
             errorProtectedRange: 'This range is not allowed for editing.',
             errorCreateRange: 'The existing ranges cannot be edited and the new ones cannot be created<br>at the moment as some of them are being edited.',
-            txtSheet: 'Sheet'
+            txtSheet: 'Sheet',
+            txtNone: 'None'
         }
     })(), SSE.Controllers.Main || {}))
 });
