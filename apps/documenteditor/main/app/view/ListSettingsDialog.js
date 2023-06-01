@@ -1247,7 +1247,7 @@ define([
         },
 
         loadRecent: function(){
-            var sRecents = Common.localStorage.getItem('de-recent-bullets');
+            var sRecents = Common.localStorage.getItem('de-recent-list-bullets');
             if(sRecents !== ''){
                 sRecents = JSON.parse(sRecents);
             }
@@ -1272,7 +1272,7 @@ define([
 
         saveRecent: function(){
             var sJSON = JSON.stringify(this.recentBullets);
-            Common.localStorage.setItem('de-recent-bullets', sJSON);
+            Common.localStorage.setItem('de-recent-list-bullets', sJSON);
         },
 
         saveRecentNum: function(){
