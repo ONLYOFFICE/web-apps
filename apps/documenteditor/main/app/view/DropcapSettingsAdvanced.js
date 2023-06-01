@@ -127,8 +127,8 @@ define([
                     posId   : item[0],
                     strId   : item[1],
                     iconCls : item[2],
-                    style   : 'margin-left: 5px; margin-bottom: 4px;',
-                    cls     : 'btn-options large border-off'
+                    style   : 'margin-bottom: 4px;',
+                    cls     : 'btn-options large border-off margin-left-5'
                 });
 
                 _btn.on('click', function(btn) {
@@ -365,7 +365,7 @@ define([
             this.btnFrameNone = new Common.UI.Button({
                 parentEl: $('#frame-advanced-button-none'),
                 cls         : 'btn huge-1 btn-options',
-                iconCls     : 'options__icon options__icon-huge none',
+                iconCls     : 'options__icon options__icon-huge btn-none',
                 enableToggle: true,
                 toggleGroup : 'frameAdvGroup',
                 allowDepress: false,

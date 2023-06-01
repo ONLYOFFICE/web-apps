@@ -353,7 +353,7 @@ define([
             this.btnEdit = new Common.UI.Button({
                 parentEl: $('#table-btn-edit'),
                 cls         : 'btn-toolbar align-left',
-                iconCls     : 'toolbar__icon rows-and-columns',
+                iconCls     : 'toolbar__icon btn-rows-and-columns',
                 caption     : this.textEdit,
                 style       : 'width: 100%;',
                 menu: new Common.UI.Menu({
@@ -448,7 +448,7 @@ define([
             this.btnDistributeRows = new Common.UI.Button({
                 parentEl: $('#table-btn-distrub-rows', me.$el),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon distribute-rows',
+                iconCls: 'toolbar__icon btn-distribute-rows',
                 hint: this.textDistributeRows,
                 dataHint: '1',
                 dataHintDirection: 'top'
@@ -461,7 +461,7 @@ define([
             this.btnDistributeCols = new Common.UI.Button({
                 parentEl: $('#table-btn-distrub-cols', me.$el),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon distribute-columns',
+                iconCls: 'toolbar__icon btn-distribute-columns',
                 hint: this.textDistributeCols,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
@@ -480,8 +480,8 @@ define([
 
             this.btnConvert = new Common.UI.Button({
                 parentEl: $('#table-btn-convert-to-text'),
-                cls         : 'btn-toolbar',
-                iconCls     : 'toolbar__icon table-to-text',
+                cls         : 'btn-toolbar align-left',
+                iconCls     : 'toolbar__icon btn-table-to-text',
                 caption     : this.textConvert,
                 dataHint    : '1',
                 dataHintDirection: 'left',

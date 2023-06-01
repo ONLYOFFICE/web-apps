@@ -288,12 +288,7 @@
             
             button {
                 &:not(:first-child) {
-                    margin-left: 10px;
-
-                    .rtl & {
-                        margin-left: 0;
-                        margin-right: 10px;
-                    }
+                    .margin-left-10();
                 }
             }
         }
@@ -351,12 +346,7 @@
     .footer {
         button {
             &:not(:first-child) {
-                margin-left: 10px;
-
-                .rtl & {
-                    margin-left: 0;
-                    margin-right: 10px;
-                }
+                .margin-left-10();
             }
         }
     }
@@ -440,11 +430,11 @@
             }
 
             > div:first-child {
-                margin-right: 35px;
+                .margin-right(35px);
             }
 
             > div:last-child {
-                margin-left: 35px;
+                .margin-left(35px);
             }
 
             .hotkey {

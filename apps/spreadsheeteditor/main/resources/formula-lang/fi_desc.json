@@ -1896,7 +1896,7 @@
 		"d": "Palauttaa numerosarjan"
 	},
 	"EXPAND": {
-		"a": "(array, rows, [columns], [pad_with])",
+		"a": "(matriisi, rivit, [sarakkeet], [pad_with])",
 		"d": "Laajentaa matriisin määritettyyn kokoon."
 	},
 	"XMATCH": {

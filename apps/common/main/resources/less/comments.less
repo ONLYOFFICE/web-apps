@@ -23,25 +23,6 @@
             .font-weight-bold();
             margin-top: 2px;
         }
-
-        #comments-btn-close {
-            float: right;
-            margin-left: 4px;
-
-            .rtl & {
-                float: left;
-                margin-left: 0;
-                margin-right: 4px;
-            }
-        }
-
-        #comments-btn-sort {
-            float: right;
-
-            .rtl & {
-                float: left;
-            }
-        }
     }
 
     .messages-ct {
@@ -133,20 +114,10 @@
 
     .btn {
         &.add {
-            margin-left: 20px;
-
-            .rtl & {
-                margin-left: 0;
-                margin-right: 20px;
-            }
+            .margin-left-20();
         }
         &.cancel {
-            margin-left: 7px;
-
-            .rtl & {
-                margin-left: 0;
-                margin-right: 7px;
-            }
+            .margin-left-7();
         }
     }
 }
@@ -305,12 +276,7 @@
 
         &.with-reply {
             margin-top: 5px;
-            margin-left: 20px;
-
-            .rtl & {
-                margin-left: 0;
-                margin-right: 20px;
-            }
+            .margin-left-20();
         }
     }
 
@@ -484,11 +450,7 @@
         padding: 7px 0px 0px 0px;
 
         .btn-inner-close {
-            margin-left: 7px;
-            .rtl & {
-                margin-left: 0;
-                margin-right: 7px;
-            }
+            .margin-left-7();
         }
     }
 
@@ -496,11 +458,7 @@
         padding: 10px 0px 0px 0px;
 
         .btn-close {
-            margin-left: 7px;
-            .rtl & {
-                margin-left: 0;
-                margin-right: 7px;
-            }
+            .margin-left-7();
         }
     }
     .reply-inner-ct {

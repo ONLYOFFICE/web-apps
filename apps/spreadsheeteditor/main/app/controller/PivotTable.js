@@ -393,7 +393,7 @@ define([
                         var arr = tip.split(' ');
                         lastWordInTip = arr.pop();
                             
-                        if(tip == 'None'){
+                        if(template.asc_getName() === null){
                             groupItem = 'menu-table-group-light';
                         }
                         else {

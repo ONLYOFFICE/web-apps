@@ -65,7 +65,7 @@ define([
                     '<div id="id-table-text-radio-tabs" style="margin-bottom: 8px;"></div>',
                     '<div id="id-table-text-radio-semi" style="margin-bottom: 5px;"></div>',
                     '<div style="margin-bottom: 24px;">',
-                        '<div id="id-table-text-radio-other" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
+                        '<div id="id-table-text-radio-other" class="margin-right-10" style="display: inline-block;vertical-align: middle;"></div>',
                         '<div id="id-table-text-txt-other" style="display: inline-block;vertical-align: middle;"></div>',
                     '</div>',
                     '<div id="id-table-text-check-nested"></div>',

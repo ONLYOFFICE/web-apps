@@ -66,7 +66,7 @@ define([
                                     '</div>',
                                     '<div style="margin-top: 4px;">',
                                         '<label id="formula-wizard-lbl-func-res">' + this.textFunctionRes + '</label>',
-                                        '<div id="formula-wizard-lbl-val-func" class="input-label" style="float: right; width: 200px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"></div>',
+                                        '<div id="formula-wizard-lbl-val-func" class="input-label float-right" style="width: 200px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"></div>',
                                     '</div>',
                                 '</div>',
                                 '</td></tr>',

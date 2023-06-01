@@ -77,6 +77,10 @@ function checkScaling() {
     }
 }
 
+let svg_icons = ['./resources/img/iconssmall@2.5x.svg',
+                    './resources/img/iconsbig@2.5x.svg',
+                    './resources/img/iconshuge@2.5x.svg'];
+
 window.Common = {
     Utils: {
         injectSvgIcons: function () {
@@ -94,16 +98,18 @@ window.Common = {
                     return template.content.firstChild;
                 }
 
-                ['./resources/img/iconssmall@2.5x.svg', './resources/img/iconsbig@2.5x.svg']
-                    .map(function (url) {
+                svg_icons.map(function (url) {
                             fetch(url)
                                 .then(function (r) {
                                     if (r.ok) return r.text();
                                     else {/* error */}
                                 }).then(function (text) {
-                                const el = document.querySelector('div.inlined-svg')
-                                el.append(htmlToElements(text));
-                            }).catch(console.error.bind(console))
+                                    const el = document.querySelector('div.inlined-svg')
+                                    el.append(htmlToElements(text));
+
+                                    const i = svg_icons.findIndex(function (item) {return item == url});
+                                    if ( !(i < 0) ) svg_icons.splice(i, 1)
+                                }).catch(console.error.bind(console))
                         })
             }
         }

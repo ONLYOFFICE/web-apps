@@ -702,7 +702,7 @@ define([
                             items: [
                                 {
                                     caption: this.textColumnsOne,
-                                    iconCls: 'menu__icon columns-one',
+                                    iconCls: 'menu__icon btn-columns-one',
                                     checkable: true,
                                     checkmark: false,
                                     toggleGroup: 'menuColumns',
@@ -718,7 +718,7 @@ define([
                                 },
                                 {
                                     caption: this.textColumnsThree,
-                                    iconCls: 'menu__icon columns-three',
+                                    iconCls: 'menu__icon btn-columns-three',
                                     checkable: true,
                                     checkmark: false,
                                     toggleGroup: 'menuColumns',
@@ -827,7 +827,7 @@ define([
                         menu: new Common.UI.Menu({
                             cls: 'menu-shapes',
                             items: [
-                                {template: _.template('<div id="view-insert-art" style="width: 239px; margin-left: 5px;"></div>')}
+                                {template: _.template('<div id="view-insert-art" class="margin-left-5" style="width: 239px;"></div>')}
                             ]
                         }),
                         dataHint: '1',
@@ -929,12 +929,12 @@ define([
 
                     me.mniDistribHor = new Common.UI.MenuItem({
                         caption: me.txtDistribHor,
-                        iconCls: 'menu__icon shape-distribute-hor',
+                        iconCls: 'menu__icon btn-shape-distribute-hor',
                         value: 6
                     });
                     me.mniDistribVert = new Common.UI.MenuItem({
                         caption: me.txtDistribVert,
-                        iconCls: 'menu__icon shape-distribute-vert',
+                        iconCls: 'menu__icon btn-shape-distribute-vert',
                         value: 7
                     });
 
@@ -953,27 +953,27 @@ define([
                                 },
                                 {
                                     caption: me.textShapeAlignCenter,
-                                    iconCls: 'menu__icon shape-align-center',
+                                    iconCls: 'menu__icon btn-shape-align-center',
                                     value: Asc.c_oAscAlignShapeType.ALIGN_CENTER
                                 },
                                 {
                                     caption: me.textShapeAlignRight,
-                                    iconCls: 'menu__icon shape-align-right',
+                                    iconCls: 'menu__icon btn-shape-align-right',
                                     value: Asc.c_oAscAlignShapeType.ALIGN_RIGHT
                                 },
                                 {
                                     caption: me.textShapeAlignTop,
-                                    iconCls: 'menu__icon shape-align-top',
+                                    iconCls: 'menu__icon btn-shape-align-top',
                                     value: Asc.c_oAscAlignShapeType.ALIGN_TOP
                                 },
                                 {
                                     caption: me.textShapeAlignMiddle,
-                                    iconCls: 'menu__icon shape-align-middle',
+                                    iconCls: 'menu__icon btn-shape-align-middle',
                                     value: Asc.c_oAscAlignShapeType.ALIGN_MIDDLE
                                 },
                                 {
                                     caption: me.textShapeAlignBottom,
-                                    iconCls: 'menu__icon shape-align-bottom',
+                                    iconCls: 'menu__icon btn-shape-align-bottom',
                                     value: Asc.c_oAscAlignShapeType.ALIGN_BOTTOM
                                 },
                                 {caption: '--'},
@@ -1005,28 +1005,28 @@ define([
                                 }),
                                 me.mnuArrangeBack = new Common.UI.MenuItem({
                                     caption: me.textArrangeBack,
-                                    iconCls: 'menu__icon arrange-back',
+                                    iconCls: 'menu__icon btn-arrange-back',
                                     value: 2
                                 }),
                                 me.mnuArrangeForward = new Common.UI.MenuItem({
                                     caption: me.textArrangeForward,
-                                    iconCls: 'menu__icon arrange-forward',
+                                    iconCls: 'menu__icon btn-arrange-forward',
                                     value: 3
                                 }),
                                 me.mnuArrangeBackward = new Common.UI.MenuItem({
                                     caption: me.textArrangeBackward,
-                                    iconCls: 'menu__icon arrange-backward',
+                                    iconCls: 'menu__icon btn-arrange-backward',
                                     value: 4
                                 }),
                                 {caption: '--'},
                                 me.mnuGroupShapes = new Common.UI.MenuItem({
                                     caption: me.txtGroup,
-                                    iconCls: 'menu__icon shape-group',
+                                    iconCls: 'menu__icon btn-shape-group',
                                     value: 5
                                 }),
                                 me.mnuUnGroupShapes = new Common.UI.MenuItem({
                                     caption: me.txtUngroup,
-                                    iconCls: 'menu__icon shape-ungroup',
+                                    iconCls: 'menu__icon btn-shape-ungroup',
                                     value: 6
                                 })
                             ]
@@ -1303,7 +1303,7 @@ define([
 
                 this.btnsInsertImage = Common.Utils.injectButtons($host.find('.slot-insertimg'), 'tlbtn-insertimage-', 'toolbar__icon btn-insertimage', this.capInsertImage,
                     [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart], false, true, undefined, '1', 'bottom', 'small');
-                this.btnsInsertText = Common.Utils.injectButtons($host.find('.slot-instext'), 'tlbtn-inserttext-', 'toolbar__icon btn-text', this.capInsertText,
+                this.btnsInsertText = Common.Utils.injectButtons($host.find('.slot-instext'), 'tlbtn-inserttext-', 'toolbar__icon btn-big-text', this.capInsertText,
                     [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart], true, false, true, '1', 'bottom', 'small');
                 this.btnsInsertShape = Common.Utils.injectButtons($host.find('.slot-insertshape'), 'tlbtn-insertshape-', 'toolbar__icon btn-insertshape', this.capInsertShape,
                     [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart], false, true, true, '1', 'bottom', 'small');
@@ -1376,7 +1376,7 @@ define([
                                 iconCls     : 'menu__icon btn-text',
                                 toggleGroup: 'textbox',
                                 value: 'textRect',
-                                iconClsForMainBtn: 'btn-text'
+                                iconClsForMainBtn: 'btn-big-text'
                             },
                             {
                                 caption: me.tipInsertVerticalText,
@@ -1385,7 +1385,7 @@ define([
                                 iconCls     : 'menu__icon btn-text-vertical',
                                 toggleGroup: 'textbox',
                                 value: 'textRectVertical',
-                                iconClsForMainBtn: 'btn-text-vertical'
+                                iconClsForMainBtn: 'btn-big-text-vertical'
                             },
                         ]
                     }));
@@ -1565,7 +1565,7 @@ define([
                         iconCls: item.icon ? 'menu__icon ' + item.icon : undefined,
                         menu: new Common.UI.Menu({
                             items: [
-                                {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art" style="width: ' + width + 'px; height: 500px; margin-left: 5px;"></div>')}
+                                {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art margin-left-5" style="width: ' + width + 'px; height: 500px;"></div>')}
                             ],
                             menuAlign: 'tl-tr',
                         })});

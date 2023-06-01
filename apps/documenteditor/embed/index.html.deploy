@@ -193,7 +193,7 @@
               <div id="id-pages" class="item margin-right-small" style="vertical-align: middle;"><input id="page-number" class="form-control input-xs masked" type="text" value="0"><span class="text" id="pages" tabindex="-1">of 0</span></div>
               <div id="id-submit-group" style="display: inline-block;"><button id="id-btn-submit" class="control-btn has-caption margin-right-small margin-left-small colored"><span class="caption"></span></button></div>
               <div id="box-tools" class="dropdown">
-                  <button class="control-btn svg-icon btn-more-vertical"></button>
+                  <button class="control-btn svg-icon more-vertical"></button>
               </div>
           </div>
       </div>
@@ -208,7 +208,7 @@
                       <p id="id-critical-error-message"></p>
                   </div>
                   <div class="modal-footer">
-                      <button id="id-critical-error-close" class="btn btn-sm btn-primary" data-dismiss="modal" aria-hidden="true">Close</button>
+                      <button id="id-critical-error-close" class="btn btn-sm" data-dismiss="modal" aria-hidden="true">Close</button>
                   </div>
               </div>
           </div>

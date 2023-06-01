@@ -157,8 +157,44 @@ define([
         },
 
         _handleInput: function(state) {
-            if (this.options.handler)
+            if (this.options.handler) {
+                if (state == 'ok') {
+                    var me = this,
+                        result = null,
+                        top = this.spnTop.getNumberValue(),
+                        bottom = this.spnBottom.getNumberValue(),
+                        left = this.spnLeft.getNumberValue(),
+                        right = this.spnRight.getNumberValue();
+                    if (left > this.maxMarginsW) result = 'left'; else
+                    if (right > this.maxMarginsW-left) result = 'right'; else
+                    if (top > this.maxMarginsH) result = 'top'; else
+                    if (bottom > this.maxMarginsH-top) result = 'bottom';
+                    if (result) {
+                        Common.UI.warning({
+                            title: this.textWarning,
+                            msg: this.warnCheckMargings,
+                            callback: function() {
+                                switch (result) {
+                                    case 'left':
+                                        me.spnLeft.focus();
+                                        return;
+                                    case 'right':
+                                        me.spnRight.focus();
+                                        return;
+                                    case 'top':
+                                        me.spnTop.focus();
+                                        return;
+                                    case 'bottom':
+                                        me.spnBottom.focus();
+                                        return;
+                                }
+                            }
+                        });
+                        return;
+                    }
+                }
                 this.options.handler.call(this, this, state);
+            }
 
             this.close();
         },
@@ -175,7 +211,10 @@ define([
 
         setSettings: function (props) {
             if (props) {
-                var margins = props.asc_getPageMargins();
+                var margins = props.asc_getPageMargins(),
+                    pageSetup = props.asc_getPageSetup();
+                this.maxMarginsH = Common.Utils.Metric.fnRecalcFromMM(pageSetup.asc_getHeight());
+                this.maxMarginsW = Common.Utils.Metric.fnRecalcFromMM(pageSetup.asc_getWidth());
 
                 this.spnTop.setValue(Common.Utils.Metric.fnRecalcFromMM(margins.asc_getTop()), true);
                 this.spnBottom.setValue(Common.Utils.Metric.fnRecalcFromMM(margins.asc_getBottom()), true);
@@ -206,6 +245,8 @@ define([
         textTop: 'Top',
         textLeft: 'Left',
         textBottom: 'Bottom',
-        textRight: 'Right'
+        textRight: 'Right',
+        textWarning: 'Warning',
+        warnCheckMargings: 'Margins are incorrect'
     }, SSE.Views.PageMarginsDialog || {}))
 });

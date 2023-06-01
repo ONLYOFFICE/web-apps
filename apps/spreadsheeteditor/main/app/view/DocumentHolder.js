@@ -466,70 +466,85 @@ define([
                         {
                             caption : me.txtNormal,
                             value   : Asc.c_oAscShowDataAs.Normal,
+                            numFormat: Asc.c_oAscNumFormatType.General,
                             checkable: true
                         },{
                             caption : me.txtPercentOfGrand,
                             value   : Asc.c_oAscShowDataAs.PercentOfTotal,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
                             checkable: true
                         },{
                             caption : me.txtPercentOfCol,
                             value   : Asc.c_oAscShowDataAs.PercentOfCol,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
                             checkable: true
                         },{
                             caption : me.txtPercentOfTotal,
                             value   : Asc.c_oAscShowDataAs.PercentOfRow,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
                             checkable: true
                         },{
                             caption : me.txtPercent,
                             value   : Asc.c_oAscShowDataAs.Percent,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
                             showMore: true,
                             checkable: true
                         },{
                             caption : me.txtPercentOfParentRow,
                             value   : Asc.c_oAscShowDataAs.PercentOfParentRow,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
                             checkable: true
                         },{
                             caption : me.txtPercentOfParentCol,
                             value   : Asc.c_oAscShowDataAs.PercentOfParentCol,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
                             checkable: true
                         },{
                             caption : me.txtPercentOfParent,
                             value   : Asc.c_oAscShowDataAs.PercentOfParent,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
                             showMore: true,
                             checkable: true
                         },{
                             caption : me.txtDifference,
                             value   : Asc.c_oAscShowDataAs.Difference,
+                            numFormat: Asc.c_oAscNumFormatType.General,
                             showMore: true,
                             checkable: true
                         },{
                             caption : me.txtPercentDiff,
                             value   : Asc.c_oAscShowDataAs.PercentDiff,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
                             showMore: true,
                             checkable: true
                         },{
                             caption : me.txtRunTotal,
                             value   : Asc.c_oAscShowDataAs.RunTotal,
+                            numFormat: Asc.c_oAscNumFormatType.General,
                             showMore: true,
                             checkable: true
                         },{
                             caption : me.txtPercentOfRunTotal,
                             value   : Asc.c_oAscShowDataAs.PercentOfRunningTotal,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
                             showMore: true,
                             checkable: true
                         },{
                             caption : me.txtRankAscending,
                             value   : Asc.c_oAscShowDataAs.RankAscending,
+                            numFormat: Asc.c_oAscNumFormatType.General,
                             showMore: true,
                             checkable: true
                         },{
                             caption : me.txtRankDescending,
                             value   : Asc.c_oAscShowDataAs.RankDescending,
+                            numFormat: Asc.c_oAscNumFormatType.General,
                             showMore: true,
                             checkable: true
                         },{
                             caption : me.txtIndex,
                             value   : Asc.c_oAscShowDataAs.Index,
+                            numFormat: Asc.c_oAscNumFormatType.General,
                             checkable: true
                         },{
                             caption : '--'
@@ -541,12 +556,17 @@ define([
                 })
             });
 
+            me.mnuShowDetails = new Common.UI.MenuItem({
+                caption     : me.txtShowDetails
+            });
+
             me.mnuPivotRefreshSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotSubtotalSeparator = new Common.UI.MenuItem({caption: '--'});
-            me.mnuPivotSettingsSeparator = new Common.UI.MenuItem({caption: '--'});
+            me.mnuPivotGroupSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotDeleteSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotValueSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotFilterSeparator = new Common.UI.MenuItem({caption: '--'});
+            me.mnuShowDetailsSeparator = new Common.UI.MenuItem({caption: '--'});
 
             me.pmiInsFunction = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-function',
@@ -798,12 +818,14 @@ define([
                     me.mnuPivotSubtotalSeparator,
                     me.mnuGroupPivot,
                     me.mnuUnGroupPivot,
-                    me.mnuPivotDeleteSeparator,
+                    me.mnuPivotGroupSeparator,
                     me.mnuDeleteField,
-                    me.mnuPivotValueSeparator,
+                    me.mnuPivotDeleteSeparator,
                     me.mnuSummarize,
                     me.mnuShowAs,
-                    me.mnuPivotSettingsSeparator,
+                    me.mnuPivotValueSeparator,
+                    me.mnuShowDetails,
+                    me.mnuShowDetailsSeparator,
                     me.mnuFieldSettings,
                     me.mnuPivotSettings,
                     me.pmiAddCommentSeparator,
@@ -831,14 +853,14 @@ define([
 
             me.mnuGroupImg = new Common.UI.MenuItem({
                 caption     : this.txtGroup,
-                iconCls     : 'menu__icon shape-group',
+                iconCls     : 'menu__icon btn-shape-group',
                 type        : 'group',
                 value       : 'grouping'
             });
 
             me.mnuUnGroupImg = new Common.UI.MenuItem({
                 caption     : this.txtUngroup,
-                iconCls     : 'menu__icon shape-ungroup',
+                iconCls     : 'menu__icon btn-shape-ungroup',
                 type        : 'group',
                 value       : 'ungrouping'
             });
@@ -951,19 +973,19 @@ define([
             });
             me.mnuSendToBack = new Common.UI.MenuItem({
                 caption : this.textArrangeBack,
-                iconCls : 'menu__icon arrange-back',
+                iconCls : 'menu__icon btn-arrange-back',
                 type    : 'arrange',
                 value   : Asc.c_oAscDrawingLayerType.SendToBack
             });
             me.mnuBringForward = new Common.UI.MenuItem({
                 caption : this.textArrangeForward,
-                iconCls : 'menu__icon arrange-forward',
+                iconCls : 'menu__icon btn-arrange-forward',
                 type    : 'arrange',
                 value   : Asc.c_oAscDrawingLayerType.BringForward
             });
             me.mnuSendBackward = new Common.UI.MenuItem({
                 caption: this.textArrangeBackward,
-                iconCls : 'menu__icon arrange-backward',
+                iconCls : 'menu__icon btn-arrange-backward',
                 type    : 'arrange',
                 value   : Asc.c_oAscDrawingLayerType.SendBackward
             });
@@ -996,34 +1018,34 @@ define([
                         value   : 0
                     }, {
                         caption : me.textShapeAlignCenter,
-                        iconCls : 'menu__icon shape-align-center',
+                        iconCls : 'menu__icon btn-shape-align-center',
                         value   : 4
                     }, {
                         caption : me.textShapeAlignRight,
-                        iconCls : 'menu__icon shape-align-right',
+                        iconCls : 'menu__icon btn-shape-align-right',
                         value   : 1
                     }, {
                         caption : me.textShapeAlignTop,
-                        iconCls : 'menu__icon shape-align-top',
+                        iconCls : 'menu__icon btn-shape-align-top',
                         value   : 3
                     }, {
                         caption : me.textShapeAlignMiddle,
-                        iconCls : 'menu__icon shape-align-middle',
+                        iconCls : 'menu__icon btn-shape-align-middle',
                         value   : 5
                     }, {
                         caption : me.textShapeAlignBottom,
-                        iconCls : 'menu__icon shape-align-bottom',
+                        iconCls : 'menu__icon btn-shape-align-bottom',
                         value   : 2
                     },
                     {caption: '--'},
                     {
                         caption: me.txtDistribHor,
-                        iconCls: 'menu__icon shape-distribute-hor',
+                        iconCls: 'menu__icon btn-shape-distribute-hor',
                         value: 6
                     },
                     {
                         caption: me.txtDistribVert,
-                        iconCls: 'menu__icon shape-distribute-vert',
+                        iconCls: 'menu__icon btn-shape-distribute-vert',
                         value: 7
                     }]
                 })
@@ -1149,7 +1171,7 @@ define([
             });
 
             me.menuParagraphDirection = new Common.UI.MenuItem({
-                iconCls: 'menu__icon text-orient-hor',
+                iconCls: 'menu__icon btn-text-orient-hor',
                 caption     : me.directionText,
                 menu        : new Common.UI.Menu({
                     cls: 'shifted-right',
@@ -1157,7 +1179,7 @@ define([
                     items   : [
                         me.menuParagraphDirectH = new Common.UI.MenuItem({
                             caption     : me.directHText,
-                            iconCls     : 'menu__icon text-orient-hor',
+                            iconCls     : 'menu__icon btn-text-orient-hor',
                             checkable   : true,
                             checkmark   : false,
                             checked     : false,
@@ -1166,7 +1188,7 @@ define([
                         }),
                         me.menuParagraphDirect90 = new Common.UI.MenuItem({
                             caption     : me.direct90Text,
-                            iconCls     : 'menu__icon text-orient-rdown',
+                            iconCls     : 'menu__icon btn-text-orient-rdown',
                             checkable   : true,
                             checkmark   : false,
                             checked     : false,
@@ -1175,7 +1197,7 @@ define([
                         }),
                         me.menuParagraphDirect270 = new Common.UI.MenuItem({
                             caption     : me.direct270Text,
-                            iconCls     : 'menu__icon text-orient-rup',
+                            iconCls     : 'menu__icon btn-text-orient-rup',
                             checkable   : true,
                             checkmark   : false,
                             checked     : false,
@@ -1193,7 +1215,7 @@ define([
                     cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
-                        { template: _.template('<div id="id-docholder-menu-bullets" class="menu-layouts" style="width: 376px; margin: 4px 2px 4px 6px;"></div>') },
+                        { template: _.template('<div id="id-docholder-menu-bullets" class="menu-layouts" style="width: 376px;"></div>') },
                         {caption: '--'},
                         me.menuParagraphBulletNone = new Common.UI.MenuItem({
                             caption     : me.textNone,
@@ -1416,25 +1438,25 @@ define([
                 items   : [
                     new Common.UI.MenuItem({
                         caption     : this.currProfText,
-                        iconCls     : 'menu__icon professional-equation',
+                        iconCls     : 'menu__icon btn-professional-equation',
                         type        : 'view',
                         value       : {all: false, linear: false}
                     }),
                     new Common.UI.MenuItem({
                         caption     : this.currLinearText,
-                        iconCls     : 'menu__icon linear-equation',
+                        iconCls     : 'menu__icon btn-linear-equation',
                         type        : 'view',
                         value       : {all: false, linear: true}
                     }),
                     new Common.UI.MenuItem({
                         caption     : this.allProfText,
-                        iconCls     : 'menu__icon professional-equation',
+                        iconCls     : 'menu__icon btn-professional-equation',
                         type        : 'view',
                         value       : {all: true, linear: false}
                     }),
                     new Common.UI.MenuItem({
                         caption     : this.allLinearText,
-                        iconCls     : 'menu__icon linear-equation',
+                        iconCls     : 'menu__icon btn-linear-equation',
                         type        : 'view',
                         value       : {all: true, linear: true}
                     }),
@@ -1791,7 +1813,8 @@ define([
         txtLabelFilter: 'Label filters',
         txtTop10: 'Top 10',
         txtClearPivotField: 'Clear filter from {0}',
-        txtSortOption: 'More sort options'
+        txtSortOption: 'More sort options',
+        txtShowDetails: 'Show details'
 
     }, SSE.Views.DocumentHolder || {}));
 });

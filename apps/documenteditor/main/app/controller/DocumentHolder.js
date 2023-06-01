@@ -232,6 +232,7 @@ define([
                     this.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Image, _.bind(this.onInsertImage, this));
                     this.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.ImageUrl, _.bind(this.onInsertImageUrl, this));
                     this.api.asc_registerCallback('asc_onHideEyedropper',           _.bind(this.hideEyedropper, this));
+                    this.api.asc_SetMathInputType(Common.localStorage.getBool("de-equation-input-latex") ? Asc.c_oAscMathInputType.LaTeX : Asc.c_oAscMathInputType.Unicode);
                 }
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',        _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect',                      _.bind(this.onCoAuthoringDisconnect, this));
@@ -762,6 +763,10 @@ define([
                     }
                 });
                 meEl.on('mousedown', function(e){
+                    if (e.target.localName == 'canvas')
+                        Common.UI.Menu.Manager.hideAll();
+                });
+                meEl.on('touchstart', function(e){
                     if (e.target.localName == 'canvas')
                         Common.UI.Menu.Manager.hideAll();
                 });
@@ -2505,8 +2510,8 @@ define([
                             value: i,
                             items: [
                                 { template: _.template('<div id="id-document-holder-btn-equation-menu-' + i +
-                                '" class="menu-shape" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
-                                equationGroup.get('groupHeightStr') + 'margin-left:5px;"></div>') }
+                                '" class="menu-shape margin-left-5" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
+                                equationGroup.get('groupHeightStr') + '"></div>') }
                             ]
                         })
                     });
@@ -2538,8 +2543,10 @@ define([
                 };
                 me.equationSettingsBtn.menu.on('item:click', _.bind(me.convertEquation, me));
                 me.equationSettingsBtn.menu.on('show:before', function(menu) {
+                    bringForward();
                     menu.options.initMenu();
                 });
+                me.equationSettingsBtn.menu.on('hide:after', sendBackward);
             }
 
             var showPoint = [(bounds[0] + bounds[2])/2 - eqContainer.outerWidth()/2, bounds[1] - eqContainer.outerHeight() - 10];
@@ -2553,7 +2560,19 @@ define([
             showPoint[1] = Math.min(me._Height - eqContainer.outerHeight(), Math.max(0, showPoint[1]));
             eqContainer.css({left: showPoint[0], top : showPoint[1]});
 
-            var menuAlign = (me._Height - showPoint[1] - eqContainer.outerHeight() < 220) ? 'bl-tl' : 'tl-bl';
+            if (me._XY === undefined) {
+                me._XY = [
+                    documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
+                    documentHolder.cmpEl.offset().top - $(window).scrollTop()
+                ];
+                me._Height = documentHolder.cmpEl.height();
+                me._Width = documentHolder.cmpEl.width();
+                me._BodyWidth = $('body').width();
+            }
+
+            var diffDown = me._Height - showPoint[1] - eqContainer.outerHeight(),
+                diffUp = me._XY[1] + (!Common.Utils.InternalSettings.get("de-hidden-rulers") ? 26 : 0) + showPoint[1],
+                menuAlign = (diffDown < 220 && diffDown < diffUp*0.9) ? 'bl-tl' : 'tl-bl';
             if (Common.UI.isRTL()) {
                 menuAlign = menuAlign === 'bl-tl' ? 'br-tr' : 'tr-br';
             }
@@ -2595,9 +2614,10 @@ define([
 
         convertEquation: function(menu, item, e) {
             if (this.api) {
-                if (item.options.type=='input')
+                if (item.options.type=='input') {
                     this.api.asc_SetMathInputType(item.value);
-                else if (item.options.type=='view')
+                    Common.localStorage.setBool("de-equation-input-latex", item.value===Asc.c_oAscMathInputType.LaTeX)
+                } else if (item.options.type=='view')
                     this.api.asc_ConvertMathView(item.value.linear, item.value.all);
                 else if (item.options.type=='mode'){
                     item.options.isEquationInline = !item.options.isEquationInline;

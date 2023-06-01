@@ -224,11 +224,9 @@
 
                 .format-items {
                     .format-item {
-                        float: left;
                         margin: 0 24px 34px 0;
 
                         .rtl & {
-                            float: right;
                             margin: 0 0 34px 24px;
                         }
 
@@ -242,6 +240,11 @@
                         float: left;
                         width: 0;
                         height: 0;
+
+                        &:last-of-type {
+                            float: none;
+                            clear: both;
+                        }
                     }
 
                 }
@@ -430,7 +433,6 @@
                 }
 
                 .recent-icon {
-                    float: left;
                     width: 25px;
                     height: 25px;
                     margin-top: 1px;
@@ -638,22 +640,6 @@
                 display: flex;
             }
 
-            #fms-btn-delete-pwd {
-                margin-left: 16px;
-                .rtl & {
-                    margin-left: 0;
-                    margin-right: 16px;
-                }
-            }
-
-            .signature-view-link {
-                margin-right: 20px;
-                .rtl & {
-                    margin-right: 0;
-                    margin-left: 20px;
-                }
-            }
-
             .signature-tip {
                 margin-bottom: 6px;
             }
@@ -680,6 +666,7 @@
             }
             .comment-text{
                 opacity: 0.45;
+                white-space: normal;
             }
             #print-preview-empty {
                 padding: 14px;
@@ -721,15 +708,6 @@
                 label.header {
                     font-weight: 700;
                 }
-                .footer {
-                    .btn.primary {
-                        margin-right: 8px;
-                        .rtl & {
-                            margin-right: 0;
-                            margin-left: 8px;
-                        }
-                    }
-                }
                 .settings-container {
                     width: 100%;
                     height: 100%;
@@ -758,15 +736,16 @@
                             padding-right: 5px;
                         }
                     }
-                }
-            }
-
-            #fms-btn-delete-pwd {
-                margin-left: 20px;
-
-                .rtl & {
-                    margin-left: 0;
-                    margin-right: 20px;
+                    #print-combo-sides {
+                        .dropdown-menu li > a {
+                            padding-right: 5px;
+                            padding-left: 20px;
+                            .rtl & {
+                                padding-right: 20px;
+                                padding-left: 5px;
+                            }
+                        }
+                    }
                 }
             }
 
@@ -820,20 +799,8 @@
                     display: flex;
                     align-items: center;
                     height: 20px;
-                    margin-left: 10px;
-                    .rtl & {
-                        margin-left: 0;
-                        margin-right: 10px;
-                    }
                     label {
                         .font-weight-bold();
-                    }
-                    #print-count-page, #print-number-page {
-                        margin-left: 4px;
-                        .rtl & {
-                            margin-left: 0;
-                            margin-right: 4px;
-                        }
                     }
                 }
             }

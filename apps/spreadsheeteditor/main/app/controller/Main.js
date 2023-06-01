@@ -150,7 +150,8 @@ define([
                         '%1 or %2': this.txtOr,
                         'Qtr': this.txtQuarter,
                         'Text': this.textText,
-                        'Sheet': this.txtSheet
+                        'Sheet': this.txtSheet,
+                        'None': this.txtNone
                     };
 
                 styleNames.forEach(function(item){
@@ -452,7 +453,9 @@ define([
                 this.appOptions.canFeatureViews = true;
                 this.appOptions.uiRtl = Common.localStorage.getBool("ui-rtl");
                 this.appOptions.canRequestReferenceData = this.editorConfig.canRequestReferenceData;
-
+                this.appOptions.canRequestOpen = this.editorConfig.canRequestOpen;
+                this.appOptions.canRequestReferenceSource = this.editorConfig.canRequestReferenceSource;
+                
                 if (this.appOptions.user.guest && this.appOptions.canRenameAnonymous && !this.appOptions.isEditDiagram && !this.appOptions.isEditMailMerge && !this.appOptions.isEditOle)
                     Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
 
@@ -3826,7 +3829,8 @@ define([
             titleLicenseNotActive: 'License not active',
             errorProtectedRange: 'This range is not allowed for editing.',
             errorCreateRange: 'The existing ranges cannot be edited and the new ones cannot be created<br>at the moment as some of them are being edited.',
-            txtSheet: 'Sheet'
+            txtSheet: 'Sheet',
+            txtNone: 'None'
         }
     })(), SSE.Controllers.Main || {}))
 });

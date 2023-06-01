@@ -206,19 +206,6 @@ class MainPage extends Component {
                 {/* {
                     Device.phone ? null : <SearchSettings />
                 } */}
-                {isFabShow &&
-                    <CSSTransition
-                        in={this.state.fabVisible}
-                        timeout={500}
-                        classNames="fab"
-                        mountOnEnter
-                        unmountOnExit
-                    >
-                        <div className="fab fab-right-bottom" onClick={() => this.turnOffViewerMode()}>
-                            <a href="#"><i className="icon icon-edit-mode"></i></a>
-                        </div>
-                    </CSSTransition>
-                }
                 <Snackbar 
                     isShowSnackbar={this.state.snackbarVisible} 
                     closeCallback={() => this.handleOptionsViewClosed('snackbar')}
@@ -253,6 +240,19 @@ class MainPage extends Component {
                 {
                     !this.state.navigationVisible ? null :
                         <NavigationController onclosed={this.handleOptionsViewClosed.bind(this, 'navigation')}/>
+                }
+                {isFabShow &&
+                    <CSSTransition
+                        in={this.state.fabVisible}
+                        timeout={500}
+                        classNames="fab"
+                        mountOnEnter
+                        unmountOnExit
+                    >
+                        <div className="fab fab-right-bottom" onClick={() => this.turnOffViewerMode()}>
+                            <a href="#"><i className="icon icon-edit-mode"></i></a>
+                        </div>
+                    </CSSTransition>
                 }
                 {appOptions.isDocReady && <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)}/>}
             </Page>

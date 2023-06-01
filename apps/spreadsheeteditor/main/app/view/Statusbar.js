@@ -590,9 +590,7 @@ define([
                                 '<a id="<%= id %>" style="<%= style %>" tabindex="-1" type="menuitem" <% if (options.hidden) { %> data-hidden="true" <% } %>>',
                                     '<div class="color"></div>',
                                     '<span class="name"><%= caption %></span>',
-                                    '<% if (options.hidden) { %>',
-                                        '<span class="hidden-mark"><%= options.textHidden %></span>',
-                                    '<% } %>',
+                                    '<span class="hidden-mark"><% if (options.hidden) { %><%=  options.textHidden %><% } else { %><% } %></span>',
                                 '</a>'
                             ].join(''))
                         }));

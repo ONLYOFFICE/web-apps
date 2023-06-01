@@ -683,7 +683,7 @@ define([
                     this.btnInsertText = new Common.UI.Button({
                         id: 'tlbtn-inserttext',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-text',
+                        iconCls: 'toolbar__icon btn-big-text',
                         lock: [_set.paragraphLock, _set.headerLock, _set.inEquation, _set.controlPlain, _set.contentLock, _set.inFootnote, _set.previewReviewMode, _set.viewFormMode,
                             _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
                         caption: me.capBtnInsTextbox,
@@ -706,7 +706,7 @@ define([
                         menu: new Common.UI.Menu({
                             cls: 'menu-shapes',
                             items: [
-                                {template: _.template('<div id="id-toolbar-menu-insart" style="width: 239px;"></div>')}
+                                {template: _.template('<div id="id-toolbar-menu-insart" class="margin-left-5" style="width: 239px;"></div>')}
                             ]
                         }),
                         dataHint: '1',
@@ -843,7 +843,7 @@ define([
                             items: [
                                 {
                                     caption: this.textNone,
-                                    iconCls: 'menu__icon columns-one',
+                                    iconCls: 'menu__icon btn-columns-one',
                                     checkable: true,
                                     checkmark: false,
                                     toggleGroup: 'menuDropCap',
@@ -852,7 +852,7 @@ define([
                                 },
                                 {
                                     caption: this.textInText,
-                                    iconCls: 'menu__icon dropcap-intext',
+                                    iconCls: 'menu__icon btn-dropcap-intext',
                                     checkable: true,
                                     checkmark: false,
                                     toggleGroup: 'menuDropCap',
@@ -860,7 +860,7 @@ define([
                                 },
                                 {
                                     caption: this.textInMargin,
-                                    iconCls: 'menu__icon dropcap-inmargin',
+                                    iconCls: 'menu__icon btn-dropcap-inmargin',
                                     checkable: true,
                                     checkmark: false,
                                     toggleGroup: 'menuDropCap',
@@ -887,12 +887,12 @@ define([
                             items: [
                                 {
                                     caption: this.textPlainControl,
-                                    iconCls: 'menu__icon cc-plaintext',
+                                    iconCls: 'menu__icon btn-cc-plaintext',
                                     value: 'plain'
                                 },
                                 {
                                     caption: this.textRichControl,
-                                    iconCls: 'menu__icon cc-richtext',
+                                    iconCls: 'menu__icon btn-cc-richtext',
                                     value: 'rich'
                                 },
                                 {
@@ -973,7 +973,7 @@ define([
                             items: [
                                 {
                                     caption: this.textColumnsOne,
-                                    iconCls: 'menu__icon columns-one',
+                                    iconCls: 'menu__icon btn-columns-one',
                                     checkable: true,
                                     checkmark: false,
                                     toggleGroup: 'menuColumns',
@@ -989,7 +989,7 @@ define([
                                 },
                                 {
                                     caption: this.textColumnsThree,
-                                    iconCls: 'menu__icon columns-three',
+                                    iconCls: 'menu__icon btn-columns-three',
                                     checkable: true,
                                     checkmark: false,
                                     toggleGroup: 'menuColumns',
@@ -997,7 +997,7 @@ define([
                                 },
                                 {
                                     caption: this.textColumnsLeft,
-                                    iconCls: 'menu__icon columns-left',
+                                    iconCls: 'menu__icon btn-columns-left',
                                     checkmark: false,
                                     checkable: true,
                                     toggleGroup: 'menuColumns',
@@ -1005,7 +1005,7 @@ define([
                                 },
                                 {
                                     caption: this.textColumnsRight,
-                                    iconCls: 'menu__icon columns-right',
+                                    iconCls: 'menu__icon btn-columns-right',
                                     checkmark: false,
                                     checkable: true,
                                     toggleGroup: 'menuColumns',
@@ -1032,7 +1032,7 @@ define([
                             items: [
                                 {
                                     caption: this.textPortrait,
-                                    iconCls: 'menu__icon page-portrait',
+                                    iconCls: 'menu__icon btn-page-portrait',
                                     checkable: true,
                                     checkmark: false,
                                     toggleGroup: 'menuOrient',
@@ -1040,7 +1040,7 @@ define([
                                 },
                                 {
                                     caption: this.textLandscape,
-                                    iconCls: 'menu__icon page-landscape',
+                                    iconCls: 'menu__icon btn-page-landscape',
                                     checkable: true,
                                     checkmark: false,
                                     toggleGroup: 'menuOrient',
@@ -1841,7 +1841,7 @@ define([
                                 valign  : Asc.c_oAscChangeLevel.BringToFront
                             }, {
                                 caption : _holder_view.textArrangeForward,
-                                iconCls : 'menu__icon arrange-forward',
+                                iconCls : 'menu__icon btn-arrange-forward',
                                 valign  : Asc.c_oAscChangeLevel.BringForward
                             }
                         ]})
@@ -1851,11 +1851,11 @@ define([
                     me.btnImgBackward.setMenu(new Common.UI.Menu({
                         items: [{
                                 caption : _holder_view.textArrangeBack,
-                                iconCls : 'menu__icon arrange-back',
+                                iconCls : 'menu__icon btn-arrange-back',
                                 valign  : Asc.c_oAscChangeLevel.SendToBack
                             }, {
                                 caption : _holder_view.textArrangeBackward,
-                                iconCls : 'menu__icon arrange-backward',
+                                iconCls : 'menu__icon btn-arrange-backward',
                                 valign  : Asc.c_oAscChangeLevel.BringBackward
                             }]
                     }));
@@ -1889,12 +1889,12 @@ define([
 
                     me.mniDistribHor = new Common.UI.MenuItem({
                         caption: me.txtDistribHor,
-                        iconCls: 'menu__icon shape-distribute-hor',
+                        iconCls: 'menu__icon btn-shape-distribute-hor',
                         value: 6
                     });
                     me.mniDistribVert = new Common.UI.MenuItem({
                         caption: me.txtDistribVert,
-                        iconCls: 'menu__icon shape-distribute-vert',
+                        iconCls: 'menu__icon btn-shape-distribute-vert',
                         value: 7
                     });
 
@@ -1906,23 +1906,23 @@ define([
                                 value: Asc.c_oAscAlignShapeType.ALIGN_LEFT
                             }, {
                                 caption : _holder_view.textShapeAlignCenter,
-                                iconCls : 'menu__icon shape-align-center',
+                                iconCls : 'menu__icon btn-shape-align-center',
                                 value: Asc.c_oAscAlignShapeType.ALIGN_CENTER
                             }, {
                                 caption : _holder_view.textShapeAlignRight,
-                                iconCls : 'menu__icon shape-align-right',
+                                iconCls : 'menu__icon btn-shape-align-right',
                                 value: Asc.c_oAscAlignShapeType.ALIGN_RIGHT
                             }, {
                                 caption : _holder_view.textShapeAlignTop,
-                                iconCls : 'menu__icon shape-align-top',
+                                iconCls : 'menu__icon btn-shape-align-top',
                                 value: Asc.c_oAscAlignShapeType.ALIGN_TOP
                             }, {
                                 caption : _holder_view.textShapeAlignMiddle,
-                                iconCls : 'menu__icon shape-align-middle',
+                                iconCls : 'menu__icon btn-shape-align-middle',
                                 value: Asc.c_oAscAlignShapeType.ALIGN_MIDDLE
                             }, {
                                 caption : _holder_view.textShapeAlignBottom,
-                                iconCls : 'menu__icon shape-align-bottom',
+                                iconCls : 'menu__icon btn-shape-align-bottom',
                                 value: Asc.c_oAscAlignShapeType.ALIGN_BOTTOM
                             },
                             {caption: '--'},
@@ -1939,11 +1939,11 @@ define([
                     me.btnImgGroup.setMenu(new Common.UI.Menu({
                         items: [{
                             caption : _holder_view.txtGroup,
-                            iconCls : 'menu__icon shape-group',
+                            iconCls : 'menu__icon btn-shape-group',
                             groupval: 1
                         }, {
                             caption : _holder_view.txtUngroup,
-                            iconCls : 'menu__icon shape-ungroup',
+                            iconCls : 'menu__icon btn-shape-ungroup',
                             groupval: -1
                         }]
                     }));
@@ -2273,7 +2273,7 @@ define([
                         iconCls: item.icon ? 'menu__icon ' + item.icon : undefined,
                         menu: new Common.UI.Menu({
                             items: [
-                                {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art" style="width: ' + width + 'px; height: 500px; margin-left: 5px;"></div>')}
+                                {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art margin-left-5" style="width: ' + width + 'px; height: 500px;"></div>')}
                             ],
                             menuAlign: 'tl-tr',
                         })});
@@ -2337,7 +2337,7 @@ define([
                             iconCls     : 'menu__icon btn-text',
                             toggleGroup: 'textbox',
                             value: 'textRect',
-                            iconClsForMainBtn: 'btn-text'
+                            iconClsForMainBtn: 'btn-big-text'
                         },
                         {
                             caption: this.tipInsertVerticalText,
@@ -2346,7 +2346,7 @@ define([
                             iconCls     : 'menu__icon btn-text-vertical',
                             toggleGroup: 'textbox',
                             value: 'textRectVertical',
-                            iconClsForMainBtn: 'btn-text-vertical'
+                            iconClsForMainBtn: 'btn-big-text-vertical'
                         },
                     ]
                 }));

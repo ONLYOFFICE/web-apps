@@ -84,7 +84,7 @@ define([
                             '</tr>',
                             '<tr class="group-number">',
                                 '<td style="padding-right: 10px;padding-bottom: 8px;width: 100%;">',
-                                    '<label style="margin-left:22px;margin-top:2px;">' + t.textBy + '</label>',
+                                    '<label class="margin-left-22" style="margin-top:2px;">' + t.textBy + '</label>',
                                 '</td>',
                                 '<td style="padding-bottom: 8px;">',
                                     '<div id="pivot-group-dlg-txt-by"></div>',

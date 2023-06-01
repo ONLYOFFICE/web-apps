@@ -141,6 +141,18 @@ if (window.Common === undefined) {
 
             'setReferenceData': function(data) {
                 $me.trigger('setreferencedata', data);
+            },
+
+            'setRequestedDocument': function(data) {
+                $me.trigger('setrequesteddocument', data);
+            },
+
+            'setRequestedSpreadsheet': function(data) {
+                $me.trigger('setrequestedspreadsheet', data);
+            },
+
+            'setReferenceSource': function(data) {
+                $me.trigger('setreferencesource', data);
             }
         };
 
@@ -352,6 +364,22 @@ if (window.Common === undefined) {
 
             requestReferenceData:  function (data) {
                 _postMessage({event:'onRequestReferenceData', data: data});
+            },
+
+            requestOpen:  function (data) {
+                _postMessage({event:'onRequestOpen', data: data});
+            },
+
+            requestSelectDocument:  function (command) {
+                _postMessage({event:'onRequestSelectDocument', data: {c: command}});
+            },
+
+            requestSelectSpreadsheet:  function (command) {
+                _postMessage({event:'onRequestSelectSpreadsheet', data: {c: command}});
+            },
+
+            requestReferenceSource:  function () {
+                _postMessage({event:'onRequestReferenceSource'});
             },
 
             pluginsReady: function() {

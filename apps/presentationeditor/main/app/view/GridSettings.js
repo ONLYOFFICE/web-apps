@@ -64,7 +64,7 @@ define([
                         '<label class="text">' + this.textSpacing + '</label>',
                     '</div>',
                     '<div id="grid-spacing-combo" class="input-group-nr"></div>',
-                    '<div id="grid-spacing-spin"></div>',
+                    '<div id="grid-spacing-spin" class="margin-left-10"></div>',
                 '</div>',
                 '<div class="separator horizontal"></div>'
             ].join('');

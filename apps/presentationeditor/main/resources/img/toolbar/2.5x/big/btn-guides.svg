@@ -1,17 +1,1 @@
-<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect x="3.5" y="6.5" width="21" height="15" rx="0.5" stroke="black"/>
-<g opacity="0.4">
-<rect x="13" y="9" width="1" height="2" fill="black"/>
-<rect x="13" y="6" width="1" height="2" fill="black"/>
-<rect x="8" y="13" width="1" height="2" transform="rotate(90 8 13)" fill="black"/>
-<rect x="5" y="13" width="1" height="1" transform="rotate(90 5 13)" fill="black"/>
-<rect x="11" y="13" width="1" height="2" transform="rotate(90 11 13)" fill="black"/>
-<rect x="15" y="13" width="1" height="3" transform="rotate(90 15 13)" fill="black"/>
-<rect x="18" y="13" width="1" height="2" transform="rotate(90 18 13)" fill="black"/>
-<rect x="21" y="13" width="1" height="2" transform="rotate(90 21 13)" fill="black"/>
-<rect x="24" y="13" width="1" height="2" transform="rotate(90 24 13)" fill="black"/>
-<rect x="13" y="12" width="1" height="3" fill="black"/>
-<rect x="13" y="16" width="1" height="2" fill="black"/>
-<rect x="13" y="19" width="1" height="2" fill="black"/>
-</g>
-</svg>
+<svg width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M24 7H4v14h20V7zM4 6a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h20a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H4z" fill="#000"/><g opacity=".4" fill="#000"><path d="M14 7h-1v1h1V7zM14 9h-1v2h1V9zM8 13v1H6v-1h2zM5 14v-1H4v1h1zM11 13v1H9v-1h2zM15 14v-1h-1v-1h-1v1h-1v1h1v1h1v-1h1zM18 13v1h-2v-1h2zM21 14v-1h-2v1h2zM24 13v1h-2v-1h2zM13 16h1v2h-1v-2zM14 19h-1v2h1v-2z"/></g></svg>

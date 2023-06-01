@@ -59,7 +59,7 @@ define([
                     '<div class="user-name">' +
                         '<div class="color" style="background-color: <%= user.get("color") %>;"></div>'+
                         '<label><%= fnEncode(user.get("username")) %></label>' +
-                        '<% if (len>1) { %><label style="margin-left:3px;">(<%=len%>)</label><% } %>' +
+                        '<% if (len>1) { %><label class="margin-left-3">(<%=len%>)</label><% } %>' +
                     '</div>'+
                 '</li>';
 
@@ -828,7 +828,7 @@ define([
                 }
                 if (this._testCanvas) {
                     var mt = this._testCanvas.measureText(text);
-                    return (mt.actualBoundingBoxLeft!==undefined) ? Math.ceil(Math.abs(mt.actualBoundingBoxLeft) + Math.abs(mt.actualBoundingBoxRight)) : (mt.width ? Math.ceil(mt.width)+2 : 0);
+                    return (mt.actualBoundingBoxLeft!==undefined) ? Math.ceil(Math.abs(mt.actualBoundingBoxLeft) + Math.abs(mt.actualBoundingBoxRight)) + 1 : (mt.width ? Math.ceil(mt.width)+2 : 0);
                 }
                 return -1;
             },

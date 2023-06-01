@@ -12,9 +12,6 @@
         min-width: @value;
         height: @value;
         line-height: @value - 2px;
-        .pixel-ratio__2_5 & {
-            width: @value;
-        }
     }
 
     &.small {
@@ -916,13 +913,8 @@
         }
 
         span.color-auto {
-            margin-left: -18px;
+            .margin-left(-18px);
             margin-top: 1px;
-
-            .rtl & {
-                margin-left: 0;
-                margin-right: -18px;
-            }
         }
     }
 }
@@ -954,6 +946,12 @@
     .pixel-ratio__2_5 & {
         svg.icon {
             width: 100%;
+        }
+    }
+
+    &.huge-1 {
+        .pixel-ratio__2_5 & {
+            width: 40px;
         }
     }
 
@@ -1211,17 +1209,12 @@
         display: inline-block;
         .btn.btnsize(52px);
         padding: 0;
-        margin-right: 3px;
+        .margin-right-3();
         background-color: transparent;
         background-repeat: no-repeat;
         border: @scaled-one-px-value-ie solid @border-regular-control-ie;
         border: @scaled-one-px-value solid @border-regular-control;
         position: relative;
-
-        .rtl & {
-            margin-right: 0;
-            margin-left: 3px;
-        }
     }
 
     &.sheet-template-table {

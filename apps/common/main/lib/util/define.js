@@ -774,7 +774,7 @@ define(function(){ 'use strict';
                         id: 'menu-smart-art-group-list',
                         sectionId: Asc.c_oAscSmartArtSectionNames.List,
                         caption: this.textList,
-                        icon: 'smart-list',
+                        icon: 'btn-smart-list',
                         items: [
                             { type: Asc.c_oAscSmartArtTypes.BasicBlockList, tip: this.textBasicBlockList},
                             { type: Asc.c_oAscSmartArtTypes.AlternatingHexagonList, tip: this.textAlternatingHexagons},
@@ -823,7 +823,7 @@ define(function(){ 'use strict';
                         id: 'menu-smart-art-group-process',
                         sectionId: Asc.c_oAscSmartArtSectionNames.Process,
                         caption: this.textProcess,
-                        icon: 'smart-process',
+                        icon: 'btn-smart-process',
                         items: [
                             { type: Asc.c_oAscSmartArtTypes.BasicProcess, tip: this.textBasicProcess},
                             { type: Asc.c_oAscSmartArtTypes.StepUpProcess, tip: this.textStepUpProcess},
@@ -880,7 +880,7 @@ define(function(){ 'use strict';
                         id: 'menu-smart-art-group-cycle',
                         sectionId: Asc.c_oAscSmartArtSectionNames.Cycle,
                         caption: this.textCycle,
-                        icon: 'smart-cycle',
+                        icon: 'btn-smart-cycle',
                         items: [
                             { type: Asc.c_oAscSmartArtTypes.BasicCycle, tip: this.textBasicCycle},
                             { type: Asc.c_oAscSmartArtTypes.TextCycle, tip: this.textTextCycle},
@@ -906,7 +906,7 @@ define(function(){ 'use strict';
                         id: 'menu-smart-art-group-hierarchy',
                         sectionId: Asc.c_oAscSmartArtSectionNames.Hierarchy,
                         caption: this.textHierarchy,
-                        icon: 'smart-hierarchy',
+                        icon: 'btn-smart-hierarchy',
                         items: [
                             { type: Asc.c_oAscSmartArtTypes.OrganizationChart, tip: this.textOrganizationChart},
                             { type: Asc.c_oAscSmartArtTypes.PictureOrganizationChart, tip: this.textPictureOrganizationChart},
@@ -930,7 +930,7 @@ define(function(){ 'use strict';
                         id: 'menu-smart-art-group-relationship',
                         sectionId: Asc.c_oAscSmartArtSectionNames.Relationship,
                         caption: this.textRelationship,
-                        icon: 'smart-relationship',
+                        icon: 'btn-smart-relationship',
                         items: [
                             { type: Asc.c_oAscSmartArtTypes.Balance, tip: this.textBalance},
                             { type: Asc.c_oAscSmartArtTypes.CircleRelationship, tip: this.textCircleRelationship},
@@ -979,7 +979,7 @@ define(function(){ 'use strict';
                         id: 'menu-smart-art-group-matrix',
                         sectionId: Asc.c_oAscSmartArtSectionNames.Matrix,
                         caption: this.textMatrix,
-                        icon: 'smart-matrix',
+                        icon: 'btn-smart-matrix',
                         items: [
                             { type: Asc.c_oAscSmartArtTypes.BasicMatrix, tip: this.textBasicMatrix},
                             { type: Asc.c_oAscSmartArtTypes.TitledMatrix, tip: this.textTitledMatrix},
@@ -992,7 +992,7 @@ define(function(){ 'use strict';
                         id: 'menu-smart-art-group-pyramid',
                         sectionId: Asc.c_oAscSmartArtSectionNames.Pyramid,
                         caption: this.textPyramid,
-                        icon: 'smart-pyramid',
+                        icon: 'btn-smart-pyramid',
                         items: [
                             { type: Asc.c_oAscSmartArtTypes.BasicPyramid, tip: this.textBasicPyramid},
                             { type: Asc.c_oAscSmartArtTypes.InvertedPyramid, tip: this.textInvertedPyramid},
