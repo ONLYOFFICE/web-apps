@@ -3,7 +3,7 @@
     <div class="status-group dropup">
         <label id="label-pages" class="status-label dropdown-toggle margin-top-large" data-toggle="dropdown" data-hint="0" data-hint-direction="top"><%= textPageNumber %></label>
         <div id="status-goto-box" class="dropdown-menu">
-            <label><%= textGotoPage %></label>
+            <label class="float-left"><%= textGotoPage %></label>
             <div id="status-goto-page" style="display:inline-block;"></div>
         </div>
     </div>

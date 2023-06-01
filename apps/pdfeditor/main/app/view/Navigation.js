@@ -50,8 +50,8 @@ define([
             '<div id="navigation-box" class="layout-ct vbox">',
             '<div id="navigation-header" className="">',
                 '<label><%= scope.strNavigate%></label>',
-                '<div id="navigation-btn-close"></div>',
-                '<div id="navigation-btn-settings"></div>',
+                '<div id="navigation-btn-close" class="float-right margin-left-4"></div>',
+                '<div id="navigation-btn-settings" class="float-right"></div>',
             '</div>',
                 '<div id="navigation-list" class="">',
                 '</div>',
@@ -91,12 +91,12 @@ define([
                         {
                             caption: this.txtExpand,
                             value: 'expand',
-                            iconCls     : 'menu__icon expand-all'
+                            iconCls     : 'menu__icon btn-expand-all'
                         },
                         {
                             caption: this.txtCollapse,
                             value: 'collapse',
-                            iconCls     : 'menu__icon collapse-all'
+                            iconCls     : 'menu__icon btn-collapse-all'
                         },
                         {
                             caption: this.txtExpandToLevel,
@@ -176,12 +176,12 @@ define([
                 cls: 'shifted-right',
                 items: [
                     {
-                        iconCls     : 'menu__icon expand-all',
+                        iconCls     : 'menu__icon btn-expand-all',
                         caption     : this.txtExpand,
                         value: 'expand'
                     },
                     {
-                        iconCls     : 'menu__icon collapse-all',
+                        iconCls     : 'menu__icon btn-collapse-all',
                         caption     : this.txtCollapse,
                         value: 'collapse'
                     },

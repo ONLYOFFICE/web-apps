@@ -7,19 +7,11 @@
     }
 
     #label-pages {
-        margin-left: 40px;
-        .rtl & {
-            margin-left: 0;
-            margin-right: 40px;
-        }
+        .margin-left(40px);
     }
 
     #btn-zoom-up {
-        margin-right: 40px;
-        .rtl & {
-            margin-right: 0;
-            margin-left: 40px;
-        }
+        .margin-right(40px);
     }
 
     #label-pages, #label-zoom {
@@ -31,19 +23,11 @@
     }
 
     #btn-zoom-topage, #btn-zoom-towidth {
-        margin-right: 8px;
-        .rtl & {
-            margin-right: 0;
-            margin-left: 8px;
-        }
+        .margin-right-8();
     }
 
     #slot-status-btn-prev, #slot-status-btn-next {
-        margin-left: 4px;
-        .rtl & {
-            margin-left: 0;
-            margin-right: 4px;
-        }
+        .margin-left-4();
     }
 
     .status-group {
@@ -84,17 +68,11 @@
         margin-top: 4px;
         .dropdown-menu {
             min-width: 80px;
-            margin-left: -4px;
-
-            .rtl & {
-                margin-left: 0;
-                margin-right: -4px;
-            }
+            .margin-left(-4px);
 
             li {
-                text-align: center;
-
                 > a {
+                    text-align: center;
                     padding-left: 15px;
                     padding-right: 15px;
                 }
@@ -115,25 +93,14 @@
 
     #status-goto-box {
         padding: 10px;
-        margin-left: 40px;
+        .margin-left(40px);
         margin-bottom: 2px;
         min-width: 130px;
 
-        .rtl & {
-            margin-left: 0;
-            margin-right: 40px;
-        }
-
         > label {
             display: inline-block;
-            margin-right: 10px;
-            float:left;
+            .margin-right-10();
             line-height:22px;
-            .rtl & {
-                margin-right: 0;
-                margin-left: 10px;
-                float: right;
-            }
         }
 
         > input[type=text] {

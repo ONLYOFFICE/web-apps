@@ -23,15 +23,6 @@
             margin-top: 2px;
         }
 
-        #thumbnails-btn-close {
-            float:right;
-            margin-left: 4px;
-        }
-
-        #thumbnails-btn-settings {
-            float:right;
-        }
-
         #thumbnails-size {
             label {
                 .font-size-normal();
@@ -60,7 +51,10 @@
                 a {
                     padding: 5px 20px 5px 33px;
                     &.checked:before {
-                        margin-left: -24px;
+                        .margin-left(-24px);
+                    }
+                    .rtl & {
+                        padding: 5px 33px 5px 20px;
                     }
                 }
             }

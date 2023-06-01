@@ -124,11 +124,9 @@
 
       .format-items {
         .format-item {
-          float: left;
           margin: 0 24px 34px 0;
 
           .rtl & {
-            float: right;
             margin: 0 0 34px 24px;
           }
 
@@ -143,7 +141,10 @@
           width: 0;
           height: 0;
         }
-
+        &:last-of-type {
+          float: none;
+          clear: both;
+        }
       }
     }
   }
@@ -324,13 +325,8 @@
 
   #fms-cmb-theme {
     display: inline-block;
-    margin-right: 15px;
+    .margin-right-15();
     vertical-align: middle;
-
-    .rtl & {
-      margin-right: 0;
-      margin-left: 15px;
-    }
   }
 
   #fms-chb-dark-mode {
@@ -341,13 +337,8 @@
 
   #fms-cmb-macros {
     display: inline-block;
-    margin-right: 15px;
+    .margin-right-15();
     vertical-align: middle;
-
-    .rtl & {
-      margin-right: 0;
-      margin-left: 15px;
-    }
   }
 }
 
@@ -447,7 +438,6 @@
     }
 
     .recent-icon {
-      float: left;
       display: inline-block;
       width: 25px;
       height: 25px;
@@ -545,15 +535,6 @@
     padding: 0 30px;
   }
 
-  #id-info-btn-edit {
-    margin-right: 10px;
-
-    .rtl & {
-      margin-right: 0;
-      margin-left: 10px;
-    }
-  }
-
   .header {
     margin: 30px 0 20px 0;
     .font-size-very-huge();
@@ -628,7 +609,7 @@
   }
 
   .tool {
-    margin-left: 4px;
+    .margin-left-4();
     background-image: none;
       &.close{
         &:before, &:after {
@@ -666,22 +647,6 @@
 
   .buttons {
     display: flex;
-  }
-
-  #fms-btn-delete-pwd {
-    margin-left: 16px;
-    .rtl & {
-      margin-left: 0;
-      margin-right: 16px;
-    }
-  }
-
-  .signature-view-link {
-    margin-right: 20px;
-    .rtl & {
-      margin-right: 0;
-      margin-left: 20px;
-    }
   }
 
   .signature-tip {

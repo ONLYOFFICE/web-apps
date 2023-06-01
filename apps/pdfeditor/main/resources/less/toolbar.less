@@ -11,11 +11,11 @@
 
     .font-attr {
         > .btn-slot:not(:last-child):not(.split) {
-            margin-right: 4px;
+            .margin-right-4();
         }
 
         > .btn-slot:not(:last-child).split {
-            margin-right: 2px;
+            .margin-right-2();
         }
     }
 }
@@ -34,38 +34,25 @@
     line-height: @line-height-base;
     .title {
         padding: 5px 5px 5px 20px;
-        float: left;
         //max-width: 95px;
         overflow: hidden;
         text-overflow: ellipsis;
 
         .rtl & {
-            float: right;
             padding: 5px 20px 5px 5px;
         }
     }
 
-    .zoom {
-        padding: 5px 3px;
-        float: right;
-        min-width: 40px;
-        text-align: center;
-    }
-
     .btn.next {
-        float: right;
         margin: 2px 5px 0 0;
         .rtl & {
-            float: left;
             margin: 2px 0 0 0 !important;
         }
     }
 
     .btn.prev {
-        float: right;
         margin-top: 2px;
         .rtl & {
-            float: left;
             margin: 2px 0 0 5px;
         }
     }
@@ -86,28 +73,9 @@
 }
 
 #slot-field-fontname {
-    float: left;
     width: 84px;
-    .rtl & {
-        float: right;
-    }
 }
 
 #slot-field-fontsize {
-    float: left;
     width: 45px;
-    margin-left: 2px;
-    .rtl & {
-        float: right;
-        margin-left: 0;
-        margin-right: 2px;
-    }
-}
-
-#slot-btn-incfont, #slot-btn-decfont, #slot-btn-changecase {
-    margin-left: 2px;
-    .rtl & {
-        margin-left: 0;
-        margin-right: 2px;
-    }
 }
