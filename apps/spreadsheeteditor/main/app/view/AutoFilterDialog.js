@@ -2175,6 +2175,8 @@ define([
                         break;
                     }
                 }
+                if (lastLevel === undefined)
+                    lastLevel = date.length - 1;
                 return lastLevel;
             }
 
@@ -2215,7 +2217,7 @@ define([
                     lastDateLevel;
                 if (isDate) {
                     curDate = [item.asc_getYear(), item.asc_getMonth(), item.asc_getDay(),
-                        item.asc_setHour(), item.asc_setMinute(), item.asc_setSecond()];
+                        item.asc_getHour(), item.asc_getMinute(), item.asc_getSecond()];
                     dateLevel = getDateLevel(lastDate, curDate);
                     lastDateLevel = getLastDateLevel(curDate);
                 }
