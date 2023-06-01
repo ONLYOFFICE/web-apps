@@ -2440,6 +2440,7 @@
   "SSE.Views.FileMenu.btnCreateNewCaption": "Create New",
   "SSE.Views.FileMenu.btnDownloadCaption": "Download as",
   "SSE.Views.FileMenu.btnExitCaption": "Close",
+  "SSE.Views.FileMenu.btnExportToPDFCaption": "Export to PDF",
   "SSE.Views.FileMenu.btnFileOpenCaption": "Open",
   "SSE.Views.FileMenu.btnHelpCaption": "Help",
   "SSE.Views.FileMenu.btnHistoryCaption": "Version History",
