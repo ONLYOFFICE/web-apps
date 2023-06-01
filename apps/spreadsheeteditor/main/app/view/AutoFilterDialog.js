@@ -2167,19 +2167,6 @@ define([
                 return level;
             }
 
-            function getLastDateLevel(date) {
-                var lastLevel;
-                for (var i = 0; i < date.length; i++) {
-                    if (date[i] === undefined) {
-                        lastLevel = i - 1;
-                        break;
-                    }
-                }
-                if (lastLevel === undefined)
-                    lastLevel = date.length - 1;
-                return lastLevel;
-            }
-
             var me = this,
                 isnumber, value, count,
                 index = 0, throughIndex = 2,
@@ -2213,13 +2200,32 @@ define([
 
                 var isDate = item.asc_getIsDateFormat(),
                     curDate,
+                    displayDate,
                     dateLevel,
                     lastDateLevel;
                 if (isDate) {
+                    var year = item.asc_getYear(),
+                        month = item.asc_getMonth(),
+                        day = item.asc_getDay(),
+                        hour = item.asc_getHour(),
+                        minute = item.asc_getMinute(),
+                        second = item.asc_getSecond();
+                    if (year !== undefined && hour !== undefined) {
+                        curDate = [year, month, day, hour, minute, second];
+                        displayDate = [year, month, day,
+                            !hour ? '00' : hour,
+                            ':' + (!minute ? '00' : minute),
+                            ':' + (!second ? '00' : second)
+                        ];
+                    } else if (hour === undefined) {
+                        curDate = [year, month, day];
+                        displayDate = curDate.slice();
+                    }
                     curDate = [item.asc_getYear(), item.asc_getMonth(), item.asc_getDay(),
                         item.asc_getHour(), item.asc_getMinute(), item.asc_getSecond()];
                     dateLevel = getDateLevel(lastDate, curDate);
-                    lastDateLevel = getLastDateLevel(curDate);
+
+                    lastDateLevel = curDate.length - 1;
                 }
 
                 if (me.filter) {
@@ -2248,11 +2254,13 @@ define([
                                 count: count ? count.toString() : '',
                                 isDate: true,
                                 fullDate: curDate,
-                                dateValue: i === 1 ? monthList[curDate[i]] : curDate[i],
+                                dateValue: i === 1 ? monthList[displayDate[i]] : displayDate[i],
                                 level: i,
                                 index: index,
                                 hasParent: i > 0,
-                                hasSubItems: i < lastDateLevel
+                                hasSubItems: i < lastDateLevel,
+                                isVisible: i === 0,
+                                isExpanded: false
                             }));
                             if (idxs[throughIndex]) selectedCells++;
                         }
