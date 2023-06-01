@@ -800,6 +800,16 @@ define([
                         iconCls: 'toolbar__icon btn-symbol',
                         caption: me.capBtnInsSymbol,
                         lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                        menu: new Common.UI.Menu({
+                            style: 'min-width: 100px;',
+                            items: [
+                                {template: _.template('<div id="id-toolbar-menu-symbols"></div>')},
+                                {caption: '--'},
+                                this.mnuHighlightTransparent = new Common.UI.MenuItem({
+                                    caption: this.textMoreSymbols
+                                })
+                            ]
+                        }),
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -1622,6 +1632,44 @@ define([
 
                 // set dataviews
 
+                this.mnuInsertSymbolsPicker = new Common.UI.DataView({
+                    el: $('#id-toolbar-menu-symbols'),
+                    parentMenu: this.btnInsertSymbol.menu,
+                    outerMenu: {menu: this.btnInsertSymbol.menu, index:0},
+                    restoreHeight: 290,
+                    delayRenderTips: true,
+                    scrollAlwaysVisible: true,
+                    store: new Common.UI.DataViewStore([
+                        { symbol: '2022', code: 8226},
+                        { symbol: '20AC', code: 8364},
+                        { symbol: 'FF04', code: 65284},
+                        { symbol: '00A5', code: 165},
+                        { symbol: '00A9', code: 169},
+                        { symbol: '00AE', code: 174},
+                        { symbol: '00BD', code: 189},
+                        { symbol: '00BC', code: 188},
+                        { symbol: '2260', code: 8800},
+                        { symbol: '00B1', code: 177},
+                        { symbol: '00F7', code: 247},
+                        { symbol: '221A', code: 8730},
+                        { symbol: '2264', code: 8804},       //{ symbol: '2A7D', htmlCode: 10877},
+                        { symbol: '2265', code: 8805},        //{ symbol: '2A7E', code: 10878},
+                        { symbol: '2122', code: 8482},
+                        { symbol: '221E', code: 8734},
+                        { symbol: '007E', code: 126},
+                        { symbol: '00B0', code: 176},
+                        { symbol: '00A7', code: 167},
+                        { symbol: '03B1', code: 945},
+                        { symbol: '03B2', code: 946},
+                        { symbol: '03C0', code: 960},             //{ symbol: '03C0', code: 937},
+                        { symbol: '0394', code: 916},
+                        { symbol: '263A', code: 9786},
+                        { symbol: '2665', code: 9829}
+                    ]),
+                    itemTemplate: _.template('<div id="s<%= symbol %>" class="item-symbol">&#<%= code %></a>')
+                });
+                this.btnInsertSymbol.menu.setInnerMenu([{menu: this.mnuInsertSymbolsPicker, index: 0}]);
+
                 this._markersArr = [
                     'undefined',
                     '{"bulletTypeface":{"type":"bufont","typeface":"Symbol"},"bulletType":{"type":"char","char":"·","startAt":null}}',
@@ -2222,7 +2270,8 @@ define([
             mniInsertSSE: 'Insert Spreadsheet',
             tipSelectAll: 'Select all',
             tipCut: 'Cut',
-            textTabDraw: 'Draw'
+            textTabDraw: 'Draw',
+            textMoreSymbols: 'More symbols'
         }
     }()), PE.Views.Toolbar || {}));
 });

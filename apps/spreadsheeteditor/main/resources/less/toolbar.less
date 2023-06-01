@@ -126,6 +126,31 @@
     }
 }
 
+#id-toolbar-menu-symbols {
+    display: inline-block;
+    width: 160px;
+    padding-left: 3px;
+    .item {
+        .box-shadow(none);
+        margin-left: 6px;
+        &:hover{
+            .box-shadow( 0 0 0 2px @border-preview-select-ie);
+            .box-shadow( 0 0 0 @scaled-two-px-value @border-preview-select);
+        }
+    }
+    .item-symbol {
+        font-family: @font-family-base;//Arial;
+        font-size: 14px;
+        display: block;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        line-height: 20px;
+        vertical-align: middle;
+
+    }
+}
+
 .item-markerlist {
     width: 40px;
     height: 40px;
