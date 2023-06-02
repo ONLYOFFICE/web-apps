@@ -635,9 +635,13 @@ class MainController extends Component {
 
         this.api.asc_registerCallback('asc_onShowContentControlsActions', (obj, x, y) => {
             const storeAppOptions = this.props.storeAppOptions;
+            const storeDocumentInfo = this.props.storeDocumentInfo;
             const isViewer = storeAppOptions.isViewer;
+            const dataDoc = storeDocumentInfo.dataDoc;
+            const docExt = dataDoc.fileType;
+            const isAvailableExt = docExt && docExt !== 'oform';
 
-            if (!storeAppOptions.isEdit && !(storeAppOptions.isRestrictedEdit && storeAppOptions.canFillForms) || this.props.users.isDisconnected) return;
+            if (!storeAppOptions.isEdit && !(storeAppOptions.isRestrictedEdit && storeAppOptions.canFillForms) || this.props.users.isDisconnected || (isViewer && isAvailableExt)) return;
 
             switch (obj.type) {
                 case Asc.c_oAscContentControlSpecificType.DateTime:
@@ -646,7 +650,7 @@ class MainController extends Component {
                 case Asc.c_oAscContentControlSpecificType.Picture:
                     if (obj.pr && obj.pr.get_Lock) {
                         let lock = obj.pr.get_Lock();
-                        if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock == Asc.c_oAscSdtLockType.ContentLocked || isViewer)
+                        if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock == Asc.c_oAscSdtLockType.ContentLocked)
                             return;
                     }
                     this.api.asc_addImage(obj);
