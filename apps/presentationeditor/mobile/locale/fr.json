@@ -112,6 +112,7 @@
       "textHasMacros": "Le fichier contient des macros automatiques.<br>Voulez-vous exécuter les macros?",
       "textNo": "Non",
       "textNoLicenseTitle": "La limite de la licence est atteinte",
+      "textNoMatches": "Aucune correspondance",
       "textOpenFile": "Entrer le mot de passe pour ouvrir le fichier",
       "textPaidFeature": "Fonction payante",
       "textRemember": "Se souvenir de mon choix",
@@ -134,8 +135,7 @@
       "warnLicenseUsersExceeded": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Pour en savoir plus, contactez votre administrateur.",
       "warnNoLicense": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
       "warnNoLicenseUsers": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
-      "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier.",
-      "textNoMatches": "No Matches"
+      "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier."
     }
   },
   "Error": {
@@ -363,6 +363,7 @@
       "textMoveBackward": "Déplacer vers l'arrière",
       "textMoveForward": "Avancer",
       "textNextSlide": "Diapositive suivante",
+      "textNoMatches": "Aucune correspondance",
       "textNone": "Aucun",
       "textNoStyles": "Aucun style pour ce type de graphique.",
       "textNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\"",
@@ -420,8 +421,7 @@
       "textZoom": "Zoom",
       "textZoomIn": "Zoom avant",
       "textZoomOut": "Zoom arrière",
-      "textZoomRotate": "Zoom et rotation",
-      "textNoMatches": "No Matches"
+      "textZoomRotate": "Zoom et rotation"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
@@ -461,6 +461,7 @@
       "textLoading": "Chargement en cours...",
       "textLocation": "Emplacement",
       "textMacrosSettings": "Réglages macros",
+      "textNoMatches": "Aucune correspondance",
       "textOk": "OK",
       "textOwner": "Propriétaire",
       "textPoint": "Point",
@@ -505,8 +506,7 @@
       "txtScheme6": "Rotonde",
       "txtScheme7": "Capitaux",
       "txtScheme8": "Flux",
-      "txtScheme9": "Fonderie",
-      "textNoMatches": "No Matches"
+      "txtScheme9": "Fonderie"
     }
   }
 }
