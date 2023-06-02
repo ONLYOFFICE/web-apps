@@ -333,6 +333,7 @@
   "Common.Views.SearchPanel.textFind": "Najdi",
   "Common.Views.SearchPanel.textFindAndReplace": "Najdi in zamenjaj",
   "Common.Views.SearchPanel.textItemsSuccessfullyReplaced": "{0} elementov uspešno zamenjanih",
+  "Common.Views.SearchPanel.textPartOfItemsNotReplaced": "Zamenjanih elementov: {0}/{1}. Drugi uporabniki so zaklenili preostalih {2} elementov.",
   "Common.Views.SelectFileDlg.textLoading": "Nalaganje",
   "Common.Views.SignDialog.textBold": "Krepko",
   "Common.Views.SignDialog.textCertificate": "Certifikat",
