@@ -348,6 +348,7 @@ define([
                                 if (dontshow) Common.localStorage.setItem("de-hide-save-compatible", 1);
                                 if (btn == 'ok') {
                                     this.isFromFileDownloadAs = ext;
+                                    options.asc_setCompatible(false);
                                     this.api.asc_DownloadAs(options);
                                     menu.hide();
                                 }
