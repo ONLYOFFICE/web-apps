@@ -627,7 +627,7 @@ class MainController extends Component {
             const isViewer = storeAppOptions.isViewer;
             const dataDoc = storeDocumentInfo.dataDoc;
             const docExt = dataDoc.fileType;
-            const isAvailableExt = docExt && docExt !== 'djvu' && docExt !== 'pdf' && docExt !== 'xps' && docExt !== 'oform';
+            const isAvailableExt = docExt && docExt !== 'oform';
 
             if (!storeAppOptions.isEdit && !(storeAppOptions.isRestrictedEdit && storeAppOptions.canFillForms) || this.props.users.isDisconnected || (isViewer && isAvailableExt)) return;
 
