@@ -2096,7 +2096,7 @@
   "DE.Views.FileMenuPanels.Settings.textDisabled": "Disabled",
   "DE.Views.FileMenuPanels.Settings.textForceSave": "Saving intermediate versions",
   "DE.Views.FileMenuPanels.Settings.textMinute": "Every Minute",
-  "DE.Views.FileMenuPanels.Settings.textOldVersions": "Make the files compatible with older MS Word versions when saved as DOCX",
+  "DE.Views.FileMenuPanels.Settings.textOldVersions": "Make the files compatible with older MS Word versions when saved as DOCX, DOTX",
   "DE.Views.FileMenuPanels.Settings.txtAdvancedSettings": "Advanced Settings",
   "DE.Views.FileMenuPanels.Settings.txtAll": "View All",
   "DE.Views.FileMenuPanels.Settings.txtAutoCorrect": "AutoCorrect options...",

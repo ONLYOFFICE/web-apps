@@ -2093,7 +2093,7 @@
   "DE.Views.FileMenuPanels.Settings.textDisabled": "Отключено",
   "DE.Views.FileMenuPanels.Settings.textForceSave": "Сохранение промежуточных версий",
   "DE.Views.FileMenuPanels.Settings.textMinute": "Каждую минуту",
-  "DE.Views.FileMenuPanels.Settings.textOldVersions": "Сделать файлы совместимыми с более старыми версиями MS Word при сохранении как DOCX",
+  "DE.Views.FileMenuPanels.Settings.textOldVersions": "Сделать файлы совместимыми с более старыми версиями MS Word при сохранении как DOCX, DOTX",
   "DE.Views.FileMenuPanels.Settings.txtAdvancedSettings": "Дополнительные параметры",
   "DE.Views.FileMenuPanels.Settings.txtAll": "Все",
   "DE.Views.FileMenuPanels.Settings.txtAutoCorrect": "Параметры автозамены...",

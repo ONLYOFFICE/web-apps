@@ -1072,7 +1072,7 @@ define([
         txtFitPage: 'Fit to Page',
         txtFitWidth: 'Fit to Width',
         textForceSave: 'Save to Server',
-        textOldVersions: 'Make the files compatible with older MS Word versions when saved as DOCX',
+        textOldVersions: 'Make the files compatible with older MS Word versions when saved as DOCX, DOTX',
         txtCacheMode: 'Default cache mode',
         strRTLSupport: 'RTL interface',
         strMacrosSettings: 'Macros Settings',
