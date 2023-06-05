@@ -151,7 +151,8 @@ define([
                         'Qtr': this.txtQuarter,
                         'Text': this.textText,
                         'Sheet': this.txtSheet,
-                        'None': this.txtNone
+                        'None': this.txtNone,
+                        'Slicer': this.txtSlicer
                     };
 
                 styleNames.forEach(function(item){
@@ -3843,7 +3844,8 @@ define([
             errorCreateRange: 'The existing ranges cannot be edited and the new ones cannot be created<br>at the moment as some of them are being edited.',
             txtSheet: 'Sheet',
             txtNone: 'None',
-            warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.'
+            warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.',
+            txtSlicer: 'Slicer'
         }
     })(), SSE.Controllers.Main || {}))
 });

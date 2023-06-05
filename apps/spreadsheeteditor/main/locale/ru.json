@@ -1369,6 +1369,7 @@
   "SSE.Controllers.Main.warnNoLicenseUsers": "Вы достигли лимита на одновременные подключения к редакторам %1.<br>Напишите в отдел продаж %1, чтобы обсудить индивидуальные условия лицензирования.",
   "SSE.Controllers.Main.warnProcessRightsChange": "Вам было отказано в праве на редактирование этого файла.",
   "SSE.Controllers.Main.txtNone": "Нет",
+  "SSE.Controllers.Main.txtSlicer": "Срез",
   "SSE.Controllers.PivotTable.strSheet": "Лист",
   "SSE.Controllers.Print.strAllSheets": "Все листы",
   "SSE.Controllers.Print.textFirstCol": "Первый столбец",
