@@ -150,7 +150,6 @@
       "textNo": "Non",
       "textNoChoices": "Non hai opcións para encher a cela. <br> Só se poden seleccionar os valores de texto da columna para substituílos.",
       "textNoLicenseTitle": "Alcanzouse o límite da licenza",
-      "textNoTextFound": "Texto non atopado",
       "textOk": "Aceptar",
       "textPaidFeature": "Característica de pago",
       "textRemember": "Lembrar a miña escolla",
@@ -169,9 +168,11 @@
       "warnNoLicenseUsers": "Alcanzou o límite de usuarios para os editores de %1.<br>Contacte co equipo de vendas de %1 para coñecer os termos de actualización persoal.",
       "warnProcessRightsChange": "Non ten permiso para editar o ficheiro.",
       "textDontUpdate": "Don't Update",
+      "textNoMatches": "No Matches",
       "textUpdate": "Update",
       "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
       "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
       "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
     }
@@ -657,7 +658,6 @@
       "textMargins": "Marxes",
       "textMatchCase": "Diferenciar maiúsculas/minúsculas",
       "textMatchCell": "Facer coincidir as celdas",
-      "textNoTextFound": "Texto non atopado",
       "textOk": "Aceptar",
       "textOpenFile": "Insira o contrasinal para abrir o ficheiro",
       "textOrientation": "Orientación",
@@ -758,6 +758,7 @@
       "txtVi": "Vietnamita",
       "txtZh": "Chinés",
       "warnDownloadAs": "Se segue gardando neste formato, todas as características a excepción do texto perderanse.<br>Te na certeza de que desexa continuar?",
+      "textNoMatches": "No Matches",
       "txtDe": "Deutsch"
     }
   }

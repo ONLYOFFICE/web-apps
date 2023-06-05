@@ -953,7 +953,7 @@ define([
                     me.eyedropperTip.tipInterval = setInterval(function () {
                         clearInterval(me.eyedropperTip.tipInterval);
                         if (me.eyedropperTip.isVisible) {
-                            ToolTip = '<div>RGB(' + r + ',' + g + ',' + b + ')</div>' +
+                            ToolTip = '<div>RGB (' + r + ',' + g + ',' + b + ')</div>' +
                                 '<div>' + moveData.get_EyedropperColor().asc_getName() + '</div>';
                             me.eyedropperTip.toolTip.setTitle(ToolTip);
                             me.eyedropperTip.isTipVisible = true;

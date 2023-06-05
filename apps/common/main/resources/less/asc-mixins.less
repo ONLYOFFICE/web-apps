@@ -125,6 +125,16 @@
         --scaled-one-pixel: @one-px;
         --scaled-two-pixel: @two-px;
     }
+
+    .pixel-ratio__2_5 {
+        @ratio: 2.5;
+        @one-px: (1px / @ratio);
+        @two-px: (2px / @ratio);
+
+        --pixel-ratio-factor: @ratio;
+        --scaled-one-pixel: @one-px;
+        --scaled-two-pixel: @two-px;
+    }
 }
 
 .button-normal-icon(@icon-class, @index, @icon-size, @normal-h-offset: 0px) {
@@ -302,6 +312,7 @@
     @1d5ximage: replace(@common-controls, '\.png$', '@1.5x.png');
     @1d75ximage: replace(@common-controls, '\.png$', '@1.75x.png');
     @2ximage: replace(@common-controls, '\.png$', '@2x.png');
+    //@2d5ximage: replace(@common-controls, '\.png$', '@2.5x.png');
 
     @media only screen {
         @media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
@@ -328,6 +339,11 @@
 
     .pixel-ratio__1_75 & {
         background-image: ~"url(@{common-image-const-path}/@{1d75ximage})";
+        background-size: @common-controls-width auto;
+    }
+
+    .pixel-ratio__2_5 & {
+        background-image: ~"url(@{common-image-const-path}/@{2ximage})";
         background-size: @common-controls-width auto;
     }
 }

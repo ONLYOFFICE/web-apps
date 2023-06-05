@@ -468,7 +468,7 @@ class MainController extends Component {
         if (found) {
             f7.dialog.alert(null, !(found - replaced > 0) ? t('Controller.Main.textReplaceSuccess').replace(/\{0\}/, `${replaced}`) : t('Controller.Main.textReplaceSkipped').replace(/\{0\}/, `${found - replaced}`));
         } else {
-            f7.dialog.alert(null, t('Controller.Main.textNoTextFound'));
+            f7.dialog.alert(null, t('Controller.Main.textNoMatches'));
         }
     }
 
@@ -568,11 +568,22 @@ class MainController extends Component {
 
         if (appOptions.config.mode === 'view') {
             if (appOptions.canLiveView && (this._state.licenseType===Asc.c_oLicenseResult.ConnectionsLive || this._state.licenseType===Asc.c_oLicenseResult.ConnectionsLiveOS ||
-                                            this._state.licenseType===Asc.c_oLicenseResult.UsersViewCount || this._state.licenseType===Asc.c_oLicenseResult.UsersViewCountOS)) {
+                                            this._state.licenseType===Asc.c_oLicenseResult.UsersViewCount || this._state.licenseType===Asc.c_oLicenseResult.UsersViewCountOS ||
+                                            !appOptions.isAnonymousSupport && !!appOptions.config.user.anonymous)) {
                 appOptions.canLiveView = false;
                 this.api.asc_SetFastCollaborative(false);
             }
             Common.Notifications.trigger('toolbar:activatecontrols');
+        } else if (!appOptions.isAnonymousSupport && !!appOptions.config.user.anonymous) {
+            Common.Notifications.trigger('toolbar:activatecontrols');
+            Common.Notifications.trigger('toolbar:deactivateeditcontrols');
+            this.api.asc_coAuthoringDisconnect();
+            Common.Notifications.trigger('api:disconnect');
+            f7.dialog.create({
+                title: _t.notcriticalErrorTitle,
+                text : _t.warnLicenseAnonymous,
+                buttons: [{text: 'OK'}]
+            }).open();
         } else if (this._state.licenseType) {
             let license = this._state.licenseType;
             let buttons = [{text: 'OK'}];
@@ -605,6 +616,7 @@ class MainController extends Component {
             } else {
                 Common.Notifications.trigger('toolbar:activatecontrols');
                 Common.Notifications.trigger('toolbar:deactivateeditcontrols');
+                this.api.asc_coAuthoringDisconnect();
                 Common.Notifications.trigger('api:disconnect');
             }
 

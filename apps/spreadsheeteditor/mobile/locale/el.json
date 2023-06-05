@@ -150,7 +150,6 @@
       "textNo": "Όχι",
       "textNoChoices": "Δεν υπάρχουν επιλογές για το γέμισμα του κελιού.<br>Μόνο τιμές κειμένου από την στήλη μπορούν να επιλεγούν για αντικατάσταση.",
       "textNoLicenseTitle": "Το όριο της άδειας προσεγγίσθηκε",
-      "textNoTextFound": "Δεν βρέθηκε το κείμενο",
       "textOk": "Εντάξει",
       "textPaidFeature": "Δυνατότητα επί πληρωμή",
       "textRemember": "Απομνημόνευση επιλογής",
@@ -169,9 +168,11 @@
       "warnNoLicenseUsers": "Έχετε φτάσει το όριο χρήστη για συντάκτες %1.<br>Επικοινωνήστε με την ομάδα πωλήσεων %1 για προσωπικούς όρους αναβάθμισης.",
       "warnProcessRightsChange": "Δεν έχετε δικαίωμα επεξεργασίας του αρχείου.",
       "textDontUpdate": "Don't Update",
+      "textNoMatches": "No Matches",
       "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
       "titleLicenseExp": "License expired",
       "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
       "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
     }
@@ -255,10 +256,10 @@
     "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorProtectedRange": "This range is not allowed for editing.",
     "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
     "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
-    "textCancel": "Cancel",
-    "errorProtectedRange": "This range is not allowed for editing."
+    "textCancel": "Cancel"
   },
   "LongActions": {
     "advDRMPassword": "Συνθηματικό",
@@ -656,7 +657,6 @@
       "textMargins": "Περιθώρια",
       "textMatchCase": "Ταίριασμα Πεζών-Κεφαλαίων",
       "textMatchCell": "Ταίριασμα Κελιού",
-      "textNoTextFound": "Δεν βρέθηκε το κείμενο",
       "textOk": "Εντάξει",
       "textOpenFile": "Εισάγετε συνθηματικό για να ανοίξετε το αρχείο",
       "textOrientation": "Προσανατολισμός",
@@ -757,6 +757,7 @@
       "txtVi": "Βιετναμέζικα",
       "warnDownloadAs": "Αν προχωρήσετε με την αποθήκευση σε αυτή τη μορφή, όλα τα χαρακτηριστικά πλην του κειμένου θα χαθούν.<br>Θέλετε σίγουρα να συνεχίσετε;",
       "strFuncLocale": "Formula Language",
+      "textNoMatches": "No Matches",
       "txtDe": "Deutsch",
       "txtZh": "Chinese"
     }

@@ -395,7 +395,7 @@ define([
 
                 this.lblStart = new Common.UI.Label({
                     el: this.$el.find('#animation-label-start'),
-                    iconCls: 'toolbar__icon btn-preview-play',
+                    iconCls: 'toolbar__icon btn-play',
                     caption: this.strStart,
                     lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.timingLock]
                 });

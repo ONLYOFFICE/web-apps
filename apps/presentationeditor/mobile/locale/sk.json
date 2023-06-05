@@ -112,7 +112,6 @@
       "textHasMacros": "Súbor obsahuje automatické makrá.<br>Naozaj chcete makra spustiť?",
       "textNo": "Nie",
       "textNoLicenseTitle": "Bol dosiahnutý limit licencie",
-      "textNoTextFound": "Text nebol nájdený",
       "textOpenFile": "Zadajte heslo na otvorenie súboru",
       "textPaidFeature": "Platená funkcia",
       "textRemember": "Zapamätaj si moju voľbu",
@@ -132,8 +131,10 @@
       "warnNoLicense": "Dosiahli ste limit pre simultánne pripojenia k %1 editorom. Tento dokument sa otvorí iba na prezeranie. Kontaktujte predajný tím %1 pre osobné podmienky inovácie.",
       "warnNoLicenseUsers": "Dosiahli ste limit %1 editora. Pre rozšírenie funkcií kontaktujte %1 obchodné oddelenie.",
       "warnProcessRightsChange": "Nemáte povolenie na úpravu súboru.",
+      "textNoMatches": "No Matches",
       "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
       "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
@@ -358,7 +359,6 @@
       "textNextSlide": "Nasledujúca snímka",
       "textNone": "žiadne",
       "textNoStyles": "Žiadne štýly pre tento typ grafu.",
-      "textNoTextFound": "Text nebol nájdený",
       "textNotUrl": "Toto pole by malo byť vo formáte \"http://www.example.com\"",
       "textNumbers": "Čísla",
       "textOk": "OK",
@@ -419,6 +419,7 @@
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textInsertImage": "Insert Image",
+      "textNoMatches": "No Matches",
       "textRecommended": "Recommended",
       "textRequired": "Required"
     },
@@ -458,7 +459,6 @@
       "textLoading": "Načítava sa.....",
       "textLocation": "Umiestnenie",
       "textMacrosSettings": "Nastavenia makier",
-      "textNoTextFound": "Text nebol nájdený",
       "textOwner": "Vlastník",
       "textPoint": "Bod",
       "textPoweredBy": "Poháňaný ",
@@ -503,6 +503,7 @@
       "txtScheme9": "Zlieváreň",
       "notcriticalErrorTitle": "Warning",
       "textFeedback": "Feedback & Support",
+      "textNoMatches": "No Matches",
       "textOk": "Ok",
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRTL": "RTL"

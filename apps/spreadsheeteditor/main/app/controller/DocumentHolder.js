@@ -2018,7 +2018,7 @@ define([
                                     me.documentHolder.cmpEl.append(eyedropperTip.parentEl);
                                 }
 
-                                var title = '<div>RGB(' + r + ',' + g + ',' + b + ')</div>' +
+                                var title = '<div>RGB (' + r + ',' + g + ',' + b + ')</div>' +
                                     '<div>' + name + '</div>';
                                 if (!eyedropperTip.ref) {
                                     eyedropperTip.ref = new Common.UI.Tooltip({
