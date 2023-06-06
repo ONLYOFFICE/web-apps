@@ -342,7 +342,7 @@ define([
                 '<tr>',
                     '<td colspan="2"><div id="fms-chb-use-alt-key"></div></td>',
                 '</tr>',
-                '<tr>',
+                '<tr class="ui-rtl">',
                     '<td colspan="2"><div id="fms-chb-rtl-ui"></div></td>',
                 '</tr>',
                 '<tr class="quick-print">',
@@ -668,6 +668,7 @@ define([
             $('tr.coauth.changes-show', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring ? 'show' : 'hide']();
             $('tr.live-viewer', this.el)[mode.canLiveView && !mode.isOffline && mode.canChangeCoAuthoring ? 'show' : 'hide']();
             $('tr.comments', this.el)[mode.canCoAuthoring ? 'show' : 'hide']();
+            $('tr.ui-rtl', this.el)[mode.uiRtl ? 'show' : 'hide']();
             /** coauthoring end **/
 
             $('tr.quick-print', this.el)[mode.canQuickPrint && !(mode.customization && mode.customization.compactHeader && mode.isEdit) ? 'show' : 'hide']();
@@ -776,9 +777,6 @@ define([
 
             if (this.menu) {
                 this.menu.fireEvent('settings:apply', [this.menu]);
-
-                if (this._oldUnits !== this.cmbUnit.getValue())
-                    Common.NotificationCenter.trigger('settings:unitschanged', this);
             }
 
             if (isRtlChanged) {
