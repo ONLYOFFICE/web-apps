@@ -1954,6 +1954,8 @@
   "DE.Views.DocumentHolder.unicodeText": "Unicode",
   "DE.Views.DocumentHolder.updateStyleText": "Update %1 style",
   "DE.Views.DocumentHolder.vertAlignText": "Vertical alignment",
+  "DE.Views.DocumentHolder.txtInsImage": "Insert image from File",
+  "DE.Views.DocumentHolder.txtInsImageUrl": "Insert image from URL",
   "DE.Views.DropcapSettingsAdvanced.strBorders": "Borders & Fill",
   "DE.Views.DropcapSettingsAdvanced.strDropcap": "Drop cap",
   "DE.Views.DropcapSettingsAdvanced.strMargins": "Margins",

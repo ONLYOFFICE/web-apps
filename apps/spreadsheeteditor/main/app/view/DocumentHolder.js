@@ -1814,7 +1814,9 @@ define([
         txtTop10: 'Top 10',
         txtClearPivotField: 'Clear filter from {0}',
         txtSortOption: 'More sort options',
-        txtShowDetails: 'Show details'
+        txtShowDetails: 'Show details',
+        txtInsImage: 'Insert image from File',
+        txtInsImageUrl: 'Insert image from URL'
 
     }, SSE.Views.DocumentHolder || {}));
 });
