@@ -55,6 +55,7 @@ define([
 
 
         var createExternalEditor = function() {
+            Common.UI.HintManager.setInternalEditorLoading(true);
             !!customization && (customization.uiTheme = Common.localStorage.getItem("ui-theme-id", "theme-light"));
             externalEditor = new DocsAPI.DocEditor('id-ole-editor-placeholder', {
                 width       : '100%',
@@ -131,6 +132,7 @@ define([
                                 externalEditor.detachMouseEvents();
                                 this.isExternalEditorVisible = false;
                             }
+                            Common.UI.HintManager.setInternalEditorLoading(false);
                         }, this)
                     }
                 });

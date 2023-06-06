@@ -183,6 +183,8 @@ SSE.ApplicationController = new(function(){
 
         var tpl = '<li id="worksheet{index}">{title}</li>';
         for (var i = 0; i < maxPages; i++) {
+            if (api.asc_isWorksheetHidden(i)) continue;
+
             var item = tpl.replace(/\{index}/, i).replace(/\{title}/,api.asc_getWorksheetName(i).replace(/\s/g,'&nbsp;'));
             $(item).appendTo($box).on('click', handleWorksheet);
         }

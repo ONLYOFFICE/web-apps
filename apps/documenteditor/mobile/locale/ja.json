@@ -554,7 +554,6 @@
     "textHasMacros": "ファイルには自動マクロが含まれています。<br>マクロを実行しますか？",
     "textNo": "いいえ",
     "textNoLicenseTitle": "ライセンス制限に達しました",
-    "textNoTextFound": "テキストが見つかりませんでした",
     "textOk": "OK",
     "textPaidFeature": "有料機能",
     "textRemember": "選択を覚える",
@@ -576,7 +575,9 @@
     "warnLicenseUsersExceeded": "％1エディターのユーザー制限に達しました。 詳細についてはアドミニストレータを連絡してください。",
     "warnNoLicense": "％１エディター　時接続数の制限に達しました。この文書が見るだけのために開かれる。個人的なアップグレード条件については、％1営業チームを連絡してください。",
     "warnNoLicenseUsers": "％1エディターのユーザー制限に達しました。 個人的なアップグレード条件については、％1営業チームを連絡してください。",
-    "warnProcessRightsChange": "ファイルを編集する権限がありません！"
+    "warnProcessRightsChange": "ファイルを編集する権限がありません！",
+    "textNoMatches": "No Matches",
+    "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
   },
   "Settings": {
     "advDRMOptions": "保護されたファイル",
@@ -650,7 +651,6 @@
     "textNo": "いいえ",
     "textNoChanges": "変更不可 (閲覧のみ)",
     "textNoCharacters": "印刷されない文字",
-    "textNoTextFound": "テキストが見つかりませんでした",
     "textOk": "OK",
     "textOpenFile": "ファイルを開くためにパスワードを入力してください",
     "textOrientation": "向き",
@@ -724,7 +724,8 @@
     "txtScheme6": "コンコース",
     "txtScheme7": "株主資本",
     "txtScheme8": "フロー",
-    "txtScheme9": "ファウンドリ"
+    "txtScheme9": "ファウンドリ",
+    "textNoMatches": "No Matches"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "保存されていない変更があります。自動保存を待つように「このページから移動しない」をクリックしてください。保存されていない変更を破棄ように「このページから移動する」をクリックしてください。",

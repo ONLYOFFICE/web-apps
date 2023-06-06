@@ -462,6 +462,20 @@ module.exports = function (grunt, rootpathprefix) {
                     },
                 }
             },
+            peiconshuge: {
+                src: [`${_prefix}apps/common/main/resources/img/toolbar/2.5x/huge/*.svg`,
+                        `${_prefix}apps/presentationeditor/main/resources/img/toolbar/2.5x/huge/*.svg`],
+                dest: `${_prefix}apps/presentationeditor/main/resources/img/`,
+                options: {
+                    mode: {
+                        symbol: {
+                            inline: true,
+                            dest: './',
+                            sprite: `iconshuge@2.5x.svg`,
+                        },
+                    },
+                }
+            },
             sseiconssmall: {
                 src: [`${_prefix}apps/common/main/resources/img/toolbar/2.5x/*.svg`,
                         `${_prefix}apps/spreadsheeteditor/main/resources/img/toolbar/2.5x/*.svg`],
@@ -486,6 +500,20 @@ module.exports = function (grunt, rootpathprefix) {
                             inline: true,
                             dest: './',
                             sprite: `iconsbig@2.5x.svg`,
+                        },
+                    },
+                }
+            },
+            sseiconshuge: {
+                src: [`${_prefix}apps/common/main/resources/img/toolbar/2.5x/huge/*.svg`,
+                        `${_prefix}apps/spreadsheeteditor/main/resources/img/toolbar/2.5x/huge/*.svg`],
+                dest: `${_prefix}apps/spreadsheeteditor/main/resources/img/`,
+                options: {
+                    mode: {
+                        symbol: {
+                            inline: true,
+                            dest: './',
+                            sprite: `iconshuge@2.5x.svg`,
                         },
                     },
                 }

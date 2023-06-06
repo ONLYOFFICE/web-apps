@@ -550,7 +550,6 @@
     "textHasMacros": "O ficheiro contém macros automáticas.<br>Deseja executar as macros?",
     "textNo": "Não",
     "textNoLicenseTitle": "Limite de licença atingido",
-    "textNoTextFound": "Texto não encontrado",
     "textOk": "Aceitar",
     "textPaidFeature": "Funcionalidade paga",
     "textRemember": "Memorizar a minha escolha",
@@ -576,7 +575,9 @@
     "textDialogProtectedEditComments": "You may only insert comments to this document",
     "textDialogProtectedFillForms": "You may only fill in forms in this document",
     "textDialogProtectedOnlyView": "You may only view this document",
-    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics."
+    "textNoMatches": "No Matches",
+    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
+    "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
   },
   "Settings": {
     "advDRMOptions": "Ficheiro protegido",
@@ -650,7 +651,6 @@
     "textNo": "Não",
     "textNoChanges": "Sem alterações (apenas leitura)",
     "textNoCharacters": "Caracteres não imprimíveis",
-    "textNoTextFound": "Texto não encontrado",
     "textOk": "OK",
     "textOpenFile": "Introduza a palavra-passe para abrir o ficheiro",
     "textOrientation": "Orientação",
@@ -722,6 +722,7 @@
     "txtScheme7": "Equidade",
     "txtScheme8": "Fluxo",
     "txtScheme9": "Fundição",
+    "textNoMatches": "No Matches",
     "textTypeEditing": "Type Of Editing",
     "textUnprotect": "Unprotect",
     "titleDialogUnprotect": "Unprotect Document"

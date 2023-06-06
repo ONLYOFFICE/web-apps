@@ -83,6 +83,7 @@ define([
                 no_paragraph: undefined,
                 no_text: undefined,
                 no_object: undefined,
+                no_drawing_objects: undefined,
                 clrtext: undefined,
                 linespace: undefined,
                 pralign: undefined,
@@ -788,6 +789,7 @@ define([
                 no_paragraph = true,
                 no_text = true,
                 no_object = true,
+                no_drawing_objects = this.api.asc_getSelectedDrawingObjectsCount()<1,
                 in_equation = false,
                 in_chart = false,
                 layout_index = -1,
@@ -863,14 +865,23 @@ define([
                 this.toolbar.lockToolbar(Common.enumLock.noTextSelected, no_text, {array: me.toolbar.paragraphControls});
             }
 
+            if (this._state.no_object !== no_object ) {
+                if (this._state.activated) this._state.no_object = no_object;
+                this.toolbar.lockToolbar(Common.enumLock.noObjectSelected, no_object, {array: [me.toolbar.btnVerticalAlign ]});
+            }
+
+            if (this._state.no_drawing_objects !== no_drawing_objects ) {
+                if (this._state.activated) this._state.no_drawing_objects = no_drawing_objects;
+                this.toolbar.lockToolbar(Common.enumLock.noDrawingObjects, no_drawing_objects, {array: [me.toolbar.btnShapeAlign, me.toolbar.btnShapeArrange]});
+            }
+
             if (shape_locked!==undefined && this._state.shapecontrolsdisable !== shape_locked) {
                 if (this._state.activated) this._state.shapecontrolsdisable = shape_locked;
                 this.toolbar.lockToolbar(Common.enumLock.shapeLock, shape_locked, {array: me.toolbar.shapeControls.concat(me.toolbar.paragraphControls)});
             }
 
-            if (this._state.no_object !== no_object ) {
-                if (this._state.activated) this._state.no_object = no_object;
-                this.toolbar.lockToolbar(Common.enumLock.noObjectSelected, no_object, {array: [me.toolbar.btnShapeAlign, me.toolbar.btnShapeArrange, me.toolbar.btnVerticalAlign ]});
+            if (shape_locked===undefined && !this._state.no_drawing_objects) { // several tables selected
+                this.toolbar.lockToolbar(Common.enumLock.shapeLock, false, {array: me.toolbar.shapeControls});
             }
 
             if (slide_layout_lock !== undefined && this._state.slidelayoutdisable !== slide_layout_lock ) {

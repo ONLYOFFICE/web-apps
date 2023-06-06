@@ -580,7 +580,10 @@
     "textDialogProtectedOnlyView": "You may only view this document",
     "textDialogProtectedFillForms": "You may only fill in forms in this document",
     "textDialogProtectedChangesTracked": "You may edit this document, but all changes will be tracked",
-    "textDialogProtectedEditComments": "You may only insert comments to this document"
+    "textDialogProtectedEditComments": "You may only insert comments to this document",
+    "del_textNoTextFound": "Text not found",
+    "textNoMatches": "No Matches",
+    "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
   },
   "Settings": {
     "advDRMOptions": "Protected File",
@@ -728,7 +731,9 @@
     "textPasswordNotMatched": "Passwords DonвЂ™t Match",
     "textEncryptFile": "Encrypt File",
     "textRequirePassword": "Require Password",
-    "textChangePassword": "Change Password"
+    "textChangePassword": "Change Password",
+    "del_textNoTextFound": "Text not found",
+    "textNoMatches": "No Matches"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",

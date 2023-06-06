@@ -112,7 +112,6 @@
       "textHasMacros": "Fitxategiak makro automatikoak dauzka.<br>Makroak exekutatu nahi dituzu?",
       "textNo": "Ez",
       "textNoLicenseTitle": "Lizentzien mugara iritsi zara",
-      "textNoTextFound": "Ez da testua aurkitu",
       "textOpenFile": "Idatzi pasahitza fitxategia irekitzeko",
       "textPaidFeature": "Ordainpeko ezaugarria",
       "textRemember": "Gogoratu nire aukera",
@@ -134,7 +133,9 @@
       "warnLicenseUsersExceeded": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan zure administratzailearekin informazio gehiagorako.",
       "warnNoLicense": "Aldibereko %1 editoreren konexio-mugara iritsi zara. Dokumentu hau ikusteko bakarrik irekiko da. Jarri harremanetan %1 salmenta taldearekin eguneraketa pertsonalaren baldintzak jakiteko.",
       "warnNoLicenseUsers": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan %1 salmenta taldearekin mailaz igotzeko baldintzak ezagutzeko.",
-      "warnProcessRightsChange": "Ez duzu baimenik fitxategia editatzeko."
+      "warnProcessRightsChange": "Ez duzu baimenik fitxategia editatzeko.",
+      "textNoMatches": "No Matches",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
     }
   },
   "Error": {
@@ -364,7 +365,6 @@
       "textNextSlide": "Hurrengo diapositiba",
       "textNone": "Bat ere ez",
       "textNoStyles": "Ez dago estilorik diagrama mota honentzat.",
-      "textNoTextFound": "Ez da testua aurkitu",
       "textNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa",
       "textNumbers": "Zenbakiak",
       "textOk": "Ados",
@@ -420,7 +420,8 @@
       "textZoom": "Zooma",
       "textZoomIn": "Handiagotu",
       "textZoomOut": "Txikiagotu",
-      "textZoomRotate": "Zoom eta biratu"
+      "textZoomRotate": "Zoom eta biratu",
+      "textNoMatches": "No Matches"
     },
     "Settings": {
       "mniSlideStandard": "Estandarra (4:3)",
@@ -460,7 +461,6 @@
       "textLoading": "Kargatzen...",
       "textLocation": "Kokalekua",
       "textMacrosSettings": "Makroen ezarpenak",
-      "textNoTextFound": "Ez da testua aurkitu",
       "textOk": "Ados",
       "textOwner": "Jabea",
       "textPoint": "Puntua",
@@ -505,7 +505,8 @@
       "txtScheme6": "Zabaldegia",
       "txtScheme7": "Berdintza",
       "txtScheme8": "Fluxua",
-      "txtScheme9": "Sortzailea"
+      "txtScheme9": "Sortzailea",
+      "textNoMatches": "No Matches"
     }
   }
 }

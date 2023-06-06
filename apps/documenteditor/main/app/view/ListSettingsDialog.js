@@ -696,6 +696,7 @@ define([
                 parentEl: $window.findById('#id-dlg-btn-more'),
                 cls: 'btn-toolbar bg-white',
                 iconCls: this.extended ? 'caret-double-left' : 'caret-double-right',
+                scaling: false,
                 hint: this.extended ? this.textHide : this.textMore
             });
             this.btnMore.on('click', _.bind(this.onMoreClick, this));
@@ -1246,7 +1247,7 @@ define([
         },
 
         loadRecent: function(){
-            var sRecents = Common.localStorage.getItem('de-recent-bullets');
+            var sRecents = Common.localStorage.getItem('de-recent-list-bullets');
             if(sRecents !== ''){
                 sRecents = JSON.parse(sRecents);
             }
@@ -1271,7 +1272,7 @@ define([
 
         saveRecent: function(){
             var sJSON = JSON.stringify(this.recentBullets);
-            Common.localStorage.setItem('de-recent-bullets', sJSON);
+            Common.localStorage.setItem('de-recent-list-bullets', sJSON);
         },
 
         saveRecentNum: function(){

@@ -112,7 +112,6 @@
       "textHasMacros": "El archivo contiene macros automáticas.<br>¿Quiere ejecutar macros?",
       "textNo": "No",
       "textNoLicenseTitle": "Se ha alcanzado el límite de licencia",
-      "textNoTextFound": "Texto no encontrado",
       "textOpenFile": "Introduzca la contraseña para abrir el archivo",
       "textPaidFeature": "Característica de pago",
       "textRemember": "Recordar mi elección",
@@ -133,7 +132,9 @@
       "warnNoLicense": "Ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
       "warnNoLicenseUsers": "Ha alcanzado el límite de usuarios para los editores de %1. <br>Contacte con el equipo de ventas de %1 para conocer los términos de actualización personal.",
       "warnProcessRightsChange": "No tiene permiso para editar el archivo.",
+      "textNoMatches": "No Matches",
       "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
@@ -364,7 +365,6 @@
       "textNextSlide": "Diapositiva siguiente",
       "textNone": "Ninguno",
       "textNoStyles": "No hay estilos para este tipo de gráfico.",
-      "textNoTextFound": "Texto no encontrado",
       "textNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
       "textNumbers": "Números",
       "textOk": "Aceptar",
@@ -420,7 +420,8 @@
       "textZoom": "Zoom",
       "textZoomIn": "Acercar",
       "textZoomOut": "Alejar",
-      "textZoomRotate": "Zoom y giro"
+      "textZoomRotate": "Zoom y giro",
+      "textNoMatches": "No Matches"
     },
     "Settings": {
       "mniSlideStandard": "Estándar (4:3)",
@@ -460,7 +461,6 @@
       "textLoading": "Cargando...",
       "textLocation": "Ubicación",
       "textMacrosSettings": "Ajustes de macros",
-      "textNoTextFound": "Texto no encontrado",
       "textOk": "Aceptar",
       "textOwner": "Propietario",
       "textPoint": "Punto",
@@ -505,7 +505,8 @@
       "txtScheme6": "Concurrencia",
       "txtScheme7": "Equidad ",
       "txtScheme8": "Flujo",
-      "txtScheme9": "Fundición"
+      "txtScheme9": "Fundición",
+      "textNoMatches": "No Matches"
     }
   }
 }
