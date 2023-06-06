@@ -106,6 +106,8 @@ define([
             me.mode = {};
             me._isDisabled = false;
             me.lastMathTrackBounds = [];
+            me.mouseMoveData = null;
+            me.isTooltipHiding = false;
 
             me.screenTip = {
                 toolTip: new Common.UI.Tooltip({
@@ -857,9 +859,15 @@ define([
         },
 
         onMouseMoveEnd: function() {
+            var me = this;
             if (this.screenTip.isHidden && this.screenTip.isVisible) {
-                this.screenTip.isVisible = false;
-                this.screenTip.toolTip.hide();
+                me.screenTip.isVisible = false;
+                me.isTooltipHiding = true;
+                me.screenTip.toolTip.hide(function(){
+                    me.isTooltipHiding = false;
+                    if (me.mouseMoveData) me.onMouseMove(me.mouseMoveData);
+                    me.mouseMoveData = null;
+                });
             }
             if (this.eyedropperTip.isHidden) {
                 this.hideEyedropper();
@@ -881,48 +889,78 @@ define([
             }
 
             if (moveData) {
-                var showPoint, ToolTip;
+                var showPoint, ToolTip,
+                    type = moveData.get_Type();
 
-                if (moveData.get_Type()==1) { // 1 - hyperlink
-                    var hyperProps = moveData.get_Hyperlink();
-                    var recalc = false;
-                    if (hyperProps) {
-                        screenTip.isHidden = false;
-
-                        ToolTip = (_.isEmpty(hyperProps.get_ToolTip())) ? hyperProps.get_Value() : hyperProps.get_ToolTip();
-                        ToolTip = Common.Utils.String.htmlEncode(ToolTip);
-                        if (ToolTip.length>256)
-                            ToolTip = ToolTip.substr(0, 256) + '...';
-
-                        if (screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 ) {
-                            screenTip.toolTip.setTitle(ToolTip + (me.isPreviewVisible ? '' : '<br><b>' + Common.Utils.String.platformKey('Ctrl', me.documentHolder.txtPressLink) + '</b>'));
-                            screenTip.tipLength = ToolTip.length;
-                            screenTip.strTip = ToolTip;
-                            recalc = true;
-                        }
-
-                        showPoint = [moveData.get_X(), moveData.get_Y()];
-                        showPoint[1] += ((me.isPreviewVisible ? 0 : me._XY[1])-15);
-                        showPoint[0] += ((me.isPreviewVisible ? 0 : me._XY[0])+5);
-
-                        if (!screenTip.isVisible || recalc) {
-                            screenTip.isVisible = true;
-                            screenTip.toolTip.show([-10000, -10000]);
-                        }
-
-                        if ( recalc ) {
-                            screenTip.tipHeight = screenTip.toolTip.getBSTip().$tip.height();
-                            screenTip.tipWidth = screenTip.toolTip.getBSTip().$tip.width();
-                        }
-                        showPoint[1] -= screenTip.tipHeight;
-                        if (showPoint[1]<0)
-                            showPoint[1] = 0;
-                        if (showPoint[0] + screenTip.tipWidth > me._BodyWidth )
-                            showPoint[0] = me._BodyWidth - screenTip.tipWidth;
-                        screenTip.toolTip.getBSTip().$tip.css({top: showPoint[1] + 'px', left: showPoint[0] + 'px'});
+                if (type===Asc.c_oAscMouseMoveDataTypes.Hyperlink || type===Asc.c_oAscMouseMoveDataTypes.Placeholder) {
+                    if (me.isTooltipHiding) {
+                        me.mouseMoveData = moveData;
+                        return;
                     }
+                    if (type===Asc.c_oAscMouseMoveDataTypes.Hyperlink) {
+                        var hyperProps = moveData.get_Hyperlink();
+                        if (hyperProps) {
+                            ToolTip = (_.isEmpty(hyperProps.get_ToolTip())) ? hyperProps.get_Value() : hyperProps.get_ToolTip();
+                            ToolTip = Common.Utils.String.htmlEncode(ToolTip);
+                            if (ToolTip.length>256)
+                                ToolTip = ToolTip.substr(0, 256) + '...';
+                        }
+                    } else if (type===Asc.c_oAscMouseMoveDataTypes.Placeholder) {
+                        switch (moveData.get_PlaceholderType()) {
+                            case AscCommon.PlaceholderButtonType.Image:
+                                ToolTip = me.documentHolder.txtInsImage;
+                                break;
+                            case AscCommon.PlaceholderButtonType.ImageUrl:
+                                ToolTip = me.documentHolder.txtInsImageUrl;
+                                break;
+                            case AscCommon.PlaceholderButtonType.Chart:
+                                ToolTip = me.documentHolder.txtInsChart;
+                                break;
+                            case AscCommon.PlaceholderButtonType.Table:
+                                ToolTip = me.documentHolder.txtInsTable;
+                                break;
+                            case AscCommon.PlaceholderButtonType.Video:
+                                ToolTip = me.documentHolder.txtInsVideo;
+                                break;
+                            case AscCommon.PlaceholderButtonType.Audio:
+                                ToolTip = me.documentHolder.txtInsAudio;
+                                break;
+                            case AscCommon.PlaceholderButtonType.SmartArt:
+                                ToolTip = me.documentHolder.txtInsSmartArt;
+                                break;
+                        }
+                    }
+                    var recalc = false;
+                    screenTip.isHidden = false;
+                    if (screenTip.tipType !== type || screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 ) {
+                        screenTip.toolTip.setTitle((type===Asc.c_oAscMouseMoveDataTypes.Hyperlink) ? (ToolTip + (me.isPreviewVisible ? '' : '<br><b>' + Common.Utils.String.platformKey('Ctrl', me.documentHolder.txtPressLink) + '</b>')) : ToolTip);
+                        screenTip.tipLength = ToolTip.length;
+                        screenTip.strTip = ToolTip;
+                        screenTip.tipType = type;
+                        recalc = true;
+                    }
+
+                    showPoint = [moveData.get_X(), moveData.get_Y()];
+                    showPoint[1] += ((me.isPreviewVisible ? 0 : me._XY[1])-15);
+                    showPoint[0] += ((me.isPreviewVisible ? 0 : me._XY[0])+5);
+
+                    if (!screenTip.isVisible || recalc) {
+                        screenTip.isVisible = true;
+                        screenTip.toolTip.show([-10000, -10000]);
+                    }
+
+                    if ( recalc ) {
+                        screenTip.tipHeight = screenTip.toolTip.getBSTip().$tip.height();
+                        screenTip.tipWidth = screenTip.toolTip.getBSTip().$tip.width();
+                    }
+                    showPoint[1] -= screenTip.tipHeight;
+                    if (showPoint[1]<0)
+                        showPoint[1] = 0;
+                    if (showPoint[0] + screenTip.tipWidth > me._BodyWidth )
+                        showPoint[0] = me._BodyWidth - screenTip.tipWidth;
+                    screenTip.toolTip.getBSTip().$tip.css({top: showPoint[1] + 'px', left: showPoint[0] + 'px'});
                 }
-                else if (moveData.get_Type()==Asc.c_oAscMouseMoveDataTypes.Eyedropper) {
+                else if (type===Asc.c_oAscMouseMoveDataTypes.Eyedropper) {
                     if (me.eyedropperTip.isTipVisible) {
                         me.eyedropperTip.isTipVisible = false;
                         me.eyedropperTip.toolTip.hide();
@@ -974,7 +1012,7 @@ define([
                     me.eyedropperTip.isHidden = false;
                 }
                 /** coauthoring begin **/
-                else if (moveData.get_Type()==2 && me.mode.isEdit && me.isUserVisible(moveData.get_UserId())) { // 2 - locked object
+                else if (type===Asc.c_oAscMouseMoveDataTypes.LockedObject && me.mode.isEdit && me.isUserVisible(moveData.get_UserId())) { // 2 - locked object
                     var src;
                     if (me.usertipcount >= me.usertips.length) {
                         src = $(document.createElement("div"));
