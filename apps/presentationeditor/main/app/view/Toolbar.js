@@ -79,7 +79,8 @@ define([
         themeLock:      'theme-lock',
         menuFileOpen:   'menu-file-open',
         noParagraphSelected:  'no-paragraph',
-        noObjectSelected:  'no-object',
+        noObjectSelected:  'no-object', // no objects in stack from asc_onFocusObject event
+        noDrawingObjects:  'no-drawing-object', // asc_getSelectedDrawingObjectsCount<1 (2 selected tables: noObjectSelected=true, noDrawingObjects = false)
         disableOnStart: 'on-start',
         cantPrint:      'cant-print',
         noTextSelected:  'no-text',
@@ -942,7 +943,7 @@ define([
                         id: 'id-toolbar-btn-shape-align',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-shape-align-left',
-                        lock: [_set.slideDeleted, _set.shapeLock, _set.lostConnect, _set.noSlides, _set.noObjectSelected, _set.disableOnStart],
+                        lock: [_set.slideDeleted, _set.shapeLock, _set.lostConnect, _set.noSlides, _set.noDrawingObjects, _set.disableOnStart],
                         menu: new Common.UI.Menu({
                             cls: 'shifted-right',
                             items: [
@@ -995,7 +996,7 @@ define([
                         id: 'id-toolbar-btn-shape-arrange',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-arrange-front',
-                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.noObjectSelected, _set.disableOnStart],
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.noDrawingObjects, _set.disableOnStart],
                         menu: new Common.UI.Menu({
                             items: [
                                 me.mnuArrangeFront = new Common.UI.MenuItem({
