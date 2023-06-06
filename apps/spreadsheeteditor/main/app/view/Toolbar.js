@@ -1338,7 +1338,7 @@ define([
                         items: [
                             {template: _.template('<div id="id-toolbar-menu-symbols"></div>')},
                             {caption: '--'},
-                            this.mnuHighlightTransparent = new Common.UI.MenuItem({
+                            new Common.UI.MenuItem({
                                 caption: this.textMoreSymbols
                             })
                         ]
@@ -2796,6 +2796,9 @@ define([
                 itemTemplate: _.template('<div id="s<%= symbol %>" class="item-symbol">&#<%= code %></a>')
             });
             this.btnInsertSymbol.menu.setInnerMenu([{menu: this.mnuInsertSymbolsPicker, index: 0}]);
+            this.btnInsertSymbol.menu.on('show:before',  _.bind(function() {
+                this.mnuInsertSymbolsPicker.deselectAll();
+            }, this));
 
             if (this.btnCondFormat && this.btnCondFormat.rendered) {
                 this.btnCondFormat.setMenu( new Common.UI.Menu({

@@ -830,7 +830,7 @@ define([
                             items: [
                                 {template: _.template('<div id="id-toolbar-menu-symbols"></div>')},
                                 {caption: '--'},
-                                this.mnuHighlightTransparent = new Common.UI.MenuItem({
+                                new Common.UI.MenuItem({
                                     caption: this.textMoreSymbols
                                 })
                             ]
@@ -2383,8 +2383,8 @@ define([
                         { symbol: '00B1', code: 177},
                         { symbol: '00F7', code: 247},
                         { symbol: '221A', code: 8730},
-                        { symbol: '2264', code: 8804},       //{ symbol: '2A7D', htmlCode: 10877},
-                        { symbol: '2265', code: 8805},        //{ symbol: '2A7E', code: 10878},
+                        { symbol: '2264', code: 8804},
+                        { symbol: '2265', code: 8805},
                         { symbol: '2122', code: 8482},
                         { symbol: '221E', code: 8734},
                         { symbol: '007E', code: 126},
@@ -2392,7 +2392,7 @@ define([
                         { symbol: '00A7', code: 167},
                         { symbol: '03B1', code: 945},
                         { symbol: '03B2', code: 946},
-                        { symbol: '03C0', code: 960},             //{ symbol: '03C0', code: 937},
+                        { symbol: '03C0', code: 960},
                         { symbol: '0394', code: 916},
                         { symbol: '263A', code: 9786},
                         { symbol: '2665', code: 9829}
@@ -2400,6 +2400,9 @@ define([
                     itemTemplate: _.template('<div id="s<%= symbol %>" class="item-symbol">&#<%= code %></a>')
                 });
                 this.btnInsertSymbol.menu.setInnerMenu([{menu: this.mnuInsertSymbolsPicker, index: 0}]);
+                this.btnInsertSymbol.menu.on('show:before',  _.bind(function() {
+                    this.mnuInsertSymbolsPicker.deselectAll();
+                }, this));
 
                 var _conf = this.mnuMarkersPicker.conf;
                 this._markersArr = [
