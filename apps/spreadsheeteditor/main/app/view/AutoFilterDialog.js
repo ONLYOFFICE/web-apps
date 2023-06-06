@@ -1878,6 +1878,58 @@ define([
             }
         },
 
+        updateDateLevelCheck: function (check) {
+            var selectAllState = check || this.cells.at(this.cells.length - 1).get('check'),
+                i, cell,
+                state = {},
+                lastLevel = -1,
+                curLevelCells = [];
+            this.dateTimeGroup = [];
+            for (i = this.cells.length - 1; i >= 0; i--) {
+                cell = this.cells.at(i);
+                if (cell.get('isDate')) {
+                    if (lastLevel === 0) {
+                        var lastState = state[lastLevel];
+                        state = {0: lastState};
+                    }
+                    var curLevel = cell.get('level'),
+                        curCheck = cell.get('check'),
+                        throughIndex = cell.get('throughIndex');
+                    if (curLevel > lastLevel) { // new branch, new date item
+                        state[curLevel] = curCheck;
+                        curLevelCells.push(throughIndex);
+                    } else if (curLevel === lastLevel) { // another item at the same level
+                        curLevelCells.push(throughIndex);
+                        if (curCheck !== state[curLevel]) {
+                            state[curLevel] = 'indeterminate';
+                        }
+                    } else if (curLevel < lastLevel) { // the same date item
+                        if (curLevelCells.length > 0 && (state[lastLevel] === 'indeterminate' || curLevel === 0)) {
+                            var groupLevel = state[lastLevel] === 'indeterminate' ? lastLevel : 0;
+                            for (var l = 0; l < curLevelCells.length; l++) {
+                                this.dateTimeGroup[curLevelCells[l]] = groupLevel;
+                            }
+                            curLevelCells.length = 0;
+                        }
+                        cell.set('check', state[lastLevel]);
+                        if (state[curLevel] !== undefined && state[lastLevel] !== state[curLevel]) {
+                            state[curLevel] = 'indeterminate';
+                        } else if (state[curLevel] === undefined) {
+                            state[curLevel] = state[lastLevel];
+                        }
+                    }
+                    lastLevel = curLevel;
+                } else if ('0' === cell.get('groupid') && selectAllState !== 'indeterminate') {
+                    selectAllState = state[0];
+                } else if ('1' === cell.get('groupid') && cell.get('check') !== selectAllState) {
+                    selectAllState = 'indeterminate';
+                }
+            }
+            this.checkCellTrigerBlock = true;
+            this.cells.at(0).set('check', selectAllState);
+            this.checkCellTrigerBlock = undefined;
+        },
+
         updateCellCheck: function (listView, record) {
             if (record && listView) {
                 // listView.isSuspendEvents = true;
@@ -1901,47 +1953,19 @@ define([
 
                     if (record.get('isDate')) {
                         var level = record.get('level'),
-                            startInnerItems = record.get('fullDate').slice(0, level + 1),
-                            state = {},
-                            lastLevel = -1;
+                            startInnerItems = record.get('fullDate').slice(0, level + 1);
                         for (i = 0; i < this.cells.length; i++) {
                             cell = this.cells.at(i);
                             if ('1' == cell.get('groupid')) {
                                 if (cell.get('isDate')) {
                                     if (cell.get('level') > level && startInnerItems.toString() === cell.get('fullDate').slice(0, level + 1).toString()) { // change checking of inner items
-                                        cell.get('check') !== check && cell.set('check', check);
+                                        cell.set('check', check);
+                                        idxs[parseInt(cell.get('throughIndex'))] = check;
                                     }
                                 }
                             }
                         }
-                        for (i = this.cells.length - 1; i >= 0; i--) {
-                            cell = this.cells.at(i);
-                            if (cell.get('isDate')) {
-                                if (lastLevel === 0) {
-                                    var lastState = state[lastLevel];
-                                    state = {0: lastState};
-                                }
-                                var curLevel = cell.get('level'),
-                                    curCheck = cell.get('check');
-                                if (curLevel > lastLevel) {
-                                    state[curLevel] = curCheck;
-                                } else if (curLevel === lastLevel && curCheck !== state[curLevel]) {
-                                    state[curLevel] = 'indeterminate';
-                                } else if (curLevel < lastLevel) {
-                                    cell.set('check', state[lastLevel]);
-                                    if (state[curLevel] !== undefined && state[lastLevel] !== state[curLevel]) {
-                                        state[curLevel] = 'indeterminate';
-                                    } else if (state[curLevel] === undefined) {
-                                        state[curLevel] = state[lastLevel];
-                                    }
-                                }
-                                lastLevel = curLevel;
-                            } else if ('0' === cell.get('groupid') && selectAllState !== 'indeterminate') {
-                                selectAllState = state[0];
-                            } else if ('1' === cell.get('groupid') && cell.get('check') !== check) {
-                                selectAllState = 'indeterminate';
-                            }
-                        }
+                        this.updateDateLevelCheck(check);
                     } else {
                         for (i = 0; i < this.cells.length; i++) {
                             cell = this.cells.at(i);
@@ -1950,11 +1974,10 @@ define([
                                 break;
                             }
                         }
+                        this.checkCellTrigerBlock = true;
+                        this.cells.at(0).set('check', selectAllState);
+                        this.checkCellTrigerBlock = undefined;
                     }
-
-                    this.checkCellTrigerBlock = true;
-                    this.cells.at(0).set('check', selectAllState);
-                    this.checkCellTrigerBlock = undefined;
                 }
 
                 this.btnOk.setDisabled(false);
@@ -2175,6 +2198,8 @@ define([
                 selectedCells = 0,
                 arr = [], arrEx = [],
                 idxs = (me.filter) ? me.filteredIndexes : me.throughIndexes,
+                isdate,
+                isTimeFormat = me.configTo.asc_getTimeFormat(),
                 lastDate,
                 monthList = [
                     this.txtJanuary,
@@ -2189,8 +2214,9 @@ define([
                     this.txtOctober,
                     this.txtNovember,
                     this.txtDecember
-                ];
-
+                ],
+                countYears = 0,
+                countMonth = 0;
 
             this.configTo.asc_getValues().forEach(function (item) {
                 value       = item.asc_getText();
@@ -2204,26 +2230,31 @@ define([
                     dateLevel,
                     lastDateLevel;
                 if (isDate) {
+                    isdate = true;
                     var year = item.asc_getYear(),
                         month = item.asc_getMonth(),
                         day = item.asc_getDay(),
                         hour = item.asc_getHour(),
                         minute = item.asc_getMinute(),
                         second = item.asc_getSecond();
-                    if (year !== undefined && hour !== undefined) {
+                    if (isTimeFormat) {
                         curDate = [year, month, day, hour, minute, second];
                         displayDate = [year, month, day,
                             !hour ? '00' : hour,
                             ':' + (!minute ? '00' : minute),
                             ':' + (!second ? '00' : second)
                         ];
-                    } else if (hour === undefined) {
+                    } else {
                         curDate = [year, month, day];
                         displayDate = curDate.slice();
                     }
-                    curDate = [item.asc_getYear(), item.asc_getMonth(), item.asc_getDay(),
-                        item.asc_getHour(), item.asc_getMinute(), item.asc_getSecond()];
                     dateLevel = getDateLevel(lastDate, curDate);
+                    if (dateLevel === 0) { // year
+                        countYears += 1;
+                        countMonth += 1;
+                    } else if (dateLevel === 1) { // month
+                        countMonth += 1;
+                    }
 
                     lastDateLevel = curDate.length - 1;
                 }
@@ -2290,6 +2321,21 @@ define([
                 ++throughIndex;
             });
 
+            if (countYears === 1) { // Date filter
+                arr.forEach(function (item) {
+                    if (item.get('isDate')) {
+                        var level = item.get('level');
+                        if (countMonth > 1) {
+                            item.set('isVisible', level < 2);
+                            item.set('isExpanded', level === 0);
+                        } else {
+                            item.set('isVisible', level < 3);
+                            item.set('isExpanded', level < 2);
+                        }
+                    }
+                });
+            }
+
             if (selectedCells==arr.length) selectAllState = true;
             else if (selectedCells>0) selectAllState = 'indeterminate';
 
@@ -2323,9 +2369,13 @@ define([
             this.filterExcludeCells.reset(arrEx);
 
             if (this.cells.length) {
-                this.checkCellTrigerBlock = true;
-                this.cells.at(0).set('check', selectAllState);
-                this.checkCellTrigerBlock = undefined;
+                if (isdate && selectedCells !== arr.length) {
+                    this.updateDateLevelCheck();
+                } else {
+                    this.checkCellTrigerBlock = true;
+                    this.cells.at(0).set('check', selectAllState);
+                    this.checkCellTrigerBlock = undefined;
+                }
             }
             this.btnOk.setDisabled(this.cells.length<1);
             this.cellsList.scroller.update({minScrollbarLength  : this.cellsList.minScrollbarLength, alwaysVisibleY: true, suppressScrollX: true});
@@ -2364,7 +2414,8 @@ define([
         save: function () {
             if (this.api && this.configTo && this.cells && this.filterExcludeCells) {
                 var arr = this.configTo.asc_getValues(),
-                    isValid = false;
+                    isValid = false,
+                    me = this;
                 if (this.filter && this.filteredIndexes[1]) {
                     if (this.initialFilterType === Asc.c_oAscAutoFilterTypes.CustomFilters) {
                         arr.forEach(function(item, index) {
@@ -2386,6 +2437,31 @@ define([
                     var idxs = (this.filter) ? this.filteredIndexes : this.throughIndexes;
                     arr.forEach(function(item, index) {
                         item.asc_setVisible(idxs[index+2]);
+                        if (item.asc_getIsDateFormat()) {
+                            var group = me.dateTimeGroup[index+2],
+                                value;
+                            switch (group) {
+                                case 0:
+                                    value = Asc.EDateTimeGroup.datetimegroupYear;
+                                    break;
+                                case 1:
+                                    value = Asc.EDateTimeGroup.datetimegroupMonth;
+                                    break;
+                                case 2:
+                                    value = Asc.EDateTimeGroup.datetimegroupDay;
+                                    break;
+                                case 3:
+                                    value = Asc.EDateTimeGroup.datetimegroupHour;
+                                    break;
+                                case 4:
+                                    value = Asc.EDateTimeGroup.datetimegroupMinute;
+                                    break;
+                                case 5:
+                                    value = Asc.EDateTimeGroup.datetimegroupSecond;
+                                    break;
+                            }
+                            item.asc_setDateTimeGrouping(value);
+                        }
                     });
                     isValid = true;
                 }
