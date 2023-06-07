@@ -2759,6 +2759,8 @@ define([
                 this.btnInsertTextArt.menu.on('show:before', onShowBeforeTextArt);
             }
 
+
+            this.symbolsArr = this.loadRecentSymbolsFromStorage();
             this.mnuInsertSymbolsPicker = new Common.UI.DataView({
                 el: $('#id-toolbar-menu-symbols'),
                 parentMenu: this.btnInsertSymbol.menu,
@@ -2766,34 +2768,8 @@ define([
                 restoreHeight: 290,
                 delayRenderTips: true,
                 scrollAlwaysVisible: true,
-                store: new Common.UI.DataViewStore([
-                    { symbol: '2022', code: 8226},
-                    { symbol: '20AC', code: 8364},
-                    { symbol: 'FF04', code: 65284},
-                    { symbol: '00A5', code: 165},
-                    { symbol: '00A9', code: 169},
-                    { symbol: '00AE', code: 174},
-                    { symbol: '00BD', code: 189},
-                    { symbol: '00BC', code: 188},
-                    { symbol: '2260', code: 8800},
-                    { symbol: '00B1', code: 177},
-                    { symbol: '00F7', code: 247},
-                    { symbol: '221A', code: 8730},
-                    { symbol: '2264', code: 8804},
-                    { symbol: '2265', code: 8805},
-                    { symbol: '2122', code: 8482},
-                    { symbol: '221E', code: 8734},
-                    { symbol: '007E', code: 126},
-                    { symbol: '00B0', code: 176},
-                    { symbol: '00A7', code: 167},
-                    { symbol: '03B1', code: 945},
-                    { symbol: '03B2', code: 946},
-                    { symbol: '03C0', code: 960},
-                    { symbol: '0394', code: 916},
-                    { symbol: '263A', code: 9786},
-                    { symbol: '2665', code: 9829}
-                ]),
-                itemTemplate: _.template('<div id="s<%= symbol %>" class="item-symbol">&#<%= code %></a>')
+                store: new Common.UI.DataViewStore(this.symbolsArr),
+                itemTemplate: _.template('<div class="item-symbol" <% if (typeof font !== "undefined" && font !=="") { %> style ="font-family: <%= font %>"<% } %>>&#<%= symbol %></div>')
             });
             this.btnInsertSymbol.menu.setInnerMenu([{menu: this.mnuInsertSymbolsPicker, index: 0}]);
             this.btnInsertSymbol.menu.on('show:before',  _.bind(function() {
@@ -3281,6 +3257,66 @@ define([
                 }]
             }));
 
+        },
+
+        loadRecentSymbolsFromStorage: function(){
+            var recents = Common.localStorage.getItem('sse-fastRecentSymbols');
+            if(!!recents)
+                return JSON.parse(recents);
+            return  [
+                { symbol: 8226,     font: 'Arial', tip: 'Symbol: 8226'},
+                { symbol: 8364,     font: 'Arial', tip: 'Symbol: 8364'},
+                { symbol: 65284,    font: 'Arial', tip: 'Symbol: 65284'},
+                { symbol: 165,      font: 'Arial', tip: 'Symbol: 165'},
+                { symbol: 169,      font: 'Arial', tip: 'Symbol: 169'},
+                { symbol: 174,      font: 'Arial', tip: 'Symbol: 174'},
+                { symbol: 189,      font: 'Arial', tip: 'Symbol: 189'},
+                { symbol: 188,      font: 'Arial', tip: 'Symbol: 188'},
+                { symbol: 8800,     font: 'Arial', tip: 'Symbol: 8800'},
+                { symbol: 177,      font: 'Arial', tip: 'Symbol: 177'},
+                { symbol: 247,      font: 'Arial', tip: 'Symbol: 247'},
+                { symbol: 8730,     font: 'Arial', tip: 'Symbol: 8730'},
+                { symbol: 8804,     font: 'Arial', tip: 'Symbol: 8804'},
+                { symbol: 8805,     font: 'Arial', tip: 'Symbol: 8805'},
+                { symbol: 8482,     font: 'Arial', tip: 'Symbol: 8482'},
+                { symbol: 8734,     font: 'Arial', tip: 'Symbol: 8734'},
+                { symbol: 126,      font: 'Arial', tip: 'Symbol: 126'},
+                { symbol: 176,      font: 'Arial', tip: 'Symbol: 176'},
+                { symbol: 167,      font: 'Arial', tip: 'Symbol: 167'},
+                { symbol: 945,      font: 'Arial', tip: 'Symbol: 945'},
+                { symbol: 946,      font: 'Arial', tip: 'Symbol: 946'},
+                { symbol: 960,      font: 'Arial', tip: 'Symbol: 960'},
+                { symbol: 916,      font: 'Arial', tip: 'Symbol: 916'},
+                { symbol: 9786,     font: 'Arial', tip: 'Symbol: 9786'},
+                { symbol: 9829,     font: 'Arial', tip: 'Symbol: 9829'}
+            ];
+
+        },
+
+        saveSymbol: function(symbol, font) {
+            var maxLength =25;
+            if(this.symbolsArr.length === 0){
+                this.symbolsArr.push({symbol: symbol, font: font, tip: 'Symbol: ' + symbol});
+                this.saveRecentSymbolsToStorage();
+                return;
+            }
+            for(var i = 0; i < this.symbolsArr.length; ++i){
+                if(this.symbolsArr[i].symbol === symbol && this.symbolsArr[i].font === font){
+                    this.symbolsArr.splice(i, 1);
+                    break;
+                }
+            }
+            this.symbolsArr.splice(0, 0, {symbol: symbol, font: font, tip: 'Symbol: ' + symbol});
+            if(this.symbolsArr.length > maxLength){
+                this.symbolsArr.splice(maxLength, this.symbolsArr.length - maxLength);
+            }
+            this.saveRecentSymbolsToStorage();
+        },
+
+        saveRecentSymbolsToStorage: function(){
+            var sJSON = JSON.stringify(this.symbolsArr);
+            Common.localStorage.setItem( 'sse-fastRecentSymbols', sJSON);
+            this.mnuInsertSymbolsPicker.store.reset(this.symbolsArr);
         },
 
         textBold:           'Bold',
