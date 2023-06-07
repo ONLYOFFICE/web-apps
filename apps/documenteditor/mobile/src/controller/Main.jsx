@@ -810,6 +810,7 @@ class MainController extends Component {
         }
 
         storeAppOptions.setProtection(isProtected);
+        storeAppOptions.setTypeProtection(props.type);
         props && this.applyRestrictions(props.type);
         Common.Notifications.trigger('protect:doclock', props);
 
