@@ -435,7 +435,7 @@ const EditTabs = props => {
     }
 
     return (
-        <View style={props.style} stackPages={true} routes={routes}>
+        <View style={props.style} routes={routes}>
             <Page pageContent={false}>
                 <EditLayoutNavbar editors={editors} inPopover={props.inPopover}/>
                 <EditLayoutContent editors={editors} />

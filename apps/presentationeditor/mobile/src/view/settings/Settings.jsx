@@ -167,7 +167,7 @@ const SettingsList = inject("storeAppOptions", "storeToolbarSettings")(observer(
     };
     
     return (
-        <View style={props.style} stackPages={true} routes={routes}>
+        <View style={props.style} routes={routes}>
             <Page>
                 {navbar}
                 <List>

@@ -184,7 +184,7 @@ const AddTabs = props => {
     }
 
     return (
-        <View style={props.style} stackPages={true} routes={routes}>
+        <View style={props.style} routes={routes}>
             <Page pageContent={false}>
                 <AddLayoutNavbar tabs={tabs} inPopover={props.inPopover}/>
                 <AddLayoutContent tabs={tabs} />

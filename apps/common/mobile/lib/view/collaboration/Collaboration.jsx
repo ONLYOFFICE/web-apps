@@ -105,7 +105,7 @@ const PageCollaboration = inject('storeAppOptions', 'users')(observer(props => {
     const isViewer = appOptions.isViewer;
 
     return (
-        <View style={props.style} stackPages={true} routes={routes} url={props.page && `/${props.page}/`}>
+        <View style={props.style} routes={routes} url={props.page && `/${props.page}/`}>
             <Page name="collab__main">
                 <Navbar title={_t.textCollaboration}>
                     {Device.phone &&

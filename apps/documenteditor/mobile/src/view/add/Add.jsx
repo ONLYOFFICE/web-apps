@@ -213,7 +213,7 @@ const AddTabs = inject("storeFocusObjects", "storeTableSettings")(observer(({sto
     // }
 
     return (
-        <View style={style} stackPages={true} routes={routes}>
+        <View style={style} routes={routes}>
             <Page pageContent={false}>
                 <AddLayoutNavbar tabs={tabs} inPopover={inPopover} storeTableSettings={storeTableSettings} />
                 <AddLayoutContent tabs={tabs} />

@@ -175,7 +175,7 @@ const SettingsList = inject("storeAppOptions", "storeReview", "storeDocumentInfo
     }
 
     return (
-        <View style={props.style} stackPages={true} routes={routes}>
+        <View style={props.style} routes={routes}>
             <Page>
                 {navbar}
                 <List>
