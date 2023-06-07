@@ -1881,7 +1881,7 @@ define([
         updateDateLevelCheck: function (check) {
             var selectAllState = check || this.cells.at(this.cells.length - 1).get('check'),
                 i, cell,
-                state = {},
+                state = [],
                 lastLevel = -1,
                 curLevelCells = [];
             this.dateTimeGroup = [];
@@ -1890,12 +1890,13 @@ define([
                 if (cell.get('isDate')) {
                     if (lastLevel === 0) {
                         var lastState = state[lastLevel];
-                        state = {0: lastState};
+                        state = [lastState];
                     }
                     var curLevel = cell.get('level'),
                         curCheck = cell.get('check'),
                         throughIndex = cell.get('throughIndex');
                     if (curLevel > lastLevel) { // new branch, new date item
+                        lastLevel > 0 && (state = state.slice(0, lastLevel + 1));
                         state[curLevel] = curCheck;
                         curLevelCells.push(throughIndex);
                     } else if (curLevel === lastLevel) { // another item at the same level
