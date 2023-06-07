@@ -986,7 +986,6 @@ define([
                     var timer_sl = setTimeout(function(){
                         toolbarController.createDelayedElements();
 
-                        documentHolderController.getView().createDelayedElements();
                         // var shapes = me.api.asc_getPropertyEditorShapes();
                         // if (shapes)
                         //     me.fillAutoShapes(shapes[0], shapes[1]);
