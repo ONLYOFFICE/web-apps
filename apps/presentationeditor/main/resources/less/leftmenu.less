@@ -299,19 +299,6 @@
                         .comment-text{
                             opacity: 0.45;
                         }
-                        &.left {
-                            text-align: right;
-                            width: 30%;
-
-                            label {
-                                .font-weight-bold();
-                                .font-size-medium();
-                            }
-                        }
-
-                        &.right {
-                            width: 70%;
-                        }
                     }
 
                     &.divider {
@@ -557,12 +544,8 @@
 
                         &.left {
                             padding: 5px 10px;
-                            text-align: right;
+                            .text-align-right();
                             width: 200px;
-
-                            .rtl & {
-                                text-align: left;
-                            }
 
                             label {
                                 .font-weight-bold();

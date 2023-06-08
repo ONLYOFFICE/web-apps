@@ -489,10 +489,7 @@
         margin-bottom: 6px;
 
         li {
-            text-align: left;
-            .rtl & {
-                text-align: right;
-            }
+            .text-align-left();
         }
     }
 
@@ -523,13 +520,12 @@
                 .item-value {
                     overflow: hidden;
                     text-overflow: ellipsis;
-                    text-align: right;
+                    .text-align-right();
                     vertical-align: bottom;
                     padding-left: 5px;
                     color: silver;
                     cursor: pointer;
                     .rtl & {
-                        text-align: left;
                         padding-left: 0;
                         padding-right: 5px;
                     }

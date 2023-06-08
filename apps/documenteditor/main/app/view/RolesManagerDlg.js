@@ -99,7 +99,7 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
                         '<span class="color" style="background: <% if (color) { %>#<%= color %><% } else { %> transparent <% } %>;"></span>',
                     '</div>',
                     '<div style="flex-grow: 1;padding-right: 5px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
-                    '<div style="width: 25px;text-align: right;opacity: 0.8;flex-shrink: 0;"><%= fields %></div>',
+                    '<div class="text-align-right" style="width: 25px;opacity: 0.8;flex-shrink: 0;"><%= fields %></div>',
                     '</div>'
                 ].join('')),
                 tabindex: 1

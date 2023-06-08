@@ -1,7 +1,7 @@
 .advanced-settings-dlg {
     .div-category {
         padding: 0 0 0 10px;
-        text-align: right;
+        .text-align-right();
         .font-weight-bold();
         .font-size-normal();
         white-space: nowrap;
@@ -374,36 +374,6 @@
         display: inline-block;
         vertical-align: top;
     }
-    #format-rules-edit-combo-num-format {
-        .item-container {
-            position: relative;
-            .name {
-                width: 100px;
-                position: absolute;
-                left: 0;
-                .rtl & {
-                    left: auto;
-                    right: 0;
-                }
-            }
-            .example {
-                display: inline-block;
-                width: 100%;
-                max-width: 300px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                .text-align-right();
-                vertical-align: bottom;
-                padding-left: 100px;
-                color: silver;
-                white-space: nowrap;
-                .rtl & {
-                    padding-left: 0;
-                    padding-right: 100px;
-                }
-            }
-        }
-    }
     #format-rules-format-preset,
     #format-rules-edit-combo-num-format {
         display: inline-block;
@@ -686,12 +656,8 @@
 }
 
 #protect-edit-group-btn {
-    text-align: right;
+    .text-align-right();
     vertical-align: bottom;
-
-    .rtl & {
-        text-align: left;
-    }
 }
 
 #protect-edit-ranges-list {

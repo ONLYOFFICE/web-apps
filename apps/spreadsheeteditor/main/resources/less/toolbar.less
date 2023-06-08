@@ -259,7 +259,9 @@
     }
 }
 
-#slot-btn-format {
+#slot-btn-format,
+#format-rules-edit-combo-num-format,
+.format-num-cls {
     .display-value {
         position: absolute;
         left: 0;
@@ -277,14 +279,13 @@
         max-width: 300px;
         overflow: hidden;
         text-overflow: ellipsis;
-        text-align: right;
+        .text-align-right();
         vertical-align: bottom;
         padding-left: 125px;
         color: silver;
         white-space: nowrap;
 
         .rtl & {
-            text-align: left;
             padding-left: 0;
             padding-right: 100px;
         }

@@ -345,7 +345,7 @@ define([
                         '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem">',
                         '<div style="display: inline-block;"><%= item.displayValue %></div>',
-                        '<label style="text-align: right;width:' + lcid_width + 'px;"><%= item.lcid %></label>',
+                        '<label class="text-align-right" style="width:' + lcid_width + 'px;"><%= item.lcid %></label>',
                         '</a></li>',
                         '<% }); %>'
                     ].join(''));

@@ -463,6 +463,7 @@
             color: @text-normal;
             .font-size-medium();
             .font-weight-bold();
+            .text-align-left();
             white-space: nowrap;
             cursor: default;
 
@@ -473,19 +474,12 @@
                 max-width: 200px;
                 .font-weight-bold();
             }
-
-            .rtl & {
-                text-align: right;
-            }
         }
     }
 
     #tlb-users-menu-descr {
         width: 100%;
-        text-align: left;
-        .rtl & {
-            text-align: right;
-        }
+        .text-align-left();
     }
 
     .rtl & {
