@@ -2759,8 +2759,6 @@ define([
                 this.btnInsertTextArt.menu.on('show:before', onShowBeforeTextArt);
             }
 
-
-            this.symbolsArr = this.loadRecentSymbolsFromStorage();
             this.mnuInsertSymbolsPicker = new Common.UI.DataView({
                 el: $('#id-toolbar-menu-symbols'),
                 parentMenu: this.btnInsertSymbol.menu,
@@ -2768,7 +2766,7 @@ define([
                 restoreHeight: 290,
                 delayRenderTips: true,
                 scrollAlwaysVisible: true,
-                store: new Common.UI.DataViewStore(this.symbolsArr),
+                store: new Common.UI.DataViewStore(this.loadRecentSymbolsFromStorage()),
                 itemTemplate: _.template('<div class="item-symbol" <% if (typeof font !== "undefined" && font !=="") { %> style ="font-family: <%= font %>"<% } %>>&#<%= symbol %></div>')
             });
             this.btnInsertSymbol.menu.setInnerMenu([{menu: this.mnuInsertSymbolsPicker, index: 0}]);
@@ -3294,29 +3292,21 @@ define([
         },
 
         saveSymbol: function(symbol, font) {
-            var maxLength =25;
-            if(this.symbolsArr.length === 0){
-                this.symbolsArr.push({symbol: symbol, font: font, tip: 'Symbol: ' + symbol});
-                this.saveRecentSymbolsToStorage();
-                return;
-            }
-            for(var i = 0; i < this.symbolsArr.length; ++i){
-                if(this.symbolsArr[i].symbol === symbol && this.symbolsArr[i].font === font){
-                    this.symbolsArr.splice(i, 1);
-                    break;
-                }
-            }
-            this.symbolsArr.splice(0, 0, {symbol: symbol, font: font, tip: 'Symbol: ' + symbol});
-            if(this.symbolsArr.length > maxLength){
-                this.symbolsArr.splice(maxLength, this.symbolsArr.length - maxLength);
-            }
-            this.saveRecentSymbolsToStorage();
-        },
+            var maxLength =25,
+                picker = this.mnuInsertSymbolsPicker;
+            var item = picker.store.find(function(item){
+                return item.get('symbol') == symbol && item.get('font') == font
+            });
 
-        saveRecentSymbolsToStorage: function(){
-            var sJSON = JSON.stringify(this.symbolsArr);
+            item && picker.store.remove(item);
+            picker.store.add({symbol: symbol, font: font, tip: 'Symbol: ' + symbol},{at:0});
+            picker.store.length > maxLength && picker.store.remove(picker.store.last());
+
+            var arr = picker.store.map(function (item){
+                return {symbol: item.get('symbol'), font: item.get('font'), tip: item.get('tip')};
+            });
+            var sJSON = JSON.stringify(arr);
             Common.localStorage.setItem( 'sse-fastRecentSymbols', sJSON);
-            this.mnuInsertSymbolsPicker.store.reset(this.symbolsArr);
         },
 
         textBold:           'Bold',
