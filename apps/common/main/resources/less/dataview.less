@@ -20,16 +20,12 @@
 
     > .item {
         display: inline-block;
-        float: left;
+        .float-left();
         margin: 4px;
         cursor: pointer;
 
         .box-shadow(0 0 0 @scaled-one-px-value-ie @border-regular-control-ie);
         .box-shadow(0 0 0 @scaled-one-px-value @border-regular-control);
-
-        .rtl & {
-            float: right;
-        }
 
         &:hover,
         &.selected {
@@ -76,12 +72,8 @@
 
             & > div {
                 display: inline-block;
-                float: left;
+                .float-left();
                 margin: 2px 4px 4px;
-
-                .rtl & {
-                    float: right;
-                }
 
                 &:not(.disabled) {
                     cursor: pointer;

@@ -26,15 +26,11 @@
         margin: calc(1px - 1px / @pixel-ratio-factor);
         border: @scaled-one-px-value-ie solid @background-normal-ie;
         border: @scaled-one-px-value solid @background-normal;
-        float: left;
+        .float-left();
         text-decoration: none;
         -moz-outline: 0 none;
         outline: 0 none;
         cursor: pointer;
-
-        .rtl & {
-            float: right;
-        }
 
         em span {
             border: @scaled-one-px-value-ie solid @border-color-shading-ie;

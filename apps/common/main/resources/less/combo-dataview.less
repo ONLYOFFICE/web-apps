@@ -5,7 +5,7 @@
 
     .view {
         display: inline-block;
-        float: left;
+        .float-left();
         overflow: hidden;
         width: @combo-dataview-width;
         height: 100%;
@@ -15,10 +15,6 @@
         background-color: @background-normal-ie;
         background-color: @background-normal;
 
-        .rtl & {
-            float: right;
-        }
-
         .dataview {
             padding: 1px;
         }
@@ -26,11 +22,7 @@
 
     .button {
         display: inline-block;
-        float: right;
-
-        .rtl & {
-            float: left;
-        }
+        .float-right();
 
         button {
             border-radius:0 @border-radius-small @border-radius-small 0;
@@ -113,21 +105,26 @@
 
         .border-left-radius(0);
 
-        .rtl & {
-            padding-right: 0;
-            padding-left: @combo-dataview-button-width;
-
-            .border-radius(@border-radius-small);
-            .border-right-radius(0);
-        }
-
         .dataview {
             @minus-px: calc(-1px / @pixel-ratio-factor);
             height: @combo-dataview-height;
             height: @combo-dataview-height-calc;
             padding: 0;
-            margin: -1 0 0 -1;
+            margin: -1px 0 0 -1px;
             margin: @minus-px 0 0 @minus-px;
+        }
+        .rtl & {
+            padding-right: 0;
+            padding-left: calc(@combo-dataview-button-width - @scaled-two-px-value);
+
+            .border-radius(@border-radius-small);
+            .border-right-radius(0);
+
+            .dataview {
+                @minus-px: calc(-1px / @pixel-ratio-factor);
+                margin: -1px -1px 0 0;
+                margin: @minus-px @minus-px 0 0;
+            }
         }
     }
 

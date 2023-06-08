@@ -23,7 +23,7 @@
     }
 }
 .tool {
-    float: right;
+    .float-right();
     width: 16px;
     height: 16px;
     cursor: pointer;
@@ -32,7 +32,6 @@
     margin: 4px 3px 0px 0px;
 
     .rtl & {
-        float: left;
         margin: 4px 0 0px 3px;
     }
 
@@ -222,11 +221,10 @@
 
     &.alert {
         .icon {
-            float: left;
+            .float-left();
             margin: 0 0 0 10px;
 
             .rtl & {
-                float: right;
                 margin: 0 10px 0 10px;
             }
         }
