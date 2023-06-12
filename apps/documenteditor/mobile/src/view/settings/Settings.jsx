@@ -16,6 +16,7 @@ import SharingSettings from "../../../../../common/mobile/lib/view/SharingSettin
 import ProtectionDocumentController from '../../controller/settings/DocumentProtection';
 import ProtectionController from '../../controller/settings/Protection';
 import FileEncryptionController from '../../controller/settings/FileEncryption';
+import VersionHistoryController from '../../../../../common/mobile/lib/controller/VersionHistory';
 
 const routes = [
     {
@@ -92,6 +93,12 @@ const routes = [
     {
         path: '/encrypt',
         component: FileEncryptionController
+    }, 
+
+    // Version History 
+    {
+        path: '/version-history',
+        component: VersionHistoryController
     }
 ];
 
@@ -181,6 +188,11 @@ const SettingsList = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                     {(_isEdit && canProtect) &&
                         <ListItem title={t('Settings.textProtection')} link="#" onClick={onoptionclick.bind(this, '/protection')}>
                             <Icon slot="media" icon="icon-protection"></Icon>
+                        </ListItem>
+                    }
+                    {_isEdit && 
+                        <ListItem title={t('Settings.textVersionHistory')} link="#" onClick={onoptionclick.bind(this, '/version-history')}>
+                            <Icon slot="media" icon="icon-version-history"></Icon>
                         </ListItem>
                     }
                     <ListItem title={t('Settings.textNavigation')} link='#' onClick={() => {
