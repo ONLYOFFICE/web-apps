@@ -303,8 +303,13 @@ define([
 
         var on_document_ready = function (el) {
             // get_themes_config('../../common/main/resources/themes/themes.json');
-            if ( !Common.Controllers.Desktop.isActive() || !Common.Controllers.Desktop.isOffline() )
+            if ( !Common.Controllers.Desktop.isActive() /*|| !Common.Controllers.Desktop.isOffline()*/ )
                 get_themes_config.call(this, '../../../../themes.json');
+            else
+            if ( window.nativethemes ) {
+                parse_themes_object(window.nativethemes);
+                check_launched_custom_theme();
+            }
         }
 
         var get_ui_theme_name = function (objtheme) {

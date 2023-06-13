@@ -62,7 +62,7 @@
     !window.uitheme.id && window.uitheme.set_id(localStorage.getItem("ui-theme-id"));
     window.uitheme.iscontentdark = localStorage.getItem("content-theme") == 'dark';
 
-    let objtheme = localStorage.getItem("ui-theme");
+    let objtheme = window.uitheme.colors ? window.uitheme : localStorage.getItem("ui-theme");
     if ( !!objtheme ) {
         if ( typeof(objtheme) == 'string' &&
                 objtheme.startsWith("{") && objtheme.endsWith("}") )
