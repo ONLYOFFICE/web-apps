@@ -1027,7 +1027,7 @@ define([
                     type = moveData.get_Type();
 
                 if (type==Asc.c_oAscMouseMoveDataTypes.Hyperlink || type==Asc.c_oAscMouseMoveDataTypes.Footnote || type==Asc.c_oAscMouseMoveDataTypes.Form ||
-                    type==Asc.c_oAscMouseMoveDataTypes.Review && me.mode.reviewHoverMode || type==Asc.c_oAscMouseMoveDataTypes.Eyedropper) {
+                    type==Asc.c_oAscMouseMoveDataTypes.Review && me.mode.reviewHoverMode || type==Asc.c_oAscMouseMoveDataTypes.Eyedropper || type===Asc.c_oAscMouseMoveDataTypes.Placeholder) {
                     if (me.isTooltipHiding) {
                         me.mouseMoveData = moveData;
                         return;
@@ -1057,6 +1057,15 @@ define([
                             ToolTip += changes.get('changetext');
                             if (ToolTip.length>1000)
                                 ToolTip = ToolTip.substr(0, 1000) + '...';
+                        }
+                    } else if (type===Asc.c_oAscMouseMoveDataTypes.Placeholder) {
+                        switch (moveData.get_PlaceholderType()) {
+                            case AscCommon.PlaceholderButtonType.Image:
+                                ToolTip = me.documentHolder.txtInsImage;
+                                break;
+                            case AscCommon.PlaceholderButtonType.ImageUrl:
+                                ToolTip = me.documentHolder.txtInsImageUrl;
+                                break;
                         }
                     } else if (type==Asc.c_oAscMouseMoveDataTypes.Eyedropper) {
                         if (me.eyedropperTip.isTipVisible) {
@@ -1124,7 +1133,7 @@ define([
                     var recalc = false;
                     screenTip.isHidden = false;
 
-                    if (type!==Asc.c_oAscMouseMoveDataTypes.Review)
+                    if (type!==Asc.c_oAscMouseMoveDataTypes.Review && type!==Asc.c_oAscMouseMoveDataTypes.Placeholder)
                         ToolTip = Common.Utils.String.htmlEncode(ToolTip);
 
                     if (screenTip.tipType !== type || screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 ) {
