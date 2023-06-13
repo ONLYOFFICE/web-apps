@@ -148,6 +148,9 @@ define([
                                 id          : user.asc_getId(),
                                 idOriginal  : user.asc_getIdOriginal(),
                                 username    : user.asc_getUserName(),
+                                parsedName  : AscCommon.UserInfoParser.getParsedName(user.asc_getUserName()),
+                                initials    : Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(user.asc_getUserName())),
+                                avatar      : user.asc_getUserAvatar ? user.asc_getUserAvatar() : null,
                                 online      : true,
                                 color       : user.asc_getColor(),
                                 view        : user.asc_getView(),
@@ -172,6 +175,9 @@ define([
                         id          : change.asc_getId(),
                         idOriginal  : change.asc_getIdOriginal(),
                         username    : change.asc_getUserName(),
+                        parsedName  : AscCommon.UserInfoParser.getParsedName(change.asc_getUserName()),
+                        initials    : Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(change.asc_getUserName())),
+                        avatar      : change.asc_getUserAvatar ? change.asc_getUserAvatar() : null,
                         online      : change.asc_getState(),
                         color       : change.asc_getColor(),
                         view        : change.asc_getView(),
@@ -180,6 +186,9 @@ define([
                 } else {
                     user.set({online: change.asc_getState()});
                     user.set({username: change.asc_getUserName()});
+                    user.set({parsedName: AscCommon.UserInfoParser.getParsedName(change.asc_getUserName())});
+                    user.set({initials: Common.Utils.getUserInitials(change.asc_getUserName())});
+                    user.set({avatar: change.asc_getUserAvatar ? change.asc_getUserAvatar() : null});
                 }
             }
         },
@@ -193,7 +202,11 @@ define([
                     array.push(new Common.Models.ChatMessage({
                         userid      : msg.useridoriginal,
                         message     : msg.message,
-                        username    : msg.username
+                        username    : msg.username,
+                        parsedName  : AscCommon.UserInfoParser.getParsedName(msg.username),
+                        //TODO : В msg должен приходить avatar (Думаю что из sdk)
+                        //       Можно чтобы sdk в msg добавили ещё одно свойство "avatar"
+                        //       Либо вместо всех свойств о пользователе добавили свойство "user", класса asc_CUser. Как в методе onUserConnection
                     }));
                 });
 
