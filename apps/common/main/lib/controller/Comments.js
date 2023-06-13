@@ -838,9 +838,11 @@ define([
                 comment.set('comment',  data.asc_getText());
                 comment.set('userid',   data.asc_getUserId());
                 comment.set('username', data.asc_getUserName());
+                comment.set('initials', Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(data.asc_getUserName())));
                 comment.set('parsedName', AscCommon.UserInfoParser.getParsedName(data.asc_getUserName()));
                 comment.set('parsedGroups', AscCommon.UserInfoParser.getParsedGroups(data.asc_getUserName()));
                 comment.set('usercolor', (user) ? user.get('color') : null);
+                comment.set('avatar',   data.asc_getUserAvatar ? data.asc_getUserAvatar() : null);
                 comment.set('resolved', data.asc_getSolved());
                 comment.set('quote',    data.asc_getQuoteText());
                 comment.set('userdata', data.asc_getUserData());
@@ -873,8 +875,10 @@ define([
                         id                  : Common.UI.getId(),
                         userid              : data.asc_getReply(i).asc_getUserId(),
                         username            : data.asc_getReply(i).asc_getUserName(),
+                        initials            : Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(data.asc_getReply(i).asc_getUserName())),
                         parsedName          : AscCommon.UserInfoParser.getParsedName(data.asc_getReply(i).asc_getUserName()),
                         usercolor           : (user) ? user.get('color') : null,
+                        avatar              : data.asc_getReply(i).asc_getUserAvatar ? data.asc_getReply(i).asc_getUserAvatar() : null,
                         date                : t.dateToLocaleTimeString(dateReply),
                         reply               : data.asc_getReply(i).asc_getText(),
                         userdata            : data.asc_getReply(i).asc_getUserData(),
@@ -1337,9 +1341,11 @@ define([
                 guid                : data.asc_getGuid(),
                 userid              : data.asc_getUserId(),
                 username            : data.asc_getUserName(),
+                initials            : Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(data.asc_getUserName())),
                 parsedName          : AscCommon.UserInfoParser.getParsedName(data.asc_getUserName()),
                 parsedGroups        : AscCommon.UserInfoParser.getParsedGroups(data.asc_getUserName()),
                 usercolor           : (user) ? user.get('color') : null,
+                avatar              : data.asc_getUserAvatar ? data.asc_getUserAvatar() : null,
                 date                : this.dateToLocaleTimeString(date),
                 quote               : data.asc_getQuoteText(),
                 comment             : data.asc_getText(),
@@ -1393,8 +1399,10 @@ define([
                         id                  : Common.UI.getId(),
                         userid              : data.asc_getReply(i).asc_getUserId(),
                         username            : data.asc_getReply(i).asc_getUserName(),
+                        initials            : Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(data.asc_getReply(i).asc_getUserName())),
                         parsedName          : AscCommon.UserInfoParser.getParsedName(data.asc_getReply(i).asc_getUserName()),
                         usercolor           : (user) ? user.get('color') : null,
+                        avatar              : data.asc_getReply(i).asc_getUserAvatar ? data.asc_getReply(i).asc_getUserAvatar() : null,
                         date                : this.dateToLocaleTimeString(date),
                         reply               : data.asc_getReply(i).asc_getText(),
                         userdata            : data.asc_getReply(i).asc_getUserData(),
@@ -1435,6 +1443,8 @@ define([
                         date: this.dateToLocaleTimeString(date),
                         userid: this.currentUserId,
                         username: AscCommon.UserInfoParser.getCurrentName(),
+                        avatar: null, //TODO : Метод получения аватарки текущего пользователя 
+                        initials: Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(AscCommon.UserInfoParser.getCurrentName())),
                         parsedName: AscCommon.UserInfoParser.getParsedName(AscCommon.UserInfoParser.getCurrentName()),
                         usercolor: (user) ? user.get('color') : null,
                         editTextInPopover: true,
