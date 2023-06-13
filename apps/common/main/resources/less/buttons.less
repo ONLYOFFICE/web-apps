@@ -1173,10 +1173,26 @@
 }
 
 .asc-window.modal {
-    .btn-toolbar:not(.bg-white), .btn-group {
-        &:focus:not(.disabled) {
-            .box-shadow(0 0 0 @scaled-one-px-value-ie @border-control-focus-ie);
-            .box-shadow(0 0 0 @scaled-one-px-value @border-control-focus);
+    .btn-toolbar:not(.bg-white):not(.disabled) {
+        &:focus {
+            .box-inner-shadow(0 0 0 @scaled-one-px-value-ie @border-control-focus-ie);
+            .box-inner-shadow(0 0 0 @scaled-one-px-value @border-control-focus);
+        }
+    }
+    .btn-group:not(.split) {
+        &.open,
+        &.active,
+        &:active {
+            .btn-toolbar:not(.bg-white):not(.disabled) {
+                .box-inner-shadow(0 0 0 @scaled-one-px-value-ie @border-control-focus-ie);
+                .box-inner-shadow(0 0 0 @scaled-one-px-value @border-control-focus);
+            }
+        }
+    }
+    .btn-group.split,
+    .input-field-btn {
+        .btn-toolbar:not(.bg-white):not(.disabled):focus {
+            .box-shadow(none);
         }
     }
 }

@@ -141,11 +141,6 @@ define([
                 isVisible: false
             };
             me.eyedropperTip = {
-                toolTip: new Common.UI.Tooltip({
-                    owner: this,
-                    html: true,
-                    cls: 'eyedropper-tooltip'
-                }),
                 isHidden: true,
                 isVisible: false,
                 eyedropperColor: null,
@@ -1067,6 +1062,16 @@ define([
                         if (me.eyedropperTip.isTipVisible) {
                             me.eyedropperTip.isTipVisible = false;
                             me.eyedropperTip.toolTip.hide();
+                        }
+
+                        if (!me.eyedropperTip.toolTip) {
+                            var tipEl = $('<div id="tip-container-eyedroppertip" style="position: absolute; z-index: 10000;"></div>');
+                            me.documentHolder.cmpEl.append(tipEl);
+                            me.eyedropperTip.toolTip = new Common.UI.Tooltip({
+                                owner: tipEl,
+                                html: true,
+                                cls: 'eyedropper-tooltip'
+                            });
                         }
 
                         var color = moveData.get_EyedropperColor().asc_getColor(),

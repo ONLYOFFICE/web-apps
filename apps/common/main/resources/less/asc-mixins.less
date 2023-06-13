@@ -293,6 +293,107 @@
     }
 }
 
+.background-ximage-all-scale(@image, @w: auto, @h: auto, @repeat: no-repeat, @commonimage: true) {
+    .choose-image-path(@commonimage);
+    @imagepath: '@{path}/@{image}';
+
+    background-image: if(@icon-src-base64, data-uri(%("%s", '@{imagepath}')), ~"url(@{imagepath})");
+    background-repeat: @repeat;
+
+    @1d5ximage: replace(@imagepath, '\.png$', '@1.5x.png');
+    @1d75ximage: replace(@imagepath, '\.png$', '@1.75x.png');
+    @1d25ximage: replace(@imagepath, '\.png$', '@1.25x.png');
+    @2ximage: replace(@imagepath, '\.png$', '@2x.png');
+    @2d5ximage: replace(@imagepath, '\.png$', '@2.5x.png');
+    @3ximage: replace(@imagepath, '\.png$', '@3x.png');
+    @3d5ximage: replace(@imagepath, '\.png$', '@3.5x.png');
+    @4ximage: replace(@imagepath, '\.png$', '@4x.png');
+    @4d5ximage: replace(@imagepath, '\.png$', '@4.5x.png');
+    @5ximage: replace(@imagepath, '\.png$', '@5x.png');
+
+    @media only screen {
+        @media (-webkit-min-device-pixel-ratio: 1.25) and (-webkit-max-device-pixel-ratio: 1.49),
+        (min-resolution: 1.25dppx) and (max-resolution: 1.49dppx),
+        (min-resolution: 120dpi) and (max-resolution: 143dpi)
+        {
+            background-image: ~"url(@{1d25ximage})";
+            background-size: @w @h;
+        }
+
+        @media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.74),
+        (min-resolution: 1.5dppx) and (max-resolution: 1.74dppx),
+        (min-resolution: 144dpi) and (max-resolution: 167dpi)
+        {
+            background-image: ~"url(@{1d5ximage})";
+            background-size: @w @h;
+        }
+
+        @media (-webkit-min-device-pixel-ratio: 1.75) and (-webkit-max-device-pixel-ratio: 1.9),
+        (min-resolution: 1.75dppx) and (max-resolution: 1.9dppx),
+        (min-resolution: 168dpi) and (max-resolution: 191dpi)
+        {
+            background-image: ~"url(@{1d75ximage})";
+            background-size: @w @h;
+        }
+
+        @media (-webkit-min-device-pixel-ratio: 2) and (-webkit-max-device-pixel-ratio: 2.49),
+        (min-resolution: 2dppx) and (max-resolution: 2.49dppx),
+        (min-resolution: 192dpi) and (max-resolution: 239dpi)
+        {
+            background-image: ~"url(@{2ximage})";
+            background-size: @w @h;
+        }
+
+        @media (-webkit-min-device-pixel-ratio: 2.5) and (-webkit-max-device-pixel-ratio: 2.9),
+        (min-resolution: 2.5dppx) and (max-resolution: 2.9dppx),
+        (min-resolution: 240dpi) and (max-resolution: 287dpi)
+        {
+            background-image: ~"url(@{2d5ximage})";
+            background-size: @w @h;
+        }
+
+        @media (-webkit-min-device-pixel-ratio: 3) and (-webkit-max-device-pixel-ratio: 3.49),
+        (min-resolution: 3dppx) and (max-resolution: 3.49dppx),
+        (min-resolution: 288dpi) and (max-resolution: 335dpi)
+        {
+            background-image: ~"url(@{3ximage})";
+            background-size: @w @h;
+        }
+
+        @media (-webkit-min-device-pixel-ratio: 3.5) and (-webkit-max-device-pixel-ratio: 3.9),
+        (min-resolution: 3.5dppx) and (max-resolution: 3.9dppx),
+        (min-resolution: 336dpi) and (max-resolution: 383dpi)
+        {
+            background-image: ~"url(@{3d5ximage})";
+            background-size: @w @h;
+        }
+
+        @media (-webkit-min-device-pixel-ratio: 4) and (-webkit-max-device-pixel-ratio: 4.49),
+        (min-resolution: 4dppx) and (max-resolution: 4.49dppx),
+        (min-resolution: 384dpi) and (max-resolution: 431dpi)
+        {
+            background-image: ~"url(@{4ximage})";
+            background-size: @w @h;
+        }
+
+        @media (-webkit-min-device-pixel-ratio: 4.5) and (-webkit-max-device-pixel-ratio: 4.9),
+        (min-resolution: 4.5dppx) and (max-resolution: 4.9dppx),
+        (min-resolution: 432dpi) and (max-resolution: 479dpi)
+        {
+            background-image: ~"url(@{4d5ximage})";
+            background-size: @w @h;
+        }
+
+        @media (-webkit-min-device-pixel-ratio: 5),
+        (min-resolution: 5dppx),
+        (min-resolution: 480dpi)
+        {
+            background-image: ~"url(@{5ximage})";
+            background-size: @w @h;
+        }
+    }
+}
+
 .img-commonctrl {
     &.img-colored {
         filter: none;
