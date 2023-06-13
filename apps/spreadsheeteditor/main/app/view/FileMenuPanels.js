@@ -611,7 +611,7 @@ define([
                 data        : regdata,
                 template: _.template([
                     '<span class="input-group combobox <%= cls %> combo-langs" id="<%= id %>" style="<%= style %>">',
-                    '<input type="text" class="form-control" style="padding-left: 25px !important;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big">',
+                    '<input type="text" class="form-control" style="' + (Common.UI.isRTL() ? 'padding-right' : 'padding-left') + ':25px !important;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big">',
                     '<span class="icon input-icon lang-flag"></span>',
                         '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">',
                             '<span class="caret" />',
@@ -619,7 +619,7 @@ define([
                         '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                             '<% _.each(items, function(item) { %>',
                                 '<li id="<%= item.id %>" data-value="<%= item.value %>">',
-                                    '<a tabindex="-1" type="menuitem" style="padding-left: 26px !important;">',
+                                    '<a tabindex="-1" type="menuitem" style="' + (Common.UI.isRTL() ? 'padding-right' : 'padding-left') + ':26px !important;">',
                                         '<i class="icon lang-flag <%= item.langName %>" style="position: absolute;"></i>',
                                         '<%= scope.getDisplayValue(item) %>',
                                     '</a>',

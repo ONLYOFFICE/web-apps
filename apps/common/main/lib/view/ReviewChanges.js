@@ -90,10 +90,10 @@ define([
                 '<div class="group">' +
                     '<span id="btn-review-on" class="btn-slot text x-huge"></span>' +
                 '</div>' +
-                '<div class="group no-group-mask review" style="padding-left: 0;">' +
+                '<div class="group no-group-mask review" style="padding-left: 0;padding-right:0;">' +
                     '<span id="btn-review-view" class="btn-slot text x-huge"></span>' +
                 '</div>' +
-                '<div class="group move-changes" style="padding-left: 0;">' +
+                '<div class="group move-changes" style="padding-left: 0;padding-right:0;">' +
                     '<span id="btn-change-prev" class="btn-slot text x-huge"></span>' +
                     '<span id="btn-change-next" class="btn-slot text x-huge"></span>' +
                     '<span id="btn-change-accept" class="btn-slot text x-huge"></span>' +

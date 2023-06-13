@@ -232,34 +232,7 @@
     }
 
     .list-level > a {
-        padding-right: 20px;
-
-        .rtl & {
-            padding-right: 12px;
-            padding-left: 20px;
-        }
-    }
-}
-
-.list-settings {
-    .padding-right-big {
-        padding-right: 10px;
-
-        .rtl & {
-            padding-right: 0;
-            padding-left: 10px;
-        }
-    }
-}
-
-#window-page-size {
-    .padding-right {
-        padding-right: 10px;
-
-        .rtl & {
-            padding-right: 0;
-            padding-left: 10px;
-        }
+        .padding-x(12px, 20px);
     }
 }
 
@@ -309,5 +282,8 @@
         margin: 0 8px 0 2px;
         border: @scaled-one-px-value-ie solid @border-color-shading-ie;
         border: @scaled-one-px-value solid @border-color-shading;
+        .rtl & {
+            margin: 0 2px 0 8px;
+        }
     }
 }

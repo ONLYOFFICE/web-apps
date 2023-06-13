@@ -307,7 +307,7 @@
                     margin: 0 1px 0 4px;
 
                     .rtl & {
-                        margin: 0 4px 0 1px;
+                        margin: 0 4px 0 3px;
                     }
                 }
 
@@ -325,6 +325,10 @@
 
             .pixel-ratio__2_5 & {
                 width: 100%;
+            }
+
+            .rtl & {
+                padding: 1px 3px 1px 4px;
             }
         }
 
@@ -397,14 +401,6 @@
 
     div.inner-box-icon {
         height: 28px;           // TODO: clear. Firefox bug 984869. fixed. isn't released.
-    }
-}
-
-.icon-top.btn-group {
-    &.x-huge, .x-huge {
-        .inner-box-caption {
-            padding-right: 4px;
-        }
     }
 }
 
@@ -564,11 +560,7 @@
     }
 
     &.align-left {
-        text-align: left;
-
-        .rtl & {
-            text-align: right;
-        }
+        .text-align-left();
     }
 }
 
@@ -905,13 +897,7 @@
 
 .color-menu.dropdown-menu.shifted-right {
     li > a {
-        padding-left: 32px;
-
-        .rtl & {
-            padding-left: 20px;
-            padding-right: 32px;
-        }
-
+        .padding-x(32px, 20px);
         span.color-auto {
             .margin-left(-18px);
             margin-top: 1px;
@@ -1151,6 +1137,9 @@
 
     &:not(.btn-toolbar).dropdown-toggle:first-child .inner-box-caret {
       padding: 0 1px 0 2px;
+        .rtl & {
+            padding: 0 2px 0 1px;
+        }
     }
 
     &:hover:not(.disabled),

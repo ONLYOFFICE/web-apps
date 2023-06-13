@@ -61,7 +61,7 @@
     </div>
 </div>
 <div id="id-adv-paragraph-line" class="settings-panel">
-    <div class="inner-content text-only" style="padding-right: 0px;" >
+    <div class="inner-content text-only padding-left-10" >
         <table cols="2" style="width: 100%;">
             <tr>
                 <td class="padding-small">
@@ -127,7 +127,7 @@
                 <td class="padding-small">
                     <div id="paragraphadv-checkbox-strike"></div>
                 </td>
-                <td class="padding-small padding-left">
+                <td class="padding-small padding-left-40">
                     <div id="paragraphadv-checkbox-subscript"></div>
                 </td>
             </tr>
@@ -135,7 +135,7 @@
                 <td class="padding-small">
                     <div id="paragraphadv-checkbox-double-strike"></div>
                 </td>
-                <td class="padding-small padding-left">
+                <td class="padding-small padding-left-40">
                     <div id="paragraphadv-checkbox-small-caps"></div>
                 </td>
             </tr>
@@ -143,7 +143,7 @@
                 <td class="padding-large">
                     <div id="paragraphadv-checkbox-superscript"></div>
                 </td>
-                <td class="padding-large padding-left">
+                <td class="padding-large padding-left-40">
                     <div id="paragraphadv-checkbox-all-caps"></div>
                 </td>
             </tr>
@@ -213,7 +213,7 @@
                     <label class="input-label"><%= scope.textTop %></label>
                     <div id="paraadv-number-margin-top"></div>
                 </div>
-                <div class="padding-small padding-left" style="display: inline-block;">
+                <div class="padding-small padding-left-15" style="display: inline-block;">
                     <label class="input-label"><%= scope.textLeft %></label>
                     <div id="paraadv-number-margin-left"></div>
                 </div>
@@ -223,7 +223,7 @@
                     <label class="input-label"><%= scope.textBottom %></label>
                     <div id="paraadv-number-margin-bottom"></div>
                 </div>
-                <div class="padding-small padding-left" style="display: inline-block;">
+                <div class="padding-small padding-left-15" style="display: inline-block;">
                     <label class="input-label"><%= scope.textRight %></label>
                     <div id="paraadv-number-margin-right"></div>
                 </div>

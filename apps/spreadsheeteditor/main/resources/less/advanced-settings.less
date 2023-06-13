@@ -1,10 +1,13 @@
 .advanced-settings-dlg {
     .div-category {
         padding: 0 0 0 10px;
-        text-align: right;
+        .text-align-right();
         .font-weight-bold();
         .font-size-normal();
         white-space: nowrap;
+        .rtl & {
+            padding: 0 10px 0 0;
+        }
     }
 
     .header-sorted {
@@ -122,42 +125,6 @@
     }
 }
 
-#id-chart-settings-dlg-vert,
-#id-chart-settings-dlg-vert-sec,
-#id-chart-settings-dlg-hor-sec,
-#id-spark-settings-dlg-axis {
-    .padding-right {
-        padding-right: 10px;
-
-        .rtl & {
-            padding-right: 0;
-            padding-left: 10px;
-        }
-    }
-}
-
-#id-chart-settings-dlg-hor {
-    .axis-crosses-combo {
-        padding-right: 10px;
-
-        .rtl & {
-            padding-right: 0;
-            padding-left: 10px;
-        }
-    }
-}
-
-#id-adv-paragraph-font {
-    .padding-left {
-        padding-left: 40px;
-
-        .rtl & {
-            padding-left: 0;
-            padding-right: 40px;
-        }
-    }
-}
-
 #window-chart-data {
     .up-down-btns {
         display: inline-block;
@@ -185,40 +152,25 @@
 
     .series-value {
         width: 95px;
-        padding-left: 5px;
+        .padding-left-5();
         display: inline-block;
         vertical-align: middle;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-
-        .rtl & {
-            padding-left: 0;
-            padding-right: 5px;
-        }
     }
 
     .series-cmb {
         width: 110px;
-        padding-left: 5px;
+        .padding-left-5();
         display: inline-block;
         vertical-align: middle;
-
-        .rtl & {
-            padding-left: 0;
-            padding-right: 5px;
-        }
     }
 
     .series-chk {
-        padding-left: 55px;
+        .padding-left(55px);
         display: inline-block;
         vertical-align: middle;
-
-        .rtl & {
-            padding-left: 0;
-            padding-right: 55px;
-        }
     }
 }
 
@@ -230,17 +182,6 @@
 
     .preview-container {
         .margin-right(-1px);
-    }
-}
-
-#window-create-pivot {
-    .input-dest {
-        padding-left: 22px;
-
-        .rtl & {
-            padding-left: 0;
-            padding-right: 22px;
-        }
     }
 }
 
@@ -322,28 +263,6 @@
     }
 }
 
-#window-page-margins {
-    .padding-right {
-        padding-right: 10px;
-
-        .rtl & {
-            padding-right: 0;
-            padding-left: 10px;
-        }
-    }
-}
-
-#window-scale {
-    .padding-left {
-        padding-left: 22px;
-
-        .rtl & {
-            padding-left: 0;
-            padding-right: 22px;
-        }
-    }
-}
-
 #window-name-manager {
     #name-manager-group-btn {
         vertical-align: bottom;
@@ -373,36 +292,6 @@
     #format-rules-edit-combo-percent {
         display: inline-block;
         vertical-align: top;
-    }
-    #format-rules-edit-combo-num-format {
-        .item-container {
-            position: relative;
-            .name {
-                width: 125px;
-                position: absolute;
-                left: 0;
-                .rtl & {
-                    left: auto;
-                    right: 0;
-                }
-            }
-            .example {
-                display: inline-block;
-                width: 100%;
-                max-width: 300px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                .text-align-right();
-                vertical-align: bottom;
-                padding-left: 125px;
-                color: silver;
-                white-space: nowrap;
-                .rtl & {
-                    padding-left: 0;
-                    padding-right: 125px;
-                }
-            }
-        }
     }
     #format-rules-format-preset,
     #format-rules-edit-combo-num-format {
@@ -686,12 +575,8 @@
 }
 
 #protect-edit-group-btn {
-    text-align: right;
+    .text-align-right();
     vertical-align: bottom;
-
-    .rtl & {
-        text-align: left;
-    }
 }
 
 #protect-edit-ranges-list {
