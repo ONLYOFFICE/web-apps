@@ -381,7 +381,7 @@ define([
                             '<div id="<%= id %>" class="list-item">',
                             '<div class="<% if (checked) { %>checked<% } %>"><%= Common.Utils.String.htmlEncode(displayValue) %></div>',
                             '<div>',
-                            '<div class="input-field" style="width:40px;"><input type="text" class="form-control" value="<%= value %>" style="text-align: right;" maxLength="1">',
+                            '<div class="input-field" style="width:40px;"><input type="text" class="form-control text-align-right" value="<%= value %>" maxLength="1">',
                             '</div>',
                             '</div>',
                             '</div>'

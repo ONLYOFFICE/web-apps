@@ -10,18 +10,11 @@
 
   .title {
     padding-top: 3px;
-    padding-right: 5px;
-    .rtl & {
-      padding-right: 0;
-      padding-left: 5px;
-    }
+    .padding-right-5();
   }
 
   .shifted-left & {
-    padding-left: 12px;
-    .rtl & {
-      padding-right: 12px;
-    }
+    .padding-x(12px, 5px);
   }
 
   .updown-picker-value {

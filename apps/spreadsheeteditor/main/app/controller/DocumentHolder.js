@@ -112,7 +112,8 @@ define([
                 },
                 eyedropper: {
                     isHidden: true
-                }
+                },
+                placeholder: {}
             };
             me.mouse = {};
             me.popupmenu = false;
@@ -1550,6 +1551,15 @@ define([
             }
         },
 
+        hidePlaceholderTip: function() {
+            if (!this.tooltips.placeholder.isHidden && this.tooltips.placeholder.ref) {
+                this.tooltips.placeholder.ref.hide();
+                this.tooltips.placeholder.ref = undefined;
+                this.tooltips.placeholder.text = '';
+                this.tooltips.placeholder.isHidden = true;
+            }
+        },
+
         onApiMouseMove: function(dataarray) {
             if (!this._isFullscreenMenu && dataarray.length) {
                 var index_hyperlink,
@@ -1561,7 +1571,8 @@ define([
                         index_filter,
                         index_slicer,
                         index_foreign,
-                        index_eyedropper;
+                        index_eyedropper,
+                        index_placeholder;
                 for (var i = dataarray.length; i > 0; i--) {
                     switch (dataarray[i-1].asc_getType()) {
                         case Asc.c_oAscMouseMoveType.Hyperlink:
@@ -1593,6 +1604,9 @@ define([
                         case Asc.c_oAscMouseMoveType.Eyedropper:
                             index_eyedropper = i;
                             break;
+                        case Asc.c_oAscMouseMoveType.Placeholder:
+                            index_placeholder = i;
+                            break;
                     }
                 }
 
@@ -1608,6 +1622,7 @@ define([
                     slicerTip       = me.tooltips.slicer,
                     foreignSelect   = me.tooltips.foreignSelect,
                     eyedropperTip   = me.tooltips.eyedropper,
+                    placeholderTip   = me.tooltips.placeholder,
                     pos             = [
                         me.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
                         me.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
@@ -1655,6 +1670,9 @@ define([
                             slicerTip.text = '';
                             slicerTip.isHidden = true;
                         }
+                    }
+                    if (!index_placeholder) {
+                        me.hidePlaceholderTip();
                     }
                 }
                 if (index_filter===undefined || (me.dlgFilter && me.dlgFilter.isVisible()) || (me.currentMenu && me.currentMenu.isVisible())) {
@@ -1848,6 +1866,59 @@ define([
                                         top         : showPoint[1] + 'px'
                                     });
                             }
+                        }
+                    }
+
+                    if (index_placeholder) {
+                        if (!placeholderTip.parentEl) {
+                            placeholderTip.parentEl = $('<div id="tip-container-placeholdertip" style="position: absolute; z-index: 10000;"></div>');
+                            me.documentHolder.cmpEl.append(placeholderTip.parentEl);
+                        }
+
+                        var data  = dataarray[index_placeholder-1],
+                            phstr;
+
+                        switch (data.asc_getPlaceholderType()) {
+                            case AscCommon.PlaceholderButtonType.Image:
+                                phstr = me.documentHolder.txtInsImage;
+                                break;
+                            case AscCommon.PlaceholderButtonType.ImageUrl:
+                                phstr = me.documentHolder.txtInsImageUrl;
+                                break;
+                        }
+
+                        if (placeholderTip.ref && placeholderTip.ref.isVisible()) {
+                            if (placeholderTip.text != phstr) {
+                                placeholderTip.ref.hide();
+                                placeholderTip.ref = undefined;
+                                placeholderTip.text = '';
+                                placeholderTip.isHidden = true;
+                            }
+                        }
+
+                        if (!placeholderTip.ref || !placeholderTip.ref.isVisible()) {
+                            placeholderTip.text = phstr;
+                            placeholderTip.ref = new Common.UI.Tooltip({
+                                owner   : placeholderTip.parentEl,
+                                html    : true,
+                                title   : phstr
+                            });
+
+                            placeholderTip.ref.show([-10000, -10000]);
+                            placeholderTip.isHidden = false;
+
+                            showPoint = [data.asc_getX(), data.asc_getY()];
+                            showPoint[0] += (pos[0] + 6);
+                            showPoint[1] += (pos[1] - 20);
+                            showPoint[1] -= placeholderTip.ref.getBSTip().$tip.height();
+                            var tipwidth = placeholderTip.ref.getBSTip().$tip.width();
+                            if (showPoint[0] + tipwidth > me.tooltips.coauth.bodyWidth )
+                                showPoint[0] = me.tooltips.coauth.bodyWidth - tipwidth;
+
+                            placeholderTip.ref.getBSTip().$tip.css({
+                                top : showPoint[1] + 'px',
+                                left: showPoint[0] + 'px'
+                            });
                         }
                     }
                 }

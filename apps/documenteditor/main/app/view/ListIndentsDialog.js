@@ -65,7 +65,7 @@ define([
                 '<div class="box" style="height: 85px;">',
                     '<table cols="2" style="width: 100%;">',
                         '<tr>',
-                            '<td style="padding-right: 10px;">',
+                            '<td class="padding-right-10">',
                                 '<label class="input-label">' + (this.isBullet ? this.txtPosBullet : this.txtPosNumber) + '</label>',
                                 '<div id="id-dlg-indents-align-at" style="margin-bottom: 10px;"></div>',
                             '</td>',

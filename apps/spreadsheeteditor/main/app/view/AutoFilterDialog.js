@@ -1020,7 +1020,7 @@ define([
                             '<button class="btn normal dlg-btn" result="cancel">', t.cancelButtonText, '</button>',
                         '</div>',
                     '</div>',
-                    '<div class="menu-panel" style="float: right;">',
+                    '<div class="menu-panel">',
                         '<div id="menu-container-filters" style=""><div class="dropdown-toggle" data-toggle="dropdown"></div></div>',
                     '</div>',
                 '</div>'

@@ -8,8 +8,8 @@ const load_stylesheet = reflink => {
     document.getElementsByTagName("head")[0].appendChild(link);
 };
 
-if ( !!Android && Android.editorConfig ) {
-    window.native = {editorConfig: Android.editorConfig()}
+if ( !!window.Android && window.Android.editorConfig ) {
+    window.native = {editorConfig: window.Android.editorConfig()}
 }
 
 if ( localStorage && localStorage.getItem('mobile-mode-direction') === 'rtl' ) {

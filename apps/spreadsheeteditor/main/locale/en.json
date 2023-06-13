@@ -2397,6 +2397,8 @@
   "SSE.Views.DocumentHolder.unicodeText": "Unicode",
   "SSE.Views.DocumentHolder.vertAlignText": "Vertical alignment",
   "SSE.Views.DocumentHolder.txtShowDetails": "Show details",
+  "SSE.Views.DocumentHolder.txtInsImage": "Insert image from File",
+  "SSE.Views.DocumentHolder.txtInsImageUrl": "Insert image from URL",
   "SSE.Views.ExternalLinksDlg.closeButtonText": "Close",
   "SSE.Views.ExternalLinksDlg.textDelete": "Break links",
   "SSE.Views.ExternalLinksDlg.textDeleteAll": "Break all links",

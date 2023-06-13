@@ -1,0 +1,17 @@
+{
+    "name": "Simple light theme",
+    "l10n": {
+        "fr": "Thème de lumière simple",
+        "de": "Eenvoudig licht thema"
+      },
+    "id" : "theme-id-simple-light",
+    "type" : "light",
+    "colors" : {
+        "background-primary-dialog-button": "#2e8df2",
+        "highlight-button-hover": "#DFEAF9",
+        "highlight-button-pressed": "#B4CCEB",
+        "highlight-button-pressed-hover": "#B4CCEB",
+        "highlight-primary-dialog-button-hover": "#52a6ff",
+        "border-control-focus": "#2e8df2"
+    }
+}

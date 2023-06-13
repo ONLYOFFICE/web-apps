@@ -682,14 +682,14 @@ define([
 
             var numFormatTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem">'+
                 '<div style="position: relative;">'+
-                    '<div style="position: absolute; left: 0; width: 100px;"><%= caption %></div>' +
-                    '<label style="width: 100%; max-width: 300px; overflow: hidden; text-overflow: ellipsis; text-align: right; vertical-align: bottom; padding-left: 100px; color: silver;cursor: pointer;"><%= options.exampleval ? options.exampleval : "" %></label>' +
+                    '<div class="display-value"><%= caption %></div>' +
+                    '<label class="example-val" style="cursor: pointer;"><%= options.exampleval ? options.exampleval : "" %></label>' +
                 '</div></a>');
 
             me.pmiNumFormat = new Common.UI.MenuItem({
                 caption: me.txtNumFormat,
                 menu: new Common.UI.Menu({
-                    cls: 'shifted-right',
+                    cls: 'shifted-right format-num-cls',
                     menuAlign: 'tl-tr',
                     items: [
                         {
@@ -1814,7 +1814,9 @@ define([
         txtTop10: 'Top 10',
         txtClearPivotField: 'Clear filter from {0}',
         txtSortOption: 'More sort options',
-        txtShowDetails: 'Show details'
+        txtShowDetails: 'Show details',
+        txtInsImage: 'Insert image from File',
+        txtInsImageUrl: 'Insert image from URL'
 
     }, SSE.Views.DocumentHolder || {}));
 });

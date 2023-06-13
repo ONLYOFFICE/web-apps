@@ -573,7 +573,7 @@ define([
             var itemsTemplate =
                 [
                     '<% _.each(items, function(item) { %>',
-                        '<li id="<%= item.id %>" data-value="<%= Common.Utils.String.htmlEncode(item.value) %>"><a tabindex="-1" type="menuitem" style="padding-left: 10px;overflow: hidden; text-overflow: ellipsis;">',
+                        '<li id="<%= item.id %>" data-value="<%= Common.Utils.String.htmlEncode(item.value) %>"><a tabindex="-1" type="menuitem" style="' + (Common.UI.isRTL() ? 'padding-right: 10px;': 'padding-left: 10px;') + 'overflow: hidden; text-overflow: ellipsis;">',
                             '<span class="color" style="background: <%= item.color %>;"></span>',
                             '<%= Common.Utils.String.htmlEncode(item.displayValue) %>',
                         '</a></li>',
@@ -1662,7 +1662,7 @@ define([
                     parentEl: (this.$el || $(this.el)).findById('#form-color-btn'),
                     additionalItems: [
                         this.mnuNoBorder = new Common.UI.MenuItem({
-                            style: 'padding-left:20px;',
+                            style: Common.UI.isRTL() ? 'padding-right:20px;' : 'padding-left:20px;',
                             caption: this.textNoBorder,
                             toggleGroup: 'form-settings-no-border',
                             checkable: true
