@@ -2802,14 +2802,12 @@ define([
         },
 
         generateSmartArt: function (groupName, menu) {
-            if (menu) {
-                this.currentSmartArtMenu = menu;
-            }
+            this.docHolderMenu = menu;
             this.api.asc_generateSmartArtPreviews(groupName);
         },
 
         onApiBeginSmartArtPreview: function () {
-            this.smartArtGroups = this.currentSmartArtMenu ? this.currentSmartArtMenu.items : this.toolbar.btnInsertSmartArt.menu.items;
+            this.smartArtGroups = this.docHolderMenu ? this.docHolderMenu.items : this.toolbar.btnInsertSmartArt.menu.items;
             this.smartArtData = Common.define.smartArt.getSmartArtData();
         },
 
@@ -2841,7 +2839,6 @@ define([
             if (this.currentSmartArtCategoryMenu) {
                 this.currentSmartArtCategoryMenu.menu.alignPosition();
             }
-            this.currentSmartArtMenu = undefined;
         },
 
         onInsertSmartArt: function (value) {
