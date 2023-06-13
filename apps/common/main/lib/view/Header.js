@@ -57,7 +57,13 @@ define([
         var templateUserItem =
                 '<li id="<%= user.get("iid") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %>">' +
                     '<div class="user-name">' +
-                        '<div class="color" style="background-color: <%= user.get("color") %>;"></div>'+
+                        '<div class="color"' + 
+                            '<% if (user.get("avatar")) { %>' +
+                                'style="background-image: url(<%=user.get("avatar")%>); <% if (user.get("color")!==null) { %> border-color:<%=user.get("color")%>; border-style: solid;<% }%>"' +
+                            '<% } else { %>' +
+                                'style="background-color: <% if (user.get("color")!==null) { %> <%=user.get("color")%> <% } else { %> #cfcfcf <% }%>;"' +
+                            '<% } %>' +
+                        '><% if (!user.get("avatar")) { %><%=user.get("initials")%><% } %></div>' +
                         '<label><%= fnEncode(user.get("username")) %></label>' +
                         '<% if (len>1) { %><label class="margin-left-3">(<%=len%>)</label><% } %>' +
                     '</div>'+
