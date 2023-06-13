@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *    LeftMenu.js
  *
@@ -91,6 +90,7 @@ define([
                 el: $markup.elementById('#left-btn-searchbar'),
                 hint: this.tipSearch,
                 disabled: true,
+                iconCls: 'btn-menu-search',
                 enableToggle: true,
                 toggleGroup: 'leftMenuGroup'
             });
@@ -102,6 +102,7 @@ define([
                 hint: this.tipAbout,
                 enableToggle: true,
                 disabled: true,
+                iconCls: 'btn-menu-about',
                 toggleGroup: 'leftMenuGroup'
             });
             this.btnAbout.on('toggle',          this.onBtnMenuToggle.bind(this));
@@ -110,6 +111,7 @@ define([
                 action: 'support',
                 el: $markup.elementById('#left-btn-support'),
                 hint: this.tipSupport,
+                iconCls: 'btn-menu-support',
                 disabled: true
             });
 
@@ -119,6 +121,7 @@ define([
                 hint: this.tipComments + Common.Utils.String.platformKey('Ctrl+Shift+H'),
                 enableToggle: true,
                 disabled: true,
+                iconCls: 'btn-menu-comments',
                 toggleGroup: 'leftMenuGroup'
             });
             this.btnComments.on('click',        this.onBtnMenuClick.bind(this));
@@ -129,6 +132,7 @@ define([
                 hint: this.tipChat + Common.Utils.String.platformKey('Alt+Q', ' (' + (Common.Utils.isMac ? Common.Utils.String.textCtrl + '+' : '') + '{0})'),
                 enableToggle: true,
                 disabled: true,
+                iconCls: 'btn-menu-chat',
                 toggleGroup: 'leftMenuGroup'
             });
             this.btnChat.on('click',            this.onBtnMenuClick.bind(this));
@@ -143,6 +147,7 @@ define([
                 hint: this.tipPlugins,
                 enableToggle: true,
                 disabled: true,
+                iconCls: 'btn-menu-plugin',
                 toggleGroup: 'leftMenuGroup'
             });
             this.btnPlugins.hide();
@@ -153,6 +158,7 @@ define([
                 hint: this.tipOutline,
                 enableToggle: true,
                 disabled: true,
+                iconCls: 'btn-menu-navigation',
                 toggleGroup: 'leftMenuGroup'
             });
             this.btnNavigation.on('click',         this.onBtnMenuClick.bind(this));
@@ -165,6 +171,7 @@ define([
                 hint: this.tipPageThumbnails,
                 enableToggle: true,
                 disabled: true,
+                iconCls: 'btn-menu-thumbs',
                 toggleGroup: 'leftMenuGroup'
             });
             this.btnThumbnails.hide();

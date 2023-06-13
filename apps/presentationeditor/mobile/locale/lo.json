@@ -112,7 +112,6 @@
       "textHasMacros": "ເອກະສານບັນຈຸ ມາກໂຄ <br> ແບບອັດຕະໂນມັດ, ທ່ານຍັງຕ້ອງການດໍາເນີນງານ ມາກໂຄ ບໍ ",
       "textNo": "ບໍ່",
       "textNoLicenseTitle": "ໃບອະນຸຍາດໄດ້ເຖິງຈຳນວນທີ່ຈຳກັດແລ້ວ",
-      "textNoTextFound": "ບໍ່ພົບເນື້ອຫາ",
       "textOpenFile": "ໃສ່ລະຫັດຜ່ານເພື່ອເປີດໄຟລ໌",
       "textPaidFeature": "ຄຸນສົມບັດທີ່ຈ່າຍ",
       "textRemember": "ຈື່ຈໍາທາງເລືອກ",
@@ -132,7 +131,11 @@
       "warnNoLicense": "ທ່ານໄດ້ຖືກຈຳກັດສິດພຽງເທົ່ານີ້ສຳຫລັບການເຊື່່ອມພ້ອມກັນກັບເຄື່ອງມືແກ້ໄຂ %1 ແລ້ວເອກະສານນີ້ຈະເປີດໃຫ້ເບີ່ງເທົ່ານັ້ນ ຕິດຕໍ່ທີມຂາຍ %1 ສຳຫລັບເງື່ອນໄຂການອັບເກດສ່ວນບຸກຄົນ",
       "warnNoLicenseUsers": "ຈໍານວນການເຊື່ອມຕໍ່ພ້ອມກັນກັບບັນນາທິການ ແມ່ນເກີນກໍານົດ % 1. ຕິດຕໍ່ ທີມຂາຍ %1 ສຳລັບຂໍ້ກຳນົດການຍົກລະດັບສິດ",
       "warnProcessRightsChange": "ທ່ານບໍ່ມີສິດໃນການແກ້ໄຂໄຟລ໌ນີ້.",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "textNoMatches": "No Matches",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {
@@ -260,6 +263,7 @@
       "textTableSize": "ຂະໜາດຕາຕະລາງ",
       "txtNotUrl": "ຊ່ອງຂໍ້ມູນນີ້ຄວນຈະເປັນ URL ໃນຮູບແບບ \"http://www.example.com\"",
       "textDone": "Done",
+      "textPasteImageUrl": "Paste an image URL",
       "textRecommended": "Recommended",
       "textRequired": "Required"
     },
@@ -355,7 +359,6 @@
       "textNextSlide": "ພາບສະໄລທັດໄປ",
       "textNone": "ບໍ່ມີ",
       "textNoStyles": "ບໍ່ມີຮູບແບບສຳລັບແຜນວາດປະເພດນີ້.",
-      "textNoTextFound": "ບໍ່ພົບເນື້ອຫາ",
       "textNotUrl": "ຊ່ອງຂໍ້ມູນນີ້ຄວນຈະເປັນ URL ໃນຮູບແບບ \"http://www.example.com\"",
       "textNumbers": "ຕົວເລກ",
       "textOk": "ຕົກລົງ",
@@ -416,6 +419,7 @@
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textInsertImage": "Insert Image",
+      "textNoMatches": "No Matches",
       "textRecommended": "Recommended",
       "textRequired": "Required"
     },
@@ -455,7 +459,6 @@
       "textLoading": "ກໍາລັງດາວໂຫຼດ...",
       "textLocation": "ສະຖານທີ",
       "textMacrosSettings": "ການຕັ້ງຄ່າທົ່ວໄປ",
-      "textNoTextFound": "ບໍ່ພົບເນື້ອຫາ",
       "textOwner": "ເຈົ້າຂອງ",
       "textPoint": "ຈຸດ",
       "textPoweredBy": "ສ້າງໂດຍ",
@@ -500,6 +503,7 @@
       "txtScheme9": "ໂຮງຫລໍ່",
       "notcriticalErrorTitle": "Warning",
       "textFeedback": "Feedback & Support",
+      "textNoMatches": "No Matches",
       "textOk": "Ok",
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRTL": "RTL"

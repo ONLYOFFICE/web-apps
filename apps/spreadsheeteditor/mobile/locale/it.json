@@ -150,13 +150,13 @@
       "textNo": "No",
       "textNoChoices": "Non ci sono alternative per riempire la cella.<br>Solo i valori testo dalla colonna possono essere selezionati per la sostituzione",
       "textNoLicenseTitle": "È stato raggiunto il limite della licenza",
-      "textNoTextFound": "Testo non trovato",
       "textOk": "OK",
       "textPaidFeature": "Funzionalità a pagamento",
       "textRemember": "Ricordare la mia scelta",
       "textReplaceSkipped": "La sostituzione è stata effettuata. {0} casi sono stati saltati.",
       "textReplaceSuccess": "La ricerca è stata effettuata. Casi sostituiti: {0}",
       "textRequestMacros": "Una macro effettua una richiesta all'URL. Vuoi consentire la richiesta al %1?",
+      "textUpdate": "Aggiorna",
       "textYes": "Sì",
       "titleLicenseExp": "La licenza è scaduta",
       "titleServerVersion": "L'editor è stato aggiornato",
@@ -170,8 +170,11 @@
       "warnNoLicenseUsers": "Hai raggiunto il limite degli utenti per gli editor %1. Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
       "warnProcessRightsChange": "Non hai il permesso di modificare il file.",
       "textDontUpdate": "Don't Update",
-      "textUpdate": "Update",
-      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data."
+      "textNoMatches": "No Matches",
+      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {
@@ -254,6 +257,7 @@
     "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorProtectedRange": "This range is not allowed for editing.",
     "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
     "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
   },
@@ -392,7 +396,8 @@
       "txtNotUrl": "Questo campo deve essere un URL nel formato \"http://www.example.com\"",
       "txtSorting": "Ordinamento",
       "txtSortSelected": "Ordinare selezionato",
-      "txtYes": "Sì"
+      "txtYes": "Sì",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avvertimento",
@@ -645,7 +650,6 @@
       "textMargins": "Margini",
       "textMatchCase": "Maiuscole/minuscole",
       "textMatchCell": "Abbinare celle",
-      "textNoTextFound": "Testo non trovato",
       "textOk": "OK",
       "textOpenFile": "Inserisci la password per aprire il file",
       "textOrientation": "Orientamento",
@@ -748,6 +752,7 @@
       "warnDownloadAs": "Se continui a salvare in questo formato, tutte le funzioni tranne il testo saranno perse.<br>Sei sicuro di voler continuare?",
       "strFuncLocale": "Formula Language",
       "strFuncLocaleEx": "Example: SUM; MIN; MAX; COUNT",
+      "textNoMatches": "No Matches",
       "txtDe": "Deutsch"
     }
   }

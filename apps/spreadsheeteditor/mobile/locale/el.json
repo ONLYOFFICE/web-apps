@@ -64,9 +64,9 @@
     "notcriticalErrorTitle": "Προειδοποίηση",
     "textCopyCutPasteActions": "Ενέργειες Αντιγραφής, Αποκοπής και Επικόλλησης",
     "textDoNotShowAgain": "Να μην εμφανιστεί ξανά",
+    "textOk": "Εντάξει",
     "warnMergeLostData": "Μόνο τα δεδομένα από το επάνω αριστερό κελί θα παραμείνουν στο συγχωνευμένο κελί.<br>Είστε σίγουροι ότι θέλετε να συνεχίσετε;",
     "menuEditLink": "Edit Link",
-    "textOk": "Ok",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
@@ -150,13 +150,13 @@
       "textNo": "Όχι",
       "textNoChoices": "Δεν υπάρχουν επιλογές για το γέμισμα του κελιού.<br>Μόνο τιμές κειμένου από την στήλη μπορούν να επιλεγούν για αντικατάσταση.",
       "textNoLicenseTitle": "Το όριο της άδειας προσεγγίσθηκε",
-      "textNoTextFound": "Δεν βρέθηκε το κείμενο",
       "textOk": "Εντάξει",
       "textPaidFeature": "Δυνατότητα επί πληρωμή",
       "textRemember": "Απομνημόνευση επιλογής",
       "textReplaceSkipped": "Η αντικατάσταση έγινε. {0} εμφανίσεις προσπεράστηκαν.",
       "textReplaceSuccess": "Η αναζήτηση ολοκληρώθηκε. Εμφανίσεις που αντικαταστάθηκαν: {0}",
       "textRequestMacros": "Μια μακροεντολή κάνει ένα αίτημα σε διεύθυνση URL. Θέλετε να επιτρέψετε το αίτημα στο %1;",
+      "textUpdate": "Ενημέρωση",
       "textYes": "Ναι",
       "titleServerVersion": "Ο συντάκτης ενημερώθηκε",
       "titleUpdateVersion": "Η έκδοση άλλαξε",
@@ -168,9 +168,12 @@
       "warnNoLicenseUsers": "Έχετε φτάσει το όριο χρήστη για συντάκτες %1.<br>Επικοινωνήστε με την ομάδα πωλήσεων %1 για προσωπικούς όρους αναβάθμισης.",
       "warnProcessRightsChange": "Δεν έχετε δικαίωμα επεξεργασίας του αρχείου.",
       "textDontUpdate": "Don't Update",
-      "textUpdate": "Update",
+      "textNoMatches": "No Matches",
       "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
       "titleLicenseExp": "License expired",
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
       "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
     }
   },
@@ -199,6 +202,7 @@
     "errorDataRange": "Εσφαλμένο εύρος δεδομένων.",
     "errorDataValidate": "Η τιμή που βάλατε δεν είναι έγκυρη.<br>Κάποιος χρήστης έχει περιορίσει τις δυνατές τιμές σε αυτό το κελί.",
     "errorDefaultMessage": "Κωδικός σφάλματος: %1",
+    "errorDirectUrl": "Παρακαλούμε επιβεβαιώστε τον σύνδεσμο προς το έγγραφο.<br>Αυτός ο σύνδεσμος πρέπει να είναι άμεσος σύνδεσμος προς το αρχείο για κατέβασμα.",
     "errorEditingDownloadas": "Σφάλμα κατά την την εργασία με το έγγραφο.<br>Χρησιμοποιήστε την επιλογή \"Μεταφόρτωση\" για να αποθηκεύσετε τοπικά το αντίγραφο ασφαλείας.",
     "errorFilePassProtect": "Το αρχείο προστατεύεται με συνθηματικό και δεν μπορεί να ανοίξει.",
     "errorFileRequest": "Εξωτερικό σφάλμα.<br>Αίτημα Αρχείου. Παρακαλούμε, επικοινωνήστε με την υποστήριξη.",
@@ -242,20 +246,20 @@
     "saveErrorText": "Σφάλμα κατά την αποθήκευση του αρχείου",
     "scriptLoadError": "Η σύνδεση είναι πολύ αργή, κάποια από τα στοιχεία δεν φορτώθηκαν. Παρακαλούμε, φορτώστε ξανά τη σελίδα.",
     "textErrorPasswordIsNotCorrect": "Το συνθηματικό που βάλατε δεν είναι σωστό.<br>Βεβαιωθείτε ότι το πλήκτρο CAPS LOCK είναι ανενεργό και ότι βάζετε κεφαλαία όπου χρειάζεται.",
+    "textOk": "Εντάξει",
     "unknownErrorText": "Άγνωστο σφάλμα.",
     "uploadImageExtMessage": "Άγνωστη μορφή εικόνας.",
     "uploadImageFileCountMessage": "Δεν μεταφορτώθηκαν εικόνες.",
     "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB.",
-    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
     "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
     "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorProtectedRange": "This range is not allowed for editing.",
     "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
     "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
-    "textCancel": "Cancel",
-    "textOk": "Ok"
+    "textCancel": "Cancel"
   },
   "LongActions": {
     "advDRMPassword": "Συνθηματικό",
@@ -290,6 +294,7 @@
     "textLoadingDocument": "Φόρτωση εγγράφου",
     "textNo": "Όχι",
     "textOk": "Εντάξει",
+    "textUndo": "Αναίρεση",
     "textUnlockRange": "Ξεκλείδωμα Εύρους",
     "textUnlockRangeWarning": "Ένα εύρος που προσπαθείτε να τροποποιήσετε προστατεύεται με συνθηματικό.",
     "textYes": "Ναι",
@@ -298,8 +303,7 @@
     "uploadImageTitleText": "Μεταφόρτωση Εικόνας",
     "waitText": "Παρακαλούμε, περιμένετε...",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textContinue": "Continue",
-    "textUndo": "Undo"
+    "textContinue": "Continue"
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Προειδοποίηση",
@@ -375,6 +379,7 @@
       "textPictureFromLibrary": "Εικόνα από βιβλιοθήκη",
       "textPictureFromURL": "Εικόνα από σύνδεσμο",
       "textRange": "Εύρος",
+      "textRecommended": "Προτεινόμενα",
       "textRequired": "Απαιτείται",
       "textScreenTip": "Συμβουλή Οθόνης",
       "textSelectedRange": "Επιλεγμένο Εύρος",
@@ -392,7 +397,7 @@
       "txtSortSelected": "Ταξινόμηση επιλεγμένων",
       "txtYes": "Ναι",
       "textDone": "Done",
-      "textRecommended": "Recommended"
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Προειδοποίηση",
@@ -525,6 +530,7 @@
       "textPound": "Λίβρα",
       "textPt": "pt",
       "textRange": "Εύρος",
+      "textRecommended": "Προτεινόμενα",
       "textRemoveChart": "Αφαίρεση Γραφήματος",
       "textRemoveShape": "Αφαίρεση Σχήματος",
       "textReplace": "Αντικατάσταση",
@@ -577,8 +583,7 @@
       "textChangeShape": "Change Shape",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
-      "textDone": "Done",
-      "textRecommended": "Recommended"
+      "textDone": "Done"
     },
     "Settings": {
       "advCSVOptions": "Επιλέξτε CSV επιλογές",
@@ -646,7 +651,6 @@
       "textMargins": "Περιθώρια",
       "textMatchCase": "Ταίριασμα Πεζών-Κεφαλαίων",
       "textMatchCell": "Ταίριασμα Κελιού",
-      "textNoTextFound": "Δεν βρέθηκε το κείμενο",
       "textOk": "Εντάξει",
       "textOpenFile": "Εισάγετε συνθηματικό για να ανοίξετε το αρχείο",
       "textOrientation": "Προσανατολισμός",
@@ -747,6 +751,7 @@
       "txtVi": "Βιετναμέζικα",
       "warnDownloadAs": "Αν προχωρήσετε με την αποθήκευση σε αυτή τη μορφή, όλα τα χαρακτηριστικά πλην του κειμένου θα χαθούν.<br>Θέλετε σίγουρα να συνεχίσετε;",
       "strFuncLocale": "Formula Language",
+      "textNoMatches": "No Matches",
       "txtDe": "Deutsch",
       "txtZh": "Chinese"
     }

@@ -9,6 +9,12 @@
         padding-left: 1px;
         padding-right: @trigger-width + 2px;
 
+        .rtl & {
+            text-align: left;
+            padding-left: @trigger-width + 2px;
+            padding-right: 1px;
+        }
+
         &:focus {
             // border-color: @border-preview-select;
         }
@@ -45,6 +51,12 @@
         border-top: @scaled-one-px-value solid transparent;
         border-bottom: @scaled-one-px-value-ie solid transparent;
         border-bottom: @scaled-one-px-value solid transparent;
+        font-size: 11px; // must be const value
+
+        .rtl & {
+            right: unset;
+            left: 1px;
+        }
 
         i {
             display: inline-block;

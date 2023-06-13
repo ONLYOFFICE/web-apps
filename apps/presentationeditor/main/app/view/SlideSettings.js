@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  SlideSettings.js
  *
@@ -145,6 +144,7 @@ define([
                 transparent: true,
                 menu: true,
                 color: 'ffffff',
+                eyeDropper: true,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
@@ -581,7 +581,8 @@ define([
 
         onGradientChange: function(slider, newValue, oldValue){
             this.GradColor.values = slider.getValues();
-            this.spnGradPosition.setValue(this.GradColor.values[this.GradColor.currentIdx], true);
+            var curValue = this.GradColor.values[this.GradColor.currentIdx];
+            this.spnGradPosition.setValue(Common.UI.isRTL() ? this.sldrGradient.maxValue - curValue : curValue, true);
             this._sliderChanged = true;
             if (this.api && !this._noApply) {
                 if (this._sendUndoPoint)  {
@@ -783,7 +784,7 @@ define([
             this.cmbGradType = new Common.UI.ComboBox({
                 el: $('#slide-combo-grad-type'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 90px;',
+                menuStyle: 'min-width: 100%;',
                 editable: false,
                 data: this._arrGradType,
                 dataHint: '1',
@@ -814,6 +815,7 @@ define([
 
             this.btnDirection = new Common.UI.Button({
                 cls         : 'btn-large-dataview',
+                scaling     : false,
                 iconCls     : 'item-gradient gradient-left',
                 menu        : new Common.UI.Menu({
                     style: 'min-width: 60px;',
@@ -856,7 +858,7 @@ define([
                 me.btnGradColor.setColor(color);
                 me.colorsGrad.select(color,false);
                 var pos = me.GradColor.values[me.GradColor.currentIdx];
-                me.spnGradPosition.setValue(pos, true);
+                me.spnGradPosition.setValue(Common.UI.isRTL() ? me.sldrGradient.maxValue - pos : pos, true);
             });
             this.sldrGradient.on('thumbdblclick', function(cmp){
                 me.btnGradColor.cmpEl.find('button').dropdown('toggle');
@@ -1078,11 +1080,14 @@ define([
             if (!this.colorsBack) {
                 this.btnBackColor.setMenu();
                 this.btnBackColor.on('color:select', _.bind(this.onColorsBackSelect, this));
+                this.btnBackColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                this.btnBackColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
                 this.colorsBack = this.btnBackColor.getPicker();
 
                 this.btnFGColor = new Common.UI.ColorButton({
                     parentEl: $('#slide-foreground-color-btn'),
                     color: '000000',
+                    eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -1090,10 +1095,13 @@ define([
                 this.FillItems.push(this.btnFGColor);
                 this.colorsFG = this.btnFGColor.getPicker();
                 this.btnFGColor.on('color:select', _.bind(this.onColorsFGSelect, this));
+                this.btnFGColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                this.btnFGColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
 
                 this.btnBGColor = new Common.UI.ColorButton({
                     parentEl: $('#slide-background-color-btn'),
                     color: 'ffffff',
+                    eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -1101,10 +1109,13 @@ define([
                 this.FillItems.push(this.btnBGColor);
                 this.colorsBG = this.btnBGColor.getPicker();
                 this.btnBGColor.on('color:select', _.bind(this.onColorsBGSelect, this));
+                this.btnBGColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                this.btnBGColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
 
                 this.btnGradColor = new Common.UI.ColorButton({
                     parentEl: $('#slide-gradient-color-btn'),
                     color: '000000',
+                    eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -1112,6 +1123,8 @@ define([
                 this.FillItems.push(this.btnGradColor);
                 this.colorsGrad = this.btnGradColor.getPicker();
                 this.btnGradColor.on('color:select', _.bind(this.onColorsGradientSelect, this));
+                this.btnGradColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                this.btnGradColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
             }
             
             this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
@@ -1295,7 +1308,8 @@ define([
                         me.GradColor.currentIdx = 0;
                     }
                     me.sldrGradient.setActiveThumb(me.GradColor.currentIdx);
-                    this.spnGradPosition.setValue(this.GradColor.values[this.GradColor.currentIdx]);
+                    var curValue = this.GradColor.values[this.GradColor.currentIdx];
+                    this.spnGradPosition.setValue(Common.UI.isRTL() ? this.sldrGradient.maxValue - curValue : curValue);
                     this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_GRAD;
                     this.FGColor = {Value: 1, Color: this.GradColor.colors[0]};
                     this.BGColor = {Value: 1, Color: 'ffffff'};
@@ -1450,8 +1464,11 @@ define([
         },
 
         onPositionChange: function(btn) {
-            var pos = btn.getNumberValue(),
-                minValue = (this.GradColor.currentIdx-1<0) ? 0 : this.GradColor.values[this.GradColor.currentIdx-1],
+            var pos = btn.getNumberValue();
+            if (Common.UI.isRTL()) {
+                pos = this.sldrGradient.maxValue - pos;
+            }
+            var minValue = (this.GradColor.currentIdx-1<0) ? 0 : this.GradColor.values[this.GradColor.currentIdx-1],
                 maxValue = (this.GradColor.currentIdx+1<this.GradColor.values.length) ? this.GradColor.values[this.GradColor.currentIdx+1] : 100,
                 needSort = pos < minValue || pos > maxValue;
             if (this.api) {
@@ -1518,6 +1535,15 @@ define([
                 props.put_background(fill);
                 this.api.SetSlideProps(props);
             }
+        },
+
+        onEyedropperStart: function (btn) {
+            this.api.asc_startEyedropper(_.bind(btn.eyedropperEnd, btn));
+            this.fireEvent('eyedropper', true);
+        },
+
+        onEyedropperEnd: function () {
+            this.fireEvent('eyedropper', false);
         },
 
         strColor                : 'Color',

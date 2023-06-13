@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -77,7 +76,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
     DE.Views.WatermarkSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 400,
-            height: 442
+            height: 442,
+            id: 'window-watermark'
         },
 
         initialize : function(options) {
@@ -187,6 +187,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             this.imageControls.push(this.btnSelectImage);
             this.btnSelectImage.menu.on('item:click', _.bind(this.onImageSelect, this));
             this.btnSelectImage.menu.items[2].setVisible(this.storage);
+            this.btnSelectImage.menu.items[1].setDisabled(this.options.disableNetworkFunctionality);
+            this.btnSelectImage.menu.items[2].setDisabled(this.options.disableNetworkFunctionality);
 
             this._arrScale = [
                 {displayValue: this.textAuto,   value: -1},
@@ -316,13 +318,14 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
 
             this.btnTextColor = new Common.UI.ButtonColored({
                 parentEl: $('#watermark-textcolor'),
-                cls         : 'btn-toolbar',
+                cls         : 'btn-toolbar move-focus',
                 iconCls     : 'toolbar__icon btn-fontcolor',
                 hint        : this.textColor,
                 additionalAlign: this.menuAddAlign,
                 auto: true,
                 color: 'c0c0c0',
-                menu: true
+                menu: true,
+                takeFocusOnClose: true
             });
             this.btnTextColor.setMenu();
             this.mnuTextColorPicker = this.btnTextColor.getPicker();
@@ -363,7 +366,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
         },
 
         getFocusedComponents: function() {
-            return [ this.radioNone, this.radioText, this.cmbLang, this.cmbText, this.cmbFonts, this.chTransparency, this.radioDiag, this.radioHor, this.radioImage, this.cmbFontSize, this.cmbScale ];
+            return [ this.radioNone, this.radioText, this.cmbLang, this.cmbText, this.cmbFonts, this.cmbFontSize, this.btnTextColor, this.btnBold, this.btnItalic, this.btnUnderline, this.btnStrikeout,
+                     this.chTransparency, this.radioDiag, this.radioHor, this.radioImage, this.cmbScale ];
         },
 
         getDefaultFocusableComponent: function () {

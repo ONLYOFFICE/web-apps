@@ -286,6 +286,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../apps/documenteditor/main/resources/css/app.css">
     <script src="../../../../../apps/common/main/lib/util/desktopinit.js?__inline=true"></script>
+    <script src="../../../../../apps/common/main/lib/util/themeinit.js?__inline=true"></script>
 </head>
 <body>
     <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>
@@ -321,8 +322,11 @@
     <inline src="../../common/main/resources/img/toolbar/shapetypes.svg" />
     <inline src="../../common/main/resources/img/toolbar/charttypes.svg" />
     <inline src="../../common/main/resources/img/toolbar/equationicons.svg" />
+    <inline src="../../common/main/resources/img/right-panels/arrows.svg" />
+    <inline src="../../common/main/resources/img/combo-border-size/BorderSize.svg" />
     <inline src="resources/img/form-points.svg" />
     <div id="viewport"></div>
+    <div class="inlined-svg"></div>
     <script data-main="app" src="../../../vendor/requirejs/require.js"></script>
 
 </body>

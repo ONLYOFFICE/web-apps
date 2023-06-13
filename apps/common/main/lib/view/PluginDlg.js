@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2022
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  * User: Julia.Radzhabova
  * Date: 17.05.16
@@ -54,7 +53,8 @@ define([
             var _options = {};
             _.extend(_options,  {
                 header: true,
-                enableKeyEvents: false
+                enableKeyEvents: false,
+                automove: false
             }, options);
 
             var header_footer = (_options.buttons && _.size(_options.buttons)>0) ? 85 : 34;
@@ -105,10 +105,11 @@ define([
             iframe.onload       = _.bind(this._onLoad,this);
 
             var me = this;
+            var pholder = this.$window.find('#id-plugin-placeholder');
             if (this.loader) {
                 setTimeout(function(){
                     if (me.isLoaded) return;
-                    me.loadMask = new Common.UI.LoadMask({owner: $('#id-plugin-placeholder')});
+                    me.loadMask = new Common.UI.LoadMask({owner: pholder});
                     me.loadMask.setTitle(me.textLoading);
                     me.loadMask.show();
                     if (me.isLoaded) me.loadMask.hide();
@@ -116,7 +117,7 @@ define([
             }
 
             iframe.src = this.url;
-            $('#id-plugin-placeholder').append(iframe);
+            pholder.append(iframe);
 
             this.on('resizing', function(args){
                 me.boxEl.css('height', parseInt(me.$window.css('height')) - me._headerFooterHeight);

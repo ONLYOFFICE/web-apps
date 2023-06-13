@@ -27,12 +27,12 @@
         text-align: center;
     }
 
-    #btn-zoom-topage {
+    #btn-zoom-topage, #btn-zoom-towidth {
         margin-right: 8px;
-    }
-
-    #btn-zoom-towidth {
-        margin-right: 8px;
+        .rtl & {
+            margin-right: 0;
+            margin-left: 8px;
+        }
     }
 
     .status-group {
@@ -51,6 +51,30 @@
         .margin-top-small > button,
         .margin-top-small > .btn-group {
             margin-top: 3px;
+        }
+
+        #slot-status-btn-preview {
+            margin-left: 9px;
+            .rtl & {
+                margin-left: 0;
+                margin-right: 9px;
+            }
+        }
+
+        #status-label-pages {
+            margin-left: 7px;
+            .rtl & {
+                margin-left: 0;
+                margin-right: 7px;
+            }
+        }
+
+        #btn-zoom-up {
+            margin-right: 40px;
+            .rtl & {
+                margin-right: 0;
+                margin-left: 40px;
+            }
         }
     }
 
@@ -81,6 +105,11 @@
             min-width: 80px;
             margin-left: -4px;
 
+            .rtl & {
+                margin-left: 0;
+                margin-right: -4px;
+            }
+
             li {
                 text-align: center;
 
@@ -98,9 +127,21 @@
         margin-bottom: 2px;
         min-width: 130px;
 
+        .rtl & {
+            margin-left: 0;
+            margin-right: 40px;
+        }
+
         > label {
             display: inline-block;
             margin-right: 10px;
+            float: left;
+            line-height: 22px;
+            .rtl & {
+                margin-right: 0;
+                margin-left: 10px;
+                float: right;
+            }
         }
 
         > input[type=text] {
@@ -114,7 +155,13 @@
         margin-left: 142px;
         margin-bottom: 2px;
         width: 285px;
-        font-size: 12px;
+        .font-size-medium();
+
+        .rtl & {
+            padding: 14px 14px 14px 0;
+            margin-left: 0;
+            margin-right: 142px;
+        }
 
         > label {
             white-space: normal;
@@ -135,6 +182,11 @@
                     padding: 2px 0;
                     margin-right: 15px;
                     overflow: hidden;
+
+                    .rtl & {
+                        margin-right: 0;
+                        margin-left: 15px;
+                    }
 
                     &.offline, &.viewmode {
                         display: none;
@@ -158,6 +210,51 @@
                 white-space: nowrap;
                 text-overflow: ellipsis;
                 vertical-align: middle;
+
+                .rtl & {
+                    padding-left: 0;
+                    padding-right: 16px;
+                }
+            }
+        }
+
+        .tip-users {
+            margin-right: 14px;
+            .rtl & {
+                margin-right: 0;
+                margin-left: 14px;
+            }
+        }
+    }
+
+    #status-users-ct {
+        .separator {
+            &:first-of-type {
+                margin-right: 12px;
+                margin-left: 40px;
+                .rtl & {
+                    margin-right: 40px;
+                    margin-left: 12px;
+                }
+            }
+
+            &:last-of-type {
+                margin-left: 10px;
+                .rtl & {
+                    margin-left: 0;
+                    margin-right: 10px;
+                }
+            }
+        }
+
+    }
+
+    .lang-menu {
+        li a {
+            padding-left: 28px !important;
+            .rtl & {
+                padding-left: 20px !important;
+                padding-right: 28px !important;
             }
         }
     }

@@ -50,6 +50,7 @@
     "menuCell": "Celda",
     "menuDelete": "Eliminar",
     "menuEdit": "Editar",
+    "menuEditLink": "Editar ligazón",
     "menuFreezePanes": "Inmobilizar paneis",
     "menuHide": "Agochar",
     "menuMerge": "Mesturar",
@@ -64,10 +65,9 @@
     "notcriticalErrorTitle": "Aviso",
     "textCopyCutPasteActions": "Accións de copiar, cortar e pegar",
     "textDoNotShowAgain": "Non amosar de novo",
-    "warnMergeLostData": "Na celda unida permanecerán só os datos da celda da esquina superior esquerda.<br>Ten a certeza de que quere continuar?",
-    "menuEditLink": "Edit Link",
-    "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "textOk": "Aceptar",
+    "txtWarnUrl": "Prema nesta ligazón pode ser prexudicial para o seu dispositivo e os seus datos.<br> Ten a certeza de que quere continuar?",
+    "warnMergeLostData": "Na celda unida permanecerán só os datos da celda da esquina superior esquerda.<br>Ten a certeza de que quere continuar?"
   },
   "Controller": {
     "Main": {
@@ -150,7 +150,6 @@
       "textNo": "Non",
       "textNoChoices": "Non hai opcións para encher a cela. <br> Só se poden seleccionar os valores de texto da columna para substituílos.",
       "textNoLicenseTitle": "Alcanzouse o límite da licenza",
-      "textNoTextFound": "Texto non atopado",
       "textOk": "Aceptar",
       "textPaidFeature": "Característica de pago",
       "textRemember": "Lembrar a miña escolla",
@@ -158,6 +157,7 @@
       "textReplaceSuccess": "A busca foi realizada. Ocorrencias substituídas: {0}",
       "textRequestMacros": "Unha macro fai unha petición á URL. Quere permitirlla a %1?",
       "textYes": "Si",
+      "titleLicenseExp": "A licenza expirou",
       "titleServerVersion": "Editor actualizado",
       "titleUpdateVersion": "Versión cambiada",
       "warnLicenseExceeded": "Alcanzou o límite de conexións simultáneas con %1 editores. Este documento abrirase só para a súa visualización. Póñase en contacto co seu administrador para obter máis información.",
@@ -168,9 +168,12 @@
       "warnNoLicenseUsers": "Alcanzou o límite de usuarios para os editores de %1.<br>Contacte co equipo de vendas de %1 para coñecer os termos de actualización persoal.",
       "warnProcessRightsChange": "Non ten permiso para editar o ficheiro.",
       "textDontUpdate": "Don't Update",
+      "textNoMatches": "No Matches",
       "textUpdate": "Update",
       "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
-      "titleLicenseExp": "License expired",
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
       "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
     }
   },
@@ -199,6 +202,7 @@
     "errorDataRange": "Intervalo de datos incorrecto.",
     "errorDataValidate": "O valor que introduciu non é válido. <br> Un usuario ten valores restrinxidos que se poden introducir nesta cela.",
     "errorDefaultMessage": "Código do erro: %1",
+    "errorDirectUrl": "Por favor, verifique a ligazón para o documento.<br>Esta ligazón debe ser a ligazón directa para descargar o ficheiro.",
     "errorEditingDownloadas": "Produciuse un erro ao traballar co documento.<br>use a opción 'Descargar' para gardar a copia de seguranza do ficheiro localmente.",
     "errorFilePassProtect": "O ficheiro está protexido polo contrasinal e non se pode abrir.",
     "errorFileRequest": "Erro externo.<br>Solicitude de ficheiro. Por favor, contacte co equipo de soporte.",
@@ -229,6 +233,8 @@
     "errorSessionIdle": "O documento non foi editado desde fai tempo. Por favor, volva a cargar a páxina.",
     "errorSessionToken": "A conexión co servidor interrompeuse. Por favor, volva a cargar a páxina.",
     "errorStockChart": "Orde incorrecta das filas. Para construír un gráfico de accións, coloque os datos na folla na seguinte orde: <br>prezo de apertura, prezo máximo, prezo mínimo e prezo de peche.",
+    "errorToken": "O token de seguridade do documento non está formado correctamente. <br> Póñase en contacto co administrador do servidor de documentos.",
+    "errorTokenExpire": "O token de seguridade do documento caducou. <br> Póñase en contacto co administrador do servidor de documentos.",
     "errorUnexpectedGuid": "Erro externo.<br> Directriz inesperada. Por favor, contacte co equipo de soporte.",
     "errorUpdateVersionOnDisconnect": "Restaurouse a conexión a Internet. A versión do ficheiro cambiou.<br>Antes de continuar traballando, necesitas descargar o ficheiro ou copiar o seu contido para estar seguro de que nada se perde e despois recargar a páxina.",
     "errorUserDrop": "Agora mesmo, non se pode acceder ao ficheiro.",
@@ -241,21 +247,19 @@
     "pastInMergeAreaError": "Non se pode modificar unha parte dunha celda combinada",
     "saveErrorText": "Produciuse un erro ao gardar o ficheiro",
     "scriptLoadError": "A conexión é demasiado lecta, algúns dos compoñentes non se puido cargar. Por favor, volva a cargar a páxina.",
+    "textCancel": "Cancelar",
     "textErrorPasswordIsNotCorrect": "O contrasinal que forneceu non é correcto. <br> Verifique que a tecla BLOQUEO MAIÚSCULAS estea desactivada e asegúrese de usar a maiúscula correcta.",
+    "textOk": "Aceptar",
     "unknownErrorText": "Erro descoñecido.",
     "uploadImageExtMessage": "Formato de imaxe descoñecido.",
     "uploadImageFileCountMessage": "Non hai imaxes subidas.",
     "uploadImageSizeMessage": "A imaxe é demasiado grande. O tamaño máximo é de 25 MB.",
-    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
     "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
     "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
-    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
-    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
-    "textCancel": "Cancel",
-    "textOk": "Ok"
+    "errorProtectedRange": "This range is not allowed for editing."
   },
   "LongActions": {
     "advDRMPassword": "Contrasinal",
@@ -290,6 +294,7 @@
     "textLoadingDocument": "Cargando o documento",
     "textNo": "Non",
     "textOk": "Aceptar",
+    "textUndo": "Desfacer",
     "textUnlockRange": "Desbloquear rango",
     "textUnlockRangeWarning": "O rango que está tratando de cambiar está protexido por contrasinal.",
     "textYes": "Si",
@@ -298,8 +303,7 @@
     "uploadImageTitleText": "Cargando imaxe",
     "waitText": "Agarde...",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textContinue": "Continue",
-    "textUndo": "Undo"
+    "textContinue": "Continue"
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Aviso",
@@ -355,6 +359,7 @@
       "textComment": "Comentario",
       "textDataTableHint": "Devolve as celas de datos da táboa ou das columnas da táboa especificadas",
       "textDisplay": "Amosar",
+      "textDone": "Concluído",
       "textEmptyImgUrl": "Necesita especificar a URL da imaxe.",
       "textExternalLink": "Ligazón externa",
       "textFilter": "Filtro",
@@ -375,6 +380,7 @@
       "textPictureFromLibrary": "Imaxe da biblioteca",
       "textPictureFromURL": "Imaxe da URL",
       "textRange": "Rango",
+      "textRecommended": "Recomendado",
       "textRequired": "Requirido",
       "textScreenTip": "Consello da pantalla",
       "textSelectedRange": "Rango seleccionado",
@@ -391,8 +397,7 @@
       "txtSorting": "Ordenación",
       "txtSortSelected": "Ordenar os obxectos seleccionados",
       "txtYes": "Si",
-      "textDone": "Done",
-      "textRecommended": "Recommended"
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Aviso",
@@ -424,6 +429,7 @@
       "textBottom": "Inferior",
       "textBottomBorder": "Bordo inferior",
       "textBringToForeground": "Traer ao primeiro plano",
+      "textCancel": "Cancelar",
       "textCell": "Celda",
       "textCellStyle": "Estilo da celda",
       "textCenter": "Centro",
@@ -445,6 +451,7 @@
       "textDisplay": "Amosar",
       "textDisplayUnits": "Unidades de visualización",
       "textDollar": "Dólar",
+      "textDone": "Concluído",
       "textEditLink": "Editar ligazón",
       "textEffects": "Efectos",
       "textEmptyImgUrl": "Necesita especificar a URL da imaxe.",
@@ -525,6 +532,7 @@
       "textPound": "Libra",
       "textPt": "pt",
       "textRange": "Rango",
+      "textRecommended": "Recomendado",
       "textRemoveChart": "Eliminar gráfico",
       "textRemoveShape": "Eliminar forma",
       "textReplace": "Substituír",
@@ -573,12 +581,9 @@
       "txtSortHigh2Low": "Ordenar de maior a menor",
       "txtSortLow2High": "Ordenar de menor a maior ",
       "textArrange": "Arrange",
-      "textCancel": "Cancel",
       "textChangeShape": "Change Shape",
       "textDeleteImage": "Delete Image",
-      "textDeleteLink": "Delete Link",
-      "textDone": "Done",
-      "textRecommended": "Recommended"
+      "textDeleteLink": "Delete Link"
     },
     "Settings": {
       "advCSVOptions": "Elexir os parámetros de CSV",
@@ -647,7 +652,6 @@
       "textMargins": "Marxes",
       "textMatchCase": "Diferenciar maiúsculas/minúsculas",
       "textMatchCell": "Facer coincidir as celdas",
-      "textNoTextFound": "Texto non atopado",
       "textOk": "Aceptar",
       "textOpenFile": "Insira o contrasinal para abrir o ficheiro",
       "textOrientation": "Orientación",
@@ -748,6 +752,7 @@
       "txtVi": "Vietnamita",
       "txtZh": "Chinés",
       "warnDownloadAs": "Se segue gardando neste formato, todas as características a excepción do texto perderanse.<br>Te na certeza de que desexa continuar?",
+      "textNoMatches": "No Matches",
       "txtDe": "Deutsch"
     }
   }

@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  Header.js
  *
@@ -152,7 +151,7 @@ define([
         function onResetUsers(collection, opts) {
             var usercount = collection.getVisibleEditingCount();
             if ( $userList ) {
-                if (usercount > 1 && appConfig && (appConfig.isEdit || appConfig.isRestrictedEdit)) {
+                if (appConfig && (usercount > 1 && (appConfig.isEdit || appConfig.isRestrictedEdit) || usercount >0 && appConfig.canLiveView)) {
                     $userList.html(templateUserList({
                         users: collection.chain().filter(function(item){return item.get('online') && !item.get('view') && !item.get('hidden')}).groupBy(function(item) {return item.get('idOriginal');}).value(),
                         usertpl: _.template(templateUserItem),
@@ -182,8 +181,7 @@ define([
 
         function applyUsers(count, originalCount) {
             if (!$btnUsers) return;
-
-            var has_edit_users = count > 1 && appConfig && (appConfig.isEdit || appConfig.isRestrictedEdit); // has other user(s) who edit document
+            var has_edit_users = appConfig && (count > 1 && (appConfig.isEdit || appConfig.isRestrictedEdit) || count > 0 && appConfig.canLiveView); // has other user(s) who edit document
             if ( has_edit_users ) {
                 $panelUsers['show']();
                 $btnUsers.find('.caption').html(originalCount);
@@ -316,7 +314,7 @@ define([
                     html: true
                 });
                 $btnUsers.on('click', onUsersClick.bind(me));
-                $panelUsers[(editingUsers > 1 && appConfig && (appConfig.isEdit || appConfig.isRestrictedEdit)) ? 'show' : 'hide']();
+                $panelUsers[(appConfig && (editingUsers > 1 && (appConfig.isEdit || appConfig.isRestrictedEdit) || editingUsers > 0 && appConfig.canLiveView)) ? 'show' : 'hide']();
                 updateDocNamePosition(appConfig);
             }
 
@@ -468,7 +466,7 @@ define([
                 this.isModified = false;
 
                 me.btnGoBack = new Common.UI.Button({
-                    id: 'btn-goback',
+                    id: 'btn-go-back',
                     cls: 'btn-header',
                     iconCls: 'toolbar__icon icon--inverse btn-goback',
                     dataHint: '0',
@@ -826,7 +824,11 @@ define([
                         this._testCanvas.font = font;
                     }
                 }
-                return this._testCanvas ? this._testCanvas.measureText(text).width : -1;
+                if (this._testCanvas) {
+                    var mt = this._testCanvas.measureText(text);
+                    return (mt.actualBoundingBoxLeft!==undefined) ? Math.ceil(Math.abs(mt.actualBoundingBoxLeft) + Math.abs(mt.actualBoundingBoxRight)) + 1 : (mt.width ? Math.ceil(mt.width)+2 : 0);
+                }
+                return -1;
             },
 
             setUserName: function(name) {

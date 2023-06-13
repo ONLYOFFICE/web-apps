@@ -64,7 +64,8 @@
     "textTableSize": "Táblázat mérete",
     "textWithBlueLinks": "Kék linkkel",
     "textWithPageNumbers": "Oldalszámokkal",
-    "txtNotUrl": "A mező URL-címének a \"http://www.example.com\" formátumban kell lennie"
+    "txtNotUrl": "A mező URL-címének a \"http://www.example.com\" formátumban kell lennie",
+    "textPasteImageUrl": "Paste an image URL"
   },
   "Common": {
     "Collaboration": {
@@ -426,6 +427,7 @@
     "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
     "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
     "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
   },
@@ -547,7 +549,6 @@
     "textHasMacros": "Ez a fájl makrókat tartalmaz.<br>Kíván makrókat futtatni?",
     "textNo": "Nem",
     "textNoLicenseTitle": "Elérte a licenckorlátot",
-    "textNoTextFound": "A szöveg nem található",
     "textPaidFeature": "Díjköteles funkció",
     "textRemember": "Választás megjegyzése",
     "textReplaceSkipped": "A csere megtörtént. {0} események kihagyásra kerültek.",
@@ -565,8 +566,18 @@
     "warnNoLicense": "Ön elérte az egyidejű kapcsolódás határát a %1 szerkesztőhöz. Ez a dokumentum csak megtekintésre lesz megnyitva. Lépjen kapcsolatba a(z) %1 értékesítési csapattal a perszonális frissítés feltételéhez.",
     "warnNoLicenseUsers": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználói korlátját. Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes frissítési feltételekért.",
     "warnProcessRightsChange": "Nincs jogosultsága a fájl szerkesztéséhez.",
+    "textDialogProtectedChangesTracked": "You may edit this document, but all changes will be tracked",
+    "textDialogProtectedEditComments": "You may only insert comments to this document",
+    "textDialogProtectedFillForms": "You may only fill in forms in this document",
+    "textDialogProtectedOnlyView": "You may only view this document",
     "textDocumentProtected": "The document is protected. Edit settings are not available",
-    "textOk": "Ok"
+    "textNoMatches": "No Matches",
+    "textOk": "Ok",
+    "titleDialogProtectedDocument": "The document is protected",
+    "titleLicenseNotActive": "License not active",
+    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
+    "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator."
   },
   "Settings": {
     "advDRMOptions": "Védett fájl",
@@ -635,7 +646,6 @@
     "textNavigation": "Navigáció",
     "textNo": "Nem",
     "textNoCharacters": "Nem nyomtatható karakterek",
-    "textNoTextFound": "A szöveg nem található",
     "textOk": "OK",
     "textOpenFile": "A fájl megnyitásához adja meg a jelszót",
     "textOrientation": "Orientáció",
@@ -695,7 +705,27 @@
     "txtScheme6": "Együttműködés",
     "txtScheme7": "Méltányosság",
     "txtScheme8": "Folyam",
-    "txtScheme9": "Öntöde"
+    "txtScheme9": "Öntöde",
+    "textChangePassword": "Change Password",
+    "textDialogUnprotect": "Enter a password to unprotect document",
+    "textEncryptFile": "Encrypt File",
+    "textFillingForms": "Filling forms",
+    "textNoChanges": "No changes (Read only)",
+    "textNoMatches": "No Matches",
+    "textPassword": "Password",
+    "textPasswordNotMatched": "Passwords DonвЂ™t Match",
+    "textProtectDocument": "Protect Document",
+    "textProtection": "Protection",
+    "textProtectTurnOff": "Protection is turned off",
+    "textRequired": "Required",
+    "textRequirePassword": "Require Password",
+    "textSave": "Save",
+    "textSetPassword": "Set Password",
+    "textTrackedChanges": "Tracked changes",
+    "textTypeEditing": "Type Of Editing",
+    "textUnprotect": "Unprotect",
+    "textVerify": "Verify",
+    "titleDialogUnprotect": "Unprotect Document"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Vannak el nem mentett módosításai. Kattintson a 'Maradjon ezen az oldalon' gombra az automatikus mentéshez. Kattintson a 'Hagyja el ezt az oldalt' gombra a mentetlen módosítások elvetéséhez.",

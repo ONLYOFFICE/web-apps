@@ -145,22 +145,26 @@
       "textClose": "Փակել",
       "textContactUs": "Կապ վաճառքի բաժնի հետ",
       "textCustomLoader": "Կներեք, Դուք իրավունք չունեք փոխել բեռնիչը:Խնդրում ենք դիմել մեր վաճառքի բաժին՝ գնանշում ստանալու համար:",
+      "textDontUpdate": "Մի թարմացրեք",
       "textGuest": "Հյուր",
       "textHasMacros": "Ֆայլում կան ինքնաշխատ մակրոներ։<br>Գործարկե՞լ դրանք։",
       "textNo": "Ոչ",
       "textNoChoices": "Վանդակը լցնելու համար ընտրություն չկա:<br>Փոխարինման համար կարող են ընտրվել միայն սյունակից տեքստային արժեքները:",
       "textNoLicenseTitle": "Լիցենզիայի սահմանաչափը հասել է",
-      "textNoTextFound": "Տեքստը չի գտնվել",
       "textOk": "Լավ",
       "textPaidFeature": "Վճարովի գործառույթ",
       "textRemember": "Հիշել իմ ընտրությունը",
       "textReplaceSkipped": "Փոխարինումը կատարված է։{0} դեպք բաց է թողնվել:",
       "textReplaceSuccess": "Որոնողական աշխատանքները կատարվել են։ Փոխարինված դեպքերը՝ {0}",
       "textRequestMacros": "Մակրոն հարցում է անում URL-ին: Ցանկանու՞մ եք թույլ տալ հարցումը %1-ին:",
+      "textUpdate": "Արդիացնել",
+      "textWarnUpdateExternalData": "Այս աշխատանքային գիրքը պարունակում է հղումներ դեպի մեկ կամ մի քանի արտաքին աղբյուրներ, որոնք կարող են վտանգավոր լինել: Եթե ​​վստահում եք հղումներին, թարմացրեք դրանք՝ վերջին տվյալները ստանալու համար:",
       "textYes": "Այո",
       "titleLicenseExp": "Թույլատրագրի ժամկետը սպառվել է",
+      "titleLicenseNotActive": "Լիցենզիան ակտիվ չէ",
       "titleServerVersion": "Խմբագրիչը արդիացվել է",
       "titleUpdateVersion": "Տարբերակը փոխվել է",
+      "warnLicenseBefore": "Լիցենզիան ակտիվ չէ:<br> Խնդրում ենք կապվել ձեր ադմինիստրատորի հետ:",
       "warnLicenseExceeded": "Դուք հասել եք %1 խմբագիրների հետ միաժամանակյա միացումների սահմանաչափին:Այս փաստաթուղթը կբացվի միայն դիտելու համար:Կապվեք Ձեր ադմինիստրատորի հետ՝ ավելին իմանալու համար:",
       "warnLicenseExp": "Ձեր լիցենզիայի ժամկետը լրացել է:Խնդրում ենք թարմացնել Ձեր լիցենզիան և թարմացնել էջը:",
       "warnLicenseLimitedNoAccess": "Լիցենզիայի ժամկետը լրացել է․Փաստաթղթերի խմբագրման գործառույթից օգտվելու հնարավորություն չունեք:Խնդրում ենք կապվել Ձեր ադմինիստրատորի հետ:",
@@ -169,9 +173,8 @@
       "warnNoLicense": "Դուք հասել եք %1 խմբագիրների հետ միաժամանակյա միացումների սահմանաչափին:Այս փաստաթուղթը կբացվի միայն դիտելու համար:նձնական թարմացման պայմանների համար կապվեք %1 վաճառքի թիմի հետ:",
       "warnNoLicenseUsers": "Դուք հասել եք %1 խմբագիրների օգտվողի սահմանաչափին:Անձնական թարմացման պայմանների համար կապվեք %1 վաճառքի թիմի հետ:",
       "warnProcessRightsChange": "Դուք ֆայլը խմբագրելու թույլտվություն չունեք:",
-      "textDontUpdate": "Don't Update",
-      "textUpdate": "Update",
-      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data."
+      "textNoMatches": "No Matches",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
     }
   },
   "Error": {
@@ -255,7 +258,8 @@
     "unknownErrorText": "Անհայտ սխալ։",
     "uploadImageExtMessage": "Նկարի անհայտ ձևաչափ։",
     "uploadImageFileCountMessage": "Ոչ մի նկար չի բեռնվել։",
-    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:"
+    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:",
+    "errorProtectedRange": "This range is not allowed for editing."
   },
   "LongActions": {
     "advDRMPassword": "Գաղտնաբառ",
@@ -392,7 +396,8 @@
       "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ ",
       "txtSorting": "Տեսակավորում",
       "txtSortSelected": "Ընտրված տեսակավորում",
-      "txtYes": "Այո"
+      "txtYes": "Այո",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Զգուշացում",
@@ -647,7 +652,6 @@
       "textMargins": "Լուսանցքներ",
       "textMatchCase": "Ճշգրիտ համընկում",
       "textMatchCell": "Վանդակները համընկեցնել",
-      "textNoTextFound": "Տեքստը չի գտնվել",
       "textOk": "Լավ",
       "textOpenFile": "Մուտքագրել գաղտնաբառ՝ ֆայլը բացելու համար",
       "textOrientation": "Կողմնորոշում",
@@ -686,10 +690,11 @@
       "txtBe": "Բելառուսերեն",
       "txtBg": "Բուլղարերեն",
       "txtCa": "Կատալոներեն",
-      "txtColon": "երկկետ",
+      "txtColon": "Միջակետ",
       "txtComma": "Ստորակետ",
       "txtCs": "Չեխերեն",
       "txtDa": "Դանիերեն",
+      "txtDe": "Գերմաներեն",
       "txtDelimiter": "Բաժանիչ",
       "txtDownloadCsv": "Ներբեռնել CSV",
       "txtEl": "Հունարեն",
@@ -748,7 +753,7 @@
       "txtVi": "Վիետնամերեն",
       "txtZh": "Չինական",
       "warnDownloadAs": "Եթե շարունակեք պահպանումն այս ձևաչափով, բոլոր հատկությունները՝ տեքստից բացի, կկորչեն։<br>Վստա՞հ եք, որ ցանկանում եք շարունակել:",
-      "txtDe": "Deutsch"
+      "textNoMatches": "No Matches"
     }
   }
 }

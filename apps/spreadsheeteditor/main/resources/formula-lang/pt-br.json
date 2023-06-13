@@ -472,6 +472,12 @@
 	"WRAPCOLS": "QUEBRARCOLS",
 	"TAKE": "PEGAR",
 	"DROP": "DESCARTAR",
+	"SEQUENCE": "SEQUÊNCIA",
+	"EXPAND": "EXPANDIR",
+	"XMATCH": "CORRESPX",
+	"FILTER": "FILTRO",
+	"ARRAYTOTEXT": "MATRIZPARATEXTO",
+	"SORT": "CLASSIFICAR",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

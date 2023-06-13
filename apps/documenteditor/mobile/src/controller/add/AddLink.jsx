@@ -13,11 +13,11 @@ class AddLinkController extends Component {
         this.closeModal = this.closeModal.bind(this);
     }
 
-    closeModal () {
+    closeModal(mobileSelector, tabletSelector) {
         if (Device.phone) {
-            f7.popup.close('#add-link-popup');
+            f7.popup.close(mobileSelector);
         } else {
-            f7.popover.close('#add-link-popover');
+            f7.popover.close(tabletSelector);
         }
     }
 
@@ -61,9 +61,9 @@ class AddLinkController extends Component {
         api.add_Hyperlink(props);
 
         if(this.props.isNavigate) {
-            f7.views.current.router.back();
+            this.closeModal('.add-popup', '#add-popover');
         } else {
-            this.closeModal();
+            this.closeModal('#add-link-popup', '#add-link-popover');
         }
     }
 

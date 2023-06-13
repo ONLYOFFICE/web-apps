@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  MenuItem.js
  *
@@ -246,7 +245,7 @@ define([
             this.caption = caption;
 
             if (this.rendered)
-                this.cmpEl.find('a').contents().last()[0].textContent = (noencoding) ? caption : Common.Utils.String.htmlEncode(caption);
+                this.cmpEl.find('> a').contents().last()[0].textContent = (noencoding) ? caption : Common.Utils.String.htmlEncode(caption);
         },
 
         setIconCls: function(iconCls) {
@@ -391,6 +390,28 @@ define([
                         me.cmpEl.closest('ul').focus();
                     }
                 }
+            }
+        },
+
+        setMenu: function (m) {
+            if (m && _.isObject(m) && _.isFunction(m.render)){
+                if (this.rendered) {
+                    if (this.menu && (this.menu instanceof Common.UI.Menu || this.menu instanceof Common.UI.MenuSimple)) {
+                        Common.UI.Menu.Manager.unregister(this.menu);
+                        this.menu.cmpEl && this.menu.cmpEl.remove();
+                    }
+                    this.menu = m;
+                    var el = this.cmpEl;
+                    el.addClass('dropdown-submenu');
+                    this.menu.render(el);
+                    el.mouseenter(_.bind(this.menu.alignPosition, this.menu));
+                    el.focusout(_.bind(this.onBlurItem, this));
+                    el.hover(
+                        _.bind(this.onHoverItem, this),
+                        _.bind(this.onUnHoverItem, this)
+                    );
+                } else
+                    this.menu = m;
             }
         }
     });

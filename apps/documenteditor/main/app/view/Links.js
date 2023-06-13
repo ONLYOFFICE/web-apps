@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -196,7 +195,7 @@ define([
                 this.btnAddText = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-add-text'),
                     cls: 'btn-toolbar',
-                    iconCls: 'toolbar__icon add-text',
+                    iconCls: 'toolbar__icon btn-add-text',
                     lock: [ _set.cantAddTextTOF, _set.inHeader, _set.inFootnote, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
                     caption: this.capBtnAddText,
                     menu: new Common.UI.Menu({
@@ -333,27 +332,47 @@ define([
                                 {caption: me.mniInsEndnote, value: 'ins_endnote'},
                                 {caption: '--'},
                                 new Common.UI.MenuItem({
-                                    template: _.template([
+                                    template: !Common.UI.isRTL() ? _.template([
                                         '<div class="menu-zoom" style="height: 26px;" ',
                                         '<% if(!_.isUndefined(options.stopPropagation)) { %>',
                                         'data-stopPropagation="true"',
                                         '<% } %>', '>',
                                         '<label class="title">' + me.textGotoFootnote + '</label>',
-                                        '<button id="id-menu-goto-footnote-next-' + index + '" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><i class="icon menu__icon btn-nextitem">&nbsp;</i></button>',
-                                        '<button id="id-menu-goto-footnote-prev-' + index + '" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><i class="icon menu__icon btn-previtem">&nbsp;</i></button>',
+                                        '<button id="id-menu-goto-footnote-next-' + index + '" type="button" class="btn small btn-toolbar next"><i class="icon menu__icon btn-nextitem">&nbsp;</i></button>',
+                                        '<button id="id-menu-goto-footnote-prev-' + index + '" type="button" class="btn small btn-toolbar prev"><i class="icon menu__icon btn-previtem">&nbsp;</i></button>',
+                                        '</div>'
+                                    ].join('')) :
+                                    _.template([
+                                        '<div class="menu-zoom" style="height: 26px;" ',
+                                        '<% if(!_.isUndefined(options.stopPropagation)) { %>',
+                                        'data-stopPropagation="true"',
+                                        '<% } %>', '>',
+                                        '<label class="title">' + me.textGotoFootnote + '</label>',
+                                        '<button id="id-menu-goto-footnote-prev-' + index + '" type="button" class="btn small btn-toolbar prev"><i class="icon menu__icon btn-previtem">&nbsp;</i></button>',
+                                        '<button id="id-menu-goto-footnote-next-' + index + '" type="button" class="btn small btn-toolbar next"><i class="icon menu__icon btn-nextitem">&nbsp;</i></button>',
                                         '</div>'
                                     ].join('')),
                                     stopPropagation: true
                                 }),
                                 new Common.UI.MenuItem({
-                                    template: _.template([
+                                    template: !Common.UI.isRTL() ? _.template([
                                         '<div class="menu-zoom" style="height: 26px;" ',
                                         '<% if(!_.isUndefined(options.stopPropagation)) { %>',
                                         'data-stopPropagation="true"',
                                         '<% } %>', '>',
                                         '<label class="title">' + me.textGotoEndnote + '</label>',
-                                        '<button id="id-menu-goto-endnote-next-' + index + '" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><i class="icon menu__icon btn-nextitem">&nbsp;</i></button>',
-                                        '<button id="id-menu-goto-endnote-prev-' + index + '" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><i class="icon menu__icon btn-previtem">&nbsp;</i></button>',
+                                        '<button id="id-menu-goto-endnote-next-' + index + '" type="button" class="btn small btn-toolbar next"><i class="icon menu__icon btn-nextitem">&nbsp;</i></button>',
+                                        '<button id="id-menu-goto-endnote-prev-' + index + '" type="button" class="btn small btn-toolbar prev"><i class="icon menu__icon btn-previtem">&nbsp;</i></button>',
+                                        '</div>'
+                                    ].join('')) :
+                                    _.template([
+                                        '<div class="menu-zoom" style="height: 26px;" ',
+                                        '<% if(!_.isUndefined(options.stopPropagation)) { %>',
+                                        'data-stopPropagation="true"',
+                                        '<% } %>', '>',
+                                        '<label class="title">' + me.textGotoEndnote + '</label>',
+                                        '<button id="id-menu-goto-endnote-prev-' + index + '" type="button" class="btn small btn-toolbar prev"><i class="icon menu__icon btn-previtem">&nbsp;</i></button>',
+                                        '<button id="id-menu-goto-endnote-next-' + index + '" type="button" class="btn small btn-toolbar next"><i class="icon menu__icon btn-nextitem">&nbsp;</i></button>',
                                         '</div>'
                                     ].join('')),
                                     stopPropagation: true

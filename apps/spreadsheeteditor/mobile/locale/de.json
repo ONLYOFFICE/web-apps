@@ -145,18 +145,20 @@
       "textClose": "Schließen",
       "textContactUs": "Verkaufsteam kontaktieren",
       "textCustomLoader": "Sie können den Verlader nicht ändern. Sie können die Anfrage an unser Verkaufsteam senden.",
+      "textDontUpdate": "Nicht aktualisieren",
       "textGuest": "Gast",
       "textHasMacros": "Die Datei beinhaltet automatische Makros.<br>Möchten Sie Makros ausführen?",
       "textNo": "Nein",
       "textNoChoices": "Es gibt keine Möglichkeit zum Füllung der Zelle.<br>Nur die Textwerte aus der Spalte kann für den Ersatz gewählt werden. ",
       "textNoLicenseTitle": "Lizenzlimit erreicht",
-      "textNoTextFound": "Der Text wurde nicht gefunden.",
       "textOk": "OK",
       "textPaidFeature": "Kostenpflichtige Funktion",
       "textRemember": "Auswahl speichern",
       "textReplaceSkipped": "Der Ersatzvorgang wurde durchgeführt. {0} Vorkommen wurden ausgelassen.",
       "textReplaceSuccess": "Der Suchvorgang wurde durchgeführt. Vorkommen wurden ersetzt:{0}",
       "textRequestMacros": "Ein Makro stellt eine Anfrage an die URL. Möchten Sie die Anfrage an die %1 zulassen?",
+      "textUpdate": "Aktualisieren",
+      "textWarnUpdateExternalData": "Diese Arbeitsmappe enthält Links zu einer oder mehreren externen Quellen, die unsicher sein könnten. Wenn Sie den Links vertrauen, aktualisieren Sie diese, um die neuesten Daten zu erhalten.",
       "textYes": "Ja",
       "titleLicenseExp": "Lizenz ist abgelaufen",
       "titleServerVersion": "Editor wurde aktualisiert",
@@ -169,9 +171,10 @@
       "warnNoLicense": "Sie haben die maximale Anzahl von gleichzeitigen Verbindungen in %1-Editoren erreicht. Die Bearbeitung ist jetzt in diesem Dokument nicht verfügbar. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
       "warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
       "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten.",
-      "textDontUpdate": "Don't Update",
-      "textUpdate": "Update",
-      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data."
+      "textNoMatches": "No Matches",
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {
@@ -255,7 +258,8 @@
     "unknownErrorText": "Unbekannter Fehler.",
     "uploadImageExtMessage": "Unbekanntes Bildformat.",
     "uploadImageFileCountMessage": "Keine Bilder hochgeladen.",
-    "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten."
+    "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten.",
+    "errorProtectedRange": "This range is not allowed for editing."
   },
   "LongActions": {
     "advDRMPassword": "Passwort",
@@ -392,7 +396,8 @@
       "txtNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein.",
       "txtSorting": "Sortierung",
       "txtSortSelected": "Ausgewählte sortieren",
-      "txtYes": "Ja"
+      "txtYes": "Ja",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warnung",
@@ -647,7 +652,6 @@
       "textMargins": "Ränder",
       "textMatchCase": "Groß-/Kleinschreibung beachten",
       "textMatchCell": "Zelle anpassen",
-      "textNoTextFound": "Der Text wurde nicht gefunden",
       "textOk": "OK",
       "textOpenFile": "Kennwort zum Öffnen der Datei eingeben",
       "textOrientation": "Orientierung",
@@ -748,7 +752,8 @@
       "txtUk": "Ukrainisch",
       "txtVi": "Vietnamesisch",
       "txtZh": "Chinesisch ",
-      "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?"
+      "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?",
+      "textNoMatches": "No Matches"
     }
   }
 }

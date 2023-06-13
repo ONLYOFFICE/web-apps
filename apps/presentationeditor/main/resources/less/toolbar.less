@@ -119,10 +119,35 @@
 .item-theme {
     width: 88px;
     height: 40px;
-    .background-ximage-all('../../../../../../sdkjs/common/Images/themes_thumbnail.png', 88px);
+    .background-ximage-all-scale('../../../../../../sdkjs/common/Images/themes_thumbnail.png', 88px);
     background-size: cover
 }
 
 #slot-btn-incfont, #slot-btn-decfont, #slot-btn-changecase {
     margin-left: 2px;
+    .rtl & {
+        margin-left: 0;
+        margin-right: 2px;
+    }
+}
+
+#slot-field-fontname {
+    width: 89px;
+    float: left;
+
+    .rtl & {
+        float: right;
+    }
+}
+
+#slot-field-fontsize {
+    width: 40px;
+    float: left;
+    margin-left: 2px;
+
+    .rtl & {
+        float: right;
+        margin-left: 0;
+        margin-right: 2px;
+    }
 }

@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -91,8 +90,8 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
     SSE.Views.FormatRulesManagerDlg =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             alias: 'FormatRulesManagerDlg',
-            contentWidth: 510,
-            height: 361,
+            contentWidth: 560,
+            height: 340,
             buttons: ['ok', 'cancel']
         },
 
@@ -104,7 +103,6 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                     '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
                     '<div class="content-panel" style="padding: 0;">' + _.template(contentTemplate)({scope: this}) + '</div>',
                     '</div>',
-                    '<div class="separator horizontal"/>'
                 ].join('')
             }, options);
 
@@ -147,17 +145,24 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 el: $('#format-manager-rules-list', this.$window),
                 store: new Common.UI.DataViewStore(),
                 emptyText: '',
+                headers: [
+                    {name: this.textRules, width: 198},
+                    {name: this.textApply, width: 196},
+                    {name: this.textFormat, width: 130},
+                ],
+                isRTL: true,
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                     '<div class="list-item" style="width: 100%;display:inline-block;" id="format-manager-item-<%= ruleIndex %>">',
-                        '<div style="width:181px;padding-right: 10px;display: inline-block;vertical-align: middle;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= name %></div>',
-                        '<div style="width:181px;padding-right: 10px;display: inline-block;vertical-align: middle;"><div id="format-manager-txt-rule-<%= ruleIndex %>" style=""></div></div>',
-                        '<div style="width:112px;display: inline-block;vertical-align: middle;"><div id="format-manager-item-preview-<%= ruleIndex %>" style="height:22px;background-color: #ffffff;"></div></div>',
+                        '<div style="width:197px;padding-<% if (Common.UI.isRTL()) { %>left<% } else {%>right<% } %>: 10px;display: inline-block;vertical-align: middle;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= name %></div>',
+                        '<div style="width:197px;padding-<% if (Common.UI.isRTL()) { %>left<% } else {%>right<% } %>: 10px;display: inline-block;vertical-align: middle;"><div id="format-manager-txt-rule-<%= ruleIndex %>" style=""></div></div>',
+                        '<div style="width:128px;display: inline-block;vertical-align: middle;"><div id="format-manager-item-preview-<%= ruleIndex %>" style="height:22px;background-color: #ffffff;"></div></div>',
                         '<% if (lock) { %>',
                             '<div class="lock-user"><%=lockuser%></div>',
                         '<% } %>',
                     '</div>'
                 ].join('')),
+        
                 tabindex: 1
             });
             this.rulesList.createNewItem = function(record) {
@@ -188,6 +193,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 parentEl: $('#format-manager-btn-up'),
                 cls: 'btn-toolbar bg-white',
                 iconCls: 'caret-up',
+                scaling: false,
                 hint: this.textUp
             });
             this.btnUp.on('click', _.bind(this.onMoveClick, this, true));
@@ -196,6 +202,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 parentEl: $('#format-manager-btn-down'),
                 cls: 'btn-toolbar bg-white',
                 iconCls: 'caret-down',
+                scaling: false,
                 hint: this.textDown
             });
             this.btnDown.on('click', _.bind(this.onMoveClick, this, false));
@@ -213,12 +220,12 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
 
         _setDefaults: function (props) {
             Common.UI.FocusManager.add(this, this.cmbScope);
-            Common.UI.FocusManager.add(this, this.rulesList);
             Common.UI.FocusManager.add(this, this.btnNew);
             Common.UI.FocusManager.add(this, this.btnEdit);
             Common.UI.FocusManager.add(this, this.btnUp);
             Common.UI.FocusManager.add(this, this.btnDown);
             Common.UI.FocusManager.add(this, this.btnDelete);
+            Common.UI.FocusManager.add(this, this.rulesList);
 
 
             this.rulesList.on('item:add', _.bind(this.addControls, this));

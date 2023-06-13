@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -45,7 +44,10 @@ common.view.SearchBar = new(function() {
     var tpl = '<div class="asc-window search-window" style="display: none;">' +
                     '<div class="body">{body}</div>' +
                 '</div>';
-    var tplBody = '<input type="text" id="search-bar-text" placeholder="{textFind}" autocomplete="off">' +
+    var tplBody = '<div class="search-input-group">' +
+                    '<input type="text" id="search-bar-text" placeholder="{textFind}" autocomplete="off">' +
+                    '<div id="search-bar-results">0/0</div>' +
+                '</div>' +
                 '<div class="tools">' +
                     '<button id="search-bar-back" class="svg-icon search-arrow-up"></button>' +
                     '<button id="search-bar-next" class="svg-icon search-arrow-down"></button>' +
@@ -69,6 +71,13 @@ common.view.SearchBar = new(function() {
             var disable = $('#search-bar-text').val() === '' || !allResults;
             $('#search-bar-back').attr({disabled: disable});
             $('#search-bar-next').attr({disabled: disable});
+        },
+
+        updateResultsNumber: function (current, all) {
+            var $results = $('#search-bar-results'),
+                $input = $('#search-bar-text');
+            $results.text(!all || $input.val() === '' ? '0/0' : current + 1 + '/' + all);
+            $input.css('padding-right', $results.outerWidth() + 'px');
         },
 
         textFind: 'Find'

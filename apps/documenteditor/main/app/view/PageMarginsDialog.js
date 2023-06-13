@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  PageMarginsDialog.js
  *
@@ -60,14 +59,14 @@ define([
 
             this.template = [
                 '<div class="box" style="height: 245px;">',
-                    '<div style="float: left;">',
+                    '<div class="margins-settings">',
                         '<label style="font-weight: bold;">' + this.textTitle + '</label>',
                         '<div style="margin-top: 2px;">',
                             '<div style="display: inline-block;">',
                                 '<label class="input-label">' + this.textTop + '</label>',
                                 '<div id="page-margins-spin-top"></div>',
                             '</div>',
-                            '<div style="display: inline-block; margin-left: 8px;">',
+                            '<div class="margin-left" style="display: inline-block;">',
                                 '<label class="input-label">' + this.textBottom + '</label>',
                                 '<div id="page-margins-spin-bottom"></div>',
                             '</div>',
@@ -77,7 +76,7 @@ define([
                                 '<label class="input-label" id="margin-left-label">' + this.textLeft + '</label>',
                                 '<div id="page-margins-spin-left"></div>',
                             '</div>',
-                            '<div style="display: inline-block; margin-left: 8px;">',
+                            '<div class="margin-left" style="display: inline-block;">',
                                 '<label class="input-label" id="margin-right-label">' + this.textRight + '</label>',
                                 '<div id="page-margins-spin-right"></div>',
                             '</div>',
@@ -86,7 +85,7 @@ define([
                             '<label style="font-weight: bold;">' + this.textGutterPosition + '</label>',
                             '<div>',
                                 '<div style="display: inline-block;" id="page-margins-spin-gutter"></div>',
-                                '<div style="display: inline-block; margin-left: 8px;" id="page-margins-spin-gutter-position"></div>',
+                                '<div style="display: inline-block;" id="page-margins-spin-gutter-position" class="margin-left"></div>',
                             '</div>',
                         '</div>',
                         '<div style="margin-top: 10px;">',
@@ -98,7 +97,7 @@ define([
                             '<div id="page-margins-cmb-multiple-pages"></div>',
                         '</div>',
                     '</div>',
-                    '<div style="float: right;">',
+                    '<div class="margins-preview">',
                         '<label style="font-weight: bold;">' + this.textPreview + '</label>',
                         '<div id="page-margins-preview" style="margin-top: 2px; height: 120px; width: 162px;"></div>',
                     '</div>',

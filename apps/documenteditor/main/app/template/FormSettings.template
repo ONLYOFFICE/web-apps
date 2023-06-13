@@ -51,6 +51,29 @@
             <div id="form-txt-help"></div>
         </td>
     </tr>
+    <tr>
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textDefValue %></label>
+            <div id="form-combo-def-value" style="width: 100%;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textDefValue %></label>
+            <div id="form-txt-def-value"></div>
+        </td>
+    </tr>
+    <tr class="form-datetime">
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textDefValue %></label>
+            <div id="form-date-def-value"></div>
+        </td>
+    </tr>
+    <tr class="form-textfield">
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
     <tr class="form-textfield">
         <td class="padding-small">
             <label class="input-label"><%= scope.textFormat %></label>
@@ -75,6 +98,11 @@
     </tr>
 </table>
 <table cols="2">
+    <tr class="form-list">
+        <td colspan="2" class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
     <tr class="form-list">
         <td colspan="2" class="padding-small">
             <label class="input-label"><%= scope.textValue %></label>
@@ -102,6 +130,11 @@
 <table cols="1">
     <tr class="form-datetime">
         <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr class="form-datetime">
+        <td class="padding-small">
             <label class="input-label"><%= scope.textDateFormat %></label>
             <div id="form-cmb-date-format" style="width: 100%;"></div>
         </td>
@@ -114,6 +147,16 @@
     </tr>
 </table>
 <table cols="1">
+    <tr class="form-checkbox">
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr class="form-checkbox">
+        <td class="padding-small">
+            <div id="form-chb-def-value"></div>
+        </td>
+    </tr>
     <tr class="form-fixed">
         <td class="padding-small">
             <div id="form-chb-fixed"></div>
@@ -160,13 +203,13 @@
             <div id="form-spin-width" style="float:right;"></div>
         </td>
     </tr>
-    <tr class="form-textfield">
-        <td colspan=2 class="padding-small">
+</table>
+<table cols="1">
+    <tr class="form-image">
+        <td class="padding-small">
             <div class="separator horizontal"></div>
         </td>
     </tr>
-</table>
-<table cols="1">
     <tr class="form-image">
         <td class="padding-small">
             <label class="input-label"><%= scope.textScale %></label>
@@ -201,6 +244,11 @@
     </tr>
 </table>
 <table cols="1">
+    <tr>
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
     <tr>
         <td class="padding-small">
             <label class="input-label" style="margin-top: 4px;"><%= scope.textColor %></label>

@@ -27,7 +27,6 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     const docInfo = props.storeDocumentInfo;
     const docExt = docInfo.dataDoc ? docInfo.dataDoc.fileType : '';
     const docTitle = docInfo.dataDoc ? docInfo.dataDoc.title : '';
-    const isAvailableExt = docExt && docExt !== 'oform';
 
     useEffect(() => {
         Common.Gateway.on('init', loadConfig);
@@ -55,7 +54,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         const navbarHeight = navbarBgHeight + subnavbarHeight;
 
         const onEngineCreated = api => {
-            if(isAvailableExt && isViewer) {
+            if(isViewer) {
                 api.SetMobileTopOffset(navbarHeight, navbarHeight);
                 api.asc_registerCallback('onMobileScrollDelta', scrollHandler);
             }
@@ -70,14 +69,14 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         return () => {
             const api = Common.EditorApi.get();
 
-            if (api && isAvailableExt && isViewer) {
+            if (api && isViewer) {
                 api.SetMobileTopOffset(navbarHeight, navbarHeight);
                 api.asc_unregisterCallback('onMobileScrollDelta', scrollHandler);
             }
 
             Common.Notifications.off('engineCreated', onEngineCreated);
         }
-    }, [isAvailableExt, isViewer]);
+    }, [isViewer]);
 
     // Scroll handler
 
@@ -87,11 +86,11 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         const subnavbarHeight = document.querySelector('.subnavbar').clientHeight;
         const navbarHeight = navbarBgHeight + subnavbarHeight;
 
-        if(offset > navbarHeight) {
+        if(offset > 0) {
             f7.navbar.hide('.main-navbar');
             props.closeOptions('fab');
             api.SetMobileTopOffset(undefined, 0);
-        } else if(offset < -navbarHeight) {
+        } else if(offset <= 0) {
             f7.navbar.show('.main-navbar');
             props.openOptions('fab');
             api.SetMobileTopOffset(undefined, navbarHeight);
@@ -108,9 +107,13 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             setShowBack(true);
         }
     };
-    const onBack = () => {
+
+    const onRequestClose = () => {
         const api = Common.EditorApi.get();
+
         if (api.isDocumentModified()) {
+            api.asc_stopSaving();
+
             f7.dialog.create({
                 title   : _t.dlgLeaveTitleText,
                 text    : _t.dlgLeaveMsgText,
@@ -118,25 +121,32 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
                 buttons : [
                     {
                         text: _t.leaveButtonText,
-                        onClick: function() {
-                            goBack(true);
+                        onClick: () => {
+                            api.asc_undoAllChanges();
+                            api.asc_continueSaving();
+                            Common.Gateway.requestClose();
                         }
                     },
                     {
                         text: _t.stayButtonText,
-                        bold: true
+                        bold: true,
+                        onClick: () => {
+                            api.asc_continueSaving();
+                        }
                     }
                 ]
             }).open();
         } else {
-            goBack(true);
+            Common.Gateway.requestClose();
         }
     };
+
     const goBack = (current) => {
         if (appOptions.customization.goback.requestClose && appOptions.canRequestClose) {
-            Common.Gateway.requestClose();
+            onRequestClose();
         } else {
             const href = appOptions.customization.goback.url;
+
             if (!current && appOptions.customization.goback.blank !== false) {
                 window.open(href, "_blank");
             } else {
@@ -151,6 +161,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             api.Undo();
         }
     };
+
     const onRedo = () => {
         const api = Common.EditorApi.get();
         if (api) {
@@ -200,7 +211,6 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
                      docTitle={docTitle}
                      docExt={docExt}
                      isShowBack={isShowBack}
-                     onBack={onBack}
                      isCanUndo={isCanUndo}
                      isCanRedo={isCanRedo}
                      onUndo={onUndo}

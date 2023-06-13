@@ -17,15 +17,34 @@
         .separator.short {
             margin-top: 1px;
         }
+
+        .elset {
+            .pixel-ratio__2_5 & {
+                display: flex;
+                align-items: center;
+
+                .btn-text-default {
+                    justify-content: center;
+                }
+            }
+        }
     }
 
     .font-attr {
         > .btn-slot:not(:last-child):not(.split) {
             margin-right: 2px;
+            .rtl & {
+                margin-right: 0;
+                margin-left: 2px;
+            }
         }
 
         > .btn-slot.split:not(:last-child) {
             margin-right: 2px;
+            .rtl & {
+                margin-right: 0;
+                margin-left: 2px;
+            }
         }
     }
 
@@ -34,9 +53,16 @@
 
         > .btn-slot {
             float: left;
+            .rtl & {
+                float: right;
+            }
 
             &:not(:first-child) {
                 margin-left: 2px;
+                .rtl & {
+                    margin-left: 0;
+                    margin-right: 2px;
+                }
             }
         }
 
@@ -81,28 +107,16 @@
 #id-toolbar-mnu-item-border-width,
 #format-rules-borders-border-width {
     .border-size-item {
-        background: ~"url(@{app-image-const-path}/toolbar/BorderSize.png) no-repeat scroll 0 0";
-        background-size: 60px auto;
         width: 60px;
         height: 20px;
         margin: -3px 10px -2px;
-        filter: @img-border-type-filter;
-
-        .pixel-ratio__1_25 & {
-            background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize@1.25x.png)";
-        }
-
-        .pixel-ratio__1_5 & {
-            background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize@1.5x.png)";
-            //background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize@1.5x.png)";
-        }
-
-        .pixel-ratio__1_75 & {
-            background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize@1.75x.png)";
-        }
-
-        .pixel-ratio__2 & {
-            background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize@2x.png)";
+        svg{
+            display: inline-block;
+            height: 3px;
+            width: 100%;
+            fill: @text-normal-ie;
+            fill: @text-normal;
+            shape-rendering: crispEdges;
         }
     }
 }
@@ -163,19 +177,9 @@
     .group-description {
         padding: 3px 0 3px 10px;
         .font-weight-bold();
-    } 
 
-    .group-items-container {
-        .item {
-            &:hover {
-                .box-shadow(0 0 0 2px @border-preview-hover-ie) !important;
-                .box-shadow(0 0 0 @scaled-two-px-value @border-preview-hover) !important;
-            }
-      
-            &.selected {
-                .box-shadow(0 0 0 2px @border-preview-select-ie) !important;
-                .box-shadow(0 0 0 @scaled-two-px-value @border-preview-select) !important;
-            }
+        .rtl & {
+            padding: 3px 10px 3px 0;
         }
     }
 }
@@ -198,6 +202,10 @@
     .group-description {
         padding: 3px 0 3px 10px;
         .font-weight-bold();
+
+        .rtl & {
+            padding: 3px 10px 3px 0;
+        }
     } 
     
     .group-items-container {
@@ -221,8 +229,89 @@
     }
 }
 
+#id-toolbar-mnu-item-border-color {
+    > span {
+        background-image: none;
+        width: 12px;
+        height: 12px;
+        margin: 2px 9px 0 -11px;
+        border-style: solid;
+        border-width: 3px;
+        border-color: #000;
+
+        .rtl & {
+            margin: 2px -11px 0 9px;
+        }
+    }
+}
+
+#id-toolbar-menu-new-bordercolor {
+    > a {
+        padding-left: 12px;
+
+        .rtl & {
+            padding-left: 0;
+            padding-right: 12px;
+        }
+    }
+}
+
+#id-toolbar-menu-auto-bordercolor {
+    .color-auto {
+        background-image: none;
+        width: 12px;
+        height: 12px;
+        margin: 1px 7px 0 1px;
+        background-color: #000;
+
+        .rtl & {
+            margin: 1px 1px 0 7px;
+        }
+    }
+}
+
+#slot-btn-format {
+    .display-value {
+        position: absolute;
+        left: 0;
+        width: 125px;
+
+        .rtl & {
+            left: auto;
+            right: 0;
+        }
+    }
+
+    .example-val {
+        display: inline-block;
+        width: 100%;
+        max-width: 300px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: right;
+        vertical-align: bottom;
+        padding-left: 125px;
+        color: silver;
+        white-space: nowrap;
+
+        .rtl & {
+            text-align: left;
+            padding-left: 0;
+            padding-right: 125px;
+        }
+    }
+}
+
 #id-toolbar-btn-cstyle {
     .style  {
         background-color: @canvas-content-background;
+    }
+}
+
+#id-toolbar-menu-insart {
+    margin-left: 5px;
+    .rtl & {
+        margin-left: 0;
+        margin-right: 5px;
     }
 }

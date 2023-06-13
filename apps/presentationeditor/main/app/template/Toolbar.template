@@ -46,14 +46,14 @@
                         <span class="btn-slot split" id="slot-btn-changeslide"></span>
                     </div>
                     <div class="elset">
-                        <span class="btn-slot" id="slot-btn-preview"></span>
+                        <span class="btn-slot split" id="slot-btn-preview"></span>
                     </div>
                 </div>
                 <div class="separator long"></div>
                 <div class="group small">
                     <div class="elset" style="width:208px;">
-                        <span class="btn-slot" style="float: left; width: 89px;" id="slot-field-fontname"></span>
-                        <span class="btn-slot" style="float: left; width: 40px; margin-left: 2px;" id="slot-field-fontsize"></span>
+                        <span class="btn-slot" id="slot-field-fontname"></span>
+                        <span class="btn-slot" id="slot-field-fontsize"></span>
                         <span class="btn-slot" id="slot-btn-incfont"></span>
                         <span class="btn-slot" id="slot-btn-decfont"></span>
                         <span class="btn-slot split" id="slot-btn-changecase"></span>

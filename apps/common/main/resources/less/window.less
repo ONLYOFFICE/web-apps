@@ -31,6 +31,11 @@
     padding: 0px;
     margin: 4px 3px 0px 0px;
 
+    .rtl & {
+        float: left;
+        margin: 4px 0 0px 3px;
+    }
+
     &.close {
         position: relative;
         opacity: 0.7;
@@ -47,7 +52,7 @@
             content: ' ';
             position: absolute;
             left: 8px;
-            left: calc(8px / @pixel-ratio-factor);
+            //left: calc(8px / @pixel-ratio-factor);
             top: @scaled-one-px-value-ie;
             top: @scaled-one-px-value;
             height: 14px;
@@ -99,7 +104,7 @@
         color: @text-normal-ie;
         color: @text-normal;
         text-align: center;
-        font-size: 12px;
+        .font-size-medium();
         font-weight: 700;
         letter-spacing: 0.01em;
         vertical-align: bottom;
@@ -115,12 +120,26 @@
         .tools {
             position: absolute;
             right: 0;
-            padding-right: 6px;
+            padding-right: 8px;
+
+            .rtl & {
+                right: auto;
+                left: 0;
+                padding-right: 0;
+                padding-left: 6px;
+            }
 
             &.left {
                 left: 0;
                 right: auto;
                 padding-left: 6px;
+
+                .rtl & {
+                    left: auto;
+                    right: 0;
+                    padding-left: 0;
+                    padding-right: 6px;
+                }
             }
         }
 
@@ -205,6 +224,11 @@
         .icon {
             float: left;
             margin: 0 0 0 10px;
+
+            .rtl & {
+                float: right;
+                margin: 0 10px 0 10px;
+            }
         }
 
         min-height: 90px;
@@ -215,11 +239,20 @@
                 padding: 20px 20px 20px 10px;
                 height: 50px;
 
+                .rtl & {
+                    padding: 20px 10px 20px 20px;
+                }
+
                 .text {
                     padding-left: 60px;
 
+                    .rtl & {
+                        padding-left: 0;
+                        padding-right: 60px;
+                    }
+
                     span {
-                        font-size: 12px;
+                        .font-size-medium();
                         white-space: nowrap;
 
                         a {
@@ -256,6 +289,11 @@
             button {
                 &:not(:first-child) {
                     margin-left: 10px;
+
+                    .rtl & {
+                        margin-left: 0;
+                        margin-right: 10px;
+                    }
                 }
             }
         }
@@ -314,6 +352,11 @@
         button {
             &:not(:first-child) {
                 margin-left: 10px;
+
+                .rtl & {
+                    margin-left: 0;
+                    margin-right: 10px;
+                }
             }
         }
     }
@@ -333,6 +376,27 @@
 
             & > div {
                 display: inline-block;
+            }
+        }
+        label {
+            .font-size-normal();
+        }
+
+        .padding-right {
+            padding-right: 5px;
+
+            .rtl & {
+                padding-right: 0;
+                padding-left: 5px;
+            }
+        }
+
+        .padding-left {
+            padding-left: 5px;
+
+            .rtl & {
+                padding-left: 0;
+                padding-right: 5px;
             }
         }
     }

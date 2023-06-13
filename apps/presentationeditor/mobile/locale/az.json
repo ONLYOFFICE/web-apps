@@ -129,10 +129,13 @@
       "warnNoLicense": "Siz 1% redaktorlarına eyni vaxtda qoşulma limitinə çatdınız. Bu sənəd yalnız baxmaq üçün açılacaq. Şəxsi təkmilləşdirmə şərtləri üçün 1% satış komandası ilə əlaqə saxlayın.",
       "warnNoLicenseUsers": "1% redaktor üçün istifadəçi limitinə çatdınız. Şəxsi təkmilləşdirmə şərtləri üçün 1% satış komandası ilə əlaqə saxlayın.",
       "warnProcessRightsChange": "Faylı redaktə etmək icazəniz yoxdur.",
-      "textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches",
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
       "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {
@@ -260,6 +263,7 @@
       "txtNotUrl": "Bu sahədə \"http://www.example.com\" formatında URL olmalıdır",
       "textDone": "Done",
       "textOk": "Ok",
+      "textPasteImageUrl": "Paste an image URL",
       "textRecommended": "Recommended",
       "textRequired": "Required"
     },
@@ -353,7 +357,6 @@
       "textNextSlide": "Növbəti Slayd",
       "textNone": "Heç biri",
       "textNoStyles": "Bu tip diaqram üçün üslub yoxdur.",
-      "textNoTextFound": "Mətn tapılmadı",
       "textNotUrl": "Bu sahədə \"http://www.example.com\" formatında URL olmalıdır",
       "textNumbers": "Nömrələr",
       "textOpacity": "Qeyri-şəffaf",
@@ -415,6 +418,7 @@
       "textDeleteLink": "Delete Link",
       "textDesign": "Design",
       "textInsertImage": "Insert Image",
+      "textNoMatches": "No Matches",
       "textOk": "Ok",
       "textRecommended": "Recommended",
       "textRequired": "Required"
@@ -454,7 +458,6 @@
       "textLoading": "Yüklənir...",
       "textLocation": "Yer",
       "textMacrosSettings": "Makros Parametrləri",
-      "textNoTextFound": "Mətn tapılmadı",
       "textOwner": "Sahib",
       "textPoint": "Punkt",
       "textPoweredBy": "ilə enerji ilə təmin olunur",
@@ -500,6 +503,7 @@
       "notcriticalErrorTitle": "Warning",
       "textDarkTheme": "Dark Theme",
       "textFeedback": "Feedback & Support",
+      "textNoMatches": "No Matches",
       "textOk": "Ok",
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRTL": "RTL"

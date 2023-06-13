@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  ChartSettings.js
  *
@@ -689,7 +688,7 @@ define([
             this.btnRatio = new Common.UI.Button({
                 parentEl: $('#chart-button-ratio'),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon advanced-btn-ratio',
+                iconCls: 'toolbar__icon btn-advanced-ratio',
                 style: 'margin-bottom: 1px;',
                 enableToggle: true,
                 hint: this.textKeepRatio,
@@ -794,10 +793,9 @@ define([
 
             this.btnChangeType = new Common.UI.Button({
                 parentEl: $('#chart-btn-change-type'),
-                cls         : 'btn-toolbar',
+                cls         : 'btn-toolbar align-left',
                 iconCls     : 'toolbar__icon btn-menu-chart',
                 caption     : this.textChangeType,
-                style       : 'width: 100%;text-align: left;',
                 dataHint    : '1',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -807,10 +805,9 @@ define([
 
             this.btnSelectData = new Common.UI.Button({
                 parentEl: $('#chart-btn-select-data'),
-                cls         : 'btn-toolbar',
+                cls         : 'btn-toolbar align-left',
                 iconCls     : 'toolbar__icon btn-select-range',
                 caption     : this.textSelectData,
-                style       : 'width: 100%;text-align: left;',
                 dataHint    : '1',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -820,10 +817,9 @@ define([
 
             this.btnSwitch = new Common.UI.Button({
                 parentEl: $('#chart-btn-switch'),
-                cls         : 'btn-toolbar',
-                iconCls     : 'toolbar__icon switch_row_column',
+                cls         : 'btn-toolbar align-left',
+                iconCls     : 'toolbar__icon btn-switch-row-column',
                 caption     : this.textSwitch,
-                style       : 'width: 100%;text-align: left;',
                 dataHint    : '1',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'

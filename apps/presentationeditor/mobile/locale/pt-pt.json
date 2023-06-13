@@ -112,7 +112,6 @@
       "textHasMacros": "O ficheiro contém macros automáticas.<br>Deseja executar as macros?",
       "textNo": "Não",
       "textNoLicenseTitle": "Atingiu o limite da licença",
-      "textNoTextFound": "Texto não encontrado",
       "textOpenFile": "Introduza a palavra-passe para abrir o ficheiro",
       "textPaidFeature": "Funcionalidade paga",
       "textRemember": "Memorizar a minha escolha",
@@ -132,7 +131,11 @@
       "warnLicenseUsersExceeded": "Atingiu o limite de %1 editores. Contacte o seu administrador para obter detalhes.",
       "warnNoLicense": "Atingiu o limite de ligações simultâneas a %1 editores. Este documento será aberto apenas para visualização. Contacte a %1 equipa de vendas para consultar os termos de atualização para si.",
       "warnNoLicenseUsers": "Atingiu o limite de %1 editores. Contacte a equipa comercial %1 para obter mais informações.",
-      "warnProcessRightsChange": "Não tem autorização para editar este ficheiro."
+      "warnProcessRightsChange": "Não tem autorização para editar este ficheiro.",
+      "textNoMatches": "No Matches",
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {
@@ -261,7 +264,8 @@
       "textSlideNumber": "Número do diapositivo",
       "textTable": "Tabela",
       "textTableSize": "Tamanho da tabela",
-      "txtNotUrl": "Este campo deve ser um URL no formato \"http://www.exemplo.com\""
+      "txtNotUrl": "Este campo deve ser um URL no formato \"http://www.exemplo.com\"",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Aviso",
@@ -361,7 +365,6 @@
       "textNextSlide": "Diapositivo seguinte",
       "textNone": "Nenhum",
       "textNoStyles": "Sem estilos para este tipo de gráficos.",
-      "textNoTextFound": "Texto não encontrado",
       "textNotUrl": "Este campo deve ser um URL no formato \"http://www.exemplo.com\"",
       "textNumbers": "Números",
       "textOk": "OK",
@@ -417,7 +420,8 @@
       "textZoom": "Ampliação",
       "textZoomIn": "Ampliar",
       "textZoomOut": "Reduzir",
-      "textZoomRotate": "Ampliação e rotação"
+      "textZoomRotate": "Ampliação e rotação",
+      "textNoMatches": "No Matches"
     },
     "Settings": {
       "mniSlideStandard": "Padrão (4:3)",
@@ -457,7 +461,6 @@
       "textLoading": "A carregar...",
       "textLocation": "Localização",
       "textMacrosSettings": "Definições de macros",
-      "textNoTextFound": "Texto não encontrado",
       "textOk": "OK",
       "textOwner": "Proprietário",
       "textPoint": "Ponto",
@@ -502,7 +505,8 @@
       "txtScheme6": "Concurso",
       "txtScheme7": "Equidade",
       "txtScheme8": "Fluxo",
-      "txtScheme9": "Fundição"
+      "txtScheme9": "Fundição",
+      "textNoMatches": "No Matches"
     }
   }
 }

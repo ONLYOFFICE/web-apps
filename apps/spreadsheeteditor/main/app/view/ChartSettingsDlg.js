@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  ChartSettingsDlg.js
  *
@@ -134,7 +133,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     me.mnuChartTypePicker = new Common.UI.DataView({
                         el: $('#id-chart-dlg-menu-type'),
                         parentMenu: btn.menu,
-                        restoreHeight: 465,
+                        restoreHeight: 535,
                         groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                         store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
                         itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
@@ -1259,6 +1258,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
             this.cmbVertTitle[index].setData(hor ? this._arrHorTitle : this._arrVertTitle);
             this.cmbVertTitle[index].setValue(props.getLabel());
+            this.cmbVertTitle[index].setDisabled(!!props.isRadarAxis());
 
             this.cmbMinType[index].setValue(props.getMinValRule());
             var value = (props.getMinValRule()==Asc.c_oAscValAxisRule.auto) ? this._originalAxisVValues[index].minAuto : props.getMinVal();
@@ -1346,6 +1346,27 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             value = props.getIntervalBetweenLabelsRule();
             this.cmbLabelInterval[index].setValue(value);
             this.spnLabelInterval[index].setValue((value===Asc.c_oAscBetweenLabelsRule.manual) ? props.getIntervalBetweenLabels(): 1, true);
+
+            value = !!props.isRadarAxis();
+            this.chHorHide[index].setDisabled(value);
+            this.cmbHorTitle[index].setDisabled(value);
+            this.cmbHorGrid[index].setDisabled(value);
+            this.cmbHCrossType[index].setDisabled(value);
+            this.spnHAxisCrosses[index].setDisabled(value);
+            this.chHReverse[index].setDisabled(value);
+            this.cmbHMajorType[index].setDisabled(value);
+            this.cmbHMinorType[index].setDisabled(value);
+            this.spnMarksInterval[index].setDisabled(value);
+            this.cmbHLabelPos[index].setDisabled(value);
+            this.spnLabelDist[index].setDisabled(value);
+            this.cmbLabelInterval[index].setDisabled(value);
+            this.spnLabelInterval[index].setDisabled(value);
+
+            var type = this.currentChartType;
+            value = !!props.isRadarAxis() || type == Asc.c_oAscChartTypeSettings.barNormal3d || type == Asc.c_oAscChartTypeSettings.barStacked3d || type == Asc.c_oAscChartTypeSettings.barStackedPer3d ||
+                                            type == Asc.c_oAscChartTypeSettings.hBarNormal3d || type == Asc.c_oAscChartTypeSettings.hBarStacked3d || type == Asc.c_oAscChartTypeSettings.hBarStackedPer3d ||
+                                            type == Asc.c_oAscChartTypeSettings.barNormal3dPerspective;
+            this.cmbAxisPos[index].setDisabled(value);
 
             this.currentAxisProps[index] = props;
         },

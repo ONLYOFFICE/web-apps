@@ -472,6 +472,12 @@
 	"WRAPCOLS": "ZAWIŃ.KOLUMNY",
 	"TAKE": "WYCINEK",
 	"DROP": "POMIŃ",
+	"SEQUENCE": "SEKWENCJA",
+	"EXPAND": "ROZSZERZ",
+	"XMATCH": "X.DOPASUJ",
+	"FILTER": "FILTRUJ",
+	"ARRAYTOTEXT": "TABLICA.NA.TEKST",
+	"SORT": "SORTUJ",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Wszystkie",

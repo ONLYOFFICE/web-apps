@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *    Layout.js
  *
@@ -261,7 +260,7 @@ define([
             var panel             = e.data.panel;
             this.resize.type      = e.data.type;
             this.resize.$el       = panel.el;
-            this.resize.min       = panel.minpos;
+            this.resize.min       = panel.minpos > 0 ? panel.minpos : this.resize.$el.parent().width() + panel.minpos;
             this.resize.fmin      = panel.fmin;
             this.resize.fmax      = panel.fmax;
             this.resize.behaviour = panel.behaviour;
@@ -365,15 +364,15 @@ define([
                 oldValue = parseInt(panel.css(prop));
             } else {
                 panel = this.resize.$el.next();
-                next = this.resize.$el.next();
+                next = this.resize.$el.prev();
                 oldValue = parseInt(panel.css(prop));
                 value = panel.parent()[prop]() - (value + this.resize[prop]);
             }
 
             if (this.resize.type == 'vertical')
                 value -= panel.position().top;
-            if (this.resize.type == 'horizontal')
-                value -= panel.position().left;
+            // if (this.resize.type == 'horizontal')
+            //     value -= panel.position().left;
 
             panel.css(prop, value + 'px');
 

@@ -8,7 +8,6 @@
     &.input-group-nr > .btn {
         height: @input-height-base;
         padding:  @padding-base-vertical @padding-base-horizontal;
-        font-size:  @font-size-base;
         line-height: @line-height-base;
 
         -o-transition: none;
@@ -18,10 +17,28 @@
 
         border-top-right-radius: 2px !important;
         border-bottom-right-radius: 2px !important;
+
+        .rtl & {
+            border-top-left-radius: 2px !important;
+            border-bottom-left-radius: 2px !important;
+        }
+    }
+
+    &.input-group-nr > .btn {
+        .rtl & {
+            border-top-right-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+        }
     }
 
     &.input-group-nr > .form-control {
         padding-right: 7px + 2 * @padding-base-horizontal;
+        .font-size-normal();
+
+        .rtl & {
+            padding-right: 3px;
+            padding-left: 7px + 2 * @padding-base-horizontal;
+        }
     }
 
     .form-control {
@@ -29,6 +46,7 @@
         position: static;
         z-index: auto;
         float: none;
+        .font-size-normal();
 
         .image {
             -webkit-filter: @img-border-type-filter;
@@ -38,6 +56,12 @@
         .text {
             line-height: 20px;
             padding-left: 2px;
+        }
+
+        .rtl & {
+            border: @scaled-one-px-value-ie solid @border-regular-control-ie;
+            border: @scaled-one-px-value solid @border-regular-control;
+            border-left: 0;
         }
     }
 
@@ -52,6 +76,16 @@
         position: absolute;
         top: 0;
         right: 0;
+
+        .rtl & {
+            border: @scaled-one-px-value-ie solid;
+            border: @scaled-one-px-value solid;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            border-right: 0;
+            right: unset;
+            left: 0;
+        }
     }
 
     .btn-default:not(.disabled),
@@ -61,12 +95,22 @@
         border-color: @border-regular-control-ie;
         border-color: @border-regular-control;
         padding-right: 5px;
+
+        .rtl & {
+            padding-right: 3px;
+            padding-left: 5px;
+        }
     }
 
     .btn-default.disabled {
         padding-right: 5px;
         border-top-color: transparent;
         border-bottom-color: transparent;
+
+        .rtl & {
+            border-left-color: @border-regular-control-ie;
+            border-left-color: @border-regular-control;
+        }
 
         &:hover, &:focus {
             background-color: transparent;
@@ -128,6 +172,10 @@
             a {
                 color: @text-normal-pressed-ie;
                 color: @text-normal-pressed;
+                svg{
+                    fill: @text-normal-pressed-ie;
+                    fill: @text-normal-pressed;
+                }
 
                 &:hover,
                 &.hover,
@@ -177,6 +225,10 @@
 
     .dropdown-menu.menu-absolute {
         position: fixed;
+
+        .rtl & {
+            right: unset;
+        }
     }
 
     .dropdown-menu.show-top {
@@ -188,6 +240,57 @@
         &.disabled {
             .form-control, .btn-default {
                 opacity: 1;
+            }
+        }
+    }
+
+    &.combobox-icons {
+        .form-control {
+            padding:2px 0 2px 3px;
+            display: block;
+            div {
+                display: inline-block;
+                overflow: hidden;
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        li a {
+            padding: 5px;
+            img {
+                width:16px;
+                height:16px;
+                margin-right: 5px;
+               .rtl & {
+                   margin-right: 0;
+                   margin-left: 5px;
+               }
+            }
+        }
+    }
+
+    &.combobox-color {
+        .form-control {
+            display: block;
+            padding: 2px 14px 2px 3px;
+
+            div {
+                display: inline-block;
+                overflow: hidden;
+                width: 100%;
+                height: 100%;
+            }
+
+            .rtl & {
+                padding: 2px 3px 2px 14px;
+            }
+        }
+        li a {
+            padding: 5px;
+
+            div {
+                height: 15px;
             }
         }
     }

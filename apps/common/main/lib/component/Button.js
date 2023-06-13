@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  Button.js
  *
@@ -187,8 +186,7 @@ define([
                 '<img src="<%= iconImg %>">' +
             '<% } else { %>' +
                 '<% if (/svgicon/.test(iconCls)) {' +
-                    'print(\'<svg class=\"icon\"><use class=\"zoom-int\" xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'\"></use>' +
-                                                    '<use class=\"zoom-grit\" xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'-150\"></use></svg>\');' +
+                    'print(\'<svg class=\"icon uni-scale\"><use class=\"zoom-int\" xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'\"></use></svg>\');' +
             '} else ' +
                     'print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); %>' +
             '<% } %>';
@@ -237,7 +235,7 @@ define([
 
     var getWidthOfCaption = function (txt) {
         var el = document.createElement('span');
-        el.style.fontSize = '11px';
+        el.style.fontSize = document.documentElement.style.getPropertyValue("--font-size-base-app-custom") || '11px';
         el.style.fontFamily = 'Arial, Helvetica, "Helvetica Neue", sans-serif';
         el.style.position = "absolute";
         el.style.top = '-1000px';
@@ -276,7 +274,8 @@ define([
             visible         : true,
             dataHint        : '',
             dataHintDirection: '',
-            dataHintOffset: '0, 0'
+            dataHintOffset: '0, 0',
+            scaling         : true,
         },
 
         template: _.template([
@@ -285,8 +284,7 @@ define([
                 // '<% if (iconCls != "") { print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); }} %>',
                 '<% if (iconCls != "") { ' +
                     ' if (/svgicon/.test(iconCls)) {' +
-                        'print(\'<svg class=\"icon\"><use class=\"zoom-int\" xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'\"></use>' +
-                            '<use class=\"zoom-grit\" xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'-150\"></use></svg>\');' +
+                        'print(\'<svg class=\"icon uni-scale\"><use class=\"zoom-int\" xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'\"></use></svg>\');' +
                     '} else ' +
                         'print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); ' +
                 '}} %>',
@@ -341,6 +339,10 @@ define([
             me.template     = me.options.template || me.template;
             me.style        = me.options.style;
             me.rendered     = false;
+
+            if ( me.options.scaling === false && me.options.iconCls) {
+                me.iconCls = me.options.iconCls + ' scaling-off';
+            }
 
             if (me.options.el) {
                 me.render();
@@ -621,6 +623,17 @@ define([
 
                 // Register the button in the toggle manager
                 Common.UI.ToggleManager.register(me);
+
+                if ( me.options.scaling !== false ) {
+                    el.attr('ratio', 'ratio');
+                    me.applyScaling(Common.UI.Scaling.currentRatio());
+
+                    el.on('app:scaling', function (e, info) {
+                        if ( me.options.scaling != info.ratio ) {
+                            me.applyScaling(info.ratio);
+                        }
+                    });
+                }
             }
 
             me.rendered = true;
@@ -729,24 +742,33 @@ define([
 
         setIconCls: function(cls) {
             var btnIconEl = $(this.el).find('.icon'),
-                oldCls = this.iconCls;
+                oldCls = this.iconCls,
+                svgIcon = btnIconEl.find('use.zoom-int');
 
             this.iconCls = cls;
             if (/svgicon/.test(this.iconCls)) {
                 var icon = /svgicon\s(\S+)/.exec(this.iconCls);
-                btnIconEl.find('use.zoom-int').attr('xlink:href', icon && icon.length>1 ? '#' + icon[1]: '');
-                btnIconEl.find('use.zoom-grit').attr('xlink:href', icon && icon.length>1 ? '#' + icon[1] + '-150' : '');
+                svgIcon.attr('xlink:href', icon && icon.length > 1 ? '#' + icon[1] : '');
+            } else if (svgIcon.length) {
+                var icon = /btn-[^\s]+/.exec(this.iconCls);
+                svgIcon.attr('href', icon ? '#' + icon[0]: '');
             } else {
                 btnIconEl.removeClass(oldCls);
                 btnIconEl.addClass(cls || '');
+                if (this.options.scaling === false) {
+                    btnIconEl.addClass('scaling-off');
+                }
             }
         },
 
         changeIcon: function(opts) {
-            var me = this;
-            if ( opts && (opts.curr || opts.next) && me.$icon) {
-                !!opts.curr && (me.$icon.removeClass(opts.curr));
-                !!opts.next && !me.$icon.hasClass(opts.next) && (me.$icon.addClass(opts.next));
+            var me = this,
+                btnIconEl = $(this.el).find('.icon');
+            if (opts && (opts.curr || opts.next) && btnIconEl) {
+                var svgIcon = btnIconEl.find('use.zoom-int');
+                !!opts.curr && (btnIconEl.removeClass(opts.curr));
+                !!opts.next && !btnIconEl.hasClass(opts.next) && (btnIconEl.addClass(opts.next));
+                svgIcon.length && !!opts.next && svgIcon.attr('href', '#' + opts.next);
 
                 if ( !!me.options.signals ) {
                     if ( !(me.options.signals.indexOf('icon:changed') < 0) ) {
@@ -852,7 +874,31 @@ define([
                 if (this.rendered)
                     this.menu.render(this.cmpEl);
             }
-        }
+        },
+
+        applyScaling: function (ratio) {
+            const me = this;
+            if ( me.options.scaling != ratio ) {
+                // me.cmpEl.attr('ratio', ratio);
+                me.options.scaling = ratio;
+
+                if (ratio > 2) {
+                    if (!me.$el.find('svg.icon').length) {
+                        const iconCls = me.iconCls || me.$el.find('i.icon').attr('class');
+                        const re_icon_name = /btn-[^\s]+/.exec(iconCls);
+                        const icon_name = re_icon_name ? re_icon_name[0] : "null";
+                        const svg_icon = '<svg class="icon"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name);
+
+                        me.$el.find('i.icon').after(svg_icon);
+                    }
+                } else {
+                    if (!me.$el.find('i.icon')) {
+                        const png_icon = '<i class="icon %cls">&nbsp;</i>'.replace('%cls', me.iconCls);
+                        me.$el.find('svg.icon').after(png_icon);
+                    }
+                }
+            }
+        },
     });
 });
 

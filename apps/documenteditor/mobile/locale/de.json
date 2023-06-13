@@ -64,7 +64,8 @@
     "textTableSize": "Tabellengröße",
     "textWithBlueLinks": "Mit blauen Links",
     "textWithPageNumbers": "Mit Seitennummern",
-    "txtNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein."
+    "txtNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein.",
+    "textPasteImageUrl": "Paste an image URL"
   },
   "Common": {
     "Collaboration": {
@@ -427,7 +428,8 @@
     "unknownErrorText": "Unbekannter Fehler.",
     "uploadImageExtMessage": "Unbekanntes Bildformat.",
     "uploadImageFileCountMessage": "Keine Bilder hochgeladen.",
-    "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten."
+    "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten.",
+    "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization."
   },
   "LongActions": {
     "applyChangesTextText": "Daten werden geladen...",
@@ -543,11 +545,12 @@
     "textClose": "Schließen",
     "textContactUs": "Verkaufsteam kontaktieren",
     "textCustomLoader": "Sie können den Verlader nicht ändern. Sie können die Anfrage an unser Verkaufsteam senden.",
+    "textDocumentProtected": "Das Dokument ist geschützt. Die Bearbeitungseinstellungen sind nicht verfügbar",
     "textGuest": "Gast",
     "textHasMacros": "Diese Datei beinhaltet Makros.<br>Möchten Sie Makros ausführen?",
     "textNo": "Nein",
     "textNoLicenseTitle": "Lizenzlimit erreicht",
-    "textNoTextFound": "Der Text wurde nicht gefunden.",
+    "textOk": "OK",
     "textPaidFeature": "Kostenpflichtige Funktion",
     "textRemember": "Auswahl speichern",
     "textReplaceSkipped": "Der Ersatzvorgang wurde durchgeführt. {0} Vorkommen wurden ausgelassen.",
@@ -565,8 +568,16 @@
     "warnNoLicense": "Sie haben die maximale Anzahl von gleichzeitigen Verbindungen in %1-Editoren erreicht. Die Bearbeitung ist jetzt in diesem Dokument nicht verfügbar. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
     "warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
     "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten.",
-    "textDocumentProtected": "The document is protected. Edit settings are not available",
-    "textOk": "Ok"
+    "textDialogProtectedChangesTracked": "You may edit this document, but all changes will be tracked",
+    "textDialogProtectedEditComments": "You may only insert comments to this document",
+    "textDialogProtectedFillForms": "You may only fill in forms in this document",
+    "textDialogProtectedOnlyView": "You may only view this document",
+    "textNoMatches": "No Matches",
+    "titleDialogProtectedDocument": "The document is protected",
+    "titleLicenseNotActive": "License not active",
+    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
+    "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator."
   },
   "Settings": {
     "advDRMOptions": "Geschützte Datei",
@@ -635,7 +646,6 @@
     "textNavigation": "Navigation",
     "textNo": "Nein",
     "textNoCharacters": "Formatierungszeichen",
-    "textNoTextFound": "Der Text wurde nicht gefunden",
     "textOk": "OK",
     "textOpenFile": "Kennwort zum Öffnen der Datei eingeben",
     "textOrientation": "Orientierung",
@@ -695,7 +705,27 @@
     "txtScheme6": "Halle",
     "txtScheme7": "Kapital",
     "txtScheme8": "Fluss",
-    "txtScheme9": "Gießerei"
+    "txtScheme9": "Gießerei",
+    "textChangePassword": "Change Password",
+    "textDialogUnprotect": "Enter a password to unprotect document",
+    "textEncryptFile": "Encrypt File",
+    "textFillingForms": "Filling forms",
+    "textNoChanges": "No changes (Read only)",
+    "textNoMatches": "No Matches",
+    "textPassword": "Password",
+    "textPasswordNotMatched": "Passwords DonвЂ™t Match",
+    "textProtectDocument": "Protect Document",
+    "textProtection": "Protection",
+    "textProtectTurnOff": "Protection is turned off",
+    "textRequired": "Required",
+    "textRequirePassword": "Require Password",
+    "textSave": "Save",
+    "textSetPassword": "Set Password",
+    "textTrackedChanges": "Tracked changes",
+    "textTypeEditing": "Type Of Editing",
+    "textUnprotect": "Unprotect",
+    "textVerify": "Verify",
+    "titleDialogUnprotect": "Unprotect Document"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Die Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",

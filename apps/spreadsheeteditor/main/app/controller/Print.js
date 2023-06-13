@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 define([
     'core',
     'spreadsheeteditor/main/app/view/FileMenuPanels',
@@ -91,11 +90,16 @@ define([
                 }
             }, this));
             this.printSettings.btnsSave.forEach(function (btn) {
-                btn.on('click', _.bind(me.querySavePrintSettings, me, false));
+                btn.on('click', _.bind(me.querySavePrintSettings, me, 'save'));
             });
             this.printSettings.btnsPrint.forEach(function (btn) {
-                btn.on('click', _.bind(me.querySavePrintSettings, me, true));
+                btn.on('click', _.bind(me.querySavePrintSettings, me, 'print'));
             });
+            if (this.mode.isDesktopApp) {
+                this.printSettings.btnsPrintPDF.forEach(function (btn) {
+                    btn.on('click', _.bind(me.querySavePrintSettings, me, 'print-pdf'));
+                });
+            }
             this.printSettings.btnPrevPage.on('click', _.bind(this.onChangePreviewPage, this, false));
             this.printSettings.btnNextPage.on('click', _.bind(this.onChangePreviewPage, this, true));
             this.printSettings.txtNumberPage.on({
@@ -137,31 +141,37 @@ define([
         updateSheetsInfo: function() {
             if (this.printSettings.isVisible()) {
                 this.updateSettings(this.printSettings);
-                this.printSettings.cmbSheet.store.each(function (item) {
-                    var sheetIndex = item.get('value');
-                    if (!this._changedProps[sheetIndex]) {
-                        this._changedProps[sheetIndex] = this.api.asc_getPageOptions(sheetIndex, true, true);
-                    }
-                }, this);
             } else {
                 this.isFillSheets = false;
             }
         },
-        
-        updateSettings: function(panel) {
+
+        resetSheets: function (panel) {
             var wc = this.api.asc_getWorksheetsCount(), i = -1;
             var items = [];
 
+            var rangeRecord = panel.cmbRange.getSelectedRecord(),
+                rangeValue = rangeRecord && rangeRecord.value,
+                selectedTabs = SSE.getController('Statusbar').getSelectTabs();
             while (++i < wc) {
                 if (!this.api.asc_isWorksheetHidden(i)) {
-                    items.push({
-                        displayValue:this.api.asc_getWorksheetName(i),
-                        value: i
-                    });
+                    if ((rangeRecord && rangeValue !== Asc.c_oAscPrintType.ActiveSheets) || selectedTabs.indexOf(i) !== -1) {
+                        items.push({
+                            displayValue: this.api.asc_getWorksheetName(i),
+                            value: i
+                        });
+                        if (!this._changedProps[i]) {
+                            this._changedProps[i] = this.api.asc_getPageOptions(i, true, true);
+                        }
+                    }
                 }
             }
 
             panel.cmbSheet.store.reset(items);
+        },
+        
+        updateSettings: function(panel) {
+            this.resetSheets(panel);
             var item = panel.cmbSheet.store.findWhere({value: panel.cmbSheet.getValue()}) ||
                        panel.cmbSheet.store.findWhere({value: this.api.asc_getActiveWorksheetIndex()});
             if (item) {
@@ -211,6 +221,11 @@ define([
             item = panel.cmbPaperOrientation.store.findWhere({value: opt.asc_getOrientation()});
             if (item) panel.cmbPaperOrientation.setValue(item.get('value'));
 
+            if (panel.spnFirstPage) {
+                value = opt.asc_getFirstPageNumber();
+                panel.spnFirstPage.setValue(value ? value : 1, true);
+            }
+
             opt = props.asc_getPageMargins();
             panel.spnMarginLeft.setValue(Common.Utils.Metric.fnRecalcFromMM(opt.asc_getLeft()), true);
             panel.spnMarginTop.setValue(Common.Utils.Metric.fnRecalcFromMM(opt.asc_getTop()), true);
@@ -256,15 +271,16 @@ define([
         },
 
         onChangeRange: function(isDlg) {
-            var menu = isDlg ? this.printSettingsDlg : this.printSettings;
-            var printtype = menu.getRange(),
-                store = menu.cmbSheet.store,
+            var menu = isDlg ? this.printSettingsDlg : this.printSettings,
+                printtype = menu.getRange();
+            this.resetSheets(menu);
+            var store = menu.cmbSheet.store,
                 item = (printtype !== Asc.c_oAscPrintType.EntireWorkbook) ? store.findWhere({value: this.api.asc_getActiveWorksheetIndex()}) : store.at(0);
             if (item) {
                 menu.cmbSheet.setValue(item.get('value'));
                 this.comboSheetsChange(menu, menu.cmbSheet, item.toJSON());
             }
-            menu.cmbSheet.setDisabled(printtype !== Asc.c_oAscPrintType.EntireWorkbook);
+            menu.cmbSheet.setDisabled(printtype === Asc.c_oAscPrintType.Selection || printtype === Asc.c_oAscPrintType.ActiveSheets && menu.cmbSheet.store.length < 2);
             menu.chIgnorePrintArea.setDisabled(printtype == Asc.c_oAscPrintType.Selection);
 
             if (!isDlg) {
@@ -299,6 +315,11 @@ define([
                 opt.asc_setFitToHeight(this.fitHeight);
                 opt.asc_setScale(this.fitScale);
             }
+
+            if (panel.spnFirstPage) {
+                opt.asc_setFirstPageNumber(panel.spnFirstPage.getNumberValue());
+            }
+
             if (!this._changedProps[sheet]) {
                 props.asc_setPageSetup(opt);
             }
@@ -335,14 +356,13 @@ define([
             if (!this.isFillSheets) {
                 this.isFillSheets = true;
                 this.updateSettings(this.printSettings);
+            } else {
+                this.resetSheets(this.printSettings);
             }
-            this.printSettings.cmbSheet.store.each(function (item) {
-                var sheetIndex = item.get('value');
-                me._changedProps[sheetIndex] = me.api.asc_getPageOptions(sheetIndex, true, true);
-            }, this);
             this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
 
             this.fillPrintOptions(this.adjPrintParams, false);
+            this.adjPrintParams.asc_setActiveSheetsArray(this.printSettings.getRange() === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
 
             var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
             opts.asc_setAdvancedOptions(this.adjPrintParams);
@@ -412,6 +432,16 @@ define([
                     this.adjPrintParams.asc_setPrintType(printtype);
                     this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
                     this.adjPrintParams.asc_setIgnorePrintArea(this.printSettingsDlg.getIgnorePrintArea());
+                    this.adjPrintParams.asc_setActiveSheetsArray(printtype === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
+                    var pageFrom = this.printSettingsDlg.getPagesFrom(),
+                        pageTo = this.printSettingsDlg.getPagesTo();
+                    if (pageFrom > pageTo) {
+                        var t = pageFrom;
+                        pageFrom = pageTo;
+                        pageTo = t;
+                    }
+                    this.adjPrintParams.asc_setStartPageIndex(pageFrom > 0 ? pageFrom - 1 : null);
+                    this.adjPrintParams.asc_setEndPageIndex(pageTo > 0 ? pageTo - 1 : null);
                     Common.localStorage.setItem("sse-print-settings-range", printtype);
 
                     var sheetIndex = printtype === Asc.c_oAscPrintType.EntireWorkbook ? 0 : this.api.asc_getActiveWorksheetIndex(),
@@ -453,13 +483,23 @@ define([
             if ( this.checkMargins(this.printSettings) ) {
                 var view = SSE.getController('Toolbar').getView('Toolbar');
                 this.savePageOptions(this.printSettings);
-                this._isPrint = print;
+                this._isPrint = print === 'print';
                 this.printSettings.applySettings();
 
                 var printType = this.printSettings.getRange();
                 this.adjPrintParams.asc_setPrintType(printType);
                 this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
                 this.adjPrintParams.asc_setIgnorePrintArea(this.printSettings.getIgnorePrintArea());
+                this.adjPrintParams.asc_setActiveSheetsArray(printType === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
+                var pageFrom = this.printSettings.getPagesFrom(),
+                    pageTo = this.printSettings.getPagesTo();
+                if (pageFrom > pageTo) {
+                    var t = pageFrom;
+                    pageFrom = pageTo;
+                    pageTo = t;
+                }
+                this.adjPrintParams.asc_setStartPageIndex(pageFrom > 0 ? pageFrom - 1 : null);
+                this.adjPrintParams.asc_setEndPageIndex(pageTo > 0 ? pageTo - 1 : null);
                 Common.localStorage.setItem("sse-print-settings-range", printType);
 
                 var sheetIndex = printType === Asc.c_oAscPrintType.EntireWorkbook ? 0 : this.api.asc_getActiveWorksheetIndex(),
@@ -473,15 +513,20 @@ define([
                         h: size[1],
                         preset: this.findPagePreset(this.printSettings, size[0], size[1])
                     },
-                    paperOrientation: !orientation ? 'portrait' : 'landscape'
+                    paperOrientation: !orientation ? 'portrait' : 'landscape',
+                    copies: this.printSettings.spnCopies ? this.printSettings.spnCopies.getNumberValue() || 1 : 1,
+                    sides: this.printSettings.cmbSides ? this.printSettings.cmbSides.getValue() : 'one'
                 });
 
-                if (print) {
+                if (print === 'print') {
                     var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
                     opts.asc_setAdvancedOptions(this.adjPrintParams);
                     this.api.asc_Print(opts);
-
                     this._isPrint = false;
+                } else if (print === 'print-pdf') {
+                    var opts = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF);
+                    opts.asc_setAdvancedOptions(this.adjPrintParams);
+                    this.api.asc_DownloadAs(opts);
                 }
                 Common.NotificationCenter.trigger('edit:complete', view);
             }
@@ -545,6 +590,9 @@ define([
             panel.txtRangeLeft.on('button:click', _.bind(this.onPresetSelect, this, panel, 'left', panel.btnPresetsLeft.menu, {value: 'select'}));
             panel.btnPresetsTop.menu.on('item:click', _.bind(this.onPresetSelect, this, panel, 'top'));
             panel.btnPresetsLeft.menu.on('item:click', _.bind(this.onPresetSelect, this, panel, 'left'));
+            if (panel.spnFirstPage) {
+                panel.spnFirstPage.on('change', _.bind(this.propertyChange, this, panel));
+            }
         },
 
         propertyChange: function(panel, scale, combo, record) {
@@ -751,7 +799,6 @@ define([
                 box.focus(); // for IE
 
                 this.api.asc_drawPrintPreview(page-1);
-                this.api.asc_enableKeyEvents(true);
                 this.updateNavigationButtons(page-1, this._navigationPreview.pageCount);
 
                 return false;
@@ -783,6 +830,16 @@ define([
                 adjPrintParams.asc_setPrintType(printType);
                 adjPrintParams.asc_setPageOptionsMap(this._changedProps);
                 adjPrintParams.asc_setIgnorePrintArea(this.printSettings.getIgnorePrintArea());
+                adjPrintParams.asc_setActiveSheetsArray(printType === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
+                var pageFrom = this.printSettings.getPagesFrom(),
+                    pageTo = this.printSettings.getPagesTo();
+                if (pageFrom > pageTo) {
+                    var t = pageFrom;
+                    pageFrom = pageTo;
+                    pageTo = t;
+                }
+                adjPrintParams.asc_setStartPageIndex(pageFrom > 0 ? pageFrom - 1 : null);
+                adjPrintParams.asc_setEndPageIndex(pageTo > 0 ? pageTo - 1 : null);
 
                 var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
                 opts.asc_setAdvancedOptions(adjPrintParams);

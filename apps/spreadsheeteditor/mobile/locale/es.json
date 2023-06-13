@@ -145,18 +145,20 @@
       "textClose": "Cerrar",
       "textContactUs": "Contactar con el equipo de ventas",
       "textCustomLoader": "Por desgracia, no tiene derecho a cambiar el cargador. Por favor, póngase en contacto con nuestro departamento de ventas para obtener una cotización.",
+      "textDontUpdate": "No actualizar",
       "textGuest": "Invitado",
       "textHasMacros": "El archivo contiene macros automáticas.<br>¿Quiere ejecutar macros?",
       "textNo": "No",
       "textNoChoices": "No hay opciones para rellenar la celda.<br>Sólo se pueden seleccionar valores de texto de la columna para su sustitución.",
       "textNoLicenseTitle": "Se ha alcanzado el límite de licencia",
-      "textNoTextFound": "Texto no encontrado",
       "textOk": "Aceptar",
       "textPaidFeature": "Característica de pago",
       "textRemember": "Recordar mi elección",
       "textReplaceSkipped": "Se ha realizado la sustitución. Se han omitido {0} ocurrencias.",
       "textReplaceSuccess": "Se ha realizado la búsqueda. Ocurrencias reemplazadas: {0}",
       "textRequestMacros": "Una macro realiza una solicitud a la URL. ¿Quiere permitir la solicitud al %1?",
+      "textUpdate": "Actualizar",
+      "textWarnUpdateExternalData": "Este libro contiene enlaces a una o varias fuentes externas que podrían no ser seguras. Si confía en los enlaces, actualícelos para obtener los datos más recientes.",
       "textYes": "Sí",
       "titleLicenseExp": "Licencia ha expirado",
       "titleServerVersion": "Editor ha sido actualizado",
@@ -169,9 +171,10 @@
       "warnNoLicense": "Ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
       "warnNoLicenseUsers": "Ha alcanzado el límite de usuarios para %1 editores. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
       "warnProcessRightsChange": "No tiene permiso para editar el archivo.",
-      "textDontUpdate": "Don't Update",
-      "textUpdate": "Update",
-      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data."
+      "textNoMatches": "No Matches",
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {
@@ -255,7 +258,8 @@
     "unknownErrorText": "Error desconocido.",
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
-    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB."
+    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB.",
+    "errorProtectedRange": "This range is not allowed for editing."
   },
   "LongActions": {
     "advDRMPassword": "Contraseña",
@@ -392,7 +396,8 @@
       "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
       "txtSorting": "Ordenación",
       "txtSortSelected": "Ordenar los objetos seleccionados",
-      "txtYes": "Sí"
+      "txtYes": "Sí",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertencia",
@@ -647,7 +652,6 @@
       "textMargins": "Márgenes",
       "textMatchCase": "Coincidir mayúsculas y minúsculas",
       "textMatchCell": "Hacer coincidir las celdas",
-      "textNoTextFound": "Texto no encontrado",
       "textOk": "OK",
       "textOpenFile": "Introduzca una contraseña para abrir el archivo",
       "textOrientation": "Orientación ",
@@ -748,7 +752,8 @@
       "txtUk": "Ucraniano",
       "txtVi": "Vietnamita",
       "txtZh": "Chino",
-      "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?"
+      "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?",
+      "textNoMatches": "No Matches"
     }
   }
 }

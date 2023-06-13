@@ -22,6 +22,15 @@
                 line-height: normal;
                 height: auto;
                 white-space: normal;
+
+                .rtl & {
+                    text-align: right;
+                    padding: 9px 12px 9px 2px;
+                }
+
+                .pixel-ratio__2_5 & {
+                    display: block;
+                }
             }
         }
 
@@ -58,23 +67,74 @@
     .form-control {
         cursor: pointer;
 
-        .image {
+        .img-arrows {
             width: 100%;
-            height: 100%;
+            height: 18px;
             display: block;
             background-color: transparent;
-            margin: 0 0 0 -3px;
+            margin: auto;
+            text-align: center;
+            overflow: hidden;
+            padding-right: 4px;
+            .svg-mirror{
+                margin-right: 1px;
+            }
         }
     }
 }
 
-.img-arrows {
-    .background-ximage-v2('right-panels/Begin-EndStyle.png', 480px);
-    -webkit-filter: @img-border-type-filter;
-    filter: @img-border-type-filter;
+.img-arrows  svg{
+        width: 44px;
+        height: 20px;
+        fill: @icon-normal-ie;
+        fill: @icon-normal;
+
+    &.svg-mirror{
+        transform: scale(-1,1);
+    }
 }
 
 .item-arrow {
     width:44px;
     height:20px;
+}
+
+#window-list-settings {
+    #id-dlg-list-bullet {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+
+        .rtl & {
+            .border-radius(@border-radius-small);
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+    }
+
+    #id-dlg-list-numbering {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        border-left-width: 0;
+        margin-left: -1px;
+
+        .rtl & {
+            border: @scaled-one-px-value solid @border-regular-control;
+            .border-radius(@border-radius-small);
+            margin-left: 0;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            border-right-width: 0;
+            margin-right: -1px;
+        }
+    }
+}
+
+#window-insert-table {
+    .columns-val, .rows-val {
+        float: right;
+
+        .rtl & {
+            float: left;
+        }
+    }
 }

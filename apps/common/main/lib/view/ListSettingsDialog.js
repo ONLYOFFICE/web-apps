@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -64,6 +63,7 @@ define([
             height: 261,
             style: 'min-width: 240px;',
             cls: 'modal-dlg',
+            id: 'window-list-settings',
             split: false,
             buttons: ['ok', 'cancel']
         },
@@ -78,35 +78,35 @@ define([
             this.template = [
                 '<div class="box">',
                     '<div style="margin-bottom: 16px;">',
-                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-list-bullet" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">', this.textBulleted,'</button>',
-                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-list-numbering" style="border-top-left-radius: 0;border-bottom-left-radius: 0;border-left-width: 0;margin-left: -1px;">', this.textNumbering,'</button>',
+                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-list-bullet">', this.textBulleted,'</button>',
+                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-list-numbering">', this.textNumbering,'</button>',
                     '</div>',
                     '<div style="height:120px;">',
                         '<table cols="3">',
                             '<tr>',
-                                '<td style="padding-right: 5px;padding-bottom: 8px;min-width: 50px;">',
+                                '<td class="padding-right" style="padding-bottom: 8px;min-width: 50px;">',
                                     '<label class="text">' + this.txtType + '</label>',
                                 '</td>',
-                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 105px;">',
+                                '<td class="padding-right" style="padding-bottom: 8px;width: 105px;">',
                                     '<div id="id-dlg-list-numbering-format" class="input-group-nr" style="width: 105px;"></div>',
                                     '<div id="id-dlg-list-bullet-format" class="input-group-nr" style="width: 105px;"></div>',
                                 '</td>',
                                 '<td style="padding-bottom: 8px;"></td>',
                             '</tr>',
                             '<tr class="image">',
-                                '<td style="padding-right: 5px;padding-bottom: 8px;min-width: 50px;">',
+                                '<td class="padding-right" style="padding-bottom: 8px;min-width: 50px;">',
                                     '<label class="text">' + this.txtImport + '</label>',
                                 '</td>',
-                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 105px;">',
+                                '<td class="padding-right" style="padding-bottom: 8px;width: 105px;">',
                                     '<div id="id-dlg-list-image" style="width: 105px;"></div>',
                                 '</td>',
                                 '<td style="padding-bottom: 8px;"></td>',
                             '</tr>',
                             '<tr>',
-                                '<td style="padding-right: 5px;padding-bottom: 8px;min-width: 50px;">',
+                                '<td class="padding-right" style="padding-bottom: 8px;min-width: 50px;">',
                                     '<label class="text">' + this.txtSize + '</label>',
                                 '</td>',
-                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 105px;">',
+                                '<td class="padding-right" style="padding-bottom: 8px;width: 105px;">',
                                     '<div id="id-dlg-list-size"></div>',
                                 '</td>',
                                 '<td style="padding-bottom: 8px;">',
@@ -114,19 +114,19 @@ define([
                                 '</td>',
                             '</tr>',
                             '<tr class="numbering">',
-                                '<td style="padding-right: 5px;padding-bottom: 8px;min-width: 50px;">',
+                                '<td class="padding-right" style="padding-bottom: 8px;min-width: 50px;">',
                                     '<label class="text" style="white-space: nowrap;">' + this.txtStart + '</label>',
                                 '</td>',
-                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 105px;">',
+                                '<td class="padding-right" style="padding-bottom: 8px;width: 105px;">',
                                     '<div id="id-dlg-list-start"></div>',
                                 '</td>',
                                 '<td style="padding-bottom: 8px;"></td>',
                             '</tr>',
                             '<tr class="color">',
-                                '<td style="padding-right: 5px;padding-bottom: 8px;min-width: 50px;">',
+                                '<td class="padding-right" style="padding-bottom: 8px;min-width: 50px;">',
                                     '<label class="text">' + this.txtColor + '</label>',
                                 '</td>',
-                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 105px;">',
+                                '<td class="padding-right" style="padding-bottom: 8px;width: 105px;">',
                                     '<div id="id-dlg-list-color"></div>',
                                 '</td>',
                                 '<td style="padding-bottom: 8px;"></td>',
@@ -260,7 +260,9 @@ define([
                 if (record.value === _BulletTypes.newSymbol) {
                     var me = this,
                         props = me.bulletProps,
+                        btn,
                         handler = function(dlg, result, settings) {
+                            btn = result;
                             if (result == 'ok') {
                                 props.changed = true;
                                 props.code = settings.code;
@@ -292,6 +294,9 @@ define([
                             font: props.font,
                             symbol: props.symbol,
                             handler: handler
+                        }).on('close', function(obj){
+                            (btn===undefined) && handler && handler.call(me);
+                            setTimeout(function(){me.cmbBulletFormat.focus();}, 1);
                         });
                     win.show();
                     win.on('symbol:dblclick', handler);

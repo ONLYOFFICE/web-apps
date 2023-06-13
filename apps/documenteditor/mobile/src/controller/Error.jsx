@@ -107,6 +107,10 @@ const ErrorController = inject('storeAppOptions','storeDocumentInfo')(({storeApp
                 config.msg = _t.errorFilePassProtect;
                 break;
 
+            case Asc.c_oAscError.ID.PasswordIsNotCorrect:
+                config.msg = t('Error.errorPasswordIsNotCorrect');
+                break;
+
             case Asc.c_oAscError.ID.StockChartError:
                 config.msg = _t.errorStockChart;
                 break;

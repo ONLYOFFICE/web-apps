@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -52,7 +51,8 @@ define([
         options: {
             contentWidth: 310,
             height: 366,
-            buttons: null
+            buttons: null,
+            id: 'window-bookmarks'
         },
 
         initialize : function(options) {
@@ -72,13 +72,13 @@ define([
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-large">',
-                                            '<div id="bookmarks-txt-name" style="display:inline-block;vertical-align: top;margin-right: 10px;"></div>',
+                                            '<div id="bookmarks-txt-name" class="margin-right" style="display:inline-block;vertical-align: top;"></div>',
                                             '<button type="button" result="add" class="btn btn-text-default" id="bookmarks-btn-add" style="vertical-align: top;">', me.textAdd,'</button>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-extra-small">',
-                                            '<label class="header" style="margin-right: 10px;">', me.textSort,'</label>',
+                                            '<label class="header margin-right">', me.textSort,'</label>',
                                             '<div id="bookmarks-radio-name"></div>',
                                             '<div id="bookmarks-radio-location"></div>',
                                         '</td>',
@@ -90,15 +90,15 @@ define([
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-large">',
-                                            '<button type="button" class="btn btn-text-default" id="bookmarks-btn-goto" style="margin-right: 5px;">', me.textGoto,'</button>',
+                                            '<button type="button" class="btn btn-text-default" id="bookmarks-btn-goto">', me.textGoto,'</button>',
                                             '<div style="display: inline-block; position: relative;">',
                                                 '<button type="button" class="btn btn-text-default auto dropdown-toggle move-focus" id="bookmarks-btn-link" style="min-width: 75px;" data-toggle="dropdown">', me.textGetLink,'</button>',
                                                 '<div id="id-clip-copy-box" class="dropdown-menu" style="width: 291px; left: -80px; padding: 10px;">',
                                                     '<div id="id-dlg-clip-copy"></div>',
-                                                    '<button id="id-dlg-copy-btn" class="btn btn-text-default" style="margin-left: 5px; width: 86px;">' + me.textCopy + '</button>',
+                                                    '<button id="id-dlg-copy-btn" class="btn btn-text-default" style="width: 86px;">' + me.textCopy + '</button>',
                                                 '</div>',
                                             '</div>',
-                                            '<button type="button" class="btn btn-text-default" id="bookmarks-btn-delete" style="float: right;">', me.textDelete,'</button>',
+                                            '<button type="button" class="btn btn-text-default" id="bookmarks-btn-delete">', me.textDelete,'</button>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',

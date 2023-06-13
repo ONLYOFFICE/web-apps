@@ -44,8 +44,8 @@ const ToolbarView = props => {
     return (
         <Fragment>
             <NavLeft>
-                {!isViewer && <Link text={Device.ios ? t("Toolbar.textOk") : ''} icon={Device.android ? 'icon-back-reader-mode' : null} className='back-reader-mode' onClick={() => props.turnOnViewerMode()}></Link>}
-                {(props.isShowBack && isViewer) && <Link className={`btn-doc-back${props.disabledControls && ' disabled'}`} icon='icon-back' onClick={props.onBack}></Link>}
+                {!isViewer && <Link text={Device.ios ? t("Toolbar.textOk") : ''} icon={Device.android ? 'icon-check' : null} className='back-reader-mode' onClick={() => props.turnOnViewerMode()}></Link>}
+                {(props.isShowBack && isViewer) && <Link className={`btn-doc-back${props.disabledControls && ' disabled'}`} icon='icon-back' onClick={() => Common.Notifications.trigger('goback')}></Link>}
                 {(Device.ios && props.isEdit && !isViewer) && EditorUIController.getUndoRedo && EditorUIController.getUndoRedo({
                     disabledUndo: !props.isCanUndo || isDisconnected,
                     disabledRedo: !props.isCanRedo || isDisconnected,
@@ -76,7 +76,7 @@ const ToolbarView = props => {
                 })}
                 {/*props.displayCollaboration &&*/}
                 {Device.phone ? null : <Link className={(props.disabledControls || props.readerMode) && 'disabled'} icon='icon-search' searchbarEnable='.searchbar' href={false}></Link>}
-                {window.matchMedia("(min-width: 360px)").matches ? <Link className={props.disabledControls && 'disabled'} id='btn-coauth' href={false} icon='icon-collaboration' onClick={() => props.openOptions('coauth')}></Link> : null}
+                {window.matchMedia("(min-width: 360px)").matches && docExt !== 'oform' ? <Link className={props.disabledControls && 'disabled'} id='btn-coauth' href={false} icon='icon-collaboration' onClick={() => props.openOptions('coauth')}></Link> : null}
                 <Link className={(props.disabledSettings || props.disabledControls || isDisconnected) && 'disabled'} id='btn-settings' icon='icon-settings' href={false} onClick={() => props.openOptions('settings')}></Link>
             </NavRight>
         </Fragment>

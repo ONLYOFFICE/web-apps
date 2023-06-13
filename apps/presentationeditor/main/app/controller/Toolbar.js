@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  Toolbar.js
  *
@@ -338,6 +337,8 @@ define([
             toolbar.btnNumbers.menu.on('show:after',                    _.bind(this.onListShowAfter, this, 1, toolbar.mnuNumbersPicker));
             toolbar.btnFontColor.on('click',                            _.bind(this.onBtnFontColor, this));
             toolbar.btnFontColor.on('color:select',                     _.bind(this.onSelectFontColor, this));
+            toolbar.btnFontColor.on('eyedropper:start',                 _.bind(this.onEyedropperStart, this));
+            toolbar.btnFontColor.on('eyedropper:end',                   _.bind(this.onEyedropperEnd, this));
             toolbar.btnHighlightColor.on('click',                       _.bind(this.onBtnHighlightColor, this));
             toolbar.mnuHighlightColorPicker.on('select',                _.bind(this.onSelectHighlightColor, this));
             toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
@@ -562,8 +563,13 @@ define([
                                 if (type == Asc.asc_PreviewBulletType.char) {
                                     var symbol = bullet.asc_getChar();
                                     if (symbol) {
+                                        var custombullet = new Asc.asc_CBullet();
+                                        custombullet.asc_putSymbol(symbol);
+                                        custombullet.asc_putFont(bullet.asc_getSpecialFont());
+
                                         rec.get('data').subtype = 0x1000;
-                                        rec.set('drawdata', {type: type, char: symbol, specialFont: bullet.asc_getSpecialFont()});
+                                        rec.set('customBullet', custombullet);
+                                        rec.set('numberingInfo', JSON.stringify(custombullet.asc_getJsonBullet()));
                                         rec.set('tip', '');
                                         this.toolbar.mnuMarkersPicker.dataViewItems && this.updateBulletTip(this.toolbar.mnuMarkersPicker.dataViewItems[8], '');
                                         drawDefBullet = false;
@@ -572,8 +578,12 @@ define([
                                 } else if (type == Asc.asc_PreviewBulletType.image) {
                                     var id = bullet.asc_getImageId();
                                     if (id) {
+                                        var custombullet = new Asc.asc_CBullet();
+                                        custombullet.asc_fillBulletImage(id);
+
                                         rec.get('data').subtype = 0x1000;
-                                        rec.set('drawdata', {type: type, imageId: id});
+                                        rec.set('customBullet', custombullet);
+                                        rec.set('numberingInfo', JSON.stringify(custombullet.asc_getJsonBullet()));
                                         rec.set('tip', '');
                                         this.toolbar.mnuMarkersPicker.dataViewItems && this.updateBulletTip(this.toolbar.mnuMarkersPicker.dataViewItems[8], '');
                                         drawDefBullet = false;
@@ -620,7 +630,7 @@ define([
                 }
                 if (drawDefBullet) {
                     rec.get('data').subtype = 8;
-                    rec.set('drawdata', this.toolbar._markersArr[8]);
+                    rec.set('numberingInfo', this.toolbar._markersArr[8]);
                     rec.set('tip', this.toolbar.tipMarkersDash);
                     this.toolbar.mnuMarkersPicker.dataViewItems && this.updateBulletTip(this.toolbar.mnuMarkersPicker.dataViewItems[8], this.toolbar.tipMarkersDash);
                 }
@@ -753,6 +763,8 @@ define([
                     { array:  this.toolbar.btnsInsertImage.concat(this.toolbar.btnsInsertText, this.toolbar.btnsInsertShape, this.toolbar.btnInsertEquation, this.toolbar.btnInsertTextArt, this.toolbar.btnInsAudio, this.toolbar.btnInsVideo) });
                 if (this.btnsComment)
                     this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides, { array:  this.btnsComment });
+                if (this.btnsDrawTab)
+                    this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides, { array:  this.btnsDrawTab });
             }
         },
 
@@ -1396,7 +1408,8 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
-        onComboOpen: function(needfocus, combo) {
+        onComboOpen: function(needfocus, combo, e, params) {
+            if (params && params.fromKeyDown) return;
             _.delay(function() {
                 var input = $('input', combo.cmpEl).select();
                 if (needfocus) input.focus();
@@ -1462,9 +1475,10 @@ define([
             var store = picker.store;
             var arr = [];
             store.each(function(item){
-                var data = item.get('drawdata');
-                data['divId'] = item.get('id');
-                arr.push(data);
+                arr.push({
+                    numberingInfo: {bullet: item.get('numberingInfo')==='undefined' ? undefined : JSON.parse(item.get('numberingInfo'))},
+                    divId: item.get('id')
+                });
             });
             if (this.api && this.api.SetDrawImagePreviewBulletForMenu) {
                 this.api.SetDrawImagePreviewBulletForMenu(arr, type);
@@ -1492,20 +1506,17 @@ define([
 
             if (this.api){
                 if (rawData.data.type===0 && rawData.data.subtype===0x1000) {// custom bullet
-                    var bullet = new Asc.asc_CBullet();
-                    if (rawData.drawdata.type===Asc.asc_PreviewBulletType.char) {
-                        bullet.asc_putSymbol(rawData.drawdata.char);
-                        bullet.asc_putFont(rawData.drawdata.specialFont);
-                    } else if (rawData.drawdata.type===Asc.asc_PreviewBulletType.image)
-                        bullet.asc_fillBulletImage(rawData.drawdata.imageId);
-                    var selectedElements = this.api.getSelectedElements();
-                    if (selectedElements && _.isArray(selectedElements)) {
-                        for (var i = 0; i< selectedElements.length; i++) {
-                            if (Asc.c_oAscTypeSelectElement.Paragraph == selectedElements[i].get_ObjectType()) {
-                                var props = selectedElements[i].get_ObjectValue();
-                                props.asc_putBullet(bullet);
-                                this.api.paraApply(props);
-                                break;
+                    var bullet = rawData.customBullet;
+                    if (bullet) {
+                        var selectedElements = this.api.getSelectedElements();
+                        if (selectedElements && _.isArray(selectedElements)) {
+                            for (var i = 0; i< selectedElements.length; i++) {
+                                if (Asc.c_oAscTypeSelectElement.Paragraph == selectedElements[i].get_ObjectType()) {
+                                    var props = selectedElements[i].get_ObjectValue();
+                                    props.asc_putBullet(bullet);
+                                    this.api.paraApply(props);
+                                    break;
+                                }
                             }
                         }
                     }
@@ -2638,6 +2649,7 @@ define([
             this.toolbar.createDelayedElements();
             this.attachUIEvents(this.toolbar);
             this._state.needCallApiBullets && this.onApiBullets(this._state.needCallApiBullets);
+            Common.Utils.injectSvgIcons();
         },
 
         onAppShowed: function (config) {
@@ -2657,12 +2669,24 @@ define([
             var tab = {action: 'review', caption: me.toolbar.textTabCollaboration, layoutname: 'toolbar-collaboration', dataHintTitle: 'U'};
             var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
             if ( $panel ) {
-                me.toolbar.addTab(tab, $panel, 4);
+                me.toolbar.addTab(tab, $panel, 5);
                 me.toolbar.setVisible('review', (config.isEdit || config.canViewReview || config.canCoAuthoring && config.canComments) && Common.UI.LayoutManager.isElementVisible('toolbar-collaboration'));
             }
 
             if ( config.isEdit ) {
                 me.toolbar.setMode(config);
+
+                var drawtab = me.getApplication().getController('Common.Controllers.Draw');
+                drawtab.setApi(me.api).setMode(config);
+                $panel = drawtab.createToolbarPanel();
+                if ($panel) {
+                    tab = {action: 'draw', caption: me.toolbar.textTabDraw, extcls: 'canedit', layoutname: 'toolbar-draw', dataHintTitle: 'C'};
+                    me.toolbar.addTab(tab, $panel, 2);
+                    me.toolbar.setVisible('draw', Common.UI.LayoutManager.isElementVisible('toolbar-draw'));
+                    me.btnsDrawTab = drawtab.getView().getButtons();
+                    Array.prototype.push.apply(me.toolbar.lockControls, me.btnsDrawTab);
+                    Array.prototype.push.apply(me.toolbar.slideOnlyControls, me.btnsDrawTab);
+                }
 
                 var transitController = me.getApplication().getController('Transitions');
                 transitController.setApi(me.api).setConfig({toolbar: me,mode:config}).createToolbarPanel();
@@ -2693,7 +2717,7 @@ define([
                         tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
                         $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
                         if ($panel)
-                            me.toolbar.addTab(tab, $panel, 5);
+                            me.toolbar.addTab(tab, $panel, 6);
                     }
                 }
             }
@@ -2703,7 +2727,7 @@ define([
             viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
             $panel = viewtab.createToolbarPanel();
             if ($panel) {
-                me.toolbar.addTab(tab, $panel, 6);
+                me.toolbar.addTab(tab, $panel, 7);
                 me.toolbar.setVisible('view', Common.UI.LayoutManager.isElementVisible('toolbar-view'));
             }
         },
@@ -2806,6 +2830,15 @@ define([
             if (this.api) {
                 this.api.asc_createSmartArt(value);
             }
+        },
+
+        onEyedropperStart: function (btn) {
+            this.toolbar._isEyedropperStart = true;
+            this.api.asc_startEyedropper(_.bind(btn.eyedropperEnd, btn));
+        },
+
+        onEyedropperEnd: function () {
+            this.toolbar._isEyedropperStart = false;
         },
 
         textEmptyImgUrl : 'You need to specify image URL.',

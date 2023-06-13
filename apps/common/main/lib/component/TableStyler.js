@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  TableStyler.js
  *
@@ -45,324 +44,202 @@ define([
     'common/main/lib/component/BaseView'
 ], function () {
     'use strict';
+    Common.UI.CellBorder = function (options){
+        var me =this;
 
-    Common.UI.CellStyler = Common.UI.BaseView.extend({
-        options : {
-            clickOffset         : 10,
-            overwriteStyle      : true,
-            maxBorderSize       : 6,
-            halfBorderSize      : false,
-            defaultBorderSize   : 1,
-            defaultBorderColor  : '#ccc'
-        },
+        var virtualBorderSize,
+            virtualBorderColor,
+            borderSize,
+            borderColor,
+            borderAlfa;
 
-        template: _.template([
-            '<div id="<%=id%>" class="tablestyler-cell" style="">',
-                '<div class="cell-content" style="">',
-                    '<div class="content-text"></div>',
-                '</div>',
-            '</div>'
-        ].join('')),
+        me.overwriteStyle       = options.overwriteStyle !== undefined ? options.overwriteStyle : true;
+        me.maxBorderSize        = options.maxBorderSize ? options.maxBorderSize : 8;
+        me.defaultBorderSize    = options.defaultBorderSize !== undefined ? options.defaultBorderSize : 1;
+        me.defaultBorderColor   = options.defaultBorderColor ? options.defaultBorderColor : '#ccc';
+        me.col                  = options.col !== undefined ? options.col : -1;
+        me.row                  = options.row !== undefined ? options.row : -1;
+        me.cellPadding          = options.cellPadding !== undefined ? options.cellPadding : 10;
+        me.tablePadding         = options.tablePadding !== undefined ? options.tablePadding : 10;
+        me.X1                   = options.x1 !== undefined ? options.x1 : 0;
+        me.Y1                   = options.y1 !== undefined ? options.y1 : 0;
+        me.X2                   = options.x2 !== undefined ? options.x2 : 0;
+        me.Y2                   = options.y2 !== undefined ? options.y2 : 0;
+        me.numInCell            = options.numInCell !== undefined ? options.numInCell : -1;
+        me.scale                = options.scale !== undefined ? options.scale : 2;
+        me.rows                 = options.rows !== undefined ? options.rows : 2;
+        me.columns              = options.columns !== undefined ? options.columns : 2;
+        me.context              = options.context;
 
-        initialize : function(options) {
-            Common.UI.BaseView.prototype.initialize.call(this, options);
+        virtualBorderSize       = me.defaultBorderSize;
+        virtualBorderColor      = new Common.Utils.RGBColor(me.defaultBorderColor);
+        borderSize = virtualBorderSize;
+        borderColor = virtualBorderColor;
+        borderAlfa = 1;
 
-            var me = this,
-                divContent = undefined,
-                virtualBorderSize,
-                virtualBorderColor,
-                borderSize = {},
-                borderColor = {},
-                borderAlfa = {};
+        me.setBordersSize = function (size) {
+            borderSize = (size > this.maxBorderSize) ? this.maxBorderSize : size;
+            borderAlfa = (size < 1) ? 0.3 : 1;
+        };
 
-            me.id                   = me.options.id || Common.UI.getId();
-            me.clickOffset          = me.options.clickOffset;
-            me.overwriteStyle       = me.options.overwriteStyle;
-            me.maxBorderSize        = me.options.maxBorderSize;
-            me.halfBorderSize       = me.options.halfBorderSize;
-            me.defaultBorderSize    = me.options.defaultBorderSize;
-            me.defaultBorderColor   = me.options.defaultBorderColor;
-            me.col                  = me.options.col;
-            me.row                  = me.options.row;
+        me.setBordersColor = function( color) {
+            var newColor = color;
+            if(typeof(color) == "string")
+                newColor = new Common.Utils.RGBColor(color);
+            borderColor = newColor;
+        };
 
-            virtualBorderSize       = me.defaultBorderSize;
-            virtualBorderColor      = new Common.Utils.RGBColor(me.defaultBorderColor);
+        me.getBorderSize = function() {
+            return borderSize;
+        };
 
-            borderSize = {
-                top     : virtualBorderSize,
-                right   : virtualBorderSize,
-                bottom  : virtualBorderSize,
-                left    : virtualBorderSize
-            };
+        me.getBorderColor = function() {
+            return borderColor.toHex();
+        };
 
-            borderColor = {
-                top     : virtualBorderColor,
-                right   : virtualBorderColor,
-                bottom  : virtualBorderColor,
-                left    : virtualBorderColor
-            };
+        me.setVirtualBorderSize = function(size) {
+            virtualBorderSize = (size > this.maxBorderSize) ? this.maxBorderSize : size;
+        };
 
-            borderAlfa = {
-                top     : 1,
-                right   : 1,
-                bottom  : 1,
-                left    : 1
-            };
+        me.setVirtualBorderColor = function(color){
+            virtualBorderColor = color;
+        };
 
-            me.rendered             = false;
+        me.getVirtualBorderSize = function() {
+            return virtualBorderSize;
+        };
 
-            var applyStyle = function(){
-                if (!_.isUndefined(divContent)){
-                    var brd = (borderSize.left>0.1 && borderSize.left<1) ? 1 : borderSize.left;
-                    var drawLeftSize = Math.abs((me.halfBorderSize) ? ((brd % 2) ? brd - 1: brd) * 0.5 : brd);
+        me.getVirtualBorderColor = function() {
+            return virtualBorderColor.toHex();
+        };
 
-                    brd = (borderSize.right>0.1 && borderSize.right<1) ? 1 : borderSize.right;
-                    var drawRightSize = Math.abs((me.halfBorderSize) ? ((brd % 2) ? brd + 1: brd) * 0.5 : brd);
+        me.scaleBorderSize = function (size){
+            return (size*me.scale + 0.5)>>0;
+        };
 
-                    brd = (borderSize.top>0.1 && borderSize.top<1) ? 1 : borderSize.top;
-                    var drawTopSize = Math.abs((me.halfBorderSize) ? ((brd % 2) ? brd - 1: brd) * 0.5 : brd);
-
-                    brd = (borderSize.bottom>0.1 && borderSize.bottom<1) ? 1 : borderSize.bottom;
-                    var drawBottomSize = Math.abs((me.halfBorderSize) ? ((brd % 2) ? brd + 1: brd) * 0.5 : brd);
-
-                    var value =
-                        'inset ' +           ((drawLeftSize>0.1   && drawLeftSize<1)    ? 1 : drawLeftSize)   + 'px' + ' 0' + ' 0 ' + borderColor.left.toRGBA(borderAlfa.left) + ', ' +
-                        'inset ' +        -1*((drawRightSize>0.1  && drawRightSize<1)   ? 1 : drawRightSize)  + 'px' + ' 0' + ' 0 ' + borderColor.right.toRGBA(borderAlfa.right) + ', ' +
-                        'inset ' + '0 ' +    ((drawTopSize>0.1    && drawTopSize<1)     ? 1 : drawTopSize)    + 'px' + ' 0 '        + borderColor.top.toRGBA(borderAlfa.top) + ', ' +
-                        'inset ' + '0 ' + -1*((drawBottomSize>0.1 && drawBottomSize<1)  ? 1 : drawBottomSize) + 'px' + ' 0 '        + borderColor.bottom.toRGBA(borderAlfa.bottom);
-
-                    divContent.css('box-shadow', value);
-                }
-            };
-
-            me.on('render:after', function(cmp) {
-                if (this.cmpEl){
-                    divContent = this.cmpEl.find('.cell-content');
-
-                    applyStyle();
-                }
-
-                this.cmpEl.on('click', function(event){
-                    var pos = {
-                        x: event.pageX*Common.Utils.zoom() - me.cmpEl.offset().left,
-                        y: event.pageY*Common.Utils.zoom() - me.cmpEl.offset().top
+        me.getLine = function (){
+            var size = me.scaleBorderSize(borderSize);
+            if(me.numInCell < 0) {
+                if (me.Y1 == me.Y2)
+                    return {
+                        X1: me.X1 >> 0,
+                        Y1: ((me.Y1 + size / 2) >> 0) - size / 2,
+                        X2: (me.X2) >> 0,
+                        Y2: ((me.Y2 + size / 2) >> 0) - size / 2
                     };
-
-                    var ptInPoly = function(npol, xp, yp, x, y) {
-                        var i, j, c = 0;
-                        for (i = 0, j = npol - 1; i < npol; j = i++){
-                            if ((((yp [i] <= y) && (y < yp [j])) || ((yp [j] <= y) && (y < yp [i]))) && (x < (xp [j] - xp [i]) * (y - yp [i]) / (yp [j] - yp [i]) + xp [i]))
-                                c = !c;
-                        }
-                        return c;
+                else
+                    return {
+                        X1: ((me.X1 + size / 2) >> 0) - size / 2,
+                        Y1: me.Y1 >> 0,
+                        X2: ((me.X2 + size / 2) >> 0) - size / 2,
+                        Y2: me.Y2 >> 0
                     };
+            }
+            else {
+                var lines = [], step,
+                    cellPadding = me.cellPadding * me.scale;
+                size *= (me.numInCell === 0)? 1 : -1;
 
-                    var meWidth = me.cmpEl.outerWidth();
-                    var meHeight = me.cmpEl.outerHeight();
-
-                    if (ptInPoly(4, [0, meWidth, meWidth-me.clickOffset, me.clickOffset], [0, 0, me.clickOffset, me.clickOffset], pos.x, pos.y)){
-                        if (me.overwriteStyle){
-                            if (borderSize.top != virtualBorderSize || !borderColor.top.isEqual(virtualBorderColor)){
-                                borderSize.top = virtualBorderSize;
-                                borderColor.top = virtualBorderColor;
-                                borderAlfa.top = (virtualBorderSize<1) ? 0.3 : 1;
-                            } else {
-                                borderSize.top = 0;
-                            }
-                        } else {
-                            borderSize.top = (borderSize.top > 0) ? 0 : virtualBorderSize;
-                            borderColor.top = virtualBorderColor;
-                        }
-
-                        me.fireEvent('borderclick', me, 't', borderSize.top, borderColor.top.toHex());
-
-                    } else if (ptInPoly(4, [meWidth, meWidth, meWidth-me.clickOffset, meWidth-me.clickOffset], [0, meHeight, meHeight-me.clickOffset, me.clickOffset], pos.x, pos.y)){
-                        if (me.overwriteStyle){
-                            if (borderSize.right != virtualBorderSize || !borderColor.right.isEqual(virtualBorderColor)){
-                                borderSize.right = virtualBorderSize;
-                                borderColor.right = virtualBorderColor;
-                                borderAlfa.right = (virtualBorderSize<1) ? 0.3 : 1;
-                            } else {
-                                borderSize.right = 0;
-                            }
-                        } else {
-                            borderSize.right = (borderSize.right > 0) ? 0 : virtualBorderSize;
-                            borderColor.right = virtualBorderColor;
-                        }
-
-                        me.fireEvent('borderclick', me, 'r', borderSize.right, borderColor.right.toHex());
-
-                    } else if (ptInPoly(4, [0, me.clickOffset, meWidth-me.clickOffset, meWidth], [meHeight, meHeight-me.clickOffset, meHeight-me.clickOffset, meHeight], pos.x, pos.y)){
-                        if (me.overwriteStyle){
-                            if (borderSize.bottom != virtualBorderSize || !borderColor.bottom.isEqual(virtualBorderColor)){
-                                borderSize.bottom = virtualBorderSize;
-                                borderColor.bottom = virtualBorderColor;
-                                borderAlfa.bottom = (virtualBorderSize<1) ? 0.3 : 1;
-                            } else {
-                                borderSize.bottom = 0;
-                            }
-                        } else {
-                            borderSize.bottom = (borderSize.bottom > 0) ? 0 : virtualBorderSize;
-                            borderColor.bottom = virtualBorderColor;
-                        }
-
-                        me.fireEvent('borderclick', me, 'b', borderSize.bottom, borderColor.bottom.toHex());
-
-                    } else if (ptInPoly(4, [0, me.clickOffset, me.clickOffset, 0], [0, me.clickOffset, meHeight-me.clickOffset, meHeight], pos.x, pos.y)){
-                        if (me.overwriteStyle){
-                            if (borderSize.left != virtualBorderSize || !borderColor.left.isEqual(virtualBorderColor)){
-                                borderSize.left = virtualBorderSize;
-                                borderColor.left = virtualBorderColor;
-                                borderAlfa.left = (virtualBorderSize<1) ? 0.3 : 1;
-                            } else {
-                                borderSize.left = 0;
-                            }
-                        } else {
-                            borderSize.left = (borderSize.left > 0) ? 0 : virtualBorderSize;
-                            borderColor.left = virtualBorderColor;
-                        }
-
-                        me.fireEvent('borderclick', me, 'l', borderSize.left, borderColor.left.toHex());
+                if (me.Y1 == me.Y2){
+                    step = (me.X2 - me.X1)/me.columns;
+                    for(var col = 0; col < me.columns; col++ ){
+                        lines.push({
+                            X1: (me.X1 + col * step + ((col > 0) | 0) * cellPadding/2) >> 0,
+                            Y1: (me.Y1 >> 0) + size / 2,
+                            X2: (me.X1 + (col + 1) * step - ((col < me.columns - 1) | 0) * cellPadding/2) >> 0,
+                            Y2: (me.Y1 >> 0) + size / 2
+                        });
                     }
-
-                    applyStyle();
-                });
-            });
-
-            me.setBordersSize = function(borders, size) {
-                size = (size > this.maxBorderSize) ? this.maxBorderSize : size;
-
-                if (borders.indexOf('t') > -1) {
-                    borderSize.top = size;
-                    borderAlfa.top = (size<1) ? 0.3 : 1;
                 }
-                if (borders.indexOf('r') > -1) {
-                    borderSize.right = size;
-                    borderAlfa.right = (size<1) ? 0.3 : 1;
+                else {
+                    step = (me.Y2 - me.Y1)/me.rows;
+                    for(var row = 0; row < me.rows; row++ ) {
+                        lines.push({
+                            X1: (me.X1 >> 0) + size / 2,
+                            Y1: (me.Y1 + row * step + ((row >0) | 0) * cellPadding/2) >> 0,
+                            X2: (me.X1 >> 0) + size / 2,
+                            Y2: (me.Y1 + (row + 1) * step - ((row < me.rows - 1) | 0) * cellPadding/2) >> 0
+                        });
+                    }
                 }
-                if (borders.indexOf('b') > -1) {
-                    borderSize.bottom = size;
-                    borderAlfa.bottom = (size<1) ? 0.3 : 1;
-                }
-                if (borders.indexOf('l') > -1) {
-                    borderSize.left = size;
-                    borderAlfa.left = (size<1) ? 0.3 : 1;
-                }
-
-            applyStyle();
-            };
-
-            me.setBordersColor = function(borders, color) {
-                var newColor = new Common.Utils.RGBColor(color);
-
-                if (borders.indexOf('t') > -1)
-                    borderColor.top = newColor;
-                if (borders.indexOf('r') > -1)
-                    borderColor.right = newColor;
-                if (borders.indexOf('b') > -1)
-                    borderColor.bottom = newColor;
-                if (borders.indexOf('l') > -1)
-                    borderColor.left = newColor;
-
-                applyStyle();
-            };
-
-            me.getBorderSize = function(border) {
-                switch(border){
-                    case 't':
-                        return borderSize.top;
-                    case 'r':
-                        return borderSize.right;
-                    case 'b':
-                        return borderSize.bottom;
-                    case 'l':
-                        return borderSize.left;
-                }
-                return null;
-            };
-
-            me.getBorderColor = function(border) {
-                switch(border){
-                    case 't':
-                        return borderColor.top.toHex();
-                    case 'r':
-                        return borderColor.right.toHex();
-                    case 'b':
-                        return borderColor.bottom.toHex();
-                    case 'l':
-                        return borderColor.left.toHex();
-                }
-                return null;
-            };
-
-            me.setVirtualBorderSize = function(size) {
-                virtualBorderSize = (size > this.maxBorderSize) ? this.maxBorderSize : size;
-            };
-
-            me.setVirtualBorderColor = function(color){
-                var newColor = new Common.Utils.RGBColor(color);
-
-                if (virtualBorderColor.isEqual(newColor))
-                    return;
-
-                virtualBorderColor = newColor;
-            };
-
-            me.getVirtualBorderSize = function() {
-                return virtualBorderSize;
-            };
-
-            me.getVirtualBorderColor = function() {
-                return virtualBorderColor.toHex();
-            };
-
-            if (me.options.el) {
-                me.render();
+                return lines;
             }
-        },
+        };
 
-        render : function(parentEl) {
-            var me = this;
+        me.inRect = function (MX, MY){
+            var h = me.scale * me.tablePadding/2;
+            var line =  me.getLine();
+            var mxScale = MX*me.scale,
+                myScale = MY*me.scale;
+            if(me.numInCell < 0) {
 
-            this.trigger('render:before', this);
-
-            if (!me.rendered) {
-                this.cmpEl = $(this.template({
-                    id: this.id
-                }));
-
-                if (parentEl) {
-                    this.setElement(parentEl, false);
-                    parentEl.html(this.cmpEl);
-                } else {
-                    this.$el.html(this.cmpEl);
+                if (line.Y1 == line.Y2)
+                    return ((mxScale > line.X1 && mxScale < line.X2) && (myScale > line.Y1 - h && myScale < line.Y1 + h));
+                else
+                    return ((myScale > line.Y1 && myScale < line.Y2) && (mxScale > line.X1 - h && mxScale < line.X1 + h));
+            }
+            else {
+                if (me.Y1 == me.Y2) {
+                    for(var i = 0; i < line.length; i++) {
+                        if ((mxScale > line[i].X1 && mxScale < line[i].X2) && (myScale > line[i].Y1 - h && myScale < line[i].Y1 + h))
+                            return true;
+                    }
                 }
+                else {
+                    for(var i = 0; i < line.length; i++) {
+                        if((myScale > line[i].Y1 && myScale < line[i].Y2) && (mxScale > line[i].X1 - h && mxScale < line[i].X1 + h))
+                            return  true;
+                    }
+                }
+                return  false;
+            }
+        };
+
+        me.drawBorder = function (){
+            if(borderSize == 0) return;
+            var line =  me.getLine();
+            me.context.beginPath();
+            me.context.globalAlpha = borderAlfa;
+            me.context.lineWidth = me.scaleBorderSize(borderSize);
+            me.context.strokeStyle = me.getBorderColor();
+            if(me.numInCell < 0) {
+                me.context.moveTo(line.X1, line.Y1);
+                me.context.lineTo(line.X2, line.Y2);
             } else {
-                this.cmpEl = this.$el;
+                _.each(line, function (ln){
+                    me.context.moveTo(ln.X1, ln.Y1);
+                    me.context.lineTo(ln.X2, ln.Y2);
+                });
             }
+            me.context.stroke();
+            me.context.globalAlpha = 1;
+        };
 
-            me.rendered = true;
+        me.setBorderParams = function (){
+            if(borderSize == virtualBorderSize &&  virtualBorderColor.isEqual(borderColor) && me.overwriteStyle){
+                me.setBordersSize(0);
+                return;
+            }
+            me.setBordersSize(virtualBorderSize);
+            me.setBordersColor(virtualBorderColor);
+        };
 
-            this.trigger('render:after', this);
-
-            return this;
-        }
-    });
-
-
-
-
+    }
 
     Common.UI.TableStyler = Common.UI.BaseView.extend({
         options : {
             width               : 200,
             height              : 200,
+            sizeCorner          : 10,
+            scale               : 2,
+            row                 :-1,
+            col                 :-1,
             rows                : 2,
             columns             : 2,
             cellPadding         : 10,
             tablePadding        : 10,
             overwriteStyle      : true,
-            maxBorderSize       : 6,
+            maxBorderSize       : 8,
             spacingMode         : false,
             defaultBorderSize   : 1,
             defaultBorderColor  : '#ccc'
@@ -370,67 +247,8 @@ define([
 
         template: _.template([
             '<div id="<%=scope.id%>" class="table-styler" style="position: relative; width: <%=scope.width%>px; height:<%=scope.height%>px;">',
-                '<div class="ts-preview-box ts-preview-box--lt" style="left: 0; top: 0; width: <%=scope.tablePadding%>px; height: <%=scope.tablePadding%>px;"></div>',
-                '<div class="ts-preview-box ts-preview-box--mt" style="left: <%=scope.tablePadding%>px; top: 0; right: <%=scope.tablePadding%>px; height: <%=scope.tablePadding%>px;">',
-                    '<div id="<%=scope.id%>-table-top-border-selector" style="position: absolute; z-index: 1; height: <%=scope.tablePadding%>px; left: 0; right: 0; top:  <%=scope.tablePadding * .5%>px;">',
-                        '<table width="100%" height="100%">',
-                            '<tr>',
-                                '<td id="<%=scope.id%>-table-top-border" style="height:50%; border-bottom: <%=borderSize.top%>px solid <%borderColor.top.toHex()%>;"></td>',
-                            '</tr>',
-                            '<tr>',
-                                '<td></td>',
-                            '</tr>',
-                        '</table>',
-                    '</div>',
-                '</div>',
-                '<div class="ts-preview-box ts-preview-box--rt" style="top: 0; right: 0; width: <%=scope.tablePadding%>px; height: <%=scope.tablePadding%>px;"></div>',
-
-                '<div class="ts-preview-box ts-preview-box--lm" style="left: 0; top: <%=scope.tablePadding%>px; width: <%=scope.tablePadding%>px; height: <%=scope.height - 2 * scope.tablePadding%>px;">',
-                    '<div id="<%=scope.id%>-table-left-border-selector" style="position: absolute; z-index: 1; left: <%=scope.tablePadding * .5%>px; top: 0; bottom: 0; width: <%=scope.tablePadding%>px;">',
-                        '<table width="100%" height="100%">',
-                            '<tr>',
-                                '<td id="<%=scope.id%>-table-left-border" style="border-right: <%=borderSize.left%>px solid <%=borderColor.left.toHex()%>;"></td>',
-                                '<td width="50%"></td>',
-                            '</tr>',
-                        '</table>',
-                    '</div>',
-                '</div>',
-                '<div class="ts-preview-box ts-preview-box--mm" style="left: <%=scope.tablePadding%>px; top: <%=scope.tablePadding%>px; right: <%=scope.tablePadding%>px; bottom: <%=scope.tablePadding%>px;">',
-                    '<table id="<%=scope.id%>-table-content" cols="<%=scope.columns%>" width="100%" height="100%" style="border-collapse: inherit; border-spacing: <%= scope.spacingMode ? scope.cellPadding : 0 %>px;">',
-                        '<% for (var row = 0; row < scope.rows; row++) { %>',
-                            '<tr>',
-                                '<% for (var col = 0; col < scope.columns; col++) { %>',
-                                    '<td id="<%=scope.id%>-cell-container-<%=col%>-<%=row%>" class="content-box"></td>',
-                                '<% } %>',
-                            '</tr>',
-                        '<% } %>',
-                    '</table>',
-                '</div>',
-                '<div class="ts-preview-box ts-preview-box--rm" style="right: 0; top: <%=scope.tablePadding%>px; width: <%=scope.tablePadding%>px; height: <%=scope.height - 2 * scope.tablePadding%>px;">',
-                    '<div id="<%=scope.id%>-table-right-border-selector" style="position: absolute; z-index: 1; right: <%=scope.tablePadding * .5%>px; top: 0; bottom: 0; width: <%=scope.tablePadding%>px;">',
-                        '<table width="100%" height="100%">',
-                            '<tr>',
-                                '<td id="<%=scope.id%>-table-right-border" style="border-right: <%=borderSize.right%>px solid <%=borderColor.right.toHex()%>;"></td>',
-                                '<td width="50%"></td>',
-                            '</tr>',
-                        '</table>',
-                    '</div>',
-                '</div>',
-
-                '<div class="ts-preview-box ts-preview-box--lb" style="left: 0; bottom: 0; width: <%=scope.tablePadding%>px; height: <%=scope.tablePadding%>px;"></div>',
-                '<div class="ts-preview-box ts-preview-box--mb" style="left: <%=scope.tablePadding%>px; bottom: 0; right: <%=scope.tablePadding%>px; height: <%=scope.tablePadding%>px;">',
-                    '<div id="<%=scope.id%>-table-bottom-border-selector" style="position: absolute; z-index: 1; height: <%=scope.tablePadding%>px; left: 0; right: 0; bottom:  <%=scope.tablePadding * .5%>px;">',
-                        '<table width="100%" height="100%">',
-                            '<tr>',
-                                '<td id="<%=scope.id%>-table-bottom-border" style="height:50%; border-bottom: <%=borderSize.bottom%>px solid <%=borderColor.bottom.toHex()%>;"></td>',
-                            '</tr>',
-                            '<tr>',
-                                '<td></td>',
-                            '</tr>',
-                        '</table>',
-                    '</div>',
-                '</div>',
-                '<div class="ts-preview-box ts-preview-box--rb" style="bottom: 0; right: 0; width: <%=scope.tablePadding%>px; height: <%=scope.tablePadding%>px;"></div>',
+            '<canvas id="<%=scope.id%>-table-canvas"  width ="<%=scope.width * scope.scale%>" height="<%=scope.height * scope.scale%>" style="left: 0; top: 0; width: 100%; height: 100%;">',
+            '</canvas>',
             '</div>'
         ].join('')),
 
@@ -438,15 +256,13 @@ define([
             Common.UI.BaseView.prototype.initialize.call(this, options);
 
             var me = this,
-                topBorder, rightBorder, bottomBorder, leftBorder,
-                topBorderSelector, rightBorderSelector, bottomBorderSelector,
-                leftBorderSelector,
-                virtualBorderSize, virtualBorderColor,
-                table_content, cells_content;
-
+                virtualBorderSize,
+                virtualBorderColor;
             me.id                   = me.options.id || Common.UI.getId();
-            me.width                = me.options.width;
-            me.height               = me.options.height;
+            me.scale                = Common.Utils.applicationPixelRatio();
+            me.scale                = me.scale >= 1 ? me.scale : 1;
+            me.width                = ((me.options.width * me.scale) >> 0) / me.scale;
+            me.height               = ((me.options.height * me.scale) >> 0) / me.scale;
             me.rows                 = me.options.rows;
             me.columns              = me.options.columns;
             me.cellPadding          = me.options.cellPadding;
@@ -454,8 +270,12 @@ define([
             me.overwriteStyle       = me.options.overwriteStyle;
             me.maxBorderSize        = me.options.maxBorderSize;
             me.spacingMode          = me.options.spacingMode;
+            me.twoModes             = me.options.twoModes;
             me.defaultBorderSize    = me.options.defaultBorderSize;
             me.defaultBorderColor   = me.options.defaultBorderColor;
+            me.sizeCorner           = me.options.sizeCorner;
+            me.backgroundColor      = 'transparent';
+            me.backgroundCellColor  = 'transparent';
 
             virtualBorderSize       = (me.defaultBorderSize > me.maxBorderSize) ? me.maxBorderSize : me.defaultBorderSize;
             virtualBorderColor      = new Common.Utils.RGBColor(me.defaultBorderColor);
@@ -476,110 +296,144 @@ define([
 
             me.rendered             = false;
 
-            var applyStyles = function(){
-                topBorder       && topBorder.css('border-bottom',    ((borderSize.top    > 0.1 && borderSize.top    < 1) ? 1 : borderSize.top)    + 'px solid ' + borderColor.top.toRGBA((borderSize.top < 1)       ? 0.2 : 1));
-                rightBorder     && rightBorder.css('border-right',   ((borderSize.right  > 0.1 && borderSize.right  < 1) ? 1 : borderSize.right)  + 'px solid ' + borderColor.right.toRGBA((borderSize.right < 1)   ? 0.2 : 1));
-                bottomBorder    && bottomBorder.css('border-bottom', ((borderSize.bottom > 0.1 && borderSize.bottom < 1) ? 1 : borderSize.bottom) + 'px solid ' + borderColor.bottom.toRGBA((borderSize.bottom < 1) ? 0.2 : 1));
-                leftBorder      && leftBorder.css('border-right',    ((borderSize.left   > 0.1 && borderSize.left   < 1) ? 1 : borderSize.left)   + 'px solid ' + borderColor.left.toRGBA((borderSize.left < 1)     ? 0.2 : 1));
-                redraw(topBorderSelector); redraw(rightBorderSelector);
-                redraw(bottomBorderSelector); redraw(leftBorderSelector);
-            };
-
-            var redraw = function(el) {
-                return el.hide(0, function() {
-                    $(this).show();
-                });
-            };
-
             me.on('render:after', function(cmp) {
-                var meId                = me.id;
 
-                topBorder               = $('#' + meId + '-table-top-border');
-                rightBorder             = $('#' + meId + '-table-right-border');
-                bottomBorder            = $('#' + meId + '-table-bottom-border');
-                leftBorder              = $('#' + meId + '-table-left-border');
-                topBorderSelector       = $('#' + meId + '-table-top-border-selector');
-                rightBorderSelector     = $('#' + meId + '-table-right-border-selector');
-                bottomBorderSelector    = $('#' + meId + '-table-bottom-border-selector');
-                leftBorderSelector      = $('#' + meId + '-table-left-border-selector');
-                table_content           = $('#' + meId + '-table-content');
-                cells_content           = table_content.find('.cell-content');
+                me.canv.addEventListener('click', function (e) {
+                    var mouseX, mouseY;
 
-                table_content.find('.content-box').css('height', (me.rows>1) ? '50%' : 'auto');
-
-                topBorderSelector.on('click', function(e){
-                    if (me.overwriteStyle){
-                        if (borderSize.top != virtualBorderSize || !borderColor.top.isEqual(virtualBorderColor)){
-                            borderSize.top = virtualBorderSize;
-                            borderColor.top = virtualBorderColor;
-                        } else {
-                            borderSize.top = 0;
-                        }
-                    } else {
-                        borderSize.top = (borderSize.top > 0) ? 0 : virtualBorderSize;
-                        borderColor.top = virtualBorderColor;
+                    if (e.offsetX !== undefined) {
+                        mouseX = parseInt(e.offsetX * Common.Utils.zoom());
+                        mouseY = parseInt(e.offsetY * Common.Utils.zoom());
+                    } else if (e.layerX) {
+                        mouseX = e.layerX;
+                        mouseY = e.layerY;
                     }
-                    topBorder.css('border-bottom', ((borderSize.top > 0.1 && borderSize.top < 1) ? 1 : borderSize.top) + 'px solid ' + borderColor.top.toRGBA((borderSize.top < 1) ? 0.2 : 1));
-                    redraw(topBorderSelector);
+                    var redraw = false;
 
-                    me.fireEvent('borderclick', me, 't', borderSize.top, borderColor.top.toHex());
+                    if (me.inRect('t', mouseX, mouseY)) {
+                        me.setBorderParams('t');
+                        redraw = true;
+                        me.fireEvent('borderclick', me, 't',  borderSize.top, borderColor.top.toHex());
+                    }
+                    else if (me.inRect('b', mouseX, mouseY)) {
+                        me.setBorderParams('b');
+                        redraw = true;
+                        me.fireEvent('borderclick', me, 'b',  borderSize.bottom, borderColor.bottom.toHex());
+                    }
+                    else if (me.inRect('l', mouseX, mouseY)) {
+                        me.setBorderParams('l');
+                        redraw = true;
+                        me.fireEvent('borderclick', me, 'l',  borderSize.left, borderColor.left.toHex());
+                    }
+                    else if (me.inRect('r', mouseX, mouseY)) {
+                        me.setBorderParams('r');
+                        redraw = true;
+                        me.fireEvent('borderclick', me, 'r',  borderSize.right, borderColor.right.toHex());
+                    }
+                    else {
+                        for (var i = 0; i < me._cellBorders.length; i++) {
+                            if (me._cellBorders[i].inRect(mouseX, mouseY)) {
+                                redraw = true;
+                                me._cellBorders[i].setBorderParams();
+                                me.fireEvent('borderclick:cellborder', me, me._cellBorders[i],  me._cellBorders[i].getBorderSize(), me._cellBorders[i].getBorderColor());
+
+                                if(me.spacingMode) {
+                                    var secondBorder = undefined;
+                                    if(me._cellBorders[i].col > 0 && me._cellBorders[i].numInCell === 0)
+                                        secondBorder = me.getCellBorder(-1, me._cellBorders[i].col - 1, 1);
+                                    else if(me._cellBorders[i].row > 0 && me._cellBorders[i].numInCell === 0)
+                                        secondBorder = me.getCellBorder(me._cellBorders[i].row - 1, -1,  1);
+                                    else if(me._cellBorders[i].col > -1 && me._cellBorders[i].col < me.columns - 1 && me._cellBorders[i].numInCell === 1)
+                                        secondBorder = me.getCellBorder(-1, me._cellBorders[i].col + 1,  0);
+                                    else if(me._cellBorders[i].row > -1 && me._cellBorders[i].row < me.rows - 1 && me._cellBorders[i].numInCell === 1)
+                                        secondBorder = me.getCellBorder(me._cellBorders[i].row + 1, -1,  0);
+
+                                    (secondBorder) && secondBorder.setBorderParams();
+                                }
+
+                                break;
+                            }
+                        }
+                    }
+                    (redraw) && me.redrawTable();
                 });
 
-                rightBorderSelector.on('click', function(e){
-                    if (me.overwriteStyle){
-                        if (borderSize.right != virtualBorderSize || !borderColor.right.isEqual(virtualBorderColor)){
-                            borderSize.right = virtualBorderSize;
-                            borderColor.right = virtualBorderColor;
-                        } else {
-                            borderSize.right = 0;
-                        }
-                    } else {
-                        borderSize.right = (borderSize.right > 0) ? 0 : virtualBorderSize;
-                        borderColor.right = virtualBorderColor;
-                    }
-                    rightBorder.css('border-right', ((borderSize.right > 0.1 && borderSize.right < 1) ? 1 : borderSize.right) + 'px solid ' + borderColor.right.toRGBA((borderSize.right < 1) ? 0.2 : 1));
-                    redraw(rightBorderSelector);
-
-                    me.fireEvent('borderclick', me, 'r', borderSize.right, borderColor.right.toHex());
-                });
-
-                bottomBorderSelector.on('click', function(e){
-                    if (me.overwriteStyle){
-                        if (borderSize.bottom != virtualBorderSize || !borderColor.bottom.isEqual(virtualBorderColor)){
-                            borderSize.bottom = virtualBorderSize;
-                            borderColor.bottom = virtualBorderColor;
-                        } else {
-                            borderSize.bottom = 0;
-                        }
-                    } else {
-                        borderSize.bottom = (borderSize.bottom > 0) ? 0 : virtualBorderSize;
-                        borderColor.bottom = virtualBorderColor;
-                    }
-
-                    bottomBorder.css('border-bottom', ((borderSize.bottom > 0.1 && borderSize.bottom < 1) ? 1 : borderSize.bottom) + 'px solid ' + borderColor.bottom.toRGBA((borderSize.bottom < 1) ? 0.2 : 1));
-                    redraw(bottomBorderSelector);
-
-                    me.fireEvent('borderclick', me, 'b', borderSize.bottom, borderColor.bottom.toHex());
-                });
-
-                leftBorderSelector.on('click', function(e){
-                    if (me.overwriteStyle){
-                        if (borderSize.left != virtualBorderSize || !borderColor.left.isEqual(virtualBorderColor)){
-                            borderSize.left = virtualBorderSize;
-                            borderColor.left = virtualBorderColor;
-                        } else {
-                            borderSize.left = 0;
-                        }
-                    } else {
-                        borderSize.left = (borderSize.left > 0) ? 0 : virtualBorderSize;
-                        borderColor.left = virtualBorderColor;
-                    }
-                    leftBorder.css('border-right', ((borderSize.left > 0.1 && borderSize.left < 1) ? 1 : borderSize.left) + 'px solid ' + borderColor.left.toRGBA((borderSize.left < 1) ? 0.2 : 1));
-                    redraw(leftBorderSelector);
-
-                    me.fireEvent('borderclick', me, 'l', borderSize.left, borderColor.left.toHex());
-                });
+                $(window).resize(me.resizeTable);
             });
+
+            me.resizeTable = function (){
+                me.context.clearRect(0,0, me.width*me.scale, me.height*me.scale);
+                me.scale = Common.Utils.applicationPixelRatio();
+                me.scale = me.scale>=1 ? me.scale : 1;
+                me.width = ((me.options.width * me.scale)>>0) / me.scale;
+                me.height = ((me.options.height * me.scale) >> 0) / me.scale;
+                me.cmpEl.css({'width': me.width, 'height': me.height});
+                me.cmpEl.parent().css({'width': me.width, 'height': me.height});
+
+                me._cellBorders.forEach(function(b){
+                    b.scale = me.scale;
+                });
+
+                var i, sizeCorner = me.sizeCorner * me.scale;
+                var ctxWidth = me.width*me.scale,
+                    ctxHeight = me.height*me.scale,
+                    stepX = (ctxWidth - 2 * sizeCorner)/me.columns,
+                    stepY = (ctxHeight - 2 * sizeCorner)/me.rows;
+
+                if(!me.spacingMode) {
+                    i = 0;
+                    for (var row = 0; row < me.rows - 1; row++) {
+                        me._cellBorders[i].Y1 = (row + 1) * stepY + sizeCorner;
+                        me._cellBorders[i].Y2 = me._cellBorders[i].Y1;
+                        me._cellBorders[i].X1 = sizeCorner;
+                        me._cellBorders[i].X2 = ctxWidth - sizeCorner;
+                        i++
+                    }
+
+                    for (var col = 0; col < me.columns - 1; col++) {
+                        me._cellBorders[i].Y1 = sizeCorner;
+                        me._cellBorders[i].Y2 = ctxHeight - sizeCorner;
+                        me._cellBorders[i].X1 = (col + 1) * stepX + sizeCorner;
+                        me._cellBorders[i].X2 = me._cellBorders[i].X1;
+                        i++
+                    }
+                }
+                else {
+                    var cellPadding = me.cellPadding * me.scale;
+                    sizeCorner += cellPadding;
+                    stepX = (ctxWidth - 2 * sizeCorner) / me.columns;
+                    stepY = (ctxHeight - 2 * sizeCorner) / me.rows;
+                    i = 0;
+
+                    for (var col = 0; col < me.columns; col++) {
+                        for(var n = 0; n< 2; n++) {
+                            me._cellBorders[i].Y1 = sizeCorner;
+                            me._cellBorders[i].Y2 = ctxHeight - sizeCorner;
+                            me._cellBorders[i].X1 = (n == 0) ?
+                                (col) * (stepX + cellPadding / 2) + sizeCorner:
+                                me.width * me.scale - sizeCorner - (me.columns - col - 1) * (stepX + cellPadding / 2);
+                            me._cellBorders[i].X2 = me._cellBorders[i].X1;
+                            i++
+                        }
+                    }
+
+                    for (var row = 0; row < me.rows; row++) {
+                        for(var n = 0; n< 2; n++) {
+                            me._cellBorders[i].Y1 = (n == 0) ?
+                                (row) * (stepY + cellPadding / 2) + sizeCorner:
+                                me.height * me.scale - sizeCorner - (me.rows - row - 1) * (stepY + cellPadding / 2);
+                            me._cellBorders[i].Y2 = me._cellBorders[i].Y1;
+                            me._cellBorders[i].X1 = sizeCorner;
+                            me._cellBorders[i].X2 = ctxWidth - sizeCorner;
+                            i++;
+                        }
+                    }
+                }
+
+                me.canv.width = me.width * me.scale;
+                me.canv.height = me.height * me.scale;
+                me.drawTable();
+            };
 
             me.getVirtualBorderSize = function(){
                 return virtualBorderSize;
@@ -590,15 +444,10 @@ define([
             };
 
             me.setVirtualBorderSize = function(size){
-                size = (size > me.maxBorderSize) ? me.maxBorderSize : size;
+                virtualBorderSize = (size > me.maxBorderSize) ? me.maxBorderSize : size;
 
-                virtualBorderSize = size;
-
-                for (var row = 0; row < me.rows; row++){
-                    for (var col = 0; col < me.columns; col++){
-                        var cell = me.getCell(col, row);
-                        cell.setVirtualBorderSize(size);
-                    }
+                for(var i =0; i < me._cellBorders.length; i++){
+                    me._cellBorders[i].setVirtualBorderSize(size);
                 }
             };
 
@@ -610,27 +459,29 @@ define([
 
                 virtualBorderColor = newColor;
 
-                for (var row = 0; row < me.rows; row++){
-                    for (var col = 0; col < me.columns; col++){
-                        var cell = me.getCell(col, row);
-                        cell.setVirtualBorderColor(virtualBorderColor.toHex());
-                    }
+                for(var i =0; i < me._cellBorders.length; i++){
+                    me._cellBorders[i].setVirtualBorderColor(newColor);
                 }
             };
 
             me.setBordersSize = function(borders, size){
                 size = (size > me.maxBorderSize) ? me.maxBorderSize : size;
-
-                if (borders.indexOf('t') > -1)
+                if (borders.indexOf('t') > -1) {
                     borderSize.top = size;
-                if (borders.indexOf('r') > -1)
+                }
+                if (borders.indexOf('r') > -1) {
                     borderSize.right = size;
-                if (borders.indexOf('b') > -1)
+                }
+                if (borders.indexOf('b') > -1) {
                     borderSize.bottom = size;
-                if (borders.indexOf('l') > -1)
+                }
+                if (borders.indexOf('l') > -1) {
                     borderSize.left = size;
+                }
+            };
 
-                applyStyles();
+            me.scaleBorderSize = function (size){
+                return (size*me.scale +0.5)>>0;
             };
 
             me.setBordersColor = function(borders, color){
@@ -645,7 +496,6 @@ define([
                 if (borders.indexOf('l') > -1)
                     borderColor.left = newColor;
 
-                applyStyles();
             };
 
             me.getBorderSize = function(border){
@@ -676,14 +526,75 @@ define([
                 return null;
             };
 
+            me.getBorderAlpha = function (border) {
+                return me.getBorderSize(border)<1 ? 0.2 : 1;
+            };
+
+            me.setBorderParams = function(border) {
+                var color = new Common.Utils.RGBColor(me.getBorderColor(border));
+                var size = me.getBorderSize(border);
+                if(size == virtualBorderSize && virtualBorderColor.isEqual(color) && me.overwriteStyle) {
+                    me.setBordersSize(border,0);
+                    return;
+                }
+                me.setBordersSize(border, me.getVirtualBorderSize());
+                me.setBordersColor(border,me.getVirtualBorderColor());
+            };
+
+            me.getLine =function  (size, border ){
+                var sizeCornerScale = me.sizeCorner * me.scale ;
+                var borderWidth = me.scaleBorderSize(size);
+                var linePoints={},
+                    canvWidth = me.width * me.scale,
+                    canvHeight =me.height * me.scale;
+                switch (border){
+                    case 't':
+                        linePoints.X1 = sizeCornerScale >>0;
+                        linePoints.Y1 = (sizeCornerScale>>0) + borderWidth / 2;
+                        linePoints.X2 = (canvWidth - sizeCornerScale)>>0;
+                        linePoints.Y2 = linePoints.Y1;
+                        break;
+                    case 'b':
+                        linePoints.X1 = sizeCornerScale>>0;
+                        linePoints.Y1 = ((canvHeight - sizeCornerScale)>>0) - borderWidth / 2;
+                        linePoints.X2 = (canvWidth - sizeCornerScale)>>0;
+                        linePoints.Y2 = linePoints.Y1;
+                        break;
+                    case 'l':
+                        linePoints.X1 = (sizeCornerScale>>0) + borderWidth / 2;
+                        linePoints.Y1 = sizeCornerScale>>0;
+                        linePoints.X2 = linePoints.X1;
+                        linePoints.Y2 = (canvHeight - sizeCornerScale)>>0;
+                        break;
+                    case 'r':
+                        linePoints.X1 = ((canvWidth - sizeCornerScale)>>0) - borderWidth / 2;
+                        linePoints.Y1 = sizeCornerScale>>0;
+                        linePoints.X2 = linePoints.X1;
+                        linePoints.Y2 = (canvHeight - sizeCornerScale)>>0;
+                        break;
+                }
+                return linePoints;
+            };
+
+            me.inRect= function(border, MX, MY) {
+                var h = me.tablePadding/2;
+                var sizeBorder = me.getBorderSize(border);
+                var line = me.getLine(sizeBorder, border);
+
+                line = {X1: line.X1/me.scale, Y1: line.Y1/me.scale, X2: line.X2/me.scale, Y2: line.Y2/me.scale};
+
+                if (line.Y1 == line.Y2)
+                    return ((MX > line.X1 && MX < line.X2) && (MY > line.Y1 - h && MY < line.Y1 + h));
+                else
+                    return((MY > line.Y1 && MY < line.Y2) && (MX > line.X1 - h && MX < line.X1 + h));
+            };
+
             me.setTableColor = function(color) {
-                table_content.toggleClass('transparent', color == 'transparent');
-                table_content.css('background-color', (color == 'transparent' ) ? color : ('#'+color));
+                me.backgroundColor = (color == 'transparent' ) ? color : ('#'+color);
             };
 
             me.setCellsColor = function(color) {
-                !me.spacingMode && table_content.toggleClass('transparent', color == 'transparent');
-                cells_content.css('background-color', (color == 'transparent' ) ? color : ('#'+color));
+                me.backgroundCellColor = (color == 'transparent' ) ? color : ('#'+color);
             };
 
             if (me.options.el) {
@@ -697,145 +608,354 @@ define([
         },
 
         render : function(parentEl) {
-            var me = this,
-                cfg = arguments[1];
+            var cfg = arguments[1];
 
             this.trigger('render:before', this);
 
-            if (!me.rendered) {
+            if (!this.rendered) {
                 this.cmpEl = $(this.template(_.extend({
-                    scope: me
+                    scope: this
                 }, cfg)));
 
                 if (parentEl) {
                     this.setElement(parentEl, false);
                     this.setElement(parentEl, false);
                     parentEl.html(this.cmpEl);
-                } else {
-                    $(this.el).html(this.cmpEl);
                 }
-            } else {
+                else
+                    $(this.el).html(this.cmpEl);
+
+                this.cmpEl.parent().css({'width': this.width, 'height': this.height});
+            }
+            else
                 this.cmpEl = $(this.el);
+
+            this.canv = $('#' + this.id + '-table-canvas')[0];
+            this.context = this.canv.getContext('2d');
+
+            var sizeCorner = this.sizeCorner * this.scale
+            sizeCorner += (this.spacingMode) ? this.cellPadding * this.scale : 0;
+            if (!this.rendered) {
+                this._cellBorders = [];
+                var generalOpt = {
+                    scale           : this.scale,
+                    context         : this.context,
+                    cellPadding     : this.cellPadding,
+                    tablePadding    : this.tablePadding,
+                    rows            : this.rows,
+                    columns         : this.columns
+                };
+
+                (!this.spacingMode) && this.createHorizontalBorders(generalOpt, sizeCorner);
+                this.createVerticaLBorders(generalOpt, sizeCorner);
+                (this.spacingMode) && this.createHorizontalBorders(generalOpt, sizeCorner);
+
+                this.drawTable();
             }
 
-            if (!me.rendered) {
-                var el = this.cmpEl;
+            this.rendered = true;
 
-                this._cells = [];
+            this.trigger('render:after', this);
+            return this;
+        },
 
-                for (var row = 0; row < me.rows; row++) {
-                    for (var col = 0; col < me.columns; col++) {
-                        var cellStyler = new Common.UI.CellStyler({
-                            el                  : $('#' + me.id + '-cell-container-' + col + '-' + row),
-                            overwriteStyle      : me.overwriteStyle,
-                            halfBorderSize      : !me.spacingMode,
-                            defaultBorderSize   : me.spacingMode ? cfg.virtualBorderSize : 0,
-                            defaultBorderColor  : cfg.virtualBorderColor.toHex(),
-                            id                  : me.id + '-cell-' + col + '-' + row,
-                            col                 : col,
-                            row                 : row
-                        });
+        createHorizontalBorders: function (generalOpt, sizeCorner){
+            var opt = generalOpt;
+            var ctxWidth = this.width * this.scale,
+                stepY = (this.height * this.scale - 2 * sizeCorner) / this.rows,
+                cellPadding = this.cellPadding*this.scale;
+            if(!this.spacingMode) {
+                for (var row = 0; row < this.rows - 1; row++) {
+                    opt.y1 = (row + 1) * stepY + sizeCorner;
+                    opt.y2 = opt.y1;
+                    opt.x1 = sizeCorner;
+                    opt.x2 = ctxWidth - sizeCorner;
+                    opt.row = row;
+                    opt.col = -1;
+                    this._cellBorders.push(new Common.UI.CellBorder(opt));
+                }
+            } else {
+                for (var row = 0; row < this.rows; row++) {
+                    for (var n = 0; n < 2; n++) {
+                        opt.numInCell = n;
+                        opt.y1 = (n == 0) ?
+                            (row) * (stepY + cellPadding / 2) + sizeCorner :
+                            this.height*this.scale - sizeCorner - (this.rows - row - 1) * (stepY + cellPadding / 2);
+                        opt.y2 = opt.y1;
+                        opt.x1 = sizeCorner;
+                        opt.x2 = ctxWidth - sizeCorner;
+                        opt.row = row;
+                        opt.col = -1;
+                        this._cellBorders.push(new Common.UI.CellBorder(opt));
+                    }
+                }
+            }
+        },
 
-                        this._cells.push(cellStyler);
+        createVerticaLBorders: function (generalOpt, sizeCorner){
+            var opt = generalOpt;
+            var ctxHeight = this.height * this.scale,
+                stepX = (this.width * this.scale - 2 * sizeCorner) / this.columns,
+                cellPadding = this.cellPadding*this.scale;
+            if(!this.spacingMode) {
+                for (var col = 0; col < this.columns - 1; col++) {
+                    opt.y1 = sizeCorner;
+                    opt.y2 = ctxHeight - sizeCorner;
+                    opt.x1 = (col + 1) * stepX + sizeCorner;
+                    opt.x2 = opt.x1;
+                    opt.row = -1;
+                    opt.col = col;
+                    this._cellBorders.push(new Common.UI.CellBorder(opt));
+                }
+            }
+            else {
+                for (var col = 0; col < this.columns; col++) {
+                    for (var n = 0; n < 2; n++) {
+                        opt.numInCell = n;
+                        opt.y1 = sizeCorner;
+                        opt.y2 = ctxHeight - sizeCorner;
+                        opt.x1 = (n == 0) ?
+                            (col) * (stepX + cellPadding / 2) + sizeCorner :
+                            this.width * this.scale - sizeCorner - (this.columns - col - 1) * (stepX + cellPadding / 2);
+                        opt.x2 = opt.x1;
+                        opt.col = col;
+                        opt.row = -1;
+                        this._cellBorders.push(new Common.UI.CellBorder(opt));
+                    }
+                }
+            }
+        },
 
-                        cellStyler.on('borderclick', function(cell, type, size, color){
-                            var cellCol, cellRow, curCell;
-                            if (type == 't'){
-                                if (cell.row > 0){
-                                    for(cellCol = 0; cellCol < me.columns; cellCol++){
-                                        curCell = me.getCell(cellCol, cell.row - 1);
-                                        curCell.setBordersSize('b', size);
-                                        curCell.setBordersColor('b', color);
-                                    }
-                                }
+        drawCorners: function ( ) {
+            var connerLineSize = (0.5*this.scale+0.5) >> 0,
+                sizeCornerScale =this.sizeCorner * this.scale,
+                canvWidth = this.width * this.scale,
+                canvHeight = this.height * this.scale,
+                diff = connerLineSize/2;
 
-                                for(cellCol = 0; cellCol < me.columns; cellCol++){
-                                    curCell = me.getCell(cellCol, cell.row);
+            this.context.setLineDash([connerLineSize,connerLineSize]);
+            this.context.lineWidth = connerLineSize;
+            this.context.strokeStyle = "grey";
 
-                                    if (cell.halfBorderSize && cell.row < 1)
-                                        curCell.setBordersSize('t', 0);
-                                    else
-                                        curCell.setBordersSize('t', size);
+            this.context.beginPath();
 
-                                    curCell.setBordersColor('t', color);
-                                }
-                            }
-                            else if (type == 'b'){
-                                if (cell.row < me.rows - 1){
-                                    for(cellCol = 0; cellCol < me.columns; cellCol++){
-                                        curCell = me.getCell(cellCol, cell.row + 1);
-                                        curCell.setBordersSize('t', size);
-                                        curCell.setBordersColor('t', color);
-                                    }
-                                }
+            //lines for corners:
+            //top-left
+            this.context.moveTo (
+                (sizeCornerScale >> 0) - diff,
+                0
+            );
+            this.context.lineTo (
+                (sizeCornerScale >> 0) - diff,
+                (sizeCornerScale >> 0) - diff
+            );
+            this.context.moveTo (
+                sizeCornerScale >> 0,
+                (sizeCornerScale >> 0) - diff
+            );
+            this.context.lineTo (
+                0,
+                (sizeCornerScale >> 0) - diff
+            );
+            //-------------------------------------------------------
 
-                                for(cellCol = 0; cellCol < me.columns; cellCol++){
-                                    curCell = me.getCell(cellCol, cell.row);
+            //top-right
+            this.context.moveTo (
+                ((canvWidth - sizeCornerScale)>>0) + diff,
+                0
+            );
+            this.context.lineTo (
+                ((canvWidth - sizeCornerScale)>>0) + diff,
+                sizeCornerScale >> 0
+            );
+            this.context.moveTo (
+                (canvWidth - sizeCornerScale) >> 0,
+                (sizeCornerScale >> 0) - diff
+            );
+            this.context.lineTo (
+                canvWidth >> 0,
+                (sizeCornerScale >> 0) - diff
+            );
+            //-------------------------------------------------------
 
-                                    if (cell.halfBorderSize && cell.row >= me.rows - 1)
-                                        curCell.setBordersSize('b', 0);
-                                    else
-                                        curCell.setBordersSize('b', size);
+            // bottom-right
+            this.context.moveTo (
+                ((canvWidth - sizeCornerScale) >> 0) + diff,
+                canvHeight >> 0
+            );
+            this.context.lineTo (
 
-                                    curCell.setBordersColor('b', color);
-                                }
-                            }
-                            else if (type == 'l'){
-                                if (cell.col > 0){
-                                    for(cellRow = 0; cellRow < me.rows; cellRow++){
-                                        curCell = me.getCell(cell.col - 1, cellRow);
-                                        curCell.setBordersSize('r', size);
-                                        curCell.setBordersColor('r', color);
-                                    }
-                                }
+                ((canvWidth - sizeCornerScale) >>0 ) + diff,
+                (canvHeight - sizeCornerScale) >> 0
+            );
 
-                                for(cellRow = 0; cellRow < me.rows; cellRow++){
-                                    curCell = me.getCell(cell.col, cellRow);
+            this.context.moveTo (
+                (canvWidth - sizeCornerScale) >> 0,
+                ((canvHeight - sizeCornerScale) >> 0) + diff);
 
-                                    if (cell.halfBorderSize && cell.col < 1)
-                                        curCell.setBordersSize('l', 0);
-                                    else
-                                        curCell.setBordersSize('l', size);
+            this.context.lineTo (
+                canvWidth >> 0,
+                ((canvHeight - sizeCornerScale) >> 0) + diff
+            );
+            //-------------------------------------------------------
 
-                                    curCell.setBordersColor('l', color);
-                                }
-                            }
-                            else if (type == 'r'){
-                                if (cell.col < me.columns - 1){
-                                    for(cellRow = 0; cellRow < me.rows; cellRow++){
-                                        curCell = me.getCell(cell.col + 1, cellRow);
-                                        curCell.setBordersSize('l', size);
-                                        curCell.setBordersColor('l', color);
-                                    }
-                                }
+            //bottom-left
+            this.context.moveTo(
+                (sizeCornerScale >> 0) - diff,
+                canvHeight >> 0
+            );
+            this.context.lineTo(
+                (sizeCornerScale >> 0) - diff,
+                (canvHeight - sizeCornerScale)>>0
+            );
 
-                                for(cellRow = 0; cellRow < me.rows; cellRow++){
-                                    curCell = me.getCell(cell.col, cellRow);
+            this.context.moveTo(
+                sizeCornerScale >> 0,
+                ((canvHeight - sizeCornerScale) >> 0) + diff
+            );
 
-                                    if (cell.halfBorderSize && cell.col >= me.columns - 1)
-                                        curCell.setBordersSize('r', 0);
-                                    else
-                                        curCell.setBordersSize('r', size);
+            this.context.lineTo(
+                0,
+                ((canvHeight - sizeCornerScale) >> 0) + diff
+            );
+            //-------------------------------------------------------
 
-                                    curCell.setBordersColor('r', color);
-                                }
-                            }
-                        });
+            this.context.stroke();
+            this.context.setLineDash([]);
+        },
+
+        fillCells: function(){
+            if(!this.spacingMode || this.backgroundCellColor == 'transparent') return;
+            var sizeCorner = (this.sizeCorner + this.cellPadding) * this.scale,
+                cellPadding = this.cellPadding * this.scale,
+                stepX = (this.width * this.scale - 2 * sizeCorner)/this.columns,
+                stepY = (this.height * this.scale - 2 * sizeCorner)/this.rows;
+
+            this.context.beginPath();
+            this.context.fillStyle = this.backgroundCellColor;
+            for(var row = 0; row < this.rows; row++ ){
+                for (var col = 0; col < this.columns; col++){
+
+                    this.context.fillRect(
+                        (sizeCorner + col * stepX + (col > 0 | 0) * cellPadding/2 )>>0,
+                        (sizeCorner + row * stepY + (row > 0 | 0) * cellPadding/2) >>0,
+                        (stepX - (((col > 0) | 0) + ((col < this.columns-1) |0)) * cellPadding/2)>>0,
+                        (stepY - (((row > 0) | 0) + ((row < this.rows-1) |0)) * cellPadding/2)>>0
+                    );
+                }
+            }
+            this.context.stroke();
+        },
+
+        drawBorder: function (border){
+            var size = this.getBorderSize(border);
+            if(!size) return;
+            var points = this.getLine(size, border);
+            this.context.imageSmoothingEnabled = false;
+            this.context.mozImageSmoothingEnabled = false;
+            this.context.msImageSmoothingEnabled = false;
+            this.context.webkitImageSmoothingEnabled = false;
+            this.context.lineWidth = this.scaleBorderSize(size);
+            this.context.globalAlpha = this.getBorderAlpha(border);
+            this.context.beginPath();
+            this.context.strokeStyle = this.getBorderColor(border);
+            this.context.moveTo(points.X1, points.Y1);
+            this.context.lineTo(points.X2, points.Y2);
+            this.context.stroke();
+            this.context.globalAlpha = 1;
+        },
+
+        fillWithLines: function (){
+            var tdPadding = this.maxBorderSize + 4,
+                tdWidth, tdHeight, tdX, tdY, xLeft,x1, w, y1, h;
+            this.context.setLineDash([(2 * this.scale + 0.5) >> 0, (2 * this.scale + 0.5) >> 0]);
+            this.context.strokeStyle = "#c0c0c0";
+
+            if(!this.spacingMode) {
+                tdWidth = (this.width - 2 * this.sizeCorner) / this.columns;
+                tdHeight = (this.height - 2 * this.sizeCorner) / this.rows;
+                tdY = this.sizeCorner;
+                xLeft = this.sizeCorner;
+
+                for (var row = 0; row < this.rows; row++) {
+                    tdX = xLeft;
+                    for (var col = 0; col < this.columns; col++) {
+                        x1 = ((tdX + tdPadding) * this.scale) >> 0;
+                        y1 = (tdY + tdPadding) * this.scale;
+                        w = ((tdWidth - 2 * tdPadding) * this.scale + 0.5) >> 0;
+                        h = (tdHeight - 2 * tdPadding) * this.scale;
+                        this.context.lineWidth = w;
+                        this.context.beginPath();
+                        this.context.moveTo(x1 + w / 2, y1 >> 0);
+                        this.context.lineTo(x1 + w / 2, (y1 + h) >> 0);
+                        this.context.stroke();
+                        tdX += tdWidth;
+
+                    }
+                    tdY += tdHeight;
+                }
+            }
+            else {
+                var sizeCorner = (this.sizeCorner + this.cellPadding) * this.scale,
+                    cellPadding = this.cellPadding * this.scale;
+                tdWidth = (this.width * this.scale - 2 * sizeCorner)/this.columns;
+                tdHeight = (this.height * this.scale - 2 * sizeCorner)/this.rows;
+                tdPadding *= this.scale;
+
+                this.context.beginPath();
+                this.context.fillStyle = this.backgroundCellColor;
+                for(var row = 0; row < this.rows; row++ ){
+                    for (var col = 0; col < this.columns; col++){
+
+                        w = (tdWidth - (((col > 0) | 0) + ((col < this.columns-1) |0)) * cellPadding/2 -2*tdPadding + 0.5)>>0
+                        h = tdHeight - (((row > 0) | 0) + ((row < this.rows-1) |0)) * cellPadding/2 -2*tdPadding;
+                        x1 = ((sizeCorner + col * tdWidth + (col > 0 | 0) * cellPadding/2 + tdPadding) >> 0);
+                        y1 = sizeCorner + row * tdHeight + (row > 0 | 0) * cellPadding/2 + tdPadding;
+                        this.context.beginPath();
+                        this.context.lineWidth = w;
+                        this.context.moveTo(x1 + w / 2, y1 >> 0);
+                        this.context.lineTo(x1 + w / 2, (y1 + h) >> 0);
+                        this.context.stroke();
                     }
                 }
             }
 
-            me.rendered = true;
-
-            this.trigger('render:after', this);
-
-            return this;
+            this.context.setLineDash([]);
         },
 
-        getCell: function(col, row){
-            return _.findWhere(this._cells, {
-                id: this.id + '-cell-' + col + '-' + row
-            })
+        drawTable: function (){
+            this.drawCorners();
+            var sizeCornerScale = this.sizeCorner * this.scale;
+            var tableWidth = (this.width * this.scale  - 2 * sizeCornerScale) >> 0,
+                tableHeight = (this.height * this.scale  - 2 * sizeCornerScale) >> 0;
+            this.context.fillStyle = this.backgroundColor;
+            if(this.backgroundColor != 'transparent' ){
+                this.context.beginPath();
+                this.context.fillRect(sizeCornerScale >> 0, sizeCornerScale >> 0, tableWidth , tableHeight);
+                this.context.stroke();
+            }
+            this.fillCells();
+            this._cellBorders.forEach(function (item){item.drawBorder();});
+
+            this.drawBorder('l');
+            this.drawBorder('r');
+            this.drawBorder('t');
+            this.drawBorder('b');
+
+            this.fillWithLines();
+            this.context.lineWidth = 0;
+        },
+
+        redrawTable: function() {
+            this.context.clearRect(0,0, this.canv.width, this.canv.height);
+            this.drawTable();
+        },
+
+        getCellBorder: function(row, col, numInCell){
+            row = (row === undefined) ? -1 : row;
+            col = (col === undefined) ? -1 : col;
+            numInCell = (numInCell === undefined) ? -1 : numInCell;
+            return _.findWhere(this._cellBorders, {row: row, col: col, numInCell: numInCell});
         }
     });
 });

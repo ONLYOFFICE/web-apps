@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -93,7 +92,7 @@ define([
                     '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                         '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>" data-value="<%= item.value %>">',
-                            '<a tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= item.value %>">',
+                            '<a tabindex="-1" type="menuitem" langval="<%= item.value %>">',
                                 '<i class="icon <% if (item.spellcheck) { %> toolbar__icon btn-ic-docspell spellcheck-lang <% } %>"></i>',
                                 '<%= scope.getDisplayValue(item) %>',
                             '</a>',
@@ -137,7 +136,7 @@ define([
 
     onLangSelect: function(cmb, rec, e) {
         cmb.$el.find('.input-icon').toggleClass('spellcheck-lang', rec && rec.spellcheck);
-        cmb._input.css('padding-left', rec && rec.spellcheck ? 25 : 3);
+        cmb._input.css(Common.UI.isRTL() ? 'padding-right' : 'padding-left', rec && rec.spellcheck ? 25 : 3);
     },
 
     onPrimary: function() {

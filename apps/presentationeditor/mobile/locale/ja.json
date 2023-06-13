@@ -12,7 +12,7 @@
   "Common": {
     "Collaboration": {
       "notcriticalErrorTitle": " 警告",
-      "textAddComment": "コメントを追加",
+      "textAddComment": "コメントの追加",
       "textAddReply": "返信する",
       "textBack": "戻る",
       "textCancel": "キャンセル",
@@ -27,7 +27,7 @@
       "textEditUser": "ファイルを編集しているユーザー：",
       "textMessageDeleteComment": "このコメントを削除してもよろしいですか？",
       "textMessageDeleteReply": "この返信を削除してもよろしいですか？",
-      "textNoComments": "この文書にはコメントがない",
+      "textNoComments": "この文書にはコメントがありません",
       "textOk": "OK",
       "textReopen": "もう一度開く",
       "textResolve": "解決する",
@@ -46,7 +46,7 @@
   },
   "ContextMenu": {
     "errorCopyCutPaste": "コンテキストメニューを使用したコピー、切り取り、貼り付けの操作は、現在のファイル内でのみ実行されます。",
-    "menuAddComment": "コメントを追加",
+    "menuAddComment": "コメントの追加",
     "menuAddLink": "リンクを追加",
     "menuCancel": "キャンセル",
     "menuDelete": "削除する",
@@ -112,7 +112,6 @@
       "textHasMacros": "ファイルには自動マクロが含まれています。<br>マクロを実行しますか？",
       "textNo": "いいえ",
       "textNoLicenseTitle": "ライセンス制限に達しました",
-      "textNoTextFound": "テキストが見つかりませんでした",
       "textOpenFile": "ファイルを開くためにパスワードを入力してください",
       "textPaidFeature": "有料機能",
       "textRemember": "選択を覚える",
@@ -121,10 +120,12 @@
       "textRequestMacros": "マクロがURLに対してリクエストを行います。%1へのリクエストを許可しますか？",
       "textYes": "はい",
       "titleLicenseExp": "ライセンスの有効期限が切れています",
+      "titleLicenseNotActive": "ライセンスが無効になっています",
       "titleServerVersion": "編集者が更新された",
       "titleUpdateVersion": "バージョンが変更されました",
       "txtIncorrectPwd": "パスワードが間違い",
       "txtProtected": "パスワードを入力してファイルを開くと、現在のパスワードがリセットされます",
+      "warnLicenseBefore": "ライセンスが無効になっています。<br>管理者までご連絡ください。",
       "warnLicenseExceeded": "％１エディター　時接続数の制限に達しました。この文書が見るだけのために開かれる。詳細についてはアドミニストレータを連絡してください。",
       "warnLicenseExp": "ライセンスの有効期限が切れています。ライセンスを更新してページをリロードしてください。",
       "warnLicenseLimitedNoAccess": "ライセンスの有効期限が切れています。ドキュメント編集機能にアクセスできません。管理者にご連絡ください。",
@@ -132,7 +133,9 @@
       "warnLicenseUsersExceeded": "％1エディターのユーザー制限に達しました。 詳細についてはアドミニストレータを連絡してください。",
       "warnNoLicense": "％１エディター　時接続数の制限に達しました。この文書が見るだけのために開かれる。個人的なアップグレード条件については、％1営業チームを連絡してください。",
       "warnNoLicenseUsers": "％1エディターのユーザー制限に達しました。 個人的なアップグレード条件については、％1営業チームを連絡してください。",
-      "warnProcessRightsChange": "ファイルを編集する権限がありません！"
+      "warnProcessRightsChange": "ファイルを編集する権限がありません！",
+      "textNoMatches": "No Matches",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
     }
   },
   "Error": {
@@ -248,6 +251,7 @@
       "textNextSlide": "次のスライド",
       "textOk": "OK",
       "textOther": "その他",
+      "textPasteImageUrl": "画像のURLを貼り付ける",
       "textPictureFromLibrary": "ライブラリからのイメージ",
       "textPictureFromURL": "URLからのイメージ",
       "textPreviousSlide": "前のスライド",
@@ -310,7 +314,7 @@
       "textDelay": "遅延",
       "textDeleteImage": "画像の削除",
       "textDeleteLink": "リンクの削除",
-      "textDeleteSlide": "スタンドを削除する",
+      "textDeleteSlide": "スライドを削除する",
       "textDesign": "デザイン",
       "textDisplay": "表示する",
       "textDistanceFromText": "テキストからの間隔",
@@ -361,7 +365,6 @@
       "textNextSlide": "次のスライド",
       "textNone": "なし",
       "textNoStyles": "このチャットのタイプためにスタイルがない",
-      "textNoTextFound": "テキストが見つかりませんでした",
       "textNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります。",
       "textNumbers": "数",
       "textOk": "OK",
@@ -417,7 +420,8 @@
       "textZoom": "ズーム",
       "textZoomIn": "拡大",
       "textZoomOut": "縮小",
-      "textZoomRotate": "ズームと回転"
+      "textZoomRotate": "ズームと回転",
+      "textNoMatches": "No Matches"
     },
     "Settings": {
       "mniSlideStandard": "標準(4:3)",
@@ -457,7 +461,6 @@
       "textLoading": "読み込み中...",
       "textLocation": "場所",
       "textMacrosSettings": "マクロの設定",
-      "textNoTextFound": "テキストが見つかりませんでした",
       "textOk": "OK",
       "textOwner": "所有者",
       "textPoint": "ポイント",
@@ -502,7 +505,8 @@
       "txtScheme6": "コンコース",
       "txtScheme7": "株主資本",
       "txtScheme8": "フロー",
-      "txtScheme9": "ファウンドリ"
+      "txtScheme9": "ファウンドリ",
+      "textNoMatches": "No Matches"
     }
   }
 }

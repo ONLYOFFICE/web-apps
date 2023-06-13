@@ -56,7 +56,7 @@ class ApplicationSettingsController extends Component {
         const arr = api.asc_getFormatCells(info);
         const text4 = api.asc_getLocaleExample(arr[4], 1000.01, regCode),
               text5 = api.asc_getLocaleExample(arr[5], Asc.cDate().getExcelDateWithTime(), regCode),
-              text6 = api.asc_getLocaleExample(arr[6], Asc.cDate().getExcelDateWithTime(), regCode);
+              text6 = api.asc_getLocaleExample(arr[7], Asc.cDate().getExcelDateWithTime(), regCode);
 
         this.props.storeApplicationSettings.setRegExample(`${text4} ${text5} ${text6}`);
     }

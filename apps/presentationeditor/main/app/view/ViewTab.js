@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -53,15 +52,15 @@ define([
                         '<span class="btn-slot" id="slot-field-zoom" style="flex-grow: 1;"></span>' +
                     '</div>' +
                     '<div class="elset" style="text-align: center;">' +
-                        '<span class="btn-slot text" id="slot-lbl-zoom" style="font-size: 11px;text-align: center;margin-top: 4px;"></span>' +
+                        '<span class="btn-slot text font-size-normal" id="slot-lbl-zoom" style="text-align: center;margin-top: 4px;"></span>' +
                     '</div>' +
                 '</div>' +
                 '<div class="group small">' +
                     '<div class="elset">' +
-                        '<span class="btn-slot text" id="slot-btn-fts" style="font-size: 11px;text-align: center;"></span>' +
+                        '<span class="btn-slot text" id="slot-btn-fts" style="text-align: center;"></span>' +
                     '</div>' +
                     '<div class="elset">' +
-                        '<span class="btn-slot text" id="slot-btn-ftw" style="font-size: 11px;text-align: center;"></span>' +
+                        '<span class="btn-slot text" id="slot-btn-ftw" style="text-align: center;"></span>' +
                     '</div>' +
                 '</div>' +
                 '<div class="separator long"></div>' +
@@ -237,7 +236,7 @@ define([
 
                 this.btnInterfaceTheme = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon day',
+                    iconCls: 'toolbar__icon btn-day',
                     caption: this.textInterfaceTheme,
                     lock: [_set.disableOnStart],
                     menu: true,
@@ -289,7 +288,7 @@ define([
 
                 this.btnGuides = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon guides',
+                    iconCls: 'toolbar__icon btn-guides',
                     caption: this.textGuides,
                     lock: [_set.disableOnStart],
                     enableToggle: true,
@@ -305,7 +304,7 @@ define([
 
                 this.btnGridlines = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon gridlines',
+                    iconCls: 'toolbar__icon btn-gridlines',
                     caption: this.textGridlines,
                     lock: [_set.disableOnStart],
                     enableToggle: true,
@@ -382,8 +381,8 @@ define([
                         items: [
                             { caption: me.textShowGuides, value: 'show', checkable: true },
                             { caption: '--'},
-                            { caption: me.textAddVGuides, iconCls: 'menu__icon vertical-guide', value: 'add-vert' },
-                            { caption: me.textAddHGuides, iconCls: 'menu__icon horizontal-guide', value: 'add-hor' },
+                            { caption: me.textAddVGuides, iconCls: 'menu__icon btn-vertical-guide', value: 'add-vert' },
+                            { caption: me.textAddHGuides, iconCls: 'menu__icon btn-horizontal-guide', value: 'add-hor' },
                             { caption: '--'},
                             { caption: me.textSmartGuides, value: 'smart', checkable: true },
                             { caption: me.textClearGuides, value: 'clear' }
@@ -498,7 +497,8 @@ define([
                 }, this);
             },
 
-            onComboOpen: function (needfocus, combo) {
+            onComboOpen: function (needfocus, combo, e, params) {
+                if (params && params.fromKeyDown) return;
                 _.delay(function() {
                     var input = $('input', combo.cmpEl).select();
                     if (needfocus) input.focus();

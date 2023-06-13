@@ -145,22 +145,26 @@
       "textClose": "閉じる",
       "textContactUs": "営業部を連絡する",
       "textCustomLoader": "あいにく、あなたはローダーを変更できません。見積を受けるように販売部門を連絡してください。",
+      "textDontUpdate": "アップデートしない",
       "textGuest": "ゲスト",
       "textHasMacros": "ファイルには自動マクロが含まれています。<br>マクロを実行しますか？",
       "textNo": "いいえ",
       "textNoChoices": "セルを記入する選択肢がありません。<br>置換対象として選択できるのは列のテキスト値のみです。",
       "textNoLicenseTitle": "ライセンス制限に達しました",
-      "textNoTextFound": "テキストが見つかりませんでした",
       "textOk": "OK",
       "textPaidFeature": "有料機能",
       "textRemember": "選択を覚える",
       "textReplaceSkipped": "置換が完了しました。{0}つスキップされました。",
       "textReplaceSuccess": "検索が完了しました。{0}つが置換されました。",
       "textRequestMacros": "マクロがURLに対してリクエストを行います。%1へのリクエストを許可しますか？",
+      "textUpdate": "更新",
+      "textWarnUpdateExternalData": "このワークブックには、安全でない可能性のある1つまたは複数の外部リンクが含まれています。リンクを信頼する場合は、最新のデータを取得するためにそれらを更新してください。",
       "textYes": "Yes",
       "titleLicenseExp": "ライセンスの有効期限が切れています",
+      "titleLicenseNotActive": "ライセンスが無効になっています",
       "titleServerVersion": "編集者が更新された",
       "titleUpdateVersion": "バージョンが変更されました",
+      "warnLicenseBefore": "ライセンスが無効になっています。<br>管理者までご連絡ください。",
       "warnLicenseExceeded": "％１エディター　時接続数の制限に達しました。この文書が見るだけのために開かれる。詳細についてはアドミニストレータを連絡してください。",
       "warnLicenseExp": "ライセンスの有効期限が切れています。ライセンスを更新してページを再読み込みしてください。",
       "warnLicenseLimitedNoAccess": "ライセンスの有効期限が切れています。ドキュメント編集機能にアクセスできません。管理者にご連絡ください。",
@@ -169,9 +173,8 @@
       "warnNoLicense": "％１エディター　時接続数の制限に達しました。この文書が見るだけのために開かれる。個人的なアップグレード条件については、％1営業チームを連絡してください。",
       "warnNoLicenseUsers": "％1エディターのユーザー制限に達しました。 個人的なアップグレード条件については、％1営業チームを連絡してください。",
       "warnProcessRightsChange": "ファイルを編集する権限がありません！",
-      "textDontUpdate": "Don't Update",
-      "textUpdate": "Update",
-      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data."
+      "textNoMatches": "No Matches",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
     }
   },
   "Error": {
@@ -231,6 +234,7 @@
     "errorOperandExpected": "入力した関数の構文が正しくありません。'('　または　')'があるのことをチェックしてください。",
     "errorPasteMaxRange": "コピーする範囲と貼り付けの範囲が一致しません。同じなサイズの範囲を選択するまたは貼り付くように行の一番セルをクリックしてください。",
     "errorPrintMaxPagesCount": "あいにくこのバージョンに１５００以上ページを印刷できません。<br>　次回のアプリにこの制限が消去済されます。",
+    "errorProtectedRange": "この範囲は編集不可です。",
     "errorSessionAbsolute": "文書を変更のセッションの有効期間が満期しました。ページを再びお読み込みしてください。",
     "errorSessionIdle": "文書が長いとこ変更されませんでした。ページを再び読み込みしてください。",
     "errorSessionToken": "サーバの接続が中断されました。ページを再びお読み込みしてください。",
@@ -373,6 +377,7 @@
       "textLinkType": "リンクのタイプ",
       "textOk": "OK",
       "textOther": "その他",
+      "textPasteImageUrl": "画像のURLを貼り付ける",
       "textPictureFromLibrary": "ライブラリからのイメージ",
       "textPictureFromURL": "URLからのイメージ",
       "textRange": "範囲",
@@ -647,7 +652,6 @@
       "textMargins": "余白",
       "textMatchCase": "大文字と小文字の斟酌で",
       "textMatchCell": "セルの照合",
-      "textNoTextFound": "テキストが見つかりませんでした",
       "textOk": "OK",
       "textOpenFile": "ファイルを開くためにパスワードを入力してください",
       "textOrientation": "向き",
@@ -748,7 +752,8 @@
       "txtUk": "ウクライナ語",
       "txtVi": "ベトナム語",
       "txtZh": "中国語",
-      "warnDownloadAs": "この形式で保存する続けば、テクスト除いて全てが失います。続けてもよろしいですか？"
+      "warnDownloadAs": "この形式で保存する続けば、テクスト除いて全てが失います。続けてもよろしいですか？",
+      "textNoMatches": "No Matches"
     }
   }
 }

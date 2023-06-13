@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  DocumentHolder.js
  *
@@ -118,6 +117,13 @@ define([
                 isHidden: true,
                 isVisible: false
             };
+            me.eyedropperTip = {
+                isHidden: true,
+                isVisible: false,
+                eyedropperColor: null,
+                tipInterval: null,
+                isTipVisible: false
+            }
 
             me.userTooltip = true;
             me.wrapEvents = {
@@ -162,6 +168,7 @@ define([
                     /** coauthoring begin **/
                     me.userTipHide();
                     /** coauthoring end **/
+                    me.hideEyedropper();
                     me.mode && me.mode.isDesktopApp && me.api && me.api.asc_onShowPopupWindow();
                 },
                 'modal:show': function(e){
@@ -174,6 +181,7 @@ define([
                     me.userTipHide();
                     /** coauthoring end **/
                     me.hideTips();
+                    me.hideEyedropper();
                     me.onDocumentHolderResize();
                 },
                 'preview:show': function(e){
@@ -225,6 +233,8 @@ define([
                     me.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(me.onHideMathTrack, me));
                     me.api.asc_registerCallback('asc_onLockViewProps',          _.bind(me.onLockViewProps, me, true));
                     me.api.asc_registerCallback('asc_onUnLockViewProps',        _.bind(me.onLockViewProps, me, false));
+                    me.api.asc_registerCallback('asc_onHideEyedropper',         _.bind(me.hideEyedropper, me));
+                    me.api.asc_SetMathInputType(Common.localStorage.getBool("pe-equation-input-latex") ? Asc.c_oAscMathInputType.LaTeX : Asc.c_oAscMathInputType.Unicode);
                 }
                 me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(me.onCoAuthoringDisconnect, me));
                 Common.NotificationCenter.on('api:disconnect',              _.bind(me.onCoAuthoringDisconnect, me));
@@ -237,6 +247,7 @@ define([
                 me.api.asc_registerCallback('asc_onLockDocumentTheme',      _.bind(me.onApiLockDocumentTheme, me));
                 me.api.asc_registerCallback('asc_onUnLockDocumentTheme',    _.bind(me.onApiUnLockDocumentTheme, me));
                 me.api.asc_registerCallback('asc_onStartDemonstration',     _.bind(me.onApiStartDemonstration, me));
+                me.api.asc_registerCallback('onPluginContextMenu',          _.bind(me.onPluginContextMenu, me));
 
                 me.documentHolder.setApi(me.api);
             }
@@ -374,7 +385,8 @@ define([
             view.menuRemoveHyperlinkPara.on('click', _.bind(me.removeHyperlink, me));
             view.menuRemoveHyperlinkTable.on('click', _.bind(me.removeHyperlink, me));
             view.menuChartEdit.on('click', _.bind(me.editChartClick, me, undefined));
-            view.menuSaveAsPicture.on('click', _.bind(me.saveAsPicture, me));
+            view.menuImgSaveAsPicture.on('click', _.bind(me.saveAsPicture, me));
+            view.menuTableSaveAsPicture.on('click', _.bind(me.saveAsPicture, me));
             view.menuAddCommentPara.on('click', _.bind(me.addComment, me));
             view.menuAddCommentTable.on('click', _.bind(me.addComment, me));
             view.menuAddCommentImg.on('click', _.bind(me.addComment, me));
@@ -432,7 +444,7 @@ define([
             view.mnuGuides.menu.on('item:click', _.bind(me.onGuidesClick, me));
             view.mnuGridlines.menu.on('item:click', _.bind(me.onGridlinesClick, me));
             view.mnuRulers.on('click', _.bind(me.onRulersClick, me));
-            view.menuTableEquation.menu.on('item:click', _.bind(me.convertEquation, me));
+            view.menuTableEquationSettings.menu.on('item:click', _.bind(me.convertEquation, me));
             view.menuParagraphEquation.menu.on('item:click', _.bind(me.convertEquation, me));
         },
 
@@ -483,6 +495,7 @@ define([
                 }, 10);
 
                 me.documentHolder.currentMenu = menu;
+                me.api.onPluginContextMenuShow && me.api.onPluginContextMenuShow();
             }
         },
 
@@ -836,6 +849,9 @@ define([
                 this.screenTip.isVisible = false;
                 this.screenTip.toolTip.hide();
             }
+            if (this.eyedropperTip.isHidden) {
+                this.hideEyedropper();
+            }
         },
 
         onMouseMove: function(moveData) {
@@ -893,6 +909,67 @@ define([
                             showPoint[0] = me._BodyWidth - screenTip.tipWidth;
                         screenTip.toolTip.getBSTip().$tip.css({top: showPoint[1] + 'px', left: showPoint[0] + 'px'});
                     }
+                }
+                else if (moveData.get_Type()==Asc.c_oAscMouseMoveDataTypes.Eyedropper) {
+                    if (me.eyedropperTip.isTipVisible) {
+                        me.eyedropperTip.isTipVisible = false;
+                        me.eyedropperTip.toolTip.hide();
+                    }
+
+                    if (!me.eyedropperTip.toolTip) {
+                        var tipEl = $('<div id="tip-container-eyedroppertip" style="position: absolute; z-index: 10000;"></div>');
+                        me.documentHolder.cmpEl.append(tipEl);
+                        me.eyedropperTip.toolTip = new Common.UI.Tooltip({
+                            owner: tipEl,
+                            html: true,
+                            cls: 'eyedropper-tooltip'
+                        });
+                    }
+
+                    var color = moveData.get_EyedropperColor().asc_getColor(),
+                        r = color.get_r(),
+                        g = color.get_g(),
+                        b = color.get_b(),
+                        hex = Common.Utils.ThemeColor.getHexColor(r,g,b);
+                    if (!me.eyedropperTip.eyedropperColor) {
+                        var colorEl = $(document.createElement("div"));
+                        colorEl.addClass('eyedropper-color');
+                        colorEl.appendTo(document.body);
+                        me.eyedropperTip.eyedropperColor = colorEl;
+                        $('#id_main_view').on('mouseleave', _.bind(me.hideEyedropper, me));
+                    }
+                    me.eyedropperTip.eyedropperColor.css({
+                        backgroundColor: '#' + hex,
+                        left: (moveData.get_X() + me._XY[0] + 23) + 'px',
+                        top: (moveData.get_Y() + me._XY[1] - 53) + 'px'
+                    });
+                    me.eyedropperTip.isVisible = true;
+
+                    if (me.eyedropperTip.tipInterval) {
+                        clearInterval(me.eyedropperTip.tipInterval);
+                    }
+                    me.eyedropperTip.tipInterval = setInterval(function () {
+                        clearInterval(me.eyedropperTip.tipInterval);
+                        if (me.eyedropperTip.isVisible) {
+                            ToolTip = '<div>RGB (' + r + ',' + g + ',' + b + ')</div>' +
+                                '<div>' + moveData.get_EyedropperColor().asc_getName() + '</div>';
+                            me.eyedropperTip.toolTip.setTitle(ToolTip);
+                            me.eyedropperTip.isTipVisible = true;
+                            me.eyedropperTip.toolTip.show([-10000, -10000]);
+                            me.eyedropperTip.tipWidth = me.eyedropperTip.toolTip.getBSTip().$tip.width();
+                            showPoint = [moveData.get_X(), moveData.get_Y()];
+                            showPoint[1] += (me._XY[1] - 57);
+                            showPoint[0] += (me._XY[0] + 58);
+                            if (showPoint[0] + me.eyedropperTip.tipWidth > me._BodyWidth ) {
+                                showPoint[0] = showPoint[0] - me.eyedropperTip.tipWidth - 40;
+                            }
+                            me.eyedropperTip.toolTip.getBSTip().$tip.css({
+                                top: showPoint[1] + 'px',
+                                left: showPoint[0] + 'px'
+                            });
+                        }
+                    }, 800);
+                    me.eyedropperTip.isHidden = false;
                 }
                 /** coauthoring begin **/
                 else if (moveData.get_Type()==2 && me.mode.isEdit && me.isUserVisible(moveData.get_UserId())) { // 2 - locked object
@@ -968,6 +1045,17 @@ define([
                 }
             }
             /** coauthoring end **/
+        },
+
+        hideEyedropper: function () {
+            if (this.eyedropperTip.isVisible) {
+                this.eyedropperTip.isVisible = false;
+                this.eyedropperTip.eyedropperColor.css({left: '-1000px', top: '-1000px'});
+            }
+            if (this.eyedropperTip.isTipVisible) {
+                this.eyedropperTip.isTipVisible = false;
+                this.eyedropperTip.toolTip.hide();
+            }
         },
 
         onDialogAddHyperlink: function() {
@@ -1189,6 +1277,8 @@ define([
         },
 
         onShowSpecialPasteOptions: function(specialPasteShowOptions) {
+            if (this.mode && !this.mode.isEdit) return;
+
             var me = this,
                 documentHolder = me.documentHolder;
             var coord  = specialPasteShowOptions.asc_getCellCoord(),
@@ -1258,13 +1348,22 @@ define([
                     $(document).on('keyup', me.wrapEvents.onKeyUp);
                 }, 10);
             }
+            this.disableSpecialPaste();
         },
 
         onHideSpecialPasteOptions: function() {
+            if (!this.documentHolder || !this.documentHolder.cmpEl) return;
             var pasteContainer = this.documentHolder.cmpEl.find('#special-paste-container');
             if (pasteContainer.is(':visible')) {
                 pasteContainer.hide();
                 $(document).off('keyup', this.wrapEvents.onKeyUp);
+            }
+        },
+
+        disableSpecialPaste: function() {
+            var pasteContainer = this.documentHolder.cmpEl.find('#special-paste-container');
+            if (pasteContainer.length>0 && pasteContainer.is(':visible')) {
+                this.btnSpecialPaste.setDisabled(!!this._isDisabled);
             }
         },
 
@@ -1536,7 +1635,7 @@ define([
                     cls: 'shifted-left',
                     items: [
                         {template: _.template('<div id="id-placeholder-menu-tablepicker" class="dimension-picker" style="margin: 5px 10px;"></div>')},
-                        {caption: me.mniCustomTable, value: 'custom'}
+                        {caption: me.documentHolder.mniCustomTable, value: 'custom'}
                     ]
                 });
                 // Prepare menu container
@@ -2254,6 +2353,8 @@ define([
         },
 
         onShowMathTrack: function(bounds) {
+            if (this.mode && !this.mode.isEdit) return;
+
             if (bounds[3] < 0) {
                 this.onHideMathTrack();
                 return;
@@ -2334,7 +2435,7 @@ define([
                 me.equationSettingsBtn = new Common.UI.Button({
                     parentEl: $('#id-document-holder-btn-equation-settings', documentHolder.cmpEl),
                     cls         : 'btn-toolbar no-caret',
-                    iconCls     : 'toolbar__icon more-vertical',
+                    iconCls     : 'toolbar__icon btn-more-vertical',
                     hint        : me.documentHolder.advancedEquationText,
                     menu        : me.documentHolder.createEquationMenu('popuptbeqinput', 'tl-bl')
                 });
@@ -2346,8 +2447,10 @@ define([
                 };
                 me.equationSettingsBtn.menu.on('item:click', _.bind(me.convertEquation, me));
                 me.equationSettingsBtn.menu.on('show:before', function(menu) {
+                    bringForward();
                     menu.options.initMenu();
                 });
+                me.equationSettingsBtn.menu.on('hide:after', sendBackward);
             }
 
             var showPoint = [(bounds[0] + bounds[2])/2 - eqContainer.outerWidth()/2, bounds[1] - eqContainer.outerHeight() - 10];
@@ -2357,7 +2460,22 @@ define([
             showPoint[1] = Math.min(me._Height - eqContainer.outerHeight(), Math.max(0, showPoint[1]));
             eqContainer.css({left: showPoint[0], top : showPoint[1]});
 
-            var menuAlign = (me._Height - showPoint[1] - eqContainer.outerHeight() < 220) ? 'bl-tl' : 'tl-bl';
+            if (_.isUndefined(me._XY)) {
+                me._XY = [
+                    documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
+                    documentHolder.cmpEl.offset().top - $(window).scrollTop()
+                ];
+                me._Width       = documentHolder.cmpEl.width();
+                me._Height      = documentHolder.cmpEl.height();
+                me._BodyWidth   = $('body').width();
+            }
+
+            var diffDown = me._Height - showPoint[1] - eqContainer.outerHeight(),
+                diffUp = me._XY[1] + showPoint[1],
+                menuAlign = (diffDown < 220 && diffDown < diffUp*0.9) ? 'bl-tl' : 'tl-bl';
+            if (Common.UI.isRTL()) {
+                menuAlign = menuAlign === 'bl-tl' ? 'br-tr' : 'tr-br';
+            }
             me.equationBtns.forEach(function(item){
                 item && (item.menu.menuAlign = menuAlign);
             });
@@ -2374,6 +2492,7 @@ define([
         },
 
         onHideMathTrack: function() {
+            if (!this.documentHolder || !this.documentHolder.cmpEl) return;
             var eqContainer = this.documentHolder.cmpEl.find('#equation-container');
             if (eqContainer.is(':visible')) {
                 eqContainer.hide();
@@ -2394,9 +2513,10 @@ define([
 
         convertEquation: function(menu, item, e) {
             if (this.api) {
-                if (item.options.type=='input')
+                if (item.options.type=='input') {
                     this.api.asc_SetMathInputType(item.value);
-                else if (item.options.type=='view')
+                    Common.localStorage.setBool("pe-equation-input-latex", item.value === Asc.c_oAscMathInputType.LaTeX)
+                } else if (item.options.type=='view')
                     this.api.asc_ConvertMathView(item.value.linear, item.value.all);
             }
         },
@@ -2425,6 +2545,18 @@ define([
             this._isDisabled = state;
             this.documentHolder.SetDisabled(state);
             this.disableEquationBar();
+            this.disableSpecialPaste();
+        },
+
+        clearSelection: function() {
+            this.onHideMathTrack();
+            this.onHideSpecialPasteOptions();
+        },
+
+        onPluginContextMenu: function(data) {
+            if (data && data.length>0 && this.documentHolder && this.documentHolder.currentMenu && this.documentHolder.currentMenu.isVisible()){
+                this.documentHolder.updateCustomItems(this.documentHolder.currentMenu, data);
+            }
         },
 
         editComplete: function() {

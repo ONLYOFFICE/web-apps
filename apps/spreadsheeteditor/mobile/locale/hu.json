@@ -150,13 +150,13 @@
       "textNo": "Nem",
       "textNoChoices": "Nincs lehetőség a cellának kitöltésére.<br>Csak az oszlopból származó szövegértékek választhatók ki cserére.",
       "textNoLicenseTitle": "Elérte a licenckorlátot",
-      "textNoTextFound": "A szöveg nem található",
       "textOk": "OK",
       "textPaidFeature": "Fizetett funkció",
       "textRemember": "Választás megjegyzése",
       "textReplaceSkipped": "A csere megtörtént. {0} események kihagyásra kerültek.",
       "textReplaceSuccess": "A keresés megtörtént. Helyettesített események: {0}",
       "textRequestMacros": "A makró URL-kérést indít. Engedélyezi a %1 lekérdezését?",
+      "textUpdate": "Frissítés",
       "textYes": "Igen",
       "titleLicenseExp": "Lejárt licenc",
       "titleServerVersion": "Szerkesztő frissítve",
@@ -170,8 +170,11 @@
       "warnNoLicenseUsers": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználói korlátját. Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes frissítési feltételekért.",
       "warnProcessRightsChange": "Nincs engedélye a fájl szerkesztésére.",
       "textDontUpdate": "Don't Update",
-      "textUpdate": "Update",
-      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data."
+      "textNoMatches": "No Matches",
+      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {
@@ -252,6 +255,7 @@
     "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorProtectedRange": "This range is not allowed for editing.",
     "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
     "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
     "textCancel": "Cancel",
@@ -286,10 +290,12 @@
     "saveTextText": "Dokumentum mentése...",
     "saveTitleText": "Dokumentum mentése",
     "textCancel": "Mégsem",
+    "textContinue": "Folytatás",
     "textErrorWrongPassword": "A megadott jelszó nem megfelelő.",
     "textLoadingDocument": "Dokumentum betöltése",
     "textNo": "Nem",
     "textOk": "OK",
+    "textUndo": "Vissza",
     "textUnlockRange": "Tartomány feloldása",
     "textUnlockRangeWarning": "A módosítani kívánt tartomány jelszóval védett.",
     "textYes": "Igen",
@@ -297,9 +303,7 @@
     "uploadImageTextText": "Kép feltöltése...",
     "uploadImageTitleText": "Kép feltöltése",
     "waitText": "Kérjük várjon...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textContinue": "Continue",
-    "textUndo": "Undo"
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost)."
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Figyelmeztetés",
@@ -392,7 +396,8 @@
       "txtNotUrl": "Ennek a mezőnek URL formátumúnak kell lennie, pl.: „http://www.pelda.hu”",
       "txtSorting": "Rendezés",
       "txtSortSelected": "Kiválasztottak renezése",
-      "txtYes": "Igen"
+      "txtYes": "Igen",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Figyelmeztetés",
@@ -646,7 +651,6 @@
       "textMargins": "Margók",
       "textMatchCase": "Kis-nagybetű összeegyeztetése",
       "textMatchCell": "Cella összeegyeztetése",
-      "textNoTextFound": "A szöveg nem található",
       "textOk": "OK",
       "textOpenFile": "Írja be a megnyitáshoz szükséges jelszót",
       "textOrientation": "Tájolás",
@@ -748,6 +752,7 @@
       "txtZh": "Kínai",
       "warnDownloadAs": "Ha ebbe a formátumba ment, a nyers szövegen kívül minden elveszik.<br>Biztos benne, hogy folytatni akarja?",
       "strFuncLocale": "Formula Language",
+      "textNoMatches": "No Matches",
       "txtDe": "Deutsch"
     }
   }

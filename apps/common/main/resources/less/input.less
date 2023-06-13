@@ -4,6 +4,7 @@
     color: @text-normal-ie;
     color: @text-normal;
     .user-select(text);
+    .font-size-normal();
 
     border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
@@ -30,7 +31,11 @@
     cursor: default;
     background-color: @background-normal-ie;
     background-color: @background-normal;
-   .user-select(none);
+    .user-select(none);
+    &:-ms-input-placeholder {
+        color: @text-normal-ie;
+    }
+    .placeholder(@text-normal);
 }
 
 .input-row {
@@ -49,6 +54,11 @@
         height: 16px;
         background-position: @input-error-offset-x @input-error-offset-y;
         filter: none;
+
+        .rtl & {
+            right: unset;
+            left: 3px;
+        }
     }
 }
 
@@ -57,6 +67,10 @@
     .input-error {
         float: left;
         position: relative;
+
+        .rtl & {
+            float: right;
+        }
     }
 
     &.form-control:focus,
@@ -137,14 +151,30 @@ textarea.form-control:focus {
             height: 20px;
             height: calc(22px - @scaled-one-px-value * 2);
         }
+
+        .rtl & {
+            right: unset;
+            left: @scaled-one-px-value-ie;
+            left: @scaled-one-px-value;
+        }
     }
 
     .input-error {
         &:before {
             right: 22px;
+
+            .rtl & {
+                right: unset;
+                left: 22px;
+            }
         }
     }
     input {
         padding-right: 20px;
+
+        .rtl & {
+            padding-right: 3px;
+            padding-left: 20px;
+        }
     }
 }

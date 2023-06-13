@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import { f7, Link, Fab, Icon, FabButtons, FabButton, Page, View, Navbar, Subnavbar } from 'framework7-react';
+import { f7, Icon, FabButtons, FabButton, Page, View, Navbar, Subnavbar } from 'framework7-react';
 import { observer, inject } from "mobx-react";
 import { withTranslation } from 'react-i18next';
 import EditOptions from '../view/edit/Edit';
@@ -15,7 +15,7 @@ import { Toolbar } from "../controller/Toolbar";
 import NavigationController from '../controller/settings/Navigation';
 import { AddLinkController } from '../controller/add/AddLink';
 import EditHyperlink from '../controller/edit/EditHyperlink';
-import Snackbar from "../components/Snackbar/Snackbar";
+import Snackbar from '../components/Snackbar/Snackbar';
 
 class MainPage extends Component {
     constructor(props) {
@@ -135,7 +135,8 @@ class MainPage extends Component {
         const disabledControls = storeToolbarSettings.disabledControls;
         const disabledSettings = storeToolbarSettings.disabledSettings;
         const isProtected = appOptions.isProtected;
-        const isFabShow = isViewer && !disabledSettings && !disabledControls && !isDisconnected && isAvailableExt && isEdit && !isProtected;
+        const typeProtection = appOptions.typeProtection;
+        const isFabShow = isViewer && !disabledSettings && !disabledControls && !isDisconnected && isAvailableExt && isEdit && (!isProtected || typeProtection === Asc.c_oAscEDocProtect.TrackedChanges);
         const config = appOptions.config;
         const isShowPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
 
@@ -205,23 +206,11 @@ class MainPage extends Component {
                 {/* {
                     Device.phone ? null : <SearchSettings />
                 } */}
-                <CSSTransition
-                    in={this.state.snackbarVisible}
-                    timeout={1500}
-                    classNames="snackbar"
-                    mountOnEnter
-                    unmountOnExit
-                    onEntered={(node, isAppearing) => {
-                        if(!isAppearing) {
-                            this.setState({
-                                snackbarVisible: false
-                            });
-                        }
-                    }}
-                >
-                    <Snackbar
-                        text={isMobileView ? t("Toolbar.textSwitchedMobileView") : t("Toolbar.textSwitchedStandardView")}/>
-                </CSSTransition>
+                <Snackbar 
+                    isShowSnackbar={this.state.snackbarVisible} 
+                    closeCallback={() => this.handleOptionsViewClosed('snackbar')}
+                    message={isMobileView ? t("Toolbar.textSwitchedMobileView") : t("Toolbar.textSwitchedStandardView")} 
+                />
                 <SearchSettings useSuspense={false}/>
                 {
                     !this.state.editOptionsVisible ? null :
@@ -260,9 +249,9 @@ class MainPage extends Component {
                         mountOnEnter
                         unmountOnExit
                     >
-                        <Fab position="right-bottom" slot="fixed" onClick={() => this.turnOffViewerMode()}>
-                            <Icon icon="icon-edit-mode"/>
-                        </Fab>
+                        <div className="fab fab-right-bottom" onClick={() => this.turnOffViewerMode()}>
+                            <a href="#"><i className="icon icon-edit-mode"></i></a>
+                        </div>
                     </CSSTransition>
                 }
                 {appOptions.isDocReady && <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)}/>}
