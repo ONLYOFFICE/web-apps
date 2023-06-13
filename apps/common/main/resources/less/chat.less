@@ -54,6 +54,9 @@
                 &.offline {
                     display: none;
                 }
+                .rtl & {
+                    padding: 2px 20px 2px 0;
+                }
             }
         }
 
@@ -81,6 +84,9 @@
             overflow: hidden;
             line-height: normal;
             height: 16px;
+            .rtl & {
+                padding: 0 0 0 10px;
+            }
         }
     }
 
@@ -103,6 +109,10 @@
                 white-space: -moz-pre-wrap;
                 white-space: -o-pre-wrap;
                 word-wrap: break-word;
+
+                .rtl & {
+                    padding: 5px 20px 8px 10px;
+                }
 
                 .user {
                     .font-weight-bold();

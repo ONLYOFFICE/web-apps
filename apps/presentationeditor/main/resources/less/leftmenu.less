@@ -24,7 +24,7 @@
     width: 100%;
     height: 100%;
     left: 40px;
-    padding-right: 40px;
+    .padding-right-40();
     top: 0;
     position: absolute;
     z-index: @zindex-dropdown - 5;
@@ -178,14 +178,9 @@
 
     .panel-context {
         width: 100%;
-        padding-left: 260px;
+        .padding-left(260px);
         background-color: @background-normal-ie;
         background-color: @background-normal;
-
-        .rtl & {
-            padding-left: 0;
-            padding-right: 260px;
-        }
 
         .content-box {
             height: 100%;
@@ -578,6 +573,9 @@
                 &.sharedLink {
                     background-position: -24px -273px;
                 }
+                .rtl & {
+                    padding: 0 17px 0 0;
+                }
             }
 
             label, span {
@@ -712,21 +710,9 @@
                     .footer {
                         margin-top: 24px;
                     }
-                    #print-txt-pages, #print-txt-copies {
-                        padding-left: 5px;
-                        .rtl & {
-                            padding-left: 0;
-                            padding-right: 5px;
-                        }
-                    }
                     #print-combo-sides {
                         .dropdown-menu li > a {
-                            padding-right: 5px;
-                            padding-left: 20px;
-                            .rtl & {
-                                padding-right: 20px;
-                                padding-left: 5px;
-                            }
+                            .padding-x(20px, 5px);
                         }
                     }
                 }
@@ -734,7 +720,7 @@
 
             #print-navigation {
                 height: 50px;
-                padding-left: 20px;
+                .padding-left-20();
                 padding-top: 10px;
                 display: flex;
                 #print-prev-page {

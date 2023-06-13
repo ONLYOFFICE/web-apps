@@ -37,9 +37,11 @@
 
             &.dropdown-toggle {
                 .inner-box-caret {
-                    padding: 0 1px 0 0;
+                    &,
+                    .rtl & {
+                        padding: 0 1px 0 0;
+                    }
                 }
-
                 .caret {
 //                    width: 7px;
 //                    height: 7px;
@@ -101,7 +103,7 @@
 
     .view {
         .margin-right(-@combo-dataview-button-width);
-        padding-right: calc(@combo-dataview-button-width - @scaled-two-px-value);
+        .padding-right(calc(@combo-dataview-button-width - @scaled-two-px-value));
 
         .border-left-radius(0);
 
@@ -114,9 +116,6 @@
             margin: @minus-px 0 0 @minus-px;
         }
         .rtl & {
-            padding-right: 0;
-            padding-left: calc(@combo-dataview-button-width - @scaled-two-px-value);
-
             .border-radius(@border-radius-small);
             .border-right-radius(0);
 
@@ -258,12 +257,7 @@
 
     .view {
         .margin-right(-@combo-dataview-button-width);
-        padding-right: @combo-dataview-button-width;
-
-        .rtl & {
-            padding-right: 0;
-            padding-left: @combo-dataview-button-width;
-        }
+        .padding-right(@combo-dataview-button-width);
 
         .dataview {
             padding: 2px;
@@ -302,12 +296,7 @@
 
     .view {
         .margin-right(-@combo-dataview-button-width);
-        padding-right: @combo-dataview-button-width;
-
-        .rtl & {
-            padding-right: 0;
-            padding-left: @combo-dataview-button-width;
-        }
+        .padding-right(@combo-dataview-button-width);
     }
 
     .button {
@@ -344,7 +333,7 @@
     }
 
     .dropdown-menu {
-        padding-right: 2px;
+        .padding-x(1px, 2px);
     }
 
     .ps-scrollbar-y-rail {
@@ -395,12 +384,7 @@
 
     top: -4px;
     position: absolute;
-    padding-right: 12px;
-
-    .rtl & {
-        padding-right: 0;
-        padding-left: 12px;
-    }
+    .padding-right-12();
 
     .more-container & {
         position: static;
@@ -456,12 +440,7 @@
 
     .view {
         .margin-right(-@combo-dataview-button-width);
-        padding-right: calc(@combo-dataview-button-width - @scaled-one-px-value);
-
-        .rtl & {
-            padding-right: 0;
-            padding-left: calc(@combo-dataview-button-width - @scaled-one-px-value);
-        }
+        .padding-right(calc(@combo-dataview-button-width - @scaled-one-px-value));
     }
 
     .view .dataview, .dropdown-menu {

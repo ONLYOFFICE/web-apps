@@ -6,17 +6,7 @@
     input {
         height: @spin-height;
         .text-align-right();
-        padding-left: 1px;
-        padding-right: @trigger-width + 2px;
-
-        .rtl & {
-            padding-left: @trigger-width + 2px;
-            padding-right: 1px;
-        }
-
-        &:focus {
-            // border-color: @border-preview-select;
-        }
+        .padding-x(1px, @trigger-width + 2px);
     }
 
     button {

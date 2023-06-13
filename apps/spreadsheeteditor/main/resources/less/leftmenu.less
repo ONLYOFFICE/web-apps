@@ -24,7 +24,7 @@
     width: 100%;
     height: 100%;
     left: 40px;
-    padding-right: 40px;
+    .padding-right-40();
     top: 0;
     position: absolute;
     z-index: @zindex-dropdown - 5;
@@ -169,14 +169,9 @@
 
     .panel-context {
         width: 100%;
-        padding-left: 260px;
+        .padding-left(260px);
         background-color: @background-normal-ie;
         background-color: @background-normal;
-
-        .rtl & {
-            padding-left: 0;
-            padding-right: 260px;
-        }
 
         .content-box {
             height: 100%;
@@ -366,6 +361,10 @@
                         & > div {
                             margin-bottom: 15px;
                         }
+
+                        .rtl & {
+                            padding: 0 0 0 20px;
+                        }
                     }
                 }
             }
@@ -408,7 +407,7 @@
                 margin-bottom: 20px;
 
                 .rtl & {
-                    padding: 0 10px 10px 0;
+                    padding: 0 10px 0 0;
                 }
             }
 
@@ -655,6 +654,9 @@
                 &.sharedLink {
                     background-position: -24px -273px;
                 }
+                .rtl & {
+                    padding: 0 17px 0 0;
+                }
             }
 
             label, span {
@@ -815,13 +817,7 @@
                     }
                     #print-combo-sides {
                         .dropdown-menu li > a {
-                            padding-right: 5px;
-                            padding-left: 20px;
-
-                            .rtl & {
-                                padding-right: 20px;
-                                padding-left: 5px;
-                            }
+                            .padding-x(20px, 5px);
                         }
                     }
                     .print-titles-header {
@@ -843,13 +839,8 @@
                         }
                         .header {
                             cursor: pointer;
-                            padding-left: 15px;
+                            .padding-left-15();
                             line-height: 24px;
-
-                            .rtl & {
-                                padding-left: 0;
-                                padding-right: 15px;
-                            }
                         }
                     }
                     .no-expand {
@@ -870,7 +861,7 @@
                     }
                 }
                 .fms-flex-apply {
-                    padding-left: 16px;
+                    .padding-left(16px);
                     .footer {
                         .btn {
                             margin-top: 16px;
@@ -891,7 +882,7 @@
                         width: 247px;
                     }
                     td:not(:last-child) {
-                        padding-right: 5px;
+                        .padding-right-5();
                     }
                     .btn-text-default.auto {
                         padding-left: 3px;
@@ -903,7 +894,7 @@
             }
             #print-navigation {
                 height: 50px;
-                padding-left: 20px;
+                .padding-left-20();
                 padding-top: 10px;
                 display: flex;
                 #print-prev-page {
@@ -1040,7 +1031,7 @@
                 height: 18px;
                 text-align: start;
                 font-weight: normal;
-                padding-left: 4px;
+                .padding-left-4();
                 padding-top: 2px;
                 overflow: hidden;
                 white-space: nowrap;
@@ -1051,11 +1042,6 @@
                 }
                 &:last-child {
                     width: 36%;
-                }
-
-                .rtl & {
-                    padding-left: 0;
-                    padding-right: 4px;
                 }
             }
         }
@@ -1072,7 +1058,7 @@
                 display: flex;
                 div {
                     width: 16%;
-                    padding-left: 4px;
+                    .padding-left-4();
                     height: 28px;
                     line-height: 28px;
                     white-space: nowrap;
@@ -1080,11 +1066,6 @@
                     text-overflow: ellipsis;
                     &:last-child {
                         width: 36%;
-                    }
-
-                    .rtl & {
-                        padding-left: 0;
-                        padding-right: 4px;
                     }
                 }
             }

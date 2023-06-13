@@ -543,7 +543,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                                     {caption: '--'},
                                     {
                                         id: "format-rules-borders-menu-new-bordercolor",
-                                        template: _.template('<a tabindex="-1" type="menuitem" style="padding-left:12px;">' + this.textNewColor + '</a>'),
+                                        template: _.template('<a tabindex="-1" type="menuitem" style="' + (Common.UI.isRTL() ? 'padding-right: 12px;': 'padding-left: 12px;') + '">' + this.textNewColor + '</a>'),
                                         stopPropagation: true
                                     }
                                 ]

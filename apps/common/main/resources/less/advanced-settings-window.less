@@ -36,7 +36,9 @@
         .content-panel {
             vertical-align: top;
             padding: 5px 15px 0 10px;
-
+            .rtl & {
+                padding: 5px 10px 0 15px;
+            }
             .inner-content {
                 padding-left: 10px;
                 padding-right: 10px;
@@ -74,7 +76,7 @@
             margin: auto;
             text-align: center;
             overflow: hidden;
-            padding-right: 4px;
+            .padding-right-4();
             .svg-mirror{
                 margin-right: 1px;
             }
