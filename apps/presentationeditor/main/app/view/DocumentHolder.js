@@ -2847,7 +2847,14 @@ define([
         allProfText: 'All - Professional',
         allLinearText: 'All - Linear',
         hideEqToolbar: 'Hide Equation Toolbar',
-        showEqToolbar: 'Show Equation Toolbar'
+        showEqToolbar: 'Show Equation Toolbar',
+        txtInsImage: 'Insert image from File',
+        txtInsImageUrl: 'Insert image from URL',
+        txtInsChart: 'Insert chart',
+        txtInsTable: 'Insert table',
+        txtInsVideo: 'Insert video',
+        txtInsAudio: 'Insert audio',
+        txtInsSmartArt: 'Insert SmartArt'
 
     }, PE.Views.DocumentHolder || {}));
 });

@@ -3338,7 +3338,9 @@ define([
         eqToDisplayText: 'Change to Display',
         hideEqToolbar: 'Hide Equation Toolbar',
         showEqToolbar: 'Show Equation Toolbar',
-        textIndents: 'Adjust list indents'
+        textIndents: 'Adjust list indents',
+        txtInsImage: 'Insert image from File',
+        txtInsImageUrl: 'Insert image from URL'
 
 }, DE.Views.DocumentHolder || {}));
 });
