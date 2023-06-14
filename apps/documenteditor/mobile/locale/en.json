@@ -728,7 +728,8 @@
     "txtScheme9": "Foundry",
     "textVersionHistory": "Version History",
     "textAnonymous": "Anonymous",
-    "txtErrorLoadHistory": "Loading history failed"
+    "txtErrorLoadHistory": "Loading history failed",
+    "textVersion": "Version"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",

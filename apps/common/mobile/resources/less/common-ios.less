@@ -557,6 +557,47 @@
         }
     }
 
+    // Version History
+    .version-history-block {
+        &__title {
+            font-style: normal;
+            font-weight: 400;
+            font-size: 13px;
+            line-height: 18px;
+            color: @text-secondary;
+            margin-top: 16px;
+            margin-bottom: 4px;
+        }
+
+        &__list {
+            .item-title {
+                font-weight: 600;
+                font-size: 13px;
+                line-height: 18px;
+                color: @text-normal;
+                letter-spacing: -0.08px;
+            }
+
+            .item-media, .item-inner {
+                padding-top: 17px;
+                padding-bottom: 17px;
+            }
+
+            .item-link .item-title-row:before {
+                display: none;
+            }
+
+            .item-subtitle {
+                font-style: normal;
+                font-weight: 400;
+                font-size: 11px;
+                line-height: 13px;
+                color: @text-secondary;
+                margin-top: 3px;
+                letter-spacing: 0.06px;
+            }
+        }
+    }
 }
 
 
