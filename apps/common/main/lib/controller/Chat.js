@@ -204,9 +204,6 @@ define([
                         message     : msg.message,
                         username    : msg.username,
                         parsedName  : AscCommon.UserInfoParser.getParsedName(msg.username),
-                        //TODO : В msg должен приходить avatar (Думаю что из sdk)
-                        //       Можно чтобы sdk в msg добавили ещё одно свойство "avatar"
-                        //       Либо вместо всех свойств о пользователе добавили свойство "user", класса asc_CUser. Как в методе onUserConnection
                     }));
                 });
 

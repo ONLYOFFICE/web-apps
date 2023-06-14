@@ -1443,7 +1443,7 @@ define([
                         date: this.dateToLocaleTimeString(date),
                         userid: this.currentUserId,
                         username: AscCommon.UserInfoParser.getCurrentName(),
-                        avatar: null, //TODO : Метод получения аватарки текущего пользователя 
+                        avatar: user ? user.get('avatar') : null,
                         initials: Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(AscCommon.UserInfoParser.getCurrentName())),
                         parsedName: AscCommon.UserInfoParser.getParsedName(AscCommon.UserInfoParser.getCurrentName()),
                         usercolor: (user) ? user.get('color') : null,
