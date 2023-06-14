@@ -390,7 +390,7 @@ define([
             !!pageCount && this.updatePreview();
         },
 
-        openPrintSettings: function(type, cmp, format, asUrl) {
+        openPrintSettings: function(type, cmp, format, asUrl, asExport) {
             if (this.printSettingsDlg && this.printSettingsDlg.isVisible()) {
                 asUrl && Common.NotificationCenter.trigger('download:cancel');
                 return;
@@ -402,6 +402,7 @@ define([
                 this.downloadFormat = format;
                 this.printSettingsDlg = (new SSE.Views.PrintSettings({
                     type: type,
+                    asexport: asExport,
                     handler: _.bind(this.resultPrintSettings,this),
                     afterrender: _.bind(function() {
                         this._changedProps = [];

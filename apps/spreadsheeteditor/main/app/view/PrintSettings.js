@@ -56,6 +56,8 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
 
         initialize : function(options) {
             this.type = options.type || 'print';
+            var txtBtn = (this.type == 'print') ? this.btnPrint :
+                options.asexport ? this.btnExport : this.btnDownload;
             _.extend(this.options, {
                 title: (this.type == 'print') ? this.textTitle : this.textTitlePDF,
                 template: [
@@ -76,7 +78,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                     '<div class="footer justify">',
                         '<button id="printadv-dlg-btn-hide" class="btn btn-text-default" style="min-width: 100px;width: auto;">' + this.textHideDetails + '</button>',
                         '<button class="btn normal dlg-btn float-right" result="cancel" style="width: 86px;">' + this.cancelButtonText + '</button>',
-                        '<button class="btn normal dlg-btn primary float-right margin-left-10" result="ok" style="width: 150px;">' + ((this.type == 'print') ? this.btnPrint : this.btnDownload) + '</button>',
+                        '<button class="btn normal dlg-btn primary float-right margin-left-10" result="ok" style="width: 150px;">' + txtBtn + '</button>',
                     '</div>'
                 ].join('')
             }, options);
@@ -422,7 +424,8 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         textMarginsNormal:      'Normal',
         textMarginsNarrow:      'Narrow',
         textMarginsWide:        'Wide',
-        txtMarginsLast:         'Last Custom'
+        txtMarginsLast:         'Last Custom',
+        btnExport:              'Save & Export'
 
     }, SSE.Views.PrintSettings || {}));
 });

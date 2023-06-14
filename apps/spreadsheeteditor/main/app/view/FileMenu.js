@@ -631,6 +631,6 @@ define([
         btnHistoryCaption       : 'Versions History',
         btnExitCaption          : 'Exit',
         btnFileOpenCaption      : 'Open...',
-        btnExportToPDFCaption          : 'Export to PDF'
+        btnExportToPDFCaption   : 'Export to PDF'
     }, SSE.Views.FileMenu || {}));
 });
