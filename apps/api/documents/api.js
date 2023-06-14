@@ -920,13 +920,11 @@
 
         var userAgent = navigator.userAgent.toLowerCase(),
             check = function(regex){ return regex.test(userAgent); },
-            isIE = !check(/opera/) && (check(/msie/) || check(/trident/) || check(/edge/)),
-            isChrome = !isIE && check(/\bchrome\b/),
-            isSafari_mobile = !isIE && !isChrome && check(/safari/) && (navigator.maxTouchPoints>0),
+            isMobileBrowser = check(/mobile|iphone|ipad|android|iemobile|opera m(obi|ini)/),
             path_type;
 
         path += app + "/";
-        path_type = (config.type === "mobile" || isSafari_mobile)
+        path_type = (config.type === "mobile" || isMobileBrowser)
                     ? "mobile" : (config.type === "embedded")
                     ? "embed" : (config.document && typeof config.document.fileType === 'string' && config.document.fileType.toLowerCase() === 'oform')
                     ? "forms" : "main";
