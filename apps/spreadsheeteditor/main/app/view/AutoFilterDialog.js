@@ -1473,7 +1473,7 @@ define([
                                         '<input id="afcheckbox-<%= id %>" type="checkbox" class="button__checkbox">',
                                         '<label for="afcheckbox-<%= id %>" class="checkbox__shape"></label>',
                                     '</label>',
-                                    '<div id="<%= id %>" style="pointer-events:none; margin-left: 20px;display: flex;">',
+                                    '<div id="<%= id %>" class="tree-label" style="pointer-events:none; margin-left: 20px;display: flex;">',
                                         '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(dateValue) %></div>',
                                     '</div>',
                                 '</div>',
@@ -1485,7 +1485,7 @@ define([
                                         '<input id="afcheckbox-<%= id %>" type="checkbox" class="button__checkbox">',
                                         '<label for="afcheckbox-<%= id %>" class="checkbox__shape"></label>',
                                     '</label>',
-                                    '<div id="<%= id %>" style="pointer-events:none; margin-left: 20px;display: flex;">',
+                                    '<div id="<%= id %>" class="tree-label" style="pointer-events:none; margin-left: 20px;display: flex;">',
                                         '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(value) %></div>',
                                         '<% if (typeof count !=="undefined" && count) { %>',
                                             '<div style="word-break: normal; margin-left: 10px; color: #afafaf;"><%= count%></div>',
@@ -1840,7 +1840,7 @@ define([
 
             var event = window.event ? window.event : window._event;
             if (event) {
-                target = $(event.currentTarget).find('.list-item');
+                target = $(event.currentTarget).find('.tree-label');
 
                 if (target.length) {
                     bound = target.get(0).getBoundingClientRect();
@@ -2336,6 +2336,8 @@ define([
                     }
                 });
             }
+
+            me.cellsList.cmpEl[countYears > 0 ? 'addClass' : 'removeClass']('shifted-right');
 
             if (selectedCells==arr.length) selectAllState = true;
             else if (selectedCells>0) selectAllState = 'indeterminate';
