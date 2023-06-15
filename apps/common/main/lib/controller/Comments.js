@@ -842,7 +842,7 @@ define([
                 comment.set('parsedName', AscCommon.UserInfoParser.getParsedName(data.asc_getUserName()));
                 comment.set('parsedGroups', AscCommon.UserInfoParser.getParsedGroups(data.asc_getUserName()));
                 comment.set('usercolor', (user) ? user.get('color') : null);
-                comment.set('avatar',   data.asc_getUserAvatar ? data.asc_getUserAvatar() : null);
+                comment.set('avatar',   (user) ? user.get('avatar') : null);
                 comment.set('resolved', data.asc_getSolved());
                 comment.set('quote',    data.asc_getQuoteText());
                 comment.set('userdata', data.asc_getUserData());
@@ -878,7 +878,7 @@ define([
                         initials            : Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(data.asc_getReply(i).asc_getUserName())),
                         parsedName          : AscCommon.UserInfoParser.getParsedName(data.asc_getReply(i).asc_getUserName()),
                         usercolor           : (user) ? user.get('color') : null,
-                        avatar              : data.asc_getReply(i).asc_getUserAvatar ? data.asc_getReply(i).asc_getUserAvatar() : null,
+                        avatar              : (user) ? user.get('avatar') : null,
                         date                : t.dateToLocaleTimeString(dateReply),
                         reply               : data.asc_getReply(i).asc_getText(),
                         userdata            : data.asc_getReply(i).asc_getUserData(),
@@ -1284,50 +1284,42 @@ define([
 
         onUpdateUsers: function() {
             var users = this.userCollection,
-                hasGroup = false;
+                hasGroup = false,
+                updateCommentData = function(comment, user, isNotReply) {
+                    var color = (user) ? user.get('color') : null,
+                        avatar = (user) ? user.get('avatar') : null,
+                        needrender = false;
+                    if (color !== comment.get('usercolor')) {
+                        needrender = true;
+                        comment.set('usercolor', color, {silent: true});
+                    }
+                    if (avatar !== comment.get('avatar')) {
+                        needrender = true;
+                        comment.set('avatar', avatar, {silent: true});
+                    }
+
+                    //If a comment and not a reply
+                    if(isNotReply){
+                        comment.get('replys').forEach(function (reply) {
+                            var needrenderReply = updateCommentData(reply, users.findOriginalUser(reply.get('userid')), false);
+                            needrender = needrenderReply || needrender;
+                        });
+                        
+                        if (needrender)
+                            comment.trigger('change');
+                    }
+
+                    return needrender;
+                };
+            
             for (var name in this.groupCollection) {
                 hasGroup = true;
-                this.groupCollection[name].each(function (model) {
-                    var user = users.findOriginalUser(model.get('userid')),
-                        color = (user) ? user.get('color') : null,
-                        needrender = false;
-                    if (color !== model.get('usercolor')) {
-                        needrender = true;
-                        model.set('usercolor', color, {silent: true});
-                    }
-
-                    model.get('replys').forEach(function (reply) {
-                        user = users.findOriginalUser(reply.get('userid'));
-                        color = (user) ? user.get('color') : null;
-                        if (color !== reply.get('usercolor')) {
-                            needrender = true;
-                            reply.set('usercolor', color, {silent: true});
-                        }
-                    });
-
-                    if (needrender)
-                        model.trigger('change');
+                this.groupCollection[name].each(function (comment) {
+                    updateCommentData(comment, users.findOriginalUser(comment.get('userid')), true);
                 });
             }
-            !hasGroup && this.collection.each(function (model) {
-                var user = users.findOriginalUser(model.get('userid')),
-                    color = (user) ? user.get('color') : null,
-                    needrender = false;
-                if (color !== model.get('usercolor')) {
-                    needrender = true;
-                    model.set('usercolor', color, {silent: true});
-                }
-
-                model.get('replys').forEach(function (reply) {
-                    user = users.findOriginalUser(reply.get('userid'));
-                    color = (user) ? user.get('color') : null;
-                    if (color !== reply.get('usercolor')) {
-                        needrender = true;
-                        reply.set('usercolor', color, {silent: true});
-                    }
-                });
-                if (needrender)
-                    model.trigger('change');
+            !hasGroup && this.collection.each(function (comment) {
+                updateCommentData(comment, users.findOriginalUser(comment.get('userid')), true);
             });
         },
 
@@ -1345,7 +1337,7 @@ define([
                 parsedName          : AscCommon.UserInfoParser.getParsedName(data.asc_getUserName()),
                 parsedGroups        : AscCommon.UserInfoParser.getParsedGroups(data.asc_getUserName()),
                 usercolor           : (user) ? user.get('color') : null,
-                avatar              : data.asc_getUserAvatar ? data.asc_getUserAvatar() : null,
+                avatar              : (user) ? user.get('avatar') : null,
                 date                : this.dateToLocaleTimeString(date),
                 quote               : data.asc_getQuoteText(),
                 comment             : data.asc_getText(),
@@ -1402,7 +1394,7 @@ define([
                         initials            : Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(data.asc_getReply(i).asc_getUserName())),
                         parsedName          : AscCommon.UserInfoParser.getParsedName(data.asc_getReply(i).asc_getUserName()),
                         usercolor           : (user) ? user.get('color') : null,
-                        avatar              : data.asc_getReply(i).asc_getUserAvatar ? data.asc_getReply(i).asc_getUserAvatar() : null,
+                        avatar              : (user) ? user.get('avatar') : null,
                         date                : this.dateToLocaleTimeString(date),
                         reply               : data.asc_getReply(i).asc_getText(),
                         userdata            : data.asc_getReply(i).asc_getUserData(),
