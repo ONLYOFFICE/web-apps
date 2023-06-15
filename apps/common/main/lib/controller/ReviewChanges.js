@@ -513,6 +513,8 @@ define([
                         userid      : item.get_UserId(),
                         username    : item.get_UserName(),
                         usercolor   : (user) ? user.get('color') : null,
+                        initials    : Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(item.get_UserName())),
+                        avatar      : (user) ? user.get('avatar') : null,
                         date        : me.dateToLocaleTimeString(date),
                         changetext  : changetext,
                         id          : Common.UI.getId(),
@@ -1068,6 +1070,7 @@ define([
             this.popoverChanges && this.popoverChanges.each(function (model) {
                 var user = users.findOriginalUser(model.get('userid'));
                 model.set('usercolor', (user) ? user.get('color') : null);
+                model.set('avatar', (user) ? user.get('avatar') : null);
             });
         },
 
