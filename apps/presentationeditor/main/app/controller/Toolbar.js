@@ -142,6 +142,9 @@ define([
                     'generate:smartart' : this.generateSmartArt,
                     'insert:smartart'   : this.onInsertSmartArt
                 },
+                'DocumentHolder': {
+                    'generate:smartart' : this.generateSmartArt,
+                },
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),
                     'menu:show': this.onFileMenu.bind(this, 'show')
@@ -2798,12 +2801,13 @@ define([
             }
         },
 
-        generateSmartArt: function (groupName) {
+        generateSmartArt: function (groupName, menu) {
+            this.docHolderMenu = menu;
             this.api.asc_generateSmartArtPreviews(groupName);
         },
 
         onApiBeginSmartArtPreview: function () {
-            this.smartArtGroups = this.toolbar.btnInsertSmartArt.menu.items;
+            this.smartArtGroups = this.docHolderMenu ? this.docHolderMenu.items : this.toolbar.btnInsertSmartArt.menu.items;
             this.smartArtData = Common.define.smartArt.getSmartArtData();
         },
 
@@ -2827,13 +2831,13 @@ define([
                         menuPicker.store.add(arr);
                     }
                 }
-                this.currentSmartArtMenu = menu;
+                this.currentSmartArtCategoryMenu = menu;
             }, this));
         },
 
         onApiEndSmartArtPreview: function () {
-            if (this.currentSmartArtMenu) {
-                this.currentSmartArtMenu.menu.alignPosition();
+            if (this.currentSmartArtCategoryMenu) {
+                this.currentSmartArtCategoryMenu.menu.alignPosition();
             }
         },
 
