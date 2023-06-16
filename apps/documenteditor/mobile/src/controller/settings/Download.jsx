@@ -32,7 +32,6 @@ class DownloadController extends Component {
             this.closeModal();
 
             if(format === Asc.c_oAscFileType.PDF || format === Asc.c_oAscFileType.PDFA || format === Asc.c_oAscFileType.JPG || format === Asc.c_oAscFileType.PNG) {
-                options.asc_setCompatible(!!Common.Utils.InternalSettings.get("de-settings-compatible"));
                 api.asc_DownloadAs(options);
             } else if (format === Asc.c_oAscFileType.TXT || format === Asc.c_oAscFileType.RTF) {
                 options.asc_setTextParams(new AscCommon.asc_CTextParams(Asc.c_oAscTextAssociation.PlainLine));

@@ -28,7 +28,7 @@
         </tr>
         <tr class="hasformat">
             <td class="padding-large">
-                <div>
+                <div class="scaling-flex-row">
                     <div id="format-rules-bold"></div>
                     <div id="format-rules-italic" class="margin-left-3"></div>
                     <div id="format-rules-underline" class="margin-left-3"></div>

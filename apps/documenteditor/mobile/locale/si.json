@@ -554,7 +554,6 @@
     "textHasMacros": "ගොනුවේ ස්වයංක්‍රීය සාර්ව අඩංගු වේ.<br>ඔබට සාර්ව ධාවනයට වුවමනාද?",
     "textNo": "නැහැ",
     "textNoLicenseTitle": "බලපත්‍රයේ සීමාවට ලඟාවුණි",
-    "textNoTextFound": "පාඨය හමු නොවිණි",
     "textOk": "හරි",
     "textPaidFeature": "ගෙවන විශේෂාංගයකි",
     "textRemember": "මාගේ තේරීම මතක තබාගන්න",
@@ -576,7 +575,9 @@
     "warnLicenseUsersExceeded": "ඔබ %1 සංස්කරක සඳහා පරිශීලක සීමාවට ළඟා වී ඇත. තව දැන ගැනීමට ඔබගේ පරිපාලක අමතන්න.",
     "warnNoLicense": "ඔබ %1 සංස්කරක වෙත සමකාල සම්බන්ධතා සීමාවට ළඟා වී ඇත. මෙම ලේඛනය දැකීමට පමණක් විවෘත වේ. පුද්ගලික උත්ශ්‍රේණි නියම සඳහා %1 අලෙවි කණ්ඩායම අමතන්න.",
     "warnNoLicenseUsers": "ඔබ %1 සංස්කරක සඳහා පරිශීලක සීමාවට ළඟා වී ඇත. පුද්ගලික උත්ශ්‍රේණි නියම සඳහා %1 අලෙවි කණ්ඩායම අමතන්න.",
-    "warnProcessRightsChange": "ඔබට මෙම ගොනුව සංස්කරණයට අවසර නැත."
+    "warnProcessRightsChange": "ඔබට මෙම ගොනුව සංස්කරණයට අවසර නැත.",
+    "textNoMatches": "No Matches",
+    "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
   },
   "Settings": {
     "advDRMOptions": "රක්‍ෂිත ගොනුවකි",
@@ -650,7 +651,6 @@
     "textNo": "නැහැ",
     "textNoChanges": "වෙනස්කම් නැත (කියවීමට පමණි)",
     "textNoCharacters": "මුද්‍රණය නොවන අකුරු",
-    "textNoTextFound": "පාඨය හමු නොවිණි",
     "textOk": "හරි",
     "textOpenFile": "ගොනුව විවෘත කිරීමට මුරපදයක් යොදන්න",
     "textOrientation": "හැඩගැස්ම",
@@ -724,7 +724,8 @@
     "txtScheme6": "ජනසමූහය",
     "txtScheme7": "සමකොටස්",
     "txtScheme8": "ගලායාම",
-    "txtScheme9": "වාත්තු පොළ"
+    "txtScheme9": "වාත්තු පොළ",
+    "textNoMatches": "No Matches"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "ඔබ සතුව නොසුරකින ලද වෙනස්කම් තිබේ. ස්වයං සුරැකීම සඳහා රැඳෙන්න 'මෙම පිටුවෙහි රැඳී සිටින්න' ඔබන්න. නොසුරකින ලද සියළුම වෙනස්කම් ඉවත දැමීමට 'මෙම පිටුවෙන් ඉවත් වන්න' ඔබන්න.",

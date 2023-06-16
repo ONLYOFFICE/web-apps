@@ -78,8 +78,7 @@ function checkScaling() {
 }
 
 let svg_icons = ['./resources/img/iconssmall@2.5x.svg',
-                    './resources/img/iconsbig@2.5x.svg',
-                    './resources/img/iconshuge@2.5x.svg'];
+    './resources/img/iconsbig@2.5x.svg', './resources/img/iconshuge@2.5x.svg'];
 
 window.Common = {
     Utils: {

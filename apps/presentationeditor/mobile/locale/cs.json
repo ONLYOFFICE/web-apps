@@ -112,7 +112,6 @@
       "textHasMacros": "Soubor obsahuje automatická makra.<br>Opravdu chcete makra spustit?",
       "textNo": "Ne",
       "textNoLicenseTitle": "Došlo k dosažení limitu licence",
-      "textNoTextFound": "Text nebyl nalezen",
       "textOpenFile": "Zadejte heslo pro otevření souboru",
       "textPaidFeature": "Placená funkce",
       "textRemember": "Zapamatovat moji volbu",
@@ -133,7 +132,9 @@
       "warnNoLicense": "Došlo k dosažení limitu souběžného připojení %1 editorů. Tento dokument bude otevřen pouze pro náhled. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
       "warnNoLicenseUsers": "Došlo k dosažení limitu %1 editorů. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
       "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu.",
+      "textNoMatches": "No Matches",
       "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
@@ -358,7 +359,6 @@
       "textNextSlide": "Další snímek",
       "textNone": "Žádné",
       "textNoStyles": "Žádné styly pro tento typ grafu.",
-      "textNoTextFound": "Text nebyl nalezen",
       "textNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\"",
       "textNumbers": "Čísla",
       "textOk": "OK",
@@ -419,6 +419,7 @@
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textInsertImage": "Insert Image",
+      "textNoMatches": "No Matches",
       "textRecommended": "Recommended",
       "textRequired": "Required"
     },
@@ -460,7 +461,6 @@
       "textLoading": "Načítání...",
       "textLocation": "Umístění",
       "textMacrosSettings": "Nastavení maker",
-      "textNoTextFound": "Text nebyl nalezen",
       "textOk": "OK",
       "textOwner": "Vlastník",
       "textPoint": "Bod",
@@ -505,7 +505,8 @@
       "txtScheme6": "Hala",
       "txtScheme7": "Rovnost",
       "txtScheme8": "Tok",
-      "txtScheme9": "Slévárna"
+      "txtScheme9": "Slévárna",
+      "textNoMatches": "No Matches"
     }
   }
 }

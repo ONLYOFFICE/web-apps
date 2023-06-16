@@ -76,7 +76,7 @@
                 <td class="padding-small" width="100">
                     <label class="input-label"><%= scope.textMinValue %></label>
                 </td>
-                <td class="padding-small padding-right" width="115">
+                <td class="padding-small padding-right-10" width="115">
                     <div id="chart-dlg-combo-mintype-0"></div>
                 </td>
                 <td class="padding-small" width="90">
@@ -87,7 +87,7 @@
                 <td class="padding-small" width="100">
                     <label class="input-label"><%= scope.textMaxValue %></label>
                 </td>
-                <td class="padding-small padding-right" width="115">
+                <td class="padding-small padding-right-10" width="115">
                     <div id="chart-dlg-combo-maxtype-0"></div>
                 </td>
                 <td class="padding-small" width="90">
@@ -98,7 +98,7 @@
                 <td class="padding-large" width="100">
                     <label class="input-label"><%= scope.textAxisCrosses %></label>
                 </td>
-                <td class="padding-large padding-right" width="115">
+                <td class="padding-large padding-right-10" width="115">
                     <div id="chart-dlg-combo-v-crosstype-0"></div>
                 </td>
                 <td class="padding-large" width="90">
@@ -197,7 +197,7 @@
                 <td class="padding-small" width="100">
                     <label class="input-label"><%= scope.textMinValue %></label>
                 </td>
-                <td class="padding-small padding-right" width="115">
+                <td class="padding-small padding-right-10" width="115">
                     <div id="chart-dlg-combo-mintype-1"></div>
                 </td>
                 <td class="padding-small" width="90">
@@ -208,7 +208,7 @@
                 <td class="padding-small" width="100">
                     <label class="input-label"><%= scope.textMaxValue %></label>
                 </td>
-                <td class="padding-small padding-right" width="115">
+                <td class="padding-small padding-right-10" width="115">
                     <div id="chart-dlg-combo-maxtype-1"></div>
                 </td>
                 <td class="padding-small" width="90">
@@ -219,7 +219,7 @@
                 <td class="padding-large" width="100">
                     <label class="input-label"><%= scope.textAxisCrosses %></label>
                 </td>
-                <td class="padding-large padding-right" width="115">
+                <td class="padding-large padding-right-10" width="115">
                     <div id="chart-dlg-combo-v-crosstype-1"></div>
                 </td>
                 <td class="padding-large" width="90">
@@ -318,7 +318,7 @@
                 <td class="padding-small" width="100">
                     <label class="input-label"><%= scope.textAxisCrosses %></label>
                 </td>
-                <td class="padding-small axis-crosses-combo" width="115">
+                <td class="padding-small padding-right-10" width="115">
                     <div id="chart-dlg-combo-h-crosstype-0"></div>
                 </td>
                 <td class="padding-small" width="90">
@@ -427,7 +427,7 @@
                 <td class="padding-small" width="100">
                     <label class="input-label"><%= scope.textAxisCrosses %></label>
                 </td>
-                <td class="padding-small padding-right" width="115">
+                <td class="padding-small padding-right-10" width="115">
                     <div id="chart-dlg-combo-h-crosstype-1"></div>
                 </td>
                 <td class="padding-small" width="90">
@@ -566,7 +566,7 @@
                 <td class="padding-small" width="100">
                     <label class="input-label"><%= scope.textMinValue %></label>
                 </td>
-                <td class="padding-small padding-right" width="115">
+                <td class="padding-small padding-right-10" width="115">
                     <div id="spark-dlg-combo-mintype"></div>
                 </td>
                 <td class="padding-small" width="90">
@@ -577,7 +577,7 @@
                 <td class="padding-large" width="100">
                     <label class="input-label"><%= scope.textMaxValue %></label>
                 </td>
-                <td class="padding-large padding-right" width="115">
+                <td class="padding-large padding-right-10" width="115">
                     <div id="spark-dlg-combo-maxtype"></div>
                 </td>
                 <td class="padding-large" width="90">

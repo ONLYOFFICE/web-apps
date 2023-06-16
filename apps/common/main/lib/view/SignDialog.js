@@ -104,7 +104,7 @@ define([
                     '<table style="margin-top: 30px;">',
                         '<tr>',
                             '<td><label style="font-weight: bold;margin-bottom: 3px;">' + this.textCertificate + '</label></td>' +
-                            '<td rowspan="2" style="vertical-align: top; padding-left: 20px;"><button id="id-dlg-sign-change" class="btn btn-text-default float-right">' + this.textSelect + '</button></td>',
+                            '<td rowspan="2" class="padding-left-20" style="vertical-align: top;"><button id="id-dlg-sign-change" class="btn btn-text-default float-right">' + this.textSelect + '</button></td>',
                         '</tr>',
                         '<tr><td><div id="id-dlg-sign-certificate" class="hidden" style="max-width: 240px;overflow: hidden;white-space: nowrap;"></td></tr>',
                     '</table>',

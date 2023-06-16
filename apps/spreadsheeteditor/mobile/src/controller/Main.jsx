@@ -470,6 +470,11 @@ class MainController extends Component {
                 const sdk = document.querySelector('#editor_sdk');
                 const rect = sdk.getBoundingClientRect();
 
+                if(document.querySelector('.tooltip-cell-data')) {
+                    document.querySelector('.tooltip-cell-data').remove();
+                    document.querySelector('.popover-backdrop')?.remove();
+                }
+
                 f7.popover.create({
                     targetX: -10000,
                     targetY: -10000,
@@ -587,7 +592,7 @@ class MainController extends Component {
         const { t } = this.props;
 
         if (this.api.isReplaceAll) { 
-            f7.dialog.alert(null, (found) ? ((!found - replaced) ? t('Controller.Main.textReplaceSuccess').replace(/\{0\}/, `${replaced}`) : t('Controller.Main.textReplaceSkipped').replace(/\{0\}/, `${found - replaced}`)) : t('Controller.Main.textNoTextFound'));
+            f7.dialog.alert(null, (found) ? ((!found - replaced) ? t('Controller.Main.textReplaceSuccess').replace(/\{0\}/, `${replaced}`) : t('Controller.Main.textReplaceSkipped').replace(/\{0\}/, `${found - replaced}`)) : t('Controller.Main.textNoMatches'));
         }
     }
 
@@ -767,11 +772,22 @@ class MainController extends Component {
 
         if (appOptions.config.mode === 'view') {
             if (appOptions.canLiveView && (this._state.licenseType===Asc.c_oLicenseResult.ConnectionsLive || this._state.licenseType===Asc.c_oLicenseResult.ConnectionsLiveOS ||
-                                            this._state.licenseType===Asc.c_oLicenseResult.UsersViewCount || this._state.licenseType===Asc.c_oLicenseResult.UsersViewCountOS)) {
+                                            this._state.licenseType===Asc.c_oLicenseResult.UsersViewCount || this._state.licenseType===Asc.c_oLicenseResult.UsersViewCountOS ||
+                                            !appOptions.isAnonymousSupport && !!appOptions.config.user.anonymous)) {
                 appOptions.canLiveView = false;
                 this.api.asc_SetFastCollaborative(false);
             }
             Common.Notifications.trigger('toolbar:activatecontrols');
+        } else if (!appOptions.isAnonymousSupport && !!appOptions.config.user.anonymous) {
+            Common.Notifications.trigger('toolbar:activatecontrols');
+            Common.Notifications.trigger('toolbar:deactivateeditcontrols');
+            this.api.asc_coAuthoringDisconnect();
+            Common.Notifications.trigger('api:disconnect');
+            f7.dialog.create({
+                title: _t.notcriticalErrorTitle,
+                text : _t.warnLicenseAnonymous,
+                buttons: [{text: 'OK'}]
+            }).open();
         } else if (this._state.licenseType) {
             let license = this._state.licenseType;
             let buttons = [{text: 'OK'}];
@@ -804,6 +820,7 @@ class MainController extends Component {
             } else {
                 Common.Notifications.trigger('toolbar:activatecontrols');
                 Common.Notifications.trigger('toolbar:deactivateeditcontrols');
+                this.api.asc_coAuthoringDisconnect();
                 Common.Notifications.trigger('api:disconnect');
             }
 

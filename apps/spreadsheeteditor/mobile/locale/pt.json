@@ -151,7 +151,7 @@
       "textNo": "Não",
       "textNoChoices": "Não há escolhas para preenchimento de célula.<br>Apenas valores de texto da coluna podem ser selecionados para substituição.",
       "textNoLicenseTitle": "Limite de licença atingido",
-      "textNoTextFound": "Texto não encontrado",
+      "textNoMatches": "Nenhuma correspondência",
       "textOk": "OK",
       "textPaidFeature": "Recurso pago",
       "textRemember": "Lembrar minha escolha",
@@ -165,6 +165,7 @@
       "titleLicenseNotActive": "Licença inativa",
       "titleServerVersion": "Editor atualizado",
       "titleUpdateVersion": "Versão alterada",
+      "warnLicenseAnonymous": "Acesso negado para usuários anônimos.<br>Este documento será aberto apenas para visualização.",
       "warnLicenseBefore": "Licença inativa.<br>Entre em contato com seu administrador.",
       "warnLicenseExceeded": "Você atingiu o limite de conexões simultâneas para% 1 editores. Este documento será aberto apenas para visualização. Contate seu administrador para saber mais.",
       "warnLicenseExp": "Sua licença expirou. Por favor, atualize sua licença e atualize a página.",
@@ -233,6 +234,7 @@
     "errorOperandExpected": "A sintaxe da função inserida não está correta. Por favor, verifique se você perdeu um dos parênteses - '(' ou ')'.",
     "errorPasteMaxRange": "A área de cópia e cola não corresponde. Por favor, selecione uma área do mesmo tamanho ou clique na primeira célula de uma linha para colar as células copiadas.",
     "errorPrintMaxPagesCount": "Infelizmente, não é possível imprimir mais de 1500 páginas ao mesmo tempo na versão atual do programa.<br>Esta restrição será eliminada nos próximos lançamentos.",
+    "errorProtectedRange": "Este intervalo não é permitido para edição.",
     "errorSessionAbsolute": "A sessão de edição do documento expirou. Por favor recarregue a página.",
     "errorSessionIdle": "O documento não é editado há muito tempo. Por favor recarregue a página.",
     "errorSessionToken": "A conexão com o servidor foi interrompida. Por favor recarregue a página.",
@@ -257,8 +259,7 @@
     "unknownErrorText": "Erro desconhecido.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Sem imagens carregadas.",
-    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB.",
-    "errorProtectedRange": "This range is not allowed for editing."
+    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Senha",
@@ -376,6 +377,7 @@
       "textLinkType": "Tipo de link",
       "textOk": "OK",
       "textOther": "Outro",
+      "textPasteImageUrl": "Cole um URL de imagem",
       "textPictureFromLibrary": "Imagem da biblioteca",
       "textPictureFromURL": "Imagem da URL",
       "textRange": "Intervalo",
@@ -395,8 +397,7 @@
       "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
       "txtSorting": "Classificação",
       "txtSortSelected": "Classificar selecionado",
-      "txtYes": "Sim",
-      "textPasteImageUrl": "Paste an image URL"
+      "txtYes": "Sim"
     },
     "Edit": {
       "notcriticalErrorTitle": "Aviso",
@@ -657,7 +658,7 @@
       "textMargins": "Margens",
       "textMatchCase": "Diferenciar maiúsculas/minúsculas",
       "textMatchCell": "Combinar célula",
-      "textNoTextFound": "Texto não encontrado",
+      "textNoMatches": "Nenhuma correspondência",
       "textOk": "OK",
       "textOpenFile": "Inserir a Senha para Abrir o Arquivo",
       "textOrientation": "Orientação",

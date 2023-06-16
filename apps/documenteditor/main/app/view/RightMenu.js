@@ -350,6 +350,13 @@ define([
             Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
         },
 
+        updateScroller: function() {
+            if (this.scroller) {
+                this.scroller.update();
+                this.scroller.scrollTop(0);
+            }
+        },
+
         txtParagraphSettings:       'Paragraph Settings',
         txtImageSettings:           'Image Settings',
         txtTableSettings:           'Table Settings',

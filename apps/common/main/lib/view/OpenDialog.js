@@ -99,7 +99,7 @@ define([
                         '<% if (warning) { %>',
                         '<div>',
                             '<div class="icon warn"></div>',
-                            '<div style="padding-left: 50px;"><div style="font-size: 12px;">' + (typeof _options.warningMsg=='string' ? _options.warningMsg : t.txtProtected) + '</div>',
+                            '<div class="padding-left-50"><div style="font-size: 12px;">' + (typeof _options.warningMsg=='string' ? _options.warningMsg : t.txtProtected) + '</div>',
                                 '<label class="header" style="margin-top: 15px;">' + t.txtPassword + '</label>',
                                 '<div id="id-password-txt" style="width: 290px;"></div></div>',
                         '</div>',
@@ -345,7 +345,7 @@ define([
                         '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem">',
                         '<div style="display: inline-block;"><%= item.displayValue %></div>',
-                        '<label style="text-align: right;width:' + lcid_width + 'px;"><%= item.lcid %></label>',
+                        '<label class="text-align-right" style="width:' + lcid_width + 'px;"><%= item.lcid %></label>',
                         '</a></li>',
                         '<% }); %>'
                     ].join(''));

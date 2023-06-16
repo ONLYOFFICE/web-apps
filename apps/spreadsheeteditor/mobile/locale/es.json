@@ -151,7 +151,6 @@
       "textNo": "No",
       "textNoChoices": "No hay opciones para rellenar la celda.<br>Sólo se pueden seleccionar valores de texto de la columna para su sustitución.",
       "textNoLicenseTitle": "Se ha alcanzado el límite de licencia",
-      "textNoTextFound": "Texto no encontrado",
       "textOk": "Aceptar",
       "textPaidFeature": "Característica de pago",
       "textRemember": "Recordar mi elección",
@@ -172,7 +171,9 @@
       "warnNoLicense": "Ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
       "warnNoLicenseUsers": "Ha alcanzado el límite de usuarios para %1 editores. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
       "warnProcessRightsChange": "No tiene permiso para editar el archivo.",
+      "textNoMatches": "No Matches",
       "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
@@ -657,7 +658,6 @@
       "textMargins": "Márgenes",
       "textMatchCase": "Coincidir mayúsculas y minúsculas",
       "textMatchCell": "Hacer coincidir las celdas",
-      "textNoTextFound": "Texto no encontrado",
       "textOk": "OK",
       "textOpenFile": "Introduzca una contraseña para abrir el archivo",
       "textOrientation": "Orientación ",
@@ -758,7 +758,8 @@
       "txtUk": "Ucraniano",
       "txtVi": "Vietnamita",
       "txtZh": "Chino",
-      "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?"
+      "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?",
+      "textNoMatches": "No Matches"
     }
   }
 }

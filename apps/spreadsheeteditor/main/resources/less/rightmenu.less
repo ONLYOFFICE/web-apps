@@ -8,12 +8,6 @@
     }
 
     .btn.align-left {
-        text-align: left;
-
-        .rtl & {
-            text-align: right;
-        }
-
         .pixel-ratio__2_5 & {
             display: flex;
             align-items: center;
@@ -198,7 +192,7 @@
     height: 250px;
 
     .item {
-        padding-right: 3px;
+        padding: 3px;
     }
 
     .list-item {
@@ -318,6 +312,10 @@
                 margin: 2px;
                 right: 26px;
             }
+        }
+
+        .rtl & {
+            padding: 5px 15px 5px 2px;
         }
     }
 }

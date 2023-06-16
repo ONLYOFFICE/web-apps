@@ -62,14 +62,9 @@
 
   .panel-context {
     width: 100%;
-    padding-left: 260px;
+    .padding-left(260px);
     background-color: @background-normal-ie;
     background-color: @background-normal;
-
-    .rtl & {
-      padding-left: 0;
-      padding-right: 260px;
-    }
 
     .content-box {
       height: 100%;
@@ -298,19 +293,6 @@
         .comment-text{
           opacity: 0.45;
         }
-      }
-
-      &.left {
-         text-align: right;
-         width: 30%;
-         label {
-           .font-weight-bold();
-           .font-size-medium();
-         }
-      }
-
-      &.right {
-        width: 70%;
       }
 
       &.divider {
@@ -567,12 +549,8 @@
 
         &.left {
           padding: 5px 10px;
-          text-align: right;
+          .text-align-right();
           width: 200px;
-
-          .rtl & {
-            text-align: left;
-          }
 
           label {
             .font-weight-bold();
@@ -603,6 +581,10 @@
 
     &.sharedLink {
       background-position: -24px -273px;
+    }
+
+    .rtl & {
+      padding: 0 17px 0 0;
     }
   }
 
@@ -746,28 +728,16 @@
         .footer {
           margin-top: 24px;
         }
-        #print-txt-pages, #print-txt-copies {
-          padding-left: 5px;
-          .rtl & {
-            padding-left: 0;
-            padding-right: 5px;
-          }
-        }
         #print-combo-sides {
           .dropdown-menu li > a {
-            padding-right: 5px;
-            padding-left: 20px;
-            .rtl & {
-              padding-right: 20px;
-              padding-left: 5px;
-            }
+            .padding-x(20px, 5px);
           }
         }
       }
     }
     #print-navigation {
       height: 50px;
-      padding-left: 20px;
+      .padding-left-20();
       padding-top: 10px;
       display: flex;
       #print-prev-page {

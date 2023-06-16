@@ -1171,6 +1171,7 @@
   "DE.Controllers.Main.waitText": "Vă rugăm să așteptați...",
   "DE.Controllers.Main.warnBrowserIE9": "Aplicația are o performanță slabă în IE9. Folosiți IE10 sau orice altă versiune mai nouă.",
   "DE.Controllers.Main.warnBrowserZoom": "Setări zoom ale browserului dvs. nu sunt acceptate din plin. Restabiliți setările implicite ale zoomului prin apăsarea Ctrl+0.",
+  "DE.Controllers.Main.warnLicenseAnonymous": "Acces refuzat pentru utilizatori anonimi.<br>Acest document va fi accesibil numai în modul de vizualizare.",
   "DE.Controllers.Main.warnLicenseBefore": "Licența nu este activă.<br>Contactaţi administratorul.",
   "DE.Controllers.Main.warnLicenseExceeded": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare.<br>Pentru detalii, contactați administratorul dvs.",
   "DE.Controllers.Main.warnLicenseExp": "Licența dvs. a expirat.<br>Licența urmează să fie reînnoită iar pagina reîmprospătată.",
