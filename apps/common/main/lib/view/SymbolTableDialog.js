@@ -815,7 +815,7 @@ define([
 
         getSpecialSymbol: function() {
             var rec = this.specialList.getSelectedRec();
-            return {font: undefined, symbol: this.encodeSurrogateChar(rec.get('code')), code: parseInt(rec.get('code'), 16), special: rec.get('special')};
+            return {font: undefined, symbol: this.encodeSurrogateChar(rec.get('code')), code: parseInt(rec.get('code'), 16), special: rec.get('special'), speccharacter: true};
         },
 
         onBtnClick: function(event) {

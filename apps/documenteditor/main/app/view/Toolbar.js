@@ -2362,6 +2362,33 @@ define([
                 }));
 
                 // set dataviews
+                this.specSymbols = [
+                    {symbol: 8226,     description: this.textBullet},
+                    {symbol: 8364,     description: this.textEuro},
+                    {symbol: 65284,    description: this.textDollar},
+                    {symbol: 165,      description: this.textYen},
+                    {symbol: 169,      description: this.textCopyright},
+                    {symbol: 174,      description: this.textRegistered},
+                    {symbol: 189,      description: this.textOneHalf},
+                    {symbol: 188,      description: this.textOneQuarter},
+                    {symbol: 8800,     description: this.textNotEqualTo},
+                    {symbol: 177,      description: this.textPlusMinus},
+                    {symbol: 247,      description: this.textDivision},
+                    {symbol: 8730,     description: this.textSquareRoot},
+                    {symbol: 8804,     description: this.textLessEqual},
+                    {symbol: 8805,     description: this.textGreaterEqual},
+                    {symbol: 8482,     description: this.textTradeMark},
+                    {symbol: 8734,     description: this.textInfinity},
+                    {symbol: 126,      description: this.textTilde},
+                    {symbol: 176,      description: this.textDegree},
+                    {symbol: 167,      description: this.textSection},
+                    {symbol: 945,      description: this.textAlpha},
+                    {symbol: 946,      description: this.textBetta},
+                    {symbol: 960,      description: this.textLetterPi},
+                    {symbol: 916,      description: this.textDelta},
+                    {symbol: 9786,     description: this.textSmile},
+                    {symbol: 9829,     description: this.textBlackHeart}
+                ];
                 this.mnuInsertSymbolsPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-symbols'),
                     parentMenu: this.btnInsertSymbol.menu,
@@ -2890,36 +2917,40 @@ define([
             },
 
             loadRecentSymbolsFromStorage: function(){
+                //Common.localStorage.removeItem('de-fastRecentSymbols');
                 var recents = Common.localStorage.getItem('de-fastRecentSymbols');
-                if(!!recents)
-                    return JSON.parse(recents);
-                return  [
-                    { symbol: 8226,     font: 'Arial', tip: 'Symbol: 8226'},
-                    { symbol: 8364,     font: 'Arial', tip: 'Symbol: 8364'},
-                    { symbol: 65284,    font: 'Arial', tip: 'Symbol: 65284'},
-                    { symbol: 165,      font: 'Arial', tip: 'Symbol: 165'},
-                    { symbol: 169,      font: 'Arial', tip: 'Symbol: 169'},
-                    { symbol: 174,      font: 'Arial', tip: 'Symbol: 174'},
-                    { symbol: 189,      font: 'Arial', tip: 'Symbol: 189'},
-                    { symbol: 188,      font: 'Arial', tip: 'Symbol: 188'},
-                    { symbol: 8800,     font: 'Arial', tip: 'Symbol: 8800'},
-                    { symbol: 177,      font: 'Arial', tip: 'Symbol: 177'},
-                    { symbol: 247,      font: 'Arial', tip: 'Symbol: 247'},
-                    { symbol: 8730,     font: 'Arial', tip: 'Symbol: 8730'},
-                    { symbol: 8804,     font: 'Arial', tip: 'Symbol: 8804'},
-                    { symbol: 8805,     font: 'Arial', tip: 'Symbol: 8805'},
-                    { symbol: 8482,     font: 'Arial', tip: 'Symbol: 8482'},
-                    { symbol: 8734,     font: 'Arial', tip: 'Symbol: 8734'},
-                    { symbol: 126,      font: 'Arial', tip: 'Symbol: 126'},
-                    { symbol: 176,      font: 'Arial', tip: 'Symbol: 176'},
-                    { symbol: 167,      font: 'Arial', tip: 'Symbol: 167'},
-                    { symbol: 945,      font: 'Arial', tip: 'Symbol: 945'},
-                    { symbol: 946,      font: 'Arial', tip: 'Symbol: 946'},
-                    { symbol: 960,      font: 'Arial', tip: 'Symbol: 960'},
-                    { symbol: 916,      font: 'Arial', tip: 'Symbol: 916'},
-                    { symbol: 9786,     font: 'Arial', tip: 'Symbol: 9786'},
-                    { symbol: 9829,     font: 'Arial', tip: 'Symbol: 9829'}
-                ];
+                var arr =(!!recents) ? JSON.parse(recents) :
+                    [
+                        { symbol: 8226,     font: 'Arial'},
+                        { symbol: 8364,     font: 'Arial'},
+                        { symbol: 65284,    font: 'Arial'},
+                        { symbol: 165,      font: 'Arial'},
+                        { symbol: 169,      font: 'Arial'},
+                        { symbol: 174,      font: 'Arial'},
+                        { symbol: 189,      font: 'Arial'},
+                        { symbol: 188,      font: 'Arial'},
+                        { symbol: 8800,     font: 'Arial'},
+                        { symbol: 177,      font: 'Arial'},
+                        { symbol: 247,      font: 'Arial'},
+                        { symbol: 8730,     font: 'Arial'},
+                        { symbol: 8804,     font: 'Arial'},
+                        { symbol: 8805,     font: 'Arial'},
+                        { symbol: 8482,     font: 'Arial'},
+                        { symbol: 8734,     font: 'Arial'},
+                        { symbol: 126,      font: 'Arial'},
+                        { symbol: 176,      font: 'Arial'},
+                        { symbol: 167,      font: 'Arial'},
+                        { symbol: 945,      font: 'Arial'},
+                        { symbol: 946,      font: 'Arial'},
+                        { symbol: 960,      font: 'Arial'},
+                        { symbol: 916,      font: 'Arial'},
+                        { symbol: 9786,     font: 'Arial'},
+                        { symbol: 9829,     font: 'Arial'}
+                    ];
+                arr.forEach(function (item){
+                    item.tip = this.getSymbolDescription(item.symbol);
+                }.bind(this));
+                return arr;
             },
 
             saveSymbol: function(symbol, font) {
@@ -2930,14 +2961,19 @@ define([
                 });
 
                 item && picker.store.remove(item);
-                picker.store.add({symbol: symbol, font: font, tip: 'Symbol: ' + symbol},{at:0});
+                picker.store.add({symbol: symbol, font: font, tip: this.getSymbolDescription(symbol)},{at:0});
                 picker.store.length > maxLength && picker.store.remove(picker.store.last());
 
                 var arr = picker.store.map(function (item){
-                    return {symbol: item.get('symbol'), font: item.get('font'), tip: item.get('tip')};
+                    return {symbol: item.get('symbol'), font: item.get('font')};
                 });
                 var sJSON = JSON.stringify(arr);
                 Common.localStorage.setItem( 'de-fastRecentSymbols', sJSON);
+            },
+
+            getSymbolDescription: function(symbol){
+                var  specSymbol = this.specSymbols.find(function (item){return item.symbol == symbol});
+                return !!specSymbol ? specSymbol.description : this.capBtnInsSymbol + ': ' + symbol;
             },
 
             loadListPresetsFromStorage: function(path, groupId) {
@@ -3220,7 +3256,32 @@ define([
             txtGroupNumDoc: 'Document numbering formats',
             txtGroupMultiDoc: 'Lists in current document',
             textTabDraw: 'Draw',
-            textMoreSymbols: 'More symbols'
+            textMoreSymbols: 'More symbols',
+            textAlpha: 'Greek Small Letter Alpha',
+            textBetta: 'Greek Small Letter Betta',
+            textBlackHeart: 'Black Heart Suit',
+            textBullet: 'Bullet',
+            textCopyright: 'Copyright Sign',
+            textDegree: 'Degree Sign',
+            textDelta: 'Greek Small Letter Delta',
+            textDivision: 'Division Sign',
+            textDollar: 'Dollar Sign',
+            textEuro: 'Euro Sign',
+            textGreaterEqual: 'Greater-Than Or Equal To',
+            textInfinity: 'Infinity',
+            textLessEqual: 'Less-Than Or Equal To',
+            textLetterPi: 'Greek Small Letter Pi',
+            textNotEqualTo: 'Not Equal To',
+            textOneHalf: 'Vulgar Fraction One Half',
+            textOneQuarter: 'Vulgar Fraction One Quarter',
+            textPlusMinus: 'Plus-Minus Sign',
+            textRegistered: 'Registered Sign',
+            textSection: 'Section Sign',
+            textSmile: 'White Smiling Fase',
+            textSquareRoot: 'Square Root',
+            textTilde: 'Tilde',
+            textTradeMark: 'Trade Mark Sign',
+            textYen: 'Yen Sign'
         }
     })(), DE.Views.Toolbar || {}));
 });

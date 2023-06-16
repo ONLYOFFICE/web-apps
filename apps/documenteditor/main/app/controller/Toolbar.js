@@ -2894,14 +2894,14 @@ define([
                     buttons: [{value: 'ok', caption: this.textInsert}, 'close'],
                     handler: function(dlg, result, settings) {
                         if (result == 'ok') {
-                            me.insertSymbol(settings.font, settings.code, settings.special);
+                            me.insertSymbol(settings.font, settings.code, settings.special, settings.speccharacter);
                         } else
                             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                     }
                 });
                 me.dlgSymbolTable.show();
                 me.dlgSymbolTable.on('symbol:dblclick', function(cmp, result, settings) {
-                    me.insertSymbol(settings.font, settings.code, settings.special);
+                    me.insertSymbol(settings.font, settings.code, settings.special, settings.speccharacter);
                 });
                 me.dlgSymbolTable.on('close', function(obj){
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -2914,10 +2914,10 @@ define([
                 this.insertSymbol(record.get('font'), record.get('symbol'), record.get('special'));
         },
 
-        insertSymbol: function(fontRecord, symbol, special){
+        insertSymbol: function(fontRecord, symbol, special, specCharacter){
             var font = fontRecord ? fontRecord: this.api.get_TextProps().get_TextPr().get_FontFamily().get_Name();
             this.api.asc_insertSymbol(font, symbol, special);
-            this.toolbar.saveSymbol(symbol, font);
+            !specCharacter && this.toolbar.saveSymbol(symbol, font);
         },
 
         onApiMathTypes: function(equation) {
