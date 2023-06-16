@@ -50,19 +50,11 @@
 
 #id-toolbar-menu-symbols {
     display: inline-block;
-    width: 160px;
-    padding-left: 3px;
-    .rtl & {
-        padding-left: 0;
-        padding-right: 3px;
-    }
+    width: 158px;
+    .padding-left(3px);
     .item {
         .box-shadow(none);
-        margin-left: 6px;
-        .rtl & {
-            margin-left: 4px;
-            margin-right: 6px;
-        }
+        .margin-x(6px, 4px);
         &:hover, &.selected{
             .box-shadow( 0 0 0 2px @border-preview-select-ie);
             .box-shadow( 0 0 0 @scaled-two-px-value @border-preview-select);

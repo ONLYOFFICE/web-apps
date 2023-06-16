@@ -3291,7 +3291,7 @@ define([
         },
 
         loadRecentSymbolsFromStorage: function(){
-            var recents = Common.localStorage.getItem('de-fastRecentSymbols');
+            var recents = Common.localStorage.getItem('sse-fastRecentSymbols');
             var arr = (!!recents) ? JSON.parse(recents) :
                 [
                     { symbol: 8226,     font: 'Arial'},
@@ -3341,7 +3341,7 @@ define([
                 return {symbol: item.get('symbol'), font: item.get('font')};
             });
             var sJSON = JSON.stringify(arr);
-            Common.localStorage.setItem( 'de-fastRecentSymbols', sJSON);
+            Common.localStorage.setItem( 'sse-fastRecentSymbols', sJSON);
         },
 
         getSymbolDescription: function(symbol){

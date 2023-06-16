@@ -2927,7 +2927,6 @@ define([
             },
 
             loadRecentSymbolsFromStorage: function(){
-                //Common.localStorage.removeItem('de-fastRecentSymbols');
                 var recents = Common.localStorage.getItem('de-fastRecentSymbols');
                 var arr =(!!recents) ? JSON.parse(recents) :
                     [
