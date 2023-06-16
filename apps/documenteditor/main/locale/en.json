@@ -83,6 +83,7 @@
   "Common.Controllers.ReviewChanges.textUrl": "Paste a document URL",
   "Common.Controllers.ReviewChanges.textWidow": "Widow control",
   "Common.Controllers.ReviewChanges.textWord": "Word level",
+  "Common.Controllers.Desktop.hintBtnHome": "Show Main window",
   "Common.define.chartData.textArea": "Area",
   "Common.define.chartData.textAreaStacked": "Stacked area",
   "Common.define.chartData.textAreaStackedPer": "100% Stacked area",
