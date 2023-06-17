@@ -337,9 +337,9 @@ define([
                                         '<% if(!_.isUndefined(options.stopPropagation)) { %>',
                                         'data-stopPropagation="true"',
                                         '<% } %>', '>',
-                                        '<label class="title">' + me.textGotoFootnote + '</label>',
-                                        '<button id="id-menu-goto-footnote-next-' + index + '" type="button" class="btn small btn-toolbar next"><i class="icon menu__icon btn-nextitem">&nbsp;</i></button>',
-                                        '<button id="id-menu-goto-footnote-prev-' + index + '" type="button" class="btn small btn-toolbar prev"><i class="icon menu__icon btn-previtem">&nbsp;</i></button>',
+                                        '<label class="title float-left">' + me.textGotoFootnote + '</label>',
+                                        '<button id="id-menu-goto-footnote-next-' + index + '" type="button" class="btn small btn-toolbar next float-right"><i class="icon menu__icon btn-nextitem">&nbsp;</i></button>',
+                                        '<button id="id-menu-goto-footnote-prev-' + index + '" type="button" class="btn small btn-toolbar prev float-right"><i class="icon menu__icon btn-previtem">&nbsp;</i></button>',
                                         '</div>'
                                     ].join('')) :
                                     _.template([
@@ -347,9 +347,9 @@ define([
                                         '<% if(!_.isUndefined(options.stopPropagation)) { %>',
                                         'data-stopPropagation="true"',
                                         '<% } %>', '>',
-                                        '<label class="title">' + me.textGotoFootnote + '</label>',
-                                        '<button id="id-menu-goto-footnote-prev-' + index + '" type="button" class="btn small btn-toolbar prev"><i class="icon menu__icon btn-previtem">&nbsp;</i></button>',
-                                        '<button id="id-menu-goto-footnote-next-' + index + '" type="button" class="btn small btn-toolbar next"><i class="icon menu__icon btn-nextitem">&nbsp;</i></button>',
+                                        '<label class="title float-left">' + me.textGotoFootnote + '</label>',
+                                        '<button id="id-menu-goto-footnote-prev-' + index + '" type="button" class="btn small btn-toolbar prev float-right"><i class="icon menu__icon btn-previtem">&nbsp;</i></button>',
+                                        '<button id="id-menu-goto-footnote-next-' + index + '" type="button" class="btn small btn-toolbar next float-right"><i class="icon menu__icon btn-nextitem">&nbsp;</i></button>',
                                         '</div>'
                                     ].join('')),
                                     stopPropagation: true
@@ -360,9 +360,9 @@ define([
                                         '<% if(!_.isUndefined(options.stopPropagation)) { %>',
                                         'data-stopPropagation="true"',
                                         '<% } %>', '>',
-                                        '<label class="title">' + me.textGotoEndnote + '</label>',
-                                        '<button id="id-menu-goto-endnote-next-' + index + '" type="button" class="btn small btn-toolbar next"><i class="icon menu__icon btn-nextitem">&nbsp;</i></button>',
-                                        '<button id="id-menu-goto-endnote-prev-' + index + '" type="button" class="btn small btn-toolbar prev"><i class="icon menu__icon btn-previtem">&nbsp;</i></button>',
+                                        '<label class="title float-left">' + me.textGotoEndnote + '</label>',
+                                        '<button id="id-menu-goto-endnote-next-' + index + '" type="button" class="btn small btn-toolbar next float-right"><i class="icon menu__icon btn-nextitem">&nbsp;</i></button>',
+                                        '<button id="id-menu-goto-endnote-prev-' + index + '" type="button" class="btn small btn-toolbar prev float-right"><i class="icon menu__icon btn-previtem">&nbsp;</i></button>',
                                         '</div>'
                                     ].join('')) :
                                     _.template([
@@ -370,9 +370,9 @@ define([
                                         '<% if(!_.isUndefined(options.stopPropagation)) { %>',
                                         'data-stopPropagation="true"',
                                         '<% } %>', '>',
-                                        '<label class="title">' + me.textGotoEndnote + '</label>',
-                                        '<button id="id-menu-goto-endnote-prev-' + index + '" type="button" class="btn small btn-toolbar prev"><i class="icon menu__icon btn-previtem">&nbsp;</i></button>',
-                                        '<button id="id-menu-goto-endnote-next-' + index + '" type="button" class="btn small btn-toolbar next"><i class="icon menu__icon btn-nextitem">&nbsp;</i></button>',
+                                        '<label class="title float-left">' + me.textGotoEndnote + '</label>',
+                                        '<button id="id-menu-goto-endnote-prev-' + index + '" type="button" class="btn small btn-toolbar prev float-right"><i class="icon menu__icon btn-previtem">&nbsp;</i></button>',
+                                        '<button id="id-menu-goto-endnote-next-' + index + '" type="button" class="btn small btn-toolbar next float-right"><i class="icon menu__icon btn-nextitem">&nbsp;</i></button>',
                                         '</div>'
                                     ].join('')),
                                     stopPropagation: true

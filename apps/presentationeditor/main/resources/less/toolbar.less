@@ -9,11 +9,11 @@
 
     .font-attr {
         > .btn-slot:not(:last-child):not(.split) {
-            margin-right: 4px;
+            .margin-right-4();
         }
 
         > .btn-slot:not(:last-child).split {
-            margin-right: 2px;
+            .margin-right-2();
         }
     }
 }
@@ -58,25 +58,6 @@
     height: 80px;
 }
 
-// menu zoom
-.menu-zoom {
-    line-height: @line-height-base;
-    .title {
-        padding: 5px 5px 5px 20px;
-        float: left;
-        max-width: 95px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .zoom {
-        padding: 5px 3px;
-        float: right;
-        min-width: 40px;
-        text-align: center;
-    }
-}
-
 .username-tip {
     background-color: #ee3525;
     border: none;
@@ -104,15 +85,26 @@
     background-color: @background-toolbar;
     border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
+
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.2);
 }
 
 #equation-container {
-    padding: 4px;
     .separator {
-        height: 20px;
+        height: 30px;
     }
     &.has-open-menu {
         z-index: @zindex-navbar + 1;
+    }
+    .btn-toolbar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 0px;
     }
 }
 
@@ -123,31 +115,10 @@
     background-size: cover
 }
 
-#slot-btn-incfont, #slot-btn-decfont, #slot-btn-changecase {
-    margin-left: 2px;
-    .rtl & {
-        margin-left: 0;
-        margin-right: 2px;
-    }
-}
-
 #slot-field-fontname {
     width: 89px;
-    float: left;
-
-    .rtl & {
-        float: right;
-    }
 }
 
 #slot-field-fontsize {
     width: 40px;
-    float: left;
-    margin-left: 2px;
-
-    .rtl & {
-        float: right;
-        margin-left: 0;
-        margin-right: 2px;
-    }
 }

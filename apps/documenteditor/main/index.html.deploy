@@ -230,8 +230,8 @@
     </script>
 
     <link rel="stylesheet" type="text/css" href="../../../apps/documenteditor/main/resources/css/app.css">
-    <script src="../../../../../apps/common/main/lib/util/themeinit.js?__inline=true"></script>
     <script src="../../../../../apps/common/main/lib/util/desktopinit.js?__inline=true"></script>
+    <script src="../../../../../apps/common/main/lib/util/themeinit.js?__inline=true"></script>
 </head>
 <body>
     <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>

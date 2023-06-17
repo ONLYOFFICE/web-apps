@@ -11,11 +11,11 @@
 
     .font-attr {
         > .btn-slot:not(:last-child):not(.split) {
-            margin-right: 4px;
+            .margin-right-4();
         }
 
         > .btn-slot:not(:last-child).split {
-            margin-right: 2px;
+            .margin-right-2();
         }
     }
 }
@@ -109,38 +109,25 @@
     line-height: @line-height-base;
     .title {
         padding: 5px 5px 5px 20px;
-        float: left;
         //max-width: 95px;
         overflow: hidden;
         text-overflow: ellipsis;
 
         .rtl & {
-            float: right;
             padding: 5px 20px 5px 5px;
         }
     }
 
-    .zoom {
-        padding: 5px 3px;
-        float: right;
-        min-width: 40px;
-        text-align: center;
-    }
-
     .btn.next {
-        float: right;
         margin: 2px 5px 0 0;
         .rtl & {
-            float: left;
             margin: 2px 0 0 0 !important;
         }
     }
 
     .btn.prev {
-        float: right;
         margin-top: 2px;
         .rtl & {
-            float: left;
             margin: 2px 0 0 5px;
         }
     }
@@ -172,30 +159,11 @@
 }
 
 #slot-field-fontname {
-    float: left;
     width: 84px;
-    .rtl & {
-        float: right;
-    }
 }
 
 #slot-field-fontsize {
-    float: left;
     width: 45px;
-    margin-left: 2px;
-    .rtl & {
-        float: right;
-        margin-left: 0;
-        margin-right: 2px;
-    }
-}
-
-#slot-btn-incfont, #slot-btn-decfont, #slot-btn-changecase {
-    margin-left: 2px;
-    .rtl & {
-        margin-left: 0;
-        margin-right: 2px;
-    }
 }
 
 #special-paste-container,
@@ -207,15 +175,26 @@
     background-color: @background-toolbar;
     border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
+
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.2);
 }
 
 #equation-container {
-    padding: 4px;
     .separator {
-        height: 20px;
+        height: 30px;
     }
     &.has-open-menu {
         z-index: @zindex-navbar + 1;
+    }
+    .btn-toolbar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 0px;
     }
 }
 
@@ -253,130 +232,7 @@
     }
 
     .list-level > a {
-        padding-right: 20px;
-
-        .rtl & {
-            padding-right: 12px;
-            padding-left: 20px;
-        }
-    }
-}
-
-.list-settings {
-    .padding-right-big {
-        padding-right: 10px;
-
-        .rtl & {
-            padding-right: 0;
-            padding-left: 10px;
-        }
-    }
-}
-
-#window-page-margins {
-    .margins-settings {
-        float: left;
-
-        .rtl & {
-            float: right;
-        }
-    }
-
-    .margins-preview {
-        float: right;
-
-        .rtl & {
-            float: left;
-        }
-    }
-
-    .margin-left {
-        margin-left: 8px;
-
-        .rtl & {
-            margin-left: 0;
-            margin-right: 8px;
-        }
-    }
-}
-
-#window-page-size {
-    .padding-right {
-        padding-right: 10px;
-
-        .rtl & {
-            padding-right: 0;
-            padding-left: 10px;
-        }
-    }
-}
-
-#window-line-numbers {
-    .margin-right {
-        margin-right: 9px;
-
-        .rtl & {
-            margin-right: 0;
-            margin-left: 9px;
-        }
-    }
-}
-
-#window-custom-columns {
-    #custom-columns-spin-num, #custom-columns-spin-spacing {
-        float: right;
-
-        .rtl & {
-            float: left;
-        }
-    }
-}
-
-#window-note-settings {
-    #note-settings-combo-footnote,
-    #note-settings-combo-endnote {
-        float: right;
-
-        .rtl & {
-            float: left;
-        }
-    }
-
-    .margin-right {
-        margin-right: 10px;
-
-        .rtl & {
-            margin-right: 0;
-            margin-left: 10px;
-        }
-    }
-}
-
-#window-table-contents {
-    .canvas-box {
-        float: right;
-
-        .rtl & {
-            float: left;
-        }
-    }
-
-    .margin-left {
-        margin-left: 10px;
-
-        .rtl & {
-            margin-left: 0;
-            margin-right: 10px;
-        }
-    }
-
-    .label-style {
-        margin-left: 23px;
-
-        .rtl & {
-            margin-left: 0;
-            margin-right: 23px;
-        }
+        .padding-x(12px, 20px);
     }
 }
 
@@ -397,87 +253,22 @@
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
         border-left-width: 0;
-        margin-left: -1px;
+        .margin-left(-1px);
 
         .rtl & {
             border: @scaled-one-px-value solid @border-regular-control;
             .border-radius(@border-radius-small);
-            margin-left: 0;
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
             border-right-width: 0;
-            margin-right: -1px;
         }
     }
 }
 
 #window-bookmarks {
-    .margin-right {
-        margin-right: 10px;
-
-        .rtl & {
-            margin-right: 0;
-            margin-left: 10px;
-        }
-    }
-
-    #bookmarks-btn-goto {
-        margin-right: 5px;
-
-        .rtl & {
-            margin-right: 0;
-            margin-left: 5px;
-        }
-    }
-
-    #id-dlg-copy-btn {
-        margin-left: 5px;
-
-        .rtl & {
-            margin-left: 0;
-            margin-right: 5px;
-        }
-    }
-
-    #bookmarks-btn-delete {
-        float: right;
-
-        .rtl & {
-            float: left;
-        }
-    }
-
     #bookmarks-radio-name {
         display: inline-block;
-        margin-right: 10px;
         vertical-align: middle;
-
-        .rtl & {
-            margin-right: 0;
-            margin-left: 10px;
-        }
-    }
-}
-
-#window-caption {
-    .margin-right {
-        margin-right: 10px;
-
-        .rtl & {
-            margin-right: 0;
-            margin-left: 10px;
-        }
-    }
-}
-
-#window-cross-ref {
-    #id-dlg-cross-separate {
-        margin-right: 10px;
-
-        .rtl & {
-            margin-right: 0;
-            margin-left: 10px;
-        }
     }
 }
 
@@ -491,13 +282,8 @@
         margin: 0 8px 0 2px;
         border: @scaled-one-px-value-ie solid @border-color-shading-ie;
         border: @scaled-one-px-value solid @border-color-shading;
-    }
-}
-
-#id-toolbar-menu-insart {
-    margin-left: 5px;
-    .rtl & {
-        margin-left: 0;
-        margin-right: 5px;
+        .rtl & {
+            margin: 0 2px 0 8px;
+        }
     }
 }

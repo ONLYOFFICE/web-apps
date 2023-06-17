@@ -402,7 +402,7 @@ define([
                 this.appOptions.compatibleFeatures = (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compatibleFeatures;
                 this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
-                this.appOptions.uiRtl = false;
+                this.appOptions.uiRtl = true;
 
                 this.appOptions.user.guest && this.appOptions.canRenameAnonymous && Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
 
@@ -434,6 +434,7 @@ define([
                 this.appOptions.wopi = this.editorConfig.wopi;
                 
                 Common.Controllers.Desktop.init(this.appOptions);
+                Common.UI.HintManager.setMode(this.appOptions);
             },
 
             loadDocument: function(data) {

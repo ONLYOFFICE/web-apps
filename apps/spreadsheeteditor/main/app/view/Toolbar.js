@@ -179,6 +179,22 @@ define([
             return this;
         },
 
+        onUpdateLastCustomMargins: function(props) {
+            if (!this.btnPageMargins) return;
+
+            var top = props ? props.asc_getTop() : Common.localStorage.getItem("sse-pgmargins-top"),
+                left = props ? props.asc_getLeft() : Common.localStorage.getItem("sse-pgmargins-left"),
+                bottom = props ? props.asc_getBottom() : Common.localStorage.getItem("sse-pgmargins-bottom"),
+                right = props ? props.asc_getRight() : Common.localStorage.getItem("sse-pgmargins-right");
+            if ( top!==null && left!==null && bottom!==null && right!==null ) {
+                var mnu = this.btnPageMargins.menu.items[0];
+                mnu.options.value = mnu.value = [parseFloat(top), parseFloat(left), parseFloat(bottom), parseFloat(right)];
+                mnu.setVisible(true);
+                $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
+            } else
+                this.btnPageMargins.menu.items[0].setVisible(false);
+        },
+
         lockToolbar: function(causes, lock, opts) {
             Common.Utils.lockControls(causes, lock, opts, this.lockControls);
         },
@@ -1290,7 +1306,7 @@ define([
                     menu        : new Common.UI.Menu({
                         cls: 'menu-shapes',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-insart" style="width: 239px;"></div>')}
+                            {template: _.template('<div id="id-toolbar-menu-insart" class="margin-left-5" style="width: 239px;"></div>')}
                         ]
                     }),
                     dataHint    : '1',
@@ -2214,21 +2230,17 @@ define([
 
             if ( mode.isEdit ) {
                 if (!mode.isEditDiagram && !mode.isEditMailMerge && !mode.isEditOle) {
-                    var top = Common.localStorage.getItem("sse-pgmargins-top"),
-                        left = Common.localStorage.getItem("sse-pgmargins-left"),
-                        bottom = Common.localStorage.getItem("sse-pgmargins-bottom"),
-                        right = Common.localStorage.getItem("sse-pgmargins-right");
-                    if ( top!==null && left!==null && bottom!==null && right!==null ) {
-                        var mnu = this.btnPageMargins.menu.items[0];
-                        mnu.options.value = mnu.value = [parseFloat(top), parseFloat(left), parseFloat(bottom), parseFloat(right)];
-                        mnu.setVisible(true);
-                        $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
-                    } else
-                        this.btnPageMargins.menu.items[0].setVisible(false);
+                    me.onUpdateLastCustomMargins();
+                    Common.NotificationCenter.on('margins:update', _.bind(me.onUpdateLastCustomMargins, me));
                     this.btnInsertImage.menu.items[2].setVisible(mode.canRequestInsertImage || mode.fileChoiceUrl && mode.fileChoiceUrl.indexOf("{documentType}")>-1);
                 }
 
                 me.setTab('home');
+
+                Common.NotificationCenter.on('eyedropper:start', function () {
+                    if (me.btnCopyStyle.pressed)
+                        me.btnCopyStyle.toggle(false, true);
+                });
             }
             if ( me.isCompactView )
                 me.setFolded(true);
@@ -2631,7 +2643,7 @@ define([
                         iconCls: item.icon ? 'menu__icon ' + item.icon : undefined,
                         menu: new Common.UI.Menu({
                             items: [
-                                {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art" style="width: ' + width + 'px; height: 500px; margin-left: 5px;"></div>')}
+                                {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art margin-left-5" style="width: ' + width + 'px; height: 500px;"></div>')}
                             ],
                             menuAlign: 'tl-tr',
                         })});

@@ -535,7 +535,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                             id          : 'format-rules-borders-border-color',
                             caption     : this.textBordersColor,
                             iconCls     : 'mnu-icon-item mnu-border-color',
-                            template    : _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 2px 9px 0 -11px; border-style: solid; border-width: 3px; border-color: #000;"></span><%= caption %></a>'),
+                            template    : _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; border-style: solid; border-width: 3px; border-color: #000;"></span><%= caption %></a>'),
                             menu        : new Common.UI.Menu({
                                 menuAlign   : 'tl-tr',
                                 items       : [
@@ -543,7 +543,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                                     {caption: '--'},
                                     {
                                         id: "format-rules-borders-menu-new-bordercolor",
-                                        template: _.template('<a tabindex="-1" type="menuitem" style="padding-left:12px;">' + this.textNewColor + '</a>'),
+                                        template: _.template('<a tabindex="-1" type="menuitem" style="' + (Common.UI.isRTL() ? 'padding-right: 12px;': 'padding-left: 12px;') + '">' + this.textNewColor + '</a>'),
                                         stopPropagation: true
                                     }
                                 ]
@@ -611,8 +611,8 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 _.template([
                     '<% _.each(items, function(item) { %>',
                     '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem">',
-                    '<div class="item-container"><div class="name"><%= scope.getDisplayValue(item) %></div>',
-                    '<div class="example"><%= item.exampleval ? item.exampleval : "" %></div>',
+                    '<div style="position: relative;"><div class="display-value"><%= scope.getDisplayValue(item) %></div>',
+                    '<div class="example-val"><%= item.exampleval ? item.exampleval : "" %></div>',
                     '</div></a></li>',
                     '<% }); %>'
                     // ,'<li class="divider">',

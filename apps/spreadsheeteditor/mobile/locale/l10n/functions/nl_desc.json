@@ -1914,5 +1914,9 @@
 	"SORT": {
 		"a": "(matrix, [sorteerindex], [sorteervolgorde], [op_kol])",
 		"d": "Sorteert een bereik of matrix"
+	},
+	"SORTBY": {
+		"a": "(matrix, op_matrix, [sorteervolgorde], ...)",
+		"d": "Sorteert een bereik of matrix op basis van de waarden in een bijbehorend bereik of een bijbehorende matrix"
 	}
 }

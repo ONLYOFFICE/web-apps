@@ -8,12 +8,6 @@
     }
 
     .btn.align-left {
-        text-align: left;
-
-        .rtl & {
-            text-align: right;
-        }
-
         .pixel-ratio__2_5 & {
             display: flex;
             align-items: center;
@@ -23,38 +17,11 @@
     &#id-slide-settings {
         #slide-spin-transparency {
             display: inline-block;
-            float: right;
-
-            .rtl & {
-                float: left;
-            }
-        }
-
-        .slide-direction {
-            float: right;
-
-            .rtl & {
-                float: left;
-            }
         }
 
         .angle-label {
-            margin-right: 5px;
+            .margin-right-5();
             margin-bottom: 3px;
-
-            .rtl & {
-                margin-right: 0;
-                margin-left: 5px;
-            }
-        }
-
-        .gradient-position {
-            margin-left: 10px;
-
-            .rtl & {
-                margin-left: 0;
-                margin-right: 10px;
-            }
         }
 
         #id-slide-menu-direction {
@@ -69,90 +36,35 @@
             background: @background-normal;
             border: @scaled-one-px-value solid @border-regular-control;
             border-radius: 2px;
-            float: right;
             padding: 14px 20px;
-
-            .rtl & {
-                float: left;
-            }
         }
 
         #slide-foreground-color-btn, #slide-background-color-btn {
             display: inline-block;
-            float:right;
-
-            .rtl & {
-                float: left;
-            }
         }
     }
 
     &#id-shape-settings {
         #shape-spin-transparency, #shape-line-spin-transparency {
             display: inline-block;
-            float: right;
-
-            .rtl & {
-                float: left;
-            }
         }
 
-        #shape-button-270, #shape-button-fliph {
-            display: inline-block;
-            margin-right: 4px;
-
-            .rtl & {
-                margin-right: 0;
-                margin-left: 4px;
-            }
-        }
-
+        #shape-button-270, #shape-button-fliph,
         #shape-button-90, #shape-button-flipv {
             display: inline-block;
         }
 
-        #shape-btn-change {
-            display: inline-block;
-            float:right;
-
-            .rtl & {
-                float: left;
-            }
-        }
-
-        .grad-direction {
-            float: right;
-
-            .rtl & {
-                float: left;
-            }
-
-            #id-shape-menu-direction {
-                .dataview .item {
-                    .rtl & {
-                        float: left;
-                    }
+        #id-shape-menu-direction {
+            .dataview .item {
+                .rtl & {
+                    float: left;
                 }
             }
         }
 
         .angle-label {
-            margin-right: 5px;
+            .margin-right-5();
             margin-bottom: 3px;
-
-            .rtl & {
-                margin-right: 0;
-                margin-left: 5px;
-            }
-        }
-
-        .gradient-position {
-            margin-left: 10px;
-
-            .rtl & {
-                margin-left: 0;
-                margin-right: 10px;
-            }
         }
 
         .texture-img {
@@ -160,34 +72,15 @@
             border: 1px solid #AFAFAF;
             border-radius: 2px;
             background: #ffffff;
-            float:right;
-
-            .rtl & {
-                float: left;
-            }
         }
 
         #shape-foreground-color-btn, #shape-background-color-btn {
             display: inline-block;
-            float: right;
-
-            .rtl & {
-                float: left;
-            }
         }
     }
 
     &#id-image-settings {
-        #image-button-270, #image-button-fliph {
-            display: inline-block;
-            margin-right: 4px;
-
-            .rtl & {
-                margin-right: 0;
-                margin-left: 4px;
-            }
-        }
-
+        #image-button-270, #image-button-fliph,
         #image-button-90, #image-button-flipv {
             display: inline-block;
         }
@@ -212,84 +105,30 @@
         }
 
         .border-color {
-            float: right;
             vertical-align: middle;
-
-            .rtl & {
-                float: left;
-            }
-        }
-
-        .color-label {
-            margin-right: 5px;
-
-            .rtl & {
-                margin-right: 0;
-                margin-left: 5px;
-            }
         }
 
         #table-spin-cell-height, #table-spin-cell-width {
             display: inline-block;
-            float:right;
-
-            .rtl & {
-                float: left;
-            }
         }
     }
 
     &#id-textart-settings {
         #textart-spin-transparency, #textart-line-spin-transparency {
             display: inline-block;
-            float: right;
-
-            .rtl & {
-                float: left;
-            }
         }
 
-        .grad-direction {
-            float: right;
-
-            .rtl & {
-                float: left;
-            }
-
-            #id-textart-menu-direction {
-                .dataview .item {
-                    .rtl & {
-                        float: left;
-                    }
+        #id-textart-menu-direction {
+            .dataview .item {
+                .rtl & {
+                    float: left;
                 }
             }
         }
 
         .angle-label {
-            margin-right: 5px;
+            .margin-right-5();
             margin-bottom: 3px;
-
-            .rtl & {
-                margin-right: 0;
-                margin-left: 5px;
-            }
-        }
-
-        .gradient-position {
-            margin-left: 10px;
-
-            .rtl & {
-                margin-left: 0;
-                margin-right: 10px;
-            }
-        }
-
-        #textart-button-from-url {
-            float: right;
-
-            .rtl & {
-                float: left;
-            }
         }
 
         .texture-img {
@@ -297,20 +136,10 @@
             border: 1px solid #AFAFAF;
             border-radius: 2px;
             background: #ffffff;
-            float: right;
-
-            .rtl & {
-                float: left;
-            }
         }
 
         #textart-foreground-color-btn, #textart-background-color-btn {
             display: inline-block;
-            float:right;
-
-            .rtl & {
-                float: left;
-            }
         }
     }
 }
@@ -407,6 +236,10 @@
                 margin: 2px;
                 right: 26px;
             }
+        }
+
+        .rtl & {
+            padding: 5px 15px 5px 2px;
         }
     }
 }

@@ -389,7 +389,13 @@
       "textYen": "Yen",
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSortHigh2Low": "Sort Highest to Lowest",
-      "txtSortLow2High": "Sort Lowest to Highest"
+      "txtSortLow2High": "Sort Lowest to Highest",
+      "textCustomFormat": "Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textSave": "Save",
+      "textEnterFormat": "Enter Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
     },
     "Settings": {
       "textAbout": "O programu",

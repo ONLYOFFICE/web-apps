@@ -379,8 +379,11 @@ define([
             toolbar.mnuControlsColorPicker.on('select',                 _.bind(this.onSelectControlsColor, this));
             toolbar.btnLineNumbers.menu.on('item:click',                _.bind(this.onLineNumbersSelect, this));
             toolbar.btnLineNumbers.menu.on('show:after',                _.bind(this.onLineNumbersShow, this));
-            Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
-            Common.Gateway.on('setmailmergerecipients',                 _.bind(this.setMailMergeRecipients, this));
+            Common.Gateway.on('insertimage',                      _.bind(this.insertImage, this));
+            Common.Gateway.on('setmailmergerecipients',           _.bind(this.setMailMergeRecipients, this));
+            Common.Gateway.on('setrequestedspreadsheet',          _.bind(this.setRequestedSpreadsheet, this));
+            Common.NotificationCenter.on('storage:spreadsheet-load',    _.bind(this.openSpreadsheetFromStorage, this));
+            Common.NotificationCenter.on('storage:spreadsheet-insert',  _.bind(this.insertSpreadsheetFromStorage, this));
             $('#id-toolbar-menu-new-control-color').on('click',         _.bind(this.onNewControlsColor, this));
             toolbar.listStylesAdditionalMenuItem.on('click', this.onMenuSaveStyle.bind(this));
             toolbar.btnPrint.menu && toolbar.btnPrint.menu.on('item:click', _.bind(this.onPrintMenu, this));
@@ -800,7 +803,7 @@ define([
                 toolbar.btnContentControls.menu.items[10].setDisabled(!in_control || if_form);
             }
 
-            this.toolbar.lockToolbar(Common.enumLock.fixedForm, if_form && if_form.get_Fixed() && in_para, {array: [
+            this.toolbar.lockToolbar(Common.enumLock.fixedForm, if_form && if_form.get_Fixed(), {array: [
                 toolbar.btnAlignLeft, toolbar.btnAlignCenter, toolbar.btnAlignRight, toolbar.btnAlignJust,
                 toolbar.btnMarkers, toolbar.btnNumbers, toolbar.btnMultilevels,
                 toolbar.btnDecLeftOffset, toolbar.btnIncLeftOffset,
@@ -2855,8 +2858,8 @@ define([
                         menuAlign: 'tl-tr',
                         items: [
                             { template: _.template('<div id="id-toolbar-menu-equationgroup' + i +
-                                '" class="menu-shape" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
-                                equationGroup.get('groupHeightStr') + 'margin-left:5px;"></div>') }
+                                '" class="menu-shape margin-left-5" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
+                                equationGroup.get('groupHeightStr') + '"></div>') }
                         ]
                     })
                 });
@@ -3032,7 +3035,7 @@ define([
             this.toolbar.lockToolbar(Common.enumLock.copyLock, this._state.can_copycut!==true, {array: [this.toolbar.btnCopy, this.toolbar.btnCut]});
             this.toolbar.lockToolbar(Common.enumLock.mmergeLock, !!this._state.mmdisable, {array: [this.toolbar.btnMailRecepients]});
             if (!this._state.mmdisable) {
-                this.toolbar.mnuMailRecepients.items[2].setVisible(this.toolbar.mode.fileChoiceUrl || this.toolbar.mode.canRequestMailMergeRecipients);
+                this.toolbar.mnuMailRecepients.items[2].setVisible(this.toolbar.mode.fileChoiceUrl || this.toolbar.mode.canRequestSelectSpreadsheet || this.toolbar.mode.canRequestMailMergeRecipients);
             }
             this._state.activated = true;
 
@@ -3261,28 +3264,48 @@ define([
                     }
                 })).show();
             } else if (item.value === 'storage') {
-                if (this.toolbar.mode.canRequestMailMergeRecipients) {
-                    Common.Gateway.requestMailMergeRecipients();
-                } else {
-                    me._mailMergeDlg = new Common.Views.SelectFileDlg({
-                        fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "xlsx").replace("{documentType}", "")
-                    });
-                    me._mailMergeDlg.on('selectfile', function(obj, recepients){
-                        me.setMailMergeRecipients(recepients);
-                    }).on('close', function(obj){
-                        me._mailMergeDlg = undefined;
-                    });
-                    me._mailMergeDlg.show();
-                }
+                Common.NotificationCenter.trigger('storage:spreadsheet-load', 'mailmerge');
             }
         },
 
         setMailMergeRecipients: function(recepients) {
-            this.api.asc_StartMailMerge(recepients);
-            if (!this.mergeEditor)
-                this.mergeEditor = this.getApplication().getController('Common.Controllers.ExternalMergeEditor').getView('Common.Views.ExternalMergeEditor');
-            if (this.mergeEditor)
-                this.mergeEditor.setEditMode(false);
+            recepients && (recepients.c = 'mailmerge');
+            this.setRequestedSpreadsheet(recepients);
+        },
+
+        openSpreadsheetFromStorage: function(type) {
+            var me = this;
+            if (this.toolbar.mode.canRequestSelectSpreadsheet) {
+                Common.Gateway.requestSelectSpreadsheet(type);
+            } else if (this.toolbar.mode.canRequestMailMergeRecipients) {
+                console.log("Obsolete: The 'onRequestMailMergeRecipients' event is deprecated. Please use 'onRequestSelectSpreadsheet' event instead.");
+                Common.Gateway.requestMailMergeRecipients();
+            } else {
+                me._mailMergeDlg = new Common.Views.SelectFileDlg({
+                    fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "xlsx").replace("{documentType}", "")
+                });
+                me._mailMergeDlg.on('selectfile', function(obj, recepients){
+                    recepients && (recepients.c = type);
+                    me.setRequestedSpreadsheet(recepients);
+                }).on('close', function(obj){
+                    me._mailMergeDlg = undefined;
+                });
+                me._mailMergeDlg.show();
+            }
+        },
+
+        setRequestedSpreadsheet: function(data) { // gateway
+            Common.NotificationCenter.trigger('storage:spreadsheet-insert', data);
+        },
+
+        insertSpreadsheetFromStorage: function(data) {
+            if (data && (data.c==='mailmerge')) {
+                this.api.asc_StartMailMerge(data);
+                if (!this.mergeEditor)
+                    this.mergeEditor = this.getApplication().getController('Common.Controllers.ExternalMergeEditor').getView('Common.Views.ExternalMergeEditor');
+                if (this.mergeEditor)
+                    this.mergeEditor.setEditMode(false);
+            }
         },
 
         createDelayedElements: function() {

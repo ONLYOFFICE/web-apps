@@ -335,7 +335,7 @@ define([
                             }
                         }, this)
                     });
-                } else if (format == Asc.c_oAscFileType.DOCX) {
+                } else if (format == Asc.c_oAscFileType.DOCX || format == Asc.c_oAscFileType.DOCM || format == Asc.c_oAscFileType.DOTX) {
                     if (!Common.Utils.InternalSettings.get("de-settings-compatible") && !Common.localStorage.getBool("de-hide-save-compatible") && this.api.asc_isCompatibilityMode()) {
                         Common.UI.warning({
                             closable: false,

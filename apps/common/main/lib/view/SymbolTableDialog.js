@@ -416,11 +416,11 @@ define([
                     '<div id="symbol-table-pnl-symbols">',
                         '<table cols="2" style="width: 100%;max-width: 497px;">',
                             '<tr>',
-                                '<td class="padding-right" style="padding-bottom: 8px;width: 50%;">',
+                                '<td class="padding-right-5" style="padding-bottom: 8px;width: 50%;">',
                                     '<label class="input-label">' + this.textFont + '</label>',
                                     '<div id="symbol-table-cmb-fonts"></div>',
                                 '</td>',
-                                '<td class="padding-left" style="padding-bottom: 8px;">',
+                                '<td class="padding-left-5" style="padding-bottom: 8px;">',
                                     '<label class="input-label">' + this.textRange + '</label>',
                                     '<div id="symbol-table-cmb-range"></div>',
                                 '</td>',
@@ -449,17 +449,17 @@ define([
                         '</table>',
                         '<table cols="2" style="width: 100%;max-width: 497px;">',
                             '<tr>',
-                                '<td class="padding-right" style="width: 50%;">',
+                                '<td class="padding-right-5" style="width: 50%;">',
                                     '<label class="input-label">' + this.textCode + '</label>',
                                 '</td>',
-                                '<td class="padding-left">',
+                                '<td class="padding-left-5">',
                                 '</td>',
                             '</tr>',
                             '<tr>',
-                                '<td class="padding-right">',
+                                '<td class="padding-right-5">',
                                     '<div id="symbol-table-text-code" oo_editor_input="true"></div>',
                                 '</td>',
-                                '<td class="padding-left">',
+                                '<td class="padding-left-5">',
                                     '<div id="symbol-table-label-font" style="overflow: hidden; text-overflow: ellipsis;white-space: nowrap;max-width: 160px;"></div>',
                                 '</td>',
                             '</tr>',
@@ -470,7 +470,7 @@ define([
                             '<tr>',
                                 '<td>',
                                     '<label>' + this.textCharacter + '</label>',
-                                    '<label id="symbol-table-lbl-shortcut" style="width: 112px;">' + this.textShortcut + '</label>',
+                                    '<label id="symbol-table-lbl-shortcut" style="width: 112px;" class="float-right">' + this.textShortcut + '</label>',
                                 '</td>',
                             '</tr>',
                             '<tr>',
@@ -721,7 +721,7 @@ define([
             this.previewPanel = $window.find('#id-preview-data');
             this.previewParent = this.previewPanel.parent();
             this.previewScrolled = $window.find('#id-preview');
-            this.previewInner = this.previewScrolled.find('div:first-child');
+            this.previewInner = this.previewScrolled.find('> div:first-child');
             this.recentPanel = $window.find('#symbol-table-recent');
             this.fontLabel = $window.find("#symbol-table-label-font");
             this.boxPanel = $window.find('.box');
@@ -754,8 +754,8 @@ define([
                 cls: 'dbl-clickable',
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="width: 100%;display:flex;">',
-                        '<div style="width:70px;text-align: center; padding-right: 5px;"><%= symbol %></div>',
-                        '<div style="flex-grow:1;padding-right: 5px;"><%= description %></div>',
+                        '<div class="padding-right-5" style="width:70px;text-align: center;"><%= symbol %></div>',
+                        '<div class="padding-right-5" style="flex-grow:1;"><%= description %></div>',
                         '<% if (' + this.showShortcutKey + ') { %>',
                             '<div style="width:105px;"><%= shortcutKey %></div>',
                         '<% } %>',

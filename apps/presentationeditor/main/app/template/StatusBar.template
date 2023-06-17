@@ -1,27 +1,14 @@
 
 <div class="statusbar" style="display:table;">
     <div class="status-group">
-        <div id="slot-status-btn-preview" style="display: inline-block;" class="margin-top-small"></div>
+        <div id="slot-status-btn-preview" style="display: inline-block;" class="margin-top-small margin-left-10"></div>
     </div>
     <div class="status-group dropup">
-        <label id="status-label-pages" class="status-label dropdown-toggle margin-top-large" style="display: none;" data-toggle="dropdown" data-hint="0" data-hint-direction="top" data-hint-offset="-3, 0"><%= Common.Utils.String.format(scope.pageIndexText, 1, 1) %></label>
+        <label id="status-label-pages" class="status-label dropdown-toggle margin-top-large margin-left-7" style="display: none;" data-toggle="dropdown" data-hint="0" data-hint-direction="top" data-hint-offset="-3, 0"><%= Common.Utils.String.format(scope.pageIndexText, 1, 1) %></label>
         <div id="status-goto-box" class="dropdown-menu">
-            <label><%= scope.goToPageText %></label>
+            <label class="float-left"><%= scope.goToPageText %></label>
             <div id="status-goto-page" style="display:inline-block;"></div>
         </div>
-    </div>
-    <div id="status-users-ct" class="status-group dropup" style="display:none;">
-        <div class="separator short"></div>
-        <div id="status-users-block" style="display:inline-block; cursor:pointer;">
-            <span id="status-users-icon" class="img-commonctrl" style="margin-bottom: 2px;"></span>
-            <label id="status-users-count" class="status-label" style="font-size: 14px; font-weight: normal; margin-top: -1px;">+</label>
-        </div>
-        <div id="status-users-menu" class="dropdown-menu">
-            <label class="tip-users" style="display: block;"><%= scope.tipUsers %></label>
-            <div id="status-users-list"></div>
-            <label id="status-change-rights" class="link" style="margin-top: 15px;"><%= scope.txAccessRights %></label>
-        </div>
-        <div class="separator short"></div>
     </div>
     <div class="status-group" style="width:100%; text-align:center;">
         <label id="status-label-action" class="status-label margin-top-large" data-layout-name="statusBar-actionStatus"></label>

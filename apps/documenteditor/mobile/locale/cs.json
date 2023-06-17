@@ -734,6 +734,8 @@
     "stayButtonText": "Zůstat na této stránce",
     "textOk": "OK",
     "textSwitchedMobileView": "Přepnout na mobilní zobrazení",
-    "textSwitchedStandardView": "Přepnout na standartní zobrazení"
+    "textSwitchedStandardView": "Přepnout na standartní zobrazení",
+    "textRenameFile": "Rename File",
+    "textEnterNewFileName": "Enter a new file name"
   }
 }

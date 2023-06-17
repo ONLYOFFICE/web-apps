@@ -734,6 +734,8 @@
     "stayButtonText": "Rămâi în pagină",
     "textOk": "OK",
     "textSwitchedMobileView": "Comutat la vizualizarea mobilă",
-    "textSwitchedStandardView": "Comutat la vizualizarea standard"
+    "textSwitchedStandardView": "Comutat la vizualizarea standard",
+    "textRenameFile": "Rename File",
+    "textEnterNewFileName": "Enter a new file name"
   }
 }

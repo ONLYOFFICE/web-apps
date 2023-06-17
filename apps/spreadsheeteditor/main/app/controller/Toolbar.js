@@ -1853,7 +1853,7 @@ define([
             var me = this;
             var menuItem = cmp.mnuDataBars;
             menuItem.menu.addItem(new Common.UI.MenuItem({
-                template: _.template('<div id="id-' + id + '-menu-databar" class="menu-shapes" style="margin-left: 5px; width: 203px;"></div>')
+                template: _.template('<div id="id-' + id + '-menu-databar" class="menu-shapes margin-left-5" style="width: 203px;"></div>')
             }));
             var picker = new Common.UI.DataViewSimple({
                 el: $('#id-' + id + '-menu-databar', menuItem.$el),
@@ -1888,7 +1888,7 @@ define([
 
             menuItem = cmp.mnuColorScales;
             menuItem.menu.addItem(new Common.UI.MenuItem({
-                template: _.template('<div id="id-' + id + '-menu-colorscales" class="menu-shapes" style="margin-left: 5px; width: 136px;"></div>')
+                template: _.template('<div id="id-' + id + '-menu-colorscales" class="menu-shapes margin-left-5" style="width: 136px;"></div>')
             }));
             picker = new Common.UI.DataViewSimple({
                 el: $('#id-' + id + '-menu-colorscales', menuItem.$el),
@@ -2292,7 +2292,7 @@ define([
                         var arr = tip.split(' ');
                         lastWordInTip = arr.pop();
                            
-                        if(tip == 'None'){
+                        if(item.asc_getName() === null){
                             groupItem = 'menu-table-group-light';
                         }
                         else {
@@ -4045,8 +4045,8 @@ define([
                         menuAlign: 'tl-tr',
                         items: [
                             { template: _.template('<div id="id-toolbar-menu-equationgroup' + i +
-                                '" class="menu-shape" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
-                                equationGroup.get('groupHeightStr') + 'margin-left:5px;"></div>') }
+                                '" class="menu-shape margin-left-5" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
+                                equationGroup.get('groupHeightStr') + '"></div>') }
                         ]
                     })
                 });
@@ -4698,15 +4698,12 @@ define([
                         handler: function(dlg, result) {
                             if (result == 'ok') {
                                 props = dlg.getSettings();
-                                var mnu = me.toolbar.btnPageMargins.menu.items[0];
-                                mnu.setVisible(true);
-                                mnu.setChecked(true);
-                                mnu.options.value = mnu.value = [props.asc_getTop(), props.asc_getLeft(), props.asc_getBottom(), props.asc_getRight()];
-                                $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
                                 Common.localStorage.setItem("sse-pgmargins-top", props.asc_getTop());
                                 Common.localStorage.setItem("sse-pgmargins-left", props.asc_getLeft());
                                 Common.localStorage.setItem("sse-pgmargins-bottom", props.asc_getBottom());
                                 Common.localStorage.setItem("sse-pgmargins-right", props.asc_getRight());
+                                Common.NotificationCenter.trigger('margins:update', props);
+                                me.toolbar.btnPageMargins.menu.items[0].setChecked(true);
 
                                 me.api.asc_changePageMargins( props.asc_getLeft(), props.asc_getRight(), props.asc_getTop(), props.asc_getBottom(), me.api.asc_getActiveWorksheetIndex());
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);

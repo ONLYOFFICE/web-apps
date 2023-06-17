@@ -1914,5 +1914,9 @@
 	"SORT": {
 		"a": "(matriz, [índice_de_classificação], [ordem_de_classificação], [por_col])",
 		"d": "Classifica um intervalo ou uma matriz"
+	},
+	"SORTBY": {
+		"a": "(matriz, índice_de_classificação, [ordem_de_classificação], ...)",
+		"d": "Classifica um intervalo ou matriz com base nos valores de uma matriz ou intervalo correspondente"
 	}
 }

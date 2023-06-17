@@ -204,6 +204,17 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         api.ChangeReaderMode();
     }
 
+    const changeTitle = (name) => {
+        const api = Common.EditorApi.get();
+        const docInfo = storeDocumentInfo.docInfo;
+        const title = `${name}.${docExt}`;
+
+        storeDocumentInfo.changeTitle(title);
+        docInfo.put_Title(title);
+        storeDocumentInfo.setDocInfo(docInfo);
+        api.asc_setDocInfo(docInfo);
+    }
+
     return (
         <ToolbarView openOptions={props.openOptions}
                      closeOptions={props.closeOptions}
@@ -229,6 +240,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
                      turnOnViewerMode={turnOnViewerMode}
                      isMobileView={isMobileView}
                      changeMobileView={changeMobileView}
+                     changeTitle={changeTitle}
         />
     )
 }));

@@ -583,7 +583,13 @@
       "txtSortHigh2Low": "Ordinare dal più alto al più basso",
       "txtSortLow2High": "Ordinare dal più basso al più alto",
       "textChangeShape": "Change Shape",
-      "textDeleteImage": "Delete Image"
+      "textDeleteImage": "Delete Image",
+      "textCustomFormat": "Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textSave": "Save",
+      "textEnterFormat": "Enter Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
     },
     "Settings": {
       "advCSVOptions": "Scegliere le opzioni CSV",

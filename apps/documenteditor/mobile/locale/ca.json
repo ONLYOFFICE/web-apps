@@ -734,6 +734,8 @@
     "stayButtonText": "Queda't en aquesta pàgina",
     "textOk": "D'acord",
     "textSwitchedMobileView": "S'ha canviat a visualització mòbil",
-    "textSwitchedStandardView": "S'ha canviat a visualització estàndard"
+    "textSwitchedStandardView": "S'ha canviat a visualització estàndard",
+    "textRenameFile": "Rename File",
+    "textEnterNewFileName": "Enter a new file name"
   }
 }

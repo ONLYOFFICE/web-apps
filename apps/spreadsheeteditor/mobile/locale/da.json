@@ -583,7 +583,13 @@
       "textTop": "Top",
       "textType": "Type",
       "textVertical": "Vertical",
-      "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\""
+      "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
+      "textCustomFormat": "Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textSave": "Save",
+      "textEnterFormat": "Enter Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
     },
     "Settings": {
       "advCSVOptions": "Vælg CSV-muligheder",

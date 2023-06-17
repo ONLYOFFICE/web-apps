@@ -734,6 +734,8 @@
     "stayButtonText": "Остаться на странице",
     "textOk": "OK",
     "textSwitchedMobileView": "Переключено на мобильный вид",
-    "textSwitchedStandardView": "Переключено на стандартный вид"
+    "textSwitchedStandardView": "Переключено на стандартный вид",
+    "textRenameFile": "Rename File",
+    "textEnterNewFileName": "Enter a new file name"
   }
 }

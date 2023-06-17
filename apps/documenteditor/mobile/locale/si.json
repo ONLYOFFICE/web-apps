@@ -734,6 +734,8 @@
     "stayButtonText": "මෙම පිටුවේ ඉන්න",
     "textOk": "හරි",
     "textSwitchedMobileView": "ජංගම දැක්මට මාරු විය",
-    "textSwitchedStandardView": "සම්මත දැක්මට මාරු විය"
+    "textSwitchedStandardView": "සම්මත දැක්මට මාරු විය",
+    "textRenameFile": "Rename File",
+    "textEnterNewFileName": "Enter a new file name"
   }
 }

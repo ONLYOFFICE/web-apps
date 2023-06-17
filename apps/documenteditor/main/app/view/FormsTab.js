@@ -390,7 +390,7 @@ define([
 
                 this.btnClear = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon clear-style',
+                    iconCls: 'toolbar__icon btn-clear-style',
                     caption: this.textClear,
                     visible: false,
                     dataHint: '1',
@@ -400,7 +400,7 @@ define([
 
                 this.btnPrevForm = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon previous-field',
+                    iconCls: 'toolbar__icon btn-previous-field',
                     lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments],
                     caption: this.capBtnPrev,
                     visible: false,
@@ -413,7 +413,7 @@ define([
 
                 this.btnNextForm = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon next-field',
+                    iconCls: 'toolbar__icon btn-next-field',
                     lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments],
                     caption: this.capBtnNext,
                     visible: false,
@@ -427,7 +427,7 @@ define([
                 if (this.appConfig.canSubmitForms) {
                     this.btnSubmit = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon submit-form',
+                        iconCls: 'toolbar__icon btn-submit-form',
                         lock: [_set.lostConnect, _set.disableOnStart],
                         caption: this.capBtnSubmit,
                         // disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode,
@@ -441,7 +441,7 @@ define([
                     this.btnSaveForm = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         lock: [_set.lostConnect, _set.disableOnStart],
-                        iconCls: 'toolbar__icon save-form',
+                        iconCls: 'toolbar__icon btn-save-form',
                         caption: this.appConfig.canRequestSaveAs || !!this.appConfig.saveAsUrl || this.appConfig.isOffline ? this.capBtnSaveForm : this.capBtnDownloadForm,
                         // disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode,
                         dataHint: '1',

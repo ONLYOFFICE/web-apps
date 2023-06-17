@@ -1914,5 +1914,9 @@
 	"SORT": {
 		"a": "(pole, [index_řazení], [pořadí_řazení], [podle_sloupce])",
 		"d": "Seřadí oblast nebo pole."
+	},
+	"SORTBY": {
+		"a": "(matice, podle_matice, [pořadí_řazení], ...)",
+		"d": "Seřadí oblast nebo matici na základě hodnot v odpovídající oblasti nebo matici."
 	}
 }

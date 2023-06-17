@@ -734,6 +734,8 @@
     "stayButtonText": "Ficar na página",
     "textOk": "Aceitar",
     "textSwitchedMobileView": "Alterado para vista móvel",
-    "textSwitchedStandardView": "Alterado para a vista predefinida"
+    "textSwitchedStandardView": "Alterado para a vista predefinida",
+    "textRenameFile": "Rename File",
+    "textEnterNewFileName": "Enter a new file name"
   }
 }

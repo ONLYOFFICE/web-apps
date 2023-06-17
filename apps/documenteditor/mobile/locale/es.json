@@ -734,6 +734,8 @@
     "stayButtonText": "Quedarse en esta página",
     "textOk": "Aceptar",
     "textSwitchedMobileView": "Cambiado a vista móvil",
-    "textSwitchedStandardView": "Cambiado a vista estándar"
+    "textSwitchedStandardView": "Cambiado a vista estándar",
+    "textRenameFile": "Rename File",
+    "textEnterNewFileName": "Enter a new file name"
   }
 }

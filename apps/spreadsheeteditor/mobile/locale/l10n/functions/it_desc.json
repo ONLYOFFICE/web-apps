@@ -1874,5 +1874,9 @@
 	"SORT": {
 		"a": "(matrice, [indice_ordinamento], [ordinamento], [per_col])",
 		"d": "Ordina un intervallo o una matrice"
+	},
+	"SORTBY": {
+		"a": "(matrice, con_matrice, [ordinamento], ...)",
+		"d": "Ordina un intervallo o una matrice in base ai valori di una matrice o intervallo corrispondente"
 	}
 }

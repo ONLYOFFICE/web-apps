@@ -734,6 +734,8 @@
     "stayButtonText": "Auf dieser Seite bleiben",
     "textOk": "OK",
     "textSwitchedMobileView": "Mobile Ansicht aktiviert",
-    "textSwitchedStandardView": "Standard-Ansicht aktiviert"
+    "textSwitchedStandardView": "Standard-Ansicht aktiviert",
+    "textRenameFile": "Rename File",
+    "textEnterNewFileName": "Enter a new file name"
   }
 }

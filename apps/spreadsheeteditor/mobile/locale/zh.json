@@ -583,7 +583,13 @@
       "textYen": "日元",
       "txtNotUrl": "该字段应为“http://www.example.com”格式的URL",
       "txtSortHigh2Low": "从最高到最低排序",
-      "txtSortLow2High": "从最低到最高排序"
+      "txtSortLow2High": "从最低到最高排序",
+      "textCustomFormat": "Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textSave": "Save",
+      "textEnterFormat": "Enter Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
     },
     "Settings": {
       "advCSVOptions": "选择CSV选项",

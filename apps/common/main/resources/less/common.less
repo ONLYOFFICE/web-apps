@@ -104,14 +104,12 @@ label {
 }
 
 .left-panel {
-    padding-left: 40px;
+    .padding-left-40();
     height: 100%;
     border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
     border-right: @scaled-one-px-value solid @border-toolbar;
 
     .rtl & {
-        padding-right: 40px;
-        padding-left: 0;
         border-left: @scaled-one-px-value solid @border-toolbar;
         border-right: 0 none;
     }
@@ -143,6 +141,7 @@ label {
     .rtl & {
         border-right: @scaled-one-px-value solid @border-toolbar;
         border-left: 0 none;
+        padding: 0 15px 0 10px;
     }
 }
 
@@ -171,14 +170,13 @@ label {
         max-height: 100%;
         position: relative;
         overflow: hidden;
-        float: left;
+        .float-left();
         border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
         border-right: @scaled-one-px-value solid @border-toolbar;
         background-color: @background-toolbar-ie;
         background-color: @background-toolbar;
 
         .rtl & {
-            float: right;
             border-right: none;
             border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
             border-left: @scaled-one-px-value solid @border-toolbar;
@@ -284,37 +282,37 @@ textarea {
     .placeholder();
 }
 
-.btn-edit-table,
-.btn-change-shape {
-    .background-ximage-v2('right-panels/rowscols_icon.png', 56px);
-    margin-right: 2px !important;
-    margin-bottom: 1px !important;
-
-    background-position-x: calc(@button-small-normal-icon-offset-x - 8px);
-
-    .btn-group.open &,
-        button.active:not(.disabled) &,
-        button:active:not(.disabled) &
-    {
-        background-position-x: calc(@button-small-active-icon-offset-x - 8px);
-    }
-}
-
-.btn-edit-table {
-    background-position-y: 0;
-
-    button.over & {
-        //background-position: -28px 0;
-    }
-}
-
-.btn-change-shape {
-    background-position-y: -16px;
-
-    button.over & {
-        //background-position: -28px -16px;
-    }
-}
+//.btn-edit-table,
+//.btn-change-shape {
+//    .background-ximage-v2('right-panels/rowscols_icon.png', 56px);
+//    margin-right: 2px !important;
+//    margin-bottom: 1px !important;
+//
+//    background-position-x: calc(@button-small-normal-icon-offset-x - 8px);
+//
+//    .btn-group.open &,
+//        button.active:not(.disabled) &,
+//        button:active:not(.disabled) &
+//    {
+//        background-position-x: calc(@button-small-active-icon-offset-x - 8px);
+//    }
+//}
+//
+//.btn-edit-table {
+//    background-position-y: 0;
+//
+//    button.over & {
+//        //background-position: -28px 0;
+//    }
+//}
+//
+//.btn-change-shape {
+//    background-position-y: -16px;
+//
+//    button.over & {
+//        //background-position: -28px -16px;
+//    }
+//}
 
 .doc-content-color {
     background-color: @canvas-content-background;
@@ -355,12 +353,8 @@ body {
 .menu-margins {
     .margin-vertical {
         display: inline-block;
-        margin-right: 20px;
+        .margin-right-20();
         min-width: 80px;
-        .rtl & {
-            margin-right: 0;
-            margin-left: 20px;
-        }
     }
     .margin-horizontal {
         display: inline-block;

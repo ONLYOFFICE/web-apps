@@ -583,7 +583,13 @@
       "textArrange": "Arrange",
       "textChangeShape": "Change Shape",
       "textDeleteImage": "Delete Image",
-      "textDeleteLink": "Delete Link"
+      "textDeleteLink": "Delete Link",
+      "textCustomFormat": "Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textSave": "Save",
+      "textEnterFormat": "Enter Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
     },
     "Settings": {
       "advCSVOptions": "CSV 옵션 선택",

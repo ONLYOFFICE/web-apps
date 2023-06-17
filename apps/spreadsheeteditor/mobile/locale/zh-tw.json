@@ -583,6 +583,12 @@
       "txtSortLow2High": "從最低到最高排序",
       "textChangeShape": "Change Shape",
       "textDeleteImage": "Delete Image",
+      "textCustomFormat": "Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textSave": "Save",
+      "textEnterFormat": "Enter Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.",
       "textDeleteLink": "Delete Link"
     },
     "Settings": {

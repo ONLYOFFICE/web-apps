@@ -6,9 +6,9 @@
                     <label class="header"><%= scope.textFilter %></label>
                     <div id="name-manager-combo-filter" class="input-group-nr" style="width:180px;"></div>
                 </td>
-                <td id="name-manager-group-btn" class="padding-small">
-                    <button type="button" class="btn btn-text-default" id="name-manager-btn-new" style="min-width: 80px;"><%= scope.textNew %></button>
-                    <button type="button" class="btn btn-text-default" id="name-manager-btn-edit" style="min-width: 80px;"><%= scope.textEdit %></button>
+                <td id="name-manager-group-btn" class="padding-small text-align-right">
+                    <button type="button" class="btn btn-text-default margin-right-5" id="name-manager-btn-new" style="min-width: 80px;"><%= scope.textNew %></button>
+                    <button type="button" class="btn btn-text-default margin-right-15" id="name-manager-btn-edit" style="min-width: 80px;"><%= scope.textEdit %></button>
                     <button type="button" class="btn btn-text-default" id="name-manager-btn-delete" style="min-width: 80px;"><%= scope.textDelete %></button>
                 </td>
             </tr>

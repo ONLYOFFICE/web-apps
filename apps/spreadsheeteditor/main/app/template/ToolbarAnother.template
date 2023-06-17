@@ -30,8 +30,8 @@
             <div class="group small">
                 <div class="elset">
                     <span class="btn-slot text" id="slot-btn-chart-data"></span>
-                    <span class="btn-slot text" id="slot-btn-chart-type" style="margin-left: 12px;"></span>
-                    <span class="btn-slot" id="slot-btn-chart" style="margin-left: 12px;width: auto;"></span>
+                    <span class="btn-slot text margin-left-12" id="slot-btn-chart-type"></span>
+                    <span class="btn-slot margin-left-12" id="slot-btn-chart" style="width: auto;"></span>
                 </div>
             </div>
             <div class="group" style="width: 100%;"></div>
@@ -56,7 +56,7 @@
                     <span class="btn-slot" id="slot-btn-sortasc"></span>
                 </div>
             </div>
-            <div class="separator short" style="margin-left: 5px;"></div>
+            <div class="separator short"></div>
             <div class="group small">
                 <div class="elset">
                     <span class="btn-slot split" id="slot-btn-setfilter"></span>
@@ -87,10 +87,10 @@
             <div class="separator short"></div>
             <div class="group small">
                 <div class="elset" style="width: 172px;">
-                    <span class="btn-slot" id="slot-field-fontname" style="width: 80px;float: left;"></span>
-                    <span class="btn-slot" id="slot-field-fontsize" style="width: 35px;margin-left: 2px;float: left;"></span>
-                    <span class="btn-slot split" id="slot-btn-fontcolor" style="margin-left: 2px;margin-top: 1px;float: left;"></span>
-                    <span class="btn-slot" id="slot-btn-formatting" style="margin-left: 2px;margin-top: 1px;float: left;"></span>
+                    <span class="btn-slot float-left" id="slot-field-fontname" style="width: 80px;"></span>
+                    <span class="btn-slot float-left margin-left-2" id="slot-field-fontsize" style="width: 35px;"></span>
+                    <span class="btn-slot split float-left margin-left-2" id="slot-btn-fontcolor" style="margin-top: 1px;"></span>
+                    <span class="btn-slot float-left margin-left-2" id="slot-btn-formatting" style="margin-top: 1px;"></span>
                 </div>
             </div>
             <div class="separator short"></div>
@@ -114,7 +114,7 @@
             <div class="separator short"></div>
             <div class="group small">
                 <div class="elset">
-                    <span class="btn-slot" id="slot-btn-format" style="width: 80px; float: left;"></span>
+                    <span class="btn-slot float-left" id="slot-btn-format" style="width: 80px;"></span>
                 </div>
             </div>
             <div class="separator short"></div>
@@ -130,10 +130,10 @@
                 </div>
             </div>
             <div class="group" style="width: 100%;padding-left: 0;"></div>
-            <div class="group small" style="padding-right: 10px;">
+            <div class="group small padding-right-10">
                 <div class="elset">
-                    <span class="btn-slot" id="slot-btn-visible-area" style="width: auto;float: left;"></span>
-                    <span class="btn-slot" id="slot-btn-visible-area-close" style="width: auto;float: left;"></span>
+                    <span class="btn-slot float-left" id="slot-btn-visible-area" style="width: auto;"></span>
+                    <span class="btn-slot float-left" id="slot-btn-visible-area-close" style="width: auto;"></span>
                 </div>
             </div>
         </section>

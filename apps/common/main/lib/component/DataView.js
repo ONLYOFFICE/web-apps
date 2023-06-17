@@ -856,6 +856,7 @@ define([
                 this.pressedShift = false;
             if(e.keyCode == Common.UI.Keys.CTRL)
                 this.pressedCtrl = false;
+            this.trigger('item:keyup', this, e);
         },
 
         attachKeyEvents: function() {
@@ -1810,6 +1811,7 @@ define([
                 first = 0;
             while (!this.dataViewItems[first].el.is(":visible")) { // if first elem is hidden
                 first++;
+                if (!this.dataViewItems[first]) return;
                 el = this.dataViewItems[first].el;
             }
 

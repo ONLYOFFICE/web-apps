@@ -173,8 +173,10 @@ class MainController extends Component {
                 // Document Info
 
                 const storeDocumentInfo = this.props.storeDocumentInfo;
+                // this.document
 
                 storeDocumentInfo.setDataDoc(this.document);
+                storeDocumentInfo.setDocInfo(docInfo);
 
                 // Common.SharedSettings.set('document', data.doc);
 

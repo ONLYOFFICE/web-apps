@@ -734,6 +734,8 @@
     "stayButtonText": "Tetap di halaman ini",
     "textOk": "OK",
     "textSwitchedMobileView": "Beralih ke Tampilan seluler",
-    "textSwitchedStandardView": "Beralih ke Tampilan standar"
+    "textSwitchedStandardView": "Beralih ke Tampilan standar",
+    "textRenameFile": "Rename File",
+    "textEnterNewFileName": "Enter a new file name"
   }
 }

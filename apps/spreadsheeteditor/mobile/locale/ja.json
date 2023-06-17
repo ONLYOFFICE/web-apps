@@ -583,7 +583,13 @@
       "textYen": "円",
       "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります。",
       "txtSortHigh2Low": " 大きい順に並べ替えます",
-      "txtSortLow2High": "小さい順に並べ替えます。"
+      "txtSortLow2High": "小さい順に並べ替えます。",
+      "textCustomFormat": "Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textSave": "Save",
+      "textEnterFormat": "Enter Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
     },
     "Settings": {
       "advCSVOptions": "CSVオプションを選択する",
