@@ -1,0 +1,41 @@
+{
+    "name": "testdocumenteditor",
+    "version": "4.3.0",
+    "build": 1153,
+    "homepage": "http://www.onlyoffice.com",
+    "private": true,
+    "test": {
+        "clean": {
+            "prebuild": [
+                "../deploy/web-apps/test/documenteditor/main"
+            ]
+        },
+        "js": {
+            "src": [
+                "../test/common/Gateway.js",
+                "../test/common/main/lib/util/utils.js",
+                "../test/documenteditor/main/js/ApplicationView.js",
+                "../test/documenteditor/main/js/ApplicationController.js",
+                "../test/documenteditor/main/js/application.js"
+            ],
+            "dist": "../deploy/web-apps/test/documenteditor/main/app-all.js"
+        },
+        "less": {
+            "files": {
+                "src": "../test/documenteditor/main/resources/less/application.less",
+                "dist": "../deploy/web-apps/test/documenteditor/main/resources/css/app-all.css"
+            }
+        },
+        "copy": {
+            "index-page": {
+                "../deploy/web-apps/test/documenteditor/main/index.html": "../test/documenteditor/main/index.html.deploy"
+            }
+        }
+    },
+    "tasks": {
+        "deploy": [
+            "increment-build",
+            "deploy-app-test"
+        ]
+    }
+}

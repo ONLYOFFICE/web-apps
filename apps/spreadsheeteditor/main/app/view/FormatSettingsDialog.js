@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -106,7 +105,7 @@ define([
                         '</tr>',
                         '<tr>',
                             '<td class="padding-large" style="white-space: nowrap;">',
-                                '<label class="format-sample" style="vertical-align: middle; margin-right: 4px;">' + me.txtSample + '</label>',
+                                '<label class="format-sample margin-right-4" style="vertical-align: middle;">' + me.txtSample + '</label>',
                                 '<label class="format-sample" id="format-settings-label-example" style="vertical-align: middle; max-width: 220px; overflow: hidden; text-overflow: ellipsis;">100</label>',
                             '</td>',
                         '</tr>',
@@ -168,6 +167,7 @@ define([
             this._state = {hasDecimal: false, hasNegative: false, hasSeparator: false, hasType: false, hasSymbols: false, hasCode: false};
             this.FormatType = Asc.c_oAscNumFormatType.General;
             this.Format = "General";
+            this.FormatInfo =  new Asc.asc_CFormatCellsInfo();
             this.CustomFormat = null;
         },
 
@@ -313,6 +313,7 @@ define([
                     this.langId = props.langId;
                 this.cmbFormat.setValue(props.formatInfo.asc_getType(), this.txtCustom);
 
+                this.FormatInfo = props.formatInfo;
                 if ((props.formatInfo.asc_getType() == Asc.c_oAscNumFormatType.Custom) && props.format)
                     this.CustomFormat = this.Format = props.format;
 
@@ -355,7 +356,7 @@ define([
         },
 
         getSettings: function () {
-            return {format: this.Format, linked: this.chLinked.getValue()==='checked'};
+            return {format: this.Format, formatInfo: this.FormatInfo, linked: this.chLinked.getValue()==='checked'};
         },
 
         onDlgBtnClick: function(event) {
@@ -396,6 +397,7 @@ define([
             this.cmbNegative.selectRecord(this.cmbNegative.store.at(0));
             this.cmbNegative.cmpEl.find('li:nth-child(2) a, li:nth-child(4) a').css({color: '#ff0000'});
             this.Format = format[0];
+            this.FormatInfo = info;
 
             this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
             this.chLinked.setValue(false, true);
@@ -426,6 +428,7 @@ define([
             } else {
                 this.Format = format[0];
             }
+            this.FormatInfo = info;
 
             this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
             this.chLinked.setValue(false, true);
@@ -447,6 +450,7 @@ define([
             this.cmbNegative.selectRecord(this.cmbNegative.store.at(0));
             this.cmbNegative.cmpEl.find('li:nth-child(2) a, li:nth-child(4) a').css({color: '#ff0000'});
             this.Format = format[0];
+            this.FormatInfo = info;
 
             this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
             this.chLinked.setValue(false, true);
@@ -540,11 +544,12 @@ define([
                 } else {
                     this.Format = this.api.asc_getFormatCells(info)[0];
                 }
-
+                this.FormatInfo = info;
             } else {
                 var info = new Asc.asc_CFormatCellsInfo();
                 info.asc_setType(Asc.c_oAscNumFormatType.Custom);
                 info.asc_setSymbol(valSymbol);
+                this.FormatInfo = info;
 
                 var formatsarr = this.api.asc_getFormatCells(info),
                     data = [],

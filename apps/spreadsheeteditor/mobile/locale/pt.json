@@ -80,7 +80,7 @@
       "leavePageText": "Você tem alterações não salvas neste documento. Clique em 'Permanecer nesta página' para aguardar o salvamento automático. Clique em 'Sair desta página' para descartar todas as alterações não salvas.",
       "notcriticalErrorTitle": "Aviso",
       "SDK": {
-        "txtAccent": "Acentuação",
+        "txtAccent": "Acento",
         "txtAll": "(Todos)",
         "txtArt": "Seu texto aqui",
         "txtBlank": "Em branco",
@@ -145,22 +145,28 @@
       "textClose": "Fechar",
       "textContactUs": "Contate as vendas",
       "textCustomLoader": "Desculpe, você não tem direito de alterar o carregador. Por favor, entre em contato com nosso departamento de vendas para obter um orçamento.",
+      "textDontUpdate": "Não atualize",
       "textGuest": "Convidado(a)",
       "textHasMacros": "O arquivo contém macros automáticas.<br> Você quer executar macros?",
       "textNo": "Não",
       "textNoChoices": "Não há escolhas para preenchimento de célula.<br>Apenas valores de texto da coluna podem ser selecionados para substituição.",
       "textNoLicenseTitle": "Limite de licença atingido",
-      "textNoTextFound": "Texto não encontrado",
+      "textNoMatches": "Nenhuma correspondência",
       "textOk": "OK",
       "textPaidFeature": "Recurso pago",
       "textRemember": "Lembrar minha escolha",
       "textReplaceSkipped": "A substituição foi realizada. {0} ocorrências foram ignoradas.",
       "textReplaceSuccess": "A pesquisa foi realizada. Ocorrências substituídas: {0}",
       "textRequestMacros": "Uma macro faz uma solicitação para URL. Deseja permitir a solicitação para %1?",
+      "textUpdate": "Atualizar",
+      "textWarnUpdateExternalData": "Esta pasta de trabalho contém links para uma ou mais fontes externas que podem não ser seguras. Se você confia nos links, atualize-os para obter os dados mais recentes.",
       "textYes": "Sim",
       "titleLicenseExp": "A licença expirou",
+      "titleLicenseNotActive": "Licença inativa",
       "titleServerVersion": "Editor atualizado",
       "titleUpdateVersion": "Versão alterada",
+      "warnLicenseAnonymous": "Acesso negado para usuários anônimos.<br>Este documento será aberto apenas para visualização.",
+      "warnLicenseBefore": "Licença inativa.<br>Entre em contato com seu administrador.",
       "warnLicenseExceeded": "Você atingiu o limite de conexões simultâneas para% 1 editores. Este documento será aberto apenas para visualização. Contate seu administrador para saber mais.",
       "warnLicenseExp": "Sua licença expirou. Por favor, atualize sua licença e atualize a página.",
       "warnLicenseLimitedNoAccess": "A licença expirou. Você não tem acesso à funcionalidade de edição de documentos. Por favor, entre em contato com seu administrador.",
@@ -168,10 +174,7 @@
       "warnLicenseUsersExceeded": "Você atingiu o limite de usuários para editores %1. Entre em contato com seu administrador para saber mais.",
       "warnNoLicense": "Você atingiu o limite de conexões simultâneas para% 1 editores. Este documento será aberto apenas para visualização. Contate a equipe de vendas% 1 para termos de atualização pessoal.",
       "warnNoLicenseUsers": "Você atingiu o limite de usuários para editores %1.<br>Entre em contato com a equipe de vendas da %1 para obter os termos de atualização pessoais.",
-      "warnProcessRightsChange": "Você não tem permissão para editar o arquivo.",
-      "textDontUpdate": "Don't Update",
-      "textUpdate": "Update",
-      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data."
+      "warnProcessRightsChange": "Você não tem permissão para editar o arquivo."
     }
   },
   "Error": {
@@ -231,6 +234,7 @@
     "errorOperandExpected": "A sintaxe da função inserida não está correta. Por favor, verifique se você perdeu um dos parênteses - '(' ou ')'.",
     "errorPasteMaxRange": "A área de cópia e cola não corresponde. Por favor, selecione uma área do mesmo tamanho ou clique na primeira célula de uma linha para colar as células copiadas.",
     "errorPrintMaxPagesCount": "Infelizmente, não é possível imprimir mais de 1500 páginas ao mesmo tempo na versão atual do programa.<br>Esta restrição será eliminada nos próximos lançamentos.",
+    "errorProtectedRange": "Este intervalo não é permitido para edição.",
     "errorSessionAbsolute": "A sessão de edição do documento expirou. Por favor recarregue a página.",
     "errorSessionIdle": "O documento não é editado há muito tempo. Por favor recarregue a página.",
     "errorSessionToken": "A conexão com o servidor foi interrompida. Por favor recarregue a página.",
@@ -373,6 +377,7 @@
       "textLinkType": "Tipo de link",
       "textOk": "OK",
       "textOther": "Outro",
+      "textPasteImageUrl": "Cole um URL de imagem",
       "textPictureFromLibrary": "Imagem da biblioteca",
       "textPictureFromURL": "Imagem da URL",
       "textRange": "Intervalo",
@@ -578,7 +583,13 @@
       "textYen": "Iene",
       "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Classificar do maior para o menor",
-      "txtSortLow2High": "Classificar do menor para o maior"
+      "txtSortLow2High": "Classificar do menor para o maior",
+      "textCustomFormat": "Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textSave": "Save",
+      "textEnterFormat": "Enter Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
     },
     "Settings": {
       "advCSVOptions": "Escolher opções CSV",
@@ -588,6 +599,7 @@
       "closeButtonText": "Fechar Arquivo",
       "notcriticalErrorTitle": "Aviso",
       "strFuncLocale": "Linguagem de fórmula",
+      "strFuncLocaleEx": "Exemplo: SOMA; MÍNIMO; MÁXIMO; CONT.NÚM",
       "textAbout": "Sobre",
       "textAddress": "Endereço",
       "textApplication": "Aplicativo",
@@ -646,7 +658,7 @@
       "textMargins": "Margens",
       "textMatchCase": "Diferenciar maiúsculas/minúsculas",
       "textMatchCell": "Combinar célula",
-      "textNoTextFound": "Texto não encontrado",
+      "textNoMatches": "Nenhuma correspondência",
       "textOk": "OK",
       "textOpenFile": "Inserir a Senha para Abrir o Arquivo",
       "textOrientation": "Orientação",
@@ -689,6 +701,7 @@
       "txtComma": "vírgula",
       "txtCs": "Tcheco",
       "txtDa": "Dinamarquês",
+      "txtDe": "Alemão",
       "txtDelimiter": "Delimitador",
       "txtDownloadCsv": "Baixar CSV",
       "txtEl": "Grego",
@@ -746,9 +759,7 @@
       "txtUk": "Ucraniano",
       "txtVi": "Vietnamita",
       "txtZh": "Chinês",
-      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
-      "strFuncLocaleEx": "Example: SUM; MIN; MAX; COUNT",
-      "txtDe": "Deutsch"
+      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?"
     }
   }
 }

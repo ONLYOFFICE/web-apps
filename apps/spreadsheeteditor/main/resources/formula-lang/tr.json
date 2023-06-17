@@ -472,6 +472,13 @@
 	"WRAPCOLS": "SÜTUNSAR",
 	"TAKE": "AL",
 	"DROP": "BIRAK",
+	"SEQUENCE": "SIRALI",
+	"EXPAND": "GENİŞLET",
+	"XMATCH": "ÇAPRAZEŞLEŞTİR",
+	"FILTER": "FİLTRE",
+	"ARRAYTOTEXT": "DİZİMETİN",
+	"SORT": "SIRALA",
+	"SORTBY": "SIRALAÖLÇÜT",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

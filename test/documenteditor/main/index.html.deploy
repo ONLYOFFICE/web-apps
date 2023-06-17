@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Documents</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href="../../../test/documenteditor/main/resources/css/app-all.css" rel="stylesheet">
+  </head>
+
+  <body >
+
+       <script>
+           var  userAgent = navigator.userAgent.toLowerCase();
+           
+            function getUrlParams() {
+                var e,
+                    a = /\+/g,  // Regex for replacing addition symbol with a space
+                    r = /([^&=]+)=?([^&]*)/g,
+                    d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
+                    q = window.location.search.substring(1),
+                    urlParams = {};
+
+                while (e = r.exec(q))
+                    urlParams[d(e[1])] = d(e[2]);
+
+                return urlParams;
+            }
+
+            function encodeUrlParam(str) {
+                return str.replace(/"/g, '&quot;')
+                        .replace(/'/g, '&#39;')
+                        .replace(/</g, '&lt;')
+                        .replace(/>/g, '&gt;');
+            }
+
+           var params = getUrlParams();
+           window.frameEditorId = params["frameEditorId"];
+           window.parentOrigin = params["parentOrigin"];
+
+        </script>
+
+      <div id="editor_sdk" class="viewer" style="overflow: hidden;" tabindex="-1"></div>
+
+      <!--vendor-->
+      <script type="text/javascript" src="../../../vendor/jquery/jquery.min.js"></script>
+      <script type="text/javascript" src="../../../vendor/socketio/socket.io.min.js"></script>
+      <script type="text/javascript" src="../../../vendor/xregexp/xregexp-all-min.js"></script>
+
+      <!--sdk-->
+      <script type="text/javascript" src="../../../../sdkjs/common/AllFonts.js"></script>
+      <script type="text/javascript" src="../../../../sdkjs/word/sdk-all-min.js"></script>
+
+      <!--application-->
+      <script type="text/javascript" src="../../../test/documenteditor/main/app-all.js"></script>
+  </body>
+</html>

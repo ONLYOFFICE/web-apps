@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *    Window.js
  *
@@ -158,7 +157,8 @@ define([
                 maxheight: undefined,
                 minwidth: 0,
                 minheight: 0,
-                enableKeyEvents: true
+                enableKeyEvents: true,
+                automove: true
         };
 
         var template = '<div class="asc-window<%= modal?" modal":"" %><%= cls?" "+cls:"" %>" id="<%= id %>" style="width:<%= width %>px;">' +
@@ -265,8 +265,10 @@ define([
             var top  = main_geometry.top + Math.floor((parseInt(main_height) - parseInt(win_height)) / 2);
             var left = Math.floor((parseInt(main_width) - parseInt(win_width)) / 2);
 
-            this.$window.css('left',left);
-            this.$window.css('top',top);
+            this.$window.css({
+                left: left < 0 ? 0 : left,
+                top: top < 0 ? 0 : top
+            });
         }
 
         function _setVisible() {
@@ -355,6 +357,23 @@ define([
             }
         }
 
+        function _onResizeMove(){
+            var main_geometry = _readDocumetGeometry(),
+                main_width = main_geometry.width,
+                main_height = main_geometry.height,
+                win_height = this.getHeight(),
+                win_width = this.getWidth(),
+                top = this.getTop(),
+                left = this.getLeft();
+
+            top = top + win_height > main_height ? main_height - win_height : top;
+            left = left + win_width > main_width ? main_width - win_width : left;
+
+            this.$window.css({
+                left: left < 0 ? 0 : left,
+                top: top < 0 ? 0 : top
+            });
+        }
 
         /* window resize functions */
         function _resizestart(event) {
@@ -456,7 +475,7 @@ define([
             
             var template =  '<div class="info-box">' +
                                 '<% if (typeof iconCls !== "undefined") { %><div class="icon <%= iconCls %>"></div><% } %>' +
-                                '<div class="text" <% if (typeof iconCls == "undefined") { %> style="padding-left:10px;" <% } %>><span><%= msg %></span>' +
+                                '<div class="text" dir="ltr" <% if (typeof iconCls == "undefined") { %>' + (Common.UI.isRTL() ? ' style="padding-right:10px;"' : ' style="padding-left:10px;"') + '<% } %>><span><%= msg %></span>' +
                                     '<% if (dontshow) { %><div class="dont-show-checkbox"></div><% } %>' +
                                 '</div>' +
                             '</div>' +
@@ -491,7 +510,8 @@ define([
                     text_cnt.height(Math.max(text.height(), icon_height) + ((check.length>0) ? (check.height() + parseInt(check.css('margin-top'))) : 0));
                     body.height(parseInt(text_cnt.css('height')) + parseInt(footer.css('height')));
                     var span_el = check.find('span');
-                     window.setSize(Math.max(text.width(), span_el.length>0 ? span_el.position().left + span_el.width() : 0) + text.position().left + parseInt(text_cnt.css('padding-right')),
+                    window.setSize(Math.max(text.width(), span_el.length>0 ? span_el.position().left + span_el.width() : 0) + text.position().left + parseInt(text_cnt.css('padding-right')) +
+                        (Common.UI.isRTL() && icon.length > 0 ? icon.width() + parseInt(icon.css('margin-right')) + parseInt(icon.css('margin-left')) : 0),
                         parseInt(body.css('height')) + parseInt(header.css('height')));
                 } else {
                     text.css('white-space', 'normal');
@@ -500,7 +520,7 @@ define([
                     body.height(parseInt(text_cnt.css('height')) + parseInt(footer.css('height')));
                     window.setHeight(parseInt(body.css('height')) + parseInt(header.css('height')));
                 }
-                if (text.height() < icon_height-10)
+                if (text.height() < icon_height/2)
                     text.css({'vertical-align': 'baseline', 'line-height': icon_height+'px'});
             }
 
@@ -658,7 +678,6 @@ define([
                     this.$window.find('.header').on('mousedown', this.binding.dragStart);
                     this.$window.find('.tool.close').on('click', _.bind(doclose, this));
                     this.$window.find('.tool.help').on('click', _.bind(dohelp, this));
-
                     if (!this.initConfig.modal)
                         Common.Gateway.on('processmouse', _.bind(_onProcessMouse, this));
                 } else {
@@ -742,6 +761,10 @@ define([
                 }
 
                 $(document).on('keydown.' + this.cid, this.binding.keydown);
+                if(this.initConfig.automove){
+                    this.binding.windowresize = _.bind(_onResizeMove, this);
+                    $(window).on('resize', this.binding.windowresize);
+                }
 
                 var me = this;
 
@@ -793,6 +816,7 @@ define([
 
             close: function(suppressevent) {
                 $(document).off('keydown.' + this.cid);
+                this.initConfig.automove && $(window).off('resize', this.binding.windowresize);
                 if ( this.initConfig.header ) {
                     this.$window.find('.header').off('mousedown', this.binding.dragStart);
                 }
@@ -838,6 +862,7 @@ define([
 
             hide: function() {
                 $(document).off('keydown.' + this.cid);
+                this.initConfig.automove && $(window).off('resize', this.binding.windowresize);
                 if (this.$window) {
                     if (this.initConfig.modal) {
                         var mask = _getMask(),

@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *
  *  FormatRulesEditDlg.js
@@ -48,11 +47,12 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
 
     SSE.Views = SSE.Views || {};
 
-    SSE.Views.FormatRulesEditDlg =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
+    SSE.Views.FormatRulesEditDlg = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             alias: 'FormatRulesEditDlg',
             contentWidth: 491,
-            height: 445
+            height: 445,
+            id: 'window-format-rules'
         },
 
         initialize: function (options) {
@@ -350,6 +350,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 hint: this.textBold
             });
             this.btnBold.on('click', _.bind(this.onBoldClick, this));
+            Common.UI.FocusManager.add(this, this.btnBold);
 
             this.btnItalic = new Common.UI.Button({
                 parentEl: $('#format-rules-italic'),
@@ -359,6 +360,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 hint: this.textItalic
             });
             this.btnItalic.on('click', _.bind(this.onItalicClick, this));
+            Common.UI.FocusManager.add(this, this.btnItalic);
 
             this.btnUnderline = new Common.UI.Button({
                 parentEl: $('#format-rules-underline'),
@@ -368,6 +370,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 hint: this.textUnderline
             });
             this.btnUnderline.on('click', _.bind(this.onUnderlineClick, this));
+            Common.UI.FocusManager.add(this, this.btnUnderline);
 
             this.btnStrikeout = new Common.UI.Button({
                 parentEl: $('#format-rules-strikeout'),
@@ -377,6 +380,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 hint: this.textStrikeout
             });
             this.btnStrikeout.on('click',_.bind(this.onStrikeoutClick, this));
+            Common.UI.FocusManager.add(this, this.btnStrikeout);
 
             var initNewColor = function(btn) {
                 btn.setMenu();
@@ -388,28 +392,32 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
 
             this.btnTextColor = new Common.UI.ButtonColored({
                 parentEl: $('#format-rules-fontcolor'),
-                cls         : 'btn-toolbar',
+                cls         : 'btn-toolbar move-focus',
                 iconCls     : 'toolbar__icon btn-fontcolor',
                 hint        : this.textColor,
                 additionalAlign: this.menuAddAlign,
                 color: '000000',
-                menu        : true
+                menu        : true,
+                takeFocusOnClose: true
             });
             this.mnuTextColorPicker = initNewColor(this.btnTextColor);
             this.btnTextColor.on('color:select', _.bind(this.onFormatTextColorSelect, this));
+            Common.UI.FocusManager.add(this, this.btnTextColor);
 
             this.btnFillColor = new Common.UI.ButtonColored({
                 parentEl: $('#format-rules-fillcolor'),
-                cls         : 'btn-toolbar',
+                cls         : 'btn-toolbar move-focus',
                 iconCls     : 'toolbar__icon btn-paracolor',
                 hint        : this.fillColor,
                 additionalAlign: this.menuAddAlign,
                 color: '000000',
                 transparent: true,
-                menu        : true
+                menu        : true,
+                takeFocusOnClose: true
             });
             this.mnuFillColorPicker = initNewColor(this.btnFillColor);
             this.btnFillColor.on('color:select', _.bind(this.onFormatFillColorSelect, this));
+            Common.UI.FocusManager.add(this, this.btnFillColor);
 
             this.btnBorders = new Common.UI.Button({
                 parentEl    : $('#format-rules-borders'),
@@ -501,22 +509,22 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                             caption     : this.textBordersStyle,
                             iconCls     : 'menu__icon btn-border-style',
                             menu        : (function(){
-                                var itemTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div class="border-size-item" style="background-position: 0 -<%= options.offsety %>px;"></div></a>');
+                                var itemTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div class="border-size-item"><svg><use xlink:href="#<%= options.imgId %>"></use></svg></div></a>');
                                 me.mnuBorderWidth = new Common.UI.Menu({
                                     style       : 'min-width: 100px;',
                                     menuAlign   : 'tl-tr',
                                     items: [
-                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Thin ,   offsety: 0, checked:true},
-                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Hair,   offsety: 20},
-                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Dotted,   offsety: 40},
-                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Dashed,   offsety: 60},
-                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.DashDot,   offsety: 80},
-                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.DashDotDot,   offsety: 100},
-                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Medium, offsety: 120},
-                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.MediumDashed,  offsety: 140},
-                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.MediumDashDot,  offsety: 160},
-                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.MediumDashDotDot,  offsety: 180},
-                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Thick,  offsety: 200}
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Thin ,             imgId: "solid-s", checked:true},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Hair,              imgId: "dots-s"},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Dotted,            imgId: "dashes-s"},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Dashed,            imgId: "dashes-m"},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.DashDot,           imgId: "dash-dot-s"},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.DashDotDot,        imgId: "dash-dot-dot-s"},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Medium,            imgId: "solid-m"},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.MediumDashed,      imgId: "dashes-l"},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.MediumDashDot,     imgId: "dash-dot-m"},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.MediumDashDotDot,  imgId: "dash-dot-dot-m"},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Thick,             imgId: "solid-l"}
                                     ]
                                 });
 
@@ -527,7 +535,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                             id          : 'format-rules-borders-border-color',
                             caption     : this.textBordersColor,
                             iconCls     : 'mnu-icon-item mnu-border-color',
-                            template    : _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 2px 9px 0 -11px; border-style: solid; border-width: 3px; border-color: #000;"></span><%= caption %></a>'),
+                            template    : _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; border-style: solid; border-width: 3px; border-color: #000;"></span><%= caption %></a>'),
                             menu        : new Common.UI.Menu({
                                 menuAlign   : 'tl-tr',
                                 items       : [
@@ -535,7 +543,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                                     {caption: '--'},
                                     {
                                         id: "format-rules-borders-menu-new-bordercolor",
-                                        template: _.template('<a tabindex="-1" type="menuitem" style="padding-left:12px;">' + this.textNewColor + '</a>'),
+                                        template: _.template('<a tabindex="-1" type="menuitem" style="' + (Common.UI.isRTL() ? 'padding-right: 12px;': 'padding-left: 12px;') + '">' + this.textNewColor + '</a>'),
                                         stopPropagation: true
                                     }
                                 ]
@@ -557,6 +565,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             }, this));
 
             this.mnuBorderWidth.on('item:toggle', _.bind(this.onBordersWidth, this));
+            // Common.UI.FocusManager.add(this, this.btnBorders);
 
             this.ascFormatOptions = {
                 General     : 'General',
@@ -579,7 +588,8 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 { value: Asc.c_oAscNumFormatType.Scientific,format: this.ascFormatOptions.Scientific,  displayValue: this.txtScientific,   exampleval: '1,00E+02' },
                 { value: Asc.c_oAscNumFormatType.Accounting,format: this.ascFormatOptions.Accounting,  displayValue: this.txtAccounting,   exampleval: '100,00 $' },
                 { value: Asc.c_oAscNumFormatType.Currency,  format: this.ascFormatOptions.Currency,    displayValue: this.txtCurrency,     exampleval: '100,00 $' },
-                { value: Asc.c_oAscNumFormatType.Date,      format: 'MM-dd-yyyy',                      displayValue: this.txtDate,         exampleval: '04-09-1900' },
+                { value: Asc.c_oAscNumFormatType.Date,      format: 'MM-dd-yyyy',                      displayValue: this.txtDateShort,    exampleval: '04-09-1900',    customDisplayValue: this.txtDate},
+                { value: Asc.c_oAscNumFormatType.Date,      format: 'MMMM d yyyy',                     displayValue: this.txtDateLong,     exampleval: 'April 9 1900', customDisplayValue: this.txtDate},
                 { value: Asc.c_oAscNumFormatType.Time,      format: 'HH:MM:ss',                        displayValue: this.txtTime,         exampleval: '00:00:00' },
                 { value: Asc.c_oAscNumFormatType.Percent,   format: this.ascFormatOptions.Percentage,  displayValue: this.txtPercentage,   exampleval: '100,00%' },
                 { value: Asc.c_oAscNumFormatType.Fraction,  format: this.ascFormatOptions.Fraction,    displayValue: this.txtFraction,     exampleval: '100' },
@@ -601,15 +611,15 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 _.template([
                     '<% _.each(items, function(item) { %>',
                     '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem">',
-                    '<div style="position: relative;"><div style="position: absolute; left: 0; width: 100px;"><%= scope.getDisplayValue(item) %></div>',
-                    '<div style="display: inline-block; width: 100%; max-width: 300px; overflow: hidden; text-overflow: ellipsis; text-align: right; vertical-align: bottom; padding-left: 100px; color: silver;white-space: nowrap;"><%= item.exampleval ? item.exampleval : "" %></div>',
+                    '<div style="position: relative;"><div class="display-value"><%= scope.getDisplayValue(item) %></div>',
+                    '<div class="example-val"><%= item.exampleval ? item.exampleval : "" %></div>',
                     '</div></a></li>',
                     '<% }); %>'
                     // ,'<li class="divider">',
                     // '<li id="id-toolbar-mnu-item-more-formats" data-value="-1"><a tabindex="-1" type="menuitem">' + me.textMoreFormats + '</a></li>'
                 ].join(''));
 
-            this.cmbNumberFormat = new Common.UI.ComboBox({
+            this.cmbNumberFormat = new Common.UI.ComboBoxCustom({
                 el          : $('#format-rules-edit-combo-num-format'),
                 cls         : 'input-group-nr',
                 style       : 'width: 113px;',
@@ -617,8 +627,13 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 hint        : this.tipNumFormat,
                 itemsTemplate: formatTemplate,
                 editable    : false,
+                focusWhenNoSelection: false,
                 data        : this.numFormatData,
-                takeFocusOnClose: true
+                takeFocusOnClose: true,
+                updateFormControl: function (record){
+                    this.clearSelection();
+                    record && this.setRawValue(record.get('customDisplayValue')||record.get('displayValue'));
+                }
             });
             this.cmbNumberFormat.setValue(Asc.c_oAscNumFormatType.General);
             this.cmbNumberFormat.on('selected', _.bind(this.onNumberFormatSelect, this));
@@ -628,6 +643,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 el: $('#format-rules-edit-btn-clear')
             });
             this.btnClear.on('click', _.bind(this.clearFormat, this));
+            Common.UI.FocusManager.add(this, this.btnClear);
 
             this.panels = {
                 format:     {el: this.$window.find('.hasformat'),   rendered: false,    initColors: false},
@@ -2179,6 +2195,8 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
         txtCurrency:        'Currency',
         txtAccounting:      'Accounting',
         txtDate:            'Date',
+        txtDateShort:       'Short Date',
+        txtDateLong:        'Long Date',
         txtTime:            'Time',
         txtPercentage:      'Percentage',
         txtFraction:        'Fraction',

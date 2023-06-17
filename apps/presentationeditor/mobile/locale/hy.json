@@ -27,7 +27,7 @@
       "textEditUser": "Փաստաթուղթը խմբագրողներ՝",
       "textMessageDeleteComment": "Իսկապե՞ս ցանկանում եք ջնջել այս մեկնաբանությունը:",
       "textMessageDeleteReply": "Իսկապե՞ս ցանկանում եք ջնջել այս մեկնաբանությունը:",
-      "textNoComments": "Փաստաթղթում մեկնաբանություններ չկան",
+      "textNoComments": "Մեկնաբանություններ չկան",
       "textOk": "Լավ",
       "textReopen": "Նորից բացել",
       "textResolve": "Լուծել",
@@ -112,7 +112,6 @@
       "textHasMacros": "Ֆայլում կան ինքնաշխատ մակրոներ։<br>Գործարկե՞լ դրանք։",
       "textNo": "Ոչ",
       "textNoLicenseTitle": "Լիցենզիայի սահմանաչափը հասել է",
-      "textNoTextFound": "Տեքստը չի գտնվել",
       "textOpenFile": "Մուտքագրել գաղտնաբառ՝ ֆայլը բացելու համար",
       "textPaidFeature": "Վճարովի գործառույթ",
       "textRemember": "Հիշել իմ ընտրությունը",
@@ -121,10 +120,12 @@
       "textRequestMacros": "Մակրոն հարցում է անում URL-ին: Ցանկանու՞մ եք թույլ տալ հարցումը %1-ին:",
       "textYes": "Այո",
       "titleLicenseExp": "Լիցենզիայի ժամկետը լրացել է",
+      "titleLicenseNotActive": "Լիցենզիան ակտիվ չէ",
       "titleServerVersion": "Խմբագրիչը արդիացվել է",
       "titleUpdateVersion": "Տարբերակը փոխվել է",
       "txtIncorrectPwd": "Գաղտնաբառը սխալ է",
       "txtProtected": "Երբ գաղտնաբառը մուտքագրեք ու նիշքը բացեք, ընթացիկ գաղտնաբառը կվերակայվի",
+      "warnLicenseBefore": "Լիցենզիան ակտիվ չէ:<br> Խնդրում ենք կապվել ձեր ադմինիստրատորի հետ:",
       "warnLicenseExceeded": "Դուք հասել եք %1 խմբագիրների հետ միաժամանակյա միացումների սահմանաչափին:Այս փաստաթուղթը կբացվի միայն դիտելու համար:Կապվեք Ձեր ադմինիստրատորի հետ՝ ավելին իմանալու համար:",
       "warnLicenseExp": "Ձեր լիցենզիայի ժամկետը լրացել է:Խնդրում ենք արդիացնել այն և թարմացնել էջը։",
       "warnLicenseLimitedNoAccess": "Լիցենզիայի ժամկետը լրացել է։Փաստաթղթերի խմբագրման գործառույթից օգտվելու հնարավորություն չունեք:Խնդրում ենք կապվել Ձեր ադմինիստրատորի հետ:",
@@ -132,7 +133,9 @@
       "warnLicenseUsersExceeded": "Դուք հասել եք %1 խմբագրիչներին միաժամանակ միանալու սահմանափակմանը։Կապվեք Ձեր ադմինիստրատորի հետ՝ ավելին իմանալու համար:",
       "warnNoLicense": "Դուք հասել եք %1 խմբագիրների հետ միաժամանակյա միացումների սահմանաչափին:Այս փաստաթուղթը կբացվի միայն դիտելու համար:նձնական թարմացման պայմանների համար կապվեք %1 վաճառքի թիմի հետ:",
       "warnNoLicenseUsers": "Դուք հասել եք %1 խմբագիրների օգտվողի սահմանաչափին:Անձնական թարմացման պայմանների համար կապվեք %1 վաճառքի թիմի հետ:",
-      "warnProcessRightsChange": "Դուք ֆայլը խմբագրելու թույլտվություն չունեք:"
+      "warnProcessRightsChange": "Դուք ֆայլը խմբագրելու թույլտվություն չունեք:",
+      "textNoMatches": "No Matches",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
     }
   },
   "Error": {
@@ -261,7 +264,8 @@
       "textSlideNumber": "Սահիկի համարը",
       "textTable": "Աղյուսակ",
       "textTableSize": "Աղյուսակի չափ",
-      "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ "
+      "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ ",
+      "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
       "notcriticalErrorTitle": "Զգուշացում",
@@ -361,7 +365,6 @@
       "textNextSlide": "Հաջորդ սահիկ",
       "textNone": "Ոչ մեկը",
       "textNoStyles": "Այս տեսակի գծապատկերների համար ոճեր չկան:",
-      "textNoTextFound": "Տեքստը չի գտնվել",
       "textNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ ",
       "textNumbers": "Թվեր",
       "textOk": "Լավ",
@@ -417,7 +420,8 @@
       "textZoom": "Խոշորացնել",
       "textZoomIn": "Մեծացնել",
       "textZoomOut": "Փոքրացնել",
-      "textZoomRotate": "Դիտափոխում և պտտում"
+      "textZoomRotate": "Դիտափոխում և պտտում",
+      "textNoMatches": "No Matches"
     },
     "Settings": {
       "mniSlideStandard": "Ստանդարտ (4:3)",
@@ -457,7 +461,6 @@
       "textLoading": "Բեռնում...",
       "textLocation": "Տեղ",
       "textMacrosSettings": "Մակրոների կարգավորումներ",
-      "textNoTextFound": "Տեքստը չի գտնվել",
       "textOk": "Լավ",
       "textOwner": "Տնօրինող",
       "textPoint": "Կետ",
@@ -502,7 +505,8 @@
       "txtScheme6": "Համագումար ",
       "txtScheme7": "Սեփական կապիտալ",
       "txtScheme8": "Հոսք",
-      "txtScheme9": "Հրատարակիչ"
+      "txtScheme9": "Հրատարակիչ",
+      "textNoMatches": "No Matches"
     }
   }
 }

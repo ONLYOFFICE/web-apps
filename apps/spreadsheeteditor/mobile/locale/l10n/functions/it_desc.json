@@ -1850,5 +1850,33 @@
 	"DROP": {
 		"a": "(matrice, righe, [colonne])",
 		"d": "Elimina righe o colonne dall'inizio o dalla fine della matrice."
+	},
+	"SEQUENCE": {
+		"a": "(righe, [colonne], [inizio], [passaggio])",
+		"d": "Restituisce una sequenza di numeri"
+	},
+	"EXPAND": {
+		"a": "(matrice, righe, [colonne], [pad_with])",
+		"d": "Espande una matrice alle dimensioni specificate."
+	},
+	"XMATCH": {
+		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
+		"d": "Restituisce la posizione relativa di un elemento in una matrice. Per impostazione predefinita, è necessaria una corrispondenza esatta"
+	},
+	"FILTER": {
+		"a": "(matrice, includi, [se_vuoto])",
+		"d": "Filtra un intervallo o una matrice"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(matrice, [formato])",
+		"d": "Restituisce una rappresentazione testuale di una matrice"
+	},
+	"SORT": {
+		"a": "(matrice, [indice_ordinamento], [ordinamento], [per_col])",
+		"d": "Ordina un intervallo o una matrice"
+	},
+	"SORTBY": {
+		"a": "(matrice, con_matrice, [ordinamento], ...)",
+		"d": "Ordina un intervallo o una matrice in base ai valori di una matrice o intervallo corrispondente"
 	}
 }

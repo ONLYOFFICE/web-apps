@@ -2,7 +2,7 @@
     <div id="id-hsb-colorpicker" style="vertical-align:top;">
     </div>
     <div class="color-info" style="">
-        <div style="margin-left:15px;">
+        <div class="margin-left-15">
             <label class="color-label"><%= txtNew %></label>
             <div id="field-new-color" class="color-cnt top"></div>
             <div id="field-start-color" class="color-cnt bottom"></div>

@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  Viewport.js
  *
@@ -104,33 +103,46 @@ define([
 
             $container = $('#viewport-hbox-layout', this.$el);
             var items = $container.find(' > .layout-item');
+            let iarray = [{ // left menu chat & comment
+                el: items[0],
+                rely: true,
+                alias: 'left',
+                resize: {
+                    hidden: true,
+                    autohide: false,
+                    min: 300,
+                    max: 600
+                }}, { // history versions
+                el: items[3],
+                rely: true,
+                alias: 'history',
+                resize: {
+                    hidden: true,
+                    autohide: false,
+                    min: 300,
+                    max: 600
+                }
+            }, { // sdk
+                el: items[1],
+                stretch: true
+            }, { // right menu
+                el: $(items[2]).hide(),
+                rely: true
+            }
+            ];
+
+            if ( Common.UI.isRTL() ) {
+                iarray[0].resize.min = -600;
+                iarray[0].resize.max = -300;
+                [iarray[1].resize.min, iarray[1].resize.max] = [-600, -300];
+
+                [iarray[0], iarray[3]] = [iarray[3], iarray[0]];
+                [iarray[1], iarray[2]] = [iarray[2], iarray[1]];
+            }
+
             this.hlayout = new Common.UI.HBoxLayout({
                 box: $container,
-                items: [{ // left menu chat & comment
-                        el: items[0],
-                        rely: true,
-                        resize: {
-                            hidden: true,
-                            autohide: false,
-                            min: 300,
-                            max: 600
-                    }}, { // history versions
-                        el: items[3],
-                        rely: true,
-                        resize: {
-                                hidden: true,
-                                autohide: false,
-                                min: 300,
-                                max: 600
-                        }
-                    }, { // sdk
-                        el: items[1],
-                        stretch: true
-                    }, { // right menu
-                        el: $(items[2]).hide(),
-                        rely: true
-                    }
-                ]
+                items: iarray
             });
 
             return this;

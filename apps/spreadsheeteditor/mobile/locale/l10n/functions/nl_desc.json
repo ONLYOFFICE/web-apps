@@ -1890,5 +1890,33 @@
 	"DROP": {
 		"a": "(matrix, rijen, [kolommen])",
 		"d": "Rijen of kolommen worden verwijderd uit het begin of einde van de matrix."
+	},
+	"SEQUENCE": {
+		"a": "(rijen, [kolommen], [beginnen], [stap])",
+		"d": "Retourneert een reeks getallen"
+	},
+	"EXPAND": {
+		"a": "(matrix, rijen, [kolommen], [pad_with])",
+		"d": "Hiermee wordt een matrix uitgevouwen naar de opgegeven dimensies."
+	},
+	"XMATCH": {
+		"a": "(zoekwaarde, zoeken-matrix, [overeenkomstmodus], [zoekmodus])",
+		"d": "Retourneert de relatieve positie van een item in een matrix. Standaard is een exacte overeenkomst vereist"
+	},
+	"FILTER": {
+		"a": "(matrix, opnemen, [als_leeg])",
+		"d": "Een matrix of bereik filteren"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(matrix, [Format])",
+		"d": "Retourneert een tekstweergave van een matrix"
+	},
+	"SORT": {
+		"a": "(matrix, [sorteerindex], [sorteervolgorde], [op_kol])",
+		"d": "Sorteert een bereik of matrix"
+	},
+	"SORTBY": {
+		"a": "(matrix, op_matrix, [sorteervolgorde], ...)",
+		"d": "Sorteert een bereik of matrix op basis van de waarden in een bijbehorend bereik of een bijbehorende matrix"
 	}
 }

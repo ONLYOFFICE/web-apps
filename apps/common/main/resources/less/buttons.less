@@ -94,6 +94,10 @@
         }
     }
 
+    .caption {
+        .font-size-normal();
+    }
+
     &.icon-top {
         display: inline-flex;
         flex-direction: column;
@@ -172,6 +176,51 @@
                 -webkit-transform: rotate(225deg);
                 -o-transform: rotate(225deg);
                 transform: rotate(225deg);
+            }
+        }
+
+        &.caret-double-right, &.caret-double-left {
+            &::before, &::after {
+                content: '';
+                position: absolute;
+                top: 7px;
+                width: 6px;
+                height: 6px;
+                background-color: transparent;
+                border: solid 1px @text-normal-ie;
+                border: solid 1px @text-normal;
+                border-bottom: none;
+                border-right: none;
+            }
+        }
+        &.caret-double-right {
+            &::before {
+                left: 3px;
+            }
+            &::after {
+                left: 9px;
+            }
+            &::before, &::after {
+                -moz-transform: rotate(135deg);
+                -ms-transform: rotate(135deg);
+                -webkit-transform: rotate(135deg);
+                -o-transform: rotate(135deg);
+                transform: rotate(135deg);
+            }
+        }
+        &.caret-double-left {
+            &::before {
+                left: 5px;
+            }
+            &::after {
+                left: 11px;
+            }
+            &::before, &::after {
+                -moz-transform: rotate(315deg);
+                -ms-transform: rotate(315deg);
+                -webkit-transform: rotate(315deg);
+                -o-transform: rotate(315deg);
+                transform: rotate(315deg);
             }
         }
     }
@@ -256,7 +305,30 @@
 
                 .caret {
                     margin: 0 1px 0 4px;
+
+                    .rtl & {
+                        margin: 0 4px 0 3px;
+                    }
                 }
+
+                .emptycaption & {
+                    width: 37px;
+                    .caret {
+                        margin: 0 1px 0 2px;
+
+                        .rtl & {
+                            margin: 0 2px 0 1px;
+                        }
+                    }
+                }
+            }
+
+            .pixel-ratio__2_5 & {
+                width: 100%;
+            }
+
+            .rtl & {
+                padding: 1px 3px 1px 4px;
             }
         }
 
@@ -290,7 +362,6 @@
                 //max-width: 100px;
             }
         }
-
     }
 
     .inner-box-icon {
@@ -299,10 +370,19 @@
         align-items: center;
         justify-content: center;
         line-height: 20px;
+
+        .pixel-ratio__2_5 & {
+            width: 100%;
+        }
     }
 
     .btn-fixflex-hcenter {
         flex-grow: 1;
+
+        .pixel-ratio__2_5 & {
+            width: 100%;
+            height: 100%;
+        }
     }
 
     .btn-fixflex-vcenter {
@@ -321,14 +401,6 @@
 
     div.inner-box-icon {
         height: 28px;           // TODO: clear. Firefox bug 984869. fixed. isn't released.
-    }
-}
-
-.icon-top.btn-group {
-    &.x-huge, .x-huge {
-        .inner-box-caption {
-            padding-right: 4px;
-        }
     }
 }
 
@@ -424,8 +496,8 @@
             only screen and (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
             only screen and (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx),
             only screen and (min-resolution: 144dpi) and (max-resolution: 143dpi) {
-                width:calc(~"28px/1.5");
-                height:calc(~"28px/1.5");
+                //width:calc(~"28px/1.5");
+                //height:calc(~"28px/1.5");
             }
         }
     }
@@ -454,11 +526,27 @@
         width: 14px;
         height: 3px;
         background-color: red;
+        .rtl & {
+            left: auto;
+            right: 3px;
+        }
         &.bordered {
             border: @scaled-one-px-value-ie solid @border-regular-control-ie;
             border: @scaled-one-px-value solid @border-regular-control;
         }
-
+        .x-huge & {
+            left: 8px;
+            width: 28px;
+            height: 6px;
+            .rtl & {
+                left: auto;
+                right: 8px;
+            }
+        }
+        .x-huge.split & {
+            bottom: auto;
+            top: 4px;
+        }
 
         .pixel-ratio__1_5 & {
             height: 4px;
@@ -472,7 +560,7 @@
     }
 
     &.align-left {
-        text-align: left;
+        .text-align-left();
     }
 }
 
@@ -483,6 +571,7 @@
     display: block;
     position: relative;
     .border-radius(0);
+    .font-size-normal();
     .font-weight-bold();
     background-color: transparent;
 
@@ -515,6 +604,15 @@
         opacity: @component-disabled-opacity-ie;
         opacity: @component-disabled-opacity;
     }
+
+    .pixel-ratio__2_5 & {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        i.icon {
+            display: none;
+        }
+    }
 }
 
 // The clickable button for toggling the menu
@@ -527,12 +625,40 @@
     > .btn {
         + .dropdown-toggle {
             padding: 0 4px 0 3px;
+
+            .rtl & {
+                padding: 0 3px 0 4px;
+            }
+        }
+
+        .rtl & {
+            float: right;
+        }
+
+        &:first-child:not(:last-child):not(.dropdown-toggle) {
+            .rtl & {
+                .border-radius(@border-radius-small);
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+            }
         }
     }
 
     > .dropdown-toggle:first-child {
         .inner-box-caret {
             padding: 0 4px 0 3px;
+
+            .rtl & {
+                padding: 0 3px 0 4px;
+            }
+        }
+    }
+
+    > .dropdown-toggle:not(first-child) {
+        .rtl & {
+            .border-radius(@border-radius-small);
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
         }
     }
 
@@ -670,6 +796,11 @@
     border:@scaled-one-px-value solid @border-regular-control;
     .border-radius(@border-radius-small);
 
+    .rtl & {
+        padding: @scaled-one-px-value-ie @scaled-one-px-value-ie @scaled-one-px-value-ie 11px;
+        padding: @scaled-one-px-value @scaled-one-px-value @scaled-one-px-value 11px ;
+    }
+
     span:nth-child(1) {
         float: left;
         width: 100%;
@@ -683,6 +814,11 @@
         position: absolute;
         right: 0;
         top: 2px;
+
+        .rtl & {
+            right: auto;
+            left: 0;
+        }
     }
 
     &,
@@ -708,6 +844,12 @@
             height: 34px;
             transform: translate(16px, -9px) rotate(62deg);
             left: 0;
+
+            .rtl & {
+                left: auto;
+                right: 0;
+                transform: translate(-16px, -9px) rotate(62deg);
+            }
         }
     }
 
@@ -729,13 +871,36 @@
 
 // for color button auto color
 .dropdown-menu {
-    li > a.selected,
-    li > a:hover {
+    li > a {
         span.color-auto {
-            outline: @scaled-one-px-value-ie solid @icon-normal-ie;
-            outline: @scaled-one-px-value solid @icon-normal;
-            border: @scaled-one-px-value-ie solid @background-normal-ie;
-            border: @scaled-one-px-value solid @background-normal;
+            background-image: none;
+            width: 12px;
+            height: 12px;
+            margin: 1px 7px 0 1px;
+
+            .rtl & {
+                margin: 1px 1px 0 7px;
+            }
+        }
+
+        &.selected,
+        &:hover {
+            span.color-auto {
+                outline: @scaled-one-px-value-ie solid @icon-normal-ie;
+                outline: @scaled-one-px-value solid @icon-normal;
+                border: @scaled-one-px-value-ie solid @background-normal-ie;
+                border: @scaled-one-px-value solid @background-normal;
+            }
+        }
+    }
+}
+
+.color-menu.dropdown-menu.shifted-right {
+    li > a {
+        .padding-x(32px, 20px);
+        span.color-auto {
+            .margin-left(-18px);
+            margin-top: 1px;
         }
     }
 }
@@ -762,6 +927,18 @@
         margin: 0;
         display: inline-block;
         background-repeat: no-repeat;
+    }
+
+    .pixel-ratio__2_5 & {
+        svg.icon {
+            width: 100%;
+        }
+    }
+
+    &.huge-1 {
+        .pixel-ratio__2_5 & {
+            width: 40px;
+        }
     }
 
     box-shadow: inset 0 0 0 @scaled-one-px-value-ie @border-regular-control-ie;
@@ -804,11 +981,17 @@
     border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
     .border-radius(@border-radius-small);
+    .font-size-normal();
 
     &.auto {
         width: auto;
         padding-left: 10px;
         padding-right: 10px;
+    }
+
+    &:not(.auto) {
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     &:focus:not(.disabled) {
@@ -856,6 +1039,11 @@
         position: absolute;
         right: 5px;
         margin-top: 5px;
+
+        .rtl & {
+            right: auto;
+            left: 5px;
+        }
     }
 
     &:hover:not(.disabled),
@@ -898,6 +1086,12 @@
 
     &:not(.dropdown-toggle) {
         border-right: none;
+
+        .rtl & {
+            border: @scaled-one-px-value-ie solid @border-regular-control-ie;
+            border: @scaled-one-px-value solid @border-regular-control;
+            border-left: none;
+        }
     }
 
     &:hover:not(.disabled),
@@ -943,6 +1137,9 @@
 
     &:not(.btn-toolbar).dropdown-toggle:first-child .inner-box-caret {
       padding: 0 1px 0 2px;
+        .rtl & {
+            padding: 0 2px 0 1px;
+        }
     }
 
     &:hover:not(.disabled),
@@ -961,6 +1158,31 @@
     &.disabled {
         opacity: @component-disabled-opacity-ie;
         opacity: @component-disabled-opacity;
+    }
+}
+
+.asc-window.modal {
+    .btn-toolbar:not(.bg-white):not(.disabled) {
+        &:focus {
+            .box-inner-shadow(0 0 0 @scaled-one-px-value-ie @border-control-focus-ie);
+            .box-inner-shadow(0 0 0 @scaled-one-px-value @border-control-focus);
+        }
+    }
+    .btn-group:not(.split) {
+        &.open,
+        &.active,
+        &:active {
+            .btn-toolbar:not(.bg-white):not(.disabled) {
+                .box-inner-shadow(0 0 0 @scaled-one-px-value-ie @border-control-focus-ie);
+                .box-inner-shadow(0 0 0 @scaled-one-px-value @border-control-focus);
+            }
+        }
+    }
+    .btn-group.split,
+    .input-field-btn {
+        .btn-toolbar:not(.bg-white):not(.disabled):focus {
+            .box-shadow(none);
+        }
     }
 }
 
@@ -992,7 +1214,7 @@
         display: inline-block;
         .btn.btnsize(52px);
         padding: 0;
-        margin-right: 3px;
+        .margin-right-3();
         background-color: transparent;
         background-repeat: no-repeat;
         border: @scaled-one-px-value-ie solid @border-regular-control-ie;
@@ -1070,6 +1292,7 @@
 // ------------------------
 
 .dlg-btn {
+    .font-size-normal();
     .font-weight-bold();
     width: 86px;
     color: @text-normal-ie;
@@ -1107,45 +1330,5 @@
     &.custom {
         width: auto;
         min-width: 86px;
-    }
-}
-
-@class100: zoom-int;
-@class150: zoom-grit;
-svg.icon {
-    .@{class150} {
-        display: none;
-    }
-
-    //@media
-    //only screen and (-webkit-min-device-pixel-ratio: 1.5),
-    //only screen and (-webkit-min-device-pixel-ratio: 2.5),
-    //only screen and (min-resolution: 1.5dppx),
-    //only screen and (min-resolution: 2.5dppx),
-    //only screen and (min-resolution: 144dpi),
-    //only screen and (min-resolution: 240dpi) {
-    //    .@{class100} {
-    //        display: none;
-    //    }
-    //
-    //    .@{class150} {
-    //        display: block;
-    //    }
-    //}
-
-    @media
-    only screen and (-webkit-min-device-pixel-ratio: 2) and (-webkit-max-device-pixel-ratio: 2.4),
-    only screen and (-webkit-min-device-pixel-ratio: 4),
-    only screen and (min-resolution: 2dppx) and (max-resolution: 2.4dppx),
-    only screen and (min-resolution: 4dppx),
-    only screen and (min-resolution: 192dpi) and (max-resolution: 239dpi),
-    only screen and (min-resolution: 384dpi) {
-        .@{class100} {
-            display: block;
-        }
-
-        .@{class150} {
-            display: none;
-        }
     }
 }

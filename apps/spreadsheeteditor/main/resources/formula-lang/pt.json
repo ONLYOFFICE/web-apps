@@ -472,6 +472,13 @@
 	"WRAPCOLS": "MOLDARCOLS",
 	"TAKE": "INCLUIR",
 	"DROP": "EXCLUIR",
+	"SEQUENCE": "SEQUÊNCIA",
+	"EXPAND": "EXPANDIR",
+	"XMATCH": "CORRESPX",
+	"FILTER": "FILTRAR",
+	"ARRAYTOTEXT": "MATRIZPARATEXTO",
+	"SORT": "ORDENAR",
+	"SORTBY": "ORDENARPOR",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

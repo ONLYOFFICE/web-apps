@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  * User: Julia.Radzhabova
  * Date: 06.03.15
@@ -59,6 +58,10 @@ define([
             this.currentDocIdPrev = '';
             this.currentRev = 0;
             this.currentServerVersion = 0;
+            this.currentUserId = '';
+            this.currentUserName = '';
+            this.currentUserColor = '';
+            this.currentDateCreated = '';
         },
 
         events: {
@@ -135,6 +138,10 @@ define([
             this.currentDocIdPrev = record.get('docIdPrev');
             this.currentRev = rev;
             this.currentServerVersion = record.get('serverVersion');
+            this.currentUserId = record.get('userid');
+            this.currentUserName = record.get('username');
+            this.currentUserColor = record.get('usercolor');
+            this.currentDateCreated = record.get('created');
 
             if ( _.isEmpty(url) || (urlGetTime - record.get('urlGetTime') > 5 * 60000)) {
                 var me = this;
@@ -164,6 +171,10 @@ define([
                 hist.asc_setToken(token);
                 hist.asc_setIsRequested(false);
                 hist.asc_setServerVersion(this.currentServerVersion);
+                hist.asc_SetUserId(this.currentUserId);
+                hist.asc_SetUserName(this.currentUserName);
+                hist.asc_SetUserColor(this.currentUserColor);
+                hist.asc_SetDateOfRevision(this.currentDateCreated);
                 this.api.asc_showRevision(hist);
 
                 var reviewController = this.getApplication().getController('Common.Controllers.ReviewChanges');
@@ -230,6 +241,10 @@ define([
                     hist.asc_setToken(token);
                     hist.asc_setIsRequested(true);
                     hist.asc_setServerVersion(this.currentServerVersion);
+                    hist.asc_SetUserId(this.currentUserId);
+                    hist.asc_SetUserName(this.currentUserName);
+                    hist.asc_SetUserColor(this.currentUserColor);
+                    hist.asc_SetDateOfRevision(this.currentDateCreated);
                     this.api.asc_showRevision(hist);
                     this.currentRev = data.version;
 

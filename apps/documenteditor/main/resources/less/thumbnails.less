@@ -18,31 +18,23 @@
         border-bottom: @scaled-one-px-value solid @border-toolbar;
 
         label {
-            font-size: 12px;
+            .font-size-medium();
             .font-weight-bold();
             margin-top: 2px;
         }
 
-        #thumbnails-btn-close {
-            float:right;
-            margin-left: 4px;
-        }
-
-        #thumbnails-btn-settings {
-            float:right;
-        }
-
         #thumbnails-size {
+            .text-align-left();
             label {
-                font-size: 11px;
+                .font-size-normal();
                 font-weight: normal;
                 margin: 0;
-                padding-left: 12px;
+                .padding-left-12();
                 line-height: 25px;
             }
             .thumbnails-sld-box {
                 height: 25px;
-                padding-left: 8px;
+                .padding-left-8();
                 .menu-item-icon {
                     position: relative;
                     float: none;
@@ -60,7 +52,11 @@
                 a {
                     padding: 5px 20px 5px 33px;
                     &.checked:before {
-                        margin-left: -24px;
+                        .margin-left(-24px);
+                    }
+
+                    .rtl & {
+                        padding: 5px 33px 5px 20px;
                     }
                 }
             }

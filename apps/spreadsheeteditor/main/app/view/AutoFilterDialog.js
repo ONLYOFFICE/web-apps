@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  AutoFilterDialog.js
  *
@@ -70,15 +69,15 @@ define([
                         '<label class="header">', t.textShowRows, '</label>',
                         '<div style="margin-top:15px;">',
                             '<div id="id-search-begin-digital-combo" class="input-group-nr" style="vertical-align:top;width:225px;display:inline-block;"></div>',
-                            '<div id="id-sd-cell-search-begin" class="" style="width:225px;display:inline-block;margin-left:18px;"></div>',
+                            '<div id="id-sd-cell-search-begin" class="margin-left-18" style="width:225px;display:inline-block;"></div>',
                         '</div>',
                         '<div>',
                             '<div id="id-and-radio" class="padding-small" style="display: inline-block; margin-top:10px;"></div>',
-                            '<div id="id-or-radio" class="padding-small" style="display: inline-block; margin-left:25px;"></div>',
+                            '<div id="id-or-radio" class="padding-small margin-left-22" style="display: inline-block;"></div>',
                         '</div>',
                         '<div style="margin-top:10px;">',
                             '<div id="id-search-end-digital-combo" class="input-group-nr" style="vertical-align:top;width:225px;display:inline-block;"></div>',
-                            '<div id="id-sd-cell-search-end" class="" style="width:225px;display:inline-block;margin-left:18px;"></div>',
+                            '<div id="id-sd-cell-search-end" class="margin-left-18" style="width:225px;display:inline-block;"></div>',
                         '</div>',
                     '</div>',
                 '</div>',
@@ -324,8 +323,8 @@ define([
                     '<div class="content-panel" >',
                         '<label>', t.textType, '</label>',
                         '<div>',
-                            '<div id="id-top10-type-combo" style="margin-right:10px; display: inline-block; vertical-align: middle;"></div>',
-                            '<div id="id-top10-count-spin" class="input-group-nr" style="margin-right:10px; display: inline-block; vertical-align: middle;"></div>',
+                            '<div id="id-top10-type-combo" class="margin-right-10" style="display: inline-block; vertical-align: middle;"></div>',
+                            '<div id="id-top10-count-spin" class="input-group-nr margin-right-10" style="display: inline-block; vertical-align: middle;"></div>',
                             '<div id="id-top10-item-combo" class="input-group-nr" style="display: inline-block; vertical-align: middle;"></div>',
                             '<label id="id-top10-lblby" class="input-group-nr" style="min-width: 40px; text-align: center; display: inline-block; vertical-align: middle;">'+ t.txtBy +'</label>',
                             '<div id="id-top10-fields-combo" class="input-group-nr" style="width:100px;display: inline-block; vertical-align: middle;"></div>',
@@ -533,11 +532,11 @@ define([
                     '<div class="content-panel" >',
                         '<label class="header">', ((t.type=='label') ? t.textShowLabel : t.textShowValue), '</label>',
                         '<div style="margin-top:15px;">',
-                            '<div id="id-field-digital-combo" class="input-group-nr" style="vertical-align:middle;width:110px;display:inline-block;margin-right:10px;"></div>',
-                            '<div id="id-cond-digital-combo" class="input-group-nr" style="vertical-align:middle;width:' + ((t.type=='label') ? 225 : 110) + 'px;display:inline-block;margin-right:10px;"></div>',
+                            '<div id="id-field-digital-combo" class="input-group-nr margin-right-10" style="vertical-align:middle;width:110px;display:inline-block;"></div>',
+                            '<div id="id-cond-digital-combo" class="input-group-nr margin-right-10" style="vertical-align:middle;width:' + ((t.type=='label') ? 225 : 110) + 'px;display:inline-block;"></div>',
                             '<div id="id-input-digital-value1" class="" style="vertical-align: middle; width:225px;display:inline-block;"></div>',
-                            '<label id="id-label-digital-and" style="vertical-align: middle;margin-left: 5px;">'+ this.txtAnd +'</label>',
-                            '<div id="id-input-digital-value2" class="" style="vertical-align: middle; width:100px;display:inline-block;margin-left: 5px;"></div>',
+                            '<label id="id-label-digital-and" class="margin-left-5" style="vertical-align: middle;">'+ this.txtAnd +'</label>',
+                            '<div id="id-input-digital-value2" class="margin-left-5" style="vertical-align: middle; width:100px;display:inline-block;"></div>',
                         '</div>',
                         '<div style="margin-top:10px;">',
                             '<label style="display:block;">' + t.textUse1 + '</label>',
@@ -595,7 +594,7 @@ define([
                 this.lblAnd.toggleClass('hidden', !isBetween);
                 this.inputValue.$el.width(isBetween ? 100 : 225);
                 var me = this;
-                _.defer(function () {
+                setTimeout(function () {
                     if (me.inputValue) {
                         me.inputValue.focus();
                     }
@@ -615,7 +614,7 @@ define([
             this.cmbFields.setVisible(this.type=='value');
             this.cmbFields.on('selected', _.bind(function(combo, record) {
                 var me = this;
-                _.defer(function () {
+                setTimeout(function () {
                     if (me.inputValue) {
                         me.inputValue.focus();
                     }
@@ -808,9 +807,9 @@ define([
                     '<div class="box" style="height:' + (_options.height - 85) + 'px;">',
                     '<div class="content-panel" >',
                         '<div id="id-sort-filter-radio-asc" style="margin-bottom: 4px;"></div>',
-                        '<div id="id-sort-filter-fields-asc" class="input-group-nr" style="margin-bottom: 10px;margin-left: 22px;"></div>',
+                        '<div id="id-sort-filter-fields-asc" class="input-group-nr margin-left-22" style="margin-bottom: 10px;"></div>',
                         '<div id="id-sort-filter-radio-desc" style="margin-bottom: 4px;"></div>',
-                        '<div id="id-sort-filter-fields-desc" class="input-group-nr" style="margin-left: 22px;"></div>',
+                        '<div id="id-sort-filter-fields-desc" class="input-group-nr margin-left-22"></div>',
                     '</div>',
                     '</div>',
                     '<div class="separator horizontal" style="width:100%"></div>'
@@ -910,16 +909,41 @@ define([
 
         loadDefaults: function () {
             if (this.properties) {
-                var pivotObj = this.properties.asc_getPivotObj(),
-                    idx = pivotObj.asc_getDataFieldIndexSorting(),
-                    fields = pivotObj.asc_getDataFields(),
-                    sort = this.properties.asc_getSortState();
+                var idx = 0,
+                    sort = Asc.c_oAscSortOptions.Ascending;
 
-                this.setTitle(this.txtTitle + ' (' + fields[0] + ')');
                 var arr = [];
-                fields && fields.forEach(function (item, index) {
-                    item && arr.push({value: index, displayValue: item});
-                });
+                if (this.properties.filter) {
+                    var filter = this.properties.filter,
+                        pivotObj = filter.asc_getPivotObj(),
+                        fields = pivotObj.asc_getDataFields();
+                    idx = pivotObj.asc_getDataFieldIndexSorting();
+                    sort = filter.asc_getSortState();
+                    fields && fields.forEach(function (item, index) {
+                        item && arr.push({value: index, displayValue: item, filter: filter, indexSorting: index});
+                    });
+                    this.setTitle(this.txtTitle + ' (' + fields[0] + ')');
+                } else if (this.properties.rowFilter && this.properties.colFilter) {
+                    this.setTitle(this.txtTitleValue);
+                    var pivotObj = this.properties.rowFilter.asc_getPivotObj(),
+                        fields = pivotObj.asc_getDataFields(),
+                        idxRow = pivotObj.asc_getDataFieldIndexSorting();
+                    arr.push({value: 0, displayValue: fields[0], filter: this.properties.rowFilter, indexSorting: 1});
+
+                    pivotObj = this.properties.colFilter.asc_getPivotObj();
+                    fields = pivotObj.asc_getDataFields();
+                    var idxCol = pivotObj.asc_getDataFieldIndexSorting();
+                    arr.push({value: 1, displayValue: fields[0], filter: this.properties.colFilter, indexSorting: 1});
+
+                    if (idxRow>0 || idxRow===idxCol) {
+                        idx = 0;
+                        sort = this.properties.rowFilter.asc_getSortState();
+                    } else {
+                        idx = 1;
+                        sort = this.properties.colFilter.asc_getSortState();
+                    }
+                }
+
                 this.cmbFieldsAsc.setData(arr);
                 this.cmbFieldsAsc.setValue((idx>=0) ? idx : 0);
                 this.cmbFieldsDesc.setData(arr);
@@ -927,15 +951,20 @@ define([
 
                 this.radioDesc.setValue(sort == Asc.c_oAscSortOptions.Descending, true);
                 this.cmbFieldsDesc.setDisabled(sort !== Asc.c_oAscSortOptions.Descending);
+                this.cmbFieldsAsc.setDisabled(sort === Asc.c_oAscSortOptions.Descending);
             }
         },
         save: function () {
             if (this.api && this.properties) {
                 var combo = this.radioAsc.getValue() ? this.cmbFieldsAsc : this.cmbFieldsDesc;
-                var pivotObj = this.properties.asc_getPivotObj();
-                pivotObj.asc_setDataFieldIndexSorting(combo.getValue());
-                this.properties.asc_setSortState(this.radioAsc.getValue() ? Asc.c_oAscSortOptions.Ascending : Asc.c_oAscSortOptions.Descending);
-                this.api.asc_applyAutoFilter(this.properties);
+                var rec = combo.getSelectedRecord();
+                if (rec) {
+                    var filter = rec.filter,
+                        pivotObj = filter.asc_getPivotObj();
+                    pivotObj.asc_setDataFieldIndexSorting(rec.indexSorting);
+                    filter.asc_setSortState(this.radioAsc.getValue() ? Asc.c_oAscSortOptions.Ascending : Asc.c_oAscSortOptions.Descending);
+                    this.api.asc_applyAutoFilter(filter);
+                }
             }
         },
 
@@ -946,6 +975,7 @@ define([
         },
 
         txtTitle: "Sort",
+        txtTitleValue: "Sort by value",
         textAsc: 'Ascenging (A to Z) by',
         textDesc: 'Descending (Z to A) by'
 
@@ -990,7 +1020,7 @@ define([
                             '<button class="btn normal dlg-btn" result="cancel">', t.cancelButtonText, '</button>',
                         '</div>',
                     '</div>',
-                    '<div class="menu-panel" style="float: right;">',
+                    '<div class="menu-panel">',
                         '<div id="menu-container-filters" style=""><div class="dropdown-toggle" data-toggle="dropdown"></div></div>',
                     '</div>',
                 '</div>'
@@ -1307,10 +1337,10 @@ define([
                                 '<input id="afcheckbox-<%= id %>" type="checkbox" class="button__checkbox">',
                                 '<label for="afcheckbox-<%= id %>" class="checkbox__shape"></label>',
                             '</label>',
-                            '<div id="<%= id %>" class="list-item" style="pointer-events:none; margin-left: 20px;display: flex;">',
+                            '<div id="<%= id %>" class="list-item margin-left-20" style="pointer-events:none; display: flex;">',
                                 '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(value) %></div>',
                                 '<% if (typeof count !=="undefined" && count) { %>',
-                                    '<div style="word-break: normal; margin-left: 10px; color: #afafaf;"><%= count%></div>',
+                                    '<div class="margin-left-10" style="word-break: normal; color: #afafaf;"><%= count%></div>',
                                 '<% } %>',
                             '</div>',
                         '</div>'
@@ -1354,9 +1384,7 @@ define([
                 $(document.body).on('mousedown', checkDocumentClick);
             }, 100, this);
 
-            if(Common.Utils.InternalSettings.get('sse-settings-size-filter-window')) {
-                this.cellsList.scroller.update({minScrollbarLength  : this.cellsList.minScrollbarLength, alwaysVisibleY: true, suppressScrollX: true});
-            }
+            this.cellsList.scroller.update({minScrollbarLength  : this.cellsList.minScrollbarLength, alwaysVisibleY: true, suppressScrollX: true});
         },
 
         show: function (x, y) {
@@ -1401,7 +1429,7 @@ define([
                 });
             this.close();
 
-            dlgSort.setSettings(this.configTo);
+            dlgSort.setSettings({filter : this.configTo});
             dlgSort.show();
         },
 
@@ -1943,7 +1971,6 @@ define([
             }
             this.btnOk.setDisabled(this.cells.length<1);
             this.cellsList.scroller.update({minScrollbarLength  : this.cellsList.minScrollbarLength, alwaysVisibleY: true, suppressScrollX: true});
-            this.cellsList.cmpEl.toggleClass('scroll-padding', this.cellsList.scroller.isVisible());
         },
 
         testFilter: function () {

@@ -48,7 +48,7 @@ const ToolbarView = props => {
     return (
         <Fragment>
             <NavLeft>
-                {props.isShowBack && <Link className={`btn-doc-back${props.disabledControls && ' disabled'}`} icon='icon-back' onClick={props.onBack}></Link>}
+                {props.isShowBack && <Link className={`btn-doc-back${props.disabledControls && ' disabled'}`} icon='icon-back' onClick={() => Common.Notifications.trigger('goback')}></Link>}
                 {Device.ios && undo_box}
             </NavLeft>
             {!Device.phone && <NavTitle style={{width: '71%'}}>{props.docTitle}</NavTitle>}

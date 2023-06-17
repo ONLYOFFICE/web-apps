@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  StatusBar View
  *
@@ -323,7 +322,7 @@ define([
                         {caption: '--'},
                         {
                             id: "id-tab-menu-new-color",
-                            template: _.template('<a tabindex="-1" type="menuitem" style="padding-left:12px;">' + me.textNewColor + '</a>')
+                            template: _.template('<a tabindex="-1" type="menuitem" style="' + (Common.UI.isRTL() ? 'padding-right: 12px;': 'padding-left: 12px;') + '">' + me.textNewColor + '</a>')
                         }
                     ]
                 });
@@ -591,9 +590,7 @@ define([
                                 '<a id="<%= id %>" style="<%= style %>" tabindex="-1" type="menuitem" <% if (options.hidden) { %> data-hidden="true" <% } %>>',
                                     '<div class="color"></div>',
                                     '<span class="name"><%= caption %></span>',
-                                    '<% if (options.hidden) { %>',
-                                        '<span class="hidden-mark"><%= options.textHidden %></span>',
-                                    '<% } %>',
+                                    '<span class="hidden-mark"><% if (options.hidden) { %><%=  options.textHidden %><% } else { %><% } %></span>',
                                 '</a>'
                             ].join(''))
                         }));
@@ -763,7 +760,8 @@ define([
                         this.tabMenu.atposition = (function () {
                             return {
                                 top : rect.top,
-                                left: rect.left - parentPos.left - 2
+                                left: rect.left - parentPos.left - 2,
+                                right: rect.right - parentPos.left + 2
                             };
                         })();
 
@@ -779,7 +777,7 @@ define([
 
             onTabMenuAfterShow: function (obj) {
                 if (obj.atposition) {
-                    obj.setOffset(obj.atposition.left);
+                    obj.setOffset(Common.UI.isRTL() ? (obj.atposition.right - $(obj.el).width()) : obj.atposition.left);
                 }
 
                 this.enableKeyEvents = true;
@@ -824,12 +822,20 @@ define([
                 var visible = false;
                 var right = parseInt(this.boxZoom.css('width'));
                 if (this.boxMath.is(':visible')) {
-                    this.boxMath.css({'right': right + 'px'});
+                    if (Common.UI.isRTL()) {
+                        this.boxMath.css({'left': right + 'px'});
+                    } else {
+                        this.boxMath.css({'right': right + 'px'});
+                    }
                     right += parseInt(this.boxMath.css('width'));
                     visible = true;
                 }
                 if (this.boxFiltered.is(':visible')) {
-                    this.boxFiltered.css({'right': right + 'px'});
+                    if (Common.UI.isRTL()) {
+                        this.boxFiltered.css({'left': right + 'px'});
+                    } else {
+                        this.boxFiltered.css({'right': right + 'px'});
+                    }
                     right += parseInt(this.boxFiltered.css('width'));
                     visible = true;
                 }
@@ -840,11 +846,21 @@ define([
                         var actionWidth = this.actionWidth || 140;
                         if (Common.Utils.innerWidth() - right - 129 - actionWidth - tabsWidth > 0) { // docWidth - right - left - this.boxAction.width
                             var left = tabsWidth + 129;
-                            this.boxAction.css({'right': right + 'px', 'left': left + 'px', 'width': 'auto'});
-                            this.boxAction.find('.separator').css('border-left-color', 'transparent');
+                            if (Common.UI.isRTL()) {
+                                this.boxAction.css({'left': right + 'px', 'right': left + 'px', 'width': 'auto'});
+                                this.boxAction.find('.separator').css('border-right-color', 'transparent');
+                            } else {
+                                this.boxAction.css({'right': right + 'px', 'left': left + 'px', 'width': 'auto'});
+                                this.boxAction.find('.separator').css('border-left-color', 'transparent');
+                            }
                         } else {
-                            this.boxAction.css({'right': right + 'px', 'left': 'auto', 'width': actionWidth + 'px'});
-                            this.boxAction.find('.separator').css('border-left-color', '');
+                            if (Common.UI.isRTL()) {
+                                this.boxAction.css({'left': right + 'px', 'right': 'auto', 'width': actionWidth + 'px'});
+                                this.boxAction.find('.separator').css('border-right-color', '');
+                            } else {
+                                this.boxAction.css({'right': right + 'px', 'left': 'auto', 'width': actionWidth + 'px'});
+                                this.boxAction.find('.separator').css('border-left-color', '');
+                            }
                             visible = true;
                         }
                         right += parseInt(this.boxAction.css('width'));
@@ -853,18 +869,32 @@ define([
                     this.boxMath.is(':visible') && this.boxMath.css({'top': '0px', 'bottom': 'auto'});
                     this.boxFiltered.is(':visible') && this.boxFiltered.css({'top': '0px', 'bottom': 'auto'});
                     this.boxZoom.css({'top': '0px', 'bottom': 'auto'});
-                    this.tabBarBox.css('right', right + 'px');
+                    if (Common.UI.isRTL()) {
+                        this.tabBarBox.css('left', right + 'px');
+                    } else {
+                        this.tabBarBox.css('right', right + 'px');
+                    }
                 } else {
                     if (this.boxAction.is(':visible')) {
-                        this.boxAction.css({'right': right + 'px', 'left': '135px', 'width': 'auto'});
-                        this.boxAction.find('.separator').css('border-left-color', 'transparent');
+                        if (Common.UI.isRTL()) {
+                            this.boxAction.css({'left': right + 'px', 'right': '135px', 'width': 'auto'});
+                            this.boxAction.find('.separator').css('border-right-color', 'transparent');
+                        } else {
+                            this.boxAction.css({'right': right + 'px', 'left': '135px', 'width': 'auto'});
+                            this.boxAction.find('.separator').css('border-left-color', 'transparent');
+                        }
                     }
                     this.boxMath.is(':visible') && this.boxMath.css({'top': 'auto', 'bottom': '0px'});
                     this.boxFiltered.is(':visible') && this.boxFiltered.css({'top': 'auto', 'bottom': '0px'});
                     this.boxZoom.css({'top': 'auto', 'bottom': '0px'});
-                    this.tabBarBox.css('right', '0px');
+                    if (Common.UI.isRTL()) {
+                        this.tabBarBox.css('left', '0px');
+                        this.boxZoom.find('.separator').css('border-right-color', visible ? '' : 'transparent');
+                    } else {
+                        this.tabBarBox.css('right', '0px');
+                        this.boxZoom.find('.separator').css('border-left-color', visible ? '' : 'transparent');
+                    }
                 }
-                this.boxZoom.find('.separator').css('border-left-color', visible ? '' : 'transparent');
 
                 if (this.statusMessage) {
                     var status = this.getStatusMessage(this.statusMessage);
@@ -890,11 +920,12 @@ define([
             },
 
             changeViewMode: function (mode) {
-                var edit = mode.isEdit;
+                var edit = mode.isEdit,
+                    styleLeft = Common.UI.isRTL() ? 'right' : 'left';
                 if (edit) {
-                    this.tabBarBox.css('left', '129px');
+                    this.tabBarBox.css(styleLeft, '129px');
                 } else {
-                    this.tabBarBox.css('left', '');
+                    this.tabBarBox.css(styleLeft, '');
                 }
 
                 this.tabbar.options.draggable = edit;
@@ -919,7 +950,7 @@ define([
                 if (obj.atposition) {
                     var statusHeight = $(this.el).height(),
                         offsetTop = !this.isCompact && (obj.atposition.top - $(this.el).offset().top > statusHeight/2) ? statusHeight/2 : 0;
-                    obj.setOffset(obj.atposition.left, offsetTop);
+                    obj.setOffset(Common.UI.isRTL() ? (obj.atposition.left - $(this.el).width() + 2) : obj.atposition.left, offsetTop);
                 }
                 this.enableKeyEvents = true;
             },

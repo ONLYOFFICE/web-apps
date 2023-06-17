@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -411,17 +410,17 @@ define([
             this.template = [
                 '<div class="box">',
                     '<div style="margin-bottom: 16px;" class="'+ (this.special ? '' : 'hidden') +'">',
-                        '<button type="button" class="btn btn-text-default auto" id="symbol-table-symbols" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">', this.textSymbols,'</button>',
-                        '<button type="button" class="btn btn-text-default auto" id="symbol-table-special" style="border-top-left-radius: 0;border-bottom-left-radius: 0;border-left-width: 0;margin-left: -1px;">', this.textSpecial,'</button>',
+                        '<button type="button" class="btn btn-text-default auto" id="symbol-table-symbols">', this.textSymbols,'</button>',
+                        '<button type="button" class="btn btn-text-default auto" id="symbol-table-special">', this.textSpecial,'</button>',
                     '</div>',
                     '<div id="symbol-table-pnl-symbols">',
                         '<table cols="2" style="width: 100%;max-width: 497px;">',
                             '<tr>',
-                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 50%;">',
+                                '<td class="padding-right-5" style="padding-bottom: 8px;width: 50%;">',
                                     '<label class="input-label">' + this.textFont + '</label>',
                                     '<div id="symbol-table-cmb-fonts"></div>',
                                 '</td>',
-                                '<td style="padding-left: 5px;padding-bottom: 8px;">',
+                                '<td class="padding-left-5" style="padding-bottom: 8px;">',
                                     '<label class="input-label">' + this.textRange + '</label>',
                                     '<div id="symbol-table-cmb-range"></div>',
                                 '</td>',
@@ -450,17 +449,17 @@ define([
                         '</table>',
                         '<table cols="2" style="width: 100%;max-width: 497px;">',
                             '<tr>',
-                                '<td style="padding-right: 5px; width: 50%;">',
+                                '<td class="padding-right-5" style="width: 50%;">',
                                     '<label class="input-label">' + this.textCode + '</label>',
                                 '</td>',
-                                '<td style="padding-left: 5px;">',
+                                '<td class="padding-left-5">',
                                 '</td>',
                             '</tr>',
                             '<tr>',
-                                '<td style="padding-right: 5px;">',
+                                '<td class="padding-right-5">',
                                     '<div id="symbol-table-text-code" oo_editor_input="true"></div>',
                                 '</td>',
-                                '<td style="padding-left: 5px;">',
+                                '<td class="padding-left-5">',
                                     '<div id="symbol-table-label-font" style="overflow: hidden; text-overflow: ellipsis;white-space: nowrap;max-width: 160px;"></div>',
                                 '</td>',
                             '</tr>',
@@ -471,7 +470,7 @@ define([
                             '<tr>',
                                 '<td>',
                                     '<label>' + this.textCharacter + '</label>',
-                                    '<label id="symbol-table-lbl-shortcut" style="float: right; min-width: 112px;">' + this.textShortcut + '</label>',
+                                    '<label id="symbol-table-lbl-shortcut" style="width: 112px;" class="float-right">' + this.textShortcut + '</label>',
                                 '</td>',
                             '</tr>',
                             '<tr>',
@@ -722,7 +721,7 @@ define([
             this.previewPanel = $window.find('#id-preview-data');
             this.previewParent = this.previewPanel.parent();
             this.previewScrolled = $window.find('#id-preview');
-            this.previewInner = this.previewScrolled.find('div:first-child');
+            this.previewInner = this.previewScrolled.find('> div:first-child');
             this.recentPanel = $window.find('#symbol-table-recent');
             this.fontLabel = $window.find("#symbol-table-label-font");
             this.boxPanel = $window.find('.box');
@@ -737,7 +736,7 @@ define([
                         {symbol: '',    description: this.textEnSpace,      shortcutKey: '', code: '2002'},
                         {symbol: '',    description: this.textQEmSpace,     shortcutKey: '', code: '2005'},
                         {symbol: '°',   description: this.textNBSpace,      shortcutKey: Common.Utils.String.platformKey(Common.Utils.isMac ? 'Alt ' : 'Ctrl+Shift+', '{0}') + 'Space', code: '00A0'},
-                        {symbol: '©',   description: this.textCopyright,    shortcutKey: '', code: '00A9'},
+                        {symbol: '©',   description: this.textCopyright,    shortcutKey: Common.Utils.String.platformKey(Common.Utils.isMac ? 'Alt Ctrl ' : 'Alt+Ctrl+', '{0}') + 'G', code: '00A9'},
                         {symbol: '®',   description: this.textRegistered,   shortcutKey: '', code: '00AE'},
                         {symbol: '™',  description: this.textTradeMark,    shortcutKey: '', code: '2122'},
                         {symbol: '§',   description: this.textSection,      shortcutKey: '', code: '00A7'},
@@ -755,8 +754,8 @@ define([
                 cls: 'dbl-clickable',
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="width: 100%;display:flex;">',
-                        '<div style="width:70px;text-align: center; padding-right: 5px;"><%= symbol %></div>',
-                        '<div style="flex-grow:1;padding-right: 5px;"><%= description %></div>',
+                        '<div class="padding-right-5" style="width:70px;text-align: center;"><%= symbol %></div>',
+                        '<div class="padding-right-5" style="flex-grow:1;"><%= description %></div>',
                         '<% if (' + this.showShortcutKey + ') { %>',
                             '<div style="width:105px;"><%= shortcutKey %></div>',
                         '<% } %>',
@@ -994,6 +993,7 @@ define([
         checkRecent: function(sSymbol, sFont){
             if(aRecents.length === 0){
                 aRecents.push({symbol: sSymbol, font: sFont});
+                this.saveRecent();
                 return;
             }
             for(var i = 0; i < aRecents.length; ++i){
@@ -1093,7 +1093,7 @@ define([
                 oCell.css('border-bottom', 'none');
                 oRecentsDiv.append(oCell);
                 if(i === (nCols - 1)){
-                    oCell.css('border-right', 'none');
+                    oCell.css(Common.UI.isRTL() ? 'border-left' : 'border-right', 'none');
                 }
             }
         },

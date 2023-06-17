@@ -47,7 +47,7 @@
     <tr>
         <td class="padding-small" colspan=2>
             <label class="input-label"><%= scope.textColumns %></label>
-            <div id="slicer-spin-cols" style="display: inline-block;margin-left:5px;"></div>
+            <div id="slicer-spin-cols" class="margin-left-5"></div>
         </td>
     </tr>
     <tr>

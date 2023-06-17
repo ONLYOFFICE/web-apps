@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  Main.js
  *
@@ -55,7 +54,8 @@ define([
     'documenteditor/main/app/collection/EquationGroups',
     'common/main/lib/controller/FocusManager',
     'common/main/lib/controller/HintManager',
-    'common/main/lib/controller/LayoutManager'
+    'common/main/lib/controller/LayoutManager',
+    'common/main/lib/controller/ExternalUsers'
 ], function () {
     'use strict';
 
@@ -311,6 +311,7 @@ define([
                         if (event.target ) {
                             var target = $(event.target);
                             if (target.closest('.combobox').length>0 || target.closest('.dropdown-menu').length>0 ||
+                                target.closest('.input-field').length>0 || target.closest('.spinner').length>0 || target.closest('.textarea-field').length>0 ||
                                 target.closest('.ribtab').length>0 || target.closest('.combo-dataview').length>0) {
                                 event.preventDefault();
                             }
@@ -407,6 +408,11 @@ define([
                         }
                         document.documentElement.style.setProperty("--font-family-base-custom", arr.join(','));
                     }
+
+                    if (this.appOptions.customization.font.size) {
+                        var size = parseInt(this.appOptions.customization.font.size);
+                        !isNaN(size) && document.documentElement.style.setProperty("--font-size-base-app-custom", size + "px");
+                    }
                 }
 
                 this.editorConfig.user          =
@@ -441,11 +447,14 @@ define([
                 this.appOptions.canRequestCompareFile = this.editorConfig.canRequestCompareFile;
                 this.appOptions.canRequestMailMergeRecipients = this.editorConfig.canRequestMailMergeRecipients;
                 this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
+                this.appOptions.canRequestSelectDocument = this.editorConfig.canRequestSelectDocument;
+                this.appOptions.canRequestSelectSpreadsheet = this.editorConfig.canRequestSelectSpreadsheet;
                 this.appOptions.compatibleFeatures = (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compatibleFeatures;
                 this.appOptions.canFeatureComparison = true;
                 this.appOptions.canFeatureContentControl = true;
                 this.appOptions.canFeatureForms = !!this.api.asc_isSupportFeature("forms");
-
+                this.appOptions.uiRtl = true;
+                this.appOptions.disableNetworkFunctionality = !!(window["AscDesktopEditor"] && window["AscDesktopEditor"]["isSupportNetworkFunctionality"] && false === window["AscDesktopEditor"]["isSupportNetworkFunctionality"]());
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
 
                 this.appOptions.user.guest && this.appOptions.canRenameAnonymous && Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
@@ -473,6 +482,7 @@ define([
                 this.appOptions.wopi = this.editorConfig.wopi;
 
                 Common.Controllers.Desktop.init(this.appOptions);
+                Common.UI.HintManager.setMode(this.appOptions);
             },
 
             loadDocument: function(data) {
@@ -604,7 +614,9 @@ define([
                         Asc.c_oAscFileType.OTT,
                         Asc.c_oAscFileType.FB2,
                         Asc.c_oAscFileType.EPUB,
-                        Asc.c_oAscFileType.DOCM
+                        Asc.c_oAscFileType.DOCM,
+                        Asc.c_oAscFileType.JPG,
+                        Asc.c_oAscFileType.PNG
                     ];
                 var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(this.document.fileType);
                 if (type && typeof type[1] === 'string') {
@@ -816,7 +828,7 @@ define([
                     chat: true,
                     review: true,
                     viewport: true,
-                    documentHolder: true,
+                    documentHolder: {clear: !temp, disable: true},
                     toolbar: true,
                     plugins: false,
                     protect: false
@@ -849,7 +861,8 @@ define([
                     app.getController('Toolbar').DisableToolbar(disable, options.viewMode, options.reviewMode, options.fillFormMode);
                 }
                 if (options.documentHolder) {
-                    app.getController('DocumentHolder').SetDisabled(disable, options.allowProtect, options.fillFormMode);
+                    options.documentHolder.clear && app.getController('DocumentHolder').clearSelection();
+                    options.documentHolder.disable && app.getController('DocumentHolder').SetDisabled(disable, options.allowProtect, options.fillFormMode);
                 }
                 if (options.leftMenu) {
                     if (options.leftMenu.disable)
@@ -946,7 +959,8 @@ define([
 //                this.getMainMenu().closeFullScaleMenu();
                 var application = this.getApplication(),
                     toolbarController = application.getController('Toolbar'),
-                    toolbarView = toolbarController.getView();
+                    toolbarView = toolbarController.getView(),
+                    rightMenu = application.getController('RightMenu').getView('RightMenu');
 
                 if (this.appOptions.isEdit && toolbarView && (toolbarView.btnInsertShape.pressed || toolbarView.btnInsertText.pressed) &&
                     ( !_.isObject(arguments[1]) || arguments[1].id !== 'tlbtn-insertshape')) { // TODO: Event from api is needed to clear btnInsertShape state
@@ -960,6 +974,10 @@ define([
                     ( !_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-highlight')) {
                     this.api.SetMarkerFormat(false);
                     toolbarView.btnHighlightColor.toggle(false, false);
+                }
+                if (this.appOptions.isEdit && (toolbarView && toolbarView._isEyedropperStart || rightMenu && rightMenu._isEyedropperStart)) {
+                    toolbarView._isEyedropperStart ? toolbarView._isEyedropperStart = false : rightMenu._isEyedropperStart = false;
+                    this.api.asc_cancelEyedropper();
                 }
                 application.getController('DocumentHolder').getView().focus();
 
@@ -1404,10 +1422,20 @@ define([
             applyLicense: function() {
                 if (this.editorConfig.mode === 'view') {
                     if (this.appOptions.canLiveView && (this._state.licenseType===Asc.c_oLicenseResult.ConnectionsLive || this._state.licenseType===Asc.c_oLicenseResult.ConnectionsLiveOS ||
-                                                        this._state.licenseType===Asc.c_oLicenseResult.UsersViewCount || this._state.licenseType===Asc.c_oLicenseResult.UsersViewCountOS)) {
+                                                        this._state.licenseType===Asc.c_oLicenseResult.UsersViewCount || this._state.licenseType===Asc.c_oLicenseResult.UsersViewCountOS ||
+                                                        !this.appOptions.isAnonymousSupport && !!this.appOptions.user.anonymous)) {
                         // show warning or write to log if Common.Utils.InternalSettings.get("de-settings-coauthmode") was true ???
                         this.disableLiveViewing(true);
                     }
+                } else if (!this.appOptions.isAnonymousSupport && !!this.appOptions.user.anonymous) {
+                    this.disableEditing(true);
+                    this.api.asc_coAuthoringDisconnect();
+                    Common.NotificationCenter.trigger('api:disconnect');
+                    Common.UI.warning({
+                        title: this.notcriticalErrorTitle,
+                        msg  : this.warnLicenseAnonymous,
+                        buttons: ['ok']
+                    });
                 } else if (this._state.licenseType) {
                     var license = this._state.licenseType,
                         buttons = ['ok'],
@@ -1426,6 +1454,7 @@ define([
 
                     if (this._state.licenseType!==Asc.c_oLicenseResult.SuccessLimit && (this.appOptions.isEdit || this.appOptions.isRestrictedEdit)) {
                         this.disableEditing(true);
+                        this.api.asc_coAuthoringDisconnect();
                         Common.NotificationCenter.trigger('api:disconnect');
                     }
 
@@ -1450,7 +1479,7 @@ define([
                     }
                 } else if (!this.appOptions.isDesktopApp && !this.appOptions.canBrandingExt &&
                             this.editorConfig && this.editorConfig.customization && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo ||
-                                                                                     this.editorConfig.customization.font && this.editorConfig.customization.font.name)) {
+                            this.editorConfig.customization.font && (this.editorConfig.customization.font.size || this.editorConfig.customization.font.name))) {
                     Common.UI.warning({
                         title: this.textPaidFeature,
                         msg  : this.textCustomLoader,
@@ -1473,10 +1502,10 @@ define([
 
             onEditorPermissions: function(params) {
                 var licType = params.asc_getLicenseType();
-                if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType || Asc.c_oLicenseResult.ExpiredTrial === licType) {
+                if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType || Asc.c_oLicenseResult.ExpiredTrial === licType || Asc.c_oLicenseResult.NotBefore === licType) {
                     Common.UI.warning({
-                        title: this.titleLicenseExp,
-                        msg: this.warnLicenseExp,
+                        title: Asc.c_oLicenseResult.NotBefore === licType ? this.titleLicenseNotActive : this.titleLicenseExp,
+                        msg: Asc.c_oLicenseResult.NotBefore === licType ? this.warnLicenseBefore : this.warnLicenseExp,
                         buttons: [],
                         closable: false
                     });
@@ -1603,6 +1632,7 @@ define([
                 this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions, this.api);
                 this.editorConfig.customization && Common.UI.LayoutManager.init(this.editorConfig.customization.layout, this.appOptions.canBrandingExt);
                 this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
+                Common.UI.ExternalUsers.init(this.appOptions.canRequestUsers);
 
                 if (this.appOptions.canComments)
                     Common.NotificationCenter.on('comments:cleardummy', _.bind(this.onClearDummyComment, this));
@@ -1612,6 +1642,7 @@ define([
                 this.appOptions.canLiveView = !!params.asc_getLiveViewerSupport() && (this.editorConfig.mode === 'view') && !isPDFViewer; // viewer: change=false when no flag canLiveViewer (i.g. old license), change=true by default when canLiveViewer==true
                 this.appOptions.canChangeCoAuthoring = this.appOptions.isEdit && this.appOptions.canCoAuthoring && !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===false) ||
                                                        this.appOptions.canLiveView && !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===false);
+                this.appOptions.isAnonymousSupport = !!this.api.asc_isAnonymousSupport();
 
                 this.loadCoAuthSettings();
                 this.applyModeCommonElements();
@@ -2911,19 +2942,38 @@ define([
                 value = Common.localStorage.getBool("de-settings-autoformat-hyphens", true);
                 Common.Utils.InternalSettings.set("de-settings-autoformat-hyphens", value);
                 me.api.asc_SetAutoCorrectHyphensWithDash(value);
-
-                value = Common.localStorage.getBool("de-settings-autoformat-fl-sentence", true);
-                Common.Utils.InternalSettings.set("de-settings-autoformat-fl-sentence", value);
+   
+                value = Common.localStorage.getItem("de-settings-letter-exception-sentence");
+                value = value !== null ? parseInt(value) != 0 : Common.localStorage.getBool("de-settings-autoformat-fl-sentence", true);
+                Common.Utils.InternalSettings.set("de-settings-letter-exception-sentence", value);
                 me.api.asc_SetAutoCorrectFirstLetterOfSentences(value);
+
+                value = Common.localStorage.getItem("de-settings-letter-exception-cells");
+                value = value !== null ? parseInt(value) != 0 : Common.localStorage.getBool("de-settings-autoformat-fl-cells", true);
+                Common.Utils.InternalSettings.set("de-settings-letter-exception-cells", value);
+                me.api.asc_SetAutoCorrectFirstLetterOfCells(value);
+
+                [0x0409, 0x0419].forEach(function(lang) {
+                    var apiFlManager = me.api.asc_GetAutoCorrectSettings().get_FirstLetterExceptionManager();
+                    
+                    value = Common.localStorage.getItem("de-settings-letter-exception-add-" + lang);
+                    Common.Utils.InternalSettings.set("de-settings-letter-exception-add-" + lang, value);
+                    arrAdd = value ? JSON.parse(value) : [];
+    
+                    value = Common.localStorage.getItem("de-settings-letter-exception-rem-" + lang);
+                    Common.Utils.InternalSettings.set("de-settings-letter-exception-rem-" + lang, value);
+                    arrRem = value ? JSON.parse(value) : [];
+
+                    var arrRes = _.union(apiFlManager.get_Exceptions(lang), arrAdd); 
+                    arrRes = _.difference(arrRes, arrRem);  
+                    arrRes.sort();
+                    apiFlManager.put_Exceptions(arrRes, lang);       
+                });                
 
                 value = Common.localStorage.getBool("de-settings-autoformat-hyperlink", true);
                 Common.Utils.InternalSettings.set("de-settings-autoformat-hyperlink", value);
                 me.api.asc_SetAutoCorrectHyperlinks(value);
-
-                value = Common.localStorage.getBool("de-settings-autoformat-fl-cells", true);
-                Common.Utils.InternalSettings.set("de-settings-autoformat-fl-cells", value);
-                me.api.asc_SetAutoCorrectFirstLetterOfCells(value);
-
+                
                 value = Common.localStorage.getBool("de-settings-autoformat-double-space", Common.Utils.isMac); // add period with double-space in MacOs by default
                 Common.Utils.InternalSettings.set("de-settings-autoformat-double-space", value);
                 me.api.asc_SetAutoCorrectDoubleSpaceWithPeriod(value);
@@ -3388,7 +3438,10 @@ define([
             errorCannotPasteImg: 'We can\'t paste this image from the Clipboard, but you can save it to your device and \ninsert it from there, or you can copy the image without text and paste it into the document.',
             textTryQuickPrint: 'You have selected Quick print: the entire document will be printed on the last selected or default printer.<br>Do you want to continue?',
             textAnyone: 'Anyone',
-            textText: 'Text'
+            textText: 'Text',
+            warnLicenseBefore: 'License not active.<br>Please contact your administrator.',
+            titleLicenseNotActive: 'License not active',
+            warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.'
         }
     })(), DE.Controllers.Main || {}))
 });

@@ -20,12 +20,17 @@
         margin-top: 5px;
         margin-bottom: 5px;
         right: 4px !important;
+
+        .rtl & {
+            right: unset !important;
+            left: 4px !important;
+        }
     }
 
     #chat-title {
         label {
             padding: 18px 20px;
-            font-size: @font-size-large;
+            .font-size-large();
         }
     }
 
@@ -49,6 +54,9 @@
                 &.offline {
                     display: none;
                 }
+                .rtl & {
+                    padding: 2px 20px 2px 0;
+                }
             }
         }
 
@@ -60,10 +68,14 @@
             height: 12px;
             border: 1px solid @border-toolbar-ie;
             border: 1px solid @border-toolbar;
+
+            .rtl & {
+                margin: 0 0 3px 5px;
+            }
         }
 
         .name {
-            font-size: 12px;
+            .font-size-medium();
             .font-weight-bold();
             display: block;
             padding: 0 10px 0 0;
@@ -72,6 +84,9 @@
             overflow: hidden;
             line-height: normal;
             height: 16px;
+            .rtl & {
+                padding: 0 0 0 10px;
+            }
         }
     }
 
@@ -80,7 +95,7 @@
         top: 70px;
         right: 0;
         bottom: 110px;
-        font-size: 12px;
+        .font-size-medium();
 
         ul {
             margin: 0;
@@ -95,6 +110,10 @@
                 white-space: -o-pre-wrap;
                 word-wrap: break-word;
 
+                .rtl & {
+                    padding: 5px 20px 8px 10px;
+                }
+
                 .user {
                     .font-weight-bold();
                     white-space: nowrap;
@@ -105,7 +124,7 @@
                 .user-name {
                     color: @text-normal-ie;
                     color: @text-normal;
-                    font-size: 12px;
+                    .font-size-medium();
                     .font-weight-bold();
                     overflow: hidden;
                     text-overflow: ellipsis;
@@ -119,6 +138,10 @@
                     border: 1px solid @border-toolbar;
                     margin: 0 5px 3px 0;
                     vertical-align: middle;
+
+                    .rtl & {
+                        margin: 0 0 3px 5px;
+                    }
                 }
 
                 .message {
@@ -151,7 +174,7 @@
             margin-bottom: 5px;
             border: 1px solid @border-regular-control-ie;
             border: 1px solid @border-regular-control;
-            font-size: 12px;
+            .font-size-medium();
 
             &:focus {
                 border-color: @border-control-focus-ie;

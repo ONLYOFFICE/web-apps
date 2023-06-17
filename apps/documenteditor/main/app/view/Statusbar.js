@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  StatusBar View
  *
@@ -236,6 +235,7 @@ define([
 
                 this.btnLanguage = new Common.UI.Button({
                     cls         : 'btn-toolbar',
+                    scaling     : false,
                     caption     : 'English (United States)',
                     hintAnchor  : 'top-left',
                     disabled: true,
@@ -249,13 +249,14 @@ define([
                     style: 'margin-top:-5px;',
                     restoreHeight: 285,
                     itemTemplate: _.template([
-                        '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= value.value %>" class="<% if (checked) { %> checked <% } %>">',
+                        '<a id="<%= id %>" tabindex="-1" type="menuitem" langval="<%= value.value %>" class="<% if (checked) { %> checked <% } %>">',
                             '<i class="icon <% if (spellcheck) { %> toolbar__icon btn-ic-docspell spellcheck-lang <% } %>"></i>',
                             '<%= caption %>',
                         '</a>'
                     ].join('')),
                     menuAlign: 'bl-tl',
-                    search: true
+                    search: true,
+                    focusToCheckedItem: true
                 });
 
                 this.zoomMenu = new Common.UI.Menu({
@@ -295,7 +296,7 @@ define([
                     // '<a id="<%= id %>" tabindex="-1" type="menuitem">' +
                     '<div style="display: flex;padding: 5px 20px;line-height: 16px;">' +
                         '<div style="flex-grow: 1;"><%= caption %></div>' +
-                        '<div style="word-break: normal; margin-left: 20px; min-width: 35px;text-align: right;"><%= options.value%></div>' +
+                        '<div class="margin-left-20 text-align-right" style="word-break: normal; min-width: 35px;"><%= options.value%></div>' +
                     '</div>'
                     // '</a>'
                 );
@@ -303,7 +304,7 @@ define([
                 this.btnDocInfo = new Common.UI.Button({
                     cls         : 'btn-toolbar no-caret',
                     caption     : this.txtWordCount,
-                    iconCls: 'toolbar__icon word-count',
+                    iconCls: 'toolbar__icon btn-word-count',
                     hintAnchor  : 'top-left',
                     dataHint    : '0',
                     dataHintDirection: 'top',
@@ -355,8 +356,8 @@ define([
                 me.btnDocInfo.render($('#slot-status-btn-info', me.$layout));
 
                 if (config.canUseSelectHandTools) {
-                    _btn_render(me.btnSelectTool, $('#btn-select-tool', me.$layout));
-                    _btn_render(me.btnHandTool, $('#btn-hand-tool', me.$layout));
+                    _btn_render(me.btnSelectTool, $('#status-btn-select-tool', me.$layout));
+                    _btn_render(me.btnHandTool, $('#status-btn-hand-tool', me.$layout));
                 }
 
                 me.zoomMenu.render($('.cnt-zoom',me.$layout));

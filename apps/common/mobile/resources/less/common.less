@@ -906,15 +906,6 @@ input[type="number"]::-webkit-inner-spin-button {
     box-shadow: inset 0 2px red;
 }
 
-.statusbar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    z-index: 10000;
-}
-
 // Fonts List 
 
 .font-item {
@@ -1115,7 +1106,49 @@ input[type="number"]::-webkit-inner-spin-button {
     }
 }
 
+// Block 
+.block {
+    margin-top: 8px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+}
 
+// Inputs List 
+.block-title + .list, .block-title + .block, .block-title + .card, .block-title + .timeline, .block-title + .block-header {
+    margin: 0;
+}
+
+.inputs-list {
+    margin-bottom: 0;
+
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        position: relative;
+        background: var(--f7-list-bg-color);
+    }
+}
+
+.list input[type='password'], 
+.list input[type='text'] {
+    background: transparent;
+}
+
+// Dialog with password
+.dialog {
+    .modal-password {
+        position: relative;
+
+        &__icon {
+            position: absolute;
+            right: 4px;
+            top: calc(50% - 12.5px);
+        }
+    }
+}
 
 
 

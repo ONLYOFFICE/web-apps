@@ -92,8 +92,8 @@
         label {
             width: 100%;
             margin-top: 2px;
-            padding-right: 20px;
-            font-size: 12px;
+            .padding-right-20();
+            .font-size-medium();
             .font-weight-bold();
             overflow: hidden;
             text-overflow: ellipsis;
@@ -107,6 +107,10 @@
         height: 20px;
         top: 12px;
         right: 12px;
+        .rtl & {
+            right: auto;
+            left: 12px;
+        }
     }
 
     #current-plugin-frame {

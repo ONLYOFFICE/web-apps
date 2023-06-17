@@ -14,7 +14,7 @@
 
         label {
             font-weight: normal;
-            font-size: 12px;
+            .font-size-medium();
             margin-bottom: 0;
             vertical-align: middle;
 
@@ -30,7 +30,7 @@
 
         input {
             font-weight: normal;
-            font-size: 12px;
+            .font-size-medium();
             background-color: @background-normal;
         }
 
@@ -57,6 +57,10 @@
             &:before {
                 height: 64px;
                 transform: translate(29px, -22px) rotate(73deg);
+
+                .rtl & {
+                    transform: translate(-29px, -22px) rotate(73deg);
+                }
             }
         }
     }
@@ -72,10 +76,6 @@
         button {
             width: 75px;
             height: 22px;
-
-            &:not(:first-child) {
-                margin-left: 10px;
-            }
         }
     }
 }

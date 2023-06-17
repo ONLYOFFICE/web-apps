@@ -21,7 +21,7 @@
     <div class="inner-content  padding-large">
         <div style="width: 100%;">
             <label class="input-label"><%= scope.textAngle %></label>
-            <div id="shape-advanced-spin-angle" style="display: inline-block; margin-left: 5px;"></div>
+            <div id="shape-advanced-spin-angle" class="margin-left-5" style="display: inline-block;"></div>
         </div>
     </div>
     <div class="separator horizontal padding-large"></div>
@@ -29,7 +29,7 @@
         <table cols="2">
             <tr>
                 <td rowspan="2" class="padding-small" style="vertical-align: top;">
-                    <label class="input-label" style="margin-right: 15px;vertical-align: top;"><%= scope.textFlipped %></label>
+                    <label class="input-label margin-right-15" style="vertical-align: top;"><%= scope.textFlipped %></label>
                 </td>
                 <td class="padding-small">
                     <div id="shape-advanced-checkbox-hor"></div>

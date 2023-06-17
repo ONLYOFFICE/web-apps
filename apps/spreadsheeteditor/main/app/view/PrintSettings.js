@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  PrintSettings.js
  *
@@ -51,7 +50,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         options: {
             alias: 'PrintSettings',
             contentWidth: 280,
-            height: 575,
+            height: 513,
             buttons: null
         },
 
@@ -62,27 +61,26 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 template: [
                     '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
                         '<div class="menu-panel" style="overflow: hidden;">',
-                            '<div style="height: 54px; line-height: 42px;" class="div-category">' + ((this.type == 'print') ? this.textPrintRange : this.textRange)+ '</div>',
+                            '<div style="height: 84px; line-height: 42px;" class="div-category">' + ((this.type == 'print') ? this.textPrintRange : this.textRange)+ '</div>',
                             '<div style="height: 52px; line-height: 66px;" class="div-category">' + this.textSettings + '</div>',
                             '<div style="height: 38px; line-height: 38px;" class="div-category">' + this.textPageSize + '</div>',
                             '<div style="height: 38px; line-height: 38px;" class="div-category">' + this.textPageOrientation + '</div>',
                             '<div style="height: 38px; line-height: 38px;" class="div-category">' + this.textPageScaling + '</div>',
                             '<div style="height: 98px; line-height: 33px;" class="div-category">' + this.strPrintTitles + '</div>',
-                            '<div style="height: 108px; line-height: 33px;" class="div-category">' + this.strMargins + '</div>',
-                            '<div style="height: 58px; line-height: 40px;" class="div-category">' + ((this.type == 'print') ? this.strPrint : this.strShow) + '</div>',
+                            '<div style="height: 41px; line-height: 41px;" class="div-category">' + this.strMargins + '</div>',
+                            '<div style="height: 58px; line-height: 44px;" class="div-category">' + ((this.type == 'print') ? this.strPrint : this.strShow) + '</div>',
                         '</div>',
                         '<div class="content-panel">' + _.template(contentTemplate)({scope: this}) + '</div>',
                     '</div>',
                     '<div class="separator horizontal"></div>',
                     '<div class="footer justify">',
                         '<button id="printadv-dlg-btn-hide" class="btn btn-text-default" style="min-width: 100px;width: auto;">' + this.textHideDetails + '</button>',
-                        '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;float: right;">' + this.cancelButtonText + '</button>',
-                        '<button class="btn normal dlg-btn primary" result="ok" style="margin-left: 10px;  width: 150px;float: right;">' + ((this.type == 'print') ? this.btnPrint : this.btnDownload) + '</button>',
+                        '<button class="btn normal dlg-btn float-right" result="cancel" style="width: 86px;">' + this.cancelButtonText + '</button>',
+                        '<button class="btn normal dlg-btn primary float-right margin-left-10" result="ok" style="width: 150px;">' + ((this.type == 'print') ? this.btnPrint : this.btnDownload) + '</button>',
                     '</div>'
                 ].join('')
             }, options);
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
-            this.spinners = [];
         },
 
         render: function() {
@@ -96,7 +94,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 takeFocusOnClose: true,
                 cls         : 'input-group-nr',
                  data        : [
-                    { value: Asc.c_oAscPrintType.ActiveSheets, displayValue: this.textCurrentSheet },
+                    { value: Asc.c_oAscPrintType.ActiveSheets, displayValue: this.textActiveSheets },
                     { value: Asc.c_oAscPrintType.EntireWorkbook, displayValue: this.textAllSheets },
                     { value: Asc.c_oAscPrintType.Selection, displayValue: this.textSelection }
                 ]
@@ -106,6 +104,32 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             this.chIgnorePrintArea = new Common.UI.CheckBox({
                 el: $('#printadv-dlg-chb-ignore'),
                 labelText: this.textIgnore
+            });
+
+            this.spnPagesFrom = new Common.UI.MetricSpinner({
+                el: $('#printadv-dlg-spin-pages-from'),
+                step: 1,
+                width: 60,
+                defaultUnit : '',
+                value: '',
+                maxValue: 1000000,
+                minValue: 1,
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+
+            this.spnPagesTo = new Common.UI.MetricSpinner({
+                el: $('#printadv-dlg-spin-pages-to'),
+                step: 1,
+                width: 60,
+                defaultUnit : '',
+                value: '',
+                maxValue: 1000000,
+                minValue: 1,
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
 
             this.cmbSheet = new Common.UI.ComboBox({
@@ -165,49 +189,32 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 labelText: (this.type == 'print') ? this.textPrintHeadings : this.textShowHeadings
             });
 
-            this.spnMarginTop = new Common.UI.MetricSpinner({
-                el: $('#printadv-dlg-spin-margin-top'),
-                step: .1,
-                width: 110,
-                defaultUnit : "cm",
-                value: '0 cm',
-                maxValue: 48.25,
-                minValue: 0
+            this.cmbPaperMargins = new Common.UI.ComboBox({
+                el: $('#printadv-dlg-combo-margins'),
+                style: 'width: 242px;',
+                menuStyle: 'max-height: 280px; min-width: 242px;',
+                editable: false,
+                takeFocusOnClose: true,
+                cls: 'input-group-nr',
+                data: [
+                    { value: 0, displayValue: this.textMarginsNormal, size: [19.1, 17.8, 19.1, 17.8]},
+                    { value: 1, displayValue: this.textMarginsNarrow, size: [19.1, 6.4, 19.1, 6.4]},
+                    { value: 2, displayValue: this.textMarginsWide, size: [25.4, 25.4, 25.4, 25.4]},
+                    { value: -1, displayValue: this.textCustom, size: null}
+                ],
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem">',
+                        '<div><b><%= scope.getDisplayValue(item) %></b></div>',
+                        '<% if (item.size !== null) { %><div style="display: inline-block;margin-right: 20px;min-width: 80px;">' +
+                        '<label style="display: block;">' + this.strTop + ': <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[0]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
+                        '<label style="display: block;">' + this.strLeft + ': <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div><div style="display: inline-block;">' +
+                        '<label style="display: block;">' + this.strBottom + ': <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[2]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
+                        '<label style="display: block;">' + this.strRight + ': <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[3]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div>' +
+                        '<% } %>',
+                    '<% }); %>'
+                ].join(''))
             });
-            this.spinners.push(this.spnMarginTop);
-
-            this.spnMarginBottom = new Common.UI.MetricSpinner({
-                el: $('#printadv-dlg-spin-margin-bottom'),
-                step: .1,
-                width: 110,
-                defaultUnit : "cm",
-                value: '0 cm',
-                maxValue: 48.25,
-                minValue: 0
-            });
-            this.spinners.push(this.spnMarginBottom);
-
-            this.spnMarginLeft = new Common.UI.MetricSpinner({
-                el: $('#printadv-dlg-spin-margin-left'),
-                step: .1,
-                width: 110,
-                defaultUnit : "cm",
-                value: '0.19 cm',
-                maxValue: 48.25,
-                minValue: 0
-            });
-            this.spinners.push(this.spnMarginLeft);
-
-            this.spnMarginRight = new Common.UI.MetricSpinner({
-                el: $('#printadv-dlg-spin-margin-right'),
-                step: .1,
-                width: 110,
-                defaultUnit : "cm",
-                value: '0.19 cm',
-                maxValue: 48.25,
-                minValue: 0
-            });
-            this.spinners.push(this.spnMarginRight);
 
             var itemsTemplate =
                 _.template([
@@ -326,18 +333,19 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             return (this.chIgnorePrintArea.getValue()=='checked');
         },
 
+        getPagesFrom: function () {
+            return this.spnPagesFrom.getNumberValue();
+        },
+
+        getPagesTo: function () {
+            return this.spnPagesTo.getNumberValue();
+        },
+
         comboRangeChange: function(combo, record) {
             this.fireEvent('changerange', this);
         },
 
         updateMetricUnit: function() {
-            if (this.spinners) {
-                for (var i=0; i<this.spinners.length; i++) {
-                    var spinner = this.spinners[i];
-                    spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
-                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
-                }
-            }
             var store = this.cmbPaperSize.store;
             for (var i=0; i<store.length; i++) {
                 var item = store.at(i),
@@ -349,19 +357,20 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                         parseFloat(Common.Utils.Metric.fnRecalcFromMM(pageheight).toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ')');
             }
             this.cmbPaperSize.onResetItems();
+            this.cmbPaperMargins.onResetItems();
         },
 
         handlerShowDetails: function(btn) {
             if (!this.extended) {
                 this.extended = true;
                 this.panelDetails.css({'display': 'none'});
-                this.setHeight(314);
+                this.setHeight(344);
                 btn.setCaption(this.textShowDetails);
                 Common.localStorage.setItem("sse-hide-print-settings", 1);
             } else {
                 this.extended = false;
                 this.panelDetails.css({'display': 'block'});
-                this.setHeight(585);
+                this.setHeight(553);
                 btn.setCaption(this.textHideDetails);
                 Common.localStorage.setItem("sse-hide-print-settings", 0);
             }
@@ -384,6 +393,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         textPrintRange:         'Print Range',
         textLayout:             'Layout',
         textCurrentSheet:       'Current Sheet',
+        textActiveSheets:       'Active Sheets',
         textAllSheets:          'All Sheets',
         textSelection:          'Selection',
         textActualSize:         'Actual Size',
@@ -406,7 +416,13 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         strPrintTitles:         'Print Titles',
         textRepeatTop:          'Repeat rows at top',
         textRepeatLeft:         'Repeat columns at left',
-        textRepeat:             'Repeat...'
+        textRepeat:             'Repeat...',
+        textPages:              'Pages:',
+        textTo:                 'to',
+        textMarginsNormal:      'Normal',
+        textMarginsNarrow:      'Narrow',
+        textMarginsWide:        'Wide',
+        txtMarginsLast:         'Last Custom'
 
     }, SSE.Views.PrintSettings || {}));
 });

@@ -63,6 +63,7 @@
     "textWithPageNumbers": "Con números de páxina",
     "txtNotUrl": "Este campo debe ser unha URL no formato \"http://www.example.com\"",
     "textDone": "Done",
+    "textPasteImageUrl": "Paste an image URL",
     "textRecommended": "Recommended",
     "textRequired": "Required"
   },
@@ -425,6 +426,7 @@
     "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
     "errorTextFormWrongFormat": "The value entered does not match the format of the field.",
     "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
     "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
@@ -547,7 +549,6 @@
     "textHasMacros": "O ficheiro contén macros automáticas.<br>Quere executar macros?",
     "textNo": "Non",
     "textNoLicenseTitle": "Alcanzouse o límite da licenza",
-    "textNoTextFound": "Texto non atopado",
     "textPaidFeature": "Característica de pago",
     "textRemember": "Lembrar a miña escolla",
     "textReplaceSkipped": "A substitución foi realizada. {0} ocorrencias foron ignoradas.",
@@ -565,8 +566,18 @@
     "warnNoLicense": "Alcanzou o límite de conexións simultáneas con %1 editores. Este documento abrirase para as úa visualización. Póñase en contacto co equipo de vendas de %1 para coñecer as condicións de actualización persoal.",
     "warnNoLicenseUsers": "Alcanzou o límite de usuarios para os editores de %1.<br>Contacte co equipo de vendas de %1 para coñecer os termos de actualización persoal.",
     "warnProcessRightsChange": "Non ten permiso para editar este ficheiro.",
+    "textDialogProtectedChangesTracked": "You may edit this document, but all changes will be tracked",
+    "textDialogProtectedEditComments": "You may only insert comments to this document",
+    "textDialogProtectedFillForms": "You may only fill in forms in this document",
+    "textDialogProtectedOnlyView": "You may only view this document",
     "textDocumentProtected": "The document is protected. Edit settings are not available",
-    "textOk": "Ok"
+    "textNoMatches": "No Matches",
+    "textOk": "Ok",
+    "titleDialogProtectedDocument": "The document is protected",
+    "titleLicenseNotActive": "License not active",
+    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
+    "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator."
   },
   "Settings": {
     "advDRMOptions": "Ficheiro protexido",
@@ -634,7 +645,6 @@
     "textNavigation": "Navegación",
     "textNo": "Non",
     "textNoCharacters": "Caracteres non imprimibles",
-    "textNoTextFound": "Texto non atopado",
     "textOk": "Aceptar",
     "textOpenFile": "Insira o contrasinal para abrir o ficheiro",
     "textOrientation": "Orientación",
@@ -695,7 +705,27 @@
     "txtScheme7": "Equidade",
     "txtScheme8": "Fluxo",
     "txtScheme9": "Fundición",
-    "textMobileView": "Mobile View"
+    "textChangePassword": "Change Password",
+    "textDialogUnprotect": "Enter a password to unprotect document",
+    "textEncryptFile": "Encrypt File",
+    "textFillingForms": "Filling forms",
+    "textMobileView": "Mobile View",
+    "textNoChanges": "No changes (Read only)",
+    "textNoMatches": "No Matches",
+    "textPassword": "Password",
+    "textPasswordNotMatched": "Passwords DonвЂ™t Match",
+    "textProtectDocument": "Protect Document",
+    "textProtection": "Protection",
+    "textProtectTurnOff": "Protection is turned off",
+    "textRequired": "Required",
+    "textRequirePassword": "Require Password",
+    "textSave": "Save",
+    "textSetPassword": "Set Password",
+    "textTrackedChanges": "Tracked changes",
+    "textTypeEditing": "Type Of Editing",
+    "textUnprotect": "Unprotect",
+    "textVerify": "Verify",
+    "titleDialogUnprotect": "Unprotect Document"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Ten cambios sen gardar. Prema en \"Permanecer nesta páxina\" para esperar a que se garde automaticamente. Prema en \"Saír desta páxina\" para descartar todos os cambios non gardados.",
@@ -704,6 +734,8 @@
     "stayButtonText": "Quedarse nesta páxina",
     "textOk": "OK",
     "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view"
+    "textSwitchedStandardView": "Switched to Standard view",
+    "textRenameFile": "Rename File",
+    "textEnterNewFileName": "Enter a new file name"
   }
 }

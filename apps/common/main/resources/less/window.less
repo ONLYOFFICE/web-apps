@@ -23,13 +23,17 @@
     }
 }
 .tool {
-    float: right;
+    .float-right();
     width: 16px;
     height: 16px;
     cursor: pointer;
     overflow: hidden;
     padding: 0px;
     margin: 4px 3px 0px 0px;
+
+    .rtl & {
+        margin: 4px 0 0px 3px;
+    }
 
     &.close {
         position: relative;
@@ -47,7 +51,7 @@
             content: ' ';
             position: absolute;
             left: 8px;
-            left: calc(8px / @pixel-ratio-factor);
+            //left: calc(8px / @pixel-ratio-factor);
             top: @scaled-one-px-value-ie;
             top: @scaled-one-px-value;
             height: 14px;
@@ -99,7 +103,7 @@
         color: @text-normal-ie;
         color: @text-normal;
         text-align: center;
-        font-size: 12px;
+        .font-size-medium();
         font-weight: 700;
         letter-spacing: 0.01em;
         vertical-align: bottom;
@@ -115,12 +119,22 @@
         .tools {
             position: absolute;
             right: 0;
-            padding-right: 6px;
+            .padding-right-8();
+
+            .rtl & {
+                right: auto;
+                left: 0;
+            }
 
             &.left {
                 left: 0;
                 right: auto;
-                padding-left: 6px;
+                .padding-left-6();
+
+                .rtl & {
+                    left: auto;
+                    right: 0;
+                }
             }
         }
 
@@ -203,8 +217,12 @@
 
     &.alert {
         .icon {
-            float: left;
+            .float-left();
             margin: 0 0 0 10px;
+
+            .rtl & {
+                margin: 0 10px 0 10px;
+            }
         }
 
         min-height: 90px;
@@ -215,11 +233,15 @@
                 padding: 20px 20px 20px 10px;
                 height: 50px;
 
+                .rtl & {
+                    padding: 20px 10px 20px 20px;
+                }
+
                 .text {
-                    padding-left: 60px;
+                    .padding-left(60px);
 
                     span {
-                        font-size: 12px;
+                        .font-size-medium();
                         white-space: nowrap;
 
                         a {
@@ -235,7 +257,8 @@
                     }
 
                     .dont-show-checkbox {
-                        margin-top: 13px; text-align: left;
+                        margin-top: 13px;
+                        .text-align-left();
                     }
                 }
             }
@@ -255,7 +278,7 @@
             
             button {
                 &:not(:first-child) {
-                    margin-left: 10px;
+                    .margin-left-10();
                 }
             }
         }
@@ -313,7 +336,7 @@
     .footer {
         button {
             &:not(:first-child) {
-                margin-left: 10px;
+                .margin-left-10();
             }
         }
     }
@@ -335,6 +358,9 @@
                 display: inline-block;
             }
         }
+        label {
+            .font-size-normal();
+        }
     }
 
     .footer {
@@ -345,7 +371,7 @@
         }
 
         &.right {
-            text-align: right;
+            .text-align-right();
         }
     }
 }
@@ -376,11 +402,11 @@
             }
 
             > div:first-child {
-                margin-right: 35px;
+                .margin-right(35px);
             }
 
             > div:last-child {
-                margin-left: 35px;
+                .margin-left(35px);
             }
 
             .hotkey {

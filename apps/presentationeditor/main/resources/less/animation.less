@@ -1,6 +1,10 @@
 .combo-animation {
   .menu-picker-container .dataview {
     padding: 10px 0 0 2px;
+    
+    .rtl & {
+      padding: 10px 2px 0 0;
+    }
   }
   .dropdown-menu {
     padding-bottom: 5px;
@@ -10,13 +14,21 @@
 .menu-animation .dataview {
   padding: 0 0 0 2px;
 
+  .rtl & {
+    padding: 0 2px 0 0;
+  }
+
   .group-description {
     padding: 3px 0 3px 10px;
     .font-weight-bold();
+
+    .rtl & {
+      padding: 3px 10px 3px 0;
+    }
   }
 
   .grouped-data .group-items-container {
-    float: left;
+    .float-left();
     position: relative;
     .item {
         box-shadow: none;

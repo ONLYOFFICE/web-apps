@@ -114,7 +114,7 @@
 .toolbar {
     position: fixed;
     font-size: @toolbarFontSize;
-    min-width: 340px;
+    min-width: 300px;
     z-index: 100;
     background-color: @toolbarTopColor;
 
@@ -824,23 +824,38 @@
         display: flex;
         padding: 16px;
 
-        input {
-            width: 192px;
+        .search-input-group {
+            display: flex;
+            position: relative;
             height: 22px;
-            border-radius: 2px;
-            box-shadow: none;
-            border: solid 1px #CFCFCF;
-            padding: 1px 3px;
-            color: #444444;
-            font-size: 11px;
 
-            &::placeholder {
-                color: #CFCFCF;
+            input {
+                width: 192px;
+                height: 100%;
+                border-radius: 2px;
+                box-shadow: none;
+                border: solid 1px #CFCFCF;
+                padding: 1px 25px 1px 3px;
+                color: #444444;
+                font-size: 11px;
+
+                &::placeholder {
+                    color: #CFCFCF;
+                }
+
+                &:focus {
+                    border-color: #848484;
+                    outline: 0;
+                }
             }
 
-            &:focus {
-                border-color: #848484;
-                outline: 0;
+            #search-bar-results {
+                position: absolute;
+                right: 0;
+                height: 100%;
+                line-height: 22px;
+                padding: 0 4px;
+                color: #A5A5A5;
             }
         }
 

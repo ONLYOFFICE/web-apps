@@ -1890,5 +1890,33 @@
 	"DROP": {
 		"a": "(tömb, sorok, [oszlopok])",
 		"d": "Sorokat vagy oszlopokat távolít el a tömb elejéről vagy végéről."
+	},
+	"SEQUENCE": {
+		"a": "(sorok, [számok], [indítás], [lépés])",
+		"d": "Számsort ad vissza."
+	},
+	"EXPAND": {
+		"a": "(tömb, sorok, [oszlopok], [kitöltéshez])",
+		"d": "Egy tömböt a megadott méretűre terjeszt ki."
+	},
+	"XMATCH": {
+		"a": "(keresési_érték, keresési_tömb, [egyeztetési_mód], [keresési_mód])",
+		"d": "Egy elem relatív helyét adja vissza egy tömbön belül. Alapértelmezés szerint pontos egyezésre van szükség"
+	},
+	"FILTER": {
+		"a": "(tömb, belefoglalás, [ha_üres])",
+		"d": "Tartomány vagy tömb szűrése"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(tömb, [formátum])",
+		"d": "Az adott tömb szöveges alakját adja vissza."
+	},
+	"SORT": {
+		"a": "(tömb, [rendezési_index], [rendezési_sorrend], [oszlop_szerint])",
+		"d": "Tartományt vagy tömböt rendez"
+	},
+	"SORTBY": {
+		"a": "(tömb, tömb_szerint, [rendezési_sorrend], ...)",
+		"d": "Tartományt vagy tömböt rendez a megfelelő tartományban vagy tömbben lévő értékek alapján."
 	}
 }

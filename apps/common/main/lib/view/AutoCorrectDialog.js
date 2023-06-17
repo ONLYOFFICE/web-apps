@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -47,6 +46,8 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
 ], function (contentTemplate) { 'use strict';
     var _mathStore = new Common.UI.DataViewStore();
     var _functionsStore = new Common.UI.DataViewStore();
+    var _exciptionsStore = new Common.UI.DataViewStore();
+    var _exciptionsLangs = [0x0409, 0x0419];
 
     Common.Views.AutoCorrectDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
@@ -57,7 +58,8 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
         },
 
         initialize : function(options) {
-            var filter = Common.localStorage.getKeysFilter();
+            var filter = Common.localStorage.getKeysFilter(),
+                me = this;
             this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
             var items = [
@@ -66,7 +68,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
             ];
             if (this.appPrefix=='de-' || this.appPrefix=='pe-') {
                 items.push({panelId: 'id-autocorrect-dialog-settings-de-autoformat',  panelCaption: this.textAutoFormat});
-                items.push({panelId: 'id-autocorrect-dialog-settings-autocorrect',  panelCaption: this.textAutoCorrect});
+                items.push({panelId: 'id-autocorrect-dialog-settings-exceptions',  panelCaption: this.textAutoCorrect});
 
             } else if (this.appPrefix=='sse-')
                 items.push({panelId: 'id-autocorrect-dialog-settings-sse-autoformat',  panelCaption: this.textAutoFormat});
@@ -105,6 +107,19 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
             this.arrAddRec = value ? JSON.parse(value) : [];
             value = Common.Utils.InternalSettings.get(path + "-rem");
             this.arrRemRec = value ? JSON.parse(value) : [];
+
+            this.arrAddExceptions = {};
+            this.arrRemExceptions = {};
+            _exciptionsLangs.forEach(function(lang) {
+                path = me.appPrefix + "settings-letter-exception";
+                
+                value = Common.Utils.InternalSettings.get(path + "-add-" + lang);
+                me.arrAddExceptions[lang] = value ? JSON.parse(value) : [];
+
+                value = Common.Utils.InternalSettings.get(path + "-rem-" + lang);
+                me.arrRemExceptions[lang] = value ? JSON.parse(value) : [];
+            });
+
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
 
@@ -136,8 +151,8 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="pointer-events:none;width: 100%;display:flex;">',
-                        '<div style="width:110px;padding-right: 5px;overflow: hidden;text-overflow: ellipsis;<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= replaced %></div>',
-                        '<div style="width:230px;overflow: hidden;text-overflow: ellipsis;flex-grow:1;font-family: Cambria Math;font-size:13px;<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= by %></div>',
+                        '<div class="padding-right-5" style="width:110px;overflow: hidden;text-overflow: ellipsis;<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= replaced %></div>',
+                        '<div style="width:230px;overflow-x: clip;overflow-y:visible;text-overflow: ellipsis;flex-grow:1;font-family: Cambria Math;font-size:13px;white-space: nowrap;<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= by %></div>',
                     '</div>'
                 ].join('')),
                 scrollAlwaysVisible: true,
@@ -335,27 +350,121 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     Common.Utils.InternalSettings.set(me.appPrefix + "settings-autoformat-double-space", checked);
                     me.api.asc_SetAutoCorrectDoubleSpaceWithPeriod(checked);
                 });
+
+
                 // AutoCorrect
-                this.chFLSentence = new Common.UI.CheckBox({
-                    el: $window.find('#id-autocorrect-dialog-chk-fl-sentence'),
+                var exciptionsActiveLang = Common.Utils.InternalSettings.get('settings-letter-exception-lang');
+                this.exceptionsLangCmb = new Common.UI.ComboBox({
+                    el          : $window.find('#auto-correct-exceptions-lang'),
+                    style       : 'width: 145px;',
+                    menuStyle   : 'min-width:100%;',
+                    editable    : false,
+                    takeFocusOnClose : true,
+                    menuCls     : 'menu-aligned',
+                    cls         : 'input-group-nr',
+                    dataHintDirection: 'bottom',
+                    data        : _exciptionsLangs.map(function(lang){
+                        var langName = Common.util.LanguageInfo.getLocalLanguageName(lang);
+                        return { 
+                            displayValue: langName[1], 
+                            shortName: langName[0],
+                            value: lang
+                        };
+                    })
+                }).on('selected', function(combo, record) {
+                    if(exciptionsActiveLang != record.value) {
+                        exciptionsActiveLang = record.value;
+                        Common.Utils.InternalSettings.set('settings-letter-exception-lang', exciptionsActiveLang);
+                        me.onInitExceptionsList(true);
+                        me.onChangeInputException(me.exceptionsFindInput, me.exceptionsFindInput.getValue());
+                    }
+                });
+
+                if(!exciptionsActiveLang) {
+                    var curLangObj = this.exceptionsLangCmb.store.findWhere({value: this.api.asc_getDefaultLanguage()});
+                    if (!curLangObj) {
+                        var nameLang = Common.util.LanguageInfo.getLocalLanguageName(this.api.asc_getDefaultLanguage())[0].split(/[\-\_]/)[0];
+                        curLangObj = this.exceptionsLangCmb.store.find(function(lang){
+                            return lang.get('shortName').indexOf(nameLang)==0;
+                        });
+                    }
+                    if(curLangObj) exciptionsActiveLang = curLangObj.get('value');
+                }
+                this.exceptionsLangCmb.setValue(exciptionsActiveLang ? exciptionsActiveLang : _exciptionsLangs[0]);
+
+                this.onInitExceptionsList(true);
+                this.exceptionsList = new Common.UI.ListView({
+                    el: $window.find('#auto-correct-exceptions-list'),
+                    store: new Common.UI.DataViewStore(_exciptionsStore.slice(0, 6)),
+                    simpleAddMode: false,
+                    template: _.template(['<div class="listview inner" style=""></div>'].join('')),
+                    itemTemplate: _.template([
+                        '<div id="<%= id %>" class="list-item" style="width: 340px;text-overflow: ellipsis;overflow: hidden;<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= value + "."%></div>'
+                    ].join('')),
+                    scrollAlwaysVisible: true,
+                    tabindex: 1
+                });
+                this.exceptionsList.on('item:select', _.bind(this.onSelectExceptionItem, this));
+
+
+                this.exceptionsFindInput = new Common.UI.InputField({
+                    el               : $window.find('#auto-correct-exceptions-find'),
+                    allowBlank       : true,
+                    validateOnChange : true,
+                    maxLength        : 255,
+                    validation       : function () { return true; }
+                }).on ('changing', _.bind(this.onChangeInputException, this));
+    
+                this.exceptionsFindInput.cmpEl.find('input').on('keydown', function(event){
+                    if (event.key == 'ArrowDown') {
+                        var _selectedItem = me.exceptionsList.getSelectedRec() || me.exceptionsList.store.at(0);
+                        if (_selectedItem) {
+                            me.exceptionsList.selectRecord(_selectedItem);
+                            me.exceptionsList.scrollToRecord(_selectedItem);
+                        }
+                        _.delay(function(){
+                            me.exceptionsList.focus();
+                        },10);
+    
+                    }
+                });
+
+                this.btnResetExceptions = new Common.UI.Button({
+                    el: $window.find('#auto-correct-btn-exceptions-reset')
+                });
+                this.btnResetExceptions.on('click', _.bind(this.onResetExceptionsToDefault, this));
+    
+                this.btnAddExceptions = new Common.UI.Button({
+                    el: $window.find('#auto-correct-btn-exceptions-edit')
+                });
+                this.btnAddExceptions.on('click', _.bind(this.onAddException, this, false));
+    
+                this.btnDeleteExceptions = new Common.UI.Button({
+                    el: $window.find('#auto-correct-btn-exceptions-delete')
+                });
+                this.btnDeleteExceptions.on('click', _.bind(this.onDeleteException, this, false));
+
+                
+                this.chkSentenceExceptions = new Common.UI.CheckBox({
+                    el: $window.find('#auto-correct-exceptions-chk-sentence'),
                     labelText: this.textFLSentence,
-                    value: Common.Utils.InternalSettings.get(this.appPrefix + "settings-autoformat-fl-sentence")
+                    value: Common.Utils.InternalSettings.get(this.appPrefix + "settings-letter-exception-sentence")
                 }).on('change', function(field, newValue, oldValue, eOpts){
                     var checked = (field.getValue()==='checked');
-                    Common.localStorage.setBool(me.appPrefix + "settings-autoformat-fl-sentence", checked);
-                    Common.Utils.InternalSettings.set(me.appPrefix + "settings-autoformat-fl-sentence", checked);
+                    Common.localStorage.setBool(me.appPrefix + "settings-letter-exception-sentence", checked);
+                    Common.Utils.InternalSettings.set(me.appPrefix + "settings-letter-exception-sentence", checked);
                     me.api.asc_SetAutoCorrectFirstLetterOfSentences && me.api.asc_SetAutoCorrectFirstLetterOfSentences(checked);
                 });
 
-                this.chFLCells = new Common.UI.CheckBox({
-                    el: $window.find('#id-autocorrect-dialog-chk-fl-cells'),
+                this.chkSentenceCells = new Common.UI.CheckBox({
+                    el: $window.find('#auto-correct-exceptions-chk-cells'),
                     labelText: this.textFLCells,
-                    value: Common.Utils.InternalSettings.get(this.appPrefix + "settings-autoformat-fl-cells")
+                    value: Common.Utils.InternalSettings.get(this.appPrefix + "settings-letter-exception-cells")
                 }).on('change', function(field, newValue, oldValue, eOpts){
                     var checked = (field.getValue()==='checked');
-                    Common.localStorage.setBool(me.appPrefix + "settings-autoformat-fl-cells", checked);
-                    Common.Utils.InternalSettings.set(me.appPrefix + "settings-autoformat-fl-cells", checked);
-                    me.api.asc_SetAutoCorrectFirstLetterOfCells && me.api.asc_SetAutoCorrectFirstLetterOfCells(checked);
+                    Common.localStorage.setBool(me.appPrefix + "settings-letter-exception-cells", checked);
+                    Common.Utils.InternalSettings.set(me.appPrefix + "settings-letter-exception-cells", checked);
+                    me.api.asc_SetAutoCorrectFirstLetterOfSentences && me.api.asc_SetAutoCorrectFirstLetterOfSentences(checked);
                 });
 
                 this.btnsCategory[3].on('click', _.bind(this.onAutocorrectCategoryClick, this, false));
@@ -392,6 +501,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
         afterRender: function() {
             this.updateControls();
             this.updateRecControls();
+            this.updateExceptionsControls();
             if (this.storageName) {
                 var value = Common.localStorage.getItem(this.storageName);
                 this.setActiveCategory((value!==null) ? parseInt(value) : 0);
@@ -404,7 +514,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     this.inputRecFind, this.mathRecList, this.btnResetRec, this.btnAddRec, this.btnDeleteRec, // 1 tab
                 ];
             arr = arr.concat(this.chNewRows ? [this.chHyperlink, this.chNewRows] : [this.chQuotes, this.chHyphens, this.chHyperlink, this.chDoubleSpaces, this.chBulleted, this.chNumbered]);
-            arr = arr.concat(this.chFLSentence ? [this.chFLSentence, this.chFLCells] : []);
+            arr = arr.concat(this.chkSentenceExceptions ? [this.chkSentenceExceptions, this.chkSentenceCells, this.exceptionsLangCmb, this.exceptionsFindInput, this.exceptionsList, this.btnResetExceptions, this.btnAddExceptions, this.btnDeleteExceptions] : []);
             return arr;
         },
 
@@ -480,8 +590,15 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
         onAutocorrectCategoryClick: function(delay) {
             var me = this;
             _.delay(function(){
-                me.chFLSentence.focus();
+                $('input', me.exceptionsFindInput.cmpEl).select().focus();
             },delay ? 50 : 0);
+
+            if (me.exceptionsList.store.length < _exciptionsStore.length) {
+                _.delay(function(){
+                    me.exceptionsList.setStore(_exciptionsStore);
+                    me.exceptionsList.onResetItems();
+                },delay ? 100 : 10);
+            }
         },
 
         onDelete: function() {
@@ -511,7 +628,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     Common.Utils.InternalSettings.set(path, val);
                     Common.localStorage.setItem(path, val);
                     this.mathList.scroller && this.mathList.scroller.update({});
-                    this.api.asc_deleteFromAutoCorrectMathSymbols(rec.get('replaced'));
+                    this.api.asc_deleteFromAutoCorrectMathSymbols(rec.get('replaced'));   
                 }
                 this.updateControls();
             }
@@ -837,6 +954,204 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
             this.btnAddRec.setDisabled(!!rec || !value);
         },
 
+        onInitExceptionsList: function(overrideNotEmptyStore) {
+            if (_exciptionsStore.length>0 && !overrideNotEmptyStore) return;
+
+            _exciptionsStore.comparator = function(item1, item2) {
+                var n1 = item1.get('value').toLowerCase(),
+                    n2 = item2.get('value').toLowerCase();
+                if (n1==n2) return 0;
+                return (n1<n2) ? -1 : 1;
+            };
+            var activeLang = this.exceptionsLangCmb.getValue(),
+                arrAdd = this.arrAddExceptions[activeLang] ? this.arrAddExceptions[activeLang] : [],
+                arrRem = this.arrRemExceptions[activeLang] ? this.arrRemExceptions[activeLang] : [];
+
+            var arr = (this.api) ? this.api.asc_GetAutoCorrectSettings().get_FirstLetterExceptionManager()
+                                   .get_DefaultExceptions(activeLang) : [],
+                data = [];
+            _.each(arr, function(item, index){
+                data.push({
+                    value: item,
+                    defaultValue: true,
+                    defaultDisabled: arrRem.indexOf(item)>-1
+                });
+            });
+
+            var dataAdd = [];
+            _.each(arrAdd, function(item, index){
+                if (_.findIndex(data, {value: item})<0) {
+                    dataAdd.push({
+                        value: item,
+                        defaultValue: false,
+                        defaultDisabled: false
+                    });
+                }
+            });
+            _exciptionsStore.reset(data.concat(dataAdd));
+            this.updateExceptionsControls();
+        },
+
+        onResetExceptionsToDefault: function() {
+            var apiFlManager = this.api.asc_GetAutoCorrectSettings().get_FirstLetterExceptionManager();
+            var activeLang = this.exceptionsLangCmb.getValue();
+
+            Common.UI.warning({
+                maxwidth: 500,
+                msg: this.textWarnResetFL,
+                buttons: ['yes', 'no'],
+                primary: 'yes',
+                callback: _.bind(function(btn, dontshow){
+                    if (btn == 'yes') {
+                        apiFlManager.put_Exceptions(apiFlManager.get_DefaultExceptions(activeLang), activeLang);
+                        this.onResetExceptionsList();
+                    }
+                }, this)
+            });
+        },
+
+        onResetExceptionsList: function() {
+            var path = this.appPrefix + "settings-letter-exception";
+            var activeLang = this.exceptionsLangCmb.getValue();
+            var val = JSON.stringify([]);
+            Common.Utils.InternalSettings.set(path + "-add-" + activeLang, val);
+            Common.localStorage.setItem(path + "-add-" + activeLang, val);
+            Common.Utils.InternalSettings.set(path + "-rem-" + activeLang, val);
+            Common.localStorage.setItem(path + "-rem-" + activeLang, val);
+
+            this.arrAddExceptions[activeLang] = [];
+            this.arrRemExceptions[activeLang] = [];
+
+            _exciptionsStore.remove(_exciptionsStore.where({defaultValue: false}));
+            _exciptionsStore.each(function(item, index){
+                item.set('defaultDisabled', false);
+            });
+            this.exceptionsList.deselectAll();
+            if (this.exceptionsList.scroller) {
+                this.exceptionsList.scroller.update();
+                this.exceptionsList.scroller.scrollTop(0);
+            }
+            this.updateExceptionsControls();
+        },
+        
+        onDeleteException: function() {
+            var rec = this.exceptionsList.getSelectedRec();
+            var apiFlManager = this.api.asc_GetAutoCorrectSettings().get_FirstLetterExceptionManager();
+            var activeLang = this.exceptionsLangCmb.getValue();
+            if (rec) {
+                var val;
+                var path = '';
+                if (rec.get('defaultValue')) {
+                    var disabled = !rec.get('defaultDisabled');
+                    path = this.appPrefix + "settings-letter-exception-rem-" + activeLang;
+                    rec.set('defaultDisabled', disabled);
+                    if (disabled)
+                        this.arrRemExceptions[activeLang].push(rec.get('value'));
+                    else
+                        this.arrRemExceptions[activeLang].splice(this.arrRemExceptions[activeLang].indexOf(rec.get('value')), 1);
+                    
+                    val = JSON.stringify(this.arrRemExceptions[activeLang]);
+                    Common.Utils.InternalSettings.set(path, val);
+                    Common.localStorage.setItem(path, val);
+                    this.btnDeleteExceptions.setCaption(disabled ? this.textRestore : this.textDelete);
+                    disabled ? apiFlManager.remove_Exception(rec.get('value'), activeLang) : apiFlManager.add_Exception(rec.get('value'), activeLang);
+                } else {
+                    _exciptionsStore.remove(rec);
+                    
+                    this.arrAddExceptions[activeLang].splice(this.arrAddExceptions[activeLang].indexOf(rec.get('value')), 1);
+                    path = this.appPrefix + "settings-letter-exception-add-" + activeLang;
+                    val = JSON.stringify(this.arrAddExceptions[activeLang]);
+                    Common.Utils.InternalSettings.set(path, val);
+                    Common.localStorage.setItem(path, val);
+                    this.exceptionsList.scroller && this.exceptionsList.scroller.update({});
+                    apiFlManager.remove_Exception(rec.get('value'), activeLang);
+                }
+                this.updateExceptionsControls();
+            }
+        },
+
+        onAddException: function() {
+            var rec = this.exceptionsList.getSelectedRec(),
+                activeLang = this.exceptionsLangCmb.getValue(),
+                me = this,
+                value = this.exceptionsFindInput.getValue().trim(),
+                applySettings = function(record) {
+                    var path = me.appPrefix + "settings-letter-exception-add-" + activeLang;
+                    var val = JSON.stringify(me.arrAddExceptions[activeLang]);
+                    Common.Utils.InternalSettings.set(path, val);
+                    Common.localStorage.setItem(path, val);
+                    me.api.asc_GetAutoCorrectSettings().get_FirstLetterExceptionManager().add_Exception(record.get('value') ,activeLang);
+                    me.exceptionsList.selectRecord(record);
+                    me.exceptionsList.scrollToRecord(record);
+                };
+            if (!rec) {
+                rec = _exciptionsStore.findWhere({value: value})
+            }
+            if (!rec) {
+                if(value[value.length-1] === '.')
+                    value = value.slice(0, -1);
+                if (/^[^\%/\\&\?\,\.\s\d\'\;:!-+!@#\$\^*)(]{1,20}$/.test(value)) {
+                    rec = _exciptionsStore.add({
+                        value: value,
+                        defaultValue: false,
+                        defaultDisabled: false
+                    });
+                    this.arrAddExceptions[activeLang].push(rec.get('value'));
+                    applySettings(rec);
+                } else
+                    Common.UI.warning({
+                        maxwidth: 500,
+                        msg: this.textWarnAddFL
+                    });
+            } else {
+                me.exceptionsList.selectRecord(rec);
+                me.exceptionsList.scrollToRecord(rec);
+            }
+        },
+
+        onSelectExceptionItem: function(lisvView, itemView, record) {
+            if (record) {
+                this.exceptionsFindInput.setValue(record.get('value'));
+            }
+            this.updateExceptionsControls(record);
+        },
+
+        onChangeInputException: function (input, value) {
+            var _selectedItem;
+            value = value.trim();
+            if (value.length) {
+                if(value[value.length-1] === '.')
+                    value = value.slice(0, -1);
+
+                var store = this.exceptionsList.store;
+                _selectedItem = store.find(function(item) {
+                    if ( item.get('value').indexOf(value) == 0) {
+                        return true;
+                    }
+                });
+                if (_selectedItem) {
+                    this.exceptionsList.scrollToRecord(_selectedItem, true);
+                    if (_selectedItem.get('value') == value)
+                        this.exceptionsList.selectRecord(_selectedItem, true);
+                    else
+                        _selectedItem = null;
+                }
+            }
+            (!_selectedItem) && this.exceptionsList.deselectAll();
+            this.updateExceptionsControls(_selectedItem);
+        },
+
+        updateExceptionsControls: function(rec) {
+            if (!this.exceptionsList) return;
+
+            rec = rec || this.exceptionsList.getSelectedRec();
+            var value = this.exceptionsFindInput.getValue();
+
+            this.btnDeleteExceptions.setCaption(rec && rec.get('defaultDisabled') ? this.textRestore : this.textDelete);
+            this.btnDeleteExceptions.setDisabled(!rec);
+            this.btnAddExceptions.setDisabled(!!rec || !value);
+        },
+
         textTitle: 'AutoCorrect',
         textMathCorrect: 'Math AutoCorrect',
         textReplace: 'Replace',
@@ -865,8 +1180,12 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
         textNewRowCol: 'Include new rows and columns in table',
         textAutoCorrect: 'AutoCorrect',
         textFLSentence: 'Capitalize first letter of sentences',
+        textWarnResetFL: 'Any exceptions you added will be removed and the removed ones will be restored. Do you want to continue?',
+        textWarnAddFL: 'Exceptions must contain only the letters, uppercase or lowercase.',
+        textForLangFL: 'Exceptions for the language:',
         textHyperlink: 'Internet and network paths with hyperlinks',
         textFLCells: 'Capitalize first letter of table cells',
+        textFLDont: 'Don`t capitalize after',
         textDoubleSpaces: 'Add period with double-space'
 
     }, Common.Views.AutoCorrectDialog || {}))

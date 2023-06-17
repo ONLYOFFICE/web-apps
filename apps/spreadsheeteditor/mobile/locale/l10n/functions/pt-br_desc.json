@@ -1890,5 +1890,33 @@
 	"DROP": {
 		"a": "(matriz, linhas, [colunas])",
 		"d": "Remove linhas ou colunas de início ou término da matriz."
+	},
+	"SEQUENCE": {
+		"a": "(linhas, [colunas], [início], [final])",
+		"d": "Retorna uma sequência de números"
+	},
+	"EXPAND": {
+		"a": "(matriz, linhas, [colunas], [pad_with])",
+		"d": "Expande uma matriz para as dimensões especificadas."
+	},
+	"XMATCH": {
+		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
+		"d": "Retorna a posição relativa de um item em uma matriz. Por padrão, uma correspondência exata é necessária"
+	},
+	"FILTER": {
+		"a": "(matriz, incluir, [se_vazia])",
+		"d": "Filtrar um intervalo ou uma matriz"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(matriz, [formato])",
+		"d": "Retorna uma representação de texto de uma matriz"
+	},
+	"SORT": {
+		"a": "(matriz, [índice_de_classificação], [ordem_de_classificação], [por_col])",
+		"d": "Classifica um intervalo ou uma matriz"
+	},
+	"SORTBY": {
+		"a": "(matriz, índice_de_classificação, [ordem_de_classificação], ...)",
+		"d": "Classifica um intervalo ou matriz com base nos valores de uma matriz ou intervalo correspondente"
 	}
 }

@@ -129,10 +129,13 @@
       "warnNoLicense": "%1 düzenleyiciye eşzamanlı bağlantı sınırına ulaştınız. Bu belge yalnızca görüntüleme için açılacaktır. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
       "warnNoLicenseUsers": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
       "warnProcessRightsChange": "Dosyayı düzenleme izniniz yok.",
-      "textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches",
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
       "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
+      "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
+      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
   "Error": {
@@ -260,6 +263,7 @@
       "textTableSize": "Tablo Boyutu",
       "txtNotUrl": "Bu alan, \"http://www.example.com\" biçiminde bir URL olmalıdır.",
       "textDone": "Done",
+      "textPasteImageUrl": "Paste an image URL",
       "textRecommended": "Recommended",
       "textRequired": "Required"
     },
@@ -353,7 +357,6 @@
       "textNextSlide": "Sonraki slayt",
       "textNone": "Hiçbiri",
       "textNoStyles": "Bu grafik türü için stil yok.",
-      "textNoTextFound": "Metin Bulunamadı",
       "textNotUrl": "Bu alan, \"http://www.example.com\" biçiminde bir URL olmalıdır.",
       "textNumbers": "Sayılar",
       "textOk": "Tamam",
@@ -414,6 +417,7 @@
       "textDeleteLink": "Delete Link",
       "textDesign": "Design",
       "textInsertImage": "Insert Image",
+      "textNoMatches": "No Matches",
       "textPush": "Push",
       "textRecommended": "Recommended",
       "textRequired": "Required",
@@ -454,7 +458,6 @@
       "textLoading": "Yükleniyor...",
       "textLocation": "Konum",
       "textMacrosSettings": "Makro Ayarları",
-      "textNoTextFound": "Metin Bulunamadı",
       "textOwner": "Sahip",
       "textPoint": "Nokta",
       "textPoweredBy": "Tarafından",
@@ -497,6 +500,7 @@
       "notcriticalErrorTitle": "Warning",
       "textDarkTheme": "Dark Theme",
       "textFeedback": "Feedback & Support",
+      "textNoMatches": "No Matches",
       "textOk": "Ok",
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRTL": "RTL",

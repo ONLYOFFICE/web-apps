@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  ReviewChanges.js
  *
@@ -91,10 +90,10 @@ define([
                 '<div class="group">' +
                     '<span id="btn-review-on" class="btn-slot text x-huge"></span>' +
                 '</div>' +
-                '<div class="group no-group-mask review" style="padding-left: 0;">' +
+                '<div class="group no-group-mask review" style="padding-left: 0;padding-right:0;">' +
                     '<span id="btn-review-view" class="btn-slot text x-huge"></span>' +
                 '</div>' +
-                '<div class="group move-changes" style="padding-left: 0;">' +
+                '<div class="group move-changes" style="padding-left: 0;padding-right:0;">' +
                     '<span id="btn-change-prev" class="btn-slot text x-huge"></span>' +
                     '<span id="btn-change-next" class="btn-slot text x-huge"></span>' +
                     '<span id="btn-change-accept" class="btn-slot text x-huge"></span>' +
@@ -102,7 +101,8 @@ define([
                 '</div>' +
                 '<div class="separator long review"></div>' +
                 '<div class="group">' +
-                    '<span id="btn-compare" class="btn-slot text x-huge"></span>' +
+                    '<span id="slot-btn-compare" class="btn-slot text x-huge"></span>' +
+                    '<span id="slot-btn-combine" class="btn-slot text x-huge"></span>' +
                 '</div>' +
                 '<div class="separator long compare"></div>' +
                 '<div class="group no-group-mask review form-view">' +
@@ -141,6 +141,15 @@ define([
 
                     this.btnCompare.menu.on('item:click', function (menu, item, e) {
                         me.fireEvent('reviewchange:compare', [item.value]);
+                    });
+
+
+                    this.btnCombine.on('click', function(e) {
+                        me.fireEvent('reviewchange:combine', ['file']);
+                    });
+
+                    this.btnCombine.menu.on('item:click', function(menu, item, e) {
+                        me.fireEvent('reviewchange:combine', [item.value]);
                     });
                 }
 
@@ -294,6 +303,18 @@ define([
                             dataHintOffset: 'small'
                         });
                         this.lockedControls.push(this.btnCompare);
+
+                        this.btnCombine = new Common.UI.Button({
+                            cls: 'btn-toolbar  x-huge icon-top',
+                            caption: this.txtCombine,
+                            split: true,
+                            iconCls: 'toolbar__icon btn-combine',
+                            lock: [_set.hasCoeditingUsers, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments],
+                            dataHint: '1',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'small'
+                        });
+                        this.lockedControls.push(this.btnCombine);
                     }
                     this.btnTurnOn = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
@@ -570,8 +591,23 @@ define([
                                     // {caption: me.mniSettings, value: 'settings'}
                                 ]
                             }));
-                            me.btnCompare.menu.items[2].setVisible(me.appConfig.canRequestCompareFile || me.appConfig.fileChoiceUrl && me.appConfig.fileChoiceUrl.indexOf("{documentType}")>-1);
+                            me.btnCompare.menu.items[2].setVisible(me.appConfig.canRequestSelectDocument || me.appConfig.canRequestCompareFile || me.appConfig.fileChoiceUrl && me.appConfig.fileChoiceUrl.indexOf("{documentType}")>-1);
+                            me.btnCompare.menu.items[1].setDisabled(me.appConfig.disableNetworkFunctionality);
+                            me.btnCompare.menu.items[2].setDisabled(me.appConfig.disableNetworkFunctionality);
                             me.btnCompare.updateHint(me.tipCompare);
+
+
+                            me.btnCombine.setMenu(new Common.UI.Menu({
+                                items: [
+                                    {caption: me.mniFromFile, value: 'file'},
+                                    {caption: me.mniFromUrl, value: 'url'},
+                                    {caption: me.mniFromStorage, value: 'storage'}
+                                ]
+                            }));
+                            me.btnCombine.menu.items[2].setVisible(me.appConfig.canRequestSelectDocument || me.appConfig.fileChoiceUrl && me.appConfig.fileChoiceUrl.indexOf("{documentType}")>-1);
+                            me.btnCombine.menu.items[1].setDisabled(me.appConfig.disableNetworkFunctionality);
+                            me.btnCombine.menu.items[2].setDisabled(me.appConfig.disableNetworkFunctionality);
+                            me.btnCombine.updateHint(me.tipCombine);
                         }
 
                         Common.Utils.lockControls(Common.enumLock.isReviewOnly, config.isReviewOnly, {array: [me.btnAccept, me.btnReject]});
@@ -705,7 +741,8 @@ define([
                 if ( this.appConfig.canReview ) {
                     this.btnAccept.render(this.$el.find('#btn-change-accept'));
                     this.btnReject.render(this.$el.find('#btn-change-reject'));
-                    this.appConfig.canFeatureComparison && this.btnCompare.render(this.$el.find('#btn-compare'));
+                    this.appConfig.canFeatureComparison && this.btnCompare.render(this.$el.find('#slot-btn-compare'));
+                    this.appConfig.canFeatureComparison && this.btnCombine.render(this.$el.find('#slot-btn-combine'));
                     this.btnTurnOn.render(this.$el.find('#btn-review-on'));
                 }
                 this.btnPrev && this.btnPrev.render(this.$el.find('#btn-change-prev'));
@@ -913,6 +950,8 @@ define([
             strStrictDesc: 'Use the \'Save\' button to sync the changes you and others make.',
             txtCompare: 'Compare',
             tipCompare: 'Compare current document with another one',
+            txtCombine: 'Combine',
+            tipCombine: 'Combine current document with another one',
             mniFromFile: 'Document from File',
             mniFromUrl: 'Document from URL',
             mniFromStorage: 'Document from Storage',

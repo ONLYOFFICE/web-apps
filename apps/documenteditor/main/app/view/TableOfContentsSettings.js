@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -49,13 +48,14 @@ define([
     DE.Views.TableOfContentsSettings = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 500,
-            height: 455
+            height: 460,
+            id: 'window-table-contents'
         },
 
         initialize : function(options) {
             var me = this;
 
-            var height = options.type ? 385 : 455;
+            var height = options.type ? 385 : 460;
             _.extend(this.options, {
                 title: options.type ? this.textTitleTOF : this.textTitle,
                 height: height,
@@ -69,7 +69,7 @@ define([
                                         '<div id="tableofcontents-chb-pages"></div>',
                                         '</td>',
                                         '<td rowspan="5" class="padding-small" style="vertical-align: top;">',
-                                        '<div class="canvas-box" style="width: 240px; height: 182px; float: right;position:relative;overflow:hidden;">',
+                                        '<div class="canvas-box float-right" style="width: 240px; height: 182px; position:relative; overflow:hidden;">',
                                             '<div id="tableofcontents-img" style="width: 230px; height: 100%;"></div>',
                                         '</div>',
                                         '</td>',
@@ -82,7 +82,7 @@ define([
                                     '<tr>',
                                         '<td class="padding-large">',
                                             '<label class="input-label">' + me.textLeader + '</label>',
-                                            '<div id="tableofcontents-combo-leader" class="input-group-nr" style="display: inline-block; width:95px; margin-left: 10px;"></div>',
+                                            '<div id="tableofcontents-combo-leader" class="input-group-nr margin-left-10" style="display: inline-block; width:95px;"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
@@ -116,22 +116,22 @@ define([
                                         '<% } else { %>',
                                             '<div id="tableofcontents-from-levels" style="width:220px;">',
                                                 '<label class="input-label">' + me.textLevels + '</label>',
-                                                '<div id="tableofcontents-spin-levels" style="display: inline-block; width:95px; margin-left: 10px;"></div>',
+                                                '<div id="tableofcontents-spin-levels" class="margin-left-10" style="display: inline-block; width:95px;"></div>',
                                             '</div>',
                                             '<div id="tableofcontents-from-styles" class="hidden">',
-                                                '<table><tr><td style="height: 25px;">',
-                                                        '<label class="input-label" style="width: 144px; margin-left: 23px;">' + me.textStyle + '</label>',
-                                                        '<label class="input-label" style="">' + me.textLevel + '</label>',
-                                                    '</td></tr>',
-                                                    '<tr><td>',
-                                                        '<div id="tableofcontents-styles-list" class="header-styles-tableview" style="width:100%; height: 121px;"></div>',
-                                                '</td></tr></table>',
+                                                '<table>',
+                                                    '<tr>',
+                                                        '<td>',
+                                                            '<div id="tableofcontents-styles-list" class="header-styles-tableview" style="width:100%; height: 143px;"></div>',
+                                                        '</td>',
+                                                    '</tr>',
+                                                '</table>',
                                             '</div>',
                                         '<% } %>',
                                         '</td>',
                                         '<td class="padding-small" style="vertical-align: top;">',
-                                            '<label class="input-label" style="margin-left: 10px;">' + me.textStyles + '</label>',
-                                            '<div id="tableofcontents-combo-styles" class="input-group-nr" style="display: inline-block; width:95px; margin-left: 10px;"></div>',
+                                            '<label class="input-label margin-left-10">' + me.textStyles + '</label>',
+                                            '<div id="tableofcontents-combo-styles" class="input-group-nr margin-left-10" style="display: inline-block; width:95px;"></div>',
                                         '</td>',
                                     '</tr>',
                                 '</table>',
@@ -148,6 +148,7 @@ define([
             this.type       = options.type || 0; // 0 - TOC, 1 - TOF
             this.startLevel = 1;
             this.endLevel = 3;
+            this.isInitStylesListHeaders = false;
             this._noApply = true;
             this._originalProps = null;
 
@@ -333,6 +334,12 @@ define([
                     if (newValue) {
                         this.stylesContainer.toggleClass('hidden', !newValue);
                         this.levelsContainer.toggleClass('hidden', newValue);
+
+                        if(newValue && !this.isInitStylesListHeaders) {
+                            this.initListHeaders();
+                            this.stylesList.setOffsetFromHeader(true);
+                            this.isInitStylesListHeaders = true;
+                        }
                         if (this._needUpdateStyles)
                             this.synchronizeLevelsFromOutline();
                         this.stylesList.scroller.update({alwaysVisibleY: true});
@@ -365,12 +372,16 @@ define([
                         simpleAddMode: true,
                         showLast: false,
                         tabindex: 1,
+                        headers: [
+                            {name: me.textStyle, width: 144, style: Common.UI.isRTL() ? 'margin-right: 16px;' : 'margin-left: 16px;'},
+                            {name: me.textLevel},
+                        ],
                         template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                         itemTemplate: _.template([
                             '<div id="<%= id %>" class="list-item">',
                             '<div class="<% if (checked) { %>checked<% } %>"><%= Common.Utils.String.htmlEncode(displayValue) %></div>',
                             '<div>',
-                            '<div class="input-field" style="width:40px;"><input type="text" class="form-control" value="<%= value %>" style="text-align: right;" maxLength="1">',
+                            '<div class="input-field" style="width:40px;"><input type="text" class="form-control text-align-right" value="<%= value %>" maxLength="1">',
                             '</div>',
                             '</div>',
                             '</div>'
@@ -504,6 +515,21 @@ define([
             this.scrollerY.update();
 
             this._noApply = false;
+        },
+
+        initListHeaders: function() {
+            var headersArr = this.stylesList.headerEl.find('.table-header-item'),
+                widthHeader = this.stylesList.headerEl.width(),
+                widthFirstHeader = $(headersArr[0]).width(),
+                marginFirstHeader = parseFloat($(headersArr[0]).css('margin-left'));
+            
+            $(headersArr[0]).addClass('hidden');
+            var widthLastHeader = $(headersArr[1]).width();
+            $(headersArr[0]).removeClass('hidden');
+
+            if(marginFirstHeader + widthFirstHeader + widthLastHeader > widthHeader) {
+                this.stylesList.setHeaderWidth(0, widthHeader - widthLastHeader - marginFirstHeader);
+            }
         },
 
         fillTOCProps: function(props) {

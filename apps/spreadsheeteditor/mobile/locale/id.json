@@ -27,7 +27,7 @@
       "textEditUser": "User yang sedang edit file:",
       "textMessageDeleteComment": "Apakah Anda ingin menghapus komentar ini?",
       "textMessageDeleteReply": "Apakah Anda ingin menghapus reply ini?",
-      "textNoComments": "Dokumen ini tidak memiliki komentar",
+      "textNoComments": "Tidak Ada Komentar",
       "textOk": "OK",
       "textReopen": "Buka lagi",
       "textResolve": "Selesaikan",
@@ -145,22 +145,26 @@
       "textClose": "Tutup",
       "textContactUs": "Hubungi sales",
       "textCustomLoader": "Maaf, Anda tidak diizinkan untuk mengganti loader. Silakan hubungi tim sales kami untuk mendapatkan harga.",
+      "textDontUpdate": "Jangan Perbarui",
       "textGuest": "Tamu",
       "textHasMacros": "File berisi macros otomatis.<br>Apakah Anda ingin menjalankan macros?",
       "textNo": "Tidak",
       "textNoChoices": "Tidak ada pilihan untuk mengisi sel.<br>Hanya nilai teks dari kolom yang bisa dipilih untuk diganti.",
       "textNoLicenseTitle": "Batas lisensi sudah tercapai",
-      "textNoTextFound": "Teks tidak ditemukan",
       "textOk": "OK",
       "textPaidFeature": "Fitur berbayar",
       "textRemember": "Ingat pilihan saya",
       "textReplaceSkipped": "Penggantian telah dilakukan. Ada {0} yang dilewatkan.",
       "textReplaceSuccess": "Pencarian telah dilakukan. Ada {0} yang diganti {0}",
       "textRequestMacros": "Sebuah makro melakukan permintaan ke URL. Apakah Anda akan mengizinkan permintaan ini ke %1?",
+      "textUpdate": "Perbarui",
+      "textWarnUpdateExternalData": "Buku kerja ini mengandung tautan ke satu atau lebih sumber eksternal yang bisa jadi tidak aman. Bila Anda mempercayai tautan, perbarui mereka untuk mendapatkan data terbaru.",
       "textYes": "Ya",
       "titleLicenseExp": "Lisensi kedaluwarsa",
+      "titleLicenseNotActive": "Lisensi tidak aktif",
       "titleServerVersion": "Editor mengupdate",
       "titleUpdateVersion": "Versi telah diubah",
+      "warnLicenseBefore": "Lisensi tidak aktif.",
       "warnLicenseExceeded": "Anda sudah mencapai batas untuk koneksi bersamaan ke %1 editor. Dokumen ini akan dibuka untuk dilihat saja. Hubungi admin Anda untuk mempelajari lebih lanjut.",
       "warnLicenseExp": "Lisensi Anda sudah kedaluwarsa. Silakan perbarui dan muat ulang halaman.",
       "warnLicenseLimitedNoAccess": "Lisensi kadaluwarsa. Anda tidak memiliki akses untuk editing dokumen secara keseluruhan. Silakan hubungi admin Anda.",
@@ -169,9 +173,8 @@
       "warnNoLicense": "Anda sudah mencapai batas untuk koneksi bersamaan ke %1 editor. Dokumen ini akan dibuka untuk dilihat saja. Hubungi %1 tim sales untuk syarat personal upgrade.",
       "warnNoLicenseUsers": "Anda sudah mencapai batas user untuk %1 editor. Hubungi %1 tim sales untuk syarat personal upgrade.",
       "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini.",
-      "textDontUpdate": "Don't Update",
-      "textUpdate": "Update",
-      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data."
+      "textNoMatches": "No Matches",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
     }
   },
   "Error": {
@@ -255,7 +258,8 @@
     "unknownErrorText": "Kesalahan tidak diketahui.",
     "uploadImageExtMessage": "Format gambar tidak dikenal.",
     "uploadImageFileCountMessage": "Tidak ada gambar yang diunggah.",
-    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB."
+    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB.",
+    "errorProtectedRange": "This range is not allowed for editing."
   },
   "LongActions": {
     "advDRMPassword": "Kata Sandi",
@@ -373,6 +377,7 @@
       "textLinkType": "Tipe tautan",
       "textOk": "OK",
       "textOther": "Lainnya",
+      "textPasteImageUrl": "Tempelkan suatu URL gambar",
       "textPictureFromLibrary": "Gambar dari Perpustakaan",
       "textPictureFromURL": "Gambar dari URL",
       "textRange": "Rentang",
@@ -578,7 +583,13 @@
       "textYen": "Yen",
       "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”",
       "txtSortHigh2Low": "Sortir Tertinggi ke Terendah",
-      "txtSortLow2High": "Sortir Terendah ke Tertinggi"
+      "txtSortLow2High": "Sortir Terendah ke Tertinggi",
+      "textCustomFormat": "Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textSave": "Save",
+      "textEnterFormat": "Enter Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
     },
     "Settings": {
       "advCSVOptions": "Pilih Opsi CSV",
@@ -587,6 +598,8 @@
       "advDRMPassword": "Kata Sandi",
       "closeButtonText": "Tutup File",
       "notcriticalErrorTitle": "Peringatan",
+      "strFuncLocale": "Bahasa Rumus",
+      "strFuncLocaleEx": "Contoh: SUM; MIN; MAX; COUNT",
       "textAbout": "Tentang",
       "textAddress": "Alamat",
       "textApplication": "Aplikasi",
@@ -645,7 +658,6 @@
       "textMargins": "Margin",
       "textMatchCase": "Sesuakian Case",
       "textMatchCell": "Sesuakian Sel",
-      "textNoTextFound": "Teks tidak ditemukan",
       "textOk": "OK",
       "textOpenFile": "Masukkan kata sandi untuk buka file",
       "textOrientation": "Orientasi",
@@ -688,9 +700,11 @@
       "txtComma": "Koma",
       "txtCs": "Ceko",
       "txtDa": "Denmark",
+      "txtDe": "Jerman",
       "txtDelimiter": "Pembatas",
       "txtDownloadCsv": "Download CSV",
       "txtEl": "Yunani",
+      "txtEn": "Inggris",
       "txtEncoding": "Enkoding",
       "txtEs": "Spanyol",
       "txtFi": "Finlandia",
@@ -745,10 +759,7 @@
       "txtVi": "Vietnam",
       "txtZh": "China",
       "warnDownloadAs": "Jika Anda lanjut simpan dengan format ini, semua fitur kecuali teks akan hilang.<br>Apakah Anda ingin melanjutkan?",
-      "strFuncLocale": "Formula Language",
-      "strFuncLocaleEx": "Example: SUM; MIN; MAX; COUNT",
-      "txtDe": "Deutsch",
-      "txtEn": "English"
+      "textNoMatches": "No Matches"
     }
   }
 }

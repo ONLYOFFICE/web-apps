@@ -472,6 +472,13 @@
 	"WRAPCOLS": "OMLOOP.KOLOMMEN",
 	"TAKE": "NEMEN",
 	"DROP": "WEGLATEN",
+	"SEQUENCE": "REEKS",
+	"EXPAND": "UITBREIDEN",
+	"XMATCH": "X.VERGELIJKEN",
+	"FILTER": "FILTER",
+	"ARRAYTOTEXT": "ARRAYTOTEXT",
+	"SORT": "SORTEREN",
+	"SORTBY": "SORTEREN.OP",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

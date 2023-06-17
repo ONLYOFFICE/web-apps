@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -50,6 +49,7 @@ define([
         options: {
             contentWidth: 300,
             height: 395,
+            id: 'window-note-settings',
             buttons: null
         },
 
@@ -71,13 +71,13 @@ define([
                                     '<tr>',
                                         '<td class="padding-small">',
                                             '<div id="note-settings-radio-foot" style="margin-top: 4px;display: inline-block"></div>',
-                                            '<div id="note-settings-combo-footnote" class="input-group-nr" style="display: inline-block; width:150px;float:right;"></div>',
+                                            '<div id="note-settings-combo-footnote" class="input-group-nr float-right" style="display: inline-block; width:150px;"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-large">',
                                             '<div id="note-settings-radio-end" style="margin-top: 4px;display: inline-block"></div>',
-                                            '<div id="note-settings-combo-endnote" class="input-group-nr" style="display: inline-block; width:150px;float:right;"></div>',
+                                            '<div id="note-settings-combo-endnote" class="input-group-nr float-right" style="display: inline-block; width:150px;"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
@@ -87,7 +87,7 @@ define([
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-small">',
-                                            '<div style="display: inline-block; margin-right: 10px; vertical-align: middle;">',
+                                            '<div class="margin-right-10" style="display: inline-block; vertical-align: middle;">',
                                                 '<label class="input-label">', me.textNumFormat,'</label>',
                                                 '<div id="note-settings-combo-format" class="input-group-nr" style="width:150px;"></div>',
                                             '</div>','<div style="display: inline-block; vertical-align: middle;">',

@@ -162,6 +162,7 @@
                             layout:  false / true, // layout tab
                             references:  false / true, // de references tab
                             collaboration:  false / true // collaboration tab
+                            draw:  false / true // draw tab
                             protect:  false / true, // protect tab
                             plugins:  false / true // plugins tab
                             view: {
@@ -195,6 +196,7 @@
                     },
                     font: {
                         name: "Arial",
+                        size: "11px";
                     },
                     chat: true,
                     comments: true,
@@ -268,10 +270,14 @@
                 'onRequestUsers': <request users list for mentions>,// must call setUsers method
                 'onRequestSendNotify': //send when user is mentioned in a comment,
                 'onRequestInsertImage': <try to insert image>,// must call insertImage method
-                'onRequestCompareFile': <request file to compare>,// must call setRevisedFile method
+                'onRequestCompareFile': <request file to compare>,// must call setRevisedFile method. must be deprecated
                 'onRequestSharingSettings': <request sharing settings>,// must call setSharingSettings method
                 'onRequestCreateNew': <try to create document>,
                 'onRequestReferenceData': <try to refresh external data>,
+                'onRequestOpen': <try to open external link>,
+                'onRequestSelectDocument': <try to open document>, // used for compare and combine documents. must call setRequestedDocument method. use instead of onRequestCompareFile/setRevisedFile
+                'onRequestSelectSpreadsheet': <try to open spreadsheet>, // used for mailmerge id de and external links in sse. must call setRequestedSpreadsheet method. use instead of onRequestMailMergeRecipients/setMailMergeRecipients
+                'onRequestReferenceSource': <try to change source for external link>, // used for external links in sse. must call setReferenceSource method
             }
         }
 
@@ -336,6 +342,10 @@
         _config.editorConfig.canRequestSharingSettings = _config.events && !!_config.events.onRequestSharingSettings;
         _config.editorConfig.canRequestCreateNew = _config.events && !!_config.events.onRequestCreateNew;
         _config.editorConfig.canRequestReferenceData = _config.events && !!_config.events.onRequestReferenceData;
+        _config.editorConfig.canRequestOpen = _config.events && !!_config.events.onRequestOpen;
+        _config.editorConfig.canRequestSelectDocument = _config.events && !!_config.events.onRequestSelectDocument;
+        _config.editorConfig.canRequestSelectSpreadsheet = _config.events && !!_config.events.onRequestSelectSpreadsheet;
+        _config.editorConfig.canRequestReferenceSource = _config.events && !!_config.events.onRequestReferenceSource;
         _config.frameEditorId = placeholderId;
         _config.parentOrigin = window.location.origin;
 
@@ -444,7 +454,7 @@
 
                 if (typeof _config.document.fileType === 'string' && _config.document.fileType != '') {
                     _config.document.fileType = _config.document.fileType.toLowerCase();
-                    var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp)|(doc|docx|doct|odt|gdoc|txt|rtf|pdf|mht|htm|html|epub|djvu|xps|oxps|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf))$/
+                    var type = /^(?:(xls|xlsx|ods|csv|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|sxc|et|ett)|(pps|ppsx|ppt|pptx|odp|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|sxi|dps|dpt)|(doc|docx|odt|gdoc|txt|rtf|pdf|mht|htm|html|mhtml|epub|djvu|xps|oxps|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf|sxw|stw|wps|wpt))$/
                                     .exec(_config.document.fileType);
                     if (!type) {
                         window.alert("The \"document.fileType\" parameter for the config object is invalid. Please correct it.");
@@ -700,6 +710,27 @@
             });
         };
 
+        var _setRequestedDocument = function(data) {
+            _sendCommand({
+                command: 'setRequestedDocument',
+                data: data
+            });
+        };
+
+        var _setRequestedSpreadsheet = function(data) {
+            _sendCommand({
+                command: 'setRequestedSpreadsheet',
+                data: data
+            });
+        };
+
+        var _setReferenceSource = function(data) {
+            _sendCommand({
+                command: 'setReferenceSource',
+                data: data
+            });
+        };
+
         var _setFavorite = function(data) {
             _sendCommand({
                 command: 'setFavorite',
@@ -787,7 +818,10 @@
             requestClose        : _requestClose,
             grabFocus           : _grabFocus,
             blurFocus           : _blurFocus,
-            setReferenceData    : _setReferenceData
+            setReferenceData    : _setReferenceData,
+            setRequestedDocument: _setRequestedDocument,
+            setRequestedSpreadsheet: _setRequestedSpreadsheet,
+            setReferenceSource: _setReferenceSource
         }
     };
 

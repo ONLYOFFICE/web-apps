@@ -472,6 +472,13 @@
 	"WRAPCOLS": "BRYTKOLUMN",
 	"TAKE": "TA",
 	"DROP": "UTESLUT",
+	"SEQUENCE": "SEKVENS",
+	"EXPAND": "EXPANDERA",
+	"XMATCH": "XMATCHNING",
+	"FILTER": "FILTER",
+	"ARRAYTOTEXT": "MATRISTILLTEXT",
+	"SORT": "SORTERA",
+	"SORTBY": "SORTERAEFTER",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

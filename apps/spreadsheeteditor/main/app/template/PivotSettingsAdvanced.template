@@ -42,7 +42,7 @@
                     <label id="pivot-adv-label-wrap" class="input-label"></label>
                 </td>
                 <td class="padding-large">
-                    <div id="pivot-adv-spin-wrap" style="float: right; width: 85px;"></div>
+                    <div id="pivot-adv-spin-wrap" class="float-right" style="width: 85px;"></div>
                 </td>
             </tr>
             <tr>

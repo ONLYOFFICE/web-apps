@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  HyperlinkSettingsDialog.js
  *
@@ -55,6 +54,7 @@ define([
             width   : 350,
             style   : 'min-width: 230px;',
             cls     : 'modal-dlg',
+            id      : 'window-hyperlink',
             buttons: ['ok', 'cancel']
         },
 
@@ -65,41 +65,41 @@ define([
 
             this.template = [
                 '<div class="box" style="height: 313px;">',
-                    '<div class="input-row" style="margin-bottom: 10px;">',
-                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-external" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">', this.textExternalLink,'</button>',
-                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-internal" style="border-top-left-radius: 0;border-bottom-left-radius: 0;border-left-width: 0;margin-left: -1px;">', this.textInternalLink,'</button>',
+                    '<div class="input-row margin-bottom-big">',
+                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-external">', this.textExternalLink,'</button>',
+                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-internal">', this.textInternalLink,'</button>',
                     '</div>',
                     '<div id="id-external-link">',
                         '<div class="input-row">',
                             '<label>' + this.strLinkTo + '</label>',
                         '</div>',
-                        '<div id="id-dlg-hyperlink-url" class="input-row" style="margin-bottom: 5px;"></div>',
+                        '<div id="id-dlg-hyperlink-url" class="input-row margin-bottom"></div>',
                     '</div>',
                     '<div id="id-internal-link" class="hidden">',
                         '<div class="input-row">',
                             '<label>' + this.strLinkTo + '</label>',
-                            '<div style="display: inline-block; position: relative;min-width: 150px;float: right;">',
-                                '<label class="link dropdown-toggle" data-toggle="dropdown" id="id-dlg-hyperlink-get-link" style="line-height: 14px; margin-top: 3px;float: right;">' + this.textGetLink + '</label>',
-                                '<div id="id-clip-copy-box" class="dropdown-menu" style="width: 291px; left: -139px; padding: 10px;">',
+                            '<div class="get-link float-right">',
+                                '<label class="link dropdown-toggle float-right" data-toggle="dropdown" id="id-dlg-hyperlink-get-link">' + this.textGetLink + '</label>',
+                                '<div id="id-clip-copy-box" class="dropdown-menu">',
                                     '<div id="id-dlg-clip-copy"></div>',
-                                    '<button id="id-dlg-copy-btn" class="btn btn-text-default" style="margin-left: 5px; width: 86px;">' + this.textCopy + '</button>',
+                                    '<button id="id-dlg-copy-btn" class="btn btn-text-default margin-left-5">' + this.textCopy + '</button>',
                                 '</div>',
                             '</div>',
                         '</div>',
-                        '<div id="id-dlg-hyperlink-list" style="width:100%; height: 115px;"></div>',
+                        '<div id="id-dlg-hyperlink-list"></div>',
                         '<div class="input-row">',
                             '<label>' + this.strRange + '</label>',
                         '</div>',
-                        '<div id="id-dlg-hyperlink-range" class="input-row" style="margin-bottom: 5px;"></div>',
+                        '<div id="id-dlg-hyperlink-range" class="input-row margin-bottom"></div>',
                     '</div>',
                     '<div class="input-row">',
                         '<label>' + this.strDisplay + '</label>',
                     '</div>',
-                    '<div id="id-dlg-hyperlink-display" class="input-row" style="margin-bottom: 5px;"></div>',
+                    '<div id="id-dlg-hyperlink-display" class="input-row margin-bottom"></div>',
                     '<div class="input-row">',
                         '<label>' + this.textTipText + '</label>',
                     '</div>',
-                    '<div id="id-dlg-hyperlink-tip" class="input-row" style="margin-bottom: 5px;"></div>',
+                    '<div id="id-dlg-hyperlink-tip" class="input-row margin-bottom"></div>',
                 '</div>'
             ].join('');
 
@@ -169,7 +169,7 @@ define([
                 validation  : function(value) {
                     if (me.inputRange.isDisabled()) // named range
                         return true;
-                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.FormatTable, value, false);
+                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
                     if (isvalid == Asc.c_oAscError.ID.No) {
                         return true;
                     } else {
@@ -445,7 +445,7 @@ define([
                         }
                     }
                     store.reset(arr);
-                    var sheet = props ? (props.asc_getSheet() || props.asc_getLocation()) : this.settings.currentSheet,
+                    var sheet = props ? (props.asc_getSheet() || props.asc_getLocation()) : this.api.asc_getWorksheetName(this.settings.currentSheet),
                         rec = store.findWhere({name: sheet });
                     if (rec) {
                         this.internalList.expandRecord(rec.get('type') ? definedNames : store.at(0));
@@ -531,6 +531,13 @@ define([
                 var handlerDlg = function(dlg, result) {
                     if (result == 'ok') {
                         me.dataRangeValid = dlg.getSettings();
+                        var idx = me.dataRangeValid.indexOf('!');
+                        (idx>=0) && (me.dataRangeValid = me.dataRangeValid.substring(idx+1, me.dataRangeValid.length));
+                        var rec = me.internalList.store.findWhere({name: me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex()) });
+                        if (rec) {
+                            me.internalList.expandRecord(me.internalList.store.at(0));
+                            me.internalList.scrollToRecord(me.internalList.selectRecord(rec));
+                        }
                         me.inputRange.setValue(me.dataRangeValid);
                         me.inputRange.checkValidate();
                         me.isAutoUpdate && me.inputDisplay.setValue(me.internalList.getSelectedRec().get('name') + (me.dataRangeValid!=='' ? '!' + me.dataRangeValid : ''));
@@ -545,7 +552,12 @@ define([
                     _.delay(function(){
                         me.inputRange.focus();
                     },1);
+                    _.delay(function(){
+                        me.api.asc_showWorksheet(me.settings.currentSheet);
+                    },1);
                 });
+
+                me.api.asc_showWorksheet(me.internalList.getSelectedRec().get('index')-1);
 
                 var xy = me.$window.offset();
                 me.hide();
@@ -553,7 +565,7 @@ define([
                 win.setSettings({
                     api     : me.api,
                     range   : (!_.isEmpty(me.inputRange.getValue()) && (me.inputRange.checkValidate()==true)) ? me.inputRange.getValue() : me.dataRangeValid,
-                    type    : Asc.c_oAscSelectionDialogType.FormatTable
+                    type    : Asc.c_oAscSelectionDialogType.Chart
                 });
             }
         },

@@ -32,7 +32,7 @@
 
     .box-tabs {
         height: @height-tabs;
-        font-size: 12px;
+        .font-size-medium();
 
         display: flex;
         align-items: stretch;
@@ -103,7 +103,7 @@
                 padding: 0 12px;
                 text-decoration: none;
                 cursor: default;
-                font-size: 12px;
+                .font-size-medium();
                 text-align: center;
                 color: @text-toolbar-header-ie;
                 color: @text-toolbar-header;
@@ -172,6 +172,11 @@
                 &:after {
                     transform: rotate(135deg);
                     margin-left: 8px;
+
+                    .rtl & {
+                        margin-left: 0;
+                        margin-right: 4px;
+                    }
                 }
             }
             &.right{
@@ -181,6 +186,11 @@
                 &:after {
                     transform: rotate(-45deg);
                     margin-left: 4px;
+
+                    .rtl & {
+                        margin-left: 0;
+                        margin-right: 8px;
+                    }
                 }
             }
 
@@ -212,7 +222,7 @@
     .box-panels {
         flex-grow: 1;
         -ms-flex: 1;
-        padding-right: 6px;
+        .padding-right-6();
 
         .panel:not(.active) {
             display: none;
@@ -248,6 +258,9 @@
         padding: 12px 10px 7px 0;
         border-radius: 0;
         z-index:999;
+        .rtl & {
+            padding: 12px 0 7px 10px;
+        }
         .compactwidth {
             .btn-group, .btn-toolbar {
                 &.x-huge {
@@ -273,6 +286,9 @@
         }
         &[data-tab=pivot] {
             padding: 5px 10px 0 0;
+            .rtl & {
+                padding: 5px 0 0 10px;
+            }
             .group {
                 height: 60px !important;
             }
@@ -286,6 +302,15 @@
     .more-box {
         background-color: @background-toolbar-ie;
         background-color: @background-toolbar;
+        position: absolute;
+        right: 0;
+        .padding-x(12px, 6px);
+        display: none;
+
+        .rtl & {
+            right: unset;
+            left: 0;
+        }
     }
 
     background-color: @background-toolbar-ie;
@@ -299,14 +324,14 @@
         display: table-cell;
         vertical-align: middle;
         white-space: nowrap;
-        padding-left: 6px;
+        .padding-left-6();
         font-size: 0;
 
         &.small {
-            padding-left: 10px;
+            .padding-left-10();
 
             + .separator:not(.invisible) {
-                margin-left: 10px;
+                .margin-left-10();
             }
         }
 
@@ -331,7 +356,7 @@
     }
 
     .separator {
-        margin-left: 6px;
+        .margin-left-6();
 
         &.close {
             margin-left: 5px;
@@ -651,12 +676,23 @@
 }
 
 .btn-toolbar {
+    &:hover:not(.disabled) {
+        svg.icon {
+            .btn& {
+                opacity: 1;
+            }
+        }
+    }
+
     &:active,
     &.active {
         &:not(.disabled) {
             svg.icon {
                 fill: @icon-normal-pressed-ie;
                 fill: @icon-normal-pressed;
+                .btn& {
+                    opacity: 1;
+                }
             }
         }
     }
@@ -666,6 +702,9 @@
 
         fill: @icon-normal-ie;
         fill: @icon-normal;
+        .btn& {
+            opacity: 1;
+        }
     }
 
     &.borders--small {
@@ -679,6 +718,11 @@
         & {
             width: 21px;
             height: 21px;
+
+            .pixel-ratio__2_5 & {
+                width: 20px;
+                height: 20px;
+            }
         }
 
         .icon {
@@ -686,7 +730,8 @@
             height: 22px;
 
             .pixel-ratio__1_25 &,
-            .pixel-ratio__1_75 & {
+            .pixel-ratio__1_75 &,
+            .pixel-ratio__2_5 & {
                 width: 20px;
                 height: 20px;
             }
@@ -704,7 +749,7 @@
     width: 150px;
     height: 46px;
     .view {
-        padding-right: 14px;
+        .padding-right(14px);
     }
     .dataview.field-picker {
         height: 100%;
@@ -779,12 +824,16 @@
 .menu-insertchart {
     margin: 5px 5px 0 10px;
 
+    .rtl & {
+        margin: 5px 10px 0 5px;
+    }
+
     .group-description {
-        padding-left: 4px;
+        .padding-left-4();
     }
 
     .group-items-container {
-        float: left;
+        .float-left();
         position: relative;
     }
 }
@@ -809,14 +858,14 @@
     span {
         &.colors {
             display: inline-block;
-            margin-right: 15px;
+            .margin-right-15();
         }
 
         &.color {
             display: inline-block;
             width: 12px;
             height: 12px;
-            margin-right: 2px;
+            .margin-right-2();
             border: @scaled-one-px-value-ie solid @border-color-shading-ie;
             border: @scaled-one-px-value solid @border-color-shading;
             vertical-align: middle;
@@ -825,6 +874,9 @@
         &.text {
             vertical-align: middle;
         }
+    }
+    a{
+        height: 27px;
     }
     &.checked {
         &:before {
@@ -880,8 +932,18 @@
 .menu-iconsets {
     margin: 5px 5px 0 10px;
 
+    .rtl & {
+        margin: 5px 10px 0 5px;
+    }
+
     .group-items-container > div {
         margin-right: 8px !important;
+
+        .rtl & {
+            margin-right: 4px !important;
+            margin-left: 8px !important;
+        }
+
         &:not(:hover),
         &:not(.selected) {
             .box-shadow(none);
@@ -890,6 +952,10 @@
     .item-iconset {
         img {
             margin: 2px;
+
+            .rtl & {
+                float: right;
+            }
         }
 
         width: 100px;
@@ -904,4 +970,15 @@
 
 section .field-styles {
     width: 100%;
+}
+
+.toolbar,
+#special-paste-container {
+    .btn-group,
+    .btn-toolbar {
+        .pixel-ratio__2_5 & {
+            display: flex;
+            align-items: center;
+        }
+    }
 }

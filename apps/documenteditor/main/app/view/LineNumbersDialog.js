@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  LineNumbersDialog.js
  *
@@ -51,6 +50,7 @@ define([
             header: true,
             style: 'min-width: 290px;',
             cls: 'modal-dlg',
+            id: 'window-line-numbers',
             buttons: ['ok', 'cancel']
         },
 
@@ -63,8 +63,8 @@ define([
                 '<div class="box" style="">',
                 '<div id="line-numbers-add-line-numbering" style="margin-bottom: 15px;"></div>',
                 '<div style="margin-bottom: 15px;">',
-                    '<div style="display: inline-block; margin-right: 9px;"><label>' + this.textStartAt + '</label><div id="line-numbers-start-at"></div></div>',
-                    '<div style="display: inline-block; margin-right: 9px;"><label>' + this.textFromText + '</label><div id="line-numbers-from-text"></div></div>',
+                    '<div class="margin-right-9" style="display: inline-block;"><label>' + this.textStartAt + '</label><div id="line-numbers-start-at"></div></div>',
+                    '<div class="margin-right-9" style="display: inline-block;"><label>' + this.textFromText + '</label><div id="line-numbers-from-text"></div></div>',
                     '<div style="display: inline-block;"><label>' + this.textCountBy + '</label><div id="line-numbers-count-by"></div></div>',
                 '</div>',
                 '<div style="margin-bottom: 8px;"><label>' + this.textNumbering + '</label></div>',

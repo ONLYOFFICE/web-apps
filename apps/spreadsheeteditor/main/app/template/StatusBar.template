@@ -1,10 +1,10 @@
 
 <div class="statusbar">
-    <div id="status-tabs-scroll" class="status-group">
+    <div id="status-tabs-scroll" class="status-group float-left" dir="ltr">
         <button id="status-btn-tabback" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="G"><i class="icon toolbar__icon btn-previtem">&nbsp;</i></button>
         <button id="status-btn-tabnext" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="J"><i class="icon toolbar__icon btn-nextitem">&nbsp;</i></button>
     </div>
-    <div id="status-addtabs-box" class="status-group">
+    <div id="status-addtabs-box" class="status-group float-left">
         <button id="status-btn-addtab" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="X"><i class="icon toolbar__icon btn-zoomup">&nbsp;</i></button>
         <div class="cnt-tabslist">
             <button id="status-btn-tabslist" type="button" class="btn small btn-toolbar dropdown-toggle" data-toggle="dropdown" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="N"><i class="icon toolbar__icon btn-sheet-list">&nbsp;</i></button>
@@ -18,9 +18,9 @@
                 <label id="status-label-zoom" class="status-label">Zoom 100%</label>
             </div>
         </div>
-        <button id="status-btn-zoomup" type="button" class="btn small btn-toolbar" style="margin-right:40px;"><i class="icon toolbar__icon btn-zoomup">&nbsp;</i></button>
+        <button id="status-btn-zoomup" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomup">&nbsp;</i></button>
     </div>
-    <div id="status-math-box" class="status-group">
+    <div id="status-math-box" class="status-group padding-right-4">
         <div class="separator short"></div>
         <label id="status-math-average">AVERAGE: 10</label>
         <label id="status-math-count">COUNT: 3</label>

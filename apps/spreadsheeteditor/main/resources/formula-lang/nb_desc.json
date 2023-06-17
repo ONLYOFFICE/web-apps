@@ -1890,5 +1890,33 @@
 	"DROP": {
 		"a": "(matrise, rader, [kolonner])",
 		"d": "Sletter rader eller kolonner fra matrisestart eller -slutt."
+	},
+	"SEQUENCE": {
+		"a": "(rader, [kolonner], [start], [trinn])",
+		"d": "Returnerer en tallsekvens"
+	},
+	"EXPAND": {
+		"a": "(matrise, rader, [kolonner], [pad_with])",
+		"d": "Utvider en matrise til de angitte dimensjonene."
+	},
+	"XMATCH": {
+		"a": "(oppslag_verdi, oppslag_matrise, [treff_modus], [søk_modus])",
+		"d": "Returnerer den relative plasseringen av et element i en matrise. Som standard er et eksakt treff nødvendig"
+	},
+	"FILTER": {
+		"a": "(matrise, inkluder, [hvis_tom])",
+		"d": "Filtrerer et område eller en matrise"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(matrise, [format])",
+		"d": "Returnerer en tekstrepresentasjon av en matrise"
+	},
+	"SORT": {
+		"a": "(matrise, [sorteringsindeks], [sorteringsrekkefølge], [etter_kolonne])",
+		"d": "Sorterer et område eller en matrise"
+	},
+	"SORTBY": {
+		"a": "(matrise, etter_matrise, [sorteringsrekkefølge], ...)",
+		"d": "Sorterer et område eller en matrise basert på verdiene i et tilsvarende område eller en tilsvarende matrise"
 	}
 }

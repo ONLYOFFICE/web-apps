@@ -39,11 +39,11 @@
             <section class="panel" data-tab="home">
                 <div class="group small">
                     <div class="elset" style="width:208px;">
-                        <span class="btn-slot" id="slot-field-fontname"></span>
-                        <span class="btn-slot" id="slot-field-fontsize"></span>
-                        <span class="btn-slot" id="slot-btn-incfont"></span>
-                        <span class="btn-slot" id="slot-btn-decfont"></span>
-                        <span class="btn-slot split" id="slot-btn-changecase"></span>
+                        <span class="btn-slot float-left" id="slot-field-fontname"></span>
+                        <span class="btn-slot margin-left-2 float-left" id="slot-field-fontsize"></span>
+                        <span class="btn-slot margin-left-2" id="slot-btn-incfont"></span>
+                        <span class="btn-slot margin-left-2" id="slot-btn-decfont"></span>
+                        <span class="btn-slot margin-left-2 split" id="slot-btn-changecase"></span>
                     </div>
                     <div class="elset font-attr">
                         <span class="btn-slot" id="slot-btn-bold"></span>
@@ -67,9 +67,9 @@
                         <span class="btn-slot split" id="slot-btn-linespace"></span>
                     </div>
                     <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-align-left"></span>
+                        <span class="btn-slot split" id="<% if (!isRTL) { %>slot-btn-align-left<% } else { %>slot-btn-align-right<% } %>"></span>
                         <span class="btn-slot split" id="slot-btn-align-center"></span>
-                        <span class="btn-slot split" id="slot-btn-align-right"></span>
+                        <span class="btn-slot split" id="<% if (!isRTL) { %>slot-btn-align-right<% } else { %>slot-btn-align-left<% } %>"></span>
                         <span class="btn-slot split" id="slot-btn-align-just"></span>
                         <span class="btn-slot split" id="slot-btn-hidenchars"></span>
                         <span class="btn-slot split" id="slot-btn-paracolor"></span>

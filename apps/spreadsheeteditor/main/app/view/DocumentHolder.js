@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  DocumentHolder.js
  *
@@ -60,6 +59,8 @@ define([
 
         initialize: function() {
             var me = this;
+            me._preventCustomClick = null;
+            me._hasCustomItems = false;
 
             this.setApi = function(api) {
                 me.api = api;
@@ -126,9 +127,11 @@ define([
                     me.menuViewSignSeparator,
                     me.menuViewAddComment
                 ]
+            }).on('hide:after', function(menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
             });
 
-            me.fireEvent('createdelayedelements', [me]);
+            me.fireEvent('createdelayedelements', [me, 'view']);
         },
 
         createDelayedElements: function() {
@@ -349,6 +352,222 @@ define([
                 value       : 'ungrouping'
             });
 
+            me.mnuPivotSettings = new Common.UI.MenuItem({
+                caption     : this.txtPivotSettings
+            });
+
+            me.mnuFieldSettings = new Common.UI.MenuItem({
+                caption     : this.txtFieldSettings
+            });
+
+            me.mnuPivotFilter = new Common.UI.MenuItem({
+                caption     : this.txtFilter,
+                menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign   : 'tl-tr',
+                    items: [
+                        {
+                            caption : me.txtClear,
+                            value   : 'clear'
+                        },{
+                            caption : '--'
+                        },{
+                            caption : me.txtTop10,
+                            value   : 'top10'
+                        },{
+                            caption : me.txtValueFilter,
+                            value   : 'value'
+                        },{
+                            caption : me.txtLabelFilter,
+                            value   : 'label'
+                        }
+                    ]
+                })
+            });
+
+            me.mnuPivotSort = new Common.UI.MenuItem({
+                caption     : this.txtSort,
+                menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign   : 'tl-tr',
+                    items: [
+                        {
+                            iconCls: 'menu__icon btn-sort-down',
+                            caption : me.txtAscending,
+                            value   : Asc.c_oAscSortOptions.Ascending
+                        },{
+                            iconCls: 'menu__icon btn-sort-up',
+                            caption : me.txtDescending,
+                            value   : Asc.c_oAscSortOptions.Descending
+                        },{
+                            caption : me.txtSortOption,
+                            value   : 'advanced'
+                        }
+                    ]
+                })
+            });
+
+            me.mnuDeleteField = new Common.UI.MenuItem({
+                caption     : this.txtDelField
+            });
+
+            me.mnuSubtotalField = new Common.UI.MenuItem({
+                caption     : this.txtSubtotalField,
+                checkable: true,
+                allowDepress: true
+            });
+
+            me.mnuSummarize = new Common.UI.MenuItem({
+                caption     : this.txtSummarize,
+                menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign   : 'tl-tr',
+                    items: [
+                        {
+                            caption : me.txtSum,
+                            value   : Asc.c_oAscDataConsolidateFunction.Sum,
+                            checkable: true
+                        },{
+                            caption : me.txtCount,
+                            value   : Asc.c_oAscDataConsolidateFunction.Count,
+                            checkable: true
+                        },{
+                            caption : me.txtAverage,
+                            value   : Asc.c_oAscDataConsolidateFunction.Average,
+                            checkable: true
+                        },{
+                            caption : me.txtMax,
+                            value   : Asc.c_oAscDataConsolidateFunction.Max,
+                            checkable: true
+                        },{
+                            caption : me.txtMin,
+                            value   : Asc.c_oAscDataConsolidateFunction.Min,
+                            checkable: true
+                        },{
+                            caption : me.txtProduct,
+                            value   : Asc.c_oAscDataConsolidateFunction.Product,
+                            checkable: true
+                        },{
+                            caption : '--'
+                        },{
+                            caption : me.txtMoreOptions,
+                            value: -1
+                        }
+                    ]
+                })
+            });
+
+            me.mnuShowAs = new Common.UI.MenuItem({
+                caption     : this.txtShowAs,
+                menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign   : 'tl-tr',
+                    items: [
+                        {
+                            caption : me.txtNormal,
+                            value   : Asc.c_oAscShowDataAs.Normal,
+                            numFormat: Asc.c_oAscNumFormatType.General,
+                            checkable: true
+                        },{
+                            caption : me.txtPercentOfGrand,
+                            value   : Asc.c_oAscShowDataAs.PercentOfTotal,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
+                            checkable: true
+                        },{
+                            caption : me.txtPercentOfCol,
+                            value   : Asc.c_oAscShowDataAs.PercentOfCol,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
+                            checkable: true
+                        },{
+                            caption : me.txtPercentOfTotal,
+                            value   : Asc.c_oAscShowDataAs.PercentOfRow,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
+                            checkable: true
+                        },{
+                            caption : me.txtPercent,
+                            value   : Asc.c_oAscShowDataAs.Percent,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
+                            showMore: true,
+                            checkable: true
+                        },{
+                            caption : me.txtPercentOfParentRow,
+                            value   : Asc.c_oAscShowDataAs.PercentOfParentRow,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
+                            checkable: true
+                        },{
+                            caption : me.txtPercentOfParentCol,
+                            value   : Asc.c_oAscShowDataAs.PercentOfParentCol,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
+                            checkable: true
+                        },{
+                            caption : me.txtPercentOfParent,
+                            value   : Asc.c_oAscShowDataAs.PercentOfParent,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
+                            showMore: true,
+                            checkable: true
+                        },{
+                            caption : me.txtDifference,
+                            value   : Asc.c_oAscShowDataAs.Difference,
+                            numFormat: Asc.c_oAscNumFormatType.General,
+                            showMore: true,
+                            checkable: true
+                        },{
+                            caption : me.txtPercentDiff,
+                            value   : Asc.c_oAscShowDataAs.PercentDiff,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
+                            showMore: true,
+                            checkable: true
+                        },{
+                            caption : me.txtRunTotal,
+                            value   : Asc.c_oAscShowDataAs.RunTotal,
+                            numFormat: Asc.c_oAscNumFormatType.General,
+                            showMore: true,
+                            checkable: true
+                        },{
+                            caption : me.txtPercentOfRunTotal,
+                            value   : Asc.c_oAscShowDataAs.PercentOfRunningTotal,
+                            numFormat: Asc.c_oAscNumFormatType.Percent,
+                            showMore: true,
+                            checkable: true
+                        },{
+                            caption : me.txtRankAscending,
+                            value   : Asc.c_oAscShowDataAs.RankAscending,
+                            numFormat: Asc.c_oAscNumFormatType.General,
+                            showMore: true,
+                            checkable: true
+                        },{
+                            caption : me.txtRankDescending,
+                            value   : Asc.c_oAscShowDataAs.RankDescending,
+                            numFormat: Asc.c_oAscNumFormatType.General,
+                            showMore: true,
+                            checkable: true
+                        },{
+                            caption : me.txtIndex,
+                            value   : Asc.c_oAscShowDataAs.Index,
+                            numFormat: Asc.c_oAscNumFormatType.General,
+                            checkable: true
+                        },{
+                            caption : '--'
+                        },{
+                            caption : me.txtMoreOptions,
+                            value: -1
+                        }
+                    ]
+                })
+            });
+
+            me.mnuShowDetails = new Common.UI.MenuItem({
+                caption     : me.txtShowDetails
+            });
+
+            me.mnuPivotRefreshSeparator = new Common.UI.MenuItem({caption: '--'});
+            me.mnuPivotSubtotalSeparator = new Common.UI.MenuItem({caption: '--'});
+            me.mnuPivotGroupSeparator = new Common.UI.MenuItem({caption: '--'});
+            me.mnuPivotDeleteSeparator = new Common.UI.MenuItem({caption: '--'});
+            me.mnuPivotValueSeparator = new Common.UI.MenuItem({caption: '--'});
+            me.mnuPivotFilterSeparator = new Common.UI.MenuItem({caption: '--'});
+            me.mnuShowDetailsSeparator = new Common.UI.MenuItem({caption: '--'});
+
             me.pmiInsFunction = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-function',
                 caption     : me.txtFormula
@@ -420,9 +639,13 @@ define([
                 caption     : me.txtAddComment
             });
 
+            me.pmiAddCommentSeparator =  new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
             me.pmiCellMenuSeparator =  new Common.UI.MenuItem({
                 caption     : '--'
-            })
+            });
 
             me.pmiFunctionSeparator =  new Common.UI.MenuItem({
                 caption     : '--'
@@ -459,20 +682,19 @@ define([
 
             var numFormatTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem">'+
                 '<div style="position: relative;">'+
-                    '<div style="position: absolute; left: 0; width: 100px;"><%= caption %></div>' +
-                    '<label style="width: 100%; max-width: 300px; overflow: hidden; text-overflow: ellipsis; text-align: right; vertical-align: bottom; padding-left: 100px; color: silver;cursor: pointer;"><%= options.exampleval ? options.exampleval : "" %></label>' +
+                    '<div class="display-value"><%= caption %></div>' +
+                    '<label class="example-val" style="cursor: pointer;"><%= options.exampleval ? options.exampleval : "" %></label>' +
                 '</div></a>');
 
             me.pmiNumFormat = new Common.UI.MenuItem({
                 caption: me.txtNumFormat,
                 menu: new Common.UI.Menu({
-                    cls: 'shifted-right',
+                    cls: 'shifted-right format-num-cls',
                     menuAlign: 'tl-tr',
                     items: [
                         {
                             caption: this.txtGeneral,
                             template: numFormatTemplate,
-                            checkable: true,
                             format: 'General',
                             exampleval: '100',
                             value: Asc.c_oAscNumFormatType.General
@@ -480,7 +702,6 @@ define([
                         {
                             caption: this.txtNumber,
                             template: numFormatTemplate,
-                            checkable: true,
                             format: '0.00',
                             exampleval: '100,00',
                             value: Asc.c_oAscNumFormatType.Number
@@ -488,7 +709,6 @@ define([
                         {
                             caption: this.txtScientific,
                             template: numFormatTemplate,
-                            checkable: true,
                             format: '0.00E+00',
                             exampleval: '1,00E+02',
                             value: Asc.c_oAscNumFormatType.Scientific
@@ -496,7 +716,6 @@ define([
                         {
                             caption: this.txtAccounting,
                             template: numFormatTemplate,
-                            checkable: true,
                             format: '_($* #,##0.00_);_($* (#,##0.00);_($* "-"??_);_(@_)',
                             exampleval: '100,00 $',
                             value: Asc.c_oAscNumFormatType.Accounting
@@ -504,23 +723,27 @@ define([
                         {
                             caption: this.txtCurrency,
                             template: numFormatTemplate,
-                            checkable: true,
                             format: '$#,##0.00',
                             exampleval: '100,00 $',
                             value: Asc.c_oAscNumFormatType.Currency
                         },
                         {
-                            caption: this.txtDate,
+                            caption: this.txtDateShort,
                             template: numFormatTemplate,
-                            checkable: true,
                             format: 'MM-dd-yyyy',
                             exampleval: '04-09-1900',
                             value: Asc.c_oAscNumFormatType.Date
                         },
                         {
+                            caption: this.txtDateLong,
+                            template: numFormatTemplate,
+                            format: 'MMMM d yyyy',
+                            exampleval: 'April 9 1900',
+                            value: Asc.c_oAscNumFormatType.Date
+                        },
+                        {
                             caption: this.txtTime,
                             template: numFormatTemplate,
-                            checkable: true,
                             format: 'HH:MM:ss',
                             exampleval: '00:00:00',
                             value: Asc.c_oAscNumFormatType.Time
@@ -528,7 +751,6 @@ define([
                         {
                             caption: this.txtPercentage,
                             template: numFormatTemplate,
-                            checkable: true,
                             format: '0.00%',
                             exampleval: '100,00%',
                             value: Asc.c_oAscNumFormatType.Percent
@@ -536,7 +758,6 @@ define([
                         {
                             caption: this.txtFraction,
                             template: numFormatTemplate,
-                            checkable: true,
                             format: '# ?/?',
                             exampleval: '100',
                             value: Asc.c_oAscNumFormatType.Fraction
@@ -544,7 +765,6 @@ define([
                         {
                             caption: this.txtText,
                             template: numFormatTemplate,
-                            checkable: true,
                             format: '@',
                             exampleval: '100',
                             value: Asc.c_oAscNumFormatType.Text
@@ -569,6 +789,7 @@ define([
             me.ssMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
+                scrollToCheckedItem: false,
                 id          : 'id-context-menu-cell',
                 items       : [
                     me.pmiCut,
@@ -589,9 +810,25 @@ define([
                     me.pmiFilterCells,
                     me.pmiReapply,
                     me.mnuRefreshPivot,
+                    me.mnuPivotRefreshSeparator,
+                    me.mnuPivotSort,
+                    me.mnuPivotFilter,
+                    me.mnuPivotFilterSeparator,
+                    me.mnuSubtotalField,
+                    me.mnuPivotSubtotalSeparator,
                     me.mnuGroupPivot,
                     me.mnuUnGroupPivot,
-                    {caption: '--'},
+                    me.mnuPivotGroupSeparator,
+                    me.mnuDeleteField,
+                    me.mnuPivotDeleteSeparator,
+                    me.mnuSummarize,
+                    me.mnuShowAs,
+                    me.mnuPivotValueSeparator,
+                    me.mnuShowDetails,
+                    me.mnuShowDetailsSeparator,
+                    me.mnuFieldSettings,
+                    me.mnuPivotSettings,
+                    me.pmiAddCommentSeparator,
                     me.pmiAddComment,
                     me.pmiCellMenuSeparator,
                     me.pmiNumFormat,
@@ -610,18 +847,20 @@ define([
                     me.pmiFreezeSeparator,
                     me.pmiFreezePanes
                 ]
+            }).on('hide:after', function(menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
             });
 
             me.mnuGroupImg = new Common.UI.MenuItem({
                 caption     : this.txtGroup,
-                iconCls     : 'menu__icon shape-group',
+                iconCls     : 'menu__icon btn-shape-group',
                 type        : 'group',
                 value       : 'grouping'
             });
 
             me.mnuUnGroupImg = new Common.UI.MenuItem({
                 caption     : this.txtUngroup,
-                iconCls     : 'menu__icon shape-ungroup',
+                iconCls     : 'menu__icon btn-shape-ungroup',
                 type        : 'group',
                 value       : 'ungrouping'
             });
@@ -728,25 +967,25 @@ define([
 
             me.mnuBringToFront = new Common.UI.MenuItem({
                 caption : this.textArrangeFront,
-                iconCls : 'menu__icon arrange-front',
+                iconCls : 'menu__icon btn-arrange-front',
                 type    : 'arrange',
                 value   : Asc.c_oAscDrawingLayerType.BringToFront
             });
             me.mnuSendToBack = new Common.UI.MenuItem({
                 caption : this.textArrangeBack,
-                iconCls : 'menu__icon arrange-back',
+                iconCls : 'menu__icon btn-arrange-back',
                 type    : 'arrange',
                 value   : Asc.c_oAscDrawingLayerType.SendToBack
             });
             me.mnuBringForward = new Common.UI.MenuItem({
                 caption : this.textArrangeForward,
-                iconCls : 'menu__icon arrange-forward',
+                iconCls : 'menu__icon btn-arrange-forward',
                 type    : 'arrange',
                 value   : Asc.c_oAscDrawingLayerType.BringForward
             });
             me.mnuSendBackward = new Common.UI.MenuItem({
                 caption: this.textArrangeBackward,
-                iconCls : 'menu__icon arrange-backward',
+                iconCls : 'menu__icon btn-arrange-backward',
                 type    : 'arrange',
                 value   : Asc.c_oAscDrawingLayerType.SendBackward
             });
@@ -775,38 +1014,38 @@ define([
                     menuAlign: 'tl-tr',
                     items: [{
                         caption : me.textShapeAlignLeft,
-                        iconCls : 'menu__icon shape-align-left',
+                        iconCls : 'menu__icon btn-shape-align-left',
                         value   : 0
                     }, {
                         caption : me.textShapeAlignCenter,
-                        iconCls : 'menu__icon shape-align-center',
+                        iconCls : 'menu__icon btn-shape-align-center',
                         value   : 4
                     }, {
                         caption : me.textShapeAlignRight,
-                        iconCls : 'menu__icon shape-align-right',
+                        iconCls : 'menu__icon btn-shape-align-right',
                         value   : 1
                     }, {
                         caption : me.textShapeAlignTop,
-                        iconCls : 'menu__icon shape-align-top',
+                        iconCls : 'menu__icon btn-shape-align-top',
                         value   : 3
                     }, {
                         caption : me.textShapeAlignMiddle,
-                        iconCls : 'menu__icon shape-align-middle',
+                        iconCls : 'menu__icon btn-shape-align-middle',
                         value   : 5
                     }, {
                         caption : me.textShapeAlignBottom,
-                        iconCls : 'menu__icon shape-align-bottom',
+                        iconCls : 'menu__icon btn-shape-align-bottom',
                         value   : 2
                     },
                     {caption: '--'},
                     {
                         caption: me.txtDistribHor,
-                        iconCls: 'menu__icon shape-distribute-hor',
+                        iconCls: 'menu__icon btn-shape-distribute-hor',
                         value: 6
                     },
                     {
                         caption: me.txtDistribVert,
-                        iconCls: 'menu__icon shape-distribute-vert',
+                        iconCls: 'menu__icon btn-shape-distribute-vert',
                         value: 7
                     }]
                 })
@@ -851,17 +1090,20 @@ define([
                 caption: me.textMacro
             });
 
-            me.menuImgEditPoints = new Common.UI.MenuItem({
-                caption: me.textEditPoints
+            me.menuSaveAsPicture = new Common.UI.MenuItem({
+                caption     : me.textSaveAsPicture
             });
 
-            me.menuImgEditPointsSeparator = new Common.UI.MenuItem({
-                caption     : '--'
+            var menuSaveAsPictureSeparator = new Common.UI.MenuItem({ caption: '--'});
+
+            me.menuImgEditPoints = new Common.UI.MenuItem({
+                caption: me.textEditPoints
             });
 
             this.imgMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
+                scrollToCheckedItem: false,
                 items: [
                     me.pmiImgCut,
                     me.pmiImgCopy,
@@ -870,17 +1112,18 @@ define([
                     me.menuSignatureEditSign,
                     me.menuSignatureEditSetup,
                     me.menuEditSignSeparator,
-                    me.menuImgEditPoints,
-                    me.menuImgEditPointsSeparator,
                     me.menuImageArrange,
                     me.menuImageAlign,
                     me.menuImgRotate,
                     me.menuImgMacro,
+                    menuSaveAsPictureSeparator,
+                    me.menuSaveAsPicture,
                     me.mnuShapeSeparator,
                     me.menuImgCrop,
                     me.mnuChartData,
                     me.mnuChartType,
                     me.mnuChartEdit,
+                    me.menuImgEditPoints,
                     me.mnuShapeAdvanced,
                     me.menuImgOriginalSize,
                     me.menuImgReplace,
@@ -888,6 +1131,8 @@ define([
                     me.mnuSlicerSeparator,
                     me.mnuSlicerAdvanced
                 ]
+            }).on('hide:after', function(menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
             });
 
             this.menuParagraphVAlign = new Common.UI.MenuItem({
@@ -926,7 +1171,7 @@ define([
             });
 
             me.menuParagraphDirection = new Common.UI.MenuItem({
-                iconCls: 'menu__icon text-orient-hor',
+                iconCls: 'menu__icon btn-text-orient-hor',
                 caption     : me.directionText,
                 menu        : new Common.UI.Menu({
                     cls: 'shifted-right',
@@ -934,7 +1179,7 @@ define([
                     items   : [
                         me.menuParagraphDirectH = new Common.UI.MenuItem({
                             caption     : me.directHText,
-                            iconCls     : 'menu__icon text-orient-hor',
+                            iconCls     : 'menu__icon btn-text-orient-hor',
                             checkable   : true,
                             checkmark   : false,
                             checked     : false,
@@ -943,7 +1188,7 @@ define([
                         }),
                         me.menuParagraphDirect90 = new Common.UI.MenuItem({
                             caption     : me.direct90Text,
-                            iconCls     : 'menu__icon text-orient-rdown',
+                            iconCls     : 'menu__icon btn-text-orient-rdown',
                             checkable   : true,
                             checkmark   : false,
                             checked     : false,
@@ -952,7 +1197,7 @@ define([
                         }),
                         me.menuParagraphDirect270 = new Common.UI.MenuItem({
                             caption     : me.direct270Text,
-                            iconCls     : 'menu__icon text-orient-rup',
+                            iconCls     : 'menu__icon btn-text-orient-rup',
                             checkable   : true,
                             checkmark   : false,
                             checked     : false,
@@ -970,7 +1215,7 @@ define([
                     cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
-                        { template: _.template('<div id="id-docholder-menu-bullets" class="menu-layouts" style="width: 376px; margin: 4px 2px 4px 6px;"></div>') },
+                        { template: _.template('<div id="id-docholder-menu-bullets" class="menu-layouts" style="width: 376px;"></div>') },
                         {caption: '--'},
                         me.menuParagraphBulletNone = new Common.UI.MenuItem({
                             caption     : me.textNone,
@@ -987,34 +1232,43 @@ define([
             });
 
             me._markersArr = [
-                {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00B7), specialFont: 'Symbol'},
-                {type: Asc.asc_PreviewBulletType.char, char: 'o',                                specialFont: 'Courier New'},
-                {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00A7), specialFont: 'Wingdings'},
-                {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x0076), specialFont: 'Wingdings'},
-                {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00D8), specialFont: 'Wingdings'},
-                {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00FC), specialFont: 'Wingdings'},
-                {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00A8), specialFont: 'Symbol'},
-                {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x2013), specialFont: 'Arial'}
+                '{"bulletTypeface":{"type":"bufont","typeface":"Symbol"},"bulletType":{"type":"char","char":"·","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Courier New"},"bulletType":{"type":"char","char":"o","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"§","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"v","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"Ø","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"ü","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Symbol"},"bulletType":{"type":"char","char":"¨","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"char","char":"–","startAt":null}}'
+            ];
+            me._numbersArr = [
+                '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"alphaUcPeriod","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"alphaLcParenR","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"alphaLcPeriod","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"arabicPeriod","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"arabicParenR","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"romanUcPeriod","startAt":null}}',
+                '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"romanLcPeriod","startAt":null}}'
             ];
             me.paraBulletsPicker = {
                 conf: {rec: null},
                 delayRenderTips: true,
                 store       : new Common.UI.DataViewStore([
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 1, drawdata: me._markersArr[0], skipRenderOnChange: true, tip: this.tipMarkersFRound},
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 2, drawdata: me._markersArr[1], skipRenderOnChange: true, tip: this.tipMarkersHRound},
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 3, drawdata: me._markersArr[2], skipRenderOnChange: true, tip: this.tipMarkersFSquare},
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 4, drawdata: me._markersArr[3], skipRenderOnChange: true, tip: this.tipMarkersStar},
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 5, drawdata: me._markersArr[4], skipRenderOnChange: true, tip: this.tipMarkersArrow},
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 6, drawdata: me._markersArr[5], skipRenderOnChange: true, tip: this.tipMarkersCheckmark},
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 7, drawdata: me._markersArr[6], skipRenderOnChange: true, tip: this.tipMarkersFRhombus},
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 8, drawdata: me._markersArr[7], skipRenderOnChange: true, tip: this.tipMarkersDash},
-                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 4, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.UpperLetterDot_Left}, skipRenderOnChange: true, tip: this.tipNumCapitalLetters},
-                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 5, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerLetterBracket_Left}, skipRenderOnChange: true, tip: this.tipNumLettersParentheses},
-                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 6, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerLetterDot_Left}, skipRenderOnChange: true, tip: this.tipNumLettersPoints},
-                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 1, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.DecimalDot_Right}, skipRenderOnChange: true, tip: this.tipNumNumbersPoint},
-                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 2, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.DecimalBracket_Right}, skipRenderOnChange: true, tip: this.tipNumNumbersParentheses},
-                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 3, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.UpperRomanDot_Right}, skipRenderOnChange: true, tip: this.tipNumRoman},
-                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 7, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerRomanDot_Right}, skipRenderOnChange: true, tip: this.tipNumRomanSmall}
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 1, numberingInfo: me._markersArr[0], skipRenderOnChange: true, tip: this.tipMarkersFRound},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 2, numberingInfo: me._markersArr[1], skipRenderOnChange: true, tip: this.tipMarkersHRound},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 3, numberingInfo: me._markersArr[2], skipRenderOnChange: true, tip: this.tipMarkersFSquare},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 4, numberingInfo: me._markersArr[3], skipRenderOnChange: true, tip: this.tipMarkersStar},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 5, numberingInfo: me._markersArr[4], skipRenderOnChange: true, tip: this.tipMarkersArrow},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 6, numberingInfo: me._markersArr[5], skipRenderOnChange: true, tip: this.tipMarkersCheckmark},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 7, numberingInfo: me._markersArr[6], skipRenderOnChange: true, tip: this.tipMarkersFRhombus},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 8, numberingInfo: me._markersArr[7], skipRenderOnChange: true, tip: this.tipMarkersDash},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 4, numberingInfo: me._numbersArr[0], skipRenderOnChange: true, tip: this.tipNumCapitalLetters},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 5, numberingInfo: me._numbersArr[1], skipRenderOnChange: true, tip: this.tipNumLettersParentheses},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 6, numberingInfo: me._numbersArr[2], skipRenderOnChange: true, tip: this.tipNumLettersPoints},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 1, numberingInfo: me._numbersArr[3], skipRenderOnChange: true, tip: this.tipNumNumbersPoint},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 2, numberingInfo: me._numbersArr[4], skipRenderOnChange: true, tip: this.tipNumNumbersParentheses},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 3, numberingInfo: me._numbersArr[5], skipRenderOnChange: true, tip: this.tipNumRoman},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 7, numberingInfo: me._numbersArr[6], skipRenderOnChange: true, tip: this.tipNumRomanSmall}
                 ]),
                 groups: new Common.UI.DataViewGroupStore([
                     {id: 'menu-list-bullet-group', caption: this.textBullets},
@@ -1076,11 +1330,13 @@ define([
 
             me.menuParagraphEquation = new Common.UI.MenuItem({
                 caption     : me.advancedEquationText,
+                iconCls     : 'menu__icon btn-equation',
                 menu        : me.createEquationMenu('popupparaeqinput', 'tl-tr')
             });
 
             this.textInShapeMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
+                scrollToCheckedItem: false,
                 items: [
                     me.pmiTextCut,
                     me.pmiTextCopy,
@@ -1095,6 +1351,8 @@ define([
                     me.pmiTextAdvanced,
                     me.menuParagraphEquation
                 ]
+            }).on('hide:after', function(menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
             });
 
             me.pmiCommonCut = new Common.UI.MenuItem({
@@ -1166,7 +1424,7 @@ define([
                 ]
             });
 
-            me.fireEvent('createdelayedelements', [me]);
+            me.fireEvent('createdelayedelements', [me, 'edit']);
         },
 
         setMenuItemCommentCaptionMode: function (item, add, editable) {
@@ -1179,10 +1437,33 @@ define([
                 menuAlign: menuAlign,
                 items   : [
                     new Common.UI.MenuItem({
+                        caption     : this.currProfText,
+                        iconCls     : 'menu__icon btn-professional-equation',
+                        type        : 'view',
+                        value       : {all: false, linear: false}
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.currLinearText,
+                        iconCls     : 'menu__icon btn-linear-equation',
+                        type        : 'view',
+                        value       : {all: false, linear: true}
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.allProfText,
+                        iconCls     : 'menu__icon btn-professional-equation',
+                        type        : 'view',
+                        value       : {all: true, linear: false}
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.allLinearText,
+                        iconCls     : 'menu__icon btn-linear-equation',
+                        type        : 'view',
+                        value       : {all: true, linear: true}
+                    }),
+                    { caption     : '--' },
+                    new Common.UI.MenuItem({
                         caption     : this.unicodeText,
-                        iconCls     : 'menu__icon unicode',
                         checkable   : true,
-                        checkmark   : false,
                         checked     : false,
                         toggleGroup : toggleGroup,
                         type        : 'input',
@@ -1190,9 +1471,7 @@ define([
                     }),
                     new Common.UI.MenuItem({
                         caption     : this.latexText,
-                        iconCls     : 'menu__icon latex',
                         checkable   : true,
-                        checkmark   : false,
                         checked     : false,
                         toggleGroup : toggleGroup,
                         type        : 'input',
@@ -1200,31 +1479,134 @@ define([
                     }),
                     { caption     : '--' },
                     new Common.UI.MenuItem({
-                        caption     : this.currProfText,
-                        iconCls     : 'menu__icon professional-equation',
-                        type        : 'view',
-                        value       : {all: false, linear: false}
-                    }),
-                    new Common.UI.MenuItem({
-                        caption     : this.currLinearText,
-                        iconCls     : 'menu__icon linear-equation',
-                        type        : 'view',
-                        value       : {all: false, linear: true}
-                    }),
-                    new Common.UI.MenuItem({
-                        caption     : this.allProfText,
-                        iconCls     : 'menu__icon professional-equation',
-                        type        : 'view',
-                        value       : {all: true, linear: false}
-                    }),
-                    new Common.UI.MenuItem({
-                        caption     : this.allLinearText,
-                        iconCls     : 'menu__icon linear-equation',
-                        type        : 'view',
-                        value       : {all: true, linear: true}
+                        caption     : this.hideEqToolbar,
+                        isToolbarHide: false,
+                        type        : 'hide',
                     })
                 ]
             });
+        },
+
+        updateCustomItems: function(menu, data) {
+            if (!menu || !data || data.length<1) return;
+
+            var me = this,
+                lang = me.mode && me.mode.lang ? me.mode.lang.split(/[\-_]/)[0] : 'en';
+
+            me._preventCustomClick && clearTimeout(me._preventCustomClick);
+            me._hasCustomItems && (me._preventCustomClick = setTimeout(function () {
+                me._preventCustomClick = null;
+            },500)); // set delay only on update existing items
+            me._hasCustomItems = true;
+
+            var findCustomItem = function(guid, id) {
+                if (menu && menu.items.length>0) {
+                    for (var i = menu.items.length-1; i >=0 ; i--) {
+                        if (menu.items[i].options.isCustomItem && (id===undefined && menu.items[i].options.guid === guid || menu.items[i].options.guid === guid && menu.items[i].value === id)) {
+                            return menu.items[i];
+                        }
+                    }
+                }
+            }
+
+            var getMenu = function(items, guid, toMenu) {
+                if (toMenu)
+                    toMenu.removeAll();
+                else {
+                    toMenu = new Common.UI.Menu({
+                        cls: 'shifted-right',
+                        menuAlign: 'tl-tr',
+                        items: []
+                    });
+                    toMenu.on('item:click', function(menu, item, e) {
+                        !me._preventCustomClick && me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
+                    });
+                    toMenu.on('menu:click', function(menu, e) {
+                        me._preventCustomClick && e.stopPropagation();
+                    });
+                }
+                items.forEach(function(item) {
+                    item.separator && toMenu.addItem({
+                        caption: '--',
+                        isCustomItem: true,
+                        guid: guid
+                    });
+                    item.text && toMenu.addItem({
+                        caption: ((typeof item.text == 'object') ? item.text[lang] || item.text['en'] : item.text) || '',
+                        isCustomItem: true,
+                        value: item.id,
+                        guid: guid,
+                        menu: item.items ? getMenu(item.items, guid) : false,
+                        disabled: !!item.disabled
+                    });
+                });
+                return toMenu;
+            }
+
+            var focused;
+            data.forEach(function(plugin) {
+                var isnew = !findCustomItem(plugin.guid);
+                if (plugin && plugin.items && plugin.items.length>0) {
+                    plugin.items.forEach(function(item) {
+                        if (item.separator && isnew) {// add separator only to new plugins menu
+                            menu.addItem({
+                                caption: '--',
+                                isCustomItem: true,
+                                guid: plugin.guid
+                            });
+                            return;
+                        }
+
+                        if (!item.text) return;
+                        var mnu = findCustomItem(plugin.guid, item.id),
+                            caption = ((typeof item.text == 'object') ? item.text[lang] || item.text['en'] : item.text) || '';
+                        if (mnu) {
+                            mnu.setCaption(caption);
+                            mnu.setDisabled(!!item.disabled);
+                            if (item.items) {
+                                if (mnu.menu) {
+                                    if (mnu.menu.isVisible() && mnu.menu.cmpEl.find(' > li:not(.divider):not(.disabled):visible').find('> a').filter(':focus').length>0) {
+                                        mnu.menu.isOver = true;
+                                        focused = mnu.cmpEl;
+                                    }
+                                    getMenu(item.items, plugin.guid, mnu.menu);
+                                } else
+                                    mnu.setMenu(getMenu(item.items, plugin.guid));
+                            }
+                        } else {
+                            var mnu = new Common.UI.MenuItem({
+                                caption     : caption,
+                                isCustomItem: true,
+                                value: item.id,
+                                guid: plugin.guid,
+                                menu: item.items && item.items.length>=0 ? getMenu(item.items, plugin.guid) : false,
+                                disabled: !!item.disabled
+                            }).on('click', function(item, e) {
+                                !me._preventCustomClick && me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
+                            });
+                            menu.addItem(mnu);
+                        }
+                    });
+                }
+            });
+
+            if (focused) {
+                var $subitems = $('> [role=menu]', focused).find('> li:not(.divider):not(.disabled):visible > a');
+                ($subitems.length>0) && $subitems.eq(0).focus();
+            }
+            menu.alignPosition();
+        },
+
+        clearCustomItems: function(menu) {
+            if (menu && menu.items.length>0) {
+                for (var i = 0; i < menu.items.length; i++) {
+                    if (menu.items[i].options.isCustomItem) {
+                        menu.removeItem(menu.items[i]);
+                        i--;
+                    }
+                }
+            }
+            this._hasCustomItems = false;
         },
 
         txtSort:                'Sort',
@@ -1326,7 +1708,8 @@ define([
         txtScientific:      'Scientific',
         txtAccounting:      'Accounting',
         txtCurrency:        'Currency',
-        txtDate:            'Date',
+        txtDateShort:       'Short Date',
+        txtDateLong:        'Long Date',
         txtTime:            'Time',
         txtPercentage:      'Percentage',
         txtFraction:        'Fraction',
@@ -1366,6 +1749,7 @@ define([
         textBullets: 'Bullets',
         textNumbering: 'Numbering',
         textMacro: 'Assign Macro',
+        textSaveAsPicture: 'Save as picture',
         textEditPoints: 'Edit Points',
         tipNumCapitalLetters: 'A. B. C.',
         tipNumLettersParentheses: 'a) b) c)',
@@ -1392,7 +1776,47 @@ define([
         currProfText: 'Current - Professional',
         currLinearText: 'Current - Linear',
         allProfText: 'All - Professional',
-        allLinearText: 'All - Linear'
+        allLinearText: 'All - Linear',
+        hideEqToolbar: 'Hide Equation Toolbar',
+        showEqToolbar: 'Show Equation Toolbar',
+        txtPivotSettings: 'Pivot Table settings',
+        txtFieldSettings: 'Field settings',
+        txtValueFieldSettings: 'Value field settings',
+        txtDelField: 'Remove',
+        txtSubtotalField: 'Subtotal',
+        txtGrandTotal: 'Grand total',
+        txtSummarize: 'Summarize values by',
+        txtShowAs: 'Show values as',
+        txtMoreOptions: 'More options',
+        txtSum: 'Sum',
+        txtAverage: 'Average',
+        txtCount: 'Count',
+        txtMax: 'Max',
+        txtMin: 'Min',
+        txtProduct: 'Product',
+        txtNormal: 'No calculation',
+        txtDifference: 'The difference from',
+        txtPercent: '% of',
+        txtPercentDiff: '% difference from',
+        txtRunTotal: 'Running total in',
+        txtPercentOfRunTotal: '% running total in',
+        txtPercentOfCol: '% of column total',
+        txtPercentOfTotal: '% of row total',
+        txtPercentOfGrand: '% of grand total',
+        txtIndex: 'Index',
+        txtPercentOfParentRow: '% of parent row total',
+        txtPercentOfParentCol: '% of parent column total',
+        txtPercentOfParent: '% of parent total',
+        txtRankAscending: 'Rank smallest to largest',
+        txtRankDescending: 'Rank largest to smallest',
+        txtValueFilter: 'Value filters',
+        txtLabelFilter: 'Label filters',
+        txtTop10: 'Top 10',
+        txtClearPivotField: 'Clear filter from {0}',
+        txtSortOption: 'More sort options',
+        txtShowDetails: 'Show details',
+        txtInsImage: 'Insert image from File',
+        txtInsImageUrl: 'Insert image from URL'
 
     }, SSE.Views.DocumentHolder || {}));
 });

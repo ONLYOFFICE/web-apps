@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  DocumentPreview.js
  *
@@ -70,25 +69,25 @@ define([
 
             this.template = [
                 '<div id="presentation-preview" style="width:100%; height:100%"></div>',
-                '<div id="preview-controls-panel" class="preview-controls" style="position: absolute; bottom: 0;">',
+                '<div id="preview-controls-panel" class="preview-controls"">',
                     '<div class="preview-group" style="">',
-                        '<button id="btn-preview-prev" type="button" class="btn small btn-toolbar"><span class="icon toolbar__icon btn-previtem">&nbsp;</span></button>',
-                        '<button id="btn-preview-play" type="button" class="btn small btn-toolbar"><span class="icon toolbar__icon btn-preview-play">&nbsp;</span></button>',
-                        '<button id="btn-preview-next" type="button" class="btn small btn-toolbar"><span class="icon toolbar__icon btn-nextitem">&nbsp;</span></button>',
+                        !Common.UI.isRTL() ? '<button id="btn-preview-prev" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-previtem">&nbsp;</i></button>' : '<button id="btn-preview-next" type="button" class="btn small btn-toolbar"><span class="icon toolbar__icon btn-nextitem">&nbsp;</span></button>',
+                        '<button id="btn-preview-play" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-play">&nbsp;</i></button>',
+                        !Common.UI.isRTL() ? '<button id="btn-preview-next" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-nextitem">&nbsp;</i></button>' : '<button id="btn-preview-prev" type="button" class="btn small btn-toolbar"><span class="icon toolbar__icon btn-previtem">&nbsp;</span></button>',
                     '<div class="separator"></div>',
                     '</div>',
                     '<div class="preview-group dropup">',
                         '<label id="preview-label-slides" class="status-label dropdown-toggle" data-toggle="dropdown">Slide 1 of 1</label>',
                         '<div id="preview-goto-box" class="dropdown-menu">',
-                            '<label style="float:left;line-height:22px;">' + this.goToSlideText + '</label>',
+                            '<label class="float-left margin-right-10">' + this.goToSlideText + '</label>',
                             '<div id="preview-goto-page" style="display:inline-block;"></div>',
                         '</div>',
                     '</div>',
                     '<div class="preview-group" style="">',
                         '<div class="separator"></div>',
-                        '<button id="btn-preview-fullscreen" type="button" class="btn small btn-toolbar"><span class="icon toolbar__icon btn-preview-fullscreen">&nbsp;</span></button>',
+                        '<button id="btn-preview-fullscreen" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-fullscreen">&nbsp;</i></button>',
                         '<div class="separator fullscreen"></div>',
-                        '<button id="btn-preview-close" type="button" class="btn small btn-toolbar"><span class="icon toolbar__icon btn-close">&nbsp;</span></button>',
+                        '<button id="btn-preview-close" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-close">&nbsp;</i></button>',
                     '</div>',
                 '</div>'
             ].join('');
@@ -130,14 +129,12 @@ define([
             this.btnPlay.on('click', _.bind(function(btn) {
                 var iconEl = $('.icon', this.btnPlay.cmpEl);
                 if (iconEl.hasClass('btn-preview-pause')) {
-                    iconEl.removeClass('btn-preview-pause');
-                    iconEl.addClass('btn-preview-play');
+                    this.btnPlay.changeIcon({curr: 'btn-preview-pause', next: 'btn-play'});
                     this.btnPlay.updateHint(this.txtPlay);
                     if (this.api)
                         this.api.DemonstrationPause();
                 } else {
-                    iconEl.addClass('btn-preview-pause');
-                    iconEl.removeClass('btn-preview-play');
+                    this.btnPlay.changeIcon({curr: 'btn-play', next: 'btn-preview-pause'});
                     this.btnPlay.updateHint(this.txtPause);
                     if (this.api)
                         this.api.DemonstrationPlay ();
@@ -234,8 +231,11 @@ define([
 
             $(document).on("webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange",function(){
                 var fselem = (document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement );
-                $('.icon', me.btnFullScreen.cmpEl).toggleClass('btn-preview-exit-fullscreen', fselem !== undefined && fselem !== null);
-                $('.icon', me.btnFullScreen.cmpEl).toggleClass('btn-preview-fullscreen', fselem == undefined || fselem == null);
+                if (fselem !== undefined && fselem !== null) {
+                    me.btnFullScreen.changeIcon({curr: 'btn-fullscreen', next: 'btn-preview-exit-fullscreen'});
+                } else {
+                    me.btnFullScreen.changeIcon({curr: 'btn-preview-exit-fullscreen', next: 'btn-fullscreen'});
+                }
 
                 setTimeout( function() {
                     me.previewControls.css('display', '');
@@ -279,8 +279,7 @@ define([
 
             var iconEl = $('.icon', this.btnPlay.cmpEl);
             if (!iconEl.hasClass('btn-preview-pause')) {
-                iconEl.addClass('btn-preview-pause');
-                iconEl.removeClass('btn-preview-play');
+                this.btnPlay.changeIcon({curr: 'btn-play', next: 'btn-preview-pause'});
                 this.btnPlay.updateHint(this.txtPause);
             }
 

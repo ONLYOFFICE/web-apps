@@ -472,6 +472,13 @@
 	"WRAPCOLS": "RIVITÄSAR",
 	"TAKE": "OTA",
 	"DROP": "HYLKÄÄ",
+	"SEQUENCE": "JONO",
+	"EXPAND": "LAAJENNA",
+	"XMATCH": "XVASTINE",
+	"FILTER": "SUODATA",
+	"ARRAYTOTEXT": "MATRIISI.TEKSTIKSI",
+	"SORT": "LAJITTELE",
+	"SORTBY": "LAJITTELE.ARVOJEN.PERUSTEELLA",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

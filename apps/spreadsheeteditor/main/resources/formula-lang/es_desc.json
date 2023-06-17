@@ -1890,5 +1890,33 @@
 	"DROP": {
 		"a": "(matriz, filas, [columnas])",
 		"d": "Quita filas o columnas desde el inicio o el final de la matriz."
+	},
+	"SEQUENCE": {
+		"a": "(filas, [columnas], [inicio], [paso])",
+		"d": "Devuelve una secuencia de números"
+	},
+	"EXPAND": {
+		"a": "(matriz, filas, [columnas], [pad_with])",
+		"d": "Expande una matriz a las dimensiones especificadas."
+	},
+	"XMATCH": {
+		"a": "(valor_buscado, matriz_buscada, [modo_de_coincidencia], [modo_de_búsqueda])",
+		"d": "Devuelve la posición relativa de un elemento en una matriz. De forma predeterminada, se requiere una coincidencia exacta"
+	},
+	"FILTER": {
+		"a": "(array, include, [if_empty])",
+		"d": "Filtrar un rango o matriz"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(array, [format])",
+		"d": "Devuelve una representación de texto de una array"
+	},
+	"SORT": {
+		"a": "(matriz, [ordenar_índice], [criterio_ordenación], [por_col])",
+		"d": "Ordena un rango o matriz"
+	},
+	"SORTBY": {
+		"a": "(matriz, por_matriz, [orden], ...)",
+		"d": "Ordena un rango o una matriz basándose en los valores de una matriz o un rango correspondiente"
 	}
 }

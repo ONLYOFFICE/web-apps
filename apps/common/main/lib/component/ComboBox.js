@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  ComboBox.js
  *
@@ -86,6 +85,7 @@ define([
                 displayField: 'displayValue',
                 valueField  : 'value',
                 search      : false,
+                placeHolder : '',
                 scrollAlwaysVisible: false,
                 takeFocusOnClose: false,
                 dataHint: '',
@@ -95,7 +95,7 @@ define([
 
             template: _.template([
                 '<span class="input-group combobox <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                    '<input type="text" class="form-control" spellcheck="false"  data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">',
+                    '<input type="text" class="form-control" spellcheck="false" placeholder="<%= placeHolder %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">',
                     '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">',
                         '<span class="caret"></span>',
                     '</button>',
@@ -125,8 +125,10 @@ define([
                 this.store          = me.options.store || new Common.UI.ComboBoxStore();
                 this.displayField   = me.options.displayField;
                 this.valueField     = me.options.valueField;
+                this.placeHolder    = me.options.placeHolder;
                 this.search         = me.options.search;
                 this.scrollAlwaysVisible = me.options.scrollAlwaysVisible;
+                this.focusWhenNoSelection = (me.options.focusWhenNoSelection!==false);
                 me.rendered         = me.options.rendered || false;
 
                 this.lastValue = null;
@@ -151,9 +153,11 @@ define([
                         menuStyle   : this.menuStyle,
                         items       : items,
                         scope       : me,
+                        placeHolder : this.placeHolder,
                         dataHint    : this.options.dataHint,
                         dataHintDirection: this.options.dataHintDirection,
-                        dataHintOffset: this.options.dataHintOffset
+                        dataHintOffset: this.options.dataHintOffset,
+                        isRTL       : Common.UI.isRTL()
                     }));
                     if (this.itemsTemplate)
                         this.cmpEl.find('ul').html(
@@ -183,6 +187,7 @@ define([
 
                     if (this.editable) {
                         el.on('change', 'input', _.bind(this.onInputChanged, this));
+                        el.on('input', 'input', _.bind(this.onInputChanging, this));
                         el.on('keydown', 'input', _.bind(this.onInputKeyDown, this));
                         el.on('focusin', 'input', _.bind(this.onInputFocusIn, this));
                         el.on('click', '.form-control', _.bind(this.onEditableInputClick, this));
@@ -261,6 +266,8 @@ define([
             },
 
             openMenu: function(delay) {
+                if (this.store.length<1) return;
+
                 var me = this;
 
                 if ( !this.scroller ) {
@@ -336,7 +343,7 @@ define([
                         $list.scrollTop(height);
                     }
                     setTimeout(function(){$selected.find('a').focus();}, 1);
-                } else {
+                } else if (this.focusWhenNoSelection) {
                     var me = this;
                     setTimeout(function(){me.cmpEl.find('ul li:first a').focus();}, 1);
                 }
@@ -344,7 +351,7 @@ define([
                 if (this.scroller)
                     this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
 
-                this.trigger('show:after', this, e);
+                this.trigger('show:after', this, e, {fromKeyDown: e===undefined});
                 this._search = {};
             },
 
@@ -373,8 +380,12 @@ define([
                     this.openMenu();
                     this.onAfterShowMenu();
                     return false;
-                }
-                else if (e.keyCode == Common.UI.Keys.RETURN && (this.editable || this.isMenuOpen())) {
+                } else if (!this.focusWhenNoSelection && (e.keyCode == Common.UI.Keys.DOWN || e.keyCode == Common.UI.Keys.UP)) {
+                    var $items = this.cmpEl.find('ul > li a');
+                    if ($items.filter(':focus').length===0 && $items.length>0) {
+                        setTimeout(function(){$items[e.keyCode == Common.UI.Keys.DOWN ? 0 : $items.length-1].focus();}, 1);
+                    }
+                } else if (e.keyCode == Common.UI.Keys.RETURN && (this.editable || this.isMenuOpen())) {
                     var isopen = this.isMenuOpen();
                     $(e.target).click();
                     if (this.rendered) {
@@ -459,8 +470,10 @@ define([
                     this.closeMenu();
                     this.onAfterHideMenu(e);
                 } else if (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN) {
-                    if (!this.isMenuOpen())
+                    if (!this.isMenuOpen()) {
                         this.openMenu();
+                        this.onAfterShowMenu();
+                    }
 
                     _.delay(function() {
                         me._skipInputChange = true;
@@ -513,6 +526,16 @@ define([
 
                 // trigger changed event
                 this.trigger('changed:after', this, record, e);
+            },
+
+            onInputChanging: function(e, extra) {
+                var newValue = $(e.target).val();
+
+                if (e.isDefaultPrevented())
+                    return;
+
+                // trigger changing event
+                this.trigger('changing', this, newValue, e);
             },
 
             onInputClick: function(e) {
@@ -637,6 +660,11 @@ define([
                 $('#' + this._selectedItem.get('id'), $(this.el)).addClass('selected');
             },
 
+            clearSelection: function (){
+                $('.selected', $(this.el)).removeClass('selected');
+                this._selectedItem = null;
+            },
+
             itemClicked: function (e) {
                 var el = $(e.target).closest('li');
 
@@ -716,7 +744,7 @@ define([
         setValue: function(value, defValue) {
             Common.UI.ComboBox.prototype.setValue.call(this, value, defValue);
             if (this.options.updateFormControl)
-                this.options.updateFormControl.call(this, this._selectedItem);
+                this.options.updateFormControl.call(this, this._selectedItem, defValue);
         },
 
         selectRecord: function(record) {

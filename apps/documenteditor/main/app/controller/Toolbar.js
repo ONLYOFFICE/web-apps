@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  Toolbar.js
  *
@@ -77,8 +76,8 @@ define([
             this._state = {
                 activated: false,
                 bullets: {
-                    type: undefined,
-                    subtype: undefined
+                    format: Asc.c_oAscNumberingFormat.None,
+                    numberingInfo: ''
                 },
                 prstyle: undefined,
                 prcontrolsdisable:undefined,
@@ -181,6 +180,9 @@ define([
                 },
                 'ViewTab': {
                     'toolbar:setcompact': this.onChangeCompactView.bind(this)
+                },
+                'DocumentHolder': {
+                    'list:settings': this.onMarkerSettingsClick.bind(this)
                 }
             });
 
@@ -331,8 +333,12 @@ define([
             toolbar.btnFontColor.on('click',                            _.bind(this.onBtnFontColor, this));
             toolbar.btnFontColor.on('color:select',                     _.bind(this.onSelectFontColor, this));
             toolbar.btnFontColor.on('auto:select',                      _.bind(this.onAutoFontColor, this));
+            toolbar.btnFontColor.on('eyedropper:start',                 _.bind(this.onEyedropperStart, this));
+            toolbar.btnFontColor.on('eyedropper:end',                   _.bind(this.onEyedropperEnd, this));
             toolbar.btnParagraphColor.on('click',                       _.bind(this.onBtnParagraphColor, this));
             toolbar.btnParagraphColor.on('color:select',                _.bind(this.onParagraphColorPickerSelect, this));
+            toolbar.btnParagraphColor.on('eyedropper:start',            _.bind(this.onEyedropperStart, this));
+            toolbar.btnParagraphColor.on('eyedropper:end',              _.bind(this.onEyedropperEnd, this));
             toolbar.mnuHighlightColorPicker.on('select',                _.bind(this.onSelectHighlightColor, this));
             toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
             toolbar.mnuLineSpace.on('item:toggle',                      _.bind(this.onLineSpaceToggle, this));
@@ -373,8 +379,11 @@ define([
             toolbar.mnuControlsColorPicker.on('select',                 _.bind(this.onSelectControlsColor, this));
             toolbar.btnLineNumbers.menu.on('item:click',                _.bind(this.onLineNumbersSelect, this));
             toolbar.btnLineNumbers.menu.on('show:after',                _.bind(this.onLineNumbersShow, this));
-            Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
-            Common.Gateway.on('setmailmergerecipients',                 _.bind(this.setMailMergeRecipients, this));
+            Common.Gateway.on('insertimage',                      _.bind(this.insertImage, this));
+            Common.Gateway.on('setmailmergerecipients',           _.bind(this.setMailMergeRecipients, this));
+            Common.Gateway.on('setrequestedspreadsheet',          _.bind(this.setRequestedSpreadsheet, this));
+            Common.NotificationCenter.on('storage:spreadsheet-load',    _.bind(this.openSpreadsheetFromStorage, this));
+            Common.NotificationCenter.on('storage:spreadsheet-insert',  _.bind(this.insertSpreadsheetFromStorage, this));
             $('#id-toolbar-menu-new-control-color').on('click',         _.bind(this.onNewControlsColor, this));
             toolbar.listStylesAdditionalMenuItem.on('click', this.onMenuSaveStyle.bind(this));
             toolbar.btnPrint.menu && toolbar.btnPrint.menu.on('item:click', _.bind(this.onPrintMenu, this));
@@ -398,7 +407,6 @@ define([
                 this.api.asc_registerCallback('asc_onVerticalAlign', _.bind(this.onApiVerticalAlign, this));
                 this.api.asc_registerCallback('asc_onCanUndo', _.bind(this.onApiCanRevert, this, 'undo'));
                 this.api.asc_registerCallback('asc_onCanRedo', _.bind(this.onApiCanRevert, this, 'redo'));
-                this.api.asc_registerCallback('asc_onListType', _.bind(this.onApiBullets, this));
                 this.api.asc_registerCallback('asc_onPrAlign', _.bind(this.onApiParagraphAlign, this));
                 this.api.asc_registerCallback('asc_onTextColor', _.bind(this.onApiTextColor, this));
                 this.api.asc_registerCallback('asc_onParaSpacingLine', _.bind(this.onApiLineSpacing, this));
@@ -438,6 +446,7 @@ define([
                 this.api.asc_registerCallback('asc_onBeginSmartArtPreview', _.bind(this.onApiBeginSmartArtPreview, this));
                 this.api.asc_registerCallback('asc_onAddSmartArtPreview', _.bind(this.onApiAddSmartArtPreview, this));
                 this.api.asc_registerCallback('asc_onEndSmartArtPreview', _.bind(this.onApiEndSmartArtPreview, this));
+                this.api.asc_registerCallback('asc_updateListPatterns', _.bind(this.onApiUpdateListPatterns, this));
             } else if (this.mode.isRestrictedEdit) {
                 this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObjectRestrictedEdit, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
@@ -533,77 +542,6 @@ define([
             if (this._state.can_copycut !== can) {
                 this.toolbar.lockToolbar(Common.enumLock.copyLock, !can, {array: [this.toolbar.btnCopy, this.toolbar.btnCut]});
                 this._state.can_copycut = can;
-            }
-        },
-
-        onApiBullets: function(v) {
-            var type = v.get_ListType();
-            if (this._state.bullets.type != type || this._state.bullets.subtype != v.get_ListSubType() ||
-                this.toolbar.btnMarkers.pressed && (type!==0) || this.toolbar.btnNumbers.pressed && (type!==1) || this.toolbar.btnMultilevels.pressed && (type!==2) ) {
-                this._state.bullets.type = type;
-                this._state.bullets.subtype = v.get_ListSubType();
-
-                this._clearBullets();
-
-                switch(this._state.bullets.type) {
-                    case 0:
-                        this.toolbar.btnMarkers.toggle(true, true);
-                        if (this._state.bullets.subtype>0)
-                            this.toolbar.mnuMarkersPicker.selectByIndex(this._state.bullets.subtype, true);
-                        else
-                            this.toolbar.mnuMarkersPicker.deselectAll(true);
-                        this.toolbar.mnuMultilevelPicker.deselectAll(true);
-                        this.toolbar.mnuMarkerSettings && this.toolbar.mnuMarkerSettings.setDisabled(this._state.bullets.subtype<0);
-                        this.toolbar.mnuMarkerChangeLevel && this.toolbar.mnuMarkerChangeLevel.setDisabled(this._state.bullets.subtype<0);
-                        this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(this._state.bullets.subtype<0);
-                        this.toolbar.mnuMultiChangeLevel && this.toolbar.mnuMultiChangeLevel.setDisabled(this._state.bullets.subtype<0);
-                        break;
-                    case 1:
-                        var idx;
-                        switch(this._state.bullets.subtype) {
-                            case 1:
-                                idx = 4;
-                                break;
-                            case 2:
-                                idx = 5;
-                                break;
-                            case 3:
-                                idx = 6;
-                                break;
-                            case 4:
-                                idx = 1;
-                                break;
-                            case 5:
-                                idx = 2;
-                                break;
-                            case 6:
-                                idx = 3;
-                                break;
-                            case 7:
-                                idx = 7;
-                                break;
-                        }
-                        if (Common.Locale.getDefaultLanguage() === 'ru') {
-                            if (this._state.bullets.subtype>7 && this._state.bullets.subtype<=11) {
-                                idx = this._state.bullets.subtype;
-                            }
-                        }
-                        this.toolbar.btnNumbers.toggle(true, true);
-                        if (idx!==undefined)
-                            this.toolbar.mnuNumbersPicker.selectByIndex(idx, true);
-                        else
-                            this.toolbar.mnuNumbersPicker.deselectAll(true);
-                        this.toolbar.mnuMultilevelPicker.deselectAll(true);
-                        this.toolbar.mnuNumberSettings && this.toolbar.mnuNumberSettings.setDisabled(idx==0);
-                        this.toolbar.mnuNumberChangeLevel && this.toolbar.mnuNumberChangeLevel.setDisabled(idx==0);
-                        this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(idx==0);
-                        this.toolbar.mnuMultiChangeLevel && this.toolbar.mnuMultiChangeLevel.setDisabled(idx==0);
-                        break;
-                    case 2:
-                        this.toolbar.btnMultilevels.toggle(true, true);
-                        this.toolbar.mnuMultilevelPicker.selectByIndex(this._state.bullets.subtype, true);
-                        break;
-                }
             }
         },
 
@@ -855,16 +793,22 @@ define([
                 control_plain = (in_control&&control_props) ? (control_props.get_ContentControlType()==Asc.c_oAscSdtLevelType.Inline) : false;
             (lock_type===undefined) && (lock_type = Asc.c_oAscSdtLockType.Unlocked);
             var content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
+            var if_form = control_props && control_props.get_FormPr();
 
             if (!toolbar.btnContentControls.isDisabled()) {
-                var control_disable = control_plain || content_locked,
-                    if_form = control_props && control_props.get_FormPr();
+                var control_disable = control_plain || content_locked;
                 for (var i=0; i<7; i++)
                     toolbar.btnContentControls.menu.items[i].setDisabled(control_disable);
                 toolbar.btnContentControls.menu.items[8].setDisabled(!in_control || lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked || if_form);
                 toolbar.btnContentControls.menu.items[10].setDisabled(!in_control || if_form);
             }
 
+            this.toolbar.lockToolbar(Common.enumLock.fixedForm, if_form && if_form.get_Fixed(), {array: [
+                toolbar.btnAlignLeft, toolbar.btnAlignCenter, toolbar.btnAlignRight, toolbar.btnAlignJust,
+                toolbar.btnMarkers, toolbar.btnNumbers, toolbar.btnMultilevels,
+                toolbar.btnDecLeftOffset, toolbar.btnIncLeftOffset,
+                toolbar.btnLineSpace
+            ]});  
             this.toolbar.lockToolbar(Common.enumLock.controlPlain, control_plain, {array: [toolbar.btnInsertTable, toolbar.btnInsertImage,  toolbar.btnInsertChart,  toolbar.btnInsertText, toolbar.btnInsertTextArt,
                                                                                 toolbar.btnInsertShape, toolbar.btnInsertSmartArt, toolbar.btnInsertEquation, toolbar.btnDropCap, toolbar.btnColumns, toolbar.mnuInsertPageNum ]});
             if (enable_dropcap && frame_pr) {
@@ -929,6 +873,11 @@ define([
                 this._state.suppress_num = !!frame_pr.get_SuppressLineNumbers();
             }
             this._state.in_equation = in_equation;
+
+            var listId = this.api.asc_GetCurrentNumberingId(),
+                numformat = (listId !== null) ? this.api.asc_GetNumberingPr(listId).get_Lvl(this.api.asc_GetCurrentNumberingLvl()).get_Format() : Asc.c_oAscNumberingFormat.None;
+            this.toolbar.btnMarkers.toggle(numformat===Asc.c_oAscNumberingFormat.Bullet || numformat===Asc.c_oAscNumberingFormat.None && (listId !== null), true);
+            this.toolbar.btnNumbers.toggle(numformat!==Asc.c_oAscNumberingFormat.None && numformat!==Asc.c_oAscNumberingFormat.Bullet, true);
         },
 
         onApiStyleChange: function(v) {
@@ -1275,25 +1224,19 @@ define([
 
         onMarkers: function(btn, e) {
             var record = {
-                data: {
-                    type: 0,
-                    subtype: btn.pressed ? 0: -1
-                }
+                numberingInfo: btn.pressed ? '{"Type":"bullet"}' : '{"Type":"remove"}'
             };
 
-            this.onSelectBullets(null, null, null, record);
+            this.onSelectBullets(null, this.toolbar.mnuMarkersPicker, null, record);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onNumbers: function(btn, e) {
             var record = {
-                data: {
-                    type: 1,
-                    subtype: btn.pressed ? 0: -1
-                }
+                numberingInfo: btn.pressed ? '{"Type":"number"}' : '{"Type":"remove"}'
             };
-            this.onSelectBullets(null, null, null, record);
+            this.onSelectBullets(null,  this.toolbar.mnuNumbersPicker, null, record);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -1329,7 +1272,8 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
-        onComboOpen: function(needfocus, combo) {
+        onComboOpen: function(needfocus, combo, e, params) {
+            if (params && params.fromKeyDown) return;
             _.delay(function() {
                 var input = $('input', combo.cmpEl).select();
                 if (needfocus) input.focus();
@@ -1399,15 +1343,83 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
-        onListShowAfter: function(type, picker) {
+        showSelectedBulletOnOpen: function(type, picker) {
+            var listId = this.api.asc_GetCurrentNumberingId(),
+                format = (listId !== null) ? this.api.asc_GetNumberingPr(listId).get_Lvl(this.api.asc_GetCurrentNumberingLvl()).get_Format() : Asc.c_oAscNumberingFormat.None;
+
+            picker.deselectAll(true);
+            var store = picker.store;
+            for (var i=0; i<store.length; i++) {
+                var item = store.at(i);
+                if (item.get('type')>0 && this.api.asc_IsCurrentNumberingPreset(item.get('numberingInfo'), type!==2)) {
+                    picker.selectByIndex(i, true);
+                    break;
+                }
+            }
+
+            if (type===2) { // multilevel
+                this.toolbar.mnuMultiChangeLevel && this.toolbar.mnuMultiChangeLevel.setDisabled(format === Asc.c_oAscNumberingFormat.None);
+            } else if (type===0) {
+                this.toolbar.mnuMarkerChangeLevel && this.toolbar.mnuMarkerChangeLevel.setDisabled(!(format === Asc.c_oAscNumberingFormat.Bullet || format===Asc.c_oAscNumberingFormat.None && (listId !== null)));
+            } else {
+                this.toolbar.mnuNumberChangeLevel && this.toolbar.mnuNumberChangeLevel.setDisabled(format === Asc.c_oAscNumberingFormat.Bullet || format === Asc.c_oAscNumberingFormat.None);
+            }
+        },
+
+        onListShowAfter: function(type, picker, menu, e) {
+            if (!(e && e.target===e.currentTarget))
+                return;
+
+            this.fillDocListPatterns(type, picker);
+
             var store = picker.store;
             var arr = [];
             store.each(function(item){
-                arr.push(item.get('id'));
+                arr.push({
+                    numberingInfo: JSON.parse(item.get('numberingInfo')),
+                    divId: item.get('id')
+                });
             });
             if (this.api) {
                 this.api.SetDrawImagePreviewBulletForMenu(arr, type);
             }
+            this.showSelectedBulletOnOpen(type, picker);
+        },
+
+        onApiUpdateListPatterns: function(data) {
+            if (!data) return;
+            this._listPatterns = [data.singleBullet, data.singleNumbering, data.multiLevel];
+        },
+
+        fillDocListPatterns: function(type, picker) {
+            if (!this._listPatterns) return;
+
+            var patterns = this._listPatterns[type];
+            if (!patterns) return;
+
+            picker.store.remove(picker.store.where({type: 2}));
+
+            var rec = picker.groups.findWhere({type: 2});
+            if (!rec && patterns.length>0)
+                picker.groups.add({id: picker.options.listSettings.docGroup, caption: picker.options.listSettings.docName, type: 2});
+            else if (rec && patterns.length===0)
+                picker.groups.remove(rec);
+
+            for (var i=0; i<patterns.length; i++) {
+                var item = patterns[i];
+                picker.store.add({
+                    id: 'id-doc-list-' + Common.UI.getId(),
+                    numberingInfo: typeof item === 'string' ? item : JSON.stringify(item),
+                    skipRenderOnChange: true,
+                    group : picker.options.listSettings.docGroup,
+                    type: 2
+                });
+            }
+            if (picker.scroller) {
+                picker.scroller.update();
+                picker.scroller.scrollTop(0);
+            }
+            this._listPatterns[type] = null;
         },
 
         onSelectBullets: function(btn, picker, itemView, record) {
@@ -1425,35 +1437,93 @@ define([
                 rawData = record;
             }
 
-            if (btn) {
-                btn.toggle(rawData.data.subtype > -1, true);
+            if (this.api) {
+                var res = this.api.put_ListTypeCustom(JSON.parse(rawData.numberingInfo));
+                if (res) {
+                    var me = this;
+                    res.then(function (data) {
+                        if (data) {
+                            data = typeof data === 'string' ? data : JSON.stringify(data);
+                            me.addListTypeToRecent(picker, {numberingInfo: data});
+                        }
+                    });
+                }
             }
-
-            this._state.bullets.type = undefined;
-            this._state.bullets.subtype = undefined;
-            if (this.api)
-                this.api.put_ListType(rawData.data.type, rawData.data.subtype);
 
             Common.component.Analytics.trackEvent('ToolBar', 'List Type');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        addListTypeToRecent: function(picker, data) {
+            if (!picker || !data || this.api.asc_CompareNumberingPresets('{"Type":"remove"}', data.numberingInfo))
+                return;
+
+            var rec = picker.groups.findWhere({type: 0});
+            if (!rec) {
+                picker.groups.add({id: picker.options.listSettings.recentGroup, caption: this.toolbar.txtGroupRecent, type: 0}, {at: 0});
+            }
+            var recents = picker.store.where({type: 0}),
+                numberingInfo = data.numberingInfo;
+            for (var i=0; i<recents.length; i++) {
+                var item = recents[i];
+                if (this.api.asc_CompareNumberingPresets(item.get('numberingInfo'), numberingInfo)) {
+                    picker.store.remove(item);
+                    break;
+                }
+            }
+            picker.store.add({
+                id: 'id-recent-list-' + Common.UI.getId(),
+                numberingInfo: typeof data.numberingInfo === 'string' ? data.numberingInfo : JSON.stringify(data.numberingInfo),
+                skipRenderOnChange: true,
+                group : picker.options.listSettings.recentGroup,
+                type: 0}, {at: 0});
+            if (recents && recents.length>=picker.options.listSettings.recentCount)
+                picker.store.remove(recents[recents.length]);
+            this.toolbar.saveListPresetToStorage(picker);
         },
 
         onMarkerSettingsClick: function(type) {
             var me      = this;
             var listId = me.api.asc_GetCurrentNumberingId(),
                 level = me.api.asc_GetCurrentNumberingLvl(),
-                props = (listId !== null) ? me.api.asc_GetNumberingPr(listId) : null;
+                levelProps = (listId === null) ? null : me.api.asc_GetNumberingPr(listId),
+                format = (listId === null) ? Asc.c_oAscNumberingFormat.None : levelProps.get_Lvl(level).get_Format(),
+                isNew = listId === null || type===0 && !(format===Asc.c_oAscNumberingFormat.Bullet || format===Asc.c_oAscNumberingFormat.None) ||
+                        type===1 && format===Asc.c_oAscNumberingFormat.Bullet,
+                props = isNew ? new Asc.CAscNumbering() : levelProps,
+                picker = (type===0) ? me.toolbar.mnuMarkersPicker : (type===1 ? me.toolbar.mnuNumbersPicker : me.toolbar.mnuMultilevelPicker);
+            if (isNew && picker && picker.store.length>1) {
+                var recent = picker.store.findWhere({type: 0}); // find first recent
+                !recent && (recent = picker.store.at(1)); // get from library, not None
+                recent && props.put_FromJSON(recent.get('numberingInfo'));
+            }
             if (props) {
+                var me = this;
+                if (_.isUndefined(me.fontstore)) {
+                    me.fontstore = new Common.Collections.Fonts();
+                    var fonts = me.toolbar.cmbFontName.store.toJSON();
+                    var arr = [];
+                    _.each(fonts, function(font, index){
+                        if (!font.cloneid) {
+                            arr.push(_.clone(font));
+                        }
+                    });
+                    me.fontstore.add(arr);
+                }
+
                 (new DE.Views.ListSettingsDialog({
                     api: me.api,
                     props: props,
-                    level: level,
+                    level: isNew ? 0 : level,
                     type: type,
+                    fontStore: me.fontstore,
                     interfaceLang: me.mode.lang,
                     handler: function(result, value) {
                         if (result == 'ok') {
                             if (me.api) {
-                                me.api.asc_ChangeNumberingLvl(listId, value.props, value.num);
+                                var numberingInfo = props.get_JSONNumbering(type!==2);
+                                isNew ? me.api.put_ListTypeCustom(numberingInfo) : me.api.asc_ChangeNumberingLvl(listId, value.props, value.num);
+                                me.addListTypeToRecent(picker, {numberingInfo: JSON.stringify(numberingInfo)});
                             }
                         }
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -2340,6 +2410,7 @@ define([
                         props: me.api.asc_GetWatermarkProps(),
                         api: me.api,
                         lang: me.mode.lang,
+                        disableNetworkFunctionality: me.mode.disableNetworkFunctionality,
                         storage: me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1,
                         fontStore: me.fontstore,
                         handler: function(result, value) {
@@ -2520,22 +2591,6 @@ define([
             }
         },
 
-        _clearBullets: function() {
-            this.toolbar.btnMarkers.toggle(false, true);
-            this.toolbar.btnNumbers.toggle(false, true);
-            this.toolbar.btnMultilevels.toggle(false, true);
-
-            this.toolbar.mnuMarkersPicker.selectByIndex(0, true);
-            this.toolbar.mnuNumbersPicker.selectByIndex(0, true);
-            this.toolbar.mnuMultilevelPicker.selectByIndex(0, true);
-            this.toolbar.mnuMarkerSettings && this.toolbar.mnuMarkerSettings.setDisabled(true);
-            this.toolbar.mnuNumberSettings && this.toolbar.mnuNumberSettings.setDisabled(true);
-            this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(true);
-            this.toolbar.mnuMarkerChangeLevel && this.toolbar.mnuMarkerChangeLevel.setDisabled(true);
-            this.toolbar.mnuNumberChangeLevel && this.toolbar.mnuNumberChangeLevel.setDisabled(true);
-            this.toolbar.mnuMultiChangeLevel && this.toolbar.mnuMultiChangeLevel.setDisabled(true);
-        },
-
         _getApiTextSize: function () {
             var out_value   = 12,
                 textPr      = this.api.get_TextProps();
@@ -2591,6 +2646,15 @@ define([
             }
 
             Common.NotificationCenter.trigger('edit:complete', this);
+        },
+
+        onEyedropperStart: function (btn) {
+            this.toolbar._isEyedropperStart = true;
+            this.api.asc_startEyedropper(_.bind(btn.eyedropperEnd, btn));
+        },
+
+        onEyedropperEnd: function () {
+            this.toolbar._isEyedropperStart = false;
         },
 
         onBtnHighlightColor: function(btn) {
@@ -2794,8 +2858,8 @@ define([
                         menuAlign: 'tl-tr',
                         items: [
                             { template: _.template('<div id="id-toolbar-menu-equationgroup' + i +
-                                '" class="menu-shape" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
-                                equationGroup.get('groupHeightStr') + 'margin-left:5px;"></div>') }
+                                '" class="menu-shape margin-left-5" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
+                                equationGroup.get('groupHeightStr') + '"></div>') }
                         ]
                     })
                 });
@@ -2971,7 +3035,7 @@ define([
             this.toolbar.lockToolbar(Common.enumLock.copyLock, this._state.can_copycut!==true, {array: [this.toolbar.btnCopy, this.toolbar.btnCut]});
             this.toolbar.lockToolbar(Common.enumLock.mmergeLock, !!this._state.mmdisable, {array: [this.toolbar.btnMailRecepients]});
             if (!this._state.mmdisable) {
-                this.toolbar.mnuMailRecepients.items[2].setVisible(this.toolbar.mode.fileChoiceUrl || this.toolbar.mode.canRequestMailMergeRecipients);
+                this.toolbar.mnuMailRecepients.items[2].setVisible(this.toolbar.mode.fileChoiceUrl || this.toolbar.mode.canRequestSelectSpreadsheet || this.toolbar.mode.canRequestMailMergeRecipients);
             }
             this._state.activated = true;
 
@@ -3200,34 +3264,56 @@ define([
                     }
                 })).show();
             } else if (item.value === 'storage') {
-                if (this.toolbar.mode.canRequestMailMergeRecipients) {
-                    Common.Gateway.requestMailMergeRecipients();
-                } else {
-                    me._mailMergeDlg = new Common.Views.SelectFileDlg({
-                        fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "xlsx").replace("{documentType}", "")
-                    });
-                    me._mailMergeDlg.on('selectfile', function(obj, recepients){
-                        me.setMailMergeRecipients(recepients);
-                    }).on('close', function(obj){
-                        me._mailMergeDlg = undefined;
-                    });
-                    me._mailMergeDlg.show();
-                }
+                Common.NotificationCenter.trigger('storage:spreadsheet-load', 'mailmerge');
             }
         },
 
         setMailMergeRecipients: function(recepients) {
-            this.api.asc_StartMailMerge(recepients);
-            if (!this.mergeEditor)
-                this.mergeEditor = this.getApplication().getController('Common.Controllers.ExternalMergeEditor').getView('Common.Views.ExternalMergeEditor');
-            if (this.mergeEditor)
-                this.mergeEditor.setEditMode(false);
+            recepients && (recepients.c = 'mailmerge');
+            this.setRequestedSpreadsheet(recepients);
+        },
+
+        openSpreadsheetFromStorage: function(type) {
+            var me = this;
+            if (this.toolbar.mode.canRequestSelectSpreadsheet) {
+                Common.Gateway.requestSelectSpreadsheet(type);
+            } else if (this.toolbar.mode.canRequestMailMergeRecipients) {
+                console.log("Obsolete: The 'onRequestMailMergeRecipients' event is deprecated. Please use 'onRequestSelectSpreadsheet' event instead.");
+                Common.Gateway.requestMailMergeRecipients();
+            } else {
+                me._mailMergeDlg = new Common.Views.SelectFileDlg({
+                    fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "xlsx").replace("{documentType}", "")
+                });
+                me._mailMergeDlg.on('selectfile', function(obj, recepients){
+                    recepients && (recepients.c = type);
+                    me.setRequestedSpreadsheet(recepients);
+                }).on('close', function(obj){
+                    me._mailMergeDlg = undefined;
+                });
+                me._mailMergeDlg.show();
+            }
+        },
+
+        setRequestedSpreadsheet: function(data) { // gateway
+            Common.NotificationCenter.trigger('storage:spreadsheet-insert', data);
+        },
+
+        insertSpreadsheetFromStorage: function(data) {
+            if (data && (data.c==='mailmerge')) {
+                this.api.asc_StartMailMerge(data);
+                if (!this.mergeEditor)
+                    this.mergeEditor = this.getApplication().getController('Common.Controllers.ExternalMergeEditor').getView('Common.Views.ExternalMergeEditor');
+                if (this.mergeEditor)
+                    this.mergeEditor.setEditMode(false);
+            }
         },
 
         createDelayedElements: function() {
             this.toolbar.createDelayedElements();
             this.attachUIEvents(this.toolbar);
             this.onChangeProtectDocument();
+
+            Common.Utils.injectSvgIcons();
         },
 
         onAppShowed: function (config) {
@@ -3247,7 +3333,7 @@ define([
             var tab = {action: 'review', caption: me.toolbar.textTabCollaboration, dataHintTitle: 'U', layoutname: 'toolbar-collaboration'};
             var $panel = me.application.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
             if ( $panel ) {
-                me.toolbar.addTab(tab, $panel, 5);
+                me.toolbar.addTab(tab, $panel, 6);
                 me.toolbar.setVisible('review', (config.isEdit || config.canCoAuthoring && config.canComments) && Common.UI.LayoutManager.isElementVisible('toolbar-collaboration') ); // use config.canViewReview in review controller. set visible review tab in view mode only when asc_HaveRevisionsChanges
             }
 
@@ -3278,6 +3364,17 @@ define([
                 //         if ($panel) me.toolbar.addTab(tab, $panel, 6);
                 //     }
                 // }
+                var drawtab = me.getApplication().getController('Common.Controllers.Draw');
+                drawtab.setApi(me.api).setMode(config);
+                $panel = drawtab.createToolbarPanel();
+                if ($panel) {
+                    tab = {action: 'draw', caption: me.toolbar.textTabDraw, extcls: 'canedit', layoutname: 'toolbar-draw', dataHintTitle: 'C'};
+                    me.toolbar.addTab(tab, $panel, 2);
+                    me.toolbar.setVisible('draw', Common.UI.LayoutManager.isElementVisible('toolbar-draw'));
+                    Array.prototype.push.apply(me.toolbar.lockControls, drawtab.getView().getButtons());
+                    Array.prototype.push.apply(me.toolbar.paragraphControls, drawtab.getView().getButtons());
+                }
+
                 if ( config.canProtect ) {
                     tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
                     $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
@@ -3285,7 +3382,7 @@ define([
                         (config.isSignatureSupport || config.isPasswordSupport) && $panel.append($('<div class="separator long"></div>'));
                         var doctab = me.getApplication().getController('DocProtection');
                         $panel.append(doctab.createToolbarPanel());
-                        me.toolbar.addTab(tab, $panel, 6);
+                        me.toolbar.addTab(tab, $panel, 7);
                         me.toolbar.setVisible('protect', Common.UI.LayoutManager.isElementVisible('toolbar-protect'));
                         Array.prototype.push.apply(me.toolbar.lockControls, doctab.getView('DocProtection').getButtons());
                     }
@@ -3303,7 +3400,7 @@ define([
                     forms.setApi(me.api).setConfig({toolbar: me, config: config});
                     $panel = forms.createToolbarPanel();
                     if ($panel) {
-                        me.toolbar.addTab(tab, $panel, 4);
+                        me.toolbar.addTab(tab, $panel, 5);
                         me.toolbar.setVisible('forms', true);
                         config.isEdit && config.canFeatureContentControl && config.canFeatureForms && Array.prototype.push.apply(me.toolbar.lockControls, forms.getView('FormsTab').getButtons());
                         !compactview && (config.isFormCreator || config.isRestrictedEdit && config.canFillForms) && me.toolbar.setTab('forms');
@@ -3317,7 +3414,7 @@ define([
             viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
             $panel = viewtab.createToolbarPanel();
             if ($panel) {
-                me.toolbar.addTab(tab, $panel, 7);
+                me.toolbar.addTab(tab, $panel, 8);
                 me.toolbar.setVisible('view', Common.UI.LayoutManager.isElementVisible('toolbar-view'));
             }
         },

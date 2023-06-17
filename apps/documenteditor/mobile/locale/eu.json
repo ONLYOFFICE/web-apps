@@ -64,7 +64,8 @@
     "textTableSize": "Taularen tamaina",
     "textWithBlueLinks": "Esteka urdinekin",
     "textWithPageNumbers": "Orri-zenbakiekin",
-    "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa"
+    "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa",
+    "textPasteImageUrl": "Paste an image URL"
   },
   "Common": {
     "Collaboration": {
@@ -427,7 +428,8 @@
     "unknownErrorText": "Errore ezezaguna.",
     "uploadImageExtMessage": "Irudi-formatu ezezaguna.",
     "uploadImageFileCountMessage": "Ez da irudirik kargatu.",
-    "uploadImageSizeMessage": "Irudia handiegia da. Gehienezko tamaina 25 MB da."
+    "uploadImageSizeMessage": "Irudia handiegia da. Gehienezko tamaina 25 MB da.",
+    "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization."
   },
   "LongActions": {
     "applyChangesTextText": "Datuak kargatzen...",
@@ -548,7 +550,6 @@
     "textHasMacros": "Fitxategiak makro automatikoak dauzka.<br>Makroak exekutatu nahi dituzu?",
     "textNo": "Ez",
     "textNoLicenseTitle": "Lizentzien mugara iritsi zara",
-    "textNoTextFound": "Ez da testua aurkitu",
     "textOk": "Ados",
     "textPaidFeature": "Ordainpeko ezaugarria",
     "textRemember": "Gogoratu nire aukera",
@@ -557,8 +558,10 @@
     "textRequestMacros": "Makro batek URL baterako eskaera egiten du. %1 URL-rako eskaera onartu nahi duzu?",
     "textYes": "Bai",
     "titleLicenseExp": "Lizentzia iraungi da",
+    "titleLicenseNotActive": "Lizentzia ez dago aktibo",
     "titleServerVersion": "Editorea eguneratu da",
     "titleUpdateVersion": "Bertsioa aldatu da",
+    "warnLicenseBefore": "Lizentzia ez dago aktibo.<br>Jarri zure administratzailearekin harremanetan.",
     "warnLicenseExceeded": "Aldibereko %1 editoreren konexio-mugara iritsi zara. Dokumentu hau ikusteko bakarrik irekiko da. Jarri harremanetan administratzailearekin informazio gehiago lortzeko.",
     "warnLicenseExp": "Zure lizentzia iraungi da. Mesedez, eguneratu zure lizentzia eta freskatu orria.",
     "warnLicenseLimitedNoAccess": "Lizentzia iraungi da. Ez daukazu dokumentu-edizio funtzionalitaterako sarbidea. Mesedez, kontaktatu zure administratzailea.",
@@ -566,7 +569,15 @@
     "warnLicenseUsersExceeded": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan zure administratzailearekin informazio gehiagorako.",
     "warnNoLicense": "Aldibereko %1 editoreren konexio-mugara iritsi zara. Dokumentu hau ikusteko bakarrik irekiko da. Jarri harremanetan %1 salmenta taldearekin eguneraketa pertsonalaren baldintzak jakiteko.",
     "warnNoLicenseUsers": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan %1 salmenta taldearekin mailaz igotzeko baldintzak ezagutzeko.",
-    "warnProcessRightsChange": "Ez duzu fitxategi hau editatzeko baimenik."
+    "warnProcessRightsChange": "Ez duzu fitxategi hau editatzeko baimenik.",
+    "textDialogProtectedChangesTracked": "You may edit this document, but all changes will be tracked",
+    "textDialogProtectedEditComments": "You may only insert comments to this document",
+    "textDialogProtectedFillForms": "You may only fill in forms in this document",
+    "textDialogProtectedOnlyView": "You may only view this document",
+    "textNoMatches": "No Matches",
+    "titleDialogProtectedDocument": "The document is protected",
+    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
+    "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
   },
   "Settings": {
     "advDRMOptions": "Babestutako fitxategia",
@@ -602,7 +613,7 @@
     "textDocumentTitle": "Dokumentuaren izenburua",
     "textDone": "Eginda",
     "textDownload": "Deskargatu",
-    "textDownloadAs": "Deskargatu horrela",
+    "textDownloadAs": "Deskargatu honela",
     "textDownloadRtf": "Formatu honetan gordetzen baduzu formatuaren zati bat galdu daiteke. Ziur zaude jarraitu nahi duzula?",
     "textDownloadTxt": "Formatu honetan gordetzen baduzu ezaugarri guztiak galduko dira testua izan ezik. Ziur zaude jarraitu nahi duzula?",
     "textEmptyHeading": "Goiburu hutsa",
@@ -635,7 +646,6 @@
     "textNavigation": "Nabigazioa",
     "textNo": "Ez",
     "textNoCharacters": "Inprimatzekoak ez diren karaktereak",
-    "textNoTextFound": "Ez da testua aurkitu",
     "textOk": "Ados",
     "textOpenFile": "Idatzi pasahitza fitxategia irekitzeko",
     "textOrientation": "Orientazioa",
@@ -695,7 +705,27 @@
     "txtScheme6": "Zabaldegia",
     "txtScheme7": "Berdintza",
     "txtScheme8": "Fluxua",
-    "txtScheme9": "Sortzailea"
+    "txtScheme9": "Sortzailea",
+    "textChangePassword": "Change Password",
+    "textDialogUnprotect": "Enter a password to unprotect document",
+    "textEncryptFile": "Encrypt File",
+    "textFillingForms": "Filling forms",
+    "textNoChanges": "No changes (Read only)",
+    "textNoMatches": "No Matches",
+    "textPassword": "Password",
+    "textPasswordNotMatched": "Passwords DonвЂ™t Match",
+    "textProtectDocument": "Protect Document",
+    "textProtection": "Protection",
+    "textProtectTurnOff": "Protection is turned off",
+    "textRequired": "Required",
+    "textRequirePassword": "Require Password",
+    "textSave": "Save",
+    "textSetPassword": "Set Password",
+    "textTrackedChanges": "Tracked changes",
+    "textTypeEditing": "Type Of Editing",
+    "textUnprotect": "Unprotect",
+    "textVerify": "Verify",
+    "titleDialogUnprotect": "Unprotect Document"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Gorde gabeko aldaketak dituzu. Egin klik \"Jarraitu orri honetan\" gordetze-automatikoari itxaroteko. Egin klik \"Utzi orri hau\" gorde gabeko aldaketa guztiak baztertzeko.",
@@ -704,6 +734,8 @@
     "stayButtonText": "Jarraitu orrian",
     "textOk": "Ados",
     "textSwitchedMobileView": "Mugikorreko ikuspegira aldatu da",
-    "textSwitchedStandardView": "Ikuspegi estandarrera aldatu da"
+    "textSwitchedStandardView": "Ikuspegi estandarrera aldatu da",
+    "textRenameFile": "Rename File",
+    "textEnterNewFileName": "Enter a new file name"
   }
 }

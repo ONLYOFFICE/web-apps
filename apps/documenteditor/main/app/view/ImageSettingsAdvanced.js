@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  ImageSettingsAdvanced.js
  *
@@ -190,7 +189,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.btnRatio = new Common.UI.Button({
                 parentEl: $('#image-advanced-button-ratio'),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon advanced-btn-ratio',
+                iconCls: 'toolbar__icon btn-advanced-ratio',
                 style: 'margin-bottom: 1px;',
                 enableToggle: true,
                 hint: this.textKeepRatio
@@ -987,18 +986,18 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
 
 
             var _arrStyles = [], _arrSize = [];
-            for ( var i=0; i<6; i++ )
-                _arrStyles.push({value: i, offsetx: 80*i+10, offsety: 0});
+            _arrStyles.push({type: Asc.c_oAscLineBeginType.None, idsvg: 'no-'});
+            _arrStyles.push({type: Asc.c_oAscLineBeginType.Triangle, idsvg: ''});
+            _arrStyles.push({type: Asc.c_oAscLineBeginType.Arrow, idsvg: 'open-'});
+            _arrStyles.push({type: Asc.c_oAscLineBeginType.Stealth, idsvg: 'stealth-'});
+            _arrStyles.push({type: Asc.c_oAscLineBeginType.Diamond, idsvg: 'dimond-'});
+            _arrStyles.push({type: Asc.c_oAscLineBeginType.Oval, idsvg: 'oval-'});
 
-            _arrStyles[0].type = Asc.c_oAscLineBeginType.None;
-            _arrStyles[1].type = Asc.c_oAscLineBeginType.Triangle;
-            _arrStyles[2].type = Asc.c_oAscLineBeginType.Arrow;
-            _arrStyles[3].type = Asc.c_oAscLineBeginType.Stealth;
-            _arrStyles[4].type = Asc.c_oAscLineBeginType.Diamond;
-            _arrStyles[5].type = Asc.c_oAscLineBeginType.Oval;
+            for ( var i=0; i<6; i++ )
+                _arrStyles[i].value = i;
 
             for ( i=0; i<9; i++ )
-                _arrSize.push({value: i, offsetx: 80+10, offsety: 20*(i+1)});
+                _arrSize.push({value: i, typearrow:''});
 
             _arrSize[0].type = Asc.c_oAscLineBeginSize.small_small;
             _arrSize[1].type = Asc.c_oAscLineBeginSize.small_mid;
@@ -1016,7 +1015,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 template: _.template([
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
                         '<div class="form-control" style="width: 100px;">',
-                            '<i class="image img-arrows"></i>',
+                            '<i class="img-arrows"><svg><use xlink:href="#no-arrow-5"></use></svg></i>',
                         '</div>',
                         '<div style="display: table-cell;"></div>',
                         '<button type="button" class="btn btn-default">',
@@ -1037,7 +1036,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 el: $('#shape-advanced-menu-begin-style'),
                 parentMenu: this.btnBeginStyleMenu,
                 store: new Common.UI.DataViewStore(_arrStyles),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
+                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows">' +
+                    '<svg><use xlink:href= "#<%= idsvg %>arrow-5"></use></svg></div>')
             });
             this.mnuBeginStylePicker.on('item:click', _.bind(this.onSelectBeginStyle, this));
             this._selectStyleItem(this.btnBeginStyle, null);
@@ -1047,7 +1047,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 template: _.template([
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
                         '<div class="form-control" style="width: 100px;">',
-                            '<i class="image img-arrows"></i>',
+                            '<i class="img-arrows"><svg><use xlink:href=""></use></svg></i>',
                         '</div>',
                         '<div style="display: table-cell;"></div>',
                         '<button type="button" class="btn btn-default">',
@@ -1068,23 +1068,18 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 el: $('#shape-advanced-menu-begin-size'),
                 parentMenu: this.btnBeginSizeMenu,
                 store: new Common.UI.DataViewStore(_arrSize),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
+                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows">' +
+                    '<svg><use xlink:href="#<%= typearrow %>arrow-<%= (value+1) %>"></use></svg></div>')
             });
             this.mnuBeginSizePicker.on('item:click', _.bind(this.onSelectBeginSize, this));
             this._selectStyleItem(this.btnBeginSize, null);
-
-            for ( i=0; i<_arrStyles.length; i++ )
-                _arrStyles[i].offsety += 200;
-
-            for ( i=0; i<_arrSize.length; i++ )
-                _arrSize[i].offsety += 200;
 
             this.btnEndStyle = new Common.UI.ComboBox({
                 el: $('#shape-advanced-end-style'),
                 template: _.template([
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
                         '<div class="form-control" style="width: 100px;">',
-                            '<i class="image img-arrows"></i>',
+                            '<i class="img-arrows"><svg class ="svg-mirror"><use xlink:href="#no-arrow-5"></use></svg></i>',
                         '</div>',
                         '<div style="display: table-cell;"></div>',
                         '<button type="button" class="btn btn-default">',
@@ -1105,7 +1100,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 el: $('#shape-advanced-menu-end-style'),
                 parentMenu: this.btnEndStyleMenu,
                 store: new Common.UI.DataViewStore(_arrStyles),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
+                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows">' +
+                    '<svg class ="svg-mirror"><use xlink:href="#<%= idsvg %>arrow-5"></use></svg></div>')
             });
             this.mnuEndStylePicker.on('item:click', _.bind(this.onSelectEndStyle, this));
             this._selectStyleItem(this.btnEndStyle, null);
@@ -1115,7 +1111,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 template: _.template([
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
                         '<div class="form-control" style="width: 100px;">',
-                            '<i class="image img-arrows"></i>',
+                            '<i class="img-arrows"><svg class ="svg-mirror"><use xlink:href=""></use></svg></i>',
                         '</div>',
                         '<div style="display: table-cell;"></div>',
                         '<button type="button" class="btn btn-default">',
@@ -1136,7 +1132,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 el: $('#shape-advanced-menu-end-size'),
                 parentMenu: this.btnEndSizeMenu,
                 store: new Common.UI.DataViewStore(_arrSize),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
+                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows">' +
+                    '<svg class ="svg-mirror"><use xlink:href="#<%= typearrow %>arrow-<%= (value + 1) %>"></use></svg></div>')
             });
             this.mnuEndSizePicker.on('item:click', _.bind(this.onSelectEndSize, this));
             this._selectStyleItem(this.btnEndSize, null);
@@ -1165,7 +1162,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
 
         getFocusedComponents: function() {
             return [
-                this.spnWidth, this.spnHeight, this.btnOriginalSize, // 0 tab
+                this.spnWidth, this.btnRatio, this.spnHeight, this.btnOriginalSize, // 0 tab
                 this.radioHSize, this.spnShapeWidth , this.spnShapeWidthPc, this.radioHSizePc, this.cmbWidthPc,
                 this.radioVSize, this.spnShapeHeight, this.spnShapeHeightPc, this.radioVSizePc, this.cmbHeightPc, this.chRatio, // 1 tab
                 this.spnAngle, this.chFlipHor, this.chFlipVert, // 2 tab
@@ -2077,7 +2074,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         _updateSizeArr: function(combo, picker, record, sizeidx) {
             if (record.get('value')>0) {
                 picker.store.each( function(rec){
-                    rec.set({offsetx: record.get('value')*80 + 10});
+                    rec.set({typearrow: record.get('idsvg')});
                 }, this);
                 combo.setDisabled(false);
                 if (sizeidx !== null) {
@@ -2092,8 +2089,15 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         },
 
         _selectStyleItem: function(combo, record) {
-            var formcontrol = $(combo.el).find('.form-control > .image');
-            formcontrol.css('background-position', ((record) ? (-record.get('offsetx')+20) + 'px' : '0') + ' ' + ((record) ? '-' + record.get('offsety') + 'px' : '-30px'));
+            var formcontrol = $(combo.el).find('.form-control > .img-arrows use');
+            if(formcontrol.length) {
+                var str = '';
+                if(record){
+                    var styleId  = record.get('idsvg');
+                    str = (styleId !== undefined) ? styleId + 'arrow-5' : record.get('typearrow') + 'arrow-' + (record.get('value')+1);
+                }
+                formcontrol[0].setAttribute('xlink:href', '#' + str);
+            }
         },
 
         onSelectBeginStyle: function(picker, view, record, e){

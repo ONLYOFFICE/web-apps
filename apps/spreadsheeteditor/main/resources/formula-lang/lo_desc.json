@@ -1890,5 +1890,33 @@
 	"DROP": {
 		"a": "(array, rows, [columns])",
 		"d": "ວາງແຖວ ຫຼືຖັນຈາກອະເຣເລີ່ມຕົ້ນ ຫຼືສິ້ນສຸດ."
+	},
+	"SEQUENCE": {
+		"a": "(rows, [columns], [start], [step])",
+		"d": "ຕອບຊຸດຕົວເລກ"
+	},
+	"EXPAND": {
+		"a": "(array, rows, [columns], [pad_with])",
+		"d": "ຂະຫຍາຍແຖວທີ່ເປັນມິຕິພາບທີ່ກຳນົດໄວ້."
+	},
+	"XMATCH": {
+		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
+		"d": "ສົ່ງຄືນຕຳແໜ່ງສຳພັນຂອງລາຍການໃນອະເຣ. ຕາມຄ່າເລີ່ມຕົ້ນ, ຕ້ອງລະບຸຄ່າທີ່ກົງກັນທຸກປະການ"
+	},
+	"FILTER": {
+		"a": "(array, include, [if_empty])",
+		"d": "ກັ່ນຕອງໄລຍະ ຫຼື ອະເຣໃດໜຶ່ງ"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(array, [format])",
+		"d": "ຕອບກັບຕົວແທນຂໍ້ຄວາມຂອງອະເຣໃດໜຶ່ງ"
+	},
+	"SORT": {
+		"a": "(array, [sort_index], [sort_order], [by_col])",
+		"d": "ຈັດຮຽງໄລຍະ ຫຼື ອະເຣ"
+	},
+	"SORTBY": {
+		"a": "(array, by_array, [sort_order], ...)",
+		"d": "ຈັດຮຽງໄລຍະ ຫຼື ອະເຣໂດຍອ້າງອີງຈາກຄ່າໃນໄລຍະ ຫຼື ອະເຣທີ່ກ່ຽວຂ້ອງ"
 	}
 }

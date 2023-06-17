@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  TreeView.js
  *
@@ -170,10 +169,23 @@ define([
             initialize : function(options) {
                 options.store = options.store || new Common.UI.TreeViewStore();
                 options.emptyItemText = options.emptyItemText || '';
-                options.itemTemplate = options.itemTemplate || _.template([
+                options.itemTemplate = options.itemTemplate || !Common.UI.isRTL() ? _.template([
                     '<div id="<%= id %>" class="tree-item <% if (!isVisible) { %>' + 'hidden' + '<% } %>" style="display: block;padding-left: <%= level*16 + 24 %>px;">',
                     '<% if (hasSubItems) { %>',
                         '<div class="tree-caret img-commonctrl ' + '<% if (!isExpanded) { %>' + 'up' + '<% } %>' + '" style="margin-left: <%= level*16 %>px;"></div>',
+                    '<% } %>',
+                    '<% if (isNotHeader) { %>',
+                        '<div class="name not-header"><%= Common.Utils.String.htmlEncode(name) %></div>',
+                    '<% } else if (isEmptyItem) { %>',
+                        '<div class="name empty">' + options.emptyItemText + '</div>',
+                    '<% } else { %>',
+                        '<div class="name"><%= Common.Utils.String.htmlEncode(name) %></div>',
+                    '<% } %>',
+                    '</div>'
+                ].join('')) : _.template([
+                    '<div id="<%= id %>" class="tree-item <% if (!isVisible) { %>' + 'hidden' + '<% } %>" style="display: block;padding-right: <%= level*16 + 24 %>px;">',
+                    '<% if (hasSubItems) { %>',
+                        '<div class="tree-caret img-commonctrl ' + '<% if (!isExpanded) { %>' + 'up' + '<% } %>' + '" style="margin-right: <%= level*16 %>px;"></div>',
                     '<% } %>',
                     '<% if (isNotHeader) { %>',
                         '<div class="name not-header"><%= Common.Utils.String.htmlEncode(name) %></div>',

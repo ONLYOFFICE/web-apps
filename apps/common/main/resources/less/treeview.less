@@ -54,6 +54,9 @@
     width: 100%;
     min-height: 28px;
     padding: 0px 12px 0 24px;
+    .rtl & {
+      padding: 0px 24px 0 12px;
+    }
   }
 
   .name {
@@ -79,8 +82,17 @@
     left: 0;
     cursor: pointer;
 
+    .rtl & {
+      left: unset;
+      right: 0;
+    }
+
     &.up {
       transform: rotate(270deg);
+
+      .rtl & {
+        transform: rotate(90deg);
+      }
     }
   }
 }

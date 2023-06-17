@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -71,6 +70,9 @@ define([
                 isUpdating: false,
                 linkStatus: {}
             };
+            this.externalSource = {
+                externalRef: undefined
+            };
         },
         onLaunch: function () {
         },
@@ -122,6 +124,9 @@ define([
                 this.api.asc_registerCallback('asc_onNeedUpdateExternalReference', _.bind(this.onNeedUpdateExternalReference, this));
                 Common.Gateway.on('setreferencedata', _.bind(this.setReferenceData, this));
             }
+            if (this.toolbar.mode.canRequestReferenceSource) {
+                Common.Gateway.on('setreferencesource', _.bind(this.setReferenceSource, this));
+            }
         },
 
         SetDisabled: function(state) {
@@ -140,9 +145,11 @@ define([
         onSelectionChanged: function(info) {
             if (!this.toolbar.editMode || !this.view) return;
 
+            var view = this.view;
             // special disable conditions
-            Common.Utils.lockControls(Common.enumLock.multiselectCols, info.asc_getSelectedColsCount()>1, {array: [this.view.btnTextToColumns]});
-            Common.Utils.lockControls(Common.enumLock.multiselect, info.asc_getMultiselect(), {array: [this.view.btnTextToColumns]});
+            Common.Utils.lockControls(Common.enumLock.multiselectCols, info.asc_getSelectedColsCount()>1, {array: [view.btnTextToColumns]});
+            Common.Utils.lockControls(Common.enumLock.multiselect, info.asc_getMultiselect(), {array: [view.btnTextToColumns]});
+            Common.Utils.lockControls(Common.enumLock.userProtected, info.asc_getUserProtected(), {array: view.lockedControls});
         },
 
         onUngroup: function(type) {
@@ -387,19 +394,32 @@ define([
         },
 
         showCustomSort: function(expand) {
-            var me = this,
-                props = me.api.asc_getSortProps(expand);
-                // props = new Asc.CSortProperties();
-            if (props) {
-                (new SSE.Views.SortDialog({
-                    props: props,
-                    api: me.api,
-                    handler: function (result, settings) {
-                        if (me && me.api) {
-                            me.api.asc_setSortProps(settings, result != 'ok');
+            if (this.api.asc_getCellInfo().asc_getPivotTableInfo()) {
+                var info = this.api.asc_getPivotInfo();
+                if (info) {
+                    var dlgSort = new SSE.Views.SortFilterDialog({api:this.api}).on({
+                        'close': function() {
+                            Common.NotificationCenter.trigger('edit:complete');
                         }
-                    }
-                })).show();
+                    });
+                    dlgSort.setSettings({filter : info.asc_getFilter(), rowFilter: info.asc_getFilterRow(), colFilter: info.asc_getFilterCol()});
+                    dlgSort.show();
+                }
+            } else {
+                var me = this,
+                    props = me.api.asc_getSortProps(expand);
+                // props = new Asc.CSortProperties();
+                if (props) {
+                    (new SSE.Views.SortDialog({
+                        props: props,
+                        api: me.api,
+                        handler: function (result, settings) {
+                            if (me && me.api) {
+                                me.api.asc_setSortProps(settings, result != 'ok');
+                            }
+                        }
+                    })).show();
+                }
             }
         },
 
@@ -493,6 +513,8 @@ define([
                 api: this.api,
                 isUpdating: this.externalData.isUpdating,
                 canRequestReferenceData: this.toolbar.mode.canRequestReferenceData || this.toolbar.mode.isOffline,
+                canRequestOpen: this.toolbar.mode.canRequestOpen || this.toolbar.mode.isOffline,
+                canRequestReferenceSource: this.toolbar.mode.canRequestReferenceSource || this.toolbar.mode.isOffline,
                 isOffline: this.toolbar.mode.isOffline,
                 handler: function(result) {
                     Common.NotificationCenter.trigger('edit:complete');
@@ -500,7 +522,13 @@ define([
             }));
             this.externalLinksDlg.on('close', function(win){
                 me.externalLinksDlg = null;
-            })
+            });
+            this.externalLinksDlg.on('change:source', function(win, externalRef){
+                me.externalSource = {
+                    externalRef: externalRef
+                };
+                Common.Gateway.requestReferenceSource();
+            });
             this.externalLinksDlg.show()
         },
 
@@ -591,6 +619,12 @@ define([
 
         onNeedUpdateExternalReference: function() {
             Common.NotificationCenter.trigger('showmessage', {msg: this.textAddExternalData});
+        },
+
+        setReferenceSource: function(data) { // gateway
+            if (this.toolbar.mode.isEdit && this.toolbar.editMode) {
+                this.api.asc_changeExternalReference(this.externalSource.externalRef, data);
+            }
         },
 
         onWorksheetLocked: function(index,locked) {

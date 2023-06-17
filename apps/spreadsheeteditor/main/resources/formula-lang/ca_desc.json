@@ -1890,5 +1890,33 @@
 	"DROP": {
 		"a": "(array, rows, [columns])",
 		"d": "Deixa anar files o columnes de l'inici o el final de la matriu."
+	},
+	"SEQUENCE": {
+		"a": "(rows, [columns], [start], [step])",
+		"d": "Retorna una seqüència de nombres"
+	},
+	"EXPAND": {
+		"a": "(array, rows, [columns], [pad_with])",
+		"d": "Expandeix una matriu a les dimensions especificades"
+	},
+	"XMATCH": {
+		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
+		"d": "Retorna la posició relativa d'un element que forma part d'una matriu. Per defecte, cal una coincidència exacta"
+	},
+	"FILTER": {
+		"a": "(array, include, [if_empty])",
+		"d": "Filtra un interval o una matriu"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(matriu, [format])",
+		"d": "Retorna una representació de text d'una matriu"
+	},
+	"SORT": {
+		"a": "(matriu, [índex_ordenació], [criteri_ordenació], [per_columna])",
+		"d": "Ordena un interval o una matriu"
+	},
+	"SORTBY": {
+		"a": "(matriu, per_matriu, [criteri_ordenació], ...)",
+		"d": "Ordena un interval o una matriu segons els valors d'un interval o d'una matriu corresponent"
 	}
 }

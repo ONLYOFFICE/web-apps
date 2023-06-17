@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -160,8 +159,8 @@ define([
                         this.view.btnCreditCard, this.view.btnZipCode, this.view.btnDateTime];
             Common.Utils.lockControls(Common.enumLock.paragraphLock, paragraph_locked,   {array: arr});
             Common.Utils.lockControls(Common.enumLock.headerLock,    header_locked,      {array: arr});
-            Common.Utils.lockControls(Common.enumLock.controlPlain,  control_plain,      {array: arr});
-            Common.Utils.lockControls(Common.enumLock.contentLock,   content_locked,     {array: arr});
+            // Common.Utils.lockControls(Common.enumLock.controlPlain,  control_plain,      {array: arr});
+            // Common.Utils.lockControls(Common.enumLock.contentLock,   content_locked,     {array: arr});
             Common.Utils.lockControls(Common.enumLock.complexForm,   in_control && !!control_props && !!control_props.get_ComplexFormPr(),     {array: [this.view.btnComplexField, this.view.btnImageField]});
 
             var in_smart_art = shape_pr && shape_pr.asc_getFromSmartArt(),
@@ -363,7 +362,7 @@ define([
                     chat: false,
                     review: true,
                     viewport: false,
-                    documentHolder: true,
+                    documentHolder: {clear: false, disable: true},
                     toolbar: true,
                     plugins: true,
                     protect: true

@@ -37,6 +37,8 @@
             cursor: pointer;
             color: @text-normal-ie;
             color: @text-normal;
+            .font-size-normal();
+            .text-align-left();
 
             &:focus, &.focus {
                 outline: 0;
@@ -73,12 +75,9 @@
                 width: 16px;
                 height: 16px;
                 display: inline-block;
-                float: left;
-                margin-left: -18px;
+                .float-left();
+                .margin-left(-18px);
                 background-position: @menu-check-offset-x @menu-check-offset-y;
-            }
-            &.custom-scale:before {
-                margin-top: 3px;
             }
         }
 
@@ -89,12 +88,16 @@
 
         .menu-item-icon {
             display: inline-block;
-            float: left;
+            .float-left();
             width: 20px;
             height: 20px;
             margin: -2px 5px 0 -15px;
             background-repeat: no-repeat;
             opacity: @component-normal-icon-opacity;
+
+            .rtl & {
+                margin: -2px -15px 0 5px;
+            }
         }
 
         .no-checkmark.checked {
@@ -136,10 +139,13 @@
     &.shifted-right {
         li {
             & > a {
-                padding-left: 28px;
+                .padding-x(28px, 20px);
             }
             .menu-item-icon {
                 margin: -2px 0 0 -24px;
+                .rtl & {
+                    margin: -2px -24px 0 0;
+                }
             }
             .checked:not(.no-checkmark):before  {
                 margin-left: -22px;
@@ -161,6 +167,11 @@
         background-color: @border-divider-ie;
         background-color: @border-divider;
         margin: 4px 0;
+        & + .divider,
+        &:last-of-type,
+        &:first-of-type {
+            display: none;
+        }
     }
 
     .dataview {

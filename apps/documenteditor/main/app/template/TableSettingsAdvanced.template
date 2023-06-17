@@ -12,7 +12,7 @@
                 </td>
                 <td class="padding-small">
                     <label class="input-label"><%= scope.textWidth %></label>
-                    <div id="tableadv-number-width" style="margin-right: 10px;"></div>
+                    <div id="tableadv-number-width" class="margin-right-10"></div>
                 </td>
                 <td class="padding-small">
                     <label class="input-label"><%= scope.textMeasure %></label>
@@ -88,7 +88,7 @@
                 </td>
                 <td class="padding-large">
                     <label class="input-label"><%= scope.textPrefWidth %></label>
-                    <div id="tableadv-number-prefwidth" style="margin-right: 10px;"></div>
+                    <div id="tableadv-number-prefwidth" class="margin-right-10"></div>
                 </td>
                 <td class="padding-large">
                     <label class="input-label"><%= scope.textMeasure %></label>
@@ -147,18 +147,18 @@
 <div id="id-adv-table-wrap" class="settings-panel">
     <div class="inner-content padding-large">
         <label class="header padding-small" style="display: block;"><%= scope.textWrappingStyle %></label>
-        <div id="tableadv-button-wrap-none" style="display: inline-block; margin-right:5px;"></div>
-        <div id="tableadv-button-wrap-parallel" style="display: inline-block; margin-right:5px;"></div>
+        <div id="tableadv-button-wrap-none" class="margin-right-5" style="display: inline-block;"></div>
+        <div id="tableadv-button-wrap-parallel" class="margin-right-5" style="display: inline-block;"></div>
     </div>
     <div class="padding-small"></div>
     <div class="inner-content">
         <div id="tableadv-panel-align" style="width: 100%;">
             <label class="header padding-small"><%= scope.textAlign %></label>
             <div class="padding-large">
-                <div id="tableadv-button-align-left" style="display: inline-block; margin-right:5px;"></div>
-                <div id="tableadv-button-align-center" style="display: inline-block; margin-right:5px;"></div>
-                <div id="tableadv-button-align-right" style="display: inline-block; margin-right:5px;"></div>
-                <div style="display: inline-block; vertical-align: bottom; margin-left: 20px; margin-bottom: 1px;">
+                <div id="tableadv-button-align-left" class="margin-right-5" style="display: inline-block;"></div>
+                <div id="tableadv-button-align-center" class="margin-right-5" style="display: inline-block;"></div>
+                <div id="tableadv-button-align-right" class="margin-right-5" style="display: inline-block;"></div>
+                <div class="margin-left-20" style="display: inline-block; vertical-align: bottom; margin-bottom: 1px;">
                     <label class="input-label" style="display: block;"><%= scope.textIndLeft %></label>
                     <div id="tableadv-number-indent"></div>
                 </div>
@@ -197,12 +197,12 @@
 </div>
 <div id="id-adv-table-borders" class="settings-panel">
     <div class="inner-content padding-large">
-        <div style="width: 100%;">
+        <div class="settings-wrap">
             <label class="input-label"><%= scope.textBorderWidth %></label>
-            <div id="tableadv-combo-border-size" style="display: inline-block; vertical-align: middle; width: 93px;"></div>
-            <div style="display: inline-block; float:right;vertical-align: middle;">
+            <div id="tableadv-combo-border-size" class="margin-left-3"></div>
+            <div class="border-color">
                 <label class="input-label" ><%= scope.textBorderColor %></label>
-                <div id="tableadv-border-color-btn" style="display: inline-block;"></div>
+                <div id="tableadv-border-color-btn" class="margin-left-3"></div>
             </div>
         </div>
     </div>
@@ -210,7 +210,7 @@
         <label class="input-label padding-large" style="width: 100%;"><%= scope.textBorderDesc %></label>
         <div id="tableadv-panel-borders" style="width: 100%;" class="padding-large">
             <div id="id-detablestyler" style="display: inline-block; vertical-align: middle; width: 200px; height: 200px;outline: 1px solid #ccc;"></div>
-            <div style="display: inline-block; vertical-align: middle; width: 76px; height: 200px; padding-top: 10px; padding-left: 10px;">
+            <div class="border-types" style="display: inline-block; vertical-align: middle; width: 76px; height: 200px; padding-top: 10px;">
                 <div id="tableadv-button-border-all"></div>
                 <div id="tableadv-button-border-none"></div>
                 <div id="tableadv-button-border-inner"></div>
@@ -219,7 +219,7 @@
         </div>
         <div id="tableadv-panel-borders-spacing" style="width: 100%;" class="padding-large settings-hidden">
             <div id="id-detablestyler-spacing" style="display: inline-block; vertical-align: middle; width: 200px; height: 200px;outline: 1px solid #ccc;"></div>
-            <div style="display: inline-block; float:right;vertical-align: middle; width: 76px; height: 200px; padding-top: 10px;">
+            <div style="display: inline-block; vertical-align: middle; width: 76px; height: 200px; padding-top: 10px;" class="float-right">
                 <div id="tableadv-button-border-all-none" style="display: inline-block;"></div>
                 <div id="tableadv-button-border-all-table" style="display: inline-block;"></div>
                 <div id="tableadv-button-border-none-none" style="display: inline-block;"></div>
@@ -231,13 +231,13 @@
             </div>
         </div>
         <div style="width: 100%;">
-            <div id="tableadv-panel-cell-back" style="display: inline-block;">
-                <label class="input-label" style="margin-right: 5px;"><%= scope.textBackColor %></label>
-                <div id="tableadv-button-back-color" style="display: inline-block;"></div>
+            <div id="tableadv-panel-table-back">
+                <label class="input-label margin-right-5"><%= scope.textTableBackColor %></label>
+                <div id="tableadv-button-table-back-color"></div>
             </div>
-            <div id="tableadv-panel-table-back" style="display: inline-block;">
-                <label class="input-label" style="margin-right: 5px;"><%= scope.textTableBackColor %></label>
-                <div id="tableadv-button-table-back-color" style="display: inline-block;"></div>
+            <div id="tableadv-panel-cell-back">
+                <label class="input-label margin-right-5"><%= scope.textBackColor %></label>
+                <div id="tableadv-button-back-color"></div>
             </div>
         </div>
     </div>

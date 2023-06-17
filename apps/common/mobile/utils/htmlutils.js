@@ -8,6 +8,10 @@ const load_stylesheet = reflink => {
     document.getElementsByTagName("head")[0].appendChild(link);
 };
 
+if ( !!window.Android && window.Android.editorConfig ) {
+    window.native = {editorConfig: window.Android.editorConfig()}
+}
+
 if ( localStorage && localStorage.getItem('mobile-mode-direction') === 'rtl' ) {
     load_stylesheet('./css/framework7-rtl.css')
     document.body.classList.add('rtl');

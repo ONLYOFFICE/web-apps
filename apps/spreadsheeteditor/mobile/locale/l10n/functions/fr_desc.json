@@ -1890,5 +1890,33 @@
 	"DROP": {
 		"a": "(array, rows, [columns])",
 		"d": "Supprime les lignes ou les colonnes du début ou de la fin du tableau."
+	},
+	"SEQUENCE": {
+		"a": "(lignes, [colonnes], [début], [pas])",
+		"d": "Renvoie une séquence de nombres"
+	},
+	"EXPAND": {
+		"a": "(array, rows, [columns], [pad_with])",
+		"d": "Développe un tableau aux dimensions spécifiées."
+	},
+	"XMATCH": {
+		"a": "(valeur_cherchée, tableau_recherche, [mode_correspondance], [mode_recherche])",
+		"d": "Renvoie la position relative d’un élément dans un tableau. Par défaut, une correspondance exacte est requise"
+	},
+	"FILTER": {
+		"a": "(tableau, inclure, [si_vide])",
+		"d": "Filtrer une plage ou un tableau"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(matrice, [format])",
+		"d": "Renvoie une représentation textuelle d’un tableau"
+	},
+	"SORT": {
+		"a": "(tableau, [index_tri], [ordre_tri], [par_col])",
+		"d": "Trie une plage ou un tableau"
+	},
+	"SORTBY": {
+		"a": "(tableau, par_tableau, [ordre_tri], ...)",
+		"d": "Trie une plage ou un tableau sur la base des valeurs d’une plage ou d’un tableau correspondant"
 	}
 }

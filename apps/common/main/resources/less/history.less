@@ -18,8 +18,8 @@
         height: 27px;
         margin-top: 15px;
         padding-top: 4px;
-        padding-left: 20px;
-        font-size: 13px;
+        .padding-left-20();
+        .font-size-large();
         cursor: pointer;
 
         &:hover {
@@ -43,8 +43,8 @@
         height: 27px;
         margin-top: 8px;
         padding-top: 4px;
-        padding-left: 20px;
-        font-size: 13px;
+        .padding-left-20();
+        .font-size-large();
         cursor: pointer;
 
         &:hover {
@@ -65,7 +65,7 @@
         width: 100%;
         .box-shadow(none);
         margin: 0;
-        font-size: 12px;
+        .font-size-medium();
 
         &:hover:not(.selected),
         &.over {
@@ -96,11 +96,15 @@
         color: @text-normal;
         text-overflow: ellipsis;
 
+        .rtl & {
+            padding: 10px 20px 15px 2px;
+        }
+
         .user-date {
             display: inline-block;
-            font-size: 12px;
+            .font-size-medium();
             .font-weight-bold();
-            margin-right: 12px;
+            .margin-right(12px);
             white-space: nowrap;
             overflow: hidden;
         }
@@ -127,11 +131,11 @@
             width: 100%;
             white-space: nowrap;
             overflow: hidden;
-            font-size: 12px;
+            .font-size-medium();
             .font-weight-bold();
             cursor: pointer;
             text-overflow: ellipsis;
-            padding-right: 35px;
+            .padding-right(35px);
         }
 
         .color {
@@ -141,6 +145,10 @@
             border: @scaled-one-px-value solid @border-toolbar;
             margin: 0 5px 3px 0;
             vertical-align: middle;
+
+            .rtl & {
+                margin: 0 0 3px 5px;
+            }
         }
 
         .revision-expand {
@@ -157,6 +165,11 @@
             margin: 15px;
             //transition: transform 0.2s ease;
             transform: rotate(-135deg) ;
+
+            .rtl & {
+                right: auto;
+                left: 2px;
+            }
 
             &.up {
                 transform: rotate(45deg);

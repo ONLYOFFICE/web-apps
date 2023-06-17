@@ -42,12 +42,13 @@
         background-image: ~"url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyOCAyOCI+PGNpcmNsZSBjeD0iMTQiIGN5PSIxNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjEuNSIgcj0iMTAuMjUiIHN0cm9rZS1kYXNoYXJyYXk9IjE2MCUsIDQwJSIgLz48L3N2Zz4=)";
         height: @loadmask-image-height;
         width: @loadmask-image-width;
-        float: left;
-        margin-left: 8px;
+        .float-left();
+        .margin-left-8();
     }
 
     .asc-loadmask-title {
-        .fontsize(@font-size-large);
+        //.fontsize(@font-size-large);
+        .font-size-large();
         margin: 0 8px 0 12px;
         white-space: pre-wrap;
     }
@@ -99,7 +100,7 @@
             }
 
             .text {
-                font-size: 14px;
+                .font-size-huge();
             }
         }
     }

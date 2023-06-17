@@ -46,17 +46,17 @@
                         <span class="btn-slot split" id="slot-btn-changeslide"></span>
                     </div>
                     <div class="elset">
-                        <span class="btn-slot" id="slot-btn-preview"></span>
+                        <span class="btn-slot split" id="slot-btn-preview"></span>
                     </div>
                 </div>
                 <div class="separator long"></div>
                 <div class="group small">
                     <div class="elset" style="width:208px;">
-                        <span class="btn-slot" style="float: left; width: 89px;" id="slot-field-fontname"></span>
-                        <span class="btn-slot" style="float: left; width: 40px; margin-left: 2px;" id="slot-field-fontsize"></span>
-                        <span class="btn-slot" id="slot-btn-incfont"></span>
-                        <span class="btn-slot" id="slot-btn-decfont"></span>
-                        <span class="btn-slot split" id="slot-btn-changecase"></span>
+                        <span class="btn-slot float-left" id="slot-field-fontname"></span>
+                        <span class="btn-slot margin-left-2 float-left" id="slot-field-fontsize"></span>
+                        <span class="btn-slot margin-left-2" id="slot-btn-incfont"></span>
+                        <span class="btn-slot margin-left-2" id="slot-btn-decfont"></span>
+                        <span class="btn-slot margin-left-2 split" id="slot-btn-changecase"></span>
                     </div>
                     <div class="elset font-attr">
                         <span class="btn-slot" id="slot-btn-bold"></span>
@@ -176,7 +176,7 @@
                     </div>
                     <div class="elset font-normal">
                         <span class="btn-slot text"  id="transit-checkbox-delay"></span>
-                        <div id="transit-spin-delay" class="btn-slot text spinner" style="margin-left: 5px;"></div>
+                        <div id="transit-spin-delay" class="btn-slot text spinner margin-left-5"></div>
                    </div>
                 </div>
                 <div class="separator long"></div>

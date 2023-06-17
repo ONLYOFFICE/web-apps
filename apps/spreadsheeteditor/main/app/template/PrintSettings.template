@@ -2,8 +2,13 @@
     <div class="padding-large inner-content" >
         <div id="printadv-dlg-combo-range" class="input-group-nr"></div>
         <div id="printadv-dlg-chb-ignore" style="margin-top: 5px;"></div>
+        <div id="printadv-dlg-pages">
+            <label class="margin-right-6"><%= scope.textPages %></label>
+            <div id="printadv-dlg-spin-pages-from" class="margin-right-6"></div>
+            <label class="margin-right-6"><%= scope.textTo %></label>
+            <div id="printadv-dlg-spin-pages-to"></div>
+        </div>
     </div>
-    <div class="padding-small"></div>
     <div class="padding-large inner-content" >
         <div id="printadv-dlg-combo-sheets" class="input-group-nr"></div>
     </div>
@@ -23,37 +28,20 @@
                     <td colspan="2" ><label><%= scope.textRepeatTop %></label></td>
                 </tr>
                 <tr>
-                    <td class="padding-small"><div id="printadv-dlg-txt-top" style="margin-right: 10px;"></div></td>
+                    <td class="padding-small"><div id="printadv-dlg-txt-top" class="margin-right-10"></div></td>
                     <td class="padding-small"><div id="printadv-dlg-presets-top"></div></td>
                 </tr>
                 <tr>
                     <td colspan="2" ><label><%= scope.textRepeatLeft %></label></td>
                 </tr>
                 <tr>
-                    <td><div id="printadv-dlg-txt-left" style="margin-right: 10px;"></div></td>
+                    <td><div id="printadv-dlg-txt-left" class="margin-right-10"></div></td>
                     <td><div id="printadv-dlg-presets-left"></div></td>
                 </tr>
             </table>
         </div>
         <div class="padding-large inner-content" >
-            <table cols="2" class="no-padding">
-            <tr>
-                <td><label><%= scope.strTop %></label></td>
-                <td><label><%= scope.strBottom %></label></td>
-                </tr>
-            <tr>
-                <td class="padding-small"><div id="printadv-dlg-spin-margin-top" style="margin-right: 19px;"></div></td>
-                <td class="padding-small"><div id="printadv-dlg-spin-margin-bottom"></div></td>
-            </tr>
-            <tr>
-                <td><label><%= scope.strLeft %></label></td>
-                <td><label><%= scope.strRight %></label></td>
-                </tr>
-            <tr>
-                <td><div id="printadv-dlg-spin-margin-left" style="margin-right: 15px;"></div></td>
-                <td><div id="printadv-dlg-spin-margin-right"></div></td>
-                </tr>
-            </table>
+            <span id="printadv-dlg-combo-margins"></span>
         </div>
         <div class="padding-small"></div>
         <div class="inner-content">

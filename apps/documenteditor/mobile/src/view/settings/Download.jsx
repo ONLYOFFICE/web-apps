@@ -19,7 +19,7 @@ const Download = props => {
                 <ListItem title="DOCX" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.DOCX)}>
                     <Icon slot="media" icon="icon-format-docx"></Icon>
                 </ListItem>
-                {canFeatureForms || isAvailableExt ? [
+                {canFeatureForms && isAvailableExt ? [
                     <ListItem title="DOCXF" key="DOCXF" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.DOCXF)}>
                         <Icon slot="media" icon="icon-format-docxf"></Icon>
                     </ListItem>,

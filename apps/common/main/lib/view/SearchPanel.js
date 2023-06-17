@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  * User: Julia.Svinareva
  * Date: 11.02.2022
@@ -283,6 +282,7 @@ define([
                         minScrollbarLength: 40,
                         alwaysVisibleY: true
                     });
+                    this.$resultsTable = this.$resultsContainer.find('.search-table');
                 } else {
                     this.$resultsContainer.scroller = new Common.UI.Scroller({
                         el: this.$resultsContainer,
@@ -356,14 +356,22 @@ define([
 
         updateResultsNumber: function (current, count) {
             var text;
-            if (count > 300) {
-                text = this.textTooManyResults;
-            } else {
-                text = current === 'no-results' ? this.textNoSearchResults :
-                    (current === 'stop' ? this.textSearchHasStopped :
-                    (current === 'content-changed' ? (this.textContentChanged + ' ' + Common.Utils.String.format(this.textSearchAgain, '<a class="search-again">','</a>')) :
-                    (!count ? this.textNoMatches : Common.Utils.String.format(this.textSearchResults, current + 1, count))));
+            if (this.$resultsContainer && current !== 'content-changed' && current !== 'replace-all' && current !== 'replace') {
+                if (count > 300) {
+                    this.showToManyResults();
+                } else {
+                    this.$resultsContainer.find('.many-results').remove();
+                    if (window.SSE) {
+                        this.$resultsTable.show();
+                    }
+                }
             }
+            text = current === 'no-results' ? this.textNoSearchResults :
+                (current === 'stop' ? this.textSearchHasStopped :
+                (current === 'content-changed' ? (this.textContentChanged + ' ' + Common.Utils.String.format(this.textSearchAgain, '<a class="search-again">','</a>')) :
+                (current === 'replace-all' ? Common.Utils.String.format(this.textItemsSuccessfullyReplaced, count) :
+                (current === 'replace' ? Common.Utils.String.format(this.textPartOfItemsNotReplaced, count[0], count[1], count[2]) :
+                (!count ? this.textNoMatches : Common.Utils.String.format(this.textSearchResults, current + 1, count))))));
             if (current === 'content-changed') {
                 var me = this;
                 this.$reaultsNumber.html(text);
@@ -375,6 +383,20 @@ define([
             }
             this.updateResultsContainerHeight();
             !window.SSE && this.disableReplaceButtons(!count);
+        },
+
+        showToManyResults: function () {
+            if (!window.SSE) {
+                this.$resultsContainer.empty();
+            } else {
+                this.$resultsTable.hide();
+                this.$resultsTable.find('.search-items').empty();
+                this.$resultsContainer.find('.many-results').remove();
+            }
+            this.$resultsContainer.append('<div class="many-results">' + this.textTooManyResults + '</div>');
+            if (!this.$resultsContainer.is(':visible')) {
+                this.$resultsContainer.show();
+            }
         },
 
         onClickClosePanel: function() {
@@ -459,7 +481,9 @@ define([
         textFormula: 'Formula',
         textSearchHasStopped: 'Search has stopped',
         textContentChanged: 'Document changed.',
-        textSearchAgain: '{0}Perform new search{1} for accurate results.'
+        textSearchAgain: '{0}Perform new search{1} for accurate results.',
+        textItemsSuccessfullyReplaced: '{0} items successfully replaced.',
+        textPartOfItemsNotReplaced: '{0}/{1} items replaced. Remaining {2} items are locked by other users.'
 
     }, Common.Views.SearchPanel || {}));
 });

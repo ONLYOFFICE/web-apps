@@ -205,22 +205,22 @@
 
         @keyframes flickerAnimation {
             0%   { opacity:1; }
-            50%  { opacity:0.5; }
+            50%  { opacity:0.8; }
             100% { opacity:1; }
         }
         @-o-keyframes flickerAnimation{
             0%   { opacity:1; }
-            50%  { opacity:0.5; }
+            50%  { opacity:0.8; }
             100% { opacity:1; }
         }
         @-moz-keyframes flickerAnimation{
             0%   { opacity:1; }
-            50%  { opacity:0.5; }
+            50%  { opacity:0.8; }
             100% { opacity:1; }
         }
         @-webkit-keyframes flickerAnimation{
             0%   { opacity:1; }
-            50%  { opacity:0.5; }
+            50%  { opacity:0.8; }
             100% { opacity:1; }
         }
 
@@ -283,12 +283,13 @@
             document.write('<script src="../../../../sdkjs/vendor/string.js"><\/script>');
         }
     </script>
-
+    <script src="../../common/main/lib/util/themeinit.js"></script>
     <link rel="stylesheet" type="text/css" href="../../../../sdkjs/cell/css/main.css"/>
 
     <!-- debug begin -->
     <link rel="stylesheet/less" type="text/css" href="resources/less/app.less" />
     <!-- debug end -->
+    <script src="../../common/main/lib/util/themeinit.js"></script>
 </head>
 
 <body>
@@ -369,6 +370,10 @@
     <img class="inline-svg" src="../../common/main/resources/img/toolbar/charttypes.svg">
     <img class="inline-svg" src="resources/img/cf-icons.svg">
     <img class="inline-svg" src="../../common/main/resources/img/toolbar/equationicons.svg">
+    <img class="inline-svg" src="../../common/main/resources/img/right-panels/arrows.svg">
+    <img class="inline-svg" src="../../common/main/resources/img/combo-border-size/BorderSize.svg">
+    <img class="inline-svg" src="resources/img/toolbar/BorderSize.svg">
+    <div class="inlined-svg"></div>
     <script>
         var svgpoints = document.querySelectorAll('img.inline-svg');
         SVGInjector(svgpoints);

@@ -145,22 +145,26 @@
       "textClose": "关闭",
       "textContactUs": "联系销售",
       "textCustomLoader": "抱歉，你无权修改装载器。恳请你联系我们的销售部门来获取报价。",
+      "textDontUpdate": "不要更新",
       "textGuest": "访客",
       "textHasMacros": "这个文件带有自动宏。<br> 是否要运行宏？",
       "textNo": "不",
       "textNoChoices": "填充单元格没有选择。<br>只能选择列中的文本值进行替换。",
       "textNoLicenseTitle": "触碰到许可证数量限制。",
-      "textNoTextFound": "未找到文本",
       "textOk": "好",
       "textPaidFeature": "付费功能",
       "textRemember": "记住我的选择",
       "textReplaceSkipped": "已更换。 {0}次跳过。",
       "textReplaceSuccess": "搜索已完成。更换次数：{0}",
       "textRequestMacros": "宏发起一个请求至URL。你是否允许请求到％1？",
+      "textUpdate": "更新",
+      "textWarnUpdateExternalData": "本工作簿包含一个或多个外部来源的链接，这些链接可能是不安全的。如果您信任这些链接，请更新它们以获得最新的数据。",
       "textYes": "是",
       "titleLicenseExp": "许可证已过期",
+      "titleLicenseNotActive": "许可证未激活",
       "titleServerVersion": "编辑器已更新",
       "titleUpdateVersion": "版本已变化",
+      "warnLicenseBefore": "许可证未激活。<br>请联系管理员。",
       "warnLicenseExceeded": "你触发了 %1 编辑器的同时在线数限制。该文档打开后，你将只能查看。可联系管理员来了解更多信息。",
       "warnLicenseExp": "您的许可证已过期。烦请您更新许可证，然后刷新该页面。",
       "warnLicenseLimitedNoAccess": "许可证已过期。你将不能使用文档编辑功能。恳请你联系你的管理员。",
@@ -169,9 +173,8 @@
       "warnNoLicense": "你已经触发了 %1 编辑器的同时在线数限制. 该文档打开后，你将只能查看。请联系 %1 的销售团队，获取个人升级条款。",
       "warnNoLicenseUsers": "你触发了 %1 编辑器的同时在线数限制。请与  %1  的销售团队联系，以获取个人升级条款。",
       "warnProcessRightsChange": "你没有编辑文件的权限。",
-      "textDontUpdate": "Don't Update",
-      "textUpdate": "Update",
-      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data."
+      "textNoMatches": "No Matches",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
     }
   },
   "Error": {
@@ -231,6 +234,7 @@
     "errorOperandExpected": "你输入的函数语法有误。请检查你是否漏掉了半边括号，即“(”或“)”。",
     "errorPasteMaxRange": "拷贝和粘贴的区域不符。请你选择相同大小的区域。你也可以点选某一行的第一个单元格来粘贴拷贝的单元格。",
     "errorPrintMaxPagesCount": "很抱歉，该版本中，暂时还不能一下子打印超过1500页。<br>之后的版本将会消除这个限制。",
+    "errorProtectedRange": "这个范围无法编辑。",
     "errorSessionAbsolute": "该文件编辑窗口已过期。请刷新该页。",
     "errorSessionIdle": "该文档已经有一段时间没有编辑了。请刷新该页。",
     "errorSessionToken": "与服务器的链接被打断。请刷新该页。",
@@ -373,6 +377,7 @@
       "textLinkType": "链接类型",
       "textOk": "好",
       "textOther": "其他",
+      "textPasteImageUrl": "粘贴图像 URL",
       "textPictureFromLibrary": "图库",
       "textPictureFromURL": "来自网络的图片",
       "textRange": "范围",
@@ -578,7 +583,13 @@
       "textYen": "日元",
       "txtNotUrl": "该字段应为“http://www.example.com”格式的URL",
       "txtSortHigh2Low": "从最高到最低排序",
-      "txtSortLow2High": "从最低到最高排序"
+      "txtSortLow2High": "从最低到最高排序",
+      "textCustomFormat": "Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textSave": "Save",
+      "textEnterFormat": "Enter Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
     },
     "Settings": {
       "advCSVOptions": "选择CSV选项",
@@ -647,7 +658,6 @@
       "textMargins": "边距",
       "textMatchCase": "对应大小写",
       "textMatchCell": "匹配单元格",
-      "textNoTextFound": "文本没找到",
       "textOk": "OK",
       "textOpenFile": "输入密码来打开文件",
       "textOrientation": "方向",
@@ -748,7 +758,8 @@
       "txtUk": "乌克兰语",
       "txtVi": "越南语",
       "txtZh": "中文",
-      "warnDownloadAs": "如果您继续以此格式保存，除文本之外的所有功能将丢失。<br>您确定要继续吗？"
+      "warnDownloadAs": "如果您继续以此格式保存，除文本之外的所有功能将丢失。<br>您确定要继续吗？",
+      "textNoMatches": "No Matches"
     }
   }
 }

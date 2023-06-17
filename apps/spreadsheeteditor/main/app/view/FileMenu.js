@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 define([
     'text!spreadsheeteditor/main/app/template/FileMenu.template',
     'underscore',
@@ -142,6 +141,16 @@ define([
                 el      : $markup.elementById('#fm-btn-save-desktop'),
                 action  : 'save-desktop',
                 caption : this.btnSaveAsCaption,
+                canFocused: false,
+                dataHint: 1,
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
+            });
+
+            this.miExportToPDF = new Common.UI.MenuItem({
+                el      : $markup.elementById('#fm-btn-export-pdf'),
+                action  : 'export-pdf',
+                caption : this.btnExportToPDFCaption,
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
@@ -275,6 +284,7 @@ define([
                 this.miDownload,
                 this.miSaveCopyAs,
                 this.miSaveAs,
+                this.miExportToPDF,
                 this.miPrintWithPreview,
                 this.miRename,
                 this.miProtect,
@@ -364,6 +374,7 @@ define([
             var isBCSupport = window["AscDesktopEditor"] ? window["AscDesktopEditor"]["isBlockchainSupport"]() : false;
             this.miSaveCopyAs[(this.mode.canDownload && (!this.mode.isDesktopApp || !this.mode.isOffline)) && (this.mode.canRequestSaveAs || this.mode.saveAsUrl) && !isBCSupport ?'show':'hide']();
             this.miSaveAs[(this.mode.canDownload && this.mode.isDesktopApp && this.mode.isOffline)?'show':'hide']();
+            this.miExportToPDF[(this.mode.canDownload && this.mode.isDesktopApp && this.mode.isOffline)?'show':'hide']();
             this.miSave[this.mode.isEdit && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') ?'show':'hide']();
             this.miEdit[!this.mode.isEdit && this.mode.canEdit && this.mode.canRequestEditRights ?'show':'hide']();
             this.miPrintWithPreview[this.mode.canPrint?'show':'hide']();
@@ -615,10 +626,11 @@ define([
         btnSaveAsCaption        : 'Save as',
         btnRenameCaption        : 'Rename...',
         btnCloseMenuCaption     : 'Close Menu',
-        btnProtectCaption: 'Protect',
+        btnProtectCaption       : 'Protect',
         btnSaveCopyAsCaption    : 'Save Copy as...',
         btnHistoryCaption       : 'Versions History',
         btnExitCaption          : 'Exit',
-        btnFileOpenCaption      : 'Open...'
+        btnFileOpenCaption      : 'Open...',
+        btnExportToPDFCaption          : 'Export to PDF'
     }, SSE.Views.FileMenu || {}));
 });

@@ -14,7 +14,7 @@
             </tr>
         <tr>
             <td>
-                <div id="auto-correct-replace" style="height:22px;width: 115px;margin-right: 2px;display: inline-block;"></div>
+                <div id="auto-correct-replace" class="margin-right-2" style="height:22px;width: 115px;display: inline-block;"></div>
                 <div id="auto-correct-by" style="height:22px;width: 234px;display: inline-block;"></div>
                 </td>
             </tr>
@@ -25,9 +25,9 @@
             </tr>
         <tr>
             <td style="padding-bottom: 8px;">
-                <button type="button" class="btn btn-text-default auto" id="auto-correct-btn-reset" style="min-width: 80px;"><%= scope.textResetAll %></button>
-                <button type="button" class="btn btn-text-default auto" id="auto-correct-btn-delete" style="min-width: 80px;float: right;"><%= scope.textDelete %></button>
-                <button type="button" class="btn btn-text-default auto" id="auto-correct-btn-edit" style="min-width: 80px;float: right;margin-right:5px;"><%= scope.textAdd %></button>
+                <button type="button" class="btn btn-text-default auto" id="auto-correct-btn-reset" style="min-width: 86px;"><%= scope.textResetAll %></button>
+                <button type="button" class="btn btn-text-default auto float-right" id="auto-correct-btn-delete" style="min-width: 86px;"><%= scope.textDelete %></button>
+                <button type="button" class="btn btn-text-default auto float-right margin-right-5" id="auto-correct-btn-edit" style="min-width: 86px;"><%= scope.textAdd %></button>
                 </td>
             </tr>
         </table>
@@ -54,8 +54,8 @@
             <tr>
                 <td style="padding-bottom: 8px;">
                     <button type="button" class="btn btn-text-default auto" id="auto-correct-btn-rec-reset" style="min-width: 86px;"><%= scope.textResetAll %></button>
-                    <button type="button" class="btn btn-text-default auto" id="auto-correct-btn-rec-delete" style="min-width: 86px;float: right;"><%= scope.textDelete %></button>
-                    <button type="button" class="btn btn-text-default auto" id="auto-correct-btn-rec-edit" style="min-width: 86px;float: right;margin-right:5px;"><%= scope.textAdd %></button>
+                    <button type="button" class="btn btn-text-default auto float-right" id="auto-correct-btn-rec-delete" style="min-width: 86px;"><%= scope.textDelete %></button>
+                    <button type="button" class="btn btn-text-default auto float-right margin-right-5" id="auto-correct-btn-rec-edit" style="min-width: 86px;"><%= scope.textAdd %></button>
                 </td>
             </tr>
         </table>
@@ -97,13 +97,43 @@
         </div>
     </div>
 </div>
-<div id="id-autocorrect-dialog-settings-autocorrect" class="settings-panel">
-    <div class="inner-content" style="width: 100%;">
-        <div class="padding-small">
-            <div id="id-autocorrect-dialog-chk-fl-sentence"></div>
-        </div>
-        <div class="padding-small">
-            <div id="id-autocorrect-dialog-chk-fl-cells"></div>
-        </div>
+<div id="id-autocorrect-dialog-settings-exceptions" class="settings-panel">
+    <div class="inner-content">
+        <table cols="1" style="width: 100%;">
+            <tr>
+                <td style="padding-bottom: 12px;">
+                    <div id="auto-correct-exceptions-chk-sentence" style="padding-bottom: 8px;"></div>
+                    <div id="auto-correct-exceptions-chk-cells"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label><%= scope.textForLangFL %></label>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-bottom: 12px;">
+                    <div id="auto-correct-exceptions-lang" style="display: inline-block;vertical-align: middle;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label><%= scope.textFLDont %></label>
+                    <div id="auto-correct-exceptions-find" style="height:22px;width: 100%;margin-bottom: 4px;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-bottom: 8px;">
+                    <div id="auto-correct-exceptions-list" class="" style="width:100%; height: 139px;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-bottom: 18px;">
+                    <button type="button" class="btn btn-text-default auto" id="auto-correct-btn-exceptions-reset" style="min-width: 86px;"><%= scope.textResetAll %></button>
+                    <button type="button" class="btn btn-text-default auto float-right" id="auto-correct-btn-exceptions-delete" style="min-width: 86px;"><%= scope.textDelete %></button>
+                    <button type="button" class="btn btn-text-default auto float-right margin-right-5" id="auto-correct-btn-exceptions-edit" style="min-width: 86px;"><%= scope.textAdd %></button>
+                </td>
+            </tr>
+        </table>
     </div>
 </div>

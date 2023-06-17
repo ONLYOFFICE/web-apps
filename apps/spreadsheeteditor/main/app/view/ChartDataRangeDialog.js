@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -76,7 +75,7 @@ define([
                         '<div id="id-dlg-chart-range-range1"></div>',
                     '</td>',
                     '<td style="padding-bottom: 8px;">',
-                        '<label id="id-dlg-chart-range-lbl1" style="width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-left: 5px;margin-top: 4px;">' + this.txtChoose + '</label>',
+                        '<label id="id-dlg-chart-range-lbl1" class="margin-left-5" style="width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 4px;">' + this.txtChoose + '</label>',
                     '</td>',
                 '</tr>',
                 '<% if (type==1) { %>',
@@ -90,7 +89,7 @@ define([
                         '<div id="id-dlg-chart-range-range2"></div>',
                     '</td>',
                     '<td style="padding-bottom: 8px;">',
-                        '<label id="id-dlg-chart-range-lbl2" style="width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-left: 5px;margin-top: 4px;"></label>',
+                        '<label id="id-dlg-chart-range-lbl2" class="margin-left-5" style="width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 4px;"></label>',
                     '</td>',
                 '</tr>',
                 '<% if (isScatter) { %>',
@@ -104,7 +103,7 @@ define([
                         '<div id="id-dlg-chart-range-range3"></div>',
                     '</td>',
                     '<td style="padding-bottom: 8px;">',
-                        '<label id="id-dlg-chart-range-lbl3" style="width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-left: 5px;margin-top: 4px;"></label>',
+                        '<label id="id-dlg-chart-range-lbl3" class="margin-left-5" style="width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 4px;"></label>',
                     '</td>',
                 '</tr>',
                 '<% } %>',

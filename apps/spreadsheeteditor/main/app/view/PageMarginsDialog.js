@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  PageMarginsDialog.js
  *
@@ -62,7 +61,7 @@ define([
                 '<div class="box" style="height: 85px;">',
                     '<table cols="2" style="width: 100%;margin-bottom: 10px;">',
                         '<tr>',
-                            '<td style="padding-right: 10px;padding-bottom: 8px;">',
+                            '<td class="padding-right-10" style="padding-bottom: 8px;">',
                                 '<label class="input-label">' + this.textTop + '</label>',
                                 '<div id="page-margins-spin-top"></div>',
                             '</td>',
@@ -72,7 +71,7 @@ define([
                             '</td>',
                         '</tr>',
                         '<tr>',
-                            '<td class="padding-small" style="padding-right: 10px;">',
+                            '<td class="padding-small padding-right-10">',
                                 '<label class="input-label">' + this.textLeft + '</label>',
                                 '<div id="page-margins-spin-left"></div>',
                             '</td>',
@@ -158,8 +157,44 @@ define([
         },
 
         _handleInput: function(state) {
-            if (this.options.handler)
+            if (this.options.handler) {
+                if (state == 'ok') {
+                    var me = this,
+                        result = null,
+                        top = this.spnTop.getNumberValue(),
+                        bottom = this.spnBottom.getNumberValue(),
+                        left = this.spnLeft.getNumberValue(),
+                        right = this.spnRight.getNumberValue();
+                    if (left > this.maxMarginsW) result = 'left'; else
+                    if (right > this.maxMarginsW-left) result = 'right'; else
+                    if (top > this.maxMarginsH) result = 'top'; else
+                    if (bottom > this.maxMarginsH-top) result = 'bottom';
+                    if (result) {
+                        Common.UI.warning({
+                            title: this.textWarning,
+                            msg: this.warnCheckMargings,
+                            callback: function() {
+                                switch (result) {
+                                    case 'left':
+                                        me.spnLeft.focus();
+                                        return;
+                                    case 'right':
+                                        me.spnRight.focus();
+                                        return;
+                                    case 'top':
+                                        me.spnTop.focus();
+                                        return;
+                                    case 'bottom':
+                                        me.spnBottom.focus();
+                                        return;
+                                }
+                            }
+                        });
+                        return;
+                    }
+                }
                 this.options.handler.call(this, this, state);
+            }
 
             this.close();
         },
@@ -176,7 +211,10 @@ define([
 
         setSettings: function (props) {
             if (props) {
-                var margins = props.asc_getPageMargins();
+                var margins = props.asc_getPageMargins(),
+                    pageSetup = props.asc_getPageSetup();
+                this.maxMarginsH = Common.Utils.Metric.fnRecalcFromMM(pageSetup.asc_getHeight());
+                this.maxMarginsW = Common.Utils.Metric.fnRecalcFromMM(pageSetup.asc_getWidth());
 
                 this.spnTop.setValue(Common.Utils.Metric.fnRecalcFromMM(margins.asc_getTop()), true);
                 this.spnBottom.setValue(Common.Utils.Metric.fnRecalcFromMM(margins.asc_getBottom()), true);
@@ -207,6 +245,8 @@ define([
         textTop: 'Top',
         textLeft: 'Left',
         textBottom: 'Bottom',
-        textRight: 'Right'
+        textRight: 'Right',
+        textWarning: 'Warning',
+        warnCheckMargings: 'Margins are incorrect'
     }, SSE.Views.PageMarginsDialog || {}))
 });

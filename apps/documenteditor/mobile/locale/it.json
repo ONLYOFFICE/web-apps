@@ -64,7 +64,8 @@
     "textTableSize": "Dimensione di tabella",
     "textWithBlueLinks": "Con link blu",
     "textWithPageNumbers": "Con numeri di pagina",
-    "txtNotUrl": "Questo campo deve essere un URL nel formato \"http://www.example.com\""
+    "txtNotUrl": "Questo campo deve essere un URL nel formato \"http://www.example.com\"",
+    "textPasteImageUrl": "Paste an image URL"
   },
   "Common": {
     "Collaboration": {
@@ -426,6 +427,7 @@
     "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
     "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
     "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
   },
@@ -547,7 +549,6 @@
     "textHasMacros": "Il file contiene delle macro automatiche.<br>Vuoi eseguirle?",
     "textNo": "No",
     "textNoLicenseTitle": "E' stato raggiunto il limite della licenza",
-    "textNoTextFound": "Testo non trovato",
     "textPaidFeature": "Funzionalità a pagamento",
     "textRemember": "Ricordare la mia scelta",
     "textReplaceSkipped": "La sostituzione è stata effettuata. {0} casi sono stati saltati.",
@@ -565,8 +566,18 @@
     "warnNoLicense": "Hai raggiunto il limite delle connessioni simultanee agli editor %1. Questo documento sarà aperto solo in modalità di visualizzazione.  Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
     "warnNoLicenseUsers": "Hai raggiunto il limite degli utenti per gli editor %1. Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
     "warnProcessRightsChange": "Non hai il permesso di modificare questo file.",
+    "textDialogProtectedChangesTracked": "You may edit this document, but all changes will be tracked",
+    "textDialogProtectedEditComments": "You may only insert comments to this document",
+    "textDialogProtectedFillForms": "You may only fill in forms in this document",
+    "textDialogProtectedOnlyView": "You may only view this document",
     "textDocumentProtected": "The document is protected. Edit settings are not available",
-    "textOk": "Ok"
+    "textNoMatches": "No Matches",
+    "textOk": "Ok",
+    "titleDialogProtectedDocument": "The document is protected",
+    "titleLicenseNotActive": "License not active",
+    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
+    "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator."
   },
   "Settings": {
     "advDRMOptions": "File protetto",
@@ -634,7 +645,6 @@
     "textNavigation": "Navigazione",
     "textNo": "No",
     "textNoCharacters": "Caratteri non stampabili",
-    "textNoTextFound": "Testo non trovato",
     "textOk": "OK",
     "textOpenFile": "Inserire la password per aprire il file",
     "textOrientation": "Orientamento",
@@ -695,7 +705,27 @@
     "txtScheme7": "Equità",
     "txtScheme8": "Flusso",
     "txtScheme9": "Fonderia",
-    "textMobileView": "Mobile View"
+    "textChangePassword": "Change Password",
+    "textDialogUnprotect": "Enter a password to unprotect document",
+    "textEncryptFile": "Encrypt File",
+    "textFillingForms": "Filling forms",
+    "textMobileView": "Mobile View",
+    "textNoChanges": "No changes (Read only)",
+    "textNoMatches": "No Matches",
+    "textPassword": "Password",
+    "textPasswordNotMatched": "Passwords DonвЂ™t Match",
+    "textProtectDocument": "Protect Document",
+    "textProtection": "Protection",
+    "textProtectTurnOff": "Protection is turned off",
+    "textRequired": "Required",
+    "textRequirePassword": "Require Password",
+    "textSave": "Save",
+    "textSetPassword": "Set Password",
+    "textTrackedChanges": "Tracked changes",
+    "textTypeEditing": "Type Of Editing",
+    "textUnprotect": "Unprotect",
+    "textVerify": "Verify",
+    "titleDialogUnprotect": "Unprotect Document"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Hai dei cambiamenti non salvati. Premi 'Rimanere sulla pagina' per attendere il salvataggio automatico. Premi 'Lasciare la pagina' per eliminare tutte le modifiche non salvate.",
@@ -704,6 +734,8 @@
     "stayButtonText": "Rimanere su questa pagina",
     "textOk": "OK",
     "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view"
+    "textSwitchedStandardView": "Switched to Standard view",
+    "textRenameFile": "Rename File",
+    "textEnterNewFileName": "Enter a new file name"
   }
 }

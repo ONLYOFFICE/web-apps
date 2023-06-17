@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 if (Common === undefined)
     var Common = {};
 
@@ -43,7 +42,12 @@ define([
         render: function(parentEl) {
             Common.UI.Button.prototype.render.call(this, parentEl);
 
-            $('button:first-child', this.cmpEl).append( $('<div class="btn-color-value-line"></div>'));
+            if (/huge/.test(this.options.cls) &&  this.options.split === true ) {
+                var btnEl = $('button', this.cmpEl),
+                    btnMenuEl = $(btnEl[1]);
+                btnMenuEl && btnMenuEl.append( $('<div class="btn-color-value-line"></div>'));
+            } else
+                $('button:first-child', this.cmpEl).append( $('<div class="btn-color-value-line"></div>'));
             this.colorEl = this.cmpEl.find('.btn-color-value-line');
 
             if (this.options.auto)
@@ -62,14 +66,21 @@ define([
                 };
                 (this.options.transparent!==undefined) && (config['transparent'] = this.options.transparent);
                 (this.options.hideEmptyColors!==undefined) && (config['hideEmptyColors'] = this.options.hideEmptyColors);
+                (this.options.themecolors!==undefined) && (config['themecolors'] = this.options.themecolors);
+                (this.options.effects!==undefined) && (config['effects'] = this.options.effects);
+                (this.options.colorHints!==undefined) && (config['colorHints'] = this.options.colorHints);
 
                 this.colorPicker = new Common.UI.ThemeColorPalette(config);
                 this.colorPicker.on('select', _.bind(this.onColorSelect, this));
+                this.colorPicker.on('close:extended', _.bind(this.onCloseExtentedColor, this));
                 this.cmpEl.find('#' + this.menu.id + '-color-new').on('click', _.bind(this.addNewColor, this));
                 if (this.options.auto) {
                     this.cmpEl.find('#' + this.menu.id + '-color-auto').on('click', _.bind(this.onAutoColorSelect, this));
                     this.colorAuto = this.cmpEl.find('#' + this.menu.id + '-color-auto > a');
                     (color == 'auto') && this.setAutoColor(true);
+                }
+                if (this.options.eyeDropper) {
+                    this.cmpEl.find('#' + this.menu.id + '-eyedropper').on('click', _.bind(this.onEyedropperStart, this));
                 }
                 this.initInnerMenu();
             }
@@ -85,24 +96,33 @@ define([
                 options = options || this.options;
                 var height = options.paletteHeight ? options.paletteHeight + 'px' : 'auto',
                     id = Common.UI.getId(),
-                    auto = [];
+                    auto = [],
+                    eyedropper = [];
                 if (options.auto) {
                     this.autocolor = (typeof options.auto == 'object') ? options.auto.color || '000000' : '000000';
                     auto.push({
                         id: id + '-color-auto',
                         caption: (typeof options.auto == 'object') ? options.auto.caption || this.textAutoColor : this.textAutoColor,
-                        template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon color-auto" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #' + this.autocolor + ';"></span><%= caption %></a>')
+                        template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon color-auto" style="background-color: #' + this.autocolor + ';"></span><%= caption %></a>')
                     });
                     auto.push({caption: '--'});
+                }
+                if (options.eyeDropper) {
+                    eyedropper.push({
+                        id: id + '-eyedropper',
+                        caption: this.textEyedropper,
+                        iconCls: 'menu__icon btn-eyedropper'
+                    });
                 }
 
                 var menu = new Common.UI.Menu({
                     id: id,
-                    cls: 'shifted-left',
+                    cls: 'color-menu ' + (options.eyeDropper ? 'shifted-right' : 'shifted-left'),
                     additionalAlign: options.additionalAlign,
                     items: (options.additionalItems ? options.additionalItems : []).concat(auto).concat([
                         { template: _.template('<div id="' + id + '-color-menu" style="width: 164px; height:' + height + '; display: inline-block;"></div>') },
-                        {caption: '--'},
+                        {caption: '--'}
+                        ]).concat(eyedropper).concat([
                         {
                             id: id + '-color-new',
                             template: _.template('<a tabindex="-1" type="menuitem" style="">' + this.textNewColor + '</a>')
@@ -135,16 +155,23 @@ define([
             this.menu.setInnerMenu([{menu: this.colorPicker, index: index}]);
         },
       
-        setMenu: function (m) {
+        setMenu: function (m, preventCreatePicker) {
             m = m || this.getMenu();
             Common.UI.Button.prototype.setMenu.call(this, m);
-            this.getPicker(this.options.color, this.options.colors);
+            !preventCreatePicker && this.getPicker(this.options.color, this.options.colors);
         },
 
         onColorSelect: function(picker, color) {
             this.setColor(color);
             this.setAutoColor(false);
             this.trigger('color:select', this, color);
+        },
+
+        onCloseExtentedColor: function(picker, isOk) {
+            if (this.options.takeFocusOnClose) {
+                var me = this;
+                setTimeout(function(){me.focus();}, 1);
+            }
         },
 
         setColor: function(color) {
@@ -181,6 +208,19 @@ define([
             this.colorPicker && this.colorPicker.addNewColor((typeof(this.color) == 'object') ? this.color.color : this.color);
         },
 
+        onEyedropperStart: function () {
+            this.trigger('eyedropper:start', this);
+            Common.NotificationCenter.trigger('eyedropper:start');
+        },
+
+        eyedropperEnd: function (r, g, b) {
+            if (r === undefined) return;
+            var color = Common.Utils.ThemeColor.getHexColor(r, g, b);
+            this.colorPicker.setCustomColor('#' + color);
+            this.onColorSelect(this.colorPicker, color);
+            this.trigger('eyedropper:end', this);
+        },
+
         onBeforeKeyDown: function(menu, e) {
             if ((e.keyCode == Common.UI.Keys.DOWN || e.keyCode == Common.UI.Keys.SPACE) && !this.isMenuOpen()) {
                 $('button', this.cmpEl).click();
@@ -192,8 +232,12 @@ define([
             return this.cmpEl.hasClass('open');
         },
 
+        focus: function() {
+            $('button', this.cmpEl).focus();
+        },
         textNewColor: 'Add New Custom Color',
-        textAutoColor: 'Automatic'
+        textAutoColor: 'Automatic',
+        textEyedropper: 'Eyedropper'
 
     }, Common.UI.ButtonColored || {}));
 
