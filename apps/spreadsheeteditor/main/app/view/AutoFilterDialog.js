@@ -2229,9 +2229,12 @@ define([
                     curDate,
                     displayDate,
                     dateLevel,
-                    lastDateLevel;
+                    lastDateLevel,
+                    dateText = '';
                 if (isDate) {
                     isdate = true;
+                    if (me.filter && index === 0)
+                        index += 1;
                     var year = item.asc_getYear(),
                         month = item.asc_getMonth(),
                         day = item.asc_getDay(),
@@ -2249,19 +2252,17 @@ define([
                         curDate = [year, month, day];
                         displayDate = curDate.slice();
                     }
+                    displayDate.forEach(function (item, index) {
+                        dateText += index === 1 ? monthList[item] : item;
+                    });
                     dateLevel = getDateLevel(lastDate, curDate);
-                    if (dateLevel === 0) { // year
-                        countYears += 1;
-                        countMonth += 1;
-                    } else if (dateLevel === 1) { // month
-                        countMonth += 1;
-                    }
 
                     lastDateLevel = curDate.length - 1;
                 }
 
                 if (me.filter) {
-                    if (null === value.match(me.filter)) {
+                    var val = !isDate ? value : dateText;
+                    if (null === val.match(me.filter)) {
                         applyfilter = false;
                     }
                     idxs[throughIndex] = applyfilter;
@@ -2270,6 +2271,12 @@ define([
 
                 if (applyfilter) {
                     if (isDate) {
+                        if (dateLevel === 0) { // year
+                            countYears += 1;
+                            countMonth += 1;
+                        } else if (dateLevel === 1) { // month
+                            countMonth += 1;
+                        }
                         for (var i = dateLevel; i <= lastDateLevel; i++) {
                             index+=1;
                             arr.push(new Common.UI.TreeViewModel({
@@ -2277,9 +2284,7 @@ define([
                                 selected: false,
                                 allowSelected: true,
                                 cellvalue: value,
-                                value: isnumber ? value : (value.length > 0 ? value : me.textEmptyItem),
-                                intval: isnumber ? parseFloat(value) : undefined,
-                                strval: !isnumber ? value : '',
+                                value: value,
                                 groupid: '1',
                                 check: idxs[throughIndex],
                                 throughIndex: throughIndex,
