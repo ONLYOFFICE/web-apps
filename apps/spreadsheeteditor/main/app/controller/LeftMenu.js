@@ -362,7 +362,7 @@ define([
                     });
             } else if (format == Asc.c_oAscFileType.PDF || format == Asc.c_oAscFileType.PDFA) {
                 menu.hide();
-                Common.NotificationCenter.trigger('download:settings', this.leftMenu, format, undefined, asExport);
+                Common.NotificationCenter.trigger(asExport ? 'export' : 'download:settings', this.leftMenu, format);
             } else {
                 this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                 menu.hide();

@@ -57,7 +57,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         initialize : function(options) {
             this.type = options.type || 'print';
             var txtBtn = (this.type == 'print') ? this.btnPrint :
-                options.asexport ? this.btnExport : this.btnDownload;
+                (this.type == 'export') ? this.btnExport : this.btnDownload;
             _.extend(this.options, {
                 title: (this.type == 'print') ? this.textTitle : this.textTitlePDF,
                 template: [

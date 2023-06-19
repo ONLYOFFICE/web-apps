@@ -75,6 +75,7 @@ define([
             });
             Common.NotificationCenter.on('print', _.bind(this.openPrintSettings, this, 'print'));
             Common.NotificationCenter.on('download:settings', _.bind(this.openPrintSettings, this, 'download'));
+            Common.NotificationCenter.on('export', _.bind(this.openPrintSettings, this, 'export'));
         },
 
         onLaunch: function() {
@@ -390,7 +391,7 @@ define([
             !!pageCount && this.updatePreview();
         },
 
-        openPrintSettings: function(type, cmp, format, asUrl, asExport) {
+        openPrintSettings: function(type, cmp, format, asUrl) {
             if (this.printSettingsDlg && this.printSettingsDlg.isVisible()) {
                 asUrl && Common.NotificationCenter.trigger('download:cancel');
                 return;
@@ -402,7 +403,6 @@ define([
                 this.downloadFormat = format;
                 this.printSettingsDlg = (new SSE.Views.PrintSettings({
                     type: type,
-                    asexport: asExport,
                     handler: _.bind(this.resultPrintSettings,this),
                     afterrender: _.bind(function() {
                         this._changedProps = [];
