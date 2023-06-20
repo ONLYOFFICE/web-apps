@@ -558,7 +558,7 @@
     }
 
     // Version History
-    .version-history-block {
+    .version-history {
         &__title {
             font-style: normal;
             font-weight: 400;
@@ -567,6 +567,22 @@
             color: @text-secondary;
             margin-top: 16px;
             margin-bottom: 4px;
+        }
+
+        &__btn {
+            font-style: normal;
+            font-weight: 600;
+            font-size: 15px;
+            line-height: 20px;
+            letter-spacing: -0.24px;
+            text-transform: uppercase;
+            color: @brandColor;
+            background: transparent;
+            outline: none;
+            border: 0;
+            padding: 0;
+            margin-top: 22px;
+            width: auto;
         }
 
         &__list {
@@ -579,8 +595,8 @@
             }
 
             .item-media, .item-inner {
-                padding-top: 17px;
-                padding-bottom: 17px;
+                padding-top: 10px;
+                padding-bottom: 10px;
             }
 
             .item-link .item-title-row:before {
@@ -597,6 +613,22 @@
                 letter-spacing: 0.06px;
             }
         }
+    }
+
+    .version-history_active {
+        .version-history__list ul {
+            background-color: var(--canvas-ruler-margins-background);
+        }
+    }
+
+    .btn-close-history {
+        font-style: normal;
+        font-weight: 400;
+        font-size: 17px;
+        line-height: 22px;
+        letter-spacing: -0.41px;
+        color: @brandColor;
+        margin-left: 10px;
     }
 }
 
