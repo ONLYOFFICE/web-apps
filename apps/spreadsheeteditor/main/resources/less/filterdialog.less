@@ -23,9 +23,9 @@
         .tree-item {
           word-break: break-all;
           min-height: 22px;
-          padding: 0 0 0 6px;
+          .padding-x(6px, 0);
           &.date {
-            padding: 0 12px 0 24px;
+            .padding-x(22px, 12px);
           }
           .name {
             padding: 3px 0;
@@ -39,18 +39,12 @@
     }
 
     .item {
-      .padding-x(6px, 12px);
+      .padding-right(12px);
     }
 
     &.shifted-right {
-      .treeview .item {
-        .tree-item {
-          padding-left: 24px;
-          .rtl & {
-            padding-left: 0;
-            padding-right: 24px;
-          }
-        }
+      .treeview .item .tree-item {
+        .padding-left(22px);
       }
     }
   }
@@ -203,11 +197,6 @@
   #id-btn-date-picker-1,
   #id-btn-date-picker-2 {
     position: relative;
-    margin-left: 5px;
-    .rtl & {
-      margin-left: 0;
-      margin-right: 5px;
-    }
   }
 
   #date-picker-1,
