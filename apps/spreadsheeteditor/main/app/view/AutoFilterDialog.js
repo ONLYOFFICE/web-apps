@@ -187,7 +187,7 @@ define([
                     parentEl: $('#id-btn-date-picker-1', this.$window),
                     cls: 'btn-toolbar bg-white',
                     iconCls: 'toolbar__icon',
-                    hint: this.txtDatePicker
+                    hint: this.txtSelectDate
                 });
                 this.btnDatePicker1.on('click', _.bind(this.showDatePicker, this));
 
@@ -195,7 +195,7 @@ define([
                     parentEl: $('#id-btn-date-picker-2', this.$window),
                     cls: 'btn-toolbar bg-white',
                     iconCls: 'toolbar__icon',
-                    hint: this.txtDatePicker
+                    hint: this.txtSelectDate
                 });
                 this.btnDatePicker2.on('click', _.bind(this.showDatePicker, this));
             }
@@ -362,7 +362,7 @@ define([
         textUse1            : "Use ? to present any single character",
         textUse2            : "Use * to present any series of character",
         txtTitle            : "Custom Filter",
-        txtDatePicker       : "Date Picker"
+        txtSelectDate       : "Select date"
 
     }, SSE.Views.DigitalFilterDialog || {}));
 
@@ -1192,14 +1192,17 @@ define([
                     items: [
                         {value: Asc.c_oAscCustomAutoFilter.equals,                   caption: this.txtEquals,       checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
                         {value: Asc.c_oAscCustomAutoFilter.doesNotEqual,             caption: this.txtNotEquals,    checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {caption: '--'},
                         {value: Asc.c_oAscCustomAutoFilter.isGreaterThan,            caption: this.txtGreater,      checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
                         {value: Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo,   caption: this.txtGreaterEquals,checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
                         {value: Asc.c_oAscCustomAutoFilter.isLessThan,               caption: this.txtLess,         checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
                         {value: Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo,      caption: this.txtLessEquals,   checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
                         {value: -2,                                                  caption: this.txtBetween,      checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {caption: '--'},
                         {value: Asc.c_oAscCustomAutoFilter.top10,                    caption: this.txtTop10,        checkable: true, type: Asc.c_oAscAutoFilterTypes.Top10},
                         {value: Asc.c_oAscDynamicAutoFilter.aboveAverage,             caption: this.txtAboveAve,    checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
                         {value: Asc.c_oAscDynamicAutoFilter.belowAverage,             caption: this.txtBelowAve,    checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                        {caption: '--'},
                         {value: -1, caption: this.btnCustomFilter + '...', checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters}
                     ]
                 })
@@ -1220,12 +1223,15 @@ define([
                     items: [
                         {value: Asc.c_oAscCustomAutoFilter.equals,                   caption: this.txtEquals,       checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
                         {value: Asc.c_oAscCustomAutoFilter.doesNotEqual,             caption: this.txtNotEquals,    checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {caption: '--'},
                         {value: Asc.c_oAscCustomAutoFilter.beginsWith,               caption: this.txtBegins,       checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
                         {value: Asc.c_oAscCustomAutoFilter.doesNotBeginWith,         caption: this.txtNotBegins,    checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
                         {value: Asc.c_oAscCustomAutoFilter.endsWith,                 caption: this.txtEnds,         checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
                         {value: Asc.c_oAscCustomAutoFilter.doesNotEndWith,           caption: this.txtNotEnds,      checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {caption: '--'},
                         {value: Asc.c_oAscCustomAutoFilter.contains,                 caption: this.txtContains,     checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
                         {value: Asc.c_oAscCustomAutoFilter.doesNotContain,           caption: this.txtNotContains,  checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {caption: '--'},
                         {value: -1, caption: this.btnCustomFilter + '...', checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters}
                     ]
                 })
@@ -1239,26 +1245,34 @@ define([
                 checked     : false,
                 menu        : new Common.UI.Menu({
                     menuAlign: 'tl-tr',
+                    restoreHeightAndTop: true,
                     items: [
                         {value: Asc.c_oAscCustomAutoFilter.equals, caption: this.txtEquals, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {caption: '--'},
                         {value: Asc.c_oAscCustomAutoFilter.isLessThan, caption: this.txtBefore, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
                         {value: Asc.c_oAscCustomAutoFilter.isGreaterThan, caption: this.txtAfter, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
                         {value: -2, caption: this.txtBetween, checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
+                        {caption: '--'},
                         {value: Asc.c_oAscDynamicAutoFilter.tomorrow, caption: this.txtTomorrow, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
                         {value: Asc.c_oAscDynamicAutoFilter.today, caption: this.txtToday, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
                         {value: Asc.c_oAscDynamicAutoFilter.yesterday, caption: this.txtYesterday, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                        {caption: '--'},
                         {value: Asc.c_oAscDynamicAutoFilter.nextWeek, caption: this.txtNextWeek, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
                         {value: Asc.c_oAscDynamicAutoFilter.thisWeek, caption: this.txtThisWeek, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
                         {value: Asc.c_oAscDynamicAutoFilter.lastWeek, caption: this.txtLastWeek, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                        {caption: '--'},
                         {value: Asc.c_oAscDynamicAutoFilter.nextMonth, caption: this.txtNextMonth, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
                         {value: Asc.c_oAscDynamicAutoFilter.thisMonth, caption: this.txtThisMonth, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
                         {value: Asc.c_oAscDynamicAutoFilter.lastMonth, caption: this.txtLastMonth, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                        {caption: '--'},
                         {value: Asc.c_oAscDynamicAutoFilter.nextQuarter, caption: this.txtNextQuarter, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
                         {value: Asc.c_oAscDynamicAutoFilter.thisQuarter, caption: this.txtThisQuarter, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
                         {value: Asc.c_oAscDynamicAutoFilter.lastQuarter, caption: this.txtLastQuarter, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                        {caption: '--'},
                         {value: Asc.c_oAscDynamicAutoFilter.nextYear, caption: this.txtNextYear, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
                         {value: Asc.c_oAscDynamicAutoFilter.thisYear, caption: this.txtThisYear, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
                         {value: Asc.c_oAscDynamicAutoFilter.lastYear, caption: this.txtLastYear, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                        {caption: '--'},
                         {value: Asc.c_oAscDynamicAutoFilter.yearToDate, caption: this.txtYearToDate, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
                         this.miDatesInThePeriod = new Common.UI.MenuItem({
                             caption: this.txtAllDatesInThePeriod,
@@ -1266,11 +1280,13 @@ define([
                             checkable: true,
                             menu: new Common.UI.Menu({
                                 menuAlign: 'tl-tr',
+                                restoreHeightAndTop: true,
                                 items: [
                                     {value: Asc.c_oAscDynamicAutoFilter.q1, caption: this.txtQuarter1, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
                                     {value: Asc.c_oAscDynamicAutoFilter.q2, caption: this.txtQuarter2, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
                                     {value: Asc.c_oAscDynamicAutoFilter.q3, caption: this.txtQuarter3, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
                                     {value: Asc.c_oAscDynamicAutoFilter.q4, caption: this.txtQuarter4, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
+                                    {caption: '--'},
                                     {value: Asc.c_oAscDynamicAutoFilter.m1, caption: this.txtJanuary, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
                                     {value: Asc.c_oAscDynamicAutoFilter.m2, caption: this.txtFebruary, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
                                     {value: Asc.c_oAscDynamicAutoFilter.m3, caption: this.txtMarch, checkable: true, type: Asc.c_oAscAutoFilterTypes.DynamicFilter},
@@ -1286,6 +1302,7 @@ define([
                                 ]
                             })
                         }),
+                        {caption: '--'},
                         {value: -1, caption: this.btnCustomFilter + '...', checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters}
                     ]
                 })
@@ -1348,12 +1365,14 @@ define([
                     items: [
                         {value: Asc.c_oAscCustomAutoFilter.equals,                   caption: this.txtEquals,       checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'value'},
                         {value: Asc.c_oAscCustomAutoFilter.doesNotEqual,             caption: this.txtNotEquals,    checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'value'},
+                        {caption: '--'},
                         {value: Asc.c_oAscCustomAutoFilter.isGreaterThan,            caption: this.txtGreater,      checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'value'},
                         {value: Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo,   caption: this.txtGreaterEquals,checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'value'},
                         {value: Asc.c_oAscCustomAutoFilter.isLessThan,               caption: this.txtLess,         checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'value'},
                         {value: Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo,      caption: this.txtLessEquals,   checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'value'},
                         {value: -2,                                                  caption: this.txtBetween,      checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'value'},
                         {value: -3,                                                  caption: this.txtNotBetween,   checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'value'},
+                        {caption: '--'},
                         {value: Asc.c_oAscCustomAutoFilter.top10,                    caption: this.txtTop10,        checkable: true, type: Asc.c_oAscAutoFilterTypes.Top10, pivottype: 'value'}
                     ]
                 })
@@ -1370,10 +1389,12 @@ define([
                     items: [
                         {value: Asc.c_oAscCustomAutoFilter.equals,                   caption: this.txtEquals,       checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'label'},
                         {value: Asc.c_oAscCustomAutoFilter.doesNotEqual,             caption: this.txtNotEquals,    checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'label'},
+                        {caption: '--'},
                         {value: Asc.c_oAscCustomAutoFilter.beginsWith,               caption: this.txtBegins,       checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'label'},
                         {value: Asc.c_oAscCustomAutoFilter.doesNotBeginWith,         caption: this.txtNotBegins,    checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'label'},
                         {value: Asc.c_oAscCustomAutoFilter.endsWith,                 caption: this.txtEnds,         checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'label'},
                         {value: Asc.c_oAscCustomAutoFilter.doesNotEndWith,           caption: this.txtNotEnds,      checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'label'},
+                        {caption: '--'},
                         {value: Asc.c_oAscCustomAutoFilter.contains,                 caption: this.txtContains,     checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'label'},
                         {value: Asc.c_oAscCustomAutoFilter.doesNotContain,           caption: this.txtNotContains,  checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'label'},
                         {caption: '--'},
