@@ -169,7 +169,7 @@ define([
             initialize : function(options) {
                 options.store = options.store || new Common.UI.TreeViewStore();
                 options.emptyItemText = options.emptyItemText || '';
-                options.itemTemplate = options.itemTemplate || !Common.UI.isRTL() ? _.template([
+                options.itemTemplate = options.itemTemplate || (!Common.UI.isRTL() ? _.template([
                     '<div id="<%= id %>" class="tree-item <% if (!isVisible) { %>' + 'hidden' + '<% } %>" style="display: block;padding-left: <%= level*16 + 24 %>px;">',
                     '<% if (hasSubItems) { %>',
                         '<div class="tree-caret img-commonctrl ' + '<% if (!isExpanded) { %>' + 'up' + '<% } %>' + '" style="margin-left: <%= level*16 %>px;"></div>',
@@ -195,7 +195,7 @@ define([
                         '<div class="name"><%= Common.Utils.String.htmlEncode(name) %></div>',
                     '<% } %>',
                     '</div>'
-                ].join(''));
+                ].join('')));
                 Common.UI.DataView.prototype.initialize.call(this, options);
             },
 
