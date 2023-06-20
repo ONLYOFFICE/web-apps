@@ -729,7 +729,11 @@
     "textVersionHistory": "Version History",
     "textAnonymous": "Anonymous",
     "txtErrorLoadHistory": "Loading history failed",
-    "textVersion": "Version"
+    "textVersion": "Version",
+    "textCurrent": "Current",
+    "textRestore": "Restore",
+    "titleWarningRestoreVersion": "Restore this version?",
+    "textWarningRestoreVersion": "Current file will be saved in version history."
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
@@ -740,6 +744,7 @@
     "textSwitchedMobileView": "Switched to Mobile view",
     "textSwitchedStandardView": "Switched to Standard view",
     "textRenameFile": "Rename File",
-    "textEnterNewFileName": "Enter a new file name"
+    "textEnterNewFileName": "Enter a new file name",
+    "textCloseHistory": "Close History"
   }
 }

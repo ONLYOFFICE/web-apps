@@ -1,14 +1,29 @@
-import {makeObservable, action, observable, computed} from 'mobx';
+import {makeObservable, action, observable} from 'mobx';
 
 export class storeVersionHistory {
     constructor() {
         makeObservable(this, {
             arrVersions: observable, 
-            setVersions: action
+            setVersions: action,
+            isVersionHistoryMode: observable,
+            changeVersionHistoryMode: action,
+            currentVersion: observable,
+            changeVersion: action
+
         })
     }
 
+    isVersionHistoryMode = false;
+    currentVersion = null;
     arrVersions = [];
+
+    changeVersion(version) {
+        this.currentVersion = version;
+    }
+
+    changeVersionHistoryMode(value) {
+        this.isVersionHistoryMode = value;
+    }
 
     setVersions(arr) {
         this.arrVersions = arr;
@@ -20,6 +35,10 @@ export class storeVersionHistory {
 
     hasChanges() {
         return this.arrVersions.filter(rev => rev.isRevision === false).length > 0
+    }
+
+    getCurrentVersion() {
+        return this.arrVersions.find(rev => rev.selected) || null;
     }
 
     hasCollapsed() {

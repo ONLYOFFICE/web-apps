@@ -33,8 +33,9 @@ import { Device } from '../../../../common/mobile/utils/device';
     "storeApplicationSettings",
     "storeLinkSettings",
     "storeToolbarSettings",
-    "storeNavigation"
-    )
+    "storeNavigation",
+    "storeVersionHistory"
+)
 class MainController extends Component {
     constructor(props) {
         super(props);
@@ -626,6 +627,7 @@ class MainController extends Component {
         EditorUIController.initThemeColors && EditorUIController.initThemeColors();
 
         this.api.asc_registerCallback('asc_onDownloadUrl', this.onDownloadUrl.bind(this));
+        this.api.asc_registerCallback('asc_onExpiredToken', this.onExpiredToken.bind(this));
 
         const storeDocumentSettings = this.props.storeDocumentSettings;
         this.api.asc_registerCallback('asc_onPageOrient', isPortrait => {
@@ -791,6 +793,14 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onViewerBookmarksUpdate', (bookmarks) => {
             storeNavigation.initBookmarks(bookmarks);
         });
+    }
+
+    onExpiredToken() {
+        const currentRev = this.props.storeVersionHistory.currentVersion.revision;
+        
+        setTimeout(() => {
+            Common.Gateway.requestHistoryData(currentRev);
+        }, 10);
     }
 
     onChangeProtectDocument() {

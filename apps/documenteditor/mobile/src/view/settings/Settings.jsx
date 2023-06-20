@@ -93,20 +93,27 @@ const routes = [
     {
         path: '/encrypt',
         component: FileEncryptionController
-    }, 
-
+    },
+    
     // Version History 
     {
         path: '/version-history',
-        component: VersionHistoryController
-    }
+        component: VersionHistoryController,
+        options: {
+            props: {
+                isNavigate: true
+            }
+        }
+    },
 ];
 
 
-const SettingsList = inject("storeAppOptions", "storeReview", "storeDocumentInfo")(observer(props => {
+const SettingsList = inject("storeAppOptions", "storeReview", "storeDocumentInfo", "storeVersionHistory")(observer(props => {
     const { t } = useTranslation();
     const _t = t('Settings', {returnObjects: true});
     const appOptions = props.storeAppOptions;
+    const storeVersionHistory = props.storeVersionHistory;
+    const isVersionHistoryMode = storeVersionHistory.isVersionHistoryMode;
     const canProtect = appOptions.canProtect;
     const storeReview = props.storeReview;
     const displayMode = storeReview.displayMode;
@@ -121,7 +128,7 @@ const SettingsList = inject("storeAppOptions", "storeReview", "storeDocumentInfo
         </Navbar>;
 
     const onoptionclick = page => {
-        if ( props.onOptionClick )
+        if(props.onOptionClick) 
             props.onOptionClick(page)
     };
 
@@ -133,14 +140,9 @@ const SettingsList = inject("storeAppOptions", "storeReview", "storeDocumentInfo
         }
     };
 
-    const onOpenCollaboration = () => {
+    const onOpenOptions = keyword => {
         closeModal();
-        props.openOptions('coauth');
-    }
-
-    const onOpenNavigation = () => {
-        closeModal();
-        props.openOptions('navigation');
+        props.openOptions(keyword);
     }
 
     // set mode
@@ -181,30 +183,38 @@ const SettingsList = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                 {navbar}
                 <List>
                     {!props.inPopover &&
-                        <ListItem title={!_isEdit || isViewer ? _t.textFind : _t.textFindAndReplace} link='#' searchbarEnable='.searchbar' onClick={closeModal} className='no-indicator'>
+                        <ListItem title={!_isEdit || isViewer || isVersionHistoryMode ? _t.textFind : _t.textFindAndReplace} link='#' searchbarEnable='.searchbar' onClick={closeModal} className='no-indicator'>
                             <Icon slot="media" icon="icon-search"></Icon>
                         </ListItem>
                     }
-                    {(_isEdit && canProtect) &&
+                    {(_isEdit && canProtect && !isVersionHistoryMode) &&
                         <ListItem title={t('Settings.textProtection')} link="#" onClick={onoptionclick.bind(this, '/protection')}>
                             <Icon slot="media" icon="icon-protection"></Icon>
                         </ListItem>
                     }
                     {_isEdit && 
-                        <ListItem title={t('Settings.textVersionHistory')} link="#" onClick={onoptionclick.bind(this, '/version-history')}>
+                        <ListItem title={t('Settings.textVersionHistory')} link="#" onClick={() => {
+                            if(Device.phone) {
+                                onOpenOptions('history');
+                            } else {
+                                onoptionclick.bind(this, "/version-history")();
+                            }
+                        }}>
                             <Icon slot="media" icon="icon-version-history"></Icon>
                         </ListItem>
                     }
-                    <ListItem title={t('Settings.textNavigation')} link='#' onClick={() => {
-                        if(Device.phone) {
-                            onOpenNavigation();
-                        } else {
-                            onoptionclick.bind(this, "/navigation/")();
-                        }}}>
-                        <Icon slot="media" icon="icon-navigation"></Icon>
-                    </ListItem>
-                    {window.matchMedia("(max-width: 359px)").matches ?
-                        <ListItem title={_t.textCollaboration} link="#" onClick={onOpenCollaboration} className='no-indicator'>
+                    {!isVersionHistoryMode ?
+                        <ListItem title={t('Settings.textNavigation')} link='#' onClick={() => {
+                            if(Device.phone) {
+                                onOpenOptions('navigation');
+                            } else {
+                                onoptionclick.bind(this, "/navigation/")();
+                            }}}>
+                            <Icon slot="media" icon="icon-navigation"></Icon>
+                        </ListItem> 
+                    : null}
+                    {window.matchMedia("(max-width: 359px)").matches && !isVersionHistoryMode ?
+                        <ListItem title={_t.textCollaboration} link="#" onClick={() => onOpenOptions('coauth')} className='no-indicator'>
                             <Icon slot="media" icon="icon-collaboration"></Icon>
                         </ListItem> 
                     : null}
@@ -213,7 +223,7 @@ const SettingsList = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                             <Icon slot="media" icon="icon-spellcheck"></Icon>
                         </ListItem>
                     }
-                    {!isViewer && Device.phone &&
+                    {(!isViewer && Device.phone && !isVersionHistoryMode) &&
                         <ListItem title={t('Settings.textMobileView')}>
                             <Icon slot="media" icon="icon-mobile-view"></Icon>
                             <Toggle checked={isMobileView} onToggleChange={() => {
