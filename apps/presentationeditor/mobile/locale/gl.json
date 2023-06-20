@@ -112,7 +112,6 @@
       "textHasMacros": "O ficheiro contén macros automáticas.<br>Quere executar macros?",
       "textNo": "Non",
       "textNoLicenseTitle": "Alcanzouse o límite da licenza",
-      "textNoTextFound": "Texto non atopado",
       "textOpenFile": "Insira o contrasinal para abrir o ficheiro",
       "textPaidFeature": "Característica de pago",
       "textRemember": "Lembrar a miña escolla",
@@ -133,7 +132,9 @@
       "warnNoLicense": "Alcanzou o límite de conexións simultáneas con %1 editores. Este documento abrirase para as úa visualización. Póñase en contacto co equipo de vendas de %1 para coñecer as condicións de actualización persoal.",
       "warnNoLicenseUsers": "Alcanzou o límite de usuarios para os editores de %1.<br>Contacte co equipo de vendas de %1 para coñecer os termos de actualización persoal.",
       "warnProcessRightsChange": "Non ten permiso para editar o ficheiro.",
+      "textNoMatches": "No Matches",
       "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
@@ -358,7 +359,6 @@
       "textNextSlide": "Seguinte diapositiva",
       "textNone": "Ningún",
       "textNoStyles": "Non hai estilos para este tipo de gráfico.",
-      "textNoTextFound": "Texto non atopado",
       "textNotUrl": "Este campo debe ser unha URL no formato \"http://www.example.com\"",
       "textNumbers": "Números",
       "textOk": "Aceptar",
@@ -419,6 +419,7 @@
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textInsertImage": "Insert Image",
+      "textNoMatches": "No Matches",
       "textRecommended": "Recommended",
       "textRequired": "Required"
     },
@@ -460,7 +461,6 @@
       "textLoading": "Cargando...",
       "textLocation": "Ubicación",
       "textMacrosSettings": "Configuración das macros",
-      "textNoTextFound": "Texto non atopado",
       "textOk": "Aceptar",
       "textOwner": "Propietario",
       "textPoint": "Punto",
@@ -505,7 +505,8 @@
       "txtScheme6": "Concorrencia",
       "txtScheme7": "Equidade",
       "txtScheme8": "Fluxo",
-      "txtScheme9": "Fundición"
+      "txtScheme9": "Fundición",
+      "textNoMatches": "No Matches"
     }
   }
 }

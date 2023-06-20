@@ -549,7 +549,6 @@
     "textHasMacros": "Το αρχείο περιέχει αυτόματες μακροεντολές.<br>Θέλετε να εκτελέσετε μακροεντολές;",
     "textNo": "Όχι",
     "textNoLicenseTitle": "Το όριο της άδειας προσεγγίσθηκε",
-    "textNoTextFound": "Δεν βρέθηκε το κείμενο",
     "textOk": "Εντάξει",
     "textPaidFeature": "Δυνατότητα επί πληρωμή",
     "textRemember": "Απομνημόνευση επιλογής",
@@ -575,8 +574,10 @@
     "textDialogProtectedFillForms": "You may only fill in forms in this document",
     "textDialogProtectedOnlyView": "You may only view this document",
     "textDocumentProtected": "The document is protected. Edit settings are not available",
+    "textNoMatches": "No Matches",
     "titleDialogProtectedDocument": "The document is protected",
-    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics."
+    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
+    "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
   },
   "Settings": {
     "advDRMOptions": "Προστατευμένο Αρχείο",
@@ -650,7 +651,6 @@
     "textNo": "Όχι",
     "textNoChanges": "Καμία αλλαγή (Ανάγνωση μόνο)",
     "textNoCharacters": "Μη Εκτυπώσιμοι Χαρακτήρες",
-    "textNoTextFound": "Δεν βρέθηκε το κείμενο",
     "textOk": "Εντάξει",
     "textOpenFile": "Εισάγετε συνθηματικό για να ανοίξετε το αρχείο",
     "textOrientation": "Προσανατολισμός",
@@ -714,6 +714,7 @@
     "txtScheme7": "Μετοχή",
     "txtScheme8": "Ροή",
     "txtScheme9": "Χυτήριο",
+    "textNoMatches": "No Matches",
     "textProtection": "Protection",
     "textProtectTurnOff": "Protection is turned off",
     "textRequired": "Required",

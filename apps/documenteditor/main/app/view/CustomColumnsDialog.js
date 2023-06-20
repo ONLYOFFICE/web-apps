@@ -61,7 +61,7 @@ define([
             this.template = [
                 '<div class="box" style="height: 203px;">',
                     '<div class="input-row" style="margin-bottom: 10px;">',
-                        '<label class="input-label">' + this.textColumns + '</label><div id="custom-columns-spin-num" style="float: right;"></div>',
+                        '<label class="input-label">' + this.textColumns + '</label><div id="custom-columns-spin-num" class="float-right"></div>',
                     '</div>',
                     '<div id="custom-columns-list" style="width:100%; height: 113px;"></div>',
                     '<div class="input-row" style="margin: 10px 0;">',
@@ -187,7 +187,7 @@ define([
                 ],
                 itemTemplate: _.template([
                     '<div id="custom-columns-list-item-<%= index %>" class="list-item" style="display:flex; align-items:center; width=100%;">',
-                        '<label class="level-caption" style="padding-right:5px; flex-shrink:0; width:20px;"><%= index + 1 %></label>',
+                        '<label class="level-caption padding-right-5" style="flex-shrink:0; width:20px;"><%= index + 1 %></label>',
                         '<div style="display:inline-block;flex-grow: 1;">',
                                 '<div style="padding: 0 5px;display: inline-block;vertical-align: top;"><div id="custom-columns-list-item-spin-width-<%= index %>" class="input-group-nr" style=""></div></div>',
                                 '<div style="padding: 0 5px;display: inline-block;vertical-align: top;"><div id="custom-columns-list-item-spin-spacing-<%= index %>" class="input-group-nr"></div></div>',

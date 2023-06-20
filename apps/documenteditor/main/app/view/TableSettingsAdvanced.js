@@ -937,10 +937,10 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             });
 
             var _arrBorderPresets = [
-                ['cm',      'btn-borders-large toolbar__icon toolbar__icon-big borders-inner-only', 'tableadv-button-border-inner',     this.tipInner],
-                ['lrtb',    'btn-borders-large toolbar__icon toolbar__icon-big borders-outer-only', 'tableadv-button-border-outer',     this.tipOuter],
-                ['lrtbcm',  'btn-borders-large toolbar__icon toolbar__icon-big borders-all',   'tableadv-button-border-all',       this.tipAll],
-                ['',        'btn-borders-large toolbar__icon toolbar__icon-big borders-none',  'tableadv-button-border-none',      this.tipNone]
+                ['cm',      'toolbar__icon toolbar__icon-big btn-borders-inner-only', 'tableadv-button-border-inner',     this.tipInner],
+                ['lrtb',    'toolbar__icon toolbar__icon-big btn-borders-outer-only', 'tableadv-button-border-outer',     this.tipOuter],
+                ['lrtbcm',  'toolbar__icon toolbar__icon-big btn-borders-all',   'tableadv-button-border-all',       this.tipAll],
+                ['',        'toolbar__icon toolbar__icon-big btn-borders-none',  'tableadv-button-border-none',      this.tipNone]
             ];
 
             this._btnsBorderPosition = [];
@@ -958,22 +958,22 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
 
             var _arrTableBorderPresets = [
-                ['cm', '',          'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-none-inner',    'tableadv-button-border-inner-none',    this.tipCellInner],
-                ['lrtb', '',        'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-none-outer',    'tableadv-button-border-outer-none',    this.tipCellOuter],
-                ['lrtbcm', '',      'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-none-all',      'tableadv-button-border-all-none',      this.tipCellAll],
-                ['', '',            'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-none',          'tableadv-button-border-none-none',     this.tipNone],
-                ['lrtbcm', 'lrtb',  'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-all',           'tableadv-button-border-all-table',     this.tipTableOuterCellAll],
-                ['', 'lrtb',        'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-outer-none',    'tableadv-button-border-none-table',    this.tipOuter],
-                ['cm', 'lrtb',      'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-outer-inner',   'tableadv-button-border-inner-table',   this.tipTableOuterCellInner],
-                ['lrtb', 'lrtb',    'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-outer-outer',   'tableadv-button-border-outer-table',   this.tipTableOuterCellOuter]
+                ['cm', '',          'toolbar__icon toolbar__icon-big btn-borders-twin-none-inner',    'tableadv-button-border-inner-none',    this.tipCellInner],
+                ['lrtb', '',        'toolbar__icon toolbar__icon-big btn-borders-twin-none-outer',    'tableadv-button-border-outer-none',    this.tipCellOuter],
+                ['lrtbcm', '',      'toolbar__icon toolbar__icon-big btn-borders-twin-none-all',      'tableadv-button-border-all-none',      this.tipCellAll],
+                ['', '',            'toolbar__icon toolbar__icon-big btn-borders-twin-none',          'tableadv-button-border-none-none',     this.tipNone],
+                ['lrtbcm', 'lrtb',  'toolbar__icon toolbar__icon-big btn-borders-twin-all',           'tableadv-button-border-all-table',     this.tipTableOuterCellAll],
+                ['', 'lrtb',        'toolbar__icon toolbar__icon-big btn-borders-twin-outer-none',    'tableadv-button-border-none-table',    this.tipOuter],
+                ['cm', 'lrtb',      'toolbar__icon toolbar__icon-big btn-borders-twin-outer-inner',   'tableadv-button-border-inner-table',   this.tipTableOuterCellInner],
+                ['lrtb', 'lrtb',    'toolbar__icon toolbar__icon-big btn-borders-twin-outer-outer',   'tableadv-button-border-outer-table',   this.tipTableOuterCellOuter]
             ];
 
             this._btnsTableBorderPosition = [];
             _.each(_arrTableBorderPresets, function(item, index, list){
                 var _btn = new Common.UI.Button({
                     parentEl: $('#'+item[3]),
-                    style: 'margin-left: 4px; margin-bottom: 4px;',
-                    cls: 'btn-options large border-off',
+                    style: 'margin-bottom: 4px;',
+                    cls: 'btn-options large border-off  margin-left-4',
                     iconCls: item[2],
                     strCellId  :item[0],
                     strTableId :item[1],
@@ -2125,7 +2125,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.BordersSpacingContainer.toggleClass('settings-hidden', !spacing);
             this.TableBackContainer.css('display', (!spacing && !this._allTable) ? 'none' : 'flex');
             this.CellBackContainer.css('display', (!spacing && this._allTable) ? 'none' : 'flex');
-            this.TableBackContainer.css('float', (!spacing && this._allTable) ? 'none' : 'right');
+            this.TableBackContainer.toggleClass('float-right', spacing || !this._allTable);
             (spacing) ? this._UpdateBordersSpacing_() : this._UpdateBordersNoSpacing_();
         },
 

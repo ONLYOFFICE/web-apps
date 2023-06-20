@@ -75,8 +75,8 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                     '<div class="separator horizontal"></div>',
                     '<div class="footer justify">',
                         '<button id="printadv-dlg-btn-hide" class="btn btn-text-default" style="min-width: 100px;width: auto;">' + this.textHideDetails + '</button>',
-                        '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;float: right;">' + this.cancelButtonText + '</button>',
-                        '<button class="btn normal dlg-btn primary" result="ok" style="margin-left: 10px;  width: 150px;float: right;">' + ((this.type == 'print') ? this.btnPrint : this.btnDownload) + '</button>',
+                        '<button class="btn normal dlg-btn float-right" result="cancel" style="width: 86px;">' + this.cancelButtonText + '</button>',
+                        '<button class="btn normal dlg-btn primary float-right margin-left-10" result="ok" style="width: 150px;">' + ((this.type == 'print') ? this.btnPrint : this.btnDownload) + '</button>',
                     '</div>'
                 ].join('')
             }, options);

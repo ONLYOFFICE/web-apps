@@ -64,7 +64,7 @@ define([
                     '<% _.each(rows, function(row) { %>',
                         '<% _.each(row, function(item) { %>',
                             '<% if (item.type!==Asc.c_oAscFileType.XLSM || fileType=="xlsm") { %>',
-                                '<div class="format-item"><div class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
+                                '<div class="format-item float-left"><div class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
                                     '<div class ="svg-format-<%= item.imgCls %>"></div>',
                                 '</div></div>',
                             '<% } %>',
@@ -163,7 +163,7 @@ define([
                     '<% _.each(rows, function(row) { %>',
                         '<% _.each(row, function(item) { %>',
                             '<% if (item.type!==Asc.c_oAscFileType.XLSM || fileType=="xlsm") { %>',
-                                '<div class="format-item"><div class="btn-doc-format" format="<%= item.type %>" format-ext="<%= item.ext %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
+                                '<div class="format-item float-left"><div class="btn-doc-format" format="<%= item.type %>" format-ext="<%= item.ext %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
                                     '<div class ="svg-format-<%= item.imgCls %>"></div>',
                                 '</div></div>',
                             '<% } %>',
@@ -300,7 +300,7 @@ define([
                 '<tr>',
                     '<td colspan="2"><div id="fms-chb-use-alt-key"></div></td>',
                 '</tr>',
-                '<tr>',
+                '<tr class="ui-rtl">',
                     '<td colspan="2"><div id="fms-chb-rtl-ui"></div></td>',
                 '</tr>',
                 '<tr class="quick-print">',
@@ -611,7 +611,7 @@ define([
                 data        : regdata,
                 template: _.template([
                     '<span class="input-group combobox <%= cls %> combo-langs" id="<%= id %>" style="<%= style %>">',
-                    '<input type="text" class="form-control" style="padding-left: 25px !important;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big">',
+                    '<input type="text" class="form-control" style="' + (Common.UI.isRTL() ? 'padding-right' : 'padding-left') + ':25px !important;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big">',
                     '<span class="icon input-icon lang-flag"></span>',
                         '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">',
                             '<span class="caret" />',
@@ -619,8 +619,8 @@ define([
                         '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                             '<% _.each(items, function(item) { %>',
                                 '<li id="<%= item.id %>" data-value="<%= item.value %>">',
-                                    '<a tabindex="-1" type="menuitem" style="padding-left: 26px !important;">',
-                                        '<i class="icon lang-flag <%= item.langName %>" style="position: absolute;margin-left:-21px;"></i>',
+                                    '<a tabindex="-1" type="menuitem" style="' + (Common.UI.isRTL() ? 'padding-right' : 'padding-left') + ':26px !important;">',
+                                        '<i class="icon lang-flag <%= item.langName %>" style="position: absolute;"></i>',
                                         '<%= scope.getDisplayValue(item) %>',
                                     '</a>',
                                 '</li>',
@@ -873,6 +873,7 @@ define([
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
             }
             $('tr.spellcheck', this.el)[Common.UI.FeaturesManager.canChange('spellcheck') && mode.isEdit ? 'show' : 'hide']();
+            $('tr.ui-rtl', this.el)[mode.uiRtl ? 'show' : 'hide']();
         },
 
         setApi: function(api) {
@@ -1308,7 +1309,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 store: new Common.UI.DataViewStore(this.recent),
                 itemTemplate: _.template([
                     '<div class="recent-wrap">',
-                        '<div class="recent-icon">',
+                        '<div class="recent-icon float-left">',
                             '<div>',
                                 '<div class="svg-file-recent"></div>',
                             '</div>',
@@ -2200,7 +2201,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                     '<div class="description"><%= scope.txtEncrypted %></div>',
                     '<div class="buttons">',
                         '<div id="fms-btn-change-pwd"></div>',
-                        '<div id="fms-btn-delete-pwd"></div>',
+                        '<div id="fms-btn-delete-pwd" class="margin-left-16"></div>',
                     '</div>',
                 '</div>',
             '</div>',
@@ -2227,7 +2228,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 '<div class="<% if (!hasRequested && !hasSigned) { %>hidden<% } %>"">',
                     '<div class="signature-tip"><%= tipText %></div>',
                     '<div class="buttons">',
-                        '<label class="link signature-view-link" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium">' + me.txtView + '</label>',
+                        '<label class="link signature-view-link margin-right-20" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium">' + me.txtView + '</label>',
                         '<label class="link signature-edit-link <% if (!hasSigned) { %>hidden<% } %>" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium">' + me.txtEdit + '</label>',
                     '</div>',
                 '</div>'
@@ -2476,10 +2477,10 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                         '<div id="print-next-page"></div>',
                         '<div id="print-prev-page"></div>',
                         '<% } %>',
-                        '<div class="page-number">',
+                        '<div class="page-number margin-left-10">',
                             '<label><%= scope.txtPage %></label>',
-                            '<div id="print-number-page"></div>',
-                            '<label id="print-count-page"><%= scope.txtOf %></label>',
+                            '<div id="print-number-page" class="margin-left-4"></div>',
+                            '<label id="print-count-page" class="margin-left-4"><%= scope.txtOf %></label>',
                         '</div>',
                         '<label id="print-active-sheet"><%= scope.txtSheet %></label>',
                     '</div>',
@@ -2829,6 +2830,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 parentEl: $markup.findById('#print-prev-page'),
                 cls: 'btn-prev-page',
                 iconCls: 'arrow',
+                scaling: false,
                 dataHint: '2',
                 dataHintDirection: 'top'
             });
@@ -2837,6 +2839,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 parentEl: $markup.findById('#print-next-page'),
                 cls: 'btn-next-page',
                 iconCls: 'arrow',
+                scaling: false,
                 dataHint: '2',
                 dataHintDirection: 'top'
             });

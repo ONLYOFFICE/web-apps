@@ -92,11 +92,7 @@
             position: relative;
             input[type=text] {
                 width: 192px;
-                padding-right: 25px;
-                .rtl & {
-                    padding-right: 3px;
-                    padding-left: 25px;
-                }
+                .padding-x(3px, 25px);
             }
             #search-bar-results {
                 position: absolute;
@@ -116,17 +112,9 @@
             display: flex;
             align-items: center;
             div {
-                margin-left: 5px;
+                .margin-left-5();
                 &:first-of-type {
-                    margin-left: 7px;
-                    .rtl & {
-                        margin-left: 0;
-                        margin-right: 7px;
-                    }
-                }
-                .rtl & {
-                    margin-left: 0;
-                    margin-right: 5px;
+                    .margin-left-7();
                 }
             }
         }
@@ -158,14 +146,6 @@
             .font-size-medium();
             .font-weight-bold();
             margin-top: 2px;
-        }
-
-        #search-btn-close {
-            float: right;
-
-            .rtl & {
-                float: left;
-            }
         }
     }
 
@@ -200,11 +180,6 @@
 
         .search-nav-btns {
             display: inline-block;
-            float: right;
-
-            .rtl & {
-                float: left;
-            }
 
             div {
                 display: inline-block;
@@ -234,12 +209,7 @@
 
     #open-search-options {
         cursor: pointer;
-        margin-left: 15px;
-
-        .rtl & {
-            margin-left: 0;
-            margin-right: 15px;
-        }
+        .margin-left-15();
 
         .search-options-txt {
             display: inline-block;
@@ -254,11 +224,9 @@
             position: absolute;
             left: 0;
             cursor: pointer;
-            margin-left: 8px;
+            .margin-left-8();
 
             .rtl & {
-                margin-left: 0;
-                margin-right: 8px;
                 left: unset;
                 right: 0;
             }
@@ -327,6 +295,10 @@
         .ps-scrollbar-y-rail {
             &.set-left {
                 right: 11px !important;
+                .rtl & {
+                    left: 11px !important;
+                    right: auto !important;
+                }
             }
         }
     }

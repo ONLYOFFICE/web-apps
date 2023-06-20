@@ -14,12 +14,6 @@
     }
 
     .btn.align-left {
-        text-align: left;
-
-        .rtl & {
-            text-align: right;
-        }
-
         .pixel-ratio__2_5 & {
             display: flex;
             align-items: center;
@@ -28,12 +22,7 @@
 
     &#id-paragraph-settings {
         .input-label.margin {
-            margin-left: 5px;
-
-            .rtl & {
-                margin-left: 0;
-                margin-right: 5px;
-            }
+            .margin-left-5();
         }
     }
 
@@ -62,53 +51,15 @@
         }
 
         .table-color {
-            float: right;
             vertical-align: middle;
-
-            .rtl & {
-                float: left;
-            }
-
-            .input-label {
-                margin-right: 5px;
-
-                .rtl & {
-                    margin-right: 0;
-                    margin-left: 5px;
-                }
-            }
-
             #table-border-color-btn {
                 display: inline-block;
-            }
-        }
-
-        .input-label.margin {
-            margin-right: 5px;
-
-            .rtl & {
-                margin-right: 0;
-                margin-left: 5px;
             }
         }
 
         #table-btn-distrub-rows, #table-btn-distrub-cols,
         #table-spin-cell-height, #table-spin-cell-width {
             display: inline-block;
-            float: right;
-
-            .rtl & {
-                float: left;
-            }
-        }
-
-        #table-btn-distrub-rows, #table-btn-distrub-cols {
-            margin-left: 4px;
-
-            .rtl & {
-                margin-left: 0;
-                margin-right: 4px;
-            }
         }
 
         #table-btn-convert-to-text {
@@ -133,11 +84,6 @@
 
             #shape-spin-transparency, #shape-line-spin-transparency {
                 display: inline-block;
-                float: right;
-
-                .rtl & {
-                    float: left;
-                }
             }
 
             #shape-slider-transparency, #shape-line-slider-transparency {
@@ -147,16 +93,7 @@
             }
         }
 
-        #shape-button-270, #shape-button-fliph {
-            display: inline-block;
-            margin-right: 4px;
-
-            .rtl & {
-                margin-right: 0;
-                margin-left: 4px;
-            }
-        }
-
+        #shape-button-270, #shape-button-fliph,
         #shape-button-90, #shape-button-flipv {
             display: inline-block;
         }
@@ -165,42 +102,11 @@
             .header {
                 margin-top: 3px;
             }
-
-            #shape-btn-change {
-                display: inline-block;
-                float: right;
-
-                .rtl & {
-                    float: left;
-                }
-            }
-        }
-
-        .shape-direction {
-            float: right;
-
-            .rtl & {
-                float: left;
-            }
         }
 
         .angle-label {
-            margin-right: 5px;
+            .margin-right-5();
             margin-bottom: 3px;
-
-            .rtl & {
-                margin-right: 0;
-                margin-left: 5px;
-            }
-        }
-
-        .gradient-position {
-            margin-left: 10px;
-
-            .rtl & {
-                margin-left: 0;
-                margin-right: 10px;
-            }
         }
 
         #id-shape-menu-direction {
@@ -218,34 +124,15 @@
             border: 1px solid #AFAFAF;
             border-radius: 2px;
             background: #ffffff;
-            float:right;
-
-            .rtl & {
-                float: left;
-            }
         }
 
         #shape-foreground-color-btn, #shape-background-color-btn {
             display: inline-block;
-            float:right;
-
-            .rtl & {
-                float: left;
-            }
         }
     }
 
     &#id-image-settings {
-        #image-button-270, #image-button-fliph {
-            display: inline-block;
-            margin-right: 4px;
-
-            .rtl & {
-                margin-right: 0;
-                margin-left: 4px;
-            }
-        }
-
+        #image-button-270, #image-button-fliph,
         #image-button-90, #image-button-flipv {
             display: inline-block;
         }
@@ -255,12 +142,7 @@
         #headerfooter-radio-from {
             display: inline-block;
             vertical-align: middle;
-            margin-right: 2px;
-
-            .rtl & {
-                margin-right: 0;
-                margin-left: 2px;
-            }
+            .margin-right-2();
         }
 
         #headerfooter-radio-prev {
@@ -279,43 +161,18 @@
         #headerfooter-button-bottom-center,
         #headerfooter-button-bottom-right {
             display: inline-block;
-            margin-right: 5px;
-
-            .rtl & {
-                margin-right: 0;
-                margin-left: 5px;
-            }
+            .margin-right-5();
         }
     }
 
     &#id-textart-settings {
         #textart-spin-transparency, #textart-line-spin-transparency {
             display: inline-block;
-            float: right;
-
-            .rtl & {
-                float: left;
-            }
-        }
-
-        #textart-panel-gradient-fill {
-            .textart-direction {
-                float: right;
-
-                .rtl & {
-                    float: left;
-                }
-            }
         }
 
         .angle-label {
             margin-bottom: 3px;
-            margin-right: 5px;
-
-            .rtl & {
-                margin-right: 0;
-                margin-left: 5px;
-            }
+            .margin-right-5();
         }
 
         #id-textart-menu-direction {
@@ -325,27 +182,13 @@
                 }
             }
         }
-
-        .gradient-position {
-            margin-left: 10px;
-
-            .rtl & {
-                margin-left: 0;
-                margin-right: 10px;
-            }
-        }
     }
 
     &#id-mail-merge-settings {
         #mmerge-button-first,
         #mmerge-button-prev {
             display: inline-block;
-            margin-right: 4px;
-
-            .rtl & {
-                margin-right: 0;
-                margin-left: 4px;
-            }
+            .margin-right-4();
         }
 
         #mmerge-field-num {
@@ -356,12 +199,7 @@
         #mmerge-button-next,
         #mmerge-button-last {
             display: inline-block;
-            margin-left: 4px;
-
-            .rtl & {
-                margin-left: 0;
-                margin-right: 4px;
-            }
+            .margin-left-4();
         }
 
         #mmerge-radio-all, #mmerge-radio-current {
@@ -371,12 +209,7 @@
         #mmerge-radio-from-to {
             display: inline-block;
             vertical-align: middle;
-            margin-right: 2px;
-
-            .rtl & {
-                margin-right: 0;
-                margin-left: 2px;
-            }
+            .margin-right-2();
         }
 
         #mmerge-field-from, #mmerge-field-to {
@@ -386,23 +219,9 @@
 
         .text-to-label {
             width: 30px;
-            text-align: right;
+            .text-align-right();
             vertical-align: middle;
-            margin-right: 2px;
-
-            .rtl & {
-                text-align: left;
-                margin-right: 0;
-                margin-left: 2px;
-            }
-        }
-
-        .portal-button {
-            text-align: right;
-
-            .rtl & {
-                text-align: left;
-            }
+            .margin-right-2();
         }
     }
 }
@@ -501,6 +320,10 @@
                 right: 26px;
             }
         }
+
+        .rtl & {
+            padding: 5px 15px 5px 2px;
+        }
     }
 }
 
@@ -551,14 +374,14 @@
     }
     #form-img-slider-position-x {
         margin-top: 4px;
-        margin-left: 7px;
+        .margin-left-7();
     }
     #form-img-slider-position-y {
         margin-top: 7px;
-        margin-left: 4px;
+        .margin-left-4();
     }
     #form-img-slider-value {
-        margin-left: 10px;
         margin-top: 4px;
+        .margin-left-10();
     }
 }

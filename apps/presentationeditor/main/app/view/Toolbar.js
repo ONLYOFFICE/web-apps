@@ -79,7 +79,8 @@ define([
         themeLock:      'theme-lock',
         menuFileOpen:   'menu-file-open',
         noParagraphSelected:  'no-paragraph',
-        noObjectSelected:  'no-object',
+        noObjectSelected:  'no-object', // no objects in stack from asc_onFocusObject event
+        noDrawingObjects:  'no-drawing-object', // asc_getSelectedDrawingObjectsCount<1 (2 selected tables: noObjectSelected=true, noDrawingObjects = false)
         disableOnStart: 'on-start',
         cantPrint:      'cant-print',
         noTextSelected:  'no-text',
@@ -827,7 +828,7 @@ define([
                         menu: new Common.UI.Menu({
                             cls: 'menu-shapes',
                             items: [
-                                {template: _.template('<div id="view-insert-art" style="width: 239px; margin-left: 5px;"></div>')}
+                                {template: _.template('<div id="view-insert-art" class="margin-left-5" style="width: 239px;"></div>')}
                             ]
                         }),
                         dataHint: '1',
@@ -942,7 +943,7 @@ define([
                         id: 'id-toolbar-btn-shape-align',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-shape-align-left',
-                        lock: [_set.slideDeleted, _set.shapeLock, _set.lostConnect, _set.noSlides, _set.noObjectSelected, _set.disableOnStart],
+                        lock: [_set.slideDeleted, _set.shapeLock, _set.lostConnect, _set.noSlides, _set.noDrawingObjects, _set.disableOnStart],
                         menu: new Common.UI.Menu({
                             cls: 'shifted-right',
                             items: [
@@ -995,7 +996,7 @@ define([
                         id: 'id-toolbar-btn-shape-arrange',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-arrange-front',
-                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.noObjectSelected, _set.disableOnStart],
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.noDrawingObjects, _set.disableOnStart],
                         menu: new Common.UI.Menu({
                             items: [
                                 me.mnuArrangeFront = new Common.UI.MenuItem({
@@ -1216,6 +1217,12 @@ define([
                     me.setTab('home');
                     me.processPanelVisible();
 
+                    Common.NotificationCenter.on('eyedropper:start', function () {
+                        if (me.btnCopyStyle.pressed)
+                            me.btnCopyStyle.toggle(false, true);
+                        if (me.btnHighlightColor.pressed)
+                            me.btnHighlightColor.toggle(false, true);
+                    });
                 }
 
                 if ( me.isCompactView )
@@ -1456,7 +1463,7 @@ define([
                 this.btnHighlightColor.updateHint(this.tipHighlightColor);
                 this.btnChangeCase.updateHint(this.tipChangeCase);
                 this.btnClearStyle.updateHint(this.tipClearStyle);
-                this.btnCopyStyle.updateHint(this.tipCopyStyle + Common.Utils.String.platformKey('Ctrl+Shift+C'));
+                this.btnCopyStyle.updateHint(this.tipCopyStyle + Common.Utils.String.platformKey('Alt+Ctrl+C'));
                 this.btnMarkers.updateHint(this.tipMarkers);
                 this.btnNumbers.updateHint(this.tipNumbers);
                 this.btnHorizontalAlign.updateHint(this.tipHAligh);
@@ -1565,7 +1572,7 @@ define([
                         iconCls: item.icon ? 'menu__icon ' + item.icon : undefined,
                         menu: new Common.UI.Menu({
                             items: [
-                                {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art" style="width: ' + width + 'px; height: 500px; margin-left: 5px;"></div>')}
+                                {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art margin-left-5" style="width: ' + width + 'px; height: 500px;"></div>')}
                             ],
                             menuAlign: 'tl-tr',
                         })});

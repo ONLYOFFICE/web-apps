@@ -556,12 +556,17 @@ define([
                 })
             });
 
+            me.mnuShowDetails = new Common.UI.MenuItem({
+                caption     : me.txtShowDetails
+            });
+
             me.mnuPivotRefreshSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotSubtotalSeparator = new Common.UI.MenuItem({caption: '--'});
-            me.mnuPivotSettingsSeparator = new Common.UI.MenuItem({caption: '--'});
+            me.mnuPivotGroupSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotDeleteSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotValueSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotFilterSeparator = new Common.UI.MenuItem({caption: '--'});
+            me.mnuShowDetailsSeparator = new Common.UI.MenuItem({caption: '--'});
 
             me.pmiInsFunction = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-function',
@@ -677,14 +682,14 @@ define([
 
             var numFormatTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem">'+
                 '<div style="position: relative;">'+
-                    '<div style="position: absolute; left: 0; width: 100px;"><%= caption %></div>' +
-                    '<label style="width: 100%; max-width: 300px; overflow: hidden; text-overflow: ellipsis; text-align: right; vertical-align: bottom; padding-left: 100px; color: silver;cursor: pointer;"><%= options.exampleval ? options.exampleval : "" %></label>' +
+                    '<div class="display-value"><%= caption %></div>' +
+                    '<label class="example-val" style="cursor: pointer;"><%= options.exampleval ? options.exampleval : "" %></label>' +
                 '</div></a>');
 
             me.pmiNumFormat = new Common.UI.MenuItem({
                 caption: me.txtNumFormat,
                 menu: new Common.UI.Menu({
-                    cls: 'shifted-right',
+                    cls: 'shifted-right format-num-cls',
                     menuAlign: 'tl-tr',
                     items: [
                         {
@@ -813,12 +818,14 @@ define([
                     me.mnuPivotSubtotalSeparator,
                     me.mnuGroupPivot,
                     me.mnuUnGroupPivot,
-                    me.mnuPivotDeleteSeparator,
+                    me.mnuPivotGroupSeparator,
                     me.mnuDeleteField,
-                    me.mnuPivotValueSeparator,
+                    me.mnuPivotDeleteSeparator,
                     me.mnuSummarize,
                     me.mnuShowAs,
-                    me.mnuPivotSettingsSeparator,
+                    me.mnuPivotValueSeparator,
+                    me.mnuShowDetails,
+                    me.mnuShowDetailsSeparator,
                     me.mnuFieldSettings,
                     me.mnuPivotSettings,
                     me.pmiAddCommentSeparator,
@@ -1208,7 +1215,7 @@ define([
                     cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
-                        { template: _.template('<div id="id-docholder-menu-bullets" class="menu-layouts" style="width: 376px; margin: 4px 2px 4px 6px;"></div>') },
+                        { template: _.template('<div id="id-docholder-menu-bullets" class="menu-layouts" style="width: 376px;"></div>') },
                         {caption: '--'},
                         me.menuParagraphBulletNone = new Common.UI.MenuItem({
                             caption     : me.textNone,
@@ -1806,7 +1813,10 @@ define([
         txtLabelFilter: 'Label filters',
         txtTop10: 'Top 10',
         txtClearPivotField: 'Clear filter from {0}',
-        txtSortOption: 'More sort options'
+        txtSortOption: 'More sort options',
+        txtShowDetails: 'Show details',
+        txtInsImage: 'Insert image from File',
+        txtInsImageUrl: 'Insert image from URL'
 
     }, SSE.Views.DocumentHolder || {}));
 });

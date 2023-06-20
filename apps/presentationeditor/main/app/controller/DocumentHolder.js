@@ -106,6 +106,8 @@ define([
             me.mode = {};
             me._isDisabled = false;
             me.lastMathTrackBounds = [];
+            me.mouseMoveData = null;
+            me.isTooltipHiding = false;
 
             me.screenTip = {
                 toolTip: new Common.UI.Tooltip({
@@ -119,11 +121,6 @@ define([
                 isVisible: false
             };
             me.eyedropperTip = {
-                toolTip: new Common.UI.Tooltip({
-                    owner: this,
-                    html: true,
-                    cls: 'eyedropper-tooltip'
-                }),
                 isHidden: true,
                 isVisible: false,
                 eyedropperColor: null,
@@ -236,6 +233,7 @@ define([
                     me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Table, _.bind(me.onClickPlaceholderTable, me));
                     me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Video, _.bind(me.onClickPlaceholder, me, AscCommon.PlaceholderButtonType.Video));
                     me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Audio, _.bind(me.onClickPlaceholder, me, AscCommon.PlaceholderButtonType.Audio));
+                    me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.SmartArt, _.bind(me.onClickPlaceholderSmartArt, me));
                     me.api.asc_registerCallback('asc_onTrackGuide',   _.bind(me.onTrackGuide, me));
                     me.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(me.onShowMathTrack, me));
                     me.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(me.onHideMathTrack, me));
@@ -294,6 +292,10 @@ define([
                     }
                 });
                 meEl.on('mousedown', function(e){
+                    if (e.target.localName == 'canvas')
+                        Common.UI.Menu.Manager.hideAll();
+                });
+                meEl.on('touchstart', function(e){
                     if (e.target.localName == 'canvas')
                         Common.UI.Menu.Manager.hideAll();
                 });
@@ -853,9 +855,15 @@ define([
         },
 
         onMouseMoveEnd: function() {
+            var me = this;
             if (this.screenTip.isHidden && this.screenTip.isVisible) {
-                this.screenTip.isVisible = false;
-                this.screenTip.toolTip.hide();
+                me.screenTip.isVisible = false;
+                me.isTooltipHiding = true;
+                me.screenTip.toolTip.hide(function(){
+                    me.isTooltipHiding = false;
+                    if (me.mouseMoveData) me.onMouseMove(me.mouseMoveData);
+                    me.mouseMoveData = null;
+                });
             }
             if (this.eyedropperTip.isHidden) {
                 this.hideEyedropper();
@@ -877,51 +885,91 @@ define([
             }
 
             if (moveData) {
-                var showPoint, ToolTip;
+                var showPoint, ToolTip,
+                    type = moveData.get_Type();
 
-                if (moveData.get_Type()==1) { // 1 - hyperlink
-                    var hyperProps = moveData.get_Hyperlink();
-                    var recalc = false;
-                    if (hyperProps) {
-                        screenTip.isHidden = false;
-
-                        ToolTip = (_.isEmpty(hyperProps.get_ToolTip())) ? hyperProps.get_Value() : hyperProps.get_ToolTip();
-                        ToolTip = Common.Utils.String.htmlEncode(ToolTip);
-                        if (ToolTip.length>256)
-                            ToolTip = ToolTip.substr(0, 256) + '...';
-
-                        if (screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 ) {
-                            screenTip.toolTip.setTitle(ToolTip + (me.isPreviewVisible ? '' : '<br><b>' + Common.Utils.String.platformKey('Ctrl', me.documentHolder.txtPressLink) + '</b>'));
-                            screenTip.tipLength = ToolTip.length;
-                            screenTip.strTip = ToolTip;
-                            recalc = true;
-                        }
-
-                        showPoint = [moveData.get_X(), moveData.get_Y()];
-                        showPoint[1] += ((me.isPreviewVisible ? 0 : me._XY[1])-15);
-                        showPoint[0] += ((me.isPreviewVisible ? 0 : me._XY[0])+5);
-
-                        if (!screenTip.isVisible || recalc) {
-                            screenTip.isVisible = true;
-                            screenTip.toolTip.show([-10000, -10000]);
-                        }
-
-                        if ( recalc ) {
-                            screenTip.tipHeight = screenTip.toolTip.getBSTip().$tip.height();
-                            screenTip.tipWidth = screenTip.toolTip.getBSTip().$tip.width();
-                        }
-                        showPoint[1] -= screenTip.tipHeight;
-                        if (showPoint[1]<0)
-                            showPoint[1] = 0;
-                        if (showPoint[0] + screenTip.tipWidth > me._BodyWidth )
-                            showPoint[0] = me._BodyWidth - screenTip.tipWidth;
-                        screenTip.toolTip.getBSTip().$tip.css({top: showPoint[1] + 'px', left: showPoint[0] + 'px'});
+                if (type===Asc.c_oAscMouseMoveDataTypes.Hyperlink || type===Asc.c_oAscMouseMoveDataTypes.Placeholder) {
+                    if (me.isTooltipHiding) {
+                        me.mouseMoveData = moveData;
+                        return;
                     }
+                    if (type===Asc.c_oAscMouseMoveDataTypes.Hyperlink) {
+                        var hyperProps = moveData.get_Hyperlink();
+                        if (hyperProps) {
+                            ToolTip = (_.isEmpty(hyperProps.get_ToolTip())) ? hyperProps.get_Value() : hyperProps.get_ToolTip();
+                            ToolTip = Common.Utils.String.htmlEncode(ToolTip);
+                            if (ToolTip.length>256)
+                                ToolTip = ToolTip.substr(0, 256) + '...';
+                        }
+                    } else if (type===Asc.c_oAscMouseMoveDataTypes.Placeholder) {
+                        switch (moveData.get_PlaceholderType()) {
+                            case AscCommon.PlaceholderButtonType.Image:
+                                ToolTip = me.documentHolder.txtInsImage;
+                                break;
+                            case AscCommon.PlaceholderButtonType.ImageUrl:
+                                ToolTip = me.documentHolder.txtInsImageUrl;
+                                break;
+                            case AscCommon.PlaceholderButtonType.Chart:
+                                ToolTip = me.documentHolder.txtInsChart;
+                                break;
+                            case AscCommon.PlaceholderButtonType.Table:
+                                ToolTip = me.documentHolder.txtInsTable;
+                                break;
+                            case AscCommon.PlaceholderButtonType.Video:
+                                ToolTip = me.documentHolder.txtInsVideo;
+                                break;
+                            case AscCommon.PlaceholderButtonType.Audio:
+                                ToolTip = me.documentHolder.txtInsAudio;
+                                break;
+                            case AscCommon.PlaceholderButtonType.SmartArt:
+                                ToolTip = me.documentHolder.txtInsSmartArt;
+                                break;
+                        }
+                    }
+                    var recalc = false;
+                    screenTip.isHidden = false;
+                    if (screenTip.tipType !== type || screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 ) {
+                        screenTip.toolTip.setTitle((type===Asc.c_oAscMouseMoveDataTypes.Hyperlink) ? (ToolTip + (me.isPreviewVisible ? '' : '<br><b>' + Common.Utils.String.platformKey('Ctrl', me.documentHolder.txtPressLink) + '</b>')) : ToolTip);
+                        screenTip.tipLength = ToolTip.length;
+                        screenTip.strTip = ToolTip;
+                        screenTip.tipType = type;
+                        recalc = true;
+                    }
+
+                    showPoint = [moveData.get_X(), moveData.get_Y()];
+                    showPoint[1] += ((me.isPreviewVisible ? 0 : me._XY[1])-15);
+                    showPoint[0] += ((me.isPreviewVisible ? 0 : me._XY[0])+5);
+
+                    if (!screenTip.isVisible || recalc) {
+                        screenTip.isVisible = true;
+                        screenTip.toolTip.show([-10000, -10000]);
+                    }
+
+                    if ( recalc ) {
+                        screenTip.tipHeight = screenTip.toolTip.getBSTip().$tip.height();
+                        screenTip.tipWidth = screenTip.toolTip.getBSTip().$tip.width();
+                    }
+                    showPoint[1] -= screenTip.tipHeight;
+                    if (showPoint[1]<0)
+                        showPoint[1] = 0;
+                    if (showPoint[0] + screenTip.tipWidth > me._BodyWidth )
+                        showPoint[0] = me._BodyWidth - screenTip.tipWidth;
+                    screenTip.toolTip.getBSTip().$tip.css({top: showPoint[1] + 'px', left: showPoint[0] + 'px'});
                 }
-                else if (moveData.get_Type()==Asc.c_oAscMouseMoveDataTypes.Eyedropper) {
+                else if (type===Asc.c_oAscMouseMoveDataTypes.Eyedropper) {
                     if (me.eyedropperTip.isTipVisible) {
                         me.eyedropperTip.isTipVisible = false;
                         me.eyedropperTip.toolTip.hide();
+                    }
+
+                    if (!me.eyedropperTip.toolTip) {
+                        var tipEl = $('<div id="tip-container-eyedroppertip" style="position: absolute; z-index: 10000;"></div>');
+                        me.documentHolder.cmpEl.append(tipEl);
+                        me.eyedropperTip.toolTip = new Common.UI.Tooltip({
+                            owner: tipEl,
+                            html: true,
+                            cls: 'eyedropper-tooltip'
+                        });
                     }
 
                     var color = moveData.get_EyedropperColor().asc_getColor(),
@@ -949,7 +997,7 @@ define([
                     me.eyedropperTip.tipInterval = setInterval(function () {
                         clearInterval(me.eyedropperTip.tipInterval);
                         if (me.eyedropperTip.isVisible) {
-                            ToolTip = '<div>RGB(' + r + ',' + g + ',' + b + ')</div>' +
+                            ToolTip = '<div>RGB (' + r + ',' + g + ',' + b + ')</div>' +
                                 '<div>' + moveData.get_EyedropperColor().asc_getName() + '</div>';
                             me.eyedropperTip.toolTip.setTitle(ToolTip);
                             me.eyedropperTip.isTipVisible = true;
@@ -970,7 +1018,7 @@ define([
                     me.eyedropperTip.isHidden = false;
                 }
                 /** coauthoring begin **/
-                else if (moveData.get_Type()==2 && me.mode.isEdit && me.isUserVisible(moveData.get_UserId())) { // 2 - locked object
+                else if (type===Asc.c_oAscMouseMoveDataTypes.LockedObject && me.mode.isEdit && me.isUserVisible(moveData.get_UserId())) { // 2 - locked object
                     var src;
                     if (me.usertipcount >= me.usertips.length) {
                         src = $(document.createElement("div"));
@@ -1681,9 +1729,96 @@ define([
             this._fromShowPlaceholder = false;
         },
 
+        onClickPlaceholderSmartArt: function (obj, x, y) {
+            if (!this.api) return;
+
+            this._state.placeholderObj = obj;
+            var menu = this.placeholderMenuSmartArt,
+                menuContainer = menu ? this.documentHolder.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
+                me = this;
+            this._fromShowPlaceholder = true;
+            Common.UI.Menu.Manager.hideAll();
+
+            if (!menu) {
+                this.placeholderMenuSmartArt = menu = new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    items: []
+                });
+                var smartArtData = Common.define.smartArt.getSmartArtData();
+                smartArtData.forEach(function (item, index) {
+                    var length = item.items.length,
+                        width = 399;
+                    if (length < 5) {
+                        width = length * (70 + 8) + 9; // 4px margin + 4px margin
+                    }
+                    menu.addItem({
+                        caption: item.caption,
+                        value: item.sectionId,
+                        itemId: item.id,
+                        iconCls: item.icon ? 'menu__icon ' + item.icon : undefined,
+                        menu: new Common.UI.Menu({
+                            items: [
+                                {template: _.template('<div id="placeholder-' + item.id + '" class="menu-add-smart-art margin-left-5" style="width: ' + width + 'px; height: 500px;"></div>')}
+                            ],
+                            menuAlign: 'tl-tr',
+                        })});
+                });
+                // Prepare menu container
+                menuContainer = $(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
+                this.documentHolder.cmpEl.append(menuContainer);
+                menu.render(menuContainer);
+                menu.cmpEl.attr({tabindex: "-1"});
+                menu.on('hide:after', function(){
+                    if (!me._fromShowPlaceholder)
+                        me.api.asc_uncheckPlaceholders();
+                });
+
+                var onShowBeforeSmartArt = function (menu) {
+                    menu.items.forEach(function (item, index) {
+                        item.menuPicker = new Common.UI.DataView({
+                            el: $('#placeholder-' + item.options.itemId),
+                            parentMenu: menu.items[index].menu,
+                            itemTemplate: _.template([
+                                '<div>',
+                                '<img src="<%= imageUrl %>" width="' + 70 + '" height="' + 70 + '" />',
+                                '</div>'
+                            ].join('')),
+                            store: new Common.UI.DataViewStore(),
+                            delayRenderTips: true,
+                            scrollAlwaysVisible: true,
+                            showLast: false
+                        });
+                        item.$el.one('mouseenter', function () {
+                            me.documentHolder.fireEvent('generate:smartart', [item.value, menu]);
+                            item.$el.mouseenter();
+                        });
+                        item.menuPicker.on('item:click', function(picker, item, record, e) {
+                            if (record) {
+                                me.api.asc_createSmartArt(record.get('value'), me._state.placeholderObj);
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me);
+                        });
+                    });
+                    menu.off('show:before', onShowBeforeSmartArt);
+                };
+                menu.on('show:before', onShowBeforeSmartArt);
+            }
+            menuContainer.css({left: x, top : y});
+            menuContainer.attr('data-value', 'prevent-canvas-click');
+            this._preventClick = true;
+            menu.show();
+
+            menu.alignPosition();
+            _.delay(function() {
+                menu.cmpEl.focus();
+            }, 10);
+            this._fromShowPlaceholder = false;
+        },
+
         onHidePlaceholderActions: function() {
             this.placeholderMenuChart && this.placeholderMenuChart.hide();
             this.placeholderMenuTable && this.placeholderMenuTable.hide();
+            this.placeholderMenuSmartArt && this.placeholderMenuSmartArt.hide();
         },
 
         onClickPlaceholder: function(type, obj, x, y) {
@@ -2419,8 +2554,8 @@ define([
                             value: i,
                             items: [
                                 { template: _.template('<div id="id-document-holder-btn-equation-menu-' + i +
-                                        '" class="menu-shape" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
-                                        equationGroup.get('groupHeightStr') + 'margin-left:5px;"></div>') }
+                                        '" class="menu-shape margin-left-5" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
+                                        equationGroup.get('groupHeightStr') + '"></div>') }
                             ]
                         })
                     });

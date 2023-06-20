@@ -151,7 +151,6 @@
       "textNo": "නැහැ",
       "textNoChoices": "කෝෂය පිරවීමට තේරීම් නැත.<br>තීරුවෙන් පාඨ අගයන් පමණක් ප්‍රතිස්ථාපනයට තෝරාගත හැකිය.",
       "textNoLicenseTitle": "බලපත්‍රයේ සීමාවට ලඟාවුණි",
-      "textNoTextFound": "පාඨය හමු නොවිණි",
       "textOk": "හරි",
       "textPaidFeature": "ගෙවන විශේෂාංගයකි",
       "textRemember": "මාගේ තේරීම මතක තබාගන්න",
@@ -173,7 +172,9 @@
       "warnLicenseUsersExceeded": "ඔබ %1 සංස්කරක සඳහා පරිශීලක සීමාවට ළඟා වී ඇත. තව දැන ගැනීමට ඔබගේ පරිපාලක අමතන්න.",
       "warnNoLicense": "ඔබ %1 සංස්කරක වෙත සමකාල සම්බන්ධතා සීමාවට ළඟා වී ඇත. මෙම ලේඛනය දැකීමට පමණක් විවෘත වේ. පුද්ගලික උත්ශ්‍රේණි නියම සඳහා %1 අලෙවි කණ්ඩායම අමතන්න.",
       "warnNoLicenseUsers": "ඔබ %1 සංස්කරක සඳහා පරිශීලක සීමාවට ළඟා වී ඇත. පුද්ගලික උත්ශ්‍රේණි නියම සඳහා %1 අලෙවි කණ්ඩායම අමතන්න.",
-      "warnProcessRightsChange": "ඔබට ගොනුව සංස්කරණය කිරීමට අවසර නැත."
+      "warnProcessRightsChange": "ඔබට ගොනුව සංස්කරණය කිරීමට අවසර නැත.",
+      "textNoMatches": "No Matches",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
     }
   },
   "Error": {
@@ -657,7 +658,6 @@
       "textMargins": "මායිම්",
       "textMatchCase": "ගැළපෙන අවස්ථාව",
       "textMatchCell": "ගැළපෙන කෝෂය",
-      "textNoTextFound": "පාඨය හමු නොවිණි",
       "textOk": "හරි",
       "textOpenFile": "ගොනුව විවෘත කිරීමට මුරපදයක් යොදන්න",
       "textOrientation": "හැඩගැස්ම",
@@ -758,7 +758,8 @@
       "txtUk": "යුක්රේනියානු",
       "txtVi": "වියට්නාම",
       "txtZh": "චීන",
-      "warnDownloadAs": "ඔබ දිගටම මෙම ආකෘතියෙන් සුරැකුවොත් පාඨය හැර අනෙකුත් සියළුම විශේෂාංග නැති වනු ඇත.<br>ඔබට කරගෙන යාමට අවශ්‍ය බව විශ්වාසද?"
+      "warnDownloadAs": "ඔබ දිගටම මෙම ආකෘතියෙන් සුරැකුවොත් පාඨය හැර අනෙකුත් සියළුම විශේෂාංග නැති වනු ඇත.<br>ඔබට කරගෙන යාමට අවශ්‍ය බව විශ්වාසද?",
+      "textNoMatches": "No Matches"
     }
   }
 }

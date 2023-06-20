@@ -65,12 +65,8 @@
 .input-field {
     input,
     .input-error {
-        float: left;
+        .float-left();
         position: relative;
-
-        .rtl & {
-            float: right;
-        }
     }
 
     &.form-control:focus,
@@ -170,11 +166,6 @@ textarea.form-control:focus {
         }
     }
     input {
-        padding-right: 20px;
-
-        .rtl & {
-            padding-right: 3px;
-            padding-left: 20px;
-        }
+        .padding-x(3px, 20px);
     }
 }

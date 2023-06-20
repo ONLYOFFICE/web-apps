@@ -24,7 +24,7 @@
     width: 100%;
     height: 100%;
     left: 40px;
-    padding-right: 40px;
+    .padding-right-40();
     top: 0;
     position: absolute;
     z-index: @zindex-dropdown - 5;
@@ -169,14 +169,9 @@
 
     .panel-context {
         width: 100%;
-        padding-left: 260px;
+        .padding-left(260px);
         background-color: @background-normal-ie;
         background-color: @background-normal;
-
-        .rtl & {
-            padding-left: 0;
-            padding-right: 260px;
-        }
 
         .content-box {
             height: 100%;
@@ -215,11 +210,9 @@
 
                 .format-items {
                     .format-item {
-                        float: left;
                         margin: 0 24px 34px 0;
 
                         .rtl & {
-                            float: right;
                             margin: 0 0 34px 24px;
                         }
 
@@ -346,20 +339,6 @@
                         .comment-text{
                             opacity: 0.45;
                         }
-
-                        &.left {
-                            text-align: right;
-                            width: 30%;
-
-                            label {
-                                .font-weight-bold();
-                                .font-size-medium();
-                            }
-                        }
-
-                        &.right {
-                            width: 70%;
-                        }
                     }
 
                     &.divider {
@@ -382,6 +361,10 @@
                         & > div {
                             margin-bottom: 15px;
                         }
+
+                        .rtl & {
+                            padding: 0 0 0 20px;
+                        }
                     }
                 }
             }
@@ -399,18 +382,19 @@
             #fms-cmb-func-locale,
             #fms-cmb-reg-settings {
                 display: inline-block;
-                margin-right: 15px;
+                .margin-right-15();
                 vertical-align: middle;
-
-                .rtl & {
-                    margin-right: 0;
-                    margin-left: 15px;
-                }
             }
 
             #fms-lbl-func-locale,
             #fms-lbl-reg-settings {
                 vertical-align: middle;
+            }
+
+            #fms-cmb-reg-settings {
+                li .lang-flag {
+                    .margin-left(-21px);
+                }
             }
         }
 
@@ -423,7 +407,7 @@
                 margin-bottom: 20px;
 
                 .rtl & {
-                    padding: 0 10px 10px 0;
+                    padding: 0 10px 0 0;
                 }
             }
 
@@ -523,7 +507,6 @@
                 }
 
                 .recent-icon {
-                    float: left;
                     width: 25px;
                     height: 25px;
                     margin-top: 1px;
@@ -637,12 +620,8 @@
 
                         &.left {
                             padding: 5px 10px;
-                            text-align: right;
+                            .text-align-right();
                             width: 200px;
-
-                            .rtl & {
-                                text-align: left;
-                            }
 
                             label {
                                 .font-weight-bold();
@@ -674,6 +653,9 @@
 
                 &.sharedLink {
                     background-position: -24px -273px;
+                }
+                .rtl & {
+                    padding: 0 17px 0 0;
                 }
             }
 
@@ -720,22 +702,6 @@
                 display: flex;
             }
 
-            #fms-btn-delete-pwd {
-                margin-left: 16px;
-                .rtl & {
-                    margin-left: 0;
-                    margin-right: 16px;
-                }
-            }
-
-            .signature-view-link {
-                margin-right: 20px;
-                .rtl & {
-                    margin-right: 0;
-                    margin-left: 20px;
-                }
-            }
-
             .signature-tip {
                 margin-bottom: 6px;
             }
@@ -751,14 +717,6 @@
             .btn-text-default.auto {
                 padding-left: 12px;
                 padding-right: 12px;
-            }
-
-            #fms-btn-delete-pwd {
-                margin-left: 20px;
-                .rtl & {
-                    margin-left: 0;
-                    margin-right: 20px;
-                }
             }
         }
 
@@ -822,11 +780,7 @@
                 }
                 .pages, .first-page {
                     label, #print-spin-pages-from {
-                        margin-right: 6px;
-                        .rtl & {
-                            margin-right: 0;
-                            margin-left: 6px;
-                        }
+                        .margin-right-6();
                     }
                     label, div {
                         display: inline-block;
@@ -837,11 +791,7 @@
                 }
                 .footer {
                     .btn:not(:last-child) {
-                        margin-right: 8px;
-                        .rtl & {
-                            margin-right: 0;
-                            margin-left: 8px;
-                        }
+                        .margin-right-8();
                     }
                 }
                 .settings-container {
@@ -867,13 +817,7 @@
                     }
                     #print-combo-sides {
                         .dropdown-menu li > a {
-                            padding-right: 5px;
-                            padding-left: 20px;
-
-                            .rtl & {
-                                padding-right: 20px;
-                                padding-left: 5px;
-                            }
+                            .padding-x(20px, 5px);
                         }
                     }
                     .print-titles-header {
@@ -885,25 +829,18 @@
                             display: inline-block;
                             position: absolute;
                             left: 0;
-                            margin-left: 8px;
+                            .margin-left-8();
                             cursor: pointer;
 
                             .rtl & {
-                                margin-left: 0;
-                                margin-right: 8px;
                                 left: unset;
                                 right: 0;
                             }
                         }
                         .header {
                             cursor: pointer;
-                            padding-left: 15px;
+                            .padding-left-15();
                             line-height: 24px;
-
-                            .rtl & {
-                                padding-left: 0;
-                                padding-right: 15px;
-                            }
                         }
                     }
                     .no-expand {
@@ -924,7 +861,7 @@
                     }
                 }
                 .fms-flex-apply {
-                    padding-left: 16px;
+                    .padding-left(16px);
                     .footer {
                         .btn {
                             margin-top: 16px;
@@ -937,12 +874,7 @@
                 #print-txt-left,
                 #print-spin-margin-top,
                 #print-spin-margin-bottom {
-                    margin-right: 8px;
-
-                    .rtl & {
-                        margin-right: 0;
-                        margin-left: 8px;
-                    }
+                    .margin-right-8();
                 }
 
                 .footer-with-pdf {
@@ -950,7 +882,7 @@
                         width: 247px;
                     }
                     td:not(:last-child) {
-                        padding-right: 5px;
+                        .padding-right-5();
                     }
                     .btn-text-default.auto {
                         padding-left: 3px;
@@ -962,7 +894,7 @@
             }
             #print-navigation {
                 height: 50px;
-                padding-left: 20px;
+                .padding-left-20();
                 padding-top: 10px;
                 display: flex;
                 #print-prev-page {
@@ -1011,30 +943,14 @@
                     display: flex;
                     align-items: center;
                     height: 20px;
-                    margin-left: 10px;
-                    .rtl & {
-                        margin-left: 0;
-                        margin-right: 10px;
-                    }
                     label {
                         .font-weight-bold();
                     }
-                    #print-count-page, #print-number-page {
-                        margin-left: 4px;
-                        .rtl & {
-                            margin-left: 0;
-                            margin-right: 4px;
-                        }
-                    }
                 }
                 #print-active-sheet {
-                    margin-left: 12px;
+                    .margin-left-12();
                     height: 20px;
                     line-height: 20px;
-                    .rtl & {
-                        margin-left: 0;
-                        margin-right: 12px;
-                    }
                 }
             }
             #print-preview {
@@ -1115,7 +1031,7 @@
                 height: 18px;
                 text-align: start;
                 font-weight: normal;
-                padding-left: 4px;
+                .padding-left-4();
                 padding-top: 2px;
                 overflow: hidden;
                 white-space: nowrap;
@@ -1126,11 +1042,6 @@
                 }
                 &:last-child {
                     width: 36%;
-                }
-
-                .rtl & {
-                    padding-left: 0;
-                    padding-right: 4px;
                 }
             }
         }
@@ -1147,7 +1058,7 @@
                 display: flex;
                 div {
                     width: 16%;
-                    padding-left: 4px;
+                    .padding-left-4();
                     height: 28px;
                     line-height: 28px;
                     white-space: nowrap;
@@ -1155,11 +1066,6 @@
                     text-overflow: ellipsis;
                     &:last-child {
                         width: 36%;
-                    }
-
-                    .rtl & {
-                        padding-left: 0;
-                        padding-right: 4px;
                     }
                 }
             }

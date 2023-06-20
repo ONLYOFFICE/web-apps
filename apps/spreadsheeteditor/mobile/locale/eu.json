@@ -151,7 +151,6 @@
       "textNo": "Ez",
       "textNoChoices": "Ez dago aukerarik gelaxka betetzeko.<br>Zutabeko testu-balioak soilik aukera daitezke ordezkapenerako.",
       "textNoLicenseTitle": "Lizentziaren mugara iritsi zara",
-      "textNoTextFound": "Ez da testua aurkitu",
       "textOk": "Ados",
       "textPaidFeature": "Ordainpeko ezaugarria",
       "textRemember": "Gogoratu nire aukera",
@@ -173,7 +172,9 @@
       "warnLicenseUsersExceeded": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan zure administratzailearekin informazio gehiagorako.",
       "warnNoLicense": "Aldibereko konexioen mugara iritsi zara %1 editorerekin. Dokumentu hau bere bistaratzerako bakarrik irekiko da. Jarri harremanetan  %1 salmenta taldearekin eguneraketa pertsonalaren baldintzak jakiteko.",
       "warnNoLicenseUsers": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan %1 salmenta taldearekin mailaz igotzeko baldintzak ezagutzeko.",
-      "warnProcessRightsChange": "Ez duzu baimenik fitxategia editatzeko."
+      "warnProcessRightsChange": "Ez duzu baimenik fitxategia editatzeko.",
+      "textNoMatches": "No Matches",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
     }
   },
   "Error": {
@@ -657,7 +658,6 @@
       "textMargins": "Marjinak",
       "textMatchCase": "Bat etorri maiuskulak eta minuskulak",
       "textMatchCell": "Bat etorri gelaxkan",
-      "textNoTextFound": "Ez da testua aurkitu",
       "textOk": "Ados",
       "textOpenFile": "Idatzi pasahitza fitxategia irekitzeko",
       "textOrientation": "Orientazioa",
@@ -758,7 +758,8 @@
       "txtUk": "Ukrainera",
       "txtVi": "Vietnamera",
       "txtZh": "Txinera",
-      "warnDownloadAs": "Formatu honetan gordetzen baduzu, testua ez diren ezaugarri guztiak galduko dira.<br> Ziur zaude aurrera jarraitu nahi duzula?"
+      "warnDownloadAs": "Formatu honetan gordetzen baduzu, testua ez diren ezaugarri guztiak galduko dira.<br> Ziur zaude aurrera jarraitu nahi duzula?",
+      "textNoMatches": "No Matches"
     }
   }
 }

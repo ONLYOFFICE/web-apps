@@ -5,7 +5,7 @@
 
     .view {
         display: inline-block;
-        float: left;
+        .float-left();
         overflow: hidden;
         width: @combo-dataview-width;
         height: 100%;
@@ -15,10 +15,6 @@
         background-color: @background-normal-ie;
         background-color: @background-normal;
 
-        .rtl & {
-            float: right;
-        }
-
         .dataview {
             padding: 1px;
         }
@@ -26,11 +22,7 @@
 
     .button {
         display: inline-block;
-        float: right;
-
-        .rtl & {
-            float: left;
-        }
+        .float-right();
 
         button {
             border-radius:0 @border-radius-small @border-radius-small 0;
@@ -45,9 +37,11 @@
 
             &.dropdown-toggle {
                 .inner-box-caret {
-                    padding: 0 1px 0 0;
+                    &,
+                    .rtl & {
+                        padding: 0 1px 0 0;
+                    }
                 }
-
                 .caret {
 //                    width: 7px;
 //                    height: 7px;
@@ -108,28 +102,28 @@
     height: @combo-dataview-height-calc;
 
     .view {
-        margin-right: -@combo-dataview-button-width;
-        padding-right: calc(@combo-dataview-button-width - @scaled-two-px-value);
+        .margin-right(-@combo-dataview-button-width);
+        .padding-right(calc(@combo-dataview-button-width - @scaled-two-px-value));
 
         .border-left-radius(0);
-
-        .rtl & {
-            margin-right: 0;
-            padding-right: 0;
-            margin-left: -@combo-dataview-button-width;
-            padding-left: @combo-dataview-button-width;
-
-            .border-radius(@border-radius-small);
-            .border-right-radius(0);
-        }
 
         .dataview {
             @minus-px: calc(-1px / @pixel-ratio-factor);
             height: @combo-dataview-height;
             height: @combo-dataview-height-calc;
             padding: 0;
-            margin: -1 0 0 -1;
+            margin: -1px 0 0 -1px;
             margin: @minus-px 0 0 @minus-px;
+        }
+        .rtl & {
+            .border-radius(@border-radius-small);
+            .border-right-radius(0);
+
+            .dataview {
+                @minus-px: calc(-1px / @pixel-ratio-factor);
+                margin: -1px -1px 0 0;
+                margin: @minus-px @minus-px 0 0;
+            }
         }
     }
 
@@ -262,15 +256,8 @@
     }
 
     .view {
-        margin-right: -@combo-dataview-button-width;
-        padding-right: @combo-dataview-button-width;
-
-        .rtl & {
-            margin-right: 0;
-            padding-right: 0;
-            margin-left: -@combo-dataview-button-width;
-            padding-left: @combo-dataview-button-width;
-        }
+        .margin-right(-@combo-dataview-button-width);
+        .padding-right(@combo-dataview-button-width);
 
         .dataview {
             padding: 2px;
@@ -308,15 +295,8 @@
     height: @combo-dataview-height;
 
     .view {
-        margin-right: -@combo-dataview-button-width;
-        padding-right: @combo-dataview-button-width;
-
-        .rtl & {
-            margin-right: 0;
-            padding-right: 0;
-            margin-left: -@combo-dataview-button-width;
-            padding-left: @combo-dataview-button-width;
-        }
+        .margin-right(-@combo-dataview-button-width);
+        .padding-right(@combo-dataview-button-width);
     }
 
     .button {
@@ -353,7 +333,7 @@
     }
 
     .dropdown-menu {
-        padding-right: 2px;
+        .padding-x(1px, 2px);
     }
 
     .ps-scrollbar-y-rail {
@@ -404,12 +384,7 @@
 
     top: -4px;
     position: absolute;
-    padding-right: 12px;
-
-    .rtl & {
-        padding-right: 0;
-        padding-left: 12px;
-    }
+    .padding-right-12();
 
     .more-container & {
         position: static;
@@ -464,15 +439,8 @@
     height: @combo-dataview-height-calc;
 
     .view {
-        margin-right: -@combo-dataview-button-width;
-        padding-right: calc(@combo-dataview-button-width - @scaled-one-px-value);
-
-        .rtl & {
-            margin-right: 0;
-            padding-right: 0;
-            margin-left: -@combo-dataview-button-width;
-            padding-left: calc(@combo-dataview-button-width - @scaled-one-px-value);
-        }
+        .margin-right(-@combo-dataview-button-width);
+        .padding-right(calc(@combo-dataview-button-width - @scaled-one-px-value));
     }
 
     .view .dataview, .dropdown-menu {

@@ -48,7 +48,7 @@ define([
     SSE.Views.WBProtection = Common.UI.BaseView.extend(_.extend((function(){
         var template =
             '<div class="group">' +
-                '<span id="slot-btn-protect-wb" class="btn-slot text x-huge" style="margin-right: 2px;"></span>' +
+                '<span id="slot-btn-protect-wb" class="btn-slot text x-huge margin-right-2"></span>' +
                 '<span id="slot-btn-protect-sheet" class="btn-slot text x-huge"></span>' +
                 // '<span id="slot-btn-allow-ranges" class="btn-slot text x-huge"></span>' +
             '</div>' +

@@ -112,7 +112,6 @@
       "textHasMacros": "파일에 자동 매크로가 포함되어 있습니다. <br> 매크로를 실행 하시겠습니까?",
       "textNo": "아니오",
       "textNoLicenseTitle": "라이센스 수를 제한했습니다.",
-      "textNoTextFound": "텍스트를 찾을 수 없습니다",
       "textOpenFile": "파일을 열려면 암호를 입력하십시오.",
       "textPaidFeature": "유료기능",
       "textRemember": "선택사항을 저장",
@@ -132,8 +131,10 @@
       "warnNoLicense": "% 1 편집 연결 수 제한에 도달했습니다. 이 문서는 보기 모드로 열립니다. 개인적인 업그레이드 사항은 % 1 영업팀에 연락하십시오.",
       "warnNoLicenseUsers": "ONLYOFFICE 편집자의이 버전은 동시 사용자에게 일정한 제한이 있습니다. <br> 더 필요한 것이 있으면 현재 라이센스를 업그레이드하거나 상용 라이센스를 구입하십시오.",
       "warnProcessRightsChange": "파일을 수정할 수 있는 권한이 없습니다.",
+      "textNoMatches": "No Matches",
       "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
       "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
@@ -358,7 +359,6 @@
       "textNextSlide": "다음 슬라이드",
       "textNone": "없음",
       "textNoStyles": "이 유형의 테이블에 해당하는 스타일 설정이 없습니다.",
-      "textNoTextFound": "텍스트를 찾을 수 없습니다",
       "textNotUrl": "이 필드는 \"http://www.example.com\"형식의 URL이어야합니다.",
       "textNumbers": "숫자",
       "textOk": "확인",
@@ -419,6 +419,7 @@
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textInsertImage": "Insert Image",
+      "textNoMatches": "No Matches",
       "textRecommended": "Recommended",
       "textRequired": "Required"
     },
@@ -458,7 +459,6 @@
       "textLoading": "로딩중...",
       "textLocation": "위치",
       "textMacrosSettings": "매크로 설정",
-      "textNoTextFound": "텍스트를 찾을 수 없습니다",
       "textOwner": "소유자",
       "textPoint": "Point",
       "textPoweredBy": "기술 지원",
@@ -503,6 +503,7 @@
       "txtScheme9": "발견",
       "notcriticalErrorTitle": "Warning",
       "textFeedback": "Feedback & Support",
+      "textNoMatches": "No Matches",
       "textOk": "Ok",
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRTL": "RTL"

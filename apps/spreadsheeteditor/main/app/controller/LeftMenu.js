@@ -266,6 +266,7 @@ define([
             case 'back': break;
             case 'save': this.api.asc_Save(); break;
             case 'save-desktop': this.api.asc_DownloadAs(); break;
+            case 'export-pdf': this.clickSaveAsFormat(menu, Asc.c_oAscFileType.PDF); break;
             case 'print': Common.NotificationCenter.trigger('print', this.leftMenu); break;
             case 'exit': Common.NotificationCenter.trigger('goback'); break;
             case 'edit':

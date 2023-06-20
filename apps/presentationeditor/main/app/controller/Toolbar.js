@@ -83,6 +83,7 @@ define([
                 no_paragraph: undefined,
                 no_text: undefined,
                 no_object: undefined,
+                no_drawing_objects: undefined,
                 clrtext: undefined,
                 linespace: undefined,
                 pralign: undefined,
@@ -140,6 +141,9 @@ define([
                     'add:chart'         : this.onSelectChart,
                     'generate:smartart' : this.generateSmartArt,
                     'insert:smartart'   : this.onInsertSmartArt
+                },
+                'DocumentHolder': {
+                    'generate:smartart' : this.generateSmartArt,
                 },
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),
@@ -788,6 +792,7 @@ define([
                 no_paragraph = true,
                 no_text = true,
                 no_object = true,
+                no_drawing_objects = this.api.asc_getSelectedDrawingObjectsCount()<1,
                 in_equation = false,
                 in_chart = false,
                 layout_index = -1,
@@ -863,14 +868,23 @@ define([
                 this.toolbar.lockToolbar(Common.enumLock.noTextSelected, no_text, {array: me.toolbar.paragraphControls});
             }
 
+            if (this._state.no_object !== no_object ) {
+                if (this._state.activated) this._state.no_object = no_object;
+                this.toolbar.lockToolbar(Common.enumLock.noObjectSelected, no_object, {array: [me.toolbar.btnVerticalAlign ]});
+            }
+
+            if (this._state.no_drawing_objects !== no_drawing_objects ) {
+                if (this._state.activated) this._state.no_drawing_objects = no_drawing_objects;
+                this.toolbar.lockToolbar(Common.enumLock.noDrawingObjects, no_drawing_objects, {array: [me.toolbar.btnShapeAlign, me.toolbar.btnShapeArrange]});
+            }
+
             if (shape_locked!==undefined && this._state.shapecontrolsdisable !== shape_locked) {
                 if (this._state.activated) this._state.shapecontrolsdisable = shape_locked;
                 this.toolbar.lockToolbar(Common.enumLock.shapeLock, shape_locked, {array: me.toolbar.shapeControls.concat(me.toolbar.paragraphControls)});
             }
 
-            if (this._state.no_object !== no_object ) {
-                if (this._state.activated) this._state.no_object = no_object;
-                this.toolbar.lockToolbar(Common.enumLock.noObjectSelected, no_object, {array: [me.toolbar.btnShapeAlign, me.toolbar.btnShapeArrange, me.toolbar.btnVerticalAlign ]});
+            if (shape_locked===undefined && !this._state.no_drawing_objects) { // several tables selected
+                this.toolbar.lockToolbar(Common.enumLock.shapeLock, false, {array: me.toolbar.shapeControls});
             }
 
             if (slide_layout_lock !== undefined && this._state.slidelayoutdisable !== slide_layout_lock ) {
@@ -2320,8 +2334,8 @@ define([
                         menuAlign: 'tl-tr',
                         items: [
                             { template: _.template('<div id="id-toolbar-menu-equationgroup' + i +
-                                '" class="menu-shape" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
-                                equationGroup.get('groupHeightStr') + 'margin-left:5px;"></div>') }
+                                '" class="menu-shape margin-left-5" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
+                                equationGroup.get('groupHeightStr') + '"></div>') }
                         ]
                     })
                 });
@@ -2787,12 +2801,13 @@ define([
             }
         },
 
-        generateSmartArt: function (groupName) {
+        generateSmartArt: function (groupName, menu) {
+            this.docHolderMenu = menu;
             this.api.asc_generateSmartArtPreviews(groupName);
         },
 
         onApiBeginSmartArtPreview: function () {
-            this.smartArtGroups = this.toolbar.btnInsertSmartArt.menu.items;
+            this.smartArtGroups = this.docHolderMenu ? this.docHolderMenu.items : this.toolbar.btnInsertSmartArt.menu.items;
             this.smartArtData = Common.define.smartArt.getSmartArtData();
         },
 
@@ -2816,13 +2831,13 @@ define([
                         menuPicker.store.add(arr);
                     }
                 }
-                this.currentSmartArtMenu = menu;
+                this.currentSmartArtCategoryMenu = menu;
             }, this));
         },
 
         onApiEndSmartArtPreview: function () {
-            if (this.currentSmartArtMenu) {
-                this.currentSmartArtMenu.menu.alignPosition();
+            if (this.currentSmartArtCategoryMenu) {
+                this.currentSmartArtCategoryMenu.menu.alignPosition();
             }
         },
 

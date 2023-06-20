@@ -66,7 +66,7 @@ define([
                                     '</div>',
                                     '<div style="margin-top: 4px;">',
                                         '<label id="formula-wizard-lbl-func-res">' + this.textFunctionRes + '</label>',
-                                        '<div id="formula-wizard-lbl-val-func" class="input-label" style="float: right; width: 200px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"></div>',
+                                        '<div id="formula-wizard-lbl-val-func" class="input-label float-right" style="width: 200px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"></div>',
                                     '</div>',
                                 '</div>',
                                 '</td></tr>',
@@ -306,8 +306,8 @@ define([
 
         setControls: function(argcount, argtype, argval, argres) {
             var me = this,
-                argtpl = '<tr><td style="padding-right: 10px;padding-bottom: 8px;vertical-align: middle;"><div id="formula-wizard-lbl-name-arg{0}" style="min-width:' + this.minArgWidth + 'px;white-space: nowrap;margin-top: 1px;"></div></td>' +
-                        '<td style="padding-right: 5px;padding-bottom: 8px;width: 100%;vertical-align: middle;"><div id="formula-wizard-txt-arg{0}"></div></td>' +
+                argtpl = '<tr><td class="padding-right-10" style="padding-bottom: 8px;vertical-align: middle;"><div id="formula-wizard-lbl-name-arg{0}" style="min-width:' + this.minArgWidth + 'px;white-space: nowrap;margin-top: 1px;"></div></td>' +
+                        '<td class="padding-right-5" style="padding-bottom: 8px;width: 100%;vertical-align: middle;"><div id="formula-wizard-txt-arg{0}"></div></td>' +
                         '<td style="padding-bottom: 8px;vertical-align: middle;"><div id="formula-wizard-lbl-val-arg{0}" class="input-label" style="margin-top: 1px;width: 200px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"></div></td></tr>',
                 div = $(Common.Utils.String.format(argtpl, argcount));
             this.tableArgs.append(div);

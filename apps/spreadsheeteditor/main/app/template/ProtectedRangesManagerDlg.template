@@ -12,8 +12,8 @@
                     <div id="protect-edit-ranges-combo-filter" class="input-group-nr" style="width:170px;"></div>
                 </td>
                 <td id="protect-edit-group-btn" class="padding-small">
-                    <button type="button" class="btn btn-text-default" id="protect-edit-ranges-btn-new" style="min-width: 80px;"><%= scope.textNew %></button>
-                    <button type="button" class="btn btn-text-default" id="protect-edit-ranges-btn-edit" style="min-width: 80px;"><%= scope.textEdit %></button>
+                    <button type="button" class="btn btn-text-default margin-right-5" id="protect-edit-ranges-btn-new" style="min-width: 80px;"><%= scope.textNew %></button>
+                    <button type="button" class="btn btn-text-default margin-right-15" id="protect-edit-ranges-btn-edit" style="min-width: 80px;"><%= scope.textEdit %></button>
                     <button type="button" class="btn btn-text-default" id="protect-edit-ranges-btn-delete" style="min-width: 80px;"><%= scope.textDelete %></button>
                 </td>
             </tr>

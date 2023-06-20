@@ -1306,7 +1306,7 @@ define([
                     menu        : new Common.UI.Menu({
                         cls: 'menu-shapes',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-insart" style="width: 239px;"></div>')}
+                            {template: _.template('<div id="id-toolbar-menu-insart" class="margin-left-5" style="width: 239px;"></div>')}
                         ]
                     }),
                     dataHint    : '1',
@@ -2236,6 +2236,11 @@ define([
                 }
 
                 me.setTab('home');
+
+                Common.NotificationCenter.on('eyedropper:start', function () {
+                    if (me.btnCopyStyle.pressed)
+                        me.btnCopyStyle.toggle(false, true);
+                });
             }
             if ( me.isCompactView )
                 me.setFolded(true);
@@ -2638,7 +2643,7 @@ define([
                         iconCls: item.icon ? 'menu__icon ' + item.icon : undefined,
                         menu: new Common.UI.Menu({
                             items: [
-                                {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art" style="width: ' + width + 'px; height: 500px; margin-left: 5px;"></div>')}
+                                {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art margin-left-5" style="width: ' + width + 'px; height: 500px;"></div>')}
                             ],
                             menuAlign: 'tl-tr',
                         })});
