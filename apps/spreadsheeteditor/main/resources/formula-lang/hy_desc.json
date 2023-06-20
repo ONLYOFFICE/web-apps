@@ -509,7 +509,7 @@
 	},
 	"AVERAGE": {
 		"a": "(number1; [number2]; ...)",
-		"d": "Returns the average (arithmetic mean) of its arguments, which can be numbers or names, arrays or references that contain numbers"
+		"d": "Վերադարձնում է իր արգումենտների միջինը (թվաբանական միջինը), որոնք կարող են լինել թվեր կամ անուններ, զանգվածներ կամ թվեր պարունակող հղումներ։"
 	},
     "AVERAGEA": {
         "a": "(value1; [value2]; ...)",
@@ -757,7 +757,7 @@
 	},
 	"GROWTH": {
 		"a": "(known_y's; [known_x's]; [new_x's]; [const])",
-		"d": "Returns numbers in an exponential growth trend matching known data points"
+		"d": "Վերադարձնում է թվերը էքսպոնենցիալ աճի միտումով, որը համապատասխանում է հայտնի տվյալների կետերին"
 	},
 	"HARMEAN": {
 		"a": "(number1; [number2]; ...)",
@@ -817,7 +817,7 @@
 	},
 	"MAXIFS": {
 		"a": "(max_range; criteria_range; criteria; ...)",
-		"d": "Returns the maximum value among cells specified by a given set of conditions or criteria"
+		"d": "Վերադարձնում է առավելագույն արժեքը բջիջների միջև, որոնք նշված են որոշակի պայմանների կամ չափանիշների կողմից"
 	},
 	"MEDIAN": {
 		"a": "(number1; [number2]; ...)",
@@ -829,7 +829,7 @@
 	},
 	"MINA": {
 		"a": "(value1; [value2]; ...)",
-		"d": "Returns the smallest value in a set of values. Does not ignore logical values and text"
+		"d": "Վերադարձնում է արժեքների մի շարքի ամենափոքր արժեքը: Չի անտեսում տրամաբանական արժեքները և տեքստը"
 	},
 	"MINIFS": {
 		"a": "(min_range; criteria_range; criteria; ...)",
@@ -869,7 +869,7 @@
 	},
 	"NORMINV": {
 		"a": "(probability; mean; standard_dev)",
-		"d": "Returns the inverse of the normal cumulative distribution for the specified mean and standard deviation"
+		"d": "Վերադարձնում է նորմալ կուտակային բաշխման հակադարձը նշված միջին և ստանդարտ շեղման համար"
 	},
 	"NORM.S.DIST": {
 		"a": "(z; cumulative)",
@@ -937,7 +937,7 @@
 	},
 	"PROB": {
 		"a": "(x_range; prob_range; lower_limit; [upper_limit])",
-		"d": "Returns the probability that values in a range are between two limits or equal to a lower limit"
+		"d": "Վերադարձնում է հավանականությունը, այն տիրույթում արժեքները, որոնք գտնվում են երկու սահմանների միջև կամ հավասար են ստորին սահմանին"
 	},
 	"QUARTILE": {
 		"a": "(array; quart)",
