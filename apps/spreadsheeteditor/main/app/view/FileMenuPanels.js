@@ -482,6 +482,7 @@ define([
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width:100%; max-height: 157px;',
                 data        : [
+                    { value: -3, displayValue: this.txtLastUsed },
                     { value: 50, displayValue: "50%" },
                     { value: 60, displayValue: "60%" },
                     { value: 70, displayValue: "70%" },
@@ -1281,7 +1282,8 @@ define([
         txtQuickPrintTip: 'The document will be printed on the last selected or default printer',
         txtWorkspaceSettingChange: 'Workspace setting (RTL interface) change',
         txtRestartEditor: 'Please restart spreadsheet editor so that your workspace settings can take effect',
-        txtHy: 'Armenian'
+        txtHy: 'Armenian',
+        txtLastUsed: 'Last used'
 
 }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 

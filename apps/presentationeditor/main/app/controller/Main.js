@@ -839,7 +839,9 @@ define([
                 value = Common.localStorage.getItem("pe-settings-zoom");
                 Common.Utils.InternalSettings.set("pe-settings-zoom", value);
                 var zf = (value!==null) ? parseInt(value) : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : -1);
-                (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
+                value = Common.localStorage.getItem("pe-last-zoom");
+                var lastZoom = (value!==null) ? parseInt(value):0;
+                (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : (zf == -3 && lastZoom > 0) ? lastZoom : 100));
 
                 // spellcheck
                 value = Common.UI.FeaturesManager.getInitValue('spellcheck', true);
