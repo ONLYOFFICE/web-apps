@@ -129,7 +129,7 @@
 	},
 	"BITAND": {
 		"a": "(number1; number2)",
-		"d": "Returns a bitwise 'And' of two numbers"
+		"d": "Վերադարձնում է երկու թվերի մի փոքր «Եվ»"
 	},
 	"BITLSHIFT": {
 		"a": "(number; shift_amount)",
