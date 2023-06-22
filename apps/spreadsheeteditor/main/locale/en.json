@@ -3196,6 +3196,7 @@
   "SSE.Views.PivotTable.txtTable_PivotStyleMedium": "Pivot Table Style Medium",
   "SSE.Views.PrintSettings.btnDownload": "Save & Download",
   "SSE.Views.PrintSettings.btnPrint": "Save & Print",
+  "SSE.Views.PrintSettings.btnExport": "Save & Export",
   "SSE.Views.PrintSettings.strBottom": "Bottom",
   "SSE.Views.PrintSettings.strLandscape": "Landscape",
   "SSE.Views.PrintSettings.strLeft": "Left",
