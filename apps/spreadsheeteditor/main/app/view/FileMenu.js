@@ -311,6 +311,7 @@ define([
                     this.panels['opts'].setApi(this.api);
             }
 
+            this.fireEvent('render:after', this);
             return this;
         },
 
