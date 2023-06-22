@@ -75,7 +75,7 @@ define([
             });
             Common.NotificationCenter.on('print', _.bind(this.openPrintSettings, this, 'print'));
             Common.NotificationCenter.on('download:settings', _.bind(this.openPrintSettings, this, 'download'));
-            Common.NotificationCenter.on('export', _.bind(this.openPrintSettings, this, 'export'));
+            Common.NotificationCenter.on('export:to', _.bind(this.openPrintSettings, this, 'export'));
         },
 
         onLaunch: function() {

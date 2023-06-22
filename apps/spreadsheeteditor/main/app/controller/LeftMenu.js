@@ -266,7 +266,9 @@ define([
             case 'back': break;
             case 'save': this.api.asc_Save(); break;
             case 'save-desktop': this.api.asc_DownloadAs(); break;
-            case 'export-pdf': this.clickSaveAsFormat(menu, Asc.c_oAscFileType.PDF, true); break;
+            case 'export-pdf':
+                Common.NotificationCenter.trigger('export:to', this.leftMenu, Asc.c_oAscFileType.PDF);
+                break;
             case 'print': Common.NotificationCenter.trigger('print', this.leftMenu); break;
             case 'exit': Common.NotificationCenter.trigger('goback'); break;
             case 'edit':
@@ -338,7 +340,7 @@ define([
             });
         },
 
-        clickSaveAsFormat: function(menu, format, asExport) {
+        clickSaveAsFormat: function(menu, format) {
             if (format == Asc.c_oAscFileType.CSV) {
                 var me = this;
                 if (this.api.asc_getWorksheetsCount()>1) {
@@ -362,7 +364,7 @@ define([
                     });
             } else if (format == Asc.c_oAscFileType.PDF || format == Asc.c_oAscFileType.PDFA) {
                 menu.hide();
-                Common.NotificationCenter.trigger(asExport ? 'export' : 'download:settings', this.leftMenu, format);
+                Common.NotificationCenter.trigger('download:settings', this.leftMenu, format);
             } else {
                 this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                 menu.hide();
