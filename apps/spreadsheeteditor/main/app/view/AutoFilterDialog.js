@@ -1487,7 +1487,7 @@ define([
                         '<% if (typeof isDate !=="undefined" && isDate) { %>',
                             '<div class="tree-item date <% if (!isVisible) { %>' + 'hidden' + '<% } %>" style="display: block;' + (!Common.UI.isRTL() ? 'padding-left' : 'padding-right') + ': <%= level*16 + 22 %>px;">',
                                 '<% if (hasSubItems) { %>',
-                                    '<div class="tree-caret img-commonctrl ' + '<% if (!isExpanded) { %>' + 'up' + '<% } %>' + '" style="' + (!Common.UI.isRTL() ? 'margin-left' : 'margin-right') + ':<%= level*16 %>px;"></div>',
+                                    '<i class="icon toolbar__icon btn-tree-caret ' + '<% if (!isExpanded) { %>' + 'up' + '<% } %>' + '" style="' + (!Common.UI.isRTL() ? 'margin-left' : 'margin-right') + ':<%= level*16 %>px;"></i>',
                                 '<% } %>',
                                 '<div class="name not-header">',
                                     '<label class="checkbox-indeterminate" style="position:absolute;">',
