@@ -7,7 +7,7 @@ on:
             - 'release/*'
             - 'hotfix/*'
         paths:
-            - 'apps/*'
+            - '**/resources/help/**'
 
 
 jobs:
