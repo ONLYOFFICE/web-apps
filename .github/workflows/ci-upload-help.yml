@@ -1,6 +1,4 @@
-name: "CI process for upload"
-
-run-name: "CI process for upload Apps on S3"
+name: "Build and upload helps"
 
 on:
     create:
@@ -13,7 +11,7 @@ on:
 
 
 jobs:
-    help:
+    build-help:
         name: "Build Apps and upload"
         runs-on: ubuntu-latest
         if: startsWith(github.ref, 'refs/heads/release/') || startsWith(github.ref, 'refs/heads/hotfix')
@@ -61,7 +59,7 @@ jobs:
                 npm install
                 grunt
 
-          - name: Upload apps
+          - name: Upload
             env:
                 TAG: ${{steps.branch-tag.outputs.tag}}
             run: |
