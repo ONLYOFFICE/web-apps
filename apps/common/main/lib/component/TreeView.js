@@ -240,7 +240,7 @@ define([
 
             onClickItem: function(view, record, e) {
                 var btn = $(e.target);
-                if (btn && btn.hasClass('tree-caret')) {
+                if (btn && (btn.hasClass('tree-caret') || btn.hasClass('btn-tree-caret'))) {
                     var tip = view.$el.data('bs.tooltip');
                     if (tip) (tip.tip()).remove();
 
