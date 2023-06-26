@@ -164,6 +164,12 @@
                     opacity: .8;
                 }
             }
+            &.disabled {
+                cursor: default;
+                &:after, &:hover:after {
+                    opacity: 0.4;
+                }
+            }
 
             &.left{
                 box-shadow: 5px 0 20px 5px @header-background-color-ie;
