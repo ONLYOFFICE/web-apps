@@ -1,9 +1,8 @@
 .pixel-ratio__2_5 {
     .btn-toolbar,
-        .btn-header,
-        .btn-category,
-        .btn-options
-    {
+    .btn-header,
+    .btn-category,
+    .btn-options {
         i.icon {
             &:not(.scaling-off) {
                 display: none;
@@ -27,11 +26,22 @@
         display: flex;
         align-items: center;
     }
+
+    .dataview {
+        &:not(.scaling-off) img {
+            display: none;
+        }
+        svg.icon {
+            width: 100%;
+            height: 100%;
+        }
+    }
 }
 
 .btn-toolbar,
-    .btn-header,
-    .btn-category
+.btn-header,
+.btn-category,
+.dataview
 {
     svg.icon:not(.uni-scale):not(.pixel-ratio__2_5 *) {
         display: none;
