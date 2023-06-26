@@ -19,6 +19,7 @@ import PluginsController from '../../../../common/mobile/lib/controller/Plugins.
 import EncodingController from "./Encoding";
 import DropdownListController from "./DropdownList";
 import { Device } from '../../../../common/mobile/utils/device';
+import { Themes } from '../../../../common/mobile/lib/controller/Themes';
 
 @inject(
     "users",
@@ -1256,6 +1257,7 @@ class MainController extends Component {
                 <PluginsController />
                 <EncodingController />
                 <DropdownListController />
+                <Themes />
             </Fragment>
             )
     }

@@ -38,11 +38,33 @@ export class storeAppOptions {
             setTypeProtection: action,
 
             isFileEncrypted: observable,
-            setEncryptionFile: action
+            setEncryptionFile: action,
+
+            colorTheme: observable,
+            setColorTheme: action
         });
     }
 
+    themesMap = {
+        dark : {
+            id: 'theme-dark',
+            type:'dark'
+        },
+        light: {
+            id: 'theme-light',
+            type: 'light'
+        },
+        system: {
+            id: 'theme-system',
+            type: 'system'
+        }
+    };
     isEdit = false;
+
+    colorTheme;
+    setColorTheme(theme) {
+        this.colorTheme = theme;
+    }
 
     isFileEncrypted = false;
     setEncryptionFile(value) {

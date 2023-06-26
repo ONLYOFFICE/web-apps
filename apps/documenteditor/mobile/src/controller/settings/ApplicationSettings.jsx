@@ -2,13 +2,14 @@ import React, { Component } from "react";
 import { ApplicationSettings } from "../../view/settings/ApplicationSettings";
 import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage.mjs';
 import {observer, inject} from "mobx-react";
-import { Themes } from '../../../../../common/mobile/lib/controller/Themes.js';
+// import { Themes } from '../../../../../common/mobile/lib/controller/Themes';
 
 class ApplicationSettingsController extends Component {
     constructor(props) {
         super(props);
         this.switchDisplayComments = this.switchDisplayComments.bind(this);
         this.props.storeApplicationSettings.changeUnitMeasurement(Common.Utils.Metric.getCurrentMetric());
+        this.changeColorTheme = this.changeColorTheme.bind(this);
     }
 
     setUnitMeasurement(value) {
@@ -67,6 +68,13 @@ class ApplicationSettingsController extends Component {
        LocalStorage.setItem('mode-direction', value);
     }
 
+    changeColorTheme(theme) {
+        const appOptions = this.props.storeAppOptions;
+        console.log(theme);
+        appOptions.setColorTheme(theme);
+        LocalStorage.setItem("ui-theme", JSON.stringify(theme));
+    }
+
     render() {
         return (
             <ApplicationSettings 
@@ -77,7 +85,8 @@ class ApplicationSettingsController extends Component {
                 switchDisplayComments={this.switchDisplayComments}
                 switchDisplayResolved={this.switchDisplayResolved}  
                 setMacrosSettings={this.setMacrosSettings}  
-                changeDirection={this.changeDirection}             
+                changeDirection={this.changeDirection}      
+                changeColorTheme={this.changeColorTheme}       
             />
         )
     }

@@ -1,8 +1,10 @@
-import { Dom7 } from 'framework7'
+import React from 'react';
 import { LocalStorage } from "../../utils/LocalStorage.mjs";
+import { inject, observer } from "mobx-react";
 
-class ThemesController {
-    constructor() {
+class ThemesController extends React.Component {
+    constructor(props) {
+        super(props);
         this.themes_map = {
             dark : {
                 id: 'theme-dark',
@@ -59,17 +61,73 @@ class ThemesController {
         ];
     }
 
-    init() {
-        const obj = LocalStorage.getItem("ui-theme");
-        let theme = this.themes_map.light;
-        if ( !!obj )
-            theme = this.themes_map[JSON.parse(obj).type];
-        else
-        if ( window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ) {
-            theme = this.themes_map['dark'];
-            LocalStorage.setItem("ui-theme", JSON.stringify(theme));
-        }
+    turnOffViewerMode() {
+        const appOptions = this.props.storeAppOptions;
+        const api = Common.EditorApi.get();
 
+        appOptions.changeViewerMode(false);
+        api.asc_addRestriction(Asc.c_oAscRestrictionType.None);
+    }
+
+    init() {
+        const appOptions = this.props.storeAppOptions;
+        const editorConfig = window.native?.editorConfig;
+        const editorType = window.editorType;
+        const obj = LocalStorage.getItem("ui-theme");
+        
+        let theme = this.themes_map.light;
+        
+        if(editorConfig) {
+            const isForceEdit = editorConfig.forceedit;
+            const themeConfig = editorConfig.theme;
+            const typeTheme = themeConfig ? theme.type : null;
+            const isSelectTheme = themeConfig ? theme.select : null;
+
+            if(isForceEdit && editorType === 'de') {
+                this.turnOffViewerMode();
+            } 
+
+            if(isSelectTheme) {
+                if(!!obj) {
+                    const type = JSON.parse(obj).type;
+
+                    if(type !== 'system') {
+                        theme = this.themes_map[JSON.parse(obj).type];
+                    } else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                        theme = this.themes_map['dark'];
+                        LocalStorage.setItem("ui-theme", JSON.stringify(theme));
+                    }
+                } else if(typeTheme && typeTheme !== 'system') {
+                    theme = this.themes_map[typeTheme];
+                } else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    theme = this.themes_map['dark'];
+                    LocalStorage.setItem("ui-theme", JSON.stringify(theme));
+                }
+            } else {
+                if(typeTheme && typeTheme !== 'system') { 
+                    theme = this.themes_map[typeTheme];
+                } else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    theme = this.themes_map['dark'];
+                    LocalStorage.setItem("ui-theme", JSON.stringify(theme));
+                }
+            }
+        } else {
+            if (!!obj) {
+                const type = JSON.parse(obj).type;
+
+                if(type !== 'system') {
+                    theme = this.themes_map[JSON.parse(obj).type];
+                } else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    theme = this.themes_map['dark'];
+                    LocalStorage.setItem("ui-theme", JSON.stringify(theme));
+                }
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                theme = this.themes_map['dark'];
+                LocalStorage.setItem("ui-theme", JSON.stringify(theme));
+            }
+        }  
+
+        appOptions.setColorTheme(theme);
         this.switchDarkTheme(theme, true);
 
         $$(window).on('storage', e => {
@@ -81,10 +139,10 @@ class ThemesController {
         });
     }
 
-    get isCurrentDark() {
-        const obj = LocalStorage.getItem("ui-theme");
-        return !!obj ? JSON.parse(obj).type === 'dark' : false;
-    }
+    // get isCurrentDark() {
+    //     const obj = LocalStorage.getItem("ui-theme");
+    //     return !!obj ? JSON.parse(obj).type === 'dark' : false;
+    // }
 
     get_current_theme_colors(colors) {
         let out_object = {};
@@ -119,7 +177,17 @@ class ThemesController {
         if(!api) Common.Notifications.on('engineCreated', on_engine_created);
         else on_engine_created(api);
     }
+
+    componentDidMount() {
+        Common.Notifications.on('engineCreated', (api) => { 
+            this.init();
+        });
+    }
+
+    render() {
+        return null;
+    }
 }
 
-const themes = new ThemesController()
+const themes = inject('storeAppOptions')(observer(ThemesController));
 export {themes as Themes}
