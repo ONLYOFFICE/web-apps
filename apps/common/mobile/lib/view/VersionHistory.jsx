@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Page, Navbar, BlockTitle, List, ListItem, Icon, NavRight, Link } from "framework7-react";
 import { useTranslation } from "react-i18next";
 import { observer, inject } from "mobx-react";
@@ -13,6 +13,12 @@ const VersionHistoryView = inject('storeVersionHistory', 'users')(observer(props
     const currentVersion = historyStore.currentVersion;
     const isNavigate = props.isNavigate;
     const _t = t("Settings", { returnObjects: true });
+
+    const handleClickRevision = version => {
+        if(version.version !== currentVersion.version) {
+            props.onSelectRevision(version);
+        }
+    }
 
     return (
         <Page className='page-version-history'>
@@ -33,7 +39,7 @@ const VersionHistoryView = inject('storeVersionHistory', 'users')(observer(props
             </Navbar>
             {arrVersions.map((version, index) => {
                 return (
-                    <div className={`version-history ${version.version === currentVersion.version ? 'version-history_active' : ''}`} key={index} onClick={() => props.onSelectRevision(version)}>
+                    <div className={`version-history ${version.version === currentVersion.version ? 'version-history_active' : ''}`} key={index} onClick={() => handleClickRevision(version)}>
                         <BlockTitle className='version-history__title'>{`${version.selected ? t('Settings.textCurrent') + ' - ' : ''} ${t('Settings.textVersion')} ${version.revision}`}</BlockTitle>
                         <List className='version-history__list' dividersIos mediaList outlineIos strongIos>
                             <ListItem link='#' title={version.created} subtitle={version.username} >

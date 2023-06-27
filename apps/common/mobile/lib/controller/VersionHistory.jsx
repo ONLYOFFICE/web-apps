@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { observer, inject } from "mobx-react";
 import VersionHistoryView from '../view/VersionHistory';
 import { f7, Sheet, Popover, View } from 'framework7-react';
@@ -14,18 +14,18 @@ const VersionHistoryController = inject('storeAppOptions', 'users', 'storeVersio
     const isVersionHistoryMode = historyStore.isVersionHistoryMode;
     const arrVersions = historyStore.arrVersions;
     const { t } = useTranslation();
+    const [currentChangeId, setCurrentChangeId] = useState(-1);
+    const [currentDocId, setCurrentDocId] = useState('');
+    const [currentDocIdPrev, setCurrentDocIdPrev] = useState('');
+    const [currentArrColors, setCurrentArrColors] = useState([]);
+    const [currentServerVersion, setCurrentServerVersion] = useState(0);
+    const [currentUserId, setCurrentUserId] = useState('');
+    const [currentUserName, setCurrentUserName] = useState('');
+    const [currentUserColor, setCurrentUserColor] = useState('');
+    const [currentDateCreated, setCurrentDateCreated] = useState('');
 
-    let currentChangeId = -1;
-    let currentDocId = '';
-    let currentDocIdPrev = ''
-    let timerId;
-    let currentRev = 0;
-    let currentArrColors = [];
-    let currentServerVersion = 0;
-    let currentUserId = '';
-    let currentUserName = '';
-    let currentUserColor = '';
-    let currentDateCreated = '';
+    let timerId = null;
+    // let currentRev = 0;
 
     useEffect(() => {
         Common.Gateway.requestHistory();
@@ -208,10 +208,9 @@ const VersionHistoryController = inject('storeAppOptions', 'users', 'storeVersio
                     historyStore.changeVersion(currentVersion);
                 } else {
                     historyStore.changeVersion(currentVersion);
-                    // onSelectRevision(currentVersion);
                 }
 
-                // onSelectRevision(currentVersion);
+                onSelectRevision(currentVersion);
             }
         }
     }
@@ -270,7 +269,7 @@ const VersionHistoryController = inject('storeAppOptions', 'users', 'storeVersio
                         }
                     }
                 }
-
+                // currentRev = data.version;
                 const hist = new Asc.asc_CVersionHistory();
 
                 hist.asc_setUrl(url);
@@ -287,9 +286,7 @@ const VersionHistoryController = inject('storeAppOptions', 'users', 'storeVersio
                 hist.asc_SetDateOfRevision(currentDateCreated);
 
                 api.asc_showRevision(hist);
-
-                currentRev = data.version;
-                historyStore.changeVersion(currentRev);
+                historyStore.changeVersion(data);
             }
         }
     };
@@ -325,17 +322,17 @@ const VersionHistoryController = inject('storeAppOptions', 'users', 'storeVersio
         const rev = version.revision;
         const url = version.url;
         const urlGetTime  = new Date();
-
-        currentRev = rev;
-        currentChangeId = version.changeid;
-        currentDocId = version.docId;
-        currentDocIdPrev = version.docIdPrev;
-        currentArrColors = version.arrColors;
-        currentServerVersion = version.serverVersion;
-        currentUserId = version.userid;
-        currentUserName = version.username;
-        currentUserColor = version.usercolor;
-        currentDateCreated = version.created;
+        // currentRev = rev;
+        // setCurrentRev(rev);
+        setCurrentChangeId(version.changeid);
+        setCurrentDocId(version.docId);
+        setCurrentDocIdPrev(version.docIdPrev);
+        setCurrentArrColors(version.arrColors);
+        setCurrentServerVersion(version.serverVersion);
+        setCurrentUserId(version.userid);
+        setCurrentUserName(version.username);
+        setCurrentUserColor(version.usercolor);
+        setCurrentDateCreated(version.created)
 
         if (!url || (urlGetTime - version.urlGetTime > 5 * 60000)) {
             if (!timerId) {
