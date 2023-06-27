@@ -127,6 +127,11 @@ Common.UI.HintManager = new(function() {
         };
 
     var _api;
+    const _test_config = {
+        timeout: Common.localStorage.getItem('testhint-show-timeout') || 2000,
+        key: Common.localStorage.getItem('testhint-show-key') === 'opt' ? 18 :
+                Common.localStorage.getItem('testhint-show-key') === 'ctrl' ? 17 : 91,
+    }
 
     var _setCurrentSection = function (btn, section) {
         if (section) {
@@ -517,6 +522,11 @@ Common.UI.HintManager = new(function() {
                 e.preventDefault();
             }
             _needShow = false;
+
+            if ( window._mac_timer ) {
+                clearTimeout(window._mac_timer);
+                delete window._mac_timer;
+            }
         });
         $(document).on('keydown', function(e) {
             if (_hintVisible) {
@@ -639,9 +649,31 @@ Common.UI.HintManager = new(function() {
                     }
                 }
             }
+            else {
+                if ( Common.Utils.isMac ) {
+                    if ( e.keyCode == _test_config.key && !e.shiftKey /*&& !e.ctrlKey*/ ) {
+                        if ( !window._mac_timer ) {
+                            _hideHints();
+                            window._mac_timer = setTimeout(e => {
+                                _needShow = true;
+                            }, _test_config.timeout);
+                        }
+
+                        return;
+                    } else {
+                        if ( window._mac_timer ) {
+                            clearTimeout(window._mac_timer);
+                            delete window._mac_timer;
+                        }
+                    }
+
+                    // _needShow = false;
+                }
+            }
 
             _needShow = (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && !e.shiftKey &&
-                (!Common.Utils.isMac && e.keyCode == Common.UI.Keys.ALT || Common.Utils.isMac && e.metaKey && e.keyCode === Common.UI.Keys.F6) &&
+                // (!Common.Utils.isMac && e.keyCode == Common.UI.Keys.ALT /*|| Common.Utils.isMac && e.metaKey && e.keyCode === Common.UI.Keys.F6*/) &&
+                (!Common.Utils.isMac && e.keyCode == Common.UI.Keys.ALT || Common.Utils.isMac && _hintVisible) &&
                 !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0 &&
                 !(window.PE && $('#pe-preview').is(':visible')));
             if (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && !Common.Utils.isMac && e.altKey && e.keyCode !== 115) {
