@@ -43,37 +43,35 @@ jobs:
               aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
               aws-region: us-east-1
 
-          - name: Export branch tag
-            id: branch-tag
+          - name: Export tag and directory path
+            id: tag-dir
             run: |
                 BRANCH_NAME=${GITHUB_REF#refs/heads/}
                 export TAG=${BRANCH_NAME#*/}
-                echo "tag=$TAG" >> $GITHUB_OUTPUT
+                echo "PATH=/install/desktop/editors/help/$TAG/apps" >> $GITHUB_OUTPUT
 
           - name: Build
             run: |
-                cd web-apps
-                npm install --prefix build
-                cd build
+                cd web-apps/build
                 ./sprites.sh
                 npm install
                 grunt
 
           - name: Upload
             env:
-                TAG: ${{steps.branch-tag.outputs.tag}}
+                PATH: ${{steps.tag-dir.outputs.PATH}}
             run: |
                 aws s3 sync ./web-apps/deploy/web-apps/apps/  \
-                ${{secrets.AWS_BUCKET_URL}}/install/desktop/editors/help/${TAG}/apps \
+                ${{secrets.AWS_BUCKET_URL}}${PATH} \
                 --acl public-read \
                 --metadata-directive REPLACE
 
 
           - name: Invalidate AWS CLOUDFRONT cache
             env:
-                TAG: ${{steps.branch-tag.outputs.tag}}
+                PATH: ${{steps.tag-dir.outputs.PATH}}
             run: |
                 aws cloudfront create-invalidation \
                     --distribution-id ${{ secrets.AWS_DISTRIBUTION_ID }} \
                     --paths \
-                    "/install/desktop/editors/help/${TAG}/apps/*"
+                    "${PATH}/*"
