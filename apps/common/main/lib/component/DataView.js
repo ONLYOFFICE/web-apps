@@ -167,7 +167,7 @@ define([
                     tip.dontShow = true;
             }
 
-            if (this.scaling !== false ) {
+            if (this.scaling !== false && el.find('.options__icon').length) {
                 el.attr('ratio', 'ratio');
                 this.applyScaling(Common.UI.Scaling.currentRatio());
 
@@ -227,14 +227,14 @@ define([
 
             if (ratio > 2) {
                 var el = this.$el || $(this.el),
-                    img = el.find('img');
-                if (img.length > 0) {
+                    icon = el.find('.options__icon');
+                if (icon.length > 0) {
                     if (!el.find('svg.icon').length) {
-                        var iconCls = img.attr('class'),
+                        var iconCls = icon.attr('class'),
                             re_icon_name = /btn-[^\s]+/.exec(iconCls),
                             icon_name = re_icon_name ? re_icon_name[0] : "null",
                             svg_icon = '<svg class="icon"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name);
-                        img.after(svg_icon);
+                        icon.after(svg_icon);
                     }
                 }
             }
