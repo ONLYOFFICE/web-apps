@@ -46,6 +46,7 @@ define([
             this.btnOptions = new Common.UI.Button({
                 cls: 'btn-toolbar no-caret',
                 iconCls: 'svg-icon more-vertical',
+                scaling: false,
                 menu: new Common.UI.Menu({
                     cls: 'shifted-right',
                     items: [
@@ -103,34 +104,39 @@ define([
             this.btnClear = new Common.UI.Button({
                 cls: 'btn-toolbar',
                 iconCls: 'svg-icon clear-style',
-                caption: this.textClear
+                caption: this.textClear,
+                scaling: false
             });
             this.btnClear.render($('#id-btn-clear-fields'));
 
             this.btnNext = new Common.UI.Button({
                 cls: 'btn-toolbar',
                 iconCls: 'svg-icon arrow-down',
-                caption: this.textNext
+                caption: this.textNext,
+                scaling: false
             });
             this.btnNext.render($('#id-btn-next-field'));
 
             this.btnPrev = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'svg-icon arrow-up'
+                iconCls: 'svg-icon arrow-up',
+                scaling: false
             });
             this.btnPrev.render($('#id-btn-prev-field'));
 
             this.btnUndo = new Common.UI.Button({
                 cls: 'btn-toolbar',
                 iconCls: 'svg-icon undo',
-                hint: this.tipUndo + Common.Utils.String.platformKey('Ctrl+Z')
+                hint: this.tipUndo + Common.Utils.String.platformKey('Ctrl+Z'),
+                scaling: false
             });
             this.btnUndo.render($('#id-btn-undo'));
 
             this.btnRedo = new Common.UI.Button({
                 cls: 'btn-toolbar',
                 iconCls: 'svg-icon redo',
-                hint: this.tipRedo + Common.Utils.String.platformKey('Ctrl+Y')
+                hint: this.tipRedo + Common.Utils.String.platformKey('Ctrl+Y'),
+                scaling: false
             });
             this.btnRedo.render($('#id-btn-redo'));
 

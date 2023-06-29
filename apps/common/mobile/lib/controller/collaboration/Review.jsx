@@ -121,9 +121,11 @@ class Review extends Component {
     render() {
         const displayMode = this.props.storeReview.displayMode;
         const isReviewOnly = this.appConfig.isReviewOnly;
+        const isProtected = this.appConfig.isProtected;
         const canReview = this.appConfig.canReview;
         const canUseReviewPermissions = this.appConfig.canUseReviewPermissions;
         const isRestrictedEdit = this.appConfig.isRestrictedEdit;
+
         return (
             <PageReview isReviewOnly={isReviewOnly}
                         canReview={canReview}
@@ -136,6 +138,7 @@ class Review extends Component {
                         onRejectAll={this.onRejectAll}
                         onDisplayMode={this.onDisplayMode}
                         noBack={this.props.noBack}
+                        isProtected={isProtected}
             />
         )
     }
