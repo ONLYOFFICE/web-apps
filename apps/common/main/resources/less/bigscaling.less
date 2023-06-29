@@ -36,12 +36,21 @@
             max-height: 100%;
         }
     }
+
+    .dropdown-menu {
+        .menu-item {
+            span.menu-item-icon {
+                display: none;
+            }
+        }
+    }
 }
 
 .btn-toolbar,
 .btn-header,
 .btn-category,
-.dataview
+.dataview,
+.dropdown-menu .menu-item
 {
     svg.icon:not(.uni-scale):not(.pixel-ratio__2_5 *) {
         display: none;
