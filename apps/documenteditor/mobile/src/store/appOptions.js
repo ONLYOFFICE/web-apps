@@ -41,14 +41,17 @@ export class storeAppOptions {
             setEncryptionFile: action,
 
             colorTheme: observable,
-            setColorTheme: action
+            setColorTheme: action,
+
+            isConfigSelectTheme: observable,
+            setConfigSelectTheme: action
         });
     }
 
     themesMap = {
-        dark : {
+        dark: {
             id: 'theme-dark',
-            type:'dark'
+            type: 'dark'
         },
         light: {
             id: 'theme-light',
@@ -60,6 +63,11 @@ export class storeAppOptions {
         }
     };
     isEdit = false;
+
+    isConfigSelectTheme = true;
+    setConfigSelectTheme(value) {
+        this.isConfigSelectTheme = value;
+    }
 
     colorTheme;
     setColorTheme(theme) {

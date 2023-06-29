@@ -26,6 +26,7 @@ const PageApplicationSettings = props => {
     const appOptions = props.storeAppOptions;
     const colorTheme = appOptions.colorTheme;
     const typeTheme = colorTheme.type;
+    const isConfigSelectTheme = appOptions.isConfigSelectTheme;
     const isViewer = appOptions.isViewer;
     const _isEdit = appOptions.isEdit;
     const _isShowMacros = (!appOptions.isDisconnected && appOptions.customization) ? appOptions.customization.macros !== false : true;
@@ -99,23 +100,11 @@ const PageApplicationSettings = props => {
                     />
                 </ListItem>
             </List>
-            <List mediaList>
-                {/* <ListItem title={'Dark theme'}> */}
-                    {/* <Toggle checked={isThemeDark}
-                        onToggleChange={() => {Themes.switchDarkTheme(!isThemeDark), setIsThemeDark(!isThemeDark)}}>
-                    </Toggle> */}
-                    {/* <Toggle checked={isThemeDark}
-                        onToggleChange={() => {console.log('change theme')}}>
-                    </Toggle> */}
-                {/* </ListItem> */}
-                <ListItem title={t("Settings.textTheme")} after={typeTheme === 'dark' || typeTheme === 'light' ? themes[typeTheme] : themes['system']} link="/theme-settings/" routeProps={{changeColorTheme: props.changeColorTheme}}></ListItem>
-            </List>
-            {/*{!isViewer &&*/}
-            {/*    <List mediaList>*/}
-            {/*        <ListItem title={t('Settings.textDirection')} link="/direction/"*/}
-            {/*                  routeProps={{changeDirection: props.changeDirection}}></ListItem>*/}
-            {/*    </List>*/}
-            {/*}*/}
+            {!!isConfigSelectTheme &&
+                <List mediaList>
+                    <ListItem title={t("Settings.textTheme")} after={typeTheme === 'dark' || typeTheme === 'light' ? themes[typeTheme] : themes['system']} link="/theme-settings/" routeProps={{changeColorTheme: props.changeColorTheme}}></ListItem>
+                </List>
+            }
             {_isShowMacros &&
                 <List mediaList>
                     <ListItem title={_t.textMacrosSettings} link="/macros-settings/" routeProps={{

@@ -70,9 +70,8 @@ class ApplicationSettingsController extends Component {
 
     changeColorTheme(theme) {
         const appOptions = this.props.storeAppOptions;
-        console.log(theme);
-        appOptions.setColorTheme(theme);
         LocalStorage.setItem("ui-theme", JSON.stringify(theme));
+        appOptions.setColorTheme(theme);
     }
 
     render() {

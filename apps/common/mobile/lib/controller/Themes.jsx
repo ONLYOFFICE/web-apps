@@ -8,7 +8,7 @@ class ThemesController extends React.Component {
         this.themes_map = {
             dark : {
                 id: 'theme-dark',
-                type:'dark'
+                type: 'dark'
             },
             light: {
                 id: 'theme-light',
@@ -63,10 +63,7 @@ class ThemesController extends React.Component {
 
     turnOffViewerMode() {
         const appOptions = this.props.storeAppOptions;
-        const api = Common.EditorApi.get();
-
         appOptions.changeViewerMode(false);
-        api.asc_addRestriction(Asc.c_oAscRestrictionType.None);
     }
 
     init() {
@@ -80,8 +77,8 @@ class ThemesController extends React.Component {
         if(editorConfig) {
             const isForceEdit = editorConfig.forceedit;
             const themeConfig = editorConfig.theme;
-            const typeTheme = themeConfig ? theme.type : null;
-            const isSelectTheme = themeConfig ? theme.select : null;
+            const typeTheme = themeConfig ? themeConfig.type : null;
+            const isSelectTheme = themeConfig ? themeConfig.select : null;
 
             if(isForceEdit && editorType === 'de') {
                 this.turnOffViewerMode();
@@ -89,41 +86,20 @@ class ThemesController extends React.Component {
 
             if(isSelectTheme) {
                 if(!!obj) {
-                    const type = JSON.parse(obj).type;
-
-                    if(type !== 'system') {
-                        theme = this.themes_map[JSON.parse(obj).type];
-                    } else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                        theme = this.themes_map['dark'];
-                        LocalStorage.setItem("ui-theme", JSON.stringify(theme));
-                    }
-                } else if(typeTheme && typeTheme !== 'system') {
-                    theme = this.themes_map[typeTheme];
-                } else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    theme = this.themes_map['dark'];
-                    LocalStorage.setItem("ui-theme", JSON.stringify(theme));
-                }
+                    theme = this.setClientTheme(theme, obj);
+                } else {
+                    theme = this.checkConfigTheme(theme, typeTheme);
+                } 
             } else {
-                if(typeTheme && typeTheme !== 'system') { 
-                    theme = this.themes_map[typeTheme];
-                } else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    theme = this.themes_map['dark'];
-                    LocalStorage.setItem("ui-theme", JSON.stringify(theme));
-                }
+                theme = this.checkConfigTheme(theme, typeTheme);
             }
+            
+            appOptions.setConfigSelectTheme(isSelectTheme);
         } else {
             if (!!obj) {
-                const type = JSON.parse(obj).type;
-
-                if(type !== 'system') {
-                    theme = this.themes_map[JSON.parse(obj).type];
-                } else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    theme = this.themes_map['dark'];
-                    LocalStorage.setItem("ui-theme", JSON.stringify(theme));
-                }
-            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                theme = this.themes_map['dark'];
-                LocalStorage.setItem("ui-theme", JSON.stringify(theme));
+                theme = this.setClientTheme(theme, obj);
+            } else {
+                theme = this.checkSystemDarkTheme(theme);
             }
         }  
 
@@ -143,6 +119,37 @@ class ThemesController extends React.Component {
     //     const obj = LocalStorage.getItem("ui-theme");
     //     return !!obj ? JSON.parse(obj).type === 'dark' : false;
     // }
+
+    setClientTheme(theme, obj) {
+        const type = JSON.parse(obj).type;
+
+        if(type !== 'system') {
+            theme = this.themes_map[JSON.parse(obj).type];
+        } else {
+            theme = this.checkSystemDarkTheme(theme);
+        }
+
+        return theme;
+    }
+
+    checkConfigTheme(theme, typeTheme) {
+        if(typeTheme && typeTheme !== 'system') { 
+            theme = this.themes_map[typeTheme];
+        } else {
+            theme = this.checkSystemDarkTheme(theme);
+        }
+
+        return theme;
+    }
+
+    checkSystemDarkTheme(theme) {
+        if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            theme = this.themes_map['dark'];
+            LocalStorage.setItem("ui-theme", JSON.stringify(theme));
+        }
+
+        return theme;
+    }
 
     get_current_theme_colors(colors) {
         let out_object = {};
@@ -179,9 +186,7 @@ class ThemesController extends React.Component {
     }
 
     componentDidMount() {
-        Common.Notifications.on('engineCreated', (api) => { 
-            this.init();
-        });
+        this.init();
     }
 
     render() {
