@@ -475,7 +475,7 @@ define([
             
             var template =  '<div class="info-box">' +
                                 '<% if (typeof iconCls !== "undefined") { %><div class="icon <%= iconCls %>"></div><% } %>' +
-                                '<div class="text" dir="ltr" <% if (typeof iconCls == "undefined") { %>' + (Common.UI.isRTL() ? ' style="padding-right:10px;"' : ' style="padding-left:10px;"') + '<% } %>><span><%= msg %></span>' +
+                                '<div class="text' + '<% if (typeof iconCls == "undefined") { %> padding-left-10<% } %>' + '"><span><%= msg %></span>' +
                                     '<% if (dontshow) { %><div class="dont-show-checkbox"></div><% } %>' +
                                 '</div>' +
                             '</div>' +
@@ -497,22 +497,27 @@ define([
                 var header      = window.getChild('.header');
                 var body        = window.getChild('.body');
                 var icon        = window.getChild('.icon'),
-                    icon_height = (icon.length>0) ? icon.height() : 0;
+                    icon_height = (icon.length>0) ? icon.height() : 0,
+                    icon_width = (icon.length>0) ? $(icon).outerWidth(true) : 0;
                 var check       = window.getChild('.info-box .dont-show-checkbox');
 
                 if (!options.dontshow) body.css('padding-bottom', '10px');
 
                 if (options.maxwidth && options.width=='auto') {
-                    if ((text.position().left + text.width() + parseInt(text_cnt.css('padding-right'))) > options.maxwidth)
+                    var width = !Common.UI.isRTL() ? (text.position().left + text.width() + parseInt(text_cnt.css('padding-right'))) :
+                        (parseInt(text_cnt.css('padding-right')) + icon_width + text.width() + parseInt(text_cnt.css('padding-left')));
+                    if (width > options.maxwidth)
                         options.width = options.maxwidth;
                 }
                 if (options.width=='auto') {
                     text_cnt.height(Math.max(text.height(), icon_height) + ((check.length>0) ? (check.height() + parseInt(check.css('margin-top'))) : 0));
                     body.height(parseInt(text_cnt.css('height')) + parseInt(footer.css('height')));
                     var span_el = check.find('span');
-                    window.setSize(Math.max(text.width(), span_el.length>0 ? span_el.position().left + span_el.width() : 0) + text.position().left + parseInt(text_cnt.css('padding-right')) +
-                        (Common.UI.isRTL() && icon.length > 0 ? icon.width() + parseInt(icon.css('margin-right')) + parseInt(icon.css('margin-left')) : 0),
-                        parseInt(body.css('height')) + parseInt(header.css('height')));
+                    var width = !Common.UI.isRTL() ?
+                        (Math.max(text.width(), span_el.length>0 ? span_el.position().left + span_el.width() : 0) + text.position().left + parseInt(text_cnt.css('padding-right'))) :
+                        (parseInt(text_cnt.css('padding-right')) + icon_width + parseInt(text_cnt.css('padding-left')) +
+                            (Math.max(text.width(), check.length>0 ? $(check).find('.checkbox-indeterminate').outerWidth(true) : 0)));
+                    window.setSize(width, parseInt(body.css('height')) + parseInt(header.css('height')));
                 } else {
                     text.css('white-space', 'normal');
                     window.setWidth(options.width);

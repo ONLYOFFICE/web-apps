@@ -1074,5 +1074,4 @@ define(function(){ 'use strict';
             },
         }
     })(), Common.define.smartArt || {});
-
 });

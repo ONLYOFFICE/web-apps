@@ -1440,6 +1440,7 @@ define([
 
             Common.Gateway.documentReady();
             Common.Analytics.trackEvent('Load', 'Complete');
+            Common.NotificationCenter.trigger('document:ready');
         },
 
         onOptionsClick: function(menu, item, e) {
@@ -1602,16 +1603,24 @@ define([
             }
 
             if (Common.UI.Themes.available()) {
-                var current = Common.UI.Themes.currentThemeId();
-                for (var t in Common.UI.Themes.map()) {
-                    this.view.mnuThemes.addItem(new Common.UI.MenuItem({
-                        caption     : Common.UI.Themes.get(t).text,
-                        value       : t,
-                        toggleGroup : 'themes',
-                        checkable   : true,
-                        checked     : t===current
-                    }));
+                const _fill_themes = function () {
+                    const _menu = this.view.mnuThemes;
+                    _menu.removeAll();
+
+                    const _current = Common.UI.Themes.currentThemeId();
+                    for (const t in Common.UI.Themes.map()) {
+                        _menu.addItem(new Common.UI.MenuItem({
+                            caption     : Common.UI.Themes.get(t).text,
+                            value       : t,
+                            toggleGroup : 'themes',
+                            checkable   : true,
+                            checked     : t === _current
+                        }));
+                    }
                 }
+
+                Common.NotificationCenter.on('uitheme:countchanged', _fill_themes.bind(this));
+                _fill_themes.call(this);
             }
             if (this.view.mnuThemes.items.length<1) {
                 menuItems[7].setVisible(false);
