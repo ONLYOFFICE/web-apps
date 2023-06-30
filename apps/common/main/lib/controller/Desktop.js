@@ -568,6 +568,9 @@ define([
             systemThemeSupported: function () {
                 return nativevars.theme && nativevars.theme.system !== 'disabled';
             },
+            localThemes: function () {
+                return nativevars ? nativevars.localthemes : undefined;
+            },
         };
     };
 

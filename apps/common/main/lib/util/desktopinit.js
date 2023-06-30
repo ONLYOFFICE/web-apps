@@ -47,7 +47,7 @@ if ( window.AscDesktopEditor ) {
 
     if ( !!window.RendererProcessVariable ) {
         const theme = desktop.theme = window.RendererProcessVariable.theme;
-        const map_themes = window.RendererProcessVariable.themes;
+        const map_themes = window.RendererProcessVariable.localthemes;
 
         if ( theme ) {
             window.uitheme = {
@@ -57,7 +57,7 @@ if ( window.AscDesktopEditor ) {
 
             if ( map_themes && map_themes[theme.id] ) {
                 window.uitheme.colors = map_themes[theme.id].colors;
-                window.nativethemes = map_themes;
+                // window.desktop.themes = map_themes;
             }
         }
     }

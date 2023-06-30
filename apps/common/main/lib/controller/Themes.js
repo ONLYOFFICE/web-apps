@@ -306,8 +306,8 @@ define([
             if ( !Common.Controllers.Desktop.isActive() /*|| !Common.Controllers.Desktop.isOffline()*/ )
                 get_themes_config.call(this, '../../../../themes.json');
             else
-            if ( window.nativethemes ) {
-                parse_themes_object(window.nativethemes);
+            if ( Common.Controllers.Desktop.localThemes() ) {
+                parse_themes_object({'themes': Common.Controllers.Desktop.localThemes()});
                 check_launched_custom_theme();
             }
         }
