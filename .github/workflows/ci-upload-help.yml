@@ -1,13 +1,14 @@
+
 name: "Build and upload helps"
 
 on:
-    create:
-    push:
-        branches:
-            - 'release/*'
-            - 'hotfix/*'
-        paths:
-            - '**/resources/help/**'
+  create:
+  push:
+      branches:
+        - 'release/*'
+        - 'hotfix/*'
+      paths:
+        - '**/resources/help/**'
 
 
 jobs:
@@ -43,35 +44,33 @@ jobs:
               aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
               aws-region: us-east-1
 
-          - name: Export tag and directory path
-            id: tag-dir
+          - name: Export branch tag
+            id: branch-tag
             run: |
                 BRANCH_NAME=${GITHUB_REF#refs/heads/}
                 export TAG=${BRANCH_NAME#*/}
-                echo "PATH=/install/desktop/editors/help/$TAG/apps" >> $GITHUB_OUTPUT
-
+                echo "URI=install/desktop/editors/help/$TAG/apps" >> $GITHUB_OUTPUT
+                
           - name: Build
             run: |
                 cd web-apps/build
                 ./sprites.sh
                 npm install
                 grunt
-
           - name: Upload
             env:
-                PATH: ${{steps.tag-dir.outputs.PATH}}
+                URI: ${{steps.branch-tag.outputs.URI}}
+                
             run: |
                 aws s3 sync ./web-apps/deploy/web-apps/apps/  \
-                ${{secrets.AWS_BUCKET_URL}}${PATH} \
+                ${{secrets.AWS_BUCKET_URL}}${URI} \
                 --acl public-read \
                 --metadata-directive REPLACE
-
-
           - name: Invalidate AWS CLOUDFRONT cache
             env:
-                PATH: ${{steps.tag-dir.outputs.PATH}}
+                URI: ${{steps.branch-tag.outputs.URI}}
             run: |
                 aws cloudfront create-invalidation \
                     --distribution-id ${{ secrets.AWS_DISTRIBUTION_ID }} \
                     --paths \
-                    "${PATH}/*"
+                    "/${URI}/*"
