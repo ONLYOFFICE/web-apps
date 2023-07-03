@@ -56,7 +56,7 @@ define([
                 '<div class="box">',
                     '<table cols="2" style="width: 100%;">',
                         '<tr>',
-                            '<td style="width: 50px; padding-right: 10px;">',
+                            '<td class="padding-right-10" style="width: 50px;">',
                                 '<label></label>',
                                 '<div id="id-dlg-role-color" style="margin-bottom: 10px;"></div>',
                             '</td>',
@@ -107,7 +107,7 @@ define([
                                       id: 'id-dlg-role-menu-no-highlight',
                                       caption: this.textNoHighlight,
                                       checkable: true,
-                                      style: 'padding-left: 20px;'
+                                      style: Common.UI.isRTL() ? 'padding-right:20px;' : 'padding-left:20px;',
                                   }),
                                   {caption: '--'}],
                 additionalAlign: this.menuAddAlign,

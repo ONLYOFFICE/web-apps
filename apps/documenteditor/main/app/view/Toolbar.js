@@ -947,7 +947,7 @@ define([
                                             {caption: '--'},
                                             {
                                                 id: 'id-toolbar-menu-new-control-color',
-                                                template: _.template('<a tabindex="-1" type="menuitem" style="padding-left:12px;">' + this.textNewColor + '</a>')
+                                                template: _.template('<a tabindex="-1" type="menuitem" style="' + (Common.UI.isRTL() ? 'padding-right:12px;' : 'padding-left:12px;') + '">' + this.textNewColor + '</a>')
                                             }
                                         ]
                                     })
@@ -1558,7 +1558,7 @@ define([
                                 //     menuWidth = Math.max(Math.floor(buttonOffsetLeft/(itemMargin + _width)), 2) * (itemMargin + _width);
                                 if (menuWidth>Common.Utils.innerWidth())
                                     menuWidth = Math.max(Math.floor(Common.Utils.innerWidth()/(itemMargin + _width)), 2) * (itemMargin + _width);
-                                var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - Math.min(menuWidth, buttonOffsetLeft) - 1;
+                                var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - Math.min(menuWidth, buttonOffsetLeft);
                                 if (Common.UI.isRTL()) {
                                     offset = cmp.openButton.$el.width();
                                 }
@@ -1669,6 +1669,13 @@ define([
 
                     me.onUpdateLastCustomMargins();
                     Common.NotificationCenter.on('margins:update', _.bind(me.onUpdateLastCustomMargins, me));
+
+                    Common.NotificationCenter.on('eyedropper:start', function () {
+                        if (me.btnCopyStyle.pressed)
+                            me.btnCopyStyle.toggle(false, true);
+                        if (me.btnHighlightColor.pressed)
+                            me.btnHighlightColor.toggle(false, true);
+                    });
                 }
 
                 if ( me.isCompactView )

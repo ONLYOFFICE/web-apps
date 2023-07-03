@@ -151,7 +151,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="pointer-events:none;width: 100%;display:flex;">',
-                        '<div style="width:110px;padding-right: 5px;overflow: hidden;text-overflow: ellipsis;<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= replaced %></div>',
+                        '<div class="padding-right-5" style="width:110px;overflow: hidden;text-overflow: ellipsis;<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= replaced %></div>',
                         '<div style="width:230px;overflow-x: clip;overflow-y:visible;text-overflow: ellipsis;flex-grow:1;font-family: Cambria Math;font-size:13px;white-space: nowrap;<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= by %></div>',
                     '</div>'
                 ].join('')),

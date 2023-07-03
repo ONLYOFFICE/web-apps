@@ -104,7 +104,9 @@ define([
         },
 
         render: function() {
-            this.$el.html(this.template({rows:this.formats, fileType: (this.fileType || 'pptx').toLowerCase(), header: this.textDownloadAs}));
+            this.$el.html(this.template({rows:this.formats,
+                fileType: (this.fileType || 'pptx').toLowerCase(),
+                header: /*this.textDownloadAs*/ Common.Locale.get('btnDownloadCaption', {name:'PE.Views.FileMenu', default:this.textDownloadAs})}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
             if (_.isUndefined(this.scroller)) {
@@ -203,7 +205,9 @@ define([
         },
 
         render: function() {
-            this.$el.html(this.template({rows:this.formats, fileType: (this.fileType || 'pptx').toLowerCase(), header: this.textSaveCopyAs}));
+            this.$el.html(this.template({rows:this.formats,
+                fileType: (this.fileType || 'pptx').toLowerCase(),
+                header: /*this.textSaveCopyAs*/ Common.Locale.get('btnSaveCopyAsCaption', {name:'PE.Views.FileMenu', default:this.textSaveCopyAs})}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
             if (_.isUndefined(this.scroller)) {
@@ -1994,8 +1998,8 @@ define([
                                     '<tr><td class="padding-large"><div id="print-combo-range" style="width: 248px;"></div></td></tr>',
                                     '<tr><td class="padding-large">',
                                         '<table style="width: 100%;"><tbody>',
-                                        '<tr><td class="padding-large"><%= scope.txtPages %>:</td><td class="padding-large" style="width: 100%;"><div id="print-txt-pages" style="width: 100%;"></div></td></tr>',
-                                        '<tr><td><%= scope.txtCopies %>:</td><td style="width: 100%;"><div id="print-txt-copies" style="width: 60px;"></div></td></tr>',
+                                        '<tr><td class="padding-large"><%= scope.txtPages %>:</td><td class="padding-large" style="width: 100%;"><div id="print-txt-pages" class="padding-left-5" style="width: 100%;"></div></td></tr>',
+                                        '<tr><td><%= scope.txtCopies %>:</td><td style="width: 100%;"><div id="print-txt-copies" class="padding-left-5" style="width: 60px;"></div></td></tr>',
                                         '</tr></tbody></table>',
                                     '</td></tr>',
                                     '<tr><td><label class="header"><%= scope.txtPrintSides %></label></td></tr>',

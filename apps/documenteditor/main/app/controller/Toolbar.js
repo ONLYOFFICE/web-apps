@@ -803,7 +803,7 @@ define([
                 toolbar.btnContentControls.menu.items[10].setDisabled(!in_control || if_form);
             }
 
-            this.toolbar.lockToolbar(Common.enumLock.fixedForm, if_form && if_form.get_Fixed() && in_para, {array: [
+            this.toolbar.lockToolbar(Common.enumLock.fixedForm, if_form && if_form.get_Fixed(), {array: [
                 toolbar.btnAlignLeft, toolbar.btnAlignCenter, toolbar.btnAlignRight, toolbar.btnAlignJust,
                 toolbar.btnMarkers, toolbar.btnNumbers, toolbar.btnMultilevels,
                 toolbar.btnDecLeftOffset, toolbar.btnIncLeftOffset,

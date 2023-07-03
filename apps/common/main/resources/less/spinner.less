@@ -5,19 +5,8 @@
 
     input {
         height: @spin-height;
-        text-align: right;
-        padding-left: 1px;
-        padding-right: @trigger-width + 2px;
-
-        .rtl & {
-            text-align: left;
-            padding-left: @trigger-width + 2px;
-            padding-right: 1px;
-        }
-
-        &:focus {
-            // border-color: @border-preview-select;
-        }
+        .text-align-right();
+        .padding-x(1px, @trigger-width + 2px);
     }
 
     button {

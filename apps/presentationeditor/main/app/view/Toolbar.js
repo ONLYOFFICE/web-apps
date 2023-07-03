@@ -1113,7 +1113,7 @@ define([
                                 //     menuWidth = Math.max(Math.floor(buttonOffsetLeft/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth);
                                 if (menuWidth>Common.Utils.innerWidth())
                                     menuWidth = Math.max(Math.floor(Common.Utils.innerWidth()/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth);
-                                var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - Math.min(menuWidth, buttonOffsetLeft) - 1;
+                                var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - Math.min(menuWidth, buttonOffsetLeft);
                                 if (Common.UI.isRTL()) {
                                     offset = cmp.openButton.$el.width();
                                 }
@@ -1217,6 +1217,12 @@ define([
                     me.setTab('home');
                     me.processPanelVisible();
 
+                    Common.NotificationCenter.on('eyedropper:start', function () {
+                        if (me.btnCopyStyle.pressed)
+                            me.btnCopyStyle.toggle(false, true);
+                        if (me.btnHighlightColor.pressed)
+                            me.btnHighlightColor.toggle(false, true);
+                    });
                 }
 
                 if ( me.isCompactView )
