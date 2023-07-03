@@ -1854,7 +1854,7 @@
   "SSE.Views.DocumentHolder.bulletsText": "글 머리 기호 및 번호 매기기",
   "SSE.Views.DocumentHolder.centerCellText": "가운데 맞춤",
   "SSE.Views.DocumentHolder.chartText": "차트 고급 설정",
-  "SSE.Views.DocumentHolder.deleteColumnText": "Column",
+  "SSE.Views.DocumentHolder.deleteColumnText": "열",
   "SSE.Views.DocumentHolder.deleteRowText": "Row",
   "SSE.Views.DocumentHolder.deleteTableText": "테이블",
   "SSE.Views.DocumentHolder.direct270Text": "텍스트 회전",

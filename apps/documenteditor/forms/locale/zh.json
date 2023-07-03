@@ -152,6 +152,7 @@
   "DE.Controllers.ApplicationController.uploadImageExtMessage": "未知图像格式。",
   "DE.Controllers.ApplicationController.uploadImageSizeMessage": "图片太大了。最大允许的大小为 25 MB.",
   "DE.Controllers.ApplicationController.waitText": "请稍候...",
+  "DE.Controllers.ApplicationController.warnLicenseAnonymous": "拒绝匿名用户的访问。<br>本文档将以仅查看模式而打开。",
   "DE.Controllers.ApplicationController.warnLicenseBefore": "许可证未激活。<br>请联系管理员。",
   "DE.Controllers.ApplicationController.warnLicenseExceeded": "您已达到同时连接 %1 编辑器的限制。该文档将打开以查看。<br> 请联系管理员以了解更多。",
   "DE.Controllers.ApplicationController.warnLicenseExp": "您的许可证已过期。<br>请更新您的许可证并刷新页面。",
