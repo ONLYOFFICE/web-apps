@@ -101,7 +101,7 @@ const DisplayMode = props => {
     )
 };
 
-const PageReviewChange = props => {
+const PageReviewChange = inject("storeAppOptions")(observer(props => {
     const isAndroid = Device.android;
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
@@ -109,6 +109,9 @@ const PageReviewChange = props => {
     const displayMode = props.displayMode;
     const isLockAcceptReject = (!change || (change && !change.editable) || (displayMode === "final" || displayMode === "original") || !props.canReview);
     const isLockPrevNext = (displayMode === "final" || displayMode === "original");
+    const appOptions = props.storeAppOptions;
+    const isProtected = appOptions.isProtected;
+
     return (
         <Page className='page-review'>
             <Navbar title={_t.textReviewChange} backLink={!props.noBack && _t.textBack}>
@@ -126,12 +129,12 @@ const PageReviewChange = props => {
                         <span className='accept-reject row'>
                             <Link id='btn-accept-change'
                                   href='#'
-                                  className={isLockAcceptReject && 'disabled'}
+                                  className={(isLockAcceptReject || isProtected) && 'disabled'}
                                   onClick={() => {props.onAcceptCurrentChange()}}
                             >{_t.textAccept}</Link>
                             <Link id='btn-reject-change'
                                   href='#'
-                                  className={isLockAcceptReject && 'disabled'}
+                                  className={(isLockAcceptReject || isProtected) && 'disabled'}
                                   onClick={() => {props.onRejectCurrentChange()}}
                             >{_t.textReject}</Link>
                         </span>
@@ -173,7 +176,7 @@ const PageReviewChange = props => {
             }
         </Page>
     )
-};
+}));
 
 const PageDisplayMode = inject("storeReview")(observer(DisplayMode));
 
