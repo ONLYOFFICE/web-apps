@@ -122,15 +122,14 @@ const PageThemeSettings = props => {
     const appOptions = props.storeAppOptions;
     const colorTheme = appOptions.colorTheme;
     const typeTheme = colorTheme.type;
-    const themesMap = appOptions.themesMap;
 
     return (
         <Page>
             <Navbar title={t('Settings.textTheme')} backLink={_t.textBack} />
             <List>
-                <ListItem radio checked={typeTheme === 'system'} onChange={() => props.changeColorTheme(themesMap['system'])} name="system" title={t('Settings.textSameAsSystem')}></ListItem>
-                <ListItem radio checked={typeTheme === 'light'} onChange={() => props.changeColorTheme(themesMap['light'])} name="light" title={t('Settings.textLight')}></ListItem>
-                <ListItem radio checked={typeTheme === 'dark'} onChange={() => props.changeColorTheme(themesMap['dark'])} name="dark" title={t('Settings.textDark')}></ListItem>
+                <ListItem radio checked={typeTheme === 'system'} onChange={() => props.changeColorTheme('system')} name="system" title={t('Settings.textSameAsSystem')}></ListItem>
+                <ListItem radio checked={typeTheme === 'light'} onChange={() => props.changeColorTheme('light')} name="light" title={t('Settings.textLight')}></ListItem>
+                <ListItem radio checked={typeTheme === 'dark'} onChange={() => props.changeColorTheme('dark')} name="dark" title={t('Settings.textDark')}></ListItem>
             </List>
         </Page>
     )

@@ -13,7 +13,12 @@ class ThemesController extends React.Component {
             light: {
                 id: 'theme-light',
                 type: 'light'
-            }};
+            },
+            system: {
+                id: 'theme-system',
+                type: 'system'
+            }
+        }
 
         this.name_colors = [
             "canvas-background",
@@ -59,6 +64,10 @@ class ThemesController extends React.Component {
             "canvas-scroll-thumb-target-hover",
             "canvas-scroll-thumb-target-pressed",
         ];
+
+        this.setClientTheme = this.setClientTheme.bind(this);
+        this.checkConfigTheme = this.checkConfigTheme.bind(this);
+        this.checkSystemDarkTheme = this.checkSystemDarkTheme.bind(this);
     }
 
     turnOffViewerMode() {
@@ -80,9 +89,9 @@ class ThemesController extends React.Component {
             const typeTheme = themeConfig ? themeConfig.type : null;
             const isSelectTheme = themeConfig ? themeConfig.select : null;
 
-            if(isForceEdit && editorType === 'de') {
-                this.turnOffViewerMode();
-            } 
+            // if(isForceEdit && editorType === 'de') {
+            //     this.turnOffViewerMode();
+            // } 
 
             if(isSelectTheme) {
                 if(!!obj) {
@@ -103,28 +112,26 @@ class ThemesController extends React.Component {
             }
         }  
 
-        appOptions.setColorTheme(theme);
-        this.switchDarkTheme(theme, true);
+        this.changeColorTheme(theme);
 
         $$(window).on('storage', e => {
             if ( e.key == LocalStorage.prefix + 'ui-theme' ) {
                 if ( !!e.newValue ) {
-                    this.switchDarkTheme(JSON.parse(e.newValue), true);
+                    this.changeColorTheme(JSON.parse(e.newValue), true);
                 }
             }
         });
     }
 
-    // get isCurrentDark() {
-    //     const obj = LocalStorage.getItem("ui-theme");
-    //     return !!obj ? JSON.parse(obj).type === 'dark' : false;
-    // }
-
     setClientTheme(theme, obj) {
         const type = JSON.parse(obj).type;
+        const appOptions = this.props.storeAppOptions;
 
         if(type !== 'system') {
             theme = this.themes_map[JSON.parse(obj).type];
+
+            LocalStorage.setItem("ui-theme", JSON.stringify(theme));
+            appOptions.setColorTheme(theme);
         } else {
             theme = this.checkSystemDarkTheme(theme);
         }
@@ -133,8 +140,13 @@ class ThemesController extends React.Component {
     }
 
     checkConfigTheme(theme, typeTheme) {
+        const appOptions = this.props.storeAppOptions;
+
         if(typeTheme && typeTheme !== 'system') { 
             theme = this.themes_map[typeTheme];
+
+            LocalStorage.setItem("ui-theme", JSON.stringify(theme));
+            appOptions.setColorTheme(theme);
         } else {
             theme = this.checkSystemDarkTheme(theme);
         }
@@ -143,9 +155,13 @@ class ThemesController extends React.Component {
     }
 
     checkSystemDarkTheme(theme) {
+        const appOptions = this.props.storeAppOptions;
+
         if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
             theme = this.themes_map['dark'];
-            LocalStorage.setItem("ui-theme", JSON.stringify(theme));
+
+            LocalStorage.setItem("ui-theme", JSON.stringify(this.themes_map["system"]));
+            appOptions.setColorTheme(this.themes_map["system"]);
         }
 
         return theme;
@@ -161,15 +177,9 @@ class ThemesController extends React.Component {
         return out_object;
     }
 
-    switchDarkTheme(dark) {
-        const theme = typeof dark == 'object' ? dark : this.themes_map[dark ? 'dark' : 'light'];
-        const refresh_only = !!arguments[1];
-
-        if ( !refresh_only )
-            LocalStorage.setItem("ui-theme", JSON.stringify(theme));
-
+    changeColorTheme(theme) {
         const $body = $$('body');
-        $body.attr('class') && $body.attr('class',  $body.attr('class').replace(/\s?theme-type-(?:dark|light)/, ''));
+        $body.attr('class') && $body.attr('class', $body.attr('class').replace(/\s?theme-type-(?:dark|light)/, ''));
         $body.addClass(`theme-type-${theme.type}`);
 
         const on_engine_created = api => {
