@@ -15,7 +15,13 @@ export class storeAppOptions {
             canBranding: observable,
 
             isDocReady: observable,
-            changeDocReady: action
+            changeDocReady: action,
+
+            colorTheme: observable,
+            setColorTheme: action,
+
+            isConfigSelectTheme: observable,
+            setConfigSelectTheme: action
         });
     }
 
@@ -24,6 +30,31 @@ export class storeAppOptions {
     canBrandingExt = true;
     canBranding = true;
     config = {};
+
+    themesMap = {
+        dark: {
+            id: 'theme-dark',
+            type: 'dark'
+        },
+        light: {
+            id: 'theme-light',
+            type: 'light'
+        },
+        system: {
+            id: 'theme-system',
+            type: 'system'
+        }
+    };
+
+    isConfigSelectTheme = true;
+    setConfigSelectTheme(value) {
+        this.isConfigSelectTheme = value;
+    }
+
+    colorTheme;
+    setColorTheme(theme) {
+        this.colorTheme = theme;
+    }
 
     lostEditingRights = false;
     changeEditingRights (value) {

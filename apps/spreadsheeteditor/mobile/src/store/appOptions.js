@@ -16,12 +16,43 @@ export class storeAppOptions {
             canBrandingExt: observable,
 
             isDocReady: observable,
-            changeDocReady: action
+            changeDocReady: action,
+
+            colorTheme: observable,
+            setColorTheme: action,
+
+            isConfigSelectTheme: observable,
+            setConfigSelectTheme: action
         });
     }
 
     isEdit = false;
     config = {};
+
+    themesMap = {
+        dark: {
+            id: 'theme-dark',
+            type: 'dark'
+        },
+        light: {
+            id: 'theme-light',
+            type: 'light'
+        },
+        system: {
+            id: 'theme-system',
+            type: 'system'
+        }
+    };
+
+    isConfigSelectTheme = true;
+    setConfigSelectTheme(value) {
+        this.isConfigSelectTheme = value;
+    }
+
+    colorTheme;
+    setColorTheme(theme) {
+        this.colorTheme = theme;
+    }
     
     canViewComments = false;
     changeCanViewComments(value) {

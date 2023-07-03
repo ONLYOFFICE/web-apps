@@ -23,6 +23,7 @@ import DropdownListController from "./DropdownList";
 import { StatusbarController } from "./Statusbar";
 import { useTranslation } from 'react-i18next';
 import { Device } from '../../../../common/mobile/utils/device';
+import { Themes } from '../../../../common/mobile/lib/controller/Themes.jsx';
 
 @inject(
     "users",
@@ -1207,6 +1208,7 @@ class MainController extends Component {
                 <PluginsController />
                 <EncodingController />
                 <DropdownListController />
+                <Themes />
             </Fragment>
         )
     }

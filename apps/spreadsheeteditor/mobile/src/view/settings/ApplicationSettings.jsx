@@ -2,7 +2,7 @@ import React, {Fragment, useState} from "react";
 import { observer, inject } from "mobx-react";
 import { Page, Navbar, List, ListItem, BlockTitle, Toggle, Icon, f7 } from "framework7-react";
 import { useTranslation } from "react-i18next";
-import { Themes } from '../../../../../common/mobile/lib/controller/Themes.js';
+// import { Themes } from '../../../../../common/mobile/lib/controller/Themes.js';
 
 const PageApplicationSettings = props => {
     const { t } = useTranslation();
@@ -21,7 +21,7 @@ const PageApplicationSettings = props => {
     const isRefStyle = storeApplicationSettings.isRefStyle;
     const isComments = storeApplicationSettings.isComments;
     const isResolvedComments = storeApplicationSettings.isResolvedComments;
-    const [isThemeDark, setIsThemeDark] = useState(Themes.isCurrentDark);
+    // const [isThemeDark, setIsThemeDark] = useState(Themes.isCurrentDark);
 
     const changeMeasureSettings = value => {
         storeApplicationSettings.changeUnitMeasurement(value);
@@ -30,8 +30,17 @@ const PageApplicationSettings = props => {
 
     // set mode
     const appOptions = props.storeAppOptions;
+    const colorTheme = appOptions.colorTheme;
+    const typeTheme = colorTheme.type;
+    const isConfigSelectTheme = appOptions.isConfigSelectTheme;
     const _isEdit = appOptions.isEdit;
     // const _isShowMacros = (!appOptions.isDisconnected && appOptions.customization) ? appOptions.customization.macros !== false : true;
+
+    const themes = {
+        'dark': t('View.Settings.textDark'),
+        'light': t('View.Settings.textLight'),
+        'system': t('View.Settings.textSameAsSystem')
+    }
 
     return (
         <Page>
@@ -91,12 +100,12 @@ const PageApplicationSettings = props => {
                                 }}
                         />
                     </ListItem>
-                    <ListItem title={t('View.Settings.textDarkTheme')}>
-                        <Toggle checked={isThemeDark}
-                            onToggleChange={() => {Themes.switchDarkTheme(!isThemeDark), setIsThemeDark(!isThemeDark)}}>
-                        </Toggle>
-                    </ListItem>
                 </List>
+                {!!isConfigSelectTheme &&
+                    <List mediaList>
+                        <ListItem title={t("View.Settings.textTheme")} after={typeTheme === 'dark' || typeTheme === 'light' ? themes[typeTheme] : themes['system']} link="/theme-settings/" routeProps={{changeColorTheme: props.changeColorTheme}}></ListItem>
+                    </List>
+                }
 
                 {/*<List mediaList>*/}
                 {/*    <ListItem title={t("View.Settings.textDirection")} link="/direction/" routeProps={{changeDirection: props.changeDirection}}></ListItem>*/}
@@ -111,6 +120,25 @@ const PageApplicationSettings = props => {
             {/* } */}
         </Page>
     );
+};
+
+const PageThemeSettings = props => {
+    const { t } = useTranslation();
+    const _t = t("View.Settings", { returnObjects: true });
+    const appOptions = props.storeAppOptions;
+    const colorTheme = appOptions.colorTheme;
+    const typeTheme = colorTheme.type;
+
+    return (
+        <Page>
+            <Navbar title={t('View.Settings.textTheme')} backLink={_t.textBack} />
+            <List>
+                <ListItem radio checked={typeTheme === 'system'} onChange={() => props.changeColorTheme('system')} name="system" title={t('View.Settings.textSameAsSystem')}></ListItem>
+                <ListItem radio checked={typeTheme === 'light'} onChange={() => props.changeColorTheme('light')} name="light" title={t('View.Settings.textLight')}></ListItem>
+                <ListItem radio checked={typeTheme === 'dark'} onChange={() => props.changeColorTheme('dark')} name="dark" title={t('View.Settings.textDark')}></ListItem>
+            </List>
+        </Page>
+    )
 };
 
 const PageDirection = props => {
@@ -231,11 +259,13 @@ const MacrosSettings = inject("storeApplicationSettings")(observer(PageMacrosSet
 const RegionalSettings = inject("storeApplicationSettings")(observer(PageRegionalSettings));
 const FormulaLanguage = inject("storeApplicationSettings")(observer(PageFormulaLanguage));
 const Direction = inject("storeApplicationSettings")(observer(PageDirection));
+const ThemeSettings = inject("storeAppOptions")(observer(PageThemeSettings));
 
 export {
     ApplicationSettings, 
     MacrosSettings,
     RegionalSettings,
     FormulaLanguage,
-    Direction
+    Direction,
+    ThemeSettings
 };
