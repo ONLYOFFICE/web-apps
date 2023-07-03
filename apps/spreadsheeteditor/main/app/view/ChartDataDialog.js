@@ -154,7 +154,7 @@ define([
                 store: new Common.UI.DataViewStore(),
                 emptyText: '',
                 scrollAlwaysVisible: true,
-                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="min-height: 15px;"><%= value %></div>'),
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="min-height: 15px;"><%= Common.Utils.String.htmlEncode(value) %></div>'),
                 tabindex:1
             });
             this.seriesList.onKeyDown = _.bind(this.onListKeyDown, this, 'series');
@@ -206,7 +206,7 @@ define([
                 store: new Common.UI.DataViewStore(),
                 emptyText: '',
                 scrollAlwaysVisible: true,
-                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="min-height: 15px;"><%= value %></div>'),
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="min-height: 15px;"><%= Common.Utils.String.htmlEncode(value) %></div>'),
                 tabindex:1
             });
 
