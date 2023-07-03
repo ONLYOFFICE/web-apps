@@ -431,10 +431,9 @@ define([
                 
                 if (this.btnInsField.menu.items.length<1) {
                     _.each(this._state.fieldsList, function(field, index) {
-                        const _encoded_field = Common.Utils.String.htmlEncode(field);
                         var mnu = new Common.UI.MenuItem({
-                            caption: '«' + _encoded_field + '»',
-                            field: _encoded_field
+                            caption: '«' + Common.Utils.String.htmlEncode(field) + '»',
+                            field: field
                         }).on('click', function(item, e) {
                             if (me.api) {
                                 me.api.asc_AddMailMergeField(item.options.field);
