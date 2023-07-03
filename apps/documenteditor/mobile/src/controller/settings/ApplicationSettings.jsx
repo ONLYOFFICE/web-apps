@@ -140,8 +140,9 @@ class ApplicationSettingsController extends Component {
 
             LocalStorage.setItem("ui-theme", JSON.stringify(theme));
             appOptions.setColorTheme(theme);
-        } else if(this.checkSystemDarkTheme()) {
-            theme = themesMap.dark;
+        } else {
+            const isSystemDarkTheme = this.checkSystemDarkTheme();
+            if(isSystemDarkTheme) theme = themesMap.dark;
 
             LocalStorage.setItem("ui-theme", JSON.stringify(themesMap["system"]));
             appOptions.setColorTheme(themesMap["system"]);

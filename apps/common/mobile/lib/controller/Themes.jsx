@@ -70,28 +70,17 @@ class ThemesController extends React.Component {
         this.checkSystemDarkTheme = this.checkSystemDarkTheme.bind(this);
     }
 
-    turnOffViewerMode() {
-        const appOptions = this.props.storeAppOptions;
-        appOptions.changeViewerMode(false);
-    }
-
     init() {
         const appOptions = this.props.storeAppOptions;
         const editorConfig = window.native?.editorConfig;
-        const editorType = window.editorType;
         const obj = LocalStorage.getItem("ui-theme");
         
         let theme = this.themes_map.light;
         
         if(editorConfig) {
-            const isForceEdit = editorConfig.forceedit;
             const themeConfig = editorConfig.theme;
             const typeTheme = themeConfig ? themeConfig.type : null;
             const isSelectTheme = themeConfig ? themeConfig.select : null;
-
-            // if(isForceEdit && editorType === 'de') {
-            //     this.turnOffViewerMode();
-            // } 
 
             if(isSelectTheme) {
                 if(!!obj) {

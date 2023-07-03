@@ -220,12 +220,17 @@ class MainController extends Component {
 
                 this.applyMode(storeAppOptions);
 
+                const appOptions = this.props.storeAppOptions;
+                const editorConfig = window.native?.editorConfig;
+                const isForceEdit = editorConfig?.forceedit;
                 const storeDocumentInfo = this.props.storeDocumentInfo;
                 const dataDoc = storeDocumentInfo.dataDoc;
                 const isExtRestriction = dataDoc.fileType !== 'oform';
 
-                if(isExtRestriction) {
+                if(isExtRestriction && !isForceEdit) {
                     this.api.asc_addRestriction(Asc.c_oAscRestrictionType.View);
+                } else if(isExtRestriction && isForceEdit) {
+                    appOptions.changeViewerMode(false);
                 } else {
                     this.api.asc_addRestriction(Asc.c_oAscRestrictionType.OnlyForms)
                 }

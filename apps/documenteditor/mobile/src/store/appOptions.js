@@ -62,6 +62,7 @@ export class storeAppOptions {
             type: 'system'
         }
     };
+    
     isEdit = false;
 
     isConfigSelectTheme = true;
@@ -96,8 +97,8 @@ export class storeAppOptions {
 
 
     isViewer = true;
-    changeViewerMode() {
-        this.isViewer = !this.isViewer;
+    changeViewerMode(value) {
+        this.isViewer = value;
     }
 
     canViewComments = false;
