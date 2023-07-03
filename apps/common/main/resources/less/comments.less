@@ -171,7 +171,8 @@
 
     .user-info {
         display: flex;
-        padding: 10px 65px 0 0px;
+        padding-top: 10px;
+        .padding-right(65px);
     }
 
     .user-info-text {
@@ -190,10 +191,6 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         cursor: default;
-
-        .rtl & {
-            padding: 10px 0px 0 65px;
-        }
     }
 
     .color {
@@ -482,6 +479,10 @@
         height: 16px;
         margin-top: 10px;
         position: absolute;
+
+        .rtl & {
+            transform: scale(-1, 1);
+        }
     }
 
     .lock-area {
