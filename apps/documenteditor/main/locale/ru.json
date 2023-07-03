@@ -83,6 +83,7 @@
   "Common.Controllers.ReviewChanges.textUrl": "Вставьте URL-адрес документа",
   "Common.Controllers.ReviewChanges.textWidow": "Запрет висячих строк",
   "Common.Controllers.ReviewChanges.textWord": "По словам",
+  "Common.Controllers.Desktop.hintBtnHome": "Показать главное окно",
   "Common.define.chartData.textArea": "С областями",
   "Common.define.chartData.textAreaStacked": "Диаграмма с областями с накоплением",
   "Common.define.chartData.textAreaStackedPer": "Нормированная с областями и накоплением",

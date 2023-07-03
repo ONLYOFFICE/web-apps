@@ -376,7 +376,7 @@ define([
                         cls: 'btn-header',
                         iconCls: 'toolbar__icon icon--inverse btn-home',
                         visible: false,
-                        hint: 'Show Main window',
+                        hint: Common.Locale.get('hintBtnHome', {name:"Common.Controllers.Desktop", default: 'Show Main window'}),
                         dataHint:'0',
                         dataHintDirection: 'right',
                         dataHintOffset: '10, -18',
