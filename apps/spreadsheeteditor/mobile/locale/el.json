@@ -432,6 +432,7 @@
       "textCell": "Κελί",
       "textCellStyle": "Τεχνοτροπία Κελιού",
       "textCenter": "Κέντρο",
+      "textChangeShape": "Αλλαγή Σχήματος",
       "textChart": "Γράφημα",
       "textChartTitle": "Τίτλος Γραφήματος",
       "textClearFilter": "Εκκαθάριση Φίλτρου",
@@ -580,7 +581,6 @@
       "txtSortLow2High": "Ταξινόμηση από το Χαμηλότερο στο Υψηλότερο",
       "textArrange": "Arrange",
       "textCancel": "Cancel",
-      "textChangeShape": "Change Shape",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textDone": "Done"

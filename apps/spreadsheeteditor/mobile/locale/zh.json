@@ -151,6 +151,7 @@
       "textNo": "不",
       "textNoChoices": "填充单元格没有选择。<br>只能选择列中的文本值进行替换。",
       "textNoLicenseTitle": "触碰到许可证数量限制。",
+      "textNoMatches": "找不到匹配信息",
       "textOk": "好",
       "textPaidFeature": "付费功能",
       "textRemember": "记住我的选择",
@@ -164,6 +165,7 @@
       "titleLicenseNotActive": "许可证未激活",
       "titleServerVersion": "编辑器已更新",
       "titleUpdateVersion": "版本已变化",
+      "warnLicenseAnonymous": "拒绝匿名用户的访问。<br>本文档将以仅查看模式而打开。",
       "warnLicenseBefore": "许可证未激活。<br>请联系管理员。",
       "warnLicenseExceeded": "你触发了 %1 编辑器的同时在线数限制。该文档打开后，你将只能查看。可联系管理员来了解更多信息。",
       "warnLicenseExp": "您的许可证已过期。烦请您更新许可证，然后刷新该页面。",
@@ -172,9 +174,7 @@
       "warnLicenseUsersExceeded": "你触发了 %1 编辑器的同时在线数限制。可联系管理员来了解更多信息。",
       "warnNoLicense": "你已经触发了 %1 编辑器的同时在线数限制. 该文档打开后，你将只能查看。请联系 %1 的销售团队，获取个人升级条款。",
       "warnNoLicenseUsers": "你触发了 %1 编辑器的同时在线数限制。请与  %1  的销售团队联系，以获取个人升级条款。",
-      "warnProcessRightsChange": "你没有编辑文件的权限。",
-      "textNoMatches": "No Matches",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
+      "warnProcessRightsChange": "你没有编辑文件的权限。"
     }
   },
   "Error": {
@@ -652,6 +652,7 @@
       "textMargins": "边距",
       "textMatchCase": "对应大小写",
       "textMatchCell": "匹配单元格",
+      "textNoMatches": "找不到匹配信息",
       "textOk": "OK",
       "textOpenFile": "输入密码来打开文件",
       "textOrientation": "方向",
@@ -752,8 +753,7 @@
       "txtUk": "乌克兰语",
       "txtVi": "越南语",
       "txtZh": "中文",
-      "warnDownloadAs": "如果您继续以此格式保存，除文本之外的所有功能将丢失。<br>您确定要继续吗？",
-      "textNoMatches": "No Matches"
+      "warnDownloadAs": "如果您继续以此格式保存，除文本之外的所有功能将丢失。<br>您确定要继续吗？"
     }
   }
 }

@@ -434,6 +434,7 @@
       "textCell": "Cella",
       "textCellStyle": "Stile cella",
       "textCenter": "Al centro",
+      "textChangeShape": "Cambia forma",
       "textChart": "Grafico",
       "textChartTitle": "Titolo di grafico",
       "textClearFilter": "Svuotare filtro",
@@ -582,7 +583,6 @@
       "txtNotUrl": "Questo campo deve essere un URL nel formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Ordinare dal più alto al più basso",
       "txtSortLow2High": "Ordinare dal più basso al più alto",
-      "textChangeShape": "Change Shape",
       "textDeleteImage": "Delete Image"
     },
     "Settings": {

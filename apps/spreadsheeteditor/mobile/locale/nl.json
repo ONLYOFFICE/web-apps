@@ -433,6 +433,7 @@
       "textCell": "Cel",
       "textCellStyle": "Celstijl",
       "textCenter": "Midden",
+      "textChangeShape": "Vorm wijzigen",
       "textChart": "Grafiek",
       "textChartTitle": "Grafiektitel",
       "textClearFilter": "Filter wissen",
@@ -580,7 +581,6 @@
       "txtSortHigh2Low": "Sorteren van hoogste naar laagste",
       "txtSortLow2High": "Sorteren van laagste naar hoogste",
       "textCancel": "Cancel",
-      "textChangeShape": "Change Shape",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textOk": "Ok"

@@ -151,6 +151,7 @@
       "textNo": "いいえ",
       "textNoChoices": "セルを記入する選択肢がありません。<br>置換対象として選択できるのは列のテキスト値のみです。",
       "textNoLicenseTitle": "ライセンス制限に達しました",
+      "textNoMatches": "一致する結果がありません",
       "textOk": "OK",
       "textPaidFeature": "有料機能",
       "textRemember": "選択を覚える",
@@ -164,6 +165,7 @@
       "titleLicenseNotActive": "ライセンスが無効になっています",
       "titleServerVersion": "編集者が更新された",
       "titleUpdateVersion": "バージョンが変更されました",
+      "warnLicenseAnonymous": "匿名ユーザーのアクセスは拒否されます。<br>このドキュメントは閲覧専用に開かれます。",
       "warnLicenseBefore": "ライセンスが無効になっています。<br>管理者までご連絡ください。",
       "warnLicenseExceeded": "％１エディター　時接続数の制限に達しました。この文書が見るだけのために開かれる。詳細についてはアドミニストレータを連絡してください。",
       "warnLicenseExp": "ライセンスの有効期限が切れています。ライセンスを更新してページを再読み込みしてください。",
@@ -172,9 +174,7 @@
       "warnLicenseUsersExceeded": "％1エディターのユーザー制限に達しました。 詳細についてはアドミニストレータを連絡してください。",
       "warnNoLicense": "％１エディター　時接続数の制限に達しました。この文書が見るだけのために開かれる。個人的なアップグレード条件については、％1営業チームを連絡してください。",
       "warnNoLicenseUsers": "％1エディターのユーザー制限に達しました。 個人的なアップグレード条件については、％1営業チームを連絡してください。",
-      "warnProcessRightsChange": "ファイルを編集する権限がありません！",
-      "textNoMatches": "No Matches",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
+      "warnProcessRightsChange": "ファイルを編集する権限がありません！"
     }
   },
   "Error": {
@@ -652,6 +652,7 @@
       "textMargins": "余白",
       "textMatchCase": "大文字と小文字の斟酌で",
       "textMatchCell": "セルの照合",
+      "textNoMatches": "一致する結果がありません",
       "textOk": "OK",
       "textOpenFile": "ファイルを開くためにパスワードを入力してください",
       "textOrientation": "向き",
@@ -752,8 +753,7 @@
       "txtUk": "ウクライナ語",
       "txtVi": "ベトナム語",
       "txtZh": "中国語",
-      "warnDownloadAs": "この形式で保存する続けば、テクスト除いて全てが失います。続けてもよろしいですか？",
-      "textNoMatches": "No Matches"
+      "warnDownloadAs": "この形式で保存する続けば、テクスト除いて全てが失います。続けてもよろしいですか？"
     }
   }
 }
