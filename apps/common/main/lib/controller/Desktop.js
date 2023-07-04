@@ -60,7 +60,7 @@ define([
             'btn-save': 'save',
             'btn-save-coauth': 'coauth',
             'btn-synch': 'synch' };
-        let recents;
+        let recents = [];
 
         var nativevars,
             helpUrl;
@@ -163,7 +163,7 @@ define([
 
             window.onupdaterecents = function (params) {
                 recents = _parseRecents(params);
-                Common.NotificationCenter.trigger('update:recents');
+                Common.NotificationCenter.trigger('update:recents', recents);
             }
 
             // hide mask for modal window
@@ -593,8 +593,8 @@ define([
                         name: Common.Utils.String.htmlDecode(model.get('title')),
                         path: Common.Utils.String.htmlDecode(model.get('url')),
                     };
-                    if ( model.get('fileid') ) {
-                        params.id = model.fileid;
+                    if ( model.get('fileid') != undefined && model.get('fileid') != null ) {
+                        params.id = model.get('fileid');
                         params.type = model.type;
                     } else {
                         params.id = -1;

@@ -61,6 +61,15 @@ define([
             this.menu = options.menu;
             this.recent = options.recent;
             this.el = options.el;
+
+            Common.NotificationCenter.on('update:recents', function (arr) {
+                if ( this.viewRecentPicker ) {
+                    const store = this.viewRecentPicker.store;
+                    if ( store ) {
+                        store.reset(this.recent.concat(arr))
+                    }
+                }
+            }.bind(this));
         },
 
         render: function() {
@@ -102,7 +111,8 @@ define([
 
         onRecentFileClick: function(view, itemview, record){
             if ( this.menu ) {
-                !Common.Controllers.Desktop.openRecent(record) && this.menu.fireEvent('recent:open', [this.menu, record.get('url')]);
+                !Common.Controllers.Desktop.openRecent(record) &&
+                    this.menu.fireEvent('recent:open', [this.menu, record.get('url')]);
             }
         },
 
