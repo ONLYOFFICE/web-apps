@@ -46,7 +46,7 @@ define([
             'pixel-ratio__1_5'  : 1.5,
             'pixel-ratio__1_75' : 1.75,
             'pixel-ratio__2'    : 2,
-            'pixel-ratio__2_5'  : 2.5,
+            'pixel-ratio__2_5'  : 2.25,
         }
 
         let _body_classes = document.body.className;
