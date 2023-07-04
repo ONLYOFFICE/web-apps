@@ -151,7 +151,6 @@
       "textNo": "いいえ",
       "textNoChoices": "セルを記入する選択肢がありません。<br>置換対象として選択できるのは列のテキスト値のみです。",
       "textNoLicenseTitle": "ライセンス制限に達しました",
-      "textNoTextFound": "テキストが見つかりませんでした",
       "textOk": "OK",
       "textPaidFeature": "有料機能",
       "textRemember": "選択を覚える",
@@ -173,7 +172,9 @@
       "warnLicenseUsersExceeded": "％1エディターのユーザー制限に達しました。 詳細についてはアドミニストレータを連絡してください。",
       "warnNoLicense": "％１エディター　時接続数の制限に達しました。この文書が見るだけのために開かれる。個人的なアップグレード条件については、％1営業チームを連絡してください。",
       "warnNoLicenseUsers": "％1エディターのユーザー制限に達しました。 個人的なアップグレード条件については、％1営業チームを連絡してください。",
-      "warnProcessRightsChange": "ファイルを編集する権限がありません！"
+      "warnProcessRightsChange": "ファイルを編集する権限がありません！",
+      "textNoMatches": "No Matches",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
     }
   },
   "Error": {
@@ -233,6 +234,7 @@
     "errorOperandExpected": "入力した関数の構文が正しくありません。'('　または　')'があるのことをチェックしてください。",
     "errorPasteMaxRange": "コピーする範囲と貼り付けの範囲が一致しません。同じなサイズの範囲を選択するまたは貼り付くように行の一番セルをクリックしてください。",
     "errorPrintMaxPagesCount": "あいにくこのバージョンに１５００以上ページを印刷できません。<br>　次回のアプリにこの制限が消去済されます。",
+    "errorProtectedRange": "この範囲は編集不可です。",
     "errorSessionAbsolute": "文書を変更のセッションの有効期間が満期しました。ページを再びお読み込みしてください。",
     "errorSessionIdle": "文書が長いとこ変更されませんでした。ページを再び読み込みしてください。",
     "errorSessionToken": "サーバの接続が中断されました。ページを再びお読み込みしてください。",
@@ -581,7 +583,13 @@
       "textYen": "円",
       "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります。",
       "txtSortHigh2Low": " 大きい順に並べ替えます",
-      "txtSortLow2High": "小さい順に並べ替えます。"
+      "txtSortLow2High": "小さい順に並べ替えます。",
+      "textCustomFormat": "Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textSave": "Save",
+      "textEnterFormat": "Enter Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
     },
     "Settings": {
       "advCSVOptions": "CSVオプションを選択する",
@@ -650,7 +658,6 @@
       "textMargins": "余白",
       "textMatchCase": "大文字と小文字の斟酌で",
       "textMatchCell": "セルの照合",
-      "textNoTextFound": "テキストが見つかりませんでした",
       "textOk": "OK",
       "textOpenFile": "ファイルを開くためにパスワードを入力してください",
       "textOrientation": "向き",
@@ -751,7 +758,8 @@
       "txtUk": "ウクライナ語",
       "txtVi": "ベトナム語",
       "txtZh": "中国語",
-      "warnDownloadAs": "この形式で保存する続けば、テクスト除いて全てが失います。続けてもよろしいですか？"
+      "warnDownloadAs": "この形式で保存する続けば、テクスト除いて全てが失います。続けてもよろしいですか？",
+      "textNoMatches": "No Matches"
     }
   }
 }

@@ -139,6 +139,16 @@ define([
                 if (/theme:changed/.test(cmd)) {
                     Common.UI.Themes.setTheme(param);
                 } else
+                if (/renderervars:changed/.test(cmd)) {
+                    const opts = JSON.parse(param);
+
+                    if ( opts.theme && opts.theme.system ) {
+                        window.RendererProcessVariable.theme.system = opts.theme.system;
+
+                        if ( Common.UI.Themes.currentThemeId() == 'theme-system' )
+                            Common.UI.Themes.setTheme('theme-system');
+                    }
+                } else
                 if (/element:show/.test(cmd)) {
                     var _mr = /title:(?:(true|show)|(false|hide))/.exec(param);
                     if ( _mr ) {
@@ -149,6 +159,15 @@ define([
                 if (/althints:show/.test(cmd)) {
                     if ( /false|hide/.test(param) )
                         Common.NotificationCenter.trigger('hints:clear');
+                } else
+                if (/file:print/.test(cmd)) {
+                    webapp.getController('Main').onPrint();
+                } else
+                if (/file:save/.test(cmd)) {
+                    webapp.getController('Main').api.asc_Save();
+                } else
+                if (/file:saveas/.test(cmd)) {
+                    webapp.getController('Main').api.asc_DownloadAs();
                 }
             };
 
@@ -364,7 +383,7 @@ define([
                         cls: 'btn-header',
                         iconCls: 'toolbar__icon icon--inverse btn-home',
                         visible: false,
-                        hint: 'Show Main window',
+                        hint: Common.Locale.get('hintBtnHome', {name:"Common.Controllers.Desktop", default: 'Show Main window'}),
                         dataHint:'0',
                         dataHintDirection: 'right',
                         dataHintOffset: '10, -18',
@@ -483,7 +502,7 @@ define([
                         'modal:close': _onModalDialog.bind(this, 'close'),
                         'modal:hide': _onModalDialog.bind(this, 'hide'),
                         'uitheme:changed' : function (name) {
-                            if (Common.localStorage.getBool('ui-theme-use-system', false)) {
+                            if ( window.uitheme.is_theme_system() ) {
                                 native.execCommand("uitheme:changed", JSON.stringify({name:'theme-system'}));
                             } else {
                                 var theme = Common.UI.Themes.get(name);
@@ -583,6 +602,9 @@ define([
             systemThemeType: function () {
                 return nativevars.theme && !!nativevars.theme.system ? nativevars.theme.system :
                             window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            },
+            systemThemeSupported: function () {
+                return nativevars.theme && nativevars.theme.system !== 'disabled';
             },
             recentFiles: function () {
                 return recents;

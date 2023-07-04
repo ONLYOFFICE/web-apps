@@ -248,7 +248,7 @@ define([
                 this.btnExternalLinks = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-data-external-links'),
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon edit-links',
+                    iconCls: 'toolbar__icon btn-edit-links',
                     caption: this.capDataExternalLinks,
                     disabled: true,
                     lock: [_set.editCell, _set.sheetLock, _set.wbLock, _set.lostConnect, _set.coAuth, _set.wsLock],

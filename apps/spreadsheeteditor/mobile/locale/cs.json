@@ -150,7 +150,6 @@
       "textNo": "Ne",
       "textNoChoices": "Neexistují žádné možnosti pro vyplnění buňky.<br>Jako náhradu je možné vybrat pouze textové hodnoty ze sloupce.",
       "textNoLicenseTitle": "Došlo k dosažení limitu licence",
-      "textNoTextFound": "Text nebyl nalezen",
       "textOk": "OK",
       "textPaidFeature": "Placená funkce",
       "textRemember": "Zapamatovat moji volbu",
@@ -169,9 +168,11 @@
       "warnNoLicenseUsers": "Došlo k dosažení limitu %1 editorů. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
       "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu.",
       "textDontUpdate": "Don't Update",
+      "textNoMatches": "No Matches",
       "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
       "titleLicenseExp": "License expired",
       "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
       "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
     }
@@ -254,6 +255,7 @@
     "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorProtectedRange": "This range is not allowed for editing.",
     "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
     "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
     "textCancel": "Cancel",
@@ -581,7 +583,13 @@
       "txtSortHigh2Low": "Seřadit od nejvyššího po nejnižší",
       "txtSortLow2High": "Seřadit od nejnižšího po nejvyšší",
       "textCancel": "Cancel",
-      "textDeleteLink": "Delete Link"
+      "textDeleteLink": "Delete Link",
+      "textCustomFormat": "Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textSave": "Save",
+      "textEnterFormat": "Enter Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
     },
     "Settings": {
       "advCSVOptions": "Vyberte možnosti CSV",
@@ -650,7 +658,6 @@
       "textMargins": "Okraje",
       "textMatchCase": "Rozlišovat velká a malá písmena",
       "textMatchCell": "Porovnat buňky",
-      "textNoTextFound": "Text nebyl nalezen",
       "textOk": "OK",
       "textOpenFile": "Zadejte heslo pro otevření souboru",
       "textOrientation": "Orientace",
@@ -751,6 +758,7 @@
       "txtVi": "vietnamština",
       "txtZh": "čínština",
       "warnDownloadAs": "Pokud budete pokračovat v ukládání v tomto formátu, vše kromě textu bude ztraceno.<br>Opravdu chcete pokračovat?",
+      "textNoMatches": "No Matches",
       "txtCa": "Catalan"
     }
   }

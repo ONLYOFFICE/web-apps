@@ -478,6 +478,7 @@
 	"FILTER": "ກັ່ນຕອງ",
 	"ARRAYTOTEXT": "ການຈັດຮອບວຽນເປັນຂໍ້ຄວາມ",
 	"SORT": "ຈັດຮຽງ",
+	"SORTBY": "SORTBY",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

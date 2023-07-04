@@ -1914,5 +1914,9 @@
 	"SORT": {
 		"a": "(matrise, [sorteringsindeks], [sorteringsrekkefølge], [etter_kolonne])",
 		"d": "Sorterer et område eller en matrise"
+	},
+	"SORTBY": {
+		"a": "(matrise, etter_matrise, [sorteringsrekkefølge], ...)",
+		"d": "Sorterer et område eller en matrise basert på verdiene i et tilsvarende område eller en tilsvarende matrise"
 	}
 }

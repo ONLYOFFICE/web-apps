@@ -112,7 +112,6 @@
       "textHasMacros": "此檔案包含自動巨集程式。<br>是否要運行這些巨集？",
       "textNo": "沒有",
       "textNoLicenseTitle": "達到許可限制",
-      "textNoTextFound": "找不到文字",
       "textOpenFile": "輸入檔案密碼",
       "textPaidFeature": "付費功能",
       "textRemember": "記住我的選擇",
@@ -133,7 +132,9 @@
       "warnNoLicense": "您已達到同時連接到 %1 編輯器的限制。此文件將只提供檢視。有關個人升級條款，請聯繫 %1 業務團隊。",
       "warnNoLicenseUsers": "您已達到％1個編輯器的用戶限制。與％1銷售團隊聯繫以了解個人升級條款。",
       "warnProcessRightsChange": "您沒有編輯此文件的權限。",
+      "textNoMatches": "No Matches",
       "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
@@ -358,7 +359,6 @@
       "textNextSlide": "下一張幻燈片",
       "textNone": "無",
       "textNoStyles": "此類型的圖表沒有樣式。",
-      "textNoTextFound": "找不到文字",
       "textNotUrl": "此字段應為格式為\"http://www.example.com\"的URL。",
       "textNumbers": "號碼",
       "textOk": "確定",
@@ -419,6 +419,7 @@
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textInsertImage": "Insert Image",
+      "textNoMatches": "No Matches",
       "textRecommended": "Recommended",
       "textRequired": "Required"
     },
@@ -460,7 +461,6 @@
       "textLoading": "載入中...",
       "textLocation": "位置",
       "textMacrosSettings": "巨集設定",
-      "textNoTextFound": "找不到文字",
       "textOk": "確定",
       "textOwner": "擁有者",
       "textPoint": "點",
@@ -505,7 +505,8 @@
       "txtScheme6": "大堂",
       "txtScheme7": "產權",
       "txtScheme8": "流程",
-      "txtScheme9": "鑄造廠"
+      "txtScheme9": "鑄造廠",
+      "textNoMatches": "No Matches"
     }
   }
 }

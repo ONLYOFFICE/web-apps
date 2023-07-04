@@ -62,11 +62,11 @@ define([
                 '<div class="box">',
                     '<table cols="2" style="width: 100%;">',
                         '<tr>',
-                            '<td class="padding-right">',
+                            '<td class="padding-right-5">',
                                 '<label class="input-label">' + this.txtType + '</label>',
                                 '<div id="id-dlg-cross-type" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
                             '</td>',
-                            '<td class="padding-left">',
+                            '<td class="padding-left-5">',
                                 '<label class="input-label">' + this.txtReference + '</label>',
                                 '<div id="id-dlg-cross-ref" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
                             '</td>',
@@ -83,7 +83,7 @@ define([
                         '</tr>',
                         '<tr>',
                             '<td colspan="2" style="padding-bottom: 10px;">',
-                                '<div id="id-dlg-cross-separate" style="display: inline-block;vertical-align: middle;"></div>',
+                                '<div id="id-dlg-cross-separate" class="margin-right-10" style="display: inline-block;vertical-align: middle;"></div>',
                                 '<div id="id-dlg-cross-separator" style="display: inline-block;vertical-align: middle;"></div>',
                             '</td>',
                         '</tr>',
@@ -118,6 +118,9 @@ define([
                 Common.Utils.InternalSettings.set("de-settings-captions", arr);
             }
             arr = arr ? JSON.parse(arr) : [];
+            arr.forEach(function (v, i) {
+                arr[i].value = Common.Utils.String.htmlEncode(v.value);
+            });
 
             // 0 - not removable
             arr = arr.concat([{ value: 5, displayValue: this.textEquation },

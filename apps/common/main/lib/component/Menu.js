@@ -255,6 +255,9 @@ define([
                             item.on('click',  _.bind(me.onItemClick, me));
                             item.on('toggle', _.bind(me.onItemToggle, me));
                         });
+                        menuRoot.on( "click", function(e) {
+                            me.trigger('menu:click', this, e);
+                        });
                     }
 
                     if (this.options.maxHeight) {

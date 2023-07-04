@@ -56,7 +56,8 @@ define([
     'documenteditor/main/app/view/TableSettingsAdvanced',
     'documenteditor/main/app/view/ControlSettingsDialog',
     'documenteditor/main/app/view/NumberingValueDialog',
-    'documenteditor/main/app/view/CellsAddDialog'
+    'documenteditor/main/app/view/CellsAddDialog',
+    'documenteditor/main/app/view/ListIndentsDialog'
 ], function ($, _, Backbone, gateway) { 'use strict';
 
     DE.Views.DocumentHolder =  Backbone.View.extend(_.extend({
@@ -75,6 +76,8 @@ define([
             this._currentParaObjDisabled = false;
             this._currLang        = {};
             this._isDisabled = false;
+            this._preventCustomClick = null;
+            this._hasCustomItems = false;
             this._docProtection = {
                 isReadOnly: false,
                 isReviewOnly: false,
@@ -291,43 +294,43 @@ define([
                     items: [
                         new Common.UI.MenuItem({
                             caption : me.textShapeAlignLeft,
-                            iconCls : 'menu__icon shape-align-left',
+                            iconCls : 'menu__icon btn-shape-align-left',
                             value: Asc.c_oAscAlignShapeType.ALIGN_LEFT
                         }),
                         new Common.UI.MenuItem({
                             caption : me.textShapeAlignCenter,
-                            iconCls : 'menu__icon shape-align-center',
+                            iconCls : 'menu__icon btn-shape-align-center',
                             value: Asc.c_oAscAlignShapeType.ALIGN_CENTER
                         }),
                         new Common.UI.MenuItem({
                             caption : me.textShapeAlignRight,
-                            iconCls : 'menu__icon shape-align-right',
+                            iconCls : 'menu__icon btn-shape-align-right',
                             value: Asc.c_oAscAlignShapeType.ALIGN_RIGHT
                         }),
                         new Common.UI.MenuItem({
                             caption : me.textShapeAlignTop,
-                            iconCls : 'menu__icon shape-align-top',
+                            iconCls : 'menu__icon btn-shape-align-top',
                             value: Asc.c_oAscAlignShapeType.ALIGN_TOP
                         }),
                         new Common.UI.MenuItem({
                             caption : me.textShapeAlignMiddle,
-                            iconCls : 'menu__icon shape-align-middle',
+                            iconCls : 'menu__icon btn-shape-align-middle',
                             value: Asc.c_oAscAlignShapeType.ALIGN_MIDDLE
                         }),
                         new Common.UI.MenuItem({
                             caption : me.textShapeAlignBottom,
-                            iconCls : 'menu__icon shape-align-bottom',
+                            iconCls : 'menu__icon btn-shape-align-bottom',
                             value: Asc.c_oAscAlignShapeType.ALIGN_BOTTOM
                         }),
                         {caption    : '--'},
                         new Common.UI.MenuItem({
                             caption     : me.txtDistribHor,
-                            iconCls     : 'menu__icon shape-distribute-hor',
+                            iconCls     : 'menu__icon btn-shape-distribute-hor',
                             value       : 6
                         }),
                         new Common.UI.MenuItem({
                             caption     : me.txtDistribVert,
-                            iconCls     : 'menu__icon shape-distribute-vert',
+                            iconCls     : 'menu__icon btn-shape-distribute-vert',
                             value       : 7
                         })
                     ]
@@ -336,11 +339,11 @@ define([
 
             me.mnuGroup = new Common.UI.MenuItem({
                 caption : this.txtGroup,
-                iconCls : 'menu__icon shape-group'
+                iconCls : 'menu__icon btn-shape-group'
             });
 
             me.mnuUnGroup = new Common.UI.MenuItem({
-                iconCls : 'menu__icon shape-ungroup',
+                iconCls : 'menu__icon btn-shape-ungroup',
                 caption : this.txtUngroup
             });
 
@@ -352,22 +355,22 @@ define([
                     items: [
                         new Common.UI.MenuItem({
                             caption : me.textArrangeFront,
-                            iconCls : 'menu__icon arrange-front',
+                            iconCls : 'menu__icon btn-arrange-front',
                             valign  : Asc.c_oAscChangeLevel.BringToFront
                         }),
                         new Common.UI.MenuItem({
                             caption : me.textArrangeBack,
-                            iconCls : 'menu__icon arrange-back',
+                            iconCls : 'menu__icon btn-arrange-back',
                             valign  : Asc.c_oAscChangeLevel.SendToBack
                         }),
                         new Common.UI.MenuItem({
                             caption : me.textArrangeForward,
-                            iconCls : 'menu__icon arrange-forward',
+                            iconCls : 'menu__icon btn-arrange-forward',
                             valign  : Asc.c_oAscChangeLevel.BringForward
                         }),
                         new Common.UI.MenuItem({
                             caption : me.textArrangeBackward,
-                            iconCls : 'menu__icon arrange-backward',
+                            iconCls : 'menu__icon btn-arrange-backward',
                             valign  : Asc.c_oAscChangeLevel.BringBackward
                         }),
                         { caption: '--' },
@@ -576,7 +579,7 @@ define([
             });
 
             me.menuImgRemoveControl = new Common.UI.MenuItem({
-                iconCls: 'menu__icon cc-remove',
+                iconCls: 'menu__icon btn-cc-remove',
                 caption: me.textRemoveControl,
                 value: 'remove'
             });
@@ -881,13 +884,13 @@ define([
             });
 
             me.menuTableRemoveForm = new Common.UI.MenuItem({
-                iconCls: 'menu__icon cc-remove',
+                iconCls: 'menu__icon btn-cc-remove',
                 caption: me.textRemove,
                 value: 'remove'
             });
 
             me.menuTableRemoveControl = new Common.UI.MenuItem({
-                iconCls: 'menu__icon cc-remove',
+                iconCls: 'menu__icon btn-cc-remove',
                 caption: me.textRemoveControl,
                 value: 'remove'
             });
@@ -964,7 +967,7 @@ define([
             });
 
             var langTemplate = _.template([
-                '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= value %>" class="<% if (checked) { %> checked <% } %>">',
+                '<a id="<%= id %>" tabindex="-1" type="menuitem" langval="<%= value %>" class="<% if (checked) { %> checked <% } %>">',
                 '<i class="icon <% if (spellcheck) { %> toolbar__icon btn-ic-docspell spellcheck-lang <% } %>"></i>',
                 '<%= caption %>',
                 '</a>'
@@ -1078,7 +1081,7 @@ define([
             });
 
             me.menuTableDirection = new Common.UI.MenuItem({
-                iconCls: 'menu__icon text-orient-hor',
+                iconCls: 'menu__icon btn-text-orient-hor',
                 caption     : me.directionText,
                 menu        : new Common.UI.Menu({
                     cls: 'ppm-toolbar shifted-right',
@@ -1086,7 +1089,7 @@ define([
                     items   : [
                         me.menuTableDirectH = new Common.UI.MenuItem({
                             caption     : me.directHText,
-                            iconCls     : 'menu__icon text-orient-hor',
+                            iconCls     : 'menu__icon btn-text-orient-hor',
                             checkable   : true,
                             checkmark   : false,
                             checked     : false,
@@ -1095,7 +1098,7 @@ define([
                         }),
                         me.menuTableDirect90 = new Common.UI.MenuItem({
                             caption     : me.direct90Text,
-                            iconCls     : 'menu__icon text-orient-rdown',
+                            iconCls     : 'menu__icon btn-text-orient-rdown',
                             checkable   : true,
                             checkmark   : false,
                             checked     : false,
@@ -1104,7 +1107,7 @@ define([
                         }),
                         me.menuTableDirect270 = new Common.UI.MenuItem({
                             caption     : me.direct270Text,
-                            iconCls     : 'menu__icon text-orient-rup',
+                            iconCls     : 'menu__icon btn-text-orient-rup',
                             checkable   : true,
                             checkmark   : false,
                             checked     : false,
@@ -1127,6 +1130,10 @@ define([
                 caption: me.textContinueNumbering
             });
 
+            me.menuTableListIndents = new Common.UI.MenuItem({
+                caption: me.textIndents
+            });
+
             var menuNumberingTable = new Common.UI.MenuItem({
                 caption     : me.bulletsText,
                 menu        : new Common.UI.Menu({
@@ -1135,7 +1142,8 @@ define([
                     items   : [
                         me.menuTableStartNewList,
                         me.menuTableStartNumberingFrom,
-                        me.menuTableContinueNumbering
+                        me.menuTableContinueNumbering,
+                        me.menuTableListIndents
                     ]
                 })
             });
@@ -1277,13 +1285,13 @@ define([
                     cls = '';
                     switch (dir) {
                         case Asc.c_oAscCellTextDirection.LRTB:
-                            cls = 'menu__icon text-orient-hor';
+                            cls = 'menu__icon btn-text-orient-hor';
                             break;
                         case Asc.c_oAscCellTextDirection.TBRL:
-                            cls = 'menu__icon text-orient-rdown';
+                            cls = 'menu__icon btn-text-orient-rdown';
                             break;
                         case Asc.c_oAscCellTextDirection.BTLR:
-                            cls = 'menu__icon text-orient-rup';
+                            cls = 'menu__icon btn-text-orient-rup';
                             break;
                     }
                     me.menuTableDirection.setIconCls(cls);
@@ -1332,6 +1340,7 @@ define([
                         me.menuTableStartNumberingFrom.value = {format: format, start: start};
                         me.menuTableStartNewList.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textSeparateList : me.textStartNewList);
                         me.menuTableContinueNumbering.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textJoinList : me.textContinueNumbering);
+                        me.menuTableListIndents.value = {format: format, props: numLvl};
                     }
 
                     // hyperlink properties
@@ -1403,10 +1412,16 @@ define([
                     me.menuTableEquation.setVisible(isEquation);
                     me.menuTableEquation.setDisabled(disabled);
                     if (isEquation) {
-                        var eq = me.api.asc_GetMathInputType();
-                        me.menuTableEquation.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
-                        me.menuTableEquation.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
-                        me.menuTableEquation.menu.items[8].setChecked(me.api.asc_IsInlineMath());
+                        var eq = me.api.asc_GetMathInputType(),
+                            isInlineMath = me.api.asc_IsInlineMath(),
+                            isEqToolbarHide = Common.Utils.InternalSettings.get('de-equation-toolbar-hide');
+                            
+                        me.menuTableEquation.menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                        me.menuTableEquation.menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                        me.menuTableEquation.menu.items[8].options.isEquationInline = isInlineMath;
+                        me.menuTableEquation.menu.items[8].setCaption(isInlineMath ? me.eqToDisplayText : me.eqToInlineText);
+                        me.menuTableEquation.menu.items[9].options.isToolbarHide = isEqToolbarHide;
+                        me.menuTableEquation.menu.items[9].setCaption(isEqToolbarHide ? me.showEqToolbar : me.hideEqToolbar);
                     }
 
                     var control_lock = (value.paraProps) ? (!value.paraProps.value.can_DeleteBlockContentControl() || !value.paraProps.value.can_EditBlockContentControl() ||
@@ -1553,7 +1568,7 @@ define([
             });
 
             me.menuParagraphDirection = new Common.UI.MenuItem({
-                iconCls: 'menu__icon text-orient-hor',
+                iconCls: 'menu__icon btn-text-orient-hor',
                 caption     : me.directionText,
                 menu        : new Common.UI.Menu({
                     cls: 'ppm-toolbar shifted-right',
@@ -1561,7 +1576,7 @@ define([
                     items   : [
                         me.menuParagraphDirectH = new Common.UI.MenuItem({
                             caption     : me.directHText,
-                            iconCls     : 'menu__icon text-orient-hor',
+                            iconCls     : 'menu__icon btn-text-orient-hor',
                             checkable   : true,
                             checkmark   : false,
                             checked     : false,
@@ -1570,7 +1585,7 @@ define([
                         }),
                         me.menuParagraphDirect90 = new Common.UI.MenuItem({
                             caption     : me.direct90Text,
-                            iconCls     : 'menu__icon text-orient-rdown',
+                            iconCls     : 'menu__icon btn-text-orient-rdown',
                             checkable   : true,
                             checkmark   : false,
                             checked     : false,
@@ -1579,7 +1594,7 @@ define([
                         }),
                         me.menuParagraphDirect270 = new Common.UI.MenuItem({
                             caption     : me.direct270Text,
-                            iconCls     : 'menu__icon text-orient-rup',
+                            iconCls     : 'menu__icon btn-text-orient-rup',
                             checkable   : true,
                             checkmark   : false,
                             checked     : false,
@@ -1600,7 +1615,7 @@ define([
             });
 
             me.menuDropCapAdvanced = new Common.UI.MenuItem({
-                iconCls: 'menu__icon dropcap-intext',
+                iconCls: 'menu__icon btn-dropcap-intext',
                 caption     : me.advancedDropCapText
             });
 
@@ -1760,7 +1775,7 @@ define([
             });
 
             me.menuParaRemoveControl = new Common.UI.MenuItem({
-                iconCls: 'menu__icon cc-remove',
+                iconCls: 'menu__icon btn-cc-remove',
                 caption: me.textRemoveControl,
                 value: 'remove'
             });
@@ -1822,6 +1837,10 @@ define([
                 caption: me.textContinueNumbering
             });
 
+            me.menuParaListIndents = new Common.UI.MenuItem({
+                caption: me.textIndents
+            });
+
             var menuParaNumberingSeparator = new Common.UI.MenuItem({
                 caption     : '--'
             });
@@ -1872,13 +1891,13 @@ define([
                         cls = '';
                         switch (dir) {
                             case Asc.c_oAscVertDrawingText.normal:
-                                cls = 'menu__icon text-orient-hor';
+                                cls = 'menu__icon btn-text-orient-hor';
                                 break;
                             case Asc.c_oAscVertDrawingText.vert:
-                                cls = 'menu__icon text-orient-rdown';
+                                cls = 'menu__icon btn-text-orient-rdown';
                                 break;
                             case Asc.c_oAscVertDrawingText.vert270:
-                                cls = 'menu__icon text-orient-rup';
+                                cls = 'menu__icon btn-text-orient-rup';
                                 break;
                         }
                         me.menuParagraphDirection.setIconCls(cls);
@@ -1984,17 +2003,23 @@ define([
                     me.menuParagraphEquation.setVisible(isEquation);
                     me.menuParagraphEquation.setDisabled(disabled);
                     if (isEquation) {
-                        var eq = me.api.asc_GetMathInputType();
-                        me.menuParagraphEquation.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
-                        me.menuParagraphEquation.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
-                        me.menuParagraphEquation.menu.items[8].setChecked(me.api.asc_IsInlineMath());
+                        var eq = me.api.asc_GetMathInputType(),
+                            isInlineMath = me.api.asc_IsInlineMath(),
+                            isEqToolbarHide = Common.Utils.InternalSettings.get('de-equation-toolbar-hide');
+
+                        me.menuParagraphEquation.menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                        me.menuParagraphEquation.menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                        me.menuParagraphEquation.menu.items[8].options.isEquationInline = isInlineMath;
+                        me.menuParagraphEquation.menu.items[8].setCaption(isInlineMath ? me.eqToDisplayText : me.eqToInlineText);
+                        me.menuParagraphEquation.menu.items[9].options.isToolbarHide = isEqToolbarHide;
+                        me.menuParagraphEquation.menu.items[9].setCaption(isEqToolbarHide ? me.showEqToolbar : me.hideEqToolbar);
                     }
 
                     var frame_pr = value.paraProps.value.get_FramePr();
                     me.menuFrameAdvanced.setVisible(frame_pr !== undefined);
                     me.menuDropCapAdvanced.setVisible(frame_pr !== undefined);
                     if (frame_pr)
-                        me.menuDropCapAdvanced.setIconCls(frame_pr.get_DropCap()===Asc.c_oAscDropCap.Drop ? 'menu__icon dropcap-intext' : 'menu__icon dropcap-inmargin');
+                        me.menuDropCapAdvanced.setIconCls(frame_pr.get_DropCap()===Asc.c_oAscDropCap.Drop ? 'menu__icon btn-dropcap-intext' : 'menu__icon btn-dropcap-inmargin');
 
                     var edit_style = me.mode.canEditStyles && !isInChart && !(value.imgProps && value.imgProps.isSmartArtInternal);
                     menuStyleSeparator.setVisible(edit_style);
@@ -2043,8 +2068,10 @@ define([
                     me.menuParaStartNewList.setVisible(in_list);
                     me.menuParaStartNumberingFrom.setVisible(in_list);
                     me.menuParaContinueNumbering.setVisible(in_list);
+                    me.menuParaListIndents.setVisible(in_list);
                     if (in_list) {
-                        var numLvl = me.api.asc_GetNumberingPr(listId).get_Lvl(me.api.asc_GetCurrentNumberingLvl()),
+                        var level = me.api.asc_GetCurrentNumberingLvl(),
+                            numLvl = me.api.asc_GetNumberingPr(listId).get_Lvl(level),
                             format = numLvl.get_Format(),
                             start = me.api.asc_GetCalculatedNumberingValue();
                         me.menuParaStartNewList.setVisible(numLvl.get_Start()!=start);
@@ -2053,6 +2080,7 @@ define([
                         me.menuParaStartNumberingFrom.value = {format: format, start: start};
                         me.menuParaStartNewList.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textSeparateList : me.textStartNewList);
                         me.menuParaContinueNumbering.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textJoinList : me.textContinueNumbering);
+                        me.menuParaListIndents.value = {listId: listId, level: level, format: format, props: numLvl};
                     }
                 },
                 items: [
@@ -2104,6 +2132,7 @@ define([
                     me.menuParaStartNewList,
                     me.menuParaStartNumberingFrom,
                     me.menuParaContinueNumbering,
+                    me.menuParaListIndents,
                     menuStyleSeparator,
                     menuStyle
                 ]
@@ -2876,10 +2905,33 @@ define([
                 menuAlign: menuAlign,
                 items   : [
                     new Common.UI.MenuItem({
+                        caption     : this.currProfText,
+                        iconCls     : 'menu__icon btn-professional-equation',
+                        type        : 'view',
+                        value       : {all: false, linear: false}
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.currLinearText,
+                        iconCls     : 'menu__icon btn-linear-equation',
+                        type        : 'view',
+                        value       : {all: false, linear: true}
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.allProfText,
+                        iconCls     : 'menu__icon btn-professional-equation',
+                        type        : 'view',
+                        value       : {all: true, linear: false}
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.allLinearText,
+                        iconCls     : 'menu__icon btn-linear-equation',
+                        type        : 'view',
+                        value       : {all: true, linear: true}
+                    }),
+                    { caption     : '--' },
+                    new Common.UI.MenuItem({
                         caption     : this.unicodeText,
-                        iconCls     : 'menu__icon unicode',
                         checkable   : true,
-                        checkmark   : false,
                         checked     : false,
                         toggleGroup : toggleGroup,
                         type        : 'input',
@@ -2887,9 +2939,7 @@ define([
                     }),
                     new Common.UI.MenuItem({
                         caption     : this.latexText,
-                        iconCls     : 'menu__icon latex',
                         checkable   : true,
-                        checkmark   : false,
                         checked     : false,
                         toggleGroup : toggleGroup,
                         type        : 'input',
@@ -2897,35 +2947,14 @@ define([
                     }),
                     { caption     : '--' },
                     new Common.UI.MenuItem({
-                        caption     : this.currProfText,
-                        iconCls     : 'menu__icon professional-equation',
-                        type        : 'view',
-                        value       : {all: false, linear: false}
-                    }),
-                    new Common.UI.MenuItem({
-                        caption     : this.currLinearText,
-                        iconCls     : 'menu__icon linear-equation',
-                        type        : 'view',
-                        value       : {all: false, linear: true}
-                    }),
-                    new Common.UI.MenuItem({
-                        caption     : this.allProfText,
-                        iconCls     : 'menu__icon professional-equation',
-                        type        : 'view',
-                        value       : {all: true, linear: false}
-                    }),
-                    new Common.UI.MenuItem({
-                        caption     : this.allLinearText,
-                        iconCls     : 'menu__icon linear-equation',
-                        type        : 'view',
-                        value       : {all: true, linear: true}
-                    }),
-                    { caption     : '--' },
-                    new Common.UI.MenuItem({
                         caption     : this.eqToInlineText,
-                        checkable   : true,
-                        checked     : false,
+                        isEquationInline: false,
                         type        : 'mode'
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.hideEqToolbar,
+                        isToolbarHide: false,
+                        type        : 'hide',
                     })
                 ]
             });
@@ -2936,6 +2965,12 @@ define([
 
             var me = this,
                 lang = me.mode && me.mode.lang ? me.mode.lang.split(/[\-_]/)[0] : 'en';
+
+            me._preventCustomClick && clearTimeout(me._preventCustomClick);
+            me._hasCustomItems && (me._preventCustomClick = setTimeout(function () {
+                me._preventCustomClick = null;
+            },500)); // set delay only on update existing items
+            me._hasCustomItems = true;
 
             var findCustomItem = function(guid, id) {
                 if (menu && menu.items.length>0) {
@@ -2957,7 +2992,10 @@ define([
                         items: []
                     });
                     toMenu.on('item:click', function(menu, item, e) {
-                        me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
+                        !me._preventCustomClick && me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
+                    });
+                    toMenu.on('menu:click', function(menu, e) {
+                        me._preventCustomClick && e.stopPropagation();
                     });
                 }
                 items.forEach(function(item) {
@@ -3017,7 +3055,7 @@ define([
                                 menu: item.items && item.items.length>=0 ? getMenu(item.items, plugin.guid) : false,
                                 disabled: !!item.disabled
                             }).on('click', function(item, e) {
-                                me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
+                                !me._preventCustomClick && me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
                             });
                             menu.addItem(mnu);
                         }
@@ -3041,6 +3079,7 @@ define([
                     }
                 }
             }
+            this._hasCustomItems = false;
         },
 
         focus: function() {
@@ -3295,7 +3334,13 @@ define([
         currLinearText: 'Current - Linear',
         allProfText: 'All - Professional',
         allLinearText: 'All - Linear',
-        eqToInlineText: 'Change to Inline'
+        eqToInlineText: 'Change to Inline',
+        eqToDisplayText: 'Change to Display',
+        hideEqToolbar: 'Hide Equation Toolbar',
+        showEqToolbar: 'Show Equation Toolbar',
+        textIndents: 'Adjust list indents',
+        txtInsImage: 'Insert image from File',
+        txtInsImageUrl: 'Insert image from URL'
 
 }, DE.Views.DocumentHolder || {}));
 });

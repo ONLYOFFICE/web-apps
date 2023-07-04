@@ -248,7 +248,7 @@ define([
                     caption: this.txtPreview,
                     split: true,
                     menu: true,
-                    iconCls: 'toolbar__icon animation-preview-start',
+                    iconCls: 'toolbar__icon btn-animation-preview-start',
                     lock: [_set.slideDeleted, _set.noSlides, _set.noAnimationPreview, _set.timingLock],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -259,7 +259,7 @@ define([
                 this.btnParameters = new Common.UI.Button({
                     cls: 'btn-toolbar  x-huge icon-top',
                     caption: this.txtParameters,
-                    iconCls: 'toolbar__icon icon animation-parameters',
+                    iconCls: 'toolbar__icon icon btn-animation-parameters',
                     menu: new Common.UI.Menu({items: []}),
                     lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noAnimationParam, _set.timingLock],
                     dataHint: '1',
@@ -272,7 +272,7 @@ define([
                     cls: 'btn-toolbar',
                     caption: this.txtAnimationPane,
                     split: true,
-                    iconCls: 'toolbar__icon transition-apply-all',
+                    iconCls: 'toolbar__icon btn-transition-apply-all',
                     lock: [_set.slideDeleted, _set.noSlides, _set.timingLock],
                     dataHint: '1',
                     dataHintDirection: 'left',
@@ -283,7 +283,7 @@ define([
                 this.btnAddAnimation = new Common.UI.Button({
                     cls: 'btn-toolbar  x-huge  icon-top',
                     caption: this.txtAddEffect,
-                    iconCls: 'toolbar__icon icon add-animation',
+                    iconCls: 'toolbar__icon icon btn-add-animation',
                     menu: true,
                     lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.timingLock],
                     dataHint: '1',
@@ -318,7 +318,7 @@ define([
 
                 this.lblDuration = new Common.UI.Label({
                     el: this.$el.find('#animation-duration'),
-                    iconCls: 'toolbar__icon animation-duration',
+                    iconCls: 'toolbar__icon btn-animation-duration',
                     caption: this.strDuration,
                     lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noAnimationDuration, _set.timingLock]
                 });
@@ -371,7 +371,7 @@ define([
 
                 this.lblDelay = new Common.UI.Label({
                     el: this.$el.find('#animation-delay'),
-                    iconCls: 'toolbar__icon animation-delay',
+                    iconCls: 'toolbar__icon btn-animation-delay',
                     caption: this.strDelay,
                     lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.timingLock]
                 });
@@ -395,7 +395,7 @@ define([
 
                 this.lblStart = new Common.UI.Label({
                     el: this.$el.find('#animation-label-start'),
-                    iconCls: 'toolbar__icon btn-preview-play',
+                    iconCls: 'toolbar__icon btn-play',
                     caption: this.strStart,
                     lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.timingLock]
                 });
@@ -435,7 +435,7 @@ define([
 
                 this.lblRepeat = new Common.UI.Label({
                     el: this.$el.find('#animation-repeat'),
-                    iconCls: 'toolbar__icon animation-repeat',
+                    iconCls: 'toolbar__icon btn-animation-repeat',
                     caption: this.strRepeat,
                     lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noAnimationRepeat, _set.timingLock]
                 });

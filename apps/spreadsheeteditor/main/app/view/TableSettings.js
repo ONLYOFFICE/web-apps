@@ -274,7 +274,7 @@ define([
             this.btnSelectData = new Common.UI.Button({
                 parentEl: $('#table-btn-select-data'),
                 cls         : 'btn-toolbar align-left',
-                iconCls     : 'toolbar__icon resize-table',
+                iconCls     : 'toolbar__icon btn-resize-table',
                 caption     : this.textResize,
                 style       : 'width: 100%;',
                 dataHint    : '1',
@@ -287,7 +287,7 @@ define([
             this.btnEdit = new Common.UI.Button({
                 parentEl: $('#table-btn-edit'),
                 cls         : 'btn-toolbar align-left',
-                iconCls     : 'toolbar__icon rows-and-columns',
+                iconCls     : 'toolbar__icon btn-rows-and-columns',
                 caption     : this.textEdit,
                 style       : 'width: 100%;',
                 menu: new Common.UI.Menu({
@@ -522,6 +522,7 @@ define([
                 this.btnTableTemplate = new Common.UI.Button({
                     cls         : 'btn-large-dataview sheet-template-table',
                     iconCls     : 'icon-template-table',
+                    scaling     : false,
                     menu        : new Common.UI.Menu({
                         items: [
                             { template: _.template('<div id="id-table-menu-template" class="menu-table-template"  style="margin: 0 4px;"></div>') }
@@ -540,6 +541,7 @@ define([
                         store: new Common.UI.DataViewStore(),
                         itemTemplate: _.template('<div id="<%= id %>" class="item-template"><img src="<%= imageUrl %>" height="44" width="60"></div>'),
                         style: 'max-height: 325px;',
+                        cls: 'classic',
                         delayRenderTips: true
                     });
                 });
@@ -608,7 +610,7 @@ define([
                         var arr = tip.split(' ');
                         lastWordInTip = arr.pop();
                             
-                        if(tip == 'None'){
+                        if(item.asc_getName() === null){
                             groupItem = 'menu-table-group-light';
                         }
                         else {

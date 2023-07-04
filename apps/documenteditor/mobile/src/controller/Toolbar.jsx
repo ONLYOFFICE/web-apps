@@ -27,7 +27,6 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     const docInfo = props.storeDocumentInfo;
     const docExt = docInfo.dataDoc ? docInfo.dataDoc.fileType : '';
     const docTitle = docInfo.dataDoc ? docInfo.dataDoc.title : '';
-    const isAvailableExt = docExt && docExt !== 'oform';
 
     useEffect(() => {
         Common.Gateway.on('init', loadConfig);
@@ -55,7 +54,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         const navbarHeight = navbarBgHeight + subnavbarHeight;
 
         const onEngineCreated = api => {
-            if(isAvailableExt && isViewer) {
+            if(isViewer) {
                 api.SetMobileTopOffset(navbarHeight, navbarHeight);
                 api.asc_registerCallback('onMobileScrollDelta', scrollHandler);
             }
@@ -70,14 +69,14 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         return () => {
             const api = Common.EditorApi.get();
 
-            if (api && isAvailableExt && isViewer) {
+            if (api && isViewer) {
                 api.SetMobileTopOffset(navbarHeight, navbarHeight);
                 api.asc_unregisterCallback('onMobileScrollDelta', scrollHandler);
             }
 
             Common.Notifications.off('engineCreated', onEngineCreated);
         }
-    }, [isAvailableExt, isViewer]);
+    }, [isViewer]);
 
     // Scroll handler
 
@@ -205,6 +204,17 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         api.ChangeReaderMode();
     }
 
+    const changeTitle = (name) => {
+        const api = Common.EditorApi.get();
+        const docInfo = storeDocumentInfo.docInfo;
+        const title = `${name}.${docExt}`;
+
+        storeDocumentInfo.changeTitle(title);
+        docInfo.put_Title(title);
+        storeDocumentInfo.setDocInfo(docInfo);
+        api.asc_setDocInfo(docInfo);
+    }
+
     return (
         <ToolbarView openOptions={props.openOptions}
                      closeOptions={props.closeOptions}
@@ -230,6 +240,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
                      turnOnViewerMode={turnOnViewerMode}
                      isMobileView={isMobileView}
                      changeMobileView={changeMobileView}
+                     changeTitle={changeTitle}
         />
     )
 }));

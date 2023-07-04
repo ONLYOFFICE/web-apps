@@ -425,7 +425,7 @@ define([
             this.btnListDelete = new Common.UI.Button({
                 parentEl: $markup.findById('#form-list-delete'),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon cc-remove',
+                iconCls: 'toolbar__icon btn-cc-remove',
                 hint: this.textTipDelete,
                 dataHint: '1',
                 dataHintDirection: 'left',
@@ -483,10 +483,9 @@ define([
 
             this.btnRemForm = new Common.UI.Button({
                 parentEl: $markup.findById('#form-btn-delete'),
-                cls         : 'btn-toolbar',
-                iconCls     : 'toolbar__icon cc-remove',
+                cls         : 'btn-toolbar align-left',
+                iconCls     : 'toolbar__icon btn-cc-remove',
                 caption     : this.textDelete,
-                style       : 'text-align: left;',
                 dataHint    : '1',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -498,10 +497,9 @@ define([
 
             this.btnLockForm = new Common.UI.Button({
                 parentEl: $markup.findById('#form-btn-lock'),
-                cls         : 'btn-toolbar',
+                cls         : 'btn-toolbar align-left',
                 iconCls     : 'toolbar__icon btn-lock',
                 caption     : this.textLock,
-                style       : 'text-align: left;',
                 dataHint    : '1',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -575,9 +573,9 @@ define([
             var itemsTemplate =
                 [
                     '<% _.each(items, function(item) { %>',
-                        '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem" style="padding-left: 10px;overflow: hidden; text-overflow: ellipsis;">',
+                        '<li id="<%= item.id %>" data-value="<%= Common.Utils.String.htmlEncode(item.value) %>"><a tabindex="-1" type="menuitem" style="' + (Common.UI.isRTL() ? 'padding-right: 10px;': 'padding-left: 10px;') + 'overflow: hidden; text-overflow: ellipsis;">',
                             '<span class="color" style="background: <%= item.color %>;"></span>',
-                            '<%= item.displayValue %>',
+                            '<%= Common.Utils.String.htmlEncode(item.displayValue) %>',
                         '</a></li>',
                     '<% }); %>'
                 ];
@@ -608,7 +606,7 @@ define([
                 updateFormControl: function(record) {
                     var formcontrol = $(this.el).find('.form-control');
                     if (record) {
-                        formcontrol[0].innerHTML = '<span class="color" style="background:' + record.get('color') + ';"></span>' + record.get('displayValue');
+                        formcontrol[0].innerHTML = '<span class="color" style="background:' + record.get('color') + ';"></span>' + Common.Utils.String.htmlEncode(record.get('displayValue'));
                     } else
                         formcontrol[0].innerHTML = '';
                 }
@@ -820,12 +818,9 @@ define([
 
         onDateDefClick: function(input, date) {
             if (this.api && !this._noApply) {
-                var props   = this._originalProps || new AscCommon.CContentControlPr();
                 var formDatePr = this._originalDateProps || new AscCommon.CSdtDatePickerPr();
                 formDatePr.put_FullDate(date);
-                props.put_DateTimePr(formDatePr);
-                props.put_PlaceholderText(formDatePr.get_String());
-                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.api.asc_SetContentControlDatePickerPr(formDatePr, this.internalId, true);
 
                 this.fireEvent('editcomplete', this);
             }
@@ -1232,7 +1227,7 @@ define([
             }
         },
 
-        ChangeSettings: function(props) {
+        ChangeSettings: function(props, isShape) {
             if (this._initSettings)
                 this.createDelayedElements();
 
@@ -1336,6 +1331,7 @@ define([
                         });
                         this.cmbKey.setData(arr);
                         this._state.arrKey=data;
+                        this._state.Key = undefined;
                     }
 
                     val = formPr.get_Role();
@@ -1380,6 +1376,7 @@ define([
                                 });
                                 this.cmbGroupKey.setData(arr);
                                 this._state.arrGroupKey=data;
+                                this._state.groupKey = undefined;
                             }
 
                             if (this._state.groupKey!==val) {
@@ -1404,6 +1401,7 @@ define([
                             this.chFixed.setValue(!!val, true);
                             this._state.Fixed=val;
                         }
+                        this.chFixed.setDisabled(!val && isShape); // disable fixed size for forms in shape
                     }
 
                     var brd = formPr.get_Border();
@@ -1616,8 +1614,9 @@ define([
                     val = this.api.asc_GetFormValue(this.internalId);
                     if ( this._state.DefDateValue!==val ) {
                         this.txtDateDefValue.setValue(val || '');
-                        this.txtDateDefValue.setDate(new Date(val));
                         this._state.DefDateValue=val;
+                        val = datePr.get_FullDate();
+                        this.txtDateDefValue.setDate(val ? new Date(val) : new Date());
                     }
                 }
 
@@ -1663,7 +1662,7 @@ define([
                     parentEl: (this.$el || $(this.el)).findById('#form-color-btn'),
                     additionalItems: [
                         this.mnuNoBorder = new Common.UI.MenuItem({
-                            style: 'padding-left:20px;',
+                            style: Common.UI.isRTL() ? 'padding-right:20px;' : 'padding-left:20px;',
                             caption: this.textNoBorder,
                             toggleGroup: 'form-settings-no-border',
                             checkable: true

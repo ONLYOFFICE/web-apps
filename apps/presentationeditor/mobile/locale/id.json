@@ -27,7 +27,7 @@
       "textEditUser": "User yang sedang edit file:",
       "textMessageDeleteComment": "Apakah Anda ingin menghapus komentar ini?",
       "textMessageDeleteReply": "Apakah Anda ingin menghapus reply ini?",
-      "textNoComments": "Dokumen ini tidak memiliki komentar",
+      "textNoComments": "Tidak Ada Komentar",
       "textOk": "OK",
       "textReopen": "Buka lagi",
       "textResolve": "Selesaikan",
@@ -112,7 +112,6 @@
       "textHasMacros": "File berisi macros otomatis.<br>Apakah Anda ingin menjalankan macros?",
       "textNo": "Tidak",
       "textNoLicenseTitle": "Batas lisensi sudah tercapai",
-      "textNoTextFound": "Teks tidak ditemukan",
       "textOpenFile": "Masukkan kata sandi untuk buka file",
       "textPaidFeature": "Fitur berbayar",
       "textRemember": "Ingat pilihan saya",
@@ -121,20 +120,22 @@
       "textRequestMacros": "Sebuah makro melakukan permintaan ke URL. Apakah Anda akan mengizinkan permintaan ke %1?",
       "textYes": "Ya",
       "titleLicenseExp": "Lisensi kadaluwarsa",
+      "titleLicenseNotActive": "Lisensi tidak aktif",
       "titleServerVersion": "Editor mengupdate",
       "titleUpdateVersion": "Versi telah diubah",
       "txtIncorrectPwd": "Password salah",
       "txtProtected": "Jika Anda memasukkan password dan membuka file, password file saat ini akan di reset.",
+      "warnLicenseBefore": "Lisensi tidak aktif.<br>Harap hubungi administrator Anda.",
       "warnLicenseExceeded": "Anda sudah mencapai batas untuk koneksi bersamaan ke %1 editor. Dokumen ini akan dibuka untuk dilihat saja. Hubungi admin Anda untuk mempelajari lebih lanjut.",
-      "warnLicenseExp": "Lisensi Anda sudah kadaluwarsa. Silakan update dan muat ulang halaman.",
+      "warnLicenseExp": "Lisensi Anda sudah kedaluwarsa. Silakan perbarui lisensi Anda dan muat ulang halaman.",
       "warnLicenseLimitedNoAccess": "Lisensi kadaluwarsa. Anda tidak memiliki akses untuk editing dokumen secara keseluruhan. Silakan hubungi admin Anda.",
       "warnLicenseLimitedRenewed": "Lisensi perlu diperbaharui. Anda memiliki akses terbatas untuk edit dokumen.<br>Silakan hubungi admin Anda untuk mendapatkan akses penuh",
       "warnLicenseUsersExceeded": "Anda sudah mencapai batas user untuk %1 editor. Hubungi admin Anda untuk mempelajari lebih lanjut.",
       "warnNoLicense": "Anda sudah mencapai batas untuk koneksi bersamaan ke %1 editor. Dokumen ini akan dibuka untuk dilihat saja. Hubungi %1 tim sales untuk syarat personal upgrade.",
       "warnNoLicenseUsers": "Anda sudah mencapai batas user untuk %1 editor. Hubungi %1 tim sales untuk syarat personal upgrade.",
       "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini.",
-      "titleLicenseNotActive": "License not active",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "textNoMatches": "No Matches",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
     }
   },
   "Error": {
@@ -250,6 +251,7 @@
       "textNextSlide": "Slide Berikutnya",
       "textOk": "OK",
       "textOther": "Lainnya",
+      "textPasteImageUrl": "Tempelkan suatu URL gambar",
       "textPictureFromLibrary": "Gambar dari Perpustakaan",
       "textPictureFromURL": "Gambar dari URL",
       "textPreviousSlide": "Slide sebelumnya",
@@ -263,8 +265,7 @@
       "textSlideNumber": "Nomor Slide",
       "textTable": "Tabel",
       "textTableSize": "Ukuran Tabel",
-      "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”",
-      "textPasteImageUrl": "Paste an image URL"
+      "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”"
     },
     "Edit": {
       "notcriticalErrorTitle": "Peringatan",
@@ -364,7 +365,6 @@
       "textNextSlide": "Slide Berikutnya",
       "textNone": "Tidak ada",
       "textNoStyles": "Tanpa style untuk tipe grafik ini.",
-      "textNoTextFound": "Teks tidak ditemukan",
       "textNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”",
       "textNumbers": "Nomor",
       "textOk": "OK",
@@ -420,7 +420,8 @@
       "textZoom": "Pembesaran",
       "textZoomIn": "Perbesar",
       "textZoomOut": "Perkecil",
-      "textZoomRotate": "Zoom dan Rotasi"
+      "textZoomRotate": "Zoom dan Rotasi",
+      "textNoMatches": "No Matches"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
@@ -460,7 +461,6 @@
       "textLoading": "Memuat...",
       "textLocation": "Lokasi",
       "textMacrosSettings": "Pengaturan Macros",
-      "textNoTextFound": "Teks tidak ditemukan",
       "textOk": "OK",
       "textOwner": "Pemilik",
       "textPoint": "Titik",
@@ -505,7 +505,8 @@
       "txtScheme6": "Himpunan",
       "txtScheme7": "Margin Sisa",
       "txtScheme8": "Alur",
-      "txtScheme9": "Cetakan"
+      "txtScheme9": "Cetakan",
+      "textNoMatches": "No Matches"
     }
   }
 }

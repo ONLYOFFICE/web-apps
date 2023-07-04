@@ -76,7 +76,7 @@ define([
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
-                                        '<td style="padding-left: 22px;">',
+                                        '<td class="padding-left-22">',
                                             '<div id="import-xml-input-dest" class="input-row" style=""></div>',
                                         '</td>',
                                     '</tr>',

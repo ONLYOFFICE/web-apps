@@ -58,6 +58,10 @@ define([
             this.currentDocIdPrev = '';
             this.currentRev = 0;
             this.currentServerVersion = 0;
+            this.currentUserId = '';
+            this.currentUserName = '';
+            this.currentUserColor = '';
+            this.currentDateCreated = '';
         },
 
         events: {
@@ -134,6 +138,10 @@ define([
             this.currentDocIdPrev = record.get('docIdPrev');
             this.currentRev = rev;
             this.currentServerVersion = record.get('serverVersion');
+            this.currentUserId = record.get('userid');
+            this.currentUserName = record.get('username');
+            this.currentUserColor = record.get('usercolor');
+            this.currentDateCreated = record.get('created');
 
             if ( _.isEmpty(url) || (urlGetTime - record.get('urlGetTime') > 5 * 60000)) {
                 var me = this;
@@ -163,6 +171,10 @@ define([
                 hist.asc_setToken(token);
                 hist.asc_setIsRequested(false);
                 hist.asc_setServerVersion(this.currentServerVersion);
+                hist.asc_SetUserId(this.currentUserId);
+                hist.asc_SetUserName(this.currentUserName);
+                hist.asc_SetUserColor(this.currentUserColor);
+                hist.asc_SetDateOfRevision(this.currentDateCreated);
                 this.api.asc_showRevision(hist);
 
                 var reviewController = this.getApplication().getController('Common.Controllers.ReviewChanges');
@@ -229,6 +241,10 @@ define([
                     hist.asc_setToken(token);
                     hist.asc_setIsRequested(true);
                     hist.asc_setServerVersion(this.currentServerVersion);
+                    hist.asc_SetUserId(this.currentUserId);
+                    hist.asc_SetUserName(this.currentUserName);
+                    hist.asc_SetUserColor(this.currentUserColor);
+                    hist.asc_SetDateOfRevision(this.currentDateCreated);
                     this.api.asc_showRevision(hist);
                     this.currentRev = data.version;
 

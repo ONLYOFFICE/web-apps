@@ -478,6 +478,7 @@
 	"FILTER": "FILTRAR",
 	"ARRAYTOTEXT": "MATRIZATEXTO",
 	"SORT": "ORDENAR",
+	"SORTBY": "ORDENARPOR",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Encabezados",

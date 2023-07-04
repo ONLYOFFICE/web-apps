@@ -298,10 +298,16 @@ module.exports = function(grunt) {
             svgmin: {
                 options: {
                     plugins: [{
-                        cleanupIDs: false
+                        name: 'preset-default',
+                        params: {
+                            overrides: {
+                                cleanupIds: false,
+                            }
+                        },
                     },
                     {
-                        convertPathData: {
+                        name: 'convertPathData',
+                        params: {
                             floatPrecision: 4
                         }
                     }]
@@ -454,10 +460,16 @@ module.exports = function(grunt) {
             svgmin: {
                 options: {
                     plugins: [{
-                        cleanupIDs: false
+                        name: 'preset-default',
+                        params: {
+                            overrides: {
+                                cleanupIds: false,
+                            }
+                        },
                     },
                     {
-                        convertPathData: {
+                        name: 'convertPathData',
+                        params: {
                             floatPrecision: 4
                         }
                     }]

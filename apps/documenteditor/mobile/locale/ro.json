@@ -554,7 +554,7 @@
     "textHasMacros": "Fișierul conține macrocomenzi.<br>Doriți să le rulați?",
     "textNo": "Nu",
     "textNoLicenseTitle": "Ați atins limita stabilită de licență",
-    "textNoTextFound": "Textul nu a fost găsit",
+    "textNoMatches": "Nicio potrivire",
     "textOk": "OK",
     "textPaidFeature": "Funcția contra plată",
     "textRemember": "Reține opțiunea mea",
@@ -568,6 +568,7 @@
     "titleServerVersion": "Editorul a fost actualizat",
     "titleUpdateVersion": "Versiunea s-a modificat",
     "warnDownloadAsPdf": "Fișierul dvs {0} va fi convertit într-un format editabil. Convertirea poate dura ceva timp. Documentul rezultat va fi optimizat pentru a vă permite să editați textul, dar s-ar putea să nu arate exact ca original {0}, mai ales dacă fișierul original conține mai multe elemente grafice.",
+    "warnLicenseAnonymous": "Acces refuzat pentru utilizatori anonimi.<br>Acest document va fi accesibil numai în modul de vizualizare.",
     "warnLicenseBefore": "Licența nu este activă.<br>Contactaţi administratorul.",
     "warnLicenseExceeded": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați administratorul dvs pentru mai multe detalii.",
     "warnLicenseExp": "Licența dvs. a expirat. Licența urmează să fie reînnoită iar pagina reîmprospătată.",
@@ -650,7 +651,7 @@
     "textNo": "Nu",
     "textNoChanges": "Fără modificări (Doar în citire)",
     "textNoCharacters": "Caractere neimprimate",
-    "textNoTextFound": "Textul nu a fost găsit",
+    "textNoMatches": "Nicio potrivire",
     "textOk": "OK",
     "textOpenFile": "Introduceți parola pentru deschidere fișier",
     "textOrientation": "Orientare",
@@ -733,6 +734,8 @@
     "stayButtonText": "Rămâi în pagină",
     "textOk": "OK",
     "textSwitchedMobileView": "Comutat la vizualizarea mobilă",
-    "textSwitchedStandardView": "Comutat la vizualizarea standard"
+    "textSwitchedStandardView": "Comutat la vizualizarea standard",
+    "textRenameFile": "Rename File",
+    "textEnterNewFileName": "Enter a new file name"
   }
 }

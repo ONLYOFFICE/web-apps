@@ -182,8 +182,8 @@
 
     <link rel="stylesheet" type="text/css" href="../../../../sdkjs/cell/css/main.css"/>
     <link rel="stylesheet" type="text/css" href="../../../apps/spreadsheeteditor/main/resources/css/app.css">
-    <script src="../../../../../apps/common/main/lib/util/themeinit.js?__inline=true"></script>
     <script src="../../../../../apps/common/main/lib/util/desktopinit.js?__inline=true"></script>
+    <script src="../../../../../apps/common/main/lib/util/themeinit.js?__inline=true"></script>
 </head>
 <body>
     <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>
@@ -233,6 +233,8 @@
 
     <!--<inline src="../../common/main/resources/img/header/buttons.svg" />-->
     <inline src="../../common/main/resources/img/toolbar/charttypes.svg" />
+    <inline src="resources/img/toolbar/BorderSize.svg" />
+    <div class="inlined-svg"></div>
 
     <script data-main="app" src="../../../vendor/requirejs/require.js"></script>
 </body>

@@ -1914,5 +1914,9 @@
 	"SORT": {
 		"a": "(pole, [index_zoradenia], [poradie_zoradenia], [podľa_stĺpca])",
 		"d": "Zoradí rozsah alebo pole"
+	},
+	"SORTBY": {
+		"a": "(pole, podľa_poľa, [poradie_zoradenia], ...)",
+		"d": "Zoradí rozsah alebo pole podľa hodnôt v zodpovedajúcom rozsahu alebo poli"
 	}
 }

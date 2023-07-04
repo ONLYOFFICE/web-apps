@@ -151,7 +151,6 @@
       "textNo": "No",
       "textNoChoices": "No hi ha opcions per omplir la cel·la. <br>Només es poden seleccionar valors de text de la columna per substituir-los.",
       "textNoLicenseTitle": "S'ha assolit el límit de llicència",
-      "textNoTextFound": "No s'ha trobat cap text",
       "textOk": "D'acord",
       "textPaidFeature": "Funció de pagament",
       "textRemember": "Recordar la meva elecció",
@@ -159,10 +158,13 @@
       "textReplaceSuccess": "S'ha fet la cerca. S'han substituït les coincidències: {0}",
       "textRequestMacros": "Una macro fa una sol·licitud a l'URL. Vols permetre la sol·licitud a %1?",
       "textUpdate": "Actualitza",
+      "textWarnUpdateExternalData": "Aquest llibre de treball conté enllaços a una o més fonts externes que poden ser insegures. Si confies en els enllaços, actualitza'ls per obtenir les dades més recents.",
       "textYes": "Sí",
       "titleLicenseExp": "La llicència ha caducat",
+      "titleLicenseNotActive": "Llicència inactiva",
       "titleServerVersion": "S'ha actualitzat l'editor",
       "titleUpdateVersion": "S'ha canviat la versió",
+      "warnLicenseBefore": "Llicència inactiva. <br> Contacta amb l'administrador.",
       "warnLicenseExceeded": "Has arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Posa't en contacte amb l'administrador per a més informació.",
       "warnLicenseExp": "La llicència ha caducat. Actualitza-la i recarrega la pàgina.",
       "warnLicenseLimitedNoAccess": "La llicència ha caducat. No tens accés a la funció d'edició de documents. Posa't en contacte amb l'administrador.",
@@ -171,9 +173,8 @@
       "warnNoLicense": "Has arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Posa't en contacte amb l'equip de vendes %1 per conèixer les condicions d'actualització personal.",
       "warnNoLicenseUsers": "Has arribat al límit d'usuaris per a %1 editors. Posa't en contacte amb l'equip de vendes de %1 per obtenir les condicions de millora personals dels serveis.",
       "warnProcessRightsChange": "No tens permís per editar el fitxer.",
-      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
-      "titleLicenseNotActive": "License not active",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "textNoMatches": "No Matches",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
     }
   },
   "Error": {
@@ -233,6 +234,7 @@
     "errorOperandExpected": "La sintaxi de la funció introduïda no és correcta. Comprova si has omès algun dels parèntesis - '(' o ')'.",
     "errorPasteMaxRange": "L’àrea de copiar i enganxar no coincideixen. Selecciona una àrea de la mateixa mida o fes clic a la primera cel·la d'una fila per enganxar les cel·les copiades.",
     "errorPrintMaxPagesCount": "No es poden imprimir més de 1500 pàgines alhora amb la versió actual del programa. <br> Aquesta restricció s'eliminarà en les pròximes versions.",
+    "errorProtectedRange": "No es permet editar aquest interval.",
     "errorSessionAbsolute": "La sessió d'edició del document ha caducat. Torna a carregar la pàgina.",
     "errorSessionIdle": "Fa molt de temps que no s'edita el document. Torna a carregar la pàgina.",
     "errorSessionToken": "S'ha interromput la connexió amb el servidor. Torna a carregar la pàgina.",
@@ -375,6 +377,7 @@
       "textLinkType": "Tipus d'enllaç",
       "textOk": "D'acord",
       "textOther": "Altre",
+      "textPasteImageUrl": "Enganxa l'URL d'una imatge",
       "textPictureFromLibrary": "Imatge de la biblioteca",
       "textPictureFromURL": "Imatge de l'URL",
       "textRange": "Interval",
@@ -394,8 +397,7 @@
       "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
       "txtSorting": "Ordenació",
       "txtSortSelected": "Ordenar els objectes seleccionats",
-      "txtYes": "Sí",
-      "textPasteImageUrl": "Paste an image URL"
+      "txtYes": "Sí"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertiment",
@@ -581,7 +583,13 @@
       "textYen": "Ien",
       "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
       "txtSortHigh2Low": "Ordenar de major a menor",
-      "txtSortLow2High": "Ordenar de menor a major"
+      "txtSortLow2High": "Ordenar de menor a major",
+      "textCustomFormat": "Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textSave": "Save",
+      "textEnterFormat": "Enter Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
     },
     "Settings": {
       "advCSVOptions": "Triar les opcions CSV",
@@ -590,6 +598,7 @@
       "advDRMPassword": "Contrasenya",
       "closeButtonText": "Tancar el fitxer",
       "notcriticalErrorTitle": "Advertiment",
+      "strFuncLocale": "Llenguatge de la fórmula",
       "strFuncLocaleEx": "Exemple: SUM; MIN; MAX; COUNT",
       "textAbout": "Quant a",
       "textAddress": "Adreça",
@@ -649,7 +658,6 @@
       "textMargins": "Marges",
       "textMatchCase": "Coincidir majúscules i minúscules",
       "textMatchCell": "Coincidir la cel·la",
-      "textNoTextFound": "No s'ha trobat cap text",
       "textOk": "D'acord",
       "textOpenFile": "Introduir una contrasenya per obrir el fitxer",
       "textOrientation": "Orientació",
@@ -751,7 +759,7 @@
       "txtVi": "Vietnamita",
       "txtZh": "Xinès",
       "warnDownloadAs": "Si continues i deses en aquest format, es perdran totes les característiques, excepte el text. <br>Vols continuar?",
-      "strFuncLocale": "Formula Language"
+      "textNoMatches": "No Matches"
     }
   }
 }

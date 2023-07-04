@@ -97,13 +97,13 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
                     {name: this.textFormula, width: 135},
                 ],
                 itemTemplate: _.template([
-                    '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;pointer-events:none;">',
-                        '<div style="width:70px;padding-right: 5px;"><%= Common.Utils.String.htmlEncode(book) %></div>',
-                        '<div style="width:70px;padding-right: 5px;"><%= Common.Utils.String.htmlEncode(sheet) %></div>',
-                        '<div style="width:70px;padding-right: 5px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
-                        '<div style="width:70px;padding-right: 5px;"><%= cell %></div>',
-                        '<div style="width:110px;padding-right: 5px;"><%= value %></div>',
-                        '<div style="width:135px;"><%= formula %></div>',
+                    '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;">',
+                        '<div class="padding-right-5" style="width:70px;"><%= Common.Utils.String.htmlEncode(book) %></div>',
+                        '<div class="padding-right-5" style="width:70px;"><%= Common.Utils.String.htmlEncode(sheet) %></div>',
+                        '<div class="padding-right-5" style="width:70px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
+                        '<div class="padding-right-5" style="width:70px;"><%= cell %></div>',
+                        '<div class="padding-right-5" style="width:110px;" data-toggle="tooltip"><%= Common.Utils.String.htmlEncode(value) %></div>',
+                        '<div style="width:135px;" data-toggle="tooltip"><%= formula %></div>',
                     '</div>'
                 ].join('')),
                 tabindex: 1
@@ -112,7 +112,10 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
                            .on('item:deselect', _.bind(this.onSelectWatch, this))
                            .on('item:keydown', _.bind(this.onKeyDown, this))
                            .on('item:dblclick', _.bind(this.onDblClickWatch, this))
-                           .on('entervalue', _.bind(this.onEnterValue, this));
+                           .on('entervalue', _.bind(this.onEnterValue, this))
+                           .on('item:add', _.bind(this.addTooltips, this))
+                           .on('item:change', _.bind(this.addTooltips, this))
+                           .on('reset:before', _.bind(this.resetItemsBefore, this));
 
             this.btnAdd = new Common.UI.Button({
                 el: $('#watch-dialog-btn-add', this.$window)
@@ -289,6 +292,65 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
             this.api.asc_unregisterCallback('asc_onUpdateCellWatches', this.wrapEvents.onRefreshWatchList);
 
             Common.Views.AdvancedSettingsWindow.prototype.close.call(this);
+        },
+
+        resetItemsBefore: function (dataview) {
+            dataview.dataViewItems && _.each(dataview.dataViewItems, function(view) {
+                if (view.tipsArray) {
+                    view.tipsArray.forEach(function (item) {
+                        if (item) {
+                            if (item.dontShow===undefined)
+                                item.dontShow = true;
+                            (item.tip()).remove();
+                        }
+                    });
+                }
+            }, this);
+        },
+
+        addTooltips: function (dataview, view, record) {
+            if (view.tipsArray) {
+                view.tipsArray.forEach(function (item) {
+                    if (item) {
+                        if (item.dontShow===undefined)
+                            item.dontShow = true;
+                        (item.tip()).remove();
+                    }
+                });
+            }
+
+            var el = document.createElement('span');
+            el.style.fontSize = document.documentElement.style.getPropertyValue("--font-size-base-app-custom") || '11px';
+            el.style.fontFamily = document.documentElement.style.getPropertyValue("--font-family-base-custom") || 'Arial, Helvetica, "Helvetica Neue", sans-serif';
+            el.style.position = "absolute";
+            el.style.top = '-1000px';
+            el.style.left = '-1000px';
+            document.body.appendChild(el);
+
+            var divs = $(view.el).find('.list-item > div');
+            this.checkTextOfItem(el, view, $(divs[4]), record.get('value'), this.watchList.options.headers[4].width );
+            this.checkTextOfItem(el, view, $(divs[5]), record.get('formula'), this.watchList.options.headers[5].width );
+
+            document.body.removeChild(el);
+            view.tipsArray = [];
+        },
+
+        checkTextOfItem: function (test_el, view, div, txt, limit ) {
+            test_el.innerHTML = Common.Utils.String.htmlEncode(txt);
+
+            var dataview = this.watchList;
+            if (test_el.offsetWidth > limit) {
+                div.one('mouseenter', function(e){ // hide tooltip when mouse is over menu
+                    var $target = $(e.target);
+                    $target.tooltip({
+                        title       : txt, // use actual tip, because it can be changed
+                        placement   : 'cursor',
+                        zIndex : dataview.tipZIndex
+                    });
+                    $target.mouseenter();
+                    view.tipsArray.push($target.data('bs.tooltip'));
+                });
+            }
         },
 
         txtTitle: 'Watch Window',

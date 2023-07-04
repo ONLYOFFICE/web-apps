@@ -1914,5 +1914,9 @@
 	"SORT": {
 		"a": "(dizi, [sıralama_dizini], [sıralama_düzeni], [sütuna_göre])",
 		"d": "Aralığı veya diziyi sıralar"
+	},
+	"SORTBY": {
+		"a": "(dizi, diziye_göre, [sıralama_düzeni], ...)",
+		"d": "Bir aralığı veya diziyi, karşılık gelen aralık veya dizideki değerlere göre sıralar"
 	}
 }

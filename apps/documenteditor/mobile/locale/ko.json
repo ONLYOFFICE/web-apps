@@ -549,7 +549,6 @@
     "textHasMacros": "파일에 자동 매크로가 포함되어 있습니다. <br> 매크로를 실행 하시겠습니까?",
     "textNo": "아니오",
     "textNoLicenseTitle": "라이센스 수를 제한했습니다.",
-    "textNoTextFound": "텍스트를 찾을 수 없습니다",
     "textPaidFeature": "유료 기능",
     "textRemember": "선택사항을 저장",
     "textReplaceSkipped": "대체가 이루어졌습니다. {0} 건은 건너 뛰었습니다.",
@@ -571,11 +570,13 @@
     "textDialogProtectedFillForms": "You may only fill in forms in this document",
     "textDialogProtectedOnlyView": "You may only view this document",
     "textDocumentProtected": "The document is protected. Edit settings are not available",
+    "textNoMatches": "No Matches",
     "textOk": "Ok",
     "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
     "titleDialogProtectedDocument": "The document is protected",
     "titleLicenseNotActive": "License not active",
     "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
+    "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
     "warnLicenseBefore": "License not active.<br>Please contact your administrator."
   },
   "Settings": {
@@ -637,7 +638,6 @@
     "textMarginsW": "왼쪽 및 오른쪽 여백이 주어진 페이지 폭에 비해 너무 넓습니다.",
     "textNo": "아니오",
     "textNoCharacters": "인쇄되지 않는 문자",
-    "textNoTextFound": "텍스트를 찾을 수 없습니다",
     "textOk": "확인",
     "textOpenFile": "파일을 열려면 암호를 입력하십시오.",
     "textOrientation": "방향",
@@ -708,6 +708,7 @@
     "textMobileView": "Mobile View",
     "textNavigation": "Navigation",
     "textNoChanges": "No changes (Read only)",
+    "textNoMatches": "No Matches",
     "textPassword": "Password",
     "textPasswordNotMatched": "Passwords DonвЂ™t Match",
     "textPdfProducer": "PDF Producer",
@@ -733,6 +734,8 @@
     "stayButtonText": "이 페이지에 보관",
     "textOk": "OK",
     "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view"
+    "textSwitchedStandardView": "Switched to Standard view",
+    "textRenameFile": "Rename File",
+    "textEnterNewFileName": "Enter a new file name"
   }
 }

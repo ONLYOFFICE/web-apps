@@ -350,6 +350,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 hint: this.textBold
             });
             this.btnBold.on('click', _.bind(this.onBoldClick, this));
+            Common.UI.FocusManager.add(this, this.btnBold);
 
             this.btnItalic = new Common.UI.Button({
                 parentEl: $('#format-rules-italic'),
@@ -359,6 +360,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 hint: this.textItalic
             });
             this.btnItalic.on('click', _.bind(this.onItalicClick, this));
+            Common.UI.FocusManager.add(this, this.btnItalic);
 
             this.btnUnderline = new Common.UI.Button({
                 parentEl: $('#format-rules-underline'),
@@ -368,6 +370,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 hint: this.textUnderline
             });
             this.btnUnderline.on('click', _.bind(this.onUnderlineClick, this));
+            Common.UI.FocusManager.add(this, this.btnUnderline);
 
             this.btnStrikeout = new Common.UI.Button({
                 parentEl: $('#format-rules-strikeout'),
@@ -377,6 +380,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 hint: this.textStrikeout
             });
             this.btnStrikeout.on('click',_.bind(this.onStrikeoutClick, this));
+            Common.UI.FocusManager.add(this, this.btnStrikeout);
 
             var initNewColor = function(btn) {
                 btn.setMenu();
@@ -388,28 +392,32 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
 
             this.btnTextColor = new Common.UI.ButtonColored({
                 parentEl: $('#format-rules-fontcolor'),
-                cls         : 'btn-toolbar',
+                cls         : 'btn-toolbar move-focus',
                 iconCls     : 'toolbar__icon btn-fontcolor',
                 hint        : this.textColor,
                 additionalAlign: this.menuAddAlign,
                 color: '000000',
-                menu        : true
+                menu        : true,
+                takeFocusOnClose: true
             });
             this.mnuTextColorPicker = initNewColor(this.btnTextColor);
             this.btnTextColor.on('color:select', _.bind(this.onFormatTextColorSelect, this));
+            Common.UI.FocusManager.add(this, this.btnTextColor);
 
             this.btnFillColor = new Common.UI.ButtonColored({
                 parentEl: $('#format-rules-fillcolor'),
-                cls         : 'btn-toolbar',
+                cls         : 'btn-toolbar move-focus',
                 iconCls     : 'toolbar__icon btn-paracolor',
                 hint        : this.fillColor,
                 additionalAlign: this.menuAddAlign,
                 color: '000000',
                 transparent: true,
-                menu        : true
+                menu        : true,
+                takeFocusOnClose: true
             });
             this.mnuFillColorPicker = initNewColor(this.btnFillColor);
             this.btnFillColor.on('color:select', _.bind(this.onFormatFillColorSelect, this));
+            Common.UI.FocusManager.add(this, this.btnFillColor);
 
             this.btnBorders = new Common.UI.Button({
                 parentEl    : $('#format-rules-borders'),
@@ -527,7 +535,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                             id          : 'format-rules-borders-border-color',
                             caption     : this.textBordersColor,
                             iconCls     : 'mnu-icon-item mnu-border-color',
-                            template    : _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 2px 9px 0 -11px; border-style: solid; border-width: 3px; border-color: #000;"></span><%= caption %></a>'),
+                            template    : _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; border-style: solid; border-width: 3px; border-color: #000;"></span><%= caption %></a>'),
                             menu        : new Common.UI.Menu({
                                 menuAlign   : 'tl-tr',
                                 items       : [
@@ -535,7 +543,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                                     {caption: '--'},
                                     {
                                         id: "format-rules-borders-menu-new-bordercolor",
-                                        template: _.template('<a tabindex="-1" type="menuitem" style="padding-left:12px;">' + this.textNewColor + '</a>'),
+                                        template: _.template('<a tabindex="-1" type="menuitem" style="' + (Common.UI.isRTL() ? 'padding-right: 12px;': 'padding-left: 12px;') + '">' + this.textNewColor + '</a>'),
                                         stopPropagation: true
                                     }
                                 ]
@@ -557,6 +565,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             }, this));
 
             this.mnuBorderWidth.on('item:toggle', _.bind(this.onBordersWidth, this));
+            // Common.UI.FocusManager.add(this, this.btnBorders);
 
             this.ascFormatOptions = {
                 General     : 'General',
@@ -602,8 +611,8 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 _.template([
                     '<% _.each(items, function(item) { %>',
                     '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem">',
-                    '<div class="item-container"><div class="name"><%= scope.getDisplayValue(item) %></div>',
-                    '<div class="example"><%= item.exampleval ? item.exampleval : "" %></div>',
+                    '<div style="position: relative;"><div class="display-value"><%= scope.getDisplayValue(item) %></div>',
+                    '<div class="example-val"><%= item.exampleval ? item.exampleval : "" %></div>',
                     '</div></a></li>',
                     '<% }); %>'
                     // ,'<li class="divider">',
@@ -634,6 +643,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 el: $('#format-rules-edit-btn-clear')
             });
             this.btnClear.on('click', _.bind(this.clearFormat, this));
+            Common.UI.FocusManager.add(this, this.btnClear);
 
             this.panels = {
                 format:     {el: this.$window.find('.hasformat'),   rendered: false,    initColors: false},

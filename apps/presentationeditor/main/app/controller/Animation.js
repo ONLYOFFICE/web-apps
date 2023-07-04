@@ -145,7 +145,7 @@ define([
         onAnimPreviewFinished: function ()
         {
             this._state.playPreview = false;
-            this.view.btnPreview.setIconCls('toolbar__icon animation-preview-start');
+            this.view.btnPreview.setIconCls('toolbar__icon btn-animation-preview-start');
         },
 
         onParameterClick: function (value, toggleGroup) {

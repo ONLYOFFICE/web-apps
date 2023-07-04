@@ -99,17 +99,16 @@ const Search = withTranslation()(props => {
 
         f7.popover.close('.document-menu.modal-in', false);
 
-        if (params.find && params.find.length) {
-            var options = new AscCommon.CSearchSettings();
-            options.put_Text(params.find);
-            options.put_MatchCase(params.caseSensitive);
+        const options = new AscCommon.CSearchSettings();
 
-            if (params.highlight) api.asc_selectSearchingResults(true);
+        options.put_Text(params.find);
+        options.put_MatchCase(params.caseSensitive);
 
-            api.asc_findText(options, params.forward, function (resultCount) {
-                !resultCount && f7.dialog.alert(null, _t.textNoTextFound);
-            });
-        }
+        if (params.highlight) api.asc_selectSearchingResults(true);
+
+        api.asc_findText(options, params.forward, function (resultCount) {
+            !resultCount && f7.dialog.alert(null, t('Settings.textNoMatches'));
+        });
     };
 
     const onchangeSearchQuery = params => {
@@ -120,24 +119,36 @@ const Search = withTranslation()(props => {
 
     const onReplaceQuery = params => {
         const api = Common.EditorApi.get();
+        const options = new AscCommon.CSearchSettings();
 
-        if (params.find && params.find.length) {
-            var options = new AscCommon.CSearchSettings();
-            options.put_Text(params.find);
-            options.put_MatchCase(params.caseSensitive);
+        options.put_Text(params.find);
+        options.put_MatchCase(params.caseSensitive);
+
+        api.asc_findText(options, params.forward, function (resultCount) {
+            if(!resultCount) {
+                f7.dialog.alert(null, t('Settings.textNoMatches'));
+                return;
+            }
+
             api.asc_replaceText(options, params.replace || '', false);
-        }
+        });
     }
 
     const onReplaceAllQuery = params => {
         const api = Common.EditorApi.get();
+        const options = new AscCommon.CSearchSettings();
+        
+        options.put_Text(params.find);
+        options.put_MatchCase(params.caseSensitive);
 
-        if (params.find && params.find.length) {
-            var options = new AscCommon.CSearchSettings();
-            options.put_Text(params.find);
-            options.put_MatchCase(params.caseSensitive);
+        api.asc_findText(options, params.forward, function (resultCount) {
+            if(!resultCount) {
+                f7.dialog.alert(null, t('Settings.textNoMatches'));
+                return;
+            }
+
             api.asc_replaceText(options, params.replace || '', true);
-        }
+        });
     }
 
     return <DESearchView _t={_t} onSearchQuery={onSearchQuery} onchangeSearchQuery={onchangeSearchQuery} onReplaceQuery={onReplaceQuery} onReplaceAllQuery={onReplaceAllQuery} />

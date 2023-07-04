@@ -8,7 +8,7 @@ import {Device} from "../../../utils/device";
 const PageReview = props => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
-
+    const isProtected = props.isProtected;
     const isDisableAllSettings = props.isReviewOnly || props.displayMode === "final" || props.displayMode === "original";
     const canReview = !!props.canReview;
 
@@ -25,8 +25,8 @@ const PageReview = props => {
            </Navbar>
            <List>
                {canReview &&
-                    <ListItem title={_t.textTrackChanges} className={isDisableAllSettings ? 'disabled' : ''}>
-                        <Toggle checked={props.trackChanges} onToggleChange={() => props.onTrackChanges(!props.trackChanges)}/>
+                    <ListItem title={_t.textTrackChanges} className={isDisableAllSettings ? 'disabled' : ''} disabled={isProtected}>
+                        <Toggle checked={props.trackChanges} onToggleChange={() => props.onTrackChanges(!props.trackChanges)} />
                     </ListItem>
                }
                {!props.isRestrictedEdit &&
@@ -39,13 +39,13 @@ const PageReview = props => {
                <ListItem title={_t.textReviewChange} link={'/review-change/'}>
                    <Icon slot="media" icon="icon-review-changes"></Icon>
                </ListItem>
-               {canReview && !props.canUseReviewPermissions &&
+               {canReview && !props.canUseReviewPermissions && !isProtected &&
                     <ListItem title={_t.textAcceptAllChanges} link='#'
                               className={'no-indicator' + (isDisableAllSettings ? ' disabled' : '')} onClick={() => {props.onAcceptAll();}}>
                         <Icon slot="media" icon="icon-accept-changes"></Icon>
                     </ListItem>
                }
-               {canReview && !props.canUseReviewPermissions &&
+               {canReview && !props.canUseReviewPermissions && !isProtected &&
                     <ListItem title={_t.textRejectAllChanges} link='#'
                               className={'no-indicator' + (isDisableAllSettings ? ' disabled' : '')} onClick={() => {props.onRejectAll();}}>
                         <Icon slot="media" icon="icon-reject-changes"></Icon>

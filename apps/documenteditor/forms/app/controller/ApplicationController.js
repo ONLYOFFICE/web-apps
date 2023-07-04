@@ -619,6 +619,7 @@ define([
             this.appOptions.canPrint          = (this.permissions.print !== false);
 
             this.appOptions.fileKey = this.document.key;
+            this.appOptions.isAnonymousSupport = !!this.api.asc_isAnonymousSupport();
 
             AscCommon.UserInfoParser.setParser(true);
             AscCommon.UserInfoParser.setCurrentName(this.appOptions.user.fullname);
@@ -728,7 +729,15 @@ define([
         },
 
         applyLicense: function() {
-            if (this._state.licenseType) {
+            if (!this.appOptions.isAnonymousSupport && !!this.appOptions.user.anonymous) {
+                this.api.asc_coAuthoringDisconnect();
+                Common.NotificationCenter.trigger('api:disconnect');
+                Common.UI.warning({
+                    title: this.notcriticalErrorTitle,
+                    msg  : this.warnLicenseAnonymous,
+                    buttons: ['ok']
+                });
+            } else if (this._state.licenseType) {
                 var license = this._state.licenseType,
                     buttons = ['ok'],
                     primary = 'ok';
@@ -744,6 +753,7 @@ define([
                 }
 
                 if (this._state.licenseType!==Asc.c_oLicenseResult.SuccessLimit && this.appOptions.canFillForms) {
+                    this.api.asc_coAuthoringDisconnect();
                     Common.NotificationCenter.trigger('api:disconnect');
                 }
 
@@ -1353,7 +1363,8 @@ define([
                 });
 
             }
-            this.cmpCalendar.setDate(new Date(specProps ? specProps.get_FullDate() : undefined));
+            var val = specProps ? specProps.get_FullDate() : undefined;
+            this.cmpCalendar.setDate(val ? new Date(val) : new Date());
 
             // align
             var offset  = controlsContainer.offset(),
@@ -1385,6 +1396,7 @@ define([
             me._isDocReady = true;
             this.hidePreloader();
             this.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+            Common.NotificationCenter.trigger('app:ready', this.appOptions);
 
             var zf = (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : 100);
             (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
@@ -1428,6 +1440,7 @@ define([
 
             Common.Gateway.documentReady();
             Common.Analytics.trackEvent('Load', 'Complete');
+            Common.NotificationCenter.trigger('document:ready');
         },
 
         onOptionsClick: function(menu, item, e) {
@@ -1590,16 +1603,24 @@ define([
             }
 
             if (Common.UI.Themes.available()) {
-                var current = Common.UI.Themes.currentThemeId();
-                for (var t in Common.UI.Themes.map()) {
-                    this.view.mnuThemes.addItem(new Common.UI.MenuItem({
-                        caption     : Common.UI.Themes.get(t).text,
-                        value       : t,
-                        toggleGroup : 'themes',
-                        checkable   : true,
-                        checked     : t===current
-                    }));
+                const _fill_themes = function () {
+                    const _menu = this.view.mnuThemes;
+                    _menu.removeAll();
+
+                    const _current = Common.UI.Themes.currentThemeId();
+                    for (const t in Common.UI.Themes.map()) {
+                        _menu.addItem(new Common.UI.MenuItem({
+                            caption     : Common.UI.Themes.get(t).text,
+                            value       : t,
+                            toggleGroup : 'themes',
+                            checkable   : true,
+                            checked     : t === _current
+                        }));
+                    }
                 }
+
+                Common.NotificationCenter.on('uitheme:countchanged', _fill_themes.bind(this));
+                _fill_themes.call(this);
             }
             if (this.view.mnuThemes.items.length<1) {
                 menuItems[7].setVisible(false);
@@ -1627,6 +1648,9 @@ define([
             if (!this.appOptions.canBackToFolder) {
                 menuItems[11].setVisible(false);
                 itemsCount--;
+            } else {
+                var text = this.appOptions.customization.goback.text;
+                text && (typeof text == 'string') && menuItems[11].setCaption(text);
             }
 
             if ( !this.embedConfig.embedUrl || this.appOptions.isOFORM) {
@@ -1991,7 +2015,8 @@ define([
         errorInconsistentExtPdf: 'An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.',
         errorInconsistentExt: 'An error has occurred while opening the file.<br>The file content does not match the file extension.',
         warnLicenseBefore: 'License not active.<br>Please contact your administrator.',
-        titleLicenseNotActive: 'License not active'
+        titleLicenseNotActive: 'License not active',
+        warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.'
 
     }, DE.Controllers.ApplicationController));
 

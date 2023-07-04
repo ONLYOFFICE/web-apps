@@ -554,7 +554,7 @@
     "textHasMacros": "Le fichier contient des macros automatiques.<br>Voulez-vous exécuter les macros?",
     "textNo": "Non",
     "textNoLicenseTitle": "La limite de la licence est atteinte",
-    "textNoTextFound": "Texte non trouvé",
+    "textNoMatches": "Aucune correspondance",
     "textOk": "Ok",
     "textPaidFeature": "Fonction payante",
     "textRemember": "Se souvenir de mon choix",
@@ -568,6 +568,7 @@
     "titleServerVersion": "L'éditeur est mis à jour",
     "titleUpdateVersion": "La version a été modifiée",
     "warnDownloadAsPdf": "Votre {0} sera converti en un format modifiable. Cette opération peut prendre quelque temps. Le document résultant sera optimisé pour l'édition de texte, il peut donc être différent de l'original {0}, surtout si le fichier original contient de nombreux éléments graphiques.",
+    "warnLicenseAnonymous": "Accès refusé aux utilisateurs anonymes.<br>Ce document sera accessible en lecture seule uniquement.",
     "warnLicenseBefore": "Licence non active.<br>Veuillez contacter votre administrateur.",
     "warnLicenseExceeded": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule. Pour en savoir plus, contactez votre administrateur.",
     "warnLicenseExp": "Votre licence a expiré. Veuillez mettre à jour votre licence et actualisez la page.",
@@ -650,7 +651,7 @@
     "textNo": "Non",
     "textNoChanges": "Aucune modification (Lecture seule)",
     "textNoCharacters": "Caractères non imprimables",
-    "textNoTextFound": "Le texte est introuvable",
+    "textNoMatches": "Aucune correspondance",
     "textOk": "OK",
     "textOpenFile": "Entrer le mot de passe pour ouvrir le fichier",
     "textOrientation": "Orientation",
@@ -733,6 +734,8 @@
     "stayButtonText": "Rester sur cette page",
     "textOk": "OK",
     "textSwitchedMobileView": "Passé à l'affichage mobile",
-    "textSwitchedStandardView": "Passé à l'affichage standard"
+    "textSwitchedStandardView": "Passé à l'affichage standard",
+    "textRenameFile": "Rename File",
+    "textEnterNewFileName": "Enter a new file name"
   }
 }

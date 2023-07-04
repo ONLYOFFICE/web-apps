@@ -66,7 +66,7 @@ define([
             this.template = [
                 '<div class="box">',
                 '<div id="radio-fit-to" style="margin-bottom: 4px;"></div>',
-                '<div class="padding-left">',
+                '<div class="padding-left-22">',
                     '<div>',
                         '<label style="height: 22px;width: 55px;padding-top: 4px;display: inline-block;margin-bottom: 4px;">' + this.textWidth + '</label>',
                         '<div id="scale-width" style="display: inline-block;margin-bottom: 4px;"></div>',
@@ -77,7 +77,7 @@ define([
                     '</div>',
                 '</div>',
                 '<div id="radio-scale-to" style="margin-bottom: 6px;"></div>',
-                '<div id="scale" class="padding-left" style="margin-bottom: 6px;"></div>',
+                '<div id="scale" class="padding-left-22" style="margin-bottom: 6px;"></div>',
                 '</div>'
             ].join('');
 

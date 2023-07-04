@@ -549,7 +549,6 @@
     "textHasMacros": "Файл містить автоматичні макроси.<br>Запустити макроси?",
     "textNo": "Ні",
     "textNoLicenseTitle": "Ліцензійне обмеження",
-    "textNoTextFound": "Текст не знайдено",
     "textPaidFeature": "Платна функція",
     "textRemember": "Запам'ятати мій вибір",
     "textReplaceSkipped": "Заміна виконана. Пропущено {0} випадків.",
@@ -571,11 +570,13 @@
     "textDialogProtectedFillForms": "You may only fill in forms in this document",
     "textDialogProtectedOnlyView": "You may only view this document",
     "textDocumentProtected": "The document is protected. Edit settings are not available",
+    "textNoMatches": "No Matches",
     "textOk": "Ok",
     "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
     "titleDialogProtectedDocument": "The document is protected",
     "titleLicenseNotActive": "License not active",
     "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
+    "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
     "warnLicenseBefore": "License not active.<br>Please contact your administrator."
   },
   "Settings": {
@@ -635,7 +636,6 @@
     "textMarginsH": "Верхні та нижні поля занадто високі для заданої висоти сторінки",
     "textMarginsW": "Ліве та праве поля занадто широкі для заданої ширини сторінки",
     "textNoCharacters": "Недруковані символи",
-    "textNoTextFound": "Текст не знайдено",
     "textOk": "Ок",
     "textOpenFile": "Введіть пароль для відкриття файлу",
     "textOrientation": "Орієнтація",
@@ -704,6 +704,7 @@
     "textNavigation": "Navigation",
     "textNo": "No",
     "textNoChanges": "No changes (Read only)",
+    "textNoMatches": "No Matches",
     "textPageSize": "Page Size",
     "textPassword": "Password",
     "textPasswordNotMatched": "Passwords DonвЂ™t Match",
@@ -733,6 +734,8 @@
     "stayButtonText": "Залишитися на сторінці",
     "textOk": "OK",
     "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view"
+    "textSwitchedStandardView": "Switched to Standard view",
+    "textRenameFile": "Rename File",
+    "textEnterNewFileName": "Enter a new file name"
   }
 }

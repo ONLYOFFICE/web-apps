@@ -478,6 +478,7 @@
 	"FILTER": "SUODATA",
 	"ARRAYTOTEXT": "MATRIISI.TEKSTIKSI",
 	"SORT": "LAJITTELE",
+	"SORTBY": "LAJITTELE.ARVOJEN.PERUSTEELLA",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

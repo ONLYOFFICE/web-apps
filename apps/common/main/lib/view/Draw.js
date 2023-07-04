@@ -101,12 +101,12 @@ define([
 
                 var _set = Common.enumLock;
                 var penOptions = [
-                        {hint: this.txtPen,  color: '3D8A44',  opacity: 100, size: {arr: [0.25, 0.5, 1, 2, 3.5], idx: 2}, iconCls: 'pen-tool'},
-                        {hint: this.txtPen,  color: 'D43230',  opacity: 100, size: {arr: [0.25, 0.5, 1, 2, 3.5], idx: 2}, iconCls: 'pen-tool'},
-                        {hint: this.txtHighlighter,  color: 'FFFC54',  opacity: 50, size: {arr: [2, 4, 6, 8, 10], idx: 2}, iconCls: 'highlighter-tool',
+                        {hint: this.txtPen,  color: '3D8A44',  opacity: 100, size: {arr: [0.25, 0.5, 1, 2, 3.5], idx: 2}, iconCls: 'btn-pen-tool'},
+                        {hint: this.txtPen,  color: 'D43230',  opacity: 100, size: {arr: [0.25, 0.5, 1, 2, 3.5], idx: 2}, iconCls: 'btn-pen-tool'},
+                        {hint: this.txtHighlighter,  color: 'FFFC54',  opacity: 50, size: {arr: [2, 4, 6, 8, 10], idx: 2}, iconCls: 'btn-highlighter-tool',
                          colors: [
                              'FFFC54', '72F54A', '74F9FD', 'EB51F7', 'A900F9', 'EF8B3A', '7272FF', 'FF63A4', '1DFF92', '03DA18',
-                             '249B01', '7272FF', '0633D1', 'FFF7A0', 'FF0303', 'FFFFFF', 'D3D3D4', '969696', '606060', '000000'
+                             '249B01', 'C504D2', '0633D1', 'FFF7A0', 'FF0303', 'FFFFFF', 'D3D3D4', '969696', '606060', '000000'
                          ]}
                     ],
                     lock = (this.appPrefix === 'de-') ? [_set.headerLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments] :
@@ -134,7 +134,7 @@ define([
 
                 this.btnEraser = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon eraser',
+                    iconCls: 'toolbar__icon btn-eraser',
                     caption: this.txtEraser,
                     enableToggle: true,
                     allowDepress: true,

@@ -63,10 +63,10 @@ define([
             this.template = [
                 '<div class="box">',
                     '<div class="input-row">',
-                        '<label class="text columns-text" style="width: 130px;">' + this.txtColumns + '</label><div class="columns-val"></div>',
+                        '<label class="text columns-text" style="width: 130px;">' + this.txtColumns + '</label><div class="columns-val float-right"></div>',
                     '</div>',
                     '<div class="input-row" style="margin-top: 10px;">',
-                        '<label class="text rows-text" style="width: 130px;">' + this.txtRows + '</label><div class="rows-val"></div>',
+                        '<label class="text rows-text" style="width: 130px;">' + this.txtRows + '</label><div class="rows-val float-right"></div>',
                     '</div>',
                 '</div>'
             ].join('');

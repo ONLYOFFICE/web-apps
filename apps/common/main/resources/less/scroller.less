@@ -222,11 +222,14 @@ textarea {
         background: var(--canvas-scroll-thumb);
         background-position: center;
         background-repeat: no-repeat;
+        border-radius: 0;
 
         &:hover, &:active {
-            box-shadow: none;
             background-position: center;
             background-repeat: no-repeat;
+            border: @canvas-background @scaled-one-px-value solid;
+            border-left-width: 0;
+            border-radius: 0;
         }
 
         &:hover {
@@ -235,6 +238,7 @@ textarea {
 
         &:active {
             background-color: var(--canvas-scroll-thumb-pressed);
+            box-shadow: none;
         }
     }
 
@@ -250,6 +254,11 @@ textarea {
     }
 
     &::-webkit-scrollbar-corner {
+        background: @canvas-background;
+    }
+
+    &::-webkit-scrollbar-track {
+        border: none;
         background: @canvas-background;
     }
 
@@ -282,9 +291,22 @@ textarea {
 
     .img-for-theme("#adadad", "#f7f7f7", "#c0c0c0", "#f7f7f7");
 }
-.theme-classic-light{
+.theme-classic-light textarea{
     .img-for-theme("#c0c0c0", "#ececec", "#cfcfcf", "#f1f1f1");
 }
 .theme-dark textarea{
+    &::-webkit-scrollbar-thumb, &::-webkit-scrollbar-button{
+        &:hover{
+            box-shadow: none;
+        }
+    }
     .img-for-theme("#999999", "#404040", "#999999", "#404040");
+}
+.theme-contrast-dark  textarea{
+    &::-webkit-scrollbar-thumb, &::-webkit-scrollbar-button {
+        &:hover, &:active {
+            box-shadow: inset 0px 0px 0px @scaled-one-px-value var(--canvas-scroll-thumb-border);
+        }
+    }
+    .img-for-theme("#7d7d7d", "#8c8c8c", "#717171", "#8c8c8c");
 }

@@ -183,6 +183,8 @@ SSE.ApplicationController = new(function(){
 
         var tpl = '<li id="worksheet{index}">{title}</li>';
         for (var i = 0; i < maxPages; i++) {
+            if (api.asc_isWorksheetHidden(i)) continue;
+
             var item = tpl.replace(/\{index}/, i).replace(/\{title}/,api.asc_getWorksheetName(i).replace(/\s/g,'&nbsp;'));
             $(item).appendTo($box).on('click', handleWorksheet);
         }
@@ -232,6 +234,9 @@ SSE.ApplicationController = new(function(){
         if (!config.canBackToFolder) {
             $('#idt-close').hide();
             itemsCount--;
+        } else {
+            var text = config.customization.goback.text;
+            text && (typeof text == 'string') && $('#idt-close .caption').text(text);
         }
 
         if (itemsCount < 7) {
@@ -537,6 +542,9 @@ SSE.ApplicationController = new(function(){
                 else
                     message = me.errorInconsistentExt;
                 break;
+
+            case Asc.c_oAscError.ID.SessionToken: // don't show error message
+                return;
 
             default:
                 message = me.errorDefaultMessage.replace('%1', id);

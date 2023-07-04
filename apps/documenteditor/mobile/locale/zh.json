@@ -47,6 +47,7 @@
     "textOther": "其他",
     "textPageBreak": "分页符",
     "textPageNumber": "页码",
+    "textPasteImageUrl": "粘贴图像 URL",
     "textPictureFromLibrary": "图库",
     "textPictureFromURL": "来自网络的图片",
     "textPosition": "位置",
@@ -64,8 +65,7 @@
     "textTableSize": "表格大小",
     "textWithBlueLinks": "带蓝色链接",
     "textWithPageNumbers": "带页号",
-    "txtNotUrl": "该字段应为“http://www.example.com”格式的URL",
-    "textPasteImageUrl": "Paste an image URL"
+    "txtNotUrl": "该字段应为“http://www.example.com”格式的URL"
   },
   "Common": {
     "Collaboration": {
@@ -554,7 +554,6 @@
     "textHasMacros": "这个文件带有自动宏。<br> 是否要运行宏？",
     "textNo": "不",
     "textNoLicenseTitle": "触碰到许可证数量限制。",
-    "textNoTextFound": "未找到文本",
     "textOk": "OK",
     "textPaidFeature": "付费功能",
     "textRemember": "记住我的选择",
@@ -576,7 +575,9 @@
     "warnLicenseUsersExceeded": "你触发了 %1 编辑器的同时在线数限制。可联系管理员来了解更多信息。",
     "warnNoLicense": "你已经触发了 %1 编辑器的同时在线数限制. 该文档打开后，你将只能查看。请联系 %1 的销售团队，获取个人升级条款。",
     "warnNoLicenseUsers": "你触发了 %1 编辑器的同时在线数限制。请与  %1  的销售团队联系，以获取个人升级条款。",
-    "warnProcessRightsChange": "你没有编辑这个文件的权限。"
+    "warnProcessRightsChange": "你没有编辑这个文件的权限。",
+    "textNoMatches": "No Matches",
+    "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
   },
   "Settings": {
     "advDRMOptions": "受保护的文件",
@@ -650,7 +651,6 @@
     "textNo": "否",
     "textNoChanges": "不允许任何更改（只读）",
     "textNoCharacters": "非打印字符",
-    "textNoTextFound": "文本没找到",
     "textOk": "好",
     "textOpenFile": "输入密码来打开文件",
     "textOrientation": "方向",
@@ -724,7 +724,8 @@
     "txtScheme6": "汇合",
     "txtScheme7": "公平",
     "txtScheme8": "流动",
-    "txtScheme9": "发现"
+    "txtScheme9": "发现",
+    "textNoMatches": "No Matches"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "你有未保存的修改。点击“留在该页”可等待自动保存完成。点击“离开该页”将丢弃全部未经保存的修改。",
@@ -733,6 +734,8 @@
     "stayButtonText": "保持此页上",
     "textOk": "确定",
     "textSwitchedMobileView": "切换到移动视图",
-    "textSwitchedStandardView": "切换到标准视图"
+    "textSwitchedStandardView": "切换到标准视图",
+    "textRenameFile": "Rename File",
+    "textEnterNewFileName": "Enter a new file name"
   }
 }

@@ -549,7 +549,6 @@
     "textHasMacros": "ເອກະສານບັນຈຸ ມາກໂຄ <br> ແບບອັດຕະໂນມັດ, ທ່ານຍັງຕ້ອງການດໍາເນີນງານ ມາກໂຄ ບໍ ",
     "textNo": "ບໍ່",
     "textNoLicenseTitle": "ຈໍານວນໃບອະນຸຍາດໄດ້ໃຊ້ຄົບແລ້ວ",
-    "textNoTextFound": "ບໍ່ພົບເນື້ອຫາ",
     "textPaidFeature": "ຄຸນສົມບັດທີ່ຈ່າຍ",
     "textRemember": "ຈື່ຈໍາທາງເລືອກ",
     "textReplaceSkipped": "ການທົດແທນໄດ້ຖືກປະຕິບັດແລ້ວ. {0} ຖືກຂ້າມເຫດການທີ່ເກີດຂື້ນໄດ້",
@@ -571,11 +570,13 @@
     "textDialogProtectedFillForms": "You may only fill in forms in this document",
     "textDialogProtectedOnlyView": "You may only view this document",
     "textDocumentProtected": "The document is protected. Edit settings are not available",
+    "textNoMatches": "No Matches",
     "textOk": "Ok",
     "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
     "titleDialogProtectedDocument": "The document is protected",
     "titleLicenseNotActive": "License not active",
     "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
+    "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
     "warnLicenseBefore": "License not active.<br>Please contact your administrator."
   },
   "Settings": {
@@ -637,7 +638,6 @@
     "textMarginsW": "ຂອບຊ້າຍ ແລະ ຂວາແມ່ນກວ້າງເກີນໄປສຳລັບຄວາມກວ້າງຂອງໜ້າເວັບ",
     "textNo": "ບໍ່",
     "textNoCharacters": "ບໍ່ມີຕົວອັກສອນພິມ",
-    "textNoTextFound": "ບໍ່ພົບເນື້ອຫາ",
     "textOk": "ຕົກລົງ",
     "textOpenFile": "ໃສ່ລະຫັດຜ່ານເພື່ອເປີດໄຟລ໌",
     "textOrientation": "ການຈັດວາງ",
@@ -708,6 +708,7 @@
     "textMobileView": "Mobile View",
     "textNavigation": "Navigation",
     "textNoChanges": "No changes (Read only)",
+    "textNoMatches": "No Matches",
     "textPassword": "Password",
     "textPasswordNotMatched": "Passwords DonвЂ™t Match",
     "textPdfProducer": "PDF Producer",
@@ -733,6 +734,8 @@
     "stayButtonText": "ຢູ່ໃນໜ້ານີ້",
     "textOk": "OK",
     "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view"
+    "textSwitchedStandardView": "Switched to Standard view",
+    "textRenameFile": "Rename File",
+    "textEnterNewFileName": "Enter a new file name"
   }
 }

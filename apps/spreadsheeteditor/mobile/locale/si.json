@@ -151,7 +151,6 @@
       "textNo": "නැහැ",
       "textNoChoices": "කෝෂය පිරවීමට තේරීම් නැත.<br>තීරුවෙන් පාඨ අගයන් පමණක් ප්‍රතිස්ථාපනයට තෝරාගත හැකිය.",
       "textNoLicenseTitle": "බලපත්‍රයේ සීමාවට ලඟාවුණි",
-      "textNoTextFound": "පාඨය හමු නොවිණි",
       "textOk": "හරි",
       "textPaidFeature": "ගෙවන විශේෂාංගයකි",
       "textRemember": "මාගේ තේරීම මතක තබාගන්න",
@@ -173,7 +172,9 @@
       "warnLicenseUsersExceeded": "ඔබ %1 සංස්කරක සඳහා පරිශීලක සීමාවට ළඟා වී ඇත. තව දැන ගැනීමට ඔබගේ පරිපාලක අමතන්න.",
       "warnNoLicense": "ඔබ %1 සංස්කරක වෙත සමකාල සම්බන්ධතා සීමාවට ළඟා වී ඇත. මෙම ලේඛනය දැකීමට පමණක් විවෘත වේ. පුද්ගලික උත්ශ්‍රේණි නියම සඳහා %1 අලෙවි කණ්ඩායම අමතන්න.",
       "warnNoLicenseUsers": "ඔබ %1 සංස්කරක සඳහා පරිශීලක සීමාවට ළඟා වී ඇත. පුද්ගලික උත්ශ්‍රේණි නියම සඳහා %1 අලෙවි කණ්ඩායම අමතන්න.",
-      "warnProcessRightsChange": "ඔබට ගොනුව සංස්කරණය කිරීමට අවසර නැත."
+      "warnProcessRightsChange": "ඔබට ගොනුව සංස්කරණය කිරීමට අවසර නැත.",
+      "textNoMatches": "No Matches",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
     }
   },
   "Error": {
@@ -257,7 +258,8 @@
     "unknownErrorText": "නොදන්නා දෝෂයකි.",
     "uploadImageExtMessage": "නොදන්නා අනුරුවක ආකෘතියකි.",
     "uploadImageFileCountMessage": "අනුරුවක් උඩුගත කර නැත.",
-    "uploadImageSizeMessage": "අනුරුව ඉතා විශාලට. උ. ප්‍රමාණය මෙ.බ. 25."
+    "uploadImageSizeMessage": "අනුරුව ඉතා විශාලට. උ. ප්‍රමාණය මෙ.බ. 25.",
+    "errorProtectedRange": "This range is not allowed for editing."
   },
   "LongActions": {
     "advDRMPassword": "මුරපදය",
@@ -375,6 +377,7 @@
       "textLinkType": "සබැඳියේ වර්ගය",
       "textOk": "හරි",
       "textOther": "වෙනත්",
+      "textPasteImageUrl": "රූපයක ඒ.ස.නි. අලවන්න",
       "textPictureFromLibrary": "ගබඩාවෙන් ඡායාරූපය",
       "textPictureFromURL": "ඒ.ස.නි. වෙතින් ඡායාරූපය",
       "textRange": "පරාසය",
@@ -394,8 +397,7 @@
       "txtNotUrl": "මෙම ක්‍ෂේත්‍රය \"http://උපවසම.උදාහරණය.ලංකා\" ආකෘතියේ ඒ.ස.නි. ක් විය යුතුය.",
       "txtSorting": "වර්ග කිරීම",
       "txtSortSelected": "තේරූ දෑ වර්ග කරන්න",
-      "txtYes": "ඔව්",
-      "textPasteImageUrl": "Paste an image URL"
+      "txtYes": "ඔව්"
     },
     "Edit": {
       "notcriticalErrorTitle": "අවවාදයයි",
@@ -581,7 +583,13 @@
       "textYen": "යෙන්",
       "txtNotUrl": "මෙම ක්‍ෂේත්‍රය \"http://උපවසම.උදාහරණය.ලංකා\" ආකෘතියේ ඒ.ස.නි. ක් විය යුතුය.",
       "txtSortHigh2Low": "වැඩිතමයේ සිට අඩුතමයට වර්ගනය",
-      "txtSortLow2High": "අඩුතමයේ සිට වැඩිතමයට වර්ගනය"
+      "txtSortLow2High": "අඩුතමයේ සිට වැඩිතමයට වර්ගනය",
+      "textCustomFormat": "Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textSave": "Save",
+      "textEnterFormat": "Enter Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
     },
     "Settings": {
       "advCSVOptions": "CSV විකල්ප තෝරන්න",
@@ -650,7 +658,6 @@
       "textMargins": "මායිම්",
       "textMatchCase": "ගැළපෙන අවස්ථාව",
       "textMatchCell": "ගැළපෙන කෝෂය",
-      "textNoTextFound": "පාඨය හමු නොවිණි",
       "textOk": "හරි",
       "textOpenFile": "ගොනුව විවෘත කිරීමට මුරපදයක් යොදන්න",
       "textOrientation": "හැඩගැස්ම",
@@ -751,7 +758,8 @@
       "txtUk": "යුක්රේනියානු",
       "txtVi": "වියට්නාම",
       "txtZh": "චීන",
-      "warnDownloadAs": "ඔබ දිගටම මෙම ආකෘතියෙන් සුරැකුවොත් පාඨය හැර අනෙකුත් සියළුම විශේෂාංග නැති වනු ඇත.<br>ඔබට කරගෙන යාමට අවශ්‍ය බව විශ්වාසද?"
+      "warnDownloadAs": "ඔබ දිගටම මෙම ආකෘතියෙන් සුරැකුවොත් පාඨය හැර අනෙකුත් සියළුම විශේෂාංග නැති වනු ඇත.<br>ඔබට කරගෙන යාමට අවශ්‍ය බව විශ්වාසද?",
+      "textNoMatches": "No Matches"
     }
   }
 }

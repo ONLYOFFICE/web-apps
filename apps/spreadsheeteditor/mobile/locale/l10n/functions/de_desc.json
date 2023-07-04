@@ -1914,5 +1914,9 @@
 	"SORT": {
 		"a": "(Matrix, [Sortierindex], [Sortierreihenfolge], [nach_Spalte])",
 		"d": "Sortiert einen Bereich oder eine Matrix."
+	},
+	"SORTBY": {
+		"a": "(Matrix, nach_Matrix, [Sortierreihenfolge], ...)",
+		"d": "Sortiert einen Bereich oder eine Matrix, basierend auf den Werten in einem entsprechenden Bereich oder einer entsprechenden Matrix."
 	}
 }

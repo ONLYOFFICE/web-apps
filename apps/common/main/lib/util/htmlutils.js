@@ -44,6 +44,8 @@ if ( checkLocalStorage && localStorage.getItem("ui-rtl") === '1' ) {
     document.body.classList.add('rtl');
 }
 
+const isIE = /msie|trident/i.test(navigator.userAgent);
+
 function checkScaling() {
     var matches = {
         'pixel-ratio__1_25': "screen and (-webkit-min-device-pixel-ratio: 1.25) and (-webkit-max-device-pixel-ratio: 1.49), " +
@@ -61,32 +63,53 @@ function checkScaling() {
         }
     }
 
-    matches = {
-        'pixel-ratio__2_5': `screen and (-webkit-min-device-pixel-ratio: 2.5), screen and (min-resolution: 2.5dppx)`,
-    };
-    for (let c in matches) {
-        if ( window.matchMedia(matches[c]).matches ) {
-            document.body.classList.add(c);
-            Common.Utils.injectSvgIcons();
-            break;
+    if ( !isIE ) {
+        matches = {
+            'pixel-ratio__2_5': 'screen and (-webkit-min-device-pixel-ratio: 2.5), screen and (min-resolution: 2.5dppx)',
+        };
+        for (let c in matches) {
+            if ( window.matchMedia(matches[c]).matches ) {
+                document.body.classList.add(c);
+                Common.Utils.injectSvgIcons();
+                break;
+            }
         }
     }
 }
 
+let svg_icons = ['./resources/img/iconssmall@2.5x.svg',
+    './resources/img/iconsbig@2.5x.svg', './resources/img/iconshuge@2.5x.svg'];
+
 window.Common = {
     Utils: {
         injectSvgIcons: function () {
-            const el = document.querySelector('div.inlined-svg');
-            if (!el || !el.innerHTML.firstChild) {
-                fetch('./resources/img/iconssmall@2.5x.svg')
-                    .then(r => {
-                        if (r.ok) return r.text();
-                        else {/* error */
-                        }
-                    }).then(text => {
-                        const el = document.querySelector('div.inlined-svg')
-                        el.innerHTML = text;
-                    }).catch(console.error.bind(console));
+            if ( isIE ) return;
+
+            let runonce;
+            // const el = document.querySelector('div.inlined-svg');
+            // if (!el || !el.innerHTML.firstChild) {
+            if ( !runonce ) {
+                runonce = true;
+                function htmlToElements(html) {
+                    var template = document.createElement('template');
+                    template.innerHTML = html;
+                    // return template.content.childNodes;
+                    return template.content.firstChild;
+                }
+
+                svg_icons.map(function (url) {
+                            fetch(url)
+                                .then(function (r) {
+                                    if (r.ok) return r.text();
+                                    else {/* error */}
+                                }).then(function (text) {
+                                    const el = document.querySelector('div.inlined-svg')
+                                    el.append(htmlToElements(text));
+
+                                    const i = svg_icons.findIndex(function (item) {return item == url});
+                                    if ( !(i < 0) ) svg_icons.splice(i, 1)
+                                }).catch(console.error.bind(console))
+                        })
             }
         }
     }
@@ -94,79 +117,36 @@ window.Common = {
 
 checkScaling();
 
-var params = (function() {
-    var e,
-        a = /\+/g,  // Regex for replacing addition symbol with a space
-        r = /([^&=]+)=?([^&]*)/g,
-        d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
-        q = window.location.search.substring(1),
-        urlParams = {};
-
-    while (e = r.exec(q))
-        urlParams[d(e[1])] = d(e[2]);
-
-    return urlParams;
-})();
-
-if ( window.desktop ) {
-    var theme = desktop.theme
-
-    if ( theme ) {
-        if ( !theme.id && !!theme.type ) {
-            if ( theme.type == 'dark' ) theme.id = 'theme-dark'; else
-            if ( theme.type == 'light' ) theme.id = 'theme-classic-light';
-        }
-
-        if ( theme.id ) {
-            if ( theme.id == 'theme-system' ) {
-                localStorage.setItem("ui-theme-use-system", "1");
-                localStorage.removeItem("ui-theme-id");
-                delete params.uitheme;
-            } else {
-                localStorage.setItem("ui-theme-id", theme.id);
-                localStorage.removeItem("ui-theme-use-system");
-            }
-
-            localStorage.removeItem("ui-theme");
-        }
-    }
-}
-
-if ( !!params.uitheme && checkLocalStorage && !localStorage.getItem("ui-theme-id") ) {
-    // const _t = params.uitheme.match(/([\w-]+)/g);
-
-    if ( params.uitheme == 'default-dark' )
+if ( !!params.uitheme ) {
+    if ( params.uitheme == 'default-dark' ) {
         params.uitheme = 'theme-dark';
-    else
-    if ( params.uitheme == 'default-light' )
+        params.uithemetype = 'dark';
+    } else
+    if ( params.uitheme == 'default-light' ) {
         params.uitheme = 'theme-classic-light';
-
-    localStorage.removeItem("ui-theme");
+        params.uithemetype = 'light';
+    } else
+    if ( params.uitheme == 'theme-system' ) {}
 }
 
-var ui_theme_name = checkLocalStorage && localStorage.getItem("ui-theme-id") ? localStorage.getItem("ui-theme-id") : params.uitheme;
-var ui_theme_type;
-if ( !ui_theme_name ) {
-    if ( (window.desktop && desktop.theme && desktop.theme.system == 'dark') ||
-            (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) )
-    {
-        ui_theme_name = 'theme-dark';
-        ui_theme_type = 'dark';
-        checkLocalStorage && localStorage.removeItem("ui-theme");
+!window.uitheme.id && params.uitheme && (window.uitheme.id = params.uitheme);
+if ( !window.uitheme.id ) {
+    window.uitheme.adapt_to_system_theme();
+} else {
+    !window.uitheme.type && params.uitheme && (window.uitheme.type = params.uithemetype);
+}
+
+document.body.classList.add(window.uitheme.relevant_theme_id());
+
+if ( window.uitheme.type == 'dark' ) {
+    document.body.classList.add("theme-type-dark");
+
+    if ( checkLocalStorage && localStorage.getItem("content-theme") == 'dark' ) {
+        document.body.classList.add("content-theme-dark");
+    } else {
+    // document.body.classList.add("theme-type-ligth");
     }
 }
-if ( !!ui_theme_name ) {
-    document.body.classList.add(ui_theme_name);
-}
 
-if ( checkLocalStorage ) {
-    let current_theme = localStorage.getItem("ui-theme");
-    if ( !!current_theme && /type":\s*"dark/.test(current_theme) || ui_theme_type == 'dark' ) {
-        document.body.classList.add("theme-type-dark");
-
-        let content_theme = localStorage.getItem("content-theme");
-        if ( content_theme == 'dark' ) {
-            document.body.classList.add("content-theme-dark");
-        }
-    }
-}
+if ( !window.is_system_theme_dark )
+    delete window.is_system_theme_dark;

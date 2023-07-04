@@ -1,0 +1,17 @@
+{
+    "name": "Simple dark theme",
+    "l10n": {
+        "fr": "Thème sombre simple",
+        "de": "Eenvoudig donker thema"
+      },
+    "id" : "theme-id-simple-dark",
+    "type" : "dark",
+    "colors" : {
+        "background-primary-dialog-button": "#c681ff",
+        "highlight-button-hover": "#535C68",
+        "highlight-button-pressed": "#49617D",
+        "highlight-button-pressed-hover": "#49617D",
+        "highlight-primary-dialog-button-hover": "#d39eff",
+        "border-control-focus": "#b948ff"
+    }
+}

@@ -121,15 +121,15 @@ define([
                 this.lockedControls = [];
 
                 this._arrEffectName = [
-                    {title: this.textNone, imageUrl: "transition-none", value: Asc.c_oAscSlideTransitionTypes.None, id: Common.UI.getId()},
-                    {title: this.textFade, imageUrl: "transition-fade", value: Asc.c_oAscSlideTransitionTypes.Fade, id: Common.UI.getId()},
-                    {title: this.textPush, imageUrl: "transition-push", value: Asc.c_oAscSlideTransitionTypes.Push, id: Common.UI.getId()},
-                    {title: this.textWipe, imageUrl: "transition-wipe", value: Asc.c_oAscSlideTransitionTypes.Wipe, id: Common.UI.getId()},
-                    {title: this.textSplit, imageUrl: "transition-split", value: Asc.c_oAscSlideTransitionTypes.Split, id: Common.UI.getId()},
-                    {title: this.textUnCover, imageUrl: "transition-uncover", value: Asc.c_oAscSlideTransitionTypes.UnCover, id: Common.UI.getId()},
-                    {title: this.textCover, imageUrl: "transition-cover", value: Asc.c_oAscSlideTransitionTypes.Cover, id: Common.UI.getId()},
-                    {title: this.textClock, imageUrl: "transition-clock", value: Asc.c_oAscSlideTransitionTypes.Clock, id: Common.UI.getId()},
-                    {title: this.textZoom,  imageUrl: "transition-zoom", value: Asc.c_oAscSlideTransitionTypes.Zoom, id: Common.UI.getId(), cls: 'last-item'}
+                    {title: this.textNone, imageUrl: "btn-transition-none", value: Asc.c_oAscSlideTransitionTypes.None, id: Common.UI.getId()},
+                    {title: this.textFade, imageUrl: "btn-transition-fade", value: Asc.c_oAscSlideTransitionTypes.Fade, id: Common.UI.getId()},
+                    {title: this.textPush, imageUrl: "btn-transition-push", value: Asc.c_oAscSlideTransitionTypes.Push, id: Common.UI.getId()},
+                    {title: this.textWipe, imageUrl: "btn-transition-wipe", value: Asc.c_oAscSlideTransitionTypes.Wipe, id: Common.UI.getId()},
+                    {title: this.textSplit, imageUrl: "btn-transition-split", value: Asc.c_oAscSlideTransitionTypes.Split, id: Common.UI.getId()},
+                    {title: this.textUnCover, imageUrl: "btn-transition-uncover", value: Asc.c_oAscSlideTransitionTypes.UnCover, id: Common.UI.getId()},
+                    {title: this.textCover, imageUrl: "btn-transition-cover", value: Asc.c_oAscSlideTransitionTypes.Cover, id: Common.UI.getId()},
+                    {title: this.textClock, imageUrl: "btn-transition-clock", value: Asc.c_oAscSlideTransitionTypes.Clock, id: Common.UI.getId()},
+                    {title: this.textZoom,  imageUrl: "btn-transition-zoom", value: Asc.c_oAscSlideTransitionTypes.Zoom, id: Common.UI.getId(), cls: 'last-item'}
                 ];
                 this._arrEffectName.forEach(function(item) {
                     item.tip = item.title;
@@ -185,7 +185,7 @@ define([
                     cls: 'btn-toolbar', // x-huge icon-top',
                     caption: this.txtPreview,
                     split: false,
-                    iconCls: 'toolbar__icon preview-transitions',
+                    iconCls: 'toolbar__icon btn-preview-transitions',
                     lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
                     dataHint: '1',
                     dataHintDirection: 'left',
@@ -196,7 +196,8 @@ define([
                 this.btnParameters = new Common.UI.Button({
                     cls: 'btn-toolbar  x-huge icon-top',
                     caption: this.txtParameters,
-                    iconCls: 'toolbar__icon icon transition-none',
+                    iconCls: 'toolbar__icon icon btn-transition-none',
+                    scaling: false,
                     menu: new Common.UI.Menu({
                         items: this.createParametersMenuItems()}),
                     lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
@@ -210,7 +211,7 @@ define([
                     cls: 'btn-toolbar',
                     caption: this.txtApplyToAll,
                     split: true,
-                    iconCls: 'toolbar__icon transition-apply-all',
+                    iconCls: 'toolbar__icon btn-transition-apply-all',
                     lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
                     dataHint: '1',
                     dataHintDirection: 'left',
@@ -235,7 +236,7 @@ define([
 
                 this.lblDuration = new Common.UI.Label({
                     el: this.$el.find('#transit-duration'),
-                    iconCls: 'toolbar__icon animation-duration',
+                    iconCls: 'toolbar__icon btn-animation-duration',
                     caption: this.strDuration,
                     lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock]
                 });

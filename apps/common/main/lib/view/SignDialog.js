@@ -90,8 +90,8 @@ define([
                         '</div>',
                         '<div id="id-dlg-sign-name" class="input-row" style="margin-bottom: 5px;"></div>',
                         '<div id="id-dlg-sign-fonts" class="input-row" style="display: inline-block;"></div>',
-                        '<div id="id-dlg-sign-font-size" class="input-row" style="display: inline-block;margin-left: 3px;"></div>',
-                        '<div id="id-dlg-sign-bold" style="display: inline-block;margin-left: 3px;"></div>','<div id="id-dlg-sign-italic" style="display: inline-block;margin-left: 3px;"></div>',
+                        '<div id="id-dlg-sign-font-size" class="input-row margin-left-3" style="display: inline-block;"></div>',
+                        '<div id="id-dlg-sign-bold" class="margin-left-3" style="display: inline-block;"></div>','<div id="id-dlg-sign-italic" class="margin-left-3" style="display: inline-block;"></div>',
                         '<div style="margin: 10px 0 5px 0;">',
                             '<label>' + this.textUseImage + '</label>',
                         '</div>',
@@ -104,7 +104,7 @@ define([
                     '<table style="margin-top: 30px;">',
                         '<tr>',
                             '<td><label style="font-weight: bold;margin-bottom: 3px;">' + this.textCertificate + '</label></td>' +
-                            '<td rowspan="2" style="vertical-align: top; padding-left: 20px;"><button id="id-dlg-sign-change" class="btn btn-text-default" style="float:right;">' + this.textSelect + '</button></td>',
+                            '<td rowspan="2" class="padding-left-20" style="vertical-align: top;"><button id="id-dlg-sign-change" class="btn btn-text-default float-right">' + this.textSelect + '</button></td>',
                         '</tr>',
                         '<tr><td><div id="id-dlg-sign-certificate" class="hidden" style="max-width: 240px;overflow: hidden;white-space: nowrap;"></td></tr>',
                     '</table>',
@@ -247,7 +247,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.inputPurpose, this.inputName, this.cmbFonts, this.cmbFontSize];
+            return [this.inputPurpose, this.inputName, this.cmbFonts, this.cmbFontSize, this.btnBold, this.btnItalic, this.btnSelectImage, this.btnChangeCertificate];
         },
 
         show: function() {

@@ -508,7 +508,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.btnWrapNone = new Common.UI.Button({
                 parentEl: $('#tableadv-button-wrap-none'),
                 cls: 'btn-options huge-1',
-                iconCls: 'options__icon options__icon-huge table-align-center',
+                iconCls: 'options__icon options__icon-huge btn-table-align-center',
                 posId: c_tableWrap.TABLE_WRAP_NONE,
                 hint: this.textWrapNoneTooltip,
                 enableToggle: true,
@@ -520,7 +520,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.btnWrapParallel = new Common.UI.Button({
                 parentEl: $('#tableadv-button-wrap-parallel'),
                 cls: 'btn-options huge-1',
-                iconCls: 'options__icon options__icon-huge table-flow',
+                iconCls: 'options__icon options__icon-huge btn-table-flow',
                 posId: c_tableWrap.TABLE_WRAP_PARALLEL,
                 hint: this.textWrapParallelTooltip,
                 enableToggle: true,
@@ -532,7 +532,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.btnAlignLeft = new Common.UI.Button({
                 parentEl: $('#tableadv-button-align-left'),
                 cls: 'btn-options huge-1',
-                iconCls: 'options__icon options__icon-huge table-align-left',
+                iconCls: 'options__icon options__icon-huge btn-table-align-left',
                 posId: c_tableAlign.TABLE_ALIGN_LEFT,
                 hint: this.textLeftTooltip,
                 enableToggle: true,
@@ -551,7 +551,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.btnAlignCenter = new Common.UI.Button({
                 parentEl: $('#tableadv-button-align-center'),
                 cls: 'btn-options huge-1',
-                iconCls: 'options__icon options__icon-huge table-align-center',
+                iconCls: 'options__icon options__icon-huge btn-table-align-center',
                 posId: c_tableAlign.TABLE_ALIGN_CENTER,
                 hint: this.textCenterTooltip,
                 enableToggle: true,
@@ -570,7 +570,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.btnAlignRight = new Common.UI.Button({
                 parentEl: $('#tableadv-button-align-right'),
                 cls: 'btn-options huge-1',
-                iconCls: 'options__icon options__icon-huge table-align-right',
+                iconCls: 'options__icon options__icon-huge btn-table-align-right',
                 posId: c_tableAlign.TABLE_ALIGN_RIGHT,
                 hint: this.textRightTooltip,
                 enableToggle: true,
@@ -937,10 +937,10 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             });
 
             var _arrBorderPresets = [
-                ['cm',      'btn-borders-large toolbar__icon toolbar__icon-big borders-inner-only', 'tableadv-button-border-inner',     this.tipInner],
-                ['lrtb',    'btn-borders-large toolbar__icon toolbar__icon-big borders-outer-only', 'tableadv-button-border-outer',     this.tipOuter],
-                ['lrtbcm',  'btn-borders-large toolbar__icon toolbar__icon-big borders-all',   'tableadv-button-border-all',       this.tipAll],
-                ['',        'btn-borders-large toolbar__icon toolbar__icon-big borders-none',  'tableadv-button-border-none',      this.tipNone]
+                ['cm',      'toolbar__icon toolbar__icon-big btn-borders-inner-only', 'tableadv-button-border-inner',     this.tipInner],
+                ['lrtb',    'toolbar__icon toolbar__icon-big btn-borders-outer-only', 'tableadv-button-border-outer',     this.tipOuter],
+                ['lrtbcm',  'toolbar__icon toolbar__icon-big btn-borders-all',   'tableadv-button-border-all',       this.tipAll],
+                ['',        'toolbar__icon toolbar__icon-big btn-borders-none',  'tableadv-button-border-none',      this.tipNone]
             ];
 
             this._btnsBorderPosition = [];
@@ -958,22 +958,22 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
 
             var _arrTableBorderPresets = [
-                ['cm', '',          'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-none-inner',    'tableadv-button-border-inner-none',    this.tipCellInner],
-                ['lrtb', '',        'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-none-outer',    'tableadv-button-border-outer-none',    this.tipCellOuter],
-                ['lrtbcm', '',      'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-none-all',      'tableadv-button-border-all-none',      this.tipCellAll],
-                ['', '',            'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-none',          'tableadv-button-border-none-none',     this.tipNone],
-                ['lrtbcm', 'lrtb',  'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-all',           'tableadv-button-border-all-table',     this.tipTableOuterCellAll],
-                ['', 'lrtb',        'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-outer-none',    'tableadv-button-border-none-table',    this.tipOuter],
-                ['cm', 'lrtb',      'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-outer-inner',   'tableadv-button-border-inner-table',   this.tipTableOuterCellInner],
-                ['lrtb', 'lrtb',    'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-outer-outer',   'tableadv-button-border-outer-table',   this.tipTableOuterCellOuter]
+                ['cm', '',          'toolbar__icon toolbar__icon-big btn-borders-twin-none-inner',    'tableadv-button-border-inner-none',    this.tipCellInner],
+                ['lrtb', '',        'toolbar__icon toolbar__icon-big btn-borders-twin-none-outer',    'tableadv-button-border-outer-none',    this.tipCellOuter],
+                ['lrtbcm', '',      'toolbar__icon toolbar__icon-big btn-borders-twin-none-all',      'tableadv-button-border-all-none',      this.tipCellAll],
+                ['', '',            'toolbar__icon toolbar__icon-big btn-borders-twin-none',          'tableadv-button-border-none-none',     this.tipNone],
+                ['lrtbcm', 'lrtb',  'toolbar__icon toolbar__icon-big btn-borders-twin-all',           'tableadv-button-border-all-table',     this.tipTableOuterCellAll],
+                ['', 'lrtb',        'toolbar__icon toolbar__icon-big btn-borders-twin-outer-none',    'tableadv-button-border-none-table',    this.tipOuter],
+                ['cm', 'lrtb',      'toolbar__icon toolbar__icon-big btn-borders-twin-outer-inner',   'tableadv-button-border-inner-table',   this.tipTableOuterCellInner],
+                ['lrtb', 'lrtb',    'toolbar__icon toolbar__icon-big btn-borders-twin-outer-outer',   'tableadv-button-border-outer-table',   this.tipTableOuterCellOuter]
             ];
 
             this._btnsTableBorderPosition = [];
             _.each(_arrTableBorderPresets, function(item, index, list){
                 var _btn = new Common.UI.Button({
                     parentEl: $('#'+item[3]),
-                    style: 'margin-left: 4px; margin-bottom: 4px;',
-                    cls: 'btn-options large border-off',
+                    style: 'margin-bottom: 4px;',
+                    cls: 'btn-options large border-off  margin-left-4',
                     iconCls: item[2],
                     strCellId  :item[0],
                     strTableId :item[1],
@@ -2125,7 +2125,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.BordersSpacingContainer.toggleClass('settings-hidden', !spacing);
             this.TableBackContainer.css('display', (!spacing && !this._allTable) ? 'none' : 'flex');
             this.CellBackContainer.css('display', (!spacing && this._allTable) ? 'none' : 'flex');
-            this.TableBackContainer.css('float', (!spacing && this._allTable) ? 'none' : 'right');
+            this.TableBackContainer.toggleClass('float-right', spacing || !this._allTable);
             (spacing) ? this._UpdateBordersSpacing_() : this._UpdateBordersNoSpacing_();
         },
 

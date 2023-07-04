@@ -132,8 +132,10 @@ define([
 
                 var panel = this._settings[type].panel;
                 var props = this._settings[type].props;
-                if (props && panel)
+                if (props && panel) {
                     panel.ChangeSettings.call(panel, (type==Common.Utils.documentSettingsType.MailMerge || type==Common.Utils.documentSettingsType.Signature) ? undefined : props);
+                    this.rightmenu.updateScroller();
+                }
             } else if (minimized && type==Common.Utils.documentSettingsType.MailMerge) {
                 this.rightmenu.mergeSettings.disablePreviewMode();
             }
@@ -166,6 +168,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.Signature].locked = false;
 
             var isChart = false,
+                isShape = false,
                 isSmartArtInternal = false,
                 isProtected = this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly || this._state.docProtection.isCommentsOnly;
 
@@ -192,6 +195,7 @@ define([
                         isChart = true;
                         settingsType = Common.Utils.documentSettingsType.Chart;
                     } else if (value.get_ShapeProperties() !== null) {
+                        isShape = true;
                         isChart = value.get_ShapeProperties().get_FromChart();
                         isSmartArtInternal = value.get_ShapeProperties().get_FromSmartArtInternal();
                         settingsType = Common.Utils.documentSettingsType.Shape;
@@ -307,10 +311,13 @@ define([
                 
                 if (active !== undefined) {
                     this.rightmenu.SetActivePane(active, open);
-                    if (active!=Common.Utils.documentSettingsType.MailMerge && active!=Common.Utils.documentSettingsType.Signature)
+                    if (active === Common.Utils.documentSettingsType.Form)
+                        this._settings[active].panel.ChangeSettings.call(this._settings[active].panel, this._settings[active].props, isShape);
+                    else if (active!=Common.Utils.documentSettingsType.MailMerge && active!=Common.Utils.documentSettingsType.Signature)
                         this._settings[active].panel.ChangeSettings.call(this._settings[active].panel, this._settings[active].props);
                     else
                         this._settings[active].panel.ChangeSettings.call(this._settings[active].panel);
+                    this.rightmenu.updateScroller();
                 } else if (activePane) { // lock active pane if no selected objects (ex. drawing)
                     for (var i=0; i<this._settings.length; i++) {
                         if (this._settings[i] && this._settings[i].panelId === activePane) {
@@ -415,6 +422,7 @@ define([
             if (settingsType !== Common.Utils.documentSettingsType.Paragraph) {
                 this.rightmenu.SetActivePane(settingsType, true);
                 this._settings[settingsType].panel.ChangeSettings.call(this._settings[settingsType].panel, this._settings[settingsType].props);
+                this.rightmenu.updateScroller();
             }
         },
 
@@ -425,6 +433,7 @@ define([
             this.rightmenu.SetActivePane(type, true);
             this._settings[type].panel.setLocked(this._settings[type].locked);
             this._settings[type].panel.ChangeSettings.call(this._settings[type].panel);
+            this.rightmenu.updateScroller();
         },
 
         onError: function(id, level, errData) {

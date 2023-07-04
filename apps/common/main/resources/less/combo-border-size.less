@@ -8,6 +8,9 @@
             padding-top: 0;
             padding-bottom: 0;
             display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
     }
 
@@ -54,10 +57,7 @@
     
     .border-line{
         margin-top: 1px;
-        float: right;
-        .rtl & {
-            float: left;
-        }
+        .float-right();
     }
 
     .img-line {

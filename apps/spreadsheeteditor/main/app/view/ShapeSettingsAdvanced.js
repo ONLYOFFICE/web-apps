@@ -145,7 +145,7 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
             this.btnRatio = new Common.UI.Button({
                 parentEl: $('#shape-advanced-button-ratio'),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon advanced-btn-ratio',
+                iconCls: 'toolbar__icon btn-advanced-ratio',
                 style: 'margin-bottom: 1px;',
                 enableToggle: true,
                 hint: this.textKeepRatio
@@ -586,7 +586,7 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
 
         getFocusedComponents: function() {
             return [
-                this.spnWidth, this.spnHeight, // 0 tab
+                this.spnWidth, this.btnRatio, this.spnHeight, // 0 tab
                 this.spnAngle, this.chFlipHor, this.chFlipVert, // 1 tab
                 this.cmbCapType, this.cmbJoinType, // 2 tab
                 this.chAutofit, this.chOverflow, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, // 3 tab
