@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<!-- Inserted by TRADOS: --><META HTTP-EQUIV="content-type" CONTENT="text/html; charset=UTF-8">
+
+    <title>Zoom</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="La description du module complémentaire Zoom pour les éditeurs ONLYOFFICE permettant de créer et joindre à des réunions depuis l'editeur" />
+    <link type="text/css" rel="stylesheet" href="../editor.css" />
+    <link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+    <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../search/js/page-search.js"></script>
+</head>
+<body>
+    <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
+        <h1>Zoom</h1>
+        <p>Le module complémentaire <b>Zoom</b> permet créer et programmer des réunions de Zoom directement depuis l'éditeur en quelques clics.</p>
+        <p class="note">Le module complémentaire est compatible avec la version <a href="https://github.com/ONLYOFFICE/DocumentServer">auto-hébergée</a> des éditeurs ONLYOFFICE et c'est possible de l'ajouter manuellement aux instances ONLYOFFICE.</p>
+
+        <h3>Installation</h3>
+        <p>Pour installer le module complémentaire <b>Zoom</b>,</p>
+        <ol>            
+            <li>Passez à l'onglet <b>Modules complémentaires</b>.</li>
+            <li>Ouvrez le <b>Gestionnaire de modules complémentaires</b>.</li>
+            <li>Recherchez <div class="icon icon-zoom_icon"></div> <b>Zoom</b> sur marketplace et cliquez sur le bouton <b>Installer</b> au-dessous.</li>
+            <li>Cliquez sur <div class="icon icon-zoom_icon"></div> l'icône <b>Zoom</b> sous l'onglet <b>Modules complémentaires</b>.</li>
+            <li>Poursuivez la configuration du module complémentaire.</li>
+        </ol>
+        <p class="note">Pour en savoir plus, veuillez consulter <a href="https://api.onlyoffice.com/plugin/installation">la documentation API d'ONLYOFFICE</a>.</p>
+
+        <h3>Configuration</h3>
+        <ol>
+            <li>
+                Enregistrez l'éditeur en tant que l'application <b>JWT</b> sur la page <a href="https://marketplace.zoom.us/develop/create">Zoom Developer</a> pour utiliser la programmation des réunions. Remplissez les champs nécessaires et activez l'application. Le <b>jeton JWT</b> sera assigné à l'application.
+                <p>Si vous avez besoin d'aide pour remplir les champs, veuillez consulter <a href="https://marketplace.zoom.us/docs/guides/build/jwt-app/">la documentation officielle de Zoom </a>.</p>
+            </li>
+            <li>
+                Créez l'application <b>Meeting SDK</b> sur la page <a href="https://marketplace.zoom.us/develop/create">Zoom Developer</a> pour pouvoir joindre des réunions. Remplissez les champs nécessaires et activez l'application. <b>Les informations d'identification SDK</b> seront assignées à l'application.
+                <p>Si vous avez besoin d'aide pour remplir les champs, veuillez consulter <a href="https://marketplace.zoom.us/docs/guides/build/sdk-app/">la documentation officielle de Zoom </a>.</p>
+            </li>
+            <li>Saisissez les clés <b>SDK Key</b>, <b>SDK Secret</b> et le jeton <b>JWT Token</b> dans les champs appropriés sur le panneau de gauche de l'éditeur ONLYOFFICE et cliquez sur <b>Enregistrer</b>.</li>
+        </ol>
+        <p><img alt="Paramètres Zoom" src="../../../../../../common/main/resources/help/en/images/zoom_left.png" /></p>
+
+        <h3>Utilisation</h3>
+        <ol>
+            <li>Passez à l'onglet <b>Modules complémentaires</b>.</li>
+            <li>Cliquez sur <div class="icon icon-zoom_icon"></div> l'icône <b>Zoom</b>.</li>
+            <li>Saisissez le thème de la réunion et sélectionnez <b>Démarrer une réunion</b> ou <b>Programmer une réunion</b>.</li>
+            <li>Les notifications de réunion sont affichées dans le <b>Chat</b> de l'éditeur en ligne et dans les <b>Commentaires</b> de l'éditeur du bureau.</li>
+        </ol>
+        <p class="note">Une fenêtre noire peut apparaître dans le navigateur <b>Safari</b> lorsqu'on se joint à la réunion. Pour faire disparaître l'erreur, il faut redimensionner la fenêtre du module complémentaire ou zoomer sur la page de navigateur.</p>
+    </div>
+</body>
+</html>
