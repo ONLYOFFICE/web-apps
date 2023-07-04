@@ -374,7 +374,8 @@ define([
             toolbar.listStyles.on('contextmenu',                        _.bind(this.onListStyleContextMenu, this));
             toolbar.styleMenu.on('hide:before',                         _.bind(this.onListStyleBeforeHide, this));
             toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
-            toolbar.btnInsertSymbol.on('click',                         _.bind(this.onInsertSymbolClick, this));
+            toolbar.btnInsertSymbol.menu.items[2].on('click',           _.bind(this.onInsertSymbolClick, this));
+            toolbar.mnuInsertSymbolsPicker.on('item:click',             _.bind(this.onInsertSymbolItemClick, this));
             toolbar.mnuNoControlsColor.on('click',                      _.bind(this.onNoControlsColor, this));
             toolbar.mnuControlsColorPicker.on('select',                 _.bind(this.onSelectControlsColor, this));
             toolbar.btnLineNumbers.menu.on('item:click',                _.bind(this.onLineNumbersSelect, this));
@@ -2893,19 +2894,30 @@ define([
                     buttons: [{value: 'ok', caption: this.textInsert}, 'close'],
                     handler: function(dlg, result, settings) {
                         if (result == 'ok') {
-                            me.api.asc_insertSymbol(settings.font ? settings.font : me.api.get_TextProps().get_TextPr().get_FontFamily().get_Name(), settings.code, settings.special);
+                            me.insertSymbol(settings.font, settings.code, settings.special, settings.speccharacter);
                         } else
                             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                     }
                 });
                 me.dlgSymbolTable.show();
                 me.dlgSymbolTable.on('symbol:dblclick', function(cmp, result, settings) {
-                    me.api.asc_insertSymbol(settings.font ? settings.font : me.api.get_TextProps().get_TextPr().get_FontFamily().get_Name(), settings.code, settings.special);
+                    me.insertSymbol(settings.font, settings.code, settings.special, settings.speccharacter);
                 });
                 me.dlgSymbolTable.on('close', function(obj){
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 });
             }
+        },
+
+        onInsertSymbolItemClick: function(picker, item, record, e) {
+            if (this.api && record)
+                this.insertSymbol(record.get('font'), record.get('symbol'), record.get('special'));
+        },
+
+        insertSymbol: function(fontRecord, symbol, special, specCharacter){
+            var font = fontRecord ? fontRecord: this.api.get_TextProps().get_TextPr().get_FontFamily().get_Name();
+            this.api.asc_insertSymbol(font, symbol, special);
+            !specCharacter && this.toolbar.saveSymbol(symbol, font);
         },
 
         onApiMathTypes: function(equation) {

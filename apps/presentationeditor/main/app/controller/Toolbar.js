@@ -362,7 +362,8 @@ define([
             toolbar.btnSlideSize.menu.on('item:click',                  _.bind(this.onSlideSize, this));
             toolbar.listTheme.on('click',                               _.bind(this.onListThemeSelect, this));
             toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
-            toolbar.btnInsertSymbol.on('click',                         _.bind(this.onInsertSymbolClick, this));
+            toolbar.btnInsertSymbol.menu.items[2].on('click',                         _.bind(this.onInsertSymbolClick, this));
+            toolbar.mnuInsertSymbolsPicker.on('item:click',             _.bind(this.onInsertSymbolItemClick, this));
             toolbar.btnEditHeader.on('click',                           _.bind(this.onEditHeaderClick, this, 'header'));
             toolbar.btnInsDateTime.on('click',                          _.bind(this.onEditHeaderClick, this, 'datetime'));
             toolbar.btnInsSlideNum.on('click',                          _.bind(this.onEditHeaderClick, this, 'slidenum'));
@@ -2365,16 +2366,26 @@ define([
                         symbol: selected && selected.length>0 ? selected.charAt(0) : undefined,
                         handler: function(dlg, result, settings) {
                             if (result == 'ok') {
-                                me.api.asc_insertSymbol(settings.font ? settings.font : me.api.get_TextProps().get_TextPr().get_FontFamily().get_Name(), settings.code, settings.special);
+                                me.insertSymbol(settings.font, settings.code, settings.special, settings.speccharacter);
                             } else
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         }
                     });
                 win.show();
                 win.on('symbol:dblclick', function(cmp, result, settings) {
-                    me.api.asc_insertSymbol(settings.font ? settings.font : me.api.get_TextProps().get_TextPr().get_FontFamily().get_Name(), settings.code, settings.special);
-                });
+                    me.insertSymbol(settings.font, settings.code, settings.special, settings.speccharacter);                });
             }
+        },
+
+        onInsertSymbolItemClick: function(picker, item, record, e) {
+            if (this.api && record)
+                this.insertSymbol(record.get('font') , record.get('symbol'), record.get('special'));
+        },
+
+        insertSymbol: function(fontRecord, symbol, special, specCharacter){
+            var font = fontRecord ? fontRecord: this.api.get_TextProps().get_TextPr().get_FontFamily().get_Name();
+            this.api.asc_insertSymbol(font, symbol, special);
+            !specCharacter && this.toolbar.saveSymbol(symbol, font);
         },
 
         onApiMathTypes: function(equation) {
