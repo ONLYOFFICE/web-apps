@@ -1474,8 +1474,9 @@ define([
                 skipRenderOnChange: true,
                 group : picker.options.listSettings.recentGroup,
                 type: 0}, {at: 0});
-            if (recents && recents.length>=picker.options.listSettings.recentCount)
-                picker.store.remove(recents[recents.length]);
+            recents = picker.store.where({type: 0});
+            if (recents && recents.length>picker.options.listSettings.recentCount)
+                picker.store.remove(recents.slice(picker.options.listSettings.recentCount, recents.length));
             this.toolbar.saveListPresetToStorage(picker);
         },
 

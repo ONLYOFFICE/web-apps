@@ -2366,8 +2366,8 @@ define([
                     '{"Type":"bullet","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"–","rPr":{"rFonts":{"ascii":"Arial","cs":"Arial","eastAsia":"Arial","hAnsi":"Arial"}}}]}'
                 ];
 
-                var listSettings = {recentPath: 'de-recent-bullets', recentCount: 8, recentGroup: 'menu-bullets-group-recent', docGroup: 'menu-bullets-group-doc', docName: this.txtGroupBulletDoc},
-                    recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup),
+                var listSettings = {recentPath: 'de-recent-bullets', recentCount: 6, recentGroup: 'menu-bullets-group-recent', docGroup: 'menu-bullets-group-doc', docName: this.txtGroupBulletDoc},
+                    recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup, listSettings.recentCount),
                     groups = (recents.length>0) ? [{id: listSettings.recentGroup, caption: this.txtGroupRecent, type: 0}] : [],
                     libGroup = 'menu-bullets-group-lib';
                 groups.push({id: libGroup, caption: this.txtGroupBulletLib, type: 1});
@@ -2413,8 +2413,8 @@ define([
                     '{"Type":"number","Lvl":[{"lvlJc":"left","numFmt":{"val":"russianLower"},"lvlText":"%1)"}]}'
                 ];
 
-                listSettings = {recentPath: 'de-recent-numbering', recentCount: 6, recentGroup: 'menu-numbering-group-recent', docGroup: 'menu-numbering-group-doc', docName: this.txtGroupNumDoc};
-                recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup);
+                listSettings = {recentPath: 'de-recent-numbering', recentCount: 8, recentGroup: 'menu-numbering-group-recent', docGroup: 'menu-numbering-group-doc', docName: this.txtGroupNumDoc};
+                recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup, listSettings.recentCount);
                 libGroup = 'menu-numbering-group-lib';
                 groups = (recents.length>0) ? [{id: listSettings.recentGroup, caption: this.txtGroupRecent, type: 0}] : [];
                 groups.push({id: libGroup, caption: this.txtGroupNumLib, type: 1});
@@ -2452,8 +2452,8 @@ define([
                 _conf && this.mnuNumbersPicker.selectByIndex(_conf.index, true);
 
                 _conf = this.mnuMultilevelPicker.conf;
-                listSettings = {recentPath: 'de-recent-multilevels', recentCount: 6, recentGroup: 'menu-multilevels-group-recent', docGroup: 'menu-multilevels-group-doc', docName: this.txtGroupMultiDoc};
-                recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup);
+                listSettings = {recentPath: 'de-recent-multilevels', recentCount: 8, recentGroup: 'menu-multilevels-group-recent', docGroup: 'menu-multilevels-group-doc', docName: this.txtGroupMultiDoc};
+                recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup, listSettings.recentCount);
                 libGroup = 'menu-multilevels-group-lib';
                 groups = (recents.length>0) ? [{id: listSettings.recentGroup, caption: this.txtGroupRecent, type: 0}] : [];
                 groups.push({id: libGroup, caption: this.txtGroupMultiLib, type: 1});
@@ -2868,11 +2868,11 @@ define([
                     this.btnPageMargins.menu.items[0].setVisible(false);
             },
 
-            loadListPresetsFromStorage: function(path, groupId) {
+            loadListPresetsFromStorage: function(path, groupId, recentCount) {
                 var recents = Common.localStorage.getItem(path),
                     arr = [];
                 recents = recents ? JSON.parse(recents) : [];
-                for (var i=0; i<recents.length; i++) {
+                for (var i=0; i<recents.length && i<recentCount; i++) {
                     arr.push({id: 'id-recent-list-' + Common.UI.getId(), numberingInfo: recents[i], skipRenderOnChange: true, group : groupId, type: 0});
                 }
                 return arr;
