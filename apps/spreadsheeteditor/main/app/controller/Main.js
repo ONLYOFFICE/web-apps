@@ -1357,6 +1357,7 @@ define([
                     this.appOptions.canUseCommentPermissions && AscCommon.UserInfoParser.setCommentPermissions(this.permissions.commentGroups);
                     this.appOptions.canUseUserInfoPermissions && AscCommon.UserInfoParser.setUserInfoPermissions(this.permissions.userInfoGroups);
                     this.headerView.setUserName(AscCommon.UserInfoParser.getParsedName(AscCommon.UserInfoParser.getCurrentName()));
+                    this.headerView.setUserAvatar(this.appOptions.user.avatar);
                 } else
                     this.appOptions.canModifyFilter = true;
 

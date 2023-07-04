@@ -850,8 +850,23 @@ define([
                         html: true
                     });
                 }
-                $btnUserName && $btnUserName.text(Common.Utils.getUserInitials(name));
+                $btnUserName && this.updateAvatarEl();
+
                 return this;
+            },
+
+            setUserAvatar: function(avatar) {
+                this.options.userAvatar = avatar;
+                $btnUserName && this.updateAvatarEl();
+            },
+
+            updateAvatarEl(){
+                if(this.options.userAvatar){
+                    $btnUserName.css({'background-image': 'url('+ this.options.userAvatar +')'});
+                    $btnUserName.text('');
+                } else {
+                    $btnUserName.text(Common.Utils.getUserInitials(this.options.userName));
+                }
             },
 
             getButton: function(type) {
