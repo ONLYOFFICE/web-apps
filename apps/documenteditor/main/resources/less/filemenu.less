@@ -152,7 +152,6 @@
   width: 98px;
   height: 125px;
   cursor: pointer;
-
   .svg-format- {
     &docx {
       background: ~"url('@{common-image-const-path}/doc-formats/docx.svg') no-repeat center";
@@ -396,7 +395,7 @@
 
 #panel-recentfiles {
   #id-recent-view {
-    margin: 0 0 20px 10px;
+    margin: 0 0 20px 0px;
   }
 
   .header {
@@ -406,12 +405,12 @@
 
   .item {
     border: none;
-    width: 100%;
+    width: calc(100% - 3px);
     .box-shadow(none);
   }
 
   .recent-wrap {
-    padding: 5px 10px;
+    padding: 5px 6px;
     cursor: pointer;
     .font-size-medium();
 
@@ -423,12 +422,86 @@
 
     .recent-icon {
       display: inline-block;
-      width: 25px;
-      height: 25px;
+      width: 24px;
+      height: 30px;
       margin-top: 1px;
       div {
         width: 100%;
         height: 100%;
+        div{
+          background: ~"url(@{common-image-const-path}/doc-formats/formats.png)";
+          background-size: 744px 30px;
+          &:not(.svg-file-recent) {
+            .pixel-ratio__1_25 & {
+              background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.25x.png)";
+            }
+
+            .pixel-ratio__1_5 & {
+              background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.5x.png)";
+            }
+
+            .pixel-ratio__1_75 & {
+              background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.75x.png)";
+            }
+
+            .pixel-ratio__2 & {
+              background-image: ~"url(@{common-image-const-path}/doc-formats/formats@2x.png)";
+            }
+          }
+        }
+        .img-format- {
+          &docx {
+            background-position: 0px 0px;
+          }
+          &pdf {
+            background-position: 408px 0px;
+          }
+          &odt {
+            background-position: 696px 0px;
+          }
+          &txt {
+            background-position: 648px 0px;
+          }
+          &dotx {
+            background-position: 240px 0px;
+          }
+          &pdfa {
+            background-position: 408px 0px;
+          }
+          &ott {
+            background-position: 168px 0px;
+          }
+          &rtf {
+            background-position: 672px 0px;
+          }
+          &doc {
+            background-position: 720px 0px;
+          }
+          &docxf {
+            background-position: 48px 0px;
+          }
+          &oform {
+            background-position: 24px 0px;
+          }
+          &html, &htm {
+            background-position: 624px 0px;
+          }
+          &fb2 {
+            background-position: 264px 0px;
+          }
+          &epub {
+            background-position: 288px 0px;
+          }
+          &xps {
+            background-position: 360px 0px;
+          }
+          &djvu {
+            background-position: 384px 0px;
+          }
+          &mht {
+            background-position: 312px 0px;
+          }
+        }
         .svg-file-recent {
           background: ~"url(@{app-image-const-path}/recent-file.svg) no-repeat top";
         }
@@ -437,6 +510,7 @@
 
     > div:not(:first-child) {
       display: block;
+      padding-left: 10px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
