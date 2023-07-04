@@ -16,6 +16,7 @@
         "src": "ProgramInterface/InsertTab.htm",
         "name": "Onglet Insertion"
     },
+  {"src": "ProgramInterface/DrawTab.htm", "name": "Onglet Dessiner"},
   { "src": "ProgramInterface/FormulaTab.htm", "name": "Onglet Formule" },
   { "src": "ProgramInterface/DataTab.htm", "name": "Onglet Données" },
   {
@@ -41,10 +42,11 @@
     "src": "UsageInstructions/CopyPasteData.htm",
     "name": "Couper/copier/coller des données"
   },
-  {
-    "src": "UsageInstructions/UndoRedo.htm",
-    "name": "Annuler/rétablir vos actions"
-  },
+    {
+        "src": "UsageInstructions/UndoRedo.htm",
+        "name": "Annuler/rétablir vos actions"
+    },
+    {"src": "UsageInstructions/AddExternalLinks.htm", "name": "Ajouter des liens externes vers des cellules" },
     {
         "src": "UsageInstructions/ManageSheets.htm",
         "name": "Gérer des feuilles de calcul",
@@ -151,7 +153,7 @@
     { "src": "HelpfulHints/Commenting.htm", "name": "Commentaires" },
     { "src": "HelpfulHints/VersionHistory.htm", "name": "Historique des versions" },
     { "src": "UsageInstructions/ProtectSpreadsheet.htm", "name": "Protéger une feuille de calcul", "headername": "Protéger une feuille de calcul" },
-    { "src": "UsageInstructions/AllowEditRanges.htm", "name": "Autoriser la modification des plages" },
+    { "src": "UsageInstructions/ProtectRanges.htm", "name": "Autoriser la modification des plages" },
     { "src": "UsageInstructions/Password.htm", "name": "Protéger un classeur avec un mot de passe" },
     { "src": "UsageInstructions/ProtectSheet.htm", "name": "Protéger une feuille de calcul" },
     { "src": "UsageInstructions/ProtectWorkbook.htm", "name": "Protéger un classeur" },
@@ -160,7 +162,9 @@
     {"src": "UsageInstructions/HighlightedCode.htm", "name": "Insérer le code en surbrillance" },
     {"src": "UsageInstructions/Translator.htm", "name": "Traduire un texte" },
     {"src": "UsageInstructions/Thesaurus.htm", "name": "Remplacer un mot par synonyme" },
-    {"src": "UsageInstructions/CommunicationPlugins.htm", "name": "Communiquer lors de l'édition"},
+    { "src": "UsageInstructions/CommunicationPlugins.htm", "name": "Communiquer lors de l'édition" },    
+	{"src": "UsageInstructions/Zoom.htm", "name": "Organiser et programmer des réunions de Zoom"},
+	{"src": "UsageInstructions/ChatGPT.htm", "name": "Utiliser l'intelligence artificielle pour rédiger un texte"},
     {
         "src": "UsageInstructions/ViewDocInfo.htm",
         "name": "Afficher les informations de fichier",

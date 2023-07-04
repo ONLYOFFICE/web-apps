@@ -12,10 +12,11 @@
     "src": "ProgramInterface/HomeTab.htm",
     "name": "Onglet Accueil"
   },
-  {
-    "src": "ProgramInterface/InsertTab.htm",
-    "name": "Onglet Insertion"
-  },
+    {
+        "src": "ProgramInterface/InsertTab.htm",
+        "name": "Onglet Insertion"
+    },
+    {"src": "ProgramInterface/DrawTab.htm", "name": "Onglet Dessiner"},
   {
     "src": "ProgramInterface/LayoutTab.htm",
     "name": "Onglet Mise en page"
@@ -218,7 +219,8 @@
     {"src": "UsageInstructions/InsertReferences.htm", "name": "Insérer les références" },
     {"src": "UsageInstructions/Translator.htm", "name": "Traduire un texte" },
     {"src": "UsageInstructions/OCR.htm", "name": "Extraction du texte incrusté dans l'image" },
-    {"src": "UsageInstructions/Speech.htm", "name": "Lire un texte à haute voix" },
+    { "src": "UsageInstructions/Speech.htm", "name": "Lire un texte à haute voix" },
+    {"src": "UsageInstructions/Speechinput.htm", "name": "Saisie vocale" },
     {"src": "UsageInstructions/Thesaurus.htm", "name": "Remplacer un mot par synonyme" },
     {"src": "UsageInstructions/Wordpress.htm", "name": "Télécharger un document sur Wordpress"},
 	{"src": "UsageInstructions/WordCounter.htm", "name": "Compter les mots"},
@@ -226,7 +228,9 @@
     { "src": "UsageInstructions/Typograf.htm", "name": "Corriger la typographie" },
     { "src": "UsageInstructions/CommunicationPlugins.htm", "name": "Communiquer lors de l'édition" },
     {"src": "UsageInstructions/Jitsi.htm", "name": "Effectuer des appels audio et vidéo"},
-    {"src": "UsageInstructions/Drawio.htm", "name": "Créer et insérer des diagrammes"},
+    { "src": "UsageInstructions/Drawio.htm", "name": "Créer et insérer des diagrammes" },    
+	{"src": "UsageInstructions/Zoom.htm", "name": "Organiser et programmer des réunions de Zoom"},
+	{"src": "UsageInstructions/ChatGPT.htm", "name": "Utiliser l'intelligence artificielle pour rédiger un texte"},
   {
     "src": "UsageInstructions/ViewDocInfo.htm",
     "name": "Afficher les informations sur le document",
