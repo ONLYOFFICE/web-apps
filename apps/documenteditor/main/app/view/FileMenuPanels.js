@@ -561,6 +561,7 @@ define([
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width:100%; max-height: 157px;',
                 data        : [
+                    { value: -3, displayValue: this.txtLastUsed },
                     { value: -1, displayValue: this.txtFitPage },
                     { value: -2, displayValue: this.txtFitWidth },
                     { value: 50, displayValue: "50%" },
@@ -873,7 +874,6 @@ define([
             value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : 100);
             var item = this.cmbZoom.store.findWhere({value: value});
             this.cmbZoom.setValue(item ? parseInt(item.get('value')) : (value>0 ? value+'%' : 100));
-
             /** coauthoring begin **/
             this.chLiveComment.setValue(Common.Utils.InternalSettings.get("de-settings-livecomment"));
             this.chResolvedComment.setValue(Common.Utils.InternalSettings.get("de-settings-resolvedcomment"));
@@ -1112,7 +1112,8 @@ define([
         txtQuickPrint: 'Show the Quick Print button in the editor header',
         txtQuickPrintTip: 'The document will be printed on the last selected or default printer',
         txtWorkspaceSettingChange: 'Workspace setting (RTL interface) change',
-        txtRestartEditor: 'Please restart document editor so that your workspace settings can take effect'
+        txtRestartEditor: 'Please restart document editor so that your workspace settings can take effect',
+        txtLastUsed: 'Last used'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.CreateNew = Common.UI.BaseView.extend(_.extend({
