@@ -90,6 +90,7 @@ define([
                 allowBlank  : false,
                 blankError  : me.textEmptyError,
                 style       : 'width: 100%;',
+                placeHolder: me.textNameEx,
                 validateOnBlur: false,
                 validation  : function(value) {
                     value = value.trim();
@@ -214,6 +215,7 @@ define([
         textName: 'Role name',
         textEmptyError: 'Role name must not be empty.',
         textNoHighlight: 'No highlighting',
-        errNameExists: 'Role with such a name already exists.'
+        errNameExists: 'Role with such a name already exists.',
+        textNameEx: 'Example: Applicant, Client, Sales Rep'
     }, DE.Views.RoleEditDlg || {}));
 });

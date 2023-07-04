@@ -2805,6 +2805,7 @@
   "DE.Views.RoleEditDlg.textNoHighlight": "No highlighting",
   "DE.Views.RoleEditDlg.txtTitleEdit": "Edit Role",
   "DE.Views.RoleEditDlg.txtTitleNew": "Create New Role",
+  "DE.Views.RoleEditDlg.textNameEx": "Example: Applicant, Client, Sales Rep",
   "DE.Views.RolesManagerDlg.closeButtonText": "Close",
   "DE.Views.RolesManagerDlg.textAnyone": "Anyone",
   "DE.Views.RolesManagerDlg.textDelete": "Delete",
