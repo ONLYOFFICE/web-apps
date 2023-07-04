@@ -1817,7 +1817,6 @@ define([
                         {value: 42, displayValue: "42"}
                     ];
                     me.cmbFontSize.setData(fontSizeData);
-                    lang === 'zh' && me.cmbFontSize.cmpEl.find('ul').addClass('string-size');
                 }
                 (new Promise( function(resolve, reject) {
                     resolve();
