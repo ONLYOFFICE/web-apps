@@ -368,7 +368,7 @@ define([
             minheight       : 434,
             width: 448,
             height: 434,
-            cls: 'modal-dlg',
+            cls: 'modal-dlg invisible-borders',
             buttons: ['ok', 'cancel']
         },
 
@@ -379,7 +379,7 @@ define([
                 minheight       : 434,
                 width: 448,
                 height: 434,
-                cls: 'modal-dlg',
+                cls: 'modal-dlg invisible-borders',
                 buttons: ['ok', 'cancel']
             };
 
@@ -623,9 +623,6 @@ define([
 
             var me = this,
                 $window = this.getChild();
-
-            var $border = $window.find('.resize-border');
-            $border.css({'background': 'none', 'border': 'none'});
 
             this.btnSymbols = new Common.UI.Button({
                 el: $window.find('#symbol-table-symbols'),

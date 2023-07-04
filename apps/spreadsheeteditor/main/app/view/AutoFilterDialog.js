@@ -1062,7 +1062,7 @@ define([
                 height          : height || 277,
                 contentWidth    : (width - 50) || 400,
                 header          : false,
-                cls             : 'filter-dlg autofilter',
+                cls             : 'filter-dlg autofilter invisible-borders',
                 contentTemplate : '',
                 title           : t.txtTitle,
                 modal           : false,
@@ -1114,7 +1114,6 @@ define([
 
             var $border = this.$window.find('.resize-border');
             this.$window.find('.resize-border.left, .resize-border.top').css({'cursor': 'default'});
-            $border.css({'background': 'none', 'border': 'none'});
             $border.removeClass('left');
             $border.removeClass('top');
 
