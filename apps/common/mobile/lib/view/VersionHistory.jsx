@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Page, Navbar, BlockTitle, List, ListItem, Icon, NavRight, Link } from "framework7-react";
 import { useTranslation } from "react-i18next";
 import { observer, inject } from "mobx-react";
@@ -44,7 +44,7 @@ const VersionHistoryView = inject('storeVersionHistory', 'users')(observer(props
                         <List className='version-history__list' dividersIos mediaList outlineIos strongIos>
                             <ListItem link='#' title={version.created} subtitle={version.username} >
                                 <div slot='media' className='version-history__user' style={{backgroundColor: arrUsers.find(user => user.idOriginal === version.userid).color}}>{usersStore.getInitials(version.username)}</div>
-                                {(version.version === currentVersion.version && !version.selected) &&
+                                {(version.version === currentVersion.version && !version.selected && version.canRestore) &&
                                     <div slot="inner">
                                         <button type='button' className='version-history__btn' onClick={() => props.onRestoreRevision(version)}>{t('Settings.textRestore')}</button>
                                     </div>

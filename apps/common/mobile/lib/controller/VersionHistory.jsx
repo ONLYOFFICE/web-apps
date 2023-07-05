@@ -14,23 +14,29 @@ const VersionHistoryController = inject('storeAppOptions', 'users', 'storeVersio
     const isVersionHistoryMode = historyStore.isVersionHistoryMode;
     const arrVersions = historyStore.arrVersions;
     const { t } = useTranslation();
-    const [currentChangeId, setCurrentChangeId] = useState(-1);
-    const [currentDocId, setCurrentDocId] = useState('');
-    const [currentDocIdPrev, setCurrentDocIdPrev] = useState('');
-    const [currentArrColors, setCurrentArrColors] = useState([]);
-    const [currentServerVersion, setCurrentServerVersion] = useState(0);
-    const [currentUserId, setCurrentUserId] = useState('');
-    const [currentUserName, setCurrentUserName] = useState('');
-    const [currentUserColor, setCurrentUserColor] = useState('');
-    const [currentDateCreated, setCurrentDateCreated] = useState('');
 
-    let timerId = null;
-    // let currentRev = 0;
+    let currentChangeId = -1;
+    let currentDocId = '';
+    let currentDocIdPrev = '';
+    let currentArrColors = [];
+    let currentServerVersion = 0;
+    let currentUserId = '';
+    let currentUserName = '';
+    let currentUserColor = '';
+    let currentDateCreated = '';
+    let isFromSelectRevision;
+    let currentRev = 0;
+    let timerId;
 
     useEffect(() => {
+        const api = Common.EditorApi.get();
+
         Common.Gateway.requestHistory();
         Common.Gateway.on('refreshhistory', onRefreshHistory);
         Common.Gateway.on('sethistorydata', onSetHistoryData);
+
+        api.asc_registerCallback('asc_onDownloadUrl', onDownloadUrl);
+        api.asc_registerCallback('asc_onExpiredToken', onExpiredToken);
 
         if(!isViewer) {
             appOptions.changeViewerMode(true);
@@ -48,7 +54,26 @@ const VersionHistoryController = inject('storeAppOptions', 'users', 'storeVersio
                 f7.popover.open('#version-history-popover', '#btn-open-history');
             }
         }
+
+        return () => {
+            api.asc_unregisterCallback('asc_onDownloadUrl', onDownloadUrl);
+            api.asc_unregisterCallback('asc_onExpiredToken', onExpiredToken);
+        }
     }, []);
+
+    const onExpiredToken = () => {
+        setTimeout(() => {
+            Common.Gateway.requestHistoryData(currentRev);
+        }, 10);
+    }
+
+    const onDownloadUrl = (url, fileType) => {
+        if (isFromSelectRevision) {
+            Common.Gateway.requestRestore(isFromSelectRevision, url, fileType);
+        }
+
+        isFromSelectRevision = null;
+    }
 
     const onRefreshHistory = opts => {
         if (!appOptions.canUseHistory) return;
@@ -207,10 +232,11 @@ const VersionHistoryController = inject('storeAppOptions', 'users', 'storeVersio
                     historyStore.setVersions([...arrVersions, currentVersion]);
                     historyStore.changeVersion(currentVersion);
                 } else {
-                    historyStore.changeVersion(currentVersion);
+                    if(!historyStore.currentVersion) {
+                        historyStore.changeVersion(currentVersion);
+                        onSelectRevision(currentVersion);
+                    }
                 }
-
-                onSelectRevision(currentVersion);
             }
         }
     }
@@ -269,7 +295,7 @@ const VersionHistoryController = inject('storeAppOptions', 'users', 'storeVersio
                         }
                     }
                 }
-                // currentRev = data.version;
+
                 const hist = new Asc.asc_CVersionHistory();
 
                 hist.asc_setUrl(url);
@@ -286,6 +312,8 @@ const VersionHistoryController = inject('storeAppOptions', 'users', 'storeVersio
                 hist.asc_SetDateOfRevision(currentDateCreated);
 
                 api.asc_showRevision(hist);
+
+                currentRev = data.version;
                 historyStore.changeVersion(data);
             }
         }
@@ -312,7 +340,8 @@ const VersionHistoryController = inject('storeAppOptions', 'users', 'storeVersio
                 ]
             }).open();
         } else {
-            // const isFromSelectRevision = revision.revision;
+            isFromSelectRevision = revision.revision;
+
             const fileType = Asc.c_oAscFileType[(revision.fileType || '').toUpperCase()] || Asc.c_oAscFileType.DOCX;
             api.asc_DownloadAs(new Asc.asc_CDownloadOptions(fileType, true));
         }
@@ -322,23 +351,23 @@ const VersionHistoryController = inject('storeAppOptions', 'users', 'storeVersio
         const rev = version.revision;
         const url = version.url;
         const urlGetTime  = new Date();
-        // currentRev = rev;
-        // setCurrentRev(rev);
-        setCurrentChangeId(version.changeid);
-        setCurrentDocId(version.docId);
-        setCurrentDocIdPrev(version.docIdPrev);
-        setCurrentArrColors(version.arrColors);
-        setCurrentServerVersion(version.serverVersion);
-        setCurrentUserId(version.userid);
-        setCurrentUserName(version.username);
-        setCurrentUserColor(version.usercolor);
-        setCurrentDateCreated(version.created)
+
+        currentRev = rev;
+        currentChangeId = version.changeid;
+        currentDocId = version.docId;
+        currentDocIdPrev = version.docIdPrev;
+        currentArrColors = version.arrColors;
+        currentServerVersion = version.serverVersion;
+        currentUserId = version.userid;
+        currentUserName = version.username;
+        currentUserColor = version.usercolor;
+        currentDateCreated = version.created;
 
         if (!url || (urlGetTime - version.urlGetTime > 5 * 60000)) {
             if (!timerId) {
-                timerId = setTimeout(() => {
+                timerId = setTimeout(function() {
                     timerId = 0;
-                }, 30000);
+                }, 500);
 
                 setTimeout(() => {
                     Common.Gateway.requestHistoryData(rev);
