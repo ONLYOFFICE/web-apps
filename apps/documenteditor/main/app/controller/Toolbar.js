@@ -482,8 +482,9 @@ define([
         onApiFontSize: function(size) {
             var type = this._state.type_fontsize;
             if (this.toolbar.cmbFontSize && this._state.type_fontsize === 'string') {
-                var rec = this.toolbar.cmbFontSize.store.findWhere({
-                    value: size
+                var strValue = size + '_str',
+                    rec = this.toolbar.cmbFontSize.store.findWhere({
+                    value: strValue
                 });
                 if (!rec) {
                     type = 'number';
