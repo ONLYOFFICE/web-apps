@@ -3009,7 +3009,12 @@ define([
                         docInfo.put_Id(data.document.key);
                         docInfo.put_Url(data.document.url);
                         docInfo.put_Title(data.document.title);
-                        data.document.title && Common.Gateway.metaChange({title: data.document.title});
+                        if (data.document.title) {
+                            //Common.Gateway.metaChange({title: data.document.title});
+                            appHeader.setDocumentCaption(data.document.title);
+                            this.updateWindowTitle(true);
+                            this.document.title = data.document.title;
+                        }
                     }
                     if (data.editorConfig) {
                         docInfo.put_CallbackUrl(data.editorConfig.callbackUrl);
