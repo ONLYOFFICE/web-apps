@@ -292,7 +292,9 @@ define([
                 api: me.api,
                 handler: function (result, settings) {
                     if (result == 'ok' && me.api) {
-                        me.api.asc_TextToColumns(settings.textOptions, settings.data, settings.range);
+                        setTimeout(function() {
+                            me.api.asc_TextToColumns(settings.textOptions, settings.data, settings.range, settings.preview);
+                        }, 1);
                     }
                 }
             })).show();
