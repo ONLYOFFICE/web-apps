@@ -168,7 +168,8 @@
         "src": "UsageInstructions/InsertTextObjects.htm",
         "name": "Insérer des objets textuels"
     },
-    {"src": "UsageInstructions/InsertSmartArt.htm", "name": "Insérer des graphiques SmartArt" },
+    { "src": "UsageInstructions/InsertSmartArt.htm", "name": "Insérer des graphiques SmartArt" },
+    {"src": "UsageInstructions/DrawingOperations.htm", "name": "Dessiner à main levée dans un document" },
     { "src": "UsageInstructions/AddCaption.htm", "name": "Ajouter une légende" },
     { "src": "UsageInstructions/InsertSymbols.htm", "name": "Insérer des symboles et des caractères" },
   {

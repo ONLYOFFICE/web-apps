@@ -132,7 +132,8 @@
         "src": "UsageInstructions/InsertTextObjects.htm",
         "name": "Insérer des objets textuels"
     },
-     {"src": "UsageInstructions/InsertSmartArt.htm", "name": "Insérer des graphiques SmartArt" },
+    { "src": "UsageInstructions/InsertSmartArt.htm", "name": "Insérer des graphiques SmartArt" },
+    {"src": "UsageInstructions/DrawingOperations.htm", "name": "Dessiner à main levée dans un document" },
     { "src": "UsageInstructions/InsertSymbols.htm", "name": "Insérer des symboles et des caractères" },
   {
     "src": "UsageInstructions/ManipulateObjects.htm",
@@ -153,7 +154,7 @@
     { "src": "HelpfulHints/Commenting.htm", "name": "Commentaires" },
     { "src": "HelpfulHints/VersionHistory.htm", "name": "Historique des versions" },
     { "src": "UsageInstructions/ProtectSpreadsheet.htm", "name": "Protéger une feuille de calcul", "headername": "Protéger une feuille de calcul" },
-    { "src": "UsageInstructions/ProtectRanges.htm", "name": "Autoriser la modification des plages" },
+    { "src": "UsageInstructions/ProtectRanges.htm", "name": "Protéger des plages" },
     { "src": "UsageInstructions/Password.htm", "name": "Protéger un classeur avec un mot de passe" },
     { "src": "UsageInstructions/ProtectSheet.htm", "name": "Protéger une feuille de calcul" },
     { "src": "UsageInstructions/ProtectWorkbook.htm", "name": "Protéger un classeur" },
