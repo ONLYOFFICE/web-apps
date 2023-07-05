@@ -3415,7 +3415,7 @@ define([
 
             var lang = config.lang ? config.lang.toLowerCase() : 'en',
                 langPrefix = lang.split(/[\-_]/)[0];
-            if (langPrefix === 'zh' && lang !== 'zh-tw') {
+            if (langPrefix === 'zh' && lang !== 'zh-tw' && lang !== 'zh_tw') {
                 me._state.type_fontsize = 'string';
             }
 

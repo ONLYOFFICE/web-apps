@@ -1764,7 +1764,7 @@ define([
                 if (me.cmbFontSize) {
                     var lang = config.lang ? config.lang.toLowerCase() : 'en',
                         langPrefix = lang.split(/[\-_]/)[0];
-                    var fontSizeData = (langPrefix === 'zh' && lang !== 'zh-tw') ? [
+                    var fontSizeData = (langPrefix === 'zh' && lang !== 'zh-tw' && lang !== 'zh_tw') ? [
                         {value: '42_str', displayValue: "初号"},
                         {value: '36_str', displayValue: "小初"},
                         {value: '26_str', displayValue: "一号"},
@@ -1785,18 +1785,26 @@ define([
                         {value: 5.5, displayValue: "5.5"},
                         {value: 6.5, displayValue: "6.5"},
                         {value: 7.5, displayValue: "7.5"},
+                        {value: 8, displayValue: "8"},
                         {value: 9, displayValue: "9"},
+                        {value: 10, displayValue: "10"},
                         {value: 10.5, displayValue: "10.5"},
+                        {value: 11, displayValue: "11"},
                         {value: 12, displayValue: "12"},
                         {value: 14, displayValue: "14"},
                         {value: 15, displayValue: "15"},
                         {value: 16, displayValue: "16"},
                         {value: 18, displayValue: "18"},
+                        {value: 20, displayValue: "20"},
                         {value: 22, displayValue: "22"},
                         {value: 24, displayValue: "24"},
                         {value: 26, displayValue: "26"},
+                        {value: 28, displayValue: "28"},
                         {value: 36, displayValue: "36"},
-                        {value: 42, displayValue: "42"}
+                        {value: 42, displayValue: "42"},
+                        {value: 48, displayValue: "48"},
+                        {value: 72, displayValue: "72"},
+                        {value: 96, displayValue: "96"}
                     ] : [
                         {value: 8, displayValue: "8"},
                         {value: 9, displayValue: "9"},
