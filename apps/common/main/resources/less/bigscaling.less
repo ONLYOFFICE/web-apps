@@ -1,9 +1,8 @@
 .pixel-ratio__2_5 {
     .btn-toolbar,
-        .btn-header,
-        .btn-category,
-        .btn-options
-    {
+    .btn-header,
+    .btn-category,
+    .btn-options {
         i.icon {
             &:not(.scaling-off) {
                 display: none;
@@ -27,14 +26,39 @@
         display: flex;
         align-items: center;
     }
+
+    .dataview {
+        &:not(.scaling-off) .options__icon {
+            display: none;
+        }
+        svg.icon {
+            max-width: 100%;
+            max-height: 100%;
+        }
+    }
+
+    .dropdown-menu {
+        .menu-item {
+            span.menu-item-icon {
+                display: none;
+            }
+        }
+    }
 }
 
 .btn-toolbar,
-    .btn-header,
-    .btn-category,
-    .btn-options
+.btn-header,
+.btn-category,
+.btn-options,
+.dataview
 {
     svg.icon:not(.uni-scale):not(.pixel-ratio__2_5 *) {
+        display: none;
+    }
+}
+
+.dropdown-menu .menu-item {
+    svg.menu-item-icon:not(.uni-scale):not(.pixel-ratio__2_5 *) {
         display: none;
     }
 }

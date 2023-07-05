@@ -1970,7 +1970,7 @@ define([
                         cls: 'ppm-toolbar shifted-right',
                         items: [{
                                 caption     : _holder_view.txtInline,
-                                iconCls     : 'menu__icon wrap-inline',
+                                iconCls     : 'menu__icon btn-small-wrap-inline',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.Inline,
                                 checkmark   : false,
@@ -1979,28 +1979,28 @@ define([
                             { caption: '--' },
                             {
                                 caption     : _holder_view.txtSquare,
-                                iconCls     : 'menu__icon wrap-square',
+                                iconCls     : 'menu__icon btn-small-wrap-square',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.Square,
                                 checkmark   : false,
                                 checkable   : true
                             }, {
                                 caption     : _holder_view.txtTight,
-                                iconCls     : 'menu__icon wrap-tight',
+                                iconCls     : 'menu__icon btn-small-wrap-tight',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.Tight,
                                 checkmark   : false,
                                 checkable   : true
                             }, {
                                 caption     : _holder_view.txtThrough,
-                                iconCls     : 'menu__icon wrap-through',
+                                iconCls     : 'menu__icon btn-small-wrap-through',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.Through,
                                 checkmark   : false,
                                 checkable   : true
                             }, {
                                 caption     : _holder_view.txtTopAndBottom,
-                                iconCls     : 'menu__icon wrap-topandbottom',
+                                iconCls     : 'menu__icon btn-small-wrap-topandbottom',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.TopAndBottom,
                                 checkmark   : false,
@@ -2009,14 +2009,14 @@ define([
                             { caption: '--' },
                             {
                                 caption     : _holder_view.txtInFront,
-                                iconCls     : 'menu__icon wrap-infront',
+                                iconCls     : 'menu__icon btn-small-wrap-infront',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.InFront,
                                 checkmark   : false,
                                 checkable   : true
                             }, {
                                 caption     : _holder_view.txtBehind,
-                                iconCls     : 'menu__icon wrap-behind',
+                                iconCls     : 'menu__icon btn-small-wrap-behind',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.Behind,
                                 checkmark   : false,
@@ -2261,7 +2261,7 @@ define([
                         restoreHeight: 535,
                         groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                         store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
-                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
+                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                     });
                     picker.on('item:click', function (picker, item, record, e) {
                         if (record)
