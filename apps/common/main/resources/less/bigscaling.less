@@ -50,10 +50,15 @@
 .btn-header,
 .btn-category,
 .btn-options,
-.dataview,
-.dropdown-menu .menu-item
+.dataview
 {
     svg.icon:not(.uni-scale):not(.pixel-ratio__2_5 *) {
+        display: none;
+    }
+}
+
+.dropdown-menu .menu-item {
+    svg.menu-item-icon:not(.uni-scale):not(.pixel-ratio__2_5 *) {
         display: none;
     }
 }
