@@ -3413,9 +3413,9 @@ define([
             var me = this;
             me.appOptions = config;
 
-            var lang = config.lang ? config.lang.toLowerCase() : 'en';
-            lang = lang.split(/[\-_]/)[0];
-            if (lang === 'zh') {
+            var lang = config.lang ? config.lang.toLowerCase() : 'en',
+                langPrefix = lang.split(/[\-_]/)[0];
+            if (langPrefix === 'zh' && lang !== 'zh-tw') {
                 me._state.type_fontsize = 'string';
             }
 
