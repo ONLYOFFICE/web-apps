@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Page, Navbar, BlockTitle, List, ListItem, Icon, NavRight, Link } from "framework7-react";
 import { useTranslation } from "react-i18next";
 import { observer, inject } from "mobx-react";
@@ -14,11 +14,11 @@ const VersionHistoryView = inject('storeVersionHistory', 'users')(observer(props
     const isNavigate = props.isNavigate;
     const _t = t("Settings", { returnObjects: true });
 
-    const handleClickRevision = version => {
+    const handleClickRevision = useCallback(version => {
         if(version.version !== currentVersion.version) {
             props.onSelectRevision(version);
         }
-    }
+    });
 
     return (
         <Page className='page-version-history'>

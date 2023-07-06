@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState, version } from 'react';
 import { observer, inject } from "mobx-react";
 import VersionHistoryView from '../view/VersionHistory';
 import { f7, Sheet, Popover, View } from 'framework7-react';
@@ -28,15 +28,19 @@ const VersionHistoryController = inject('storeAppOptions', 'users', 'storeVersio
     let currentRev = 0;
     let timerId;
 
+    const timeoutIdRef = useRef(null);
+
     useEffect(() => {
         const api = Common.EditorApi.get();
 
-        Common.Gateway.requestHistory();
-        Common.Gateway.on('refreshhistory', onRefreshHistory);
-        Common.Gateway.on('sethistorydata', onSetHistoryData);
+        if(arrVersions.length < 1) {
+            Common.Gateway.requestHistory();
+            Common.Gateway.on('refreshhistory', onRefreshHistory);
+            Common.Gateway.on('sethistorydata', onSetHistoryData);
 
-        api.asc_registerCallback('asc_onDownloadUrl', onDownloadUrl);
-        api.asc_registerCallback('asc_onExpiredToken', onExpiredToken);
+            api.asc_registerCallback('asc_onDownloadUrl', onDownloadUrl);
+            api.asc_registerCallback('asc_onExpiredToken', onExpiredToken);
+        }
 
         if(!isViewer) {
             appOptions.changeViewerMode(true);
@@ -248,8 +252,8 @@ const VersionHistoryController = inject('storeAppOptions', 'users', 'storeVersio
     const onSetHistoryData = opts => {
         if (!appOptions.canUseHistory) return;
 
-        if (timerId) {
-            clearTimeout(timerId);
+        if (timeoutIdRef.current) {
+            clearTimeout(timeoutIdRef.current);
             timerId = 0;
         }
 
@@ -365,9 +369,9 @@ const VersionHistoryController = inject('storeAppOptions', 'users', 'storeVersio
 
         if (!url || (urlGetTime - version.urlGetTime > 5 * 60000)) {
             if (!timerId) {
-                timerId = setTimeout(function() {
+                timeoutIdRef.current = setTimeout(() => {
                     timerId = 0;
-                }, 500);
+                }, 30000);
 
                 setTimeout(() => {
                     Common.Gateway.requestHistoryData(rev);
