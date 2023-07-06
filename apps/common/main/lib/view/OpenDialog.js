@@ -305,8 +305,7 @@ define([
                     this.handler.call(this, state, {
                         textOptions: options,
                         range: this.txtDestRange ? this.txtDestRange.getValue() : '',
-                        data: this.data,
-                        preview: this.preview
+                        data: this.data
                     });
                 }
             }
