@@ -133,7 +133,7 @@ define([
             if (this._state.playPreview)
                 this.api.asc_StopAnimationPreview();
             else
-                this.api.asc_StartAnimationPreview();
+                this.api.asc_StartAnimationPreview(true);
 
         },
 
