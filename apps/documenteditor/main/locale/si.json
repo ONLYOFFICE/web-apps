@@ -1,6 +1,7 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "අවවාදයයි",
   "Common.Controllers.Chat.textEnterMessage": "ඔබගේ පණිවිඩය මෙතැන යොදන්න",
+  "Common.Controllers.Desktop.hintBtnHome": "ප්‍රධාන කවුළුව පෙන්වන්න",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "නිර්නාමික",
   "Common.Controllers.ExternalDiagramEditor.textClose": "වසන්න",
   "Common.Controllers.ExternalDiagramEditor.warningText": "වස්තුව වෙනත් පරිශීලකයෙකු විසින් සංස්කරණය කරන බැවින් එය අබල කර ඇත.",
