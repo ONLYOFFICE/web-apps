@@ -71,6 +71,9 @@ define([
             me.btnWatch.on('click', function(b, e){
                 me.fireEvent('function:watch', [b.pressed]);
             });
+            me.btnShowFormulas && this.btnShowFormulas.on('click', function (btn, e) {
+                me.fireEvent('function:showformula', [btn.pressed]);
+            });
         }
         return {
             options: {},
@@ -336,6 +339,21 @@ define([
                 });
                 this.lockedControls.push(this.btnWatch);
 
+                this.btnShowFormulas = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-show-formulas'),
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-show-formula',
+                    caption: this.txtShowFormulas,
+                    hint: this.tipShowFormulas,
+                    disabled: true,
+                    enableToggle: true,
+                    lock: [_set.sheetLock, _set.editCell, _set.lostConnect, _set.coAuth],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btnShowFormulas);
+
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -597,7 +615,9 @@ define([
             textManual: 'Manual',
             tipCalculateTheEntireWorkbook: 'Calculate the entire workbook',
             txtWatch: 'Watch Window',
-            tipWatch: 'Add cells to the Watch Window list'
+            tipWatch: 'Add cells to the Watch Window list',
+            txtShowFormulas: 'Show Formulas',
+            tipShowFormulas: 'Display the formula in each cell instead of the resulting value'
         }
     }()), SSE.Views.FormulaTab || {}));
 });

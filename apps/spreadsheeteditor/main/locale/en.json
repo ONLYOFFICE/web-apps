@@ -2832,6 +2832,8 @@
   "SSE.Views.FormulaTab.txtMore": "More functions",
   "SSE.Views.FormulaTab.txtRecent": "Recently Used",
   "SSE.Views.FormulaTab.txtWatch": "Watch Window",
+  "SSE.Views.FormulaTab.txtShowFormulas": "Show Formulas",
+  "SSE.Views.FormulaTab.tipShowFormulas": "Display the formula in each cell instead of the resulting value",
   "SSE.Views.FormulaWizard.textAny": "any",
   "SSE.Views.FormulaWizard.textArgument": "Argument",
   "SSE.Views.FormulaWizard.textFunction": "Function",

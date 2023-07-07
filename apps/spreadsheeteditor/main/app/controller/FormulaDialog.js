@@ -81,11 +81,15 @@ define([
                 'FormulaTab': {
                     'function:apply': this.applyFunction,
                     'function:calculate': this.onCalculate,
-                    'function:watch': this.onWatch
+                    'function:watch': this.onWatch,
+                    'function:showformula': this.onShowFormula
                 },
                 'Toolbar': {
                     'function:apply': this.applyFunction,
                     'tab:active': this.onTabActive
+                },
+                'Statusbar': {
+                    'sheet:changed': this.onApiSheetChanged.bind(this)
                 }
             });
         },
@@ -138,7 +142,11 @@ define([
                 });
             }
 
-            this.formulaTab && this.formulaTab.setApi(this.api);
+            if (this.formulaTab) {
+                this.formulaTab.setApi(this.api);
+                this.api.asc_registerCallback('asc_onWorksheetLocked',        this.onWorksheetLocked.bind(this));
+                this.api.asc_registerCallback('asc_onSheetsChanged',          this.onApiSheetChanged.bind(this));
+            }
             this.api.asc_registerCallback('asc_onSendFunctionWizardInfo', _.bind(this.onSendFunctionWizardInfo, this));
 
             return this;
@@ -427,6 +435,25 @@ define([
             } else if (this._watchDlg)
                 this._watchDlg.close();
 
+        },
+
+        onShowFormula: function(state) {
+            this.api && this.api.asc_setShowFormulas(!!state);
+            Common.NotificationCenter.trigger('edit:complete');
+        },
+
+        onWorksheetLocked: function(index,locked) {
+            if (index == this.api.asc_getActiveWorksheetIndex() && this.formulaTab) {
+                Common.Utils.lockControls(Common.enumLock.sheetLock, locked, {array: [this.formulaTab.btnShowFormulas]});
+            }
+        },
+
+        onApiSheetChanged: function() {
+            if (!this.mode || !this.mode.isEdit || this.mode.isEditDiagram || this.mode.isEditMailMerge || this.mode.isEditOle) return;
+
+            this.formulaTab && this.formulaTab.btnShowFormulas.toggle(this.api.asc_getShowFormulas(), true);
+            var currentSheet = this.api.asc_getActiveWorksheetIndex();
+            this.onWorksheetLocked(currentSheet, this.api.asc_isWorksheetLockedOrDeleted(currentSheet));
         },
 
         sCategoryAll:                   'All',
