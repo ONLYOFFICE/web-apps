@@ -70,6 +70,8 @@ define([
             this.$cellname = $('#ce-cell-name', this.el);
             this.$btnexpand = $('#ce-btn-expand', this.el);
             this.$btnfunc = $('#ce-func-label', this.el);
+            this.$cellcontent = $('#ce-cell-content', this.el);
+            this.$cellScroll = $('#ce-scroll-expand', this.el);
 
             var me = this;
             this.$cellname.on('focus', function(e){
@@ -89,6 +91,9 @@ define([
             this.$btnfunc.on('app:scaling', function (e, info) {
                 me.applyScaling(info.ratio);
             });
+
+            this.$cellScroll.on('scroll', _.bind(this.cellContentScroll, this));
+            this.$cellcontent.on('scroll', _.bind(this.cellContentScroll, this));
 
             return this;
         },
@@ -110,6 +115,19 @@ define([
                     svg_icon = '<svg class="icon"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name);
                 this.$btnfunc.find('i.icon').after(svg_icon);
             }
+        },
+
+        cellEditorTextChange: function (){
+            if(!this.$cellcontent) return;
+            $(this.$cellScroll.children()[0]).height(this.$cellcontent[0].scrollHeight-18);
+        },
+
+        cellContentScroll: function(e){
+            if (this.$cellScroll.scrollTop() == this.$cellcontent.scrollTop() || !this.$cellScroll.is(':visible')) return;
+            if (e.target.id == 'ce-scroll-expand')
+                this.$cellcontent.scrollTop(this.$cellScroll.scrollTop());
+            else
+                this.$cellScroll.scrollTop(this.$cellcontent.scrollTop());
         },
 
         tipFormula: 'Insert Function',

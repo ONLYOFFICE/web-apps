@@ -83,6 +83,7 @@ define([
             this.api.isCEditorFocused = false;
             this.api.asc_registerCallback('asc_onSelectionNameChanged', _.bind(this.onApiCellSelection, this));
             this.api.asc_registerCallback('asc_onEditCell', _.bind(this.onApiEditCell, this));
+            this.api.asc_registerCallback('asc_onEditorSelectionChanged', _.bind(this.onCellEditorTextChange, this));
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiDisconnect,this));
             Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiDisconnect, this));
             Common.NotificationCenter.on('cells:range', _.bind(this.onCellsRange, this));
@@ -132,6 +133,10 @@ define([
             this.isUserProtected = false;
         },
 
+        onCellEditorTextChange:function (){
+            this.editor.cellEditorTextChange();
+        },
+
         onApiEditCell: function(state) {
             if (this.viewmode) return; // signed file
 
@@ -155,6 +160,7 @@ define([
         onApiSelectionChanged: function(info) {
             if (this.viewmode || !info) return; // signed file
 
+            this.onCellEditorTextChange();
             var seltype = info.asc_getSelectionType(),
                 coauth_disable = (!this.mode.isEditMailMerge && !this.mode.isEditDiagram && !this.mode.isEditOle) ? (info.asc_getLocked() === true || info.asc_getLockedTable() === true || info.asc_getLockedPivotTable()===true) : false;
 

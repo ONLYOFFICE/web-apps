@@ -5,6 +5,7 @@
 </div>
 <div class="ce-group-expand float-right">
     <button id="ce-btn-expand" type="button" class="btn"><span class="caret">&nbsp;</span></button>
+    <div id="ce-scroll-expand"><div ></div></div>
 </div>
 <div class="ce-group-content">
     <textarea id="ce-cell-content" class="form-control" spellcheck="false" rows="1" cols="20"></textarea>
