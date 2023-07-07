@@ -530,7 +530,8 @@ define([
                 return !!native;
             },
             isOffline: function () {
-                // return webapp.getController('Main').api.asc_isOffline();
+                if ( config.isFillFormApp )
+                    return webapp.getController('ApplicationController').appOptions.isOffline;
                 return webapp.getController('Main').appOptions.isOffline;
             },
             isFeatureAvailable: function (feature) {
