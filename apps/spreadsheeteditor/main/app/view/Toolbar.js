@@ -2792,20 +2792,22 @@ define([
                  {symbol: 9829,     description: this.textBlackHeart}
            ];
 
-            this.mnuInsertSymbolsPicker = new Common.UI.DataView({
-                el: $('#id-toolbar-menu-symbols'),
-                parentMenu: this.btnInsertSymbol.menu,
-                outerMenu: {menu: this.btnInsertSymbol.menu, index:0},
-                restoreHeight: 290,
-                delayRenderTips: true,
-                scrollAlwaysVisible: true,
-                store: new Common.UI.DataViewStore(this.loadRecentSymbolsFromStorage()),
-                itemTemplate: _.template('<div class="item-symbol" <% if (typeof font !== "undefined" && font !=="") { %> style ="font-family: <%= font %>"<% } %>>&#<%= symbol %></div>')
-            });
-            this.btnInsertSymbol.menu.setInnerMenu([{menu: this.mnuInsertSymbolsPicker, index: 0}]);
-            this.btnInsertSymbol.menu.on('show:before',  _.bind(function() {
-                this.mnuInsertSymbolsPicker.deselectAll();
-            }, this));
+            if(!!this.btnInsertSymbol) {
+                this.mnuInsertSymbolsPicker = new Common.UI.DataView({
+                    el: $('#id-toolbar-menu-symbols'),
+                    parentMenu: this.btnInsertSymbol.menu,
+                    outerMenu: {menu: this.btnInsertSymbol.menu, index: 0},
+                    restoreHeight: 290,
+                    delayRenderTips: true,
+                    scrollAlwaysVisible: true,
+                    store: new Common.UI.DataViewStore(this.loadRecentSymbolsFromStorage()),
+                    itemTemplate: _.template('<div class="item-symbol" <% if (typeof font !== "undefined" && font !=="") { %> style ="font-family: <%= font %>"<% } %>>&#<%= symbol %></div>')
+                });
+                this.btnInsertSymbol.menu.setInnerMenu([{menu: this.mnuInsertSymbolsPicker, index: 0}]);
+                this.btnInsertSymbol.menu.on('show:before', _.bind(function () {
+                    this.mnuInsertSymbolsPicker.deselectAll();
+                }, this));
+           }
 
             if (this.btnCondFormat && this.btnCondFormat.rendered) {
                 this.btnCondFormat.setMenu( new Common.UI.Menu({
