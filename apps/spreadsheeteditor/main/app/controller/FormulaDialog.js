@@ -81,7 +81,10 @@ define([
                 'FormulaTab': {
                     'function:apply': this.applyFunction,
                     'function:calculate': this.onCalculate,
-                    'function:watch': this.onWatch
+                    'function:watch': this.onWatch,
+                    'function:precedents': this.onPrecedents,
+                    'function:dependents': this.onDependents,
+                    'function:remove-arrows': this.onRemArrows
                 },
                 'Toolbar': {
                     'function:apply': this.applyFunction,
@@ -427,6 +430,21 @@ define([
             } else if (this._watchDlg)
                 this._watchDlg.close();
 
+        },
+
+        onPrecedents: function(type){
+            this.api && this.api.asc_TracePrecedents();
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onDependents: function(type){
+            this.api && this.api.asc_TraceDependents();
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onRemArrows: function(type){
+            this.api && this.api.asc_RemoveTraceArrows(type);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         sCategoryAll:                   'All',

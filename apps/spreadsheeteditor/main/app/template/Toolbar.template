@@ -221,6 +221,21 @@
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-calculate"></span>
                 </div>
+                <div class="separator long"></div>
+                <div class="group small">
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-btn-trace-prec"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-btn-trace-dep"></span>
+                    </div>
+                </div>
+                <div class="group small">
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-btn-remove-arrows"></span>
+                    </div>
+                    <div class="elset"></div>
+                </div>
             </section>
             <section class="panel" data-tab="data">
                 <div class="group">
