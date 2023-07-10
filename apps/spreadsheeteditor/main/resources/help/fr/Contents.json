@@ -1,7 +1,7 @@
 ﻿[
   {
     "src": "ProgramInterface/ProgramInterface.htm",
-    "name": "Présentation de l'interface utilisateur de Spreadsheet Editor",
+    "name": "Présentation de l'interface utilisateur de l'Éditeur de classeurs",
     "headername": "Interface du programme"
   },
   {
@@ -133,7 +133,7 @@
         "name": "Insérer des objets textuels"
     },
     { "src": "UsageInstructions/InsertSmartArt.htm", "name": "Insérer des graphiques SmartArt" },
-    {"src": "UsageInstructions/DrawingOperations.htm", "name": "Dessiner à main levée dans un document" },
+    {"src": "UsageInstructions/DrawingOperations.htm", "name": "Dessiner à main levée dans un classeur" },
     { "src": "UsageInstructions/InsertSymbols.htm", "name": "Insérer des symboles et des caractères" },
   {
     "src": "UsageInstructions/ManipulateObjects.htm",
@@ -178,7 +178,7 @@
   },
   {
     "src": "HelpfulHints/AdvancedSettings.htm",
-    "name": "Paramètres avancés de Spreadsheet Editor"
+    "name": "Paramètres avancés de l'Éditeur de classeurs"
   },
   {
     "src": "HelpfulHints/Navigation.htm",
@@ -193,7 +193,7 @@
     {"src": "HelpfulHints/ImportData.htm", "name": "Obtenir des données à partir de fichiers Texte/CSV"},
   {
     "src": "HelpfulHints/About.htm",
-    "name": "A propos de Spreadsheet Editor",
+    "name": "A propos de l'Éditeur de classeurs",
     "headername": "Astuces utiles"
   },
   {
