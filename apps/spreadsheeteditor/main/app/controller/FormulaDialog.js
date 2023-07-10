@@ -146,6 +146,7 @@ define([
                 this.formulaTab.setApi(this.api);
                 this.api.asc_registerCallback('asc_onWorksheetLocked',        this.onWorksheetLocked.bind(this));
                 this.api.asc_registerCallback('asc_onSheetsChanged',          this.onApiSheetChanged.bind(this));
+                this.onApiSheetChanged();
             }
             this.api.asc_registerCallback('asc_onSendFunctionWizardInfo', _.bind(this.onSendFunctionWizardInfo, this));
 
