@@ -65,6 +65,12 @@ common.view.modals = new(function() {
                             '<span class="right caption">{height}:</span>' +
                         '</div>' +
                         '<textarea id="txt-embed-url" rows="4" class="form-control" readonly></textarea>';
+    
+    var _tplbody_password =  '<div class="password-body">' +
+                                '<label>{label}</label>' + 
+                                '<input id="password-input" class="form-control" type="password"/>' +
+                                '{button}' + 
+                            '</div>';
 
     return {
         create: function(name, parent) {
@@ -92,8 +98,7 @@ common.view.modals = new(function() {
                             .replace(/\{footer}/, '<button id="btn-copyshort" type="button" class="btn">' + this.txtCopy + '</button>'))
                                 .appendTo(parent)
                                 .attr('id', 'dlg-share');
-            } else
-            if (name == 'embed') {
+            } else if (name == 'embed') {
                 _$dlg = $(tplDialog
                             .replace(/\{title}/, this.txtEmbed)
                             .replace(/\{body}/, _tplbody_embed)
@@ -102,6 +107,17 @@ common.view.modals = new(function() {
                             .replace(/\{footer}/, '<button id="btn-copyembed" type="button" class="btn">' + this.txtCopy + '</button>'))
                                 .appendTo(parent)
                                 .attr('id', 'dlg-embed');
+            } else if(name == 'password') {
+                _$dlg = $(tplDialog
+                    .replace(/\{title}/, this.txtPasswordTitle)
+                    .replace(/\{body}/, _tplbody_password)
+                    .replace(/\{label}/, this.txtPassword)
+                    .replace(/\{button}/, '<button id="password-btn" type="button" class="btn">' + this.txtOk + '</button>'))
+                        .appendTo(parent)
+                        .attr('id', 'dlg-password');
+
+                _$dlg.find('button.close').remove();
+                _$dlg.find('.modal-footer').remove();
             }
 
             return _$dlg;
@@ -110,6 +126,9 @@ common.view.modals = new(function() {
         txtHeight: 'Height',
         txtShare: 'Share Link',
         txtCopy: 'Copy to clipboard',
-        txtEmbed: 'Embed'
+        txtEmbed: 'Embed',
+        txtPasswordTitle: 'Protected file',
+        txtPassword: 'Enter a password to open the file',
+        txtOk: 'OK',
     };
 })();

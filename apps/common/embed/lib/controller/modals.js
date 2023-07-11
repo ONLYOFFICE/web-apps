@@ -35,7 +35,7 @@
     !common.controller && (common.controller = {});
 
     common.controller.modals = new(function() {
-        var $dlgShare, $dlgEmbed;
+        var $dlgShare, $dlgEmbed, $dlgPassword;
         var appConfig;
         var embedCode = '<iframe allowtransparency="true" frameborder="0" scrolling="no" src="{embed-url}" width="{width}" height="{height}"></iframe>',
             minEmbedWidth = 400,
@@ -104,6 +104,39 @@
             });
         };
 
+        var createDlgPassword = function (submitCallback) {
+            var delayFocus = 500;
+            if(!$dlgPassword) {
+                var submit = function() {
+                    var inputVal = $dlgPassword.find('#password-input').val();
+                    if (submitCallback && inputVal.length > 0) {
+                        submitCallback($dlgPassword.find('#password-input').val());
+                        $dlgPassword.modal('hide');
+                    }
+                };
+                $dlgPassword = common.view.modals.create('password');
+                $dlgPassword.modal({backdrop: 'static', keyboard: false})  
+                $dlgPassword.modal('show');
+                $dlgPassword.find('#password-btn').on('click', function() {
+                    submit();
+                });
+                $dlgPassword.find('#password-input').keyup(function(e){ 
+                    if(e.key == "Enter") {
+                        submit();
+                    }
+                });
+            } else {
+                $dlgPassword.find('#password-input').val('');
+                setTimeout(function() {
+                    $dlgPassword.modal('show');
+                }, 200);
+                delayFocus = 700;
+            }
+            setTimeout(function() {
+                $dlgPassword.find('#password-input').focus();
+            }, delayFocus);
+        };
+
         function updateEmbedCode(){
             var $txtwidth = $dlgEmbed.find('#txt-embed-width');
             var $txtheight = $dlgEmbed.find('#txt-embed-height');
@@ -145,8 +178,9 @@
         };
 
         return {
-            init: function(config) { appConfig = config; }
-            , attach: attachToView
+            init: function(config) { appConfig = config; }, 
+            attach: attachToView,
+            createDlgPassword: createDlgPassword
         };
     });
 }();
