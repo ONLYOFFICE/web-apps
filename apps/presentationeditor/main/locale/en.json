@@ -2365,6 +2365,7 @@
   "PE.Views.SlideSizeSettings.txtOverhead": "Overhead",
   "PE.Views.SlideSizeSettings.txtStandard": "Standard (4:3)",
   "PE.Views.SlideSizeSettings.txtWidescreen": "Widescreen",
+  "PE.Views.SlideSizeSettings.txtSlideNum": "Number slides from",
   "PE.Views.Statusbar.goToPageText": "Go to Slide",
   "PE.Views.Statusbar.pageIndexText": "Slide {0} of {1}",
   "PE.Views.Statusbar.textShowBegin": "Show from Beginning",
