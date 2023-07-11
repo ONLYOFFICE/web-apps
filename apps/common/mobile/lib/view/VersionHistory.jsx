@@ -7,12 +7,12 @@ import { Device } from '../../utils/device';
 const VersionHistoryView = inject('storeVersionHistory', 'users')(observer(props => {
     const { t } = useTranslation();
     const usersStore = props.users;
-    const arrUsers = usersStore.editUsers;
     const historyStore = props.storeVersionHistory;
     const arrVersions = historyStore.arrVersions;
     const currentVersion = historyStore.currentVersion;
     const isNavigate = props.isNavigate;
     const _t = t("Settings", { returnObjects: true });
+    const usersVersions = historyStore.usersVersions;
 
     const handleClickRevision = useCallback(version => {
         if(version.version !== currentVersion.version) {
@@ -43,7 +43,7 @@ const VersionHistoryView = inject('storeVersionHistory', 'users')(observer(props
                         <BlockTitle className='version-history__title'>{`${version.selected ? t('Settings.textCurrent') + ' - ' : ''} ${t('Settings.textVersion')} ${version.revision}`}</BlockTitle>
                         <List className='version-history__list' dividersIos mediaList outlineIos strongIos>
                             <ListItem link='#' title={version.created} subtitle={version.username} >
-                                <div slot='media' className='version-history__user' style={{backgroundColor: arrUsers.find(user => user.idOriginal === version.userid).color}}>{usersStore.getInitials(version.username)}</div>
+                                <div slot='media' className='version-history__user' style={{backgroundColor: usersVersions.find(user => user.id === version.userid).color}}>{usersStore.getInitials(version.username)}</div>
                                 {(version.version === currentVersion.version && !version.selected && version.canRestore) &&
                                     <div slot="inner">
                                         <button type='button' className='version-history__btn' onClick={() => props.onRestoreRevision(version)}>{t('Settings.textRestore')}</button>

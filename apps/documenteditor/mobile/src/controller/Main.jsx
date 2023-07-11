@@ -804,6 +804,9 @@ class MainController extends Component {
     }
 
     onChangeProtectDocument() {
+        const storeVersionHistory = this.props.storeVersionHistory;
+        if (storeVersionHistory.isVersionHistoryMode) return;
+
         const { t } = this.props;
         const storeAppOptions = this.props.storeAppOptions;
         const props = this.getDocProps(true);
@@ -871,7 +874,6 @@ class MainController extends Component {
 
     getDocProps(isUpdate) {
         const storeAppOptions = this.props.storeAppOptions;
-       
         if (!storeAppOptions || !storeAppOptions.isEdit && !storeAppOptions.isRestrictedEdit) return;
 
         if (isUpdate || !this._state.docProtection) {

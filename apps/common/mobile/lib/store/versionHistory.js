@@ -8,14 +8,25 @@ export class storeVersionHistory {
             isVersionHistoryMode: observable,
             changeVersionHistoryMode: action,
             currentVersion: observable,
-            changeVersion: action
-
+            changeVersion: action,
+            usersVersions: observable,
+            addUser: action, 
         })
     }
 
     isVersionHistoryMode = false;
     currentVersion = null;
     arrVersions = [];
+    usersVersions = [];
+
+    addUser(user) {
+        this.usersVersions.push(user);
+    }
+
+    findUserById(id) {
+        const user = this.usersVersions.find(user => user.id === id);
+        return user;
+    }
 
     changeVersion(version) {
         this.currentVersion = version;

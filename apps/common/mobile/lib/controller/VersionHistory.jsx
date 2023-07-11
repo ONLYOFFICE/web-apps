@@ -5,11 +5,10 @@ import { f7, Sheet, Popover, View } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import { Device } from '../../../../common/mobile/utils/device';
 
-const VersionHistoryController = inject('storeAppOptions', 'users', 'storeVersionHistory')(observer(props => {
+const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory')(observer(props => {
     const api = Common.EditorApi.get();
     const appOptions = props.storeAppOptions;
     const isViewer = appOptions.isViewer;
-    const usersStore = props.users;
     const historyStore = props.storeVersionHistory;
     const isVersionHistoryMode = historyStore.isVersionHistoryMode;
     const arrVersions = historyStore.arrVersions;
@@ -107,7 +106,7 @@ const VersionHistoryController = inject('storeAppOptions', 'users', 'storeVersio
             const versions = opts.data.history;
             let arrVersions = [];
             let arrColors = [];
-            let ver, version, currentVersion = null, group = -1, prev_ver = -1, docIdPrev = '', user = null;
+            let ver, version, currentVersion = null, group = -1, prev_ver = -1, docIdPrev = '', user = null, usersCnt = 0;
 
             for (ver = versions.length - 1; ver >= 0; ver--) {
                 version = versions[ver];
@@ -120,16 +119,17 @@ const VersionHistoryController = inject('storeAppOptions', 'users', 'storeVersio
                     if (!version.user) version.user = {};
 
                     docIdPrev = (ver > 0 && versions[ver - 1]) ? versions[ver - 1].key : version.key + '0';
-                    user = usersStore.searchUserById(version.user.id);
+                    user = historyStore.findUserById(version.user.id);
 
                     if (!user) {
                         user = {
                             id: version.user.id,
                             username: version.user.name || t('Settings.textAnonymous'),
-                            color: generateUserColor(Asc.c_oAscArrUserColors[usersCnt++])
+                            color: generateUserColor(Asc.c_oAscArrUserColors[usersCnt++]),
+                            colorval: Asc.c_oAscArrUserColors[usersCnt],
                         };
 
-                        usersStore.addUser(user);
+                        historyStore.addUser(user);
                     }
 
                     arrVersions.push({
@@ -165,7 +165,7 @@ const VersionHistoryController = inject('storeAppOptions', 'users', 'storeVersio
                         arrColors = [];
                     }
 
-                    arrColors.push(user.color);
+                    arrColors.push(user.colorval);
 
                     let changes = version.changes, change, i;
 
@@ -178,17 +178,17 @@ const VersionHistoryController = inject('storeAppOptions', 'users', 'storeVersio
 
                             for (i = changes.length - 2; i >= 0; i--) {
                                 change = changes[i];
-
-                                user = usersStore.searchUserById(change.user.id);
+                                user = historyStore.findUserById(change.user.id);
 
                                 if (!user) {
                                     user = {
                                         id: change.user.id,
                                         username: change.user.name || t('Settings.textAnonymous'),
-                                        color: generateUserColor(Asc.c_oAscArrUserColors[usersCnt++])
+                                        color: generateUserColor(Asc.c_oAscArrUserColors[usersCnt++]),
+                                        colorval: Asc.c_oAscArrUserColors[usersCnt]
                                     };
 
-                                    usersStore.addUser(user);
+                                    historyStore.addUser(user);
                                 }
 
                                 arrVersions.push({
@@ -209,7 +209,7 @@ const VersionHistoryController = inject('storeAppOptions', 'users', 'storeVersio
                                     fileType: 'docx'
                                 });
 
-                                arrColors.push(user.color);
+                                arrColors.push(user.colorval);
                             }
                         }
                     } else if (ver == 0 && versions.length == 1) {
@@ -246,7 +246,7 @@ const VersionHistoryController = inject('storeAppOptions', 'users', 'storeVersio
     }
 
     const generateUserColor = color => {
-        return '#' + ('000000' + color.toString(16)).substring(-6);
+        return '#' + color.toString(16);
     }
 
     const onSetHistoryData = opts => {
@@ -422,7 +422,7 @@ const VersionHistoryController = inject('storeAppOptions', 'users', 'storeVersio
                     </View>
                 </Popover>
             :
-                <Sheet id='version-history-sheet' closeByOutsideClick={false} push onSheetClosed={() => props.onclosed()}>
+                <Sheet id='version-history-sheet' backdrop={true} closeByOutsideClick={false} push onSheetClosed={() => props.onclosed()}>
                     <VersionHistoryView 
                         onSetHistoryData={onSetHistoryData}
                         onSelectRevision={onSelectRevision}
