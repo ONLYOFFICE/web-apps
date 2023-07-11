@@ -351,7 +351,7 @@ define([
                 this.btnTracePrec = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-trace-prec'),
                     cls: 'btn-toolbar',
-                    iconCls: 'toolbar__icon btn-trace-precedent',
+                    iconCls: 'toolbar__icon btn-trace-precedents',
                     lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
                     caption: this.capBtnTracePrec,
                     dataHint: '1',
@@ -363,7 +363,7 @@ define([
                 this.btnTraceDep = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-trace-dep'),
                     cls: 'btn-toolbar',
-                    iconCls: 'toolbar__icon btn-trace-dependent',
+                    iconCls: 'toolbar__icon btn-trace-dependents',
                     lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
                     caption: this.capBtnTraceDep,
                     dataHint: '1',
@@ -375,7 +375,7 @@ define([
                 this.btnRemArrows = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-remove-arrows'),
                     cls: 'btn-toolbar',
-                    iconCls: 'toolbar__icon btn-rem-arrows',
+                    iconCls: 'toolbar__icon btn-remove-trace-arrows',
                     lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
                     caption: this.capBtnRemoveArr,
                     split: true,
