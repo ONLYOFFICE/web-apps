@@ -1351,7 +1351,7 @@ define([
                 me.btnInsertSlicer = new Common.UI.Button({
                     id: 'tlbtn-insertslicer',
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-slicer',
+                    iconCls: 'toolbar__icon btn-big-slicer',
                     caption: me.capBtnInsSlicer,
                     lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.multiselect, _set.noSlicerSource, _set.wsLock],
                     dataHint: '1',
@@ -1721,7 +1721,7 @@ define([
                 me.btnColorSchemas = new Common.UI.Button({
                     id          : 'id-toolbar-btn-colorschemas',
                     cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'toolbar__icon btn-colorschemas',
+                    iconCls     : 'toolbar__icon btn-big-colorschemas',
                     caption     : me.capBtnColorSchemas,
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth, _set.wsLock],
                     menu        : new Common.UI.Menu({
