@@ -333,6 +333,10 @@ define([
             }
             this.applyMode();
 
+            if ( Common.Controllers.Desktop.isActive() ) {
+                Common.NotificationCenter.trigger('update:recents', Common.Controllers.Desktop.recentFiles());
+            }
+
             if ( !!this.api ) {
                 this.panels['info'].setApi(this.api);
                 if (this.panels['opts']) this.panels['opts'].setApi(this.api);
