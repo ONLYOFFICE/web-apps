@@ -2173,6 +2173,7 @@
   "PE.Views.PrintWithPreview.txtPrintPdf": "Print to PDF",
   "PE.Views.PrintWithPreview.txtPrintRange": "Print range",
   "PE.Views.PrintWithPreview.txtPrintSides": "Print sides",
+  "PE.Views.PrintWithPreview.txtHeaderFooterSettings": "Header/footer settings",
   "PE.Views.RightMenu.txtChartSettings": "Chart settings",
   "PE.Views.RightMenu.txtImageSettings": "Image settings",
   "PE.Views.RightMenu.txtParagraphSettings": "Paragraph settings",

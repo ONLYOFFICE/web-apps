@@ -406,6 +406,7 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                 this.slideprops = new AscCommonSlide.CAscHFProps();
                 this.notesprops = new AscCommonSlide.CAscHFProps();
             }
+            (this.type == 1) ? this.btnNotes.toggle(true) : this.btnSlide.toggle(true);
             this.ShowHideElem();
             this.fillHFSettings();
         },
