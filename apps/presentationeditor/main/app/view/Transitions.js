@@ -197,7 +197,8 @@ define([
                     cls: 'btn-toolbar  x-huge icon-top',
                     caption: this.txtParameters,
                     iconCls: 'toolbar__icon icon btn-transition-none',
-                    scaling: false,
+                    iconGradient: true,
+                    //scaling: false,
                     menu: new Common.UI.Menu({
                         items: this.createParametersMenuItems()}),
                     lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],

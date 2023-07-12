@@ -755,6 +755,9 @@ define([
             } else if (svgIcon.length) {
                 var icon = /btn-[^\s]+/.exec(this.iconCls);
                 svgIcon.attr('href', icon ? '#' + icon[0]: '');
+                if (this.options.iconGradient) {
+                    $(this.el).find('.icon-gradient use.zoom-int').attr('href', icon ? '#' + icon[0] + '-gradient' : '');
+                }
             } else {
                 btnIconEl.removeClass(oldCls);
                 btnIconEl.addClass(cls || '');
@@ -772,6 +775,7 @@ define([
                 !!opts.curr && (btnIconEl.removeClass(opts.curr));
                 !!opts.next && !btnIconEl.hasClass(opts.next) && (btnIconEl.addClass(opts.next));
                 svgIcon.length && !!opts.next && svgIcon.attr('href', '#' + opts.next);
+                me.options.iconGradient && !!opts.next && $(this.el).find('.icon-gradient use.zoom-int').attr('href', '#' + opts.next + '-gradient');
 
                 if ( !!me.options.signals ) {
                     if ( !(me.options.signals.indexOf('icon:changed') < 0) ) {
@@ -891,8 +895,12 @@ define([
                         const re_icon_name = /btn-[^\s]+/.exec(iconCls);
                         const icon_name = re_icon_name ? re_icon_name[0] : "null";
                         const svg_icon = '<svg class="icon"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name);
-
-                        me.$el.find('i.icon').after(svg_icon);
+                        if (me.options.iconGradient) {
+                            var iconGradient = '<svg class="icon-gradient"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name + '-gradient');
+                            me.$el.find('i.icon').after(iconGradient + svg_icon);
+                        } else {
+                            me.$el.find('i.icon').after(svg_icon);
+                        }
                     }
                 } else {
                     if (!me.$el.find('i.icon')) {
