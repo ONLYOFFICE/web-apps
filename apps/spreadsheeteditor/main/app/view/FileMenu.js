@@ -430,6 +430,7 @@ define([
             !this.mode.isDisconnected && this.panels['info'].updateInfo(this.document);
             this.panels['rights'].setMode(this.mode);
             !this.mode.isDisconnected && this.panels['rights'].updateInfo(this.document);
+            this.panels['printpreview'] && this.panels['printpreview'].setMode(this.mode);
 
             if ( this.mode.canCreateNew ) {
                 if (this.mode.templates && this.mode.templates.length) {
