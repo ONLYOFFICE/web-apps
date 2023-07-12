@@ -50,6 +50,11 @@ define([
                 menu: new Common.UI.Menu({
                     cls: 'shifted-right',
                     items: [
+                        {caption: this.textUndo, value: 'undo', iconCls: 'mi-icon svg-icon undo', cls: 'small-resolution'},
+                        {caption: this.textRedo, value: 'redo', iconCls: 'mi-icon svg-icon redo', cls: 'small-resolution'},
+                        {caption: '--'},
+                        {caption: this.textClear, value: 'clear', iconCls: 'mi-icon svg-icon clear-style', cls: 'small-resolution'},
+                        {caption: '--'},
                         {caption: this.txtDownload, value: 'download', iconCls: 'mi-icon svg-icon download'},
                         {caption: this.txtDownloadDocx, value: 'download-docx', iconCls: 'mi-icon svg-icon download'},
                         {caption: this.txtDownloadPdf, value: 'download-pdf', iconCls: 'mi-icon'},
@@ -99,6 +104,8 @@ define([
                 })
             });
             this.btnOptions.render($('#box-tools'));
+            this.btnOptions.menu.items[2].cmpEl.addClass('small-resolution');
+            this.btnOptions.menu.items[4].cmpEl.addClass('small-resolution');
 
 
             this.btnClear = new Common.UI.Button({

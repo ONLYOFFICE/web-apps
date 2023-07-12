@@ -104,8 +104,7 @@
         color: @text-normal;
         text-align: center;
         .font-size-medium();
-        font-weight: 700;
-        letter-spacing: 0.01em;
+        .font-weight-bold();
         vertical-align: bottom;
         line-height: 26px;
 
@@ -330,6 +329,13 @@
 
         &.resizing {
             cursor: inherit !important;
+        }
+    }
+
+    &.invisible-borders {
+        .resize-border {
+            background: none !important;
+            border: none !important;
         }
     }
 

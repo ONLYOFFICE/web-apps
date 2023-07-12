@@ -69,7 +69,7 @@ define([
                         '<div id="rem-duplicates-dlg-headers"></div>',
                     '</div>',
                     '<div class="input-row">',
-                        '<label style="font-weight: bold;">' + this.textColumns + '</label>',
+                        '<label class="font-weight-bold">' + this.textColumns + '</label>',
                     '</div>',
                     '<div id="rem-duplicates-dlg-columns" class="" style="width: 100%; height: 162px; overflow: hidden;"></div>',
                 '</div>'

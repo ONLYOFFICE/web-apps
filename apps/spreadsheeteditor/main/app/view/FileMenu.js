@@ -32,7 +32,8 @@
 define([
     'text!spreadsheeteditor/main/app/template/FileMenu.template',
     'underscore',
-    'common/main/lib/component/BaseView'
+    'common/main/lib/component/BaseView',
+    'common/main/lib/view/RecentFiles'
 ], function (tpl, _) {
     'use strict';
 
@@ -314,6 +315,10 @@ define([
             }
             this.applyMode();
 
+            if ( Common.Controllers.Desktop.isActive() ) {
+                Common.NotificationCenter.trigger('update:recents', Common.Controllers.Desktop.recentFiles());
+            }
+
             if ( !!this.api ) {
                 this.panels['info'].setApi(this.api);
                 if ( this.panels['protect'] )
@@ -437,7 +442,7 @@ define([
             }
 
             if ( this.mode.canOpenRecent && this.mode.recent) {
-                !this.panels['recent'] && (this.panels['recent'] = (new SSE.Views.FileMenuPanels.RecentFiles({menu:this, recent: this.mode.recent})).render());
+                !this.panels['recent'] && (this.panels['recent'] = (new Common.Views.RecentFiles({el: '#panel-recentfiles', menu:this, recent: this.mode.recent})).render());
             }
 
             if (this.mode.isSignatureSupport || this.mode.isPasswordSupport) {
