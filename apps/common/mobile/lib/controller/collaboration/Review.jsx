@@ -17,13 +17,17 @@ class InitReview extends Component {
         Common.Notifications.on('document:ready', () => {
             const api = Common.EditorApi.get();
             const appOptions = props.storeAppOptions;
+            const isProtected = appOptions.isProtected;
 
             let trackChanges = appOptions.customization && appOptions.customization.review ? appOptions.customization.review.trackChanges : undefined;
             (trackChanges===undefined) && (trackChanges = appOptions.customization ? appOptions.customization.trackChanges : undefined);
             trackChanges = appOptions.isReviewOnly || trackChanges === true || trackChanges !== false
                 && LocalStorage.getBool("de-mobile-track-changes-" + (appOptions.fileKey || ''));
 
-            api.asc_SetTrackRevisions(trackChanges);
+            if(!isProtected) {
+                api.asc_SetTrackRevisions(trackChanges);
+            }
+            
             // Init display mode
 
             const canViewReview = appOptions.canReview || appOptions.isEdit || api.asc_HaveRevisionsChanges(true);
