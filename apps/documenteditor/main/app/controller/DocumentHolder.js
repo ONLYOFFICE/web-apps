@@ -1264,6 +1264,10 @@ define([
                 $(document).off('keyup', this.wrapEvents.onKeyUp);
                 return;
             }
+            if (showPoint[1] + pasteContainer.height()>me._Height)
+                showPoint[1] = me._Height - pasteContainer.height();
+            if (showPoint[0] + pasteContainer.width()>me._Width)
+                showPoint[0] = me._Width - pasteContainer.width();
 
             if (!Common.Utils.InternalSettings.get("de-hidden-rulers")) {
                 showPoint = [showPoint[0] - 19, showPoint[1] - 26];
