@@ -1,3 +1,15 @@
+<div id="id-adv-table-general" class="settings-panel active">
+    <div class="inner-content">
+    <table cols="1" width="100%">
+        <tr>
+            <td class="padding-large">
+                <label class="header"><%= scope.textTableName %></label>
+                <div id="tableadv-name"></div>
+            </td>
+        </tr>
+    </table>
+    </div>
+</div>
 <div  id="id-adv-table-placement" class="settings-panel active">
     <div class="inner-content">
         <table cols="3">

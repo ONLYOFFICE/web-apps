@@ -1,3 +1,15 @@
+<div id="id-adv-image-general" class="settings-panel active">
+    <div class="inner-content">
+    <table cols="1" width="100%">
+        <tr>
+            <td class="padding-large">
+                <label class="header"><%= scope.textImageName %></label>
+                <div id="image-general-name"></div>
+            </td>
+        </tr>
+    </table>
+    </div>
+</div>
 <div  id="id-adv-image-size" class="settings-panel active">
     <div class="inner-content">
         <table cols="4" width="100%">
