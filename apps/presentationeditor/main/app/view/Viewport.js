@@ -80,13 +80,7 @@ define([
                 $('body').addClass('chrome');
             }
 
-            var onScroll = function () {
-                el.scrollTop(0);
-                setTimeout(function(){
-                    el.one('scroll', onScroll);
-                }, 100);
-            };
-            el.one('scroll', onScroll);
+            el.on('scroll', function () { el.scrollTop(0); });
 
             var $container = $('#viewport-vbox-layout', el);
             var items = $container.find(' > .layout-item');
