@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, version } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { observer, inject } from "mobx-react";
 import VersionHistoryView from '../view/VersionHistory';
 import { f7, Sheet, Popover, View } from 'framework7-react';
@@ -92,11 +92,11 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
             }
 
             f7.dialog.create({
-                title: t('Settings.notcriticalErrorTitle'),
-                text: (opts.data.error) ? opts.data.error : t('Settings.txtErrorLoadHistory'),
+                title: t('Common.VersionHistory.notcriticalErrorTitle'),
+                text: (opts.data.error) ? opts.data.error : t('Common.VersionHistory.txtErrorLoadHistory'),
                 buttons: [
                     {
-                        text: t('Settings.textOk')
+                        text: t('Common.VersionHistory.textOk')
                     }
                 ]
             }).open();
@@ -124,7 +124,7 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
                     if (!user) {
                         user = {
                             id: version.user.id,
-                            username: version.user.name || t('Settings.textAnonymous'),
+                            username: version.user.name || t('Common.VersionHistory.textAnonymous'),
                             colorval: Asc.c_oAscArrUserColors[usersCnt],
                             color: generateUserColor(Asc.c_oAscArrUserColors[usersCnt++]),
                            
@@ -137,7 +137,7 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
                         version: version.versionGroup,
                         revision: version.version,
                         userid: version.user.id,
-                        username: version.user.name || t('Settings.textAnonymous'),
+                        username: version.user.name || t('Common.VersionHistory.textAnonymous'),
                         usercolor: user.color,
                         created: version.created,
                         docId: version.key,
@@ -184,7 +184,7 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
                                 if (!user) {
                                     user = {
                                         id: change.user.id,
-                                        username: change.user.name || t('Settings.textAnonymous'),
+                                        username: change.user.name || t('Common.VersionHistory.textAnonymous'),
                                         colorval: Asc.c_oAscArrUserColors[usersCnt],
                                         color: generateUserColor(Asc.c_oAscArrUserColors[usersCnt++]),
                                     };
@@ -197,7 +197,7 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
                                     revision: version.version,
                                     changeid: i,
                                     userid: change.user.id,
-                                    username: change.user.name || t('Settings.textAnonymous'),
+                                    username: change.user.name || t('Common.VersionHistory.textAnonymous'),
                                     usercolor: user.color,
                                     created: change.created,
                                     docId: version.key,
@@ -260,11 +260,11 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
 
         if (opts.data.error) {
             f7.dialog.create({
-                title: t('Settings.notcriticalErrorTitle'),
+                title: t('Common.VersionHistory.notcriticalErrorTitle'),
                 text: opts.data.error,
                 buttons: [
                     {
-                        text: t('Settings.textOk')
+                        text: t('Common.VersionHistory.textOk')
                     }
                 ]
             }).open();
@@ -329,15 +329,15 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
 
         if (isRevision) {
             f7.dialog.create({
-                title: t('Settings.titleWarningRestoreVersion'),
-                text: t('Settings.textWarningRestoreVersion'),
+                title: t('Common.VersionHistory.titleWarningRestoreVersion'),
+                text: t('Common.VersionHistory.textWarningRestoreVersion'),
                 buttons: [
                     {
-                        text: t('Settings.textCancel'),
+                        text: t('Common.VersionHistory.textCancel'),
                         bold: true
                     }, 
                     {
-                        text: t('Settings.textRestore'),
+                        text: t('Common.VersionHistory.textRestore'),
                         onClick: () => {
                             Common.Gateway.requestRestore(revision.revision, undefined, revision.fileType);
                         }

@@ -174,6 +174,20 @@
       "textCustomColors": "Custom Colors",
       "textStandartColors": "Standard Colors",
       "textThemeColors": "Theme Colors"
+    },
+    "VersionHistory": {
+      "textVersionHistory": "Version History",
+      "textAnonymous": "Anonymous",
+      "txtErrorLoadHistory": "Loading history failed",
+      "textVersion": "Version",
+      "textCurrent": "Current",
+      "textRestore": "Restore",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "textBack": "Back",
+      "notcriticalErrorTitle": "Warning",
+      "textOk": "Ok",
+      "textCancel": "Cancel"
     }
   },
   "ContextMenu": {
@@ -726,14 +740,7 @@
     "txtScheme7": "Equity",
     "txtScheme8": "Flow",
     "txtScheme9": "Foundry",
-    "textVersionHistory": "Version History",
-    "textAnonymous": "Anonymous",
-    "txtErrorLoadHistory": "Loading history failed",
-    "textVersion": "Version",
-    "textCurrent": "Current",
-    "textRestore": "Restore",
-    "titleWarningRestoreVersion": "Restore this version?",
-    "textWarningRestoreVersion": "Current file will be saved in version history."
+    "textVersionHistory": "Version History"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
