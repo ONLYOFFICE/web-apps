@@ -41,11 +41,13 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
             api.asc_registerCallback('asc_onExpiredToken', onExpiredToken);
         }
 
-        if(!isViewer) {
-            appOptions.changeViewerMode(true);
-            api.asc_addRestriction(Asc.c_oAscRestrictionType.View);
+        if(window.editorType === 'de') {
+            if(!isViewer) {
+                appOptions.changeViewerMode(true);
+                api.asc_addRestriction(Asc.c_oAscRestrictionType.View);
+            }
         }
-
+       
         if(!isVersionHistoryMode) {
             historyStore.changeVersionHistoryMode(true);
         }
@@ -80,7 +82,7 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
 
     const onRefreshHistory = opts => {
         if (!appOptions.canUseHistory) return;
-
+        
         if (opts.data.error || !opts.data.history) {
             if (arrVersions.length) {
                 const arr = arrVersions.map(version => {
