@@ -1384,6 +1384,15 @@ define([
                     offsetLeft += (sdkPanelLeft.css('display') !== 'none') ? sdkPanelLeft.width() : 0;
 
                 var showPoint = [Math.max(0, coord.asc_getX() + coord.asc_getWidth() + 3 - offsetLeft), coord.asc_getY() + coord.asc_getHeight() + 3];
+                if (showPoint[0]>me._Width || showPoint[1]>me._Height) {
+                    if (pasteContainer.is(':visible')) pasteContainer.hide();
+                    $(document).off('keyup', this.wrapEvents.onKeyUp);
+                    return;
+                }
+                if (showPoint[1] + pasteContainer.height()>me._Height)
+                    showPoint[1] = me._Height - pasteContainer.height();
+                if (showPoint[0] + pasteContainer.width()>me._Width)
+                    showPoint[0] = me._Width - pasteContainer.width();
                 if (me.btnSpecialPaste.menu.isVisible() && (parseInt(pasteContainer.css('left')) !== showPoint[0] || parseInt(pasteContainer.css('top')) !== showPoint[1])) {
                     me.btnSpecialPaste.menu.hide();
                 }
@@ -1648,7 +1657,7 @@ define([
                     // restoreHeight: 421,
                     groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                     store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                 });
                 picker.on('item:click', function (picker, item, record, e) {
                     me.editChartClick(record.get('type'), me._state.placeholderObj);

@@ -95,7 +95,7 @@ define([
             this.fieldPicker = new Common.UI.DataView({
                 cls: 'field-picker',
                 allowScrollbar: false,
-                itemTemplate: _.template('<div class="item-shape" id="<%= id %>" data-shape="<%= data.shapeType %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
+                itemTemplate: _.template('<div class="item-shape" id="<%= id %>" data-shape="<%= data.shapeType %>"><svg width="20" height="20" class=\"icon uni-scale\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                 delayRenderTips: this.delayRenderTips
             });
 
@@ -209,7 +209,7 @@ define([
                 parentMenu: this.openButton.menu,
                 restoreHeight: this.menuMaxHeight,
                 style: 'max-height: '+this.menuMaxHeight+'px;',
-                itemTemplate : _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
+                itemTemplate : _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon uni-scale\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                 groups: collection,
                 textRecentlyUsed: text,
                 recentShapes: recent

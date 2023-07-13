@@ -606,6 +606,9 @@ define([
             systemThemeSupported: function () {
                 return nativevars.theme && nativevars.theme.system !== 'disabled';
             },
+            localThemes: function () {
+                return nativevars ? nativevars.localthemes : undefined;
+            },
             recentFiles: function () {
                 return recents;
             },
@@ -614,7 +617,7 @@ define([
                     const params = {
                         name: Common.Utils.String.htmlDecode(model.get('title')),
                         path: Common.Utils.String.htmlDecode(model.get('url')),
-                    };
+        };
                     if ( model.get('fileid') != undefined && model.get('fileid') != null ) {
                         params.id = model.get('fileid');
                         params.type = model.type;
@@ -628,7 +631,7 @@ define([
 
                 return false;
             },
-        };
+    };
     };
 
     !Common.Controllers && (Common.Controllers = {});

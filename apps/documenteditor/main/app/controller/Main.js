@@ -421,7 +421,7 @@ define([
                 this.appOptions.user.anonymous && Common.localStorage.setItem("guest-id", this.appOptions.user.id);
 
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop' || Common.Controllers.Desktop.isActive();
-                if( Common.Controllers.Desktop.isActive() ){
+                if( Common.Controllers.Desktop.isActive() ) {
                     !this.editorConfig.recent && (this.editorConfig.recent = []);
                 }
 
