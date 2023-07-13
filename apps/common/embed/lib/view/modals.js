@@ -69,6 +69,7 @@ common.view.modals = new(function() {
     var _tplbody_password =  '<div class="password-body">' +
                                 '<label>{label}</label>' + 
                                 '<input id="password-input" class="form-control" type="password"/>' +
+                                '<label id="password-label-error">{error}</label>' + 
                                 '{button}' + 
                             '</div>';
 
@@ -109,10 +110,11 @@ common.view.modals = new(function() {
                                 .attr('id', 'dlg-embed');
             } else if(name == 'password') {
                 _$dlg = $(tplDialog
-                    .replace(/\{title}/, this.txtPasswordTitle)
+                    .replace(/\{title}/, this.txtTitleProtected)
                     .replace(/\{body}/, _tplbody_password)
-                    .replace(/\{label}/, this.txtPassword)
-                    .replace(/\{button}/, '<button id="password-btn" type="button" class="btn">' + this.txtOk + '</button>'))
+                    .replace(/\{label}/, this.txtOpenFile)
+                    .replace(/\{error}/, this.txtIncorrectPwd)
+                    .replace(/\{button}/, '<button id="password-btn" type="button" class="btn">OK</button>'))
                         .appendTo(parent)
                         .attr('id', 'dlg-password');
 
@@ -127,8 +129,8 @@ common.view.modals = new(function() {
         txtShare: 'Share Link',
         txtCopy: 'Copy to clipboard',
         txtEmbed: 'Embed',
-        txtPasswordTitle: 'Protected file',
-        txtPassword: 'Enter a password to open the file',
-        txtOk: 'OK',
+        txtTitleProtected: 'Protected file',
+        txtOpenFile: 'Enter a password to open the file',
+        txtIncorrectPwd: 'Password is incorrect',
     };
 })();

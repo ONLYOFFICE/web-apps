@@ -126,6 +126,8 @@
                     }
                 });
             } else {
+                $dlgPassword.find('#password-input').addClass('error');
+                $dlgPassword.find('#password-label-error').addClass('error');
                 $dlgPassword.find('#password-input').val('');
                 setTimeout(function() {
                     $dlgPassword.modal('show');
