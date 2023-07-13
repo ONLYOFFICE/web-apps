@@ -17,7 +17,6 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
     let currentChangeId = -1;
     let currentDocId = '';
     let currentDocIdPrev = '';
-    let currentArrColors = [];
     let currentServerVersion = 0;
     let currentUserId = '';
     let currentUserName = '';
@@ -28,6 +27,7 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
     let timerId;
 
     const timeoutIdRef = useRef(null);
+    const currentArrColors = useRef(null);
 
     useEffect(() => {
         const api = Common.EditorApi.get();
@@ -125,8 +125,9 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
                         user = {
                             id: version.user.id,
                             username: version.user.name || t('Settings.textAnonymous'),
-                            color: generateUserColor(Asc.c_oAscArrUserColors[usersCnt++]),
                             colorval: Asc.c_oAscArrUserColors[usersCnt],
+                            color: generateUserColor(Asc.c_oAscArrUserColors[usersCnt++]),
+                           
                         };
 
                         historyStore.addUser(user);
@@ -184,8 +185,8 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
                                     user = {
                                         id: change.user.id,
                                         username: change.user.name || t('Settings.textAnonymous'),
+                                        colorval: Asc.c_oAscArrUserColors[usersCnt],
                                         color: generateUserColor(Asc.c_oAscArrUserColors[usersCnt++]),
-                                        colorval: Asc.c_oAscArrUserColors[usersCnt]
                                     };
 
                                     historyStore.addUser(user);
@@ -301,12 +302,12 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
                 }
 
                 const hist = new Asc.asc_CVersionHistory();
-
+               
                 hist.asc_setUrl(url);
                 hist.asc_setUrlChanges(diff);
                 hist.asc_setDocId(!diff ? docId : docIdPrev);
                 hist.asc_setCurrentChangeId(currentChangeId);
-                hist.asc_setArrColors(currentArrColors);
+                hist.asc_setArrColors(currentArrColors.current);
                 hist.asc_setToken(token);
                 hist.asc_setIsRequested(true);
                 hist.asc_setServerVersion(currentServerVersion);
@@ -360,7 +361,7 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
         currentChangeId = version.changeid;
         currentDocId = version.docId;
         currentDocIdPrev = version.docIdPrev;
-        currentArrColors = version.arrColors;
+        currentArrColors.current = version.arrColors;
         currentServerVersion = version.serverVersion;
         currentUserId = version.userid;
         currentUserName = version.username;
@@ -386,7 +387,7 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
             hist.asc_setUrl(url);
             hist.asc_setUrlChanges(urlDiff);
             hist.asc_setCurrentChangeId(currentChangeId);
-            hist.asc_setArrColors(currentArrColors);
+            hist.asc_setArrColors(currentArrColors.current);
             hist.asc_setToken(token);
             hist.asc_setIsRequested(false);
             hist.asc_setServerVersion(currentServerVersion);
