@@ -1,7 +1,7 @@
 ﻿[
   {
     "src": "ProgramInterface/ProgramInterface.htm",
-    "name": "Présentation de l'interface utilisateur de l'Éditeur de classeurs",
+    "name": "Présentation de l'interface utilisateur de l'éditeur de classeurs",
     "headername": "Interface du programme"
   },
   {
@@ -178,7 +178,7 @@
   },
   {
     "src": "HelpfulHints/AdvancedSettings.htm",
-    "name": "Paramètres avancés de l'Éditeur de classeurs"
+    "name": "Paramètres avancés de l'éditeur de classeurs"
   },
   {
     "src": "HelpfulHints/Navigation.htm",
@@ -193,7 +193,7 @@
     {"src": "HelpfulHints/ImportData.htm", "name": "Obtenir des données à partir de fichiers Texte/CSV"},
   {
     "src": "HelpfulHints/About.htm",
-    "name": "A propos de l'Éditeur de classeurs",
+    "name": "A propos de l'éditeur de classeurs",
     "headername": "Astuces utiles"
   },
   {

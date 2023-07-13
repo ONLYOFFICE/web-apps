@@ -1,5 +1,5 @@
 ﻿[
-    {"src": "ProgramInterface/ProgramInterface.htm", "name": "Présentation de l'interface utilisateur de l'Éditeur de présentations", "headername": "Interface du programme"},
+    {"src": "ProgramInterface/ProgramInterface.htm", "name": "Présentation de l'interface utilisateur de l'éditeur de présentations", "headername": "Interface du programme"},
     {"src": "ProgramInterface/FileTab.htm", "name": "Onglet Fichier"},
     {"src": "ProgramInterface/HomeTab.htm", "name": "Onglet Accueil"},
     { "src": "ProgramInterface/InsertTab.htm", "name": "Onglet Insertion" },
@@ -47,13 +47,13 @@
 	{"src": "UsageInstructions/ChatGPT.htm", "name": "Utiliser l'intelligence artificielle pour rédiger un texte"},
     {"src": "UsageInstructions/ViewPresentationInfo.htm", "name": "Afficher les informations sur la présentation", "headername": "Outils et paramètres"},
     {"src": "UsageInstructions/SavePrintDownload.htm", "name": "Enregistrer/imprimer/télécharger votre présentation"},
-    {"src": "HelpfulHints/AdvancedSettings.htm", "name": "Paramètres avancés de l'Éditeur de présentations"},
+    {"src": "HelpfulHints/AdvancedSettings.htm", "name": "Paramètres avancés de l'éditeur de présentations"},
     {"src": "HelpfulHints/Navigation.htm", "name": "Paramètres d'affichage et outils de navigation"},
     {"src": "HelpfulHints/Search.htm", "name": "Fonction de recherche"},
     {"src": "HelpfulHints/SpellChecking.htm", "name": "Vérification de l'orthographe"},
     {"src": "UsageInstructions/MathAutoCorrect.htm", "name": "Fonctionnalités de correction automatique"},
     {"src": "HelpfulHints/Password.htm", "name": "Protéger une présentation avec un mot de passe"},
-    {"src": "HelpfulHints/About.htm", "name": "A propos de l'Éditeur de présentations", "headername": "Astuces utiles"},
+    {"src": "HelpfulHints/About.htm", "name": "A propos de l'éditeur de présentations", "headername": "Astuces utiles"},
     {"src": "HelpfulHints/SupportedFormats.htm", "name": "Formats des présentations électroniques pris en charge"},
     {"src": "HelpfulHints/KeyboardShortcuts.htm", "name": "Raccourcis clavier"}
 ]

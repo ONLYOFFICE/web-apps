@@ -1,7 +1,7 @@
 ﻿[
   {
     "src": "ProgramInterface/ProgramInterface.htm",
-    "name": "Présentation de l'interface de l'Éditeur de documents",
+    "name": "Présentation de l'interface de l'éditeur de documents",
     "headername": "Interface du programme"
   },
   {
@@ -243,7 +243,7 @@
   },
   {
     "src": "HelpfulHints/AdvancedSettings.htm",
-    "name": "Paramètres avancés de l'Éditeur de documents"
+    "name": "Paramètres avancés de l'éditeur de documents"
   },
     {
         "src": "HelpfulHints/Navigation.htm",
@@ -262,7 +262,7 @@
     {"src": "HelpfulHints/Password.htm", "name": "Protéger un document avec un mot de passe"},
   {
     "src": "HelpfulHints/About.htm",
-    "name": "À propos de l'Éditeur de documents",
+    "name": "À propos de l'éditeur de documents",
     "headername": "Astuces utiles"
   },
   {
