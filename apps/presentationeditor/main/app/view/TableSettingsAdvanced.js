@@ -650,7 +650,7 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
         textHeight: 'Height',
         textKeepRatio: 'Constant Proportions',
         textGeneral: 'General',
-        textTableName: 'Table Name'
+        textTableName: 'Table name'
 
     }, PE.Views.TableSettingsAdvanced || {}));
 });

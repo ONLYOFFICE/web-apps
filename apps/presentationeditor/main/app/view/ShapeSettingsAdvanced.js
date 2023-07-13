@@ -648,7 +648,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
         _setDefaults: function(props) {
             if (props ){
                 if (props.get_FromSmartArt()) {
-                    this.btnsCategory[1].setDisabled(true);
+                    this.btnsCategory[2].setDisabled(true);
                 }
                 if (props.get_FromSmartArtInternal()) {
                     this.radioNofit.setDisabled(true);
@@ -656,7 +656,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                     this.radioFit.setDisabled(true);
                     this.chFlipHor.setDisabled(true);
                     this.chFlipVert.setDisabled(true);
-                    this.btnsCategory[0].setDisabled(true);
+                    this.btnsCategory[1].setDisabled(true);
                 }
 
                 var value = props.asc_getName();
@@ -709,10 +709,10 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                         this.radioShrink.setValue(true, true);
                         break;
                 }
-                this.btnsCategory[3].setDisabled(null === margins);   // Margins
+                this.btnsCategory[4].setDisabled(null === margins);   // Margins
 
                 var shapetype = props.asc_getType();
-                this.btnsCategory[4].setDisabled(props.get_FromSmartArtInternal()
+                this.btnsCategory[5].setDisabled(props.get_FromSmartArtInternal()
                     || shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
                     || shapetype=='bentConnector4' || shapetype=='bentConnector5' || shapetype=='curvedConnector2'
                     || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
@@ -782,7 +782,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             if (props ){
                 var stroke = props.get_stroke();
                 if (stroke) {
-                    this.btnsCategory[2].setDisabled(stroke.get_type() == Asc.c_oAscStrokeType.STROKE_NONE);   // Weights & Arrows
+                    this.btnsCategory[3].setDisabled(stroke.get_type() == Asc.c_oAscStrokeType.STROKE_NONE);   // Weights & Arrows
 
                     var value = stroke.get_linejoin();
                     for (var i=0; i<this._arrJoinType.length; i++) {
@@ -1005,7 +1005,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
         textTopLeftCorner: 'Top Left Corner',
         textCenter: 'Center',
         textGeneral: 'General',
-        textShapeName: 'Shape Name'
+        textShapeName: 'Shape name'
 
     }, PE.Views.ShapeSettingsAdvanced || {}));
 });

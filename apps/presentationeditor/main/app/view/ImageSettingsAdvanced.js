@@ -340,7 +340,7 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
                 this.textareaAltDescription.val(value ? value : '');
 
                 var pluginGuid = props.asc_getPluginGuid();
-                this.btnsCategory[1].setVisible(pluginGuid === null || pluginGuid === undefined); // Rotation
+                this.btnsCategory[2].setVisible(pluginGuid === null || pluginGuid === undefined); // Rotation
             }
         },
 
@@ -427,7 +427,7 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
         textTopLeftCorner: 'Top Left Corner',
         textCenter: 'Center',
         textGeneral: 'General',
-        textImageName: 'Image Name'
+        textImageName: 'Image name'
 
     }, PE.Views.ImageSettingsAdvanced || {}));
 });

@@ -371,6 +371,6 @@ define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.tem
         textCenter: 'Center',
         textKeepRatio: 'Constant Proportions',
         textGeneral: 'General',
-        textChartName: 'Chart Name'
+        textChartName: 'Chart name'
     }, PE.Views.ChartSettingsAdvanced || {}));
 });
