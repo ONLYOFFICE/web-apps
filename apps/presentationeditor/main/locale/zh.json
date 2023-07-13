@@ -1233,6 +1233,7 @@
   "PE.Controllers.Main.waitText": "请稍候...",
   "PE.Controllers.Main.warnBrowserIE9": "该应用程序在IE9上的功能很差。使用IE10或更高版本",
   "PE.Controllers.Main.warnBrowserZoom": "您的浏览器当前缩放设置不完全支持。请按Ctrl + 0重设为默认缩放。",
+  "PE.Controllers.Main.warnLicenseAnonymous": "拒绝匿名用户的访问。<br>本文档将以仅查看模式而打开。",
   "PE.Controllers.Main.warnLicenseBefore": "许可证未激活。<br>请联系管理员。",
   "PE.Controllers.Main.warnLicenseExceeded": "您已达到同时连接%1编辑器的限制。该文档将被打开仅供查看。<br>请联系您的管理员以了解更多。",
   "PE.Controllers.Main.warnLicenseExp": "您的许可证已过期。<br>请更新您的许可证并刷新页面。",

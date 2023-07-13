@@ -3,7 +3,7 @@
 	{"src": "ProgramInterface/FileTab.htm", "name": "Вкладка Файл"},
 	{"src": "ProgramInterface/HomeTab.htm", "name": "Вкладка Главная"},
     {"src": "ProgramInterface/InsertTab.htm", "name": "Вкладка Вставка" },
-    {"src": "ProgramInterface/DrawingTab.htm", "name": "Вкладка Рисование"},
+    {"src": "ProgramInterface/DrawTab.htm", "name": "Вкладка Рисование"},
     {"src": "ProgramInterface/TransitionsTab.htm", "name": "Вкладка Переходы" },
     {"src": "ProgramInterface/AnimationTab.htm", "name": "Вкладка Анимация" },
     {"src": "ProgramInterface/CollaborationTab.htm", "name": "Вкладка Совместная работа" },

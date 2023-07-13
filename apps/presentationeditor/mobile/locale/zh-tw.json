@@ -31,9 +31,9 @@
       "textOk": "確定",
       "textReopen": "重開",
       "textResolve": "解決",
+      "textSharingSettings": "分享設定",
       "textTryUndoRedo": "在快速共同編輯模式下，撤消/重做功能被禁用。",
-      "textUsers": "使用者",
-      "textSharingSettings": "Sharing Settings"
+      "textUsers": "使用者"
     },
     "HighlightColorPalette": {
       "textNoFill": "沒有填充"
@@ -52,6 +52,7 @@
     "menuDelete": "刪除",
     "menuDeleteTable": "刪除表格",
     "menuEdit": "編輯",
+    "menuEditLink": "編輯連結",
     "menuMerge": "合併",
     "menuMore": "更多",
     "menuOpenLink": "打開連結",
@@ -62,8 +63,7 @@
     "textDoNotShowAgain": "不再顯示",
     "textOk": "確定",
     "textRows": "行列",
-    "txtWarnUrl": "這連結可能對您的設備和資料造成損害。<br> 您確定要繼續嗎？",
-    "menuEditLink": "Edit Link"
+    "txtWarnUrl": "這連結可能對您的設備和資料造成損害。<br> 您確定要繼續嗎？"
   },
   "Controller": {
     "Main": {
@@ -112,6 +112,7 @@
       "textHasMacros": "此檔案包含自動巨集程式。<br>是否要運行這些巨集？",
       "textNo": "沒有",
       "textNoLicenseTitle": "達到許可限制",
+      "textNoMatches": "無匹配",
       "textOpenFile": "輸入檔案密碼",
       "textPaidFeature": "付費功能",
       "textRemember": "記住我的選擇",
@@ -120,10 +121,13 @@
       "textRequestMacros": "有一個巨集指令要求連結至URL。是否允許該要求至%1?",
       "textYes": "是",
       "titleLicenseExp": "證件過期",
+      "titleLicenseNotActive": "授權未啟用",
       "titleServerVersion": "編輯器已更新",
       "titleUpdateVersion": "版本已更改",
       "txtIncorrectPwd": "密碼錯誤",
       "txtProtected": "輸入密碼並打開文件後，該文件的當前密碼將被重置",
+      "warnLicenseAnonymous": "匿名使用者無法存取。<br>此文件將僅供檢視。",
+      "warnLicenseBefore": "授權未啟用。<br>請聯絡您的管理員。",
       "warnLicenseExceeded": "您已達到同時連接到 %1 編輯器的限制。此文件將只提供檢視。請聯繫您的管理員以了解更多資訊。",
       "warnLicenseExp": "您的授權已過期。請更新它並重新載入頁面。",
       "warnLicenseLimitedNoAccess": "授權過期。 您無法進入文件編輯功能。 請聯繫您的管理員。",
@@ -131,11 +135,7 @@
       "warnLicenseUsersExceeded": "您已達到％1個編輯器的用戶限制。請與您的管理員聯繫以了解更多信息。",
       "warnNoLicense": "您已達到同時連接到 %1 編輯器的限制。此文件將只提供檢視。有關個人升級條款，請聯繫 %1 業務團隊。",
       "warnNoLicenseUsers": "您已達到％1個編輯器的用戶限制。與％1銷售團隊聯繫以了解個人升級條款。",
-      "warnProcessRightsChange": "您沒有編輯此文件的權限。",
-      "textNoMatches": "No Matches",
-      "titleLicenseNotActive": "License not active",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "warnProcessRightsChange": "您沒有編輯此文件的權限。"
     }
   },
   "Error": {
@@ -150,9 +150,15 @@
     "errorDataEncrypted": "已收到加密的更改，無法解密。",
     "errorDataRange": "不正確的資料範圍",
     "errorDefaultMessage": "錯誤編號：%1",
+    "errorDirectUrl": "請驗證指向文檔的連結。<br>此連結必須是指向要下載文件的直接連結。",
     "errorEditingDownloadas": "處理文件檔時發生錯誤。<br>請使用\"下載\"來儲存一份備份檔案到本機端。",
     "errorFilePassProtect": "此文件使用密碼保護功能，無法開啟。",
     "errorFileSizeExceed": "檔案大小已超過了您的伺服器限制。<br>請聯繫您的管理員。",
+    "errorInconsistentExt": "在開啟檔案時發生錯誤。<br>檔案內容與檔案的副檔名不相符。",
+    "errorInconsistentExtDocx": "在開啟檔案時發生錯誤。<br>檔案內容對應文字文件 (例如 docx)，但檔案的副檔名不一致： %1。",
+    "errorInconsistentExtPdf": "在開啟檔案時發生錯誤。<br>檔案內容對應以下格式之一：pdf/djvu/xps/oxps，但檔案的副檔名不一致： %1。",
+    "errorInconsistentExtPptx": "在開啟檔案時發生錯誤。<br>檔案內容對應以下格式之一：pdf/djvu/xps/oxps，但檔案的副檔名不一致： %1。",
+    "errorInconsistentExtXlsx": "在開啟檔案時發生錯誤。<br>檔案內容對應試算表 (例如 xlsx)，但檔案的副檔名不一致： %1。",
     "errorKeyEncrypt": "未知密鑰描述符",
     "errorKeyExpire": "密鑰描述符已過期",
     "errorLoadingFont": "字體未載入。<br>請聯絡文件服務(Document Server)管理員。",
@@ -160,6 +166,8 @@
     "errorSessionIdle": "無 該文件已經有一段時間沒有進行編輯了。 請重新載入頁面。",
     "errorSessionToken": "主機連線被中斷，請重新載入此頁面。",
     "errorStockChart": "行序錯誤。要建立股票圖表，請將數據按照以下順序工作表：<br> 開盤價、最高價、最低價、收盤價。",
+    "errorToken": "文檔安全令牌的格式不正確。<br>請與您的Document Server管理員聯繫。",
+    "errorTokenExpire": "文檔安全令牌已過期。<br>請與您的Document Server管理員聯繫。",
     "errorUpdateVersionOnDisconnect": "網路連線已恢復，且文件版本已變更。<br>在您繼續工作之前，請下載文件或複製其內容以確保沒有任何內容遺失，之後重新載入本頁面。",
     "errorUserDrop": "目前無法存取該文件。",
     "errorUsersExceed": "超出了定價計劃所允許的用戶數量",
@@ -174,19 +182,12 @@
     "unknownErrorText": "未知錯誤。",
     "uploadImageExtMessage": "圖片格式未知。",
     "uploadImageFileCountMessage": "沒有上傳圖片。",
-    "uploadImageSizeMessage": "圖像超出最大大小限制。最大大小為25MB。",
-    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
-    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
-    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
-    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
-    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
+    "uploadImageSizeMessage": "圖像超出最大大小限制。最大大小為25MB。"
   },
   "LongActions": {
     "applyChangesTextText": "加載數據中...",
     "applyChangesTitleText": "加載數據中",
+    "confirmMaxChangesSize": "操作的大小超過了伺服器設定的限制。<br>按下「復原」以取消最後一個動作，或按下「繼續」以在本地保留動作（需下載檔案或複製其內容，以確保不會遺失任何內容）",
     "downloadTextText": "文件下載中...",
     "downloadTitleText": "文件下載中",
     "loadFontsTextText": "加載數據中...",
@@ -209,14 +210,13 @@
     "savePreparingTitle": "正在準備保存。請耐心等待...",
     "saveTextText": "儲存文件...",
     "saveTitleText": "儲存文件",
+    "textContinue": "繼續",
     "textLoadingDocument": "載入文件",
+    "textUndo": "復原",
     "txtEditingMode": "設定編輯模式...",
     "uploadImageTextText": "正在上傳圖片...",
     "uploadImageTitleText": "上載圖片",
-    "waitText": "請耐心等待...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textContinue": "Continue",
-    "textUndo": "Undo"
+    "waitText": "請耐心等待..."
   },
   "Toolbar": {
     "dlgLeaveMsgText": "您在此文件中有未儲存的變更。點擊\"留在此頁面\"以等待自動儲存。點擊\"離開此頁面\"以放棄所有未儲存的變更。",
@@ -235,6 +235,7 @@
       "textComment": "評論",
       "textDefault": "所選文字",
       "textDisplay": "顯示",
+      "textDone": "完成",
       "textEmptyImgUrl": "您需要指定影像的 URL。",
       "textExternalLink": "外部連結",
       "textFirstSlide": "第一張幻燈片",
@@ -250,9 +251,12 @@
       "textNextSlide": "下一張幻燈片",
       "textOk": "確定",
       "textOther": "其它",
+      "textPasteImageUrl": "貼上圖片網址",
       "textPictureFromLibrary": "圖片來自圖書館",
       "textPictureFromURL": "網址圖片",
       "textPreviousSlide": "上一張幻燈片",
+      "textRecommended": "推薦的",
+      "textRequired": "需要",
       "textRows": "行列",
       "textScreenTip": "屏幕提示",
       "textShape": "形狀",
@@ -261,11 +265,7 @@
       "textSlideNumber": "幻燈片頁碼",
       "textTable": "表格",
       "textTableSize": "表格大小",
-      "txtNotUrl": "此字段應為格式為“ http://www.example.com”的URL。",
-      "textDone": "Done",
-      "textPasteImageUrl": "Paste an image URL",
-      "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "txtNotUrl": "此字段應為格式為“ http://www.example.com”的URL。"
     },
     "Edit": {
       "notcriticalErrorTitle": "警告",
@@ -284,6 +284,7 @@
       "textAlignTop": "上方對齊",
       "textAllCaps": "全部大寫",
       "textApplyAll": "應用於所有投影片",
+      "textArrange": "安排",
       "textAuto": "自動",
       "textAutomatic": "自動",
       "textBack": "返回",
@@ -298,8 +299,10 @@
       "textBringToForeground": "移到前景執行",
       "textBullets": "項目符號",
       "textBulletsAndNumbers": "符號項目與編號",
+      "textCancel": "取消",
       "textCaseSensitive": "區分大小寫",
       "textCellMargins": "儲存格邊距",
+      "textChangeShape": "更改形狀",
       "textChart": "圖表",
       "textClock": "時鐘",
       "textClockwise": "順時針",
@@ -309,6 +312,8 @@
       "textCustomColor": "自訂顏色",
       "textDefault": "所選文字",
       "textDelay": "延遲",
+      "textDeleteImage": "刪除影像",
+      "textDeleteLink": "刪除連結",
       "textDeleteSlide": "刪除幻燈片",
       "textDesign": "設計",
       "textDisplay": "顯示",
@@ -344,6 +349,7 @@
       "textHyperlink": "超連結",
       "textImage": "圖像",
       "textImageURL": "圖像 URL",
+      "textInsertImage": "插入圖片",
       "textLastColumn": "最後一欄",
       "textLastSlide": "最後一張幻燈片",
       "textLayout": "佈局",
@@ -357,6 +363,7 @@
       "textMoveBackward": "向後移動",
       "textMoveForward": "向前移動",
       "textNextSlide": "下一張幻燈片",
+      "textNoMatches": "無匹配",
       "textNone": "無",
       "textNoStyles": "此類型的圖表沒有樣式。",
       "textNotUrl": "此字段應為格式為\"http://www.example.com\"的URL。",
@@ -369,12 +376,14 @@
       "textPreviousSlide": "上一張幻燈片",
       "textPt": "pt",
       "textPush": "推",
+      "textRecommended": "推薦的",
       "textRemoveChart": "刪除圖表",
       "textRemoveShape": "去除形狀",
       "textRemoveTable": "刪除表",
       "textReplace": "取代",
       "textReplaceAll": "全部替換",
       "textReplaceImage": "替換圖片",
+      "textRequired": "需要",
       "textRight": "右",
       "textScreenTip": "屏幕提示",
       "textSearch": "搜尋",
@@ -412,16 +421,7 @@
       "textZoom": "放大",
       "textZoomIn": "放大",
       "textZoomOut": "縮小",
-      "textZoomRotate": "放大和旋轉",
-      "textArrange": "Arrange",
-      "textCancel": "Cancel",
-      "textChangeShape": "Change Shape",
-      "textDeleteImage": "Delete Image",
-      "textDeleteLink": "Delete Link",
-      "textInsertImage": "Insert Image",
-      "textNoMatches": "No Matches",
-      "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "textZoomRotate": "放大和旋轉"
     },
     "Settings": {
       "mniSlideStandard": "標準(4:3)",
@@ -461,6 +461,7 @@
       "textLoading": "載入中...",
       "textLocation": "位置",
       "textMacrosSettings": "巨集設定",
+      "textNoMatches": "無匹配",
       "textOk": "確定",
       "textOwner": "擁有者",
       "textPoint": "點",
@@ -505,8 +506,7 @@
       "txtScheme6": "大堂",
       "txtScheme7": "產權",
       "txtScheme8": "流程",
-      "txtScheme9": "鑄造廠",
-      "textNoMatches": "No Matches"
+      "txtScheme9": "鑄造廠"
     }
   }
 }

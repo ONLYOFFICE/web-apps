@@ -797,7 +797,7 @@ class MainController extends Component {
         const { t } = this.props;
         const storeAppOptions = this.props.storeAppOptions;
         const props = this.getDocProps(true);
-        const isProtected = props && (props.isReadOnly || props.isCommentsOnly || props.isFormsOnly || props.isReviewOnly);
+        const isProtected = props && (props.isReadOnly || props.isCommentsOnly || props.isFormsOnly || props.isReviewOnly || props.isTrackedChanges);
         let textWarningDialog;
 
         if(!storeAppOptions.isReviewOnly) {
@@ -855,7 +855,8 @@ class MainController extends Component {
                 storeAppOptions.canComments && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
                 storeAppOptions.canFillForms && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
             } else {
-                this.api.asc_setRestriction(Asc.c_oAscRestrictionType.None);
+                // this.api.asc_setRestriction(Asc.c_oAscRestrictionType.None);
+                this.api.asc_setRestriction(Asc.c_oAscRestrictionType.View);
             }
         }
     };
@@ -874,7 +875,8 @@ class MainController extends Component {
                 isReadOnly: type === Asc.c_oAscEDocProtect.ReadOnly,
                 isCommentsOnly: type === Asc.c_oAscEDocProtect.Comments,
                 isReviewOnly: type === Asc.c_oAscEDocProtect.TrackedChanges,
-                isFormsOnly: type === Asc.c_oAscEDocProtect.Forms
+                isFormsOnly: type === Asc.c_oAscEDocProtect.Forms,
+                isTrackedChanges: type === Asc.c_oAscEDocProtect.TrackedChanges
             };
         }
 
