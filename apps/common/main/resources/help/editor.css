@@ -182,9 +182,6 @@ a.sup_link {
     float: right;
     margin-top: 10px;
 }
-.it.search-field {
-    margin-top: 0px;
-}
 .search-field input {
     width: 250px;
     height: 25px;
