@@ -3,7 +3,7 @@
 	{"src": "ProgramInterface/FileTab.htm", "name": "File tab"},
 	{"src": "ProgramInterface/HomeTab.htm", "name": "Home Tab"},
     { "src": "ProgramInterface/InsertTab.htm", "name": "Insert tab" },
-    {"src": "ProgramInterface/DrawingTab.htm", "name": "Drawing tab"},
+    {"src": "ProgramInterface/DrawTab.htm", "name": "Drawing tab"},
     {"src": "ProgramInterface/TransitionsTab.htm", "name": "Transitions tab" },
     {"src": "ProgramInterface/AnimationTab.htm", "name": "Animation tab" },
     {"src": "ProgramInterface/CollaborationTab.htm", "name": "Collaboration tab" },

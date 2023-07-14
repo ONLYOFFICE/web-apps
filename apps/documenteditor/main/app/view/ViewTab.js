@@ -146,7 +146,7 @@ define([
 
                 this.btnNavigation = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-menu-navigation',
+                    iconCls: 'toolbar__icon btn-big-menu-navigation',
                     lock: [_set.lostConnect, _set.disableOnStart],
                     caption: this.textOutline,
                     enableToggle: true,

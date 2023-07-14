@@ -275,6 +275,7 @@ define([
             me.btnFavorite.on('click', function (e) {
                 // wait for setFavorite method
                 // me.options.favorite = !me.options.favorite;
+                // me.btnFavorite.changeIcon(me.options.favorite ? {next: 'btn-in-favorite', curr: 'btn-favorite'} : {next: 'btn-favorite', curr: 'btn-in-favorite'});
                 // me.btnFavorite.changeIcon(me.options.favorite ? {next: 'btn-in-favorite'} : {curr: 'btn-in-favorite'});
                 // me.btnFavorite.updateHint(!me.options.favorite ? me.textAddFavorite : me.textRemoveFavorite);
                 Common.NotificationCenter.trigger('markfavorite', !me.options.favorite);
@@ -493,7 +494,7 @@ define([
                 });
 
                 me.btnFavorite = new Common.UI.Button({
-                    id: 'btn-favorite',
+                    id: 'id-btn-favorite',
                     cls: 'btn-header',
                     iconCls: 'toolbar__icon icon--inverse btn-favorite',
                     dataHint: '0',
@@ -569,7 +570,7 @@ define([
 
                     if ( this.options.favorite !== undefined && this.options.favorite!==null) {
                         me.btnFavorite.render($html.find('#slot-btn-favorite'));
-                        me.btnFavorite.changeIcon(!!me.options.favorite ? {next: 'btn-in-favorite'} : {curr: 'btn-in-favorite'});
+                        me.btnFavorite.changeIcon(!!me.options.favorite ? {next: 'btn-in-favorite', curr: 'btn-favorite'} : {next: 'btn-favorite', curr: 'btn-in-favorite'});
                         me.btnFavorite.updateHint(!me.options.favorite ? me.textAddFavorite : me.textRemoveFavorite);
                     } else {
                         $html.find('#slot-btn-favorite').hide();
@@ -746,7 +747,7 @@ define([
             setFavorite: function (value) {
                 this.options.favorite = value;
                 this.btnFavorite[value!==undefined && value!==null ? 'show' : 'hide']();
-                this.btnFavorite.changeIcon(!!value ? {next: 'btn-in-favorite'} : {curr: 'btn-in-favorite'});
+                this.btnFavorite.changeIcon(!!value ? {next: 'btn-in-favorite', curr: 'btn-favorite'} : {next: 'btn-favorite', curr: 'btn-in-favorite'});
                 this.btnFavorite.updateHint(!value ? this.textAddFavorite : this.textRemoveFavorite);
                 updateDocNamePosition(appConfig);
                 return this;

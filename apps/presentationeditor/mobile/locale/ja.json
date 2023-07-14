@@ -112,6 +112,7 @@
       "textHasMacros": "ファイルには自動マクロが含まれています。<br>マクロを実行しますか？",
       "textNo": "いいえ",
       "textNoLicenseTitle": "ライセンス制限に達しました",
+      "textNoMatches": "一致する結果がありません",
       "textOpenFile": "ファイルを開くためにパスワードを入力してください",
       "textPaidFeature": "有料機能",
       "textRemember": "選択を覚える",
@@ -125,6 +126,7 @@
       "titleUpdateVersion": "バージョンが変更されました",
       "txtIncorrectPwd": "パスワードが間違い",
       "txtProtected": "パスワードを入力してファイルを開くと、現在のパスワードがリセットされます",
+      "warnLicenseAnonymous": "匿名ユーザーのアクセスは拒否されます。<br>このドキュメントは閲覧専用に開かれます。",
       "warnLicenseBefore": "ライセンスが無効になっています。<br>管理者までご連絡ください。",
       "warnLicenseExceeded": "％１エディター　時接続数の制限に達しました。この文書が見るだけのために開かれる。詳細についてはアドミニストレータを連絡してください。",
       "warnLicenseExp": "ライセンスの有効期限が切れています。ライセンスを更新してページをリロードしてください。",
@@ -133,9 +135,7 @@
       "warnLicenseUsersExceeded": "％1エディターのユーザー制限に達しました。 詳細についてはアドミニストレータを連絡してください。",
       "warnNoLicense": "％１エディター　時接続数の制限に達しました。この文書が見るだけのために開かれる。個人的なアップグレード条件については、％1営業チームを連絡してください。",
       "warnNoLicenseUsers": "％1エディターのユーザー制限に達しました。 個人的なアップグレード条件については、％1営業チームを連絡してください。",
-      "warnProcessRightsChange": "ファイルを編集する権限がありません！",
-      "textNoMatches": "No Matches",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
+      "warnProcessRightsChange": "ファイルを編集する権限がありません！"
     }
   },
   "Error": {
@@ -363,6 +363,7 @@
       "textMoveBackward": "背面に動かす",
       "textMoveForward": "前面に動かす",
       "textNextSlide": "次のスライド",
+      "textNoMatches": "一致する結果がありません",
       "textNone": "なし",
       "textNoStyles": "このチャットのタイプためにスタイルがない",
       "textNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります。",
@@ -420,8 +421,7 @@
       "textZoom": "ズーム",
       "textZoomIn": "拡大",
       "textZoomOut": "縮小",
-      "textZoomRotate": "ズームと回転",
-      "textNoMatches": "No Matches"
+      "textZoomRotate": "ズームと回転"
     },
     "Settings": {
       "mniSlideStandard": "標準(4:3)",
@@ -461,6 +461,7 @@
       "textLoading": "読み込み中...",
       "textLocation": "場所",
       "textMacrosSettings": "マクロの設定",
+      "textNoMatches": "一致する結果がありません",
       "textOk": "OK",
       "textOwner": "所有者",
       "textPoint": "ポイント",
@@ -505,8 +506,7 @@
       "txtScheme6": "コンコース",
       "txtScheme7": "株主資本",
       "txtScheme8": "フロー",
-      "txtScheme9": "ファウンドリ",
-      "textNoMatches": "No Matches"
+      "txtScheme9": "ファウンドリ"
     }
   }
 }

@@ -1351,7 +1351,7 @@ define([
                 me.btnInsertSlicer = new Common.UI.Button({
                     id: 'tlbtn-insertslicer',
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-slicer',
+                    iconCls: 'toolbar__icon btn-big-slicer',
                     caption: me.capBtnInsSlicer,
                     lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.multiselect, _set.noSlicerSource, _set.wsLock],
                     dataHint: '1',
@@ -1721,7 +1721,7 @@ define([
                 me.btnColorSchemas = new Common.UI.Button({
                     id          : 'id-toolbar-btn-colorschemas',
                     cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'toolbar__icon btn-colorschemas',
+                    iconCls     : 'toolbar__icon btn-big-colorschemas',
                     caption     : me.capBtnColorSchemas,
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth, _set.wsLock],
                     menu        : new Common.UI.Menu({
@@ -2705,7 +2705,7 @@ define([
                         restoreHeight: 50,
                         // groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getSparkGroupData()),
                         store: new Common.UI.DataViewStore(Common.define.chartData.getSparkData()),
-                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
+                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                     });
                     picker.on('item:click', function (picker, item, record, e) {
                         if (record)
@@ -2792,20 +2792,22 @@ define([
                  {symbol: 9829,     description: this.textBlackHeart}
            ];
 
-            this.mnuInsertSymbolsPicker = new Common.UI.DataView({
-                el: $('#id-toolbar-menu-symbols'),
-                parentMenu: this.btnInsertSymbol.menu,
-                outerMenu: {menu: this.btnInsertSymbol.menu, index:0},
-                restoreHeight: 290,
-                delayRenderTips: true,
-                scrollAlwaysVisible: true,
-                store: new Common.UI.DataViewStore(this.loadRecentSymbolsFromStorage()),
-                itemTemplate: _.template('<div class="item-symbol" <% if (typeof font !== "undefined" && font !=="") { %> style ="font-family: <%= font %>"<% } %>>&#<%= symbol %></div>')
-            });
-            this.btnInsertSymbol.menu.setInnerMenu([{menu: this.mnuInsertSymbolsPicker, index: 0}]);
-            this.btnInsertSymbol.menu.on('show:before',  _.bind(function() {
-                this.mnuInsertSymbolsPicker.deselectAll();
-            }, this));
+            if(!!this.btnInsertSymbol) {
+                this.mnuInsertSymbolsPicker = new Common.UI.DataView({
+                    el: $('#id-toolbar-menu-symbols'),
+                    parentMenu: this.btnInsertSymbol.menu,
+                    outerMenu: {menu: this.btnInsertSymbol.menu, index: 0},
+                    restoreHeight: 290,
+                    delayRenderTips: true,
+                    scrollAlwaysVisible: true,
+                    store: new Common.UI.DataViewStore(this.loadRecentSymbolsFromStorage()),
+                    itemTemplate: _.template('<div class="item-symbol" <% if (typeof font !== "undefined" && font !=="") { %> style ="font-family: <%= font %>"<% } %>>&#<%= symbol %></div>')
+                });
+                this.btnInsertSymbol.menu.setInnerMenu([{menu: this.mnuInsertSymbolsPicker, index: 0}]);
+                this.btnInsertSymbol.menu.on('show:before', _.bind(function () {
+                    this.mnuInsertSymbolsPicker.deselectAll();
+                }, this));
+           }
 
             if (this.btnCondFormat && this.btnCondFormat.rendered) {
                 this.btnCondFormat.setMenu( new Common.UI.Menu({

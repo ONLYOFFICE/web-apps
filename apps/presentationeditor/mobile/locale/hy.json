@@ -112,6 +112,7 @@
       "textHasMacros": "Ֆայլում կան ինքնաշխատ մակրոներ։<br>Գործարկե՞լ դրանք։",
       "textNo": "Ոչ",
       "textNoLicenseTitle": "Լիցենզիայի սահմանաչափը հասել է",
+      "textNoMatches": "Համընկնում չկա",
       "textOpenFile": "Մուտքագրել գաղտնաբառ՝ ֆայլը բացելու համար",
       "textPaidFeature": "Վճարովի գործառույթ",
       "textRemember": "Հիշել իմ ընտրությունը",
@@ -125,6 +126,7 @@
       "titleUpdateVersion": "Տարբերակը փոխվել է",
       "txtIncorrectPwd": "Գաղտնաբառը սխալ է",
       "txtProtected": "Երբ գաղտնաբառը մուտքագրեք ու նիշքը բացեք, ընթացիկ գաղտնաբառը կվերակայվի",
+      "warnLicenseAnonymous": "Մուտքն արգելված է անանուն օգտատերերի համար:<br>Այս փաստաթուղթը կբացվի միայն դիտելու համար:",
       "warnLicenseBefore": "Լիցենզիան ակտիվ չէ:<br> Խնդրում ենք կապվել ձեր ադմինիստրատորի հետ:",
       "warnLicenseExceeded": "Դուք հասել եք %1 խմբագիրների հետ միաժամանակյա միացումների սահմանաչափին:Այս փաստաթուղթը կբացվի միայն դիտելու համար:Կապվեք Ձեր ադմինիստրատորի հետ՝ ավելին իմանալու համար:",
       "warnLicenseExp": "Ձեր լիցենզիայի ժամկետը լրացել է:Խնդրում ենք արդիացնել այն և թարմացնել էջը։",
@@ -133,9 +135,7 @@
       "warnLicenseUsersExceeded": "Դուք հասել եք %1 խմբագրիչներին միաժամանակ միանալու սահմանափակմանը։Կապվեք Ձեր ադմինիստրատորի հետ՝ ավելին իմանալու համար:",
       "warnNoLicense": "Դուք հասել եք %1 խմբագիրների հետ միաժամանակյա միացումների սահմանաչափին:Այս փաստաթուղթը կբացվի միայն դիտելու համար:նձնական թարմացման պայմանների համար կապվեք %1 վաճառքի թիմի հետ:",
       "warnNoLicenseUsers": "Դուք հասել եք %1 խմբագիրների օգտվողի սահմանաչափին:Անձնական թարմացման պայմանների համար կապվեք %1 վաճառքի թիմի հետ:",
-      "warnProcessRightsChange": "Դուք ֆայլը խմբագրելու թույլտվություն չունեք:",
-      "textNoMatches": "No Matches",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
+      "warnProcessRightsChange": "Դուք ֆայլը խմբագրելու թույլտվություն չունեք:"
     }
   },
   "Error": {
@@ -251,6 +251,7 @@
       "textNextSlide": "Հաջորդ սահիկ",
       "textOk": "Լավ",
       "textOther": "Այլ",
+      "textPasteImageUrl": "Տեղադրեք պատկերի URL",
       "textPictureFromLibrary": "Նկար գրադարանից",
       "textPictureFromURL": "Նկար URL-ից",
       "textPreviousSlide": "Նախորդ սահիկ",
@@ -264,8 +265,7 @@
       "textSlideNumber": "Սահիկի համարը",
       "textTable": "Աղյուսակ",
       "textTableSize": "Աղյուսակի չափ",
-      "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ ",
-      "textPasteImageUrl": "Paste an image URL"
+      "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ "
     },
     "Edit": {
       "notcriticalErrorTitle": "Զգուշացում",
@@ -363,6 +363,7 @@
       "textMoveBackward": "Տանել հետ",
       "textMoveForward": "Տանել առաջ",
       "textNextSlide": "Հաջորդ սահիկ",
+      "textNoMatches": "Համընկնում չկա",
       "textNone": "Ոչ մեկը",
       "textNoStyles": "Այս տեսակի գծապատկերների համար ոճեր չկան:",
       "textNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ ",
@@ -420,8 +421,7 @@
       "textZoom": "Խոշորացնել",
       "textZoomIn": "Մեծացնել",
       "textZoomOut": "Փոքրացնել",
-      "textZoomRotate": "Դիտափոխում և պտտում",
-      "textNoMatches": "No Matches"
+      "textZoomRotate": "Դիտափոխում և պտտում"
     },
     "Settings": {
       "mniSlideStandard": "Ստանդարտ (4:3)",
@@ -461,6 +461,7 @@
       "textLoading": "Բեռնում...",
       "textLocation": "Տեղ",
       "textMacrosSettings": "Մակրոների կարգավորումներ",
+      "textNoMatches": "Համընկնում չկա",
       "textOk": "Լավ",
       "textOwner": "Տնօրինող",
       "textPoint": "Կետ",
@@ -505,8 +506,7 @@
       "txtScheme6": "Համագումար ",
       "txtScheme7": "Սեփական կապիտալ",
       "txtScheme8": "Հոսք",
-      "txtScheme9": "Հրատարակիչ",
-      "textNoMatches": "No Matches"
+      "txtScheme9": "Հրատարակիչ"
     }
   }
 }

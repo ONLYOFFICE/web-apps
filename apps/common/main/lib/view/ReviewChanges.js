@@ -318,7 +318,7 @@ define([
                     }
                     this.btnTurnOn = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-ic-review',
+                        iconCls: 'toolbar__icon btn-big-ic-review',
                         lock: [_set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.docLockReview],
                         caption: this.txtTurnon,
                         split: !this.appConfig.isReviewOnly,

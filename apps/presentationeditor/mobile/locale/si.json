@@ -5,7 +5,7 @@
     "textBack": "ආපසු",
     "textEditor": "සමර්පණ සංස්කරකය",
     "textEmail": "වි-තැපෑල",
-    "textPoweredBy": "මගින් බලගැන්වේ",
+    "textPoweredBy": "බලගන්වන්නේ",
     "textTel": "දු.ක.",
     "textVersion": "අනුවාදය"
   },
@@ -53,7 +53,7 @@
     "menuDeleteTable": "වගුව මකන්න",
     "menuEdit": "සංස්කරණය",
     "menuEditLink": "සබැඳිය සංස්කරණය",
-    "menuMerge": "සංයුක්ත",
+    "menuMerge": "ඒකාබද්ධ",
     "menuMore": "තව",
     "menuOpenLink": "සබැඳිය විවෘත කරන්න",
     "menuSplit": "පැළීම",
@@ -112,6 +112,7 @@
       "textHasMacros": "ගොනුවේ ස්වයංක්‍රීය සාර්ව අඩංගු වේ.<br>ඔබට සාර්ව ධාවනයට වුවමනාද?",
       "textNo": "නැහැ",
       "textNoLicenseTitle": "බලපත්‍රයේ සීමාවට ලඟාවුණි",
+      "textNoMatches": "ගැළපීම් නැත",
       "textOpenFile": "ගොනුව විවෘත කිරීමට මුරපදයක් යොදන්න",
       "textPaidFeature": "ගෙවන විශේෂාංගයකි",
       "textRemember": "මාගේ තේරීම මතක තබාගන්න",
@@ -125,6 +126,7 @@
       "titleUpdateVersion": "අනුවාදය වෙනස් කෙරිණි",
       "txtIncorrectPwd": "මුරපදය සාවද්‍යයි",
       "txtProtected": "ඔබ මුරපදය ඇතුල් කර ගොනුව විවෘත කළ පසු, ගොනුවේ වත්මන් මුරපදය යළි සැකසෙනු ඇත",
+      "warnLicenseAnonymous": "නිර්නාමික පරිශ්‍රීලකයින් සඳහා ප්‍රවේශය ප්‍රතික්‍ෂේපිතයි.<br>මෙම ලේඛනය දැකීමට පමණක් විවෘත වනු ඇත.",
       "warnLicenseBefore": "බලපත්‍රය සක්‍රිය නැත.<br>කරුණාකර ඔබගේ පරිපාලක අමතන්න.",
       "warnLicenseExceeded": "ඔබ %1 සංස්කරක වෙත සමකාල සම්බන්ධතා සීමාවට ළඟා වී ඇත. මෙම ලේඛනය දැකීමට පමණක් විවෘත වේ. තව දැන ගැනීමට ඔබගේ පරිපාලක අමතන්න.",
       "warnLicenseExp": "ඔබගේ බලපත්‍රය කල් ඉකුත් වී ඇත. එය යාවත්කාල කර පිටුව නැවුම් කරන්න.",
@@ -133,9 +135,7 @@
       "warnLicenseUsersExceeded": "ඔබ %1 සංස්කරක සඳහා පරිශීලක සීමාවට ළඟා වී ඇත. තව දැන ගැනීමට ඔබගේ පරිපාලක අමතන්න.",
       "warnNoLicense": "ඔබ %1 සංස්කරක වෙත සමකාල සම්බන්ධතා සීමාවට ළඟා වී ඇත. මෙම ලේඛනය දැකීමට පමණක් විවෘත වේ. පුද්ගලික උත්ශ්‍රේණි නියම සඳහා %1 අලෙවි කණ්ඩායම අමතන්න.",
       "warnNoLicenseUsers": "ඔබ %1 සංස්කරක සඳහා පරිශීලක සීමාවට ළඟා වී ඇත. පුද්ගලික උත්ශ්‍රේණි නියම සඳහා %1 අලෙවි කණ්ඩායම අමතන්න.",
-      "warnProcessRightsChange": "ඔබට ගොනුව සංස්කරණය කිරීමට අවසර නැත.",
-      "textNoMatches": "No Matches",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
+      "warnProcessRightsChange": "ඔබට ගොනුව සංස්කරණය කිරීමට අවසර නැත."
     }
   },
   "Error": {
@@ -363,6 +363,7 @@
       "textMoveBackward": "ආපස්සට ගෙනයන්න",
       "textMoveForward": "ඉදිරියට ගෙනයන්න",
       "textNextSlide": "ඊළඟ චිත්‍රකාචය",
+      "textNoMatches": "ගැළපීම් නැත",
       "textNone": "කිසිවක් නැත",
       "textNoStyles": "මෙම වර්ගයේ ප්‍රස්ථාර සඳහා ශෛලීන් නැත.",
       "textNotUrl": "මෙම ක්‍ෂේත්‍රය \"http://උපවසම.උදාහරණය.ලංකා\" ආකෘතියේ ඒ.ස.නි. ක් විය යුතුය.",
@@ -420,8 +421,7 @@
       "textZoom": "විශාල කරන්න",
       "textZoomIn": "විශාලනය",
       "textZoomOut": "කුඩාලනය",
-      "textZoomRotate": "විශාලනය හා කරකවන්න",
-      "textNoMatches": "No Matches"
+      "textZoomRotate": "විශාලනය හා කරකවන්න"
     },
     "Settings": {
       "mniSlideStandard": "සම්මත (4:3)",
@@ -461,10 +461,11 @@
       "textLoading": "පූරණය වෙමින්...",
       "textLocation": "ස්ථානය",
       "textMacrosSettings": "සාර්ව සැකසුම්",
+      "textNoMatches": "ගැළපීම් නැත",
       "textOk": "හරි",
       "textOwner": "හිමිකරු",
       "textPoint": "ලක්‍ෂය",
-      "textPoweredBy": "මගින් බලගැන්වේ",
+      "textPoweredBy": "බලගන්වන්නේ",
       "textPresentationInfo": "සමර්පණයේ තොරතුරු",
       "textPresentationSettings": "සමර්පණයෙහි සැකසුම්",
       "textPresentationTitle": "සමර්පණයෙහි සිරැසිය",
@@ -505,8 +506,7 @@
       "txtScheme6": "ජනසමූහය",
       "txtScheme7": "සමකොටස්",
       "txtScheme8": "ගලායාම",
-      "txtScheme9": "වාත්තු පොළ",
-      "textNoMatches": "No Matches"
+      "txtScheme9": "වාත්තු පොළ"
     }
   }
 }
