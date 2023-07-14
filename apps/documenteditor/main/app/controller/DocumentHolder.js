@@ -141,11 +141,6 @@ define([
                 isVisible: false
             };
             me.eyedropperTip = {
-                toolTip: new Common.UI.Tooltip({
-                    owner: this,
-                    html: true,
-                    cls: 'eyedropper-tooltip'
-                }),
                 isHidden: true,
                 isVisible: false,
                 eyedropperColor: null,
@@ -1032,7 +1027,7 @@ define([
                     type = moveData.get_Type();
 
                 if (type==Asc.c_oAscMouseMoveDataTypes.Hyperlink || type==Asc.c_oAscMouseMoveDataTypes.Footnote || type==Asc.c_oAscMouseMoveDataTypes.Form ||
-                    type==Asc.c_oAscMouseMoveDataTypes.Review && me.mode.reviewHoverMode || type==Asc.c_oAscMouseMoveDataTypes.Eyedropper) {
+                    type==Asc.c_oAscMouseMoveDataTypes.Review && me.mode.reviewHoverMode || type==Asc.c_oAscMouseMoveDataTypes.Eyedropper || type===Asc.c_oAscMouseMoveDataTypes.Placeholder) {
                     if (me.isTooltipHiding) {
                         me.mouseMoveData = moveData;
                         return;
@@ -1063,10 +1058,29 @@ define([
                             if (ToolTip.length>1000)
                                 ToolTip = ToolTip.substr(0, 1000) + '...';
                         }
+                    } else if (type===Asc.c_oAscMouseMoveDataTypes.Placeholder) {
+                        switch (moveData.get_PlaceholderType()) {
+                            case AscCommon.PlaceholderButtonType.Image:
+                                ToolTip = me.documentHolder.txtInsImage;
+                                break;
+                            case AscCommon.PlaceholderButtonType.ImageUrl:
+                                ToolTip = me.documentHolder.txtInsImageUrl;
+                                break;
+                        }
                     } else if (type==Asc.c_oAscMouseMoveDataTypes.Eyedropper) {
                         if (me.eyedropperTip.isTipVisible) {
                             me.eyedropperTip.isTipVisible = false;
                             me.eyedropperTip.toolTip.hide();
+                        }
+
+                        if (!me.eyedropperTip.toolTip) {
+                            var tipEl = $('<div id="tip-container-eyedroppertip" style="position: absolute; z-index: 10000;"></div>');
+                            me.documentHolder.cmpEl.append(tipEl);
+                            me.eyedropperTip.toolTip = new Common.UI.Tooltip({
+                                owner: tipEl,
+                                html: true,
+                                cls: 'eyedropper-tooltip'
+                            });
                         }
 
                         var color = moveData.get_EyedropperColor().asc_getColor(),
@@ -1119,7 +1133,7 @@ define([
                     var recalc = false;
                     screenTip.isHidden = false;
 
-                    if (type!==Asc.c_oAscMouseMoveDataTypes.Review)
+                    if (type!==Asc.c_oAscMouseMoveDataTypes.Review && type!==Asc.c_oAscMouseMoveDataTypes.Placeholder)
                         ToolTip = Common.Utils.String.htmlEncode(ToolTip);
 
                     if (screenTip.tipType !== type || screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 ) {
@@ -1243,20 +1257,26 @@ define([
                 });
                 (menu.items.length>0) && menu.items[0].setChecked(true, true);
             }
-            if (coord.asc_getX()<0 || coord.asc_getY()<0) {
+
+            var showPoint = [coord.asc_getX() + coord.asc_getWidth() + 3, coord.asc_getY() + coord.asc_getHeight() + 3];
+            if (coord.asc_getX()<0 || coord.asc_getY()<0 || showPoint[0]>me._Width || showPoint[1]>me._Height) {
                 if (pasteContainer.is(':visible')) pasteContainer.hide();
                 $(document).off('keyup', this.wrapEvents.onKeyUp);
-            } else {
-                var showPoint = [coord.asc_getX() + coord.asc_getWidth() + 3, coord.asc_getY() + coord.asc_getHeight() + 3];
-                if (!Common.Utils.InternalSettings.get("de-hidden-rulers")) {
-                    showPoint = [showPoint[0] - 19, showPoint[1] - 26];
-                }
-                pasteContainer.css({left: showPoint[0], top : showPoint[1]});
-                pasteContainer.show();
-                setTimeout(function() {
-                    $(document).on('keyup', me.wrapEvents.onKeyUp);
-                }, 10);
+                return;
             }
+            if (showPoint[1] + pasteContainer.height()>me._Height)
+                showPoint[1] = me._Height - pasteContainer.height();
+            if (showPoint[0] + pasteContainer.width()>me._Width)
+                showPoint[0] = me._Width - pasteContainer.width();
+
+            if (!Common.Utils.InternalSettings.get("de-hidden-rulers")) {
+                showPoint = [showPoint[0] - 19, showPoint[1] - 26];
+            }
+            pasteContainer.css({left: showPoint[0], top : showPoint[1]});
+            pasteContainer.show();
+            setTimeout(function() {
+                $(document).on('keyup', me.wrapEvents.onKeyUp);
+            }, 10);
             this.disableSpecialPaste();
         },
 

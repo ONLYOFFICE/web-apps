@@ -130,7 +130,7 @@
                 </div>
             </div>
             <div class="group" style="width: 100%;padding-left: 0;"></div>
-            <div class="group small" style="padding-right: 10px;">
+            <div class="group small padding-right-10">
                 <div class="elset">
                     <span class="btn-slot float-left" id="slot-btn-visible-area" style="width: auto;"></span>
                     <span class="btn-slot float-left" id="slot-btn-visible-area-close" style="width: auto;"></span>

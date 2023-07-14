@@ -1,5 +1,5 @@
 html{
-    overflow: scroll;
+    overflow: auto;
     scrollbar-track-color:  #eee;
     scrollbar-face-color: #f7f7f7;
     scrollbar-highlight-color: #eee;

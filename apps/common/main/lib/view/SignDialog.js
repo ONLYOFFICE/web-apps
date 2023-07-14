@@ -97,14 +97,14 @@ define([
                         '</div>',
                         '<button id="id-dlg-sign-image" class="btn btn-text-default auto">' + this.textSelectImage + '</button>',
                         '<div class="input-row" style="margin-top: 10px;">',
-                            '<label style="font-weight: bold;">' + this.textSignature + '</label>',
+                            '<label class="font-weight-bold">' + this.textSignature + '</label>',
                         '</div>',
                         '<div style="border: 1px solid #cbcbcb;"><div id="signature-preview-img" style="width: 100%; height: 50px;position: relative;"></div></div>',
                     '</div>',
                     '<table style="margin-top: 30px;">',
                         '<tr>',
-                            '<td><label style="font-weight: bold;margin-bottom: 3px;">' + this.textCertificate + '</label></td>' +
-                            '<td rowspan="2" style="vertical-align: top; padding-left: 20px;"><button id="id-dlg-sign-change" class="btn btn-text-default float-right">' + this.textSelect + '</button></td>',
+                            '<td><label class="font-weight-bold" style="margin-bottom: 3px;">' + this.textCertificate + '</label></td>' +
+                            '<td rowspan="2" class="padding-left-20" style="vertical-align: top;"><button id="id-dlg-sign-change" class="btn btn-text-default float-right">' + this.textSelect + '</button></td>',
                         '</tr>',
                         '<tr><td><div id="id-dlg-sign-certificate" class="hidden" style="max-width: 240px;overflow: hidden;white-space: nowrap;"></td></tr>',
                     '</table>',

@@ -41,7 +41,7 @@
             <td style="vertical-align: bottom; padding-bottom: 19px;">
                 <div id="shape-radio-hsizepc"></div>
             </td>
-            <td class="padding-large padding-right">
+            <td class="padding-large padding-right-15">
                 <label class="input-label"><%= scope.textRelativeWH %></label>
                 <div id="shape-advanced-spin-width-rel"></div>
             </td>
@@ -68,7 +68,7 @@
             <td style="vertical-align: bottom; padding-bottom: 19px;">
                 <div id="shape-radio-vsizepc"></div>
             </td>
-            <td class="padding-large padding-right">
+            <td class="padding-large padding-right-15">
                 <label class="input-label"><%= scope.textRelativeWH %></label>
                 <div id="shape-advanced-spin-height-rel"></div>
             </td>

@@ -115,7 +115,7 @@ define([
                 ],
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;">',
-                        '<div style="width:240px;padding-right: 5px;" data-toggle="tooltip"><%= value %></div>',
+                        '<div class="padding-right-5" style="width:240px;" data-toggle="tooltip"><%= value %></div>',
                         '<div style="width:175px;" data-toggle="tooltip"><%= status %></div>',
                     '</div>'
                 ].join('')),

@@ -99,7 +99,7 @@ define([
                         '<% if (warning) { %>',
                         '<div>',
                             '<div class="icon warn"></div>',
-                            '<div style="padding-left: 50px;"><div style="font-size: 12px;">' + (typeof _options.warningMsg=='string' ? _options.warningMsg : t.txtProtected) + '</div>',
+                            '<div class="padding-left-50"><div style="font-size: 12px;">' + (typeof _options.warningMsg=='string' ? _options.warningMsg : t.txtProtected) + '</div>',
                                 '<label class="header" style="margin-top: 15px;">' + t.txtPassword + '</label>',
                                 '<div id="id-password-txt" style="width: 290px;"></div></div>',
                         '</div>',
@@ -294,6 +294,10 @@ define([
                     if (!this.closable && this.type == Common.Utils.importTextType.TXT) { //save last encoding only for opening txt files
                         Common.localStorage.setItem("de-settings-open-encoding", encoding);
                     }
+                    if (this.type === Common.Utils.importTextType.CSV) { // only for csv files
+                        Common.localStorage.setItem("sse-settings-csv-delimiter", delimiter === null ? -1 : delimiter);
+                        Common.localStorage.setItem("sse-settings-csv-delimiter-char", delimiterChar || '');
+                    }
 
                     var decimal = this.separatorOptions ? this.separatorOptions.decimal : undefined,
                         thousands = this.separatorOptions ? this.separatorOptions.thousands : undefined,
@@ -345,7 +349,7 @@ define([
                         '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem">',
                         '<div style="display: inline-block;"><%= item.displayValue %></div>',
-                        '<label style="text-align: right;width:' + lcid_width + 'px;"><%= item.lcid %></label>',
+                        '<label class="text-align-right" style="width:' + lcid_width + 'px;"><%= item.lcid %></label>',
                         '</a></li>',
                         '<% }); %>'
                     ].join(''));
@@ -381,6 +385,19 @@ define([
             }
 
             if (this.type == Common.Utils.importTextType.CSV || this.type == Common.Utils.importTextType.Paste || this.type == Common.Utils.importTextType.Columns || this.type == Common.Utils.importTextType.Data) {
+                var delimiter = this.settings && this.settings.asc_getDelimiter() ? this.settings.asc_getDelimiter() : 4,
+                    delimiterChar = this.settings && this.settings.asc_getDelimiterChar() ? this.settings.asc_getDelimiterChar() : '';
+                if (this.type == Common.Utils.importTextType.CSV) { // only for csv files
+                    var value = Common.localStorage.getItem("sse-settings-csv-delimiter");
+                    if (value) {
+                        value = parseInt(value);
+                        if (!isNaN(value)) {
+                            delimiter = value;
+                            (delimiter===-1) && (delimiterChar = Common.localStorage.getItem("sse-settings-csv-delimiter-char") || '');
+                        }
+                    }
+                }
+
                 this.cmbDelimiter = new Common.UI.ComboBox({
                     el: $('#id-delimiters-combo', this.$window),
                     style: 'width: 100px;',
@@ -396,7 +413,7 @@ define([
                     editable: false,
                     takeFocusOnClose: true
                 });
-                this.cmbDelimiter.setValue( (this.settings && this.settings.asc_getDelimiter()) ? this.settings.asc_getDelimiter() : 4);
+                this.cmbDelimiter.setValue( delimiter);
                 this.cmbDelimiter.on('selected', _.bind(this.onCmbDelimiterSelect, this));
 
                 this.inputDelimiter = new Common.UI.InputField({
@@ -405,9 +422,9 @@ define([
                     maxLength: 1,
                     validateOnChange: true,
                     validateOnBlur: false,
-                    value: (this.settings && this.settings.asc_getDelimiterChar()) ? this.settings.asc_getDelimiterChar() : ''
+                    value: delimiterChar
                 });
-                this.inputDelimiter.setVisible(false);
+                this.inputDelimiter.setVisible(delimiter===-1);
                 if (this.preview)
                     this.inputDelimiter.on ('changing', _.bind(this.updatePreview, this));
 

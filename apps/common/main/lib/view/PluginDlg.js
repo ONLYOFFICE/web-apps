@@ -63,7 +63,7 @@ define([
             _options.width = (Common.Utils.innerWidth()-this.bordersOffset*2-_options.width)<0 ? Common.Utils.innerWidth()-this.bordersOffset*2: _options.width;
             _options.height += header_footer;
             _options.height = (Common.Utils.innerHeight()-this.bordersOffset*2-_options.height)<0 ? Common.Utils.innerHeight()-this.bordersOffset*2: _options.height;
-            _options.cls += ' advanced-settings-dlg';
+            _options.cls += ' advanced-settings-dlg invisible-borders';
 
             this.template = [
                 '<div id="id-plugin-container" class="box" style="height:' + (_options.height-header_footer) + 'px;">',

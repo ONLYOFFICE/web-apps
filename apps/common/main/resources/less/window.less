@@ -23,7 +23,7 @@
     }
 }
 .tool {
-    float: right;
+    .float-right();
     width: 16px;
     height: 16px;
     cursor: pointer;
@@ -32,7 +32,6 @@
     margin: 4px 3px 0px 0px;
 
     .rtl & {
-        float: left;
         margin: 4px 0 0px 3px;
     }
 
@@ -105,8 +104,7 @@
         color: @text-normal;
         text-align: center;
         .font-size-medium();
-        font-weight: 700;
-        letter-spacing: 0.01em;
+        .font-weight-bold();
         vertical-align: bottom;
         line-height: 26px;
 
@@ -120,25 +118,21 @@
         .tools {
             position: absolute;
             right: 0;
-            padding-right: 8px;
+            .padding-right-8();
 
             .rtl & {
                 right: auto;
                 left: 0;
-                padding-right: 0;
-                padding-left: 6px;
             }
 
             &.left {
                 left: 0;
                 right: auto;
-                padding-left: 6px;
+                .padding-left-6();
 
                 .rtl & {
                     left: auto;
                     right: 0;
-                    padding-left: 0;
-                    padding-right: 6px;
                 }
             }
         }
@@ -222,11 +216,10 @@
 
     &.alert {
         .icon {
-            float: left;
+            .float-left();
             margin: 0 0 0 10px;
 
             .rtl & {
-                float: right;
                 margin: 0 10px 0 10px;
             }
         }
@@ -244,12 +237,7 @@
                 }
 
                 .text {
-                    padding-left: 60px;
-
-                    .rtl & {
-                        padding-left: 0;
-                        padding-right: 60px;
-                    }
+                    .padding-left(60px);
 
                     span {
                         .font-size-medium();
@@ -268,7 +256,8 @@
                     }
 
                     .dont-show-checkbox {
-                        margin-top: 13px; text-align: left;
+                        margin-top: 13px;
+                        .text-align-left();
                     }
                 }
             }
@@ -343,6 +332,13 @@
         }
     }
 
+    &.invisible-borders {
+        .resize-border {
+            background: none !important;
+            border: none !important;
+        }
+    }
+
     .footer {
         button {
             &:not(:first-child) {
@@ -371,24 +367,6 @@
         label {
             .font-size-normal();
         }
-
-        .padding-right {
-            padding-right: 5px;
-
-            .rtl & {
-                padding-right: 0;
-                padding-left: 5px;
-            }
-        }
-
-        .padding-left {
-            padding-left: 5px;
-
-            .rtl & {
-                padding-left: 0;
-                padding-right: 5px;
-            }
-        }
     }
 
     .footer {
@@ -399,7 +377,7 @@
         }
 
         &.right {
-            text-align: right;
+            .text-align-right();
         }
     }
 }

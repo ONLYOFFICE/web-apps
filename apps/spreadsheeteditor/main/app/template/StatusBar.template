@@ -20,7 +20,7 @@
         </div>
         <button id="status-btn-zoomup" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomup">&nbsp;</i></button>
     </div>
-    <div id="status-math-box" class="status-group">
+    <div id="status-math-box" class="status-group padding-right-4">
         <div class="separator short"></div>
         <label id="status-math-average">AVERAGE: 10</label>
         <label id="status-math-count">COUNT: 3</label>

@@ -87,7 +87,7 @@
         <td class="padding-small" colspan=2 align="right">
             <div class="color-btn-wrap">
                 <label class="input-label margin-right-5"><%= scope.textBackColor %></label>
-                <div id="table-back-color-btn" style="display: inline-block;text-align:left;"></div>
+                <div id="table-back-color-btn" style="display: inline-block;"></div>
             </div>
         </td>
     </tr>

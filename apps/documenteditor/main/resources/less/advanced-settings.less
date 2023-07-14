@@ -6,8 +6,7 @@
         &:nth-child(1) {
             width:160px;
             height: 16px;
-            padding-left:16px;
-            padding-right: 5px;
+            .padding-x(16px, 5px);
 
             &.checked {
                 &:before {
@@ -22,9 +21,6 @@
             }
 
             .rtl & {
-                padding-right:16px;
-                padding-left: 5px;
-
                 &.checked {
                     &:before {
                         float: right;
@@ -35,17 +31,12 @@
             }
         }
 
-        padding-right: 6px;
+        .padding-right-6();
         vertical-align: middle;
         display: inline-block;
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: pre;
-
-        .rtl & {
-            padding-right: 0;
-            padding-left: 6px;
-        }
     }
 }
 
@@ -94,46 +85,15 @@
     .border-color {
         display: flex;
         align-items: center;
-        padding-left: 20px;
-
-        .rtl & {
-            padding-left: 0;
-            padding-right: 20px;
-        }
+        .padding-left-20();
     }
 
     .border-types {
-        text-align: right;
-
-        .rtl & {
-            text-align: left;
-        }
+        .text-align-right();
 
         .btn {
             .margin-left-4();
             margin-bottom: 4px;
-        }
-    }
-}
-
-#id-adv-paragraph-font {
-    .padding-left {
-        padding-left: 40px;
-
-        .rtl & {
-            padding-left: 0;
-            padding-right: 40px;
-        }
-    }
-}
-
-#id-adv-paragraph-margins {
-    .padding-left {
-        padding-left: 15px;
-
-        .rtl & {
-            padding-left: 0;
-            padding-right: 15px;
         }
     }
 }
@@ -150,24 +110,13 @@
     }
 
     .border-color {
-        padding-left: 20px;
+        .padding-left-20();
         display: flex;
         align-items: center;
-
-        .rtl & {
-            padding-left: 0;
-            padding-right: 20px;
-        }
     }
 
     .border-types {
-        padding-left: 10px;
-
-        .rtl & {
-            padding-left: 0;
-            padding-right: 10px;
-        }
-
+        .padding-left-10();
         .btn {
             .margin-left-4();
             margin-bottom: 4px;
@@ -178,17 +127,6 @@
     #tableadv-panel-table-back {
         display: flex;
         align-items: center;
-    }
-}
-
-#id-adv-shape-size {
-    .padding-right {
-        padding-right: 15px;
-
-        .rtl & {
-            padding-right: 0;
-            padding-left: 15px;
-        }
     }
 }
 
@@ -227,7 +165,7 @@
         .listitem-icon {
             width: @item-width;
             height: @item-height;
-            margin-right: 5px;
+            .margin-right-5();
 
             svg {
                 width: @item-width;
@@ -260,11 +198,7 @@
     }
     .text {
         width: 215px;
-        padding-left: 5px;
-        .rtl & {
-            padding-left: 0;
-            padding-right: 5px;
-        }
+        .padding-left-5();
         .input-label {
             display: block;
         }
