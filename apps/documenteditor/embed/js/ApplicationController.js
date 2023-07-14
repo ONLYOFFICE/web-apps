@@ -678,9 +678,14 @@ DE.ApplicationController = new(function(){
         if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
             var submitPassword = function(val) {
                 api && api.asc_setAdvancedOptions(Asc.c_oAscAdvancedOptionsID.DRM, new Asc.asc_CDRMAdvancedOptions(val)); 
+                me.loadMask && me.loadMask.show();
+                $('#loading-mask').addClass("end-animation");
+                $('#loading-mask').removeClass("none-animation");
             };
             common.controller.modals.createDlgPassword(submitPassword);
-            hidePreloader();
+            $('#loading-mask').removeClass("end-animation");
+            $('#loading-mask').addClass("none-animation");
+            //hidePreloader();
             onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
         }
     }
