@@ -8,16 +8,35 @@ const VersionHistoryView = inject('storeVersionHistory', 'users')(observer(props
     const { t } = useTranslation();
     const usersStore = props.users;
     const historyStore = props.storeVersionHistory;
-    const arrVersions = historyStore.arrVersions;
     const currentVersion = historyStore.currentVersion;
+    const arrVersions = historyStore.arrVersions;
+    const filteredVersions = groupByVersions(arrVersions);
     const isNavigate = props.isNavigate;
     const usersVersions = historyStore.usersVersions;
 
     const handleClickRevision = useCallback(version => {
-        if(version.version !== currentVersion.version) {
+        if(version.changeid !== currentVersion.changeid || version.version !== currentVersion.version) {
             props.onSelectRevision(version);
         }
     });
+
+    function groupByVersions(arr) {
+        return arr.reduce((result, revision) => {
+            const value = revision.version;
+            
+            const arrVersion = result.find(arr => {
+                return arr[0].version === value;
+            });
+            
+            if (arrVersion) {
+                arrVersion.push(revision);
+            } else {
+                result.push([revision]);
+            }
+            
+            return result;
+        }, []);
+    }
 
     return (
         <Page className='page-version-history'>
@@ -36,21 +55,25 @@ const VersionHistoryView = inject('storeVersionHistory', 'users')(observer(props
                         </NavRight>
                 }
             </Navbar>
-            {arrVersions.map((version, index) => {
+            {filteredVersions.map((versions, index) => {
                 return (
-                    <div className={`version-history ${version.version === currentVersion.version ? 'version-history_active' : ''}`} key={index} onClick={() => handleClickRevision(version)}>
-                        <BlockTitle className='version-history__title'>{`${version.selected ? t('Common.VersionHistory.textCurrent') + ' - ' : ''} ${t('Common.VersionHistory.textVersion')} ${version.revision}`}</BlockTitle>
-                        <List className='version-history__list' dividersIos mediaList outlineIos strongIos>
-                            <ListItem link='#' title={version.created} subtitle={version.username} >
-                                <div slot='media' className='version-history__user' style={{backgroundColor: usersVersions.find(user => user.id === version.userid).color}}>{usersStore.getInitials(version.username)}</div>
-                                {(version.version === currentVersion.version && !version.selected && version.canRestore) &&
-                                    <div slot="inner">
-                                        <button type='button' className='version-history__btn' onClick={() => props.onRestoreRevision(version)}>{t('Common.VersionHistory.textRestore')}</button>
-                                    </div>
-                                }
-                            </ListItem>
-                        </List>
-                    </div>
+                    <React.Fragment key={index}>
+                        <BlockTitle className='version-history__title'>{`${versions.find(ver => ver.selected) ? t('Common.VersionHistory.textCurrent') + ' - ' : ''} ${t('Common.VersionHistory.textVersion')} ${versions[0].revision}`}</BlockTitle>
+                            <List className='version-history__list' dividersIos mediaList outlineIos strongIos>
+                                {versions.map((version, index) => {
+                                    return (
+                                        <ListItem className={`version-history__item ${version.version === currentVersion.version && version.changeid === currentVersion.changeid ? 'version-history__item_active' : ''}`} key={index} link='#' title={version.created} subtitle={version.username} onClick={() => handleClickRevision(version)}>
+                                            <div slot='media' className='version-history__user' style={{backgroundColor: usersVersions.find(user => user.id === version.userid).color}}>{usersStore.getInitials(version.username)}</div>
+                                            {(version.changeid === currentVersion.changeid && !version.selected && version.canRestore) &&
+                                                <div slot="inner">
+                                                    <button type='button' className='version-history__btn' onClick={() => props.onRestoreRevision(version)}>{t('Common.VersionHistory.textRestore')}</button>
+                                                </div>
+                                            }
+                                        </ListItem>
+                                    )
+                                })}
+                            </List>
+                    </React.Fragment>
                 )
             })}
         </Page>

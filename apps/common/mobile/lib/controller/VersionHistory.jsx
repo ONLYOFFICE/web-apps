@@ -254,7 +254,7 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
 
     const onSetHistoryData = opts => {
         if (!appOptions.canUseHistory) return;
-
+      
         if (timeoutIdRef.current) {
             clearTimeout(timeoutIdRef.current);
             timerId = 0;
@@ -319,9 +319,7 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
                 hist.asc_SetDateOfRevision(currentDateCreated);
 
                 api.asc_showRevision(hist);
-
                 currentRev = data.version;
-                historyStore.changeVersion(data);
             }
         }
     };
@@ -399,8 +397,9 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
             hist.asc_SetDateOfRevision(currentDateCreated);
 
             api.asc_showRevision(hist);
-            historyStore.changeVersion(version);
         }
+
+        historyStore.changeVersion(version);
     }
 
     return (
