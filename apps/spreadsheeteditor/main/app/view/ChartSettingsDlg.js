@@ -430,7 +430,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 me.cmbUnits[i] = new Common.UI.ComboBox({
                     el: $('#chart-dlg-combo-units-' + i),
                     cls: 'input-group-nr',
-                    menuStyle: 'min-width: 140px;',
+                    menuStyle: 'min-width: 100%;',
                     editable: false,
                     data: [
                         {displayValue: me.textNone, value: Asc.c_oAscValAxUnits.none},
