@@ -393,7 +393,7 @@ define([
                 this.btnShowFormulas = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-show-formulas'),
                     cls: 'btn-toolbar',
-                    iconCls: 'toolbar__icon btn-show-formula',
+                    iconCls: 'toolbar__icon btn-show-formulas',
                     caption: this.txtShowFormulas,
                     disabled: true,
                     enableToggle: true,
