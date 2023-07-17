@@ -851,7 +851,7 @@ define([
                         id: 'id-toolbar-btn-editheader',
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-editheader',
-                        caption: me.capBtnInsHeader,
+                        caption: me.capBtnInsHeaderFooter,
                         lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -1495,7 +1495,7 @@ define([
                 this.btnShapeAlign.updateHint(this.tipShapeAlign);
                 this.btnShapeArrange.updateHint(this.tipShapeArrange);
                 this.btnSlideSize.updateHint(this.tipSlideSize);
-                this.btnEditHeader.updateHint(this.tipEditHeader);
+                this.btnEditHeader.updateHint(this.tipEditHeaderFooter);
                 this.btnInsDateTime.updateHint(this.tipDateTime);
                 this.btnInsSlideNum.updateHint(this.tipSlideNum);
 
@@ -2284,10 +2284,8 @@ define([
             mniImageFromStorage: 'Image from Storage',
             txtSlideAlign: 'Align to Slide',
             txtObjectsAlign: 'Align Selected Objects',
-            tipEditHeader: 'Edit footer',
             tipSlideNum: 'Insert slide number',
             tipDateTime: 'Insert current date and time',
-            capBtnInsHeader: 'Footer',
             capBtnSlideNum: 'Slide Number',
             capBtnDateTime: 'Date & Time',
             textListSettings: 'List Settings',
@@ -2365,7 +2363,9 @@ define([
             textSquareRoot: 'Square Root',
             textTilde: 'Tilde',
             textTradeMark: 'Trade Mark Sign',
-            textYen: 'Yen Sign'
+            textYen: 'Yen Sign',
+            capBtnInsHeaderFooter: 'Header & Footer',
+            tipEditHeaderFooter: 'Edit header or footer'
         }
     }()), PE.Views.Toolbar || {}));
 });
