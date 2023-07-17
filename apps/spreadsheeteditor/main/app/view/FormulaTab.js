@@ -71,6 +71,7 @@ define([
             me.btnWatch.on('click', function(b, e){
                 me.fireEvent('function:watch', [b.pressed]);
             });
+
             me.btnTracePrec.on('click', function (b, e) {
                 me.fireEvent('function:precedents');
             });
@@ -82,6 +83,9 @@ define([
             });
             me.btnRemArrows.on('click', function (b, e) {
                 me.fireEvent('function:remove-arrows', [Asc.c_oAscRemoveArrowsType.all]);
+            });
+            me.btnShowFormulas && this.btnShowFormulas.on('click', function (btn, e) {
+                me.fireEvent('function:showformula', [btn.pressed]);
             });
         }
         return {
@@ -386,6 +390,21 @@ define([
                 });
                 this.lockedControls.push(this.btnRemArrows);
 
+                this.btnShowFormulas = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-show-formulas'),
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-show-formula',
+                    caption: this.txtShowFormulas,
+                    hint: this.tipShowFormulas,
+                    disabled: true,
+                    enableToggle: true,
+                    lock: [_set.sheetLock, _set.editCell, _set.lostConnect, _set.coAuth],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btnShowFormulas);
+
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -667,7 +686,9 @@ define([
             capBtnRemoveArr: 'Remove Arrows',
             tipRemoveArr: 'Remove the arrows drawn by Trace Precedents or Trace Dependents',
             txtRemPrec: 'Remove Precedents Arrows',
-            txtRemDep: 'Remove Dependents Arrows'
+            txtRemDep: 'Remove Dependents Arrows',
+            txtShowFormulas: 'Show Formulas',
+            tipShowFormulas: 'Display the formula in each cell instead of the resulting value'
         }
     }()), SSE.Views.FormulaTab || {}));
 });

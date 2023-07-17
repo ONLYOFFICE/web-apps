@@ -2840,6 +2840,8 @@
   "SSE.Views.FormulaTab.tipRemoveArr": "Remove the arrows drawn by Trace Precedents or Trace Dependents",
   "SSE.Views.FormulaTab.txtRemPrec": "Remove Precedents Arrows",
   "SSE.Views.FormulaTab.txtRemDep": "Remove Dependents Arrows",
+  "SSE.Views.FormulaTab.txtShowFormulas": "Show Formulas",
+  "SSE.Views.FormulaTab.tipShowFormulas": "Display the formula in each cell instead of the resulting value",
   "SSE.Views.FormulaWizard.textAny": "any",
   "SSE.Views.FormulaWizard.textArgument": "Argument",
   "SSE.Views.FormulaWizard.textFunction": "Function",
