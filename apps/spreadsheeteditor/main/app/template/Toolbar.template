@@ -214,15 +214,6 @@
                     <span class="btn-slot text x-huge" id="slot-btn-named-range-huge"></span>
                 </div>
                 <div class="separator long"></div>
-                <div class="group">
-                    <span class="btn-slot text x-huge" id="slot-btn-watch-window"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-show-formulas"></span>
-                </div>
-                <div class="separator long"></div>
-                <div class="group">
-                    <span class="btn-slot text x-huge" id="slot-btn-calculate"></span>
-                </div>
-                <div class="separator long"></div>
                 <div class="group small">
                     <div class="elset">
                         <span class="btn-slot text" id="slot-btn-trace-prec"></span>
@@ -235,7 +226,16 @@
                     <div class="elset">
                         <span class="btn-slot text" id="slot-btn-remove-arrows"></span>
                     </div>
-                    <div class="elset"></div>
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-btn-show-formulas"></span>
+                    </div>
+                </div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-watch-window"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-calculate"></span>
                 </div>
             </section>
             <section class="panel" data-tab="data">

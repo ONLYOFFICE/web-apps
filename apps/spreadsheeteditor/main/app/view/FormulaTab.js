@@ -392,16 +392,15 @@ define([
 
                 this.btnShowFormulas = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-show-formulas'),
-                    cls: 'btn-toolbar x-huge icon-top',
+                    cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-show-formula',
                     caption: this.txtShowFormulas,
-                    hint: this.tipShowFormulas,
                     disabled: true,
                     enableToggle: true,
                     lock: [_set.sheetLock, _set.editCell, _set.lostConnect, _set.coAuth],
                     dataHint: '1',
-                    dataHintDirection: 'bottom',
-                    dataHintOffset: 'small'
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'medium'
                 });
                 this.lockedControls.push(this.btnShowFormulas);
 
@@ -429,6 +428,7 @@ define([
                     });
                     me.btnCalculate.setMenu(_menu);
 
+                    me.btnShowFormulas.updateHint(me.tipShowFormulas);
                     me.btnTracePrec.updateHint(me.tipTracePrec);
                     me.btnTraceDep.updateHint(me.tipTraceDep);
                     me.btnRemArrows.updateHint(me.tipRemoveArr);
