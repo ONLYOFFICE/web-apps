@@ -1652,6 +1652,7 @@
   "DE.Views.ControlSettingsDialog.tipChange": "Change symbol",
   "DE.Views.ControlSettingsDialog.txtLockDelete": "Content control cannot be deleted",
   "DE.Views.ControlSettingsDialog.txtLockEdit": "Contents cannot be edited",
+  "DE.Views.ControlSettingsDialog.txtRemContent": "Remove content control when contents are edited",
   "DE.Views.CrossReferenceDialog.textAboveBelow": "Above/below",
   "DE.Views.CrossReferenceDialog.textBookmark": "Bookmark",
   "DE.Views.CrossReferenceDialog.textBookmarkText": "Bookmark text",
