@@ -168,6 +168,7 @@
                     <span class="btn-slot text x-huge" id="slot-btn-pageorient"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-pagesize"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-printarea"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-pagebreak"></span>
                     <span class="btn-slot text x-huge slot-editheader"></span>
                     <span class="btn-slot text" id="slot-btn-scale"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-printtitles"></span>

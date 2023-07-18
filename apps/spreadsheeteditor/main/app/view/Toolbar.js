@@ -111,7 +111,8 @@ define([
         inSmartartInternal: 'in-smartart-internal',
         wsLockFormatFill: 'worksheet-lock-format-fill',
         editVisibleArea: 'is-visible-area',
-        userProtected: 'cell-user-protected'
+        userProtected: 'cell-user-protected',
+        pageBreakLock: 'page-break-lock'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -1991,6 +1992,18 @@ define([
                     dataHintOffset: 'small'
                 });
 
+                me.btnPageBreak = new Common.UI.Button({
+                    id: 'tlbtn-pagebreak',
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-pagebreak',
+                    caption: me.capBtnPageBreak,
+                    lock        : [_set.docPropsLock, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.editCell, _set.selRangeEdit, _set.pageBreakLock, _set.lostConnect, _set.coAuth],
+                    menu: true,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+
                 me.mnuCustomScale = new Common.UI.MenuItem({
                     template: _.template('<div id="id-toolbar-scale-updownpicker" class="custom-scale" data-stopPropagation="true"></div>'),
                     stopPropagation: true,
@@ -2157,7 +2170,7 @@ define([
                     me.btnInsertChart, me.btnColorSchemas, me.btnInsertSparkline,
                     me.btnCopy, me.btnPaste, me.btnCut, me.btnSelectAll, me.listStyles, me.btnPrint,
                     /*me.btnSave,*/ me.btnClearStyle, me.btnCopyStyle,
-                    me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnPrintTitles, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup, me.btnScale,
+                    me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnPageBreak, me.btnPrintTitles, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup, me.btnScale,
                     me.chPrintGridlines, me.chPrintHeadings, me.btnVisibleArea, me.btnVisibleAreaClose, me.btnTextFormatting, me.btnHorizontalAlign, me.btnVerticalAlign
                 ];
 
@@ -2356,6 +2369,7 @@ define([
             _injectComponent('#slot-btn-pagemargins',   this.btnPageMargins);
             _injectComponent('#slot-btn-pagesize',      this.btnPageSize);
             _injectComponent('#slot-btn-printarea',      this.btnPrintArea);
+            _injectComponent('#slot-btn-pagebreak',      this.btnPageBreak);
             _injectComponent('#slot-btn-printtitles',   this.btnPrintTitles);
             _injectComponent('#slot-chk-print-gridlines', this.chPrintGridlines);
             _injectComponent('#slot-chk-print-headings',  this.chPrintHeadings);
@@ -3290,6 +3304,19 @@ define([
                 }]
             }));
 
+            me.btnPageBreak.updateHint(me.tipPageBreak);
+            me.btnPageBreak.setMenu(new Common.UI.Menu({
+                items: [{
+                    caption : me.textInsPageBreak,
+                    value: 'ins'
+                }, {
+                    caption : me.textDelPageBreak,
+                    value: 'del'
+                }, {
+                    caption : me.textResetPageBreak,
+                    value: 'reset'
+                }]
+            }));
         },
 
         loadRecentSymbolsFromStorage: function(){
@@ -3656,6 +3683,12 @@ define([
         textSquareRoot: 'Square Root',
         textTilde: 'Tilde',
         textTradeMark: 'Trade Mark Sign',
-        textYen: 'Yen Sign'
+        textYen: 'Yen Sign',
+        capBtnPageBreak: 'Breaks',
+        tipPageBreak: 'Add a break where you want the next page to begin in the printed copy',
+        textInsPageBreak: 'Insert page break',
+        textDelPageBreak: 'Remove page break',
+        textResetPageBreak: 'Reset all page breaks'
+
     }, SSE.Views.Toolbar || {}));
 });
