@@ -421,6 +421,10 @@
       "textZoom": "放大",
       "textZoomIn": "放大",
       "textZoomOut": "縮小",
+      "textMorph": "Morph",
+      "textMorphObjects": "Objects",
+      "textMorphWords": "Words",
+      "textMorphLetters": "Letters",
       "textZoomRotate": "放大和旋轉"
     },
     "Settings": {

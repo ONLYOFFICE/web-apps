@@ -421,7 +421,11 @@
       "textNoMatches": "No Matches",
       "textNoStyles": "No styles for this type of chart.",
       "textRecommended": "Recommended",
-      "textSelectObjectToEdit": "Select object to edit"
+      "textSelectObjectToEdit": "Select object to edit",
+      "textMorph": "Morph",
+      "textMorphObjects": "Objects",
+      "textMorphWords": "Words",
+      "textMorphLetters": "Letters"
     },
     "Settings": {
       "mniSlideStandard": "Standarta (4:3)",

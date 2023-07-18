@@ -421,7 +421,11 @@
       "textZoomIn": "Handiagotu",
       "textZoomOut": "Txikiagotu",
       "textZoomRotate": "Zoom eta biratu",
-      "textNoMatches": "No Matches"
+      "textNoMatches": "No Matches",
+      "textMorph": "Morph",
+      "textMorphObjects": "Objects",
+      "textMorphWords": "Words",
+      "textMorphLetters": "Letters"
     },
     "Settings": {
       "mniSlideStandard": "Estandarra (4:3)",

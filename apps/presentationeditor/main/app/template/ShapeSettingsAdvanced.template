@@ -1,3 +1,15 @@
+<div id="id-adv-shape-general" class="settings-panel active">
+    <div class="inner-content">
+    <table cols="1" width="100%">
+        <tr>
+            <td class="padding-large">
+                <label class="header"><%= scope.textShapeName %></label>
+                <div id="shape-general-object-name"></div>
+            </td>
+        </tr>
+    </table>
+    </div>
+</div>
 <div id="id-adv-shape-width" class="settings-panel active">
     <div class="inner-content">
         <table cols="3">

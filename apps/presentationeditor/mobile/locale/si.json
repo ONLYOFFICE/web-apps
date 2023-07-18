@@ -421,6 +421,10 @@
       "textZoom": "විශාල කරන්න",
       "textZoomIn": "විශාලනය",
       "textZoomOut": "කුඩාලනය",
+      "textMorph": "Morph",
+      "textMorphObjects": "Objects",
+      "textMorphWords": "Words",
+      "textMorphLetters": "Letters",
       "textZoomRotate": "විශාලනය හා කරකවන්න"
     },
     "Settings": {

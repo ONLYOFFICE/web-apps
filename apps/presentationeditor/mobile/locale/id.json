@@ -421,6 +421,10 @@
       "textZoom": "Pembesaran",
       "textZoomIn": "Perbesar",
       "textZoomOut": "Perkecil",
+      "textMorph": "Morph",
+      "textMorphObjects": "Objects",
+      "textMorphWords": "Words",
+      "textMorphLetters": "Letters",
       "textZoomRotate": "Zoom dan Rotasi"
     },
     "Settings": {

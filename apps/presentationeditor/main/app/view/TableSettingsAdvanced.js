@@ -56,6 +56,7 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
             _.extend(this.options, {
                 title: this.textTitle,
                 items: [
+                    {panelId: 'id-adv-table-general',    panelCaption: this.textGeneral},
                     {panelId: 'id-adv-table-placement',  panelCaption: this.textPlacement},
                     {panelId: 'id-adv-table-cell-props', panelCaption: this.textWidthSpaces},
                     {panelId: 'id-adv-table-alttext',    panelCaption: this.textAlt}
@@ -94,6 +95,15 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
 
             var me = this;
+            // General
+            this.inputTableName = new Common.UI.InputField({
+                el          : $('#tableadv-name'),
+                allowBlank  : true,
+                validateOnBlur: false,
+                style       : 'width: 100%;'
+            }).on('changed:after', function() {
+                me.isTableNameChanged = true;
+            });
 
             // Placement
             this.spnWidth = new Common.UI.MetricSpinner({
@@ -430,10 +440,11 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
 
         getFocusedComponents: function() {
             return [
-                this.spnWidth, this.btnRatio, this.spnHeight, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY, // 0 tab
+                this.inputTableName, // 0 tab
+                this.spnWidth, this.btnRatio, this.spnHeight, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY, // 1 tab
                 this.chCellMargins, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight,
-                this.spnTableMarginTop, this.spnTableMarginLeft, this.spnTableMarginBottom, this.spnTableMarginRight, // 1 tab
-                this.inputAltTitle, this.textareaAltDescription  // 2 tab
+                this.spnTableMarginTop, this.spnTableMarginLeft, this.spnTableMarginBottom, this.spnTableMarginRight, // 2 tab
+                this.inputAltTitle, this.textareaAltDescription  // 3 tab
             ];
         },
 
@@ -444,15 +455,18 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
             setTimeout(function(){
                 switch (index) {
                     case 0:
-                        me.spnWidth.focus();
+                        me.inputTableName.focus();
                         break;
                     case 1:
+                        me.spnWidth.focus();
+                        break;
+                    case 2:
                         if (!me.spnMarginTop.isDisabled())
                             me.spnMarginTop.focus();
                         else
                             me.spnTableMarginTop.focus();
                         break;
-                    case 2:
+                    case 3:
                         me.inputAltTitle.focus();
                         break;
                 }
@@ -469,6 +483,9 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
         },
 
         getSettings: function() {
+            if (this.isTableNameChanged)
+                this._changedProps.put_TableName(this.inputTableName.getValue());
+
             if (this.spnHeight.getValue()!=='')
                 this._changedProps.put_FrameHeight(Common.Utils.Metric.fnRecalcToMM(this.spnHeight.getNumberValue()));
             if (this.spnWidth.getValue()!=='')
@@ -503,13 +520,17 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
             if (props ){
                 this._allTable = !props.get_CellSelect();
 
+                // general
+                var value = props.get_TableName();
+                this.inputTableName.setValue(value ? value : '');
+
                 // placement
                 this.spnWidth.setMaxValue(this.sizeMax.width);
                 this.spnHeight.setMaxValue(this.sizeMax.height);
                 this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_FrameWidth()).toFixed(2), true);
                 this.spnHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_FrameHeight()).toFixed(2), true);
 
-                var value = props.get_FrameLockAspect();
+                value = props.get_FrameLockAspect();
                 this.btnRatio.toggle(value);
                 if (props.get_FrameHeight()>0)
                     this._nRatio = props.get_FrameWidth()/props.get_FrameHeight();
@@ -556,7 +577,7 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
 
                 this.fillMargins(this.CellMargins.Flag);
 
-                var value = props.get_TableCaption();
+                value = props.get_TableCaption();
                 this.inputAltTitle.setValue(value ? value : '');
 
                 value = props.get_TableDescription();
@@ -627,7 +648,9 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
         textCenter: 'Center',
         textWidth: 'Width',
         textHeight: 'Height',
-        textKeepRatio: 'Constant Proportions'
+        textKeepRatio: 'Constant Proportions',
+        textGeneral: 'General',
+        textTableName: 'Table name'
 
     }, PE.Views.TableSettingsAdvanced || {}));
 });
