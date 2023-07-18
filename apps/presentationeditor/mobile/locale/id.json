@@ -421,7 +421,11 @@
       "textZoomIn": "Perbesar",
       "textZoomOut": "Perkecil",
       "textZoomRotate": "Zoom dan Rotasi",
-      "textNoMatches": "No Matches"
+      "textNoMatches": "No Matches",
+      "textMorph": "Morph",
+      "textMorphObjects": "Objects",
+      "textMorphWords": "Words",
+      "textMorphLetters": "Letters"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

@@ -421,7 +421,11 @@
       "textZoomIn": "විශාලනය",
       "textZoomOut": "කුඩාලනය",
       "textZoomRotate": "විශාලනය හා කරකවන්න",
-      "textNoMatches": "No Matches"
+      "textNoMatches": "No Matches",
+      "textMorph": "Morph",
+      "textMorphObjects": "Objects",
+      "textMorphWords": "Words",
+      "textMorphLetters": "Letters"
     },
     "Settings": {
       "mniSlideStandard": "සම්මත (4:3)",

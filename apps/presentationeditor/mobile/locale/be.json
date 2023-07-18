@@ -421,7 +421,11 @@
       "textRequired": "Required",
       "textSelectObjectToEdit": "Select object to edit",
       "textSplit": "Split",
-      "textTransitions": "Transitions"
+      "textTransitions": "Transitions",
+      "textMorph": "Morph",
+      "textMorphObjects": "Objects",
+      "textMorphWords": "Words",
+      "textMorphLetters": "Letters"
     },
     "Settings": {
       "mniSlideStandard": "Стандартны (4:3)",
