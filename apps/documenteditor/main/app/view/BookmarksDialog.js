@@ -49,7 +49,7 @@ define([
 
     DE.Views.BookmarksDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
-            contentWidth: 310,
+            contentWidth: 320,
             height: 366,
             buttons: null,
             id: 'window-bookmarks'
@@ -85,7 +85,7 @@ define([
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-small">',
-                                        '<div id="bookmarks-list" style="width:290px; height: 139px;"></div>',
+                                        '<div id="bookmarks-list" style="width:100%; height: 139px;"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
@@ -133,7 +133,7 @@ define([
                 allowBlank  : true,
                 validateOnChange: true,
                 validateOnBlur: true,
-                style       : 'width: 205px;',
+                style       : 'width: 215px;',
                 value       : '',
                 maxLength: 40,
                 validation  : function(value) {

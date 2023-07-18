@@ -157,6 +157,8 @@ text-decoration: none;
 .search-field {
     display: block;
     float: right;
+    margin-top: 10px;
+    margin-left: 20px;
 }
 .search-field input {
     width: 250px;

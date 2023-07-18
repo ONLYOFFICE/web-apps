@@ -106,15 +106,19 @@
                 </td>
             </tr>
         </table>
+        <table cols="2">
+            <tr>
+                <td class="padding-small padding-right-10" style="min-width: 100px;">
+                    <label class="input-label"><%= scope.textUnits %></label>
+                </td>
+                <td class="padding-small padding-right-10" width="115">
+                    <div id="chart-dlg-combo-units-0"></div>
+                </td>
+            </tr>
+        </table>
     </div>
     <div class="inner-content">
         <table cols="2" style="width: 100%;">
-            <tr>
-                <td colspan=2 class="padding-small">
-                    <label class="input-label"><%= scope.textUnits %></label>
-                    <div id="chart-dlg-combo-units-0" class="input-group-nr" style="width: 140px;"></div>
-                </td>
-            </tr>
             <tr>
                 <td colspan=2 class="padding-small">
                     <div id="chart-dlg-check-v-reverse-0"></div>
@@ -227,15 +231,19 @@
                 </td>
             </tr>
         </table>
+        <table cols="2">
+            <tr>
+                <td class="padding-small padding-right-10" style="min-width: 100px;">
+                    <label class="input-label"><%= scope.textUnits %></label>
+                </td>
+                <td class="padding-small padding-right-10" width="115">
+                    <div id="chart-dlg-combo-units-1"></div>
+                </td>
+            </tr>
+        </table>
     </div>
     <div class="inner-content">
         <table cols="2" style="width: 100%;">
-            <tr>
-                <td colspan=2 class="padding-small">
-                    <label class="input-label"><%= scope.textUnits %></label>
-                    <div id="chart-dlg-combo-units-1" class="input-group-nr" style="width: 140px;"></div>
-                </td>
-            </tr>
             <tr>
                 <td colspan=2 class="padding-small">
                     <div id="chart-dlg-check-v-reverse-1"></div>

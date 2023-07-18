@@ -100,7 +100,7 @@ define([
                             '</td>',
                         '</tr>',
                     '</table>',
-                    '<div class="input-row input-row--tabs" style="margin-bottom: 15px;">',
+                    '<div class="input-row input-row-tabs" style="margin-bottom: 15px;">',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hf-btn-all" style="border-radius: 0;">', this.textAll,'</button>',
                         '<button type="button" class="btn btn-text-default auto hidden" id="id-dlg-hf-btn-odd" style="border-radius: 0;">', this.textOdd,'</button>',
                         '<button type="button" class="btn btn-text-default auto hidden" id="id-dlg-hf-btn-even" style="border-radius: 0;">', this.textEven,'</button>',

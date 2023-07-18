@@ -116,7 +116,7 @@ class MainPage extends Component {
         f7.popover.close('.document-menu.modal-in', false);
         f7.navbar.show('.main-navbar', false);
 
-        appOptions.changeViewerMode();
+        appOptions.changeViewerMode(false);
         api.asc_removeRestriction(Asc.c_oAscRestrictionType.View)
         api.asc_addRestriction(Asc.c_oAscRestrictionType.None);
     };

@@ -120,7 +120,8 @@ define([
             this.currentPageSize = {
                 type: Asc.c_oAscSlideSZType.SzCustom,
                 width: 0,
-                height: 0
+                height: 0,
+                firstNum: 1
             };
             this.flg = {};
             this.diagramEditor = null;
@@ -732,7 +733,7 @@ define([
             }
         },
 
-        onApiPageSize: function(width, height, type) {
+        onApiPageSize: function(width, height, type, firstNum) {
             if (Math.abs(this.currentPageSize.width - width) > 0.001 ||
                 Math.abs(this.currentPageSize.height - height) > 0.001 ||
                 this.currentPageSize.type !== type) {
@@ -752,6 +753,7 @@ define([
                 this.toolbar.btnSlideSize.menu.items[0].setChecked(idx == 0);
                 this.toolbar.btnSlideSize.menu.items[1].setChecked(idx == 1);
             }
+            (firstNum!==undefined) && (this.currentPageSize.firstNum = firstNum);
         },
 
         onApiCountPages: function(count) {
@@ -2010,11 +2012,12 @@ define([
                 this.currentPageSize = {
                     type    : this.slideSizeArr[item.value].type,
                     width   : newwidth,
-                    height  : this.currentPageSize.height
+                    height  : this.currentPageSize.height,
+                    firstNum  : this.currentPageSize.firstNum
                 };
 
                 if (this.api)
-                    this.api.changeSlideSize(this.currentPageSize.width, this.currentPageSize.height, this.currentPageSize.type);
+                    this.api.changeSlideSize(this.currentPageSize.width, this.currentPageSize.height, this.currentPageSize.type, this.currentPageSize.firstNum);
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Slide Size');
@@ -2025,7 +2028,7 @@ define([
                 var handlerDlg = function(dlg, result) {
                     if (result == 'ok') {
                         props = dlg.getSettings();
-                        me.currentPageSize = { type: props[0], width: props[1], height: props[2] };
+                        me.currentPageSize = { type: props[0], width: props[1], height: props[2], firstNum: props[3] };
                         var ratio = me.currentPageSize.height/me.currentPageSize.width,
                             idx = -1;
                         for (var i = 0; i < me.slideSizeArr.length; i++) {
@@ -2038,7 +2041,7 @@ define([
                         me.toolbar.btnSlideSize.menu.items[0].setChecked(idx == 0);
                         me.toolbar.btnSlideSize.menu.items[1].setChecked(idx == 1);
                         if (me.api)
-                            me.api.changeSlideSize(props[1], props[2], props[0]);
+                            me.api.changeSlideSize(props[1], props[2], props[0], props[3]);
                     }
 
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -2048,7 +2051,7 @@ define([
                     handler: handlerDlg
                 });
                 win.show();
-                win.setSettings(me.currentPageSize.type, me.currentPageSize.width, me.currentPageSize.height);
+                win.setSettings(me.currentPageSize.type, me.currentPageSize.width, me.currentPageSize.height, me.currentPageSize.firstNum);
 
                 Common.component.Analytics.trackEvent('ToolBar', 'Slide Size');
             }
