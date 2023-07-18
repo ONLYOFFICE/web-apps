@@ -134,7 +134,7 @@ const PageTransition = props => {
         {displayValue: _t.textCover,   value: Asc.c_oAscSlideTransitionTypes.Cover},
         {displayValue: _t.textClock,   value: Asc.c_oAscSlideTransitionTypes.Clock},
         {displayValue: _t.textZoom,    value: Asc.c_oAscSlideTransitionTypes.Zoom},
-        {displayValue: _t.textZoom,    value: Asc.c_oAscSlideTransitionTypes.Morph}
+        {displayValue: _t.textMorph,    value: Asc.c_oAscSlideTransitionTypes.Morph}
     ];
     const _arrEffectType = [
         {displayValue: _t.textSmoothly,           value: Asc.c_oAscSlideTransitionParams.Fade_Smoothly},
@@ -158,7 +158,7 @@ const PageTransition = props => {
         {displayValue: _t.textZoomOut,            value: Asc.c_oAscSlideTransitionParams.Zoom_Out},
         {displayValue: _t.textZoomRotate,         value: Asc.c_oAscSlideTransitionParams.Zoom_AndRotate},
         {displayValue: _t.textMorphObjects,       value: Asc.c_oAscSlideTransitionParams.Morph_Objects},
-        {displayValue: _t.textMorphWord,          value: Asc.c_oAscSlideTransitionParams.Morph_Words},
+        {displayValue: _t.textMorphWords,          value: Asc.c_oAscSlideTransitionParams.Morph_Words},
         {displayValue: _t.textMorphLetters,       value: Asc.c_oAscSlideTransitionParams.Morph_Letters}
     ];
 
