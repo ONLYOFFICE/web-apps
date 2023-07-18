@@ -204,7 +204,8 @@ define([
             var header = this.$window.find(toRight ? '.header .tools:not(.left)' : '.header .tools.left'),
                 btn = header.find('#id-plugindlg-' + id);
             if (btn.length<1) {
-                btn = $('<div id="id-plugindlg-' + id + '" class="tool custom toolbar__icon btn-' + Common.Utils.String.htmlEncode(id) + '"></div>');
+                var iconCls = (id ==='back') ? 'btn-promote' : 'btn-' + Common.Utils.String.htmlEncode(id);
+                btn = $('<div id="id-plugindlg-' + id + '" class="tool custom toolbar__icon ' + iconCls + '"></div>');
                 btn.on('click', _.bind(function() {
                     this.fireEvent('header:click',id);
                 }, this));
