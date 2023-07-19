@@ -685,7 +685,6 @@ DE.ApplicationController = new(function(){
             common.controller.modals.createDlgPassword(submitPassword);
             $('#loading-mask').removeClass("end-animation");
             $('#loading-mask').addClass("none-animation");
-            //hidePreloader();
             onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
         }
     }
