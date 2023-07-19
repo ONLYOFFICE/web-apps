@@ -1345,7 +1345,7 @@ define([
                     Common.Utils.InternalSettings.set("de-settings-paste-button", parseInt(value));
                     me.api.asc_setVisiblePasteButton(!!parseInt(value));
 
-                    value = Common.localStorage.getBool("de-settings-smart-selection");
+                    value = Common.localStorage.getBool("de-settings-smart-selection", true);
                     Common.Utils.InternalSettings.set("de-settings-smart-selection", value);
                     me.api.asc_putSmartParagraphSelection(value);
 
