@@ -62,7 +62,7 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 272px;">',
+                '<div class="box" style="height: 275px;">',
                     '<div class="input-row">',
                         '<label class="font-weight-bold">' + this.textLang + '</label>',
                     '</div>',
@@ -72,7 +72,7 @@ define([
                     '</div>',
                     '<div id="datetime-dlg-format" class="" style="margin-bottom: 10px;width: 100%; height: 162px; overflow: hidden;"></div>',
                     '<div class="input-row">',
-                        '<div id="datetime-dlg-update" style="margin-top: 3px;"></div>',
+                        '<div id="datetime-dlg-update" style="margin-top: 3px;margin-bottom: 10px;"></div>',
                         '<button type="button" class="btn btn-text-default auto float-right" id="datetime-dlg-default">' + this.textDefault + '</button>',
                     '</div>',
                 '</div>'
@@ -160,6 +160,10 @@ define([
                 });
             }, this));
 
+            if (this.chUpdate.$el.outerWidth() + this.btnDefault.$el.outerWidth() > this.$window.find('.box').width()) {
+                this.btnDefault.$el.removeClass('float-right');
+                this.listFormats.$el.height(139);
+            }
             this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
             this.afterRender();
         },
