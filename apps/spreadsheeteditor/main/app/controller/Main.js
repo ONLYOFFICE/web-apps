@@ -423,8 +423,12 @@ define([
                 this.appOptions.user.anonymous && Common.localStorage.setItem("guest-id", this.appOptions.user.id);
 
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop' || Common.Controllers.Desktop.isActive();
+                if( Common.Controllers.Desktop.isActive() ){
+                    !this.editorConfig.recent && (this.editorConfig.recent = []);
+                }
+
                 this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl) || this.editorConfig.templates && this.editorConfig.templates.length;
-                this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined && !this.appOptions.isDesktopApp;
+                this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined;
                 this.appOptions.templates       = this.editorConfig.templates;
                 this.appOptions.recent          = this.editorConfig.recent;
                 this.appOptions.createUrl       = this.editorConfig.createUrl;
@@ -932,7 +936,9 @@ define([
                 value = (this.appOptions.isEditMailMerge || this.appOptions.isEditDiagram || this.appOptions.isEditOle) ? 100 : Common.localStorage.getItem("sse-settings-zoom");
                 Common.Utils.InternalSettings.set("sse-settings-zoom", value);
                 var zf = (value!==null) ? parseInt(value)/100 : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom)/100 : 1);
-                this.api.asc_setZoom(zf>0 ? zf : 1);
+                value = Common.localStorage.getItem("sse-last-zoom");
+                var lastZoom = (value!==null) ? parseInt(value)/100 : 1;
+                this.api.asc_setZoom(zf>0 ? zf : (zf < 0 && lastZoom > 0) ? lastZoom : 1);
 
                 /** coauthoring begin **/
                 this.isLiveCommenting = Common.localStorage.getBool("sse-settings-livecomment", true);

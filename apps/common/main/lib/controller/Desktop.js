@@ -60,6 +60,7 @@ define([
             'btn-save': 'save',
             'btn-save-coauth': 'coauth',
             'btn-synch': 'synch' };
+        let recents = [];
 
         var nativevars,
             helpUrl;
@@ -178,6 +179,11 @@ define([
             }
 
             native.execCommand('webapps:features', JSON.stringify(features));
+
+            window.onupdaterecents = function (params) {
+                recents = _parseRecents(params);
+                Common.NotificationCenter.trigger('update:recents', recents);
+            }
 
             // hide mask for modal window
             var style = document.createElement('style');
@@ -310,6 +316,7 @@ define([
         const _onAppReady = function (opts) {
             _.extend(config, opts);
             !!native && native.execCommand('doc:onready', '');
+            !!native && native.LocalFileRecents();
 
             $('.toolbar').addClass('editor-native-color');
         }
@@ -376,7 +383,7 @@ define([
                         cls: 'btn-header',
                         iconCls: 'toolbar__icon icon--inverse btn-home',
                         visible: false,
-                        hint: 'Show Main window',
+                        hint: Common.Locale.get('hintBtnHome', {name:"Common.Controllers.Desktop", default: 'Show Main window'}),
                         dataHint:'0',
                         dataHintDirection: 'right',
                         dataHintOffset: '10, -18',
@@ -449,6 +456,36 @@ define([
             }
         }
 
+        const _parseRecents = function (rawarray) {
+            let _files_arr = [];
+
+            const _is_win = /Win/.test(navigator.platform);
+            const _re_name = !_is_win ? /([^/]+\.[a-zA-Z0-9]{1,})$/ : /([^\\/]+\.[a-zA-Z0-9]{1,})$/;
+            for ( let _f_ of rawarray ) {
+                if ( utils.matchFileFormat( _f_.type ) ) {
+                    if (_re_name.test(_f_.path)) {
+                        const name = _re_name.exec(_f_.path)[1],
+                            dir = _f_.path.slice(0, _f_.path.length - name.length - 1);
+
+                        _files_arr.push({
+                            fileid: _f_.id,
+                            type: _f_.type,
+                            format: utils.parseFileFormat(_f_.type),
+                            title: name,
+                            url: _f_.path,
+                            folder: dir,
+                        });
+                    }
+                }
+            }
+
+            return _files_arr;
+        }
+
+        const _onOpenRecent = function (menu, url, record) {
+            console.log('open recent');
+        }
+
         return {
             init: function (opts) {
                 _.extend(config, opts);
@@ -489,6 +526,7 @@ define([
                                 }
                             },
                             'settings:apply': _onApplySettings.bind(this),
+                            'recent:open': _onOpenRecent.bind(this),
                         },
                     }, {id: 'desktop'});
 
@@ -530,7 +568,8 @@ define([
                 return !!native;
             },
             isOffline: function () {
-                // return webapp.getController('Main').api.asc_isOffline();
+                if ( config.isFillFormApp )
+                    return webapp.getController('ApplicationController').appOptions.isOffline;
                 return webapp.getController('Main').appOptions.isOffline;
             },
             isFeatureAvailable: function (feature) {
@@ -568,9 +607,155 @@ define([
             systemThemeSupported: function () {
                 return nativevars.theme && nativevars.theme.system !== 'disabled';
             },
+            localThemes: function () {
+                return nativevars ? nativevars.localthemes : undefined;
+            },
+            recentFiles: function () {
+                return recents;
+            },
+            openRecent: function (model) {
+                if ( this.isActive() ) {
+                    const params = {
+                        name: Common.Utils.String.htmlDecode(model.get('title')),
+                        path: Common.Utils.String.htmlDecode(model.get('url')),
         };
+                    if ( model.get('fileid') != undefined && model.get('fileid') != null ) {
+                        params.id = model.get('fileid');
+                        params.type = model.type;
+                    } else {
+                        params.id = -1;
+                    }
+
+                    native.execCommand("open:recent", JSON.stringify(params));
+                    return true
+                }
+
+                return false;
+            },
+    };
     };
 
     !Common.Controllers && (Common.Controllers = {});
     Common.Controllers.Desktop = new Desktop();
+
+    const FILE_DOCUMENT = 0x0040,
+        FILE_PRESENTATION = 0x0080,
+        FILE_SPREADSHEET = 0x0100,
+        FILE_CROSSPLATFORM = 0x0200;
+
+    const utils = {};
+    utils.defines = {}
+    utils.defines.FileFormat = {
+        FILE_UNKNOWN:       0x0000,
+
+        FILE_DOCUMENT:      FILE_DOCUMENT,
+        FILE_DOCUMENT_DOCX: FILE_DOCUMENT + 0x0001,
+        FILE_DOCUMENT_DOC:  FILE_DOCUMENT + 0x0002,
+        FILE_DOCUMENT_ODT:  FILE_DOCUMENT + 0x0003,
+        FILE_DOCUMENT_RTF:  FILE_DOCUMENT + 0x0004,
+        FILE_DOCUMENT_TXT:  FILE_DOCUMENT + 0x0005,
+        FILE_DOCUMENT_HTML: FILE_DOCUMENT + 0x0006,
+        FILE_DOCUMENT_MHT:  FILE_DOCUMENT + 0x0007,
+        FILE_DOCUMENT_EPUB: FILE_DOCUMENT + 0x0008,
+        FILE_DOCUMENT_FB2:  FILE_DOCUMENT + 0x0009,
+        FILE_DOCUMENT_MOBI: FILE_DOCUMENT + 0x000a,
+        FILE_DOCUMENT_DOCM: FILE_DOCUMENT + 0x000b,
+        FILE_DOCUMENT_DOTX: FILE_DOCUMENT + 0x000c,
+        FILE_DOCUMENT_DOTM: FILE_DOCUMENT + 0x000d,
+        FILE_DOCUMENT_ODT_FLAT: FILE_DOCUMENT + 0x000e,
+        FILE_DOCUMENT_OTT:  FILE_DOCUMENT + 0x000f,
+        FILE_DOCUMENT_DOC_FLAT: FILE_DOCUMENT + 0x0010,
+        FILE_DOCUMENT_OFORM: FILE_DOCUMENT + 0x0015,
+        FILE_DOCUMENT_DOCXF: FILE_DOCUMENT + 0x0016,
+
+        FILE_PRESENTATION:      FILE_PRESENTATION,
+        FILE_PRESENTATION_PPTX: FILE_PRESENTATION + 0x0001,
+        FILE_PRESENTATION_PPT:  FILE_PRESENTATION + 0x0002,
+        FILE_PRESENTATION_ODP:  FILE_PRESENTATION + 0x0003,
+        FILE_PRESENTATION_PPSX: FILE_PRESENTATION + 0x0004,
+        FILE_PRESENTATION_PPTM: FILE_PRESENTATION + 0x0005,
+        FILE_PRESENTATION_PPSM: FILE_PRESENTATION + 0x0006,
+        FILE_PRESENTATION_POTX: FILE_PRESENTATION + 0x0007,
+        FILE_PRESENTATION_POTM: FILE_PRESENTATION + 0x0008,
+        FILE_PRESENTATION_ODP_FLAT: FILE_PRESENTATION + 0x0009,
+        FILE_PRESENTATION_OTP:  FILE_PRESENTATION + 0x000a,
+
+        FILE_SPREADSHEET:       FILE_SPREADSHEET,
+        FILE_SPREADSHEET_XLSX:  FILE_SPREADSHEET + 0x0001,
+        FILE_SPREADSHEET_XLS:   FILE_SPREADSHEET + 0x0002,
+        FILE_SPREADSHEET_ODS:   FILE_SPREADSHEET + 0x0003,
+        FILE_SPREADSHEET_CSV:   FILE_SPREADSHEET + 0x0004,
+        FILE_SPREADSHEET_XLSM:  FILE_SPREADSHEET + 0x0005,
+        FILE_SPREADSHEET_XLTX:  FILE_SPREADSHEET + 0x0006,
+        FILE_SPREADSHEET_XLTM:  FILE_SPREADSHEET + 0x0007,
+        FILE_SPREADSHEET_ODS_FLAT: FILE_SPREADSHEET + 0x0008,
+        FILE_SPREADSHEET_OTS:   FILE_SPREADSHEET + 0x0009,
+
+        FILE_CROSSPLATFORM:     FILE_CROSSPLATFORM,
+        FILE_CROSSPLATFORM_PDF: FILE_CROSSPLATFORM + 0x0001,
+        FILE_CROSSPLATFORM_SWF: FILE_CROSSPLATFORM + 0x0002,
+        FILE_CROSSPLATFORM_DJVU: FILE_CROSSPLATFORM + 0x0003,
+        FILE_CROSSPLATFORM_XPS: FILE_CROSSPLATFORM + 0x0004,
+        FILE_CROSSPLATFORM_PDFA: FILE_CROSSPLATFORM + 0x0009
+    };
+
+    utils.parseFileFormat = function(format) {
+        switch (format) {
+            case utils.defines.FileFormat.FILE_DOCUMENT_DOC:        return 'doc';
+            case utils.defines.FileFormat.FILE_DOCUMENT_DOCX:       return 'docx';
+            case utils.defines.FileFormat.FILE_DOCUMENT_ODT:        return 'odt';
+            case utils.defines.FileFormat.FILE_DOCUMENT_RTF:        return 'rtf';
+            case utils.defines.FileFormat.FILE_DOCUMENT_TXT:        return 'txt';
+            case utils.defines.FileFormat.FILE_DOCUMENT_HTML:       return 'htm';
+            case utils.defines.FileFormat.FILE_DOCUMENT_MHT:        return 'mht';
+            case utils.defines.FileFormat.FILE_DOCUMENT_EPUB:       return 'epub';
+            case utils.defines.FileFormat.FILE_DOCUMENT_FB2:        return 'fb2';
+            case utils.defines.FileFormat.FILE_DOCUMENT_DOTX:       return 'dotx';
+            case utils.defines.FileFormat.FILE_DOCUMENT_OTT:        return 'ott';
+            case utils.defines.FileFormat.FILE_DOCUMENT_OFORM:      return 'oform';
+            case utils.defines.FileFormat.FILE_DOCUMENT_DOCXF:      return 'docxf';
+
+            case utils.defines.FileFormat.FILE_SPREADSHEET_XLS:     return 'xls';
+            case utils.defines.FileFormat.FILE_SPREADSHEET_XLTX:    return 'xltx';
+            case utils.defines.FileFormat.FILE_SPREADSHEET_XLSX:    return 'xlsx';
+            case utils.defines.FileFormat.FILE_SPREADSHEET_ODS:     return 'ods';
+            case utils.defines.FileFormat.FILE_SPREADSHEET_CSV:     return 'csv';
+            case utils.defines.FileFormat.FILE_SPREADSHEET_OTS:     return 'ots';
+
+            case utils.defines.FileFormat.FILE_PRESENTATION_PPT:    return 'ppt';
+            case utils.defines.FileFormat.FILE_PRESENTATION_POTX:   return 'potx';
+            case utils.defines.FileFormat.FILE_PRESENTATION_PPTX:   return 'pptx';
+            case utils.defines.FileFormat.FILE_PRESENTATION_ODP:    return 'odp';
+            case utils.defines.FileFormat.FILE_PRESENTATION_PPSX:   return 'ppsx';
+            case utils.defines.FileFormat.FILE_PRESENTATION_OTP:    return 'otp';
+
+            case utils.defines.FileFormat.FILE_CROSSPLATFORM_PDFA:
+            case utils.defines.FileFormat.FILE_CROSSPLATFORM_PDF:   return 'pdf';
+            case utils.defines.FileFormat.FILE_CROSSPLATFORM_DJVU:  return 'djvu';
+            case utils.defines.FileFormat.FILE_CROSSPLATFORM_XPS:   return 'xps';
+        }
+
+        return '';
+    };
+
+    utils.matchFileFormat = function (t) {
+        if ( window.PE ) {
+            return t > utils.defines.FileFormat.FILE_PRESENTATION &&
+                !(t > utils.defines.FileFormat.FILE_SPREADSHEET );
+        } else
+        if ( window.DE ) {
+            return (t > utils.defines.FileFormat.FILE_DOCUMENT &&
+                    !(t > utils.defines.FileFormat.FILE_PRESENTATION)) ||
+                    t == utils.defines.FileFormat.FILE_CROSSPLATFORM_PDF ||
+                    t == utils.defines.FileFormat.FILE_CROSSPLATFORM_PDFA ||
+                    t == utils.defines.FileFormat.FILE_CROSSPLATFORM_DJVU;
+        } else
+        if ( window.SSE ) {
+            return (t > utils.defines.FileFormat.FILE_SPREADSHEET &&
+                    !(t > utils.defines.FileFormat.FILE_CROSSPLATFORM)) ||
+                t == utils.defines.FileFormat.FILE_CROSSPLATFORM_XPS;
+        }
+
+        return false;
+    }
 });

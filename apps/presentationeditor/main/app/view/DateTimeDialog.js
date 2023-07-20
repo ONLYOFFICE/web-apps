@@ -64,11 +64,11 @@ define([
             this.template = [
                 '<div class="box" style="height: 275px;">',
                     '<div class="input-row">',
-                        '<label style="font-weight: bold;">' + this.textLang + '</label>',
+                        '<label class="font-weight-bold">' + this.textLang + '</label>',
                     '</div>',
                     '<div id="datetime-dlg-lang" class="input-row" style="margin-bottom: 8px;"></div>',
                     '<div class="input-row">',
-                        '<label style="font-weight: bold;">' + this.textFormat + '</label>',
+                        '<label class="font-weight-bold">' + this.textFormat + '</label>',
                     '</div>',
                     '<div id="datetime-dlg-format" class="" style="margin-bottom: 10px;width: 100%; height: 162px; overflow: hidden;"></div>',
                     '<div class="input-row">',

@@ -142,6 +142,9 @@ define([
                     'generate:smartart' : this.generateSmartArt,
                     'insert:smartart'   : this.onInsertSmartArt
                 },
+                'DocumentHolder': {
+                    'generate:smartart' : this.generateSmartArt,
+                },
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),
                     'menu:show': this.onFileMenu.bind(this, 'show')
@@ -359,7 +362,8 @@ define([
             toolbar.btnSlideSize.menu.on('item:click',                  _.bind(this.onSlideSize, this));
             toolbar.listTheme.on('click',                               _.bind(this.onListThemeSelect, this));
             toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
-            toolbar.btnInsertSymbol.on('click',                         _.bind(this.onInsertSymbolClick, this));
+            toolbar.btnInsertSymbol.menu.items[2].on('click',                         _.bind(this.onInsertSymbolClick, this));
+            toolbar.mnuInsertSymbolsPicker.on('item:click',             _.bind(this.onInsertSymbolItemClick, this));
             toolbar.btnEditHeader.on('click',                           _.bind(this.onEditHeaderClick, this, 'header'));
             toolbar.btnInsDateTime.on('click',                          _.bind(this.onEditHeaderClick, this, 'datetime'));
             toolbar.btnInsSlideNum.on('click',                          _.bind(this.onEditHeaderClick, this, 'slidenum'));
@@ -2362,16 +2366,26 @@ define([
                         symbol: selected && selected.length>0 ? selected.charAt(0) : undefined,
                         handler: function(dlg, result, settings) {
                             if (result == 'ok') {
-                                me.api.asc_insertSymbol(settings.font ? settings.font : me.api.get_TextProps().get_TextPr().get_FontFamily().get_Name(), settings.code, settings.special);
+                                me.insertSymbol(settings.font, settings.code, settings.special, settings.speccharacter);
                             } else
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         }
                     });
                 win.show();
                 win.on('symbol:dblclick', function(cmp, result, settings) {
-                    me.api.asc_insertSymbol(settings.font ? settings.font : me.api.get_TextProps().get_TextPr().get_FontFamily().get_Name(), settings.code, settings.special);
-                });
+                    me.insertSymbol(settings.font, settings.code, settings.special, settings.speccharacter);                });
             }
+        },
+
+        onInsertSymbolItemClick: function(picker, item, record, e) {
+            if (this.api && record)
+                this.insertSymbol(record.get('font') , record.get('symbol'), record.get('special'));
+        },
+
+        insertSymbol: function(fontRecord, symbol, special, specCharacter){
+            var font = fontRecord ? fontRecord: this.api.get_TextProps().get_TextPr().get_FontFamily().get_Name();
+            this.api.asc_insertSymbol(font, symbol, special);
+            !specCharacter && this.toolbar.saveSymbol(symbol, font);
         },
 
         onApiMathTypes: function(equation) {
@@ -2750,7 +2764,7 @@ define([
             this.btnsComment = [];
             if ( config.canCoAuthoring && config.canComments ) {
                 var _set = Common.enumLock;
-                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-menu-comments', me.toolbar.capBtnComment, [_set.lostConnect, _set.noSlides], undefined, undefined, undefined, '1', 'bottom', 'small');
+                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-big-menu-comments', me.toolbar.capBtnComment, [_set.lostConnect, _set.noSlides], undefined, undefined, undefined, '1', 'bottom', 'small');
 
                 if ( this.btnsComment.length ) {
                     var _comments = PE.getController('Common.Controllers.Comments').getView();
@@ -2798,12 +2812,13 @@ define([
             }
         },
 
-        generateSmartArt: function (groupName) {
+        generateSmartArt: function (groupName, menu) {
+            this.docHolderMenu = menu;
             this.api.asc_generateSmartArtPreviews(groupName);
         },
 
         onApiBeginSmartArtPreview: function () {
-            this.smartArtGroups = this.toolbar.btnInsertSmartArt.menu.items;
+            this.smartArtGroups = this.docHolderMenu ? this.docHolderMenu.items : this.toolbar.btnInsertSmartArt.menu.items;
             this.smartArtData = Common.define.smartArt.getSmartArtData();
         },
 
@@ -2827,13 +2842,13 @@ define([
                         menuPicker.store.add(arr);
                     }
                 }
-                this.currentSmartArtMenu = menu;
+                this.currentSmartArtCategoryMenu = menu;
             }, this));
         },
 
         onApiEndSmartArtPreview: function () {
-            if (this.currentSmartArtMenu) {
-                this.currentSmartArtMenu.menu.alignPosition();
+            if (this.currentSmartArtCategoryMenu) {
+                this.currentSmartArtCategoryMenu.menu.alignPosition();
             }
         },
 

@@ -183,6 +183,7 @@ define([
              if (this._state.zoom_percent !== percent) {
                  $('#status-label-zoom').text(Common.Utils.String.format(this.zoomText, percent));
                  this._state.zoom_percent = percent;
+                 Common.localStorage.setItem('pe-last-zoom', percent);
              }
         },
 

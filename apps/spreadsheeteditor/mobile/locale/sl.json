@@ -145,6 +145,7 @@
   "View": {
     "Add": {
       "sCatTextAndData": "Besedilo in podatki",
+      "textShape": "Oblika",
       "errorMaxRows": "ERROR! The maximum number of data series per chart is 255.",
       "errorStockChart": "Incorrect row order. To build a stock chart, place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.",
       "notcriticalErrorTitle": "Warning",
@@ -191,7 +192,6 @@
       "textRequired": "Required",
       "textScreenTip": "Screen Tip",
       "textSelectedRange": "Selected Range",
-      "textShape": "Shape",
       "textSheet": "Sheet",
       "textSortAndFilter": "Sort and Filter",
       "textThisRowHint": "Choose only this row of the specified column",
@@ -206,9 +206,12 @@
       "txtYes": "Yes"
     },
     "Edit": {
+      "textChangeShape": "Spremeni obliko",
       "textEmptyItem": "{Blanks}",
       "textHundredMil": "100 000 000",
       "textHundredThousands": "100 000",
+      "textRemoveShape": "Odstrani obliko",
+      "textShape": "Oblika",
       "textTenMillions": "10 000 000",
       "textTenThousands": "10 000",
       "notcriticalErrorTitle": "Warning",
@@ -245,7 +248,6 @@
       "textCell": "Cell",
       "textCellStyle": "Cell Style",
       "textCenter": "Center",
-      "textChangeShape": "Change Shape",
       "textChart": "Chart",
       "textChartTitle": "Chart Title",
       "textClearFilter": "Clear Filter",
@@ -346,7 +348,6 @@
       "textRange": "Range",
       "textRecommended": "Recommended",
       "textRemoveChart": "Remove Chart",
-      "textRemoveShape": "Remove Shape",
       "textReplace": "Replace",
       "textReplaceImage": "Replace Image",
       "textRequired": "Required",
@@ -363,7 +364,6 @@
       "textSelectObjectToEdit": "Select object to edit",
       "textSendToBackground": "Send to Background",
       "textSettings": "Settings",
-      "textShape": "Shape",
       "textSheet": "Sheet",
       "textSize": "Size",
       "textStyle": "Style",

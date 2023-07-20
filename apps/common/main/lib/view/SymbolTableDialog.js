@@ -368,7 +368,7 @@ define([
             minheight       : 434,
             width: 448,
             height: 434,
-            cls: 'modal-dlg',
+            cls: 'modal-dlg invisible-borders',
             buttons: ['ok', 'cancel']
         },
 
@@ -379,7 +379,7 @@ define([
                 minheight       : 434,
                 width: 448,
                 height: 434,
-                cls: 'modal-dlg',
+                cls: 'modal-dlg invisible-borders',
                 buttons: ['ok', 'cancel']
             };
 
@@ -416,11 +416,11 @@ define([
                     '<div id="symbol-table-pnl-symbols">',
                         '<table cols="2" style="width: 100%;max-width: 497px;">',
                             '<tr>',
-                                '<td class="padding-right" style="padding-bottom: 8px;width: 50%;">',
+                                '<td class="padding-right-5" style="padding-bottom: 8px;width: 50%;">',
                                     '<label class="input-label">' + this.textFont + '</label>',
                                     '<div id="symbol-table-cmb-fonts"></div>',
                                 '</td>',
-                                '<td class="padding-left" style="padding-bottom: 8px;">',
+                                '<td class="padding-left-5" style="padding-bottom: 8px;">',
                                     '<label class="input-label">' + this.textRange + '</label>',
                                     '<div id="symbol-table-cmb-range"></div>',
                                 '</td>',
@@ -449,17 +449,17 @@ define([
                         '</table>',
                         '<table cols="2" style="width: 100%;max-width: 497px;">',
                             '<tr>',
-                                '<td class="padding-right" style="width: 50%;">',
+                                '<td class="padding-right-5" style="width: 50%;">',
                                     '<label class="input-label">' + this.textCode + '</label>',
                                 '</td>',
-                                '<td class="padding-left">',
+                                '<td class="padding-left-5">',
                                 '</td>',
                             '</tr>',
                             '<tr>',
-                                '<td class="padding-right">',
+                                '<td class="padding-right-5">',
                                     '<div id="symbol-table-text-code" oo_editor_input="true"></div>',
                                 '</td>',
-                                '<td class="padding-left">',
+                                '<td class="padding-left-5">',
                                     '<div id="symbol-table-label-font" style="overflow: hidden; text-overflow: ellipsis;white-space: nowrap;max-width: 160px;"></div>',
                                 '</td>',
                             '</tr>',
@@ -624,9 +624,6 @@ define([
             var me = this,
                 $window = this.getChild();
 
-            var $border = $window.find('.resize-border');
-            $border.css({'background': 'none', 'border': 'none'});
-
             this.btnSymbols = new Common.UI.Button({
                 el: $window.find('#symbol-table-symbols'),
                 enableToggle: true,
@@ -754,8 +751,8 @@ define([
                 cls: 'dbl-clickable',
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="width: 100%;display:flex;">',
-                        '<div style="width:70px;text-align: center; padding-right: 5px;"><%= symbol %></div>',
-                        '<div style="flex-grow:1;padding-right: 5px;"><%= description %></div>',
+                        '<div class="padding-right-5" style="width:70px;text-align: center;"><%= symbol %></div>',
+                        '<div class="padding-right-5" style="flex-grow:1;"><%= description %></div>',
                         '<% if (' + this.showShortcutKey + ') { %>',
                             '<div style="width:105px;"><%= shortcutKey %></div>',
                         '<% } %>',
@@ -815,7 +812,7 @@ define([
 
         getSpecialSymbol: function() {
             var rec = this.specialList.getSelectedRec();
-            return {font: undefined, symbol: this.encodeSurrogateChar(rec.get('code')), code: parseInt(rec.get('code'), 16), special: rec.get('special')};
+            return {font: undefined, symbol: this.encodeSurrogateChar(rec.get('code')), code: parseInt(rec.get('code'), 16), special: rec.get('special'), speccharacter: true};
         },
 
         onBtnClick: function(event) {

@@ -82,7 +82,7 @@ define([
                 enableKeyEvents: false,
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="history-item-wrap ' + '<% if (!isVisible) { %>' + 'hidden' + '<% } %>' + '" ',
-                    'style="display: block; ' + '<% if (!isRevision) { %>' + 'padding-left: 40px;' + '<% } %>' + '<% if (canRestore && selected) { %>' + 'padding-bottom: 6px;' + '<% } %>' +'">',
+                    'style="display: block; ' + '<% if (!isRevision) { %>' + (Common.UI.isRTL() ? 'padding-right: 40px;' : 'padding-left: 40px;') + '<% } %>' + '<% if (canRestore && selected) { %>' + 'padding-bottom: 6px;' + '<% } %>' +'">',
                         '<div class="user-date"><%= created %></div>',
                         '<% if (markedAsVersion) { %>',
                         '<div class="user-version">' + this.textVer + '<%=version%></div>',

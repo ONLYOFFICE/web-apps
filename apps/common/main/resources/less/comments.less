@@ -315,21 +315,12 @@
     .reply-item-ct {
         position: relative;
         padding-bottom: 10px;
-        padding-left: 20px;
-
-        .rtl & {
-            padding-left: 0;
-            padding-right: 20px;
-        }
+        .padding-left-20();
     }
 
     div[class^=btn-] {
-        float: left;
+        .float-left();
         cursor: pointer;
-
-        .rtl & {
-            float: right;
-        }
     }
 
     .btn-edit,.btn-delete, .btn-resolve, .icon-resolve, .btn-resolve-check, .btn-accept, .btn-reject, .btn-goto {

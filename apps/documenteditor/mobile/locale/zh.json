@@ -554,6 +554,7 @@
     "textHasMacros": "这个文件带有自动宏。<br> 是否要运行宏？",
     "textNo": "不",
     "textNoLicenseTitle": "触碰到许可证数量限制。",
+    "textNoMatches": "找不到匹配信息",
     "textOk": "OK",
     "textPaidFeature": "付费功能",
     "textRemember": "记住我的选择",
@@ -567,6 +568,7 @@
     "titleServerVersion": "编辑器已更新",
     "titleUpdateVersion": "版本已变化",
     "warnDownloadAsPdf": "您的 {0} 将转换成一份可修改的文件。系统需要处理一段时间。转换后的文件即可随之修改，但可能不完全跟您的原 {0} 相同，特别是如果原文件有过多的图像将会更有差异。",
+    "warnLicenseAnonymous": "拒绝匿名用户的访问。<br>本文档将以仅查看模式而打开。",
     "warnLicenseBefore": "许可证未激活。<br>请联系管理员。",
     "warnLicenseExceeded": "你触发了 %1 编辑器的同时在线数限制。该文档打开后，你将只能查看。可联系管理员来了解更多信息。",
     "warnLicenseExp": "你的许可证已过期。恳请你更新许可证，然后刷新该页面。",
@@ -575,9 +577,7 @@
     "warnLicenseUsersExceeded": "你触发了 %1 编辑器的同时在线数限制。可联系管理员来了解更多信息。",
     "warnNoLicense": "你已经触发了 %1 编辑器的同时在线数限制. 该文档打开后，你将只能查看。请联系 %1 的销售团队，获取个人升级条款。",
     "warnNoLicenseUsers": "你触发了 %1 编辑器的同时在线数限制。请与  %1  的销售团队联系，以获取个人升级条款。",
-    "warnProcessRightsChange": "你没有编辑这个文件的权限。",
-    "textNoMatches": "No Matches",
-    "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
+    "warnProcessRightsChange": "你没有编辑这个文件的权限。"
   },
   "Settings": {
     "advDRMOptions": "受保护的文件",
@@ -651,6 +651,7 @@
     "textNo": "否",
     "textNoChanges": "不允许任何更改（只读）",
     "textNoCharacters": "非打印字符",
+    "textNoMatches": "找不到匹配信息",
     "textOk": "好",
     "textOpenFile": "输入密码来打开文件",
     "textOrientation": "方向",
@@ -724,8 +725,7 @@
     "txtScheme6": "汇合",
     "txtScheme7": "公平",
     "txtScheme8": "流动",
-    "txtScheme9": "发现",
-    "textNoMatches": "No Matches"
+    "txtScheme9": "发现"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "你有未保存的修改。点击“留在该页”可等待自动保存完成。点击“离开该页”将丢弃全部未经保存的修改。",

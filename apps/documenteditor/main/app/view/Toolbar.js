@@ -825,6 +825,16 @@ define([
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.richDelLock, _set.plainDelLock, _set.noParagraphSelected, _set.previewReviewMode,
                             _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
                         caption: me.capBtnInsSymbol,
+                        menu: new Common.UI.Menu({
+                            style: 'min-width: 100px;',
+                            items: [
+                                {template: _.template('<div id="id-toolbar-menu-symbols"></div>')},
+                                {caption: '--'},
+                                new Common.UI.MenuItem({
+                                    caption: this.textMoreSymbols
+                                })
+                            ]
+                        }),
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -947,7 +957,7 @@ define([
                                             {caption: '--'},
                                             {
                                                 id: 'id-toolbar-menu-new-control-color',
-                                                template: _.template('<a tabindex="-1" type="menuitem" style="padding-left:12px;">' + this.textNewColor + '</a>')
+                                                template: _.template('<a tabindex="-1" type="menuitem" style="' + (Common.UI.isRTL() ? 'padding-right:12px;' : 'padding-left:12px;') + '">' + this.textNewColor + '</a>')
                                             }
                                         ]
                                     })
@@ -1465,28 +1475,10 @@ define([
 
                     this.cmbFontSize = new Common.UI.ComboBox({
                         cls: 'input-group-nr',
-                        menuStyle: 'min-width: 55px;',
+                        menuCls: 'scrollable-menu',
+                        menuStyle: 'min-width: 55px;max-height: 454px;',
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
                         hint: this.tipFontSize,
-                        data: [
-                            {value: 8, displayValue: "8"},
-                            {value: 9, displayValue: "9"},
-                            {value: 10, displayValue: "10"},
-                            {value: 11, displayValue: "11"},
-                            {value: 12, displayValue: "12"},
-                            {value: 14, displayValue: "14"},
-                            {value: 16, displayValue: "16"},
-                            {value: 18, displayValue: "18"},
-                            {value: 20, displayValue: "20"},
-                            {value: 22, displayValue: "22"},
-                            {value: 24, displayValue: "24"},
-                            {value: 26, displayValue: "26"},
-                            {value: 28, displayValue: "28"},
-                            {value: 36, displayValue: "36"},
-                            {value: 48, displayValue: "48"},
-                            {value: 72, displayValue: "72"},
-                            {value: 96, displayValue: "96"}
-                        ],
                         dataHint: '1',
                         dataHintDirection: 'top'
                     });
@@ -1558,7 +1550,7 @@ define([
                                 //     menuWidth = Math.max(Math.floor(buttonOffsetLeft/(itemMargin + _width)), 2) * (itemMargin + _width);
                                 if (menuWidth>Common.Utils.innerWidth())
                                     menuWidth = Math.max(Math.floor(Common.Utils.innerWidth()/(itemMargin + _width)), 2) * (itemMargin + _width);
-                                var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - Math.min(menuWidth, buttonOffsetLeft) - 1;
+                                var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - Math.min(menuWidth, buttonOffsetLeft);
                                 if (Common.UI.isRTL()) {
                                     offset = cmp.openButton.$el.width();
                                 }
@@ -1669,6 +1661,13 @@ define([
 
                     me.onUpdateLastCustomMargins();
                     Common.NotificationCenter.on('margins:update', _.bind(me.onUpdateLastCustomMargins, me));
+
+                    Common.NotificationCenter.on('eyedropper:start', function () {
+                        if (me.btnCopyStyle.pressed)
+                            me.btnCopyStyle.toggle(false, true);
+                        if (me.btnHighlightColor.pressed)
+                            me.btnHighlightColor.toggle(false, true);
+                    });
                 }
 
                 if ( me.isCompactView )
@@ -1779,6 +1778,71 @@ define([
 
             onAppReady: function (config) {
                 var me = this;
+                if (me.cmbFontSize) {
+                    var lang = config.lang ? config.lang.toLowerCase() : 'en',
+                        langPrefix = lang.split(/[\-_]/)[0];
+                    var fontSizeData = (langPrefix === 'zh' && lang !== 'zh-tw' && lang !== 'zh_tw') ? [
+                        {value: '42_str', displayValue: "初号"},
+                        {value: '36_str', displayValue: "小初"},
+                        {value: '26_str', displayValue: "一号"},
+                        {value: '24_str', displayValue: "小一"},
+                        {value: '22_str', displayValue: "二号"},
+                        {value: '18_str', displayValue: "小二"},
+                        {value: '16_str', displayValue: "三号"},
+                        {value: '15_str', displayValue: "小三"},
+                        {value: '14_str', displayValue: "四号"},
+                        {value: '12_str', displayValue: "小四"},
+                        {value: '10.5_str', displayValue: "五号"},
+                        {value: '9_str', displayValue: "小五"},
+                        {value: '7.5_str', displayValue: "六号"},
+                        {value: '6.5_str', displayValue: "小六"},
+                        {value: '5.5_str', displayValue: "七号"},
+                        {value: '5_str', displayValue: "八号"},
+                        {value: 5, displayValue: "5"},
+                        {value: 5.5, displayValue: "5.5"},
+                        {value: 6.5, displayValue: "6.5"},
+                        {value: 7.5, displayValue: "7.5"},
+                        {value: 8, displayValue: "8"},
+                        {value: 9, displayValue: "9"},
+                        {value: 10, displayValue: "10"},
+                        {value: 10.5, displayValue: "10.5"},
+                        {value: 11, displayValue: "11"},
+                        {value: 12, displayValue: "12"},
+                        {value: 14, displayValue: "14"},
+                        {value: 15, displayValue: "15"},
+                        {value: 16, displayValue: "16"},
+                        {value: 18, displayValue: "18"},
+                        {value: 20, displayValue: "20"},
+                        {value: 22, displayValue: "22"},
+                        {value: 24, displayValue: "24"},
+                        {value: 26, displayValue: "26"},
+                        {value: 28, displayValue: "28"},
+                        {value: 36, displayValue: "36"},
+                        {value: 42, displayValue: "42"},
+                        {value: 48, displayValue: "48"},
+                        {value: 72, displayValue: "72"},
+                        {value: 96, displayValue: "96"}
+                    ] : [
+                        {value: 8, displayValue: "8"},
+                        {value: 9, displayValue: "9"},
+                        {value: 10, displayValue: "10"},
+                        {value: 11, displayValue: "11"},
+                        {value: 12, displayValue: "12"},
+                        {value: 14, displayValue: "14"},
+                        {value: 16, displayValue: "16"},
+                        {value: 18, displayValue: "18"},
+                        {value: 20, displayValue: "20"},
+                        {value: 22, displayValue: "22"},
+                        {value: 24, displayValue: "24"},
+                        {value: 26, displayValue: "26"},
+                        {value: 28, displayValue: "28"},
+                        {value: 36, displayValue: "36"},
+                        {value: 48, displayValue: "48"},
+                        {value: 72, displayValue: "72"},
+                        {value: 96, displayValue: "96"}
+                    ];
+                    me.cmbFontSize.setData(fontSizeData);
+                }
                 (new Promise( function(resolve, reject) {
                     resolve();
                 })).then(function () {
@@ -1953,7 +2017,7 @@ define([
                         cls: 'ppm-toolbar shifted-right',
                         items: [{
                                 caption     : _holder_view.txtInline,
-                                iconCls     : 'menu__icon wrap-inline',
+                                iconCls     : 'menu__icon btn-small-wrap-inline',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.Inline,
                                 checkmark   : false,
@@ -1962,28 +2026,28 @@ define([
                             { caption: '--' },
                             {
                                 caption     : _holder_view.txtSquare,
-                                iconCls     : 'menu__icon wrap-square',
+                                iconCls     : 'menu__icon btn-small-wrap-square',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.Square,
                                 checkmark   : false,
                                 checkable   : true
                             }, {
                                 caption     : _holder_view.txtTight,
-                                iconCls     : 'menu__icon wrap-tight',
+                                iconCls     : 'menu__icon btn-small-wrap-tight',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.Tight,
                                 checkmark   : false,
                                 checkable   : true
                             }, {
                                 caption     : _holder_view.txtThrough,
-                                iconCls     : 'menu__icon wrap-through',
+                                iconCls     : 'menu__icon btn-small-wrap-through',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.Through,
                                 checkmark   : false,
                                 checkable   : true
                             }, {
                                 caption     : _holder_view.txtTopAndBottom,
-                                iconCls     : 'menu__icon wrap-topandbottom',
+                                iconCls     : 'menu__icon btn-small-wrap-topandbottom',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.TopAndBottom,
                                 checkmark   : false,
@@ -1992,14 +2056,14 @@ define([
                             { caption: '--' },
                             {
                                 caption     : _holder_view.txtInFront,
-                                iconCls     : 'menu__icon wrap-infront',
+                                iconCls     : 'menu__icon btn-small-wrap-infront',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.InFront,
                                 checkmark   : false,
                                 checkable   : true
                             }, {
                                 caption     : _holder_view.txtBehind,
-                                iconCls     : 'menu__icon wrap-behind',
+                                iconCls     : 'menu__icon btn-small-wrap-behind',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.Behind,
                                 checkmark   : false,
@@ -2244,7 +2308,7 @@ define([
                         restoreHeight: 535,
                         groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                         store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
-                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
+                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                     });
                     picker.on('item:click', function (picker, item, record, e) {
                         if (record)
@@ -2352,6 +2416,47 @@ define([
                 }));
 
                 // set dataviews
+                this.specSymbols = [
+                    {symbol: 8226,     description: this.textBullet},
+                    {symbol: 8364,     description: this.textEuro},
+                    {symbol: 65284,    description: this.textDollar},
+                    {symbol: 165,      description: this.textYen},
+                    {symbol: 169,      description: this.textCopyright},
+                    {symbol: 174,      description: this.textRegistered},
+                    {symbol: 189,      description: this.textOneHalf},
+                    {symbol: 188,      description: this.textOneQuarter},
+                    {symbol: 8800,     description: this.textNotEqualTo},
+                    {symbol: 177,      description: this.textPlusMinus},
+                    {symbol: 247,      description: this.textDivision},
+                    {symbol: 8730,     description: this.textSquareRoot},
+                    {symbol: 8804,     description: this.textLessEqual},
+                    {symbol: 8805,     description: this.textGreaterEqual},
+                    {symbol: 8482,     description: this.textTradeMark},
+                    {symbol: 8734,     description: this.textInfinity},
+                    {symbol: 126,      description: this.textTilde},
+                    {symbol: 176,      description: this.textDegree},
+                    {symbol: 167,      description: this.textSection},
+                    {symbol: 945,      description: this.textAlpha},
+                    {symbol: 946,      description: this.textBetta},
+                    {symbol: 960,      description: this.textLetterPi},
+                    {symbol: 916,      description: this.textDelta},
+                    {symbol: 9786,     description: this.textSmile},
+                    {symbol: 9829,     description: this.textBlackHeart}
+                ];
+                this.mnuInsertSymbolsPicker = new Common.UI.DataView({
+                    el: $('#id-toolbar-menu-symbols'),
+                    parentMenu: this.btnInsertSymbol.menu,
+                    outerMenu: {menu: this.btnInsertSymbol.menu, index:0},
+                    restoreHeight: 290,
+                    delayRenderTips: true,
+                    scrollAlwaysVisible: true,
+                    store: new Common.UI.DataViewStore(this.loadRecentSymbolsFromStorage()),
+                    itemTemplate: _.template('<div class="item-symbol" <% if (typeof font !== "undefined" && font !=="") { %> style ="font-family: <%= font %>"<% } %>>&#<%= symbol %></div>')
+                });
+                this.btnInsertSymbol.menu.setInnerMenu([{menu: this.mnuInsertSymbolsPicker, index: 0}]);
+                this.btnInsertSymbol.menu.on('show:before',  _.bind(function() {
+                    this.mnuInsertSymbolsPicker.deselectAll();
+                }, this));
 
                 var _conf = this.mnuMarkersPicker.conf;
                 this._markersArr = [
@@ -2366,8 +2471,8 @@ define([
                     '{"Type":"bullet","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"–","rPr":{"rFonts":{"ascii":"Arial","cs":"Arial","eastAsia":"Arial","hAnsi":"Arial"}}}]}'
                 ];
 
-                var listSettings = {recentPath: 'de-recent-bullets', recentCount: 8, recentGroup: 'menu-bullets-group-recent', docGroup: 'menu-bullets-group-doc', docName: this.txtGroupBulletDoc},
-                    recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup),
+                var listSettings = {recentPath: 'de-recent-bullets', recentCount: 6, recentGroup: 'menu-bullets-group-recent', docGroup: 'menu-bullets-group-doc', docName: this.txtGroupBulletDoc},
+                    recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup, listSettings.recentCount),
                     groups = (recents.length>0) ? [{id: listSettings.recentGroup, caption: this.txtGroupRecent, type: 0}] : [],
                     libGroup = 'menu-bullets-group-lib';
                 groups.push({id: libGroup, caption: this.txtGroupBulletLib, type: 1});
@@ -2413,8 +2518,8 @@ define([
                     '{"Type":"number","Lvl":[{"lvlJc":"left","numFmt":{"val":"russianLower"},"lvlText":"%1)"}]}'
                 ];
 
-                listSettings = {recentPath: 'de-recent-numbering', recentCount: 6, recentGroup: 'menu-numbering-group-recent', docGroup: 'menu-numbering-group-doc', docName: this.txtGroupNumDoc};
-                recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup);
+                listSettings = {recentPath: 'de-recent-numbering', recentCount: 8, recentGroup: 'menu-numbering-group-recent', docGroup: 'menu-numbering-group-doc', docName: this.txtGroupNumDoc};
+                recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup, listSettings.recentCount);
                 libGroup = 'menu-numbering-group-lib';
                 groups = (recents.length>0) ? [{id: listSettings.recentGroup, caption: this.txtGroupRecent, type: 0}] : [];
                 groups.push({id: libGroup, caption: this.txtGroupNumLib, type: 1});
@@ -2452,8 +2557,8 @@ define([
                 _conf && this.mnuNumbersPicker.selectByIndex(_conf.index, true);
 
                 _conf = this.mnuMultilevelPicker.conf;
-                listSettings = {recentPath: 'de-recent-multilevels', recentCount: 6, recentGroup: 'menu-multilevels-group-recent', docGroup: 'menu-multilevels-group-doc', docName: this.txtGroupMultiDoc};
-                recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup);
+                listSettings = {recentPath: 'de-recent-multilevels', recentCount: 8, recentGroup: 'menu-multilevels-group-recent', docGroup: 'menu-multilevels-group-doc', docName: this.txtGroupMultiDoc};
+                recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup, listSettings.recentCount);
                 libGroup = 'menu-multilevels-group-lib';
                 groups = (recents.length>0) ? [{id: listSettings.recentGroup, caption: this.txtGroupRecent, type: 0}] : [];
                 groups.push({id: libGroup, caption: this.txtGroupMultiLib, type: 1});
@@ -2868,11 +2973,70 @@ define([
                     this.btnPageMargins.menu.items[0].setVisible(false);
             },
 
-            loadListPresetsFromStorage: function(path, groupId) {
+            loadRecentSymbolsFromStorage: function(){
+                var recents = Common.localStorage.getItem('de-fastRecentSymbols');
+                var arr =(!!recents) ? JSON.parse(recents) :
+                    [
+                        { symbol: 8226,     font: 'Arial'},
+                        { symbol: 8364,     font: 'Arial'},
+                        { symbol: 65284,    font: 'Arial'},
+                        { symbol: 165,      font: 'Arial'},
+                        { symbol: 169,      font: 'Arial'},
+                        { symbol: 174,      font: 'Arial'},
+                        { symbol: 189,      font: 'Arial'},
+                        { symbol: 188,      font: 'Arial'},
+                        { symbol: 8800,     font: 'Arial'},
+                        { symbol: 177,      font: 'Arial'},
+                        { symbol: 247,      font: 'Arial'},
+                        { symbol: 8730,     font: 'Arial'},
+                        { symbol: 8804,     font: 'Arial'},
+                        { symbol: 8805,     font: 'Arial'},
+                        { symbol: 8482,     font: 'Arial'},
+                        { symbol: 8734,     font: 'Arial'},
+                        { symbol: 126,      font: 'Arial'},
+                        { symbol: 176,      font: 'Arial'},
+                        { symbol: 167,      font: 'Arial'},
+                        { symbol: 945,      font: 'Arial'},
+                        { symbol: 946,      font: 'Arial'},
+                        { symbol: 960,      font: 'Arial'},
+                        { symbol: 916,      font: 'Arial'},
+                        { symbol: 9786,     font: 'Arial'},
+                        { symbol: 9829,     font: 'Arial'}
+                    ];
+                arr.forEach(function (item){
+                    item.tip = this.getSymbolDescription(item.symbol);
+                }.bind(this));
+                return arr;
+            },
+
+            saveSymbol: function(symbol, font) {
+                var maxLength =25,
+                    picker = this.mnuInsertSymbolsPicker;
+                var item = picker.store.find(function(item){
+                    return item.get('symbol') == symbol && item.get('font') == font
+                });
+
+                item && picker.store.remove(item);
+                picker.store.add({symbol: symbol, font: font, tip: this.getSymbolDescription(symbol)},{at:0});
+                picker.store.length > maxLength && picker.store.remove(picker.store.last());
+
+                var arr = picker.store.map(function (item){
+                    return {symbol: item.get('symbol'), font: item.get('font')};
+                });
+                var sJSON = JSON.stringify(arr);
+                Common.localStorage.setItem( 'de-fastRecentSymbols', sJSON);
+            },
+
+            getSymbolDescription: function(symbol){
+                var  specSymbol = this.specSymbols.find(function (item){return item.symbol == symbol});
+                return !!specSymbol ? specSymbol.description : this.capBtnInsSymbol + ': ' + symbol;
+            },
+
+            loadListPresetsFromStorage: function(path, groupId, recentCount) {
                 var recents = Common.localStorage.getItem(path),
                     arr = [];
                 recents = recents ? JSON.parse(recents) : [];
-                for (var i=0; i<recents.length; i++) {
+                for (var i=0; i<recents.length && i<recentCount; i++) {
                     arr.push({id: 'id-recent-list-' + Common.UI.getId(), numberingInfo: recents[i], skipRenderOnChange: true, group : groupId, type: 0});
                 }
                 return arr;
@@ -3147,7 +3311,33 @@ define([
             txtGroupBulletDoc: 'Document bullets',
             txtGroupNumDoc: 'Document numbering formats',
             txtGroupMultiDoc: 'Lists in current document',
-            textTabDraw: 'Draw'
+            textTabDraw: 'Draw',
+            textMoreSymbols: 'More symbols',
+            textAlpha: 'Greek Small Letter Alpha',
+            textBetta: 'Greek Small Letter Betta',
+            textBlackHeart: 'Black Heart Suit',
+            textBullet: 'Bullet',
+            textCopyright: 'Copyright Sign',
+            textDegree: 'Degree Sign',
+            textDelta: 'Greek Small Letter Delta',
+            textDivision: 'Division Sign',
+            textDollar: 'Dollar Sign',
+            textEuro: 'Euro Sign',
+            textGreaterEqual: 'Greater-Than Or Equal To',
+            textInfinity: 'Infinity',
+            textLessEqual: 'Less-Than Or Equal To',
+            textLetterPi: 'Greek Small Letter Pi',
+            textNotEqualTo: 'Not Equal To',
+            textOneHalf: 'Vulgar Fraction One Half',
+            textOneQuarter: 'Vulgar Fraction One Quarter',
+            textPlusMinus: 'Plus-Minus Sign',
+            textRegistered: 'Registered Sign',
+            textSection: 'Section Sign',
+            textSmile: 'White Smiling Fase',
+            textSquareRoot: 'Square Root',
+            textTilde: 'Tilde',
+            textTradeMark: 'Trade Mark Sign',
+            textYen: 'Yen Sign'
         }
     })(), DE.Views.Toolbar || {}));
 });
