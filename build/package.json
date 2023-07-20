@@ -26,7 +26,7 @@
     "iconv-lite": "^0.6.3",
     "less-plugin-clean-css": "1.5.1",
     "lodash": "^4.17.21",
-    "terser": "^5.17.3",
+    "terser": "^5.18.0",
     "vinyl-fs": "^3.0.3"
   },
   "devDependencies": {

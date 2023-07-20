@@ -60,7 +60,7 @@ define([
 
             this.template = [
                 '<div class="box">',
-                    '<div style="margin-bottom: 8px;"><label style="font-weight: bold;">' + this.textSeparator + '</label></div>',
+                    '<div style="margin-bottom: 8px;"><label class="font-weight-bold">' + this.textSeparator + '</label></div>',
                     '<div id="id-table-text-radio-para" style="margin-bottom: 8px;"></div>',
                     '<div id="id-table-text-radio-tabs" style="margin-bottom: 8px;"></div>',
                     '<div id="id-table-text-radio-semi" style="margin-bottom: 5px;"></div>',

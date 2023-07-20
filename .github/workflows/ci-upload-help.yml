@@ -1,0 +1,77 @@
+name: "Build and upload helps"
+
+on:
+    create:
+    push:
+        branches:
+            - 'release/*'
+            - 'hotfix/*'
+        paths:
+            - '**/resources/help/**'
+
+
+jobs:
+    build-help:
+        name: "Build Apps and upload"
+        runs-on: ubuntu-latest
+        if: startsWith(github.ref, 'refs/heads/release/') || startsWith(github.ref, 'refs/heads/hotfix')
+        steps:
+
+          - name: Checkout Web-Apps
+            uses: actions/checkout@v3
+            with:
+                repository: onlyoffice/web-apps
+                ref: ${{github.ref}}
+                path: 'web-apps'
+
+          - name: Checkout SDKJS
+            uses: actions/checkout@v3
+            with:
+                repository: onlyoffice/sdkjs
+                ref: ${{github.ref}}
+                path: 'sdkjs'
+              
+          - name: Use Node.js 16
+            uses: actions/setup-node@v3
+            with:
+                node-version: 16   
+
+          - name: Configure AWS Credentials
+            uses: aws-actions/configure-aws-credentials@v2
+            with:
+              aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
+              aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+              aws-region: us-east-1
+
+          - name: Export tag and directory path
+            id: tag-dir
+            run: |
+                BRANCH_NAME=${GITHUB_REF#refs/heads/}
+                export TAG=${BRANCH_NAME#*/}
+                echo "URI=/install/desktop/editors/help/$TAG/apps" >> $GITHUB_OUTPUT
+
+          - name: Build
+            run: |
+                cd web-apps/build
+                ./sprites.sh
+                npm install
+                grunt
+
+          - name: Upload
+            env:
+                URI: ${{steps.tag-dir.outputs.URI}}
+            run: |
+                aws s3 sync ./web-apps/deploy/web-apps/apps/  \
+                ${{secrets.AWS_BUCKET_URL}}${URI} \
+                --acl public-read \
+                --metadata-directive REPLACE
+
+
+          - name: Invalidate AWS CLOUDFRONT cache
+            env:
+                URI: ${{steps.tag-dir.outputs.URI}}
+            run: |
+                aws cloudfront create-invalidation \
+                    --distribution-id ${{ secrets.AWS_DISTRIBUTION_ID }} \
+                    --paths \
+                    "${URI}/*"

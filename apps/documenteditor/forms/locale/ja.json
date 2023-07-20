@@ -152,6 +152,7 @@
   "DE.Controllers.ApplicationController.uploadImageExtMessage": "不明なイメージ形式です",
   "DE.Controllers.ApplicationController.uploadImageSizeMessage": "画像サイズの上限を超えました。サイズの上限は２５MBです。",
   "DE.Controllers.ApplicationController.waitText": "少々お待ちください...",
+  "DE.Controllers.ApplicationController.warnLicenseAnonymous": "匿名ユーザーのアクセスは拒否されます。<br>このドキュメントは閲覧専用に開かれます。",
   "DE.Controllers.ApplicationController.warnLicenseBefore": "ライセンスが無効になっています。<br>管理者までご連絡ください。",
   "DE.Controllers.ApplicationController.warnLicenseExceeded": "％1エディターへの同時接続の制限に達しました。 このドキュメントは表示専用で開かれます。<br>詳細については、管理者にお問い合わせください。",
   "DE.Controllers.ApplicationController.warnLicenseExp": "ライセンスの有効期限が切れています。<br>ライセンスを更新してページをリロードしてください。",

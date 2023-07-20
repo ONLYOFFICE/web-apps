@@ -65,7 +65,7 @@ function checkScaling() {
 
     if ( !isIE ) {
         matches = {
-            'pixel-ratio__2_5': 'screen and (-webkit-min-device-pixel-ratio: 2.5), screen and (min-resolution: 2.5dppx)',
+            'pixel-ratio__2_5': 'screen and (-webkit-min-device-pixel-ratio: 2.25), screen and (min-resolution: 2.25dppx)',
         };
         for (let c in matches) {
             if ( window.matchMedia(matches[c]).matches ) {

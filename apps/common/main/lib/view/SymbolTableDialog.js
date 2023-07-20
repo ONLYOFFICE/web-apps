@@ -368,7 +368,7 @@ define([
             minheight       : 434,
             width: 448,
             height: 434,
-            cls: 'modal-dlg',
+            cls: 'modal-dlg invisible-borders',
             buttons: ['ok', 'cancel']
         },
 
@@ -379,7 +379,7 @@ define([
                 minheight       : 434,
                 width: 448,
                 height: 434,
-                cls: 'modal-dlg',
+                cls: 'modal-dlg invisible-borders',
                 buttons: ['ok', 'cancel']
             };
 
@@ -624,9 +624,6 @@ define([
             var me = this,
                 $window = this.getChild();
 
-            var $border = $window.find('.resize-border');
-            $border.css({'background': 'none', 'border': 'none'});
-
             this.btnSymbols = new Common.UI.Button({
                 el: $window.find('#symbol-table-symbols'),
                 enableToggle: true,
@@ -815,7 +812,7 @@ define([
 
         getSpecialSymbol: function() {
             var rec = this.specialList.getSelectedRec();
-            return {font: undefined, symbol: this.encodeSurrogateChar(rec.get('code')), code: parseInt(rec.get('code'), 16), special: rec.get('special')};
+            return {font: undefined, symbol: this.encodeSurrogateChar(rec.get('code')), code: parseInt(rec.get('code'), 16), special: rec.get('special'), speccharacter: true};
         },
 
         onBtnClick: function(event) {

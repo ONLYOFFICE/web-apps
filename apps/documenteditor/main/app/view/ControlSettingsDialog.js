@@ -50,7 +50,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
     DE.Views.ControlSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 310,
-            height: 392,
+            height: 405,
             toggleGroup: 'control-adv-settings-group',
             storageName: 'de-control-settings-adv-category'
         },
@@ -151,6 +151,11 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 el: $('#control-settings-btn-all')
             });
             this.btnApplyAll.on('click', _.bind(this.applyAllClick, this));
+
+            this.chTemp = new Common.UI.CheckBox({
+                el: $('#control-settings-chb-temp'),
+                labelText: this.txtRemContent
+            });
 
             this.chLockDelete = new Common.UI.CheckBox({
                 el: $('#control-settings-chb-lock-delete'),
@@ -359,7 +364,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
 
         getFocusedComponents: function() {
             return [
-                this.txtName, this.txtTag, this.txtPlaceholder, this.cmbShow, this.btnColor, this.btnApplyAll, // 0 tab
+                this.txtName, this.txtTag, this.txtPlaceholder, this.chTemp, this.cmbShow, this.btnColor, this.btnApplyAll, // 0 tab
                 this.chLockDelete , this.chLockEdit, // 1 tab
                 this.list, // 2 tab
                 this.txtDate, this.listFormats, this.cmbLang // 3 tab
@@ -424,6 +429,9 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 (val===undefined) && (val = Asc.c_oAscSdtLockType.Unlocked);
                 this.chLockDelete.setValue(val==Asc.c_oAscSdtLockType.SdtContentLocked || val==Asc.c_oAscSdtLockType.SdtLocked);
                 this.chLockEdit.setValue(val==Asc.c_oAscSdtLockType.SdtContentLocked || val==Asc.c_oAscSdtLockType.ContentLocked);
+
+                val = props.get_Temporary();
+                this.chTemp.setValue(!!val);
 
                 var type = props.get_SpecificType();
                 var specProps;
@@ -561,6 +569,8 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                     props.put_Color(color.get_r(), color.get_g(), color.get_b());
                 }
             }
+
+            props.put_Temporary(this.chTemp.getValue()==='checked');
 
             var lock = Asc.c_oAscSdtLockType.Unlocked;
 
@@ -894,7 +904,8 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
         textWidth: 'Width',
         textPlaceholderSymbol: 'Placeholder symbol',
         textMaxChars: 'Characters limit',
-        textComb: 'Comb of characters'
+        textComb: 'Comb of characters',
+        txtRemContent: 'Remove content control when contents are edited'
 
     }, DE.Views.ControlSettingsDialog || {}))
 });

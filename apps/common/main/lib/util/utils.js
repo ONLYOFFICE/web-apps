@@ -143,8 +143,8 @@ var utils = new(function() {
                         "screen and (min-resolution: 1.75dppx) and (max-resolution: 1.99dppx)";
                 var str_mq_200 = "screen and (-webkit-min-device-pixel-ratio: 2), " +
                         "screen and (min-resolution: 2dppx), screen and (min-resolution: 192dpi)";
-                const str_mq_250 = "screen and (-webkit-min-device-pixel-ratio: 2.5), " +
-                        "screen and (min-resolution: 2.5dppx), screen and (min-resolution: 240dpi)";
+                const str_mq_225 = "screen and (-webkit-min-device-pixel-ratio: 2.25), " +
+                        "screen and (min-resolution: 2.25dppx), screen and (min-resolution: 216dpi)";
 
                 if ( window.matchMedia(str_mq_125).matches ) {
                     scale.devicePixelRatio = 1.5;
@@ -159,8 +159,8 @@ var utils = new(function() {
                     scale.devicePixelRatio = 2;
                 else scale.devicePixelRatio = 1;
 
-                if ( window.matchMedia(str_mq_250).matches ) {
-                    scale.devicePixelRatio = 2.5;
+                if ( window.matchMedia(str_mq_225).matches ) {
+                    scale.devicePixelRatio = 2.25;
                 }
             }
 
@@ -187,7 +187,7 @@ var utils = new(function() {
                     document.body.className = clear_list + ' pixel-ratio__1_75';
                 }
             } else
-            if ( !(scale.devicePixelRatio < 2) && scale.devicePixelRatio < 2.5 ) {
+            if ( !(scale.devicePixelRatio < 2) && scale.devicePixelRatio < 2.25 ) {
                 if ( !/pixel-ratio__2\b/.test(classes) ) {
                     document.body.className = clear_list + ' pixel-ratio__2';
                 }

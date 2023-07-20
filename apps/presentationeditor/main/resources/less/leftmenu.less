@@ -43,7 +43,6 @@
     width: 98px;
     height: 125px;
     cursor: pointer;
-
     .svg-format- {
         &pptx {
             background: ~"url('@{common-image-const-path}/doc-formats/pptx.svg') no-repeat center";
@@ -239,7 +238,7 @@
                         &:last-of-type {
                             float: none;
                             clear: both;
-                        }
+                    }
                     }
 
                 }
@@ -294,7 +293,7 @@
                         .comment-text{
                             opacity: 0.45;
                         }
-                    }
+                            }
 
                     &.divider {
                         height: 10px;
@@ -387,7 +386,7 @@
 
         #panel-recentfiles {
             #id-recent-view {
-                margin: 0 0 20px 10px;
+                margin: 0 0 20px 0;
             }
 
             .header {
@@ -395,16 +394,14 @@
                 .font-size-very-huge();
             }
 
-            .dataview {
-                & > div:not([class^=ps-scrollbar]) {
-                    border: none;
-                    width: 100%;
-                    .box-shadow(none);
-                }
+            .item {
+                border: none;
+                width: calc(100% - 4px);
+                .box-shadow(none);
             }
 
             .recent-wrap {
-                padding: 5px 10px;
+                padding: 5px 6px;
                 cursor: pointer;
                 .font-size-medium();
 
@@ -415,31 +412,80 @@
                 }
 
                 .recent-icon {
-                    width: 25px;
-                    height: 25px;
+                    width: 24px;
+                    height: 30px;
                     margin-top: 1px;
+                    .float-left();
                     div {
                         width: 100%;
                         height: 100%;
+                        div{
+                            background: ~"url(@{common-image-const-path}/doc-formats/formats.png)";
+                            background-size: 744px 30px;
+                            &:not(.svg-file-recent) {
+                                .pixel-ratio__1_25 & {
+                                    background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.25x.png)";
+                                }
+
+                                .pixel-ratio__1_5 & {
+                                    background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.5x.png)";
+                                }
+
+                                .pixel-ratio__1_75 & {
+                                    background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.75x.png)";
+                                }
+
+                                .pixel-ratio__2 & {
+                                    background-image: ~"url(@{common-image-const-path}/doc-formats/formats@2x.png)";
+                                }
+                            }
+                        }
+                        .img-format- {
+                            &pptx {
+                                background-position: 504px 0px;
+                            }
+
+                            &pdf, &pdfa {
+                                background-position: 408px 0px;
+                            }
+
+                            &odp {
+                                background-position: 456px 0px;
+                            }
+
+                            &potx {
+                                background-position: 192px 0px;
+                            }
+
+                            &otp {
+                                background-position: 120px 0px;
+                            }
+
+                            &ppsx {
+                                background-position: 72px 0px;
+                            }
+
+                            &ppt {
+                                background-position: 480px 0px;
+                            }
+                        }
                         .svg-file-recent {
                             background: ~"url(@{app-image-const-path}/recent-file.svg) no-repeat top";
                         }
                     }
                 }
 
-                .file-name {
+                > div:not(:first-child) {
                     display: block;
+                    .padding-left-10();
                     overflow: hidden;
                     white-space: nowrap;
                     text-overflow: ellipsis;
                 }
 
                 .file-info {
-                    display: block;
-                    overflow: hidden;
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
-                    color: #999;
+                    color: @text-secondary-ie;
+                    color: @text-secondary;
                 }
             }
         }
@@ -575,7 +621,7 @@
                 }
                 .rtl & {
                     padding: 0 17px 0 0;
-                }
+            }
             }
 
             label, span {
@@ -646,7 +692,6 @@
                 margin: 18px 0 20px 0;
             }
             .comment-text{
-                opacity: 0.45;
                 white-space: normal;
             }
             #print-preview-empty {
@@ -686,9 +731,7 @@
                     border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
                     border-left: @scaled-one-px-value solid @border-toolbar;
                 }
-                label.header {
-                    font-weight: 700;
-                }
+
                 .settings-container {
                     width: 100%;
                     height: 100%;
@@ -771,8 +814,8 @@
                     label {
                         .font-weight-bold();
                     }
-                }
-            }
+                        }
+                    }
             #print-preview {
                 height: calc(100% - 50px);
             }

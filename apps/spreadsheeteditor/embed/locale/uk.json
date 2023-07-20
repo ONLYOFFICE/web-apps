@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Висота",
   "common.view.modals.txtShare": "Розповсюдити посилання",
   "common.view.modals.txtWidth": "Ширина",
+  "common.view.SearchBar.textFind": "Знайти",
   "SSE.ApplicationController.convertationErrorText": "Не вдалося конвертувати",
   "SSE.ApplicationController.convertationTimeoutText": "Термін переходу перевищено.",
   "SSE.ApplicationController.criticalErrorTitle": "Помилка",
@@ -34,5 +35,6 @@
   "SSE.ApplicationView.txtFileLocation": "Відкрити розташування файлу",
   "SSE.ApplicationView.txtFullScreen": "Повноекранний режим",
   "SSE.ApplicationView.txtPrint": "Друк",
+  "SSE.ApplicationView.txtSearch": "Пошук",
   "SSE.ApplicationView.txtShare": "Доступ"
 }

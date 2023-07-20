@@ -959,15 +959,8 @@
             }
         }
 
-        var userAgent = navigator.userAgent.toLowerCase(),
-            check = function(regex){ return regex.test(userAgent); },
-            isIE = !check(/opera/) && (check(/msie/) || check(/trident/) || check(/edge/)),
-            isChrome = !isIE && check(/\bchrome\b/),
-            isSafari_mobile = !isIE && !isChrome && check(/safari/) && (navigator.maxTouchPoints>0),
-            path_type;
-
         path += app + "/";
-        path_type = (config.type === "mobile" || isSafari_mobile)
+        const path_type = config.type === "mobile"
                     ? "mobile" : (config.type === "embedded")
                     ? "embed" : (config.document && typeof config.document.fileType === 'string' && config.document.fileType.toLowerCase() === 'oform')
                     ? "forms" : "main";

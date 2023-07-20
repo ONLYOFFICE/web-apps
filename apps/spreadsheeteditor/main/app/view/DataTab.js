@@ -209,7 +209,7 @@ define([
                 this.btnRemoveDuplicates = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-rem-duplicates'),
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-remove-duplicates',
+                    iconCls: 'toolbar__icon btn-big-remove-duplicates',
                     caption: this.capBtnTextRemDuplicates,
                     disabled: true,
                     lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter, _set.sheetLock, _set.wsLock, _set.userProtected],

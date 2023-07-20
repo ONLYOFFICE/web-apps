@@ -27,9 +27,10 @@ class ProtectionDocumentController extends React.Component {
         appOptions.setProtection(true);
         appOptions.setTypeProtection(typeProtection);
 
-        if(typeProtection !== Asc.c_oAscEDocProtect.TrackedChanges && !isViewer) {
-            appOptions.changeViewerMode();
-        }
+        // if(typeProtection !== Asc.c_oAscEDocProtect.TrackedChanges && !isViewer) {
+        appOptions.changeViewerMode(true);
+        api.asc_addRestriction(Asc.c_oAscRestrictionType.View);
+        // }
 
         protection.asc_setEditType(typeProtection);
         protection.asc_setPassword(password);

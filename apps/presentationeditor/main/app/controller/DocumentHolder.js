@@ -233,6 +233,7 @@ define([
                     me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Table, _.bind(me.onClickPlaceholderTable, me));
                     me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Video, _.bind(me.onClickPlaceholder, me, AscCommon.PlaceholderButtonType.Video));
                     me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Audio, _.bind(me.onClickPlaceholder, me, AscCommon.PlaceholderButtonType.Audio));
+                    me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.SmartArt, _.bind(me.onClickPlaceholderSmartArt, me));
                     me.api.asc_registerCallback('asc_onTrackGuide',   _.bind(me.onTrackGuide, me));
                     me.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(me.onShowMathTrack, me));
                     me.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(me.onHideMathTrack, me));
@@ -1383,6 +1384,15 @@ define([
                     offsetLeft += (sdkPanelLeft.css('display') !== 'none') ? sdkPanelLeft.width() : 0;
 
                 var showPoint = [Math.max(0, coord.asc_getX() + coord.asc_getWidth() + 3 - offsetLeft), coord.asc_getY() + coord.asc_getHeight() + 3];
+                if (showPoint[0]>me._Width || showPoint[1]>me._Height) {
+                    if (pasteContainer.is(':visible')) pasteContainer.hide();
+                    $(document).off('keyup', this.wrapEvents.onKeyUp);
+                    return;
+                }
+                if (showPoint[1] + pasteContainer.height()>me._Height)
+                    showPoint[1] = me._Height - pasteContainer.height();
+                if (showPoint[0] + pasteContainer.width()>me._Width)
+                    showPoint[0] = me._Width - pasteContainer.width();
                 if (me.btnSpecialPaste.menu.isVisible() && (parseInt(pasteContainer.css('left')) !== showPoint[0] || parseInt(pasteContainer.css('top')) !== showPoint[1])) {
                     me.btnSpecialPaste.menu.hide();
                 }
@@ -1647,7 +1657,7 @@ define([
                     // restoreHeight: 421,
                     groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                     store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                 });
                 picker.on('item:click', function (picker, item, record, e) {
                     me.editChartClick(record.get('type'), me._state.placeholderObj);
@@ -1728,9 +1738,96 @@ define([
             this._fromShowPlaceholder = false;
         },
 
+        onClickPlaceholderSmartArt: function (obj, x, y) {
+            if (!this.api) return;
+
+            this._state.placeholderObj = obj;
+            var menu = this.placeholderMenuSmartArt,
+                menuContainer = menu ? this.documentHolder.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
+                me = this;
+            this._fromShowPlaceholder = true;
+            Common.UI.Menu.Manager.hideAll();
+
+            if (!menu) {
+                this.placeholderMenuSmartArt = menu = new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    items: []
+                });
+                var smartArtData = Common.define.smartArt.getSmartArtData();
+                smartArtData.forEach(function (item, index) {
+                    var length = item.items.length,
+                        width = 399;
+                    if (length < 5) {
+                        width = length * (70 + 8) + 9; // 4px margin + 4px margin
+                    }
+                    menu.addItem({
+                        caption: item.caption,
+                        value: item.sectionId,
+                        itemId: item.id,
+                        iconCls: item.icon ? 'menu__icon ' + item.icon : undefined,
+                        menu: new Common.UI.Menu({
+                            items: [
+                                {template: _.template('<div id="placeholder-' + item.id + '" class="menu-add-smart-art margin-left-5" style="width: ' + width + 'px; height: 500px;"></div>')}
+                            ],
+                            menuAlign: 'tl-tr',
+                        })});
+                });
+                // Prepare menu container
+                menuContainer = $(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
+                this.documentHolder.cmpEl.append(menuContainer);
+                menu.render(menuContainer);
+                menu.cmpEl.attr({tabindex: "-1"});
+                menu.on('hide:after', function(){
+                    if (!me._fromShowPlaceholder)
+                        me.api.asc_uncheckPlaceholders();
+                });
+
+                var onShowBeforeSmartArt = function (menu) {
+                    menu.items.forEach(function (item, index) {
+                        item.menuPicker = new Common.UI.DataView({
+                            el: $('#placeholder-' + item.options.itemId),
+                            parentMenu: menu.items[index].menu,
+                            itemTemplate: _.template([
+                                '<div>',
+                                '<img src="<%= imageUrl %>" width="' + 70 + '" height="' + 70 + '" />',
+                                '</div>'
+                            ].join('')),
+                            store: new Common.UI.DataViewStore(),
+                            delayRenderTips: true,
+                            scrollAlwaysVisible: true,
+                            showLast: false
+                        });
+                        item.$el.one('mouseenter', function () {
+                            me.documentHolder.fireEvent('generate:smartart', [item.value, menu]);
+                            item.$el.mouseenter();
+                        });
+                        item.menuPicker.on('item:click', function(picker, item, record, e) {
+                            if (record) {
+                                me.api.asc_createSmartArt(record.get('value'), me._state.placeholderObj);
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me);
+                        });
+                    });
+                    menu.off('show:before', onShowBeforeSmartArt);
+                };
+                menu.on('show:before', onShowBeforeSmartArt);
+            }
+            menuContainer.css({left: x, top : y});
+            menuContainer.attr('data-value', 'prevent-canvas-click');
+            this._preventClick = true;
+            menu.show();
+
+            menu.alignPosition();
+            _.delay(function() {
+                menu.cmpEl.focus();
+            }, 10);
+            this._fromShowPlaceholder = false;
+        },
+
         onHidePlaceholderActions: function() {
             this.placeholderMenuChart && this.placeholderMenuChart.hide();
             this.placeholderMenuTable && this.placeholderMenuTable.hide();
+            this.placeholderMenuSmartArt && this.placeholderMenuSmartArt.hide();
         },
 
         onClickPlaceholder: function(type, obj, x, y) {
