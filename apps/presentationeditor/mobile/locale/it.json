@@ -300,6 +300,7 @@
       "textBulletsAndNumbers": "Puntato e numerato",
       "textCaseSensitive": "Maiuscole/minuscole",
       "textCellMargins": "Margini di cella",
+      "textChangeShape": "Cambia forma",
       "textChart": "Grafico",
       "textClock": "Orologio",
       "textClockwise": "In senso orario",
@@ -415,13 +416,16 @@
       "textZoomRotate": "Zoom e rotazione",
       "textArrange": "Arrange",
       "textCancel": "Cancel",
-      "textChangeShape": "Change Shape",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textInsertImage": "Insert Image",
       "textNoMatches": "No Matches",
       "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "textRequired": "Required",
+      "textMorph": "Morph",
+      "textMorphObjects": "Objects",
+      "textMorphWords": "Words",
+      "textMorphLetters": "Letters"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

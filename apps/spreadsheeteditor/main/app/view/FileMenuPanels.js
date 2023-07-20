@@ -2373,15 +2373,15 @@ define([
                                             '<tr class="print-titles-options"><td><label><%= scope.txtRepeatRowsAtTop %></label></td></tr>',
                                             '<tr class="print-titles-options"><td class="padding-small">',
                                         '<table><tbody><tr>',
-                                            '<td><div id="print-txt-top" style="width: 163px;"></div></td>',
-                                            '<td><div id="print-presets-top" style="width: 77px;"></div></td>',
+                                            '<td><div id="print-txt-top" style="width: 145px;"></div></td>',
+                                            '<td><div id="print-presets-top" style="width: 95px;"></div></td>',
                                         '</tr></tbody></table>',
                                     '</td></tr>',
                                             '<tr class="print-titles-options"><td><label><%= scope.txtRepeatColumnsAtLeft %></label></td></tr>',
                                             '<tr class="print-titles-options"><td>',
                                         '<table><tbody><tr>',
-                                            '<td><div id="print-txt-left" style="width: 163px;"></div></td>',
-                                            '<td><div id="print-presets-left" style="width: 77px;"></div></td>',
+                                            '<td><div id="print-txt-left" style="width: 145px;"></div></td>',
+                                            '<td><div id="print-presets-left" style="width: 95px;"></div></td>',
                                         '</tr></tbody></table>',
                                     '</td></tr>',
                                         '</tbody></table>',
@@ -2636,7 +2636,7 @@ define([
                 parentEl: $markup.findById('#print-presets-top'),
                 cls: 'btn-text-menu-default',
                 caption: this.txtRepeat,
-                style: 'width: 77px;',
+                style: 'width: 95px;',
                 menu: true,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
@@ -2656,7 +2656,7 @@ define([
                 parentEl: $markup.findById('#print-presets-left'),
                 cls: 'btn-text-menu-default',
                 caption: this.txtRepeat,
-                style: 'width: 77px;',
+                style: 'width: 95px;',
                 menu: true,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
@@ -2814,16 +2814,11 @@ define([
             this.txtActiveSheet = $markup.findById('#print-active-sheet');
 
             this.$el = $(node).html($markup);
-
-            if (!this.mode.isEdit) {
-                $markup.find('.header-settings').hide();
-            } else {
-                this.$el.on('click', '#print-header-footer-settings', _.bind(this.openHeaderSettings, this));
-            }
-            !this.mode.isDesktopApp && $markup.find('.desktop-settings').hide();
-
+            this.$el.on('click', '#print-header-footer-settings', _.bind(this.openHeaderSettings, this));
             this.$previewBox = $('#print-preview-box');
             this.$previewEmpty = $('#print-preview-empty');
+
+            this.applyMode();
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
@@ -2870,6 +2865,13 @@ define([
 
         setMode: function(mode) {
             this.mode = mode;
+            !this._initSettings && this.applyMode();
+        },
+
+        applyMode: function() {
+            if (!this.mode || !this.$el) return;
+            this.$el.find('.header-settings')[this.mode.isEdit ? 'show' : 'hide']();
+            !this.mode.isDesktopApp && this.$el.find('.desktop-settings').hide();
         },
 
         setApi: function(api) {

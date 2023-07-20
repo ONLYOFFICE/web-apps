@@ -48,7 +48,7 @@ jobs:
             run: |
                 BRANCH_NAME=${GITHUB_REF#refs/heads/}
                 export TAG=${BRANCH_NAME#*/}
-                echo "PATH=/install/desktop/editors/help/$TAG/apps" >> $GITHUB_OUTPUT
+                echo "URI=/install/desktop/editors/help/$TAG/apps" >> $GITHUB_OUTPUT
 
           - name: Build
             run: |
@@ -59,19 +59,19 @@ jobs:
 
           - name: Upload
             env:
-                PATH: ${{steps.tag-dir.outputs.PATH}}
+                URI: ${{steps.tag-dir.outputs.URI}}
             run: |
                 aws s3 sync ./web-apps/deploy/web-apps/apps/  \
-                ${{secrets.AWS_BUCKET_URL}}${PATH} \
+                ${{secrets.AWS_BUCKET_URL}}${URI} \
                 --acl public-read \
                 --metadata-directive REPLACE
 
 
           - name: Invalidate AWS CLOUDFRONT cache
             env:
-                PATH: ${{steps.tag-dir.outputs.PATH}}
+                URI: ${{steps.tag-dir.outputs.URI}}
             run: |
                 aws cloudfront create-invalidation \
                     --distribution-id ${{ secrets.AWS_DISTRIBUTION_ID }} \
                     --paths \
-                    "${PATH}/*"
+                    "${URI}/*"

@@ -320,6 +320,9 @@ define([
                     '<td colspan="2"><div id="fms-chb-paste-settings"></div></td>',
                 '</tr>',
                 '<tr class="edit">',
+                    '<td colspan="2"><div id="fms-chb-smart-selection"></div></td>',
+                '</tr>',
+                '<tr class="edit">',
                     '<td colspan="2"><span id="fms-chb-compatible"></span></td>',
                 '</tr>',
                 '<tr class ="editsave divider-group"></tr>',
@@ -519,6 +522,14 @@ define([
             this.chCompatible = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-compatible'),
                 labelText: this.textOldVersions,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
+            this.chSmartSelection = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-smart-selection'),
+                labelText: this.textSmartSelection,
                 dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -926,6 +937,7 @@ define([
 
             this.chPaste.setValue(Common.Utils.InternalSettings.get("de-settings-paste-button"));
             this.chQuickPrint.setValue(Common.Utils.InternalSettings.get("de-settings-quick-print-button"));
+            this.chSmartSelection.setValue(Common.Utils.InternalSettings.get("de-settings-smart-selection"));
 
             var data = [];
             for (var t in Common.UI.Themes.map()) {
@@ -996,6 +1008,7 @@ define([
             }
 
             Common.localStorage.setItem("de-settings-paste-button", this.chPaste.isChecked() ? 1 : 0);
+            Common.localStorage.setItem("de-settings-smart-selection", this.chSmartSelection.isChecked() ? 1 : 0);
             var isRtlChanged = this.chRTL.$el.is(':visible') && Common.localStorage.getBool("ui-rtl") !== this.chRTL.isChecked();
             Common.localStorage.setBool("ui-rtl", this.chRTL.isChecked());
             Common.localStorage.setBool("de-settings-quick-print-button", this.chQuickPrint.isChecked());
@@ -1113,7 +1126,8 @@ define([
         txtQuickPrintTip: 'The document will be printed on the last selected or default printer',
         txtWorkspaceSettingChange: 'Workspace setting (RTL interface) change',
         txtRestartEditor: 'Please restart document editor so that your workspace settings can take effect',
-        txtLastUsed: 'Last used'
+        txtLastUsed: 'Last used',
+        textSmartSelection: 'Use smart paragraph selection'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.CreateNew = Common.UI.BaseView.extend(_.extend({

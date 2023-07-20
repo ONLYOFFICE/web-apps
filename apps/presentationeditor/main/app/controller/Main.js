@@ -378,10 +378,8 @@ define([
                 this.appOptions.user.anonymous && Common.localStorage.setItem("guest-id", this.appOptions.user.id);
 
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop' || Common.Controllers.Desktop.isActive();
-                if(this.appOptions.isDesktopApp){
-                    var desktopRecent = Common.Controllers.Desktop.recentFiles();
-                    if (desktopRecent && desktopRecent.length > 0)
-                        this.editorConfig.recent = !this.editorConfig.recent ? desktopRecent : this.editorConfig.recent =  this.editorConfig.recent.concat(desktopRecent);
+                if( Common.Controllers.Desktop.isActive() ) {
+                    !this.editorConfig.recent && (this.editorConfig.recent = []);
                 }
 
                 this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl) || this.editorConfig.templates && this.editorConfig.templates.length;

@@ -421,7 +421,11 @@
       "textZoom": "Zoom",
       "textZoomIn": "Ampliar",
       "textZoomOut": "Reduzir",
-      "textZoomRotate": "Zoom e Rotação"
+      "textZoomRotate": "Zoom e Rotação",
+      "textMorph": "Morph",
+      "textMorphObjects": "Objects",
+      "textMorphWords": "Words",
+      "textMorphLetters": "Letters"
     },
     "Settings": {
       "mniSlideStandard": "Padrão (4:3)",

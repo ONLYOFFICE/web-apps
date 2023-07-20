@@ -1947,6 +1947,7 @@ define([
                                     '<tr><td class="padding-large"><div id="print-combo-sides" style="width: 248px;"></div></td></tr>',
                                     '<tr><td><label class="font-weight-bold"><%= scope.txtPaperSize %></label></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-combo-pages" style="width: 248px;"></div></td></tr>',
+                                    '<tr class="header-settings"><td class="padding-large"><label class="link" id="print-header-footer-settings" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtHeaderFooterSettings %></label></td></tr>',
                                     '<tr class="fms-btn-apply"><td>',
                                         '<div class="footer justify">',
                                             '<button id="print-btn-print" class="btn normal dlg-btn primary margin-right-8" result="print" style="width: 96px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrint %></button>',
@@ -2143,8 +2144,11 @@ define([
             });
 
             this.$el = $(node).html($markup);
+            this.$el.on('click', '#print-header-footer-settings', _.bind(this.openHeaderSettings, this));
             this.$previewBox = $('#print-preview-box');
             this.$previewEmpty = $('#print-preview-empty');
+
+            this.applyMode();
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
@@ -2188,6 +2192,13 @@ define([
 
         setMode: function(mode) {
             this.mode = mode;
+            !this._initSettings && this.applyMode();
+        },
+
+        applyMode: function() {
+            if (!this.mode || !this.$el) return;
+            this.$el.find('.header-settings')[this.mode.isEdit ? 'show' : 'hide']();
+            // !this.mode.isDesktopApp && this.$el.find('.desktop-settings').hide();
         },
 
         setApi: function(api) {
@@ -2234,6 +2245,10 @@ define([
             this.cmbPaperSize.setValue(value);
         },
 
+        openHeaderSettings: function() {
+            this.fireEvent('openheader', this);
+        },
+
         txtPrint: 'Print',
         txtPrintPdf: 'Print to PDF',
         txtPrintRange: 'Print range',
@@ -2252,7 +2267,8 @@ define([
         txtOneSideDesc: 'Only print on one side of the page',
         txtBothSides: 'Print on both sides',
         txtBothSidesLongDesc: 'Flip pages on long edge',
-        txtBothSidesShortDesc: 'Flip pages on short edge'
+        txtBothSidesShortDesc: 'Flip pages on short edge',
+        txtHeaderFooterSettings: 'Header/footer settings',
 
     }, PE.Views.PrintWithPreview || {}));
 });

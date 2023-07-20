@@ -421,7 +421,11 @@
       "textZoom": "Масштабирование",
       "textZoomIn": "Увеличение",
       "textZoomOut": "Уменьшение",
-      "textZoomRotate": "Увеличение с поворотом"
+      "textZoomRotate": "Увеличение с поворотом",
+      "textMorph": "Morph",
+      "textMorphObjects": "Objects",
+      "textMorphWords": "Words",
+      "textMorphLetters": "Letters"
     },
     "Settings": {
       "mniSlideStandard": "Стандартный (4:3)",

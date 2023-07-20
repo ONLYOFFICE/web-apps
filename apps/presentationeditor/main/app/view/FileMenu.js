@@ -333,6 +333,10 @@ define([
             }
             this.applyMode();
 
+            if ( Common.Controllers.Desktop.isActive() ) {
+                Common.NotificationCenter.trigger('update:recents', Common.Controllers.Desktop.recentFiles());
+            }
+
             if ( !!this.api ) {
                 this.panels['info'].setApi(this.api);
                 if (this.panels['opts']) this.panels['opts'].setApi(this.api);
@@ -447,6 +451,7 @@ define([
             !this.mode.isDisconnected && this.panels['info'].updateInfo(this.document);
             this.panels['rights'].setMode(this.mode);
             !this.mode.isDisconnected && this.panels['rights'].updateInfo(this.document);
+            this.panels['printpreview'] && this.panels['printpreview'].setMode(this.mode);
 
             if ( this.mode.canCreateNew ) {
                 if (this.mode.templates && this.mode.templates.length) {

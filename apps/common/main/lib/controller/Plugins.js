@@ -490,8 +490,8 @@ define([
             this.parsePlugins(pluginsdata)
         },
 
-        onPluginShowButton: function(id) {
-            this.pluginDlg && this.pluginDlg.showButton(id);
+        onPluginShowButton: function(id, toRight) {
+            this.pluginDlg && this.pluginDlg.showButton(id, toRight);
         },
 
         onPluginHideButton: function(id) {

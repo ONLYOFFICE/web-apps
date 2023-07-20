@@ -189,7 +189,7 @@ define([
                 }
             }
             var listItem =this.statusbar.sheetListMenu.items[index];
-            if (listItem.$el.children().first().data('hidden')) {
+            if (listItem && listItem.$el && listItem.$el.children().first().data('hidden')) {
                 listItem.setDisabled(locked);
             }
         },

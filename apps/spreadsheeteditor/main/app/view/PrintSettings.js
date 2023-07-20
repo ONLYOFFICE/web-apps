@@ -245,7 +245,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
 
             this.txtRangeTop = new Common.UI.InputFieldBtn({
                 el          : $('#printadv-dlg-txt-top'),
-                style       : 'width: 147px;',
+                style       : 'width: 137px;',
                 allowBlank  : true,
                 validateOnChange: true
             });
@@ -254,13 +254,13 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 parentEl: $('#printadv-dlg-presets-top'),
                 cls: 'btn-text-menu-default',
                 caption: this.textRepeat,
-                style: 'width: 85px;',
+                style: 'width: 95px;',
                 menu: true
             });
 
             this.txtRangeLeft = new Common.UI.InputFieldBtn({
                 el          : $('#printadv-dlg-txt-left'),
-                style       : 'width: 147px;',
+                style       : 'width: 137px;',
                 allowBlank  : true,
                 validateOnChange: true
             });
@@ -269,7 +269,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 parentEl: $('#printadv-dlg-presets-left'),
                 cls: 'btn-text-menu-default',
                 caption: this.textRepeat,
-                style: 'width: 85px;',
+                style: 'width: 95px;',
                 menu: true
             });
 

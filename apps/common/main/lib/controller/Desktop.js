@@ -568,7 +568,8 @@ define([
                 return !!native;
             },
             isOffline: function () {
-                // return webapp.getController('Main').api.asc_isOffline();
+                if ( config.isFillFormApp )
+                    return webapp.getController('ApplicationController').appOptions.isOffline;
                 return webapp.getController('Main').appOptions.isOffline;
             },
             isFeatureAvailable: function (feature) {
@@ -606,6 +607,9 @@ define([
             systemThemeSupported: function () {
                 return nativevars.theme && nativevars.theme.system !== 'disabled';
             },
+            localThemes: function () {
+                return nativevars ? nativevars.localthemes : undefined;
+            },
             recentFiles: function () {
                 return recents;
             },
@@ -614,7 +618,7 @@ define([
                     const params = {
                         name: Common.Utils.String.htmlDecode(model.get('title')),
                         path: Common.Utils.String.htmlDecode(model.get('url')),
-                    };
+        };
                     if ( model.get('fileid') != undefined && model.get('fileid') != null ) {
                         params.id = model.get('fileid');
                         params.type = model.type;
@@ -628,7 +632,7 @@ define([
 
                 return false;
             },
-        };
+    };
     };
 
     !Common.Controllers && (Common.Controllers = {});

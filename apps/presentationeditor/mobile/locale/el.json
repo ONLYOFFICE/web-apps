@@ -300,6 +300,7 @@
       "textBulletsAndNumbers": "Κουκκίδες & Αρίθμηση",
       "textCaseSensitive": "Διάκριση Πεζών-Κεφαλαίων",
       "textCellMargins": "Περιθώρια Κελιού",
+      "textChangeShape": "Αλλαγή Σχήματος",
       "textChart": "Γράφημα",
       "textClock": "Ρολόι",
       "textClockwise": "Δεξιόστροφα",
@@ -415,13 +416,16 @@
       "textZoomRotate": "Εστίαση και Περιστροφή",
       "textArrange": "Arrange",
       "textCancel": "Cancel",
-      "textChangeShape": "Change Shape",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textInsertImage": "Insert Image",
       "textNoMatches": "No Matches",
       "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "textRequired": "Required",
+      "textMorph": "Morph",
+      "textMorphObjects": "Objects",
+      "textMorphWords": "Words",
+      "textMorphLetters": "Letters"
     },
     "Settings": {
       "mniSlideStandard": "Τυπικό (4:3)",

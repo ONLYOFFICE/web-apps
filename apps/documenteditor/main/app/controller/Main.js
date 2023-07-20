@@ -421,7 +421,7 @@ define([
                 this.appOptions.user.anonymous && Common.localStorage.setItem("guest-id", this.appOptions.user.id);
 
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop' || Common.Controllers.Desktop.isActive();
-                if( Common.Controllers.Desktop.isActive() ){
+                if( Common.Controllers.Desktop.isActive() ) {
                     !this.editorConfig.recent && (this.editorConfig.recent = []);
                 }
 
@@ -1344,6 +1344,10 @@ define([
                     if (value===null) value = '1';
                     Common.Utils.InternalSettings.set("de-settings-paste-button", parseInt(value));
                     me.api.asc_setVisiblePasteButton(!!parseInt(value));
+
+                    value = Common.localStorage.getBool("de-settings-smart-selection", true);
+                    Common.Utils.InternalSettings.set("de-settings-smart-selection", value);
+                    me.api.asc_putSmartParagraphSelection(value);
 
                     me.loadAutoCorrectSettings();
 

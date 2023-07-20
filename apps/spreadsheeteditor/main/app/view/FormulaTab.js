@@ -290,7 +290,7 @@ define([
                 this.btnNamedRange = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-named-range-huge'),
                     cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'toolbar__icon btn-named-range',
+                    iconCls     : 'toolbar__icon btn-big-named-range',
                     caption: this.toolbar.txtNamedRange,
                     hint: this.toolbar.txtNamedRange,
                     split: false,

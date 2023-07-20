@@ -468,6 +468,8 @@ define([
                 toolbar.menuHeightScale.on('item:click',                    _.bind(this.onScaleClick, this, 'height'));
                 toolbar.btnPrintArea.menu.on('item:click',                  _.bind(this.onPrintAreaClick, this));
                 toolbar.btnPrintArea.menu.on('show:after',                  _.bind(this.onPrintAreaMenuOpen, this));
+                toolbar.btnPageBreak.menu.on('item:click',                  _.bind(this.onPageBreakClick, this));
+                toolbar.btnPageBreak.menu.on('show:after',                  _.bind(this.onPageBreakMenuOpen, this));
                 toolbar.btnImgGroup.menu.on('item:click',                   _.bind(this.onImgGroupSelect, this));
                 toolbar.btnImgBackward.menu.on('item:click',                _.bind(this.onImgArrangeSelect, this));
                 toolbar.btnImgForward.menu.on('item:click',                 _.bind(this.onImgArrangeSelect, this));
@@ -2630,6 +2632,7 @@ define([
 
             this.api.asc_isLayoutLocked(currentSheet) ? this.onApiLockDocumentProps(currentSheet) : this.onApiUnLockDocumentProps(currentSheet);
             this.toolbar.lockToolbar(Common.enumLock.printAreaLock, this.api.asc_isPrintAreaLocked(currentSheet), {array: [this.toolbar.btnPrintArea]});
+            this.toolbar.lockToolbar(Common.enumLock.pageBreakLock, this.api.asc_GetPageBreaksDisableType(currentSheet)===Asc.c_oAscPageBreaksDisableType.all, {array: [this.toolbar.btnPageBreak]});
         },
 
         onUpdateDocumentProps: function(nIndex) {
@@ -2749,14 +2752,16 @@ define([
 
         onApiLockDocumentProps: function(nIndex) {
             if (this._state.lock_doc!==true && nIndex == this.api.asc_getActiveWorksheetIndex()) {
-                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, true, {array: [this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnPageOrient, this.toolbar.btnScale, this.toolbar.btnPrintTitles]});
+                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, true, {array: [this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnPageOrient,
+                                                                                      this.toolbar.btnPageBreak, this.toolbar.btnScale, this.toolbar.btnPrintTitles]});
                 this._state.lock_doc = true;
             }
         },
 
         onApiUnLockDocumentProps: function(nIndex) {
             if (this._state.lock_doc!==false && nIndex == this.api.asc_getActiveWorksheetIndex()) {
-                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, false, {array: [this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnPageOrient, this.toolbar.btnScale, this.toolbar.btnPrintTitles]});
+                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, false, {array: [this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnPageOrient,
+                                                                                       this.toolbar.btnPageBreak, this.toolbar.btnScale, this.toolbar.btnPrintTitles]});
                 this._state.lock_doc = false;
             }
         },
@@ -2944,6 +2949,8 @@ define([
                 (selectionType == Asc.c_oAscSelectionType.RangeCells) && (!info.asc_getComments() || info.asc_getComments().length>0 || info.asc_getLocked()) 
                 || selectionType != Asc.c_oAscSelectionType.RangeCells,
                 { array: this.btnsComment });
+
+            toolbar.lockToolbar(Common.enumLock.pageBreakLock, this.api.asc_GetPageBreaksDisableType(this.api.asc_getActiveWorksheetIndex())===Asc.c_oAscPageBreaksDisableType.all, {array: [toolbar.btnPageBreak]});
 
             if (editOptionsDisabled) return;
 
@@ -4654,7 +4661,7 @@ define([
             this.btnsComment = [];
             if ( config.canCoAuthoring && config.canComments ) {
                 var _set = Common.enumLock;
-                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-menu-comments', this.toolbar.capBtnComment,
+                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-big-menu-comments', this.toolbar.capBtnComment,
                                                             [_set.lostConnect, _set.commentLock, _set.editCell, _set['Objects']], undefined, undefined, undefined, '1', 'bottom', 'small');
 
                 if ( this.btnsComment.length ) {
@@ -4790,6 +4797,29 @@ define([
         onPrintAreaMenuOpen: function() {
             if (this.api)
                 this.toolbar.btnPrintArea.menu.items[2].setVisible(this.api.asc_CanAddPrintArea());
+        },
+
+        onPageBreakClick: function(menu, item) {
+            if (this.api) {
+                if (item.value==='ins')
+                    this.api.asc_InsertPageBreak();
+                else if (item.value==='del')
+                    this.api.asc_RemovePageBreak();
+                else if (item.value==='reset')
+                    this.api.asc_ResetAllPageBreaks();
+                Common.component.Analytics.trackEvent('ToolBar', 'Page Break');
+            }
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onPageBreakMenuOpen: function() {
+            if (this.api) {
+                var type = this.api.asc_GetPageBreaksDisableType(this.api.asc_getActiveWorksheetIndex());
+                this.toolbar.btnPageBreak.menu.items[0].setDisabled(type===Asc.c_oAscPageBreaksDisableType.insertRemove);
+                this.toolbar.btnPageBreak.menu.items[1].setDisabled(type===Asc.c_oAscPageBreaksDisableType.insertRemove);
+                this.toolbar.btnPageBreak.menu.items[2].setDisabled(type===Asc.c_oAscPageBreaksDisableType.reset);
+            }
         },
 
         onEditHeaderClick: function(pageSetup, btn) {

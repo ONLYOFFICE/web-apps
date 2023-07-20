@@ -157,7 +157,7 @@ define([
                     restoreHeight: 535,
                     groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                     store: new Common.UI.DataViewStore(arr),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                 });
             });
             this.btnChartType.render($('#chart-type-dlg-button-type'), this.$window);
@@ -446,7 +446,7 @@ define([
                     restoreHeight: 535,
                     groups: new Common.UI.DataViewGroupStore(me._arrSeriesGroups),
                     store: store,
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                 });
                 picker.selectRecord(currentTypeRec, true);
                 picker.on('item:click', function(picker, view, record){
