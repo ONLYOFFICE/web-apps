@@ -547,13 +547,15 @@ PE.ApplicationController = new(function(){
 
     function onAdvancedOptions(type, advOptions, mode, formatOptions) {
         if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
+            var isCustomLoader = !!config.customization.loaderName || !!config.customization.loaderLogo;
             var submitPassword = function(val) {
                 api && api.asc_setAdvancedOptions(Asc.c_oAscAdvancedOptionsID.DRM, new Asc.asc_CDRMAdvancedOptions(val)); 
                 me.loadMask && me.loadMask.show();
-                $('#loading-mask').removeClass("none-animation");
+                if(!isCustomLoader) $('#loading-mask').removeClass("none-animation");
             };
             common.controller.modals.createDlgPassword(submitPassword);
-            $('#loading-mask').addClass("none-animation");
+            if(isCustomLoader) hidePreloader();
+            else $('#loading-mask').addClass("none-animation");
             onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
         }
     }
