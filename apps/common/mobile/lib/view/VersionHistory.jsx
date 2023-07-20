@@ -15,7 +15,7 @@ const VersionHistoryView = inject('storeVersionHistory', 'users')(observer(props
     const usersVersions = historyStore.usersVersions;
 
     const handleClickRevision = useCallback(version => {
-        if(version.changeid !== currentVersion.changeid || version.version !== currentVersion.version) {
+        if(version !== currentVersion) {
             props.onSelectRevision(version);
         }
     });
@@ -62,9 +62,9 @@ const VersionHistoryView = inject('storeVersionHistory', 'users')(observer(props
                             <List className='version-history__list' dividersIos mediaList outlineIos strongIos>
                                 {versions.map((version, index) => {
                                     return (
-                                        <ListItem className={`version-history__item ${version.version === currentVersion.version && version.changeid === currentVersion.changeid ? 'version-history__item_active' : ''}`} key={index} link='#' title={version.created} subtitle={version.username} onClick={() => handleClickRevision(version)}>
+                                        <ListItem className={`version-history__item ${version === currentVersion ? 'version-history__item_active' : ''}`} key={index} link='#' title={version.created} subtitle={AscCommon.UserInfoParser.getParsedName(version.username)} onClick={() => handleClickRevision(version)}>
                                             <div slot='media' className='version-history__user' style={{backgroundColor: usersVersions.find(user => user.id === version.userid).color}}>{usersStore.getInitials(version.username)}</div>
-                                            {(version.changeid === currentVersion.changeid && !version.selected && version.canRestore) &&
+                                            {(version === currentVersion && !version.selected && version.canRestore) &&
                                                 <div slot="inner">
                                                     <button type='button' className='version-history__btn' onClick={() => props.onRestoreRevision(version)}>{t('Common.VersionHistory.textRestore')}</button>
                                                 </div>

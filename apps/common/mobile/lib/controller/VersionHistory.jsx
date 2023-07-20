@@ -11,7 +11,7 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
     const isViewer = appOptions.isViewer;
     const historyStore = props.storeVersionHistory;
     const isVersionHistoryMode = historyStore.isVersionHistoryMode;
-    const arrVersions = historyStore.arrVersions;
+    const arrVersionsHistory = historyStore.arrVersions;
     const { t } = useTranslation();
 
     let currentChangeId = -1;
@@ -32,7 +32,7 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
     useEffect(() => {
         const api = Common.EditorApi.get();
 
-        if(arrVersions.length < 1) {
+        if(arrVersionsHistory.length < 1) {
             Common.Gateway.requestHistory();
             Common.Gateway.on('refreshhistory', onRefreshHistory);
             Common.Gateway.on('sethistorydata', onSetHistoryData);
@@ -233,14 +233,13 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
                 historyStore.setVersions(arrVersions);
 
                 if (currentVersion === null && historyStore.arrVersions.length > 0) {
-                    currentVersion = historyStore.arrVersions[0];
-                    currentVersion.selected = true;
-
-                    historyStore.setVersions([...arrVersions, currentVersion]);
+                    arrVersions[0].selected = true;
+                    currentVersion = JSON.parse(JSON.stringify(arrVersions[0]));
+                  
+                    historyStore.setVersions([...arrVersions]);
                     historyStore.changeVersion(currentVersion);
                 } else {
                     if(!historyStore.currentVersion) {
-                        historyStore.changeVersion(currentVersion);
                         onSelectRevision(currentVersion);
                     }
                 }
@@ -254,7 +253,7 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
 
     const onSetHistoryData = opts => {
         if (!appOptions.canUseHistory) return;
-      
+
         if (timeoutIdRef.current) {
             clearTimeout(timeoutIdRef.current);
             timerId = 0;
@@ -320,6 +319,12 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
 
                 api.asc_showRevision(hist);
                 currentRev = data.version;
+
+                const selectedRev = revisions.find(revision => revision.selected);
+               
+                if(selectedRev) {
+                    historyStore.changeVersion(selectedRev);
+                } 
             }
         }
     };
@@ -356,6 +361,8 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
         const rev = version.revision;
         const url = version.url;
         const urlGetTime  = new Date();
+
+        historyStore.changeVersion(version);
 
         currentRev = rev;
         currentChangeId = version.changeid;
@@ -398,8 +405,6 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
 
             api.asc_showRevision(hist);
         }
-
-        historyStore.changeVersion(version);
     }
 
     return (
