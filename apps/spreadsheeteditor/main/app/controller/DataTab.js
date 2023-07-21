@@ -46,6 +46,7 @@ define([
     'spreadsheeteditor/main/app/view/DataValidationDialog',
     'spreadsheeteditor/main/app/view/ExternalLinksDlg',
     'spreadsheeteditor/main/app/view/ImportFromXmlDialog',
+    'spreadsheeteditor/main/app/view/GoalSeekDlg',
     'common/main/lib/view/OptionsDialog'
 ], function () {
     'use strict';
@@ -108,7 +109,8 @@ define([
                     'data:remduplicates': this.onRemoveDuplicates,
                     'data:datavalidation': this.onDataValidation,
                     'data:fromtext': this.onDataFromText,
-                    'data:externallinks': this.onExternalLinks
+                    'data:externallinks': this.onExternalLinks,
+                    'data:goalseek': this.onGoalSeek
                 },
                 'Statusbar': {
                     'sheet:changed': this.onApiSheetChanged
@@ -530,6 +532,19 @@ define([
                 Common.Gateway.requestReferenceSource();
             });
             this.externalLinksDlg.show()
+        },
+
+        onGoalSeek: function() {
+            var me = this;
+            (new SSE.Views.GoalSeekDlg({
+                api: me.api,
+                handler: function(result, settings) {
+                    if (result == 'ok' && settings) {
+                        me.api.asc_FormulaGoalSeek(settings.formulaCell, settings.expectedValue, settings.changingCell);
+                    }
+                    Common.NotificationCenter.trigger('edit:complete');
+                }
+            })).show();
         },
 
         onUpdateExternalReference: function(arr, callback) {
