@@ -310,7 +310,7 @@ define([
 
         const is_theme_type_system = function (id) { return themes_map[id].type == THEME_TYPE_SYSTEM; }
         const get_system_theme_type = function () {
-            if ( Common.Controllers.Desktop && Common.Controllers.Desktop.isActive() )
+            if ( Common.Controllers.Desktop && (typeof Common.Controllers.Desktop.isActive==='function') && Common.Controllers.Desktop.isActive() )
                 return Common.Controllers.Desktop.systemThemeType();
 
             return window.matchMedia('(prefers-color-scheme: dark)').matches ? THEME_TYPE_DARK : THEME_TYPE_LIGHT;
