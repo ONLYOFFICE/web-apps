@@ -3449,7 +3449,7 @@
   "SSE.Views.ShapeSettingsAdvanced.textKeepRatio": "比例不變",
   "SSE.Views.ShapeSettingsAdvanced.textLeft": "左",
   "SSE.Views.ShapeSettingsAdvanced.textLineStyle": "線型",
-  "SSE.Views.ShapeSettingsAdvanced.textMiter": "Miter",
+  "SSE.Views.ShapeSettingsAdvanced.textMiter": "斜接角",
   "SSE.Views.ShapeSettingsAdvanced.textOneCell": "移動但不調整單元格的大小",
   "SSE.Views.ShapeSettingsAdvanced.textOverflow": "允許文字溢出形狀",
   "SSE.Views.ShapeSettingsAdvanced.textResizeFit": "調整形狀以適合文本",
