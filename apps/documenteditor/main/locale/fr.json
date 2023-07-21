@@ -2799,7 +2799,6 @@
   "DE.Views.RoleEditDlg.textNoHighlight": "Pas de surbrillance ",
   "DE.Views.RoleEditDlg.txtTitleEdit": "Modifier le rôle",
   "DE.Views.RoleEditDlg.txtTitleNew": "Créer un nouveau rôle",
-  "DE.Views.RolesManagerDlg.closeButtonText": "Fermer",
   "DE.Views.RolesManagerDlg.textAnyone": "Tout le monde",
   "DE.Views.RolesManagerDlg.textDelete": "Supprimer",
   "DE.Views.RolesManagerDlg.textDeleteLast": "Êtes-vous sûr de vouloir supprimer le rôle {0}?<br>Une fois supprimé, le rôle par défaut sera créé.",

@@ -155,7 +155,7 @@
   "Common.Utils.Metric.txtPt": "pt",
   "Common.Utils.ThemeColor.txtbackground": "Baggrund",
   "Common.Utils.ThemeColor.txttext": "Tekst",
-  "Common.Views.About.txtAddress": "Adresse:",
+  "Common.Views.About.txtAddress": "adresse:",
   "Common.Views.About.txtLicensee": "Licenstager",
   "Common.Views.About.txtLicensor": "Licensgiver",
   "Common.Views.About.txtMail": "email:",
