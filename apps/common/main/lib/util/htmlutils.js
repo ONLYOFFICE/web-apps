@@ -104,7 +104,7 @@ window.Common = {
                                     else {/* error */}
                                 }).then(function (text) {
                                     const el = document.querySelector('div.inlined-svg')
-                                    el.append(htmlToElements(text));
+                                    el.appendChild(htmlToElements(text));
 
                                     const i = svg_icons.findIndex(function (item) {return item == url});
                                     if ( !(i < 0) ) svg_icons.splice(i, 1)
