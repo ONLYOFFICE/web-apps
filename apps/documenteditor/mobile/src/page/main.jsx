@@ -16,6 +16,7 @@ import NavigationController from '../controller/settings/Navigation';
 import { AddLinkController } from '../controller/add/AddLink';
 import EditHyperlink from '../controller/edit/EditHyperlink';
 import Snackbar from '../components/Snackbar/Snackbar';
+import VersionHistoryController from '../../../../common/mobile/lib/controller/VersionHistory';
 
 class MainPage extends Component {
     constructor(props) {
@@ -72,6 +73,8 @@ class MainPage extends Component {
             newState.snackbarVisible = true;
         } else if (opts === 'fab') {
             newState.fabVisible = true;
+        } else if (opts === 'history') {
+            newState.historyVisible = true;
         }
 
         if (!opened) {
@@ -84,24 +87,26 @@ class MainPage extends Component {
 
     handleOptionsViewClosed = opts => {
         this.setState(state => {
-            if (opts == 'edit')
+            if (opts === 'edit')
                 return {editOptionsVisible: false};
-            else if (opts == 'add')
+            else if (opts === 'add')
                 return {addOptionsVisible: false, addShowOptions: null};
-            else if (opts == 'settings')
+            else if (opts === 'settings')
                 return {settingsVisible: false};
-            else if (opts == 'coauth')
+            else if (opts === 'coauth')
                 return {collaborationVisible: false};
-            else if (opts == 'navigation')
+            else if (opts === 'navigation')
                 return {navigationVisible: false};
             else if (opts === 'add-link') 
                 return {addLinkSettingsVisible: false};
             else if (opts === 'edit-link') 
                 return {editLinkSettingsVisible: false};
-            else if (opts == 'snackbar')
+            else if (opts === 'snackbar')
                 return {snackbarVisible: false}
-            else if (opts == 'fab')
+            else if (opts === 'fab')
                 return {fabVisible: false}
+            else if (opts === 'history')
+                return {historyVisible: false}
         });
 
         if ((opts === 'edit' || opts === 'coauth') && Device.phone) {
@@ -124,6 +129,8 @@ class MainPage extends Component {
     render() {
         const { t } = this.props;
         const appOptions = this.props.storeAppOptions;
+        const storeVersionHistory = this.props.storeVersionHistory;
+        const isVersionHistoryMode = storeVersionHistory.isVersionHistoryMode;
         const storeDocumentInfo = this.props.storeDocumentInfo;
         const docExt = storeDocumentInfo.dataDoc ? storeDocumentInfo.dataDoc.fileType : '';
         const isAvailableExt = docExt && docExt !== 'djvu' && docExt !== 'pdf' && docExt !== 'xps' && docExt !== 'oform';
@@ -241,7 +248,11 @@ class MainPage extends Component {
                     !this.state.navigationVisible ? null :
                         <NavigationController onclosed={this.handleOptionsViewClosed.bind(this, 'navigation')}/>
                 }
-                {isFabShow &&
+                {
+                    !this.state.historyVisible ? null :
+                        <VersionHistoryController onclosed={this.handleOptionsViewClosed.bind(this, 'history')} />
+                }
+                {(isFabShow && !isVersionHistoryMode) &&
                     <CSSTransition
                         in={this.state.fabVisible}
                         timeout={500}
@@ -260,4 +271,4 @@ class MainPage extends Component {
     }
 }
 
-export default withTranslation()(inject("storeAppOptions", "storeToolbarSettings", "users", "storeDocumentInfo")(observer(MainPage)));
+export default withTranslation()(inject("storeAppOptions", "storeToolbarSettings", "users", "storeDocumentInfo", "storeVersionHistory")(observer(MainPage)));

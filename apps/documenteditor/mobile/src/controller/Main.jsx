@@ -33,8 +33,9 @@ import { Device } from '../../../../common/mobile/utils/device';
     "storeApplicationSettings",
     "storeLinkSettings",
     "storeToolbarSettings",
-    "storeNavigation"
-    )
+    "storeNavigation",
+    "storeVersionHistory"
+)
 class MainController extends Component {
     constructor(props) {
         super(props);
@@ -626,6 +627,7 @@ class MainController extends Component {
         EditorUIController.initThemeColors && EditorUIController.initThemeColors();
 
         this.api.asc_registerCallback('asc_onDownloadUrl', this.onDownloadUrl.bind(this));
+        this.api.asc_registerCallback('asc_onExpiredToken', this.onExpiredToken.bind(this));
 
         const storeDocumentSettings = this.props.storeDocumentSettings;
         this.api.asc_registerCallback('asc_onPageOrient', isPortrait => {
@@ -793,7 +795,18 @@ class MainController extends Component {
         });
     }
 
+    onExpiredToken() {
+        const currentRev = this.props.storeVersionHistory.currentVersion.revision;
+        
+        setTimeout(() => {
+            Common.Gateway.requestHistoryData(currentRev);
+        }, 10);
+    }
+
     onChangeProtectDocument() {
+        const storeVersionHistory = this.props.storeVersionHistory;
+        if (storeVersionHistory.isVersionHistoryMode) return;
+
         const { t } = this.props;
         const storeAppOptions = this.props.storeAppOptions;
         const props = this.getDocProps(true);
@@ -863,7 +876,6 @@ class MainController extends Component {
 
     getDocProps(isUpdate) {
         const storeAppOptions = this.props.storeAppOptions;
-       
         if (!storeAppOptions || !storeAppOptions.isEdit && !storeAppOptions.isRestrictedEdit) return;
 
         if (isUpdate || !this._state.docProtection) {
