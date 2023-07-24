@@ -1,81 +1,33 @@
-import React from 'react';
+import React, { createContext, useCallback, useEffect } from 'react';
 import { LocalStorage } from "../../utils/LocalStorage.mjs";
 import { inject, observer } from "mobx-react";
+import { useTranslation } from 'react-i18next';
 
-class ThemesController extends React.Component {
-    constructor(props) {
-        super(props);
-        this.themes_map = {
-            dark : {
-                id: 'theme-dark',
-                type: 'dark'
-            },
-            light: {
-                id: 'theme-light',
-                type: 'light'
-            },
-            system: {
-                id: 'theme-system',
-                type: 'system'
-            }
-        }
+export const ThemesContext = createContext();
+export const ThemesProvider = props => {
+    const { t } = useTranslation();
+    const storeThemes = props.storeThemes;
+    const themes = storeThemes.themes;
+    const nameColors = storeThemes.nameColors;
+    const translationThemes = getTranslationThemes();
 
-        this.name_colors = [
-            "canvas-background",
-            "canvas-content-background",
-            "canvas-page-border",
+    useEffect(() => {
+        initTheme();
+    }, []);
 
-            "canvas-ruler-background",
-            "canvas-ruler-border",
-            "canvas-ruler-margins-background",
-            "canvas-ruler-mark",
-            "canvas-ruler-handle-border",
-            "canvas-ruler-handle-border-disabled",
-
-            "canvas-high-contrast",
-            "canvas-high-contrast-disabled",
-
-            "canvas-cell-border",
-            "canvas-cell-title-border",
-            "canvas-cell-title-border-hover",
-            "canvas-cell-title-border-selected",
-            "canvas-cell-title-hover",
-            "canvas-cell-title-selected",
-
-            "canvas-dark-cell-title",
-            "canvas-dark-cell-title-hover",
-            "canvas-dark-cell-title-selected",
-            "canvas-dark-cell-title-border",
-            "canvas-dark-cell-title-border-hover",
-            "canvas-dark-cell-title-border-selected",
-            "canvas-dark-content-background",
-            "canvas-dark-page-border",
-
-            "canvas-scroll-thumb",
-            "canvas-scroll-thumb-hover",
-            "canvas-scroll-thumb-pressed",
-            "canvas-scroll-thumb-border",
-            "canvas-scroll-thumb-border-hover",
-            "canvas-scroll-thumb-border-pressed",
-            "canvas-scroll-arrow",
-            "canvas-scroll-arrow-hover",
-            "canvas-scroll-arrow-pressed",
-            "canvas-scroll-thumb-target",
-            "canvas-scroll-thumb-target-hover",
-            "canvas-scroll-thumb-target-pressed",
-        ];
-
-        this.setClientTheme = this.setClientTheme.bind(this);
-        this.checkConfigTheme = this.checkConfigTheme.bind(this);
-        this.checkSystemDarkTheme = this.checkSystemDarkTheme.bind(this);
+    function getTranslationThemes() {
+        return Object.keys(themes).reduce((acc, theme) => {
+            acc[theme] = (t(`Common.Themes.${theme}`));
+            return acc;
+        }, {});
     }
 
-    init() {
-        const appOptions = this.props.storeAppOptions;
+    const initTheme = () => {
+        // localStorage.clear();
         const editorConfig = window.native?.editorConfig;
         const obj = LocalStorage.getItem("ui-theme");
         
-        let theme = this.themes_map.light;
+        let theme = themes.light;
         
         if(editorConfig) {
             const themeConfig = editorConfig.theme;
@@ -84,81 +36,77 @@ class ThemesController extends React.Component {
 
             if(isSelectTheme) {
                 if(!!obj) {
-                    theme = this.setClientTheme(theme, obj);
+                    theme = setClientTheme(theme, obj);
                 } else {
-                    theme = this.checkConfigTheme(theme, typeTheme);
+                    theme = checkConfigTheme(theme, typeTheme);
                 } 
             } else {
-                theme = this.checkConfigTheme(theme, typeTheme);
+                theme = checkConfigTheme(theme, typeTheme);
             }
             
-            appOptions.setConfigSelectTheme(isSelectTheme);
+            storeThemes.setConfigSelectTheme(isSelectTheme);
         } else {
             if (!!obj) {
-                theme = this.setClientTheme(theme, obj);
+                theme = setClientTheme(theme, obj);
             } else {
-                theme = this.checkSystemDarkTheme(theme);
+                theme = checkSystemDarkTheme(theme);
             }
         }  
 
-        this.changeColorTheme(theme);
+        changeColorTheme(theme);
 
         $$(window).on('storage', e => {
-            if ( e.key == LocalStorage.prefix + 'ui-theme' ) {
-                if ( !!e.newValue ) {
-                    this.changeColorTheme(JSON.parse(e.newValue), true);
+            if (e.key == LocalStorage.prefix + 'ui-theme') {
+                if (!!e.newValue) {
+                    changeColorTheme(JSON.parse(e.newValue));
                 }
             }
         });
     }
 
-    setClientTheme(theme, obj) {
+    const setClientTheme = (theme, obj) => {
         const type = JSON.parse(obj).type;
-        const appOptions = this.props.storeAppOptions;
 
         if(type !== 'system') {
-            theme = this.themes_map[JSON.parse(obj).type];
+            theme = themes[JSON.parse(obj).type];
 
             LocalStorage.setItem("ui-theme", JSON.stringify(theme));
-            appOptions.setColorTheme(theme);
+            storeThemes.setColorTheme(theme);
         } else {
-            theme = this.checkSystemDarkTheme(theme);
+            theme = checkSystemDarkTheme(theme);
         }
 
         return theme;
     }
 
-    checkConfigTheme(theme, typeTheme) {
-        const appOptions = this.props.storeAppOptions;
-
+    const checkConfigTheme = (theme, typeTheme) => {
         if(typeTheme && typeTheme !== 'system') { 
-            theme = this.themes_map[typeTheme];
+            theme = themes[typeTheme];
 
             LocalStorage.setItem("ui-theme", JSON.stringify(theme));
-            appOptions.setColorTheme(theme);
+            storeThemes.setColorTheme(theme);
         } else {
-            theme = this.checkSystemDarkTheme(theme);
+            theme = checkSystemDarkTheme(theme);
         }
 
         return theme;
     }
 
-    checkSystemDarkTheme(theme) {
-        const appOptions = this.props.storeAppOptions;
-
+    const checkSystemDarkTheme = (theme) => {
         if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            theme = this.themes_map['dark'];
+            theme = themes['dark'];
 
-            LocalStorage.setItem("ui-theme", JSON.stringify(this.themes_map["system"]));
-            appOptions.setColorTheme(this.themes_map["system"]);
+            LocalStorage.setItem("ui-theme", JSON.stringify(themes["system"]));
+            storeThemes.setColorTheme(themes["system"]);
         }
 
         return theme;
     }
 
-    get_current_theme_colors(colors) {
+    const getCurrentThemeColors = colors => {
         let out_object = {};
         const style = getComputedStyle(document.body);
+
         colors.forEach((item, index) => {
             out_object[item] = style.getPropertyValue('--' + item).trim()
         })
@@ -166,13 +114,28 @@ class ThemesController extends React.Component {
         return out_object;
     }
 
-    changeColorTheme(theme) {
+    const changeColorTheme = theme => {
+        // let theme = themes.light;
+
+        // if(type !== "system") {
+        //     theme = themes[type];
+
+        //     LocalStorage.setItem("ui-theme", JSON.stringify(theme));
+        //     storeThemes.setColorTheme(theme);
+        // } else {
+        //     const isSystemDarkTheme = this.checkSystemDarkTheme();
+        //     if(isSystemDarkTheme) theme = themes.dark;
+
+        //     LocalStorage.setItem("ui-theme", JSON.stringify(themes["system"]));
+        //     storeThemes.setColorTheme(themes["system"]);
+        // }
+
         const $body = $$('body');
         $body.attr('class') && $body.attr('class', $body.attr('class').replace(/\s?theme-type-(?:dark|light)/, ''));
         $body.addClass(`theme-type-${theme.type}`);
 
-        const on_engine_created = api => {
-            let obj = this.get_current_theme_colors(this.name_colors);
+        const onEngineCreated = api => {
+            let obj = getCurrentThemeColors(nameColors);
             obj.type = theme.type;
             obj.name = theme.id;
 
@@ -180,18 +143,16 @@ class ThemesController extends React.Component {
         };
 
         const api = Common.EditorApi ? Common.EditorApi.get() : undefined;
-        if(!api) Common.Notifications.on('engineCreated', on_engine_created);
-        else on_engine_created(api);
+        if(!api) Common.Notifications.on('engineCreated', onEngineCreated);
+        else onEngineCreated(api);
     }
 
-    componentDidMount() {
-        this.init();
-    }
-
-    render() {
-        return null;
-    }
+    return (
+        <ThemesContext.Provider value={{ changeColorTheme, translationThemes }}>
+            {props.children}
+        </ThemesContext.Provider>
+    )
 }
 
-const themes = inject('storeAppOptions')(observer(ThemesController));
+const themes = inject('storeThemes')(observer(ThemesProvider));
 export {themes as Themes}

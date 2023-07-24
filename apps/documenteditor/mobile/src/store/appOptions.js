@@ -39,41 +39,10 @@ export class storeAppOptions {
 
             isFileEncrypted: observable,
             setEncryptionFile: action,
-
-            colorTheme: observable,
-            setColorTheme: action,
-
-            isConfigSelectTheme: observable,
-            setConfigSelectTheme: action
         });
     }
-
-    themesMap = {
-        dark: {
-            id: 'theme-dark',
-            type: 'dark'
-        },
-        light: {
-            id: 'theme-light',
-            type: 'light'
-        },
-        system: {
-            id: 'theme-system',
-            type: 'system'
-        }
-    };
     
     isEdit = false;
-
-    isConfigSelectTheme = true;
-    setConfigSelectTheme(value) {
-        this.isConfigSelectTheme = value;
-    }
-
-    colorTheme;
-    setColorTheme(theme) {
-        this.colorTheme = theme;
-    }
 
     isFileEncrypted = false;
     setEncryptionFile(value) {
@@ -94,7 +63,6 @@ export class storeAppOptions {
     changeMobileView() {
         this.isMobileView = !this.isMobileView;
     }
-
 
     isViewer = true;
     changeViewerMode(value) {

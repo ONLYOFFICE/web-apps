@@ -19,7 +19,6 @@ import PluginsController from '../../../../common/mobile/lib/controller/Plugins.
 import EncodingController from "./Encoding";
 import DropdownListController from "./DropdownList";
 import { Device } from '../../../../common/mobile/utils/device';
-import { Themes } from '../../../../common/mobile/lib/controller/Themes';
 
 @inject(
     "users",
@@ -35,7 +34,7 @@ import { Themes } from '../../../../common/mobile/lib/controller/Themes';
     "storeLinkSettings",
     "storeToolbarSettings",
     "storeNavigation"
-    )
+)
 class MainController extends Component {
     constructor(props) {
         super(props);
@@ -1262,9 +1261,8 @@ class MainController extends Component {
                 <PluginsController />
                 <EncodingController />
                 <DropdownListController />
-                <Themes />
             </Fragment>
-            )
+        )
     }
 
     componentDidMount() {
