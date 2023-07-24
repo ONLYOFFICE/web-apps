@@ -39,7 +39,8 @@ define([
     'core',
     'common/main/lib/collection/Plugins',
     'common/main/lib/view/Plugins',
-    'common/main/lib/view/PluginDlg'
+    'common/main/lib/view/PluginDlg',
+    'common/main/lib/view/PluginPanel'
 ], function () {
     'use strict';
 
@@ -78,11 +79,11 @@ define([
             });
         },
 
-        events: function() {
+        /*events: function() {
             return {
                 'click #id-plugin-close':_.bind(this.onToolClose,this)
             };
-        },
+        },*/
 
         onLaunch: function() {
             var store = this.getApplication().getCollection('Common.Collections.Plugins');
@@ -100,6 +101,8 @@ define([
             this._moveOffset = {x:0, y:0};
             this.autostart = [];
             this.customPluginsDlg = [];
+
+            this.pluginPanels = [];
 
             Common.Gateway.on('init', this.loadConfig.bind(this));
             Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
@@ -197,7 +200,7 @@ define([
 
         onAfterRender: function(panelPlugins) {
             panelPlugins.viewPluginsList && panelPlugins.viewPluginsList.on('item:click', _.bind(this.onSelectPlugin, this));
-            this.bindViewEvents(this.panelPlugins, this.events);
+            //this.bindViewEvents(this.panelPlugins, this.events);
             var me = this;
             Common.NotificationCenter.on({
                 'layout:resizestart': function(e){
@@ -380,8 +383,18 @@ define([
                 if (urlAddition)
                     url += urlAddition;
                 if (variation.get_InsideMode()) {
-                    if (!this.panelPlugins.openInsideMode(plugin.get_Name(lang), url, frameId, plugin.get_Guid()))
+                    var name = plugin.get_Name('en').toLowerCase(),
+                        panelId = 'left-panel-plugins-' + name;
+                    if (!this.pluginPanels[name]) {
+                        this.panelPlugins.fireEvent('plugin:new', [name, panelId]); // add button and div for panel in left menu
+                        this.pluginPanels[name] = new Common.Views.PluginPanel({
+                            el: '#' + panelId
+                        });
+                    }
+                    if (!this.pluginPanels[name].openInsideMode(plugin.get_Name(lang), url, frameId, plugin.get_Guid()))
                         this.api.asc_pluginButtonClick(-1, plugin.get_Guid());
+                    this.panelPlugins.fireEvent('plugin:show', [this.pluginPanels[name], name, 'show']);
+                    this.pluginPanels[name].pluginClose.on('click', _.bind(this.onToolClose, this, this.pluginPanels[name]));
                 } else {
                     var me = this,
                         isCustomWindow = variation.get_CustomWindow(),
@@ -442,15 +455,25 @@ define([
                     me.pluginDlg.show();
                 }
             }
-            this.panelPlugins.openedPluginMode(plugin.get_Guid());
+            !variation.get_InsideMode() && this.panelPlugins.openedPluginMode(plugin.get_Guid());
         },
 
         onPluginClose: function(plugin) {
+            console.log('onPluginClose');
+            var isIframePlugin = false;
             if (this.pluginDlg)
                 this.pluginDlg.close();
-            else if (this.panelPlugins.iframePlugin)
-                this.panelPlugins.closeInsideMode();
-            this.panelPlugins.closedPluginMode(plugin.get_Guid());
+            else {
+                var name = plugin.get_Name('en').toLowerCase(),
+                    panel = this.pluginPanels[name];
+                if (panel && panel.iframePlugin) {
+                    isIframePlugin = true;
+                    panel.closeInsideMode();
+                    this.panelPlugins.fireEvent('plugin:show', [this.pluginPanels[name], name, 'close']);
+                    this.pluginPanels[name] = undefined;
+                }
+            }
+            !isIframePlugin && this.panelPlugins.closedPluginMode(plugin.get_Guid());
             this.runAutoStartPlugins();
         },
 
@@ -464,8 +487,8 @@ define([
             }
         },
 
-        onToolClose: function() {
-            this.api.asc_pluginButtonClick(-1, this.panelPlugins ? this.panelPlugins._state.insidePlugin : undefined);
+        onToolClose: function(panel) {
+            this.api.asc_pluginButtonClick(-1, panel ? panel._state.insidePlugin : undefined);
         },
 
         onPluginMouseUp: function(x, y) {

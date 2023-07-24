@@ -74,7 +74,9 @@ define([
                 },
                 'Common.Views.Plugins': {
                     'plugin:open': _.bind(this.onPluginOpen, this),
-                    'hide':        _.bind(this.onHidePlugins, this)
+                    'hide':        _.bind(this.onHidePlugins, this),
+                    'plugin:new': _.bind(this.addNewPlugin, this),
+                    'plugin:show': _.bind(this.onShowPlugin, this),
                 },
                 'LeftMenu': {
                     'comments:show': _.bind(this.commentsShowHide, this, 'show'),
@@ -129,6 +131,9 @@ define([
                     isCommentsOnly: false
                 }
             };
+
+            this.pluginBtns = [];
+            this.pluginPanels = [];
 
             var keymap = {
                 'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
@@ -837,6 +842,41 @@ define([
                     }
                     return false;
             /** coauthoring end **/
+            }
+        },
+
+        addNewPlugin: function (name, id) {
+            this.leftMenu.$el.find('.tool-menu-btns').append('<button id="left-btn-plugins-' + name + '" class="btn btn-category" data-hint="0" data-hint-direction="right" data-hint-offset="big" content-target=""><i class="icon toolbar__icon btn-menu-plugin">&nbsp;</i></button>');
+            this.leftMenu.$el.find('.left-panel').append('<div id="'+ id + '" class="" style="display: none; height: 100%;"></div>');
+            this.pluginBtns[name] = new Common.UI.Button({
+                el: this.leftMenu.$el.find('#left-btn-plugins-' + name),
+                hint: this.leftMenu.tipPlugins,
+                enableToggle: true,
+                //disabled: true,
+                iconCls: 'btn-menu-plugin',
+                toggleGroup: 'leftMenuGroup'
+            });
+            this.pluginBtns[name].on('click', this.leftMenu.onBtnMenuClick.bind(this.leftMenu));
+        },
+
+        onShowPlugin: function (panel, name, action) {
+            if (action == 'show') {
+                if (!this.pluginPanels[name]) {
+                    this.pluginPanels[name] = panel;
+                }
+                this.tryToShowLeftMenu();
+                if (this.pluginBtns[name].isVisible() &&
+                    !this.pluginBtns[name].isDisabled() && !this.pluginBtns[name].pressed) {
+                    this.pluginBtns[name].toggle(true);
+                    this.pluginPanels[name].show();
+                    this.leftMenu.onBtnMenuClick(this.pluginBtns[name]);
+                }
+            } else {
+                $('#left-btn-plugins-' + name).remove();
+                $('#left-panel-plugins-' + name).remove();
+                this.pluginBtns[name] = undefined;
+                this.pluginPanels[name] = undefined;
+                this.leftMenu.close();
             }
         },
 

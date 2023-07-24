@@ -106,7 +106,7 @@ define([
             // this.lockedControls.push(this.viewPluginsList);
             // this.viewPluginsList.cmpEl.off('click');
 
-            this.pluginName = $('#current-plugin-header label');
+            /*this.pluginName = $('#current-plugin-header label');
             this.pluginsPanel = $('#plugins-box');
             this.pluginsMask = $('#plugins-mask', this.$el);
             this.currentPluginPanel = $('#current-plugin-box');
@@ -117,7 +117,7 @@ define([
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-close',
                 hint: this.textClosePanel
-            });
+            });*/
 
             this.pluginMenu = new Common.UI.Menu({
                 menuAlign   : 'tr-br',
@@ -221,7 +221,7 @@ define([
             }
         },
 
-        openInsideMode: function(name, url, frameId, guid) {
+        /*openInsideMode: function(name, url, frameId, guid) {
             if (!this.pluginsPanel) return false;
 
             this.pluginsPanel.toggleClass('hidden', true);
@@ -264,7 +264,7 @@ define([
             // this.pluginsPanel.toggleClass('hidden', false);
             this._state.insidePlugin = undefined;
             this.fireEvent('plugin:open', [this, 'onboard', 'close']);
-        },
+        },*/
 
         openedPluginMode: function(pluginGuid) {
             // var rec = this.viewPluginsList.store.findWhere({guid: pluginGuid});
@@ -301,10 +301,10 @@ define([
             }
         },
 
-        _onLoad: function() {
+        /*_onLoad: function() {
             if (this.loadMask)
                 this.loadMask.hide();
-        },
+        },*/
 
         parseIcons: function(icons) {
             if (icons.length && typeof icons[0] !== 'string') {
