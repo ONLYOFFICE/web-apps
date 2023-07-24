@@ -43,10 +43,10 @@
             <tr>
                 <td width="50%">
                     <label id="chart-dlg-label-lines" class="input-label"><%= scope.textLines %></label>
-                    <div id="chart-dlg-combo-lines" class="input-group-nr padding-small margin-right-7"></div>
+                    <div id="chart-dlg-combo-lines" class="input-group-nr margin-right-7"></div>
                 </td>
                 <td style="vertical-align: bottom;" width="50%">
-                    <div id="chart-dlg-check-markers"></div>
+                    <div id="chart-dlg-check-markers" class="margin-left-7"></div>
                 </td>
             </tr>
         </table>
