@@ -158,14 +158,16 @@ define([
                 this.api.asc_registerCallback('asc_onHyperlinkClick',               _.bind(this.onHyperlinkClick, this));
                 this.api.asc_registerCallback('asc_onMouseMove',                    _.bind(this.onMouseMove, this));
 
-                this.api.asc_registerCallback('asc_onHideEyedropper',           _.bind(this.hideEyedropper, this));
+                this.api.asc_registerCallback('asc_onHideEyedropper',               _.bind(this.hideEyedropper, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',        _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect',                      _.bind(this.onCoAuthoringDisconnect, this));
 
                 this.api.asc_registerCallback('asc_onShowForeignCursorLabel',       _.bind(this.onShowForeignCursorLabel, this));
                 this.api.asc_registerCallback('asc_onHideForeignCursorLabel',       _.bind(this.onHideForeignCursorLabel, this));
                 this.api.asc_registerCallback('asc_onFocusObject',                  _.bind(this.onFocusObject, this));
-                this.api.asc_registerCallback('onPluginContextMenu',                 _.bind(this.onPluginContextMenu, this));
+                this.api.asc_registerCallback('onPluginContextMenu',                _.bind(this.onPluginContextMenu, this));
+
+                this.api.asc_registerCallback('asc_onShowPDFFormsActions',          _.bind(this.onShowFormsPDFActions, this));
                 this.documentHolder.setApi(this.api);
             }
 
@@ -840,6 +842,86 @@ define([
             if (data && data.length>0 && this.documentHolder && this.documentHolder.currentMenu && this.documentHolder.currentMenu.isVisible()){
                 this.documentHolder.updateCustomItems(this.documentHolder.currentMenu, data);
             }
+        },
+
+        onShowFormsPDFActions: function(obj, x, y) {
+            switch (obj.type) {
+                case AscPDF.FIELD_TYPES.combobox:
+                    this.onShowListActionsPDF(obj, x, y);
+                    break;
+            }
+        },
+
+        onShowListActionsPDF: function(obj) {
+            var type = obj.type,
+                isForm = true,
+                cmpEl = this.documentHolder.cmpEl,
+                menu = this.listControlMenu,
+                menuContainer = menu ? cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
+                me = this;
+
+            me._listObj = obj;
+            this._fromShowContentControls = true;
+            Common.UI.Menu.Manager.hideAll();
+
+            if (!menu) {
+                this.listControlMenu = menu = new Common.UI.Menu({
+                    maxHeight: 207,
+                    menuAlign: 'tr-bl',
+                    items: []
+                });
+                menu.on('item:click', function(menu, item) {
+                    setTimeout(function(){
+                        (item.value!==-1) && me.api.asc_SelectPDFFormListItem(item.value);
+                    }, 1);
+                });
+
+                // Prepare menu container
+                if (!menuContainer || menuContainer.length < 1) {
+                    menuContainer = $(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
+                    cmpEl.append(menuContainer);
+                }
+
+                menu.render(menuContainer);
+                menu.cmpEl.attr({tabindex: "-1"});
+                menu.on('hide:after', function(){
+                    me.listControlMenu.removeAll();
+                    if (!me._fromShowContentControls)
+                        me.api.asc_UncheckContentControlButtons();
+                });
+            }
+
+            var count = obj._options.length;
+            for (var i=0; i<count; i++) {
+                menu.addItem(new Common.UI.MenuItem({
+                    caption     : Array.isArray(obj._options[i]) ? obj._options[i][0] : obj._options[i],
+                    value       : i,
+                    template    : _.template([
+                        '<a id="<%= id %>" style="<%= style %>" tabindex="-1" type="menuitem">',
+                        '<%= Common.Utils.String.htmlEncode(caption) %>',
+                        '</a>'
+                    ].join(''))
+                }));
+            }
+            if (!isForm && menu.items.length<1) {
+                menu.addItem(new Common.UI.MenuItem({
+                    caption     : this.documentHolder.txtEmpty,
+                    value       : -1
+                }));
+            }
+
+
+            let oGlobalCoords = AscPDF.GetGlobalCoordsByPageCoords(obj._pagePos.x + obj._pagePos.w, obj._pagePos.y + obj._pagePos.h, obj._page, true);
+
+            menuContainer.css({left: oGlobalCoords.X, top : oGlobalCoords.Y});
+            menuContainer.attr('data-value', 'prevent-canvas-click');
+            this._preventClick = true;
+            menu.show();
+
+            _.delay(function() {
+                menu.cmpEl.focus();
+            }, 10);
+            this._fromShowContentControls = false;
         },
 
         editComplete: function() {

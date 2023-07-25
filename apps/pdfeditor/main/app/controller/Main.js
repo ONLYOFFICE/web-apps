@@ -170,6 +170,10 @@ define([
                     this.api.asc_registerCallback('asc_onPrintUrl',                 _.bind(this.onPrintUrl, this));
                     this.api.asc_registerCallback('asc_onMeta',                     _.bind(this.onMeta, this));
                     // this.api.asc_registerCallback('asc_onSpellCheckInit',           _.bind(this.loadLanguages, this));
+                    this.api.asc_registerCallback('asc_onOpenLinkPdfForm',          _.bind(this.onOpenLinkPdfForm, this));
+                    this.api.asc_registerCallback('asc_onOpenFilePdfForm',          _.bind(this.onOpenFilePdfForm, this));
+                    this.api.asc_registerCallback('asc_onValidateErrorPdfForm',     _.bind(this.onValidateErrorPdfForm, this));
+                    this.api.asc_registerCallback('asc_onFormatErrorPdfForm',       _.bind(this.onFormatErrorPdfForm, this));
 
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(this.onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('goback',                          _.bind(this.goBack, this));
@@ -1632,6 +1636,88 @@ define([
                 (id!==undefined) && Common.component.Analytics.trackEvent('Internal Error', id.toString());
             },
 
+            onOpenLinkPdfForm: function(sURI, onAllow, onCancel) {
+                var id = 'pdf-link',
+                    config = {
+                        closable: true,
+                        title: this.notcriticalErrorTitle,
+                        iconCls: 'warn',
+                        buttons: ['ok', 'cancel'],
+                        msg: Common.Utils.String.format(this.txtSecurityWarningLink, sURI || ''),
+                        callback: _.bind(function(btn){
+                            if (btn == 'ok' && window.event && window.event.ctrlKey == true) {
+                                onAllow();
+                            }
+                            else
+                                onCancel();
+                        }, this)
+                    };
+
+                if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
+                    Common.UI.alert(config).$window.attr('data-value', id);
+            },
+
+            onOpenFilePdfForm: function(onAllow, onCancel) {
+                var id = 'pdf-form',
+                    config = {
+                        closable: true,
+                        title: this.notcriticalErrorTitle,
+                        iconCls: 'warn',
+                        buttons: ['ok', 'cancel'],
+                        msg: this.txtSecurityWarningOpenFile,
+                        callback: _.bind(function(btn){
+                            if (btn == 'ok') {
+                                onAllow();
+                            }
+                            else
+                                onCancel();
+                        }, this)
+                };
+
+                if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
+                    Common.UI.alert(config).$window.attr('data-value', id);
+            },
+
+            onValidateErrorPdfForm: function(oInfo) {
+                var id = 'pdf-validate-error',
+                    config = {
+                        closable: true,
+                        title: this.notcriticalErrorTitle,
+                        iconCls: 'warn',
+                        buttons: ['ok']
+                    };
+
+                if (oInfo["greater"] != null && oInfo["less"] != null) {
+                    config.msg = Common.Utils.String.format(this.txtInvalidGreaterLess, oInfo["target"].GetFullName(), oInfo["greater"], oInfo["less"]);
+                }
+                else if (oInfo["greater"] != null) {
+                    config.msg = Common.Utils.String.format(this.txtInvalidGreater, oInfo["target"].GetFullName(), oInfo["greater"]);
+                }
+                else if (oInfo["less"] != null) {
+                    config.msg = Common.Utils.String.format(this.txtInvalidLess, oInfo["target"].GetFullName(), oInfo["less"]);
+                }
+
+                if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
+                    Common.UI.alert(config).$window.attr('data-value', id);
+            },
+
+            onFormatErrorPdfForm: function(oInfo) {
+                var id = 'pdf-format-error',
+                    config = {
+                        closable: true,
+                        title: this.notcriticalErrorTitle,
+                        iconCls: 'warn',
+                        buttons: ['ok']
+                    };
+
+                config.msg = Common.Utils.String.format(this.txtInvalidPdfFormat, oInfo["target"].GetFullName());
+                if (oInfo["format"])
+                    config.msg += '<br>' + Common.Utils.String.format(this.txtValidPdfFormat, oInfo["format"]);
+
+                if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
+                    Common.UI.alert(config).$window.attr('data-value', id);
+            },
+
             onCoAuthoringDisconnect: function() {
                 this.getApplication().getController('Viewport').getView('Viewport').setMode({isDisconnected:true});
                 appHeader.setCanRename(false);
@@ -2553,7 +2639,15 @@ define([
             textText: 'Text',
             warnLicenseBefore: 'License not active.<br>Please contact your administrator.',
             titleLicenseNotActive: 'License not active',
-            warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.'
+            warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.',
+            txtSecurityWarningLink: 'This document is trying to connect to {0}.<br>If you trust this site, press "OK" while holding down the ctrl key.',
+            txtSecurityWarningOpenFile: 'This document is trying to open file dialog, press "OK" to open.',
+            txtInvalidGreaterLess: 'Ivalid value for field "{0}": must be greater than or equal to {1} and less then or equal to {2}.',
+            txtInvalidGreater: 'Ivalid value for field "{0}": must be greater than or equal to {1}.',
+            txtInvalidLess: 'Ivalid value for field "{0}": must be less than or equal to {1}.',
+            txtInvalidPdfFormat: 'The value entered does not match the format of the field "{0}".',
+            txtValidPdfFormat: 'Field value should match format "{0}".'
+
         }
     })(), PDFE.Controllers.Main || {}))
 });
