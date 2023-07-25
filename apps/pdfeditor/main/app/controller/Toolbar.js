@@ -386,6 +386,7 @@ define([
         onSelectTool: function (type, btn, e) {
             if (this.api)
                 this.api.asc_setViewerTargetType(type);
+            this.mode.isEdit && this.api.asc_StopInkDrawer();
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
@@ -471,6 +472,18 @@ define([
                     me.toolbar.btnCopy.$el.removeClass('split');
                     me.toolbar.processPanelVisible(null, true, true);
                 }
+
+                var drawtab = me.getApplication().getController('Common.Controllers.Draw');
+                drawtab.setApi(me.api).setMode(config);
+                $panel = drawtab.createToolbarPanel();
+                if ($panel) {
+                    tab = {action: 'draw', caption: me.toolbar.textTabDraw, extcls: 'canedit', layoutname: 'toolbar-draw', dataHintTitle: 'C'};
+                    me.toolbar.addTab(tab, $panel, 2);
+                    me.toolbar.setVisible('draw', Common.UI.LayoutManager.isElementVisible('toolbar-draw'));
+                    Array.prototype.push.apply(me.toolbar.lockControls, drawtab.getView().getButtons());
+                    Array.prototype.push.apply(me.toolbar.paragraphControls, drawtab.getView().getButtons());
+                }
+
             }
             var tab = {caption: me.toolbar.textTabView, action: 'view', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-view', dataHintTitle: 'W'};
             var viewtab = me.getApplication().getController('ViewTab');

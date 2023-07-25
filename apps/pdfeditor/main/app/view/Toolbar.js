@@ -559,7 +559,8 @@ define([
             capBtnHand: 'Hand',
             textTabView: 'View',
             tipSelectAll: 'Select all',
-            tipCut: 'Cut'
+            tipCut: 'Cut',
+            textTabDraw: 'Draw'
         }
     })(), PDFE.Views.Toolbar || {}));
 });

@@ -95,6 +95,7 @@ define([
                 this._state = {disabled: false};
                 this.lockedControls = [];
                 this.btnsPen = [];
+                this.isPDFEditor = !!window.PDFE;
 
                 var filter = Common.localStorage.getKeysFilter();
                 this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
@@ -152,7 +153,8 @@ define([
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small',
-                    lock: lock
+                    lock: lock,
+                    visible: !this.isPDFEditor
                 });
                 this.lockedControls.push(this.btnSelect);
 

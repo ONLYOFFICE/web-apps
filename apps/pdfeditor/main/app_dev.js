@@ -146,6 +146,7 @@ require([
             'Common.Controllers.Fonts'
             ,'Common.Controllers.Chat'
             ,'Common.Controllers.Comments'
+            ,'Common.Controllers.Draw'
             ,'Common.Controllers.Plugins'
         ]
     });
@@ -174,6 +175,7 @@ require([
                 ,'common/main/lib/controller/Comments'
                 ,'common/main/lib/controller/Chat'
                 ,'common/main/lib/controller/Plugins'
+                ,'common/main/lib/controller/Draw'
             ], function() {
                 window.compareVersions = true;
                 app.start();
