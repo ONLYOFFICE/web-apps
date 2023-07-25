@@ -80,8 +80,8 @@ class ApplicationSettingsController extends Component {
                 switchDisplayResolved={this.switchDisplayResolved}  
                 setMacrosSettings={this.setMacrosSettings}  
                 changeDirection={this.changeDirection}      
-                changeColorTheme={this.context.changeColorTheme}
-                translationThemes={this.context.translationThemes}
+                changeTheme={this.context.changeTheme}
+                translationsThemes={this.context.translationsThemes}
             />
         )
     }

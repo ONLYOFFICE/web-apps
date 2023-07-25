@@ -24,7 +24,7 @@ const PageApplicationSettings = props => {
     // set mode
     const appOptions = props.storeAppOptions;
     const colorTheme = storeThemes.colorTheme;
-    const translationThemes = props.translationThemes;
+    const translationsThemes = props.translationsThemes;
     const typeTheme = colorTheme.type;
     const isConfigSelectTheme = storeThemes.isConfigSelectTheme;
     const isViewer = appOptions.isViewer;
@@ -102,9 +102,9 @@ const PageApplicationSettings = props => {
             </List>
             {!!isConfigSelectTheme &&
                 <List mediaList>
-                    <ListItem title={t("Common.Themes.textTheme")} after={typeTheme === 'dark' || typeTheme === 'light' ? translationThemes[typeTheme] : translationThemes['system']} link="/theme-settings/" routeProps={{
-                        changeColorTheme: props.changeColorTheme,
-                        translationThemes
+                    <ListItem title={t("Common.Themes.textTheme")} after={typeTheme === 'dark' || typeTheme === 'light' ? translationsThemes[typeTheme] : translationsThemes['system']} link="/theme-settings/" routeProps={{
+                        changeTheme: props.changeTheme,
+                        translationsThemes
                     }}></ListItem>
                 </List>
             }
@@ -125,15 +125,15 @@ const PageThemeSettings = props => {
     const storeThemes = props.storeThemes;
     const colorTheme = storeThemes.colorTheme;
     const typeTheme = colorTheme.type;
-    const translationThemes = props.translationThemes;
+    const translationsThemes = props.translationsThemes;
 
     return (
         <Page>
             <Navbar title={t('Settings.textTheme')} backLink={_t.textBack} />
             <List>
-                {Object.keys(translationThemes).map((theme, index) => {
+                {Object.keys(translationsThemes).map((theme, index) => {
                     return (
-                        <ListItem key={index} radio checked={typeTheme === theme} onChange={() => props.changeColorTheme(theme)} name={theme} title={translationThemes[theme]}></ListItem>
+                        <ListItem key={index} radio checked={typeTheme === theme} onChange={() => props.changeTheme(theme)} name={theme} title={translationsThemes[theme]}></ListItem>
                     )
                 })}
                 {/* <ListItem radio checked={typeTheme === 'system'} onChange={() => props.changeColorTheme('system')} name="system" title={t('Settings.textSameAsSystem')}></ListItem>

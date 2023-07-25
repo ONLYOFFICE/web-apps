@@ -1,33 +1,39 @@
-import React, { createContext, useCallback, useEffect } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import { LocalStorage } from "../../utils/LocalStorage.mjs";
 import { inject, observer } from "mobx-react";
 import { useTranslation } from 'react-i18next';
 
 export const ThemesContext = createContext();
 export const ThemesProvider = props => {
-    const { t } = useTranslation();
+    const { t, ready } = useTranslation();
     const storeThemes = props.storeThemes;
     const themes = storeThemes.themes;
     const nameColors = storeThemes.nameColors;
-    const translationThemes = getTranslationThemes();
+    const [translationsThemes, setTranslationsThemes] = useState({});
 
     useEffect(() => {
         initTheme();
     }, []);
 
-    function getTranslationThemes() {
-        return Object.keys(themes).reduce((acc, theme) => {
-            acc[theme] = (t(`Common.Themes.${theme}`));
+    useEffect(() => {
+        if (ready) {
+            const translations = getTranslationsThemes();
+            setTranslationsThemes(translations);
+        }
+    }, [ready, themes]);
+
+    const getTranslationsThemes = () => {
+        const translations = Object.keys(themes).reduce((acc, theme) => {
+            acc[theme] = t(`Common.Themes.${theme}`);
             return acc;
         }, {});
+
+        return translations;
     }
 
     const initTheme = () => {
-        // localStorage.clear();
         const editorConfig = window.native?.editorConfig;
         const obj = LocalStorage.getItem("ui-theme");
-        
-        let theme = themes.light;
         
         if(editorConfig) {
             const themeConfig = editorConfig.theme;
@@ -36,36 +42,29 @@ export const ThemesProvider = props => {
 
             if(isSelectTheme) {
                 if(!!obj) {
-                    theme = setClientTheme(theme, obj);
+                    setClientTheme(obj);
                 } else {
-                    theme = checkConfigTheme(theme, typeTheme);
+                    setConfigTheme(typeTheme);
                 } 
             } else {
-                theme = checkConfigTheme(theme, typeTheme);
+                setConfigTheme(typeTheme);
             }
             
             storeThemes.setConfigSelectTheme(isSelectTheme);
         } else {
             if (!!obj) {
-                theme = setClientTheme(theme, obj);
+                setClientTheme(obj);
             } else {
-                theme = checkSystemDarkTheme(theme);
+                setSystemTheme();
             }
         }  
 
-        changeColorTheme(theme);
-
-        $$(window).on('storage', e => {
-            if (e.key == LocalStorage.prefix + 'ui-theme') {
-                if (!!e.newValue) {
-                    changeColorTheme(JSON.parse(e.newValue));
-                }
-            }
-        });
+        setTheme();
     }
 
-    const setClientTheme = (theme, obj) => {
+    const setClientTheme = obj => {
         const type = JSON.parse(obj).type;
+        let theme;
 
         if(type !== 'system') {
             theme = themes[JSON.parse(obj).type];
@@ -73,64 +72,69 @@ export const ThemesProvider = props => {
             LocalStorage.setItem("ui-theme", JSON.stringify(theme));
             storeThemes.setColorTheme(theme);
         } else {
-            theme = checkSystemDarkTheme(theme);
+            setSystemTheme();
         }
-
-        return theme;
     }
 
-    const checkConfigTheme = (theme, typeTheme) => {
+    const setConfigTheme = typeTheme => {
+        let theme;
+
         if(typeTheme && typeTheme !== 'system') { 
             theme = themes[typeTheme];
 
-            LocalStorage.setItem("ui-theme", JSON.stringify(theme));
             storeThemes.setColorTheme(theme);
         } else {
-            theme = checkSystemDarkTheme(theme);
+            setSystemTheme();
         }
-
-        return theme;
     }
 
-    const checkSystemDarkTheme = (theme) => {
-        if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            theme = themes['dark'];
+    const setSystemTheme = () => {
+        let theme = themes.light;
 
-            LocalStorage.setItem("ui-theme", JSON.stringify(themes["system"]));
-            storeThemes.setColorTheme(themes["system"]);
+        if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            theme = themes.dark;
         }
 
-        return theme;
+        storeThemes.setColorTheme(themes["system"]);
+        storeThemes.setSystemColorTheme(theme);
     }
 
     const getCurrentThemeColors = colors => {
-        let out_object = {};
+        let outObject = {};
         const style = getComputedStyle(document.body);
 
-        colors.forEach((item, index) => {
-            out_object[item] = style.getPropertyValue('--' + item).trim()
-        })
+        colors.forEach(item => {
+            outObject[item] = style.getPropertyValue('--' + item).trim()
+        });
 
-        return out_object;
+        return outObject;
     }
 
-    const changeColorTheme = theme => {
-        // let theme = themes.light;
+    const changeTheme = key => {
+        const theme = themes[key];
+        const type = theme.type;
 
-        // if(type !== "system") {
-        //     theme = themes[type];
+        if(type !== "system") {
+            LocalStorage.setItem("ui-theme", JSON.stringify(theme));
+            storeThemes.resetSystemColorTheme();
+            storeThemes.setColorTheme(theme);
 
-        //     LocalStorage.setItem("ui-theme", JSON.stringify(theme));
-        //     storeThemes.setColorTheme(theme);
-        // } else {
-        //     const isSystemDarkTheme = this.checkSystemDarkTheme();
-        //     if(isSystemDarkTheme) theme = themes.dark;
+            setTheme();
+        } else {
+            LocalStorage.setItem("ui-theme", JSON.stringify(themes["system"]));
+            storeThemes.setColorTheme(themes["system"]);
 
-        //     LocalStorage.setItem("ui-theme", JSON.stringify(themes["system"]));
-        //     storeThemes.setColorTheme(themes["system"]);
-        // }
+            setSystemTheme();
+            setTheme();
+        }
+    }
 
+    const setTheme = () => {
         const $body = $$('body');
+
+        let theme = storeThemes.systemColorTheme;
+        if(!theme) theme = storeThemes.colorTheme;
+    
         $body.attr('class') && $body.attr('class', $body.attr('class').replace(/\s?theme-type-(?:dark|light)/, ''));
         $body.addClass(`theme-type-${theme.type}`);
 
@@ -148,7 +152,7 @@ export const ThemesProvider = props => {
     }
 
     return (
-        <ThemesContext.Provider value={{ changeColorTheme, translationThemes }}>
+        <ThemesContext.Provider value={{ changeTheme, translationsThemes }}>
             {props.children}
         </ThemesContext.Provider>
     )

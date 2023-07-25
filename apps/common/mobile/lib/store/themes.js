@@ -6,7 +6,10 @@ export class storeThemes {
 			isConfigSelectTheme: observable,
 			setConfigSelectTheme: action,
 			colorTheme: observable,
-			setColorTheme: action
+			setColorTheme: action,
+            systemColorTheme: observable,
+            setSystemColorTheme: action,
+            resetSystemColorTheme: action
         });
     }
 
@@ -18,6 +21,15 @@ export class storeThemes {
     colorTheme;
     setColorTheme(theme) {
         this.colorTheme = theme;
+    }
+
+    systemColorTheme;
+    setSystemColorTheme(theme) {
+        this.systemColorTheme = theme;
+    }
+
+    resetSystemColorTheme() {
+        this.systemColorTheme = null;
     }
 
 	themes = {
