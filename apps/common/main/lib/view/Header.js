@@ -53,6 +53,7 @@ define([
         var storeUsers, appConfig;
         var $userList, $panelUsers, $btnUsers, $btnUserName, $labelDocName;
         var _readonlyRights = false;
+        var isPDFEditor = !!window.PDFE;
 
         var templateUserItem =
                 '<li id="<%= user.get("iid") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %>">' +
@@ -100,6 +101,9 @@ define([
                                 '</div>' +
                                 '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-btn-share"></div>' +
+                                '</div>' +
+                                '<div class="hedset">' +
+                                    '<div class="btn-slot" id="slot-btn-pdf-mode"></div>' +
                                 '</div>' +
                                 '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-btn-mode"></div>' +
@@ -383,6 +387,43 @@ define([
             if (me.btnSearch)
                 me.btnSearch.updateHint(me.tipSearch +  Common.Utils.String.platformKey('Ctrl+F'));
 
+            if (me.btnPDFMode) {
+                // me.btnPDFMode.updateHint(me.tipPDFMode);
+                var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div>' +
+                                                '<% if (!_.isEmpty(iconCls)) { %>' +
+                                                    '<span class="menu-item-icon <%= iconCls %>"></span>' +
+                                                '<% } %>' +
+                                                '<b><%= caption %></b></div>' +
+                                                '<% if (options.description !== null) { %><label style="display: block;cursor: pointer;white-space: normal;"><%= options.description %></label>' +
+                                              '<% } %></a>');
+                me.btnPDFMode.setMenu(new Common.UI.Menu({
+                    cls: 'ppm-toolbar',
+                    style: 'max-width: 220px;',
+                    items: [
+                        {
+                            caption: me.textEdit,
+                            iconCls : 'menu__icon btn-edit',
+                            template: menuTemplate,
+                            description: me.textEditDesc,
+                            value: 'edit'
+                        },
+                        {
+                            caption: me.textComment,
+                            iconCls : 'menu__icon btn-menu-comments',
+                            template: menuTemplate,
+                            description: me.textCommentDesc,
+                            value: 'comment'
+                        },
+                        {
+                            caption: me.textView,
+                            iconCls : 'menu__icon btn-sheet-view',
+                            template: menuTemplate,
+                            description: me.textViewDesc,
+                            value: 'view'
+                        }
+                    ]
+                }));
+            }
             if (appConfig.isEdit && !(appConfig.customization && appConfig.customization.compactHeader))
                 Common.NotificationCenter.on('window:resize', onResize);
         }
@@ -586,7 +627,7 @@ define([
                         if ( config.canQuickPrint )
                             this.btnPrintQuick = createTitleButton('toolbar__icon icon--inverse btn-quick-print', $html.findById('#slot-hbtn-print-quick'), undefined, 'bottom', 'big', 'Q');
 
-                        if ( config.canEdit && config.canRequestEditRights )
+                        if ( config.canEdit && config.canRequestEditRights && !isPDFEditor)
                             this.btnEdit = createTitleButton('toolbar__icon icon--inverse btn-edit', $html.findById('#slot-hbtn-edit'), undefined, 'bottom', 'big');
                     }
                     me.btnSearch.render($html.find('#slot-btn-search'));
@@ -623,6 +664,20 @@ define([
                     } else {
                         $html.find('#slot-btn-share').hide();
                     }
+
+                    if (isPDFEditor) {
+                        me.btnPDFMode = new Common.UI.Button({
+                            cls: 'btn-header btn-header-pdf-mode no-caret',
+                            iconCls: 'toolbar__icon icon--inverse ' + (config.isPDFEdit ? 'btn-edit' : (config.isPDFAnnotate ? 'btn-menu-comments' : 'btn-sheet-view')),
+                            caption: config.isPDFEdit ? me.textEdit : (config.isPDFAnnotate ? me.textComment : me.textView),
+                            menu: true,
+                            dataHint: '0',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'big'
+                        });
+                        me.btnPDFMode.render($html.find('#slot-btn-pdf-mode'));
+                    } else
+                        $html.find('#slot-btn-pdf-mode').hide();
 
                     $userList = $html.find('.cousers-list');
                     $panelUsers = $html.find('.box-cousers');
@@ -938,7 +993,13 @@ define([
             tipSearch: 'Search',
             textShare: 'Share',
             tipPrintQuick: 'Quick print',
-            textReadOnly: 'Read only'
+            textReadOnly: 'Read only',
+            textView: 'Viewing',
+            textComment: 'Commenting',
+            textEdit: 'Editing',
+            textViewDesc: 'All changes will be saved locally',
+            textCommentDesc: 'All changes will be saved to the file. Real time collaboration',
+            textEditDesc: 'All changes will be saved to the file. Real time collaboration'
         }
     }(), Common.Views.Header || {}))
 });
