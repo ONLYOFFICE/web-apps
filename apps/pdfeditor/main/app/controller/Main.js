@@ -1164,6 +1164,7 @@ define([
                 this.appOptions.canRequestEditRights = this.editorConfig.canRequestEditRights;
                 this.appOptions.canEdit        = true;
                 this.appOptions.isEdit         = true;
+                this.permissions.edit = this.permissions.comment = true; // !! Only for test !!
                 this.appOptions.canPDFEdit     = (this.permissions.edit !== false) && // can edit
                                                  (this.editorConfig.canRequestEditRights || this.editorConfig.mode !== 'view') && // if mode=="view" -> canRequestEditRights must be defined
                                                  (this.appOptions.canLicense);

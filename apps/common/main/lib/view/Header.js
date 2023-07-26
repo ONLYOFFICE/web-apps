@@ -246,6 +246,14 @@ define([
             }
         }
 
+        function changePDFMode(config) {
+            var me = this;
+            if (!me.btnPDFMode || !config) return;
+            me.btnPDFMode.setIconCls('toolbar__icon icon--inverse ' + (config.isPDFEdit ? 'btn-edit' : (config.isPDFAnnotate ? 'btn-menu-comments' : 'btn-sheet-view')));
+            me.btnPDFMode.setCaption(config.isPDFEdit ? me.textEdit : (config.isPDFAnnotate ? me.textComment : me.textView));
+            me.btnPDFMode.updateHint(config.isPDFEdit ? me.tipEdit : (config.isPDFAnnotate ? me.tipComment : me.tipView));
+        }
+
         function onResize() {
             if (appConfig && appConfig.isEdit && !(appConfig.customization && appConfig.customization.compactHeader)) {
                 updateDocNamePosition(appConfig);
@@ -388,17 +396,17 @@ define([
                 me.btnSearch.updateHint(me.tipSearch +  Common.Utils.String.platformKey('Ctrl+F'));
 
             if (me.btnPDFMode) {
-                // me.btnPDFMode.updateHint(me.tipPDFMode);
                 var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div>' +
                                                 '<% if (!_.isEmpty(iconCls)) { %>' +
                                                     '<span class="menu-item-icon <%= iconCls %>"></span>' +
                                                 '<% } %>' +
                                                 '<b><%= caption %></b></div>' +
-                                                '<% if (options.description !== null) { %><label style="display: block;cursor: pointer;white-space: normal;"><%= options.description %></label>' +
+                                                '<% if (options.description !== null) { %><label style="display: block;cursor: pointer;white-space: normal;" class="margin-left-10"><%= options.description %></label>' +
                                               '<% } %></a>');
                 me.btnPDFMode.setMenu(new Common.UI.Menu({
                     cls: 'ppm-toolbar',
-                    style: 'max-width: 220px;',
+                    style: 'width: 220px;',
+                    menuAlign: 'tr-br',
                     items: [
                         {
                             caption: me.textEdit,
@@ -423,6 +431,19 @@ define([
                         }
                     ]
                 }));
+                me.btnPDFMode.menu.on('item:click', function (menu, item) {
+                    if (item.value==='edit' && appConfig.canPDFEdit) {
+                        appConfig.isPDFEdit = true;
+                        appConfig.isPDFAnnotate = false;
+                    } else if (item.value==='comment' && appConfig.canPDFAnnotate) {
+                        appConfig.isPDFEdit = false;
+                        appConfig.isPDFAnnotate = true;
+                    } else if (item.value==='view') {
+                        appConfig.isPDFEdit = appConfig.isPDFAnnotate = false;
+                    }
+                    changePDFMode.call(me, appConfig);
+                    Common.NotificationCenter.trigger('pdf:mode');
+                });
             }
             if (appConfig.isEdit && !(appConfig.customization && appConfig.customization.compactHeader))
                 Common.NotificationCenter.on('window:resize', onResize);
@@ -668,14 +689,15 @@ define([
                     if (isPDFEditor) {
                         me.btnPDFMode = new Common.UI.Button({
                             cls: 'btn-header btn-header-pdf-mode no-caret',
-                            iconCls: 'toolbar__icon icon--inverse ' + (config.isPDFEdit ? 'btn-edit' : (config.isPDFAnnotate ? 'btn-menu-comments' : 'btn-sheet-view')),
-                            caption: config.isPDFEdit ? me.textEdit : (config.isPDFAnnotate ? me.textComment : me.textView),
+                            iconCls: 'toolbar__icon icon--inverse btn-sheet-view',
+                            caption: me.textView,
                             menu: true,
                             dataHint: '0',
                             dataHintDirection: 'bottom',
                             dataHintOffset: 'big'
                         });
                         me.btnPDFMode.render($html.find('#slot-btn-pdf-mode'));
+                        changePDFMode.call(me, config);
                     } else
                         $html.find('#slot-btn-pdf-mode').hide();
 
@@ -999,7 +1021,10 @@ define([
             textEdit: 'Editing',
             textViewDesc: 'All changes will be saved locally',
             textCommentDesc: 'All changes will be saved to the file. Real time collaboration',
-            textEditDesc: 'All changes will be saved to the file. Real time collaboration'
+            textEditDesc: 'All changes will be saved to the file. Real time collaboration',
+            tipView: 'Viewing',
+            tipComment: 'Commenting',
+            tipEdit: 'Editing'
         }
     }(), Common.Views.Header || {}))
 });
