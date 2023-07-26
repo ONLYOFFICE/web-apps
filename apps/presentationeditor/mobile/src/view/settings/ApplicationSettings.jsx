@@ -2,7 +2,6 @@ import React, {Fragment, useState} from "react";
 import { observer, inject } from "mobx-react";
 import {f7, Page, Navbar, List, ListItem, BlockTitle, Toggle } from "framework7-react";
 import { useTranslation } from "react-i18next";
-// import { Themes } from '../../../../../common/mobile/lib/controller/Themes.js';
 import { LocalStorage } from "../../../../../common/mobile/utils/LocalStorage.mjs";
 
 const PageApplicationSettings = props => {
@@ -11,7 +10,6 @@ const PageApplicationSettings = props => {
     const store = props.storeApplicationSettings;
     const unitMeasurement = store.unitMeasurement;
     const isSpellChecking = store.isSpellChecking;
-    // const [isThemeDark, setIsThemeDark] = useState(Themes.isCurrentDark);
 
     const changeMeasureSettings = value => {
         store.changeUnitMeasurement(value);
@@ -20,17 +18,14 @@ const PageApplicationSettings = props => {
 
     // set mode
     const appOptions = props.storeAppOptions;
-    const colorTheme = appOptions.colorTheme;
+    const storeThemes = props.storeThemes;
+    const colorTheme = storeThemes.colorTheme;
+    const translationsThemes = props.translationsThemes;
     const typeTheme = colorTheme.type;
-    const isConfigSelectTheme = appOptions.isConfigSelectTheme;
+    const isConfigSelectTheme = storeThemes.isConfigSelectTheme;
     const _isEdit = appOptions.isEdit;
     // const _isShowMacros = (!appOptions.isDisconnected && appOptions.customization) ? appOptions.customization.macros !== false : true;
 
-    const themes = {
-        'dark': t('View.Settings.textDark'),
-        'light': t('View.Settings.textLight'),
-        'system': t('View.Settings.textSameAsSystem')
-    }
 
     return (
         <Page>
@@ -59,16 +54,12 @@ const PageApplicationSettings = props => {
                     {/*<RTLSetting />*/}
                 </Fragment>
             }
-            {/* <List> */}
-                {/* <ListItem title={t('View.Settings.textDarkTheme')}>
-                    <Toggle checked={isThemeDark}
-                            onToggleChange={() => {Themes.switchDarkTheme(!isThemeDark), setIsThemeDark(!isThemeDark)}}>
-                    </Toggle>
-                </ListItem> */}
-            {/* </List> */}
             {!!isConfigSelectTheme &&
                 <List mediaList>
-                    <ListItem title={t("View.Settings.textTheme")} after={typeTheme === 'dark' || typeTheme === 'light' ? themes[typeTheme] : themes['system']} link="/theme-settings/" routeProps={{changeColorTheme: props.changeColorTheme}}></ListItem>
+                    <ListItem title={t("Common.Themes.textTheme")} after={typeTheme === 'dark' || typeTheme === 'light' ? translationsThemes[typeTheme] : translationsThemes['system']} link="/theme-settings/" routeProps={{
+                        changeTheme: props.changeTheme,
+                        translationsThemes
+                    }}></ListItem>
                 </List>
             }
             {/* {_isShowMacros && */}
@@ -85,17 +76,20 @@ const PageApplicationSettings = props => {
 const PageThemeSettings = props => {
     const { t } = useTranslation();
     const _t = t("View.Settings", { returnObjects: true });
-    const appOptions = props.storeAppOptions;
-    const colorTheme = appOptions.colorTheme;
+    const storeThemes = props.storeThemes;
+    const colorTheme = storeThemes.colorTheme;
     const typeTheme = colorTheme.type;
+    const translationsThemes = props.translationsThemes;
 
     return (
         <Page>
-            <Navbar title={t('View.Settings.textTheme')} backLink={_t.textBack} />
+            <Navbar title={t('Common.Themes.textTheme')} backLink={_t.textBack} />
             <List>
-                <ListItem radio checked={typeTheme === 'system'} onChange={() => props.changeColorTheme('system')} name="system" title={t('View.Settings.textSameAsSystem')}></ListItem>
-                <ListItem radio checked={typeTheme === 'light'} onChange={() => props.changeColorTheme('light')} name="light" title={t('View.Settings.textLight')}></ListItem>
-                <ListItem radio checked={typeTheme === 'dark'} onChange={() => props.changeColorTheme('dark')} name="dark" title={t('View.Settings.textDark')}></ListItem>
+                {Object.keys(translationsThemes).map((theme, index) => {
+                    return (
+                        <ListItem key={index} radio checked={typeTheme === theme} onChange={() => props.changeTheme(theme)} name={theme} title={translationsThemes[theme]}></ListItem>
+                    )
+                })}
             </List>
         </Page>
     )
@@ -159,8 +153,8 @@ const PageMacrosSettings = props => {
     );
 };
 
-const ApplicationSettings = inject("storeApplicationSettings", "storeAppOptions")(observer(PageApplicationSettings));
-const ThemeSettings = inject("storeAppOptions")(observer(PageThemeSettings));
+const ApplicationSettings = inject("storeApplicationSettings", "storeAppOptions", "storeThemes")(observer(PageApplicationSettings));
+const ThemeSettings = inject("storeThemes")(observer(PageThemeSettings));
 const MacrosSettings = inject("storeApplicationSettings")(observer(PageMacrosSettings));
 
 export {ApplicationSettings, MacrosSettings, ThemeSettings};

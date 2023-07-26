@@ -31,12 +31,6 @@ const PageApplicationSettings = props => {
     const _isEdit = appOptions.isEdit;
     const _isShowMacros = (!appOptions.isDisconnected && appOptions.customization) ? appOptions.customization.macros !== false : true;
 
-    // const themes = {
-    //     'dark': t('Settings.textDark'),
-    //     'light': t('Settings.textLight'),
-    //     'system': t('Settings.textSameAsSystem')
-    // }
-
     return (
         <Page>
             <Navbar title={_t.textApplicationSettings} backLink={_t.textBack} />
@@ -129,16 +123,13 @@ const PageThemeSettings = props => {
 
     return (
         <Page>
-            <Navbar title={t('Settings.textTheme')} backLink={_t.textBack} />
+            <Navbar title={t('Common.Themes.textTheme')} backLink={_t.textBack} />
             <List>
                 {Object.keys(translationsThemes).map((theme, index) => {
                     return (
                         <ListItem key={index} radio checked={typeTheme === theme} onChange={() => props.changeTheme(theme)} name={theme} title={translationsThemes[theme]}></ListItem>
                     )
                 })}
-                {/* <ListItem radio checked={typeTheme === 'system'} onChange={() => props.changeColorTheme('system')} name="system" title={t('Settings.textSameAsSystem')}></ListItem>
-                <ListItem radio checked={typeTheme === 'light'} onChange={() => props.changeColorTheme('light')} name="light" title={t('Settings.textLight')}></ListItem>
-                <ListItem radio checked={typeTheme === 'dark'} onChange={() => props.changeColorTheme('dark')} name="dark" title={t('Settings.textDark')}></ListItem> */}
             </List>
         </Page>
     )
@@ -205,6 +196,6 @@ const PageMacrosSettings = props => {
 const ApplicationSettings = inject("storeApplicationSettings", "storeAppOptions", "storeReview", "storeThemes")(observer(PageApplicationSettings));
 const MacrosSettings = inject("storeApplicationSettings")(observer(PageMacrosSettings));
 const Direction = inject("storeApplicationSettings")(observer(PageDirection));
-const ThemeSettings = inject("storeAppOptions", "storeThemes")(observer(PageThemeSettings));
+const ThemeSettings = inject("storeThemes")(observer(PageThemeSettings));
 
 export {ApplicationSettings, MacrosSettings, Direction, ThemeSettings};

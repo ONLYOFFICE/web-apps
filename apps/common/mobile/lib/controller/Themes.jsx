@@ -36,9 +36,9 @@ export const ThemesProvider = props => {
         const obj = LocalStorage.getItem("ui-theme");
         
         if(editorConfig) {
-            const themeConfig = editorConfig.theme;
-            const typeTheme = themeConfig ? themeConfig.type : null;
-            const isSelectTheme = themeConfig ? themeConfig.select : null;
+            const themeConfig = editorConfig?.theme;
+            const typeTheme = themeConfig?.type || 'light';
+            const isSelectTheme = themeConfig?.select !== undefined ? themeConfig?.select : true;
 
             if(isSelectTheme) {
                 if(!!obj) {

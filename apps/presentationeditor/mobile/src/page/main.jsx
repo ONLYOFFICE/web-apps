@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import { f7, Page, View, Navbar, Subnavbar, Icon, Link} from 'framework7-react';
 import { observer, inject } from "mobx-react";
 import { Device } from '../../../../common/mobile/utils/device';
-
 import EditOptions from '../view/edit/Edit';
 import AddOptions from '../view/add/Add';
 import Settings from '../view/settings/Settings';
@@ -13,6 +12,7 @@ import ContextMenu from '../controller/ContextMenu';
 import { Toolbar } from "../controller/Toolbar";
 import { AddLinkController } from '../controller/add/AddLink';
 import { EditLinkController } from '../controller/edit/EditLink';
+import { Themes } from '../../../../common/mobile/lib/controller/Themes';
 
 class MainPage extends Component {
     constructor(props) {
@@ -130,7 +130,7 @@ class MainPage extends Component {
         }
 
         return (
-            <Fragment>
+            <Themes>
                 {!this.state.previewVisible ? null : <Preview onclosed={this.handleOptionsViewClosed.bind(this, 'preview')} />}
                 <Page name="home" className={`editor${!isHideLogo ? ' page-with-logo' : ''}`}>
                     {/* Top Navbar */}
@@ -191,7 +191,7 @@ class MainPage extends Component {
                     }
                     {appOptions.isDocReady && <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)} />}   
                 </Page>
-            </Fragment>
+            </Themes>
         )
     }
 }
