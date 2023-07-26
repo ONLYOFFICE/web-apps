@@ -43,6 +43,7 @@
         <section class="box-panels">
             <section class="panel" data-tab="home">
                 <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-comment"></span>
                 </div>
             </section>
         </section>

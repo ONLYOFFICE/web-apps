@@ -171,6 +171,9 @@ define([
             toolbar.btnSelectAll.on('click',                            _.bind(this.onSelectAll, this));
             toolbar.btnSelectTool.on('click',                           _.bind(this.onSelectTool, this, 'select'));
             toolbar.btnHandTool.on('click',                             _.bind(this.onSelectTool, this, 'hand'));
+            toolbar.btnAddComment.on('click', function (btn, e) {
+                Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
+            });
 
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
             this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());

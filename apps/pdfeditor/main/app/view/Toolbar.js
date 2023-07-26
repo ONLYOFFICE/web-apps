@@ -261,6 +261,18 @@ define([
                     });
                     this.toolbarControls.push(this.btnHandTool);
 
+                    this.btnAddComment = new Common.UI.Button({
+                        id: 'tlbtn-addcomment',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-big-menu-comments',
+                        lock: [_set.disableOnStart],
+                        caption: this.capBtnComment,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.toolbarControls.push(this.btnAddComment);
+
                     //
                     // Menus
                     //
@@ -347,6 +359,7 @@ define([
                 _injectComponent('#slot-btn-select-all', this.btnSelectAll);
                 _injectComponent('#slot-btn-select-tool', this.btnSelectTool);
                 _injectComponent('#slot-btn-hand-tool', this.btnHandTool);
+                _injectComponent('#slot-btn-comment', this.btnAddComment);
 
                 this.btnPrint.menu && this.btnPrint.$el.addClass('split');
                 return $host;
@@ -401,6 +414,7 @@ define([
                 this.btnSelectAll.updateHint(this.tipSelectAll + Common.Utils.String.platformKey('Ctrl+A'));
                 this.btnSelectTool.updateHint(this.tipSelectTool);
                 this.btnHandTool.updateHint(this.tipHandTool);
+                this.btnAddComment.updateHint(this.tipAddComment);
             },
 
             onToolbarAfterRender: function(toolbar) {
@@ -560,7 +574,9 @@ define([
             textTabView: 'View',
             tipSelectAll: 'Select all',
             tipCut: 'Cut',
-            textTabDraw: 'Draw'
+            textTabDraw: 'Draw',
+            capBtnComment: 'Comment',
+            tipAddComment: 'Add comment'
         }
     })(), PDFE.Views.Toolbar || {}));
 });
