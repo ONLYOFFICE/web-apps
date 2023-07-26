@@ -468,7 +468,7 @@ define([
             this.appOptions.fileChoiceUrl   = this.editorConfig.fileChoiceUrl;
             this.appOptions.saveAsUrl       = this.editorConfig.saveAsUrl;
             this.appOptions.canRequestSaveAs = this.editorConfig.canRequestSaveAs;
-            this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop';
+            this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop' || Common.Controllers.Desktop.isActive();
             this.appOptions.lang            = this.editorConfig.lang;
             this.appOptions.canPlugins      = false;
 
