@@ -64,8 +64,8 @@ define([
                         var appOptions = me.getApplication().getController('Main').appOptions;
 
                         if ( !appOptions.isEditMailMerge && !appOptions.isEditDiagram && !appOptions.isEditOle ) {
-                            var tab = {action: 'plugins', caption: me.panelPlugins.groupCaption, dataHintTitle: 'E', layoutname: 'toolbar-plugins'};
-                            me.$toolbarPanelPlugins = me.panelPlugins.getPanel();
+                            var tab = {action: 'plugins', caption: me.viewPlugins.groupCaption, dataHintTitle: 'E', layoutname: 'toolbar-plugins'};
+                            me.$toolbarPanelPlugins = me.viewPlugins.getPanel();
                             me.toolbar = toolbar;
                             toolbar.addTab(tab, me.$toolbarPanelPlugins, 10);     // TODO: clear plugins list in left panel
                         }
@@ -87,10 +87,10 @@ define([
 
         onLaunch: function() {
             var store = this.getApplication().getCollection('Common.Collections.Plugins');
-            this.panelPlugins= this.createView('Common.Views.Plugins', {
+            this.viewPlugins= this.createView('Common.Views.Plugins', {
                 storePlugins: store
             });
-            this.panelPlugins.on('render:after', _.bind(this.onAfterRender, this));
+            /*this.viewPlugins.on('render:after', _.bind(this.onAfterRender, this));*/
 
             store.on({
                 add: this.onAddPlugin.bind(this),
@@ -102,7 +102,7 @@ define([
             this.autostart = [];
             this.customPluginsDlg = [];
 
-            this.pluginPanels = [];
+            this.pluginPanels = {};
 
             Common.Gateway.on('init', this.loadConfig.bind(this));
             Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
@@ -198,21 +198,21 @@ define([
             return this;
         },
 
-        onAfterRender: function(panelPlugins) {
-            panelPlugins.viewPluginsList && panelPlugins.viewPluginsList.on('item:click', _.bind(this.onSelectPlugin, this));
-            //this.bindViewEvents(this.panelPlugins, this.events);
+        onAfterRender: function(panel, name) {
             var me = this;
+            this.viewPlugins.fireEvent('plugin:show', [this.pluginPanels[name], name, 'show']);
+            panel.pluginClose.on('click', _.bind(this.onToolClose, this, panel));
             Common.NotificationCenter.on({
-                'layout:resizestart': function(e){
-                    if (me.panelPlugins.isVisible()) {
-                        var offset = me.panelPlugins.currentPluginFrame.offset();
-                        me._moveOffset = {x: offset.left + parseInt(me.panelPlugins.currentPluginFrame.css('padding-left')),
-                                            y: offset.top + parseInt(me.panelPlugins.currentPluginFrame.css('padding-top'))};
+                'layout:resizestart': function(e) {
+                    if (panel) {
+                        var offset = panel.currentPluginFrame.offset();
+                        me._moveOffset = {x: offset.left + parseInt(panel.currentPluginFrame.css('padding-left')),
+                                            y: offset.top + parseInt(panel.currentPluginFrame.css('padding-top'))};
                         me.api.asc_pluginEnableMouseEvents(true);
                     }
                 },
                 'layout:resizestop': function(e){
-                    if (me.panelPlugins.isVisible()) {
+                    if (panel) {
                         me.api.asc_pluginEnableMouseEvents(false);
                     }
                 }
@@ -238,13 +238,13 @@ define([
         onAddPlugin: function (model) {
             var me = this;
             if ( me.$toolbarPanelPlugins ) {
-                var btn = me.panelPlugins.createPluginButton(model);
+                var btn = me.viewPlugins.createPluginButton(model);
                 if (!btn) return;
 
                 var _group = $('> .group', me.$toolbarPanelPlugins);
                 var $slot = $('<span class="btn-slot text x-huge"></span>').appendTo(_group);
                 btn.render($slot);
-                var docProtection = me.panelPlugins._state.docProtection;
+                var docProtection = me.viewPlugins._state.docProtection;
                 Common.Utils.lockControls(Common.enumLock.docLockView, docProtection.isReadOnly, {array: btn});
                 Common.Utils.lockControls(Common.enumLock.docLockForms, docProtection.isFormsOnly, {array: btn});
                 Common.Utils.lockControls(Common.enumLock.docLockComments, docProtection.isCommentsOnly, {array: btn});
@@ -274,7 +274,7 @@ define([
                         _group = $('<div class="group" style="' + (Common.UI.isRTL() ? 'padding-right: 0;' : 'padding-left: 0;') + '"></div>');
                     }
 
-                    var btn = me.panelPlugins.createPluginButton(model);
+                    var btn = me.viewPlugins.createPluginButton(model);
                     if (btn) {
                         var $slot = $('<span class="btn-slot text x-huge"></span>').appendTo(_group);
                         btn.render($slot);
@@ -284,10 +284,10 @@ define([
                 });
                 _group.appendTo(me.$toolbarPanelPlugins);
                 me.toolbar && me.toolbar.isTabActive('plugins') && me.toolbar.processPanelVisible(null, true, true);
-                var docProtection = me.panelPlugins._state.docProtection;
-                Common.Utils.lockControls(Common.enumLock.docLockView, docProtection.isReadOnly, {array: me.panelPlugins.lockedControls});
-                Common.Utils.lockControls(Common.enumLock.docLockForms, docProtection.isFormsOnly, {array: me.panelPlugins.lockedControls});
-                Common.Utils.lockControls(Common.enumLock.docLockComments, docProtection.isCommentsOnly, {array: me.panelPlugins.lockedControls});
+                var docProtection = me.viewPlugins._state.docProtection;
+                Common.Utils.lockControls(Common.enumLock.docLockView, docProtection.isReadOnly, {array: me.viewPlugins.lockedControls});
+                Common.Utils.lockControls(Common.enumLock.docLockForms, docProtection.isFormsOnly, {array: me.viewPlugins.lockedControls});
+                Common.Utils.lockControls(Common.enumLock.docLockComments, docProtection.isCommentsOnly, {array: me.viewPlugins.lockedControls});
             } else {
                 console.error('toolbar panel isnot created');
             }
@@ -297,14 +297,14 @@ define([
             var storePlugins = this.getApplication().getCollection('Common.Collections.Plugins'),
                 me = this;
             storePlugins.each(function(item){
-                me.panelPlugins.updatePluginIcons(item);
+                me.viewPlugins.updatePluginIcons(item);
             });
         },
 
         onSelectPlugin: function(picker, item, record, e){
             var btn = $(e.target);
             if (btn && btn.hasClass('plugin-caret')) {
-                var menu = this.panelPlugins.pluginMenu;
+                var menu = this.viewPlugins.pluginMenu;
                 if (menu.isVisible()) {
                     menu.hide();
                     return;
@@ -312,7 +312,7 @@ define([
 
                 var showPoint, me = this,
                     currentTarget = $(e.currentTarget),
-                    parent = $(this.panelPlugins.el),
+                    parent = $(this.viewPlugins.el),
                     offset = currentTarget.offset(),
                     offsetParent = parent.offset();
 
@@ -328,7 +328,7 @@ define([
                     for (var i=0; i<variations.length; i++) {
                         var variation = variations[i],
                             mnu = new Common.UI.MenuItem({
-                                caption     : (i>0) ? variation.get('description') : me.panelPlugins.textStart,
+                                caption     : (i>0) ? variation.get('description') : me.viewPlugins.textStart,
                                 value       : parseInt(variation.get('index'))
                             }).on('click', function(item, e) {
                                 if (me.api) {
@@ -386,15 +386,16 @@ define([
                     var name = plugin.get_Name('en').toLowerCase(),
                         panelId = 'left-panel-plugins-' + name;
                     if (!this.pluginPanels[name]) {
-                        this.panelPlugins.fireEvent('plugin:new', [name, panelId]); // add button and div for panel in left menu
+                        this.viewPlugins.fireEvent('plugin:new', [name, plugin.get_Name(lang), panelId]); // add button and div for panel in left menu
                         this.pluginPanels[name] = new Common.Views.PluginPanel({
                             el: '#' + panelId
                         });
+                        this.pluginPanels[name].on('render:after', _.bind(this.onAfterRender, this, this.pluginPanels[name], name));
+                    } else {
+                        this.viewPlugins.fireEvent('plugin:show', [this.pluginPanels[name], name, 'show']);
                     }
                     if (!this.pluginPanels[name].openInsideMode(plugin.get_Name(lang), url, frameId, plugin.get_Guid()))
                         this.api.asc_pluginButtonClick(-1, plugin.get_Guid());
-                    this.panelPlugins.fireEvent('plugin:show', [this.pluginPanels[name], name, 'show']);
-                    this.pluginPanels[name].pluginClose.on('click', _.bind(this.onToolClose, this, this.pluginPanels[name]));
                 } else {
                     var me = this,
                         isCustomWindow = variation.get_CustomWindow(),
@@ -455,11 +456,11 @@ define([
                     me.pluginDlg.show();
                 }
             }
-            !variation.get_InsideMode() && this.panelPlugins.openedPluginMode(plugin.get_Guid());
+            !variation.get_InsideMode() && this.viewPlugins.openedPluginMode(plugin.get_Guid());
         },
 
         onPluginClose: function(plugin) {
-            console.log('onPluginClose');
+            return; // for test
             var isIframePlugin = false;
             if (this.pluginDlg)
                 this.pluginDlg.close();
@@ -469,11 +470,11 @@ define([
                 if (panel && panel.iframePlugin) {
                     isIframePlugin = true;
                     panel.closeInsideMode();
-                    this.panelPlugins.fireEvent('plugin:show', [this.pluginPanels[name], name, 'close']);
-                    this.pluginPanels[name] = undefined;
+                    this.viewPlugins.fireEvent('plugin:show', [this.pluginPanels[name], name, 'close']);
+                    delete this.pluginPanels[name];
                 }
             }
-            !isIframePlugin && this.panelPlugins.closedPluginMode(plugin.get_Guid());
+            !isIframePlugin && this.viewPlugins.closedPluginMode(plugin.get_Guid());
             this.runAutoStartPlugins();
         },
 
@@ -780,11 +781,11 @@ define([
                 var docprotect = this.getApplication().getController('DocProtection');
                 props = docprotect ? docprotect.getDocProps() : null;
             }
-            if (props && this.panelPlugins) {
-                this.panelPlugins._state.docProtection = props;
-                Common.Utils.lockControls(Common.enumLock.docLockView, props.isReadOnly, {array: this.panelPlugins.lockedControls});
-                Common.Utils.lockControls(Common.enumLock.docLockForms, props.isFormsOnly, {array: this.panelPlugins.lockedControls});
-                Common.Utils.lockControls(Common.enumLock.docLockComments, props.isCommentsOnly, {array: this.panelPlugins.lockedControls});
+            if (props && this.viewPlugins) {
+                this.viewPlugins._state.docProtection = props;
+                Common.Utils.lockControls(Common.enumLock.docLockView, props.isReadOnly, {array: this.viewPlugins.lockedControls});
+                Common.Utils.lockControls(Common.enumLock.docLockForms, props.isFormsOnly, {array: this.viewPlugins.lockedControls});
+                Common.Utils.lockControls(Common.enumLock.docLockComments, props.isCommentsOnly, {array: this.viewPlugins.lockedControls});
             }
         },
 

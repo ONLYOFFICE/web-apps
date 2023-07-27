@@ -70,10 +70,10 @@ define([
             el && (this.$el = $(el));
             this.$el.html(this.template({scope: this}));
 
-            this.pluginName = $('.current-plugin-header label');
+            this.pluginName = $('.current-plugin-header label', this.$el);
             this.pluginsMask = $('#plugins-mask', this.$el);
-            this.currentPluginPanel = $('.current-plugin-box');
-            this.currentPluginFrame = $('.current-plugin-frame');
+            this.currentPluginPanel = $('.current-plugin-box', this.$el);
+            this.currentPluginFrame = $('.current-plugin-frame', this.$el);
 
             this.pluginClose = new Common.UI.Button({
                 parentEl: this.$el.find('.plugin-close'),
@@ -88,7 +88,6 @@ define([
 
         openInsideMode: function(name, url, frameId, guid) {
             if (!this.pluginName) this.render();
-            //this.currentPluginPanel.toggleClass('hidden', false); // to hide previous plugin panel
 
             this.pluginName.text(name);
             if (!this.iframePlugin) {
@@ -133,7 +132,8 @@ define([
             this.fireEvent('hide', this );
         },
 
-        textClosePanel: 'Close plugin'
+        textClosePanel: 'Close plugin',
+        textLoading: 'Loading'
 
     }, Common.Views.PluginPanel || {}));
 });

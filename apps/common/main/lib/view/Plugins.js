@@ -446,11 +446,9 @@ define([
         },
 
         strPlugins: 'Plugins',
-        textLoading: 'Loading',
         textStart: 'Start',
         textStop: 'Stop',
-        groupCaption: 'Plugins',
-        textClosePanel: 'Close plugin'
+        groupCaption: 'Plugins'
 
     }, Common.Views.Plugins || {}));
 });
