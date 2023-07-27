@@ -473,7 +473,7 @@ define([
                     this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
                 }
 
-                this.btnSave.setDisabled(false);
+                this.btnSave.setDisabled(!this.mode.isPDFEdit && !this.mode.isPDFAnnotate);
                 Common.Gateway.collaborativeChanges();
             },
 
@@ -505,7 +505,7 @@ define([
                             this.synchTooltip.hide();
                         this.btnCollabChanges.updateHint(this.btnSaveTip);
 
-                        this.btnSave.setDisabled(!me.mode.forcesave);
+                        this.btnSave.setDisabled(!me.mode.forcesave || !me.mode.isPDFEdit && !me.mode.isPDFAnnotate);
                         this._state.hasCollaborativeChanges = false;
                     }
                 }

@@ -401,6 +401,7 @@ define([
             this.toolbar.lockToolbar(Common.enumLock.undoLock, this._state.can_undo!==true, {array: [this.toolbar.btnUndo]});
             this.toolbar.lockToolbar(Common.enumLock.redoLock, this._state.can_redo!==true, {array: [this.toolbar.btnRedo]});
             this.toolbar.lockToolbar(Common.enumLock.copyLock, this._state.can_copycut!==true, {array: [this.toolbar.btnCopy, this.toolbar.btnCut]});
+            this.toolbar.btnSave.setDisabled(!this.mode.isPDFEdit && !this.mode.isPDFAnnotate);
             this._state.activated = true;
         },
 
