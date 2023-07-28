@@ -403,33 +403,33 @@ define([
                                                 '<b><%= caption %></b></div>' +
                                                 '<% if (options.description !== null) { %><label style="display: block;cursor: pointer;white-space: normal;" class="margin-left-10"><%= options.description %></label>' +
                                               '<% } %></a>');
+                var arr = [];
+                appConfig.canPDFEdit && arr.push({
+                    caption: me.textEdit,
+                    iconCls : 'menu__icon btn-edit',
+                    template: menuTemplate,
+                    description: me.textEditDesc,
+                    value: 'edit'
+                });
+                appConfig.canPDFAnnotate && arr.push({
+                    caption: me.textComment,
+                    iconCls : 'menu__icon btn-menu-comments',
+                    template: menuTemplate,
+                    description: me.textCommentDesc,
+                    value: 'comment'
+                });
+                arr.push({
+                    caption: me.textView,
+                    iconCls : 'menu__icon btn-sheet-view',
+                    template: menuTemplate,
+                    description: me.textViewDesc,
+                    value: 'view'
+                });
                 me.btnPDFMode.setMenu(new Common.UI.Menu({
                     cls: 'ppm-toolbar',
                     style: 'width: 220px;',
                     menuAlign: 'tr-br',
-                    items: [
-                        {
-                            caption: me.textEdit,
-                            iconCls : 'menu__icon btn-edit',
-                            template: menuTemplate,
-                            description: me.textEditDesc,
-                            value: 'edit'
-                        },
-                        {
-                            caption: me.textComment,
-                            iconCls : 'menu__icon btn-menu-comments',
-                            template: menuTemplate,
-                            description: me.textCommentDesc,
-                            value: 'comment'
-                        },
-                        {
-                            caption: me.textView,
-                            iconCls : 'menu__icon btn-sheet-view',
-                            template: menuTemplate,
-                            description: me.textViewDesc,
-                            value: 'view'
-                        }
-                    ]
+                    items: arr
                 }));
                 me.btnPDFMode.menu.on('item:click', function (menu, item) {
                     if (item.value==='edit' && appConfig.canPDFEdit) {
@@ -686,7 +686,7 @@ define([
                         $html.find('#slot-btn-share').hide();
                     }
 
-                    if (isPDFEditor) {
+                    if (isPDFEditor && (config.canPDFEdit || config.canPDFAnnotate)) {
                         me.btnPDFMode = new Common.UI.Button({
                             cls: 'btn-header btn-header-pdf-mode no-caret',
                             iconCls: 'toolbar__icon icon--inverse btn-sheet-view',
