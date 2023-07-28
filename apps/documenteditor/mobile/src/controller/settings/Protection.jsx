@@ -11,8 +11,6 @@ const ProtectionController = props => {
     const [isSnackbarVisible, setSnackbarVisible] = useState(false);
 
     const onProtectClick = () => {
-        console.log("onProtectClick");
-
         const api = Common.EditorApi.get();
         const appOptions = props.storeAppOptions;
         const isProtected = appOptions.isProtected;
@@ -85,8 +83,7 @@ const ProtectionController = props => {
 
     return (
         <>
-            {/*<ProtectionView onProtectClick={onProtectClick} />*/}
-            <ProtectionView />
+            <ProtectionView onProtectClick={onProtectClick} />
             <Snackbar isShowSnackbar={isSnackbarVisible} message={t('Settings.textProtectTurnOff')} closeCallback={() => setSnackbarVisible(false)} />
         </>
     );

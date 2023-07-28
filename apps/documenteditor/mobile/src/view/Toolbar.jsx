@@ -87,7 +87,7 @@ const ToolbarView = props => {
             elemTitle.innerText = correctOverflowedText(elemTitle);
         }
     }, [docTitle, isViewer]);
-
+    
     return (
         <Fragment>
             <NavLeft>
@@ -124,7 +124,7 @@ const ToolbarView = props => {
                 {/*props.displayCollaboration &&*/}
                 {Device.phone ? null : <Link className={(props.disabledControls || props.readerMode) && 'disabled'} icon='icon-search' searchbarEnable='.searchbar' href={false}></Link>}
                 {window.matchMedia("(min-width: 360px)").matches && docExt !== 'oform' ? <Link className={props.disabledControls && 'disabled'} id='btn-coauth' href={false} icon='icon-collaboration' onClick={() => props.openOptions('coauth')}></Link> : null}
-                <Link className={(props.disabledSettings || props.disabledControls || isDisconnected) && 'disabled'} id='btn-settings' icon='icon-settings' href={false} onClick={() => props.openOptions('settings')}></Link>
+                <Link className={(props.disabledSettings || props.disabledControls || isDisconnected) && 'disabled'} id='btn-settings' icon='icon-settings' onClick={() => props.openOptions('settings')} href={false}></Link>
             </NavRight>
         </Fragment>
     )
