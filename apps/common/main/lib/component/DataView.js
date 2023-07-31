@@ -995,6 +995,10 @@ define([
             this._layoutParams.columns++;
         },
 
+        setMultiselectMode: function (multiselect) {
+            this.pressedCtrl = !!multiselect;
+        },
+
         onResize: function() {
             this._layoutParams = undefined;
         },
