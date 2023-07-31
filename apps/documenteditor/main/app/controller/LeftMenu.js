@@ -73,7 +73,6 @@ define([
                     'hide':    _.bind(this.aboutShowHide, this, true)
                 },
                 'Common.Views.Plugins': {
-                    'plugin:open': _.bind(this.onPluginOpen, this),
                     'hide':        _.bind(this.onHidePlugins, this),
                     'plugin:new': _.bind(this.addNewPlugin, this),
                     'plugin:show': _.bind(this.onShowPlugin, this),
@@ -117,6 +116,8 @@ define([
             }, this));
             Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
             Common.NotificationCenter.on('file:print', _.bind(this.clickToolbarPrint, this));
+
+            $(window).on('resize', _.bind(this.setMoreButton, this));
         },
 
         onLaunch: function() {
@@ -846,7 +847,10 @@ define([
         },
 
         addNewPlugin: function (name, hint, id) {
-            this.leftMenu.$el.find('.tool-menu-btns').append('<button id="left-btn-plugins-' + name + '" class="btn btn-category" data-hint="0" data-hint-direction="right" data-hint-offset="big" content-target=""><i class="icon toolbar__icon btn-menu-plugin">&nbsp;</i></button>');
+            if (!this.leftMenu.pluginSeparator.is(':visible')) {
+                this.leftMenu.pluginSeparator.show();
+            }
+            this.leftMenu.$el.find('#slot-btn-plugins-more').before('<button id="left-btn-plugins-' + name + '" class="btn btn-category plugin-buttons" data-hint="0" data-hint-direction="right" data-hint-offset="big" content-target=""><i class="icon toolbar__icon btn-menu-plugin">&nbsp;</i></button>');
             this.leftMenu.$el.find('.left-panel').append('<div id="'+ id + '" class="" style="display: none; height: 100%;"></div>');
             this.pluginBtns[name] = new Common.UI.Button({
                 el: this.leftMenu.$el.find('#left-btn-plugins-' + name),
@@ -857,6 +861,8 @@ define([
                 toggleGroup: 'leftMenuGroup'
             });
             this.pluginBtns[name].on('click', _.bind(this.onShowPlugin, this, this.pluginPanels[name], name, 'show'));
+
+            this.setMoreButton();
         },
 
         onShowPlugin: function (panel, name, action) {
@@ -878,21 +884,64 @@ define([
                 delete this.pluginBtns[name];
                 delete this.pluginPanels[name];
                 this.leftMenu.close();
+
+                if (Object.keys(this.pluginPanels).length === 0) {
+                    this.leftMenu.pluginSeparator.hide();
+                }
             }
         },
 
-        onPluginOpen: function(panel, type, action) {
-            if ( type == 'onboard' ) {
-                if ( action == 'open' ) {
-                    this.tryToShowLeftMenu();
-                    this.leftMenu.close();
-                    this.leftMenu.panelPlugins.show();
-                    this.leftMenu.onBtnMenuClick({pressed:true, options: {action: 'plugins'}});
-                    this.leftMenu._state.pluginIsRunning = true;
-                } else {
-                    this.leftMenu._state.pluginIsRunning = false;
-                    this.leftMenu.close();
+        setMoreButton: function () {
+            var pluginBtns = this.leftMenu.$el.find('.plugin-buttons');
+            if (pluginBtns.length === 0) return;
+
+            var $more = this.leftMenu.$el.find('#slot-btn-plugins-more'),
+                maxHeight = this.leftMenu.$el.height(),
+                buttons = this.leftMenu.$el.find('.btn-category:visible:not(.plugin-buttons)'),
+                btnHeight = $(buttons[0]).outerHeight() + parseFloat($(buttons[0]).css('margin-bottom')),
+                height = parseFloat(this.leftMenu.$el.find('.tool-menu-btns').css('padding-top')) +
+                    buttons.length * btnHeight + 9, // 9 - separator
+                arrMore = [],
+                last, // last visible plugin button
+                i;
+
+            for (i = 0; i < pluginBtns.length; i++) {
+                if ($(pluginBtns[i]).is(':visible')) {
+                    height += btnHeight;
+                    if (height > maxHeight) {
+                        last = i - 1;
+                        break;
+                    }
                 }
+            }
+
+            if (last < pluginBtns.length - 1) {
+                for (i = 0; i < pluginBtns.length; i++) {
+                    if (i >= last) {
+                        arrMore.push(pluginBtns[i]);
+                        $(pluginBtns[i]).hide();
+                    } else {
+                        $(pluginBtns[i]).show();
+                    }
+                }
+
+                if (arrMore.length > 0) {
+                    if (!this.leftMenu.btnPluginMore) {
+                        this.leftMenu.btnPluginMore = new Common.UI.Button({
+                            parentEl: $more,
+                            id: 'left-btn-plugins-more',
+                            hint: this.leftMenu.tipMore,
+                            iconCls: 'toolbar__icon btn-more',
+                            template: _.template('<button id="<%= id %>" class="btn btn-category" data-hint="0" data-hint-direction="right" data-hint-offset="big"><i class="icon <%= iconCls %>">&nbsp;</i></button>')
+                        });
+                    }
+                    $more.show();
+                }
+            } else {
+                for (i = 0; i < pluginBtns.length; i++) {
+                    $(pluginBtns[i]).show();
+                }
+                $more.hide();
             }
         },
 

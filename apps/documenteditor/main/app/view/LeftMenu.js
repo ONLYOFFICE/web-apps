@@ -177,6 +177,8 @@ define([
             this.btnThumbnails.hide();
             this.btnThumbnails.on('click', this.onBtnMenuClick.bind(this));
 
+            this.pluginSeparator = $markup.find('.separator');
+
             this.$el.html($markup);
 
             return this;
@@ -525,6 +527,7 @@ define([
         txtTrialDev: 'Trial Developer Mode',
         tipNavigation: 'Navigation',
         tipOutline: 'Headings',
+        tipMore: 'More',
         txtLimit: 'Limit Access',
         txtEditor: 'Document Editor'
     }, DE.Views.LeftMenu || {}));
