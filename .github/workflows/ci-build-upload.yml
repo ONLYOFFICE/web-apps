@@ -60,11 +60,11 @@ jobs:
                 grunt
 
           - name: Tar files
-            if: ${{ steps.changes.outputs.help != 'false' }} 
+            if: (startsWith(github.ref, 'refs/heads/release/') || startsWith(github.ref, 'refs/heads/hotfix/'))
             run: tar -cvf build.tar ./web-apps/deploy/web-apps/apps
 
           - name: Upload artifact
-            if: ${{ steps.changes.outputs.help != 'false' }}
+            if: (startsWith(github.ref, 'refs/heads/release/') || startsWith(github.ref, 'refs/heads/hotfix/'))
             uses: actions/upload-artifact@v3
             with:
               name: build-artifact
