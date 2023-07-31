@@ -540,6 +540,17 @@ define([
                         menu.off('show:before', onShowBeforeParameters);
                         me.btnParameters.menu.setInnerMenu([{menu: picker, index: 0}]);
                         picker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+                        me.colorPickerParameters = picker;
+
+                        menu.on('show:after', function() {
+                            (me.isColor && picker) && _.delay(function() {
+                                picker.focus();
+                            }, 10);
+                        });
+
+                        picker.on('select', function (picker, item){
+                            me.fireEvent('animation:parameterscolor',[item.color]);
+                        });
                     };
                     me.btnParameters.menu.on('show:before', onShowBeforeParameters);
 
@@ -638,6 +649,8 @@ define([
                 if(this.isColor) {
                     this.btnParameters.menu.items[0].show();
                     this.btnParameters.menu.items.length > this.startIndexParam && this.btnParameters.menu.items[1].show();
+                    if(this.colorPickerParameters)
+                        this.colorPickerParameters.clearSelection();
                 }
                 else {
                     this.btnParameters.menu.items[0].hide();

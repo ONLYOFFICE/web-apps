@@ -64,6 +64,7 @@ define([
                 'PE.Views.Animation': {
                     'animation:preview':            _.bind(this.onPreviewClick, this),
                     'animation:parameters':         _.bind(this.onParameterClick, this),
+                    'animation:parameterscolor':    _.bind(this.onSelectColor, this),
                     'animation:selecteffect':       _.bind(this.onEffectSelect, this),
                     'animation:delay':              _.bind(this.onDelayChange, this),
                     'animation:animationpane':      _.bind(this.onAnimationPane, this),
@@ -150,11 +151,11 @@ define([
 
         onParameterClick: function (value, toggleGroup) {
             if(this.api && this.AnimationProperties) {
-                if(toggleGroup=='animateeffects') {
+                if(toggleGroup == 'animateeffects') {
                     this.AnimationProperties.asc_putSubtype(value);
                     this.api.asc_SetAnimationProperties(this.AnimationProperties);
                 }
-                else if(toggleGroup=='custompath') {
+                else if(toggleGroup == 'custompath') {
                     var groupName = _.findWhere(this.EffectGroups, {value: AscFormat.PRESET_CLASS_PATH}).id;
                     this.addNewEffect(AscFormat.MOTION_CUSTOM_PATH, AscFormat.PRESET_CLASS_PATH, groupName,true, value);
                 }
@@ -162,10 +163,14 @@ define([
                     var groupName = _.findWhere(this.EffectGroups, {value: this._state.EffectGroup}).id;
                     this.addNewEffect(value, this._state.EffectGroup, groupName,true, this._state.EffectOption);
                 }
+                // else{
+                //     this.onColorClick();
+                // }
             }
         },
 
         onSelectColor: function (color){
+            //console.log('color:', color);
             //this.setColor(color, this._state.EffectOption);
         },
 
