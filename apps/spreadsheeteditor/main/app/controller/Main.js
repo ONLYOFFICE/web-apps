@@ -152,7 +152,8 @@ define([
                         'Text': this.textText,
                         'Sheet': this.txtSheet,
                         'None': this.txtNone,
-                        'Slicer': this.txtSlicer
+                        'Slicer': this.txtSlicer,
+                        'Info': this.txtInfo
                     };
 
                 styleNames.forEach(function(item){
@@ -3854,7 +3855,8 @@ define([
             txtSheet: 'Sheet',
             txtNone: 'None',
             warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.',
-            txtSlicer: 'Slicer'
+            txtSlicer: 'Slicer',
+            txtInfo: 'Info'
         }
     })(), SSE.Controllers.Main || {}))
 });
