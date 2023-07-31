@@ -151,6 +151,7 @@
       "textNo": "No",
       "textNoChoices": "No hay opciones para rellenar la celda.<br>Sólo se pueden seleccionar valores de texto de la columna para su sustitución.",
       "textNoLicenseTitle": "Se ha alcanzado el límite de licencia",
+      "textNoMatches": "No hay coincidencias",
       "textOk": "Aceptar",
       "textPaidFeature": "Característica de pago",
       "textRemember": "Recordar mi elección",
@@ -161,8 +162,11 @@
       "textWarnUpdateExternalData": "Este libro contiene enlaces a una o varias fuentes externas que podrían no ser seguras. Si confía en los enlaces, actualícelos para obtener los datos más recientes.",
       "textYes": "Sí",
       "titleLicenseExp": "Licencia ha expirado",
+      "titleLicenseNotActive": "Licencia no activa",
       "titleServerVersion": "Editor ha sido actualizado",
       "titleUpdateVersion": "Versión ha cambiado",
+      "warnLicenseAnonymous": "Acceso denegado para usuarios anónimos.<br>Este documento se abrirá solo para su visualización.",
+      "warnLicenseBefore": "Licencia no activa.<br>Por favor, póngase en contacto con su administrador.",
       "warnLicenseExceeded": "Ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización. Póngase en contacto con su administrador para obtener más información.",
       "warnLicenseExp": "Su licencia ha expirado. Por favor, actualice su licencia y actualice la página.",
       "warnLicenseLimitedNoAccess": "La licencia ha expirado. No tiene acceso a la funcionalidad de edición de documentos. Por favor, póngase en contacto con su administrador.",
@@ -170,11 +174,7 @@
       "warnLicenseUsersExceeded": "Ha alcanzado el límite de usuarios para %1 editores. Póngase en contacto con su administrador para saber más.",
       "warnNoLicense": "Ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
       "warnNoLicenseUsers": "Ha alcanzado el límite de usuarios para %1 editores. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
-      "warnProcessRightsChange": "No tiene permiso para editar el archivo.",
-      "textNoMatches": "No Matches",
-      "titleLicenseNotActive": "License not active",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "warnProcessRightsChange": "No tiene permiso para editar el archivo."
     }
   },
   "Error": {
@@ -234,6 +234,7 @@
     "errorOperandExpected": "La sintaxis de la función introducida no es correcta. Por favor, compruebe si ha omitido uno de los paréntesis - '(' o ')'.",
     "errorPasteMaxRange": "El área de copiar y pegar no coincide. Por favor, seleccione un área del mismo tamaño o haga clic en la primera celda de una fila para pegar las celdas copiadas.",
     "errorPrintMaxPagesCount": "Por desgracia, no es posible imprimir más de 1500 páginas a la vez en la versión actual del programa.<br>Esta restricción se eliminará en próximas versiones.",
+    "errorProtectedRange": "Este rango no se puede editar.",
     "errorSessionAbsolute": "La sesión de edición del documento ha expirado. Por favor, vuelva a cargar la página.",
     "errorSessionIdle": "El documento no ha sido editado desde hace mucho tiempo. Por favor, vuelva a cargar la página.",
     "errorSessionToken": "La conexión con el servidor se ha interrumpido. Por favor, vuelva a cargar la página.",
@@ -258,8 +259,7 @@
     "unknownErrorText": "Error desconocido.",
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
-    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB.",
-    "errorProtectedRange": "This range is not allowed for editing."
+    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Contraseña",
@@ -377,6 +377,7 @@
       "textLinkType": "Tipo de enlace",
       "textOk": "Aceptar",
       "textOther": "Otro",
+      "textPasteImageUrl": "Pegar la URL de una imagen",
       "textPictureFromLibrary": "Imagen desde biblioteca",
       "textPictureFromURL": "Imagen desde URL",
       "textRange": "Rango",
@@ -396,8 +397,7 @@
       "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
       "txtSorting": "Ordenación",
       "txtSortSelected": "Ordenar los objetos seleccionados",
-      "txtYes": "Sí",
-      "textPasteImageUrl": "Paste an image URL"
+      "txtYes": "Sí"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertencia",
@@ -652,6 +652,7 @@
       "textMargins": "Márgenes",
       "textMatchCase": "Coincidir mayúsculas y minúsculas",
       "textMatchCell": "Hacer coincidir las celdas",
+      "textNoMatches": "No hay coincidencias",
       "textOk": "OK",
       "textOpenFile": "Introduzca una contraseña para abrir el archivo",
       "textOrientation": "Orientación ",
@@ -752,8 +753,7 @@
       "txtUk": "Ucraniano",
       "txtVi": "Vietnamita",
       "txtZh": "Chino",
-      "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?",
-      "textNoMatches": "No Matches"
+      "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?"
     }
   }
 }

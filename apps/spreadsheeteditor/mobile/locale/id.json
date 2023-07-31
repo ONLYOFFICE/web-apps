@@ -151,12 +151,13 @@
       "textNo": "Tidak",
       "textNoChoices": "Tidak ada pilihan untuk mengisi sel.<br>Hanya nilai teks dari kolom yang bisa dipilih untuk diganti.",
       "textNoLicenseTitle": "Batas lisensi sudah tercapai",
+      "textNoMatches": "Tidak Ada yang Cocok",
       "textOk": "OK",
       "textPaidFeature": "Fitur berbayar",
       "textRemember": "Ingat pilihan saya",
       "textReplaceSkipped": "Penggantian telah dilakukan. Ada {0} yang dilewatkan.",
       "textReplaceSuccess": "Pencarian telah dilakukan. Ada {0} yang diganti {0}",
-      "textRequestMacros": "Sebuah makro melakukan permintaan ke URL. Apakah Anda akan mengizinkan permintaan ini ke %1?",
+      "textRequestMacros": "Sebuah makro melakukan permintaan ke URL. Apakah Anda akan mengizinkan permintaan ke %1 tersebut?",
       "textUpdate": "Perbarui",
       "textWarnUpdateExternalData": "Buku kerja ini mengandung tautan ke satu atau lebih sumber eksternal yang bisa jadi tidak aman. Bila Anda mempercayai tautan, perbarui mereka untuk mendapatkan data terbaru.",
       "textYes": "Ya",
@@ -164,6 +165,7 @@
       "titleLicenseNotActive": "Lisensi tidak aktif",
       "titleServerVersion": "Editor mengupdate",
       "titleUpdateVersion": "Versi telah diubah",
+      "warnLicenseAnonymous": "Akses ditolak untuk pengguna anonim.<br>Dokumen ini akan dibuka hanya untuk dilihat.",
       "warnLicenseBefore": "Lisensi tidak aktif.",
       "warnLicenseExceeded": "Anda sudah mencapai batas untuk koneksi bersamaan ke %1 editor. Dokumen ini akan dibuka untuk dilihat saja. Hubungi admin Anda untuk mempelajari lebih lanjut.",
       "warnLicenseExp": "Lisensi Anda sudah kedaluwarsa. Silakan perbarui dan muat ulang halaman.",
@@ -172,9 +174,7 @@
       "warnLicenseUsersExceeded": "Anda sudah mencapai batas user untuk %1 editor. Hubungi admin Anda untuk mempelajari lebih lanjut.",
       "warnNoLicense": "Anda sudah mencapai batas untuk koneksi bersamaan ke %1 editor. Dokumen ini akan dibuka untuk dilihat saja. Hubungi %1 tim sales untuk syarat personal upgrade.",
       "warnNoLicenseUsers": "Anda sudah mencapai batas user untuk %1 editor. Hubungi %1 tim sales untuk syarat personal upgrade.",
-      "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini.",
-      "textNoMatches": "No Matches",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
+      "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini."
     }
   },
   "Error": {
@@ -234,6 +234,7 @@
     "errorOperandExpected": "Syntax fungsi yang dimasukkan tidak tepat. Silakan periksa lagi apakah Anda terlewat tanda kurung - '(' atau ')'.",
     "errorPasteMaxRange": "Area copy dan paste tidak cocok. Silakan pilih area dengan ukuran yang sama atau klik sel pertama di baris untuk paste sel yang di copy.",
     "errorPrintMaxPagesCount": "Mohon maaf karena tidak bisa print lebih dari 1500 halaman dalam sekali waktu dengan versi program sekarang.<br>Hal ini akan bisa dilakukan di versi selanjutnya.",
+    "errorProtectedRange": "Rentang ini tidak diizinkan untuk disunting.",
     "errorSessionAbsolute": "Waktu edit dokumen sudah selesai. Silakan muat ulang halaman.",
     "errorSessionIdle": "Dokumen sudah lama tidak diedit. Silakan muat ulang halaman.",
     "errorSessionToken": "Koneksi ke server terganggu. Silakan muat ulang halaman.",
@@ -258,8 +259,7 @@
     "unknownErrorText": "Kesalahan tidak diketahui.",
     "uploadImageExtMessage": "Format gambar tidak dikenal.",
     "uploadImageFileCountMessage": "Tidak ada gambar yang diunggah.",
-    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB.",
-    "errorProtectedRange": "This range is not allowed for editing."
+    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Kata Sandi",
@@ -298,7 +298,7 @@
     "textOk": "OK",
     "textUndo": "Batalkan",
     "textUnlockRange": "Buka Kunci Rentang",
-    "textUnlockRangeWarning": "Rentang yang ingin Anda ubah dilindungi password.",
+    "textUnlockRangeWarning": "Rentang yang ingin Anda ubah dilindungi kata sandi.",
     "textYes": "Ya",
     "txtEditingMode": "Mengatur mode editing...",
     "uploadImageTextText": "Mengunggah gambar...",
@@ -311,7 +311,7 @@
     "textDelete": "Hapus",
     "textDuplicate": "Duplikat",
     "textErrNameExists": "Worksheet dengan nama ini sudah ada.",
-    "textErrNameWrongChar": "Nama sheet tidak boleh memuat karakter: \\, /, *, ?, [, ], : atau karakter ' sebagai karakter pertama atau terakhir",
+    "textErrNameWrongChar": "Nama lembar tidak boleh memuat karakter: \\, /, *, ?, [, ], :, atau karakter ' sebagai karakter pertama atau terakhir",
     "textErrNotEmpty": "Nama sheet tidak boleh kosong",
     "textErrorLastSheet": "Workbook harus setidaknya memiliki satu worksheet yang terlihat.",
     "textErrorRemoveSheet": "Tidak bisa menghapus worksheet.",
@@ -652,6 +652,7 @@
       "textMargins": "Margin",
       "textMatchCase": "Sesuakian Case",
       "textMatchCell": "Sesuakian Sel",
+      "textNoMatches": "Tidak Ada yamg Cocok",
       "textOk": "OK",
       "textOpenFile": "Masukkan kata sandi untuk buka file",
       "textOrientation": "Orientasi",
@@ -752,8 +753,7 @@
       "txtUk": "Ukraina",
       "txtVi": "Vietnam",
       "txtZh": "China",
-      "warnDownloadAs": "Jika Anda lanjut simpan dengan format ini, semua fitur kecuali teks akan hilang.<br>Apakah Anda ingin melanjutkan?",
-      "textNoMatches": "No Matches"
+      "warnDownloadAs": "Jika Anda lanjut simpan dengan format ini, semua fitur kecuali teks akan hilang.<br>Apakah Anda ingin melanjutkan?"
     }
   }
 }

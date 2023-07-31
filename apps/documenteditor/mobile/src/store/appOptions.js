@@ -64,10 +64,9 @@ export class storeAppOptions {
         this.isMobileView = !this.isMobileView;
     }
 
-
     isViewer = true;
-    changeViewerMode() {
-        this.isViewer = !this.isViewer;
+    changeViewerMode(value) {
+        this.isViewer = value;
     }
 
     canViewComments = false;

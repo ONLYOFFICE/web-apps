@@ -100,6 +100,7 @@ define([
                 can_copycut: undefined,
                 pgmargins: undefined,
                 fontsize: undefined,
+                type_fontsize: undefined,
                 in_equation: false,
                 in_chart: false,
                 linenum_apply: Asc.c_oAscSectionApplyType.All,
@@ -479,9 +480,20 @@ define([
         },
 
         onApiFontSize: function(size) {
-            if (this._state.fontsize !== size) {
-                this.toolbar.cmbFontSize.setValue(size);
-                this._state.fontsize = size;
+            var type = this._state.type_fontsize;
+            if (this.toolbar.cmbFontSize && this._state.type_fontsize === 'string') {
+                var strValue = size + '_str',
+                    rec = this.toolbar.cmbFontSize.store.findWhere({
+                    value: strValue
+                });
+                if (!rec) {
+                    type = 'number';
+                }
+            }
+            var val = type === 'string' ? size + '_str' : size;
+            if (this._state.fontsize !== val) {
+                this.toolbar.cmbFontSize.setValue(val);
+                this._state.fontsize = val;
             }
         },
 
@@ -1280,8 +1292,9 @@ define([
 
         onFontSizeSelect: function(combo, record) {
             this._state.fontsize = undefined;
+            this._state.type_fontsize = typeof record.value;
             if (this.api)
-                this.api.put_TextPrFontSize(record.value);
+                this.api.put_TextPrFontSize(this._state.type_fontsize === 'string' ? parseFloat(record.value) : record.value);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Font Size');
@@ -1296,7 +1309,8 @@ define([
                     displayValue: record.value
                 });
 
-                if (!item) {
+                if (!item || isNaN(Common.Utils.String.parseFloat(record.value))) {
+                    me._state.type_fontsize = 'number';
                     value = /^\+?(\d*(\.|,)?\d+)$|^\+?(\d+(\.|,)?\d*)$/.exec(record.value);
 
                     if (!value) {
@@ -1474,8 +1488,9 @@ define([
                 skipRenderOnChange: true,
                 group : picker.options.listSettings.recentGroup,
                 type: 0}, {at: 0});
-            if (recents && recents.length>=picker.options.listSettings.recentCount)
-                picker.store.remove(recents[recents.length]);
+            recents = picker.store.where({type: 0});
+            if (recents && recents.length>picker.options.listSettings.recentCount)
+                picker.store.remove(recents.slice(picker.options.listSettings.recentCount, recents.length));
             this.toolbar.saveListPresetToStorage(picker);
         },
 
@@ -3399,6 +3414,12 @@ define([
         onAppReady: function (config) {
             var me = this;
             me.appOptions = config;
+
+            var lang = config.lang ? config.lang.toLowerCase() : 'en',
+                langPrefix = lang.split(/[\-_]/)[0];
+            if (langPrefix === 'zh' && lang !== 'zh-tw' && lang !== 'zh_tw') {
+                me._state.type_fontsize = 'string';
+            }
 
             this.btnsComment = [];
             if ( config.canCoAuthoring && config.canComments ) {

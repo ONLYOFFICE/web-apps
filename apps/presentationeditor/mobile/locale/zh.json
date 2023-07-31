@@ -112,6 +112,7 @@
       "textHasMacros": "这个文件带有自动宏。<br> 是否要运行宏？",
       "textNo": "不",
       "textNoLicenseTitle": "触碰到许可证数量限制。",
+      "textNoMatches": "找不到匹配信息",
       "textOpenFile": "输入密码来打开文件",
       "textPaidFeature": "付费功能",
       "textRemember": "记住我的选择",
@@ -125,6 +126,7 @@
       "titleUpdateVersion": "版本已变化",
       "txtIncorrectPwd": "密码有误",
       "txtProtected": "在您输入密码和打开文件后，该文件的当前密码将被重置",
+      "warnLicenseAnonymous": "拒绝匿名用户的访问。<br>本文档将以仅查看模式而打开。",
       "warnLicenseBefore": "许可证未激活。<br>请联系管理员。",
       "warnLicenseExceeded": "你触发了 %1 编辑器的同时在线数限制。该文档打开后，你将只能查看。可联系管理员来了解更多信息。",
       "warnLicenseExp": "你的许可证过期了。请更新你的许可证，然后刷新该页。",
@@ -133,9 +135,7 @@
       "warnLicenseUsersExceeded": "你触发了 %1 编辑器的同时在线数限制。可联系管理员来了解更多信息。",
       "warnNoLicense": "你已经触发了 %1 编辑器的同时在线数限制. 该文档打开后，你将只能查看。请联系 %1 的销售团队，获取个人升级条款。",
       "warnNoLicenseUsers": "你触发了 %1 编辑器的同时在线数限制。可联系管理员来了解更多信息。",
-      "warnProcessRightsChange": "你没有编辑文件的权限。",
-      "textNoMatches": "No Matches",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
+      "warnProcessRightsChange": "你没有编辑文件的权限。"
     }
   },
   "Error": {
@@ -363,6 +363,7 @@
       "textMoveBackward": "向后移动",
       "textMoveForward": "向前移动",
       "textNextSlide": "下一张幻灯片",
+      "textNoMatches": "找不到匹配信息",
       "textNone": "无",
       "textNoStyles": "这个类型的表格没有对应的样式设定。",
       "textNotUrl": "该字段应为“http://www.example.com”格式的URL",
@@ -420,8 +421,7 @@
       "textZoom": "放大",
       "textZoomIn": "放大",
       "textZoomOut": "缩小",
-      "textZoomRotate": "缩放并旋转",
-      "textNoMatches": "No Matches"
+      "textZoomRotate": "缩放并旋转"
     },
     "Settings": {
       "mniSlideStandard": "标准（4：3）",
@@ -461,6 +461,7 @@
       "textLoading": "加载中…",
       "textLocation": "位置",
       "textMacrosSettings": "宏设置",
+      "textNoMatches": "找不到匹配信息",
       "textOk": "确定",
       "textOwner": "创建者",
       "textPoint": "点",
@@ -505,8 +506,7 @@
       "txtScheme6": "中央大厅",
       "txtScheme7": "公平",
       "txtScheme8": "流动",
-      "txtScheme9": "发现",
-      "textNoMatches": "No Matches"
+      "txtScheme9": "发现"
     }
   }
 }

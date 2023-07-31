@@ -1,7 +1,7 @@
 ﻿[
   {
     "src": "ProgramInterface/ProgramInterface.htm",
-    "name": "Présentation de l'interface utilisateur de Spreadsheet Editor",
+    "name": "Présentation de l'interface utilisateur de l'éditeur de classeurs",
     "headername": "Interface du programme"
   },
   {
@@ -16,6 +16,7 @@
         "src": "ProgramInterface/InsertTab.htm",
         "name": "Onglet Insertion"
     },
+  {"src": "ProgramInterface/DrawTab.htm", "name": "Onglet Dessiner"},
   { "src": "ProgramInterface/FormulaTab.htm", "name": "Onglet Formule" },
   { "src": "ProgramInterface/DataTab.htm", "name": "Onglet Données" },
   {
@@ -41,10 +42,11 @@
     "src": "UsageInstructions/CopyPasteData.htm",
     "name": "Couper/copier/coller des données"
   },
-  {
-    "src": "UsageInstructions/UndoRedo.htm",
-    "name": "Annuler/rétablir vos actions"
-  },
+    {
+        "src": "UsageInstructions/UndoRedo.htm",
+        "name": "Annuler/rétablir vos actions"
+    },
+    {"src": "UsageInstructions/AddExternalLinks.htm", "name": "Ajouter des liens externes vers des cellules" },
     {
         "src": "UsageInstructions/ManageSheets.htm",
         "name": "Gérer des feuilles de calcul",
@@ -130,7 +132,8 @@
         "src": "UsageInstructions/InsertTextObjects.htm",
         "name": "Insérer des objets textuels"
     },
-     {"src": "UsageInstructions/InsertSmartArt.htm", "name": "Insérer des graphiques SmartArt" },
+    { "src": "UsageInstructions/InsertSmartArt.htm", "name": "Insérer des graphiques SmartArt" },
+    {"src": "UsageInstructions/DrawingOperations.htm", "name": "Dessiner à main levée dans un classeur" },
     { "src": "UsageInstructions/InsertSymbols.htm", "name": "Insérer des symboles et des caractères" },
   {
     "src": "UsageInstructions/ManipulateObjects.htm",
@@ -151,7 +154,7 @@
     { "src": "HelpfulHints/Commenting.htm", "name": "Commentaires" },
     { "src": "HelpfulHints/VersionHistory.htm", "name": "Historique des versions" },
     { "src": "UsageInstructions/ProtectSpreadsheet.htm", "name": "Protéger une feuille de calcul", "headername": "Protéger une feuille de calcul" },
-    { "src": "UsageInstructions/AllowEditRanges.htm", "name": "Autoriser la modification des plages" },
+    { "src": "UsageInstructions/ProtectRanges.htm", "name": "Protéger des plages" },
     { "src": "UsageInstructions/Password.htm", "name": "Protéger un classeur avec un mot de passe" },
     { "src": "UsageInstructions/ProtectSheet.htm", "name": "Protéger une feuille de calcul" },
     { "src": "UsageInstructions/ProtectWorkbook.htm", "name": "Protéger un classeur" },
@@ -160,7 +163,9 @@
     {"src": "UsageInstructions/HighlightedCode.htm", "name": "Insérer le code en surbrillance" },
     {"src": "UsageInstructions/Translator.htm", "name": "Traduire un texte" },
     {"src": "UsageInstructions/Thesaurus.htm", "name": "Remplacer un mot par synonyme" },
-    {"src": "UsageInstructions/CommunicationPlugins.htm", "name": "Communiquer lors de l'édition"},
+    { "src": "UsageInstructions/CommunicationPlugins.htm", "name": "Communiquer lors de l'édition" },    
+	{"src": "UsageInstructions/Zoom.htm", "name": "Organiser et programmer des réunions de Zoom"},
+	{"src": "UsageInstructions/ChatGPT.htm", "name": "Utiliser l'intelligence artificielle pour rédiger un texte"},
     {
         "src": "UsageInstructions/ViewDocInfo.htm",
         "name": "Afficher les informations de fichier",
@@ -173,7 +178,7 @@
   },
   {
     "src": "HelpfulHints/AdvancedSettings.htm",
-    "name": "Paramètres avancés de Spreadsheet Editor"
+    "name": "Paramètres avancés de l'éditeur de classeurs"
   },
   {
     "src": "HelpfulHints/Navigation.htm",
@@ -188,7 +193,7 @@
     {"src": "HelpfulHints/ImportData.htm", "name": "Obtenir des données à partir de fichiers Texte/CSV"},
   {
     "src": "HelpfulHints/About.htm",
-    "name": "A propos de Spreadsheet Editor",
+    "name": "A propos de l'éditeur de classeurs",
     "headername": "Astuces utiles"
   },
   {

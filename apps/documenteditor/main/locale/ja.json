@@ -1,6 +1,7 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "警告",
   "Common.Controllers.Chat.textEnterMessage": "ここにメッセージを挿入してください。",
+  "Common.Controllers.Desktop.hintBtnHome": "メインウィンドウを表示する",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "匿名者",
   "Common.Controllers.ExternalDiagramEditor.textClose": "閉じる",
   "Common.Controllers.ExternalDiagramEditor.warningText": "他のユーザーが編集しているのためオブジェクトが無効になります。",
@@ -1171,6 +1172,7 @@
   "DE.Controllers.Main.waitText": "少々お待ちください...",
   "DE.Controllers.Main.warnBrowserIE9": "このアプリケーションはIE9では低機能です。IE10以上のバージョンをご使用ください。",
   "DE.Controllers.Main.warnBrowserZoom": "お使いのブラウザの現在のZoomの設定は完全にはサポートされていません。Ctrl+0を押して、デフォルトのZoomにリセットしてください。",
+  "DE.Controllers.Main.warnLicenseAnonymous": "匿名ユーザーのアクセスは拒否されます。<br>このドキュメントは閲覧専用に開かれます。",
   "DE.Controllers.Main.warnLicenseBefore": "ライセンスが無効になっています。<br>管理者までご連絡ください。",
   "DE.Controllers.Main.warnLicenseExceeded": "％1エディターへの同時接続の制限に達しました。 このドキュメントは表示専用で開かれます。<br>詳細については、管理者にお問い合わせください。",
   "DE.Controllers.Main.warnLicenseExp": "ライセンスの有効期限が切れています。<br>ライセンスを更新してページをリロードしてください。",

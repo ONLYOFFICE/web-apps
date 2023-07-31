@@ -123,7 +123,7 @@
         "txtStyle_Heading_3": "標題 3",
         "txtStyle_Heading_4": "標題 4",
         "txtStyle_Input": "輸入",
-        "txtStyle_Linked_Cell": "已連接的單元格",
+        "txtStyle_Linked_Cell": "已連結單位格",
         "txtStyle_Neutral": "中立",
         "txtStyle_Normal": "標準",
         "txtStyle_Note": "備註",
@@ -145,6 +145,7 @@
       "textClose": "關閉",
       "textContactUs": "聯絡銷售人員",
       "textCustomLoader": "很抱歉，您無權變更載入程序。 請聯繫我們的業務部門取得報價。",
+      "textDontUpdate": "不要升級",
       "textGuest": "來賓",
       "textHasMacros": "此檔案包含自動巨集程式。<br>是否要運行這些巨集？",
       "textNo": "沒有",
@@ -158,10 +159,14 @@
       "textReplaceSuccess": "搜索已完成。發生的事件已替換：{0}",
       "textRequestMacros": "有一個巨集指令要求連結至URL。是否允許該要求至%1?",
       "textUpdate": "更新",
+      "textWarnUpdateExternalData": "此工作簿包含連結到一個或多個可能不安全的外部來源。<br>如果您信任這些連結，請更新它們以獲取最新資料。",
       "textYes": "是",
       "titleLicenseExp": "證件過期",
+      "titleLicenseNotActive": "授權未啟用",
       "titleServerVersion": "編輯器已更新",
       "titleUpdateVersion": "版本已更改",
+      "warnLicenseAnonymous": "匿名使用者無法存取。<br>此文件將僅供檢視。",
+      "warnLicenseBefore": "授權未啟用。<br>請聯絡您的管理員。",
       "warnLicenseExceeded": "您已達到同時連接到 %1 編輯器的限制。此文件將只提供檢視。請聯繫您的管理員以了解更多資訊。",
       "warnLicenseExp": "您的憑證已過期。請更新您的憑證，然後重新更新頁面。",
       "warnLicenseLimitedNoAccess": "憑證已過期。您無法使用文件編輯功能。請聯絡您的帳號管理員",
@@ -169,12 +174,7 @@
       "warnLicenseUsersExceeded": "您已達到 %1 個編輯器的使用者限制。請聯繫您的管理員以了解更多資訊。",
       "warnNoLicense": "您已達到同時連接到 %1 編輯器的限制。此文件將只提供檢視。有關個人升級條款，請聯繫 %1 業務團隊。",
       "warnNoLicenseUsers": "您已達到％1個編輯器的用戶限制。與％1銷售團隊聯繫以了解個人升級條款。",
-      "warnProcessRightsChange": "您沒有編輯此文件的權限。",
-      "textDontUpdate": "Don't Update",
-      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
-      "titleLicenseNotActive": "License not active",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "warnProcessRightsChange": "您沒有編輯此文件的權限。"
     }
   },
   "Error": {
@@ -215,6 +215,11 @@
     "errorFrmlMaxReference": "您無法輸入此公式，因為它具有太多的值，<br>單元格引用和/或名稱。",
     "errorFrmlMaxTextLength": "在公式中的文字數值有255字元的限制。<br>使用 CONCATENATE 函數或序連運算子(&)",
     "errorFrmlWrongReferences": "該函數引用了一個不存在的工作表。<br>請檢查內容並重試。",
+    "errorInconsistentExt": "在開啟檔案時發生錯誤。<br>檔案內容與檔案的副檔名不相符。",
+    "errorInconsistentExtDocx": "在開啟檔案時發生錯誤。<br>檔案內容對應文字文件 (例如 docx)，但檔案的副檔名不一致： %1。",
+    "errorInconsistentExtPdf": "在開啟檔案時發生錯誤。<br>檔案內容對應以下格式之一：pdf/djvu/xps/oxps，但檔案的副檔名不一致： %1。",
+    "errorInconsistentExtPptx": "在開啟檔案時發生錯誤。<br>檔案內容對應以下格式之一：pdf/djvu/xps/oxps，但檔案的副檔名不一致： %1。",
+    "errorInconsistentExtXlsx": "在開啟檔案時發生錯誤。<br>檔案內容對應試算表 (例如 xlsx)，但檔案的副檔名不一致： %1。",
     "errorInvalidRef": "輸入正確的選擇名稱或有效參考。",
     "errorKeyEncrypt": "未知密鑰描述符",
     "errorKeyExpire": "密鑰描述符已過期",
@@ -229,6 +234,7 @@
     "errorOperandExpected": "輸入的函數語法不正確。請檢查您是否遺漏了任何括號之一 - '(' 或 ')'。",
     "errorPasteMaxRange": "複製和貼上的區域不匹配。 請選擇一個相同大小的區域或點擊一行中的第一個儲存格以貼上已複製的儲存格。",
     "errorPrintMaxPagesCount": "不幸的是，在目前版本的程式中一次不可列印超過 1500 頁。<br>在即將發布的版本中將會取消此限制。",
+    "errorProtectedRange": "此範圍不允許進行編輯。",
     "errorSessionAbsolute": "該文件編輯時效已欲期。請重新載入此頁面。",
     "errorSessionIdle": "無 該文件已經有一段時間沒有進行編輯了。 請重新載入頁面。",
     "errorSessionToken": "主機連線被中斷，請重新載入此頁面。",
@@ -253,18 +259,13 @@
     "unknownErrorText": "未知錯誤。",
     "uploadImageExtMessage": "圖片格式未知。",
     "uploadImageFileCountMessage": "沒有上傳圖片。",
-    "uploadImageSizeMessage": "圖像超出最大大小限制。最大大小為25MB。",
-    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
-    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
-    "errorProtectedRange": "This range is not allowed for editing."
+    "uploadImageSizeMessage": "圖像超出最大大小限制。最大大小為25MB。"
   },
   "LongActions": {
     "advDRMPassword": "密碼",
     "applyChangesTextText": "加載數據中...",
     "applyChangesTitleText": "加載數據中",
+    "confirmMaxChangesSize": "操作的大小超過了伺服器設定的限制。<br>按下「復原」以取消最後一個動作，或按下「繼續」以在本地保留動作（需下載檔案或複製其內容，以確保不會遺失任何內容）",
     "confirmMoveCellRange": "目標儲存格的範圍可以包含資料。繼續動作？",
     "confirmPutMergeRange": "資料來源包含合併的單元格。<br>它們在貼上到表格之前將被取消合併。",
     "confirmReplaceFormulaInTable": "標題行中的公式將被刪除並轉換為靜態文本。<br>是否繼續？",
@@ -302,8 +303,7 @@
     "txtEditingMode": "設定編輯模式...",
     "uploadImageTextText": "正在上傳圖片...",
     "uploadImageTitleText": "上載圖片",
-    "waitText": "請耐心等待...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost)."
+    "waitText": "請耐心等待..."
   },
   "Statusbar": {
     "notcriticalErrorTitle": "警告",
@@ -377,6 +377,7 @@
       "textLinkType": "鏈接類型",
       "textOk": "確定",
       "textOther": "其它",
+      "textPasteImageUrl": "貼上圖片網址",
       "textPictureFromLibrary": "圖片來自圖書館",
       "textPictureFromURL": "網址圖片",
       "textRange": "範圍",
@@ -396,8 +397,7 @@
       "txtNotUrl": "此字段應為格式為\"http://www.example.com\"的URL。",
       "txtSorting": "排序",
       "txtSortSelected": "排序已選擇項目",
-      "txtYes": "是",
-      "textPasteImageUrl": "Paste an image URL"
+      "txtYes": "是"
     },
     "Edit": {
       "notcriticalErrorTitle": "警告",
@@ -434,6 +434,7 @@
       "textCell": "單元格",
       "textCellStyle": "單元格樣式",
       "textCenter": "中心",
+      "textChangeShape": "更改形狀",
       "textChart": "圖表",
       "textChartTitle": "圖表標題",
       "textClearFilter": "清空篩選條件",
@@ -446,6 +447,8 @@
       "textDate": "日期",
       "textDefault": "選擇範圍",
       "textDeleteFilter": "刪除過濾器",
+      "textDeleteImage": "刪除影像",
+      "textDeleteLink": "刪除連結",
       "textDesign": "設計",
       "textDiagonalDownBorder": "對角向下邊界",
       "textDiagonalUpBorder": "對角上邊界",
@@ -580,10 +583,7 @@
       "textYen": "日圓",
       "txtNotUrl": "此字段應為格式為\"http://www.example.com\"的URL。",
       "txtSortHigh2Low": "最高到最低排序",
-      "txtSortLow2High": "從最低到最高排序",
-      "textChangeShape": "Change Shape",
-      "textDeleteImage": "Delete Image",
-      "textDeleteLink": "Delete Link"
+      "txtSortLow2High": "從最低到最高排序"
     },
     "Settings": {
       "advCSVOptions": "選擇CSV選項",
@@ -695,6 +695,7 @@
       "txtComma": "逗號",
       "txtCs": "捷克語",
       "txtDa": "丹麥語",
+      "txtDe": "德語",
       "txtDelimiter": "分隔符號",
       "txtDownloadCsv": "下載CSV",
       "txtEl": "希腊语",
@@ -752,8 +753,7 @@
       "txtUk": "烏克蘭文",
       "txtVi": "越南語",
       "txtZh": "中文",
-      "warnDownloadAs": "如果繼續以這種格式保存，則除文本外的所有功能都將丟失。<br>確定要繼續嗎？",
-      "txtDe": "Deutsch"
+      "warnDownloadAs": "如果繼續以這種格式保存，則除文本外的所有功能都將丟失。<br>確定要繼續嗎？"
     }
   }
 }

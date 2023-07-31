@@ -432,7 +432,7 @@ define([
                 if (this.btnInsField.menu.items.length<1) {
                     _.each(this._state.fieldsList, function(field, index) {
                         var mnu = new Common.UI.MenuItem({
-                            caption: '«' + field + '»',
+                            caption: '«' + Common.Utils.String.htmlEncode(field) + '»',
                             field: field
                         }).on('click', function(item, e) {
                             if (me.api) {

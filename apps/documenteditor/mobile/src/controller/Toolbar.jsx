@@ -191,7 +191,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
 
         f7.popover.close('.document-menu.modal-in', false);
 
-        appOptions.changeViewerMode();
+        appOptions.changeViewerMode(true);
         api.asc_addRestriction(Asc.c_oAscRestrictionType.View);
     }
 

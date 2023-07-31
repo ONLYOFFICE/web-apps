@@ -1465,28 +1465,10 @@ define([
 
                     this.cmbFontSize = new Common.UI.ComboBox({
                         cls: 'input-group-nr',
-                        menuStyle: 'min-width: 55px;',
+                        menuCls: 'scrollable-menu',
+                        menuStyle: 'min-width: 55px;max-height: 454px;',
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
                         hint: this.tipFontSize,
-                        data: [
-                            {value: 8, displayValue: "8"},
-                            {value: 9, displayValue: "9"},
-                            {value: 10, displayValue: "10"},
-                            {value: 11, displayValue: "11"},
-                            {value: 12, displayValue: "12"},
-                            {value: 14, displayValue: "14"},
-                            {value: 16, displayValue: "16"},
-                            {value: 18, displayValue: "18"},
-                            {value: 20, displayValue: "20"},
-                            {value: 22, displayValue: "22"},
-                            {value: 24, displayValue: "24"},
-                            {value: 26, displayValue: "26"},
-                            {value: 28, displayValue: "28"},
-                            {value: 36, displayValue: "36"},
-                            {value: 48, displayValue: "48"},
-                            {value: 72, displayValue: "72"},
-                            {value: 96, displayValue: "96"}
-                        ],
                         dataHint: '1',
                         dataHintDirection: 'top'
                     });
@@ -1779,6 +1761,71 @@ define([
 
             onAppReady: function (config) {
                 var me = this;
+                if (me.cmbFontSize) {
+                    var lang = config.lang ? config.lang.toLowerCase() : 'en',
+                        langPrefix = lang.split(/[\-_]/)[0];
+                    var fontSizeData = (langPrefix === 'zh' && lang !== 'zh-tw' && lang !== 'zh_tw') ? [
+                        {value: '42_str', displayValue: "初号"},
+                        {value: '36_str', displayValue: "小初"},
+                        {value: '26_str', displayValue: "一号"},
+                        {value: '24_str', displayValue: "小一"},
+                        {value: '22_str', displayValue: "二号"},
+                        {value: '18_str', displayValue: "小二"},
+                        {value: '16_str', displayValue: "三号"},
+                        {value: '15_str', displayValue: "小三"},
+                        {value: '14_str', displayValue: "四号"},
+                        {value: '12_str', displayValue: "小四"},
+                        {value: '10.5_str', displayValue: "五号"},
+                        {value: '9_str', displayValue: "小五"},
+                        {value: '7.5_str', displayValue: "六号"},
+                        {value: '6.5_str', displayValue: "小六"},
+                        {value: '5.5_str', displayValue: "七号"},
+                        {value: '5_str', displayValue: "八号"},
+                        {value: 5, displayValue: "5"},
+                        {value: 5.5, displayValue: "5.5"},
+                        {value: 6.5, displayValue: "6.5"},
+                        {value: 7.5, displayValue: "7.5"},
+                        {value: 8, displayValue: "8"},
+                        {value: 9, displayValue: "9"},
+                        {value: 10, displayValue: "10"},
+                        {value: 10.5, displayValue: "10.5"},
+                        {value: 11, displayValue: "11"},
+                        {value: 12, displayValue: "12"},
+                        {value: 14, displayValue: "14"},
+                        {value: 15, displayValue: "15"},
+                        {value: 16, displayValue: "16"},
+                        {value: 18, displayValue: "18"},
+                        {value: 20, displayValue: "20"},
+                        {value: 22, displayValue: "22"},
+                        {value: 24, displayValue: "24"},
+                        {value: 26, displayValue: "26"},
+                        {value: 28, displayValue: "28"},
+                        {value: 36, displayValue: "36"},
+                        {value: 42, displayValue: "42"},
+                        {value: 48, displayValue: "48"},
+                        {value: 72, displayValue: "72"},
+                        {value: 96, displayValue: "96"}
+                    ] : [
+                        {value: 8, displayValue: "8"},
+                        {value: 9, displayValue: "9"},
+                        {value: 10, displayValue: "10"},
+                        {value: 11, displayValue: "11"},
+                        {value: 12, displayValue: "12"},
+                        {value: 14, displayValue: "14"},
+                        {value: 16, displayValue: "16"},
+                        {value: 18, displayValue: "18"},
+                        {value: 20, displayValue: "20"},
+                        {value: 22, displayValue: "22"},
+                        {value: 24, displayValue: "24"},
+                        {value: 26, displayValue: "26"},
+                        {value: 28, displayValue: "28"},
+                        {value: 36, displayValue: "36"},
+                        {value: 48, displayValue: "48"},
+                        {value: 72, displayValue: "72"},
+                        {value: 96, displayValue: "96"}
+                    ];
+                    me.cmbFontSize.setData(fontSizeData);
+                }
                 (new Promise( function(resolve, reject) {
                     resolve();
                 })).then(function () {
@@ -2366,8 +2413,8 @@ define([
                     '{"Type":"bullet","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"–","rPr":{"rFonts":{"ascii":"Arial","cs":"Arial","eastAsia":"Arial","hAnsi":"Arial"}}}]}'
                 ];
 
-                var listSettings = {recentPath: 'de-recent-bullets', recentCount: 8, recentGroup: 'menu-bullets-group-recent', docGroup: 'menu-bullets-group-doc', docName: this.txtGroupBulletDoc},
-                    recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup),
+                var listSettings = {recentPath: 'de-recent-bullets', recentCount: 6, recentGroup: 'menu-bullets-group-recent', docGroup: 'menu-bullets-group-doc', docName: this.txtGroupBulletDoc},
+                    recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup, listSettings.recentCount),
                     groups = (recents.length>0) ? [{id: listSettings.recentGroup, caption: this.txtGroupRecent, type: 0}] : [],
                     libGroup = 'menu-bullets-group-lib';
                 groups.push({id: libGroup, caption: this.txtGroupBulletLib, type: 1});
@@ -2413,8 +2460,8 @@ define([
                     '{"Type":"number","Lvl":[{"lvlJc":"left","numFmt":{"val":"russianLower"},"lvlText":"%1)"}]}'
                 ];
 
-                listSettings = {recentPath: 'de-recent-numbering', recentCount: 6, recentGroup: 'menu-numbering-group-recent', docGroup: 'menu-numbering-group-doc', docName: this.txtGroupNumDoc};
-                recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup);
+                listSettings = {recentPath: 'de-recent-numbering', recentCount: 8, recentGroup: 'menu-numbering-group-recent', docGroup: 'menu-numbering-group-doc', docName: this.txtGroupNumDoc};
+                recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup, listSettings.recentCount);
                 libGroup = 'menu-numbering-group-lib';
                 groups = (recents.length>0) ? [{id: listSettings.recentGroup, caption: this.txtGroupRecent, type: 0}] : [];
                 groups.push({id: libGroup, caption: this.txtGroupNumLib, type: 1});
@@ -2452,8 +2499,8 @@ define([
                 _conf && this.mnuNumbersPicker.selectByIndex(_conf.index, true);
 
                 _conf = this.mnuMultilevelPicker.conf;
-                listSettings = {recentPath: 'de-recent-multilevels', recentCount: 6, recentGroup: 'menu-multilevels-group-recent', docGroup: 'menu-multilevels-group-doc', docName: this.txtGroupMultiDoc};
-                recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup);
+                listSettings = {recentPath: 'de-recent-multilevels', recentCount: 8, recentGroup: 'menu-multilevels-group-recent', docGroup: 'menu-multilevels-group-doc', docName: this.txtGroupMultiDoc};
+                recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup, listSettings.recentCount);
                 libGroup = 'menu-multilevels-group-lib';
                 groups = (recents.length>0) ? [{id: listSettings.recentGroup, caption: this.txtGroupRecent, type: 0}] : [];
                 groups.push({id: libGroup, caption: this.txtGroupMultiLib, type: 1});
@@ -2868,11 +2915,11 @@ define([
                     this.btnPageMargins.menu.items[0].setVisible(false);
             },
 
-            loadListPresetsFromStorage: function(path, groupId) {
+            loadListPresetsFromStorage: function(path, groupId, recentCount) {
                 var recents = Common.localStorage.getItem(path),
                     arr = [];
                 recents = recents ? JSON.parse(recents) : [];
-                for (var i=0; i<recents.length; i++) {
+                for (var i=0; i<recents.length && i<recentCount; i++) {
                     arr.push({id: 'id-recent-list-' + Common.UI.getId(), numberingInfo: recents[i], skipRenderOnChange: true, group : groupId, type: 0});
                 }
                 return arr;
