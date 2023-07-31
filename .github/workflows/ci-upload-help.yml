@@ -35,8 +35,8 @@ jobs:
 
           - name: Determine branch variable
             run: |
-              if [[ "${{ needs.check-changes.outputs.help }}" != "false" ]]; then
-                echo "REF=${{github.ref}}" >> $GITHUB_ENV
+              if [[ ${{ github.ref }} == refs/heads/release* || ${{ github.ref }} == refs/heads/hotfix* ]]; then
+                echo "REF=${{ github.ref }}" >> $GITHUB_ENV
               else
                 echo "REF=develop" >> $GITHUB_ENV
               fi
