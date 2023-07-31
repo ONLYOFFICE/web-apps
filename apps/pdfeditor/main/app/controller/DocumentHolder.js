@@ -188,6 +188,7 @@ define([
             var me = this;
 
             me.documentHolder.menuPDFViewCopy.on('click', _.bind(me.onCutCopyPaste, me));
+            me.documentHolder.menuAddComment.on('click', _.bind(me.addComment, me));
         },
 
         getView: function (name) {
@@ -235,30 +236,18 @@ define([
         },
 
         fillViewMenuProps: function(selectedElements) {
-            if (!selectedElements || !_.isArray(selectedElements)) return;
+            // if (!selectedElements || !_.isArray(selectedElements)) return;
 
             var documentHolder = this.documentHolder;
-            var menu_props = {},
-                menu_to_show,
-                noobject = true;
-            for (var i = 0; i <selectedElements.length; i++) {
-                var elType = selectedElements[i].get_ObjectType();
-                var elValue = selectedElements[i].get_ObjectValue();
-                if (Asc.c_oAscTypeSelectElement.Text == elType)
-                {
-                    if (!documentHolder.viewPDFModeMenu)
-                        documentHolder.createDelayedElementsPDFViewer();
-                    menu_to_show = documentHolder.viewPDFModeMenu;
-                    noobject = false;
-                }
-            }
-            return (!noobject) ? {menu_to_show: menu_to_show, menu_props: menu_props} : null;
+            if (!documentHolder.viewPDFModeMenu)
+                documentHolder.createDelayedElementsPDFViewer();
+            return {menu_to_show: documentHolder.viewPDFModeMenu, menu_props: {}};
         },
 
         showObjectMenu: function(event, docElement, eOpts){
             var me = this;
             if (me.api){
-                var obj = me.fillViewMenuProps(me.api.getSelectedElements());
+                var obj = me.fillViewMenuProps();
                 if (obj) me.showPopupMenu(obj.menu_to_show, obj.menu_props, event, docElement, eOpts);
             }
         },
@@ -273,9 +262,7 @@ define([
 
             var me = this;
             _.delay(function(){
-                if (event.get_Type() == 0) {
-                    me.showObjectMenu.call(me, event);
-                }
+                me.showObjectMenu.call(me, event);
             },10);
         },
 
@@ -773,10 +760,10 @@ define([
             if (me.api) {
                 var res =  (item.value == 'cut') ? me.api.Cut() : ((item.value == 'copy') ? me.api.Copy() : me.api.Paste());
                 if (!res) {
-                    if (!Common.localStorage.getBool("de-hide-copywarning")) {
+                    if (!Common.localStorage.getBool("pdfe-hide-copywarning")) {
                         (new Common.Views.CopyWarningDialog({
                             handler: function(dontshow) {
-                                if (dontshow) Common.localStorage.setItem("de-hide-copywarning", 1);
+                                if (dontshow) Common.localStorage.setItem("pdfe-hide-copywarning", 1);
                                 me.editComplete();
                             }
                         })).show();

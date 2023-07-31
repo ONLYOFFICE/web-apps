@@ -96,13 +96,20 @@ define([
                 value: 'copy'
             });
 
+            me.menuAddComment = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-menu-comments',
+                caption     : me.addCommentText
+            });
+
             this.viewPDFModeMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 initMenu: function (value) {
                     me.menuPDFViewCopy.setDisabled(!(me.api && me.api.can_CopyCut()));
+                    me.menuAddComment.setVisible(me.mode && me.mode.canPDFAnnotate);
                 },
                 items: [
-                    me.menuPDFViewCopy
+                    me.menuPDFViewCopy,
+                    me.menuAddComment
                 ]
             }).on('hide:after', function (menu, e, isFromInputControl) {
                 me.clearCustomItems(menu);
@@ -249,7 +256,8 @@ define([
             this._isDisabled = state;
         },
 
-        textCopy: 'Copy'
+        textCopy: 'Copy',
+        addCommentText: 'Add Comment'
 
 }, PDFE.Views.DocumentHolder || {}));
 });
