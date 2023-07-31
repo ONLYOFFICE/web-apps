@@ -32,6 +32,7 @@ jobs:
             uses: dorny/paths-filter@v2
             id: changes
             with:
+              working-directory: 'web-apps'
               base: ${{github.ref}}
               initial-fetch-depth: '1'
               filters: |
