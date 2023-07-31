@@ -6,31 +6,11 @@ on:
 
 
 jobs:
-    check-changes:
-        name: "Check changes in resources/help"
-        runs-on: ubuntu-latest
-        outputs:
-          help: ${{steps.changes.outputs.help}}
-        steps:
-          - name: Checkout Web-Apps
-            uses: actions/checkout@v3
-            with:
-              repository: onlyoffice/web-apps
-              ref: ${{github.ref}}
-
-          - name: Path filter for help
-            uses: dorny/paths-filter@v2
-            id: changes
-            with:
-              base: ${{github.ref}}
-              initial-fetch-depth: '1'
-              filters: |
-                help:
-                  - added|deleted|modified: '**/resources/help/**'
     build-help:
         name: "Build Apps"
         runs-on: ubuntu-latest
-        needs: check-changes
+        outputs:
+          help: ${{steps.changes.outputs.help}}
         steps:
 
           - name: Determine branch variable
@@ -48,12 +28,23 @@ jobs:
                 ref: ${{github.ref}}
                 path: 'web-apps'
 
+          - name: Path filter for help
+            uses: dorny/paths-filter@v2
+            id: changes
+            with:
+              base: ${{github.ref}}
+              initial-fetch-depth: '1'
+              filters: |
+                help:
+                  - added|deleted|modified: '**/resources/help/**'
+
           - name: Checkout SDKJS
             uses: actions/checkout@v3
             with:
                 repository: onlyoffice/sdkjs
                 ref: ${{env.REF}}
                 path: 'sdkjs'
+                fetch-depth: '1'
               
           - name: Use Node.js 16
             uses: actions/setup-node@v3
@@ -68,11 +59,11 @@ jobs:
                 grunt
 
           - name: Tar files
-            if: needs.check-changes.outputs.help != 'false'
+            if: ${{ steps.changes.outputs.help != 'false' }} 
             run: tar -cvf build.tar ./web-apps/deploy/web-apps/apps
 
           - name: Upload artifact
-            if: needs.check-changes.outputs.help != 'false'
+            if: ${{ steps.changes.outputs.help != 'false' }}
             uses: actions/upload-artifact@v3
             with:
               name: build-artifact
@@ -81,11 +72,11 @@ jobs:
     deploy-help:
         name: "Upload on S3"
         runs-on: ubuntu-latest
-        needs: [check-changes, build-help]
+        needs: build-help
         if: (
           startsWith(github.ref, 'refs/heads/release/') ||
           startsWith(github.ref, 'refs/heads/hotfix/')) && 
-          needs.check-changes.outputs.help != 'false'
+          needs.build-help.outputs.help != 'false'
         steps:
 
           - name: Download artifact
