@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, { useContext } from 'react';
 import { View, Popup, Popover } from 'framework7-react';
 import { Device } from '../../../../../common/mobile/utils/device';
 import DocumentSettingsController from "../../controller/settings/DocumentSettings";
@@ -13,86 +13,84 @@ import SharingSettings from "../../../../../common/mobile/lib/view/SharingSettin
 import ProtectionDocumentController from '../../controller/settings/DocumentProtection';
 import ProtectionController from '../../controller/settings/Protection';
 import FileEncryptionController from '../../controller/settings/FileEncryption';
-import SettingsPage from './SettingsPage'
+import SettingsPage from './SettingsPage';
+import { MainContext } from '../../page/main';
 
 const routes = [
     {
-        master: true,
         path: '/settings/',
         component: SettingsPage,
-        detailRoutes: [
-            {
-                path: '/document-settings/',
-                component: DocumentSettingsController,
-            },
-            {
-                path: '/margins/',
-                component: DocumentMargins,
-            },
-            {
-                path: '/document-formats/',
-                component: DocumentFormats,
-            },
-            {
-                path: "/document-info/",
-                component: DocumentInfoController,
-            },
-            {
-                path: '/application-settings/',
-                component: ApplicationSettingsController
-            },
-            {
-                path: '/macros-settings/',
-                component: MacrosSettings
-            },
-            {
-                path: '/download/',
-                component: DownloadController
-            },
-            {
-                path: '/color-schemes/',
-                component: DocumentColorSchemes
-            },
-            {
-                path: '/about/',
-                component: About
-            },
-        
-            // Navigation
-        
-            {
-                path: '/navigation',
-                component: NavigationController
-            },
-        
-            // Direction 
-            {
-                path: '/direction/',
-                component: Direction
-            },
-        
-            // Sharing Settings
-            {
-                path: '/sharing-settings/',
-                component: SharingSettings
-            },
-        
-            // Protection
-            {
-                path: '/protection',
-                component: ProtectionController
-            },
-            {
-                path: '/protect',
-                component: ProtectionDocumentController
-            },
-        
-            // Encryption
-            {
-                path: '/encrypt',
-                component: FileEncryptionController
-            }
-        ]
+    },
+    {
+        path: '/document-settings/',
+        component: DocumentSettingsController,
+    },
+    {
+        path: '/margins/',
+        component: DocumentMargins,
+    },
+    {
+        path: '/document-formats/',
+        component: DocumentFormats,
+    },
+    {
+        path: "/document-info/",
+        component: DocumentInfoController,
+    },
+    {
+        path: '/application-settings/',
+        component: ApplicationSettingsController
+    },
+    {
+        path: '/macros-settings/',
+        component: MacrosSettings
+    },
+    {
+        path: '/download/',
+        component: DownloadController
+    },
+    {
+        path: '/color-schemes/',
+        component: DocumentColorSchemes
+    },
+    {
+        path: '/about/',
+        component: About
+    },
+
+    // Navigation
+
+    {
+        path: '/navigation',
+        component: NavigationController
+    },
+
+    // Direction 
+    {
+        path: '/direction/',
+        component: Direction
+    },
+
+    // Sharing Settings
+    {
+        path: '/sharing-settings/',
+        component: SharingSettings
+    },
+
+    // Protection
+    {
+        path: '/protection',
+        component: ProtectionController
+    },
+    {
+        path: '/protect',
+        component: ProtectionDocumentController
+    },
+
+    // Encryption
+    {
+        path: '/encrypt',
+        component: FileEncryptionController
     }
 ];
 
@@ -103,38 +101,20 @@ routes.forEach(route => {
     };
 });
 
-const SettingsView = props => {
+const SettingsView = () => {
+    const mainContext = useContext(MainContext);
+
     return (
         !Device.phone ?
-            <Popover id="settings-popover" closeByOutsideClick={false} className="popover__titled" onPopoverClosed={() => props.closeOptions('settings')}>
-                <View style={{ height: '410px' }} routes={routes} url={'/settings/'}>
-                    <SettingsPage 
-                        closeOptions={props.closeOptions}
-                        openOptions={props.openOptions}
-                        onChangeMobileView={props.onChangeMobileView}
-                        onPrint={props.onPrint}
-                        showHelp={props.showHelp}
-                        showFeedback={props.showFeedback}
-                        onOrthographyCheck={props.onOrthographyCheck}
-                        onDownloadOrigin={props.onDownloadOrigin}
-                        changeTitleHandler={props.changeTitleHandler} 
-                    />
+            <Popover id="settings-popover" closeByOutsideClick={false} className="popover__titled" onPopoverClosed={() => mainContext.closeOptions('settings')}>
+                <View style={{ height: '410px' }} routes={routes} url='/settings/'>
+                    <SettingsPage />
                 </View>
             </Popover> :
-            <Popup className="settings-popup" onPopupClosed={() => props.closeOptions('settings')}>
-                <View routes={routes} url={'/settings/'}>
-                    <SettingsPage
-                        closeOptions={props.closeOptions}
-                        openOptions={props.openOptions}
-                        onChangeMobileView={props.onChangeMobileView}
-                        onPrint={props.onPrint}
-                        showHelp={props.showHelp}
-                        showFeedback={props.showFeedback}
-                        onOrthographyCheck={props.onOrthographyCheck}
-                        onDownloadOrigin={props.onDownloadOrigin}
-                        changeTitleHandler={props.changeTitleHandler} 
-                    />
-                </View>
+            <Popup className="settings-popup" onPopupClosed={() => mainContext.closeOptions('settings')}>
+                <View routes={routes} url='/settings/'>
+                    <SettingsPage />
+                </View> 
             </Popup>
     )
 };

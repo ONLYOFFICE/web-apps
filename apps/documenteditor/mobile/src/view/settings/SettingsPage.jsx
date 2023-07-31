@@ -1,12 +1,16 @@
-import React from 'react';
-import {Page, Navbar, NavRight, Link, Icon, ListItem, List, Toggle, f7, View, Popup, Popover} from 'framework7-react';
-import {Device} from "../../../../../common/mobile/utils/device";
+import React, { useContext } from 'react';
+import { Page, Navbar, NavRight, Link, Icon, ListItem, List, Toggle, f7 } from 'framework7-react';
+import { Device } from "../../../../../common/mobile/utils/device";
 import { observer, inject } from "mobx-react";
 import { useTranslation } from 'react-i18next';
+import { SettingsContext } from '../../controller/settings/Settings';
+import { MainContext } from '../../page/main';
 
 const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo")(observer(props => {
     const { t } = useTranslation();
     const _t = t('Settings', {returnObjects: true});
+    const settingsContext = useContext(SettingsContext);
+    const mainContext = useContext(MainContext);
     const appOptions = props.storeAppOptions;
     const canProtect = appOptions.canProtect;
     const storeReview = props.storeReview;
@@ -17,7 +21,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
     const isNotForm = docExt && docExt !== 'oform';
     const navbar =
         <Navbar>
-            <div className="title" onClick={props.changeTitleHandler}>{docTitle}</div>
+            <div className="title" onClick={settingsContext.changeTitleHandler}>{docTitle}</div>
             {Device.phone && <NavRight><Link popupClose=".settings-popup">{_t.textDone}</Link></NavRight>}
         </Navbar>;
 
@@ -31,7 +35,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
 
     const onOpenOptions = name => {
         closeModal();
-        props.openOptions(name);
+        mainContext.openOptions(name);
     }
 
     // set mode
@@ -95,7 +99,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                     </ListItem>
                     : null}
                 {Device.sailfish && _isEdit &&
-                    <ListItem title={_t.textSpellcheck} onClick={() => {props.onOrthographyCheck()}} className='no-indicator' link="#">
+                    <ListItem title={_t.textSpellcheck} onClick={() => {settingsContext.onOrthographyCheck()}} className='no-indicator' link="#">
                         <Icon slot="media" icon="icon-spellcheck"></Icon>
                     </ListItem>
                 }
@@ -103,9 +107,8 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                     <ListItem title={t('Settings.textMobileView')}>
                         <Icon slot="media" icon="icon-mobile-view"></Icon>
                         <Toggle checked={isMobileView} onToggleChange={() => {
-                            closeModal();
-                            props.onChangeMobileView();
-                            props.openOptions('snackbar');
+                            settingsContext.onChangeMobileView();
+                            onOpenOptions('snackbar');
                         }} />
                     </ListItem>
                 }
@@ -125,12 +128,12 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                     </ListItem>
                 }
                 {_canDownloadOrigin &&
-                    <ListItem title={_t.textDownload} link="#" onClick={props.onDownloadOrigin} className='no-indicator'>
+                    <ListItem title={_t.textDownload} link="#" onClick={settingsContext.onDownloadOrigin} className='no-indicator'>
                         <Icon slot="media" icon="icon-download"></Icon>
                     </ListItem>
                 }
                 {_canPrint &&
-                    <ListItem title={_t.textPrint} onClick={props.onPrint} link='#' className='no-indicator'>
+                    <ListItem title={_t.textPrint} onClick={settingsContext.onPrint} link='#' className='no-indicator'>
                         <Icon slot="media" icon="icon-print"></Icon>
                     </ListItem>
                 }
@@ -138,7 +141,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                     <Icon slot="media" icon="icon-info"></Icon>
                 </ListItem>
                 {_canHelp &&
-                    <ListItem title={_t.textHelp} link="#" className='no-indicator' onClick={props.showHelp}>
+                    <ListItem title={_t.textHelp} link="#" className='no-indicator' onClick={settingsContext.showHelp}>
                         <Icon slot="media" icon="icon-help"></Icon>
                     </ListItem>
                 }
@@ -148,7 +151,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                     </ListItem>
                 }
                 {_canFeedback &&
-                    <ListItem title={t('Settings.textFeedback')} link="#" className='no-indicator' onClick={props.showFeedback}>
+                    <ListItem title={t('Settings.textFeedback')} link="#" className='no-indicator' onClick={settingsContext.showFeedback}>
                         <Icon slot="media" icon="icon-feedback"></Icon>
                     </ListItem>
                 }
@@ -157,4 +160,4 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
     )
 }));
 
-export default SettingsPage
+export default SettingsPage;

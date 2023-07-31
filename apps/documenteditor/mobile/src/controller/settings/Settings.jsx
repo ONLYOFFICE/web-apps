@@ -1,10 +1,12 @@
-import React, {useEffect} from 'react';
+import React, {createContext, useEffect} from 'react';
 import { useTranslation } from 'react-i18next';
 import {f7} from 'framework7-react';
 import { observer, inject } from "mobx-react";
 import {Device} from '../../../../../common/mobile/utils/device';
 import SettingsView from "../../view/settings/Settings";
 import {LocalStorage} from "../../../../../common/mobile/utils/LocalStorage.mjs";
+
+export const SettingsContext = createContext();
 
 const Settings = props => {
     const storeDocumentInfo = props.storeDocumentInfo;
@@ -155,19 +157,30 @@ const Settings = props => {
         api.asc_setDocInfo(docInfo);
     };
 
-    return (
-        <SettingsView 
-            openOptions={props.openOptions}
-            closeOptions={props.closeOptions}
+    {/* <SettingsView 
+            // openOptions={props.openOptions}
+            // closeOptions={props.closeOptions}
             // onclosed={props.onclosed}
-            onPrint={onPrint}
-            showHelp={showHelp}
-            showFeedback={showFeedback}
-            onOrthographyCheck={onOrthographyCheck}
-            onDownloadOrigin={onDownloadOrigin}
-            onChangeMobileView={onChangeMobileView}
-            changeTitleHandler={changeTitleHandler}
-        />
+            // onPrint={onPrint}
+            // showHelp={showHelp}
+            // showFeedback={showFeedback}
+            // onOrthographyCheck={onOrthographyCheck}
+            // onDownloadOrigin={onDownloadOrigin}
+            // onChangeMobileView={onChangeMobileView}
+            // changeTitleHandler={changeTitleHandler}
+        /> */}
+    return (
+        <SettingsContext.Provider value={{
+            onPrint,
+            showHelp,
+            showFeedback,
+            onOrthographyCheck,
+            onDownloadOrigin,
+            onChangeMobileView,
+            changeTitleHandler
+        }}>
+            <SettingsView />
+        </SettingsContext.Provider>
     );
 };
 
