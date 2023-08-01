@@ -1166,13 +1166,11 @@ define([
                 this.appOptions.isEdit         = true;
                 this.permissions.edit = true; // !! Only for test !!
                 this.permissions.comment = true; // !! Only for test !!
-                this.appOptions.canPDFEdit     = (this.permissions.edit !== false) && // can edit
-                                                 (this.editorConfig.canRequestEditRights || this.editorConfig.mode !== 'view') && // if mode=="view" -> canRequestEditRights must be defined
-                                                 (this.appOptions.canLicense);
-                this.appOptions.isPDFEdit      = this.appOptions.canLicense && this.appOptions.canPDFEdit && this.editorConfig.mode !== 'view';
-                this.appOptions.canPDFAnnotate = this.appOptions.canLicense && (this.permissions.comment===undefined ? this.appOptions.isPDFEdit : this.permissions.comment);
+                this.appOptions.canPDFEdit     = (this.permissions.edit !== false) && this.appOptions.canLicense;
+                this.appOptions.isPDFEdit      = false; // this.appOptions.canPDFEdit && this.editorConfig.mode !== 'view'; !! always open in view mode
+                this.appOptions.canPDFAnnotate = this.appOptions.canLicense && (this.permissions.comment!== false);
                 this.appOptions.canPDFAnnotate = this.appOptions.canPDFAnnotate && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
-                this.appOptions.isPDFAnnotate  = this.appOptions.canLicense && this.appOptions.canPDFAnnotate && !this.appOptions.isPDFEdit && this.editorConfig.mode !== 'view';
+                this.appOptions.isPDFAnnotate  = false;// this.appOptions.canLicense && this.appOptions.canPDFAnnotate && !this.appOptions.isPDFEdit && this.editorConfig.mode !== 'view'; !! always open in view mode
                 this.appOptions.canComments    = true;
                 this.appOptions.canViewComments = this.appOptions.canComments;
                 this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !(this.permissions.chat===false || (this.permissions.chat===undefined) &&
