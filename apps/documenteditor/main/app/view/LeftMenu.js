@@ -177,7 +177,8 @@ define([
             this.btnThumbnails.hide();
             this.btnThumbnails.on('click', this.onBtnMenuClick.bind(this));
 
-            this.pluginSeparator = $markup.find('.separator');
+            this.pluginSeparator = $markup.find('.separator-plugins');
+            this.pluginMoreContainer = $markup.find('#slot-btn-plugins-more');
 
             this.$el.html($markup);
 

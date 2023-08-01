@@ -135,6 +135,7 @@ define([
 
             this.pluginBtns = {};
             this.pluginPanels = {};
+            this.pluginMenuItems = {};
 
             var keymap = {
                 'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
@@ -850,17 +851,21 @@ define([
             if (!this.leftMenu.pluginSeparator.is(':visible')) {
                 this.leftMenu.pluginSeparator.show();
             }
-            this.leftMenu.$el.find('#slot-btn-plugins-more').before('<button id="left-btn-plugins-' + name + '" class="btn btn-category plugin-buttons" data-hint="0" data-hint-direction="right" data-hint-offset="big" content-target=""><i class="icon toolbar__icon btn-menu-plugin">&nbsp;</i></button>');
+            this.leftMenu.pluginMoreContainer.before('<div id="slot-btn-plugins' + name + '"></div>');
             this.leftMenu.$el.find('.left-panel').append('<div id="'+ id + '" class="" style="display: none; height: 100%;"></div>');
             this.pluginBtns[name] = new Common.UI.Button({
-                el: this.leftMenu.$el.find('#left-btn-plugins-' + name),
+                parentEl: this.leftMenu.$el.find('#slot-btn-plugins' + name),
+                id: 'left-btn-plugins-' + name,
+                cls: 'btn-category plugin-buttons',
                 hint: hint,
                 enableToggle: true,
-                //disabled: true,
-                iconCls: 'btn-menu-plugin',
-                toggleGroup: 'leftMenuGroup'
+                iconCls: 'toolbar__icon btn-menu-plugin',
+                toggleGroup: 'leftMenuGroup',
+                onlyIcon: true
             });
+            this.pluginBtns[name].cmpEl.data('name', name);
             this.pluginBtns[name].on('click', _.bind(this.onShowPlugin, this, this.pluginPanels[name], name, 'show'));
+            this.pluginMenuItems[name] = {caption: hint, value: name, iconCls: ''};
 
             this.setMoreButton();
         },
@@ -895,7 +900,7 @@ define([
             var pluginBtns = this.leftMenu.$el.find('.plugin-buttons');
             if (pluginBtns.length === 0) return;
 
-            var $more = this.leftMenu.$el.find('#slot-btn-plugins-more'),
+            var $more = this.leftMenu.pluginMoreContainer,
                 maxHeight = this.leftMenu.$el.height(),
                 buttons = this.leftMenu.$el.find('.btn-category:visible:not(.plugin-buttons)'),
                 btnHeight = $(buttons[0]).outerHeight() + parseFloat($(buttons[0]).css('margin-bottom')),
@@ -918,7 +923,8 @@ define([
             if (last < pluginBtns.length - 1) {
                 for (i = 0; i < pluginBtns.length; i++) {
                     if (i >= last) {
-                        arrMore.push(pluginBtns[i]);
+                        var name = $(pluginBtns[i]).data('name');
+                        arrMore.push(this.pluginMenuItems[name]);
                         $(pluginBtns[i]).hide();
                     } else {
                         $(pluginBtns[i]).show();
@@ -930,10 +936,21 @@ define([
                         this.leftMenu.btnPluginMore = new Common.UI.Button({
                             parentEl: $more,
                             id: 'left-btn-plugins-more',
-                            hint: this.leftMenu.tipMore,
+                            cls: 'btn-category',
                             iconCls: 'toolbar__icon btn-more',
-                            template: _.template('<button id="<%= id %>" class="btn btn-category" data-hint="0" data-hint-direction="right" data-hint-offset="big"><i class="icon <%= iconCls %>">&nbsp;</i></button>')
+                            onlyIcon: true,
+                            hint: this.leftMenu.tipMore,
+                            style: 'width: 100%;',
+                            menu: new Common.UI.Menu({
+                                menuAlign: 'tl-tr',
+                                items: arrMore
+                            })
                         });
+                    } else {
+                        this.leftMenu.btnPluginMore.menu.removeAll();
+                        for (i = 0; i < arrMore.length; i++) {
+                            this.leftMenu.btnPluginMore.menu.addItem(arrMore[i]);
+                        }
                     }
                     $more.show();
                 }
