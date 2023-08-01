@@ -62,6 +62,7 @@ jobs:
                   - added|deleted|modified: '**/resources/help/**'
 
           - name: Tar files
+            id: tar-files
             if: steps.changes.outputs.help == 'true'
             run: tar -cvf build.tar ./web-apps/deploy/web-apps/apps
 
