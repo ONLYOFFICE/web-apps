@@ -2799,7 +2799,6 @@
   "DE.Views.RoleEditDlg.textNoHighlight": "Без подсветки",
   "DE.Views.RoleEditDlg.txtTitleEdit": "Редактировать роль",
   "DE.Views.RoleEditDlg.txtTitleNew": "Создать новую роль",
-  "DE.Views.RolesManagerDlg.closeButtonText": "Закрыть",
   "DE.Views.RolesManagerDlg.textAnyone": "Любой",
   "DE.Views.RolesManagerDlg.textDelete": "Удалить",
   "DE.Views.RolesManagerDlg.textDeleteLast": "Вы действительно хотите удалить роль {0}?<br>После удаления будет создана роль по умолчанию.",

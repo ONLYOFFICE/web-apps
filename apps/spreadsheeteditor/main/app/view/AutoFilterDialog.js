@@ -1077,8 +1077,8 @@ define([
                 '<div class="box" style="height: 100%; display: flex; justify-content: space-between;">',
                     '<div class="content-panel">',
                         '<div class="" style="display: flex; flex-direction: column; justify-content: flex-start; height: calc(100% - 37px);">',
-                            '<div id="id-sd-cell-search" style="height:22px; margin-bottom:10px;"></div>',
-                            '<div class="border-values" style="overflow: hidden; flex-grow: 1;">',
+                            '<div id="id-sd-cell-search" style="height:22px; margin-bottom:10px;flex-shrink: 0;"></div>',
+                            '<div class="border-values" style="overflow: hidden; flex-grow: 1;display: flex;">',
                                 '<div id="id-dlg-filter-values" class="combo-values" style=""></div>',
                             '</div>',
                         '</div>',
@@ -1482,6 +1482,7 @@ define([
                     store: this.cells,
                     tabindex: 1,
                     enableKeyEvents: true,
+                    template: _.template(['<div class="treeview inner" style="height:auto;"></div>'].join('')),
                     itemTemplate: _.template([
                         '<% if (typeof isDate !=="undefined" && isDate) { %>',
                             '<div class="tree-item date <% if (!isVisible) { %>' + 'hidden' + '<% } %>" style="display: block;' + (!Common.UI.isRTL() ? 'padding-left' : 'padding-right') + ': <%= level*16 + 22 %>px;">',
