@@ -5,10 +5,12 @@ import { useTranslation } from 'react-i18next';
 import ToolbarView from "../view/Toolbar";
 import {LocalStorage} from "../../../../common/mobile/utils/LocalStorage.mjs";
 
-const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'storeFocusObjects', 'storeToolbarSettings','storeDocumentInfo')(observer(props => {
+const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'storeFocusObjects', 'storeToolbarSettings','storeDocumentInfo', 'storeVersionHistory')(observer(props => {
     const {t} = useTranslation();
     const _t = t("Toolbar", { returnObjects: true });
     const appOptions = props.storeAppOptions;
+    const storeVersionHistory = props.storeVersionHistory;
+    const isVersionHistoryMode = storeVersionHistory.isVersionHistoryMode;
     const isViewer = appOptions.isViewer;
     const isMobileView = appOptions.isMobileView;
     const isDisconnected = props.users.isDisconnected;
@@ -215,6 +217,10 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         api.asc_setDocInfo(docInfo);
     }
 
+    const closeHistory = () => {
+        Common.Gateway.requestHistoryClose();
+    }
+
     return (
         <ToolbarView openOptions={props.openOptions}
                      closeOptions={props.closeOptions}
@@ -241,6 +247,8 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
                      isMobileView={isMobileView}
                      changeMobileView={changeMobileView}
                      changeTitle={changeTitle}
+                     isVersionHistoryMode={isVersionHistoryMode}
+                     closeHistory={closeHistory}
         />
     )
 }));

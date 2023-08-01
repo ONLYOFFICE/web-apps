@@ -2799,7 +2799,6 @@
   "DE.Views.RoleEditDlg.textNoHighlight": "No resaltar",
   "DE.Views.RoleEditDlg.txtTitleEdit": "Editar rol",
   "DE.Views.RoleEditDlg.txtTitleNew": "Crear nuevo rol",
-  "DE.Views.RolesManagerDlg.closeButtonText": "Cerrar",
   "DE.Views.RolesManagerDlg.textAnyone": "Cualquiera",
   "DE.Views.RolesManagerDlg.textDelete": "Eliminar",
   "DE.Views.RolesManagerDlg.textDeleteLast": "¿Está seguro de que desea eliminar el rol {0}?<br>Una vez eliminado, se creará el rol predeterminado.",

@@ -2809,7 +2809,6 @@
   "DE.Views.RoleEditDlg.txtTitleEdit": "Edit Role",
   "DE.Views.RoleEditDlg.txtTitleNew": "Create New Role",
   "DE.Views.RoleEditDlg.textNameEx": "Example: Applicant, Client, Sales Rep",
-  "DE.Views.RolesManagerDlg.closeButtonText": "Close",
   "DE.Views.RolesManagerDlg.textAnyone": "Anyone",
   "DE.Views.RolesManagerDlg.textDelete": "Delete",
   "DE.Views.RolesManagerDlg.textDeleteLast": "Are you sure you want to delete the role {0}?<br>Once deleted, the default role will be created.",

@@ -646,6 +646,41 @@
     }
 }
 
+#dlg-password {
+    .password-body {
+        display: flex;
+        flex-direction: column;
+    }
+    .modal-dialog {
+        width: 300px;
+    }
+    
+    label {
+        font-weight: 500;
+    }
+
+    #password-input.error {
+        border-color: red;
+    }
+
+    #password-label-error {
+        visibility: hidden;
+        margin-bottom: 0px;
+        color: red;
+    }
+
+    #password-label-error.error {
+        visibility: visible;
+    }
+
+    #password-btn {
+        padding: 6px 40px;
+        margin-top: 20px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
 .dropdown-menu {
     > li > a {
         padding: 8px 20px 8px 28px;

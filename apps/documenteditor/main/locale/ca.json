@@ -2773,7 +2773,6 @@
   "DE.Views.RoleEditDlg.textNoHighlight": "Sense ressaltar",
   "DE.Views.RoleEditDlg.txtTitleEdit": "Editar la funció",
   "DE.Views.RoleEditDlg.txtTitleNew": "Crear una nova funció",
-  "DE.Views.RolesManagerDlg.closeButtonText": "Tancar",
   "DE.Views.RolesManagerDlg.textAnyone": "Qualsevol",
   "DE.Views.RolesManagerDlg.textDelete": "Suprimir",
   "DE.Views.RolesManagerDlg.textDeleteLast": "Segur que voleu eliminar la funció {0}? <br> Un cop eliminada, es podrà crear la funció predeterminada.",

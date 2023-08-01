@@ -534,9 +534,116 @@
     .navbar-link-settings {
         .navbar-inner {
             background: @background-primary;
+
+            .icon-back {
+                color: @text-normal;
+            }
         }
         .title, a {
             color: @text-normal;
         }
+    }
+
+    // Version History
+    .page-version-history {
+        --f7-page-bg-color: @background-primary;
+    }
+
+    .version-history {
+        &__title {
+            font-style: normal;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 20px;
+            color: @brandColor;
+            margin-top: 16px;
+            margin-bottom: 4px;
+        }
+
+        &__btn {
+            box-shadow: 0px 0.25px 1px rgba(0, 0, 0, 0.039), 0px 0.85px 3px rgba(0, 0, 0, 0.19);
+            border-radius: 6px;
+            background: @background-primary;
+            padding: 6px 20px;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 20px;
+            letter-spacing: 0.25px;
+            color: @brandColor;
+            margin-top: 10px;
+            border: 0;
+            width: auto;
+        }
+
+        &__list {
+            ul:before, ul:after {
+                display: none;
+            }
+
+            .item-title {
+                font-style: normal;
+                font-weight: 400;
+                font-size: 16px;
+                line-height: 24px;
+                color: @text-normal;
+                letter-spacing: 0.15px;
+            }
+
+            .item-inner {
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+
+            .item-inner::before {
+                content: '';
+                position: absolute;
+                background-color: @background-menu-divider;
+                display: block;
+                z-index: 15;
+                top: auto;
+                right: auto;
+                bottom: 0;
+                left: 0;
+                height: 1px;
+                width: 100%;
+                transform-origin: 50% 100%;
+                transform: scaleY(calc(1 / var(--f7-device-pixel-ratio)));
+            }
+
+            .item-media {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                min-width: 40px;
+                max-width: 40px;
+            }
+
+            .item-link .item-title-row:before {
+                display: none;
+            }
+
+            .item-subtitle {
+                color: @text-secondary;
+                font-style: normal;
+                font-weight: 400;
+                font-size: 12px;
+                line-height: 16px;
+                letter-spacing: 0.5px;
+            }
+        }
+    }
+
+    .version-history__item_active {
+        background-color: @background-tertiary;
+    }
+
+    .btn-close-history {
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: 0.15px;
+        color: @toolbar-icons;
+        margin-left: 16px;
     }
 }

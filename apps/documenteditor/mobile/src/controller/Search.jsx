@@ -23,6 +23,8 @@ class SearchSettings extends SearchSettingsView {
         const { t } = this.props;
         const _t = t("Settings", {returnObjects: true});
         const storeAppOptions = this.props.storeAppOptions;
+        const storeVersionHistory = this.props.storeVersionHistory;
+        const isVersionHistoryMode = storeVersionHistory.isVersionHistoryMode;
         const isEdit = storeAppOptions.isEdit;
         const isViewer = storeAppOptions.isViewer;
         const storeReview =  this.props.storeReview;
@@ -39,7 +41,7 @@ class SearchSettings extends SearchSettingsView {
                     </Navbar>
                     <List>
                         <ListItem radio title={_t.textFind} name="find-replace-checkbox" checked={!this.state.useReplace} onClick={e => this.onFindReplaceClick('find')} />
-                        {isEdit && displayMode === 'markup' && !isViewer ? [
+                        {isEdit && displayMode === 'markup' && !isViewer && !isVersionHistoryMode ? [
                             <ListItem key="replace" radio title={_t.textFindAndReplace} name="find-replace-checkbox" checked={this.state.useReplace} 
                                 onClick={e => this.onFindReplaceClick('replace')} />, 
                             <ListItem key="replace-all" radio title={_t.textFindAndReplaceAll} name="find-replace-checkbox" checked={this.state.isReplaceAll}
@@ -154,6 +156,6 @@ const Search = withTranslation()(props => {
     return <DESearchView _t={_t} onSearchQuery={onSearchQuery} onchangeSearchQuery={onchangeSearchQuery} onReplaceQuery={onReplaceQuery} onReplaceAllQuery={onReplaceAllQuery} />
 });
 
-const SearchSettingsWithTranslation = inject("storeAppOptions", "storeReview")(observer(withTranslation()(SearchSettings)));
+const SearchSettingsWithTranslation = inject("storeAppOptions", "storeReview", "storeVersionHistory")(observer(withTranslation()(SearchSettings)));
 
 export {Search, SearchSettingsWithTranslation as SearchSettings}

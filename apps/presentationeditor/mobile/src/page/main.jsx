@@ -13,6 +13,7 @@ import ContextMenu from '../controller/ContextMenu';
 import { Toolbar } from "../controller/Toolbar";
 import { AddLinkController } from '../controller/add/AddLink';
 import { EditLinkController } from '../controller/edit/EditLink';
+import VersionHistoryController from '../../../../common/mobile/lib/controller/VersionHistory';
 
 class MainPage extends Component {
     constructor(props) {
@@ -60,6 +61,8 @@ class MainPage extends Component {
             } else if( opts === 'edit-link') {
                 this.state.editLinkSettingsVisible && (opened = true);
                 newState.editLinkSettingsVisible = true;
+            } else if (opts === 'history') {
+                newState.historyVisible = true;
             }
 
             for (let key in this.state) {
@@ -97,6 +100,8 @@ class MainPage extends Component {
                     return {addLinkSettingsVisible: false};
                 else if( opts === 'edit-link') 
                     return {editLinkSettingsVisible: false};
+                else if (opts === 'history')
+                    return {historyVisible: false}
             });
             if ((opts === 'edit' || opts === 'coauth') && Device.phone) {
                 f7.navbar.show('.main-navbar');
@@ -188,6 +193,10 @@ class MainPage extends Component {
                     {
                         !this.state.collaborationVisible ? null :
                             <Collaboration onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} />
+                    }
+                    {
+                        !this.state.historyVisible ? null :
+                            <VersionHistoryController onclosed={this.handleOptionsViewClosed.bind(this, 'history')} />
                     }
                     {appOptions.isDocReady && <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)} />}   
                 </Page>

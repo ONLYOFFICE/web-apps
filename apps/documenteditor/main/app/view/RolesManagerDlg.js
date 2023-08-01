@@ -356,7 +356,6 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
         },
 
         txtTitle: 'Manage Roles',
-        closeButtonText : 'Close',
         textNew: 'New',
         textEdit: 'Edit',
         textDelete: 'Delete',

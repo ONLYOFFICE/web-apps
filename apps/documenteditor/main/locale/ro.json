@@ -2799,7 +2799,6 @@
   "DE.Views.RoleEditDlg.textNoHighlight": "Fără evidențiere",
   "DE.Views.RoleEditDlg.txtTitleEdit": "Editare rol",
   "DE.Views.RoleEditDlg.txtTitleNew": "Creați un rol nou",
-  "DE.Views.RolesManagerDlg.closeButtonText": "Închide",
   "DE.Views.RolesManagerDlg.textAnyone": "Orice utilizator",
   "DE.Views.RolesManagerDlg.textDelete": "Ștergere",
   "DE.Views.RolesManagerDlg.textDeleteLast": "Sunteți sigur că doriți să ștergeți rolul {0}?<br>Odată șters, va fi creat un rol implicit.",

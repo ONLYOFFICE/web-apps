@@ -1371,6 +1371,7 @@
   "SSE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
   "SSE.Controllers.Main.txtNone": "None",
   "SSE.Controllers.Main.txtSlicer": "Slicer",
+  "SSE.Controllers.Main.txtInfo": "Info",
   "SSE.Controllers.PivotTable.strSheet": "Sheet",
   "SSE.Controllers.Print.strAllSheets": "All Sheets",
   "SSE.Controllers.Print.textFirstCol": "First column",
