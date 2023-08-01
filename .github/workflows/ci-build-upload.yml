@@ -13,20 +13,33 @@ jobs:
           help: ${{steps.changes.outputs.help}}
         steps:
 
-          - name: Determine branch variable
-            run: |
-              if [[ ${{ github.ref }} == refs/heads/release* || ${{ github.ref }} == refs/heads/hotfix* ]]; then
-                echo "REF=${{ github.ref }}" >> $GITHUB_ENV
-              else
-                echo "REF=develop" >> $GITHUB_ENV
-              fi
-
           - name: Checkout Web-Apps
             uses: actions/checkout@v3
             with:
                 repository: onlyoffice/web-apps
                 ref: ${{github.ref}}
                 path: 'web-apps'
+
+          - name: Path filter for help
+            if: (startsWith(github.ref, 'refs/heads/release/') ||
+             startsWith(github.ref, 'refs/heads/hotfix/'))
+            uses: dorny/paths-filter@v2
+            id: changes
+            with:
+              working-directory: 'web-apps'
+              base: ${{github.ref}}
+              initial-fetch-depth: '1'
+              filters: |
+                help:
+                  - added|deleted|modified: '**/resources/help/**'
+
+          - name: Determine branch variable
+            run: |
+              if ${{steps.changes.outputs.help == 'true'}}; then
+                echo "REF=${{ github.ref }}" >> $GITHUB_ENV
+              else
+                echo "REF=develop" >> $GITHUB_ENV
+              fi
 
           - name: Checkout SDKJS
             uses: actions/checkout@v3
@@ -47,19 +60,6 @@ jobs:
                 ./sprites.sh
                 npm install
                 grunt
-
-          - name: Path filter for help
-            if: (startsWith(github.ref, 'refs/heads/release/') ||
-             startsWith(github.ref, 'refs/heads/hotfix/'))
-            uses: dorny/paths-filter@v2
-            id: changes
-            with:
-              working-directory: 'web-apps'
-              base: ${{github.ref}}
-              initial-fetch-depth: '1'
-              filters: |
-                help:
-                  - added|deleted|modified: '**/resources/help/**'
 
           - name: Tar files
             id: tar-files
