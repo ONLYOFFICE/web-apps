@@ -6,7 +6,7 @@ import { withTranslation } from 'react-i18next';
 import EditOptions from '../view/edit/Edit';
 import AddOptions from '../view/add/Add';
 import SettingsController from '../controller/settings/Settings';
-import { CollaborationDocument } from '../../../../common/mobile/lib/view/collaboration/Collaboration.jsx'
+import CollaborationView from '../../../../common/mobile/lib/view/collaboration/Collaboration.jsx'
 import { Device } from '../../../../common/mobile/utils/device'
 import { Search, SearchSettings } from '../controller/Search';
 import ContextMenu from '../controller/ContextMenu';
@@ -238,10 +238,7 @@ class MainPage extends Component {
                             <EditHyperlink onClosed={this.handleOptionsViewClosed.bind(this)} />
                     }
                     {!this.state.settingsVisible ? null : <SettingsController />}
-                    {
-                        !this.state.collaborationVisible ? null :
-                            <CollaborationDocument onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} page={this.state.collaborationPage} />
-                    }
+                    {!this.state.collaborationVisible ? null : <CollaborationView />}
                     {!this.state.navigationVisible ? null : <NavigationController />}
                     {isFabShow &&
                         <CSSTransition
