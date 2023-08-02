@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Page, Navbar, NavRight, Link, Icon, ListItem, List, Toggle, f7 } from 'framework7-react';
+import { Page, Navbar, NavRight, Link, Icon, ListItem, List, Toggle } from 'framework7-react';
 import { Device } from "../../../../../common/mobile/utils/device";
 import { observer, inject } from "mobx-react";
 import { useTranslation } from 'react-i18next';
@@ -25,16 +25,8 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
             {Device.phone && <NavRight><Link popupClose=".settings-popup">{_t.textDone}</Link></NavRight>}
         </Navbar>;
 
-    const closeModal = () => {
-        if (Device.phone) {
-            f7.sheet.close('.settings-popup', false);
-        } else {
-            f7.popover.close('#settings-popover', false);
-        }
-    };
-
     const onOpenOptions = name => {
-        closeModal();
+        settingsContext.closeModal();
         mainContext.openOptions(name);
     }
 
@@ -75,7 +67,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
             {navbar}
             <List>
                 {Device.phone &&
-                    <ListItem title={!_isEdit || isViewer ? _t.textFind : _t.textFindAndReplace} link='#' searchbarEnable='.searchbar' onClick={closeModal} className='no-indicator'>
+                    <ListItem title={!_isEdit || isViewer ? _t.textFind : _t.textFindAndReplace} link='#' searchbarEnable='.searchbar' onClick={settingsContext.closeModal} className='no-indicator'>
                         <Icon slot="media" icon="icon-search"></Icon>
                     </ListItem>
                 }

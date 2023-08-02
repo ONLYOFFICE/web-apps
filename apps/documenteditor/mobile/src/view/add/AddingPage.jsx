@@ -1,13 +1,14 @@
-import React from 'react';
-import { Page, Navbar, NavRight, NavTitle, Link, Icon, Tabs, Tab } from 'framework7-react';
+import React, { useContext, useEffect } from 'react';
+import { f7, Page, Navbar, NavRight, NavTitle, Link, Icon, Tabs, Tab } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import { observer, inject } from "mobx-react";
 import { Device } from '../../../../../common/mobile/utils/device';
 import { AddTableController } from "../../controller/add/AddTable";
 import AddShapeController from "../../controller/add/AddShape";
 import { AddOtherController } from "../../controller/add/AddOther";
+import { MainContext } from '../../page/main';
 
-const AddLayoutNavbar = ({ tabs, inPopover, storeTableSettings }) => {
+const AddLayoutNavbar = ({ tabs, storeTableSettings }) => {
     const isAndroid = Device.android;
     const { t } = useTranslation();
     const _t = t('Add', {returnObjects: true});
@@ -31,7 +32,7 @@ const AddLayoutNavbar = ({ tabs, inPopover, storeTableSettings }) => {
                 </div> :
                 <NavTitle>{ tabs[0].caption }</NavTitle>
             }
-            {!inPopover && <NavRight><Link icon='icon-expand-down' popupClose=".add-popup"></Link></NavRight>}
+            {Device.phone && <NavRight><Link icon='icon-expand-down' popupClose=".add-popup"></Link></NavRight>}
         </Navbar>
     )
 };
@@ -48,13 +49,21 @@ const AddLayoutContent = ({ tabs }) => {
     )
 };
 
-const AddingPage = inject("storeFocusObjects", "storeTableSettings")(observer(({storeFocusObjects, showPanels, storeTableSettings, style, inPopover, onCloseLinkSettings}) => {
+const AddingPage = inject("storeFocusObjects", "storeTableSettings")(observer(props => {
+    const mainContext = useContext(MainContext);
+    const showPanels = mainContext.showPanels;
+    const storeFocusObjects = props.storeFocusObjects;
+    const storeTableSettings = props.storeTableSettings;
     const { t } = useTranslation();
     const _t = t('Add', {returnObjects: true});
     const api = Common.EditorApi.get();
     const tabs = [];
     const options = storeFocusObjects.settings;
     const paragraphObj = storeFocusObjects.paragraphObject;
+
+    useEffect(() => {
+        f7.tab.show('#add-other', false);
+    }, []);
 
     let needDisable = false,
         canAddTable = true,
@@ -129,15 +138,14 @@ const AddingPage = inject("storeFocusObjects", "storeTableSettings")(observer(({
                     richDelLock={richDelLock}
                     richEditLock={richEditLock}
                     plainDelLock={plainDelLock}
-                    plainEditLock={plainEditLock}     
-                    onCloseLinkSettings={onCloseLinkSettings}
+                    plainEditLock={plainEditLock}
                 />
         });
     }
 
     return (
         <Page pageContent={false}>
-            <AddLayoutNavbar tabs={tabs} inPopover={inPopover} storeTableSettings={storeTableSettings} />
+            <AddLayoutNavbar tabs={tabs} storeTableSettings={storeTableSettings} />
             <AddLayoutContent tabs={tabs} />
         </Page>
     )

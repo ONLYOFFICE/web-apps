@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { View, Popup, Popover } from 'framework7-react';
+import React, { useContext, useEffect } from 'react';
+import { f7, View, Popup, Popover } from 'framework7-react';
 import { Device } from '../../../../../common/mobile/utils/device';
 import DocumentSettingsController from "../../controller/settings/DocumentSettings";
 import DocumentInfoController from "../../controller/settings/DocumentInfo";
@@ -103,6 +103,14 @@ routes.forEach(route => {
 
 const SettingsView = () => {
     const mainContext = useContext(MainContext);
+
+    useEffect(() => {
+        if(Device.phone) {
+            f7.popup.open('.settings-popup');
+        } else {
+            f7.popover.open('#settings-popover', '#btn-settings');
+        }
+    }, []);
 
     return (
         !Device.phone ?

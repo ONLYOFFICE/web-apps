@@ -1,34 +1,22 @@
-import React, {createContext, useEffect} from 'react';
+import React, { createContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import {f7} from 'framework7-react';
+import { f7 } from 'framework7-react';
 import { observer, inject } from "mobx-react";
-import {Device} from '../../../../../common/mobile/utils/device';
+import { Device } from '../../../../../common/mobile/utils/device';
 import SettingsView from "../../view/settings/Settings";
-import {LocalStorage} from "../../../../../common/mobile/utils/LocalStorage.mjs";
+import { LocalStorage } from "../../../../../common/mobile/utils/LocalStorage.mjs";
 
 export const SettingsContext = createContext();
 
-const Settings = props => {
+const SettingsController = props => {
     const storeDocumentInfo = props.storeDocumentInfo;
     const { t } = useTranslation();
 
-    useEffect(() => {
-        if ( Device.phone ) {
-            f7.popup.open('.settings-popup');
-        } else {
-            f7.popover.open('#settings-popover', '#btn-settings');
-        }
-
-        return () => {
-            // component will unmount
-        }
-    });
-
     const closeModal = () => {
-        if (Device.phone) {
-            f7.sheet.close('.settings-popup');
+        if(Device.phone) {
+            f7.sheet.close('.settings-popup', false);
         } else {
-            f7.popover.close('#settings-popover');
+            f7.popover.close('#settings-popover', false);
         }
     };
 
@@ -157,18 +145,6 @@ const Settings = props => {
         api.asc_setDocInfo(docInfo);
     };
 
-    {/* <SettingsView 
-            // openOptions={props.openOptions}
-            // closeOptions={props.closeOptions}
-            // onclosed={props.onclosed}
-            // onPrint={onPrint}
-            // showHelp={showHelp}
-            // showFeedback={showFeedback}
-            // onOrthographyCheck={onOrthographyCheck}
-            // onDownloadOrigin={onDownloadOrigin}
-            // onChangeMobileView={onChangeMobileView}
-            // changeTitleHandler={changeTitleHandler}
-        /> */}
     return (
         <SettingsContext.Provider value={{
             onPrint,
@@ -177,11 +153,12 @@ const Settings = props => {
             onOrthographyCheck,
             onDownloadOrigin,
             onChangeMobileView,
-            changeTitleHandler
+            changeTitleHandler,
+            closeModal
         }}>
             <SettingsView />
         </SettingsContext.Provider>
     );
 };
 
-export default inject("storeAppOptions", "storeDocumentInfo")(observer(Settings));
+export default inject("storeAppOptions", "storeDocumentInfo")(observer(SettingsController));
