@@ -461,7 +461,8 @@ define([
 
             const _is_win = /Win/.test(navigator.platform);
             const _re_name = !_is_win ? /([^/]+\.[a-zA-Z0-9]{1,})$/ : /([^\\/]+\.[a-zA-Z0-9]{1,})$/;
-            for ( let _f_ of rawarray ) {
+            for ( let i in rawarray ) {
+                const _f_ = rawarray[i];
                 if ( utils.matchFileFormat( _f_.type ) ) {
                     if (_re_name.test(_f_.path)) {
                         const name = _re_name.exec(_f_.path)[1],
