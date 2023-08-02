@@ -6,7 +6,7 @@ on:
 
 
 jobs:
-    build-help:
+    build-apps:
         name: "Build Apps"
         runs-on: ubuntu-latest
         outputs:
@@ -61,23 +61,23 @@ jobs:
                 npm install
                 grunt
 
-          - name: Tar files
-            id: tar-files
+          - name: Apps files
+            id: apps-files
             if: steps.changes.outputs.help_modified == 'true'
-            run: tar -cvf build.tar ./web-apps/deploy/web-apps/apps
+            run: tar -cvf apps.tar ./web-apps/deploy/web-apps/apps
 
           - name: Upload artifact
-            if: steps.tar-files.outcome == 'success'
+            if: steps.apps-files.outcome == 'success'
             uses: actions/upload-artifact@v3
             with:
-              name: build-artifact
-              path: build.tar
+              name: apps-artifact
+              path: apps.tar
 
-    deploy-help:
+    upload-apps:
         name: "Upload on S3"
         runs-on: ubuntu-latest
-        needs: build-help
-        if: needs.build-help.outputs.help_modified == 'true'
+        needs: build-apps
+        if: needs.build-apps.outputs.help_modified == 'true'
         steps:
 
           - name: Download artifact
