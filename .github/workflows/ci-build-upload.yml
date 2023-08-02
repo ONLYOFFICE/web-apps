@@ -83,11 +83,11 @@ jobs:
           - name: Download artifact
             uses: actions/download-artifact@v3
             with:
-              name: build-artifact
+              name: apps-artifact
 
           - name: Extract files
             run: | 
-              tar -xvf build.tar
+              tar -xvf apps.tar
 
           - name: Configure AWS Credentials
             uses: aws-actions/configure-aws-credentials@v2
