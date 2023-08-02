@@ -343,34 +343,12 @@ define([
                         dataHintDirection: 'bottom'
                     });
 
-                    me.btnEditChart = new Common.UI.Button({
-                        id          : 'id-toolbar-rtn-edit-chart',
-                        cls         : 'btn-toolbar btn-text-default auto',
-                        caption     : me.tipEditChart,
-                        lock        : [_set.lostConnect],
-                        style       : 'min-width: 120px;',
-                        dataHint    : '1',
-                        dataHintDirection: 'bottom'
-                    });
-
                     me.btnEditChartData = new Common.UI.Button({
                         id          : 'id-toolbar-rtn-edit-chart-data',
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-select-range',
                         caption     : me.tipEditChartData,
-                        lock        : [_set.editCell, _set.selRange, _set.selRangeEdit, _set.lostConnect],
-                        dataHint    : '1',
-                        dataHintDirection: 'left',
-                        dataHintOffset: 'medium'
-                    });
-
-                    me.btnEditChartType = new Common.UI.Button({
-                        id          : 'id-toolbar-rtn-edit-chart-type',
-                        cls         : 'btn-toolbar',
-                        iconCls     : 'toolbar__icon btn-menu-chart',
-                        caption     : me.tipEditChartType,
-                        lock        : [_set.editCell, _set.selRange, _set.selRangeEdit, _set.lostConnect],
-                        style       : 'min-width: 120px;',
+                        lock        : [_set.editCell, _set.lostConnect],
                         dataHint    : '1',
                         dataHintDirection: 'left',
                         dataHintOffset: 'medium'
@@ -2362,9 +2340,7 @@ define([
             _injectComponent('#slot-btn-inssparkline',   this.btnInsertSparkline);
             _injectComponent('#slot-btn-inssmartart',    this.btnInsertSmartArt);
             _injectComponent('#slot-field-styles',       this.listStyles);
-            _injectComponent('#slot-btn-chart',          this.btnEditChart);
             _injectComponent('#slot-btn-chart-data',     this.btnEditChartData);
-            _injectComponent('#slot-btn-chart-type',     this.btnEditChartType);
             _injectComponent('#slot-btn-pageorient',    this.btnPageOrient);
             _injectComponent('#slot-btn-pagemargins',   this.btnPageMargins);
             _injectComponent('#slot-btn-pagesize',      this.btnPageSize);
@@ -3048,7 +3024,7 @@ define([
             if (mode.isDisconnected) {
                 this.lockToolbar( Common.enumLock.lostConnect, true );
                 this.lockToolbar( Common.enumLock.lostConnect, true,
-                    {array:[this.btnEditChart, this.btnEditChartData, this.btnEditChartType, this.btnUndo,this.btnRedo,this.btnSave, this.btnVisibleArea, this.btnVisibleAreaClose]} );
+                    {array:[this.btnEditChartData, this.btnUndo,this.btnRedo,this.btnSave, this.btnVisibleArea, this.btnVisibleAreaClose]} );
                 if ( this.synchTooltip )
                     this.synchTooltip.hide();
                 if (!mode.enableDownload)

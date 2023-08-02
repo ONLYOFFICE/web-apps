@@ -211,7 +211,7 @@ define([
                             this.onDiagrammEditingDisabled();
                         }
                     } else
-                    if (eventData.type == 'chartDataReady') {
+                    if (eventData.type == 'frameEditorReady') {
                         if (this.needDisableEditing===undefined)
                             this.diagramEditorView.setControlsDisabled(false);
                     } else

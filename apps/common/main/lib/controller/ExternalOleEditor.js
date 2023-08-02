@@ -209,7 +209,7 @@ define([
                             this.onOleEditingDisabled();
                         }
                     } else
-                    if (eventData.type == 'oleEditorReady') {
+                    if (eventData.type == 'frameEditorReady') {
                         if (this.needDisableEditing===undefined)
                             this.oleEditorView.setControlsDisabled(false);
                     } else

@@ -581,16 +581,7 @@ define([
         },
 
         setEditData: function() {
-            var diagramEditor = DE.getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
-            if (diagramEditor) {
-                diagramEditor.setEditMode(true);
-                diagramEditor.show();
-
-                var chart = this.api.asc_getChartObject();
-                if (chart) {
-                    diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
-                }
-            }
+            this.api.asc_editChartInFrameEditor();
         },
 
         openAdvancedSettings: function(e) {

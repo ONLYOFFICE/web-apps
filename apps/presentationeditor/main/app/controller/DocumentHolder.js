@@ -220,7 +220,7 @@ define([
 
                 if (me.mode.isEdit===true) {
                     me.api.asc_registerCallback('asc_onDialogAddHyperlink', _.bind(me.onDialogAddHyperlink, me));
-                    me.api.asc_registerCallback('asc_doubleClickOnChart', _.bind(me.editChartClick, me));
+                    me.api.asc_registerCallback('asc_doubleClickOnChart', _.bind(me.onDoubleClickOnChart, me));
                     me.api.asc_registerCallback('asc_doubleClickOnTableOleObject', _.bind(me.onDoubleClickOnTableOleObject, me));
                     me.api.asc_registerCallback('asc_onSpellCheckVariantsFound',  _.bind(me.onSpellCheckVariantsFound, me));
                     me.api.asc_registerCallback('asc_onShowSpecialPasteOptions',  _.bind(me.onShowSpecialPasteOptions, me));
@@ -337,7 +337,7 @@ define([
                 diagramEditor.on('internalmessage', _.bind(function(cmp, message) {
                     var command = message.data.command;
                     var data = message.data.data;
-                    if (this.api) {
+                    if (this.api && data) {
                         ( diagramEditor.isEditMode() )
                             ? this.api.asc_editChartDrawingObject(data)
                             : this.api.asc_addChartDrawingObject(data, diagramEditor.getPlaceholder());
@@ -394,7 +394,7 @@ define([
             view.menuEditHyperlinkTable.on('click', _.bind(me.editHyperlink, me));
             view.menuRemoveHyperlinkPara.on('click', _.bind(me.removeHyperlink, me));
             view.menuRemoveHyperlinkTable.on('click', _.bind(me.removeHyperlink, me));
-            view.menuChartEdit.on('click', _.bind(me.editChartClick, me, undefined));
+            view.menuChartEdit.on('click', _.bind(me.editChartClick, me));
             view.menuImgSaveAsPicture.on('click', _.bind(me.saveAsPicture, me));
             view.menuTableSaveAsPicture.on('click', _.bind(me.saveAsPicture, me));
             view.menuAddCommentPara.on('click', _.bind(me.addComment, me));
@@ -1556,17 +1556,17 @@ define([
             }
         },
         /** coauthoring end **/
-        editChartClick: function(chart, placeholder){
-            if (this.mode.isEdit && !this._isDisabled) {
-                var diagramEditor = PE.getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
+        editChartClick: function(){
+            this.api.asc_editChartInFrameEditor();
+        },
 
-                if (diagramEditor) {
-                    diagramEditor.setEditMode(chart===undefined || typeof chart == 'object'); //edit from doubleclick or context menu
+        onDoubleClickOnChart: function(chart) {
+            if (this.mode.isEdit && !this._isDisabled) {
+                var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
+                if (diagramEditor && chart) {
+                    diagramEditor.setEditMode(true);
                     diagramEditor.show();
-                    if (typeof chart !== 'object')
-                        chart = this.api.asc_getChartObject(chart, placeholder);
-                    diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
-                    diagramEditor.setPlaceholder(placeholder);
+                    diagramEditor.setChartData(chart);
                 }
             }
         },
@@ -1660,7 +1660,7 @@ define([
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                 });
                 picker.on('item:click', function (picker, item, record, e) {
-                    me.editChartClick(record.get('type'), me._state.placeholderObj);
+                    me.api.asc_addChartDrawingObject(record.get('type'), me._state.placeholderObj);
                 });
             }
             menuContainer.css({left: x, top : y});

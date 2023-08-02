@@ -288,7 +288,7 @@ define([
                 diagramEditor.on('internalmessage', _.bind(function(cmp, message) {
                     var command = message.data.command;
                     var data = message.data.data;
-                    if (this.api) {
+                    if (this.api && data) {
                         (diagramEditor.isEditMode())
                             ? this.api.asc_editChartDrawingObject(data)
                             : this.api.asc_addChartDrawingObject(data);
@@ -1342,7 +1342,7 @@ define([
                 if (diagramEditor && chart) {
                     diagramEditor.setEditMode(true);
                     diagramEditor.show();
-                    diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
+                    diagramEditor.setChartData(chart);
                 }
             }
         },
@@ -1789,16 +1789,7 @@ define([
         },
 
         editChartClick: function(){
-            var diagramEditor = DE.getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
-            if (diagramEditor) {
-                diagramEditor.setEditMode(true);
-                diagramEditor.show();
-
-                var chart = this.api.asc_getChartObject();
-                if (chart) {
-                    diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
-                }
-            }
+            this.api.asc_editChartInFrameEditor();
         },
 
         advancedParagraphClick: function(item, e, eOpt){

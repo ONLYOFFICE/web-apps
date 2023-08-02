@@ -301,9 +301,7 @@ define([
                 toolbar.cmbNumberFormat.on('show:before',                   _.bind(this.onNumberFormatOpenBefore, this, true));
                 if (toolbar.cmbNumberFormat.cmpEl)
                     toolbar.cmbNumberFormat.cmpEl.on('click', '#id-toolbar-mnu-item-more-formats a', _.bind(this.onNumberFormatSelect, this));
-                toolbar.btnEditChart.on('click',                            _.bind(this.onEditChart, this));
                 toolbar.btnEditChartData.on('click',                        _.bind(this.onEditChartData, this));
-                toolbar.btnEditChartType.on('click',                        _.bind(this.onEditChartType, this));
             } else
             if ( me.appConfig.isEditMailMerge ) {
                 toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
@@ -1099,49 +1097,6 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Add Hyperlink');
         },
 
-        onEditChart: function(btn) {
-            if (!this.editMode) return;
-            var me = this, info = me.api.asc_getCellInfo();
-            var selectType = info.asc_getSelectionType();
-            if (selectType !== Asc.c_oAscSelectionType.RangeImage) {
-                var win, props;
-                if (me.api){
-                    props = me.api.asc_getChartSettings();
-                    var selectedObjects = me.api.asc_getGraphicObjectProps(),
-                        imageSettings = null;
-                    for (var i = 0; i < selectedObjects.length; i++) {
-                        if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image) {
-                            var elValue = selectedObjects[i].asc_getObjectValue();
-                            if ( elValue.asc_getChartProperties() )
-                                imageSettings = elValue;
-                        }
-                    }
-                    if (props) {
-                        var ischartedit = ( me.toolbar.mode.isEditDiagram || selectType === Asc.c_oAscSelectionType.RangeChart || selectType === Asc.c_oAscSelectionType.RangeChartText);
-
-                        (new SSE.Views.ChartSettingsDlg(
-                            {
-                                chartSettings: props,
-                                imageSettings: imageSettings,
-                                // isDiagramMode: me.toolbar.mode.isEditDiagram,
-                                isChart: true,
-                                api: me.api,
-                                handler: function(result, value) {
-                                    if (result == 'ok') {
-                                        if (me.api) {
-                                            (ischartedit) ? me.api.asc_applyChartSettings(value.chartSettings) : me.api.asc_addChartDrawingObject(value.chartSettings);
-                                            if (value.imageSettings)
-                                                me.api.asc_setGraphicObjectProps(value.imageSettings);
-                                        }
-                                    }
-                                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                                }
-                            })).show();
-                    }
-                }
-            }
-        },
-
         onEditChartData: function(btn) {
             if (!this.editMode) return;
 
@@ -1165,35 +1120,6 @@ define([
                     }).on('close', function() {
                         me._isEditRanges && props.cancelEdit();
                         me._isEditRanges = false;
-                    });
-                    win.show();
-                }
-            }
-        },
-
-        onEditChartType: function(btn) {
-            if (!this.editMode) return;
-
-            var me = this;
-            var props;
-            if (me.api){
-                props = me.api.asc_getChartSettings();
-                if (props) {
-                    me._isEditType = true;
-                    props.startEdit();
-                    var win = new SSE.Views.ChartTypeDialog({
-                        chartSettings: props,
-                        api: me.api,
-                        handler: function(result, value) {
-                            if (result == 'ok') {
-                                props.endEdit();
-                                me._isEditType = false;
-                            }
-                            Common.NotificationCenter.trigger('edit:complete', me);
-                        }
-                    }).on('close', function() {
-                        me._isEditType && props.cancelEdit();
-                        me._isEditType = false;
                     });
                     win.show();
                 }
@@ -2033,7 +1959,6 @@ define([
                 this.applyFormulaSettings();
             }
 
-            this.api.asc_registerCallback('asc_onShowChartDialog',          _.bind(this.onApiChartDblClick, this));
             this.api.asc_registerCallback('asc_onCanUndoChanged',           _.bind(this.onApiCanRevert, this, 'undo'));
             this.api.asc_registerCallback('asc_onCanRedoChanged',           _.bind(this.onApiCanRevert, this, 'redo'));
             this.api.asc_registerCallback('asc_onEditCell',                 _.bind(this.onApiEditCell, this));
@@ -2520,10 +2445,6 @@ define([
             this.editMode = false;
         },
 
-        onApiChartDblClick: function() {
-            this.onEditChart(this.btnInsertChart);
-        },
-
         onApiCanRevert: function(which, can) {
             if (which=='undo') {
                 if (this._state.can_undo !== can) {
@@ -2550,7 +2471,7 @@ define([
             var toolbar = this.toolbar;
             if (toolbar.mode.isEditDiagram || toolbar.mode.isEditMailMerge) {
                 var is_cell_edited = (state == Asc.c_oAscCellEditorState.editStart);
-                toolbar.lockToolbar(Common.enumLock.editCell, state == Asc.c_oAscCellEditorState.editStart, {array: [toolbar.btnDecDecimal,toolbar.btnIncDecimal,toolbar.cmbNumberFormat, toolbar.btnEditChartData, toolbar.btnEditChartType]});
+                toolbar.lockToolbar(Common.enumLock.editCell, state == Asc.c_oAscCellEditorState.editStart, {array: [toolbar.btnDecDecimal,toolbar.btnIncDecimal,toolbar.cmbNumberFormat, toolbar.btnEditChartData]});
             } else if (toolbar.mode.isEditOle) {
                 if (state == Asc.c_oAscCellEditorState.editStart || state == Asc.c_oAscCellEditorState.editEnd) {
                     var is_cell_edited = (state == Asc.c_oAscCellEditorState.editStart);
@@ -3374,10 +3295,6 @@ define([
                 coauth_disable = false;
 
             if ( _disableEditOptions(selectionType, coauth_disable) ) return;
-
-            var need_disable = (selectionType === Asc.c_oAscSelectionType.RangeCells || selectionType === Asc.c_oAscSelectionType.RangeCol ||
-                                selectionType === Asc.c_oAscSelectionType.RangeRow || selectionType === Asc.c_oAscSelectionType.RangeMax);
-            this.toolbar.lockToolbar( Common.enumLock.selRange, need_disable, {array:[this.toolbar.btnEditChartData, this.toolbar.btnEditChartType]} );
 
             if (selectionType == Asc.c_oAscSelectionType.RangeChart || selectionType == Asc.c_oAscSelectionType.RangeChartText)
                 return;

@@ -226,7 +226,7 @@ define([
                 this.api.asc_registerCallback('asc_onPrintUrl',              _.bind(this.onPrintUrl, this));
                 this.api.asc_registerCallback('asc_onMeta',                  _.bind(this.onMeta, this));
                 this.api.asc_registerCallback('asc_onSpellCheckInit',        _.bind(this.loadLanguages, this));
-                this.api.asc_registerCallback('asc_onOleEditorReady',        _.bind(this.onOleEditorReady, this));
+                this.api.asc_registerCallback('asc_onFrameEditorReady',        _.bind(this.onFrameEditorReady, this));
                 Common.NotificationCenter.on('api:disconnect',               _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('goback',                       _.bind(this.goBack, this));
                 Common.NotificationCenter.on('namedrange:locked',            _.bind(this.onNamedRangeLocked, this));
@@ -727,14 +727,6 @@ define([
                 }
 
                 Common.UI.HintManager.clearHints(true);
-            },
-
-            onSelectionChanged: function(info){
-                if (!info) return;
-                if (!this._isChartDataReady && info.asc_getSelectionType() == Asc.c_oAscSelectionType.RangeChart) {
-                    this._isChartDataReady = true;
-                    Common.Gateway.internalMessage('chartDataReady');
-                }
             },
 
             onLongActionBegin: function(type, id) {
@@ -1600,8 +1592,6 @@ define([
                     me.api.asc_registerCallback('asc_onConnectionStateChanged',  _.bind(me.onUserConnection, me));
                     me.api.asc_registerCallback('asc_onConvertEquationToMath',   _.bind(me.onConvertEquationToMath, me));
                     /** coauthoring end **/
-                    if (me.appOptions.isEditDiagram)
-                        me.api.asc_registerCallback('asc_onSelectionChanged',        _.bind(me.onSelectionChanged, me));
 
                     me.api.asc_setFilteringMode && me.api.asc_setFilteringMode(me.appOptions.canModifyFilter);
 
@@ -2826,8 +2816,8 @@ define([
                 }
             },
 
-            onOleEditorReady: function() {
-                Common.Gateway.internalMessage('oleEditorReady', {});
+            onFrameEditorReady: function() {
+                Common.Gateway.internalMessage('frameEditorReady', {});
             },
 
             setMergeData: function(merge) {
