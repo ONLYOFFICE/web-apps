@@ -62,7 +62,7 @@ define([
                 height      : '100%',
                 documentType: 'cell',
                 document    : {
-                    url         : '_chart_',
+                    url         : '_ole_',
                     permissions : {
                         edit    : true,
                         download: false
