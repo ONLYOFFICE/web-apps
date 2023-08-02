@@ -174,6 +174,7 @@ define([
             window.on_native_message('editor:config', 'request');
             if ( !!window.native_message_cmd ) {
                 for ( var c in window.native_message_cmd ) {
+                    if (c == 'uitheme:changed') continue;
                     window.on_native_message(c, window.native_message_cmd[c]);
                 }
             }
@@ -633,24 +634,6 @@ define([
 
                 return false;
             },
-
-            finalConstruct : function() {
-                if (!!native) {                   
-                    window.on_native_message('editor:config', 'request');
-                    if ( !!window.native_message_cmd ) {
-                        for ( var c in window.native_message_cmd ) {
-                            window.on_native_message(c, window.native_message_cmd[c]);
-                        }
-                    }
-
-                    native.execCommand('webapps:features', JSON.stringify(features));
-
-                    // hide mask for modal window
-                    var style = document.createElement('style');
-                    style.appendChild(document.createTextNode('.modals-mask{opacity:0 !important;}'));
-                    document.getElementsByTagName('head')[0].appendChild(style);
-                }
-            }
         };
     };
 
@@ -777,6 +760,4 @@ define([
 
         return false;
     }
-
-    Common.Controllers.Desktop.finalConstruct();
 });
