@@ -142,7 +142,7 @@ define([
             }
 
             var isChart = !!(props && props.asc_getChartProperties && props.asc_getChartProperties()),
-                chartSettings = isChart ? this.api.asc_getChartObject(true) : null, // don't lock chart object
+                chartSettings = isChart ? this.api.asc_getChartSettings(true) : null, // don't lock chart object
                 props3d = chartSettings ? chartSettings.getView3d() : null;
 
             this.ShowHideElem(isChart, !!props3d);
@@ -961,7 +961,7 @@ define([
             this.lockedControls.push(this.chRightAngle);
             this.chRightAngle.on('change', _.bind(function(field, newValue, oldValue, eOpts) {
                 if (this.api){
-                    var props = this.api.asc_getChartObject(true);
+                    var props = this.api.asc_getChartSettings(true);
                     if (props) {
                         var oView3D = props.getView3d();
                         if (oView3D) {
@@ -981,7 +981,7 @@ define([
             this.lockedControls.push(this.chAutoscale);
             this.chAutoscale.on('change', _.bind(function(field, newValue, oldValue, eOpts) {
                 if (this.api){
-                    var props = this.api.asc_getChartObject(true);
+                    var props = this.api.asc_getChartSettings(true);
                     if (props) {
                         var oView3D = props.getView3d();
                         if (oView3D) {
@@ -1098,7 +1098,7 @@ define([
             var me = this;
             var win, props;
             if (me.api){
-                props = (me.isChart) ? me.api.asc_getChartObject() : me._originalProps;
+                props = (me.isChart) ? me.api.asc_getChartSettings() : me._originalProps;
                 if (props) {
                     (new SSE.Views.ChartSettingsDlg(
                         {
@@ -1111,7 +1111,7 @@ define([
                                 if (result == 'ok') {
                                     if (me.api) {
                                         if (me.isChart) {
-                                            me.api.asc_editChartDrawingObject(value.chartSettings);
+                                            me.api.asc_applyChartSettings(value.chartSettings);
                                             if (value.imageSettings)
                                                 me.api.asc_setGraphicObjectProps(value.imageSettings);
                                         } else
@@ -1128,12 +1128,12 @@ define([
         onSelectData_simple: function() {
             var me = this;
             if (me.api) {
-                var props = me.api.asc_getChartObject(),
+                var props = me.api.asc_getChartSettings(),
                     handlerDlg = function(dlg, result) {
                         if (result == 'ok') {
                             props.putRange(dlg.getSettings());
                             me.api.asc_setSelectionDialogMode(Asc.c_oAscSelectionDialogType.None);
-                            me.api.asc_editChartDrawingObject(props);
+                            me.api.asc_applyChartSettings(props);
                         }
 
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -1174,7 +1174,7 @@ define([
             var me = this;
             var props;
             if (me.api){
-                props = me.api.asc_getChartObject();
+                props = me.api.asc_getChartSettings();
                 if (props) {
                     me._isEditRanges = true;
                     props.startEdit();
@@ -1201,7 +1201,7 @@ define([
             var me = this;
             var props;
             if (me.api){
-                props = me.api.asc_getChartObject();
+                props = me.api.asc_getChartSettings();
                 if (props) {
                     me._isEditType = true;
                     props.startEdit();
@@ -1539,7 +1539,7 @@ define([
 
         onSwitch:   function() {
             if (this.api){
-                var props = this.api.asc_getChartObject(true);
+                var props = this.api.asc_getChartSettings(true);
                 if (props) {
                     props.startEdit();
                     var res = props.switchRowCol();
@@ -1554,7 +1554,7 @@ define([
 
         onXRotation: function(field, newValue, oldValue, eOpts){
             if (this.api){
-                var props = this.api.asc_getChartObject(true);
+                var props = this.api.asc_getChartSettings(true);
                 if (props) {
                     var oView3D = props.getView3d();
                     if (oView3D) {
@@ -1569,7 +1569,7 @@ define([
 
         onYRotation: function(field, newValue, oldValue, eOpts){
             if (this.api){
-                var props = this.api.asc_getChartObject(true);
+                var props = this.api.asc_getChartSettings(true);
                 if (props) {
                     var oView3D = props.getView3d();
                     if (oView3D) {
@@ -1584,7 +1584,7 @@ define([
 
         onPerspective: function(field, newValue, oldValue, eOpts){
             if (this.api){
-                var props = this.api.asc_getChartObject(true);
+                var props = this.api.asc_getChartSettings(true);
                 if (props) {
                     var oView3D = props.getView3d();
                     if (oView3D) {
@@ -1599,7 +1599,7 @@ define([
 
         on3DDepth: function(field, newValue, oldValue, eOpts){
             if (this.api){
-                var props = this.api.asc_getChartObject(true);
+                var props = this.api.asc_getChartSettings(true);
                 if (props) {
                     var oView3D = props.getView3d();
                     if (oView3D) {
@@ -1614,7 +1614,7 @@ define([
 
         on3DHeight: function(field, newValue, oldValue, eOpts){
             if (this.api){
-                var props = this.api.asc_getChartObject(true);
+                var props = this.api.asc_getChartSettings(true);
                 if (props) {
                     var oView3D = props.getView3d();
                     if (oView3D) {
@@ -1629,7 +1629,7 @@ define([
 
         onDefRotation: function() {
             if (this.api){
-                var props = this.api.asc_getChartObject(true);
+                var props = this.api.asc_getChartSettings(true);
                 if (props) {
                     var oView3D = props.getView3d();
                     if (oView3D) {

@@ -1384,7 +1384,7 @@ define([
             var me = this;
             var win, props;
             if (me.api){
-                props = me.api.asc_getChartObject();
+                props = me.api.asc_getChartSettings();
                 if (props) {
                     (new SSE.Views.ChartSettingsDlg(
                         {
@@ -1395,7 +1395,7 @@ define([
                             handler: function(result, value) {
                                 if (result == 'ok') {
                                     if (me.api) {
-                                        me.api.asc_editChartDrawingObject(value.chartSettings);
+                                        me.api.asc_applyChartSettings(value.chartSettings);
                                         if (value.imageSettings)
                                             me.api.asc_setGraphicObjectProps(value.imageSettings);
                                     }
@@ -1411,7 +1411,7 @@ define([
             var me = this;
             var props;
             if (me.api){
-                props = me.api.asc_getChartObject();
+                props = me.api.asc_getChartSettings();
                 if (props) {
                     me._isEditRanges = true;
                     props.startEdit();
@@ -1438,7 +1438,7 @@ define([
             var me = this;
             var props;
             if (me.api){
-                props = me.api.asc_getChartObject();
+                props = me.api.asc_getChartSettings();
                 if (props) {
                     me._isEditType = true;
                     props.startEdit();

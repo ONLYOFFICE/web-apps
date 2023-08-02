@@ -1716,6 +1716,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     Common.UI.warning({msg: this.errorMaxRows});
                 } else if (isvalid == Asc.c_oAscError.ID.MaxDataPointsError)
                     Common.UI.warning({msg: this.errorMaxPoints});
+                else if (isvalid == Asc.c_oAscError.ID.DataRangeError)
+                    Common.UI.warning({msg: this.textInvalidRange});
                 return false;
             } else
                 return true;

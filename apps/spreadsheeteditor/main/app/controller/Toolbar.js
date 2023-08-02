@@ -1106,7 +1106,7 @@ define([
             if (selectType !== Asc.c_oAscSelectionType.RangeImage) {
                 var win, props;
                 if (me.api){
-                    props = me.api.asc_getChartObject();
+                    props = me.api.asc_getChartSettings();
                     var selectedObjects = me.api.asc_getGraphicObjectProps(),
                         imageSettings = null;
                     for (var i = 0; i < selectedObjects.length; i++) {
@@ -1129,7 +1129,7 @@ define([
                                 handler: function(result, value) {
                                     if (result == 'ok') {
                                         if (me.api) {
-                                            (ischartedit) ? me.api.asc_editChartDrawingObject(value.chartSettings) : me.api.asc_addChartDrawingObject(value.chartSettings);
+                                            (ischartedit) ? me.api.asc_applyChartSettings(value.chartSettings) : me.api.asc_addChartDrawingObject(value.chartSettings);
                                             if (value.imageSettings)
                                                 me.api.asc_setGraphicObjectProps(value.imageSettings);
                                         }
@@ -1148,7 +1148,7 @@ define([
             var me = this;
             var props;
             if (me.api){
-                props = me.api.asc_getChartObject();
+                props = me.api.asc_getFrameChartSettings();
                 if (props) {
                     me._isEditRanges = true;
                     props.startEdit();
@@ -1177,7 +1177,7 @@ define([
             var me = this;
             var props;
             if (me.api){
-                props = me.api.asc_getChartObject();
+                props = me.api.asc_getChartSettings();
                 if (props) {
                     me._isEditType = true;
                     props.startEdit();
@@ -1209,7 +1209,7 @@ define([
             if (me.api) {
                 var win, props;
                 var ischartedit = ( seltype == Asc.c_oAscSelectionType.RangeChart || seltype == Asc.c_oAscSelectionType.RangeChartText);
-                props = me.api.asc_getChartObject(true); // don't lock chart object
+                props = me.api.asc_getChartSettings(true); // don't lock chart object
                 if (props) {
                     if (ischartedit)
                         props.changeType(type);
