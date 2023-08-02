@@ -864,7 +864,7 @@ define([
                 onlyIcon: true
             });
             this.pluginBtns[name].cmpEl.data('name', name);
-            this.pluginBtns[name].on('click', _.bind(this.onShowPlugin, this, this.pluginPanels[name], name, 'show'));
+            this.pluginBtns[name].on('click', _.bind(this.onShowPlugin, this, undefined, name, 'show'));
             this.pluginMenuItems[name] = {caption: hint, value: name, iconCls: ''};
 
             this.setMoreButton();
@@ -878,7 +878,7 @@ define([
                 }
                 if (!this.pluginPanels[name])
                     this.pluginPanels[name] = panel;
-                if (this.pluginBtns[name].isVisible() && !this.pluginBtns[name].isDisabled()) {
+                if (!this.pluginBtns[name].isDisabled()) {
                     !this.pluginBtns[name].pressed && this.pluginBtns[name].toggle(true);
                     this.pluginPanels[name].show();
                     this.leftMenu.onBtnMenuClick(this.pluginBtns[name]);
@@ -896,6 +896,11 @@ define([
             }
         },
 
+        onMenuShowPlugin: function (menu, item) {
+            var name = item.value;
+            this.onShowPlugin(this.pluginPanels[name], name, 'show');
+        },
+
         setMoreButton: function () {
             var pluginBtns = this.leftMenu.$el.find('.plugin-buttons');
             if (pluginBtns.length === 0) return;
@@ -911,12 +916,10 @@ define([
                 i;
 
             for (i = 0; i < pluginBtns.length; i++) {
-                if ($(pluginBtns[i]).is(':visible')) {
-                    height += btnHeight;
-                    if (height > maxHeight) {
-                        last = i - 1;
-                        break;
-                    }
+                height += btnHeight;
+                if (height > maxHeight) {
+                    last = $more.is(':visible') ? i : i - 1;
+                    break;
                 }
             }
 
@@ -940,12 +943,12 @@ define([
                             iconCls: 'toolbar__icon btn-more',
                             onlyIcon: true,
                             hint: this.leftMenu.tipMore,
-                            style: 'width: 100%;',
                             menu: new Common.UI.Menu({
                                 menuAlign: 'tl-tr',
                                 items: arrMore
                             })
                         });
+                        this.leftMenu.btnPluginMore.menu.on('item:click', _.bind(this.onMenuShowPlugin, this));
                     } else {
                         this.leftMenu.btnPluginMore.menu.removeAll();
                         for (i = 0; i < arrMore.length; i++) {
