@@ -1340,7 +1340,10 @@ define([
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.picture] = documentHolder.txtPastePicture;
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceformatting] = documentHolder.txtPasteSourceFormat;
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormatting] = documentHolder.txtPasteDestFormat;
-
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceFormattingEmbedding] = documentHolder.txtSourceEmbed;
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormattingEmbedding] = documentHolder.txtDestEmbed;
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceFormattingLink] = documentHolder.txtSourceLink;
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormattingLink] = documentHolder.txtDestLink;
 
                 pasteContainer = $('<div id="special-paste-container" style="position: absolute;"><div id="id-document-holder-btn-special-paste"></div></div>');
                 documentHolder.cmpEl.append(pasteContainer);
@@ -1438,6 +1441,11 @@ define([
             me.hkSpecPaste[Asc.c_oSpecialPasteProps.picture] = 'U';
             me.hkSpecPaste[Asc.c_oSpecialPasteProps.sourceformatting] = 'K';
             me.hkSpecPaste[Asc.c_oSpecialPasteProps.destinationFormatting] = 'H';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.sourceFormattingEmbedding] = 'K';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.destinationFormattingEmbedding] = 'H';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.sourceFormattingLink] = 'F';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.destinationFormattingLink] = 'L';
+            
             for(var key in me.hkSpecPaste){
                 if(me.hkSpecPaste.hasOwnProperty(key)){
                     var keymap = {};

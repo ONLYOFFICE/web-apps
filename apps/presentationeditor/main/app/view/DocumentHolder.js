@@ -2854,7 +2854,11 @@ define([
         txtInsTable: 'Insert table',
         txtInsVideo: 'Insert video',
         txtInsAudio: 'Insert audio',
-        txtInsSmartArt: 'Insert SmartArt'
+        txtInsSmartArt: 'Insert SmartArt',
+        txtSourceEmbed: 'Keep source formatting & Embed workbook',
+        txtDestEmbed: 'Use destination theme &  Embed workbook',
+        txtSourceLink: 'Keep source formatting & Link data',
+        txtDestLink: 'Use destination theme &  Link data'
 
     }, PE.Views.DocumentHolder || {}));
 });
