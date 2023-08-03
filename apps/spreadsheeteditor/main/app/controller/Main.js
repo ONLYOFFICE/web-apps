@@ -2780,7 +2780,7 @@ define([
 
             getChartData: function() {
                 if (this.api) {
-                    var chartData = this.api.asc_getWordChartObject();
+                    var chartData = this.api.asc_getBinaryFromDiagramFrame();
 
                     if (typeof chartData === 'object') {
                         Common.Gateway.internalMessage('chartData', {
