@@ -596,14 +596,17 @@ define([
                     for (var i = selectedElements.length - 1; i >= 0; i--) {
                         elType = selectedElements[i].get_ObjectType();
                         elValue = selectedElements[i].get_ObjectValue();
+                        var isChart = !!(elValue && elValue.get_ChartProperties());
                         if (Asc.c_oAscTypeSelectElement.Image == elType) {
                             (new DE.Views.ImageSettingsAdvanced(
                                 {
                                     imageProps: elValue,
+                                    chartSettings: isChart ? me.api.asc_getChartSettings() : null,
                                     sectionProps: me.api.asc_GetSectionProps(),
                                     handler: function(result, value) {
                                         if (result == 'ok') {
                                             if (me.api) {
+                                                isChart && me.api.asc_applyChartSettings(value.chartSettings);
                                                 me.api.ImgApply(value.imageProps);
                                             }
                                         }

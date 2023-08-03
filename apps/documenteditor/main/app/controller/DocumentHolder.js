@@ -2270,6 +2270,7 @@ define([
                         elValue = selectedElements[i].get_ObjectValue();
 
                         if (Asc.c_oAscTypeSelectElement.Image == elType) {
+                            var isChart = !!(elValue && elValue.get_ChartProperties());
                             var imgsizeOriginal;
                             if ( !elValue.get_ChartProperties() && !elValue.get_ShapeProperties() && !me.documentHolder.menuOriginalSize.isDisabled() && me.documentHolder.menuOriginalSize.isVisible()) {
                                 imgsizeOriginal = me.api.get_OriginalSizeImage();
@@ -2282,6 +2283,7 @@ define([
                                 sizeOriginal: imgsizeOriginal,
                                 api         : me.api,
                                 sectionProps: me.api.asc_GetSectionProps(),
+                                chartSettings: isChart ? me.api.asc_getChartSettings() : null,
                                 handler     : function(result, value) {
                                     if (result == 'ok') {
                                         if (me.api) {
