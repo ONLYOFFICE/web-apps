@@ -223,7 +223,7 @@ define([
                         if (eventData.data.answer === true) {
                             if (externalEditor) {
                                 externalEditor.serviceCommand('setAppDisabled',true);
-                                externalEditor.serviceCommand((eventData.data.mr == 'ok') ? 'getChartData' : 'clearChartData');
+                                externalEditor.serviceCommand('getChartData');
                             }
                             this.diagramEditorView.hide();
                         }

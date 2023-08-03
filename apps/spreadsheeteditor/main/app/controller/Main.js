@@ -2724,7 +2724,6 @@ define([
                     switch (data.command) {
                     case 'setChartData':    this.setChartData(data.data); break;
                     case 'getChartData':    this.getChartData(); break;
-                    case 'clearChartData':  this.clearChartData(); break;
                     case 'setMergeData':    this.setMergeData(data.data); break;
                     case 'getMergeData':    this.getMergeData(); break;
                     case 'setOleData':      this.setOleData(data.data); break;
@@ -2788,10 +2787,6 @@ define([
                         });
                     }
                 }
-            },
-
-            clearChartData: function() {
-                this.api && this.api.asc_closeCellEditor();
             },
 
             setOleData: function(obj) {
