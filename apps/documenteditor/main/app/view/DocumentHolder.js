@@ -3340,7 +3340,11 @@ define([
         showEqToolbar: 'Show Equation Toolbar',
         textIndents: 'Adjust list indents',
         txtInsImage: 'Insert image from File',
-        txtInsImageUrl: 'Insert image from URL'
+        txtInsImageUrl: 'Insert image from URL',
+        txtSourceEmbed: 'Keep source formatting & Embed workbook',
+        txtDestEmbed: 'Use destination theme &  Embed workbook',
+        txtSourceLink: 'Keep source formatting & Link data',
+        txtDestLink: 'Use destination theme &  Link data'
 
 }, DE.Views.DocumentHolder || {}));
 });
