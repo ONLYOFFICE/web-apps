@@ -15,6 +15,7 @@ import NavigationController from '../controller/settings/Navigation';
 import { AddLinkController } from '../controller/add/AddLink';
 import EditHyperlink from '../controller/edit/EditHyperlink';
 import Snackbar from '../components/Snackbar/Snackbar';
+import EditView from '../view/edit/Edit';
 
 export const MainContext = createContext();
 
@@ -224,14 +225,12 @@ class MainPage extends Component {
                         message={isMobileView ? t("Toolbar.textSwitchedMobileView") : t("Toolbar.textSwitchedStandardView")} 
                     />
                     <SearchSettings useSuspense={false} />
-                    {
-                        !this.state.editOptionsVisible ? null :
-                            <EditOptions onclosed={this.handleOptionsViewClosed.bind(this, 'edit')}/>
-                    }
+                    {!this.state.editOptionsVisible ? null : <EditView />}
                     {!this.state.addOptionsVisible ? null : <AddOptions />}
-                    {
-                        !this.state.addLinkSettingsVisible ? null :
-                            <AddLinkController onClosed={this.handleOptionsViewClosed.bind(this)} />
+                    {!this.state.addLinkSettingsVisible ? null :
+                        <AddLinkController 
+                            closeOptions={this.handleOptionsViewClosed.bind(this)} 
+                        />
                     }
                     {
                         !this.state.editLinkSettingsVisible ? null :
