@@ -515,7 +515,7 @@
   "Common.Views.OpenDialog.txtSemicolon": "分号",
   "Common.Views.OpenDialog.txtSpace": "空格",
   "Common.Views.OpenDialog.txtTab": "标签",
-  "Common.Views.OpenDialog.txtTitle": "选择%1个选项",
+  "Common.Views.OpenDialog.txtTitle": "选择%1选项",
   "Common.Views.OpenDialog.txtTitleProtected": "受保护的文件",
   "Common.Views.PasswordDialog.txtDescription": "设置密码以保护此文档",
   "Common.Views.PasswordDialog.txtIncorrectPwd": "确认密码不一致",
