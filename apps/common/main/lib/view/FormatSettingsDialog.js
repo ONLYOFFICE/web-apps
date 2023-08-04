@@ -45,7 +45,7 @@ define([
     'common/main/lib/view/AdvancedSettingsWindow'
 ], function () { 'use strict';
 
-    SSE.Views.FormatSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
+    Common.Views.FormatSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 284,
             height: 340
@@ -624,5 +624,5 @@ define([
         textLinked: 'Linked to source',
         txtCustomWarning: 'Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.'
 
-    }, SSE.Views.FormatSettingsDialog || {}))
+    }, Common.Views.FormatSettingsDialog || {}))
 });

@@ -469,6 +469,7 @@ define([
 
                 if (this.editorConfig.lang)
                     this.api.asc_setLocale(this.editorConfig.lang);
+                Common.Utils.InternalSettings.set("de-config-lang", this.editorConfig.lang);
 
                 if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
                     Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);

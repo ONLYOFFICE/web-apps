@@ -45,7 +45,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
     'common/main/lib/component/InputField',
     'spreadsheeteditor/main/app/view/CellRangeDialog',
     'spreadsheeteditor/main/app/view/ChartDataRangeDialog',
-    'spreadsheeteditor/main/app/view/FormatSettingsDialog'
+    'common/main/lib/view/FormatSettingsDialog'
 ], function (contentTemplate, vertTemplate, horTemplate) {
     'use strict';
 
@@ -1831,7 +1831,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 lang = Common.Utils.InternalSettings.get("sse-config-lang");
             (!value) && (value = (lang ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(lang)) : 0x0409));
 
-            var win = (new SSE.Views.FormatSettingsDialog({
+            var win = (new Common.Views.FormatSettingsDialog({
                 api: me.api,
                 handler: function(result, settings) {
                     if (result=='ok' && settings) {

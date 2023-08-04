@@ -4683,7 +4683,7 @@ define([
                 value = me.api.asc_getLocale();
             (!value) && (value = ((me.permissions.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(me.permissions.lang)) : 0x0409));
 
-            (new SSE.Views.FormatSettingsDialog({
+            (new Common.Views.FormatSettingsDialog({
                 api: me.api,
                 handler: function(result, settings) {
                     if (settings) {

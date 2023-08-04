@@ -55,7 +55,7 @@ define([
     'spreadsheeteditor/main/app/view/NamedRangeEditDlg',
     'spreadsheeteditor/main/app/view/NamedRangePasteDlg',
     'spreadsheeteditor/main/app/view/NameManagerDlg',
-    'spreadsheeteditor/main/app/view/FormatSettingsDialog',
+    'common/main/lib/view/FormatSettingsDialog',
     'spreadsheeteditor/main/app/view/PageMarginsDialog',
     'spreadsheeteditor/main/app/view/HeaderFooterDialog',
     'spreadsheeteditor/main/app/view/PrintTitlesDialog',
@@ -1440,7 +1440,7 @@ define([
                 value = me.api.asc_getLocale();
             (!value) && (value = ((me.toolbar.mode.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(me.toolbar.mode.lang)) : 0x0409));
 
-            (new SSE.Views.FormatSettingsDialog({
+            (new Common.Views.FormatSettingsDialog({
                 api: me.api,
                 handler: function(result, settings) {
                     if (settings) {

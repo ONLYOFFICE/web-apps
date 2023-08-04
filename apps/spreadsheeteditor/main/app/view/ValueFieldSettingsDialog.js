@@ -43,7 +43,7 @@ define([
     'common/main/lib/component/InputField',
     'common/main/lib/component/ComboBox',
     'common/main/lib/view/AdvancedSettingsWindow',
-    'spreadsheeteditor/main/app/view/FormatSettingsDialog'
+    'common/main/lib/view/FormatSettingsDialog'
 ], function () { 'use strict';
 
     SSE.Views.ValueFieldSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
@@ -380,7 +380,7 @@ define([
                 lang = Common.Utils.InternalSettings.get("sse-config-lang");
             (!value) && (value = (lang ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(lang)) : 0x0409));
 
-            var win = (new SSE.Views.FormatSettingsDialog({
+            var win = (new Common.Views.FormatSettingsDialog({
                 api: me.api,
                 handler: function(result, settings) {
                     if (result=='ok' && settings) {

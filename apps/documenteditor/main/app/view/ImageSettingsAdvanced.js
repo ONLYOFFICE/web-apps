@@ -41,6 +41,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
     'text!common/main/lib/template/ChartVertAxis.template',
     'text!common/main/lib/template/ChartHorAxis.template',
     'common/main/lib/view/AdvancedSettingsWindow',
+    'common/main/lib/view/FormatSettingsDialog',
     'common/main/lib/component/ComboBox',
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/CheckBox',
@@ -3204,11 +3205,10 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             var me = this,
                 props = me.currentAxisProps[index],
                 fmt = props.getNumFmt(),
-                value = me.api.asc_getLocale(),
-                lang = Common.Utils.InternalSettings.get("sse-config-lang");
-            (!value) && (value = (lang ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(lang)) : 0x0409));
+                lang = Common.Utils.InternalSettings.get("de-config-lang");
+                lang = lang ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(lang)) : 0x0409;
 
-            var win = (new SSE.Views.FormatSettingsDialog({
+            var win = (new Common.Views.FormatSettingsDialog({
                 api: me.api,
                 handler: function(result, settings) {
                     if (result=='ok' && settings) {
@@ -3219,7 +3219,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                     }
                 },
                 linked: true,
-                props   : {format: fmt.getFormatCode(), formatInfo: fmt.getFormatCellsInfo(), langId: value, chartFormat: fmt}
+                props   : {format: fmt.getFormatCode(), formatInfo: fmt.getFormatCellsInfo(), langId: lang, chartFormat: fmt}
             })).on('close', function() {
                 me._isEditFormat && me.chartSettings.cancelEditData();
                 me._isEditFormat = false;
