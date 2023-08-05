@@ -528,7 +528,6 @@ define([
         txtTrialDev: 'Trial Developer Mode',
         tipNavigation: 'Navigation',
         tipOutline: 'Headings',
-        tipMore: 'More',
         txtLimit: 'Limit Access',
         txtEditor: 'Document Editor'
     }, DE.Views.LeftMenu || {}));

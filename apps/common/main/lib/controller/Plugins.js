@@ -102,8 +102,6 @@ define([
             this.autostart = [];
             this.customPluginsDlg = [];
 
-            this.pluginPanels = {};
-
             Common.Gateway.on('init', this.loadConfig.bind(this));
             Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
             Common.NotificationCenter.on('uitheme:changed', this.updatePluginsButtons.bind(this));
@@ -198,9 +196,9 @@ define([
             return this;
         },
 
-        onAfterRender: function(panel, name) {
+        onAfterRender: function(panel, guid) {
             var me = this;
-            this.viewPlugins.fireEvent('plugin:show', [this.pluginPanels[name], name, 'show']);
+            this.viewPlugins.onShowPlugin(guid, 'show');
             panel.pluginClose.on('click', _.bind(this.onToolClose, this, panel));
             Common.NotificationCenter.on({
                 'layout:resizestart': function(e) {
@@ -383,18 +381,19 @@ define([
                 if (urlAddition)
                     url += urlAddition;
                 if (variation.get_InsideMode()) {
-                    var name = plugin.get_Name('en').toLowerCase(),
-                        panelId = 'left-panel-plugins-' + name;
-                    if (!this.pluginPanels[name]) {
-                        this.viewPlugins.fireEvent('plugin:new', [name, plugin.get_Name(lang), panelId]); // add button and div for panel in left menu
-                        this.pluginPanels[name] = new Common.Views.PluginPanel({
+                    var guid = plugin.get_Guid(),
+                        langName = plugin.get_Name(lang);
+                    if (!this.viewPlugins.pluginPanels[guid]) {
+                        var leftMenu = this.getApplication().getController('LeftMenu');
+                        var panelId = this.viewPlugins.addNewPluginToLeftMenu(leftMenu, plugin, variation, langName);
+                        this.viewPlugins.pluginPanels[guid] = new Common.Views.PluginPanel({
                             el: '#' + panelId
                         });
-                        this.pluginPanels[name].on('render:after', _.bind(this.onAfterRender, this, this.pluginPanels[name], name));
+                        this.viewPlugins.pluginPanels[guid].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.pluginPanels[guid], guid));
                     } else {
-                        this.viewPlugins.fireEvent('plugin:show', [this.pluginPanels[name], name, 'show']);
+                        this.viewPlugins.onShowPlugin(guid, 'show');
                     }
-                    if (!this.pluginPanels[name].openInsideMode(plugin.get_Name(lang), url, frameId, plugin.get_Guid()))
+                    if (!this.viewPlugins.pluginPanels[guid].openInsideMode(langName, url, frameId, plugin.get_Guid()))
                         this.api.asc_pluginButtonClick(-1, plugin.get_Guid());
                 } else {
                     var me = this,
@@ -466,12 +465,12 @@ define([
                 this.pluginDlg.close();
             else {
                 var name = plugin.get_Name('en').toLowerCase(),
-                    panel = this.pluginPanels[name];
+                    panel = this.viewPlugins.pluginPanels[name];
                 if (panel && panel.iframePlugin) {
                     isIframePlugin = true;
                     panel.closeInsideMode();
-                    this.viewPlugins.fireEvent('plugin:show', [this.pluginPanels[name], name, 'close']);
-                    delete this.pluginPanels[name];
+                    this.viewPlugins.fireEvent('plugin:show', [this.viewPlugins.pluginPanels[name], name, 'close']);
+                    delete this.viewPlugins.pluginPanels[name];
                 }
             }
             !isIframePlugin && this.viewPlugins.closedPluginMode(plugin.get_Guid());
@@ -892,7 +891,7 @@ define([
                 if (this.customPluginsDlg[frameId].binding.resize) this.customPluginsDlg[frameId].binding.resize({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
             } else
                 Common.NotificationCenter.trigger('frame:mousemove', { pageX: x*Common.Utils.zoom()+this._moveOffset.x, pageY: y*Common.Utils.zoom()+this._moveOffset.y });
-        }
+        },
 
     }, Common.Controllers.Plugins || {}));
 });

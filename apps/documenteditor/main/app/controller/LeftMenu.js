@@ -73,9 +73,7 @@ define([
                     'hide':    _.bind(this.aboutShowHide, this, true)
                 },
                 'Common.Views.Plugins': {
-                    'hide':        _.bind(this.onHidePlugins, this),
-                    'plugin:new': _.bind(this.addNewPlugin, this),
-                    'plugin:show': _.bind(this.onShowPlugin, this),
+                    'hide':        _.bind(this.onHidePlugins, this)
                 },
                 'LeftMenu': {
                     'comments:show': _.bind(this.commentsShowHide, this, 'show'),
@@ -116,8 +114,6 @@ define([
             }, this));
             Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
             Common.NotificationCenter.on('file:print', _.bind(this.clickToolbarPrint, this));
-
-            $(window).on('resize', _.bind(this.setMoreButton, this));
         },
 
         onLaunch: function() {
@@ -132,10 +128,6 @@ define([
                     isCommentsOnly: false
                 }
             };
-
-            this.pluginBtns = {};
-            this.pluginPanels = {};
-            this.pluginMenuItems = {};
 
             var keymap = {
                 'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
@@ -844,124 +836,6 @@ define([
                     }
                     return false;
             /** coauthoring end **/
-            }
-        },
-
-        addNewPlugin: function (name, hint, id) {
-            if (!this.leftMenu.pluginSeparator.is(':visible')) {
-                this.leftMenu.pluginSeparator.show();
-            }
-            this.leftMenu.pluginMoreContainer.before('<div id="slot-btn-plugins' + name + '"></div>');
-            this.leftMenu.$el.find('.left-panel').append('<div id="'+ id + '" class="" style="display: none; height: 100%;"></div>');
-            this.pluginBtns[name] = new Common.UI.Button({
-                parentEl: this.leftMenu.$el.find('#slot-btn-plugins' + name),
-                id: 'left-btn-plugins-' + name,
-                cls: 'btn-category plugin-buttons',
-                hint: hint,
-                enableToggle: true,
-                iconCls: 'toolbar__icon btn-menu-plugin',
-                toggleGroup: 'leftMenuGroup',
-                onlyIcon: true
-            });
-            this.pluginBtns[name].cmpEl.data('name', name);
-            this.pluginBtns[name].on('click', _.bind(this.onShowPlugin, this, undefined, name, 'show'));
-            this.pluginMenuItems[name] = {caption: hint, value: name, iconCls: ''};
-
-            this.setMoreButton();
-        },
-
-        onShowPlugin: function (panel, name, action) {
-            if (action == 'show') {
-                this.tryToShowLeftMenu();
-                for (var _name in this.pluginPanels) {
-                    this.pluginPanels[_name].hide();
-                }
-                if (!this.pluginPanels[name])
-                    this.pluginPanels[name] = panel;
-                if (!this.pluginBtns[name].isDisabled()) {
-                    !this.pluginBtns[name].pressed && this.pluginBtns[name].toggle(true);
-                    this.pluginPanels[name].show();
-                    this.leftMenu.onBtnMenuClick(this.pluginBtns[name]);
-                }
-            } else {
-                $('#left-btn-plugins-' + name).remove();
-                $('#left-panel-plugins-' + name).remove();
-                delete this.pluginBtns[name];
-                delete this.pluginPanels[name];
-                this.leftMenu.close();
-
-                if (Object.keys(this.pluginPanels).length === 0) {
-                    this.leftMenu.pluginSeparator.hide();
-                }
-            }
-        },
-
-        onMenuShowPlugin: function (menu, item) {
-            var name = item.value;
-            this.onShowPlugin(this.pluginPanels[name], name, 'show');
-        },
-
-        setMoreButton: function () {
-            var pluginBtns = this.leftMenu.$el.find('.plugin-buttons');
-            if (pluginBtns.length === 0) return;
-
-            var $more = this.leftMenu.pluginMoreContainer,
-                maxHeight = this.leftMenu.$el.height(),
-                buttons = this.leftMenu.$el.find('.btn-category:visible:not(.plugin-buttons)'),
-                btnHeight = $(buttons[0]).outerHeight() + parseFloat($(buttons[0]).css('margin-bottom')),
-                height = parseFloat(this.leftMenu.$el.find('.tool-menu-btns').css('padding-top')) +
-                    buttons.length * btnHeight + 9, // 9 - separator
-                arrMore = [],
-                last, // last visible plugin button
-                i;
-
-            for (i = 0; i < pluginBtns.length; i++) {
-                height += btnHeight;
-                if (height > maxHeight) {
-                    last = $more.is(':visible') ? i : i - 1;
-                    break;
-                }
-            }
-
-            if (last < pluginBtns.length - 1) {
-                for (i = 0; i < pluginBtns.length; i++) {
-                    if (i >= last) {
-                        var name = $(pluginBtns[i]).data('name');
-                        arrMore.push(this.pluginMenuItems[name]);
-                        $(pluginBtns[i]).hide();
-                    } else {
-                        $(pluginBtns[i]).show();
-                    }
-                }
-
-                if (arrMore.length > 0) {
-                    if (!this.leftMenu.btnPluginMore) {
-                        this.leftMenu.btnPluginMore = new Common.UI.Button({
-                            parentEl: $more,
-                            id: 'left-btn-plugins-more',
-                            cls: 'btn-category',
-                            iconCls: 'toolbar__icon btn-more',
-                            onlyIcon: true,
-                            hint: this.leftMenu.tipMore,
-                            menu: new Common.UI.Menu({
-                                menuAlign: 'tl-tr',
-                                items: arrMore
-                            })
-                        });
-                        this.leftMenu.btnPluginMore.menu.on('item:click', _.bind(this.onMenuShowPlugin, this));
-                    } else {
-                        this.leftMenu.btnPluginMore.menu.removeAll();
-                        for (i = 0; i < arrMore.length; i++) {
-                            this.leftMenu.btnPluginMore.menu.addItem(arrMore[i]);
-                        }
-                    }
-                    $more.show();
-                }
-            } else {
-                for (i = 0; i < pluginBtns.length; i++) {
-                    $(pluginBtns[i]).show();
-                }
-                $more.hide();
             }
         },
 

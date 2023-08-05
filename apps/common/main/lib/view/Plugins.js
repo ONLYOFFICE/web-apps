@@ -82,6 +82,9 @@ define([
                 }
             };
             this.lockedControls = [];
+            this.pluginPanels = {};
+            this.pluginBtns = {};
+            this.pluginMenuItems = {};
             Common.UI.BaseView.prototype.initialize.call(this, arguments);
         },
 
@@ -123,6 +126,8 @@ define([
                 menuAlign   : 'tr-br',
                 items: []
             });
+
+            $(window).on('resize', _.bind(this.setMoreButton, this));
 
             this.trigger('render:after', this);
             return this;
@@ -445,10 +450,152 @@ define([
             this.fireEvent('hide', this );
         },
 
+        addNewPluginToLeftMenu: function (leftMenu, plugin, variation, lName) {
+            if (!this.leftMenu) {
+                this.leftMenu = leftMenu;
+            }
+            var pluginGuid = plugin.get_Guid(),
+                name = plugin.get_Name('en').toLowerCase(),
+                panelId = 'left-panel-plugins-' + name,
+                model = this.storePlugins.findWhere({guid: pluginGuid}),
+                icon_url = model.get('baseUrl') + model.get('parsedIcons')['normal'];
+
+            var leftMenuView = this.leftMenu.getView('LeftMenu');
+
+            if (!leftMenuView.pluginSeparator.is(':visible')) {
+                leftMenuView.pluginSeparator.show();
+            }
+            leftMenuView.pluginMoreContainer.before('<div id="slot-btn-plugins' + name + '"></div>');
+            leftMenuView.$el.find('.left-panel').append('<div id="'+ panelId + '" class="" style="display: none; height: 100%;"></div>');
+            this.pluginBtns[pluginGuid] = new Common.UI.Button({
+                parentEl: leftMenuView.$el.find('#slot-btn-plugins' + name),
+                cls: 'btn-category plugin-buttons',
+                hint: lName,
+                enableToggle: true,
+                toggleGroup: 'leftMenuGroup',
+                iconImg: icon_url,
+                onlyIcon: true,
+                value: pluginGuid
+            });
+            this.pluginBtns[pluginGuid].on('click', _.bind(this.onShowPlugin, this, pluginGuid, 'show'));
+            this.pluginMenuItems[pluginGuid] = {caption: lName, value: pluginGuid, iconCls: ''};
+
+            this.setMoreButton();
+
+            return panelId;
+        },
+
+        setMoreButton: function () {
+            if (Object.keys(this.pluginBtns).length === 0) return;
+            var leftMenuView = this.leftMenu.getView('LeftMenu');
+
+            var $more = leftMenuView.pluginMoreContainer,
+                maxHeight = leftMenuView.$el.height(),
+                buttons = leftMenuView.$el.find('.btn-category:visible:not(.plugin-buttons)'),
+                btnHeight = $(buttons[0]).outerHeight() + parseFloat($(buttons[0]).css('margin-bottom')),
+                height = parseFloat(leftMenuView.$el.find('.tool-menu-btns').css('padding-top')) +
+                    buttons.length * btnHeight + 9, // 9 - separator
+                arrMore = [],
+                last, // last visible plugin button
+                i = 0,
+                length = Object.keys(this.pluginBtns).length;
+
+            for (var key in this.pluginBtns) {
+                height += btnHeight;
+                if (height > maxHeight) {
+                    last = $more.is(':visible') ? i : i - 1;
+                    break;
+                }
+                i++;
+            }
+
+            if (last < length - 1) {
+                i = 0;
+                for (var key in this.pluginBtns) {
+                    if (i >= last) {
+                        arrMore.push(this.pluginMenuItems[key]);
+                        this.pluginBtns[key].cmpEl.hide();
+                    } else {
+                        this.pluginBtns[key].cmpEl.show();
+                    }
+                    i++;
+                }
+
+                if (arrMore.length > 0) {
+                    if (!this.btnPluginMore) {
+                        this.btnPluginMore = new Common.UI.Button({
+                            parentEl: $more,
+                            id: 'left-btn-plugins-more',
+                            cls: 'btn-category',
+                            iconCls: 'toolbar__icon btn-more',
+                            onlyIcon: true,
+                            hint: this.tipMore,
+                            menu: new Common.UI.Menu({
+                                menuAlign: 'tl-tr',
+                                items: arrMore
+                            })
+                        });
+                        this.btnPluginMore.menu.on('item:click', _.bind(this.onMenuShowPlugin, this));
+                    } else {
+                        this.btnPluginMore.menu.removeAll();
+                        for (i = 0; i < arrMore.length; i++) {
+                            this.btnPluginMore.menu.addItem(arrMore[i]);
+                        }
+                    }
+                    $more.show();
+                }
+            } else {
+                for (var key in this.pluginBtns) {
+                    this.pluginBtns[key].cmpEl.show();
+                }
+                $more.hide();
+            }
+        },
+
+        onMenuShowPlugin: function (menu, item) {
+            var pluginGuid = item.value;
+            this.onShowPlugin(pluginGuid, 'show');
+        },
+
+        onShowPlugin: function (guid, action) {
+            var leftMenuView = this.leftMenu.getView('LeftMenu');
+            if (action == 'show') {
+                this.leftMenu.tryToShowLeftMenu();
+                for (var key in this.pluginPanels) {
+                    this.pluginPanels[key].hide();
+                }
+                if (!this.pluginBtns[guid].isDisabled()) {
+                    !this.pluginBtns[guid].pressed && this.pluginBtns[guid].toggle(true);
+                    this.pluginPanels[guid].show();
+                    leftMenuView.onBtnMenuClick(this.pluginBtns[guid]);
+                    this.updateLeftPluginButton(guid);
+                }
+            } else {
+                this.pluginBtns[guid].cmpEl.parent().remove();
+                this.pluginPanels[guid].$el.remove();
+                delete this.pluginBtns[guid];
+                delete this.pluginPanels[guid];
+                leftMenuView.close();
+
+                if (Object.keys(this.pluginPanels).length === 0) {
+                    leftMenuView.pluginSeparator.hide();
+                }
+            }
+        },
+
+        updateLeftPluginButton: function(guid) {
+            var model = this.storePlugins.findWhere({guid: guid}),
+                btn = this.pluginBtns[guid];
+            if (btn && btn.cmpEl) {
+                btn.cmpEl.find("img").attr("src", model.get('baseUrl') + model.get('parsedIcons')[btn.pressed ? 'active' : 'normal']);
+            }
+        },
+
         strPlugins: 'Plugins',
         textStart: 'Start',
         textStop: 'Stop',
-        groupCaption: 'Plugins'
+        groupCaption: 'Plugins',
+        tipMore: 'More'
 
     }, Common.Views.Plugins || {}));
 });
