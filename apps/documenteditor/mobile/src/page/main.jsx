@@ -3,7 +3,6 @@ import { CSSTransition } from 'react-transition-group';
 import { f7, Fab, Icon, Page, View, Navbar, Subnavbar } from 'framework7-react';
 import { observer, inject } from "mobx-react";
 import { withTranslation } from 'react-i18next';
-import EditOptions from '../view/edit/Edit';
 import AddOptions from '../view/add/Add';
 import SettingsController from '../controller/settings/Settings';
 import CollaborationView from '../../../../common/mobile/lib/view/collaboration/Collaboration.jsx'

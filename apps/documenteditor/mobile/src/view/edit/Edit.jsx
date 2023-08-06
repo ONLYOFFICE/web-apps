@@ -14,7 +14,8 @@ import { MainContext } from '../../page/main';
 const routes = [
     {
         path: '/editing-page/',
-        component: EditingPage
+        component: EditingPage,
+        keepAlive: true
     },
     //Edit text
     {

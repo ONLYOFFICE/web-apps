@@ -27,20 +27,16 @@ const EmptyEditLayout = () => {
     )
 };
 
-const EditLayoutNavbar = ({ editors, idActiveTab, setIdActiveTab }) => {
+const EditLayoutNavbar = ({ editors }) => {
     const isAndroid = Device.android;
     const { t } = useTranslation();
     const _t = t('Edit', {returnObjects: true});
-
-    useEffect(() => {
-        localStorage.setItem('de-mobile-edit-active-tab', idActiveTab);
-    }, [idActiveTab]);
 
     return (
         <Navbar>
         {editors.length > 1 ?
             <div className='tab-buttons tabbar'>
-                {editors.map((item, _) => <Link key={"de-link-" + item.id}  tabLink={"#" + item.id} onClick={() => setIdActiveTab(item.id)} tabLinkActive={item.id === idActiveTab}>{item.caption}</Link>)}
+                {editors.map((item, index) => <Link key={"de-link-" + item.id}  tabLink={"#" + item.id} tabLinkActive={index === 0}>{item.caption}</Link>)}
                 {isAndroid && <span className='tab-link-highlight' style={{width: 100 / editors.length + '%'}}></span>}
             </div> :
             <NavTitle>{editors[0].caption}</NavTitle>
@@ -50,12 +46,12 @@ const EditLayoutNavbar = ({ editors, idActiveTab, setIdActiveTab }) => {
     )
 };
 
-const EditLayoutContent = ({ editors, idActiveTab }) => {
+const EditLayoutContent = ({ editors }) => {
     if (editors.length > 1) {
         return (
             <Tabs animated>
-                {editors.map((item, _) =>
-                    <Tab key={"de-tab-" + item.id} id={item.id} className="page-content" tabActive={item.id === idActiveTab}>
+                {editors.map((item, index) =>
+                    <Tab key={"de-tab-" + item.id} id={item.id} className="page-content" tabActive={index === 0}>
                         {item.component}
                     </Tab>
                 )}
@@ -77,8 +73,6 @@ const EditingPage = inject('storeFocusObjects')(observer(props => {
     const inToc = api.asc_GetTableOfContentsPr(true);
     const settings = props.storeFocusObjects.settings;
     const headerType = props.storeFocusObjects.headerType;
-    const savedIdTab = localStorage.getItem('de-mobile-edit-active-tab');
-    const [idActiveTab, setIdActiveTab] = useState(savedIdTab || 'edit-text');
     let editors = [];
 
     if (settings.length < 1) {
@@ -147,8 +141,8 @@ const EditingPage = inject('storeFocusObjects')(observer(props => {
    
     return (
         <Page pageContent={false}>
-            <EditLayoutNavbar editors={editors} idActiveTab={idActiveTab} setIdActiveTab={setIdActiveTab} />
-            <EditLayoutContent editors={editors} idActiveTab={idActiveTab} />
+            <EditLayoutNavbar editors={editors} />
+            <EditLayoutContent editors={editors} />
         </Page>
     )
 }));

@@ -20,6 +20,7 @@ const routes = [
     {
         path: '/settings/',
         component: SettingsPage,
+        keepAlive: true,
     },
     {
         path: '/document-settings/',
