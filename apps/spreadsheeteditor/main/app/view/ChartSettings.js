@@ -1111,9 +1111,11 @@ define([
                                 if (result == 'ok') {
                                     if (me.api) {
                                         if (me.isChart) {
-                                            me.api.asc_applyChartSettings(value.chartSettings);
-                                            if (value.imageSettings)
+                                            if (value.imageSettings) {
+                                                value.imageSettings.asc_putChartProperties(value.chartSettings);
                                                 me.api.asc_setGraphicObjectProps(value.imageSettings);
+                                            } else
+                                                me.api.asc_applyChartSettings(value.chartSettings);
                                         } else
                                             me.api.asc_setSparklineGroup(me._state.SparkId, value.chartSettings);
                                     }

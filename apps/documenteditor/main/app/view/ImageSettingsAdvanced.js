@@ -1741,11 +1741,11 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 }
             }
 
-            if (this.isChart) {
+            if (!this.isChart) {
                 properties.asc_putRot(this.spnAngle.getNumberValue() * 3.14159265358979 / 180);
-                properties.asc_putFlipH(this.chFlipHor.getValue()=='checked');
-                properties.asc_putFlipV(this.chFlipVert.getValue()=='checked');
-
+                properties.asc_putFlipH(this.chFlipHor.getValue() == 'checked');
+                properties.asc_putFlipV(this.chFlipVert.getValue() == 'checked');
+            } else {
                 var type = this.currentChartType;
                 this.chartSettings.putType(type);
 
@@ -1773,6 +1773,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                     if (value>0)
                         this.chartSettings.putSmooth(value==2);
                 }
+                properties.asc_putChartProperties(this.chartSettings);
             }
 
             if (this.isAltTitleChanged)
@@ -1781,7 +1782,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             if (this.isAltDescChanged)
                 properties.asc_putDescription(this.textareaAltDescription.val());
 
-            return { imageProps: properties, chartSettings: this.chartSettings} ;
+            return { imageProps: properties} ;
         },
 
         _setShapeDefaults: function(props) {

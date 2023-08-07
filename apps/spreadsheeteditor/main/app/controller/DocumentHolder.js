@@ -1395,9 +1395,11 @@ define([
                             handler: function(result, value) {
                                 if (result == 'ok') {
                                     if (me.api) {
-                                        me.api.asc_applyChartSettings(value.chartSettings);
-                                        if (value.imageSettings)
+                                        if (value.imageSettings) {
+                                            value.imageSettings.asc_putChartProperties(value.chartSettings);
                                             me.api.asc_setGraphicObjectProps(value.imageSettings);
+                                        } else
+                                            me.api.asc_applyChartSettings(value.chartSettings);
                                     }
                                 }
                                 Common.NotificationCenter.trigger('edit:complete', me);

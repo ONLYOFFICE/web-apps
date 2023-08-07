@@ -606,7 +606,6 @@ define([
                                     handler: function(result, value) {
                                         if (result == 'ok') {
                                             if (me.api) {
-                                                isChart && me.api.asc_applyChartSettings(value.chartSettings);
                                                 me.api.ImgApply(value.imageProps);
                                             }
                                         }
