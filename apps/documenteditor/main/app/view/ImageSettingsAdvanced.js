@@ -3207,7 +3207,6 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 props = me.currentAxisProps[index],
                 fmt = props.getNumFmt(),
                 lang = Common.Utils.InternalSettings.get("de-config-lang");
-                lang = lang ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(lang)) : 0x0409;
 
             var win = (new Common.Views.FormatSettingsDialog({
                 api: me.api,

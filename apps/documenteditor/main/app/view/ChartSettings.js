@@ -603,6 +603,7 @@ define([
                                     imageProps: elValue,
                                     chartSettings: isChart ? me.api.asc_getChartSettings() : null,
                                     sectionProps: me.api.asc_GetSectionProps(),
+                                    api         : me.api,
                                     handler: function(result, value) {
                                         if (result == 'ok') {
                                             if (me.api) {
