@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Popover, Sheet, f7, View } from 'framework7-react';
 import { Device } from "../../../utils/device";
 import { ReviewController, ReviewChangeController } from "../../controller/collaboration/Review";
@@ -6,13 +6,13 @@ import { PageDisplayMode } from "./Review";
 import { ViewCommentsController, ViewCommentsSheetsController } from "../../controller/collaboration/Comments";
 import SharingSettingsController from "../../controller/SharingSettings";
 import CollaborationPage from '../../pages/CollaborationPage';
-import { MainContext } from '../../../../../documenteditor/mobile/src/page/main';
 import UsersPage from '../../pages/UsersPage';
 
 const routes = [
     {
         path: '/collaboration-page/',
-        component: CollaborationPage
+        component: CollaborationPage,
+        keepAlive: true
     },
     {
         path: '/users/',
@@ -70,9 +70,7 @@ routes.forEach(route => {
     };
 });
 
-const CollaborationView = () => {
-    const mainContext = useContext(MainContext);
-
+const CollaborationView = props => {
     useEffect(() => {
         if(Device.phone) {
             f7.sheet.open('.coauth__sheet');
@@ -83,12 +81,12 @@ const CollaborationView = () => {
 
     return (
         !Device.phone ?
-            <Popover id="coauth-popover" className="popover__titled" onPopoverClosed={() => mainContext.closeOptions('coauth')} closeByOutsideClick={false}>
+            <Popover id="coauth-popover" className="popover__titled" onPopoverClosed={() => props.closeOptions('coauth')} closeByOutsideClick={false}>
                 <View style={{height: '430px'}} routes={routes} url='/collaboration-page/'>
                     <CollaborationPage />
                 </View>
             </Popover> :
-            <Sheet className="coauth__sheet" onSheetClosed={() => mainContext.closeOptions('coauth')}>
+            <Sheet className="coauth__sheet" onSheetClosed={() => props.closeOptions('coauth')}>
                 <View routes={routes} url='/collaboration-page/'>
                     <CollaborationPage />
                 </View>

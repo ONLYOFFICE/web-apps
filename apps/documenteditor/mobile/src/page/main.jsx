@@ -161,7 +161,6 @@ class MainPage extends Component {
                 openOptions: this.handleClickToOpenOptions.bind(this),
                 closeOptions: this.handleOptionsViewClosed.bind(this),
                 showPanels: this.state.addShowOptions,
-
             }}>
                 <Page name="home" className={`editor${!isHideLogo ? ' page-with-logo' : ''}`}>
                     {/* Top Navbar */}
@@ -236,7 +235,11 @@ class MainPage extends Component {
                             <EditHyperlink onClosed={this.handleOptionsViewClosed.bind(this)} />
                     }
                     {!this.state.settingsVisible ? null : <SettingsController />}
-                    {!this.state.collaborationVisible ? null : <CollaborationView />}
+                    {!this.state.collaborationVisible ? null : 
+                        <CollaborationView 
+                            closeOptions={this.handleOptionsViewClosed.bind(this)} 
+                        />
+                    }
                     {!this.state.navigationVisible ? null : <NavigationController />}
                     {isFabShow &&
                         <CSSTransition
