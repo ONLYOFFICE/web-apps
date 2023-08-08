@@ -1621,6 +1621,7 @@
   "DE.Views.ChartSettings.txtTight": "Tight",
   "DE.Views.ChartSettings.txtTitle": "Chart",
   "DE.Views.ChartSettings.txtTopAndBottom": "Top and bottom",
+  "DE.Views.ChartSettings.textKeepRatio": "Constant proportions",
   "DE.Views.ControlSettingsDialog.strGeneral": "General",
   "DE.Views.ControlSettingsDialog.textAdd": "Add",
   "DE.Views.ControlSettingsDialog.textAppearance": "Appearance",

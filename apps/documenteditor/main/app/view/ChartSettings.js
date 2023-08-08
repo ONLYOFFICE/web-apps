@@ -74,8 +74,11 @@ define([
                 ChartStyle: 1,
                 ChartType: -1,
                 SeveralCharts: false,
-                DisabledControls: false
+                DisabledControls: false,
+                keepRatio: false
             };
+            this._nRatio = 1;
+            this.spinners = [];
             this.lockedControls = [];
             this._locked = false;
 
@@ -91,8 +94,6 @@ define([
                 scope: this
             }));
 
-            this.labelWidth = el.find('#chart-label-width');
-            this.labelHeight = el.find('#chart-label-height');
             this.NotCombinedSettings = $('.not-combined');
             this.Chart3DContainer = $('#chart-panel-3d-rotate');
         },
@@ -181,15 +182,26 @@ define([
                 this._state.FromGroup=fromgroup;
 
                 value = props.get_Width();
-                if ( Math.abs(this._state.Width-value)>0.001 ) {
-                    this.labelWidth[0].innerHTML = this.textWidth + ': ' + Common.Utils.Metric.fnRecalcFromMM(value).toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
+                if ( Math.abs(this._state.Width-value)>0.001 ||
+                    (this._state.Width===null || value===null)&&(this._state.Width!==value)) {
+                    this.spnWidth.setValue((value!==null) ? Common.Utils.Metric.fnRecalcFromMM(value) : '', true);
                     this._state.Width = value;
                 }
 
                 value = props.get_Height();
-                if ( Math.abs(this._state.Height-value)>0.001 ) {
-                    this.labelHeight[0].innerHTML = this.textHeight + ': ' + Common.Utils.Metric.fnRecalcFromMM(value).toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
+                if ( Math.abs(this._state.Height-value)>0.001 ||
+                    (this._state.Height===null || value===null)&&(this._state.Height!==value)) {
+                    this.spnHeight.setValue((value!==null) ? Common.Utils.Metric.fnRecalcFromMM(value) : '', true);
                     this._state.Height = value;
+                }
+
+                if (props.get_Height()>0)
+                    this._nRatio = props.get_Width()/props.get_Height();
+
+                value = props.asc_getLockAspect();
+                if (this._state.keepRatio!==value) {
+                    this.btnRatio.toggle(value);
+                    this._state.keepRatio=value;
                 }
 
                 var props3d = this.chartProps ? this.chartProps.getView3d() : null;
@@ -246,11 +258,15 @@ define([
         },
 
         updateMetricUnit: function() {
-            var value = Common.Utils.Metric.fnRecalcFromMM(this._state.Width);
-            this.labelWidth[0].innerHTML = this.textWidth + ': ' + value.toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
-
-            value = Common.Utils.Metric.fnRecalcFromMM(this._state.Height);
-            this.labelHeight[0].innerHTML = this.textHeight + ': ' + value.toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
+            if (this.spinners) {
+                for (var i=0; i<this.spinners.length; i++) {
+                    var spinner = this.spinners[i];
+                    spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
+                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
+                }
+                this.spnWidth && this.spnWidth.setValue((this._state.Width!==null) ? Common.Utils.Metric.fnRecalcFromMM(this._state.Width) : '', true);
+                this.spnHeight && this.spnHeight.setValue((this._state.Height!==null) ? Common.Utils.Metric.fnRecalcFromMM(this._state.Height) : '', true);
+            }
         },
 
         createDelayedControls: function() {
@@ -328,6 +344,63 @@ define([
             });
             this.lockedControls.push(this.btnEditData);
             this.btnEditData.on('click', _.bind(this.setEditData, this));
+
+            this.spnWidth = new Common.UI.MetricSpinner({
+                el: $('#chart-spin-width'),
+                step: .1,
+                width: 78,
+                defaultUnit : "cm",
+                value: '3 cm',
+                maxValue: 55.88,
+                minValue: 0,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.spinners.push(this.spnWidth);
+            this.lockedControls.push(this.spnWidth);
+
+            this.spnHeight = new Common.UI.MetricSpinner({
+                el: $('#chart-spin-height'),
+                step: .1,
+                width: 78,
+                defaultUnit : "cm",
+                value: '3 cm',
+                maxValue: 55.88,
+                minValue: 0,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.spinners.push(this.spnHeight);
+            this.lockedControls.push(this.spnHeight);
+
+            this.spnWidth.on('change', _.bind(this.onWidthChange, this));
+            this.spnHeight.on('change', _.bind(this.onHeightChange, this));
+            this.spnWidth.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.spnHeight.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+
+            this.btnRatio = new Common.UI.Button({
+                parentEl: $('#chart-button-ratio'),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-advanced-ratio',
+                style: 'margin-bottom: 1px;',
+                enableToggle: true,
+                hint: this.textKeepRatio
+            });
+            this.lockedControls.push(this.btnRatio);
+
+            this.btnRatio.on('click', _.bind(function(btn, e) {
+                if (btn.pressed && this.spnHeight.getNumberValue()>0) {
+                    this._nRatio = this.spnWidth.getNumberValue()/this.spnHeight.getNumberValue();
+                }
+                if (this.api)  {
+                    var props = new Asc.asc_CImgProperty();
+                    props.asc_putLockAspect(btn.pressed);
+                    this.api.ImgApply(props);
+                }
+                this.fireEvent('editcomplete', this);
+            }, this));
 
             // 3d rotation
             this.spnX = new Common.UI.MetricSpinner({
@@ -862,6 +935,47 @@ define([
             }
         },
 
+        onWidthChange: function(field, newValue, oldValue, eOpts){
+            var w = field.getNumberValue();
+            var h = this.spnHeight.getNumberValue();
+            if (this.btnRatio.pressed) {
+                h = w/this._nRatio;
+                if (h>this.spnHeight.options.maxValue) {
+                    h = this.spnHeight.options.maxValue;
+                    w = h * this._nRatio;
+                    this.spnWidth.setValue(w, true);
+                }
+                this.spnHeight.setValue(h, true);
+            }
+            if (this.api)  {
+                var props = new Asc.asc_CImgProperty();
+                props.put_Width(Common.Utils.Metric.fnRecalcToMM(w));
+                props.put_Height(Common.Utils.Metric.fnRecalcToMM(h));
+                props.put_ResetCrop(false);
+                this.api.ImgApply(props);
+            }
+        },
+
+        onHeightChange: function(field, newValue, oldValue, eOpts){
+            var h = field.getNumberValue(), w = this.spnWidth.getNumberValue();
+            if (this.btnRatio.pressed) {
+                w = h * this._nRatio;
+                if (w>this.spnWidth.options.maxValue) {
+                    w = this.spnWidth.options.maxValue;
+                    h = w/this._nRatio;
+                    this.spnHeight.setValue(h, true);
+                }
+                this.spnWidth.setValue(w, true);
+            }
+            if (this.api)  {
+                var props = new Asc.asc_CImgProperty();
+                props.put_Width(Common.Utils.Metric.fnRecalcToMM(w));
+                props.put_Height(Common.Utils.Metric.fnRecalcToMM(h));
+                props.put_ResetCrop(false);
+                this.api.ImgApply(props);
+            }
+        },
+
         setLocked: function (locked) {
             this._locked = locked;
         },
@@ -907,7 +1021,8 @@ define([
         textWiden: 'Widen field of view',
         textRightAngle: 'Right Angle Axes',
         textAutoscale: 'Autoscale',
-        textDefault: 'Default Rotation'
+        textDefault: 'Default Rotation',
+        textKeepRatio: 'Constant Proportions'
 
     }, DE.Views.ChartSettings || {}));
 });
