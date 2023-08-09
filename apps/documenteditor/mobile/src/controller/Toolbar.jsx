@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Device } from '../../../../common/mobile/utils/device';
 import { inject, observer } from 'mobx-react';
 import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
@@ -206,8 +207,56 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         api.ChangeReaderMode();
     }
 
+    const changeTitleHandler = () => {
+        f7.dialog.create({
+            title: t('Toolbar.textRenameFile'),
+            text : t('Toolbar.textEnterNewFileName'),
+            content: Device.ios ?
+            '<div class="input-field"><input type="text" class="modal-text-input" name="modal-title" id="modal-title"></div>' : '<div class="input-field modal-title"><div class="inputs-list list inline-labels"><ul><li><div class="item-content item-input"><div class="item-inner"><div class="item-input-wrap"><input type="text" name="modal-title" id="modal-title"></div></div></div></li></ul></div></div>',
+            cssClass: 'dlg-adv-options',
+            buttons: [
+                {
+                    text: t('Edit.textCancel')
+                },
+                {
+                    text: t('Edit.textOk'),
+                    cssClass: 'btn-change-title',
+                    bold: true,
+                    close: false,
+                    onClick: () => {
+                        const titleFieldValue = document.querySelector('#modal-title').value;
+                        if(titleFieldValue.trim().length) {
+                            changeTitle(titleFieldValue);
+                            f7.dialog.close();
+                        }
+                    }
+                }
+            ],
+            on: {
+                opened: () => {
+                    const nameDoc = docTitle.split('.')[0];
+                    const titleField = document.querySelector('#modal-title');
+                    const btnChangeTitle = document.querySelector('.btn-change-title');
+
+                    titleField.value = nameDoc;
+                    titleField.focus();
+                    titleField.select();
+
+                    titleField.addEventListener('input', () => {
+                        if(titleField.value.trim().length) {
+                            btnChangeTitle.classList.remove('disabled');
+                        } else {
+                            btnChangeTitle.classList.add('disabled');
+                        }
+                    });
+                }
+            }
+        }).open();
+    }
+
     const changeTitle = (name) => {
         const api = Common.EditorApi.get();
+        const storeDocumentInfo = props.storeDocumentInfo;
         const docInfo = storeDocumentInfo.docInfo;
         const title = `${name}.${docExt}`;
 
@@ -246,7 +295,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
                      turnOnViewerMode={turnOnViewerMode}
                      isMobileView={isMobileView}
                      changeMobileView={changeMobileView}
-                     changeTitle={changeTitle}
+                     changeTitleHandler={changeTitleHandler}
                      isVersionHistoryMode={isVersionHistoryMode}
                      closeHistory={closeHistory}
         />

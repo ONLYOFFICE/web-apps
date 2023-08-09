@@ -34,53 +34,6 @@ const ToolbarView = props => {
         }
     };
 
-    const changeTitleHandler = () => {
-        f7.dialog.create({
-            title: t('Toolbar.textRenameFile'),
-            text : t('Toolbar.textEnterNewFileName'),
-            content: Device.ios ?
-            '<div class="input-field"><input type="text" class="modal-text-input" name="modal-title" id="modal-title"></div>' : '<div class="input-field modal-title"><div class="inputs-list list inline-labels"><ul><li><div class="item-content item-input"><div class="item-inner"><div class="item-input-wrap"><input type="text" name="modal-title" id="modal-title"></div></div></div></li></ul></div></div>',
-            cssClass: 'dlg-adv-options',
-            buttons: [
-                {
-                    text: t('Edit.textCancel')
-                },
-                {
-                    text: t('Edit.textOk'),
-                    cssClass: 'btn-change-title',
-                    bold: true,
-                    close: false,
-                    onClick: () => {
-                        const titleFieldValue = document.querySelector('#modal-title').value;
-                        if(titleFieldValue.trim().length) {
-                            props.changeTitle(titleFieldValue);
-                            f7.dialog.close();
-                        }
-                    }
-                }
-            ],
-            on: {
-                opened: () => {
-                    const nameDoc = docTitle.split('.')[0];
-                    const titleField = document.querySelector('#modal-title');
-                    const btnChangeTitle = document.querySelector('.btn-change-title');
-
-                    titleField.value = nameDoc;
-                    titleField.focus();
-                    titleField.select();
-
-                    titleField.addEventListener('input', () => {
-                        if(titleField.value.trim().length) {
-                            btnChangeTitle.classList.remove('disabled');
-                        } else {
-                            btnChangeTitle.classList.add('disabled');
-                        }
-                    });
-                }
-            }
-        }).open();
-    }
-
     useEffect(() => {
         const elemTitle = document.querySelector('.subnavbar .title');
 
@@ -105,7 +58,7 @@ const ToolbarView = props => {
                     onRedoClick: props.onRedo
                 })}
             </NavLeft>
-            {((!Device.phone || isViewer) && !isVersionHistoryMode) && <div className='title' onClick={changeTitleHandler} style={{width: '71%'}}>{docTitle}</div>}
+            {((!Device.phone || isViewer) && !isVersionHistoryMode) && <div className='title' onClick={() => props.changeTitleHandler()} style={{width: '71%'}}>{docTitle}</div>}
             <NavRight>
                 {(Device.android && props.isEdit && !isViewer && !isVersionHistoryMode) && EditorUIController.getUndoRedo && EditorUIController.getUndoRedo({
                     disabledUndo: !props.isCanUndo,
