@@ -1,20 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { observer, inject } from "mobx-react";
 import { Page, Navbar, NavRight, NavTitle, Tabs, Tab, Link } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import { Device } from '../../../../../common/mobile/utils/device';
+import EditSlideController from "../../controller/edit/EditSlide";
 import EditTextController from "../../controller/edit/EditText";
-import EditParagraphController from "../../controller/edit/EditParagraph";
 import EditShapeController from "../../controller/edit/EditShape";
 import EditImageController from "../../controller/edit/EditImage";
 import EditTableController from "../../controller/edit/EditTable";
 import EditChartController from "../../controller/edit/EditChart";
-import EditHeaderController from "../../controller/edit/EditHeader";
-import EditTableContentsController from "../../controller/edit/EditTableContents";
 
 const EmptyEditLayout = () => {
     const { t } = useTranslation();
-    const _t = t('Edit', {returnObjects: true});
+    const _t = t('View.Edit', {returnObjects: true});
 
     return (
         <Page>
@@ -29,19 +27,17 @@ const EmptyEditLayout = () => {
 
 const EditLayoutNavbar = ({ editors }) => {
     const isAndroid = Device.android;
-    const { t } = useTranslation();
-    const _t = t('Edit', {returnObjects: true});
 
     return (
         <Navbar>
             {editors.length > 1 ?
                 <div className='tab-buttons tabbar'>
-                    {editors.map((item, index) => <Link key={"de-link-" + item.id}  tabLink={"#" + item.id} tabLinkActive={index === 0}>{item.caption}</Link>)}
+                    {editors.map((item, index) => <Link key={"pe-link-" + item.id}  tabLink={"#" + item.id} tabLinkActive={index === 0}>{item.caption}</Link>)}
                     {isAndroid && <span className='tab-link-highlight' style={{width: 100 / editors.length + '%'}}></span>}
                 </div> :
-                <NavTitle>{editors[0].caption}</NavTitle>
+                <NavTitle>{ editors[0].caption }</NavTitle>
             }
-            {Device.phone && <NavRight><Link icon='icon-expand-down' sheetClose></Link></NavRight>}
+            {Device.phone && <NavRight><Link icon='icon-expand-down' sheetClose></Link></NavRight> }
         </Navbar>
     )
 };
@@ -51,7 +47,7 @@ const EditLayoutContent = ({ editors }) => {
         return (
             <Tabs animated>
                 {editors.map((item, index) =>
-                    <Tab key={"de-tab-" + item.id} id={item.id} className="page-content" tabActive={index === 0}>
+                    <Tab key={"pe-tab-" + item.id} id={item.id} className="page-content" tabActive={index === 0}>
                         {item.component}
                     </Tab>
                 )}
@@ -68,11 +64,8 @@ const EditLayoutContent = ({ editors }) => {
 
 const EditingPage = inject('storeFocusObjects')(observer(props => {
     const { t } = useTranslation();
-    const _t = t('Edit', {returnObjects: true});
-    const api = Common.EditorApi.get();
-    const inToc = api.asc_GetTableOfContentsPr(true);
+    const _t = t('View.Edit', {returnObjects: true});
     const settings = props.storeFocusObjects.settings;
-    const headerType = props.storeFocusObjects.headerType;
     let editors = [];
 
     if (settings.length < 1) {
@@ -81,13 +74,6 @@ const EditingPage = inject('storeFocusObjects')(observer(props => {
             component: <EmptyEditLayout />
         });
     } else {
-        if(inToc) {
-            editors.push({
-                caption: _t.textTableOfCont,
-                id: 'edit-table-contents',
-                component: <EditTableContentsController />
-            })
-        }
         if (settings.indexOf('image') > -1) {
             editors.push({
                 caption: _t.textImage,
@@ -95,6 +81,7 @@ const EditingPage = inject('storeFocusObjects')(observer(props => {
                 component: <EditImageController />
             })
         }
+
         if (settings.indexOf('shape') > -1) {
             editors.push({
                 caption: _t.textShape,
@@ -102,13 +89,7 @@ const EditingPage = inject('storeFocusObjects')(observer(props => {
                 component: <EditShapeController />
             })
         }
-        if (settings.indexOf('chart') > -1) {
-            editors.push({
-                caption: _t.textChart,
-                id: 'edit-chart',
-                component: <EditChartController />
-            })
-        }
+
         if (settings.indexOf('table') > -1) {
             editors.push({
                 caption: _t.textTable,
@@ -116,13 +97,15 @@ const EditingPage = inject('storeFocusObjects')(observer(props => {
                 component: <EditTableController />
             })
         }
-        if (settings.indexOf('header') > -1) {
+
+        if (settings.indexOf('chart') > -1) {
             editors.push({
-                caption: headerType === 2 ? _t.textFooter : _t.textHeader,
-                id: 'edit-header',
-                component: <EditHeaderController />
+                caption: _t.textChart,
+                id: 'edit-chart',
+                component: <EditChartController />
             })
         }
+
         if (settings.indexOf('text') > -1) {
             editors.push({
                 caption: _t.textText,
@@ -130,15 +113,16 @@ const EditingPage = inject('storeFocusObjects')(observer(props => {
                 component: <EditTextController />
             })
         }
-        if (settings.indexOf('paragraph') > -1) {
+
+        if (settings.indexOf('slide') > -1) {
             editors.push({
-                caption: _t.textParagraph,
-                id: 'edit-paragraph',
-                component: <EditParagraphController />
+                caption: _t.textSlide,
+                id: 'edit-slide',
+                component: <EditSlideController />
             })
         }
     }
-   
+
     return (
         <Page pageContent={false}>
             <EditLayoutNavbar editors={editors} />

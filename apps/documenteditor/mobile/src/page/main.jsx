@@ -230,9 +230,10 @@ class MainPage extends Component {
                             closeOptions={this.handleOptionsViewClosed.bind(this)} 
                         />
                     }
-                    {
-                        !this.state.editLinkSettingsVisible ? null :
-                            <EditHyperlink onClosed={this.handleOptionsViewClosed.bind(this)} />
+                    {!this.state.editLinkSettingsVisible ? null :
+                        <EditHyperlink 
+                            closeOptions={this.handleOptionsViewClosed.bind(this)}
+                        />
                     }
                     {!this.state.settingsVisible ? null : <SettingsController />}
                     {!this.state.collaborationVisible ? null : 

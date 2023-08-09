@@ -2,8 +2,6 @@ import React, { Component, createContext } from 'react';
 import { f7, Page, View, Navbar, Subnavbar, Icon } from 'framework7-react';
 import { observer, inject } from "mobx-react";
 import { Device } from '../../../../common/mobile/utils/device';
-import EditOptions from '../view/edit/Edit';
-import AddOptions from '../view/add/Add';
 import CollaborationView from '../../../../common/mobile/lib/view/collaboration/Collaboration.jsx';
 import { Preview } from "../controller/Preview";
 import { Search, SearchSettings } from '../controller/Search';
@@ -12,6 +10,8 @@ import { Toolbar } from "../controller/Toolbar";
 import { AddLinkController } from '../controller/add/AddLink';
 import { EditLinkController } from '../controller/edit/EditLink';
 import SettingsController from '../controller/settings/Settings';
+import AddView from '../view/add/Add';
+import EditView from '../view/edit/Edit';
 
 export const MainContext = createContext();
 
@@ -136,7 +136,9 @@ class MainPage extends Component {
                 closeOptions: this.handleOptionsViewClosed.bind(this),
                 showPanels: this.state.addShowOptions,
             }}>
-                {!this.state.previewVisible ? null : <Preview onclosed={this.handleOptionsViewClosed.bind(this, 'preview')} />}
+                {!this.state.previewVisible ? null : 
+                    <Preview closeOptions={this.handleOptionsViewClosed.bind(this)} />
+                }
                 <Page name="home" className={`editor${!isHideLogo ? ' page-with-logo' : ''}`}>
                     {/* Top Navbar */}
                     <Navbar id='editor-navbar' className={`main-navbar${!isHideLogo ? ' navbar-with-logo' : ''}`}>
@@ -175,21 +177,17 @@ class MainPage extends Component {
 
                     <SearchSettings useSuspense={false} />
 
-                    {
-                        !this.state.editOptionsVisible ? null :
-                            <EditOptions onclosed={this.handleOptionsViewClosed.bind(this, 'edit')} />
+                    {!this.state.editOptionsVisible ? null : <EditView />}
+                    {!this.state.addOptionsVisible ? null : <AddView />}
+                    {!this.state.addLinkSettingsVisible ? null :
+                        <AddLinkController 
+                            closeOptions={this.handleOptionsViewClosed.bind(this)} 
+                        />
                     }
-                    {
-                        !this.state.addOptionsVisible ? null :
-                            <AddOptions onCloseLinkSettings={this.handleOptionsViewClosed.bind(this)} onclosed={this.handleOptionsViewClosed.bind(this, 'add')} showOptions={this.state.addShowOptions} />
-                    }
-                    {
-                        !this.state.addLinkSettingsVisible ? null :
-                            <AddLinkController onClosed={this.handleOptionsViewClosed.bind(this)} />
-                    }
-                    {
-                        !this.state.editLinkSettingsVisible ? null :
-                            <EditLinkController onClosed={this.handleOptionsViewClosed.bind(this)} />
+                    {!this.state.editLinkSettingsVisible ? null :
+                        <EditLinkController 
+                            closeOptions={this.handleOptionsViewClosed.bind(this)}  
+                        />
                     }
                     {!this.state.settingsVisible ? null : <SettingsController />}
                     {!this.state.collaborationVisible ? null : 
@@ -198,7 +196,9 @@ class MainPage extends Component {
                         />
                     }
                     {appOptions.isDocReady && 
-                        <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)} />
+                        <ContextMenu 
+                            openOptions={this.handleClickToOpenOptions.bind(this)} 
+                        />
                     }   
                 </Page>
             </MainContext.Provider>
