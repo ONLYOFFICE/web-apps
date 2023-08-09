@@ -5,7 +5,7 @@ import { ReviewController, ReviewChangeController } from "../../controller/colla
 import { PageDisplayMode } from "./Review";
 import { ViewCommentsController, ViewCommentsSheetsController } from "../../controller/collaboration/Comments";
 import SharingSettingsController from "../../controller/SharingSettings";
-import CollaborationPage from '../../pages/CollaborationPage';
+import { CollaborationPage } from '../../pages/CollaborationPage';
 import UsersPage from '../../pages/UsersPage';
 
 const routes = [

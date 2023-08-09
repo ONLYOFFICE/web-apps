@@ -4,7 +4,7 @@ import { List, ListItem, Navbar, NavRight, Page, Icon, Link } from 'framework7-r
 import { useTranslation } from 'react-i18next';
 import { Device } from "../../utils/device";
 
-const CollaborationPage = inject('storeAppOptions', 'users', 'storeDocumentInfo')(observer(props => {
+const CollaborationPage = props => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
     const appOptions = props.storeAppOptions;
@@ -49,6 +49,22 @@ const CollaborationPage = inject('storeAppOptions', 'users', 'storeDocumentInfo'
             </List>
         </Page>
     )
-}));
+};
 
-export default CollaborationPage;
+let storeInfo;
+
+switch (window.asceditor) {
+    case 'word':
+        storeInfo = 'storeDocumentInfo';
+        break;
+    case 'slide':
+        storeInfo = 'storePresentationInfo';
+        break;
+    case 'cell':
+        storeInfo = 'storeSpreadsheetInfo';
+        break;
+}
+
+const Collaboration = inject('storeAppOptions', 'users', storeInfo)(observer(CollaborationPage));
+
+export { Collaboration as CollaborationPage };
