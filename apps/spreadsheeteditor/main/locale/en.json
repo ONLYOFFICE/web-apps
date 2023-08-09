@@ -466,6 +466,7 @@
   "Common.Views.FormatSettingsDialog.txtUpto1": "Up to one digit (1/3)",
   "Common.Views.FormatSettingsDialog.txtUpto2": "Up to two digits (12/25)",
   "Common.Views.FormatSettingsDialog.txtUpto3": "Up to three digits (131/135)",
+  "Common.Views.FormatSettingsDialog.textLocale": "Locale",
   "Common.Views.Header.labelCoUsersDescr": "Users who are editing the file:",
   "Common.Views.Header.textAddFavorite": "Mark as favorite",
   "Common.Views.Header.textAdvSettings": "Advanced settings",
