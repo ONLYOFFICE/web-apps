@@ -317,7 +317,7 @@ define([    'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.templa
                     }
                 }
 
-                this.btnFormat.setVisible(props.getFieldGroupType(this.fieldIndex) !== Asc.c_oAscGroupType.Text);
+                this.btnFormat.setVisible(props.asc_getFieldGroupType(this.fieldIndex) !== Asc.c_oAscGroupType.Text);
             }
         },
 
