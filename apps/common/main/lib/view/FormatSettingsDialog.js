@@ -283,22 +283,20 @@ define([
             });
             this.chLinked.setVisible(this.linked);
 
-            if (window.DE || window.PE) {
-                this.cmbLang = new Common.UI.ComboBox({
-                    el          : $('#format-settings-combo-lang'),
-                    menuStyle   : 'min-width: 100%; max-height: 185px;',
-                    cls         : 'input-group-nr',
-                    editable    : false,
-                    takeFocusOnClose: true,
-                    data        : Common.util.LanguageInfo.regionalData,
-                    search: true,
-                    scrollAlwaysVisible: true
-                });
-                this.cmbLang.setValue(0x0409);
-                this.cmbLang.on('selected', _.bind(function(combo, record) {
-                    this.onSelectLang(record.value);
-                }, this));
-            }
+            this.cmbLang = new Common.UI.ComboBox({
+                el          : $('#format-settings-combo-lang'),
+                menuStyle   : 'min-width: 100%; max-height: 185px;',
+                cls         : 'input-group-nr',
+                editable    : false,
+                takeFocusOnClose: true,
+                data        : Common.util.LanguageInfo.regionalData,
+                search: true,
+                scrollAlwaysVisible: true
+            });
+            this.cmbLang.setValue(0x0409);
+            this.cmbLang.on('selected', _.bind(function(combo, record) {
+                this.onSelectLang(record.value);
+            }, this));
 
             this._decimalPanel      = this.$window.find('.format-decimal');
             this._negativePanel     = this.$window.find('.format-negative');
@@ -336,16 +334,15 @@ define([
                 if (props.langId)
                     this.langId = props.langId;
 
-                if (this.cmbLang) {
-                    var item = this.cmbLang.store.findWhere({value: this.langId});
-                    item = item ? item.get('value') : 0x0409;
-                    this.cmbLang.setValue(item)
-                }
+                var type = props.formatInfo.asc_getType(),
+                    item = this.cmbLang.store.findWhere({value: type == Asc.c_oAscNumFormatType.Date || type == Asc.c_oAscNumFormatType.Time ? props.formatInfo.asc_getSymbol() || this.langId : this.langId});
+                item = item ? item.get('value') : 0x0409;
+                this.cmbLang.setValue(item)
 
-                this.cmbFormat.setValue(props.formatInfo.asc_getType(), this.txtCustom);
+                this.cmbFormat.setValue(type, this.txtCustom);
 
                 this.FormatInfo = props.formatInfo;
-                if ((props.formatInfo.asc_getType() == Asc.c_oAscNumFormatType.Custom) && props.format)
+                if ((type == Asc.c_oAscNumFormatType.Custom) && props.format)
                     this.CustomFormat = this.Format = props.format;
 
                 this.onFormatSelect(this.cmbFormat, this.cmbFormat.getSelectedRecord(), null, props.formatInfo);
@@ -367,9 +364,9 @@ define([
                         var selectedItem = this.cmbType.store.findWhere({value: props.format});
                         if (selectedItem)
                             this.cmbType.selectRecord(selectedItem);
-                        else if (props.formatInfo.asc_getType() == Asc.c_oAscNumFormatType.Fraction)
+                        else if (type == Asc.c_oAscNumFormatType.Fraction)
                             this.cmbType.setValue(this.txtCustom);
-                        else if (props.formatInfo.asc_getType() == Asc.c_oAscNumFormatType.Time)
+                        else if (type == Asc.c_oAscNumFormatType.Time)
                             this.cmbType.setValue(this.api.asc_getLocaleExample(props.format, 1.534));
                         else
                             this.cmbType.setValue(this.api.asc_getLocaleExample(props.format, 38822));
@@ -552,7 +549,7 @@ define([
                             this.cmbSymbols.setValue(valSymbol);
                         }
                         info.asc_setSymbol(this.cmbSymbols.getValue());
-                    } else if (isDateTime && this.cmbLang) {
+                    } else if (isDateTime) {
                         info.asc_setSymbol(this.cmbLang.getValue());
                     }
 
@@ -622,15 +619,13 @@ define([
             this._symbolsPanel.toggleClass('hidden', !hasSymbols);
             this._codePanel.toggleClass('hidden', !hasCode);
             this._nocodePanel.toggleClass('hidden', hasCode);
-            this._langPanel.toggleClass('hidden', !(isDateTime && this.cmbLang));
+            this._langPanel.toggleClass('hidden', !isDateTime);
             this._state = { hasDecimal: hasDecimal, hasNegative: hasNegative, hasSeparator: hasSeparator, hasType: hasType, hasSymbols: hasSymbols, hasCode: hasCode};
 
             !initFormatInfo && this.chLinked.setValue(false, true);
         },
 
         onSelectLang: function(lang) {
-            Common.Utils.InternalSettings.set("de-config-lang", lang);
-
             var info = new Asc.asc_CFormatCellsInfo();
             info.asc_setType(this.FormatType);
             info.asc_setDecimalPlaces(0);
@@ -681,7 +676,7 @@ define([
         txtNone: 'None',
         textLinked: 'Linked to source',
         txtCustomWarning: 'Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.',
-        textLocale: 'Language'
+        textLocale: 'Locale'
 
     }, Common.Views.FormatSettingsDialog || {}))
 });
