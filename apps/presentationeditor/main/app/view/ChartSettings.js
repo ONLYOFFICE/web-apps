@@ -114,6 +114,7 @@ define([
 
                 var value = props.get_SeveralCharts() || this._locked;
                 this.btnEditData.setDisabled(value);
+                this.btnUpdateData.setDisabled(value);
                 this._state.SeveralCharts=value;
 
                 value = props.get_SeveralChartTypes();
@@ -280,6 +281,12 @@ define([
             });
             this.btnEditData.on('click', _.bind(this.setEditData, this));
             this.lockedControls.push(this.btnEditData);
+
+            this.btnUpdateData = new Common.UI.Button({
+                el: $('#chart-button-update-data')
+            });
+            this.btnUpdateData.on('click', _.bind(this.onUpdateData, this));
+            this.lockedControls.push(this.btnUpdateData);
 
             this.spnWidth = new Common.UI.MetricSpinner({
                 el: $('#chart-spin-width'),
@@ -557,6 +564,11 @@ define([
 
         setEditData:   function() {
             this.api.asc_editChartInFrameEditor();
+        },
+
+        onUpdateData: function() {
+            var diagramEditor = PE.getController('Common.Controllers.ExternalDiagramEditor');
+            diagramEditor && diagramEditor.updateChartSilent();
         },
 
         onSelectType: function(btn, picker, itemView, record) {
@@ -921,6 +933,7 @@ define([
         textWiden: 'Widen field of view',
         textRightAngle: 'Right Angle Axes',
         textAutoscale: 'Autoscale',
-        textDefault: 'Default Rotation'
+        textDefault: 'Default Rotation',
+        textUpdateData: 'Update Data'
     }, PE.Views.ChartSettings || {}));
 });

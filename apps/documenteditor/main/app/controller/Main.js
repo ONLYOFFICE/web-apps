@@ -61,8 +61,8 @@ define([
 
     DE.Controllers.Main = Backbone.Controller.extend(_.extend((function() {
         var appHeader;
-        var ApplyEditRights = -255;
-        var LoadingDocument = -256;
+        var ApplyEditRights = Common.define.blockOperations.ApplyEditRights;
+        var LoadingDocument = Common.define.blockOperations.LoadingDocument;
 
         var mapCustomizationElements = {
             about: 'button#left-btn-about',
@@ -1157,6 +1157,11 @@ define([
                         };
                         break;
 
+                    case Common.define.blockOperations.UpdateChart:
+                        title   = this.updateChartText;
+                        text    = this.updateChartText;
+                        break;
+
                     default:
                         if (typeof action.id == 'string'){
                             title   = action.id;
@@ -1276,6 +1281,8 @@ define([
                 me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(me.onCoAuthoringDisconnect, me));
                 me.api.asc_registerCallback('asc_onPrint',                  _.bind(me.onPrint, me));
                 me.api.asc_registerCallback('asc_onConfirmAction',          _.bind(me.onConfirmAction, me));
+                Common.NotificationCenter.on('action:start',                _.bind(me.onLongActionBegin, me));
+                Common.NotificationCenter.on('action:end',                  _.bind(me.onLongActionEnd, me));
 
                 appHeader.setDocumentCaption(me.api.asc_getDocumentName());
                 me.updateWindowTitle(true);
@@ -3453,7 +3460,8 @@ define([
             textText: 'Text',
             warnLicenseBefore: 'License not active.<br>Please contact your administrator.',
             titleLicenseNotActive: 'License not active',
-            warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.'
+            warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.',
+            updateChartText: 'Updating chart data...'
         }
     })(), DE.Controllers.Main || {}))
 });

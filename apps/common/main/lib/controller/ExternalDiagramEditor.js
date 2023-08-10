@@ -51,7 +51,8 @@ define([
             customization   = undefined,
             targetApp       = '',
             externalEditor  = null,
-            isAppFirstOpened = true;
+            isAppFirstOpened = true,
+            isChartUpdating = false;
 
 
         var createExternalEditor = function() {
@@ -210,6 +211,11 @@ define([
                         if (this.needDisableEditing) {
                             this.onDiagrammEditingDisabled();
                         }
+                        if (isChartUpdating) {
+                            isChartUpdating = false;
+                            this.api && this.api.asc_updateChartData();
+                            Common.NotificationCenter.trigger('action:end', Asc.c_oAscAsyncActionType.BlockInteraction, Common.define.blockOperations.UpdateChart);
+                        }
                     } else
                     if (eventData.type == 'frameEditorReady') {
                         if (this.needDisableEditing===undefined)
@@ -262,6 +268,20 @@ define([
 
             onSendFromGeneralToFrameEditor: function(data) {
                 externalEditor && externalEditor.serviceCommand('generalToFrameData', data);
+            },
+
+            updateChartSilent: function() {
+                if (!this.api) return;
+
+                if (!externalEditor && !isChartUpdating) {
+                    isChartUpdating = true;
+                    Common.NotificationCenter.trigger('action:start', Asc.c_oAscAsyncActionType.BlockInteraction, Common.define.blockOperations.UpdateChart);
+                    this.diagramEditorView.options.animate = false;
+                    this.diagramEditorView.show(-10000, -10000);
+                    this.diagramEditorView.hide();
+                    this.diagramEditorView.options.animate = true;
+                } else
+                    this.api.asc_updateChartData();
             },
 
             warningTitle: 'Warning',

@@ -1074,4 +1074,10 @@ define(function(){ 'use strict';
             },
         }
     })(), Common.define.smartArt || {});
+
+    Common.define.blockOperations = {
+        ApplyEditRights: -255,
+        LoadingDocument: -256,
+        UpdateChart: -257
+    }
 });
