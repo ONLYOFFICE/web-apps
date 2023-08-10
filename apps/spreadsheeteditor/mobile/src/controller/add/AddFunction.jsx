@@ -87,9 +87,7 @@ class AddFunctionController extends Component {
 
     render () {
         return (
-            <AddFunction onInsertFunction={this.onInsertFunction}
-                         onOptionClick={this.props.onOptionClick}
-            />
+            <AddFunction onInsertFunction={this.onInsertFunction} />
         )
     }
 }

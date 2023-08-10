@@ -29,9 +29,9 @@
   ],
   "dependencies": {
     "dom7": "^3.0.0",
-    "framework7": "^7.0.8",
-    "framework7-icons": "^3.0.1",
-    "framework7-react": "^7.0.8",
+    "framework7": "^8.0.5",
+    "framework7-icons": "^5.0.5",
+    "framework7-react": "^8.0.5",
     "i18next": "^23.4.1",
     "i18next-fetch-backend": "^5.0.2",
     "mobx": "^6.7.0",
@@ -42,7 +42,7 @@
     "react-dom": "^18.1.0",
     "react-i18next": "^13.0.3",
     "react-transition-group": "^4.4.5",
-    "swiper": "^8.2.4",
+    "swiper": "^9.3.1",
     "template7": "^1.4.2",
     "url": "^0.11.0"
   },

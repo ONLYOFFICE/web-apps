@@ -141,7 +141,7 @@ class AddLinkController extends Component {
         return (
             !this.props.isNavigate ?
                 Device.phone ?
-                    <Popup id="add-link-popup" onPopupClosed={() => this.props.onClosed('add-link')}>
+                    <Popup id="add-link-popup" onPopupClosed={() => this.props.closeOptions('add-link')}>
                         <View routes={routes} style={{height: '100%'}}>
                             <AddLink 
                                 allowInternal={this.allowInternal}
@@ -155,7 +155,7 @@ class AddLinkController extends Component {
                         </View>
                     </Popup>
                 :
-                    <Popover id="add-link-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => this.props.onClosed('add-link')}>
+                    <Popover id="add-link-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => this.props.closeOptions('add-link')}>
                         <View routes={routes} style={{height: '410px'}}>
                             <AddLink 
                                 allowInternal={this.allowInternal}

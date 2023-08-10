@@ -88,7 +88,7 @@ const ToolbarView = props => {
             elemTitle.innerText = correctOverflowedText(elemTitle);
         }
     }, [docTitle, isViewer]);
-
+    
     return (
         <Fragment>
             <NavLeft>
