@@ -122,7 +122,6 @@ const AddLink = props => {
                         type="text"
                         placeholder={_t.textRequired}
                         value={link}
-                        className={isIos ? 'list-input-right' : ''}
                         onChange={(event) => {
                             setLink(event.target.value);
                                 if(stateAutoUpdate && !displayDisabled) setDisplayText(event.target.value);
@@ -142,7 +141,6 @@ const AddLink = props => {
                                placeholder={_t.textRequired}
                                value={range}
                                onChange={(event) => {setRange(event.target.value)}}
-                               className={isIos ? 'list-input-right' : ''}
                     />
                 }
                 <ListInput label={_t.textDisplay}
@@ -154,14 +152,12 @@ const AddLink = props => {
                                 setDisplayText(event.target.value);
                                 setAutoUpdate(event.target.value == ''); 
                             }}
-                           className={isIos ? 'list-input-right' : ''}
                 />
                 <ListInput label={_t.textScreenTip}
                            type="text"
                            placeholder={_t.textScreenTip}
                            value={screenTip}
                            onChange={(event) => {setScreenTip(event.target.value)}}
-                           className={isIos ? 'list-input-right' : ''}
                 />
             </List>
         </Page>
