@@ -14,7 +14,8 @@ import { MainContext } from '../../page/main';
 const routes = [
     {
         path: '/adding-page/',
-        component: AddingPage
+        component: AddingPage,
+        keepAlive: true
     },
     // Image
     {

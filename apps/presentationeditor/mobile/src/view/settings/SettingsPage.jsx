@@ -18,17 +18,9 @@ const SettingsPage = inject('storeAppOptions', 'storeToolbarSettings')(observer(
         {Device.phone && <NavRight><Link popupClose=".settings-popup">{_t.textDone}</Link></NavRight>}
     </Navbar>;
 
-    const closeModal = () => {
-        if (Device.phone) {
-            f7.sheet.close('.settings-popup', false);
-        } else {
-            f7.popover.close('#settings-popover', false);
-        }
-    };
-
-    const onOpenCollaboration = () => {
-        closeModal();
-        mainContext.openOptions('coauth');
+    const onOpenOptions = name => {
+        settingsContext.closeModal();
+        mainContext.openOptions(name);
     }
 
     let _isEdit = false,
@@ -64,12 +56,12 @@ const SettingsPage = inject('storeAppOptions', 'storeToolbarSettings')(observer(
             {navbar}
             <List>
                 {!props.inPopover &&
-                    <ListItem disabled={appOptions.readerMode || disabledPreview ? true : false} title={!_isEdit ? _t.textFind : _t.textFindAndReplace} link="#" searchbarEnable='.searchbar' onClick={closeModal} className='no-indicator'>
+                    <ListItem disabled={appOptions.readerMode || disabledPreview ? true : false} title={!_isEdit ? _t.textFind : _t.textFindAndReplace} link="#" searchbarEnable='.searchbar' onClick={settingsContext.closeModal} className='no-indicator'>
                         <Icon slot="media" icon="icon-search"></Icon>
                     </ListItem>
                 }
                 {window.matchMedia("(max-width: 374px)").matches ?
-                    <ListItem title={_t.textCollaboration} link="#" onClick={onOpenCollaboration} className='no-indicator'>
+                    <ListItem title={_t.textCollaboration} link="#" onClick={() => onOpenOptions('coauth')} className='no-indicator'>
                         <Icon slot="media" icon="icon-collaboration"></Icon>
                     </ListItem> 
                 : null}
@@ -87,12 +79,12 @@ const SettingsPage = inject('storeAppOptions', 'storeToolbarSettings')(observer(
                     </ListItem>
                 }
                 {_canDownloadOrigin &&
-                    <ListItem title={_t.textDownload} link="#" onClick={() => settingsContext.onDownloadOrigin()} className='no-indicator'>
+                    <ListItem title={_t.textDownload} link="#" onClick={settingsContext.onDownloadOrigin} className='no-indicator'>
                         <Icon slot="media" icon="icon-download"></Icon>
                     </ListItem>
                 }
                 {_canPrint &&
-                    <ListItem className={disabledPreview && 'disabled'} title={_t.textPrint} onClick={() => settingsContext.onPrint()}>
+                    <ListItem className={disabledPreview && 'disabled'} title={_t.textPrint} onClick={settingsContext.onPrint}>
                         <Icon slot="media" icon="icon-print"></Icon>
                     </ListItem>
                 }
@@ -100,7 +92,7 @@ const SettingsPage = inject('storeAppOptions', 'storeToolbarSettings')(observer(
                     <Icon slot="media" icon="icon-info"></Icon>
                 </ListItem>
                 {_canHelp &&
-                    <ListItem title={_t.textHelp} link="#" className='no-indicator' onClick={() => settingsContext.showHelp()}>
+                    <ListItem title={_t.textHelp} link="#" className='no-indicator' onClick={settingsContext.showHelp}>
                         <Icon slot="media" icon="icon-help"></Icon>
                     </ListItem>
                 }
@@ -110,7 +102,7 @@ const SettingsPage = inject('storeAppOptions', 'storeToolbarSettings')(observer(
                     </ListItem>
                 }
                 {_canFeedback &&
-                    <ListItem title={t('View.Settings.textFeedback')} link="#" className='no-indicator' onClick={() => settingsContext.showFeedback()}>
+                    <ListItem title={t('View.Settings.textFeedback')} link="#" className='no-indicator' onClick={settingsContext.showFeedback}>
                             <Icon slot="media" icon="icon-feedback"></Icon>
                     </ListItem>
                 }

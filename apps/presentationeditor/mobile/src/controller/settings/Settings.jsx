@@ -1,10 +1,19 @@
 import React, { createContext } from 'react';
 import { Device } from '../../../../../common/mobile/utils/device';
 import SettingsView from '../../view/settings/Settings';
+import { f7 } from 'framework7-react';
 
 export const SettingsContext = createContext();
 
 const SettingsController = () => {
+    const closeModal = () => {
+        if (Device.phone) {
+            f7.sheet.close('.settings-popup', false);
+        } else {
+            f7.popover.close('#settings-popover', false);
+        }
+    };
+
     const onPrint = () => {
         const api = Common.EditorApi.get();
 
@@ -55,7 +64,8 @@ const SettingsController = () => {
             onPrint,
             showHelp,
             showFeedback,
-            onDownloadOrigin
+            onDownloadOrigin,
+            closeModal
         }}>
             <SettingsView />
         </SettingsContext.Provider>
