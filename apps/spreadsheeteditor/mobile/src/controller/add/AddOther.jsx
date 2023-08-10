@@ -32,8 +32,6 @@ class AddOtherController extends Component {
             <AddOther 
                 closeModal={this.closeModal}
                 hideAddComment={this.hideAddComment}
-                wsProps={this.props.wsProps}
-                onCloseLinkSettings={this.props.onCloseLinkSettings}
             />
         )
     }

@@ -117,15 +117,16 @@ const AddLink = props => {
                     }}/>
                 }
                 {typeLink === 'ext' &&
-                    <ListInput label={_t.textLink}
-                               type="text"
-                               placeholder={_t.textRequired}
-                               value={link}
-                               onChange={(event) => {
-                                setLink(event.target.value);
+                    <ListInput 
+                        label={_t.textLink}
+                        type="text"
+                        placeholder={_t.textRequired}
+                        value={link}
+                        className={isIos ? 'list-input-right' : ''}
+                        onChange={(event) => {
+                            setLink(event.target.value);
                                 if(stateAutoUpdate && !displayDisabled) setDisplayText(event.target.value);
-                            }}
-                               className={isIos ? 'list-input-right' : ''}
+                            }}   
                     />
                 }
                 {typeLink === 'int' &&
