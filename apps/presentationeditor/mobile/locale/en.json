@@ -42,6 +42,20 @@
       "textCustomColors": "Custom Colors",
       "textStandartColors": "Standard Colors",
       "textThemeColors": "Theme Colors"
+    },
+    "VersionHistory": {
+      "textVersionHistory": "Version History",
+      "textAnonymous": "Anonymous",
+      "txtErrorLoadHistory": "Loading history failed",
+      "textVersion": "Version",
+      "textCurrent": "Current",
+      "textRestore": "Restore",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "textBack": "Back",
+      "notcriticalErrorTitle": "Warning",
+      "textOk": "Ok",
+      "textCancel": "Cancel"
     }
   },
   "ContextMenu": {
@@ -112,7 +126,7 @@
       "textHasMacros": "The file contains automatic macros.<br>Do you want to run macros?",
       "textNo": "No",
       "textNoLicenseTitle": "License limit reached",
-      "textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches",
       "textOpenFile": "Enter a password to open the file",
       "textPaidFeature": "Paid feature",
       "textRemember": "Remember my choice",
@@ -126,6 +140,7 @@
       "titleUpdateVersion": "Version changed",
       "txtIncorrectPwd": "Password is incorrect",
       "txtProtected": "Once you enter the password and open the file, the current password to the file will be reset",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
       "warnLicenseExceeded": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact your administrator to learn more.",
       "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page.",
@@ -221,7 +236,8 @@
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this page",
-    "stayButtonText": "Stay on this Page"
+    "stayButtonText": "Stay on this Page",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -362,9 +378,9 @@
       "textMoveBackward": "Move Backward",
       "textMoveForward": "Move Forward",
       "textNextSlide": "Next Slide",
+      "textNoMatches": "No Matches",
       "textNone": "None",
       "textNoStyles": "No styles for this type of chart.",
-      "textNoTextFound": "Text not found",
       "textNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "textNumbers": "Numbers",
       "textOk": "Ok",
@@ -420,7 +436,11 @@
       "textZoom": "Zoom",
       "textZoomIn": "Zoom In",
       "textZoomOut": "Zoom Out",
-      "textZoomRotate": "Zoom and Rotate"
+      "textZoomRotate": "Zoom and Rotate",
+      "textMorph": "Morph",
+      "textMorphObjects":  "Objects",
+      "textMorphWords":  "Words",
+      "textMorphLetters": "Letters"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
@@ -460,7 +480,7 @@
       "textLoading": "Loading...",
       "textLocation": "Location",
       "textMacrosSettings": "Macros Settings",
-      "textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches",
       "textOk": "Ok",
       "textOwner": "Owner",
       "textPoint": "Point",
@@ -505,7 +525,8 @@
       "txtScheme6": "Concourse",
       "txtScheme7": "Equity",
       "txtScheme8": "Flow",
-      "txtScheme9": "Foundry"
+      "txtScheme9": "Foundry",
+      "textVersionHistory": "Version History"
     }
   }
 }

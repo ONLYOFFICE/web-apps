@@ -47,6 +47,7 @@
     "textOther": "Outros",
     "textPageBreak": "Quebra de página",
     "textPageNumber": "Número de página",
+    "textPasteImageUrl": "Colar um URL de imagem",
     "textPictureFromLibrary": "Imagem da biblioteca",
     "textPictureFromURL": "Imagem de um URL",
     "textPosition": "Posição",
@@ -64,8 +65,7 @@
     "textTableSize": "Tamanho da tabela",
     "textWithBlueLinks": "Com ligações azuis",
     "textWithPageNumbers": "Com números de página",
-    "txtNotUrl": "Este campo deve ser um URL no formato \"http://www.exemplo.com\"",
-    "textPasteImageUrl": "Paste an image URL"
+    "txtNotUrl": "Este campo deve ser um URL no formato \"http://www.exemplo.com\""
   },
   "Common": {
     "Collaboration": {
@@ -550,7 +550,7 @@
     "textHasMacros": "O ficheiro contém macros automáticas.<br>Deseja executar as macros?",
     "textNo": "Não",
     "textNoLicenseTitle": "Limite de licença atingido",
-    "textNoTextFound": "Texto não encontrado",
+    "textNoMatches": "Sem correspondência",
     "textOk": "Aceitar",
     "textPaidFeature": "Funcionalidade paga",
     "textRemember": "Memorizar a minha escolha",
@@ -576,7 +576,8 @@
     "textDialogProtectedEditComments": "You may only insert comments to this document",
     "textDialogProtectedFillForms": "You may only fill in forms in this document",
     "textDialogProtectedOnlyView": "You may only view this document",
-    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics."
+    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
+    "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
   },
   "Settings": {
     "advDRMOptions": "Ficheiro protegido",
@@ -650,7 +651,7 @@
     "textNo": "Não",
     "textNoChanges": "Sem alterações (apenas leitura)",
     "textNoCharacters": "Caracteres não imprimíveis",
-    "textNoTextFound": "Texto não encontrado",
+    "textNoMatches": "Sem correspondência",
     "textOk": "OK",
     "textOpenFile": "Introduza a palavra-passe para abrir o ficheiro",
     "textOrientation": "Orientação",
@@ -692,7 +693,9 @@
     "textTop": "Cima",
     "textTrackedChanges": "Alterações registadas",
     "textUnitOfMeasurement": "Unidade de medida",
+    "textUnprotect": "Desproteger",
     "textUploaded": "Carregado",
+    "textVerify": "Verificar",
     "textWords": "Palavras",
     "textYes": "Sim",
     "txtDownloadTxt": "Descarregar TXT",
@@ -722,8 +725,6 @@
     "txtScheme8": "Fluxo",
     "txtScheme9": "Fundição",
     "textTypeEditing": "Type Of Editing",
-    "textUnprotect": "Unprotect",
-    "textVerify": "Verify",
     "titleDialogUnprotect": "Unprotect Document"
   },
   "Toolbar": {

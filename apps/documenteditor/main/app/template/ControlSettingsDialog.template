@@ -20,7 +20,12 @@
                 </td>
             </tr>
             <tr>
-                <td class="padding-large">
+                <td class="padding-small">
+                    <div id="control-settings-chb-temp"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
                     <div class="separator horizontal"></div>
                 </td>
             </tr>
@@ -33,7 +38,7 @@
             </tr>
             <tr>
                 <td class="padding-small">
-                    <label class="input-label" style="margin-right: 10px;"><%= scope.textShowAs %></label>
+                    <label class="input-label margin-right-10"><%= scope.textShowAs %></label>
                 </td>
                 <td class="padding-small">
                     <div id="control-settings-combo-show" class="input-group-nr" style="display: inline-block; width:120px;"></div>
@@ -41,14 +46,14 @@
             </tr>
             <tr>
                 <td class="padding-small">
-                    <label class="input-label" style="margin-right: 10px;"><%= scope.textColor %></label>
+                    <label class="input-label margin-right-10"><%= scope.textColor %></label>
                 </td>
                 <td class="padding-small">
                     <div id="control-settings-color-btn" style="display: inline-block;"></div>
                 </td>
             </tr>
             <tr>
-                <td class="padding-large" colspan="2">
+                <td class="" colspan="2">
                     <button type="button" class="btn btn-text-default auto" id="control-settings-btn-all" style="min-width: 98px;"><%= scope.textApplyAll %></button>
                 </td>
             </tr>
@@ -83,7 +88,7 @@
             </tr>
             <tr style="vertical-align: top;">
                 <td class="padding-small">
-                    <div id="control-settings-list" style="width:200px; height: 214px;margin-right: 10px;"></div>
+                    <div id="control-settings-list" class="margin-right-10" style="width:200px; height: 214px;"></div>
                 </td>
                 <td class="padding-small">
                     <button type="button" class="btn btn-text-default" id="control-settings-btn-add" style="min-width: 86px;margin-bottom: 5px;"><%= scope.textAdd %></button>
@@ -132,7 +137,7 @@
         <table cols="2" style="width: auto;">
             <tr>
                 <td class="padding-small">
-                    <label class="input-label" style="margin-right: 10px;"><%= scope.textChecked %></label>
+                    <label class="input-label margin-right-10"><%= scope.textChecked %></label>
                 </td>
                 <td class="padding-small">
                     <button type="button" class="btn btn-text-default" id="control-settings-btn-checked-edit" style="width:53px"></button>
@@ -140,7 +145,7 @@
             </tr>
             <tr>
                 <td class="padding-small">
-                    <label class="input-label" style="margin-right: 10px;"><%= scope.textUnchecked %></label>
+                    <label class="input-label margin-right-10"><%= scope.textUnchecked %></label>
                 </td>
                 <td class="padding-small">
                     <button type="button" class="btn btn-text-default" id="control-settings-btn-unchecked-edit" style="width:53px"></button>
@@ -189,7 +194,7 @@
         <table cols="2" style="width: auto;">
             <tr>
                 <td class="padding-small" colspan="2">
-                    <div id="control-settings-chb-max-chars" style="display: inline-block;margin-right: 10px;"></div>
+                    <div id="control-settings-chb-max-chars" class="margin-right-10" style="display: inline-block;"></div>
                     <div id="control-settings-spin-max-chars" style="display: inline-block;"></div>
                 </td>
             </tr>
@@ -200,7 +205,7 @@
             </tr>
             <tr>
                 <td class="padding-small">
-                    <label class="input-label" style="margin-right: 10px;"><%= scope.textPlaceholderSymbol %></label>
+                    <label class="input-label margin-right-10"><%= scope.textPlaceholderSymbol %></label>
                 </td>
                 <td class="padding-small">
                     <button type="button" class="btn btn-text-default" id="control-settings-btn-placeholder-edit" style="width:53px"></button>
@@ -208,8 +213,8 @@
             </tr>
             <tr>
                 <td class="padding-small" colspan="2">
-                    <label class="input-label" style="margin-right: 10px;"><%= scope.textWidth %></label>
-                    <div id="control-settings-spin-width" style=""></div>
+                    <label class="input-label margin-right-10"><%= scope.textWidth %></label>
+                    <div id="control-settings-spin-width"></div>
                 </td>
             </tr>
         </table>

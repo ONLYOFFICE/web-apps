@@ -266,7 +266,7 @@ define([
                     restoreHeight: 535,
                     groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                     store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>'),
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>'),
                     delayRenderTips: true,
                     delaySelect: Common.Utils.isSafari
                 });
@@ -319,7 +319,7 @@ define([
             this.btnRatio = new Common.UI.Button({
                 parentEl: $('#chart-button-ratio'),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon advanced-btn-ratio',
+                iconCls: 'toolbar__icon btn-advanced-ratio',
                 style: 'margin-bottom: 1px;',
                 enableToggle: true,
                 hint: this.textKeepRatio

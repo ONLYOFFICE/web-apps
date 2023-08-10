@@ -318,7 +318,7 @@ define([
 
                 this.lblDuration = new Common.UI.Label({
                     el: this.$el.find('#animation-duration'),
-                    iconCls: 'toolbar__icon animation-duration',
+                    iconCls: 'toolbar__icon btn-animation-duration',
                     caption: this.strDuration,
                     lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noAnimationDuration, _set.timingLock]
                 });
@@ -371,7 +371,7 @@ define([
 
                 this.lblDelay = new Common.UI.Label({
                     el: this.$el.find('#animation-delay'),
-                    iconCls: 'toolbar__icon animation-delay',
+                    iconCls: 'toolbar__icon btn-animation-delay',
                     caption: this.strDelay,
                     lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.timingLock]
                 });
@@ -395,7 +395,7 @@ define([
 
                 this.lblStart = new Common.UI.Label({
                     el: this.$el.find('#animation-label-start'),
-                    iconCls: 'toolbar__icon btn-preview-play',
+                    iconCls: 'toolbar__icon btn-play',
                     caption: this.strStart,
                     lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.timingLock]
                 });
@@ -435,7 +435,7 @@ define([
 
                 this.lblRepeat = new Common.UI.Label({
                     el: this.$el.find('#animation-repeat'),
-                    iconCls: 'toolbar__icon animation-repeat',
+                    iconCls: 'toolbar__icon btn-animation-repeat',
                     caption: this.strRepeat,
                     lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noAnimationRepeat, _set.timingLock]
                 });

@@ -70,6 +70,9 @@ define([
                 isUpdating: false,
                 linkStatus: {}
             };
+            this.externalSource = {
+                externalRef: undefined
+            };
         },
         onLaunch: function () {
         },
@@ -120,6 +123,9 @@ define([
                 this.api.asc_registerCallback('asc_onErrorUpdateExternalReference', _.bind(this.onErrorUpdateExternalReference, this));
                 this.api.asc_registerCallback('asc_onNeedUpdateExternalReference', _.bind(this.onNeedUpdateExternalReference, this));
                 Common.Gateway.on('setreferencedata', _.bind(this.setReferenceData, this));
+            }
+            if (this.toolbar.mode.canRequestReferenceSource) {
+                Common.Gateway.on('setreferencesource', _.bind(this.setReferenceSource, this));
             }
         },
 
@@ -507,6 +513,8 @@ define([
                 api: this.api,
                 isUpdating: this.externalData.isUpdating,
                 canRequestReferenceData: this.toolbar.mode.canRequestReferenceData || this.toolbar.mode.isOffline,
+                canRequestOpen: this.toolbar.mode.canRequestOpen || this.toolbar.mode.isOffline,
+                canRequestReferenceSource: this.toolbar.mode.canRequestReferenceSource || this.toolbar.mode.isOffline,
                 isOffline: this.toolbar.mode.isOffline,
                 handler: function(result) {
                     Common.NotificationCenter.trigger('edit:complete');
@@ -514,7 +522,13 @@ define([
             }));
             this.externalLinksDlg.on('close', function(win){
                 me.externalLinksDlg = null;
-            })
+            });
+            this.externalLinksDlg.on('change:source', function(win, externalRef){
+                me.externalSource = {
+                    externalRef: externalRef
+                };
+                Common.Gateway.requestReferenceSource();
+            });
             this.externalLinksDlg.show()
         },
 
@@ -605,6 +619,12 @@ define([
 
         onNeedUpdateExternalReference: function() {
             Common.NotificationCenter.trigger('showmessage', {msg: this.textAddExternalData});
+        },
+
+        setReferenceSource: function(data) { // gateway
+            if (this.toolbar.mode.isEdit && this.toolbar.editMode) {
+                this.api.asc_changeExternalReference(this.externalSource.externalRef, data);
+            }
         },
 
         onWorksheetLocked: function(index,locked) {

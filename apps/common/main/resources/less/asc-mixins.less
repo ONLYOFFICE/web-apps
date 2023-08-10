@@ -125,6 +125,16 @@
         --scaled-one-pixel: @one-px;
         --scaled-two-pixel: @two-px;
     }
+
+    .pixel-ratio__2_5 {
+        @ratio: 2.5;
+        @one-px: (1px / @ratio);
+        @two-px: (2px / @ratio);
+
+        --pixel-ratio-factor: @ratio;
+        --scaled-one-pixel: @one-px;
+        --scaled-two-pixel: @two-px;
+    }
 }
 
 .button-normal-icon(@icon-class, @index, @icon-size, @normal-h-offset: 0px) {
@@ -283,6 +293,107 @@
     }
 }
 
+.background-ximage-all-scale(@image, @w: auto, @h: auto, @repeat: no-repeat, @commonimage: true) {
+    .choose-image-path(@commonimage);
+    @imagepath: '@{path}/@{image}';
+
+    background-image: if(@icon-src-base64, data-uri(%("%s", '@{imagepath}')), ~"url(@{imagepath})");
+    background-repeat: @repeat;
+
+    @1d5ximage: replace(@imagepath, '\.png$', '@1.5x.png');
+    @1d75ximage: replace(@imagepath, '\.png$', '@1.75x.png');
+    @1d25ximage: replace(@imagepath, '\.png$', '@1.25x.png');
+    @2ximage: replace(@imagepath, '\.png$', '@2x.png');
+    @2d5ximage: replace(@imagepath, '\.png$', '@2.5x.png');
+    @3ximage: replace(@imagepath, '\.png$', '@3x.png');
+    @3d5ximage: replace(@imagepath, '\.png$', '@3.5x.png');
+    @4ximage: replace(@imagepath, '\.png$', '@4x.png');
+    @4d5ximage: replace(@imagepath, '\.png$', '@4.5x.png');
+    @5ximage: replace(@imagepath, '\.png$', '@5x.png');
+
+    @media only screen {
+        @media (-webkit-min-device-pixel-ratio: 1.25) and (-webkit-max-device-pixel-ratio: 1.49),
+        (min-resolution: 1.25dppx) and (max-resolution: 1.49dppx),
+        (min-resolution: 120dpi) and (max-resolution: 143dpi)
+        {
+            background-image: ~"url(@{1d25ximage})";
+            background-size: @w @h;
+        }
+
+        @media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.74),
+        (min-resolution: 1.5dppx) and (max-resolution: 1.74dppx),
+        (min-resolution: 144dpi) and (max-resolution: 167dpi)
+        {
+            background-image: ~"url(@{1d5ximage})";
+            background-size: @w @h;
+        }
+
+        @media (-webkit-min-device-pixel-ratio: 1.75) and (-webkit-max-device-pixel-ratio: 1.9),
+        (min-resolution: 1.75dppx) and (max-resolution: 1.9dppx),
+        (min-resolution: 168dpi) and (max-resolution: 191dpi)
+        {
+            background-image: ~"url(@{1d75ximage})";
+            background-size: @w @h;
+        }
+
+        @media (-webkit-min-device-pixel-ratio: 2) and (-webkit-max-device-pixel-ratio: 2.49),
+        (min-resolution: 2dppx) and (max-resolution: 2.49dppx),
+        (min-resolution: 192dpi) and (max-resolution: 239dpi)
+        {
+            background-image: ~"url(@{2ximage})";
+            background-size: @w @h;
+        }
+
+        @media (-webkit-min-device-pixel-ratio: 2.5) and (-webkit-max-device-pixel-ratio: 2.9),
+        (min-resolution: 2.5dppx) and (max-resolution: 2.9dppx),
+        (min-resolution: 240dpi) and (max-resolution: 287dpi)
+        {
+            background-image: ~"url(@{2d5ximage})";
+            background-size: @w @h;
+        }
+
+        @media (-webkit-min-device-pixel-ratio: 3) and (-webkit-max-device-pixel-ratio: 3.49),
+        (min-resolution: 3dppx) and (max-resolution: 3.49dppx),
+        (min-resolution: 288dpi) and (max-resolution: 335dpi)
+        {
+            background-image: ~"url(@{3ximage})";
+            background-size: @w @h;
+        }
+
+        @media (-webkit-min-device-pixel-ratio: 3.5) and (-webkit-max-device-pixel-ratio: 3.9),
+        (min-resolution: 3.5dppx) and (max-resolution: 3.9dppx),
+        (min-resolution: 336dpi) and (max-resolution: 383dpi)
+        {
+            background-image: ~"url(@{3d5ximage})";
+            background-size: @w @h;
+        }
+
+        @media (-webkit-min-device-pixel-ratio: 4) and (-webkit-max-device-pixel-ratio: 4.49),
+        (min-resolution: 4dppx) and (max-resolution: 4.49dppx),
+        (min-resolution: 384dpi) and (max-resolution: 431dpi)
+        {
+            background-image: ~"url(@{4ximage})";
+            background-size: @w @h;
+        }
+
+        @media (-webkit-min-device-pixel-ratio: 4.5) and (-webkit-max-device-pixel-ratio: 4.9),
+        (min-resolution: 4.5dppx) and (max-resolution: 4.9dppx),
+        (min-resolution: 432dpi) and (max-resolution: 479dpi)
+        {
+            background-image: ~"url(@{4d5ximage})";
+            background-size: @w @h;
+        }
+
+        @media (-webkit-min-device-pixel-ratio: 5),
+        (min-resolution: 5dppx),
+        (min-resolution: 480dpi)
+        {
+            background-image: ~"url(@{5ximage})";
+            background-size: @w @h;
+        }
+    }
+}
+
 .img-commonctrl {
     &.img-colored {
         filter: none;
@@ -302,6 +413,7 @@
     @1d5ximage: replace(@common-controls, '\.png$', '@1.5x.png');
     @1d75ximage: replace(@common-controls, '\.png$', '@1.75x.png');
     @2ximage: replace(@common-controls, '\.png$', '@2x.png');
+    //@2d5ximage: replace(@common-controls, '\.png$', '@2.5x.png');
 
     @media only screen {
         @media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
@@ -328,6 +440,11 @@
 
     .pixel-ratio__1_75 & {
         background-image: ~"url(@{common-image-const-path}/@{1d75ximage})";
+        background-size: @common-controls-width auto;
+    }
+
+    .pixel-ratio__2_5 & {
+        background-image: ~"url(@{common-image-const-path}/@{2ximage})";
         background-size: @common-controls-width auto;
     }
 }
@@ -392,6 +509,310 @@
             background-size:  @img-flags-width auto;
         }
     }
+}
+
+.float-right {
+    float: right;
+    .rtl & {
+        float: left;
+    }
+}
+
+.float-left {
+    float: left;
+    .rtl & {
+        float: right;
+    }
+}
+
+.text-align-left {
+    text-align: left;
+    .rtl & {
+        text-align: right;
+    }
+}
+
+.text-align-right {
+    text-align: right;
+    .rtl & {
+        text-align: left;
+    }
+}
+
+.margins-h-var {
+    margin-right: var(--mrgR) !important;
+    margin-left: var(--mrgL) !important;
+
+    .rtl & {
+        margin-right: var(--mrgL) !important;
+        margin-left: var(--mrgR) !important;
+    }
+}
+
+.margin-right-var {
+    --mrgL: 0;
+    .margins-h-var()
+}
+
+.margin-left-var {
+    --mrgR: 0;
+    .margins-h-var()
+}
+
+.margin-x(@left, @right) {
+    margin-left: @left;
+    margin-right: @right;
+
+    .rtl & {
+        margin-left: @right;
+        margin-right: @left;
+    }
+}
+
+.margin-right(@value) {
+    margin-right: @value;
+    margin-left: 0;
+
+    .rtl & {
+        margin-right: 0;
+        margin-left: @value;
+    }
+}
+
+.margin-right-2 {
+    .margin-right(2px);
+}
+.margin-right-3 {
+    .margin-right(3px);
+}
+
+.margin-right-4 {
+    .margin-right(4px);
+}
+
+.margin-right-5 {
+    .margin-right(5px);
+}
+
+.margin-right-6 {
+    .margin-right(6px);
+}
+
+.margin-right-7 {
+    .margin-right(7px);
+}
+
+.margin-right-8 {
+    .margin-right(8px);
+}
+
+.margin-right-9 {
+    .margin-right(9px);
+}
+
+.margin-right-10 {
+    .margin-right(10px);
+}
+
+.margin-right-15 {
+    .margin-right(15px);
+}
+
+.margin-right-20 {
+    .margin-right(20px);
+}
+
+
+.margin-left(@value) {
+    margin-left: @value;
+    margin-right: 0;
+
+    .rtl & {
+        margin-left: 0;
+        margin-right: @value;
+    }
+}
+
+.margin-left-2 {
+    .margin-left(2px);
+}
+
+.margin-left-3 {
+    .margin-left(3px);
+}
+
+.margin-left-4 {
+    .margin-left(4px);
+}
+
+.margin-left-5 {
+    .margin-left(5px);
+}
+
+.margin-left-6 {
+    .margin-left(6px);
+}
+
+.margin-left-7 {
+    .margin-left(7px);
+}
+
+.margin-left-8 {
+    .margin-left(8px);
+}
+
+.margin-left-9 {
+    .margin-left(9px);
+}
+
+.margin-left-10 {
+    .margin-left(10px);
+}
+
+.margin-left-12 {
+    .margin-left(12px);
+}
+
+.margin-left-15 {
+    .margin-left(15px);
+}
+
+.margin-left-16 {
+    .margin-left(16px);
+}
+
+.margin-left-18 {
+    .margin-left(18px);
+}
+
+.margin-left-20 {
+    .margin-left(20px);
+}
+
+.margin-left-22 {
+    .margin-left(22px);
+}
+
+.padding-x(@left, @right) {
+    padding-left: @left;
+    padding-right: @right;
+
+    .rtl & {
+        padding-left: @right;
+        padding-right: @left;
+    }
+}
+
+.padding-left(@value) {
+    padding-left: @value;
+    padding-right: 0;
+
+    .rtl & {
+        padding-left: 0;
+        padding-right: @value;
+    }
+}
+
+.padding-left-4 {
+    .padding-left(4px);
+}
+
+.padding-left-5 {
+    .padding-left(5px);
+}
+
+.padding-left-6 {
+    .padding-left(6px);
+}
+
+.padding-left-8 {
+    .padding-left(8px);
+}
+
+.padding-left-10 {
+    .padding-left(10px);
+}
+
+.padding-left-12 {
+    .padding-left(12px);
+}
+
+.padding-left-15 {
+    .padding-left(15px);
+}
+
+.padding-left-20 {
+    .padding-left(20px);
+}
+
+.padding-left-22 {
+    .padding-left(22px);
+}
+
+.padding-left-28 {
+    .padding-left(28px);
+}
+
+.padding-left-32 {
+    .padding-left(32px);
+}
+
+.padding-left-40 {
+    .padding-left(40px);
+}
+
+.padding-left-50 {
+    .padding-left(50px);
+}
+
+.padding-right(@value) {
+    padding-right: @value;
+    padding-left: 0;
+
+    .rtl & {
+        padding-right: 0;
+        padding-left: @value;
+    }
+}
+
+.padding-right-1 {
+    .padding-right(1px);
+}
+
+.padding-right-4 {
+    .padding-right(4px);
+}
+
+.padding-right-5 {
+    .padding-right(5px);
+}
+
+.padding-right-6 {
+    .padding-right(6px);
+}
+
+.padding-right-8 {
+    .padding-right(8px);
+}
+
+.padding-right-10 {
+    .padding-right(10px);
+}
+
+.padding-right-12 {
+    .padding-right(12px);
+}
+
+.padding-right-15 {
+    .padding-right(15px);
+}
+
+.padding-right-20 {
+    .padding-right(20px);
+}
+
+.padding-right-40 {
+    .padding-right(40px);
 }
 
 //.adaptive-solid-border(@width, @color, @borderside: all) {

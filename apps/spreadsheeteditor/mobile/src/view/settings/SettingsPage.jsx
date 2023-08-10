@@ -71,6 +71,15 @@ const SettingsPage = inject('storeAppOptions')(observer(props => {
                 <ListItem title={_t.textApplicationSettings} link="/application-settings/">
                     <Icon slot="media" icon="icon-app-settings"></Icon>
                 </ListItem>
+                {_isEdit && 
+                    <ListItem title={t('Settings.textVersionHistory')} link="/version-history" onClick={() => {
+                        if(Device.phone) {
+                            onOpenOptions('history');
+                        }
+                    }}>
+                        <Icon slot="media" icon="icon-version-history"></Icon>
+                    </ListItem>
+                }
                 {_canDownload &&
                     <ListItem title={_t.textDownload} link="/download/">
                         <Icon slot="media" icon="icon-download"></Icon>

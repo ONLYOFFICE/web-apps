@@ -6,7 +6,7 @@ body.theme-type-light {
     --background-navbar-ios: #ffffff;
     --background-navbar-word: #446995;
     --background-navbar-cell: #40865c;
-    --background-navbar-slide: #aa5252;
+    --background-navbar-slide: #BE664F;
 }
 
 body.theme-type-dark {
@@ -57,7 +57,7 @@ body.theme-type-dark {
 }
 
 .skl-navbar.skl-navbar--slide.skl-navbar--md {
-    background-color: var(--background-navbar-slide, #aa5252);
+    background-color: var(--background-navbar-slide, #BE664F);
 }
 
 .skl-navbar::before {
@@ -150,13 +150,13 @@ body.theme-type-dark {
 }
 
 .md .cell-editor {
-    --f7-navbar-bg-color: var(--background-navbar-word, #40865c);
-    --f7-subnavbar-bg-color: var(--background-navbar-word, #40865c);
+    --f7-navbar-bg-color: var(--background-navbar-cell, #40865c);
+    --f7-subnavbar-bg-color: var(--background-navbar-cell, #40865c);
     --f7-subnavbar-height: 56px;
 }
 
 .md .slide-editor {
-    --f7-navbar-bg-color: var(--background-navbar-word, #aa5252);
-    --f7-subnavbar-bg-color: var(--background-navbar-word, #aa5252);
+    --f7-navbar-bg-color: var(--background-navbar-slide, #BE664F);
+    --f7-subnavbar-bg-color: var(--background-navbar-slide, #BE664F);
     --f7-subnavbar-height: 56px;
 }

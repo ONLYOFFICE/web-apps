@@ -174,6 +174,20 @@
       "textCustomColors": "Custom Colors",
       "textStandartColors": "Standard Colors",
       "textThemeColors": "Theme Colors"
+    },
+    "VersionHistory": {
+      "textVersionHistory": "Version History",
+      "textAnonymous": "Anonymous",
+      "txtErrorLoadHistory": "Loading history failed",
+      "textVersion": "Version",
+      "textCurrent": "Current",
+      "textRestore": "Restore",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "textBack": "Back",
+      "notcriticalErrorTitle": "Warning",
+      "textOk": "Ok",
+      "textCancel": "Cancel"
     }
   },
   "ContextMenu": {
@@ -554,7 +568,7 @@
     "textHasMacros": "The file contains automatic macros.<br>Do you want to run macros?",
     "textNo": "No",
     "textNoLicenseTitle": "License limit reached",
-    "textNoTextFound": "Text not found",
+    "textNoMatches": "No Matches",
     "textOk": "Ok",
     "textPaidFeature": "Paid feature",
     "textRemember": "Remember my choice",
@@ -568,6 +582,7 @@
     "titleServerVersion": "Editor updated",
     "titleUpdateVersion": "Version changed",
     "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
+    "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
     "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
     "warnLicenseExceeded": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact your administrator to learn more.",
     "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page.",
@@ -650,7 +665,7 @@
     "textNo": "No",
     "textNoChanges": "No changes (Read only)",
     "textNoCharacters": "Nonprinting Characters",
-    "textNoTextFound": "Text not found",
+    "textNoMatches": "No Matches",
     "textOk": "Ok",
     "textOpenFile": "Enter a password to open the file",
     "textOrientation": "Orientation",
@@ -724,7 +739,8 @@
     "txtScheme6": "Concourse",
     "txtScheme7": "Equity",
     "txtScheme8": "Flow",
-    "txtScheme9": "Foundry"
+    "txtScheme9": "Foundry",
+    "textVersionHistory": "Version History"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
@@ -735,6 +751,7 @@
     "textSwitchedMobileView": "Switched to Mobile view",
     "textSwitchedStandardView": "Switched to Standard view",
     "textRenameFile": "Rename File",
-    "textEnterNewFileName": "Enter a new file name"
+    "textEnterNewFileName": "Enter a new file name",
+    "textCloseHistory": "Close History"
   }
 }

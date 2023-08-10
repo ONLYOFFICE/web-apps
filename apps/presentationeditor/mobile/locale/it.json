@@ -112,7 +112,6 @@
       "textHasMacros": "Il file contiene delle macro automatiche.<br>Vuoi eseguirle?",
       "textNo": "No",
       "textNoLicenseTitle": "È stato raggiunto il limite della licenza",
-      "textNoTextFound": "Testo non trovato",
       "textOpenFile": "Inserisci la password per aprire il file",
       "textPaidFeature": "Funzionalità a pagamento",
       "textRemember": "Ricordare la mia scelta",
@@ -133,7 +132,9 @@
       "warnNoLicense": "Hai raggiunto il limite delle connessioni simultanee agli editor %1. Questo documento sarà aperto solo in modalità di visualizzazione.  Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
       "warnNoLicenseUsers": "Hai raggiunto il limite degli utenti per gli editor %1. Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
       "warnProcessRightsChange": "Non hai il permesso di modificare il file.",
+      "textNoMatches": "No Matches",
       "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
@@ -299,6 +300,7 @@
       "textBulletsAndNumbers": "Puntato e numerato",
       "textCaseSensitive": "Maiuscole/minuscole",
       "textCellMargins": "Margini di cella",
+      "textChangeShape": "Cambia forma",
       "textChart": "Grafico",
       "textClock": "Orologio",
       "textClockwise": "In senso orario",
@@ -358,7 +360,6 @@
       "textNextSlide": "Diapositiva successiva",
       "textNone": "Nessuno",
       "textNoStyles": "Nessuno stile per questo tipo di grafico.",
-      "textNoTextFound": "Testo non trovato",
       "textNotUrl": "Questo campo deve essere un URL nel formato \"http://www.example.com\"",
       "textNumbers": "Numeri",
       "textOk": "OK",
@@ -415,12 +416,16 @@
       "textZoomRotate": "Zoom e rotazione",
       "textArrange": "Arrange",
       "textCancel": "Cancel",
-      "textChangeShape": "Change Shape",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textInsertImage": "Insert Image",
+      "textNoMatches": "No Matches",
       "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "textRequired": "Required",
+      "textMorph": "Morph",
+      "textMorphObjects": "Objects",
+      "textMorphWords": "Words",
+      "textMorphLetters": "Letters"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
@@ -460,7 +465,6 @@
       "textLoading": "Caricamento...",
       "textLocation": "Posizione",
       "textMacrosSettings": "Impostazioni macro",
-      "textNoTextFound": "Testo non trovato",
       "textOk": "OK",
       "textOwner": "Proprietario",
       "textPoint": "Punto",
@@ -505,7 +509,8 @@
       "txtScheme6": "Concorso",
       "txtScheme7": "Equità",
       "txtScheme8": "Flusso",
-      "txtScheme9": "Fonderia"
+      "txtScheme9": "Fonderia",
+      "textNoMatches": "No Matches"
     }
   }
 }

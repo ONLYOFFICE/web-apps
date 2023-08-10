@@ -114,7 +114,7 @@ define([
                 this.btnOpenPanel = new Common.UI.Button({
                     parentEl: $('#search-bar-open-panel'),
                     cls: 'btn-toolbar',
-                    iconCls: 'toolbar__icon more-vertical',
+                    iconCls: 'toolbar__icon btn-more-vertical',
                     hint: this.tipOpenAdvancedSettings
                 });
                 this.btnOpenPanel.on('click', _.bind(this.onOpenPanel, this));

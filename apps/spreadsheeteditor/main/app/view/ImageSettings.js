@@ -155,7 +155,7 @@ define([
             this.btnRatio = new Common.UI.Button({
                 parentEl: $('#image-button-ratio'),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon advanced-btn-ratio',
+                iconCls: 'toolbar__icon btn-advanced-ratio',
                 style: 'margin-bottom: 1px;',
                 enableToggle: true,
                 hint: this.textKeepRatio,
@@ -392,7 +392,7 @@ define([
 
             var shapePicker = new Common.UI.DataViewShape({
                 el: $('#id-img-change-shape-menu'),
-                itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
+                itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon uni-scale\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                 groups: me.application.getCollection('ShapeGroups'),
                 parentMenu: me.btnChangeShape.menu,
                 restoreHeight: 652,

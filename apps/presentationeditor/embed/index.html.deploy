@@ -21,7 +21,7 @@
             overflow: hidden;
             border: none;
             background-color: #f4f4f4;
-            z-index: 10000;
+            z-index: 1000;
         }
 
         .loadmask > .brendpanel {
@@ -135,6 +135,10 @@
             0%   { opacity:1; }
             50%  { opacity:0.3; }
             100% { opacity:1; }
+        }
+
+        .loadmask.none-animation > .placeholder .slide-container {
+            animation: none;
         }
     </style>
 
@@ -261,7 +265,7 @@
                       <p id="id-critical-error-message"></p>
                   </div>
                   <div class="modal-footer">
-                      <button id="id-critical-error-close" class="btn btn-sm btn-primary" data-dismiss="modal" aria-hidden="true">Close</button>
+                      <button id="id-critical-error-close" class="btn btn-sm" data-dismiss="modal" aria-hidden="true">Close</button>
                   </div>
               </div>
           </div>

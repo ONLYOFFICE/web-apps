@@ -112,7 +112,7 @@
       "textHasMacros": "O arquivo contém macros automáticas.<br> Você quer executar macros?",
       "textNo": "Não",
       "textNoLicenseTitle": "Limite de licença atingido",
-      "textNoTextFound": "Texto não encontrado",
+      "textNoMatches": "Nenhuma correspondência",
       "textOpenFile": "Inserir a Senha para Abrir o Arquivo",
       "textPaidFeature": "Recurso pago",
       "textRemember": "Lembrar minha escolha",
@@ -126,6 +126,7 @@
       "titleUpdateVersion": "Versão alterada",
       "txtIncorrectPwd": "A senha está incorreta",
       "txtProtected": "Ao abrir o arquivo com sua senha, a senha atual será redefinida.",
+      "warnLicenseAnonymous": "Acesso negado para usuários anônimos.<br>Este documento será aberto apenas para visualização.",
       "warnLicenseBefore": "Licença inativa.<br>Entre em contato com seu administrador.",
       "warnLicenseExceeded": "Você atingiu o limite de conexões simultâneas para% 1 editores. Este documento será aberto apenas para visualização. Contate seu administrador para saber mais.",
       "warnLicenseExp": "Sua licença expirou. Por favor, atualize sua licença e atualize a página.",
@@ -250,6 +251,7 @@
       "textNextSlide": "Próximo slide",
       "textOk": "OK",
       "textOther": "Outro",
+      "textPasteImageUrl": "Cole um URL de imagem",
       "textPictureFromLibrary": "Imagem da biblioteca",
       "textPictureFromURL": "Imagem da URL",
       "textPreviousSlide": "Slide anterior",
@@ -263,8 +265,7 @@
       "textSlideNumber": "Número do slide",
       "textTable": "Tabela",
       "textTableSize": "Tamanho da tabela",
-      "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
-      "textPasteImageUrl": "Paste an image URL"
+      "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\""
     },
     "Edit": {
       "notcriticalErrorTitle": "Atenção",
@@ -362,9 +363,9 @@
       "textMoveBackward": "Mover para trás",
       "textMoveForward": "Mover para frente",
       "textNextSlide": "Próximo slide",
+      "textNoMatches": "Nenhuma correspondência",
       "textNone": "Nenhum",
       "textNoStyles": "Não há estilos para este tipo de gráfico.",
-      "textNoTextFound": "Texto não encontrado",
       "textNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
       "textNumbers": "Números",
       "textOk": "OK",
@@ -420,7 +421,11 @@
       "textZoom": "Zoom",
       "textZoomIn": "Ampliar",
       "textZoomOut": "Reduzir",
-      "textZoomRotate": "Zoom e Rotação"
+      "textZoomRotate": "Zoom e Rotação",
+      "textMorph": "Morph",
+      "textMorphObjects": "Objects",
+      "textMorphWords": "Words",
+      "textMorphLetters": "Letters"
     },
     "Settings": {
       "mniSlideStandard": "Padrão (4:3)",
@@ -460,7 +465,7 @@
       "textLoading": "Carregando...",
       "textLocation": "Localização",
       "textMacrosSettings": "Configurações de macros",
-      "textNoTextFound": "Texto não encontrado",
+      "textNoMatches": "Nenhuma correspondência",
       "textOk": "OK",
       "textOwner": "Proprietário",
       "textPoint": "Ponto",

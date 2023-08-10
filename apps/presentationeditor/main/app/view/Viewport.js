@@ -80,6 +80,8 @@ define([
                 $('body').addClass('chrome');
             }
 
+            el.on('scroll', function () { el.scrollTop(0); });
+
             var $container = $('#viewport-vbox-layout', el);
             var items = $container.find(' > .layout-item');
             this.vlayout = new Common.UI.VBoxLayout({

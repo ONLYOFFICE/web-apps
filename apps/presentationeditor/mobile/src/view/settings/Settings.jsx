@@ -10,6 +10,8 @@ import { PresentationColorSchemes } from "./PresentationSettings";
 import About from '../../../../../common/mobile/lib/view/About';
 import SettingsPage from './SettingsPage';
 import { MainContext } from '../../page/main';
+import SharingSettings from "../../../../../common/mobile/lib/view/SharingSettings";
+import VersionHistoryController from '../../../../../common/mobile/lib/controller/VersionHistory';
 
 const routes = [
     {
@@ -44,7 +46,17 @@ const routes = [
     {
         path: '/about/',
         component: About
-    }
+    },
+    // Version History 
+    {
+        path: '/version-history',
+        component: VersionHistoryController,
+        options: {
+            props: {
+                isNavigate: true
+            }
+        }
+    },
 ];
 
 routes.forEach(route => {

@@ -5,10 +5,12 @@ import { useTranslation } from 'react-i18next';
 import ToolbarView from "../view/Toolbar";
 import {LocalStorage} from "../../../../common/mobile/utils/LocalStorage.mjs";
 
-const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'storeFocusObjects', 'storeToolbarSettings','storeDocumentInfo')(observer(props => {
+const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'storeFocusObjects', 'storeToolbarSettings','storeDocumentInfo', 'storeVersionHistory')(observer(props => {
     const {t} = useTranslation();
     const _t = t("Toolbar", { returnObjects: true });
     const appOptions = props.storeAppOptions;
+    const storeVersionHistory = props.storeVersionHistory;
+    const isVersionHistoryMode = storeVersionHistory.isVersionHistoryMode;
     const isViewer = appOptions.isViewer;
     const isMobileView = appOptions.isMobileView;
     const isDisconnected = props.users.isDisconnected;
@@ -24,10 +26,9 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     const disabledEditControls = storeToolbarSettings.disabledEditControls;
     const disabledSettings = storeToolbarSettings.disabledSettings;
     const showEditDocument = !appOptions.isEdit && appOptions.canEdit && appOptions.canRequestEditRights;
-    const storeDocumentInfo = props.storeDocumentInfo;
-    const docExt = storeDocumentInfo.dataDoc ? storeDocumentInfo.dataDoc.fileType : '';
-    const docTitle = storeDocumentInfo.dataDoc ? storeDocumentInfo.dataDoc.title : '';
-    const isAvailableExt = docExt && docExt !== 'oform';
+    const docInfo = props.storeDocumentInfo;
+    const docExt = docInfo.dataDoc ? docInfo.dataDoc.fileType : '';
+    const docTitle = docInfo.dataDoc ? docInfo.dataDoc.title : '';
 
     useEffect(() => {
         Common.Gateway.on('init', loadConfig);
@@ -55,7 +56,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         const navbarHeight = navbarBgHeight + subnavbarHeight;
 
         const onEngineCreated = api => {
-            if(isAvailableExt && isViewer) {
+            if(isViewer) {
                 api.SetMobileTopOffset(navbarHeight, navbarHeight);
                 api.asc_registerCallback('onMobileScrollDelta', scrollHandler);
             }
@@ -70,14 +71,14 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         return () => {
             const api = Common.EditorApi.get();
 
-            if (api && isAvailableExt && isViewer) {
+            if (api && isViewer) {
                 api.SetMobileTopOffset(navbarHeight, navbarHeight);
                 api.asc_unregisterCallback('onMobileScrollDelta', scrollHandler);
             }
 
             Common.Notifications.off('engineCreated', onEngineCreated);
         }
-    }, [isAvailableExt, isViewer]);
+    }, [isViewer]);
 
     // Scroll handler
 
@@ -192,7 +193,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
 
         f7.popover.close('.document-menu.modal-in', false);
 
-        appOptions.changeViewerMode();
+        appOptions.changeViewerMode(true);
         api.asc_addRestriction(Asc.c_oAscRestrictionType.View);
     }
 
@@ -214,6 +215,10 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         docInfo.put_Title(title);
         storeDocumentInfo.setDocInfo(docInfo);
         api.asc_setDocInfo(docInfo);
+    }
+
+    const closeHistory = () => {
+        Common.Gateway.requestHistoryClose();
     }
 
     return (
@@ -242,6 +247,8 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
                      isMobileView={isMobileView}
                      changeMobileView={changeMobileView}
                      changeTitle={changeTitle}
+                     isVersionHistoryMode={isVersionHistoryMode}
+                     closeHistory={closeHistory}
         />
     )
 }));

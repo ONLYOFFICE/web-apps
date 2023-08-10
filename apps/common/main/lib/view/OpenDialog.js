@@ -99,7 +99,7 @@ define([
                         '<% if (warning) { %>',
                         '<div>',
                             '<div class="icon warn"></div>',
-                            '<div style="padding-left: 50px;"><div style="font-size: 12px;">' + (typeof _options.warningMsg=='string' ? _options.warningMsg : t.txtProtected) + '</div>',
+                            '<div class="padding-left-50"><div style="font-size: 12px;">' + (typeof _options.warningMsg=='string' ? _options.warningMsg : t.txtProtected) + '</div>',
                                 '<label class="header" style="margin-top: 15px;">' + t.txtPassword + '</label>',
                                 '<div id="id-password-txt" style="width: 290px;"></div></div>',
                         '</div>',
@@ -111,7 +111,7 @@ define([
                         '<% } %>',
                     '<% } else { %>',
                         '<% if (codepages && codepages.length>0) { %>',
-                        '<div style="<% if (!!preview && (type == Common.Utils.importTextType.CSV || type == Common.Utils.importTextType.Paste || type == Common.Utils.importTextType.Columns)) { %>width: 230px;margin-right: 10px;display: inline-block;<% } else { %>width: 100%;<% } %>margin-bottom:15px;">',
+                        '<div <% if (!!preview && (type == Common.Utils.importTextType.CSV || type == Common.Utils.importTextType.Paste || type == Common.Utils.importTextType.Columns)) { %> class="margin-right-10" style="width: 230px;display: inline-block;margin-bottom:15px;" <% } else { %> style="width: 100%;margin-bottom:15px;"<% } %> >',
                             '<label class="header">' + t.txtEncoding + '</label>',
                             '<div>',
                             '<div id="id-codepages-combo" class="input-group-nr" style="width: 100%; display: inline-block; vertical-align: middle;"></div>',
@@ -123,7 +123,7 @@ define([
                             '<label class="header">' + t.txtDelimiter + '</label>',
                             '<div>',
                                 '<div id="id-delimiters-combo" class="input-group-nr" style="max-width: 100px;display: inline-block; vertical-align: middle;"></div>',
-                                '<div id="id-delimiter-other" class="input-row" style="display: inline-block; vertical-align: middle;margin-left: 10px;"></div>',
+                                '<div id="id-delimiter-other" class="input-row margin-left-10" style="display: inline-block; vertical-align: middle;"></div>',
                             '</div>',
                         '</div>',
                         '<% } %>',
@@ -132,8 +132,8 @@ define([
                             '<label class="header">' + t.txtDelimiter + '</label>',
                             '<div>',
                                 '<div id="id-delimiters-combo" class="input-group-nr" style="max-width: 100px;display: inline-block; vertical-align: middle;"></div>',
-                                '<div id="id-delimiter-other" class="input-row" style="display: inline-block; vertical-align: middle;margin-left: 10px;"></div>',
-                                '<button type="button" class="btn auto btn-text-default" id="id-delimiters-advanced" style="min-width:100px; display: inline-block;float:right;">' + t.txtAdvanced + '</button>',
+                                '<div id="id-delimiter-other" class="input-row margin-left-10" style="display: inline-block; vertical-align: middle;"></div>',
+                                '<button type="button" class="btn auto btn-text-default float-right" id="id-delimiters-advanced" style="min-width:100px; display: inline-block;">' + t.txtAdvanced + '</button>',
                             '</div>',
                         '</div>',
                         '<% } %>',
@@ -161,10 +161,10 @@ define([
                 '<div class="footer center">',
                     '<button class="btn normal dlg-btn primary" result="ok">' + t.okButtonText + '</button>',
                     '<% if (closeFile) { %>',
-                    '<button class="btn normal dlg-btn custom" result="cancel" style="margin-left:10px;">' + t.closeButtonText + '</button>',
+                    '<button class="btn normal dlg-btn custom margin-left-10" result="cancel">' + t.closeButtonText + '</button>',
                     '<% } %>',
                     '<% if (closable) { %>',
-                    '<button class="btn normal dlg-btn custom" result="cancel" style="margin-left:10px;">' + t.cancelButtonText + '</button>',
+                    '<button class="btn normal dlg-btn custom margin-left-10" result="cancel">' + t.cancelButtonText + '</button>',
                     '<% } %>',
                 '</div>'
             ].join('');
@@ -205,7 +205,7 @@ define([
                         el: $('#id-password-txt'),
                         type: 'password',
                         showCls: (this.options.iconType==='svg' ? 'svg-icon' : 'toolbar__icon') + ' btn-sheet-view',
-                        hideCls: (this.options.iconType==='svg' ? 'svg-icon' : 'toolbar__icon') + ' hide-password',
+                        hideCls: (this.options.iconType==='svg' ? 'svg-icon hide-password' : 'toolbar__icon btn-hide-password'),
                         maxLength: this.options.maxPasswordLength,
                         validateOnBlur: false,
                         showPwdOnClick: true,
@@ -294,6 +294,10 @@ define([
                     if (!this.closable && this.type == Common.Utils.importTextType.TXT) { //save last encoding only for opening txt files
                         Common.localStorage.setItem("de-settings-open-encoding", encoding);
                     }
+                    if (this.type === Common.Utils.importTextType.CSV) { // only for csv files
+                        Common.localStorage.setItem("sse-settings-csv-delimiter", delimiter === null ? -1 : delimiter);
+                        Common.localStorage.setItem("sse-settings-csv-delimiter-char", delimiterChar || '');
+                    }
 
                     var decimal = this.separatorOptions ? this.separatorOptions.decimal : undefined,
                         thousands = this.separatorOptions ? this.separatorOptions.thousands : undefined,
@@ -345,7 +349,7 @@ define([
                         '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem">',
                         '<div style="display: inline-block;"><%= item.displayValue %></div>',
-                        '<label style="text-align: right;width:' + lcid_width + 'px;"><%= item.lcid %></label>',
+                        '<label class="text-align-right" style="width:' + lcid_width + 'px;"><%= item.lcid %></label>',
                         '</a></li>',
                         '<% }); %>'
                     ].join(''));
@@ -381,6 +385,19 @@ define([
             }
 
             if (this.type == Common.Utils.importTextType.CSV || this.type == Common.Utils.importTextType.Paste || this.type == Common.Utils.importTextType.Columns || this.type == Common.Utils.importTextType.Data) {
+                var delimiter = this.settings && this.settings.asc_getDelimiter() ? this.settings.asc_getDelimiter() : 4,
+                    delimiterChar = this.settings && this.settings.asc_getDelimiterChar() ? this.settings.asc_getDelimiterChar() : '';
+                if (this.type == Common.Utils.importTextType.CSV) { // only for csv files
+                    var value = Common.localStorage.getItem("sse-settings-csv-delimiter");
+                    if (value) {
+                        value = parseInt(value);
+                        if (!isNaN(value)) {
+                            delimiter = value;
+                            (delimiter===-1) && (delimiterChar = Common.localStorage.getItem("sse-settings-csv-delimiter-char") || '');
+                        }
+                    }
+                }
+
                 this.cmbDelimiter = new Common.UI.ComboBox({
                     el: $('#id-delimiters-combo', this.$window),
                     style: 'width: 100px;',
@@ -396,7 +413,7 @@ define([
                     editable: false,
                     takeFocusOnClose: true
                 });
-                this.cmbDelimiter.setValue( (this.settings && this.settings.asc_getDelimiter()) ? this.settings.asc_getDelimiter() : 4);
+                this.cmbDelimiter.setValue( delimiter);
                 this.cmbDelimiter.on('selected', _.bind(this.onCmbDelimiterSelect, this));
 
                 this.inputDelimiter = new Common.UI.InputField({
@@ -405,9 +422,9 @@ define([
                     maxLength: 1,
                     validateOnChange: true,
                     validateOnBlur: false,
-                    value: (this.settings && this.settings.asc_getDelimiterChar()) ? this.settings.asc_getDelimiterChar() : ''
+                    value: delimiterChar
                 });
-                this.inputDelimiter.setVisible(false);
+                this.inputDelimiter.setVisible(delimiter===-1);
                 if (this.preview)
                     this.inputDelimiter.on ('changing', _.bind(this.updatePreview, this));
 

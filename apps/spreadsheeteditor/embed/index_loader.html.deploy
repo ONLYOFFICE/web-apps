@@ -306,7 +306,7 @@
                       <p id="id-critical-error-message"></p>
                   </div>
                   <div class="modal-footer">
-                      <button id="id-critical-error-close" class="btn btn-sm btn-primary" data-dismiss="modal" aria-hidden="true">Close</button>
+                      <button id="id-critical-error-close" class="btn btn-sm" data-dismiss="modal" aria-hidden="true">Close</button>
                   </div>
               </div>
           </div>

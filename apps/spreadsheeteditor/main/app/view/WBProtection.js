@@ -48,7 +48,7 @@ define([
     SSE.Views.WBProtection = Common.UI.BaseView.extend(_.extend((function(){
         var template =
             '<div class="group">' +
-                '<span id="slot-btn-protect-wb" class="btn-slot text x-huge" style="margin-right: 2px;"></span>' +
+                '<span id="slot-btn-protect-wb" class="btn-slot text x-huge margin-right-2"></span>' +
                 '<span id="slot-btn-protect-sheet" class="btn-slot text x-huge"></span>' +
                 // '<span id="slot-btn-allow-ranges" class="btn-slot text x-huge"></span>' +
             '</div>' +
@@ -144,7 +144,7 @@ define([
 
                 this.btnAllowRanges = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon allow-edit-ranges',
+                    iconCls: 'toolbar__icon btn-allow-edit-ranges',
                     caption: this.txtAllowRanges,
                     lock        : [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
                     dataHint    : '1',

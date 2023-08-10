@@ -674,6 +674,28 @@ DE.ApplicationController = new(function(){
         me.loadMask && me.loadMask.setTitle(me.textLoadingDocument + ': ' + common.utils.fixedDigits(Math.min(Math.round(proc*100), 100), 3, "  ") + '%');
     }
 
+    function onAdvancedOptions(type, advOptions, mode, formatOptions) {
+        if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
+            var isCustomLoader = !!config.customization.loaderName || !!config.customization.loaderLogo;
+            var submitPassword = function(val) {
+                api && api.asc_setAdvancedOptions(Asc.c_oAscAdvancedOptionsID.DRM, new Asc.asc_CDRMAdvancedOptions(val)); 
+                me.loadMask && me.loadMask.show();
+                if(!isCustomLoader) {
+                    $('#loading-mask').addClass("end-animation");
+                    $('#loading-mask').removeClass("none-animation");
+                }
+            };
+            common.controller.modals.createDlgPassword(submitPassword);
+            if(isCustomLoader) {
+                hidePreloader();
+            } else {
+                $('#loading-mask').removeClass("end-animation");
+                $('#loading-mask').addClass("none-animation");
+            }
+            onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+        }
+    }
+
     function onError(id, level, errData) {
         if (id == Asc.c_oAscError.ID.LoadingScriptError) {
             $('#id-critical-error-title').text(me.criticalErrorTitle);
@@ -767,6 +789,9 @@ DE.ApplicationController = new(function(){
                 else
                     message = me.errorInconsistentExt;
                 break;
+
+            case Asc.c_oAscError.ID.SessionToken: // don't show error message
+                return;
 
             default:
                 message = me.errorDefaultMessage.replace('%1', id);
@@ -923,6 +948,7 @@ DE.ApplicationController = new(function(){
             api.asc_registerCallback('asc_onError',                 onError);
             api.asc_registerCallback('asc_onDocumentContentReady',  onDocumentContentReady);
             api.asc_registerCallback('asc_onOpenDocumentProgress',  onOpenDocument);
+            api.asc_registerCallback('asc_onAdvancedOptions',       onAdvancedOptions);
 
             api.asc_registerCallback('asc_onCountPages',            onCountPages);
 //            api.asc_registerCallback('OnCurrentVisiblePage',    onCurrentPage);

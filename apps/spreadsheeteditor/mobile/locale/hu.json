@@ -150,7 +150,6 @@
       "textNo": "Nem",
       "textNoChoices": "Nincs lehetőség a cellának kitöltésére.<br>Csak az oszlopból származó szövegértékek választhatók ki cserére.",
       "textNoLicenseTitle": "Elérte a licenckorlátot",
-      "textNoTextFound": "A szöveg nem található",
       "textOk": "OK",
       "textPaidFeature": "Fizetett funkció",
       "textRemember": "Választás megjegyzése",
@@ -171,8 +170,10 @@
       "warnNoLicenseUsers": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználói korlátját. Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes frissítési feltételekért.",
       "warnProcessRightsChange": "Nincs engedélye a fájl szerkesztésére.",
       "textDontUpdate": "Don't Update",
+      "textNoMatches": "No Matches",
       "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
       "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
@@ -254,6 +255,7 @@
     "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorProtectedRange": "This range is not allowed for editing.",
     "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
     "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
     "textCancel": "Cancel",
@@ -655,7 +657,6 @@
       "textMargins": "Margók",
       "textMatchCase": "Kis-nagybetű összeegyeztetése",
       "textMatchCell": "Cella összeegyeztetése",
-      "textNoTextFound": "A szöveg nem található",
       "textOk": "OK",
       "textOpenFile": "Írja be a megnyitáshoz szükséges jelszót",
       "textOrientation": "Tájolás",
@@ -757,6 +758,7 @@
       "txtZh": "Kínai",
       "warnDownloadAs": "Ha ebbe a formátumba ment, a nyers szövegen kívül minden elveszik.<br>Biztos benne, hogy folytatni akarja?",
       "strFuncLocale": "Formula Language",
+      "textNoMatches": "No Matches",
       "txtDe": "Deutsch"
     }
   }

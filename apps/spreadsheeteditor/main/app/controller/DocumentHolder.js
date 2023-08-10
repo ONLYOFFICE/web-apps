@@ -112,7 +112,8 @@ define([
                 },
                 eyedropper: {
                     isHidden: true
-                }
+                },
+                placeholder: {}
             };
             me.mouse = {};
             me.popupmenu = false;
@@ -229,6 +230,7 @@ define([
                 view.mnuSubtotalField.on('click',                   _.bind(me.onSubtotalField, me));
                 view.mnuSummarize.menu.on('item:click',             _.bind(me.onSummarize, me));
                 view.mnuShowAs.menu.on('item:click',                _.bind(me.onShowAs, me));
+                view.mnuShowDetails.on('click',                     _.bind(me.onShowDetails, me));
                 view.mnuPivotSort.menu.on('item:click',             _.bind(me.onPivotSort, me));
                 view.mnuPivotFilter.menu.on('item:click',           _.bind(me.onPivotFilter, me));
                 view.pmiClear.menu.on('item:click',                 _.bind(me.onClear, me));
@@ -337,6 +339,10 @@ define([
                                     documentHolderEl.focus();
                             }
                         }
+                    },
+                    touchstart: function(e){
+                        if (e.target.localName == 'canvas')
+                            Common.UI.Menu.Manager.hideAll();
                     }
                 });
 
@@ -400,6 +406,7 @@ define([
                 this.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(this.onShowMathTrack, this));
                 this.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(this.onHideMathTrack, this));
                 this.api.asc_registerCallback('asc_onHideEyedropper',           _.bind(this.hideEyedropperTip, this));
+                this.api.asc_SetMathInputType(Common.localStorage.getBool("sse-equation-input-latex") ? Asc.c_oAscMathInputType.LaTeX : Asc.c_oAscMathInputType.Unicode);
             }
             this.api.asc_registerCallback('asc_onShowForeignCursorLabel',       _.bind(this.onShowForeignCursorLabel, this));
             this.api.asc_registerCallback('asc_onHideForeignCursorLabel',       _.bind(this.onHideForeignCursorLabel, this));
@@ -724,6 +731,7 @@ define([
             else if (item.value!==undefined && item.value!==null) {
                 var field = new Asc.CT_DataField();
                 field.asc_setSubtotal(item.value);
+                this.propsPivot.fieldSourceName && field.asc_setName(this.txtByField.replace('%1', item.caption).replace('%2',  this.propsPivot.fieldSourceName));
                 this.propsPivot.field.asc_set(this.api, this.propsPivot.originalProps, this.propsPivot.index, field);
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
             }
@@ -739,6 +747,13 @@ define([
             } else if (item.value!==undefined && item.value!==null) {
                 var field = new Asc.CT_DataField();
                 field.asc_setShowDataAs(item.value);
+
+                var info = new Asc.asc_CFormatCellsInfo();
+                info.asc_setType(item.options.numFormat);
+                info.asc_setDecimalPlaces(item.options.numFormat===Asc.c_oAscNumFormatType.Percent ? 2 : 0);
+                info.asc_setSeparator(false);
+                field.asc_setNumFormat(this.api.asc_getFormatCells(info)[0]);
+
                 this.propsPivot.field.asc_set(this.api, this.propsPivot.originalProps, this.propsPivot.index, field);
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
             }
@@ -823,6 +838,10 @@ define([
             }
         },
 
+        onShowDetails: function(item, e) {
+            this.propsPivot.originalProps && this.api && this.api.asc_pivotShowDetails(this.propsPivot.originalProps);
+        },
+
         fillPivotProps: function() {
             var props = this.propsPivot.originalProps;
             if (!props) return;
@@ -839,6 +858,7 @@ define([
             this.propsPivot.filter = info.asc_getFilter();
             this.propsPivot.rowFilter = info.asc_getFilterRow();
             this.propsPivot.colFilter = info.asc_getFilterCol();
+            this.propsPivot.showDetails = info.asc_showDetails();
 
             if (colFieldIndex>-1) {
                 var fprops = props.asc_getColumnFields();
@@ -887,6 +907,7 @@ define([
                         this.propsPivot.field = fprops[dataFieldIndex];
                         this.propsPivot.fieldType = 2;
                         this.propsPivot.fieldName = this.propsPivot.field.asc_getName();
+                        this.propsPivot.fieldSourceName = props.asc_getCacheFields()[pivotIndex].asc_getName();
                     }
                 }
             }
@@ -1520,13 +1541,22 @@ define([
         },
 
         hideEyedropperTip: function () {
-            if (!this.tooltips.eyedropper.isHidden) {
+            if (!this.tooltips.eyedropper.isHidden && this.tooltips.eyedropper.color) {
                 this.tooltips.eyedropper.color.css({left: '-1000px', top: '-1000px'});
                 if (this.tooltips.eyedropper.ref) {
                     this.tooltips.eyedropper.ref.hide();
                     this.tooltips.eyedropper.ref = undefined;
                 }
                 this.tooltips.eyedropper.isHidden = true;
+            }
+        },
+
+        hidePlaceholderTip: function() {
+            if (!this.tooltips.placeholder.isHidden && this.tooltips.placeholder.ref) {
+                this.tooltips.placeholder.ref.hide();
+                this.tooltips.placeholder.ref = undefined;
+                this.tooltips.placeholder.text = '';
+                this.tooltips.placeholder.isHidden = true;
             }
         },
 
@@ -1541,7 +1571,8 @@ define([
                         index_filter,
                         index_slicer,
                         index_foreign,
-                        index_eyedropper;
+                        index_eyedropper,
+                        index_placeholder;
                 for (var i = dataarray.length; i > 0; i--) {
                     switch (dataarray[i-1].asc_getType()) {
                         case Asc.c_oAscMouseMoveType.Hyperlink:
@@ -1573,6 +1604,9 @@ define([
                         case Asc.c_oAscMouseMoveType.Eyedropper:
                             index_eyedropper = i;
                             break;
+                        case Asc.c_oAscMouseMoveType.Placeholder:
+                            index_placeholder = i;
+                            break;
                     }
                 }
 
@@ -1588,6 +1622,7 @@ define([
                     slicerTip       = me.tooltips.slicer,
                     foreignSelect   = me.tooltips.foreignSelect,
                     eyedropperTip   = me.tooltips.eyedropper,
+                    placeholderTip   = me.tooltips.placeholder,
                     pos             = [
                         me.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
                         me.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
@@ -1635,6 +1670,9 @@ define([
                             slicerTip.text = '';
                             slicerTip.isHidden = true;
                         }
+                    }
+                    if (!index_placeholder) {
+                        me.hidePlaceholderTip();
                     }
                 }
                 if (index_filter===undefined || (me.dlgFilter && me.dlgFilter.isVisible()) || (me.currentMenu && me.currentMenu.isVisible())) {
@@ -1830,6 +1868,59 @@ define([
                             }
                         }
                     }
+
+                    if (index_placeholder) {
+                        if (!placeholderTip.parentEl) {
+                            placeholderTip.parentEl = $('<div id="tip-container-placeholdertip" style="position: absolute; z-index: 10000;"></div>');
+                            me.documentHolder.cmpEl.append(placeholderTip.parentEl);
+                        }
+
+                        var data  = dataarray[index_placeholder-1],
+                            phstr;
+
+                        switch (data.asc_getPlaceholderType()) {
+                            case AscCommon.PlaceholderButtonType.Image:
+                                phstr = me.documentHolder.txtInsImage;
+                                break;
+                            case AscCommon.PlaceholderButtonType.ImageUrl:
+                                phstr = me.documentHolder.txtInsImageUrl;
+                                break;
+                        }
+
+                        if (placeholderTip.ref && placeholderTip.ref.isVisible()) {
+                            if (placeholderTip.text != phstr) {
+                                placeholderTip.ref.hide();
+                                placeholderTip.ref = undefined;
+                                placeholderTip.text = '';
+                                placeholderTip.isHidden = true;
+                            }
+                        }
+
+                        if (!placeholderTip.ref || !placeholderTip.ref.isVisible()) {
+                            placeholderTip.text = phstr;
+                            placeholderTip.ref = new Common.UI.Tooltip({
+                                owner   : placeholderTip.parentEl,
+                                html    : true,
+                                title   : phstr
+                            });
+
+                            placeholderTip.ref.show([-10000, -10000]);
+                            placeholderTip.isHidden = false;
+
+                            showPoint = [data.asc_getX(), data.asc_getY()];
+                            showPoint[0] += (pos[0] + 6);
+                            showPoint[1] += (pos[1] - 20);
+                            showPoint[1] -= placeholderTip.ref.getBSTip().$tip.height();
+                            var tipwidth = placeholderTip.ref.getBSTip().$tip.width();
+                            if (showPoint[0] + tipwidth > me.tooltips.coauth.bodyWidth )
+                                showPoint[0] = me.tooltips.coauth.bodyWidth - tipwidth;
+
+                            placeholderTip.ref.getBSTip().$tip.css({
+                                top : showPoint[1] + 'px',
+                                left: showPoint[0] + 'px'
+                            });
+                        }
+                    }
                 }
                 if (index_foreign && me.isUserVisible(dataarray[index_foreign-1].asc_getUserId())) {
                     data = dataarray[index_foreign-1];
@@ -1998,7 +2089,7 @@ define([
                                     me.documentHolder.cmpEl.append(eyedropperTip.parentEl);
                                 }
 
-                                var title = '<div>RGB(' + r + ',' + g + ',' + b + ')</div>' +
+                                var title = '<div>RGB (' + r + ',' + g + ',' + b + ')</div>' +
                                     '<div>' + name + '</div>';
                                 if (!eyedropperTip.ref) {
                                     eyedropperTip.ref = new Common.UI.Tooltip({
@@ -2565,13 +2656,13 @@ define([
                         cls = '';
                         switch (direct) {
                             case Asc.c_oAscVertDrawingText.normal:
-                                cls = 'menu__icon text-orient-hor';
+                                cls = 'menu__icon btn-text-orient-hor';
                                 break;
                             case Asc.c_oAscVertDrawingText.vert:
-                                cls = 'menu__icon text-orient-rdown';
+                                cls = 'menu__icon btn-text-orient-rdown';
                                 break;
                             case Asc.c_oAscVertDrawingText.vert270:
-                                cls = 'menu__icon text-orient-rup';
+                                cls = 'menu__icon btn-text-orient-rup';
                                 break;
                         }
                         documentHolder.menuParagraphDirection.setIconCls(cls);
@@ -2727,21 +2818,23 @@ define([
                 needshow && this.fillPivotProps();
                 documentHolder.mnuRefreshPivot.setVisible(needshow);
                 documentHolder.mnuPivotRefreshSeparator.setVisible(needshow);
-                documentHolder.mnuSubtotalField.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===0 || this.propsPivot.fieldType===1));
-                documentHolder.mnuPivotSubtotalSeparator.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===0 || this.propsPivot.fieldType===1));
-                documentHolder.mnuGroupPivot.setVisible(needshow);
-                documentHolder.mnuUnGroupPivot.setVisible(needshow);
-                documentHolder.mnuDeleteField.setVisible(!!this.propsPivot.field);
-                documentHolder.mnuPivotDeleteSeparator.setVisible(!!this.propsPivot.field);
-                documentHolder.mnuPivotSettingsSeparator.setVisible(needshow);
-                documentHolder.mnuPivotSettings.setVisible(needshow);
-                documentHolder.mnuFieldSettings.setVisible(!!this.propsPivot.field);
-                documentHolder.mnuSummarize.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2));
-                documentHolder.mnuShowAs.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2) && !this.propsPivot.rowTotal && !this.propsPivot.colTotal);
-                documentHolder.mnuPivotValueSeparator.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2));
                 documentHolder.mnuPivotSort.setVisible(this.propsPivot.filter || this.propsPivot.rowFilter || this.propsPivot.colFilter);
                 documentHolder.mnuPivotFilter.setVisible(!!this.propsPivot.filter);
                 documentHolder.mnuPivotFilterSeparator.setVisible(this.propsPivot.filter || this.propsPivot.rowFilter || this.propsPivot.colFilter);
+                documentHolder.mnuSubtotalField.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===0 || this.propsPivot.fieldType===1));
+                documentHolder.mnuPivotSubtotalSeparator.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===0 || this.propsPivot.fieldType===1));
+                documentHolder.mnuGroupPivot.setVisible(!!this.propsPivot.canGroup);
+                documentHolder.mnuUnGroupPivot.setVisible(!!this.propsPivot.canGroup);
+                documentHolder.mnuPivotGroupSeparator.setVisible(!!this.propsPivot.canGroup);
+                documentHolder.mnuDeleteField.setVisible(!!this.propsPivot.field);
+                documentHolder.mnuPivotDeleteSeparator.setVisible(!!this.propsPivot.field);
+                documentHolder.mnuSummarize.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2));
+                documentHolder.mnuShowAs.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2) && !this.propsPivot.rowTotal && !this.propsPivot.colTotal);
+                documentHolder.mnuPivotValueSeparator.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2));
+                documentHolder.mnuShowDetails.setVisible(!!this.propsPivot.showDetails);
+                documentHolder.mnuShowDetailsSeparator.setVisible(!!this.propsPivot.showDetails);
+                documentHolder.mnuPivotSettings.setVisible(needshow);
+                documentHolder.mnuFieldSettings.setVisible(!!this.propsPivot.field);
 
                 if (this.propsPivot.field) {
                     documentHolder.mnuDeleteField.setCaption(documentHolder.txtDelField + ' ' + (this.propsPivot.rowTotal || this.propsPivot.colTotal ? documentHolder.txtGrandTotal : '"' + Common.Utils.String.htmlEncode(this.propsPivot.fieldName) + '"'), true);
@@ -2863,8 +2956,8 @@ define([
                 documentHolder.pmiGetRangeList.setDisabled(false);
 
                 if (inPivot) {
-                    documentHolder.mnuGroupPivot.setDisabled(isPivotLocked || !this.propsPivot.canGroup || this._state.wsLock);
-                    documentHolder.mnuUnGroupPivot.setDisabled(isPivotLocked || !this.propsPivot.canGroup || this._state.wsLock);
+                    documentHolder.mnuGroupPivot.setDisabled(isPivotLocked || this._state.wsLock);
+                    documentHolder.mnuUnGroupPivot.setDisabled(isPivotLocked || this._state.wsLock);
                     documentHolder.mnuRefreshPivot.setDisabled(isPivotLocked || this._state.wsLock);
                     documentHolder.mnuPivotSettings.setDisabled(isPivotLocked || this._state.wsLock);
                     documentHolder.mnuFieldSettings.setDisabled(isPivotLocked || this._state.wsLock);
@@ -2872,6 +2965,7 @@ define([
                     documentHolder.mnuSubtotalField.setDisabled(isPivotLocked || this._state.wsLock);
                     documentHolder.mnuSummarize.setDisabled(isPivotLocked || this._state.wsLock);
                     documentHolder.mnuShowAs.setDisabled(isPivotLocked || this._state.wsLock);
+                    documentHolder.mnuShowDetails.setDisabled(this.api.asc_isWorkbookLocked() || this.api.asc_isProtectedWorkbook());
                     documentHolder.mnuPivotFilter.setDisabled(isPivotLocked || this._state.wsLock);
                 }
 
@@ -4785,8 +4879,8 @@ define([
                             value: i,
                             items: [
                                 { template: _.template('<div id="id-document-holder-btn-equation-menu-' + i +
-                                        '" class="menu-shape" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
-                                        equationGroup.get('groupHeightStr') + 'margin-left:5px;"></div>') }
+                                        '" class="menu-shape margin-left-5" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
+                                        equationGroup.get('groupHeightStr') + '"></div>') }
                             ]
                         })
                     });
@@ -4799,7 +4893,7 @@ define([
                 me.equationSettingsBtn = new Common.UI.Button({
                     parentEl: $('#id-document-holder-btn-equation-settings', documentHolder.cmpEl),
                     cls         : 'btn-toolbar no-caret',
-                    iconCls     : 'toolbar__icon more-vertical',
+                    iconCls     : 'toolbar__icon btn-more-vertical',
                     hint        : me.documentHolder.advancedEquationText,
                     menu        : me.documentHolder.createEquationMenu('popuptbeqinput', 'tl-bl')
                 });
@@ -4815,8 +4909,10 @@ define([
                 };
                 me.equationSettingsBtn.menu.on('item:click', _.bind(me.convertEquation, me));
                 me.equationSettingsBtn.menu.on('show:before', function(menu) {
+                    bringForward();
                     menu.options.initMenu();
                 });
+                me.equationSettingsBtn.menu.on('hide:after', sendBackward);
             }
 
             if (!me.tooltips.coauth.XY)
@@ -4829,7 +4925,9 @@ define([
             showPoint[1] = Math.min(me.tooltips.coauth.apiHeight - eqContainer.outerHeight(), Math.max(0, showPoint[1]));
             eqContainer.css({left: showPoint[0], top : showPoint[1]});
 
-            var menuAlign = (me.tooltips.coauth.apiHeight - showPoint[1] - eqContainer.outerHeight() < 220) ? 'bl-tl' : 'tl-bl';
+            var diffDown = me.tooltips.coauth.apiHeight - showPoint[1] - eqContainer.outerHeight(),
+                diffUp = me.tooltips.coauth.XY[1] + showPoint[1],
+                menuAlign = (diffDown < 220 && diffDown < diffUp*0.9) ? 'bl-tl' : 'tl-bl';
             if (Common.UI.isRTL()) {
                 menuAlign = menuAlign === 'bl-tl' ? 'br-tr' : 'tr-br';
             }
@@ -4870,9 +4968,10 @@ define([
 
         convertEquation: function(menu, item, e) {
             if (this.api) {
-                if (item.options.type=='input')
+                if (item.options.type=='input') {
                     this.api.asc_SetMathInputType(item.value);
-                else if (item.options.type=='view')
+                    Common.localStorage.setBool("sse-equation-input-latex", item.value===Asc.c_oAscMathInputType.LaTeX)
+                } else if (item.options.type=='view')
                     this.api.asc_ConvertMathView(item.value.linear, item.value.all);
                 else if(item.options.type=='hide') {
                     item.options.isToolbarHide = !item.options.isToolbarHide;
@@ -5109,7 +5208,8 @@ define([
         txtHeadersTableHint: 'Returns the column headers for the table or specified table columns',
         txtTotalsTableHint: 'Returns the total rows for the table or specified table columns',
         txtCopySuccess: 'Link copied to the clipboard',
-        warnFilterError: 'You need at least one field in the Values area in order to apply a value filter.'
+        warnFilterError: 'You need at least one field in the Values area in order to apply a value filter.',
+        txtByField: '%1 of %2'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });

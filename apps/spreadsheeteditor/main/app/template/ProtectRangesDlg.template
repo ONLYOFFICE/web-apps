@@ -11,10 +11,10 @@
             </tr>
             <tr>
                 <td class="padding-small">
-                    <button type="button" class="btn btn-text-default auto" id="protect-ranges-btn-new" style="min-width: 80px;"><%= scope.textNew %></button>
+                    <button type="button" class="btn btn-text-default auto margin-right-5" id="protect-ranges-btn-new" style="min-width: 80px;"><%= scope.textNew %></button>
                     <button type="button" class="btn btn-text-default auto" id="protect-ranges-btn-edit" style="min-width: 80px;"><%= scope.textEdit %></button>
                 </td>
-                <td class="padding-small" style="text-align: right;width:90px;">
+                <td class="padding-small text-align-right" style="width:90px;">
                     <button type="button" class="btn btn-text-default auto" id="protect-ranges-btn-delete" style="min-width: 80px;"><%= scope.textDelete %></button>
                 </td>
             </tr>            

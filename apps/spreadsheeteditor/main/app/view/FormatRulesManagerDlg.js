@@ -200,6 +200,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 parentEl: $('#format-manager-btn-up'),
                 cls: 'btn-toolbar bg-white',
                 iconCls: 'caret-up',
+                scaling: false,
                 hint: this.textUp
             });
             this.btnUp.on('click', _.bind(this.onMoveClick, this, true));
@@ -208,6 +209,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 parentEl: $('#format-manager-btn-down'),
                 cls: 'btn-toolbar bg-white',
                 iconCls: 'caret-down',
+                scaling: false,
                 hint: this.textDown
             });
             this.btnDown.on('click', _.bind(this.onMoveClick, this, false));

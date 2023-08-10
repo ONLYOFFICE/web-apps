@@ -152,6 +152,7 @@
   "DE.Controllers.ApplicationController.uploadImageExtMessage": "නොදන්නා අනුරුවක ආකෘතියකි.",
   "DE.Controllers.ApplicationController.uploadImageSizeMessage": "අනුරුව ඉතා විශාලට. උ. ප්‍රමාණය මෙ.බ. 25.",
   "DE.Controllers.ApplicationController.waitText": "කරුණාකර, රැඳෙන්න...",
+  "DE.Controllers.ApplicationController.warnLicenseAnonymous": "නිර්නාමික පරිශ්‍රීලකයින් සඳහා ප්‍රවේශය ප්‍රතික්‍ෂේපිතයි.<br>මෙම ලේඛනය දැකීමට පමණක් විවෘත වනු ඇත.",
   "DE.Controllers.ApplicationController.warnLicenseBefore": "බලපත්‍රය සක්‍රිය නැත.<br>කරුණාකර ඔබගේ පරිපාලක අමතන්න.",
   "DE.Controllers.ApplicationController.warnLicenseExceeded": "ඔබ %1 සංස්කරක වෙත සමකාල සම්බන්ධතා සීමාවට පැමිණ ඇත. මෙම ලේඛනය දැකීමට පමණක් විවෘත වේ.<br>තව දැන ගැනීමට ඔබගේ පරිපාලක අමතන්න.",
   "DE.Controllers.ApplicationController.warnLicenseExp": "ඔබගේ බලපත්‍රය කල් ඉකුත්ව ඇත.<br>බලපත්‍රය යාවත්කාල කර පිටුව නැවුම් කරන්න.",

@@ -322,7 +322,7 @@ define([
                         {caption: '--'},
                         {
                             id: "id-tab-menu-new-color",
-                            template: _.template('<a tabindex="-1" type="menuitem" style="padding-left:12px;">' + me.textNewColor + '</a>')
+                            template: _.template('<a tabindex="-1" type="menuitem" style="' + (Common.UI.isRTL() ? 'padding-right: 12px;': 'padding-left: 12px;') + '">' + me.textNewColor + '</a>')
                         }
                     ]
                 });
@@ -590,9 +590,7 @@ define([
                                 '<a id="<%= id %>" style="<%= style %>" tabindex="-1" type="menuitem" <% if (options.hidden) { %> data-hidden="true" <% } %>>',
                                     '<div class="color"></div>',
                                     '<span class="name"><%= caption %></span>',
-                                    '<% if (options.hidden) { %>',
-                                        '<span class="hidden-mark"><%= options.textHidden %></span>',
-                                    '<% } %>',
+                                    '<span class="hidden-mark"><% if (options.hidden) { %><%=  options.textHidden %><% } else { %><% } %></span>',
                                 '</a>'
                             ].join(''))
                         }));

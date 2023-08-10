@@ -151,7 +151,6 @@
       "textNo": "Nein",
       "textNoChoices": "Es gibt keine Möglichkeit zum Füllung der Zelle.<br>Nur die Textwerte aus der Spalte kann für den Ersatz gewählt werden. ",
       "textNoLicenseTitle": "Lizenzlimit erreicht",
-      "textNoTextFound": "Der Text wurde nicht gefunden.",
       "textOk": "OK",
       "textPaidFeature": "Kostenpflichtige Funktion",
       "textRemember": "Auswahl speichern",
@@ -172,7 +171,9 @@
       "warnNoLicense": "Sie haben die maximale Anzahl von gleichzeitigen Verbindungen in %1-Editoren erreicht. Die Bearbeitung ist jetzt in diesem Dokument nicht verfügbar. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
       "warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
       "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten.",
+      "textNoMatches": "No Matches",
       "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
@@ -257,7 +258,8 @@
     "unknownErrorText": "Unbekannter Fehler.",
     "uploadImageExtMessage": "Unbekanntes Bildformat.",
     "uploadImageFileCountMessage": "Keine Bilder hochgeladen.",
-    "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten."
+    "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten.",
+    "errorProtectedRange": "This range is not allowed for editing."
   },
   "LongActions": {
     "advDRMPassword": "Passwort",
@@ -656,7 +658,6 @@
       "textMargins": "Ränder",
       "textMatchCase": "Groß-/Kleinschreibung beachten",
       "textMatchCell": "Zelle anpassen",
-      "textNoTextFound": "Der Text wurde nicht gefunden",
       "textOk": "OK",
       "textOpenFile": "Kennwort zum Öffnen der Datei eingeben",
       "textOrientation": "Orientierung",
@@ -757,7 +758,8 @@
       "txtUk": "Ukrainisch",
       "txtVi": "Vietnamesisch",
       "txtZh": "Chinesisch ",
-      "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?"
+      "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?",
+      "textNoMatches": "No Matches"
     }
   }
 }

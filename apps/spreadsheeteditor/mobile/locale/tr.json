@@ -150,7 +150,6 @@
       "textNo": "Hayır",
       "textNoChoices": "Hücreyi doldurmak için seçenek bulunmuyor.<br>Yalnızca sütundaki metin değerleri ile değiştirilebilir.",
       "textNoLicenseTitle": "Lisans limitine ulaşıldı.",
-      "textNoTextFound": "Metin bulunamadı",
       "textOk": "Tamam",
       "textPaidFeature": "Ücretli Özellik",
       "textRemember": "Seçimimi hatırla",
@@ -170,9 +169,11 @@
       "warnNoLicenseUsers": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
       "warnProcessRightsChange": "Dosyayı düzenleme izniniz yok.",
       "textDontUpdate": "Don't Update",
+      "textNoMatches": "No Matches",
       "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
       "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
       "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
@@ -254,6 +255,7 @@
     "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorProtectedRange": "This range is not allowed for editing.",
     "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
     "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
     "textCancel": "Cancel",
@@ -655,7 +657,6 @@
       "textMargins": "Kenar Boşlukları",
       "textMatchCase": "Büyük Küçük Harfe Duyarlı",
       "textMatchCell": "Hücre Eşleştir",
-      "textNoTextFound": "Metin Bulunamadı",
       "textOk": "Tamam",
       "textOpenFile": "Dosyayı Açmak için Parola Girin",
       "textOrientation": "Oryantasyon",
@@ -756,6 +757,7 @@
       "txtZh": "Çince",
       "warnDownloadAs": "Bu formatta kaydetmeye devam ederseniz, metin dışındaki tüm özellikler kaybolacak.<br>Devam etmek istediğinize emin misiniz?",
       "textDirection": "Direction",
+      "textNoMatches": "No Matches",
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "txtDe": "Deutsch"
     }

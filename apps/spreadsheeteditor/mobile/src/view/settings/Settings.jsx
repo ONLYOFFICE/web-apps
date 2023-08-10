@@ -13,6 +13,7 @@ import { Direction } from '../../../../../spreadsheeteditor/mobile/src/view/sett
 // import SharingSettings from "../../../../../common/mobile/lib/view/SharingSettings";
 import SettingsPage from './SettingsPage';
 import { MainContext } from '../../page/main';
+import VersionHistoryController from '../../../../../common/mobile/lib/controller/VersionHistory';
 
 const routes = [
     {
@@ -67,7 +68,17 @@ const routes = [
     {
         path: '/direction/',
         component: Direction
-    }
+    },
+    // Version History 
+    {
+        path: '/version-history',
+        component: VersionHistoryController,
+        options: {
+            props: {
+                isNavigate: true
+            }
+        }
+    },
 ];
 
 routes.forEach(route => {

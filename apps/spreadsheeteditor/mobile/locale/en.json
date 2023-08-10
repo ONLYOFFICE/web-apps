@@ -39,6 +39,20 @@
       "textCustomColors": "Custom Colors",
       "textStandartColors": "Standard Colors",
       "textThemeColors": "Theme Colors"
+    },
+    "VersionHistory": {
+      "textVersionHistory": "Version History",
+      "textAnonymous": "Anonymous",
+      "txtErrorLoadHistory": "Loading history failed",
+      "textVersion": "Version",
+      "textCurrent": "Current",
+      "textRestore": "Restore",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "textBack": "Back",
+      "notcriticalErrorTitle": "Warning",
+      "textOk": "Ok",
+      "textCancel": "Cancel"
     }
   },
   "ContextMenu": {
@@ -151,7 +165,7 @@
       "textNo": "No",
       "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
       "textNoLicenseTitle": "License limit reached",
-      "textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches",
       "textOk": "Ok",
       "textPaidFeature": "Paid feature",
       "textRemember": "Remember my choice",
@@ -165,6 +179,7 @@
       "titleLicenseNotActive": "License not active",
       "titleServerVersion": "Editor updated",
       "titleUpdateVersion": "Version changed",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
       "warnLicenseExceeded": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact your administrator to learn more.",
       "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page.",
@@ -233,6 +248,7 @@
     "errorOperandExpected": "The entered function syntax is not correct. Please, check if you missed one of the parentheses - '(' or ')'.",
     "errorPasteMaxRange": "The copy and paste area does not match. Please, select an area of the same size or click the first cell in a row to paste the copied cells.",
     "errorPrintMaxPagesCount": "Unfortunately, it’s not possible to print more than 1500 pages at once in the current version of the program.<br>This restriction will be eliminated in upcoming releases.",
+    "errorProtectedRange": "This range is not allowed for editing.",
     "errorSessionAbsolute": "The document editing session has expired. Please, reload the page.",
     "errorSessionIdle": "The document has not been edited for quite a long time. Please, reload the page.",
     "errorSessionToken": "The connection to the server has been interrupted. Please, reload the page.",
@@ -332,7 +348,8 @@
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this Page",
-    "stayButtonText": "Stay on this Page"
+    "stayButtonText": "Stay on this Page",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -656,7 +673,7 @@
       "textMargins": "Margins",
       "textMatchCase": "Match Case",
       "textMatchCell": "Match Cell",
-      "textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches",
       "textOk": "Ok",
       "textOpenFile": "Enter a password to open the file",
       "textOrientation": "Orientation",
@@ -757,7 +774,8 @@
       "txtUk": "Ukrainian",
       "txtVi": "Vietnamese",
       "txtZh": "Chinese",
-      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?"
+      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
+      "textVersionHistory": "Version History"
     }
   }
 }

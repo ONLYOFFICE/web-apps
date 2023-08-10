@@ -15,6 +15,7 @@ import ProtectionController from '../../controller/settings/Protection';
 import FileEncryptionController from '../../controller/settings/FileEncryption';
 import SettingsPage from './SettingsPage';
 import { MainContext } from '../../page/main';
+import VersionHistoryController from '../../../../../common/mobile/lib/controller/VersionHistory';
 
 const routes = [
     {
@@ -92,7 +93,18 @@ const routes = [
     {
         path: '/encrypt',
         component: FileEncryptionController
-    }
+    },
+    
+    // Version History 
+    {
+        path: '/version-history',
+        component: VersionHistoryController,
+        options: {
+            props: {
+                isNavigate: true
+            }
+        }
+    },
 ];
 
 routes.forEach(route => {

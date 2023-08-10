@@ -183,6 +183,8 @@ SSE.ApplicationController = new(function(){
 
         var tpl = '<li id="worksheet{index}">{title}</li>';
         for (var i = 0; i < maxPages; i++) {
+            if (api.asc_isWorksheetHidden(i)) continue;
+
             var item = tpl.replace(/\{index}/, i).replace(/\{title}/,api.asc_getWorksheetName(i).replace(/\s/g,'&nbsp;'));
             $(item).appendTo($box).on('click', handleWorksheet);
         }
@@ -457,6 +459,21 @@ SSE.ApplicationController = new(function(){
         }
     }
 
+    function onAdvancedOptions(type, advOptions, mode, formatOptions) {
+        if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
+            var isCustomLoader = !!config.customization.loaderName || !!config.customization.loaderLogo;
+            var submitPassword = function(val) {
+                api && api.asc_setAdvancedOptions(Asc.c_oAscAdvancedOptionsID.DRM, new Asc.asc_CDRMAdvancedOptions(val)); 
+                me.loadMask && me.loadMask.show();
+                if(!isCustomLoader) $('#loading-mask').removeClass("none-animation");
+            };
+            common.controller.modals.createDlgPassword(submitPassword);
+            if(isCustomLoader) hidePreloader();
+            else $('#loading-mask').addClass("none-animation");
+            onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+        }
+    }
+
     function onError(id, level, errData) {
         if (id == Asc.c_oAscError.ID.LoadingScriptError) {
             $('#id-critical-error-title').text(me.criticalErrorTitle);
@@ -540,6 +557,9 @@ SSE.ApplicationController = new(function(){
                 else
                     message = me.errorInconsistentExt;
                 break;
+
+            case Asc.c_oAscError.ID.SessionToken: // don't show error message
+                return;
 
             default:
                 message = me.errorDefaultMessage.replace('%1', id);
@@ -706,6 +726,7 @@ SSE.ApplicationController = new(function(){
             api.asc_registerCallback('asc_onEndAction',             onLongActionEnd);
             api.asc_registerCallback('asc_onError',                 onError);
             api.asc_registerCallback('asc_onOpenDocumentProgress',  onOpenDocument);
+            api.asc_registerCallback('asc_onAdvancedOptions',       onAdvancedOptions);
             api.asc_registerCallback('asc_onSheetsChanged',         onSheetsChanged);
             api.asc_registerCallback('asc_onActiveSheetChanged',    setActiveWorkSheet);
 

@@ -210,9 +210,11 @@ define([
 
         onEyedropperStart: function () {
             this.trigger('eyedropper:start', this);
+            Common.NotificationCenter.trigger('eyedropper:start');
         },
 
         eyedropperEnd: function (r, g, b) {
+            if (r === undefined) return;
             var color = Common.Utils.ThemeColor.getHexColor(r, g, b);
             this.colorPicker.setCustomColor('#' + color);
             this.onColorSelect(this.colorPicker, color);

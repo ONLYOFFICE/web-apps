@@ -340,6 +340,13 @@ define([
             me.style        = me.options.style;
             me.rendered     = false;
 
+            // if ( /(?<!-)svg-icon(?!-)/.test(me.options.iconCls) )
+            //     me.options.scaling = false;
+
+            if ( me.options.scaling === false && me.options.iconCls) {
+                me.iconCls = me.options.iconCls + ' scaling-off';
+            }
+
             if (me.options.el) {
                 me.render();
             } else if (me.options.parentEl)
@@ -738,23 +745,33 @@ define([
 
         setIconCls: function(cls) {
             var btnIconEl = $(this.el).find('.icon'),
-                oldCls = this.iconCls;
+                oldCls = this.iconCls,
+                svgIcon = btnIconEl.find('use.zoom-int');
 
             this.iconCls = cls;
             if (/svgicon/.test(this.iconCls)) {
                 var icon = /svgicon\s(\S+)/.exec(this.iconCls);
-                btnIconEl.find('use.zoom-int').attr('xlink:href', icon && icon.length>1 ? '#' + icon[1]: '');
+                svgIcon.attr('xlink:href', icon && icon.length > 1 ? '#' + icon[1] : '');
+            } else if (svgIcon.length) {
+                var icon = /btn-[^\s]+/.exec(this.iconCls);
+                svgIcon.attr('href', icon ? '#' + icon[0]: '');
             } else {
                 btnIconEl.removeClass(oldCls);
                 btnIconEl.addClass(cls || '');
+                if (this.options.scaling === false) {
+                    btnIconEl.addClass('scaling-off');
+                }
             }
         },
 
         changeIcon: function(opts) {
-            var me = this;
-            if ( opts && (opts.curr || opts.next) && me.$icon) {
-                !!opts.curr && (me.$icon.removeClass(opts.curr));
-                !!opts.next && !me.$icon.hasClass(opts.next) && (me.$icon.addClass(opts.next));
+            var me = this,
+                btnIconEl = $(this.el).find('.icon');
+            if (opts && (opts.curr || opts.next) && btnIconEl) {
+                var svgIcon = btnIconEl.find('use.zoom-int');
+                !!opts.curr && (btnIconEl.removeClass(opts.curr));
+                !!opts.next && !btnIconEl.hasClass(opts.next) && (btnIconEl.addClass(opts.next));
+                svgIcon.length && !!opts.next && svgIcon.attr('href', '#' + opts.next);
 
                 if ( !!me.options.signals ) {
                     if ( !(me.options.signals.indexOf('icon:changed') < 0) ) {
@@ -885,6 +902,10 @@ define([
                 }
             }
         },
+
+        focus: function() {
+            this.$el && this.$el.find('button').addBack().filter('button').focus();
+        }
     });
 });
 

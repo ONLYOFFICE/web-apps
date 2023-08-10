@@ -112,7 +112,7 @@
       "textHasMacros": "El archivo contiene macros automáticas.<br>¿Quiere ejecutar macros?",
       "textNo": "No",
       "textNoLicenseTitle": "Se ha alcanzado el límite de licencia",
-      "textNoTextFound": "Texto no encontrado",
+      "textNoMatches": "No hay coincidencias",
       "textOpenFile": "Introduzca la contraseña para abrir el archivo",
       "textPaidFeature": "Característica de pago",
       "textRemember": "Recordar mi elección",
@@ -121,10 +121,13 @@
       "textRequestMacros": "Una macro realiza una solicitud a la URL. ¿Quiere permitir la solicitud al %1?",
       "textYes": "Sí",
       "titleLicenseExp": "Licencia ha expirado",
+      "titleLicenseNotActive": "Licencia no activa",
       "titleServerVersion": "Editor ha sido actualizado",
       "titleUpdateVersion": "Versión ha cambiado",
       "txtIncorrectPwd": "La contraseña es incorrecta",
       "txtProtected": "Una vez que se ha introducido la contraseña y abierto el archivo, la contraseña actual del archivo se restablecerá",
+      "warnLicenseAnonymous": "Acceso denegado para usuarios anónimos.<br>Este documento se abrirá solo para su visualización.",
+      "warnLicenseBefore": "Licencia no activa.<br>Por favor, póngase en contacto con su administrador.",
       "warnLicenseExceeded": "Ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización. Póngase en contacto con su administrador para obtener más información.",
       "warnLicenseExp": "Su licencia ha expirado. Por favor, actualícela y recargue la página.",
       "warnLicenseLimitedNoAccess": "La licencia ha expirado. No tiene acceso a la funcionalidad de edición de documentos. Por favor, póngase en contacto con su administrador.",
@@ -132,9 +135,7 @@
       "warnLicenseUsersExceeded": "Ha alcanzado el límite de usuarios para los editores de %1. Contacte con su administrador para recibir más información.",
       "warnNoLicense": "Ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
       "warnNoLicenseUsers": "Ha alcanzado el límite de usuarios para los editores de %1. <br>Contacte con el equipo de ventas de %1 para conocer los términos de actualización personal.",
-      "warnProcessRightsChange": "No tiene permiso para editar el archivo.",
-      "titleLicenseNotActive": "License not active",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "warnProcessRightsChange": "No tiene permiso para editar el archivo."
     }
   },
   "Error": {
@@ -250,6 +251,7 @@
       "textNextSlide": "Diapositiva siguiente",
       "textOk": "Aceptar",
       "textOther": "Otro",
+      "textPasteImageUrl": "Pegar la URL de una imagen",
       "textPictureFromLibrary": "Imagen desde biblioteca",
       "textPictureFromURL": "Imagen desde URL",
       "textPreviousSlide": "Diapositiva anterior",
@@ -263,8 +265,7 @@
       "textSlideNumber": "Número de diapositiva",
       "textTable": "Tabla",
       "textTableSize": "Tamaño de tabla",
-      "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
-      "textPasteImageUrl": "Paste an image URL"
+      "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\""
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertencia",
@@ -362,9 +363,9 @@
       "textMoveBackward": "Mover hacia atrás",
       "textMoveForward": "Moverse hacia adelante",
       "textNextSlide": "Diapositiva siguiente",
+      "textNoMatches": "No hay coincidencias",
       "textNone": "Ninguno",
       "textNoStyles": "No hay estilos para este tipo de gráfico.",
-      "textNoTextFound": "Texto no encontrado",
       "textNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
       "textNumbers": "Números",
       "textOk": "Aceptar",
@@ -420,6 +421,10 @@
       "textZoom": "Zoom",
       "textZoomIn": "Acercar",
       "textZoomOut": "Alejar",
+      "textMorph": "Morph",
+      "textMorphObjects": "Objects",
+      "textMorphWords": "Words",
+      "textMorphLetters": "Letters",
       "textZoomRotate": "Zoom y giro"
     },
     "Settings": {
@@ -460,7 +465,7 @@
       "textLoading": "Cargando...",
       "textLocation": "Ubicación",
       "textMacrosSettings": "Ajustes de macros",
-      "textNoTextFound": "Texto no encontrado",
+      "textNoMatches": "No hay coincidencias",
       "textOk": "Aceptar",
       "textOwner": "Propietario",
       "textPoint": "Punto",

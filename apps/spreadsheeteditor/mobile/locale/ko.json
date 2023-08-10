@@ -150,7 +150,6 @@
       "textNo": "아니오",
       "textNoChoices": "셀을 채울 선택이 없습니다. <br> 열의 텍스트 값만 대체 할 수 있습니다.",
       "textNoLicenseTitle": "라이센스 수를 제한했습니다.",
-      "textNoTextFound": "텍스트를 찾을 수 없습니다",
       "textOk": "확정",
       "textPaidFeature": "유료기능",
       "textRemember": "선택사항을 저장",
@@ -170,9 +169,11 @@
       "warnNoLicenseUsers": "ONLYOFFICE 편집자의이 버전은 동시 사용자에게 일정한 제한이 있습니다. <br> 더 필요한 것이 있으면 현재 라이센스를 업그레이드하거나 상용 라이센스를 구입하십시오.",
       "warnProcessRightsChange": "파일을 수정할 수 있는 권한이 없습니다.",
       "textDontUpdate": "Don't Update",
+      "textNoMatches": "No Matches",
       "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
       "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
       "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
@@ -257,6 +258,7 @@
     "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorProtectedRange": "This range is not allowed for editing.",
     "textOk": "Ok"
   },
   "LongActions": {
@@ -655,7 +657,6 @@
       "textMargins": "여백",
       "textMatchCase": "대 / 소문자 일치",
       "textMatchCell": "셀 일치",
-      "textNoTextFound": "텍스트를 찾을 수 없습니다",
       "textOk": "확인",
       "textOpenFile": "파일을 열려면 암호를 입력하십시오.",
       "textOrientation": "방향",
@@ -756,6 +757,7 @@
       "txtZh": "중국어",
       "warnDownloadAs": "이 형식으로 저장을 계속하면 텍스트를 제외한 모든 기능이 손실됩니다. 계속 하시겠습니까?",
       "textDirection": "Direction",
+      "textNoMatches": "No Matches",
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "txtDe": "Deutsch"
     }

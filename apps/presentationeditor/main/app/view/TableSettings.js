@@ -340,7 +340,7 @@ define([
             this.btnEdit = new Common.UI.Button({
                 parentEl: $('#table-btn-edit'),
                 cls         : 'btn-toolbar align-left',
-                iconCls     : 'toolbar__icon rows-and-columns',
+                iconCls     : 'toolbar__icon btn-rows-and-columns',
                 caption     : this.textEdit,
                 style       : 'width: 100%;',
                 menu: new Common.UI.Menu({
@@ -800,6 +800,7 @@ define([
             if (!this.btnTableTemplate) {
                 this.btnTableTemplate = new Common.UI.Button({
                     cls         : 'btn-large-dataview template-table',
+                    scaling     : false,
                     iconCls     : 'icon-template-table',
                     menu        : new Common.UI.Menu({
                         style: 'width: 588px;',
@@ -820,6 +821,7 @@ define([
                         store: new Common.UI.DataViewStore(),
                         itemTemplate: _.template('<div id="<%= id %>" class="item"><img src="<%= imageUrl %>" height="52" width="72"></div>'),
                         style: 'max-height: 350px;',
+                        cls: 'classic',
                         delayRenderTips: true
                     });
                 });

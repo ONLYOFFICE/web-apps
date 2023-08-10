@@ -15,6 +15,7 @@ import { EditLinkController } from '../controller/edit/EditLink';
 import SettingsController from '../controller/settings/Settings';
 import AddingController from '../controller/add/Add';
 import EditView from '../view/edit/Edit';
+import VersionHistoryController from '../../../../common/mobile/lib/controller/VersionHistory';
 
 export const MainContext = createContext();
 
@@ -57,6 +58,8 @@ class MainPage extends Component {
             } else if( opts === 'edit-link') {
                 this.state.editLinkSettingsVisible && (opened = true);
                 newState.editLinkSettingsVisible = true;
+            } else if (opts === 'history') {
+                newState.historyVisible = true;
             }
 
             for (let key in this.state) {
@@ -92,6 +95,8 @@ class MainPage extends Component {
                     return {addLinkSettingsVisible: false};
                 else if( opts === 'edit-link') 
                     return {editLinkSettingsVisible: false};
+                else if (opts === 'history')
+                    return {historyVisible: false}
             });
             if ((opts === 'edit' || opts === 'coauth') && Device.phone) {
                 f7.navbar.show('.main-navbar');
@@ -186,6 +191,9 @@ class MainPage extends Component {
                             closeOptions={this.handleOptionsViewClosed.bind(this)} 
                         />
                     }
+                    {!this.state.historyVisible ? null :
+                        <VersionHistoryController onclosed={this.handleOptionsViewClosed.bind(this, 'history')} />
+                    }
                     {appOptions.isDocReady &&
                         <Fragment key='filter-context'>
                             <FilterOptionsController wsProps={wsProps} />
@@ -194,7 +202,6 @@ class MainPage extends Component {
                             />
                         </Fragment>
                     }
-                    
                     <Statusbar key='statusbar'/>
                     <FunctionGroups /> {/* hidden component*/}
                 </Page>

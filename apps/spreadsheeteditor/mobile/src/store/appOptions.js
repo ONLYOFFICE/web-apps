@@ -122,6 +122,11 @@ export class storeAppOptions {
         this.canUseCommentPermissions && AscCommon.UserInfoParser.setCommentPermissions(permissions.commentGroups);  
         this.canUseUserInfoPermissions && AscCommon.UserInfoParser.setUserInfoPermissions(permissions.userInfoGroups);
 
+        this.canUseHistory = this.canLicense && !this.isLightVersion && this.config.canUseHistory && this.canCoAuthoring && !this.isDesktopApp;
+        this.canHistoryClose = this.config.canHistoryClose;
+        this.canHistoryRestore= this.config.canHistoryRestore;
+
         this.canLiveView = !!params.asc_getLiveViewerSupport() && (this.config.mode === 'view') && isSupportEditFeature;
+        this.isAnonymousSupport = !!Common.EditorApi.get().asc_isAnonymousSupport();
     }
 }

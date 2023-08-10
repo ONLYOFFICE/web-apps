@@ -58,7 +58,13 @@ define([
                 {ratio: 1.25,   path: '../../../../sdkjs/common/Images/fonts_thumbnail' + postfix + '@1.25x.png', width: iconWidth * 1.25, height: iconHeight * 1.25},
                 {ratio: 1.5,    path: '../../../../sdkjs/common/Images/fonts_thumbnail' + postfix + '@1.5x.png', width: iconWidth * 1.5, height: iconHeight * 1.5},
                 {ratio: 1.75,   path: '../../../../sdkjs/common/Images/fonts_thumbnail' + postfix + '@1.75x.png', width: iconWidth * 1.75, height: iconHeight * 1.75},
-                {ratio: 2,      path: '../../../../sdkjs/common/Images/fonts_thumbnail' + postfix + '@2x.png', width: iconWidth * 2, height: iconHeight * 2}
+                {ratio: 2,      path: '../../../../sdkjs/common/Images/fonts_thumbnail' + postfix + '@2x.png', width: iconWidth * 2, height: iconHeight * 2},
+                /*{ratio: 2.5,    path: '../../../../sdkjs/common/Images/fonts_thumbnail' + postfix + '@2.5x.png', width: iconWidth * 2.5, height: iconHeight * 2.5},
+                {ratio: 3,      path: '../../../../sdkjs/common/Images/fonts_thumbnail' + postfix + '@3x.png', width: iconWidth * 3, height: iconHeight * 3},
+                {ratio: 3.5,    path: '../../../../sdkjs/common/Images/fonts_thumbnail' + postfix + '@3.5x.png', width: iconWidth * 3.5, height: iconHeight * 3.5},
+                {ratio: 4,      path: '../../../../sdkjs/common/Images/fonts_thumbnail' + postfix + '@4x.png', width: iconWidth * 4, height: iconHeight * 4},
+                {ratio: 4.5,    path: '../../../../sdkjs/common/Images/fonts_thumbnail' + postfix + '@4.5x.png', width: iconWidth * 4.5, height: iconHeight * 4.5},
+                {ratio: 5,      path: '../../../../sdkjs/common/Images/fonts_thumbnail' + postfix + '@5x.png', width: iconWidth * 5, height: iconHeight * 5},*/
             ],
             thumbIdx = 0,
             listItemHeight  = 28,
@@ -71,6 +77,12 @@ define([
             thumbs[2].path     = Common.Controllers.Desktop.call('getFontsSprite', '@1.5x');
             thumbs[3].path     = Common.Controllers.Desktop.call('getFontsSprite', '@1.75x');
             thumbs[4].path     = Common.Controllers.Desktop.call('getFontsSprite', '@2x');
+            /*thumbs[5].path     = Common.Controllers.Desktop.call('getFontsSprite', '@2.5x');
+            thumbs[6].path     = Common.Controllers.Desktop.call('getFontsSprite', '@3x');
+            thumbs[7].path     = Common.Controllers.Desktop.call('getFontsSprite', '@3.5x');
+            thumbs[8].path     = Common.Controllers.Desktop.call('getFontsSprite', '@4x');
+            thumbs[9].path     = Common.Controllers.Desktop.call('getFontsSprite', '@4.5x');
+            thumbs[10].path    = Common.Controllers.Desktop.call('getFontsSprite', '@5x');*/
         }
 
         var bestDistance = Math.abs(applicationPixelRatio-thumbs[0].ratio);
@@ -648,6 +660,7 @@ define([
             },
 
             onAfterShowMenu: function(e) {
+                this.alignMenuPosition();
                 if (this.recent > 0) {
                     if (this.scroller && !this._scrollerIsInited) {
                         this.scroller.update();

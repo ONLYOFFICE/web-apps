@@ -47,6 +47,7 @@
     "textOther": "Այլ",
     "textPageBreak": "Էջատում",
     "textPageNumber": "Էջի համար",
+    "textPasteImageUrl": "Տեղադրեք պատկերի URL",
     "textPictureFromLibrary": "Նկար գրադարանից",
     "textPictureFromURL": "Նկար URL-ից",
     "textPosition": "Դիրք",
@@ -64,8 +65,7 @@
     "textTableSize": "Աղյուսակի չափ",
     "textWithBlueLinks": "Կապույտ հղումներով",
     "textWithPageNumbers": "Էջի համարներով",
-    "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ ",
-    "textPasteImageUrl": "Paste an image URL"
+    "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ "
   },
   "Common": {
     "Collaboration": {
@@ -554,7 +554,7 @@
     "textHasMacros": "Ֆայլում կան ինքնաշխատ մակրոներ։<br>Գործարկե՞լ դրանք։",
     "textNo": "Ոչ",
     "textNoLicenseTitle": "Լիցենզիայի սահմանաչափը հասել է",
-    "textNoTextFound": "Տեքստը չի գտնվել",
+    "textNoMatches": "Համընկնում չկա",
     "textOk": "Լավ",
     "textPaidFeature": "Վճարովի գործառույթ",
     "textRemember": "Հիշել իմ ընտրությունը",
@@ -568,6 +568,7 @@
     "titleServerVersion": "Խմբագրիչը արդիացվել է",
     "titleUpdateVersion": "Տարբերակը փոխվել է",
     "warnDownloadAsPdf": "Ձեր {0}-ը կվերածվի խմբագրվող ձևաչափի:Սա կարող է որոշ ժամանակ տևել:Ստացված փաստաթուղթը կօպտիմիզացվի՝ թույլ տալու համար խմբագրել տեքստը, այնպես որ այն կարող է նման չլինել սկզբնական {0}-ին, հատկապես, եթե սկզբնական ֆայլը պարունակում է շատ գրաֆիկական պատկերներ:",
+    "warnLicenseAnonymous": "Մուտքն արգելված է անանուն օգտատերերի համար:<br>Այս փաստաթուղթը կբացվի միայն դիտելու համար:",
     "warnLicenseBefore": "Լիցենզիան ակտիվ չէ:<br> Խնդրում ենք կապվել ձեր ադմինիստրատորի հետ:",
     "warnLicenseExceeded": "Դուք հասել եք %1 խմբագիրների հետ միաժամանակյա միացումների սահմանաչափին:Այս փաստաթուղթը կբացվի միայն դիտելու համար:Կապվեք Ձեր ադմինիստրատորի հետ՝ ավելին իմանալու համար:",
     "warnLicenseExp": "Ձեր լիցենզիայի ժամկետը լրացել է:Խնդրում ենք թարմացնել Ձեր լիցենզիան և թարմացնել էջը:",
@@ -650,7 +651,7 @@
     "textNo": "Ոչ",
     "textNoChanges": "Փոփոխություններ չկան (Միայն-կարդալու)",
     "textNoCharacters": "Չտպվող գրանշաններ",
-    "textNoTextFound": "Տեքստը չի գտնվել",
+    "textNoMatches": "Համընկնում չկա",
     "textOk": "Լավ",
     "textOpenFile": "Մուտքագրել գաղտնաբառ՝ ֆայլը բացելու համար",
     "textOrientation": "Կողմնորոշում",

@@ -173,7 +173,10 @@
       "textUpdate": "Update",
       "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-      "titleLicenseNotActive": "License not active"
+      "titleLicenseNotActive": "License not active",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
     }
   },
   "Error": {
@@ -257,7 +260,8 @@
     "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
     "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
     "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
-    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
+    "errorProtectedRange": "This range is not allowed for editing."
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",
@@ -763,7 +767,9 @@
       "txtTr": "Turkish",
       "txtUk": "Ukrainian",
       "txtVi": "Vietnamese",
-      "txtZh": "Chinese"
+      "txtZh": "Chinese",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   }
 }

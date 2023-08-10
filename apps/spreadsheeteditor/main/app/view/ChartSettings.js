@@ -688,7 +688,7 @@ define([
             this.btnRatio = new Common.UI.Button({
                 parentEl: $('#chart-button-ratio'),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon advanced-btn-ratio',
+                iconCls: 'toolbar__icon btn-advanced-ratio',
                 style: 'margin-bottom: 1px;',
                 enableToggle: true,
                 hint: this.textKeepRatio,
@@ -728,7 +728,7 @@ define([
                     allowScrollbar: false,
                     groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getSparkGroupData()),
                     store: new Common.UI.DataViewStore(Common.define.chartData.getSparkData()),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>'),
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>'),
                     delayRenderTips: true
                 });
             });
@@ -793,7 +793,7 @@ define([
 
             this.btnChangeType = new Common.UI.Button({
                 parentEl: $('#chart-btn-change-type'),
-                cls         : 'btn-toolbar',
+                cls         : 'btn-toolbar align-left',
                 iconCls     : 'toolbar__icon btn-menu-chart',
                 caption     : this.textChangeType,
                 dataHint    : '1',
@@ -805,7 +805,7 @@ define([
 
             this.btnSelectData = new Common.UI.Button({
                 parentEl: $('#chart-btn-select-data'),
-                cls         : 'btn-toolbar',
+                cls         : 'btn-toolbar align-left',
                 iconCls     : 'toolbar__icon btn-select-range',
                 caption     : this.textSelectData,
                 dataHint    : '1',
@@ -817,8 +817,8 @@ define([
 
             this.btnSwitch = new Common.UI.Button({
                 parentEl: $('#chart-btn-switch'),
-                cls         : 'btn-toolbar',
-                iconCls     : 'toolbar__icon switch_row_column',
+                cls         : 'btn-toolbar align-left',
+                iconCls     : 'toolbar__icon btn-switch-row-column',
                 caption     : this.textSwitch,
                 dataHint    : '1',
                 dataHintDirection: 'left',

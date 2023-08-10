@@ -134,7 +134,10 @@
       "textNoTextFound": "Text not found",
       "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-      "titleLicenseNotActive": "License not active"
+      "titleLicenseNotActive": "License not active",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
     }
   },
   "Error": {
@@ -424,7 +427,13 @@
       "textDeleteLink": "Delete Link",
       "textInsertImage": "Insert Image",
       "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "textRequired": "Required",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches",
+      "textMorph": "Morph",
+      "textMorphObjects": "Objects",
+      "textMorphWords": "Words",
+      "textMorphLetters": "Letters"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
@@ -509,7 +518,9 @@
       "textOk": "Ok",
       "textRTL": "RTL",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "notcriticalErrorTitle": "Warning"
+      "notcriticalErrorTitle": "Warning",
+      "del_textNoTextFound": "Text not found",
+      "textNoMatches": "No Matches"
     }
   }
 }

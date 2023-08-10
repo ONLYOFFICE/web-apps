@@ -1383,6 +1383,7 @@ define([
 
             this.btnDirection = new Common.UI.Button({
                 cls         : 'btn-large-dataview',
+                scaling     : false,
                 iconCls     : 'item-gradient',
                 menu        : new Common.UI.Menu({
                     style: 'min-width: 60px;',
@@ -1834,7 +1835,7 @@ define([
 
             me.btnChangeShape.shapePicker = new Common.UI.DataViewShape({
                 el: $('#' + menuitemId),
-                itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
+                itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon uni-scale\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                 groups: me.application.getCollection('ShapeGroups'),
                 parentMenu: me.btnChangeShape.menu,
                 restoreHeight: me.shapeRestoreHeight,

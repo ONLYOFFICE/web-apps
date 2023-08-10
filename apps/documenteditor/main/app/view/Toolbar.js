@@ -683,7 +683,7 @@ define([
                     this.btnInsertText = new Common.UI.Button({
                         id: 'tlbtn-inserttext',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-text',
+                        iconCls: 'toolbar__icon btn-big-text',
                         lock: [_set.paragraphLock, _set.headerLock, _set.inEquation, _set.controlPlain, _set.contentLock, _set.inFootnote, _set.previewReviewMode, _set.viewFormMode,
                             _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
                         caption: me.capBtnInsTextbox,
@@ -706,7 +706,7 @@ define([
                         menu: new Common.UI.Menu({
                             cls: 'menu-shapes',
                             items: [
-                                {template: _.template('<div id="id-toolbar-menu-insart" style="width: 239px;"></div>')}
+                                {template: _.template('<div id="id-toolbar-menu-insart" class="margin-left-5" style="width: 239px;"></div>')}
                             ]
                         }),
                         dataHint: '1',
@@ -825,6 +825,16 @@ define([
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.richDelLock, _set.plainDelLock, _set.noParagraphSelected, _set.previewReviewMode,
                             _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
                         caption: me.capBtnInsSymbol,
+                        menu: new Common.UI.Menu({
+                            style: 'min-width: 100px;',
+                            items: [
+                                {template: _.template('<div id="id-toolbar-menu-symbols"></div>')},
+                                {caption: '--'},
+                                new Common.UI.MenuItem({
+                                    caption: this.textMoreSymbols
+                                })
+                            ]
+                        }),
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -843,7 +853,7 @@ define([
                             items: [
                                 {
                                     caption: this.textNone,
-                                    iconCls: 'menu__icon columns-one',
+                                    iconCls: 'menu__icon btn-columns-one',
                                     checkable: true,
                                     checkmark: false,
                                     toggleGroup: 'menuDropCap',
@@ -852,7 +862,7 @@ define([
                                 },
                                 {
                                     caption: this.textInText,
-                                    iconCls: 'menu__icon dropcap-intext',
+                                    iconCls: 'menu__icon btn-dropcap-intext',
                                     checkable: true,
                                     checkmark: false,
                                     toggleGroup: 'menuDropCap',
@@ -860,7 +870,7 @@ define([
                                 },
                                 {
                                     caption: this.textInMargin,
-                                    iconCls: 'menu__icon dropcap-inmargin',
+                                    iconCls: 'menu__icon btn-dropcap-inmargin',
                                     checkable: true,
                                     checkmark: false,
                                     toggleGroup: 'menuDropCap',
@@ -887,12 +897,12 @@ define([
                             items: [
                                 {
                                     caption: this.textPlainControl,
-                                    iconCls: 'menu__icon cc-plaintext',
+                                    iconCls: 'menu__icon btn-cc-plaintext',
                                     value: 'plain'
                                 },
                                 {
                                     caption: this.textRichControl,
-                                    iconCls: 'menu__icon cc-richtext',
+                                    iconCls: 'menu__icon btn-cc-richtext',
                                     value: 'rich'
                                 },
                                 {
@@ -923,7 +933,7 @@ define([
                                 {caption: '--'},
                                 {
                                     caption: this.textRemoveControl,
-                                    iconCls: 'menu__icon cc-remove',
+                                    iconCls: 'menu__icon btn-cc-remove',
                                     value: 'remove'
                                 },
                                 {caption: '--'},
@@ -947,7 +957,7 @@ define([
                                             {caption: '--'},
                                             {
                                                 id: 'id-toolbar-menu-new-control-color',
-                                                template: _.template('<a tabindex="-1" type="menuitem" style="padding-left:12px;">' + this.textNewColor + '</a>')
+                                                template: _.template('<a tabindex="-1" type="menuitem" style="' + (Common.UI.isRTL() ? 'padding-right:12px;' : 'padding-left:12px;') + '">' + this.textNewColor + '</a>')
                                             }
                                         ]
                                     })
@@ -973,7 +983,7 @@ define([
                             items: [
                                 {
                                     caption: this.textColumnsOne,
-                                    iconCls: 'menu__icon columns-one',
+                                    iconCls: 'menu__icon btn-columns-one',
                                     checkable: true,
                                     checkmark: false,
                                     toggleGroup: 'menuColumns',
@@ -981,7 +991,7 @@ define([
                                 },
                                 {
                                     caption: this.textColumnsTwo,
-                                    iconCls: 'menu__icon columns-two',
+                                    iconCls: 'menu__icon btn-columns-two',
                                     checkable: true,
                                     checkmark: false,
                                     toggleGroup: 'menuColumns',
@@ -989,7 +999,7 @@ define([
                                 },
                                 {
                                     caption: this.textColumnsThree,
-                                    iconCls: 'menu__icon columns-three',
+                                    iconCls: 'menu__icon btn-columns-three',
                                     checkable: true,
                                     checkmark: false,
                                     toggleGroup: 'menuColumns',
@@ -997,7 +1007,7 @@ define([
                                 },
                                 {
                                     caption: this.textColumnsLeft,
-                                    iconCls: 'menu__icon columns-left',
+                                    iconCls: 'menu__icon btn-columns-left',
                                     checkmark: false,
                                     checkable: true,
                                     toggleGroup: 'menuColumns',
@@ -1005,7 +1015,7 @@ define([
                                 },
                                 {
                                     caption: this.textColumnsRight,
-                                    iconCls: 'menu__icon columns-right',
+                                    iconCls: 'menu__icon btn-columns-right',
                                     checkmark: false,
                                     checkable: true,
                                     toggleGroup: 'menuColumns',
@@ -1032,7 +1042,7 @@ define([
                             items: [
                                 {
                                     caption: this.textPortrait,
-                                    iconCls: 'menu__icon page-portrait',
+                                    iconCls: 'menu__icon btn-page-portrait',
                                     checkable: true,
                                     checkmark: false,
                                     toggleGroup: 'menuOrient',
@@ -1040,7 +1050,7 @@ define([
                                 },
                                 {
                                     caption: this.textLandscape,
-                                    iconCls: 'menu__icon page-landscape',
+                                    iconCls: 'menu__icon btn-page-landscape',
                                     checkable: true,
                                     checkmark: false,
                                     toggleGroup: 'menuOrient',
@@ -1465,28 +1475,10 @@ define([
 
                     this.cmbFontSize = new Common.UI.ComboBox({
                         cls: 'input-group-nr',
-                        menuStyle: 'min-width: 55px;',
+                        menuCls: 'scrollable-menu',
+                        menuStyle: 'min-width: 55px;max-height: 454px;',
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
                         hint: this.tipFontSize,
-                        data: [
-                            {value: 8, displayValue: "8"},
-                            {value: 9, displayValue: "9"},
-                            {value: 10, displayValue: "10"},
-                            {value: 11, displayValue: "11"},
-                            {value: 12, displayValue: "12"},
-                            {value: 14, displayValue: "14"},
-                            {value: 16, displayValue: "16"},
-                            {value: 18, displayValue: "18"},
-                            {value: 20, displayValue: "20"},
-                            {value: 22, displayValue: "22"},
-                            {value: 24, displayValue: "24"},
-                            {value: 26, displayValue: "26"},
-                            {value: 28, displayValue: "28"},
-                            {value: 36, displayValue: "36"},
-                            {value: 48, displayValue: "48"},
-                            {value: 72, displayValue: "72"},
-                            {value: 96, displayValue: "96"}
-                        ],
                         dataHint: '1',
                         dataHintDirection: 'top'
                     });
@@ -1546,7 +1538,7 @@ define([
                                         parseFloat(itemEl.css('border-left-width')) + parseFloat(itemEl.css('border-right-width')));
 
                                 var minCount = cmp.menuPicker.store.length >= minMenuColumn ? minMenuColumn : cmp.menuPicker.store.length,
-                                    columnCount = Math.min(cmp.menuPicker.store.length, Math.round($('.dataview', $(cmp.fieldPicker.el)).width() / (itemMargin + _width) + 0.5));
+                                    columnCount = Math.min(cmp.menuPicker.store.length, Math.round($('.dataview', $(cmp.fieldPicker.el)).width() / (itemMargin + _width)));
 
                                 columnCount = columnCount < minCount ? minCount : columnCount;
                                 menu.menuAlignEl = cmp.cmpEl;
@@ -1558,7 +1550,7 @@ define([
                                 //     menuWidth = Math.max(Math.floor(buttonOffsetLeft/(itemMargin + _width)), 2) * (itemMargin + _width);
                                 if (menuWidth>Common.Utils.innerWidth())
                                     menuWidth = Math.max(Math.floor(Common.Utils.innerWidth()/(itemMargin + _width)), 2) * (itemMargin + _width);
-                                var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - Math.min(menuWidth, buttonOffsetLeft) - 1;
+                                var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - Math.min(menuWidth, buttonOffsetLeft);
                                 if (Common.UI.isRTL()) {
                                     offset = cmp.openButton.$el.width();
                                 }
@@ -1669,6 +1661,13 @@ define([
 
                     me.onUpdateLastCustomMargins();
                     Common.NotificationCenter.on('margins:update', _.bind(me.onUpdateLastCustomMargins, me));
+
+                    Common.NotificationCenter.on('eyedropper:start', function () {
+                        if (me.btnCopyStyle.pressed)
+                            me.btnCopyStyle.toggle(false, true);
+                        if (me.btnHighlightColor.pressed)
+                            me.btnHighlightColor.toggle(false, true);
+                    });
                 }
 
                 if ( me.isCompactView )
@@ -1779,6 +1778,71 @@ define([
 
             onAppReady: function (config) {
                 var me = this;
+                if (me.cmbFontSize) {
+                    var lang = config.lang ? config.lang.toLowerCase() : 'en',
+                        langPrefix = lang.split(/[\-_]/)[0];
+                    var fontSizeData = (langPrefix === 'zh' && lang !== 'zh-tw' && lang !== 'zh_tw') ? [
+                        {value: '42_str', displayValue: "初号"},
+                        {value: '36_str', displayValue: "小初"},
+                        {value: '26_str', displayValue: "一号"},
+                        {value: '24_str', displayValue: "小一"},
+                        {value: '22_str', displayValue: "二号"},
+                        {value: '18_str', displayValue: "小二"},
+                        {value: '16_str', displayValue: "三号"},
+                        {value: '15_str', displayValue: "小三"},
+                        {value: '14_str', displayValue: "四号"},
+                        {value: '12_str', displayValue: "小四"},
+                        {value: '10.5_str', displayValue: "五号"},
+                        {value: '9_str', displayValue: "小五"},
+                        {value: '7.5_str', displayValue: "六号"},
+                        {value: '6.5_str', displayValue: "小六"},
+                        {value: '5.5_str', displayValue: "七号"},
+                        {value: '5_str', displayValue: "八号"},
+                        {value: 5, displayValue: "5"},
+                        {value: 5.5, displayValue: "5.5"},
+                        {value: 6.5, displayValue: "6.5"},
+                        {value: 7.5, displayValue: "7.5"},
+                        {value: 8, displayValue: "8"},
+                        {value: 9, displayValue: "9"},
+                        {value: 10, displayValue: "10"},
+                        {value: 10.5, displayValue: "10.5"},
+                        {value: 11, displayValue: "11"},
+                        {value: 12, displayValue: "12"},
+                        {value: 14, displayValue: "14"},
+                        {value: 15, displayValue: "15"},
+                        {value: 16, displayValue: "16"},
+                        {value: 18, displayValue: "18"},
+                        {value: 20, displayValue: "20"},
+                        {value: 22, displayValue: "22"},
+                        {value: 24, displayValue: "24"},
+                        {value: 26, displayValue: "26"},
+                        {value: 28, displayValue: "28"},
+                        {value: 36, displayValue: "36"},
+                        {value: 42, displayValue: "42"},
+                        {value: 48, displayValue: "48"},
+                        {value: 72, displayValue: "72"},
+                        {value: 96, displayValue: "96"}
+                    ] : [
+                        {value: 8, displayValue: "8"},
+                        {value: 9, displayValue: "9"},
+                        {value: 10, displayValue: "10"},
+                        {value: 11, displayValue: "11"},
+                        {value: 12, displayValue: "12"},
+                        {value: 14, displayValue: "14"},
+                        {value: 16, displayValue: "16"},
+                        {value: 18, displayValue: "18"},
+                        {value: 20, displayValue: "20"},
+                        {value: 22, displayValue: "22"},
+                        {value: 24, displayValue: "24"},
+                        {value: 26, displayValue: "26"},
+                        {value: 28, displayValue: "28"},
+                        {value: 36, displayValue: "36"},
+                        {value: 48, displayValue: "48"},
+                        {value: 72, displayValue: "72"},
+                        {value: 96, displayValue: "96"}
+                    ];
+                    me.cmbFontSize.setData(fontSizeData);
+                }
                 (new Promise( function(resolve, reject) {
                     resolve();
                 })).then(function () {
@@ -1837,11 +1901,11 @@ define([
                     me.btnImgForward.setMenu(new Common.UI.Menu({
                         items: [{
                                 caption : _holder_view.textArrangeFront,
-                                iconCls : 'menu__icon arrange-front',
+                                iconCls : 'menu__icon btn-arrange-front',
                                 valign  : Asc.c_oAscChangeLevel.BringToFront
                             }, {
                                 caption : _holder_view.textArrangeForward,
-                                iconCls : 'menu__icon arrange-forward',
+                                iconCls : 'menu__icon btn-arrange-forward',
                                 valign  : Asc.c_oAscChangeLevel.BringForward
                             }
                         ]})
@@ -1851,11 +1915,11 @@ define([
                     me.btnImgBackward.setMenu(new Common.UI.Menu({
                         items: [{
                                 caption : _holder_view.textArrangeBack,
-                                iconCls : 'menu__icon arrange-back',
+                                iconCls : 'menu__icon btn-arrange-back',
                                 valign  : Asc.c_oAscChangeLevel.SendToBack
                             }, {
                                 caption : _holder_view.textArrangeBackward,
-                                iconCls : 'menu__icon arrange-backward',
+                                iconCls : 'menu__icon btn-arrange-backward',
                                 valign  : Asc.c_oAscChangeLevel.BringBackward
                             }]
                     }));
@@ -1889,12 +1953,12 @@ define([
 
                     me.mniDistribHor = new Common.UI.MenuItem({
                         caption: me.txtDistribHor,
-                        iconCls: 'menu__icon shape-distribute-hor',
+                        iconCls: 'menu__icon btn-shape-distribute-hor',
                         value: 6
                     });
                     me.mniDistribVert = new Common.UI.MenuItem({
                         caption: me.txtDistribVert,
-                        iconCls: 'menu__icon shape-distribute-vert',
+                        iconCls: 'menu__icon btn-shape-distribute-vert',
                         value: 7
                     });
 
@@ -1902,27 +1966,27 @@ define([
                         cls: 'shifted-right',
                         items: [{
                                 caption : _holder_view.textShapeAlignLeft,
-                                iconCls : 'menu__icon shape-align-left',
+                                iconCls : 'menu__icon btn-shape-align-left',
                                 value: Asc.c_oAscAlignShapeType.ALIGN_LEFT
                             }, {
                                 caption : _holder_view.textShapeAlignCenter,
-                                iconCls : 'menu__icon shape-align-center',
+                                iconCls : 'menu__icon btn-shape-align-center',
                                 value: Asc.c_oAscAlignShapeType.ALIGN_CENTER
                             }, {
                                 caption : _holder_view.textShapeAlignRight,
-                                iconCls : 'menu__icon shape-align-right',
+                                iconCls : 'menu__icon btn-shape-align-right',
                                 value: Asc.c_oAscAlignShapeType.ALIGN_RIGHT
                             }, {
                                 caption : _holder_view.textShapeAlignTop,
-                                iconCls : 'menu__icon shape-align-top',
+                                iconCls : 'menu__icon btn-shape-align-top',
                                 value: Asc.c_oAscAlignShapeType.ALIGN_TOP
                             }, {
                                 caption : _holder_view.textShapeAlignMiddle,
-                                iconCls : 'menu__icon shape-align-middle',
+                                iconCls : 'menu__icon btn-shape-align-middle',
                                 value: Asc.c_oAscAlignShapeType.ALIGN_MIDDLE
                             }, {
                                 caption : _holder_view.textShapeAlignBottom,
-                                iconCls : 'menu__icon shape-align-bottom',
+                                iconCls : 'menu__icon btn-shape-align-bottom',
                                 value: Asc.c_oAscAlignShapeType.ALIGN_BOTTOM
                             },
                             {caption: '--'},
@@ -1939,11 +2003,11 @@ define([
                     me.btnImgGroup.setMenu(new Common.UI.Menu({
                         items: [{
                             caption : _holder_view.txtGroup,
-                            iconCls : 'menu__icon shape-group',
+                            iconCls : 'menu__icon btn-shape-group',
                             groupval: 1
                         }, {
                             caption : _holder_view.txtUngroup,
-                            iconCls : 'menu__icon shape-ungroup',
+                            iconCls : 'menu__icon btn-shape-ungroup',
                             groupval: -1
                         }]
                     }));
@@ -1953,7 +2017,7 @@ define([
                         cls: 'ppm-toolbar shifted-right',
                         items: [{
                                 caption     : _holder_view.txtInline,
-                                iconCls     : 'menu__icon wrap-inline',
+                                iconCls     : 'menu__icon btn-small-wrap-inline',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.Inline,
                                 checkmark   : false,
@@ -1962,28 +2026,28 @@ define([
                             { caption: '--' },
                             {
                                 caption     : _holder_view.txtSquare,
-                                iconCls     : 'menu__icon wrap-square',
+                                iconCls     : 'menu__icon btn-small-wrap-square',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.Square,
                                 checkmark   : false,
                                 checkable   : true
                             }, {
                                 caption     : _holder_view.txtTight,
-                                iconCls     : 'menu__icon wrap-tight',
+                                iconCls     : 'menu__icon btn-small-wrap-tight',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.Tight,
                                 checkmark   : false,
                                 checkable   : true
                             }, {
                                 caption     : _holder_view.txtThrough,
-                                iconCls     : 'menu__icon wrap-through',
+                                iconCls     : 'menu__icon btn-small-wrap-through',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.Through,
                                 checkmark   : false,
                                 checkable   : true
                             }, {
                                 caption     : _holder_view.txtTopAndBottom,
-                                iconCls     : 'menu__icon wrap-topandbottom',
+                                iconCls     : 'menu__icon btn-small-wrap-topandbottom',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.TopAndBottom,
                                 checkmark   : false,
@@ -1992,14 +2056,14 @@ define([
                             { caption: '--' },
                             {
                                 caption     : _holder_view.txtInFront,
-                                iconCls     : 'menu__icon wrap-infront',
+                                iconCls     : 'menu__icon btn-small-wrap-infront',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.InFront,
                                 checkmark   : false,
                                 checkable   : true
                             }, {
                                 caption     : _holder_view.txtBehind,
-                                iconCls     : 'menu__icon wrap-behind',
+                                iconCls     : 'menu__icon btn-small-wrap-behind',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.Behind,
                                 checkmark   : false,
@@ -2082,7 +2146,7 @@ define([
                 this.btnPageMargins.updateHint(this.tipPageMargins);
                 this.btnLineNumbers.updateHint(this.tipLineNumbers);
                 this.btnClearStyle.updateHint(this.tipClearStyle);
-                this.btnCopyStyle.updateHint(this.tipCopyStyle + Common.Utils.String.platformKey('Ctrl+Shift+C'));
+                this.btnCopyStyle.updateHint(this.tipCopyStyle + Common.Utils.String.platformKey('Alt+Ctrl+C'));
                 this.btnColorSchemas.updateHint(this.tipColorSchemas);
                 this.btnMailRecepients.updateHint(this.tipMailRecepients);
 
@@ -2244,7 +2308,7 @@ define([
                         restoreHeight: 535,
                         groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                         store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
-                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
+                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                     });
                     picker.on('item:click', function (picker, item, record, e) {
                         if (record)
@@ -2273,7 +2337,7 @@ define([
                         iconCls: item.icon ? 'menu__icon ' + item.icon : undefined,
                         menu: new Common.UI.Menu({
                             items: [
-                                {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art" style="width: ' + width + 'px; height: 500px; margin-left: 5px;"></div>')}
+                                {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art margin-left-5" style="width: ' + width + 'px; height: 500px;"></div>')}
                             ],
                             menuAlign: 'tl-tr',
                         })});
@@ -2337,7 +2401,7 @@ define([
                             iconCls     : 'menu__icon btn-text',
                             toggleGroup: 'textbox',
                             value: 'textRect',
-                            iconClsForMainBtn: 'btn-text'
+                            iconClsForMainBtn: 'btn-big-text'
                         },
                         {
                             caption: this.tipInsertVerticalText,
@@ -2346,12 +2410,53 @@ define([
                             iconCls     : 'menu__icon btn-text-vertical',
                             toggleGroup: 'textbox',
                             value: 'textRectVertical',
-                            iconClsForMainBtn: 'btn-text-vertical'
+                            iconClsForMainBtn: 'btn-big-text-vertical'
                         },
                     ]
                 }));
 
                 // set dataviews
+                this.specSymbols = [
+                    {symbol: 8226,     description: this.textBullet},
+                    {symbol: 8364,     description: this.textEuro},
+                    {symbol: 65284,    description: this.textDollar},
+                    {symbol: 165,      description: this.textYen},
+                    {symbol: 169,      description: this.textCopyright},
+                    {symbol: 174,      description: this.textRegistered},
+                    {symbol: 189,      description: this.textOneHalf},
+                    {symbol: 188,      description: this.textOneQuarter},
+                    {symbol: 8800,     description: this.textNotEqualTo},
+                    {symbol: 177,      description: this.textPlusMinus},
+                    {symbol: 247,      description: this.textDivision},
+                    {symbol: 8730,     description: this.textSquareRoot},
+                    {symbol: 8804,     description: this.textLessEqual},
+                    {symbol: 8805,     description: this.textGreaterEqual},
+                    {symbol: 8482,     description: this.textTradeMark},
+                    {symbol: 8734,     description: this.textInfinity},
+                    {symbol: 126,      description: this.textTilde},
+                    {symbol: 176,      description: this.textDegree},
+                    {symbol: 167,      description: this.textSection},
+                    {symbol: 945,      description: this.textAlpha},
+                    {symbol: 946,      description: this.textBetta},
+                    {symbol: 960,      description: this.textLetterPi},
+                    {symbol: 916,      description: this.textDelta},
+                    {symbol: 9786,     description: this.textSmile},
+                    {symbol: 9829,     description: this.textBlackHeart}
+                ];
+                this.mnuInsertSymbolsPicker = new Common.UI.DataView({
+                    el: $('#id-toolbar-menu-symbols'),
+                    parentMenu: this.btnInsertSymbol.menu,
+                    outerMenu: {menu: this.btnInsertSymbol.menu, index:0},
+                    restoreHeight: 290,
+                    delayRenderTips: true,
+                    scrollAlwaysVisible: true,
+                    store: new Common.UI.DataViewStore(this.loadRecentSymbolsFromStorage()),
+                    itemTemplate: _.template('<div class="item-symbol" <% if (typeof font !== "undefined" && font !=="") { %> style ="font-family: <%= font %>"<% } %>>&#<%= symbol %></div>')
+                });
+                this.btnInsertSymbol.menu.setInnerMenu([{menu: this.mnuInsertSymbolsPicker, index: 0}]);
+                this.btnInsertSymbol.menu.on('show:before',  _.bind(function() {
+                    this.mnuInsertSymbolsPicker.deselectAll();
+                }, this));
 
                 var _conf = this.mnuMarkersPicker.conf;
                 this._markersArr = [
@@ -2366,8 +2471,8 @@ define([
                     '{"Type":"bullet","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"–","rPr":{"rFonts":{"ascii":"Arial","cs":"Arial","eastAsia":"Arial","hAnsi":"Arial"}}}]}'
                 ];
 
-                var listSettings = {recentPath: 'de-recent-bullets', recentCount: 8, recentGroup: 'menu-bullets-group-recent', docGroup: 'menu-bullets-group-doc', docName: this.txtGroupBulletDoc},
-                    recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup),
+                var listSettings = {recentPath: 'de-recent-bullets', recentCount: 6, recentGroup: 'menu-bullets-group-recent', docGroup: 'menu-bullets-group-doc', docName: this.txtGroupBulletDoc},
+                    recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup, listSettings.recentCount),
                     groups = (recents.length>0) ? [{id: listSettings.recentGroup, caption: this.txtGroupRecent, type: 0}] : [],
                     libGroup = 'menu-bullets-group-lib';
                 groups.push({id: libGroup, caption: this.txtGroupBulletLib, type: 1});
@@ -2413,8 +2518,8 @@ define([
                     '{"Type":"number","Lvl":[{"lvlJc":"left","numFmt":{"val":"russianLower"},"lvlText":"%1)"}]}'
                 ];
 
-                listSettings = {recentPath: 'de-recent-numbering', recentCount: 6, recentGroup: 'menu-numbering-group-recent', docGroup: 'menu-numbering-group-doc', docName: this.txtGroupNumDoc};
-                recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup);
+                listSettings = {recentPath: 'de-recent-numbering', recentCount: 8, recentGroup: 'menu-numbering-group-recent', docGroup: 'menu-numbering-group-doc', docName: this.txtGroupNumDoc};
+                recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup, listSettings.recentCount);
                 libGroup = 'menu-numbering-group-lib';
                 groups = (recents.length>0) ? [{id: listSettings.recentGroup, caption: this.txtGroupRecent, type: 0}] : [];
                 groups.push({id: libGroup, caption: this.txtGroupNumLib, type: 1});
@@ -2452,18 +2557,21 @@ define([
                 _conf && this.mnuNumbersPicker.selectByIndex(_conf.index, true);
 
                 _conf = this.mnuMultilevelPicker.conf;
-                listSettings = {recentPath: 'de-recent-multilevels', recentCount: 6, recentGroup: 'menu-multilevels-group-recent', docGroup: 'menu-multilevels-group-doc', docName: this.txtGroupMultiDoc};
-                recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup);
+                listSettings = {recentPath: 'de-recent-multilevels', recentCount: 8, recentGroup: 'menu-multilevels-group-recent', docGroup: 'menu-multilevels-group-doc', docName: this.txtGroupMultiDoc};
+                recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup, listSettings.recentCount);
                 libGroup = 'menu-multilevels-group-lib';
                 groups = (recents.length>0) ? [{id: listSettings.recentGroup, caption: this.txtGroupRecent, type: 0}] : [];
                 groups.push({id: libGroup, caption: this.txtGroupMultiLib, type: 1});
+                var txtArticle = (Common.Locale.getDefaultLanguage() === 'ru') ? 'Статья' : 'Article',
+                    txtSection = (Common.Locale.getDefaultLanguage() === 'ru') ? 'Раздел' : 'Section',
+                    txtChapter = (Common.Locale.getDefaultLanguage() === 'ru') ? 'Глава' : 'Chapter';
                 this._multilevelArr = [
                     '{"Type":"remove"}',
                     '{"Type":"number","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1)","pPr":{"ind":{"left":360,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"%2)","pPr":{"ind":{"left":720,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"%3)","pPr":{"ind":{"left":1080,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%4)","pPr":{"ind":{"left":1440,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"%5)","pPr":{"ind":{"left":1800,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"%6)","pPr":{"ind":{"left":2160,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%7)","pPr":{"ind":{"left":2520,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"%8)","pPr":{"ind":{"left":2880,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"%9)","pPr":{"ind":{"left":3240,"firstLine":-360}}}]}',
                     '{"Type":"number","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.","pPr":{"ind":{"left":360,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.","pPr":{"ind":{"left":792,"firstLine":-432}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.","pPr":{"ind":{"left":1224,"firstLine":-504}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.","pPr":{"ind":{"left":1728,"firstLine":-648}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.%5.","pPr":{"ind":{"left":2232,"firstLine":-792}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.%5.%6.","pPr":{"ind":{"left":2736,"firstLine":-936}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.%5.%6.%7.","pPr":{"ind":{"left":3240,"firstLine":-1080}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.%5.%6.%7.%8.","pPr":{"ind":{"left":3744,"firstLine":-1224}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.%5.%6.%7.%8.%9.","pPr":{"ind":{"left":4320,"firstLine":-1440}}}]}',
                     '{"Type":"bullet","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"v","pPr":{"ind":{"left":360,"firstLine":-360}},"rPr":{"rFonts":{"ascii":"Wingdings","cs":"Wingdings","eastAsia":"Wingdings","hAnsi":"Wingdings"}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"Ø","pPr":{"ind":{"left":720,"firstLine":-360}},"rPr":{"rFonts":{"ascii":"Wingdings","cs":"Wingdings","eastAsia":"Wingdings","hAnsi":"Wingdings"}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"§","pPr":{"ind":{"left":1080,"firstLine":-360}},"rPr":{"rFonts":{"ascii":"Wingdings","cs":"Wingdings","eastAsia":"Wingdings","hAnsi":"Wingdings"}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"·","pPr":{"ind":{"left":1440,"firstLine":-360}},"rPr":{"rFonts":{"ascii":"Symbol","cs":"Symbol","eastAsia":"Symbol","hAnsi":"Symbol"}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"¨","pPr":{"ind":{"left":1800,"firstLine":-360}},"rPr":{"rFonts":{"ascii":"Symbol","cs":"Symbol","eastAsia":"Symbol","hAnsi":"Symbol"}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"Ø","pPr":{"ind":{"left":2160,"firstLine":-360}},"rPr":{"rFonts":{"ascii":"Wingdings","cs":"Wingdings","eastAsia":"Wingdings","hAnsi":"Wingdings"}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"§","pPr":{"ind":{"left":2520,"firstLine":-360}},"rPr":{"rFonts":{"ascii":"Wingdings","cs":"Wingdings","eastAsia":"Wingdings","hAnsi":"Wingdings"}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"·","pPr":{"ind":{"left":2880,"firstLine":-360}},"rPr":{"rFonts":{"ascii":"Symbol","cs":"Symbol","eastAsia":"Symbol","hAnsi":"Symbol"}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"bullet"},"lvlText":"¨","pPr":{"ind":{"left":3240,"firstLine":-360}},"rPr":{"rFonts":{"ascii":"Symbol","cs":"Symbol","eastAsia":"Symbol","hAnsi":"Symbol"}}}]}',
-                    '{"Type":"number","Headings":true,"Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"upperRoman"},"lvlText":"Article %1.","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimalZero"},"lvlText":"Section %1.%2","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"(%3)","pPr":{"ind":{"left":720,"firstLine":-432}}},{"lvlJc":"right","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"(%4)","pPr":{"ind":{"left":864,"firstLine":-144}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%5)","pPr":{"ind":{"left":1008,"firstLine":-432}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"%6)","pPr":{"ind":{"left":1152,"firstLine":-432}}},{"lvlJc":"right","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"%7)","pPr":{"ind":{"left":1296,"firstLine":-288}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"%8.","pPr":{"ind":{"left":1440,"firstLine":-432}}},{"lvlJc":"right","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"%9.","pPr":{"ind":{"left":1584,"firstLine":-144}}}]}',
-                    '{"Type":"number","Headings":true,"Lvl":[{"lvlJc":"left","suff":"space","numFmt":{"val":"decimal"},"lvlText":"Chapter %1","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}}]}',
+                    '{"Type":"number","Headings":true,"Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"upperRoman"},"lvlText":"' + txtArticle + ' %1.","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimalZero"},"lvlText":"' + txtSection + ' %1.%2","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"(%3)","pPr":{"ind":{"left":720,"firstLine":-432}}},{"lvlJc":"right","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"(%4)","pPr":{"ind":{"left":864,"firstLine":-144}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%5)","pPr":{"ind":{"left":1008,"firstLine":-432}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"%6)","pPr":{"ind":{"left":1152,"firstLine":-432}}},{"lvlJc":"right","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"%7)","pPr":{"ind":{"left":1296,"firstLine":-288}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"%8.","pPr":{"ind":{"left":1440,"firstLine":-432}}},{"lvlJc":"right","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"%9.","pPr":{"ind":{"left":1584,"firstLine":-144}}}]}',
+                    '{"Type":"number","Headings":true,"Lvl":[{"lvlJc":"left","suff":"space","numFmt":{"val":"decimal"},"lvlText":"' + txtChapter + ' %1","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"nothing","numFmt":{"val":"none"},"lvlText":"","pPr":{"ind":{"left":0,"firstLine":0}}}]}',
                     '{"Type":"number","Headings":true,"Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"upperRoman"},"lvlText":"%1.","pPr":{"ind":{"left":0,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"upperLetter"},"lvlText":"%2.","pPr":{"ind":{"left":720,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%3.","pPr":{"ind":{"left":1440,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"%4)","pPr":{"ind":{"left":2160,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"(%5)","pPr":{"ind":{"left":2880,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"(%6)","pPr":{"ind":{"left":3600,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"(%7)","pPr":{"ind":{"left":4320,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"(%8)","pPr":{"ind":{"left":5040,"firstLine":0}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"(%9)","pPr":{"ind":{"left":5760,"firstLine":0}}}]}',
                     '{"Type":"number","Headings":true,"Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.","pPr":{"ind":{"left":432,"firstLine":-432}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.","pPr":{"ind":{"left":576,"firstLine":-576}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.","pPr":{"ind":{"left":720,"firstLine":-720}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.","pPr":{"ind":{"left":864,"firstLine":-864}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.%5.","pPr":{"ind":{"left":1008,"firstLine":-1008}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.%5.%6.","pPr":{"ind":{"left":1152,"firstLine":-1152}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.%5.%6.%7.","pPr":{"ind":{"left":1296,"firstLine":-1296}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.%5.%6.%7.%8.","pPr":{"ind":{"left":1440,"firstLine":-1440}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1.%2.%3.%4.%5.%6.%7.%8.%9.","pPr":{"ind":{"left":1584,"firstLine":-1584}}}]}'
                 ];
@@ -2502,42 +2610,42 @@ define([
                     showLast: false,
                     store: new Common.UI.DataViewStore([
                         {
-                            iconname: 'page-number-top-left',
+                            iconname: 'btn-page-number-top-left',
                             data: {
                                 type: c_pageNumPosition.PAGE_NUM_POSITION_TOP,
                                 subtype: c_pageNumPosition.PAGE_NUM_POSITION_LEFT
                             }
                         },
                         {
-                            iconname: 'page-number-top-center',
+                            iconname: 'btn-page-number-top-center',
                             data: {
                                 type: c_pageNumPosition.PAGE_NUM_POSITION_TOP,
                                 subtype: c_pageNumPosition.PAGE_NUM_POSITION_CENTER
                             }
                         },
                         {
-                            iconname: 'page-number-top-right',
+                            iconname: 'btn-page-number-top-right',
                             data: {
                                 type: c_pageNumPosition.PAGE_NUM_POSITION_TOP,
                                 subtype: c_pageNumPosition.PAGE_NUM_POSITION_RIGHT
                             }
                         },
                         {
-                            iconname: 'page-number-bottom-left',
+                            iconname: 'btn-page-number-bottom-left',
                             data: {
                                 type: c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,
                                 subtype: c_pageNumPosition.PAGE_NUM_POSITION_LEFT
                             }
                         },
                         {
-                            iconname: 'page-number-bottom-center',
+                            iconname: 'btn-page-number-bottom-center',
                             data: {
                                 type: c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,
                                 subtype: c_pageNumPosition.PAGE_NUM_POSITION_CENTER
                             }
                         },
                         {
-                            iconname: 'page-number-bottom-right',
+                            iconname: 'btn-page-number-bottom-right',
                             data: {
                                 type: c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,
                                 subtype: c_pageNumPosition.PAGE_NUM_POSITION_RIGHT
@@ -2865,11 +2973,70 @@ define([
                     this.btnPageMargins.menu.items[0].setVisible(false);
             },
 
-            loadListPresetsFromStorage: function(path, groupId) {
+            loadRecentSymbolsFromStorage: function(){
+                var recents = Common.localStorage.getItem('de-fastRecentSymbols');
+                var arr =(!!recents) ? JSON.parse(recents) :
+                    [
+                        { symbol: 8226,     font: 'Arial'},
+                        { symbol: 8364,     font: 'Arial'},
+                        { symbol: 65284,    font: 'Arial'},
+                        { symbol: 165,      font: 'Arial'},
+                        { symbol: 169,      font: 'Arial'},
+                        { symbol: 174,      font: 'Arial'},
+                        { symbol: 189,      font: 'Arial'},
+                        { symbol: 188,      font: 'Arial'},
+                        { symbol: 8800,     font: 'Arial'},
+                        { symbol: 177,      font: 'Arial'},
+                        { symbol: 247,      font: 'Arial'},
+                        { symbol: 8730,     font: 'Arial'},
+                        { symbol: 8804,     font: 'Arial'},
+                        { symbol: 8805,     font: 'Arial'},
+                        { symbol: 8482,     font: 'Arial'},
+                        { symbol: 8734,     font: 'Arial'},
+                        { symbol: 126,      font: 'Arial'},
+                        { symbol: 176,      font: 'Arial'},
+                        { symbol: 167,      font: 'Arial'},
+                        { symbol: 945,      font: 'Arial'},
+                        { symbol: 946,      font: 'Arial'},
+                        { symbol: 960,      font: 'Arial'},
+                        { symbol: 916,      font: 'Arial'},
+                        { symbol: 9786,     font: 'Arial'},
+                        { symbol: 9829,     font: 'Arial'}
+                    ];
+                arr.forEach(function (item){
+                    item.tip = this.getSymbolDescription(item.symbol);
+                }.bind(this));
+                return arr;
+            },
+
+            saveSymbol: function(symbol, font) {
+                var maxLength =25,
+                    picker = this.mnuInsertSymbolsPicker;
+                var item = picker.store.find(function(item){
+                    return item.get('symbol') == symbol && item.get('font') == font
+                });
+
+                item && picker.store.remove(item);
+                picker.store.add({symbol: symbol, font: font, tip: this.getSymbolDescription(symbol)},{at:0});
+                picker.store.length > maxLength && picker.store.remove(picker.store.last());
+
+                var arr = picker.store.map(function (item){
+                    return {symbol: item.get('symbol'), font: item.get('font')};
+                });
+                var sJSON = JSON.stringify(arr);
+                Common.localStorage.setItem( 'de-fastRecentSymbols', sJSON);
+            },
+
+            getSymbolDescription: function(symbol){
+                var  specSymbol = this.specSymbols.find(function (item){return item.symbol == symbol});
+                return !!specSymbol ? specSymbol.description : this.capBtnInsSymbol + ': ' + symbol;
+            },
+
+            loadListPresetsFromStorage: function(path, groupId, recentCount) {
                 var recents = Common.localStorage.getItem(path),
                     arr = [];
                 recents = recents ? JSON.parse(recents) : [];
-                for (var i=0; i<recents.length; i++) {
+                for (var i=0; i<recents.length && i<recentCount; i++) {
                     arr.push({id: 'id-recent-list-' + Common.UI.getId(), numberingInfo: recents[i], skipRenderOnChange: true, group : groupId, type: 0});
                 }
                 return arr;
@@ -3144,7 +3311,33 @@ define([
             txtGroupBulletDoc: 'Document bullets',
             txtGroupNumDoc: 'Document numbering formats',
             txtGroupMultiDoc: 'Lists in current document',
-            textTabDraw: 'Draw'
+            textTabDraw: 'Draw',
+            textMoreSymbols: 'More symbols',
+            textAlpha: 'Greek Small Letter Alpha',
+            textBetta: 'Greek Small Letter Betta',
+            textBlackHeart: 'Black Heart Suit',
+            textBullet: 'Bullet',
+            textCopyright: 'Copyright Sign',
+            textDegree: 'Degree Sign',
+            textDelta: 'Greek Small Letter Delta',
+            textDivision: 'Division Sign',
+            textDollar: 'Dollar Sign',
+            textEuro: 'Euro Sign',
+            textGreaterEqual: 'Greater-Than Or Equal To',
+            textInfinity: 'Infinity',
+            textLessEqual: 'Less-Than Or Equal To',
+            textLetterPi: 'Greek Small Letter Pi',
+            textNotEqualTo: 'Not Equal To',
+            textOneHalf: 'Vulgar Fraction One Half',
+            textOneQuarter: 'Vulgar Fraction One Quarter',
+            textPlusMinus: 'Plus-Minus Sign',
+            textRegistered: 'Registered Sign',
+            textSection: 'Section Sign',
+            textSmile: 'White Smiling Fase',
+            textSquareRoot: 'Square Root',
+            textTilde: 'Tilde',
+            textTradeMark: 'Trade Mark Sign',
+            textYen: 'Yen Sign'
         }
     })(), DE.Views.Toolbar || {}));
 });

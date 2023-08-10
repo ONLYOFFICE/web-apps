@@ -10,41 +10,15 @@
 
   .title {
     padding-top: 3px;
-    padding-right: 5px;
-    .rtl & {
-      padding-right: 0;
-      padding-left: 5px;
-      float: right;
-    }
+    .padding-right-5();
   }
 
   .shifted-left & {
-    padding-left: 12px;
-    .rtl & {
-      padding-right: 12px;
-    }
-  }
-
-  .updown-picker-button-up {
-    float:right;
-    .rtl & {
-      float: left;
-    }
+    .padding-x(12px, 5px);
   }
 
   .updown-picker-value {
-    float:right;
     padding: 3px 3px;
     text-align: center;
-    .rtl & {
-      float: left;
-    }
-  }
-
-  .updown-picker-button-down {
-    float:right;
-    .rtl & {
-      float: left;
-    }
   }
 }

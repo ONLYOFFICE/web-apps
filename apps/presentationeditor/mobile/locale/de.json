@@ -112,7 +112,6 @@
       "textHasMacros": "Die Datei beinhaltet automatische Makros.<br>Möchten Sie Makros ausführen?",
       "textNo": "Nein",
       "textNoLicenseTitle": "Lizenzlimit erreicht",
-      "textNoTextFound": "Der Text wurde nicht gefunden.",
       "textOpenFile": "Kennwort zum Öffnen der Datei eingeben",
       "textPaidFeature": "Kostenpflichtige Funktion",
       "textRemember": "Auswahl speichern",
@@ -133,7 +132,9 @@
       "warnNoLicense": "Sie haben die maximale Anzahl von gleichzeitigen Verbindungen in %1-Editoren erreicht. Die Bearbeitung ist jetzt in diesem Dokument nicht verfügbar. Bitte kontaktieren Sie unser Verkaufsteam, um individuelle Upgrade-Bedingungen zu erhalten.",
       "warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte kontaktieren Sie unser Verkaufsteam, um individuelle Upgrade-Bedingungen zu erhalten.",
       "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten.",
+      "textNoMatches": "No Matches",
       "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
@@ -364,7 +365,6 @@
       "textNextSlide": "Nächste Folie",
       "textNone": "Kein(e)",
       "textNoStyles": "Keine Stile für diesen Typ von Diagrammen.",
-      "textNoTextFound": "Der Text wurde nicht gefunden",
       "textNotUrl": "In diesem Feld soll eine URL im Format \"http://www.example.com\" eingetragen werden.",
       "textNumbers": "Nummern",
       "textOk": "OK",
@@ -420,7 +420,12 @@
       "textZoom": "Zoom",
       "textZoomIn": "Vergrößern",
       "textZoomOut": "Verkleinern",
-      "textZoomRotate": "Vergrößern und drehen"
+      "textZoomRotate": "Vergrößern und drehen",
+      "textNoMatches": "No Matches",
+      "textMorph": "Morph",
+      "textMorphObjects": "Objects",
+      "textMorphWords": "Words",
+      "textMorphLetters": "Letters"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
@@ -460,7 +465,6 @@
       "textLoading": "Lädt...",
       "textLocation": "Standort",
       "textMacrosSettings": "Einstellungen von Makros",
-      "textNoTextFound": "Der Text wurde nicht gefunden",
       "textOk": "OK",
       "textOwner": "Besitzer",
       "textPoint": "Punkt",
@@ -505,7 +509,8 @@
       "txtScheme6": "Concourse",
       "txtScheme7": "Eigenkapital",
       "txtScheme8": "Flow",
-      "txtScheme9": "Foundry"
+      "txtScheme9": "Foundry",
+      "textNoMatches": "No Matches"
     }
   }
 }

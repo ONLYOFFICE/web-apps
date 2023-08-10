@@ -23,7 +23,7 @@
             overflow: hidden;
             border: none;
             background-color: #f4f4f4;
-            z-index: 10000;
+            z-index: 1000;
         }
 
         .loadmask > .brendpanel {
@@ -81,32 +81,66 @@
             overflow: hidden;
             position: relative;
 
-            -webkit-animation: flickerAnimation 2s infinite ease-in-out;
-            -moz-animation: flickerAnimation 2s infinite ease-in-out;
-            -o-animation: flickerAnimation 2s infinite ease-in-out;
-            animation: flickerAnimation 2s infinite ease-in-out;
+            -webkit-animation: startFlickerAnimation 2s infinite ease-in-out;
+            -moz-animation: startFlickerAnimation 2s infinite ease-in-out;
+            -o-animation: startFlickerAnimation 2s infinite ease-in-out;
+            animation: startFlickerAnimation 2s infinite ease-in-out;
+        }
+        
+        @keyframes startFlickerAnimation {
+            0%   { opacity:0.1; }
+            50%  { opacity:1; }
+            100% { opacity:0.1; }
+        }
+        @-o-keyframes startFlickerAnimation{
+            0%   { opacity:0.1; }
+            50%  { opacity:1; }
+            100% { opacity:0.1; }
+        }
+        @-moz-keyframes startFlickerAnimation{
+            0%   { opacity:0.1; }
+            50%  { opacity:1; }
+            100% { opacity:0.1; }
+        }
+        @-webkit-keyframes startFlickerAnimation{
+            0%   { opacity:0.1; }
+            50%  { opacity:1; }
+            100% { opacity:0.1; }
         }
 
-        @keyframes flickerAnimation {
-            0%   { opacity:0.1; }
-            50%  { opacity:1; }
-            100% { opacity:0.1; }
+        .loadmask.none-animation > .placeholder > .line {
+            animation: none;
         }
-        @-o-keyframes flickerAnimation{
-            0%   { opacity:0.1; }
-            50%  { opacity:1; }
-            100% { opacity:0.1; }
+
+        .loadmask.end-animation > .placeholder > .line {
+            -webkit-animation: endFlickerAnimation 2s infinite ease-in-out;
+            -moz-animation: endFlickerAnimation 2s infinite ease-in-out;
+            -o-animation: endFlickerAnimation 2s infinite ease-in-out;
+            animation: endFlickerAnimation 2s infinite ease-in-out;
         }
-        @-moz-keyframes flickerAnimation{
-            0%   { opacity:0.1; }
-            50%  { opacity:1; }
-            100% { opacity:0.1; }
+
+        @keyframes endFlickerAnimation {
+            0%   { opacity:1; }
+            50%  { opacity:0.1; }
+            100% { opacity:1; }
         }
-        @-webkit-keyframes flickerAnimation{
-            0%   { opacity:0.1; }
-            50%  { opacity:1; }
-            100% { opacity:0.1; }
+        @-o-keyframes endFlickerAnimation{
+            0%   { opacity:1; }
+            50%  { opacity:0.1; }
+            100% { opacity:1; }
         }
+        @-moz-keyframes endFlickerAnimation{
+            0%   { opacity:1; }
+            50%  { opacity:0.1; }
+            100% { opacity:1; }
+        }
+        @-webkit-keyframes endFlickerAnimation{
+            0%   { opacity:1; }
+            50%  { opacity:0.1; }
+            100% { opacity:1; }
+        }
+
+        
     </style>
 
     <!--[if lt IE 9]>
@@ -216,7 +250,7 @@
                       <p id="id-critical-error-message"></p>
                   </div>
                   <div class="modal-footer">
-                      <button id="id-critical-error-close" class="btn btn-sm btn-primary" data-dismiss="modal" aria-hidden="true">Close</button>
+                      <button id="id-critical-error-close" class="btn btn-sm" data-dismiss="modal" aria-hidden="true">Close</button>
                   </div>
               </div>
           </div>
