@@ -49,7 +49,8 @@ define([
 
             var _options = {},
                 width = options.initwidth || 900,
-                height = options.initheight || 700;
+                height = options.initheight || 700,
+                footer = options.footer !== undefined ? options.footer : true;
             var value = Common.localStorage.getItem(this.storageName + '-width');
             value && (width = parseInt(value));
             value = Common.localStorage.getItem(this.storageName + '-height');
@@ -63,20 +64,23 @@ define([
                 header: true,
                 toolclose: 'hide',
                 toolcallback: _.bind(this.onToolClose, this),
-                resizable: true
+                resizable: true,
+                footer: footer
             }, options);
 
-            this._headerFooterHeight = 85;
+            this._headerFooterHeight = footer ? 85 : 39;
 
             this.template = [
                 '<div id="id-editor-container" class="box" style="height:' + (_options.height-this._headerFooterHeight) + 'px; padding: 0 5px;">',
                     '<div id="' + (_options.sdkplaceholder || '') + '" style="width: 100%;height: 100%;"></div>',
                 '</div>',
+                '<% if (footer) { %>',
                 '<div class="separator horizontal"></div>',
                 '<div class="footer" style="text-align: center;">',
                     '<button id="id-btn-editor-apply" class="btn normal dlg-btn primary custom" result="ok" data-hint="1" data-hint-direction="bottom" data-hint-offset="big">' + this.textSave + '</button>',
                     '<button id="id-btn-editor-cancel" class="btn normal dlg-btn" result="cancel" data-hint="1" data-hint-direction="bottom" data-hint-offset="big">' + this.textClose + '</button>',
-                '</div>'
+                '</div>',
+                '<% } %>'
             ].join('');
 
             _options.tpl = _.template(this.template)(_options);
