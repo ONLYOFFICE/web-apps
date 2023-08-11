@@ -9,7 +9,7 @@ import { idContextMenuElement } from '../../../../common/mobile/lib/view/Context
 // import { Device } from '../../../../common/mobile/utils/device';
 import EditorUIController from '../lib/patch';
 
-@inject (stores => ({
+@inject(stores => ({
     isEdit: stores.storeAppOptions.isEdit,
     canComments: stores.storeAppOptions.canComments,
     canViewComments: stores.storeAppOptions.canViewComments,
@@ -22,7 +22,8 @@ import EditorUIController from '../lib/patch';
     wsLock: stores.storeWorksheets.wsLock,
     objects: stores.storeFocusObjects.objects,
     focusOn: stores.storeFocusObjects.focusOn,
-    isResolvedComments: stores.storeApplicationSettings.isResolvedComments
+    isResolvedComments: stores.storeApplicationSettings.isResolvedComments,
+    isVersionHistoryMode: stores.storeVersionHistory.isVersionHistoryMode
 }))
 class ContextMenu extends ContextMenuController {
     constructor(props) {
@@ -244,7 +245,7 @@ class ContextMenu extends ContextMenuController {
         const { t } = this.props;
         const _t = t("ContextMenu", { returnObjects: true });
 
-        const { isEdit, isRestrictedEdit, isDisconnected } = this.props;
+        const { isEdit, isRestrictedEdit, isDisconnected, isVersionHistoryMode } = this.props;
 
         if (isEdit && EditorUIController.ContextMenu) {
             return EditorUIController.ContextMenu.mapMenuItems(this);
@@ -284,12 +285,16 @@ class ContextMenu extends ContextMenuController {
                         caption: _t.menuOpenLink,
                         event: 'openlink'
                     });
-                    itemsText.push({
-                        caption: t("ContextMenu.menuEditLink"),
-                        event: 'editlink'
-                    });
-                }``
-                if(!isDisconnected) {
+                    
+                    if(!isVersionHistoryMode) {
+                        itemsText.push({
+                            caption: t("ContextMenu.menuEditLink"),
+                            event: 'editlink'
+                        });
+                    }
+                }
+
+                if(!isDisconnected && !isVersionHistoryMode) {
                     if (canViewComments && comments && comments.length && ((!isSolvedComment && !isResolvedComments) || isResolvedComments)) {
                         itemsText.push({
                             caption: _t.menuViewComment,
