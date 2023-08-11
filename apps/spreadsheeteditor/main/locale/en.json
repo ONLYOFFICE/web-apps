@@ -1031,6 +1031,8 @@
   "SSE.Controllers.Main.errorWrongOperator": "An error in the entered formula. Wrong operator is used.<br>Please correct the error.",
   "SSE.Controllers.Main.errorWrongPassword": "The password you supplied is not correct.",
   "SSE.Controllers.Main.errRemDuplicates": "Duplicate values found and deleted: {0}, unique values left: {1}.",
+  "SSE.Controllers.Main.errorDependentsNoFormulas": "The Trace Dependents command found no formulas that refer to the active cell.",
+  "SSE.Controllers.Main.errorPrecedentsNoValidRef": "The Trace Precedents command requires that the active cell contain a formula which includes a valid references.",
   "SSE.Controllers.Main.leavePageText": "You have unsaved changes in this spreadsheet. Click 'Stay on this Page' then 'Save' to save them. Click 'Leave this Page' to discard all the unsaved changes.",
   "SSE.Controllers.Main.leavePageTextOnClose": "All unsaved changes in this spreadsheet will be lost.<br> Click \"Cancel\" then \"Save\" to save them. Click \"OK\" to discard all the unsaved changes.",
   "SSE.Controllers.Main.loadFontsTextText": "Loading data...",

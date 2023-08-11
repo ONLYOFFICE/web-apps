@@ -2085,6 +2085,15 @@ define([
                         config.msg = this.errorProtectedRange;
                         break;
 
+                    case Asc.c_oAscError.ID.TraceDependentsNoFormulas:
+                        config.msg = this.errorDependentsNoFormulas;
+                        break;
+
+                    case Asc.c_oAscError.ID.TracePrecedentsNoValidReference:
+                        config.msg = this.errorPrecedentsNoValidRef;
+                        config.maxwidth = 600;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -3879,7 +3888,9 @@ define([
             txtInfo: 'Info',
             confirmReplaceHFPicture: 'Only one picture can be inserted in each section of the header.<br>Press \"Replace\" to replace existing picture.<br>Press \"Keep\" to keep existing picture.',
             textReplace: 'Replace',
-            textKeep: 'Keep'
+            textKeep: 'Keep',
+            errorDependentsNoFormulas: 'The Trace Dependents command found no formulas that refer to the active cell.',
+            errorPrecedentsNoValidRef: 'The Trace Precedents command requires that the active cell contain a formula which includes a valid references.'
         }
     })(), SSE.Controllers.Main || {}))
 });
