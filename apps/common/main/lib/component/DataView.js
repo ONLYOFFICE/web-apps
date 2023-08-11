@@ -405,8 +405,8 @@ define([
 
             this.rendered = true;
 
-            this.cmpEl.on('click', function(e){
-                if (/dataview/.test(e.target.className)) return false;
+            (this.$el || $(this.el)).on('click', function(e){
+                if (/dataview|grouped-data|group-items-container/.test(e.target.className) || $(e.target).closest('.group-description').length>0) return false;
             });
 
             this.trigger('render:after', this);
@@ -1143,8 +1143,8 @@ define([
 
             this.rendered = true;
 
-            this.cmpEl.on('click', function(e){
-                if (/dataview/.test(e.target.className)) return false;
+            (this.$el || $(this.el)).on('click', function(e){
+                if (/dataview|grouped-data|group-items-container/.test(e.target.className) || $(e.target).closest('.group-description').length>0) return false;
             });
 
             this.trigger('render:after', this);
