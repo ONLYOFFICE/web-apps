@@ -42,6 +42,20 @@
       "textCustomColors": "Culori particularizate",
       "textStandartColors": "Culori standard",
       "textThemeColors": "Culori temă"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Avertisment",
+      "textAnonymous": "Anonim",
+      "textBack": "Înapoi",
+      "textCancel": "Anulare",
+      "textCurrent": "Curent",
+      "textOk": "OK",
+      "textRestore": "Restabilire",
+      "textVersion": "Versiune",
+      "textVersionHistory": "Istoricul versiune",
+      "textWarningRestoreVersion": "Fișierul curent va fi salvat în istoricul versiunilor",
+      "titleWarningRestoreVersion": "Doriți să restaurați această versiune?",
+      "txtErrorLoadHistory": "Încărcarea istoricului a eșuat"
     }
   },
   "ContextMenu": {
@@ -113,7 +127,7 @@
       "textNo": "Nu",
       "textNoLicenseTitle": "Ați atins limita stabilită de licență",
       "textNoMatches": "Nicio potrivire",
-      "textOpenFile": "Introduceți parola pentru deschidere fișier",
+      "textOpenFile": "Introduceți parola pentru a deschide fișierul",
       "textPaidFeature": "Funcția contra plată",
       "textRemember": "Reține opțiunea mea",
       "textReplaceSkipped": "A avut loc o înlocuire. {0} apariții ignorate.",
@@ -222,7 +236,8 @@
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",
     "dlgLeaveTitleText": "Dumneavoastră părăsiți aplicația",
     "leaveButtonText": "Părăsește această pagina",
-    "stayButtonText": "Rămâi în pagină"
+    "stayButtonText": "Rămâi în pagină",
+    "textCloseHistory": "Închide istoricul"
   },
   "View": {
     "Add": {
@@ -360,6 +375,10 @@
       "textLinkSettings": "Configurarea link",
       "textLinkTo": "Legătură la",
       "textLinkType": "Tip link",
+      "textMorph": "Morfologia",
+      "textMorphLetters": "Litere",
+      "textMorphObjects": "Obiecte",
+      "textMorphWords": "Cuvinte",
       "textMoveBackward": "Mutare în ultimul plan",
       "textMoveForward": "Mutare înainte",
       "textNextSlide": "Diapozitivul următor",
@@ -421,11 +440,7 @@
       "textZoom": "Zoom",
       "textZoomIn": "Mărire",
       "textZoomOut": "Micșorare",
-      "textZoomRotate": "Zoom și rotire",
-      "textMorph": "Morph",
-      "textMorphObjects": "Objects",
-      "textMorphWords": "Words",
-      "textMorphLetters": "Letters"
+      "textZoomRotate": "Zoom și rotire"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
@@ -489,6 +504,7 @@
       "textUnitOfMeasurement": "Unitate de măsură ",
       "textUploaded": "S-a încărcat",
       "textVersion": "Versiune",
+      "textVersionHistory": "Istoricul versiune",
       "txtScheme1": "Office",
       "txtScheme10": "Median",
       "txtScheme11": "Metrou",

@@ -2018,7 +2018,6 @@
   "DE.Views.FileMenuPanels.ProtectDoc.txtSigned": "Baliozko sinadurak gehitu dira dokumentura. Dokumentua ediziotik babestua dago.",
   "DE.Views.FileMenuPanels.ProtectDoc.txtSignedInvalid": "Dokumentuko sinadura digitaletako batzuk baliogabeak dira edo ezin izan dira egiaztatu. Dokumentua editatzetik babestua dago.",
   "DE.Views.FileMenuPanels.ProtectDoc.txtView": "Ikusi sinadurak",
-  "DE.Views.FileMenuPanels.RecentFiles.txtOpenRecent": "Ireki azkenak",
   "DE.Views.FileMenuPanels.Settings.okButtonText": "Aplikatu",
   "DE.Views.FileMenuPanels.Settings.strCoAuthMode": "Batera editatzeko modua",
   "DE.Views.FileMenuPanels.Settings.strFast": "Azkarra",

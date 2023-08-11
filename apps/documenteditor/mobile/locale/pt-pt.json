@@ -174,6 +174,20 @@
       "textCustomColors": "Cores personalizadas",
       "textStandartColors": "Cores padrão",
       "textThemeColors": "Cores do tema"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Aviso",
+      "textAnonymous": "Anónimo",
+      "textBack": "Recuar",
+      "textCancel": "Cancelar",
+      "textCurrent": "Atual",
+      "textOk": "OK",
+      "textRestore": "Restaurar",
+      "textVersion": "Versão",
+      "textVersionHistory": "Histórico de versões",
+      "textWarningRestoreVersion": "O ficheiro atual será guardado no histórico de versões.",
+      "titleWarningRestoreVersion": "Restaurar esta versão?",
+      "txtErrorLoadHistory": "Falha ao carregar o histórico"
     }
   },
   "ContextMenu": {
@@ -407,6 +421,7 @@
     "errorMailMergeLoadFile": "Falha ao carregar",
     "errorMailMergeSaveFile": "Falha ao unir.",
     "errorNoTOC": "Não existem alterações a fazer no índice remissivo. Pode introduzir alterações no separador Referências.",
+    "errorPasswordIsNotCorrect": "A palavra-passe indicada não está correta. Verifique se CAPS LOCK está ativado e certifique-se de que está a utilizar a capitalização correta.",
     "errorSessionAbsolute": "A sessão de edição de documentos expirou. Por favor, recarregue a página.",
     "errorSessionIdle": "O documento não foi editado durante muito tempo. Por favor, recarregue a página.",
     "errorSessionToken": "A ligação ao servidor foi interrompida. Por favor, recarregue a página.",
@@ -428,8 +443,7 @@
     "unknownErrorText": "Erro desconhecido.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Nenhuma imagem foi carregada.",
-    "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo é de 25 MB.",
-    "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization."
+    "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo é de 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "A carregar dados...",
@@ -545,6 +559,10 @@
     "textClose": "Fechar",
     "textContactUs": "Contacte a equipa comercial",
     "textCustomLoader": "Desculpe mas não tem o direito de mudar o carregador. Contacte o nosso departamento de vendas para obter um orçamento.",
+    "textDialogProtectedChangesTracked": "Pode editar este ficheiro mas o registo de alterações está ativado",
+    "textDialogProtectedEditComments": "Apenas tem permissão para introduzir comentários",
+    "textDialogProtectedFillForms": "Apenas tem permissão para preencher formulários",
+    "textDialogProtectedOnlyView": "Apenas tem permissão para ver o documento",
     "textDocumentProtected": "O documento está protegido. As definições de edição não estão disponíveis",
     "textGuest": "Convidado",
     "textHasMacros": "O ficheiro contém macros automáticas.<br>Deseja executar as macros?",
@@ -563,6 +581,8 @@
     "titleLicenseNotActive": "Licença inativa",
     "titleServerVersion": "Editor atualizado",
     "titleUpdateVersion": "Versão alterada",
+    "warnDownloadAsPdf": "O seu {0} será convertido para um formato editável. Isto pode demorar algum tempo. O documento resultante será otimizado para lhe permitir editar o texto, pelo que poderá não ser exatamente igual ao {0} original, especialmente se o ficheiro original contiver muitos gráficos.",
+    "warnLicenseAnonymous": "Acesso recusado para utilizadores anónimos.<br>O documento será aberto no modo de leitura.",
     "warnLicenseBefore": "Licença inativa.<br>Contacte o administrador de sistemas.",
     "warnLicenseExceeded": "Atingiu o limite de ligações simultâneas a %1 editores. Este documento será aberto apenas para visualização. Contacte o seu administrador para obter mais informações.",
     "warnLicenseExp": "A sua licença expirou. Por favor, renove a sua licença e atualize a página.",
@@ -571,13 +591,7 @@
     "warnLicenseUsersExceeded": "Atingiu o limite de %1 editores. Contacte o seu administrador para obter detalhes.",
     "warnNoLicense": "Atingiu o limite de ligações simultâneas a %1 editores. Este documento será aberto apenas para visualização. Contacte a %1 equipa de vendas para consultar os termos de atualização para si.",
     "warnNoLicenseUsers": "Atingiu o limite de %1 editores. Contacte a equipa comercial %1 para obter mais informações.",
-    "warnProcessRightsChange": "Não tem autorização para editar este ficheiro.",
-    "textDialogProtectedChangesTracked": "You may edit this document, but all changes will be tracked",
-    "textDialogProtectedEditComments": "You may only insert comments to this document",
-    "textDialogProtectedFillForms": "You may only fill in forms in this document",
-    "textDialogProtectedOnlyView": "You may only view this document",
-    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
-    "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
+    "warnProcessRightsChange": "Não tem autorização para editar este ficheiro."
   },
   "Settings": {
     "advDRMOptions": "Ficheiro protegido",
@@ -692,12 +706,15 @@
     "textTitle": "Título",
     "textTop": "Cima",
     "textTrackedChanges": "Alterações registadas",
+    "textTypeEditing": "Tipo de edição",
     "textUnitOfMeasurement": "Unidade de medida",
     "textUnprotect": "Desproteger",
     "textUploaded": "Carregado",
     "textVerify": "Verificar",
+    "textVersionHistory": "Histórico de versões",
     "textWords": "Palavras",
     "textYes": "Sim",
+    "titleDialogUnprotect": "Documento não protegido",
     "txtDownloadTxt": "Descarregar TXT",
     "txtIncorrectPwd": "A palavra-passe está incorreta",
     "txtOk": "OK",
@@ -723,19 +740,18 @@
     "txtScheme6": "Concurso",
     "txtScheme7": "Equidade",
     "txtScheme8": "Fluxo",
-    "txtScheme9": "Fundição",
-    "textTypeEditing": "Type Of Editing",
-    "titleDialogUnprotect": "Unprotect Document"
+    "txtScheme9": "Fundição"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Existem alterações não guardadas. Clique 'Ficar na página' para guardar automaticamente. Clique 'Sair da página' para rejeitar todas as alterações.",
     "dlgLeaveTitleText": "Saiu da aplicação",
     "leaveButtonText": "Sair da página",
     "stayButtonText": "Ficar na página",
+    "textCloseHistory": "Fechar histórico",
+    "textEnterNewFileName": "Introduza o nome para o ficheiro",
     "textOk": "Aceitar",
+    "textRenameFile": "Mudar nome do ficheiro",
     "textSwitchedMobileView": "Alterado para vista móvel",
-    "textSwitchedStandardView": "Alterado para a vista predefinida",
-    "textRenameFile": "Rename File",
-    "textEnterNewFileName": "Enter a new file name"
+    "textSwitchedStandardView": "Alterado para a vista predefinida"
   }
 }

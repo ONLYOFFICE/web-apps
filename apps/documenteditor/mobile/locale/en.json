@@ -176,18 +176,18 @@
       "textThemeColors": "Theme Colors"
     },
     "VersionHistory": {
-      "textVersionHistory": "Version History",
-      "textAnonymous": "Anonymous",
-      "txtErrorLoadHistory": "Loading history failed",
-      "textVersion": "Version",
-      "textCurrent": "Current",
-      "textRestore": "Restore",
-      "titleWarningRestoreVersion": "Restore this version?",
-      "textWarningRestoreVersion": "Current file will be saved in version history.",
-      "textBack": "Back",
       "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
       "textOk": "Ok",
-      "textCancel": "Cancel"
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -711,6 +711,7 @@
     "textUnprotect": "Unprotect",
     "textUploaded": "Uploaded",
     "textVerify": "Verify",
+    "textVersionHistory": "Version History",
     "textWords": "Words",
     "textYes": "Yes",
     "titleDialogUnprotect": "Unprotect Document",
@@ -739,19 +740,18 @@
     "txtScheme6": "Concourse",
     "txtScheme7": "Equity",
     "txtScheme8": "Flow",
-    "txtScheme9": "Foundry",
-    "textVersionHistory": "Version History"
+    "txtScheme9": "Foundry"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this Page",
     "stayButtonText": "Stay on this page",
-    "textOk": "OK",
-    "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view",
-    "textRenameFile": "Rename File",
+    "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
-    "textCloseHistory": "Close History"
+    "textOk": "OK",
+    "textRenameFile": "Rename File",
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

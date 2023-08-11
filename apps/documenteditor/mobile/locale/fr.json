@@ -174,6 +174,20 @@
       "textCustomColors": "Couleurs personnalisées",
       "textStandartColors": "Couleurs standard",
       "textThemeColors": "Couleurs de thème"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Avertissement",
+      "textAnonymous": "Anonyme",
+      "textBack": "Retour",
+      "textCancel": "Annuler",
+      "textCurrent": "Actuel",
+      "textOk": "OK",
+      "textRestore": "Restaurer",
+      "textVersion": "Version",
+      "textVersionHistory": "Historique des versions",
+      "textWarningRestoreVersion": "Le fichier actuel sera sauvegardé dans l'historique des versions.",
+      "titleWarningRestoreVersion": "Restaurer cette version?",
+      "txtErrorLoadHistory": "Échec du chargement de l'historique"
     }
   },
   "ContextMenu": {
@@ -697,6 +711,7 @@
     "textUnprotect": "Déprotéger",
     "textUploaded": "Chargé",
     "textVerify": "Vérifier",
+    "textVersionHistory": "Historique des versions",
     "textWords": "Mots",
     "textYes": "Oui",
     "titleDialogUnprotect": "Déprotéger le document",
@@ -732,10 +747,11 @@
     "dlgLeaveTitleText": "Vous quittez l'application",
     "leaveButtonText": "Quitter cette page",
     "stayButtonText": "Rester sur cette page",
+    "textCloseHistory": "Fermer l'historique",
+    "textEnterNewFileName": "Entrez un nouveau nom de ficher",
     "textOk": "OK",
+    "textRenameFile": "Renommer le fichier",
     "textSwitchedMobileView": "Passé à l'affichage mobile",
-    "textSwitchedStandardView": "Passé à l'affichage standard",
-    "textRenameFile": "Rename File",
-    "textEnterNewFileName": "Enter a new file name"
+    "textSwitchedStandardView": "Passé à l'affichage standard"
   }
 }

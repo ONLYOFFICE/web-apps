@@ -39,6 +39,20 @@
       "textCustomColors": "ユーザー設定の色",
       "textStandartColors": "標準の色",
       "textThemeColors": "テーマカラー"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "警告",
+      "textAnonymous": "匿名",
+      "textBack": "戻る",
+      "textCancel": "キャンセル",
+      "textCurrent": "現在",
+      "textOk": "OK",
+      "textRestore": "復元",
+      "textVersion": "バージョン",
+      "textVersionHistory": "バージョン履歴",
+      "textWarningRestoreVersion": "現在のファイルはバージョン履歴に保存されます。",
+      "titleWarningRestoreVersion": "このバージョンを復元しますか？",
+      "txtErrorLoadHistory": "履歴の読み込みに失敗しました"
     }
   },
   "ContextMenu": {
@@ -84,7 +98,7 @@
         "txtAll": "（すべて）",
         "txtArt": "テキストを入力…",
         "txtBlank": "（空白）",
-        "txtByField": "%2分の%1",
+        "txtByField": "%2の%1",
         "txtClearFilter": "フィルターをクリア(Alt+C)",
         "txtColLbls": "列ラベル",
         "txtColumn": "列",
@@ -334,7 +348,8 @@
     "dlgLeaveMsgText": "保存されていない変更があります。自動保存を待つように「このページから移動しない」をクリックしてください。保存されていない変更を破棄ように「このページから移動する」をクリックしてください。",
     "dlgLeaveTitleText": "アプリケーションを終了します",
     "leaveButtonText": "このページから移動する",
-    "stayButtonText": "このページから移動しない"
+    "stayButtonText": "このページから移動しない",
+    "textCloseHistory": "履歴を閉じる"
   },
   "View": {
     "Add": {
@@ -439,10 +454,14 @@
       "textChartTitle": "グラフの名",
       "textClearFilter": "フィルタをクリア",
       "textColor": "色",
+      "textCreateCustomFormat": "カスタムフォーマットの作成",
+      "textCreateFormat": "フォーマットの作成",
       "textCross": "十字",
       "textCrossesValue": "クロス値",
       "textCurrency": "通貨",
       "textCustomColor": "ユーザー設定の色",
+      "textCustomFormat": "カスタム形式",
+      "textCustomFormatWarning": "カスタム番号の形式を慎重に入力してください。 Spreadsheet Editorは、xlsxファイルに影響を与える可能性のあるエラーについてカスタム形式をチェックしません。",
       "textDataLabels": "データラベル",
       "textDate": "日付",
       "textDefault": "選択された範囲",
@@ -460,6 +479,7 @@
       "textEffects": "効果",
       "textEmptyImgUrl": "イメージのURLを指定ことが必要です。",
       "textEmptyItem": "{空白のセル}",
+      "textEnterFormat": "フォーマットの入力",
       "textErrorMsg": "少なくとも1つの値を選択する必要があります",
       "textErrorTitle": " 警告",
       "textEuro": "ユーロ",
@@ -549,6 +569,7 @@
       "textRotateTextDown": "下方にテキストの回転",
       "textRotateTextUp": "上方にテキストの回転",
       "textRouble": "ルーブル",
+      "textSave": "保存",
       "textScientific": "科学的",
       "textScreenTip": "ヒント",
       "textSelectAll": "すべて選択",
@@ -583,13 +604,7 @@
       "textYen": "円",
       "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります。",
       "txtSortHigh2Low": " 大きい順に並べ替えます",
-      "txtSortLow2High": "小さい順に並べ替えます。",
-      "textCustomFormat": "Custom Format",
-      "textCreateFormat": "Create Format",
-      "textCreateCustomFormat": "Create Custom Format",
-      "textSave": "Save",
-      "textEnterFormat": "Enter Format",
-      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
+      "txtSortLow2High": "小さい順に並べ替えます。"
     },
     "Settings": {
       "advCSVOptions": "CSVオプションを選択する",
@@ -693,6 +708,7 @@
       "textUploaded": "アップロードされた",
       "textValues": "値",
       "textVersion": "バージョン",
+      "textVersionHistory": "バージョン履歴",
       "textWorkbook": "ブック",
       "txtBe": "ベラルーシ語",
       "txtBg": "ブルガリア語",

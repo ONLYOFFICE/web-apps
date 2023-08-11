@@ -42,6 +42,20 @@
       "textCustomColors": "Benutzerdefinierte Farben",
       "textStandartColors": "Standardfarben",
       "textThemeColors": "Farben des Themas"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warnung",
+      "textAnonymous": "Anonym",
+      "textBack": "Zurück",
+      "textCancel": "Abbrechen",
+      "textCurrent": "Aktuell",
+      "textOk": "OK",
+      "textRestore": "Wiederherstellen",
+      "textVersion": "Version",
+      "textVersionHistory": "Versionshistorie",
+      "textWarningRestoreVersion": "Die aktuelle Datei wird im Versionsverlauf gespeichert.",
+      "titleWarningRestoreVersion": "Diese Version wiederherstellen?",
+      "txtErrorLoadHistory": "Laden der Historie ist fehlgeschlagen"
     }
   },
   "ContextMenu": {
@@ -112,6 +126,7 @@
       "textHasMacros": "Die Datei beinhaltet automatische Makros.<br>Möchten Sie Makros ausführen?",
       "textNo": "Nein",
       "textNoLicenseTitle": "Lizenzlimit erreicht",
+      "textNoMatches": "Keine Treffer",
       "textOpenFile": "Kennwort zum Öffnen der Datei eingeben",
       "textPaidFeature": "Kostenpflichtige Funktion",
       "textRemember": "Auswahl speichern",
@@ -120,10 +135,13 @@
       "textRequestMacros": "Ein Makro stellt eine Anfrage an die URL. Möchten Sie die Anfrage an die %1 zulassen?",
       "textYes": "Ja",
       "titleLicenseExp": "Lizenz ist abgelaufen",
+      "titleLicenseNotActive": "Lizenz nicht aktiv",
       "titleServerVersion": "Editor wurde aktualisiert",
       "titleUpdateVersion": "Version wurde geändert",
       "txtIncorrectPwd": "Passwort ist falsch",
       "txtProtected": "Sobald Sie das Passwort eingegeben und die Datei geöffnet haben, wird das aktuelle Passwort für die Datei zurückgesetzt",
+      "warnLicenseAnonymous": "Zugriff für anonyme Benutzer verweigert.<br>Dieses Dokument wird nur zur Ansicht geöffnet.",
+      "warnLicenseBefore": "Lizenz nicht aktiv.<br>Bitte wenden Sie sich an Ihren Administrator.",
       "warnLicenseExceeded": "Sie haben die maximale Anzahl von gleichzeitigen Verbindungen in %1-Editoren erreicht. Die Bearbeitung ist in diesem Dokument nicht verfügbar. Wenden Sie sich an die Administratoren für weitere Informationen.",
       "warnLicenseExp": "Ihre Lizenz ist abgelaufen. Bitte erneuern Sie die Lizenz und laden Sie die Seite neu.",
       "warnLicenseLimitedNoAccess": "Lizenz abgelaufen. Keine Bearbeitung möglich. Bitte wenden Sie sich an den Administrator.",
@@ -131,11 +149,7 @@
       "warnLicenseUsersExceeded": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte wenden Sie sich an Ihren Administrator, um weitere Informationen zu erhalten.",
       "warnNoLicense": "Sie haben die maximale Anzahl von gleichzeitigen Verbindungen in %1-Editoren erreicht. Die Bearbeitung ist jetzt in diesem Dokument nicht verfügbar. Bitte kontaktieren Sie unser Verkaufsteam, um individuelle Upgrade-Bedingungen zu erhalten.",
       "warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte kontaktieren Sie unser Verkaufsteam, um individuelle Upgrade-Bedingungen zu erhalten.",
-      "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten.",
-      "textNoMatches": "No Matches",
-      "titleLicenseNotActive": "License not active",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten."
     }
   },
   "Error": {
@@ -222,7 +236,8 @@
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",
     "dlgLeaveTitleText": "Sie verlassen die Anwendung",
     "leaveButtonText": "Seite verlassen",
-    "stayButtonText": "Auf dieser Seite bleiben"
+    "stayButtonText": "Auf dieser Seite bleiben",
+    "textCloseHistory": "Historie schließen"
   },
   "View": {
     "Add": {
@@ -251,6 +266,7 @@
       "textNextSlide": "Nächste Folie",
       "textOk": "OK",
       "textOther": "Andere",
+      "textPasteImageUrl": "Einfügen einer Bild-URL",
       "textPictureFromLibrary": "Bild aus der Bibliothek",
       "textPictureFromURL": "Bild aus einer URL",
       "textPreviousSlide": "Vorherige Folie",
@@ -264,8 +280,7 @@
       "textSlideNumber": "Foliennummer",
       "textTable": "Tabelle",
       "textTableSize": "Tabellengröße",
-      "txtNotUrl": "In dieses Feld soll eine URL im Format \"http://www.example.com\" eingetragen werden.",
-      "textPasteImageUrl": "Paste an image URL"
+      "txtNotUrl": "In dieses Feld soll eine URL im Format \"http://www.example.com\" eingetragen werden."
     },
     "Edit": {
       "notcriticalErrorTitle": "Warnung",
@@ -360,9 +375,14 @@
       "textLinkSettings": "Link Einstellungen",
       "textLinkTo": "Verknüpfen mit",
       "textLinkType": "Linktyp",
+      "textMorph": "Morphen",
+      "textMorphLetters": "Buchstaben",
+      "textMorphObjects": "Objekte",
+      "textMorphWords": "Wörter",
       "textMoveBackward": "Nach hinten",
       "textMoveForward": "Nach vorne",
       "textNextSlide": "Nächste Folie",
+      "textNoMatches": "Keine Treffer",
       "textNone": "Kein(e)",
       "textNoStyles": "Keine Stile für diesen Typ von Diagrammen.",
       "textNotUrl": "In diesem Feld soll eine URL im Format \"http://www.example.com\" eingetragen werden.",
@@ -420,12 +440,7 @@
       "textZoom": "Zoom",
       "textZoomIn": "Vergrößern",
       "textZoomOut": "Verkleinern",
-      "textZoomRotate": "Vergrößern und drehen",
-      "textNoMatches": "No Matches",
-      "textMorph": "Morph",
-      "textMorphObjects": "Objects",
-      "textMorphWords": "Words",
-      "textMorphLetters": "Letters"
+      "textZoomRotate": "Vergrößern und drehen"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
@@ -465,6 +480,7 @@
       "textLoading": "Lädt...",
       "textLocation": "Standort",
       "textMacrosSettings": "Einstellungen von Makros",
+      "textNoMatches": "Keine Treffer",
       "textOk": "OK",
       "textOwner": "Besitzer",
       "textPoint": "Punkt",
@@ -488,6 +504,7 @@
       "textUnitOfMeasurement": "Maßeinheit",
       "textUploaded": "Hochgeladen",
       "textVersion": "Version",
+      "textVersionHistory": "Versionshistorie",
       "txtScheme1": "Office",
       "txtScheme10": "Median",
       "txtScheme11": "Metro",
@@ -509,8 +526,7 @@
       "txtScheme6": "Concourse",
       "txtScheme7": "Eigenkapital",
       "txtScheme8": "Flow",
-      "txtScheme9": "Foundry",
-      "textNoMatches": "No Matches"
+      "txtScheme9": "Foundry"
     }
   }
 }

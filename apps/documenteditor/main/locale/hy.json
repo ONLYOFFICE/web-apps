@@ -2067,7 +2067,6 @@
   "DE.Views.FileMenuPanels.ProtectDoc.txtSigned": "Փաստաթղթում ավելացվել են վավեր ստորագրություններ։ Փաստաթուղթը պաշտպանված է խմբագրումից։",
   "DE.Views.FileMenuPanels.ProtectDoc.txtSignedInvalid": "Փաստաթղթի որոշ թվանշային ստորագրություններ անվավեր են կամ չեն կարող ստուգվել։ Փաստաթուղթը խմբագրումից պաշտպանված է։",
   "DE.Views.FileMenuPanels.ProtectDoc.txtView": "Դիտել ստորագրությունները",
-  "DE.Views.FileMenuPanels.RecentFiles.txtOpenRecent": "Բացել վերջինը",
   "DE.Views.FileMenuPanels.Settings.okButtonText": "Գործադրել",
   "DE.Views.FileMenuPanels.Settings.strCoAuthMode": "Համախմբագրման աշխատակարգ",
   "DE.Views.FileMenuPanels.Settings.strFast": "Արագ",

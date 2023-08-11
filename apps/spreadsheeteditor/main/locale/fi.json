@@ -343,8 +343,6 @@
   "SSE.Controllers.Main.warnNoLicense": "Olet käyttämässä %1 avoimen lähdekoodin versiota. Versiolla on rajoituksia yhtäaikaisten yhteyksien määrän suhteen asiakirjan palvelimelle (20 yhteyttä samaan aikaan).<br>Jos haluat lisää, niin voit harkita kaupallista lisenssiä.",
   "SSE.Controllers.Main.warnProcessRightsChange": "Sinula ei ole riittävästi oikeuksia muokata tiedostoa.",
   "SSE.Controllers.Print.strAllSheets": "Kaikki taulukot",
-  "SSE.Controllers.Print.textWarning": "Varoitus",
-  "SSE.Controllers.Print.warnCheckMargings": "Marginaalit ovat virheellisiä",
   "SSE.Controllers.Statusbar.errorLastSheet": "Työkirjalla tulee olla vähintään yksi näkyvä taulukko.",
   "SSE.Controllers.Statusbar.errorRemoveSheet": "Ei voida poistaa taulukkoa.",
   "SSE.Controllers.Statusbar.strSheet": "Taulukko",

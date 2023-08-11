@@ -42,6 +42,20 @@
       "textCustomColors": "Colores personalizados",
       "textStandartColors": "Colores estándar",
       "textThemeColors": "Colores de tema"
+    },
+    "VersionHistory": {
+      "textAnonymous": "Anónimo",
+      "textBack": "Atrás",
+      "textCancel": "Cancelar",
+      "textCurrent": "Actual",
+      "textWarningRestoreVersion": "El archivo actual se guardará en el historial de versiones.",
+      "txtErrorLoadHistory": "Error al cargar el historial",
+      "notcriticalErrorTitle": "Warning",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "titleWarningRestoreVersion": "Restore this version?"
     }
   },
   "ContextMenu": {
@@ -126,7 +140,7 @@
       "titleUpdateVersion": "Versión ha cambiado",
       "txtIncorrectPwd": "La contraseña es incorrecta",
       "txtProtected": "Una vez que se ha introducido la contraseña y abierto el archivo, la contraseña actual del archivo se restablecerá",
-      "warnLicenseAnonymous": "Acceso denegado para usuarios anónimos.<br>Este documento se abrirá solo para su visualización.",
+      "warnLicenseAnonymous": "Acceso denegado a usuarios anónimos.<br>Este documento se abrirá solo para su visualización.",
       "warnLicenseBefore": "Licencia no activa.<br>Por favor, póngase en contacto con su administrador.",
       "warnLicenseExceeded": "Ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización. Póngase en contacto con su administrador para obtener más información.",
       "warnLicenseExp": "Su licencia ha expirado. Por favor, actualícela y recargue la página.",
@@ -222,7 +236,8 @@
     "dlgLeaveMsgText": "Tiene cambios no guardados en este documento. Haga clic en \"Quedarse en esta página\" para esperar hasta que se guarden automáticamente. Haga clic en \"Salir de esta página\" para descartar todos los cambios no guardados.",
     "dlgLeaveTitleText": "Usted abandona la aplicación",
     "leaveButtonText": "Salir de esta página",
-    "stayButtonText": "Quedarse en esta página"
+    "stayButtonText": "Quedarse en esta página",
+    "textCloseHistory": "Cerrar historial"
   },
   "View": {
     "Add": {
@@ -360,6 +375,7 @@
       "textLinkSettings": "Ajustes de enlace",
       "textLinkTo": "Enlace a",
       "textLinkType": "Tipo de enlace",
+      "textMorphLetters": "Letras",
       "textMoveBackward": "Mover hacia atrás",
       "textMoveForward": "Moverse hacia adelante",
       "textNextSlide": "Diapositiva siguiente",
@@ -421,11 +437,10 @@
       "textZoom": "Zoom",
       "textZoomIn": "Acercar",
       "textZoomOut": "Alejar",
+      "textZoomRotate": "Zoom y giro",
       "textMorph": "Morph",
       "textMorphObjects": "Objects",
-      "textMorphWords": "Words",
-      "textMorphLetters": "Letters",
-      "textZoomRotate": "Zoom y giro"
+      "textMorphWords": "Words"
     },
     "Settings": {
       "mniSlideStandard": "Estándar (4:3)",
@@ -510,7 +525,8 @@
       "txtScheme6": "Concurrencia",
       "txtScheme7": "Equidad ",
       "txtScheme8": "Flujo",
-      "txtScheme9": "Fundición"
+      "txtScheme9": "Fundición",
+      "textVersionHistory": "Version History"
     }
   }
 }
