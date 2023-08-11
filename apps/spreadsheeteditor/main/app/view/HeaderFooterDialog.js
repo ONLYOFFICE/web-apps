@@ -100,7 +100,7 @@ define([
                             '</td>',
                         '</tr>',
                     '</table>',
-                    '<div class="input-row input-row--tabs" style="margin-bottom: 15px;">',
+                    '<div class="input-row input-row-tabs" style="margin-bottom: 15px;">',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hf-btn-all" style="border-radius: 0;">', this.textAll,'</button>',
                         '<button type="button" class="btn btn-text-default auto hidden" id="id-dlg-hf-btn-odd" style="border-radius: 0;">', this.textOdd,'</button>',
                         '<button type="button" class="btn btn-text-default auto hidden" id="id-dlg-hf-btn-even" style="border-radius: 0;">', this.textEven,'</button>',
@@ -292,7 +292,8 @@ define([
                 {caption: this.textDate, value: Asc.c_oAscHeaderFooterField.date},
                 {caption: this.textTime, value: Asc.c_oAscHeaderFooterField.time},
                 {caption: this.textFileName, value: Asc.c_oAscHeaderFooterField.fileName},
-                {caption: this.textSheet, value: Asc.c_oAscHeaderFooterField.sheetName}
+                {caption: this.textSheet, value: Asc.c_oAscHeaderFooterField.sheetName},
+                {caption: this.textImage, value: Asc.c_oAscHeaderFooterField.picture}
             ];
 
             this.btnInsertH = new Common.UI.Button({
@@ -1029,7 +1030,8 @@ define([
         textOdd: 'Odd page',
         textEven: 'Even page',
         textAll: 'All pages',
-        textMaxError: 'The text string you entered is too long. Reduce the number of characters used.'
+        textMaxError: 'The text string you entered is too long. Reduce the number of characters used.',
+        textImage: 'Picture'
 
     }, SSE.Views.HeaderFooterDialog || {}))
 });

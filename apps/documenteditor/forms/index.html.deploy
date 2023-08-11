@@ -127,7 +127,7 @@
         }
     </style>
 
-    <script>window.features={uitype:'fillform'}</script>
+    <script>window.features={uitype:'fillform'};var params = {}</script>
 
     <!--[if lt IE 9]>
       <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"></script>
@@ -136,6 +136,7 @@
   </head>
 
   <body class="embed-body">
+      <script src="../../../../../apps/common/main/lib/util/themeinit.js?__inline=true"></script>
       <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>
       <script>
           if ( !!window.desktop ) {
@@ -241,12 +242,12 @@
       <div class="toolbar" id="toolbar">
           <div class="group left">
               <div class="margin-right-large"><a id="header-logo" class="brand-logo" href="http://www.onlyoffice.com/" target="_blank"></a></div>
-              <span id="id-btn-undo" class="margin-right-small"></span>
-              <span id="id-btn-redo" class="margin-right-small"></span>
-              <div class="separator"></div>
+              <span id="id-btn-undo" class="margin-right-small big-resolution"></span>
+              <span id="id-btn-redo" class="margin-right-small big-resolution"></span>
+              <div class="separator big-resolution"></div>
               <span id="id-btn-prev-field" class="margin-left-small margin-right-small"></span>
               <span id="id-btn-next-field" class="margin-right-large"></span>
-              <span id="id-btn-clear-fields"></span>
+              <span id="id-btn-clear-fields" class="big-resolution"></span>
           </div>
           <div class="group center">
               <span id="title-doc-name"></span>

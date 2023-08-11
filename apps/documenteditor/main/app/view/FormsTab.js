@@ -201,7 +201,7 @@ define([
                     var isfixed = Common.localStorage.getBool("de-text-form-fixed", true);
                     this.btnTextField = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon ' + (isfixed ? 'btn-fixed-field' : 'btn-text-field'),
+                        iconCls: 'toolbar__icon ' + (isfixed ? 'btn-text-fixed-field' : 'btn-text-field'),
                         lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal],
                         caption: this.capBtnText,
                         fieldType: isfixed ? 'fixed' : 'inline',
@@ -502,7 +502,7 @@ define([
                                 description: me.txtFixedDesc,
                                 iconCls     : 'menu__icon btn-fixed-field',
                                 value: 'fixed',
-                                iconClsForMainBtn: 'btn-fixed-field',
+                                iconClsForMainBtn: 'btn-text-fixed-field',
                                 hintForMainBtn: [me.tipFixedText, me.tipTextField]
                             }
                             ]

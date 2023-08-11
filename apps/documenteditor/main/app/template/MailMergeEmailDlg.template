@@ -37,7 +37,7 @@
             </tr>
             <tr>
                 <td colspan="2" class="padding-small">
-                    <label style="font-weight: bold;"><%= scope.textWarning %></label>
+                    <label class="header"><%= scope.textWarning %></label>
                     <label class=""><%= scope.textWarningMsg %></label>
                 </td>
             </tr>

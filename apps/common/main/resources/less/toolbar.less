@@ -164,6 +164,12 @@
                     opacity: .8;
                 }
             }
+            &.disabled {
+                cursor: default;
+                &:after, &:hover:after {
+                    opacity: 0.4;
+                }
+            }
 
             &.left{
                 box-shadow: 5px 0 20px 5px @header-background-color-ie;
@@ -742,6 +748,12 @@
 [applang=ru] {
     .dropdown-menu.toc-menu {
         --bckgHOffset: -144px;
+    }
+}
+
+#id-dlg-list-bullet-format, #id-dlg-numbering-format {
+    .dropdown-menu li a span, .form-control span {
+        display: inline-block;
     }
 }
 

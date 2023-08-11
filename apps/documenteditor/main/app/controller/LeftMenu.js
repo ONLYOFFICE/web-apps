@@ -515,6 +515,10 @@ define([
                 value = parseInt(Common.localStorage.getItem("de-settings-paste-button"));
                 Common.Utils.InternalSettings.set("de-settings-paste-button", value);
                 this.api.asc_setVisiblePasteButton(!!value);
+
+                value = Common.localStorage.getBool("de-settings-smart-selection");
+                Common.Utils.InternalSettings.set("de-settings-smart-selection", value);
+                this.api.asc_putSmartParagraphSelection(value);
             }
 
             this.api.put_ShowSnapLines(Common.Utils.InternalSettings.get("de-settings-showsnaplines"));

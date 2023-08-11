@@ -120,7 +120,8 @@ define([
             this.currentPageSize = {
                 type: Asc.c_oAscSlideSZType.SzCustom,
                 width: 0,
-                height: 0
+                height: 0,
+                firstNum: 1
             };
             this.flg = {};
             this.diagramEditor = null;
@@ -141,6 +142,9 @@ define([
                     'add:chart'         : this.onSelectChart,
                     'generate:smartart' : this.generateSmartArt,
                     'insert:smartart'   : this.onInsertSmartArt
+                },
+                'DocumentHolder': {
+                    'generate:smartart' : this.generateSmartArt,
                 },
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),
@@ -359,7 +363,8 @@ define([
             toolbar.btnSlideSize.menu.on('item:click',                  _.bind(this.onSlideSize, this));
             toolbar.listTheme.on('click',                               _.bind(this.onListThemeSelect, this));
             toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
-            toolbar.btnInsertSymbol.on('click',                         _.bind(this.onInsertSymbolClick, this));
+            toolbar.btnInsertSymbol.menu.items[2].on('click',                         _.bind(this.onInsertSymbolClick, this));
+            toolbar.mnuInsertSymbolsPicker.on('item:click',             _.bind(this.onInsertSymbolItemClick, this));
             toolbar.btnEditHeader.on('click',                           _.bind(this.onEditHeaderClick, this, 'header'));
             toolbar.btnInsDateTime.on('click',                          _.bind(this.onEditHeaderClick, this, 'datetime'));
             toolbar.btnInsSlideNum.on('click',                          _.bind(this.onEditHeaderClick, this, 'slidenum'));
@@ -728,7 +733,7 @@ define([
             }
         },
 
-        onApiPageSize: function(width, height, type) {
+        onApiPageSize: function(width, height, type, firstNum) {
             if (Math.abs(this.currentPageSize.width - width) > 0.001 ||
                 Math.abs(this.currentPageSize.height - height) > 0.001 ||
                 this.currentPageSize.type !== type) {
@@ -748,6 +753,7 @@ define([
                 this.toolbar.btnSlideSize.menu.items[0].setChecked(idx == 0);
                 this.toolbar.btnSlideSize.menu.items[1].setChecked(idx == 1);
             }
+            (firstNum!==undefined) && (this.currentPageSize.firstNum = firstNum);
         },
 
         onApiCountPages: function(count) {
@@ -2006,11 +2012,12 @@ define([
                 this.currentPageSize = {
                     type    : this.slideSizeArr[item.value].type,
                     width   : newwidth,
-                    height  : this.currentPageSize.height
+                    height  : this.currentPageSize.height,
+                    firstNum  : this.currentPageSize.firstNum
                 };
 
                 if (this.api)
-                    this.api.changeSlideSize(this.currentPageSize.width, this.currentPageSize.height, this.currentPageSize.type);
+                    this.api.changeSlideSize(this.currentPageSize.width, this.currentPageSize.height, this.currentPageSize.type, this.currentPageSize.firstNum);
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Slide Size');
@@ -2021,7 +2028,7 @@ define([
                 var handlerDlg = function(dlg, result) {
                     if (result == 'ok') {
                         props = dlg.getSettings();
-                        me.currentPageSize = { type: props[0], width: props[1], height: props[2] };
+                        me.currentPageSize = { type: props[0], width: props[1], height: props[2], firstNum: props[3] };
                         var ratio = me.currentPageSize.height/me.currentPageSize.width,
                             idx = -1;
                         for (var i = 0; i < me.slideSizeArr.length; i++) {
@@ -2034,7 +2041,7 @@ define([
                         me.toolbar.btnSlideSize.menu.items[0].setChecked(idx == 0);
                         me.toolbar.btnSlideSize.menu.items[1].setChecked(idx == 1);
                         if (me.api)
-                            me.api.changeSlideSize(props[1], props[2], props[0]);
+                            me.api.changeSlideSize(props[1], props[2], props[0], props[3]);
                     }
 
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -2044,7 +2051,7 @@ define([
                     handler: handlerDlg
                 });
                 win.show();
-                win.setSettings(me.currentPageSize.type, me.currentPageSize.width, me.currentPageSize.height);
+                win.setSettings(me.currentPageSize.type, me.currentPageSize.width, me.currentPageSize.height, me.currentPageSize.firstNum);
 
                 Common.component.Analytics.trackEvent('ToolBar', 'Slide Size');
             }
@@ -2362,16 +2369,26 @@ define([
                         symbol: selected && selected.length>0 ? selected.charAt(0) : undefined,
                         handler: function(dlg, result, settings) {
                             if (result == 'ok') {
-                                me.api.asc_insertSymbol(settings.font ? settings.font : me.api.get_TextProps().get_TextPr().get_FontFamily().get_Name(), settings.code, settings.special);
+                                me.insertSymbol(settings.font, settings.code, settings.special, settings.speccharacter);
                             } else
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         }
                     });
                 win.show();
                 win.on('symbol:dblclick', function(cmp, result, settings) {
-                    me.api.asc_insertSymbol(settings.font ? settings.font : me.api.get_TextProps().get_TextPr().get_FontFamily().get_Name(), settings.code, settings.special);
-                });
+                    me.insertSymbol(settings.font, settings.code, settings.special, settings.speccharacter);                });
             }
+        },
+
+        onInsertSymbolItemClick: function(picker, item, record, e) {
+            if (this.api && record)
+                this.insertSymbol(record.get('font') , record.get('symbol'), record.get('special'));
+        },
+
+        insertSymbol: function(fontRecord, symbol, special, specCharacter){
+            var font = fontRecord ? fontRecord: this.api.get_TextProps().get_TextPr().get_FontFamily().get_Name();
+            this.api.asc_insertSymbol(font, symbol, special);
+            !specCharacter && this.toolbar.saveSymbol(symbol, font);
         },
 
         onApiMathTypes: function(equation) {
@@ -2750,7 +2767,7 @@ define([
             this.btnsComment = [];
             if ( config.canCoAuthoring && config.canComments ) {
                 var _set = Common.enumLock;
-                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-menu-comments', me.toolbar.capBtnComment, [_set.lostConnect, _set.noSlides], undefined, undefined, undefined, '1', 'bottom', 'small');
+                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-big-menu-comments', me.toolbar.capBtnComment, [_set.lostConnect, _set.noSlides], undefined, undefined, undefined, '1', 'bottom', 'small');
 
                 if ( this.btnsComment.length ) {
                     var _comments = PE.getController('Common.Controllers.Comments').getView();
@@ -2798,12 +2815,13 @@ define([
             }
         },
 
-        generateSmartArt: function (groupName) {
+        generateSmartArt: function (groupName, menu) {
+            this.docHolderMenu = menu;
             this.api.asc_generateSmartArtPreviews(groupName);
         },
 
         onApiBeginSmartArtPreview: function () {
-            this.smartArtGroups = this.toolbar.btnInsertSmartArt.menu.items;
+            this.smartArtGroups = this.docHolderMenu ? this.docHolderMenu.items : this.toolbar.btnInsertSmartArt.menu.items;
             this.smartArtData = Common.define.smartArt.getSmartArtData();
         },
 
@@ -2827,13 +2845,13 @@ define([
                         menuPicker.store.add(arr);
                     }
                 }
-                this.currentSmartArtMenu = menu;
+                this.currentSmartArtCategoryMenu = menu;
             }, this));
         },
 
         onApiEndSmartArtPreview: function () {
-            if (this.currentSmartArtMenu) {
-                this.currentSmartArtMenu.menu.alignPosition();
+            if (this.currentSmartArtCategoryMenu) {
+                this.currentSmartArtCategoryMenu.menu.alignPosition();
             }
         },
 

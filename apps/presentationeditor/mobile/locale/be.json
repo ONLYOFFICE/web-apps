@@ -299,6 +299,7 @@
       "textBullets": "Адзнакі",
       "textCaseSensitive": "Улічваць рэгістр",
       "textCellMargins": "Палі ячэйкі",
+      "textChangeShape": "Змяніць фігуру",
       "textChart": "Дыяграма",
       "textClock": "Гадзіннік",
       "textClockwise": "Па стрэлцы гадзінніка",
@@ -410,7 +411,6 @@
       "textArrange": "Arrange",
       "textBulletsAndNumbers": "Bullets & Numbers",
       "textCancel": "Cancel",
-      "textChangeShape": "Change Shape",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textEmptyImgUrl": "You need to specify the image URL.",
@@ -421,7 +421,11 @@
       "textRequired": "Required",
       "textSelectObjectToEdit": "Select object to edit",
       "textSplit": "Split",
-      "textTransitions": "Transitions"
+      "textTransitions": "Transitions",
+      "textMorph": "Morph",
+      "textMorphObjects": "Objects",
+      "textMorphWords": "Words",
+      "textMorphLetters": "Letters"
     },
     "Settings": {
       "mniSlideStandard": "Стандартны (4:3)",
