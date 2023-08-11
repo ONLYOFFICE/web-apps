@@ -42,6 +42,20 @@
     },
     "HighlightColorPalette": {
       "textNoFill": "No Fill"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -222,7 +236,8 @@
     "dlgLeaveMsgText": "Bu belgede kaydedilmemiş değişiklikleriniz var. Otomatik kaydetmeyi beklemek için 'Bu Sayfada Kal' seçeneğini tıklayın. Kaydedilmemiş tüm değişiklikleri atmak için 'Bu Sayfadan Ayrıl'ı tıklayın.",
     "dlgLeaveTitleText": "Uygulamadan çıktınız",
     "leaveButtonText": "Bu Sayfadan Ayrıl",
-    "stayButtonText": "Bu Sayfada Kal"
+    "stayButtonText": "Bu Sayfada Kal",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -417,15 +432,15 @@
       "textDeleteLink": "Delete Link",
       "textDesign": "Design",
       "textInsertImage": "Insert Image",
+      "textMorph": "Morph",
+      "textMorphLetters": "Letters",
+      "textMorphObjects": "Objects",
+      "textMorphWords": "Words",
       "textNoMatches": "No Matches",
       "textPush": "Push",
       "textRecommended": "Recommended",
       "textRequired": "Required",
-      "textWedge": "Wedge",
-      "textMorph": "Morph",
-      "textMorphObjects": "Objects",
-      "textMorphWords": "Words",
-      "textMorphLetters": "Letters"
+      "textWedge": "Wedge"
     },
     "Settings": {
       "mniSlideStandard": "Standart (4:3)",
@@ -508,6 +523,7 @@
       "textOk": "Ok",
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRTL": "RTL",
+      "textVersionHistory": "Version History",
       "txtScheme14": "Oriel",
       "txtScheme17": "Solstice",
       "txtScheme19": "Trek"

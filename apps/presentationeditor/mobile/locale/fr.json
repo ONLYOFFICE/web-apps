@@ -42,6 +42,20 @@
       "textCustomColors": "Couleurs personnalisées",
       "textStandartColors": "Couleurs standard",
       "textThemeColors": "Couleurs de thème"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Avertissement",
+      "textAnonymous": "Anonyme",
+      "textBack": "Retour",
+      "textCancel": "Annuler",
+      "textCurrent": "Actuel",
+      "textOk": "OK",
+      "textRestore": "Restaurer",
+      "textVersion": "Version",
+      "textVersionHistory": "Historique des versions",
+      "textWarningRestoreVersion": "Le fichier actuel sera sauvegardé dans l'historique des versions.",
+      "titleWarningRestoreVersion": "Restaurer cette version?",
+      "txtErrorLoadHistory": "Échec du chargement de l'historique"
     }
   },
   "ContextMenu": {
@@ -222,7 +236,8 @@
     "dlgLeaveMsgText": "Vous avez des modifications non enregistrées dans ce document. Cliquez sur Rester sur cette page et attendez l'enregistrement automatique. Cliquez sur Quitter cette page pour annuler toutes les modifications non enregistrées.",
     "dlgLeaveTitleText": "Vous quittez l'application",
     "leaveButtonText": "Quitter cette page",
-    "stayButtonText": "Rester sur cette page"
+    "stayButtonText": "Rester sur cette page",
+    "textCloseHistory": "Fermer l'historique"
   },
   "View": {
     "Add": {
@@ -360,6 +375,10 @@
       "textLinkSettings": "Paramètres de lien",
       "textLinkTo": "Lien vers",
       "textLinkType": "Type de lien",
+      "textMorph": "Transformer",
+      "textMorphLetters": "Lettres",
+      "textMorphObjects": "Objets",
+      "textMorphWords": "Mots",
       "textMoveBackward": "Déplacer vers l'arrière",
       "textMoveForward": "Avancer",
       "textNextSlide": "Diapositive suivante",
@@ -421,11 +440,7 @@
       "textZoom": "Zoom",
       "textZoomIn": "Zoom avant",
       "textZoomOut": "Zoom arrière",
-      "textZoomRotate": "Zoom et rotation",
-      "textMorph": "Morph",
-      "textMorphObjects": "Objects",
-      "textMorphWords": "Words",
-      "textMorphLetters": "Letters"
+      "textZoomRotate": "Zoom et rotation"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
@@ -489,6 +504,7 @@
       "textUnitOfMeasurement": "Unité de mesure",
       "textUploaded": "Chargé",
       "textVersion": "Version",
+      "textVersionHistory": "Historique des versions",
       "txtScheme1": "Office",
       "txtScheme10": "Médian",
       "txtScheme11": "Métro",

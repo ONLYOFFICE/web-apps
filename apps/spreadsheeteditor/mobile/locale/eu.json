@@ -39,6 +39,20 @@
       "textCustomColors": "Kolore pertsonalizatuak",
       "textStandartColors": "Kolore estandarrak",
       "textThemeColors": "Gaiaren koloreak"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -334,7 +348,8 @@
     "dlgLeaveMsgText": "Gorde gabeko aldaketak dituzu dokumentu honetan. Egin klik \"Jarraitu orri honetan\" gordetze automatikoari itxaroteko. Egin klik \"Utzi orri hau\" gorde gabeko aldaketa guztiak baztertzeko.",
     "dlgLeaveTitleText": "Aplikazioa uzten duzu",
     "leaveButtonText": "Orritik irten",
-    "stayButtonText": "Jarraitu orrian"
+    "stayButtonText": "Jarraitu orrian",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -584,12 +599,12 @@
       "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa",
       "txtSortHigh2Low": "Antolatu handienetik txikienera",
       "txtSortLow2High": "Antolatu txikienetik handienera",
-      "textCustomFormat": "Custom Format",
-      "textCreateFormat": "Create Format",
       "textCreateCustomFormat": "Create Custom Format",
-      "textSave": "Save",
+      "textCreateFormat": "Create Format",
+      "textCustomFormat": "Custom Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.",
       "textEnterFormat": "Enter Format",
-      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
+      "textSave": "Save"
     },
     "Settings": {
       "advCSVOptions": "Hautatu CSV aukerak",
@@ -759,7 +774,8 @@
       "txtVi": "Vietnamera",
       "txtZh": "Txinera",
       "warnDownloadAs": "Formatu honetan gordetzen baduzu, testua ez diren ezaugarri guztiak galduko dira.<br> Ziur zaude aurrera jarraitu nahi duzula?",
-      "textNoMatches": "No Matches"
+      "textNoMatches": "No Matches",
+      "textVersionHistory": "Version History"
     }
   }
 }

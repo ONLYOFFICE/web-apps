@@ -42,6 +42,20 @@
       "textCustomColors": "Адвольныя колеры",
       "textStandartColors": "Стандартныя колеры",
       "textThemeColors": "Колеры тэмы"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -222,7 +236,8 @@
     "leaveButtonText": "Сысці са старонкі",
     "stayButtonText": "Застацца на старонцы",
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
-    "dlgLeaveTitleText": "You leave the application"
+    "dlgLeaveTitleText": "You leave the application",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -415,17 +430,17 @@
       "textDeleteLink": "Delete Link",
       "textEmptyImgUrl": "You need to specify the image URL.",
       "textInsertImage": "Insert Image",
+      "textMorph": "Morph",
+      "textMorphLetters": "Letters",
+      "textMorphObjects": "Objects",
+      "textMorphWords": "Words",
       "textNoMatches": "No Matches",
       "textNoStyles": "No styles for this type of chart.",
       "textRecommended": "Recommended",
       "textRequired": "Required",
       "textSelectObjectToEdit": "Select object to edit",
       "textSplit": "Split",
-      "textTransitions": "Transitions",
-      "textMorph": "Morph",
-      "textMorphObjects": "Objects",
-      "textMorphWords": "Words",
-      "textMorphLetters": "Letters"
+      "textTransitions": "Transitions"
     },
     "Settings": {
       "mniSlideStandard": "Стандартны (4:3)",
@@ -510,6 +525,7 @@
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRTL": "RTL",
       "textTel": "tel:",
+      "textVersionHistory": "Version History",
       "txtScheme22": "New Office"
     }
   }

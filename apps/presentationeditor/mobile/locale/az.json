@@ -42,6 +42,20 @@
     },
     "HighlightColorPalette": {
       "textNoFill": "No Fill"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -222,7 +236,8 @@
     "dlgLeaveMsgText": "Bu sənəddə saxlanmamış dəyişiklikləriniz var. Avtomatik saxlanmanı gözləmək üçün \"Bu Səhifədə Qalın\" hissəsinin üzərinə klikləyin. Bütün saxlanmamış dəyişiklikləri ləğv etmək üçün \"Bu səhifədən Çıxın\" hissəsinin üzərinə klikləyin.",
     "dlgLeaveTitleText": "Proqramdan çıxdınız",
     "leaveButtonText": "Bu səhifədən çıxın",
-    "stayButtonText": "Bu Səhifədə Qalın"
+    "stayButtonText": "Bu Səhifədə Qalın",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -418,14 +433,14 @@
       "textDeleteLink": "Delete Link",
       "textDesign": "Design",
       "textInsertImage": "Insert Image",
+      "textMorph": "Morph",
+      "textMorphLetters": "Letters",
+      "textMorphObjects": "Objects",
+      "textMorphWords": "Words",
       "textNoMatches": "No Matches",
       "textOk": "Ok",
       "textRecommended": "Recommended",
-      "textRequired": "Required",
-      "textMorph": "Morph",
-      "textMorphObjects": "Objects",
-      "textMorphWords": "Words",
-      "textMorphLetters": "Letters"
+      "textRequired": "Required"
     },
     "Settings": {
       "mniSlideStandard": "Standart (4:3)",
@@ -510,7 +525,8 @@
       "textNoMatches": "No Matches",
       "textOk": "Ok",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "textRTL": "RTL"
+      "textRTL": "RTL",
+      "textVersionHistory": "Version History"
     }
   }
 }

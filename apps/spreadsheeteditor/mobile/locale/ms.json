@@ -39,6 +39,20 @@
       "textCustomColors": "Warna Tersuai",
       "textStandartColors": "Warna Standard",
       "textThemeColors": "Warna Tema"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -334,7 +348,8 @@
     "dlgLeaveMsgText": "Anda mempunyai perubahan yang tidak disimpan dalam dokumen ini. Klik 'Stay on this Page’ untuk menunggu autosimpan. Klik 'Leave this Page' untuk membuang semua perubahan yang tidak disimpan.",
     "dlgLeaveTitleText": "Anda meninggalkan aplikasi",
     "leaveButtonText": "Tinggalkan Halaman ini",
-    "stayButtonText": "Kekal pada Halaman ini"
+    "stayButtonText": "Kekal pada Halaman ini",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -580,16 +595,16 @@
       "textArrange": "Arrange",
       "textCancel": "Cancel",
       "textChangeShape": "Change Shape",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCustomFormat": "Custom Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textDone": "Done",
-      "textRecommended": "Recommended",
-      "textCustomFormat": "Custom Format",
-      "textCreateFormat": "Create Format",
-      "textCreateCustomFormat": "Create Custom Format",
-      "textSave": "Save",
       "textEnterFormat": "Enter Format",
-      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
+      "textRecommended": "Recommended",
+      "textSave": "Save"
     },
     "Settings": {
       "advCSVOptions": "Pilih pilihan CSV",
@@ -728,6 +743,7 @@
       "strFuncLocale": "Formula Language",
       "strFuncLocaleEx": "Example: SUM; MIN; MAX; COUNT",
       "textNoMatches": "No Matches",
+      "textVersionHistory": "Version History",
       "txtBe": "Belarusian",
       "txtBg": "Bulgarian",
       "txtCa": "Catalan",

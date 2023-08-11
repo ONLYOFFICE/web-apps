@@ -174,6 +174,20 @@
       "textCustomColors": "Пользовательские цвета",
       "textStandartColors": "Стандартные цвета",
       "textThemeColors": "Цвета темы"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Внимание",
+      "textAnonymous": "Аноним",
+      "textBack": "Назад",
+      "textCancel": "Отмена",
+      "textCurrent": "Текущая версия",
+      "textOk": "Ok",
+      "textRestore": "Восстановить",
+      "textVersion": "Версия",
+      "textVersionHistory": "История версий",
+      "textWarningRestoreVersion": "Текущий файл будет сохранен в истории версий.",
+      "titleWarningRestoreVersion": "Восстановить эту версию?",
+      "txtErrorLoadHistory": "Не удалось загрузить историю"
     }
   },
   "ContextMenu": {
@@ -697,6 +711,7 @@
     "textUnprotect": "Снять защиту",
     "textUploaded": "Загружен",
     "textVerify": "Проверить",
+    "textVersionHistory": "История версий",
     "textWords": "Слова",
     "textYes": "Да",
     "titleDialogUnprotect": "Снять защиту документа",
@@ -732,10 +747,11 @@
     "dlgLeaveTitleText": "Вы выходите из приложения",
     "leaveButtonText": "Уйти со страницы",
     "stayButtonText": "Остаться на странице",
+    "textCloseHistory": "Закрыть историю",
+    "textEnterNewFileName": "Введите новое имя файла",
     "textOk": "OK",
+    "textRenameFile": "Переименовать файл",
     "textSwitchedMobileView": "Переключено на мобильный вид",
-    "textSwitchedStandardView": "Переключено на стандартный вид",
-    "textRenameFile": "Rename File",
-    "textEnterNewFileName": "Enter a new file name"
+    "textSwitchedStandardView": "Переключено на стандартный вид"
   }
 }

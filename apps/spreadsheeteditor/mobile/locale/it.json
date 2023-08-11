@@ -39,6 +39,20 @@
       "textCustomColors": "Colori personalizzati",
       "textStandartColors": "Colori standard",
       "textThemeColors": "Colori del tema"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -334,7 +348,8 @@
     "dlgLeaveMsgText": "Ci sono i cambiamenti non salvati in questo documento. Fai clic su \"Rimanere su questa pagina\" per attendere il salvataggio automatico. Fai clic su \"Lasciare questa pagina\" per eliminare tutti i cambiamenti non salvati.",
     "dlgLeaveTitleText": "Stai lasciando l'applicazione",
     "leaveButtonText": "Lasciare questa pagina",
-    "stayButtonText": "Rimanere su questa pagina"
+    "stayButtonText": "Rimanere su questa pagina",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -583,13 +598,13 @@
       "txtNotUrl": "Questo campo deve essere un URL nel formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Ordinare dal più alto al più basso",
       "txtSortLow2High": "Ordinare dal più basso al più alto",
-      "textCustomFormat": "Custom Format",
-      "textCreateFormat": "Create Format",
       "textCreateCustomFormat": "Create Custom Format",
-      "textSave": "Save",
-      "textEnterFormat": "Enter Format",
+      "textCreateFormat": "Create Format",
+      "textCustomFormat": "Custom Format",
       "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.",
-      "textDeleteImage": "Delete Image"
+      "textDeleteImage": "Delete Image",
+      "textEnterFormat": "Enter Format",
+      "textSave": "Save"
     },
     "Settings": {
       "advCSVOptions": "Scegliere le opzioni CSV",
@@ -759,6 +774,7 @@
       "strFuncLocale": "Formula Language",
       "strFuncLocaleEx": "Example: SUM; MIN; MAX; COUNT",
       "textNoMatches": "No Matches",
+      "textVersionHistory": "Version History",
       "txtDe": "Deutsch"
     }
   }

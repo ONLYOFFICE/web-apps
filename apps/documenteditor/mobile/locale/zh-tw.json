@@ -174,6 +174,20 @@
       "textCustomColors": "自訂顏色",
       "textStandartColors": "標準顏色",
       "textThemeColors": "主題顏色"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -725,7 +739,8 @@
     "txtScheme6": "大堂",
     "txtScheme7": "產權",
     "txtScheme8": "流程",
-    "txtScheme9": "鑄造廠"
+    "txtScheme9": "鑄造廠",
+    "textVersionHistory": "Version History"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "您有未儲存的變更。點擊“留在此頁面”以等待自動儲存。點擊“離開此頁面”以放棄所有未儲存的變更。",
@@ -733,9 +748,10 @@
     "leaveButtonText": "離開這個頁面",
     "stayButtonText": "保持此頁上",
     "textOk": "確定",
-    "textRenameFile": "Rename File",
-    "textEnterNewFileName": "Enter a new file name",
     "textSwitchedMobileView": "切換到行動裝置檢視",
-    "textSwitchedStandardView": "切換到標準檢視"
+    "textSwitchedStandardView": "切換到標準檢視",
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   }
 }

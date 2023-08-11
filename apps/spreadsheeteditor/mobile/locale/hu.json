@@ -39,6 +39,20 @@
       "textCustomColors": "Egyéni színek",
       "textStandartColors": "Alapértelmezett színek",
       "textThemeColors": "Téma színek"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -334,7 +348,8 @@
     "dlgLeaveMsgText": "Nem mentett módosításai vannak ebben a dokumentumban. Kattintson a „Maradj ezen az oldalon” gombra az automatikus mentés megvárásához. Kattintson a \"Hagyja el ezt az oldalt\" gombra az összes nem mentett módosítás elvetéséhez.",
     "dlgLeaveTitleText": "Bezárja az alkalmazást",
     "leaveButtonText": "Oldal elhagyása",
-    "stayButtonText": "Maradjon ezen az oldalon"
+    "stayButtonText": "Maradjon ezen az oldalon",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -584,12 +599,12 @@
       "txtNotUrl": "Ennek a mezőnek URL formátumúnak kell lennie, pl.: „http://www.pelda.hu”",
       "txtSortHigh2Low": "A legnagyobbtól a legkisebbig rendez",
       "txtSortLow2High": "Legkisebbtől legnagyobbig rendez",
-      "textCustomFormat": "Custom Format",
-      "textCreateFormat": "Create Format",
       "textCreateCustomFormat": "Create Custom Format",
-      "textSave": "Save",
+      "textCreateFormat": "Create Format",
+      "textCustomFormat": "Custom Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.",
       "textEnterFormat": "Enter Format",
-      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
+      "textSave": "Save"
     },
     "Settings": {
       "advCSVOptions": "Válasszon a CSV beállítások közül",
@@ -759,6 +774,7 @@
       "warnDownloadAs": "Ha ebbe a formátumba ment, a nyers szövegen kívül minden elveszik.<br>Biztos benne, hogy folytatni akarja?",
       "strFuncLocale": "Formula Language",
       "textNoMatches": "No Matches",
+      "textVersionHistory": "Version History",
       "txtDe": "Deutsch"
     }
   }

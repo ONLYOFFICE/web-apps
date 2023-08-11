@@ -52,6 +52,7 @@
     "textPictureFromURL": "Εικόνα από Σύνδεσμο",
     "textPosition": "Θέση",
     "textRecommended": "Προτεινόμενα",
+    "textRequired": "Απαιτείται",
     "textRightBottom": "Δεξιά Κάτω",
     "textRightTop": "Δεξιά Πάνω",
     "textRows": "Γραμμές",
@@ -64,8 +65,7 @@
     "textTableSize": "Μέγεθος Πίνακα",
     "textWithBlueLinks": "Με Μπλε Συνδέσμους",
     "textWithPageNumbers": "Με Αριθμούς Σελίδων",
-    "txtNotUrl": "Αυτό το πεδίο πρέπει να είναι μια διεύθυνση URL με τη μορφή «http://www.example.com»",
-    "textRequired": "Required"
+    "txtNotUrl": "Αυτό το πεδίο πρέπει να είναι μια διεύθυνση URL με τη μορφή «http://www.example.com»"
   },
   "Common": {
     "Collaboration": {
@@ -124,7 +124,7 @@
       "textMultiple": "πολλαπλό",
       "textNoBreakBefore": "Χωρίς αλλαγή σελίδας πριν",
       "textNoChanges": "Δεν υπάρχουν αλλαγές.",
-      "textNoComments": "Αυτό το έγγραφο δεν περιέχει σχόλια",
+      "textNoComments": "Δεν υπάρχουν σχόλια",
       "textNoContextual": "Προσθήκη διαστήματος μεταξύ παραγράφων της ίδιας τεχνοτροπίας",
       "textNoKeepLines": "Οι γραμμές να μην διατηρούνται μαζί",
       "textNoKeepNext": "Να μην διατηρείται με επόμενο",
@@ -148,6 +148,7 @@
       "textReviewChange": "Επισκόπηση Αλλαγής",
       "textRight": "Στοίχιση δεξιά",
       "textShape": "Σχήμα",
+      "textSharingSettings": "Ρυθμίσεις διαμοιρασμού",
       "textShd": "Χρώμα παρασκηνίου",
       "textSmallCaps": "Μικρά κεφαλαία",
       "textSpacing": "Απόσταση",
@@ -164,8 +165,7 @@
       "textTryUndoRedo": "Οι λειτουργίες Αναίρεση/Επανάληψη είναι απενεργοποιημένες στην κατάσταση Γρήγορης συν-επεξεργασίας.",
       "textUnderline": "Υπογράμμιση",
       "textUsers": "Χρήστες",
-      "textWidow": "Έλεγχος μεμονωμένων γραμμών κειμένου",
-      "textSharingSettings": "Sharing Settings"
+      "textWidow": "Έλεγχος μεμονωμένων γραμμών κειμένου"
     },
     "HighlightColorPalette": {
       "textNoFill": "Χωρίς Γέμισμα"
@@ -174,6 +174,20 @@
       "textCustomColors": "Προσαρμοσμένα Χρώματα",
       "textStandartColors": "Τυπικά Χρώματα",
       "textThemeColors": "Χρώματα Θέματος"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Προειδοποίηση",
+      "textAnonymous": "Ανώνυμος",
+      "textBack": "Πίσω",
+      "textCancel": "Άκυρο",
+      "textCurrent": "Τρέχον",
+      "textOk": "Εντάξει",
+      "textRestore": "Επαναφορά",
+      "textVersion": "Έκδοση",
+      "textVersionHistory": "Ιστορικό εκδόσεων",
+      "textWarningRestoreVersion": "Το τρέχον αρχείο θα αποθηκευτεί στο ιστορικό εκδόσεων.",
+      "titleWarningRestoreVersion": "Επαναφορά αυτής της έκδοσης;",
+      "txtErrorLoadHistory": "Η φόρτωση του ιστορικού απέτυχε"
     }
   },
   "ContextMenu": {
@@ -269,7 +283,7 @@
     "textFebruary": "Φεβρουάριος",
     "textFill": "Γέμισμα",
     "textFirstColumn": "Πρώτη Στήλη",
-    "textFirstLine": "Πρώτη Γραμμή",
+    "textFirstLine": "Πρώτη γραμμή",
     "textFlow": "Ροή",
     "textFontColor": "Χρώμα Γραμματοσειράς",
     "textFontColors": "Χρώματα Γραμματοσειράς",
@@ -336,6 +350,7 @@
     "textRepeatAsHeaderRow": "Επανάληψη ως Σειράς Κεφαλίδας",
     "textReplace": "Αντικατάσταση",
     "textReplaceImage": "Αντικατάσταση Εικόνας",
+    "textRequired": "Απαιτείται",
     "textResizeToFitContent": "Αλλαγή Μεγέθους για Προσαρμογή Περιεχομένου",
     "textRightAlign": "Δεξιά Στοίχιση",
     "textSa": "Σαβ",
@@ -376,8 +391,7 @@
     "textType": "Τύπος",
     "textWe": "Τετ",
     "textWrap": "Αναδίπλωση",
-    "textRequired": "Required",
-    "textWrappingStyle": "Wrapping Style"
+    "textWrappingStyle": "Τεχνοτροπία αναδίπλωσης"
   },
   "Error": {
     "convertationTimeoutText": "Υπέρβαση χρονικού ορίου μετατροπής.",
@@ -407,10 +421,13 @@
     "errorMailMergeLoadFile": "Φόρτωση απέτυχε",
     "errorMailMergeSaveFile": "Η συγχώνευση απέτυχε.",
     "errorNoTOC": "Δεν υπάρχει πίνακας περιεχομένων για ενημέρωση. Μπορείτε να εισαγάγετε ένα από την καρτέλα Αναφορές.",
+    "errorPasswordIsNotCorrect": "Ο κωδικός πρόσβασης που δώσατε δεν είναι σωστός. Βεβαιωθείτε ότι το πλήκτρο CAPS LOCK είναι απενεργοποιημένο και βεβαιωθείτε ότι χρησιμοποιείτε τη σωστή χρήση πεζών-κεφαλαίων.",
     "errorSessionAbsolute": "Η σύνοδος επεξεργασίας του εγγράφου έληξε. Παρακαλούμε, φορτώστε ξανά τη σελίδα.",
     "errorSessionIdle": "Το έγγραφο δεν τροποποιήθηκε για μεγάλο χρονικό διάστημα. Παρακαλούμε, φορτώστε ξανά τη σελίδα.",
     "errorSessionToken": "Η σύνδεση με τον εξυπηρετητή διακόπηκε. Παρακαλούμε, φορτώστε ξανά τη σελίδα.",
     "errorStockChart": "Εσφαλμένη διάταξη γραμμών. Για να φτιάξετε γράφημα μετοχών, βάλτε τα δεδομένα στο φύλλο με την ακόλουθη σειρά:<br> τιμή εκκίνησης, μέγιστη τιμή, ελάχιστη τιμή, τιμή κλεισίματος.",
+    "errorTextFormWrongFormat": "Η τιμή που εισάγατε δεν ταιριάζει με τη μορφή του πεδίου.",
+    "errorToken": "Το διακριτικό ασφαλείας εγγράφου δεν έχει διαμορφωθεί σωστά. <br>Επικοινωνήστε με το διαχειριστή του διακομιστή εγγράφων.",
     "errorTokenExpire": "Το κλειδί ασφαλείας του εγγράφου έληξε.<br>Παρακαλούμε επικοινωνήστε με τον διαχειριστή του Εξυπηρετητή Εγγράφων.",
     "errorUpdateVersionOnDisconnect": "Η σύνδεση στο Διαδίκτυο έχει αποκατασταθεί και η έκδοση του αρχείου έχει αλλάξει.<br>Προτού συνεχίσετε να εργάζεστε, πρέπει να κατεβάσετε το αρχείο ή να αντιγράψετε το περιεχόμενό του για να βεβαιωθείτε ότι δεν έχει χαθεί τίποτα. Στη συνέχεια, φορτώστε ξανά αυτή τη σελίδα.",
     "errorUserDrop": "Το αρχείο δεν είναι προσβάσιμο αυτή τη στιγμή.",
@@ -426,18 +443,16 @@
     "unknownErrorText": "Άγνωστο σφάλμα.",
     "uploadImageExtMessage": "Άγνωστη μορφή εικόνας.",
     "uploadImageFileCountMessage": "Δεν μεταφορτώθηκαν εικόνες.",
-    "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB.",
-    "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
-    "errorTextFormWrongFormat": "The value entered does not match the format of the field.",
-    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator."
+    "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB."
   },
   "LongActions": {
     "applyChangesTextText": "Φόρτωση δεδομένων...",
     "applyChangesTitleText": "Φόρτωση Δεδομένων",
+    "confirmMaxChangesSize": "Το μέγεθος των ενεργειών υπερβαίνει τον περιορισμό που έχει οριστεί για τον διακομιστή σας.<br>Πατήστε \"Αναίρεση\" για να ακυρώσετε την τελευταία σας ενέργεια ή πατήστε \"Συνέχεια\" για να διατηρήσετε την ενέργεια τοπικά (πρέπει να κατεβάσετε το αρχείο ή να αντιγράψετε το περιεχόμενό του για να βεβαιωθείτε ότι δεν θα χαθεί τίποτα).",
     "downloadMergeText": "Γίνεται λήψη...",
     "downloadMergeTitle": "Γίνεται λήψη",
-    "downloadTextText": "Λήψη εγγράφου...",
-    "downloadTitleText": "Λήψη Εγγράφου",
+    "downloadTextText": "Γίνεται λήψη εγγράφου...",
+    "downloadTitleText": "Γίνεται λήψη εγγράφου",
     "loadFontsTextText": "Φόρτωση δεδομένων...",
     "loadFontsTitleText": "Φόρτωση Δεδομένων",
     "loadFontTextText": "Φόρτωση δεδομένων...",
@@ -466,8 +481,7 @@
     "txtEditingMode": "Ορισμός κατάστασης επεξεργασίας...",
     "uploadImageTextText": "Μεταφόρτωση εικόνας...",
     "uploadImageTitleText": "Μεταφόρτωση Εικόνας",
-    "waitText": "Παρακαλούμε, περιμένετε...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost)."
+    "waitText": "Παρακαλούμε, περιμένετε..."
   },
   "Main": {
     "criticalErrorTitle": "Σφάλμα",
@@ -545,6 +559,11 @@
     "textClose": "Κλείσιμο",
     "textContactUs": "Επικοινωνήστε με το τμήμα πωλήσεων",
     "textCustomLoader": "Λυπούμαστε, δεν έχετε δικαίωμα αλλαγής φορτωτή. Επικοινωνήστε με το τμήμα πωλήσεων για προσφορά.",
+    "textDialogProtectedChangesTracked": "Μπορείτε να επεξεργαστείτε αυτό το έγγραφο, αλλά όλες οι αλλαγές θα παρακολουθούνται",
+    "textDialogProtectedEditComments": "You may only insert comments to this document",
+    "textDialogProtectedFillForms": "You may only fill in forms in this document",
+    "textDialogProtectedOnlyView": "Μπορείτε να δείτε μόνο αυτό το έγγραφο",
+    "textDocumentProtected": "Το έγγραφο προστατεύεται. Οι ρυθμίσεις επεξεργασίας δεν είναι διαθέσιμες",
     "textGuest": "Επισκέπτης",
     "textHasMacros": "Το αρχείο περιέχει αυτόματες μακροεντολές.<br>Θέλετε να εκτελέσετε μακροεντολές;",
     "textNo": "Όχι",
@@ -557,10 +576,12 @@
     "textReplaceSuccess": "Η αναζήτηση ολοκληρώθηκε. Εμφανίσεις που αντικαταστάθηκαν: {0}",
     "textRequestMacros": "Μια μακροεντολή κάνει ένα αίτημα σε διεύθυνση URL. Θέλετε να επιτρέψετε το αίτημα στο %1;",
     "textYes": "Ναι",
+    "titleDialogProtectedDocument": "Το έγγραφο προστατεύεται",
     "titleLicenseExp": "Η άδεια έληξε",
     "titleLicenseNotActive": "Η άδεια δεν είναι ενεργή",
     "titleServerVersion": "Ο συντάκτης ενημερώθηκε",
     "titleUpdateVersion": "Η έκδοση άλλαξε",
+    "warnDownloadAsPdf": "Το δικό σας {0} θα μετατραπεί σε μια επεξεργάσιμη μορφή. Αυτό μπορεί να διαρκέσει αρκετά. Το τελικό έγγραφο θα είναι βελτιστοποιημένο ως προς τη δυνατότητα επεξεργασίας, οπότε ίσως να διαφέρει από το αρχικό {0}, ειδικά αν περιέχει πολλά γραφικά.",
     "warnLicenseAnonymous": "Δεν επιτρέπεται η πρόσβαση για ανώνυμους χρήστες.<br>Αυτό το έγγραφο θα ανοίξει μόνο για προβολή.",
     "warnLicenseBefore": "Η άδεια δεν είναι ενεργή.<br>Παρακαλούμε, επικοινωνήστε με τον διαχειριστή σας.",
     "warnLicenseExceeded": "Φτάσατε το όριο ταυτόχρονων συνδέσεων σε %1 συντάκτες. Το έγγραφο θα ανοίξει μόνο για ανάγνωση. Επικοινωνήστε με τον διαχειριστή σας για περισσότερες πληροφορίες.",
@@ -570,14 +591,7 @@
     "warnLicenseUsersExceeded": "Έχετε φτάσει το όριο χρήστη για συντάκτες %1.<br>Επικοινωνήστε με τον διαχειριστή σας για περισσότερες πληροφορίες.",
     "warnNoLicense": "Φτάσατε το όριο ταυτόχρονων συνδέσεων σε %1 συντάκτες. Το έγγραφο θα ανοίξει μόνο για ανάγνωση. Επικοινωνήστε με την ομάδα πωλήσεων %1 για τους όρους αναβάθμισης.",
     "warnNoLicenseUsers": "Έχετε φτάσει το όριο χρήστη για συντάκτες %1.<br>Επικοινωνήστε με την ομάδα πωλήσεων %1 για προσωπικούς όρους αναβάθμισης.",
-    "warnProcessRightsChange": "Δεν έχετε δικαίωμα επεξεργασίας αυτού του αρχείου.",
-    "textDialogProtectedChangesTracked": "You may edit this document, but all changes will be tracked",
-    "textDialogProtectedEditComments": "You may only insert comments to this document",
-    "textDialogProtectedFillForms": "You may only fill in forms in this document",
-    "textDialogProtectedOnlyView": "You may only view this document",
-    "textDocumentProtected": "The document is protected. Edit settings are not available",
-    "titleDialogProtectedDocument": "The document is protected",
-    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics."
+    "warnProcessRightsChange": "Δεν έχετε δικαίωμα επεξεργασίας αυτού του αρχείου."
   },
   "Settings": {
     "advDRMOptions": "Προστατευμένο Αρχείο",
@@ -673,6 +687,7 @@
     "textReaderMode": "Κατάσταση Αναγνώστη",
     "textReplace": "Αντικατάσταση",
     "textReplaceAll": "Αντικατάσταση Όλων",
+    "textRequired": "Απαιτείται",
     "textRequirePassword": "Απαιτείται κωδικός πρόσβασης",
     "textResolvedComments": "Επιλυμένα Σχόλια",
     "textRestartApplication": "Παρακαλούμε επανεκκινήστε την εφαρμογή για να εφαρμοστούν οι αλλαγές",
@@ -691,11 +706,15 @@
     "textTitle": "Τίτλος",
     "textTop": "Πάνω",
     "textTrackedChanges": "Εντοπισμένες αλλαγές",
+    "textTypeEditing": "Τύπος επεξεργασίας",
     "textUnitOfMeasurement": "Μονάδα Μέτρησης",
+    "textUnprotect": "Κατάργηση προστασίας",
     "textUploaded": "Μεταφορτώθηκε",
     "textVerify": "Επιβεβαίωση",
+    "textVersionHistory": "Ιστορικό εκδόσεων",
     "textWords": "Λέξεις",
     "textYes": "Ναι",
+    "titleDialogUnprotect": "Κατάργηση προστασίας εγγράφου",
     "txtDownloadTxt": "Λήψη TXT",
     "txtIncorrectPwd": "Το συνθηματικό είναι εσφαλμένο",
     "txtOk": "Εντάξει",
@@ -721,21 +740,18 @@
     "txtScheme6": "Συνάθροιση",
     "txtScheme7": "Μετοχή",
     "txtScheme8": "Ροή",
-    "txtScheme9": "Χυτήριο",
-    "textRequired": "Required",
-    "textTypeEditing": "Type Of Editing",
-    "textUnprotect": "Unprotect",
-    "titleDialogUnprotect": "Unprotect Document"
+    "txtScheme9": "Χυτήριο"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Έχετε μη αποθηκευμένες αλλαγές. Πατήστε 'Παραμονή στη Σελίδα' για να περιμένετε την αυτόματη αποθήκευση. Πατήστε 'Έξοδος από τη Σελίδα' για να απορρίψετε όλες τις μη αποθηκευμένες αλλαγές.",
     "dlgLeaveTitleText": "Έξοδος από την εφαρμογή",
     "leaveButtonText": "Έξοδος από τη Σελίδα",
     "stayButtonText": "Παραμονή στη σελίδα",
+    "textCloseHistory": "Κλείσιμο ιστορικού",
+    "textEnterNewFileName": "Εισαγάγετε ένα νέο όνομα αρχείου",
     "textOk": "Εντάξει",
-    "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view",
-    "textRenameFile": "Rename File",
-    "textEnterNewFileName": "Enter a new file name"
+    "textRenameFile": "Μετονομασία αρχείου",
+    "textSwitchedMobileView": "Μετάβαση σε προβολή κινητού",
+    "textSwitchedStandardView": "Εναλλαγή σε τυπική προβολή"
   }
 }

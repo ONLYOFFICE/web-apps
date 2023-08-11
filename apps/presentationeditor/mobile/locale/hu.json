@@ -42,6 +42,20 @@
       "textCustomColors": "Egyéni színek",
       "textStandartColors": "Alapértelmezett színek",
       "textThemeColors": "Téma színek"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -222,7 +236,8 @@
     "dlgLeaveMsgText": "Nem mentett módosításai vannak ebben a dokumentumban. Kattintson a „Maradj ezen az oldalon” gombra az automatikus mentés megvárásához. Kattintson a \"Hagyja el ezt az oldalt\" gombra az összes nem mentett módosítás elvetéséhez.",
     "dlgLeaveTitleText": "Bezárja az alkalmazást",
     "leaveButtonText": "Oldal elhagyása",
-    "stayButtonText": "Maradjon ezen az oldalon"
+    "stayButtonText": "Maradjon ezen az oldalon",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -421,11 +436,11 @@
       "textZoomIn": "Nagyítás",
       "textZoomOut": "Kicsinyítés",
       "textZoomRotate": "Zoom és elforgatás",
-      "textNoMatches": "No Matches",
       "textMorph": "Morph",
+      "textMorphLetters": "Letters",
       "textMorphObjects": "Objects",
       "textMorphWords": "Words",
-      "textMorphLetters": "Letters"
+      "textNoMatches": "No Matches"
     },
     "Settings": {
       "mniSlideStandard": "Sztenderd (4:3)",
@@ -510,7 +525,8 @@
       "txtScheme7": "Saját tőke",
       "txtScheme8": "Folyam",
       "txtScheme9": "Öntöde",
-      "textNoMatches": "No Matches"
+      "textNoMatches": "No Matches",
+      "textVersionHistory": "Version History"
     }
   }
 }
