@@ -583,7 +583,13 @@
       "textYen": "Йена",
       "txtNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\"",
       "txtSortHigh2Low": "Сортировка по убыванию",
-      "txtSortLow2High": "Сортировка по возрастанию"
+      "txtSortLow2High": "Сортировка по возрастанию",
+      "textCustomFormat": "Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textSave": "Save",
+      "textEnterFormat": "Enter Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
     },
     "Settings": {
       "advCSVOptions": "Выбрать параметры CSV",

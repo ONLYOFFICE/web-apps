@@ -159,7 +159,7 @@ define([
                 store: new Common.UI.DataViewStore(),
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;">',
-                    '<div style="width:115px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;margin-right: 4px;"><%= Common.Utils.String.htmlEncode(displayName) %></div>',
+                    '<div class="margin-right-4" style="width:115px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;"><%= Common.Utils.String.htmlEncode(displayName) %></div>',
                     '<div style="width:135px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;"><%= Common.Utils.String.htmlEncode(email) %></div>',
                     '<% if (typeof isCurrent === "undefined" || !isCurrent) { %>',
                     '<div class="listitem-icon toolbar__icon btn-cc-remove"></div>',

@@ -421,7 +421,11 @@
       "textZoomIn": "Nagyítás",
       "textZoomOut": "Kicsinyítés",
       "textZoomRotate": "Zoom és elforgatás",
-      "textNoMatches": "No Matches"
+      "textNoMatches": "No Matches",
+      "textMorph": "Morph",
+      "textMorphObjects": "Objects",
+      "textMorphWords": "Words",
+      "textMorphLetters": "Letters"
     },
     "Settings": {
       "mniSlideStandard": "Sztenderd (4:3)",

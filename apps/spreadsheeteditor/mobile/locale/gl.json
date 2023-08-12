@@ -433,6 +433,7 @@
       "textCell": "Celda",
       "textCellStyle": "Estilo da celda",
       "textCenter": "Centro",
+      "textChangeShape": "Cambiar forma",
       "textChart": "Gráfico",
       "textChartTitle": "Título do gráfico",
       "textClearFilter": "Borrar filtro",
@@ -581,9 +582,14 @@
       "txtSortHigh2Low": "Ordenar de maior a menor",
       "txtSortLow2High": "Ordenar de menor a maior ",
       "textArrange": "Arrange",
-      "textChangeShape": "Change Shape",
       "textDeleteImage": "Delete Image",
-      "textDeleteLink": "Delete Link"
+      "textDeleteLink": "Delete Link",
+      "textCustomFormat": "Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textSave": "Save",
+      "textEnterFormat": "Enter Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
     },
     "Settings": {
       "advCSVOptions": "Elexir os parámetros de CSV",

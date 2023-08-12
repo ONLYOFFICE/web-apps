@@ -583,7 +583,13 @@
       "textYen": "Yen",
       "txtNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein.",
       "txtSortHigh2Low": "Absteigend sortieren",
-      "txtSortLow2High": "Aufsteigend sortieren"
+      "txtSortLow2High": "Aufsteigend sortieren",
+      "textCustomFormat": "Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textSave": "Save",
+      "textEnterFormat": "Enter Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
     },
     "Settings": {
       "advCSVOptions": "CSV-Optionen auswählen",

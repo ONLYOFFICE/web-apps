@@ -477,6 +477,7 @@
 	"FILTER": "FILTRE",
 	"ARRAYTOTEXT": "TABLEAU.EN.TEXTE",
 	"SORT": "TRIER",
+	"SORTBY": "TRIERPAR",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "En-têtes",

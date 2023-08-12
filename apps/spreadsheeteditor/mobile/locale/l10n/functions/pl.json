@@ -478,6 +478,7 @@
 	"FILTER": "FILTRUJ",
 	"ARRAYTOTEXT": "TABLICA.NA.TEKST",
 	"SORT": "SORTUJ",
+	"SORTBY": "SORTUJ.WEDŁUG",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Wszystkie",

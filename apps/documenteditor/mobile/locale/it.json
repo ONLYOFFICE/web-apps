@@ -239,6 +239,7 @@
     "textCancel": "Annulla",
     "textCellMargins": "Margini di cella",
     "textCentered": "Centrato",
+    "textChangeShape": "Cambia forma",
     "textChart": "Grafico",
     "textClassic": "Classico",
     "textClose": "Chiudere",
@@ -375,7 +376,6 @@
     "textWrap": "Avvolgere",
     "textWrappingStyle": "Stile di disposizione testo",
     "textArrange": "Arrange",
-    "textChangeShape": "Change Shape",
     "textCustomStyle": "Custom Style",
     "textDeleteImage": "Delete Image"
   },
@@ -734,6 +734,8 @@
     "stayButtonText": "Rimanere su questa pagina",
     "textOk": "OK",
     "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view"
+    "textSwitchedStandardView": "Switched to Standard view",
+    "textRenameFile": "Rename File",
+    "textEnterNewFileName": "Enter a new file name"
   }
 }

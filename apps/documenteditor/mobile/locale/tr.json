@@ -734,6 +734,8 @@
     "stayButtonText": "Bu Sayfada Kal",
     "textOk": "Tamam",
     "textSwitchedMobileView": "Mobil görünüme geçildi",
-    "textSwitchedStandardView": "Standart görünüme geçildi"
+    "textSwitchedStandardView": "Standart görünüme geçildi",
+    "textRenameFile": "Rename File",
+    "textEnterNewFileName": "Enter a new file name"
   }
 }

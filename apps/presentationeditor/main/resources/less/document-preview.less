@@ -42,11 +42,7 @@
         }
     }
     #btn-preview-close {
-        margin-right: 10px;
-        .rtl & {
-            margin-right: 0;
-            margin-left: 10px;
-        }
+        .margin-right-10();
     }
 
     .separator {
@@ -58,25 +54,13 @@
         position: fixed;
         bottom: 33px;
         padding: 10px;
-        margin-left: 80px;
+        .margin-left(80px);
         margin-bottom: 2px;
         min-width: 130px;
-        .rtl & {
-            margin-left: 0;
-            margin-right: 80px;
-        }
 
         > label {
             display: inline-block;
             line-height:22px;
-            margin-right: 10px;
-            float: left;
-
-            .rtl & {
-                margin-right: 0;
-                margin-left: 10px;
-                float: right;
-            }
           }
 
         > input[type=text] {

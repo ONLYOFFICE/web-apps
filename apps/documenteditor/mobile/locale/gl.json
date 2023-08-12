@@ -239,6 +239,7 @@
     "textCancel": "Cancelar",
     "textCellMargins": "Marxes das celdas",
     "textCentered": "Centrado",
+    "textChangeShape": "Cambiar forma",
     "textChart": "Gráfico",
     "textClassic": "Clásico",
     "textClose": "Pechar",
@@ -370,7 +371,6 @@
     "textWe": "Me",
     "textWrap": "Axuste",
     "textArrange": "Arrange",
-    "textChangeShape": "Change Shape",
     "textCustomStyle": "Custom Style",
     "textDeleteImage": "Delete Image",
     "textDeleteLink": "Delete Link",
@@ -734,6 +734,8 @@
     "stayButtonText": "Quedarse nesta páxina",
     "textOk": "OK",
     "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view"
+    "textSwitchedStandardView": "Switched to Standard view",
+    "textRenameFile": "Rename File",
+    "textEnterNewFileName": "Enter a new file name"
   }
 }

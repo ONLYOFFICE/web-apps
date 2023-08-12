@@ -1,13 +1,18 @@
 import React, {Component} from 'react';
 import { EditCell } from '../../view/edit/EditCell';
+import { f7 } from 'framework7-react';
 import {observer, inject} from "mobx-react";
+import { Device } from '../../../../../common/mobile/utils/device';
 
 class EditCellController extends Component {
     constructor (props) {
         super(props);
         this.dateFormats = this.initFormats(Asc.c_oAscNumFormatType.Date, 38822);
         this.timeFormats = this.initFormats(Asc.c_oAscNumFormatType.Time, 1.534);
+        this.initCustomFormats = this.initCustomFormats.bind(this);
+        this.setCustomFormat = this.setCustomFormat.bind(this);
         this.onBorderStyle = this.onBorderStyle.bind(this);
+        this.initCustomFormats();
     }
 
     initFormats(type, exampleVal) {
@@ -18,14 +23,45 @@ class EditCellController extends Component {
         info.asc_setDecimalPlaces(0);
         info.asc_setSeparator(false);
 
-        let formatsArr = api.asc_getFormatCells(info),
-            data = [];
-
-        formatsArr.forEach(function(item) {
-            data.push({value: item, displayValue: api.asc_getLocaleExample(item, exampleVal)});
-        });
+        const formatsArr = api.asc_getFormatCells(info);
+        const data = formatsArr.map(item => ({
+            value: item, 
+            displayValue: api.asc_getLocaleExample(item, exampleVal)
+        }));
 
         return data;
+    }
+
+    initCustomFormats() {
+        if(this.props.storeCellSettings.customFormats?.length) return;
+
+        const api = Common.EditorApi.get();
+        const storeCellSettings = this.props.storeCellSettings;
+        const info = new Asc.asc_CFormatCellsInfo();
+        const valSymbol = api.asc_getLocale();
+
+        info.asc_setType(Asc.c_oAscNumFormatType.Custom);
+        info.asc_setSymbol(valSymbol);
+
+        const formatsArr = api.asc_getFormatCells(info);
+        const data = formatsArr.map(item => ({
+            value: api.asc_convertNumFormat2NumFormatLocal(item),
+            format: item
+        }));
+
+        storeCellSettings.initCustomFormats(data);
+    }
+
+    setCustomFormat(value) {
+        const api = Common.EditorApi.get();
+        const format = api.asc_convertNumFormatLocal2NumFormat(value);
+        const storeCellSettings = this.props.storeCellSettings;
+    
+        storeCellSettings.addCustomFormat({
+            value: api.asc_convertNumFormat2NumFormatLocal(format),
+            format
+        });
+        api.asc_setCellFormat(format);
     }
 
     toggleBold(value) {
@@ -217,6 +253,7 @@ class EditCellController extends Component {
                 dateFormats={this.dateFormats}
                 timeFormats={this.timeFormats}
                 onTextColorAuto={this.onTextColorAuto}
+                setCustomFormat={this.setCustomFormat}
             />
         )
     }

@@ -60,6 +60,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             _.extend(this.options, {
                 title: this.textTitle,
                 items: [
+                    {panelId: 'id-adv-shape-general',    panelCaption: this.textGeneral},
                     {panelId: 'id-adv-shape-width',      panelCaption: this.textPlacement},
                     {panelId: 'id-adv-shape-rotate',     panelCaption: this.textRotation},
                     {panelId: 'id-adv-shape-shape',      panelCaption: this.textWeightArrows},
@@ -88,6 +89,17 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
 
             var me = this;
 
+            // General
+            this.inputShapeName = new Common.UI.InputField({
+                el          : $('#shape-general-object-name'),
+                allowBlank  : true,
+                validateOnBlur: false,
+                style       : 'width: 100%;'
+            }).on('changed:after', function() {
+                me.isShapeNameChanged = true;
+            });
+
+            // Placement
             this.spnWidth = new Common.UI.MetricSpinner({
                 el: $('#shape-advanced-spin-width'),
                 step: .1,
@@ -583,12 +595,13 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
 
         getFocusedComponents: function() {
             return [
-                this.spnWidth, this.btnRatio, this.spnHeight, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY, // 0 tab
-                this.spnAngle, this.chFlipHor, this.chFlipVert, // 1 tab
-                this.cmbCapType, this.cmbJoinType, // 2 tab
-                this.radioNofit, this.radioShrink, this.radioFit, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, // 3 tab
-                this.spnColumns, this.spnSpacing, // 4 tab
-                this.inputAltTitle, this.textareaAltDescription  // 5 tab
+                this.inputShapeName,// 0 tab
+                this.spnWidth, this.btnRatio, this.spnHeight, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY, // 1 tab
+                this.spnAngle, this.chFlipHor, this.chFlipVert, // 2 tab
+                this.cmbCapType, this.cmbJoinType, // 3 tab
+                this.radioNofit, this.radioShrink, this.radioFit, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, // 4 tab
+                this.spnColumns, this.spnSpacing, // 5 tab
+                this.inputAltTitle, this.textareaAltDescription  // 6 tab
             ];
         },
 
@@ -599,21 +612,24 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             setTimeout(function(){
                 switch (index) {
                     case 0:
-                        me.spnWidth.focus();
+                        me.inputShapeName.focus();
                         break;
                     case 1:
-                        me.spnAngle.focus();
+                        me.spnWidth.focus();
                         break;
                     case 2:
-                        me.cmbCapType.focus();
+                        me.spnAngle.focus();
                         break;
                     case 3:
-                        me.spnMarginTop.focus();
+                        me.cmbCapType.focus();
                         break;
                     case 4:
-                        me.spnColumns.focus();
+                        me.spnMarginTop.focus();
                         break;
                     case 5:
+                        me.spnColumns.focus();
+                        break;
+                    case 6:
                         me.inputAltTitle.focus();
                         break;
                 }
@@ -632,7 +648,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
         _setDefaults: function(props) {
             if (props ){
                 if (props.get_FromSmartArt()) {
-                    this.btnsCategory[1].setDisabled(true);
+                    this.btnsCategory[2].setDisabled(true);
                 }
                 if (props.get_FromSmartArtInternal()) {
                     this.radioNofit.setDisabled(true);
@@ -640,8 +656,11 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                     this.radioFit.setDisabled(true);
                     this.chFlipHor.setDisabled(true);
                     this.chFlipVert.setDisabled(true);
-                    this.btnsCategory[0].setDisabled(true);
+                    this.btnsCategory[1].setDisabled(true);
                 }
+
+                var value = props.asc_getName();
+                this.inputShapeName.setValue(value ? value : '');
 
                 this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(props.asc_getWidth()).toFixed(2), true);
                 this.spnHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(props.asc_getHeight()).toFixed(2), true);
@@ -649,7 +668,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 if (props.asc_getHeight()>0)
                     this._nRatio = props.asc_getWidth()/props.asc_getHeight();
 
-                var value = props.asc_getLockAspect();
+                value = props.asc_getLockAspect();
                 this.btnRatio.toggle(value || props.get_FromSmartArt());
                 this.btnRatio.setDisabled(!!props.get_FromSmartArt()); // can resize smart art only proportionately
 
@@ -690,10 +709,10 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                         this.radioShrink.setValue(true, true);
                         break;
                 }
-                this.btnsCategory[3].setDisabled(null === margins);   // Margins
+                this.btnsCategory[4].setDisabled(null === margins);   // Margins
 
                 var shapetype = props.asc_getType();
-                this.btnsCategory[4].setDisabled(props.get_FromSmartArtInternal()
+                this.btnsCategory[5].setDisabled(props.get_FromSmartArtInternal()
                     || shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
                     || shapetype=='bentConnector4' || shapetype=='bentConnector5' || shapetype=='curvedConnector2'
                     || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
@@ -723,6 +742,9 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
         },
 
         getSettings: function() {
+            if (this.isShapeNameChanged)
+                this._changedProps.asc_putName(this.inputShapeName.getValue());
+
             var Position = new Asc.CPosition();
             if (this.spnX.getValue() !== '') {
                 var x = Common.Utils.Metric.fnRecalcToMM(this.spnX.getNumberValue());
@@ -760,7 +782,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             if (props ){
                 var stroke = props.get_stroke();
                 if (stroke) {
-                    this.btnsCategory[2].setDisabled(stroke.get_type() == Asc.c_oAscStrokeType.STROKE_NONE);   // Weights & Arrows
+                    this.btnsCategory[3].setDisabled(stroke.get_type() == Asc.c_oAscStrokeType.STROKE_NONE);   // Weights & Arrows
 
                     var value = stroke.get_linejoin();
                     for (var i=0; i<this._arrJoinType.length; i++) {
@@ -981,7 +1003,9 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
         textFrom: 'From',
         textVertical: 'Vertical',
         textTopLeftCorner: 'Top Left Corner',
-        textCenter: 'Center'
+        textCenter: 'Center',
+        textGeneral: 'General',
+        textShapeName: 'Shape name'
 
     }, PE.Views.ShapeSettingsAdvanced || {}));
 });

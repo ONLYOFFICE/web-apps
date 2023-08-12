@@ -270,10 +270,14 @@
                 'onRequestUsers': <request users list for mentions>,// must call setUsers method
                 'onRequestSendNotify': //send when user is mentioned in a comment,
                 'onRequestInsertImage': <try to insert image>,// must call insertImage method
-                'onRequestCompareFile': <request file to compare>,// must call setRevisedFile method
+                'onRequestCompareFile': <request file to compare>,// must call setRevisedFile method. must be deprecated
                 'onRequestSharingSettings': <request sharing settings>,// must call setSharingSettings method
                 'onRequestCreateNew': <try to create document>,
                 'onRequestReferenceData': <try to refresh external data>,
+                'onRequestOpen': <try to open external link>,
+                'onRequestSelectDocument': <try to open document>, // used for compare and combine documents. must call setRequestedDocument method. use instead of onRequestCompareFile/setRevisedFile
+                'onRequestSelectSpreadsheet': <try to open spreadsheet>, // used for mailmerge id de and external links in sse. must call setRequestedSpreadsheet method. use instead of onRequestMailMergeRecipients/setMailMergeRecipients
+                'onRequestReferenceSource': <try to change source for external link>, // used for external links in sse. must call setReferenceSource method
             }
         }
 
@@ -338,6 +342,10 @@
         _config.editorConfig.canRequestSharingSettings = _config.events && !!_config.events.onRequestSharingSettings;
         _config.editorConfig.canRequestCreateNew = _config.events && !!_config.events.onRequestCreateNew;
         _config.editorConfig.canRequestReferenceData = _config.events && !!_config.events.onRequestReferenceData;
+        _config.editorConfig.canRequestOpen = _config.events && !!_config.events.onRequestOpen;
+        _config.editorConfig.canRequestSelectDocument = _config.events && !!_config.events.onRequestSelectDocument;
+        _config.editorConfig.canRequestSelectSpreadsheet = _config.events && !!_config.events.onRequestSelectSpreadsheet;
+        _config.editorConfig.canRequestReferenceSource = _config.events && !!_config.events.onRequestReferenceSource;
         _config.frameEditorId = placeholderId;
         _config.parentOrigin = window.location.origin;
 
@@ -702,6 +710,27 @@
             });
         };
 
+        var _setRequestedDocument = function(data) {
+            _sendCommand({
+                command: 'setRequestedDocument',
+                data: data
+            });
+        };
+
+        var _setRequestedSpreadsheet = function(data) {
+            _sendCommand({
+                command: 'setRequestedSpreadsheet',
+                data: data
+            });
+        };
+
+        var _setReferenceSource = function(data) {
+            _sendCommand({
+                command: 'setReferenceSource',
+                data: data
+            });
+        };
+
         var _setFavorite = function(data) {
             _sendCommand({
                 command: 'setFavorite',
@@ -789,7 +818,10 @@
             requestClose        : _requestClose,
             grabFocus           : _grabFocus,
             blurFocus           : _blurFocus,
-            setReferenceData    : _setReferenceData
+            setReferenceData    : _setReferenceData,
+            setRequestedDocument: _setRequestedDocument,
+            setRequestedSpreadsheet: _setRequestedSpreadsheet,
+            setReferenceSource: _setReferenceSource
         }
     };
 
@@ -918,15 +950,8 @@
             }
         }
 
-        var userAgent = navigator.userAgent.toLowerCase(),
-            check = function(regex){ return regex.test(userAgent); },
-            isIE = !check(/opera/) && (check(/msie/) || check(/trident/) || check(/edge/)),
-            isChrome = !isIE && check(/\bchrome\b/),
-            isSafari_mobile = !isIE && !isChrome && check(/safari/) && (navigator.maxTouchPoints>0),
-            path_type;
-
         path += app + "/";
-        path_type = (config.type === "mobile" || isSafari_mobile)
+        const path_type = config.type === "mobile"
                     ? "mobile" : (config.type === "embedded")
                     ? "embed" : (config.document && typeof config.document.fileType === 'string' && config.document.fileType.toLowerCase() === 'oform')
                     ? "forms" : "main";

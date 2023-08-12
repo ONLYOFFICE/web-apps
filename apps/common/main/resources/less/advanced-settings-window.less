@@ -17,14 +17,13 @@
             padding-top: 2px;
 
             .btn-category {
-                text-align: left;
+                .text-align-left();
                 padding: 9px 2px 9px 12px;
                 line-height: normal;
                 height: auto;
                 white-space: normal;
 
                 .rtl & {
-                    text-align: right;
                     padding: 9px 12px 9px 2px;
                 }
 
@@ -37,7 +36,9 @@
         .content-panel {
             vertical-align: top;
             padding: 5px 15px 0 10px;
-
+            .rtl & {
+                padding: 5px 10px 0 15px;
+            }
             .inner-content {
                 padding-left: 10px;
                 padding-right: 10px;
@@ -53,7 +54,7 @@
         }
 
         &.right {
-            text-align: right;
+            .text-align-right();
         }
 
         &.justify {
@@ -75,7 +76,7 @@
             margin: auto;
             text-align: center;
             overflow: hidden;
-            padding-right: 4px;
+            .padding-right-4();
             .svg-mirror{
                 margin-right: 1px;
             }
@@ -115,7 +116,7 @@
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
         border-left-width: 0;
-        margin-left: -1px;
+        .margin-left(-1px);
 
         .rtl & {
             border: @scaled-one-px-value solid @border-regular-control;
@@ -124,17 +125,13 @@
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
             border-right-width: 0;
-            margin-right: -1px;
         }
     }
 }
 
-#window-insert-table {
-    .columns-val, .rows-val {
-        float: right;
-
-        .rtl & {
-            float: left;
-        }
-    }
+.input-row-tabs {
+    border-bottom: @scaled-one-px-value-ie solid @border-divider-ie;
+    border-bottom: @scaled-one-px-value solid @border-divider;
+    height: @input-height-base;
 }
+

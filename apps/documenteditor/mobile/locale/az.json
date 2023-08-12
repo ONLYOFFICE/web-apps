@@ -237,6 +237,7 @@
     "textCancel": "Ləğv",
     "textCellMargins": "Xanalardakı Kənar Boşluqlar",
     "textCentered": "Mərkəzlənmiş",
+    "textChangeShape": "Formanı dəyiş",
     "textChart": "Diaqram",
     "textClose": "Bağlayın",
     "textColor": "Rəng",
@@ -324,7 +325,6 @@
     "textAmountOfLevels": "Amount of Levels",
     "textApril": "April",
     "textArrange": "Arrange",
-    "textChangeShape": "Change Shape",
     "textClassic": "Classic",
     "textCreateTextStyle": "Create new text style",
     "textCurrent": "Current",
@@ -734,6 +734,8 @@
     "stayButtonText": "Bu səhifədə qalın",
     "textOk": "OK",
     "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view"
+    "textSwitchedStandardView": "Switched to Standard view",
+    "textRenameFile": "Rename File",
+    "textEnterNewFileName": "Enter a new file name"
   }
 }

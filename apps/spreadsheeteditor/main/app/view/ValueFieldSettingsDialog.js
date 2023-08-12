@@ -42,7 +42,8 @@ define([
     'common/main/lib/util/utils',
     'common/main/lib/component/InputField',
     'common/main/lib/component/ComboBox',
-    'common/main/lib/view/AdvancedSettingsWindow'
+    'common/main/lib/view/AdvancedSettingsWindow',
+    'spreadsheeteditor/main/app/view/FormatSettingsDialog'
 ], function () { 'use strict';
 
     SSE.Views.ValueFieldSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
@@ -63,7 +64,7 @@ define([
                         '<table cols="2" style="width: 100%;">',
                         '<tr>',
                             '<td colspan="2" class="padding-small" style="white-space: nowrap;">',
-                                '<label class="header" style="vertical-align: middle; margin-right: 4px;">' + me.txtSourceName + '</label>',
+                                '<label class="header" class="margin-right-4" style="vertical-align: middle;">' + me.txtSourceName + '</label>',
                                 '<label id="value-field-settings-source" style="vertical-align: middle; max-width: 220px; overflow: hidden; text-overflow: ellipsis;"></label>',
                             '</td>',
                         '</tr>',
@@ -81,8 +82,9 @@ define([
                         '</tr>',
                         '<tr>',
                             '<td colspan="2" class="padding-large">',
-                                '<label class="header">', me.txtShowAs,'</label>',
-                                '<div id="value-field-settings-showas" class="input-group-nr" style="width:264px;"></div>',
+                                '<label class="header" style="display:block;">', me.txtShowAs,'</label>',
+                                '<div id="value-field-settings-showas" class="input-group-nr float-left" style="width:128px;"></div>',
+                                '<div id="value-field-settings-numformat" class="float-right" style="width:128px;"></div>',
                             '</td>',
                         '</tr>',
                         '<tr class="format-code">',
@@ -90,7 +92,7 @@ define([
                                 '<label class="header">', me.txtBaseField,'</label>',
                                 '<div id="value-field-settings-field" class="input-group-nr" style="width:128px;"></div>',
                             '</td>',
-                            '<td style="float: right;">',
+                            '<td class="float-right">',
                                 '<label class="header">', me.txtBaseItem,'</label>',
                                 '<div id="value-field-settings-item" class="input-group-nr" style="width:128px;"></div>',
                             '</td>',
@@ -152,6 +154,7 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 264px;max-height:160px;',
                 editable: false,
+                takeFocusOnClose: true,
                 data: [
                     { value: Asc.c_oAscShowDataAs.Normal,               displayValue: this.txtNormal,           numFormat: Asc.c_oAscNumFormatType.General },
                     { value: Asc.c_oAscShowDataAs.PercentOfTotal,       displayValue: this.txtPercentOfGrand,   numFormat: Asc.c_oAscNumFormatType.Percent },
@@ -178,6 +181,7 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 100%;max-height:160px;',
                 editable: false,
+                takeFocusOnClose: true,
                 data: [],
                 scrollAlwaysVisible: true
             });
@@ -188,19 +192,27 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 100%;max-height:160px;',
                 editable: false,
+                takeFocusOnClose: true,
                 data: [],
                 scrollAlwaysVisible: true
             });
             this.cmbBaseItem.on('selected', _.bind(this.onBaseItemSelect, this));
 
-
             this.lblSourceName = this.$window.find('#value-field-settings-source');
+
+            this.btnFormat = new Common.UI.Button({
+                parentEl: $('#value-field-settings-numformat'),
+                cls: 'btn-text-default',
+                style: 'width: 128px;',
+                caption: this.textNumFormat
+            });
+            this.btnFormat.on('click', _.bind(this.openFormat, this));
 
             this.afterRender();
         },
 
         getFocusedComponents: function() {
-            return [this.inputCustomName, this.cmbSummarize];
+            return [this.inputCustomName, this.cmbSummarize, this.cmbShowAs, this.btnFormat, this.cmbBaseField, this.cmbBaseItem];
         },
 
         getDefaultFocusableComponent: function () {
@@ -212,11 +224,29 @@ define([
         },
 
         _setDefaults: function (props) {
+
+            this.format = {
+                defFormats: []
+            };
+            var info = new Asc.asc_CFormatCellsInfo();
+            info.asc_setType(Asc.c_oAscNumFormatType.General);
+            info.asc_setDecimalPlaces(0);
+            info.asc_setSeparator(false);
+            this.format.defFormats[Asc.c_oAscNumFormatType.General] = { formatStr: this.api.asc_getFormatCells(info)[0], formatInfo: info };
+
+            info = new Asc.asc_CFormatCellsInfo();
+            info.asc_setType(Asc.c_oAscNumFormatType.Percent);
+            info.asc_setDecimalPlaces(2);
+            info.asc_setSeparator(false);
+            this.format.defFormats[Asc.c_oAscNumFormatType.Percent] = { formatStr: this.api.asc_getFormatCells(info)[0], formatInfo: info };
+
             if (props) {
                 var field = this.field,
                     me = this;
                 this.cache_names = props.asc_getCacheFields();
                 this.pivot_names = props.asc_getPivotFields();
+                this.format.formatStr = field.asc_getNumFormat();
+                this.format.formatInfo = field.asc_getNumFormatInfo();
 
                 this.lblSourceName.html(Common.Utils.String.htmlEncode(this.cache_names[field.asc_getIndex()].asc_getName()));
                 this.inputCustomName.setValue(Common.Utils.String.htmlEncode(field.asc_getName()));
@@ -224,6 +254,7 @@ define([
 
                 var show_as = field.asc_getShowDataAs();
                 this.cmbShowAs.setValue(show_as);
+                this.format.show_as = show_as;
 
                 var data = [];
                 this.pivot_names.forEach(function (item, index) {
@@ -245,6 +276,10 @@ define([
                 this.cmbBaseItem.setData(data);
                 this.cmbBaseItem.setDisabled(data.length<1 || show_as !== Asc.c_oAscShowDataAs.Difference && show_as !== Asc.c_oAscShowDataAs.Percent && show_as !== Asc.c_oAscShowDataAs.PercentDiff);
                 this.cmbBaseItem.setValue((data.length>0) && (show_as === Asc.c_oAscShowDataAs.Difference || show_as === Asc.c_oAscShowDataAs.Percent || show_as === Asc.c_oAscShowDataAs.PercentDiff) ? field.asc_getBaseItem() : '', '');
+
+                this.btnFormat.setDisabled(this.props.asc_getFieldGroupType(field.asc_getIndex()) === Asc.c_oAscGroupType.Text);
+                if (this.getDefFormat(show_as)===Asc.c_oAscNumFormatType.General)
+                    this.format.defFormats[Asc.c_oAscNumFormatType.General] = {formatStr: this.format.formatStr, formatInfo: this.format.formatInfo }
             }
 
             if (this.showAsValue!==undefined) {
@@ -259,14 +294,7 @@ define([
             field.asc_setSubtotal(this.cmbSummarize.getValue());
             field.asc_setShowDataAs(this.cmbShowAs.getValue());
 
-            var show_as = this.cmbShowAs.getSelectedRecord();
-            if (show_as) {
-                var info = new Asc.asc_CFormatCellsInfo();
-                info.asc_setType(show_as.numFormat);
-                info.asc_setDecimalPlaces(show_as.numFormat===Asc.c_oAscNumFormatType.Percent ? 2 : 0);
-                info.asc_setSeparator(false);
-                field.asc_setNumFormat(this.api.asc_getFormatCells(info)[0]);
-            }
+            this.format.isChanged && this.cmbShowAs.getSelectedRecord() && field.asc_setNumFormat(this.format.formatStr);
 
             if (!this.cmbBaseField.isDisabled())
                 field.asc_setBaseField(this.cmbBaseField.getValue());
@@ -311,6 +339,13 @@ define([
                                             this.cmbBaseItem.store.at(this.cmbBaseItem.store.length>2 ? 2 : 0).get('value') : '', '');
             }
             this.cmbBaseItem.setDisabled(this.cmbBaseItem.store.length<1 || show_as !== Asc.c_oAscShowDataAs.Difference && show_as !== Asc.c_oAscShowDataAs.Percent && show_as !== Asc.c_oAscShowDataAs.PercentDiff);
+            var newFormat = this.getDefFormat(show_as);
+            if (newFormat !== this.getDefFormat(this.format.show_as)) {
+                this.format.isChanged = true;
+                this.format.formatStr = this.format.defFormats[newFormat].formatStr;
+                this.format.formatInfo = this.format.defFormats[newFormat].formatInfo;
+            }
+            this.format.show_as = show_as;
         },
 
         onBaseFieldSelect: function(combo, record) {
@@ -339,6 +374,39 @@ define([
         onBaseItemSelect: function(combo, record) {
         },
 
+        openFormat: function() {
+            var me = this,
+                value = me.api.asc_getLocale(),
+                lang = Common.Utils.InternalSettings.get("sse-config-lang");
+            (!value) && (value = (lang ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(lang)) : 0x0409));
+
+            var win = (new SSE.Views.FormatSettingsDialog({
+                api: me.api,
+                handler: function(result, settings) {
+                    if (result=='ok' && settings) {
+                        me.format.isChanged = true;
+                        me.format.formatStr = settings.format;
+                        me.format.formatInfo = settings.formatInfo;
+                        if (me.getDefFormat(me.format.show_as)===Asc.c_oAscNumFormatType.General) {
+                            me.format.defFormats[Asc.c_oAscNumFormatType.General].formatStr = settings.format;
+                            me.format.defFormats[Asc.c_oAscNumFormatType.General].formatInfo = settings.formatInfo;
+                        }
+                    }
+                },
+                props   : {format: this.format.formatStr, formatInfo: this.format.formatInfo, langId: value}
+            })).on('close', function() {
+                me.btnFormat.cmpEl.focus();
+            });
+            win.show();
+        },
+
+        getDefFormat: function(value) {
+            if (value === Asc.c_oAscShowDataAs.Normal || value === Asc.c_oAscShowDataAs.Difference || value === Asc.c_oAscShowDataAs.RunTotal ||
+                value === Asc.c_oAscShowDataAs.RankAscending || value === Asc.c_oAscShowDataAs.RankDescending || value === Asc.c_oAscShowDataAs.Index )
+                return Asc.c_oAscNumFormatType.General;
+
+            return Asc.c_oAscNumFormatType.Percent;
+        },
         textTitle: 'Value Field Settings',
         txtSourceName: 'Source name:',
         txtCustomName: 'Custom name',
@@ -374,7 +442,8 @@ define([
         txtRankAscending: 'Rank smallest to largest',
         txtRankDescending: 'Rank largest to smallest',
         textPrev: '(previous)',
-        textNext: '(next)'
+        textNext: '(next)',
+        textNumFormat: 'Number format'
 
     }, SSE.Views.ValueFieldSettingsDialog || {}))
 });

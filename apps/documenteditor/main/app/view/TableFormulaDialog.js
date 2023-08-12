@@ -66,7 +66,7 @@ define([
                     '</div>',
                     '<div id="id-dlg-formula-format" class="input-row" style="margin-bottom: 20px;"></div>',
                     '<div class="input-row">',
-                        '<div id="id-dlg-formula-function" style="display: inline-block; width: 50%; padding-right: 10px; float: left;"></div>',
+                        '<div id="id-dlg-formula-function" style="display: inline-block; width: 50%;" class="float-left padding-right-10"></div>',
                         '<div id="id-dlg-formula-bookmark" style="display: inline-block; width: 50%;"></div>',
                     '</div>',
                     '</div>'

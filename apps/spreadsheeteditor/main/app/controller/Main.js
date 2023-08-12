@@ -150,7 +150,10 @@ define([
                         '%1 or %2': this.txtOr,
                         'Qtr': this.txtQuarter,
                         'Text': this.textText,
-                        'Sheet': this.txtSheet
+                        'Sheet': this.txtSheet,
+                        'None': this.txtNone,
+                        'Slicer': this.txtSlicer,
+                        'Info': this.txtInfo
                     };
 
                 styleNames.forEach(function(item){
@@ -198,6 +201,9 @@ define([
                 if (value===null) value = '3';
                 Common.Utils.InternalSettings.set("sse-settings-fontrender", value);
                 this.api.asc_setFontRenderingMode(parseInt(value));
+
+                value = Common.localStorage.getBool("sse-settings-show-alt-hints", Common.Utils.isMac ? false : true);
+                Common.Utils.InternalSettings.set("sse-settings-show-alt-hints", value);
 
                 if ( !Common.Utils.isIE ) {
                     if ( /^https?:\/\//.test('{{HELP_CENTER_WEB_SSE}}') ) {
@@ -418,8 +424,12 @@ define([
                 this.appOptions.user.anonymous && Common.localStorage.setItem("guest-id", this.appOptions.user.id);
 
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop' || Common.Controllers.Desktop.isActive();
+                if( Common.Controllers.Desktop.isActive() ){
+                    !this.editorConfig.recent && (this.editorConfig.recent = []);
+                }
+
                 this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl) || this.editorConfig.templates && this.editorConfig.templates.length;
-                this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined && !this.appOptions.isDesktopApp;
+                this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined;
                 this.appOptions.templates       = this.editorConfig.templates;
                 this.appOptions.recent          = this.editorConfig.recent;
                 this.appOptions.createUrl       = this.editorConfig.createUrl;
@@ -450,9 +460,11 @@ define([
                 this.appOptions.canMakeActionLink = this.editorConfig.canMakeActionLink;
                 this.appOptions.canFeaturePivot = true;
                 this.appOptions.canFeatureViews = true;
-                this.appOptions.uiRtl = false;
+                this.appOptions.uiRtl = true;
                 this.appOptions.canRequestReferenceData = this.editorConfig.canRequestReferenceData;
-
+                this.appOptions.canRequestOpen = this.editorConfig.canRequestOpen;
+                this.appOptions.canRequestReferenceSource = this.editorConfig.canRequestReferenceSource;
+                
                 if (this.appOptions.user.guest && this.appOptions.canRenameAnonymous && !this.appOptions.isEditDiagram && !this.appOptions.isEditMailMerge && !this.appOptions.isEditOle)
                     Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
 
@@ -509,9 +521,9 @@ define([
                 this.isFrameClosed = (this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge || this.appOptions.isEditOle);
                 Common.Controllers.Desktop.init(this.appOptions);
 
-                if (this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge || this.appOptions.isEditOle) {
+                //if (this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge || this.appOptions.isEditOle) {
                     Common.UI.HintManager.setMode(this.appOptions);
-                }
+                //}
             },
 
             loadDocument: function(data) {
@@ -769,6 +781,9 @@ define([
                 } else {
                     if (this.loadMask) {
                         if (this.loadMask.isVisible() && !this.dontCloseDummyComment && !this.inTextareaControl && !Common.Utils.ModalWindow.isVisible() && !this.inFormControl)
+                            if (this.appOptions.isEditMailMerge || this.appOptions.isEditDiagram || this.appOptions.isEditOle) {
+                                Common.UI.HintManager.setInternalEditorLoading(false);
+                            }
                             this.api.asc_enableKeyEvents(true);
                         this.loadMask.hide();
                     }
@@ -922,10 +937,9 @@ define([
                 value = (this.appOptions.isEditMailMerge || this.appOptions.isEditDiagram || this.appOptions.isEditOle) ? 100 : Common.localStorage.getItem("sse-settings-zoom");
                 Common.Utils.InternalSettings.set("sse-settings-zoom", value);
                 var zf = (value!==null) ? parseInt(value)/100 : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom)/100 : 1);
-                this.api.asc_setZoom(zf>0 ? zf : 1);
-
-                value = Common.localStorage.getBool("sse-settings-show-alt-hints", Common.Utils.isMac ? false : true);
-                Common.Utils.InternalSettings.set("sse-settings-show-alt-hints", value);
+                value = Common.localStorage.getItem("sse-last-zoom");
+                var lastZoom = (value!==null) ? parseInt(value)/100 : 1;
+                this.api.asc_setZoom(zf>0 ? zf : (zf < 0 && lastZoom > 0) ? lastZoom : 1);
 
                 /** coauthoring begin **/
                 this.isLiveCommenting = Common.localStorage.getBool("sse-settings-livecomment", true);
@@ -2419,82 +2433,102 @@ define([
 
             onConfirmAction: function(id, apiCallback, data) {
                 var me = this;
-                if (id == Asc.c_oAscConfirm.ConfirmReplaceRange || id == Asc.c_oAscConfirm.ConfirmReplaceFormulaInTable) {
-                    Common.UI.warning({
-                        title: this.notcriticalErrorTitle,
-                        msg: id == Asc.c_oAscConfirm.ConfirmReplaceRange ? this.confirmMoveCellRange : this.confirmReplaceFormulaInTable,
-                        buttons: ['yes', 'no'],
-                        primary: 'yes',
-                        callback: _.bind(function(btn) {
-                            if (apiCallback)  {
-                                apiCallback(btn === 'yes');
-                            }
-                            if (btn == 'yes') {
+                switch (id) {
+                    case Asc.c_oAscConfirm.ConfirmReplaceRange:
+                    case Asc.c_oAscConfirm.ConfirmReplaceFormulaInTable:
+                        Common.UI.warning({
+                            title: this.notcriticalErrorTitle,
+                            msg: id == Asc.c_oAscConfirm.ConfirmReplaceRange ? this.confirmMoveCellRange : this.confirmReplaceFormulaInTable,
+                            buttons: ['yes', 'no'],
+                            primary: 'yes',
+                            callback: _.bind(function(btn) {
+                                if (apiCallback)  {
+                                    apiCallback(btn === 'yes');
+                                }
+                                if (btn == 'yes') {
+                                    me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
+                                }
+                            }, this)
+                        });
+                        break;
+                    case Asc.c_oAscConfirm.ConfirmPutMergeRange:
+                        Common.UI.warning({
+                            closable: false,
+                            title: this.notcriticalErrorTitle,
+                            msg: this.confirmPutMergeRange,
+                            buttons: ['ok'],
+                            primary: 'ok',
+                            callback: _.bind(function(btn) {
+                                if (apiCallback)  {
+                                    apiCallback();
+                                }
+                                me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
+                            }, this)
+                        });
+                        break;
+                    case Asc.c_oAscConfirm.ConfirmChangeProtectRange:
+                        var win = new Common.Views.OpenDialog({
+                            title: this.txtUnlockRange,
+                            closable: true,
+                            type: Common.Utils.importTextType.DRM,
+                            warning: true,
+                            warningMsg: this.txtUnlockRangeWarning,
+                            txtOpenFile: this.txtUnlockRangeDescription,
+                            validatePwd: false,
+                            handler: function (result, value) {
+                                if (me.api && apiCallback)  {
+                                    if (result == 'ok') {
+                                        me.api.asc_checkProtectedRangesPassword(value.drmOptions.asc_getPassword(), data, function(res) {
+                                            apiCallback(res, false);
+                                        });
+                                    } else
+                                        apiCallback(false, true);
+                                }
                                 me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
                             }
-                        }, this)
-                    });
-                } else if (id == Asc.c_oAscConfirm.ConfirmPutMergeRange) {
-                    Common.UI.warning({
-                        closable: false,
-                        title: this.notcriticalErrorTitle,
-                        msg: this.confirmPutMergeRange,
-                        buttons: ['ok'],
-                        primary: 'ok',
-                        callback: _.bind(function(btn) {
-                            if (apiCallback)  {
-                                apiCallback();
-                            }
-                            me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
-                        }, this)
-                    });
-                } else if (id == Asc.c_oAscConfirm.ConfirmChangeProtectRange) {
-                    var win = new Common.Views.OpenDialog({
-                        title: this.txtUnlockRange,
-                        closable: true,
-                        type: Common.Utils.importTextType.DRM,
-                        warning: true,
-                        warningMsg: this.txtUnlockRangeWarning,
-                        txtOpenFile: this.txtUnlockRangeDescription,
-                        validatePwd: false,
-                        handler: function (result, value) {
-                            if (me.api && apiCallback)  {
-                                if (result == 'ok') {
-                                    me.api.asc_checkProtectedRangesPassword(value.drmOptions.asc_getPassword(), data, function(res) {
-                                        apiCallback(res, false);
-                                    });
-                                } else
-                                    apiCallback(false, true);
-                            }
-                            me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
-                        }
-                    });
-                    win.show();
-                } else if (id == Asc.c_oAscConfirm.ConfirmAddCellWatches) {
-                    Common.UI.warning({
-                        title: this.notcriticalErrorTitle,
-                        msg: (data>Asc.c_nAscMaxAddCellWatchesCount) ? Common.Utils.String.format(this.confirmAddCellWatchesMax, Asc.c_nAscMaxAddCellWatchesCount) : Common.Utils.String.format(this.confirmAddCellWatches, data),
-                        buttons: ['yes', 'no'],
-                        primary: 'yes',
-                        callback: _.bind(function(btn) {
-                            if (apiCallback)  {
-                                apiCallback(btn === 'yes');
-                            }
-                        }, this)
-                    });
-                } else if (id == Asc.c_oAscConfirm.ConfirmMaxChangesSize) {
-                    Common.UI.warning({
-                        title: this.notcriticalErrorTitle,
-                        msg: this.confirmMaxChangesSize,
-                        buttons: [{value: 'ok', caption: this.textUndo, primary: true}, {value: 'cancel', caption: this.textContinue}],
-                        maxwidth: 600,
-                        callback: _.bind(function(btn) {
-                            if (apiCallback)  {
-                                apiCallback(btn === 'ok');
-                            }
-                            me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
-                        }, this)
-                    });
+                        });
+                        win.show();
+                        break;
+                    case Asc.c_oAscConfirm.ConfirmAddCellWatches:
+                        Common.UI.warning({
+                            title: this.notcriticalErrorTitle,
+                            msg: (data>Asc.c_nAscMaxAddCellWatchesCount) ? Common.Utils.String.format(this.confirmAddCellWatchesMax, Asc.c_nAscMaxAddCellWatchesCount) : Common.Utils.String.format(this.confirmAddCellWatches, data),
+                            buttons: ['yes', 'no'],
+                            primary: 'yes',
+                            callback: _.bind(function(btn) {
+                                if (apiCallback)  {
+                                    apiCallback(btn === 'yes');
+                                }
+                            }, this)
+                        });
+                        break;
+                    case Asc.c_oAscConfirm.ConfirmMaxChangesSize:
+                        Common.UI.warning({
+                            title: this.notcriticalErrorTitle,
+                            msg: this.confirmMaxChangesSize,
+                            buttons: [{value: 'ok', caption: this.textUndo, primary: true}, {value: 'cancel', caption: this.textContinue}],
+                            maxwidth: 600,
+                            callback: _.bind(function(btn) {
+                                if (apiCallback)  {
+                                    apiCallback(btn === 'ok');
+                                }
+                                me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
+                            }, this)
+                        });
+                        break;
+                    case Asc.c_oAscConfirm.ConfirmReplaceHeaderFooterPicture:
+                        Common.UI.warning({
+                            title: this.notcriticalErrorTitle,
+                            msg: this.confirmReplaceHFPicture,
+                            buttons: [{value: 'ok', caption: this.textReplace, primary: true}, {value: 'cancel', caption: this.textKeep}],
+                            maxwidth: 600,
+                            callback: _.bind(function(btn) {
+                                if (apiCallback)  {
+                                    apiCallback(btn === 'ok');
+                                }
+                            }, this)
+                        });
+                        break;
                 }
             },
 
@@ -3839,7 +3873,13 @@ define([
             errorProtectedRange: 'This range is not allowed for editing.',
             errorCreateRange: 'The existing ranges cannot be edited and the new ones cannot be created<br>at the moment as some of them are being edited.',
             txtSheet: 'Sheet',
-            warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.'
+            txtNone: 'None',
+            warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.',
+            txtSlicer: 'Slicer',
+            txtInfo: 'Info',
+            confirmReplaceHFPicture: 'Only one picture can be inserted in each section of the header.<br>Press \"Replace\" to replace existing picture.<br>Press \"Keep\" to keep existing picture.',
+            textReplace: 'Replace',
+            textKeep: 'Keep'
         }
     })(), SSE.Controllers.Main || {}))
 });

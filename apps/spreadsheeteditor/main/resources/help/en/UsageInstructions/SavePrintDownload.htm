@@ -4,7 +4,7 @@
 		<title>Save/print/download your spreadsheet</title>
 		<meta charset="utf-8" />
 		<meta name="description" content="Save, print and download your spreadsheet in various formats" />
-		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
 		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
@@ -29,7 +29,7 @@
                 <ol>
                     <li>click the <b>File</b> tab of the top toolbar,</li>
                     <li>select the <b>Save as</b> option,</li>
-                    <li>choose one of the available formats depending on your needs: XLSX, ODS, CSV, PDF, PDF/A. You can also choose the <b>Spreadsheet template</b> (XLTX or OTS) option.</li>
+                    <li>choose one of the available formats depending on your needs: XLSX, XLTX, ODS, OTS, CSV, PDF, PDF/A, XLTM, JPG, PNG. You can also choose the <b>Spreadsheet template</b> option.</li>
                 </ol>
             </div>
             <div class="onlineDocumentFeatures">
@@ -39,8 +39,8 @@
                     <li>click the <b>File</b> tab of the top toolbar,</li>
                     <li>select the <b>Download as</b> option,</li>
                     <li>
-                        choose one of the available formats depending on your needs: XLSX, PDF, ODS, CSV, XLTX, PDF/A, OTS.
-                        <p class="note"><b>Note</b>: if you select the CSV format, all features (font formatting, formulas etc.) except the plain text will not be preserved in the CSV file. If you continue saving, the <b>Choose CSV Options</b> window will open. By default, <em>Unicode (UTF-8)</em> is used as the <b>Encoding</b> type. The default <b>Delimiter</b> is <em>comma</em> (,), but the following options are also available: <em>semicolon</em> (;), <em>colon</em> (:), <em>Tab</em>, <em>Space</em> and <em>Other</em> (this option allows you to set a custom delimiter character).</p>
+                        choose one of the available formats depending on your needs: XLSX, ODS, CSV, PDF, XLTX, OTS, PDF/A, JPG, PNG.
+                        <p class="note"><b>Note</b>: if you select the CSV format, all features (font formatting, formulas, etc.) except the plain text will not be preserved in the CSV file. If you continue saving, the <b>Choose CSV Options</b> window will open. By default, <em>Unicode (UTF-8)</em> is used as the <b>Encoding</b> type. The default <b>Delimiter</b> is <em>comma</em> (,), but the following options are also available: <em>semicolon</em> (;), <em>colon</em> (:), <em>Tab</em>, <em>Space</em> and <em>Other</em> (this option allows you to set a custom delimiter character).</p>
                     </li>
                 </ol>
                 <h3>Saving a copy</h3>
@@ -48,7 +48,7 @@
                 <ol>
                     <li>click the <b>File</b> tab of the top toolbar,</li>
                     <li>select the <b>Save Copy as</b> option,</li>
-                    <li>choose one of the available formats depending on your needs: XLSX, PDF, ODS, CSV, XLTX, PDF/A, OTS,</li>
+                    <li>choose one of the available formats depending on your needs: XLSX, ODS, CSV, PDF, XLTX, OTS, PDF/A, JPG, PNG,</li>
                     <li>select a location of the file on the portal and press <b>Save</b>.</li>
                 </ol>
             </div>
@@ -65,12 +65,13 @@
             <p>The spreadsheet <b>Preview</b> and the available printing options will open.</p>
             <p class="note">Some of these settings (page <b>Margins</b>, <b>Orientation</b>, <b>Size</b>, <b>Print Area</b> as well as <a href="ScaleToFit.htm" onclick="onhyperlinkclick(this)"><b>Scale to Fit</b></a>) are also available on the <b>Layout</b> tab of the top toolbar.</p>
             <p><img alt="Print Settings window" src="../images/printsettingswindow.png" /></p>
-            <p>Here you can adjust the following parameters:</p>
+            <p>Here you can adjust the following parameters<span class="desktopDocumentFeatures">. In the <em>desktop version</em> you can also define the <b>Print sides</b> option to print on <b>one</b> or <b>two sides</b> flipping the pages on long or short edge as well as <b>print the file to PDF</b> or use the <b>Quick print</b> button in the top toolbar to print the file on the last selected or default printer.</span></p>
             <ul id="printtitles">
                 <li>
-                    <b>Print range</b> - specify what to print: <b>Current sheet</b>, <b>All sheets</b> or <b>Selection</b>,
+                    <b>Print range</b> - specify what to print: <b>Active sheets</b>, <b>All sheets</b> or <b>Selection</b>,
                     <p>If you previously set a constant print area but want to print the entire sheet, check the <b>Ignore print area</b> box.</p>
                 </li>
+                <li><b>Pages</b> - specify the range of pages for printing. You can enter the numbers manually or use the corresponding arrows,</li>
                 <li><b>Settings of sheet</b> - specify individual print settings for each separate sheet, if you have selected the <b>All Sheets</b> option in the <b>Print range</b> drop-down list,</li>
                 <li><b>Page size</b> - select one of the available sizes from the drop-down list,</li>
                 <li><b>Page orientation</b> - choose the <b>Portrait</b> option if you wish to print vertically on the page, or use the <b>Landscape</b> option to print horizontally,</li>
@@ -89,11 +90,12 @@
                 <li>
                     <a href="../UsageInstructions/InsertHeadersFooters.htm" onclick="onhyperlinkclick(this)"><b>Header/footer settings</b></a> - allow to add some additional information to a printed worksheet, such as date and time, page number, sheet name, etc.
                 </li>
+                <li><b>First page number</b> - specify the number of the first page printed.</li>
             </ul>
             <p>After you have configured the printing settings click the <b>Print</b> button to save changes and print out the spreadsheet or the <b>Save</b> button to save changes made to printing settings.</p>
             <p class="note">All changes you made will be lost if you don't print the spreadsheet or save the changes.</p>
             <p>The spreadsheet <b>Preview</b> allows you to navigate a spreadsheet using arrows at the bottom to see how your data will be displayed on a sheet when printed and to correct eventual faults using the print setting above.</p>
-            <p><span class="desktopDocumentFeatures">In the <em>desktop version</em>, the file will be printed directly.</span> <span class="onlineDocumentFeatures">In the <em>online version</em>, a PDF file will be generated on the basis of the document. You can open and print it out, or save onto your computer hard disk drive or removable medium to print it out later. Some browsers (e.g. Chrome and Opera) support direct printing.</span></p>
+            <p><span class="onlineDocumentFeatures">In the <em>online version</em>, a PDF file will be generated on the basis of the document. You can open and print it out, or save onto your computer hard disk drive or removable medium to print it out later. Some browsers (e.g. Chrome and Opera) support direct printing.</span></p>
             <h4 id="printarea">Setting up the print area</h4>
             <p>If you want to print the selected cell range only instead of the entire worksheet, you can use the <b>Selection</b> option from the <b>Print range</b> drop-down list. When the workbook is saved, this setting is not saved, it is intended for single use. </p>
             <p>If a cell range should be printed frequently, you can set a constant print area on the worksheet. When the workbook is saved, the print area is also saved, it can be used when you open the spreadsheet next time. It's also possible to set several constant print areas in a sheet, in this case each area will be printed on a separate page.</p>

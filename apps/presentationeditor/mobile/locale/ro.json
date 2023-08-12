@@ -421,7 +421,11 @@
       "textZoom": "Zoom",
       "textZoomIn": "Mărire",
       "textZoomOut": "Micșorare",
-      "textZoomRotate": "Zoom și rotire"
+      "textZoomRotate": "Zoom și rotire",
+      "textMorph": "Morph",
+      "textMorphObjects": "Objects",
+      "textMorphWords": "Words",
+      "textMorphLetters": "Letters"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

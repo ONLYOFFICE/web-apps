@@ -161,7 +161,7 @@ define([
 
                 var _set = Common.enumLock;
 
-                this.btnsAddPivot = Common.Utils.injectButtons(this.toolbar.$el.find('.btn-slot.slot-add-pivot'), '', 'toolbar__icon btn-pivot-sum', this.txtPivotTable,
+                this.btnsAddPivot = Common.Utils.injectButtons(this.toolbar.$el.find('.btn-slot.slot-add-pivot'), '', 'toolbar__icon btn-big-pivot-sum', this.txtPivotTable,
                     [_set.lostConnect, _set.coAuth, _set.editPivot, _set.selRangeEdit, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.editCell, _set.wsLock], undefined, undefined, undefined, '1', 'bottom', 'small');
 
                 this.chRowHeader = new Common.UI.CheckBox({
@@ -396,7 +396,7 @@ define([
                 this.$el = $(_.template(template)( {} ));
 
                 var _set = Common.enumLock;
-                this.btnsAddPivot = this.btnsAddPivot.concat(Common.Utils.injectButtons(this.$el.find('.btn-slot.slot-add-pivot'), '', 'toolbar__icon btn-pivot-sum', this.txtCreate,
+                this.btnsAddPivot = this.btnsAddPivot.concat(Common.Utils.injectButtons(this.$el.find('.btn-slot.slot-add-pivot'), '', 'toolbar__icon btn-big-pivot-sum', this.txtCreate,
                     [_set.lostConnect, _set.coAuth, _set.editPivot, _set.selRangeEdit, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.editCell, _set.wsLock], undefined, undefined, undefined, '1', 'bottom', 'small'));
 
                 this.chRowHeader.render(this.$el.find('#slot-chk-header-row'));

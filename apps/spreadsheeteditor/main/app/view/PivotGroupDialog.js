@@ -63,11 +63,11 @@ define([
                         '<table cols="2" style="width: 100%;">',
                             '<tr>',
                                 '<td colspan="2" style="padding-bottom: 4px;">',
-                                    '<label style="font-weight: bold;">' + this.textAuto + '</label>',
+                                    '<label class="font-weight-bold">' + this.textAuto + '</label>',
                                 '</td>',
                             '</tr>',
                             '<tr>',
-                                '<td style="padding-right: 10px;padding-bottom: 8px;width: 100%;">',
+                                '<td class="padding-right-10" style="padding-bottom: 8px;width: 100%;">',
                                     '<div id="pivot-group-dlg-chk-start" style="margin-top: 2px;"></div>',
                                 '</td>',
                                 '<td style="padding-bottom: 8px;">',
@@ -75,7 +75,7 @@ define([
                                 '</td>',
                             '</tr>',
                             '<tr>',
-                                '<td style="padding-right: 10px;padding-bottom: 8px;width: 100%;">',
+                                '<td class="padding-right-10" style="padding-bottom: 8px;width: 100%;">',
                                     '<div id="pivot-group-dlg-chk-end" style="margin-top: 2px;"></div>',
                                 '</td>',
                                 '<td style="padding-bottom: 8px;">',
@@ -83,8 +83,8 @@ define([
                                 '</td>',
                             '</tr>',
                             '<tr class="group-number">',
-                                '<td style="padding-right: 10px;padding-bottom: 8px;width: 100%;">',
-                                    '<label style="margin-left:22px;margin-top:2px;">' + t.textBy + '</label>',
+                                '<td class="padding-right-10" style="padding-bottom: 8px;width: 100%;">',
+                                    '<label class="margin-left-22" style="margin-top:2px;">' + t.textBy + '</label>',
                                 '</td>',
                                 '<td style="padding-bottom: 8px;">',
                                     '<div id="pivot-group-dlg-txt-by"></div>',
@@ -92,7 +92,7 @@ define([
                             '</tr>',
                             '<tr class="group-date">',
                                 '<td colspan="2" style="padding-bottom: 4px;">',
-                                   '<label style="font-weight: bold;">' + this.textBy + '</label>',
+                                   '<label class="font-weight-bold">' + this.textBy + '</label>',
                                 '</td>',
                             '</tr>',
                             '<tr class="group-date">',
@@ -101,7 +101,7 @@ define([
                                 '</td>',
                             '</tr>',
                             '<tr class="group-date">',
-                                '<td style="padding-right: 10px;width: 100%;">',
+                                '<td class="padding-right-10" style="width: 100%;">',
                                     '<label style="margin-top:2px;">' + t.textNumDays + '</label>',
                                 '</td>',
                                 '<td>',
@@ -254,12 +254,14 @@ define([
             if (dateTypes) {
                 var me = this,
                     isDays;
+                this.listDate.setMultiselectMode(dateTypes.length>1);
                 _.each(dateTypes, function(item) {
                     var rec = me.listDate.store.findWhere({type: item});
                     rec && me.listDate.selectRecord(rec);
                     if (item == Asc.c_oAscGroupBy.Days)
                         isDays = true;
                 });
+                this.listDate.setMultiselectMode(false);
                 this.spnDays.setValue(rangePr.asc_getGroupInterval());
                 this.spnDays.setDisabled(!isDays || dateTypes.length>1);
                 this.btnOk.setDisabled(dateTypes.length<1);

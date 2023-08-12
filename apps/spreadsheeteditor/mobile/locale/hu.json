@@ -583,7 +583,13 @@
       "textYen": "Jen",
       "txtNotUrl": "Ennek a mezőnek URL formátumúnak kell lennie, pl.: „http://www.pelda.hu”",
       "txtSortHigh2Low": "A legnagyobbtól a legkisebbig rendez",
-      "txtSortLow2High": "Legkisebbtől legnagyobbig rendez"
+      "txtSortLow2High": "Legkisebbtől legnagyobbig rendez",
+      "textCustomFormat": "Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textSave": "Save",
+      "textEnterFormat": "Enter Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
     },
     "Settings": {
       "advCSVOptions": "Válasszon a CSV beállítások közül",

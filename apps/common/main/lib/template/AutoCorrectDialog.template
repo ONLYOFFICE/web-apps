@@ -14,7 +14,7 @@
             </tr>
         <tr>
             <td>
-                <div id="auto-correct-replace" style="height:22px;width: 115px;margin-right: 2px;display: inline-block;"></div>
+                <div id="auto-correct-replace" class="margin-right-2" style="height:22px;width: 115px;display: inline-block;"></div>
                 <div id="auto-correct-by" style="height:22px;width: 234px;display: inline-block;"></div>
                 </td>
             </tr>
@@ -25,9 +25,9 @@
             </tr>
         <tr>
             <td style="padding-bottom: 8px;">
-                <button type="button" class="btn btn-text-default auto" id="auto-correct-btn-reset" style="min-width: 80px;"><%= scope.textResetAll %></button>
-                <button type="button" class="btn btn-text-default auto" id="auto-correct-btn-delete" style="min-width: 80px;float: right;"><%= scope.textDelete %></button>
-                <button type="button" class="btn btn-text-default auto" id="auto-correct-btn-edit" style="min-width: 80px;float: right;margin-right:5px;"><%= scope.textAdd %></button>
+                <button type="button" class="btn btn-text-default auto" id="auto-correct-btn-reset" style="min-width: 86px;"><%= scope.textResetAll %></button>
+                <button type="button" class="btn btn-text-default auto float-right" id="auto-correct-btn-delete" style="min-width: 86px;"><%= scope.textDelete %></button>
+                <button type="button" class="btn btn-text-default auto float-right margin-right-5" id="auto-correct-btn-edit" style="min-width: 86px;"><%= scope.textAdd %></button>
                 </td>
             </tr>
         </table>
@@ -54,8 +54,8 @@
             <tr>
                 <td style="padding-bottom: 8px;">
                     <button type="button" class="btn btn-text-default auto" id="auto-correct-btn-rec-reset" style="min-width: 86px;"><%= scope.textResetAll %></button>
-                    <button type="button" class="btn btn-text-default auto" id="auto-correct-btn-rec-delete" style="min-width: 86px;float: right;"><%= scope.textDelete %></button>
-                    <button type="button" class="btn btn-text-default auto" id="auto-correct-btn-rec-edit" style="min-width: 86px;float: right;margin-right:5px;"><%= scope.textAdd %></button>
+                    <button type="button" class="btn btn-text-default auto float-right" id="auto-correct-btn-rec-delete" style="min-width: 86px;"><%= scope.textDelete %></button>
+                    <button type="button" class="btn btn-text-default auto float-right margin-right-5" id="auto-correct-btn-rec-edit" style="min-width: 86px;"><%= scope.textAdd %></button>
                 </td>
             </tr>
         </table>
@@ -113,7 +113,7 @@
             </tr>
             <tr>
                 <td style="padding-bottom: 12px;">
-                    <div id="auto-correct-exceptions-lang" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>
+                    <div id="auto-correct-exceptions-lang" style="display: inline-block;vertical-align: middle;"></div>
                 </td>
             </tr>
             <tr>
@@ -130,8 +130,8 @@
             <tr>
                 <td style="padding-bottom: 18px;">
                     <button type="button" class="btn btn-text-default auto" id="auto-correct-btn-exceptions-reset" style="min-width: 86px;"><%= scope.textResetAll %></button>
-                    <button type="button" class="btn btn-text-default auto" id="auto-correct-btn-exceptions-delete" style="min-width: 86px;float: right;"><%= scope.textDelete %></button>
-                    <button type="button" class="btn btn-text-default auto" id="auto-correct-btn-exceptions-edit" style="min-width: 86px;float: right;margin-right:5px;"><%= scope.textAdd %></button>
+                    <button type="button" class="btn btn-text-default auto float-right" id="auto-correct-btn-exceptions-delete" style="min-width: 86px;"><%= scope.textDelete %></button>
+                    <button type="button" class="btn btn-text-default auto float-right margin-right-5" id="auto-correct-btn-exceptions-edit" style="min-width: 86px;"><%= scope.textAdd %></button>
                 </td>
             </tr>
         </table>

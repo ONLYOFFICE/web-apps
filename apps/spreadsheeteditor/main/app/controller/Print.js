@@ -53,6 +53,8 @@ define([
             this._changedProps = null;
             this._originalPageSettings = null;
 
+            this._margins = [];
+
             this._navigationPreview = {
                 pageCount: false,
                 currentPage: 0
@@ -73,6 +75,7 @@ define([
             });
             Common.NotificationCenter.on('print', _.bind(this.openPrintSettings, this, 'print'));
             Common.NotificationCenter.on('download:settings', _.bind(this.openPrintSettings, this, 'download'));
+            Common.NotificationCenter.on('export:to', _.bind(this.openPrintSettings, this, 'export'));
         },
 
         onLaunch: function() {
@@ -118,6 +121,7 @@ define([
                     this.api.asc_drawPrintPreview(this._navigationPreview.currentPage);
                 }
             }, this));
+            Common.NotificationCenter.on('margins:update', _.bind(this.onUpdateLastCustomMargins, this));
 
             var eventname = (/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
             this.printSettings.$previewBox.on(eventname, _.bind(this.onPreviewWheel, this));
@@ -227,10 +231,8 @@ define([
             }
 
             opt = props.asc_getPageMargins();
-            panel.spnMarginLeft.setValue(Common.Utils.Metric.fnRecalcFromMM(opt.asc_getLeft()), true);
-            panel.spnMarginTop.setValue(Common.Utils.Metric.fnRecalcFromMM(opt.asc_getTop()), true);
-            panel.spnMarginRight.setValue(Common.Utils.Metric.fnRecalcFromMM(opt.asc_getRight()), true);
-            panel.spnMarginBottom.setValue(Common.Utils.Metric.fnRecalcFromMM(opt.asc_getBottom()), true);
+            this._margins[sheet] = opt;
+            this.setMargins(panel, opt);
 
             panel.chPrintGrid.setValue(props.asc_getGridLines(), true);
             panel.chPrintRows.setValue(props.asc_getHeadings(), true);
@@ -325,10 +327,19 @@ define([
             }
 
             opt = this._changedProps[sheet] ? this._changedProps[sheet].asc_getPageMargins() : new Asc.asc_CPageMargins();
-            opt.asc_setLeft(panel.spnMarginLeft.getValue() == '-' ? undefined : Common.Utils.Metric.fnRecalcToMM(panel.spnMarginLeft.getNumberValue()));    // because 1.91*10=19.0999999...
-            opt.asc_setTop(panel.spnMarginTop.getValue() == '-' ? undefined : Common.Utils.Metric.fnRecalcToMM(panel.spnMarginTop.getNumberValue()));
-            opt.asc_setRight(panel.spnMarginRight.getValue() == '-' ? undefined : Common.Utils.Metric.fnRecalcToMM(panel.spnMarginRight.getNumberValue()));
-            opt.asc_setBottom(panel.spnMarginBottom.getValue() == '-' ? undefined : Common.Utils.Metric.fnRecalcToMM(panel.spnMarginBottom.getNumberValue()));
+            var record = panel.cmbPaperMargins.getSelectedRecord();
+            if (record && record.size) {
+                value = record.size;
+                opt.asc_setTop(value[0]);
+                opt.asc_setLeft(value[1]);
+                opt.asc_setBottom(value[2]);
+                opt.asc_setRight(value[3]);
+            } else {
+                opt.asc_setTop(this._margins[sheet].asc_getTop());
+                opt.asc_setLeft(this._margins[sheet].asc_getLeft());
+                opt.asc_setBottom(this._margins[sheet].asc_getBottom());
+                opt.asc_setRight(this._margins[sheet].asc_getRight());
+            }
 
             if (!this._changedProps[sheet]) {
                 props.asc_setPageMargins(opt);
@@ -352,6 +363,8 @@ define([
             var me = this;
             this._changedProps = [];
             this.printSettings.$previewBox.removeClass('hidden');
+
+            this.onUpdateLastCustomMargins(this._lastMargins, this.printSettings);
 
             if (!this.isFillSheets) {
                 this.isFillSheets = true;
@@ -393,6 +406,7 @@ define([
                     handler: _.bind(this.resultPrintSettings,this),
                     afterrender: _.bind(function() {
                         this._changedProps = [];
+                        this.onUpdateLastCustomMargins(this._lastMargins, this.printSettingsDlg);
                         this.updateSettings(this.printSettingsDlg);
                         this.printSettingsDlg.cmbSheet.on('selected', _.bind(this.comboSheetsChange, this, this.printSettingsDlg));
                         this.fillComponents(this.printSettingsDlg, true);
@@ -425,74 +439,15 @@ define([
         resultPrintSettings: function(result, value) {
             var view = SSE.getController('Toolbar').getView('Toolbar');
             if (result == 'ok') {
-                if ( this.checkMargins(this.printSettingsDlg) ) {
-                    this.savePageOptions(this.printSettingsDlg);
+                this.savePageOptions(this.printSettingsDlg);
 
-                    var printtype = this.printSettingsDlg.getRange();
-                    this.adjPrintParams.asc_setPrintType(printtype);
-                    this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
-                    this.adjPrintParams.asc_setIgnorePrintArea(this.printSettingsDlg.getIgnorePrintArea());
-                    this.adjPrintParams.asc_setActiveSheetsArray(printtype === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
-                    var pageFrom = this.printSettingsDlg.getPagesFrom(),
-                        pageTo = this.printSettingsDlg.getPagesTo();
-                    if (pageFrom > pageTo) {
-                        var t = pageFrom;
-                        pageFrom = pageTo;
-                        pageTo = t;
-                    }
-                    this.adjPrintParams.asc_setStartPageIndex(pageFrom > 0 ? pageFrom - 1 : null);
-                    this.adjPrintParams.asc_setEndPageIndex(pageTo > 0 ? pageTo - 1 : null);
-                    Common.localStorage.setItem("sse-print-settings-range", printtype);
-
-                    var sheetIndex = printtype === Asc.c_oAscPrintType.EntireWorkbook ? 0 : this.api.asc_getActiveWorksheetIndex(),
-                        props = this._changedProps[sheetIndex] || this.api.asc_getPageOptions(sheetIndex),
-                        pageSetup = props.asc_getPageSetup(),
-                        size = [pageSetup.asc_getWidth(), pageSetup.asc_getHeight()],
-                        orientation = pageSetup.asc_getOrientation();
-                    this.adjPrintParams.asc_setNativeOptions({
-                        paperSize: {
-                            w: size[0],
-                            h: size[1],
-                            preset: this.findPagePreset(this.printSettingsDlg, size[0], size[1])
-                        },
-                        paperOrientation: !orientation ? 'portrait' : 'landscape'
-                    });
-
-                    if ( this.printSettingsDlg.type=='print' ) {
-                        var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
-                        opts.asc_setAdvancedOptions(this.adjPrintParams);
-                        this.api.asc_Print(opts);
-                    } else {
-                        var opts = new Asc.asc_CDownloadOptions(this.downloadFormat, this.asUrl);
-                        opts.asc_setAdvancedOptions(this.adjPrintParams);
-                        this.api.asc_DownloadAs(opts);
-                    }
-                    Common.component.Analytics.trackEvent((this.printSettingsDlg.type=='print') ? 'Print' : 'DownloadAs');
-                    Common.component.Analytics.trackEvent('ToolBar', (this.printSettingsDlg.type=='print') ? 'Print' : 'DownloadAs');
-                    Common.NotificationCenter.trigger('edit:complete', view);
-                } else
-                    return true;
-            } else {
-                this.asUrl && Common.NotificationCenter.trigger('download:cancel');
-                Common.NotificationCenter.trigger('edit:complete', view);
-            }
-            this.printSettingsDlg = null;
-        },
-
-        querySavePrintSettings: function(print) {
-            if ( this.checkMargins(this.printSettings) ) {
-                var view = SSE.getController('Toolbar').getView('Toolbar');
-                this.savePageOptions(this.printSettings);
-                this._isPrint = print === 'print';
-                this.printSettings.applySettings();
-
-                var printType = this.printSettings.getRange();
-                this.adjPrintParams.asc_setPrintType(printType);
+                var printtype = this.printSettingsDlg.getRange();
+                this.adjPrintParams.asc_setPrintType(printtype);
                 this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
-                this.adjPrintParams.asc_setIgnorePrintArea(this.printSettings.getIgnorePrintArea());
-                this.adjPrintParams.asc_setActiveSheetsArray(printType === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
-                var pageFrom = this.printSettings.getPagesFrom(),
-                    pageTo = this.printSettings.getPagesTo();
+                this.adjPrintParams.asc_setIgnorePrintArea(this.printSettingsDlg.getIgnorePrintArea());
+                this.adjPrintParams.asc_setActiveSheetsArray(printtype === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
+                var pageFrom = this.printSettingsDlg.getPagesFrom(),
+                    pageTo = this.printSettingsDlg.getPagesTo();
                 if (pageFrom > pageTo) {
                     var t = pageFrom;
                     pageFrom = pageTo;
@@ -500,9 +455,9 @@ define([
                 }
                 this.adjPrintParams.asc_setStartPageIndex(pageFrom > 0 ? pageFrom - 1 : null);
                 this.adjPrintParams.asc_setEndPageIndex(pageTo > 0 ? pageTo - 1 : null);
-                Common.localStorage.setItem("sse-print-settings-range", printType);
+                Common.localStorage.setItem("sse-print-settings-range", printtype);
 
-                var sheetIndex = printType === Asc.c_oAscPrintType.EntireWorkbook ? 0 : this.api.asc_getActiveWorksheetIndex(),
+                var sheetIndex = printtype === Asc.c_oAscPrintType.EntireWorkbook ? 0 : this.api.asc_getActiveWorksheetIndex(),
                     props = this._changedProps[sheetIndex] || this.api.asc_getPageOptions(sheetIndex),
                     pageSetup = props.asc_getPageSetup(),
                     size = [pageSetup.asc_getWidth(), pageSetup.asc_getHeight()],
@@ -511,77 +466,86 @@ define([
                     paperSize: {
                         w: size[0],
                         h: size[1],
-                        preset: this.findPagePreset(this.printSettings, size[0], size[1])
+                        preset: this.findPagePreset(this.printSettingsDlg, size[0], size[1])
                     },
-                    paperOrientation: !orientation ? 'portrait' : 'landscape',
-                    copies: this.printSettings.spnCopies ? this.printSettings.spnCopies.getNumberValue() || 1 : 1,
-                    sides: this.printSettings.cmbSides ? this.printSettings.cmbSides.getValue() : 'one'
+                    paperOrientation: !orientation ? 'portrait' : 'landscape'
                 });
 
-                if (print === 'print') {
+                if ( this.printSettingsDlg.type=='print' ) {
                     var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
                     opts.asc_setAdvancedOptions(this.adjPrintParams);
                     this.api.asc_Print(opts);
-                    this._isPrint = false;
-                } else if (print === 'print-pdf') {
-                    var opts = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF);
+                } else {
+                    var opts = new Asc.asc_CDownloadOptions(this.downloadFormat, this.asUrl);
                     opts.asc_setAdvancedOptions(this.adjPrintParams);
                     this.api.asc_DownloadAs(opts);
                 }
+                Common.component.Analytics.trackEvent((this.printSettingsDlg.type=='print') ? 'Print' : 'DownloadAs');
+                Common.component.Analytics.trackEvent('ToolBar', (this.printSettingsDlg.type=='print') ? 'Print' : 'DownloadAs');
+                Common.NotificationCenter.trigger('edit:complete', view);
+            } else {
+                this.asUrl && Common.NotificationCenter.trigger('download:cancel');
                 Common.NotificationCenter.trigger('edit:complete', view);
             }
+            this.printSettingsDlg = null;
         },
 
-        checkMargins: function(panel) {
-            if (panel.cmbPaperOrientation.getValue() == Asc.c_oAscPageOrientation.PagePortrait) {
-                var pagewidth = /^\d{3}\.?\d*/.exec(panel.cmbPaperSize.getValue());
-                var pageheight = /\d{3}\.?\d*$/.exec(panel.cmbPaperSize.getValue());
-            } else {
-                pageheight = /^\d{3}\.?\d*/.exec(panel.cmbPaperSize.getValue());
-                pagewidth = /\d{3}\.?\d*$/.exec(panel.cmbPaperSize.getValue());
+        querySavePrintSettings: function(print) {
+            var view = SSE.getController('Toolbar').getView('Toolbar');
+            this.savePageOptions(this.printSettings);
+            this._isPrint = print === 'print';
+            this.printSettings.applySettings();
+
+            var printType = this.printSettings.getRange();
+            this.adjPrintParams.asc_setPrintType(printType);
+            this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
+            this.adjPrintParams.asc_setIgnorePrintArea(this.printSettings.getIgnorePrintArea());
+            this.adjPrintParams.asc_setActiveSheetsArray(printType === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
+            var pageFrom = this.printSettings.getPagesFrom(),
+                pageTo = this.printSettings.getPagesTo();
+            if (pageFrom > pageTo) {
+                var t = pageFrom;
+                pageFrom = pageTo;
+                pageTo = t;
             }
-            pagewidth = pagewidth ? parseFloat(pagewidth[0]) : (this._originalPageSettings ? this._originalPageSettings.asc_getWidth() : 0);
-            pageheight = pageheight ? parseFloat(pageheight[0]) : (this._originalPageSettings ? this._originalPageSettings.asc_getHeight() : 0);
+            this.adjPrintParams.asc_setStartPageIndex(pageFrom > 0 ? pageFrom - 1 : null);
+            this.adjPrintParams.asc_setEndPageIndex(pageTo > 0 ? pageTo - 1 : null);
+            Common.localStorage.setItem("sse-print-settings-range", printType);
 
-            var ml = Common.Utils.Metric.fnRecalcToMM(panel.spnMarginLeft.getNumberValue());
-            var mr = Common.Utils.Metric.fnRecalcToMM(panel.spnMarginRight.getNumberValue());
-            var mt = Common.Utils.Metric.fnRecalcToMM(panel.spnMarginTop.getNumberValue());
-            var mb = Common.Utils.Metric.fnRecalcToMM(panel.spnMarginBottom.getNumberValue());
+            var sheetIndex = printType === Asc.c_oAscPrintType.EntireWorkbook ? 0 : this.api.asc_getActiveWorksheetIndex(),
+                props = this._changedProps[sheetIndex] || this.api.asc_getPageOptions(sheetIndex),
+                pageSetup = props.asc_getPageSetup(),
+                size = [pageSetup.asc_getWidth(), pageSetup.asc_getHeight()],
+                orientation = pageSetup.asc_getOrientation();
+            this.adjPrintParams.asc_setNativeOptions({
+                paperSize: {
+                    w: size[0],
+                    h: size[1],
+                    preset: this.findPagePreset(this.printSettings, size[0], size[1])
+                },
+                paperOrientation: !orientation ? 'portrait' : 'landscape',
+                copies: this.printSettings.spnCopies ? this.printSettings.spnCopies.getNumberValue() || 1 : 1,
+                sides: this.printSettings.cmbSides ? this.printSettings.cmbSides.getValue() : 'one'
+            });
 
-            var result = false;
-            if (ml > pagewidth) result = 'left'; else
-            if (mr > pagewidth-ml) result = 'right'; else
-            if (mt > pageheight) result = 'top'; else
-            if (mb > pageheight-mt) result = 'bottom';
-
-            if (result) {
-                Common.UI.warning({
-                    title: this.textWarning,
-                    msg: this.warnCheckMargings,
-                    callback: function(btn,text) {
-                        switch(result) {
-                            case 'left':    panel.spnMarginLeft.$el.focus(); return;
-                            case 'right':   panel.spnMarginRight.$el.focus(); return;
-                            case 'top':     panel.spnMarginTop.$el.focus(); return;
-                            case 'bottom':  panel.spnMarginBottom.$el.focus(); return;
-                        }
-                    }
-                });
-
-                return false;
+            if (print === 'print') {
+                var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
+                opts.asc_setAdvancedOptions(this.adjPrintParams);
+                this.api.asc_Print(opts);
+                this._isPrint = false;
+            } else if (print === 'print-pdf') {
+                var opts = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF);
+                opts.asc_setAdvancedOptions(this.adjPrintParams);
+                this.api.asc_DownloadAs(opts);
             }
-
-            return true;
+            Common.NotificationCenter.trigger('edit:complete', view);
         },
 
         registerControlEvents: function(panel) {
             panel.cmbPaperSize.on('selected', _.bind(this.propertyChange, this, panel));
             panel.cmbPaperOrientation.on('selected', _.bind(this.propertyChange, this, panel));
             panel.cmbLayout.on('selected', _.bind(this.propertyChange, this, panel, 'scale'));
-            panel.spnMarginTop.on('change', _.bind(this.propertyChange, this, panel));
-            panel.spnMarginBottom.on('change', _.bind(this.propertyChange, this, panel));
-            panel.spnMarginLeft.on('change', _.bind(this.propertyChange, this, panel));
-            panel.spnMarginRight.on('change', _.bind(this.propertyChange, this, panel));
+            panel.cmbPaperMargins.on('selected', _.bind(this.propertyChange, this, panel, 'margins'));
             panel.chPrintGrid.on('change', _.bind(this.propertyChange, this, panel));
             panel.chPrintRows.on('change', _.bind(this.propertyChange, this, panel));
             panel.txtRangeTop.on('changed:after', _.bind(this.propertyChange, this, panel));
@@ -595,10 +559,17 @@ define([
             }
         },
 
-        propertyChange: function(panel, scale, combo, record) {
-            if (scale === 'scale' && record.value === 'customoptions') {
-                var me = this,
-                    props = (me._changedProps.length > 0 && me._changedProps[panel.cmbSheet.getValue()]) ? me._changedProps[panel.cmbSheet.getValue()] : me.api.asc_getPageOptions(panel.cmbSheet.getValue(), true);
+        propertyChange: function(panel, property, combo, record) {
+            var me = this;
+            var setChanges = function () {
+                if (me._changedProps) {
+                    var currentSheet = panel.cmbSheet.getValue();
+                    me._changedProps[currentSheet] = me.getPageOptions(panel, currentSheet);
+                    me.updatePreview();
+                }
+            };
+            if (property === 'scale' && record.value === 'customoptions') {
+                var props = (me._changedProps.length > 0 && me._changedProps[panel.cmbSheet.getValue()]) ? me._changedProps[panel.cmbSheet.getValue()] : me.api.asc_getPageOptions(panel.cmbSheet.getValue(), true);
                 var win = new SSE.Views.ScaleDialog({
                     api: me.api,
                     props: props,
@@ -609,11 +580,7 @@ define([
                                 me.fitHeight = result.height;
                                 me.fitScale = result.scale;
                                 me.setScaling(panel, me.fitWidth, me.fitHeight, me.fitScale);
-                                if (me._changedProps) {
-                                    var currentSheet = panel.cmbSheet.getValue();
-                                    me._changedProps[currentSheet] = me.getPageOptions(panel, currentSheet);
-                                    me.updatePreview();
-                                }
+                                setChanges();
                             }
                         } else {
                             var opt = props.asc_getPageSetup(),
@@ -627,12 +594,32 @@ define([
                 });
                 win.show();
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            } else if (property === 'margins' && record.value === -1) {
+                var props = (me._changedProps.length > 0 && me._changedProps[panel.cmbSheet.getValue()]) ? me._changedProps[panel.cmbSheet.getValue()] : me.api.asc_getPageOptions(panel.cmbSheet.getValue(), true);
+                var win = new SSE.Views.PageMarginsDialog({
+                    api: me.api,
+                    handler: function(dlg, result) {
+                        var opt;
+                        if (result == 'ok') {
+                            opt = dlg.getSettings();
+                            Common.localStorage.setItem("sse-pgmargins-top", opt.asc_getTop());
+                            Common.localStorage.setItem("sse-pgmargins-left", opt.asc_getLeft());
+                            Common.localStorage.setItem("sse-pgmargins-bottom", opt.asc_getBottom());
+                            Common.localStorage.setItem("sse-pgmargins-right", opt.asc_getRight());
+                            Common.NotificationCenter.trigger('margins:update', opt, panel);
+                            me.setMargins(panel, opt);
+                            me._margins[panel.cmbSheet.getValue()] = opt;
+                            setChanges();
+                            Common.NotificationCenter.trigger('edit:complete');
+                        } else {
+                            me.setMargins(panel, props.asc_getPageMargins());
+                        }
+                    }
+                });
+                win.show();
+                win.setSettings(props);
             } else {
-                if (this._changedProps) {
-                    var currentSheet = panel.cmbSheet.getValue();
-                    this._changedProps[currentSheet] = this.getPageOptions(panel, currentSheet);
-                    this.updatePreview();
-                }
+                setChanges();
             }
         },
 
@@ -649,6 +636,48 @@ define([
             else value = 4;
             panel.addCustomScale(value === 4);
             panel.cmbLayout.setValue(value, true);
+        },
+
+        setMargins: function (panel, props) {
+            if (props) {
+                var left = props.asc_getLeft(),
+                    top = props.asc_getTop(),
+                    right = props.asc_getRight(),
+                    bottom = props.asc_getBottom(),
+                    store = panel.cmbPaperMargins.store,
+                    item = null;
+                for (var i = 0; i < store.length - 1; i++) {
+                    var rec = store.at(i),
+                        size = rec.get('size');
+                    if (typeof(size) == 'object' &&
+                        Math.abs(size[0] - top) < 0.1 && Math.abs(size[1] - left) < 0.1 &&
+                        Math.abs(size[2] - bottom) < 0.1 && Math.abs(size[3] - right) < 0.1) {
+                        item = rec;
+                    }
+                }
+                if (item)
+                    panel.cmbPaperMargins.setValue(item.get('value'));
+                else
+                    panel.cmbPaperMargins.setValue(this.txtCustom);
+            }
+        },
+
+        onUpdateLastCustomMargins: function(props, panel) {
+            this._lastMargins = props;
+            if (panel) {
+                var top = props ? props.asc_getTop() : Common.localStorage.getItem("sse-pgmargins-top"),
+                    left = props ? props.asc_getLeft() : Common.localStorage.getItem("sse-pgmargins-left"),
+                    bottom = props ? props.asc_getBottom() : Common.localStorage.getItem("sse-pgmargins-bottom"),
+                    right = props ? props.asc_getRight() : Common.localStorage.getItem("sse-pgmargins-right");
+                if ( top !== null && left !== null && bottom !== null && right !== null ) {
+                    var rec = panel.cmbPaperMargins.store.at(0);
+                    if (rec.get('value') === -2)
+                        rec.set('size', [parseFloat(top), parseFloat(left), parseFloat(bottom), parseFloat(right)]);
+                    else
+                        panel.cmbPaperMargins.store.unshift({ value: -2, displayValue: panel.txtMarginsLast, size: [parseFloat(top), parseFloat(left), parseFloat(bottom), parseFloat(right)]});
+                    panel.cmbPaperMargins.onResetItems();
+                }
+            }
         },
 
         fillComponents: function(panel, selectdata) {
@@ -920,9 +949,7 @@ define([
             }
         },
 
-        warnCheckMargings:      'Margins are incorrect',
-        strAllSheets:           'All Sheets',
-        textWarning: 'Warning',
+        strAllSheets: 'All Sheets',
         txtCustom: 'Custom',
         textInvalidRange:   'ERROR! Invalid cells range',
         textRepeat: 'Repeat...',

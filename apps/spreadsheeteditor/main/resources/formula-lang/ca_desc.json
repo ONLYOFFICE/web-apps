@@ -1914,5 +1914,9 @@
 	"SORT": {
 		"a": "(matriu, [índex_ordenació], [criteri_ordenació], [per_columna])",
 		"d": "Ordena un interval o una matriu"
+	},
+	"SORTBY": {
+		"a": "(matriu, per_matriu, [criteri_ordenació], ...)",
+		"d": "Ordena un interval o una matriu segons els valors d'un interval o d'una matriu corresponent"
 	}
 }

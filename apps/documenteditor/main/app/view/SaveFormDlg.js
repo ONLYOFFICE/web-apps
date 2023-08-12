@@ -112,7 +112,7 @@ define([  'common/main/lib/view/AdvancedSettingsWindow',
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="border-color: transparent;">',
                     '<div class="listitem-icon" style="flex-shrink: 0;"><svg class=""><use xlink:href="#svg-icon-<%= scope.getIconCls(index) %>"></use></svg></div>',
-                    '<div style="flex-grow: 1;padding-right: 5px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
+                    '<div class="padding-right-5" style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(name) %></div>',
                     '</div>'
                 ].join(''))
             });

@@ -49,15 +49,30 @@ define([
     Common.UI.Mixtbar = Common.UI.BaseView.extend((function () {
         var $boxTabs;
         var $scrollL;
+        var $scrollR;
         var optsFold = {timeout: 2000};
         var config = {};
         var btnsMore = [];
 
+        function setScrollButtonsDisabeled(){
+            var scrollLeft = $boxTabs.scrollLeft();
+            $scrollL.toggleClass('disabled', scrollLeft==0);
+            $scrollR.toggleClass('disabled', Math.round(scrollLeft) == $boxTabs[0].scrollWidth - $boxTabs[0].clientWidth);
+        }
+
         var onScrollTabs = function(opts, e) {
+            if($(e.target).hasClass('disabled')) return;
             var sv = $boxTabs.scrollLeft();
             if (sv || opts == 'right' || Common.UI.isRTL() && opts == 'left') {
-                $boxTabs.animate({scrollLeft: opts == 'left' ? sv - 100 : sv + 100}, 200);
+                $boxTabs.animate({scrollLeft: opts == 'left' ? sv - 100 : sv + 100}, 200, setScrollButtonsDisabeled);
             }
+        };
+
+        var onWheelTabs = function(e) {
+            e.preventDefault();
+            var deltaX = e.deltaX || e.detail || e.deltaY;
+            $boxTabs.scrollLeft($boxTabs.scrollLeft() + (deltaX * 60));
+            setScrollButtonsDisabeled();
         };
 
         function onTabDblclick(e) {
@@ -149,7 +164,7 @@ define([
                 me.$panels = me.$boxpanels.find('> .panel');
 
                 optsFold.$bar = me.$('.toolbar');
-                var $scrollR = me.$('.tabs .scroll.right');
+                $scrollR = me.$('.tabs .scroll.right');
                 $scrollL = me.$('.tabs .scroll.left');
 
                 $scrollL.on('click', onScrollTabs.bind(this, 'left'));
@@ -157,6 +172,7 @@ define([
 
                 $boxTabs.on('dblclick', '> .ribtab', onTabDblclick.bind(this));
                 $boxTabs.on('click', '> .ribtab', me.onTabClick.bind(this));
+                $boxTabs.on('mousewheel', onWheelTabs);
             },
 
             isTabActive: function(tag) {
@@ -249,8 +265,10 @@ define([
 
             onResizeTabs: function(e) {
                 if ( this.hasTabInvisible() ) {
-                    if ( !$boxTabs.parent().hasClass('short') )
+                    if ( !$boxTabs.parent().hasClass('short') ) {
                         $boxTabs.parent().addClass('short');
+                        setScrollButtonsDisabeled();
+                    }
                 } else
                 if ( $boxTabs.parent().hasClass('short') ) {
                     $boxTabs.parent().removeClass('short');

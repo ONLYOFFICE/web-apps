@@ -1,7 +1,7 @@
-import React, {Fragment, useState} from 'react';
-import {observer, inject} from "mobx-react";
+import React, { Fragment } from 'react';
+import { observer, inject } from "mobx-react";
 import { useTranslation } from 'react-i18next';
-import {List, ListItem, Page, Navbar, Icon, BlockTitle} from 'framework7-react';
+import { List, ListItem, Page, Navbar, Icon, BlockTitle, f7 } from 'framework7-react';
 
 const PageInfo = props => {
     const { t } = useTranslation();
@@ -94,6 +94,10 @@ const AddFunction = props => {
         })
     }
 
+    const onOptionClick = (page, props) => {
+        f7.views.current.router.navigate(page, props);
+    }
+
     return (
         <Fragment>
             <List>
@@ -105,15 +109,14 @@ const AddFunction = props => {
                                   link='#'
                                   onClick={() => {props.onInsertFunction(f.type);}}
                         >
-                            <div slot='after'
-                                 onClick={(event) => {
-                                     props.onOptionClick('/add-function-info/', {
-                                         props: {
-                                             functionInfo: f
-                                         }
-                                     });
-                                     event.stopPropagation();
-                                 }}>
+                            <div slot='after' onClick={e => {
+                                    onOptionClick('/add-function-info/', {
+                                        props: {
+                                            functionInfo: f
+                                        }
+                                    });
+                                    e.stopPropagation();
+                                }}>
                                 <Icon icon='icon-info'/>
                             </div>
                         </ListItem>

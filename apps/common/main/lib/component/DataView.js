@@ -127,6 +127,7 @@ define([
             me.dataHint = me.options.dataHint || '';
             me.dataHintDirection = me.options.dataHintDirection || '';
             me.dataHintOffset = me.options.dataHintOffset || '';
+            me.scaling = me.options.scaling;
 
             me.listenTo(me.model, 'change', this.model.get('skipRenderOnChange') ? me.onChange : me.render);
             me.listenTo(me.model, 'change:selected',    me.onSelectChange);
@@ -164,6 +165,17 @@ define([
             if (tip) {
                 if (tip.dontShow===undefined && el.is(':hover'))
                     tip.dontShow = true;
+            }
+
+            if (this.scaling !== false && el.find('.options__icon').length) {
+                el.attr('ratio', 'ratio');
+                this.applyScaling(Common.UI.Scaling.currentRatio());
+
+                el.on('app:scaling', _.bind(function (e, info) {
+                    if ( this.scaling != info.ratio ) {
+                        this.applyScaling(info.ratio);
+                    }
+                }, this));
             }
 
             this.trigger('change', this, this.model);
@@ -208,6 +220,24 @@ define([
             this.trigger('change', this, this.model);
 
             return this;
+        },
+
+        applyScaling: function (ratio) {
+            this.scaling = ratio;
+
+            if (ratio > 2) {
+                var el = this.$el || $(this.el),
+                    icon = el.find('.options__icon');
+                if (icon.length > 0) {
+                    if (!el.find('svg.icon').length) {
+                        var iconCls = icon.attr('class'),
+                            re_icon_name = /btn-[^\s]+/.exec(iconCls),
+                            icon_name = re_icon_name ? re_icon_name[0] : "null",
+                            svg_icon = '<svg class="icon"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name);
+                        icon.after(svg_icon);
+                    }
+                }
+            }
         }
     });
 
@@ -288,6 +318,10 @@ define([
                 me.moveKeys = [Common.UI.Keys.LEFT, Common.UI.Keys.RIGHT];
             else
                 me.moveKeys = [Common.UI.Keys.UP, Common.UI.Keys.DOWN, Common.UI.Keys.LEFT, Common.UI.Keys.RIGHT];
+
+            if ( me.options.scaling === false) {
+                me.cls = me.options.cls + ' scaling-off';
+            }
 
             if (me.options.el)
                 me.render();
@@ -461,6 +495,7 @@ define([
             var view = new Common.UI.DataViewItem({
                 template: this.itemTemplate,
                 model: record,
+                scaling: this.options.scaling,
                 dataHint: this.itemDataHint,
                 dataHintDirection: this.itemDataHintDirection,
                 dataHintOffset: this.itemDataHintOffset
@@ -670,6 +705,14 @@ define([
 
             window._event = e;  //  for FireFox only
 
+            if(this.multiSelect) {
+                if (e && e.ctrlKey) {
+                    this.pressedCtrl = true;
+                } else if (e && e.shiftKey) {
+                    this.pressedShift = true;
+                }
+            }
+
             if (this.showLast) {
                 if (!this.delaySelect) {
                     this.selectRecord(record);
@@ -856,6 +899,7 @@ define([
                 this.pressedShift = false;
             if(e.keyCode == Common.UI.Keys.CTRL)
                 this.pressedCtrl = false;
+            this.trigger('item:keyup', this, e);
         },
 
         attachKeyEvents: function() {
@@ -957,6 +1001,10 @@ define([
             }
             this._layoutParams.rows = this._layoutParams.itemsIndexes.length;
             this._layoutParams.columns++;
+        },
+
+        setMultiselectMode: function (multiselect) {
+            this.pressedCtrl = !!multiselect;
         },
 
         onResize: function() {
@@ -1810,6 +1858,7 @@ define([
                 first = 0;
             while (!this.dataViewItems[first].el.is(":visible")) { // if first elem is hidden
                 first++;
+                if (!this.dataViewItems[first]) return;
                 el = this.dataViewItems[first].el;
             }
 

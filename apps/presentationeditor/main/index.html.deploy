@@ -27,8 +27,8 @@
         .loadmask > .brendpanel {
             width: 100%;
             min-height: 28px;
-            background: #aa5252;
-            background: var(--toolbar-header-presentation, #aa5252);
+            background: #BE664F;
+            background: var(--toolbar-header-presentation, #BE664F);
         }
 
         .loadmask > .brendpanel > div {
@@ -265,8 +265,8 @@
     </script>
 
     <link rel="stylesheet" type="text/css" href="../../../apps/presentationeditor/main/resources/css/app.css">
-    <script src="../../../../../apps/common/main/lib/util/themeinit.js?__inline=true"></script>
     <script src="../../../../../apps/common/main/lib/util/desktopinit.js?__inline=true"></script>
+    <script src="../../../../../apps/common/main/lib/util/themeinit.js?__inline=true"></script>
 </head>
 <body>
     <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>

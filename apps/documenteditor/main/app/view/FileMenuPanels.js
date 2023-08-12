@@ -80,7 +80,7 @@ define([
                     '<% _.each(rows, function(row) { %>',
                             '<% _.each(row, function(item) { %>',
                                 '<% if (item.type!==Asc.c_oAscFileType.DOCM || fileType=="docm") { %>',
-                                    '<div class="format-item"><div class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
+                                    '<div class="format-item float-left"><div class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
                                         '<div class ="svg-format-<%= item.imgCls %>"></div>',
                                     '</div></div>',
                                 '<% } %>',
@@ -206,7 +206,7 @@ define([
                     '<% _.each(rows, function(row) { %>',
                         '<% _.each(row, function(item) { %>',
                             '<% if (item.type!==Asc.c_oAscFileType.DOCM || fileType=="docm") { %>',
-                                '<div class="format-item"><div class="btn-doc-format" format="<%= item.type %>" format-ext="<%= item.ext %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
+                                '<div class="format-item float-left"><div class="btn-doc-format" format="<%= item.type %>" format-ext="<%= item.ext %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
                                     '<div class ="svg-format-<%= item.imgCls %>"></div>',
                                 '</div></div>',
                             '<% } %>',
@@ -318,6 +318,9 @@ define([
                 '</tr>',
                 '<tr class="edit">',
                     '<td colspan="2"><div id="fms-chb-paste-settings"></div></td>',
+                '</tr>',
+                '<tr class="edit">',
+                    '<td colspan="2"><div id="fms-chb-smart-selection"></div></td>',
                 '</tr>',
                 '<tr class="edit">',
                     '<td colspan="2"><span id="fms-chb-compatible"></span></td>',
@@ -524,6 +527,14 @@ define([
                 dataHintOffset: 'small'
             });
 
+            this.chSmartSelection = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-smart-selection'),
+                labelText: this.textSmartSelection,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
             this.chAutosave = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-autosave'),
                 labelText: this.textAutoSave,
@@ -561,6 +572,7 @@ define([
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width:100%; max-height: 157px;',
                 data        : [
+                    { value: -3, displayValue: this.txtLastUsed },
                     { value: -1, displayValue: this.txtFitPage },
                     { value: -2, displayValue: this.txtFitWidth },
                     { value: 50, displayValue: "50%" },
@@ -719,7 +731,7 @@ define([
                 itemsTemplate: _.template([
                     '<% _.each(items, function(item) { %>',
                     '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem" style ="display: flex; flex-direction: column;">',
-                    '<label><%= scope.getDisplayValue(item) %></label><label class="comment-text"><%= item.descValue %></label></a></li>',
+                    '<label class="font-weight-bold"><%= scope.getDisplayValue(item) %></label><label><%= item.descValue %></label></a></li>',
                     '<% }); %>'
                 ].join('')),
                 dataHint: '2',
@@ -873,7 +885,6 @@ define([
             value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : 100);
             var item = this.cmbZoom.store.findWhere({value: value});
             this.cmbZoom.setValue(item ? parseInt(item.get('value')) : (value>0 ? value+'%' : 100));
-
             /** coauthoring begin **/
             this.chLiveComment.setValue(Common.Utils.InternalSettings.get("de-settings-livecomment"));
             this.chResolvedComment.setValue(Common.Utils.InternalSettings.get("de-settings-resolvedcomment"));
@@ -926,6 +937,7 @@ define([
 
             this.chPaste.setValue(Common.Utils.InternalSettings.get("de-settings-paste-button"));
             this.chQuickPrint.setValue(Common.Utils.InternalSettings.get("de-settings-quick-print-button"));
+            this.chSmartSelection.setValue(Common.Utils.InternalSettings.get("de-settings-smart-selection"));
 
             var data = [];
             for (var t in Common.UI.Themes.map()) {
@@ -996,6 +1008,7 @@ define([
             }
 
             Common.localStorage.setItem("de-settings-paste-button", this.chPaste.isChecked() ? 1 : 0);
+            Common.localStorage.setItem("de-settings-smart-selection", this.chSmartSelection.isChecked() ? 1 : 0);
             var isRtlChanged = this.chRTL.$el.is(':visible') && Common.localStorage.getBool("ui-rtl") !== this.chRTL.isChecked();
             Common.localStorage.setBool("ui-rtl", this.chRTL.isChecked());
             Common.localStorage.setBool("de-settings-quick-print-button", this.chQuickPrint.isChecked());
@@ -1077,7 +1090,7 @@ define([
         txtFitPage: 'Fit to Page',
         txtFitWidth: 'Fit to Width',
         textForceSave: 'Save to Server',
-        textOldVersions: 'Make the files compatible with older MS Word versions when saved as DOCX',
+        textOldVersions: 'Make the files compatible with older MS Word versions when saved as DOCX, DOTX',
         txtCacheMode: 'Default cache mode',
         strRTLSupport: 'RTL interface',
         strMacrosSettings: 'Macros Settings',
@@ -1112,69 +1125,10 @@ define([
         txtQuickPrint: 'Show the Quick Print button in the editor header',
         txtQuickPrintTip: 'The document will be printed on the last selected or default printer',
         txtWorkspaceSettingChange: 'Workspace setting (RTL interface) change',
-        txtRestartEditor: 'Please restart document editor so that your workspace settings can take effect'
+        txtRestartEditor: 'Please restart document editor so that your workspace settings can take effect',
+        txtLastUsed: 'Last used',
+        textSmartSelection: 'Use smart paragraph selection'
     }, DE.Views.FileMenuPanels.Settings || {}));
-
-    DE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
-        el: '#panel-recentfiles',
-        menu: undefined,
-
-        template: _.template([
-            '<div class="header"><%= scope.txtOpenRecent %></div>',
-            '<div id="id-recent-view"></div>'
-        ].join('')),
-
-        initialize: function(options) {
-            Common.UI.BaseView.prototype.initialize.call(this,arguments);
-
-            this.menu = options.menu;
-            this.recent = options.recent;
-        },
-
-        render: function() {
-            this.$el.html(this.template({scope: this}));
-
-            this.viewRecentPicker = new Common.UI.DataView({
-                el: $('#id-recent-view'),
-                store: new Common.UI.DataViewStore(this.recent),
-                itemTemplate: _.template([
-                    '<div class="recent-wrap">',
-                        '<div class="recent-icon">',
-                            '<div>',
-                                '<div class="svg-file-recent"></div>',
-                            '</div>',
-                        '</div>',
-                        '<div class="file-name"><% if (typeof title !== "undefined") {%><%= Common.Utils.String.htmlEncode(title || "") %><% } %></div>',
-                        '<div class="file-info"><% if (typeof folder !== "undefined") {%><%= Common.Utils.String.htmlEncode(folder || "") %><% } %></div>',
-                    '</div>'
-                ].join(''))
-            });
-
-            this.viewRecentPicker.on('item:click', _.bind(this.onRecentFileClick, this));
-
-            if (_.isUndefined(this.scroller)) {
-                this.scroller = new Common.UI.Scroller({
-                    el: this.$el,
-                    suppressScrollX: true,
-                    alwaysVisibleY: true
-                });
-            }
-
-            return this;
-        },
-
-        show: function() {
-            Common.UI.BaseView.prototype.show.call(this,arguments);
-            this.scroller && this.scroller.update();
-        },
-
-        onRecentFileClick: function(view, itemview, record){
-            if ( this.menu )
-                this.menu.fireEvent('recent:open', [this.menu, record.get('url')]);
-        },
-
-        txtOpenRecent: 'Open Recent'
-    });
 
     DE.Views.FileMenuPanels.CreateNew = Common.UI.BaseView.extend(_.extend({
         el: '#panel-createnew',
@@ -2006,7 +1960,7 @@ define([
                         '<td class="right"><div id="id-info-rights"></div></td>',
                     '</tr>',
                     '<tr class="edit-rights">',
-                        '<td class="left"></td><td class="right"><button id="id-info-btn-edit" class="btn normal dlg-btn primary custom">' + this.txtBtnAccessRights + '</button></td>',
+                        '<td class="left"></td><td class="right"><button id="id-info-btn-edit" class="btn normal dlg-btn primary custom margin-right-10">' + this.txtBtnAccessRights + '</button></td>',
                     '</tr>',
                 '</table>'
             ].join(''));
@@ -2337,7 +2291,7 @@ define([
                     '<div class="description"><%= scope.txtEncrypted %></div>',
                     '<div class="buttons">',
                         '<div id="fms-btn-change-pwd"></div>',
-                        '<div id="fms-btn-delete-pwd"></div>',
+                        '<div id="fms-btn-delete-pwd" class="margin-left-16"></div>',
                     '</div>',
                 '</div>',
             '</div>',
@@ -2361,10 +2315,10 @@ define([
 
             var me = this;
             this.templateSignature = _.template([
-                '<div class="<% if (!hasRequested && !hasSigned) { %>hidden<% } %>"">',
+                '<div class="<% if (!hasRequested && !hasSigned) { %>hidden<% } %>">',
                     '<div class="signature-tip"><%= tipText %></div>',
                     '<div class="buttons">',
-                        '<label class="link signature-view-link" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium">' + me.txtView + '</label>',
+                        '<label class="link signature-view-link margin-right-20" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium">' + me.txtView + '</label>',
                         '<label class="link signature-edit-link <% if (!hasSigned) { %>hidden<% } %>" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium">' + me.txtEdit + '</label>',
                     '</tr>',
                 '</div>'
@@ -2525,25 +2479,25 @@ define([
                             '<div class="main-header"><%= scope.txtPrint %></div>',
                             '<table style="width: 100%;">',
                             '<tbody>',
-                                '<tr><td><label class="header"><%= scope.txtPrintRange %></label></td></tr>',
+                                '<tr><td><label class="font-weight-bold"><%= scope.txtPrintRange %></label></td></tr>',
                                 '<tr><td class="padding-large"><div id="print-combo-range" style="width: 248px;"></div></td></tr>',
                                 '<tr><td class="padding-large">',
                                     '<table style="width: 100%;"><tbody>',
-                                        '<tr><td class="padding-large"><%= scope.txtPages %>:</td><td class="padding-large" style="width: 100%;"><div id="print-txt-pages" style="width: 100%;"></div></td></tr>',
-                                        '<tr><td><%= scope.txtCopies %>:</td><td style="width: 100%;"><div id="print-txt-copies" style="width: 60px;"></div></td></tr>',
+                                        '<tr><td class="padding-large"><%= scope.txtPages %>:</td><td class="padding-large" style="width: 100%;"><div id="print-txt-pages" class="padding-left-5" style="width: 100%;"></div></td></tr>',
+                                        '<tr><td><%= scope.txtCopies %>:</td><td style="width: 100%;"><div id="print-txt-copies" class="padding-left-5" style="width: 60px;"></div></td></tr>',
                                     '</tbody></table>',
                                 '</td></tr>',
-                                '<tr><td><label class="header"><%= scope.txtPrintSides %></label></td></tr>',
+                                '<tr><td><label class="font-weight-bold"><%= scope.txtPrintSides %></label></td></tr>',
                                 '<tr><td class="padding-large"><div id="print-combo-sides" style="width: 248px;"></div></td></tr>',
-                                '<tr><td><label class="header"><%= scope.txtPageSize %></label></td></tr>',
+                                '<tr><td><label class="font-weight-bold"><%= scope.txtPageSize %></label></td></tr>',
                                 '<tr><td class="padding-large"><div id="print-combo-pages" style="width: 248px;"></div></td></tr>',
-                                '<tr><td><label class="header"><%= scope.txtPageOrientation %></label></td></tr>',
+                                '<tr><td><label class="font-weight-bold"><%= scope.txtPageOrientation %></label></td></tr>',
                                 '<tr><td class="padding-large"><div id="print-combo-orient" style="width: 150px;"></div></td></tr>',
-                                '<tr><td><label class="header"><%= scope.txtMargins %></label></td></tr>',
+                                '<tr><td><label class="font-weight-bold"><%= scope.txtMargins %></label></td></tr>',
                                 '<tr><td class="padding-large"><div id="print-combo-margins" style="width: 248px;"></div></td></tr>',
                                 '<tr class="fms-btn-apply"><td>',
                                     '<div class="footer justify">',
-                                        '<button id="print-btn-print" class="btn normal dlg-btn primary" result="print" style="width: 96px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrint %></button>',
+                                        '<button id="print-btn-print" class="btn normal dlg-btn primary margin-right-8" result="print" style="width: 96px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrint %></button>',
                                         '<button id="print-btn-print-pdf" class="btn normal dlg-btn" result="pdf" style="min-width: 96px;width: auto;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrintPdf %></button>',
                                     '</div>',
                                 '</td></tr>',
@@ -2562,10 +2516,10 @@ define([
                             '<div id="print-next-page"></div>',
                             '<div id="print-prev-page"></div>',
                         '<% } %>',
-                        '<div class="page-number">',
+                        '<div class="page-number margin-left-10">',
                             '<label><%= scope.txtPage %></label>',
-                            '<div id="print-number-page"></div>',
-                            '<label id="print-count-page"><%= scope.txtOf %></label>',
+                            '<div id="print-number-page" class="margin-left-4"></div>',
+                            '<label id="print-count-page" class="margin-left-4"><%= scope.txtOf %></label>',
                         '</div>',
                     '</div>',
                 '</div>',
@@ -2642,7 +2596,7 @@ define([
                 itemsTemplate: _.template([
                     '<% _.each(items, function(item) { %>',
                     '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem" style ="display: flex; flex-direction: column;">',
-                    '<label><%= scope.getDisplayValue(item) %></label><label class="comment-text"><%= item.descValue %></label></a></li>',
+                    '<label class="font-weight-bold"><%= scope.getDisplayValue(item) %></label><label class="comment-text"><%= item.descValue %></label></a></li>',
                     '<% }); %>'
                 ].join('')),
                 dataHint: '2',
@@ -2715,7 +2669,7 @@ define([
                     '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem">',
                         '<div><b><%= scope.getDisplayValue(item) %></b></div>',
-                        '<% if (item.size !== null) { %><div style="display: inline-block;margin-right: 20px;min-width: 80px;">' +
+                        '<% if (item.size !== null) { %><div class="margin-right-20" style="display: inline-block;min-width: 80px;">' +
                         '<label style="display: block;">' + this.txtTop + ': <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[0]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
                         '<label style="display: block;">' + this.txtLeft + ': <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div><div style="display: inline-block;">' +
                         '<label style="display: block;">' + this.txtBottom + ': <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[2]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +

@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Device } from '../../../../../common/mobile/utils/device';
-import {f7, View, List, ListItem, Icon, Row, Button, Page, Navbar, NavRight, Segmented, BlockTitle, Link, ListButton, Toggle, Actions, ActionsButton, ActionsGroup, Sheet} from 'framework7-react';
+import {f7, List, ListItem, Icon, Page, Navbar, Sheet} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import { inject, observer } from "mobx-react";
+import { MainContext } from "../../page/main";
 
 const NavigationPopover = inject('storeNavigation')(observer(props => {
     const { t } = useTranslation();
@@ -46,6 +47,7 @@ const NavigationPopover = inject('storeNavigation')(observer(props => {
 
 const NavigationSheet = inject('storeNavigation')(observer(props => {
     const { t } = useTranslation();
+    const mainContext = useContext(MainContext);
     const api = Common.EditorApi.get();
     const storeNavigation = props.storeNavigation;
     const bookmarks = storeNavigation.bookmarks;
@@ -105,7 +107,7 @@ const NavigationSheet = inject('storeNavigation')(observer(props => {
     }, []);
 
     return (
-        <Sheet id="view-navigation-sheet" className="navigation-sheet" backdrop={true} closeByBackdropClick={true} onSheetClosed={() => props.onclosed()} style={{height: `${stateHeight}`, opacity: `${stateOpacity}`}}>
+        <Sheet id="view-navigation-sheet" className="navigation-sheet" backdrop={true} closeByBackdropClick={true} onSheetClosed={() => mainContext.closeOptions('navigation')} style={{height: `${stateHeight}`, opacity: `${stateOpacity}`}}>
             <div id='swipe-handler' className='swipe-container' onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
                 <Icon icon='icon icon-swipe'/>
             </div>

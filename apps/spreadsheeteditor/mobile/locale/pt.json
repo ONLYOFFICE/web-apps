@@ -583,7 +583,13 @@
       "textYen": "Iene",
       "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Classificar do maior para o menor",
-      "txtSortLow2High": "Classificar do menor para o maior"
+      "txtSortLow2High": "Classificar do menor para o maior",
+      "textCustomFormat": "Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textSave": "Save",
+      "textEnterFormat": "Enter Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
     },
     "Settings": {
       "advCSVOptions": "Escolher opções CSV",

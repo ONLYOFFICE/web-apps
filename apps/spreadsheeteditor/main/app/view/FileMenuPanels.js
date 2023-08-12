@@ -64,7 +64,7 @@ define([
                     '<% _.each(rows, function(row) { %>',
                         '<% _.each(row, function(item) { %>',
                             '<% if (item.type!==Asc.c_oAscFileType.XLSM || fileType=="xlsm") { %>',
-                                '<div class="format-item"><div class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
+                                '<div class="format-item float-left"><div class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
                                     '<div class ="svg-format-<%= item.imgCls %>"></div>',
                                 '</div></div>',
                             '<% } %>',
@@ -165,7 +165,7 @@ define([
                     '<% _.each(rows, function(row) { %>',
                         '<% _.each(row, function(item) { %>',
                             '<% if (item.type!==Asc.c_oAscFileType.XLSM || fileType=="xlsm") { %>',
-                                '<div class="format-item"><div class="btn-doc-format" format="<%= item.type %>" format-ext="<%= item.ext %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
+                                '<div class="format-item float-left"><div class="btn-doc-format" format="<%= item.type %>" format-ext="<%= item.ext %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
                                     '<div class ="svg-format-<%= item.imgCls %>"></div>',
                                 '</div></div>',
                             '<% } %>',
@@ -486,6 +486,7 @@ define([
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width:100%; max-height: 157px;',
                 data        : [
+                    { value: -3, displayValue: this.txtLastUsed },
                     { value: 50, displayValue: "50%" },
                     { value: 60, displayValue: "60%" },
                     { value: 70, displayValue: "70%" },
@@ -615,7 +616,7 @@ define([
                 data        : regdata,
                 template: _.template([
                     '<span class="input-group combobox <%= cls %> combo-langs" id="<%= id %>" style="<%= style %>">',
-                    '<input type="text" class="form-control" style="padding-left: 25px !important;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big">',
+                    '<input type="text" class="form-control" style="' + (Common.UI.isRTL() ? 'padding-right' : 'padding-left') + ':25px !important;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big">',
                     '<span class="icon input-icon lang-flag"></span>',
                         '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">',
                             '<span class="caret" />',
@@ -623,8 +624,8 @@ define([
                         '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                             '<% _.each(items, function(item) { %>',
                                 '<li id="<%= item.id %>" data-value="<%= item.value %>">',
-                                    '<a tabindex="-1" type="menuitem" style="padding-left: 26px !important;">',
-                                        '<i class="icon lang-flag <%= item.langName %>" style="position: absolute;margin-left:-21px;"></i>',
+                                    '<a tabindex="-1" type="menuitem" style="' + (Common.UI.isRTL() ? 'padding-right' : 'padding-left') + ':26px !important;">',
+                                        '<i class="icon lang-flag <%= item.langName %>" style="position: absolute;"></i>',
                                         '<%= scope.getDisplayValue(item) %>',
                                     '</a>',
                                 '</li>',
@@ -712,7 +713,7 @@ define([
                 itemsTemplate: _.template([
                     '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem" style ="display: flex; flex-direction: column;">',
-                        '<label><%= scope.getDisplayValue(item) %></label><label class="comment-text"><%= item.descValue %></label></a></li>',
+                        '<label class="font-weight-bold"><%= scope.getDisplayValue(item) %></label><label><%= item.descValue %></label></a></li>',
                     '<% }); %>'
                 ].join('')),
 
@@ -1285,70 +1286,10 @@ define([
         txtQuickPrintTip: 'The document will be printed on the last selected or default printer',
         txtWorkspaceSettingChange: 'Workspace setting (RTL interface) change',
         txtRestartEditor: 'Please restart spreadsheet editor so that your workspace settings can take effect',
-        txtHy: 'Armenian'
+        txtHy: 'Armenian',
+        txtLastUsed: 'Last used'
 
 }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
-
-SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
-        el: '#panel-recentfiles',
-        menu: undefined,
-
-        template: _.template([
-            '<div class="header"><%= scope.txtOpenRecent %></div>',
-            '<div id="id-recent-view"></div>'
-        ].join('')),
-
-        initialize: function(options) {
-            Common.UI.BaseView.prototype.initialize.call(this,arguments);
-
-            this.menu = options.menu;
-            this.recent = options.recent;
-        },
-
-        render: function() {
-            this.$el.html(this.template({scope: this}));
-
-            this.viewRecentPicker = new Common.UI.DataView({
-                el: $('#id-recent-view'),
-                store: new Common.UI.DataViewStore(this.recent),
-                itemTemplate: _.template([
-                    '<div class="recent-wrap">',
-                        '<div class="recent-icon">',
-                            '<div>',
-                                '<div class="svg-file-recent"></div>',
-                            '</div>',
-                        '</div>',
-                        '<div class="file-name"><% if (typeof title !== "undefined") {%><%= Common.Utils.String.htmlEncode(title || "") %><% } %></div>',
-                        '<div class="file-info"><% if (typeof folder !== "undefined") {%><%= Common.Utils.String.htmlEncode(folder || "") %><% } %></div>',
-                    '</div>'
-                ].join(''))
-            });
-
-            this.viewRecentPicker.on('item:click', _.bind(this.onRecentFileClick, this));
-
-            if (_.isUndefined(this.scroller)) {
-                this.scroller = new Common.UI.Scroller({
-                    el: this.$el,
-                    suppressScrollX: true,
-                    alwaysVisibleY: true
-                });
-            }
-
-            return this;
-        },
-
-        show: function() {
-            Common.UI.BaseView.prototype.show.call(this,arguments);
-            this.scroller && this.scroller.update();
-        },
-
-        onRecentFileClick: function(view, itemview, record){
-            if ( this.menu )
-                this.menu.fireEvent('recent:open', [this.menu, record.get('url')]);
-        },
-
-        txtOpenRecent: 'Open Recent'
-    });
 
     SSE.Views.FileMenuPanels.CreateNew = Common.UI.BaseView.extend(_.extend({
         el: '#panel-createnew',
@@ -2205,7 +2146,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                     '<div class="description"><%= scope.txtEncrypted %></div>',
                     '<div class="buttons">',
                         '<div id="fms-btn-change-pwd"></div>',
-                        '<div id="fms-btn-delete-pwd"></div>',
+                        '<div id="fms-btn-delete-pwd" class="margin-left-16"></div>',
                     '</div>',
                 '</div>',
             '</div>',
@@ -2232,7 +2173,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 '<div class="<% if (!hasRequested && !hasSigned) { %>hidden<% } %>"">',
                     '<div class="signature-tip"><%= tipText %></div>',
                     '<div class="buttons">',
-                        '<label class="link signature-view-link" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium">' + me.txtView + '</label>',
+                        '<label class="link signature-view-link margin-right-20" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium">' + me.txtView + '</label>',
                         '<label class="link signature-edit-link <% if (!hasSigned) { %>hidden<% } %>" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium">' + me.txtEdit + '</label>',
                     '</div>',
                 '</div>'
@@ -2393,7 +2334,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                             '<div class="main-header"><%= scope.txtPrint %></div>',
                             '<table style="width: 100%;">',
                                 '<tbody>',
-                                    '<tr><td><label class="header"><%= scope.txtPrintRange %></label></td></tr>',
+                                    '<tr><td><label class="font-weight-bold"><%= scope.txtPrintRange %></label></td></tr>',
                                     '<tr><td class="padding-small"><div id="print-combo-range" style="width: 248px;"></div></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-chb-ignore" style="width: 248px;"></div></td></tr>',
                                     '<tr><td class="padding-large">',
@@ -2410,56 +2351,42 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                                             '<div id="print-txt-copies"></div>',
                                         '</div>',
                                     '</td></tr>',
-                                    '<tr class="desktop-settings"><td><label class="header"><%= scope.txtPrintSides %></label></td></tr>',
+                                    '<tr class="desktop-settings"><td><label class="font-weight-bold"><%= scope.txtPrintSides %></label></td></tr>',
                                     '<tr class="desktop-settings"><td class="padding-large"><div id="print-combo-sides" style="width: 248px;"></div></td></tr>',
                                     '<tr class="desktop-settings"><td class="padding-large"><div class="separator horizontal" style="width: 248px;"></div></td></tr>',
-                                    '<tr><td><label class="header"><%= scope.txtSettingsOfSheet %></label></td></tr>',
+                                    '<tr><td><label class="font-weight-bold"><%= scope.txtSettingsOfSheet %></label></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-combo-sheets" style="width: 248px;"></div></td></tr>',
-                                    '<tr><td><label class="header"><%= scope.txtPageSize %></label></td></tr>',
+                                    '<tr><td><label class="font-weight-bold"><%= scope.txtPageSize %></label></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-combo-pages" style="width: 248px;"></div></td></tr>',
-                                    '<tr><td><label class="header"><%= scope.txtPageOrientation %></label></td></tr>',
+                                    '<tr><td><label class="font-weight-bold"><%= scope.txtPageOrientation %></label></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-combo-orient" style="width: 134px;"></div></td></tr>',
-                                    '<tr><td><label class="header"><%= scope.txtScaling %></label></td></tr>',
+                                    '<tr><td><label class="font-weight-bold"><%= scope.txtMargins %></label></td></tr>',
+                                    '<tr><td class="padding-large"><div id="print-combo-margins" style="width: 248px;"></div></td></tr>',
+                                    '<tr><td><label class="font-weight-bold"><%= scope.txtScaling %></label></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-combo-layout" style="width: 248px;"></div></td></tr>',
-                                    '<tr><td class="padding-small"><label class="header"><%= scope.txtPrintTitles %></label></td></tr>',
-                                    '<tr><td><label><%= scope.txtRepeatRowsAtTop %></label></td></tr>',
-                                    '<tr><td class="padding-small">',
-                                        '<table><tbody><tr>',
-                                            '<td><div id="print-txt-top" style="width: 163px;"></div></td>',
-                                            '<td><div id="print-presets-top" style="width: 77px;"></div></td>',
-                                        '</tr></tbody></table>',
-                                    '</td></tr>',
-                                    '<tr><td><label><%= scope.txtRepeatColumnsAtLeft %></label></td></tr>',
                                     '<tr><td class="padding-large">',
+                                        '<table class="print-titles-container"><tbody>',
+                                            '<tr class="print-titles-header"><td>',
+                                                '<span class="print-titles-caret img-commonctrl"></span>',
+                                                '<label class="font-weight-bold"><%= scope.txtPrintTitles %></label>',
+                                            '</td></tr>',
+                                            '<tr class="print-titles-options"><td><label><%= scope.txtRepeatRowsAtTop %></label></td></tr>',
+                                            '<tr class="print-titles-options"><td class="padding-small">',
                                         '<table><tbody><tr>',
-                                            '<td><div id="print-txt-left" style="width: 163px;"></div></td>',
-                                            '<td><div id="print-presets-left" style="width: 77px;"></div></td>',
+                                            '<td><div id="print-txt-top" style="width: 145px;"></div></td>',
+                                            '<td><div id="print-presets-top" style="width: 95px;"></div></td>',
                                         '</tr></tbody></table>',
                                     '</td></tr>',
-                                    '<tr><td class="padding-small"><label class="header"><%= scope.txtMargins %></label></td></tr>',
-                                    '<tr><td>',
-                                        '<table>',
-                                            '<tbody>',
-                                                '<tr>',
-                                                    '<td><label><%= scope.txtTop %></label></td>',
-                                                    '<td><label><%= scope.txtBottom %></label></td>',
-                                                '</tr>',
-                                                '<tr>',
-                                                    '<td class="padding-small"><div id="print-spin-margin-top"></div></td>',
-                                                    '<td class="padding-small"><div id="print-spin-margin-bottom"></div></td>',
-                                                '</tr>',
-                                                '<tr>',
-                                                    '<td><label><%= scope.txtLeft %></label></td>',
-                                                    '<td><label><%= scope.txtRight %></label></td>',
-                                                '</tr>',
-                                                '<tr>',
-                                                    '<td class="padding-large"><div id="print-spin-margin-left"></div></td>',
-                                                    '<td class="padding-large"><div id="print-spin-margin-right"></div></td>',
-                                                '</tr>',
-                                            '</tbody>',
-                                        '</table>',
+                                            '<tr class="print-titles-options"><td><label><%= scope.txtRepeatColumnsAtLeft %></label></td></tr>',
+                                            '<tr class="print-titles-options"><td>',
+                                        '<table><tbody><tr>',
+                                            '<td><div id="print-txt-left" style="width: 145px;"></div></td>',
+                                            '<td><div id="print-presets-left" style="width: 95px;"></div></td>',
+                                        '</tr></tbody></table>',
                                     '</td></tr>',
-                                    '<tr><td class="padding-small"><label class="header"><%= scope.txtGridlinesAndHeadings %></label></td></tr>',
+                                        '</tbody></table>',
+                                    '</td></tr>',
+                                    '<tr><td class="padding-small"><label class="font-weight-bold"><%= scope.txtGridlinesAndHeadings %></label></td></tr>',
                                     '<tr><td class="padding-small"><div id="print-chb-grid" style="width: 248px;"></div></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-chb-rows" style="width: 248px;"></div></td></tr>',
                                     '<tr class="header-settings"><td class="padding-large"><label class="link" id="print-header-footer-settings" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtHeaderFooterSettings %></label></td></tr>',
@@ -2495,10 +2422,10 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                         '<div id="print-next-page"></div>',
                         '<div id="print-prev-page"></div>',
                         '<% } %>',
-                        '<div class="page-number">',
+                        '<div class="page-number margin-left-10">',
                             '<label><%= scope.txtPage %></label>',
-                            '<div id="print-number-page"></div>',
-                            '<label id="print-count-page"><%= scope.txtOf %></label>',
+                            '<div id="print-number-page" class="margin-left-4"></div>',
+                            '<label id="print-count-page" class="margin-left-4"><%= scope.txtOf %></label>',
                         '</div>',
                         '<label id="print-active-sheet"><%= scope.txtSheet %></label>',
                     '</div>',
@@ -2514,8 +2441,8 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
 
             this.menu = options.menu;
 
-            this.spinners = [];
             this._initSettings = true;
+            this.extendedPrintTitles = Common.localStorage.getBool('sse-print-titles-extended', true);
         },
 
         render: function(node) {
@@ -2607,7 +2534,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 itemsTemplate: _.template([
                     '<% _.each(items, function(item) { %>',
                     '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem" style ="display: flex; flex-direction: column;">',
-                    '<label><%= scope.getDisplayValue(item) %></label><label class="comment-text"><%= item.descValue %></label></a></li>',
+                    '<label class="font-weight-bold"><%= scope.getDisplayValue(item) %></label><label class="comment-text"><%= item.descValue %></label></a></li>',
                     '<% }); %>'
                 ].join('')),
                 dataHint: '2',
@@ -2709,7 +2636,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 parentEl: $markup.findById('#print-presets-top'),
                 cls: 'btn-text-menu-default',
                 caption: this.txtRepeat,
-                style: 'width: 77px;',
+                style: 'width: 95px;',
                 menu: true,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
@@ -2729,68 +2656,49 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 parentEl: $markup.findById('#print-presets-left'),
                 cls: 'btn-text-menu-default',
                 caption: this.txtRepeat,
-                style: 'width: 77px;',
+                style: 'width: 95px;',
                 menu: true,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
 
-            this.spnMarginTop = new Common.UI.MetricSpinner({
-                el: $markup.findById('#print-spin-margin-top'),
-                step: .1,
-                width: 120,
-                defaultUnit : "cm",
-                value: '0 cm',
-                maxValue: 48.25,
-                minValue: 0,
-                dataHint: '2',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
-            });
-            this.spinners.push(this.spnMarginTop);
+            this.$printTitlesHeader = $markup.find('.print-titles-header');
+            this.$printTitlesHeader.on('click', _.bind(this.expandPrintTitles, this));
 
-            this.spnMarginBottom = new Common.UI.MetricSpinner({
-                el: $markup.findById('#print-spin-margin-bottom'),
-                step: .1,
-                width: 120,
-                defaultUnit : "cm",
-                value: '0 cm',
-                maxValue: 48.25,
-                minValue: 0,
-                dataHint: '2',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
-            });
-            this.spinners.push(this.spnMarginBottom);
+            this.$printTitlesBlock = $markup.find('.print-titles-container');
+            if (!this.extendedPrintTitles) {
+                this.$printTitlesBlock.addClass('no-expand');
+            }
 
-            this.spnMarginLeft = new Common.UI.MetricSpinner({
-                el: $markup.findById('#print-spin-margin-left'),
-                step: .1,
-                width: 120,
-                defaultUnit : "cm",
-                value: '0.19 cm',
-                maxValue: 48.25,
-                minValue: 0,
+            this.cmbPaperMargins = new Common.UI.ComboBox({
+                el: $markup.findById('#print-combo-margins'),
+                menuStyle: 'max-height: 280px; min-width: 248px;',
+                editable: false,
+                takeFocusOnClose: true,
+                cls: 'input-group-nr',
+                data: [
+                    { value: 0, displayValue: this.txtMarginsNormal, size: [19.1, 17.8, 19.1, 17.8]},
+                    { value: 1, displayValue: this.txtMarginsNarrow, size: [19.1, 6.4, 19.1, 6.4]},
+                    { value: 2, displayValue: this.txtMarginsWide, size: [25.4, 25.4, 25.4, 25.4]},
+                    { value: -1, displayValue: this.txtCustom, size: null}
+                ],
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem">',
+                        '<div><b><%= scope.getDisplayValue(item) %></b></div>',
+                        '<% if (item.size !== null) { %><div style="display: inline-block;margin-right: 20px;min-width: 80px;">' +
+                        '<label style="display: block;">' + this.txtTop + ': <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[0]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
+                        '<label style="display: block;">' + this.txtLeft + ': <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div><div style="display: inline-block;">' +
+                        '<label style="display: block;">' + this.txtBottom + ': <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[2]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
+                        '<label style="display: block;">' + this.txtRight + ': <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[3]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div>' +
+                        '<% } %>',
+                    '<% }); %>'
+                ].join('')),
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
-            this.spinners.push(this.spnMarginLeft);
-
-            this.spnMarginRight = new Common.UI.MetricSpinner({
-                el: $markup.findById('#print-spin-margin-right'),
-                step: .1,
-                width: 120,
-                defaultUnit : "cm",
-                value: '0.19 cm',
-                maxValue: 48.25,
-                minValue: 0,
-                dataHint: '2',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
-            });
-            this.spinners.push(this.spnMarginRight);
 
             this.chPrintGrid = new Common.UI.CheckBox({
                 el: $markup.findById('#print-chb-grid'),
@@ -2906,16 +2814,11 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
             this.txtActiveSheet = $markup.findById('#print-active-sheet');
 
             this.$el = $(node).html($markup);
-
-            if (!this.mode.isEdit) {
-                $markup.find('.header-settings').hide();
-            } else {
-                this.$el.on('click', '#print-header-footer-settings', _.bind(this.openHeaderSettings, this));
-            }
-            !this.mode.isDesktopApp && $markup.find('.desktop-settings').hide();
-
+            this.$el.on('click', '#print-header-footer-settings', _.bind(this.openHeaderSettings, this));
             this.$previewBox = $('#print-preview-box');
             this.$previewEmpty = $('#print-preview-empty');
+
+            this.applyMode();
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
@@ -2962,6 +2865,13 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
 
         setMode: function(mode) {
             this.mode = mode;
+            !this._initSettings && this.applyMode();
+        },
+
+        applyMode: function() {
+            if (!this.mode || !this.$el) return;
+            this.$el.find('.header-settings')[this.mode.isEdit ? 'show' : 'hide']();
+            !this.mode.isDesktopApp && this.$el.find('.desktop-settings').hide();
         },
 
         setApi: function(api) {
@@ -2969,13 +2879,6 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         },
 
         updateMetricUnit: function() {
-            if (this.spinners) {
-                for (var i=0; i<this.spinners.length; i++) {
-                    var spinner = this.spinners[i];
-                    spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
-                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
-                }
-            }
             var store = this.cmbPaperSize.store;
             for (var i=0; i<store.length; i++) {
                 var item = store.at(i),
@@ -2987,6 +2890,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                     parseFloat(Common.Utils.Metric.fnRecalcFromMM(pageheight).toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ')');
             }
             this.cmbPaperSize.onResetItems();
+            this.cmbPaperMargins.onResetItems();
         },
 
         addCustomScale: function (add) {
@@ -3070,6 +2974,12 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
             this.txtNumberPage.setValue(index + 1);
         },
 
+        expandPrintTitles: function () {
+            this.extendedPrintTitles = !this.extendedPrintTitles;
+            this.$printTitlesBlock[this.extendedPrintTitles ? 'removeClass' : 'addClass']('no-expand');
+            Common.localStorage.setBool('sse-print-titles-extended', this.extendedPrintTitles);
+        },
+
         txtPrint: 'Print',
         txtSave: 'Save',
         txtPrintToPDF: 'Print to PDF',
@@ -3119,7 +3029,11 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         txtOneSideDesc: 'Only print on one side of the page',
         txtBothSides: 'Print on both sides',
         txtBothSidesLongDesc: 'Flip pages on long edge',
-        txtBothSidesShortDesc: 'Flip pages on short edge'
+        txtBothSidesShortDesc: 'Flip pages on short edge',
+        txtMarginsNormal: 'Normal',
+        txtMarginsNarrow: 'Narrow',
+        txtMarginsWide: 'Wide',
+        txtMarginsLast: 'Last Custom'
 
     }, SSE.Views.PrintWithPreview || {}));
 

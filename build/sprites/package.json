@@ -4,6 +4,6 @@
   "description": "",
   "dependencies": {
     "grunt-spritesmith": "^6.10.0",
-    "grunt-svg-sprite": "^2.0.0"
+    "grunt-svg-sprite": "^2.0.2"
   }
 }

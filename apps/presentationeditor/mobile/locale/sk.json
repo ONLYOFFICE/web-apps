@@ -300,6 +300,7 @@
       "textBulletsAndNumbers": "Odrážky & Číslovanie",
       "textCaseSensitive": "Rozlišovať veľkosť písmen",
       "textCellMargins": "Okraje bunky",
+      "textChangeShape": "Zmeniť tvar",
       "textChart": "Graf",
       "textClock": "Hodiny",
       "textClockwise": "V smere hodinových ručičiek",
@@ -415,13 +416,16 @@
       "textZoomRotate": "Priblížiť a otáčať",
       "textArrange": "Arrange",
       "textCancel": "Cancel",
-      "textChangeShape": "Change Shape",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textInsertImage": "Insert Image",
       "textNoMatches": "No Matches",
       "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "textRequired": "Required",
+      "textMorph": "Morph",
+      "textMorphObjects": "Objects",
+      "textMorphWords": "Words",
+      "textMorphLetters": "Letters"
     },
     "Settings": {
       "mniSlideStandard": "Štandard (4:3)",

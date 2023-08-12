@@ -430,6 +430,7 @@
       "textBringToForeground": "Ön plana Çıxarın",
       "textCell": "Xana",
       "textCenter": "Mərkəz",
+      "textChangeShape": "Formanı dəyiş",
       "textChart": "Diaqram",
       "textChartTitle": "Diaqram Başlığı",
       "textClearFilter": "Süzgəci Təmizlə",
@@ -578,12 +579,17 @@
       "textAutomatic": "Automatic",
       "textCancel": "Cancel",
       "textCellStyle": "Cell Style",
-      "textChangeShape": "Change Shape",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textDone": "Done",
       "textOk": "Ok",
-      "textRecommended": "Recommended"
+      "textRecommended": "Recommended",
+      "textCustomFormat": "Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textSave": "Save",
+      "textEnterFormat": "Enter Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
     },
     "Settings": {
       "advCSVOptions": "CSV seçimlərini seçin",

@@ -434,7 +434,7 @@
       "textCell": "Cellule",
       "textCellStyle": "Style de cellule",
       "textCenter": "Au centre",
-      "textChangeShape": "Changer la forme",
+      "textChangeShape": "Modifier la forme",
       "textChart": "Graphique",
       "textChartTitle": "Titre du graphique",
       "textClearFilter": "Effacer le filtre",
@@ -583,7 +583,13 @@
       "textYen": "Yen",
       "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\"",
       "txtSortHigh2Low": "Trier du plus élevé au plus bas",
-      "txtSortLow2High": "Trier le plus bas au plus élevé"
+      "txtSortLow2High": "Trier le plus bas au plus élevé",
+      "textCustomFormat": "Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textSave": "Save",
+      "textEnterFormat": "Enter Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
     },
     "Settings": {
       "advCSVOptions": "Choisir les options CSV",

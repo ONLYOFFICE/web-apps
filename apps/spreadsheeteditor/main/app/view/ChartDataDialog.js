@@ -81,18 +81,18 @@ define([
                                 '</tr>',
                                 '<tr>',
                                     '<td class="padding-large">',
-                                        '<button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-add">', me.textAdd, '</button>',
-                                        '<button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-edit">', me.textEdit, '</button>',
-                                        '<button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-delete">', me.textDelete, '</button>',
-                                        '<div class="up-down-btns">',
-                                        '<div id="chart-dlg-btn-up"></div>',
+                                        '<button type="button" class="btn btn-text-default auto margin-right-5" id="chart-dlg-btn-add">', me.textAdd, '</button>',
+                                        '<button type="button" class="btn btn-text-default auto margin-right-5" id="chart-dlg-btn-edit">', me.textEdit, '</button>',
+                                        '<button type="button" class="btn btn-text-default auto margin-right-5" id="chart-dlg-btn-delete">', me.textDelete, '</button>',
+                                        '<div class="up-down-btns float-right">',
+                                        '<div id="chart-dlg-btn-up" class="margin-right-2"></div>',
                                         '<div id="chart-dlg-btn-down"></div>',
                                         '</div>',
                                     '</td>',
                                 '</tr>',
                                 '<tr>',
                                     '<td class="padding-large">',
-                                        '<button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-switch" style="min-width: 70px;margin-right:5px;">', me.textSwitch, '</button>',
+                                        '<button type="button" class="btn btn-text-default auto margin-right-5" id="chart-dlg-btn-switch" style="min-width: 70px;">', me.textSwitch, '</button>',
                                     '</td>',
                                 '</tr>',
                                 '<tr>',
@@ -103,7 +103,7 @@ define([
                                 '</tr>',
                                 '<tr>',
                                     '<td class="padding-small">',
-                                        '<button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-category-edit" style="min-width: 70px;margin-right:5px;">', me.textEdit, '</button>',
+                                        '<button type="button" class="btn btn-text-default auto margin-right-5" id="chart-dlg-btn-category-edit" style="min-width: 70px;">', me.textEdit, '</button>',
                                     '</td>',
                                 '</tr>',
                             '</table>',
@@ -154,7 +154,7 @@ define([
                 store: new Common.UI.DataViewStore(),
                 emptyText: '',
                 scrollAlwaysVisible: true,
-                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="min-height: 15px;"><%= value %></div>'),
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="min-height: 15px;"><%= Common.Utils.String.htmlEncode(value) %></div>'),
                 tabindex:1
             });
             this.seriesList.onKeyDown = _.bind(this.onListKeyDown, this, 'series');
@@ -206,7 +206,7 @@ define([
                 store: new Common.UI.DataViewStore(),
                 emptyText: '',
                 scrollAlwaysVisible: true,
-                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="min-height: 15px;"><%= value %></div>'),
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="min-height: 15px;"><%= Common.Utils.String.htmlEncode(value) %></div>'),
                 tabindex:1
             });
 

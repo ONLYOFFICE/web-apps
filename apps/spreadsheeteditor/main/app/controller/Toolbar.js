@@ -423,7 +423,8 @@ define([
                 toolbar.btnInsertText.menu.on('item:click',                 _.bind(this.onMenuInsertTextClick, this));
                 toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
                 toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
-                toolbar.btnInsertSymbol.on('click',                         _.bind(this.onInsertSymbolClick, this));
+                toolbar.btnInsertSymbol.menu.items[2].on('click',           _.bind(this.onInsertSymbolClick, this));
+                toolbar.mnuInsertSymbolsPicker.on('item:click',             _.bind(this.onInsertSymbolItemClick, this));
                 toolbar.btnInsertSlicer.on('click',                         _.bind(this.onInsertSlicerClick, this));
                 toolbar.btnTableTemplate.menu.on('show:after',              _.bind(this.onTableTplMenuOpen, this));
                 toolbar.btnPercentStyle.on('click',                         _.bind(this.onNumberFormat, this));
@@ -467,6 +468,8 @@ define([
                 toolbar.menuHeightScale.on('item:click',                    _.bind(this.onScaleClick, this, 'height'));
                 toolbar.btnPrintArea.menu.on('item:click',                  _.bind(this.onPrintAreaClick, this));
                 toolbar.btnPrintArea.menu.on('show:after',                  _.bind(this.onPrintAreaMenuOpen, this));
+                toolbar.btnPageBreak.menu.on('item:click',                  _.bind(this.onPageBreakClick, this));
+                toolbar.btnPageBreak.menu.on('show:after',                  _.bind(this.onPageBreakMenuOpen, this));
                 toolbar.btnImgGroup.menu.on('item:click',                   _.bind(this.onImgGroupSelect, this));
                 toolbar.btnImgBackward.menu.on('item:click',                _.bind(this.onImgArrangeSelect, this));
                 toolbar.btnImgForward.menu.on('item:click',                 _.bind(this.onImgArrangeSelect, this));
@@ -1853,12 +1856,12 @@ define([
             var me = this;
             var menuItem = cmp.mnuDataBars;
             menuItem.menu.addItem(new Common.UI.MenuItem({
-                template: _.template('<div id="id-' + id + '-menu-databar" class="menu-shapes" style="margin-left: 5px; width: 203px;"></div>')
+                template: _.template('<div id="id-' + id + '-menu-databar" class="menu-shapes margin-left-5" style="width: 203px;"></div>')
             }));
             var picker = new Common.UI.DataViewSimple({
                 el: $('#id-' + id + '-menu-databar', menuItem.$el),
                 parentMenu: menuItem.menu,
-                itemTemplate: _.template('<div class="item-databar" id="<%= id %>"><svg width="25" height="25" class=\"icon\"><use xlink:href=\"#bar-<%= data.name %>\"></use></svg></div>')
+                itemTemplate: _.template('<div class="item-databar" id="<%= id %>"><svg width="25" height="25" class=\"icon uni-scale\"><use xlink:href=\"#bar-<%= data.name %>\"></use></svg></div>')
             });
             picker.on('item:click', function(picker, item, record, e) {
                 if (me.api) {
@@ -1888,12 +1891,12 @@ define([
 
             menuItem = cmp.mnuColorScales;
             menuItem.menu.addItem(new Common.UI.MenuItem({
-                template: _.template('<div id="id-' + id + '-menu-colorscales" class="menu-shapes" style="margin-left: 5px; width: 136px;"></div>')
+                template: _.template('<div id="id-' + id + '-menu-colorscales" class="menu-shapes margin-left-5" style="width: 136px;"></div>')
             }));
             picker = new Common.UI.DataViewSimple({
                 el: $('#id-' + id + '-menu-colorscales', menuItem.$el),
                 parentMenu: menuItem.menu,
-                itemTemplate: _.template('<div class="item-colorscale" id="<%= id %>"><svg width="25" height="25" class=\"icon\"><use xlink:href=\"#color-scale-<%= data.name %>\"></use></svg></div>')
+                itemTemplate: _.template('<div class="item-colorscale" id="<%= id %>"><svg width="25" height="25" class=\"icon uni-scale\"><use xlink:href=\"#color-scale-<%= data.name %>\"></use></svg></div>')
             });
             picker.on('item:click', function(picker, item, record, e) {
                 if (me.api) {
@@ -2292,7 +2295,7 @@ define([
                         var arr = tip.split(' ');
                         lastWordInTip = arr.pop();
                            
-                        if(tip == 'None'){
+                        if(item.asc_getName() === null){
                             groupItem = 'menu-table-group-light';
                         }
                         else {
@@ -2629,6 +2632,7 @@ define([
 
             this.api.asc_isLayoutLocked(currentSheet) ? this.onApiLockDocumentProps(currentSheet) : this.onApiUnLockDocumentProps(currentSheet);
             this.toolbar.lockToolbar(Common.enumLock.printAreaLock, this.api.asc_isPrintAreaLocked(currentSheet), {array: [this.toolbar.btnPrintArea]});
+            this.toolbar.lockToolbar(Common.enumLock.pageBreakLock, this.api.asc_GetPageBreaksDisableType(currentSheet)===Asc.c_oAscPageBreaksDisableType.all, {array: [this.toolbar.btnPageBreak]});
         },
 
         onUpdateDocumentProps: function(nIndex) {
@@ -2748,14 +2752,16 @@ define([
 
         onApiLockDocumentProps: function(nIndex) {
             if (this._state.lock_doc!==true && nIndex == this.api.asc_getActiveWorksheetIndex()) {
-                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, true, {array: [this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnPageOrient, this.toolbar.btnScale, this.toolbar.btnPrintTitles]});
+                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, true, {array: [this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnPageOrient,
+                                                                                      this.toolbar.btnPageBreak, this.toolbar.btnScale, this.toolbar.btnPrintTitles]});
                 this._state.lock_doc = true;
             }
         },
 
         onApiUnLockDocumentProps: function(nIndex) {
             if (this._state.lock_doc!==false && nIndex == this.api.asc_getActiveWorksheetIndex()) {
-                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, false, {array: [this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnPageOrient, this.toolbar.btnScale, this.toolbar.btnPrintTitles]});
+                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, false, {array: [this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnPageOrient,
+                                                                                       this.toolbar.btnPageBreak, this.toolbar.btnScale, this.toolbar.btnPrintTitles]});
                 this._state.lock_doc = false;
             }
         },
@@ -2943,6 +2949,8 @@ define([
                 (selectionType == Asc.c_oAscSelectionType.RangeCells) && (!info.asc_getComments() || info.asc_getComments().length>0 || info.asc_getLocked()) 
                 || selectionType != Asc.c_oAscSelectionType.RangeCells,
                 { array: this.btnsComment });
+
+            toolbar.lockToolbar(Common.enumLock.pageBreakLock, this.api.asc_GetPageBreaksDisableType(this.api.asc_getActiveWorksheetIndex())===Asc.c_oAscPageBreaksDisableType.all, {array: [toolbar.btnPageBreak]});
 
             if (editOptionsDisabled) return;
 
@@ -3971,7 +3979,7 @@ define([
 
             var shapePicker = new Common.UI.DataViewShape({
                 el: $('#id-toolbar-menu-insertshape'),
-                itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
+                itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon uni-scale\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                 groups: me.getApplication().getCollection('ShapeGroups'),
                 parentMenu: me.toolbar.btnInsertShape.menu,
                 restoreHeight: 652,
@@ -4045,8 +4053,8 @@ define([
                         menuAlign: 'tl-tr',
                         items: [
                             { template: _.template('<div id="id-toolbar-menu-equationgroup' + i +
-                                '" class="menu-shape" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
-                                equationGroup.get('groupHeightStr') + 'margin-left:5px;"></div>') }
+                                '" class="menu-shape margin-left-5" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
+                                equationGroup.get('groupHeightStr') + '"></div>') }
                         ]
                     })
                 });
@@ -4080,16 +4088,27 @@ define([
                         symbol: selected && selected.length>0 ? selected.charAt(0) : undefined,
                         handler: function(dlg, result, settings) {
                             if (result == 'ok') {
-                                me.api.asc_insertSymbol(settings.font ? settings.font : me.api.asc_getCellInfo().asc_getXfs().asc_getFontName(), settings.code, settings.special);
+                                me.insertSymbol(settings.font, settings.code, settings.special, settings.speccharacter);
                             } else
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         }
                     });
                 win.show();
                 win.on('symbol:dblclick', function(cmp, result, settings) {
-                    me.api.asc_insertSymbol(settings.font ? settings.font : me.api.asc_getCellInfo().asc_getXfs().asc_getFontName(), settings.code, settings.special);
+                    me.insertSymbol(settings.font, settings.code, settings.special, settings.speccharacter);
                 });
             }
+        },
+
+        onInsertSymbolItemClick: function(picker, item, record, e) {
+            if (this.api && record)
+                this.insertSymbol(record.get('font'), record.get('symbol'), record.get('special'));
+        },
+
+        insertSymbol: function(fontRecord, symbol, special, specCharacter){
+            var font = fontRecord ? fontRecord: this.api.asc_getCellInfo().asc_getXfs().asc_getFontName();
+            this.api.asc_insertSymbol(font, symbol, special);
+            !specCharacter && this.toolbar.saveSymbol(symbol, font);
         },
 
         onInsertSlicerClick: function() {
@@ -4642,7 +4661,7 @@ define([
             this.btnsComment = [];
             if ( config.canCoAuthoring && config.canComments ) {
                 var _set = Common.enumLock;
-                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-menu-comments', this.toolbar.capBtnComment,
+                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-big-menu-comments', this.toolbar.capBtnComment,
                                                             [_set.lostConnect, _set.commentLock, _set.editCell, _set['Objects']], undefined, undefined, undefined, '1', 'bottom', 'small');
 
                 if ( this.btnsComment.length ) {
@@ -4698,15 +4717,12 @@ define([
                         handler: function(dlg, result) {
                             if (result == 'ok') {
                                 props = dlg.getSettings();
-                                var mnu = me.toolbar.btnPageMargins.menu.items[0];
-                                mnu.setVisible(true);
-                                mnu.setChecked(true);
-                                mnu.options.value = mnu.value = [props.asc_getTop(), props.asc_getLeft(), props.asc_getBottom(), props.asc_getRight()];
-                                $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
                                 Common.localStorage.setItem("sse-pgmargins-top", props.asc_getTop());
                                 Common.localStorage.setItem("sse-pgmargins-left", props.asc_getLeft());
                                 Common.localStorage.setItem("sse-pgmargins-bottom", props.asc_getBottom());
                                 Common.localStorage.setItem("sse-pgmargins-right", props.asc_getRight());
+                                Common.NotificationCenter.trigger('margins:update', props);
+                                me.toolbar.btnPageMargins.menu.items[0].setChecked(true);
 
                                 me.api.asc_changePageMargins( props.asc_getLeft(), props.asc_getRight(), props.asc_getTop(), props.asc_getBottom(), me.api.asc_getActiveWorksheetIndex());
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -4781,6 +4797,29 @@ define([
         onPrintAreaMenuOpen: function() {
             if (this.api)
                 this.toolbar.btnPrintArea.menu.items[2].setVisible(this.api.asc_CanAddPrintArea());
+        },
+
+        onPageBreakClick: function(menu, item) {
+            if (this.api) {
+                if (item.value==='ins')
+                    this.api.asc_InsertPageBreak();
+                else if (item.value==='del')
+                    this.api.asc_RemovePageBreak();
+                else if (item.value==='reset')
+                    this.api.asc_ResetAllPageBreaks();
+                Common.component.Analytics.trackEvent('ToolBar', 'Page Break');
+            }
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onPageBreakMenuOpen: function() {
+            if (this.api) {
+                var type = this.api.asc_GetPageBreaksDisableType(this.api.asc_getActiveWorksheetIndex());
+                this.toolbar.btnPageBreak.menu.items[0].setDisabled(type===Asc.c_oAscPageBreaksDisableType.insertRemove);
+                this.toolbar.btnPageBreak.menu.items[1].setDisabled(type===Asc.c_oAscPageBreaksDisableType.insertRemove);
+                this.toolbar.btnPageBreak.menu.items[2].setDisabled(type===Asc.c_oAscPageBreaksDisableType.reset);
+            }
         },
 
         onEditHeaderClick: function(pageSetup, btn) {

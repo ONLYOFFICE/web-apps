@@ -362,7 +362,7 @@ class ContextMenu extends ContextMenuController {
                     event: 'openlink'
                 });
 
-                if(isAllowedEditing) {
+                if(isAllowedEditing && !isViewer) {
                     itemsText.push({
                         caption: t('ContextMenu.menuEditLink'),
                         event: 'editlink'

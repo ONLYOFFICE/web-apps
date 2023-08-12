@@ -94,12 +94,12 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="">',
                     '<div class="listitem-icon" style="flex-shrink: 0;"><svg class=""><use xlink:href="#svg-icon-<%= scope.getIconCls(index) %>"></use></svg></div>',
-                    '<div style="width: 25px;text-align:center; padding-right: 5px;flex-shrink: 0;"><%= index+1 %></div>',
+                    '<div class="padding-right-5" style="width: 25px;text-align:center;flex-shrink: 0;"><%= index+1 %></div>',
                     '<div style="width: 25px;flex-shrink: 0;">',
                         '<span class="color" style="background: <% if (color) { %>#<%= color %><% } else { %> transparent <% } %>;"></span>',
                     '</div>',
-                    '<div style="flex-grow: 1;padding-right: 5px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
-                    '<div style="width: 25px;text-align: right;opacity: 0.8;flex-shrink: 0;"><%= fields %></div>',
+                    '<div class="padding-right-5" style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(name) %></div>',
+                    '<div class="text-align-right" style="width: 25px;opacity: 0.8;flex-shrink: 0;"><%= fields %></div>',
                     '</div>'
                 ].join('')),
                 tabindex: 1
@@ -356,7 +356,6 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
         },
 
         txtTitle: 'Manage Roles',
-        closeButtonText : 'Close',
         textNew: 'New',
         textEdit: 'Edit',
         textDelete: 'Delete',

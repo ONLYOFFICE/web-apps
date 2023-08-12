@@ -300,6 +300,7 @@
       "textBulletsAndNumbers": "Opsommingstekens en nummers",
       "textCaseSensitive": "Hoofdlettergevoelig",
       "textCellMargins": "Celmarges",
+      "textChangeShape": "Vorm wijzigen",
       "textChart": "Grafiek",
       "textClock": "Klok",
       "textClockwise": "Rechtsom",
@@ -415,13 +416,16 @@
       "textZoomRotate": "Zoomen en draaien",
       "textArrange": "Arrange",
       "textCancel": "Cancel",
-      "textChangeShape": "Change Shape",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textInsertImage": "Insert Image",
       "textNoMatches": "No Matches",
       "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "textRequired": "Required",
+      "textMorph": "Morph",
+      "textMorphObjects": "Objects",
+      "textMorphWords": "Words",
+      "textMorphLetters": "Letters"
     },
     "Settings": {
       "mniSlideStandard": "Standaard (4:3)",

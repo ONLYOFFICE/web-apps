@@ -433,6 +433,7 @@
       "textCell": "Bunka",
       "textCellStyle": "Štýl bunky",
       "textCenter": "Stred",
+      "textChangeShape": "Zmeniť tvar",
       "textChart": "Graf",
       "textChartTitle": "Názov grafu",
       "textClearFilter": "Vyčistiť filter",
@@ -580,10 +581,15 @@
       "txtSortHigh2Low": "Zoradiť od najvyššieho po najnižšie",
       "txtSortLow2High": "Zoradiť od najnižšieho po najvyššie",
       "textArrange": "Arrange",
-      "textChangeShape": "Change Shape",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
-      "textDone": "Done"
+      "textDone": "Done",
+      "textCustomFormat": "Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textSave": "Save",
+      "textEnterFormat": "Enter Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
     },
     "Settings": {
       "advCSVOptions": "Vybrať možnosti CSV",

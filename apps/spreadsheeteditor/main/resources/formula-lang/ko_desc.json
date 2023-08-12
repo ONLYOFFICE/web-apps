@@ -1914,5 +1914,9 @@
 	"SORT": {
 		"a": "(array, [sort_index], [sort_order], [by_col])",
 		"d": "범위 또는 배열을 정렬"
+	},
+	"SORTBY": {
+		"a": "(array, by_array, [sort_order], ...)",
+		"d": "해당 범위 또는 배열의 값을 기준으로 범위 또는 배열을 정렬합니다"
 	}
 }

@@ -4,7 +4,7 @@
 		<title>Create and edit pivot tables</title>
 		<meta charset="utf-8" />
         <meta name="description" content="Create and edit pivot tables. Apply filters, change the appearance of pivot tables in a spreadsheet." />
-		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
 		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
@@ -48,7 +48,7 @@
                 </li>
             </ol>
             <p>An empty pivot table will be inserted in the selected location.</p>
-            <p>The <b>Pivot table settings</b> tab on the right sidebar will be opened. You can hide or display this tab by clicking the <span class="icon icon-pivot_settings"></span> icon.</p>
+            <p>The <b>Pivot table settings</b> tab on the right sidebar will be opened. You can hide or display this tab by clicking the <span class="icon icon-pivot_settings"></span> icon. Pivot table settings are also available in the context menu that appears when you right click the table. The context menu options depend on the field you click.</p>
             <p><img alt="Pivot table settings tab" src="../images/right_pivot.png" /></p>
 
             <h4>Select fields to display</h4>
@@ -127,7 +127,8 @@
             <ul>
                 <li>The <b>Source name</b> option allows you to view the field name corresponding to the column header from the source data set.</li>
                 <li>The <b>Custom name</b> option allows you to change the name of the selected field displayed in the pivot table.</li>
-                <li>The <b>Summarize value field by</b> list allows you to choose the function used to calculate the summation value for all values from this field. By default, <em>Sum</em> is used for numeric values, <em>Count</em> is used for text values. The available functions are <em>Sum</em>, <em>Count</em>, <em>Average</em>, <em>Max</em>, <em>Min</em>, <em>Product</em>, <em>Count Numbers</em>, <em>StdDev</em>, <em>StdDevp</em>, <em>Var</em>, <em>Varp</em>.</li>
+                <li>The <b>Summarize value field by</b> option allows you to choose the function used to calculate the summation value for all values from this field. By default, <em>Sum</em> is used for numeric values, <em>Count</em> is used for text values. The available functions are <em>Sum</em>, <em>Count</em>, <em>Average</em>, <em>Max</em>, <em>Min</em>, <em>Product</em>, <em>Count Numbers</em>, <em>StdDev</em>, <em>StdDevp</em>, <em>Var</em>, <em>Varp</em>.</li>
+                <li>The <b>Show values as </b> option allows you to show instant custom calculations instead of adding a formula and creating a calculated field. <b>No calculation</b> is the default option that displays the actual value in the field. Other calculation options: <em>% of grand total</em>, <em>% of column total</em>, <em>% of row total</em>, <em>% of</em>, <em>% of parent row total</em>, <em>% of parent column total</em>, <em>% of parent total</em>, <em>Difference from</em>, <em>% difference from</em>, <em>Running total in</em>, <em>% running total in</em>, <em>Rank smallest to largest</em>, <em>Rank largest to smallest</em>, <em>Index</em>. Use <b>Base field</b> and <b>Base item</b> when these options are available for the calculation you selected (<em>% of</em>, <em>% of parent total</em>, <em>Difference from</em>, <em>% difference from</em>, <em>Running total in</em>, <em>% running total in</em>).</li>
             </ul>
 
             <h3>Group and ungroup data</h3>
@@ -224,7 +225,7 @@
             </ul>
             <p>
                 The template list allows you to choose one of the predefined pivot table styles. Each template combines certain formatting parameters, such as a background color, border style, row/column banding, etc.
-                Depending on the options checked for rows and columns, the templates set will be displayed differently. For example, if you've checked the <b>Row Headers</b> and <b>Banded Columns</b> options, the displayed templates list will include only templates with the row headers highlighted and banded columns enabled.
+                Depending on the options checked for rows and columns, the templates set will be displayed differently. For example, if you've checked the <b>Row Headers</b> and <b>Banded Columns</b> options, the visible part of the templates list will include templates with the row headers highlighted and banded columns enabled, but you can expand the full list by clicking the arrow to see all the available templates.
             </p>
 
             <h3>Filter, sort and add slicers in pivot tables</h3>
