@@ -491,7 +491,8 @@ define([
         const _extend_menu_file = args => {
             console.log('extend menu file')
 
-            if ( native.features.opentemplate ) {
+            // if ( native.features.opentemplate )
+            {
                 const filemenu = webapp.getController('LeftMenu').leftMenu.getMenu('file');
                 if ( filemenu.miNew.visible ) {
                     const miNewFromTemplate = new Common.UI.MenuItem({
