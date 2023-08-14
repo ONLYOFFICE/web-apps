@@ -202,7 +202,7 @@ define([
                 Common.Utils.InternalSettings.set("sse-settings-fontrender", value);
                 this.api.asc_setFontRenderingMode(parseInt(value));
 
-                value = Common.localStorage.getBool("sse-settings-show-alt-hints", Common.Utils.isMac ? false : true);
+                value = Common.localStorage.getBool("sse-settings-show-alt-hints", true);
                 Common.Utils.InternalSettings.set("sse-settings-show-alt-hints", value);
 
                 if ( !Common.Utils.isIE ) {
