@@ -112,7 +112,8 @@ define([
         wsLockFormatFill: 'worksheet-lock-format-fill',
         editVisibleArea: 'is-visible-area',
         userProtected: 'cell-user-protected',
-        pageBreakLock: 'page-break-lock'
+        pageBreakLock: 'page-break-lock',
+        externalChartProtected: 'external-chart-protected'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -225,7 +226,7 @@ define([
                 id          : 'id-toolbar-btn-paste',
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-paste',
-                lock        : [/*_set.editCell,*/ _set.coAuth, _set.lostConnect, _set.editVisibleArea, _set.userProtected],
+                lock        : [/*_set.editCell,*/ _set.coAuth, _set.lostConnect, _set.editVisibleArea, _set.userProtected, _set.externalChartProtected],
                 dataHint    : '1',
                 dataHintDirection: (config.isEditDiagram || config.isEditMailMerge || config.isEditOle) ? 'bottom' : 'top',
                 dataHintTitle: 'V'
@@ -263,7 +264,7 @@ define([
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-formula',
                         split       : true,
-                        lock        : [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.editVisibleArea],
+                        lock        : [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.editVisibleArea, _set.externalChartProtected],
                         menu        : new Common.UI.Menu({
                             style : 'min-width: 110px',
                             items : [
@@ -300,7 +301,7 @@ define([
                         cls         : 'input-group-nr',
                         menuStyle   : 'min-width: 180px;',
                         hint        : me.tipNumFormat,
-                        lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.editVisibleArea],
+                        lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.editVisibleArea, _set.externalChartProtected],
                         itemsTemplate: formatTemplate,
                         editable    : false,
                         focusWhenNoSelection: false,
@@ -329,7 +330,7 @@ define([
                         id          : 'id-toolbar-btn-decdecimal',
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-decdecimal',
-                        lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.editVisibleArea],
+                        lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.editVisibleArea, _set.externalChartProtected],
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
                     });
@@ -338,7 +339,7 @@ define([
                         id          : 'id-toolbar-btn-incdecimal',
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-incdecimal',
-                        lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.editVisibleArea],
+                        lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.editVisibleArea, _set.externalChartProtected],
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
                     });

@@ -501,6 +501,8 @@ define([
                     Common.NotificationCenter.on('storage:image-load',          _.bind(this.openImageFromStorage, this));
                     Common.NotificationCenter.on('storage:image-insert',        _.bind(this.insertImageFromStorage, this));
                     this.api.asc_registerCallback('asc_onSelectionMathChanged',   _.bind(this.onApiMathChanged, this));
+                } else if (config.isEditDiagram) {
+                    this.api.asc_registerCallback('asc_onShowProtectedChartPopup',   _.bind(this.onShowProtectedChartPopup, this));
                 }
                 this.api.asc_registerCallback('asc_onInitEditorStyles',     _.bind(this.onApiInitEditorStyles, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
@@ -5029,6 +5031,20 @@ define([
             this.toolbar._isEyedropperStart = false;
         },
 
+        onShowProtectedChartPopup: function(value) {
+            var toolbar = this.toolbar,
+                me = this;
+            if (value) {
+                this.toolbar.lockToolbar(Common.enumLock.externalChartProtected, value, {array: [toolbar.btnPaste, toolbar.btnInsertFormula, toolbar.btnDecDecimal,toolbar.btnIncDecimal,toolbar.cmbNumberFormat]});
+                Common.UI.warning({
+                    msg: this.warnExternalChartProtected,
+                    callback: function(btn) {
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                });
+            }
+        },
+
         textEmptyImgUrl     : 'You need to specify image URL.',
         warnMergeLostData   : 'Operation can destroy data in the selected cells.<br>Continue?',
         textWarning         : 'Warning',
@@ -5409,7 +5425,8 @@ define([
         textRating: 'Ratings',
         txtLockSort: 'Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?',
         textRecentlyUsed: 'Recently Used',
-        errorMaxPoints: 'The maximum number of points in series per chart is 4096.'
+        errorMaxPoints: 'The maximum number of points in series per chart is 4096.',
+        warnExternalChartProtected: 'You cannot edit this chart'
 
     }, SSE.Controllers.Toolbar || {}));
 });
