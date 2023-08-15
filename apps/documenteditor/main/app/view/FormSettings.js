@@ -142,6 +142,14 @@ define([
             this.cmbKey.on('changed:after', this.onKeyChanged.bind(this));
             this.cmbKey.on('hide:after', this.onHideMenus.bind(this));
 
+            var showtip = function() {
+                Common.NotificationCenter.trigger('forms:close-help', 'key', true);
+                me.cmbKey.off('show:before', showtip);
+                me.cmbKey.off('combo:focusin', showtip);
+            };
+            me.cmbKey.on('show:before', showtip);
+            me.cmbKey.on('combo:focusin', showtip);
+
             this.txtPlaceholder = new Common.UI.InputField({
                 el          : $markup.findById('#form-txt-pholder'),
                 allowBlank  : true,

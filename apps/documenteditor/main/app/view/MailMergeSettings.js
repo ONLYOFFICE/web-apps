@@ -869,7 +869,7 @@ define([
         },
 
         openHelp: function(e) {
-            DE.getController('LeftMenu').getView('LeftMenu').showMenu('file:help', 'UsageInstructions\/UseMailMerge.htm');
+            Common.NotificationCenter.trigger('file:help', 'UsageInstructions\/UseMailMerge.htm');
         },
 
         disablePreviewMode: function() {
