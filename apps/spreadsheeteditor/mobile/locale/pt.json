@@ -39,6 +39,20 @@
       "textCustomColors": "Cores personalizadas",
       "textStandartColors": "Cores padrão",
       "textThemeColors": "Cores de tema"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Aviso",
+      "textAnonymous": "Anônimo",
+      "textBack": "Voltar",
+      "textCancel": "Cancelar",
+      "textCurrent": "Atual",
+      "textOk": "OK",
+      "textRestore": "Restaurar",
+      "textVersion": "Versão",
+      "textVersionHistory": "Histórico de versão",
+      "textWarningRestoreVersion": "O arquivo atual será salvo no histórico de versões.",
+      "titleWarningRestoreVersion": "Restaurar esta versão?",
+      "txtErrorLoadHistory": "Histórico de carregamento falhou"
     }
   },
   "ContextMenu": {
@@ -320,7 +334,7 @@
     "textMore": "Mais",
     "textMove": "Mover",
     "textMoveBefore": "Mover antes da folha",
-    "textMoveToEnd": "(Mover para o final)",
+    "textMoveToEnd": "(Mover para fim)",
     "textOk": "OK",
     "textRename": "Renomear",
     "textRenameSheet": "Renomear Folha",
@@ -334,7 +348,8 @@
     "dlgLeaveMsgText": "Você tem alterações não salvas neste documento. Clique em 'Permanecer nesta página' para aguardar o salvamento automático. Clique em 'Sair desta página' para descartar todas as alterações não salvas.",
     "dlgLeaveTitleText": "Você saiu do aplicativo",
     "leaveButtonText": "Sair desta página",
-    "stayButtonText": "Ficar nesta página"
+    "stayButtonText": "Ficar nesta página",
+    "textCloseHistory": "Fechar histórico"
   },
   "View": {
     "Add": {
@@ -439,10 +454,14 @@
       "textChartTitle": "Título do Gráfico",
       "textClearFilter": "Limpar filtro",
       "textColor": "Cor",
+      "textCreateCustomFormat": "Criar formato personalizado",
+      "textCreateFormat": "Criar formato",
       "textCross": "Intersecção",
       "textCrossesValue": "Valor cruzado",
       "textCurrency": "Moeda",
       "textCustomColor": "Cor personalizada",
+      "textCustomFormat": "Personalizar formato",
+      "textCustomFormatWarning": "Insira o formato de número personalizado com cuidado. O Editor de planilhas não verifica os formatos personalizados em busca de erros que possam afetar o arquivo xlsx.",
       "textDataLabels": "Rótulos de dados",
       "textDate": "Data",
       "textDefault": "Intervalo selecionado",
@@ -460,6 +479,7 @@
       "textEffects": "Efeitos",
       "textEmptyImgUrl": "Você precisa especificar o URL da imagem.",
       "textEmptyItem": "{Vazio}",
+      "textEnterFormat": "Digite o formato",
       "textErrorMsg": "Você deve escolher no mínimo um valor",
       "textErrorTitle": "Aviso",
       "textEuro": "Euro",
@@ -549,6 +569,7 @@
       "textRotateTextDown": "Girar Texto para Baixo",
       "textRotateTextUp": "Girar Texto para Cima",
       "textRouble": "Rublo",
+      "textSave": "Salvar",
       "textScientific": "Científico",
       "textScreenTip": "Dica de tela",
       "textSelectAll": "Selecionar todos",
@@ -583,13 +604,7 @@
       "textYen": "Iene",
       "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Classificar do maior para o menor",
-      "txtSortLow2High": "Classificar do menor para o maior",
-      "textCustomFormat": "Custom Format",
-      "textCreateFormat": "Create Format",
-      "textCreateCustomFormat": "Create Custom Format",
-      "textSave": "Save",
-      "textEnterFormat": "Enter Format",
-      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
+      "txtSortLow2High": "Classificar do menor para o maior"
     },
     "Settings": {
       "advCSVOptions": "Escolher opções CSV",
@@ -693,6 +708,7 @@
       "textUploaded": "Carregado",
       "textValues": "Valores",
       "textVersion": "Versão",
+      "textVersionHistory": "Histórico de versão",
       "textWorkbook": "Pasta de trabalho",
       "txtBe": "Bielorrusso",
       "txtBg": "Búlgaro",

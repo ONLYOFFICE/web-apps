@@ -136,7 +136,7 @@
   </head>
 
   <body class="embed-body">
-      <script src="../../../../../common/main/lib/util/themeinit.js?__inline=true""></script>
+      <script src="../../../../../apps/common/main/lib/util/themeinit.js?__inline=true"></script>
       <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>
       <script>
           if ( !!window.desktop ) {

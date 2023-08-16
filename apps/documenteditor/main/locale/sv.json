@@ -1869,7 +1869,6 @@
   "DE.Views.FileMenuPanels.ProtectDoc.txtSigned": "Giltiga signaturer har lagts till i dokumentet. Dokumentet är skrivskyddat.",
   "DE.Views.FileMenuPanels.ProtectDoc.txtSignedInvalid": "Några av de digitala signaturerna i dokumentet är ogiltiga eller kunde inte verifieras. Dokumentet är skyddat från redigering.",
   "DE.Views.FileMenuPanels.ProtectDoc.txtView": "Visa signaturer",
-  "DE.Views.FileMenuPanels.RecentFiles.txtOpenRecent": "Öppna senaste",
   "DE.Views.FileMenuPanels.Settings.okButtonText": "Tillämpa",
   "DE.Views.FileMenuPanels.Settings.strCoAuthMode": "Redigera samtidigt",
   "DE.Views.FileMenuPanels.Settings.strFast": "Snabb",

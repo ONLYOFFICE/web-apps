@@ -39,6 +39,20 @@
       "textCustomColors": "Пользовательские цвета",
       "textStandartColors": "Стандартные цвета",
       "textThemeColors": "Цвета темы"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Внимание",
+      "textAnonymous": "Аноним",
+      "textBack": "Назад",
+      "textCancel": "Отмена",
+      "textCurrent": "Текущая версия",
+      "textOk": "Ok",
+      "textRestore": "Восстановить",
+      "textVersion": "Версия",
+      "textVersionHistory": "История версий",
+      "textWarningRestoreVersion": "Текущий файл будет сохранен в истории версий.",
+      "titleWarningRestoreVersion": "Восстановить эту версию?",
+      "txtErrorLoadHistory": "Не удалось загрузить историю"
     }
   },
   "ContextMenu": {
@@ -334,7 +348,8 @@
     "dlgLeaveMsgText": "В документе есть несохраненные изменения. Нажмите 'Остаться на странице', чтобы дождаться автосохранения. Нажмите 'Уйти со страницы', чтобы сбросить все несохраненные изменения.",
     "dlgLeaveTitleText": "Вы выходите из приложения",
     "leaveButtonText": "Уйти со страницы",
-    "stayButtonText": "Остаться на странице"
+    "stayButtonText": "Остаться на странице",
+    "textCloseHistory": "Закрыть историю"
   },
   "View": {
     "Add": {
@@ -439,10 +454,14 @@
       "textChartTitle": "Заголовок диаграммы",
       "textClearFilter": "Очистить фильтр",
       "textColor": "Цвет",
+      "textCreateCustomFormat": "Создать пользовательский формат",
+      "textCreateFormat": "Создать формат",
       "textCross": "На пересечении",
       "textCrossesValue": "Значение",
       "textCurrency": "Денежный",
       "textCustomColor": "Пользовательский цвет",
+      "textCustomFormat": "Пользовательский формат",
+      "textCustomFormatWarning": "Вводите пользовательский числовой формат внимательно. Редактор электронных таблиц не проверяет пользовательские форматы на ошибки, что может повлиять на файл xlsx.",
       "textDataLabels": "Подписи данных",
       "textDate": "Дата",
       "textDefault": "Выбранный диапазон",
@@ -460,6 +479,7 @@
       "textEffects": "Эффекты",
       "textEmptyImgUrl": "Необходимо указать URL рисунка.",
       "textEmptyItem": "{Пустые}",
+      "textEnterFormat": "Ввести формат",
       "textErrorMsg": "Необходимо выбрать хотя бы одно значение",
       "textErrorTitle": "Внимание",
       "textEuro": "Евро",
@@ -549,6 +569,7 @@
       "textRotateTextDown": "Повернуть текст вниз",
       "textRotateTextUp": "Повернуть текст вверх",
       "textRouble": "Рубль",
+      "textSave": "Сохранить",
       "textScientific": "Научный",
       "textScreenTip": "Подсказка",
       "textSelectAll": "Выделить всё",
@@ -583,13 +604,7 @@
       "textYen": "Йена",
       "txtNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\"",
       "txtSortHigh2Low": "Сортировка по убыванию",
-      "txtSortLow2High": "Сортировка по возрастанию",
-      "textCustomFormat": "Custom Format",
-      "textCreateFormat": "Create Format",
-      "textCreateCustomFormat": "Create Custom Format",
-      "textSave": "Save",
-      "textEnterFormat": "Enter Format",
-      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
+      "txtSortLow2High": "Сортировка по возрастанию"
     },
     "Settings": {
       "advCSVOptions": "Выбрать параметры CSV",
@@ -693,6 +708,7 @@
       "textUploaded": "Загружена",
       "textValues": "Значения",
       "textVersion": "Версия",
+      "textVersionHistory": "История версий",
       "textWorkbook": "В книге",
       "txtBe": "Белорусский",
       "txtBg": "Болгарский",

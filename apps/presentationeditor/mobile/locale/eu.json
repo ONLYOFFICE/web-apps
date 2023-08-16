@@ -42,6 +42,20 @@
       "textCustomColors": "Kolore pertsonalizatuak",
       "textStandartColors": "Kolore estandarrak",
       "textThemeColors": "Gaiaren koloreak"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -222,7 +236,8 @@
     "dlgLeaveMsgText": "Gorde gabeko aldaketak dituzu dokumentu honetan. Egin klik \"Jarraitu orri honetan\" gordetze automatikoari itxaroteko. Egin klik \"Utzi orri hau\" gorde gabeko aldaketa guztiak baztertzeko.",
     "dlgLeaveTitleText": "Aplikazioa uzten duzu",
     "leaveButtonText": "Irten orritik",
-    "stayButtonText": "Jarraitu orrian"
+    "stayButtonText": "Jarraitu orrian",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -421,11 +436,11 @@
       "textZoomIn": "Handiagotu",
       "textZoomOut": "Txikiagotu",
       "textZoomRotate": "Zoom eta biratu",
-      "textNoMatches": "No Matches",
       "textMorph": "Morph",
+      "textMorphLetters": "Letters",
       "textMorphObjects": "Objects",
       "textMorphWords": "Words",
-      "textMorphLetters": "Letters"
+      "textNoMatches": "No Matches"
     },
     "Settings": {
       "mniSlideStandard": "Estandarra (4:3)",
@@ -510,7 +525,8 @@
       "txtScheme7": "Berdintza",
       "txtScheme8": "Fluxua",
       "txtScheme9": "Sortzailea",
-      "textNoMatches": "No Matches"
+      "textNoMatches": "No Matches",
+      "textVersionHistory": "Version History"
     }
   }
 }

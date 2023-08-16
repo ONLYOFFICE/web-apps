@@ -42,6 +42,20 @@
       "textCustomColors": "Vlastní barvy",
       "textStandartColors": "Standardní barvy",
       "textThemeColors": "Barvy vzhledu prostředí"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -222,7 +236,8 @@
     "dlgLeaveMsgText": "V tomto dokumentu máte neuložené změny. Klikněte na 'Zůstat na této stránce' a počkejte dokud nedojde k automatickému uložení. Klikněte na 'Opustit tuto stránku' pro zahození neuložených změn.",
     "dlgLeaveTitleText": "Opouštíte aplikaci",
     "leaveButtonText": "Opustit tuto stránku",
-    "stayButtonText": "Zůstat na této stránce"
+    "stayButtonText": "Zůstat na této stránce",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -419,13 +434,13 @@
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textInsertImage": "Insert Image",
-      "textNoMatches": "No Matches",
-      "textRecommended": "Recommended",
-      "textRequired": "Required",
       "textMorph": "Morph",
+      "textMorphLetters": "Letters",
       "textMorphObjects": "Objects",
       "textMorphWords": "Words",
-      "textMorphLetters": "Letters"
+      "textNoMatches": "No Matches",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Settings": {
       "mniSlideStandard": "Standardní (4:3)",
@@ -510,7 +525,8 @@
       "txtScheme7": "Rovnost",
       "txtScheme8": "Tok",
       "txtScheme9": "Slévárna",
-      "textNoMatches": "No Matches"
+      "textNoMatches": "No Matches",
+      "textVersionHistory": "Version History"
     }
   }
 }

@@ -429,7 +429,7 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
                     </View>
                 </Popover>
             :
-                <Sheet id='version-history-sheet' backdrop={true} closeByOutsideClick={false} push onSheetClosed={() => props.onclosed()}>
+                <Sheet id='version-history-sheet' backdrop={true} closeByOutsideClick={false} onSheetClosed={() => props.onclosed()}>
                     <VersionHistoryView 
                         onSetHistoryData={onSetHistoryData}
                         onSelectRevision={onSelectRevision}

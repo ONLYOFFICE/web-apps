@@ -174,6 +174,20 @@
       "textStandartColors": "Standarta krāsas",
       "textThemeColors": "Tēmas krāsas",
       "textCustomColors": "Custom Colors"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -706,6 +720,7 @@
     "textUnitOfMeasurement": "Unit Of Measurement",
     "textUnprotect": "Unprotect",
     "textVerify": "Verify",
+    "textVersionHistory": "Version History",
     "titleDialogUnprotect": "Unprotect Document",
     "txtDownloadTxt": "Download TXT",
     "txtIncorrectPwd": "Password is incorrect",
@@ -733,9 +748,10 @@
     "stayButtonText": "Palikt lapā",
     "textOk": "OK",
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
-    "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view",
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
     "textRenameFile": "Rename File",
-    "textEnterNewFileName": "Enter a new file name"
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

@@ -71,6 +71,22 @@ define([
             me.btnWatch.on('click', function(b, e){
                 me.fireEvent('function:watch', [b.pressed]);
             });
+
+            me.btnTracePrec.on('click', function (b, e) {
+                me.fireEvent('function:precedents');
+            });
+            me.btnTraceDep.on('click', function (b, e) {
+                me.fireEvent('function:dependents');
+            });
+            me.btnRemArrows.menu.on('item:click', function (menu, item, e) {
+                me.fireEvent('function:remove-arrows', [item.value]);
+            });
+            me.btnRemArrows.on('click', function (b, e) {
+                me.fireEvent('function:remove-arrows', [Asc.c_oAscRemoveArrowsType.all]);
+            });
+            me.btnShowFormulas && this.btnShowFormulas.on('click', function (btn, e) {
+                me.fireEvent('function:showformula', [btn.pressed]);
+            });
         }
         return {
             options: {},
@@ -336,6 +352,58 @@ define([
                 });
                 this.lockedControls.push(this.btnWatch);
 
+                this.btnTracePrec = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-trace-prec'),
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-trace-precedents',
+                    lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
+                    caption: this.capBtnTracePrec,
+                    dataHint: '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'medium'
+                });
+                this.lockedControls.push(this.btnTracePrec);
+
+                this.btnTraceDep = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-trace-dep'),
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-trace-dependents',
+                    lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
+                    caption: this.capBtnTraceDep,
+                    dataHint: '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'medium'
+                });
+                this.lockedControls.push(this.btnTraceDep);
+
+                this.btnRemArrows = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-remove-arrows'),
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-remove-trace-arrows',
+                    lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
+                    caption: this.capBtnRemoveArr,
+                    split: true,
+                    menu: true,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: '0, -8'
+                });
+                this.lockedControls.push(this.btnRemArrows);
+
+                this.btnShowFormulas = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-show-formulas'),
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-show-formulas',
+                    caption: this.txtShowFormulas,
+                    disabled: true,
+                    enableToggle: true,
+                    lock: [_set.sheetLock, _set.editCell, _set.lostConnect, _set.coAuth],
+                    dataHint: '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'medium'
+                });
+                this.lockedControls.push(this.btnShowFormulas);
+
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -359,6 +427,19 @@ define([
                         ]
                     });
                     me.btnCalculate.setMenu(_menu);
+
+                    me.btnShowFormulas.updateHint(me.tipShowFormulas);
+                    me.btnTracePrec.updateHint(me.tipTracePrec);
+                    me.btnTraceDep.updateHint(me.tipTraceDep);
+                    me.btnRemArrows.updateHint(me.tipRemoveArr);
+                    me.btnRemArrows.setMenu(new Common.UI.Menu({
+                        items: [
+                            {caption: me.capBtnRemoveArr, value: Asc.c_oAscRemoveArrowsType.all},
+                            {caption: me.txtRemPrec, value: Asc.c_oAscRemoveArrowsType.precedent},
+                            {caption: me.txtRemDep, value: Asc.c_oAscRemoveArrowsType.dependent}
+                        ]
+                    }));
+
                     setEvents.call(me);
                 });
             },
@@ -597,7 +678,17 @@ define([
             textManual: 'Manual',
             tipCalculateTheEntireWorkbook: 'Calculate the entire workbook',
             txtWatch: 'Watch Window',
-            tipWatch: 'Add cells to the Watch Window list'
+            tipWatch: 'Add cells to the Watch Window list',
+            capBtnTracePrec: 'Trace Precedents',
+            tipTracePrec: 'Show arrows that indicate which cells affect the value of the selected cell',
+            capBtnTraceDep: 'Trace Dependents',
+            tipTraceDep: 'Show arrows that indicate which cells are affected by the value of the selected cell',
+            capBtnRemoveArr: 'Remove Arrows',
+            tipRemoveArr: 'Remove the arrows drawn by Trace Precedents or Trace Dependents',
+            txtRemPrec: 'Remove Precedents Arrows',
+            txtRemDep: 'Remove Dependents Arrows',
+            txtShowFormulas: 'Show Formulas',
+            tipShowFormulas: 'Display the formula in each cell instead of the resulting value'
         }
     }()), SSE.Views.FormulaTab || {}));
 });

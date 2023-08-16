@@ -202,7 +202,7 @@ define([
                 Common.Utils.InternalSettings.set("sse-settings-fontrender", value);
                 this.api.asc_setFontRenderingMode(parseInt(value));
 
-                value = Common.localStorage.getBool("sse-settings-show-alt-hints", Common.Utils.isMac ? false : true);
+                value = Common.localStorage.getBool("sse-settings-show-alt-hints", true);
                 Common.Utils.InternalSettings.set("sse-settings-show-alt-hints", value);
 
                 if ( !Common.Utils.isIE ) {
@@ -460,7 +460,7 @@ define([
                 this.appOptions.canMakeActionLink = this.editorConfig.canMakeActionLink;
                 this.appOptions.canFeaturePivot = true;
                 this.appOptions.canFeatureViews = true;
-                this.appOptions.uiRtl = true;
+                this.appOptions.uiRtl = false;
                 this.appOptions.canRequestReferenceData = this.editorConfig.canRequestReferenceData;
                 this.appOptions.canRequestOpen = this.editorConfig.canRequestOpen;
                 this.appOptions.canRequestReferenceSource = this.editorConfig.canRequestReferenceSource;
@@ -2083,6 +2083,15 @@ define([
 
                     case Asc.c_oAscError.ID.ProtectedRangeByOtherUser:
                         config.msg = this.errorProtectedRange;
+                        break;
+
+                    case Asc.c_oAscError.ID.TraceDependentsNoFormulas:
+                        config.msg = this.errorDependentsNoFormulas;
+                        break;
+
+                    case Asc.c_oAscError.ID.TracePrecedentsNoValidReference:
+                        config.msg = this.errorPrecedentsNoValidRef;
+                        config.maxwidth = 600;
                         break;
 
                     default:
@@ -3879,7 +3888,9 @@ define([
             txtInfo: 'Info',
             confirmReplaceHFPicture: 'Only one picture can be inserted in each section of the header.<br>Press \"Replace\" to replace existing picture.<br>Press \"Keep\" to keep existing picture.',
             textReplace: 'Replace',
-            textKeep: 'Keep'
+            textKeep: 'Keep',
+            errorDependentsNoFormulas: 'The Trace Dependents command found no formulas that refer to the active cell.',
+            errorPrecedentsNoValidRef: 'The Trace Precedents command requires that the active cell contain a formula which includes a valid references.'
         }
     })(), SSE.Controllers.Main || {}))
 });

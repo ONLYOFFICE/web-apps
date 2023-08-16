@@ -406,7 +406,7 @@ define([
                 this.appOptions.compatibleFeatures = (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compatibleFeatures;
                 this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
-                this.appOptions.uiRtl = true;
+                this.appOptions.uiRtl = false;
 
                 this.appOptions.user.guest && this.appOptions.canRenameAnonymous && Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
 
@@ -896,7 +896,7 @@ define([
                 appHeader.setDocumentCaption( me.api.asc_getDocumentName() );
                 me.updateWindowTitle(true);
 
-                value = Common.localStorage.getBool("pe-settings-show-alt-hints", Common.Utils.isMac ? false : true);
+                value = Common.localStorage.getBool("pe-settings-show-alt-hints", true);
                 Common.Utils.InternalSettings.set("pe-settings-show-alt-hints", value);
 
                 /** coauthoring begin **/

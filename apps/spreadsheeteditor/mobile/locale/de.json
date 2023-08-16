@@ -39,6 +39,20 @@
       "textCustomColors": "Benutzerdefinierte Farben",
       "textStandartColors": "Standardfarben",
       "textThemeColors": "Farben des Themas"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warnung",
+      "textAnonymous": "Anonym",
+      "textBack": "Zurück",
+      "textCancel": "Abbrechen",
+      "textCurrent": "Aktuell",
+      "textOk": "OK",
+      "textRestore": "Wiederherstellen",
+      "textVersion": "Version",
+      "textVersionHistory": "Versionshistorie",
+      "textWarningRestoreVersion": "Die aktuelle Datei wird im Versionsverlauf gespeichert.",
+      "titleWarningRestoreVersion": "Diese Version wiederherstellen?",
+      "txtErrorLoadHistory": "Laden der Historie ist fehlgeschlagen"
     }
   },
   "ContextMenu": {
@@ -151,6 +165,7 @@
       "textNo": "Nein",
       "textNoChoices": "Es gibt keine Möglichkeit zum Füllung der Zelle.<br>Nur die Textwerte aus der Spalte kann für den Ersatz gewählt werden. ",
       "textNoLicenseTitle": "Lizenzlimit erreicht",
+      "textNoMatches": "Keine Treffer",
       "textOk": "OK",
       "textPaidFeature": "Kostenpflichtige Funktion",
       "textRemember": "Auswahl speichern",
@@ -161,8 +176,11 @@
       "textWarnUpdateExternalData": "Diese Arbeitsmappe enthält Links zu einer oder mehreren externen Quellen, die unsicher sein könnten. Wenn Sie den Links vertrauen, aktualisieren Sie diese, um die neuesten Daten zu erhalten.",
       "textYes": "Ja",
       "titleLicenseExp": "Lizenz ist abgelaufen",
+      "titleLicenseNotActive": "Lizenz nicht aktiv",
       "titleServerVersion": "Editor wurde aktualisiert",
       "titleUpdateVersion": "Version wurde geändert",
+      "warnLicenseAnonymous": "Zugriff für anonyme Benutzer verweigert.<br>Dieses Dokument wird nur zur Ansicht geöffnet.",
+      "warnLicenseBefore": "Lizenz nicht aktiv.<br>Bitte wenden Sie sich an Ihren Administrator.",
       "warnLicenseExceeded": "Sie haben die maximale Anzahl von gleichzeitigen Verbindungen in %1-Editoren erreicht. Die Bearbeitung ist jetzt in diesem Dokument nicht verfügbar. Wenden Sie sich an Administratoren für weitere Informationen.",
       "warnLicenseExp": "Ihre Lizenz ist abgelaufen. Bitte erneuern Sie die Lizenz und laden Sie die Seite neu.",
       "warnLicenseLimitedNoAccess": "Lizenz abgelaufen. Keine Bearbeitung möglich. Bitte wenden Sie sich an Administratoren.",
@@ -170,11 +188,7 @@
       "warnLicenseUsersExceeded": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte wenden Sie sich an Ihren Administrator, um weitere Informationen zu erhalten.",
       "warnNoLicense": "Sie haben die maximale Anzahl von gleichzeitigen Verbindungen in %1-Editoren erreicht. Die Bearbeitung ist jetzt in diesem Dokument nicht verfügbar. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
       "warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
-      "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten.",
-      "textNoMatches": "No Matches",
-      "titleLicenseNotActive": "License not active",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten."
     }
   },
   "Error": {
@@ -234,6 +248,7 @@
     "errorOperandExpected": "Die Syntax der eingegeben Funktion ist nicht korrekt. Bitte überprüfen Sie, ob eine der Klammern - '(' oder ')' fehlt.",
     "errorPasteMaxRange": "Zeilen Kopieren und Einfügen stimmen nicht überein. Bitte wählen Sie einen Bereich der gleichen Größe oder klicken auf die erste Zelle der Zeile, um die kopierten Zellen einzufügen.",
     "errorPrintMaxPagesCount": "Leider kann man in der aktuellen Programmversion nicht mehr als 1500 Seiten gleichzeitig drucken.<br>Diese Einschränkung wird in den kommenden Versionen entfernt.",
+    "errorProtectedRange": "Dieser Bereich ist für die Bearbeitung nicht zugelassen.",
     "errorSessionAbsolute": "Die Bearbeitungssitzung ist abgelaufen. Bitte die Seite neu laden.",
     "errorSessionIdle": "Das Dokument wurde schon für lange Zeit nicht bearbeitet. Bitte die Seite neu laden.",
     "errorSessionToken": "Die Verbindung mit dem Server wurde unterbrochen. Bitte die Seite neu laden.",
@@ -258,8 +273,7 @@
     "unknownErrorText": "Unbekannter Fehler.",
     "uploadImageExtMessage": "Unbekanntes Bildformat.",
     "uploadImageFileCountMessage": "Keine Bilder hochgeladen.",
-    "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten.",
-    "errorProtectedRange": "This range is not allowed for editing."
+    "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten."
   },
   "LongActions": {
     "advDRMPassword": "Passwort",
@@ -334,7 +348,8 @@
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",
     "dlgLeaveTitleText": "Sie schließen die App",
     "leaveButtonText": "Seite verlassen",
-    "stayButtonText": "Auf dieser Seite bleiben"
+    "stayButtonText": "Auf dieser Seite bleiben",
+    "textCloseHistory": "Historie schließen"
   },
   "View": {
     "Add": {
@@ -377,6 +392,7 @@
       "textLinkType": "Linktyp",
       "textOk": "OK",
       "textOther": "Sonstiges",
+      "textPasteImageUrl": "Einfügen einer Bild-URL",
       "textPictureFromLibrary": "Bild aus dem Verzeichnis",
       "textPictureFromURL": "Bild aus URL",
       "textRange": "Bereich",
@@ -396,8 +412,7 @@
       "txtNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein.",
       "txtSorting": "Sortierung",
       "txtSortSelected": "Ausgewählte sortieren",
-      "txtYes": "Ja",
-      "textPasteImageUrl": "Paste an image URL"
+      "txtYes": "Ja"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warnung",
@@ -439,10 +454,14 @@
       "textChartTitle": "Diagrammtitel",
       "textClearFilter": "Filter leeren",
       "textColor": "Farbe",
+      "textCreateCustomFormat": "Benutzerdefiniertes Format erstellen",
+      "textCreateFormat": "Format erstellen",
       "textCross": "Schnittpunkt",
       "textCrossesValue": "Wert des Kreuzes",
       "textCurrency": "Währung",
       "textCustomColor": "Benutzerdefinierte Farbe",
+      "textCustomFormat": "Benutzerdefiniertes Format",
+      "textCustomFormatWarning": "Bitte geben Sie das benutzerdefinierte Zahlenformat aufmerksam ein. Der Editor von Tabellenkalkulationen überprüft Fehler in benutzerdefinierten Zahlenformaten nicht und diese können in Ihrer XLSX-Datei bleiben.",
       "textDataLabels": "Datenbeschriftungen",
       "textDate": "Datum",
       "textDefault": "Ausgewählter Bereich",
@@ -460,6 +479,7 @@
       "textEffects": "Effekte",
       "textEmptyImgUrl": "Sie müssen die URL des Bildes angeben.",
       "textEmptyItem": "{Lücken}",
+      "textEnterFormat": "Format eingeben",
       "textErrorMsg": "Sie müssen zumindest einen Wert wählen",
       "textErrorTitle": "Warnung",
       "textEuro": "Euro",
@@ -549,6 +569,7 @@
       "textRotateTextDown": "Text nach unten drehen",
       "textRotateTextUp": "Text nach oben drehen",
       "textRouble": "Russischer Rubel",
+      "textSave": "Speichern",
       "textScientific": "Wissenschaftlich",
       "textScreenTip": "QuickInfo",
       "textSelectAll": "Alle auswählen",
@@ -583,13 +604,7 @@
       "textYen": "Yen",
       "txtNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein.",
       "txtSortHigh2Low": "Absteigend sortieren",
-      "txtSortLow2High": "Aufsteigend sortieren",
-      "textCustomFormat": "Custom Format",
-      "textCreateFormat": "Create Format",
-      "textCreateCustomFormat": "Create Custom Format",
-      "textSave": "Save",
-      "textEnterFormat": "Enter Format",
-      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
+      "txtSortLow2High": "Aufsteigend sortieren"
     },
     "Settings": {
       "advCSVOptions": "CSV-Optionen auswählen",
@@ -658,6 +673,7 @@
       "textMargins": "Ränder",
       "textMatchCase": "Groß-/Kleinschreibung beachten",
       "textMatchCell": "Zelle anpassen",
+      "textNoMatches": "Keine Treffer",
       "textOk": "OK",
       "textOpenFile": "Kennwort zum Öffnen der Datei eingeben",
       "textOrientation": "Orientierung",
@@ -692,6 +708,7 @@
       "textUploaded": "Hochgeladen",
       "textValues": "Werte",
       "textVersion": "Version",
+      "textVersionHistory": "Versionshistorie",
       "textWorkbook": "Arbeitsmappe",
       "txtBe": "Belarussisch",
       "txtBg": "Bulgarisch",
@@ -758,8 +775,7 @@
       "txtUk": "Ukrainisch",
       "txtVi": "Vietnamesisch",
       "txtZh": "Chinesisch ",
-      "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?",
-      "textNoMatches": "No Matches"
+      "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?"
     }
   }
 }

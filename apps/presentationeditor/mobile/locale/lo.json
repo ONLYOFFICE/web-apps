@@ -42,6 +42,20 @@
       "textCustomColors": "ກຳນົດສີເອງ",
       "textStandartColors": "ສີມາດຕະຖານ",
       "textThemeColors": " ຮູບແບບສີ"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -222,7 +236,8 @@
     "dlgLeaveMsgText": "ທ່ານມີການປ່ຽນແປງທີ່ຍັງບໍ່ໄດ້ບັນທຶກໄວ້ໃນເອກະສານນີ້. ຄລິກທີ່ 'ຢູ່ໃນໜ້ານີ້' ເພື່ອລໍຖ້າການບັນທຶກອັດຕະໂນມັດ. ຄລິກ 'ອອກຈາກໜ້ານີ້' ເພື່ອຍົກເລີກການປ່ຽນແປງທີ່ບໍ່ໄດ້ບັນທຶກໄວ້ທັງໝົດ.",
     "dlgLeaveTitleText": "ເຈົ້າອອກຈາກລະບົບ",
     "leaveButtonText": "ອອກຈາກໜ້ານີ້",
-    "stayButtonText": "ຢູ່ໃນໜ້ານີ້"
+    "stayButtonText": "ຢູ່ໃນໜ້ານີ້",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -419,13 +434,13 @@
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textInsertImage": "Insert Image",
-      "textNoMatches": "No Matches",
-      "textRecommended": "Recommended",
-      "textRequired": "Required",
       "textMorph": "Morph",
+      "textMorphLetters": "Letters",
       "textMorphObjects": "Objects",
       "textMorphWords": "Words",
-      "textMorphLetters": "Letters"
+      "textNoMatches": "No Matches",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Settings": {
       "mniSlideStandard": "ມາດຕະຖານ (4:3)",
@@ -510,7 +525,8 @@
       "textNoMatches": "No Matches",
       "textOk": "Ok",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "textRTL": "RTL"
+      "textRTL": "RTL",
+      "textVersionHistory": "Version History"
     }
   }
 }

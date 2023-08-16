@@ -39,6 +39,20 @@
       "textCustomColors": "Cores personalizadas",
       "textStandartColors": "Cores padrão",
       "textThemeColors": "Cores do tema"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Aviso",
+      "textAnonymous": "Anónimo",
+      "textBack": "Recuar",
+      "textCancel": "Cancelar",
+      "textCurrent": "Atual",
+      "textOk": "OK",
+      "textRestore": "Restaurar",
+      "textVersion": "Versão",
+      "textVersionHistory": "Histórico de versões",
+      "textWarningRestoreVersion": "O ficheiro atual será guardado no histórico de versões.",
+      "titleWarningRestoreVersion": "Restaurar esta versão?",
+      "txtErrorLoadHistory": "Falha ao carregar o histórico"
     }
   },
   "ContextMenu": {
@@ -145,11 +159,13 @@
       "textClose": "Fechar",
       "textContactUs": "Contacte a equipa comercial",
       "textCustomLoader": "Desculpe mas não tem o direito de mudar o carregador. Por favor, contacte o nosso departamento de vendas para obter um orçamento.",
+      "textDontUpdate": "Não atualizar",
       "textGuest": "Convidado",
       "textHasMacros": "O ficheiro contém macros automáticas.<br>Deseja executar as macros?",
       "textNo": "Não",
       "textNoChoices": "Não existem escolhas para preencher a célula.<br>Apenas os valores de texto da coluna podem ser selecionados para substituição.",
       "textNoLicenseTitle": "Atingiu o limite da licença",
+      "textNoMatches": "Nenhuma ocorrência",
       "textOk": "OK",
       "textPaidFeature": "Funcionalidade paga",
       "textRemember": "Memorizar a minha escolha",
@@ -157,10 +173,14 @@
       "textReplaceSuccess": "A pesquisa foi realizada. Ocorrências substituídas: {0}",
       "textRequestMacros": "Uma macro faz um pedido de URL. Deseja permitir o acesso a %1?",
       "textUpdate": "Atualizar",
+      "textWarnUpdateExternalData": "Este livro contém ligações a um ou mais origens externas que podem ser perigosas. Se confiar nas ligações, pode atualizar o ficheiro e obter os dados mais recentes.",
       "textYes": "Sim",
       "titleLicenseExp": "Licença expirada",
+      "titleLicenseNotActive": "Licença inativa",
       "titleServerVersion": "Editor atualizado",
       "titleUpdateVersion": "Versão alterada",
+      "warnLicenseAnonymous": "Acesso recusado para utilizadores anónimos.<br>O documento será aberto no modo de leitura.",
+      "warnLicenseBefore": "Licença inativa.<br>Contacte o administrador de sistemas.",
       "warnLicenseExceeded": "Atingiu o limite de ligações simultâneas a %1 editores. Este documento será aberto apenas para visualização. Contacte o seu administrador para obter mais informações.",
       "warnLicenseExp": "A sua licença expirou. Por favor, renove a sua licença e atualize a página.",
       "warnLicenseLimitedNoAccess": "Licença expirada. Não tem acesso ao editor de documentos. Por favor contacte o administrados do servidor de documentos.",
@@ -168,13 +188,7 @@
       "warnLicenseUsersExceeded": "Atingiu o limite de %1 editores. Contacte o seu administrador para obter detalhes.",
       "warnNoLicense": "Atingiu o limite de ligações simultâneas a %1 editores. Este documento será aberto apenas para visualização. Contacte a %1 equipa de vendas para consultar os termos de atualização para si.",
       "warnNoLicenseUsers": "Atingiu o limite de %1 editores. Contacte a equipa comercial %1 para obter mais informações.",
-      "warnProcessRightsChange": "Não tem permissão para editar este ficheiro.",
-      "textDontUpdate": "Don't Update",
-      "textNoMatches": "No Matches",
-      "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
-      "titleLicenseNotActive": "License not active",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "warnProcessRightsChange": "Não tem permissão para editar este ficheiro."
     }
   },
   "Error": {
@@ -234,6 +248,7 @@
     "errorOperandExpected": "A sintaxe da função introduzida não está correta. Por favor, verifique se se esqueceu de algum parênteses - '(' ou ')'.",
     "errorPasteMaxRange": "As áreas de origem e de destino não são iguais. Por favor, selecione uma área do mesmo tamanho ou clique na primeira célula de uma linha para colar as células copiadas.",
     "errorPrintMaxPagesCount": "Infelizmente, não é possível imprimir mais de 1500 páginas de uma vez na versão atual do programa.<br>Esta restrição será eliminada no futuro.",
+    "errorProtectedRange": "Este intervalo não pode ser editado.",
     "errorSessionAbsolute": "A sessão de edição de documentos expirou. Por favor, recarregue a página.",
     "errorSessionIdle": "O documento não foi editado durante muito tempo. Por favor, recarregue a página.",
     "errorSessionToken": "A ligação ao servidor foi interrompida. Por favor, recarregue a página.",
@@ -258,8 +273,7 @@
     "unknownErrorText": "Erro desconhecido.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Nenhuma imagem foi carregada.",
-    "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo é de 25 MB.",
-    "errorProtectedRange": "This range is not allowed for editing."
+    "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo é de 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Palavra-passe",
@@ -334,7 +348,8 @@
     "dlgLeaveMsgText": "Este documento tem alterações não guardadas. Clique 'Ficar na página' para que o documento seja guardado automaticamente. Clique 'Sair da página' para rejeitar todas as alterações.",
     "dlgLeaveTitleText": "Saiu da aplicação",
     "leaveButtonText": "Sair da página",
-    "stayButtonText": "Ficar na página"
+    "stayButtonText": "Ficar na página",
+    "textCloseHistory": "Fechar histórico"
   },
   "View": {
     "Add": {
@@ -377,6 +392,7 @@
       "textLinkType": "Tipo de ligação",
       "textOk": "OK",
       "textOther": "Outro",
+      "textPasteImageUrl": "Colar um URL de imagem",
       "textPictureFromLibrary": "Imagem da biblioteca",
       "textPictureFromURL": "Imagem de um URL",
       "textRange": "Intervalo",
@@ -396,8 +412,7 @@
       "txtNotUrl": "Este campo deve ser um URL no formato \"http://www.exemplo.com\"",
       "txtSorting": "Ordenação",
       "txtSortSelected": "Ordenar seleção",
-      "txtYes": "Sim",
-      "textPasteImageUrl": "Paste an image URL"
+      "txtYes": "Sim"
     },
     "Edit": {
       "notcriticalErrorTitle": "Aviso",
@@ -439,10 +454,14 @@
       "textChartTitle": "Título do gráfico",
       "textClearFilter": "Limpar filtro",
       "textColor": "Cor",
+      "textCreateCustomFormat": "Criar formato personalizado",
+      "textCreateFormat": "Criar formato",
       "textCross": "Cruz",
       "textCrossesValue": "Valor das cruzes",
       "textCurrency": "Moeda",
       "textCustomColor": "Cor personalizada",
+      "textCustomFormat": "Formato personalizado",
+      "textCustomFormatWarning": "Introduza cuidadosamente o formato do número personalizado. O editor de folhas de cálculo não verifica os formatos personalizados para aferir possíveis erros que possam afetar o ficheiro xlsx.",
       "textDataLabels": "Etiquetas de dados",
       "textDate": "Data",
       "textDefault": "Intervalo selecionado",
@@ -460,6 +479,7 @@
       "textEffects": "Efeitos",
       "textEmptyImgUrl": "Tem que especificar o URL da imagem.",
       "textEmptyItem": "{Vazio}",
+      "textEnterFormat": "Introduza o formato",
       "textErrorMsg": "Tem que escolher, pelo menos, um valor",
       "textErrorTitle": "Aviso",
       "textEuro": "Euro",
@@ -549,6 +569,7 @@
       "textRotateTextDown": "Rodar texto para baixo",
       "textRotateTextUp": "Rodar texto para cima",
       "textRouble": "Rublo",
+      "textSave": "Guardar",
       "textScientific": "Científico",
       "textScreenTip": "Dica no ecrã",
       "textSelectAll": "Selecionar tudo",
@@ -583,13 +604,7 @@
       "textYen": "Iene",
       "txtNotUrl": "Este campo deve ser um URL no formato \"http://www.exemplo.com\"",
       "txtSortHigh2Low": "Ordenar do maior para o menor",
-      "txtSortLow2High": "Ordenar do menor para o maior",
-      "textCustomFormat": "Custom Format",
-      "textCreateFormat": "Create Format",
-      "textCreateCustomFormat": "Create Custom Format",
-      "textSave": "Save",
-      "textEnterFormat": "Enter Format",
-      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
+      "txtSortLow2High": "Ordenar do menor para o maior"
     },
     "Settings": {
       "advCSVOptions": "Escolher opções CSV",
@@ -598,6 +613,8 @@
       "advDRMPassword": "Palavra-passe",
       "closeButtonText": "Fechar ficheiro",
       "notcriticalErrorTitle": "Aviso",
+      "strFuncLocale": "Idioma das fórmulas",
+      "strFuncLocaleEx": "Exemplo: SOMA; MÍNIMO; MÁXIMO; CONTAR",
       "textAbout": "Acerca",
       "textAddress": "Endereço",
       "textApplication": "Aplicação",
@@ -656,6 +673,7 @@
       "textMargins": "Margens",
       "textMatchCase": "Diferenciar maiúsculas/minúsculas",
       "textMatchCell": "Corresponder à célula",
+      "textNoMatches": "Nenhuma ocorrência",
       "textOk": "OK",
       "textOpenFile": "Introduza a palavra-passe para abrir o ficheiro",
       "textOrientation": "Orientação",
@@ -690,6 +708,7 @@
       "textUploaded": "Carregado",
       "textValues": "Valores",
       "textVersion": "Versão",
+      "textVersionHistory": "Histórico de versões",
       "textWorkbook": "Livro de trabalho",
       "txtBe": "Bielorrusso",
       "txtBg": "Búlgaro",
@@ -698,6 +717,7 @@
       "txtComma": "Vírgula",
       "txtCs": "Checo",
       "txtDa": "Dinamarquês",
+      "txtDe": "Alemão",
       "txtDelimiter": "Delimitador",
       "txtDownloadCsv": "Descarregar CSV",
       "txtEl": "Grego",
@@ -722,6 +742,7 @@
       "txtPtbr": "Português (Brasil)",
       "txtPtlang": "Português (Portugal)",
       "txtRo": "Romeno",
+      "txtRu": "Russo",
       "txtScheme1": "Escritório",
       "txtScheme10": "Mediana",
       "txtScheme11": "Metro",
@@ -754,12 +775,7 @@
       "txtUk": "Ucraniano",
       "txtVi": "Vietnamita",
       "txtZh": "Chinês",
-      "warnDownloadAs": "Se guardar o documento neste formato, perderá todos os atributos com exceção do texto.<br>Tem a certeza de que deseja continuar?",
-      "strFuncLocale": "Formula Language",
-      "strFuncLocaleEx": "Example: SUM; MIN; MAX; COUNT",
-      "textNoMatches": "No Matches",
-      "txtDe": "Deutsch",
-      "txtRu": "Russian"
+      "warnDownloadAs": "Se guardar o documento neste formato, perderá todos os atributos com exceção do texto.<br>Tem a certeza de que deseja continuar?"
     }
   }
 }

@@ -39,6 +39,20 @@
       "textCustomColors": "Aangepaste kleuren",
       "textStandartColors": "Standaardkleuren",
       "textThemeColors": "Themakleuren"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -334,7 +348,8 @@
     "dlgLeaveMsgText": "U hebt niet-opgeslagen wijzigingen in dit document. Klik op 'Blijf op deze pagina' om te wachten op automatisch opslaan. Klik op 'Verlaat deze pagina' om alle niet-opgeslagen wijzigingen te verwijderen.",
     "dlgLeaveTitleText": "U verlaat de applicatie",
     "leaveButtonText": "Pagina verlaten",
-    "stayButtonText": "Op deze pagina blijven"
+    "stayButtonText": "Op deze pagina blijven",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -581,15 +596,15 @@
       "txtSortHigh2Low": "Sorteren van hoogste naar laagste",
       "txtSortLow2High": "Sorteren van laagste naar hoogste",
       "textCancel": "Cancel",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCustomFormat": "Custom Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
-      "textOk": "Ok",
-      "textCustomFormat": "Custom Format",
-      "textCreateFormat": "Create Format",
-      "textCreateCustomFormat": "Create Custom Format",
-      "textSave": "Save",
       "textEnterFormat": "Enter Format",
-      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
+      "textOk": "Ok",
+      "textSave": "Save"
     },
     "Settings": {
       "advCSVOptions": "CSV-opties kiezen",
@@ -759,6 +774,7 @@
       "textNoMatches": "No Matches",
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRightToLeft": "Right To Left",
+      "textVersionHistory": "Version History",
       "txtDe": "Deutsch"
     }
   }

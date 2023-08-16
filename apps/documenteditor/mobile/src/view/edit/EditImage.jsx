@@ -1,6 +1,6 @@
 import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
-import {List, ListItem, ListInput, ListButton, Icon, Row, Page, Navbar, NavRight, BlockTitle, Toggle, Range, Link} from 'framework7-react';
+import {List, ListItem, ListInput, ListButton, Icon, Page, Navbar, NavRight, BlockTitle, Toggle, Range, Link} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {f7} from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device';
@@ -81,7 +81,7 @@ const PageWrap = props => {
                     <BlockTitle>{_t.textAlign}</BlockTitle>
                     <List>
                         <ListItem className='buttons'>
-                            <Row>
+                            <div className="row">
                                 <a className={'button' + (align === Asc.c_oAscAlignH.Left ? ' active' : '')}
                                    onClick={() => {
                                        props.onAlign(Asc.c_oAscAlignH.Left)
@@ -100,7 +100,7 @@ const PageWrap = props => {
                                    }}>
                                     <Icon slot="media" icon="icon-text-align-right"></Icon>
                                 </a>
-                            </Row>
+                            </div>
                         </ListItem>
                     </List>
                 </Fragment>
