@@ -249,7 +249,7 @@ define([
                     });
                     me.btnEraser.updateHint(me.hintEraser);
                     me.btnSelect.updateHint(me.hintSelect);
-                    Common.NotificationCenter.trigger('tab:visible', 'draw', (!me.isPDFEditor || me.appConfig && me.appConfig.isPDFEdit) && Common.UI.LayoutManager.isElementVisible('toolbar-draw'));
+                    Common.NotificationCenter.trigger('tab:visible', 'draw', Common.UI.LayoutManager.isElementVisible('toolbar-draw'));
 
                     setEvents.call(me);
                 });

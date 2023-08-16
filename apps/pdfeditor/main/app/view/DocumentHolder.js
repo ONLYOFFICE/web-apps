@@ -105,7 +105,6 @@ define([
                 cls: 'shifted-right',
                 initMenu: function (value) {
                     me.menuPDFViewCopy.setDisabled(!(me.api && me.api.can_CopyCut()));
-                    me.menuAddComment.setVisible(me.mode && me.mode.canPDFAnnotate);
                 },
                 items: [
                     me.menuPDFViewCopy,

@@ -411,12 +411,13 @@ define([
                     description: me.textEditDesc,
                     value: 'edit'
                 });
-                appConfig.canPDFAnnotate && arr.push({
+                arr.push({
                     caption: me.textComment,
                     iconCls : 'menu__icon btn-menu-comments',
                     template: menuTemplate,
                     description: me.textCommentDesc,
-                    value: 'comment'
+                    value: 'comment',
+                    disabled: !appConfig.canPDFAnnotate
                 });
                 arr.push({
                     caption: me.textView,
@@ -686,7 +687,7 @@ define([
                         $html.find('#slot-btn-share').hide();
                     }
 
-                    if (isPDFEditor && (config.canPDFEdit || config.canPDFAnnotate)) {
+                    if (isPDFEditor && !config.isOffline) {
                         me.btnPDFMode = new Common.UI.Button({
                             cls: 'btn-header btn-header-pdf-mode no-caret',
                             iconCls: 'toolbar__icon icon--inverse btn-sheet-view',

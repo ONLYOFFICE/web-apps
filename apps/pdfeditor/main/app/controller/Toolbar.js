@@ -193,9 +193,6 @@ define([
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onCanCopyCut', _.bind(this.onApiCanCopyCut, this));
                 this.api.asc_registerCallback('asc_onContextMenu', _.bind(this.onContextMenu, this));
-                Common.NotificationCenter.on('pdf:mode', _.bind(function () {
-                    this.toolbar.setVisible('draw', this.mode.isPDFEdit && Common.UI.LayoutManager.isElementVisible('toolbar-draw'));
-                }, this));
             }
         },
 
@@ -479,14 +476,14 @@ define([
                     me.toolbar.btnCopy.$el.removeClass('split');
                     me.toolbar.processPanelVisible(null, true, true);
                 }
-            }
-            if ( config.canPDFEdit ) {
+
                 var drawtab = me.getApplication().getController('Common.Controllers.Draw');
                 drawtab.setApi(me.api).setMode(config);
                 $panel = drawtab.createToolbarPanel();
                 if ($panel) {
                     tab = {action: 'draw', caption: me.toolbar.textTabDraw, extcls: 'canedit', layoutname: 'toolbar-draw', dataHintTitle: 'C'};
                     me.toolbar.addTab(tab, $panel, 2);
+                    me.toolbar.setVisible('draw', true);
                     Array.prototype.push.apply(me.toolbar.lockControls, drawtab.getView().getButtons());
                     Array.prototype.push.apply(me.toolbar.paragraphControls, drawtab.getView().getButtons());
                 }
