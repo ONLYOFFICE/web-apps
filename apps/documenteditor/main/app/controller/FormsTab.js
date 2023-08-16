@@ -532,7 +532,9 @@ define([
 
         onActiveTab: function(tab) {
             if (tab !== 'forms') {
-                this.tipSaveForm && this.tipSaveForm.close();
+                this.closeHelpTip('create');
+                this.closeHelpTip('roles');
+                this.closeHelpTip('save');
             }
         },
 
