@@ -174,6 +174,20 @@
       "textCustomColors": "Colors personalitzats",
       "textStandartColors": "Colors estàndard",
       "textThemeColors": "Colors del tema"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -554,6 +568,7 @@
     "textHasMacros": "El fitxer conté macros automàtiques. <br>Les vols executar?",
     "textNo": "No",
     "textNoLicenseTitle": "S'ha assolit el límit de llicència",
+    "textNoMatches": "No hi ha cap coincidència",
     "textOk": "D'acord",
     "textPaidFeature": "Funció de pagament",
     "textRemember": "Recorda la meva elecció",
@@ -567,6 +582,7 @@
     "titleServerVersion": "S'ha actualitzat l'editor",
     "titleUpdateVersion": "S'ha canviat la versió",
     "warnDownloadAsPdf": "El {0} es convertirà a un format editable. Això pot trigar una estona. El document resultant s'optimitzarà perquè puguis editar el text, de manera que pot ser que no s'assembli a l'original {0}, sobretot si el fitxer original contenia molts gràfics.",
+    "warnLicenseAnonymous": "Accés denegat a usuaris anònims.<br> Aquest document només s'obrirà en format lectura.",
     "warnLicenseBefore": "Llicència inactiva. <br> Contacta amb l'administrador.",
     "warnLicenseExceeded": "Has arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Posa't en contacte amb l'administrador per a més informació.",
     "warnLicenseExp": "La llicència ha caducat. Actualitza-la i recarrega la pàgina.",
@@ -575,9 +591,7 @@
     "warnLicenseUsersExceeded": "Has arribat al límit d'usuari per a %1 editors. Posa't en contacte amb l'administrador per a més informació.",
     "warnNoLicense": "Has arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Posa't en contacte amb l'equip de vendes %1 per conèixer les condicions d'actualització personal.",
     "warnNoLicenseUsers": "Has arribat al límit d'usuaris per a %1 editors. Contacta amb l'equip de vendes de %1 per obtenir les condicions de millora personals dels teus serveis.",
-    "warnProcessRightsChange": "No tens permís per editar aquest fitxer.",
-    "textNoMatches": "No Matches",
-    "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
+    "warnProcessRightsChange": "No tens permís per editar aquest fitxer."
   },
   "Settings": {
     "advDRMOptions": "El fitxer està protegit",
@@ -651,6 +665,7 @@
     "textNo": "No",
     "textNoChanges": "No hi ha canvis (Només de lectura)",
     "textNoCharacters": "Caràcters que no es poden imprimir",
+    "textNoMatches": "No hi ha cap coincidència",
     "textOk": "D'acord",
     "textOpenFile": "Introdueix una contrasenya per obrir el fitxer",
     "textOrientation": "Orientació",
@@ -725,7 +740,7 @@
     "txtScheme7": "Equitat",
     "txtScheme8": "Flux",
     "txtScheme9": "Foneria",
-    "textNoMatches": "No Matches"
+    "textVersionHistory": "Version History"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Tens canvis sense desar. Fes clic a \"Mantingueu-vos en aquesta pàgina\" per esperar al desament automàtic. Fes clic a \"Deixar aquesta pàgina\" per descartar tots els canvis no desats.",
@@ -735,7 +750,8 @@
     "textOk": "D'acord",
     "textSwitchedMobileView": "S'ha canviat a visualització mòbil",
     "textSwitchedStandardView": "S'ha canviat a visualització estàndard",
-    "textRenameFile": "Rename File",
-    "textEnterNewFileName": "Enter a new file name"
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   }
 }

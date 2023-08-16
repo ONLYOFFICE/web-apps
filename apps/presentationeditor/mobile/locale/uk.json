@@ -42,6 +42,20 @@
       "textCustomColors": "Custom Colors",
       "textStandartColors": "Standard Colors",
       "textThemeColors": "Theme Colors"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -257,7 +271,7 @@
       "textBullets": "Маркери",
       "textBulletsAndNumbers": "Маркери та нумерація",
       "textCaseSensitive": "З урахуванням регістру",
-      "textCellMargins": "Поля клітинки",
+      "textCellMargins": "Поля комірки",
       "textChangeShape": "Змінити фігуру",
       "textChart": "Діаграма",
       "textRemoveShape": "Видалити форму",
@@ -322,6 +336,10 @@
       "textLinkSettings": "Link Settings",
       "textLinkTo": "Link to",
       "textLinkType": "Link Type",
+      "textMorph": "Morph",
+      "textMorphLetters": "Letters",
+      "textMorphObjects": "Objects",
+      "textMorphWords": "Words",
       "textMoveBackward": "Move Backward",
       "textMoveForward": "Move Forward",
       "textNextSlide": "Next Slide",
@@ -381,11 +399,7 @@
       "textZoom": "Zoom",
       "textZoomIn": "Zoom In",
       "textZoomOut": "Zoom Out",
-      "textZoomRotate": "Zoom and Rotate",
-      "textMorph": "Morph",
-      "textMorphObjects": "Objects",
-      "textMorphWords": "Words",
-      "textMorphLetters": "Letters"
+      "textZoomRotate": "Zoom and Rotate"
     },
     "Settings": {
       "textAbout": "Про програму",
@@ -452,6 +466,7 @@
       "textUnitOfMeasurement": "Unit Of Measurement",
       "textUploaded": "Uploaded",
       "textVersion": "Version",
+      "textVersionHistory": "Version History",
       "txtScheme1": "Office",
       "txtScheme10": "Median",
       "txtScheme11": "Metro",
@@ -511,6 +526,7 @@
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this page",
-    "stayButtonText": "Stay on this Page"
+    "stayButtonText": "Stay on this Page",
+    "textCloseHistory": "Close History"
   }
 }

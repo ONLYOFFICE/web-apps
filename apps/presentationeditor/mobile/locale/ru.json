@@ -42,6 +42,20 @@
       "textCustomColors": "Пользовательские цвета",
       "textStandartColors": "Стандартные цвета",
       "textThemeColors": "Цвета темы"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Внимание",
+      "textAnonymous": "Аноним",
+      "textBack": "Назад",
+      "textCancel": "Отмена",
+      "textCurrent": "Текущая версия",
+      "textOk": "Ok",
+      "textRestore": "Восстановить",
+      "textVersion": "Версия",
+      "textVersionHistory": "История версий",
+      "textWarningRestoreVersion": "Текущий файл будет сохранен в истории версий.",
+      "titleWarningRestoreVersion": "Восстановить эту версию?",
+      "txtErrorLoadHistory": "Не удалось загрузить историю"
     }
   },
   "ContextMenu": {
@@ -222,7 +236,8 @@
     "dlgLeaveMsgText": "В документе есть несохраненные изменения. Нажмите 'Остаться на странице', чтобы дождаться автосохранения. Нажмите 'Уйти со страницы', чтобы сбросить все несохраненные изменения.",
     "dlgLeaveTitleText": "Вы выходите из приложения",
     "leaveButtonText": "Уйти со страницы",
-    "stayButtonText": "Остаться на странице"
+    "stayButtonText": "Остаться на странице",
+    "textCloseHistory": "Закрыть историю"
   },
   "View": {
     "Add": {
@@ -360,6 +375,10 @@
       "textLinkSettings": "Настройки ссылки",
       "textLinkTo": "Связать с",
       "textLinkType": "Тип ссылки",
+      "textMorph": "Трансформация",
+      "textMorphLetters": "Буквы",
+      "textMorphObjects": "Объекты",
+      "textMorphWords": "Слова",
       "textMoveBackward": "Перенести назад",
       "textMoveForward": "Перенести вперед",
       "textNextSlide": "Следующий слайд",
@@ -421,11 +440,7 @@
       "textZoom": "Масштабирование",
       "textZoomIn": "Увеличение",
       "textZoomOut": "Уменьшение",
-      "textZoomRotate": "Увеличение с поворотом",
-      "textMorph": "Morph",
-      "textMorphObjects": "Objects",
-      "textMorphWords": "Words",
-      "textMorphLetters": "Letters"
+      "textZoomRotate": "Увеличение с поворотом"
     },
     "Settings": {
       "mniSlideStandard": "Стандартный (4:3)",
@@ -489,6 +504,7 @@
       "textUnitOfMeasurement": "Единица измерения",
       "textUploaded": "Загружена",
       "textVersion": "Версия",
+      "textVersionHistory": "История версий",
       "txtScheme1": "Стандартная",
       "txtScheme10": "Обычная",
       "txtScheme11": "Метро",

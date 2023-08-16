@@ -673,7 +673,7 @@
   "Common.Views.OpenDialog.txtOpenFile": "输入密码来打开文件",
   "Common.Views.OpenDialog.txtPassword": "密码",
   "Common.Views.OpenDialog.txtProtected": "在您输入密码和打开文件后，该文件的当前密码将被重置。",
-  "Common.Views.OpenDialog.txtTitle": "选择%1个选项",
+  "Common.Views.OpenDialog.txtTitle": "选择%1选项",
   "Common.Views.OpenDialog.txtTitleProtected": "受保护的文件",
   "Common.Views.PasswordDialog.txtDescription": "设置密码以保护此文档",
   "Common.Views.PasswordDialog.txtIncorrectPwd": "确认密码不一致",

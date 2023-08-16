@@ -705,6 +705,14 @@ define([
 
             window._event = e;  //  for FireFox only
 
+            if(this.multiSelect) {
+                if (e && e.ctrlKey) {
+                    this.pressedCtrl = true;
+                } else if (e && e.shiftKey) {
+                    this.pressedShift = true;
+                }
+            }
+
             if (this.showLast) {
                 if (!this.delaySelect) {
                     this.selectRecord(record);
@@ -993,6 +1001,10 @@ define([
             }
             this._layoutParams.rows = this._layoutParams.itemsIndexes.length;
             this._layoutParams.columns++;
+        },
+
+        setMultiselectMode: function (multiselect) {
+            this.pressedCtrl = !!multiselect;
         },
 
         onResize: function() {

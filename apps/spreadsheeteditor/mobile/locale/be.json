@@ -39,6 +39,20 @@
       "textCustomColors": "Custom Colors",
       "textStandartColors": "Standard Colors",
       "textThemeColors": "Theme Colors"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -457,10 +471,14 @@
       "textBottomBorder": "Bottom Border",
       "textBringToForeground": "Bring to Foreground",
       "textClearFilter": "Clear Filter",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textCreateFormat": "Create Format",
       "textCross": "Cross",
       "textCrossesValue": "Crosses Value",
       "textCurrency": "Currency",
       "textCustomColor": "Custom Color",
+      "textCustomFormat": "Custom Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.",
       "textDataLabels": "Data Labels",
       "textDate": "Date",
       "textDefault": "Selected range",
@@ -474,6 +492,7 @@
       "textEditLink": "Edit Link",
       "textEffects": "Effects",
       "textEmptyImgUrl": "You need to specify the image URL.",
+      "textEnterFormat": "Enter Format",
       "textErrorMsg": "You must choose at least one value",
       "textEuro": "Euro",
       "textExternalLink": "External Link",
@@ -557,6 +576,7 @@
       "textRotateTextDown": "Rotate Text Down",
       "textRotateTextUp": "Rotate Text Up",
       "textRouble": "Rouble",
+      "textSave": "Save",
       "textSelectObjectToEdit": "Select object to edit",
       "textSendToBackground": "Send to Background",
       "textStyle": "Style",
@@ -577,13 +597,7 @@
       "textWrapText": "Wrap Text",
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSortHigh2Low": "Sort Highest to Lowest",
-      "txtSortLow2High": "Sort Lowest to Highest",
-      "textCustomFormat": "Custom Format",
-      "textCreateFormat": "Create Format",
-      "textCreateCustomFormat": "Create Custom Format",
-      "textSave": "Save",
-      "textEnterFormat": "Enter Format",
-      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
+      "txtSortLow2High": "Sort Lowest to Highest"
     },
     "Settings": {
       "closeButtonText": "Закрыць файл",
@@ -696,6 +710,7 @@
       "textUnitOfMeasurement": "Unit Of Measurement",
       "textUploaded": "Uploaded",
       "textVersion": "Version",
+      "textVersionHistory": "Version History",
       "txtBg": "Bulgarian",
       "txtCa": "Catalan",
       "txtComma": "Comma",
@@ -760,6 +775,7 @@
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this Page",
-    "stayButtonText": "Stay on this Page"
+    "stayButtonText": "Stay on this Page",
+    "textCloseHistory": "Close History"
   }
 }

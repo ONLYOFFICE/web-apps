@@ -174,6 +174,20 @@
       "textCustomColors": "ユーザー設定の色",
       "textStandartColors": "標準の色",
       "textThemeColors": "テーマの色"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "警告",
+      "textAnonymous": "匿名",
+      "textBack": "戻る",
+      "textCancel": "キャンセル",
+      "textCurrent": "現在",
+      "textOk": "OK",
+      "textRestore": "復元",
+      "textVersion": "バージョン",
+      "textVersionHistory": "バージョン履歴",
+      "textWarningRestoreVersion": "現在のファイルはバージョン履歴に保存されます。",
+      "titleWarningRestoreVersion": "このバージョンを復元しますか？",
+      "txtErrorLoadHistory": "履歴の読み込みに失敗しました"
     }
   },
   "ContextMenu": {
@@ -697,6 +711,7 @@
     "textUnprotect": "保護を解除する",
     "textUploaded": "アップロードした",
     "textVerify": "認証",
+    "textVersionHistory": "バージョン履歴",
     "textWords": "文字数",
     "textYes": "はい",
     "titleDialogUnprotect": "文書保護の解除",
@@ -732,10 +747,11 @@
     "dlgLeaveTitleText": "アプリケーションを終了します",
     "leaveButtonText": "このページから移動する",
     "stayButtonText": "このページから移動しない",
+    "textCloseHistory": "履歴を閉じる",
+    "textEnterNewFileName": "新しいファイル名を入力する",
     "textOk": "OK",
+    "textRenameFile": "ファイル名の変更",
     "textSwitchedMobileView": "モバイルビューに切り替えました",
-    "textSwitchedStandardView": "標準ビューに切り替えました",
-    "textRenameFile": "Rename File",
-    "textEnterNewFileName": "Enter a new file name"
+    "textSwitchedStandardView": "標準ビューに切り替えました"
   }
 }

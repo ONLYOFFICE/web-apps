@@ -39,6 +39,20 @@
       "textCustomColors": "Colores personalizados",
       "textStandartColors": "Colores estándar",
       "textThemeColors": "Colores de tema"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -165,7 +179,7 @@
       "titleLicenseNotActive": "Licencia no activa",
       "titleServerVersion": "Editor ha sido actualizado",
       "titleUpdateVersion": "Versión ha cambiado",
-      "warnLicenseAnonymous": "Acceso denegado para usuarios anónimos.<br>Este documento se abrirá solo para su visualización.",
+      "warnLicenseAnonymous": "Acceso denegado a usuarios anónimos.<br>Este documento se abrirá solo para su visualización.",
       "warnLicenseBefore": "Licencia no activa.<br>Por favor, póngase en contacto con su administrador.",
       "warnLicenseExceeded": "Ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización. Póngase en contacto con su administrador para obtener más información.",
       "warnLicenseExp": "Su licencia ha expirado. Por favor, actualice su licencia y actualice la página.",
@@ -334,7 +348,8 @@
     "dlgLeaveMsgText": "Tiene cambios no guardados en este documento. Haga clic en \"Quedarse en esta página\" para esperar hasta que se guarden automáticamente. Haga clic en \"Salir de esta página\" para descartar todos los cambios no guardados.",
     "dlgLeaveTitleText": "Usted abandona la aplicación",
     "leaveButtonText": "Salir de esta página",
-    "stayButtonText": "Quedarse en esta página"
+    "stayButtonText": "Quedarse en esta página",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -479,9 +494,9 @@
       "textHorizontal": "Horizontal ",
       "textHorizontalAxis": "Eje horizontal",
       "textHorizontalText": "Texto horizontal",
-      "textHundredMil": "100 000 000",
+      "textHundredMil": "100.000.000",
       "textHundreds": "Cientos",
-      "textHundredThousands": "100 000",
+      "textHundredThousands": "100.000",
       "textHyperlink": "Hiperenlace",
       "textImage": "Imagen",
       "textImageURL": "URL de imagen",
@@ -559,8 +574,8 @@
       "textSheet": "Hoja",
       "textSize": "Tamaño",
       "textStyle": "Estilo",
-      "textTenMillions": "10 000 000",
-      "textTenThousands": "10 000",
+      "textTenMillions": "10.000.000",
+      "textTenThousands": "10.000",
       "textText": "Texto",
       "textTextColor": "Color de texto",
       "textTextFormat": "Formato de texto",
@@ -584,12 +599,12 @@
       "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Ordenar de mayor a menor",
       "txtSortLow2High": "Ordenar de menor a mayor ",
-      "textCustomFormat": "Custom Format",
-      "textCreateFormat": "Create Format",
       "textCreateCustomFormat": "Create Custom Format",
-      "textSave": "Save",
+      "textCreateFormat": "Create Format",
+      "textCustomFormat": "Custom Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.",
       "textEnterFormat": "Enter Format",
-      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
+      "textSave": "Save"
     },
     "Settings": {
       "advCSVOptions": "Elegir los parámetros de CSV",
@@ -759,7 +774,8 @@
       "txtUk": "Ucraniano",
       "txtVi": "Vietnamita",
       "txtZh": "Chino",
-      "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?"
+      "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?",
+      "textVersionHistory": "Version History"
     }
   }
 }

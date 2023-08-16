@@ -174,6 +174,7 @@ define([
             window.on_native_message('editor:config', 'request');
             if ( !!window.native_message_cmd ) {
                 for ( var c in window.native_message_cmd ) {
+                    if (c == 'uitheme:changed') continue;
                     window.on_native_message(c, window.native_message_cmd[c]);
                 }
             }
@@ -461,7 +462,8 @@ define([
 
             const _is_win = /Win/.test(navigator.platform);
             const _re_name = !_is_win ? /([^/]+\.[a-zA-Z0-9]{1,})$/ : /([^\\/]+\.[a-zA-Z0-9]{1,})$/;
-            for ( let _f_ of rawarray ) {
+            for ( let i in rawarray ) {
+                const _f_ = rawarray[i];
                 if ( utils.matchFileFormat( _f_.type ) ) {
                     if (_re_name.test(_f_.path)) {
                         const name = _re_name.exec(_f_.path)[1],
@@ -607,6 +609,7 @@ define([
             systemThemeSupported: function () {
                 return nativevars.theme && nativevars.theme.system !== 'disabled';
             },
+
             localThemes: function () {
                 return nativevars ? nativevars.localthemes : undefined;
             },
@@ -618,7 +621,7 @@ define([
                     const params = {
                         name: Common.Utils.String.htmlDecode(model.get('title')),
                         path: Common.Utils.String.htmlDecode(model.get('url')),
-        };
+                    };
                     if ( model.get('fileid') != undefined && model.get('fileid') != null ) {
                         params.id = model.get('fileid');
                         params.type = model.type;
@@ -632,7 +635,7 @@ define([
 
                 return false;
             },
-    };
+        };
     };
 
     !Common.Controllers && (Common.Controllers = {});

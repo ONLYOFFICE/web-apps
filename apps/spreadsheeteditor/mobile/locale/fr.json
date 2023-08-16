@@ -39,6 +39,20 @@
       "textCustomColors": "Couleurs personnalisées",
       "textStandartColors": "Couleurs standard",
       "textThemeColors": "Couleurs de thème"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Attention",
+      "textAnonymous": "Anonyme",
+      "textBack": "Retour",
+      "textCancel": "Annuler",
+      "textCurrent": "Version actuelle",
+      "textOk": "Ok",
+      "textRestore": "Restaurer",
+      "textVersion": "Version",
+      "textVersionHistory": "Historique des versions",
+      "textWarningRestoreVersion": "Le fichier actuel est enregistré dans l'historique des versions.",
+      "titleWarningRestoreVersion": "Restaurer cette version?",
+      "txtErrorLoadHistory": "Échec du chargement de l'historique"
     }
   },
   "ContextMenu": {
@@ -334,7 +348,8 @@
     "dlgLeaveMsgText": "Vous avez des modifications non enregistrées dans ce document. Cliquez sur Rester sur cette page et attendez l'enregistrement automatique. Cliquez sur Quitter cette page pour annuler toutes les modifications non enregistrées.",
     "dlgLeaveTitleText": "Vous quittez l'application",
     "leaveButtonText": "Quitter cette page",
-    "stayButtonText": "Rester sur cette page"
+    "stayButtonText": "Rester sur cette page",
+    "textCloseHistory": "Fermer l'historique"
   },
   "View": {
     "Add": {
@@ -439,10 +454,14 @@
       "textChartTitle": "Titre du graphique",
       "textClearFilter": "Effacer le filtre",
       "textColor": "Couleur",
+      "textCreateCustomFormat": "Créer un format personnalisé",
+      "textCreateFormat": "Créer un format",
       "textCross": "Sur l'axe",
       "textCrossesValue": "Valeur de croisement",
       "textCurrency": "Monétaire",
       "textCustomColor": "Couleur personnalisée",
+      "textCustomFormat": "Format personnalisé",
+      "textCustomFormatWarning": "Veuillez saisir le format de nombre personnalisé avec soin. Tableur ne vérifie pas les formats personnalisés pour détecter les erreurs susceptibles d'affecter le fichier xlsx.",
       "textDataLabels": "Étiquettes de données",
       "textDate": "Date",
       "textDefault": "Plage sélectionnée",
@@ -460,6 +479,7 @@
       "textEffects": "Effets",
       "textEmptyImgUrl": "Spécifiez l'URL de l'image",
       "textEmptyItem": "{Vides}",
+      "textEnterFormat": "Saisir le format",
       "textErrorMsg": "Vous devez choisir au moins une valeur",
       "textErrorTitle": "Avertissement",
       "textEuro": "Euro",
@@ -549,6 +569,7 @@
       "textRotateTextDown": "Rotation du texte vers le bas",
       "textRotateTextUp": "Rotation du texte vers le haut",
       "textRouble": "Rouble",
+      "textSave": "Enregistrer",
       "textScientific": "Scientifique",
       "textScreenTip": "Info-bulle",
       "textSelectAll": "Sélectionner tout",
@@ -583,13 +604,7 @@
       "textYen": "Yen",
       "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\"",
       "txtSortHigh2Low": "Trier du plus élevé au plus bas",
-      "txtSortLow2High": "Trier le plus bas au plus élevé",
-      "textCustomFormat": "Custom Format",
-      "textCreateFormat": "Create Format",
-      "textCreateCustomFormat": "Create Custom Format",
-      "textSave": "Save",
-      "textEnterFormat": "Enter Format",
-      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
+      "txtSortLow2High": "Trier le plus bas au plus élevé"
     },
     "Settings": {
       "advCSVOptions": "Choisir les options CSV",
@@ -693,6 +708,7 @@
       "textUploaded": "Chargé",
       "textValues": "Valeurs",
       "textVersion": "Version",
+      "textVersionHistory": "Historique des versions",
       "textWorkbook": "Classeur",
       "txtBe": "Biélorusse",
       "txtBg": "Bulgare",

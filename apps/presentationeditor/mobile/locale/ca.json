@@ -42,11 +42,25 @@
       "textCustomColors": "Colors personalitzats",
       "textStandartColors": "Colors estàndard",
       "textThemeColors": "Colors del tema"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
     "errorCopyCutPaste": "Les accions de copiar, tallar i enganxar mitjançant el menú contextual només es realitzaran en el fitxer actual.",
-    "menuAddComment": "Afegir un comentari",
+    "menuAddComment": "Afegeix un comentari",
     "menuAddLink": "Afegir un enllaç",
     "menuCancel": "Cancel·lar",
     "menuDelete": "Suprimir",
@@ -112,6 +126,7 @@
       "textHasMacros": "El fitxer conté macros automàtiques. <br>Les vols executar?",
       "textNo": "No",
       "textNoLicenseTitle": "S'ha assolit el límit de llicència",
+      "textNoMatches": "No hi ha cap coincidència",
       "textOpenFile": "Introduir una contrasenya per obrir el fitxer",
       "textPaidFeature": "Funció de pagament",
       "textRemember": "Recordar la meva elecció",
@@ -125,6 +140,7 @@
       "titleUpdateVersion": "S'ha canviat la versió",
       "txtIncorrectPwd": "La contrasenya no és correcta",
       "txtProtected": "Un cop hagis introduït la contrasenya i obert el fitxer, es restablirà la contrasenya actual del fitxer",
+      "warnLicenseAnonymous": "Accés denegat a usuaris anònims.<br> Aquest document només s'obrirà en format lectura.",
       "warnLicenseBefore": "Llicència inactiva. <br> Contacta amb l'administrador.",
       "warnLicenseExceeded": "Has arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Posa't en contacte amb l'administrador per a més informació.",
       "warnLicenseExp": "La llicència ha caducat. Actualitza-la i recarrega la pàgina.",
@@ -133,9 +149,7 @@
       "warnLicenseUsersExceeded": "Has arribat al límit d'usuari per a %1 editors. Posa't en contacte amb l'administrador per a més informació.",
       "warnNoLicense": "Has arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Posa't en contacte amb l'equip de vendes %1 per conèixer les condicions d'actualització personal.",
       "warnNoLicenseUsers": "Has arribat al límit d'usuaris per a %1 editors. Posa't en contacte amb l'equip de vendes de %1 per obtenir les condicions de millora personals dels serveis.",
-      "warnProcessRightsChange": "No tens permís per editar el fitxer.",
-      "textNoMatches": "No Matches",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
+      "warnProcessRightsChange": "No tens permís per editar el fitxer."
     }
   },
   "Error": {
@@ -222,7 +236,8 @@
     "dlgLeaveMsgText": "Tens canvis no desats en aquest document. Fes clic a \"Queda't en aquesta pàgina\" per esperar al desament automàtic. Fes clic a \"Sortir d'aquesta pàgina\" per descartar tots els canvis no desats.",
     "dlgLeaveTitleText": "Estàs sortint de l'aplicació",
     "leaveButtonText": "Sortir d'aquesta Pàgina",
-    "stayButtonText": "Queda't en aquesta Pàgina"
+    "stayButtonText": "Queda't en aquesta Pàgina",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -363,6 +378,7 @@
       "textMoveBackward": "Tornar enrere",
       "textMoveForward": "Anar endavant",
       "textNextSlide": "Diapositiva següent",
+      "textNoMatches": "No hi ha cap coincidència",
       "textNone": "Cap",
       "textNoStyles": "Aquest tipus de diagrama no té cap estil.",
       "textNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
@@ -421,11 +437,10 @@
       "textZoomIn": "Ampliar",
       "textZoomOut": "Reduir",
       "textZoomRotate": "Ampliar i girar",
-      "textNoMatches": "No Matches",
       "textMorph": "Morph",
+      "textMorphLetters": "Letters",
       "textMorphObjects": "Objects",
-      "textMorphWords": "Words",
-      "textMorphLetters": "Letters"
+      "textMorphWords": "Words"
     },
     "Settings": {
       "mniSlideStandard": "Estàndard (4:3)",
@@ -465,6 +480,7 @@
       "textLoading": "S'està carregant...",
       "textLocation": "Ubicació",
       "textMacrosSettings": "Configuració de les macros",
+      "textNoMatches": "No hi ha cap coincidència",
       "textOk": "D'acord",
       "textOwner": "Propietari",
       "textPoint": "Punt",
@@ -510,7 +526,7 @@
       "txtScheme7": "Equitat",
       "txtScheme8": "Flux",
       "txtScheme9": "Foneria",
-      "textNoMatches": "No Matches"
+      "textVersionHistory": "Version History"
     }
   }
 }

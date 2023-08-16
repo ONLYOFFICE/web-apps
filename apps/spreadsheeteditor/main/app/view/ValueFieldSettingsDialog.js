@@ -277,7 +277,7 @@ define([
                 this.cmbBaseItem.setDisabled(data.length<1 || show_as !== Asc.c_oAscShowDataAs.Difference && show_as !== Asc.c_oAscShowDataAs.Percent && show_as !== Asc.c_oAscShowDataAs.PercentDiff);
                 this.cmbBaseItem.setValue((data.length>0) && (show_as === Asc.c_oAscShowDataAs.Difference || show_as === Asc.c_oAscShowDataAs.Percent || show_as === Asc.c_oAscShowDataAs.PercentDiff) ? field.asc_getBaseItem() : '', '');
 
-                this.btnFormat.setDisabled(this.props.getFieldGroupType(field.asc_getIndex()) === Asc.c_oAscGroupType.Text);
+                this.btnFormat.setDisabled(this.props.asc_getFieldGroupType(field.asc_getIndex()) === Asc.c_oAscGroupType.Text);
                 if (this.getDefFormat(show_as)===Asc.c_oAscNumFormatType.General)
                     this.format.defFormats[Asc.c_oAscNumFormatType.General] = {formatStr: this.format.formatStr, formatInfo: this.format.formatInfo }
             }
