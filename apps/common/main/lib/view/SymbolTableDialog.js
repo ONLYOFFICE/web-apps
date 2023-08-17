@@ -726,7 +726,7 @@ define([
 
             // special
             var data = [{symbol: '—',  description: this.textEmDash,       shortcutKey: Common.Utils.String.platformKey(Common.Utils.isMac ? 'Alt Shift -' : 'Alt+Ctrl+Num -', '{0}'), code: '2014'},
-                        {symbol: '–',   description: this.textEnDash,       shortcutKey: '', code: '2013'},
+                        {symbol: '–',   description: this.textEnDash,       shortcutKey: Common.Utils.String.platformKey(Common.Utils.isMac ? 'Ctrl Num -' : 'Ctrl+Num -', '{0}'), code: '2013'},
                         {symbol: '‑',   description: this.textNBHyphen,     shortcutKey: Common.Utils.String.platformKey(Common.Utils.isMac ? 'Ctrl Shift _' : 'Ctrl+Shift+_', '{0}'), code: '002D', special: {"NonBreakingHyphen":true}},
                         // {symbol: '',    description: this.textSHyphen,      shortcutKey: 'Alt+-', code: '00AD'},
                         {symbol: '',    description: this.textEmSpace,      shortcutKey: '', code: '2003'},
