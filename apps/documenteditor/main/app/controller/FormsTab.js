@@ -96,8 +96,8 @@ define([
             });
             this._helpTips = {
                 'create': {name: 'de-form-tip-create', placement: 'bottom-right', text: this.view.tipCreateField, link: false, target: '#slot-btn-form-field'},
-                'key': {name: 'de-form-tip-settings', placement: 'left-bottom', text: this.view.tipFormKey, link: false, target:  '#form-combo-key'},
-                'settings': {name: 'de-form-tip-settings', placement: 'left-top', text: this.view.tipFieldSettings, link: false, target:  '#id-right-menu-form'},
+                'key': {name: 'de-form-tip-settings', placement: 'left-bottom', text: this.view.tipFormKey, link: {text: this.view.tipFieldsLink, src: 'UsageInstructions\/CreateFillableForms.htm'}, target:  '#form-combo-key'},
+                'settings': {name: 'de-form-tip-settings', placement: 'left-top', text: this.view.tipFieldSettings, link: {text: this.view.tipFieldsLink, src: 'UsageInstructions\/CreateFillableForms.htm'}, target:  '#id-right-menu-form'},
                 'roles': {name: 'de-form-tip-roles', placement: 'bottom-left', text: this.view.tipHelpRoles, link: {text: this.view.tipRolesLink, src: 'UsageInstructions\/CreateFillableForms.htm#managing_roles'}, target: '#slot-btn-manager'},
                 'save': this.appConfig.canDownloadForms ? {name: 'de-form-tip-save', placement: 'bottom-left', text: this.view.tipSaveFile, link: false, target: '#slot-btn-form-save'} : undefined
             };

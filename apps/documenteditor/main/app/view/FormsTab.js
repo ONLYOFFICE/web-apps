@@ -693,7 +693,8 @@ define([
             tipFieldSettings: 'You can configure selected fields on the right sidebar. Click this icon to open the field settings.',
             tipHelpRoles: 'Use the Manage Roles feature to group fields by purpose and assign the responsible team members.',
             tipSaveFile: 'Click “Save as oform” to save the form in the format ready for filling.',
-            tipRolesLink: 'Learn more about roles'
+            tipRolesLink: 'Learn more about roles',
+            tipFieldsLink: 'Learn more about field parameters'
 
         }
     }()), DE.Views.FormsTab || {}));
