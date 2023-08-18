@@ -2,6 +2,8 @@
   "cancelButtonText": "Cancel",
   "Common.Controllers.Chat.notcriticalErrorTitle": "Warning",
   "Common.Controllers.Chat.textEnterMessage": "Enter your message here",
+  "Common.Controllers.Desktop.hintBtnHome": "Show Main window",
+  "Common.Controllers.Desktop.itemCreateFromTemplate": "Create from template",
   "Common.Controllers.History.notcriticalErrorTitle": "Warning",
   "Common.define.chartData.textArea": "Area",
   "Common.define.chartData.textAreaStacked": "Stacked area",

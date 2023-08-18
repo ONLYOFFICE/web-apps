@@ -2,6 +2,8 @@
   "cancelButtonText": "Отмена",
   "Common.Controllers.Chat.notcriticalErrorTitle": "Предупреждение",
   "Common.Controllers.Chat.textEnterMessage": "Введите здесь своё сообщение",
+  "Common.Controllers.Desktop.hintBtnHome": "Показать главное окно",
+  "Common.Controllers.Desktop.itemCreateFromTemplate": "Создать из шаблона",
   "Common.Controllers.History.notcriticalErrorTitle": "Внимание",
   "Common.define.chartData.textArea": "С областями",
   "Common.define.chartData.textAreaStacked": "Диаграмма с областями с накоплением",
