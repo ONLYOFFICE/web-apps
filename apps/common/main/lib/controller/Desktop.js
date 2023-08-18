@@ -445,7 +445,7 @@ define([
                     const miNewFromTemplate = new Common.UI.MenuItem({
                         el: $(`<li id="fm-btn-create-fromtpl" class="fm-btn"></li>`),
                         action: 'create:fromtemplate',
-                        caption: 'Create from template',
+                        caption: _tr('itemCreateFromTemplate', 'Create from template'),
                         canFocused: false,
                         dataHint: 1,
                         dataHintDirection: 'left-top',
@@ -456,6 +456,10 @@ define([
                     filemenu.items.push(miNewFromTemplate);
                 }
             }
+        }
+
+        const _tr = function (id, defvalue) {
+            return Common.Locale.get(id, {name:"Common.Controllers.Desktop", default: defvalue});
         }
 
         return {
