@@ -105,13 +105,14 @@ class MainController extends Component {
                 value = localStorage.getItem("de-mobile-allow-macros-request");
                 this.props.storeApplicationSettings.changeMacrosRequest((value !== null) ? parseInt(value)  : 0);
 
+                this.props.storeAppOptions.wopi = this.editorConfig.wopi;
+
                 Common.Notifications.trigger('configOptionsFill');
             };
 
             const loadDocument = data => {
                 this.permissions = {};
                 this.document = data.doc;
-
                 let docInfo = {};
 
                 if (data.doc) {
