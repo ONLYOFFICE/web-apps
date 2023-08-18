@@ -435,7 +435,7 @@ define([
             }
         }
 
-        const _extend_menu_file = args => {
+        const _extend_menu_file = function (args) {
             console.log('extend menu file')
 
             // if ( native.features.opentemplate )
