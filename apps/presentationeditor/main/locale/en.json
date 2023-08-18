@@ -1,6 +1,8 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Warning",
   "Common.Controllers.Chat.textEnterMessage": "Enter your message here",
+  "Common.Controllers.Desktop.hintBtnHome": "Show Main window",
+  "Common.Controllers.Desktop.itemCreateFromTemplate": "Create from template",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Anonymous",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Close",
   "Common.Controllers.ExternalDiagramEditor.warningText": "The object is disabled because it is being edited by another user.",
