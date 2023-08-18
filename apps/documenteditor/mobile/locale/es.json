@@ -391,7 +391,8 @@
     "textType": "Tipo",
     "textWe": "mi.",
     "textWrap": "Ajuste",
-    "textWrappingStyle": "Estilo de ajuste"
+    "textWrappingStyle": "Estilo de ajuste",
+    "textInvalidName": "The file name cannot contain any of the following characters: "
   },
   "Error": {
     "convertationTimeoutText": "Tiempo de conversión está superado.",

@@ -391,7 +391,8 @@
     "textTableOfCont": "TOC",
     "textTh": "Th",
     "textTu": "Tu",
-    "textWe": "We"
+    "textWe": "We",
+    "textInvalidName": "The file name cannot contain any of the following characters: "
   },
   "Error": {
     "convertationTimeoutText": "Konversijas taimauts pārsniegts.",

@@ -391,7 +391,8 @@
     "textType": "Tipo",
     "textWe": "qua",
     "textWrap": "Moldar",
-    "textWrappingStyle": "Estilo de moldagem"
+    "textWrappingStyle": "Estilo de moldagem",
+    "textInvalidName": "The file name cannot contain any of the following characters: "
   },
   "Error": {
     "convertationTimeoutText": "Excedeu o tempo limite de conversão.",

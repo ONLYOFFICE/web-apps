@@ -391,7 +391,8 @@
     "textType": "Type",
     "textWe": "We",
     "textWrap": "Wrap",
-    "textWrappingStyle": "Wrapping Style"
+    "textWrappingStyle": "Wrapping Style",
+    "textInvalidName": "The file name cannot contain any of the following characters: "
   },
   "Main": {
     "SDK": {

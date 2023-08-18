@@ -2101,7 +2101,7 @@
   "DE.Views.FileMenuPanels.Settings.textDisabled": "Desactivado",
   "DE.Views.FileMenuPanels.Settings.textForceSave": "Guardar versiones intermedias",
   "DE.Views.FileMenuPanels.Settings.textMinute": "Cada minuto",
-  "DE.Views.FileMenuPanels.Settings.textOldVersions": "Hacer que los archivos sean compatibles con versiones anteriores de MS Word cuando se guarden como DOCX",
+  "DE.Views.FileMenuPanels.Settings.textOldVersions": "Hacer que los archivos sean compatibles con versiones anteriores de MS Word cuando se guarden como DOCX, DOTX",
   "DE.Views.FileMenuPanels.Settings.textSmartSelection": "Utilizar la selección inteligente de párrafos",
   "DE.Views.FileMenuPanels.Settings.txtAdvancedSettings": "Ajustes avanzados",
   "DE.Views.FileMenuPanels.Settings.txtAll": "Ver todo",

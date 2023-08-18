@@ -2101,7 +2101,7 @@
   "DE.Views.FileMenuPanels.Settings.textDisabled": "Dezactivat",
   "DE.Views.FileMenuPanels.Settings.textForceSave": "Salvarea versiunilor intermediare",
   "DE.Views.FileMenuPanels.Settings.textMinute": "La fiecare minută",
-  "DE.Views.FileMenuPanels.Settings.textOldVersions": "Faceți ca fișierele salvate în formatul DOCX să fie compatibile cu versiunile mai vechi ale MS Word ",
+  "DE.Views.FileMenuPanels.Settings.textOldVersions": "Faceți ca fișierele salvate în formatul DOCX, DOTX să fie compatibile cu versiunile mai vechi ale MS Word ",
   "DE.Views.FileMenuPanels.Settings.textSmartSelection": "Utilizare selectare inteligentă a paragrafului ",
   "DE.Views.FileMenuPanels.Settings.txtAdvancedSettings": "Setări avansate",
   "DE.Views.FileMenuPanels.Settings.txtAll": "Vizualizare toate",

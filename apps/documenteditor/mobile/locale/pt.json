@@ -391,7 +391,8 @@
     "textType": "Tipo",
     "textWe": "Qua",
     "textWrap": "Encapsulamento",
-    "textWrappingStyle": "Estilo da quebra"
+    "textWrappingStyle": "Estilo da quebra",
+    "textInvalidName": "The file name cannot contain any of the following characters: "
   },
   "Error": {
     "convertationTimeoutText": "Tempo limite de conversão excedido.",

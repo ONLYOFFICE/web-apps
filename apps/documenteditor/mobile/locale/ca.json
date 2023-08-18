@@ -391,7 +391,8 @@
     "textType": "Tipus",
     "textWe": "dc.",
     "textWrap": "Ajustament",
-    "textWrappingStyle": "Estil d'ajustament"
+    "textWrappingStyle": "Estil d'ajustament",
+    "textInvalidName": "The file name cannot contain any of the following characters: "
   },
   "Error": {
     "convertationTimeoutText": "S'ha superat el temps de conversió.",
