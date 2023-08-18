@@ -391,7 +391,8 @@
     "textType": "වර්ගය",
     "textWe": "අපි",
     "textWrap": "වෙළීම",
-    "textWrappingStyle": "දවටන ශෛලිය"
+    "textWrappingStyle": "දවටන ශෛලිය",
+    "textInvalidName": "The file name cannot contain any of the following characters: "
   },
   "Error": {
     "convertationTimeoutText": "අනුවර්තන කාලය ඉක්මවා ඇත.",

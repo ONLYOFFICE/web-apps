@@ -391,7 +391,8 @@
     "textType": "類型",
     "textWe": "We",
     "textWrap": "包覆",
-    "textWrappingStyle": "包覆風格"
+    "textWrappingStyle": "包覆風格",
+    "textInvalidName": "The file name cannot contain any of the following characters: "
   },
   "Error": {
     "convertationTimeoutText": "轉換逾時。",

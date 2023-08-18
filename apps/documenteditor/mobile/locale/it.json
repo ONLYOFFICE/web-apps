@@ -391,7 +391,8 @@
     "textWrappingStyle": "Stile di disposizione testo",
     "textArrange": "Arrange",
     "textCustomStyle": "Custom Style",
-    "textDeleteImage": "Delete Image"
+    "textDeleteImage": "Delete Image",
+    "textInvalidName": "The file name cannot contain any of the following characters: "
   },
   "Error": {
     "convertationTimeoutText": "È stato superato il tempo massimo della conversione.",

@@ -391,7 +391,8 @@
     "textTableOfCont": "TOC",
     "textTextWrapping": "Text Wrapping",
     "textTitle": "Title",
-    "textWrappingStyle": "Wrapping Style"
+    "textWrappingStyle": "Wrapping Style",
+    "textInvalidName": "The file name cannot contain any of the following characters: "
   },
   "Error": {
     "convertationTimeoutText": "ໝົດເວລາການປ່ຽນແປງ.",

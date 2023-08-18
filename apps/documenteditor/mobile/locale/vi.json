@@ -395,7 +395,8 @@
     "textTextWrapping": "Text Wrapping",
     "textCustomStyle": "Custom Style",
     "textWrappingStyle": "Wrapping Style",
-    "textArrange": "Arrange"
+    "textArrange": "Arrange",
+    "textInvalidName": "The file name cannot contain any of the following characters: "
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",

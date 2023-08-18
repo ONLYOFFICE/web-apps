@@ -391,7 +391,8 @@
     "textType": "Mota",
     "textWe": "az.",
     "textWrap": "Doikuntza",
-    "textWrappingStyle": "Egokitze-estiloa"
+    "textWrappingStyle": "Egokitze-estiloa",
+    "textInvalidName": "The file name cannot contain any of the following characters: "
   },
   "Error": {
     "convertationTimeoutText": "Bihurketaren denbora-muga gainditu da.",

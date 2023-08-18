@@ -41,18 +41,18 @@
       "textThemeColors": "Colores de tema"
     },
     "VersionHistory": {
-      "notcriticalErrorTitle": "Warning",
-      "textAnonymous": "Anonymous",
-      "textBack": "Back",
-      "textCancel": "Cancel",
-      "textCurrent": "Current",
-      "textOk": "Ok",
-      "textRestore": "Restore",
-      "textVersion": "Version",
-      "textVersionHistory": "Version History",
-      "textWarningRestoreVersion": "Current file will be saved in version history.",
-      "titleWarningRestoreVersion": "Restore this version?",
-      "txtErrorLoadHistory": "Loading history failed"
+      "notcriticalErrorTitle": "Advertencia",
+      "textAnonymous": "Anónimo",
+      "textBack": "Atrás",
+      "textCancel": "Cancelar",
+      "textCurrent": "Actual",
+      "textOk": "OK",
+      "textRestore": "Restaurar",
+      "textVersion": "Versión ",
+      "textVersionHistory": "Historial de versiones",
+      "textWarningRestoreVersion": "El archivo actual se guardará en el historial de versiones.",
+      "titleWarningRestoreVersion": "¿Restaurar esta versión?",
+      "txtErrorLoadHistory": "Error al cargar el historial"
     }
   },
   "ContextMenu": {
@@ -349,7 +349,7 @@
     "dlgLeaveTitleText": "Usted abandona la aplicación",
     "leaveButtonText": "Salir de esta página",
     "stayButtonText": "Quedarse en esta página",
-    "textCloseHistory": "Close History"
+    "textCloseHistory": "Cerrar historial"
   },
   "View": {
     "Add": {
@@ -454,10 +454,14 @@
       "textChartTitle": "Título del gráfico",
       "textClearFilter": "Borrar filtro",
       "textColor": "Color",
+      "textCreateCustomFormat": "Crear formato personalizado",
+      "textCreateFormat": "Crear formato",
       "textCross": "Cruz",
       "textCrossesValue": "Valor de cruces",
       "textCurrency": "Moneda",
       "textCustomColor": "Color personalizado",
+      "textCustomFormat": "Formato personalizado",
+      "textCustomFormatWarning": "Por favor, introduzca el formato de número personalizado con cuidado. El editor de hojas de cálculo no comprueba los formatos personalizados para detectar errores que puedan afectar al archivo xlsx.",
       "textDataLabels": "Etiquetas de datos",
       "textDate": "Fecha",
       "textDefault": "Rango seleccionado",
@@ -475,6 +479,7 @@
       "textEffects": "Efectos",
       "textEmptyImgUrl": "Necesita especificar la URL de la imagen.",
       "textEmptyItem": "{Vacías}",
+      "textEnterFormat": "Ingresar formato",
       "textErrorMsg": "Debe elegir por lo menos un valor",
       "textErrorTitle": "Advertencia",
       "textEuro": "Euro",
@@ -564,6 +569,7 @@
       "textRotateTextDown": "Girar texto hacia abajo",
       "textRotateTextUp": "Girar texto hacia arriba",
       "textRouble": "Rublo",
+      "textSave": "Guardar",
       "textScientific": "Scientífico",
       "textScreenTip": "Consejo de pantalla",
       "textSelectAll": "Seleccionar todo",
@@ -598,13 +604,7 @@
       "textYen": "Yen",
       "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Ordenar de mayor a menor",
-      "txtSortLow2High": "Ordenar de menor a mayor ",
-      "textCreateCustomFormat": "Create Custom Format",
-      "textCreateFormat": "Create Format",
-      "textCustomFormat": "Custom Format",
-      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.",
-      "textEnterFormat": "Enter Format",
-      "textSave": "Save"
+      "txtSortLow2High": "Ordenar de menor a mayor "
     },
     "Settings": {
       "advCSVOptions": "Elegir los parámetros de CSV",
@@ -708,6 +708,7 @@
       "textUploaded": "Cargado",
       "textValues": "Valores",
       "textVersion": "Versión ",
+      "textVersionHistory": "Historial de versiones",
       "textWorkbook": "Libro de trabajo",
       "txtBe": "Bieloruso",
       "txtBg": "Búlgaro",
@@ -774,8 +775,7 @@
       "txtUk": "Ucraniano",
       "txtVi": "Vietnamita",
       "txtZh": "Chino",
-      "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?",
-      "textVersionHistory": "Version History"
+      "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?"
     }
   }
 }

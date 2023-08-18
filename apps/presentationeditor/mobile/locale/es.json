@@ -44,18 +44,18 @@
       "textThemeColors": "Colores de tema"
     },
     "VersionHistory": {
+      "notcriticalErrorTitle": "Advertencia",
       "textAnonymous": "Anónimo",
       "textBack": "Atrás",
       "textCancel": "Cancelar",
       "textCurrent": "Actual",
+      "textOk": "OK",
+      "textRestore": "Restaurar",
+      "textVersion": "Versión ",
+      "textVersionHistory": "Historial de versiones",
       "textWarningRestoreVersion": "El archivo actual se guardará en el historial de versiones.",
-      "txtErrorLoadHistory": "Error al cargar el historial",
-      "notcriticalErrorTitle": "Warning",
-      "textOk": "Ok",
-      "textRestore": "Restore",
-      "textVersion": "Version",
-      "textVersionHistory": "Version History",
-      "titleWarningRestoreVersion": "Restore this version?"
+      "titleWarningRestoreVersion": "¿Restaurar esta versión?",
+      "txtErrorLoadHistory": "Error al cargar el historial"
     }
   },
   "ContextMenu": {
@@ -375,7 +375,10 @@
       "textLinkSettings": "Ajustes de enlace",
       "textLinkTo": "Enlace a",
       "textLinkType": "Tipo de enlace",
+      "textMorph": "Transformación",
       "textMorphLetters": "Letras",
+      "textMorphObjects": "Objetos",
+      "textMorphWords": "Palabras",
       "textMoveBackward": "Mover hacia atrás",
       "textMoveForward": "Moverse hacia adelante",
       "textNextSlide": "Diapositiva siguiente",
@@ -437,10 +440,7 @@
       "textZoom": "Zoom",
       "textZoomIn": "Acercar",
       "textZoomOut": "Alejar",
-      "textZoomRotate": "Zoom y giro",
-      "textMorph": "Morph",
-      "textMorphObjects": "Objects",
-      "textMorphWords": "Words"
+      "textZoomRotate": "Zoom y giro"
     },
     "Settings": {
       "mniSlideStandard": "Estándar (4:3)",
@@ -504,6 +504,7 @@
       "textUnitOfMeasurement": "Unidad de medida",
       "textUploaded": "Cargado",
       "textVersion": "Versión ",
+      "textVersionHistory": "Historial de versiones",
       "txtScheme1": "Oficina",
       "txtScheme10": "Medio",
       "txtScheme11": "Metro",
@@ -525,8 +526,7 @@
       "txtScheme6": "Concurrencia",
       "txtScheme7": "Equidad ",
       "txtScheme8": "Flujo",
-      "txtScheme9": "Fundición",
-      "textVersionHistory": "Version History"
+      "txtScheme9": "Fundición"
     }
   }
 }
