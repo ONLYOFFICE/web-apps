@@ -148,7 +148,8 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
                         canRestore: appOptions.canHistoryRestore && (ver < versions.length - 1),
                         isExpanded: true,
                         serverVersion: version.serverVersion,
-                        fileType: 'docx'
+                        fileType: 'docx',
+                        isRevision: true
                     });
 
                     if (opts.data.currentVersion == version.version) {
