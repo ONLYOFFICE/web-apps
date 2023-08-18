@@ -488,7 +488,7 @@ define([
             console.log('open recent');
         }
 
-        const _extend_menu_file = args => {
+        const _extend_menu_file = function (args) {
             console.log('extend menu file')
 
             // if ( native.features.opentemplate )
@@ -649,7 +649,7 @@ define([
                     const params = {
                         name: Common.Utils.String.htmlDecode(model.get('title')),
                         path: Common.Utils.String.htmlDecode(model.get('url')),
-        };
+                    };
                     if ( model.get('fileid') != undefined && model.get('fileid') != null ) {
                         params.id = model.get('fileid');
                         params.type = model.type;
@@ -658,7 +658,7 @@ define([
                     }
 
                     native.execCommand("open:recent", JSON.stringify(params));
-                    return true
+                    return true;
                 }
 
                 return false;
