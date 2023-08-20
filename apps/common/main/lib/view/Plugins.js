@@ -84,7 +84,6 @@ define([
             this.lockedControls = [];
             this.pluginPanels = {};
             this.pluginBtns = {};
-            this.pluginMenuItems = {};
             Common.UI.BaseView.prototype.initialize.call(this, arguments);
         },
 
@@ -478,7 +477,6 @@ define([
                 value: pluginGuid
             });
             this.pluginBtns[pluginGuid].on('click', _.bind(this.onShowPlugin, this, pluginGuid, 'show'));
-            this.pluginMenuItems[pluginGuid] = {caption: lName, value: pluginGuid, iconCls: ''};
 
             this.setMoreButton();
 
@@ -513,7 +511,17 @@ define([
                 i = 0;
                 for (var key in this.pluginBtns) {
                     if (i >= last) {
-                        arrMore.push(this.pluginMenuItems[key]);
+                        arrMore.push({
+                            value: key,
+                            caption: this.pluginBtns[key].hint,
+                            iconImg: this.pluginBtns[key].options.iconImg,
+                            template: _.template([
+                                '<a id="<%= id %>" class="menu-item">',
+                                    '<img class="menu-item-icon" src="<%= options.iconImg %>">',
+                                    '<%= caption %>',
+                                '</a>'
+                            ].join(''))
+                        })
                         this.pluginBtns[key].cmpEl.hide();
                     } else {
                         this.pluginBtns[key].cmpEl.show();
@@ -531,6 +539,7 @@ define([
                             onlyIcon: true,
                             hint: this.tipMore,
                             menu: new Common.UI.Menu({
+                                cls: 'shifted-right',
                                 menuAlign: 'tl-tr',
                                 items: arrMore
                             })
