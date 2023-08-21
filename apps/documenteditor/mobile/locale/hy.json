@@ -391,7 +391,8 @@
     "textType": "Տեսակ",
     "textWe": "Չրք",
     "textWrap": "Ծալում",
-    "textWrappingStyle": "Ծալման ոճ"
+    "textWrappingStyle": "Ծալման ոճ",
+    "textInvalidName": "The file name cannot contain any of the following characters: "
   },
   "Error": {
     "convertationTimeoutText": "Փոխարկման սպասման ժամանակը սպառվել է։",

@@ -77,7 +77,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                     </ListItem>
                 }
                 {_isEdit && 
-                    <ListItem title={t('Settings.textVersionHistory')} link="/version-history" onClick={() => {
+                    <ListItem title={t('Settings.textVersionHistory')} link={!Device.phone ? "/version-history" : ""} onClick={() => {
                         if(Device.phone) {
                             onOpenOptions('history');
                         }

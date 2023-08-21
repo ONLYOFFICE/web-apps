@@ -391,7 +391,8 @@
     "textTitle": "Title",
     "textTu": "Tu",
     "textWe": "We",
-    "textWrappingStyle": "Wrapping Style"
+    "textWrappingStyle": "Wrapping Style",
+    "textInvalidName": "The file name cannot contain any of the following characters: "
   },
   "Error": {
     "convertationTimeoutText": "Çevrilmə vaxtı maksimumu keçdi.",

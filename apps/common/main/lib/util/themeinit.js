@@ -82,6 +82,12 @@
                 if ( objtheme.colors ) {
                     let colors = [];
                     for (let c in objtheme.colors) {
+                        // TODO: new PE brand color, clear for ver 7.7
+                        if ( c == 'toolbar-header-presentation' &&
+                                objtheme.colors[c] == '#aa5252' )
+                            objtheme.colors[c] = '#BE664F';
+                        //
+
                         colors.push('--' + c + ':' + objtheme.colors[c]);
                     }
 

@@ -1542,7 +1542,7 @@
   "PE.Controllers.Toolbar.txtSymbol_lambda": "Lambda",
   "PE.Controllers.Toolbar.txtSymbol_leftarrow": "Săgeată la stângă",
   "PE.Controllers.Toolbar.txtSymbol_leftrightarrow": "Săgeată stânga-dreapta",
-  "PE.Controllers.Toolbar.txtSymbol_leq": "Mai mic sau egal",
+  "PE.Controllers.Toolbar.txtSymbol_leq": "Mai mic sau egal cu",
   "PE.Controllers.Toolbar.txtSymbol_less": "Mai mic decât",
   "PE.Controllers.Toolbar.txtSymbol_ll": "Mult mai mic",
   "PE.Controllers.Toolbar.txtSymbol_minus": "Minus",

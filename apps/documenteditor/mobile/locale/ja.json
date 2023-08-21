@@ -391,7 +391,8 @@
     "textType": "タイプ",
     "textWe": "水",
     "textWrap": "折り返す",
-    "textWrappingStyle": "折り返しの種類"
+    "textWrappingStyle": "折り返しの種類",
+    "textInvalidName": "The file name cannot contain any of the following characters: "
   },
   "Error": {
     "convertationTimeoutText": "変換のタイムアウトを超過しました。",

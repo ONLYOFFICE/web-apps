@@ -174,6 +174,20 @@
       "textCustomColors": "自定义颜色",
       "textStandartColors": "标准颜色",
       "textThemeColors": "主题颜色"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -377,7 +391,8 @@
     "textType": "类型",
     "textWe": "周三",
     "textWrap": "包裹",
-    "textWrappingStyle": "环绕样式"
+    "textWrappingStyle": "环绕样式",
+    "textInvalidName": "The file name cannot contain any of the following characters: "
   },
   "Error": {
     "convertationTimeoutText": "转换超时",
@@ -725,7 +740,8 @@
     "txtScheme6": "汇合",
     "txtScheme7": "公平",
     "txtScheme8": "流动",
-    "txtScheme9": "发现"
+    "txtScheme9": "发现",
+    "textVersionHistory": "Version History"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "你有未保存的修改。点击“留在该页”可等待自动保存完成。点击“离开该页”将丢弃全部未经保存的修改。",
@@ -736,6 +752,7 @@
     "textSwitchedMobileView": "切换到移动视图",
     "textSwitchedStandardView": "切换到标准视图",
     "textRenameFile": "Rename File",
-    "textEnterNewFileName": "Enter a new file name"
+    "textEnterNewFileName": "Enter a new file name",
+    "textCloseHistory": "Close History"
   }
 }

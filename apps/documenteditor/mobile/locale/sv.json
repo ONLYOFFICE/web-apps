@@ -391,7 +391,8 @@
     "textType": "Type",
     "textWe": "We",
     "textWrap": "Wrap",
-    "textWrappingStyle": "Wrapping Style"
+    "textWrappingStyle": "Wrapping Style",
+    "textInvalidName": "The file name cannot contain any of the following characters: "
   },
   "Error": {
     "errorConnectToServer": "Det går inte att spara detta dokument. Kontrollera dina anslutningsinställningar eller kontakta administratören.<br>När du klickar på OK blir du ombedd att ladda ner dokumentet.",

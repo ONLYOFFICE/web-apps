@@ -391,7 +391,8 @@
     "textWe": "st",
     "textWrap": "Obtékání",
     "textWrappingStyle": "Obtékání textu",
-    "textArrange": "Arrange"
+    "textArrange": "Arrange",
+    "textInvalidName": "The file name cannot contain any of the following characters: "
   },
   "Error": {
     "convertationTimeoutText": "Vypršel čas konverze.",

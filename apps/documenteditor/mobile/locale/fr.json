@@ -391,7 +391,8 @@
     "textType": "Type",
     "textWe": "mer.",
     "textWrap": "Renvoi à la ligne",
-    "textWrappingStyle": "Style d'habillage"
+    "textWrappingStyle": "Style d'habillage",
+    "textInvalidName": "The file name cannot contain any of the following characters: "
   },
   "Error": {
     "convertationTimeoutText": "Délai de conversion expiré.",

@@ -391,7 +391,8 @@
     "textType": "Tip",
     "textWe": "Mi",
     "textWrap": "Încadrare",
-    "textWrappingStyle": "Stil de încadrare"
+    "textWrappingStyle": "Stil de încadrare",
+    "textInvalidName": "The file name cannot contain any of the following characters: "
   },
   "Error": {
     "convertationTimeoutText": "Timpul de așteptare pentru conversie a expirat.",

@@ -488,6 +488,33 @@ define([
             console.log('open recent');
         }
 
+        const _extend_menu_file = function (args) {
+            console.log('extend menu file')
+
+            // if ( native.features.opentemplate )
+            {
+                const filemenu = webapp.getController('LeftMenu').leftMenu.getMenu('file');
+                if ( filemenu.miNew.visible ) {
+                    const miNewFromTemplate = new Common.UI.MenuItem({
+                        el: $(`<li id="fm-btn-create-fromtpl" class="fm-btn"></li>`),
+                        action: 'create:fromtemplate',
+                        caption: _tr('itemCreateFromTemplate', 'Create from template'),
+                        canFocused: false,
+                        dataHint: 1,
+                        dataHintDirection: 'left-top',
+                        dataHintOffset: [2, 14],
+                    });
+
+                    miNewFromTemplate.$el.insertAfter(filemenu.miNew.$el);
+                    filemenu.items.push(miNewFromTemplate);
+                }
+            }
+        }
+
+        const _tr = function (id, defvalue) {
+            return Common.Locale.get(id, {name:"Common.Controllers.Desktop", default: defvalue});
+        }
+
         return {
             init: function (opts) {
                 _.extend(config, opts);
@@ -525,10 +552,15 @@ define([
                                 if ( action == 'file:open' ) {
                                     native.execCommand('editor:event', JSON.stringify({action: 'file:open'}));
                                     menu.hide();
+                                } else
+                                if ( action == 'create:fromtemplate' ) {
+                                    native.execCommand('create:new', 'template:' + (!!window.SSE ? 'cell' : !!window.PE ? 'slide' : 'word'));
+                                    menu.hide();
                                 }
                             },
                             'settings:apply': _onApplySettings.bind(this),
                             'recent:open': _onOpenRecent.bind(this),
+                            'render:after': _extend_menu_file,
                         },
                     }, {id: 'desktop'});
 
@@ -630,12 +662,12 @@ define([
                     }
 
                     native.execCommand("open:recent", JSON.stringify(params));
-                    return true
+                    return true;
                 }
 
                 return false;
             },
-        };
+    };
     };
 
     !Common.Controllers && (Common.Controllers = {});

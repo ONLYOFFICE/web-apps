@@ -391,7 +391,8 @@
     "textType": "Τύπος",
     "textWe": "Τετ",
     "textWrap": "Αναδίπλωση",
-    "textWrappingStyle": "Τεχνοτροπία αναδίπλωσης"
+    "textWrappingStyle": "Τεχνοτροπία αναδίπλωσης",
+    "textInvalidName": "The file name cannot contain any of the following characters: "
   },
   "Error": {
     "convertationTimeoutText": "Υπέρβαση χρονικού ορίου μετατροπής.",
