@@ -383,6 +383,14 @@ define([
             this.cmbGroupKey.on('changed:after', this.onGroupKeyChanged.bind(this));
             this.cmbGroupKey.on('hide:after', this.onHideMenus.bind(this));
 
+            var showGrouptip = function() {
+                Common.NotificationCenter.trigger('forms:close-help', 'group-key', true);
+                me.cmbGroupKey.off('show:before', showGrouptip);
+                me.cmbGroupKey.off('combo:focusin', showGrouptip);
+            };
+            me.cmbGroupKey.on('show:before', showGrouptip);
+            me.cmbGroupKey.on('combo:focusin', showGrouptip);
+
             // combobox & dropdown list
             this.txtNewValue = new Common.UI.InputField({
                 el          : $markup.findById('#form-txt-new-value'),

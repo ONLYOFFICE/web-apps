@@ -97,6 +97,7 @@ define([
             this._helpTips = {
                 'create': {name: 'de-form-tip-create', placement: 'bottom-right', text: this.view.tipCreateField, link: false, target: '#slot-btn-form-field'},
                 'key': {name: 'de-form-tip-settings', placement: 'left-bottom', text: this.view.tipFormKey, link: {text: this.view.tipFieldsLink, src: 'UsageInstructions\/CreateFillableForms.htm'}, target:  '#form-combo-key'},
+                'group-key': {name: 'de-form-tip-settings', placement: 'left-bottom', text: this.view.tipFormGroupKey, link: false, target:  '#form-combo-group-key'},
                 'settings': {name: 'de-form-tip-settings', placement: 'left-top', text: this.view.tipFieldSettings, link: {text: this.view.tipFieldsLink, src: 'UsageInstructions\/CreateFillableForms.htm'}, target:  '#id-right-menu-form'},
                 'roles': {name: 'de-form-tip-roles', placement: 'bottom-left', text: this.view.tipHelpRoles, link: {text: this.view.tipRolesLink, src: 'UsageInstructions\/CreateFillableForms.htm#managing_roles'}, target: '#slot-btn-manager'},
                 'save': this.appConfig.canDownloadForms ? {name: 'de-form-tip-save', placement: 'bottom-left', text: this.view.tipSaveFile, link: false, target: '#slot-btn-form-save'} : undefined
@@ -178,7 +179,13 @@ define([
             Common.Utils.lockControls(Common.enumLock.inSmartart, in_smart_art, {array: arr});
             Common.Utils.lockControls(Common.enumLock.inSmartartInternal, in_smart_art_internal, {array: arr});
 
-            (!control_props || !control_props.get_FormPr()) && this.closeHelpTip('key');
+            if (control_props && control_props.get_FormPr()) {
+                (control_props.get_SpecificType() === Asc.c_oAscContentControlSpecificType.CheckBox &&
+                control_props.get_CheckBoxPr() && (typeof control_props.get_CheckBoxPr().get_GroupKey()==='string')) ? this.closeHelpTip('key') : this.closeHelpTip('group-key');
+            } else {
+                this.closeHelpTip('key');
+                this.closeHelpTip('group-key');
+            }
         },
 
         // onChangeSpecialFormsGlobalSettings: function() {
@@ -242,7 +249,7 @@ define([
             if (!this._state.formCount) { // add first form
                 this.closeHelpTip('create');
                 setTimeout(function() {
-                    !me.showHelpTip('key') && me.showHelpTip('settings');
+                    !me.showHelpTip(type === 'radiobox' ? 'group-key' : 'key') && me.showHelpTip('settings');
                 }, 500);
             } else if (this._state.formCount===1) {
                 setTimeout(function() {
@@ -560,6 +567,7 @@ define([
                 this.closeHelpTip('settings', true);
             else if (minimized || type !== Common.Utils.documentSettingsType.Form) {
                 this.closeHelpTip('key');
+                this.closeHelpTip('group-key');
                 this.closeHelpTip('settings');
             }
         }
