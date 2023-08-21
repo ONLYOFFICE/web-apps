@@ -223,6 +223,7 @@ define([
                 view.pmiReapply.on('click',                         _.bind(me.onReapply, me));
                 view.pmiCondFormat.on('click',                      _.bind(me.onCondFormat, me));
                 view.mnuRefreshPivot.on('click',                    _.bind(me.onRefreshPivot, me));
+                view.mnuExpandCollapsePivot.menu.on('item:click',   _.bind(me.onExpandCollapsePivot, me));
                 view.mnuGroupPivot.on('click',                      _.bind(me.onGroupPivot, me));
                 view.mnuUnGroupPivot.on('click',                    _.bind(me.onGroupPivot, me));
                 view.mnuPivotSettings.on('click',                   _.bind(me.onPivotSettings, me));
@@ -610,6 +611,10 @@ define([
             }
         },
 
+        onExpandCollapsePivot: function(menu, item, e) {
+            this.propsPivot.originalProps.asc_setExpandCollapseByActiveCell(this.api, item.value.isAll, item.value.visible);
+        },
+
         onGroupPivot: function(item) {
             item.value=='grouping' ? this.api.asc_groupPivot() : this.api.asc_ungroupPivot();
         },
@@ -890,6 +895,7 @@ define([
                 rowFieldIndex = info.asc_getRowFieldIndex(),
                 dataFieldIndex = info.asc_getDataFieldIndex();
 
+            this.propsPivot.canExpandCollapse = info.asc_canExpandCollapse();
             this.propsPivot.canGroup = info.asc_canGroup();
             this.propsPivot.rowTotal = info.asc_getRowGrandTotals();
             this.propsPivot.colTotal = info.asc_getColGrandTotals();
@@ -2861,6 +2867,7 @@ define([
                 documentHolder.mnuPivotFilterSeparator.setVisible(this.propsPivot.filter || this.propsPivot.rowFilter || this.propsPivot.colFilter);
                 documentHolder.mnuSubtotalField.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===0 || this.propsPivot.fieldType===1));
                 documentHolder.mnuPivotSubtotalSeparator.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===0 || this.propsPivot.fieldType===1));
+                documentHolder.mnuExpandCollapsePivot.setVisible(!!this.propsPivot.canExpandCollapse);
                 documentHolder.mnuGroupPivot.setVisible(!!this.propsPivot.canGroup);
                 documentHolder.mnuUnGroupPivot.setVisible(!!this.propsPivot.canGroup);
                 documentHolder.mnuPivotGroupSeparator.setVisible(!!this.propsPivot.canGroup);
