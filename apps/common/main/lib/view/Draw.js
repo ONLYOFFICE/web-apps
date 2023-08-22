@@ -54,16 +54,17 @@ define([
 
     Common.Views.Draw = Common.UI.BaseView.extend(_.extend((function(){
         var template =
-            '<section id="draw-ink-panel" class="panel" data-tab="draw">' +
             '<div class="group">' +
             '<span id="slot-btn-draw-select" class="btn-slot text x-huge"></span>' +
             '<span id="slot-btn-draw-pen-0" class="btn-slot text x-huge emptycaption"></span>' +
             '<span id="slot-btn-draw-pen-1" class="btn-slot text x-huge emptycaption"></span>' +
             '<span id="slot-btn-draw-pen-2" class="btn-slot text x-huge emptycaption"></span>' +
             '<span id="slot-btn-draw-eraser" class="btn-slot text x-huge"></span>' +
-            '</div>' +
+            '</div>';
+        var templateSection =
+            '<section id="draw-ink-panel" class="panel" data-tab="draw">' +
+            template +
             '</section>';
-
         function setEvents() {
             var me = this;
             me.btnEraser.on('click', function (b) {
@@ -255,8 +256,8 @@ define([
                 });
             },
 
-            getPanel: function () {
-                this.$el = $(_.template(template)( {} ));
+            getPanel: function (groups) {
+                this.$el = $(_.template(groups ? template : templateSection)( {} ));
                 var me = this;
 
                 this.btnsPen.forEach(function(button, index) {

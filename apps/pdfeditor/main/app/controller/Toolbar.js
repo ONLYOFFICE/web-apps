@@ -479,11 +479,9 @@ define([
 
                 var drawtab = me.getApplication().getController('Common.Controllers.Draw');
                 drawtab.setApi(me.api).setMode(config);
-                $panel = drawtab.createToolbarPanel();
+                $panel = drawtab.createToolbarPanel(true);
                 if ($panel) {
-                    tab = {action: 'draw', caption: me.toolbar.textTabDraw, extcls: 'canedit', layoutname: 'toolbar-draw', dataHintTitle: 'C'};
-                    me.toolbar.addTab(tab, $panel, 2);
-                    me.toolbar.setVisible('draw', true);
+                    me.toolbar.$el.find('.draw-groups').after($panel);
                     Array.prototype.push.apply(me.toolbar.lockControls, drawtab.getView().getButtons());
                     Array.prototype.push.apply(me.toolbar.paragraphControls, drawtab.getView().getButtons());
                 }

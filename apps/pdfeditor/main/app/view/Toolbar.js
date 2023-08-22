@@ -128,7 +128,8 @@ define([
                             template: _.template(template),
                             tabs: [
                                 {caption: me.textTabFile, action: 'file', extcls: 'canedit', layoutname: 'toolbar-file', haspanel:false, dataHintTitle: 'F'},
-                                {caption: me.textTabHome, action: 'home', extcls: 'canedit', dataHintTitle: 'H'}
+                                {caption: me.textTabHome, action: 'home', extcls: 'canedit', dataHintTitle: 'H'},
+                                {caption: me.textTabComment, action: 'comment', extcls: 'canedit', dataHintTitle: 'C'}
                             ]
                         }
                     );
@@ -574,7 +575,7 @@ define([
             textTabView: 'View',
             tipSelectAll: 'Select all',
             tipCut: 'Cut',
-            textTabDraw: 'Draw',
+            textTabComment: 'Comment',
             capBtnComment: 'Comment',
             tipAddComment: 'Add comment'
         }

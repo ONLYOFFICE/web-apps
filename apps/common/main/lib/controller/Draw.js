@@ -173,8 +173,8 @@ define([
             this.onDrawPen(btn);
         },
 
-        createToolbarPanel: function() {
-            return this.view.getPanel();
+        createToolbarPanel: function(groups) {
+            return this.view.getPanel(groups);
         },
 
         getView: function(name) {
