@@ -73,24 +73,21 @@ define([
                 },
                 'Common.Views.Plugins': {
                     'plugin:select': function(guid, type) {
-                        me.api.asc_pluginRun(guid, type, '');
+                        if (!this.viewPlugins.pluginPanels[guid]) {
+                            me.api.asc_pluginRun(guid, type, '');
+                        } else {
+                            me.viewPlugins.openPlugin(guid);
+                        }
                     }
                 }
             });
         },
-
-        /*events: function() {
-            return {
-                'click #id-plugin-close':_.bind(this.onToolClose,this)
-            };
-        },*/
 
         onLaunch: function() {
             var store = this.getApplication().getCollection('Common.Collections.Plugins');
             this.viewPlugins= this.createView('Common.Views.Plugins', {
                 storePlugins: store
             });
-            /*this.viewPlugins.on('render:after', _.bind(this.onAfterRender, this));*/
 
             store.on({
                 add: this.onAddPlugin.bind(this),
@@ -198,7 +195,7 @@ define([
 
         onAfterRender: function(panel, guid) {
             var me = this;
-            this.viewPlugins.onShowPlugin(guid, 'show');
+            this.viewPlugins.openPlugin(guid);
             panel.pluginClose.on('click', _.bind(this.onToolClose, this, panel));
             Common.NotificationCenter.on({
                 'layout:resizestart': function(e) {
@@ -382,17 +379,13 @@ define([
                     url += urlAddition;
                 if (variation.get_InsideMode()) {
                     var guid = plugin.get_Guid(),
-                        langName = plugin.get_Name(lang);
-                    if (!this.viewPlugins.pluginPanels[guid]) {
-                        var leftMenu = this.getApplication().getController('LeftMenu');
-                        var panelId = this.viewPlugins.addNewPluginToLeftMenu(leftMenu, plugin, variation, langName);
+                        langName = plugin.get_Name(lang),
+                        leftMenu = this.getApplication().getController('LeftMenu'),
+                        panelId = this.viewPlugins.addNewPluginToLeftMenu(leftMenu, plugin, variation, langName);
                         this.viewPlugins.pluginPanels[guid] = new Common.Views.PluginPanel({
                             el: '#' + panelId
                         });
                         this.viewPlugins.pluginPanels[guid].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.pluginPanels[guid], guid));
-                    } else {
-                        this.viewPlugins.onShowPlugin(guid, 'show');
-                    }
                     if (!this.viewPlugins.pluginPanels[guid].openInsideMode(langName, url, frameId, plugin.get_Guid()))
                         this.api.asc_pluginButtonClick(-1, plugin.get_Guid());
                 } else {
@@ -464,12 +457,12 @@ define([
             if (this.pluginDlg)
                 this.pluginDlg.close();
             else {
-                var name = plugin.get_Name('en').toLowerCase(),
-                    panel = this.viewPlugins.pluginPanels[name];
+                var guid = plugin.get_Guid(),
+                    panel = this.viewPlugins.pluginPanels[guid];
                 if (panel && panel.iframePlugin) {
                     isIframePlugin = true;
-                    panel.closeInsideMode();
-                    this.viewPlugins.fireEvent('plugin:show', [this.viewPlugins.pluginPanels[name], name, 'close']);
+                    panel.closeInsideMode(guid);
+                    this.viewPlugins.onClosePlugin(guid);
                     delete this.viewPlugins.pluginPanels[name];
                 }
             }
