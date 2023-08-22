@@ -108,11 +108,16 @@ define([
                 caption: me.txtAddComment
             });
 
+            me.pmiViewGetRangeList = new Common.UI.MenuItem({
+                caption     : me.txtGetLink
+            });
+
             me.menuSignatureViewSign   = new Common.UI.MenuItem({caption: this.strSign,      value: 0 });
             me.menuSignatureDetails    = new Common.UI.MenuItem({caption: this.strDetails,   value: 1 });
             me.menuSignatureViewSetup  = new Common.UI.MenuItem({caption: this.strSetup,     value: 2 });
             me.menuSignatureRemove     = new Common.UI.MenuItem({caption: this.strDelete,    value: 3 });
             me.menuViewSignSeparator   = new Common.UI.MenuItem({caption: '--' });
+            me.menuViewCommentSeparator   = new Common.UI.MenuItem({caption: '--' });
 
             this.viewModeMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
@@ -125,7 +130,9 @@ define([
                     me.menuSignatureViewSetup,
                     me.menuSignatureRemove,
                     me.menuViewSignSeparator,
-                    me.menuViewAddComment
+                    me.menuViewAddComment,
+                    me.menuViewCommentSeparator,
+                    me.pmiViewGetRangeList
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
                 me.clearCustomItems(menu);

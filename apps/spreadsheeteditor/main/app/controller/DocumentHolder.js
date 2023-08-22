@@ -315,6 +315,7 @@ define([
                 view.menuSignatureDetails.on('click',               _.bind(me.onSignatureClick, me));
                 view.menuSignatureViewSetup.on('click',             _.bind(me.onSignatureClick, me));
                 view.menuSignatureRemove.on('click',                _.bind(me.onSignatureClick, me));
+                view.pmiViewGetRangeList.on('click',                _.bind(me.onGetLink, me));
             }
 
             var addEvent = function( elem, type, fn, options ) {
@@ -3004,7 +3005,8 @@ define([
                 iscellmenu = (seltype==Asc.c_oAscSelectionType.RangeCells) && !this.permissions.isEditMailMerge && !this.permissions.isEditDiagram && !this.permissions.isEditOle,
                 iscelledit = this.api.isCellEdited,
                 isimagemenu = (seltype==Asc.c_oAscSelectionType.RangeShape || seltype==Asc.c_oAscSelectionType.RangeImage) && !this.permissions.isEditMailMerge && !this.permissions.isEditDiagram && !this.permissions.isEditOle,
-                signGuid;
+                signGuid,
+                ismultiselect = cellinfo.asc_getMultiselect();
 
             if (!documentHolder.viewModeMenu)
                 documentHolder.createDelayedElementsViewer();
@@ -3038,6 +3040,12 @@ define([
             documentHolder.menuViewAddComment.setVisible(canComment);
             commentsController && commentsController.blockPopover(true);
             documentHolder.menuViewAddComment.setDisabled(isCellLocked || isTableLocked || this._state.wsProps['Objects']);
+
+            var canGetLink = !Common.Utils.isIE && iscellmenu && !iscelledit && !ismultiselect && this.permissions.canMakeActionLink && !!navigator.clipboard;
+            documentHolder.pmiViewGetRangeList.setVisible(canGetLink);
+            documentHolder.pmiViewGetRangeList.setDisabled(false);
+            documentHolder.menuViewCommentSeparator.setVisible(canGetLink);
+
             if (showMenu) this.showPopupMenu(documentHolder.viewModeMenu, {}, event);
 
             if (isInSign) {
