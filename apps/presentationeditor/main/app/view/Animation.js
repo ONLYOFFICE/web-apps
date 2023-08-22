@@ -549,7 +549,8 @@ define([
                         });
 
                         picker.on('select', function (picker, item){
-                            me.fireEvent('animation:parameterscolor',[item.color]);
+                            var color = item && item.color ? item.color : item;
+                            me.fireEvent('animation:parameterscolor',[Common.Utils.ThemeColor.getRgbColor(color)]);
                         });
                     };
                     me.btnParameters.menu.on('show:before', onShowBeforeParameters);
@@ -649,8 +650,6 @@ define([
                 if(this.isColor) {
                     this.btnParameters.menu.items[0].show();
                     this.btnParameters.menu.items.length > this.startIndexParam && this.btnParameters.menu.items[1].show();
-                    if(this.colorPickerParameters)
-                        this.colorPickerParameters.clearSelection();
                 }
                 else {
                     this.btnParameters.menu.items[0].hide();

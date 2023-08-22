@@ -163,15 +163,12 @@ define([
                     var groupName = _.findWhere(this.EffectGroups, {value: this._state.EffectGroup}).id;
                     this.addNewEffect(value, this._state.EffectGroup, groupName,true, this._state.EffectOption);
                 }
-                // else{
-                //     this.onColorClick();
-                // }
             }
         },
 
         onSelectColor: function (color){
-            //console.log('color:', color);
-            //this.setColor(color, this._state.EffectOption);
+            var groupName = _.findWhere(this.EffectGroups, {value: this._state.EffectGroup}).id;
+            this.addNewEffect(this._state.Effect, this._state.EffectGroup, groupName,true, this._state.EffectOption, undefined, color);
         },
 
         onAnimationPane: function() {
@@ -203,9 +200,9 @@ define([
             }
         },
 
-        addNewEffect: function (type, group, groupName, replace, parametr, preview) {
+        addNewEffect: function (type, group, groupName, replace, parametr, preview, color) {
             var parameter = this.view.setMenuParameters(type, groupName, parametr);
-            this.api.asc_AddAnimation(group, type, (parameter != undefined)?parameter:0, replace, !Common.Utils.InternalSettings.get("pe-animation-no-auto-preview"));
+            this.api.asc_AddAnimation(group, type, (parameter != undefined)?parameter:0, color ? color : null, replace, !Common.Utils.InternalSettings.get("pe-animation-no-auto-preview"));
         },
 
         onDurationChange: function(before,combo, record, e) {
@@ -460,6 +457,10 @@ define([
                 if (this._state.EffectOption !== null && this._state.Effect !== AscFormat.ANIM_PRESET_MULTIPLE && this._state.Effect !== AscFormat.ANIM_PRESET_NONE) {
                     var rec = _.findWhere(this.EffectGroups,{value: this._state.EffectGroup});
                     view.setMenuParameters(this._state.Effect, rec ? rec.id : undefined, this._state.EffectOption);
+                    // if(view.isColor && view.colorPickerParameters) {
+                    //     view.colorPickerParameters.select(this.AnimationProperties.asc_getColor(), true);
+                    // }
+                    // !!! function getColor() not found  in sdk !!!
                     this._state.noAnimationParam = view.btnParameters.menu.items.length === view.startIndexParam && !view.isColor;
                 }
 
