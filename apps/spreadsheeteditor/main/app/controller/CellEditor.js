@@ -129,6 +129,7 @@ define([
 
             this.editor.btnNamedRanges.menu.on('item:click', _.bind(this.onNamedRangesMenu, this))
                                            .on('show:before', _.bind(this.onNameBeforeShow, this));
+            $(window).on('resize', _.bind(this.onCellEditorTextChange, this));
             this.namedrange_locked = false;
             this.isUserProtected = false;
         },
