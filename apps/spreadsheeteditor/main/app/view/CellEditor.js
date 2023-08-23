@@ -70,6 +70,7 @@ define([
             this.$cellname = $('#ce-cell-name', this.el);
             this.$btnexpand = $('#ce-btn-expand', this.el);
             this.$btnfunc = $('#ce-func-label', this.el);
+            this.$cellcontent = $('#ce-cell-content', this.el);
 
             var me = this;
             this.$cellname.on('focus', function(e){
@@ -110,6 +111,13 @@ define([
                     svg_icon = '<svg class="icon"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name);
                 this.$btnfunc.find('i.icon').after(svg_icon);
             }
+        },
+
+        cellEditorTextChange: function (){
+            if(!this.$cellcontent) return;
+            this.$cellcontent.height('');
+            this.$cellcontent.outerHeight(this.$cellcontent[0].scrollHeight);
+            this.$btnexpand.parent().outerHeight(this.$cellcontent.outerHeight());
         },
 
         tipFormula: 'Insert Function',
