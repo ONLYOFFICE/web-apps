@@ -69,7 +69,7 @@ const EncryptionView = inject("storeAppOptions")(observer(props => {
                         </ul>
                     </div>
                     <Block>
-                        <p>If the password is forgotten or lost, it cannot be recovered.</p>
+                        <p>{t('Settings.textPasswordWarning')}</p>
                     </Block>
                 </>
             }
