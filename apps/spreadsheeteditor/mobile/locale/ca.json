@@ -39,6 +39,20 @@
       "textCustomColors": "Colors personalitzats",
       "textStandartColors": "Colors estàndard",
       "textThemeColors": "Colors del tema"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -151,6 +165,7 @@
       "textNo": "No",
       "textNoChoices": "No hi ha opcions per omplir la cel·la. <br>Només es poden seleccionar valors de text de la columna per substituir-los.",
       "textNoLicenseTitle": "S'ha assolit el límit de llicència",
+      "textNoMatches": "No hi ha cap coincidència",
       "textOk": "D'acord",
       "textPaidFeature": "Funció de pagament",
       "textRemember": "Recordar la meva elecció",
@@ -164,6 +179,7 @@
       "titleLicenseNotActive": "Llicència inactiva",
       "titleServerVersion": "S'ha actualitzat l'editor",
       "titleUpdateVersion": "S'ha canviat la versió",
+      "warnLicenseAnonymous": "Accés denegat a usuaris anònims.<br> Aquest document només s'obrirà en format lectura.",
       "warnLicenseBefore": "Llicència inactiva. <br> Contacta amb l'administrador.",
       "warnLicenseExceeded": "Has arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Posa't en contacte amb l'administrador per a més informació.",
       "warnLicenseExp": "La llicència ha caducat. Actualitza-la i recarrega la pàgina.",
@@ -172,9 +188,7 @@
       "warnLicenseUsersExceeded": "Has arribat al límit d'usuari per a %1 editors. Posa't en contacte amb l'administrador per a més informació.",
       "warnNoLicense": "Has arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Posa't en contacte amb l'equip de vendes %1 per conèixer les condicions d'actualització personal.",
       "warnNoLicenseUsers": "Has arribat al límit d'usuaris per a %1 editors. Posa't en contacte amb l'equip de vendes de %1 per obtenir les condicions de millora personals dels serveis.",
-      "warnProcessRightsChange": "No tens permís per editar el fitxer.",
-      "textNoMatches": "No Matches",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
+      "warnProcessRightsChange": "No tens permís per editar el fitxer."
     }
   },
   "Error": {
@@ -334,7 +348,8 @@
     "dlgLeaveMsgText": "Tens canvis no desats en aquest document. Fes clic a \"Queda't en aquesta pàgina\" per esperar al desament automàtic. Fes clic a \"Sortir d'aquesta pàgina\" per descartar tots els canvis no desats.",
     "dlgLeaveTitleText": "Estàs sortint de l'aplicació",
     "leaveButtonText": "Sortir d'aquesta Pàgina",
-    "stayButtonText": "Queda't en aquesta Pàgina"
+    "stayButtonText": "Queda't en aquesta Pàgina",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -584,12 +599,12 @@
       "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
       "txtSortHigh2Low": "Ordenar de major a menor",
       "txtSortLow2High": "Ordenar de menor a major",
-      "textCustomFormat": "Custom Format",
-      "textCreateFormat": "Create Format",
       "textCreateCustomFormat": "Create Custom Format",
-      "textSave": "Save",
+      "textCreateFormat": "Create Format",
+      "textCustomFormat": "Custom Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.",
       "textEnterFormat": "Enter Format",
-      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
+      "textSave": "Save"
     },
     "Settings": {
       "advCSVOptions": "Triar les opcions CSV",
@@ -658,6 +673,7 @@
       "textMargins": "Marges",
       "textMatchCase": "Coincidir majúscules i minúscules",
       "textMatchCell": "Coincidir la cel·la",
+      "textNoMatches": "No hi ha cap coincidència",
       "textOk": "D'acord",
       "textOpenFile": "Introduir una contrasenya per obrir el fitxer",
       "textOrientation": "Orientació",
@@ -759,7 +775,7 @@
       "txtVi": "Vietnamita",
       "txtZh": "Xinès",
       "warnDownloadAs": "Si continues i deses en aquest format, es perdran totes les característiques, excepte el text. <br>Vols continuar?",
-      "textNoMatches": "No Matches"
+      "textVersionHistory": "Version History"
     }
   }
 }

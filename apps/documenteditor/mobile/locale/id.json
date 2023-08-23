@@ -174,6 +174,20 @@
       "textCustomColors": "Custom Warna",
       "textStandartColors": "Warna Standar",
       "textThemeColors": "Warna Tema"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Peringatan",
+      "textAnonymous": "Anonim",
+      "textBack": "Kembali",
+      "textCancel": "Batalkan",
+      "textCurrent": "Saat ini",
+      "textOk": "OK",
+      "textRestore": "Pulihkan",
+      "textVersion": "Versi",
+      "textVersionHistory": "Riwayat Versi",
+      "textWarningRestoreVersion": "File saat ini akan disimpan dalam riwayat versi.",
+      "titleWarningRestoreVersion": "Pulihkan versi ini?",
+      "txtErrorLoadHistory": "Gagal memuat riwayat"
     }
   },
   "ContextMenu": {
@@ -377,7 +391,8 @@
     "textType": "Ketik",
     "textWe": "Rab",
     "textWrap": "Wrap",
-    "textWrappingStyle": "Gaya Pembungkusan"
+    "textWrappingStyle": "Gaya Pembungkusan",
+    "textInvalidName": "The file name cannot contain any of the following characters: "
   },
   "Error": {
     "convertationTimeoutText": "Waktu konversi habis.",
@@ -697,6 +712,7 @@
     "textUnprotect": "Buka Proteksi",
     "textUploaded": "Diunggah",
     "textVerify": "Verifikasikan",
+    "textVersionHistory": "Riwayat Versi",
     "textWords": "Kata",
     "textYes": "Ya",
     "titleDialogUnprotect": "Buka Proteksi Dokumen",
@@ -732,10 +748,11 @@
     "dlgLeaveTitleText": "Anda meninggalkan aplikasi",
     "leaveButtonText": "Tinggalkan Halaman Ini",
     "stayButtonText": "Tetap di halaman ini",
+    "textCloseHistory": "Tutup Riwayat",
+    "textEnterNewFileName": "Masukkan nama file yang baru",
     "textOk": "OK",
+    "textRenameFile": "Ganti Nama File",
     "textSwitchedMobileView": "Beralih ke Tampilan seluler",
-    "textSwitchedStandardView": "Beralih ke Tampilan standar",
-    "textRenameFile": "Rename File",
-    "textEnterNewFileName": "Enter a new file name"
+    "textSwitchedStandardView": "Beralih ke Tampilan standar"
   }
 }

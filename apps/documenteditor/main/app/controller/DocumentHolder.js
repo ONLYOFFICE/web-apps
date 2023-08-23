@@ -703,7 +703,7 @@ define([
                         return false;
                     }
                     else if (key === Common.UI.Keys.NUM_MINUS || key === Common.UI.Keys.MINUS || (Common.Utils.isGecko && key === Common.UI.Keys.MINUS_FF) || (Common.Utils.isOpera && key == 45)){
-                        me.api.zoomOut();
+                        (key !== Common.UI.Keys.NUM_MINUS || !me.mode.isEdit) && me.api.zoomOut();
                         event.preventDefault();
                         event.stopPropagation();
                         return false;

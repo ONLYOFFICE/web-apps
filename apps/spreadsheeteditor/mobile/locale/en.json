@@ -41,18 +41,18 @@
       "textThemeColors": "Theme Colors"
     },
     "VersionHistory": {
-      "textVersionHistory": "Version History",
-      "textAnonymous": "Anonymous",
-      "txtErrorLoadHistory": "Loading history failed",
-      "textVersion": "Version",
-      "textCurrent": "Current",
-      "textRestore": "Restore",
-      "titleWarningRestoreVersion": "Restore this version?",
-      "textWarningRestoreVersion": "Current file will be saved in version history.",
-      "textBack": "Back",
       "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
       "textOk": "Ok",
-      "textCancel": "Cancel"
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -454,10 +454,14 @@
       "textChartTitle": "Chart Title",
       "textClearFilter": "Clear Filter",
       "textColor": "Color",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textCreateFormat": "Create Format",
       "textCross": "Cross",
       "textCrossesValue": "Crosses Value",
       "textCurrency": "Currency",
       "textCustomColor": "Custom Color",
+      "textCustomFormat": "Custom Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.",
       "textDataLabels": "Data Labels",
       "textDate": "Date",
       "textDefault": "Selected range",
@@ -475,6 +479,7 @@
       "textEffects": "Effects",
       "textEmptyImgUrl": "You need to specify the image URL.",
       "textEmptyItem": "{Blanks}",
+      "textEnterFormat": "Enter Format",
       "textErrorMsg": "You must choose at least one value",
       "textErrorTitle": "Warning",
       "textEuro": "Euro",
@@ -564,6 +569,7 @@
       "textRotateTextDown": "Rotate Text Down",
       "textRotateTextUp": "Rotate Text Up",
       "textRouble": "Rouble",
+      "textSave": "Save",
       "textScientific": "Scientific",
       "textScreenTip": "Screen Tip",
       "textSelectAll": "Select All",
@@ -598,13 +604,7 @@
       "textYen": "Yen",
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSortHigh2Low": "Sort Highest to Lowest",
-      "txtSortLow2High": "Sort Lowest to Highest",
-      "textCustomFormat": "Custom Format",
-      "textCreateFormat": "Create Format",
-      "textCreateCustomFormat": "Create Custom Format",
-      "textSave": "Save",
-      "textEnterFormat": "Enter Format",
-      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
+      "txtSortLow2High": "Sort Lowest to Highest"
     },
     "Settings": {
       "advCSVOptions": "Choose CSV options",
@@ -708,6 +708,7 @@
       "textUploaded": "Uploaded",
       "textValues": "Values",
       "textVersion": "Version",
+      "textVersionHistory": "Version History",
       "textWorkbook": "Workbook",
       "txtBe": "Belarusian",
       "txtBg": "Bulgarian",
@@ -774,8 +775,7 @@
       "txtUk": "Ukrainian",
       "txtVi": "Vietnamese",
       "txtZh": "Chinese",
-      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
-      "textVersionHistory": "Version History"
+      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?"
     }
   }
 }

@@ -174,6 +174,20 @@
       "textCustomColors": "Vlastní barvy",
       "textStandartColors": "Standardní barvy",
       "textThemeColors": "Barvy vzhledu prostředí"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -377,7 +391,8 @@
     "textWe": "st",
     "textWrap": "Obtékání",
     "textWrappingStyle": "Obtékání textu",
-    "textArrange": "Arrange"
+    "textArrange": "Arrange",
+    "textInvalidName": "The file name cannot contain any of the following characters: "
   },
   "Error": {
     "convertationTimeoutText": "Vypršel čas konverze.",
@@ -725,6 +740,7 @@
     "textTypeEditing": "Type Of Editing",
     "textUnprotect": "Unprotect",
     "textVerify": "Verify",
+    "textVersionHistory": "Version History",
     "titleDialogUnprotect": "Unprotect Document"
   },
   "Toolbar": {
@@ -735,7 +751,8 @@
     "textOk": "OK",
     "textSwitchedMobileView": "Přepnout na mobilní zobrazení",
     "textSwitchedStandardView": "Přepnout na standartní zobrazení",
-    "textRenameFile": "Rename File",
-    "textEnterNewFileName": "Enter a new file name"
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   }
 }

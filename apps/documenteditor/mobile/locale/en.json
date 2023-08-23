@@ -176,18 +176,18 @@
       "textThemeColors": "Theme Colors"
     },
     "VersionHistory": {
-      "textVersionHistory": "Version History",
-      "textAnonymous": "Anonymous",
-      "txtErrorLoadHistory": "Loading history failed",
-      "textVersion": "Version",
-      "textCurrent": "Current",
-      "textRestore": "Restore",
-      "titleWarningRestoreVersion": "Restore this version?",
-      "textWarningRestoreVersion": "Current file will be saved in version history.",
-      "textBack": "Back",
       "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
       "textOk": "Ok",
-      "textCancel": "Cancel"
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -712,6 +712,7 @@
     "textUnprotect": "Unprotect",
     "textUploaded": "Uploaded",
     "textVerify": "Verify",
+    "textVersionHistory": "Version History",
     "textWords": "Words",
     "textYes": "Yes",
     "titleDialogUnprotect": "Unprotect Document",
@@ -750,11 +751,11 @@
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this Page",
     "stayButtonText": "Stay on this page",
-    "textOk": "OK",
-    "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view",
-    "textRenameFile": "Rename File",
+    "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
-    "textCloseHistory": "Close History"
+    "textOk": "OK",
+    "textRenameFile": "Rename File",
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

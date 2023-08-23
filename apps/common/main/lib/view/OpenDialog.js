@@ -297,6 +297,7 @@ define([
                     if (this.type === Common.Utils.importTextType.CSV) { // only for csv files
                         Common.localStorage.setItem("sse-settings-csv-delimiter", delimiter === null ? -1 : delimiter);
                         Common.localStorage.setItem("sse-settings-csv-delimiter-char", delimiterChar || '');
+                        Common.localStorage.setItem("sse-settings-csv-encoding", encoding);
                     }
 
                     var decimal = this.separatorOptions ? this.separatorOptions.decimal : undefined,
@@ -372,6 +373,9 @@ define([
                 var encoding = (this.settings && this.settings.asc_getCodePage()) ? this.settings.asc_getCodePage() : encodedata[0][0];
                 if (!this.closable && this.type == Common.Utils.importTextType.TXT) { // only for opening txt files
                     var value = Common.localStorage.getItem("de-settings-open-encoding");
+                    value && (encoding = parseInt(value));
+                } else if (this.type === Common.Utils.importTextType.CSV) { // only for csv files
+                    var value = Common.localStorage.getItem("sse-settings-csv-encoding");
                     value && (encoding = parseInt(value));
                 }
                 this.cmbEncoding.setValue(encoding);

@@ -39,6 +39,20 @@
       "textCustomColors": "Cores personalizadas",
       "textStandartColors": "Cores estándar",
       "textThemeColors": "Cores do tema"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -334,7 +348,8 @@
     "dlgLeaveMsgText": "Ten cambios non gardados neste documento. Prema en \"Quedarse nesta páxina\" para esperar ata que se garden automaticamente. Prema en \"Saír desta páxina\" para descartar todos os cambios non gardados.",
     "dlgLeaveTitleText": "Saiu do aplicativo",
     "leaveButtonText": "Saír desta página",
-    "stayButtonText": "Quedarse nesta páxina"
+    "stayButtonText": "Quedarse nesta páxina",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -582,14 +597,14 @@
       "txtSortHigh2Low": "Ordenar de maior a menor",
       "txtSortLow2High": "Ordenar de menor a maior ",
       "textArrange": "Arrange",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCustomFormat": "Custom Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
-      "textCustomFormat": "Custom Format",
-      "textCreateFormat": "Create Format",
-      "textCreateCustomFormat": "Create Custom Format",
-      "textSave": "Save",
       "textEnterFormat": "Enter Format",
-      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
+      "textSave": "Save"
     },
     "Settings": {
       "advCSVOptions": "Elexir os parámetros de CSV",
@@ -759,6 +774,7 @@
       "txtZh": "Chinés",
       "warnDownloadAs": "Se segue gardando neste formato, todas as características a excepción do texto perderanse.<br>Te na certeza de que desexa continuar?",
       "textNoMatches": "No Matches",
+      "textVersionHistory": "Version History",
       "txtDe": "Deutsch"
     }
   }

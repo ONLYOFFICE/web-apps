@@ -39,6 +39,20 @@
       "textCustomColors": "Vlastní barvy",
       "textStandartColors": "Standardní barvy",
       "textThemeColors": "Barvy vzhledu prostředí"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -334,7 +348,8 @@
     "dlgLeaveMsgText": "V tomto dokumentu máte neuložené změny. Klikněte na 'Zůstat na této stránce' a počkejte dokud nedojde k automatickému uložení. Klikněte na 'Opustit tuto stránku' pro zahození neuložených změn.",
     "dlgLeaveTitleText": "Opouštíte aplikaci",
     "leaveButtonText": "Opustit tuto stránku",
-    "stayButtonText": "Zůstat na této stránce"
+    "stayButtonText": "Zůstat na této stránce",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -583,13 +598,13 @@
       "txtSortHigh2Low": "Seřadit od nejvyššího po nejnižší",
       "txtSortLow2High": "Seřadit od nejnižšího po nejvyšší",
       "textCancel": "Cancel",
-      "textDeleteLink": "Delete Link",
-      "textCustomFormat": "Custom Format",
-      "textCreateFormat": "Create Format",
       "textCreateCustomFormat": "Create Custom Format",
-      "textSave": "Save",
+      "textCreateFormat": "Create Format",
+      "textCustomFormat": "Custom Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.",
+      "textDeleteLink": "Delete Link",
       "textEnterFormat": "Enter Format",
-      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
+      "textSave": "Save"
     },
     "Settings": {
       "advCSVOptions": "Vyberte možnosti CSV",
@@ -759,6 +774,7 @@
       "txtZh": "čínština",
       "warnDownloadAs": "Pokud budete pokračovat v ukládání v tomto formátu, vše kromě textu bude ztraceno.<br>Opravdu chcete pokračovat?",
       "textNoMatches": "No Matches",
+      "textVersionHistory": "Version History",
       "txtCa": "Catalan"
     }
   }

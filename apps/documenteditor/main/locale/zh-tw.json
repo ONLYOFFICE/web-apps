@@ -2067,7 +2067,6 @@
   "DE.Views.FileMenuPanels.ProtectDoc.txtSigned": "有效簽名已增加到文件檔中。該文件檔受到保護，無法編輯。",
   "DE.Views.FileMenuPanels.ProtectDoc.txtSignedInvalid": "文檔中的某些數字簽名無效或無法驗證。該文檔受到保護，無法編輯。",
   "DE.Views.FileMenuPanels.ProtectDoc.txtView": "查看簽名",
-  "DE.Views.FileMenuPanels.RecentFiles.txtOpenRecent": "打開最近",
   "DE.Views.FileMenuPanels.Settings.okButtonText": "套用",
   "DE.Views.FileMenuPanels.Settings.strCoAuthMode": "共同編輯模式",
   "DE.Views.FileMenuPanels.Settings.strFast": "快",

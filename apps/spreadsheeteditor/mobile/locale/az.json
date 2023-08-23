@@ -39,6 +39,20 @@
       "textCustomColors": "Fərdi Rənglər",
       "textStandartColors": "Standart Rənglər",
       "textThemeColors": "Mövzu Rəngləri"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -334,7 +348,8 @@
     "dlgLeaveMsgText": "Bu sənəddə saxlanmamış dəyişiklikləriniz var. Avtomatik saxlanmanı gözləmək üçün \"Bu Səhifədə Qalın\" hissəsinin üzərinə klikləyin. Bütün saxlanmamış dəyişiklikləri ləğv etmək üçün \"Bu səhifədən Çıxın\" hissəsinin üzərinə klikləyin.",
     "dlgLeaveTitleText": "Proqramdan çıxdınız",
     "leaveButtonText": "Bu Səhifədən çıxın",
-    "stayButtonText": "Bu səhifədə qalın"
+    "stayButtonText": "Bu səhifədə qalın",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -579,17 +594,17 @@
       "textAutomatic": "Automatic",
       "textCancel": "Cancel",
       "textCellStyle": "Cell Style",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textCreateFormat": "Create Format",
+      "textCustomFormat": "Custom Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textDone": "Done",
+      "textEnterFormat": "Enter Format",
       "textOk": "Ok",
       "textRecommended": "Recommended",
-      "textCustomFormat": "Custom Format",
-      "textCreateFormat": "Create Format",
-      "textCreateCustomFormat": "Create Custom Format",
-      "textSave": "Save",
-      "textEnterFormat": "Enter Format",
-      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
+      "textSave": "Save"
     },
     "Settings": {
       "advCSVOptions": "CSV seçimlərini seçin",
@@ -728,6 +743,7 @@
       "textNoMatches": "No Matches",
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRightToLeft": "Right To Left",
+      "textVersionHistory": "Version History",
       "txtBe": "Belarusian",
       "txtBg": "Bulgarian",
       "txtCa": "Catalan",

@@ -105,13 +105,15 @@
         };
 
         var createDlgPassword = function (submitCallback) {
-            var delayFocus = 500;
             if(!$dlgPassword) {
                 var submit = function() {
-                    var inputVal = $dlgPassword.find('#password-input').val();
-                    if (submitCallback && inputVal.length > 0) {
-                        submitCallback($dlgPassword.find('#password-input').val());
+                    if (submitCallback) {
                         $dlgPassword.modal('hide');
+                        $dlgPassword.find('#password-input').attr('disabled', true)
+                        $dlgPassword.find('#password-btn').attr('disabled', true)
+                        setTimeout(function() {
+                            submitCallback($dlgPassword.find('#password-input').val())
+                        }, 350);
                     }
                 };
                 $dlgPassword = common.view.modals.create('password');
@@ -126,17 +128,14 @@
                     }
                 });
             } else {
-                $dlgPassword.find('#password-input').addClass('error');
+                $dlgPassword.modal('show');
+                $dlgPassword.find('#password-input').attr('disabled', false).addClass('error').val('');
                 $dlgPassword.find('#password-label-error').addClass('error');
-                $dlgPassword.find('#password-input').val('');
-                setTimeout(function() {
-                    $dlgPassword.modal('show');
-                }, 200);
-                delayFocus = 700;
+                $dlgPassword.find('#password-btn').attr('disabled', false)
             }
             setTimeout(function() {
                 $dlgPassword.find('#password-input').focus();
-            }, delayFocus);
+            }, 500);
         };
 
         function updateEmbedCode(){

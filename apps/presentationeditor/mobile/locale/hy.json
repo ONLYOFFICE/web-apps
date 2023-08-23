@@ -42,6 +42,20 @@
       "textCustomColors": "Հարմարեցված գույներ",
       "textStandartColors": "Ստանդարտ գույներ",
       "textThemeColors": "Ոճի գույներ"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -222,7 +236,8 @@
     "dlgLeaveMsgText": "Դուք այս փաստաթղթում չպահված փոփոխություններ ունեք:Սեղմեք «Մնալ այս էջում»՝ սպասելու ավտոմատ պահպանմանը:Սեղմեք «Լքել այս էջը»՝ չպահված բոլոր փոփոխությունները մերժելու համար:",
     "dlgLeaveTitleText": "Ծրագրից դուրս եք գալիս",
     "leaveButtonText": "Լքել այս էջը",
-    "stayButtonText": "Մնալ այս էջում"
+    "stayButtonText": "Մնալ այս էջում",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -421,11 +436,11 @@
       "textZoom": "Խոշորացնել",
       "textZoomIn": "Մեծացնել",
       "textZoomOut": "Փոքրացնել",
+      "textZoomRotate": "Դիտափոխում և պտտում",
       "textMorph": "Morph",
-      "textMorphObjects": "Objects",
-      "textMorphWords": "Words",
       "textMorphLetters": "Letters",
-      "textZoomRotate": "Դիտափոխում և պտտում"
+      "textMorphObjects": "Objects",
+      "textMorphWords": "Words"
     },
     "Settings": {
       "mniSlideStandard": "Ստանդարտ (4:3)",
@@ -510,7 +525,8 @@
       "txtScheme6": "Համագումար ",
       "txtScheme7": "Սեփական կապիտալ",
       "txtScheme8": "Հոսք",
-      "txtScheme9": "Հրատարակիչ"
+      "txtScheme9": "Հրատարակիչ",
+      "textVersionHistory": "Version History"
     }
   }
 }

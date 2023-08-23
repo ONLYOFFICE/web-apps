@@ -164,6 +164,20 @@
       "textCustomColors": "Custom Colors",
       "textStandartColors": "Standard Colors",
       "textThemeColors": "Theme Colors"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "Edit": {
@@ -335,7 +349,8 @@
     "textType": "Type",
     "textWe": "We",
     "textWrap": "Wrap",
-    "textWrappingStyle": "Wrapping Style"
+    "textWrappingStyle": "Wrapping Style",
+    "textInvalidName": "The file name cannot contain any of the following characters: "
   },
   "About": {
     "textAbout": "About",
@@ -697,6 +712,7 @@
     "textUnprotect": "Unprotect",
     "textUploaded": "Uploaded",
     "textVerify": "Verify",
+    "textVersionHistory": "Version History",
     "textWords": "Words",
     "textYes": "Yes",
     "titleDialogUnprotect": "Unprotect Document",
@@ -732,10 +748,11 @@
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this Page",
     "stayButtonText": "Stay on this page",
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
     "textOk": "OK",
-    "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view",
     "textRenameFile": "Rename File",
-    "textEnterNewFileName": "Enter a new file name"
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

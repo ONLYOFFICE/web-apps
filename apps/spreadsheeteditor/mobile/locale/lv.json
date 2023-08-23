@@ -39,6 +39,20 @@
       "textStandartColors": "Standarta krāsas",
       "textThemeColors": "Tēmas krāsas",
       "textCustomColors": "Custom Colors"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -334,7 +348,8 @@
     "dlgLeaveTitleText": "Jūs pametat lietotni",
     "leaveButtonText": "Pamest lapu",
     "stayButtonText": "Palikt lapā",
-    "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes."
+    "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -571,25 +586,25 @@
       "textArrange": "Arrange",
       "textCellStyle": "Cell Style",
       "textChangeShape": "Change Shape",
+      "textCreateCustomFormat": "Create Custom Format",
+      "textCreateFormat": "Create Format",
       "textCustomColor": "Custom Color",
+      "textCustomFormat": "Custom Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.",
       "textDeleteFilter": "Delete Filter",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textEmptyImgUrl": "You need to specify the image URL.",
       "textEmptyItem": "{Blanks}",
+      "textEnterFormat": "Enter Format",
       "textErrorMsg": "You must choose at least one value",
       "textFilterOptions": "Filter Options",
       "textGridlines": "Gridlines",
       "textHorizontalText": "Horizontal Text",
       "textRecommended": "Recommended",
-      "textSelectObjectToEdit": "Select object to edit",
-      "textTextOrientation": "Text Orientation",
-      "textCustomFormat": "Custom Format",
-      "textCreateFormat": "Create Format",
-      "textCreateCustomFormat": "Create Custom Format",
       "textSave": "Save",
-      "textEnterFormat": "Enter Format",
-      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
+      "textSelectObjectToEdit": "Select object to edit",
+      "textTextOrientation": "Text Orientation"
     },
     "Settings": {
       "advCSVOptions": "Izvēlēties CSV parametrus",
@@ -709,6 +724,7 @@
       "textSpreadsheetFormats": "Spreadsheet Formats",
       "textSpreadsheetSettings": "Spreadsheet Settings",
       "textUnitOfMeasurement": "Unit Of Measurement",
+      "textVersionHistory": "Version History",
       "txtBe": "Belarusian",
       "txtBg": "Bulgarian",
       "txtCa": "Catalan",

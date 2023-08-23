@@ -42,6 +42,20 @@
       "textCustomColors": "ユーザー設定の色",
       "textStandartColors": "標準の色",
       "textThemeColors": "テーマの色"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "警告",
+      "textAnonymous": "匿名",
+      "textBack": "戻る",
+      "textCancel": "キャンセル",
+      "textCurrent": "現在",
+      "textOk": "OK",
+      "textRestore": "復元",
+      "textVersion": "バージョン",
+      "textVersionHistory": "バージョン履歴",
+      "textWarningRestoreVersion": "現在のファイルはバージョン履歴に保存されます。",
+      "titleWarningRestoreVersion": "このバージョンを復元しますか？",
+      "txtErrorLoadHistory": "履歴の読み込みに失敗しました"
     }
   },
   "ContextMenu": {
@@ -222,7 +236,8 @@
     "dlgLeaveMsgText": "保存されていない変更があります。自動保存を待つように「このページから移動しない」をクリックしてください。保存されていない変更を破棄ように「このページから移動する」をクリックしてください。",
     "dlgLeaveTitleText": "アプリケーションを終了する",
     "leaveButtonText": "このページから移動する",
-    "stayButtonText": "このページから移動しない"
+    "stayButtonText": "このページから移動しない",
+    "textCloseHistory": "履歴を閉じる"
   },
   "View": {
     "Add": {
@@ -360,6 +375,10 @@
       "textLinkSettings": "リンク設定",
       "textLinkTo": "リンク先",
       "textLinkType": "リンクのタイプ",
+      "textMorph": "変形",
+      "textMorphLetters": "文字",
+      "textMorphObjects": "オブジェクト",
+      "textMorphWords": "言葉",
       "textMoveBackward": "背面に動かす",
       "textMoveForward": "前面に動かす",
       "textNextSlide": "次のスライド",
@@ -421,10 +440,6 @@
       "textZoom": "ズーム",
       "textZoomIn": "拡大",
       "textZoomOut": "縮小",
-      "textMorph": "Morph",
-      "textMorphObjects": "Objects",
-      "textMorphWords": "Words",
-      "textMorphLetters": "Letters",
       "textZoomRotate": "ズームと回転"
     },
     "Settings": {
@@ -489,6 +504,7 @@
       "textUnitOfMeasurement": "測定単位",
       "textUploaded": "アップロードした",
       "textVersion": "バージョン",
+      "textVersionHistory": "バージョン履歴",
       "txtScheme1": "オフィス",
       "txtScheme10": "中位数",
       "txtScheme11": "メトロ",

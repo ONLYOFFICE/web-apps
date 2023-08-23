@@ -2013,7 +2013,6 @@
   "DE.Views.FileMenuPanels.ProtectDoc.txtSigned": "У дакумент дададзеныя дзейныя подпісы. Дакумент абаронены ад рэдагавання.",
   "DE.Views.FileMenuPanels.ProtectDoc.txtSignedInvalid": "Некаторыя з лічбавых подпісаў у дакуменце хібныя альбо іх немагчыма праверыць. Дакумент абаронены ад рэдагавання.",
   "DE.Views.FileMenuPanels.ProtectDoc.txtView": "Прагляд подпісаў",
-  "DE.Views.FileMenuPanels.RecentFiles.txtOpenRecent": "Адкрыць нядаўнія",
   "DE.Views.FileMenuPanels.Settings.okButtonText": "Ужыць",
   "DE.Views.FileMenuPanels.Settings.strCoAuthMode": "Рэжым сумеснага рэдагавання",
   "DE.Views.FileMenuPanels.Settings.strFast": "Хуткі",
