@@ -1007,6 +1007,7 @@ const PageCreationCustomFormat = observer(props => {
                         placeholder={t('View.Edit.textEnterFormat')}
                         value={formatValue}
                         onInput={e => setFormatValue(e.target.value)}
+                        clearButton={isIos ? true : false}
                     />
                 </List>
                 <Block>
