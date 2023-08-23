@@ -393,9 +393,9 @@ define([
             if (!leftMenuView.pluginSeparator.is(':visible')) {
                 leftMenuView.pluginSeparator.show();
             }
-            leftMenuView.pluginMoreContainer.before('<div id="slot-btn-plugins' + name + '"></div>');
+            leftMenuView.pluginSeparator.after('<div id="slot-btn-plugins' + name + '"></div>');
             leftMenuView.$el.find('.left-panel').append('<div id="'+ panelId + '" class="" style="display: none; height: 100%;"></div>');
-            this.pluginBtns[pluginGuid] = new Common.UI.Button({
+            var button = new Common.UI.Button({
                 parentEl: leftMenuView.$el.find('#slot-btn-plugins' + name),
                 cls: 'btn-category plugin-buttons',
                 hint: lName,
@@ -405,7 +405,8 @@ define([
                 onlyIcon: true,
                 value: pluginGuid
             });
-            this.pluginBtns[pluginGuid].on('click', _.bind(this.onShowPlugin, this, pluginGuid));
+            button.on('click', _.bind(this.onShowPlugin, this, pluginGuid));
+            this.pluginBtns = Object.assign({[pluginGuid]: button}, this.pluginBtns);
 
             this.setMoreButton();
 
