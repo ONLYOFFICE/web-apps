@@ -587,7 +587,6 @@ define([
                     app.getController('Toolbar').DisableToolbar(disable, options.viewMode, options.reviewMode, options.fillFormMode);
                 }
                 if (options.documentHolder) {
-                    options.documentHolder.clear && app.getController('DocumentHolder').clearSelection();
                     options.documentHolder.disable && app.getController('DocumentHolder').SetDisabled(disable, options.allowProtect, options.fillFormMode);
                 }
                 if (options.leftMenu) {
@@ -688,6 +687,21 @@ define([
                     this.api.asc_cancelEyedropper();
                 }
                 application.getController('DocumentHolder').getView().focus();
+
+                if (this.appOptions.isEdit && toolbarView) {
+                    if (toolbarView.btnStrikeout.pressed && ( !_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-strikeout')) {
+                        // this.api.SetMarkerFormat(false);
+                        toolbarView.btnStrikeout.toggle(false, false);
+                    }
+                    if (toolbarView.btnUnderline.pressed && ( !_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-underline')) {
+                        // this.api.SetMarkerFormat(false);
+                        toolbarView.btnUnderline.toggle(false, false);
+                    }
+                    if (toolbarView.btnHighlight.pressed && ( !_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-highlight')) {
+                        // this.api.SetMarkerFormat(false);
+                        toolbarView.btnHighlight.toggle(false, false);
+                    }
+                }
 
                 if (this.api && this.appOptions.isEdit && !toolbarView._state.previewmode) {
                     var cansave = this.api.asc_isDocumentCanSave(),

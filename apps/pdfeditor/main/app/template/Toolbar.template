@@ -69,14 +69,14 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
-                    <span class="btn-slot text x-huge" id="slot-btn-highlight"></span>
+                    <span class="btn-slot text x-huge emptycaption" id="slot-btn-highlight"></span>
                 </div>
                 <div class="group small">
                     <div class="elset">
-                        <span class="btn-slot" id="slot-btn-strikeout"></span>
+                        <span class="btn-slot split" id="slot-btn-strikeout"></span>
                     </div>
                     <div class="elset">
-                        <span class="btn-slot" id="slot-btn-underline"></span>
+                        <span class="btn-slot split" id="slot-btn-underline"></span>
                     </div>
                 </div>
                 <div class="separator long draw-groups"></div>

@@ -274,6 +274,58 @@ define([
                     });
                     this.toolbarControls.push(this.btnAddComment);
 
+                    this.btnStrikeout = new Common.UI.ButtonColored({
+                        id: 'id-toolbar-btn-strikeout',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-strikeout',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments],
+                        enableToggle: true,
+                        allowDepress: true,
+                        split: true,
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '0, -16',
+                        penOptions: {color: '000000'}
+                    });
+                    this.paragraphControls.push(this.btnStrikeout);
+
+                    this.btnUnderline = new Common.UI.ButtonColored({
+                        id: 'id-toolbar-btn-underline',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-underline',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments],
+                        enableToggle: true,
+                        allowDepress: true,
+                        split: true,
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '0, -16',
+                        penOptions: {color: '000000'}
+                    });
+                    this.paragraphControls.push(this.btnUnderline);
+
+                    this.btnHighlight = new Common.UI.ButtonColored({
+                        id: 'id-toolbar-btn-highlight',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-highlighter-tool',
+                        caption: ' ',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments],
+                        enableToggle: true,
+                        allowDepress: true,
+                        split: true,
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        ataHintOffset: 'small',
+                        penOptions: {color: 'FFFC54', colors: [
+                                'FFFC54', '72F54A', '74F9FD', 'EB51F7', 'A900F9', 'EF8B3A', '7272FF', 'FF63A4', '1DFF92', '03DA18',
+                                '249B01', 'C504D2', '0633D1', 'FFF7A0', 'FF0303', 'FFFFFF', 'D3D3D4', '969696', '606060', '000000'
+                            ]}
+                    });
+                    this.paragraphControls.push(this.btnHighlight);
+
                     //
                     // Menus
                     //
@@ -361,9 +413,56 @@ define([
                 _injectComponent('#slot-btn-select-tool', this.btnSelectTool);
                 _injectComponent('#slot-btn-hand-tool', this.btnHandTool);
                 _injectComponent('#slot-btn-comment', this.btnAddComment);
+                _injectComponent('#slot-btn-strikeout', this.btnStrikeout);
+                _injectComponent('#slot-btn-underline', this.btnUnderline);
+                _injectComponent('#slot-btn-highlight', this.btnHighlight);
 
                 this.btnPrint.menu && this.btnPrint.$el.addClass('split');
                 return $host;
+            },
+
+            createPen: function(button, id) {
+                var mnu;
+                button.setMenu(new Common.UI.Menu({
+                    cls: 'shifted-left',
+                    style: 'min-width: 100px;',
+                    items: [
+                        {template: _.template('<div id="id-toolbar-menu-' + id + '" style="width: 174px; display: inline-block;" class="palette-large"></div>')},
+                        {
+                            id: 'id-toolbar-menu-' + id + '-color-new',
+                            template: _.template('<a tabindex="-1" type="menuitem" style="">' + button.textNewColor + '</a>')
+                        },
+                        {caption: '--'},
+                        mnu = new Common.UI.MenuItem({
+                            caption: this.strMenuNoFill,
+                            checkable: true,
+                            style: 'padding-left:20px;padding-right:20px;'
+                        })
+                    ]
+                }), true);
+                button.currentColor = button.options.penOptions.color;
+                button.setColor(button.currentColor);
+                var picker = new Common.UI.ThemeColorPalette({
+                    el: $('#id-toolbar-menu-' + id),
+                    colors: button.options.penOptions.colors || [
+                        '1755A0', 'D43230', 'F5C346', 'EA3368', '12A489', '552F8B', '9D1F87', 'BB2765', '479ED2', '67C9FA',
+                        '3D8A44', '80CA3D', '1C19B4', '7F4B0F', 'FF7E07', 'FFFFFF', 'D3D3D4', '879397', '575757', '000000'
+                    ],
+                    value: button.currentColor,
+                    dynamiccolors: 5,
+                    themecolors: 0,
+                    effects: 0,
+                    columns: 5,
+                    outerMenu: {menu: button.menu, index: 0, focusOnShow: true},
+                    storageSuffix: '-draw'
+                });
+                button.setPicker(picker);
+                picker.on('select', _.bind(button.onColorSelect, button));
+                button.menu.setInnerMenu([{menu: picker, index: 0}]);
+                button.menu.cmpEl.find('#id-toolbar-menu-' + id + '-color-new').on('click',  function() {
+                    picker.addNewColor(button.currentColor);
+                });
+                return [picker, mnu];
             },
 
             onAppReady: function (config) {
@@ -396,6 +495,21 @@ define([
                                 ]
                             }));
                     }
+                    if (me.btnStrikeout.menu) {
+                        var arr = me.createPen(me.btnStrikeout, 'strikeout');
+                        me.mnuStrikeoutColorPicker = arr[0];
+                        me.mnuStrikeoutTransparent = arr[1];
+                    }
+                    if (me.btnUnderline.menu) {
+                        var arr = me.createPen(me.btnUnderline, 'underline');
+                        me.mnuUnderlineColorPicker = arr[0];
+                        me.mnuUnderlineTransparent = arr[1];
+                    }
+                    if (me.btnHighlight.menu) {
+                        var arr = me.createPen(me.btnHighlight, 'highlight');
+                        me.mnuHighlightColorPicker = arr[0];
+                        me.mnuHighlightTransparent = arr[1];
+                    }
                 });
             },
 
@@ -416,6 +530,9 @@ define([
                 this.btnSelectTool.updateHint(this.tipSelectTool);
                 this.btnHandTool.updateHint(this.tipHandTool);
                 this.btnAddComment.updateHint(this.tipAddComment);
+                this.btnStrikeout.updateHint(this.textStrikeout);
+                this.btnUnderline.updateHint(this.textUnderline);
+                this.btnHighlight.updateHint(this.textHighlight);
             },
 
             onToolbarAfterRender: function(toolbar) {
@@ -577,7 +694,11 @@ define([
             tipCut: 'Cut',
             textTabComment: 'Comment',
             capBtnComment: 'Comment',
-            tipAddComment: 'Add comment'
+            tipAddComment: 'Add comment',
+            strMenuNoFill: 'No Fill',
+            textStrikeout: 'Strikeout',
+            textUnderline: 'Underline',
+            textHighlight: 'Highlight',
         }
     })(), PDFE.Views.Toolbar || {}));
 });

@@ -63,7 +63,10 @@ define([
                 can_undo: undefined,
                 can_redo: undefined,
                 lock_doc: undefined,
-                can_copycut: undefined
+                can_copycut: undefined,
+                clrstrike: undefined,
+                clrunderline: undefined,
+                clrhighlight: undefined
             };
             this.editMode = true;
             this.binding = {};
@@ -174,6 +177,15 @@ define([
             toolbar.btnAddComment.on('click', function (btn, e) {
                 Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
             });
+            toolbar.btnStrikeout.on('click',                            _.bind(this.onBtnStrikeout, this));
+            toolbar.mnuStrikeoutColorPicker.on('select',                _.bind(this.onSelectStrikeoutColor, this));
+            toolbar.mnuStrikeoutTransparent.on('click',                 _.bind(this.onStrikeoutTransparentClick, this));
+            toolbar.btnUnderline.on('click',                            _.bind(this.onBtnUnderline, this));
+            toolbar.mnuUnderlineColorPicker.on('select',                _.bind(this.onSelectUnderlineColor, this));
+            toolbar.mnuUnderlineTransparent.on('click',                 _.bind(this.onUnderlineTransparentClick, this));
+            toolbar.btnHighlight.on('click',                            _.bind(this.onBtnHighlight, this));
+            toolbar.mnuHighlightColorPicker.on('select',                _.bind(this.onSelectHighlightColor, this));
+            toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
 
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
             this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());
@@ -391,6 +403,133 @@ define([
                 this.api.asc_setViewerTargetType(type);
             this.mode.isEdit && this.api.asc_StopInkDrawer();
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onBtnStrikeout: function(btn) {
+            if (btn.pressed) {
+                this._setStrikeoutColor(btn.currentColor);
+            }
+            else {
+                // this.api.SetMarkerFormat(false);
+            }
+        },
+
+        onStrikeoutTransparentClick: function(item, e) {
+            this._setStrikeoutColor('transparent', 'menu');
+        },
+
+        onSelectStrikeoutColor: function(picker, color) {
+            this._setStrikeoutColor(color, 'menu');
+        },
+
+        _setStrikeoutColor: function(strcolor, h) {
+            var me = this;
+
+            if (h === 'menu') {
+                me._state.clrstrike = undefined;
+                // me.onApiHighlightColor();
+
+                me.toolbar.btnStrikeout.currentColor = strcolor;
+                me.toolbar.btnStrikeout.setColor(me.toolbar.btnStrikeout.currentColor);
+                me.toolbar.btnStrikeout.toggle(true, true);
+            }
+
+            strcolor = strcolor || 'transparent';
+
+            if (strcolor == 'transparent') {
+                // me.api.SetMarkerFormat(true, false);
+            } else {
+                var r = strcolor[0] + strcolor[1],
+                    g = strcolor[2] + strcolor[3],
+                    b = strcolor[4] + strcolor[5];
+                // me.api.SetMarkerFormat(true, true, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
+            }
+            Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnStrikeout);
+        },
+
+        onBtnUnderline: function(btn) {
+            if (btn.pressed) {
+                this._setUnderlineColor(btn.currentColor);
+            }
+            else {
+                // this.api.SetMarkerFormat(false);
+            }
+        },
+
+        onUnderlineTransparentClick: function(item, e) {
+            this._setUnderlineColor('transparent', 'menu');
+        },
+
+        onSelectUnderlineColor: function(picker, color) {
+            this._setUnderlineColor(color, 'menu');
+        },
+
+        _setUnderlineColor: function(strcolor, h) {
+            var me = this;
+
+            if (h === 'menu') {
+                me._state.clrunderline = undefined;
+                // me.onApiHighlightColor();
+
+                me.toolbar.btnUnderline.currentColor = strcolor;
+                me.toolbar.btnUnderline.setColor(me.toolbar.btnUnderline.currentColor);
+                me.toolbar.btnUnderline.toggle(true, true);
+            }
+
+            strcolor = strcolor || 'transparent';
+
+            if (strcolor == 'transparent') {
+                // me.api.SetMarkerFormat(true, false);
+            } else {
+                var r = strcolor[0] + strcolor[1],
+                    g = strcolor[2] + strcolor[3],
+                    b = strcolor[4] + strcolor[5];
+                // me.api.SetMarkerFormat(true, true, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
+            }
+            Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnUnderline);
+        },
+
+
+        onBtnHighlight: function(btn) {
+            if (btn.pressed) {
+                this._setHighlightColor(btn.currentColor);
+            }
+            else {
+                // this.api.SetMarkerFormat(false);
+            }
+        },
+
+        onHighlightTransparentClick: function(item, e) {
+            this._setHighlightColor('transparent', 'menu');
+        },
+
+        onSelectHighlightColor: function(picker, color) {
+            this._setHighlightColor(color, 'menu');
+        },
+
+        _setHighlightColor: function(strcolor, h) {
+            var me = this;
+
+            if (h === 'menu') {
+                me._state.clrhighlight = undefined;
+                // me.onApiHighlightColor();
+
+                me.toolbar.btnHighlight.currentColor = strcolor;
+                me.toolbar.btnHighlight.setColor(me.toolbar.btnHighlight.currentColor);
+                me.toolbar.btnHighlight.toggle(true, true);
+            }
+
+            strcolor = strcolor || 'transparent';
+
+            if (strcolor == 'transparent') {
+                // me.api.SetMarkerFormat(true, false);
+            } else {
+                var r = strcolor[0] + strcolor[1],
+                    g = strcolor[2] + strcolor[3],
+                    b = strcolor[4] + strcolor[5];
+                // me.api.SetMarkerFormat(true, true, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
+            }
+            Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnHighlight);
         },
 
         activateControls: function() {
