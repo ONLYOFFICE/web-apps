@@ -73,6 +73,7 @@
         if ( objtheme ) {
             if ( window.uitheme.id && window.uitheme.id != objtheme.id ) {
                 localStorage.removeItem("ui-theme");
+                !window.uitheme.type && /-dark/.test(window.uitheme.id) && (window.uitheme.type = 'dark');
             } else {
                 window.uitheme.cache = objtheme;
                 if ( !window.uitheme.type && objtheme.type ) {
