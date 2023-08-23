@@ -2868,6 +2868,7 @@ define([
                 documentHolder.mnuSubtotalField.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===0 || this.propsPivot.fieldType===1));
                 documentHolder.mnuPivotSubtotalSeparator.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===0 || this.propsPivot.fieldType===1));
                 documentHolder.mnuExpandCollapsePivot.setVisible(!!this.propsPivot.canExpandCollapse);
+                documentHolder.mnuPivotExpandCollapseSeparator.setVisible(!!this.propsPivot.canExpandCollapse);
                 documentHolder.mnuGroupPivot.setVisible(!!this.propsPivot.canGroup);
                 documentHolder.mnuUnGroupPivot.setVisible(!!this.propsPivot.canGroup);
                 documentHolder.mnuPivotGroupSeparator.setVisible(!!this.propsPivot.canGroup);
