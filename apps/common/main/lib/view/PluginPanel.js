@@ -129,7 +129,6 @@ define([
 
         hide: function () {
             Common.UI.BaseView.prototype.hide.call(this,arguments);
-            this.fireEvent('hide', this );
         },
 
         textClosePanel: 'Close plugin',

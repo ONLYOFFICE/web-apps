@@ -9,6 +9,8 @@
         <button id="left-btn-plugins" class="btn btn-category" data-hint="0" data-hint-direction="right" data-hint-offset="big" content-target=""><i class="icon toolbar__icon btn-menu-plugin">&nbsp;</i></button>
         <button id="left-btn-support" class="btn btn-category" data-hint="0" data-hint-direction="right" data-hint-offset="big" content-target=""><i class="icon toolbar__icon btn-menu-support">&nbsp;</i></button>
         <button id="left-btn-about" class="btn btn-category" data-hint="0" data-hint-direction="right" data-hint-offset="big" content-target=""><i class="icon toolbar__icon btn-menu-about">&nbsp;</i></button>
+        <div class="separator horizontal separator-plugins" style="display: none;"></div>
+        <div id="slot-btn-plugins-more"></div>
     </div>
     <div class="left-panel" style="">
         <div id="left-panel-search" class="" style="display: none;"></div>

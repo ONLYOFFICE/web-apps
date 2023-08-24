@@ -515,6 +515,7 @@ define([
                     this.pluginPanels[guid].show();
                 } else {
                     this.pluginPanels[guid].hide();
+                    this.fireEvent('hide', this);
                 }
                 this.updateLeftPluginButton(guid);
                 leftMenuView.onBtnMenuClick(this.pluginBtns[guid]);
