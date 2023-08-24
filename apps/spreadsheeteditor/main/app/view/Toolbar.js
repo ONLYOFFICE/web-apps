@@ -100,6 +100,7 @@ define([
         selSlicer: 'sel-slicer',
         cantSort: 'cant-sort',
         pivotLock: 'pivot-lock',
+        pivotExpandLock: 'pivot-expand-lock',
         tableHasSlicer: 'table-has-slicer',
         sheetView: 'sheet-view',
         wbLock: 'workbook-lock',

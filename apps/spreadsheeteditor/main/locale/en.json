@@ -3203,6 +3203,8 @@
   "SSE.Views.PivotTable.txtRefresh": "Refresh",
   "SSE.Views.PivotTable.txtRefreshAll": "Refresh all",
   "SSE.Views.PivotTable.txtSelect": "Select",
+  "SSE.Views.PivotTable.txtExpandEntire": "Expand Entire Field",
+  "SSE.Views.PivotTable.txtCollapseEntire": "Collapse Entire Field",
   "SSE.Views.PivotTable.txtTable_PivotStyleDark": "Pivot Table Style Dark",
   "SSE.Views.PivotTable.txtTable_PivotStyleLight": "Pivot Table Style Light",
   "SSE.Views.PivotTable.txtTable_PivotStyleMedium": "Pivot Table Style Medium",
