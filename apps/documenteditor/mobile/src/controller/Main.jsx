@@ -214,6 +214,8 @@ class MainController extends Component {
                 this.appOptions.canLicense = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
 
                 const storeAppOptions = this.props.storeAppOptions;
+                const editorConfig = window.native?.editorConfig;
+                const isForceEdit = editorConfig?.forceedit;
 
                 storeAppOptions.setPermissionOptions(this.document, licType, params, this.permissions, EditorUIController.isSupportEditFeature());
 
@@ -223,8 +225,10 @@ class MainController extends Component {
                 const dataDoc = storeDocumentInfo.dataDoc;
                 const isExtRestriction = dataDoc.fileType !== 'oform';
 
-                if(isExtRestriction) {
+                if(isExtRestriction && !isForceEdit) {
                     this.api.asc_addRestriction(Asc.c_oAscRestrictionType.View);
+                } else if(isExtRestriction && isForceEdit) {
+                    storeAppOptions.changeViewerMode(false);
                 } else {
                     this.api.asc_addRestriction(Asc.c_oAscRestrictionType.OnlyForms)
                 }
