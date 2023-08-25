@@ -2018,13 +2018,13 @@ define([
                 win = new DE.Views.HyphenationDialog({
                     handler: function(dlg, result) {
                         if (result == 'ok') {
-                            me.api.asc_SetHyphenationProps(dlg.getSettings());
+                            me.api.asc_setAutoHyphenationSettings(dlg.getSettings());
                             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         }
                     }
                 });
                 win.show();
-                me.api && win.setSettings({auto: this.api.asc_isAutoHyphenation(), caps: this.api.asc_isHyphenateCaps(), limits: this.api.asc_getConsecutiveHyphenLimit()});
+                me.api && win.setSettings(me.api.asc_getAutoHyphenationSettings());
             } else {
                 this.api && this.api.asc_setAutoHyphenation(!!item.value);
             }

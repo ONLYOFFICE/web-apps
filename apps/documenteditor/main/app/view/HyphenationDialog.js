@@ -84,7 +84,7 @@ define([
                 labelText: this.textAuto
             }).on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps)
-                    this._changedProps.put_Auto(field.getValue()==='checked');
+                    this._changedProps.setAutoHyphenation(field.getValue()==='checked');
             }, this));
 
             this.chCaps = new Common.UI.CheckBox({
@@ -92,7 +92,7 @@ define([
                 labelText: this.textCaps
             }).on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps)
-                    this._changedProps.put_Caps(field.getValue()==='checked');
+                    this._changedProps.setHyphenateCaps(field.getValue()==='checked');
             }, this));
 
             this.spnLimit = new Common.UI.MetricSpinner({
@@ -110,7 +110,7 @@ define([
             this.spnLimit.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                  if (this._changedProps) {
                     var value = field.getNumberValue();
-                    this._changedProps.put_Limit(value<0 ? 0 : value);
+                    this._changedProps.setHyphenationLimit(value<0 ? 0 : value);
                  }
             }, this));
             this.spnLimit.on('changing', _.bind(function(field, newValue, oldValue, eOpts){
@@ -133,12 +133,12 @@ define([
 
         setSettings: function (props) {
             if (props) {
-                this.chAuto.setValue(!!props.auto, true);
-                this.chCaps.setValue(!!props.caps, true);
-                var value = props.limits || 0;
+                this.chAuto.setValue(!!props.isAutoHyphenation(), true);
+                this.chCaps.setValue(!!props.isHyphenateCaps(), true);
+                var value = props.getHyphenationLimit() || 0;
                 this.spnLimit.setValue(value!==null && value!==undefined ? (value===0 ? -1 : value) : '', true);
             }
-            // this._changedProps = new Asc.asc_CHyphenationProperty();
+            this._changedProps = props || new AscCommon.AutoHyphenationSettings();
         },
 
         _handleInput: function(state) {
