@@ -1,6 +1,8 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Avertisment",
   "Common.Controllers.Chat.textEnterMessage": "Lăsați mesaj aici",
+  "Common.Controllers.Desktop.hintBtnHome": "Afișare fereastră principală",
+  "Common.Controllers.Desktop.itemCreateFromTemplate": "Creare model formular",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Anonim",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Închidere",
   "Common.Controllers.ExternalDiagramEditor.warningText": "Obiectul este dezactivat deoarece este editat de către un alt utilizator.",

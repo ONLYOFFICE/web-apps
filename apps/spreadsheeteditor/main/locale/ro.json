@@ -2,6 +2,8 @@
   "cancelButtonText": "Anulare",
   "Common.Controllers.Chat.notcriticalErrorTitle": "Avertisment",
   "Common.Controllers.Chat.textEnterMessage": "Lăsați mesaj aici",
+  "Common.Controllers.Desktop.hintBtnHome": "Afișare fereastră principală",
+  "Common.Controllers.Desktop.itemCreateFromTemplate": "Creare model formular",
   "Common.Controllers.History.notcriticalErrorTitle": "Avertisment",
   "Common.define.chartData.textArea": "Zona",
   "Common.define.chartData.textAreaStacked": "Arie stivuită",
