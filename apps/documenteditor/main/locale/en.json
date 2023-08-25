@@ -2301,7 +2301,7 @@
   "DE.Views.HyphenationDialog.textCaps": "Hyphenate words in CAPS",
   "DE.Views.HyphenationDialog.textLimit": "Limit consecutive hyphens to",
   "DE.Views.HyphenationDialog.textNoLimit": "No limit",
-  "DE.Views.HyphenationDialog.textZon": "Hyphenation zone",
+  "DE.Views.HyphenationDialog.textZone": "Hyphenation zone",
   "DE.Views.ImageSettings.textAdvanced": "Show advanced settings",
   "DE.Views.ImageSettings.textCrop": "Crop",
   "DE.Views.ImageSettings.textCropFill": "Fill",
