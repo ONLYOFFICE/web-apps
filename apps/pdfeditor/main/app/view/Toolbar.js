@@ -352,7 +352,68 @@ define([
                     });
                     this.paragraphControls.push(this.btnHighlight);
 
+                    this.fieldPages = new Common.UI.InputFieldFixed({
+                        id: 'id-toolbar-txt-pages',
+                        style       : 'width: 100%;',
+                        maskExp     : /[0-9]/,
+                        allowBlank  : true,
+                        validateOnChange: false,
+                        fixedValue: '/ 1',
+                        value: 1,
+                        lock: [_set.disableOnStart],
+                        validation  : function(value) {
+                            if (/(^[0-9]+$)/.test(value)) {
+                                value = parseInt(value);
+                                if (value===undefined || value===null || value<1)
+                                    me.fieldPages.setValue(me.api.getCurrentPage()+1);
+                            } else
+                                me.fieldPages.setValue(me.api.getCurrentPage()+1);
+
+                            return true;
+                        }
+                    });
+                    this.toolbarControls.push(this.fieldPages);
+
+                    this.btnFirstPage = new Common.UI.Button({
+                        id          : 'id-toolbar-btn-first-page',
+                        cls         : 'btn-toolbar',
+                        iconCls     : 'toolbar__icon btn-first-page',
+                        lock: [_set.disableOnStart],
+                        dataHint    : '1',
+                        dataHintDirection: 'bottom'
+                    });
+                    this.toolbarControls.push(this.btnFirstPage);
+
+                    this.btnLastPage = new Common.UI.Button({
+                        id          : 'id-toolbar-btn-last-page',
+                        cls         : 'btn-toolbar',
+                        iconCls     : 'toolbar__icon btn-last-page',
+                        lock: [_set.disableOnStart],
+                        dataHint    : '1',
+                        dataHintDirection: 'bottom'
+                    });
+                    this.toolbarControls.push(this.btnLastPage);
+
+                    this.btnPrevPage = new Common.UI.Button({
+                        id          : 'id-toolbar-btn-prev-page',
+                        cls         : 'btn-toolbar',
+                        iconCls     : 'toolbar__icon btn-prev-page',
+                        lock: [_set.disableOnStart],
+                        dataHint    : '1',
+                        dataHintDirection: 'bottom'
+                    });
+                    this.toolbarControls.push(this.btnPrevPage);
                     //
+                    this.btnNextPage = new Common.UI.Button({
+                        id          : 'id-toolbar-btn-next-page',
+                        cls         : 'btn-toolbar',
+                        iconCls     : 'toolbar__icon btn-next-page',
+                        lock: [_set.disableOnStart],
+                        dataHint    : '1',
+                        dataHintDirection: 'bottom'
+                    });
+                    this.toolbarControls.push(this.btnNextPage);
+
                     // Menus
                     //
 
@@ -456,6 +517,11 @@ define([
                 _injectComponent('#slot-btn-highlight', this.btnHighlight);
                 _injectComponent('#slot-btn-hide-comments', this.btnHideComments);
                 _injectComponent('#slot-btn-rotate', this.btnRotate);
+                _injectComponent('#slot-btn-pages', this.fieldPages);
+                _injectComponent('#slot-btn-first-page', this.btnFirstPage);
+                _injectComponent('#slot-btn-last-page', this.btnLastPage);
+                _injectComponent('#slot-btn-prev-page', this.btnPrevPage);
+                _injectComponent('#slot-btn-next-page', this.btnNextPage);
 
                 this.btnPrint.menu && this.btnPrint.$el.addClass('split');
                 return $host;
@@ -575,6 +641,10 @@ define([
                 this.btnHighlight.updateHint(this.textHighlight);
                 this.btnHideComments.updateHint(this.tipHideComments);
                 this.btnRotate.updateHint(this.tipRotate);
+                this.btnFirstPage.updateHint(this.tipFirstPage);
+                this.btnLastPage.updateHint(this.tipLastPage);
+                this.btnPrevPage.updateHint(this.tipPrevPage);
+                this.btnNextPage.updateHint(this.tipNextPage);
             },
 
             onToolbarAfterRender: function(toolbar) {
@@ -744,7 +814,11 @@ define([
             capBtnHideComments: 'Hide Comments',
             tipHideComments: 'Hide comments',
             capBtnRotate: 'Rotate',
-            tipRotate: 'Rotate pages'
+            tipRotate: 'Rotate pages',
+            tipFirstPage: 'Go to the first page',
+            tipLastPage: 'Go to the last page',
+            tipPrevPage: 'Go to the previous page',
+            tipNextPage: 'Go to the next page'
         }
     })(), PDFE.Views.Toolbar || {}));
 });

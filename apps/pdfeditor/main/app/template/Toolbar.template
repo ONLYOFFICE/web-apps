@@ -42,6 +42,18 @@
         </section>
         <section class="box-panels">
             <section class="panel" data-tab="home">
+                <div class="group small">
+                    <div class="elset">
+                        <span class="btn-slot" id="slot-btn-pages" style="width: 95px"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot" id="slot-btn-first-page"></span>
+                        <span class="btn-slot margin-left-5" id="slot-btn-prev-page"></span>
+                        <span class="btn-slot margin-left-5" id="slot-btn-next-page"></span>
+                        <span class="btn-slot margin-left-5" id="slot-btn-last-page"></span>
+                    </div>
+                </div>
+                <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-rotate"></span>
                 </div>

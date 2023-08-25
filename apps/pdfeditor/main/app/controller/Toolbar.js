@@ -66,7 +66,8 @@ define([
                 can_copycut: undefined,
                 clrstrike: undefined,
                 clrunderline: undefined,
-                clrhighlight: undefined
+                clrhighlight: undefined,
+                pageCount: 1
             };
             this.editMode = true;
             this.binding = {};
@@ -160,7 +161,7 @@ define([
             /**
              * UI Events
              */
-
+            var me = this;
             toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
             toolbar.btnPrint.on('disabled',                             _.bind(this.onBtnChangeState, this, 'print:disabled'));
             toolbar.btnSave.on('click',                                 _.bind(this.onSave, this));
@@ -188,6 +189,15 @@ define([
             toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
             toolbar.btnHideComments.on('click',                         _.bind(this.onHideCommentsClick, this));
             toolbar.btnRotate.on('click',                               _.bind(this.onRotateClick, this));
+            toolbar.fieldPages.on('changed:after',                      _.bind(this.onPagesChanged, this));
+            toolbar.fieldPages.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me.toolbar);});
+            toolbar.fieldPages.cmpEl && toolbar.fieldPages.cmpEl.on('focus', 'input.form-control', function() {
+                setTimeout(function(){toolbar.fieldPages._input && toolbar.fieldPages._input.select();}, 1);
+            });
+            toolbar.btnFirstPage.on('click',                            _.bind(this.onGotoPage, this, 'first'));
+            toolbar.btnLastPage.on('click',                             _.bind(this.onGotoPage, this, 'last'));
+            toolbar.btnPrevPage.on('click',                             _.bind(this.onGotoPage, this, 'prev'));
+            toolbar.btnNextPage.on('click',                             _.bind(this.onGotoPage, this, 'next'));
 
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
             this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());
@@ -208,6 +218,8 @@ define([
                 this.api.asc_registerCallback('asc_onCanCopyCut', _.bind(this.onApiCanCopyCut, this));
                 this.api.asc_registerCallback('asc_onContextMenu', _.bind(this.onContextMenu, this));
             }
+            this.api.asc_registerCallback('asc_onCountPages',   _.bind(this.onCountPages, this));
+            this.api.asc_registerCallback('asc_onCurrentPage',  _.bind(this.onCurrentPage, this));
         },
 
         onChangeCompactView: function(view, compact) {
@@ -230,6 +242,33 @@ define([
 
         onContextMenu: function() {
             this.toolbar.collapse();
+        },
+
+        onCountPages: function(count) {
+            this._state.pageCount = count;
+            this.toolbar && this.toolbar.fieldPages && this.toolbar.fieldPages.setFixedValue('/ ' + count);
+        },
+
+        onCurrentPage: function(value) {
+            this.toolbar && this.toolbar.fieldPages && this.toolbar.fieldPages.setValue(value + 1);
+        },
+
+        onPagesChanged: function() {
+            var value = parseInt(this.toolbar.fieldPages.getValue());
+            if (value>this._state.pageCount)
+                value = this._state.pageCount;
+            this.api && this.api.goToPage(value-1);
+        },
+
+        onGotoPage: function (type, btn, e) {
+            if (!this.api) return;
+
+            if (type==='first')
+                this.api.goToPage(0);
+            else if (type==='last')
+                this.api.goToPage(this._state.pageCount-1);
+            else
+                this.api.goToPage(this.api.getCurrentPage() + (type==='next' ? 1 : -1));
         },
 
         onApiCanRevert: function(which, can) {
