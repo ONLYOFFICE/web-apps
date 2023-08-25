@@ -349,6 +349,41 @@ define([
                 caption     : me.txtRefresh
             });
 
+            me.mnuExpandCollapsePivot = new Common.UI.MenuItem({
+                caption     : this.txtExpandCollapse,
+                menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign   : 'tl-tr',
+                    items: [
+                        {
+                            caption : this.txtExpand,
+                            value   : {
+                                visible: true,
+                                isAll: false
+                            }
+                        },{
+                            caption : this.txtCollapse,
+                            value   : {
+                                visible: false,
+                                isAll: false
+                            }
+                        },{
+                            caption : this.txtExpandEntire,
+                            value   : {
+                                visible: true,
+                                isAll: true
+                            }
+                        },{
+                            caption : this.txtCollapseEntire,
+                            value   : {
+                                visible: false,
+                                isAll: true
+                            }
+                        }
+                    ]
+                })
+            });
+
             me.mnuGroupPivot = new Common.UI.MenuItem({
                 caption     : this.txtGroup,
                 value       : 'grouping'
@@ -569,6 +604,7 @@ define([
 
             me.mnuPivotRefreshSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotSubtotalSeparator = new Common.UI.MenuItem({caption: '--'});
+            me.mnuPivotExpandCollapseSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotGroupSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotDeleteSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotValueSeparator = new Common.UI.MenuItem({caption: '--'});
@@ -823,6 +859,8 @@ define([
                     me.mnuPivotFilterSeparator,
                     me.mnuSubtotalField,
                     me.mnuPivotSubtotalSeparator,
+                    me.mnuExpandCollapsePivot,
+                    me.mnuPivotExpandCollapseSeparator,
                     me.mnuGroupPivot,
                     me.mnuUnGroupPivot,
                     me.mnuPivotGroupSeparator,
@@ -1650,6 +1688,11 @@ define([
         txtArrange:             'Arrange',
         txtAddComment:          'Add Comment',
         txtEditComment:         'Edit Comment',
+        txtExpandCollapse:      'Expand/Collapse',
+        txtExpand:              'Expand',
+        txtCollapse:            'Collapse',
+        txtExpandEntire:        'Expand Entire Field',
+        txtCollapseEntire:      'Collapse Entire Field',
         txtUngroup:             'Ungroup',
         txtGroup:               'Group',
         topCellText:            'Align Top',

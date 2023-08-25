@@ -76,7 +76,8 @@ define([
     'spreadsheeteditor/main/app/view/MacroDialog',
     'spreadsheeteditor/main/app/view/FieldSettingsDialog',
     'spreadsheeteditor/main/app/view/ValueFieldSettingsDialog',
-    'spreadsheeteditor/main/app/view/PivotSettingsAdvanced'
+    'spreadsheeteditor/main/app/view/PivotSettingsAdvanced',
+    'spreadsheeteditor/main/app/view/PivotShowDetailDialog',
 ], function () {
     'use strict';
 
@@ -222,6 +223,7 @@ define([
                 view.pmiReapply.on('click',                         _.bind(me.onReapply, me));
                 view.pmiCondFormat.on('click',                      _.bind(me.onCondFormat, me));
                 view.mnuRefreshPivot.on('click',                    _.bind(me.onRefreshPivot, me));
+                view.mnuExpandCollapsePivot.menu.on('item:click',   _.bind(me.onExpandCollapsePivot, me));
                 view.mnuGroupPivot.on('click',                      _.bind(me.onGroupPivot, me));
                 view.mnuUnGroupPivot.on('click',                    _.bind(me.onGroupPivot, me));
                 view.mnuPivotSettings.on('click',                   _.bind(me.onPivotSettings, me));
@@ -397,6 +399,7 @@ define([
                 this.api.asc_registerCallback('asc_ChangeCropState', _.bind(this.onChangeCropState, this));
                 this.api.asc_registerCallback('asc_onInputMessage', _.bind(this.onInputMessage, this));
                 this.api.asc_registerCallback('asc_onTableTotalMenu', _.bind(this.onTableTotalMenu, this));
+                this.api.asc_registerCallback('asc_onShowPivotHeaderDetailsDialog', _.bind(this.onShowPivotHeaderDetailsDialog, this));
                 this.api.asc_registerCallback('asc_onShowPivotGroupDialog', _.bind(this.onShowPivotGroupDialog, this));
                 if (!this.permissions.isEditMailMerge && !this.permissions.isEditDiagram && !this.permissions.isEditOle) {
                     this.api.asc_registerCallback('asc_doubleClickOnTableOleObject', _.bind(this.onDoubleClickOnTableOleObject, this));
@@ -609,10 +612,50 @@ define([
             }
         },
 
+        onExpandCollapsePivot: function(menu, item, e) {
+            this.propsPivot.originalProps.asc_setExpandCollapseByActiveCell(this.api, item.value.isAll, item.value.visible);
+        },
+
         onGroupPivot: function(item) {
             item.value=='grouping' ? this.api.asc_groupPivot() : this.api.asc_ungroupPivot();
         },
 
+        onShowPivotHeaderDetailsDialog: function(isRow, isAll) {
+            var me = this,
+                pivotInfo = this.api.asc_getCellInfo().asc_getPivotTableInfo(),
+                cacheFields = pivotInfo.asc_getCacheFields(),
+                pivotFields = pivotInfo.asc_getPivotFields(),
+                fieldsNames = _.map(pivotFields, function(item, index) {
+                    return {
+                        index: index,
+                        name: item.asc_getName() || cacheFields[index].asc_getName()
+                    }
+                }),
+                excludedFields = [];
+
+            if(isRow) excludedFields = pivotInfo.asc_getRowFields();
+            else excludedFields = pivotInfo.asc_getColumnFields();
+            
+            excludedFields && (excludedFields = _.filter(excludedFields, function(item){
+                var pivotIndex = item.asc_getIndex();
+                return (pivotIndex>-1 || pivotIndex == -2);
+            }));
+
+            excludedFields.forEach(function(excludedItem) {
+                var indexInFieldsNames = _.findIndex(fieldsNames, function(item) { return excludedItem.asc_getIndex() == item.index});          
+                fieldsNames.splice(indexInFieldsNames, 1);
+            });
+
+            new SSE.Views.PivotShowDetailDialog({
+                handler: function(result, value) {
+                    if (result == 'ok' && value) {
+                        me.api.asc_pivotShowDetailsHeader(value.index, isAll) ;
+                    }
+                },
+                items: fieldsNames,
+            }).show();
+        },
+        
         onShowPivotGroupDialog: function(rangePr, dateTypes, defRangePr) {
             var win, props,
                 me = this;
@@ -853,6 +896,7 @@ define([
                 rowFieldIndex = info.asc_getRowFieldIndex(),
                 dataFieldIndex = info.asc_getDataFieldIndex();
 
+            this.propsPivot.canExpandCollapse = info.asc_canExpandCollapse();
             this.propsPivot.canGroup = info.asc_canGroup();
             this.propsPivot.rowTotal = info.asc_getRowGrandTotals();
             this.propsPivot.colTotal = info.asc_getColGrandTotals();
@@ -2824,6 +2868,8 @@ define([
                 documentHolder.mnuPivotFilterSeparator.setVisible(this.propsPivot.filter || this.propsPivot.rowFilter || this.propsPivot.colFilter);
                 documentHolder.mnuSubtotalField.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===0 || this.propsPivot.fieldType===1));
                 documentHolder.mnuPivotSubtotalSeparator.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===0 || this.propsPivot.fieldType===1));
+                documentHolder.mnuExpandCollapsePivot.setVisible(!!this.propsPivot.canExpandCollapse);
+                documentHolder.mnuPivotExpandCollapseSeparator.setVisible(!!this.propsPivot.canExpandCollapse);
                 documentHolder.mnuGroupPivot.setVisible(!!this.propsPivot.canGroup);
                 documentHolder.mnuUnGroupPivot.setVisible(!!this.propsPivot.canGroup);
                 documentHolder.mnuPivotGroupSeparator.setVisible(!!this.propsPivot.canGroup);
