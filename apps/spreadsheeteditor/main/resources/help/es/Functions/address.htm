@@ -17,11 +17,11 @@
 			<h1>Función DIRECCIÓN</h1>
 			<p>La función <b>DIRECCIÓN</b> es una función de búsqueda y referencia. Se usa para devolver la dirección de una celda expresada como un valor numérico.</p>
 			<p>La sintaxis de la función <b>DIRECCIÓN</b> es:</p> 
-			<p style="text-indent: 150px;"><b><em>DIRECCIÓN(fila-número, col-número[ , [ref-tipo] [, [A1-ref-tipo-indicador] [, nombre de la hoja]]])</em></b></p> 
+			<p style="text-indent: 150px;"><b><em>DIRECCION(fila; columna; [abs]; [a1]; [hoja])</em></b></p> 
 			<p><em>donde</em></p> 
-			<p style="text-indent: 50px;"><em><b>fila-número</b></em> es un número de fila usado en la dirección de una celda.</p>
-			<p style="text-indent: 50px;"><em><b>col-número</b></em> es un número de columna usado en la dirección de una celda.</p>
-			<p style="text-indent: 50px;"><em><b>ref-tipo</b></em> es un tipo de referencia. Puede ser uno de los valores siguientes:</p>
+			<p style="text-indent: 50px;"><em><b>fila</b></em> es un número de fila usado en la dirección de una celda.</p>
+			<p style="text-indent: 50px;"><em><b>columna</b></em> es un número de columna usado en la dirección de una celda.</p>
+			<p style="text-indent: 50px;"><em><b>abs</b></em> es un tipo de referencia. Puede ser uno de los valores siguientes:</p>
 				<table style="width: 40%">
 				<tr>
 					<td><b>Valor numérico</b></td>
@@ -44,8 +44,8 @@
 					<td>Referencia relativa</td>
 				</tr>
 			</table>
-			<p><em><b>A1-ref-tipo-indicador</b></em> es un valor lógico opcional: VERDADERO o FALSO. Si se establece en VERDADERO u omitido, el estilo de referencia de <b><em>ref-texto</em></b> será A1. Si se establece en FALSO, el estilo de referencia de <b><em>ref-texto</em></b> será R1C1.</p>
-			<p><em><b>nombre de la hoja</b></em> es el nombre de la hoja usado en la dirección de la celda. es un argumento opcional. Si se omite, la función devolverá la dirección de la celda sin nombre de la hoja.</p>
+			<p><em><b>a1</b></em> es un valor lógico opcional: VERDADERO o FALSO. Si se establece en VERDADERO u omitido, el estilo de referencia de <b><em>ref-texto</em></b> será A1. Si se establece en FALSO, el estilo de referencia de <b><em>ref-texto</em></b> será R1C1.</p>
+			<p><em><b>hoja</b></em> es el nombre de la hoja usado en la dirección de la celda. es un argumento opcional. Si se omite, la función devolverá la dirección de la celda sin nombre de la hoja.</p>
 			<p>Los argumentos pueden ser introducidos manualmente o incluidos en las celdas a las que usted hace referencia.</p>
 			<p>Para aplicar la función <b>DIRECCIÓN</b>,</p>
 			<ol>
