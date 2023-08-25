@@ -263,6 +263,18 @@ define([
                     });
                     this.toolbarControls.push(this.btnHandTool);
 
+                    this.btnRotate = new Common.UI.Button({
+                        id: 'tlbtn-rotate',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-update',
+                        lock: [_set.disableOnStart],
+                        caption: this.capBtnRotate,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.toolbarControls.push(this.btnRotate);
+
                     this.btnAddComment = new Common.UI.Button({
                         id: 'tlbtn-addcomment',
                         cls: 'btn-toolbar x-huge icon-top',
@@ -274,6 +286,19 @@ define([
                         dataHintOffset: 'small'
                     });
                     this.toolbarControls.push(this.btnAddComment);
+
+                    this.btnHideComments = new Common.UI.Button({
+                        id: 'tlbtn-hidecomments',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-hide-comments',
+                        lock: [_set.disableOnStart],
+                        caption: this.capBtnHideComments,
+                        enableToggle: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.toolbarControls.push(this.btnHideComments);
 
                     this.btnStrikeout = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-strikeout',
@@ -429,6 +454,8 @@ define([
                 _injectComponent('#slot-btn-strikeout', this.btnStrikeout);
                 _injectComponent('#slot-btn-underline', this.btnUnderline);
                 _injectComponent('#slot-btn-highlight', this.btnHighlight);
+                _injectComponent('#slot-btn-hide-comments', this.btnHideComments);
+                _injectComponent('#slot-btn-rotate', this.btnRotate);
 
                 this.btnPrint.menu && this.btnPrint.$el.addClass('split');
                 return $host;
@@ -546,6 +573,8 @@ define([
                 this.btnStrikeout.updateHint(this.textStrikeout);
                 this.btnUnderline.updateHint(this.textUnderline);
                 this.btnHighlight.updateHint(this.textHighlight);
+                this.btnHideComments.updateHint(this.tipHideComments);
+                this.btnRotate.updateHint(this.tipRotate);
             },
 
             onToolbarAfterRender: function(toolbar) {
@@ -712,6 +741,10 @@ define([
             textStrikeout: 'Strikeout',
             textUnderline: 'Underline',
             textHighlight: 'Highlight',
+            capBtnHideComments: 'Hide Comments',
+            tipHideComments: 'Hide comments',
+            capBtnRotate: 'Rotate',
+            tipRotate: 'Rotate pages'
         }
     })(), PDFE.Views.Toolbar || {}));
 });

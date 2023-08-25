@@ -186,6 +186,8 @@ define([
             toolbar.btnHighlight.on('click',                            _.bind(this.onBtnHighlight, this));
             toolbar.mnuHighlightColorPicker.on('select',                _.bind(this.onSelectHighlightColor, this));
             toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
+            toolbar.btnHideComments.on('click',                         _.bind(this.onHideCommentsClick, this));
+            toolbar.btnRotate.on('click',                               _.bind(this.onRotateClick, this));
 
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
             this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());
@@ -530,6 +532,14 @@ define([
                 // me.api.SetMarkerFormat(true, true, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
             }
             Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnHighlight);
+        },
+
+        onHideCommentsClick: function(btn, e) {
+            // this.api && this.api.asc_HideComments(btn.pressed);
+        },
+
+        onRotateClick: function(btn, e) {
+            // this.api && this.api.asc_Rotate();
         },
 
         activateControls: function() {
