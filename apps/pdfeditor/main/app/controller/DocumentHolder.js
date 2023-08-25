@@ -158,7 +158,10 @@ define([
                 this.api.asc_registerCallback('asc_onHyperlinkClick',               _.bind(this.onHyperlinkClick, this));
                 this.api.asc_registerCallback('asc_onMouseMove',                    _.bind(this.onMouseMove, this));
 
-                this.api.asc_registerCallback('asc_onHideEyedropper',               _.bind(this.hideEyedropper, this));
+                if (this.mode.isEdit === true) {
+                    this.api.asc_registerCallback('asc_onHideEyedropper',               _.bind(this.hideEyedropper, this));
+                    this.api.asc_registerCallback('asc_onShowPDFFormsActions',          _.bind(this.onShowFormsPDFActions, this));
+                }
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',        _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect',                      _.bind(this.onCoAuthoringDisconnect, this));
 
@@ -167,7 +170,6 @@ define([
                 this.api.asc_registerCallback('asc_onFocusObject',                  _.bind(this.onFocusObject, this));
                 this.api.asc_registerCallback('onPluginContextMenu',                _.bind(this.onPluginContextMenu, this));
 
-                this.api.asc_registerCallback('asc_onShowPDFFormsActions',          _.bind(this.onShowFormsPDFActions, this));
                 this.documentHolder.setApi(this.api);
             }
 

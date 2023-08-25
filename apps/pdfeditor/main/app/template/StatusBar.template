@@ -16,6 +16,10 @@
         <label id="label-action" class="status-label margin-top-large" data-layout-name="statusBar-actionStatus"></label>
     </div>
     <div class="status-group" style="">
+        <div class="separator short hide-select-tools"></div>
+        <button id="status-btn-select-tool" type="button" class="btn small btn-toolbar hide-select-tools margin-top-small" data-hint="0" data-hint-direction="top" data-hint-offset="small"><i class="icon toolbar__icon btn-select-tool">&nbsp;</i></button>
+        <button id="status-btn-hand-tool" type="button" class="btn small btn-toolbar hide-select-tools margin-top-small" data-hint="0" data-hint-direction="top" data-hint-offset="small"><i class="icon toolbar__icon btn-hand-tool">&nbsp;</i></button>
+        <div class="separator short hide-select-tools"></div>
         <button id="btn-zoom-topage" type="button" class="btn small btn-toolbar margin-top-small" data-hint="0" data-hint-direction="top" data-hint-offset="small"><i class="icon toolbar__icon btn-ic-zoomtopage">&nbsp;</i></button>
         <button id="btn-zoom-towidth" type="button" class="btn small btn-toolbar margin-top-small" data-hint="0" data-hint-direction="top" data-hint-offset="small"><i class="icon toolbar__icon btn-ic-zoomtowidth">&nbsp;</i></button>
         <button id="btn-zoom-down" type="button" class="btn small btn-toolbar margin-top-small"><i class="icon toolbar__icon btn-zoomdown">&nbsp;</i></button>

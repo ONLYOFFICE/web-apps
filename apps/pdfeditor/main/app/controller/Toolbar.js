@@ -663,7 +663,7 @@ define([
             (new Promise(function(accept) {
                 accept();
             })).then(function () {
-                me.toolbar && me.toolbar.btnHandTool.toggle(true, true);
+                config.isEdit && me.toolbar && me.toolbar.btnHandTool.toggle(true, true);
                 me.api && me.api.asc_setViewerTargetType('hand');
             });
         },

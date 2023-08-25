@@ -944,7 +944,7 @@
         if (typeof config.documentType === 'string') {
             app = appMap[config.documentType.toLowerCase()];
             if (!!config.document && typeof config.document.fileType === 'string') {
-                var type = /^(?:(pdf))$/.exec(config.document.fileType);
+                var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(config.document.fileType);
                 if (type && typeof type[1] === 'string')
                     app = appMap['pdf'];
             }
@@ -1012,8 +1012,9 @@
         if (config.frameEditorId)
             params += "&frameEditorId=" + config.frameEditorId;
 
-        if (config.editorConfig && config.editorConfig.mode == 'view' ||
-            config.document && config.document.permissions && (config.document.permissions.edit === false && !config.document.permissions.review ))
+        var type = /^(?:(pdf))$/.exec(config.document.fileType);
+        if (!(type && typeof type[1] === 'string') && (config.editorConfig && config.editorConfig.mode == 'view' ||
+            config.document && config.document.permissions && (config.document.permissions.edit === false && !config.document.permissions.review )))
             params += "&mode=view";
 
         if (config.editorConfig && config.editorConfig.customization && !!config.editorConfig.customization.compactHeader)

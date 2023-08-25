@@ -46,6 +46,7 @@ define([
     'underscore',
     'backbone',
     'text!pdfeditor/main/app/template/Toolbar.template',
+    'text!documenteditor/main/app/template/ToolbarView.template',
     'common/main/lib/collection/Fonts',
     'common/main/lib/component/Button',
     'common/main/lib/component/ColorButton',
@@ -59,7 +60,7 @@ define([
     'common/main/lib/component/ComboDataView'
     ,'common/main/lib/component/SynchronizeTip'
     ,'common/main/lib/component/Mixtbar'
-], function ($, _, Backbone, template) {
+], function ($, _, Backbone, template, template_view) {
     'use strict';
 
     if (!Common.enumLock)
@@ -335,6 +336,14 @@ define([
                     this.lockToolbar(Common.enumLock.disableOnStart, true, {array: this.lockControls});
 
                     this.on('render:after', _.bind(this.onToolbarAfterRender, this));
+                } else {
+                    Common.UI.Mixtbar.prototype.initialize.call(this, {
+                            template: _.template(template_view),
+                            tabs: [
+                                {caption: me.textTabFile, action: 'file', layoutname: 'toolbar-file', haspanel: false, dataHintTitle: 'F'}
+                            ]
+                        }
+                    );
                 }
                 return this;
             },
@@ -351,6 +360,10 @@ define([
                 me.isCompactView = mode.isCompactView;
                 if ( mode.isEdit ) {
                     me.$el.html(me.rendererComponents(me.$layout));
+                } else {
+                    me.$layout.find('.canedit').hide();
+                    me.isCompactView && me.$layout.addClass('folded');
+                    me.$el.html(me.$layout);
                 }
 
                 this.fireEvent('render:after', [this]);

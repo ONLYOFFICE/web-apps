@@ -67,6 +67,10 @@ define([
 
         function _onAppReady(config) {
             var me = this;
+            if (config.canUseSelectHandTools) {
+                me.btnSelectTool.updateHint(me.tipSelectTool);
+                me.btnHandTool.updateHint(me.tipHandTool);
+            }
             me.btnZoomToPage.updateHint(me.tipFitPage);
             me.btnZoomToWidth.updateHint(me.tipFitWidth);
             me.btnZoomDown.updateHint(me.tipZoomOut + Common.Utils.String.platformKey('Ctrl+-'));
@@ -170,6 +174,20 @@ define([
                     textGotoPage: this.goToPageText,
                     textPageNumber: Common.Utils.String.format(this.pageIndexText, 1, 1)
                 }));
+
+                this.btnSelectTool = new Common.UI.Button({
+                    hintAnchor: 'top',
+                    toggleGroup: 'select-tools',
+                    enableToggle: true,
+                    allowDepress: false
+                });
+
+                this.btnHandTool = new Common.UI.Button({
+                    hintAnchor: 'top',
+                    toggleGroup: 'select-tools',
+                    enableToggle: true,
+                    allowDepress: false
+                });
 
                 this.btnZoomToPage = new Common.UI.Button({
                     hintAnchor: 'top',
@@ -275,6 +293,11 @@ define([
                 me.btnPagePrev.render($('#slot-status-btn-prev', me.$layout));
                 me.btnPageNext.render($('#slot-status-btn-next', me.$layout));
 
+                if (config.canUseSelectHandTools) {
+                    _btn_render(me.btnSelectTool, $('#status-btn-select-tool', me.$layout));
+                    _btn_render(me.btnHandTool, $('#status-btn-hand-tool', me.$layout));
+                }
+
                 this.$el.html(me.$layout);
                 this.fireEvent('render:after', [this]);
 
@@ -338,7 +361,9 @@ define([
             tipZoomFactor       : 'Magnification',
             txtPageNumInvalid   : 'Page number invalid',
             tipPagePrev: 'Go to previous page',
-            tipPageNext: 'Go to nex page'
+            tipPageNext: 'Go to nex page',
+            tipSelectTool       : 'Select tool',
+            tipHandTool         : 'Hand tool'
         }, PDFE.Views.Statusbar || {}));
     }
 );

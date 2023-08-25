@@ -687,7 +687,7 @@ define([
                         $html.find('#slot-btn-share').hide();
                     }
 
-                    if (isPDFEditor && !config.isOffline) {
+                    if (isPDFEditor && config.isEdit && !config.isOffline) {
                         me.btnPDFMode = new Common.UI.Button({
                             cls: 'btn-header btn-header-pdf-mode no-caret',
                             iconCls: 'toolbar__icon icon--inverse btn-sheet-view',

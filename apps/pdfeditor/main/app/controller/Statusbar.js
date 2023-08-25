@@ -91,6 +91,9 @@ define([
                 var lblzoom = $('.statusbar #label-zoom');
                 lblzoom.css('min-width', 80);
                 lblzoom.text(Common.Utils.String.format(me.zoomText, 100));
+                if (cfg.canUseSelectHandTools) {
+                    me.statusbar.$el.find('.hide-select-tools').removeClass('hide-select-tools');
+                }
             });
             Common.NotificationCenter.on('app:ready', me.onAppReady.bind(me));
         },
@@ -104,6 +107,11 @@ define([
                 me.bindViewEvents(me.statusbar, me.events);
                 me.statusbar.btnPagePrev.on('click', _.bind(me.onGotoPage, me, false));
                 me.statusbar.btnPageNext.on('click', _.bind(me.onGotoPage, me, true));
+                if (config.canUseSelectHandTools) {
+                    me.statusbar.btnSelectTool.on('click', _.bind(me.onSelectTool, me, 'select'));
+                    me.statusbar.btnHandTool.on('click', _.bind(me.onSelectTool, me, 'hand'));
+                    me.statusbar.btnHandTool.toggle(true, true);
+                }
             });
         },
 
@@ -213,6 +221,12 @@ define([
         hideDisconnectTip: function() {
             this.disconnectTip && this.disconnectTip.hide();
             this.disconnectTip = null;
+        },
+
+        onSelectTool: function (type, btn, e) {
+            if (this.api) {
+                this.api.asc_setViewerTargetType(type);
+            }
         },
 
         zoomText        : 'Zoom {0}%',

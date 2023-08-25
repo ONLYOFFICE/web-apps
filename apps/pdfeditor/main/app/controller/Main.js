@@ -392,8 +392,8 @@ define([
                 this.appOptions.canRequestSaveAs = this.editorConfig.canRequestSaveAs;
                 this.appOptions.canRequestInsertImage = this.editorConfig.canRequestInsertImage;
                 this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
-                this.appOptions.compatibleFeatures = (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compatibleFeatures;
-                this.appOptions.uiRtl = true;
+                this.appOptions.compatibleFeatures = true;
+                this.appOptions.uiRtl = false;
 
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
 
@@ -450,10 +450,16 @@ define([
                     docInfo.asc_putIsEnabledPlugins(!!enable);
 //                    docInfo.put_Review(this.permissions.review);
 
-                    var coEditMode = !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
+                    var type = /^(?:(djvu|xps|oxps))$/.exec(data.doc.fileType);
+                    var coEditMode = (type && typeof type[1] === 'string') ? 'strict' :  // offline viewer for djvu|xps|oxps
+                                    !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
                                     this.editorConfig.mode === 'view' && this.editorConfig.coEditing.change!==false ? 'fast' : // if can change mode in viewer - set fast for using live viewer
                                     this.editorConfig.coEditing.mode || 'fast';
                     docInfo.put_CoEditingMode(coEditMode);
+
+                    if (type && typeof type[1] === 'string') {
+                        this.permissions.edit = this.permissions.review = false;
+                    }
                 }
 
                 if (!( this.editorConfig.customization && this.editorConfig.customization.toolbarNoTabs )) {
@@ -526,6 +532,16 @@ define([
                         Asc.c_oAscFileType.JPG,
                         Asc.c_oAscFileType.PNG
                     ];
+                var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(this.document.fileType);
+                if (!(format && (typeof format == 'string')) || type[1]===format.toLowerCase()) {
+                    this.api.asc_DownloadOrigin(true);
+                    return;
+                }
+                if (/^xps|oxps$/.test(this.document.fileType))
+                    _supported = _supported.concat([Asc.c_oAscFileType.PDF, Asc.c_oAscFileType.PDFA]);
+                else if (/^djvu$/.test(this.document.fileType)) {
+                    _supported = [Asc.c_oAscFileType.PDF];
+                }
                 if ( !_format || _supported.indexOf(_format) < 0 )
                     _format = _defaultFormat;
                 if (_format) {
@@ -1020,6 +1036,9 @@ define([
                         Common.NotificationCenter.trigger('document:ready', 'main');
                         me.applyLicense();
                     }, 500);
+                } else {
+                    Common.NotificationCenter.trigger('document:ready', 'main');
+                    me.applyLicense();
                 }
 
                 // TODO bug 43960
@@ -1163,6 +1182,8 @@ define([
                 if (params.asc_getRights() !== Asc.c_oRights.Edit)
                     this.permissions.edit = this.permissions.review = false;
 
+                var isXpsViewer = /^(?:(djvu|xps|oxps))$/.test(this.document.fileType);
+
                 this.appOptions.permissionsLicense = licType;
                 this.appOptions.canAnalytics   = params.asc_getIsAnalyticsEnable();
                 this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
@@ -1174,15 +1195,15 @@ define([
                 this.appOptions.canCreateNew   = this.appOptions.canCreateNew && !this.appOptions.isOffline;
                 this.appOptions.isCrypted      = this.api.asc_isCrypto();
                 this.appOptions.canRequestEditRights = this.editorConfig.canRequestEditRights;
-                this.appOptions.canEdit        = true;
-                this.appOptions.isEdit         = true;
+                this.appOptions.canEdit        = !isXpsViewer;
+                this.appOptions.isEdit         = !isXpsViewer;
                 this.permissions.comment = true; // !! Only for test !!
                 this.appOptions.canPDFEdit     = false;//(this.permissions.edit !== false) && this.appOptions.canLicense;
                 this.appOptions.isPDFEdit      = false; // this.appOptions.canPDFEdit && this.editorConfig.mode !== 'view'; !! always open in view mode
                 this.appOptions.canPDFAnnotate = this.appOptions.canLicense && (this.permissions.comment!== false);
                 this.appOptions.canPDFAnnotate = this.appOptions.canPDFAnnotate && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                 this.appOptions.isPDFAnnotate  = false;// this.appOptions.canLicense && this.appOptions.canPDFAnnotate && !this.appOptions.isPDFEdit && this.editorConfig.mode !== 'view'; !! always open in view mode
-                this.appOptions.canComments    = true;
+                this.appOptions.canComments    = !isXpsViewer;
                 this.appOptions.canViewComments = this.appOptions.canComments;
                 this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !(this.permissions.chat===false || (this.permissions.chat===undefined) &&
                                                                                                                (typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
@@ -1217,7 +1238,8 @@ define([
 
                 this.appOptions.canDownloadOrigin = false;
                 this.appOptions.canDownload       = this.permissions.download !== false;
-                this.appOptions.canUseSelectHandTools = this.appOptions.canUseThumbnails = this.appOptions.canUseViwerNavigation = true;
+                this.appOptions.canUseSelectHandTools = isXpsViewer;
+                this.appOptions.canUseThumbnails = this.appOptions.canUseViwerNavigation = true;
 
                 this.appOptions.fileKey = this.document.key;
 
@@ -1248,7 +1270,7 @@ define([
                     Common.NotificationCenter.on('comments:showdummy', _.bind(this.onShowDummyComment, this));
 
                 // change = true by default in editor
-                this.appOptions.canLiveView = !!params.asc_getLiveViewerSupport() && (this.editorConfig.mode === 'view'); // viewer: change=false when no flag canLiveViewer (i.g. old license), change=true by default when canLiveViewer==true
+                this.appOptions.canLiveView = !!params.asc_getLiveViewerSupport() && (this.editorConfig.mode === 'view') && !isXpsViewer; // viewer: change=false when no flag canLiveViewer (i.g. old license), change=true by default when canLiveViewer==true
                 this.appOptions.canChangeCoAuthoring = this.appOptions.isEdit && this.appOptions.canCoAuthoring && !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===false) ||
                                                        this.appOptions.canLiveView && !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===false);
 

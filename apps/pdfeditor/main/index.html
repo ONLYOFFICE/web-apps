@@ -286,7 +286,7 @@
     var params = getUrlParams(),
         notoolbar = params["toolbar"] == 'false',
         compact = params["compact"] == 'true',
-        view = false,
+        view = params["mode"] == 'view',
         visible = true;
 
     (compact || view || notoolbar) && document.querySelector('.brendpanel > :nth-child(2)').remove();
