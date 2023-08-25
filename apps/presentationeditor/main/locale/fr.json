@@ -2727,6 +2727,7 @@
   "PE.Views.Transitions.textLeft": "À partir de la gauche",
   "PE.Views.Transitions.textMorph": "Transformation",
   "PE.Views.Transitions.textMorphLetters": "Lettres",
+  "PE.Views.Transitions.textMorphObjects": "Objets",
   "PE.Views.Transitions.textMorphWord": "Mots",
   "PE.Views.Transitions.textNone": "Aucune",
   "PE.Views.Transitions.textPush": "Expulsion",
