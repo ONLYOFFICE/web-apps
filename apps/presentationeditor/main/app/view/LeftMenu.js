@@ -151,17 +151,6 @@ define([
 
             /** coauthoring end **/
 
-            this.btnPlugins = new Common.UI.Button({
-                el: $markup.elementById('#left-btn-plugins'),
-                hint: this.tipPlugins,
-                enableToggle: true,
-                disabled: true,
-                iconCls: 'btn-menu-plugin',
-                toggleGroup: 'leftMenuGroup'
-            });
-            this.btnPlugins.hide();
-            this.btnPlugins.on('click',         _.bind(this.onBtnMenuClick, this));
-
             this.menuFile = new PE.Views.FileMenu({});
             this.btnAbout.panel = (new Common.Views.About({el: '#about-menu-panel', appName: this.txtEditor}));
 
@@ -250,12 +239,6 @@ define([
                     this.panelSearch.hide();
                 }
             }
-            // if (this.mode.canPlugins && this.panelPlugins) {
-            //     if (this.btnPlugins.pressed) {
-            //         this.panelPlugins.show();
-            //     } else
-            //         this.panelPlugins['hide']();
-            // }
         },
 
         setOptionsPanel: function(name, panel) {
@@ -307,10 +290,6 @@ define([
                 }
             }
             /** coauthoring end **/
-            if (this.mode.canPlugins && this.panelPlugins && !this._state.pluginIsRunning) {
-                this.panelPlugins['hide']();
-                this.btnPlugins.toggle(false, true);
-            }
             if (this.panelSearch) {
                 this.panelSearch['hide']();
                 this.btnSearchBar.toggle(false, true);
@@ -334,7 +313,6 @@ define([
             /** coauthoring begin **/
             this.btnChat.setDisabled(disable);
             /** coauthoring end **/
-            this.btnPlugins.setDisabled(disable);
         },
 
         showMenu: function(menu, opts, suspendAfter) {

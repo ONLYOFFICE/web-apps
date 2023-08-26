@@ -131,17 +131,6 @@ define([
             this.btnChat.hide();
             /** coauthoring end **/
 
-            this.btnPlugins = new Common.UI.Button({
-                el: $markup.elementById('#left-btn-plugins'),
-                hint: this.tipPlugins,
-                enableToggle: true,
-                disabled: true,
-                iconCls: 'btn-menu-plugin',
-                toggleGroup: 'leftMenuGroup'
-            });
-            this.btnPlugins.hide();
-            this.btnPlugins.on('click',         _.bind(this.onBtnMenuClick, this));
-
             this.btnSpellcheck = new Common.UI.Button({
                 el: $markup.elementById('#left-btn-spellcheck'),
                 hint: this.tipSpellcheck,
@@ -232,12 +221,6 @@ define([
                     this.panelSearch.hide();
                 }
             }
-            // if (this.mode.canPlugins && this.panelPlugins) {
-            //     if (this.btnPlugins.pressed) {
-            //         this.panelPlugins.show();
-            //     } else
-            //         this.panelPlugins['hide']();
-            // }
         },
 
         setOptionsPanel: function(name, panel) {
@@ -289,10 +272,6 @@ define([
                 }
             }
             /** coauthoring end **/
-            if (this.mode.canPlugins && this.panelPlugins && !this._state.pluginIsRunning) {
-                this.panelPlugins['hide']();
-                this.btnPlugins.toggle(false, true);
-            }
             if (this.panelSpellcheck) {
                 this.panelSpellcheck['hide']();
                 this.btnSpellcheck.toggle(false, true);
@@ -319,7 +298,6 @@ define([
             this.btnComments.setDisabled(false);
             this.btnChat.setDisabled(false);
             /** coauthoring end **/
-            this.btnPlugins.setDisabled(false);
             this.btnSpellcheck.setDisabled(false);
         },
 
