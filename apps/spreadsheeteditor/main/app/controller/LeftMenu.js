@@ -216,8 +216,8 @@ define([
             if (!options || options.chat)
                 this.leftMenu.btnChat.setDisabled(disable);
 
-            this.leftMenu.btnPlugins.setDisabled(disable);
             this.leftMenu.btnSpellcheck.setDisabled(disable);
+            this.leftMenu.fireEvent('plugins:disable', [disable]);
         },
 
         createDelayedElements: function() {
@@ -607,6 +607,7 @@ define([
             /** coauthoring end **/
             this.leftMenu.btnPlugins.setDisabled(true);
             this.leftMenu.btnSpellcheck.setDisabled(true);
+            this.leftMenu.fireEvent('plugins:disable', [true]);
 
             this.leftMenu.getMenu('file').setMode({isDisconnected: true, enableDownload: !!enableDownload});
         },

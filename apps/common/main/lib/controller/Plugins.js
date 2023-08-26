@@ -79,6 +79,11 @@ define([
                             me.viewPlugins.openPlugin(guid);
                         }
                     }
+                },
+                'LeftMenu': {
+                    'plugins:disable': function (disable) {
+                        me.viewPlugins.setDisabledLeftPluginButtons(disable);
+                    }
                 }
             });
         },

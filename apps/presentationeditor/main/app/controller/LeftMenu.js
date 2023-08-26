@@ -473,7 +473,7 @@ define([
             this.leftMenu.btnComments.setDisabled(true);
             this.leftMenu.btnChat.setDisabled(true);
             /** coauthoring end **/
-            this.leftMenu.btnPlugins.setDisabled(true);
+            this.leftMenu.fireEvent('plugins:disable', [true]);
 
             this.leftMenu.getMenu('file').setMode({isDisconnected: true, enableDownload: !!enableDownload});
         },
@@ -750,8 +750,8 @@ define([
             if (!options || options.chat)
                 this.leftMenu.btnChat.setDisabled(disable);
 
-            this.leftMenu.btnPlugins.setDisabled(disable);
             this.leftMenu.btnThumbs.setDisabled(disable);
+            this.leftMenu.fireEvent('plugins:disable', [disable]);
         },
 
         isCommentsVisible: function() {

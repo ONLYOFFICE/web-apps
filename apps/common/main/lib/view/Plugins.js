@@ -543,6 +543,17 @@ define([
             }
         },
 
+        setDisabledLeftPluginButtons: function (disable) {
+            if (Object.keys(this.pluginBtns).length > 0) {
+                for (var key in this.pluginBtns) {
+                    this.pluginBtns[key].setDisabled(disable);
+                }
+            }
+            if (this.btnPluginMore) {
+                this.btnPluginMore.setDisabled(disable);
+            }
+        },
+
         strPlugins: 'Plugins',
         textStart: 'Start',
         textStop: 'Stop',
