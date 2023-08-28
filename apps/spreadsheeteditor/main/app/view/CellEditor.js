@@ -115,9 +115,19 @@ define([
 
         cellEditorTextChange: function (){
             if(!this.$cellcontent) return;
-            this.$cellcontent.height('');
-            this.$cellcontent.outerHeight(this.$cellcontent[0].scrollHeight);
-            this.$btnexpand.parent().outerHeight(this.$cellcontent.outerHeight());
+            var btnexpandParent = this.$btnexpand.parent()[0];
+            if(this.$cellcontent[0].clientHeight != this.$cellcontent[0].scrollHeight) {
+                var scrollBarWidth = this.$cellcontent[0].offsetWidth - this.$cellcontent[0].clientWidth;
+                btnexpandParent.style.right = Common.UI.isRTL() ? "auto" : scrollBarWidth + "px";
+                btnexpandParent.style.left = Common.UI.isRTL() ? scrollBarWidth + "px" : "auto";
+            }
+            else {
+                btnexpandParent.style.right = '';
+                btnexpandParent.style.left = '';
+            }
+
+            //Common.UI.isRTL() ?
+
         },
 
         tipFormula: 'Insert Function',
