@@ -749,7 +749,9 @@
     "textChangePassword": "Change Password",
     "del_textNoTextFound": "Text not found",
     "textNoMatches": "No Matches",
-    "textVersionHistory": "Version History"
+    "textVersionHistory": "Version History",
+    "textPasswordWarning": "If the password is forgotten or lost, it cannot be recovered.",
+    "textTypeEditingWarning": "Allow only this type of editing in the document."
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",

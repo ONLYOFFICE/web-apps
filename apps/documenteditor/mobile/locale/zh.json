@@ -741,7 +741,9 @@
     "txtScheme7": "公平",
     "txtScheme8": "流动",
     "txtScheme9": "发现",
-    "textVersionHistory": "Version History"
+    "textVersionHistory": "Version History",
+    "textPasswordWarning": "If the password is forgotten or lost, it cannot be recovered.",
+    "textTypeEditingWarning": "Allow only this type of editing in the document."
   },
   "Toolbar": {
     "dlgLeaveMsgText": "你有未保存的修改。点击“留在该页”可等待自动保存完成。点击“离开该页”将丢弃全部未经保存的修改。",

@@ -369,6 +369,7 @@
     "textDone": "Done",
     "textEnterTitleNewStyle": "Enter title of a new style",
     "textFormal": "Formal",
+    "textInvalidName": "The file name cannot contain any of the following characters: ",
     "textLeader": "Leader",
     "textLevels": "Levels",
     "textModern": "Modern",
@@ -391,8 +392,7 @@
     "textTableOfCont": "TOC",
     "textTextWrapping": "Text Wrapping",
     "textTitle": "Title",
-    "textWrappingStyle": "Wrapping Style",
-    "textInvalidName": "The file name cannot contain any of the following characters: "
+    "textWrappingStyle": "Wrapping Style"
   },
   "Error": {
     "convertationTimeoutText": "Перевищено час очікування конверсії.",
@@ -723,6 +723,7 @@
     "textPageSize": "Page Size",
     "textPassword": "Password",
     "textPasswordNotMatched": "Passwords DonвЂ™t Match",
+    "textPasswordWarning": "If the password is forgotten or lost, it cannot be recovered.",
     "textPdfProducer": "PDF Producer",
     "textPdfTagged": "Tagged PDF",
     "textPdfVer": "PDF Version",
@@ -737,6 +738,7 @@
     "textSetPassword": "Set Password",
     "textTrackedChanges": "Tracked changes",
     "textTypeEditing": "Type Of Editing",
+    "textTypeEditingWarning": "Allow only this type of editing in the document.",
     "textUnprotect": "Unprotect",
     "textVerify": "Verify",
     "textVersionHistory": "Version History",
