@@ -172,7 +172,7 @@ require([
                 'pdfeditor/main/app/view/FileMenuPanels',
                 'common/main/lib/util/utils',
                 'common/main/lib/controller/Fonts',
-                ,'common/main/lib/controller/Comments'
+                'common/main/lib/controller/Comments'
                 ,'common/main/lib/controller/Chat'
                 ,'common/main/lib/controller/Plugins'
                 ,'common/main/lib/controller/Draw'

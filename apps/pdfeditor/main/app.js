@@ -152,11 +152,11 @@ require([
             'ViewTab',
             'Search',
             'Print',
-            'Common.Controllers.Fonts'
-            ,'Common.Controllers.Chat'
-            ,'Common.Controllers.Comments'
-            ,'Common.Controllers.Draw'
-            ,'Common.Controllers.Plugins'
+            'Common.Controllers.Fonts',
+            'Common.Controllers.Chat',
+            'Common.Controllers.Comments',
+            'Common.Controllers.Draw',
+            'Common.Controllers.Plugins'
         ]
     });
 
@@ -181,11 +181,11 @@ require([
                 'pdfeditor/main/app/view/FileMenuPanels',
                 'common/main/lib/util/utils',
                 'common/main/lib/controller/Fonts',
-                ,'common/main/lib/controller/Comments'
-                ,'common/main/lib/controller/Chat'
+                'common/main/lib/controller/Comments',
+                'common/main/lib/controller/Chat',
                 /** coauthoring end **/
-                ,'common/main/lib/controller/Plugins'
-                ,'common/main/lib/controller/Draw'
+                'common/main/lib/controller/Plugins',
+                'common/main/lib/controller/Draw'
             ], function() {
                 app.start();
             });
