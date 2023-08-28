@@ -819,12 +819,10 @@ define([
         },
 
         strZoom: 'Default Zoom Value',
-        /** coauthoring begin **/
         strShowChanges: 'Real-time Collaboration Changes',
         txtAll: 'View All',
         txtNone: 'View Nothing',
         txtLast: 'View Last',
-        /** coauthoring end **/
         okButtonText: 'Apply',
         txtWin: 'as Windows',
         txtMac: 'as OS X',

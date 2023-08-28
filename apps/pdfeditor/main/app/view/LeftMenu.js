@@ -515,6 +515,6 @@ define([
         tipNavigation: 'Navigation',
         tipOutline: 'Headings',
         txtLimit: 'Limit Access',
-        txtEditor: 'Document Editor'
+        txtEditor: 'PDF Editor'
     }, PDFE.Views.LeftMenu || {}));
 });

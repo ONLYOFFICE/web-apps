@@ -102,14 +102,6 @@ define([
                  * UI Components
                  */
 
-                this.SchemeNames = [ this.txtScheme22,
-                    this.txtScheme1, this.txtScheme2, this.txtScheme3, this.txtScheme4, this.txtScheme5,
-                    this.txtScheme6, this.txtScheme7, this.txtScheme8, this.txtScheme9, this.txtScheme10,
-                    this.txtScheme11, this.txtScheme12, this.txtScheme13, this.txtScheme14, this.txtScheme15,
-                    this.txtScheme16, this.txtScheme17, this.txtScheme18, this.txtScheme19, this.txtScheme20,
-                    this.txtScheme21
-                ];
-
                 this.paragraphControls = [];
                 this.toolbarControls = [];
                 this._state = {
@@ -657,7 +649,6 @@ define([
             setApi: function (api) {
                 this.api = api;
                 /** coauthoring begin **/
-                this.api.asc_registerCallback('asc_onSendThemeColorSchemes', _.bind(this.onSendThemeColorSchemes, this));
                 this.api.asc_registerCallback('asc_onCollaborativeChanges', _.bind(this.onCollaborativeChanges, this));
                 this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onApiUsersChanged, this));
                 this.api.asc_registerCallback('asc_onParticipantsChanged', _.bind(this.onApiUsersChanged, this));
@@ -678,9 +669,6 @@ define([
                 }
 
                 this.mode = mode;
-            },
-
-            onSendThemeColorSchemes: function (schemas) {
             },
 
             /** coauthoring begin **/
@@ -775,27 +763,6 @@ define([
             tipSelectTool: 'Select tool',
             tipHandTool: 'Hand tool',
             tipSynchronize: 'The document has been changed by another user. Please click to save your changes and reload the updates.',
-            txtScheme1: 'Office',
-            txtScheme2: 'Grayscale',
-            txtScheme3: 'Apex',
-            txtScheme4: 'Aspect',
-            txtScheme5: 'Civic',
-            txtScheme6: 'Concourse',
-            txtScheme7: 'Equity',
-            txtScheme8: 'Flow',
-            txtScheme9: 'Foundry',
-            txtScheme10: 'Median',
-            txtScheme11: 'Metro',
-            txtScheme12: 'Module',
-            txtScheme13: 'Opulent',
-            txtScheme14: 'Oriel',
-            txtScheme15: 'Origin',
-            txtScheme16: 'Paper',
-            txtScheme17: 'Solstice',
-            txtScheme18: 'Technic',
-            txtScheme19: 'Trek',
-            txtScheme20: 'Urban',
-            txtScheme21: 'Verve',
             tipSaveCoauth: 'Save your changes for the other users to see them.',
             textTabFile: 'File',
             textTabHome: 'Home',

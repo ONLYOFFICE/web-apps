@@ -254,20 +254,6 @@ define([
                 dataHintOffset: [2, 14]
             });
 
-            this.miHistory = new Common.UI.MenuItem({
-                el      : $markup.elementById('#fm-btn-history'),
-                action  : 'history',
-                caption : this.btnHistoryCaption,
-                canFocused: false,
-                dataHint: 1,
-                dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14]
-            });
-            if ( !!this.options.miHistory ) {
-                this.miHistory.setDisabled(this.options.miHistory.isDisabled());
-                delete this.options.miHistory;
-            }
-
             this.miSettings = new Common.UI.MenuItem({
                 el      : $markup.elementById('#fm-btn-settings'),
                 action  : 'opts',
@@ -314,7 +300,6 @@ define([
                 this.miNew,
                 this.miInfo,
                 this.miAccess,
-                this.miHistory,
                 this.miSettings,
                 this.miHelp,
                 this.miBack
@@ -426,11 +411,6 @@ define([
                         (this.mode.sharingSettingsUrl&&this.mode.sharingSettingsUrl.length || this.mode.canRequestSharingSettings));
             separatorVisible = separatorVisible || isVisible;
             this.miAccess[isVisible?'show':'hide']();
-            isVisible = this.mode.canUseHistory&&!this.mode.isDisconnected;
-            separatorVisible = separatorVisible || isVisible;
-            this.miHistory[isVisible?'show':'hide']();
-            this.miHistory.$el.find('+.devider')[separatorVisible?'show':'hide']();
-            separatorVisible && (lastSeparator = this.miHistory.$el.find('+.devider'));
 
             isVisible = Common.UI.LayoutManager.isElementVisible('toolbar-file-settings');
             this.miSettings[isVisible?'show':'hide']();
@@ -587,11 +567,9 @@ define([
         },
 
         SetDisabled: function(disable, options) {
-            var _btn_protect = this.getButton('protect'),
-                _btn_history = this.getButton('history');
+            var _btn_protect = this.getButton('protect');
 
             options && options.protect && _btn_protect.setDisabled(disable);
-            options && options.history && _btn_history.setDisabled(disable);
             options && options.info && (this.panels ? this.panels['info'].setPreviewMode(disable) : this._state.infoPreviewMode = disable );
         },
 
@@ -609,9 +587,6 @@ define([
                 } else
                 if (type == 'protect') {
                     return this.options.miProtect ? this.options.miProtect : (this.options.miProtect = new Common.UI.MenuItem({}));
-                } else
-                if (type == 'history') {
-                    return this.options.miHistory ? this.options.miHistory : (this.options.miHistory = new Common.UI.MenuItem({}));
                 }
             } else {
                 if (type == 'save') {
@@ -622,9 +597,6 @@ define([
                 }else
                 if (type == 'protect') {
                     return this.miProtect;
-                }else
-                if (type == 'history') {
-                    return this.miHistory;
                 }
             }
         },
@@ -641,7 +613,6 @@ define([
         btnToEditCaption        : 'Edit Document',
         btnBackCaption          : 'Go to Documents',
         btnSettingsCaption      : 'Advanced Settings...',
-        btnHistoryCaption       : 'Versions History',
         btnSaveAsCaption        : 'Save as',
         textDownload            : 'Download',
         btnRenameCaption        : 'Rename...',

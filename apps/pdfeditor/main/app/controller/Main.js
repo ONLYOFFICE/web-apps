@@ -96,7 +96,10 @@ define([
                     // }
                 });
 
-                this.translationTable = {};
+                this.translationTable = {
+                    "Choose an item": this.txtChoose,
+                    "Enter a date": this.txtEnterDate
+                };
             },
 
             onLaunch: function() {
@@ -307,8 +310,6 @@ define([
                         },
                         'edit:complete': _.bind(me.onEditComplete, me)
                     });
-
-                    this.initNames(); //for shapes
 
                     Common.util.Shortcuts.delegateShortcuts({
                         shortcuts: {
@@ -573,7 +574,7 @@ define([
                     allowSignature: false,
                     statusBar: true,
                     leftMenu: {disable: true, previewMode: true},
-                    fileMenu: {protect: true, history: temp},
+                    fileMenu: {protect: true},
                     navigation: {disable: !temp, previewMode: true},
                     comments: {disable: !temp, previewMode: true},
                     chat: true,
@@ -1023,11 +1024,6 @@ define([
                     var timer_sl = setTimeout(function(){
                         toolbarController.createDelayedElements();
 
-                        // var shapes = me.api.asc_getPropertyEditorShapes();
-                        // if (shapes)
-                        //     me.fillAutoShapes(shapes[0], shapes[1]);
-                        //
-                        // me.updateThemeColors();
                         toolbarController.activateControls();
                         if (me.needToUpdateVersion)
                             toolbarController.onApiCoAuthoringDisconnect();
@@ -1227,8 +1223,8 @@ define([
 
                 this.appOptions.trialMode      = params.asc_getLicenseMode();
                 this.appOptions.isBeta         = params.asc_getIsBeta();
-                this.appOptions.isSignatureSupport= this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport() && (this.permissions.protect!==false);
-                this.appOptions.isPasswordSupport = this.appOptions.isEdit && this.api.asc_isProtectionSupport() && (this.permissions.protect!==false);
+                this.appOptions.isSignatureSupport= false;//this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport() && (this.permissions.protect!==false);
+                this.appOptions.isPasswordSupport = false;//this.appOptions.isEdit && this.api.asc_isProtectionSupport() && (this.permissions.protect!==false);
                 this.appOptions.canProtect     = (this.permissions.protect!==false);
                 this.appOptions.canHelp        = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.help===false);
 
@@ -1361,7 +1357,6 @@ define([
                 var printController = app.getController('Print');
                 printController && this.api && printController.setApi(this.api).setMode(this.appOptions);
 
-                this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
                 this.api.asc_registerCallback('asc_onDownloadUrl',     _.bind(this.onDownloadUrl, this));
                 this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onAuthParticipantsChanged, this));
                 this.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(this.onAuthParticipantsChanged, this));
@@ -1566,10 +1561,6 @@ define([
 
                     case Asc.c_oAscError.ID.EditingError:
                         config.msg = (this.appOptions.isDesktopApp && this.appOptions.isOffline) ? this.errorEditingSaveas : this.errorEditingDownloadas;
-                        break;
-
-                    case Asc.c_oAscError.ID.MailToClientMissing:
-                        config.msg = this.errorEmailClient;
                         break;
 
                     case Asc.c_oAscError.ID.ConvertationOpenLimitError:
@@ -1997,82 +1988,6 @@ define([
                 this._state.hasCollaborativeChanges = false;
             },
 
-            initNames: function() {
-                this.shapeGroupNames = [
-                    this.txtBasicShapes,
-                    this.txtFiguredArrows,
-                    this.txtMath,
-                    this.txtCharts,
-                    this.txtStarsRibbons,
-                    this.txtCallouts,
-                    this.txtButtons,
-                    this.txtRectangles,
-                    this.txtLines
-                ];
-            },
-
-            fillAutoShapes: function(groupNames, shapes){
-                if (_.isEmpty(shapes) || _.isEmpty(groupNames) || shapes.length != groupNames.length)
-                    return;
-
-                var me = this,
-                    shapegrouparray = [],
-                    shapeStore = this.getCollection('ShapeGroups'),
-                    name_arr = {};
-
-                shapeStore.reset();
-
-                _.each(groupNames, function(groupName, index){
-                    var store = new Backbone.Collection([], {
-                        model: PDFE.Models.ShapeModel
-                    }),
-                        arr = [];
-
-                    var cols = (shapes[index].length) > 18 ? 7 : 6,
-                        height = Math.ceil(shapes[index].length/cols) * 35 + 3,
-                        width = 30 * cols;
-
-                    _.each(shapes[index], function(shape, idx){
-                        var name = me['txtShape_' + shape.Type];
-                        arr.push({
-                            data     : {shapeType: shape.Type},
-                            tip      : name || (me.textShape + ' ' + (idx+1)),
-                            allowSelected : true,
-                            selected: false
-                        });
-                        if (name)
-                            name_arr[shape.Type] = name;
-                    });
-                    store.add(arr);
-                    shapegrouparray.push({
-                        groupName   : me.shapeGroupNames[index],
-                        groupStore  : store,
-                        groupWidth  : width,
-                        groupHeight : height
-                    });
-                });
-
-                shapeStore.add(shapegrouparray);
-                setTimeout(function(){
-                    // me.getApplication().getController('Toolbar').onApiAutoShapes();
-                }, 50);
-                this.api.asc_setShapeNames(name_arr);
-            },
-
-            updateThemeColors: function() {
-                var me = this;
-                setTimeout(function(){
-                    me.getApplication().getController('Toolbar').updateThemeColors();
-                }, 50);
-            },
-
-            onSendThemeColors: function(colors, standart_colors) {
-                Common.Utils.ThemeColor.setColors(colors, standart_colors);
-                if (window.styles_loaded) {
-                    this.updateThemeColors();
-                }
-            },
-
             unitsChanged: function(m) {
                 var value = Common.localStorage.getItem("pdfe-settings-unit");
                 value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
@@ -2403,15 +2318,6 @@ define([
             errorUsersExceed: 'Count of users was exceed',
             errorCoAuthoringDisconnect: 'Server connection lost. You can\'t edit anymore.',
             errorFilePassProtect: 'The file is password protected and cannot be opened.',
-            txtBasicShapes: 'Basic Shapes',
-            txtFiguredArrows: 'Figured Arrows',
-            txtMath: 'Math',
-            txtCharts: 'Charts',
-            txtStarsRibbons: 'Stars & Ribbons',
-            txtCallouts: 'Callouts',
-            txtButtons: 'Buttons',
-            txtRectangles: 'Rectangles',
-            txtLines: 'Lines',
             txtEditingMode: 'Set editing mode...',
             textAnonymous: 'Anonymous',
             loadingDocumentTitleText: 'Loading document',
@@ -2419,15 +2325,9 @@ define([
             warnProcessRightsChange: 'You have been denied the right to edit the file.',
             errorProcessSaveResult: 'Saving is failed.',
             textCloseTip: 'Click to close the tip.',
-            textShape: 'Shape',
             titleUpdateVersion: 'Version changed',
             errorUpdateVersion: 'The file version has been changed. The page will be reloaded.',
             errorUserDrop: 'The file cannot be accessed right now.',
-            errorMailMergeLoadFile: 'Loading the document failed. Please select a different file.',
-            mailMergeLoadFileText: 'Loading Data Source...',
-            mailMergeLoadFileTitle: 'Loading Data Source',
-            downloadMergeText: 'Downloading...',
-            downloadMergeTitle: 'Downloading',
             errorConnectToServer: 'The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the \'OK\' button, you will be prompted to download the document.',
             textTryUndoRedo: 'The Undo/Redo functions are disabled for the Fast co-editing mode.<br>Click the \'Strict mode\' button to switch to the Strict co-editing mode to edit the file without other users interference and send your changes only after you save them. You can switch between the co-editing modes using the editor Advanced settings.',
             textStrict: 'Strict mode',
@@ -2462,178 +2362,6 @@ define([
             scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.',
             errorEditingSaveas: 'An error occurred during the work with the document.<br>Use the \'Save as...\' option to save the file backup copy to your computer hard drive.',
             errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.',
-            txtShape_textRect: 'Text Box',
-            txtShape_rect: 'Rectangle',
-            txtShape_ellipse: 'Ellipse',
-            txtShape_triangle: 'Triangle',
-            txtShape_rtTriangle: 'Right Triangle',
-            txtShape_parallelogram: 'Parallelogram',
-            txtShape_trapezoid: 'Trapezoid',
-            txtShape_diamond: 'Diamond',
-            txtShape_pentagon: 'Pentagon',
-            txtShape_hexagon: 'Hexagon',
-            txtShape_heptagon: 'Heptagon',
-            txtShape_octagon: 'Octagon',
-            txtShape_decagon: 'Decagon',
-            txtShape_dodecagon: 'Dodecagon',
-            txtShape_pie: 'Pie',
-            txtShape_chord: 'Chord',
-            txtShape_teardrop: 'Teardrop',
-            txtShape_frame: 'Frame',
-            txtShape_halfFrame: 'Half Frame',
-            txtShape_corner: 'Corner',
-            txtShape_diagStripe: 'Diagonal Stripe',
-            txtShape_plus: 'Plus',
-            txtShape_plaque: 'Sign',
-            txtShape_can: 'Can',
-            txtShape_cube: 'Cube',
-            txtShape_bevel: 'Bevel',
-            txtShape_donut: 'Donut',
-            txtShape_noSmoking: '"No" Symbol',
-            txtShape_blockArc: 'Block Arc',
-            txtShape_foldedCorner: 'Folded Corner',
-            txtShape_smileyFace: 'Smiley Face',
-            txtShape_heart: 'Heart',
-            txtShape_lightningBolt: 'Lightning Bolt',
-            txtShape_sun: 'Sun',
-            txtShape_moon: 'Moon',
-            txtShape_cloud: 'Cloud',
-            txtShape_arc: 'Arc',
-            txtShape_bracePair: 'Double Brace',
-            txtShape_leftBracket: 'Left Bracket',
-            txtShape_rightBracket: 'Right Bracket',
-            txtShape_leftBrace: 'Left Brace',
-            txtShape_rightBrace: 'Right Brace',
-            txtShape_rightArrow: 'Right Arrow',
-            txtShape_leftArrow: 'Left Arrow',
-            txtShape_upArrow: 'Up Arrow',
-            txtShape_downArrow: 'Down Arrow',
-            txtShape_leftRightArrow: 'Left Right Arrow',
-            txtShape_upDownArrow: 'Up Down Arrow',
-            txtShape_quadArrow: 'Quad Arrow',
-            txtShape_leftRightUpArrow: 'Left Right Up Arrow',
-            txtShape_bentArrow: 'Bent Arrow',
-            txtShape_uturnArrow: 'U-Turn Arrow',
-            txtShape_leftUpArrow: 'Left Up Arrow',
-            txtShape_bentUpArrow: 'Bent Up Arrow',
-            txtShape_curvedRightArrow: 'Curved Right Arrow',
-            txtShape_curvedLeftArrow: 'Curved Left Arrow',
-            txtShape_curvedUpArrow: 'Curved Up Arrow',
-            txtShape_curvedDownArrow: 'Curved Down Arrow',
-            txtShape_stripedRightArrow: 'Striped Right Arrow',
-            txtShape_notchedRightArrow: 'Notched Right Arrow',
-            txtShape_homePlate: 'Pentagon',
-            txtShape_chevron: 'Chevron',
-            txtShape_rightArrowCallout: 'Right Arrow Callout',
-            txtShape_downArrowCallout: 'Down Arrow Callout',
-            txtShape_leftArrowCallout: 'Left Arrow Callout',
-            txtShape_upArrowCallout: 'Up Arrow Callout',
-            txtShape_leftRightArrowCallout: 'Left Right Arrow Callout',
-            txtShape_quadArrowCallout: 'Quad Arrow Callout',
-            txtShape_circularArrow: 'Circular Arrow',
-            txtShape_mathPlus: 'Plus',
-            txtShape_mathMinus: 'Minus',
-            txtShape_mathMultiply: 'Multiply',
-            txtShape_mathDivide: 'Division',
-            txtShape_mathEqual: 'Equal',
-            txtShape_mathNotEqual: 'Not Equal',
-            txtShape_flowChartProcess: 'Flowchart: Process',
-            txtShape_flowChartAlternateProcess: 'Flowchart: Alternate Process',
-            txtShape_flowChartDecision: 'Flowchart: Decision',
-            txtShape_flowChartInputOutput: 'Flowchart: Data',
-            txtShape_flowChartPredefinedProcess: 'Flowchart: Predefined Process',
-            txtShape_flowChartInternalStorage: 'Flowchart: Internal Storage',
-            txtShape_flowChartDocument: 'Flowchart: Document',
-            txtShape_flowChartMultidocument: 'Flowchart: Multidocument ',
-            txtShape_flowChartTerminator: 'Flowchart: Terminator',
-            txtShape_flowChartPreparation: 'Flowchart: Preparation',
-            txtShape_flowChartManualInput: 'Flowchart: Manual Input',
-            txtShape_flowChartManualOperation: 'Flowchart: Manual Operation',
-            txtShape_flowChartConnector: 'Flowchart: Connector',
-            txtShape_flowChartOffpageConnector: 'Flowchart: Off-page Connector',
-            txtShape_flowChartPunchedCard: 'Flowchart: Card',
-            txtShape_flowChartPunchedTape: 'Flowchart: Punched Tape',
-            txtShape_flowChartSummingJunction: 'Flowchart: Summing Junction',
-            txtShape_flowChartOr: 'Flowchart: Or',
-            txtShape_flowChartCollate: 'Flowchart: Collate',
-            txtShape_flowChartSort: 'Flowchart: Sort',
-            txtShape_flowChartExtract: 'Flowchart: Extract',
-            txtShape_flowChartMerge: 'Flowchart: Merge',
-            txtShape_flowChartOnlineStorage: 'Flowchart: Stored Data',
-            txtShape_flowChartDelay: 'Flowchart: Delay',
-            txtShape_flowChartMagneticTape: 'Flowchart: Sequential Access Storage',
-            txtShape_flowChartMagneticDisk: 'Flowchart: Magnetic Disk',
-            txtShape_flowChartMagneticDrum: 'Flowchart: Direct Access Storage',
-            txtShape_flowChartDisplay: 'Flowchart: Display',
-            txtShape_irregularSeal1: 'Explosion 1',
-            txtShape_irregularSeal2: 'Explosion 2',
-            txtShape_star4: '4-Point Star',
-            txtShape_star5: '5-Point Star',
-            txtShape_star6: '6-Point Star',
-            txtShape_star7: '7-Point Star',
-            txtShape_star8: '8-Point Star',
-            txtShape_star10: '10-Point Star',
-            txtShape_star12: '12-Point Star',
-            txtShape_star16: '16-Point Star',
-            txtShape_star24: '24-Point Star',
-            txtShape_star32: '32-Point Star',
-            txtShape_ribbon2: 'Up Ribbon',
-            txtShape_ribbon: 'Down Ribbon',
-            txtShape_ellipseRibbon2: 'Curved Up Ribbon',
-            txtShape_ellipseRibbon: 'Curved Down Ribbon',
-            txtShape_verticalScroll: 'Vertical Scroll',
-            txtShape_horizontalScroll: 'Horizontal Scroll',
-            txtShape_wave: 'Wave',
-            txtShape_doubleWave: 'Double Wave',
-            txtShape_wedgeRectCallout: 'Rectangular Callout',
-            txtShape_wedgeRoundRectCallout: 'Rounded Rectangular Callout',
-            txtShape_wedgeEllipseCallout: 'Oval Callout',
-            txtShape_cloudCallout: 'Cloud Callout',
-            txtShape_borderCallout1: 'Line Callout 1',
-            txtShape_borderCallout2: 'Line Callout 2',
-            txtShape_borderCallout3: 'Line Callout 3',
-            txtShape_accentCallout1: 'Line Callout 1 (Accent Bar)',
-            txtShape_accentCallout2: 'Line Callout 2 (Accent Bar)',
-            txtShape_accentCallout3: 'Line Callout 3 (Accent Bar)',
-            txtShape_callout1: 'Line Callout 1 (No Border)',
-            txtShape_callout2: 'Line Callout 2 (No Border)',
-            txtShape_callout3: 'Line Callout 3 (No Border)',
-            txtShape_accentBorderCallout1: 'Line Callout 1 (Border and Accent Bar)',
-            txtShape_accentBorderCallout2: 'Line Callout 2 (Border and Accent Bar)',
-            txtShape_accentBorderCallout3: 'Line Callout 3 (Border and Accent Bar)',
-            txtShape_actionButtonBackPrevious: 'Back or Previous Button',
-            txtShape_actionButtonForwardNext: 'Forward or Next Button',
-            txtShape_actionButtonBeginning: 'Beginning Button',
-            txtShape_actionButtonEnd: 'End Button',
-            txtShape_actionButtonHome: 'Home Button',
-            txtShape_actionButtonInformation: 'Information Button',
-            txtShape_actionButtonReturn: 'Return Button',
-            txtShape_actionButtonMovie: 'Movie Button',
-            txtShape_actionButtonDocument: 'Document Button',
-            txtShape_actionButtonSound: 'Sound Button',
-            txtShape_actionButtonHelp: 'Help Button',
-            txtShape_actionButtonBlank: 'Blank Button',
-            txtShape_roundRect: 'Round Corner Rectangle',
-            txtShape_snip1Rect: 'Snip Single Corner Rectangle',
-            txtShape_snip2SameRect: 'Snip Same Side Corner Rectangle',
-            txtShape_snip2DiagRect: 'Snip Diagonal Corner Rectangle',
-            txtShape_snipRoundRect: 'Snip and Round Single Corner Rectangle',
-            txtShape_round1Rect: 'Round Single Corner Rectangle',
-            txtShape_round2SameRect: 'Round Same Side Corner Rectangle',
-            txtShape_round2DiagRect: 'Round Diagonal Corner Rectangle',
-            txtShape_line: 'Line',
-            txtShape_lineWithArrow: 'Arrow',
-            txtShape_lineWithTwoArrows: 'Double Arrow',
-            txtShape_bentConnector5: 'Elbow Connector',
-            txtShape_bentConnector5WithArrow: 'Elbow Arrow Connector',
-            txtShape_bentConnector5WithTwoArrows: 'Elbow Double-Arrow Connector',
-            txtShape_curvedConnector3: 'Curved Connector',
-            txtShape_curvedConnector3WithArrow: 'Curved Arrow Connector',
-            txtShape_curvedConnector3WithTwoArrows: 'Curved Double-Arrow Connector',
-            txtShape_spline: 'Curve',
-            txtShape_polyline1: 'Scribble',
-            txtShape_polyline2: 'Freeform',
-            errorEmailClient: 'No email client could be found',
             textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.',
             waitText: 'Please, wait...',
             errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
@@ -2679,8 +2407,9 @@ define([
             txtInvalidGreater: 'Ivalid value for field "{0}": must be greater than or equal to {1}.',
             txtInvalidLess: 'Ivalid value for field "{0}": must be less than or equal to {1}.',
             txtInvalidPdfFormat: 'The value entered does not match the format of the field "{0}".',
-            txtValidPdfFormat: 'Field value should match format "{0}".'
-
+            txtValidPdfFormat: 'Field value should match format "{0}".',
+            txtChoose: 'Choose an item',
+            txtEnterDate: 'Enter a date'
         }
     })(), PDFE.Controllers.Main || {}))
 });
