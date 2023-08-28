@@ -456,8 +456,7 @@ define([
             !variation.get_InsideMode() && this.viewPlugins.openedPluginMode(plugin.get_Guid());
         },
 
-        onPluginClose: function(plugin) {
-            return; // for test
+        onPluginClose: function(plugin) {            
             var isIframePlugin = false;
             if (this.pluginDlg)
                 this.pluginDlg.close();
@@ -568,7 +567,8 @@ define([
                         pluginVisible = false,
                         isDisplayedInViewer = false;
                     item.variations.forEach(function(itemVar){
-                        var visible = (isEdit || itemVar.isViewer && (itemVar.isDisplayedInViewer!==false)) && _.contains(itemVar.EditorsSupport, editor) && !itemVar.isSystem;
+                        let isSystem = (true === itemVar.isSystem) || ("system" === itemVar.type);
+                        var visible = (isEdit || itemVar.isViewer && (itemVar.isDisplayedInViewer!==false)) && _.contains(itemVar.EditorsSupport, editor) && !isSystem;
                         if ( visible ) pluginVisible = true;
                         if (itemVar.isViewer && (itemVar.isDisplayedInViewer!==false))
                             isDisplayedInViewer = true;
