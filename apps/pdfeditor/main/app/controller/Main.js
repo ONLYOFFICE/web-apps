@@ -185,6 +185,7 @@ define([
                     Common.NotificationCenter.on('showmessage',                     _.bind(this.onExternalMessage, this));
                     Common.NotificationCenter.on('showerror',                       _.bind(this.onError, this));
                     Common.NotificationCenter.on('editing:disable',                 _.bind(this.onEditingDisable, this));
+                    Common.NotificationCenter.on('pdf:mode',                        _.bind(this.onPdfModeApply, this));
 
                     this.isShowOpenDialog = false;
                     
@@ -463,7 +464,8 @@ define([
                     }
                 }
 
-                if (!( this.editorConfig.customization && this.editorConfig.customization.toolbarNoTabs )) {
+                if (!( this.editorConfig.customization && (this.editorConfig.customization.toolbarNoTabs ||
+                    (this.editorConfig.targetApp!=='desktop') && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo)))) {
                     $('#editor-container').css('overflow', 'hidden');
                     $('#editor-container').append('<div class="doc-placeholder">' + '<div class="line"></div>'.repeat(20) + '</div>');
                 }
@@ -632,12 +634,6 @@ define([
                 if (prev_options) {
                     this.onEditingDisable(prev_options.disable, prev_options.options, prev_options.type);
                 }
-            },
-
-            disableLiveViewing: function(disable) {
-                this.appOptions.canLiveView = !disable;
-                this.api.asc_SetFastCollaborative(!disable);
-                Common.Utils.InternalSettings.set("pdfe-settings-coauthmode", !disable);
             },
 
             onRequestClose: function() {
@@ -967,19 +963,7 @@ define([
                 Common.Utils.InternalSettings.set("pdfe-settings-show-alt-hints", value);
 
                 /** coauthoring begin **/
-                me._state.fastCoauth = Common.Utils.InternalSettings.get("pdfe-settings-coauthmode");
-                me.api.asc_SetFastCollaborative(me._state.fastCoauth);
-
-                value = Common.Utils.InternalSettings.get((me._state.fastCoauth) ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict");
-                switch(value) {
-                    case 'all': value = Asc.c_oAscCollaborativeMarksShowType.All; break;
-                    case 'none': value = Asc.c_oAscCollaborativeMarksShowType.None; break;
-                    case 'last': value = Asc.c_oAscCollaborativeMarksShowType.LastChanges; break;
-                    default: value = (me._state.fastCoauth) ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges;
-                }
-                me.api.SetCollaborativeMarksShowType(value);
-                me.api.asc_setAutoSaveGap(Common.Utils.InternalSettings.get("pdfe-settings-autosave"));
-
+                me.onPdfModeApply();
                 /** coauthoring end **/
 
                 var application                 = me.getApplication();
@@ -1073,22 +1057,12 @@ define([
                    || licType===Asc.c_oLicenseResult.SuccessLimit && (this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
                     this._state.licenseType = licType;
 
-                if (licType !== undefined && this.appOptions.canLiveView && (licType===Asc.c_oLicenseResult.ConnectionsLive || licType===Asc.c_oLicenseResult.ConnectionsLiveOS ||
-                                                                             licType===Asc.c_oLicenseResult.UsersViewCount || licType===Asc.c_oLicenseResult.UsersViewCountOS))
-                    this._state.licenseType = licType;
-
                 if (this._isDocReady)
                     this.applyLicense();
             },
 
             applyLicense: function() {
                 if (this.editorConfig.mode === 'view') {
-                    if (this.appOptions.canLiveView && (this._state.licenseType===Asc.c_oLicenseResult.ConnectionsLive || this._state.licenseType===Asc.c_oLicenseResult.ConnectionsLiveOS ||
-                                                        this._state.licenseType===Asc.c_oLicenseResult.UsersViewCount || this._state.licenseType===Asc.c_oLicenseResult.UsersViewCountOS ||
-                                                        !this.appOptions.isAnonymousSupport && !!this.appOptions.user.anonymous)) {
-                        // show warning or write to log if Common.Utils.InternalSettings.get("pdfe-settings-coauthmode") was true ???
-                        this.disableLiveViewing(true);
-                    }
                 } else if (!this.appOptions.isAnonymousSupport && !!this.appOptions.user.anonymous) {
                     this.disableEditing(true);
                     this.api.asc_coAuthoringDisconnect();
@@ -1139,7 +1113,8 @@ define([
                         });
                     }
                 } else if (!this.appOptions.isDesktopApp && !this.appOptions.canBrandingExt &&
-                            this.editorConfig && this.editorConfig.customization && (this.editorConfig.customization.font && (this.editorConfig.customization.font.size || this.editorConfig.customization.font.name))) {
+                            this.editorConfig && this.editorConfig.customization && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo ||
+                            this.editorConfig.customization.font && (this.editorConfig.customization.font.size || this.editorConfig.customization.font.name))) {
                     Common.UI.warning({
                         title: this.textPaidFeature,
                         msg  : this.textCustomLoader,
@@ -1266,9 +1241,8 @@ define([
                     Common.NotificationCenter.on('comments:showdummy', _.bind(this.onShowDummyComment, this));
 
                 // change = true by default in editor
-                this.appOptions.canLiveView = !!params.asc_getLiveViewerSupport() && (this.editorConfig.mode === 'view') && !isXpsViewer; // viewer: change=false when no flag canLiveViewer (i.g. old license), change=true by default when canLiveViewer==true
-                this.appOptions.canChangeCoAuthoring = this.appOptions.isEdit && this.appOptions.canCoAuthoring && !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===false) ||
-                                                       this.appOptions.canLiveView && !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===false);
+                this.appOptions.canLiveView = false;
+                this.appOptions.canChangeCoAuthoring = this.appOptions.isEdit && this.appOptions.canCoAuthoring && !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===false);
 
                 this.loadCoAuthSettings();
                 this.applyModeCommonElements();
@@ -1310,16 +1284,6 @@ define([
                     value = Common.localStorage.getItem((fastCoauth) ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict");
                     if (value == null) value = fastCoauth ? 'none' : 'last';
                     Common.Utils.InternalSettings.set((fastCoauth) ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict", value);
-                } else if (this.appOptions.canLiveView && !this.appOptions.isOffline) { // viewer
-                    value = Common.localStorage.getItem("pdfe-settings-view-coauthmode");
-                    if (!this.appOptions.canChangeCoAuthoring || value===null) { // Use coEditing.mode or 'fast' by default
-                        value = this.editorConfig.coEditing && this.editorConfig.coEditing.mode==='strict' ? 0 : 1;
-                    }
-                    fastCoauth = (parseInt(value) == 1);
-
-                    // don't show collaborative marks in live viewer
-                    Common.Utils.InternalSettings.set("pdfe-settings-showchanges-fast", 'none');
-                    Common.Utils.InternalSettings.set("pdfe-settings-showchanges-strict", 'none');
                 } else {
                     fastCoauth = false;
                     autosave = 0;
@@ -1334,6 +1298,26 @@ define([
 
                 Common.Utils.InternalSettings.set("pdfe-settings-coauthmode", fastCoauth);
                 Common.Utils.InternalSettings.set("pdfe-settings-autosave", autosave);
+            },
+
+            onPdfModeApply: function() {
+                if (!this.api) return;
+
+                this._state.fastCoauth = (this.appOptions.isPDFAnnotate || this.appOptions.isPDFEdit) ? Common.Utils.InternalSettings.get("pdfe-settings-coauthmode") : false;
+                this.api.asc_SetFastCollaborative(this._state.fastCoauth);
+                this.api.asc_setAutoSaveGap(this.appOptions.isPDFAnnotate || this.appOptions.isPDFEdit ? Common.Utils.InternalSettings.get("pdfe-settings-autosave") : 0);
+                if (this.appOptions.isPDFAnnotate || this.appOptions.isPDFEdit) {
+                    var value = Common.Utils.InternalSettings.get((this._state.fastCoauth) ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict");
+                    switch(value) {
+                        case 'all': value = Asc.c_oAscCollaborativeMarksShowType.All; break;
+                        case 'none': value = Asc.c_oAscCollaborativeMarksShowType.None; break;
+                        case 'last': value = Asc.c_oAscCollaborativeMarksShowType.LastChanges; break;
+                        default: value = (this._state.fastCoauth) ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges;
+                    }
+                    this.api.SetCollaborativeMarksShowType(value);
+                }
+
+                this.getApplication().getController('LeftMenu').leftMenu.getMenu('file').applyMode();
             },
 
             applyModeCommonElements: function() {
@@ -2089,16 +2073,18 @@ define([
             },
 
             applySettings: function() {
-                if (this.appOptions.isEdit && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
-                    var oldval = this._state.fastCoauth;
-                    this._state.fastCoauth = Common.localStorage.getBool("pdfe-settings-coauthmode", true);
-                    if (this._state.fastCoauth && !oldval)
-                        this.synchronizeChanges();
-                }
-                if (this.appOptions.canForcesave) {
-                    this.appOptions.forcesave = Common.localStorage.getBool("pdfe-settings-forcesave", this.appOptions.canForcesave);
-                    Common.Utils.InternalSettings.set("pdfe-settings-forcesave", this.appOptions.forcesave);
-                    this.api.asc_setIsForceSaveOnUserSave(this.appOptions.forcesave);
+                if (this.appOptions.isPDFAnnotate || this.appOptions.isPDFEdit) {
+                    if (this.appOptions.isEdit && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
+                        var oldval = this._state.fastCoauth;
+                        this._state.fastCoauth = Common.localStorage.getBool("pdfe-settings-coauthmode", true);
+                        if (this._state.fastCoauth && !oldval)
+                            this.synchronizeChanges();
+                    }
+                    if (this.appOptions.canForcesave) {
+                        this.appOptions.forcesave = Common.localStorage.getBool("pdfe-settings-forcesave", this.appOptions.canForcesave);
+                        Common.Utils.InternalSettings.set("pdfe-settings-forcesave", this.appOptions.forcesave);
+                        this.api.asc_setIsForceSaveOnUserSave(this.appOptions.forcesave);
+                    }
                 }
             },
 

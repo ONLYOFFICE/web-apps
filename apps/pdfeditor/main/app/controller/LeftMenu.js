@@ -219,7 +219,7 @@ define([
             switch (action) {
             case 'back':
                 break;
-            case 'save': this.api.asc_Save(); break;
+            case 'save': Common.NotificationCenter.trigger('leftmenu:save'); break;
             case 'save-desktop': this.api.asc_DownloadAs(); break;
             case 'saveas':
                 if ( isopts ) close_menu = false;
@@ -395,9 +395,10 @@ define([
         applySettings: function(menu) {
             var value;
 
-            var fast_coauth = Common.Utils.InternalSettings.get("pdfe-settings-coauthmode");
+            var fast_coauth = Common.Utils.InternalSettings.get("pdfe-settings-coauthmode"),
+                canPDFSave = this.mode.isPDFAnnotate || this.mode.isPDFEdit;
             /** coauthoring begin **/
-            if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring ) {
+            if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring && canPDFSave ) {
                 if (this.mode.canChangeCoAuthoring) {
                     fast_coauth = Common.localStorage.getBool("pdfe-settings-coauthmode", true);
                     Common.Utils.InternalSettings.set("pdfe-settings-coauthmode", fast_coauth);
@@ -413,10 +414,6 @@ define([
                 default: value = (fast_coauth) ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges;
                 }
                 this.api.SetCollaborativeMarksShowType(value);
-            } else if (this.mode.canLiveView && !this.mode.isOffline && this.mode.canChangeCoAuthoring) { // viewer
-                fast_coauth = Common.localStorage.getBool("pdfe-settings-view-coauthmode", false);
-                Common.Utils.InternalSettings.set("pdfe-settings-coauthmode", fast_coauth);
-                this.api.asc_SetFastCollaborative(fast_coauth);
             }
 
             value = Common.localStorage.getBool("pdfe-settings-livecomment", true);
@@ -441,7 +438,7 @@ define([
             case '0':     this.api.SetFontRenderingMode(3); break;
             }
 
-            if (this.mode.isEdit) {
+            if (this.mode.isEdit && canPDFSave) {
                 if (this.mode.canChangeCoAuthoring || !fast_coauth) {// can change co-auth. mode or for strict mode
                     value = parseInt(Common.localStorage.getItem("pdfe-settings-autosave"));
                     Common.Utils.InternalSettings.set("pdfe-settings-autosave", value);

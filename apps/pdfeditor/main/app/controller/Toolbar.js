@@ -91,7 +91,7 @@ define([
                         _main.onPrintQuick();
                     },
                     'save': function (opts) {
-                        this.api.asc_Save();
+                        this.tryToSave();
                     },
                     'undo': this.onUndo,
                     'redo': this.onRedo,
@@ -164,7 +164,7 @@ define([
             var me = this;
             toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
             toolbar.btnPrint.on('disabled',                             _.bind(this.onBtnChangeState, this, 'print:disabled'));
-            toolbar.btnSave.on('click',                                 _.bind(this.onSave, this));
+            toolbar.btnSave.on('click',                                 _.bind(this.tryToSave, this));
             toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
             toolbar.btnUndo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'undo:disabled'));
             toolbar.btnRedo.on('click',                                 _.bind(this.onRedo, this));
@@ -201,6 +201,7 @@ define([
 
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
             this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());
+            Common.NotificationCenter.on('leftmenu:save', _.bind(this.tryToSave, this));
         },
 
         setApi: function(api) {
@@ -368,23 +369,30 @@ define([
             this.onPrint(e);
         },
 
-        onSave: function(e) {
-            var toolbar = this.toolbar;
-            if (this.api) {
+        tryToSave: function () {
+            var toolbar = this.toolbar,
+                mode = toolbar.mode;
+            if (!mode.isPDFAnnotate && !mode.isPDFEdit) {
+                Common.UI.warning({
+                    width: 500,
+                    msg: (mode.canPDFAnnotate || mode.canPDFEdit) ? this.txtNeedCommentMode : this.txtNeedDownload,
+                    callback: function(btn) {
+                        Common.NotificationCenter.trigger('edit:complete', toolbar);
+                    }
+                });
+            } else if (this.api) {
                 var isModified = this.api.asc_isDocumentCanSave();
                 var isSyncButton = toolbar.btnCollabChanges && toolbar.btnCollabChanges.cmpEl.hasClass('notify');
                 if (!isModified && !isSyncButton && !toolbar.mode.forcesave)
                     return;
 
                 this.api.asc_Save();
+                toolbar.btnSave.setDisabled(!toolbar.mode.forcesave);
+                Common.component.Analytics.trackEvent('Save');
+                Common.component.Analytics.trackEvent('ToolBar', 'Save');
             }
 
-            toolbar.btnSave.setDisabled(!toolbar.mode.forcesave);
-
             Common.NotificationCenter.trigger('edit:complete', toolbar);
-
-            Common.component.Analytics.trackEvent('Save');
-            Common.component.Analytics.trackEvent('ToolBar', 'Save');
         },
 
         onBtnChangeState: function(prop) {
@@ -732,7 +740,9 @@ define([
         },
 
         textWarning: 'Warning',
-        notcriticalErrorTitle: 'Warning'
+        notcriticalErrorTitle: 'Warning',
+        txtNeedCommentMode: 'To save changes to the file, switch to Сommenting mode. Or you can download a copy of the modified file.',
+        txtNeedDownload: 'To keep your changes download a copy of the modified file.'
 
     }, PDFE.Controllers.Toolbar || {}));
 });

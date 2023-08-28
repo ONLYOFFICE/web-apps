@@ -434,6 +434,8 @@
   "PDFE.Controllers.Statusbar.zoomText": "Zoom {0}%",
   "PDFE.Controllers.Toolbar.textWarning": "Warning",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Warning",
+  "PDFE.Controllers.Toolbar.txtNeedCommentMode": "To save changes to the file, switch to Сommenting mode. Or you can download a copy of the modified file.",
+  "PDFE.Controllers.Toolbar.txtNeedDownload": "To keep your changes download a copy of the modified file.",
   "PDFE.Controllers.Viewport.textFitPage": "Fit to Page",
   "PDFE.Controllers.Viewport.textFitWidth": "Fit to Width",
   "PDFE.Controllers.Viewport.txtDarkMode": "Dark mode",
