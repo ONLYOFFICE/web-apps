@@ -54,7 +54,7 @@ require.config({
         xregexp         : '../vendor/xregexp/xregexp-all-min',
         socketio        : '../vendor/socketio/socket.io.min',
         allfonts        : '../../sdkjs/common/AllFonts',
-        sdk             : '../../sdkjs/word/sdk-all-min',
+        sdk             : '../../sdkjs/pdf/sdk-all-min',
         api             : 'api/documents/api',
         core            : 'common/main/lib/core/application',
         notification    : 'common/main/lib/core/NotificationCenter',
