@@ -741,6 +741,8 @@
     "txtScheme7": "產權",
     "txtScheme8": "流程",
     "txtScheme9": "鑄造廠",
+    "textPasswordWarning": "If the password is forgotten or lost, it cannot be recovered.",
+    "textTypeEditingWarning": "Allow only this type of editing in the document.",
     "textVersionHistory": "Version History"
   },
   "Toolbar": {

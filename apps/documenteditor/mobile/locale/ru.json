@@ -299,6 +299,7 @@
     "textImageURL": "URL рисунка",
     "textInFront": "Перед текстом",
     "textInline": "В тексте",
+    "textInvalidName": "Имя файла не должно содержать следующих символов: ",
     "textJanuary": "Январь",
     "textJuly": "Июль",
     "textJune": "Июнь",
@@ -391,8 +392,7 @@
     "textType": "Тип",
     "textWe": "Ср",
     "textWrap": "Стиль обтекания",
-    "textWrappingStyle": "Стиль обтекания",
-    "textInvalidName": "The file name cannot contain any of the following characters: "
+    "textWrappingStyle": "Стиль обтекания"
   },
   "Error": {
     "convertationTimeoutText": "Превышено время ожидания конвертации.",
@@ -676,6 +676,7 @@
     "textParagraphs": "Абзацы",
     "textPassword": "Пароль",
     "textPasswordNotMatched": "Пароли не совпадают",
+    "textPasswordWarning": "Если пароль забыт или утерян, его нельзя восстановить.",
     "textPdfProducer": "Производитель PDF",
     "textPdfTagged": "PDF с тегами",
     "textPdfVer": "Версия PDF",
@@ -708,6 +709,7 @@
     "textTop": "Верхнее",
     "textTrackedChanges": "Отслеживаемые изменения",
     "textTypeEditing": "Тип редактирования",
+    "textTypeEditingWarning": "Разрешить только указанный способ редактирования документа.",
     "textUnitOfMeasurement": "Единица измерения",
     "textUnprotect": "Снять защиту",
     "textUploaded": "Загружен",

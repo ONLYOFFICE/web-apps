@@ -741,6 +741,8 @@
     "txtScheme7": "Equitat",
     "txtScheme8": "Flux",
     "txtScheme9": "Foneria",
+    "textPasswordWarning": "If the password is forgotten or lost, it cannot be recovered.",
+    "textTypeEditingWarning": "Allow only this type of editing in the document.",
     "textVersionHistory": "Version History"
   },
   "Toolbar": {

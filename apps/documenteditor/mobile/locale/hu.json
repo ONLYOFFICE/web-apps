@@ -299,6 +299,7 @@
     "textImageURL": "A kép URL címe",
     "textInFront": "Szöveg előtt",
     "textInline": "Szöveggel egy sorban",
+    "textInvalidName": "A fájlnév nem tartalmazhatja a következő karaktereket:",
     "textJanuary": "Január ",
     "textJuly": "Július ",
     "textJune": "Június",
@@ -391,8 +392,7 @@
     "textType": "Típus",
     "textWe": "Sze",
     "textWrap": "Tördel",
-    "textWrappingStyle": "Tördelés stílus",
-    "textInvalidName": "The file name cannot contain any of the following characters: "
+    "textWrappingStyle": "Tördelés stílus"
   },
   "Error": {
     "convertationTimeoutText": "A átalakítás időkorlátja lejárt.",
@@ -741,7 +741,9 @@
     "txtScheme6": "Együttműködés",
     "txtScheme7": "Méltányosság",
     "txtScheme8": "Folyam",
-    "txtScheme9": "Öntöde"
+    "txtScheme9": "Öntöde",
+    "textPasswordWarning": "If the password is forgotten or lost, it cannot be recovered.",
+    "textTypeEditingWarning": "Allow only this type of editing in the document."
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Vannak el nem mentett módosításai. Kattintson a 'Maradjon ezen az oldalon' gombra az automatikus mentéshez. Kattintson a 'Hagyja el ezt az oldalt' gombra a mentetlen módosítások elvetéséhez.",

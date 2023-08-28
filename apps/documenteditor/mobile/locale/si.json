@@ -299,6 +299,7 @@
     "textImageURL": "අනුරුවෙහි ඒ.ස.නි.",
     "textInFront": "පාඨයේ ඉදිරිපස",
     "textInline": "පාඨය සමඟ රේඛාවේ",
+    "textInvalidName": "ගොනු නාමයේ පහත අකුරු කිසිවක් අඩංගු නොවිය යුතුය:",
     "textJanuary": "දුරුතු",
     "textJuly": "ඇසළ",
     "textJune": "පොසොන්",
@@ -391,8 +392,7 @@
     "textType": "වර්ගය",
     "textWe": "අපි",
     "textWrap": "වෙළීම",
-    "textWrappingStyle": "දවටන ශෛලිය",
-    "textInvalidName": "The file name cannot contain any of the following characters: "
+    "textWrappingStyle": "දවටන ශෛලිය"
   },
   "Error": {
     "convertationTimeoutText": "අනුවර්තන කාලය ඉක්මවා ඇත.",
@@ -676,6 +676,7 @@
     "textParagraphs": "ඡේද",
     "textPassword": "මුරපදය",
     "textPasswordNotMatched": "මුරපද නොගැළපේ",
+    "textPasswordWarning": "මුරපදය නැති වුවහොත් හෝ අමතක වුවහොත් එය ප්‍රත්‍යර්පණයට නොහැකිය.",
     "textPdfProducer": "පීඩීඑෆ් නිෂ්පාදක",
     "textPdfTagged": "අනන්‍යගත PDF",
     "textPdfVer": "PDF අනුවාද",
@@ -708,6 +709,7 @@
     "textTop": "මුදුන",
     "textTrackedChanges": "ලුහුබැඳි වෙනස්කම්",
     "textTypeEditing": "සංස්කරණ වර්ගය",
+    "textTypeEditingWarning": "ලේඛනයේ මෙවැනි ආකාරයේ සංස්කරණ සඳහා පමණක් ඉඩ දෙන්න.",
     "textUnitOfMeasurement": "මිනුම් ඒකකය",
     "textUnprotect": "අනාරක්‍ෂිත",
     "textUploaded": "උඩුගත කෙරිණි",
