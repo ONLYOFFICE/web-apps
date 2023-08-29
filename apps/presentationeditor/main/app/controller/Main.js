@@ -436,7 +436,8 @@ define([
                 Common.Utils.InternalSettings.set("pe-allow-macros-request", (value !== null) ? parseInt(value)  : 0);
 
                 this.appOptions.wopi = this.editorConfig.wopi;
-                
+                appHeader.setWopi(this.appOptions.wopi);
+
                 Common.Controllers.Desktop.init(this.appOptions);
                 Common.UI.HintManager.setMode(this.appOptions);
             },
