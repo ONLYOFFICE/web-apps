@@ -532,6 +532,8 @@ define([
 
             if (Object.keys(this.pluginPanels).length === 0) {
                 leftMenuView.pluginSeparator.hide();
+            } else {
+                this.setMoreButton();
             }
         },
 
