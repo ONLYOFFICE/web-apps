@@ -248,7 +248,7 @@ define([
 
                 this.btnPagePrev = new Common.UI.Button({
                     cls         : 'btn-toolbar',
-                    iconCls: 'toolbar__icon btn-rotate-up',
+                    iconCls: 'toolbar__icon btn-previtem',
                     hintAnchor  : 'top',
                     dataHint    : '0',
                     dataHintDirection: 'top'
@@ -256,7 +256,7 @@ define([
 
                 this.btnPageNext = new Common.UI.Button({
                     cls         : 'btn-toolbar',
-                    iconCls: 'toolbar__icon btn-rotate-down',
+                    iconCls: 'toolbar__icon btn-nextitem',
                     hintAnchor  : 'top-left',
                     dataHint    : '0',
                     dataHintDirection: 'top'

@@ -369,7 +369,7 @@ define([
                     this.btnFirstPage = new Common.UI.Button({
                         id          : 'id-toolbar-btn-first-page',
                         cls         : 'btn-toolbar',
-                        iconCls     : 'toolbar__icon btn-first-page',
+                        iconCls     : 'toolbar__icon btn-firstitem',
                         lock: [_set.disableOnStart],
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
@@ -379,7 +379,7 @@ define([
                     this.btnLastPage = new Common.UI.Button({
                         id          : 'id-toolbar-btn-last-page',
                         cls         : 'btn-toolbar',
-                        iconCls     : 'toolbar__icon btn-last-page',
+                        iconCls     : 'toolbar__icon btn-lastitem',
                         lock: [_set.disableOnStart],
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
@@ -389,7 +389,7 @@ define([
                     this.btnPrevPage = new Common.UI.Button({
                         id          : 'id-toolbar-btn-prev-page',
                         cls         : 'btn-toolbar',
-                        iconCls     : 'toolbar__icon btn-prev-page',
+                        iconCls     : 'toolbar__icon btn-previtem',
                         lock: [_set.disableOnStart],
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
@@ -399,7 +399,7 @@ define([
                     this.btnNextPage = new Common.UI.Button({
                         id          : 'id-toolbar-btn-next-page',
                         cls         : 'btn-toolbar',
-                        iconCls     : 'toolbar__icon btn-next-page',
+                        iconCls     : 'toolbar__icon btn-nextitem',
                         lock: [_set.disableOnStart],
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
