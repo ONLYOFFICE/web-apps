@@ -118,8 +118,8 @@ define([
             var btnexpandParent = this.$btnexpand.parent()[0];
             if(this.$cellcontent[0].clientHeight != this.$cellcontent[0].scrollHeight) {
                 var scrollBarWidth = this.$cellcontent[0].offsetWidth - this.$cellcontent[0].clientWidth;
-                btnexpandParent.style.right = Common.UI.isRTL() ? "auto" : scrollBarWidth + "px";
-                btnexpandParent.style.left = Common.UI.isRTL() ? scrollBarWidth + "px" : "auto";
+                btnexpandParent.style.right = Common.UI.isRTL() ?  '' : scrollBarWidth + "px";
+                btnexpandParent.style.left = Common.UI.isRTL() ? scrollBarWidth + "px" : '';
             }
             else {
                 btnexpandParent.style.right = '';

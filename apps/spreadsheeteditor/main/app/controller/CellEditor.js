@@ -209,6 +209,7 @@ define([
                     this.editor.$btnexpand['removeClass']('btn-collapse');
                     o && Common.localStorage.setBool('sse-celleditor-expand', false);
                 }
+                this.onCellEditorTextChange();
             }
         },
 
