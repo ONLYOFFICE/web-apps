@@ -295,7 +295,7 @@ Common.UI.HintManager = new(function() {
                 }
             }
         }
-        if (visibleItems.length > _arrAlphabet.length) {
+        if (visibleItems.length + (_currentLevel === 0 ? _.size(_staticHints) : 0) > _arrAlphabet.length) {
             visibleItemsWithTitle.forEach(function (item) {
                 var t = $(item).data('hint-title').charAt(0).toLowerCase();
                 t = _getLetterInUILanguage(t);
