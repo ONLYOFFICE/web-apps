@@ -32,7 +32,8 @@ class MainPage extends Component {
             addLinkSettingsVisible: false,
             editLinkSettingsVisible: false,
             snackbarVisible: false,
-            fabVisible: true
+            fabVisible: true,
+            isOpenModal: false
         };
     }
 
@@ -51,16 +52,20 @@ class MainPage extends Component {
         if (opts === 'edit') {
             this.state.editOptionsVisible && (opened = true);
             newState.editOptionsVisible = true;
+            newState.isOpenModal = true;
         } else if (opts === 'add') {
             this.state.addOptionsVisible && (opened = true);
             newState.addOptionsVisible = true;
             newState.addShowOptions = showOpts;
+            newState.isOpenModal = true;
         } else if (opts === 'settings') {
             this.state.settingsVisible && (opened = true);
             newState.settingsVisible = true;
+            newState.isOpenModal = true;
         } else if (opts === 'coauth') {
             this.state.collaborationVisible && (opened = true);
             newState.collaborationVisible = true;
+            newState.isOpenModal = true;
         } else if (opts === 'navigation') {
             this.state.navigationVisible && (opened = true);
             newState.navigationVisible = true;
@@ -89,13 +94,13 @@ class MainPage extends Component {
     handleOptionsViewClosed = opts => {
         this.setState(state => {
             if (opts === 'edit')
-                return {editOptionsVisible: false};
+                return {editOptionsVisible: false, isOpenModal: false};
             else if (opts === 'add')
-                return {addOptionsVisible: false, addShowOptions: null};
+                return {addOptionsVisible: false, addShowOptions: null, isOpenModal: false};
             else if (opts === 'settings')
-                return {settingsVisible: false};
+                return {settingsVisible: false, isOpenModal: false};
             else if (opts === 'coauth')
-                return {collaborationVisible: false};
+                return {collaborationVisible: false, isOpenModal: false};
             else if (opts === 'navigation')
                 return {navigationVisible: false};
             else if (opts === 'add-link') 
@@ -168,6 +173,7 @@ class MainPage extends Component {
                 openOptions: this.handleClickToOpenOptions.bind(this),
                 closeOptions: this.handleOptionsViewClosed.bind(this),
                 showPanels: this.state.addShowOptions,
+                // isOpenModal: this.state.isOpenModal
             }}>
                 <Page name="home" className={`editor${!isHideLogo ? ' page-with-logo' : ''}`}>
                     {/* Top Navbar */}
@@ -183,6 +189,7 @@ class MainPage extends Component {
                             <Toolbar 
                                 openOptions={this.handleClickToOpenOptions} 
                                 closeOptions={this.handleOptionsViewClosed}
+                                isOpenModal={this.state.isOpenModal}
                             />
                             <Search useSuspense={false}/>
                         </Subnavbar>

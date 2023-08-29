@@ -177,6 +177,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
             isShapeLocked={isShapeLocked}
             isVersionHistoryMode={isVersionHistoryMode}
             closeHistory={closeHistory}
+            isOpenModal={props.isOpenModal}
         />
     )
 }));

@@ -161,6 +161,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeFocusObjects'
             isDisconnected={isDisconnected}
             isVersionHistoryMode={isVersionHistoryMode}
             closeHistory={closeHistory}
+            isOpenModal={props.isOpenModal}
         />
     )
 }));
