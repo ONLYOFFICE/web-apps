@@ -208,7 +208,9 @@ define([
                 defaultUnit : "",
                 value: '1',
                 maxValue: 9999,
-                minValue: 1
+                minValue: 1,
+                allowDecimal: false,
+                maskExp: /[0-9]/
             });
 
             var $window = this.getChild();
