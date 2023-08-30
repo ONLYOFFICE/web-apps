@@ -401,7 +401,7 @@ define([
                                                     '<span class="menu-item-icon <%= iconCls %>"></span>' +
                                                 '<% } %>' +
                                                 '<b><%= caption %></b></div>' +
-                                                '<% if (options.description !== null) { %><label style="display: block;cursor: pointer;white-space: normal;" class="margin-left-10"><%= options.description %></label>' +
+                                                '<% if (options.description !== null) { %><label class="margin-left-10 description"><%= options.description %></label>' +
                                               '<% } %></a>');
                 var arr = [];
                 appConfig.canPDFEdit && arr.push({

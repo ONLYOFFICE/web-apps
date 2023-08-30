@@ -81,8 +81,17 @@
             }
         }
 
+        label.description {
+            display: block;
+            white-space: normal;
+            cursor: pointer;
+        }
+
         &.disabled {
             .menu-item-icon {
+            }
+            label.description {
+                cursor: default;
             }
         }
 
