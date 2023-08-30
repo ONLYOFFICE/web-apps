@@ -450,8 +450,10 @@ define([
                 editable    : false,
                 menuCls     : 'menu-aligned',
                 cls         : 'input-group-nr',
+                restoreMenuHeight: false,
                 menuStyle   : 'min-width:100%; max-height: 157px;',
                 data        : [
+                    { value: -3, displayValue: this.txtLastUsed },
                     { value: -1, displayValue: this.txtFitPage },
                     { value: -2, displayValue: this.txtFitWidth },
                     { value: 50, displayValue: "50%" },
@@ -838,7 +840,8 @@ define([
         txtQuickPrint: 'Show the Quick Print button in the editor header',
         txtQuickPrintTip: 'The document will be printed on the last selected or default printer',
         txtWorkspaceSettingChange: 'Workspace setting (RTL interface) change',
-        txtRestartEditor: 'Please restart document editor so that your workspace settings can take effect'
+        txtRestartEditor: 'Please restart document editor so that your workspace settings can take effect',
+        txtLastUsed: 'Last used'
     }, PDFE.Views.FileMenuPanels.Settings || {}));
 
     PDFE.Views.FileMenuPanels.CreateNew = Common.UI.BaseView.extend(_.extend({

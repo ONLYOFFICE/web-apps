@@ -930,7 +930,9 @@ define([
                 value = Common.localStorage.getItem("pdfe-settings-zoom");
                 Common.Utils.InternalSettings.set("pdfe-settings-zoom", value);
                 var zf = (value!==null) ? parseInt(value) : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : 100);
-                (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
+                value = Common.localStorage.getItem("pdfe-last-zoom");
+                var lastZoom = (value!==null) ? parseInt(value):0;
+                (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : (zf == -3 && lastZoom > 0) ? lastZoom : 100));
 
                 value = Common.localStorage.getBool("pdfe-settings-compatible", false);
                 Common.Utils.InternalSettings.set("pdfe-settings-compatible", value);
