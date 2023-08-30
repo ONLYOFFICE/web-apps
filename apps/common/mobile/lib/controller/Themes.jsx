@@ -32,42 +32,34 @@ export const ThemesProvider = props => {
     }
 
     const initTheme = () => {
+        const clientTheme = LocalStorage.getItem("ui-theme");
         const editorConfig = window.native?.editorConfig;
-        const obj = LocalStorage.getItem("ui-theme");
-        
-        if(editorConfig) {
-            const themeConfig = editorConfig?.theme;
-            const typeTheme = themeConfig?.type || 'light';
-            const isSelectTheme = themeConfig?.select !== undefined ? themeConfig?.select : true;
+        const themeConfig = editorConfig?.theme;
+        const isSelectTheme = themeConfig && themeConfig?.select !== undefined ? themeConfig.select : true;
 
-            if(isSelectTheme) {
-                if(!!obj) {
-                    setClientTheme(obj);
-                } else {
-                    setConfigTheme(typeTheme);
-                } 
-            } else {
-                setConfigTheme(typeTheme);
-            }
-            
-            storeThemes.setConfigSelectTheme(isSelectTheme);
+        storeThemes.setConfigSelectTheme(isSelectTheme);
+        
+        if(clientTheme) {
+            setClientTheme(clientTheme);
         } else {
-            if (!!obj) {
-                setClientTheme(obj);
+            const typeTheme = themeConfig?.type;
+
+            if(typeTheme) {
+                setConfigTheme(typeTheme);
             } else {
                 setSystemTheme();
             }
-        }  
+        }
 
-        setTheme();
+        applyTheme();
     }
 
-    const setClientTheme = obj => {
-        const type = JSON.parse(obj).type;
+    const setClientTheme = clientTheme => {
+        const type = JSON.parse(clientTheme).type;
         let theme;
 
         if(type !== 'system') {
-            theme = themes[JSON.parse(obj).type];
+            theme = themes[type];
 
             LocalStorage.setItem("ui-theme", JSON.stringify(theme));
             storeThemes.setColorTheme(theme);
@@ -81,7 +73,6 @@ export const ThemesProvider = props => {
 
         if(typeTheme && typeTheme !== 'system') { 
             theme = themes[typeTheme];
-
             storeThemes.setColorTheme(theme);
         } else {
             setSystemTheme();
@@ -114,22 +105,19 @@ export const ThemesProvider = props => {
         const theme = themes[key];
         const type = theme.type;
 
+        LocalStorage.setItem("ui-theme", JSON.stringify(theme));
+        storeThemes.setColorTheme(theme);
+
         if(type !== "system") {
-            LocalStorage.setItem("ui-theme", JSON.stringify(theme));
             storeThemes.resetSystemColorTheme();
-            storeThemes.setColorTheme(theme);
-
-            setTheme();
         } else {
-            LocalStorage.setItem("ui-theme", JSON.stringify(themes["system"]));
-            storeThemes.setColorTheme(themes["system"]);
-
             setSystemTheme();
-            setTheme();
         }
+
+        applyTheme();
     }
 
-    const setTheme = () => {
+    const applyTheme = () => {
         const $body = $$('body');
 
         let theme = storeThemes.systemColorTheme;
