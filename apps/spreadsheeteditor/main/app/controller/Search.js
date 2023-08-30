@@ -185,6 +185,7 @@ define([
         },
 
         onRangeSelect: function () {
+            if (this.rangeSelectDlg) return;
             var me = this;
             var handlerDlg = function(dlg, result) {
                 if (result == 'ok') {
@@ -195,15 +196,16 @@ define([
                 }
             };
 
-            var win = new SSE.Views.CellRangeDialog({
+            this.rangeSelectDlg = new SSE.Views.CellRangeDialog({
                 handler: handlerDlg
             }).on('close', function() {
+                me.rangeSelectDlg = undefined;
                 _.delay(function(){
                     me.view.inputSelectRange.focus();
                 },1);
             });
-            win.show();
-            win.setSettings({
+            this.rangeSelectDlg.show();
+            this.rangeSelectDlg.setSettings({
                 api: me.api,
                 range: (!_.isEmpty(me.view.inputSelectRange.getValue()) && (me.view.inputSelectRange.checkValidate()==true)) ? me.view.inputSelectRange.getValue() : me._state.selectedRange,
                 type: Asc.c_oAscSelectionDialogType.PrintTitles
