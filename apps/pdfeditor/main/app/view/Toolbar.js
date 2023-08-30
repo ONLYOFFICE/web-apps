@@ -323,9 +323,8 @@ define([
 
                     this.btnHighlight = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-highlight',
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-highlighter-tool',
-                        caption: ' ',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-highlight',
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments],
                         enableToggle: true,
                         allowDepress: true,
@@ -333,7 +332,7 @@ define([
                         menu: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
-                        ataHintOffset: 'small',
+                        dataHintOffset: '0, -16',
                         penOptions: {color: 'FFFC54', colors: [
                                 'FFFC54', '72F54A', '74F9FD', 'EB51F7', 'A900F9', 'EF8B3A', '7272FF', 'FF63A4', '1DFF92', '03DA18',
                                 '249B01', 'C504D2', '0633D1', 'FFF7A0', 'FF0303', 'FFFFFF', 'D3D3D4', '969696', '606060', '000000'

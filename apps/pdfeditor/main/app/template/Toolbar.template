@@ -81,7 +81,11 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
-                    <span class="btn-slot text x-huge emptycaption" id="slot-btn-highlight"></span>
+                    <div class="elset">
+                        <span class="btn-slot split" id="slot-btn-highlight"></span>
+                    </div>
+                    <div class="elset">
+                    </div>
                 </div>
                 <div class="group small">
                     <div class="elset">
