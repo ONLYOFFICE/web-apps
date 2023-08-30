@@ -58,14 +58,20 @@ define([
         }
 
         function _onCurrentPage(number){
-            this.pages.set('current', number+1);
+            this.pages.set('current', number);
+        }
+
+        function _onApiPageSize(width, height, type, firstNum){
+            (firstNum!==undefined) && this.pages.set('start', firstNum);
         }
 
         var _tplPages = _.template('Slide <%= current %> of <%= count %>');
 
         function _updatePagesCaption(model,value,opts) {
+            var start = model.get('start'),
+                count = model.get('count');
             $('#status-label-pages').text(
-                Common.Utils.String.format(this.pageIndexText, model.get('current'), model.get('count')) );
+                Common.Utils.String.format(this.pageIndexText, model.get('current') + start, start===1 ? count : start + ' .. ' + (count + start - 1)) );
         }
 
         function _clickLanguage(menu, item) {
@@ -86,7 +92,7 @@ define([
 
             initialize: function (options) {
                 _.extend(this, options);
-                this.pages = new PE.Models.Pages({current:1, count:-1});
+                this.pages = new PE.Models.Pages({current:1, count:-1, start: 1});
                 this.pages.on('change', _.bind(_updatePagesCaption,this));
                 this._state = {no_paragraph: true};
             },
@@ -171,7 +177,7 @@ define([
                     validation  : function(value) {
                         if (/(^[0-9]+$)/.test(value)) {
                             value = parseInt(value);
-                            if (undefined !== value && value > 0 && value <= me.pages.get('count'))
+                            if (undefined !== value && value >= me.pages.get('start') && value < me.pages.get('count')+me.pages.get('start'))
                                 return true;
                         }
 
@@ -180,8 +186,9 @@ define([
                 }).on('keypress:after', function(input, e) {
                         if (e.keyCode === Common.UI.Keys.RETURN) {
                             var box = me.$el.find('#status-goto-box'),
-                                edit = box.find('input[type=text]'), page = parseInt(edit.val());
-                            if (!page || page-- > me.pages.get('count') || page < 0) {
+                                edit = box.find('input[type=text]'), page = parseInt(edit.val()),
+                                start = me.pages.get('start');
+                            if (isNaN(page) || page >= me.pages.get('count')+start || page < start) {
                                 edit.select();
                                 return false;
                             }
@@ -189,7 +196,7 @@ define([
                             box.focus();                        // for IE
                             box.parent().removeClass('open');
 
-                            me.api.goToPage(page);
+                            me.api.goToPage(page - start);
                             me.api.asc_enableKeyEvents(true);
 
                             return false;
@@ -212,7 +219,7 @@ define([
                 });
                 goto.parent().on('show.bs.dropdown',
                     function () {
-                        me.txtGoToPage.setValue(me.api.getCurrentPage() + 1);
+                        me.txtGoToPage.setValue(me.api.getCurrentPage() + me.pages.get('start'));
                         me.txtGoToPage.checkValidate();
                         var edit = me.txtGoToPage.$el.find('input');
                         _.defer(function(){edit.focus(); edit.select();}, 100);
@@ -290,6 +297,7 @@ define([
                 if (this.api) {
                     this.api.asc_registerCallback('asc_onCountPages',   _.bind(_onCountPages, this));
                     this.api.asc_registerCallback('asc_onCurrentPage',  _.bind(_onCurrentPage, this));
+                    this.api.asc_registerCallback('asc_onPresentationSize', _.bind(_onApiPageSize, this));
                     this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObject, this));
                     this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('api:disconnect',     _.bind(this.onApiCoAuthoringDisconnect, this));
