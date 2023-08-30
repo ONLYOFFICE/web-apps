@@ -348,6 +348,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
                      changeTitleHandler={changeTitleHandler}
                      isVersionHistoryMode={isVersionHistoryMode}
                      closeHistory={closeHistory}
+                     isOpenModal={props.isOpenModal}
         />
     )
 }));

@@ -1,8 +1,9 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLeft, NavRight, NavTitle, Link, Icon, f7 } from 'framework7-react';
 import { Device } from '../../../../common/mobile/utils/device';
 import EditorUIController from '../lib/patch';
+import { MainContext } from '../page/main';
 
 const ToolbarView = props => {
     const { t } = useTranslation();
@@ -15,6 +16,10 @@ const ToolbarView = props => {
     const isMobileView = props.isMobileView;
     const docTitle = props.docTitle;
     const docTitleLength = docTitle.length;
+    const isOpenModal = props.isOpenModal;
+    // const mainContext = useContext(MainContext);
+    // const isOpenModal = mainContext.isOpenModal;
+
 
     const correctOverflowedText = el => {
         if(el) {
@@ -50,7 +55,7 @@ const ToolbarView = props => {
                     e.preventDefault();
                     props.closeHistory();
                 }}>{t("Toolbar.textCloseHistory")}</a> : null}
-                {(props.isShowBack && isViewer && !isVersionHistoryMode) && <Link className={`btn-doc-back${props.disabledControls && ' disabled'}`} icon='icon-back' onClick={() => Common.Notifications.trigger('goback')}></Link>}
+                {(props.isShowBack && isViewer && !isVersionHistoryMode) && <Link className={`btn-doc-back${(props.disabledControls || isOpenModal) && ' disabled'}`} icon='icon-back' onClick={() => Common.Notifications.trigger('goback')}></Link>}
                 {(Device.ios && props.isEdit && !isViewer && !isVersionHistoryMode) && EditorUIController.getUndoRedo && EditorUIController.getUndoRedo({
                     disabledUndo: !props.isCanUndo || isDisconnected,
                     disabledRedo: !props.isCanRedo || isDisconnected,
@@ -67,23 +72,23 @@ const ToolbarView = props => {
                     onRedoClick: props.onRedo
                 })}
                 {/*isAvailableExt && !props.disabledControls &&*/}
-                {((isViewer || !Device.phone) && isAvailableExt && !props.disabledControls && !isVersionHistoryMode) && <Link icon={isMobileView ? 'icon-standard-view' : 'icon-mobile-view'} href={false} onClick={() => {
+                {((isViewer || !Device.phone) && isAvailableExt && !props.disabledControls && !isVersionHistoryMode) && <Link className={isOpenModal && 'disabled'} icon={isMobileView ? 'icon-standard-view' : 'icon-mobile-view'} href={false} onClick={() => {
                     props.changeMobileView();
                     props.openOptions('snackbar');
                 }}></Link>}
                 {(props.showEditDocument && !isViewer) &&
-                    <Link className={props.disabledControls ? 'disabled' : ''} icon='icon-edit' href={false} onClick={props.onEditDocument}></Link>
+                    <Link className={(props.disabledControls || isOpenModal) && 'disabled'} icon='icon-edit' href={false} onClick={props.onEditDocument}></Link>
                 }
                 {props.isEdit && isAvailableExt && !isViewer && EditorUIController.getToolbarOptions && EditorUIController.getToolbarOptions({
-                    disabled: disableEditBtn || props.disabledControls,
+                    disabled: disableEditBtn || props.disabledControls || isOpenModal,
                     onEditClick: e => props.openOptions('edit'),
                     onAddClick: e => props.openOptions('add')
                 })}
                 {/*props.displayCollaboration &&*/}
-                {Device.phone ? null : <Link className={(props.disabledControls || props.readerMode) && 'disabled'} icon='icon-search' searchbarEnable='.searchbar' href={false}></Link>}
-                {window.matchMedia("(min-width: 360px)").matches && docExt !== 'oform' && !isVersionHistoryMode ? <Link className={props.disabledControls && 'disabled'} id='btn-coauth' href={false} icon='icon-collaboration' onClick={() => props.openOptions('coauth')}></Link> : null}
-                {isVersionHistoryMode ? <Link id='btn-open-history' icon='icon-version-history' href={false} onClick={() => props.openOptions('history')}></Link> : null}
-                <Link className={(props.disabledSettings || props.disabledControls || isDisconnected) && 'disabled'} id='btn-settings' icon='icon-settings' href={false} onClick={() => props.openOptions('settings')}></Link>
+                {Device.phone ? null : <Link className={(props.disabledControls || props.readerMode || isOpenModal) && 'disabled'} icon='icon-search' searchbarEnable='.searchbar' href={false}></Link>}
+                {window.matchMedia("(min-width: 360px)").matches && docExt !== 'oform' && !isVersionHistoryMode ? <Link className={(props.disabledControls || isOpenModal) && 'disabled'} id='btn-coauth' href={false} icon='icon-collaboration' onClick={() => props.openOptions('coauth')}></Link> : null}
+                {isVersionHistoryMode ? <Link id='btn-open-history' icon='icon-version-history' href={false} className={isOpenModal && 'disabled'} onClick={() => props.openOptions('history')}></Link> : null}
+                <Link className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-settings' icon='icon-settings' href={false} onClick={() => props.openOptions('settings')}></Link>
             </NavRight>
         </Fragment>
     )
