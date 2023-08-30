@@ -1256,7 +1256,6 @@ define([
 
             onPdfModeChange: function(mode, callback) {
                 if (!this.appOptions.canSwitchMode) return;
-                this._state.licenseType = Asc.c_oLicenseResult.Connections;
 
                 if (mode==='comment' || mode==='edit') {
                     if (!this.appOptions.isAnonymousSupport && !!this.appOptions.user.anonymous) {
