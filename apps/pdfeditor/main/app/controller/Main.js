@@ -185,7 +185,7 @@ define([
                     Common.NotificationCenter.on('showmessage',                     _.bind(this.onExternalMessage, this));
                     Common.NotificationCenter.on('showerror',                       _.bind(this.onError, this));
                     Common.NotificationCenter.on('editing:disable',                 _.bind(this.onEditingDisable, this));
-                    Common.NotificationCenter.on('pdf:mode',                        _.bind(this.onPdfModeApply, this));
+                    Common.NotificationCenter.on('pdf:mode',                        _.bind(this.onPdfModeChange, this));
 
                     this.isShowOpenDialog = false;
                     
@@ -1062,59 +1062,10 @@ define([
             },
 
             applyLicense: function() {
-                if (this.editorConfig.mode === 'view') {
-                } else if (!this.appOptions.isAnonymousSupport && !!this.appOptions.user.anonymous) {
-                    this.disableEditing(true);
-                    this.api.asc_coAuthoringDisconnect();
-                    Common.NotificationCenter.trigger('api:disconnect');
-                    Common.UI.warning({
-                        title: this.notcriticalErrorTitle,
-                        msg  : this.warnLicenseAnonymous,
-                        buttons: ['ok']
-                    });
-                } else if (this._state.licenseType) {
-                    var license = this._state.licenseType,
-                        buttons = ['ok'],
-                        primary = 'ok';
-                    if ((this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0 &&
-                        (license===Asc.c_oLicenseResult.SuccessLimit || this.appOptions.permissionsLicense===Asc.c_oLicenseResult.SuccessLimit)) {
-                        license = this.warnLicenseLimitedRenewed;
-                    } else if (license===Asc.c_oLicenseResult.Connections || license===Asc.c_oLicenseResult.UsersCount) {
-                        license = (license===Asc.c_oLicenseResult.Connections) ? this.warnLicenseExceeded : this.warnLicenseUsersExceeded;
-                    } else {
-                        license = (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoLicense : this.warnNoLicenseUsers;
-                        buttons = [{value: 'buynow', caption: this.textBuyNow}, {value: 'contact', caption: this.textContactUs}];
-                        primary = 'buynow';
-                    }
-
-                    if (this._state.licenseType!==Asc.c_oLicenseResult.SuccessLimit && (this.appOptions.isEdit)) {
-                        this.disableEditing(true);
-                        this.api.asc_coAuthoringDisconnect();
-                        Common.NotificationCenter.trigger('api:disconnect');
-                    }
-
-                    var value = Common.localStorage.getItem("pdfe-license-warning");
-                    value = (value!==null) ? parseInt(value) : 0;
-                    var now = (new Date).getTime();
-                    if (now - value > 86400000) {
-                        Common.UI.info({
-                            maxwidth: 500,
-                            title: this.textNoLicenseTitle,
-                            msg  : license,
-                            buttons: buttons,
-                            primary: primary,
-                            callback: function(btn) {
-                                Common.localStorage.setItem("pdfe-license-warning", now);
-                                if (btn == 'buynow')
-                                    window.open('{{PUBLISHER_URL}}', "_blank");
-                                else if (btn == 'contact')
-                                    window.open('mailto:{{SALES_EMAIL}}', "_blank");
-                            }
-                        });
-                    }
-                } else if (!this.appOptions.isDesktopApp && !this.appOptions.canBrandingExt &&
-                            this.editorConfig && this.editorConfig.customization && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo ||
-                            this.editorConfig.customization.font && (this.editorConfig.customization.font.size || this.editorConfig.customization.font.name))) {
+                if (this.appOptions.canSwitchMode && (this.appOptions.canPDFAnnotate || this.appOptions.canPDFEdit) &&
+                    !this.appOptions.isDesktopApp && !this.appOptions.canBrandingExt &&
+                    this.editorConfig && this.editorConfig.customization && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo ||
+                    this.editorConfig.customization.font && (this.editorConfig.customization.font.size || this.editorConfig.customization.font.name))) {
                     Common.UI.warning({
                         title: this.textPaidFeature,
                         msg  : this.textCustomLoader,
@@ -1174,6 +1125,7 @@ define([
                 this.appOptions.canPDFAnnotate = this.appOptions.canLicense && (this.permissions.comment!== false);
                 this.appOptions.canPDFAnnotate = this.appOptions.canPDFAnnotate && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                 this.appOptions.isPDFAnnotate  = false;// this.appOptions.canLicense && this.appOptions.canPDFAnnotate && !this.appOptions.isPDFEdit && this.editorConfig.mode !== 'view'; !! always open in view mode
+                this.appOptions.canSwitchMode = !isXpsViewer && true; // switch between View/pdf comments/pdf edit
                 this.appOptions.canComments    = !isXpsViewer;
                 this.appOptions.canViewComments = this.appOptions.canComments;
                 this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !(this.permissions.chat===false || (this.permissions.chat===undefined) &&
@@ -1298,6 +1250,63 @@ define([
 
                 Common.Utils.InternalSettings.set("pdfe-settings-coauthmode", fastCoauth);
                 Common.Utils.InternalSettings.set("pdfe-settings-autosave", autosave);
+            },
+
+            onPdfModeChange: function(mode, callback) {
+                if (!this.appOptions.canSwitchMode) return;
+                this._state.licenseType = Asc.c_oLicenseResult.Connections;
+
+                if (mode==='comment' || mode==='edit') {
+                    if (!this.appOptions.isAnonymousSupport && !!this.appOptions.user.anonymous) {
+                        Common.UI.warning({
+                            title: this.notcriticalErrorTitle,
+                            msg  : this.warnLicenseAnonymous,
+                            buttons: ['ok']
+                        });
+                        return;
+                    } else if (this._state.licenseType) {
+                        var license = this._state.licenseType,
+                            buttons = ['ok'],
+                            primary = 'ok';
+                        if ((this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0 &&
+                            (license===Asc.c_oLicenseResult.SuccessLimit || this.appOptions.permissionsLicense===Asc.c_oLicenseResult.SuccessLimit)) {
+                            license = this.warnLicenseLimitedRenewed;
+                        } else if (license===Asc.c_oLicenseResult.Connections || license===Asc.c_oLicenseResult.UsersCount) {
+                            license = (license===Asc.c_oLicenseResult.Connections) ? this.warnLicenseExceeded : this.warnLicenseUsersExceeded;
+                        } else {
+                            license = (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoLicense : this.warnNoLicenseUsers;
+                            buttons = [{value: 'buynow', caption: this.textBuyNow}, {value: 'contact', caption: this.textContactUs}];
+                            primary = 'buynow';
+                        }
+
+                        Common.UI.info({
+                            maxwidth: 500,
+                            title: this.textNoLicenseTitle,
+                            msg  : license,
+                            buttons: buttons,
+                            primary: primary,
+                            callback: function(btn) {
+                                if (btn == 'buynow')
+                                    window.open('{{PUBLISHER_URL}}', "_blank");
+                                else if (btn == 'contact')
+                                    window.open('mailto:{{SALES_EMAIL}}', "_blank");
+                            }
+                        });
+                        return;
+                    }
+                }
+
+                if (mode==='edit' && this.appOptions.canPDFEdit) {
+                    this.appOptions.isPDFEdit = true;
+                    this.appOptions.isPDFAnnotate = false;
+                } else if (mode==='comment' && this.appOptions.canPDFAnnotate) {
+                    this.appOptions.isPDFEdit = false;
+                    this.appOptions.isPDFAnnotate = true;
+                } else if (mode==='view') {
+                    this.appOptions.isPDFEdit = this.appOptions.isPDFAnnotate = false;
+                }
+                callback && callback();
+                this.onPdfModeApply();
             },
 
             onPdfModeApply: function() {

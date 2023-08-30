@@ -248,6 +248,7 @@ define([
 
         function changePDFMode(config) {
             var me = this;
+            config = config || appConfig;
             if (!me.btnPDFMode || !config) return;
             me.btnPDFMode.setIconCls('toolbar__icon icon--inverse ' + (config.isPDFEdit ? 'btn-edit' : (config.isPDFAnnotate ? 'btn-menu-comments' : 'btn-sheet-view')));
             me.btnPDFMode.setCaption(config.isPDFEdit ? me.textEdit : (config.isPDFAnnotate ? me.textComment : me.textView));
@@ -433,17 +434,7 @@ define([
                     items: arr
                 }));
                 me.btnPDFMode.menu.on('item:click', function (menu, item) {
-                    if (item.value==='edit' && appConfig.canPDFEdit) {
-                        appConfig.isPDFEdit = true;
-                        appConfig.isPDFAnnotate = false;
-                    } else if (item.value==='comment' && appConfig.canPDFAnnotate) {
-                        appConfig.isPDFEdit = false;
-                        appConfig.isPDFAnnotate = true;
-                    } else if (item.value==='view') {
-                        appConfig.isPDFEdit = appConfig.isPDFAnnotate = false;
-                    }
-                    changePDFMode.call(me, appConfig);
-                    Common.NotificationCenter.trigger('pdf:mode');
+                    Common.NotificationCenter.trigger('pdf:mode', item.value, _.bind(changePDFMode, me));
                 });
             }
             if (appConfig.isEdit && !(appConfig.customization && appConfig.customization.compactHeader))
@@ -687,7 +678,7 @@ define([
                         $html.find('#slot-btn-share').hide();
                     }
 
-                    if (isPDFEditor && config.isEdit && !config.isOffline) {
+                    if (isPDFEditor && config.isEdit && !config.isOffline && config.canSwitchMode) {
                         me.btnPDFMode = new Common.UI.Button({
                             cls: 'btn-header btn-header-pdf-mode no-caret',
                             iconCls: 'toolbar__icon icon--inverse btn-sheet-view',
