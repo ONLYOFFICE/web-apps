@@ -93,8 +93,12 @@
                 </div>
                 <div class="separator long draw-groups"></div>
                 <div class="separator long"></div>
-                <div class="group">
-                    <span class="btn-slot text x-huge" id="slot-btn-hide-comments"></span>
+                <div class="group small">
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-chk-showcomment"></span>
+                    </div>
+                    <div class="elset">
+                    </div>
                 </div>
             </section>
         </section>

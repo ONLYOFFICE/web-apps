@@ -79,7 +79,8 @@ define([
                 },
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),
-                    'menu:show': this.onFileMenu.bind(this, 'show')
+                    'menu:show': this.onFileMenu.bind(this, 'show'),
+                    'settings:apply': this.applySettings.bind(this),
                 },
                 'Common.Views.Header': {
                     'print': function (opts) {
@@ -187,7 +188,7 @@ define([
             toolbar.btnHighlight.on('click',                            _.bind(this.onBtnHighlight, this));
             toolbar.mnuHighlightColorPicker.on('select',                _.bind(this.onSelectHighlightColor, this));
             toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
-            toolbar.btnHideComments.on('click',                         _.bind(this.onHideCommentsClick, this));
+            toolbar.chShowComments.on('change',                         _.bind(this.onShowCommentsChange, this));
             toolbar.btnRotate.on('click',                               _.bind(this.onRotateClick, this));
             toolbar.fieldPages.on('changed:after',                      _.bind(this.onPagesChanged, this));
             toolbar.fieldPages.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me.toolbar);});
@@ -581,8 +582,11 @@ define([
             Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnHighlight);
         },
 
-        onHideCommentsClick: function(btn, e) {
-            // this.api && this.api.asc_HideComments(btn.pressed);
+        onShowCommentsChange: function(checkbox, state) {
+            var value = state === 'checked';
+            Common.localStorage.setItem("pdfe-settings-livecomment", value ? 1 : 0);
+            Common.Utils.InternalSettings.set("pdfe-settings-livecomment", value);
+            (value) ? this.api.asc_showComments(Common.Utils.InternalSettings.get("pdfe-settings-resolvedcomment")) : this.api.asc_hideComments();
         },
 
         onRotateClick: function(btn, e) {
@@ -737,6 +741,10 @@ define([
                 if ( this.toolbar.isTabActive('file') )
                     this.toolbar.setTab();
             }
+        },
+
+        applySettings: function() {
+            this.toolbar && this.toolbar.chShowComments.setValue(Common.localStorage.getBool("pdfe-settings-livecomment", true), true);
         },
 
         textWarning: 'Warning',

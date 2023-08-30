@@ -279,18 +279,15 @@ define([
                     });
                     this.toolbarControls.push(this.btnAddComment);
 
-                    this.btnHideComments = new Common.UI.Button({
-                        id: 'tlbtn-hidecomments',
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-hide-comments',
+                    this.chShowComments = new Common.UI.CheckBox({
                         lock: [_set.disableOnStart],
-                        caption: this.capBtnHideComments,
-                        enableToggle: true,
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
+                        labelText: this.capBtnShowComments,
+                        value: Common.localStorage.getBool("pdfe-settings-livecomment", true),
+                        dataHint    : '1',
+                        dataHintDirection: 'left',
                         dataHintOffset: 'small'
                     });
-                    this.toolbarControls.push(this.btnHideComments);
+                    this.toolbarControls.push(this.chShowComments);
 
                     this.btnStrikeout = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-strikeout',
@@ -507,13 +504,13 @@ define([
                 _injectComponent('#slot-btn-strikeout', this.btnStrikeout);
                 _injectComponent('#slot-btn-underline', this.btnUnderline);
                 _injectComponent('#slot-btn-highlight', this.btnHighlight);
-                _injectComponent('#slot-btn-hide-comments', this.btnHideComments);
                 _injectComponent('#slot-btn-rotate', this.btnRotate);
                 _injectComponent('#slot-btn-pages', this.fieldPages);
                 _injectComponent('#slot-btn-first-page', this.btnFirstPage);
                 _injectComponent('#slot-btn-last-page', this.btnLastPage);
                 _injectComponent('#slot-btn-prev-page', this.btnPrevPage);
                 _injectComponent('#slot-btn-next-page', this.btnNextPage);
+                _injectComponent('#slot-chk-showcomment', this.chShowComments);
 
                 this.btnPrint.menu && this.btnPrint.$el.addClass('split');
                 return $host;
@@ -631,7 +628,6 @@ define([
                 this.btnStrikeout.updateHint(this.textStrikeout);
                 this.btnUnderline.updateHint(this.textUnderline);
                 this.btnHighlight.updateHint(this.textHighlight);
-                this.btnHideComments.updateHint(this.tipHideComments);
                 this.btnRotate.updateHint(this.tipRotate);
                 this.btnFirstPage.updateHint(this.tipFirstPage);
                 this.btnLastPage.updateHint(this.tipLastPage);
@@ -778,14 +774,13 @@ define([
             textStrikeout: 'Strikeout',
             textUnderline: 'Underline',
             textHighlight: 'Highlight',
-            capBtnHideComments: 'Hide Comments',
-            tipHideComments: 'Hide comments',
             capBtnRotate: 'Rotate',
             tipRotate: 'Rotate pages',
             tipFirstPage: 'Go to the first page',
             tipLastPage: 'Go to the last page',
             tipPrevPage: 'Go to the previous page',
-            tipNextPage: 'Go to the next page'
+            tipNextPage: 'Go to the next page',
+            capBtnShowComments: 'Show Comments'
         }
     })(), PDFE.Views.Toolbar || {}));
 });
