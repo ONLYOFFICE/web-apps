@@ -125,13 +125,13 @@ module.exports = (grunt) => {
                 },
                 build: {
                     src: [packageFile.forms.js.requirejs.options.out],
-                    dest: [packageFile.forms.js.requirejs.options.out]
+                    dest: packageFile.forms.js.requirejs.options.out
                 },
             },
         });
     });
 
     grunt.registerTask('deploy-app-forms', ['forms-app-init', 'clean:prebuild', /*'imagemin',*/ 'less',
-                                                            'requirejs', /*'terser',*/ 'concat', 'copy', 'inline', /*'json-minify',*/
+                                                            'requirejs', 'terser', 'concat', 'copy', 'inline', /*'json-minify',*/
                                                             'replace:varsEnviroment', /*'replace:prepareHelp',*/ 'clean:postbuild']);
 }
