@@ -457,10 +457,8 @@ define([
                 if (this._state.EffectOption !== null && this._state.Effect !== AscFormat.ANIM_PRESET_MULTIPLE && this._state.Effect !== AscFormat.ANIM_PRESET_NONE) {
                     var rec = _.findWhere(this.EffectGroups,{value: this._state.EffectGroup});
                     view.setMenuParameters(this._state.Effect, rec ? rec.id : undefined, this._state.EffectOption);
-                    // if(view.isColor && view.colorPickerParameters) {
-                    //     view.colorPickerParameters.select(this.AnimationProperties.asc_getColor(), true);
-                    // }
-                    // !!! function getColor() not found  in sdk !!!
+
+                    view.isColor  && view.setColor(this.AnimationProperties.asc_getColor());
                     this._state.noAnimationParam = view.btnParameters.menu.items.length === view.startIndexParam && !view.isColor;
                 }
 

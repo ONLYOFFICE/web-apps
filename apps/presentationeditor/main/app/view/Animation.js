@@ -541,7 +541,7 @@ define([
                         me.btnParameters.menu.setInnerMenu([{menu: picker, index: 0}]);
                         picker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
                         me.colorPickerParameters = picker;
-
+                        me.setColor();
                         menu.on('show:after', function() {
                             (me.isColor && picker) && _.delay(function() {
                                 picker.focus();
@@ -660,6 +660,15 @@ define([
                 this._groupName = effectGroup;
                 this._familyEffect = effect ? effect.familyEffect : undefined;
                 return selectedElement ? selectedElement.value : undefined;
+            },
+
+            setColor: function (color){
+                if(color)
+                    this._effectColor = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()).toUpperCase();
+                if (!!this.colorPickerParameters) {
+                    this.colorPickerParameters.clearSelection();
+                    this.colorPickerParameters.$el.find('a.color-' + this._effectColor).first().addClass('selected');
+                }
             },
 
 
