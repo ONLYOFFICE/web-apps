@@ -375,7 +375,7 @@ define([
                 mode = toolbar.mode;
             if (!mode.isPDFAnnotate && !mode.isPDFEdit) {
                 Common.UI.warning({
-                    width: 500,
+                    maxwidth: 500,
                     msg: (mode.canPDFAnnotate || mode.canPDFEdit) ? this.txtNeedCommentMode : this.txtNeedDownload,
                     callback: function(btn) {
                         Common.NotificationCenter.trigger('edit:complete', toolbar);
