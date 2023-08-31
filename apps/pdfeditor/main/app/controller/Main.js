@@ -1121,13 +1121,12 @@ define([
                 this.appOptions.canRequestEditRights = this.editorConfig.canRequestEditRights;
                 this.appOptions.canEdit        = !isXpsViewer;
                 this.appOptions.isEdit         = !isXpsViewer;
-                this.permissions.comment = true; // !! Only for test !!
                 this.appOptions.canPDFEdit     = false;//(this.permissions.edit !== false) && this.appOptions.canLicense;
                 this.appOptions.isPDFEdit      = false; // this.appOptions.canPDFEdit && this.editorConfig.mode !== 'view'; !! always open in view mode
                 this.appOptions.canPDFAnnotate = this.appOptions.canLicense && (this.permissions.comment!== false);
                 this.appOptions.canPDFAnnotate = this.appOptions.canPDFAnnotate && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                 this.appOptions.isPDFAnnotate  = false;// this.appOptions.canLicense && this.appOptions.canPDFAnnotate && !this.appOptions.isPDFEdit && this.editorConfig.mode !== 'view'; !! always open in view mode
-                this.appOptions.canSwitchMode = !isXpsViewer && true; // switch between View/pdf comments/pdf edit
+                this.appOptions.canSwitchMode = !isXpsViewer && false; // switch between View/pdf comments/pdf edit
                 this.appOptions.canComments    = !isXpsViewer;
                 this.appOptions.canViewComments = this.appOptions.canComments;
                 this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !(this.permissions.chat===false || (this.permissions.chat===undefined) &&
