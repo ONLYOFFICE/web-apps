@@ -434,6 +434,7 @@
   "Common.UI.HSBColorPicker.textNoColor": "No Color",
   "Common.UI.InputFieldBtnPassword.textHintHidePwd": "Hide password",
   "Common.UI.InputFieldBtnPassword.textHintShowPwd": "Show password",
+  "Common.UI.InputFieldBtnPassword.textHintHold": "Press and hold to show password",
   "Common.UI.SearchBar.textFind": "Find",
   "Common.UI.SearchBar.tipCloseSearch": "Close search",
   "Common.UI.SearchBar.tipNextResult": "Next result",
