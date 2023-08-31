@@ -1,6 +1,8 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Предупреждение",
   "Common.Controllers.Chat.textEnterMessage": "Введите здесь своё сообщение",
+  "Common.Controllers.Desktop.hintBtnHome": "Показать главное окно",
+  "Common.Controllers.Desktop.itemCreateFromTemplate": "Создать по шаблону",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Аноним",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Закрыть",
   "Common.Controllers.ExternalDiagramEditor.warningText": "Объект недоступен, так как редактируется другим пользователем.",

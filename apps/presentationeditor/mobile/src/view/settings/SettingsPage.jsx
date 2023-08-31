@@ -74,7 +74,7 @@ const SettingsPage = inject('storeAppOptions', 'storeToolbarSettings')(observer(
                     <Icon slot="media" icon="icon-app-settings"></Icon>
                 </ListItem>
                 {_isEdit && 
-                    <ListItem title={t('View.Settings.textVersionHistory')} link="/version-history" onClick={() => {
+                    <ListItem title={t('View.Settings.textVersionHistory')} link={!Device.phone ? "/version-history" : ""} onClick={() => {
                         if(Device.phone) {
                             onOpenOptions('history');
                         }

@@ -391,7 +391,8 @@
     "textType": "Τύπος",
     "textWe": "Τετ",
     "textWrap": "Αναδίπλωση",
-    "textWrappingStyle": "Τεχνοτροπία αναδίπλωσης"
+    "textWrappingStyle": "Τεχνοτροπία αναδίπλωσης",
+    "textInvalidName": "The file name cannot contain any of the following characters: "
   },
   "Error": {
     "convertationTimeoutText": "Υπέρβαση χρονικού ορίου μετατροπής.",
@@ -740,7 +741,9 @@
     "txtScheme6": "Συνάθροιση",
     "txtScheme7": "Μετοχή",
     "txtScheme8": "Ροή",
-    "txtScheme9": "Χυτήριο"
+    "txtScheme9": "Χυτήριο",
+    "textPasswordWarning": "If the password is forgotten or lost, it cannot be recovered.",
+    "textTypeEditingWarning": "Allow only this type of editing in the document."
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Έχετε μη αποθηκευμένες αλλαγές. Πατήστε 'Παραμονή στη Σελίδα' για να περιμένετε την αυτόματη αποθήκευση. Πατήστε 'Έξοδος από τη Σελίδα' για να απορρίψετε όλες τις μη αποθηκευμένες αλλαγές.",

@@ -391,7 +391,8 @@
     "textType": "Typ",
     "textWe": "Mi",
     "textWrap": "Umbrechen",
-    "textWrappingStyle": "Textumbruch"
+    "textWrappingStyle": "Textumbruch",
+    "textInvalidName": "The file name cannot contain any of the following characters: "
   },
   "Error": {
     "convertationTimeoutText": "Zeitüberschreitung bei der Konvertierung.",
@@ -740,7 +741,9 @@
     "txtScheme6": "Halle",
     "txtScheme7": "Kapital",
     "txtScheme8": "Fluss",
-    "txtScheme9": "Gießerei"
+    "txtScheme9": "Gießerei",
+    "textPasswordWarning": "If the password is forgotten or lost, it cannot be recovered.",
+    "textTypeEditingWarning": "Allow only this type of editing in the document."
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Die Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",

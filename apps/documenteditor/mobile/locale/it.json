@@ -391,7 +391,8 @@
     "textWrappingStyle": "Stile di disposizione testo",
     "textArrange": "Arrange",
     "textCustomStyle": "Custom Style",
-    "textDeleteImage": "Delete Image"
+    "textDeleteImage": "Delete Image",
+    "textInvalidName": "The file name cannot contain any of the following characters: "
   },
   "Error": {
     "convertationTimeoutText": "È stato superato il tempo massimo della conversione.",
@@ -728,6 +729,7 @@
     "textNoMatches": "No Matches",
     "textPassword": "Password",
     "textPasswordNotMatched": "Passwords DonвЂ™t Match",
+    "textPasswordWarning": "If the password is forgotten or lost, it cannot be recovered.",
     "textProtectDocument": "Protect Document",
     "textProtection": "Protection",
     "textProtectTurnOff": "Protection is turned off",
@@ -737,6 +739,7 @@
     "textSetPassword": "Set Password",
     "textTrackedChanges": "Tracked changes",
     "textTypeEditing": "Type Of Editing",
+    "textTypeEditingWarning": "Allow only this type of editing in the document.",
     "textUnprotect": "Unprotect",
     "textVerify": "Verify",
     "textVersionHistory": "Version History",

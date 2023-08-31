@@ -391,7 +391,8 @@
     "textType": "Տեսակ",
     "textWe": "Չրք",
     "textWrap": "Ծալում",
-    "textWrappingStyle": "Ծալման ոճ"
+    "textWrappingStyle": "Ծալման ոճ",
+    "textInvalidName": "The file name cannot contain any of the following characters: "
   },
   "Error": {
     "convertationTimeoutText": "Փոխարկման սպասման ժամանակը սպառվել է։",
@@ -740,6 +741,8 @@
     "txtScheme7": "Սեփական կապիտալ",
     "txtScheme8": "Հոսք",
     "txtScheme9": "Հրատարակիչ",
+    "textPasswordWarning": "If the password is forgotten or lost, it cannot be recovered.",
+    "textTypeEditingWarning": "Allow only this type of editing in the document.",
     "textVersionHistory": "Version History"
   },
   "Toolbar": {

@@ -484,6 +484,7 @@ define([
                 Common.Utils.InternalSettings.set("de-allow-macros-request", (value !== null) ? parseInt(value)  : 0);
 
                 this.appOptions.wopi = this.editorConfig.wopi;
+                appHeader.setWopi(this.appOptions.wopi);
 
                 Common.Controllers.Desktop.init(this.appOptions);
                 Common.UI.HintManager.setMode(this.appOptions);
@@ -1451,9 +1452,8 @@ define([
                         buttons = ['ok'],
                         primary = 'ok';
                     if ((this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0 &&
-                        (license===Asc.c_oLicenseResult.SuccessLimit || license===Asc.c_oLicenseResult.ExpiredLimited || this.appOptions.permissionsLicense===Asc.c_oLicenseResult.SuccessLimit)) {
-                        (license===Asc.c_oLicenseResult.ExpiredLimited) && this.getApplication().getController('LeftMenu').leftMenu.setLimitMode();// show limited hint
-                        license = (license===Asc.c_oLicenseResult.ExpiredLimited) ? this.warnLicenseLimitedNoAccess : this.warnLicenseLimitedRenewed;
+                        (license===Asc.c_oLicenseResult.SuccessLimit || this.appOptions.permissionsLicense===Asc.c_oLicenseResult.SuccessLimit)) {
+                        license = this.warnLicenseLimitedRenewed;
                     } else if (license===Asc.c_oLicenseResult.Connections || license===Asc.c_oLicenseResult.UsersCount) {
                         license = (license===Asc.c_oLicenseResult.Connections) ? this.warnLicenseExceeded : this.warnLicenseUsersExceeded;
                     } else {
@@ -1512,7 +1512,8 @@ define([
 
             onEditorPermissions: function(params) {
                 var licType = params.asc_getLicenseType();
-                if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType || Asc.c_oLicenseResult.ExpiredTrial === licType || Asc.c_oLicenseResult.NotBefore === licType) {
+                if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType || Asc.c_oLicenseResult.ExpiredTrial === licType ||
+                    Asc.c_oLicenseResult.NotBefore === licType || Asc.c_oLicenseResult.ExpiredLimited === licType) {
                     Common.UI.warning({
                         title: Asc.c_oLicenseResult.NotBefore === licType ? this.titleLicenseNotActive : this.titleLicenseExp,
                         msg: Asc.c_oLicenseResult.NotBefore === licType ? this.warnLicenseBefore : this.warnLicenseExp,
@@ -1521,8 +1522,6 @@ define([
                     });
                     return;
                 }
-                if (Asc.c_oLicenseResult.ExpiredLimited === licType)
-                    this._state.licenseType = licType;
 
                 if ( this.onServerVersion(params.asc_getBuildVersion()) || !this.onLanguageLoaded()) return;
 
