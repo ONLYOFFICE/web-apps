@@ -518,6 +518,48 @@ module.exports = function (grunt, rootpathprefix) {
                     },
                 }
             },
+            pdfeiconssmall: {
+                src: [`${_prefix}apps/common/main/resources/img/toolbar/2.5x/*.svg`,
+                    `${_prefix}apps/pdfeditor/main/resources/img/toolbar/2.5x/*.svg`],
+                dest: `${_prefix}apps/pdfeditor/main/resources/img/`,
+                options: {
+                    mode: {
+                        symbol: {
+                            inline: true,
+                            dest: './',
+                            sprite: `iconssmall@2.5x.svg`,
+                        },
+                    },
+                }
+            },
+            pdfeiconsbig: {
+                src: [`${_prefix}apps/common/main/resources/img/toolbar/2.5x/big/*.svg`,
+                    `${_prefix}apps/pdfeditor/main/resources/img/toolbar/2.5x/big/*.svg`],
+                dest: `${_prefix}apps/pdfeditor/main/resources/img/`,
+                options: {
+                    mode: {
+                        symbol: {
+                            inline: true,
+                            dest: './',
+                            sprite: `iconsbig@2.5x.svg`,
+                        },
+                    },
+                }
+            },
+            pdfeiconshuge: {
+                src: [`${_prefix}apps/common/main/resources/img/toolbar/2.5x/huge/*.svg`,
+                    `${_prefix}apps/pdfeditor/main/resources/img/toolbar/2.5x/huge/*.svg`],
+                dest: `${_prefix}apps/pdfeditor/main/resources/img/`,
+                options: {
+                    mode: {
+                        symbol: {
+                            inline: true,
+                            dest: './',
+                            sprite: `iconshuge@2.5x.svg`,
+                        },
+                    },
+                }
+            },
         },
     });
 
