@@ -398,6 +398,7 @@ define([
                 toolbar.btnBackColor.on('color:select',                     _.bind(this.onBackColorSelect, this));
                 toolbar.btnBackColor.on('eyedropper:start',                 _.bind(this.onEyedropperStart, this));
                 toolbar.btnBackColor.on('eyedropper:end',                  _.bind(this.onEyedropperEnd, this));
+                this.mode.isEdit && Common.NotificationCenter.on('eyedropper:start', _.bind(this.eyedropperStart, this));
                 toolbar.btnBorders.on('click',                              _.bind(this.onBorders, this));
                 if (toolbar.btnBorders.rendered) {
                     toolbar.btnBorders.menu.on('item:click',                    _.bind(this.onBordersMenu, this));
@@ -5102,6 +5103,14 @@ define([
         onInsertSmartArt: function (value) {
             if (this.api) {
                 this.api.asc_createSmartArt(value);
+            }
+        },
+
+        eyedropperStart: function () {
+            if (this.toolbar.btnCopyStyle.pressed) {
+                this.toolbar.btnCopyStyle.toggle(false, true);
+                this.api.asc_formatPainter(AscCommon.c_oAscFormatPainterState.kOff);
+                this.modeAlwaysSetStyle = false;
             }
         },
 
