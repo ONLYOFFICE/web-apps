@@ -584,8 +584,8 @@ define([
         },
 
         onApiStartHighlight: function(type, pressed) {
-            if (type === this.toolbar.btnHighlightColor.options.type)
-                this.toolbar.btnHighlightColor.toggle(pressed, true);
+            if (type === this.toolbar.btnHighlight.options.type)
+                this.toolbar.btnHighlight.toggle(pressed, true);
             else if (type === this.toolbar.btnStrikeout.options.type)
                 this.toolbar.btnStrikeout.toggle(pressed, true);
             else if (type === this.toolbar.btnUnderline.options.type)
