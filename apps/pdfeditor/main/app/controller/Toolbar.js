@@ -219,6 +219,7 @@ define([
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onCanCopyCut', _.bind(this.onApiCanCopyCut, this));
                 this.api.asc_registerCallback('asc_onContextMenu', _.bind(this.onContextMenu, this));
+                this.api.asc_registerCallback('asc_onMarkerFormatChanged', _.bind(this.onApiStartHighlight, this));
             }
             this.api.asc_registerCallback('asc_onCountPages',   _.bind(this.onCountPages, this));
             this.api.asc_registerCallback('asc_onCurrentPage',  _.bind(this.onCurrentPage, this));
@@ -460,7 +461,7 @@ define([
                 this._setStrikeoutColor(btn.currentColor);
             }
             else {
-                // this.api.SetMarkerFormat(false);
+                this.api.SetMarkerFormat(btn.options.type, false);
             }
         },
 
@@ -487,12 +488,12 @@ define([
             strcolor = strcolor || 'transparent';
 
             if (strcolor == 'transparent') {
-                // me.api.SetMarkerFormat(true, false);
+                me.api.SetMarkerFormat(me.toolbar.btnStrikeout.options.type, true, 0);
             } else {
                 var r = strcolor[0] + strcolor[1],
                     g = strcolor[2] + strcolor[3],
                     b = strcolor[4] + strcolor[5];
-                // me.api.SetMarkerFormat(true, true, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
+                me.api.SetMarkerFormat(me.toolbar.btnStrikeout.options.type, true, 100, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
             }
             Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnStrikeout);
         },
@@ -502,7 +503,7 @@ define([
                 this._setUnderlineColor(btn.currentColor);
             }
             else {
-                // this.api.SetMarkerFormat(false);
+                this.api.SetMarkerFormat(btn.options.type, false);
             }
         },
 
@@ -529,12 +530,12 @@ define([
             strcolor = strcolor || 'transparent';
 
             if (strcolor == 'transparent') {
-                // me.api.SetMarkerFormat(true, false);
+                me.api.SetMarkerFormat(me.toolbar.btnUnderline.options.type, true, 0);
             } else {
                 var r = strcolor[0] + strcolor[1],
                     g = strcolor[2] + strcolor[3],
                     b = strcolor[4] + strcolor[5];
-                // me.api.SetMarkerFormat(true, true, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
+                me.api.SetMarkerFormat(me.toolbar.btnUnderline.options.type, true, 100, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
             }
             Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnUnderline);
         },
@@ -545,7 +546,7 @@ define([
                 this._setHighlightColor(btn.currentColor);
             }
             else {
-                // this.api.SetMarkerFormat(false);
+                this.api.SetMarkerFormat(btn.options.type, false);
             }
         },
 
@@ -572,14 +573,23 @@ define([
             strcolor = strcolor || 'transparent';
 
             if (strcolor == 'transparent') {
-                // me.api.SetMarkerFormat(true, false);
+                me.api.SetMarkerFormat(me.toolbar.btnHighlight.options.type, true, 0);
             } else {
                 var r = strcolor[0] + strcolor[1],
                     g = strcolor[2] + strcolor[3],
                     b = strcolor[4] + strcolor[5];
-                // me.api.SetMarkerFormat(true, true, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
+                me.api.SetMarkerFormat(me.toolbar.btnHighlight.options.type, true, 100, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
             }
             Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnHighlight);
+        },
+
+        onApiStartHighlight: function(type, pressed) {
+            if (type === this.toolbar.btnHighlightColor.options.type)
+                this.toolbar.btnHighlightColor.toggle(pressed, true);
+            else if (type === this.toolbar.btnStrikeout.options.type)
+                this.toolbar.btnStrikeout.toggle(pressed, true);
+            else if (type === this.toolbar.btnUnderline.options.type)
+                this.toolbar.btnUnderline.toggle(pressed, true);
         },
 
         onShowCommentsChange: function(checkbox, state) {

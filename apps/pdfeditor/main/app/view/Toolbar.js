@@ -301,7 +301,8 @@ define([
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '0, -16',
-                        penOptions: {color: '000000'}
+                        penOptions: {color: '000000'},
+                        type: AscPDF.ANNOTATIONS_TYPES.StrikeOut
                     });
                     this.paragraphControls.push(this.btnStrikeout);
 
@@ -317,7 +318,8 @@ define([
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '0, -16',
-                        penOptions: {color: '000000'}
+                        penOptions: {color: '000000'},
+                        type: AscPDF.ANNOTATIONS_TYPES.Underline
                     });
                     this.paragraphControls.push(this.btnUnderline);
 
@@ -330,6 +332,7 @@ define([
                         allowDepress: true,
                         split: true,
                         menu: true,
+                        type: AscPDF.ANNOTATIONS_TYPES.Highlight,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '0, -16',
