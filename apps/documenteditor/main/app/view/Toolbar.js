@@ -1695,13 +1695,6 @@ define([
 
                     me.onUpdateLastCustomMargins();
                     Common.NotificationCenter.on('margins:update', _.bind(me.onUpdateLastCustomMargins, me));
-
-                    Common.NotificationCenter.on('eyedropper:start', function () {
-                        if (me.btnCopyStyle.pressed)
-                            me.btnCopyStyle.toggle(false, true);
-                        if (me.btnHighlightColor.pressed)
-                            me.btnHighlightColor.toggle(false, true);
-                    });
                 }
 
                 if ( me.isCompactView )
