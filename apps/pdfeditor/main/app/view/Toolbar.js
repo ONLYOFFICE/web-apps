@@ -302,7 +302,7 @@ define([
                         dataHintDirection: 'bottom',
                         dataHintOffset: '0, -16',
                         penOptions: {color: '000000'},
-                        type: AscPDF.ANNOTATIONS_TYPES.StrikeOut
+                        type: AscPDF.ANNOTATIONS_TYPES.Strikeout
                     });
                     this.paragraphControls.push(this.btnStrikeout);
 
