@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from "react";
+import React, { Fragment } from "react";
 import { observer, inject } from "mobx-react";
 import { Page, Navbar, List, ListItem, BlockTitle, Toggle, Icon, f7 } from "framework7-react";
 import { useTranslation } from "react-i18next";
@@ -30,7 +30,7 @@ const PageApplicationSettings = props => {
     const appOptions = props.storeAppOptions;   
     const storeThemes = props.storeThemes;
     const colorTheme = storeThemes.colorTheme;
-    const translationsThemes = props.translationsThemes;
+    const themes = storeThemes.themes;
     const isConfigSelectTheme = storeThemes.isConfigSelectTheme;
     const typeTheme = colorTheme.type;
     const _isEdit = appOptions.isEdit;
@@ -97,9 +97,8 @@ const PageApplicationSettings = props => {
                 </List>
                 {!!isConfigSelectTheme &&
                     <List mediaList>
-                        <ListItem title={t("Common.Themes.textTheme")} after={typeTheme === 'dark' || typeTheme === 'light' ? translationsThemes[typeTheme] : translationsThemes['system']} link="/theme-settings/" routeProps={{
+                        <ListItem title={t("Common.Themes.textTheme")} after={themes[typeTheme].text} link="/theme-settings/" routeProps={{
                             changeTheme: props.changeTheme,
-                            translationsThemes
                         }}></ListItem>
                     </List>
                 }
@@ -125,15 +124,15 @@ const PageThemeSettings = props => {
     const storeThemes = props.storeThemes;
     const colorTheme = storeThemes.colorTheme;
     const typeTheme = colorTheme.type;
-    const translationsThemes = props.translationsThemes;
+    const themes = storeThemes.themes;
 
     return (
         <Page>
             <Navbar title={t('Common.Themes.textTheme')} backLink={_t.textBack} />
             <List>
-                {Object.keys(translationsThemes).map((theme, index) => {
+                {Object.keys(themes).map((key, index) => {
                     return (
-                        <ListItem key={index} radio checked={typeTheme === theme} onChange={() => props.changeTheme(theme)} name={theme} title={translationsThemes[theme]}></ListItem>
+                        <ListItem key={index} radio checked={typeTheme === themes[key].type} onChange={() => props.changeTheme(key)} name={themes[key].id} title={themes[key].text}></ListItem>
                     )
                 })}
             </List>
@@ -144,11 +143,11 @@ const PageThemeSettings = props => {
 const PageDirection = props => {
     const { t } = useTranslation();
     const _t = t("View.Settings", { returnObjects: true });
-    const store = props.storeApplicationSettings;
-    const directionMode = store.directionMode;
+    const storeApplicationSettings = props.storeApplicationSettings;
+    const directionMode = storeApplicationSettings.directionMode;
 
     const changeDirection = value => {
-        store.changeDirectionMode(value);
+        storeApplicationSettings.changeDirectionMode(value);
         props.changeDirection(value);
 
         f7.dialog.create({

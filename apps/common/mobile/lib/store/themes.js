@@ -9,45 +9,27 @@ export class storeThemes {
 			setColorTheme: action,
             systemColorTheme: observable,
             setSystemColorTheme: action,
-            resetSystemColorTheme: action
+            resetSystemColorTheme: action,
+            setTranslationsThemes: action
         });
     }
 
-	isConfigSelectTheme = true;
-    setConfigSelectTheme(value) {
-        this.isConfigSelectTheme = value;
-    }
-
-    colorTheme;
-    setColorTheme(theme) {
-        this.colorTheme = theme;
-    }
-
-    systemColorTheme;
-    setSystemColorTheme(theme) {
-        this.systemColorTheme = theme;
-    }
-
-    resetSystemColorTheme() {
-        this.systemColorTheme = null;
-    }
-
-	themes = {
+    themes = {
 		dark: {
 			id: 'theme-dark',
-			type: 'dark'
+			type: 'dark',
 		},
 		light: {
 			id: 'theme-light',
-			type: 'light'
+			type: 'light',
 		},
 		system: {
 			id: 'theme-system',
-			type: 'system'
+			type: 'system',
 		}
 	}
 
-	nameColors = [
+    nameColors = [
 		"canvas-background",
 		"canvas-content-background",
 		"canvas-page-border",
@@ -91,4 +73,29 @@ export class storeThemes {
 		"canvas-scroll-thumb-target-hover",
 		"canvas-scroll-thumb-target-pressed",
 	];
+
+	isConfigSelectTheme = true;
+    setConfigSelectTheme(value) {
+        this.isConfigSelectTheme = value;
+    }
+
+    colorTheme;
+    setColorTheme(theme) {
+        this.colorTheme = theme;
+    }
+
+    systemColorTheme;
+    setSystemColorTheme(theme) {
+        this.systemColorTheme = theme;
+    }
+
+    resetSystemColorTheme() {
+        this.systemColorTheme = null;
+    }
+
+    setTranslationsThemes(translations) {
+        for(let key in this.themes) {
+            this.themes[key].text = translations[key];
+        }
+    }
 }

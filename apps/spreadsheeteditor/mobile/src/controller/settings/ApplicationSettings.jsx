@@ -137,7 +137,6 @@ class ApplicationSettingsController extends Component {
                 onRegSettings={this.onRegSettings}   
                 changeDirection={this.changeDirection}
                 changeTheme={this.context.changeTheme}
-                translationsThemes={this.context.translationsThemes}
             />
         )
     }

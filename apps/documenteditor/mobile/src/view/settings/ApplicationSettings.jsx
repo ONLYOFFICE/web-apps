@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from "react";
+import React, { Fragment } from "react";
 import { observer, inject } from "mobx-react";
 import { Page, Navbar, List, ListItem, BlockTitle, Toggle, f7 } from "framework7-react";
 import { useTranslation } from "react-i18next";
@@ -8,23 +8,23 @@ const PageApplicationSettings = props => {
     const _t = t("Settings", { returnObjects: true });
     const storeThemes = props.storeThemes;
     const displayMode = props.storeReview.displayMode;
-    const store = props.storeApplicationSettings;
-    const unitMeasurement = store.unitMeasurement;
-    const isSpellChecking = store.isSpellChecking;
-    const isNonprintingCharacters = store.isNonprintingCharacters;
-    const isHiddenTableBorders = store.isHiddenTableBorders;
-    const isComments = store.isComments;
-    const isResolvedComments = store.isResolvedComments;
+    const storeApplicationSettings = props.storeApplicationSettings;
+    const unitMeasurement = storeApplicationSettings.unitMeasurement;
+    const isSpellChecking = storeApplicationSettings.isSpellChecking;
+    const isNonprintingCharacters = storeApplicationSettings.isNonprintingCharacters;
+    const isHiddenTableBorders = storeApplicationSettings.isHiddenTableBorders;
+    const isComments = storeApplicationSettings.isComments;
+    const isResolvedComments = storeApplicationSettings.isResolvedComments;
 
     const changeMeasureSettings = value => {
-        store.changeUnitMeasurement(value);
+        storeApplicationSettings.changeUnitMeasurement(value);
         props.setUnitMeasurement(value);
     };
 
     // set mode
     const appOptions = props.storeAppOptions;
     const colorTheme = storeThemes.colorTheme;
-    const translationsThemes = props.translationsThemes;
+    const themes = storeThemes.themes;
     const typeTheme = colorTheme.type;
     const isConfigSelectTheme = storeThemes.isConfigSelectTheme;
     const isViewer = appOptions.isViewer;
@@ -49,7 +49,7 @@ const PageApplicationSettings = props => {
                         <ListItem title={_t.textSpellcheck}>
                             <Toggle checked={isSpellChecking}
                                     onToggleChange={() => {
-                                        store.changeSpellCheck(!isSpellChecking);
+                                        storeApplicationSettings.changeSpellCheck(!isSpellChecking);
                                         props.switchSpellCheck(!isSpellChecking);
                                     }}
                             />
@@ -59,7 +59,7 @@ const PageApplicationSettings = props => {
                         <ListItem title={_t.textNoCharacters} disabled={displayMode !== 'markup'}>{/*ToDo: if (DisplayMode == "final" || DisplayMode == "original") {disabled} */}
                             <Toggle checked={isNonprintingCharacters}
                                     onToggleChange={() => {
-                                        store.changeNoCharacters(!isNonprintingCharacters);
+                                        storeApplicationSettings.changeNoCharacters(!isNonprintingCharacters);
                                         props.switchNoCharacters(!isNonprintingCharacters);
                                     }}
                             />
@@ -67,7 +67,7 @@ const PageApplicationSettings = props => {
                         <ListItem title={_t.textHiddenTableBorders} disabled={displayMode !== 'markup'}>{/*ToDo: if (DisplayMode == "final" || DisplayMode == "original") {disabled} */}
                             <Toggle checked={isHiddenTableBorders}
                                     onToggleChange={() => {
-                                        store.changeShowTableEmptyLine(!isHiddenTableBorders);
+                                        storeApplicationSettings.changeShowTableEmptyLine(!isHiddenTableBorders);
                                         props.switchShowTableEmptyLine(!isHiddenTableBorders);
                                     }}
                             />
@@ -80,7 +80,7 @@ const PageApplicationSettings = props => {
                 <ListItem title={_t.textComments}>
                     <Toggle checked={isComments}
                         onToggleChange={() => {
-                            store.changeDisplayComments(!isComments);
+                            storeApplicationSettings.changeDisplayComments(!isComments);
                             props.switchDisplayComments(!isComments);
                         }}
                     />
@@ -88,7 +88,7 @@ const PageApplicationSettings = props => {
                 <ListItem title={_t.textResolvedComments}>
                     <Toggle checked={isResolvedComments} disabled={!isComments}
                         onToggleChange={() => {
-                            store.changeDisplayResolved(!isResolvedComments);
+                            storeApplicationSettings.changeDisplayResolved(!isResolvedComments);
                             props.switchDisplayResolved(!isResolvedComments);
                         }}
                     />
@@ -96,9 +96,8 @@ const PageApplicationSettings = props => {
             </List>
             {!!isConfigSelectTheme &&
                 <List mediaList>
-                    <ListItem title={t("Common.Themes.textTheme")} after={typeTheme === 'dark' || typeTheme === 'light' ? translationsThemes[typeTheme] : translationsThemes['system']} link="/theme-settings/" routeProps={{
+                    <ListItem title={t("Common.Themes.textTheme")} after={themes[typeTheme].text} link="/theme-settings/" routeProps={{
                         changeTheme: props.changeTheme,
-                        translationsThemes
                     }}></ListItem>
                 </List>
             }
@@ -117,17 +116,17 @@ const PageThemeSettings = props => {
     const { t } = useTranslation();
     const _t = t("Settings", { returnObjects: true });
     const storeThemes = props.storeThemes;
+    const themes = storeThemes.themes;
     const colorTheme = storeThemes.colorTheme;
     const typeTheme = colorTheme.type;
-    const translationsThemes = props.translationsThemes;
 
     return (
         <Page>
             <Navbar title={t('Common.Themes.textTheme')} backLink={_t.textBack} />
             <List>
-                {Object.keys(translationsThemes).map((theme, index) => {
+                {Object.keys(themes).map((key, index) => {
                     return (
-                        <ListItem key={index} radio checked={typeTheme === theme} onChange={() => props.changeTheme(theme)} name={theme} title={translationsThemes[theme]}></ListItem>
+                        <ListItem key={index} radio checked={typeTheme === themes[key].type} onChange={() => props.changeTheme(key)} name={themes[key].id} title={themes[key].text}></ListItem>
                     )
                 })}
             </List>
@@ -138,11 +137,11 @@ const PageThemeSettings = props => {
 const PageDirection = props => {
     const { t } = useTranslation();
     const _t = t("Settings", { returnObjects: true });
-    const store = props.storeApplicationSettings;
-    const directionMode = store.directionMode;
+    const storeApplicationSettings = props.storeApplicationSettings;
+    const directionMode = storeApplicationSettings.directionMode;
 
     const changeDirection = value => {
-        store.changeDirectionMode(value);
+        storeApplicationSettings.changeDirectionMode(value);
         props.changeDirection(value);
 
         f7.dialog.create({
@@ -170,11 +169,11 @@ const PageDirection = props => {
 const PageMacrosSettings = props => {
     const { t } = useTranslation();
     const _t = t("Settings", { returnObjects: true });
-    const store = props.storeApplicationSettings;
-    const macrosMode = store.macrosMode;
+    const storeApplicationSettings = props.storeApplicationSettings;
+    const macrosMode = storeApplicationSettings.macrosMode;
 
     const changeMacros = value => {
-        store.changeMacrosSettings(value);
+        storeApplicationSettings.changeMacrosSettings(value);
         props.setMacrosSettings(value);
     };
 

@@ -81,7 +81,6 @@ class ApplicationSettingsController extends Component {
                 setMacrosSettings={this.setMacrosSettings}  
                 changeDirection={this.changeDirection}      
                 changeTheme={this.context.changeTheme}
-                translationsThemes={this.context.translationsThemes}
             />
         )
     }

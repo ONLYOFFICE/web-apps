@@ -36,7 +36,6 @@ class ApplicationSettingsController extends Component {
                 switchSpellCheck={this.switchSpellCheck} 
                 setMacrosSettings={this.setMacrosSettings}
                 changeTheme={this.context.changeTheme}
-                translationsThemes={this.context.translationsThemes}
             />
         )
     }

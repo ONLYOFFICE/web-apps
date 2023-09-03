@@ -7,12 +7,12 @@ import { LocalStorage } from "../../../../../common/mobile/utils/LocalStorage.mj
 const PageApplicationSettings = props => {
     const { t } = useTranslation();
     const _t = t("View.Settings", { returnObjects: true });
-    const store = props.storeApplicationSettings;
-    const unitMeasurement = store.unitMeasurement;
-    const isSpellChecking = store.isSpellChecking;
+    const storeApplicationSettings = props.storeApplicationSettings;
+    const unitMeasurement = storeApplicationSettings.unitMeasurement;
+    const isSpellChecking = storeApplicationSettings.isSpellChecking;
 
     const changeMeasureSettings = value => {
-        store.changeUnitMeasurement(value);
+        storeApplicationSettings.changeUnitMeasurement(value);
         props.setUnitMeasurement(value);
     };
 
@@ -20,7 +20,7 @@ const PageApplicationSettings = props => {
     const appOptions = props.storeAppOptions;
     const storeThemes = props.storeThemes;
     const colorTheme = storeThemes.colorTheme;
-    const translationsThemes = props.translationsThemes;
+    const themes = storeThemes.themes;
     const typeTheme = colorTheme.type;
     const isConfigSelectTheme = storeThemes.isConfigSelectTheme;
     const _isEdit = appOptions.isEdit;
@@ -45,7 +45,7 @@ const PageApplicationSettings = props => {
                         <ListItem title={_t.textSpellcheck}>
                             <Toggle checked={isSpellChecking}
                                     onToggleChange={() => {
-                                        store.changeSpellCheck(!isSpellChecking);
+                                        storeApplicationSettings.changeSpellCheck(!isSpellChecking);
                                         props.switchSpellCheck(!isSpellChecking);
                                     }}
                             />
@@ -56,9 +56,8 @@ const PageApplicationSettings = props => {
             }
             {!!isConfigSelectTheme &&
                 <List mediaList>
-                    <ListItem title={t("Common.Themes.textTheme")} after={typeTheme === 'dark' || typeTheme === 'light' ? translationsThemes[typeTheme] : translationsThemes['system']} link="/theme-settings/" routeProps={{
+                    <ListItem title={t("Common.Themes.textTheme")} after={themes[typeTheme].text} link="/theme-settings/" routeProps={{
                         changeTheme: props.changeTheme,
-                        translationsThemes
                     }}></ListItem>
                 </List>
             }
@@ -79,15 +78,15 @@ const PageThemeSettings = props => {
     const storeThemes = props.storeThemes;
     const colorTheme = storeThemes.colorTheme;
     const typeTheme = colorTheme.type;
-    const translationsThemes = props.translationsThemes;
+    const themes = storeThemes.themes;
 
     return (
         <Page>
             <Navbar title={t('Common.Themes.textTheme')} backLink={_t.textBack} />
             <List>
-                {Object.keys(translationsThemes).map((theme, index) => {
+                {Object.keys(themes).map((key, index) => {
                     return (
-                        <ListItem key={index} radio checked={typeTheme === theme} onChange={() => props.changeTheme(theme)} name={theme} title={translationsThemes[theme]}></ListItem>
+                        <ListItem key={index} radio checked={typeTheme === themes[key].type} onChange={() => props.changeTheme(key)} name={themes[key].id} title={themes[key].text}></ListItem>
                     )
                 })}
             </List>
@@ -130,11 +129,11 @@ const RTLSetting = () => {
 const PageMacrosSettings = props => {
     const { t } = useTranslation();
     const _t = t("View.Settings", { returnObjects: true });
-    const store = props.storeApplicationSettings;
-    const macrosMode = store.macrosMode;
+    const storeApplicationSettings = props.storeApplicationSettings;
+    const macrosMode = storeApplicationSettings.macrosMode;
 
     const changeMacros = value => {
-        store.changeMacrosSettings(value);
+        storeApplicationSettings.changeMacrosSettings(value);
         props.setMacrosSettings(value);
     };
 

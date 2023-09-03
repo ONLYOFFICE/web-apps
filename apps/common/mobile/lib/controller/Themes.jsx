@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect } from 'react';
 import { LocalStorage } from "../../utils/LocalStorage.mjs";
 import { inject, observer } from "mobx-react";
 import { useTranslation } from 'react-i18next';
@@ -9,7 +9,6 @@ export const ThemesProvider = props => {
     const storeThemes = props.storeThemes;
     const themes = storeThemes.themes;
     const nameColors = storeThemes.nameColors;
-    const [translationsThemes, setTranslationsThemes] = useState({});
 
     useEffect(() => {
         initTheme();
@@ -18,9 +17,9 @@ export const ThemesProvider = props => {
     useEffect(() => {
         if (ready) {
             const translations = getTranslationsThemes();
-            setTranslationsThemes(translations);
+            storeThemes.setTranslationsThemes(translations);
         }
-    }, [ready, themes]);
+    }, [ready]);
 
     const getTranslationsThemes = () => {
         const translations = Object.keys(themes).reduce((acc, theme) => {
@@ -140,7 +139,7 @@ export const ThemesProvider = props => {
     }
 
     return (
-        <ThemesContext.Provider value={{ changeTheme, translationsThemes }}>
+        <ThemesContext.Provider value={{ changeTheme }}>
             {props.children}
         </ThemesContext.Provider>
     )
