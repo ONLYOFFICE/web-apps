@@ -703,6 +703,7 @@
     "textTitle": "Nosaukums",
     "textTop": "Augšā",
     "textTrackedChanges": "Izsekotās izmaiņas",
+    "textTypeEditingWarning": "Atļaut tikai šāda veida rediģēšanu dokumentā.",
     "textUnitOfMeasurement": "Mērvienība",
     "textUnprotect": "Noņemt aizsardzību",
     "textUploaded": "Augšupielādēts",
@@ -742,8 +743,7 @@
     "textPasswordWarning": "If the password is forgotten or lost, it cannot be recovered.",
     "textProtectTurnOff": "Protection is turned off",
     "textRequirePassword": "Require Password",
-    "textTypeEditing": "Type Of Editing",
-    "textTypeEditingWarning": "Allow only this type of editing in the document."
+    "textTypeEditing": "Type Of Editing"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Jums ir nesaglabātas izmaiņas. Noklikšķiniet uz Palikt šajā lapā, lai gaidītu automātisko saglabāšanu. Noklikšķiniet uz 'Pamest lapu', lai atmestu visas nesaglabātās izmaiņas.",

@@ -125,7 +125,7 @@ module.exports = (grunt) => {
                 },
                 build: {
                     src: [packageFile.forms.js.requirejs.options.out],
-                    dest: [packageFile.forms.js.requirejs.options.out]
+                    dest: packageFile.forms.js.requirejs.options.out
                 },
             },
         });

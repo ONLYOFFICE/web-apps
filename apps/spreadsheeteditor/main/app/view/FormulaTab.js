@@ -428,7 +428,7 @@ define([
                     });
                     me.btnCalculate.setMenu(_menu);
 
-                    me.btnShowFormulas.updateHint(me.tipShowFormulas);
+                    me.btnShowFormulas.updateHint(me.tipShowFormulas + Common.Utils.String.format(' ({0}+`)', Common.Utils.String.textCtrl));
                     me.btnTracePrec.updateHint(me.tipTracePrec);
                     me.btnTraceDep.updateHint(me.tipTraceDep);
                     me.btnRemArrows.updateHint(me.tipRemoveArr);

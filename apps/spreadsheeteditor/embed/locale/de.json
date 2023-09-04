@@ -34,6 +34,8 @@
   "SSE.ApplicationController.textGuest": "Gast",
   "SSE.ApplicationController.textLoadingDocument": "Tabelle wird geladen",
   "SSE.ApplicationController.textOf": "von",
+  "SSE.ApplicationController.titleLicenseExp": "Lizenz ist abgelaufen",
+  "SSE.ApplicationController.titleLicenseNotActive": "Lizenz nicht aktiv",
   "SSE.ApplicationController.txtClose": "Schließen",
   "SSE.ApplicationController.unknownErrorText": "Unbekannter Fehler.",
   "SSE.ApplicationController.unsupportedBrowserErrorText": "Ihr Webbrowser wird nicht unterstützt.",
