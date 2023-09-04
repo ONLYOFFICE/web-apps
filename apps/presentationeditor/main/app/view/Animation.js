@@ -666,8 +666,7 @@ define([
                 if(color)
                     this._effectColor = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()).toUpperCase();
                 if (!!this.colorPickerParameters) {
-                    this.colorPickerParameters.clearSelection();
-                    this.colorPickerParameters.$el.find('a.color-' + this._effectColor).first().addClass('selected');
+                    this.colorPickerParameters.selectByRGB(this._effectColor, true);
                 }
             },
 
