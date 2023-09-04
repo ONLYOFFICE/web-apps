@@ -1,6 +1,8 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Peringatan",
   "Common.Controllers.Chat.textEnterMessage": "Tuliskan pesan Anda di sini",
+  "Common.Controllers.Desktop.hintBtnHome": "Tampilkan Jendela utama",
+  "Common.Controllers.Desktop.itemCreateFromTemplate": "Buat dari templat",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Anonim",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Tutup",
   "Common.Controllers.ExternalDiagramEditor.warningText": "Obyek dinonaktifkan karena sedang diedit oleh pengguna lain.",
