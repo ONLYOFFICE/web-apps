@@ -41,8 +41,7 @@ const ErrorController = inject('storeAppOptions','storePresentationInfo')(({stor
             closable: false
         };
 
-        switch (id)
-        {
+        switch (id) {
             case Asc.c_oAscError.ID.Unknown:
                 config.msg = _t.unknownErrorText;
                 break;
@@ -157,8 +156,17 @@ const ErrorController = inject('storeAppOptions','storePresentationInfo')(({stor
                 config.msg = _t.errorAccessDeny;
                 break;
 
+            case Asc.c_oAscError.ID.ForceSaveButton:
+            case Asc.c_oAscError.ID.ForceSaveTimeout:
+                config.msg = t('Error.errorForceSave');
+                break;
+
             case Asc.c_oAscError.ID.EditingError:
                 config.msg = _t.errorEditingDownloadas;
+                break;
+
+            case Asc.c_oAscError.ID.MailToClientMissing:
+                config.msg = t('Error.errorEmailClient');
                 break;
 
             case Asc.c_oAscError.ID.ConvertationOpenLimitError:
@@ -167,6 +175,14 @@ const ErrorController = inject('storeAppOptions','storePresentationInfo')(({stor
 
             case Asc.c_oAscError.ID.UpdateVersion:
                 config.msg = _t.errorUpdateVersionOnDisconnect;
+                break;
+
+            case Asc.c_oAscError.ID.ComboSeriesError:
+                config.msg = t('Error.errorComboSeries');
+                break;
+            
+            case Asc.c_oAscError.ID.Password:
+                config.msg = t('Error.errorSetPassword');
                 break;
 
             case Asc.c_oAscError.ID.LoadingFontError:
