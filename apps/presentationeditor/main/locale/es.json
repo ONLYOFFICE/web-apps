@@ -1,6 +1,8 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Aviso",
   "Common.Controllers.Chat.textEnterMessage": "Introduzca su mensaje aquí",
+  "Common.Controllers.Desktop.hintBtnHome": "Mostrar ventana principal",
+  "Common.Controllers.Desktop.itemCreateFromTemplate": "Crear a partir de plantilla",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Anónimo",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Cerrar",
   "Common.Controllers.ExternalDiagramEditor.warningText": "El objeto está desactivado porque lo está editando otro usuario.",
@@ -1986,6 +1988,7 @@
   "PE.Views.FileMenuPanels.Settings.txtHieroglyphs": "Jeroglíficos",
   "PE.Views.FileMenuPanels.Settings.txtInch": "Pulgada",
   "PE.Views.FileMenuPanels.Settings.txtLast": "Ver últimos",
+  "PE.Views.FileMenuPanels.Settings.txtLastUsed": "Utilizados recientemente",
   "PE.Views.FileMenuPanels.Settings.txtMac": "como en OS X",
   "PE.Views.FileMenuPanels.Settings.txtNative": "Nativo",
   "PE.Views.FileMenuPanels.Settings.txtProofing": "Revisión",

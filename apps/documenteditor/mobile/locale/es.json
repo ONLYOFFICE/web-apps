@@ -676,6 +676,7 @@
     "textParagraphs": "Párrafos",
     "textPassword": "Contraseña",
     "textPasswordNotMatched": "Las contraseñas no coinciden",
+    "textPasswordWarning": "Si pierde u olvida su contraseña, no podrá recuperarla.",
     "textPdfProducer": "Generador de PDF",
     "textPdfTagged": "PDF etiquetado",
     "textPdfVer": "Versión PDF",
@@ -708,6 +709,7 @@
     "textTop": "Arriba",
     "textTrackedChanges": "Cambios realizados",
     "textTypeEditing": "Tipo de edición",
+    "textTypeEditingWarning": "Permitir solo este tipo de edición en el documento.",
     "textUnitOfMeasurement": "Unidad de medida",
     "textUnprotect": "Quitar la protección",
     "textUploaded": "Cargado",
@@ -741,9 +743,7 @@
     "txtScheme6": "Concurrencia",
     "txtScheme7": "Equidad ",
     "txtScheme8": "Flujo",
-    "txtScheme9": "Fundición",
-    "textPasswordWarning": "If the password is forgotten or lost, it cannot be recovered.",
-    "textTypeEditingWarning": "Allow only this type of editing in the document."
+    "txtScheme9": "Fundición"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Tiene cambios sin guardar. Haga clic en \"Permanecer en esta página\" para esperar a que se guarde automáticamente. Haga clic en \"Salir de esta página\" para descartar todos los cambios no guardados.",
