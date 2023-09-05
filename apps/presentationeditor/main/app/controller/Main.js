@@ -2041,6 +2041,9 @@ define([
                 setTimeout(function(){
                     me.getApplication().getController('Toolbar').updateThemeColors();
                 }, 50);
+                setTimeout(function(){
+                    me.getApplication().getController('Animation').updateThemeColors();
+                }, 50);
             },
 
             onSendThemeColors: function(colors, standart_colors) {
