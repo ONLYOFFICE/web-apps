@@ -4718,7 +4718,7 @@ define([
                     win = new SSE.Views.PageMarginsDialog({
                         handler: function(dlg, result) {
                             if (result == 'ok') {
-                                props = dlg.getSettings();
+                                props = dlg.getSettings().margins;
                                 Common.localStorage.setItem("sse-pgmargins-top", props.asc_getTop());
                                 Common.localStorage.setItem("sse-pgmargins-left", props.asc_getLeft());
                                 Common.localStorage.setItem("sse-pgmargins-bottom", props.asc_getBottom());

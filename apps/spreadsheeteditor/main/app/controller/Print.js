@@ -601,14 +601,20 @@ define([
                     handler: function(dlg, result) {
                         var opt;
                         if (result == 'ok') {
-                            opt = dlg.getSettings();
+                            opt = dlg.getSettings().margins;
                             Common.localStorage.setItem("sse-pgmargins-top", opt.asc_getTop());
                             Common.localStorage.setItem("sse-pgmargins-left", opt.asc_getLeft());
                             Common.localStorage.setItem("sse-pgmargins-bottom", opt.asc_getBottom());
                             Common.localStorage.setItem("sse-pgmargins-right", opt.asc_getRight());
                             Common.NotificationCenter.trigger('margins:update', opt, panel);
                             me.setMargins(panel, opt);
-                            me._margins[panel.cmbSheet.getValue()] = opt;
+                            var currentSheet = panel.cmbSheet.getValue();
+                            me._margins[currentSheet] = opt;
+                            if (me._changedProps && me._changedProps[currentSheet]) {
+                                opt = dlg.getSettings();
+                                me._changedProps[currentSheet].asc_setVerticalCentered(opt.vertical);
+                                me._changedProps[currentSheet].asc_setHorizontalCentered(opt.horizontal);
+                            }
                             setChanges();
                             Common.NotificationCenter.trigger('edit:complete');
                         } else {
