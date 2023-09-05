@@ -539,8 +539,8 @@ define([
                         });
                         menu.off('show:before', onShowBeforeParameters);
                         me.btnParameters.menu.setInnerMenu([{menu: picker, index: 0}]);
-                        picker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
                         me.colorPickerParameters = picker;
+                        me.updateColors();
                         me.setColor();
                         menu.on('show:after', function() {
                             (me.isColor && picker) && _.delay(function() {
@@ -663,11 +663,14 @@ define([
             },
 
             setColor: function (color){
-                if(color)
+                if(color) {
                     this._effectColor = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()).toUpperCase();
-                if (!!this.colorPickerParameters) {
-                    this.colorPickerParameters.selectByRGB(this._effectColor, true);
+                    (!!this.colorPickerParameters)  && this.colorPickerParameters.selectByRGB(this._effectColor, true);
                 }
+            },
+
+            updateColors: function (){
+                this.colorPickerParameters && this.colorPickerParameters.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             },
 
 

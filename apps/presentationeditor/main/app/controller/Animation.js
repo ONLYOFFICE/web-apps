@@ -578,6 +578,10 @@ define([
                 this.lockToolbar(Common.enumLock.noAnimationDuration, this._state.noAnimationDuration);
             if (this._state.timingLock != undefined)
                 this.lockToolbar(Common.enumLock.timingLock, this._state.timingLock);
+        },
+
+        updateThemeColors: function (){
+            this.view.updateColors();
         }
 
     }, PE.Controllers.Animation || {}));

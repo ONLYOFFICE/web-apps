@@ -2545,6 +2545,7 @@ define([
                 this.onApiTextColor(this._state.clrtext_asccolor);
             }
             this._state.clrtext_asccolor = undefined;
+            this.getApplication().getController('Animation').updateThemeColors();
         },
 
         _onInitEditorThemes: function(editorThemes/*array */, documentThemes) {
