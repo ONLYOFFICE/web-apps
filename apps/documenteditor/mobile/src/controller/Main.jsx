@@ -217,7 +217,7 @@ class MainController extends Component {
                 const editorConfig = window.native?.editorConfig;
                 const config = storeAppOptions.config;
                 const customization = config.customization;
-                const isForceMobileView = customization?.forceMobileView !== undefined ? customization.forceMobileView : editorConfig?.forceMobileView !== undefined ? editorConfig.forceMobileView : false;
+                const isMobileForceView = customization?.mobileForceView !== undefined ? customization.mobileForceView : editorConfig?.mobileForceView !== undefined ? editorConfig.mobileForceView : true;
 
                 storeAppOptions.setPermissionOptions(this.document, licType, params, this.permissions, EditorUIController.isSupportEditFeature());
 
@@ -227,9 +227,9 @@ class MainController extends Component {
                 const dataDoc = storeDocumentInfo.dataDoc;
                 const isExtRestriction = dataDoc.fileType !== 'oform';
 
-                if(isExtRestriction && !isForceMobileView) {
+                if(isExtRestriction && isMobileForceView) {
                     this.api.asc_addRestriction(Asc.c_oAscRestrictionType.View);
-                } else if(isExtRestriction && isForceMobileView) {
+                } else if(isExtRestriction && !isMobileForceView) {
                     storeAppOptions.changeViewerMode(false);
                 } else {
                     this.api.asc_addRestriction(Asc.c_oAscRestrictionType.OnlyForms)
