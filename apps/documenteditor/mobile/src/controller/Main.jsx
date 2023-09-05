@@ -215,7 +215,7 @@ class MainController extends Component {
 
                 const storeAppOptions = this.props.storeAppOptions;
                 const editorConfig = window.native?.editorConfig;
-                const isForceEdit = editorConfig?.forceedit;
+                const isForceEdit = editorConfig?.mobileForceView === false;
 
                 storeAppOptions.setPermissionOptions(this.document, licType, params, this.permissions, EditorUIController.isSupportEditFeature());
 
