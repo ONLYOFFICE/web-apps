@@ -43,6 +43,8 @@
   "DE.ApplicationController.textRequired": "Füllen Sie alle erforderlichen Felder aus, um das Formular zu senden.",
   "DE.ApplicationController.textSubmit": "Senden",
   "DE.ApplicationController.textSubmited": "<b>Das Formular wurde erfolgreich abgesendet</b><br>Klicken Sie hier, um den Tipp auszublenden",
+  "DE.ApplicationController.titleLicenseExp": "Lizenz ist abgelaufen",
+  "DE.ApplicationController.titleLicenseNotActive": "Lizenz nicht aktiv",
   "DE.ApplicationController.txtClose": "Schließen",
   "DE.ApplicationController.txtEmpty": "(Leer)",
   "DE.ApplicationController.txtPressLink": "Drücken Sie %1 und klicken Sie auf den Link",

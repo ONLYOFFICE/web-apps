@@ -1226,13 +1226,6 @@ define([
                 if ( mode.isEdit ) {
                     me.setTab('home');
                     me.processPanelVisible();
-
-                    Common.NotificationCenter.on('eyedropper:start', function () {
-                        if (me.btnCopyStyle.pressed)
-                            me.btnCopyStyle.toggle(false, true);
-                        if (me.btnHighlightColor.pressed)
-                            me.btnHighlightColor.toggle(false, true);
-                    });
                 }
 
                 if ( me.isCompactView )

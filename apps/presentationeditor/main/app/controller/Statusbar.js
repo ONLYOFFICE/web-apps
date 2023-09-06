@@ -118,7 +118,7 @@ define([
             this.api = api;
             this.api.asc_registerCallback('asc_onZoomChange',   _.bind(this._onZoomChange, this));
             this.api.asc_registerCallback('asc_onTextLanguage', _.bind(this._onTextLanguage, this));
-
+            this.api.asc_registerCallback('asc_onDocumentContentReady', _.bind(function (){this._isDocReady = true;}, this));
             this.statusbar.setApi(api);
         },
 
@@ -183,6 +183,7 @@ define([
              if (this._state.zoom_percent !== percent) {
                  $('#status-label-zoom').text(Common.Utils.String.format(this.zoomText, percent));
                  this._state.zoom_percent = percent;
+                 if(!this._isDocReady) return;
                  Common.localStorage.setItem('pe-last-zoom', percent);
              }
         },

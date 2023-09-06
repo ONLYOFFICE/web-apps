@@ -299,6 +299,7 @@
     "textImageURL": "Imagem URL",
     "textInFront": "Em frente",
     "textInline": "Em linha",
+    "textInvalidName": "Nome de arquivo não pode conter os seguintes caracteres:",
     "textJanuary": "Janeiro",
     "textJuly": "Julho",
     "textJune": "Junho",
@@ -391,8 +392,7 @@
     "textType": "Tipo",
     "textWe": "Qua",
     "textWrap": "Encapsulamento",
-    "textWrappingStyle": "Estilo da quebra",
-    "textInvalidName": "The file name cannot contain any of the following characters: "
+    "textWrappingStyle": "Estilo da quebra"
   },
   "Error": {
     "convertationTimeoutText": "Tempo limite de conversão excedido.",
@@ -676,6 +676,7 @@
     "textParagraphs": "Parágrafos",
     "textPassword": "Senha",
     "textPasswordNotMatched": "As senhas não correspondem",
+    "textPasswordWarning": "Se a senha for esquecida ou perdida, ela não poderá ser recuperada.",
     "textPdfProducer": "Produtor de PDF",
     "textPdfTagged": "PDF marcado",
     "textPdfVer": "Versão PDF",
@@ -708,6 +709,7 @@
     "textTop": "Parte superior",
     "textTrackedChanges": "Mudanças rastreadas",
     "textTypeEditing": "Tipo de edição",
+    "textTypeEditingWarning": "Permitir apenas este tipo de edição no documento.",
     "textUnitOfMeasurement": "Unidade de medida",
     "textUnprotect": "Desproteger",
     "textUploaded": "Carregado",
@@ -741,9 +743,7 @@
     "txtScheme6": "Concurso",
     "txtScheme7": "Patrimônio Líquido",
     "txtScheme8": "Fluxo",
-    "txtScheme9": "Fundição",
-    "textPasswordWarning": "If the password is forgotten or lost, it cannot be recovered.",
-    "textTypeEditingWarning": "Allow only this type of editing in the document."
+    "txtScheme9": "Fundição"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Você tem mudanças não salvas. Clique em 'Ficar nesta página' para esperar pela auto-salvar. Clique em 'Sair desta página' para descartar todas as mudanças não salvas.",
