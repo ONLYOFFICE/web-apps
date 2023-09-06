@@ -259,8 +259,6 @@ define([
             props.asc_setLeft(Common.Utils.Metric.fnRecalcToMM(this.spnLeft.getNumberValue()));
             props.asc_setRight(Common.Utils.Metric.fnRecalcToMM(this.spnRight.getNumberValue()));
 
-            // props.asc_setVerticalCentered(this.chVert.getValue()==='checked');
-            // props.asc_setHorizontalCentered(this.chHor.getValue()==='checked');
             return {margins: props, vertical: this.chVert.getValue()==='checked', horizontal: this.chHor.getValue()==='checked'};
         },
 

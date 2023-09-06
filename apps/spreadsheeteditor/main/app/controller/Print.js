@@ -601,17 +601,17 @@ define([
                     handler: function(dlg, result) {
                         var opt;
                         if (result == 'ok') {
-                            opt = dlg.getSettings().margins;
-                            Common.localStorage.setItem("sse-pgmargins-top", opt.asc_getTop());
-                            Common.localStorage.setItem("sse-pgmargins-left", opt.asc_getLeft());
-                            Common.localStorage.setItem("sse-pgmargins-bottom", opt.asc_getBottom());
-                            Common.localStorage.setItem("sse-pgmargins-right", opt.asc_getRight());
-                            Common.NotificationCenter.trigger('margins:update', opt, panel);
-                            me.setMargins(panel, opt);
+                            opt = dlg.getSettings();
+                            var margins = opt.margins;
+                            Common.localStorage.setItem("sse-pgmargins-top", margins.asc_getTop());
+                            Common.localStorage.setItem("sse-pgmargins-left", margins.asc_getLeft());
+                            Common.localStorage.setItem("sse-pgmargins-bottom", margins.asc_getBottom());
+                            Common.localStorage.setItem("sse-pgmargins-right", margins.asc_getRight());
+                            Common.NotificationCenter.trigger('margins:update', margins, panel);
+                            me.setMargins(panel, margins);
                             var currentSheet = panel.cmbSheet.getValue();
-                            me._margins[currentSheet] = opt;
+                            me._margins[currentSheet] = margins;
                             if (me._changedProps && me._changedProps[currentSheet]) {
-                                opt = dlg.getSettings();
                                 me._changedProps[currentSheet].asc_setVerticalCentered(opt.vertical);
                                 me._changedProps[currentSheet].asc_setHorizontalCentered(opt.horizontal);
                             }
