@@ -208,7 +208,7 @@ define([
                         hideCls: (this.options.iconType==='svg' ? 'svg-icon hide-password' : 'toolbar__icon btn-hide-password'),
                         maxLength: this.options.maxPasswordLength,
                         validateOnBlur: false,
-                        showPwdOnClick: true,
+                        showPwdOnClick: false,
                         validation  : function(value) {
                             return me.txtIncorrectPwd;
                         }

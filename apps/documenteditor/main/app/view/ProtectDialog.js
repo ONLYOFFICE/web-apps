@@ -113,7 +113,7 @@ define([
                 maxLength: 15,
                 validateOnBlur: false,
                 repeatInput: this.repeatPwd,
-                showPwdOnClick: true,
+                showPwdOnClick: false,
                 validation  : function(value) {
                     return (value.length>15) ? me.txtLimit : true;
                 }
