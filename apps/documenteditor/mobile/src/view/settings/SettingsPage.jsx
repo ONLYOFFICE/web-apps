@@ -76,15 +76,13 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                         <Icon slot="media" icon="icon-protection" />
                     </ListItem>
                 }
-                {_isEdit && 
-                    <ListItem title={t('Settings.textVersionHistory')} link={!Device.phone ? "/version-history" : ""} onClick={() => {
-                        if(Device.phone) {
-                            onOpenOptions('history');
-                        }
-                    }}>
-                        <Icon slot="media" icon="icon-version-history"></Icon>
-                    </ListItem>
-                }
+                <ListItem title={t('Settings.textVersionHistory')} link={!Device.phone ? "/version-history" : ""} onClick={() => {
+                    if(Device.phone) {
+                        onOpenOptions('history');
+                    }
+                }}>
+                    <Icon slot="media" icon="icon-version-history"></Icon>
+                </ListItem>
                 <ListItem title={t('Settings.textNavigation')} link={!Device.phone ? '/navigation' : '#'} onClick={() => {
                     if(Device.phone) {
                         onOpenOptions('navigation');
