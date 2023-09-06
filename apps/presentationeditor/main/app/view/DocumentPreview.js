@@ -346,7 +346,7 @@ define([
 
         setMode: function(mode) {
             this.mode = mode;
-            if (this.mode.isDesktopApp || Common.Utils.isIE11) {
+            if (this.mode.isDesktopApp || Common.Utils.isIE11 || !document.fullscreenEnabled) {
                 this.btnFullScreen.setVisible(false);
                 this.separatorFullScreen.hide();
                 $(document).off("webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange");
