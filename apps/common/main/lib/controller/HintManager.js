@@ -107,6 +107,7 @@ Common.UI.HintManager = new(function() {
         _arrEnQwerty = [],
         _needShow = false,
         _hintVisible = false,
+        _isEnterPressed = false,
         _currentLevel = 0,
         _currentSection = document,
         _currentControls = [],
@@ -499,7 +500,8 @@ Common.UI.HintManager = new(function() {
             _clearHints();
         });
         $(document).on('keyup', function(e) {
-            if ((e.keyCode == Common.UI.Keys.ALT || e.keyCode === 91) && _needShow && !(window.SSE && window.SSE.getController('Statusbar').getIsDragDrop())) {
+            if (e.keyCode === 13) _isEnterPressed = false;
+            if (!_isEnterPressed && (e.keyCode == Common.UI.Keys.ALT || e.keyCode === 91) && _needShow && !(window.SSE && window.SSE.getController('Statusbar').getIsDragDrop())) {
                 e.preventDefault();
                 if (!_hintVisible) {
                     $('input:focus').blur(); // to change value in inputField
@@ -641,10 +643,11 @@ Common.UI.HintManager = new(function() {
                 }
             }
 
+            _isEnterPressed = e.keyCode === 13;
             _needShow = (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && !e.shiftKey &&
                 e.keyCode == Common.UI.Keys.ALT && !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0 &&
                 !(window.PE && $('#pe-preview').is(':visible')));
-            if (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && e.altKey && e.keyCode !== 115 && _isInternalEditorLoading) {
+            if (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && e.altKey && e.keyCode !== 115 && _isInternalEditorLoading && e.keyCode !== 13) {
                 e.preventDefault();
             }
         });
