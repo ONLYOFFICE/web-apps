@@ -304,6 +304,25 @@ define([
             }
         },
 
+        createBackgroundPluginsButton: function () {
+            var btn = new Common.UI.Button({
+                cls: 'btn-toolbar x-huge icon-top',
+                caption: this.textBackgroundPlugins,
+                menu: new Common.UI.Menu({
+                    cls: 'background-plugins',
+                    items: [
+                        {template: _.template('<span>' + this.textTheListOfBackgroundPlugins + '</span>')}
+                    ]
+                }),
+                hint: this.textBackgroundPlugins,
+                //lock: model.get('isDisplayedInViewer') ? [_set.viewMode, _set.previewReviewMode, _set.viewFormMode, _set.selRangeEdit, _set.editFormula] : [_set.viewMode, _set.previewReviewMode, _set.viewFormMode, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.selRangeEdit, _set.editFormula ],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'small'
+            });
+            return btn;
+        },
+
         createPluginButton: function (model) {
             if (!model.get('visible'))
                 return null;
@@ -560,7 +579,9 @@ define([
         textStart: 'Start',
         textStop: 'Stop',
         groupCaption: 'Plugins',
-        tipMore: 'More'
+        tipMore: 'More',
+        textBackgroundPlugins: 'Background Plugins',
+        textTheListOfBackgroundPlugins: 'The list of background plugins'
 
     }, Common.Views.Plugins || {}));
 });

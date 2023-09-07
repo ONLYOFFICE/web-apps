@@ -40,7 +40,8 @@ define([
     'common/main/lib/collection/Plugins',
     'common/main/lib/view/Plugins',
     'common/main/lib/view/PluginDlg',
-    'common/main/lib/view/PluginPanel'
+    'common/main/lib/view/PluginPanel',
+    'common/main/lib/component/Switcher'
 ], function () {
     'use strict';
 
@@ -251,18 +252,68 @@ define([
             }
         },
 
+        addBackgroundPluginsButton: function (group) {
+            group.appendTo(this.$toolbarPanelPlugins); // append previous button (Plugin Manager)
+            //$('<div class="separator long"></div>').appendTo(me.$toolbarPanelPlugins);
+            group = $('<div class="group" style="' + (Common.UI.isRTL() ? 'padding-right: 0;' : 'padding-left: 0;') + '"></div>');
+            this.viewPlugins.backgroundBtn = this.viewPlugins.createBackgroundPluginsButton();
+            var $backgroundSlot = $('<span class="btn-slot text x-huge"></span>').appendTo(group);
+            this.viewPlugins.backgroundBtn.render($backgroundSlot);
+            this.viewPlugins.backgroundBtn.hide();
+
+            return group;
+        },
+
+        addBackgroundPluginToMenu: function (model) {
+            var modes = model.get('variations'),
+                icons = modes[model.get('currentVariation')].get('icons'),
+                parsedIcons = this.viewPlugins.parseIcons(icons);
+            var menuItem = new Common.UI.MenuItem({
+                value: model.get('guid'),
+                caption: model.get('name'),
+                iconImg: model.get('baseUrl') + parsedIcons['normal'],
+                template: _.template([
+                    '<a id="<%= id %>" class="menu-item">',
+                    '<img class="menu-item-icon" src="<%= options.iconImg %>">',
+                    '<%= caption %>',
+                    '<span class="menu-item-toggle"></span>',
+                    '</a>'
+                ].join(''))
+            });
+            this.viewPlugins.backgroundBtn.menu.addItem(menuItem);
+            var switcher = new Common.UI.Switcher({
+                el: menuItem.$el.find('.menu-item-toggle')[0],
+                value: true
+            });
+            this.backgroundPlugins.push(menuItem);
+        },
+
         onResetPlugins: function (collection) {
             var me = this;
             me.appOptions.canPlugins = !collection.isEmpty();
             if ( me.$toolbarPanelPlugins ) {
+                me.backgroundPlugins = [];
                 me.$toolbarPanelPlugins.empty();
                 me.toolbar && me.toolbar.clearMoreButton('plugins');
 
                 var _group = $('<div class="group"></div>'),
                     rank = -1,
-                    rank_plugins = 0;
+                    rank_plugins = 0,
+                    isBackground = false;
                 collection.each(function (model) {
-                    var new_rank = model.get('groupRank');
+                    var new_rank = model.get('groupRank'),
+                        is_visual = model.get('isVisual');
+                    if (!is_visual) {
+                        me.addBackgroundPluginToMenu(model);
+                        return;
+                    }
+                    //if (new_rank === 1 || new_rank === 2) return; // for test
+                    if ((new_rank === 0 || new_rank === 2) && !isBackground) {
+                        _group = me.addBackgroundPluginsButton(_group);
+                        isBackground = true;
+                        rank = 1.5;
+                        rank_plugins++;
+                    }
                     if (new_rank!==rank && rank>-1 && rank_plugins>0) {
                         _group.appendTo(me.$toolbarPanelPlugins);
                         $('<div class="separator long"></div>').appendTo(me.$toolbarPanelPlugins);
@@ -280,9 +331,17 @@ define([
                         btn.render($slot);
                         rank_plugins++;
                     }
+                    if (new_rank === 1 && !isBackground) {
+                        _group = me.addBackgroundPluginsButton(_group);
+                        isBackground = true;
+                    }
                     rank = new_rank;
                 });
                 _group.appendTo(me.$toolbarPanelPlugins);
+                if (me.backgroundPlugins.length > 0) {
+                    me.viewPlugins.backgroundBtn.show();
+                }
+
                 me.toolbar && me.toolbar.isTabActive('plugins') && me.toolbar.processPanelVisible(null, true, true);
                 var docProtection = me.viewPlugins._state.docProtection;
                 Common.Utils.lockControls(Common.enumLock.docLockView, docProtection.isReadOnly, {array: me.viewPlugins.lockedControls});
@@ -565,9 +624,10 @@ define([
 
                     var variationsArr = [],
                         pluginVisible = false,
-                        isDisplayedInViewer = false;
-                    item.variations.forEach(function(itemVar){
-                        let isSystem = (true === itemVar.isSystem) || ("system" === itemVar.type);
+                        isDisplayedInViewer = false,
+                        isVisual = false;
+                    item.variations.forEach(function(itemVar, itemInd){
+                        var isSystem = (true === itemVar.isSystem) || ("system" === itemVar.type);
                         var visible = (isEdit || itemVar.isViewer && (itemVar.isDisplayedInViewer!==false)) && _.contains(itemVar.EditorsSupport, editor) && !isSystem;
                         if ( visible ) pluginVisible = true;
                         if (itemVar.isViewer && (itemVar.isDisplayedInViewer!==false))
@@ -600,6 +660,9 @@ define([
                             });
 
                             variationsArr.push(model);
+                            if (itemInd === 0) {
+                                isVisual = itemVar.isVisual;
+                            }
                         }
                     });
 
@@ -622,7 +685,8 @@ define([
                             groupRank: (item.group) ? item.group.rank : 0,
                             minVersion: item.minVersion,
                             original: item,
-                            isDisplayedInViewer: isDisplayedInViewer
+                            isDisplayedInViewer: isDisplayedInViewer,
+                            isVisual: isVisual
                         }));
                     }
                 });
@@ -792,8 +856,9 @@ define([
                 if (this.customPluginsDlg[frameId]) return;
 
                 var lang = this.appOptions && this.appOptions.lang ? this.appOptions.lang.split(/[\-_]/)[0] : 'en';
-                var url = variation.url; // full url
-                var visible = (this.appOptions.isEdit || variation.isViewer && (variation.isDisplayedInViewer!==false)) && _.contains(variation.EditorsSupport, this.editor) && !variation.isSystem;
+                var url = variation.url, // full url
+                    isSystem = (true === variation.isSystem) || ("system" === variation.type);
+                var visible = (this.appOptions.isEdit || variation.isViewer && (variation.isDisplayedInViewer!==false)) && _.contains(variation.EditorsSupport, this.editor) && !isSystem;
                 if (visible && !variation.isInsideMode) {
                     var me = this,
                         isCustomWindow = variation.isCustomWindow,
