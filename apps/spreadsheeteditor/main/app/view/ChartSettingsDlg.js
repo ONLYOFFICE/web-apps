@@ -1862,7 +1862,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         },
 
         close: function () {
-            this.api.asc_onCloseChartFrame();
+            this.api.asc_onCloseFrameEditor();
             Common.Views.AdvancedSettingsWindow.prototype.close.apply(this, arguments);
         },
 

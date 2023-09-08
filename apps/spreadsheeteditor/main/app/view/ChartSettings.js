@@ -1159,7 +1159,7 @@ define([
                 var win = new SSE.Views.CellRangeDialog({
                     handler: handlerDlg
                 }).on('close', function() {
-                    me.api.asc_onCloseChartFrame();
+                    me.api.asc_onCloseFrameEditor();
                 });
 
                 win.show();

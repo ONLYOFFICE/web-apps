@@ -148,7 +148,7 @@ define([
             setApi: function(api) {
                 this.api = api;
                 this.api.asc_registerCallback('asc_onCloseChartEditor', _.bind(this.onDiagrammEditingDisabled, this));
-                this.api.asc_registerCallback('asc_sendFromGeneralToFrameEditor', _.bind(this.onSendFromGeneralToFrameEditor, this));
+                this.api.asc_registerCallback('asc_sendFromGeneralToChartEditor', _.bind(this.onSendFromGeneralToFrameEditor, this));
                 return this;
             },
 

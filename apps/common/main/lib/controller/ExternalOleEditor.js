@@ -145,7 +145,7 @@ define([
             setApi: function(api) {
                 this.api = api;
                 this.api.asc_registerCallback('asc_onCloseOleEditor', _.bind(this.onOleEditingDisabled, this));
-                this.api.asc_registerCallback('asc_sendFromGeneralToFrameEditor', _.bind(this.onSendFromGeneralToFrameEditor, this));
+                this.api.asc_registerCallback('asc_sendFromGeneralToOleEditor', _.bind(this.onSendFromGeneralToFrameEditor, this));
                 return this;
             },
 

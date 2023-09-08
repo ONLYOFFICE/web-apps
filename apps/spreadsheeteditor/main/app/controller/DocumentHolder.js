@@ -299,7 +299,7 @@ define([
                         oleEditor.on('hide', _.bind(function(cmp, message) {
                             if (me.api) {
                                 me.api.asc_enableKeyEvents(true);
-                                me.api.asc_onCloseChartFrame();
+                                me.api.asc_onCloseFrameEditor();
                             }
                             setTimeout(function(){
                                 view.fireEvent('editcomplete', view);
@@ -4801,13 +4801,13 @@ define([
             }
         },
 
-        onDoubleClickOnTableOleObject: function(obj) {
+        onDoubleClickOnTableOleObject: function(frameBinary) {
             if (this.permissions.isEdit && !this._isDisabled) {
                 var oleEditor = SSE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
-                if (oleEditor && obj) {
+                if (oleEditor && frameBinary) {
                     oleEditor.setEditMode(true);
                     oleEditor.show();
-                    oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(obj));
+                    oleEditor.setOleData(frameBinary);
                 }
             }
         },

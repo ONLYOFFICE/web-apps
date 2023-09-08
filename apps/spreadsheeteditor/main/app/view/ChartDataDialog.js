@@ -240,7 +240,7 @@ define([
         close: function () {
             this.clearCategoryListTimer();
 
-            this.api.asc_onCloseChartFrame();
+            this.api.asc_onCloseFrameEditor();
             Common.Views.AdvancedSettingsWindow.prototype.close.apply(this, arguments);
         },
 

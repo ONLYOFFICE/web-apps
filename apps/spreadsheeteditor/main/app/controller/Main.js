@@ -2787,13 +2787,13 @@ define([
 
             getChartData: function() {
                 if (this.api) {
-                    var chartData = this.api.asc_getBinaryFromDiagramFrame();
-
-                    if (typeof chartData === 'object') {
-                        Common.Gateway.internalMessage('chartData', {
-                            data: chartData
-                        });
-                    }
+                    this.api.asc_getBinaryFromDiagramFrame().then(function(chartData){
+                        if (typeof chartData === 'object') {
+                            Common.Gateway.internalMessage('chartData', {
+                                data: chartData
+                            });
+                        }
+                    });
                 }
             },
 
@@ -2810,12 +2810,13 @@ define([
 
             getOleData: function() {
                 if (this.api) {
-                    var oleData = this.api.asc_getBinaryInfoOleObject();
-                    if (typeof oleData === 'object') {
-                        Common.Gateway.internalMessage('oleData', {
-                            data: oleData
-                        });
-                    }
+                    this.api.asc_getBinaryInfoOleObject().then(function(oleData){
+                        if (typeof oleData === 'object') {
+                            Common.Gateway.internalMessage('oleData', {
+                                data: oleData
+                            });
+                        }
+                    });
                 }
             },
 

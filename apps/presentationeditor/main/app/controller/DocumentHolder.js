@@ -345,7 +345,7 @@ define([
                 }, this));
                 diagramEditor.on('hide', _.bind(function(cmp, message) {
                     if (this.api) {
-                        this.api.asc_onCloseChartFrame();
+                        this.api.asc_onCloseFrameEditor();
                         this.api.asc_enableKeyEvents(true);
                     }
                     var me = this;
@@ -369,7 +369,7 @@ define([
                 oleEditor.on('hide', _.bind(function(cmp, message) {
                     if (this.api) {
                         this.api.asc_enableKeyEvents(true);
-                        this.api.asc_onCloseChartFrame();
+                        this.api.asc_onCloseFrameEditor();
                     }
                     var me = this;
                     setTimeout(function(){
@@ -1470,13 +1470,13 @@ define([
             this.documentHolder.menuImgCrop && this.documentHolder.menuImgCrop.menu.items[0].setChecked(state, true);
         },
 
-        onDoubleClickOnTableOleObject: function(chart) {
+        onDoubleClickOnTableOleObject: function(frameBinary) {
             if (this.mode.isEdit && !this._isDisabled) {
                 var oleEditor = PE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
-                if (oleEditor && chart) {
+                if (oleEditor && frameBinary) {
                     oleEditor.setEditMode(true);
                     oleEditor.show();
-                    oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(chart));
+                    oleEditor.setOleData(frameBinary);
                 }
             }
         },
