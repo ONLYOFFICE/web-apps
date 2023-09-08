@@ -61,7 +61,7 @@ const ProtectionDocumentView = props => {
                         </ul>
                     </div>
                     <Block>
-                        <p>If the password is forgotten or lost, it cannot be recovered.</p>
+                        <p>{t('Settings.textPasswordWarning')}</p>
                     </Block>
                 </>
             }
@@ -81,7 +81,7 @@ const ProtectionDocumentView = props => {
                 }}></ListItem>
             </List>
             <Block>
-                <p>Allow only this type of editing in the document.</p>
+                <p>{t('Settings.textTypeEditingWarning')}</p>
             </Block>
         </Page>
     )

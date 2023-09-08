@@ -148,7 +148,8 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
                         canRestore: appOptions.canHistoryRestore && (ver < versions.length - 1),
                         isExpanded: true,
                         serverVersion: version.serverVersion,
-                        fileType: 'docx'
+                        fileType: 'docx',
+                        isRevision: true
                     });
 
                     if (opts.data.currentVersion == version.version) {
@@ -429,7 +430,7 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
                     </View>
                 </Popover>
             :
-                <Sheet id='version-history-sheet' backdrop={true} closeByOutsideClick={false} push onSheetClosed={() => props.onclosed()}>
+                <Sheet id='version-history-sheet' backdrop={true} closeByOutsideClick={false} onSheetClosed={() => props.onclosed()}>
                     <VersionHistoryView 
                         onSetHistoryData={onSetHistoryData}
                         onSelectRevision={onSelectRevision}

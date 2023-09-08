@@ -42,6 +42,20 @@
       "textCustomColors": "Aangepaste kleuren",
       "textStandartColors": "Standaardkleuren",
       "textThemeColors": "Themakleuren"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -222,7 +236,8 @@
     "dlgLeaveMsgText": "U hebt niet-opgeslagen wijzigingen in dit document. Klik op 'Blijf op deze pagina' om te wachten op automatisch opslaan. Klik op 'Verlaat deze pagina' om alle niet-opgeslagen wijzigingen te verwijderen.",
     "dlgLeaveTitleText": "U verlaat de applicatie",
     "leaveButtonText": "Pagina verlaten",
-    "stayButtonText": "Op deze pagina blijven"
+    "stayButtonText": "Op deze pagina blijven",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -419,13 +434,13 @@
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textInsertImage": "Insert Image",
-      "textNoMatches": "No Matches",
-      "textRecommended": "Recommended",
-      "textRequired": "Required",
       "textMorph": "Morph",
+      "textMorphLetters": "Letters",
       "textMorphObjects": "Objects",
       "textMorphWords": "Words",
-      "textMorphLetters": "Letters"
+      "textNoMatches": "No Matches",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Settings": {
       "mniSlideStandard": "Standaard (4:3)",
@@ -510,7 +525,8 @@
       "textNoMatches": "No Matches",
       "textOk": "Ok",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "textRTL": "RTL"
+      "textRTL": "RTL",
+      "textVersionHistory": "Version History"
     }
   }
 }

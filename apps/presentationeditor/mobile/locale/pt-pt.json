@@ -42,6 +42,20 @@
       "textCustomColors": "Cores personalizadas",
       "textStandartColors": "Cores padrão",
       "textThemeColors": "Cores do tema"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Aviso",
+      "textAnonymous": "Anónimo",
+      "textBack": "Recuar",
+      "textCancel": "Cancelar",
+      "textCurrent": "Atual",
+      "textOk": "OK",
+      "textRestore": "Restaurar",
+      "textVersion": "Versão",
+      "textVersionHistory": "Histórico de versões",
+      "textWarningRestoreVersion": "O ficheiro atual será guardado no histórico de versões.",
+      "titleWarningRestoreVersion": "Restaurar esta versão?",
+      "txtErrorLoadHistory": "Falha ao carregar o histórico"
     }
   },
   "ContextMenu": {
@@ -222,7 +236,8 @@
     "dlgLeaveMsgText": "Este documento tem alterações não guardadas. Clique 'Ficar na página' para que o documento seja guardado automaticamente. Clique 'Sair da página' para rejeitar todas as alterações.",
     "dlgLeaveTitleText": "Saiu da aplicação",
     "leaveButtonText": "Sair da página",
-    "stayButtonText": "Ficar na página"
+    "stayButtonText": "Ficar na página",
+    "textCloseHistory": "Fechar histórico"
   },
   "View": {
     "Add": {
@@ -360,6 +375,10 @@
       "textLinkSettings": "Definições de ligação",
       "textLinkTo": "Ligação a",
       "textLinkType": "Tipo de ligação",
+      "textMorph": "Transformar",
+      "textMorphLetters": "Letras",
+      "textMorphObjects": "Objetos",
+      "textMorphWords": "Palavras",
       "textMoveBackward": "Mover para trás",
       "textMoveForward": "Mover para a frente",
       "textNextSlide": "Diapositivo seguinte",
@@ -421,11 +440,7 @@
       "textZoom": "Ampliação",
       "textZoomIn": "Ampliar",
       "textZoomOut": "Reduzir",
-      "textZoomRotate": "Ampliação e rotação",
-      "textMorph": "Morph",
-      "textMorphObjects": "Objects",
-      "textMorphWords": "Words",
-      "textMorphLetters": "Letters"
+      "textZoomRotate": "Ampliação e rotação"
     },
     "Settings": {
       "mniSlideStandard": "Padrão (4:3)",
@@ -489,6 +504,7 @@
       "textUnitOfMeasurement": "Unidade de medida",
       "textUploaded": "Carregado",
       "textVersion": "Versão",
+      "textVersionHistory": "Histórico de versões",
       "txtScheme1": "Escritório",
       "txtScheme10": "Mediana",
       "txtScheme11": "Metro",

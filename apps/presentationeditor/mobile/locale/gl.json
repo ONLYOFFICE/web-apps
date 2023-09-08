@@ -42,6 +42,20 @@
       "textCustomColors": "Cores personalizadas",
       "textStandartColors": "Cores estándar",
       "textThemeColors": "Cores do tema"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -222,7 +236,8 @@
     "dlgLeaveMsgText": "Ten cambios non gardados neste documento. Prema en \"Quedarse nesta páxina\" para esperar ata que se garden automaticamente. Prema en \"Saír desta pa´xina\" para descartar todos os cambios non gardados.",
     "dlgLeaveTitleText": "Saíu do aplicativo",
     "leaveButtonText": "Saír desta página",
-    "stayButtonText": "Quedarse nesta páxina"
+    "stayButtonText": "Quedarse nesta páxina",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -419,13 +434,13 @@
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textInsertImage": "Insert Image",
-      "textNoMatches": "No Matches",
-      "textRecommended": "Recommended",
-      "textRequired": "Required",
       "textMorph": "Morph",
+      "textMorphLetters": "Letters",
       "textMorphObjects": "Objects",
       "textMorphWords": "Words",
-      "textMorphLetters": "Letters"
+      "textNoMatches": "No Matches",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Settings": {
       "mniSlideStandard": "Estándar (4:3)",
@@ -510,7 +525,8 @@
       "txtScheme7": "Equidade",
       "txtScheme8": "Fluxo",
       "txtScheme9": "Fundición",
-      "textNoMatches": "No Matches"
+      "textNoMatches": "No Matches",
+      "textVersionHistory": "Version History"
     }
   }
 }

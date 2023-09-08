@@ -39,6 +39,20 @@
       "textCustomColors": "自訂顏色",
       "textStandartColors": "標準顏色",
       "textThemeColors": "主題顏色"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -334,7 +348,8 @@
     "dlgLeaveMsgText": "您在此文件中有未儲存的變更。點擊\"留在此頁面\"以等待自動儲存。點擊\"離開此頁面\"以放棄所有未儲存的變更。",
     "dlgLeaveTitleText": "您離開應用程式。",
     "leaveButtonText": "離開這個頁面",
-    "stayButtonText": "保持此頁上"
+    "stayButtonText": "保持此頁上",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -583,13 +598,13 @@
       "textYen": "日圓",
       "txtNotUrl": "此字段應為格式為\"http://www.example.com\"的URL。",
       "txtSortHigh2Low": "最高到最低排序",
-      "textCustomFormat": "Custom Format",
-      "textCreateFormat": "Create Format",
+      "txtSortLow2High": "從最低到最高排序",
       "textCreateCustomFormat": "Create Custom Format",
-      "textSave": "Save",
-      "textEnterFormat": "Enter Format",
+      "textCreateFormat": "Create Format",
+      "textCustomFormat": "Custom Format",
       "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.",
-      "txtSortLow2High": "從最低到最高排序"
+      "textEnterFormat": "Enter Format",
+      "textSave": "Save"
     },
     "Settings": {
       "advCSVOptions": "選擇CSV選項",
@@ -759,7 +774,8 @@
       "txtUk": "烏克蘭文",
       "txtVi": "越南語",
       "txtZh": "中文",
-      "warnDownloadAs": "如果繼續以這種格式保存，則除文本外的所有功能都將丟失。<br>確定要繼續嗎？"
+      "warnDownloadAs": "如果繼續以這種格式保存，則除文本外的所有功能都將丟失。<br>確定要繼續嗎？",
+      "textVersionHistory": "Version History"
     }
   }
 }

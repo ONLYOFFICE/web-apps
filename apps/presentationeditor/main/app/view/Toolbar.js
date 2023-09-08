@@ -1105,7 +1105,7 @@ define([
                             if (menu.cmpEl) {
                                 var itemEl = $(cmp.cmpEl.find('.dataview.inner .style').get(0)).parent();
                                 var itemMargin = /*parseInt($(itemEl.get(0)).parent().css('margin-right'))*/-1;
-                                Common.Utils.applicationPixelRatio() > 1 && Common.Utils.applicationPixelRatio() < 2 && (itemMargin = -1 / Common.Utils.applicationPixelRatio());
+                                Common.Utils.applicationPixelRatio() > 1 && Common.Utils.applicationPixelRatio() !== 2 && (itemMargin = -1 / Common.Utils.applicationPixelRatio());
                                 var itemWidth = itemEl.is(':visible') ? parseFloat(itemEl.css('width')) :
                                     (cmp.itemWidth + parseFloat(itemEl.css('padding-left')) + parseFloat(itemEl.css('padding-right')) +
                                     parseFloat(itemEl.css('border-left-width')) + parseFloat(itemEl.css('border-right-width')));
@@ -1226,13 +1226,6 @@ define([
                 if ( mode.isEdit ) {
                     me.setTab('home');
                     me.processPanelVisible();
-
-                    Common.NotificationCenter.on('eyedropper:start', function () {
-                        if (me.btnCopyStyle.pressed)
-                            me.btnCopyStyle.toggle(false, true);
-                        if (me.btnHighlightColor.pressed)
-                            me.btnHighlightColor.toggle(false, true);
-                    });
                 }
 
                 if ( me.isCompactView )

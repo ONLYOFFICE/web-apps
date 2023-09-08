@@ -174,6 +174,20 @@
       "textCustomColors": "Հարմարեցված գույներ",
       "textStandartColors": "Ստանդարտ գույներ",
       "textThemeColors": "Թեմայի գույներ"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -377,7 +391,8 @@
     "textType": "Տեսակ",
     "textWe": "Չրք",
     "textWrap": "Ծալում",
-    "textWrappingStyle": "Ծալման ոճ"
+    "textWrappingStyle": "Ծալման ոճ",
+    "textInvalidName": "The file name cannot contain any of the following characters: "
   },
   "Error": {
     "convertationTimeoutText": "Փոխարկման սպասման ժամանակը սպառվել է։",
@@ -725,7 +740,10 @@
     "txtScheme6": "Համագումար ",
     "txtScheme7": "Սեփական կապիտալ",
     "txtScheme8": "Հոսք",
-    "txtScheme9": "Հրատարակիչ"
+    "txtScheme9": "Հրատարակիչ",
+    "textPasswordWarning": "If the password is forgotten or lost, it cannot be recovered.",
+    "textTypeEditingWarning": "Allow only this type of editing in the document.",
+    "textVersionHistory": "Version History"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Դուք չպահված փոփոխություններ ունեք:Սեղմեք «Մնա այս էջում»՝ սպասելու ավտոմատ պահպանմանը:Սեղմեք «Լքել այս էջը»՝ չպահված բոլոր փոփոխությունները մերժելու համար:",
@@ -735,7 +753,8 @@
     "textOk": "Լավ",
     "textSwitchedMobileView": " Փոխարկվել է բջջային տեսքի",
     "textSwitchedStandardView": " Փոխարկվել է ստանդարտ տեսքի",
-    "textRenameFile": "Rename File",
-    "textEnterNewFileName": "Enter a new file name"
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   }
 }

@@ -174,6 +174,20 @@
       "textCustomColors": "Пользовательские цвета",
       "textStandartColors": "Стандартные цвета",
       "textThemeColors": "Цвета темы"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Внимание",
+      "textAnonymous": "Аноним",
+      "textBack": "Назад",
+      "textCancel": "Отмена",
+      "textCurrent": "Текущая версия",
+      "textOk": "Ok",
+      "textRestore": "Восстановить",
+      "textVersion": "Версия",
+      "textVersionHistory": "История версий",
+      "textWarningRestoreVersion": "Текущий файл будет сохранен в истории версий.",
+      "titleWarningRestoreVersion": "Восстановить эту версию?",
+      "txtErrorLoadHistory": "Не удалось загрузить историю"
     }
   },
   "ContextMenu": {
@@ -285,6 +299,7 @@
     "textImageURL": "URL рисунка",
     "textInFront": "Перед текстом",
     "textInline": "В тексте",
+    "textInvalidName": "Имя файла не должно содержать следующих символов: ",
     "textJanuary": "Январь",
     "textJuly": "Июль",
     "textJune": "Июнь",
@@ -661,6 +676,7 @@
     "textParagraphs": "Абзацы",
     "textPassword": "Пароль",
     "textPasswordNotMatched": "Пароли не совпадают",
+    "textPasswordWarning": "Если пароль забыт или утерян, его нельзя восстановить.",
     "textPdfProducer": "Производитель PDF",
     "textPdfTagged": "PDF с тегами",
     "textPdfVer": "Версия PDF",
@@ -693,10 +709,12 @@
     "textTop": "Верхнее",
     "textTrackedChanges": "Отслеживаемые изменения",
     "textTypeEditing": "Тип редактирования",
+    "textTypeEditingWarning": "Разрешить только указанный способ редактирования документа.",
     "textUnitOfMeasurement": "Единица измерения",
     "textUnprotect": "Снять защиту",
     "textUploaded": "Загружен",
     "textVerify": "Проверить",
+    "textVersionHistory": "История версий",
     "textWords": "Слова",
     "textYes": "Да",
     "titleDialogUnprotect": "Снять защиту документа",
@@ -732,10 +750,11 @@
     "dlgLeaveTitleText": "Вы выходите из приложения",
     "leaveButtonText": "Уйти со страницы",
     "stayButtonText": "Остаться на странице",
+    "textCloseHistory": "Закрыть историю",
+    "textEnterNewFileName": "Введите новое имя файла",
     "textOk": "OK",
+    "textRenameFile": "Переименовать файл",
     "textSwitchedMobileView": "Переключено на мобильный вид",
-    "textSwitchedStandardView": "Переключено на стандартный вид",
-    "textRenameFile": "Rename File",
-    "textEnterNewFileName": "Enter a new file name"
+    "textSwitchedStandardView": "Переключено на стандартный вид"
   }
 }

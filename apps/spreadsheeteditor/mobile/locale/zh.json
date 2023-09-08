@@ -39,6 +39,20 @@
       "textCustomColors": "自定义颜色",
       "textStandartColors": "标准颜色",
       "textThemeColors": "主题颜色"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -334,7 +348,8 @@
     "dlgLeaveMsgText": "你在该文档中有未保存的修改。点击“留在该页”来等待自动保存。点击“离开该页”将舍弃全部未保存的更改。",
     "dlgLeaveTitleText": "你退出应用程序",
     "leaveButtonText": "离开这个页面",
-    "stayButtonText": "保持此页上"
+    "stayButtonText": "保持此页上",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -759,7 +774,8 @@
       "txtUk": "乌克兰语",
       "txtVi": "越南语",
       "txtZh": "中文",
-      "warnDownloadAs": "如果您继续以此格式保存，除文本之外的所有功能将丢失。<br>您确定要继续吗？"
+      "warnDownloadAs": "如果您继续以此格式保存，除文本之外的所有功能将丢失。<br>您确定要继续吗？",
+      "textVersionHistory": "Version History"
     }
   }
 }

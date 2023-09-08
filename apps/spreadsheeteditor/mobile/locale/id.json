@@ -39,6 +39,20 @@
       "textCustomColors": "Custom Warna",
       "textStandartColors": "Warna Standar",
       "textThemeColors": "Warna Tema"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Peringatan",
+      "textAnonymous": "Anonim",
+      "textBack": "Kembali",
+      "textCancel": "Batalkan",
+      "textCurrent": "Saat ini",
+      "textOk": "OK",
+      "textRestore": "Pulihkan",
+      "textVersion": "Versi",
+      "textVersionHistory": "Riwayat Versi",
+      "textWarningRestoreVersion": "File saat ini akan disimpan dalam riwayat versi.",
+      "titleWarningRestoreVersion": "Pulihkan versi ini?",
+      "txtErrorLoadHistory": "Gagal memuat riwayat"
     }
   },
   "ContextMenu": {
@@ -334,7 +348,8 @@
     "dlgLeaveMsgText": "Ada perubahan yang belum disimpan dalam dokumen ini. Klik 'Tetap di Halaman Ini' untuk menunggu simpan otomatis. Klik ‘Tinggalkan Halaman Ini’ untuk membatalkan semua perubahan yang belum disimpan.",
     "dlgLeaveTitleText": "Anda meninggalkan aplikasi",
     "leaveButtonText": "Tinggalkan Halaman Ini",
-    "stayButtonText": "Tetap di halaman ini"
+    "stayButtonText": "Tetap di halaman ini",
+    "textCloseHistory": "Tutup Riwayat"
   },
   "View": {
     "Add": {
@@ -439,10 +454,14 @@
       "textChartTitle": "Judul Grafik",
       "textClearFilter": "Bersihkan Filter",
       "textColor": "Warna",
+      "textCreateCustomFormat": "Buat Format Khusus",
+      "textCreateFormat": "Buat Format",
       "textCross": "Silang",
       "textCrossesValue": "Crosses Value",
       "textCurrency": "Mata uang",
       "textCustomColor": "Custom Warna",
+      "textCustomFormat": "Format Khusus",
+      "textCustomFormatWarning": "Masukkan format nomor khusus dengan teliti. Editor Spreadsheet tidak memeriksa kesalahan pada format khusus yang mungkin memengaruhi file xlsx.",
       "textDataLabels": "Label Data",
       "textDate": "Tanggal",
       "textDefault": "Rentang yang dipilih",
@@ -460,6 +479,7 @@
       "textEffects": "Efek",
       "textEmptyImgUrl": "Anda perlu melengkapkan URL gambar.",
       "textEmptyItem": "{Kosong}",
+      "textEnterFormat": "Masukkan Format",
       "textErrorMsg": "Anda harus memilih setidaknya satu nilai",
       "textErrorTitle": "Peringatan",
       "textEuro": "Euro",
@@ -549,6 +569,7 @@
       "textRotateTextDown": "Rotasi Teks Kebawah",
       "textRotateTextUp": "Rotasi Teks Keatas",
       "textRouble": "Rubel",
+      "textSave": "Simpan",
       "textScientific": "Saintifik",
       "textScreenTip": "Tip Layar",
       "textSelectAll": "Pilih semua",
@@ -583,13 +604,7 @@
       "textYen": "Yen",
       "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”",
       "txtSortHigh2Low": "Sortir Tertinggi ke Terendah",
-      "txtSortLow2High": "Sortir Terendah ke Tertinggi",
-      "textCustomFormat": "Custom Format",
-      "textCreateFormat": "Create Format",
-      "textCreateCustomFormat": "Create Custom Format",
-      "textSave": "Save",
-      "textEnterFormat": "Enter Format",
-      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
+      "txtSortLow2High": "Sortir Terendah ke Tertinggi"
     },
     "Settings": {
       "advCSVOptions": "Pilih Opsi CSV",
@@ -693,6 +708,7 @@
       "textUploaded": "Diunggah",
       "textValues": "Nilai",
       "textVersion": "Versi",
+      "textVersionHistory": "Riwayat Versi",
       "textWorkbook": "Workbook",
       "txtBe": "Belarusia",
       "txtBg": "Bulgaria",

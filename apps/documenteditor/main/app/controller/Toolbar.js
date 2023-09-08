@@ -60,7 +60,8 @@ define([
     'documenteditor/main/app/view/ListSettingsDialog',
     'documenteditor/main/app/view/DateTimeDialog',
     'documenteditor/main/app/view/LineNumbersDialog',
-    'documenteditor/main/app/view/TextToTableDialog'
+    'documenteditor/main/app/view/TextToTableDialog',
+    'documenteditor/main/app/view/HyphenationDialog'
 ], function () {
     'use strict';
 
@@ -346,6 +347,7 @@ define([
             toolbar.btnParagraphColor.on('color:select',                _.bind(this.onParagraphColorPickerSelect, this));
             toolbar.btnParagraphColor.on('eyedropper:start',            _.bind(this.onEyedropperStart, this));
             toolbar.btnParagraphColor.on('eyedropper:end',              _.bind(this.onEyedropperEnd, this));
+            this.mode.isEdit && Common.NotificationCenter.on('eyedropper:start', _.bind(this.eyedropperStart, this));
             toolbar.mnuHighlightColorPicker.on('select',                _.bind(this.onSelectHighlightColor, this));
             toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
             toolbar.mnuLineSpace.on('item:toggle',                      _.bind(this.onLineSpaceToggle, this));
@@ -387,6 +389,8 @@ define([
             toolbar.mnuControlsColorPicker.on('select',                 _.bind(this.onSelectControlsColor, this));
             toolbar.btnLineNumbers.menu.on('item:click',                _.bind(this.onLineNumbersSelect, this));
             toolbar.btnLineNumbers.menu.on('show:after',                _.bind(this.onLineNumbersShow, this));
+            toolbar.btnHyphenation.menu.on('item:click',                _.bind(this.onHyphenationSelect, this));
+            toolbar.btnHyphenation.menu.on('show:after',                _.bind(this.onHyphenationShow, this));
             Common.Gateway.on('insertimage',                      _.bind(this.insertImage, this));
             Common.Gateway.on('setmailmergerecipients',           _.bind(this.setMailMergeRecipients, this));
             Common.Gateway.on('setrequestedspreadsheet',          _.bind(this.setRequestedSpreadsheet, this));
@@ -943,14 +947,14 @@ define([
 
         onApiLockDocumentProps: function() {
             if (this._state.lock_doc!==true) {
-                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, true, {array: [this.toolbar.btnPageOrient, this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnColumns, this.toolbar.btnLineNumbers]});
+                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, true, {array: [this.toolbar.btnPageOrient, this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnColumns, this.toolbar.btnLineNumbers, this.toolbar.btnHyphenation]});
                 if (this._state.activated) this._state.lock_doc = true;
             }
         },
 
         onApiUnLockDocumentProps: function() {
             if (this._state.lock_doc!==false) {
-                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, false, {array: [this.toolbar.btnPageOrient, this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnColumns, this.toolbar.btnLineNumbers]});
+                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, false, {array: [this.toolbar.btnPageOrient, this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnColumns, this.toolbar.btnLineNumbers, this.toolbar.btnHyphenation]});
                 if (this._state.activated) this._state.lock_doc = false;
             }
         },
@@ -2016,6 +2020,33 @@ define([
             menu.items[4].setChecked(this._state.suppress_num);
         },
 
+        onHyphenationSelect: function(menu, item) {
+            if (_.isUndefined(item.value))
+                return;
+
+            if (item.value==='custom') {
+                var win,
+                    me = this;
+                win = new DE.Views.HyphenationDialog({
+                    handler: function(dlg, result) {
+                        if (result == 'ok') {
+                            me.api.asc_setAutoHyphenationSettings(dlg.getSettings());
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                        }
+                    }
+                });
+                win.show();
+                me.api && win.setSettings(me.api.asc_getAutoHyphenationSettings());
+            } else {
+                this.api && this.api.asc_setAutoHyphenation(!!item.value);
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onHyphenationShow: function(menu) {
+            this.api && menu.items[this.api.asc_isAutoHyphenation() ? 1 : 0].setChecked(true);
+        },
+
         onColorSchemaClick: function(menu, item) {
             if (this.api) {
                 this.api.asc_ChangeColorSchemeByIdx(item.value);
@@ -2662,6 +2693,16 @@ define([
             }
 
             Common.NotificationCenter.trigger('edit:complete', this);
+        },
+
+        eyedropperStart: function () {
+            if (this.toolbar.btnCopyStyle.pressed) {
+                this.toolbar.btnCopyStyle.toggle(false, true);
+                this.api.SetPaintFormat(AscCommon.c_oAscFormatPainterState.kOff);
+                this.modeAlwaysSetStyle = false;
+            }
+            if (this.toolbar.btnHighlightColor.pressed)
+                this.toolbar.btnHighlightColor.toggle(false, true);
         },
 
         onEyedropperStart: function (btn) {

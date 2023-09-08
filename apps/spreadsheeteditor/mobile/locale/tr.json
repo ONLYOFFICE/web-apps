@@ -39,6 +39,20 @@
       "textCustomColors": "Özel Renkler",
       "textStandartColors": "Standart Renkler",
       "textThemeColors": "Tema Renkleri"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -334,7 +348,8 @@
     "dlgLeaveMsgText": "Bu belgede kaydedilmemiş değişiklikleriniz var. Otomatik kaydetmeyi beklemek için 'Bu Sayfada Kal' seçeneğini tıklayın. Kaydedilmemiş tüm değişiklikleri atmak için 'Bu Sayfadan Ayrıl'ı tıklayın.",
     "dlgLeaveTitleText": "Uygulamadan çıktınız",
     "leaveButtonText": "Bu Sayfadan Ayrıl",
-    "stayButtonText": "Bu Sayfada Kal"
+    "stayButtonText": "Bu Sayfada Kal",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -583,13 +598,13 @@
       "txtSortHigh2Low": "Büyükten Küçüğe Sırala",
       "txtSortLow2High": "Küçükten Büyüğe Sırala",
       "textCancel": "Cancel",
-      "textDone": "Done",
-      "textCustomFormat": "Custom Format",
-      "textCreateFormat": "Create Format",
       "textCreateCustomFormat": "Create Custom Format",
-      "textSave": "Save",
+      "textCreateFormat": "Create Format",
+      "textCustomFormat": "Custom Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.",
+      "textDone": "Done",
       "textEnterFormat": "Enter Format",
-      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
+      "textSave": "Save"
     },
     "Settings": {
       "advCSVOptions": "CSV Seçenekleri Belirle",
@@ -759,6 +774,7 @@
       "textDirection": "Direction",
       "textNoMatches": "No Matches",
       "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textVersionHistory": "Version History",
       "txtDe": "Deutsch"
     }
   }

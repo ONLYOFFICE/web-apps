@@ -238,7 +238,7 @@ define([
                     btnlock = this.isSelectedChangesLocked(changes, isShow);
                 }
                 if (this._state.lock !== btnlock) {
-                    Common.Utils.lockControls(Common.enumLock.reviewChangelock, btnlock, {array: [this.view.btnAccept, this.view.btnReject]});
+                    // Common.Utils.lockControls(Common.enumLock.reviewChangelock, btnlock, {array: [this.view.btnAccept, this.view.btnReject]});
                     this.dlgChanges && Common.Utils.lockControls(Common.enumLock.reviewChangelock, btnlock, {array: [this.dlgChanges.btnAccept, this.dlgChanges.btnReject]});
                     this._state.lock = btnlock;
                     Common.Utils.InternalSettings.set(this.appPrefix + "accept-reject-lock", btnlock);
@@ -582,7 +582,7 @@ define([
                     if (item.value === 'all') {
                         this.api.asc_AcceptAllChanges();
                     } else {
-                        this.api.asc_AcceptChangesBySelection(true); // accept and move to the next change
+                        this._state.lock ? this.api.asc_GetNextRevisionsChange() : this.api.asc_AcceptChangesBySelection(true); // accept and move to the next change
                     }
                 } else {
                     this.api.asc_AcceptChanges(menu);
@@ -597,7 +597,7 @@ define([
                     if (item.value === 'all') {
                         this.api.asc_RejectAllChanges();
                     } else {
-                        this.api.asc_RejectChangesBySelection(true); // reject and move to the next change
+                        this._state.lock ? this.api.asc_GetNextRevisionsChange() : this.api.asc_RejectChangesBySelection(true); // reject and move to the next change
                     }
                 } else {
                     this.api.asc_RejectChanges(menu);

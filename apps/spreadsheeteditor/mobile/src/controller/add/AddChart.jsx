@@ -43,8 +43,7 @@ class AddChartController extends Component {
 
     render () {
         return (
-            <AddChart onInsertChart={this.onInsertChart}
-            />
+            <AddChart onInsertChart={this.onInsertChart} />
         )
     }
 }

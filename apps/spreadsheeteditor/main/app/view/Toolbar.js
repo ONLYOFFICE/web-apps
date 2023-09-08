@@ -2238,11 +2238,6 @@ define([
                 }
 
                 me.setTab('home');
-
-                Common.NotificationCenter.on('eyedropper:start', function () {
-                    if (me.btnCopyStyle.pressed)
-                        me.btnCopyStyle.toggle(false, true);
-                });
             }
             if ( me.isCompactView )
                 me.setFolded(true);
