@@ -310,8 +310,9 @@ define([
                 caption: this.textBackgroundPlugins,
                 menu: new Common.UI.Menu({
                     cls: 'background-plugins',
+                    style: 'min-width: 230px;',
                     items: [
-                        {template: _.template('<span>' + this.textTheListOfBackgroundPlugins + '</span>')}
+                        {template: _.template('<span class="menu-header">' + this.textTheListOfBackgroundPlugins + '</span>')}
                     ]
                 }),
                 hint: this.textBackgroundPlugins,

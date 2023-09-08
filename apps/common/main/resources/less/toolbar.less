@@ -996,5 +996,58 @@ section .field-styles {
 }
 
 .background-plugins {
-    
+    .menu-header {
+        display: block;
+        font-weight: bold;
+        padding: 10px 20px;
+    }
+    .menu-item {
+        display: flex;
+        align-items: center;
+        .menu-item-icon {
+            float: none;
+            margin: 0;
+            .margin-right(5px);
+            width: 28px;
+            height: 28px;
+        }
+        .plugin-caption {
+            flex-basis: 100%;
+        }
+        .plugin-tools {
+            display: flex;
+            .float-right();
+            .plugin-toggle {
+                display: flex;
+                align-items: center;
+            }
+            .plugin-arrow {
+                display: flex;
+                justify-content: start;
+                align-items: center;
+                width: 20px;
+                height: 20px;
+                .margin-left-8();
+                .arrow-icon {
+                    display: block;
+                    content: " ";
+                    width: 0;
+                    height: 0;
+                    border-color: transparent;
+                    border-style: solid;
+                    border-width: 3px 0 3px 3px;
+                    border-left-color: @icon-normal-ie;
+                    border-left-color: @icon-normal;
+                    .margin-left(9px);
+
+                    .rtl & {
+                        border-color: transparent;
+                        border-width: 3px 3px 3px 0;
+                        border-right-color: @icon-normal-ie;
+                        border-right-color: @icon-normal;
+                    }
+                }
+            }
+        }
+    }
 }

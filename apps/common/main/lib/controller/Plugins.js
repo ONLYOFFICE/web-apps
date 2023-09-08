@@ -274,15 +274,18 @@ define([
                 iconImg: model.get('baseUrl') + parsedIcons['normal'],
                 template: _.template([
                     '<a id="<%= id %>" class="menu-item">',
-                    '<img class="menu-item-icon" src="<%= options.iconImg %>">',
-                    '<%= caption %>',
-                    '<span class="menu-item-toggle"></span>',
+                        '<img class="menu-item-icon" src="<%= options.iconImg %>">',
+                        '<span class="plugin-caption"><%= caption %></span>',
+                        '<span class="plugin-tools">',
+                            '<span class="plugin-toggle"></span>',
+                            '<span class="plugin-arrow"><span class="arrow-icon"></span></span>',
+                        '</span>',
                     '</a>'
                 ].join(''))
             });
             this.viewPlugins.backgroundBtn.menu.addItem(menuItem);
             var switcher = new Common.UI.Switcher({
-                el: menuItem.$el.find('.menu-item-toggle')[0],
+                el: menuItem.$el.find('.plugin-toggle')[0],
                 value: true
             });
             this.backgroundPlugins.push(menuItem);
