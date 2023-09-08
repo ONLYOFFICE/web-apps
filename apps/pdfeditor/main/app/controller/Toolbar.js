@@ -223,6 +223,7 @@ define([
             }
             this.api.asc_registerCallback('asc_onCountPages',   _.bind(this.onCountPages, this));
             this.api.asc_registerCallback('asc_onCurrentPage',  _.bind(this.onCurrentPage, this));
+            this.api.asc_registerCallback('asc_onDownloadUrl',  _.bind(this.onDownloadUrl, this));
         },
 
         onChangeCompactView: function(view, compact) {
@@ -373,12 +374,29 @@ define([
 
         tryToSave: function () {
             var toolbar = this.toolbar,
-                mode = toolbar.mode;
+                mode = toolbar.mode,
+                me = this;
             if (!mode.isPDFAnnotate && !mode.isPDFEdit) {
-                Common.UI.warning({
+                var canDownload = mode.canDownload && (!mode.isDesktopApp || !mode.isOffline),
+                    saveSopy = (mode.canDownload && (!mode.isDesktopApp || !mode.isOffline)) && (mode.canRequestSaveAs || mode.saveAsUrl),
+                    saveAs = mode.canDownload && mode.isDesktopApp && mode.isOffline,
+                    buttons = (saveSopy || saveAs ? [{value: 'copy', caption: this.txtSaveCopy}] : []).concat(canDownload ? [{value: 'download', caption: this.txtDownload}] : []),
+                    primary = saveSopy || saveAs ? 'copy' : (canDownload ? 'download' : 'ok');
+
+                Common.UI.info({
                     maxwidth: 500,
-                    msg: (mode.canPDFAnnotate || mode.canPDFEdit) ? this.txtNeedCommentMode : this.txtNeedDownload,
+                    buttons: (mode.canPDFAnnotate || mode.canPDFEdit || !mode.canDownload) ? ['ok'] : buttons.concat(['cancel']),
+                    primary: (mode.canPDFAnnotate || mode.canPDFEdit || !mode.canDownload) ? 'ok' : primary,
+                    msg: (mode.canPDFAnnotate || mode.canPDFEdit) ? this.txtNeedCommentMode : (mode.canDownload ? this.txtNeedDownload : this.errorAccessDeny),
                     callback: function(btn) {
+                        if (saveAs && btn==='copy')
+                            me.api.asc_DownloadAs();
+                        else if (btn==='copy' || btn==='download') {
+                            me._state.isFromToolbarDownloadAs = (btn==='copy');
+                            var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, btn==='copy');
+                            options.asc_setTextParams(new AscCommon.asc_CTextParams(Asc.c_oAscTextAssociation.PlainLine));
+                            me.api.asc_DownloadAs(options);
+                        }
                         Common.NotificationCenter.trigger('edit:complete', toolbar);
                     }
                 });
@@ -395,6 +413,13 @@ define([
             }
 
             Common.NotificationCenter.trigger('edit:complete', toolbar);
+        },
+
+        onDownloadUrl: function(url, fileType) {
+            if (this._state.isFromToolbarDownloadAs) {
+                Common.Gateway.downloadAs(url, fileType);
+            }
+            this._state.isFromToolbarDownloadAs = false;
         },
 
         onBtnChangeState: function(prop) {
@@ -760,7 +785,9 @@ define([
         textWarning: 'Warning',
         notcriticalErrorTitle: 'Warning',
         txtNeedCommentMode: 'To save changes to the file, switch to Сommenting mode. Or you can download a copy of the modified file.',
-        txtNeedDownload: 'To keep your changes download a copy of the modified file.'
+        txtNeedDownload: 'At the moment, PDF viewer can only save new changes in separate file copies. It doesn\'t support co-editing and other users won\'t see your changes unless you share a new file version.',
+        txtDownload: 'Download',
+        txtSaveCopy: 'Save copy'
 
     }, PDFE.Controllers.Toolbar || {}));
 });
