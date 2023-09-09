@@ -71,6 +71,7 @@ define([
             this.$btnexpand = $('#ce-btn-expand', this.el);
             this.$btnfunc = $('#ce-func-label', this.el);
             this.$cellcontent = $('#ce-cell-content', this.el);
+            this.$cellgroupname = this.$btnexpand.parent();
 
             var me = this;
             this.$cellname.on('focus', function(e){
@@ -115,19 +116,23 @@ define([
 
         cellEditorTextChange: function (){
             if(!this.$cellcontent) return;
-            var btnexpandParent = this.$btnexpand.parent()[0];
-            if(this.$cellcontent[0].clientHeight != this.$cellcontent[0].scrollHeight) {
-                var scrollBarWidth = this.$cellcontent[0].offsetWidth - this.$cellcontent[0].clientWidth;
-                btnexpandParent.style.right = Common.UI.isRTL() ?  '' : scrollBarWidth + "px";
-                btnexpandParent.style.left = Common.UI.isRTL() ? scrollBarWidth + "px" : '';
+
+            var cellcontent = this.$cellcontent[0];
+
+            if(cellcontent.clientHeight != cellcontent.scrollHeight) {
+                if(this._isScrollShow) return;
+                var scrollBarWidth = cellcontent.offsetWidth - cellcontent.clientWidth;
+                this.$cellgroupname.css({
+                    'right': Common.UI.isRTL() ?  '' : scrollBarWidth + "px",
+                    'left': Common.UI.isRTL() ? scrollBarWidth + "px" : ''
+                });
+                this._isScrollShow = true;
             }
             else {
-                btnexpandParent.style.right = '';
-                btnexpandParent.style.left = '';
+                if(!this._isScrollShow) return;
+                this.$cellgroupname.css({'right': '', 'left': ''});
+                this._isScrollShow = false;
             }
-
-            //Common.UI.isRTL() ?
-
         },
 
         tipFormula: 'Insert Function',
