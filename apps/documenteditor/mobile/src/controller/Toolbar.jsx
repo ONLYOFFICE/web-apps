@@ -321,36 +321,37 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     }
 
     return (
-        <ToolbarView openOptions={props.openOptions}
-                     closeOptions={props.closeOptions}
-                     isEdit={appOptions.isEdit}
-                     docTitle={docTitle}
-                     docExt={docExt}
-                     isShowBack={isShowBack}
-                     isCanUndo={isCanUndo}
-                     isCanRedo={isCanRedo}
-                     onUndo={onUndo}
-                     onRedo={onRedo}
-                     isObjectLocked={objectLocked}
-                     stateDisplayMode={stateDisplayMode}
-                     disabledControls={disabledControls}
-                     disabledEditControls={disabledEditControls}
-                     disabledSettings={disabledSettings}
-                     displayCollaboration={displayCollaboration}
-                     readerMode={readerMode}
-                     showEditDocument={showEditDocument}
-                     onEditDocument={onEditDocument}
-                     isDisconnected={isDisconnected}
-                     isViewer={isViewer}
-                     turnOnViewerMode={turnOnViewerMode}
-                     isMobileView={isMobileView}
-                     changeMobileView={changeMobileView}
-                     changeTitleHandler={changeTitleHandler}
-                     isVersionHistoryMode={isVersionHistoryMode}
-                     closeHistory={closeHistory}
-                     isOpenModal={props.isOpenModal}
+        <ToolbarView 
+            openOptions={props.openOptions}
+            closeOptions={props.closeOptions}
+            isEdit={appOptions.isEdit}
+            docTitle={docTitle}
+            docExt={docExt}
+            isShowBack={isShowBack}
+            isCanUndo={isCanUndo}
+            isCanRedo={isCanRedo}
+            onUndo={onUndo}
+            onRedo={onRedo}
+            isObjectLocked={objectLocked}
+            stateDisplayMode={stateDisplayMode}
+            disabledControls={disabledControls}
+            disabledEditControls={disabledEditControls}
+            disabledSettings={disabledSettings}
+            displayCollaboration={displayCollaboration}
+            readerMode={readerMode}
+            showEditDocument={showEditDocument}
+            onEditDocument={onEditDocument}
+            isDisconnected={isDisconnected}
+            isViewer={isViewer}
+            turnOnViewerMode={turnOnViewerMode}
+            isMobileView={isMobileView}
+            changeMobileView={changeMobileView}
+            changeTitleHandler={changeTitleHandler}
+            isVersionHistoryMode={isVersionHistoryMode}
+            closeHistory={closeHistory}
+            isOpenModal={props.isOpenModal}
         />
     )
 }));
 
-export {ToolbarController as Toolbar};
+export default ToolbarController;
