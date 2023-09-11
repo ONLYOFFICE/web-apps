@@ -5043,17 +5043,7 @@ define([
         },
 
         onShowProtectedChartPopup: function(value) {
-            var toolbar = this.toolbar,
-                me = this;
-            if (value) {
-                this.toolbar.lockToolbar(Common.enumLock.externalChartProtected, value, {array: [toolbar.btnPaste, toolbar.btnInsertFormula, toolbar.btnDecDecimal,toolbar.btnIncDecimal,toolbar.cmbNumberFormat]});
-                Common.UI.warning({
-                    msg: this.warnExternalChartProtected,
-                    callback: function(btn) {
-                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                    }
-                });
-            }
+            this.toolbar.lockToolbar(Common.enumLock.externalChartProtected, value, {array: [toolbar.btnPaste, toolbar.btnInsertFormula, toolbar.btnDecDecimal,toolbar.btnIncDecimal,toolbar.cmbNumberFormat]});
         },
 
         textEmptyImgUrl     : 'You need to specify image URL.',
@@ -5436,8 +5426,7 @@ define([
         textRating: 'Ratings',
         txtLockSort: 'Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?',
         textRecentlyUsed: 'Recently Used',
-        errorMaxPoints: 'The maximum number of points in series per chart is 4096.',
-        warnExternalChartProtected: 'You cannot edit this chart'
+        errorMaxPoints: 'The maximum number of points in series per chart is 4096.'
 
     }, SSE.Controllers.Toolbar || {}));
 });

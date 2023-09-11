@@ -1516,6 +1516,9 @@ define([
                     this.api.asc_registerCallback('asc_sendFromFrameToGeneralEditor', _.bind(this.onSendFromFrameToGeneralEditor, this));
                     if (this.appOptions.isEditOle)
                         this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
+                    else if (this.appOptions.isEditDiagram) {
+                        this.api.asc_registerCallback('asc_onShowProtectedChartPopup',   _.bind(this.onShowProtectedChartPopup, this));
+                    }
                 }
 
                 var celleditorController = this.getApplication().getController('CellEditor');
@@ -2748,6 +2751,10 @@ define([
                             this.isFrameClosed = true;
                             this.api.asc_closeCellEditor();
                             this.appOptions.isEditOle && Common.NotificationCenter.trigger('oleedit:close');
+                            if (this.appOptions.isEditDiagram) {
+                                this._state.chartProtectTip && this._state.chartProtectTip.close();
+                                this._state.chartProtectTip = undefined;
+                            }
                             Common.UI.Menu.Manager.hideAll();
                             Common.Gateway.internalMessage('canClose', {mr:data.data.mr, answer: true});
                         } else
@@ -2849,6 +2856,28 @@ define([
 
             onSendFromFrameToGeneralEditor: function(data) {
                 Common.Gateway.internalMessage('frameToGeneralData', data);
+            },
+
+            onShowProtectedChartPopup: function(value) {
+                if (value) {
+                    if (!this._state.chartProtectTip) {
+                        var me = this;
+                        this._state.chartProtectTip = new Common.UI.SynchronizeTip({
+                            extCls: 'no-arrow',
+                            placement: 'bottom',
+                            target: $('.toolbar'),
+                            text: this.warnExternalChartProtected,
+                            showLink: false,
+                            closable: true,
+                            showButton: false
+                        });
+                        this._state.chartProtectTip.on('closeclick', function () {
+                            this.close();
+                            me._state.chartProtectTip = undefined;
+                        });
+                    }
+                    this._state.chartProtectTip.show();
+                }
             },
 
             unitsChanged: function(m) {
@@ -3875,7 +3904,8 @@ define([
             textReplace: 'Replace',
             textKeep: 'Keep',
             errorDependentsNoFormulas: 'The Trace Dependents command found no formulas that refer to the active cell.',
-            errorPrecedentsNoValidRef: 'The Trace Precedents command requires that the active cell contain a formula which includes a valid references.'
+            errorPrecedentsNoValidRef: 'The Trace Precedents command requires that the active cell contain a formula which includes a valid references.',
+            warnExternalChartProtected: 'You can only select data to display the chart. To change data, open the file in a spreadsheet editor.'
         }
     })(), SSE.Controllers.Main || {}))
 });
