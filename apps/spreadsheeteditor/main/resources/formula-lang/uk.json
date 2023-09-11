@@ -501,6 +501,20 @@
 			"na": "#N/A",
 			"getdata": "#GETTING_DATA",
 			"uf": "#UNSUPPORTED_FUNCTION!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "адреса",
+			"col": "колона",
+			"color": "колір",
+			"contents": "вміст",
+			"filename": "iм'я файлу",
+			"format": "формат",
+			"parentheses": "дужки",
+			"prefix": "префікс",
+			"protect": "захист",
+			"row": "рядок",
+			"type": "тип",
+			"width": "ширина"
 		}
 	}
 }

@@ -501,6 +501,20 @@
 			"na": "#N/A",
 			"getdata": "#GETTING_DATA",
 			"uf": "#UNSUPPORTED_FUNCTION!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "adresă",
+			"col": "coloană",
+			"color": "culoare",
+			"contents": "conținut",
+			"filename": "numele fișierului",
+			"format": "format",
+			"parentheses": "paranteze",
+			"prefix": "prefix",
+			"protect": "protejare",
+			"row": "rând",
+			"type": "tip",
+			"width": "lățime"
 		}
 	}
 }

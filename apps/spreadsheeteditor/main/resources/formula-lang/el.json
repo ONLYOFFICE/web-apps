@@ -501,6 +501,20 @@
 			"na": "#N/A",
 			"getdata": "#GETTING_DATA",
 			"uf": "#UNSUPPORTED_FUNCTION!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "Διεύθυνση",
+			"col": "Στήλη",
+			"color": "Χρώμα",
+			"contents": "Περιεχόμενου",
+			"filename": "Όνομα αρχείου",
+			"format": "Μορφή",
+			"parentheses": "Παρένθεση",
+			"prefix": "Πρόθεμα",
+			"protect": "Προστασία",
+			"row": "Γραμμή",
+			"type": "Τύπος",
+			"width": "Πλάτος"
 		}
 	}
 }
