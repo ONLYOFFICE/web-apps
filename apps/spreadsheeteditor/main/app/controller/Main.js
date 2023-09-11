@@ -3905,7 +3905,7 @@ define([
             textKeep: 'Keep',
             errorDependentsNoFormulas: 'The Trace Dependents command found no formulas that refer to the active cell.',
             errorPrecedentsNoValidRef: 'The Trace Precedents command requires that the active cell contain a formula which includes a valid references.',
-            warnExternalChartProtected: 'You can only select data to display the chart. To change data, open the file in a spreadsheet editor.'
+            warnExternalChartProtected: 'This chart is based on data from an external file. In this window, you can only select data to display in the chart. To edit the spreadsheet, open it in the spreadsheet editor.'
         }
     })(), SSE.Controllers.Main || {}))
 });

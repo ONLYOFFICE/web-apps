@@ -1410,6 +1410,7 @@
   "SSE.Controllers.Main.warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only.<br>Contact %1 sales team for personal upgrade terms.",
   "SSE.Controllers.Main.warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
   "SSE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
+  "SSE.Controllers.Main.warnExternalChartProtected": "This chart is based on data from an external file. In this window, you can only select data to display in the chart. To edit the spreadsheet, open it in the spreadsheet editor.",
   "SSE.Controllers.PivotTable.strSheet": "Sheet",
   "SSE.Controllers.Print.strAllSheets": "All Sheets",
   "SSE.Controllers.Print.textFirstCol": "First column",
