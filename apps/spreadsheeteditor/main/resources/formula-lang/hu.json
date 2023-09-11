@@ -502,7 +502,7 @@
 			"getdata": "#GETTING_DATA",
 			"uf": "#UNSUPPORTED_FUNCTION!"
 		},
-	    "CELL_FUNCTION_INFO_TYPE": {
+		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "cím",
 			"col": "oszlop",
 			"color": "szín",
@@ -511,10 +511,10 @@
 			"format": "forma",
 			"parentheses": "zárójelek",
 			"prefix": "előtag",
-            "protect": "védett",
-            "row": "sor",
+			"protect": "védett",
+			"row": "sor",
 			"type": "típus",
 			"width": "széles"
 		}
-    }
+	}
 }

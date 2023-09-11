@@ -502,7 +502,7 @@
 			"getdata": "#GETTING_DATA",
 			"uf": "#UNSUPPORTED_FUNCTION!"
 		},
-	    "CELL_FUNCTION_INFO_TYPE": {
+		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "アドレス",
 			"col": "列",
 			"color": "色",
@@ -511,10 +511,10 @@
 			"format": "形式",
 			"parentheses": "括弧",
 			"prefix": "敬称",
-            "protect": "保護",
-            "row": "行",
+			"protect": "保護",
+			"row": "行",
 			"type": "タイプ",
 			"width": "幅"
 		}
-    }
+	}
 }

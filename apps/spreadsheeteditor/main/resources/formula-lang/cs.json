@@ -502,7 +502,7 @@
 			"getdata": "#GETTING_DATA",
 			"uf": "#UNSUPPORTED_FUNCTION!"
 		},
-	    "CELL_FUNCTION_INFO_TYPE": {
+		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "odkaz",
 			"col": "sloupec",
 			"color": "barva",
@@ -511,10 +511,10 @@
 			"format": "formát",
 			"parentheses": "závorky",
 			"prefix": "prefix",
-            "protect": "zámek",
-            "row": "řádek",
+			"protect": "zámek",
+			"row": "řádek",
 			"type": "typ",
 			"width": "šířka"
 		}
-    }
+	}
 }

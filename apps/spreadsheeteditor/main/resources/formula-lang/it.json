@@ -492,7 +492,7 @@
 			"getdata": "#ESTRAZIONE_DATI_IN_CORSO",
 			"uf": "#UNSUPPORTED_FUNCTION!"
 		},
-	    "CELL_FUNCTION_INFO_TYPE": {
+		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "indirizzo",
 			"col": "col",
 			"color": "colore",
@@ -501,10 +501,10 @@
 			"format": "formato",
 			"parentheses": "parentesi",
 			"prefix": "prefisso",
-            "protect": "proteggi",
-            "row": "riga",
+			"protect": "proteggi",
+			"row": "riga",
 			"type": "tipo",
 			"width": "larghezza"
 		}
-    }
+	}
 }
