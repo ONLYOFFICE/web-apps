@@ -2092,6 +2092,7 @@ define([
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             } else {
                 me.api.asc_addChartDrawingObject(type);
+                me.api.asc_editChartInFrameEditor();
                 me.toolbar.fireEvent('insertchart', me.toolbar);
             }
         },
