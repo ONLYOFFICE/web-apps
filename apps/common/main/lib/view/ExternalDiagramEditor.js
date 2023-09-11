@@ -53,7 +53,8 @@ define([
                 initheight: 700,
                 minwidth: 730,
                 minheight: 275,
-                footer: false
+                footer: false,
+                transparentMask: true
             }, options);
 
             this._chartData = null;
