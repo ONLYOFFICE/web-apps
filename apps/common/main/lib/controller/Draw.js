@@ -143,7 +143,7 @@ define([
                     stroke.asc_putPrstDash(Asc.c_oDashType.solid);
                     stroke.put_width(options.size.arr[options.size.idx]);
                     stroke.put_transparent(options.opacity * 2.55);
-                    this.api.asc_StartDrawInk(stroke);
+                    this.api.asc_StartDrawInk(stroke, options.idx);
                 }
             }
         },

@@ -103,9 +103,9 @@ define([
 
                 var _set = Common.enumLock;
                 var penOptions = [
-                        {hint: this.txtPen,  color: '3D8A44',  opacity: 100, size: {arr: [0.25, 0.5, 1, 2, 3.5], idx: 2}, iconCls: 'btn-pen-tool'},
-                        {hint: this.txtPen,  color: 'D43230',  opacity: 100, size: {arr: [0.25, 0.5, 1, 2, 3.5], idx: 2}, iconCls: 'btn-pen-tool'},
-                        {hint: this.txtHighlighter,  color: 'FFFC54',  opacity: 50, size: {arr: [2, 4, 6, 8, 10], idx: 2}, iconCls: 'btn-highlighter-tool',
+                        {hint: this.txtPen,  color: '3D8A44',  opacity: 100, size: {arr: [0.25, 0.5, 1, 2, 3.5], idx: 2}, iconCls: 'btn-pen-tool', idx: 0},
+                        {hint: this.txtPen,  color: 'D43230',  opacity: 100, size: {arr: [0.25, 0.5, 1, 2, 3.5], idx: 2}, iconCls: 'btn-pen-tool', idx: 1},
+                        {hint: this.txtHighlighter,  color: 'FFFC54',  opacity: 50, size: {arr: [2, 4, 6, 8, 10], idx: 2}, iconCls: 'btn-highlighter-tool', idx: 2,
                          colors: [
                              'FFFC54', '72F54A', '74F9FD', 'EB51F7', 'A900F9', 'EF8B3A', '7272FF', 'FF63A4', '1DFF92', '03DA18',
                              '249B01', 'C504D2', '0633D1', 'FFF7A0', 'FF0303', 'FFFFFF', 'D3D3D4', '969696', '606060', '000000'
