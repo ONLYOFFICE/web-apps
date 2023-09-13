@@ -203,6 +203,7 @@ define([
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
             this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());
             Common.NotificationCenter.on('leftmenu:save', _.bind(this.tryToSave, this));
+            Common.NotificationCenter.on('draw:start', _.bind(this.onDrawStart, this));
         },
 
         setApi: function(api) {
@@ -520,6 +521,7 @@ define([
                     b = strcolor[4] + strcolor[5];
                 me.api.SetMarkerFormat(me.toolbar.btnStrikeout.options.type, true, 100, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
             }
+            me.api.asc_StopInkDrawer();
             Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnStrikeout);
         },
 
@@ -562,9 +564,9 @@ define([
                     b = strcolor[4] + strcolor[5];
                 me.api.SetMarkerFormat(me.toolbar.btnUnderline.options.type, true, 100, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
             }
+            me.api.asc_StopInkDrawer();
             Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnUnderline);
         },
-
 
         onBtnHighlight: function(btn) {
             if (btn.pressed) {
@@ -605,6 +607,7 @@ define([
                     b = strcolor[4] + strcolor[5];
                 me.api.SetMarkerFormat(me.toolbar.btnHighlight.options.type, true, 100, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
             }
+            me.api.asc_StopInkDrawer();
             Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnHighlight);
         },
 
@@ -615,6 +618,16 @@ define([
                 this.toolbar.btnStrikeout.toggle(pressed, true);
             else if (type === this.toolbar.btnUnderline.options.type)
                 this.toolbar.btnUnderline.toggle(pressed, true);
+            else {
+                this.toolbar.btnHighlight.toggle(false, true);
+                this.toolbar.btnStrikeout.toggle(false, true);
+                this.toolbar.btnUnderline.toggle(false, true);
+            }
+        },
+
+        onDrawStart: function() {
+            this.api && this.api.SetMarkerFormat(undefined, false);
+            this.onApiStartHighlight();
         },
 
         onShowCommentsChange: function(checkbox, state) {
