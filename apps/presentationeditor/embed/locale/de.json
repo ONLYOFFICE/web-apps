@@ -34,6 +34,8 @@
   "PE.ApplicationController.textGuest": "Gast",
   "PE.ApplicationController.textLoadingDocument": "Präsentation wird geladen",
   "PE.ApplicationController.textOf": "von",
+  "PE.ApplicationController.titleLicenseExp": "Lizenz ist abgelaufen",
+  "PE.ApplicationController.titleLicenseNotActive": "Lizenz nicht aktiv",
   "PE.ApplicationController.txtClose": "Schließen",
   "PE.ApplicationController.unknownErrorText": "Unbekannter Fehler.",
   "PE.ApplicationController.unsupportedBrowserErrorText": "Ihr Webbrowser wird nicht unterstützt.",

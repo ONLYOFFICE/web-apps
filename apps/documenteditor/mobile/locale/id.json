@@ -299,6 +299,7 @@
     "textImageURL": "URL Gambar",
     "textInFront": "Di depan",
     "textInline": "Berderet",
+    "textInvalidName": "Nama file tidak boleh berisi karakter seperti: ",
     "textJanuary": "Januari",
     "textJuly": "Juli",
     "textJune": "Juni",
@@ -391,8 +392,7 @@
     "textType": "Ketik",
     "textWe": "Rab",
     "textWrap": "Wrap",
-    "textWrappingStyle": "Gaya Pembungkusan",
-    "textInvalidName": "The file name cannot contain any of the following characters: "
+    "textWrappingStyle": "Gaya Pembungkusan"
   },
   "Error": {
     "convertationTimeoutText": "Waktu konversi habis.",
@@ -676,6 +676,7 @@
     "textParagraphs": "Paragraf",
     "textPassword": "Kata Sandi",
     "textPasswordNotMatched": "Kata Sandi Tidak Cocok",
+    "textPasswordWarning": "Tidak bisa dipulihkan jika Anda kehilangan atau lupa kata sandi.",
     "textPdfProducer": "Pembuat PDF",
     "textPdfTagged": "PDF Bertanda",
     "textPdfVer": "Versi PDF",
@@ -708,6 +709,7 @@
     "textTop": "Atas",
     "textTrackedChanges": "Perubahan terlacak",
     "textTypeEditing": "Jenis Penyuntingan",
+    "textTypeEditingWarning": "Izinkan jenis penyuntingan ini saja pada dokumen.",
     "textUnitOfMeasurement": "Satuan Ukuran",
     "textUnprotect": "Buka Proteksi",
     "textUploaded": "Diunggah",

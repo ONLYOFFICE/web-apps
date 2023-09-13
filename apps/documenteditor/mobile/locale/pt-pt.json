@@ -299,6 +299,7 @@
     "textImageURL": "URL da imagem",
     "textInFront": "À frente do texto",
     "textInline": "Em linha com o texto",
+    "textInvalidName": "O nome do ficheiro não pode ter qualquer um dos seguintes caracteres:",
     "textJanuary": "janeiro",
     "textJuly": "julho",
     "textJune": "junho",
@@ -391,8 +392,7 @@
     "textType": "Tipo",
     "textWe": "qua",
     "textWrap": "Moldar",
-    "textWrappingStyle": "Estilo de moldagem",
-    "textInvalidName": "The file name cannot contain any of the following characters: "
+    "textWrappingStyle": "Estilo de moldagem"
   },
   "Error": {
     "convertationTimeoutText": "Excedeu o tempo limite de conversão.",
@@ -676,6 +676,7 @@
     "textParagraphs": "Parágrafos",
     "textPassword": "Palavra-passe",
     "textPasswordNotMatched": "Disparidade nas palavras-passe",
+    "textPasswordWarning": "Se perder ou esquecer a palavra-passe, não será possível recuperá-la.",
     "textPdfProducer": "Produtor do PDF",
     "textPdfTagged": "PDF marcado",
     "textPdfVer": "Versão PDF",
@@ -708,6 +709,7 @@
     "textTop": "Cima",
     "textTrackedChanges": "Alterações registadas",
     "textTypeEditing": "Tipo de edição",
+    "textTypeEditingWarning": "Permitir apenas este tipo de edição no documento.",
     "textUnitOfMeasurement": "Unidade de medida",
     "textUnprotect": "Desproteger",
     "textUploaded": "Carregado",

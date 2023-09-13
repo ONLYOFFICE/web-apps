@@ -43,6 +43,11 @@
             span.menu-item-icon {
                 display: none;
             }
+            svg.menu-item-icon {
+                fill: @icon-normal-ie;
+                fill: @icon-normal;
+                opacity: 1;
+            }
         }
     }
 }
@@ -66,7 +71,8 @@
 }
 
 .btn-category,
-.btn-options {
+.btn-options,
+.combo-dataview {
     &:active,
     &.active {
         &:not(.disabled) {

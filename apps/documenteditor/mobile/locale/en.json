@@ -299,6 +299,7 @@
     "textImageURL": "Image URL",
     "textInFront": "In Front of Text",
     "textInline": "In Line with Text",
+    "textInvalidName": "The file name cannot contain any of the following characters: ",
     "textJanuary": "January",
     "textJuly": "July",
     "textJune": "June",
@@ -391,8 +392,7 @@
     "textType": "Type",
     "textWe": "We",
     "textWrap": "Wrap",
-    "textWrappingStyle": "Wrapping Style",
-    "textInvalidName": "The file name cannot contain any of the following characters: "
+    "textWrappingStyle": "Wrapping Style"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",
@@ -444,7 +444,15 @@
     "unknownErrorText": "Unknown error.",
     "uploadImageExtMessage": "Unknown image format.",
     "uploadImageFileCountMessage": "No images uploaded.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
+    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
+    "uploadDocSizeMessage": "Maximum document size limit exceeded.",
+    "uploadDocExtMessage": "Unknown document format.",
+    "uploadDocFileCountMessage": "No documents uploaded.",
+    "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
+    "errorCompare": "The Compare documents feature is not available in the co-editing mode.",
+    "errorComboSeries": "To create a combination chart, select at least two series of data.",
+    "errorSetPassword": "Password could not be set.",
+    "errorSubmit": "Submit failed."
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",
@@ -676,6 +684,7 @@
     "textParagraphs": "Paragraphs",
     "textPassword": "Password",
     "textPasswordNotMatched": "Passwords Don’t Match",
+    "textPasswordWarning": "If the password is forgotten or lost, it cannot be recovered.",
     "textPdfProducer": "PDF Producer",
     "textPdfTagged": "Tagged PDF",
     "textPdfVer": "PDF Version",
@@ -708,6 +717,7 @@
     "textTop": "Top",
     "textTrackedChanges": "Tracked changes",
     "textTypeEditing": "Type Of Editing",
+    "textTypeEditingWarning": "Allow only this type of editing in the document.",
     "textUnitOfMeasurement": "Unit Of Measurement",
     "textUnprotect": "Unprotect",
     "textUploaded": "Uploaded",

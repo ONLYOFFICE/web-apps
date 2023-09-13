@@ -299,6 +299,7 @@
     "textImageURL": "URL d'image",
     "textInFront": "Devant le texte",
     "textInline": "Aligné sur le texte",
+    "textInvalidName": "Le nom du fichier ne peut contenir aucun des caractères suivants :",
     "textJanuary": "janvier",
     "textJuly": "juillet",
     "textJune": "juin",
@@ -391,8 +392,7 @@
     "textType": "Type",
     "textWe": "mer.",
     "textWrap": "Renvoi à la ligne",
-    "textWrappingStyle": "Style d'habillage",
-    "textInvalidName": "The file name cannot contain any of the following characters: "
+    "textWrappingStyle": "Style d'habillage"
   },
   "Error": {
     "convertationTimeoutText": "Délai de conversion expiré.",
@@ -676,6 +676,7 @@
     "textParagraphs": "Paragraphes",
     "textPassword": "Mot de passe",
     "textPasswordNotMatched": "Les mots de passe ne correspondent pas",
+    "textPasswordWarning": "Si le mot de passe est oublié ou perdu, il ne peut pas être récupéré.",
     "textPdfProducer": "Producteur PDF",
     "textPdfTagged": "PDF marqué",
     "textPdfVer": "Version PDF",
@@ -708,6 +709,7 @@
     "textTop": "En haut",
     "textTrackedChanges": "Modifications",
     "textTypeEditing": "Type d'édition",
+    "textTypeEditingWarning": "N'autoriser que ce type d'édition dans le document.",
     "textUnitOfMeasurement": "Unité de mesure",
     "textUnprotect": "Déprotéger",
     "textUploaded": "Chargé",

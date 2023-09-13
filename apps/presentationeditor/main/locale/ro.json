@@ -1,6 +1,8 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Avertisment",
   "Common.Controllers.Chat.textEnterMessage": "Lăsați mesaj aici",
+  "Common.Controllers.Desktop.hintBtnHome": "Afișare fereastră principală",
+  "Common.Controllers.Desktop.itemCreateFromTemplate": "Creare model formular",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Anonim",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Închidere",
   "Common.Controllers.ExternalDiagramEditor.warningText": "Obiectul este dezactivat deoarece este editat de către un alt utilizator.",
@@ -1986,6 +1988,7 @@
   "PE.Views.FileMenuPanels.Settings.txtHieroglyphs": "Hieroglife",
   "PE.Views.FileMenuPanels.Settings.txtInch": "Inch",
   "PE.Views.FileMenuPanels.Settings.txtLast": "Vizualizare ultima",
+  "PE.Views.FileMenuPanels.Settings.txtLastUsed": "Utilizat anterior",
   "PE.Views.FileMenuPanels.Settings.txtMac": "ca OS X",
   "PE.Views.FileMenuPanels.Settings.txtNative": "Sursă",
   "PE.Views.FileMenuPanels.Settings.txtProofing": "Verificare",

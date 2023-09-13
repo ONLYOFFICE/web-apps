@@ -477,7 +477,7 @@ define([
                     } else
                     if(me.withoutExt) {
                         name = me.cutDocName(name);
-                        me.options.wopi ? me.api.asc_wopi_renameFile(name) : Common.Gateway.requestRename(name);
+                        me.fireEvent('rename', [name]);
                         name += me.fileExtention;
                         me.withoutExt = false;
                         me.setDocTitle(name);
@@ -501,7 +501,8 @@ define([
             options: {
                 branding: {},
                 documentCaption: '',
-                canBack: false
+                canBack: false,
+                wopi: false
             },
 
             el: '#header',
@@ -824,6 +825,10 @@ define([
 
             getFavorite: function () {
                 return this.options.favorite;
+            },
+
+            setWopi: function(value) {
+                this.options.wopi = value;
             },
 
             setCanRename: function (rename) {

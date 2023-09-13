@@ -41,18 +41,18 @@
       "textThemeColors": "Gaiaren koloreak"
     },
     "VersionHistory": {
-      "notcriticalErrorTitle": "Warning",
-      "textAnonymous": "Anonymous",
-      "textBack": "Back",
-      "textCancel": "Cancel",
-      "textCurrent": "Current",
-      "textOk": "Ok",
-      "textRestore": "Restore",
-      "textVersion": "Version",
-      "textVersionHistory": "Version History",
-      "textWarningRestoreVersion": "Current file will be saved in version history.",
-      "titleWarningRestoreVersion": "Restore this version?",
-      "txtErrorLoadHistory": "Loading history failed"
+      "notcriticalErrorTitle": "Abisua",
+      "textAnonymous": "Anonimoa",
+      "textBack": "Atzera",
+      "textCancel": "Utzi",
+      "textCurrent": "Unekoa",
+      "textOk": "Ados",
+      "textRestore": "Berrezarri",
+      "textVersion": "Bertsioa",
+      "textVersionHistory": "Bertsioen historia",
+      "textWarningRestoreVersion": "Uneko fitxategia bertsioen historian gordeko da.",
+      "titleWarningRestoreVersion": "Bertsio hau berrezarri?",
+      "txtErrorLoadHistory": "Huts egin du historia kargatzeak"
     }
   },
   "ContextMenu": {
@@ -165,6 +165,7 @@
       "textNo": "Ez",
       "textNoChoices": "Ez dago aukerarik gelaxka betetzeko.<br>Zutabeko testu-balioak soilik aukera daitezke ordezkapenerako.",
       "textNoLicenseTitle": "Lizentziaren mugara iritsi zara",
+      "textNoMatches": "Ez dago bat datorrenik",
       "textOk": "Ados",
       "textPaidFeature": "Ordainpeko ezaugarria",
       "textRemember": "Gogoratu nire aukera",
@@ -178,6 +179,7 @@
       "titleLicenseNotActive": "Lizentzia ez dago aktibo",
       "titleServerVersion": "Editorea eguneratu da",
       "titleUpdateVersion": "Bertsioa aldatu da",
+      "warnLicenseAnonymous": "Sarbidea debekatuta erabiltzaile anonimoentzat.<br>Irakurtzeko soilik irekiko da dokumentu hau.",
       "warnLicenseBefore": "Lizentzia ez dago aktibo.<br>Jarri zure administratzailearekin harremanetan.",
       "warnLicenseExceeded": "Aldibereko %1 editoreren konexio-mugara iritsi zara. Dokumentu hau bistaratzeko bakarrik irekiko da. Jarri harremanetan administratzailearekin informazio gehiago lortzeko.",
       "warnLicenseExp": "Zure lizentzia iraungi da. Mesedez, eguneratu zure lizentzia eta freskatu orria.",
@@ -186,9 +188,7 @@
       "warnLicenseUsersExceeded": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan zure administratzailearekin informazio gehiagorako.",
       "warnNoLicense": "Aldibereko konexioen mugara iritsi zara %1 editorerekin. Dokumentu hau bere bistaratzerako bakarrik irekiko da. Jarri harremanetan  %1 salmenta taldearekin eguneraketa pertsonalaren baldintzak jakiteko.",
       "warnNoLicenseUsers": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan %1 salmenta taldearekin mailaz igotzeko baldintzak ezagutzeko.",
-      "warnProcessRightsChange": "Ez duzu baimenik fitxategia editatzeko.",
-      "textNoMatches": "No Matches",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
+      "warnProcessRightsChange": "Ez duzu baimenik fitxategia editatzeko."
     }
   },
   "Error": {
@@ -248,6 +248,7 @@
     "errorOperandExpected": "Sartutako funtzioaren sintaxia ez da zuzena. Mesedez, egiaztatu parentesietako bat falta den - '(' edo ')'.",
     "errorPasteMaxRange": "Kopiatu eta itsasteko eremua ez dator bat. Mesedez, hautatu tamaina bereko eremu bat edo egin klik lerro bateko lehenengo gelaxkan, kopiatutako gelaxkak itsasteko.",
     "errorPrintMaxPagesCount": "Zoritxarrez, ezin dira 1.500 orri baino gehiago inprimatu programaren egungo bertsioan.<br> Murrizketa hori hurrengo bertsioetan ezabatuko da.",
+    "errorProtectedRange": "Barruti hau ezin da editatu.",
     "errorSessionAbsolute": "Dokumentua editatzeko saioa amaitu da. Mesedez, kargatu berriro orria",
     "errorSessionIdle": "Dokumentua ez da editatu denbora luzean. Mesedez, ireki berriz.",
     "errorSessionToken": "Zerbitzarira konexioa eten egin da. Mesedez, birkargatu orria.",
@@ -272,8 +273,7 @@
     "unknownErrorText": "Errore ezezaguna.",
     "uploadImageExtMessage": "Irudi formatu ezezaguna.",
     "uploadImageFileCountMessage": "Ez da irudirik kargatu.",
-    "uploadImageSizeMessage": "Irudia handiegia da. Gehienezko tamaina 25 MB da.",
-    "errorProtectedRange": "This range is not allowed for editing."
+    "uploadImageSizeMessage": "Irudia handiegia da. Gehienezko tamaina 25 MB da."
   },
   "LongActions": {
     "advDRMPassword": "Pasahitza",
@@ -349,7 +349,7 @@
     "dlgLeaveTitleText": "Aplikazioa uzten duzu",
     "leaveButtonText": "Orritik irten",
     "stayButtonText": "Jarraitu orrian",
-    "textCloseHistory": "Close History"
+    "textCloseHistory": "Itxi historia"
   },
   "View": {
     "Add": {
@@ -392,6 +392,7 @@
       "textLinkType": "Esteka mota",
       "textOk": "Ados",
       "textOther": "Beste bat",
+      "textPasteImageUrl": "Itsatsi irudiaren URLa",
       "textPictureFromLibrary": "Irudia liburutegitik",
       "textPictureFromURL": "Irudia URL-tik",
       "textRange": "Barrutia",
@@ -411,8 +412,7 @@
       "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa",
       "txtSorting": "Antolaketa",
       "txtSortSelected": "Antolatu hautaturiko objetuak",
-      "txtYes": "Bai",
-      "textPasteImageUrl": "Paste an image URL"
+      "txtYes": "Bai"
     },
     "Edit": {
       "notcriticalErrorTitle": "Abisua",
@@ -454,10 +454,14 @@
       "textChartTitle": "Diagramaren titulua",
       "textClearFilter": "Garbitu iragazkia",
       "textColor": "Kolorea",
+      "textCreateCustomFormat": "Sortu formatu pertsonalizatua",
+      "textCreateFormat": "Sortu formatua",
       "textCross": "Gurutzatua",
       "textCrossesValue": "Gurutze-balioa",
       "textCurrency": "Moneta",
       "textCustomColor": "Kolore pertsonalizatua",
+      "textCustomFormat": "Formatu pertsonalizatua",
+      "textCustomFormatWarning": "Kontuz idatzi zenbaki-formatu pertsonalizatua. Kalkulu-orrien editorean ez ditu xlsx fitxategiari eragin diezaioketen formatu pertsonalizatuetako erroreak egiaztatzen.",
       "textDataLabels": "Datu-etiketak",
       "textDate": "Data",
       "textDefault": "Hautaturiko eremua",
@@ -475,6 +479,7 @@
       "textEffects": "Efektuak",
       "textEmptyImgUrl": "Irudiaren URLa zehaztu behar duzu.",
       "textEmptyItem": "{Hutsak}",
+      "textEnterFormat": "Sartu formatua",
       "textErrorMsg": "\nGutxienez balio bat aukeratu behar duzu",
       "textErrorTitle": "Abisua",
       "textEuro": "Euro",
@@ -564,6 +569,7 @@
       "textRotateTextDown": "Biratu testua behera",
       "textRotateTextUp": "Biratu testua gora",
       "textRouble": "Errubloa",
+      "textSave": "Gorde",
       "textScientific": "Zientifikoa",
       "textScreenTip": "Pantailako aholkua",
       "textSelectAll": "Hautatu denak",
@@ -598,13 +604,7 @@
       "textYen": "Yen",
       "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa",
       "txtSortHigh2Low": "Antolatu handienetik txikienera",
-      "txtSortLow2High": "Antolatu txikienetik handienera",
-      "textCreateCustomFormat": "Create Custom Format",
-      "textCreateFormat": "Create Format",
-      "textCustomFormat": "Custom Format",
-      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.",
-      "textEnterFormat": "Enter Format",
-      "textSave": "Save"
+      "txtSortLow2High": "Antolatu txikienetik handienera"
     },
     "Settings": {
       "advCSVOptions": "Hautatu CSV aukerak",
@@ -673,6 +673,7 @@
       "textMargins": "Marjinak",
       "textMatchCase": "Bat etorri maiuskulak eta minuskulak",
       "textMatchCell": "Bat etorri gelaxkan",
+      "textNoMatches": "Ez dago bat datorrenik",
       "textOk": "Ados",
       "textOpenFile": "Idatzi pasahitza fitxategia irekitzeko",
       "textOrientation": "Orientazioa",
@@ -707,6 +708,7 @@
       "textUploaded": "Kargatuta",
       "textValues": "Balioak",
       "textVersion": "Bertsioa",
+      "textVersionHistory": "Bertsioen historia",
       "textWorkbook": "Laneko liburua",
       "txtBe": "Bielorrusiera",
       "txtBg": "Bulgariera",
@@ -773,9 +775,7 @@
       "txtUk": "Ukrainera",
       "txtVi": "Vietnamera",
       "txtZh": "Txinera",
-      "warnDownloadAs": "Formatu honetan gordetzen baduzu, testua ez diren ezaugarri guztiak galduko dira.<br> Ziur zaude aurrera jarraitu nahi duzula?",
-      "textNoMatches": "No Matches",
-      "textVersionHistory": "Version History"
+      "warnDownloadAs": "Formatu honetan gordetzen baduzu, testua ez diren ezaugarri guztiak galduko dira.<br> Ziur zaude aurrera jarraitu nahi duzula?"
     }
   }
 }

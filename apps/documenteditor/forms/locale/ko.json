@@ -32,6 +32,7 @@
   "Common.UI.Calendar.textShortTuesday": "화",
   "Common.UI.Calendar.textShortWednesday": "수",
   "Common.UI.Calendar.textYears": "년",
+  "Common.UI.SearchBar.textFind": "찾기",
   "Common.UI.Themes.txtThemeClassicLight": "전통적인 밝은 색상",
   "Common.UI.Themes.txtThemeDark": "어두운",
   "Common.UI.Themes.txtThemeLight": "밝은",
@@ -158,6 +159,8 @@
   "DE.Views.ApplicationView.textSubmit": "전송",
   "DE.Views.ApplicationView.textUndo": "실행 취소",
   "DE.Views.ApplicationView.textZoom": "확대 / 축소",
+  "DE.Views.ApplicationView.tipRedo": "다시 실행",
+  "DE.Views.ApplicationView.tipUndo": "실행 취소",
   "DE.Views.ApplicationView.txtDarkMode": "다크 모드",
   "DE.Views.ApplicationView.txtDownload": "다운로드 ",
   "DE.Views.ApplicationView.txtDownloadDocx": "docx 형식으로 다운로드",
@@ -166,6 +169,7 @@
   "DE.Views.ApplicationView.txtFileLocation": "파일 위치 열기",
   "DE.Views.ApplicationView.txtFullScreen": "전체 화면",
   "DE.Views.ApplicationView.txtPrint": "인쇄",
+  "DE.Views.ApplicationView.txtSearch": "검색",
   "DE.Views.ApplicationView.txtShare": "공유",
   "DE.Views.ApplicationView.txtTheme": "인터페이스 테마"
 }

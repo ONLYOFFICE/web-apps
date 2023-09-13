@@ -44,18 +44,18 @@
       "textThemeColors": "Gaiaren koloreak"
     },
     "VersionHistory": {
-      "notcriticalErrorTitle": "Warning",
-      "textAnonymous": "Anonymous",
-      "textBack": "Back",
-      "textCancel": "Cancel",
-      "textCurrent": "Current",
-      "textOk": "Ok",
-      "textRestore": "Restore",
-      "textVersion": "Version",
-      "textVersionHistory": "Version History",
-      "textWarningRestoreVersion": "Current file will be saved in version history.",
-      "titleWarningRestoreVersion": "Restore this version?",
-      "txtErrorLoadHistory": "Loading history failed"
+      "notcriticalErrorTitle": "Abisua",
+      "textAnonymous": "Anonimoa",
+      "textBack": "Atzera",
+      "textCancel": "Utzi",
+      "textCurrent": "Unekoa",
+      "textOk": "Ados",
+      "textRestore": "Berrezarri",
+      "textVersion": "Bertsioa",
+      "textVersionHistory": "Bertsioen historia",
+      "textWarningRestoreVersion": "Uneko fitxategia bertsioen historian gordeko da.",
+      "titleWarningRestoreVersion": "Bertsio hau berrezarri?",
+      "txtErrorLoadHistory": "Huts egin du historia kargatzeak"
     }
   },
   "ContextMenu": {
@@ -126,6 +126,7 @@
       "textHasMacros": "Fitxategiak makro automatikoak dauzka.<br>Makroak exekutatu nahi dituzu?",
       "textNo": "Ez",
       "textNoLicenseTitle": "Lizentzien mugara iritsi zara",
+      "textNoMatches": "Ez dago bat datorrenik",
       "textOpenFile": "Idatzi pasahitza fitxategia irekitzeko",
       "textPaidFeature": "Ordainpeko ezaugarria",
       "textRemember": "Gogoratu nire aukera",
@@ -139,6 +140,7 @@
       "titleUpdateVersion": "Bertsioa aldatu da",
       "txtIncorrectPwd": "Pasahitza ez da zuzena",
       "txtProtected": "Behin pasahitza sartu eta fitxategia ireki duzula, uneko pasahitza berrezarri egingo da",
+      "warnLicenseAnonymous": "Sarbidea debekatuta erabiltzaile anonimoentzat.<br>Irakurtzeko soilik irekiko da dokumentu hau.",
       "warnLicenseBefore": "Lizentzia ez dago aktibo.<br>Jarri zure administratzailearekin harremanetan.",
       "warnLicenseExceeded": "Aldibereko %1 editoreren konexio-mugara iritsi zara. Dokumentu hau ikusteko bakarrik irekiko da. Jarri harremanetan administratzailearekin informazio gehiago lortzeko.",
       "warnLicenseExp": "Zure lizentzia iraungi da. Mesedez, eguneratu zure lizentzia eta freskatu orria.",
@@ -147,9 +149,7 @@
       "warnLicenseUsersExceeded": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan zure administratzailearekin informazio gehiagorako.",
       "warnNoLicense": "Aldibereko %1 editoreren konexio-mugara iritsi zara. Dokumentu hau ikusteko bakarrik irekiko da. Jarri harremanetan %1 salmenta taldearekin eguneraketa pertsonalaren baldintzak jakiteko.",
       "warnNoLicenseUsers": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan %1 salmenta taldearekin mailaz igotzeko baldintzak ezagutzeko.",
-      "warnProcessRightsChange": "Ez duzu baimenik fitxategia editatzeko.",
-      "textNoMatches": "No Matches",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
+      "warnProcessRightsChange": "Ez duzu baimenik fitxategia editatzeko."
     }
   },
   "Error": {
@@ -237,7 +237,7 @@
     "dlgLeaveTitleText": "Aplikazioa uzten duzu",
     "leaveButtonText": "Irten orritik",
     "stayButtonText": "Jarraitu orrian",
-    "textCloseHistory": "Close History"
+    "textCloseHistory": "Itxi historia"
   },
   "View": {
     "Add": {
@@ -266,6 +266,7 @@
       "textNextSlide": "Hurrengo diapositiba",
       "textOk": "Ados",
       "textOther": "Beste bat",
+      "textPasteImageUrl": "Itsatsi irudiaren URLa",
       "textPictureFromLibrary": "Irudia liburutegitik",
       "textPictureFromURL": "Irudia URL-tik",
       "textPreviousSlide": "Aurreko diapositiba",
@@ -279,8 +280,7 @@
       "textSlideNumber": "Diapositiba zenbakia",
       "textTable": "Taula",
       "textTableSize": "Taularen tamaina",
-      "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa",
-      "textPasteImageUrl": "Paste an image URL"
+      "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa"
     },
     "Edit": {
       "notcriticalErrorTitle": "Abisua",
@@ -375,9 +375,14 @@
       "textLinkSettings": "Esteka-ezarpenak",
       "textLinkTo": "Esteka hona",
       "textLinkType": "Esteka mota",
+      "textMorph": "Mutazioa",
+      "textMorphLetters": "Letrak",
+      "textMorphObjects": "Objektuak",
+      "textMorphWords": "Hitzak",
       "textMoveBackward": "Eraman atzera",
       "textMoveForward": "Eraman aurrera",
       "textNextSlide": "Hurrengo diapositiba",
+      "textNoMatches": "Ez dago bat datorrenik",
       "textNone": "Bat ere ez",
       "textNoStyles": "Ez dago estilorik diagrama mota honentzat.",
       "textNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa",
@@ -435,12 +440,7 @@
       "textZoom": "Zooma",
       "textZoomIn": "Handiagotu",
       "textZoomOut": "Txikiagotu",
-      "textZoomRotate": "Zoom eta biratu",
-      "textMorph": "Morph",
-      "textMorphLetters": "Letters",
-      "textMorphObjects": "Objects",
-      "textMorphWords": "Words",
-      "textNoMatches": "No Matches"
+      "textZoomRotate": "Zoom eta biratu"
     },
     "Settings": {
       "mniSlideStandard": "Estandarra (4:3)",
@@ -480,6 +480,7 @@
       "textLoading": "Kargatzen...",
       "textLocation": "Kokalekua",
       "textMacrosSettings": "Makroen ezarpenak",
+      "textNoMatches": "Ez dago bat datorrenik",
       "textOk": "Ados",
       "textOwner": "Jabea",
       "textPoint": "Puntua",
@@ -503,6 +504,7 @@
       "textUnitOfMeasurement": "Neurri-unitatea",
       "textUploaded": "Kargatuta",
       "textVersion": "Bertsioa",
+      "textVersionHistory": "Bertsioen historia",
       "txtScheme1": "Bulegoa",
       "txtScheme10": "Mediana",
       "txtScheme11": "Metroa",
@@ -524,9 +526,7 @@
       "txtScheme6": "Zabaldegia",
       "txtScheme7": "Berdintza",
       "txtScheme8": "Fluxua",
-      "txtScheme9": "Sortzailea",
-      "textNoMatches": "No Matches",
-      "textVersionHistory": "Version History"
+      "txtScheme9": "Sortzailea"
     }
   }
 }

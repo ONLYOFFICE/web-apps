@@ -299,6 +299,7 @@
     "textImageURL": "URL des Bildes",
     "textInFront": "Vor dem Text",
     "textInline": "Inline",
+    "textInvalidName": "Dieser Dateiname darf keines der folgenden Zeichen enthalten:",
     "textJanuary": "Januar",
     "textJuly": "Juli",
     "textJune": "Juni",
@@ -391,8 +392,7 @@
     "textType": "Typ",
     "textWe": "Mi",
     "textWrap": "Umbrechen",
-    "textWrappingStyle": "Textumbruch",
-    "textInvalidName": "The file name cannot contain any of the following characters: "
+    "textWrappingStyle": "Textumbruch"
   },
   "Error": {
     "convertationTimeoutText": "Zeitüberschreitung bei der Konvertierung.",
@@ -676,6 +676,7 @@
     "textParagraphs": "Absätze",
     "textPassword": "Kennwort",
     "textPasswordNotMatched": "Passwörter stimmen nicht überein",
+    "textPasswordWarning": "Wenn Sie das Kennwort verlieren oder vergessen, lässt es sich nicht mehr wiederherstellen.",
     "textPdfProducer": "PDF-Ersteller",
     "textPdfTagged": "PDF mit Tags",
     "textPdfVer": "PDF-Version",
@@ -708,6 +709,7 @@
     "textTop": "Oben",
     "textTrackedChanges": "Überarbeitungen",
     "textTypeEditing": "Art der Bearbeitung",
+    "textTypeEditingWarning": "Nur diese Art der Bearbeitung im Dokument zulassen.",
     "textUnitOfMeasurement": "Maßeinheit",
     "textUnprotect": "Entschützen",
     "textUploaded": "Hochgeladen",

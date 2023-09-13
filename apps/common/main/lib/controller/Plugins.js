@@ -548,7 +548,8 @@ define([
                         pluginVisible = false,
                         isDisplayedInViewer = false;
                     item.variations.forEach(function(itemVar){
-                        var visible = (isEdit || itemVar.isViewer && (itemVar.isDisplayedInViewer!==false)) && _.contains(itemVar.EditorsSupport, editor) && !itemVar.isSystem;
+                        var isSystem = (true === itemVar.isSystem) || ("system" === itemVar.type);
+                        var visible = (isEdit || itemVar.isViewer && (itemVar.isDisplayedInViewer!==false)) && _.contains(itemVar.EditorsSupport, editor) && !isSystem;
                         if ( visible ) pluginVisible = true;
                         if (itemVar.isViewer && (itemVar.isDisplayedInViewer!==false))
                             isDisplayedInViewer = true;
@@ -772,8 +773,9 @@ define([
                 if (this.customPluginsDlg[frameId]) return;
 
                 var lang = this.appOptions && this.appOptions.lang ? this.appOptions.lang.split(/[\-_]/)[0] : 'en';
-                var url = variation.url; // full url
-                var visible = (this.appOptions.isEdit && !this.isPDFEditor || variation.isViewer && (variation.isDisplayedInViewer!==false)) && _.contains(variation.EditorsSupport, this.editor) && !variation.isSystem;
+                var url = variation.url, // full url
+                    isSystem = (true === variation.isSystem) || ("system" === variation.type);
+                var visible = (this.appOptions.isEdit || variation.isViewer && (variation.isDisplayedInViewer!==false)) && _.contains(variation.EditorsSupport, this.editor) && !isSystem;
                 if (visible && !variation.isInsideMode) {
                     var me = this,
                         isCustomWindow = variation.isCustomWindow,

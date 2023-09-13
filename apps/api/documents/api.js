@@ -276,7 +276,7 @@
                 'onRequestReferenceData': <try to refresh external data>,
                 'onRequestOpen': <try to open external link>,
                 'onRequestSelectDocument': <try to open document>, // used for compare and combine documents. must call setRequestedDocument method. use instead of onRequestCompareFile/setRevisedFile
-                'onRequestSelectSpreadsheet': <try to open spreadsheet>, // used for mailmerge id de and external links in sse. must call setRequestedSpreadsheet method. use instead of onRequestMailMergeRecipients/setMailMergeRecipients
+                'onRequestSelectSpreadsheet': <try to open spreadsheet>, // used for mailmerge id de. must call setRequestedSpreadsheet method. use instead of onRequestMailMergeRecipients/setMailMergeRecipients
                 'onRequestReferenceSource': <try to change source for external link>, // used for external links in sse. must call setReferenceSource method
             }
         }

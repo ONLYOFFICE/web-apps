@@ -29,79 +29,82 @@ class MainPage extends Component {
             settingsVisible: false,
             collaborationVisible: false,
             addLinkSettingsVisible: false,
-            editLinkSettingsVisible: false
+            editLinkSettingsVisible: false,
+            isOpenModal: false
         };
     }
 
     handleClickToOpenOptions = (opts, showOpts) => {
         f7.popover.close('.document-menu.modal-in', false);
 
-        setTimeout(() => {
-            let opened = false;
-            const newState = {};
-            if ( opts === 'edit' ) {
-                this.state.editOptionsVisible && (opened = true);
-                newState.editOptionsVisible = true;
-            } else if ( opts === 'add' ) {
-                this.state.addOptionsVisible && (opened = true);
-                newState.addOptionsVisible = true;
-                newState.addShowOptions = showOpts;
-            } else if ( opts === 'settings' ) {
-                this.state.settingsVisible && (opened = true);
-                newState.settingsVisible = true;
-            } else if ( opts === 'coauth' ) {
-                this.state.collaborationVisible && (opened = true);
-                newState.collaborationVisible = true;
-            } else if ( opts === 'add-link') {
-                this.state.addLinkSettingsVisible && (opened = true);
-                newState.addLinkSettingsVisible = true;
-            } else if( opts === 'edit-link') {
-                this.state.editLinkSettingsVisible && (opened = true);
-                newState.editLinkSettingsVisible = true;
-            } else if (opts === 'history') {
-                newState.historyVisible = true;
-            }
+        let opened = false;
+        const newState = {};
+        
+        if ( opts === 'edit' ) {
+            this.state.editOptionsVisible && (opened = true);
+            newState.editOptionsVisible = true;
+            newState.isOpenModal = true;
+        } else if ( opts === 'add' ) {
+            this.state.addOptionsVisible && (opened = true);
+            newState.addOptionsVisible = true;
+            newState.addShowOptions = showOpts;
+            newState.isOpenModal = true;
+        } else if ( opts === 'settings' ) {
+            this.state.settingsVisible && (opened = true);
+            newState.settingsVisible = true;
+            newState.isOpenModal = true;
+        } else if ( opts === 'coauth' ) {
+            this.state.collaborationVisible && (opened = true);
+            newState.collaborationVisible = true;
+            newState.isOpenModal = true;
+        } else if ( opts === 'add-link') {
+            this.state.addLinkSettingsVisible && (opened = true);
+            newState.addLinkSettingsVisible = true;
+        } else if( opts === 'edit-link') {
+            this.state.editLinkSettingsVisible && (opened = true);
+            newState.editLinkSettingsVisible = true;
+        } else if (opts === 'history') {
+            newState.historyVisible = true;
+        }
 
-            for (let key in this.state) {
-                if (this.state[key] && !opened) {
-                    setTimeout(() => {
-                        this.handleClickToOpenOptions(opts, showOpts);
-                    }, 10);
-                    return;
-                }
+        for (let key in this.state) {
+            if (this.state[key] && !opened) {
+                setTimeout(() => {
+                    this.handleClickToOpenOptions(opts, showOpts);
+                }, 10);
+                return;
             }
+        }
 
-            if (!opened) {
-                this.setState(newState);
-                if ((opts === 'edit' || opts === 'coauth') && Device.phone) {
-                    f7.navbar.hide('.main-navbar');
-                }
+        if (!opened) {
+            this.setState(newState);
+            if ((opts === 'edit' || opts === 'coauth') && Device.phone) {
+                f7.navbar.hide('.main-navbar');
             }
-        }, 10);
+        }
     };
 
     handleOptionsViewClosed = opts => {
-        setTimeout(() => {
-            this.setState(state => {
-                if ( opts == 'edit' )
-                    return {editOptionsVisible: false};
-                else if ( opts == 'add' )
-                    return {addOptionsVisible: false, addShowOptions: null};
-                else if ( opts == 'settings' )
-                    return {settingsVisible: false};
-                else if ( opts == 'coauth' )
-                    return {collaborationVisible: false};
-                else if ( opts === 'add-link') 
-                    return {addLinkSettingsVisible: false};
-                else if( opts === 'edit-link') 
-                    return {editLinkSettingsVisible: false};
-                else if (opts === 'history')
-                    return {historyVisible: false}
-            });
-            if ((opts === 'edit' || opts === 'coauth') && Device.phone) {
-                f7.navbar.show('.main-navbar');
-            }
-        }, 1);
+        this.setState(state => {
+            if ( opts == 'edit' )
+                return {editOptionsVisible: false, isOpenModal: false};
+            else if ( opts == 'add' )
+                return {addOptionsVisible: false, addShowOptions: null, isOpenModal: false};
+            else if ( opts == 'settings' )
+                return {settingsVisible: false, isOpenModal: false};
+            else if ( opts == 'coauth' )
+                return {collaborationVisible: false, isOpenModal: false};
+            else if ( opts === 'add-link') 
+                return {addLinkSettingsVisible: false};
+            else if( opts === 'edit-link') 
+                return {editLinkSettingsVisible: false};
+            else if (opts === 'history')
+                return {historyVisible: false}
+        });
+
+        if ((opts === 'edit' || opts === 'coauth') && Device.phone) {
+            f7.navbar.show('.main-navbar');
+        }
     };
 
     render() {
@@ -153,6 +156,7 @@ class MainPage extends Component {
                             <Toolbar 
                                 openOptions={this.handleClickToOpenOptions}
                                 closeOptions={this.handleOptionsViewClosed}
+                                isOpenModal={this.state.isOpenModal}
                             />
                             <Search useSuspense={false}/>
                         </Subnavbar>
