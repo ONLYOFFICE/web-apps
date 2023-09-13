@@ -842,8 +842,7 @@ define([
         },
 
         onShowListActionsPDF: function(obj) {
-            var type = obj.type,
-                isForm = true,
+            var isForm = true,
                 cmpEl = this.documentHolder.cmpEl,
                 menu = this.listControlMenu,
                 menuContainer = menu ? cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
