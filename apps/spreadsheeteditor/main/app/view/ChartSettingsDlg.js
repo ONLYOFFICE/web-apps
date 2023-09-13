@@ -1479,6 +1479,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
         _setDefaults: function(props) {
             var me = this;
+            Common.UI.FocusManager.add(this, this.btnsCategory);
             if (props ){
                 this.chartSettings = props;
                 if (this.isChart) {
