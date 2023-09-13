@@ -1001,9 +1001,10 @@ section .field-styles {
         font-weight: bold;
         padding: 10px 20px;
     }
-    .menu-item {
+    > li > .menu-item {
         display: flex;
         align-items: center;
+        padding: 10px 20px;
         .menu-item-icon {
             float: none;
             margin: 0;
@@ -1021,31 +1022,12 @@ section .field-styles {
                 display: flex;
                 align-items: center;
             }
-            .plugin-arrow {
-                display: flex;
-                justify-content: start;
-                align-items: center;
+            .plugin-settings {
                 width: 20px;
                 height: 20px;
                 .margin-left-8();
-                .arrow-icon {
-                    display: block;
-                    content: " ";
-                    width: 0;
-                    height: 0;
-                    border-color: transparent;
-                    border-style: solid;
-                    border-width: 3px 0 3px 3px;
-                    border-left-color: @icon-normal-ie;
-                    border-left-color: @icon-normal;
-                    .margin-left(9px);
-
-                    .rtl & {
-                        border-color: transparent;
-                        border-width: 3px 3px 3px 0;
-                        border-right-color: @icon-normal-ie;
-                        border-right-color: @icon-normal;
-                    }
+                .btn-toolbar.dropdown-toggle {
+                    min-width: 20px;
                 }
             }
         }

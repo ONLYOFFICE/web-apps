@@ -264,31 +264,59 @@ define([
             return group;
         },
 
-        addBackgroundPluginToMenu: function (model) {
-            var modes = model.get('variations'),
-                icons = modes[model.get('currentVariation')].get('icons'),
-                parsedIcons = this.viewPlugins.parseIcons(icons);
-            var menuItem = new Common.UI.MenuItem({
-                value: model.get('guid'),
-                caption: model.get('name'),
-                iconImg: model.get('baseUrl') + parsedIcons['normal'],
-                template: _.template([
-                    '<a id="<%= id %>" class="menu-item">',
-                        '<img class="menu-item-icon" src="<%= options.iconImg %>">',
-                        '<span class="plugin-caption"><%= caption %></span>',
-                        '<span class="plugin-tools">',
-                            '<span class="plugin-toggle"></span>',
-                            '<span class="plugin-arrow"><span class="arrow-icon"></span></span>',
-                        '</span>',
-                    '</a>'
-                ].join(''))
+        onShowBeforeBackgroundPlugins: function (menu) {
+            var me = this;
+            this.backgroundPlugins.forEach(function (model) {
+                var modes = model.get('variations'),
+                    icons = modes[model.get('currentVariation')].get('icons'),
+                    parsedIcons = me.viewPlugins.parseIcons(icons);
+                var menuItem = new Common.UI.MenuItem({
+                    value: model.get('guid'),
+                    caption: model.get('name'),
+                    iconImg: model.get('baseUrl') + parsedIcons['normal'],
+                    template: _.template([
+                        '<div id="<%= id %>" class="menu-item" <% if(!_.isUndefined(options.stopPropagation)) { %> data-stopPropagation="true" <% } %> >',
+                            '<img class="menu-item-icon" src="<%= options.iconImg %>">',
+                            '<div class="plugin-caption"><%= caption %></div>',
+                            '<div class="plugin-tools">',
+                                '<div class="plugin-toggle"></div>',
+                                '<div class="plugin-settings"></div>',
+                            '</span>',
+                        '</a>'
+                    ].join('')),
+                    stopPropagation: true
+                });
+                menu.addItem(menuItem);
+                var switcher = new Common.UI.Switcher({
+                    el: menuItem.$el.find('.plugin-toggle')[0],
+                    value: true
+                });
+                var menuItems = [];
+                _.each(modes, function(variation, index) {
+                    if (index > 0 && variation.get('visible'))
+                        menuItems.push({
+                            caption: variation.get('description'),
+                            value: parseInt(variation.get('index'))
+                        });
+                });
+                var btn = new Common.UI.Button({
+                    parentEl: menuItem.$el.find('.plugin-settings'),
+                    cls: 'btn-toolbar',
+                    iconCls: 'menu__icon btn-more',
+                    menu: new Common.UI.Menu({
+                        menuAlign: 'tl-bl',
+                        items: menuItems
+                    }),
+                    onlyIcon: true,
+                    stopPropagation: true
+                });
+                btn.on('click', function () {
+                    var btnGroup = btn.$el.find('.btn-group'),
+                        isOpen = btnGroup.hasClass('open');
+                    btnGroup.toggleClass('open', !isOpen);
+                    $(btn.menu.el).trigger($.Event(!isOpen ? 'show.bs.dropdown' : 'hide.bs.dropdown'));
+                });
             });
-            this.viewPlugins.backgroundBtn.menu.addItem(menuItem);
-            var switcher = new Common.UI.Switcher({
-                el: menuItem.$el.find('.plugin-toggle')[0],
-                value: true
-            });
-            this.backgroundPlugins.push(menuItem);
         },
 
         onResetPlugins: function (collection) {
@@ -307,7 +335,7 @@ define([
                     var new_rank = model.get('groupRank'),
                         is_visual = model.get('isVisual');
                     if (!is_visual) {
-                        me.addBackgroundPluginToMenu(model);
+                        me.backgroundPlugins.push(model);
                         return;
                     }
                     //if (new_rank === 1 || new_rank === 2) return; // for test
@@ -343,6 +371,11 @@ define([
                 _group.appendTo(me.$toolbarPanelPlugins);
                 if (me.backgroundPlugins.length > 0) {
                     me.viewPlugins.backgroundBtn.show();
+                    var onShowBefore = function (menu) {
+                        me.onShowBeforeBackgroundPlugins(menu);
+                        menu.off('show:before', onShowBefore);
+                    };
+                    me.viewPlugins.backgroundBtn.menu.on('show:before', onShowBefore);
                 }
 
                 me.toolbar && me.toolbar.isTabActive('plugins') && me.toolbar.processPanelVisible(null, true, true);

@@ -349,6 +349,7 @@ define([
             me.template     = me.options.template || me.template;
             me.style        = me.options.style;
             me.rendered     = false;
+            me.stopPropagation = me.options.stopPropagation;
 
             // if ( /(?<!-)svg-icon(?!-)/.test(me.options.iconCls) )
             //     me.options.scaling = false;
@@ -553,9 +554,10 @@ define([
 
                         $('button:first', el).toggleClass('active', select);
                     } else
-                        $('[data-toggle^=dropdown]', el).toggleClass('active', select);
+                        $('[data-toggle^=dropdown]:first', el).toggleClass('active', select);
 
                     el.toggleClass('active', select);
+                    me.stopPropagation && e.stopPropagation();
                 };
 
                 var menuHandler = function(e) {
@@ -583,6 +585,7 @@ define([
                         el.toggleClass('active', state);
                         $('button', el).toggleClass('active', state);
                     }
+                    me.stopPropagation && e.stopPropagation();
                 };
 
                 var splitElement;

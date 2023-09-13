@@ -312,7 +312,10 @@ define([
                     cls: 'background-plugins',
                     style: 'min-width: 230px;',
                     items: [
-                        {template: _.template('<span class="menu-header">' + this.textTheListOfBackgroundPlugins + '</span>')}
+                        {
+                            template: _.template('<div class="menu-header">' + this.textTheListOfBackgroundPlugins + '</div>'),
+                            stopPropagation: true
+                        }
                     ]
                 }),
                 hint: this.textBackgroundPlugins,
