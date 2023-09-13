@@ -21,9 +21,13 @@ if ( localStorage && localStorage.getItem('mobile-mode-direction') === 'rtl' ) {
 
 let obj = !localStorage ? {id: 'theme-light', type: 'light'} : JSON.parse(localStorage.getItem("mobile-ui-theme"));
 if ( !obj ) {
-    obj = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ?
+    let theme_type = window.native?.editorConfig?.theme?.type;
+    if ( !theme_type && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches )
+        theme_type = "dark";
+
+    obj = theme_type == 'dark' ?
         {id: 'theme-dark', type: 'dark'} : {id: 'theme-light', type: 'light'};
-    localStorage && localStorage.setItem("mobile-ui-theme", JSON.stringify(obj));
+    // localStorage && localStorage.setItem("mobile-ui-theme", JSON.stringify(obj));
 }
 
 document.body.classList.add(`theme-type-${obj.type}`, `${window.asceditor}-editor`);
