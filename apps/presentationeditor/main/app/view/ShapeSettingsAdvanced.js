@@ -594,7 +594,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
         },
 
         getFocusedComponents: function() {
-            return [
+            return this.btnsCategory.concat([
                 this.inputShapeName,// 0 tab
                 this.spnWidth, this.btnRatio, this.spnHeight, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY, // 1 tab
                 this.spnAngle, this.chFlipHor, this.chFlipVert, // 2 tab
@@ -602,7 +602,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 this.radioNofit, this.radioShrink, this.radioFit, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, // 4 tab
                 this.spnColumns, this.spnSpacing, // 5 tab
                 this.inputAltTitle, this.textareaAltDescription  // 6 tab
-            ];
+            ]);
         },
 
         onCategoryClick: function(btn, index) {

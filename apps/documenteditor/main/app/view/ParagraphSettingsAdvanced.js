@@ -713,11 +713,11 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
         },
 
         getFocusedComponents: function() {
-            return [
+            return this.btnsCategory.concat([
                 this.cmbTextAlignment, this.cmbOutlinelevel, this.numIndentsLeft, this.numIndentsRight, this.cmbSpecial, this.numSpecialBy,
                 this.numSpacingBefore, this.numSpacingAfter, this.cmbLineRule, this.numLineHeight, this.chAddInterval, // 0 tab
                 this.chBreakBefore, this.chKeepLines, this.chOrphan, this.chKeepNext, this.chLineNumbers, // 1 tab
-                this.cmbBorderSize, this.btnBorderColor].concat(this._btnsBorderPosition).concat([this.btnBackColor,  // 2 tab
+                this.cmbBorderSize, this.btnBorderColor]).concat(this._btnsBorderPosition).concat([this.btnBackColor,  // 2 tab
                 this.chStrike, this.chSubscript, this.chDoubleStrike, this.chSmallCaps, this.chSuperscript, this.chAllCaps, this.numSpacing, this.numPosition, // 3 tab
                 this.numDefaultTab, this.numTab, this.cmbAlign, this.cmbLeader, this.tabList, this.btnAddTab, this.btnRemoveTab, this.btnRemoveAll,// 4 tab
                 this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight // 5 tab

@@ -245,11 +245,11 @@ define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.tem
         },
 
         getFocusedComponents: function() {
-            return [
+            return this.btnsCategory.concat([
                 this.inputChartName, // 0 tab
                 this.spnWidth, this.btnRatio, this.spnHeight, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY, // 1 tab
                 this.inputAltTitle, this.textareaAltDescription  // 2 tab
-            ];
+            ]);
         },
 
         onCategoryClick: function(btn, index) {

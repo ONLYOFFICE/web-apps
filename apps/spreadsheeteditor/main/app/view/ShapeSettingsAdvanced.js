@@ -585,7 +585,7 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
         },
 
         getFocusedComponents: function() {
-            return [
+            return this.btnsCategory.concat([
                 this.spnWidth, this.btnRatio, this.spnHeight, // 0 tab
                 this.spnAngle, this.chFlipHor, this.chFlipVert, // 1 tab
                 this.cmbCapType, this.cmbJoinType, // 2 tab
@@ -593,7 +593,7 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
                 this.spnColumns, this.spnSpacing, // 4 tab
                 this.radioTwoCell, this.radioOneCell, this.radioAbsolute, // 5 tab
                 this.inputAltTitle, this.textareaAltDescription  // 6 tab
-            ];
+            ]);
         },
 
         onCategoryClick: function(btn, index) {

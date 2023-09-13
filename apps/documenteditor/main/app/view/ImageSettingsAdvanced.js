@@ -1161,18 +1161,19 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         },
 
         getFocusedComponents: function() {
-            return [
+            return this.btnsCategory.concat([
                 this.spnWidth, this.btnRatio, this.spnHeight, this.btnOriginalSize, // 0 tab
                 this.radioHSize, this.spnShapeWidth , this.spnShapeWidthPc, this.radioHSizePc, this.cmbWidthPc,
                 this.radioVSize, this.spnShapeHeight, this.spnShapeHeightPc, this.radioVSizePc, this.cmbHeightPc, this.chRatio, // 1 tab
                 this.spnAngle, this.chFlipHor, this.chFlipVert, // 2 tab
+                this.btnWrapInline, this.btnWrapSquare, this.btnWrapTight, this.btnWrapThrough, this.btnWrapTopBottom, this.btnWrapInFront, this.btnWrapBehind,
                 this.spnTop, this.spnLeft, this.spnBottom, this.spnRight, // 3 tab
                 this.radioHAlign, this.radioHPosition, this.radioHPositionPc, this.cmbHAlign , this.cmbHRelative, this.spnX, this.cmbHPosition, this.spnXPc, this.cmbHPositionPc,
                 this.radioVAlign, this.radioVPosition, this.radioVPositionPc, this.cmbVAlign , this.cmbVRelative, this.spnY, this.cmbVPosition, this.spnYPc, this.cmbVPositionPc, this.chMove, this.chOverlap, // 4 tab
                 this.cmbCapType, this.cmbJoinType, // 5 tab
                 this.chAutofit, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, // 6 tab
                 this.inputAltTitle, this.textareaAltDescription  // 7 tab
-            ];
+            ]);
         },
 
         onCategoryClick: function(btn, index) {
@@ -1194,7 +1195,12 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                         me.spnAngle.focus();
                         break;
                     case 3:
-                        me.spnTop.focus();
+                        if (!me.spnTop.isDisabled())
+                            me.spnTop.focus();
+                        else if (!me.spnLeft.isDisabled())
+                            me.spnLeft.focus();
+                        else if (!me.btnWrapInline.isDisabled())
+                            me.btnWrapInline.focus();
                         break;
                     case 4:
                         if (!me.cmbHAlign.isDisabled())
