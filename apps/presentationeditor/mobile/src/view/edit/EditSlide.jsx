@@ -4,7 +4,6 @@ import {f7, Page, Navbar, List, ListItem, Row, BlockTitle, Link, Toggle, Icon, V
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
-import { element } from 'prop-types';
 
 const EditSlide = props => {
     const { t } = useTranslation();
@@ -395,11 +394,11 @@ const PageFillColor = props => {
     const storePalette = props.storePalette;
     const storeSlideSettings = props.storeSlideSettings;
     const customColors = storePalette.customColors;
-    const fillColor = storeSlideSettings.getFillColor(slideObject);
+    const fillColor = storeSlideSettings.fillColor;
 
     const changeColor = (color, effectId, effectValue) => {
         if (color !== 'empty') {
-            if (effectId !== undefined ) {
+            if (effectId !== undefined) {
                 const newColor = {color: color, effectId: effectId, effectValue: effectValue};
                 props.onFillColor(newColor);
                 storeSlideSettings.changeFillColor(newColor);
