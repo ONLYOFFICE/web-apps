@@ -810,6 +810,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                     me.iconsControls[me.iconsControls.length-1].cmbOperator.focus();
                 },50);
             });
+            Common.UI.FocusManager.add(this, this.cmbIconsPresets);
             this.cmbIconsPresets.setValue(3);
             this.iconsProps = {iconsSet: 3};
 
@@ -828,6 +829,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 me.iconsProps.isReverse = !me.iconsProps.isReverse;
                 me.reverseIconsControls();
             });
+            Common.UI.FocusManager.add(this, this.btnReverse);
 
             this.iconsControls = [];
             for (var i=0; i<3; i++) {
