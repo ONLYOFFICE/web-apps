@@ -879,10 +879,11 @@ define([
                 });
             }
 
-            var count = obj._options.length;
+            var options = obj.getOptions(),
+                count = options.length;
             for (var i=0; i<count; i++) {
                 menu.addItem(new Common.UI.MenuItem({
-                    caption     : Array.isArray(obj._options[i]) ? obj._options[i][0] : obj._options[i],
+                    caption     : Array.isArray(options[i]) ? options[i][0] : options[i],
                     value       : i,
                     template    : _.template([
                         '<a id="<%= id %>" style="<%= style %>" tabindex="-1" type="menuitem">',
@@ -898,8 +899,8 @@ define([
                 }));
             }
 
-
-            let oGlobalCoords = AscPDF.GetGlobalCoordsByPageCoords(obj._pagePos.x + obj._pagePos.w, obj._pagePos.y + obj._pagePos.h, obj._page, true);
+            var pagepos = obj.getPagePos(),
+                oGlobalCoords = AscPDF.GetGlobalCoordsByPageCoords(pagepos.x + pagepos.w, pagepos.y + pagepos.h, obj.getPage(), true);
 
             menuContainer.css({left: oGlobalCoords.X, top : oGlobalCoords.Y});
             menuContainer.attr('data-value', 'prevent-canvas-click');
