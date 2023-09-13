@@ -411,6 +411,7 @@ define([
                     Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
 
                 this.appOptions.wopi = this.editorConfig.wopi;
+                appHeader.setWopi(this.appOptions.wopi);
 
                 Common.Controllers.Desktop.init(this.appOptions);
                 Common.UI.HintManager.setMode(this.appOptions);

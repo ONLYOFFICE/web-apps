@@ -319,7 +319,7 @@ define([
                         event.preventDefault();
                         event.stopPropagation();
                         return false;
-                    } else if (key === 48 || key === 96) {// 0
+                    } else if (key === Common.UI.Keys.ZERO || key === Common.UI.Keys.NUM_ZERO) {// 0
                         me.api.zoom(100);
                         event.preventDefault();
                         event.stopPropagation();

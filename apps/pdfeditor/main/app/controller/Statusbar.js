@@ -100,7 +100,7 @@ define([
 
         onAppReady: function (config) {
             var me = this;
-
+            me._isDocReady = true;
             (new Promise(function(resolve) {
                 resolve();
             })).then(function () {
@@ -166,12 +166,12 @@ define([
         *   api events
         * */
 
-         _onZoomChange: function(percent, type) {
+        _onZoomChange: function(percent, type) {
             this.statusbar.btnZoomToPage.toggle(type == 2, true);
             this.statusbar.btnZoomToWidth.toggle(type == 1, true);
-
             $('.statusbar #label-zoom').text(Common.Utils.String.format(this.zoomText, percent));
-             Common.localStorage.setItem('pdfe-last-zoom', percent);
+            if(!this._isDocReady) return;
+            Common.localStorage.setItem('pdfe-last-zoom', percent);
         },
 
         setStatusCaption: function(text, force, delay, callback) {

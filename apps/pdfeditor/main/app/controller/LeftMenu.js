@@ -62,6 +62,11 @@ define([
                 'Common.Views.Chat': {
                     'hide': _.bind(this.onHideChat, this)
                 },
+                'Common.Views.Header': {
+                    'rename': _.bind(function (value) {
+                        this.mode && this.mode.wopi && this.api ? this.api.asc_wopi_renameFile(value) : Common.Gateway.requestRename(value);
+                    }, this)
+                },
                 'Common.Views.About': {
                     'show':    _.bind(this.aboutShowHide, this, false),
                     'hide':    _.bind(this.aboutShowHide, this, true)
