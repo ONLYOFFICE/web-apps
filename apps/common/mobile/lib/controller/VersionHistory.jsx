@@ -30,7 +30,7 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
     const currentArrColors = useRef(null);
 
     useEffect(() => {
-        const api = Common.EditorApi.get();
+        api.asc_enableKeyEvents(false);
 
         if(arrVersionsHistory.length < 1) {
             Common.Gateway.requestHistory();
@@ -61,6 +61,7 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
         }
 
         return () => {
+            api.asc_enableKeyEvents(true);
             api.asc_unregisterCallback('asc_onDownloadUrl', onDownloadUrl);
             api.asc_unregisterCallback('asc_onExpiredToken', onExpiredToken);
         }
