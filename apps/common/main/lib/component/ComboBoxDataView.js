@@ -156,7 +156,7 @@ define([
                     this.dataPicker = new Common.UI.DataView({
                         el: el.find('#' + id + '-data-menu'),
                         parentMenu: menu,
-                        outerMenu: {menu: menu, index: options.additionalItems ? options.additionalItems.length : 0},
+                        outerMenu: {menu: menu, index: options.additionalItems ? options.additionalItems.length : 0, focusOnShow: !options.additionalItems},
                         store: options.store,
                         itemTemplate: options.itemTemplate
                     });
@@ -187,7 +187,7 @@ define([
                 if (this.updateFormControl)
                     this.updateFormControl.call(this, record);
                 if ( this.disabled || this.isSuspendEvents) return;
-                this.trigger('item:click', picker, view, record);
+                this.trigger('item:click', this, picker, view, record);
             },
 
             selectRecord: function(record) {

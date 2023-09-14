@@ -848,7 +848,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             }
         },
 
-        onSelectBeginStyle: function(picker, view, record){
+        onSelectBeginStyle: function(combo, picker, view, record){
             if (this._changedProps) {
                 if (this._changedProps.get_stroke()===null)
                     this._changedProps.put_stroke(new Asc.asc_CStroke());
@@ -860,7 +860,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             this._updateSizeArr(this.btnBeginSize, this.mnuBeginSizePicker, record, this._beginSizeIdx);
         },
 
-        onSelectBeginSize: function(picker, view, record){
+        onSelectBeginSize: function(combo, picker, view, record){
             if (this._changedProps) {
                 if (this._changedProps.get_stroke()===null)
                     this._changedProps.put_stroke(new Asc.asc_CStroke());
@@ -870,7 +870,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             this._beginSizeIdx = record.get('value');
         },
 
-        onSelectEndStyle: function(picker, view, record){
+        onSelectEndStyle: function(combo, picker, view, record){
             if (this._changedProps) {
                 if (this._changedProps.get_stroke()===null)
                     this._changedProps.put_stroke(new Asc.asc_CStroke());
@@ -882,7 +882,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             this._updateSizeArr(this.btnEndSize, this.mnuEndSizePicker, record, this._endSizeIdx);
         },
 
-        onSelectEndSize: function(picker, view, record){
+        onSelectEndSize: function(combo, picker, view, record){
             if (this._changedProps) {
                 if (this._changedProps.get_stroke()===null)
                     this._changedProps.put_stroke(new Asc.asc_CStroke());

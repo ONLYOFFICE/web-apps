@@ -805,7 +805,7 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
             }
         },
 
-        onSelectBeginStyle: function(picker, view, record){
+        onSelectBeginStyle: function(combo, picker, view, record){
             if (this._changedProps) {
                 if (this._changedProps.asc_getShapeProperties()===null || this._changedProps.asc_getShapeProperties()===undefined)
                     this._changedProps.asc_putShapeProperties(new Asc.asc_CShapeProperty());
@@ -820,7 +820,7 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
             this._updateSizeArr(this.btnBeginSize, this.mnuBeginSizePicker, record, this._beginSizeIdx);
         },
 
-        onSelectBeginSize: function(picker, view, record){
+        onSelectBeginSize: function(combo, picker, view, record){
             if (this._changedProps) {
                 if (this._changedProps.asc_getShapeProperties()===null || this._changedProps.asc_getShapeProperties()===undefined)
                     this._changedProps.asc_putShapeProperties(new Asc.asc_CShapeProperty());
@@ -833,7 +833,7 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
             this._beginSizeIdx = record.get('value');
         },
 
-        onSelectEndStyle: function(picker, view, record){
+        onSelectEndStyle: function(combo, picker, view, record){
             if (this._changedProps) {
                 if (this._changedProps.asc_getShapeProperties()===null || this._changedProps.asc_getShapeProperties()===undefined)
                     this._changedProps.asc_putShapeProperties(new Asc.asc_CShapeProperty());
@@ -848,7 +848,7 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
             this._updateSizeArr(this.btnEndSize, this.mnuEndSizePicker, record, this._endSizeIdx);
         },
 
-        onSelectEndSize: function(picker, view, record){
+        onSelectEndSize: function(combo, picker, view, record){
             if (this._changedProps) {
                 if (this._changedProps.asc_getShapeProperties()===null || this._changedProps.asc_getShapeProperties()===undefined)
                     this._changedProps.asc_putShapeProperties(new Asc.asc_CShapeProperty());

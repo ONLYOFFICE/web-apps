@@ -2045,7 +2045,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             }
         },
 
-        onSelectBeginStyle: function(picker, view, record, e){
+        onSelectBeginStyle: function(combo, picker, view, record, e){
             if (this._changedShapeProps) {
                 if (this._changedShapeProps.get_stroke()===null)
                     this._changedShapeProps.put_stroke(new Asc.asc_CStroke());
@@ -2057,7 +2057,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this._updateSizeArr(this.btnBeginSize, this.mnuBeginSizePicker, record, this._beginSizeIdx);
         },
 
-        onSelectBeginSize: function(picker, view, record, e){
+        onSelectBeginSize: function(combo, picker, view, record, e){
             if (this._changedShapeProps) {
                 if (this._changedShapeProps.get_stroke()===null)
                     this._changedShapeProps.put_stroke(new Asc.asc_CStroke());
@@ -2067,7 +2067,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this._beginSizeIdx = record.get('value');
         },
 
-        onSelectEndStyle: function(picker, view, record, e){
+        onSelectEndStyle: function(combo, picker, view, record, e){
             if (this._changedShapeProps) {
                 if (this._changedShapeProps.get_stroke()===null)
                     this._changedShapeProps.put_stroke(new Asc.asc_CStroke());
@@ -2079,7 +2079,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this._updateSizeArr(this.btnEndSize, this.mnuEndSizePicker, record, this._endSizeIdx);
         },
 
-        onSelectEndSize: function(picker, view, record, e){
+        onSelectEndSize: function(combo, picker, view, record, e){
             if (this._changedShapeProps) {
                 if (this._changedShapeProps.get_stroke()===null)
                     this._changedShapeProps.put_stroke(new Asc.asc_CStroke());
