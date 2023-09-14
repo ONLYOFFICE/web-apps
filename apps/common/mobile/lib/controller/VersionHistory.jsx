@@ -12,6 +12,12 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
     const historyStore = props.storeVersionHistory;
     const isVersionHistoryMode = historyStore.isVersionHistoryMode;
     const arrVersionsHistory = historyStore.arrVersions;
+    const fileTypes = {
+        de: 'docx',
+        pe: 'pptx',
+        sse: 'xslx'
+    };
+    const fileType = fileTypes[window.editorType];
     const { t } = useTranslation();
 
     let currentChangeId = -1;
@@ -149,7 +155,7 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
                         canRestore: appOptions.canHistoryRestore && (ver < versions.length - 1),
                         isExpanded: true,
                         serverVersion: version.serverVersion,
-                        fileType: 'docx',
+                        fileType,
                         isRevision: true
                     });
 
@@ -211,7 +217,7 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
                                     isRevision: false,
                                     isVisible: true,
                                     serverVersion: version.serverVersion,
-                                    fileType: 'docx'
+                                    fileType
                                 });
 
                                 arrColors.push(user.colorval);
@@ -221,30 +227,28 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
                         arrVersions[arrVersions.length - 1].docId = version.key + '1';
                     }
                 }
-            
-                if (arrColors.length > 0) {
-                    arrColors.reverse();
+            }
 
-                    for (let i = 0; i < arrColors.length; i++) {
-                        arrVersions[arrVersions.length - i - 1].arrColors = arrColors;
-                    }
+            if (arrColors.length > 0) {
+                arrColors.reverse();
 
-                    arrColors = [];
+                for (let i = 0; i < arrColors.length; i++) {
+                    arrVersions[arrVersions.length - i - 1].arrColors = arrColors;
                 }
 
-                historyStore.setVersions(arrVersions);
+                arrColors = [];
+            }
 
-                if (currentVersion === null && historyStore.arrVersions.length > 0) {
-                    arrVersions[0].selected = true;
-                    currentVersion = JSON.parse(JSON.stringify(arrVersions[0]));
-                  
-                    historyStore.setVersions([...arrVersions]);
-                    historyStore.changeVersion(currentVersion);
-                } else {
-                    if(!historyStore.currentVersion) {
-                        onSelectRevision(currentVersion);
-                    }
-                }
+            historyStore.setVersions(arrVersions);
+
+            if (currentVersion === null && historyStore.arrVersions.length > 0) {
+                arrVersions[0].selected = true;
+                currentVersion = JSON.parse(JSON.stringify(arrVersions[0]));
+                
+                historyStore.setVersions([...arrVersions]);
+                historyStore.changeVersion(currentVersion);
+            } else if(!historyStore.currentVersion) {
+                onSelectRevision(currentVersion);
             }
         }
     }
@@ -305,7 +309,7 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
                 }
 
                 const hist = new Asc.asc_CVersionHistory();
-               
+                
                 hist.asc_setUrl(url);
                 hist.asc_setUrlChanges(diff);
                 hist.asc_setDocId(!diff ? docId : docIdPrev);
