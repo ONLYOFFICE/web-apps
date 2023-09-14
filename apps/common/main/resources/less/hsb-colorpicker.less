@@ -79,8 +79,20 @@
         margin-left: -5px;
         margin-left: calc(-4px - @scaled-one-px-value);
         position: absolute;
-        background-position: 0px 0px;
-
+        display: inline-block;
+        > div{
+            display: inline-block;
+            width:8px;
+            height: 12px;
+        }
+        .left-arrow{
+            background-position: 0px 0px;
+            float: left;
+        }
+        .right-arrow{
+            background-position: -12px 0px;
+            float: right;
+        }
         .rtl & {
             margin-left: 0;
             margin-right: -4px;
