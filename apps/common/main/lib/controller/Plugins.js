@@ -264,14 +264,30 @@ define([
             return group;
         },
 
+        turnOffBackgroundPlugin: function (guid) {
+            var switcher;
+            this.backgroundPluginsSwitchers.forEach(function (item) {
+                if (item.options.pluginGuid === guid) {
+                    switcher = item;
+                }
+            });
+            if (switcher) {
+                switcher.setValue(false);
+                return true;
+            }
+            return false;
+        },
+
         onShowBeforeBackgroundPlugins: function (menu) {
             var me = this;
+            this.backgroundPluginsSwitchers = [];
             this.backgroundPlugins.forEach(function (model) {
                 var modes = model.get('variations'),
                     icons = modes[model.get('currentVariation')].get('icons'),
-                    parsedIcons = me.viewPlugins.parseIcons(icons);
+                    parsedIcons = me.viewPlugins.parseIcons(icons),
+                    guid = model.get('guid');
                 var menuItem = new Common.UI.MenuItem({
-                    value: model.get('guid'),
+                    value: guid,
                     caption: model.get('name'),
                     iconImg: model.get('baseUrl') + parsedIcons['normal'],
                     template: _.template([
@@ -289,8 +305,14 @@ define([
                 menu.addItem(menuItem);
                 var switcher = new Common.UI.Switcher({
                     el: menuItem.$el.find('.plugin-toggle')[0],
-                    value: true
+                    value: !!model.isSystem,
+                    disabled: !!model.isSystem,
+                    pluginGuid: guid
                 });
+                switcher.on('change', function (element, value) {
+                    me.viewPlugins.fireEvent('plugin:select', [switcher.options.pluginGuid, 0]);
+                });
+                me.backgroundPluginsSwitchers.push(switcher);
                 var menuItems = [];
                 _.each(modes, function(variation, index) {
                     if (index > 0 && variation.get('visible'))
@@ -299,23 +321,30 @@ define([
                             value: parseInt(variation.get('index'))
                         });
                 });
-                var btn = new Common.UI.Button({
-                    parentEl: menuItem.$el.find('.plugin-settings'),
-                    cls: 'btn-toolbar',
-                    iconCls: 'menu__icon btn-more',
-                    menu: new Common.UI.Menu({
-                        menuAlign: 'tl-bl',
-                        items: menuItems
-                    }),
-                    onlyIcon: true,
-                    stopPropagation: true
-                });
-                btn.on('click', function () {
-                    var btnGroup = btn.$el.find('.btn-group'),
-                        isOpen = btnGroup.hasClass('open');
-                    btnGroup.toggleClass('open', !isOpen);
-                    $(btn.menu.el).trigger($.Event(!isOpen ? 'show.bs.dropdown' : 'hide.bs.dropdown'));
-                });
+                if (menuItems.length > 0) {
+                    var btn = new Common.UI.Button({
+                        parentEl: menuItem.$el.find('.plugin-settings'),
+                        cls: 'btn-toolbar',
+                        iconCls: 'menu__icon btn-more',
+                        menu: new Common.UI.Menu({
+                            menuAlign: 'tl-bl',
+                            items: menuItems,
+                            pluginGuid: guid
+                        }),
+                        onlyIcon: true,
+                        stopPropagation: true
+                    });
+                    btn.menu.on('item:click', function (menu, item, e) {
+                        Common.UI.Menu.Manager.hideAll();
+                        me.viewPlugins.fireEvent('plugin:select', [menu.options.pluginGuid, item.value]);
+                    });
+                    btn.on('click', function () {
+                        var btnGroup = btn.$el.find('.btn-group'),
+                            isOpen = btnGroup.hasClass('open');
+                        btnGroup.toggleClass('open', !isOpen);
+                        $(btn.menu.el).trigger($.Event(!isOpen ? 'show.bs.dropdown' : 'hide.bs.dropdown'));
+                    });
+                }
             });
         },
 
@@ -552,12 +581,12 @@ define([
         },
 
         onPluginClose: function(plugin) {            
-            var isIframePlugin = false;
+            var isIframePlugin = false,
+                guid = plugin.get_Guid();
             if (this.pluginDlg)
                 this.pluginDlg.close();
             else {
-                var guid = plugin.get_Guid(),
-                    panel = this.viewPlugins.pluginPanels[guid];
+                var panel = this.viewPlugins.pluginPanels[guid];
                 if (panel && panel.iframePlugin) {
                     isIframePlugin = true;
                     panel.closeInsideMode(guid);
@@ -565,7 +594,9 @@ define([
                     delete this.viewPlugins.pluginPanels[name];
                 }
             }
-            !isIframePlugin && this.viewPlugins.closedPluginMode(plugin.get_Guid());
+            if (!isIframePlugin) {
+                !this.turnOffBackgroundPlugin(guid) && this.viewPlugins.closedPluginMode(guid);
+            }
             this.runAutoStartPlugins();
         },
 
@@ -661,9 +692,10 @@ define([
                     var variationsArr = [],
                         pluginVisible = false,
                         isDisplayedInViewer = false,
-                        isVisual = false;
+                        isVisual = false,
+                        isSystem;
                     item.variations.forEach(function(itemVar, itemInd){
-                        var isSystem = (true === itemVar.isSystem) || ("system" === itemVar.type);
+                        isSystem = (true === itemVar.isSystem) || ("system" === itemVar.type);
                         var visible = (isEdit || itemVar.isViewer && (itemVar.isDisplayedInViewer!==false)) && _.contains(itemVar.EditorsSupport, editor) && !isSystem;
                         if ( visible ) pluginVisible = true;
                         if (itemVar.isViewer && (itemVar.isDisplayedInViewer!==false))
@@ -722,7 +754,8 @@ define([
                             minVersion: item.minVersion,
                             original: item,
                             isDisplayedInViewer: isDisplayedInViewer,
-                            isVisual: isVisual
+                            isVisual: isVisual,
+                            isSystem: isSystem
                         }));
                     }
                 });

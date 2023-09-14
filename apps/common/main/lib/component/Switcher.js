@@ -69,6 +69,7 @@ define([
             me.width = me.options.width;
             me.thumbWidth = me.options.thumbWidth;
             me.delta = (me.width - me.thumbWidth - 2)/2;
+            me.disabled = me.options.disabled;
             
             if (me.options.el)
                 me.render();
@@ -113,7 +114,7 @@ define([
                 me.value = (me.value) ? (pos > -me.delta) : (pos > me.delta);
                 me.cmpEl.toggleClass('on', me.value);
                 me.thumb.css({left: '', right: ''});
-                me.trigger('change', me, me.value);
+                //me.trigger('change', me, me.value);
 
                 me._dragstart = undefined;
             };
@@ -155,6 +156,10 @@ define([
                 var el = me.cmpEl;
                 el.on('mousedown', '.thumb', onMouseDown);
                 el.on('click', onSwitcherClick);
+            }
+
+            if (me.disabled) {
+                me.setDisabled(!(me.disabled=false));
             }
 
             me.rendered = true;
