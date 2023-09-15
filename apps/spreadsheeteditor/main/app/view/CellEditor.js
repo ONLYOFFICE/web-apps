@@ -115,11 +115,11 @@ define([
         },
 
         cellEditorTextChange: function (){
-            if(!this.$cellcontent) return;
+            if (!this.$cellcontent) return;
 
             var cellcontent = this.$cellcontent[0];
 
-            if(cellcontent.clientHeight != cellcontent.scrollHeight) {
+            if (cellcontent.clientHeight != cellcontent.scrollHeight) {
                 if(this._isScrollShow) return;
                 var scrollBarWidth = cellcontent.offsetWidth - cellcontent.clientWidth;
                 this.$cellgroupname.css({
@@ -127,11 +127,10 @@ define([
                     'left': Common.UI.isRTL() ? scrollBarWidth + "px" : ''
                 });
                 this._isScrollShow = true;
-            }
-            else {
                 if(!this._isScrollShow) return;
                 this.$cellgroupname.css({'right': '', 'left': ''});
                 this._isScrollShow = false;
+            } else {
             }
         },
 
