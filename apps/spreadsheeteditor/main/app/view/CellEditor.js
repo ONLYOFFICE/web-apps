@@ -120,17 +120,19 @@ define([
             var cellcontent = this.$cellcontent[0];
 
             if (cellcontent.clientHeight != cellcontent.scrollHeight) {
-                if(this._isScrollShow) return;
-                var scrollBarWidth = cellcontent.offsetWidth - cellcontent.clientWidth;
-                this.$cellgroupname.css({
-                    'right': Common.UI.isRTL() ?  '' : scrollBarWidth + "px",
-                    'left': Common.UI.isRTL() ? scrollBarWidth + "px" : ''
-                });
-                this._isScrollShow = true;
-                if(!this._isScrollShow) return;
-                this.$cellgroupname.css({'right': '', 'left': ''});
-                this._isScrollShow = false;
+                if ( !this._isScrollShow ) {
+                    this._isScrollShow = true;
+                    var scrollBarWidth = cellcontent.offsetWidth - cellcontent.clientWidth;
+                    this.$cellgroupname.css({
+                        'right': Common.UI.isRTL() ? '' : scrollBarWidth + "px",
+                        'left': Common.UI.isRTL() ? scrollBarWidth + "px" : ''
+                    });
+                }
             } else {
+                if ( this._isScrollShow ) {
+                    this._isScrollShow = false;
+                    this.$cellgroupname.css({'right': '', 'left': ''});
+                }
             }
         },
 
