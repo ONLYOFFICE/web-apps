@@ -307,6 +307,7 @@ define([
         createBackgroundPluginsButton: function () {
             var btn = new Common.UI.Button({
                 cls: 'btn-toolbar x-huge icon-top',
+                iconCls: 'toolbar__icon btn-background-plugins',
                 caption: this.textBackgroundPlugins,
                 menu: new Common.UI.Menu({
                     cls: 'background-plugins',
