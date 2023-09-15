@@ -19,6 +19,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
     const docTitle = docInfo.dataDoc.title;
     const docExt = docInfo.dataDoc ? docInfo.dataDoc.fileType : '';
     const isNotForm = docExt && docExt !== 'oform';
+    const isHistoryDisabled = docExt && (docExt === 'xps' || docExt === 'djvu' || docExt === 'pdf');
     const navbar =
         <Navbar>
             <div className="title" onClick={settingsContext.changeTitleHandler}>{docTitle}</div>
@@ -76,13 +77,15 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                         <Icon slot="media" icon="icon-protection" />
                     </ListItem>
                 }
-                <ListItem title={t('Settings.textVersionHistory')} link={!Device.phone ? "/version-history" : ""} onClick={() => {
-                    if(Device.phone) {
-                        onOpenOptions('history');
-                    }
-                }}>
-                    <Icon slot="media" icon="icon-version-history"></Icon>
-                </ListItem>
+                {!isHistoryDisabled &&
+                    <ListItem title={t('Settings.textVersionHistory')} link={!Device.phone ? "/version-history" : ""} onClick={() => {
+                        if(Device.phone) {
+                            onOpenOptions('history');
+                        }
+                    }}>
+                        <Icon slot="media" icon="icon-version-history"></Icon>
+                    </ListItem>
+                }
                 <ListItem title={t('Settings.textNavigation')} link={!Device.phone ? '/navigation' : '#'} onClick={() => {
                     if(Device.phone) {
                         onOpenOptions('navigation');

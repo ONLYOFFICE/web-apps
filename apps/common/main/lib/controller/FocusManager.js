@@ -62,7 +62,7 @@ Common.UI.FocusManager = new(function() {
                     item = field;
                 else {
                     item.cmp = field;
-                    if (field instanceof Common.UI.ListView)
+                    if (Common.UI.ListView && field instanceof Common.UI.ListView)
                         item.selector = '.listview';
                     else if (field instanceof Common.UI.CheckBox)
                         item.selector = '.checkbox-indeterminate';

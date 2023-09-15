@@ -40,7 +40,7 @@ define([
 ], function () {
     'use strict';
 
-    var webapp = window.DE || window.PE || window.SSE;
+    var webapp = window.DE || window.PE || window.SSE || window.PDFE;
     var features = Object.assign({
                         version: '{{PRODUCT_VERSION}}',
                         eventloading: true,
@@ -496,7 +496,7 @@ define([
                 const filemenu = webapp.getController('LeftMenu').leftMenu.getMenu('file');
                 if ( filemenu.miNew.visible ) {
                     const miNewFromTemplate = new Common.UI.MenuItem({
-                        el: $(`<li id="fm-btn-create-fromtpl" class="fm-btn"></li>`),
+                        el: $('<li id="fm-btn-create-fromtpl" class="fm-btn"></li>'),
                         action: 'create:fromtemplate',
                         caption: _tr('itemCreateFromTemplate', 'Create from template'),
                         canFocused: false,

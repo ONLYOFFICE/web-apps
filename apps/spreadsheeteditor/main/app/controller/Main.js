@@ -153,7 +153,8 @@ define([
                         'Sheet': this.txtSheet,
                         'None': this.txtNone,
                         'Slicer': this.txtSlicer,
-                        'Info': this.txtInfo
+                        'Info': this.txtInfo,
+                        'Picture': this.txtPicture
                     };
 
                 styleNames.forEach(function(item){
@@ -3905,7 +3906,8 @@ define([
             textKeep: 'Keep',
             errorDependentsNoFormulas: 'The Trace Dependents command found no formulas that refer to the active cell.',
             errorPrecedentsNoValidRef: 'The Trace Precedents command requires that the active cell contain a formula which includes a valid references.',
-            warnExternalChartProtected: 'This chart is based on data from an external file. In this window, you can only select data to display in the chart. To edit the spreadsheet, open it in the spreadsheet editor.'
+            warnExternalChartProtected: 'This chart is based on data from an external file. In this window, you can only select data to display in the chart. To edit the spreadsheet, open it in the spreadsheet editor.',
+            txtPicture: 'Picture'
         }
     })(), SSE.Controllers.Main || {}))
 });

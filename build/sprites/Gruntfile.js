@@ -272,6 +272,95 @@ module.exports = function (grunt, rootpathprefix) {
                 scale: '1.75x',
                 extpath: 'big'
             }),
+
+            'pdf-1x': configTemplate({
+                editor:'pdfeditor',
+                spritename: sprite_name,
+                scale: '1x'
+            }),
+            'pdf-big-1x': configTemplate({
+                editor:'pdfeditor',
+                spritename: sprite_name_big,
+                scale: '1x',
+                extpath: 'big'
+            }),
+            'pdf-huge-1x': configTemplate({
+                editor:'pdfeditor',
+                spritename: sprite_name_huge,
+                scale: '1x',
+                extpath: 'huge'
+            }),
+            'pdf-2x': configTemplate({
+                editor:'pdfeditor',
+                spritename: sprite_name,
+                scale: '2x'
+            }),
+            'pdf-big-2x': configTemplate({
+                editor:'pdfeditor',
+                spritename: sprite_name_big,
+                scale: '2x',
+                extpath: 'big'
+            }),
+            'pdf-huge-2x': configTemplate({
+                editor:'pdfeditor',
+                spritename: sprite_name_huge,
+                scale: '2x',
+                extpath: 'huge'
+            }),
+
+            'pdf1.25x': configTemplate({
+                editor:'pdfeditor',
+                spritename: sprite_name,
+                scale: '1.25x'
+            }),
+            'pdf-big-1.25x': configTemplate({
+                editor:'pdfeditor',
+                spritename: sprite_name_big,
+                scale: '1.25x',
+                extpath: 'big'
+            }),
+            'pdf-huge-1.25x': configTemplate({
+                editor:'pdfeditor',
+                spritename: sprite_name_huge,
+                scale: '1.25x',
+                extpath: 'huge'
+            }),
+
+            'pdf1.5x': configTemplate({
+                editor:'pdfeditor',
+                spritename: sprite_name,
+                scale: '1.5x'
+            }),
+            'pdf-big-1.5x': configTemplate({
+                editor:'pdfeditor',
+                spritename: sprite_name_big,
+                scale: '1.5x',
+                extpath: 'big'
+            }),
+            'pdf-huge-1.5x': configTemplate({
+                editor:'pdfeditor',
+                spritename: sprite_name_huge,
+                scale: '1.5x',
+                extpath: 'huge'
+            }),
+
+            'pdf1.75x': configTemplate({
+                editor:'pdfeditor',
+                spritename: sprite_name,
+                scale: '1.75x'
+            }),
+            'pdf-big-1.75x': configTemplate({
+                editor:'pdfeditor',
+                spritename: sprite_name_big,
+                scale: '1.75x',
+                extpath: 'big'
+            }),
+            'pdf-huge-1.75x': configTemplate({
+                editor:'pdfeditor',
+                spritename: sprite_name_huge,
+                scale: '1.75x',
+                extpath: 'huge'
+            }),
         },
         svg_sprite: {
             options: {
@@ -429,6 +518,48 @@ module.exports = function (grunt, rootpathprefix) {
                     },
                 }
             },
+            pdfeiconssmall: {
+                src: [`${_prefix}apps/common/main/resources/img/toolbar/2.5x/*.svg`,
+                    `${_prefix}apps/pdfeditor/main/resources/img/toolbar/2.5x/*.svg`],
+                dest: `${_prefix}apps/pdfeditor/main/resources/img/`,
+                options: {
+                    mode: {
+                        symbol: {
+                            inline: true,
+                            dest: './',
+                            sprite: `iconssmall@2.5x.svg`,
+                        },
+                    },
+                }
+            },
+            pdfeiconsbig: {
+                src: [`${_prefix}apps/common/main/resources/img/toolbar/2.5x/big/*.svg`,
+                    `${_prefix}apps/pdfeditor/main/resources/img/toolbar/2.5x/big/*.svg`],
+                dest: `${_prefix}apps/pdfeditor/main/resources/img/`,
+                options: {
+                    mode: {
+                        symbol: {
+                            inline: true,
+                            dest: './',
+                            sprite: `iconsbig@2.5x.svg`,
+                        },
+                    },
+                }
+            },
+            pdfeiconshuge: {
+                src: [`${_prefix}apps/common/main/resources/img/toolbar/2.5x/huge/*.svg`,
+                    `${_prefix}apps/pdfeditor/main/resources/img/toolbar/2.5x/huge/*.svg`],
+                dest: `${_prefix}apps/pdfeditor/main/resources/img/`,
+                options: {
+                    mode: {
+                        symbol: {
+                            inline: true,
+                            dest: './',
+                            sprite: `iconshuge@2.5x.svg`,
+                        },
+                    },
+                }
+            },
         },
     });
 
@@ -448,7 +579,11 @@ module.exports = function (grunt, rootpathprefix) {
                                         'sprite:cell-1.5x', 'sprite:cell-big-1.5x',
                                         'sprite:cell-1.25x', 'sprite:cell-big-1.25x',
                                         'sprite:cell-1.75x', 'sprite:cell-big-1.75x']);
+    grunt.registerTask('pdf-icons', ['sprite:pdf-1x', 'sprite:pdf-big-1x', 'sprite:pdf-huge-1x', 'sprite:pdf-2x', 'sprite:pdf-big-2x', 'sprite:pdf-huge-2x',
+                                        'sprite:pdf1.25x', 'sprite:pdf-big-1.25x', 'sprite:pdf-huge-1.25x',
+                                        'sprite:pdf1.5x', 'sprite:pdf-big-1.5x', 'sprite:pdf-huge-1.5x',
+                                        'sprite:pdf1.75x', 'sprite:pdf-big-1.75x', 'sprite:pdf-huge-1.75x']);
 
-    grunt.registerTask('all-icons-sprite', ['word-icons','slide-icons','cell-icons','svg_sprite']);
+    grunt.registerTask('all-icons-sprite', ['word-icons','slide-icons','cell-icons','pdf-icons','svg_sprite']);
     grunt.registerTask('default', ['all-icons-sprite']);
 };
