@@ -153,7 +153,8 @@ define([
                         'Sheet': this.txtSheet,
                         'None': this.txtNone,
                         'Slicer': this.txtSlicer,
-                        'Info': this.txtInfo
+                        'Info': this.txtInfo,
+                        'Picture': this.txtPicture
                     };
 
                 styleNames.forEach(function(item){
@@ -3889,7 +3890,8 @@ define([
             textReplace: 'Replace',
             textKeep: 'Keep',
             errorDependentsNoFormulas: 'The Trace Dependents command found no formulas that refer to the active cell.',
-            errorPrecedentsNoValidRef: 'The Trace Precedents command requires that the active cell contain a formula which includes a valid references.'
+            errorPrecedentsNoValidRef: 'The Trace Precedents command requires that the active cell contain a formula which includes a valid references.',
+            txtPicture: 'Picture'
         }
     })(), SSE.Controllers.Main || {}))
 });
