@@ -639,8 +639,7 @@ define([
                         }
                     }
 
-                    if ( this.leftMenu.btnAbout.pressed || this.leftMenu.btnPlugins.pressed ||
-                        $(e.target).parents('#left-menu').length ) {
+                    if ( this.leftMenu.btnAbout.pressed || $(e.target).parents('#left-menu').length ) {
                         if (!Common.UI.HintManager.isHintVisible()) {
                             this.leftMenu.close();
                             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');

@@ -1029,6 +1029,13 @@ section .field-styles {
                 .btn-toolbar.dropdown-toggle {
                     min-width: 20px;
                 }
+                .btn-group {
+                    &:active, &.active {
+                        &:not(.disabled) .icon {
+                            background-position-x: @button-small-active-icon-offset-x !important;
+                        }
+                    }
+                }
             }
         }
     }

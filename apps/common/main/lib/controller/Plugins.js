@@ -272,6 +272,7 @@ define([
                 }
             });
             if (switcher) {
+                switcher.updateHint(this.viewPlugins.textStart);
                 switcher.setValue(false);
                 return true;
             }
@@ -307,9 +308,11 @@ define([
                     el: menuItem.$el.find('.plugin-toggle')[0],
                     value: !!model.isSystem,
                     disabled: !!model.isSystem,
-                    pluginGuid: guid
+                    pluginGuid: guid,
+                    hint: me.viewPlugins.textStart
                 });
                 switcher.on('change', function (element, value) {
+                    switcher.updateHint(value ? me.viewPlugins.textStop : me.viewPlugins.textStart);
                     me.viewPlugins.fireEvent('plugin:select', [switcher.options.pluginGuid, 0]);
                 });
                 me.backgroundPluginsSwitchers.push(switcher);
@@ -332,7 +335,8 @@ define([
                             pluginGuid: guid
                         }),
                         onlyIcon: true,
-                        stopPropagation: true
+                        stopPropagation: true,
+                        hint: me.viewPlugins.textSettings
                     });
                     btn.menu.on('item:click', function (menu, item, e) {
                         Common.UI.Menu.Manager.hideAll();

@@ -46,6 +46,7 @@ define([
     Common.UI.Switcher = Common.UI.BaseView.extend({
 
         options : {
+            hint: false,
             width: 25,
             thumbWidth: 13,
             value: false
@@ -66,6 +67,7 @@ define([
 
             var me = this;
 
+            me.hint = me.options.hint;
             me.width = me.options.width;
             me.thumbWidth = me.options.thumbWidth;
             me.delta = (me.width - me.thumbWidth - 2)/2;
@@ -89,6 +91,14 @@ define([
                     parentEl.html(this.cmpEl);
                 } else {
                     this.$el.html(this.cmpEl);
+                }
+
+                if (this.options.hint) {
+                    this.cmpEl.attr('data-toggle', 'tooltip');
+                    this.cmpEl.tooltip({
+                        title: (typeof this.options.hint == 'string') ? this.options.hint : this.options.hint[0],
+                        placement: this.options.hintAnchor||'cursor'
+                    });
                 }
             } else {
                 this.cmpEl = this.$el;
@@ -114,7 +124,9 @@ define([
                 me.value = (me.value) ? (pos > -me.delta) : (pos > me.delta);
                 me.cmpEl.toggleClass('on', me.value);
                 me.thumb.css({left: '', right: ''});
-                //me.trigger('change', me, me.value);
+                if (me.lastValue !== me.value) {
+                    me.trigger('change', me, me.value);
+                }
 
                 me._dragstart = undefined;
             };
@@ -139,6 +151,7 @@ define([
                 if ( me.disabled ) return;
                 me._dragstart = e.pageX*Common.Utils.zoom();
                 me._isMouseMove = false;
+                me.lastValue = me.value;
                 
                 $(document).on('mouseup.switcher',   onMouseUp);
                 $(document).on('mousemove.switcher', onMouseMove);
@@ -146,6 +159,16 @@ define([
 
             var onSwitcherClick = function (e) {
                 if ( me.disabled || me._isMouseMove) { me._isMouseMove = false; return;}
+
+                if (me.options.hint) {
+                    var tip = me.cmpEl.data('bs.tooltip');
+                    if (tip) {
+                        if (tip.dontShow===undefined)
+                            tip.dontShow = true;
+
+                        tip.hide();
+                    }
+                }
 
                 me.value = !me.value;
                 me.cmpEl.toggleClass('on', me.value);
@@ -182,13 +205,44 @@ define([
         },
 
         setDisabled: function(disabled) {
-            if (disabled !== this.disabled)
+            if (disabled !== this.disabled) {
+                if ((disabled || !Common.Utils.isGecko) && this.options.hint) {
+                    var tip = this.cmpEl.data('bs.tooltip');
+                    if (tip) {
+                        disabled && tip.hide();
+                        !Common.Utils.isGecko && (tip.enabled = !disabled);
+                    }
+                }
                 this.cmpEl.toggleClass('disabled', disabled);
+            }
             this.disabled = disabled;
         },
 
         isDisabled: function() {
             return this.disabled;
+        },
+
+        updateHint: function(hint, isHtml) {
+            this.options.hint = hint;
+
+            if (!this.rendered) return;
+
+            if (this.cmpEl.data('bs.tooltip'))
+                this.cmpEl.removeData('bs.tooltip');
+
+            this.cmpEl.tooltip({
+                html: !!isHtml,
+                title: (typeof hint == 'string') ? hint : hint[0],
+                placement: this.options.hintAnchor||'cursor'
+            });
+
+            if (this.disabled || !Common.Utils.isGecko) {
+                var tip = this.cmpEl.data('bs.tooltip');
+                if (tip) {
+                    this.disabled && tip.hide();
+                    !Common.Utils.isGecko && (tip.enabled = !this.disabled);
+                }
+            }
         }
     });
 });

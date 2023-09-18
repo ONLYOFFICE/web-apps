@@ -586,7 +586,8 @@ define([
         groupCaption: 'Plugins',
         tipMore: 'More',
         textBackgroundPlugins: 'Background Plugins',
-        textTheListOfBackgroundPlugins: 'The list of background plugins'
+        textTheListOfBackgroundPlugins: 'The list of background plugins',
+        textSettings: 'Settings'
 
     }, Common.Views.Plugins || {}));
 });
