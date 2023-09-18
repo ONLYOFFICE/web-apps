@@ -298,9 +298,17 @@ define([
             if (!model.get('visible'))
                 return null;
 
-            var btn = model.get('button');
-            if (btn && btn.cmpEl) {
+            var btn = model.get('button'),
+                menuItem = model.get('backgroundPlugin');
+            if (menuItem && menuItem.cmpEl) {
+                menuItem.cmpEl.find("img").attr("src", model.get('baseUrl') + model.get('parsedIcons')['normal']);
+            } else if (btn && btn.cmpEl) {
                 btn.cmpEl.find(".inner-box-icon img").attr("src", model.get('baseUrl') + model.get('parsedIcons')[btn.isActive() ? 'active' : 'normal']);
+                var guid = model.get('guid'),
+                    leftBtn = this.pluginBtns[guid];
+                if (leftBtn && leftBtn.cmpEl) {
+                    leftBtn.cmpEl.find("img").attr("src", model.get('baseUrl') + model.get('parsedIcons')[leftBtn.isActive() ? 'active' : 'normal']);
+                }
             }
         },
 

@@ -286,11 +286,13 @@ define([
                 var modes = model.get('variations'),
                     icons = modes[model.get('currentVariation')].get('icons'),
                     parsedIcons = me.viewPlugins.parseIcons(icons),
+                    icon_url = model.get('baseUrl') + parsedIcons['normal'],
                     guid = model.get('guid');
+                model.set('parsedIcons', parsedIcons);
                 var menuItem = new Common.UI.MenuItem({
                     value: guid,
                     caption: model.get('name'),
-                    iconImg: model.get('baseUrl') + parsedIcons['normal'],
+                    iconImg: icon_url,
                     template: _.template([
                         '<div id="<%= id %>" class="menu-item" <% if(!_.isUndefined(options.stopPropagation)) { %> data-stopPropagation="true" <% } %> >',
                             '<img class="menu-item-icon" src="<%= options.iconImg %>">',
@@ -304,6 +306,7 @@ define([
                     stopPropagation: true
                 });
                 menu.addItem(menuItem);
+                model.set('backgroundPlugin', menuItem);
                 var switcher = new Common.UI.Switcher({
                     el: menuItem.$el.find('.plugin-toggle')[0],
                     value: !!model.isSystem,
