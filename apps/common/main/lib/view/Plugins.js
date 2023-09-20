@@ -313,6 +313,7 @@ define([
         },
 
         createBackgroundPluginsButton: function () {
+            var _set = Common.enumLock;
             var btn = new Common.UI.Button({
                 cls: 'btn-toolbar x-huge icon-top',
                 iconCls: 'toolbar__icon btn-background-plugins',
@@ -325,10 +326,11 @@ define([
                             template: _.template('<div class="menu-header">' + this.textTheListOfBackgroundPlugins + '</div>'),
                             stopPropagation: true
                         }
-                    ]
+                    ],
+                    restoreHeight: true
                 }),
                 hint: this.textBackgroundPlugins,
-                //lock: model.get('isDisplayedInViewer') ? [_set.viewMode, _set.previewReviewMode, _set.viewFormMode, _set.selRangeEdit, _set.editFormula] : [_set.viewMode, _set.previewReviewMode, _set.viewFormMode, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.selRangeEdit, _set.editFormula ],
+                lock: [_set.viewMode, _set.previewReviewMode, _set.viewFormMode, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.selRangeEdit, _set.editFormula],
                 dataHint: '1',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'small'

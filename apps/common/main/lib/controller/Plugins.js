@@ -265,23 +265,34 @@ define([
         },
 
         turnOffBackgroundPlugin: function (guid) {
-            var switcher;
-            this.backgroundPluginsSwitchers.forEach(function (item) {
-                if (item.options.pluginGuid === guid) {
-                    switcher = item;
+            if (this.backgroundPluginsSwitchers) {
+                var switcher;
+                this.backgroundPluginsSwitchers.forEach(function (item) {
+                    if (item.options.pluginGuid === guid) {
+                        switcher = item;
+                    }
+                });
+                if (switcher) {
+                    switcher.updateHint(this.viewPlugins.textStart);
+                    switcher.setValue(false);
+                    return true;
                 }
-            });
-            if (switcher) {
-                switcher.updateHint(this.viewPlugins.textStart);
-                switcher.setValue(false);
-                return true;
+                return false;
             }
-            return false;
         },
 
         onShowBeforeBackgroundPlugins: function (menu) {
             var me = this;
             me.clickInsideMenu = false;
+            var hideActiveMenu = function () {
+                var activeMenu = menu.cmpEl.find('.dropdown-toggle.active');
+                for (var i=0; i<activeMenu.length; i++) {
+                    var m = activeMenu[i],
+                        b = $(m).parent();
+                    b.toggleClass('open', false);
+                    $(m).trigger($.Event('hide.bs.dropdown'));
+                }
+            };
             this.backgroundPluginsSwitchers = [];
             this.backgroundPlugins.forEach(function (model) {
                 var modes = model.get('variations'),
@@ -345,17 +356,18 @@ define([
                     btn.menu.on('item:click', function (menu, item, e) {
                         Common.UI.Menu.Manager.hideAll();
                         me.viewPlugins.fireEvent('plugin:select', [menu.options.pluginGuid, item.value]);
-                    }).on('keydown:before', function (menu, e) {
+                        me.clickInsideMenu = false;
+                    });
+                    btn.menu.on('keydown:before', function (menu, e) {
                         if (e.keyCode == Common.UI.Keys.ESC) {
-                            var btn = menu.cmpEl.parent();
-                            if (btn.hasClass('open')) {
-                                btn.toggleClass('open', false);
-                                $(menu.el).trigger($.Event('hide.bs.dropdown'));
-                                _.delay(function(){
-                                    btn.closest('.btn-group.open').find('[data-toggle=dropdown]:first').focus();
-                                }, 10);
-                            }
+                            hideActiveMenu();
+                            _.delay(function(){
+                                btn.cmpEl.closest('.btn-group.open').find('[data-toggle=dropdown]:first').focus();
+                            }, 10);
                         }
+                    });
+                    btn.menu.cmpEl.find('li').on('mousedown', function () {
+                        me.clickInsideMenu = true;
                     });
                     btn.cmpEl.on('mousedown', function () {
                         me.clickInsideMenu = true;
@@ -363,6 +375,7 @@ define([
                     btn.on('click', function () {
                         var btnGroup = btn.$el.find('.btn-group'),
                             isOpen = btnGroup.hasClass('open');
+                        if (!isOpen) hideActiveMenu();
                         btnGroup.toggleClass('open', !isOpen);
                         $(btn.menu.el).trigger($.Event(!isOpen ? 'show.bs.dropdown' : 'hide.bs.dropdown'));
                         me.clickInsideMenu = false;
@@ -371,13 +384,7 @@ define([
             });
             menu.cmpEl.find('li').on('mousedown', function () {
                 if (me.clickInsideMenu) return;
-                var activeMenu = menu.cmpEl.find('.dropdown-toggle.active');
-                for (var i=0; i<activeMenu.length; i++) {
-                    var m = activeMenu[i],
-                        btn = $(m).parent();
-                    btn.toggleClass('open', false);
-                    $(m).trigger($.Event('hide.bs.dropdown'));
-                }
+                hideActiveMenu();
             });
         },
 
