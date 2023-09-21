@@ -82,7 +82,19 @@
         margin-left: calc(-4px - @scaled-one-px-value);
         position: absolute;
         background-position: -168px -200px;
-
+        .pixel-ratio__2_5 & {
+            .inline-svg-code( @code ) {
+                @-svg-code: escape(~'<?xml version="1.0" ?>@{code}');
+                @-inline-svg-code: ~'data:image/svg+xml,@{-svg-code}';
+                @-inline-svg-url: ~"url('@{-inline-svg-code}')";
+            }
+            background-position: center;
+            background-size: auto;
+            .inline-svg-code(~'<svg xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" stroke-width="0.5" width="20" height="12" fill="black" stroke="white" >
+            <path d="M 0 1 L 1 0 L 7 6 L 1 12 L 0 11 z M 20 1 L 19 0 L 13 6 L 19 12 L 20 11 z"/></svg>');
+            background-image: @-inline-svg-url;
+            .margin-left(-4px);
+        }
         .rtl & {
             margin-left: 0;
             margin-right: -4px;
