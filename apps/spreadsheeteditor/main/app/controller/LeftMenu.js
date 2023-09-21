@@ -605,7 +605,6 @@ define([
             this.leftMenu.btnComments.setDisabled(true);
             this.leftMenu.btnChat.setDisabled(true);
             /** coauthoring end **/
-            this.leftMenu.btnPlugins.setDisabled(true);
             this.leftMenu.btnSpellcheck.setDisabled(true);
             this.leftMenu.fireEvent('plugins:disable', [true]);
 
