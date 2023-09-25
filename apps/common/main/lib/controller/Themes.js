@@ -422,6 +422,9 @@ define([
                 if ( api.asc_setContentDarkMode )
                     api.asc_setContentDarkMode(is_content_dark);
 
+                if ( !document.body.classList.contains('theme-type-' + obj.type) )
+                    document.body.classList.add('theme-type-' + obj.type);
+
                 if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) )
                     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', on_system_theme_dark.bind(this));
                 Common.NotificationCenter.on('document:ready', on_document_ready.bind(this));
