@@ -109,6 +109,7 @@ define([
                 if (me.api.can_AddQuotedComment()!==false) {
                     me.addComment();
                 }
+                return false;
             };
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
         },
