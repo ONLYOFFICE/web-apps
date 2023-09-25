@@ -2574,6 +2574,7 @@ define([
             if (!Common.Utils.InternalSettings.get("de-hidden-rulers")) {
                 showPoint = [showPoint[0] - 19, showPoint[1] - 26];
             }
+            (showPoint[0]<0) && (showPoint[0] = 0);
             if (showPoint[1]<0) {
                 showPoint[1] = bounds[3] + 10;
                 !Common.Utils.InternalSettings.get("de-hidden-rulers") && (showPoint[1] -= 26);
