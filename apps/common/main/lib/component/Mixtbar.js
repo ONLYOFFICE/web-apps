@@ -56,8 +56,8 @@ define([
 
         function setScrollButtonsDisabeled(){
             var scrollLeft = $boxTabs.scrollLeft();
-            $scrollL.toggleClass('disabled', scrollLeft==0);
-            $scrollR.toggleClass('disabled', Math.round(scrollLeft) == $boxTabs[0].scrollWidth - $boxTabs[0].clientWidth);
+            $scrollL.toggleClass('disabled', (scrollLeft>>0) == 0);
+            $scrollR.toggleClass('disabled', Math.round(scrollLeft) >= $boxTabs[0].scrollWidth - $boxTabs[0].clientWidth);
         }
 
         var onScrollTabs = function(opts, e) {
