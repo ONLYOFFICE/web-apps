@@ -475,7 +475,7 @@ define([
             
             var template =  '<div class="info-box">' +
                                 '<% if (typeof iconCls !== "undefined") { %><div class="icon <%= iconCls %>"></div><% } %>' +
-                                '<div class="text' + '<% if (typeof iconCls == "undefined") { %> padding-left-10<% } %>' + '"><span><%= msg %></span>' +
+                                '<div class="text" <% if (typeof iconCls == "undefined") { %> style="padding-' + (Common.UI.isRTL() ? 'right' : 'left') + ':10px;"<% } %>><span><%= msg %></span>' +
                                     '<% if (dontshow) { %><div class="dont-show-checkbox"></div><% } %>' +
                                 '</div>' +
                             '</div>' +
