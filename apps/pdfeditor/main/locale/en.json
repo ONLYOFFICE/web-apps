@@ -443,6 +443,7 @@
   "PDFE.Controllers.Viewport.txtDarkMode": "Dark mode",
   "PDFE.Views.DocumentHolder.addCommentText": "Add Comment",
   "PDFE.Views.DocumentHolder.textCopy": "Copy",
+  "PDFE.Views.DocumentHolder.txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?",
   "PDFE.Views.FileMenu.btnBackCaption": "Open file location",
   "PDFE.Views.FileMenu.btnCloseMenuCaption": "Close Menu",
   "PDFE.Views.FileMenu.btnCreateNewCaption": "Create New",

@@ -257,7 +257,8 @@ define([
         },
 
         textCopy: 'Copy',
-        addCommentText: 'Add Comment'
+        addCommentText: 'Add Comment',
+        txtWarnUrl: 'Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?'
 
 }, PDFE.Views.DocumentHolder || {}));
 });
