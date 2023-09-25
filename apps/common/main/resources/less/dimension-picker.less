@@ -26,8 +26,27 @@
     background-size: 1em 1em;
 }
 .background-cells(@border-color, @fill-Color, @size-one-pixel: @scaled-one-px-value){
-    @first-coord: calc(2px - @size-one-pixel);
-    .background-cells-all(@border-color, @fill-Color, @first-coord);
+    @media only screen {
+        @media(-webkit-max-device-pixel-ratio: 1.9),
+        (max-resolution: 1.9dppx),
+        (max-resolution: 191dpi)
+        {
+            .background-cells-all(@border-color, @fill-Color, calc(2px - @size-one-pixel));
+        }
+
+        @media (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 2dppx),
+        (min-resolution: 192dpi)
+        {
+            .background-cells-all(@border-color, @fill-Color, 1.5px);
+        }
+        @media (-webkit-device-pixel-ratio: 3),
+        (resolution: 3dppx),
+        (resolution: 288dpi)
+        {
+            .background-cells-all(@border-color, @fill-Color, 1.33px);
+        }
+    }
 }
 
 .background-cells-ie(@border-color, @fill-Color){
@@ -44,26 +63,13 @@
     top: 0;
     overflow: hidden;
     position: absolute;
-
     .background-cells-ie(@border-control-focus-ie, @highlight-button-pressed-ie);
-    &:not(.pixel-ratio__2), &:not(.pixel-ratio__2_5){
-        .background-cells(@border-control-focus, @highlight-button-pressed);
-    }
-    .pixel-ratio__2 &, .pixel-ratio__2_5 &{
-        .background-cells(@border-control-focus, @highlight-button-pressed, 0.5px);
-    }
+    .background-cells(@border-control-focus, @highlight-button-pressed);
 }
 
 .dimension-picker-unhighlighted {
-
     .background-cells-ie(@border-regular-control-ie, @background-normal-ie);
-
-    &:not(.pixel-ratio__2), &:not(.pixel-ratio__2_5){
-        .background-cells(@border-regular-control, @background-normal);
-    }
-    .pixel-ratio__2 &, .pixel-ratio__2_5 &{
-        .background-cells(@border-regular-control, @background-normal, 0.5px);
-    }
+    .background-cells(@border-regular-control, @background-normal);
 }
 
 .dimension-picker-status {
