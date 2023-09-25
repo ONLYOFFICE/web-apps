@@ -144,6 +144,7 @@ define([
                 if (me.api.can_AddQuotedComment()!==false && me.documentHolder.slidesCount>0) {
                     me.addComment();
                 }
+                return false;
             };
 
             me.hkPreview = 'command+f5,ctrl+f5';
