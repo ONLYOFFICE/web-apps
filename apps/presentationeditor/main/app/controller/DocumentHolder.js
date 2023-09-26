@@ -147,7 +147,7 @@ define([
                 return false;
             };
 
-            me.hkPreview = 'command+f5,ctrl+f5';
+            me.hkPreview = Common.Utils.isMac ? 'command+shift+enter' : 'ctrl+f5';
             keymap[me.hkPreview] = function(e) {
                 var isResized = false;
                 e.preventDefault();
