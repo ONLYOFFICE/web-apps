@@ -81,7 +81,7 @@
       "textAuto": "Auto",
       "textBack": "Atrás",
       "textBaseline": "Línea de base",
-      "textBold": "Negrita",
+      "textBold": "Negritas",
       "textBreakBefore": "Salto de página antes",
       "textCancel": "Cancelar",
       "textCaps": "Mayúsculas",
@@ -299,6 +299,7 @@
     "textImageURL": "URL de imagen",
     "textInFront": "Delante del texto",
     "textInline": "En línea con el texto",
+    "textInvalidName": "El nombre del archivo no puede contener ninguno de los siguientes símbolos:",
     "textJanuary": "enero",
     "textJuly": "julio",
     "textJune": "junio",
@@ -391,8 +392,7 @@
     "textType": "Tipo",
     "textWe": "mi.",
     "textWrap": "Ajuste",
-    "textWrappingStyle": "Estilo de ajuste",
-    "textInvalidName": "The file name cannot contain any of the following characters: "
+    "textWrappingStyle": "Estilo de ajuste"
   },
   "Error": {
     "convertationTimeoutText": "Tiempo de conversión está superado.",
@@ -401,6 +401,7 @@
     "downloadErrorText": "Error al descargar.",
     "errorAccessDeny": "Está intentando realizar una acción para la que no tiene derechos.<br>Por favor, contacte con su administrador.",
     "errorBadImageUrl": "URL de imagen es incorrecta",
+    "errorComboSeries": "Para crear un gráfico combinado, seleccione al menos dos series de datos.",
     "errorConnectToServer": "No se puede guardar este documento. Compruebe la configuración de su conexión o póngase en contacto con el administrador.<br>Cuando haga clic en OK, se le pedirá que descargue el documento.",
     "errorDatabaseConnection": "Error externo.<br>Error de conexión a la base de datos. Por favor, contacte con el equipo de soporte técnico.",
     "errorDataEncrypted": "Se han recibido cambios cifrados, ellos no pueden ser descifrados.",
@@ -426,7 +427,9 @@
     "errorSessionAbsolute": "La sesión de edición del documento ha expirado. Por favor, vuelva a cargar la página.",
     "errorSessionIdle": "El documento no ha sido editado desde hace mucho tiempo. Por favor, vuelva a cargar la página.",
     "errorSessionToken": "La conexión con el servidor se ha interrumpido. Por favor, vuelva a cargar la página.",
+    "errorSetPassword": "No se ha podido establecer la contraseña.",
     "errorStockChart": "Orden incorrecto de las filas. Para construir un gráfico de cotizaciones, coloque los datos en la hoja en el siguiente orden:<br> precio de apertura, precio máximo, precio mínimo, precio de cierre.",
+    "errorSubmit": "Error al enviar.",
     "errorTextFormWrongFormat": "El valor introducido no se corresponde con el formato del campo",
     "errorToken": "El token de seguridad de documento tiene un formato incorrecto.<br>Por favor, contacte con el administrador del Servidor de Documentos.",
     "errorTokenExpire": "El token de seguridad del documento ha expirado.<br>Por favor, póngase en contacto con el administrador del Servidor de Documentos.",
@@ -442,9 +445,14 @@
     "splitMaxColsErrorText": "El número de columnas debe ser menor que %1",
     "splitMaxRowsErrorText": "El número de filas debe ser menor que %1",
     "unknownErrorText": "Error desconocido.",
+    "uploadDocExtMessage": "Formato de documento desconocido.",
+    "uploadDocFileCountMessage": "No se ha subido ningún documento.",
+    "uploadDocSizeMessage": "Se ha excedido el límite de tamaño máximo del documento.",
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
-    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB."
+    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB.",
+    "errorCompare": "The Compare documents feature is not available in the co-editing mode.",
+    "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later."
   },
   "LongActions": {
     "applyChangesTextText": "Cargando datos...",
