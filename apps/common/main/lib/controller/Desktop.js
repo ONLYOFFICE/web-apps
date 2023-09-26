@@ -146,7 +146,7 @@ define([
                         window.RendererProcessVariable.theme.system = opts.theme.system;
 
                         if ( Common.UI.Themes.currentThemeId() == 'theme-system' )
-                            Common.UI.Themes.setTheme('theme-system');
+                            Common.UI.Themes.refreshTheme(true);
                     }
                 } else
                 if (/element:show/.test(cmd)) {
