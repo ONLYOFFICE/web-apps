@@ -791,7 +791,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
         updateButtons: function() {
             var rec = this.rulesList.getSelectedRec(),
                 lock = rec ? rec.get('lock') : false;
-            this.btnNew.setDisabled(this.listSettings.data.length>63 || this.locked);
+            this.btnNew.setDisabled(this.locked);
             this.btnDelete.setDisabled(this.listSettings.data.length<1 || lock);
             this.btnEdit.setDisabled(this.listSettings.data.length<1 || lock);
             this.updateMoveButtons();
