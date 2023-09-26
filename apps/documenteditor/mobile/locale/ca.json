@@ -444,7 +444,15 @@
     "unknownErrorText": "Error desconegut.",
     "uploadImageExtMessage": "Format d'imatge desconegut.",
     "uploadImageFileCountMessage": "No s'ha carregat cap imatge.",
-    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB."
+    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB.",
+    "errorComboSeries": "To create a combination chart, select at least two series of data.",
+    "errorCompare": "The Compare documents feature is not available in the co-editing mode.",
+    "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
+    "errorSetPassword": "Password could not be set.",
+    "errorSubmit": "Submit failed.",
+    "uploadDocExtMessage": "Unknown document format.",
+    "uploadDocFileCountMessage": "No documents uploaded.",
+    "uploadDocSizeMessage": "Maximum document size limit exceeded."
   },
   "LongActions": {
     "applyChangesTextText": "S'estan carregant les dades...",

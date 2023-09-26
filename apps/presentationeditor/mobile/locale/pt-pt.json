@@ -196,7 +196,11 @@
     "unknownErrorText": "Erro desconhecido.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Nenhuma imagem foi carregada.",
-    "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo permitido é de 25 MB."
+    "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo permitido é de 25 MB.",
+    "errorComboSeries": "To create a combination chart, select at least two series of data.",
+    "errorEmailClient": "No email client could be found",
+    "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
+    "errorSetPassword": "Password could not be set."
   },
   "LongActions": {
     "applyChangesTextText": "A carregar dados...",
