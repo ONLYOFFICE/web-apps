@@ -579,7 +579,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
 
             var me = this,
                 i = item.get('ruleIndex'),
-                cmpEl = this.rulesList.cmpEl.find('#format-manager-item-' + i);
+                cmpEl = this.rulesList.cmpEl.find('#format-manager-item-' + i).on('dblclick', _.bind( this.onEditRule, this, true));
             if (!this.rules[i])
                 this.rules[i] = {};
             var rule = this.rules[i];
