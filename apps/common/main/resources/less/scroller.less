@@ -95,6 +95,16 @@
                     background-image: data-uri('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAATAgMAAAAG1X4lAAAACVBMVEUAAADPz8/x8fFVrc9qAAAAAXRSTlMAQObYZgAAABNJREFUeNpjYAx14FrFgAboLAgAVgQJB86JyMQAAAAASUVORK5CYII=');
                     background-size: 15px auto;
                 }
+                .pixel-ratio__1_25 & {
+                    background-image: data-uri('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAQCAYAAADwMZRfAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA7SURBVHgB7c87FQAgDEPRVkG11L+IaIkCWPgzc1hy5wx5bg2AYovMdDuQ3DYRcW3+GneUo5zXlDP1nApvZzAH1eXFfwAAAABJRU5ErkJggg==');
+                    background-size: 14px auto;
+                    background-position: @scaled-one-px-value center;
+                }
+                .pixel-ratio__1_75 & {
+                    background-image: data-uri('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAWCAYAAAA1vze2AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABFSURBVHgB7dGxDQAgCERRcAFmYf8hmIUJtBZiYeXF3CvJVXyVIiJmvbm7ykFmtr2ZbfshdKH9mk2eYxM8bIKHTfD802QBUw8wE4bLVDsAAAAASUVORK5CYII=');
+                    background-size: 14px auto;
+                    background-position: @scaled-one-px-value center;
+                }
 
                 background-repeat: no-repeat;
                 background-position: 0 center;
@@ -118,6 +128,9 @@
                     background-color: @canvas-scroll-thumb-hover-ie;
                     background-color: @canvas-scroll-thumb-hover;
                     background-position: -7px center;
+                    .pixel-ratio__1_75 &{
+                        background-position: -6px center;
+                    }
                 }
             }
         }
@@ -133,6 +146,9 @@
                     border-color: @canvas-scroll-thumb-border-hover-ie;
                     border-color: @canvas-scroll-thumb-border-hover;
                     background-position: -7px center;
+                    .pixel-ratio__1_75 &{
+                        background-position: -6px center;
+                    }
                 }
             }
         }
