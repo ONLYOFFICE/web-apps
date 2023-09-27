@@ -2,8 +2,12 @@
   "common.view.modals.txtCopy": "클립보드로 복사",
   "common.view.modals.txtEmbed": "개체 삽입",
   "common.view.modals.txtHeight": "높이",
+  "common.view.modals.txtIncorrectPwd": "잘못된 비밀번호",
+  "common.view.modals.txtOpenFile": "파일을 열려면 암호를 입력하십시오",
   "common.view.modals.txtShare": "링크 공유",
+  "common.view.modals.txtTitleProtected": "보호 된 파일",
   "common.view.modals.txtWidth": "너비",
+  "common.view.SearchBar.textFind": "찾기",
   "PE.ApplicationController.convertationErrorText": "변환 실패",
   "PE.ApplicationController.convertationTimeoutText": "변환 시간을 초과했습니다.",
   "PE.ApplicationController.criticalErrorTitle": "오류",
@@ -25,6 +29,7 @@
   "PE.ApplicationController.textGuest": "게스트",
   "PE.ApplicationController.textLoadingDocument": "프레젠테이션 로드 중",
   "PE.ApplicationController.textOf": "의",
+  "PE.ApplicationController.titleLicenseExp": "라이센스 만료",
   "PE.ApplicationController.txtClose": "닫기",
   "PE.ApplicationController.unknownErrorText": "알 수 없는 오류.",
   "PE.ApplicationController.unsupportedBrowserErrorText": "사용 중인 브라우저가 지원되지 않습니다.",
@@ -34,5 +39,6 @@
   "PE.ApplicationView.txtFileLocation": "파일 위치 열기",
   "PE.ApplicationView.txtFullScreen": "전체 화면",
   "PE.ApplicationView.txtPrint": "인쇄",
+  "PE.ApplicationView.txtSearch": "검색",
   "PE.ApplicationView.txtShare": "공유"
 }

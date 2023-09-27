@@ -348,6 +348,7 @@ define([
                     this.panels['protect'].setApi(this.api);
             }
 
+            this.fireEvent('render:after', [this]);
             return this;
         },
 

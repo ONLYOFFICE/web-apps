@@ -501,6 +501,20 @@
 			"na": "#N/A",
 			"getdata": "#GETTING_DATA",
 			"uf": "#UNSUPPORTED_FUNCTION!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "adreça",
+			"col": "columna",
+			"color": "color",
+			"contents": "contingut",
+			"filename": "nom del fitxer",
+			"format": "format",
+			"parentheses": "parèntesis",
+			"prefix": "prefix",
+			"protect": "protecció",
+			"row": "fila",
+			"type": "tipus",
+			"width": "amplada"
 		}
 	}
 }

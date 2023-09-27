@@ -39,6 +39,20 @@
       "textCustomColors": "Հարմարեցված գույներ",
       "textStandartColors": "Ստանդարտ գույներ",
       "textThemeColors": "Ոճի գույներ"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -334,7 +348,8 @@
     "dlgLeaveMsgText": "Դուք այս փաստաթղթում չպահված փոփոխություններ ունեք:Սեղմեք «Մնալ այս էջում»՝ սպասելու ավտոմատ պահպանմանը:Սեղմեք «Լքել այս էջը»՝ չպահված բոլոր փոփոխությունները մերժելու համար:",
     "dlgLeaveTitleText": "Ծրագրից դուրս եք գալիս",
     "leaveButtonText": "Լքել այս էջը",
-    "stayButtonText": "Մնալ այս էջում"
+    "stayButtonText": "Մնալ այս էջում",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -584,12 +599,12 @@
       "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ ",
       "txtSortHigh2Low": "Տեսակավորել բարձրից ցածր:",
       "txtSortLow2High": "Տեսակավորել ցածրից բարձր:",
-      "textCustomFormat": "Custom Format",
-      "textCreateFormat": "Create Format",
       "textCreateCustomFormat": "Create Custom Format",
-      "textSave": "Save",
+      "textCreateFormat": "Create Format",
+      "textCustomFormat": "Custom Format",
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.",
       "textEnterFormat": "Enter Format",
-      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
+      "textSave": "Save"
     },
     "Settings": {
       "advCSVOptions": "Ընտրել CSV-ի հարաչափերը",
@@ -759,7 +774,8 @@
       "txtUk": "ուկրաիներեն",
       "txtVi": "Վիետնամերեն",
       "txtZh": "Չինական",
-      "warnDownloadAs": "Եթե շարունակեք պահպանումն այս ձևաչափով, բոլոր հատկությունները՝ տեքստից բացի, կկորչեն։<br>Վստա՞հ եք, որ ցանկանում եք շարունակել:"
+      "warnDownloadAs": "Եթե շարունակեք պահպանումն այս ձևաչափով, բոլոր հատկությունները՝ տեքստից բացի, կկորչեն։<br>Վստա՞հ եք, որ ցանկանում եք շարունակել:",
+      "textVersionHistory": "Version History"
     }
   }
 }

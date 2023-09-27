@@ -292,7 +292,8 @@ define([
                 {caption: this.textDate, value: Asc.c_oAscHeaderFooterField.date},
                 {caption: this.textTime, value: Asc.c_oAscHeaderFooterField.time},
                 {caption: this.textFileName, value: Asc.c_oAscHeaderFooterField.fileName},
-                {caption: this.textSheet, value: Asc.c_oAscHeaderFooterField.sheetName}
+                {caption: this.textSheet, value: Asc.c_oAscHeaderFooterField.sheetName},
+                {caption: this.textImage, value: Asc.c_oAscHeaderFooterField.picture}
             ];
 
             this.btnInsertH = new Common.UI.Button({
@@ -1029,7 +1030,8 @@ define([
         textOdd: 'Odd page',
         textEven: 'Even page',
         textAll: 'All pages',
-        textMaxError: 'The text string you entered is too long. Reduce the number of characters used.'
+        textMaxError: 'The text string you entered is too long. Reduce the number of characters used.',
+        textImage: 'Picture'
 
     }, SSE.Views.HeaderFooterDialog || {}))
 });

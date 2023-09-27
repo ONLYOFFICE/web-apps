@@ -155,7 +155,7 @@ define([
                 maxLength: 255,
                 validateOnBlur: false,
                 repeatInput: this.repeatPwd,
-                showPwdOnClick: true
+                showPwdOnClick: false
             });
 
             if (this.type == 'sheet') {

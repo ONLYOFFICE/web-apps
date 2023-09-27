@@ -1325,6 +1325,40 @@ define([
                     });
                     this.toolbarControls.push(this.btnLineNumbers);
 
+                    this.btnHyphenation = new Common.UI.Button({
+                        id: 'tlbtn-line-hyphenation',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-hyphenation',
+                        lock: [_set.docPropsLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
+                        caption: this.capBtnHyphenation,
+                        menu: new Common.UI.Menu({
+                            cls: 'ppm-toolbar',
+                            items: [
+                                {
+                                    caption: this.textNone,
+                                    checkable: true,
+                                    toggleGroup: 'menuHyphenation',
+                                    value: 0
+                                },
+                                {
+                                    caption: this.textAuto,
+                                    checkable: true,
+                                    toggleGroup: 'menuHyphenation',
+                                    value: 1
+                                },
+                                {caption: '--'},
+                                {
+                                    caption: this.textCustomHyphen,
+                                    value: 'custom'
+                                }
+                            ]
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.toolbarControls.push(this.btnHyphenation);
+
                     this.btnClearStyle = new Common.UI.Button({
                         id: 'id-toolbar-btn-clearstyle',
                         cls: 'btn-toolbar',
@@ -1661,13 +1695,6 @@ define([
 
                     me.onUpdateLastCustomMargins();
                     Common.NotificationCenter.on('margins:update', _.bind(me.onUpdateLastCustomMargins, me));
-
-                    Common.NotificationCenter.on('eyedropper:start', function () {
-                        if (me.btnCopyStyle.pressed)
-                            me.btnCopyStyle.toggle(false, true);
-                        if (me.btnHighlightColor.pressed)
-                            me.btnHighlightColor.toggle(false, true);
-                    });
                 }
 
                 if ( me.isCompactView )
@@ -1764,6 +1791,7 @@ define([
                 _injectComponent('#slot-img-movebkwd', this.btnImgBackward);
                 _injectComponent('#slot-img-wrapping', this.btnImgWrapping);
                 _injectComponent('#slot-btn-watermark', this.btnWatermark);
+                _injectComponent('#slot-btn-hyphenation', this.btnHyphenation);
 
                 this.btnsPageBreak = Common.Utils.injectButtons($host.find('.btn-slot.btn-pagebreak'), '', 'toolbar__icon btn-pagebreak', this.capBtnInsPagebreak,
                     [Common.enumLock.paragraphLock, Common.enumLock.headerLock, Common.enumLock.richEditLock, Common.enumLock.plainEditLock, Common.enumLock.inEquation, Common.enumLock.richDelLock,
@@ -2149,6 +2177,7 @@ define([
                 this.btnCopyStyle.updateHint(this.tipCopyStyle + Common.Utils.String.platformKey('Alt+Ctrl+C'));
                 this.btnColorSchemas.updateHint(this.tipColorSchemas);
                 this.btnMailRecepients.updateHint(this.tipMailRecepients);
+                this.btnHyphenation.updateHint(this.tipHyphenation);
 
                 // set menus
 
@@ -3337,7 +3366,11 @@ define([
             textSquareRoot: 'Square Root',
             textTilde: 'Tilde',
             textTradeMark: 'Trade Mark Sign',
-            textYen: 'Yen Sign'
+            textYen: 'Yen Sign',
+            capBtnHyphenation: 'Hyphenation',
+            textAuto: 'Automatic',
+            textCustomHyphen: 'Hyphenation options',
+            tipHyphenation: 'Change hyphenation'
         }
     })(), DE.Views.Toolbar || {}));
 });

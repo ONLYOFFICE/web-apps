@@ -501,6 +501,20 @@
 			"na": "#N/A",
 			"getdata": "#GETTING_DATA",
 			"uf": "#UNSUPPORTED_FUNCTION!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "osoite",
+			"col": "sarake",
+			"color": "väri",
+			"contents": "sisältö",
+			"filename": "tiedostonimi",
+			"format": "muoto",
+			"parentheses": "sulkeet",
+			"prefix": "etuliite",
+			"protect": "suojaus",
+			"row": "rivi",
+			"type": "tyyppi",
+			"width": "leveys"
 		}
 	}
 }

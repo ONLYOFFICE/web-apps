@@ -176,18 +176,18 @@
       "textThemeColors": "Theme Colors"
     },
     "VersionHistory": {
-      "textVersionHistory": "Version History",
-      "textAnonymous": "Anonymous",
-      "txtErrorLoadHistory": "Loading history failed",
-      "textVersion": "Version",
-      "textCurrent": "Current",
-      "textRestore": "Restore",
-      "titleWarningRestoreVersion": "Restore this version?",
-      "textWarningRestoreVersion": "Current file will be saved in version history.",
-      "textBack": "Back",
       "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
       "textOk": "Ok",
-      "textCancel": "Cancel"
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -299,6 +299,7 @@
     "textImageURL": "Image URL",
     "textInFront": "In Front of Text",
     "textInline": "In Line with Text",
+    "textInvalidName": "The file name cannot contain any of the following characters: ",
     "textJanuary": "January",
     "textJuly": "July",
     "textJune": "June",
@@ -443,7 +444,15 @@
     "unknownErrorText": "Unknown error.",
     "uploadImageExtMessage": "Unknown image format.",
     "uploadImageFileCountMessage": "No images uploaded.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
+    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
+    "uploadDocSizeMessage": "Maximum document size limit exceeded.",
+    "uploadDocExtMessage": "Unknown document format.",
+    "uploadDocFileCountMessage": "No documents uploaded.",
+    "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
+    "errorCompare": "The Compare documents feature is not available in the co-editing mode.",
+    "errorComboSeries": "To create a combination chart, select at least two series of data.",
+    "errorSetPassword": "Password could not be set.",
+    "errorSubmit": "Submit failed."
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",
@@ -675,6 +684,7 @@
     "textParagraphs": "Paragraphs",
     "textPassword": "Password",
     "textPasswordNotMatched": "Passwords Don’t Match",
+    "textPasswordWarning": "If the password is forgotten or lost, it cannot be recovered.",
     "textPdfProducer": "PDF Producer",
     "textPdfTagged": "Tagged PDF",
     "textPdfVer": "PDF Version",
@@ -707,10 +717,12 @@
     "textTop": "Top",
     "textTrackedChanges": "Tracked changes",
     "textTypeEditing": "Type Of Editing",
+    "textTypeEditingWarning": "Allow only this type of editing in the document.",
     "textUnitOfMeasurement": "Unit Of Measurement",
     "textUnprotect": "Unprotect",
     "textUploaded": "Uploaded",
     "textVerify": "Verify",
+    "textVersionHistory": "Version History",
     "textWords": "Words",
     "textYes": "Yes",
     "titleDialogUnprotect": "Unprotect Document",
@@ -739,19 +751,18 @@
     "txtScheme6": "Concourse",
     "txtScheme7": "Equity",
     "txtScheme8": "Flow",
-    "txtScheme9": "Foundry",
-    "textVersionHistory": "Version History"
+    "txtScheme9": "Foundry"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this Page",
     "stayButtonText": "Stay on this page",
-    "textOk": "OK",
-    "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view",
-    "textRenameFile": "Rename File",
+    "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
-    "textCloseHistory": "Close History"
+    "textOk": "OK",
+    "textRenameFile": "Rename File",
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

@@ -501,6 +501,20 @@
 			"na": "#N/A",
 			"getdata": "#GETTING_DATA",
 			"uf": "#UNSUPPORTED_FUNCTION!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "adresse",
+			"col": "kolonne",
+			"color": "farve",
+			"contents": "indhold",
+			"filename": "filnavn",
+			"format": "format",
+			"parentheses": "parenteser",
+			"prefix": "præfiks",
+			"protect": "beskyt",
+			"row": "række",
+			"type": "type",
+			"width": "bredde"
 		}
 	}
 }

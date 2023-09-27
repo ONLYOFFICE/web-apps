@@ -174,6 +174,7 @@ define([
             window.on_native_message('editor:config', 'request');
             if ( !!window.native_message_cmd ) {
                 for ( var c in window.native_message_cmd ) {
+                    if (c == 'uitheme:changed') continue;
                     window.on_native_message(c, window.native_message_cmd[c]);
                 }
             }
@@ -461,7 +462,8 @@ define([
 
             const _is_win = /Win/.test(navigator.platform);
             const _re_name = !_is_win ? /([^/]+\.[a-zA-Z0-9]{1,})$/ : /([^\\/]+\.[a-zA-Z0-9]{1,})$/;
-            for ( let _f_ of rawarray ) {
+            for ( let i in rawarray ) {
+                const _f_ = rawarray[i];
                 if ( utils.matchFileFormat( _f_.type ) ) {
                     if (_re_name.test(_f_.path)) {
                         const name = _re_name.exec(_f_.path)[1],
@@ -484,6 +486,33 @@ define([
 
         const _onOpenRecent = function (menu, url, record) {
             console.log('open recent');
+        }
+
+        const _extend_menu_file = function (args) {
+            console.log('extend menu file')
+
+            // if ( native.features.opentemplate )
+            {
+                const filemenu = webapp.getController('LeftMenu').leftMenu.getMenu('file');
+                if ( filemenu.miNew.visible ) {
+                    const miNewFromTemplate = new Common.UI.MenuItem({
+                        el: $(`<li id="fm-btn-create-fromtpl" class="fm-btn"></li>`),
+                        action: 'create:fromtemplate',
+                        caption: _tr('itemCreateFromTemplate', 'Create from template'),
+                        canFocused: false,
+                        dataHint: 1,
+                        dataHintDirection: 'left-top',
+                        dataHintOffset: [2, 14],
+                    });
+
+                    miNewFromTemplate.$el.insertAfter(filemenu.miNew.$el);
+                    filemenu.items.push(miNewFromTemplate);
+                }
+            }
+        }
+
+        const _tr = function (id, defvalue) {
+            return Common.Locale.get(id, {name:"Common.Controllers.Desktop", default: defvalue});
         }
 
         return {
@@ -523,10 +552,15 @@ define([
                                 if ( action == 'file:open' ) {
                                     native.execCommand('editor:event', JSON.stringify({action: 'file:open'}));
                                     menu.hide();
+                                } else
+                                if ( action == 'create:fromtemplate' ) {
+                                    native.execCommand('create:new', 'template:' + (!!window.SSE ? 'cell' : !!window.PE ? 'slide' : 'word'));
+                                    menu.hide();
                                 }
                             },
                             'settings:apply': _onApplySettings.bind(this),
                             'recent:open': _onOpenRecent.bind(this),
+                            'render:after': _extend_menu_file,
                         },
                     }, {id: 'desktop'});
 
@@ -628,30 +662,12 @@ define([
                     }
 
                     native.execCommand("open:recent", JSON.stringify(params));
-                    return true
+                    return true;
                 }
 
                 return false;
             },
-
-            finalConstruct : function() {
-                if (!!native) {                   
-                    window.on_native_message('editor:config', 'request');
-                    if ( !!window.native_message_cmd ) {
-                        for ( var c in window.native_message_cmd ) {
-                            window.on_native_message(c, window.native_message_cmd[c]);
-                        }
-                    }
-
-                    native.execCommand('webapps:features', JSON.stringify(features));
-
-                    // hide mask for modal window
-                    var style = document.createElement('style');
-                    style.appendChild(document.createTextNode('.modals-mask{opacity:0 !important;}'));
-                    document.getElementsByTagName('head')[0].appendChild(style);
-                }
-            }
-        };
+    };
     };
 
     !Common.Controllers && (Common.Controllers = {});
@@ -777,6 +793,4 @@ define([
 
         return false;
     }
-
-    Common.Controllers.Desktop.finalConstruct();
 });

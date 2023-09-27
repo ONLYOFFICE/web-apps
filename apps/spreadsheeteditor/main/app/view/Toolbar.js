@@ -100,6 +100,7 @@ define([
         selSlicer: 'sel-slicer',
         cantSort: 'cant-sort',
         pivotLock: 'pivot-lock',
+        pivotExpandLock: 'pivot-expand-lock',
         tableHasSlicer: 'table-has-slicer',
         sheetView: 'sheet-view',
         wbLock: 'workbook-lock',
@@ -2259,11 +2260,6 @@ define([
                 }
 
                 me.setTab('home');
-
-                Common.NotificationCenter.on('eyedropper:start', function () {
-                    if (me.btnCopyStyle.pressed)
-                        me.btnCopyStyle.toggle(false, true);
-                });
             }
             if ( me.isCompactView )
                 me.setFolded(true);

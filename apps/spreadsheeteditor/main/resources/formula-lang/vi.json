@@ -501,6 +501,20 @@
 			"na": "#N/A",
 			"getdata": "#GETTING_DATA",
 			"uf": "#UNSUPPORTED_FUNCTION!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "địa chỉ",
+			"col": "cột",
+			"color": "màu",
+			"contents": "nội dung",
+			"filename": "tên tệp",
+			"format": "định dạng",
+			"parentheses": "dấu ngoặc đơn",
+			"prefix": "tiền tố",
+			"protect": "bảo vệ",
+			"row": "hàng",
+			"type": "kiểu",
+			"width": "độ rộng"
 		}
 	}
 }

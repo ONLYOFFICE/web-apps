@@ -9,14 +9,15 @@ import { idContextMenuElement } from '../../../../common/mobile/lib/view/Context
 // import { Device } from '../../../../common/mobile/utils/device';
 import EditorUIController from '../lib/patch';
 
-@inject ( stores => ({
+@inject(stores => ({
     isEdit: stores.storeAppOptions.isEdit,
     canComments: stores.storeAppOptions.canComments,
     canViewComments: stores.storeAppOptions.canViewComments,
     canCoAuthoring: stores.storeAppOptions.canCoAuthoring,
     users: stores.users,
     isDisconnected: stores.users.isDisconnected,
-    objects: stores.storeFocusObjects.settings
+    objects: stores.storeFocusObjects.settings,
+    isVersionHistoryMode: stores.storeVersionHistory.isVersionHistoryMode
 }))
 class ContextMenu extends ContextMenuController {
     constructor(props) {
@@ -238,7 +239,7 @@ class ContextMenu extends ContextMenuController {
     initMenuItems() {
         if ( !Common.EditorApi ) return [];
 
-        const { isEdit, isDisconnected } = this.props;
+        const { isEdit, isDisconnected, isVersionHistoryMode } = this.props;
 
         if (isEdit && EditorUIController.ContextMenu) {
             return EditorUIController.ContextMenu.mapMenuItems(this);
@@ -295,7 +296,7 @@ class ContextMenu extends ContextMenuController {
                     icon: 'icon-copy'
                 });
             }
-            if(!isDisconnected) {
+            if(!isDisconnected && !isVersionHistoryMode) {
                 if (canViewComments && this.isComments && !isEdit) {
                     itemsText.push({
                         caption: _t.menuViewComment,

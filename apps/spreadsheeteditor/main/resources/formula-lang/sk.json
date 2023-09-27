@@ -501,6 +501,20 @@
 			"na": "#N/A",
 			"getdata": "#GETTING_DATA",
 			"uf": "#UNSUPPORTED_FUNCTION!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "adresa",
+			"col": "stĺpec",
+			"color": "farba",
+			"contents": "obsah",
+			"filename": "názov_súboru",
+			"format": "formát",
+			"parentheses": "zátvorky",
+			"prefix": "predpona",
+			"protect": "ochrana",
+			"row": "riadok",
+			"type": "typ",
+			"width": "šírka"
 		}
 	}
 }

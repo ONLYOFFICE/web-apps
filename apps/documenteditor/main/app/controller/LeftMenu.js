@@ -66,7 +66,10 @@ define([
                     'history:show': function () {
                         if ( !this.leftMenu.panelHistory.isVisible() )
                             this.clickMenuFileItem('header', 'history');
-                    }.bind(this)
+                    }.bind(this),
+                    'rename': _.bind(function (value) {
+                        this.mode && this.mode.wopi && this.api ? this.api.asc_wopi_renameFile(value) : Common.Gateway.requestRename(value);
+                    }, this)
                 },
                 'Common.Views.About': {
                     'show':    _.bind(this.aboutShowHide, this, false),
@@ -114,6 +117,7 @@ define([
             }, this));
             Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
             Common.NotificationCenter.on('file:print', _.bind(this.clickToolbarPrint, this));
+            Common.NotificationCenter.on('file:help', _.bind(this.showHelp, this));
         },
 
         onLaunch: function() {
@@ -781,7 +785,7 @@ define([
                 case 'help':
                     if ( this.mode.isEdit && this.mode.canHelp ) {                   // TODO: unlock 'help' for 'view' mode
                         Common.UI.Menu.Manager.hideAll();
-                        this.leftMenu.showMenu('file:help');
+                        this.showHelp();
                     }
                     return false;
                 case 'file':
@@ -927,6 +931,10 @@ define([
         tryToShowLeftMenu: function() {
             if ((!this.mode.canBrandingExt || !this.mode.customization || this.mode.customization.leftMenu !== false) && Common.UI.LayoutManager.isElementVisible('leftMenu'))
                 this.onLeftMenuHide(null, true);
+        },
+
+        showHelp: function(src) {
+            this.leftMenu && this.leftMenu.showMenu('file:help', src);
         },
 
         textNoTextFound         : 'Text not found',

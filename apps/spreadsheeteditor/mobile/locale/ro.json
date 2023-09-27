@@ -39,6 +39,20 @@
       "textCustomColors": "Culori particularizate",
       "textStandartColors": "Culori standard",
       "textThemeColors": "Culori temă"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Avertisment",
+      "textAnonymous": "Anonim",
+      "textBack": "Înapoi",
+      "textCancel": "Anulare",
+      "textCurrent": "Curent",
+      "textOk": "OK",
+      "textRestore": "Restabilire",
+      "textVersion": "Versiune",
+      "textVersionHistory": "Istoricul versiune",
+      "textWarningRestoreVersion": "Fișierul curent va fi salvat în istoricul versiunilor",
+      "titleWarningRestoreVersion": "Doriți să restaurați această versiune?",
+      "txtErrorLoadHistory": "Încărcarea istoricului a eșuat"
     }
   },
   "ContextMenu": {
@@ -334,7 +348,8 @@
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",
     "dlgLeaveTitleText": "Dumneavoastră părăsiți aplicația",
     "leaveButtonText": "Părăsește această pagina",
-    "stayButtonText": "Rămâi în pagină"
+    "stayButtonText": "Rămâi în pagină",
+    "textCloseHistory": "Închide istoricul"
   },
   "View": {
     "Add": {
@@ -439,10 +454,14 @@
       "textChartTitle": "Titlu diagramă",
       "textClearFilter": "Golire filtru",
       "textColor": "Culoare",
+      "textCreateCustomFormat": "Crearea unui format particularizat",
+      "textCreateFormat": "Creare format",
       "textCross": "Traversare",
       "textCrossesValue": "Punct de traversare",
       "textCurrency": "Monedă",
       "textCustomColor": "Culoare particularizată",
+      "textCustomFormat": "Format particularizat",
+      "textCustomFormatWarning": "Vă rugăm să tastați formatul numeric particularizat cu atenție. Spreadsheet Editor nu verifică formate particularizate pentru a detecta posibilele erori, ceea ce poate afecta fișierul xlsx.",
       "textDataLabels": "Etichetele de date",
       "textDate": "Dată",
       "textDefault": "Zona selectată",
@@ -460,6 +479,7 @@
       "textEffects": "Efecte",
       "textEmptyImgUrl": "Trebuie specificată adresa URL a imaginii.",
       "textEmptyItem": "{Necompletat}",
+      "textEnterFormat": "Introduceți formatul",
       "textErrorMsg": "Selectați cel puțin o valoare",
       "textErrorTitle": "Avertisment",
       "textEuro": "Euro",
@@ -549,6 +569,7 @@
       "textRotateTextDown": "Rotirea textului în jos",
       "textRotateTextUp": "Rotirea textului în sus",
       "textRouble": "Rublă",
+      "textSave": "Salvare",
       "textScientific": "Științific ",
       "textScreenTip": "Sfaturi ecran",
       "textSelectAll": "Selectare totală",
@@ -583,13 +604,7 @@
       "textYen": "Yen",
       "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
       "txtSortHigh2Low": "Sortare de la cea mai mare la cea mai mică valoare",
-      "txtSortLow2High": "Sortare de la cea mai mică la cea mai mare valoare",
-      "textCustomFormat": "Custom Format",
-      "textCreateFormat": "Create Format",
-      "textCreateCustomFormat": "Create Custom Format",
-      "textSave": "Save",
-      "textEnterFormat": "Enter Format",
-      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
+      "txtSortLow2High": "Sortare de la cea mai mică la cea mai mare valoare"
     },
     "Settings": {
       "advCSVOptions": "Alegerea opțiunilor CSV",
@@ -660,7 +675,7 @@
       "textMatchCell": "Potrivire celulă",
       "textNoMatches": "Nicio potrivire",
       "textOk": "OK",
-      "textOpenFile": "Introduceți parola pentru deschidere fișier",
+      "textOpenFile": "Introduceți parola pentru a deschide fișierul",
       "textOrientation": "Orientare",
       "textOwner": "Proprietar",
       "textPoint": "Punct",
@@ -693,6 +708,7 @@
       "textUploaded": "S-a încărcat",
       "textValues": "Valori",
       "textVersion": "Versiune",
+      "textVersionHistory": "Istoricul versiune",
       "textWorkbook": "Registru de calcul",
       "txtBe": "Belarusă",
       "txtBg": "Bulgară",

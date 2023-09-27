@@ -537,8 +537,10 @@ define([
                 } else {
                     this.rightmenu.signatureSettings && this.rightmenu.signatureSettings.hideSignatureTooltip();
                 }
+                !status && Common.NotificationCenter.trigger('forms:close-help', 'key');
+                !status && Common.NotificationCenter.trigger('forms:close-help', 'group-key');
+                !status && Common.NotificationCenter.trigger('forms:close-help', 'settings');
             }
-
             Common.NotificationCenter.trigger('layout:changed', 'main');
             Common.NotificationCenter.trigger('edit:complete', this.rightmenu);
         }

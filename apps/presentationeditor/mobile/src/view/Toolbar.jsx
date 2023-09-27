@@ -10,6 +10,7 @@ const ToolbarView = props => {
     const docTitle = props.docTitle;
     const docTitleLength = docTitle.length;
     const isVersionHistoryMode = props.isVersionHistoryMode;
+    const isOpenModal = props.isOpenModal;
 
     const correctOverflowedText = el => {
         if(el) {
@@ -42,7 +43,7 @@ const ToolbarView = props => {
     return (
         <Fragment>
             <NavLeft>
-                {(props.isShowBack && !isVersionHistoryMode) && <Link className={`btn-doc-back${props.disabledControls && ' disabled'}`} icon='icon-back' onClick={() => Common.Notifications.trigger('goback')}></Link>}
+                {(props.isShowBack && !isVersionHistoryMode) && <Link className={`btn-doc-back${(props.disabledControls || isOpenModal) && ' disabled'}`} icon='icon-back' onClick={() => Common.Notifications.trigger('goback')}></Link>}
                 {isVersionHistoryMode ? <a href="#" className='btn-close-history' onClick={(e) => {
                     e.preventDefault();
                     props.closeHistory();
@@ -63,21 +64,21 @@ const ToolbarView = props => {
                     onRedoClick: props.onRedo
                 })}
                 {!isVersionHistoryMode &&
-                    <Link className={(props.disabledControls || props.disabledPreview) && 'disabled'} icon='icon-play' href={false} onClick={() => {props.openOptions('preview')}}></Link>
+                    <Link className={(props.disabledControls || props.disabledPreview || isOpenModal) && 'disabled'} icon='icon-play' href={false} onClick={() => {props.openOptions('preview')}}></Link>
                 }
                 {(props.showEditDocument && !isVersionHistoryMode) &&
-                    <Link className={props.disabledControls ? 'disabled' : ''} icon='icon-edit' href={false} onClick={props.onEditDocument}></Link>
+                    <Link className={(props.disabledControls || isOpenModal) ? 'disabled' : ''} icon='icon-edit' href={false} onClick={props.onEditDocument}></Link>
                 }
                 {(props.isEdit && EditorUIController.getToolbarOptions && !isVersionHistoryMode) && EditorUIController.getToolbarOptions({
-                    disabledEdit: props.disabledEdit || props.disabledControls || isDisconnected || props.disabledPreview,
-                    disabledAdd: props.disabledControls || isDisconnected,
+                    disabledEdit: props.disabledEdit || props.disabledControls || isDisconnected || props.disabledPreview || isOpenModal,
+                    disabledAdd: props.disabledControls || isDisconnected || isOpenModal,
                     onEditClick: () => props.openOptions('edit'),
                     onAddClick: () => props.openOptions('add')
                 })}
-                {Device.phone || isVersionHistoryMode ? null : <Link className={(props.disabledControls || props.disabledPreview) && 'disabled'} icon='icon-search' searchbarEnable='.searchbar' href={false}></Link>}
-                {props.displayCollaboration && window.matchMedia("(min-width: 375px)").matches && !isVersionHistoryMode ? <Link className={props.disabledControls && 'disabled'} id='btn-coauth' href={false} icon='icon-collaboration' onClick={() => props.openOptions('coauth')}></Link> : null}
-                {isVersionHistoryMode ? <Link id='btn-open-history' icon='icon-version-history' href={false} onClick={() => props.openOptions('history')}></Link> : null}
-                <Link className={(props.disabledSettings || props.disabledControls || isDisconnected) && 'disabled'} id='btn-settings' icon='icon-settings' href={false} onClick={() => props.openOptions('settings')}></Link>
+                {Device.phone ? null : <Link className={(props.disabledControls || props.disabledPreview || isOpenModal) && 'disabled'} icon='icon-search' searchbarEnable='.searchbar' href={false}></Link>}
+                {props.displayCollaboration && window.matchMedia("(min-width: 375px)").matches && !isVersionHistoryMode ? <Link className={(props.disabledControls || isOpenModal) && 'disabled'} id='btn-coauth' href={false} icon='icon-collaboration' onClick={() => props.openOptions('coauth')}></Link> : null}
+                {isVersionHistoryMode ? <Link id='btn-open-history' icon='icon-version-history' href={false} className={isOpenModal && 'disabled'} onClick={() => props.openOptions('history')}></Link> : null}
+                <Link className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-settings' icon='icon-settings' href={false} onClick={() => props.openOptions('settings')}></Link>
             </NavRight>
         </Fragment>
     )

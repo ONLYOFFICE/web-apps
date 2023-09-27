@@ -115,6 +115,7 @@ define([
 
             close: function() {
                 if (this.cmpEl) this.cmpEl.remove();
+                this.trigger('close');
             },
 
             applyPlacement: function () {

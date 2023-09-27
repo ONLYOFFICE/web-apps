@@ -202,7 +202,7 @@ define([
                 Common.Utils.InternalSettings.set("sse-settings-fontrender", value);
                 this.api.asc_setFontRenderingMode(parseInt(value));
 
-                value = Common.localStorage.getBool("sse-settings-show-alt-hints", Common.Utils.isMac ? false : true);
+                value = Common.localStorage.getBool("sse-settings-show-alt-hints", true);
                 Common.Utils.InternalSettings.set("sse-settings-show-alt-hints", value);
 
                 if ( !Common.Utils.isIE ) {
@@ -460,7 +460,7 @@ define([
                 this.appOptions.canMakeActionLink = this.editorConfig.canMakeActionLink;
                 this.appOptions.canFeaturePivot = true;
                 this.appOptions.canFeatureViews = true;
-                this.appOptions.uiRtl = true;
+                this.appOptions.uiRtl = false;
                 this.appOptions.canRequestReferenceData = this.editorConfig.canRequestReferenceData;
                 this.appOptions.canRequestOpen = this.editorConfig.canRequestOpen;
                 this.appOptions.canRequestReferenceSource = this.editorConfig.canRequestReferenceSource;
@@ -517,7 +517,8 @@ define([
                 Common.Utils.InternalSettings.set("sse-allow-macros-request", (value !== null) ? parseInt(value)  : 0);
 
                 this.appOptions.wopi = this.editorConfig.wopi;
-                
+                this.headerView.setWopi(this.appOptions.wopi);
+
                 this.isFrameClosed = (this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge || this.appOptions.isEditOle);
                 Common.Controllers.Desktop.init(this.appOptions);
 
@@ -1164,9 +1165,8 @@ define([
                         buttons = ['ok'],
                         primary = 'ok';
                     if ((this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0 &&
-                        (license===Asc.c_oLicenseResult.SuccessLimit || license===Asc.c_oLicenseResult.ExpiredLimited || this.appOptions.permissionsLicense===Asc.c_oLicenseResult.SuccessLimit)) {
-                        (license===Asc.c_oLicenseResult.ExpiredLimited) && this.getApplication().getController('LeftMenu').leftMenu.setLimitMode();// show limited hint
-                        license = (license===Asc.c_oLicenseResult.ExpiredLimited) ? this.warnLicenseLimitedNoAccess : this.warnLicenseLimitedRenewed;
+                        (license===Asc.c_oLicenseResult.SuccessLimit || this.appOptions.permissionsLicense===Asc.c_oLicenseResult.SuccessLimit)) {
+                        license = this.warnLicenseLimitedRenewed;
                     } else if (license===Asc.c_oLicenseResult.Connections || license===Asc.c_oLicenseResult.UsersCount) {
                         license = (license===Asc.c_oLicenseResult.Connections) ? this.warnLicenseExceeded : this.warnLicenseUsersExceeded;
                     } else {
@@ -1305,7 +1305,8 @@ define([
             onEditorPermissions: function(params) {
                 var licType = params ? params.asc_getLicenseType() : Asc.c_oLicenseResult.Error;
                 if ( params && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge || this.appOptions.isEditOle)) {
-                    if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType || Asc.c_oLicenseResult.ExpiredTrial === licType || Asc.c_oLicenseResult.NotBefore === licType) {
+                    if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType || Asc.c_oLicenseResult.ExpiredTrial === licType ||
+                        Asc.c_oLicenseResult.NotBefore === licType || Asc.c_oLicenseResult.ExpiredLimited === licType) {
                         Common.UI.warning({
                             title: Asc.c_oLicenseResult.NotBefore === licType ? this.titleLicenseNotActive : this.titleLicenseExp,
                             msg: Asc.c_oLicenseResult.NotBefore === licType ? this.warnLicenseBefore : this.warnLicenseExp,
@@ -1314,8 +1315,6 @@ define([
                         });
                         return;
                     }
-                    if (Asc.c_oLicenseResult.ExpiredLimited === licType)
-                        this._state.licenseType = licType;
 
                     if ( this.onServerVersion(params.asc_getBuildVersion()) || !this.onLanguageLoaded() ) return;
 
@@ -2085,6 +2084,15 @@ define([
                         config.msg = this.errorProtectedRange;
                         break;
 
+                    case Asc.c_oAscError.ID.TraceDependentsNoFormulas:
+                        config.msg = this.errorDependentsNoFormulas;
+                        break;
+
+                    case Asc.c_oAscError.ID.TracePrecedentsNoValidReference:
+                        config.msg = this.errorPrecedentsNoValidRef;
+                        config.maxwidth = 600;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2433,82 +2441,102 @@ define([
 
             onConfirmAction: function(id, apiCallback, data) {
                 var me = this;
-                if (id == Asc.c_oAscConfirm.ConfirmReplaceRange || id == Asc.c_oAscConfirm.ConfirmReplaceFormulaInTable) {
-                    Common.UI.warning({
-                        title: this.notcriticalErrorTitle,
-                        msg: id == Asc.c_oAscConfirm.ConfirmReplaceRange ? this.confirmMoveCellRange : this.confirmReplaceFormulaInTable,
-                        buttons: ['yes', 'no'],
-                        primary: 'yes',
-                        callback: _.bind(function(btn) {
-                            if (apiCallback)  {
-                                apiCallback(btn === 'yes');
-                            }
-                            if (btn == 'yes') {
+                switch (id) {
+                    case Asc.c_oAscConfirm.ConfirmReplaceRange:
+                    case Asc.c_oAscConfirm.ConfirmReplaceFormulaInTable:
+                        Common.UI.warning({
+                            title: this.notcriticalErrorTitle,
+                            msg: id == Asc.c_oAscConfirm.ConfirmReplaceRange ? this.confirmMoveCellRange : this.confirmReplaceFormulaInTable,
+                            buttons: ['yes', 'no'],
+                            primary: 'yes',
+                            callback: _.bind(function(btn) {
+                                if (apiCallback)  {
+                                    apiCallback(btn === 'yes');
+                                }
+                                if (btn == 'yes') {
+                                    me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
+                                }
+                            }, this)
+                        });
+                        break;
+                    case Asc.c_oAscConfirm.ConfirmPutMergeRange:
+                        Common.UI.warning({
+                            closable: false,
+                            title: this.notcriticalErrorTitle,
+                            msg: this.confirmPutMergeRange,
+                            buttons: ['ok'],
+                            primary: 'ok',
+                            callback: _.bind(function(btn) {
+                                if (apiCallback)  {
+                                    apiCallback();
+                                }
+                                me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
+                            }, this)
+                        });
+                        break;
+                    case Asc.c_oAscConfirm.ConfirmChangeProtectRange:
+                        var win = new Common.Views.OpenDialog({
+                            title: this.txtUnlockRange,
+                            closable: true,
+                            type: Common.Utils.importTextType.DRM,
+                            warning: true,
+                            warningMsg: this.txtUnlockRangeWarning,
+                            txtOpenFile: this.txtUnlockRangeDescription,
+                            validatePwd: false,
+                            handler: function (result, value) {
+                                if (me.api && apiCallback)  {
+                                    if (result == 'ok') {
+                                        me.api.asc_checkProtectedRangesPassword(value.drmOptions.asc_getPassword(), data, function(res) {
+                                            apiCallback(res, false);
+                                        });
+                                    } else
+                                        apiCallback(false, true);
+                                }
                                 me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
                             }
-                        }, this)
-                    });
-                } else if (id == Asc.c_oAscConfirm.ConfirmPutMergeRange) {
-                    Common.UI.warning({
-                        closable: false,
-                        title: this.notcriticalErrorTitle,
-                        msg: this.confirmPutMergeRange,
-                        buttons: ['ok'],
-                        primary: 'ok',
-                        callback: _.bind(function(btn) {
-                            if (apiCallback)  {
-                                apiCallback();
-                            }
-                            me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
-                        }, this)
-                    });
-                } else if (id == Asc.c_oAscConfirm.ConfirmChangeProtectRange) {
-                    var win = new Common.Views.OpenDialog({
-                        title: this.txtUnlockRange,
-                        closable: true,
-                        type: Common.Utils.importTextType.DRM,
-                        warning: true,
-                        warningMsg: this.txtUnlockRangeWarning,
-                        txtOpenFile: this.txtUnlockRangeDescription,
-                        validatePwd: false,
-                        handler: function (result, value) {
-                            if (me.api && apiCallback)  {
-                                if (result == 'ok') {
-                                    me.api.asc_checkProtectedRangesPassword(value.drmOptions.asc_getPassword(), data, function(res) {
-                                        apiCallback(res, false);
-                                    });
-                                } else
-                                    apiCallback(false, true);
-                            }
-                            me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
-                        }
-                    });
-                    win.show();
-                } else if (id == Asc.c_oAscConfirm.ConfirmAddCellWatches) {
-                    Common.UI.warning({
-                        title: this.notcriticalErrorTitle,
-                        msg: (data>Asc.c_nAscMaxAddCellWatchesCount) ? Common.Utils.String.format(this.confirmAddCellWatchesMax, Asc.c_nAscMaxAddCellWatchesCount) : Common.Utils.String.format(this.confirmAddCellWatches, data),
-                        buttons: ['yes', 'no'],
-                        primary: 'yes',
-                        callback: _.bind(function(btn) {
-                            if (apiCallback)  {
-                                apiCallback(btn === 'yes');
-                            }
-                        }, this)
-                    });
-                } else if (id == Asc.c_oAscConfirm.ConfirmMaxChangesSize) {
-                    Common.UI.warning({
-                        title: this.notcriticalErrorTitle,
-                        msg: this.confirmMaxChangesSize,
-                        buttons: [{value: 'ok', caption: this.textUndo, primary: true}, {value: 'cancel', caption: this.textContinue}],
-                        maxwidth: 600,
-                        callback: _.bind(function(btn) {
-                            if (apiCallback)  {
-                                apiCallback(btn === 'ok');
-                            }
-                            me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
-                        }, this)
-                    });
+                        });
+                        win.show();
+                        break;
+                    case Asc.c_oAscConfirm.ConfirmAddCellWatches:
+                        Common.UI.warning({
+                            title: this.notcriticalErrorTitle,
+                            msg: (data>Asc.c_nAscMaxAddCellWatchesCount) ? Common.Utils.String.format(this.confirmAddCellWatchesMax, Asc.c_nAscMaxAddCellWatchesCount) : Common.Utils.String.format(this.confirmAddCellWatches, data),
+                            buttons: ['yes', 'no'],
+                            primary: 'yes',
+                            callback: _.bind(function(btn) {
+                                if (apiCallback)  {
+                                    apiCallback(btn === 'yes');
+                                }
+                            }, this)
+                        });
+                        break;
+                    case Asc.c_oAscConfirm.ConfirmMaxChangesSize:
+                        Common.UI.warning({
+                            title: this.notcriticalErrorTitle,
+                            msg: this.confirmMaxChangesSize,
+                            buttons: [{value: 'ok', caption: this.textUndo, primary: true}, {value: 'cancel', caption: this.textContinue}],
+                            maxwidth: 600,
+                            callback: _.bind(function(btn) {
+                                if (apiCallback)  {
+                                    apiCallback(btn === 'ok');
+                                }
+                                me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
+                            }, this)
+                        });
+                        break;
+                    case Asc.c_oAscConfirm.ConfirmReplaceHeaderFooterPicture:
+                        Common.UI.warning({
+                            title: this.notcriticalErrorTitle,
+                            msg: this.confirmReplaceHFPicture,
+                            buttons: [{value: 'ok', caption: this.textReplace, primary: true}, {value: 'cancel', caption: this.textKeep}],
+                            maxwidth: 600,
+                            callback: _.bind(function(btn) {
+                                if (apiCallback)  {
+                                    apiCallback(btn === 'ok');
+                                }
+                            }, this)
+                        });
+                        break;
                 }
             },
 
@@ -3856,7 +3884,12 @@ define([
             txtNone: 'None',
             warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.',
             txtSlicer: 'Slicer',
-            txtInfo: 'Info'
+            txtInfo: 'Info',
+            confirmReplaceHFPicture: 'Only one picture can be inserted in each section of the header.<br>Press \"Replace\" to replace existing picture.<br>Press \"Keep\" to keep existing picture.',
+            textReplace: 'Replace',
+            textKeep: 'Keep',
+            errorDependentsNoFormulas: 'The Trace Dependents command found no formulas that refer to the active cell.',
+            errorPrecedentsNoValidRef: 'The Trace Precedents command requires that the active cell contain a formula which includes a valid references.'
         }
     })(), SSE.Controllers.Main || {}))
 });
