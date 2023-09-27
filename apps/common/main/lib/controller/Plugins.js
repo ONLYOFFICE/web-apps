@@ -402,8 +402,8 @@ define([
                     isBackground = false;
                 collection.each(function (model) {
                     var new_rank = model.get('groupRank'),
-                        is_visual = model.get('isVisual');
-                    if (!is_visual) {
+                        isBackgroundPlugin = model.get('isBackgroundPlugin');
+                    if (isBackgroundPlugin) {
                         me.backgroundPlugins.push(model);
                         return;
                     }
@@ -732,7 +732,7 @@ define([
                     var variationsArr = [],
                         pluginVisible = false,
                         isDisplayedInViewer = false,
-                        isVisual = false,
+                        isBackgroundPlugin = false,
                         isSystem;
                     item.variations.forEach(function(itemVar, itemInd){
                         isSystem = (true === itemVar.isSystem) || ("system" === itemVar.type);
@@ -769,7 +769,7 @@ define([
 
                             variationsArr.push(model);
                             if (itemInd === 0) {
-                                isVisual = itemVar.isVisual;
+                                isBackgroundPlugin = itemVar.type ? itemVar.type === 'background' : !itemVar.isVisual;
                             }
                         }
                     });
@@ -794,7 +794,7 @@ define([
                             minVersion: item.minVersion,
                             original: item,
                             isDisplayedInViewer: isDisplayedInViewer,
-                            isVisual: isVisual,
+                            isBackgroundPlugin: pluginVisible && isBackgroundPlugin,
                             isSystem: isSystem
                         }));
                     }
