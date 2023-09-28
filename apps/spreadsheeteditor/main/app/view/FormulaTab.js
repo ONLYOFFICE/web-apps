@@ -273,7 +273,7 @@ define([
                 this.btnMore = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-more'),
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-more',
+                    iconCls: 'toolbar__icon btn-big-more',
                     caption: this.txtMore,
                     hint: this.txtMore,
                     menu: true,

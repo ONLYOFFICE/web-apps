@@ -142,17 +142,6 @@ define([
 
             /** coauthoring end **/
 
-            this.btnPlugins = new Common.UI.Button({
-                el: $markup.elementById('#left-btn-plugins'),
-                hint: this.tipPlugins,
-                enableToggle: true,
-                disabled: true,
-                iconCls: 'btn-menu-plugin',
-                toggleGroup: 'leftMenuGroup'
-            });
-            this.btnPlugins.hide();
-            this.btnPlugins.on('click',         this.onBtnMenuClick.bind(this));
-
             this.btnNavigation = new Common.UI.Button({
                 el: $markup.elementById('#left-btn-navigation'),
                 hint: this.tipOutline,
@@ -176,6 +165,9 @@ define([
             });
             this.btnThumbnails.hide();
             this.btnThumbnails.on('click', this.onBtnMenuClick.bind(this));
+
+            this.pluginSeparator = $markup.find('.separator-plugins');
+            this.pluginMoreContainer = $markup.find('#slot-btn-plugins-more');
 
             this.$el.html($markup);
 
@@ -263,12 +255,6 @@ define([
                 }
             }
             /** coauthoring end **/
-            // if (this.mode.canPlugins && this.panelPlugins) {
-            //     if (this.btnPlugins.pressed) {
-            //         this.panelPlugins.show();
-            //     } else
-            //         this.panelPlugins['hide']();
-            // }
         },
 
         setOptionsPanel: function(name, panel) {
@@ -329,10 +315,6 @@ define([
                     }
                 }
                 /** coauthoring end **/
-                if (this.mode.canPlugins && this.panelPlugins && !this._state.pluginIsRunning) {
-                    this.panelPlugins['hide']();
-                    this.btnPlugins.toggle(false, true);
-                }
                 if (this.panelNavigation) {
                     this.panelNavigation['hide']();
                     this.btnNavigation.toggle(false);
@@ -364,7 +346,6 @@ define([
             this.btnComments.setDisabled(false);
             this.btnChat.setDisabled(false);
             /** coauthoring end **/
-            this.btnPlugins.setDisabled(false);
             this.btnNavigation.setDisabled(false);
             this.btnThumbnails.setDisabled(false);
         },

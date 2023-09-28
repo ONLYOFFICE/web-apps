@@ -9,6 +9,8 @@
         <button id="left-btn-spellcheck" class="btn btn-category" content-target="left-panel-spellcheck" data-hint="0" data-hint-direction="right" data-hint-offset="big" data-layout-name="leftMenu-spellcheck"><i class="icon toolbar__icon btn-ic-docspell">&nbsp;</i></button>
         <button id="left-btn-support" class="btn btn-category" content-target="" data-hint="0" data-hint-direction="right" data-hint-offset="big"><i class="icon toolbar__icon btn-menu-support">&nbsp;</i></button>
         <button id="left-btn-about" class="btn btn-category" content-target="" data-hint="0" data-hint-direction="right" data-hint-offset="big"><i class="icon toolbar__icon btn-menu-about">&nbsp;</i></button>
+        <div class="separator horizontal separator-plugins" style="display: none;"></div>
+        <div id="slot-btn-plugins-more"></div>
     </div>
     <div class="left-panel" style="">
         <div id="left-panel-search" class="" style="display: none;"></div>
