@@ -4724,10 +4724,17 @@ define([
             }
         },
 
+        isPivotNumberFormat: function() {
+            if (this.propsPivot && this.propsPivot.originalProps && this.propsPivot.field) {
+                return (this.propsPivot.originalProps.asc_getFieldGroupType(this.propsPivot.pivotIndex) !== Asc.c_oAscGroupType.Text);
+            }
+            return false;
+        },
+
         onNumberFormatSelect: function(menu, item) {
             if (item.value !== undefined && item.value !== 'advanced') {
                 if (this.api)
-                    if (this.propsPivot && this.propsPivot.originalProps && this.propsPivot.field) {
+                    if (this.isPivotNumberFormat()) {
                         var field = (this.propsPivot.fieldType === 2) ? new Asc.CT_DataField() : new Asc.CT_PivotField();
                         field.asc_setNumFormat(item.options.format);
                         this.propsPivot.field.asc_set(this.api, this.propsPivot.originalProps, (this.propsPivot.fieldType === 2) ? this.propsPivot.index : this.propsPivot.pivotIndex, field);
@@ -4746,7 +4753,7 @@ define([
                 api: me.api,
                 handler: function(result, settings) {
                     if (settings) {
-                        if (me.propsPivot && me.propsPivot.originalProps && me.propsPivot.field) {
+                        if (me.isPivotNumberFormat()) {
                             var field = (me.propsPivot.fieldType === 2) ? new Asc.CT_DataField() : new Asc.CT_PivotField();
                             field.asc_setNumFormat(settings.format);
                             me.propsPivot.field.asc_set(me.api, me.propsPivot.originalProps, (me.propsPivot.fieldType === 2) ? me.propsPivot.index : me.propsPivot.pivotIndex, field);
