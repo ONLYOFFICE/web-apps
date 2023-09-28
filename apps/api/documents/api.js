@@ -1031,6 +1031,9 @@
         if (config.editorConfig && config.editorConfig.customization && config.editorConfig.customization.uiTheme )
             params += "&uitheme=" + config.editorConfig.customization.uiTheme;
 
+        if (config.document.fileType)
+            params += "&fileType=" + config.document.fileType;
+
         return params;
     }
 
