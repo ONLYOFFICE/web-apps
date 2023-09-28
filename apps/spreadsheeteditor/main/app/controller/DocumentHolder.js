@@ -4727,7 +4727,12 @@ define([
         onNumberFormatSelect: function(menu, item) {
             if (item.value !== undefined && item.value !== 'advanced') {
                 if (this.api)
-                    this.api.asc_setCellFormat(item.options.format);
+                    if (this.propsPivot && this.propsPivot.originalProps && this.propsPivot.field) {
+                        var field = (this.propsPivot.fieldType === 2) ? new Asc.CT_DataField() : new Asc.CT_PivotField();
+                        field.asc_setNumFormat(item.options.format);
+                        this.propsPivot.field.asc_set(this.api, this.propsPivot.originalProps, (this.propsPivot.fieldType === 2) ? this.propsPivot.index : this.propsPivot.pivotIndex, field);
+                    } else
+                        this.api.asc_setCellFormat(item.options.format);
             }
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         },
@@ -4741,7 +4746,12 @@ define([
                 api: me.api,
                 handler: function(result, settings) {
                     if (settings) {
-                        me.api.asc_setCellFormat(settings.format);
+                        if (me.propsPivot && me.propsPivot.originalProps && me.propsPivot.field) {
+                            var field = (me.propsPivot.fieldType === 2) ? new Asc.CT_DataField() : new Asc.CT_PivotField();
+                            field.asc_setNumFormat(settings.format);
+                            me.propsPivot.field.asc_set(me.api, me.propsPivot.originalProps, (me.propsPivot.fieldType === 2) ? me.propsPivot.index : me.propsPivot.pivotIndex, field);
+                        } else
+                            me.api.asc_setCellFormat(settings.format);
                     }
                     Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
                 },
