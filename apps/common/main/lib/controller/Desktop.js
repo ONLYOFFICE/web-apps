@@ -789,6 +789,12 @@ define([
             return (t > utils.defines.FileFormat.FILE_SPREADSHEET &&
                     !(t > utils.defines.FileFormat.FILE_CROSSPLATFORM)) ||
                 t == utils.defines.FileFormat.FILE_CROSSPLATFORM_XPS;
+        } else
+        if ( window.PDFE ) {
+            return t == utils.defines.FileFormat.FILE_CROSSPLATFORM_PDFA ||
+                    t == utils.defines.FileFormat.FILE_CROSSPLATFORM_PDF ||
+                    t == utils.defines.FileFormat.FILE_CROSSPLATFORM_DJVU ||
+                    t ==  utils.defines.FileFormat.FILE_CROSSPLATFORM_XPS;
         }
 
         return false;
