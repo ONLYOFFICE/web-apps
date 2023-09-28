@@ -158,7 +158,7 @@ define([
                     break;
                 default: // 1, 2, 3, ...
                     toCustomFormat = function(value) { return value; };
-                    minValue = 0;
+                    minValue = AscCommon.IntToNumberFormat(0, this.props.format)!=='' ? 0 : 1;
                     break;
             }
 
