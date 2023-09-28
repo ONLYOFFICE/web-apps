@@ -515,11 +515,14 @@ define([
 
             if (strcolor == 'transparent') {
                 me.api.SetMarkerFormat(me.toolbar.btnStrikeout.options.type, true, 0);
+                me.toolbar.mnuStrikeoutColorPicker && me.toolbar.mnuStrikeoutColorPicker.clearSelection();
+                me.toolbar.mnuStrikeoutTransparent.setChecked(true, true);
             } else {
                 var r = strcolor[0] + strcolor[1],
                     g = strcolor[2] + strcolor[3],
                     b = strcolor[4] + strcolor[5];
                 me.api.SetMarkerFormat(me.toolbar.btnStrikeout.options.type, true, 100, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
+                me.toolbar.mnuStrikeoutTransparent.setChecked(false, true);
             }
             me.api.asc_StopInkDrawer();
             Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnStrikeout);
@@ -558,11 +561,14 @@ define([
 
             if (strcolor == 'transparent') {
                 me.api.SetMarkerFormat(me.toolbar.btnUnderline.options.type, true, 0);
+                me.toolbar.mnuUnderlineColorPicker && me.toolbar.mnuUnderlineColorPicker.clearSelection();
+                me.toolbar.mnuUnderlineTransparent.setChecked(true, true);
             } else {
                 var r = strcolor[0] + strcolor[1],
                     g = strcolor[2] + strcolor[3],
                     b = strcolor[4] + strcolor[5];
                 me.api.SetMarkerFormat(me.toolbar.btnUnderline.options.type, true, 100, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
+                me.toolbar.mnuUnderlineTransparent.setChecked(false, true);
             }
             me.api.asc_StopInkDrawer();
             Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnUnderline);
@@ -601,11 +607,14 @@ define([
 
             if (strcolor == 'transparent') {
                 me.api.SetMarkerFormat(me.toolbar.btnHighlight.options.type, true, 0);
+                me.toolbar.mnuHighlightColorPicker && me.toolbar.mnuHighlightColorPicker.clearSelection();
+                me.toolbar.mnuHighlightTransparent.setChecked(true, true);
             } else {
                 var r = strcolor[0] + strcolor[1],
                     g = strcolor[2] + strcolor[3],
                     b = strcolor[4] + strcolor[5];
                 me.api.SetMarkerFormat(me.toolbar.btnHighlight.options.type, true, 100, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
+                me.toolbar.mnuHighlightTransparent.setChecked(false, true);
             }
             me.api.asc_StopInkDrawer();
             Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnHighlight);

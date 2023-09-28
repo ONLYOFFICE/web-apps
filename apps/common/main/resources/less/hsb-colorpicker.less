@@ -11,14 +11,12 @@
         border: @scaled-one-px-value-ie solid @border-regular-control-ie;
         border: @scaled-one-px-value solid @border-regular-control;
         background-image: none;
-        background-position: 0 -206px;
-        background-repeat: no-repeat;
 
         .transparent-color {
             width: 22px;
             height: 22px;
             float: left;
-            background-position: 0 -206px;
+            background-position: -168px -12px;
         }
     }
 
@@ -81,7 +79,7 @@
         margin-left: -5px;
         margin-left: calc(-4px - @scaled-one-px-value);
         position: absolute;
-        background-position: -168px -200px;
+        background-position: 0px 0px;
         .pixel-ratio__2_5 & {
             .inline-svg-code( @code ) {
                 @svg-code: escape(~'<?xml version="1.0" ?>@{code}');
@@ -95,6 +93,7 @@
             background-image: @inline-svg-url;
             .margin-left(-4px);
         }
+
         .rtl & {
             margin-left: 0;
             margin-right: -4px;

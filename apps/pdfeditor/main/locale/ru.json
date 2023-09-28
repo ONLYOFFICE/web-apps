@@ -443,6 +443,7 @@
   "PDFE.Controllers.Viewport.txtDarkMode": "Темный режим",
   "PDFE.Views.DocumentHolder.addCommentText": "Добавить комментарий",
   "PDFE.Views.DocumentHolder.textCopy": "Копировать",
+  "PDFE.Views.DocumentHolder.txtWarnUrl": "Переход по этой ссылке может нанести вред вашему устройству и данным.<br>Вы действительно хотите продолжить?",
   "PDFE.Views.FileMenu.btnBackCaption": "Открыть расположение файла",
   "PDFE.Views.FileMenu.btnCloseMenuCaption": "Закрыть меню",
   "PDFE.Views.FileMenu.btnCreateNewCaption": "Создать новый",
