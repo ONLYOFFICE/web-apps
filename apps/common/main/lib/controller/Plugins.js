@@ -488,7 +488,7 @@ define([
 
         onPluginsInit: function(pluginsdata) {
             !(pluginsdata instanceof Array) && (pluginsdata = pluginsdata["pluginsData"]);
-            this.parsePlugins(pluginsdata)
+            this.parsePlugins(pluginsdata, false, true)
         },
 
         onPluginShowButton: function(id, toRight) {
@@ -526,7 +526,7 @@ define([
             });
         },
 
-        parsePlugins: function(pluginsdata, uiCustomize) {
+        parsePlugins: function(pluginsdata, uiCustomize, forceUpdate) {
             var me = this;
             var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins'),
                 isEdit = me.appOptions.isEdit && !me.isPDFEditor,
@@ -536,12 +536,20 @@ define([
                 var arr = [], arrUI = [],
                     lang = me.appOptions.lang.split(/[\-_]/)[0];
                 pluginsdata.forEach(function(item){
-                    if ( arr.some(function(i) {
-                                return (i.get('baseUrl') == item.baseUrl || i.get('guid') == item.guid);
-                            }
-                        ) || pluginStore.findWhere({baseUrl: item.baseUrl}) || pluginStore.findWhere({guid: item.guid}))
-                    {
-                        return;
+                    var updatedItem;
+                    if (forceUpdate) {
+                        updatedItem = arr.find(function (i){
+                            return i.get('baseUrl') == item.baseUrl || i.get('guid') == item.guid}
+                        );
+                        !updatedItem && (updatedItem = pluginStore.findWhere({baseUrl: item.baseUrl}));
+                        !updatedItem && (updatedItem = pluginStore.findWhere({guid: item.guid}));
+                    } else {
+                        if ( arr.some(function(i) {
+                            return (i.get('baseUrl') == item.baseUrl || i.get('guid') == item.guid);
+                        }) || pluginStore.findWhere({baseUrl: item.baseUrl}) || pluginStore.findWhere({guid: item.guid}) )
+                        {
+                            return;
+                        }
                     }
 
                     var variationsArr = [],
@@ -592,7 +600,7 @@ define([
                         if (pluginVisible)
                             pluginVisible = me.checkPluginVersion(apiVersion, item.minVersion);
 
-                        arr.push(new Common.Models.Plugin({
+                        var props = {
                             name : name,
                             guid: item.guid,
                             baseUrl : item.baseUrl,
@@ -604,7 +612,8 @@ define([
                             minVersion: item.minVersion,
                             original: item,
                             isDisplayedInViewer: isDisplayedInViewer
-                        }));
+                        };
+                        updatedItem ? updatedItem.set(props) : arr.push(new Common.Models.Plugin(props));
                     }
                 });
 
