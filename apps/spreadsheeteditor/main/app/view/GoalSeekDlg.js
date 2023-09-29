@@ -144,9 +144,7 @@ define([
                 allowBlank  : false,
                 blankError  : this.txtEmpty,
                 style       : 'width: 100%;',
-                validateOnBlur: false,
-                validation  : function(value) {
-                }
+                maskExp     : /[0-9,\-]/
             });
 
             this.afterRender();
@@ -167,17 +165,17 @@ define([
         },
 
         _setDefaults: function (props) {
-            if (props) {
-                var me = this;
-                this.txtFormulaCell.validation = function(value) {
-                    // var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
-                    // return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
-                };
-                this.txtChangeCell.validation = function(value) {
-                    // var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
-                    // return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
-                };
-            }
+            var me = this;
+            this.txtFormulaCell.validation = function(value) {
+                var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.GoalSeek_Cell, value, true);
+                return (isvalid==Asc.c_oAscError.ID.MustContainFormula) ? me.textInvalidFormula : true;
+            };
+            this.txtFormulaCell.setValue(this.api.asc_getActiveRangeStr(Asc.referenceType.A));
+            this.txtFormulaCell.checkValidate();
+            this.txtChangeCell.validation = function(value) {
+                var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.GoalSeek_ChangingCell, value, true);
+                return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
+            };
         },
 
         getSettings: function () {
@@ -227,6 +225,7 @@ define([
         textChangingCell: 'By changing cell',
         txtEmpty: 'This field is required',
         textSelectData: 'Select data',
-        textInvalidRange:   'Invalid cells range'
+        textInvalidRange: 'Invalid cells range',
+        textInvalidFormula: 'The cell must contain a formula'
     }, SSE.Views.GoalSeekDlg || {}))
 });
