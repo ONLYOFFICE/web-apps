@@ -412,6 +412,7 @@
     "errorEmptyTOC": "Začít vytvářet obsah aplikováním stylů pro nadpisy na vybraný text. ",
     "errorFilePassProtect": "Soubor je zabezpečen heslem a nemůže být otevřen.",
     "errorFileSizeExceed": "Velikost souboru je větší než limit serveru.<br>Prosím kontaktujte Vašeho správce.",
+    "errorForceSave": "Při ukládání souboru došlo k chybě. Prosím použijte „Stáhnout jako“ a uložte si soubor k sobě na počítač nebo původní volbu zkuste znovu později.",
     "errorInconsistentExt": "Při otevírání souboru došlo k chybě.<br>Obsah souboru neodpovídá příponě souboru.",
     "errorInconsistentExtDocx": "Při otevírání souboru došlo k chybě.<br>Obsah souboru odpovídá textovým dokumentům (např. docx), ale má nekorespondující příponu: %1.",
     "errorInconsistentExtPdf": "Při otevírání souboru došlo k chybě.<br>Obsah souboru odpovídá některému z následujících formátů: pdf/djvu/xps/oxps, ale má nekorespondující příponu: %1.",
@@ -429,6 +430,7 @@
     "errorSessionToken": "Připojení k serveru bylo přerušeno. Načtěte prosím stránku znovu.",
     "errorSetPassword": "Heslo nemohlo být použito",
     "errorStockChart": "Nesprávné pořadí řádků. Pro vytvoření burzovního grafu umístěte data na list v následujícím pořadí:<br> otevírací cena, maximální cena, minimální cena, uzavírací cena.",
+    "errorSubmit": "Potvrzení selhalo.",
     "errorTextFormWrongFormat": "Zadaná hodnota neodpovídá formátu pole.",
     "errorToken": "Token zabezpečení dokumentu nemá správný formát.<br> Obraťte se na Vašeho správce dokumentového serveru.",
     "errorTokenExpire": "Platnost tokenu zabezpečení dokumentu skončila.<br>Obraťte se na správce vámi využívaného dokumentového serveru.",
@@ -445,14 +447,12 @@
     "splitMaxRowsErrorText": "Počet řádků musí být menší než 1%",
     "unknownErrorText": "Neznámá chyba.",
     "uploadDocExtMessage": "Neznámý formát dokumentu.",
+    "uploadDocFileCountMessage": "Nenahrán žádný dokument.",
+    "uploadDocSizeMessage": "Překročena maximální velikost dokumentu.",
     "uploadImageExtMessage": "Neznámý formát obrázku.",
     "uploadImageFileCountMessage": "Nenahrány žádné obrázky.",
     "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB.",
-    "errorCompare": "The Compare documents feature is not available in the co-editing mode.",
-    "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
-    "errorSubmit": "Submit failed.",
-    "uploadDocFileCountMessage": "No documents uploaded.",
-    "uploadDocSizeMessage": "Maximum document size limit exceeded."
+    "errorCompare": "The Compare documents feature is not available in the co-editing mode."
   },
   "LongActions": {
     "applyChangesTextText": "Načítání dat...",
