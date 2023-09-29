@@ -1,4 +1,10 @@
 {
+  "Common.UI.Calendar.textApril": "Kwiecień",
+  "Common.UI.Calendar.textAugust": "Sierpień",
+  "Common.UI.Calendar.textShortApril": "Kwi",
+  "Common.UI.Calendar.textShortAugust": "Sie",
+  "Common.UI.Window.cancelButtonText": "Anuluj",
+  "Common.UI.Window.closeButtonText": "Zamknij",
   "DE.Controllers.ApplicationController.convertationErrorText": "Konwertowanie nieudane.",
   "DE.Controllers.ApplicationController.convertationTimeoutText": "Przekroczono limit czasu konwersji.",
   "DE.Controllers.ApplicationController.criticalErrorTitle": "Błąd",
