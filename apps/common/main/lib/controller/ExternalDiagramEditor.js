@@ -50,6 +50,7 @@ define([
         var appLang         = '{{DEFAULT_LANG}}',
             customization   = undefined,
             targetApp       = '',
+            canRequestOpen = false,
             externalEditor  = null,
             isAppFirstOpened = true,
             isChartUpdating = false;
@@ -83,6 +84,7 @@ define([
                     'onAppReady'            : function() {},
                     'onDocumentStateChange' : function() {},
                     'onError'               : function() {},
+                    'onRequestOpen'         : canRequestOpen ? this.onRequestOpen : undefined,
                     'onInternalMessage'     : _.bind(this.onInternalMessage, this)
                 }
             });
@@ -175,6 +177,7 @@ define([
                     if (data.config.lang) appLang = data.config.lang;
                     if (data.config.customization) customization = data.config.customization;
                     if (data.config.targetApp) targetApp = data.config.targetApp;
+                    canRequestOpen = !!data.config.canRequestOpen;
                 }
             },
 
@@ -264,6 +267,11 @@ define([
                 if (data.type == 'mouseup' && this.isExternalEditorVisible) {
                     externalEditor && externalEditor.serviceCommand('processmouse', data);
                 }
+            },
+
+            onRequestOpen: function(event) {
+                if (event && event.data)
+                    Common.Gateway.requestOpen(event.data);
             },
 
             onSendFromGeneralToFrameEditor: function(data) {

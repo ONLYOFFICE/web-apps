@@ -61,10 +61,20 @@
     </tr>
     <tr>
         <td class="padding-small">
-            <button type="button" class="btn btn-text-default auto" id="chart-button-edit-data" style="min-width:115px;" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textEditData %></button>
+            <label class="header"><%= scope.textData %></label>
+        </td>
+    </tr>
+    <tr class="open-link">
+        <td class="padding-small">
+            <label class="link" id="chart-open-external-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium" style=""></label>
         </td>
     </tr>
     <tr>
+        <td class="padding-small">
+            <button type="button" class="btn btn-text-default auto" id="chart-button-edit-data" style="min-width:115px;" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textEditData %></button>
+        </td>
+    </tr>
+    <tr class="external-only">
         <td class="padding-small">
             <button type="button" class="btn btn-text-default auto" id="chart-button-update-data" style="min-width:115px;" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textUpdateData %></button>
         </td>

@@ -1656,6 +1656,8 @@
   "DE.Views.ChartSettings.txtTopAndBottom": "Top and bottom",
   "DE.Views.ChartSettings.textKeepRatio": "Constant proportions",
   "DE.Views.ChartSettings.textUpdateData": "Update Data",
+  "DE.Views.ChartSettings.textSelectData": "Select Data",
+  "DE.Views.ChartSettings.textData": "Data",
   "DE.Views.ControlSettingsDialog.strGeneral": "General",
   "DE.Views.ControlSettingsDialog.textAdd": "Add",
   "DE.Views.ControlSettingsDialog.textAppearance": "Appearance",

@@ -90,6 +90,8 @@ define([
             el.html(this.template({
                 scope: this
             }));
+            this.ExternalOnlySettings = $('.external-only');
+            this.OpenLinkSettings = $('.open-link');
         },
 
         setApi: function(api) {
@@ -99,6 +101,10 @@ define([
                 this.api.asc_registerCallback('asc_onAddChartStylesPreview', _.bind(this.onAddChartStylesPreview, this));
             }
             return this;
+        },
+
+        setMode: function(mode) {
+            this.mode = mode;
         },
 
         ChangeSettings: function(props) {
@@ -111,6 +117,13 @@ define([
                 this._originalProps = props;
                 this._noApply = true;
                 this.chartProps = props.get_ChartProperties();
+
+                var externalRef = this.chartProps.getExternalReference();
+                this.btnEditData.setCaption(externalRef ? this.textSelectData : this.textEditData);
+                this.ExternalOnlySettings.toggleClass('settings-hidden', !externalRef);
+                var text = externalRef ? (externalRef.asc_getSource() || '').replace(new RegExp("%20",'g')," ") : '';
+                this.linkExternalSrc.text(text);
+                this.OpenLinkSettings.toggleClass('settings-hidden', !text || !(this.mode.canRequestOpen || this.mode.isOffline));
 
                 var value = props.get_SeveralCharts() || this._locked;
                 this.btnEditData.setDisabled(value);
@@ -551,6 +564,8 @@ define([
 
             this.linkAdvanced = $('#chart-advanced-link');
             $(this.el).on('click', '#chart-advanced-link', _.bind(this.openAdvancedSettings, this));
+            this.linkExternalSrc = $('#chart-open-external-link');
+            $(this.el).on('click', '#chart-open-external-link', _.bind(this.openLink, this));
 
             this.NotCombinedSettings = $('.not-combined');
             this.Chart3DContainer = $('#chart-panel-3d-rotate');
@@ -895,6 +910,33 @@ define([
             }
         },
 
+        openLink: function(e) {
+            if (this.linkExternalSrc.hasClass('disabled')) return;
+            var externalRef = this.chartProps.getExternalReference();
+            if (externalRef) {
+                var data = this.api.asc_openExternalReference(externalRef);
+                if (data) {
+                    switch (data.asc_getType()) {
+                        case Asc.c_oAscExternalReferenceType.link:
+                            data = {link: data.asc_getData()};
+                            break;
+                        case Asc.c_oAscExternalReferenceType.path:
+                            data = {path: data.asc_getData()};
+                            break;
+                        case Asc.c_oAscExternalReferenceType.referenceData:
+                            data = {
+                                referenceData: data.asc_getData(),
+                                path: data.asc_getPath()
+                            };
+                            break;
+                    }
+                    data.windowName = 'wname-' + Date.now();
+                    window.open("", data.windowName);
+                    Common.Gateway.requestOpen(data);
+                }
+            }
+        },
+
         setLocked: function (locked) {
             this._locked = locked;
         },
@@ -908,6 +950,7 @@ define([
                     item.setDisabled(disable);
                 });
                 this.linkAdvanced.toggleClass('disabled', disable);
+                this.linkExternalSrc.toggleClass('disabled', disable);
             }
         },
 
@@ -934,6 +977,8 @@ define([
         textRightAngle: 'Right Angle Axes',
         textAutoscale: 'Autoscale',
         textDefault: 'Default Rotation',
-        textUpdateData: 'Update Data'
+        textUpdateData: 'Update Data',
+        textSelectData: 'Select Data',
+        textData: 'Data'
     }, PE.Views.ChartSettings || {}));
 });

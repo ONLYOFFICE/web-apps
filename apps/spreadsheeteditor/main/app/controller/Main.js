@@ -2862,13 +2862,16 @@ define([
             onShowProtectedChartPopup: function(value) {
                 if (value) {
                     if (!this._state.chartProtectTip) {
-                        var me = this;
+                        var me = this,
+                            text = (value.asc_getSource() || '').replace(new RegExp("%20",'g')," "),
+                            showLink = !!text && (this.appOptions.canRequestOpen || this.api.asc_isOffline());
                         this._state.chartProtectTip = new Common.UI.SynchronizeTip({
                             extCls: 'no-arrow',
                             placement: 'bottom',
                             target: $('.toolbar'),
                             text: this.warnExternalChartProtected,
-                            showLink: false,
+                            showLink: showLink,
+                            textLink: this.txtOpen + ' ' + text,
                             closable: true,
                             showButton: false
                         });
@@ -2876,8 +2879,38 @@ define([
                             this.close();
                             me._state.chartProtectTip = undefined;
                         });
+                        showLink && this._state.chartProtectTip.on('dontshowclick', function () {
+                            me.openExternalLink(value);
+                            this.close();
+                            me._state.chartProtectTip = undefined;
+                        });
                     }
                     this._state.chartProtectTip.show();
+                }
+            },
+
+            openExternalLink: function(externalRef) {
+                if (externalRef) {
+                    var data = this.api.asc_openExternalReference(externalRef);
+                    if (data) {
+                        switch (data.asc_getType()) {
+                            case Asc.c_oAscExternalReferenceType.link:
+                                data = {link: data.asc_getData()};
+                                break;
+                            case Asc.c_oAscExternalReferenceType.path:
+                                data = {path: data.asc_getData()};
+                                break;
+                            case Asc.c_oAscExternalReferenceType.referenceData:
+                                data = {
+                                    referenceData: data.asc_getData(),
+                                    path: data.asc_getPath()
+                                };
+                                break;
+                        }
+                        data.windowName = 'wname-' + Date.now();
+                        window.open("", data.windowName);
+                        Common.Gateway.requestOpen(data);
+                    }
                 }
             },
 
@@ -3907,7 +3940,8 @@ define([
             errorDependentsNoFormulas: 'The Trace Dependents command found no formulas that refer to the active cell.',
             errorPrecedentsNoValidRef: 'The Trace Precedents command requires that the active cell contain a formula which includes a valid references.',
             warnExternalChartProtected: 'This chart is based on data from an external file. In this window, you can only select data to display in the chart. To edit the spreadsheet, open it in the spreadsheet editor.',
-            txtPicture: 'Picture'
+            txtPicture: 'Picture',
+            txtOpen: 'Open'
         }
     })(), SSE.Controllers.Main || {}))
 });

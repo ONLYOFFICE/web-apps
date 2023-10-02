@@ -1412,6 +1412,7 @@
   "SSE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
   "SSE.Controllers.Main.warnExternalChartProtected": "This chart is based on data from an external file. In this window, you can only select data to display in the chart. To edit the spreadsheet, open it in the spreadsheet editor.",
   "SSE.Controllers.Main.txtPicture": "Picture",
+  "SSE.Controllers.Main.txtOpen": "Open",
   "SSE.Controllers.PivotTable.strSheet": "Sheet",
   "SSE.Controllers.Print.strAllSheets": "All Sheets",
   "SSE.Controllers.Print.textFirstCol": "First column",
