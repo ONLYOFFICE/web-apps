@@ -108,12 +108,12 @@ define([
                 } else
                 if (/editor:config/.test(cmd)) {
                     if ( param == 'request' ) {
-                        if ( !!titlebuttons ) {
-                            var opts = {
-                                user: config.user,
-                                title: { buttons: [] }
-                            };
+                        var opts = {
+                            user: config.user,
+                            title: { buttons: [] }
+                        };
 
+                        if ( !!titlebuttons ) {
                             var header = webapp.getController('Viewport').getView('Common.Views.Header');
                             if ( header ) {
                                 for (var i in titlebuttons) {
@@ -127,6 +127,8 @@ define([
                             config.callback_editorconfig = function() {
                                 setTimeout(function(){window.on_native_message(cmd, param);},0);
                             }
+                        } else {
+                            native.execCommand('editor:config', JSON.stringify(opts));
                         }
                     }
                 } else
