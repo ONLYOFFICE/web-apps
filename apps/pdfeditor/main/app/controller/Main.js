@@ -1706,13 +1706,13 @@ define([
                     };
 
                 if (oInfo["greater"] != null && oInfo["less"] != null) {
-                    config.msg = Common.Utils.String.format(this.txtInvalidGreaterLess, oInfo["target"].GetFullName(), oInfo["greater"], oInfo["less"]);
+                    config.msg = Common.Utils.String.format(this.txtInvalidGreaterLess, oInfo["target"]["name"], oInfo["greater"], oInfo["less"]);
                 }
                 else if (oInfo["greater"] != null) {
-                    config.msg = Common.Utils.String.format(this.txtInvalidGreater, oInfo["target"].GetFullName(), oInfo["greater"]);
+                    config.msg = Common.Utils.String.format(this.txtInvalidGreater, oInfo["target"]["name"], oInfo["greater"]);
                 }
                 else if (oInfo["less"] != null) {
-                    config.msg = Common.Utils.String.format(this.txtInvalidLess, oInfo["target"].GetFullName(), oInfo["less"]);
+                    config.msg = Common.Utils.String.format(this.txtInvalidLess, oInfo["target"]["name"], oInfo["less"]);
                 }
 
                 if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
@@ -1728,7 +1728,7 @@ define([
                         buttons: ['ok']
                     };
 
-                config.msg = Common.Utils.String.format(this.txtInvalidPdfFormat, oInfo["target"].GetFullName());
+                config.msg = Common.Utils.String.format(this.txtInvalidPdfFormat, oInfo["target"]["name"]);
                 if (oInfo["format"])
                     config.msg += '<br>' + Common.Utils.String.format(this.txtValidPdfFormat, oInfo["format"]);
 
