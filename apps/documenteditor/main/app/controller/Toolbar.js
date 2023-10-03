@@ -3548,7 +3548,7 @@ define([
             if (this.currentSmartArtMenu) {
                 this.currentSmartArtMenu.menu.alignPosition();
             }
-            if (this.delayedSmartArt) {
+            if (this.delayedSmartArt !== undefined) {
                 var delayedSmartArt = this.delayedSmartArt;
                 this.delayedSmartArt = undefined;
                 this.generateSmartArt(delayedSmartArt);
