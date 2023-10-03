@@ -3655,7 +3655,7 @@ define([
                             };
                             break;
                     }
-                    data && me.externalData.stackRequests.push({data: data, id: item.asc_getId(), isExternal: item.asc_isExternalLink()});
+                    data && me.externalData.stackRequests.push({data: data, id: item.asc_getId(), isExternal: item.asc_isExternalLink(), source: item.asc_getSource() || ''});
                 });
                 me.externalData.callback = callback;
                 me.requestReferenceData();
@@ -3666,6 +3666,7 @@ define([
             if (this.externalData.stackRequests.length>0) {
                 var item = this.externalData.stackRequests.shift();
                 this.externalData.linkStatus.id = item.id;
+                this.externalData.linkStatus.source = item.source;
                 this.externalData.linkStatus.isExternal = item.isExternal;
                 Common.Gateway.requestReferenceData(item.data);
             }
@@ -3676,6 +3677,8 @@ define([
                 if (data) {
                     this.externalData.stackResponse.push(data);
                     this.externalData.linkStatus.result = this.externalData.linkStatus.isExternal ? '' : data.error || '';
+                    if (this.externalData.linkStatus.result)
+                        Common.NotificationCenter.trigger('showmessage', {msg: this.externalData.linkStatus.result + (this.externalData.linkStatus.source ? ' (' + this.externalData.linkStatus.source + ')' : '') });
                 }
                 if (this.externalData.stackRequests.length>0)
                     this.requestReferenceData();

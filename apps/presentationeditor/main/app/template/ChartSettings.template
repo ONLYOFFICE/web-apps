@@ -51,7 +51,7 @@
     </tr>
     <tr class="open-link">
         <td class="padding-small">
-            <label class="link" id="chart-open-external-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium" style=""></label>
+            <label class="link" id="chart-open-external-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium" style="max-width:190px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"></label>
         </td>
     </tr>
     <tr>
