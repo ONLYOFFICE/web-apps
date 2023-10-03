@@ -1798,15 +1798,19 @@ define([
                             scrollAlwaysVisible: true,
                             showLast: false
                         });
-                        item.$el.one('mouseenter', function () {
-                            me.documentHolder.fireEvent('generate:smartart', [item.value, menu]);
-                            item.$el.mouseenter();
-                        });
                         item.menuPicker.on('item:click', function(picker, item, record, e) {
                             if (record) {
                                 me.api.asc_createSmartArt(record.get('value'), me._state.placeholderObj);
                             }
                             Common.NotificationCenter.trigger('edit:complete', me);
+                        });
+                        item.$el.on('mouseenter', function () {
+                            if (item.menuPicker.store.length === 0) {
+                                me.documentHolder.fireEvent('smartart:mouseenter', [item.value, menu]);
+                            }
+                        });
+                        item.$el.on('mouseleave', function () {
+                            me.documentHolder.fireEvent('smartart:mouseleave', [item.value]);
                         });
                     });
                     menu.off('show:before', onShowBeforeSmartArt);

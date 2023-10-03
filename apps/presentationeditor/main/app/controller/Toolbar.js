@@ -145,7 +145,8 @@ define([
                     'smartart:mouseleave': this.mouseleaveSmartArt,
                 },
                 'DocumentHolder': {
-                    'generate:smartart' : this.generateSmartArt,
+                    'smartart:mouseenter': this.mouseenterSmartArt,
+                    'smartart:mouseleave': this.mouseleaveSmartArt,
                 },
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),
@@ -2818,11 +2819,12 @@ define([
             }
         },
 
-        mouseenterSmartArt: function (groupName) {
+        mouseenterSmartArt: function (groupName, menu) {
             if (this.smartArtGenerating === undefined) {
-                this.generateSmartArt(groupName);
+                this.generateSmartArt(groupName, menu);
             } else {
                 this.delayedSmartArt = groupName;
+                this.delayedSmartArtMenu = menu;
             }
         },
 
@@ -2875,7 +2877,7 @@ define([
             if (this.delayedSmartArt !== undefined) {
                 var delayedSmartArt = this.delayedSmartArt;
                 this.delayedSmartArt = undefined;
-                this.generateSmartArt(delayedSmartArt);
+                this.generateSmartArt(delayedSmartArt, this.delayedSmartArtMenu);
             }
         },
 
