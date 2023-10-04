@@ -86,7 +86,10 @@ const SettingsController = props => {
 
     const changeTitleHandler = () => {
         if(!appOptions.canRename) return;
+
         const docTitle = storeDocumentInfo.dataDoc.title;
+        const api = Common.EditorApi.get();
+        api.asc_enableKeyEvents(true);
 
         f7.dialog.create({
             title: t('Toolbar.textRenameFile'),

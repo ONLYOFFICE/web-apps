@@ -211,6 +211,9 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     const changeTitleHandler = () => {
         if(!appOptions.canRename) return;
 
+        const api = Common.EditorApi.get();
+        api.asc_enableKeyEvents(true);
+
         f7.dialog.create({
             title: t('Toolbar.textRenameFile'),
             text : t('Toolbar.textEnterNewFileName'),
