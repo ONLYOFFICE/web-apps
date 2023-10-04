@@ -85,7 +85,7 @@ const SettingsController = props => {
     };
 
     const changeTitleHandler = () => {
-        if(!appOptions.isEdit) return;
+        if(!appOptions.canRename) return;
         const docTitle = storeDocumentInfo.dataDoc.title;
 
         f7.dialog.create({

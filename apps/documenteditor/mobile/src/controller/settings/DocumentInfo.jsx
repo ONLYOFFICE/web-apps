@@ -148,7 +148,7 @@ class DocumentInfoController extends Component {
     }
 
     changeTitleHandler() {
-        if(!this.props.storeAppOptions.isEdit) return;
+        if(!this.props.storeAppOptions.canRename) return;
 
         const { t } = this.props;
         const storeDocumentInfo = this.props.storeDocumentInfo;
