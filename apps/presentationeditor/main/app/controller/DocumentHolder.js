@@ -144,9 +144,10 @@ define([
                 if (me.api.can_AddQuotedComment()!==false && me.documentHolder.slidesCount>0) {
                     me.addComment();
                 }
+                return false;
             };
 
-            me.hkPreview = 'command+f5,ctrl+f5';
+            me.hkPreview = Common.Utils.isMac ? 'command+shift+enter' : 'ctrl+f5';
             keymap[me.hkPreview] = function(e) {
                 var isResized = false;
                 e.preventDefault();
@@ -2599,7 +2600,7 @@ define([
                     menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                     menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
                     menu.items[8].options.isToolbarHide = isEqToolbarHide;
-                    menu.items[8].setCaption(isEqToolbarHide ? me.documentHolder.showEqToolbar : me.documentHolder.hideEqToolbar);
+                    menu.items[8].setCaption(isEqToolbarHide ? me.documentHolder.showEqToolbar : me.documentHolder.hideEqToolbar, true);
                 };
                 me.equationSettingsBtn.menu.on('item:click', _.bind(me.convertEquation, me));
                 me.equationSettingsBtn.menu.on('show:before', function(menu) {
@@ -2610,6 +2611,7 @@ define([
             }
 
             var showPoint = [(bounds[0] + bounds[2])/2 - eqContainer.outerWidth()/2, bounds[1] - eqContainer.outerHeight() - 10];
+            (showPoint[0]<0) && (showPoint[0] = 0);
             if (showPoint[1]<0) {
                 showPoint[1] = bounds[3] + 10;
             }

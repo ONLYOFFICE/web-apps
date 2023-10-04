@@ -501,6 +501,20 @@
 			"na": "#N/A",
 			"getdata": "#GETTING_DATA",
 			"uf": "#UNSUPPORTED_FUNCTION!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "odkaz",
+			"col": "sloupec",
+			"color": "barva",
+			"contents": "obsah",
+			"filename": "názevsouboru",
+			"format": "formát",
+			"parentheses": "závorky",
+			"prefix": "prefix",
+			"protect": "zámek",
+			"row": "řádek",
+			"type": "typ",
+			"width": "šířka"
 		}
 	}
 }

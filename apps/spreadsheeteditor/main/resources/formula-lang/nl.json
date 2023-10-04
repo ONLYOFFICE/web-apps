@@ -501,6 +501,20 @@
 			"na": "#N/A",
 			"getdata": "#GETTING_DATA",
 			"uf": "#UNSUPPORTED_FUNCTION!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "adres",
+			"col": "kolom",
+			"color": "kleur",
+			"contents": "inhoud",
+			"filename": "bestandsnaam",
+			"format": "notatie",
+			"parentheses": "haakjes",
+			"prefix": "voorvoegsel",
+			"protect": "bescherming",
+			"row": "rij",
+			"type": "type",
+			"width": "breedte"
 		}
 	}
 }

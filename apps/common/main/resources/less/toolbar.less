@@ -335,6 +335,9 @@
 
         &.small {
             .padding-left-10();
+            &.padding-right-10 {
+                .padding-right-10();
+            }
 
             + .separator:not(.invisible) {
                 .margin-left-10();
@@ -992,6 +995,54 @@ section .field-styles {
         .pixel-ratio__2_5 & {
             display: flex;
             align-items: center;
+        }
+    }
+}
+
+.background-plugins {
+    .menu-header {
+        display: block;
+        font-weight: bold;
+        padding: 10px 16px;
+    }
+    > li > .menu-item {
+        display: flex;
+        align-items: center;
+        padding: 8px 16px;
+        .menu-item-icon {
+            float: none;
+            margin: 0;
+            .margin-right(5px);
+            width: 28px;
+            height: 28px;
+        }
+        .plugin-caption {
+            flex-basis: 100%;
+            padding-top: 3px;
+        }
+        .plugin-tools {
+            display: flex;
+            .float-right();
+            padding-top: 2px;
+            .plugin-toggle {
+                display: flex;
+                align-items: center;
+            }
+            .plugin-settings {
+                width: 20px;
+                height: 20px;
+                .margin-left-8();
+                .btn-toolbar.dropdown-toggle {
+                    min-width: 20px;
+                }
+                .btn-group {
+                    &:active, &.active {
+                        &:not(.disabled) .icon {
+                            background-position-x: @button-small-active-icon-offset-x !important;
+                        }
+                    }
+                }
+            }
         }
     }
 }

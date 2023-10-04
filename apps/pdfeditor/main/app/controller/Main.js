@@ -1107,7 +1107,7 @@ define([
                 if (params.asc_getRights() !== Asc.c_oRights.Edit)
                     this.permissions.edit = this.permissions.review = false;
 
-                var isXpsViewer = /^(?:(djvu|xps|oxps))$/.test(this.document.fileType);
+                var isXpsViewer = /^(?:(djvu|xps|oxps))$/.test(this.document.fileType) || Common.Locale.getDefaultLanguage() === 'ru';
 
                 this.appOptions.permissionsLicense = licType;
                 this.appOptions.canAnalytics   = params.asc_getIsAnalyticsEnable();
@@ -1706,13 +1706,13 @@ define([
                     };
 
                 if (oInfo["greater"] != null && oInfo["less"] != null) {
-                    config.msg = Common.Utils.String.format(this.txtInvalidGreaterLess, oInfo["target"].GetFullName(), oInfo["greater"], oInfo["less"]);
+                    config.msg = Common.Utils.String.format(this.txtInvalidGreaterLess, oInfo["target"]["api"]["name"], oInfo["greater"], oInfo["less"]);
                 }
                 else if (oInfo["greater"] != null) {
-                    config.msg = Common.Utils.String.format(this.txtInvalidGreater, oInfo["target"].GetFullName(), oInfo["greater"]);
+                    config.msg = Common.Utils.String.format(this.txtInvalidGreater, oInfo["target"]["api"]["name"], oInfo["greater"]);
                 }
                 else if (oInfo["less"] != null) {
-                    config.msg = Common.Utils.String.format(this.txtInvalidLess, oInfo["target"].GetFullName(), oInfo["less"]);
+                    config.msg = Common.Utils.String.format(this.txtInvalidLess, oInfo["target"]["api"]["name"], oInfo["less"]);
                 }
 
                 if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
@@ -1728,7 +1728,7 @@ define([
                         buttons: ['ok']
                     };
 
-                config.msg = Common.Utils.String.format(this.txtInvalidPdfFormat, oInfo["target"].GetFullName());
+                config.msg = Common.Utils.String.format(this.txtInvalidPdfFormat, oInfo["target"]["api"]["name"]);
                 if (oInfo["format"])
                     config.msg += '<br>' + Common.Utils.String.format(this.txtValidPdfFormat, oInfo["format"]);
 

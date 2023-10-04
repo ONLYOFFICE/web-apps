@@ -108,11 +108,16 @@ define([
                 caption: me.txtAddComment
             });
 
+            me.pmiViewGetRangeList = new Common.UI.MenuItem({
+                caption     : me.txtGetLink
+            });
+
             me.menuSignatureViewSign   = new Common.UI.MenuItem({caption: this.strSign,      value: 0 });
             me.menuSignatureDetails    = new Common.UI.MenuItem({caption: this.strDetails,   value: 1 });
             me.menuSignatureViewSetup  = new Common.UI.MenuItem({caption: this.strSetup,     value: 2 });
             me.menuSignatureRemove     = new Common.UI.MenuItem({caption: this.strDelete,    value: 3 });
             me.menuViewSignSeparator   = new Common.UI.MenuItem({caption: '--' });
+            me.menuViewCommentSeparator   = new Common.UI.MenuItem({caption: '--' });
 
             this.viewModeMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
@@ -125,7 +130,9 @@ define([
                     me.menuSignatureViewSetup,
                     me.menuSignatureRemove,
                     me.menuViewSignSeparator,
-                    me.menuViewAddComment
+                    me.menuViewAddComment,
+                    me.menuViewCommentSeparator,
+                    me.pmiViewGetRangeList
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
                 me.clearCustomItems(menu);
@@ -340,6 +347,41 @@ define([
 
             me.mnuRefreshPivot = new Common.UI.MenuItem({
                 caption     : me.txtRefresh
+            });
+
+            me.mnuExpandCollapsePivot = new Common.UI.MenuItem({
+                caption     : this.txtExpandCollapse,
+                menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign   : 'tl-tr',
+                    items: [
+                        {
+                            caption : this.txtExpand,
+                            value   : {
+                                visible: true,
+                                isAll: false
+                            }
+                        },{
+                            caption : this.txtCollapse,
+                            value   : {
+                                visible: false,
+                                isAll: false
+                            }
+                        },{
+                            caption : this.txtExpandEntire,
+                            value   : {
+                                visible: true,
+                                isAll: true
+                            }
+                        },{
+                            caption : this.txtCollapseEntire,
+                            value   : {
+                                visible: false,
+                                isAll: true
+                            }
+                        }
+                    ]
+                })
             });
 
             me.mnuGroupPivot = new Common.UI.MenuItem({
@@ -562,6 +604,7 @@ define([
 
             me.mnuPivotRefreshSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotSubtotalSeparator = new Common.UI.MenuItem({caption: '--'});
+            me.mnuPivotExpandCollapseSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotGroupSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotDeleteSeparator = new Common.UI.MenuItem({caption: '--'});
             me.mnuPivotValueSeparator = new Common.UI.MenuItem({caption: '--'});
@@ -816,6 +859,8 @@ define([
                     me.mnuPivotFilterSeparator,
                     me.mnuSubtotalField,
                     me.mnuPivotSubtotalSeparator,
+                    me.mnuExpandCollapsePivot,
+                    me.mnuPivotExpandCollapseSeparator,
                     me.mnuGroupPivot,
                     me.mnuUnGroupPivot,
                     me.mnuPivotGroupSeparator,
@@ -1643,6 +1688,11 @@ define([
         txtArrange:             'Arrange',
         txtAddComment:          'Add Comment',
         txtEditComment:         'Edit Comment',
+        txtExpandCollapse:      'Expand/Collapse',
+        txtExpand:              'Expand',
+        txtCollapse:            'Collapse',
+        txtExpandEntire:        'Expand Entire Field',
+        txtCollapseEntire:      'Collapse Entire Field',
         txtUngroup:             'Ungroup',
         txtGroup:               'Group',
         topCellText:            'Align Top',

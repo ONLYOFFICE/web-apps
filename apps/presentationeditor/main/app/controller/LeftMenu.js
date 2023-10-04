@@ -70,7 +70,6 @@ define([
                     }, this)
                 },
                 'Common.Views.Plugins': {
-                    'plugin:open': _.bind(this.onPluginOpen, this),
                     'hide':        _.bind(this.onHidePlugins, this)
                 },
                 'Common.Views.About': {
@@ -477,7 +476,7 @@ define([
             this.leftMenu.btnComments.setDisabled(true);
             this.leftMenu.btnChat.setDisabled(true);
             /** coauthoring end **/
-            this.leftMenu.btnPlugins.setDisabled(true);
+            this.leftMenu.fireEvent('plugins:disable', [true]);
 
             this.leftMenu.getMenu('file').setMode({isDisconnected: true, enableDownload: !!enableDownload});
         },
@@ -643,8 +642,7 @@ define([
                         }
                     }
 
-                    if ( this.leftMenu.btnAbout.pressed || this.leftMenu.btnPlugins.pressed ||
-                        $(e.target).parents('#left-menu').length ) {
+                    if ( this.leftMenu.btnAbout.pressed || $(e.target).parents('#left-menu').length ) {
                         if (!Common.UI.HintManager.isHintVisible()) {
                             this.leftMenu.close();
                             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
@@ -667,22 +665,6 @@ define([
                     }
                     return false;
                 /** coauthoring end **/
-            }
-        },
-
-        onPluginOpen: function(panel, type, action) {
-            if (type == 'onboard') {
-                if (action == 'open') {
-                    this.tryToShowLeftMenu();
-                    this.leftMenu.close();
-                    this.leftMenu.btnThumbs.toggle(false, false);
-                    this.leftMenu.panelPlugins.show();
-                    this.leftMenu.onBtnMenuClick({pressed: true, options: {action: 'plugins'}});
-                    this.leftMenu._state.pluginIsRunning = true;
-                } else {
-                    this.leftMenu._state.pluginIsRunning = false;
-                    this.leftMenu.close();
-                }
             }
         },
 
@@ -770,8 +752,8 @@ define([
             if (!options || options.chat)
                 this.leftMenu.btnChat.setDisabled(disable);
 
-            this.leftMenu.btnPlugins.setDisabled(disable);
             this.leftMenu.btnThumbs.setDisabled(disable);
+            this.leftMenu.fireEvent('plugins:disable', [disable]);
         },
 
         isCommentsVisible: function() {

@@ -2841,7 +2841,7 @@ define([
                 });
                 win.$window.find('#id-equation-convert-help').on('click', function (e) {
                     win && win.close();
-                    me.getApplication().getController('LeftMenu').getView('LeftMenu').showMenu('file:help', 'UsageInstructions\/InsertEquation.htm#convertequation');
+                    Common.NotificationCenter.trigger('file:help', 'UsageInstructions\/InsertEquation.htm#convertequation');
                 })
             },
 

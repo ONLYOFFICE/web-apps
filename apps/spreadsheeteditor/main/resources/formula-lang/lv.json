@@ -501,6 +501,20 @@
 			"na": "#N/A",
 			"getdata": "#GETTING_DATA",
 			"uf": "#UNSUPPORTED_FUNCTION!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "adrese",
+			"col": "kolonna",
+			"color": "krāsa",
+			"contents": "saturs",
+			"filename": "faila_nosaukums",
+			"format": "formāts",
+			"parentheses": "iekavas",
+			"prefix": "prefikss",
+			"protect": "aizsargāt",
+			"row": "rinda",
+			"type": "tips",
+			"width": "platums"
 		}
 	}
 }

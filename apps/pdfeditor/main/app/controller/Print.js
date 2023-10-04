@@ -558,7 +558,8 @@ define([
 
         SetDisabled: function() {
             if (this.printSettings.isVisible()) {
-                var disable = !this.mode.isEdit || this._state.lock_doc;
+                // var disable = !this.mode.isEdit || this._state.lock_doc;
+                var disable = true;
                 this.printSettings.cmbPaperSize.setDisabled(disable);
                 this.printSettings.cmbPaperMargins.setDisabled(disable);
                 this.printSettings.cmbPaperOrientation.setDisabled(disable);

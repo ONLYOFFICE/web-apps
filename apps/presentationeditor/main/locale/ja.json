@@ -1,6 +1,8 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "警告",
   "Common.Controllers.Chat.textEnterMessage": "ここにメッセージを挿入してください。",
+  "Common.Controllers.Desktop.hintBtnHome": "メインウィンドウを表示する",
+  "Common.Controllers.Desktop.itemCreateFromTemplate": "テンプレートから作成",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "匿名",
   "Common.Controllers.ExternalDiagramEditor.textClose": "閉じる",
   "Common.Controllers.ExternalDiagramEditor.warningText": "他のユーザーが編集しているのためオブジェクトが無効になります。",
@@ -1986,6 +1988,7 @@
   "PE.Views.FileMenuPanels.Settings.txtHieroglyphs": "漢字",
   "PE.Views.FileMenuPanels.Settings.txtInch": "インチ",
   "PE.Views.FileMenuPanels.Settings.txtLast": "最後に表示",
+  "PE.Views.FileMenuPanels.Settings.txtLastUsed": "最後に使用した項目",
   "PE.Views.FileMenuPanels.Settings.txtMac": "OS Xとして",
   "PE.Views.FileMenuPanels.Settings.txtNative": "ネイティブ",
   "PE.Views.FileMenuPanels.Settings.txtProofing": "校正",

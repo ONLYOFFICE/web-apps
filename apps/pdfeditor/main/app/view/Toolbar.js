@@ -243,7 +243,7 @@ define([
                     this.btnHandTool = new Common.UI.Button({
                         id: 'tlbtn-handtool',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-hand-tool',
+                        iconCls: 'toolbar__icon btn-big-hand-tool',
                         lock: [_set.disableOnStart],
                         caption: me.capBtnHand,
                         toggleGroup: 'select-tools-tb',

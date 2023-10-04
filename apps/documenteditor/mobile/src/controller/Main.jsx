@@ -215,7 +215,9 @@ class MainController extends Component {
 
                 const storeAppOptions = this.props.storeAppOptions;
                 const editorConfig = window.native?.editorConfig;
-                const isForceEdit = editorConfig?.mobileForceView === false;
+                const config = storeAppOptions.config;
+                const customization = config.customization;
+                const isMobileForceView = customization?.mobileForceView !== undefined ? customization.mobileForceView : editorConfig?.mobileForceView !== undefined ? editorConfig.mobileForceView : true;
 
                 storeAppOptions.setPermissionOptions(this.document, licType, params, this.permissions, EditorUIController.isSupportEditFeature());
 
@@ -225,9 +227,9 @@ class MainController extends Component {
                 const dataDoc = storeDocumentInfo.dataDoc;
                 const isExtRestriction = dataDoc.fileType !== 'oform';
 
-                if(isExtRestriction && !isForceEdit) {
+                if(isExtRestriction && isMobileForceView) {
                     this.api.asc_addRestriction(Asc.c_oAscRestrictionType.View);
-                } else if(isExtRestriction && isForceEdit) {
+                } else if(isExtRestriction && !isMobileForceView) {
                     storeAppOptions.changeViewerMode(false);
                 } else {
                     this.api.asc_addRestriction(Asc.c_oAscRestrictionType.OnlyForms)
@@ -341,7 +343,14 @@ class MainController extends Component {
                         delete _translate[item];
                     });
 
-                    this.api = new Asc.asc_docs_api({
+                    var result = /[\?\&]fileType=\b(pdf|djvu|xps|oxps)\b&?/i.exec(window.location.search),
+                        isPDF = (!!result && result.length && typeof result[1] === 'string');
+
+                    this.api = isPDF ? new Asc.PDFEditorApi({
+                        'id-view'  : 'editor_sdk',
+                        'mobile'   : true,
+                        'translate': _translate
+                    }) : new Asc.asc_docs_api({
                         'id-view'  : 'editor_sdk',
                         'mobile'   : true,
                         'translate': _translate

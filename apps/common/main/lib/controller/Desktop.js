@@ -108,12 +108,12 @@ define([
                 } else
                 if (/editor:config/.test(cmd)) {
                     if ( param == 'request' ) {
-                        if ( !!titlebuttons ) {
-                            var opts = {
-                                user: config.user,
-                                title: { buttons: [] }
-                            };
+                        var opts = {
+                            user: config.user,
+                            title: { buttons: [] }
+                        };
 
+                        if ( !!titlebuttons ) {
                             var header = webapp.getController('Viewport').getView('Common.Views.Header');
                             if ( header ) {
                                 for (var i in titlebuttons) {
@@ -127,6 +127,8 @@ define([
                             config.callback_editorconfig = function() {
                                 setTimeout(function(){window.on_native_message(cmd, param);},0);
                             }
+                        } else {
+                            native.execCommand('editor:config', JSON.stringify(opts));
                         }
                     }
                 } else
@@ -146,7 +148,7 @@ define([
                         window.RendererProcessVariable.theme.system = opts.theme.system;
 
                         if ( Common.UI.Themes.currentThemeId() == 'theme-system' )
-                            Common.UI.Themes.setTheme('theme-system');
+                            Common.UI.Themes.refreshTheme(true);
                     }
                 } else
                 if (/element:show/.test(cmd)) {
@@ -163,11 +165,11 @@ define([
                 if (/file:print/.test(cmd)) {
                     webapp.getController('Main').onPrint();
                 } else
-                if (/file:save/.test(cmd)) {
-                    webapp.getController('Main').api.asc_Save();
-                } else
                 if (/file:saveas/.test(cmd)) {
                     webapp.getController('Main').api.asc_DownloadAs();
+                } else
+                if (/file:save/.test(cmd)) {
+                    webapp.getController('Main').api.asc_Save();
                 }
             };
 
@@ -789,6 +791,12 @@ define([
             return (t > utils.defines.FileFormat.FILE_SPREADSHEET &&
                     !(t > utils.defines.FileFormat.FILE_CROSSPLATFORM)) ||
                 t == utils.defines.FileFormat.FILE_CROSSPLATFORM_XPS;
+        } else
+        if ( window.PDFE ) {
+            return t == utils.defines.FileFormat.FILE_CROSSPLATFORM_PDFA ||
+                    t == utils.defines.FileFormat.FILE_CROSSPLATFORM_PDF ||
+                    t == utils.defines.FileFormat.FILE_CROSSPLATFORM_DJVU ||
+                    t ==  utils.defines.FileFormat.FILE_CROSSPLATFORM_XPS;
         }
 
         return false;

@@ -228,6 +228,7 @@
                     hideNotes: false // hide or show notes panel on first loading (presentation editor)
                     uiTheme: 'theme-dark' // set interface theme: id or default-dark/default-light
                     integrationMode: "embed" // turn off scroll to frame
+                    mobileForceView: true/false (default: true) // turn on/off the 'reader' mode on launch. for mobile document editor only
                 },
                  coEditing: {
                      mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true. 'fast' - default for editor
@@ -436,8 +437,7 @@
                         'presentation': 'pptx',
                         'word': 'docx',
                         'cell': 'xlsx',
-                        'slide': 'pptx',
-                        'pdf': 'pdf'
+                        'slide': 'pptx'
                     }, app;
 
                 if (_config.documentType=='text' || _config.documentType=='spreadsheet' ||_config.documentType=='presentation')
@@ -455,7 +455,7 @@
 
                 if (typeof _config.document.fileType === 'string' && _config.document.fileType != '') {
                     _config.document.fileType = _config.document.fileType.toLowerCase();
-                    var type = /^(?:(xls|xlsx|ods|csv|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|sxc|et|ett)|(pps|ppsx|ppt|pptx|odp|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|sxi|dps|dpt)|(pdf)|(doc|docx|odt|gdoc|txt|rtf|mht|htm|html|mhtml|epub|djvu|xps|oxps|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf|sxw|stw|wps|wpt))$/
+                    var type = /^(?:(xls|xlsx|ods|csv|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|sxc|et|ett)|(pps|ppsx|ppt|pptx|odp|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|sxi|dps|dpt)|(doc|docx|odt|gdoc|txt|rtf|mht|htm|html|mhtml|epub|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf|sxw|stw|wps|wpt|pdf|djvu|xps|oxps))$/
                                     .exec(_config.document.fileType);
                     if (!type) {
                         window.alert("The \"document.fileType\" parameter for the config object is invalid. Please correct it.");
@@ -463,8 +463,7 @@
                     } else if (typeof _config.documentType !== 'string' || _config.documentType == ''){
                         if (typeof type[1] === 'string') _config.documentType = 'cell'; else
                         if (typeof type[2] === 'string') _config.documentType = 'slide'; else
-                        if (typeof type[3] === 'string') _config.documentType = 'pdf'; else
-                        if (typeof type[4] === 'string') _config.documentType = 'word';
+                        if (typeof type[3] === 'string') _config.documentType = 'word';
                     }
                 }
 
@@ -943,19 +942,23 @@
 
         if (typeof config.documentType === 'string') {
             app = appMap[config.documentType.toLowerCase()];
-            if (!!config.document && typeof config.document.fileType === 'string') {
+            if (config.type == 'desktop' && !!config.document && typeof config.document.fileType === 'string') {
                 var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(config.document.fileType);
                 if (type && typeof type[1] === 'string')
                     app = appMap['pdf'];
             }
         } else
         if (!!config.document && typeof config.document.fileType === 'string') {
-            var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp)|(pdf))$/
+            var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp))$/
                             .exec(config.document.fileType);
             if (type) {
                 if (typeof type[1] === 'string') app = appMap['cell']; else
-                if (typeof type[2] === 'string') app = appMap['slide']; else
-                if (typeof type[3] === 'string') app = appMap['pdf'];
+                if (typeof type[2] === 'string') app = appMap['slide'];
+            }
+            if (config.type == 'desktop') {
+                type = /^(?:(pdf|djvu|xps|oxps))$/.exec(config.document.fileType);
+                if (type && typeof type[1] === 'string')
+                    app = appMap['pdf'];
             }
         }
 
@@ -1028,6 +1031,9 @@
 
         if (config.editorConfig && config.editorConfig.customization && config.editorConfig.customization.uiTheme )
             params += "&uitheme=" + config.editorConfig.customization.uiTheme;
+
+        if (config.document.fileType)
+            params += "&fileType=" + config.document.fileType;
 
         return params;
     }

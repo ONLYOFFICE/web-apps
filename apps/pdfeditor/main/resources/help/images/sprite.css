@@ -1,0 +1,266 @@
+@import "../../../../../common/main/resources/help/images/symbols.css";
+
+.big{
+	background-image: url(../images/big.png);
+	background-repeat: no-repeat;
+	display: inline-block;
+}
+
+.big-checkbox_checked {
+	background-position: 0px 0px;
+	width: 127px;
+	height: 45px;
+}
+
+.icon{
+	background-image: url(../images/icons.png);
+	background-repeat: no-repeat;
+	display: inline-block;
+}
+
+.icon-speech {
+	background-position: 0px 0px;
+	width: 28px;
+	height: 28px;
+}
+
+.icon-speechinput {
+	background-position: -28px 0px;
+	width: 28px;
+	height: 28px;
+}
+
+.icon-translator {
+	background-position: 0px -28px;
+	width: 26px;
+	height: 26px;
+}
+
+.icon-telegram_icon {
+	background-position: -26px -28px;
+	width: 24px;
+	height: 24px;
+}
+
+.icon-favorites_icon {
+	background-position: -56px 0px;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-sortcommentsicon {
+	background-position: 0px -54px;
+	width: 31px;
+	height: 19px;
+}
+
+.icon-comment_toptoolbar {
+	background-position: -31px -54px;
+	width: 22px;
+	height: 19px;
+}
+
+.icon-removecomment_toptoolbar {
+	background-position: -56px -20px;
+	width: 15px;
+	height: 19px;
+}
+
+.icon-search_advanced {
+	background-position: -53px -54px;
+	width: 18px;
+	height: 18px;
+}
+
+.icon-search_icon_header {
+	background-position: -76px 0px;
+	width: 18px;
+	height: 18px;
+}
+
+.icon-access_rights {
+	background-position: 0px -73px;
+	width: 22px;
+	height: 17px;
+}
+
+.icon-gotodocuments {
+	background-position: -22px -73px;
+	width: 20px;
+	height: 17px;
+}
+
+.icon-chaticon_new {
+	background-position: -42px -73px;
+	width: 19px;
+	height: 17px;
+}
+
+.icon-handtool {
+	background-position: -76px -18px;
+	width: 13px;
+	height: 16px;
+}
+
+.icon-pagethumbnails {
+	background-position: -76px -34px;
+	width: 12px;
+	height: 16px;
+}
+
+.icon-selectiontool {
+	background-position: -76px -50px;
+	width: 10px;
+	height: 16px;
+}
+
+.icon-search_options {
+	background-position: -61px -73px;
+	width: 22px;
+	height: 15px;
+}
+
+.icon-chaticon {
+	background-position: -56px -39px;
+	width: 18px;
+	height: 15px;
+}
+
+.icon-print {
+	background-position: -94px 0px;
+	width: 17px;
+	height: 15px;
+}
+
+.icon-about {
+	background-position: -94px -15px;
+	width: 15px;
+	height: 15px;
+}
+
+.icon-fitpage {
+	background-position: -94px -30px;
+	width: 13px;
+	height: 15px;
+}
+
+.icon-commentsicon {
+	background-position: -94px -45px;
+	width: 14px;
+	height: 14px;
+}
+
+.icon-save {
+	background-position: -94px -59px;
+	width: 14px;
+	height: 14px;
+}
+
+.icon-searchicon {
+	background-position: -94px -73px;
+	width: 14px;
+	height: 14px;
+}
+
+.icon-firstpage {
+	background-position: -83px -73px;
+	width: 11px;
+	height: 14px;
+}
+
+.icon-lastpage {
+	background-position: 0px -90px;
+	width: 11px;
+	height: 14px;
+}
+
+.icon-nextpage {
+	background-position: -11px -90px;
+	width: 9px;
+	height: 14px;
+}
+
+.icon-previouspage {
+	background-position: -20px -90px;
+	width: 9px;
+	height: 14px;
+}
+
+.icon-feedbackicon {
+	background-position: -29px -90px;
+	width: 15px;
+	height: 13px;
+}
+
+.icon-copy {
+	background-position: -44px -90px;
+	width: 14px;
+	height: 13px;
+}
+
+.icon-paste {
+	background-position: -58px -90px;
+	width: 14px;
+	height: 13px;
+}
+
+.icon-selectall {
+	background-position: -72px -90px;
+	width: 14px;
+	height: 13px;
+}
+
+.icon-zoomin {
+	background-position: -86px -90px;
+	width: 13px;
+	height: 13px;
+}
+
+.icon-editcommenticon {
+	background-position: -99px -90px;
+	width: 12px;
+	height: 13px;
+}
+
+.icon-deletecommenticon {
+	background-position: -111px 0px;
+	width: 11px;
+	height: 12px;
+}
+
+.icon-fitwidth {
+	background-position: 0px -104px;
+	width: 16px;
+	height: 11px;
+}
+
+.icon-resolvedicon {
+	background-position: -16px -104px;
+	width: 12px;
+	height: 11px;
+}
+
+.icon-zoomout {
+	background-position: -111px -12px;
+	width: 10px;
+	height: 11px;
+}
+
+.icon-navigationicon {
+	background-position: -28px -104px;
+	width: 13px;
+	height: 10px;
+}
+
+.icon-searchdownbutton {
+	background-position: -41px -104px;
+	width: 14px;
+	height: 8px;
+}
+
+.icon-searchupbutton {
+	background-position: -55px -104px;
+	width: 14px;
+	height: 8px;
+}
+
