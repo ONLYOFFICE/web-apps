@@ -1650,8 +1650,10 @@ define([
                 this.TextOnlySettingsRegExp.toggleClass('hidden', !(type === Asc.c_oAscContentControlSpecificType.None && !!formTextPr) || this._state.FormatType!==Asc.TextFormFormatType.RegExp);
                 if (this.type !== type || this.isSimpleInsideComplex !== isSimpleInsideComplex || needUpdateTextControls || type == Asc.c_oAscContentControlSpecificType.CheckBox)
                     this.showHideControls(type, formTextPr, specProps, isSimpleInsideComplex);
+                if (this.type !== type || this.isSimpleInsideComplex !== isSimpleInsideComplex)
+                    this.fireEvent('updatescroller', this);
                 this.type = type;
-                this._state.isSimpleInsideComplex = isSimpleInsideComplex;
+                this.isSimpleInsideComplex = isSimpleInsideComplex;
 
                 this._state.internalId = this.internalId;
             }

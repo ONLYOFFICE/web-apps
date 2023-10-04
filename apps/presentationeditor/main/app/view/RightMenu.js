@@ -223,16 +223,18 @@ define([
         },
 
         setApi: function(api) {
+            var me = this;
             this.api = api;
             var fire = function() { this.fireEvent('editcomplete', this); };
             var _isEyedropperStart = function (isStart) {this._isEyedropperStart = isStart;};
+            var _updateScroller = function () {me.updateScroller();};
             this.paragraphSettings.setApi(api).on('editcomplete', _.bind( fire, this));
             this.slideSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this));
             this.imageSettings.setApi(api).on('editcomplete', _.bind( fire, this));
-            this.chartSettings.setApi(api).on('editcomplete', _.bind( fire, this));
+            this.chartSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('updatescroller', _updateScroller);
             this.tableSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this));
-            this.shapeSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this));
-            this.textartSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this));
+            this.shapeSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
+            this.textartSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
             if (this.signatureSettings) this.signatureSettings.setApi(api).on('editcomplete', _.bind( fire, this));
         },
 
@@ -308,6 +310,13 @@ define([
             $(this.el).width(SCALE_MIN);
             this.minimizedMode = true;
             Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+        },
+
+        updateScroller: function() {
+            if (this.scroller) {
+                this.scroller.update();
+                this.scroller.scrollTop(0);
+            }
         },
 
         txtParagraphSettings:       'Text Settings',
