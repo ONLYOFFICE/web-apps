@@ -335,6 +335,9 @@
 
         &.small {
             .padding-left-10();
+            &.padding-right-10 {
+                .padding-right-10();
+            }
 
             + .separator:not(.invisible) {
                 .margin-left-10();
@@ -568,7 +571,7 @@
             }
         }
 
-        .btn-header, .btn-users, .btn-header-share {
+        .btn-header, .btn-users, .btn-header-share, .btn-header-pdf-mode {
             .icon {
                 &.icon--inverse {
                     background-position-x: 0 !important;
@@ -975,7 +978,8 @@
     }
 }
 
-#slot-field-zoom {
+#slot-field-zoom,
+.slot-field-zoom {
     float: left;
     min-width: 46px;
 }

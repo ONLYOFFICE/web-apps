@@ -115,7 +115,8 @@ define([
         loadConfig: function(data) {
             var me = this;
             me.configPlugins.config = data.config.plugins;
-            me.editor = !!window.DE ? 'word' : !!window.PE ? 'slide' : 'cell';
+            me.editor = (!!window.DE || !!window.PDFE) ? 'word' : !!window.PE ? 'slide' : 'cell';
+            me.isPDFEditor = !!window.PDFE;
         },
 
         loadPlugins: function() {
@@ -673,7 +674,7 @@ define([
 
         onPluginsInit: function(pluginsdata) {
             !(pluginsdata instanceof Array) && (pluginsdata = pluginsdata["pluginsData"]);
-            this.parsePlugins(pluginsdata)
+            this.parsePlugins(pluginsdata, false, true)
         },
 
         onPluginShowButton: function(id, toRight) {
@@ -711,22 +712,30 @@ define([
             });
         },
 
-        parsePlugins: function(pluginsdata, uiCustomize) {
+        parsePlugins: function(pluginsdata, uiCustomize, forceUpdate) {
             var me = this;
             var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins'),
-                isEdit = me.appOptions.isEdit,
+                isEdit = me.appOptions.isEdit && !me.isPDFEditor,
                 editor = me.editor,
                 apiVersion = me.api ? me.api.GetVersion() : undefined;
             if ( pluginsdata instanceof Array ) {
                 var arr = [], arrUI = [],
                     lang = me.appOptions.lang.split(/[\-_]/)[0];
                 pluginsdata.forEach(function(item){
-                    if ( arr.some(function(i) {
-                                return (i.get('baseUrl') == item.baseUrl || i.get('guid') == item.guid);
-                            }
-                        ) || pluginStore.findWhere({baseUrl: item.baseUrl}) || pluginStore.findWhere({guid: item.guid}))
-                    {
-                        return;
+                    var updatedItem;
+                    if (forceUpdate) {
+                        updatedItem = arr.find(function (i){
+                            return i.get('baseUrl') == item.baseUrl || i.get('guid') == item.guid}
+                        );
+                        !updatedItem && (updatedItem = pluginStore.findWhere({baseUrl: item.baseUrl}));
+                        !updatedItem && (updatedItem = pluginStore.findWhere({guid: item.guid}));
+                    } else {
+                        if ( arr.some(function(i) {
+                            return (i.get('baseUrl') == item.baseUrl || i.get('guid') == item.guid);
+                        }) || pluginStore.findWhere({baseUrl: item.baseUrl}) || pluginStore.findWhere({guid: item.guid}) )
+                        {
+                            return;
+                        }
                     }
 
                     var variationsArr = [],
@@ -782,7 +791,7 @@ define([
                         if (pluginVisible)
                             pluginVisible = me.checkPluginVersion(apiVersion, item.minVersion);
 
-                        arr.push(new Common.Models.Plugin({
+                        var props = {
                             name : name,
                             guid: item.guid,
                             baseUrl : item.baseUrl,
@@ -796,7 +805,8 @@ define([
                             isDisplayedInViewer: isDisplayedInViewer,
                             isBackgroundPlugin: pluginVisible && isBackgroundPlugin,
                             isSystem: isSystem
-                        }));
+                        };
+                        updatedItem ? updatedItem.set(props) : arr.push(new Common.Models.Plugin(props));
                     }
                 });
 
@@ -984,7 +994,7 @@ define([
                     _.isArray(arrBtns) && _.each(arrBtns, function(b, index){
                         if (typeof b.textLocale == 'object')
                             b.text = b.textLocale[lang] || b.textLocale['en'] || b.text || '';
-                        if (me.appOptions.isEdit || b.isViewer !== false)
+                        if (me.appOptions.isEdit && !me.isPDFEditor || b.isViewer !== false)
                             newBtns[index] = {caption: b.text, value: index, primary: b.primary, frameId: frameId};
                     });
 

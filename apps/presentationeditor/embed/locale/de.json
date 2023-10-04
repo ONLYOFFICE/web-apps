@@ -40,6 +40,8 @@
   "PE.ApplicationController.unknownErrorText": "Unbekannter Fehler.",
   "PE.ApplicationController.unsupportedBrowserErrorText": "Ihr Webbrowser wird nicht unterstützt.",
   "PE.ApplicationController.waitText": "Bitte warten...",
+  "PE.ApplicationController.warnLicenseBefore": "Die Lizenz ist nicht aktive. Bitte kontaktieren Sie Ihren Administrator.",
+  "PE.ApplicationController.warnLicenseExp": "Die Lizenz is abgelaufen. Bitte erneuern Sie Ihre Lizenz und laden Sie die Seite nochmal.",
   "PE.ApplicationView.txtDownload": "Herunterladen",
   "PE.ApplicationView.txtEmbed": "Einbetten",
   "PE.ApplicationView.txtFileLocation": "Dateispeicherort öffnen",

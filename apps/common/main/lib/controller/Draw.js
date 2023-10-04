@@ -125,6 +125,7 @@ define([
                 else {
                     this.view.depressButtons(btn);
                     this.api.asc_StartInkEraser();
+                    Common.NotificationCenter.trigger('draw:start', this.view);
                 }
             }
         },
@@ -143,7 +144,8 @@ define([
                     stroke.asc_putPrstDash(Asc.c_oDashType.solid);
                     stroke.put_width(options.size.arr[options.size.idx]);
                     stroke.put_transparent(options.opacity * 2.55);
-                    this.api.asc_StartDrawInk(stroke);
+                    this.api.asc_StartDrawInk(stroke, options.idx);
+                    Common.NotificationCenter.trigger('draw:start', this.view);
                 }
             }
         },
@@ -173,8 +175,8 @@ define([
             this.onDrawPen(btn);
         },
 
-        createToolbarPanel: function() {
-            return this.view.getPanel();
+        createToolbarPanel: function(groups) {
+            return this.view.getPanel(groups);
         },
 
         getView: function(name) {

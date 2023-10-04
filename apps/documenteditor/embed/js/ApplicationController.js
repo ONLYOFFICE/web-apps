@@ -948,7 +948,13 @@ DE.ApplicationController = new(function(){
         });
 
         window["flat_desine"] = true;
-        api = new Asc.asc_docs_api({
+        var result = /[\?\&]fileType=\b(pdf|djvu|xps|oxps)\b&?/i.exec(window.location.search),
+            isPDF = (!!result && result.length && typeof result[1] === 'string');
+
+        api = isPDF ? new Asc.PDFEditorApi({
+            'id-view'  : 'editor_sdk',
+            'embedded' : true
+        }) : new Asc.asc_docs_api({
             'id-view'  : 'editor_sdk',
             'embedded' : true
         });

@@ -128,7 +128,8 @@ define([
                         'Click to add notes': this.txtAddNotes,
                         'Click to add first slide': this.txtAddFirstSlide,
                         'None': this.txtNone,
-                        'Text': this.textText
+                        'Text': this.textText,
+                        'Object': this.textObject
                     };
 
                 themeNames.forEach(function(item){
@@ -3172,7 +3173,8 @@ define([
             textText: 'Text',
             warnLicenseBefore: 'License not active.<br>Please contact your administrator.',
             titleLicenseNotActive: 'License not active',
-            warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.'
+            warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.',
+            textObject: 'Object'
         }
     })(), PE.Controllers.Main || {}))
 });

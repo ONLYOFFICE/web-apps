@@ -83,10 +83,12 @@ define([
             "toolbar-header-document",
             "toolbar-header-spreadsheet",
             "toolbar-header-presentation",
+            "toolbar-header-pdf",
 
             "text-toolbar-header-on-background-document",
             "text-toolbar-header-on-background-spreadsheet",
             "text-toolbar-header-on-background-presentation",
+            "text-toolbar-header-on-background-pdf",
 
             "background-normal",
             "background-toolbar",
@@ -510,6 +512,8 @@ define([
                     }
                 }
             },
+
+            refreshTheme: refresh_theme,
 
             toggleTheme: function () {
                 this.setTheme( this.isDarkTheme() ? id_default_light_theme : id_default_dark_theme );

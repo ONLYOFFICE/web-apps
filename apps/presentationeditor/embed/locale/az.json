@@ -2,8 +2,11 @@
   "common.view.modals.txtCopy": "Buferə kopyalandı",
   "common.view.modals.txtEmbed": "Daxil et",
   "common.view.modals.txtHeight": "Hündürlük",
+  "common.view.modals.txtIncorrectPwd": "Parol səhvdir",
   "common.view.modals.txtShare": "Link paylaşın",
+  "common.view.modals.txtTitleProtected": "Qorunan Fayl",
   "common.view.modals.txtWidth": "En",
+  "common.view.SearchBar.textFind": "Tapın",
   "PE.ApplicationController.convertationErrorText": "Çevrilmə alınmadı.",
   "PE.ApplicationController.convertationTimeoutText": "Çevrilmə vaxtı maksimumu keçdi.",
   "PE.ApplicationController.criticalErrorTitle": "Xəta",
@@ -25,6 +28,7 @@
   "PE.ApplicationController.textGuest": "Qonaq",
   "PE.ApplicationController.textLoadingDocument": "Təqdimat yüklənir",
   "PE.ApplicationController.textOf": "/",
+  "PE.ApplicationController.titleLicenseExp": "Lisenziyanın müddəti bitdi",
   "PE.ApplicationController.txtClose": "Bağla",
   "PE.ApplicationController.unknownErrorText": "Naməlum xəta.",
   "PE.ApplicationController.unsupportedBrowserErrorText": "Brauzeriniz dəstəklənmir.",
@@ -34,5 +38,6 @@
   "PE.ApplicationView.txtFileLocation": "Fayl yerini açın",
   "PE.ApplicationView.txtFullScreen": "Tam ekran",
   "PE.ApplicationView.txtPrint": "Çap",
+  "PE.ApplicationView.txtSearch": "Axtar",
   "PE.ApplicationView.txtShare": "Paylaş"
 }

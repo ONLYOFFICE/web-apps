@@ -18,6 +18,7 @@
     {"src": "UsageInstructions/AddExternalLinks.htm", "name": "Add external links to cells" },
     { "src": "UsageInstructions/ManageSheets.htm", "name": "Manage sheets", "headername": "Operations with sheets" },
     {"src": "UsageInstructions/InsertHeadersFooters.htm", "name": "Insert headers and footers"},
+	{"src": "UsageInstructions/PageBreaks.htm", "name": "Insert breaks"},
     {"src": "UsageInstructions/FontTypeSizeStyle.htm", "name": "Set font type, size, style, and colors", "headername": "Cell text formatting" },
     {"src": "UsageInstructions/AddHyperlinks.htm", "name": "Add hyperlinks" },
     {"src": "UsageInstructions/ClearFormatting.htm", "name": "Clear text, format in a cell, copy cell format"},

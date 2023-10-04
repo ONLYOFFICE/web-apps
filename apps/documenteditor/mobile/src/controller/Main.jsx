@@ -343,7 +343,14 @@ class MainController extends Component {
                         delete _translate[item];
                     });
 
-                    this.api = new Asc.asc_docs_api({
+                    var result = /[\?\&]fileType=\b(pdf|djvu|xps|oxps)\b&?/i.exec(window.location.search),
+                        isPDF = (!!result && result.length && typeof result[1] === 'string');
+
+                    this.api = isPDF ? new Asc.PDFEditorApi({
+                        'id-view'  : 'editor_sdk',
+                        'mobile'   : true,
+                        'translate': _translate
+                    }) : new Asc.asc_docs_api({
                         'id-view'  : 'editor_sdk',
                         'mobile'   : true,
                         'translate': _translate

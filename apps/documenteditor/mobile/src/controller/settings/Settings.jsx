@@ -10,6 +10,7 @@ export const SettingsContext = createContext();
 
 const SettingsController = props => {
     const storeDocumentInfo = props.storeDocumentInfo;
+    const appOptions = props.storeAppOptions;
     const { t } = useTranslation();
 
     const closeModal = () => {
@@ -50,7 +51,7 @@ const SettingsController = props => {
     };
 
     const showFeedback = () => {
-        let config = props.storeAppOptions.config;
+        let config = appOptions.config;
 
         closeModal();
         setTimeout(() => {
@@ -76,7 +77,6 @@ const SettingsController = props => {
 
     const onChangeMobileView = () => {
         const api = Common.EditorApi.get();
-        const appOptions = props.storeAppOptions;
         const isMobileView = appOptions.isMobileView;
 
         LocalStorage.setBool('mobile-view', !isMobileView);
@@ -85,6 +85,7 @@ const SettingsController = props => {
     };
 
     const changeTitleHandler = () => {
+        if(!appOptions.isEdit) return;
         const docTitle = storeDocumentInfo.dataDoc.title;
 
         f7.dialog.create({

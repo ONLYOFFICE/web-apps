@@ -2811,7 +2811,7 @@ define([
                     documentHolder.menuParagraphEquation.menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                     documentHolder.menuParagraphEquation.menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
                     documentHolder.menuParagraphEquation.menu.items[8].options.isToolbarHide = isEqToolbarHide;
-                    documentHolder.menuParagraphEquation.menu.items[8].setCaption(isEqToolbarHide ? documentHolder.showEqToolbar : documentHolder.hideEqToolbar);
+                    documentHolder.menuParagraphEquation.menu.items[8].setCaption(isEqToolbarHide ? documentHolder.showEqToolbar : documentHolder.hideEqToolbar, true);
                 }
 
                 if (showMenu) this.showPopupMenu(documentHolder.textInShapeMenu, {}, event);
@@ -4976,7 +4976,7 @@ define([
                     menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                     menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
                     menu.items[8].options.isToolbarHide = isEqToolbarHide;
-                    menu.items[8].setCaption(isEqToolbarHide ? me.documentHolder.showEqToolbar : me.documentHolder.hideEqToolbar);
+                    menu.items[8].setCaption(isEqToolbarHide ? me.documentHolder.showEqToolbar : me.documentHolder.hideEqToolbar, true);
                 };
                 me.equationSettingsBtn.menu.on('item:click', _.bind(me.convertEquation, me));
                 me.equationSettingsBtn.menu.on('show:before', function(menu) {
@@ -4990,6 +4990,7 @@ define([
                 me.onDocumentResize();
 
             var showPoint = [(bounds[0] + bounds[2])/2 - eqContainer.outerWidth()/2, bounds[1] - eqContainer.outerHeight() - 10];
+            (showPoint[0]<0) && (showPoint[0] = 0);
             if (showPoint[1]<0) {
                 showPoint[1] = bounds[3] + 10;
             }
