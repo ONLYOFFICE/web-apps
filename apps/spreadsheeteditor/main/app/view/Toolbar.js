@@ -2669,10 +2669,6 @@ define([
                 });
                 var onShowBeforeSmartArt = function (menu) { // + <% if(typeof imageUrl === "undefined" || imageUrl===null || imageUrl==="") { %> style="visibility: hidden;" <% } %>/>',
                     me.btnInsertSmartArt.menu.items.forEach(function (item, index) {
-                        item.$el.one('mouseenter', function () {
-                            me.fireEvent('generate:smartart', [item.value]);
-                            item.$el.mouseenter();
-                        });
                         item.menuPicker = new Common.UI.DataView({
                             el: $('#' + item.options.itemId),
                             parentMenu: me.btnInsertSmartArt.menu.items[index].menu,
@@ -2691,6 +2687,14 @@ define([
                                 me.fireEvent('insert:smartart', [record.get('value')]);
                             }
                             Common.NotificationCenter.trigger('edit:complete', me);
+                        });
+                        item.$el.on('mouseenter', function () {
+                            if (item.menuPicker.store.length === 0) {
+                                me.fireEvent('smartart:mouseenter', [item.value]);
+                            }
+                        });
+                        item.$el.on('mouseleave', function () {
+                            me.fireEvent('smartart:mouseleave', [item.value]);
                         });
                     });
                     menu.off('show:before', onShowBeforeSmartArt);
