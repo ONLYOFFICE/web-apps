@@ -235,7 +235,7 @@
         }
 
         /* ##adopt-panel-width */
-        .panel .compactwidth {
+        .panel .compactwidth:not(.emptycaption) {
             .btn-group, .btn-toolbar {
                 &.x-huge {
                     .caption {
@@ -267,7 +267,7 @@
         .rtl & {
             padding: 12px 0 7px 10px;
         }
-        .compactwidth {
+        .compactwidth:not(.emptycaption) {
             .btn-group, .btn-toolbar {
                 &.x-huge {
                     .caption {
