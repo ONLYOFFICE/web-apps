@@ -476,7 +476,7 @@ define([
                         // } else {
                         //     me.btnHighlight.cmpEl.parents('.group').hide().prev('.separator').hide();
                         // }
-                        var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem">'+
+                        var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" class="menu-item">'+
                             '<% if (!_.isEmpty(iconCls)) { %>'+
                             '<span class="menu-item-icon <%= iconCls %>"></span>'+
                             '<% } %>'+
