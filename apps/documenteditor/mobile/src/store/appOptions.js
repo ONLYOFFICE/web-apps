@@ -151,6 +151,7 @@ export class storeAppOptions {
         this.isEdit = this.canLicense && this.canEdit && this.config.mode !== 'view';
         this.canReview = this.canLicense && this.isEdit && (permissions.review===true);
         this.canUseHistory = this.canLicense && !this.isLightVersion && this.config.canUseHistory && this.canCoAuthoring && !this.isDesktopApp;
+        this.canRename = this.config.canRename;
         this.canHistoryClose = this.config.canHistoryClose;
         this.canHistoryRestore= this.config.canHistoryRestore;
         this.canUseMailMerge = this.canLicense && this.canEdit && !this.isDesktopApp;
