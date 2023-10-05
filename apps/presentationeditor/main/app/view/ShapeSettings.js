@@ -51,7 +51,8 @@ define([
     'common/main/lib/component/Slider',
     'common/main/lib/component/MultiSliderGradient',
     'common/main/lib/view/ImageFromUrlDialog',
-    'presentationeditor/main/app/view/ShapeSettingsAdvanced'
+    'presentationeditor/main/app/view/ShapeSettingsAdvanced',
+    'presentationeditor/main/app/view/ShapeShadowDialog'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -1210,9 +1211,30 @@ define([
                     this._state.GradColor = color;
                 }
 
-                this.chShadow.setDisabled(!!props.get_FromChart() || this._locked);
-                this.chShadow.setValue(!!props.asc_getShadow(), true);
+                //TODO: Измненить на новую кнопку
+                //this.chShadow.setDisabled(!!props.get_FromChart() || this._locked);
 
+
+                var shadow = props.asc_getShadow(),
+                    shadowPresetRecord = null;
+                if(shadow) {
+                    var shadowPreset = shadow.getPreset();
+                    if(shadowPreset) {
+                        shadowPresetRecord = this.viewShadowShapePresets.store.findWhere({value: shadowPreset});
+                    } 
+                    color = shadow.getColor();
+                    console.log("getColor", color);
+                } 
+
+                if(shadowPresetRecord) {
+                    this.viewShadowShapePresets.selectRecord(shadowPresetRecord);
+                } else {
+                    this.viewShadowShapePresets.deselectAll();
+                }
+
+                this.btnShadowShape.menu.items[1].setChecked(!shadow, true)
+
+                   
                 this._noApply = false;
             }
         },
@@ -1678,15 +1700,95 @@ define([
             });
             this.lockedControls.push(this.btnEditChangeShape);
 
-            this.chShadow = new Common.UI.CheckBox({
-                el: $('#shape-checkbox-shadow'),
-                labelText: this.strShadow,
+            this.btnShadowShape = new Common.UI.Button({
+                parentEl: $('#shape-button-shadow-shape'),
+                cls: 'btn-toolbar align-left',
+                caption: this.textShadow,
+                iconCls: 'toolbar__icon btn-menu-shape',
+                style: "width:100%;",
+                menu: true,
                 dataHint: '1',
-                dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
-            this.chShadow.on('change', _.bind(this.onCheckShadow, this));
-            this.lockedControls.push(this.chShadow);
+            this.lockedControls.push(this.btnShadowShape);
+
+            this.btnShadowShape.setMenu(
+                new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    style: 'min-width: 168px',
+                    items: [
+                        {template: _.template('<div id="shape-button-shadow-shape-menu" class="menu-markers" style="width: 168px; margin: 0 4px 4px 4px;"></div>')},
+                        {
+                            caption: this.textNoShadow,
+                            checkable: true,
+                            value: 1,
+                        },
+                        { caption: '--'},
+                        this.mnuShadowShapeColor = new Common.UI.MenuItem({
+                            caption: this.strColor,
+                            menu        : new Common.UI.Menu({
+                                cls: 'shifted-right',
+                                menuAlign: 'tl-tr',
+                                items: [
+                                    { template: _.template('<div id="shape-button-shadow-shape-menu-picker" style="width: 164px;display: inline-block;"></div>'), stopPropagation: true },
+                                    { caption: '--'},
+                                    {
+                                        caption: this.textEyedropper,
+                                        iconCls: 'menu__icon btn-eyedropper',
+                                        value: 1
+                                    },
+                                    {
+                                        caption: this.textMoreColors,
+                                        value: 2
+                                    },
+                                ]
+                            }),
+                            value: 2,
+                        }),
+                        {
+                            caption: this.textAdjustShadow,
+                            value: 3,
+                        },
+                    ]
+                })
+            );
+            this.btnShadowShape.menu.on('item:click', _.bind(this.onSelectShadowMenu, this));
+            this.mnuShadowShapeColor.menu.on('item:click', _.bind(this.onSelectShadowColorMenu, this));
+
+            this.viewShadowShapePresets = new Common.UI.DataView({
+                el: $('#shape-button-shadow-shape-menu'),
+                parentMenu: this.btnShadowShape.menu,
+                outerMenu:  {menu: this.btnShadowShape.menu, index: 0},
+                allowScrollbar: false,
+                delayRenderTips: true,
+                store: new Common.UI.DataViewStore([
+                    {value:"tl", offsetX: 6,     offsetY: 6,     spread: 0},
+                    {value:"t",  offsetX: 0,     offsetY: 6,     spread: 0},
+                    {value:"tr", offsetX: -6,    offsetY: 6,     spread: 0},
+
+                    {value:"l",  offsetX: 6,     offsetY: 0,     spread: 0},
+                    {value:"ctr",offsetX: 0,     offsetY: 0,     spread: 3},
+                    {value:"r",  offsetX: -6,    offsetY: 0,     spread: 0},
+
+                    {value:"bl", offsetX: 6,     offsetY: -6,    spread: 0},
+                    {value:"b",  offsetX: 0,     offsetY: -6,    spread: 0},
+                    {value:"br", offsetX: -6,    offsetY: -6,    spread: 0},
+                ]),
+                itemTemplate: _.template(
+                    '<div class="item-shadow">' +
+                        '<div style="margin-bottom:<%= offsetY %>px; margin-right:<%= offsetX %>px; box-shadow: <%= offsetX %>px <%= offsetY %>px 0px <%= spread %>px rgba(0, 0, 0, 0.40);"></div>' +
+                    '</div>')
+            });
+            this.viewShadowShapePresets.on('item:click', _.bind(this.onSelectShadowPreset, this));
+
+            this.mnuShadowShapeColorPicker = new Common.UI.ThemeColorPalette({
+                el: $('#shape-button-shadow-shape-menu-picker'),
+                outerMenu: {menu: this.mnuShadowShapeColor.menu, index: 0}
+            });            
+            this.mnuShadowShapeColor.menu.setInnerMenu([{menu: this.mnuShadowShapeColorPicker, index: 0}]);
+            this.mnuShadowShapeColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors())
+            this.mnuShadowShapeColorPicker.on('select', _.bind(this.onSelectShadowColor, this));
 
             this.linkAdvanced = $('#shape-advanced-link');
             $(this.el).on('click', '#shape-advanced-link', _.bind(this.openAdvancedSettings, this));
@@ -1805,15 +1907,77 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
-        onCheckShadow: function(field, newValue, oldValue, eOpts) {
+        onSelectShadowPreset: function(picker, itemView, record) {
             if (this.api)   {
-                var props = new Asc.asc_CShapeProperty();
-                props.asc_putShadow((field.getValue()=='checked') ? new Asc.asc_CShadowProperty() : null);
-                this.api.ShapeApply(props);
+                var shapeProps = new Asc.asc_CShapeProperty(),
+                    shadowProps = new Asc.asc_CShadowProperty();
+
+                shadowProps.putPreset(record.get('value'));
+                shapeProps.asc_putShadow(shadowProps);
+                this.api.ShapeApply(shapeProps);
             }
             this.fireEvent('editcomplete', this);
         },
 
+        onSelectShadowMenu: function(menu, item) {
+            //Checkbox on/off shadow
+            if(item.value == 1) {
+                if (this.api)   {
+                    var props = new Asc.asc_CShapeProperty();
+                    props.asc_putShadow(item.checked ? null : new Asc.asc_CShadowProperty());
+                    this.api.ShapeApply(props);
+                }
+                this.fireEvent('editcomplete', this);
+            } 
+            //Adjust shadow
+            else if(item.value == 3) {
+                var shadowProps = this._originalProps.asc_getShadow();
+                if(!shadowProps) {
+                    shadowProps = new Asc.asc_CShadowProperty();
+                    shadowProps.putPreset('tl');
+                    his.api.ShapeApply(shapeProps);
+                }
+                (new PE.Views.ShapeShadowDialog({
+                    api             : this.api,
+                    shadowProps     : shadowProps,
+                    handler: function(result, value) {
+
+                    },
+                })).show();
+            }
+        },
+
+        onSelectShadowColorMenu: function(menu, item) {
+            var me = this;
+            //Eyedroppper
+            if(item.value == 1) {
+                this.api.asc_startEyedropper(function(r, g, b) {
+                    if (r === undefined) return;
+                    var color = Common.Utils.ThemeColor.getHexColor(r, g, b);
+                    me.onSelectShadowColor(null, color);
+                });
+            } 
+            //More colors
+            else if(item.value == 2) {
+                this.mnuShadowShapeColorPicker.addNewColor();
+            }
+        },
+
+        onSelectShadowColor: function (picker, color) {
+            var shapeProps = new Asc.asc_CShapeProperty(),
+                shadowProps = this._originalProps.asc_getShadow();
+
+            if(!shadowProps) {
+                shadowProps = new Asc.asc_CShadowProperty();
+                shadowProps.putPreset('tl');
+            }
+
+            console.log("putColor", Common.Utils.ThemeColor.getRgbColor(color));
+            shadowProps.putColor(Common.Utils.ThemeColor.getRgbColor(color));
+            shapeProps.asc_putShadow(shadowProps);
+            this.api.ShapeApply(shapeProps);
+        },
+        
         onApiAutoShapes: function(btnChangeShape) {
             var me = this;
             var onShowBefore = function(menu) {
@@ -2177,6 +2341,11 @@ define([
         textAngle: 'Angle',
         textRecentlyUsed: 'Recently Used',
         textEditShape: 'Edit shape',
+        textShadow: 'Shadow',
+        textNoShadow: 'No Shadow',
+        textAdjustShadow: 'Adjust Shadow',
+        textMoreColors: 'More colors',
+        textEyedropper: 'Eyedropper',
         textEditPoints: 'Edit points'
     }, PE.Views.ShapeSettings || {}));
 });

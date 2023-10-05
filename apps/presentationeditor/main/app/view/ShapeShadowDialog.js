@@ -1,0 +1,312 @@
+/*
+ * (c) Copyright Ascensio System SIA 2010-2023
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
+ * street, Riga, Latvia, EU, LV-1050.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ */
+/**
+ *
+ *  ShapeShadowDialog.js
+ *
+ *  Created by Alexey Koshelev on 27.09.23
+ *  Copyright (c) 2023 Ascensio System SIA. All rights reserved.
+ *
+ */
+
+define([
+    'common/main/lib/view/AdvancedSettingsWindow',
+], function () { 'use strict';
+    PE.Views.ShapeShadowDialog =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
+        options: {
+            alias: 'ShapeShadowDialog',
+            contentWidth: 240,
+            height: 250
+        },
+
+        initialize: function (options) {
+            var me = this;
+
+            _.extend(this.options, {
+                title: this.txtTitle,
+                template: [
+                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
+                        '<div class="content-panel" style="padding: 0;">',
+                            '<div class="inner-content">',
+                                '<div class="settings-panel active">',
+                                    '<table cols="1" style="width: 100%;">',
+                                        '<tr>',
+                                            '<td>',
+                                                '<label class="header">' + me.txtTransparency + '</label>',
+                                                '<div style="display: flex; align-items: center; justify-content: space-between;">',
+                                                    '<div id="shape-shadow-transparency-slider" style="display: inline-block"></div>',
+                                                    '<div id="shape-shadow-transparency-spin"></div>',
+                                                '</div>',
+                                            '</td>',
+                                        '</tr>',
+                                        '<tr>',
+                                            '<td>',
+                                                '<label class="header">' + me.txtSize + '</label>',
+                                                '<div style="display: flex; align-items: center; justify-content: space-between;">',
+                                                    '<div id="shape-shadow-size-slider" style="display: inline-block"></div>',
+                                                    '<div id="shape-shadow-size-spin"></div>',
+                                                '</div>',
+                                            '</td>',
+                                        '</tr>',
+                                        '<tr>',
+                                            '<td>',
+                                                '<label class="header">' + me.txtAngle + '</label>',
+                                                '<div style="display: flex; align-items: center; justify-content: space-between;">',
+                                                    '<div id="shape-shadow-angle-slider" style="display: inline-block"></div>',
+                                                    '<div id="shape-shadow-angle-spin"></div>',
+                                                '</div>',
+                                            '</td>',
+                                        '</tr>',
+                                        '<tr>',
+                                            '<td>',
+                                                '<label class="header">' + me.txtDistance + '</label>',
+                                                '<div style="display: flex; align-items: center; justify-content: space-between;">',
+                                                    '<div id="shape-shadow-distance-slider" style="display: inline-block"></div>',
+                                                    '<div id="shape-shadow-distance-spin"></div>',
+                                                '</div>',
+                                            '</td>',
+                                        '</tr>',
+                                    '</table>',
+                                '</div>',
+                            '</div>',
+                        '</div>',
+                    '</div>'
+                ].join('')
+            }, options);
+
+            this.handler        = options.handler;
+            this.api            = options.api;
+            this.shadowProps    = options.shadowProps;
+
+            Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
+        },
+        render: function () {
+            Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
+            
+            this.sldrTransparency = new Common.UI.SingleSlider({
+                el: $('#shape-shadow-transparency-slider'),
+                width: 128,
+                minValue: 0,
+                maxValue: 100,
+                value: this.shadowProps.getTransparency()
+            });
+            this.sldrTransparency.on('change', _.bind(this.onSliderTransparencyChange, this));
+
+            this.spinTransparency = new Common.UI.MetricSpinner({
+                el: $('#shape-shadow-transparency-spin'),
+                step: 1,
+                width: 62,
+                value: this.shadowProps.getTransparency() + ' %',
+                defaultUnit : "%",
+                maxValue: 100,
+                minValue: 0,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.spinTransparency.on('change', _.bind(this.onSpinnerTransparencyChange, this));
+
+
+            this.sldrSize = new Common.UI.SingleSlider({
+                el: $('#shape-shadow-size-slider'),
+                width: 128,
+                minValue: 0,
+                maxValue: 200,
+                value: this.shadowProps.getSize()
+            });
+            this.sldrSize.on('change', _.bind(this.onSliderSizeChange, this));
+
+            this.spinSize = new Common.UI.MetricSpinner({
+                el: $('#shape-shadow-size-spin'),
+                step: 1,
+                width: 62,
+                value: this.shadowProps.getSize() + ' %',
+                defaultUnit : "%",
+                maxValue: 200,
+                minValue: 0,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.spinSize.on('change', _.bind(this.onSpinnerSizeChange, this));
+
+
+            this.sldrAngle = new Common.UI.SingleSlider({
+                el: $('#shape-shadow-angle-slider'),
+                width: 128,
+                minValue: 0,
+                maxValue: 359,
+                value: this.shadowProps.getAngle()
+            });
+            this.sldrAngle.on('change', _.bind(this.onSliderAngleChange, this));
+
+
+            this.spinAngle = new Common.UI.MetricSpinner({
+                el: $('#shape-shadow-angle-spin'),
+                step: 1,
+                width: 62,
+                value: this.shadowProps.getAngle() + ' °',
+                defaultUnit : "°",
+                maxValue: 359,
+                minValue: 0,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.spinAngle.on('change', _.bind(this.onSpinnerAngleChange, this));
+
+
+            this.sldrDistance = new Common.UI.SingleSlider({
+                el: $('#shape-shadow-distance-slider'),
+                width: 128,
+                minValue: 0,
+                maxValue: 200,
+                value: this.shadowProps.getDistance()
+            });
+            this.sldrDistance.on('change', _.bind(this.onSliderDistanceChange, this));
+
+
+            this.spinDistance = new Common.UI.MetricSpinner({
+                el: $('#shape-shadow-distance-spin'),
+                step: 1,
+                width: 62,
+                value: this.shadowProps.getDistance() + ' мм',
+                defaultUnit : "мм",
+                maxValue: 200,
+                minValue: 0,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.spinDistance.on('change', _.bind(this.onSpinnerDistanceChange, this));
+        },
+
+        onSliderTransparencyChange: function (field, newValue, oldValue) {
+            this.spinTransparency.setValue(newValue, true);
+            this.setTransparency(newValue);
+        },
+
+        onSpinnerTransparencyChange: function (field, newValue, oldValue) {
+            var num = field.getNumberValue();
+            this.sldrTransparency.setValue(num, true);
+            this.setTransparency(num);
+        },
+
+        setTransparency: function(value) {
+            var shapeProps = new Asc.asc_CShapeProperty();
+            this.shadowProps.putTransparency(value);
+            shapeProps.asc_putShadow(this.shadowProps);
+            this.api.ShapeApply(shapeProps);
+        },
+
+
+        onSliderSizeChange: function (field, newValue, oldValue) {
+            this.spinSize.setValue(newValue, true);
+            this.setSize(newValue);
+        },
+
+        onSpinnerSizeChange: function (field, newValue, oldValue) {
+            var num = field.getNumberValue();
+            this.sldrSize.setValue(num, true);
+            this.setSize(num);
+        },
+
+        setSize: function(value) {
+            var shapeProps = new Asc.asc_CShapeProperty();
+            this.shadowProps.putSize(value);
+            shapeProps.asc_putShadow(this.shadowProps);
+            this.api.ShapeApply(shapeProps);
+        },
+
+
+        onSliderAngleChange: function (field, newValue, oldValue) {
+            this.spinAngle.setValue(newValue, true);
+            this.setAngle(newValue);
+        },
+
+        onSpinnerAngleChange: function (field, newValue, oldValue) {
+            var num = field.getNumberValue();
+            this.sldrAngle.setValue(num, true);
+            this.setAngle(num);
+        },
+
+        setAngle: function(value) {
+            var shapeProps = new Asc.asc_CShapeProperty();
+            this.shadowProps.putAngle(value);
+            shapeProps.asc_putShadow(this.shadowProps);
+            this.api.ShapeApply(shapeProps);
+        },
+
+
+        onSliderDistanceChange: function (field, newValue, oldValue) {
+            this.spinDistance.setValue(newValue, true);
+            this.setDistance(newValue);
+        },
+
+        onSpinnerDistanceChange: function (field, newValue, oldValue) {
+            var num = field.getNumberValue();
+            this.sldrDistance.setValue(num, true);
+            this.setDistance(num);
+        },
+
+        setDistance: function(value) {
+            var shapeProps = new Asc.asc_CShapeProperty();
+            this.shadowProps.putDistance(value);
+            shapeProps.asc_putShadow(this.shadowProps);
+            this.api.ShapeApply(shapeProps);
+        },
+
+        
+        onPrimary: function() {
+            this.handler && this.handler.call(this, 'ok');
+            this.close();
+            return false;
+        },
+
+        onDlgBtnClick: function(event) {
+            var state = event.currentTarget.attributes['result'].value;
+            this.handler && this.handler.call(this, state);
+            this.close();
+        },
+
+        onDblClickFunction: function () {
+            this.handler && this.handler.call(this, 'ok');
+            this.close();
+        },
+
+        txtTitle: 'Adjust Shadow',
+        txtTransparency: 'Transparency',
+        txtSize: 'Size',
+        txtAngle: 'Angle',
+        txtDistance: 'Distance',
+    }, PE.Views.ShapeShadowDialog || {}));
+});
