@@ -1042,6 +1042,13 @@ define([
 
                 Common.Gateway.sendInfo({mode:me.appOptions.isEdit?'edit':'view'});
 
+                if (!!me.appOptions.sharingSettingsUrl && me.appOptions.sharingSettingsUrl.length || me.appOptions.canRequestSharingSettings) {
+                    Common.Gateway.on('showsharingsettings', _.bind(me.changeAccessRights, me));
+                    Common.Gateway.on('setsharingsettings', _.bind(me.setSharingSettings, me));
+                    Common.NotificationCenter.on('collaboration:sharing', _.bind(me.changeAccessRights, me));
+                    Common.NotificationCenter.on('collaboration:sharingdeny', _.bind(me.setSharingSettings, me));
+                }
+
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
                 Common.Gateway.documentReady();
 
@@ -2269,6 +2276,38 @@ define([
                             me.onEditComplete();
                         }, this)
                     });
+                }
+            },
+
+            onLostEditRights: function() {
+                this._readonlyRights = true;
+            },
+
+            changeAccessRights: function(btn,event,opts) {
+                if (this._docAccessDlg || this._readonlyRights) return;
+
+                if (this.appOptions.canRequestSharingSettings) {
+                    Common.Gateway.requestSharingSettings();
+                } else {
+                    var me = this;
+                    me._docAccessDlg = new Common.Views.DocumentAccessDialog({
+                        settingsurl: this.appOptions.sharingSettingsUrl
+                    });
+                    me._docAccessDlg.on('accessrights', function(obj, rights){
+                        me.setSharingSettings({sharingSettings: rights});
+                    }).on('close', function(obj){
+                        me._docAccessDlg = undefined;
+                    });
+
+                    me._docAccessDlg.show();
+                }
+            },
+
+            setSharingSettings: function(data) {
+                if (data) {
+                    this.document.info.sharingSettings = data.sharingSettings;
+                    Common.NotificationCenter.trigger('collaboration:sharingupdate', data.sharingSettings);
+                    Common.NotificationCenter.trigger('mentions:clearusers', this);
                 }
             },
 
