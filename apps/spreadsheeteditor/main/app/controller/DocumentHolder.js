@@ -2381,12 +2381,14 @@ define([
                         factor -= 0.1;
                         if (!(factor < .1)) {
                             this.api.asc_setZoom(factor);
+                            this._handleZoomWheel = true;
                         }
                     } else if (delta > 0) {
                         factor = Math.floor(factor * 10)/10;
                         factor += 0.1;
                         if (factor > 0 && !(factor > 5.)) {
                             this.api.asc_setZoom(factor);
+                            this._handleZoomWheel = true;
                         }
                     }
 
@@ -3815,10 +3817,11 @@ define([
         },
 
         onKeyUp: function (e) {
-            if (e.keyCode == Common.UI.Keys.CTRL && this._needShowSpecPasteMenu && !this.btnSpecialPaste.menu.isVisible() && /area_id/.test(e.target.id)) {
+            if (e.keyCode == Common.UI.Keys.CTRL && this._needShowSpecPasteMenu && !this._handleZoomWheel && !this.btnSpecialPaste.menu.isVisible() && /area_id/.test(e.target.id)) {
                 $('button', this.btnSpecialPaste.cmpEl).click();
                 e.preventDefault();
             }
+            this._handleZoomWheel = false;
             this._needShowSpecPasteMenu = false;
         },
 

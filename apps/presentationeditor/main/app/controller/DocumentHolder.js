@@ -689,10 +689,13 @@ define([
                 }
 
                 if (event.ctrlKey && !event.altKey){
-                    if (delta < 0)
+                    if (delta < 0) {
                         me.api.zoomOut();
-                    else if (delta > 0)
+                        me._handleZoomWheel = true;
+                    } else if (delta > 0) {
                         me.api.zoomIn();
+                        me._handleZoomWheel = true;
+                    }
 
                     event.preventDefault();
                     event.stopPropagation();
@@ -1424,10 +1427,11 @@ define([
         },
 
         onKeyUp: function (e) {
-            if (e.keyCode == Common.UI.Keys.CTRL && this._needShowSpecPasteMenu && !this.btnSpecialPaste.menu.isVisible() && /area_id/.test(e.target.id)) {
+            if (e.keyCode == Common.UI.Keys.CTRL && this._needShowSpecPasteMenu && !this._handleZoomWheel && !this.btnSpecialPaste.menu.isVisible() && /area_id/.test(e.target.id)) {
                 $('button', this.btnSpecialPaste.cmpEl).click();
                 e.preventDefault();
             }
+            this._handleZoomWheel = false;
             this._needShowSpecPasteMenu = false;
         },
 
