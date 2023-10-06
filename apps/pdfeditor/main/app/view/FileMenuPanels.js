@@ -1371,8 +1371,8 @@ define([
                     me.trAuthor.before(div);
                     me.authors.push(item);
                 });
-                this.tblAuthor.find('.close').toggleClass('hidden', !this.mode.isEdit);
-                this._ShowHideInfoItem(this.tblAuthor, this.mode.isEdit || !!this.authors.length);
+                this.tblAuthor.find('.close').toggleClass('hidden', !this.mode.isPDFEdit);
+                this._ShowHideInfoItem(this.tblAuthor, this.mode.isPDFEdit || !!this.authors.length);
             }
             this.SetDisabled();
         },
@@ -1506,14 +1506,15 @@ define([
 
         setMode: function(mode) {
             this.mode = mode;
-            this.inputAuthor.setVisible(mode.isEdit);
-            this.pnlApply.toggleClass('hidden', !mode.isEdit);
-            this.tblAuthor.find('.close').toggleClass('hidden', !mode.isEdit);
-            this.inputTitle._input.attr('placeholder', mode.isEdit ? this.txtAddText : '');
-            this.inputTags._input.attr('placeholder', mode.isEdit ? this.txtAddText : '');
-            this.inputSubject._input.attr('placeholder', mode.isEdit ? this.txtAddText : '');
-            this.inputComment._input.attr('placeholder', mode.isEdit ? this.txtAddText : '');
-            this.inputAuthor._input.attr('placeholder', mode.isEdit ? this.txtAddAuthor : '');
+            var isEdit = false; // isPDFEdit?
+            this.inputAuthor.setVisible(isEdit);
+            this.pnlApply.toggleClass('hidden', !isEdit);
+            this.tblAuthor.find('.close').toggleClass('hidden', !isEdit);
+            this.inputTitle._input.attr('placeholder', isEdit ? this.txtAddText : '');
+            this.inputTags._input.attr('placeholder', isEdit ? this.txtAddText : '');
+            this.inputSubject._input.attr('placeholder', isEdit ? this.txtAddText : '');
+            this.inputComment._input.attr('placeholder', isEdit ? this.txtAddText : '');
+            this.inputAuthor._input.attr('placeholder', isEdit ? this.txtAddAuthor : '');
             this.SetDisabled();
             return this;
         },
