@@ -167,6 +167,7 @@
     "errorDefaultMessage": "Kód chyby: %1",
     "errorDirectUrl": "Ověřte správnost odkazu na dokument.<br>Musí jít o přímý odkaz pro stažení souboru.",
     "errorEditingDownloadas": "Při práci s dokumentem došlo k chybě.<br>Použijte volbu \"Stáhnout\" pro vytvoření lokální zálohy souboru.",
+    "errorEmailClient": "Nenalezen e-mailový klient.",
     "errorFilePassProtect": "Soubor je zabezpečen heslem a nemůže být otevřen.",
     "errorFileSizeExceed": "Velikost souboru je větší než umožňuje limit serveru.<br>Pro více informací kontaktujte svého správce.",
     "errorForceSave": "Při ukládání souboru došlo k chybě. Prosím použijte „Stáhnout jako“ a uložte si soubor k sobě na počítač nebo původní volbu zkuste znovu později.",
@@ -199,8 +200,7 @@
     "unknownErrorText": "Neznámá chyba.",
     "uploadImageExtMessage": "Neznámý formát obrázku.",
     "uploadImageFileCountMessage": "Žádné obrázky nenahrány.",
-    "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB.",
-    "errorEmailClient": "No email client could be found"
+    "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Načítání dat...",
