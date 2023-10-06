@@ -275,7 +275,7 @@ define([
                     'active': bestUrl['active'] || bestUrl['normal']
                 };
             } else { // old version
-                var url = icons[((Common.Utils.applicationPixelRatio() > 1) ? 1 : 0) + (icons.length > 2 ? 2 : 0)];
+                var url = icons[((Common.Utils.applicationPixelRatio() > 1 && icons.length > 1) ? 1 : 0) + (icons.length > 2 ? 2 : 0)];
                 return {
                     'normal': url,
                     'hover': url,
