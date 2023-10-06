@@ -176,18 +176,18 @@
       "textThemeColors": "Թեմայի գույներ"
     },
     "VersionHistory": {
-      "notcriticalErrorTitle": "Warning",
-      "textAnonymous": "Anonymous",
-      "textBack": "Back",
-      "textCancel": "Cancel",
-      "textCurrent": "Current",
-      "textOk": "Ok",
-      "textRestore": "Restore",
-      "textVersion": "Version",
-      "textVersionHistory": "Version History",
-      "textWarningRestoreVersion": "Current file will be saved in version history.",
-      "titleWarningRestoreVersion": "Restore this version?",
-      "txtErrorLoadHistory": "Loading history failed"
+      "notcriticalErrorTitle": "Զգուշացում",
+      "textAnonymous": "Անանուն",
+      "textBack": "Հետ",
+      "textCancel": "Չեղարկել",
+      "textCurrent": "Ընթացիկ",
+      "textOk": "Լավ",
+      "textRestore": "Վերականգնել",
+      "textVersion": "Տարբերակ",
+      "textVersionHistory": "Տարբերակի պատմություն",
+      "textWarningRestoreVersion": "Ընթացիկ ֆայլը կպահվի տարբերակների պատմության մեջ:",
+      "titleWarningRestoreVersion": "Վերականգնե՞լ այս տարբերակը:",
+      "txtErrorLoadHistory": "Պատմության բեռնումը խափանվեց"
     }
   },
   "ContextMenu": {
@@ -299,6 +299,7 @@
     "textImageURL": "Նկարի URL",
     "textInFront": "Տեքստի դիմաց",
     "textInline": "Գրվածքի հետ մեկտող",
+    "textInvalidName": "Ֆայլի անունը չի կարող ունենալ հետևյալ գրանշանները՝ ",
     "textJanuary": "Հունվար",
     "textJuly": "Հուլիս",
     "textJune": "Հունիս",
@@ -391,8 +392,7 @@
     "textType": "Տեսակ",
     "textWe": "Չրք",
     "textWrap": "Ծալում",
-    "textWrappingStyle": "Ծալման ոճ",
-    "textInvalidName": "The file name cannot contain any of the following characters: "
+    "textWrappingStyle": "Ծալման ոճ"
   },
   "Error": {
     "convertationTimeoutText": "Փոխարկման սպասման ժամանակը սպառվել է։",
@@ -401,6 +401,8 @@
     "downloadErrorText": "Ներբեռնումը ձախողվեց։",
     "errorAccessDeny": "Դուք փորձում եք կատարել գործողություն, որի համար իրավունք չունեք:<br>Խնդրում ենք կապվել Ձեր ադմինիստրատորի հետ:",
     "errorBadImageUrl": "Նկարի URL-ը սխալ է",
+    "errorComboSeries": "Համակցված աղյուսակ ստեղծելու համար ընտրել տվյալների առնվազն երկու շարք:",
+    "errorCompare": "Համեմատել փաստաթղթերի գործառույթը հասանելի չէ համատեղ խմբագրման ռեժիմում:",
     "errorConnectToServer": "Չհաջողվեց պահել այս փաստաթուղթը:Ստուգեք կապի կարգավորումները կամ կապվեք ադմինիստրատորի հետ:Երբ սեղմում եք Լավ, Ձեզ կառաջարկվի ներբեռնել փաստաթուղթը:",
     "errorDatabaseConnection": "Արտաքին սխալ։<br>Տվյալաշտեմարանի միացման սխալ։ Դիմեք տեխսպասարկմանը։",
     "errorDataEncrypted": "Ընդունվել են գաղտնագրված փոփոխությունները, դրանք չեն կարող վերծանելվել։",
@@ -411,6 +413,7 @@
     "errorEmptyTOC": "Սկսել ստեղծել բովանդակության աղյուսակ՝ կիրառելով վերնագրի ոճը ոճերի սրահից ընտրված տեքստում:",
     "errorFilePassProtect": "Ֆայլը պաշտպանված է գաղտնաբառով և հնարավոր չէ բացել:",
     "errorFileSizeExceed": "Ֆայլի չափը գերազանցում է ձեր սերվերի սահմանաչափը:Խնդրում ենք կապվել Ձեր ադմինիստրատորի հետ:",
+    "errorForceSave": "Սխալ է տեղի ունեցել ֆայլը պահելիս:Խնդրում ենք օգտագործել «Ներբեռնել որպես» տարբերակը՝ ֆայլը ձեր համակարգչի կոշտ սկավառակում պահելու համար կամ ավելի ուշ նորից փորձեք:",
     "errorInconsistentExt": "Ֆայլը բացելիս սխալ է տեղի ունեցել:<br>Ֆայլի բովանդակությունը չի համապատասխանում ֆայլի ընդլայնմանը:",
     "errorInconsistentExtDocx": "Ֆայլը բացելիս սխալ է տեղի ունեցել:<br>Ֆայլի բովանդակությունը համապատասխանում է տեքստային փաստաթղթերին (օրինակ՝ docx), սակայն ֆայլն ունի անհամապատասխան ընդլայնում՝ %1:",
     "errorInconsistentExtPdf": "Ֆայլը բացելիս սխալ է տեղի ունեցել:Ֆայլի բովանդակությունը համապատասխանում է հետևյալ ձևաչափերից մեկին՝pdf/djvu/xps/oxps,բայց ֆայլն ունի անհամապատասխան ընդլայնում. %1:",
@@ -426,7 +429,9 @@
     "errorSessionAbsolute": "Փաստաթղթերի խմբագրման աշխատաշրջանն ավարտվել է:Խնդրում ենք վերաբեռնել էջը:",
     "errorSessionIdle": "Փաստաթուղթը երկար ժամանակ չի խմբագրվել։Խնդրում ենք վերաբեռնել էջը:",
     "errorSessionToken": "Սերվերի հետ կապն ընդհատվել է:Խնդրում ենք վերաբեռնել էջը:",
+    "errorSetPassword": "Գաղտնաբառը չհաջողվեց սահմանել:",
     "errorStockChart": "Սխալ տողերի հերթականություն:Տվյալների տատանման գծապատկեր կառուցելու համար տվյալները թերթիկի վրա տեղադրեք հետևյալ հաջորդականությամբ.<br> Բացման գին,առավելագույն գին,նվազագույն գին, փակման գին։",
+    "errorSubmit": "Չհաջողվեց հաստատել",
     "errorTextFormWrongFormat": "Մուտքագրված արժեքը չի համապատասխանում դաշտի ձևաչափին:",
     "errorToken": "Փաստաթղթի անվտանգության կտրոնը ճիշտ չի ձևակերպված։<br>Դիմեք փաստաթղթերի սպասարկիչի ձեր վարիչին։",
     "errorTokenExpire": "Փաստաթղթի անվտանգության կտրոնի ժամկետն անցել է։<br>Դիմեք փաստաթղթերի սպասարկիչի ձեր վարիչին։",
@@ -442,17 +447,12 @@
     "splitMaxColsErrorText": "Սյունակների թիվը %1-ից պակաս պիտի լինի",
     "splitMaxRowsErrorText": "Տողերի թիվը պետք է %1-ից պակաս լինի",
     "unknownErrorText": "Անհայտ սխալ։",
+    "uploadDocExtMessage": "Անհայտ փաստաթղթի ձևաչափ:",
+    "uploadDocFileCountMessage": "Ոչ մի փաստաթուղթ չի վերբեռնվել:",
+    "uploadDocSizeMessage": "Փաստաթղթի չափի առավելագույն սահմանաչափը գերազանցվել է:",
     "uploadImageExtMessage": "Նկարի անհայտ ձևաչափ։",
     "uploadImageFileCountMessage": "Ոչ մի նկար չի բեռնվել։",
-    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:",
-    "errorComboSeries": "To create a combination chart, select at least two series of data.",
-    "errorCompare": "The Compare documents feature is not available in the co-editing mode.",
-    "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
-    "errorSetPassword": "Password could not be set.",
-    "errorSubmit": "Submit failed.",
-    "uploadDocExtMessage": "Unknown document format.",
-    "uploadDocFileCountMessage": "No documents uploaded.",
-    "uploadDocSizeMessage": "Maximum document size limit exceeded."
+    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:"
   },
   "LongActions": {
     "applyChangesTextText": "Տվյալների բեռնում...",
@@ -684,6 +684,7 @@
     "textParagraphs": "Պարբերություններ",
     "textPassword": "Գաղտնաբառ",
     "textPasswordNotMatched": "Գաղտնաբառերը չեն համընկնում",
+    "textPasswordWarning": "Եթե ​​գաղտնաբառը մոռացել կամ կորցրել եք, այն չի կարող վերականգնվել:",
     "textPdfProducer": "PDF պրոդյուսեր",
     "textPdfTagged": "Պիտակված PDF",
     "textPdfVer": "PDF տարբերակ",
@@ -716,10 +717,12 @@
     "textTop": "Վերև",
     "textTrackedChanges": "Հետագծված փոփոխություններ",
     "textTypeEditing": "Խմբագրման տիպ",
+    "textTypeEditingWarning": "Թույլատրել միայն այս տեսակի խմբագրումը փաստաթղթում:",
     "textUnitOfMeasurement": "Չափման միավոր",
     "textUnprotect": "Չպաշտպանել",
     "textUploaded": "Վերբեռնվել է",
     "textVerify": "Ստուգել",
+    "textVersionHistory": "Տարբերակի պատմություն",
     "textWords": "Բառեր",
     "textYes": "Այո",
     "titleDialogUnprotect": "Պաշտպանազերծել փաստաթուղթը",
@@ -748,21 +751,18 @@
     "txtScheme6": "Համագումար ",
     "txtScheme7": "Սեփական կապիտալ",
     "txtScheme8": "Հոսք",
-    "txtScheme9": "Հրատարակիչ",
-    "textPasswordWarning": "If the password is forgotten or lost, it cannot be recovered.",
-    "textTypeEditingWarning": "Allow only this type of editing in the document.",
-    "textVersionHistory": "Version History"
+    "txtScheme9": "Հրատարակիչ"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Դուք չպահված փոփոխություններ ունեք:Սեղմեք «Մնա այս էջում»՝ սպասելու ավտոմատ պահպանմանը:Սեղմեք «Լքել այս էջը»՝ չպահված բոլոր փոփոխությունները մերժելու համար:",
     "dlgLeaveTitleText": "Ծրագրից դուրս եք գալիս",
     "leaveButtonText": "Լքել այս էջը",
     "stayButtonText": "Մնալ այս էջում",
+    "textCloseHistory": "Փակել պատմությունը",
+    "textEnterNewFileName": "Մուտքագրել նոր ֆայլի անուն ",
     "textOk": "Լավ",
+    "textRenameFile": "Վերանվանել ֆայլը",
     "textSwitchedMobileView": " Փոխարկվել է բջջային տեսքի",
-    "textSwitchedStandardView": " Փոխարկվել է ստանդարտ տեսքի",
-    "textCloseHistory": "Close History",
-    "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textSwitchedStandardView": " Փոխարկվել է ստանդարտ տեսքի"
   }
 }

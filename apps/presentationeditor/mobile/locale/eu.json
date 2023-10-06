@@ -168,6 +168,7 @@
     "errorEditingDownloadas": "Errore bat gertatu da dokumentuarekin lan egitean.<br>Erabili 'Deskargatu' aukera fitxategiaren babeskopia lokalean gordetzeko. ",
     "errorFilePassProtect": "Fitxategia pasahitzez babestua dago eta ezin izan da ireki.",
     "errorFileSizeExceed": "Fitxategiaren tamaina zerbitzariaren mugaz gaindi dago.<br>Mesedez, jar zaitez harremanetan zure administratzailearekin.",
+    "errorForceSave": "Errore bat gertatu da dokumentua gordetzean. Erabili 'Deskargatu honela' aukera fitxategia zure ordenagailuko disko gogorrean gordetzeko edo saiatu berriro geroago.",
     "errorInconsistentExt": "Errore bat gertatu da fitxategia irekitzean.<br>Fitxategiaren edukia eta luzapena ez datoz bat.",
     "errorInconsistentExtDocx": "Errore bat gertatu da fitxategia irekitzean.<br>Fitxategiaren edukia testu-dokumentu bati dagokio (adibidez, docx), baina fitxategiaren luzapena ez dator bat: %1.",
     "errorInconsistentExtPdf": "Errore bat gertatu da fitxategia irekitzean.<br>Fitxategiaren edukia ondorengo formatuetako bati dagokio: pdf/djvu/xps/oxps, baina fitxategiaren luzapena ez dator bat: %1.",
@@ -199,7 +200,6 @@
     "uploadImageSizeMessage": "Irudia handiegia da. Gehienezko tamaina 25 MB da.",
     "errorComboSeries": "To create a combination chart, select at least two series of data.",
     "errorEmailClient": "No email client could be found",
-    "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
     "errorSetPassword": "Password could not be set."
   },
   "LongActions": {
