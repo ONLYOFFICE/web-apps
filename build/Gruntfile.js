@@ -485,6 +485,7 @@ module.exports = function(grunt) {
                         comments: false,
                         preamble: "/* minified by terser */",
                     },
+                    sourceMap: true,
                 },
                 build: {
                     src: [packageFile['main']['js']['requirejs']['options']['out']],
@@ -666,6 +667,7 @@ module.exports = function(grunt) {
                         comments: false,
                         preamble: copyright,
                     },
+                    sourceMap: true,
                 },
                 build: {
                     src: packageFile['embed']['js']['src'],
