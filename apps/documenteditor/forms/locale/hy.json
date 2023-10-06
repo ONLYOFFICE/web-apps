@@ -152,6 +152,7 @@
   "DE.Controllers.ApplicationController.uploadImageExtMessage": "Նկարի անհայտ ձևաչափ։",
   "DE.Controllers.ApplicationController.uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:",
   "DE.Controllers.ApplicationController.waitText": "Խնդրում ենք սպասել...",
+  "DE.Controllers.ApplicationController.warnLicenseAnonymous": "Մուտքն արգելված է անանուն օգտատերերի համար:<br>Այս փաստաթուղթը կբացվի միայն դիտելու համար:",
   "DE.Controllers.ApplicationController.warnLicenseBefore": "Լիցենզիան ակտիվ չէ:<br> Խնդրում ենք կապվել ձեր ադմինիստրատորի հետ:",
   "DE.Controllers.ApplicationController.warnLicenseExceeded": "Դուք հասել եք %1 խմբագրիչներին միաժամանակ միանալու սահմանափակմանը։ Այս փաստաթուղթը կբացվի միայն ընթերցման համար։<br>Մանրամասների համար դիմեք վարիչին։",
   "DE.Controllers.ApplicationController.warnLicenseExp": "Ձեր թույլատրագրի ժամկետը սպառվել է։<br>Թարմացրեք թույլատրագիրը, ապա՝ էջը։",
