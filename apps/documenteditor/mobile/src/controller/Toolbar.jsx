@@ -320,6 +320,18 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         Common.Gateway.requestHistoryClose();
     }
 
+    const moveNextField = () => {
+        const api = Common.EditorApi.get();
+        console.log('next');
+        api.asc_MoveToFillingForm(true);
+    }
+
+    const movePrevField = () => {
+        const api = Common.EditorApi.get();
+        console.log('prev');
+        api.asc_MoveToFillingForm(false);
+    }
+
     return (
         <ToolbarView 
             openOptions={props.openOptions}
@@ -350,6 +362,8 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             isVersionHistoryMode={isVersionHistoryMode}
             closeHistory={closeHistory}
             isOpenModal={props.isOpenModal}
+            moveNextField={moveNextField}
+            movePrevField={movePrevField}
         />
     )
 }));

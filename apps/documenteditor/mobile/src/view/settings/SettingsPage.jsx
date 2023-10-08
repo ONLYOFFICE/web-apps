@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { Fragment, useContext } from 'react';
 import { Page, Navbar, NavRight, Link, Icon, ListItem, List, Toggle } from 'framework7-react';
 import { Device } from "../../../../../common/mobile/utils/device";
 import { observer, inject } from "mobx-react";
@@ -18,7 +18,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
     const docInfo = props.storeDocumentInfo;
     const docTitle = docInfo.dataDoc.title;
     const docExt = docInfo.dataDoc ? docInfo.dataDoc.fileType : '';
-    const isNotForm = docExt && docExt !== 'oform';
+    const isForm = docExt && docExt === 'oform';
     const navbar =
         <Navbar>
             <div className="title" onClick={settingsContext.changeTitleHandler}>{docTitle}</div>
@@ -66,6 +66,17 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
         <Page>
             {navbar}
             <List>
+                {isForm ? [
+                    <ListItem key='add-to-favorites-link' title={t('Settings.textAddToFavorites')} link='#' className='no-indicator'>
+                        <Icon slot="media" icon="icon-add-favorites"></Icon>
+                    </ListItem>,
+                    <ListItem key='export-link' title={t('Settings.textExport')} link='#' className='no-indicator'>
+                        <Icon slot="media" icon="icon-export"></Icon>
+                    </ListItem>,
+                    <ListItem key='clear-all-fields-link' title={t('Settings.textClearAllFields')} link='#' className='no-indicator' onClick={settingsContext.clearAllFields}>
+                        <Icon slot="media" icon="icon-clear-fields"></Icon>
+                    </ListItem>
+                ] : null}
                 {Device.phone &&
                     <ListItem title={!_isEdit || isViewer ? _t.textFind : _t.textFindAndReplace} link='#' searchbarEnable='.searchbar' onClick={settingsContext.closeModal} className='no-indicator'>
                         <Icon slot="media" icon="icon-search"></Icon>
@@ -85,20 +96,22 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                         <Icon slot="media" icon="icon-version-history"></Icon>
                     </ListItem>
                 }
-                <ListItem title={t('Settings.textNavigation')} link={!Device.phone ? '/navigation' : '#'} onClick={() => {
-                    if(Device.phone) {
-                        onOpenOptions('navigation');
-                    } 
-                }}>
-                    <Icon slot="media" icon="icon-navigation"></Icon>
-                </ListItem>
+                {!isForm ? 
+                    <ListItem title={t('Settings.textNavigation')} link={!Device.phone ? '/navigation' : '#'} onClick={() => {
+                        if(Device.phone) {
+                            onOpenOptions('navigation');
+                        } 
+                    }}>
+                        <Icon slot="media" icon="icon-navigation"></Icon>
+                    </ListItem>
+                : null}
                 {window.matchMedia("(max-width: 359px)").matches ?
                     <ListItem title={_t.textCollaboration} link="#" onClick={() => {
                         onOpenOptions('coauth');
                     }} className='no-indicator'>
                         <Icon slot="media" icon="icon-collaboration"></Icon>
                     </ListItem>
-                    : null}
+                : null}
                 {Device.sailfish && _isEdit &&
                     <ListItem title={_t.textSpellcheck} onClick={() => {settingsContext.onOrthographyCheck()}} className='no-indicator' link="#">
                         <Icon slot="media" icon="icon-spellcheck"></Icon>
@@ -118,7 +131,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                         <Icon slot="media" icon="icon-doc-setup"></Icon>
                     </ListItem>
                 }
-                {isNotForm &&
+                {!isForm &&
                     <ListItem title={_t.textApplicationSettings} link="/application-settings/">
                         <Icon slot="media" icon="icon-app-settings"></Icon>
                     </ListItem>
@@ -146,7 +159,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                         <Icon slot="media" icon="icon-help"></Icon>
                     </ListItem>
                 }
-                {(_canAbout && isNotForm) &&
+                {(_canAbout && !isForm) &&
                     <ListItem title={_t.textAbout} link="/about/">
                         <Icon slot="media" icon="icon-about"></Icon>
                     </ListItem>

@@ -10,6 +10,7 @@ const ToolbarView = props => {
     const isDisconnected = props.isDisconnected;
     const docExt = props.docExt;
     const isAvailableExt = docExt && docExt !== 'djvu' && docExt !== 'pdf' && docExt !== 'xps' && docExt !== 'oform';
+    const isForm = docExt === 'oform';
     const disableEditBtn = props.isObjectLocked || props.stateDisplayMode || props.disabledEditControls || isDisconnected;
     const isViewer = props.isViewer;
     const isMobileView = props.isMobileView;
@@ -69,7 +70,7 @@ const ToolbarView = props => {
                     })
                 }
             </NavLeft>
-            {((!Device.phone || isViewer) && !isVersionHistoryMode) && 
+            {((!Device.phone || isViewer) && !isVersionHistoryMode && !isForm) && 
                 <div className='title' onClick={() => props.changeTitleHandler()} style={{width: '71%'}}>
                     {docTitle}
                 </div>
@@ -83,29 +84,37 @@ const ToolbarView = props => {
                         onRedoClick: props.onRedo
                     })
                 }
-                {((isViewer || !Device.phone) && isAvailableExt && !props.disabledControls && !isVersionHistoryMode) && 
-                    <Link className={isOpenModal && 'disabled'} icon={isMobileView ? 'icon-standard-view' : 'icon-mobile-view'} href={false} onClick={() => {
-                        props.changeMobileView();
-                        props.openOptions('snackbar');
-                    }}></Link>
-                }
-                {(props.showEditDocument && !isViewer) &&
-                    <Link className={(props.disabledControls || isOpenModal) && 'disabled'} icon='icon-edit' href={false} onClick={props.onEditDocument}></Link>
-                }
-                {props.isEdit && isAvailableExt && !isViewer && EditorUIController.getToolbarOptions && EditorUIController.getToolbarOptions({
-                    disabled: disableEditBtn || props.disabledControls || isOpenModal,
-                    onEditClick: e => props.openOptions('edit'),
-                    onAddClick: e => props.openOptions('add')
-                })}
-                {Device.phone ? null : 
-                    <Link className={(props.disabledControls || props.readerMode || isOpenModal) && 'disabled'} icon='icon-search' searchbarEnable='.searchbar' href={false}></Link>
-                }
-                {window.matchMedia("(min-width: 360px)").matches && docExt !== 'oform' && !isVersionHistoryMode ? 
-                    <Link className={(props.disabledControls || isOpenModal) && 'disabled'} id='btn-coauth' href={false} icon='icon-collaboration' onClick={() => props.openOptions('coauth')}></Link> 
-                : null}
-                {isVersionHistoryMode ? 
-                    <Link id='btn-open-history' icon='icon-version-history' href={false} className={isOpenModal && 'disabled'} onClick={() => props.openOptions('history')}></Link> 
-                : null}
+                {!isForm ? [
+                    ((isViewer || !Device.phone) && isAvailableExt && !props.disabledControls && !isVersionHistoryMode) && 
+                        <Link key='toggle-view-link' className={isOpenModal ? 'disabled' : ''} icon={isMobileView ? 'icon-standard-view' : 'icon-mobile-view'} href={false} onClick={() => {
+                            props.changeMobileView();
+                            props.openOptions('snackbar');
+                        }}></Link>,
+                    (props.showEditDocument && !isViewer) &&
+                        <Link key='edit-link' className={(props.disabledControls || isOpenModal) && 'disabled'} icon='icon-edit' href={false} onClick={props.onEditDocument}></Link>,
+                    (props.isEdit && isAvailableExt && !isViewer && EditorUIController.getToolbarOptions && 
+                        <Fragment key='editing-buttons'>
+                            {EditorUIController.getToolbarOptions({
+                            disabled: disableEditBtn || props.disabledControls || isOpenModal,
+                                onEditClick: e => props.openOptions('edit'),
+                                onAddClick: e => props.openOptions('add')
+                            })}
+                        </Fragment>
+                    ),
+                    (Device.phone ? null : 
+                        <Link key='search-link' className={(props.disabledControls || props.readerMode || isOpenModal) && 'disabled'} icon='icon-search' searchbarEnable='.searchbar' href={false}></Link>
+                    ),
+                    (window.matchMedia("(min-width: 360px)").matches && docExt !== 'oform' && !isVersionHistoryMode ? 
+                        <Link key='coauth-link' className={(props.disabledControls || isOpenModal) && 'disabled'} id='btn-coauth' href={false} icon='icon-collaboration' onClick={() => props.openOptions('coauth')}></Link> 
+                    : null),
+                    (isVersionHistoryMode ? 
+                        <Link key='history-link' id='btn-open-history' icon='icon-version-history' href={false} className={isOpenModal && 'disabled'} onClick={() => props.openOptions('history')}></Link> 
+                    : null)
+                ] : [
+                    <Link key='prev-field-link' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-prev-field' icon='icon-prev-field' href={false} onClick={() => props.movePrevField()}></Link>,
+                    <Link key='next-field-link' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-next-field' icon='icon-next-field' href={false} onClick={() => props.moveNextField()}></Link>,
+                    <Link key='export-link' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-export' icon='icon-export' href={false} onClick={() => console.log('export')}></Link>,
+                ]}
                 <Link className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-settings' icon='icon-settings' href={false} onClick={() => props.openOptions('settings')}></Link>
             </NavRight>
         </Fragment>

@@ -16,12 +16,12 @@ import EditHyperlink from '../controller/edit/EditHyperlink';
 import Snackbar from '../components/Snackbar/Snackbar';
 import EditView from '../view/edit/Edit';
 import VersionHistoryController from '../../../../common/mobile/lib/controller/VersionHistory';
-import FormsToolbarController from '../controller/FormsToolbar';
+// import FormsToolbarController from '../controller/FormsToolbar';
 
 export const MainContext = createContext();
-export const FormsMainContext = createContext();
+// export const FormsMainContext = createContext();
 
-const MainPage = inject('storeVersionHistory', 'storeToolbarSettings')(observer(props => {
+const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeVersionHistory', 'storeToolbarSettings')(observer(props => {
     const { t } = useTranslation();
     const [state, setState] = useState({
         editOptionsVisible: false,
@@ -303,187 +303,188 @@ const MainPage = inject('storeVersionHistory', 'storeToolbarSettings')(observer(
     )
 }));
 
-const FormsMainPage = props => {
-    const appOptions = props.storeAppOptions;
-    const isMobileView = appOptions.isMobileView;
-    const config = appOptions.config;
-    const { t } = useTranslation();
-    const [state, setState] = useState({
-        settingsVisible: false,
-        snackbarVisible: false,
-        isOpenModal: false
-    });
-    const isShowPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
+// const FormsMainPage = props => {
+//     const appOptions = props.storeAppOptions;
+//     const isMobileView = appOptions.isMobileView;
+//     const config = appOptions.config;
+//     const { t } = useTranslation();
+//     const [state, setState] = useState({
+//         settingsVisible: false,
+//         snackbarVisible: false,
+//         isOpenModal: false
+//     });
+//     const isShowPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
 
-    let isHideLogo = true,
-        isCustomization = true,
-        isBranding = true;
+//     let isHideLogo = true,
+//         isCustomization = true,
+//         isBranding = true;
 
-    if (!appOptions.isDisconnected && config?.customization) {
-        isCustomization = !!(config.customization && (config.customization.loaderName || config.customization.loaderLogo));
-        isBranding = appOptions.canBranding || appOptions.canBrandingExt;
+//     if (!appOptions.isDisconnected && config?.customization) {
+//         isCustomization = !!(config.customization && (config.customization.loaderName || config.customization.loaderLogo));
+//         isBranding = appOptions.canBranding || appOptions.canBrandingExt;
 
-        if (!Object.keys(config).length) {
-            isCustomization = !/&(?:logo)=/.test(window.location.search);
-        }
+//         if (!Object.keys(config).length) {
+//             isCustomization = !/&(?:logo)=/.test(window.location.search);
+//         }
 
-        isHideLogo = isCustomization && isBranding; 
-    }
+//         isHideLogo = isCustomization && isBranding; 
+//     }
 
-    const handleClickToOpenOptions = (opts, showOpts) => {
-        f7.popover.close('.document-menu.modal-in', false);
+//     const handleClickToOpenOptions = (opts, showOpts) => {
+//         f7.popover.close('.document-menu.modal-in', false);
 
-        let opened = false;
-        const newState = {...state};
+//         let opened = false;
+//         const newState = {...state};
 
-        if(opts === 'settings') {
-            newState.settingsVisible && (opened = true);
-            newState.settingsVisible = true;
-            newState.isOpenModal = true;
-        } else if(opts === 'snackbar') {
-            newState.snackbarVisible = true;
-        }
+//         if(opts === 'settings') {
+//             newState.settingsVisible && (opened = true);
+//             newState.settingsVisible = true;
+//             newState.isOpenModal = true;
+//         } else if(opts === 'snackbar') {
+//             newState.snackbarVisible = true;
+//         }
 
-        if(!opened) {
-            setState(newState);
+//         if(!opened) {
+//             setState(newState);
 
-            if((opts === 'edit' || opts === 'coauth') && Device.phone) {
-                f7.navbar.hide('.main-navbar');
-            }
-        }
-    };
+//             if((opts === 'edit' || opts === 'coauth') && Device.phone) {
+//                 f7.navbar.hide('.main-navbar');
+//             }
+//         }
+//     };
 
-    const handleOptionsViewClosed = opts => {
-        setState(prevState => {
-            if(opts === 'settings') {
-                return {
-                    ...prevState,
-                    settingsVisible: false, 
-                    isOpenModal: false
-                };
-            } else if(opts === 'snackbar') {
-                return {
-                    ...prevState, 
-                    snackbarVisible: false
-                }
-            }
-        });
+//     const handleOptionsViewClosed = opts => {
+//         setState(prevState => {
+//             if(opts === 'settings') {
+//                 return {
+//                     ...prevState,
+//                     settingsVisible: false, 
+//                     isOpenModal: false
+//                 };
+//             } else if(opts === 'snackbar') {
+//                 return {
+//                     ...prevState, 
+//                     snackbarVisible: false
+//                 }
+//             }
+//         });
 
-        if((opts === 'edit' || opts === 'coauth') && Device.phone) {
-            f7.navbar.show('.main-navbar');
-        }
-    };
+//         if((opts === 'edit' || opts === 'coauth') && Device.phone) {
+//             f7.navbar.show('.main-navbar');
+//         }
+//     };
 
-    return (
-        <FormsMainContext.Provider value={{
-            openOptions: handleClickToOpenOptions,
-            closeOptions: handleOptionsViewClosed
-        }}>
-            <Page name="home" className={`editor${!isHideLogo ? ' page-with-logo' : ''}`}>
-                <Navbar id='editor-navbar' className={`main-navbar${!isHideLogo ? ' navbar-with-logo' : ''}`}>
-                    {!isHideLogo &&
-                        <div className="main-logo" onClick={() => {
-                            window.open(`${__PUBLISHER_URL__}`, "_blank");
-                        }}>
-                            <Icon icon="icon-logo"></Icon>
-                        </div>
-                    }
-                    <Subnavbar>
-                        <FormsToolbarController
-                            openOptions={handleClickToOpenOptions} 
-                            closeOptions={handleOptionsViewClosed}
-                            isOpenModal={state.isOpenModal}
-                        />
-                        <Search useSuspense={false}/>
-                    </Subnavbar>
-                </Navbar>
-                <View id="editor_sdk"></View>
-                {isShowPlaceholder ?
-                    <div className="doc-placeholder-container">
-                        <div className="doc-placeholder">
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                        </div>
-                    </div> 
-                : null}
-                <Snackbar 
-                    isShowSnackbar={state.snackbarVisible} 
-                    closeCallback={() => handleOptionsViewClosed('snackbar')}
-                    message={isMobileView ? t("Toolbar.textSwitchedMobileView") : t("Toolbar.textSwitchedStandardView")} 
-                />
-                {!state.settingsVisible ? null : <SettingsController />}
-                <SearchSettings useSuspense={false} />
-                {appOptions.isDocReady && 
-                    <ContextMenu openOptions={handleClickToOpenOptions} />
-                }
-            </Page>
-        </FormsMainContext.Provider>
-    )
-};
+//     return (
+//         <FormsMainContext.Provider value={{
+//             openOptions: handleClickToOpenOptions,
+//             closeOptions: handleOptionsViewClosed
+//         }}>
+//             <Page name="home" className={`editor${!isHideLogo ? ' page-with-logo' : ''}`}>
+//                 <Navbar id='editor-navbar' className={`main-navbar${!isHideLogo ? ' navbar-with-logo' : ''}`}>
+//                     {!isHideLogo &&
+//                         <div className="main-logo" onClick={() => {
+//                             window.open(`${__PUBLISHER_URL__}`, "_blank");
+//                         }}>
+//                             <Icon icon="icon-logo"></Icon>
+//                         </div>
+//                     }
+//                     <Subnavbar>
+//                         <FormsToolbarController
+//                             openOptions={handleClickToOpenOptions} 
+//                             closeOptions={handleOptionsViewClosed}
+//                             isOpenModal={state.isOpenModal}
+//                         />
+//                         <Search useSuspense={false}/>
+//                     </Subnavbar>
+//                 </Navbar>
+//                 <View id="editor_sdk"></View>
+//                 {isShowPlaceholder ?
+//                     <div className="doc-placeholder-container">
+//                         <div className="doc-placeholder">
+//                             <div className="line"></div>
+//                             <div className="line"></div>
+//                             <div className="line"></div>
+//                             <div className="line"></div>
+//                             <div className="line"></div>
+//                             <div className="line"></div>
+//                             <div className="line"></div>
+//                             <div className="line"></div>
+//                             <div className="line"></div>
+//                             <div className="line"></div>
+//                             <div className="line"></div>
+//                             <div className="line"></div>
+//                             <div className="line"></div>
+//                             <div className="line"></div>
+//                             <div className="line"></div>
+//                             <div className="line"></div>
+//                             <div className="line"></div>
+//                             <div className="line"></div>
+//                             <div className="line"></div>
+//                             <div className="line"></div>
+//                         </div>
+//                     </div> 
+//                 : null}
+//                 <Snackbar 
+//                     isShowSnackbar={state.snackbarVisible} 
+//                     closeCallback={() => handleOptionsViewClosed('snackbar')}
+//                     message={isMobileView ? t("Toolbar.textSwitchedMobileView") : t("Toolbar.textSwitchedStandardView")} 
+//                 />
+//                 {!state.settingsVisible ? null : <SettingsController />}
+//                 <SearchSettings useSuspense={false} />
+//                 {appOptions.isDocReady && 
+//                     <ContextMenu openOptions={handleClickToOpenOptions} />
+//                 }
+//             </Page>
+//         </FormsMainContext.Provider>
+//     )
+// };
 
-class ErrorBoundary extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { hasError: false };
-    }
+// class ErrorBoundary extends React.Component {
+//     constructor(props) {
+//         super(props);
+//         this.state = { hasError: false };
+//     }
   
-    static getDerivedStateFromError(error) {
-        return { hasError: true };
-    }
+//     static getDerivedStateFromError(error) {
+//         return { hasError: true };
+//     }
   
-    componentDidCatch(error, errorInfo) {
-        console.error(error, errorInfo);
-    }
+//     componentDidCatch(error, errorInfo) {
+//         console.error(error, errorInfo);
+//     }
   
-    render() {
-        if(this.state.hasError) {
-            return <h1>Что-то пошло не так.</h1>;
-        }
+//     render() {
+//         if(this.state.hasError) {
+//             return <h1>Что-то пошло не так.</h1>;
+//         }
   
-        return this.props.children; 
-    }
-}
+//         return this.props.children; 
+//     }
+// }
 
-const withConditionalRendering = (MainPage, FormsMainPage) => {
-    return inject('storeDocumentInfo', 'users', 'storeAppOptions')(observer(props => {
-        const [isForm, setIsForm] = useState(null);
-        const storeDocumentInfo = props.storeDocumentInfo;
-        const docExt = storeDocumentInfo.dataDoc ? storeDocumentInfo.dataDoc.fileType : '';
+// const withConditionalRendering = (MainPage, FormsMainPage) => {
+//     return inject('storeDocumentInfo', 'users', 'storeAppOptions')(observer(props => {
+//         const [isForm, setIsForm] = useState(null);
+//         const storeDocumentInfo = props.storeDocumentInfo;
+//         const docExt = storeDocumentInfo.dataDoc ? storeDocumentInfo.dataDoc.fileType : '';
 
-        useEffect(() => {
-            setIsForm(docExt === 'oform');
-        }, []);
+//         useEffect(() => {
+//             setIsForm(docExt === 'oform');
+//         }, []);
 
-        return ( 
-            isForm ?
-                <ErrorBoundary key="formsMainPage">
-                    <FormsMainPage {...props} />
-                </ErrorBoundary>
-            :
-                <ErrorBoundary key="mainPage">
-                    <MainPage {...props} />
-                </ErrorBoundary>
-        )
-    }));
-};
+//         return ( 
+//             isForm ?
+//                 <ErrorBoundary key="formsMainPage">
+//                     <FormsMainPage {...props} />
+//                 </ErrorBoundary>
+//             :
+//                 <ErrorBoundary key="mainPage">
+//                     <MainPage {...props} />
+//                 </ErrorBoundary>
+//         )
+//     }));
+// };
 
-const ConditionalMainPage = withConditionalRendering(MainPage, FormsMainPage);
-export default ConditionalMainPage;
+// const ConditionalMainPage = withConditionalRendering(MainPage, FormsMainPage);
+// export default ConditionalMainPage;
+export default MainPage;

@@ -145,6 +145,13 @@ const SettingsController = props => {
         api.asc_setDocInfo(docInfo);
     };
 
+    const clearAllFields = () => {
+        const api = Common.EditorApi.get();
+        
+        api.asc_ClearAllSpecialForms();
+        closeModal();
+    };
+
     return (
         <SettingsContext.Provider value={{
             onPrint,
@@ -154,7 +161,8 @@ const SettingsController = props => {
             onDownloadOrigin,
             onChangeMobileView,
             changeTitleHandler,
-            closeModal
+            closeModal,
+            clearAllFields
         }}>
             <SettingsView />
         </SettingsContext.Provider>

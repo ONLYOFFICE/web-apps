@@ -1,10 +1,9 @@
-
-import ConditionalMainPage from '../page/main';
+import MainPage from '../page/main';
 
 var routes = [
   {
     path: '/',
-    component: ConditionalMainPage,
+    component: MainPage,
   }
 ];
 
