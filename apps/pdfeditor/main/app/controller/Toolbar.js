@@ -189,7 +189,7 @@ define([
             toolbar.mnuHighlightColorPicker.on('select',                _.bind(this.onSelectHighlightColor, this));
             toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
             toolbar.chShowComments.on('change',                         _.bind(this.onShowCommentsChange, this));
-            toolbar.btnRotate.on('click',                               _.bind(this.onRotateClick, this));
+            // toolbar.btnRotate.on('click',                               _.bind(this.onRotateClick, this));
             toolbar.fieldPages.on('changed:after',                      _.bind(this.onPagesChanged, this));
             toolbar.fieldPages.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me.toolbar);});
             toolbar.fieldPages.cmpEl && toolbar.fieldPages.cmpEl.on('focus', 'input.form-control', function() {

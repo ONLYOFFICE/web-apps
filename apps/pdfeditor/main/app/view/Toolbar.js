@@ -255,17 +255,17 @@ define([
                     });
                     this.toolbarControls.push(this.btnHandTool);
 
-                    this.btnRotate = new Common.UI.Button({
-                        id: 'tlbtn-rotate',
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-update',
-                        lock: [_set.disableOnStart],
-                        caption: this.capBtnRotate,
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: 'small'
-                    });
-                    this.toolbarControls.push(this.btnRotate);
+                    // this.btnRotate = new Common.UI.Button({
+                    //     id: 'tlbtn-rotate',
+                    //     cls: 'btn-toolbar x-huge icon-top',
+                    //     iconCls: 'toolbar__icon btn-update',
+                    //     lock: [_set.disableOnStart],
+                    //     caption: this.capBtnRotate,
+                    //     dataHint: '1',
+                    //     dataHintDirection: 'bottom',
+                    //     dataHintOffset: 'small'
+                    // });
+                    // this.toolbarControls.push(this.btnRotate);
 
                     this.btnAddComment = new Common.UI.Button({
                         id: 'tlbtn-addcomment',
@@ -506,7 +506,7 @@ define([
                 _injectComponent('#slot-btn-strikeout', this.btnStrikeout);
                 _injectComponent('#slot-btn-underline', this.btnUnderline);
                 _injectComponent('#slot-btn-highlight', this.btnHighlight);
-                _injectComponent('#slot-btn-rotate', this.btnRotate);
+                // _injectComponent('#slot-btn-rotate', this.btnRotate);
                 _injectComponent('#slot-btn-pages', this.fieldPages);
                 _injectComponent('#slot-btn-first-page', this.btnFirstPage);
                 _injectComponent('#slot-btn-last-page', this.btnLastPage);
@@ -630,7 +630,7 @@ define([
                 this.btnStrikeout.updateHint(this.textStrikeout);
                 this.btnUnderline.updateHint(this.textUnderline);
                 this.btnHighlight.updateHint(this.textHighlight);
-                this.btnRotate.updateHint(this.tipRotate);
+                // this.btnRotate.updateHint(this.tipRotate);
                 this.btnFirstPage.updateHint(this.tipFirstPage);
                 this.btnLastPage.updateHint(this.tipLastPage);
                 this.btnPrevPage.updateHint(this.tipPrevPage);
