@@ -174,8 +174,8 @@ define([
             toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, 'paste'));
             toolbar.btnCut.on('click',                                  _.bind(this.onCopyPaste, this, 'cut'));
             toolbar.btnSelectAll.on('click',                            _.bind(this.onSelectAll, this));
-            toolbar.btnSelectTool.on('click',                           _.bind(this.onSelectTool, this, 'select'));
-            toolbar.btnHandTool.on('click',                             _.bind(this.onSelectTool, this, 'hand'));
+            toolbar.btnSelectTool.on('toggle',                          _.bind(this.onSelectTool, this, 'select'));
+            toolbar.btnHandTool.on('toggle',                            _.bind(this.onSelectTool, this, 'hand'));
             toolbar.btnAddComment.on('click', function (btn, e) {
                 Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
             });
@@ -475,11 +475,12 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Select All');
         },
 
-        onSelectTool: function (type, btn, e) {
-            if (this.api)
+        onSelectTool: function (type, btn, state, e) {
+            if (this.api && state) {
                 this.api.asc_setViewerTargetType(type);
-            this.mode.isEdit && this.api.asc_StopInkDrawer();
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+                this.mode.isEdit && this.api.asc_StopInkDrawer();
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            }
         },
 
         onBtnStrikeout: function(btn) {
