@@ -310,7 +310,7 @@ define([
             var rec = this.linksList.getSelectedRec();
             if (rec) {
                 if (this.isOffline)
-                    this.api.updateSourceFromFile(rec.get('externalRef'));
+                    this.api.asc_changeExternalReference(rec.get('externalRef'));
                 else
                     this.fireEvent('change:source', this, rec.get('externalRef'));
 
