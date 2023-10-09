@@ -1357,7 +1357,7 @@ define([
                     this.appOptions.canUseCommentPermissions && AscCommon.UserInfoParser.setCommentPermissions(this.permissions.commentGroups);
                     this.appOptions.canUseUserInfoPermissions && AscCommon.UserInfoParser.setUserInfoPermissions(this.permissions.userInfoGroups);
                     this.headerView.setUserName(AscCommon.UserInfoParser.getParsedName(AscCommon.UserInfoParser.getCurrentName()));
-                    this.headerView.setUserAvatar(this.appOptions.user.image);
+                    this.headerView.setUserId(this.appOptions.user.id);
                 } else
                     this.appOptions.canModifyFilter = true;
 
@@ -1399,6 +1399,7 @@ define([
                     this.editorConfig.customization && Common.UI.LayoutManager.init(this.editorConfig.customization.layout, this.appOptions.canBrandingExt);
                     this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
                     Common.UI.ExternalUsers.init(this.appOptions.canRequestUsers);
+                    Common.UI.ExternalUsers.getImages([this.appOptions.user.id]);
                 }
 
                 this.appOptions.canUseHistory  = this.appOptions.canLicense && this.editorConfig.canUseHistory && this.appOptions.canCoAuthoring && !this.appOptions.isOffline;

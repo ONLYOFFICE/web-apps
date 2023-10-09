@@ -46,6 +46,7 @@ if (Common.UI === undefined) {
 
 Common.UI.ExternalUsers = new( function() {
     var externalUsers = [],
+        userImages = {},
         isUsersLoading = false;
 
     var _get = function(type) {
@@ -60,7 +61,34 @@ Common.UI.ExternalUsers = new( function() {
         }
     };
 
+    var _getImages = function(ids) {
+        var arrRequest = [],
+            arrImages = {},
+            hasImages = false;
+        for (var i=0; i<ids.length; i++) {
+            if (userImages[ids[i]]===undefined) {
+                arrRequest.push(ids[i]);
+            } else {
+                arrImages[ids[i]] = userImages[ids[i]];
+                hasImages = true;
+            }
+        }
+        hasImages && Common.NotificationCenter.trigger('avatars:update', arrImages);
+        arrRequest.length && Common.Gateway.requestUserImage(arrRequest);
+    };
+
     var _init = function(canRequestUsers) {
+        Common.Gateway.on('setuserimage', function(data) {
+            if (data) {
+                for (var id in data) {
+                    if (data.hasOwnProperty(id)) {
+                        userImages[id] = data[id];
+                    }
+                }
+            }
+            Common.NotificationCenter.trigger('avatars:update', userImages);
+        });
+
         if (!canRequestUsers) return;
 
         Common.Gateway.on('setusers', function(data) {
@@ -80,6 +108,7 @@ Common.UI.ExternalUsers = new( function() {
 
     return {
         init: _init,
-        get: _get
+        get: _get,
+        getImages: _getImages
     }
 })();

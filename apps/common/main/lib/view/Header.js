@@ -514,6 +514,7 @@ define([
                     'collaboration:sharingdeny': function(mode) {Common.Utils.asyncCall(onLostEditRights, me, mode);}
                 });
                 Common.NotificationCenter.on('uitheme:changed', this.changeLogo.bind(this));
+                Common.NotificationCenter.on('avatars:update', this.avatarsUpdate.bind(this));
             },
 
             render: function (el, role) {
@@ -860,6 +861,10 @@ define([
                 $btnUserName && this.updateAvatarEl();
             },
 
+            setUserId: function(id) {
+                this.options.currentUserId = id;
+            },
+
             updateAvatarEl(){
                 if(this.options.userAvatar){
                     $btnUserName.css({'background-image': 'url('+ this.options.userAvatar +')'});
@@ -867,6 +872,10 @@ define([
                 } else {
                     $btnUserName.text(Common.Utils.getUserInitials(this.options.userName));
                 }
+            },
+
+            avatarsUpdate: function(userImages) {
+                (this.options.userAvatar===undefined) && (userImages[this.options.currentUserId]!==undefined) && this.setUserAvatar(userImages[this.options.currentUserId]);
             },
 
             getButton: function(type) {

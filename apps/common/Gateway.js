@@ -153,6 +153,10 @@ if (window.Common === undefined) {
 
             'setReferenceSource': function(data) {
                 $me.trigger('setreferencesource', data);
+            },
+
+            'setUserImage': function(data) {
+                $me.trigger('setuserimage', data);
             }
         };
 
@@ -380,6 +384,10 @@ if (window.Common === undefined) {
 
             requestReferenceSource:  function () {
                 _postMessage({event:'onRequestReferenceSource'});
+            },
+
+            requestUserImage:  function (data) {
+                _postMessage({event:'onRequestUserImage', data: data});
             },
 
             pluginsReady: function() {
