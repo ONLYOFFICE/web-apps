@@ -86,7 +86,6 @@ define([
                 this.api.asc_registerCallback('asc_onWorksheetLocked',      _.bind(this.onWorksheetLocked, this));
                 this.api.asc_registerCallback('asc_onChangeProtectWorkbook',_.bind(this.onChangeProtectWorkbook, this));
                 //this.api.asc_registerCallback('asc_onChangingCellSelection',_.bind(this.onUpdateChangingCellSelection, this));
-                //this.api.asc_registerCallback('asc_onChangingCellSelection',_.bind(this.onStopChangingCellSelection, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('protect:wslock',              _.bind(this.onChangeProtectSheet, this));
@@ -543,8 +542,8 @@ define([
                 api: me.api,
                 handler: function(result, settings) {
                     if (result == 'ok' && settings) {
-                        //me.api.asc_FormulaGoalSeek(settings.formulaCell, settings.expectedValue, settings.changingCell);
-                        me.onUpdateChangingCellSelection(0, 1, 0); // only for test
+                        me.api.asc_FormulaGoalSeek(settings.formulaCell, settings.expectedValue, settings.changingCell);
+                        //me.onUpdateChangingCellSelection(0, 1, 0); // only for test
                     }
                     Common.NotificationCenter.trigger('edit:complete');
                 }
@@ -562,17 +561,18 @@ define([
                         } else {
                             // cancel changes
                         }
-                        this.ChangingCellSelectionDlg = undefined;
+                        me.ChangingCellSelectionDlg = undefined;
                         Common.NotificationCenter.trigger('edit:complete');
                     }
                 });
+                this.ChangingCellSelectionDlg.on('close', function() {
+                    me.ChangingCellSelectionDlg = undefined;
+                });
                 this.ChangingCellSelectionDlg.show();
+                this.ChangingCellSelectionDlg.setSettings({targetValue: targetValue, currentValue: currentValue, iteration: iteration, formulaCell: 'E3'});
+            } else {
+                this.ChangingCellSelectionDlg.updateSettings({targetValue: targetValue, currentValue: currentValue, iteration: iteration});
             }
-            this.ChangingCellSelectionDlg.setSettings({targetValue: targetValue, currentValue: currentValue, iteration: iteration, formulaCell: 'E3'});
-        },
-
-        onStopChangingCellSelection: function () {
-
         },
 
         onUpdateExternalReference: function(arr, callback) {

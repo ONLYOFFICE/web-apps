@@ -168,13 +168,27 @@ define([
             var me = this;
             this.txtFormulaCell.validation = function(value) {
                 var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.GoalSeek_Cell, value, true);
-                return (isvalid==Asc.c_oAscError.ID.MustContainFormula) ? me.textInvalidFormula : true;
+                if (isvalid == Asc.c_oAscError.ID.DataRangeError) {
+                    return me.textMissingRange;
+                } else if (isvalid == Asc.c_oAscError.ID.MustSingleCell) {
+                    return me.textSingleCell;
+                } else if (isvalid==Asc.c_oAscError.ID.MustContainFormula) {
+                    return me.textInvalidFormula;
+                } else {
+                    return true;
+                }
             };
             this.txtFormulaCell.setValue(this.api.asc_getActiveRangeStr(Asc.referenceType.A));
             this.txtFormulaCell.checkValidate();
             this.txtChangeCell.validation = function(value) {
                 var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.GoalSeek_ChangingCell, value, true);
-                return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
+                if (isvalid == Asc.c_oAscError.ID.DataRangeError) {
+                    return me.textMissingRange;
+                } else if (isvalid == Asc.c_oAscError.ID.MustSingleCell) {
+                    return me.textSingleCell;
+                } else {
+                    return true;
+                }
             };
         },
 
@@ -225,7 +239,8 @@ define([
         textChangingCell: 'By changing cell',
         txtEmpty: 'This field is required',
         textSelectData: 'Select data',
-        textInvalidRange: 'Invalid cells range',
+        textMissingRange: 'The formula is missing a range',
+        textSingleCell: 'Reference must be to a single cell',
         textInvalidFormula: 'The cell must contain a formula'
     }, SSE.Views.GoalSeekDlg || {}))
 });

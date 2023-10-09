@@ -93,14 +93,20 @@ define([
             this.api        = options.api;
             this.props      = options.props;
 
+            this._state = {
+                isPause: false,
+                iteration: undefined,
+                currentValue: undefined,
+                targetValue: undefined
+            }
+
             this.options.handler = function(result, value) {
-                if ( result != 'ok' || this.isRangeValid() ) {
-                    if (options.handler)
-                        options.handler.call(this, result, value);
-                    return;
-                }
-                return true;
+                if (options.handler)
+                    options.handler.call(this, result, value);
+                return;
             };
+
+            //this.api.asc_registerCallback('asc_onChangingCellSelection',_.bind(this.onStopSelection, this));
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -116,16 +122,20 @@ define([
             this.btnStep = new Common.UI.Button({
                 parentEl: $('#changing-cell-stop'),
                 caption: this.textStep,
-                cls: 'normal dlg-btn'
+                cls: 'normal dlg-btn',
+                disabled: true
             });
+            this.btnStep.on('click', _.bind(this.onBtnStep, this));
 
             this.btnPause = new Common.UI.Button({
                 parentEl: $('#changing-cell-pause'),
                 caption: this.textPause,
-                disabled: true,
                 cls: 'normal dlg-btn'
             });
-            //this.btnPause.setCaption(status ? this.textPause : this.textContinue);
+            this.btnPause.on('click', _.bind(this.onBtnPause, this));
+
+            this.btnOk = this.getChild().find('.primary');
+            this.setDisabledOkButton(true);
 
             this.afterRender();
         },
@@ -148,14 +158,45 @@ define([
             var me = this;
         },
 
+        updateSettings: function (props) {
+            this._state.targetValue = props.targetValue;
+            this._state.currentValue = props.currentValue;
+            this._state.iteration = props.iteration;
+            this.$targetValue.text(this._state.targetValue);
+            this.$currentValue.text(this._state.currentValue);
+        },
+
         setSettings: function (props) {
             if (props) {
-                this.targetValue = props.targetValue;
-                this.currentValue = props.currentValue;
-                this.iteration = props.iteration;
-                this.$targetValue.text(this.targetValue);
-                this.$currentValue.text(this.currentValue);
+                this.updateSettings(props);
                 this.$formulaSolutionLabel.text(Common.Utils.String.format(this.textFoundSolution, props.formulaCell));
+            }
+        },
+
+        onBtnPause: function () {
+            this.btnPause.setCaption(this._state.isPause ? this.textContinue : this.textPause);
+            this.btnStep.setDisabled(this._state.isPause); // always? or only !last iteration?
+            // call api method
+            this._state.isPause = !this._state.isPause;
+        },
+
+        onBtnStep: function () {
+            // call api method
+        },
+
+        onStopSelection: function () {
+            this.btnPause.setDisabled(true);
+            this.btnStep.setDisabled(true);
+            this.setDisabledOkButton(false);
+        },
+
+        setDisabledOkButton: function (disabled) {
+            if (disabled !== this.btnOk.hasClass('disabled')) {
+                var decorateBtn = function(button) {
+                    button.toggleClass('disabled', disabled);
+                    (disabled) ? button.attr({disabled: disabled}) : button.removeAttr('disabled');
+                };
+                decorateBtn(this.btnOk);
             }
         },
 
