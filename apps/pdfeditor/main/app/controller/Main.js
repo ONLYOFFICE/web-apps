@@ -704,15 +704,18 @@ define([
 
                 if (this.appOptions.isEdit && toolbarView) {
                     if (toolbarView.btnStrikeout.pressed && ( !_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-strikeout')) {
-                        this.api.SetMarkerFormat(toolbarView.btnStrikeout.options.type, false);
+                        if (arguments[1].id !== 'id-toolbar-btn-underline' && arguments[1].id !== 'id-toolbar-btn-highlight')
+                            this.api.SetMarkerFormat(toolbarView.btnStrikeout.options.type, false);
                         toolbarView.btnStrikeout.toggle(false, false);
                     }
                     if (toolbarView.btnUnderline.pressed && ( !_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-underline')) {
-                        this.api.SetMarkerFormat(toolbarView.btnUnderline.options.type, false);
+                        if (arguments[1].id !== 'id-toolbar-btn-strikeout' && arguments[1].id !== 'id-toolbar-btn-highlight')
+                            this.api.SetMarkerFormat(toolbarView.btnUnderline.options.type, false);
                         toolbarView.btnUnderline.toggle(false, false);
                     }
                     if (toolbarView.btnHighlight.pressed && ( !_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-highlight')) {
-                        this.api.SetMarkerFormat(toolbarView.btnHighlight.options.type, false);
+                        if (arguments[1].id !== 'id-toolbar-btn-underline' && arguments[1].id !== 'id-toolbar-btn-strikeout')
+                            this.api.SetMarkerFormat(toolbarView.btnHighlight.options.type, false);
                         toolbarView.btnHighlight.toggle(false, false);
                     }
                 }
