@@ -153,10 +153,6 @@ if (window.Common === undefined) {
 
             'setReferenceSource': function(data) {
                 $me.trigger('setreferencesource', data);
-            },
-
-            'setUserImage': function(data) {
-                $me.trigger('setuserimage', data);
             }
         };
 
@@ -338,8 +334,8 @@ if (window.Common === undefined) {
                 _postMessage({event:'onMakeActionLink', data: config});
             },
 
-            requestUsers:  function (command) {
-                _postMessage({event:'onRequestUsers', data: {c: command}});
+            requestUsers:  function (command, id) {
+                _postMessage({event:'onRequestUsers', data: {c: command, id: id}});
             },
 
             requestSendNotify:  function (emails) {
@@ -384,10 +380,6 @@ if (window.Common === undefined) {
 
             requestReferenceSource:  function () {
                 _postMessage({event:'onRequestReferenceSource'});
-            },
-
-            requestUserImage:  function (data) {
-                _postMessage({event:'onRequestUserImage', data: data});
             },
 
             pluginsReady: function() {

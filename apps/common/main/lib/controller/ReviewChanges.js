@@ -1056,7 +1056,8 @@ define([
             if (data) {
                 this.document.info.sharingSettings = data.sharingSettings;
                 Common.NotificationCenter.trigger('collaboration:sharingupdate', data.sharingSettings);
-                Common.NotificationCenter.trigger('mentions:clearusers', this);
+                Common.NotificationCenter.trigger('mentions:clearusers', 'mention');
+                Common.NotificationCenter.trigger('mentions:clearusers', 'protect');
             }
         },
 

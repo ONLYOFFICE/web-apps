@@ -103,7 +103,7 @@ define([
                     this.api.asc_registerCallback('asc_onCoAuthoringChatReceiveMessage', _.bind(this.onReceiveMessage, this));
 
                 if ( !this.mode.isEditDiagram && !this.mode.isEditMailMerge && !this.mode.isEditOle ) {
-                    Common.NotificationCenter.on('avatars:update', _.bind(this.avatarsUpdate, this));
+                    Common.NotificationCenter.on('mentions:setusers', _.bind(this.avatarsUpdate, this));
                     this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onUsersChanged, this));
                     this.api.asc_registerCallback('asc_onConnectionStateChanged', _.bind(this.onUserConnection, this));
                     this.api.asc_coAuthoringGetUsers();
@@ -145,6 +145,7 @@ define([
                     if (undefined !== name) {
                         user = users[name];
                         if (user) {
+                            var avatar = Common.UI.ExternalUsers.getImage(user.asc_getIdOriginal());
                             var usermodel = new Common.Models.User({
                                 id          : user.asc_getId(),
                                 idOriginal  : user.asc_getIdOriginal(),
@@ -153,17 +154,18 @@ define([
                                 initials    : Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(user.asc_getUserName())),
                                 online      : true,
                                 color       : user.asc_getColor(),
+                                avatar      : avatar,
                                 view        : user.asc_getView(),
                                 hidden      : !(user.asc_getIdOriginal()===this.currentUserId || AscCommon.UserInfoParser.isUserVisible(user.asc_getUserName()))
                             });
                             arrUsers[(user.asc_getId() == currentUserId ) ? 'unshift' : 'push'](usermodel);
-                            arrIds.push(user.asc_getIdOriginal());
+                            (avatar===undefined) && arrIds.push(user.asc_getIdOriginal());
                         }
                     }
                 }
 
                 usersStore[usersStore.size() > 0 ? 'add' : 'reset'](arrUsers);
-                arrIds.length && Common.UI.ExternalUsers.getImages(arrIds);
+                arrIds.length && Common.UI.ExternalUsers.get('info', arrIds);
             }
         },
 
@@ -172,7 +174,7 @@ define([
 
             if (usersStore){
                 var user = usersStore.findUser(change.asc_getId());
-                var arrIds = [];
+                var avatar = Common.UI.ExternalUsers.getImage(change.asc_getIdOriginal());
                 if (!user) {
                     usersStore.add(new Common.Models.User({
                         id          : change.asc_getId(),
@@ -182,6 +184,7 @@ define([
                         initials    : Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(change.asc_getUserName())),
                         online      : change.asc_getState(),
                         color       : change.asc_getColor(),
+                        avatar      : avatar,
                         view        : change.asc_getView(),
                         hidden      : !(change.asc_getIdOriginal()===this.currentUserId || AscCommon.UserInfoParser.isUserVisible(change.asc_getUserName()))
                     }));
@@ -190,22 +193,22 @@ define([
                     user.set({username: change.asc_getUserName()});
                     user.set({parsedName: AscCommon.UserInfoParser.getParsedName(change.asc_getUserName())});
                     user.set({initials: Common.Utils.getUserInitials(change.asc_getUserName())});
+                    user.set({avatar: avatar});
                 }
-                arrIds.push(user.asc_getIdOriginal());
-                arrIds.length && Common.UI.ExternalUsers.getImages(arrIds);
+                (avatar===undefined) && Common.UI.ExternalUsers.get('info', [change.asc_getIdOriginal()]);
             }
         },
 
-        avatarsUpdate: function(userImages) {
+        avatarsUpdate: function(type, users) {
+            if (type!=='info') return;
+
             var usersStore = this.getApplication().getCollection('Common.Collections.Users');
-            if (usersStore && userImages){
-                for (var id in userImages) {
-                    if (userImages.hasOwnProperty(id)) {
-                        usersStore.findOriginalUsers(id).forEach(function(user){
-                            user.set({avatar: userImages[id]});
-                        });
-                    }
-                }
+            if (usersStore && users && users.length>0 ){
+                _.each(users, function(item) {
+                    usersStore.findOriginalUsers(item.id).forEach(function(user){
+                        user.set({avatar: item.image});
+                    });
+                });
             }
         },
 

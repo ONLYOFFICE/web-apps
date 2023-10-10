@@ -514,7 +514,7 @@ define([
                     'collaboration:sharingdeny': function(mode) {Common.Utils.asyncCall(onLostEditRights, me, mode);}
                 });
                 Common.NotificationCenter.on('uitheme:changed', this.changeLogo.bind(this));
-                Common.NotificationCenter.on('avatars:update', this.avatarsUpdate.bind(this));
+                Common.NotificationCenter.on('mentions:setusers', this.avatarsUpdate.bind(this));
             },
 
             render: function (el, role) {
@@ -874,8 +874,9 @@ define([
                 }
             },
 
-            avatarsUpdate: function(userImages) {
-                (this.options.userAvatar===undefined) && (userImages[this.options.currentUserId]!==undefined) && this.setUserAvatar(userImages[this.options.currentUserId]);
+            avatarsUpdate: function(type, users) {
+                if (type!=='info') return;
+                this.setUserAvatar(Common.UI.ExternalUsers.getImage(this.options.currentUserId));
             },
 
             getButton: function(type) {
