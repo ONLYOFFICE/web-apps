@@ -394,9 +394,7 @@ define([
                             me.api.asc_DownloadAs();
                         else if (btn==='copy' || btn==='download') {
                             me._state.isFromToolbarDownloadAs = (btn==='copy');
-                            var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, btn==='copy');
-                            options.asc_setTextParams(new AscCommon.asc_CTextParams(Asc.c_oAscTextAssociation.PlainLine));
-                            me.api.asc_DownloadAs(options);
+                            me.api.asc_DownloadOrigin(btn==='copy');
                         }
                         Common.NotificationCenter.trigger('edit:complete', toolbar);
                     }
@@ -408,7 +406,7 @@ define([
                     return;
 
                 this.api.asc_Save();
-                toolbar.btnSave.setDisabled(!toolbar.mode.forcesave);
+                toolbar.btnSave.setDisabled(!toolbar.mode.forcesave && !toolbar.mode.saveAlwaysEnabled);
                 Common.component.Analytics.trackEvent('Save');
                 Common.component.Analytics.trackEvent('ToolBar', 'Save');
             }
@@ -656,7 +654,7 @@ define([
             this.toolbar.lockToolbar(Common.enumLock.undoLock, this._state.can_undo!==true, {array: [this.toolbar.btnUndo]});
             this.toolbar.lockToolbar(Common.enumLock.redoLock, this._state.can_redo!==true, {array: [this.toolbar.btnRedo]});
             this.toolbar.lockToolbar(Common.enumLock.copyLock, this._state.can_copycut!==true, {array: [this.toolbar.btnCopy, this.toolbar.btnCut]});
-            this.toolbar.btnSave.setDisabled(!this.mode.isPDFEdit && !this.mode.isPDFAnnotate);
+            this.toolbar.btnSave.setDisabled(!this.mode.isPDFEdit && !this.mode.isPDFAnnotate && !this.mode.saveAlwaysEnabled);
             this._state.activated = true;
         },
 
@@ -810,7 +808,8 @@ define([
         txtNeedCommentMode: 'To save changes to the file, switch to Сommenting mode. Or you can download a copy of the modified file.',
         txtNeedDownload: 'At the moment, PDF viewer can only save new changes in separate file copies. It doesn\'t support co-editing and other users won\'t see your changes unless you share a new file version.',
         txtDownload: 'Download',
-        txtSaveCopy: 'Save copy'
+        txtSaveCopy: 'Save copy',
+        errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.'
 
     }, PDFE.Controllers.Toolbar || {}));
 });
