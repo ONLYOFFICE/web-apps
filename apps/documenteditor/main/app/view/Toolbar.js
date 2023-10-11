@@ -2547,7 +2547,6 @@ define([
                     itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist"></div>')
                 });
                 this.btnMarkers.menu.setInnerMenu([{menu: this.mnuMarkersPicker, index: 0}]);
-                _conf && this.mnuMarkersPicker.selectByIndex(_conf.index, true);
 
                 _conf = this.mnuNumbersPicker.conf;
                 this._numbersArr = [
@@ -2558,36 +2557,14 @@ define([
                     '{"Type":"number","Lvl":[{"lvlJc":"right","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1."}]}',
                     '{"Type":"number","Lvl":[{"lvlJc":"right","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1)"}]}',
                     '{"Type":"number","Lvl":[{"lvlJc":"right","suff":"tab","numFmt":{"val":"upperRoman"},"lvlText":"%1."}]}',
-                    '{"Type":"number","Lvl":[{"lvlJc":"right","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"%1."}]}',
-                    '{"Type":"number","Lvl":[{"lvlJc":"left","numFmt":{"val":"russianUpper"},"lvlText":"%1."}]}',
-                    '{"Type":"number","Lvl":[{"lvlJc":"left","numFmt":{"val":"russianUpper"},"lvlText":"%1)"}]}',
-                    '{"Type":"number","Lvl":[{"lvlJc":"left","numFmt":{"val":"russianLower"},"lvlText":"%1."}]}',
-                    '{"Type":"number","Lvl":[{"lvlJc":"left","numFmt":{"val":"russianLower"},"lvlText":"%1)"}]}'
+                    '{"Type":"number","Lvl":[{"lvlJc":"right","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"%1."}]}'
                 ];
 
                 listSettings = {recentPath: 'de-recent-numbering', recentCount: 8, recentGroup: 'menu-numbering-group-recent', docGroup: 'menu-numbering-group-doc', docName: this.txtGroupNumDoc};
-                recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup, listSettings.recentCount);
-                libGroup = 'menu-numbering-group-lib';
-                groups = (recents.length>0) ? [{id: listSettings.recentGroup, caption: this.txtGroupRecent, type: 0}] : [];
-                groups.push({id: libGroup, caption: this.txtGroupNumLib, type: 1});
-                var items = [
-                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[0], skipRenderOnChange: true, tip: this.textNone, group : libGroup, type: 1},
-                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[1], skipRenderOnChange: true, tip: this.tipNumCapitalLetters, group : libGroup, type: 1},
-                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[2], skipRenderOnChange: true, tip: this.tipNumLettersParentheses, group : libGroup, type: 1},
-                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[3], skipRenderOnChange: true, tip: this.tipNumLettersPoints, group : libGroup, type: 1},
-                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[4], skipRenderOnChange: true, tip: this.tipNumNumbersPoint, group : libGroup, type: 1},
-                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[5], skipRenderOnChange: true, tip: this.tipNumNumbersParentheses, group : libGroup, type: 1},
-                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[6], skipRenderOnChange: true, tip: this.tipNumRoman, group : libGroup, type: 1},
-                    {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[7], skipRenderOnChange: true, tip: this.tipNumRomanSmall, group : libGroup, type: 1}
-                ];
-                if (Common.Locale.getDefaultLanguage() === 'ru') {
-                    items = items.concat([
-                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[8], skipRenderOnChange: true, tip: this.tipRusUpperPoints, group : libGroup, type: 1},
-                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[9], skipRenderOnChange: true, tip: this.tipRusUpperParentheses, group : libGroup, type: 1},
-                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[10], skipRenderOnChange: true, tip: this.tipRusLowerPoints, group : libGroup, type: 1},
-                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: this._numbersArr[11], skipRenderOnChange: true, tip: this.tipRusLowerParentheses, group : libGroup, type: 1}
-                    ]);
-                }
+                _conf.recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup, listSettings.recentCount);
+                _conf.libGroup = 'menu-numbering-group-lib';
+                groups = (_conf.recents.length>0) ? [{id: listSettings.recentGroup, caption: this.txtGroupRecent, type: 0}] : [];
+                groups.push({id: _conf.libGroup, caption: this.txtGroupNumLib, type: 1});
                 this.mnuNumbersPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-numbering'),
                     parentMenu: this.btnNumbers.menu,
@@ -2597,21 +2574,36 @@ define([
                     scrollAlwaysVisible: true,
                     listSettings: listSettings,
                     groups: new Common.UI.DataViewGroupStore(groups),
-                    store: new Common.UI.DataViewStore(recents.concat(items)),
+                    store: new Common.UI.DataViewStore(),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist"></div>')
                 });
                 this.btnNumbers.menu.setInnerMenu([{menu: this.mnuNumbersPicker, index: 0}]);
-                _conf && this.mnuNumbersPicker.selectByIndex(_conf.index, true);
+                this.mnuNumbersPicker.conf = _conf;
+
+                loadPreset('resources/numbering/numbering-lists.json', this.mode.lang, function (presets) {
+                    var libGroup = me.mnuNumbersPicker.conf.libGroup,
+                        arr = [
+                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: me._numbersArr[0], skipRenderOnChange: true, tip: me.textNone, group : libGroup, type: 1},
+                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: me._numbersArr[1], skipRenderOnChange: true, tip: me.tipNumCapitalLetters, group : libGroup, type: 1},
+                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: me._numbersArr[2], skipRenderOnChange: true, tip: me.tipNumLettersParentheses, group : libGroup, type: 1},
+                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: me._numbersArr[3], skipRenderOnChange: true, tip: me.tipNumLettersPoints, group : libGroup, type: 1},
+                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: me._numbersArr[4], skipRenderOnChange: true, tip: me.tipNumNumbersPoint, group : libGroup, type: 1},
+                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: me._numbersArr[5], skipRenderOnChange: true, tip: me.tipNumNumbersParentheses, group : libGroup, type: 1},
+                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: me._numbersArr[6], skipRenderOnChange: true, tip: me.tipNumRoman, group : libGroup, type: 1},
+                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: me._numbersArr[7], skipRenderOnChange: true, tip: me.tipNumRomanSmall, group : libGroup, type: 1}
+                    ];
+                    presets && presets.forEach(function (item){
+                        arr.push({id: 'id-numbers-' + Common.UI.getId(), numberingInfo: JSON.stringify(item), skipRenderOnChange: true, group : libGroup, type: 1});
+                    });
+                    me.mnuNumbersPicker.store.reset(me.mnuNumbersPicker.conf.recents.concat(arr));
+                });
 
                 _conf = this.mnuMultilevelPicker.conf;
                 listSettings = {recentPath: 'de-recent-multilevels', recentCount: 8, recentGroup: 'menu-multilevels-group-recent', docGroup: 'menu-multilevels-group-doc', docName: this.txtGroupMultiDoc};
-                recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup, listSettings.recentCount);
-                libGroup = 'menu-multilevels-group-lib';
-                groups = (recents.length>0) ? [{id: listSettings.recentGroup, caption: this.txtGroupRecent, type: 0}] : [];
-                groups.push({id: libGroup, caption: this.txtGroupMultiLib, type: 1});
-                // var txtArticle = (Common.Locale.getDefaultLanguage() === 'ru') ? 'Статья' : 'Article',
-                //     txtSection = (Common.Locale.getDefaultLanguage() === 'ru') ? 'Раздел' : 'Section',
-                //     txtChapter = (Common.Locale.getDefaultLanguage() === 'ru') ? 'Глава' : 'Chapter';
+                _conf.recents = this.loadListPresetsFromStorage(listSettings.recentPath, listSettings.recentGroup, listSettings.recentCount);
+                _conf.libGroup = 'menu-multilevels-group-lib';
+                groups = (_conf.recents.length>0) ? [{id: listSettings.recentGroup, caption: this.txtGroupRecent, type: 0}] : [];
+                groups.push({id: _conf.libGroup, caption: this.txtGroupMultiLib, type: 1});
                 this._multilevelArr = [
                     '{"Type":"remove"}',
                     '{"Type":"number","Lvl":[{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%1)","pPr":{"ind":{"left":360,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"%2)","pPr":{"ind":{"left":720,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"%3)","pPr":{"ind":{"left":1080,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%4)","pPr":{"ind":{"left":1440,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"%5)","pPr":{"ind":{"left":1800,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"%6)","pPr":{"ind":{"left":2160,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"decimal"},"lvlText":"%7)","pPr":{"ind":{"left":2520,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerLetter"},"lvlText":"%8)","pPr":{"ind":{"left":2880,"firstLine":-360}}},{"lvlJc":"left","suff":"tab","numFmt":{"val":"lowerRoman"},"lvlText":"%9)","pPr":{"ind":{"left":3240,"firstLine":-360}}}]}',
@@ -2636,9 +2628,11 @@ define([
                     itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist"></div>')
                 });
                 this.btnMultilevels.menu.setInnerMenu([{menu: this.mnuMultilevelPicker, index: 0}]);
+                this.mnuMultilevelPicker.conf = _conf;
 
                 loadPreset('resources/numbering/multilevel-lists.json', this.mode.lang, function (presets) {
-                    var arr = [
+                    var libGroup = me.mnuMultilevelPicker.conf.libGroup,
+                        arr = [
                         {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: me._multilevelArr[0], skipRenderOnChange: true, tip: me.textNone, group : libGroup, type: 1},
                         {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: me._multilevelArr[1], skipRenderOnChange: true, tip: me.tipMultiLevelVarious, group : libGroup, type: 1},
                         {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: me._multilevelArr[2], skipRenderOnChange: true, tip: me.tipMultiLevelNumbered, group : libGroup, type: 1},
@@ -2655,7 +2649,7 @@ define([
                         {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: me._multilevelArr[6], skipRenderOnChange: true, tip: me.tipMultiLevelArticl, group : libGroup, type: 1},
                         {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: me._multilevelArr[7], skipRenderOnChange: true, tip: me.tipMultiLevelChapter, group : libGroup, type: 1}
                     ]);
-                    me.mnuMultilevelPicker.store.reset(recents.concat(arr));
+                    me.mnuMultilevelPicker.store.reset(me.mnuMultilevelPicker.conf.recents.concat(arr));
                 });
 
                 _conf = this.mnuPageNumberPosPicker ? this.mnuPageNumberPosPicker.conf : undefined;
