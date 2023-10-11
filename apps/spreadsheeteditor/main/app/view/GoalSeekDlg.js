@@ -197,7 +197,54 @@ define([
         },
 
         isRangeValid: function() {
-            return true;
+            var isvalid = true,
+                txtError = '',
+                value;
+
+            if (_.isEmpty(this.txtFormulaCell.getValue())) {
+                isvalid = false;
+                txtError = this.txtEmpty;
+            } else {
+                value = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.GoalSeek_Cell, this.txtFormulaCell.getValue(), true);
+                if (value != Asc.c_oAscError.ID.No) {
+                    txtError = isvalid == Asc.c_oAscError.ID.DataRangeError ? this.textMissingRange :
+                        (isvalid == Asc.c_oAscError.ID.MustSingleCell ? this.textSingleCell : this.textInvalidFormula);
+                    isvalid = false;
+                }
+            }
+            if (!isvalid) {
+                this.txtFormulaCell.showError([txtError]);
+                this.txtFormulaCell.cmpEl.find('input').focus();
+                return isvalid;
+            }
+
+            if (_.isEmpty(this.txtExpectVal.getValue())) {
+                isvalid = false;
+                txtError = this.txtEmpty;
+            }
+            if (!isvalid) {
+                this.txtExpectVal.showError([txtError]);
+                this.txtExpectVal.cmpEl.find('input').focus();
+                return isvalid;
+            }
+
+            if (_.isEmpty(this.txtChangeCell.getValue())) {
+                isvalid = false;
+                txtError = this.txtEmpty;
+            } else {
+                value = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.GoalSeek_ChangingCell, this.txtChangeCell.getValue(), true);
+                if (value != Asc.c_oAscError.ID.No) {
+                    txtError = isvalid == Asc.c_oAscError.ID.DataRangeError ? this.textMissingRange : this.textSingleCell;
+                    isvalid = false;
+                }
+            }
+            if (!isvalid) {
+                this.txtChangeCell.showError([txtError]);
+                this.txtChangeCell.cmpEl.find('input').focus();
+                return isvalid;
+            }
+
+            return isvalid;
         },
 
         onSelectData: function(type) {

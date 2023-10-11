@@ -94,10 +94,7 @@ define([
             this.props      = options.props;
 
             this._state = {
-                isPause: false,
-                iteration: undefined,
-                currentValue: undefined,
-                targetValue: undefined
+                isPause: false
             }
 
             this.options.handler = function(result, value) {
@@ -106,7 +103,7 @@ define([
                 return;
             };
 
-            //this.api.asc_registerCallback('asc_onChangingCellSelection',_.bind(this.onStopSelection, this));
+            this.api.asc_registerCallback('asc_onGoalSeekStop',_.bind(this.onStopSelection, this));
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -158,30 +155,23 @@ define([
             var me = this;
         },
 
-        updateSettings: function (props) {
-            this._state.targetValue = props.targetValue;
-            this._state.currentValue = props.currentValue;
-            this._state.iteration = props.iteration;
-            this.$targetValue.text(this._state.targetValue);
-            this.$currentValue.text(this._state.currentValue);
-        },
-
         setSettings: function (props) {
             if (props) {
-                this.updateSettings(props);
-                this.$formulaSolutionLabel.text(Common.Utils.String.format(this.textFoundSolution, props.formulaCell));
+                this.$targetValue.text(props.targetValue);
+                this.$currentValue.text(props.currentValue);
+                this.$formulaSolutionLabel.text(Common.Utils.String.format(this.textFoundSolution, props.formulaCell, props.iteration));
             }
         },
 
         onBtnPause: function () {
-            this.btnPause.setCaption(this._state.isPause ? this.textContinue : this.textPause);
-            this.btnStep.setDisabled(this._state.isPause); // always? or only !last iteration?
-            // call api method
             this._state.isPause = !this._state.isPause;
+            this.btnPause.setCaption(this._state.isPause ? this.textContinue : this.textPause);
+            this.btnStep.setDisabled(!this._state.isPause);
+            this._state.isPause ? this.api.asc_PauseGoalSeek() : this.api.asc_ContinueGoalSeek();
         },
 
         onBtnStep: function () {
-            // call api method
+            this.api.asc_StepGoalSeek();
         },
 
         onStopSelection: function () {
@@ -201,7 +191,7 @@ define([
         },
 
         textTitle: 'Changing Cell Selection',
-        textFoundSolution: 'The search for the target using cell {0} has found a solution.',
+        textFoundSolution: 'The search for the target using cell {0} has found a solution. Iteration №{1}.',
         textTargetValue: 'Target value:',
         textCurrenttValue: 'Current value:',
         textStep: 'Step',

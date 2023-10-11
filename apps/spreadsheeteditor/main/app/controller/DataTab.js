@@ -85,7 +85,7 @@ define([
                 this.api.asc_registerCallback('asc_onSelectionChanged',     _.bind(this.onSelectionChanged, this));
                 this.api.asc_registerCallback('asc_onWorksheetLocked',      _.bind(this.onWorksheetLocked, this));
                 this.api.asc_registerCallback('asc_onChangeProtectWorkbook',_.bind(this.onChangeProtectWorkbook, this));
-                //this.api.asc_registerCallback('asc_onChangingCellSelection',_.bind(this.onUpdateChangingCellSelection, this));
+                this.api.asc_registerCallback('asc_onGoalSeekUpdate',       _.bind(this.onUpdateChangingCellSelection, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('protect:wslock',              _.bind(this.onChangeProtectSheet, this));
@@ -542,8 +542,7 @@ define([
                 api: me.api,
                 handler: function(result, settings) {
                     if (result == 'ok' && settings) {
-                        me.api.asc_FormulaGoalSeek(settings.formulaCell, settings.expectedValue, settings.changingCell);
-                        //me.onUpdateChangingCellSelection(0, 1, 0); // only for test
+                        me.api.asc_StartGoalSeek(settings.formulaCell, settings.expectedValue, settings.changingCell);
                     }
                     Common.NotificationCenter.trigger('edit:complete');
                 }
@@ -555,24 +554,19 @@ define([
             if (!this.ChangingCellSelectionDlg) {
                 this.ChangingCellSelectionDlg = new SSE.Views.ChangingCellSelectionDlg({
                     api: me.api,
-                    handler: function (result, settings) {
-                        if (result == 'ok' && settings) {
-                            // save changes
-                        } else {
-                            // cancel changes
-                        }
+                    handler: function (result) {
+                        me.api.asc_CloseGoalClose(result == 'ok');
                         me.ChangingCellSelectionDlg = undefined;
                         Common.NotificationCenter.trigger('edit:complete');
                     }
                 });
                 this.ChangingCellSelectionDlg.on('close', function() {
+                    me.api.asc_CloseGoalClose(false);
                     me.ChangingCellSelectionDlg = undefined;
                 });
                 this.ChangingCellSelectionDlg.show();
-                this.ChangingCellSelectionDlg.setSettings({targetValue: targetValue, currentValue: currentValue, iteration: iteration, formulaCell: 'E3'});
-            } else {
-                this.ChangingCellSelectionDlg.updateSettings({targetValue: targetValue, currentValue: currentValue, iteration: iteration});
             }
+            this.ChangingCellSelectionDlg.setSettings({targetValue: targetValue, currentValue: currentValue, iteration: iteration, formulaCell: 'E3'});
         },
 
         onUpdateExternalReference: function(arr, callback) {
