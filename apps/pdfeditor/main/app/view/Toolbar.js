@@ -128,7 +128,7 @@ define([
                     );
 
                     this.btnSaveCls = 'btn-save';
-                    this.btnSaveTip = this.tipSave + Common.Utils.String.platformKey('Ctrl+S');
+                    this.btnSaveTip = this.tipSave;// + Common.Utils.String.platformKey('Ctrl+S');
 
                     this.btnPrint = new Common.UI.Button({
                         id: 'id-toolbar-btn-print',
@@ -689,7 +689,7 @@ define([
                     this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
                 }
 
-                this.btnSave.setDisabled(!this.mode.isPDFEdit && !this.mode.isPDFAnnotate);
+                this.btnSave.setDisabled(!this.mode.isPDFEdit && !this.mode.isPDFAnnotate && !this.mode.saveAlwaysEnabled);
                 Common.Gateway.collaborativeChanges();
             },
 
@@ -721,7 +721,7 @@ define([
                             this.synchTooltip.hide();
                         this.btnCollabChanges.updateHint(this.btnSaveTip);
 
-                        this.btnSave.setDisabled(!me.mode.forcesave || !me.mode.isPDFEdit && !me.mode.isPDFAnnotate);
+                        this.btnSave.setDisabled(!me.mode.forcesave || !me.mode.isPDFEdit && !me.mode.isPDFAnnotate && !me.mode.saveAlwaysEnabled);
                         this._state.hasCollaborativeChanges = false;
                     }
                 }
