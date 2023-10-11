@@ -57,13 +57,19 @@ define([
         var templateUserItem =
                 '<li id="<%= user.get("iid") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %>">' +
                     '<div class="user-name">' +
-                        '<div class="color"' + 
-                            '<% if (user.get("avatar")) { %>' +
-                                'style="background-image: url(<%=user.get("avatar")%>); <% if (user.get("color")!==null) { %> border-color:<%=user.get("color")%>; border-style: solid;<% }%>"' +
-                            '<% } else { %>' +
-                                'style="background-color: <% if (user.get("color")!==null) { %> <%=user.get("color")%> <% } else { %> #cfcfcf <% }%>;"' +
-                            '<% } %>' +
-                        '><% if (!user.get("avatar")) { %><%=user.get("initials")%><% } %></div>' +
+                        '<div class="color"'+
+                            '<% if (user.get("avatar")) { %>'+
+                                'style="<% if (user.get("color")!==null) { %> border-color:<%=user.get("color")%>; border-style:solid;<% }%>"'+ 
+                            '<% } else { %>'+
+                                'style="background-color: <% if (user.get("color")!==null) { %> <%=user.get("color")%> <% } else { %> #cfcfcf <% }%>;"'+
+                            '<% } %>'+
+                        '>'+
+                            '<% if (user.get("avatar")) { %>'+
+                                '<img src="<%=user.get("avatar")%>" />'+
+                            '<% } else { %>'+
+                                '<%=user.get("initials")%>'+
+                            '<% } %>'+
+                        '</div>'+
                         '<label><%= fnEncode(user.get("username")) %></label>' +
                         '<% if (len>1) { %><label class="margin-left-3">(<%=len%>)</label><% } %>' +
                     '</div>'+
@@ -862,8 +868,8 @@ define([
 
             updateAvatarEl(){
                 if(this.options.userAvatar){
-                    $btnUserName.css({'background-image': 'url('+ this.options.userAvatar +')'});
-                    $btnUserName.text('');
+                    $btnUserName.css({'background': 'none'});
+                    $btnUserName.html('<img src="' + this.options.userAvatar+ '"/>');
                 } else {
                     $btnUserName.text(Common.Utils.getUserInitials(this.options.userName));
                 }

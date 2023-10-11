@@ -4,13 +4,19 @@
         <!-- comment block -->
 
         <div class="user-info">
-            <div class="color"
+            <div class="color" 
                 <% if (avatar) { %>
-                    style="background-image: url(<%=avatar%>); <% if (usercolor!==null) { %> border-color:<%=usercolor%>; border-style:solid;<% }%>" 
+                    style="<% if (usercolor!==null) { %> border-color:<%=usercolor%>; border-style:solid;<% }%>" 
                 <% } else { %>
                     style="background-color: <% if (usercolor!==null) { %> <%=usercolor%> <% } else { %> #cfcfcf <% }%>;" 
                 <% } %>
-            ><% if (!avatar) { %><%=initials%><% } %></div>
+            >
+                <% if (avatar) { %>
+                    <img src="<%=avatar%>" />
+                <% } else { %>
+                    <%=initials%>
+                <% } %>
+            </div>
             <div class="user-info-text">
                 <div class="user-name"><%= scope.getEncodedName(parsedName) %></div>
                 <div class="user-date"><%=date%></div>
@@ -40,13 +46,19 @@
                 <% } %>
                 <div class="reply-item-ct" <% if (scope.viewmode && index==replys.length-1) { %>style="padding-bottom: 0;" <% } %>;>
                     <div class="user-info">
-                        <div class="color"
+                        <div class="color" 
                             <% if (item.get("avatar")) { %>
-                                style="background-image: url(<%=item.get('avatar')%>); <% if (item.get('usercolor')!==null) { %> border-color:<%=item.get('usercolor')%>; border-style:solid;<% }%>" 
+                                style="<% if (item.get('usercolor')!==null) { %> border-color:<%=item.get('usercolor')%>; border-style:solid;<% }%>" 
                             <% } else { %>
                                 style="background-color: <% if (item.get('usercolor')!==null) { %> <%=item.get('usercolor')%> <% } else { %> #cfcfcf <% }%>;" 
                             <% } %>
-                        ><% if (!item.get("avatar")) { %><%=item.get("initials")%><% } %></div>
+                        >
+                            <% if (item.get("avatar")) { %>
+                                <img src="<%=item.get("avatar")%>" />
+                            <% } else { %>
+                                <%=item.get("initials")%>
+                            <% } %>
+                        </div>
                         <div class="user-info-text">
                             <div class="user-name"><%= scope.getEncodedName(item.get("parsedName")) %></div>
                             <div class="user-date"><%=item.get("date")%></div>
