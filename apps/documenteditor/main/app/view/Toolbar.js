@@ -2583,14 +2583,14 @@ define([
                 loadPreset('resources/numbering/numbering-lists.json', this.mode.lang, function (presets) {
                     var libGroup = me.mnuNumbersPicker.conf.libGroup,
                         arr = [
-                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: me._numbersArr[0], skipRenderOnChange: true, tip: me.textNone, group : libGroup, type: 1},
-                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: me._numbersArr[1], skipRenderOnChange: true, tip: me.tipNumCapitalLetters, group : libGroup, type: 1},
-                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: me._numbersArr[2], skipRenderOnChange: true, tip: me.tipNumLettersParentheses, group : libGroup, type: 1},
-                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: me._numbersArr[3], skipRenderOnChange: true, tip: me.tipNumLettersPoints, group : libGroup, type: 1},
-                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: me._numbersArr[4], skipRenderOnChange: true, tip: me.tipNumNumbersPoint, group : libGroup, type: 1},
-                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: me._numbersArr[5], skipRenderOnChange: true, tip: me.tipNumNumbersParentheses, group : libGroup, type: 1},
-                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: me._numbersArr[6], skipRenderOnChange: true, tip: me.tipNumRoman, group : libGroup, type: 1},
-                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: me._numbersArr[7], skipRenderOnChange: true, tip: me.tipNumRomanSmall, group : libGroup, type: 1}
+                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: me._numbersArr[0], skipRenderOnChange: true, group : libGroup, type: 1},
+                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: me._numbersArr[1], skipRenderOnChange: true, group : libGroup, type: 1},
+                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: me._numbersArr[2], skipRenderOnChange: true, group : libGroup, type: 1},
+                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: me._numbersArr[3], skipRenderOnChange: true, group : libGroup, type: 1},
+                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: me._numbersArr[4], skipRenderOnChange: true, group : libGroup, type: 1},
+                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: me._numbersArr[5], skipRenderOnChange: true, group : libGroup, type: 1},
+                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: me._numbersArr[6], skipRenderOnChange: true, group : libGroup, type: 1},
+                        {id: 'id-numbers-' + Common.UI.getId(), numberingInfo: me._numbersArr[7], skipRenderOnChange: true, group : libGroup, type: 1}
                     ];
                     presets && presets.forEach(function (item){
                         arr.push({id: 'id-numbers-' + Common.UI.getId(), numberingInfo: JSON.stringify(item), skipRenderOnChange: true, group : libGroup, type: 1});
@@ -2633,12 +2633,12 @@ define([
                 loadPreset('resources/numbering/multilevel-lists.json', this.mode.lang, function (presets) {
                     var libGroup = me.mnuMultilevelPicker.conf.libGroup,
                         arr = [
-                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: me._multilevelArr[0], skipRenderOnChange: true, tip: me.textNone, group : libGroup, type: 1},
-                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: me._multilevelArr[1], skipRenderOnChange: true, tip: me.tipMultiLevelVarious, group : libGroup, type: 1},
-                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: me._multilevelArr[2], skipRenderOnChange: true, tip: me.tipMultiLevelNumbered, group : libGroup, type: 1},
-                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: me._multilevelArr[3], skipRenderOnChange: true, tip: me.tipMultiLevelSymbols, group : libGroup, type: 1},
-                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: me._multilevelArr[4], skipRenderOnChange: true, tip: me.tipMultiLevelHeadings, group : libGroup, type: 1},
-                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: me._multilevelArr[5], skipRenderOnChange: true, tip: me.tipMultiLevelHeadVarious, group : libGroup, type: 1}
+                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: me._multilevelArr[0], skipRenderOnChange: true, group : libGroup, type: 1},
+                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: me._multilevelArr[1], skipRenderOnChange: true, group : libGroup, type: 1},
+                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: me._multilevelArr[2], skipRenderOnChange: true, group : libGroup, type: 1},
+                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: me._multilevelArr[3], skipRenderOnChange: true, group : libGroup, type: 1},
+                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: me._multilevelArr[4], skipRenderOnChange: true, group : libGroup, type: 1},
+                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: me._multilevelArr[5], skipRenderOnChange: true, group : libGroup, type: 1}
                     ];
                     if (presets)
                         presets.forEach(function (item){
@@ -2646,8 +2646,8 @@ define([
                         });
                     else
                         arr = arr.concat([
-                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: me._multilevelArr[6], skipRenderOnChange: true, tip: me.tipMultiLevelArticl, group : libGroup, type: 1},
-                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: me._multilevelArr[7], skipRenderOnChange: true, tip: me.tipMultiLevelChapter, group : libGroup, type: 1}
+                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: me._multilevelArr[6], skipRenderOnChange: true, group : libGroup, type: 1},
+                        {id: 'id-multilevels-' + Common.UI.getId(), numberingInfo: me._multilevelArr[7], skipRenderOnChange: true, group : libGroup, type: 1}
                     ]);
                     me.mnuMultilevelPicker.store.reset(me.mnuMultilevelPicker.conf.recents.concat(arr));
                 });
