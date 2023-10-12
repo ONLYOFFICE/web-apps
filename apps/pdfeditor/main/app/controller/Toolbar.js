@@ -255,7 +255,11 @@ define([
         },
 
         onCurrentPage: function(value) {
-            this.toolbar && this.toolbar.fieldPages && this.toolbar.fieldPages.setValue(value + 1);
+            if (this.toolbar) {
+                this.toolbar.fieldPages && this.toolbar.fieldPages.setValue(value + 1);
+                this.toolbar.lockToolbar(Common.enumLock.firstPage, value<1, {array: [this.toolbar.btnFirstPage, this.toolbar.btnPrevPage]});
+                this.toolbar.lockToolbar(Common.enumLock.lastPage, value>=this._state.pageCount-1, {array: [this.toolbar.btnLastPage, this.toolbar.btnNextPage]});
+            }
         },
 
         onPagesChanged: function() {
