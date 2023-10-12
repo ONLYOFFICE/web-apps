@@ -43,11 +43,11 @@ define([
     'common/main/lib/view/AdvancedSettingsWindow'
 ], function () { 'use strict';
 
-    SSE.Views.ChangingCellSelectionDlg = Common.Views.AdvancedSettingsWindow.extend(_.extend({
+    SSE.Views.GoalSeekStatusDlg = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 330,
             height: 220,
-            id: 'window-changing-cell'
+            id: 'window-goal-seek-status'
         },
 
         initialize : function(options) {
@@ -61,11 +61,11 @@ define([
                             '<div class="settings-panel active">',
                                 '<div class="row-1 padding-large" style="width: 100%;">',
                                         '<div class="cell-1">',
-                                            '<label class="input-label" id="changing-cell-label">' + me.textFoundSolution + '</label>',
+                                            '<label class="input-label" id="goal-seek-status-label">' + me.textSearchIteration + '</label>',
                                         '</div>',
                                         '<div class="cell-2">',
-                                            '<div id="changing-cell-stop" class="padding-small"></div>',
-                                            '<div id="changing-cell-pause"></div>',
+                                            '<div id="goal-seek-stop" class="padding-small"></div>',
+                                            '<div id="goal-seek-pause"></div>',
                                         '</div>',
                                 '</div>',
                                 '<div class="row-2 padding-small">',
@@ -73,15 +73,15 @@ define([
                                         '<label class="input-label">' + me.textTargetValue + '</label>',
                                     '</div>',
                                     '<div class="cell-2">',
-                                        '<div id="changing-cell-target-value"></div>',
+                                        '<div id="goal-seek-target-value"></div>',
                                     '</div>',
                                 '</div>',
                                 '<div class="row-2 padding-small">',
                                     '<div class="cell-1">',
-                                        '<label class="input-label">' + me.textCurrenttValue + '</label>',
+                                        '<label class="input-label">' + me.textCurrentValue + '</label>',
                                     '</div>',
                                     '<div class="cell-2">',
-                                        '<div id="changing-cell-current-value"></div>',
+                                        '<div id="goal-seek-current-value"></div>',
                                     '</div',
                                 '</div>',
                             '</div></div>',
@@ -94,7 +94,8 @@ define([
             this.props      = options.props;
 
             this._state = {
-                isPause: false
+                isPause: false,
+                cellName: undefined
             }
 
             this.options.handler = function(result, value) {
@@ -112,12 +113,12 @@ define([
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
             var me = this;
 
-            this.$targetValue = $('#changing-cell-target-value');
-            this.$currentValue = $('#changing-cell-current-value');
-            this.$formulaSolutionLabel = $('#changing-cell-label');
+            this.$targetValue = $('#goal-seek-target-value');
+            this.$currentValue = $('#goal-seek-current-value');
+            this.$statusLabel = $('#goal-seek-status-label');
 
             this.btnStep = new Common.UI.Button({
-                parentEl: $('#changing-cell-stop'),
+                parentEl: $('#goal-seek-stop'),
                 caption: this.textStep,
                 cls: 'normal dlg-btn',
                 disabled: true
@@ -125,7 +126,7 @@ define([
             this.btnStep.on('click', _.bind(this.onBtnStep, this));
 
             this.btnPause = new Common.UI.Button({
-                parentEl: $('#changing-cell-pause'),
+                parentEl: $('#goal-seek-pause'),
                 caption: this.textPause,
                 cls: 'normal dlg-btn'
             });
@@ -157,9 +158,11 @@ define([
 
         setSettings: function (props) {
             if (props) {
+                if (this._state.cellName === undefined)
+                    this._state.cellName = props.cellName;
                 this.$targetValue.text(props.targetValue);
                 this.$currentValue.text(props.currentValue);
-                this.$formulaSolutionLabel.text(Common.Utils.String.format(this.textFoundSolution, props.formulaCell, props.iteration));
+                this.$statusLabel.text(Common.Utils.String.format(this.textSearchIteration, props.cellName, props.iteration));
             }
         },
 
@@ -174,10 +177,11 @@ define([
             this.api.asc_StepGoalSeek();
         },
 
-        onStopSelection: function () {
+        onStopSelection: function (isFound) {
             this.btnPause.setDisabled(true);
             this.btnStep.setDisabled(true);
             this.setDisabledOkButton(false);
+            this.$statusLabel.text(Common.Utils.String.format(isFound ? this.textFoundSolution : this.textNotFoundSolution, this._state.cellName));
         },
 
         setDisabledOkButton: function (disabled) {
@@ -190,12 +194,14 @@ define([
             }
         },
 
-        textTitle: 'Changing Cell Selection',
-        textFoundSolution: 'The search for the target using cell {0} has found a solution. Iteration №{1}.',
+        textTitle: 'Goal Seek Status',
+        textFoundSolution: 'Goal Seeking with Cell {0} found a solution.',
+        textNotFoundSolution: 'Goal Seeking with Cell {0} may not have found a solution.',
+        textSearchIteration: 'Goal Seeking with Cell {0} on iteration #{1}.',
         textTargetValue: 'Target value:',
-        textCurrenttValue: 'Current value:',
+        textCurrentValue: 'Current value:',
         textStep: 'Step',
         textPause: 'Pause',
         textContinue: 'Continue'
-    }, SSE.Views.ChangingCellSelectionDlg || {}))
+    }, SSE.Views.GoalSeekStatusDlg || {}))
 });

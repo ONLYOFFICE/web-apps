@@ -47,7 +47,7 @@ define([
     'spreadsheeteditor/main/app/view/ExternalLinksDlg',
     'spreadsheeteditor/main/app/view/ImportFromXmlDialog',
     'spreadsheeteditor/main/app/view/GoalSeekDlg',
-    'spreadsheeteditor/main/app/view/ChangingCellSelectionDlg',
+    'spreadsheeteditor/main/app/view/GoalSeekStatusDlg',
     'common/main/lib/view/OptionsDialog'
 ], function () {
     'use strict';
@@ -85,7 +85,7 @@ define([
                 this.api.asc_registerCallback('asc_onSelectionChanged',     _.bind(this.onSelectionChanged, this));
                 this.api.asc_registerCallback('asc_onWorksheetLocked',      _.bind(this.onWorksheetLocked, this));
                 this.api.asc_registerCallback('asc_onChangeProtectWorkbook',_.bind(this.onChangeProtectWorkbook, this));
-                this.api.asc_registerCallback('asc_onGoalSeekUpdate',       _.bind(this.onUpdateChangingCellSelection, this));
+                this.api.asc_registerCallback('asc_onGoalSeekUpdate',       _.bind(this.onUpdateGoalSeekStatus, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('protect:wslock',              _.bind(this.onChangeProtectSheet, this));
@@ -549,24 +549,26 @@ define([
             })).show();
         },
 
-        onUpdateChangingCellSelection: function (targetValue, currentValue, iteration) {
+        onUpdateGoalSeekStatus: function (targetValue, currentValue, iteration, cellName) {
             var me = this;
-            if (!this.ChangingCellSelectionDlg) {
-                this.ChangingCellSelectionDlg = new SSE.Views.ChangingCellSelectionDlg({
+            if (!this.GoalSeekStatusDlg) {
+                this.GoalSeekStatusDlg = new SSE.Views.GoalSeekStatusDlg({
                     api: me.api,
                     handler: function (result) {
                         me.api.asc_CloseGoalClose(result == 'ok');
-                        me.ChangingCellSelectionDlg = undefined;
+                        me.GoalSeekStatusDlg = undefined;
                         Common.NotificationCenter.trigger('edit:complete');
                     }
                 });
-                this.ChangingCellSelectionDlg.on('close', function() {
-                    me.api.asc_CloseGoalClose(false);
-                    me.ChangingCellSelectionDlg = undefined;
+                this.GoalSeekStatusDlg.on('close', function() {
+                    if (me.GoalSeekStatusDlg !== undefined) {
+                        me.api.asc_CloseGoalClose(false);
+                        me.GoalSeekStatusDlg = undefined;
+                    }
                 });
-                this.ChangingCellSelectionDlg.show();
+                this.GoalSeekStatusDlg.show();
             }
-            this.ChangingCellSelectionDlg.setSettings({targetValue: targetValue, currentValue: currentValue, iteration: iteration, formulaCell: 'E3'});
+            this.GoalSeekStatusDlg.setSettings({targetValue: targetValue, currentValue: currentValue, iteration: iteration, cellName: cellName});
         },
 
         onUpdateExternalReference: function(arr, callback) {
