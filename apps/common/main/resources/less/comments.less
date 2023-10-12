@@ -194,7 +194,6 @@
     }
 
     .color {
-        position: relative;
         display: inline-block;
         width: 26px;
         height: 26px;
@@ -202,7 +201,8 @@
         border-width: @scaled-two-px-value;
         margin-right: 8px;
         vertical-align: middle;
-        overflow: hidden;
+        background-size: cover;
+        background-position: center;
 
         text-align: center;
         line-height: 26px;
@@ -212,14 +212,6 @@
         .rtl & {
             margin-right: 0px;
             margin-left: 8px;
-        }
-
-        img {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
         }
     }
 
