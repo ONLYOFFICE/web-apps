@@ -852,7 +852,7 @@ define([
                 comment.set('parsedName', AscCommon.UserInfoParser.getParsedName(data.asc_getUserName()));
                 comment.set('parsedGroups', AscCommon.UserInfoParser.getParsedGroups(data.asc_getUserName()));
                 comment.set('usercolor', (user) ? user.get('color') : null);
-                comment.set('avatar',   (user) ? user.get('avatar') : null);
+                comment.set('avatar',   avatar);
                 comment.set('resolved', data.asc_getSolved());
                 comment.set('quote',    data.asc_getQuoteText());
                 comment.set('userdata', data.asc_getUserData());
@@ -1301,15 +1301,16 @@ define([
                 hasGroup = false,
                 updateCommentData = function(comment, user, isNotReply) {
                     var color = (user) ? user.get('color') : null,
-                        avatar = (user) ? user.get('avatar') : null,
                         needrender = false;
                     if (color !== comment.get('usercolor')) {
                         needrender = true;
                         comment.set('usercolor', color, {silent: true});
                     }
-                    if (avatar !== comment.get('avatar')) {
-                        needrender = true;
-                        comment.set('avatar', avatar, {silent: true});
+                    if (user && user.image) {
+                        if (user.image !== comment.get('avatar')) {
+                            needrender = true;
+                            comment.set('avatar', user.image, {silent: true});
+                        }
                     }
 
                     //If a comment and not a reply
@@ -1426,7 +1427,7 @@ define([
                     var filter = !!group && (group!==-1) && (!usergroups || usergroups.length<1 || usergroups.indexOf(group)<0);
                     comment.set('filtered', filter);
                 }
-                var replies = this.readSDKReplies(data);
+                var replies = this.readSDKReplies(data, requestObj);
                 if (replies.length) {
                     comment.set('replys', replies);
                 }
@@ -1448,7 +1449,7 @@ define([
                     var userid = data.asc_getReply(i).asc_getUserId(),
                         user = this.userCollection.findOriginalUser(userid),
                         avatar = Common.UI.ExternalUsers.getImage(userid);
-                    (avatar===undefined) && requestObj.arrIds.push(userid);
+                    (avatar===undefined) && requestObj && requestObj.arrIds.push(userid);
                     replies.push(new Common.Models.Reply({
                         id                  : Common.UI.getId(),
                         userid              : userid,
