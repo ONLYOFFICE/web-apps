@@ -139,27 +139,20 @@
         }
 
         .color {
-            position: relative;
+            display: inline-block;
             width: 26px;
             height: 26px;
             border-radius: 20px;
             border-width: @scaled-two-px-value;
-            display: inline-block;
-            vertical-align: middle;
-            overflow: hidden;
             .margin-right-8();
+            vertical-align: middle;
+            background-color: #ffffff;
+            background-size: cover;
+            background-position: center;
 
             color: #ffffff;
             line-height: 26px;
             text-align: center;
-
-            img {
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                top: 0;
-                left: 0;
-            }
         }
 
         .revision-expand {
