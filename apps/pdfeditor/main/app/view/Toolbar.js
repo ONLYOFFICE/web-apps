@@ -74,7 +74,9 @@ define([
         noParagraphSelected:  'no-paragraph',
         cantPrint:      'cant-print',
         lostConnect:    'disconnect',
-        disableOnStart: 'on-start'
+        disableOnStart: 'on-start',
+        firstPage: 'first-page',
+        lastPage: 'last-page'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -369,7 +371,7 @@ define([
                         id          : 'id-toolbar-btn-first-page',
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-firstitem',
-                        lock: [_set.disableOnStart],
+                        lock: [_set.disableOnStart, _set.firstPage],
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
                     });
@@ -379,7 +381,7 @@ define([
                         id          : 'id-toolbar-btn-last-page',
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-lastitem',
-                        lock: [_set.disableOnStart],
+                        lock: [_set.disableOnStart, _set.lastPage],
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
                     });
@@ -389,7 +391,7 @@ define([
                         id          : 'id-toolbar-btn-prev-page',
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-previtem',
-                        lock: [_set.disableOnStart],
+                        lock: [_set.disableOnStart, _set.firstPage],
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
                     });
@@ -399,7 +401,7 @@ define([
                         id          : 'id-toolbar-btn-next-page',
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-nextitem',
-                        lock: [_set.disableOnStart],
+                        lock: [_set.disableOnStart, _set.lastPage],
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
                     });

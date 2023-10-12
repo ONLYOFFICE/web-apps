@@ -56,6 +56,8 @@ define([
 
         function _onCurrentPage(number){
             this.pages.set('current', number+1);
+            this.btnPagePrev && this.btnPagePrev.setDisabled(number<1);
+            this.btnPageNext && this.btnPageNext.setDisabled(number>=this.pages.get('count')-1);
         }
 
         var _tplPages = _.template('Page <%= current %> of <%= count %>');
@@ -249,6 +251,7 @@ define([
                 this.btnPagePrev = new Common.UI.Button({
                     cls         : 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-previtem',
+                    disabled: true,
                     hintAnchor  : 'top',
                     dataHint    : '0',
                     dataHintDirection: 'top'
@@ -257,6 +260,7 @@ define([
                 this.btnPageNext = new Common.UI.Button({
                     cls         : 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-nextitem',
+                    disabled: true,
                     hintAnchor  : 'top-left',
                     dataHint    : '0',
                     dataHintDirection: 'top'
