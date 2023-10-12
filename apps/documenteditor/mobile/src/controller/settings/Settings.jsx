@@ -10,6 +10,7 @@ export const SettingsContext = createContext();
 
 const SettingsController = props => {
     const storeDocumentInfo = props.storeDocumentInfo;
+    const appOptions = props.storeAppOptions;
     const { t } = useTranslation();
 
     const closeModal = () => {
@@ -147,10 +148,31 @@ const SettingsController = props => {
 
     const clearAllFields = () => {
         const api = Common.EditorApi.get();
-        
+
         api.asc_ClearAllSpecialForms();
         closeModal();
     };
+
+    const toggleFavorite = () => {
+        const isFavorite = appOptions.isFavorite;
+        Common.Notifications.trigger('markfavorite', !isFavorite);
+    };
+
+    const saveAsPdf = () => {
+        const api = Common.EditorApi.get();
+
+        if (appOptions.isOffline) {
+            api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
+        } else {
+            const isFromBtnDownload = appOptions.canRequestSaveAs || !!appOptions.saveAsUrl;
+            api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, isFromBtnDownload));
+        }
+    }
+
+    const submitForm = () => {
+        const api = Common.EditorApi.get();
+        api.asc_SendForm();
+    }
 
     return (
         <SettingsContext.Provider value={{
@@ -162,7 +184,10 @@ const SettingsController = props => {
             onChangeMobileView,
             changeTitleHandler,
             closeModal,
-            clearAllFields
+            clearAllFields,
+            toggleFavorite,
+            saveAsPdf,
+            submitForm
         }}>
             <SettingsView />
         </SettingsContext.Provider>

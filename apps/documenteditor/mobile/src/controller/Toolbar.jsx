@@ -322,14 +322,36 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
 
     const moveNextField = () => {
         const api = Common.EditorApi.get();
-        console.log('next');
         api.asc_MoveToFillingForm(true);
     }
 
     const movePrevField = () => {
         const api = Common.EditorApi.get();
-        console.log('prev');
         api.asc_MoveToFillingForm(false);
+    }
+
+    const saveForm = () => {
+        const isSubmitForm = appOptions.canFillForms && appOptions.canSubmitForms;
+        const isSavePdf = appOptions.canDownload && appOptions.canFillForms && !appOptions.canSubmitForms;
+
+        if(isSubmitForm) submitForm();
+        if(isSavePdf) saveAsPdf();
+    }
+
+    const saveAsPdf = () => {
+        const api = Common.EditorApi.get();
+
+        if (appOptions.isOffline) {
+            api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
+        } else {
+            const isFromBtnDownload = appOptions.canRequestSaveAs || !!appOptions.saveAsUrl;
+            api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, isFromBtnDownload));
+        }
+    }
+
+    const submitForm = () => {
+        const api = Common.EditorApi.get();
+        api.asc_SendForm();
     }
 
     return (
@@ -364,6 +386,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             isOpenModal={props.isOpenModal}
             moveNextField={moveNextField}
             movePrevField={movePrevField}
+            saveForm={saveForm}
         />
     )
 }));

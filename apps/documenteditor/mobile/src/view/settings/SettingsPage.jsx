@@ -33,6 +33,9 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
     // set mode
     const isViewer = appOptions.isViewer;
     const isMobileView = appOptions.isMobileView;
+    const isFavorite = appOptions.isFavorite;
+    const canFillForms = appOptions.canFillForms;
+    const canSubmitForms = appOptions.canSubmitForms;
   
     let _isEdit = false,
         _canDownload = false,
@@ -67,10 +70,20 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
             {navbar}
             <List>
                 {isForm ? [
-                    <ListItem key='add-to-favorites-link' title={t('Settings.textAddToFavorites')} link='#' className='no-indicator'>
-                        <Icon slot="media" icon="icon-add-favorites"></Icon>
+                    <ListItem key='add-to-favorites-link' title={isFavorite ? t('Settings.textRemoveFromFavorites') : t('Settings.textAddToFavorites')} link='#' className='no-indicator' onClick={settingsContext.toggleFavorite}>
+                        <Icon slot="media" icon={isFavorite ? "icon-remove-favorites" : "icon-add-favorites"}></Icon>
                     </ListItem>,
-                    <ListItem key='export-link' title={t('Settings.textExport')} link='#' className='no-indicator'>
+                    (canFillForms && canSubmitForms ?   
+                        <ListItem key='submit-form-link' title={t('Settings.textSubmit')} link='#' className='no-indicator' onClick={settingsContext.submitForm}>
+                            <Icon slot="media" icon="icon-save-form"></Icon>
+                        </ListItem> 
+                    : ''),
+                    (_canDownload && canFillForms && !canSubmitForms ? 
+                        <ListItem key='save-form-link' title={t('Settings.textSaveAsPdf')} link='#' className='no-indicator' onClick={settingsContext.saveAsPdf}>
+                            <Icon slot="media" icon="icon-save-form"></Icon>
+                        </ListItem>
+                    : ''),
+                    <ListItem key='export-link' title={t('Settings.textExport')} link='#' className='no-indicator' onClick={settingsContext.exportForm}>
                         <Icon slot="media" icon="icon-export"></Icon>
                     </ListItem>,
                     <ListItem key='clear-all-fields-link' title={t('Settings.textClearAllFields')} link='#' className='no-indicator' onClick={settingsContext.clearAllFields}>

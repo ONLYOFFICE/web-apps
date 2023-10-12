@@ -746,7 +746,10 @@
     "txtScheme9": "Foundry",
     "textExport": "Export",
     "textAddToFavorites": "Add to Favorites",
-    "textClearAllFields": "Clear All Fields"
+    "textClearAllFields": "Clear All Fields",
+    "textRemoveFromFavorites": "Remove from Favorites",
+    "textSubmit": "Submit",
+    "textSaveAsPdf": "Save as PDF"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
