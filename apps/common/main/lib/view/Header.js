@@ -363,7 +363,7 @@ define([
             }
 
             if ( me.btnSave ) {
-                me.btnSave.updateHint(me.tipSave + Common.Utils.String.platformKey('Ctrl+S'));
+                me.btnSave.updateHint(me.tipSave + (isPDFEditor ? '' : Common.Utils.String.platformKey('Ctrl+S')));
                 me.btnSave.on('click', function (e) {
                     me.fireEvent('save', me);
                 });

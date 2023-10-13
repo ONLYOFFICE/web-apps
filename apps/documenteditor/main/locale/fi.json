@@ -299,6 +299,7 @@
   "DE.Controllers.Main.errorUsersExceed": "Palvelupaketin sallittu käyttäjämäärä on ylitetty",
   "DE.Controllers.Main.errorViewerDisconnect": "Yhteys on menetetty. Voit vielä selailla asiakirjaa,<br>mutta et voi ladata tai tulostaa sitä ennenkuin yhteys on palautettu.",
   "DE.Controllers.Main.leavePageText": "Sinulla on tallentamattomia muutoksia asiakirjassa. Klikkaa \"Jää tälle sivulle\", ja sitten \"Tallenna\" jotta voit tallentaa muutokset. Klikkaa \"Poistu tältä sivulta\" niin menetät kaikki tallentamattomat muutokset.",
+  "DE.Controllers.Main.leavePageTextOnClose": "Kaikki tallentamattomat muutokset tässä asiakirjassa menetetään.<br> Klikkaa \"Peruuta\"  ja sitten \"Tallenna\" jotta voit tallentaa ne. Klikkaa \"OK\" jos haluat hylätä tallentamattomat muutokset.",
   "DE.Controllers.Main.loadFontsTextText": "Ladataan tietoa...",
   "DE.Controllers.Main.loadFontsTitleText": "Ladataan tietoja",
   "DE.Controllers.Main.loadFontTextText": "Ladataan tietoa...",

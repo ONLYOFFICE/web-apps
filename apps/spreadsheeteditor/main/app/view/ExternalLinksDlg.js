@@ -50,7 +50,7 @@ define([
 
         options: {
             alias: 'ExternalLinksDlg',
-            contentWidth: 505,
+            contentWidth: 510,
             height: 294,
             buttons: null
         },
@@ -310,7 +310,7 @@ define([
             var rec = this.linksList.getSelectedRec();
             if (rec) {
                 if (this.isOffline)
-                    this.api.updateSourceFromFile(rec.get('externalRef'));
+                    this.api.asc_changeExternalReference(rec.get('externalRef'));
                 else
                     this.fireEvent('change:source', this, rec.get('externalRef'));
 

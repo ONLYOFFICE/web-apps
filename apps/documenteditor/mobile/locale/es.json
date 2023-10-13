@@ -402,6 +402,7 @@
     "errorAccessDeny": "Está intentando realizar una acción para la que no tiene derechos.<br>Por favor, contacte con su administrador.",
     "errorBadImageUrl": "URL de imagen es incorrecta",
     "errorComboSeries": "Para crear un gráfico combinado, seleccione al menos dos series de datos.",
+    "errorCompare": "La función de comparación de documentos no está disponible en el modo de coedición.",
     "errorConnectToServer": "No se puede guardar este documento. Compruebe la configuración de su conexión o póngase en contacto con el administrador.<br>Cuando haga clic en OK, se le pedirá que descargue el documento.",
     "errorDatabaseConnection": "Error externo.<br>Error de conexión a la base de datos. Por favor, contacte con el equipo de soporte técnico.",
     "errorDataEncrypted": "Se han recibido cambios cifrados, ellos no pueden ser descifrados.",
@@ -412,6 +413,7 @@
     "errorEmptyTOC": "Empezar a crear una tabla de contenidos aplicando un estilo de encabezamiento de la galería de Estilos al texto seleccionado.",
     "errorFilePassProtect": "El archivo está protegido por contraseña y no se puede abrir.",
     "errorFileSizeExceed": "El tamaño del archivo excede el límite de su servidor.<br>Por favor, contacte con su administrador.",
+    "errorForceSave": "Se ha producido un error al guardar el archivo. Por favor, utilice la opción 'Descargar como' para guardar el archivo en el disco duro de su computadora o inténtelo más tarde.",
     "errorInconsistentExt": "Se ha producido un error al abrir el archivo.<br>El contenido del archivo no coincide con la extensión del mismo.",
     "errorInconsistentExtDocx": "Se ha producido un error al abrir el archivo.<br>El contenido del archivo corresponde a documentos de texto (por ejemplo, docx), pero el archivo tiene extensión inconsistente: %1.",
     "errorInconsistentExtPdf": "Se ha producido un error al abrir el archivo.<br>El contenido del archivo corresponde a uno de los siguientes formatos: pdf/djvu/xps/oxps, pero el archivo tiene extensión inconsistente: %1.",
@@ -450,9 +452,7 @@
     "uploadDocSizeMessage": "Se ha excedido el límite de tamaño máximo del documento.",
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
-    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB.",
-    "errorCompare": "The Compare documents feature is not available in the co-editing mode.",
-    "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later."
+    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Cargando datos...",

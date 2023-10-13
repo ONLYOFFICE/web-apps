@@ -26,6 +26,7 @@
     { "src": "UsageInstructions/ConvertFootnotesEndnotes.htm", "name": "Convert endnotes and footnotes" },
     { "src": "UsageInstructions/InsertBookmarks.htm", "name": "Add bookmarks" },
     {"src": "UsageInstructions/AddWatermark.htm", "name": "Add watermark"},
+	{"src": "UsageInstructions/Hyphenation.htm", "name": "Add hyphenation"},
     { "src": "UsageInstructions/AlignText.htm", "name": "Align your text in a paragraph", "headername": "Paragraph formatting" },
     {"src": "UsageInstructions/BackgroundColor.htm", "name": "Select background color for a paragraph"},
     {"src": "UsageInstructions/SetOutlineLevel.htm", "name": "Set up paragraph outline level"},

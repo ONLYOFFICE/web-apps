@@ -439,12 +439,45 @@
 
     .recent-icon {
       display: inline-block;
-      width: 25px;
-      height: 25px;
+      .float-left();
+      width: 24px;
+      height: 30px;
       margin-top: 1px;
       div {
         width: 100%;
         height: 100%;
+        div{
+          background: ~"url(@{common-image-const-path}/doc-formats/formats.png)";
+          background-size: 744px 30px;
+          &:not(.svg-file-recent) {
+            .pixel-ratio__1_25 & {
+              background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.25x.png)";
+            }
+
+            .pixel-ratio__1_5 & {
+              background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.5x.png)";
+            }
+
+            .pixel-ratio__1_75 & {
+              background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.75x.png)";
+            }
+
+            .pixel-ratio__2 & {
+              background-image: ~"url(@{common-image-const-path}/doc-formats/formats@2x.png)";
+            }
+          }
+        }
+        .img-format- {
+          &pdf, &pdfa {
+            background-position: 408px 0px;
+          }
+          &xps {
+            background-position: 360px 0px;
+          }
+          &djvu {
+            background-position: 384px 0px;
+          }
+        }
         .svg-file-recent {
           background: ~"url(@{app-image-const-path}/recent-file.svg) no-repeat top";
         }
@@ -453,6 +486,7 @@
 
     > div:not(:first-child) {
       display: block;
+      .padding-left-10();
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;

@@ -114,10 +114,12 @@ define([
                         };
 
                         if ( !!titlebuttons ) {
-                            var header = webapp.getController('Viewport').getView('Common.Views.Header');
-                            if ( header ) {
-                                for (var i in titlebuttons) {
-                                    opts.title.buttons.push(_serializeHeaderButton(i, titlebuttons[i]));
+                            if ( !$.isEmptyObject(titlebuttons) ) {
+                                var header = webapp.getController('Viewport').getView('Common.Views.Header');
+                                if (header) {
+                                    for (var i in titlebuttons) {
+                                        opts.title.buttons.push(_serializeHeaderButton(i, titlebuttons[i]));
+                                    }
                                 }
                             }
 
@@ -127,8 +129,6 @@ define([
                             config.callback_editorconfig = function() {
                                 setTimeout(function(){window.on_native_message(cmd, param);},0);
                             }
-                        } else {
-                            native.execCommand('editor:config', JSON.stringify(opts));
                         }
                     }
                 } else
@@ -454,6 +454,9 @@ define([
             }
 
             if ( native.features.singlewindow !== undefined ) {
+                if ( config.isFillFormApp )
+                    $("#title-doc-name")[native.features.singlewindow ? 'hide' : 'show']();
+
                 // $('#box-document-title .hedset')[native.features.singlewindow ? 'hide' : 'show']();
                 !!titlebuttons.home && titlebuttons.home.btn.setVisible(native.features.singlewindow);
             }

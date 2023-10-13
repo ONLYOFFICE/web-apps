@@ -226,6 +226,7 @@
     "errorDirectUrl": "Ověřte správnost odkazu na dokument.<br>Musí jít o přímý odkaz pro stažení souboru.",
     "errorEditingDownloadas": "Při práci s dokumentem došlo k chybě.<br>Použijte volbu \"Stáhnout\" pro vytvoření lokální zálohy souboru.",
     "errorEditView": "Během úpravy některého se zobrazení sešitů, není možné upravovat existující zobrazení sešitů a vytvářet nové.",
+    "errorEmailClient": "Nenalezen e-mailový klient.",
     "errorFilePassProtect": "Soubor je zabezpečen heslem a nemůže být otevřen.",
     "errorFileRequest": "Externí chyba.<br>Požadavek souboru. Prosím, kontaktujte podporu.",
     "errorFileSizeExceed": "Velikost souboru je větší než umožňuje limit serveru.<br>Pro více informací kontaktujte svého správce.",
@@ -248,6 +249,7 @@
     "errorInvalidRef": "Zadejte správný název pro výběr nebo platnou referenci.",
     "errorKeyEncrypt": "Neznámý popisovač klíče",
     "errorKeyExpire": "Platnost popisovače klíče skončila",
+    "errorLabledColumnsPivot": "Chcete-li vytvořit výstup z kontingenční tabulky, musíte použít data uspořádaná jako seznam s označenými sloupci.",
     "errorLoadingFont": "Styly nejsou načteny.<br>Prosím kontaktujte Vašeho administrátora dokumentových serverů.",
     "errorLocationOrDataRangeError": "Odkaz na umístnění nebo rozsah dat je neplatný. ",
     "errorLockedAll": "Operace nemůže být provedena, protože list byl uzamčen jiným uživatelem.",
@@ -307,9 +309,7 @@
     "uploadDocSizeMessage": "Překročena maximální velikost dokumentu.",
     "uploadImageExtMessage": "Neznámý formát obrázku.",
     "uploadImageFileCountMessage": "Nenahrány žádné obrázky.",
-    "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB.",
-    "errorEmailClient": "No email client could be found",
-    "errorLabledColumnsPivot": "To create a pivot table report, you must use data that is organized as a list with labeled columns."
+    "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Heslo",
@@ -753,7 +753,7 @@
       "txtComma": "Čárka",
       "txtCs": "čeština",
       "txtDa": "dánština",
-      "txtDe": "Deutsch",
+      "txtDe": "Němčina",
       "txtDelimiter": "Oddělovač",
       "txtDownloadCsv": "Stáhnout SCV",
       "txtEl": "řečtina",
