@@ -661,41 +661,40 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             var i = this.iconsControls.length;
             this.iconsControls.push({});
 
-            var combo = new Common.UI.ComboBox({
+            var combo = new Common.UI.ComboBoxDataView({
                 el: $('#format-rules-combo-icon-' + (i+1)),
-                type        : i,
-                template: _.template([
-                    '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle"  data-toggle="dropdown">',
+                additionalAlign: this.menuAddAlign,
+                additionalItems: [{ caption: this.txtNoCellIcon, checkable: true, allowDepress: false, toggleGroup: 'no-cell-icons-' + (i+1) }],
+                cls: 'move-focus',
+                menuStyle: 'min-width: 105px;',
+                dataViewStyle: 'width: 217px; margin: 0 5px;',
+                store: new Common.UI.DataViewStore(me.iconsList),
+                formTemplate: _.template([
                     '<div class="form-control image" style="display: block;width: 85px;">',
                         '<div style="display: inline-block;overflow: hidden;width: 100%;height: 100%;padding-top: 2px;background-repeat: no-repeat; background-position: 27px center;white-space:nowrap;"></div>',
                     '</div>',
-                    '<div style="display: table-cell;"></div>',
-                    '<button type="button" class="btn btn-default"><span class="caret"></span></button>',
-                    '</div>'
-                ].join(''))
-            });
-
-            var menu = (new Common.UI.Menu({
-                style: 'min-width: 105px;',
-                additionalAlign: this.menuAddAlign,
-                items: [
-                    { caption: this.txtNoCellIcon, checkable: true, allowDepress: false, toggleGroup: 'no-cell-icons-' + (i+1) },
-                    { template: _.template('<div id="format-rules-combo-menu-icon-' + (i+1) + '" style="width: 217px; margin: 0 5px;"></div>') }
-                ]
-            })).render($('#format-rules-combo-icon-' + (i+1)));
-
-            var picker = new Common.UI.DataView({
-                el: $('#format-rules-combo-menu-icon-' + (i+1)),
-                parentMenu: menu,
-                outerMenu: {menu: menu, index: 1},
-                store: new Common.UI.DataViewStore(me.iconsList),
+                ].join('')),
                 itemTemplate: _.template('<img id="<%= id %>" class="item-icon" src="<%= imgUrl %>" style="width: 16px; height: 16px;">'),
-                type        : i
+                takeFocusOnClose: true,
+                updateFormControl: function(record) {
+                    var formcontrol = $(this.el).find('.form-control > div');
+                    formcontrol.css('background-image', record ? 'url(' + record.get('imgUrl') + ')' : '');
+                    formcontrol.text(record ? '' : me.txtNoCellIcon);
+                }
             });
-            picker.on('item:click', _.bind(this.onSelectIcon, this, combo, menu.items[0]));
-            menu.setInnerMenu([{menu: picker, index: 1}]);
+            var picker = combo.getPicker(),
+                menu = combo.getMenu();
+            combo.on('item:click', _.bind(this.onSelectIcon, this));
             menu.items[0].on('toggle', _.bind(this.onSelectNoIcon, this, combo, picker));
-
+            menu.on('show:before', function() {
+                if (!menu.items[0].isChecked()) {
+                    var rec = picker.store.findWhere({value: picker.currentIconValue});
+                    rec && picker.selectRecord(rec, true);
+                }
+            }).on('hide:after', function() {
+                picker.deselectAll(true);
+            });
+            Common.UI.FocusManager.add(this, combo);
             this.iconsControls[i].cmbIcons = combo;
             this.iconsControls[i].pickerIcons = picker;
             this.iconsControls[i].itemNoIcons = menu.items[0];
@@ -810,6 +809,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                     me.iconsControls[me.iconsControls.length-1].cmbOperator.focus();
                 },50);
             });
+            Common.UI.FocusManager.add(this, this.cmbIconsPresets);
             this.cmbIconsPresets.setValue(3);
             this.iconsProps = {iconsSet: 3};
 
@@ -828,6 +828,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 me.iconsProps.isReverse = !me.iconsProps.isReverse;
                 me.reverseIconsControls();
             });
+            Common.UI.FocusManager.add(this, this.btnReverse);
 
             this.iconsControls = [];
             for (var i=0; i<3; i++) {
@@ -1461,7 +1462,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                                     icon.asc_setIconId(0);
                                     this.iconsProps.isReverse ? icons.unshift(icon) : icons.push(icon);
                                 } else {
-                                    var icon = controls.pickerIcons.getSelectedRec().get('value')+1;
+                                    var icon = controls.pickerIcons.currentIconValue+1;
                                     for (var k=0; k<this.collectionPresets.length; k++) {
                                         var items = this.collectionPresets.at(k).get('icons');
                                         for (var j=0; j<items.length; j++) {
@@ -1896,9 +1897,9 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             for (var i=0; i<iconsIndexes.length; i++) {
                 var controls = arr[isReverse ? len-i-1 : i];
                 var rec = (iconsIndexes[i]==-1) ? null : controls.pickerIcons.store.findWhere({value: iconsIndexes[i]-1});
-                rec ? controls.pickerIcons.selectRecord(rec, true) : controls.pickerIcons.deselectAll(true);
+                controls.cmbIcons.selectRecord(rec);
+                controls.pickerIcons.currentIconValue = rec ? rec.get('value') : -1;
                 controls.itemNoIcons.setChecked(!rec, true);
-                this.selectIconItem(controls.cmbIcons, rec);
             }
             this.fillIconsLabels();
         },
@@ -1922,36 +1923,30 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             for (var i=0; i<len/2; i++) {
                 var controls1 = arr[i],
                     controls2 = arr[len-i-1];
-                var icon1 = controls1.itemNoIcons.isChecked() ? -1 : controls1.pickerIcons.getSelectedRec().get('value'),
-                    icon2 = controls2.itemNoIcons.isChecked() ? -1 : controls2.pickerIcons.getSelectedRec().get('value');
+                var icon1 = controls1.itemNoIcons.isChecked() ? -1 : controls1.pickerIcons.currentIconValue,
+                    icon2 = controls2.itemNoIcons.isChecked() ? -1 : controls2.pickerIcons.currentIconValue;
                 var rec = controls1.pickerIcons.store.findWhere({value: icon2});
-                rec ? controls1.pickerIcons.selectRecord(rec, true) : controls1.pickerIcons.deselectAll(true);
+                controls1.cmbIcons.selectRecord(rec);
+                controls1.pickerIcons.currentIconValue = rec ? rec.get('value') : -1;
                 controls1.itemNoIcons.setChecked(!rec, true);
-                this.selectIconItem(controls1.cmbIcons, rec);
+
                 rec = controls2.pickerIcons.store.findWhere({value: icon1});
-                rec ? controls2.pickerIcons.selectRecord(rec, true) : controls2.pickerIcons.deselectAll(true);
+                controls2.cmbIcons.selectRecord(rec);
+                controls2.pickerIcons.currentIconValue = rec ? rec.get('value') : -1;
                 controls2.itemNoIcons.setChecked(!rec, true);
-                this.selectIconItem(controls2.cmbIcons, rec);
             }
         },
 
-        onSelectIcon: function(combo, noIconItem, picker, view, record) {
-            this.selectIconItem(combo, record);
-            noIconItem.setChecked(false, true);
+        onSelectIcon: function(combo, picker, view, record) {
+            picker.currentIconValue = record.get('value');
+            combo.getMenu().items[0].setChecked(false, true);
             this.cmbIconsPresets.setValue(this.textCustom);
         },
 
         onSelectNoIcon: function(combo, picker, item, state) {
             if (!state) return;
-            this.selectIconItem(combo);
-            picker.deselectAll(true);
+            combo.selectRecord(null);
             this.cmbIconsPresets.setValue(this.textCustom);
-        },
-
-        selectIconItem: function(combo, record) {
-            var formcontrol = $(combo.el).find('.form-control > div');
-            formcontrol.css('background-image', record ? 'url(' + record.get('imgUrl') + ')' : '');
-            formcontrol.text(record ? '' : this.txtNoCellIcon);
         },
 
         isRangeValid: function() {

@@ -381,7 +381,8 @@ define([
                         this.parentMenu.on('show:before', function(menu) { me.deselectAll(); });
                     this.parentMenu.on('show:after', function(menu, e) {
                         if (e && (menu.el !== e.target)) return;
-                        if (me.showLast) me.showLastSelected(); 
+                        if (me.showLast) me.showLastSelected();
+                        if (me.outerMenu && (me.outerMenu.focusOnShow===false)) return;
                         Common.NotificationCenter.trigger('dataview:focus');
                         _.delay(function() {
                             menu.cmpEl.find('.dataview').focus();
@@ -482,6 +483,7 @@ define([
             _.each(this.store.where({selected: true}), function(record){
                 record.set({selected: false});
             });
+            this.lastSelectedRec = null;
 
             if (suspendEvents)
                 this.resumeEvents();
@@ -1187,6 +1189,7 @@ define([
                 record.set({selected: false});
             });
             this.cmpEl.find('.item.selected').removeClass('selected');
+            this.lastSelectedRec = null;
 
             if (suspendEvents)
                 this.resumeEvents();
