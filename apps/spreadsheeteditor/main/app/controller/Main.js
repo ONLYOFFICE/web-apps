@@ -2084,6 +2084,10 @@ define([
                         config.msg = this.errorProtectedRange;
                         break;
 
+                    case Asc.c_oAscError.ID.LockedCellGoalSeek:
+                        config.msg = this.errorLockedCellGoalSeek;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -3854,7 +3858,8 @@ define([
             txtSheet: 'Sheet',
             txtNone: 'None',
             warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.',
-            txtSlicer: 'Slicer'
+            txtSlicer: 'Slicer',
+            errorLockedCellGoalSeek: 'One of the cells involved in the goal seek process has been modified by another user.'
         }
     })(), SSE.Controllers.Main || {}))
 });
