@@ -955,6 +955,7 @@
   "PE.Controllers.Main.textLoadingDocument": "Cargando presentación",
   "PE.Controllers.Main.textLongName": "Escriba un nombre que tenga menos de 128 caracteres.",
   "PE.Controllers.Main.textNoLicenseTitle": "Se ha alcanzado el límite de licencias",
+  "PE.Controllers.Main.textObject": "Objeto",
   "PE.Controllers.Main.textPaidFeature": "Función de pago",
   "PE.Controllers.Main.textReconnect": "Se ha restablecido la conexión",
   "PE.Controllers.Main.textRemember": "Recordar mi elección para todos los archivos",
