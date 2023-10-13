@@ -2098,6 +2098,10 @@ define([
                         config.maxwidth = 600;
                         break;
 
+                    case Asc.c_oAscError.ID.LockedCellGoalSeek:
+                        config.msg = this.errorLockedCellGoalSeek;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -3903,7 +3907,8 @@ define([
             textKeep: 'Keep',
             errorDependentsNoFormulas: 'The Trace Dependents command found no formulas that refer to the active cell.',
             errorPrecedentsNoValidRef: 'The Trace Precedents command requires that the active cell contain a formula which includes a valid references.',
-            txtPicture: 'Picture'
+            txtPicture: 'Picture',
+            errorLockedCellGoalSeek: 'One of the cells involved in the goal seek process has been modified by another user.'
         }
     })(), SSE.Controllers.Main || {}))
 });

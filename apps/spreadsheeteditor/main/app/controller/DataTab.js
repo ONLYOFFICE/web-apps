@@ -46,6 +46,8 @@ define([
     'spreadsheeteditor/main/app/view/DataValidationDialog',
     'spreadsheeteditor/main/app/view/ExternalLinksDlg',
     'spreadsheeteditor/main/app/view/ImportFromXmlDialog',
+    'spreadsheeteditor/main/app/view/GoalSeekDlg',
+    'spreadsheeteditor/main/app/view/GoalSeekStatusDlg',
     'common/main/lib/view/OptionsDialog'
 ], function () {
     'use strict';
@@ -83,6 +85,7 @@ define([
                 this.api.asc_registerCallback('asc_onSelectionChanged',     _.bind(this.onSelectionChanged, this));
                 this.api.asc_registerCallback('asc_onWorksheetLocked',      _.bind(this.onWorksheetLocked, this));
                 this.api.asc_registerCallback('asc_onChangeProtectWorkbook',_.bind(this.onChangeProtectWorkbook, this));
+                this.api.asc_registerCallback('asc_onGoalSeekUpdate',       _.bind(this.onUpdateGoalSeekStatus, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('protect:wslock',              _.bind(this.onChangeProtectSheet, this));
@@ -108,7 +111,8 @@ define([
                     'data:remduplicates': this.onRemoveDuplicates,
                     'data:datavalidation': this.onDataValidation,
                     'data:fromtext': this.onDataFromText,
-                    'data:externallinks': this.onExternalLinks
+                    'data:externallinks': this.onExternalLinks,
+                    'data:goalseek': this.onGoalSeek
                 },
                 'Statusbar': {
                     'sheet:changed': this.onApiSheetChanged
@@ -530,6 +534,41 @@ define([
                 Common.Gateway.requestReferenceSource();
             });
             this.externalLinksDlg.show()
+        },
+
+        onGoalSeek: function() {
+            var me = this;
+            (new SSE.Views.GoalSeekDlg({
+                api: me.api,
+                handler: function(result, settings) {
+                    if (result == 'ok' && settings) {
+                        me.api.asc_StartGoalSeek(settings.formulaCell, settings.expectedValue, settings.changingCell);
+                    }
+                    Common.NotificationCenter.trigger('edit:complete');
+                }
+            })).show();
+        },
+
+        onUpdateGoalSeekStatus: function (targetValue, currentValue, iteration, cellName) {
+            var me = this;
+            if (!this.GoalSeekStatusDlg) {
+                this.GoalSeekStatusDlg = new SSE.Views.GoalSeekStatusDlg({
+                    api: me.api,
+                    handler: function (result) {
+                        me.api.asc_CloseGoalClose(result == 'ok');
+                        me.GoalSeekStatusDlg = undefined;
+                        Common.NotificationCenter.trigger('edit:complete');
+                    }
+                });
+                this.GoalSeekStatusDlg.on('close', function() {
+                    if (me.GoalSeekStatusDlg !== undefined) {
+                        me.api.asc_CloseGoalClose(false);
+                        me.GoalSeekStatusDlg = undefined;
+                    }
+                });
+                this.GoalSeekStatusDlg.show();
+            }
+            this.GoalSeekStatusDlg.setSettings({targetValue: targetValue, currentValue: currentValue, iteration: iteration, cellName: cellName});
         },
 
         onUpdateExternalReference: function(arr, callback) {
