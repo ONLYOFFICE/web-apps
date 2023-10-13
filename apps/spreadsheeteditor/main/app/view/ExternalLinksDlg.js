@@ -50,7 +50,7 @@ define([
 
         options: {
             alias: 'ExternalLinksDlg',
-            contentWidth: 505,
+            contentWidth: 510,
             height: 294,
             buttons: null
         },
