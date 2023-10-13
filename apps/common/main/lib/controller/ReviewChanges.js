@@ -1079,7 +1079,7 @@ define([
             this.popoverChanges && this.popoverChanges.each(function (model) {
                 var user = users.findOriginalUser(model.get('userid'));
                 model.set('usercolor', (user) ? user.get('color') : null);
-                model.set('avatar', (user) ? user.get('avatar') : null);
+                user && user.get('avatar') && model.set('avatar', user.get('avatar'));
             });
         },
 
@@ -1088,7 +1088,7 @@ define([
 
             this.popoverChanges && this.popoverChanges.each(function (model) {
                 var user = _.findWhere(users, {id: model.get('userid')})
-                user && user.image && model.set('avatar', user.image);
+                user && (user.image!==undefined) && model.set('avatar', user.image);
             });
         },
 

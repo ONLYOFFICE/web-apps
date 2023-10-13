@@ -822,7 +822,7 @@
             setReferenceData    : _setReferenceData,
             setRequestedDocument: _setRequestedDocument,
             setRequestedSpreadsheet: _setRequestedSpreadsheet,
-            setReferenceSource: _setReferenceSource,
+            setReferenceSource: _setReferenceSource
         }
     };
 

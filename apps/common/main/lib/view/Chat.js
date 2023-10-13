@@ -205,6 +205,13 @@ define([
             }
         },
 
+        renderMessages: function() {
+            if (this.panelMessages && this.storeMessages) {
+                this.panelMessages.html(this.templateMsgList({messages: this.storeMessages.models, msgtpl: this.tplMsg, scope: this}));
+                this.panelMessages.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true});
+            }
+        },
+
         _onBtnAddMessage: function(e) {
             if (this.txtMessage) {
                 this.fireEvent('message:add', [this, this.txtMessage.val().trim()]);
@@ -214,13 +221,15 @@ define([
         },
 
         _prepareMessage: function(m) {
-            var user    = this.storeUsers.findOriginalUser(m.get('userid'));
+            var user    = this.storeUsers.findOriginalUser(m.get('userid')),
+                avatar = Common.UI.ExternalUsers.getImage(m.get('userid'));
             m.set({
                 usercolor   : user ? user.get('color') : null,
-                avatar      : user ? user.get('avatar') : null,
+                avatar      : avatar,
                 initials    : user ? user.get('initials') : Common.Utils.getUserInitials(m.get('parsedName')),
                 message     : this._pickLink(m.get('message'))
             }, {silent:true});
+            (avatar===undefined) && Common.UI.ExternalUsers.get('info', [m.get('userid')]);
         },
 
         _pickLink: function(message) {

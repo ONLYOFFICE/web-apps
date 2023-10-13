@@ -202,14 +202,23 @@ define([
         avatarsUpdate: function(type, users) {
             if (type!=='info') return;
 
-            var usersStore = this.getApplication().getCollection('Common.Collections.Users');
-            if (usersStore && users && users.length>0 ){
+            var usersStore = this.getApplication().getCollection('Common.Collections.Users'),
+                msgStore = this.getApplication().getCollection('Common.Collections.ChatMessages'),
+                needrender = false;
+            if (users && users.length>0 ){
                 _.each(users, function(item) {
-                    usersStore.findOriginalUsers(item.id).forEach(function(user){
+                    usersStore && usersStore.findOriginalUsers(item.id).forEach(function(user){
                         user.set({avatar: item.image});
+                    });
+                    msgStore && msgStore.where({userid: item.id}).forEach(function(msg){
+                        if (item.image!==undefined && item.image !== msg.get('avatar')) {
+                            needrender = true;
+                            msg.set('avatar', item.image, {silent: true});
+                        }
                     });
                 });
             }
+            needrender && this.panelChat && this.panelChat.renderMessages();
         },
 
         onReceiveMessage: function(messages, clear){

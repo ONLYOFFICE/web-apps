@@ -1306,7 +1306,7 @@ define([
                         needrender = true;
                         comment.set('usercolor', color, {silent: true});
                     }
-                    if (user && user.image) {
+                    if (user && (user.image!==undefined)) {
                         if (user.image !== comment.get('avatar')) {
                             needrender = true;
                             comment.set('avatar', user.image, {silent: true});
@@ -1345,7 +1345,7 @@ define([
                 updateCommentData = function(comment, isNotReply) {
                     var user = _.findWhere(users, {id: comment.get('userid')}),
                         needrender = false;
-                    if (user && user.image) {
+                    if (user && (user.image!==undefined)) {
                         var avatar = user.image;
                         if (avatar !== comment.get('avatar')) {
                             needrender = true;
