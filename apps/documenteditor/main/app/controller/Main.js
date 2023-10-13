@@ -500,7 +500,6 @@ define([
                     _user.put_Id(this.appOptions.user.id);
                     _user.put_FullName(this.appOptions.user.fullname);
                     _user.put_IsAnonymousUser(!!this.appOptions.user.anonymous);
-                    // this.appOptions.user.image && _user.put_UserImage(this.appOptions.user.image);
 
                     docInfo = new Asc.asc_CDocInfo();
                     docInfo.put_Id(data.doc.key);
