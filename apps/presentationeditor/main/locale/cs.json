@@ -686,8 +686,6 @@
   "Common.Views.PluginDlg.textLoading": "Načítání",
   "Common.Views.Plugins.groupCaption": "Zásuvné moduly",
   "Common.Views.Plugins.strPlugins": "Zásuvné moduly",
-  "Common.Views.Plugins.textClosePanel": "Zavřít zásuvné moduly",
-  "Common.Views.Plugins.textLoading": "Načítání",
   "Common.Views.Plugins.textStart": "Spustit",
   "Common.Views.Plugins.textStop": "Zastavit",
   "Common.Views.Protection.hintAddPwd": "Šifrovat heslem",

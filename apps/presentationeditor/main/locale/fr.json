@@ -686,8 +686,6 @@
   "Common.Views.PluginDlg.textLoading": "Chargement",
   "Common.Views.Plugins.groupCaption": "Modules complémentaires",
   "Common.Views.Plugins.strPlugins": "Plug-ins",
-  "Common.Views.Plugins.textClosePanel": "Fermer le plugin",
-  "Common.Views.Plugins.textLoading": "Chargement",
   "Common.Views.Plugins.textStart": "Lancer",
   "Common.Views.Plugins.textStop": "Arrêter",
   "Common.Views.Protection.hintAddPwd": "Chiffrer avec mot de passe",

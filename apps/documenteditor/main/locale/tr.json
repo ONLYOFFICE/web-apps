@@ -394,8 +394,6 @@
   "Common.Views.PluginDlg.textLoading": "Yükleniyor",
   "Common.Views.Plugins.groupCaption": "Eklentiler",
   "Common.Views.Plugins.strPlugins": "Plugin",
-  "Common.Views.Plugins.textClosePanel": "Eklentiyi kapat",
-  "Common.Views.Plugins.textLoading": "Yükleniyor",
   "Common.Views.Plugins.textStart": "Başlat",
   "Common.Views.Plugins.textStop": "Bitir",
   "Common.Views.Protection.hintAddPwd": "Parola ile şifreleyin",

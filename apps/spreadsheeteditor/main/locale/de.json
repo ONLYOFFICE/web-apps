@@ -528,8 +528,6 @@
   "Common.Views.PluginDlg.textLoading": "Ladevorgang",
   "Common.Views.Plugins.groupCaption": "Plugins",
   "Common.Views.Plugins.strPlugins": "Plugins",
-  "Common.Views.Plugins.textClosePanel": "Plugin schließen",
-  "Common.Views.Plugins.textLoading": "Ladevorgang",
   "Common.Views.Plugins.textStart": "Starten",
   "Common.Views.Plugins.textStop": "Beenden",
   "Common.Views.Protection.hintAddPwd": "Mit Kennwort verschlüsseln",

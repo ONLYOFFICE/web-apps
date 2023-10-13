@@ -686,8 +686,6 @@
   "Common.Views.PluginDlg.textLoading": "Cargando",
   "Common.Views.Plugins.groupCaption": "Extensiones",
   "Common.Views.Plugins.strPlugins": "Extensiones",
-  "Common.Views.Plugins.textClosePanel": "Cerrar extensión",
-  "Common.Views.Plugins.textLoading": "Cargando",
   "Common.Views.Plugins.textStart": "Iniciar",
   "Common.Views.Plugins.textStop": "Detener",
   "Common.Views.Protection.hintAddPwd": "Cifrar con contraseña",

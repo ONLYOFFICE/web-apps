@@ -528,8 +528,6 @@
   "Common.Views.PluginDlg.textLoading": "载入中",
   "Common.Views.Plugins.groupCaption": "插件",
   "Common.Views.Plugins.strPlugins": "插件",
-  "Common.Views.Plugins.textClosePanel": "关闭插件",
-  "Common.Views.Plugins.textLoading": "载入中",
   "Common.Views.Plugins.textStart": "开始",
   "Common.Views.Plugins.textStop": "停止",
   "Common.Views.Protection.hintAddPwd": "用密码加密",

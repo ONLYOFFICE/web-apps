@@ -372,8 +372,6 @@
   "Common.Views.PluginDlg.textLoading": "Caricamento",
   "Common.Views.Plugins.groupCaption": "Plugin",
   "Common.Views.Plugins.strPlugins": "Plugin",
-  "Common.Views.Plugins.textClosePanel": "Chiudi plugin",
-  "Common.Views.Plugins.textLoading": "Caricamento",
   "Common.Views.Plugins.textStart": "Inizia",
   "Common.Views.Plugins.textStop": "Termina",
   "Common.Views.Protection.hintAddPwd": "Crittografa con password",

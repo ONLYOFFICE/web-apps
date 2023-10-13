@@ -528,8 +528,6 @@
   "Common.Views.PluginDlg.textLoading": "Загрузка",
   "Common.Views.Plugins.groupCaption": "Плагины",
   "Common.Views.Plugins.strPlugins": "Плагины",
-  "Common.Views.Plugins.textClosePanel": "Закрыть плагин",
-  "Common.Views.Plugins.textLoading": "Загрузка",
   "Common.Views.Plugins.textStart": "Запустить",
   "Common.Views.Plugins.textStop": "Остановить",
   "Common.Views.Protection.hintAddPwd": "Зашифровать с помощью пароля",

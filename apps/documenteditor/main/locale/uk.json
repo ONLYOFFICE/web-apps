@@ -391,8 +391,6 @@
   "Common.Views.PluginDlg.textLoading": "Завантаження",
   "Common.Views.Plugins.groupCaption": "Розширення",
   "Common.Views.Plugins.strPlugins": "Розширення",
-  "Common.Views.Plugins.textClosePanel": "Закрити розширення",
-  "Common.Views.Plugins.textLoading": "Завантаження",
   "Common.Views.Plugins.textStart": "Початок",
   "Common.Views.Plugins.textStop": "Зупинитись",
   "Common.Views.Protection.hintAddPwd": "Зашифрувати за допомогою пароля",

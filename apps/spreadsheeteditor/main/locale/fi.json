@@ -85,7 +85,6 @@
   "Common.Views.PasswordDialog.txtWarning": "Varoitus: Jos kadotat tai unohdat salasanan, sitä ei voi palauttaa. Säilytä sitä turvallisessa paikassa.",
   "Common.Views.PluginDlg.textLoading": "Ladataan",
   "Common.Views.Plugins.strPlugins": "Lisätoiminnot",
-  "Common.Views.Plugins.textLoading": "Ladataan",
   "Common.Views.Plugins.textStart": "Aloita",
   "Common.Views.Protection.hintSignature": "Lisää digitaalinen allekirjoitus tai",
   "Common.Views.Protection.txtAddPwd": "Lisää salasana",
