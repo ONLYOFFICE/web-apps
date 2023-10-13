@@ -1006,13 +1006,13 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
         },
 
         afterRender: function() {
+            this.updateMetricUnit();
+            this.updateThemeColors();
 
             this._setDefaults(this._originalProps);
             var colorstr = (typeof(this.paragraphShade) == 'object') ? this.paragraphShade.color : this.paragraphShade;
             this.BordersImage.setTableColor(colorstr);
             (colorstr!='transparent') &&this.BordersImage.redrawTable();
-            this.updateMetricUnit();
-            this.updateThemeColors();
             if (this.borderProps !== undefined) {
                 this.btnBorderColor.setColor(this.borderProps.borderColor);
                 this.btnBorderColor.setAutoColor(this.borderProps.borderColor=='auto');

@@ -657,6 +657,8 @@ define([
 
         afterRender: function() {
 
+            this.updateMetricUnit();
+            this.updateThemeColors();
 
             if (!this.isFrame) {
                 this.cmbFonts.fillFonts(this.fontStore);
@@ -668,8 +670,6 @@ define([
             this.tableStyler.setTableColor(colorstr);
             (colorstr!='transparent') && this.tableStyler.redrawTable();
 
-            this.updateMetricUnit();
-            this.updateThemeColors();
 
             if (this.borderProps !== undefined) {
                 this.btnBorderColor.setColor(this.borderProps.borderColor);

@@ -1067,6 +1067,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         },
 
         afterRender: function() {
+            this.updateMetricUnit();
+            this.updateThemeColors();
 
             this._setDefaults(this._originalProps);
             var cellcolorstr = (typeof(this.CellColor.Color) == 'object') ? this.CellColor.Color.color : this.CellColor.Color,
@@ -1079,9 +1081,6 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this.tableBordersImage.redrawTable();
                 this.tableBordersImageSpacing.redrawTable();
             }
-
-            this.updateMetricUnit();
-            this.updateThemeColors();
 
             if (this.borderProps !== undefined) {
                 this.btnBorderColor.setColor(this.borderProps.borderColor);
