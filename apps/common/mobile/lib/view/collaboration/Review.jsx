@@ -116,30 +116,30 @@ const PageReviewChange = inject("storeAppOptions")(observer(props => {
         <Page className='page-review'>
             <Navbar title={_t.textReviewChange} backLink={!props.noBack && _t.textBack}>
                 {Device.phone &&
-                <NavRight>
-                    <Link sheetClose=".coauth__sheet">
-                        <Icon icon='icon-expand-down'/>
-                    </Link>
-                </NavRight>
+                    <NavRight>
+                        <Link sheetClose=".coauth__sheet">
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
                 }
             </Navbar>
             <Toolbar position='bottom'>
                 <span className='change-buttons row'>
-                    {!props.isReviewOnly &&
+                    {(!props.isReviewOnly && !isProtected) &&
                         <span className='accept-reject row'>
                             <Link id='btn-accept-change'
                                   href='#'
-                                  className={(isLockAcceptReject || isProtected) && 'disabled'}
+                                  className={(isLockAcceptReject) && 'disabled'}
                                   onClick={() => {props.onAcceptCurrentChange()}}
                             >{_t.textAccept}</Link>
                             <Link id='btn-reject-change'
                                   href='#'
-                                  className={(isLockAcceptReject || isProtected) && 'disabled'}
+                                  className={(isLockAcceptReject) && 'disabled'}
                                   onClick={() => {props.onRejectCurrentChange()}}
                             >{_t.textReject}</Link>
                         </span>
                     }
-                    {props.isReviewOnly && change && change.editable &&
+                    {!props.isReviewOnly && change && change?.editable &&
                         <span className='delete'>
                             <Link href='#' id="btn-delete-change" onClick={() => {props.onDeleteChange()}}>{_t.textDelete}</Link>
                         </span>

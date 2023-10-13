@@ -122,9 +122,14 @@ define([
             Common.NotificationCenter.on('collaboration:sharing', this.changeAccessRights.bind(this));
             Common.NotificationCenter.on('collaboration:sharingdeny', this.onLostEditRights.bind(this));
             Common.NotificationCenter.on('protect:wslock', _.bind(this.onChangeProtectSheet, this));
+            Common.NotificationCenter.on('mentions:setusers', this.avatarsUpdate.bind(this));
 
-            this.userCollection.on('reset', _.bind(this.onUpdateUsers, this));
-            this.userCollection.on('add',   _.bind(this.onUpdateUsers, this));
+            this.userCollection.on({
+                add     : _.bind(this.onUpdateUsers, this),
+                change  : _.bind(this.onUpdateUsers, this),
+                reset   : _.bind(this.onUpdateUsers, this)
+            });
+
         },
         setConfig: function (data, api) {
             this.setApi(api);
@@ -238,7 +243,7 @@ define([
                     btnlock = this.isSelectedChangesLocked(changes, isShow);
                 }
                 if (this._state.lock !== btnlock) {
-                    Common.Utils.lockControls(Common.enumLock.reviewChangelock, btnlock, {array: [this.view.btnAccept, this.view.btnReject]});
+                    // Common.Utils.lockControls(Common.enumLock.reviewChangelock, btnlock, {array: [this.view.btnAccept, this.view.btnReject]});
                     this.dlgChanges && Common.Utils.lockControls(Common.enumLock.reviewChangelock, btnlock, {array: [this.dlgChanges.btnAccept, this.dlgChanges.btnReject]});
                     this._state.lock = btnlock;
                     Common.Utils.InternalSettings.set(this.appPrefix + "accept-reject-lock", btnlock);
@@ -322,7 +327,7 @@ define([
         // helpers
 
         readSDKChange: function (data) {
-            var me = this, arr = [];
+            var me = this, arr = [], arrIds = [];
             _.each(data, function(item) {
                 var changetext = '', proptext = '',
                     value = item.get_Value(),
@@ -508,11 +513,14 @@ define([
                 var date = (item.get_DateTime() == '') ? new Date() : new Date(item.get_DateTime()),
                     user = me.userCollection.findOriginalUser(item.get_UserId()),
                     isProtectedReview = me._state.docProtection.isReviewOnly,
+                    avatar = Common.UI.ExternalUsers.getImage(item.get_UserId()),
                     change = new Common.Models.ReviewChange({
                         uid         : Common.UI.getId(),
                         userid      : item.get_UserId(),
                         username    : item.get_UserName(),
                         usercolor   : (user) ? user.get('color') : null,
+                        initials    : Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(item.get_UserName())),
+                        avatar      : avatar,
                         date        : me.dateToLocaleTimeString(date),
                         changetext  : changetext,
                         id          : Common.UI.getId(),
@@ -528,7 +536,9 @@ define([
                     });
 
                 arr.push(change);
+                (avatar===undefined) && arrIds.push(item.get_UserId());
             });
+            arrIds.length && Common.UI.ExternalUsers.get('info', arrIds);
             return arr;
         },
 
@@ -582,7 +592,7 @@ define([
                     if (item.value === 'all') {
                         this.api.asc_AcceptAllChanges();
                     } else {
-                        this.api.asc_AcceptChangesBySelection(true); // accept and move to the next change
+                        this._state.lock ? this.api.asc_GetNextRevisionsChange() : this.api.asc_AcceptChangesBySelection(true); // accept and move to the next change
                     }
                 } else {
                     this.api.asc_AcceptChanges(menu);
@@ -597,7 +607,7 @@ define([
                     if (item.value === 'all') {
                         this.api.asc_RejectAllChanges();
                     } else {
-                        this.api.asc_RejectChangesBySelection(true); // reject and move to the next change
+                        this._state.lock ? this.api.asc_GetNextRevisionsChange() : this.api.asc_RejectChangesBySelection(true); // reject and move to the next change
                     }
                 } else {
                     this.api.asc_RejectChanges(menu);
@@ -1054,7 +1064,8 @@ define([
             if (data) {
                 this.document.info.sharingSettings = data.sharingSettings;
                 Common.NotificationCenter.trigger('collaboration:sharingupdate', data.sharingSettings);
-                Common.NotificationCenter.trigger('mentions:clearusers', this);
+                Common.NotificationCenter.trigger('mentions:clearusers', 'mention');
+                Common.NotificationCenter.trigger('mentions:clearusers', 'protect');
             }
         },
 
@@ -1068,6 +1079,16 @@ define([
             this.popoverChanges && this.popoverChanges.each(function (model) {
                 var user = users.findOriginalUser(model.get('userid'));
                 model.set('usercolor', (user) ? user.get('color') : null);
+                user && user.get('avatar') && model.set('avatar', user.get('avatar'));
+            });
+        },
+
+        avatarsUpdate: function(type, users) {
+            if (type!=='info') return;
+
+            this.popoverChanges && this.popoverChanges.each(function (model) {
+                var user = _.findWhere(users, {id: model.get('userid')})
+                user && (user.image!==undefined) && model.set('avatar', user.image);
             });
         },
 

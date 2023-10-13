@@ -254,12 +254,14 @@ define([
             if (dateTypes) {
                 var me = this,
                     isDays;
+                this.listDate.setMultiselectMode(dateTypes.length>1);
                 _.each(dateTypes, function(item) {
                     var rec = me.listDate.store.findWhere({type: item});
                     rec && me.listDate.selectRecord(rec);
                     if (item == Asc.c_oAscGroupBy.Days)
                         isDays = true;
                 });
+                this.listDate.setMultiselectMode(false);
                 this.spnDays.setValue(rangePr.asc_getGroupInterval());
                 this.spnDays.setDisabled(!isDays || dateTypes.length>1);
                 this.btnOk.setDisabled(dateTypes.length<1);

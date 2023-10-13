@@ -40,7 +40,7 @@ define([
 ], function () {
     'use strict';
 
-    var webapp = window.DE || window.PE || window.SSE;
+    var webapp = window.DE || window.PE || window.SSE || window.PDFE;
     var features = Object.assign({
                         version: '{{PRODUCT_VERSION}}',
                         eventloading: true,
@@ -108,12 +108,12 @@ define([
                 } else
                 if (/editor:config/.test(cmd)) {
                     if ( param == 'request' ) {
-                        if ( !!titlebuttons ) {
-                            var opts = {
-                                user: config.user,
-                                title: { buttons: [] }
-                            };
+                        var opts = {
+                            user: config.user,
+                            title: { buttons: [] }
+                        };
 
+                        if ( !!titlebuttons ) {
                             var header = webapp.getController('Viewport').getView('Common.Views.Header');
                             if ( header ) {
                                 for (var i in titlebuttons) {
@@ -127,6 +127,8 @@ define([
                             config.callback_editorconfig = function() {
                                 setTimeout(function(){window.on_native_message(cmd, param);},0);
                             }
+                        } else {
+                            native.execCommand('editor:config', JSON.stringify(opts));
                         }
                     }
                 } else
@@ -146,7 +148,7 @@ define([
                         window.RendererProcessVariable.theme.system = opts.theme.system;
 
                         if ( Common.UI.Themes.currentThemeId() == 'theme-system' )
-                            Common.UI.Themes.setTheme('theme-system');
+                            Common.UI.Themes.refreshTheme(true);
                     }
                 } else
                 if (/element:show/.test(cmd)) {
@@ -163,17 +165,18 @@ define([
                 if (/file:print/.test(cmd)) {
                     webapp.getController('Main').onPrint();
                 } else
-                if (/file:save/.test(cmd)) {
-                    webapp.getController('Main').api.asc_Save();
-                } else
                 if (/file:saveas/.test(cmd)) {
                     webapp.getController('Main').api.asc_DownloadAs();
+                } else
+                if (/file:save/.test(cmd)) {
+                    webapp.getController('Main').api.asc_Save();
                 }
             };
 
             window.on_native_message('editor:config', 'request');
             if ( !!window.native_message_cmd ) {
                 for ( var c in window.native_message_cmd ) {
+                    if (c == 'uitheme:changed') continue;
                     window.on_native_message(c, window.native_message_cmd[c]);
                 }
             }
@@ -461,7 +464,8 @@ define([
 
             const _is_win = /Win/.test(navigator.platform);
             const _re_name = !_is_win ? /([^/]+\.[a-zA-Z0-9]{1,})$/ : /([^\\/]+\.[a-zA-Z0-9]{1,})$/;
-            for ( let _f_ of rawarray ) {
+            for ( let i in rawarray ) {
+                const _f_ = rawarray[i];
                 if ( utils.matchFileFormat( _f_.type ) ) {
                     if (_re_name.test(_f_.path)) {
                         const name = _re_name.exec(_f_.path)[1],
@@ -484,6 +488,33 @@ define([
 
         const _onOpenRecent = function (menu, url, record) {
             console.log('open recent');
+        }
+
+        const _extend_menu_file = function (args) {
+            console.log('extend menu file')
+
+            // if ( native.features.opentemplate )
+            {
+                const filemenu = webapp.getController('LeftMenu').leftMenu.getMenu('file');
+                if ( filemenu.miNew.visible ) {
+                    const miNewFromTemplate = new Common.UI.MenuItem({
+                        el: $('<li id="fm-btn-create-fromtpl" class="fm-btn"></li>'),
+                        action: 'create:fromtemplate',
+                        caption: _tr('itemCreateFromTemplate', 'Create from template'),
+                        canFocused: false,
+                        dataHint: 1,
+                        dataHintDirection: 'left-top',
+                        dataHintOffset: [2, 14],
+                    });
+
+                    miNewFromTemplate.$el.insertAfter(filemenu.miNew.$el);
+                    filemenu.items.push(miNewFromTemplate);
+                }
+            }
+        }
+
+        const _tr = function (id, defvalue) {
+            return Common.Locale.get(id, {name:"Common.Controllers.Desktop", default: defvalue});
         }
 
         return {
@@ -523,10 +554,15 @@ define([
                                 if ( action == 'file:open' ) {
                                     native.execCommand('editor:event', JSON.stringify({action: 'file:open'}));
                                     menu.hide();
+                                } else
+                                if ( action == 'create:fromtemplate' ) {
+                                    native.execCommand('create:new', 'template:' + (!!window.SSE ? 'cell' : !!window.PE ? 'slide' : 'word'));
+                                    menu.hide();
                                 }
                             },
                             'settings:apply': _onApplySettings.bind(this),
                             'recent:open': _onOpenRecent.bind(this),
+                            'render:after': _extend_menu_file,
                         },
                     }, {id: 'desktop'});
 
@@ -607,6 +643,7 @@ define([
             systemThemeSupported: function () {
                 return nativevars.theme && nativevars.theme.system !== 'disabled';
             },
+
             localThemes: function () {
                 return nativevars ? nativevars.localthemes : undefined;
             },
@@ -618,7 +655,7 @@ define([
                     const params = {
                         name: Common.Utils.String.htmlDecode(model.get('title')),
                         path: Common.Utils.String.htmlDecode(model.get('url')),
-        };
+                    };
                     if ( model.get('fileid') != undefined && model.get('fileid') != null ) {
                         params.id = model.get('fileid');
                         params.type = model.type;
@@ -627,7 +664,7 @@ define([
                     }
 
                     native.execCommand("open:recent", JSON.stringify(params));
-                    return true
+                    return true;
                 }
 
                 return false;
@@ -754,6 +791,12 @@ define([
             return (t > utils.defines.FileFormat.FILE_SPREADSHEET &&
                     !(t > utils.defines.FileFormat.FILE_CROSSPLATFORM)) ||
                 t == utils.defines.FileFormat.FILE_CROSSPLATFORM_XPS;
+        } else
+        if ( window.PDFE ) {
+            return t == utils.defines.FileFormat.FILE_CROSSPLATFORM_PDFA ||
+                    t == utils.defines.FileFormat.FILE_CROSSPLATFORM_PDF ||
+                    t == utils.defines.FileFormat.FILE_CROSSPLATFORM_DJVU ||
+                    t ==  utils.defines.FileFormat.FILE_CROSSPLATFORM_XPS;
         }
 
         return false;

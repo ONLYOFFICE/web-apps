@@ -64,6 +64,7 @@ define([
                 'PE.Views.Animation': {
                     'animation:preview':            _.bind(this.onPreviewClick, this),
                     'animation:parameters':         _.bind(this.onParameterClick, this),
+                    'animation:parameterscolor':    _.bind(this.onSelectColor, this),
                     'animation:selecteffect':       _.bind(this.onEffectSelect, this),
                     'animation:delay':              _.bind(this.onDelayChange, this),
                     'animation:animationpane':      _.bind(this.onAnimationPane, this),
@@ -140,7 +141,7 @@ define([
         onAnimPreviewStarted: function () {
 
             this._state.playPreview = true;
-            this.view.btnPreview.setIconCls('toolbar__icon animation-preview-stop');
+            this.view.btnPreview.setIconCls('toolbar__icon btn-animation-preview-stop');
         },
         onAnimPreviewFinished: function ()
         {
@@ -150,19 +151,24 @@ define([
 
         onParameterClick: function (value, toggleGroup) {
             if(this.api && this.AnimationProperties) {
-                if(toggleGroup=='animateeffects') {
+                if(toggleGroup == 'animateeffects') {
                     this.AnimationProperties.asc_putSubtype(value);
                     this.api.asc_SetAnimationProperties(this.AnimationProperties);
                 }
-                else if(toggleGroup=='custompath') {
+                else if(toggleGroup == 'custompath') {
                     var groupName = _.findWhere(this.EffectGroups, {value: AscFormat.PRESET_CLASS_PATH}).id;
                     this.addNewEffect(AscFormat.MOTION_CUSTOM_PATH, AscFormat.PRESET_CLASS_PATH, groupName,true, value);
                 }
-                else {
+                else if(toggleGroup != 'themecolor') {
                     var groupName = _.findWhere(this.EffectGroups, {value: this._state.EffectGroup}).id;
                     this.addNewEffect(value, this._state.EffectGroup, groupName,true, this._state.EffectOption);
                 }
             }
+        },
+
+        onSelectColor: function (color){
+            var groupName = _.findWhere(this.EffectGroups, {value: this._state.EffectGroup}).id;
+            this.addNewEffect(this._state.Effect, this._state.EffectGroup, groupName,true, this._state.EffectOption, undefined, color);
         },
 
         onAnimationPane: function() {
@@ -194,9 +200,9 @@ define([
             }
         },
 
-        addNewEffect: function (type, group, groupName, replace, parametr, preview) {
+        addNewEffect: function (type, group, groupName, replace, parametr, preview, color) {
             var parameter = this.view.setMenuParameters(type, groupName, parametr);
-            this.api.asc_AddAnimation(group, type, (parameter != undefined)?parameter:0, replace, !Common.Utils.InternalSettings.get("pe-animation-no-auto-preview"));
+            this.api.asc_AddAnimation(group, type, (parameter != undefined)?parameter:0, color ? color : null, replace, !Common.Utils.InternalSettings.get("pe-animation-no-auto-preview"));
         },
 
         onDurationChange: function(before,combo, record, e) {
@@ -451,7 +457,9 @@ define([
                 if (this._state.EffectOption !== null && this._state.Effect !== AscFormat.ANIM_PRESET_MULTIPLE && this._state.Effect !== AscFormat.ANIM_PRESET_NONE) {
                     var rec = _.findWhere(this.EffectGroups,{value: this._state.EffectGroup});
                     view.setMenuParameters(this._state.Effect, rec ? rec.id : undefined, this._state.EffectOption);
-                    this._state.noAnimationParam = view.btnParameters.menu.items.length === 0;
+
+                    view.isColor  && view.setColor(this.AnimationProperties.asc_getColor());
+                    this._state.noAnimationParam = view.btnParameters.menu.items.length === view.startIndexParam && !view.isColor;
                 }
 
                 value = this.AnimationProperties.asc_getDuration();
@@ -570,6 +578,10 @@ define([
                 this.lockToolbar(Common.enumLock.noAnimationDuration, this._state.noAnimationDuration);
             if (this._state.timingLock != undefined)
                 this.lockToolbar(Common.enumLock.timingLock, this._state.timingLock);
+        },
+
+        updateThemeColors: function (){
+            this.view.updateColors();
         }
 
     }, PE.Controllers.Animation || {}));

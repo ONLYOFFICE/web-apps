@@ -364,8 +364,8 @@ define([
                 if (this.restoreMenuHeight) {
                     var $list = $(this.el).find('ul');
                     if (typeof this.restoreMenuHeight !== "number") {
-                        if ($list.hasClass('scrollable-menu')) {
-                            var maxHeight = parseFloat($list.css('max-height'));
+                        var maxHeight = parseFloat($list.css('max-height'));
+                        if ($list.hasClass('scrollable-menu') || maxHeight) {
                             this.restoreMenuHeight = maxHeight ? maxHeight : 100000;
                         } else {
                             this.restoreMenuHeight = 100000;

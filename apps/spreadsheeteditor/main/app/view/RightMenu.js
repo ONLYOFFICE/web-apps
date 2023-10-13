@@ -258,13 +258,15 @@ define([
         },
 
         setApi: function(api) {
+            var me = this;
             this.api = api;
             var _isEyedropperStart = function (isStart) {this._isEyedropperStart = isStart;};
+            var _updateScroller = function () {me.updateScroller();};
             this.paragraphSettings.setApi(api);
             this.imageSettings.setApi(api);
-            this.chartSettings.setApi(api);
-            this.shapeSettings.setApi(api).on('eyedropper', _.bind(_isEyedropperStart, this));
-            this.textartSettings.setApi(api).on('eyedropper', _.bind(_isEyedropperStart, this));
+            this.chartSettings.setApi(api).on('updatescroller', _updateScroller);
+            this.shapeSettings.setApi(api).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
+            this.textartSettings.setApi(api).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
             this.tableSettings.setApi(api);
             this.pivotSettings.setApi(api);
             this.cellSettings.setApi(api).on('eyedropper', _.bind(_isEyedropperStart, this));
@@ -346,6 +348,13 @@ define([
             $(this.el).width(SCALE_MIN);
             this.minimizedMode = true;
             Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+        },
+
+        updateScroller: function() {
+            if (this.scroller) {
+                this.scroller.update();
+                this.scroller.scrollTop(0);
+            }
         },
 
         txtParagraphSettings:       'Paragraph Settings',

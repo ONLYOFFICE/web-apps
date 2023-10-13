@@ -26,8 +26,18 @@
     "iconv-lite": "^0.6.3",
     "less-plugin-clean-css": "1.5.1",
     "lodash": "^4.17.21",
-    "terser": "^5.18.0",
-    "vinyl-fs": "^3.0.3"
+    "terser": "^5.20.0",
+    "vinyl-fs": "^4.0.0"
+  },
+  "overrides": {
+    "http-cache-semantics": "4.1.1",
+    "css-select": "4.3.0",
+    "semver-regex": "3.1.3",
+    "trim-newlines": "3.0.1",
+    "mkdirp": "0.5.6",
+    "less-plugin-clean-css@1.5.1": {
+      "clean-css": "4.1.11"
+    }
   },
   "devDependencies": {
     "chai": "^4.3.7",

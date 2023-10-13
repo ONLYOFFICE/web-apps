@@ -83,7 +83,7 @@
                     </div>
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-copystyle"></span>
-                        <span class="btn-slot" id="slot-btn-mailrecepients" data-layout-name="toolbar-home-mailmerge"></span>
+                        <span class="btn-slot split" id="slot-btn-mailrecepients" data-layout-name="toolbar-home-mailmerge"></span>
                     </div>
                 </div>
                 <div class="separator long invisible"></div>
@@ -142,6 +142,7 @@
                     <span class="btn-slot text x-huge" id="slot-btn-columns"></span>
                     <span class="btn-slot text x-huge btn-pagebreak"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-line-numbers"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-hyphenation"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">

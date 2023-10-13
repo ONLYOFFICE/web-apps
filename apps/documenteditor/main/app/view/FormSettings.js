@@ -142,6 +142,14 @@ define([
             this.cmbKey.on('changed:after', this.onKeyChanged.bind(this));
             this.cmbKey.on('hide:after', this.onHideMenus.bind(this));
 
+            var showtip = function() {
+                Common.NotificationCenter.trigger('forms:close-help', 'key', true);
+                me.cmbKey.off('show:before', showtip);
+                me.cmbKey.off('combo:focusin', showtip);
+            };
+            me.cmbKey.on('show:before', showtip);
+            me.cmbKey.on('combo:focusin', showtip);
+
             this.txtPlaceholder = new Common.UI.InputField({
                 el          : $markup.findById('#form-txt-pholder'),
                 allowBlank  : true,
@@ -374,6 +382,14 @@ define([
             this.cmbGroupKey.on('selected', this.onGroupKeyChanged.bind(this));
             this.cmbGroupKey.on('changed:after', this.onGroupKeyChanged.bind(this));
             this.cmbGroupKey.on('hide:after', this.onHideMenus.bind(this));
+
+            var showGrouptip = function() {
+                Common.NotificationCenter.trigger('forms:close-help', 'group-key', true);
+                me.cmbGroupKey.off('show:before', showGrouptip);
+                me.cmbGroupKey.off('combo:focusin', showGrouptip);
+            };
+            me.cmbGroupKey.on('show:before', showGrouptip);
+            me.cmbGroupKey.on('combo:focusin', showGrouptip);
 
             // combobox & dropdown list
             this.txtNewValue = new Common.UI.InputField({
@@ -1634,8 +1650,10 @@ define([
                 this.TextOnlySettingsRegExp.toggleClass('hidden', !(type === Asc.c_oAscContentControlSpecificType.None && !!formTextPr) || this._state.FormatType!==Asc.TextFormFormatType.RegExp);
                 if (this.type !== type || this.isSimpleInsideComplex !== isSimpleInsideComplex || needUpdateTextControls || type == Asc.c_oAscContentControlSpecificType.CheckBox)
                     this.showHideControls(type, formTextPr, specProps, isSimpleInsideComplex);
+                if (this.type !== type || this.isSimpleInsideComplex !== isSimpleInsideComplex)
+                    this.fireEvent('updatescroller', this);
                 this.type = type;
-                this._state.isSimpleInsideComplex = isSimpleInsideComplex;
+                this.isSimpleInsideComplex = isSimpleInsideComplex;
 
                 this._state.internalId = this.internalId;
             }

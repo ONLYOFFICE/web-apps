@@ -39,6 +39,20 @@
       "textCustomColors": "Kolore pertsonalizatuak",
       "textStandartColors": "Kolore estandarrak",
       "textThemeColors": "Gaiaren koloreak"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Abisua",
+      "textAnonymous": "Anonimoa",
+      "textBack": "Atzera",
+      "textCancel": "Utzi",
+      "textCurrent": "Unekoa",
+      "textOk": "Ados",
+      "textRestore": "Berrezarri",
+      "textVersion": "Bertsioa",
+      "textVersionHistory": "Bertsioen historia",
+      "textWarningRestoreVersion": "Uneko fitxategia bertsioen historian gordeko da.",
+      "titleWarningRestoreVersion": "Bertsio hau berrezarri?",
+      "txtErrorLoadHistory": "Huts egin du historia kargatzeak"
     }
   },
   "ContextMenu": {
@@ -151,6 +165,7 @@
       "textNo": "Ez",
       "textNoChoices": "Ez dago aukerarik gelaxka betetzeko.<br>Zutabeko testu-balioak soilik aukera daitezke ordezkapenerako.",
       "textNoLicenseTitle": "Lizentziaren mugara iritsi zara",
+      "textNoMatches": "Ez dago bat datorrenik",
       "textOk": "Ados",
       "textPaidFeature": "Ordainpeko ezaugarria",
       "textRemember": "Gogoratu nire aukera",
@@ -164,6 +179,7 @@
       "titleLicenseNotActive": "Lizentzia ez dago aktibo",
       "titleServerVersion": "Editorea eguneratu da",
       "titleUpdateVersion": "Bertsioa aldatu da",
+      "warnLicenseAnonymous": "Sarbidea debekatuta erabiltzaile anonimoentzat.<br>Irakurtzeko soilik irekiko da dokumentu hau.",
       "warnLicenseBefore": "Lizentzia ez dago aktibo.<br>Jarri zure administratzailearekin harremanetan.",
       "warnLicenseExceeded": "Aldibereko %1 editoreren konexio-mugara iritsi zara. Dokumentu hau bistaratzeko bakarrik irekiko da. Jarri harremanetan administratzailearekin informazio gehiago lortzeko.",
       "warnLicenseExp": "Zure lizentzia iraungi da. Mesedez, eguneratu zure lizentzia eta freskatu orria.",
@@ -172,9 +188,7 @@
       "warnLicenseUsersExceeded": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan zure administratzailearekin informazio gehiagorako.",
       "warnNoLicense": "Aldibereko konexioen mugara iritsi zara %1 editorerekin. Dokumentu hau bere bistaratzerako bakarrik irekiko da. Jarri harremanetan  %1 salmenta taldearekin eguneraketa pertsonalaren baldintzak jakiteko.",
       "warnNoLicenseUsers": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan %1 salmenta taldearekin mailaz igotzeko baldintzak ezagutzeko.",
-      "warnProcessRightsChange": "Ez duzu baimenik fitxategia editatzeko.",
-      "textNoMatches": "No Matches",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
+      "warnProcessRightsChange": "Ez duzu baimenik fitxategia editatzeko."
     }
   },
   "Error": {
@@ -234,6 +248,7 @@
     "errorOperandExpected": "Sartutako funtzioaren sintaxia ez da zuzena. Mesedez, egiaztatu parentesietako bat falta den - '(' edo ')'.",
     "errorPasteMaxRange": "Kopiatu eta itsasteko eremua ez dator bat. Mesedez, hautatu tamaina bereko eremu bat edo egin klik lerro bateko lehenengo gelaxkan, kopiatutako gelaxkak itsasteko.",
     "errorPrintMaxPagesCount": "Zoritxarrez, ezin dira 1.500 orri baino gehiago inprimatu programaren egungo bertsioan.<br> Murrizketa hori hurrengo bertsioetan ezabatuko da.",
+    "errorProtectedRange": "Barruti hau ezin da editatu.",
     "errorSessionAbsolute": "Dokumentua editatzeko saioa amaitu da. Mesedez, kargatu berriro orria",
     "errorSessionIdle": "Dokumentua ez da editatu denbora luzean. Mesedez, ireki berriz.",
     "errorSessionToken": "Zerbitzarira konexioa eten egin da. Mesedez, birkargatu orria.",
@@ -259,7 +274,42 @@
     "uploadImageExtMessage": "Irudi formatu ezezaguna.",
     "uploadImageFileCountMessage": "Ez da irudirik kargatu.",
     "uploadImageSizeMessage": "Irudia handiegia da. Gehienezko tamaina 25 MB da.",
-    "errorProtectedRange": "This range is not allowed for editing."
+    "errNoDuplicates": "No duplicate values found.",
+    "errorCannotUngroup": "Cannot ungroup. To start an outline, select the detail rows or columns and group them.",
+    "errorChangeFilteredRange": "This will change a filtered range on your worksheet.<br>To complete this task, please remove AutoFilters.",
+    "errorComboSeries": "To create a combination chart, select at least two series of data.",
+    "errorDeleteColumnContainsLockedCell": "You are trying to delete a column that contains a locked cell. Locked cells cannot be deleted while the worksheet is protected.<br>To delete a locked cell, unprotect the sheet. You might be requested to enter a password.",
+    "errorDeleteRowContainsLockedCell": "You are trying to delete a row that contains a locked cell. Locked cells cannot be deleted while the worksheet is protected.<br>To delete a locked cell, unprotect the sheet. You might be requested to enter a password.",
+    "errorDependentsNoFormulas": "The Trace Dependents command found no formulas that refer to the active cell.",
+    "errorEditView": "The existing sheet view cannot be edited and the new ones cannot be created at the moment as some of them are being edited.",
+    "errorEmailClient": "No email client could be found",
+    "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
+    "errorFTChangeTableRangeError": "Operation could not be completed for the selected cell range.<br>Select a range so that the first table row was on the same row<br>and the resulting table overlapped the current one.",
+    "errorFTRangeIncludedOtherTables": "Operation could not be completed for the selected cell range.<br>Select a range which does not include other tables.",
+    "errorLabledColumnsPivot": "To create a pivot table report, you must use data that is organized as a list with labeled columns.",
+    "errorLocationOrDataRangeError": "The reference for the location or data range is not valid.",
+    "errorMaxRows": "ERROR! The maximum number of data series per chart is 255.",
+    "errorMoveSlicerError": "Table slicers cannot be copied from one workbook to another.<br>Try again by selecting the entire table and the slicers.",
+    "errorNoDataToParse": "No data was selected to parse.",
+    "errorPasteMultiSelect": "This action cannot be done on a multiple range selection.<br>Select a single range and try again.",
+    "errorPasteSlicerError": "Table slicers cannot be copied from one workbook to another.",
+    "errorPivotGroup": "Cannot group that selection.",
+    "errorPivotOverlap": "A pivot table report cannot overlap a table.",
+    "errorPivotWithoutUnderlying": "The Pivot Table report was saved without the underlying data.<br>Use the 'Refresh' button to update the report.",
+    "errorPrecedentsNoValidRef": "The Trace Precedents command requires that the active cell contain a formula which includes a valid references.",
+    "errorSetPassword": "Password could not be set.",
+    "errorSingleColumnOrRowError": "Location reference is not valid because the cells are not all in the same column or row.<br>Select cells that are all in a single column or row.",
+    "errRemDuplicates": "Duplicate values found and deleted: {0}, unique values left: {1}.",
+    "textClose": "Close",
+    "textFillOtherRows": "Fill other rows",
+    "textFormulaFilledAllRows": "Formula filled {0} rows have data. Filling other empty rows may take a few minutes.",
+    "textFormulaFilledAllRowsWithEmpty": "Formula filled first {0} rows. Filling other empty rows may take a few minutes.",
+    "textFormulaFilledFirstRowsOtherHaveData": "Formula filled only first {0} rows have data by memory save reason. There are other {1} rows have data in this sheet. You can fill them manually.",
+    "textFormulaFilledFirstRowsOtherIsEmpty": "Formula filled only first {0} rows by memory save reason. Other rows in this sheet don't have data.",
+    "textInformation": "Information",
+    "uploadDocExtMessage": "Unknown document format.",
+    "uploadDocFileCountMessage": "No documents uploaded.",
+    "uploadDocSizeMessage": "Maximum document size limit exceeded."
   },
   "LongActions": {
     "advDRMPassword": "Pasahitza",
@@ -334,7 +384,8 @@
     "dlgLeaveMsgText": "Gorde gabeko aldaketak dituzu dokumentu honetan. Egin klik \"Jarraitu orri honetan\" gordetze automatikoari itxaroteko. Egin klik \"Utzi orri hau\" gorde gabeko aldaketa guztiak baztertzeko.",
     "dlgLeaveTitleText": "Aplikazioa uzten duzu",
     "leaveButtonText": "Orritik irten",
-    "stayButtonText": "Jarraitu orrian"
+    "stayButtonText": "Jarraitu orrian",
+    "textCloseHistory": "Itxi historia"
   },
   "View": {
     "Add": {
@@ -377,6 +428,7 @@
       "textLinkType": "Esteka mota",
       "textOk": "Ados",
       "textOther": "Beste bat",
+      "textPasteImageUrl": "Itsatsi irudiaren URLa",
       "textPictureFromLibrary": "Irudia liburutegitik",
       "textPictureFromURL": "Irudia URL-tik",
       "textRange": "Barrutia",
@@ -396,8 +448,7 @@
       "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa",
       "txtSorting": "Antolaketa",
       "txtSortSelected": "Antolatu hautaturiko objetuak",
-      "txtYes": "Bai",
-      "textPasteImageUrl": "Paste an image URL"
+      "txtYes": "Bai"
     },
     "Edit": {
       "notcriticalErrorTitle": "Abisua",
@@ -439,10 +490,14 @@
       "textChartTitle": "Diagramaren titulua",
       "textClearFilter": "Garbitu iragazkia",
       "textColor": "Kolorea",
+      "textCreateCustomFormat": "Sortu formatu pertsonalizatua",
+      "textCreateFormat": "Sortu formatua",
       "textCross": "Gurutzatua",
       "textCrossesValue": "Gurutze-balioa",
       "textCurrency": "Moneta",
       "textCustomColor": "Kolore pertsonalizatua",
+      "textCustomFormat": "Formatu pertsonalizatua",
+      "textCustomFormatWarning": "Kontuz idatzi zenbaki-formatu pertsonalizatua. Kalkulu-orrien editorean ez ditu xlsx fitxategiari eragin diezaioketen formatu pertsonalizatuetako erroreak egiaztatzen.",
       "textDataLabels": "Datu-etiketak",
       "textDate": "Data",
       "textDefault": "Hautaturiko eremua",
@@ -460,6 +515,7 @@
       "textEffects": "Efektuak",
       "textEmptyImgUrl": "Irudiaren URLa zehaztu behar duzu.",
       "textEmptyItem": "{Hutsak}",
+      "textEnterFormat": "Sartu formatua",
       "textErrorMsg": "\nGutxienez balio bat aukeratu behar duzu",
       "textErrorTitle": "Abisua",
       "textEuro": "Euro",
@@ -549,6 +605,7 @@
       "textRotateTextDown": "Biratu testua behera",
       "textRotateTextUp": "Biratu testua gora",
       "textRouble": "Errubloa",
+      "textSave": "Gorde",
       "textScientific": "Zientifikoa",
       "textScreenTip": "Pantailako aholkua",
       "textSelectAll": "Hautatu denak",
@@ -583,13 +640,7 @@
       "textYen": "Yen",
       "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa",
       "txtSortHigh2Low": "Antolatu handienetik txikienera",
-      "txtSortLow2High": "Antolatu txikienetik handienera",
-      "textCustomFormat": "Custom Format",
-      "textCreateFormat": "Create Format",
-      "textCreateCustomFormat": "Create Custom Format",
-      "textSave": "Save",
-      "textEnterFormat": "Enter Format",
-      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
+      "txtSortLow2High": "Antolatu txikienetik handienera"
     },
     "Settings": {
       "advCSVOptions": "Hautatu CSV aukerak",
@@ -658,6 +709,7 @@
       "textMargins": "Marjinak",
       "textMatchCase": "Bat etorri maiuskulak eta minuskulak",
       "textMatchCell": "Bat etorri gelaxkan",
+      "textNoMatches": "Ez dago bat datorrenik",
       "textOk": "Ados",
       "textOpenFile": "Idatzi pasahitza fitxategia irekitzeko",
       "textOrientation": "Orientazioa",
@@ -692,6 +744,7 @@
       "textUploaded": "Kargatuta",
       "textValues": "Balioak",
       "textVersion": "Bertsioa",
+      "textVersionHistory": "Bertsioen historia",
       "textWorkbook": "Laneko liburua",
       "txtBe": "Bielorrusiera",
       "txtBg": "Bulgariera",
@@ -758,8 +811,7 @@
       "txtUk": "Ukrainera",
       "txtVi": "Vietnamera",
       "txtZh": "Txinera",
-      "warnDownloadAs": "Formatu honetan gordetzen baduzu, testua ez diren ezaugarri guztiak galduko dira.<br> Ziur zaude aurrera jarraitu nahi duzula?",
-      "textNoMatches": "No Matches"
+      "warnDownloadAs": "Formatu honetan gordetzen baduzu, testua ez diren ezaugarri guztiak galduko dira.<br> Ziur zaude aurrera jarraitu nahi duzula?"
     }
   }
 }

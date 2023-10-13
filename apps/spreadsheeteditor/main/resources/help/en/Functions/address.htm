@@ -4,7 +4,7 @@
 		<title>ADDRESS Function</title>
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
-		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
 		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
@@ -17,11 +17,11 @@
 			<h1>ADDRESS Function</h1>
 			<p>The <b>ADDRESS</b> function is one of the lookup and reference functions. It is used to return a text representation of a cell address.</p>
 			<p>The <b>ADDRESS</b> function syntax is:</p> 
-			<p style="text-indent: 150px;"><b><em>ADDRESS(row-number, col-number[ , [ref-type] [, [A1-ref-type-flag] [, sheet name]]])</em></b></p> 
+			<p style="text-indent: 150px;"><b><em>ADDRESS(row_num, column_num, [abs_num], [a1], [sheet_text])</em></b></p> 
 			<p><em>where</em></p> 
-			<p style="text-indent: 50px;"><em><b>row-number</b></em> is a row number to use in a cell address.</p>
-			<p style="text-indent: 50px;"><em><b>col-number</b></em> is a column number to use in a cell address.</p>
-			<p style="text-indent: 50px;"><em><b>ref-type</b></em> is a type of reference. It can be one of the following numeric values:</p>
+			<p style="text-indent: 50px;"><em><b>row_num</b></em> is a row number to use in a cell address.</p>
+			<p style="text-indent: 50px;"><em><b>column_num</b></em> is a column number to use in a cell address.</p>
+			<p style="text-indent: 50px;"><em><b>abs_num</b></em> is a type of reference. It can be one of the following numeric values:</p>
 				<table style="width: 40%">
 				<tr>
 					<td><b>Numeric value</b></td>
@@ -44,8 +44,8 @@
 					<td>Relative referencing</td>
 				</tr>
 			</table>
-			<p><em><b>A1-ref-type-flag</b></em> is an optional logical value: TRUE or FALSE. If it is set to TRUE or omitted, the function will return an A1-style reference. If it is set to FALSE, the function will return an R1C1-style reference.</p>
-			<p><em><b>sheet name</b></em> is the name of the sheet to use in a cell address. It's an optional value. If it is omitted, the function will return the cell address without the sheet name indicated.</p>
+			<p><em><b>a1</b></em> is an optional logical value: TRUE or FALSE. If it is set to TRUE or omitted, the function will return an A1-style reference. If it is set to FALSE, the function will return an R1C1-style reference.</p>
+			<p><em><b>sheet_text</b></em> is the name of the sheet to use in a cell address. It's an optional value. If it is omitted, the function will return the cell address without the sheet name indicated.</p>
 			<p>These arguments can be entered manually or included into the cells you make reference to.</p>
 			<p>To apply the <b>ADDRESS</b> function,</p>
 			<ol>

@@ -152,6 +152,7 @@
   "DE.Controllers.ApplicationController.uploadImageExtMessage": "Ismeretlen képformátum.",
   "DE.Controllers.ApplicationController.uploadImageSizeMessage": "A kép túl nagy. A maximális méret 25 MB.",
   "DE.Controllers.ApplicationController.waitText": "Kérjük, várjon...",
+  "DE.Controllers.ApplicationController.warnLicenseAnonymous": "Hozzáférés ismeretlen felhasználóknak megtagadva<br>Ez a dokumentum csak olvasásra nyílik meg.",
   "DE.Controllers.ApplicationController.warnLicenseBefore": "A licenc nem aktív.<br>Kérjük, forduljon rendszergazdájához.",
   "DE.Controllers.ApplicationController.warnLicenseExceeded": "Elérte a(z) %1 szerkesztőhöz tartozó egyidejű csatlakozás korlátját. Ez a dokumentum csak megtekintésre nyílik meg.<br>További információért forduljon rendszergazdájához.",
   "DE.Controllers.ApplicationController.warnLicenseExp": "A licence lejárt.<br>Kérem frissítse a licencét, majd az oldalt.",

@@ -501,6 +501,20 @@
 			"na": "#N/A",
 			"getdata": "#GETTING_DATA",
 			"uf": "#UNSUPPORTED_FUNCTION!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "ທີ່ຢູ່",
+			"col": "ຖັນ",
+			"color": "ສີ",
+			"contents": "ເນື້ອຫາ",
+			"filename": "ຊື່ຟາຍ",
+			"format": "ຮູບແບບ",
+			"parentheses": "ວົງເລັບ",
+			"prefix": "ຄຳນຳໜ້າ",
+			"protect": "ການປ້ອງກັນ",
+			"row": "ແຖວ",
+			"type": "ພິມ",
+			"width": "ລວງກວ້າງ"
 		}
 	}
 }

@@ -405,8 +405,8 @@ define([
 
             this.rendered = true;
 
-            this.cmpEl.on('click', function(e){
-                if (/dataview/.test(e.target.className)) return false;
+            (this.$el || $(this.el)).on('click', function(e){
+                if (/dataview|grouped-data|group-items-container/.test(e.target.className) || $(e.target).closest('.group-description').length>0) return false;
             });
 
             this.trigger('render:after', this);
@@ -705,6 +705,14 @@ define([
 
             window._event = e;  //  for FireFox only
 
+            if(this.multiSelect) {
+                if (e && e.ctrlKey) {
+                    this.pressedCtrl = true;
+                } else if (e && e.shiftKey) {
+                    this.pressedShift = true;
+                }
+            }
+
             if (this.showLast) {
                 if (!this.delaySelect) {
                     this.selectRecord(record);
@@ -995,6 +1003,10 @@ define([
             this._layoutParams.columns++;
         },
 
+        setMultiselectMode: function (multiselect) {
+            this.pressedCtrl = !!multiselect;
+        },
+
         onResize: function() {
             this._layoutParams = undefined;
         },
@@ -1131,8 +1143,8 @@ define([
 
             this.rendered = true;
 
-            this.cmpEl.on('click', function(e){
-                if (/dataview/.test(e.target.className)) return false;
+            (this.$el || $(this.el)).on('click', function(e){
+                if (/dataview|grouped-data|group-items-container/.test(e.target.className) || $(e.target).closest('.group-description').length>0) return false;
             });
 
             this.trigger('render:after', this);
