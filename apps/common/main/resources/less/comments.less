@@ -169,6 +169,19 @@
         padding: 0px 20px 10px 20px;
     }
 
+    .user-info {
+        display: flex;
+        padding-top: 10px;
+        .padding-right(65px);
+    }
+
+    .user-info-text {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
     .user-name {
         color: @text-normal-ie;
         color: @text-normal;
@@ -177,25 +190,29 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        padding: 10px 65px 0 0px;
-        height: 26px;
         cursor: default;
-
-        .rtl & {
-            padding: 10px 0px 0 65px;
-        }
     }
 
     .color {
-        width: 12px;
-        height: 12px;
-        border: @scaled-one-px-value-ie solid @border-toolbar-ie;
-        border: @scaled-one-px-value solid @border-toolbar;
-        margin: 0 5px 3px 0;
+        display: inline-block;
+        width: 26px;
+        height: 26px;
+        border-radius: 20px;
+        border-width: @scaled-two-px-value;
+        margin-right: 8px;
         vertical-align: middle;
+        background-color: #ffffff;
+        background-size: cover;
+        background-position: center;
+
+        text-align: center;
+        line-height: 26px;
+        color: #ffffff;
+        font-weight: 700;
 
         .rtl & {
-            margin: 0 0 3px 5px;
+            margin-right: 0px;
+            margin-left: 8px;
         }
     }
 
@@ -438,7 +455,7 @@
     }
 
     .inner-edit-ct {
-        padding: 7px 0px 0px 0px;
+        padding: 10px 0px 0px 0px;
 
         .btn-inner-close {
             .margin-left-7();
@@ -463,6 +480,10 @@
         height: 16px;
         margin-top: 10px;
         position: absolute;
+
+        .rtl & {
+            transform: scale(-1, 1);
+        }
     }
 
     .lock-area {

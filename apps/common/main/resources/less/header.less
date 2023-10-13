@@ -400,6 +400,10 @@
         background-color: @icon-toolbar-header;
         color: @toolbar-header-text-on-background-ie;
         color: @toolbar-header-text-on-background;
+        vertical-align: middle;
+        background-size: cover;
+        background-position: center;
+
         font-size: 10px;
         line-height: 20px;
         overflow: hidden;
@@ -445,24 +449,34 @@
 
             li {
                 list-style: none;
-                padding: 2px 0;
+                margin-top: 12px;
                 overflow: hidden;
 
                 &.offline, &.viewmode {
                     display: none;
                 }
             }
+
+            li:first-child {
+                margin-top: 0px;
+            }
         }
 
         .color {
-            width: 12px;
-            height: 12px;
+            width: 26px;
+            height: 26px;
+            border-radius: 20px;
+            border-width: @scaled-two-px-value;
             display: inline-block;
             vertical-align: middle;
-            border: @scaled-one-px-value solid @border-toolbar;
-            .margin-right-5();
-            margin-top: 0;
-            margin-bottom: 2px;
+            background-color: #ffffff;
+            background-size: cover;
+            background-position: center;
+            .margin-right-8();
+
+            line-height: 26px;
+            color: #ffffff;
+            text-align: center;
         }
 
         .user-name {

@@ -87,6 +87,7 @@
                     id: 'user id',
                     name: 'user name',
                     group: 'group name' // for customization.reviewPermissions or permissions.reviewGroups or permissions.commentGroups. Can be multiple groups separated by commas (,) : 'Group1' or 'Group1,Group2'
+                    image: 'image url'
                 },
                 recent: [
                     {
