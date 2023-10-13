@@ -81,11 +81,11 @@ class AddLinkController extends Component {
         return (
             !this.props.isNavigate ?
                 Device.phone ?
-                    <Popup id="add-link-popup" onPopupClosed={() => this.props.onClosed('add-link')}>
+                    <Popup id="add-link-popup" onPopupClosed={() => this.props.closeOptions('add-link')}>
                         <PageAddLink closeModal={this.closeModal} onInsertLink={this.onInsertLink} getDisplayLinkText={this.getDisplayLinkText} isNavigate={this.props.isNavigate} />
                     </Popup>
                 :
-                    <Popover id="add-link-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => this.props.onClosed('add-link')}>
+                    <Popover id="add-link-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => this.props.closeOptions('add-link')}>
                         <View style={{height: '410px'}}>
                             <PageAddLink closeModal={this.closeModal} onInsertLink={this.onInsertLink} getDisplayLinkText={this.getDisplayLinkText} isNavigate={this.props.isNavigate}/>
                         </View>

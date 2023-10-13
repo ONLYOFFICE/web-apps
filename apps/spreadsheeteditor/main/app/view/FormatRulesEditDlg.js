@@ -543,7 +543,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                                     {caption: '--'},
                                     {
                                         id: "format-rules-borders-menu-new-bordercolor",
-                                        template: _.template('<a tabindex="-1" type="menuitem" style="padding-left:12px;">' + this.textNewColor + '</a>'),
+                                        template: _.template('<a tabindex="-1" type="menuitem" style="' + (Common.UI.isRTL() ? 'padding-right: 12px;': 'padding-left: 12px;') + '">' + this.textNewColor + '</a>'),
                                         stopPropagation: true
                                     }
                                 ]
@@ -611,8 +611,8 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 _.template([
                     '<% _.each(items, function(item) { %>',
                     '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem">',
-                    '<div class="item-container"><div class="name"><%= scope.getDisplayValue(item) %></div>',
-                    '<div class="example"><%= item.exampleval ? item.exampleval : "" %></div>',
+                    '<div style="position: relative;"><div class="display-value"><%= scope.getDisplayValue(item) %></div>',
+                    '<div class="example-val"><%= item.exampleval ? item.exampleval : "" %></div>',
                     '</div></a></li>',
                     '<% }); %>'
                     // ,'<li class="divider">',

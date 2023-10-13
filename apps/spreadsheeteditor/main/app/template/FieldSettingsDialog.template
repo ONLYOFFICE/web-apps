@@ -29,8 +29,13 @@
                 </td>
             </tr>
             <tr>
-                <td class="padding-large">
+                <td class="padding-small">
                     <div id="field-settings-chk-compact" class="margin-left-20"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="field-settings-numformat" style="width:128px;"></div>
                 </td>
             </tr>
             <tr>

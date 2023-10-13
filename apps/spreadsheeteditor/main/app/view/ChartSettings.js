@@ -145,7 +145,10 @@ define([
                 chartSettings = isChart ? this.api.asc_getChartObject(true) : null, // don't lock chart object
                 props3d = chartSettings ? chartSettings.getView3d() : null;
 
-            this.ShowHideElem(isChart, !!props3d);
+            if ( this.isChart!==isChart || this._state.is3D!==!!props3d ) {
+                this.ShowHideElem(isChart, !!props3d);
+            }
+            this._state.is3D=!!props3d;
             this.disableControls(this._locked);
 
             if (this.api && props){
@@ -728,7 +731,7 @@ define([
                     allowScrollbar: false,
                     groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getSparkGroupData()),
                     store: new Common.UI.DataViewStore(Common.define.chartData.getSparkData()),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>'),
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>'),
                     delayRenderTips: true
                 });
             });
@@ -1046,6 +1049,7 @@ define([
             this.SparkTypesContainer.toggleClass('settings-hidden', isChart);
             this.SparkPointsContainer.toggleClass('settings-hidden', isChart);
             this.Chart3DContainer.toggleClass('settings-hidden', !isChart || !is3D);
+            this.fireEvent('updatescroller', this);
         },
 
         ShowCombinedProps: function(type) {

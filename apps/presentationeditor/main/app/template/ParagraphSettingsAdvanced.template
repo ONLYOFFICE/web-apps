@@ -63,7 +63,7 @@
                 <td class="padding-small">
                     <div id="paragraphadv-checkbox-strike"></div>
                 </td>
-                <td class="padding-small padding-left">
+                <td class="padding-small padding-left-40">
                     <div id="paragraphadv-checkbox-subscript"></div>
                 </td>
             </tr>
@@ -71,7 +71,7 @@
                 <td class="padding-small">
                     <div id="paragraphadv-checkbox-double-strike"></div>
                 </td>
-                <td class="padding-small padding-left">
+                <td class="padding-small padding-left-40">
                     <div id="paragraphadv-checkbox-small-caps"></div>
                 </td>
             </tr>
@@ -79,7 +79,7 @@
                 <td class="padding-large">
                     <div id="paragraphadv-checkbox-superscript"></div>
                 </td>
-                <td class="padding-large padding-left">
+                <td class="padding-large padding-left-40">
                     <div id="paragraphadv-checkbox-all-caps"></div>
                 </td>
             </tr>

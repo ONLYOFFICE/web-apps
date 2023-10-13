@@ -315,21 +315,12 @@
     .reply-item-ct {
         position: relative;
         padding-bottom: 10px;
-        padding-left: 20px;
-
-        .rtl & {
-            padding-left: 0;
-            padding-right: 20px;
-        }
+        .padding-left-20();
     }
 
     div[class^=btn-] {
-        float: left;
+        .float-left();
         cursor: pointer;
-
-        .rtl & {
-            float: right;
-        }
     }
 
     .btn-edit,.btn-delete, .btn-resolve, .icon-resolve, .btn-resolve-check, .btn-accept, .btn-reject, .btn-goto {
@@ -482,8 +473,7 @@
         right: 0;
         bottom: 0;
         background-color: #F4F4F4;
-        margin-top: 2px;
-        margin-bottom: -2px;
+        margin: 1px 1px -1px;
         opacity: .5;
         cursor: pointer;
     }

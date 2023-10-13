@@ -141,11 +141,6 @@ define([
                 isVisible: false
             };
             me.eyedropperTip = {
-                toolTip: new Common.UI.Tooltip({
-                    owner: this,
-                    html: true,
-                    cls: 'eyedropper-tooltip'
-                }),
                 isHidden: true,
                 isVisible: false,
                 eyedropperColor: null,
@@ -165,6 +160,7 @@ define([
                 if (me.api.can_AddQuotedComment()!==false) {
                     me.addComment();
                 }
+                return false;
             };
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
 
@@ -683,8 +679,10 @@ define([
                 if (event.ctrlKey && !event.altKey) {
                     if (delta < 0) {
                         me.api.zoomOut();
+                        me._handleZoomWheel = true;
                     } else if (delta > 0) {
                         me.api.zoomIn();
+                        me._handleZoomWheel = true;
                     }
 
                     event.preventDefault();
@@ -708,11 +706,11 @@ define([
                         return false;
                     }
                     else if (key === Common.UI.Keys.NUM_MINUS || key === Common.UI.Keys.MINUS || (Common.Utils.isGecko && key === Common.UI.Keys.MINUS_FF) || (Common.Utils.isOpera && key == 45)){
-                        me.api.zoomOut();
+                        (key !== Common.UI.Keys.NUM_MINUS || !me.mode.isEdit) && me.api.zoomOut();
                         event.preventDefault();
                         event.stopPropagation();
                         return false;
-                    } else if (key === 48 || key === 96) {// 0
+                    } else if (key === Common.UI.Keys.ZERO || key === Common.UI.Keys.NUM_ZERO) {// 0
                         me.api.zoom(100);
                         event.preventDefault();
                         event.stopPropagation();
@@ -1032,7 +1030,7 @@ define([
                     type = moveData.get_Type();
 
                 if (type==Asc.c_oAscMouseMoveDataTypes.Hyperlink || type==Asc.c_oAscMouseMoveDataTypes.Footnote || type==Asc.c_oAscMouseMoveDataTypes.Form ||
-                    type==Asc.c_oAscMouseMoveDataTypes.Review && me.mode.reviewHoverMode || type==Asc.c_oAscMouseMoveDataTypes.Eyedropper) {
+                    type==Asc.c_oAscMouseMoveDataTypes.Review && me.mode.reviewHoverMode || type==Asc.c_oAscMouseMoveDataTypes.Eyedropper || type===Asc.c_oAscMouseMoveDataTypes.Placeholder) {
                     if (me.isTooltipHiding) {
                         me.mouseMoveData = moveData;
                         return;
@@ -1063,10 +1061,29 @@ define([
                             if (ToolTip.length>1000)
                                 ToolTip = ToolTip.substr(0, 1000) + '...';
                         }
+                    } else if (type===Asc.c_oAscMouseMoveDataTypes.Placeholder) {
+                        switch (moveData.get_PlaceholderType()) {
+                            case AscCommon.PlaceholderButtonType.Image:
+                                ToolTip = me.documentHolder.txtInsImage;
+                                break;
+                            case AscCommon.PlaceholderButtonType.ImageUrl:
+                                ToolTip = me.documentHolder.txtInsImageUrl;
+                                break;
+                        }
                     } else if (type==Asc.c_oAscMouseMoveDataTypes.Eyedropper) {
                         if (me.eyedropperTip.isTipVisible) {
                             me.eyedropperTip.isTipVisible = false;
                             me.eyedropperTip.toolTip.hide();
+                        }
+
+                        if (!me.eyedropperTip.toolTip) {
+                            var tipEl = $('<div id="tip-container-eyedroppertip" style="position: absolute; z-index: 10000;"></div>');
+                            me.documentHolder.cmpEl.append(tipEl);
+                            me.eyedropperTip.toolTip = new Common.UI.Tooltip({
+                                owner: tipEl,
+                                html: true,
+                                cls: 'eyedropper-tooltip'
+                            });
                         }
 
                         var color = moveData.get_EyedropperColor().asc_getColor(),
@@ -1094,7 +1111,7 @@ define([
                         me.eyedropperTip.tipInterval = setInterval(function () {
                             clearInterval(me.eyedropperTip.tipInterval);
                             if (me.eyedropperTip.isVisible) {
-                                ToolTip = '<div>RGB(' + r + ',' + g + ',' + b + ')</div>' +
+                                ToolTip = '<div>RGB (' + r + ',' + g + ',' + b + ')</div>' +
                                     '<div>' + moveData.get_EyedropperColor().asc_getName() + '</div>';
                                 me.eyedropperTip.toolTip.setTitle(ToolTip);
                                 me.eyedropperTip.isTipVisible = true;
@@ -1119,7 +1136,7 @@ define([
                     var recalc = false;
                     screenTip.isHidden = false;
 
-                    if (type!==Asc.c_oAscMouseMoveDataTypes.Review)
+                    if (type!==Asc.c_oAscMouseMoveDataTypes.Review && type!==Asc.c_oAscMouseMoveDataTypes.Placeholder)
                         ToolTip = Common.Utils.String.htmlEncode(ToolTip);
 
                     if (screenTip.tipType !== type || screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 ) {
@@ -1243,20 +1260,26 @@ define([
                 });
                 (menu.items.length>0) && menu.items[0].setChecked(true, true);
             }
-            if (coord.asc_getX()<0 || coord.asc_getY()<0) {
+
+            var showPoint = [coord.asc_getX() + coord.asc_getWidth() + 3, coord.asc_getY() + coord.asc_getHeight() + 3];
+            if (coord.asc_getX()<0 || coord.asc_getY()<0 || showPoint[0]>me._Width || showPoint[1]>me._Height) {
                 if (pasteContainer.is(':visible')) pasteContainer.hide();
                 $(document).off('keyup', this.wrapEvents.onKeyUp);
-            } else {
-                var showPoint = [coord.asc_getX() + coord.asc_getWidth() + 3, coord.asc_getY() + coord.asc_getHeight() + 3];
-                if (!Common.Utils.InternalSettings.get("de-hidden-rulers")) {
-                    showPoint = [showPoint[0] - 19, showPoint[1] - 26];
-                }
-                pasteContainer.css({left: showPoint[0], top : showPoint[1]});
-                pasteContainer.show();
-                setTimeout(function() {
-                    $(document).on('keyup', me.wrapEvents.onKeyUp);
-                }, 10);
+                return;
             }
+            if (showPoint[1] + pasteContainer.height()>me._Height)
+                showPoint[1] = me._Height - pasteContainer.height();
+            if (showPoint[0] + pasteContainer.width()>me._Width)
+                showPoint[0] = me._Width - pasteContainer.width();
+
+            if (!Common.Utils.InternalSettings.get("de-hidden-rulers")) {
+                showPoint = [showPoint[0] - 19, showPoint[1] - 26];
+            }
+            pasteContainer.css({left: showPoint[0], top : showPoint[1]});
+            pasteContainer.show();
+            setTimeout(function() {
+                $(document).on('keyup', me.wrapEvents.onKeyUp);
+            }, 10);
             this.disableSpecialPaste();
         },
 
@@ -1280,10 +1303,11 @@ define([
         },
 
         onKeyUp: function (e) {
-            if (e.keyCode == Common.UI.Keys.CTRL && this._needShowSpecPasteMenu && !this.btnSpecialPaste.menu.isVisible() && /area_id/.test(e.target.id)) {
+            if (e.keyCode == Common.UI.Keys.CTRL && this._needShowSpecPasteMenu && !this._handleZoomWheel && !this.btnSpecialPaste.menu.isVisible() && /area_id/.test(e.target.id)) {
                 $('button', this.btnSpecialPaste.cmpEl).click();
                 e.preventDefault();
             }
+            this._handleZoomWheel = false;
             this._needShowSpecPasteMenu = false;
         },
 
@@ -2537,9 +2561,9 @@ define([
                     menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                     menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
                     menu.items[8].options.isEquationInline = isInlineMath;
-                    menu.items[8].setCaption(isInlineMath ? me.documentHolder.eqToDisplayText : me.documentHolder.eqToInlineText);
+                    menu.items[8].setCaption(isInlineMath ? me.documentHolder.eqToDisplayText : me.documentHolder.eqToInlineText, true);
                     menu.items[9].options.isToolbarHide = isEqToolbarHide;
-                    menu.items[9].setCaption(isEqToolbarHide ? me.documentHolder.showEqToolbar : me.documentHolder.hideEqToolbar);
+                    menu.items[9].setCaption(isEqToolbarHide ? me.documentHolder.showEqToolbar : me.documentHolder.hideEqToolbar, true);
                 };
                 me.equationSettingsBtn.menu.on('item:click', _.bind(me.convertEquation, me));
                 me.equationSettingsBtn.menu.on('show:before', function(menu) {
@@ -2553,6 +2577,7 @@ define([
             if (!Common.Utils.InternalSettings.get("de-hidden-rulers")) {
                 showPoint = [showPoint[0] - 19, showPoint[1] - 26];
             }
+            (showPoint[0]<0) && (showPoint[0] = 0);
             if (showPoint[1]<0) {
                 showPoint[1] = bounds[3] + 10;
                 !Common.Utils.InternalSettings.get("de-hidden-rulers") && (showPoint[1] -= 26);

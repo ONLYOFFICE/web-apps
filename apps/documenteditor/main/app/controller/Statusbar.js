@@ -126,7 +126,7 @@ define([
 
         onAppReady: function (config) {
             var me = this;
-
+            me._isDocReady = true;
             (new Promise(function(resolve) {
                 resolve();
             })).then(function () {
@@ -248,8 +248,9 @@ define([
          _onZoomChange: function(percent, type) {
             this.statusbar.btnZoomToPage.toggle(type == 2, true);
             this.statusbar.btnZoomToWidth.toggle(type == 1, true);
-
             $('.statusbar #label-zoom').text(Common.Utils.String.format(this.zoomText, percent));
+            if(!this._isDocReady) return;
+            Common.localStorage.setItem('de-last-zoom', percent);
         },
 
         _onTextLanguage: function(langId) {

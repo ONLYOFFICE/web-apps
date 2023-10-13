@@ -1,7 +1,7 @@
 ﻿[
   {
     "src": "ProgramInterface/ProgramInterface.htm",
-    "name": "Présentation de l'interface de Document Editor",
+    "name": "Présentation de l'interface de l'éditeur de documents",
     "headername": "Interface du programme"
   },
   {
@@ -12,10 +12,11 @@
     "src": "ProgramInterface/HomeTab.htm",
     "name": "Onglet Accueil"
   },
-  {
-    "src": "ProgramInterface/InsertTab.htm",
-    "name": "Onglet Insertion"
-  },
+    {
+        "src": "ProgramInterface/InsertTab.htm",
+        "name": "Onglet Insertion"
+    },
+    {"src": "ProgramInterface/DrawTab.htm", "name": "Onglet Dessiner"},
   {
     "src": "ProgramInterface/LayoutTab.htm",
     "name": "Onglet Mise en page"
@@ -167,7 +168,8 @@
         "src": "UsageInstructions/InsertTextObjects.htm",
         "name": "Insérer des objets textuels"
     },
-    {"src": "UsageInstructions/InsertSmartArt.htm", "name": "Insérer des graphiques SmartArt" },
+    { "src": "UsageInstructions/InsertSmartArt.htm", "name": "Insérer des graphiques SmartArt" },
+    {"src": "UsageInstructions/DrawingOperations.htm", "name": "Dessiner à main levée dans un document" },
     { "src": "UsageInstructions/AddCaption.htm", "name": "Ajouter une légende" },
     { "src": "UsageInstructions/InsertSymbols.htm", "name": "Insérer des symboles et des caractères" },
   {
@@ -218,7 +220,8 @@
     {"src": "UsageInstructions/InsertReferences.htm", "name": "Insérer les références" },
     {"src": "UsageInstructions/Translator.htm", "name": "Traduire un texte" },
     {"src": "UsageInstructions/OCR.htm", "name": "Extraction du texte incrusté dans l'image" },
-    {"src": "UsageInstructions/Speech.htm", "name": "Lire un texte à haute voix" },
+    { "src": "UsageInstructions/Speech.htm", "name": "Lire un texte à haute voix" },
+    {"src": "UsageInstructions/Speechinput.htm", "name": "Saisie vocale" },
     {"src": "UsageInstructions/Thesaurus.htm", "name": "Remplacer un mot par synonyme" },
     {"src": "UsageInstructions/Wordpress.htm", "name": "Télécharger un document sur Wordpress"},
 	{"src": "UsageInstructions/WordCounter.htm", "name": "Compter les mots"},
@@ -226,7 +229,9 @@
     { "src": "UsageInstructions/Typograf.htm", "name": "Corriger la typographie" },
     { "src": "UsageInstructions/CommunicationPlugins.htm", "name": "Communiquer lors de l'édition" },
     {"src": "UsageInstructions/Jitsi.htm", "name": "Effectuer des appels audio et vidéo"},
-    {"src": "UsageInstructions/Drawio.htm", "name": "Créer et insérer des diagrammes"},
+    { "src": "UsageInstructions/Drawio.htm", "name": "Créer et insérer des diagrammes" },    
+	{"src": "UsageInstructions/Zoom.htm", "name": "Organiser et programmer des réunions de Zoom"},
+	{"src": "UsageInstructions/ChatGPT.htm", "name": "Utiliser l'intelligence artificielle pour rédiger un texte"},
   {
     "src": "UsageInstructions/ViewDocInfo.htm",
     "name": "Afficher les informations sur le document",
@@ -238,7 +243,7 @@
   },
   {
     "src": "HelpfulHints/AdvancedSettings.htm",
-    "name": "Paramètres avancés de Document Editor"
+    "name": "Paramètres avancés de l'éditeur de documents"
   },
     {
         "src": "HelpfulHints/Navigation.htm",
@@ -257,7 +262,7 @@
     {"src": "HelpfulHints/Password.htm", "name": "Protéger un document avec un mot de passe"},
   {
     "src": "HelpfulHints/About.htm",
-    "name": "À propos de Document Editor",
+    "name": "À propos de l'éditeur de documents",
     "headername": "Astuces utiles"
   },
   {

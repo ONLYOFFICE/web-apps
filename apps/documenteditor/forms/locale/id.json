@@ -152,6 +152,7 @@
   "DE.Controllers.ApplicationController.uploadImageExtMessage": "Format gambar tidak dikenal.",
   "DE.Controllers.ApplicationController.uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB.",
   "DE.Controllers.ApplicationController.waitText": "Silahkan menunggu",
+  "DE.Controllers.ApplicationController.warnLicenseAnonymous": "Akses ditolak untuk pengguna anonim.<br>Dokumen ini akan dibuka hanya untuk dilihat.",
   "DE.Controllers.ApplicationController.warnLicenseBefore": "Lisensi tidak aktif.",
   "DE.Controllers.ApplicationController.warnLicenseExceeded": "Anda sudah mencapai batas untuk koneksi bersamaan ke %1 editor. Dokumen ini akan dibuka untuk dilihat saja.<br>Hubungi admin Anda untuk mempelajari lebih lanjut.",
   "DE.Controllers.ApplicationController.warnLicenseExp": "Lisensi Anda sudah kadaluwarsa.<br>Silakan update lisensi Anda dan muat ulang halaman.",

@@ -174,6 +174,20 @@
       "textCustomColors": "Colori personalizzati",
       "textStandartColors": "Colori standard",
       "textThemeColors": "Colori del tema"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -239,6 +253,7 @@
     "textCancel": "Annulla",
     "textCellMargins": "Margini di cella",
     "textCentered": "Centrato",
+    "textChangeShape": "Cambia forma",
     "textChart": "Grafico",
     "textClassic": "Classico",
     "textClose": "Chiudere",
@@ -375,9 +390,9 @@
     "textWrap": "Avvolgere",
     "textWrappingStyle": "Stile di disposizione testo",
     "textArrange": "Arrange",
-    "textChangeShape": "Change Shape",
     "textCustomStyle": "Custom Style",
-    "textDeleteImage": "Delete Image"
+    "textDeleteImage": "Delete Image",
+    "textInvalidName": "The file name cannot contain any of the following characters: "
   },
   "Error": {
     "convertationTimeoutText": "È stato superato il tempo massimo della conversione.",
@@ -422,14 +437,22 @@
     "uploadImageExtMessage": "Formato d'immagine sconosciuto.",
     "uploadImageFileCountMessage": "Nessuna immagine caricata.",
     "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB.",
+    "errorComboSeries": "To create a combination chart, select at least two series of data.",
+    "errorCompare": "The Compare documents feature is not available in the co-editing mode.",
+    "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
     "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
     "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
     "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
+    "errorSetPassword": "Password could not be set.",
+    "errorSubmit": "Submit failed.",
     "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
-    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
+    "uploadDocExtMessage": "Unknown document format.",
+    "uploadDocFileCountMessage": "No documents uploaded.",
+    "uploadDocSizeMessage": "Maximum document size limit exceeded."
   },
   "LongActions": {
     "applyChangesTextText": "Caricamento di dati...",
@@ -549,7 +572,6 @@
     "textHasMacros": "Il file contiene delle macro automatiche.<br>Vuoi eseguirle?",
     "textNo": "No",
     "textNoLicenseTitle": "E' stato raggiunto il limite della licenza",
-    "textNoTextFound": "Testo non trovato",
     "textPaidFeature": "Funzionalità a pagamento",
     "textRemember": "Ricordare la mia scelta",
     "textReplaceSkipped": "La sostituzione è stata effettuata. {0} casi sono stati saltati.",
@@ -572,10 +594,12 @@
     "textDialogProtectedFillForms": "You may only fill in forms in this document",
     "textDialogProtectedOnlyView": "You may only view this document",
     "textDocumentProtected": "The document is protected. Edit settings are not available",
+    "textNoMatches": "No Matches",
     "textOk": "Ok",
     "titleDialogProtectedDocument": "The document is protected",
     "titleLicenseNotActive": "License not active",
     "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
+    "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
     "warnLicenseBefore": "License not active.<br>Please contact your administrator."
   },
   "Settings": {
@@ -644,7 +668,6 @@
     "textNavigation": "Navigazione",
     "textNo": "No",
     "textNoCharacters": "Caratteri non stampabili",
-    "textNoTextFound": "Testo non trovato",
     "textOk": "OK",
     "textOpenFile": "Inserire la password per aprire il file",
     "textOrientation": "Orientamento",
@@ -711,8 +734,10 @@
     "textFillingForms": "Filling forms",
     "textMobileView": "Mobile View",
     "textNoChanges": "No changes (Read only)",
+    "textNoMatches": "No Matches",
     "textPassword": "Password",
     "textPasswordNotMatched": "Passwords DonвЂ™t Match",
+    "textPasswordWarning": "If the password is forgotten or lost, it cannot be recovered.",
     "textProtectDocument": "Protect Document",
     "textProtection": "Protection",
     "textProtectTurnOff": "Protection is turned off",
@@ -722,8 +747,10 @@
     "textSetPassword": "Set Password",
     "textTrackedChanges": "Tracked changes",
     "textTypeEditing": "Type Of Editing",
+    "textTypeEditingWarning": "Allow only this type of editing in the document.",
     "textUnprotect": "Unprotect",
     "textVerify": "Verify",
+    "textVersionHistory": "Version History",
     "titleDialogUnprotect": "Unprotect Document"
   },
   "Toolbar": {
@@ -732,9 +759,10 @@
     "leaveButtonText": "Lasciare questa pagina",
     "stayButtonText": "Rimanere su questa pagina",
     "textOk": "OK",
-    "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view",
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
     "textRenameFile": "Rename File",
-    "textEnterNewFileName": "Enter a new file name"
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

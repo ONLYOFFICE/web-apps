@@ -42,6 +42,20 @@
       "textCustomColors": "ກຳນົດສີເອງ",
       "textStandartColors": "ສີມາດຕະຖານ",
       "textThemeColors": " ຮູບແບບສີ"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -112,7 +126,6 @@
       "textHasMacros": "ເອກະສານບັນຈຸ ມາກໂຄ <br> ແບບອັດຕະໂນມັດ, ທ່ານຍັງຕ້ອງການດໍາເນີນງານ ມາກໂຄ ບໍ ",
       "textNo": "ບໍ່",
       "textNoLicenseTitle": "ໃບອະນຸຍາດໄດ້ເຖິງຈຳນວນທີ່ຈຳກັດແລ້ວ",
-      "textNoTextFound": "ບໍ່ພົບເນື້ອຫາ",
       "textOpenFile": "ໃສ່ລະຫັດຜ່ານເພື່ອເປີດໄຟລ໌",
       "textPaidFeature": "ຄຸນສົມບັດທີ່ຈ່າຍ",
       "textRemember": "ຈື່ຈໍາທາງເລືອກ",
@@ -132,8 +145,10 @@
       "warnNoLicense": "ທ່ານໄດ້ຖືກຈຳກັດສິດພຽງເທົ່ານີ້ສຳຫລັບການເຊື່່ອມພ້ອມກັນກັບເຄື່ອງມືແກ້ໄຂ %1 ແລ້ວເອກະສານນີ້ຈະເປີດໃຫ້ເບີ່ງເທົ່ານັ້ນ ຕິດຕໍ່ທີມຂາຍ %1 ສຳຫລັບເງື່ອນໄຂການອັບເກດສ່ວນບຸກຄົນ",
       "warnNoLicenseUsers": "ຈໍານວນການເຊື່ອມຕໍ່ພ້ອມກັນກັບບັນນາທິການ ແມ່ນເກີນກໍານົດ % 1. ຕິດຕໍ່ ທີມຂາຍ %1 ສຳລັບຂໍ້ກຳນົດການຍົກລະດັບສິດ",
       "warnProcessRightsChange": "ທ່ານບໍ່ມີສິດໃນການແກ້ໄຂໄຟລ໌ນີ້.",
+      "textNoMatches": "No Matches",
       "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
       "titleLicenseNotActive": "License not active",
+      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
   },
@@ -174,12 +189,16 @@
     "uploadImageExtMessage": "ບໍ່ຮູ້ສາເຫດຂໍ້ຜິດຜາດຮູບແບບຂອງຮູບ",
     "uploadImageFileCountMessage": "ບໍ່ມີຮູບພາບອັບໂຫລດ",
     "uploadImageSizeMessage": "ຮູບພາບໃຫຍ່ເກີນໄປ. ຂະຫນາດສູງສຸດແມ່ນ 25 MB.",
+    "errorComboSeries": "To create a combination chart, select at least two series of data.",
     "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
+    "errorEmailClient": "No email client could be found",
+    "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
     "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
     "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorSetPassword": "Password could not be set.",
     "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
     "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
   },
@@ -221,7 +240,8 @@
     "dlgLeaveMsgText": "ທ່ານມີການປ່ຽນແປງທີ່ຍັງບໍ່ໄດ້ບັນທຶກໄວ້ໃນເອກະສານນີ້. ຄລິກທີ່ 'ຢູ່ໃນໜ້ານີ້' ເພື່ອລໍຖ້າການບັນທຶກອັດຕະໂນມັດ. ຄລິກ 'ອອກຈາກໜ້ານີ້' ເພື່ອຍົກເລີກການປ່ຽນແປງທີ່ບໍ່ໄດ້ບັນທຶກໄວ້ທັງໝົດ.",
     "dlgLeaveTitleText": "ເຈົ້າອອກຈາກລະບົບ",
     "leaveButtonText": "ອອກຈາກໜ້ານີ້",
-    "stayButtonText": "ຢູ່ໃນໜ້ານີ້"
+    "stayButtonText": "ຢູ່ໃນໜ້ານີ້",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -358,7 +378,6 @@
       "textNextSlide": "ພາບສະໄລທັດໄປ",
       "textNone": "ບໍ່ມີ",
       "textNoStyles": "ບໍ່ມີຮູບແບບສຳລັບແຜນວາດປະເພດນີ້.",
-      "textNoTextFound": "ບໍ່ພົບເນື້ອຫາ",
       "textNotUrl": "ຊ່ອງຂໍ້ມູນນີ້ຄວນຈະເປັນ URL ໃນຮູບແບບ \"http://www.example.com\"",
       "textNumbers": "ຕົວເລກ",
       "textOk": "ຕົກລົງ",
@@ -419,6 +438,11 @@
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textInsertImage": "Insert Image",
+      "textMorph": "Morph",
+      "textMorphLetters": "Letters",
+      "textMorphObjects": "Objects",
+      "textMorphWords": "Words",
+      "textNoMatches": "No Matches",
       "textRecommended": "Recommended",
       "textRequired": "Required"
     },
@@ -458,7 +482,6 @@
       "textLoading": "ກໍາລັງດາວໂຫຼດ...",
       "textLocation": "ສະຖານທີ",
       "textMacrosSettings": "ການຕັ້ງຄ່າທົ່ວໄປ",
-      "textNoTextFound": "ບໍ່ພົບເນື້ອຫາ",
       "textOwner": "ເຈົ້າຂອງ",
       "textPoint": "ຈຸດ",
       "textPoweredBy": "ສ້າງໂດຍ",
@@ -503,9 +526,11 @@
       "txtScheme9": "ໂຮງຫລໍ່",
       "notcriticalErrorTitle": "Warning",
       "textFeedback": "Feedback & Support",
+      "textNoMatches": "No Matches",
       "textOk": "Ok",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "textRTL": "RTL"
+      "textRTL": "RTL",
+      "textVersionHistory": "Version History"
     }
   }
 }

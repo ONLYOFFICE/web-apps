@@ -35,7 +35,7 @@
     !common.controller && (common.controller = {});
 
     common.controller.modals = new(function() {
-        var $dlgShare, $dlgEmbed;
+        var $dlgShare, $dlgEmbed, $dlgPassword;
         var appConfig;
         var embedCode = '<iframe allowtransparency="true" frameborder="0" scrolling="no" src="{embed-url}" width="{width}" height="{height}"></iframe>',
             minEmbedWidth = 400,
@@ -104,6 +104,40 @@
             });
         };
 
+        var createDlgPassword = function (submitCallback) {
+            if(!$dlgPassword) {
+                var submit = function() {
+                    if (submitCallback) {
+                        $dlgPassword.modal('hide');
+                        $dlgPassword.find('#password-input').attr('disabled', true)
+                        $dlgPassword.find('#password-btn').attr('disabled', true)
+                        setTimeout(function() {
+                            submitCallback($dlgPassword.find('#password-input').val())
+                        }, 350);
+                    }
+                };
+                $dlgPassword = common.view.modals.create('password');
+                $dlgPassword.modal({backdrop: 'static', keyboard: false})  
+                $dlgPassword.modal('show');
+                $dlgPassword.find('#password-btn').on('click', function() {
+                    submit();
+                });
+                $dlgPassword.find('#password-input').keyup(function(e){ 
+                    if(e.key == "Enter") {
+                        submit();
+                    }
+                });
+            } else {
+                $dlgPassword.modal('show');
+                $dlgPassword.find('#password-input').attr('disabled', false).addClass('error').val('');
+                $dlgPassword.find('#password-label-error').addClass('error');
+                $dlgPassword.find('#password-btn').attr('disabled', false)
+            }
+            setTimeout(function() {
+                $dlgPassword.find('#password-input').focus();
+            }, 500);
+        };
+
         function updateEmbedCode(){
             var $txtwidth = $dlgEmbed.find('#txt-embed-width');
             var $txtheight = $dlgEmbed.find('#txt-embed-height');
@@ -145,8 +179,9 @@
         };
 
         return {
-            init: function(config) { appConfig = config; }
-            , attach: attachToView
+            init: function(config) { appConfig = config; }, 
+            attach: attachToView,
+            createDlgPassword: createDlgPassword
         };
     });
 }();

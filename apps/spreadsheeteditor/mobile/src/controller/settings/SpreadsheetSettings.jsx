@@ -59,7 +59,7 @@ class SpreadsheetSettingsController extends Component {
             case 'bottom': changeProps.asc_setBottom(marginValue); break;
         }
 
-        api.asc_changePageMargins(changeProps.asc_getLeft(), changeProps.asc_getRight(), changeProps.asc_getTop(), changeProps.asc_getBottom(), api.asc_getActiveWorksheetIndex());
+        api.asc_changePageMargins(changeProps, undefined, undefined, undefined, undefined, api.asc_getActiveWorksheetIndex());
     }
 
     onOrientationChange(value) {

@@ -117,6 +117,7 @@ Common.UI.HintManager = new(function() {
         _inputTimer,
         _isDocReady = false,
         _isEditDiagram = false,
+        _isInternalEditorLoading = true,
         _usedTitles = [],
         _appPrefix,
         _staticHints = { // for 0 level
@@ -294,7 +295,7 @@ Common.UI.HintManager = new(function() {
                 }
             }
         }
-        if (visibleItems.length > _arrAlphabet.length) {
+        if (visibleItems.length + (_currentLevel === 0 ? _.size(_staticHints) : 0) > _arrAlphabet.length) {
             visibleItemsWithTitle.forEach(function (item) {
                 var t = $(item).data('hint-title').charAt(0).toLowerCase();
                 t = _getLetterInUILanguage(t);
@@ -603,9 +604,10 @@ Common.UI.HintManager = new(function() {
                                     }
                                 }
                                 if (curr.prop('id') === 'btn-go-back' || curr.closest('.btn-slot').prop('id') === 'slot-btn-options' ||
-                                    curr.closest('.btn-slot').prop('id') === 'slot-btn-mode' || curr.prop('id') === 'btn-favorite' || curr.parent().prop('id') === 'tlb-box-users' ||
+                                    curr.closest('.btn-slot').prop('id') === 'slot-btn-mode' || curr.prop('id') === 'id-btn-favorite' || curr.parent().prop('id') === 'tlb-box-users' ||
                                     curr.prop('id') === 'left-btn-thumbs' || curr.hasClass('scroll') || curr.prop('id') === 'left-btn-about' ||
-                                    curr.prop('id') === 'left-btn-support' || curr.closest('.btn-slot').prop('id') === 'slot-btn-search') {
+                                    curr.prop('id') === 'left-btn-support' || curr.closest('.btn-slot').prop('id') === 'slot-btn-search' ||
+                                    curr.closest('.btn-slot').prop('id') === 'slot-btn-pdf-mode') {
                                     _resetToDefault();
                                     return;
                                 }
@@ -641,10 +643,9 @@ Common.UI.HintManager = new(function() {
             }
 
             _needShow = (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && !e.shiftKey &&
-                (!Common.Utils.isMac && e.keyCode == Common.UI.Keys.ALT || Common.Utils.isMac && e.metaKey && e.keyCode === Common.UI.Keys.F6) &&
-                !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0 &&
+                e.keyCode == Common.UI.Keys.ALT && !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0 &&
                 !(window.PE && $('#pe-preview').is(':visible')));
-            if (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && !Common.Utils.isMac && e.altKey && e.keyCode !== 115) {
+            if (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && e.altKey && e.keyCode !== 115 && _isInternalEditorLoading) {
                 e.preventDefault();
             }
         });
@@ -710,10 +711,17 @@ Common.UI.HintManager = new(function() {
 
     var _setMode = function (mode) {
         _isEditDiagram = mode.isEditDiagram || mode.isEditMailMerge || mode.isEditOle;
+        _setInternalEditorLoading(!!_isEditDiagram);
     };
 
     var _getStaticHint = function (key) {
         return _staticHints[key];
+    };
+
+    var _setInternalEditorLoading = function (load) {
+        if (_isInternalEditorLoading !== load) {
+            _isInternalEditorLoading = load;
+        }
     };
 
     return {
@@ -722,6 +730,7 @@ Common.UI.HintManager = new(function() {
         clearHints: _clearHints,
         needCloseFileMenu: _needCloseFileMenu,
         isHintVisible: _isHintVisible,
-        getStaticHint: _getStaticHint
+        getStaticHint: _getStaticHint,
+        setInternalEditorLoading: _setInternalEditorLoading
     }
 })();

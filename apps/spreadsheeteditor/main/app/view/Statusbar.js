@@ -322,7 +322,7 @@ define([
                         {caption: '--'},
                         {
                             id: "id-tab-menu-new-color",
-                            template: _.template('<a tabindex="-1" type="menuitem" style="padding-left:12px;">' + me.textNewColor + '</a>')
+                            template: _.template('<a tabindex="-1" type="menuitem" style="' + (Common.UI.isRTL() ? 'padding-right: 12px;': 'padding-left: 12px;') + '">' + me.textNewColor + '</a>')
                         }
                     ]
                 });

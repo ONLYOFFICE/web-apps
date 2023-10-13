@@ -118,8 +118,11 @@ define([
                     }
                 }
 
-                if (areaSatBrightness.length>0)
-                    areaSatBrightness.css('background-color', new Common.Utils.RGBColor('hsb('+hueVal+', 100, 100)').toHex());
+                if (areaSatBrightness.length>0) {
+                    var fillColor = new Common.Utils.RGBColor('hsb(' + hueVal + ', 100, 100)');
+                    var background = 'linear-gradient(rgba(255,255,255,0), #000), linear-gradient(-90deg,' + fillColor.toRGB() + ','+ fillColor.toRGBA(0) +'), #fff';
+                    areaSatBrightness.css('background', background);
+                }
 
                 if (previewColorText.length>0)
                     previewColorText[0].innerHTML = (me.color == 'transparent') ? me.textNoColor : me.color.toUpperCase();

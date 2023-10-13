@@ -25,6 +25,8 @@ class SearchSettings extends SearchSettingsView {
         const { t } = this.props;
         const _t = t("View.Settings", { returnObjects: true });
         const storeAppOptions = this.props.storeAppOptions;
+        const storeVersionHistory = this.props.storeVersionHistory;
+        const isVersionHistoryMode = storeVersionHistory.isVersionHistoryMode;
         const isEdit = storeAppOptions.isEdit;
 
         const markup = (
@@ -38,7 +40,7 @@ class SearchSettings extends SearchSettingsView {
                 </Navbar>
                 <List>
                     <ListItem radio title={_t.textFind} name="find-replace-checkbox" checked={!this.state.useReplace} onClick={e => this.onFindReplaceClick('find')} />
-                    {isEdit ? [
+                    {isEdit && !isVersionHistoryMode ? [
                         <ListItem key="replace" radio title={_t.textFindAndReplace} name="find-replace-checkbox" checked={this.state.useReplace} 
                             onClick={e => this.onFindReplaceClick('replace')} />,
                         <ListItem key="replace-all" radio title={_t.textFindAndReplaceAll} name="find-replace-checkbox" checked={this.state.isReplaceAll}
@@ -165,7 +167,7 @@ const Search = withTranslation()(props => {
         if (params.highlight) api.asc_selectSearchingResults(true);
 
         api.asc_findText(options, function(resultCount) {
-            !resultCount && f7.dialog.alert(null, _t.textNoTextFound);
+            !resultCount && f7.dialog.alert(null, t('View.Settings.textNoMatches'));
         });
     };
 
@@ -197,7 +199,7 @@ const Search = withTranslation()(props => {
 
         api.asc_findText(options, function(resultCount) {
             if(!resultCount) {
-                f7.dialog.alert(null, _t.textNoTextFound);
+                f7.dialog.alert(null, t('View.Settings.textNoMatches'));
                 return;
             }
             
@@ -227,7 +229,7 @@ const Search = withTranslation()(props => {
 
         api.asc_findText(options, function(resultCount) {
             if(!resultCount) {
-                f7.dialog.alert(null, _t.textNoTextFound);
+                f7.dialog.alert(null, t('View.Settings.textNoMatches'));
                 return;
             }
 
@@ -238,6 +240,6 @@ const Search = withTranslation()(props => {
     return <SESearchView _t={_t} onSearchQuery={onSearchQuery} onchangeSearchQuery={onchangeSearchQuery} onReplaceQuery={onReplaceQuery} onReplaceAllQuery={onReplaceAllQuery} />
 });
 
-const SearchSettingsWithTranslation = inject("storeAppOptions")(observer(withTranslation()(SearchSettings)));
+const SearchSettingsWithTranslation = inject("storeAppOptions", "storeVersionHistory")(observer(withTranslation()(SearchSettings)));
 
 export {Search, SearchSettingsWithTranslation as SearchSettings}

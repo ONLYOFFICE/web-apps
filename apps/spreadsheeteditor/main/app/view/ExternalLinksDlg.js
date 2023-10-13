@@ -50,7 +50,7 @@ define([
 
         options: {
             alias: 'ExternalLinksDlg',
-            contentWidth: 500,
+            contentWidth: 505,
             height: 294,
             buttons: null
         },
@@ -92,7 +92,7 @@ define([
             this.isUpdating = options.isUpdating || false;
             this.canRequestReferenceData = options.canRequestReferenceData || false;
             this.canRequestOpen = options.canRequestOpen || false;
-            this.canRequestSelectSpreadsheet = options.canRequestSelectSpreadsheet || false;
+            this.canRequestReferenceSource = options.canRequestReferenceSource || false;
             this.isOffline = options.isOffline || false;
             this.linkStatus = [];
             this.wrapEvents = {
@@ -115,7 +115,7 @@ define([
                 ],
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;">',
-                        '<div style="width:240px;padding-right: 5px;" data-toggle="tooltip"><%= value %></div>',
+                        '<div class="padding-right-5" style="width:240px;" data-toggle="tooltip"><%= value %></div>',
                         '<div style="width:175px;" data-toggle="tooltip"><%= status %></div>',
                     '</div>'
                 ].join('')),
@@ -183,7 +183,7 @@ define([
                 parentEl: $('#external-links-btn-change', this.$window),
                 cls: 'btn-text-default auto',
                 caption: this.textChange,
-                visible: !!this.canRequestSelectSpreadsheet
+                visible: !!this.canRequestReferenceSource
             });
             this.btnChange.on('click', _.bind(this.onChange, this));
 

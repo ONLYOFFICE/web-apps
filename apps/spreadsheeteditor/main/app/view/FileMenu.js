@@ -32,7 +32,8 @@
 define([
     'text!spreadsheeteditor/main/app/template/FileMenu.template',
     'underscore',
-    'common/main/lib/component/BaseView'
+    'common/main/lib/component/BaseView',
+    'common/main/lib/view/RecentFiles'
 ], function (tpl, _) {
     'use strict';
 
@@ -141,6 +142,16 @@ define([
                 el      : $markup.elementById('#fm-btn-save-desktop'),
                 action  : 'save-desktop',
                 caption : this.btnSaveAsCaption,
+                canFocused: false,
+                dataHint: 1,
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
+            });
+
+            this.miExportToPDF = new Common.UI.MenuItem({
+                el      : $markup.elementById('#fm-btn-export-pdf'),
+                action  : 'export-pdf',
+                caption : this.btnExportToPDFCaption,
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
@@ -274,6 +285,7 @@ define([
                 this.miDownload,
                 this.miSaveCopyAs,
                 this.miSaveAs,
+                this.miExportToPDF,
                 this.miPrintWithPreview,
                 this.miRename,
                 this.miProtect,
@@ -303,6 +315,10 @@ define([
             }
             this.applyMode();
 
+            if ( Common.Controllers.Desktop.isActive() ) {
+                Common.NotificationCenter.trigger('update:recents', Common.Controllers.Desktop.recentFiles());
+            }
+
             if ( !!this.api ) {
                 this.panels['info'].setApi(this.api);
                 if ( this.panels['protect'] )
@@ -311,6 +327,7 @@ define([
                     this.panels['opts'].setApi(this.api);
             }
 
+            this.fireEvent('render:after', this);
             return this;
         },
 
@@ -363,6 +380,7 @@ define([
             var isBCSupport = window["AscDesktopEditor"] ? window["AscDesktopEditor"]["isBlockchainSupport"]() : false;
             this.miSaveCopyAs[(this.mode.canDownload && (!this.mode.isDesktopApp || !this.mode.isOffline)) && (this.mode.canRequestSaveAs || this.mode.saveAsUrl) && !isBCSupport ?'show':'hide']();
             this.miSaveAs[(this.mode.canDownload && this.mode.isDesktopApp && this.mode.isOffline)?'show':'hide']();
+            this.miExportToPDF[(this.mode.canDownload && this.mode.isDesktopApp && this.mode.isOffline)?'show':'hide']();
             this.miSave[this.mode.isEdit && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') ?'show':'hide']();
             this.miEdit[!this.mode.isEdit && this.mode.canEdit && this.mode.canRequestEditRights ?'show':'hide']();
             this.miPrintWithPreview[this.mode.canPrint?'show':'hide']();
@@ -417,6 +435,7 @@ define([
             !this.mode.isDisconnected && this.panels['info'].updateInfo(this.document);
             this.panels['rights'].setMode(this.mode);
             !this.mode.isDisconnected && this.panels['rights'].updateInfo(this.document);
+            this.panels['printpreview'] && this.panels['printpreview'].setMode(this.mode);
 
             if ( this.mode.canCreateNew ) {
                 if (this.mode.templates && this.mode.templates.length) {
@@ -425,7 +444,7 @@ define([
             }
 
             if ( this.mode.canOpenRecent && this.mode.recent) {
-                !this.panels['recent'] && (this.panels['recent'] = (new SSE.Views.FileMenuPanels.RecentFiles({menu:this, recent: this.mode.recent})).render());
+                !this.panels['recent'] && (this.panels['recent'] = (new Common.Views.RecentFiles({el: '#panel-recentfiles', menu:this, recent: this.mode.recent})).render());
             }
 
             if (this.mode.isSignatureSupport || this.mode.isPasswordSupport) {
@@ -614,10 +633,11 @@ define([
         btnSaveAsCaption        : 'Save as',
         btnRenameCaption        : 'Rename...',
         btnCloseMenuCaption     : 'Close Menu',
-        btnProtectCaption: 'Protect',
+        btnProtectCaption       : 'Protect',
         btnSaveCopyAsCaption    : 'Save Copy as...',
         btnHistoryCaption       : 'Versions History',
         btnExitCaption          : 'Exit',
-        btnFileOpenCaption      : 'Open...'
+        btnFileOpenCaption      : 'Open...',
+        btnExportToPDFCaption   : 'Export to PDF'
     }, SSE.Views.FileMenu || {}));
 });

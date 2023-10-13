@@ -148,6 +148,8 @@ class DocumentInfoController extends Component {
     }
 
     changeTitleHandler() {
+        if(!this.props.storeAppOptions.isEdit) return;
+
         const { t } = this.props;
         const storeDocumentInfo = this.props.storeDocumentInfo;
         const docTitle = storeDocumentInfo.dataDoc.title;

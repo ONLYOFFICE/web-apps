@@ -58,27 +58,31 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 148px;">',
+                '<div class="box" style="height: 200px;">',
                     '<div class="input-row">',
-                        '<label class="text" style="font-weight: bold;">' + this.textSlideSize + '</label>',
+                        '<label class="text font-weight-bold">' + this.textSlideSize + '</label>',
                     '</div>',
                     '<div id="slide-size-combo" class="" style="margin-bottom: 10px;"></div>',
                     '<table cols="2" style="width: 100%;margin-bottom: 7px;">',
                         '<tr>',
-                            '<td class="padding-small padding-right">',
-                                '<label class="input-label" style="font-weight: bold;">' + this.textWidth + '</label>',
+                            '<td class="padding-small padding-right-10">',
+                                '<label class="input-label font-weight-bold">' + this.textWidth + '</label>',
                                 '<div id="slide-size-spin-width"></div>',
                             '</td>',
-                            '<td class="padding-small padding-left">',
-                                '<label class="input-label" style="font-weight: bold;">' + this.textHeight + '</label>',
+                            '<td class="padding-small padding-left-10">',
+                                '<label class="input-label font-weight-bold">' + this.textHeight + '</label>',
                                 '<div id="slide-size-spin-height"></div>',
                             '</td>',
                         '</tr>',
                     '</table>',
                     '<div class="input-row">',
-                        '<label class="text" style="font-weight: bold;">' + this.textSlideOrientation + '</label>',
+                        '<label class="text font-weight-bold">' + this.textSlideOrientation + '</label>',
                     '</div>',
                     '<div id="slide-orientation-combo" class="" style="margin-bottom: 10px;"></div>',
+                    '<div class="input-row">',
+                        '<label class="text font-weight-bold">' + this.txtSlideNum + '</label>',
+                    '</div>',
+                    '<div id="slide-size-spin-slidenum" class="" style="margin-bottom: 10px;"></div>',
                 '</div>',
                 '<div class="separator horizontal"></div>'
             ].join('');
@@ -197,6 +201,18 @@ define([
                 this._noApply = false;
             }, this));
 
+            this.spnSlideNum = new Common.UI.MetricSpinner({
+                el: $('#slide-size-spin-slidenum'),
+                step: 1,
+                width: 98,
+                defaultUnit : "",
+                value: '1',
+                maxValue: 9999,
+                minValue: 0,
+                allowDecimal: false,
+                maskExp: /[0-9]/
+            });
+
             var $window = this.getChild();
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
@@ -204,7 +220,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbSlideSize, this.spnWidth, this.spnHeight, this.cmbSlideOrientation];
+            return [this.cmbSlideSize, this.spnWidth, this.spnHeight, this.cmbSlideOrientation, this.spnSlideNum];
         },
 
         getDefaultFocusableComponent: function () {
@@ -228,7 +244,7 @@ define([
             return false;
         },
 
-        setSettings: function (type, pagewitdh, pageheight) {
+        setSettings: function (type, pagewitdh, pageheight, slidenum) {
             this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(pagewitdh/36000), true);
             this.spnHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(pageheight/36000), true);
             this.cmbSlideOrientation.setValue((pageheight>pagewitdh) ? 0 : 1);
@@ -249,6 +265,7 @@ define([
             } else if (arr.length>0)
                 preset = arr[0];
             this.cmbSlideSize.setValue(preset);
+            this.spnSlideNum.setValue(slidenum, true);
         },
 
         getSettings: function() {
@@ -264,7 +281,7 @@ define([
                 height = record.size[orient ? 1 : 0];
             }
 
-            return [type,  width, height];
+            return [type,  width, height, this.spnSlideNum.getNumberValue()];
         },
 
         updateMetricUnit: function() {
@@ -297,6 +314,7 @@ define([
         textSlideOrientation: 'Slide Orientation',
         strPortrait:        'Portrait',
         strLandscape:       'Landscape',
-        txtWidescreen:     'Widescreen'
+        txtWidescreen:     'Widescreen',
+        txtSlideNum:        'Number slides from'
     }, PE.Views.SlideSizeSettings || {}))
 });

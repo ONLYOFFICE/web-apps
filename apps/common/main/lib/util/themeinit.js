@@ -62,7 +62,7 @@
     !window.uitheme.id && window.uitheme.set_id(localStorage.getItem("ui-theme-id"));
     window.uitheme.iscontentdark = localStorage.getItem("content-theme") == 'dark';
 
-    let objtheme = localStorage.getItem("ui-theme");
+    let objtheme = window.uitheme.colors ? window.uitheme : localStorage.getItem("ui-theme");
     if ( !!objtheme ) {
         if ( typeof(objtheme) == 'string' &&
                 objtheme.startsWith("{") && objtheme.endsWith("}") )
@@ -73,6 +73,7 @@
         if ( objtheme ) {
             if ( window.uitheme.id && window.uitheme.id != objtheme.id ) {
                 localStorage.removeItem("ui-theme");
+                !window.uitheme.type && /-dark/.test(window.uitheme.id) && (window.uitheme.type = 'dark');
             } else {
                 window.uitheme.cache = objtheme;
                 if ( !window.uitheme.type && objtheme.type ) {
@@ -82,6 +83,12 @@
                 if ( objtheme.colors ) {
                     let colors = [];
                     for (let c in objtheme.colors) {
+                        // TODO: new PE brand color, clear for ver 7.7
+                        if ( c == 'toolbar-header-presentation' &&
+                                objtheme.colors[c] == '#aa5252' )
+                            objtheme.colors[c] = '#BE664F';
+                        //
+
                         colors.push('--' + c + ':' + objtheme.colors[c]);
                     }
 

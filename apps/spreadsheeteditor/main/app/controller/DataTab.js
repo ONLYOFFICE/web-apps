@@ -124,8 +124,8 @@ define([
                 this.api.asc_registerCallback('asc_onNeedUpdateExternalReference', _.bind(this.onNeedUpdateExternalReference, this));
                 Common.Gateway.on('setreferencedata', _.bind(this.setReferenceData, this));
             }
-            if (this.toolbar.mode.canRequestSelectSpreadsheet) {
-                Common.NotificationCenter.on('storage:spreadsheet-insert',  _.bind(this.insertSpreadsheetFromStorage, this));
+            if (this.toolbar.mode.canRequestReferenceSource) {
+                Common.Gateway.on('setreferencesource', _.bind(this.setReferenceSource, this));
             }
         },
 
@@ -514,7 +514,7 @@ define([
                 isUpdating: this.externalData.isUpdating,
                 canRequestReferenceData: this.toolbar.mode.canRequestReferenceData || this.toolbar.mode.isOffline,
                 canRequestOpen: this.toolbar.mode.canRequestOpen || this.toolbar.mode.isOffline,
-                canRequestSelectSpreadsheet: this.toolbar.mode.canRequestSelectSpreadsheet || this.toolbar.mode.isOffline,
+                canRequestReferenceSource: this.toolbar.mode.canRequestReferenceSource || this.toolbar.mode.isOffline,
                 isOffline: this.toolbar.mode.isOffline,
                 handler: function(result) {
                     Common.NotificationCenter.trigger('edit:complete');
@@ -527,7 +527,7 @@ define([
                 me.externalSource = {
                     externalRef: externalRef
                 };
-                Common.NotificationCenter.trigger('storage:spreadsheet-load', 'external-link');
+                Common.Gateway.requestReferenceSource();
             });
             this.externalLinksDlg.show()
         },
@@ -621,11 +621,9 @@ define([
             Common.NotificationCenter.trigger('showmessage', {msg: this.textAddExternalData});
         },
 
-        insertSpreadsheetFromStorage: function(data) {
-            if (data && (data.c==='external-link')) {
-                if (this.toolbar.mode.isEdit && this.toolbar.editMode) {
-                    this.api.asc_changeExternalReference(this.externalSource.externalRef, data);
-                }
+        setReferenceSource: function(data) { // gateway
+            if (this.toolbar.mode.isEdit && this.toolbar.editMode) {
+                this.api.asc_changeExternalReference(this.externalSource.externalRef, data);
             }
         },
 

@@ -276,14 +276,14 @@ class ContextMenu extends ContextMenuController {
     initMenuItems() {
         if ( !Common.EditorApi ) return [];
 
-        const { isEdit, canFillForms, isDisconnected, isViewer, canEditComments } = this.props;
+        const { isEdit, canFillForms, isDisconnected, isViewer, canEditComments, isProtected, typeProtection } = this.props;
 
         if (isEdit && EditorUIController.ContextMenu) {
             return EditorUIController.ContextMenu.mapMenuItems(this);
         } else {
             const { t } = this.props;
             const _t = t("ContextMenu", {returnObjects: true});
-            const { canViewComments, canCoAuthoring, canComments, dataDoc, isProtected, typeProtection } = this.props;
+            const { canViewComments, canCoAuthoring, canComments, dataDoc } = this.props;
 
             const api = Common.EditorApi.get();
             const inToc = api.asc_GetTableOfContentsPr(true);
@@ -362,7 +362,7 @@ class ContextMenu extends ContextMenuController {
                     event: 'openlink'
                 });
 
-                if(isAllowedEditing) {
+                if(isAllowedEditing && !isViewer) {
                     itemsText.push({
                         caption: t('ContextMenu.menuEditLink'),
                         event: 'editlink'

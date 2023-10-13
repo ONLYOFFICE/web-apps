@@ -70,6 +70,8 @@ define([
             this.$cellname = $('#ce-cell-name', this.el);
             this.$btnexpand = $('#ce-btn-expand', this.el);
             this.$btnfunc = $('#ce-func-label', this.el);
+            this.$cellcontent = $('#ce-cell-content', this.el);
+            this.$cellgroupname = this.$btnexpand.parent();
 
             var me = this;
             this.$cellname.on('focus', function(e){
@@ -84,6 +86,11 @@ define([
                 title       : this.tipFormula,
                 placement   : 'cursor'
             });
+            this.$btnfunc.attr('ratio', 'ratio');
+            this.applyScaling(Common.UI.Scaling.currentRatio());
+            this.$btnfunc.on('app:scaling', function (e, info) {
+                me.applyScaling(info.ratio);
+            });
 
             return this;
         },
@@ -97,6 +104,36 @@ define([
         cellNameDisabled: function(disabled){
             (disabled) ? this.$cellname.attr('disabled', 'disabled') : this.$cellname.removeAttr('disabled');
             this.btnNamedRanges.setDisabled(disabled);
+        },
+
+        applyScaling: function (ratio) {
+            if (ratio > 2 && !this.$btnfunc.find('svg.icon').length) {
+                var icon_name = 'btn-function',
+                    svg_icon = '<svg class="icon"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name);
+                this.$btnfunc.find('i.icon').after(svg_icon);
+            }
+        },
+
+        cellEditorTextChange: function (){
+            if (!this.$cellcontent) return;
+
+            var cellcontent = this.$cellcontent[0];
+
+            if (cellcontent.clientHeight != cellcontent.scrollHeight) {
+                if ( !this._isScrollShow ) {
+                    this._isScrollShow = true;
+                    var scrollBarWidth = cellcontent.offsetWidth - cellcontent.clientWidth;
+                    this.$cellgroupname.css({
+                        'right': Common.UI.isRTL() ? '' : scrollBarWidth + "px",
+                        'left': Common.UI.isRTL() ? scrollBarWidth + "px" : ''
+                    });
+                }
+            } else {
+                if ( this._isScrollShow ) {
+                    this._isScrollShow = false;
+                    this.$cellgroupname.css({'right': '', 'left': ''});
+                }
+            }
         },
 
         tipFormula: 'Insert Function',

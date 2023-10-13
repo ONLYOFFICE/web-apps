@@ -87,7 +87,7 @@ define([
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
-                                        '<td class="input-dest">',
+                                        '<td class="padding-left-22">',
                                             '<div id="create-pivot-input-dest" class="input-row" style=""></div>',
                                         '</td>',
                                     '</tr>',

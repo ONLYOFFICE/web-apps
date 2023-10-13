@@ -201,7 +201,7 @@ define([
                     var isfixed = Common.localStorage.getBool("de-text-form-fixed", true);
                     this.btnTextField = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon ' + (isfixed ? 'btn-fixed-field' : 'btn-text-field'),
+                        iconCls: 'toolbar__icon ' + (isfixed ? 'btn-text-fixed-field' : 'btn-text-field'),
                         lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal],
                         caption: this.capBtnText,
                         fieldType: isfixed ? 'fixed' : 'inline',
@@ -390,7 +390,7 @@ define([
 
                 this.btnClear = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon clear-style',
+                    iconCls: 'toolbar__icon btn-clear-style',
                     caption: this.textClear,
                     visible: false,
                     dataHint: '1',
@@ -400,7 +400,7 @@ define([
 
                 this.btnPrevForm = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon previous-field',
+                    iconCls: 'toolbar__icon btn-previous-field',
                     lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments],
                     caption: this.capBtnPrev,
                     visible: false,
@@ -413,7 +413,7 @@ define([
 
                 this.btnNextForm = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon next-field',
+                    iconCls: 'toolbar__icon btn-next-field',
                     lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments],
                     caption: this.capBtnNext,
                     visible: false,
@@ -427,7 +427,7 @@ define([
                 if (this.appConfig.canSubmitForms) {
                     this.btnSubmit = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon submit-form',
+                        iconCls: 'toolbar__icon btn-submit-form',
                         lock: [_set.lostConnect, _set.disableOnStart],
                         caption: this.capBtnSubmit,
                         // disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode,
@@ -441,7 +441,7 @@ define([
                     this.btnSaveForm = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         lock: [_set.lostConnect, _set.disableOnStart],
-                        iconCls: 'toolbar__icon save-form',
+                        iconCls: 'toolbar__icon btn-save-form',
                         caption: this.appConfig.canRequestSaveAs || !!this.appConfig.saveAsUrl || this.appConfig.isOffline ? this.capBtnSaveForm : this.capBtnDownloadForm,
                         // disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode,
                         dataHint: '1',
@@ -502,7 +502,7 @@ define([
                                 description: me.txtFixedDesc,
                                 iconCls     : 'menu__icon btn-fixed-field',
                                 value: 'fixed',
-                                iconClsForMainBtn: 'btn-fixed-field',
+                                iconClsForMainBtn: 'btn-text-fixed-field',
                                 hintForMainBtn: [me.tipFixedText, me.tipTextField]
                             }
                             ]
@@ -687,7 +687,16 @@ define([
             tipZipCode: 'Insert zip code',
             tipCreditCard: 'Insert credit card number',
             capDateTime: 'Date & Time',
-            tipDateTime: 'Insert date and time'
+            tipDateTime: 'Insert date and time',
+            tipCreateField: 'To create a field select the desired field type on the toolbar and click on it. The field will appear in the document.',
+            tipFormKey: 'You can assign a key to a field or a group of fields. When a user fills in the data, it will be copied to all the fields with the same key.',
+            tipFormGroupKey: 'Group radio buttons to make the filling process faster. Choices with the same names will be synchronized. Users can only tick one radio button from the group.',
+            tipFieldSettings: 'You can configure selected fields on the right sidebar. Click this icon to open the field settings.',
+            tipHelpRoles: 'Use the Manage Roles feature to group fields by purpose and assign the responsible team members.',
+            tipSaveFile: 'Click “Save as oform” to save the form in the format ready for filling.',
+            tipRolesLink: 'Learn more about roles',
+            tipFieldsLink: 'Learn more about field parameters'
+
         }
     }()), DE.Views.FormsTab || {}));
 });

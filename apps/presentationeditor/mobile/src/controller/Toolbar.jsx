@@ -4,10 +4,11 @@ import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import ToolbarView from "../view/Toolbar";
 
-const ToolbarController = inject('storeAppOptions', 'users', 'storeFocusObjects', 'storeToolbarSettings', 'storePresentationInfo')(observer(props => {
+const ToolbarController = inject('storeAppOptions', 'users', 'storeFocusObjects', 'storeToolbarSettings', 'storePresentationInfo', 'storeVersionHistory')(observer(props => {
     const {t} = useTranslation();
     const _t = t("Toolbar", { returnObjects: true });
-
+    const storeVersionHistory = props.storeVersionHistory;
+    const isVersionHistoryMode = storeVersionHistory.isVersionHistoryMode;
     const appOptions = props.storeAppOptions;
     const isDisconnected = props.users.isDisconnected;
     const displayCollaboration = props.users.hasEditUsers || appOptions.canViewComments;
@@ -135,24 +136,32 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeFocusObjects'
         Common.Gateway.requestEditRights();
     };
 
+    const closeHistory = () => {
+        Common.Gateway.requestHistoryClose();
+    }
+
     return (
-        <ToolbarView openOptions={props.openOptions}
-                     isEdit={appOptions.isEdit}
-                     docTitle={docTitle}
-                     isShowBack={isShowBack}
-                     isCanUndo={isCanUndo}
-                     isCanRedo={isCanRedo}
-                     onUndo={onUndo}
-                     onRedo={onRedo}
-                     disabledEdit={isEditLocked}
-                     disabledPreview={disabledPreview}
-                     disabledControls={disabledControls}
-                     disabledEditControls={disabledEditControls}
-                     disabledSettings={disabledSettings}
-                     displayCollaboration={displayCollaboration}
-                     showEditDocument={showEditDocument}
-                     onEditDocument={onEditDocument}
-                     isDisconnected={isDisconnected}
+        <ToolbarView 
+            openOptions={props.openOptions}
+            isEdit={appOptions.isEdit}
+            docTitle={docTitle}
+            isShowBack={isShowBack}
+            isCanUndo={isCanUndo}
+            isCanRedo={isCanRedo}
+            onUndo={onUndo}
+            onRedo={onRedo}
+            disabledEdit={isEditLocked}
+            disabledPreview={disabledPreview}
+            disabledControls={disabledControls}
+            disabledEditControls={disabledEditControls}
+            disabledSettings={disabledSettings}
+            displayCollaboration={displayCollaboration}
+            showEditDocument={showEditDocument}
+            onEditDocument={onEditDocument}
+            isDisconnected={isDisconnected}
+            isVersionHistoryMode={isVersionHistoryMode}
+            closeHistory={closeHistory}
+            isOpenModal={props.isOpenModal}
         />
     )
 }));

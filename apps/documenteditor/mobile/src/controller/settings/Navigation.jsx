@@ -123,7 +123,6 @@ class NavigationController extends Component {
                     onSelectItem={this.onSelectItem} 
                     updateNavigation={this.updateNavigation}
                     updateViewerNavigation={this.updateViewerNavigation}
-                    onclosed={this.props.onclosed}
                 /> 
         );
     }
