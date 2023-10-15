@@ -627,7 +627,8 @@ define([
 
                 if ( !!nativevars && nativevars.helpUrl ) {
                     var webapp = window.SSE ? 'spreadsheeteditor' :
-                                    window.PE ? 'presentationeditor' : 'documenteditor';
+                                    window.PE ? 'presentationeditor' :
+                                        window.PDFE ? 'pdfeditor' : 'documenteditor';
                     return nativevars.helpUrl + '/' + webapp + '/main/resources/help';
                 }
 
