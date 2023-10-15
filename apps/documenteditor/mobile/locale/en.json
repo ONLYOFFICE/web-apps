@@ -392,7 +392,11 @@
     "textType": "Type",
     "textWe": "We",
     "textWrap": "Wrap",
-    "textWrappingStyle": "Wrapping Style"
+    "textWrappingStyle": "Wrapping Style",
+    "textChooseAnOption": "Choose an option",
+    "textChooseAnItem": "Choose an item",
+    "textEnterYourOption": "Enter your option",
+    "textSave": "Save"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",

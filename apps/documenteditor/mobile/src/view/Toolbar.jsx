@@ -61,7 +61,8 @@ const ToolbarView = props => {
                 {(props.isShowBack && isViewer && !isVersionHistoryMode) && 
                     <Link className={`btn-doc-back${(props.disabledControls || isOpenModal) && ' disabled'}`} icon='icon-return' onClick={() => Common.Notifications.trigger('goback')}></Link>
                 }
-                {(Device.ios && props.isEdit && !isViewer && !isVersionHistoryMode) &&          
+                {(Device.ios && props.isEdit && !isViewer && !isVersionHistoryMode) || 
+                (Device.ios && isForm) &&          
                     EditorUIController.getUndoRedo && EditorUIController.getUndoRedo({
                         disabledUndo: !props.isCanUndo || isDisconnected,
                         disabledRedo: !props.isCanRedo || isDisconnected,
@@ -76,7 +77,8 @@ const ToolbarView = props => {
                 </div>
             }
             <NavRight>
-                {(Device.android && props.isEdit && !isViewer && !isVersionHistoryMode) && 
+                {(Device.android && props.isEdit && !isViewer && !isVersionHistoryMode) || 
+                (Device.android && isForm) && 
                     EditorUIController.getUndoRedo && EditorUIController.getUndoRedo({
                         disabledUndo: !props.isCanUndo,
                         disabledRedo: !props.isCanRedo,

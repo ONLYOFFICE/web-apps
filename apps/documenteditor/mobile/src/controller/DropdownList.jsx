@@ -8,6 +8,7 @@ class DropdownListController extends Component {
     constructor(props) {
         super(props);
         this.onChangeItemList = this.onChangeItemList.bind(this);
+        this.closeModal = this.closeModal.bind(this);
         
         this.state = {
             isOpen: false
@@ -19,10 +20,11 @@ class DropdownListController extends Component {
     }
 
     initDropdownList(obj) {
-        let type = obj.type;
+        this.type = obj.type;
 
         this.propsObj = obj.pr;
-        this.specProps = (type == Asc.c_oAscContentControlSpecificType.ComboBox) ? this.propsObj.get_ComboBoxPr() : this.propsObj.get_DropDownListPr();
+        this.isComboBox = this.type === Asc.c_oAscContentControlSpecificType.ComboBox;
+        this.specProps = this.isComboBox ? this.propsObj.get_ComboBoxPr() : this.propsObj.get_DropDownListPr();
         this.isForm = !!this.propsObj.get_FormPr();
         this.listItems = [];
 
@@ -75,11 +77,11 @@ class DropdownListController extends Component {
 
     onChangeItemList(value) {
         const api = Common.EditorApi.get();
-        // const internalId = this.propsObj.get_InternalId;
+        const internalId = this.propsObj.get_InternalId();
 
         if(value !== -1) {
             this.closeModal();
-            api.asc_SelectContentControlListItem(value);
+            api.asc_SelectContentControlListItem(value, internalId);
         }
     }
 
@@ -90,6 +92,7 @@ class DropdownListController extends Component {
                     listItems={this.listItems}
                     onChangeItemList={this.onChangeItemList}
                     closeModal={this.closeModal}
+                    isComboBox={this.isComboBox}
                 /> 
         );
     }

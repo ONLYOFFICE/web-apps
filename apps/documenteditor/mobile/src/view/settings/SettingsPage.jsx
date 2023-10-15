@@ -70,9 +70,11 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
             {navbar}
             <List>
                 {isForm ? [
-                    <ListItem key='add-to-favorites-link' title={isFavorite ? t('Settings.textRemoveFromFavorites') : t('Settings.textAddToFavorites')} link='#' className='no-indicator' onClick={settingsContext.toggleFavorite}>
-                        <Icon slot="media" icon={isFavorite ? "icon-remove-favorites" : "icon-add-favorites"}></Icon>
-                    </ListItem>,
+                    (isFavorite !== undefined && isFavorite !== null ?
+                        <ListItem key='add-to-favorites-link' title={isFavorite ? t('Settings.textRemoveFromFavorites') : t('Settings.textAddToFavorites')} link='#' className='no-indicator' onClick={settingsContext.toggleFavorite}>
+                            <Icon slot="media" icon={isFavorite ? "icon-remove-favorites" : "icon-add-favorites"}></Icon>
+                        </ListItem>
+                    : ''),
                     (canFillForms && canSubmitForms ?   
                         <ListItem key='submit-form-link' title={t('Settings.textSubmit')} link='#' className='no-indicator' onClick={settingsContext.submitForm}>
                             <Icon slot="media" icon="icon-save-form"></Icon>
