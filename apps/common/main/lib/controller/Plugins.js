@@ -744,7 +744,7 @@ define([
                         isBackgroundPlugin = false,
                         isSystem;
                     item.variations.forEach(function(itemVar, itemInd){
-                        isSystem = (true === itemVar.isSystem) || ("system" === itemVar.type);
+                        isSystem = (true === itemVar.isSystem) || (Asc.PluginType.System === itemVar.type);
                         var visible = (isEdit || itemVar.isViewer && (itemVar.isDisplayedInViewer!==false)) && _.contains(itemVar.EditorsSupport, editor) && !isSystem;
                         if ( visible ) pluginVisible = true;
                         if (itemVar.isViewer && (itemVar.isDisplayedInViewer!==false))
@@ -778,7 +778,7 @@ define([
 
                             variationsArr.push(model);
                             if (itemInd === 0) {
-                                isBackgroundPlugin = itemVar.type ? itemVar.type === 'background' : !itemVar.isVisual;
+                                isBackgroundPlugin = itemVar.type ? itemVar.type === Asc.PluginType.Background : !itemVar.isVisual;
                             }
                         }
                     });
@@ -976,7 +976,7 @@ define([
 
                 var lang = this.appOptions && this.appOptions.lang ? this.appOptions.lang.split(/[\-_]/)[0] : 'en';
                 var url = variation.url, // full url
-                    isSystem = (true === variation.isSystem) || ("system" === variation.type);
+                    isSystem = (true === variation.isSystem) || (Asc.PluginType.System === variation.type);
                 var visible = (this.appOptions.isEdit || variation.isViewer && (variation.isDisplayedInViewer!==false)) && _.contains(variation.EditorsSupport, this.editor) && !isSystem;
                 if (visible && !variation.isInsideMode) {
                     var me = this,
