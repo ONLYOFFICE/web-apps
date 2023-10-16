@@ -1652,7 +1652,7 @@ define([
                 style: "width:100%;",
                 menu: new Common.UI.Menu({
                     style: 'min-width: 194px;',
-                    maxHeight: 200,
+                    // maxHeight: 200,
                     items: [
                         {caption: this.textEditPoints, value: 0, iconCls: 'toolbar__icon btn-edit-points'},
                         {
@@ -1661,7 +1661,7 @@ define([
                                 menuAlign: 'tl-tl',
                                 cls: 'menu-shapes menu-change-shape',
                                 items: [],
-                                restoreHeightAndTop: true,
+                                restoreHeightAndTop: !Common.Utils.isIE,
                                 additionalAlign: function(menuRoot, left, top) {
                                     menuRoot.css({left: left, top: Math.max($(me.el).parent().offset().top, Common.Utils.innerHeight() - 10 - me.shapeRestoreHeight) - parseInt(menuRoot.css('margin-top'))});
                                 }

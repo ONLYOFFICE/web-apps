@@ -1227,6 +1227,7 @@ define([
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.overwriteCells] = documentHolder.txtOverwriteCells;
 
                 pasteContainer = $('<div id="special-paste-container" style="position: absolute;"><div id="id-document-holder-btn-special-paste"></div></div>');
+                !Common.Utils.isIE && pasteContainer.addClass('overflow-hidden');
                 documentHolder.cmpEl.find('#id_main_view').append(pasteContainer);
 
                 me.btnSpecialPaste = new Common.UI.Button({
@@ -2489,6 +2490,7 @@ define([
                 eqStr += '<span id="id-document-holder-btn-equation-settings"></span>';
                 eqStr += '</div>';
                 eqContainer = $(eqStr);
+                !Common.Utils.isIE && eqContainer.addClass('overflow-hidden');
                 documentHolder.cmpEl.find('#id_main_view').append(eqContainer);
                 var onShowBefore = function (menu) {
                     var index = menu.options.value,

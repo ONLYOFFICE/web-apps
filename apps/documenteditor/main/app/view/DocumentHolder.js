@@ -599,7 +599,7 @@ define([
 
             this.pictureMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
-                restoreHeightAndTop: true,
+                restoreHeightAndTop: !Common.Utils.isIE,
                 scrollToCheckedItem: false,
                 initMenu: function(value){
                     if (_.isUndefined(value.imgProps))
@@ -1250,7 +1250,7 @@ define([
 
             this.tableMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
-                restoreHeightAndTop: true,
+                restoreHeightAndTop: !Common.Utils.isIE,
                 scrollToCheckedItem: false,
                 initMenu: function(value){
                     // table properties
@@ -1855,7 +1855,7 @@ define([
 
             this.textMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
-                restoreHeightAndTop: true,
+                restoreHeightAndTop: !Common.Utils.isIE,
                 scrollToCheckedItem: false,
                 initMenu: function(value){
                     var isInShape = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ShapeProperties()));
