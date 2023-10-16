@@ -93,13 +93,14 @@
     border: @scaled-one-px-value solid @border-regular-control;
 
     border-radius: 3px;
+    overflow: hidden;
     box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.2);
     
     &.has-open-menu {
         z-index: @zindex-navbar + 1;
     }
-    &.overflow-hidden {
-        overflow: hidden;
+    .ie & {
+        overflow: visible;
     }
 }
 
