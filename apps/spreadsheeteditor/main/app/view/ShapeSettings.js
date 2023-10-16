@@ -1661,7 +1661,7 @@ define([
                                 menuAlign: 'tl-tl',
                                 cls: 'menu-shapes menu-change-shape',
                                 items: [],
-                                restoreHeightAndTop: !Common.Utils.isIE,
+                                restoreHeightAndTop: true,
                                 additionalAlign: function(menuRoot, left, top) {
                                     menuRoot.css({left: left, top: Math.max($(me.el).parent().offset().top, Common.Utils.innerHeight() - 10 - me.shapeRestoreHeight) - parseInt(menuRoot.css('margin-top'))});
                                 }

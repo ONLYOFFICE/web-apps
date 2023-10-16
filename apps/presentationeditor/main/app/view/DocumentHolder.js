@@ -1000,7 +1000,7 @@ define([
 
             me.slideMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
-                restoreHeightAndTop: !Common.Utils.isIE,
+                restoreHeightAndTop: true,
                 scrollToCheckedItem: false,
                 initMenu: function(value) {
                     var selectedLast = me.api.asc_IsLastSlideSelected(),
@@ -2125,7 +2125,7 @@ define([
 
             me.tableMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
-                restoreHeightAndTop: !Common.Utils.isIE,
+                restoreHeightAndTop: true,
                 scrollToCheckedItem: false,
                 initMenu: function(value){
                     // table properties
@@ -2297,7 +2297,7 @@ define([
 
             me.pictureMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
-                restoreHeightAndTop: !Common.Utils.isIE,
+                restoreHeightAndTop: true,
                 scrollToCheckedItem: false,
                 initMenu: function(value){
                     if (me.api) {

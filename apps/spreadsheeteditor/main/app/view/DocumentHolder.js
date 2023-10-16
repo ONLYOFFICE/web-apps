@@ -788,7 +788,7 @@ define([
 
             me.ssMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
-                restoreHeightAndTop: !Common.Utils.isIE,
+                restoreHeightAndTop: true,
                 scrollToCheckedItem: false,
                 id          : 'id-context-menu-cell',
                 items       : [
@@ -1102,7 +1102,7 @@ define([
 
             this.imgMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
-                restoreHeightAndTop: !Common.Utils.isIE,
+                restoreHeightAndTop: true,
                 scrollToCheckedItem: false,
                 items: [
                     me.pmiImgCut,
