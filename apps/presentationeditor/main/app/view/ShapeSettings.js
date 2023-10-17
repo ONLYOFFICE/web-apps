@@ -1637,7 +1637,7 @@ define([
                 style: "width:100%;",
                 menu: new Common.UI.Menu({
                     style: 'min-width: 194px;',
-                    maxHeight: 200,
+                    // maxHeight: 200,
                     items: [
                         {caption: this.textEditPoints, value: 0, iconCls: 'toolbar__icon btn-edit-points'},
                         {
