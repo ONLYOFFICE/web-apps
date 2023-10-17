@@ -10,17 +10,25 @@
                 <td class="padding-small">
                     <div id="format-manager-combo-scope" class="input-group-nr" style="width:185px;"></div>
                 </td>
-                <td id="format-manager-btn-group" class="padding-small">
-                    <button type="button" class="btn btn-text-default format-manager-btn-text" id="format-manager-btn-new"><%= scope.textNew %></button>
-                    <button type="button" class="btn btn-text-default format-manager-btn-text" id="format-manager-btn-edit"><%= scope.textEdit %></button>
+                <td id="format-manager-btn-group" class="padding-small text-align-right">
+                    <button type="button" class="btn btn-text-default format-manager-btn-text margin-right-5" id="format-manager-btn-new"><%= scope.textNew %></button>
+                    <button type="button" class="btn btn-text-default format-manager-btn-text margin-right-5" id="format-manager-btn-edit"><%= scope.textEdit %></button>
                     <div id="format-manager-btn-up" style="display: inline-block;"></div>
-                    <div id="format-manager-btn-down" style="display: inline-block;"></div>
+                    <div id="format-manager-btn-down" class="margin-right-15" style="display: inline-block;"></div>
                     <button type="button" class="btn btn-text-default format-manager-btn-text" id="format-manager-btn-delete"><%= scope.textDelete %></button>
                 </td>
             </tr>
             <tr>
                 <td colspan=2 class="padding-small">
-                    <div id="format-manager-rules-list" class="range-tableview" style="width:100%; height: 203px;"></div>
+                    <div style="position: relative;">
+                    <div style="width: 100%;" id="format-manager-rules-list">
+                        <div id="id-preview">
+                            <div>
+                                <div style="position: absolute; top: 0;width:100%;"><div id="id-preview-data" class="range-tableview"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </td>
             </tr>
             <tr>

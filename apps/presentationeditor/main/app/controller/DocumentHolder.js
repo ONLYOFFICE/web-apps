@@ -105,6 +105,9 @@ define([
             me._state = {};
             me.mode = {};
             me._isDisabled = false;
+            me.lastMathTrackBounds = [];
+            me.mouseMoveData = null;
+            me.isTooltipHiding = false;
 
             me.screenTip = {
                 toolTip: new Common.UI.Tooltip({
@@ -141,9 +144,10 @@ define([
                 if (me.api.can_AddQuotedComment()!==false && me.documentHolder.slidesCount>0) {
                     me.addComment();
                 }
+                return false;
             };
 
-            me.hkPreview = 'command+f5,ctrl+f5';
+            me.hkPreview = Common.Utils.isMac ? 'command+shift+enter' : 'ctrl+f5';
             keymap[me.hkPreview] = function(e) {
                 var isResized = false;
                 e.preventDefault();
@@ -153,6 +157,8 @@ define([
                 }
             };
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
+
+            Common.Utils.InternalSettings.set('pe-equation-toolbar-hide', Common.localStorage.getBool('pe-equation-toolbar-hide'));
         },
 
         onLaunch: function() {
@@ -228,6 +234,7 @@ define([
                     me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Table, _.bind(me.onClickPlaceholderTable, me));
                     me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Video, _.bind(me.onClickPlaceholder, me, AscCommon.PlaceholderButtonType.Video));
                     me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Audio, _.bind(me.onClickPlaceholder, me, AscCommon.PlaceholderButtonType.Audio));
+                    me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.SmartArt, _.bind(me.onClickPlaceholderSmartArt, me));
                     me.api.asc_registerCallback('asc_onTrackGuide',   _.bind(me.onTrackGuide, me));
                     me.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(me.onShowMathTrack, me));
                     me.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(me.onHideMathTrack, me));
@@ -286,6 +293,10 @@ define([
                     }
                 });
                 meEl.on('mousedown', function(e){
+                    if (e.target.localName == 'canvas')
+                        Common.UI.Menu.Manager.hideAll();
+                });
+                meEl.on('touchstart', function(e){
                     if (e.target.localName == 'canvas')
                         Common.UI.Menu.Manager.hideAll();
                 });
@@ -708,7 +719,7 @@ define([
                         event.preventDefault();
                         event.stopPropagation();
                         return false;
-                    } else if (key === 48 || key === 96) {// 0
+                    } else if (key === Common.UI.Keys.ZERO || key === Common.UI.Keys.NUM_ZERO) {// 0
                         me.api.zoomFitToPage();
                         event.preventDefault();
                         event.stopPropagation();
@@ -845,9 +856,15 @@ define([
         },
 
         onMouseMoveEnd: function() {
+            var me = this;
             if (this.screenTip.isHidden && this.screenTip.isVisible) {
-                this.screenTip.isVisible = false;
-                this.screenTip.toolTip.hide();
+                me.screenTip.isVisible = false;
+                me.isTooltipHiding = true;
+                me.screenTip.toolTip.hide(function(){
+                    me.isTooltipHiding = false;
+                    if (me.mouseMoveData) me.onMouseMove(me.mouseMoveData);
+                    me.mouseMoveData = null;
+                });
             }
             if (this.eyedropperTip.isHidden) {
                 this.hideEyedropper();
@@ -869,48 +886,78 @@ define([
             }
 
             if (moveData) {
-                var showPoint, ToolTip;
+                var showPoint, ToolTip,
+                    type = moveData.get_Type();
 
-                if (moveData.get_Type()==1) { // 1 - hyperlink
-                    var hyperProps = moveData.get_Hyperlink();
-                    var recalc = false;
-                    if (hyperProps) {
-                        screenTip.isHidden = false;
-
-                        ToolTip = (_.isEmpty(hyperProps.get_ToolTip())) ? hyperProps.get_Value() : hyperProps.get_ToolTip();
-                        ToolTip = Common.Utils.String.htmlEncode(ToolTip);
-                        if (ToolTip.length>256)
-                            ToolTip = ToolTip.substr(0, 256) + '...';
-
-                        if (screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 ) {
-                            screenTip.toolTip.setTitle(ToolTip + (me.isPreviewVisible ? '' : '<br><b>' + Common.Utils.String.platformKey('Ctrl', me.documentHolder.txtPressLink) + '</b>'));
-                            screenTip.tipLength = ToolTip.length;
-                            screenTip.strTip = ToolTip;
-                            recalc = true;
-                        }
-
-                        showPoint = [moveData.get_X(), moveData.get_Y()];
-                        showPoint[1] += ((me.isPreviewVisible ? 0 : me._XY[1])-15);
-                        showPoint[0] += ((me.isPreviewVisible ? 0 : me._XY[0])+5);
-
-                        if (!screenTip.isVisible || recalc) {
-                            screenTip.isVisible = true;
-                            screenTip.toolTip.show([-10000, -10000]);
-                        }
-
-                        if ( recalc ) {
-                            screenTip.tipHeight = screenTip.toolTip.getBSTip().$tip.height();
-                            screenTip.tipWidth = screenTip.toolTip.getBSTip().$tip.width();
-                        }
-                        showPoint[1] -= screenTip.tipHeight;
-                        if (showPoint[1]<0)
-                            showPoint[1] = 0;
-                        if (showPoint[0] + screenTip.tipWidth > me._BodyWidth )
-                            showPoint[0] = me._BodyWidth - screenTip.tipWidth;
-                        screenTip.toolTip.getBSTip().$tip.css({top: showPoint[1] + 'px', left: showPoint[0] + 'px'});
+                if (type===Asc.c_oAscMouseMoveDataTypes.Hyperlink || type===Asc.c_oAscMouseMoveDataTypes.Placeholder) {
+                    if (me.isTooltipHiding) {
+                        me.mouseMoveData = moveData;
+                        return;
                     }
+                    if (type===Asc.c_oAscMouseMoveDataTypes.Hyperlink) {
+                        var hyperProps = moveData.get_Hyperlink();
+                        if (hyperProps) {
+                            ToolTip = (_.isEmpty(hyperProps.get_ToolTip())) ? hyperProps.get_Value() : hyperProps.get_ToolTip();
+                            ToolTip = Common.Utils.String.htmlEncode(ToolTip);
+                            if (ToolTip.length>256)
+                                ToolTip = ToolTip.substr(0, 256) + '...';
+                        }
+                    } else if (type===Asc.c_oAscMouseMoveDataTypes.Placeholder) {
+                        switch (moveData.get_PlaceholderType()) {
+                            case AscCommon.PlaceholderButtonType.Image:
+                                ToolTip = me.documentHolder.txtInsImage;
+                                break;
+                            case AscCommon.PlaceholderButtonType.ImageUrl:
+                                ToolTip = me.documentHolder.txtInsImageUrl;
+                                break;
+                            case AscCommon.PlaceholderButtonType.Chart:
+                                ToolTip = me.documentHolder.txtInsChart;
+                                break;
+                            case AscCommon.PlaceholderButtonType.Table:
+                                ToolTip = me.documentHolder.txtInsTable;
+                                break;
+                            case AscCommon.PlaceholderButtonType.Video:
+                                ToolTip = me.documentHolder.txtInsVideo;
+                                break;
+                            case AscCommon.PlaceholderButtonType.Audio:
+                                ToolTip = me.documentHolder.txtInsAudio;
+                                break;
+                            case AscCommon.PlaceholderButtonType.SmartArt:
+                                ToolTip = me.documentHolder.txtInsSmartArt;
+                                break;
+                        }
+                    }
+                    var recalc = false;
+                    screenTip.isHidden = false;
+                    if (screenTip.tipType !== type || screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 ) {
+                        screenTip.toolTip.setTitle((type===Asc.c_oAscMouseMoveDataTypes.Hyperlink) ? (ToolTip + (me.isPreviewVisible ? '' : '<br><b>' + Common.Utils.String.platformKey('Ctrl', me.documentHolder.txtPressLink) + '</b>')) : ToolTip);
+                        screenTip.tipLength = ToolTip.length;
+                        screenTip.strTip = ToolTip;
+                        screenTip.tipType = type;
+                        recalc = true;
+                    }
+
+                    showPoint = [moveData.get_X(), moveData.get_Y()];
+                    showPoint[1] += ((me.isPreviewVisible ? 0 : me._XY[1])-15);
+                    showPoint[0] += ((me.isPreviewVisible ? 0 : me._XY[0])+5);
+
+                    if (!screenTip.isVisible || recalc) {
+                        screenTip.isVisible = true;
+                        screenTip.toolTip.show([-10000, -10000]);
+                    }
+
+                    if ( recalc ) {
+                        screenTip.tipHeight = screenTip.toolTip.getBSTip().$tip.height();
+                        screenTip.tipWidth = screenTip.toolTip.getBSTip().$tip.width();
+                    }
+                    showPoint[1] -= screenTip.tipHeight;
+                    if (showPoint[1]<0)
+                        showPoint[1] = 0;
+                    if (showPoint[0] + screenTip.tipWidth > me._BodyWidth )
+                        showPoint[0] = me._BodyWidth - screenTip.tipWidth;
+                    screenTip.toolTip.getBSTip().$tip.css({top: showPoint[1] + 'px', left: showPoint[0] + 'px'});
                 }
-                else if (moveData.get_Type()==Asc.c_oAscMouseMoveDataTypes.Eyedropper) {
+                else if (type===Asc.c_oAscMouseMoveDataTypes.Eyedropper) {
                     if (me.eyedropperTip.isTipVisible) {
                         me.eyedropperTip.isTipVisible = false;
                         me.eyedropperTip.toolTip.hide();
@@ -972,7 +1019,7 @@ define([
                     me.eyedropperTip.isHidden = false;
                 }
                 /** coauthoring begin **/
-                else if (moveData.get_Type()==2 && me.mode.isEdit && me.isUserVisible(moveData.get_UserId())) { // 2 - locked object
+                else if (type===Asc.c_oAscMouseMoveDataTypes.LockedObject && me.mode.isEdit && me.isUserVisible(moveData.get_UserId())) { // 2 - locked object
                     var src;
                     if (me.usertipcount >= me.usertips.length) {
                         src = $(document.createElement("div"));
@@ -1338,6 +1385,15 @@ define([
                     offsetLeft += (sdkPanelLeft.css('display') !== 'none') ? sdkPanelLeft.width() : 0;
 
                 var showPoint = [Math.max(0, coord.asc_getX() + coord.asc_getWidth() + 3 - offsetLeft), coord.asc_getY() + coord.asc_getHeight() + 3];
+                if (showPoint[0]>me._Width || showPoint[1]>me._Height) {
+                    if (pasteContainer.is(':visible')) pasteContainer.hide();
+                    $(document).off('keyup', this.wrapEvents.onKeyUp);
+                    return;
+                }
+                if (showPoint[1] + pasteContainer.height()>me._Height)
+                    showPoint[1] = me._Height - pasteContainer.height();
+                if (showPoint[0] + pasteContainer.width()>me._Width)
+                    showPoint[0] = me._Width - pasteContainer.width();
                 if (me.btnSpecialPaste.menu.isVisible() && (parseInt(pasteContainer.css('left')) !== showPoint[0] || parseInt(pasteContainer.css('top')) !== showPoint[1])) {
                     me.btnSpecialPaste.menu.hide();
                 }
@@ -1602,7 +1658,7 @@ define([
                     // restoreHeight: 421,
                     groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                     store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                 });
                 picker.on('item:click', function (picker, item, record, e) {
                     me.editChartClick(record.get('type'), me._state.placeholderObj);
@@ -1683,9 +1739,100 @@ define([
             this._fromShowPlaceholder = false;
         },
 
+        onClickPlaceholderSmartArt: function (obj, x, y) {
+            if (!this.api) return;
+
+            this._state.placeholderObj = obj;
+            var menu = this.placeholderMenuSmartArt,
+                menuContainer = menu ? this.documentHolder.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
+                me = this;
+            this._fromShowPlaceholder = true;
+            Common.UI.Menu.Manager.hideAll();
+
+            if (!menu) {
+                this.placeholderMenuSmartArt = menu = new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    items: []
+                });
+                var smartArtData = Common.define.smartArt.getSmartArtData();
+                smartArtData.forEach(function (item, index) {
+                    var length = item.items.length,
+                        width = 399;
+                    if (length < 5) {
+                        width = length * (70 + 8) + 9; // 4px margin + 4px margin
+                    }
+                    menu.addItem({
+                        caption: item.caption,
+                        value: item.sectionId,
+                        itemId: item.id,
+                        iconCls: item.icon ? 'menu__icon ' + item.icon : undefined,
+                        menu: new Common.UI.Menu({
+                            items: [
+                                {template: _.template('<div id="placeholder-' + item.id + '" class="menu-add-smart-art margin-left-5" style="width: ' + width + 'px; height: 500px;"></div>')}
+                            ],
+                            menuAlign: 'tl-tr',
+                        })});
+                });
+                // Prepare menu container
+                menuContainer = $(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
+                this.documentHolder.cmpEl.append(menuContainer);
+                menu.render(menuContainer);
+                menu.cmpEl.attr({tabindex: "-1"});
+                menu.on('hide:after', function(){
+                    if (!me._fromShowPlaceholder)
+                        me.api.asc_uncheckPlaceholders();
+                });
+
+                var onShowBeforeSmartArt = function (menu) {
+                    menu.items.forEach(function (item, index) {
+                        item.menuPicker = new Common.UI.DataView({
+                            el: $('#placeholder-' + item.options.itemId),
+                            parentMenu: menu.items[index].menu,
+                            itemTemplate: _.template([
+                                '<div>',
+                                '<img src="<%= imageUrl %>" width="' + 70 + '" height="' + 70 + '" />',
+                                '</div>'
+                            ].join('')),
+                            store: new Common.UI.DataViewStore(),
+                            delayRenderTips: true,
+                            scrollAlwaysVisible: true,
+                            showLast: false
+                        });
+                        item.menuPicker.on('item:click', function(picker, item, record, e) {
+                            if (record) {
+                                me.api.asc_createSmartArt(record.get('value'), me._state.placeholderObj);
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me);
+                        });
+                        item.$el.on('mouseenter', function () {
+                            if (item.menuPicker.store.length === 0) {
+                                me.documentHolder.fireEvent('smartart:mouseenter', [item.value, menu]);
+                            }
+                        });
+                        item.$el.on('mouseleave', function () {
+                            me.documentHolder.fireEvent('smartart:mouseleave', [item.value]);
+                        });
+                    });
+                    menu.off('show:before', onShowBeforeSmartArt);
+                };
+                menu.on('show:before', onShowBeforeSmartArt);
+            }
+            menuContainer.css({left: x, top : y});
+            menuContainer.attr('data-value', 'prevent-canvas-click');
+            this._preventClick = true;
+            menu.show();
+
+            menu.alignPosition();
+            _.delay(function() {
+                menu.cmpEl.focus();
+            }, 10);
+            this._fromShowPlaceholder = false;
+        },
+
         onHidePlaceholderActions: function() {
             this.placeholderMenuChart && this.placeholderMenuChart.hide();
             this.placeholderMenuTable && this.placeholderMenuTable.hide();
+            this.placeholderMenuSmartArt && this.placeholderMenuSmartArt.hide();
         },
 
         onClickPlaceholder: function(type, obj, x, y) {
@@ -2355,7 +2502,8 @@ define([
         onShowMathTrack: function(bounds) {
             if (this.mode && !this.mode.isEdit) return;
 
-            if (bounds[3] < 0) {
+            this.lastMathTrackBounds = bounds;
+            if (bounds[3] < 0 || Common.Utils.InternalSettings.get('pe-equation-toolbar-hide')) {
                 this.onHideMathTrack();
                 return;
             }
@@ -2372,11 +2520,10 @@ define([
 
                 me.equationBtns = [];
                 for (var i = 0; i < equationsStore.length; ++i) {
-                    var style = 'margin-right: 8px;' + (i==0 ? 'margin-left: 5px;' : '');
-                    eqStr += '<span id="id-document-holder-btn-equation-' + i + '" style="' + style +'"></span>';
+                    eqStr += '<span id="id-document-holder-btn-equation-' + i + '"></span>';
                 }
                 eqStr += '<div class="separator"></div>';
-                eqStr += '<span id="id-document-holder-btn-equation-settings" style="margin-right: 5px; margin-left: 8px;"></span>';
+                eqStr += '<span id="id-document-holder-btn-equation-settings"></span>';
                 eqStr += '</div>';
                 eqContainer = $(eqStr);
                 documentHolder.cmpEl.append(eqContainer);
@@ -2421,8 +2568,8 @@ define([
                             value: i,
                             items: [
                                 { template: _.template('<div id="id-document-holder-btn-equation-menu-' + i +
-                                        '" class="menu-shape" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
-                                        equationGroup.get('groupHeightStr') + 'margin-left:5px;"></div>') }
+                                        '" class="menu-shape margin-left-5" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
+                                        equationGroup.get('groupHeightStr') + '"></div>') }
                             ]
                         })
                     });
@@ -2440,10 +2587,14 @@ define([
                     menu        : me.documentHolder.createEquationMenu('popuptbeqinput', 'tl-bl')
                 });
                 me.equationSettingsBtn.menu.options.initMenu = function() {
-                    var eq = me.api.asc_GetMathInputType();
-                    var menu = me.equationSettingsBtn.menu;
-                    menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
-                    menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    var eq = me.api.asc_GetMathInputType(),
+                        menu = me.equationSettingsBtn.menu,
+                        isEqToolbarHide = Common.Utils.InternalSettings.get('pe-equation-toolbar-hide');
+                        
+                    menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                    menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    menu.items[8].options.isToolbarHide = isEqToolbarHide;
+                    menu.items[8].setCaption(isEqToolbarHide ? me.documentHolder.showEqToolbar : me.documentHolder.hideEqToolbar, true);
                 };
                 me.equationSettingsBtn.menu.on('item:click', _.bind(me.convertEquation, me));
                 me.equationSettingsBtn.menu.on('show:before', function(menu) {
@@ -2454,6 +2605,7 @@ define([
             }
 
             var showPoint = [(bounds[0] + bounds[2])/2 - eqContainer.outerWidth()/2, bounds[1] - eqContainer.outerHeight() - 10];
+            (showPoint[0]<0) && (showPoint[0] = 0);
             if (showPoint[1]<0) {
                 showPoint[1] = bounds[3] + 10;
             }
@@ -2518,6 +2670,13 @@ define([
                     Common.localStorage.setBool("pe-equation-input-latex", item.value === Asc.c_oAscMathInputType.LaTeX)
                 } else if (item.options.type=='view')
                     this.api.asc_ConvertMathView(item.value.linear, item.value.all);
+                else if(item.options.type=='hide') {
+                    item.options.isToolbarHide = !item.options.isToolbarHide;
+                    Common.Utils.InternalSettings.set('pe-equation-toolbar-hide', item.options.isToolbarHide);
+                    Common.localStorage.setBool('pe-equation-toolbar-hide', item.options.isToolbarHide);
+                    if(item.options.isToolbarHide) this.onHideMathTrack();
+                    else this.onShowMathTrack(this.lastMathTrackBounds);
+                }
             }
         },
 

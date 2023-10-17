@@ -368,7 +368,7 @@ define([
             minheight       : 434,
             width: 448,
             height: 434,
-            cls: 'modal-dlg',
+            cls: 'modal-dlg invisible-borders',
             buttons: ['ok', 'cancel']
         },
 
@@ -379,7 +379,7 @@ define([
                 minheight       : 434,
                 width: 448,
                 height: 434,
-                cls: 'modal-dlg',
+                cls: 'modal-dlg invisible-borders',
                 buttons: ['ok', 'cancel']
             };
 
@@ -416,11 +416,11 @@ define([
                     '<div id="symbol-table-pnl-symbols">',
                         '<table cols="2" style="width: 100%;max-width: 497px;">',
                             '<tr>',
-                                '<td class="padding-right" style="padding-bottom: 8px;width: 50%;">',
+                                '<td class="padding-right-5" style="padding-bottom: 8px;width: 50%;">',
                                     '<label class="input-label">' + this.textFont + '</label>',
                                     '<div id="symbol-table-cmb-fonts"></div>',
                                 '</td>',
-                                '<td class="padding-left" style="padding-bottom: 8px;">',
+                                '<td class="padding-left-5" style="padding-bottom: 8px;">',
                                     '<label class="input-label">' + this.textRange + '</label>',
                                     '<div id="symbol-table-cmb-range"></div>',
                                 '</td>',
@@ -449,17 +449,17 @@ define([
                         '</table>',
                         '<table cols="2" style="width: 100%;max-width: 497px;">',
                             '<tr>',
-                                '<td class="padding-right" style="width: 50%;">',
+                                '<td class="padding-right-5" style="width: 50%;">',
                                     '<label class="input-label">' + this.textCode + '</label>',
                                 '</td>',
-                                '<td class="padding-left">',
+                                '<td class="padding-left-5">',
                                 '</td>',
                             '</tr>',
                             '<tr>',
-                                '<td class="padding-right">',
+                                '<td class="padding-right-5">',
                                     '<div id="symbol-table-text-code" oo_editor_input="true"></div>',
                                 '</td>',
-                                '<td class="padding-left">',
+                                '<td class="padding-left-5">',
                                     '<div id="symbol-table-label-font" style="overflow: hidden; text-overflow: ellipsis;white-space: nowrap;max-width: 160px;"></div>',
                                 '</td>',
                             '</tr>',
@@ -470,7 +470,7 @@ define([
                             '<tr>',
                                 '<td>',
                                     '<label>' + this.textCharacter + '</label>',
-                                    '<label id="symbol-table-lbl-shortcut" style="width: 112px;">' + this.textShortcut + '</label>',
+                                    '<label id="symbol-table-lbl-shortcut" style="width: 112px;" class="float-right">' + this.textShortcut + '</label>',
                                 '</td>',
                             '</tr>',
                             '<tr>',
@@ -624,9 +624,6 @@ define([
             var me = this,
                 $window = this.getChild();
 
-            var $border = $window.find('.resize-border');
-            $border.css({'background': 'none', 'border': 'none'});
-
             this.btnSymbols = new Common.UI.Button({
                 el: $window.find('#symbol-table-symbols'),
                 enableToggle: true,
@@ -721,7 +718,7 @@ define([
             this.previewPanel = $window.find('#id-preview-data');
             this.previewParent = this.previewPanel.parent();
             this.previewScrolled = $window.find('#id-preview');
-            this.previewInner = this.previewScrolled.find('div:first-child');
+            this.previewInner = this.previewScrolled.find('> div:first-child');
             this.recentPanel = $window.find('#symbol-table-recent');
             this.fontLabel = $window.find("#symbol-table-label-font");
             this.boxPanel = $window.find('.box');
@@ -729,7 +726,7 @@ define([
 
             // special
             var data = [{symbol: '—',  description: this.textEmDash,       shortcutKey: Common.Utils.String.platformKey(Common.Utils.isMac ? 'Alt Shift -' : 'Alt+Ctrl+Num -', '{0}'), code: '2014'},
-                        {symbol: '–',   description: this.textEnDash,       shortcutKey: '', code: '2013'},
+                        {symbol: '–',   description: this.textEnDash,       shortcutKey: Common.Utils.String.platformKey(Common.Utils.isMac ? 'Ctrl Num -' : 'Ctrl+Num -', '{0}'), code: '2013'},
                         {symbol: '‑',   description: this.textNBHyphen,     shortcutKey: Common.Utils.String.platformKey(Common.Utils.isMac ? 'Ctrl Shift _' : 'Ctrl+Shift+_', '{0}'), code: '002D', special: {"NonBreakingHyphen":true}},
                         // {symbol: '',    description: this.textSHyphen,      shortcutKey: 'Alt+-', code: '00AD'},
                         {symbol: '',    description: this.textEmSpace,      shortcutKey: '', code: '2003'},
@@ -737,11 +734,11 @@ define([
                         {symbol: '',    description: this.textQEmSpace,     shortcutKey: '', code: '2005'},
                         {symbol: '°',   description: this.textNBSpace,      shortcutKey: Common.Utils.String.platformKey(Common.Utils.isMac ? 'Alt ' : 'Ctrl+Shift+', '{0}') + 'Space', code: '00A0'},
                         {symbol: '©',   description: this.textCopyright,    shortcutKey: Common.Utils.String.platformKey(Common.Utils.isMac ? 'Alt Ctrl ' : 'Alt+Ctrl+', '{0}') + 'G', code: '00A9'},
-                        {symbol: '®',   description: this.textRegistered,   shortcutKey: '', code: '00AE'},
-                        {symbol: '™',  description: this.textTradeMark,    shortcutKey: '', code: '2122'},
+                        {symbol: '®',   description: this.textRegistered,   shortcutKey: Common.Utils.String.platformKey(Common.Utils.isMac ? 'Alt Ctrl ' : 'Alt+Ctrl+', '{0}') + 'R', code: '00AE'},
+                        {symbol: '™',  description: this.textTradeMark,    shortcutKey: Common.Utils.String.platformKey(Common.Utils.isMac ? 'Alt Ctrl ' : 'Alt+Ctrl+', '{0}') + 'T', code: '2122'},
                         {symbol: '§',   description: this.textSection,      shortcutKey: '', code: '00A7'},
                         {symbol: '¶',   description: this.textPilcrow,      shortcutKey: '', code: '00B6'},
-                        {symbol: '…',  description: this.textEllipsis,     shortcutKey: '', code: '2026'},
+                        {symbol: '…',  description: this.textEllipsis,     shortcutKey: Common.Utils.String.platformKey(Common.Utils.isMac ? 'Alt Ctrl ' : 'Alt+Ctrl+', '{0}') + '.', code: '2026'},
                         {symbol: '‛',   description: this.textSOQuote,      shortcutKey: '', code: '2018'},
                         {symbol: '’',   description: this.textSCQuote,      shortcutKey: '', code: '2019'},
                         {symbol: '‟',   description: this.textDOQuote,      shortcutKey: '', code: '201C'},
@@ -754,8 +751,8 @@ define([
                 cls: 'dbl-clickable',
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="width: 100%;display:flex;">',
-                        '<div style="width:70px;text-align: center; padding-right: 5px;"><%= symbol %></div>',
-                        '<div style="flex-grow:1;padding-right: 5px;"><%= description %></div>',
+                        '<div class="padding-right-5" style="width:70px;text-align: center;"><%= symbol %></div>',
+                        '<div class="padding-right-5" style="flex-grow:1;"><%= description %></div>',
                         '<% if (' + this.showShortcutKey + ') { %>',
                             '<div style="width:105px;"><%= shortcutKey %></div>',
                         '<% } %>',
@@ -815,7 +812,7 @@ define([
 
         getSpecialSymbol: function() {
             var rec = this.specialList.getSelectedRec();
-            return {font: undefined, symbol: this.encodeSurrogateChar(rec.get('code')), code: parseInt(rec.get('code'), 16), special: rec.get('special')};
+            return {font: undefined, symbol: this.encodeSurrogateChar(rec.get('code')), code: parseInt(rec.get('code'), 16), special: rec.get('special'), speccharacter: true};
         },
 
         onBtnClick: function(event) {

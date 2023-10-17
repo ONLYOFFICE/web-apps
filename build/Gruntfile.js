@@ -298,10 +298,16 @@ module.exports = function(grunt) {
             svgmin: {
                 options: {
                     plugins: [{
-                        cleanupIDs: false
+                        name: 'preset-default',
+                        params: {
+                            overrides: {
+                                cleanupIds: false,
+                            }
+                        },
                     },
                     {
-                        convertPathData: {
+                        name: 'convertPathData',
+                        params: {
                             floatPrecision: 4
                         }
                     }]
@@ -454,10 +460,16 @@ module.exports = function(grunt) {
             svgmin: {
                 options: {
                     plugins: [{
-                        cleanupIDs: false
+                        name: 'preset-default',
+                        params: {
+                            overrides: {
+                                cleanupIds: false,
+                            }
+                        },
                     },
                     {
-                        convertPathData: {
+                        name: 'convertPathData',
+                        params: {
                             floatPrecision: 4
                         }
                     }]
@@ -776,6 +788,7 @@ module.exports = function(grunt) {
     doRegisterInitializeAppTask('documenteditor',       'DocumentEditor',       'documenteditor.json');
     doRegisterInitializeAppTask('spreadsheeteditor',    'SpreadsheetEditor',    'spreadsheeteditor.json');
     doRegisterInitializeAppTask('presentationeditor',   'PresentationEditor',   'presentationeditor.json');
+    doRegisterInitializeAppTask('pdfeditor',            'PDFEditor',            'pdfeditor.json');
 
     doRegisterInitializeAppTask('testdocumenteditor',    'TestDocumentEditor',           'testdocumenteditor.json');
     doRegisterInitializeAppTask('testpresentationeditor', 'TestPresentationEditor',      'testpresentationeditor.json');
@@ -796,12 +809,14 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-documenteditor-component',     ['init-build-documenteditor', 'deploy-app']);
     grunt.registerTask('deploy-spreadsheeteditor-component',  ['init-build-spreadsheeteditor', 'deploy-app']);
     grunt.registerTask('deploy-presentationeditor-component', ['init-build-presentationeditor', 'deploy-app']);
+    grunt.registerTask('deploy-pdfeditor-component',          ['init-build-pdfeditor', 'deploy-app']);
     // This task is called from the Makefile, don't delete it.
     grunt.registerTask('deploy-documents-component',          ['deploy-common-component']);   
 
     grunt.registerTask('deploy-documenteditor',     ['deploy-common-component', 'deploy-documenteditor-component']);
     grunt.registerTask('deploy-spreadsheeteditor',  ['deploy-common-component', 'deploy-spreadsheeteditor-component']);
     grunt.registerTask('deploy-presentationeditor', ['deploy-common-component', 'deploy-presentationeditor-component']);
+    grunt.registerTask('deploy-pdfeditor',          ['deploy-common-component', 'deploy-pdfeditor-component']);
 
     grunt.registerTask('deploy-testdocumenteditor', ['init-build-testdocumenteditor', 'deploy-app']);
     grunt.registerTask('deploy-testpresentationeditor', ['init-build-testpresentationeditor', 'deploy-app']);
@@ -810,5 +825,6 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['deploy-common-component',
                                    'deploy-documenteditor-component',
                                    'deploy-spreadsheeteditor-component',
-                                   'deploy-presentationeditor-component']);
+                                   'deploy-presentationeditor-component',
+                                   'deploy-pdfeditor-component']);
 };

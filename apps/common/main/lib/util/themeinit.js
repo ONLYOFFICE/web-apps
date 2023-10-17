@@ -31,33 +31,73 @@
  */
 
 +function init_themes() {
-    if ( localStorage.getItem("ui-theme-use-system") == '1' ) {
-        localStorage.removeItem("ui-theme-id");
+    !window.uitheme && (window.uitheme = {});
+
+    window.uitheme.set_id = function (id) {
+        if ( id == 'theme-system' )
+            this.adapt_to_system_theme();
+        else this.id = id;
     }
 
-    var objtheme = localStorage.getItem("ui-theme");
-    if ( typeof(objtheme) == 'string' &&
-            objtheme.startsWith("{") && objtheme.endsWith("}") )
-    {
-        objtheme = JSON.parse(objtheme);
+    window.uitheme.is_theme_system = function () {
+        return this.id == 'theme-system';
     }
 
-    var ui_theme_name = objtheme && typeof(objtheme) == 'object' ? objtheme.id :
-        typeof(objtheme) == 'string' ? objtheme : localStorage.getItem("ui-theme-id");
+    window.uitheme.adapt_to_system_theme = function () {
+        this.id = 'theme-system';
+        this.type = this.is_system_theme_dark() ? 'dark' : 'light';
+    }
 
-    if ( !!ui_theme_name ) {
-        if ( !!objtheme && !!objtheme.colors ) {
-            var colors = [];
-            for ( var c in objtheme.colors ) {
-                colors.push('--' + c + ':' + objtheme.colors[c]);
+    window.uitheme.relevant_theme_id = function () {
+        if ( this.is_theme_system() )
+            return this.is_system_theme_dark() ? 'theme-dark' : 'theme-classic-light';
+        return this.id;
+    }
+
+    if ( !window.uitheme.is_system_theme_dark )
+        window.uitheme.is_system_theme_dark = function () {
+            return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        }
+
+    !window.uitheme.id && window.uitheme.set_id(localStorage.getItem("ui-theme-id"));
+    window.uitheme.iscontentdark = localStorage.getItem("content-theme") == 'dark';
+
+    let objtheme = window.uitheme.colors ? window.uitheme : localStorage.getItem("ui-theme");
+    if ( !!objtheme ) {
+        if ( typeof(objtheme) == 'string' &&
+                objtheme.startsWith("{") && objtheme.endsWith("}") )
+        {
+            objtheme = JSON.parse(objtheme);
+        }
+
+        if ( objtheme ) {
+            if ( window.uitheme.id && window.uitheme.id != objtheme.id ) {
+                localStorage.removeItem("ui-theme");
+                !window.uitheme.type && /-dark/.test(window.uitheme.id) && (window.uitheme.type = 'dark');
+            } else {
+                window.uitheme.cache = objtheme;
+                if ( !window.uitheme.type && objtheme.type ) {
+                    window.uitheme.type = objtheme.type;
+                }
+
+                if ( objtheme.colors ) {
+                    let colors = [];
+                    for (let c in objtheme.colors) {
+                        // TODO: new PE brand color, clear for ver 7.7
+                        if ( c == 'toolbar-header-presentation' &&
+                                objtheme.colors[c] == '#aa5252' )
+                            objtheme.colors[c] = '#BE664F';
+                        //
+
+                        colors.push('--' + c + ':' + objtheme.colors[c]);
+                    }
+
+                    var style = document.createElement('style');
+                    style.type = 'text/css';
+                    style.innerHTML = '.' + objtheme.id + '{' + colors.join(';') + ';}';
+                    document.getElementsByTagName('head')[0].appendChild(style);
+                }
             }
-
-            var style = document.createElement('style');
-            style.type = 'text/css';
-            style.innerHTML = '.' + ui_theme_name + '{'+ colors.join(';') +';}';
-            document.getElementsByTagName('head')[0].appendChild(style);
-
-            window.currentLoaderTheme = objtheme;
         }
     }
 }();

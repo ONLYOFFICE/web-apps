@@ -296,7 +296,7 @@ define([
                     // '<a id="<%= id %>" tabindex="-1" type="menuitem">' +
                     '<div style="display: flex;padding: 5px 20px;line-height: 16px;">' +
                         '<div style="flex-grow: 1;"><%= caption %></div>' +
-                        '<div style="word-break: normal; margin-left: 20px; min-width: 35px;text-align: right;"><%= options.value%></div>' +
+                        '<div class="margin-left-20 text-align-right" style="word-break: normal; min-width: 35px;"><%= options.value%></div>' +
                     '</div>'
                     // '</a>'
                 );

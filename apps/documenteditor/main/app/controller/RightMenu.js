@@ -132,8 +132,10 @@ define([
 
                 var panel = this._settings[type].panel;
                 var props = this._settings[type].props;
-                if (props && panel)
+                if (props && panel) {
                     panel.ChangeSettings.call(panel, (type==Common.Utils.documentSettingsType.MailMerge || type==Common.Utils.documentSettingsType.Signature) ? undefined : props);
+                    this.rightmenu.updateScroller();
+                }
             } else if (minimized && type==Common.Utils.documentSettingsType.MailMerge) {
                 this.rightmenu.mergeSettings.disablePreviewMode();
             }
@@ -315,6 +317,7 @@ define([
                         this._settings[active].panel.ChangeSettings.call(this._settings[active].panel, this._settings[active].props);
                     else
                         this._settings[active].panel.ChangeSettings.call(this._settings[active].panel);
+                    (active !== currentactive) && this.rightmenu.updateScroller();
                 } else if (activePane) { // lock active pane if no selected objects (ex. drawing)
                     for (var i=0; i<this._settings.length; i++) {
                         if (this._settings[i] && this._settings[i].panelId === activePane) {
@@ -419,6 +422,7 @@ define([
             if (settingsType !== Common.Utils.documentSettingsType.Paragraph) {
                 this.rightmenu.SetActivePane(settingsType, true);
                 this._settings[settingsType].panel.ChangeSettings.call(this._settings[settingsType].panel, this._settings[settingsType].props);
+                this.rightmenu.updateScroller();
             }
         },
 
@@ -429,6 +433,7 @@ define([
             this.rightmenu.SetActivePane(type, true);
             this._settings[type].panel.setLocked(this._settings[type].locked);
             this._settings[type].panel.ChangeSettings.call(this._settings[type].panel);
+            this.rightmenu.updateScroller();
         },
 
         onError: function(id, level, errData) {

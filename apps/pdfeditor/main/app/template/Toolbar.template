@@ -1,0 +1,110 @@
+<div class="toolbar">
+    <div class="box-tabs">
+        <div class="extra left"></div>
+        <%= tabsmarkup %>
+        <div class="extra right"></div>
+    </div>
+    <section class="box-controls">
+        <section class="panel static">
+            <div class="group no-mask small">
+                <div class="elset">
+                    <span class="btn-slot" id="slot-btn-save" data-layout-name="toolbar-save"></span>
+                </div>
+                <div class="elset">
+                    <span class="btn-slot" id="slot-btn-print"></span>
+                </div>
+            </div>
+            <div class="separator long"></div>
+            <div class="group small">
+                <div class="elset">
+                    <span class="btn-slot split" id="slot-btn-copy"></span>
+                    <span class="btn-slot" id="slot-btn-paste"></span>
+                </div>
+                <div class="elset">
+                    <span class="btn-slot split" id="slot-btn-undo"></span>
+                    <span class="btn-slot" id="slot-btn-redo"></span>
+                </div>
+            </div>
+            <div class="group small">
+                <div class="elset">
+                    <span class="btn-slot" id="slot-btn-cut"></span>
+                </div>
+                <div class="elset">
+                    <span class="btn-slot" id="slot-btn-select-all"></span>
+                </div>
+            </div>
+            <div class="separator long"></div>
+            <div class="group" data-layout-name="toolbar-view-navigation">
+                <span class="btn-slot text x-huge" id="slot-btn-hand-tool"></span>
+                <span class="btn-slot text x-huge" id="slot-btn-select-tool"></span>
+            </div>
+            <div class="separator long"></div>
+        </section>
+        <section class="box-panels">
+            <section class="panel" data-tab="home">
+                <div class="group small">
+                    <div class="elset">
+                        <span class="btn-slot" id="slot-btn-pages" style="width: 95px"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot" id="slot-btn-first-page"></span>
+                        <span class="btn-slot margin-left-5" id="slot-btn-prev-page"></span>
+                        <span class="btn-slot margin-left-5" id="slot-btn-next-page"></span>
+                        <span class="btn-slot margin-left-5" id="slot-btn-last-page"></span>
+                    </div>
+                </div>
+<!--                <div class="separator long"></div>-->
+<!--                <div class="group">-->
+<!--                    <span class="btn-slot text x-huge" id="slot-btn-rotate"></span>-->
+<!--                </div>-->
+                <div class="separator long"></div>
+                <div class="group small">
+                <div class="elset" style="display: flex;">
+                    <span class="btn-slot slot-field-zoom" style="flex-grow: 1;"></span>
+                    </div>
+                <div class="elset" style="text-align: center;">
+                    <span class="btn-slot text font-size-normal slot-lbl-zoom" style="text-align: center;margin-top: 4px;"></span>
+                    </div>
+                </div>
+                <div class="group small">
+                <div class="elset">
+                    <span class="btn-slot text slot-btn-ftp" style="text-align: center;"></span>
+                    </div>
+                <div class="elset">
+                    <span class="btn-slot text slot-btn-ftw" style="text-align: center;"></span>
+                    </div>
+                </div>
+            </section>
+            <section class="panel" data-tab="comment">
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-comment"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <div class="elset">
+                        <span class="btn-slot split" id="slot-btn-highlight"></span>
+                    </div>
+                    <div class="elset">
+                    </div>
+                </div>
+                <div class="group small">
+                    <div class="elset">
+                        <span class="btn-slot split" id="slot-btn-strikeout"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot split" id="slot-btn-underline"></span>
+                    </div>
+                </div>
+                <div class="separator long draw-groups"></div>
+                <div class="separator long"></div>
+                <div class="group small">
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-chk-showcomment"></span>
+                    </div>
+                    <div class="elset">
+                    </div>
+                </div>
+            </section>
+        </section>
+    </section>
+</div>

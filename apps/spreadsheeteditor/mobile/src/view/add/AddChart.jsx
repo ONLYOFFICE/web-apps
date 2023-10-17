@@ -1,7 +1,7 @@
-import React, {Fragment, useState} from 'react';
+import React from 'react';
 import {observer, inject} from "mobx-react";
-import {Swiper, SwiperSlide} from 'framework7-react';
 import {Device} from "../../../../../common/mobile/utils/device";
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 const AddChart = props => {
     const types = props.storeChartSettings.types;

@@ -124,6 +124,7 @@ define([
             this.fillControls = [];
             this.gradientColorsStr = "#000, #fff";
             this.typeGradient = 90 ;
+            this.shapeRestoreHeight = 615;
 
             this.render();
 
@@ -132,6 +133,8 @@ define([
             this.FillPatternContainer = $('#shape-panel-pattern-fill');
             this.FillGradientContainer = $('#shape-panel-gradient-fill');
             this.TransparencyContainer = $('#shape-panel-transparent-fill');
+            this.EditShapeContainer = $('#shape-button-edit-shape-container');
+            this.EditChangeShapeContainer = $('#shape-button-change-shape-container');
             this.ShapeOnlySettings = $('.shape-only');
             this.CanChangeType = $('.change-type');
             this.RotationSettings = $('.shape-rotation');
@@ -825,6 +828,8 @@ define([
                 this.hideShapeOnlySettings(props.get_FromChart() || !!props.get_FromImage());
                 this.hideRotationSettings(props.get_FromChart() || !!props.get_FromImage() || props.get_FromSmartArt());
 
+                this.canEditPoint = this.api && this.api.asc_canEditGeometry();
+                this.toggleBtnEditShape();
                 var hidechangetype = props.get_FromChart() || props.get_FromSmartArt() || shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
                     || shapetype=='bentConnector4' || shapetype=='bentConnector5' || shapetype=='curvedConnector2'
                     || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
@@ -1576,22 +1581,6 @@ define([
             this.lblLineTransparencyStart = $(this.el).find('#shape-line-lbl-transparency-start');
             this.lblLineTransparencyEnd = $(this.el).find('#shape-line-lbl-transparency-end');
 
-            this.btnChangeShape = new Common.UI.Button({
-                parentEl: $('#shape-btn-change'),
-                cls: 'btn-icon-default',
-                iconCls: 'btn-change-shape',
-                menu        : new Common.UI.Menu({
-                    menuAlign: 'tr-br',
-                    cls: 'menu-shapes menu-change-shape',
-                    items: []
-                }),
-                scaling: false,
-                dataHint: '1',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
-            });
-            this.lockedControls.push(this.btnChangeShape);
-
             this.btnRotate270 = new Common.UI.Button({
                 parentEl: $('#shape-button-270', me.$el),
                 cls: 'btn-toolbar',
@@ -1639,6 +1628,55 @@ define([
             });
             this.btnFlipH.on('click', _.bind(this.onBtnFlipClick, this));
             this.lockedControls.push(this.btnFlipH);
+
+            this.btnEditShape = new Common.UI.Button({
+                parentEl: $('#shape-button-edit-shape'),
+                cls: 'btn-toolbar align-left',
+                caption: this.textEditShape,
+                iconCls: 'toolbar__icon btn-menu-shape',
+                style: "width:100%;",
+                menu: new Common.UI.Menu({
+                    style: 'min-width: 194px;',
+                    maxHeight: 200,
+                    items: [
+                        {caption: this.textEditPoints, value: 0, iconCls: 'toolbar__icon btn-edit-points'},
+                        {
+                            caption: this.strChange,
+                            menu        : new Common.UI.Menu({
+                                menuAlign: 'tl-tl',
+                                cls: 'menu-shapes menu-change-shape',
+                                items: [],
+                                restoreHeightAndTop: true,
+                                additionalAlign: function(menuRoot, left, top) {
+                                    menuRoot.css({left: left, top: Math.max($(me.el).parent().offset().top, Common.Utils.innerHeight() - 10 - me.shapeRestoreHeight) - parseInt(menuRoot.css('margin-top'))});
+                                }
+                            })}
+                    ]
+                }),
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.lockedControls.push(this.btnEditShape);
+            this.btnChangeShape = this.btnEditShape.menu.items[1];
+            this.btnEditShape.menu.items[0].on('click', _.bind(this.onShapeEditPoints, this));
+
+            this.btnEditChangeShape = new Common.UI.Button({
+                parentEl: $('#shape-button-change-shape'),
+                cls: 'btn-toolbar align-left',
+                caption: this.textEditShape,
+                iconCls: 'toolbar__icon btn-menu-shape',
+                style: "width:100%;",
+                menu: new Common.UI.Menu({
+                    menuAlign: 'tr-br',
+                    cls: 'menu-shapes menu-change-shape',
+                    items: []
+                }),
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.lockedControls.push(this.btnEditChangeShape);
 
             this.chShadow = new Common.UI.CheckBox({
                 el: $('#shape-checkbox-shadow'),
@@ -1690,7 +1728,8 @@ define([
             }
 
             this.onInitStandartTextures();
-            this.onApiAutoShapes();
+            this.onApiAutoShapes(this.btnEditShape.menu.items[1]);
+            this.onApiAutoShapes(this.btnEditChangeShape);
             this.UpdateThemeColors();
         },
 
@@ -1775,30 +1814,31 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
-        onApiAutoShapes: function() {
+        onApiAutoShapes: function(btnChangeShape) {
             var me = this;
             var onShowBefore = function(menu) {
                 me.fillAutoShapes();
                 menu.off('show:before', onShowBefore);
             };
-            me.btnChangeShape.menu.on('show:before', onShowBefore);
+            btnChangeShape.menu.on('show:before', onShowBefore);
         },
 
         fillAutoShapes: function() {
             var me = this,
-                recents = Common.localStorage.getItem('pe-recent-shapes');
+                recents = Common.localStorage.getItem('pe-recent-shapes'),
+                menuitemId = me.canEditPoint ? 'id-edit-shape-menu' : 'id-change-shape-menu';
 
             var menuitem = new Common.UI.MenuItem({
-                template: _.template('<div id="id-change-shape-menu" class="menu-insertshape"></div>'),
+                template: _.template('<div id="' + menuitemId +'" class="menu-insertshape"></div>')
                 });
             me.btnChangeShape.menu.addItem(menuitem);
 
             me.btnChangeShape.shapePicker = new Common.UI.DataViewShape({
-                el: $('#id-change-shape-menu'),
-                itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
+                el: $('#' + menuitemId),
+                itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon uni-scale\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                 groups: me.application.getCollection('ShapeGroups'),
                 parentMenu: me.btnChangeShape.menu,
-                restoreHeight: 652,
+                restoreHeight: me.shapeRestoreHeight,
                 textRecentlyUsed: me.textRecentlyUsed,
                 recentShapes: recents ? JSON.parse(recents) : null,
                 hideTextRect: me._state.isFromImage || me._state.isFromSmartArtInternal,
@@ -1810,8 +1850,10 @@ define([
                     me.api.ChangeShapeType(record.get('data').shapeType);
                     me.fireEvent('editcomplete', me);
                 }
-                if (e.type !== 'click')
-                    me.btnChangeShape.menu.hide();
+                if (e.type !== 'click') {
+                    var menu = me.canEditPoint ? me.btnEditShape.menu : me.btnEditChangeShape.menu;
+                    menu.hide();
+                }
             });
         },
 
@@ -1912,6 +1954,17 @@ define([
                 properties.asc_putFlipVInvert(true);
             this.api.ShapeApply(properties);
             this.fireEvent('editcomplete', this);
+        },
+
+        toggleBtnEditShape: function()
+        {
+            this.EditShapeContainer.toggleClass('settings-hidden', !this.canEditPoint);
+            this.EditChangeShapeContainer.toggleClass('settings-hidden', this.canEditPoint);
+            this.btnChangeShape = this.canEditPoint ? this.btnEditShape.menu.items[1] : this.btnEditChangeShape;
+        },
+
+        onShapeEditPoints: function (){
+            this.api && this.api.asc_editPointsGeometry();
         },
 
         _pt2mm: function(value) {
@@ -2122,6 +2175,8 @@ define([
         tipAddGradientPoint: 'Add gradient point',
         tipRemoveGradientPoint: 'Remove gradient point',
         textAngle: 'Angle',
-        textRecentlyUsed: 'Recently Used'
+        textRecentlyUsed: 'Recently Used',
+        textEditShape: 'Edit shape',
+        textEditPoints: 'Edit points'
     }, PE.Views.ShapeSettings || {}));
 });

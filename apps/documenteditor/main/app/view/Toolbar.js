@@ -706,7 +706,7 @@ define([
                         menu: new Common.UI.Menu({
                             cls: 'menu-shapes',
                             items: [
-                                {template: _.template('<div id="id-toolbar-menu-insart" style="width: 239px;"></div>')}
+                                {template: _.template('<div id="id-toolbar-menu-insart" class="margin-left-5" style="width: 239px;"></div>')}
                             ]
                         }),
                         dataHint: '1',
@@ -825,6 +825,16 @@ define([
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.richDelLock, _set.plainDelLock, _set.noParagraphSelected, _set.previewReviewMode,
                             _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
                         caption: me.capBtnInsSymbol,
+                        menu: new Common.UI.Menu({
+                            style: 'min-width: 100px;',
+                            items: [
+                                {template: _.template('<div id="id-toolbar-menu-symbols"></div>')},
+                                {caption: '--'},
+                                new Common.UI.MenuItem({
+                                    caption: this.textMoreSymbols
+                                })
+                            ]
+                        }),
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -947,7 +957,7 @@ define([
                                             {caption: '--'},
                                             {
                                                 id: 'id-toolbar-menu-new-control-color',
-                                                template: _.template('<a tabindex="-1" type="menuitem" style="padding-left:12px;">' + this.textNewColor + '</a>')
+                                                template: _.template('<a tabindex="-1" type="menuitem" style="' + (Common.UI.isRTL() ? 'padding-right:12px;' : 'padding-left:12px;') + '">' + this.textNewColor + '</a>')
                                             }
                                         ]
                                     })
@@ -1315,6 +1325,40 @@ define([
                     });
                     this.toolbarControls.push(this.btnLineNumbers);
 
+                    this.btnHyphenation = new Common.UI.Button({
+                        id: 'tlbtn-line-hyphenation',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-hyphenation',
+                        lock: [_set.docPropsLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
+                        caption: this.capBtnHyphenation,
+                        menu: new Common.UI.Menu({
+                            cls: 'ppm-toolbar',
+                            items: [
+                                {
+                                    caption: this.textNone,
+                                    checkable: true,
+                                    toggleGroup: 'menuHyphenation',
+                                    value: 0
+                                },
+                                {
+                                    caption: this.textAuto,
+                                    checkable: true,
+                                    toggleGroup: 'menuHyphenation',
+                                    value: 1
+                                },
+                                {caption: '--'},
+                                {
+                                    caption: this.textCustomHyphen,
+                                    value: 'custom'
+                                }
+                            ]
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.toolbarControls.push(this.btnHyphenation);
+
                     this.btnClearStyle = new Common.UI.Button({
                         id: 'id-toolbar-btn-clearstyle',
                         cls: 'btn-toolbar',
@@ -1521,14 +1565,14 @@ define([
 
                             if (menu.cmpEl) {
                                 var itemEl = $(cmp.cmpEl.find('.dataview.inner .style').get(0)).parent();
-                                var itemMargin = /*parseInt($(itemEl.get(0)).parent().css('margin-right'))*/-1;
-                                Common.Utils.applicationPixelRatio() > 1 && Common.Utils.applicationPixelRatio() < 2 && (itemMargin = -1 / Common.Utils.applicationPixelRatio());
+                                var itemMargin = parseFloat(itemEl.css('margin-right'));
+                                // Common.Utils.applicationPixelRatio() > 1 && Common.Utils.applicationPixelRatio() !== 2 && (itemMargin = -1 / Common.Utils.applicationPixelRatio());
                                 var _width = itemEl.is(':visible') ? parseFloat(itemEl.css('width')) :
                                     (cmp.itemWidth + parseFloat(itemEl.css('padding-left')) + parseFloat(itemEl.css('padding-right')) +
                                         parseFloat(itemEl.css('border-left-width')) + parseFloat(itemEl.css('border-right-width')));
 
                                 var minCount = cmp.menuPicker.store.length >= minMenuColumn ? minMenuColumn : cmp.menuPicker.store.length,
-                                    columnCount = Math.min(cmp.menuPicker.store.length, Math.round($('.dataview', $(cmp.fieldPicker.el)).width() / (itemMargin + _width) + 0.5));
+                                    columnCount = Math.min(cmp.menuPicker.store.length, Math.round($('.dataview', $(cmp.fieldPicker.el)).width() / (itemMargin + _width)));
 
                                 columnCount = columnCount < minCount ? minCount : columnCount;
                                 menu.menuAlignEl = cmp.cmpEl;
@@ -1540,7 +1584,8 @@ define([
                                 //     menuWidth = Math.max(Math.floor(buttonOffsetLeft/(itemMargin + _width)), 2) * (itemMargin + _width);
                                 if (menuWidth>Common.Utils.innerWidth())
                                     menuWidth = Math.max(Math.floor(Common.Utils.innerWidth()/(itemMargin + _width)), 2) * (itemMargin + _width);
-                                var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - Math.min(menuWidth, buttonOffsetLeft) - 1;
+                                menuWidth = Math.ceil(menuWidth * 10)/10;
+                                var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - Math.min(menuWidth, buttonOffsetLeft);
                                 if (Common.UI.isRTL()) {
                                     offset = cmp.openButton.$el.width();
                                 }
@@ -1747,6 +1792,7 @@ define([
                 _injectComponent('#slot-img-movebkwd', this.btnImgBackward);
                 _injectComponent('#slot-img-wrapping', this.btnImgWrapping);
                 _injectComponent('#slot-btn-watermark', this.btnWatermark);
+                _injectComponent('#slot-btn-hyphenation', this.btnHyphenation);
 
                 this.btnsPageBreak = Common.Utils.injectButtons($host.find('.btn-slot.btn-pagebreak'), '', 'toolbar__icon btn-pagebreak', this.capBtnInsPagebreak,
                     [Common.enumLock.paragraphLock, Common.enumLock.headerLock, Common.enumLock.richEditLock, Common.enumLock.plainEditLock, Common.enumLock.inEquation, Common.enumLock.richDelLock,
@@ -2000,7 +2046,7 @@ define([
                         cls: 'ppm-toolbar shifted-right',
                         items: [{
                                 caption     : _holder_view.txtInline,
-                                iconCls     : 'menu__icon wrap-inline',
+                                iconCls     : 'menu__icon btn-small-wrap-inline',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.Inline,
                                 checkmark   : false,
@@ -2009,28 +2055,28 @@ define([
                             { caption: '--' },
                             {
                                 caption     : _holder_view.txtSquare,
-                                iconCls     : 'menu__icon wrap-square',
+                                iconCls     : 'menu__icon btn-small-wrap-square',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.Square,
                                 checkmark   : false,
                                 checkable   : true
                             }, {
                                 caption     : _holder_view.txtTight,
-                                iconCls     : 'menu__icon wrap-tight',
+                                iconCls     : 'menu__icon btn-small-wrap-tight',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.Tight,
                                 checkmark   : false,
                                 checkable   : true
                             }, {
                                 caption     : _holder_view.txtThrough,
-                                iconCls     : 'menu__icon wrap-through',
+                                iconCls     : 'menu__icon btn-small-wrap-through',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.Through,
                                 checkmark   : false,
                                 checkable   : true
                             }, {
                                 caption     : _holder_view.txtTopAndBottom,
-                                iconCls     : 'menu__icon wrap-topandbottom',
+                                iconCls     : 'menu__icon btn-small-wrap-topandbottom',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.TopAndBottom,
                                 checkmark   : false,
@@ -2039,14 +2085,14 @@ define([
                             { caption: '--' },
                             {
                                 caption     : _holder_view.txtInFront,
-                                iconCls     : 'menu__icon wrap-infront',
+                                iconCls     : 'menu__icon btn-small-wrap-infront',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.InFront,
                                 checkmark   : false,
                                 checkable   : true
                             }, {
                                 caption     : _holder_view.txtBehind,
-                                iconCls     : 'menu__icon wrap-behind',
+                                iconCls     : 'menu__icon btn-small-wrap-behind',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.Behind,
                                 checkmark   : false,
@@ -2105,7 +2151,7 @@ define([
                 this.btnDecLeftOffset.updateHint(this.tipDecPrLeft + Common.Utils.String.platformKey('Ctrl+Shift+M'));
                 this.btnIncLeftOffset.updateHint(this.tipIncPrLeft + Common.Utils.String.platformKey('Ctrl+M'));
                 this.btnLineSpace.updateHint(this.tipLineSpace);
-                this.btnShowHidenChars.updateHint(this.tipShowHiddenChars + Common.Utils.String.platformKey('Ctrl+*'));
+                this.btnShowHidenChars.updateHint(this.tipShowHiddenChars + Common.Utils.String.platformKey('Shift+8', ' (' + Common.Utils.String.textCtrl + '+{0})'));
                 this.btnMarkers.updateHint(this.tipMarkers);
                 this.btnNumbers.updateHint(this.tipNumbers);
                 this.btnMultilevels.updateHint(this.tipMultilevels);
@@ -2132,6 +2178,7 @@ define([
                 this.btnCopyStyle.updateHint(this.tipCopyStyle + Common.Utils.String.platformKey('Alt+Ctrl+C'));
                 this.btnColorSchemas.updateHint(this.tipColorSchemas);
                 this.btnMailRecepients.updateHint(this.tipMailRecepients);
+                this.btnHyphenation.updateHint(this.tipHyphenation);
 
                 // set menus
 
@@ -2291,7 +2338,7 @@ define([
                         restoreHeight: 535,
                         groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                         store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
-                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
+                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                     });
                     picker.on('item:click', function (picker, item, record, e) {
                         if (record)
@@ -2320,17 +2367,13 @@ define([
                         iconCls: item.icon ? 'menu__icon ' + item.icon : undefined,
                         menu: new Common.UI.Menu({
                             items: [
-                                {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art" style="width: ' + width + 'px; height: 500px; margin-left: 5px;"></div>')}
+                                {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art margin-left-5" style="width: ' + width + 'px; height: 500px;"></div>')}
                             ],
                             menuAlign: 'tl-tr',
                         })});
                 });
                 var onShowBeforeSmartArt = function (menu) { // + <% if(typeof imageUrl === "undefined" || imageUrl===null || imageUrl==="") { %> style="visibility: hidden;" <% } %>/>',
                     me.btnInsertSmartArt.menu.items.forEach(function (item, index) {
-                        item.$el.one('mouseenter', function () {
-                            me.fireEvent('generate:smartart', [item.value]);
-                            item.$el.mouseenter();
-                        });
                         item.menuPicker = new Common.UI.DataView({
                             el: $('#' + item.options.itemId),
                             parentMenu: me.btnInsertSmartArt.menu.items[index].menu,
@@ -2349,6 +2392,14 @@ define([
                                 me.fireEvent('insert:smartart', [record.get('value')]);
                             }
                             Common.NotificationCenter.trigger('edit:complete', me);
+                        });
+                        item.$el.on('mouseenter', function () {
+                            if (item.menuPicker.store.length === 0) {
+                                me.fireEvent('smartart:mouseenter', [item.value]);
+                            }
+                        });
+                        item.$el.on('mouseleave', function () {
+                            me.fireEvent('smartart:mouseleave', [item.value]);
                         });
                     });
                     menu.off('show:before', onShowBeforeSmartArt);
@@ -2399,6 +2450,47 @@ define([
                 }));
 
                 // set dataviews
+                this.specSymbols = [
+                    {symbol: 8226,     description: this.textBullet},
+                    {symbol: 8364,     description: this.textEuro},
+                    {symbol: 65284,    description: this.textDollar},
+                    {symbol: 165,      description: this.textYen},
+                    {symbol: 169,      description: this.textCopyright},
+                    {symbol: 174,      description: this.textRegistered},
+                    {symbol: 189,      description: this.textOneHalf},
+                    {symbol: 188,      description: this.textOneQuarter},
+                    {symbol: 8800,     description: this.textNotEqualTo},
+                    {symbol: 177,      description: this.textPlusMinus},
+                    {symbol: 247,      description: this.textDivision},
+                    {symbol: 8730,     description: this.textSquareRoot},
+                    {symbol: 8804,     description: this.textLessEqual},
+                    {symbol: 8805,     description: this.textGreaterEqual},
+                    {symbol: 8482,     description: this.textTradeMark},
+                    {symbol: 8734,     description: this.textInfinity},
+                    {symbol: 126,      description: this.textTilde},
+                    {symbol: 176,      description: this.textDegree},
+                    {symbol: 167,      description: this.textSection},
+                    {symbol: 945,      description: this.textAlpha},
+                    {symbol: 946,      description: this.textBetta},
+                    {symbol: 960,      description: this.textLetterPi},
+                    {symbol: 916,      description: this.textDelta},
+                    {symbol: 9786,     description: this.textSmile},
+                    {symbol: 9829,     description: this.textBlackHeart}
+                ];
+                this.mnuInsertSymbolsPicker = new Common.UI.DataView({
+                    el: $('#id-toolbar-menu-symbols'),
+                    parentMenu: this.btnInsertSymbol.menu,
+                    outerMenu: {menu: this.btnInsertSymbol.menu, index:0},
+                    restoreHeight: 290,
+                    delayRenderTips: true,
+                    scrollAlwaysVisible: true,
+                    store: new Common.UI.DataViewStore(this.loadRecentSymbolsFromStorage()),
+                    itemTemplate: _.template('<div class="item-symbol" <% if (typeof font !== "undefined" && font !=="") { %> style ="font-family: <%= font %>"<% } %>>&#<%= symbol %></div>')
+                });
+                this.btnInsertSymbol.menu.setInnerMenu([{menu: this.mnuInsertSymbolsPicker, index: 0}]);
+                this.btnInsertSymbol.menu.on('show:before',  _.bind(function() {
+                    this.mnuInsertSymbolsPicker.deselectAll();
+                }, this));
 
                 var _conf = this.mnuMarkersPicker.conf;
                 this._markersArr = [
@@ -2915,6 +3007,65 @@ define([
                     this.btnPageMargins.menu.items[0].setVisible(false);
             },
 
+            loadRecentSymbolsFromStorage: function(){
+                var recents = Common.localStorage.getItem('de-fastRecentSymbols');
+                var arr =(!!recents) ? JSON.parse(recents) :
+                    [
+                        { symbol: 8226,     font: 'Arial'},
+                        { symbol: 8364,     font: 'Arial'},
+                        { symbol: 65284,    font: 'Arial'},
+                        { symbol: 165,      font: 'Arial'},
+                        { symbol: 169,      font: 'Arial'},
+                        { symbol: 174,      font: 'Arial'},
+                        { symbol: 189,      font: 'Arial'},
+                        { symbol: 188,      font: 'Arial'},
+                        { symbol: 8800,     font: 'Arial'},
+                        { symbol: 177,      font: 'Arial'},
+                        { symbol: 247,      font: 'Arial'},
+                        { symbol: 8730,     font: 'Arial'},
+                        { symbol: 8804,     font: 'Arial'},
+                        { symbol: 8805,     font: 'Arial'},
+                        { symbol: 8482,     font: 'Arial'},
+                        { symbol: 8734,     font: 'Arial'},
+                        { symbol: 126,      font: 'Arial'},
+                        { symbol: 176,      font: 'Arial'},
+                        { symbol: 167,      font: 'Arial'},
+                        { symbol: 945,      font: 'Arial'},
+                        { symbol: 946,      font: 'Arial'},
+                        { symbol: 960,      font: 'Arial'},
+                        { symbol: 916,      font: 'Arial'},
+                        { symbol: 9786,     font: 'Arial'},
+                        { symbol: 9829,     font: 'Arial'}
+                    ];
+                arr.forEach(function (item){
+                    item.tip = this.getSymbolDescription(item.symbol);
+                }.bind(this));
+                return arr;
+            },
+
+            saveSymbol: function(symbol, font) {
+                var maxLength =25,
+                    picker = this.mnuInsertSymbolsPicker;
+                var item = picker.store.find(function(item){
+                    return item.get('symbol') == symbol && item.get('font') == font
+                });
+
+                item && picker.store.remove(item);
+                picker.store.add({symbol: symbol, font: font, tip: this.getSymbolDescription(symbol)},{at:0});
+                picker.store.length > maxLength && picker.store.remove(picker.store.last());
+
+                var arr = picker.store.map(function (item){
+                    return {symbol: item.get('symbol'), font: item.get('font')};
+                });
+                var sJSON = JSON.stringify(arr);
+                Common.localStorage.setItem( 'de-fastRecentSymbols', sJSON);
+            },
+
+            getSymbolDescription: function(symbol){
+                var  specSymbol = this.specSymbols.find(function (item){return item.symbol == symbol});
+                return !!specSymbol ? specSymbol.description : this.capBtnInsSymbol + ': ' + symbol;
+            },
+
             loadListPresetsFromStorage: function(path, groupId, recentCount) {
                 var recents = Common.localStorage.getItem(path),
                     arr = [];
@@ -3194,7 +3345,37 @@ define([
             txtGroupBulletDoc: 'Document bullets',
             txtGroupNumDoc: 'Document numbering formats',
             txtGroupMultiDoc: 'Lists in current document',
-            textTabDraw: 'Draw'
+            textTabDraw: 'Draw',
+            textMoreSymbols: 'More symbols',
+            textAlpha: 'Greek Small Letter Alpha',
+            textBetta: 'Greek Small Letter Betta',
+            textBlackHeart: 'Black Heart Suit',
+            textBullet: 'Bullet',
+            textCopyright: 'Copyright Sign',
+            textDegree: 'Degree Sign',
+            textDelta: 'Greek Small Letter Delta',
+            textDivision: 'Division Sign',
+            textDollar: 'Dollar Sign',
+            textEuro: 'Euro Sign',
+            textGreaterEqual: 'Greater-Than Or Equal To',
+            textInfinity: 'Infinity',
+            textLessEqual: 'Less-Than Or Equal To',
+            textLetterPi: 'Greek Small Letter Pi',
+            textNotEqualTo: 'Not Equal To',
+            textOneHalf: 'Vulgar Fraction One Half',
+            textOneQuarter: 'Vulgar Fraction One Quarter',
+            textPlusMinus: 'Plus-Minus Sign',
+            textRegistered: 'Registered Sign',
+            textSection: 'Section Sign',
+            textSmile: 'White Smiling Fase',
+            textSquareRoot: 'Square Root',
+            textTilde: 'Tilde',
+            textTradeMark: 'Trade Mark Sign',
+            textYen: 'Yen Sign',
+            capBtnHyphenation: 'Hyphenation',
+            textAuto: 'Automatic',
+            textCustomHyphen: 'Hyphenation options',
+            tipHyphenation: 'Change hyphenation'
         }
     })(), DE.Views.Toolbar || {}));
 });

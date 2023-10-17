@@ -152,6 +152,7 @@
   "DE.Controllers.ApplicationController.uploadImageExtMessage": "Irudi formatu ezezaguna.",
   "DE.Controllers.ApplicationController.uploadImageSizeMessage": "Irudia handiegia da. Gehienezko tamaina 25 MB da.",
   "DE.Controllers.ApplicationController.waitText": "Mesedez, itxaron...",
+  "DE.Controllers.ApplicationController.warnLicenseAnonymous": "Sarbidea debekatuta erabiltzaile anonimoentzat.<br>Irakurtzeko soilik irekiko da dokumentu hau.",
   "DE.Controllers.ApplicationController.warnLicenseBefore": "Lizentzia ez dago aktibo.<br>Jarri zure administratzailearekin harremanetan.",
   "DE.Controllers.ApplicationController.warnLicenseExceeded": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Dokumentu hau irakurtzeko soilik irekiko da.<br>Jarri harremanetan zure administratzailearekin informazio gehiagorako.",
   "DE.Controllers.ApplicationController.warnLicenseExp": "Zure lizentzia iraungi da.<br>Mesedez, eguneratu lizentzia eta kargatu berriz orria.",

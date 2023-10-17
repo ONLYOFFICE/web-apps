@@ -164,6 +164,12 @@
                     opacity: .8;
                 }
             }
+            &.disabled {
+                cursor: default;
+                &:after, &:hover:after {
+                    opacity: 0.4;
+                }
+            }
 
             &.left{
                 box-shadow: 5px 0 20px 5px @header-background-color-ie;
@@ -222,19 +228,14 @@
     .box-panels {
         flex-grow: 1;
         -ms-flex: 1;
-        padding-right: 6px;
-
-        .rtl & {
-            padding-right: 0;
-            padding-left: 6px;
-        }
+        .padding-right-6();
 
         .panel:not(.active) {
             display: none;
         }
 
         /* ##adopt-panel-width */
-        .panel .compactwidth {
+        .panel .compactwidth:not(.emptycaption) {
             .btn-group, .btn-toolbar {
                 &.x-huge {
                     .caption {
@@ -266,7 +267,7 @@
         .rtl & {
             padding: 12px 0 7px 10px;
         }
-        .compactwidth {
+        .compactwidth:not(.emptycaption) {
             .btn-group, .btn-toolbar {
                 &.x-huge {
                     .caption {
@@ -291,6 +292,9 @@
         }
         &[data-tab=pivot] {
             padding: 5px 10px 0 0;
+            .rtl & {
+                padding: 5px 0 0 10px;
+            }
             .group {
                 height: 60px !important;
             }
@@ -306,15 +310,12 @@
         background-color: @background-toolbar;
         position: absolute;
         right: 0;
-        padding-left: 12px;
-        padding-right: 6px;
+        .padding-x(12px, 6px);
         display: none;
 
         .rtl & {
             right: unset;
             left: 0;
-            padding-left: 6px;
-            padding-right: 12px;
         }
     }
 
@@ -329,29 +330,17 @@
         display: table-cell;
         vertical-align: middle;
         white-space: nowrap;
-        padding-left: 6px;
+        .padding-left-6();
         font-size: 0;
 
-        .rtl & {
-            padding-left: 0;
-            padding-right: 6px;
-        }
-
         &.small {
-            padding-left: 10px;
-
-            .rtl & {
-                padding-left: 0;
-                padding-right: 10px;
+            .padding-left-10();
+            &.padding-right-10 {
+                .padding-right-10();
             }
 
             + .separator:not(.invisible) {
-                margin-left: 10px;
-
-                .rtl & {
-                    margin-left: 0;
-                    margin-right: 10px;
-                }
+                .margin-left-10();
             }
         }
 
@@ -376,7 +365,7 @@
     }
 
     .separator {
-        margin-left: 6px;
+        .margin-left-6();
 
         &.close {
             margin-left: 5px;
@@ -582,7 +571,7 @@
             }
         }
 
-        .btn-header, .btn-users, .btn-header-share {
+        .btn-header, .btn-users, .btn-header-share, .btn-header-pdf-mode {
             .icon {
                 &.icon--inverse {
                     background-position-x: 0 !important;
@@ -765,15 +754,17 @@
     }
 }
 
+#id-dlg-list-bullet-format, #id-dlg-numbering-format {
+    .dropdown-menu li a span, .form-control span {
+        display: inline-block;
+    }
+}
+
 #slot-combo-insertshape {
     width: 150px;
     height: 46px;
     .view {
-        padding-right: 14px;
-        .rtl & {
-            padding-right: 0;
-            padding-left: 14px;
-        }
+        .padding-right(14px);
     }
     .dataview.field-picker {
         height: 100%;
@@ -853,21 +844,12 @@
     }
 
     .group-description {
-        padding-left: 4px;
-
-        .rtl & {
-            padding: 0;
-            padding-right: 4px;
-        }
+        .padding-left-4();
     }
 
     .group-items-container {
-        float: left;
+        .float-left();
         position: relative;
-
-        .rtl & {
-            float: right;
-        }
     }
 }
 
@@ -891,18 +873,14 @@
     span {
         &.colors {
             display: inline-block;
-            margin-right: 15px;
-            .rtl & {
-                margin-right: 0;
-                margin-left: 15px;
-            }
+            .margin-right-15();
         }
 
         &.color {
             display: inline-block;
             width: 12px;
             height: 12px;
-            margin-right: 2px;
+            .margin-right-2();
             border: @scaled-one-px-value-ie solid @border-color-shading-ie;
             border: @scaled-one-px-value solid @border-color-shading;
             vertical-align: middle;
@@ -1000,7 +978,8 @@
     }
 }
 
-#slot-field-zoom {
+#slot-field-zoom,
+.slot-field-zoom {
     float: left;
     min-width: 46px;
 }

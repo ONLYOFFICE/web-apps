@@ -302,13 +302,14 @@ define([
 
             var shapePicker = new Common.UI.DataViewShape({
                 el: $('#id-img-change-shape-menu'),
-                itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
+                itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon uni-scale\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                 groups: me.application.getCollection('ShapeGroups'),
                 parentMenu: me.btnChangeShape.menu,
                 restoreHeight: 652,
                 textRecentlyUsed: me.textRecentlyUsed,
                 recentShapes: recents ? JSON.parse(recents) : null,
-                hideTextRect: true
+                hideTextRect: true,
+                hideLines: true
             });
             shapePicker.on('item:click', function(picker, item, record, e) {
                 if (me.api) {

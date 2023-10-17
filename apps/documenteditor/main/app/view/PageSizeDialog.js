@@ -67,7 +67,7 @@ define([
                             '</td>',
                         '</tr>',
                         '<tr>',
-                            '<td class="padding-right">',
+                            '<td class="padding-right-10">',
                                 '<label class="input-label">' + this.textWidth + '</label>',
                                 '<div id="page-size-spin-width"></div>',
                             '</td>',

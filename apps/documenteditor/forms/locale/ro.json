@@ -68,7 +68,7 @@
   "Common.Views.OpenDialog.closeButtonText": "Închide fișierul",
   "Common.Views.OpenDialog.txtEncoding": "Codificare",
   "Common.Views.OpenDialog.txtIncorrectPwd": "Parolă incorectă",
-  "Common.Views.OpenDialog.txtOpenFile": "Introduceți o parolă pentru a deschide fișierul",
+  "Common.Views.OpenDialog.txtOpenFile": "Introduceți parola pentru a deschide fișierul",
   "Common.Views.OpenDialog.txtPassword": "Parola",
   "Common.Views.OpenDialog.txtPreview": "Previzualizare",
   "Common.Views.OpenDialog.txtProtected": "Parola curentă la fișierul va fi resetată de îndată ce este introdusă și fișierul este deschis.",

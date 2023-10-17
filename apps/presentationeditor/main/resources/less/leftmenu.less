@@ -24,7 +24,7 @@
     width: 100%;
     height: 100%;
     left: 40px;
-    padding-right: 40px;
+    .padding-right-40();
     top: 0;
     position: absolute;
     z-index: @zindex-dropdown - 5;
@@ -43,7 +43,6 @@
     width: 98px;
     height: 125px;
     cursor: pointer;
-
     .svg-format- {
         &pptx {
             background: ~"url('@{common-image-const-path}/doc-formats/pptx.svg') no-repeat center";
@@ -178,14 +177,9 @@
 
     .panel-context {
         width: 100%;
-        padding-left: 260px;
+        .padding-left(260px);
         background-color: @background-normal-ie;
         background-color: @background-normal;
-
-        .rtl & {
-            padding-left: 0;
-            padding-right: 260px;
-        }
 
         .content-box {
             height: 100%;
@@ -224,11 +218,9 @@
 
                 .format-items {
                     .format-item {
-                        float: left;
                         margin: 0 24px 34px 0;
 
                         .rtl & {
-                            float: right;
                             margin: 0 0 34px 24px;
                         }
 
@@ -246,7 +238,7 @@
                         &:last-of-type {
                             float: none;
                             clear: both;
-                        }
+                    }
                     }
 
                 }
@@ -301,20 +293,7 @@
                         .comment-text{
                             opacity: 0.45;
                         }
-                        &.left {
-                            text-align: right;
-                            width: 30%;
-
-                            label {
-                                .font-weight-bold();
-                                .font-size-medium();
                             }
-                        }
-
-                        &.right {
-                            width: 70%;
-                        }
-                    }
 
                     &.divider {
                         height: 10px;
@@ -407,7 +386,7 @@
 
         #panel-recentfiles {
             #id-recent-view {
-                margin: 0 0 20px 10px;
+                margin: 0 0 20px 0;
             }
 
             .header {
@@ -415,16 +394,14 @@
                 .font-size-very-huge();
             }
 
-            .dataview {
-                & > div:not([class^=ps-scrollbar]) {
-                    border: none;
-                    width: 100%;
-                    .box-shadow(none);
-                }
+            .item {
+                border: none;
+                width: calc(100% - 4px);
+                .box-shadow(none);
             }
 
             .recent-wrap {
-                padding: 5px 10px;
+                padding: 5px 6px;
                 cursor: pointer;
                 .font-size-medium();
 
@@ -435,32 +412,80 @@
                 }
 
                 .recent-icon {
-                    float: left;
-                    width: 25px;
-                    height: 25px;
+                    width: 24px;
+                    height: 30px;
                     margin-top: 1px;
+                    .float-left();
                     div {
                         width: 100%;
                         height: 100%;
+                        div{
+                            background: ~"url(@{common-image-const-path}/doc-formats/formats.png)";
+                            background-size: 744px 30px;
+                            &:not(.svg-file-recent) {
+                                .pixel-ratio__1_25 & {
+                                    background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.25x.png)";
+                                }
+
+                                .pixel-ratio__1_5 & {
+                                    background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.5x.png)";
+                                }
+
+                                .pixel-ratio__1_75 & {
+                                    background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.75x.png)";
+                                }
+
+                                .pixel-ratio__2 & {
+                                    background-image: ~"url(@{common-image-const-path}/doc-formats/formats@2x.png)";
+                                }
+                            }
+                        }
+                        .img-format- {
+                            &pptx {
+                                background-position: 504px 0px;
+                            }
+
+                            &pdf, &pdfa {
+                                background-position: 408px 0px;
+                            }
+
+                            &odp {
+                                background-position: 456px 0px;
+                            }
+
+                            &potx {
+                                background-position: 192px 0px;
+                            }
+
+                            &otp {
+                                background-position: 120px 0px;
+                            }
+
+                            &ppsx {
+                                background-position: 72px 0px;
+                            }
+
+                            &ppt {
+                                background-position: 480px 0px;
+                            }
+                        }
                         .svg-file-recent {
                             background: ~"url(@{app-image-const-path}/recent-file.svg) no-repeat top";
                         }
                     }
                 }
 
-                .file-name {
+                > div:not(:first-child) {
                     display: block;
+                    .padding-left-10();
                     overflow: hidden;
                     white-space: nowrap;
                     text-overflow: ellipsis;
                 }
 
                 .file-info {
-                    display: block;
-                    overflow: hidden;
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
-                    color: #999;
+                    color: @text-secondary-ie;
+                    color: @text-secondary;
                 }
             }
         }
@@ -560,12 +585,8 @@
 
                         &.left {
                             padding: 5px 10px;
-                            text-align: right;
+                            .text-align-right();
                             width: 200px;
-
-                            .rtl & {
-                                text-align: left;
-                            }
 
                             label {
                                 .font-weight-bold();
@@ -598,6 +619,9 @@
                 &.sharedLink {
                     background-position: -24px -273px;
                 }
+                .rtl & {
+                    padding: 0 17px 0 0;
+            }
             }
 
             label, span {
@@ -643,22 +667,6 @@
                 display: flex;
             }
 
-            #fms-btn-delete-pwd {
-                margin-left: 16px;
-                .rtl & {
-                    margin-left: 0;
-                    margin-right: 16px;
-                }
-            }
-
-            .signature-view-link {
-                margin-right: 20px;
-                .rtl & {
-                    margin-right: 0;
-                    margin-left: 20px;
-                }
-            }
-
             .signature-tip {
                 margin-bottom: 6px;
             }
@@ -684,7 +692,6 @@
                 margin: 18px 0 20px 0;
             }
             .comment-text{
-                opacity: 0.45;
                 white-space: normal;
             }
             #print-preview-empty {
@@ -724,18 +731,7 @@
                     border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
                     border-left: @scaled-one-px-value solid @border-toolbar;
                 }
-                label.header {
-                    font-weight: 700;
-                }
-                .footer {
-                    .btn.primary {
-                        margin-right: 8px;
-                        .rtl & {
-                            margin-right: 0;
-                            margin-left: 8px;
-                        }
-                    }
-                }
+
                 .settings-container {
                     width: 100%;
                     height: 100%;
@@ -757,38 +753,17 @@
                     .footer {
                         margin-top: 24px;
                     }
-                    #print-txt-pages, #print-txt-copies {
-                        padding-left: 5px;
-                        .rtl & {
-                            padding-left: 0;
-                            padding-right: 5px;
-                        }
-                    }
                     #print-combo-sides {
                         .dropdown-menu li > a {
-                            padding-right: 5px;
-                            padding-left: 20px;
-                            .rtl & {
-                                padding-right: 20px;
-                                padding-left: 5px;
-                            }
+                            .padding-x(20px, 5px);
                         }
                     }
-                }
-            }
-
-            #fms-btn-delete-pwd {
-                margin-left: 20px;
-
-                .rtl & {
-                    margin-left: 0;
-                    margin-right: 20px;
                 }
             }
 
             #print-navigation {
                 height: 50px;
-                padding-left: 20px;
+                .padding-left-20();
                 padding-top: 10px;
                 display: flex;
                 #print-prev-page {
@@ -836,23 +811,11 @@
                     display: flex;
                     align-items: center;
                     height: 20px;
-                    margin-left: 10px;
-                    .rtl & {
-                        margin-left: 0;
-                        margin-right: 10px;
-                    }
                     label {
                         .font-weight-bold();
                     }
-                    #print-count-page, #print-number-page {
-                        margin-left: 4px;
-                        .rtl & {
-                            margin-left: 0;
-                            margin-right: 4px;
                         }
                     }
-                }
-            }
             #print-preview {
                 height: calc(100% - 50px);
             }

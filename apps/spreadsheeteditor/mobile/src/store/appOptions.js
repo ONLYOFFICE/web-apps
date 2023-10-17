@@ -89,6 +89,7 @@ export class storeAppOptions {
         this.canAnalytics = params.asc_getIsAnalyticsEnable();
         this.canLicense = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
         this.isLightVersion = params.asc_getIsLight();
+        this.buildVersion = params.asc_getBuildVersion();
         this.canCoAuthoring = !this.isLightVersion;
         this.isOffline = Common.EditorApi.get().asc_isOffline();
         this.canRequestEditRights = this.config.canRequestEditRights;
@@ -121,6 +122,10 @@ export class storeAppOptions {
         this.canUseReviewPermissions && AscCommon.UserInfoParser.setReviewPermissions(permissions.reviewGroups, this.customization.reviewPermissions);
         this.canUseCommentPermissions && AscCommon.UserInfoParser.setCommentPermissions(permissions.commentGroups);  
         this.canUseUserInfoPermissions && AscCommon.UserInfoParser.setUserInfoPermissions(permissions.userInfoGroups);
+
+        this.canUseHistory = this.canLicense && !this.isLightVersion && this.config.canUseHistory && this.canCoAuthoring && !this.isDesktopApp;
+        this.canHistoryClose = this.config.canHistoryClose;
+        this.canHistoryRestore= this.config.canHistoryRestore;
 
         this.canLiveView = !!params.asc_getLiveViewerSupport() && (this.config.mode === 'view') && isSupportEditFeature;
         this.isAnonymousSupport = !!Common.EditorApi.get().asc_isAnonymousSupport();

@@ -21,7 +21,7 @@
     & > a:after {
         display: block;
         content: " ";
-        float: right;
+        .float-right();
         width: 0;
         height: 0;
         border-color: transparent;
@@ -30,12 +30,9 @@
         border-left-color: @icon-normal-ie;
         border-left-color: @icon-normal;
         margin-top: 5px;
-        margin-right: -7px;
+        .margin-right(-7px);
 
         .rtl & {
-            float: left;
-            margin-right: 0;
-            margin-left: -7px;
             border-color: transparent;
             border-width: 3px 3px 3px 0;
             border-right-color: @icon-normal-ie;

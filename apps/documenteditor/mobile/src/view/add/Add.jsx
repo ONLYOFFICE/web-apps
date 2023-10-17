@@ -1,22 +1,22 @@
-import React, {Component, useEffect, Fragment} from 'react';
-import {View,Page,Navbar,NavRight, NavTitle, Link,Popup,Popover,Icon,Tabs,Tab} from 'framework7-react';
-import { useTranslation } from 'react-i18next';
-import {f7} from 'framework7-react';
-import { observer, inject } from "mobx-react";
-import {Device} from '../../../../../common/mobile/utils/device';
-
-import {AddTableController} from "../../controller/add/AddTable";
-import AddShapeController from "../../controller/add/AddShape";
-import {AddImageController} from "../../controller/add/AddImage";
-import {AddLinkController} from "../../controller/add/AddLink";
-import {AddOtherController} from "../../controller/add/AddOther";
-
-import {PageImageLinkSettings} from "../add/AddImage";
-import {PageAddNumber, PageAddBreak, PageAddSectionBreak, PageAddFootnote} from "../add/AddOther";
+import React, { useContext, useEffect } from 'react';
+import { View, Popup, Popover } from 'framework7-react';
+import { f7 } from 'framework7-react';
+import { Device } from '../../../../../common/mobile/utils/device';
+import { AddImageController } from "../../controller/add/AddImage";
+import { AddLinkController } from "../../controller/add/AddLink";
+import { PageImageLinkSettings } from "../add/AddImage";
+import { PageAddNumber, PageAddBreak, PageAddSectionBreak, PageAddFootnote } from "../add/AddOther";
 import AddTableContentsController from '../../controller/add/AddTableContents';
 import EditHyperlink from '../../controller/edit/EditHyperlink';
+import AddingPage from './AddingPage';
+import { MainContext } from '../../page/main';
 
 const routes = [
+    {
+        path: '/adding-page/',
+        component: AddingPage,
+        keepAlive: true
+    },
     // Image
     {
         path: '/add-image-from-url/',
@@ -57,205 +57,37 @@ const routes = [
     }
 ];
 
-const AddLayoutNavbar = ({ tabs, inPopover, storeTableSettings }) => {
-    const isAndroid = Device.android;
-    const { t } = useTranslation();
-    const _t = t('Add', {returnObjects: true});
-
-    const getTableStylesPreviews = () => {
-        if(!storeTableSettings.arrayStylesDefault.length) {
-            const api = Common.EditorApi.get();
-            setTimeout(() => storeTableSettings.setStyles(api.asc_getTableStylesPreviews(true), 'default'), 1);
-        }
+routes.forEach(route => {
+    route.options = {
+        ...route.options,
+        transition: 'f7-push'
     };
+});
 
-    return (
-        <Navbar>
-            {tabs.length > 1 ?
-                <div className='tab-buttons tabbar'>
-                    {tabs.map((item, index) =>
-                        <Link key={"de-link-" + item.id} onClick={() => getTableStylesPreviews()} tabLink={"#" + item.id} tabLinkActive={index === 0}>
-                            <Icon slot="media" icon={item.icon}></Icon>
-                        </Link>)}
-                    {isAndroid && <span className='tab-link-highlight' style={{width: 100 / tabs.lenght + '%'}}></span>}
-                </div> :
-                <NavTitle>{ tabs[0].caption }</NavTitle>
-            }
-            {!inPopover && <NavRight><Link icon='icon-expand-down' popupClose=".add-popup"></Link></NavRight>}
-        </Navbar>
-    )
-};
+const AddView = () => {
+    const mainContext = useContext(MainContext);
 
-const AddLayoutContent = ({ tabs }) => {
-    return (
-        <Tabs animated>
-            {tabs.map((item, index) =>
-                <Tab key={"de-tab-" + item.id} id={item.id} className="page-content" tabActive={index === 0}>
-                    {item.component}
-                </Tab>
-            )}
-        </Tabs>
-    )
-};
-
-const AddTabs = inject("storeFocusObjects", "storeTableSettings")(observer(({storeFocusObjects, showPanels, storeTableSettings, style, inPopover, onCloseLinkSettings}) => {
-    const { t } = useTranslation();
-    const _t = t('Add', {returnObjects: true});
-    const api = Common.EditorApi.get();
-    const tabs = [];
-    const options = storeFocusObjects.settings;
-    const paragraphObj = storeFocusObjects.paragraphObject;
-
-    let needDisable = false,
-        canAddTable = true,
-        canAddImage = true,
-        paragraphLocked = false,
-        inFootnote = false,
-        inControl = false,
-        controlProps = false,
-        lockType = false,
-        controlPlain = false,
-        contentLocked = false,
-        richDelLock = false,
-        richEditLock = false,
-        plainDelLock = false,
-        plainEditLock = false;
-
-    if(paragraphObj) {
-        canAddTable = paragraphObj.get_CanAddTable();
-        canAddImage = paragraphObj.get_CanAddImage();
-        paragraphLocked = paragraphObj.get_Locked();
-
-        inFootnote = api.asc_IsCursorInFootnote() || api.asc_IsCursorInEndnote();
-        inControl = api.asc_IsContentControl();
-
-        controlProps = inControl ? api.asc_GetContentControlProperties() : null;
-        lockType = (inControl && controlProps) ? controlProps.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
-        controlPlain = (inControl && controlProps) ? (controlProps.get_ContentControlType() == Asc.c_oAscSdtLevelType.Inline) : false;
-        contentLocked = lockType == Asc.c_oAscSdtLockType.SdtContentLocked || lockType == Asc.c_oAscSdtLockType.ContentLocked;
-
-        richDelLock = paragraphObj ? !paragraphObj.can_DeleteBlockContentControl() : false;
-        richEditLock = paragraphObj ? !paragraphObj.can_EditBlockContentControl() : false;
-        plainDelLock = paragraphObj ? !paragraphObj.can_DeleteInlineContentControl() : false;
-        plainEditLock = paragraphObj ? !paragraphObj.can_EditInlineContentControl() : false;
-    }
-
-    if (!showPanels && options.indexOf('text') > -1) {
-        needDisable = !canAddTable || controlPlain || richEditLock || plainEditLock || richDelLock || plainDelLock;
-
-        if(!needDisable) {
-            tabs.push({
-                caption: _t.textTable,
-                id: 'add-table',
-                icon: 'icon-add-table',
-                component: <AddTableController/>
-            });
+    useEffect(() => {
+        if(Device.phone) {
+            f7.popup.open('.add-popup');
+        } else {
+            f7.popover.open('#add-popover', '#btn-add');
         }
-    }
-    if(!showPanels) {
-        needDisable = paragraphLocked || controlPlain || contentLocked || inFootnote;
-
-        if(!needDisable) {
-            tabs.push({
-                caption: _t.textShape,
-                id: 'add-shape',
-                icon: 'icon-add-shape',
-                component: <AddShapeController/>
-            });
-        }
-    }
-    // if(!showPanels) {
-    //     needDisable = paragraphLocked || paragraphObj && !canAddImage || controlPlain || richDelLock || plainDelLock || contentLocked;
-
-    //     if(!needDisable) {
-    //         tabs.push({
-    //             caption: _t.textImage,
-    //             id: 'add-image',
-    //             icon: 'icon-add-image',
-    //             component: <AddImageController/>
-    //         });
-    //     }
-    // }
-
-    if(!showPanels) {
-        tabs.push({
-            caption: _t.textOther,
-            id: 'add-other',
-            icon: 'icon-add-other',
-            component: 
-                <AddOtherController 
-                    inFootnote={inFootnote} 
-                    inControl={inControl} 
-                    paragraphLocked={paragraphLocked} 
-                    controlPlain={controlPlain}
-                    richDelLock={richDelLock}
-                    richEditLock={richEditLock}
-                    plainDelLock={plainDelLock}
-                    plainEditLock={plainEditLock}     
-                    onCloseLinkSettings={onCloseLinkSettings}
-                />
-        });
-    }
-
-    // if (showPanels && showPanels === 'link') {
-    //     tabs.push({
-    //         caption: t('Add.textLinkSettings'),
-    //         id: 'add-link',
-    //         component: <AddLinkController noNavbar={true} />
-    //     });
-    // }
+    }, []);
 
     return (
-        <View style={style} stackPages={true} routes={routes}>
-            <Page pageContent={false}>
-                <AddLayoutNavbar tabs={tabs} inPopover={inPopover} storeTableSettings={storeTableSettings} />
-                <AddLayoutContent tabs={tabs} />
-            </Page>
-        </View>
+        !Device.phone ?
+            <Popover id="add-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => mainContext.closeOptions('add')}>
+                <View routes={routes} url='/adding-page/' style={{height: '410px'}}>
+                    <AddingPage />
+                </View>
+            </Popover> :
+            <Popup className="add-popup" onPopupClosed={() => mainContext.closeOptions('add')}>
+                <View routes={routes} url='/adding-page/'>
+                    <AddingPage />
+                </View>
+            </Popup>
     )
-}));
-
-class AddView extends Component {
-    constructor(props) {
-        super(props);
-
-        this.onoptionclick = this.onoptionclick.bind(this);
-    }
-    onoptionclick(page){
-        f7.views.current.router.navigate(page);
-    }
-    render() {
-        const show_popover = this.props.usePopover;
-        return (
-            show_popover ?
-                <Popover id="add-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => this.props.onclosed()}>
-                    <AddTabs inPopover={true} style={{height: '410px'}} onCloseLinkSettings={this.props.onCloseLinkSettings} showPanels={this.props.showPanels} />
-                </Popover> :
-                <Popup className="add-popup" onPopupClosed={() => this.props.onclosed()}>
-                    <AddTabs onCloseLinkSettings={this.props.onCloseLinkSettings} showPanels={this.props.showPanels} />
-                </Popup>
-        )
-    }
 }
 
-const Add = props => {
-    useEffect(() => {
-        if ( Device.phone )
-            f7.popup.open('.add-popup');
-        else f7.popover.open('#add-popover', '#btn-add');
-
-        f7.tab.show('#add-other', false);
-
-        return () => {
-            // component will unmount
-        }
-    });
-    const onviewclosed = () => {
-        if ( props.onclosed ) {
-            props.onclosed();
-        }
-    };
-    return <AddView usePopover={!Device.phone} onCloseLinkSettings={props.onCloseLinkSettings} onclosed={onviewclosed} showPanels={props.showOptions} />
-};
-
-export default Add;
+export default AddView;

@@ -212,7 +212,8 @@ class MainController extends Component {
                 if (Asc.c_oLicenseResult.Expired === licType ||
                     Asc.c_oLicenseResult.Error === licType ||
                     Asc.c_oLicenseResult.ExpiredTrial === licType ||
-                    Asc.c_oLicenseResult.NotBefore === licType) {
+                    Asc.c_oLicenseResult.NotBefore === licType ||
+                    Asc.c_oLicenseResult.ExpiredLimited === licType) {
 
                     f7.dialog.create({
                         title: Asc.c_oLicenseResult.NotBefore === licType ? t('Controller.Main.titleLicenseNotActive') : t('Controller.Main.titleLicenseExp'),
@@ -220,10 +221,6 @@ class MainController extends Component {
                     }).open();
 
                     return;
-                }
-
-                if (Asc.c_oLicenseResult.ExpiredLimited === licType) {
-                    this._state.licenseType = licType;
                 }
 
                 this.appOptions.canLicense = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
@@ -372,10 +369,6 @@ class MainController extends Component {
 
         $$(window).on('popover:open popup:open sheet:open actions:open searchbar:enable', () => {
             this.api.asc_enableKeyEvents(false);
-        });
-
-        $$(window).on('popover:close popup:close sheet:close actions:close searchbar:disable', () => {
-            this.api.asc_enableKeyEvents(true);
         });
 
         this.api.asc_registerCallback('asc_onDocumentUpdateVersion',      this.onUpdateVersion.bind(this));
@@ -793,10 +786,9 @@ class MainController extends Component {
             let buttons = [{text: 'OK'}];
             if ((appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0 &&
                 (license === Asc.c_oLicenseResult.SuccessLimit ||
-                    license === Asc.c_oLicenseResult.ExpiredLimited ||
                     appOptions.permissionsLicense === Asc.c_oLicenseResult.SuccessLimit)
             ) {
-                license = (license === Asc.c_oLicenseResult.ExpiredLimited) ? _t.warnLicenseLimitedNoAccess : _t.warnLicenseLimitedRenewed;
+                license = _t.warnLicenseLimitedRenewed;
             } else if (license === Asc.c_oLicenseResult.Connections || license === Asc.c_oLicenseResult.UsersCount) {
                 license = (license===Asc.c_oLicenseResult.Connections) ? warnLicenseExceeded : warnLicenseUsersExceeded;
             } else {

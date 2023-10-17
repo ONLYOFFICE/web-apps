@@ -65,12 +65,8 @@
 .input-field {
     input,
     .input-error {
-        float: left;
+        .float-left();
         position: relative;
-
-        .rtl & {
-            float: right;
-        }
     }
 
     &.form-control:focus,
@@ -170,11 +166,44 @@ textarea.form-control:focus {
         }
     }
     input {
-        padding-right: 20px;
+        .padding-x(3px, 20px);
+    }
+}
+
+.input-field-fixed {
+    position: relative;
+
+    input:not(.fixed-text) {
+        .text-align-right();
+        padding-right: 50%;
+        padding-right: calc(50% + 4px);
+        .rtl & {
+            padding-left: 50%;
+            padding-right: 0;
+        }
+    }
+
+    .fixed-text {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 50%;
+        width: calc(50% + 4px);
+        border-color: transparent;
+        background: transparent;
+        .text-align-left();
+        .font-size-normal();
+        padding-left: 2px;
+        padding-right: 2px;
+        cursor: default;
 
         .rtl & {
-            padding-right: 3px;
-            padding-left: 20px;
+            right: unset;
+            left: 0;
         }
+    }
+    &.disabled .fixed-text {
+        opacity: @component-disabled-opacity-ie;
+        opacity: @component-disabled-opacity;
     }
 }

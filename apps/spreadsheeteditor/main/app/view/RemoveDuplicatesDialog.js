@@ -69,7 +69,7 @@ define([
                         '<div id="rem-duplicates-dlg-headers"></div>',
                     '</div>',
                     '<div class="input-row">',
-                        '<label style="font-weight: bold;">' + this.textColumns + '</label>',
+                        '<label class="font-weight-bold">' + this.textColumns + '</label>',
                     '</div>',
                     '<div id="rem-duplicates-dlg-columns" class="" style="width: 100%; height: 162px; overflow: hidden;"></div>',
                 '</div>'
@@ -108,7 +108,7 @@ define([
                             '<input id="rdcheckbox-<%= id %>" type="checkbox" class="button__checkbox">',
                             '<label for="rdcheckbox-<%= id %>" class="checkbox__shape"></label>',
                         '</label>',
-                        '<div id="<%= id %>" class="list-item" style="pointer-events:none; margin-left: 20px;display: flex;">',
+                        '<div id="<%= id %>" class="list-item margin-left-20" style="pointer-events:none; display: flex;">',
                             '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(value) %></div>',
                         '</div>',
                     '</div>'

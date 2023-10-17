@@ -23,25 +23,6 @@
             .font-weight-bold();
             margin-top: 2px;
         }
-
-        #comments-btn-close {
-            float: right;
-            margin-left: 4px;
-
-            .rtl & {
-                float: left;
-                margin-left: 0;
-                margin-right: 4px;
-            }
-        }
-
-        #comments-btn-sort {
-            float: right;
-
-            .rtl & {
-                float: left;
-            }
-        }
     }
 
     .messages-ct {
@@ -133,20 +114,10 @@
 
     .btn {
         &.add {
-            margin-left: 20px;
-
-            .rtl & {
-                margin-left: 0;
-                margin-right: 20px;
-            }
+            .margin-left-20();
         }
         &.cancel {
-            margin-left: 7px;
-
-            .rtl & {
-                margin-left: 0;
-                margin-right: 7px;
-            }
+            .margin-left-7();
         }
     }
 }
@@ -305,12 +276,7 @@
 
         &.with-reply {
             margin-top: 5px;
-            margin-left: 20px;
-
-            .rtl & {
-                margin-left: 0;
-                margin-right: 20px;
-            }
+            .margin-left-20();
         }
     }
 
@@ -349,21 +315,12 @@
     .reply-item-ct {
         position: relative;
         padding-bottom: 10px;
-        padding-left: 20px;
-
-        .rtl & {
-            padding-left: 0;
-            padding-right: 20px;
-        }
+        .padding-left-20();
     }
 
     div[class^=btn-] {
-        float: left;
+        .float-left();
         cursor: pointer;
-
-        .rtl & {
-            float: right;
-        }
     }
 
     .btn-edit,.btn-delete, .btn-resolve, .icon-resolve, .btn-resolve-check, .btn-accept, .btn-reject, .btn-goto {
@@ -484,11 +441,7 @@
         padding: 7px 0px 0px 0px;
 
         .btn-inner-close {
-            margin-left: 7px;
-            .rtl & {
-                margin-left: 0;
-                margin-right: 7px;
-            }
+            .margin-left-7();
         }
     }
 
@@ -496,11 +449,7 @@
         padding: 10px 0px 0px 0px;
 
         .btn-close {
-            margin-left: 7px;
-            .rtl & {
-                margin-left: 0;
-                margin-right: 7px;
-            }
+            .margin-left-7();
         }
     }
     .reply-inner-ct {
@@ -524,8 +473,7 @@
         right: 0;
         bottom: 0;
         background-color: #F4F4F4;
-        margin-top: 2px;
-        margin-bottom: -2px;
+        margin: 1px 1px -1px;
         opacity: .5;
         cursor: pointer;
     }

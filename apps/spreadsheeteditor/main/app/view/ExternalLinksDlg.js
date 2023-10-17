@@ -50,7 +50,7 @@ define([
 
         options: {
             alias: 'ExternalLinksDlg',
-            contentWidth: 450,
+            contentWidth: 510,
             height: 294,
             buttons: null
         },
@@ -66,10 +66,10 @@ define([
                                 '<table cols="1" style="width: 100%;">',
                                     '<tr>',
                                         '<td class="padding-large">',
-                                            '<div id="external-links-btn-update" style="display: inline-block;"></div>',
-                                            '<div id="external-links-btn-delete" style="display: inline-block;"></div>',
-                                            // '<button type="button" class="btn btn-text-default auto sort-dialog-btn-text" id="external-links-btn-open">', me.textOpen ,'</button>',
-                                            // '<button type="button" class="btn btn-text-default auto sort-dialog-btn-text" id="external-links-btn-change">', me.textChange ,'</button>',
+                                            '<div id="external-links-btn-update" class="float-left margin-right-5"></div>',
+                                            '<div id="external-links-btn-change" class="float-left margin-right-5"></div>',
+                                            '<div id="external-links-btn-open" class="float-left margin-right-5"></div>',
+                                            '<div id="external-links-btn-delete" class="float-left"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
@@ -91,6 +91,8 @@ define([
             this.handler    = options.handler;
             this.isUpdating = options.isUpdating || false;
             this.canRequestReferenceData = options.canRequestReferenceData || false;
+            this.canRequestOpen = options.canRequestOpen || false;
+            this.canRequestReferenceSource = options.canRequestReferenceSource || false;
             this.isOffline = options.isOffline || false;
             this.linkStatus = [];
             this.wrapEvents = {
@@ -113,7 +115,7 @@ define([
                 ],
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;">',
-                        '<div style="width:240px;padding-right: 5px;" data-toggle="tooltip"><%= value %></div>',
+                        '<div class="padding-right-5" style="width:240px;" data-toggle="tooltip"><%= value %></div>',
                         '<div style="width:175px;" data-toggle="tooltip"><%= status %></div>',
                     '</div>'
                 ].join('')),
@@ -170,12 +172,18 @@ define([
             this.btnDelete.menu.on('item:click', _.bind(this.onDeleteMenu, this));
 
             this.btnOpen = new Common.UI.Button({
-                el: $('#external-links-btn-open', this.$window)
+                parentEl: $('#external-links-btn-open', this.$window),
+                cls: 'btn-text-default auto',
+                caption: this.textOpen,
+                visible: !!this.canRequestOpen
             });
             this.btnOpen.on('click', _.bind(this.onOpen, this));
 
             this.btnChange = new Common.UI.Button({
-                el: $('#external-links-btn-change', this.$window)
+                parentEl: $('#external-links-btn-change', this.$window),
+                cls: 'btn-text-default auto',
+                caption: this.textChange,
+                visible: !!this.canRequestReferenceSource
             });
             this.btnChange.on('click', _.bind(this.onChange, this));
 
@@ -189,7 +197,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [ this.btnUpdate, this.btnDelete, this.btnOpen, this.btnChange, this.linksList ];
+            return [ this.btnUpdate, this.btnChange, this.btnOpen, this.btnDelete, this.linksList ];
         },
 
         close: function () {
@@ -273,11 +281,40 @@ define([
         },
 
         onOpen: function() {
-
+            var rec = this.linksList.getSelectedRec();
+            if (rec) {
+                var data = this.api.asc_openExternalReference(rec.get('externalRef'));
+                if (data) {
+                    switch (data.asc_getType()) {
+                        case Asc.c_oAscExternalReferenceType.link:
+                            data = {link: data.asc_getData()};
+                            break;
+                        case Asc.c_oAscExternalReferenceType.path:
+                            data = {path: data.asc_getData()};
+                            break;
+                        case Asc.c_oAscExternalReferenceType.referenceData:
+                            data = {
+                                referenceData: data.asc_getData(),
+                                path: data.asc_getPath()
+                            };
+                            break;
+                    }
+                    data.windowName = 'wname-' + Date.now();
+                    window.open("", data.windowName);
+                    Common.Gateway.requestOpen(data);
+                }
+            }
         },
 
         onChange: function() {
+            var rec = this.linksList.getSelectedRec();
+            if (rec) {
+                if (this.isOffline)
+                    this.api.asc_changeExternalReference(rec.get('externalRef'));
+                else
+                    this.fireEvent('change:source', this, rec.get('externalRef'));
 
+            }
         },
 
         updateButtons: function() {

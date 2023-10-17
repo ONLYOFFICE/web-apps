@@ -1363,7 +1363,7 @@ define([
             });
 
             var langTemplate = _.template([
-                '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= value %>" class="<% if (checked) { %> checked <% } %>">',
+                '<a id="<%= id %>" tabindex="-1" type="menuitem" langval="<%= value %>" class="<% if (checked) { %> checked <% } %>">',
                 '<i class="icon <% if (spellcheck) { %> toolbar__icon btn-ic-docspell spellcheck-lang <% } %>"></i>',
                 '<%= caption %>',
                 '</a>'
@@ -2078,9 +2078,13 @@ define([
                     me.menuParagraphEquation.setVisible(isEquation);
                     me.menuParagraphEquation.setDisabled(disabled);
                     if (isEquation) {
-                        var eq = me.api.asc_GetMathInputType();
-                        me.menuParagraphEquation.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
-                        me.menuParagraphEquation.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                        var eq = me.api.asc_GetMathInputType(),
+                            isEqToolbarHide = Common.Utils.InternalSettings.get('pe-equation-toolbar-hide');
+
+                        me.menuParagraphEquation.menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                        me.menuParagraphEquation.menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                        me.menuParagraphEquation.menu.items[8].options.isToolbarHide = isEqToolbarHide;
+                        me.menuParagraphEquation.menu.items[8].setCaption(isEqToolbarHide ? me.showEqToolbar : me.hideEqToolbar, true);
                     }
                 },
                 items: [
@@ -2237,9 +2241,13 @@ define([
                     menuTableEquationSettingsSeparator.setVisible(isEquation);
                     me.menuTableEquationSettings.setDisabled(disabled);
                     if (isEquation) {
-                        var eq = me.api.asc_GetMathInputType();
-                        me.menuTableEquationSettings.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
-                        me.menuTableEquationSettings.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                        var eq = me.api.asc_GetMathInputType(),
+                            isEqToolbarHide = Common.Utils.InternalSettings.get('pe-equation-toolbar-hide');
+
+                        me.menuTableEquationSettings.menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                        me.menuTableEquationSettings.menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                        me.menuTableEquationSettings.menu.items[8].options.isToolbarHide = isEqToolbarHide;
+                        me.menuTableEquationSettings.menu.items[8].setCaption(isEqToolbarHide ? me.showEqToolbar : me.hideEqToolbar, true);
                     }
                 },
                 items: [
@@ -2453,27 +2461,6 @@ define([
                 menuAlign: menuAlign,
                 items   : [
                     new Common.UI.MenuItem({
-                        caption     : this.unicodeText,
-                        iconCls     : 'menu__icon btn-unicode',
-                        checkable   : true,
-                        checkmark   : false,
-                        checked     : false,
-                        toggleGroup : toggleGroup,
-                        type        : 'input',
-                        value       : Asc.c_oAscMathInputType.Unicode
-                    }),
-                    new Common.UI.MenuItem({
-                        caption     : this.latexText,
-                        iconCls     : 'menu__icon btn-latex',
-                        checkable   : true,
-                        checkmark   : false,
-                        checked     : false,
-                        toggleGroup : toggleGroup,
-                        type        : 'input',
-                        value       : Asc.c_oAscMathInputType.LaTeX
-                    }),
-                    { caption     : '--' },
-                    new Common.UI.MenuItem({
                         caption     : this.currProfText,
                         iconCls     : 'menu__icon btn-professional-equation',
                         type        : 'view',
@@ -2496,6 +2483,29 @@ define([
                         iconCls     : 'menu__icon btn-linear-equation',
                         type        : 'view',
                         value       : {all: true, linear: true}
+                    }),
+                    { caption     : '--' },
+                    new Common.UI.MenuItem({
+                        caption     : this.unicodeText,
+                        checkable   : true,
+                        checked     : false,
+                        toggleGroup : toggleGroup,
+                        type        : 'input',
+                        value       : Asc.c_oAscMathInputType.Unicode
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.latexText,
+                        checkable   : true,
+                        checked     : false,
+                        toggleGroup : toggleGroup,
+                        type        : 'input',
+                        value       : Asc.c_oAscMathInputType.LaTeX
+                    }),
+                    { caption     : '--' },
+                    new Common.UI.MenuItem({
+                        caption     : this.hideEqToolbar,
+                        isToolbarHide: false,
+                        type        : 'hide',
                     })
                 ]
             });
@@ -2835,7 +2845,16 @@ define([
         currProfText: 'Current - Professional',
         currLinearText: 'Current - Linear',
         allProfText: 'All - Professional',
-        allLinearText: 'All - Linear'
+        allLinearText: 'All - Linear',
+        hideEqToolbar: 'Hide Equation Toolbar',
+        showEqToolbar: 'Show Equation Toolbar',
+        txtInsImage: 'Insert image from File',
+        txtInsImageUrl: 'Insert image from URL',
+        txtInsChart: 'Insert chart',
+        txtInsTable: 'Insert table',
+        txtInsVideo: 'Insert video',
+        txtInsAudio: 'Insert audio',
+        txtInsSmartArt: 'Insert SmartArt'
 
     }, PE.Views.DocumentHolder || {}));
 });

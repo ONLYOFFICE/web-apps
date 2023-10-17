@@ -209,6 +209,7 @@ define([
         },
 
         onEyedropperStart: function () {
+            Common.NotificationCenter.trigger('eyedropper:start');
             this.trigger('eyedropper:start', this);
         },
 

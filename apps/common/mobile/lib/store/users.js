@@ -6,6 +6,7 @@ export class storeUsers {
         makeObservable(this, {
             users: observable,
             reset: action,
+            addUser: action,
             currentUser: observable,
             setCurrentUser: action,
             connection: action,
@@ -22,6 +23,10 @@ export class storeUsers {
 
     reset (users) {
         this.users = Object.values(users)
+    }
+
+    addUser (user) {
+        this.users.push(user);
     }
 
     setCurrentUser (id) {

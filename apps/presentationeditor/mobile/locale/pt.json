@@ -42,6 +42,20 @@
       "textCustomColors": "Cores personalizadas",
       "textStandartColors": "Cores padrão",
       "textThemeColors": "Cores do tema"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Aviso",
+      "textAnonymous": "Anônimo",
+      "textBack": "Voltar",
+      "textCancel": "Cancelar",
+      "textCurrent": "Atual",
+      "textOk": "OK",
+      "textRestore": "Restaurar",
+      "textVersion": "Versão",
+      "textVersionHistory": "Histórico de versão",
+      "textWarningRestoreVersion": "O arquivo atual será salvo no histórico de versões.",
+      "titleWarningRestoreVersion": "Restaurar esta versão?",
+      "txtErrorLoadHistory": "Histórico de carregamento falhou"
     }
   },
   "ContextMenu": {
@@ -145,6 +159,7 @@
     "downloadErrorText": "Download falhou.",
     "errorAccessDeny": "Você está tentando realizar uma ação para a qual não possui direitos. <br> Entre em contato com o seu administrador.",
     "errorBadImageUrl": "URL de imagem está incorreta",
+    "errorComboSeries": "Para criar uma tabela de combinação, selecione pelo menos duas séries de dados.",
     "errorConnectToServer": "Não é possível salvar este documento. Verifique as configurações de conexão ou entre em contato com o administrador. <br> Ao clicar no botão 'OK', você será solicitado a baixar o documento.",
     "errorDatabaseConnection": "Erro externo. <br> Erro de conexão do banco de dados. Entre em contato com o suporte.",
     "errorDataEncrypted": "Alteração criptografadas foram recebidas, e não podem ser decifradas.",
@@ -152,8 +167,10 @@
     "errorDefaultMessage": "Código do erro: %1",
     "errorDirectUrl": "Por favor, verifique o link para o documento.<br>Este link deve ser o link direto para baixar o arquivo.",
     "errorEditingDownloadas": "Ocorreu um erro durante o trabalho com o documento. <br> Use a opção 'Download' para salvar a cópia de backup do arquivo localmente.",
+    "errorEmailClient": "Nenhum cliente de e-mail foi encontrado",
     "errorFilePassProtect": "O arquivo é protegido por senha e não pôde ser aberto.",
     "errorFileSizeExceed": "O tamanho do arquivo excede o limite do servidor. <br> Entre em contato com o administrador.",
+    "errorForceSave": "Ocorreu um erro na gravação. Favor utilizar a opção 'Transferir como' para gravar o arquivo em seu computador ou tente novamente mais tarde.",
     "errorInconsistentExt": "Ocorreu um erro ao abrir o arquivo.<br>O conteúdo do arquivo não corresponde à extensão do arquivo.",
     "errorInconsistentExtDocx": "Ocorreu um erro ao abrir o arquivo.<br>O conteúdo do arquivo corresponde a documentos de texto (por exemplo, docx), mas o arquivo tem a extensão inconsistente: %1.",
     "errorInconsistentExtPdf": "Ocorreu um erro ao abrir o arquivo.<br>O conteúdo do arquivo corresponde a um dos seguintes formatos: pdf/djvu/xps/oxps, mas o arquivo tem a extensão inconsistente: %1.",
@@ -165,6 +182,7 @@
     "errorSessionAbsolute": "A sessão de edição do documento expirou. Por favor recarregue a página.",
     "errorSessionIdle": "O documento não é editado há muito tempo. Por favor recarregue a página.",
     "errorSessionToken": "A conexão com o servidor foi interrompida. Por favor recarregue a página.",
+    "errorSetPassword": "Não foi possível definir a senha.",
     "errorStockChart": "Ordem incorreta das linhas. Para construir um gráfico de ações, coloque os dados na folha na seguinte ordem: <br> preço de abertura, preço máximo, preço mínimo, preço de fechamento.",
     "errorToken": "O token de segurança do documento não foi formado corretamente. <br> Entre em contato com o administrador do Document Server.",
     "errorTokenExpire": "O token de segurança do documento expirou. <br> Entre em contato com o administrador do Document Server.",
@@ -222,7 +240,8 @@
     "dlgLeaveMsgText": "Você tem alterações não salvas neste documento. Clique em 'Permanecer nesta página' para aguardar o salvamento automático. Clique em 'Sair desta página' para descartar todas as alterações não salvas.",
     "dlgLeaveTitleText": "Você saiu do aplicativo",
     "leaveButtonText": "Sair desta página",
-    "stayButtonText": "Ficar nesta página"
+    "stayButtonText": "Ficar nesta página",
+    "textCloseHistory": "Fechar histórico"
   },
   "View": {
     "Add": {
@@ -360,6 +379,10 @@
       "textLinkSettings": "Configurações de link",
       "textLinkTo": "Vincular a",
       "textLinkType": "Tipo de link",
+      "textMorph": "Morfologia",
+      "textMorphLetters": "Cartas",
+      "textMorphObjects": "Objetos",
+      "textMorphWords": "Palavras",
       "textMoveBackward": "Mover para trás",
       "textMoveForward": "Mover para frente",
       "textNextSlide": "Próximo slide",
@@ -485,6 +508,7 @@
       "textUnitOfMeasurement": "Unidade de medida",
       "textUploaded": "Carregado",
       "textVersion": "Versão",
+      "textVersionHistory": "Histórico de versão",
       "txtScheme1": "Office",
       "txtScheme10": "Mediana",
       "txtScheme11": "Metro",

@@ -77,6 +77,7 @@ export class storeAppOptions {
         this.canAnalytics = params.asc_getIsAnalyticsEnable();
         this.canLicense = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
         this.isLightVersion = params.asc_getIsLight();
+        this.buildVersion = params.asc_getBuildVersion();
         this.canCoAuthoring = !this.isLightVersion;
         this.isOffline = Common.EditorApi.get().asc_isOffline();
         this.isReviewOnly = (permissions.review === true) && (permissions.edit === false);
@@ -89,6 +90,7 @@ export class storeAppOptions {
         this.canReview = this.canLicense && this.isEdit && (permissions.review===true);
         this.canUseHistory = this.canLicense && !this.isLightVersion && this.config.canUseHistory && this.canCoAuthoring && !this.isDesktopApp;
         this.canHistoryClose = this.config.canHistoryClose;
+        this.canHistoryRestore= this.config.canHistoryRestore;
         this.canUseMailMerge = this.canLicense && this.canEdit && !this.isDesktopApp;
         this.canSendEmailAddresses = this.canLicense && this.config.canSendEmailAddresses && this.canEdit && this.canCoAuthoring;
         this.canComments = this.canLicense && (permissions.comment === undefined ? this.isEdit : permissions.comment) && (this.config.mode !== 'view');

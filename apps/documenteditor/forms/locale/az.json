@@ -32,6 +32,7 @@
   "Common.UI.Calendar.textShortTuesday": "Tu",
   "Common.UI.Calendar.textShortWednesday": "We",
   "Common.UI.Calendar.textYears": "İllər",
+  "Common.UI.SearchBar.textFind": "Tapın",
   "Common.UI.Themes.txtThemeClassicLight": "Klassik İşıq",
   "Common.UI.Themes.txtThemeDark": "Tünd",
   "Common.UI.Themes.txtThemeLight": "Açıq",
@@ -158,6 +159,8 @@
   "DE.Views.ApplicationView.textSubmit": "Göndər",
   "DE.Views.ApplicationView.textUndo": "Geri qaytar",
   "DE.Views.ApplicationView.textZoom": "Miqyası dəyişin",
+  "DE.Views.ApplicationView.tipRedo": "Təkrar edin",
+  "DE.Views.ApplicationView.tipUndo": "Geri qaytar",
   "DE.Views.ApplicationView.txtDarkMode": "Qaranlıq rejimi",
   "DE.Views.ApplicationView.txtDownload": "Endir",
   "DE.Views.ApplicationView.txtDownloadDocx": "docx kimi endirin",
@@ -166,6 +169,7 @@
   "DE.Views.ApplicationView.txtFileLocation": "Fayl yerini açın",
   "DE.Views.ApplicationView.txtFullScreen": "Tam ekran",
   "DE.Views.ApplicationView.txtPrint": "Çap",
+  "DE.Views.ApplicationView.txtSearch": "Axtar",
   "DE.Views.ApplicationView.txtShare": "Paylaş",
   "DE.Views.ApplicationView.txtTheme": "İnterfeys mövzusu"
 }

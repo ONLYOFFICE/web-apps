@@ -127,8 +127,8 @@ define([
                     posId   : item[0],
                     strId   : item[1],
                     iconCls : item[2],
-                    style   : 'margin-left: 5px; margin-bottom: 4px;',
-                    cls     : 'btn-options large border-off'
+                    style   : 'margin-bottom: 4px;',
+                    cls     : 'btn-options large border-off margin-left-5'
                 });
 
                 _btn.on('click', function(btn) {
@@ -657,6 +657,8 @@ define([
 
         afterRender: function() {
 
+            this.updateMetricUnit();
+            this.updateThemeColors();
 
             if (!this.isFrame) {
                 this.cmbFonts.fillFonts(this.fontStore);
@@ -668,8 +670,6 @@ define([
             this.tableStyler.setTableColor(colorstr);
             (colorstr!='transparent') && this.tableStyler.redrawTable();
 
-            this.updateMetricUnit();
-            this.updateThemeColors();
 
             if (this.borderProps !== undefined) {
                 this.btnBorderColor.setColor(this.borderProps.borderColor);

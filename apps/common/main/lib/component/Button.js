@@ -902,6 +902,10 @@ define([
                 }
             }
         },
+
+        focus: function() {
+            this.$el && this.$el.find('button').addBack().filter('button').focus();
+        }
     });
 });
 

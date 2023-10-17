@@ -394,8 +394,6 @@
   "SSE.Controllers.Main.warnNoLicense": "Bạn đang sử dụng phiên bản nguồn mở của %1. Phiên bản có giới hạn các kết nối đồng thời với server tài liệu (20 kết nối cùng một lúc).<br>Nếu bạn cần thêm, hãy cân nhắc mua giấy phép thương mại.",
   "SSE.Controllers.Main.warnProcessRightsChange": "Bạn đã bị từ chối quyền chỉnh sửa file này.",
   "SSE.Controllers.Print.strAllSheets": "Tất cả các trang tính",
-  "SSE.Controllers.Print.textWarning": "Cảnh báo",
-  "SSE.Controllers.Print.warnCheckMargings": "Lề không chính xác",
   "SSE.Controllers.Statusbar.errorLastSheet": "Workbook phải có ít nhất một bảng tính hiển thị.",
   "SSE.Controllers.Statusbar.errorRemoveSheet": "Không thể xóa bảng tính.",
   "SSE.Controllers.Statusbar.strSheet": "Trang tính",

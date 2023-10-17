@@ -66,7 +66,10 @@ define([
                     'history:show': function () {
                         if ( !this.leftMenu.panelHistory.isVisible() )
                             this.clickMenuFileItem('header', 'history');
-                    }.bind(this)
+                    }.bind(this),
+                    'rename': _.bind(function (value) {
+                        this.mode && this.mode.wopi && this.api ? this.api.asc_wopi_renameFile(value) : Common.Gateway.requestRename(value);
+                    }, this)
                 },
                 'Common.Views.About': {
                     'show':    _.bind(this.aboutShowHide, this, false),
@@ -335,7 +338,7 @@ define([
                             }
                         }, this)
                     });
-                } else if (format == Asc.c_oAscFileType.DOCX) {
+                } else if (format == Asc.c_oAscFileType.DOCX || format == Asc.c_oAscFileType.DOCM || format == Asc.c_oAscFileType.DOTX) {
                     if (!Common.Utils.InternalSettings.get("de-settings-compatible") && !Common.localStorage.getBool("de-hide-save-compatible") && this.api.asc_isCompatibilityMode()) {
                         Common.UI.warning({
                             closable: false,
@@ -515,6 +518,10 @@ define([
                 value = parseInt(Common.localStorage.getItem("de-settings-paste-button"));
                 Common.Utils.InternalSettings.set("de-settings-paste-button", value);
                 this.api.asc_setVisiblePasteButton(!!value);
+
+                value = Common.localStorage.getBool("de-settings-smart-selection");
+                Common.Utils.InternalSettings.set("de-settings-smart-selection", value);
+                this.api.asc_putSmartParagraphSelection(value);
             }
 
             this.api.put_ShowSnapLines(Common.Utils.InternalSettings.get("de-settings-showsnaplines"));

@@ -140,7 +140,7 @@ define([
         onAnimPreviewStarted: function () {
 
             this._state.playPreview = true;
-            this.view.btnPreview.setIconCls('toolbar__icon animation-preview-stop');
+            this.view.btnPreview.setIconCls('toolbar__icon btn-animation-preview-stop');
         },
         onAnimPreviewFinished: function ()
         {

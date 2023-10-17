@@ -660,6 +660,7 @@ define([
             },
 
             onAfterShowMenu: function(e) {
+                this.alignMenuPosition();
                 if (this.recent > 0) {
                     if (this.scroller && !this._scrollerIsInited) {
                         this.scroller.update();

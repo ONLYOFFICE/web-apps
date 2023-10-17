@@ -40,7 +40,7 @@ define([
 ], function () {
     'use strict';
 
-    var webapp = window.DE || window.PE || window.SSE;
+    var webapp = window.DE || window.PE || window.SSE || window.PDFE;
     var features = Object.assign({
                         version: '{{PRODUCT_VERSION}}',
                         eventloading: true,
@@ -60,6 +60,7 @@ define([
             'btn-save': 'save',
             'btn-save-coauth': 'coauth',
             'btn-synch': 'synch' };
+        let recents = [];
 
         var nativevars,
             helpUrl;
@@ -107,16 +108,18 @@ define([
                 } else
                 if (/editor:config/.test(cmd)) {
                     if ( param == 'request' ) {
-                        if ( !!titlebuttons ) {
-                            var opts = {
-                                user: config.user,
-                                title: { buttons: [] }
-                            };
+                        var opts = {
+                            user: config.user,
+                            title: { buttons: [] }
+                        };
 
-                            var header = webapp.getController('Viewport').getView('Common.Views.Header');
-                            if ( header ) {
-                                for (var i in titlebuttons) {
-                                    opts.title.buttons.push(_serializeHeaderButton(i, titlebuttons[i]));
+                        if ( !!titlebuttons ) {
+                            if ( !$.isEmptyObject(titlebuttons) ) {
+                                var header = webapp.getController('Viewport').getView('Common.Views.Header');
+                                if (header) {
+                                    for (var i in titlebuttons) {
+                                        opts.title.buttons.push(_serializeHeaderButton(i, titlebuttons[i]));
+                                    }
                                 }
                             }
 
@@ -145,7 +148,7 @@ define([
                         window.RendererProcessVariable.theme.system = opts.theme.system;
 
                         if ( Common.UI.Themes.currentThemeId() == 'theme-system' )
-                            Common.UI.Themes.setTheme('theme-system');
+                            Common.UI.Themes.refreshTheme(true);
                     }
                 } else
                 if (/element:show/.test(cmd)) {
@@ -162,13 +165,33 @@ define([
                 if (/file:print/.test(cmd)) {
                     webapp.getController('Main').onPrint();
                 } else
-                if (/file:save/.test(cmd)) {
-                    webapp.getController('Main').api.asc_Save();
-                } else
                 if (/file:saveas/.test(cmd)) {
                     webapp.getController('Main').api.asc_DownloadAs();
+                } else
+                if (/file:save/.test(cmd)) {
+                    webapp.getController('Main').api.asc_Save();
                 }
             };
+
+            window.on_native_message('editor:config', 'request');
+            if ( !!window.native_message_cmd ) {
+                for ( var c in window.native_message_cmd ) {
+                    if (c == 'uitheme:changed') continue;
+                    window.on_native_message(c, window.native_message_cmd[c]);
+                }
+            }
+
+            native.execCommand('webapps:features', JSON.stringify(features));
+
+            window.onupdaterecents = function (params) {
+                recents = _parseRecents(params);
+                Common.NotificationCenter.trigger('update:recents', recents);
+            }
+
+            // hide mask for modal window
+            var style = document.createElement('style');
+            style.appendChild(document.createTextNode('.modals-mask{opacity:0 !important;}'));
+            document.getElementsByTagName('head')[0].appendChild(style);
         }
 
         var _serializeHeaderButton = function(action, config) {
@@ -296,6 +319,7 @@ define([
         const _onAppReady = function (opts) {
             _.extend(config, opts);
             !!native && native.execCommand('doc:onready', '');
+            !!native && native.LocalFileRecents();
 
             $('.toolbar').addClass('editor-native-color');
         }
@@ -430,9 +454,70 @@ define([
             }
 
             if ( native.features.singlewindow !== undefined ) {
+                if ( config.isFillFormApp )
+                    $("#title-doc-name")[native.features.singlewindow ? 'hide' : 'show']();
+
                 // $('#box-document-title .hedset')[native.features.singlewindow ? 'hide' : 'show']();
                 !!titlebuttons.home && titlebuttons.home.btn.setVisible(native.features.singlewindow);
             }
+        }
+
+        const _parseRecents = function (rawarray) {
+            let _files_arr = [];
+
+            const _is_win = /Win/.test(navigator.platform);
+            const _re_name = !_is_win ? /([^/]+\.[a-zA-Z0-9]{1,})$/ : /([^\\/]+\.[a-zA-Z0-9]{1,})$/;
+            for ( let i in rawarray ) {
+                const _f_ = rawarray[i];
+                if ( utils.matchFileFormat( _f_.type ) ) {
+                    if (_re_name.test(_f_.path)) {
+                        const name = _re_name.exec(_f_.path)[1],
+                            dir = _f_.path.slice(0, _f_.path.length - name.length - 1);
+
+                        _files_arr.push({
+                            fileid: _f_.id,
+                            type: _f_.type,
+                            format: utils.parseFileFormat(_f_.type),
+                            title: name,
+                            url: _f_.path,
+                            folder: dir,
+                        });
+                    }
+                }
+            }
+
+            return _files_arr;
+        }
+
+        const _onOpenRecent = function (menu, url, record) {
+            console.log('open recent');
+        }
+
+        const _extend_menu_file = function (args) {
+            console.log('extend menu file')
+
+            // if ( native.features.opentemplate )
+            {
+                const filemenu = webapp.getController('LeftMenu').leftMenu.getMenu('file');
+                if ( filemenu.miNew.visible ) {
+                    const miNewFromTemplate = new Common.UI.MenuItem({
+                        el: $('<li id="fm-btn-create-fromtpl" class="fm-btn"></li>'),
+                        action: 'create:fromtemplate',
+                        caption: _tr('itemCreateFromTemplate', 'Create from template'),
+                        canFocused: false,
+                        dataHint: 1,
+                        dataHintDirection: 'left-top',
+                        dataHintOffset: [2, 14],
+                    });
+
+                    miNewFromTemplate.$el.insertAfter(filemenu.miNew.$el);
+                    filemenu.items.push(miNewFromTemplate);
+                }
+            }
+        }
+
+        const _tr = function (id, defvalue) {
+            return Common.Locale.get(id, {name:"Common.Controllers.Desktop", default: defvalue});
         }
 
         return {
@@ -451,7 +536,7 @@ define([
                         'modal:close': _onModalDialog.bind(this, 'close'),
                         'modal:hide': _onModalDialog.bind(this, 'hide'),
                         'uitheme:changed' : function (name) {
-                            if (Common.localStorage.getBool('ui-theme-use-system', false)) {
+                            if ( window.uitheme.is_theme_system() ) {
                                 native.execCommand("uitheme:changed", JSON.stringify({name:'theme-system'}));
                             } else {
                                 var theme = Common.UI.Themes.get(name);
@@ -472,9 +557,15 @@ define([
                                 if ( action == 'file:open' ) {
                                     native.execCommand('editor:event', JSON.stringify({action: 'file:open'}));
                                     menu.hide();
+                                } else
+                                if ( action == 'create:fromtemplate' ) {
+                                    native.execCommand('create:new', 'template:' + (!!window.SSE ? 'cell' : !!window.PE ? 'slide' : 'word'));
+                                    menu.hide();
                                 }
                             },
                             'settings:apply': _onApplySettings.bind(this),
+                            'recent:open': _onOpenRecent.bind(this),
+                            'render:after': _extend_menu_file,
                         },
                     }, {id: 'desktop'});
 
@@ -555,27 +646,162 @@ define([
             systemThemeSupported: function () {
                 return nativevars.theme && nativevars.theme.system !== 'disabled';
             },
-            finalConstruct : function() {
-                if (!!native) {                   
-                    window.on_native_message('editor:config', 'request');
-                    if ( !!window.native_message_cmd ) {
-                        for ( var c in window.native_message_cmd ) {
-                            window.on_native_message(c, window.native_message_cmd[c]);
-                        }
+
+            localThemes: function () {
+                return nativevars ? nativevars.localthemes : undefined;
+            },
+            recentFiles: function () {
+                return recents;
+            },
+            openRecent: function (model) {
+                if ( this.isActive() ) {
+                    const params = {
+                        name: Common.Utils.String.htmlDecode(model.get('title')),
+                        path: Common.Utils.String.htmlDecode(model.get('url')),
+                    };
+                    if ( model.get('fileid') != undefined && model.get('fileid') != null ) {
+                        params.id = model.get('fileid');
+                        params.type = model.type;
+                    } else {
+                        params.id = -1;
                     }
 
-                    native.execCommand('webapps:features', JSON.stringify(features));
-
-                    // hide mask for modal window
-                    var style = document.createElement('style');
-                    style.appendChild(document.createTextNode('.modals-mask{opacity:0 !important;}'));
-                    document.getElementsByTagName('head')[0].appendChild(style);
+                    native.execCommand("open:recent", JSON.stringify(params));
+                    return true;
                 }
-            }
-        };
+
+                return false;
+            },
+    };
     };
 
     !Common.Controllers && (Common.Controllers = {});
     Common.Controllers.Desktop = new Desktop();
-    Common.Controllers.Desktop.finalConstruct();
+
+    const FILE_DOCUMENT = 0x0040,
+        FILE_PRESENTATION = 0x0080,
+        FILE_SPREADSHEET = 0x0100,
+        FILE_CROSSPLATFORM = 0x0200;
+
+    const utils = {};
+    utils.defines = {}
+    utils.defines.FileFormat = {
+        FILE_UNKNOWN:       0x0000,
+
+        FILE_DOCUMENT:      FILE_DOCUMENT,
+        FILE_DOCUMENT_DOCX: FILE_DOCUMENT + 0x0001,
+        FILE_DOCUMENT_DOC:  FILE_DOCUMENT + 0x0002,
+        FILE_DOCUMENT_ODT:  FILE_DOCUMENT + 0x0003,
+        FILE_DOCUMENT_RTF:  FILE_DOCUMENT + 0x0004,
+        FILE_DOCUMENT_TXT:  FILE_DOCUMENT + 0x0005,
+        FILE_DOCUMENT_HTML: FILE_DOCUMENT + 0x0006,
+        FILE_DOCUMENT_MHT:  FILE_DOCUMENT + 0x0007,
+        FILE_DOCUMENT_EPUB: FILE_DOCUMENT + 0x0008,
+        FILE_DOCUMENT_FB2:  FILE_DOCUMENT + 0x0009,
+        FILE_DOCUMENT_MOBI: FILE_DOCUMENT + 0x000a,
+        FILE_DOCUMENT_DOCM: FILE_DOCUMENT + 0x000b,
+        FILE_DOCUMENT_DOTX: FILE_DOCUMENT + 0x000c,
+        FILE_DOCUMENT_DOTM: FILE_DOCUMENT + 0x000d,
+        FILE_DOCUMENT_ODT_FLAT: FILE_DOCUMENT + 0x000e,
+        FILE_DOCUMENT_OTT:  FILE_DOCUMENT + 0x000f,
+        FILE_DOCUMENT_DOC_FLAT: FILE_DOCUMENT + 0x0010,
+        FILE_DOCUMENT_OFORM: FILE_DOCUMENT + 0x0015,
+        FILE_DOCUMENT_DOCXF: FILE_DOCUMENT + 0x0016,
+
+        FILE_PRESENTATION:      FILE_PRESENTATION,
+        FILE_PRESENTATION_PPTX: FILE_PRESENTATION + 0x0001,
+        FILE_PRESENTATION_PPT:  FILE_PRESENTATION + 0x0002,
+        FILE_PRESENTATION_ODP:  FILE_PRESENTATION + 0x0003,
+        FILE_PRESENTATION_PPSX: FILE_PRESENTATION + 0x0004,
+        FILE_PRESENTATION_PPTM: FILE_PRESENTATION + 0x0005,
+        FILE_PRESENTATION_PPSM: FILE_PRESENTATION + 0x0006,
+        FILE_PRESENTATION_POTX: FILE_PRESENTATION + 0x0007,
+        FILE_PRESENTATION_POTM: FILE_PRESENTATION + 0x0008,
+        FILE_PRESENTATION_ODP_FLAT: FILE_PRESENTATION + 0x0009,
+        FILE_PRESENTATION_OTP:  FILE_PRESENTATION + 0x000a,
+
+        FILE_SPREADSHEET:       FILE_SPREADSHEET,
+        FILE_SPREADSHEET_XLSX:  FILE_SPREADSHEET + 0x0001,
+        FILE_SPREADSHEET_XLS:   FILE_SPREADSHEET + 0x0002,
+        FILE_SPREADSHEET_ODS:   FILE_SPREADSHEET + 0x0003,
+        FILE_SPREADSHEET_CSV:   FILE_SPREADSHEET + 0x0004,
+        FILE_SPREADSHEET_XLSM:  FILE_SPREADSHEET + 0x0005,
+        FILE_SPREADSHEET_XLTX:  FILE_SPREADSHEET + 0x0006,
+        FILE_SPREADSHEET_XLTM:  FILE_SPREADSHEET + 0x0007,
+        FILE_SPREADSHEET_ODS_FLAT: FILE_SPREADSHEET + 0x0008,
+        FILE_SPREADSHEET_OTS:   FILE_SPREADSHEET + 0x0009,
+
+        FILE_CROSSPLATFORM:     FILE_CROSSPLATFORM,
+        FILE_CROSSPLATFORM_PDF: FILE_CROSSPLATFORM + 0x0001,
+        FILE_CROSSPLATFORM_SWF: FILE_CROSSPLATFORM + 0x0002,
+        FILE_CROSSPLATFORM_DJVU: FILE_CROSSPLATFORM + 0x0003,
+        FILE_CROSSPLATFORM_XPS: FILE_CROSSPLATFORM + 0x0004,
+        FILE_CROSSPLATFORM_PDFA: FILE_CROSSPLATFORM + 0x0009
+    };
+
+    utils.parseFileFormat = function(format) {
+        switch (format) {
+            case utils.defines.FileFormat.FILE_DOCUMENT_DOC:        return 'doc';
+            case utils.defines.FileFormat.FILE_DOCUMENT_DOCX:       return 'docx';
+            case utils.defines.FileFormat.FILE_DOCUMENT_ODT:        return 'odt';
+            case utils.defines.FileFormat.FILE_DOCUMENT_RTF:        return 'rtf';
+            case utils.defines.FileFormat.FILE_DOCUMENT_TXT:        return 'txt';
+            case utils.defines.FileFormat.FILE_DOCUMENT_HTML:       return 'htm';
+            case utils.defines.FileFormat.FILE_DOCUMENT_MHT:        return 'mht';
+            case utils.defines.FileFormat.FILE_DOCUMENT_EPUB:       return 'epub';
+            case utils.defines.FileFormat.FILE_DOCUMENT_FB2:        return 'fb2';
+            case utils.defines.FileFormat.FILE_DOCUMENT_DOTX:       return 'dotx';
+            case utils.defines.FileFormat.FILE_DOCUMENT_OTT:        return 'ott';
+            case utils.defines.FileFormat.FILE_DOCUMENT_OFORM:      return 'oform';
+            case utils.defines.FileFormat.FILE_DOCUMENT_DOCXF:      return 'docxf';
+
+            case utils.defines.FileFormat.FILE_SPREADSHEET_XLS:     return 'xls';
+            case utils.defines.FileFormat.FILE_SPREADSHEET_XLTX:    return 'xltx';
+            case utils.defines.FileFormat.FILE_SPREADSHEET_XLSX:    return 'xlsx';
+            case utils.defines.FileFormat.FILE_SPREADSHEET_ODS:     return 'ods';
+            case utils.defines.FileFormat.FILE_SPREADSHEET_CSV:     return 'csv';
+            case utils.defines.FileFormat.FILE_SPREADSHEET_OTS:     return 'ots';
+
+            case utils.defines.FileFormat.FILE_PRESENTATION_PPT:    return 'ppt';
+            case utils.defines.FileFormat.FILE_PRESENTATION_POTX:   return 'potx';
+            case utils.defines.FileFormat.FILE_PRESENTATION_PPTX:   return 'pptx';
+            case utils.defines.FileFormat.FILE_PRESENTATION_ODP:    return 'odp';
+            case utils.defines.FileFormat.FILE_PRESENTATION_PPSX:   return 'ppsx';
+            case utils.defines.FileFormat.FILE_PRESENTATION_OTP:    return 'otp';
+
+            case utils.defines.FileFormat.FILE_CROSSPLATFORM_PDFA:
+            case utils.defines.FileFormat.FILE_CROSSPLATFORM_PDF:   return 'pdf';
+            case utils.defines.FileFormat.FILE_CROSSPLATFORM_DJVU:  return 'djvu';
+            case utils.defines.FileFormat.FILE_CROSSPLATFORM_XPS:   return 'xps';
+        }
+
+        return '';
+    };
+
+    utils.matchFileFormat = function (t) {
+        if ( window.PE ) {
+            return t > utils.defines.FileFormat.FILE_PRESENTATION &&
+                !(t > utils.defines.FileFormat.FILE_SPREADSHEET );
+        } else
+        if ( window.DE ) {
+            return (t > utils.defines.FileFormat.FILE_DOCUMENT &&
+                    !(t > utils.defines.FileFormat.FILE_PRESENTATION)) ||
+                    t == utils.defines.FileFormat.FILE_CROSSPLATFORM_PDF ||
+                    t == utils.defines.FileFormat.FILE_CROSSPLATFORM_PDFA ||
+                    t == utils.defines.FileFormat.FILE_CROSSPLATFORM_DJVU;
+        } else
+        if ( window.SSE ) {
+            return (t > utils.defines.FileFormat.FILE_SPREADSHEET &&
+                    !(t > utils.defines.FileFormat.FILE_CROSSPLATFORM)) ||
+                t == utils.defines.FileFormat.FILE_CROSSPLATFORM_XPS;
+        } else
+        if ( window.PDFE ) {
+            return t == utils.defines.FileFormat.FILE_CROSSPLATFORM_PDFA ||
+                    t == utils.defines.FileFormat.FILE_CROSSPLATFORM_PDF ||
+                    t == utils.defines.FileFormat.FILE_CROSSPLATFORM_DJVU ||
+                    t ==  utils.defines.FileFormat.FILE_CROSSPLATFORM_XPS;
+        }
+
+        return false;
+    }
 });

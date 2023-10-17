@@ -90,10 +90,10 @@ define([
                 '<div class="group">' +
                     '<span id="btn-review-on" class="btn-slot text x-huge"></span>' +
                 '</div>' +
-                '<div class="group no-group-mask review" style="padding-left: 0;">' +
+                '<div class="group no-group-mask review" style="padding-left: 0;padding-right:0;">' +
                     '<span id="btn-review-view" class="btn-slot text x-huge"></span>' +
                 '</div>' +
-                '<div class="group move-changes" style="padding-left: 0;">' +
+                '<div class="group move-changes" style="padding-left: 0;padding-right:0;">' +
                     '<span id="btn-change-prev" class="btn-slot text x-huge"></span>' +
                     '<span id="btn-change-next" class="btn-slot text x-huge"></span>' +
                     '<span id="btn-change-accept" class="btn-slot text x-huge"></span>' +
@@ -318,7 +318,7 @@ define([
                     }
                     this.btnTurnOn = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-ic-review',
+                        iconCls: 'toolbar__icon btn-big-ic-review',
                         lock: [_set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.docLockReview],
                         caption: this.txtTurnon,
                         split: !this.appConfig.isReviewOnly,
@@ -354,8 +354,8 @@ define([
                     this.lockedControls.push(this.btnNext);
 
                     if (!this.appConfig.isRestrictedEdit && !(this.appConfig.customization && this.appConfig.customization.review && this.appConfig.customization.review.hideReviewDisplay)) {// hide Display mode option for fillForms and commenting mode
-                        var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><%= caption %></div>' +
-                            '<% if (options.description !== null) { %><label style="display: block;color: #a5a5a5;cursor: pointer;white-space: normal;"><%= options.description %></label>' +
+                        var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><b><%= caption %></b></div>' +
+                            '<% if (options.description !== null) { %><label class="description"><%= options.description %></label>' +
                             '<% } %></a>');
 
                         this.btnReviewView = new Common.UI.Button({
@@ -508,8 +508,8 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function(){
-                    var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><%= caption %></div>' +
-                        '<% if (options.description !== null) { %><label style="display: block;color: #a5a5a5;cursor: pointer;white-space: normal;"><%= options.description %></label>' +
+                    var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><b><%= caption %></b></div>' +
+                        '<% if (options.description !== null) { %><label class="description"><%= options.description %></label>' +
                         '<% } %></a>');
 
                     if ( config.canReview ) {
@@ -591,7 +591,7 @@ define([
                                     // {caption: me.mniSettings, value: 'settings'}
                                 ]
                             }));
-                            me.btnCompare.menu.items[2].setVisible(me.appConfig.canRequestCompareFile || me.appConfig.fileChoiceUrl && me.appConfig.fileChoiceUrl.indexOf("{documentType}")>-1);
+                            me.btnCompare.menu.items[2].setVisible(me.appConfig.canRequestSelectDocument || me.appConfig.canRequestCompareFile || me.appConfig.fileChoiceUrl && me.appConfig.fileChoiceUrl.indexOf("{documentType}")>-1);
                             me.btnCompare.menu.items[1].setDisabled(me.appConfig.disableNetworkFunctionality);
                             me.btnCompare.menu.items[2].setDisabled(me.appConfig.disableNetworkFunctionality);
                             me.btnCompare.updateHint(me.tipCompare);
@@ -601,9 +601,12 @@ define([
                                 items: [
                                     {caption: me.mniFromFile, value: 'file'},
                                     {caption: me.mniFromUrl, value: 'url'},
+                                    {caption: me.mniFromStorage, value: 'storage'}
                                 ]
                             }));
+                            me.btnCombine.menu.items[2].setVisible(me.appConfig.canRequestSelectDocument || me.appConfig.fileChoiceUrl && me.appConfig.fileChoiceUrl.indexOf("{documentType}")>-1);
                             me.btnCombine.menu.items[1].setDisabled(me.appConfig.disableNetworkFunctionality);
+                            me.btnCombine.menu.items[2].setDisabled(me.appConfig.disableNetworkFunctionality);
                             me.btnCombine.updateHint(me.tipCombine);
                         }
 

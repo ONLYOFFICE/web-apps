@@ -128,7 +128,8 @@ define([
                         'Click to add notes': this.txtAddNotes,
                         'Click to add first slide': this.txtAddFirstSlide,
                         'None': this.txtNone,
-                        'Text': this.textText
+                        'Text': this.textText,
+                        'Object': this.textObject
                     };
 
                 themeNames.forEach(function(item){
@@ -378,8 +379,12 @@ define([
                 this.appOptions.user.anonymous && Common.localStorage.setItem("guest-id", this.appOptions.user.id);
 
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop' || Common.Controllers.Desktop.isActive();
+                if( Common.Controllers.Desktop.isActive() ) {
+                    !this.editorConfig.recent && (this.editorConfig.recent = []);
+                }
+
                 this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl) || this.editorConfig.templates && this.editorConfig.templates.length;
-                this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined && !this.appOptions.isDesktopApp;
+                this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined;
                 this.appOptions.templates       = this.editorConfig.templates;
                 this.appOptions.recent          = this.editorConfig.recent;
                 this.appOptions.createUrl       = this.editorConfig.createUrl;
@@ -432,8 +437,10 @@ define([
                 Common.Utils.InternalSettings.set("pe-allow-macros-request", (value !== null) ? parseInt(value)  : 0);
 
                 this.appOptions.wopi = this.editorConfig.wopi;
-                
+                appHeader.setWopi(this.appOptions.wopi);
+
                 Common.Controllers.Desktop.init(this.appOptions);
+                Common.UI.HintManager.setMode(this.appOptions);
             },
 
             loadDocument: function(data) {
@@ -838,7 +845,9 @@ define([
                 value = Common.localStorage.getItem("pe-settings-zoom");
                 Common.Utils.InternalSettings.set("pe-settings-zoom", value);
                 var zf = (value!==null) ? parseInt(value) : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : -1);
-                (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
+                value = Common.localStorage.getItem("pe-last-zoom");
+                var lastZoom = (value!==null) ? parseInt(value):0;
+                (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : (zf == -3 && lastZoom > 0) ? lastZoom : 100));
 
                 // spellcheck
                 value = Common.UI.FeaturesManager.getInitValue('spellcheck', true);
@@ -889,7 +898,7 @@ define([
                 appHeader.setDocumentCaption( me.api.asc_getDocumentName() );
                 me.updateWindowTitle(true);
 
-                value = Common.localStorage.getBool("pe-settings-show-alt-hints", Common.Utils.isMac ? false : true);
+                value = Common.localStorage.getBool("pe-settings-show-alt-hints", true);
                 Common.Utils.InternalSettings.set("pe-settings-show-alt-hints", value);
 
                 /** coauthoring begin **/
@@ -1055,9 +1064,8 @@ define([
                         buttons = ['ok'],
                         primary = 'ok';
                     if ((this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0 &&
-                        (license===Asc.c_oLicenseResult.SuccessLimit || license===Asc.c_oLicenseResult.ExpiredLimited || this.appOptions.permissionsLicense===Asc.c_oLicenseResult.SuccessLimit)) {
-                        (license===Asc.c_oLicenseResult.ExpiredLimited) && this.getApplication().getController('LeftMenu').leftMenu.setLimitMode();// show limited hint
-                        license = (license===Asc.c_oLicenseResult.ExpiredLimited) ? this.warnLicenseLimitedNoAccess : this.warnLicenseLimitedRenewed;
+                        (license===Asc.c_oLicenseResult.SuccessLimit || this.appOptions.permissionsLicense===Asc.c_oLicenseResult.SuccessLimit)) {
+                        license = this.warnLicenseLimitedRenewed;
                     } else if (license===Asc.c_oLicenseResult.Connections || license===Asc.c_oLicenseResult.UsersCount) {
                         license = (license===Asc.c_oLicenseResult.Connections) ? this.warnLicenseExceeded : this.warnLicenseUsersExceeded;
                     } else {
@@ -1190,7 +1198,8 @@ define([
 
             onEditorPermissions: function(params) {
                 var licType = params.asc_getLicenseType();
-                if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType || Asc.c_oLicenseResult.ExpiredTrial === licType || Asc.c_oLicenseResult.NotBefore === licType) {
+                if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType || Asc.c_oLicenseResult.ExpiredTrial === licType ||
+                    Asc.c_oLicenseResult.NotBefore === licType || Asc.c_oLicenseResult.ExpiredLimited === licType) {
                     Common.UI.warning({
                         title: Asc.c_oLicenseResult.NotBefore === licType ? this.titleLicenseNotActive : this.titleLicenseExp,
                         msg: Asc.c_oLicenseResult.NotBefore === licType ? this.warnLicenseBefore : this.warnLicenseExp,
@@ -1199,8 +1208,6 @@ define([
                     });
                     return;
                 }
-                if (Asc.c_oLicenseResult.ExpiredLimited === licType)
-                    this._state.licenseType = licType;
 
                 if ( this.onServerVersion(params.asc_getBuildVersion()) || !this.onLanguageLoaded() ) return;
 
@@ -3163,7 +3170,8 @@ define([
             textText: 'Text',
             warnLicenseBefore: 'License not active.<br>Please contact your administrator.',
             titleLicenseNotActive: 'License not active',
-            warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.'
+            warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.',
+            textObject: 'Object'
         }
     })(), PE.Controllers.Main || {}))
 });

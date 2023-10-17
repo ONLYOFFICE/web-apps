@@ -4,9 +4,11 @@ import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import ToolbarView from "../view/Toolbar";
 
-const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetInfo', 'storeFocusObjects', 'storeToolbarSettings', 'storeWorksheets')(observer(props => {
+const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetInfo', 'storeFocusObjects', 'storeToolbarSettings', 'storeWorksheets', 'storeVersionHistory')(observer(props => {
     const {t} = useTranslation();
     const _t = t("Toolbar", { returnObjects: true });
+    const storeVersionHistory = props.storeVersionHistory;
+    const isVersionHistoryMode = storeVersionHistory.isVersionHistoryMode;
 
     const storeWorksheets = props.storeWorksheets;
     const wsProps = storeWorksheets.wsProps;
@@ -147,27 +149,35 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
         Common.Gateway.requestEditRights();
     };
 
+    const closeHistory = () => {
+        Common.Gateway.requestHistoryClose();
+    }
+
     return (
-        <ToolbarView openOptions={props.openOptions}
-                     isEdit={appOptions.isEdit}
-                     docTitle={docTitle}
-                     isShowBack={isShowBack}
-                     isCanUndo={isCanUndo}
-                     isCanRedo={isCanRedo}
-                     onUndo={onUndo}
-                     onRedo={onRedo}
-                     disabledControls={disabledControls}
-                     disabledEditControls={disabledEditControls || isObjectLocked || editFormulaMode || isEditCell}
-                     disabledSearch={editFormulaMode || isEditCell}
-                     disabledSettings={disabledSettings || editFormulaMode || isEditCell}
-                     displayCollaboration={displayCollaboration}
-                     disabledCollaboration={editFormulaMode || isEditCell}
-                     showEditDocument={showEditDocument}
-                     onEditDocument={onEditDocument}
-                     isDisconnected={isDisconnected}
-                     wsProps={wsProps}
-                     focusOn={focusOn}
-                     isShapeLocked={isShapeLocked}
+        <ToolbarView 
+            openOptions={props.openOptions}
+            isEdit={appOptions.isEdit}
+            docTitle={docTitle}
+            isShowBack={isShowBack}
+            isCanUndo={isCanUndo}
+            isCanRedo={isCanRedo}
+            onUndo={onUndo}
+            onRedo={onRedo}
+            disabledControls={disabledControls}
+            disabledEditControls={disabledEditControls || isObjectLocked || editFormulaMode || isEditCell}
+            disabledSearch={editFormulaMode || isEditCell}
+            disabledSettings={disabledSettings || editFormulaMode || isEditCell}
+            displayCollaboration={displayCollaboration}
+            disabledCollaboration={editFormulaMode || isEditCell}
+            showEditDocument={showEditDocument}
+            onEditDocument={onEditDocument}
+            isDisconnected={isDisconnected}
+            wsProps={wsProps}
+            focusOn={focusOn}
+            isShapeLocked={isShapeLocked}
+            isVersionHistoryMode={isVersionHistoryMode}
+            closeHistory={closeHistory}
+            isOpenModal={props.isOpenModal}
         />
     )
 }));

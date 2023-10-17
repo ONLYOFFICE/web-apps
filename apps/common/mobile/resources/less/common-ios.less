@@ -39,8 +39,9 @@
     --f7-searchbar-search-icon-color: @text-tertiary;
     --f7-searchbar-input-clear-button-color: @text-tertiary;
 
-    --f7-toggle-inactive-color: @background-menu-divider;
-    --f7-toggle-border-color: @background-menu-divider;
+    --f7-toggle-inactive-border-color: @background-menu-divider;
+    --f7-toggle-inactive-bg-color: @background-menu-divider;
+
     --f7-actions-button-border-color: @background-menu-divider;
     --f7-popover-bg-color: @background-primary;
     --f7-dialog-bg-color-rgb: @background-secondary;
@@ -56,6 +57,10 @@
     --f7-picker-item-selected-text-color: @text-normal;
 
     --f7-block-text-color: @text-secondary;
+
+    --f7-theme-color-shade: @background-primary;
+    --f7-fab-pressed-bg-color: @background-primary;
+    --f7-input-clear-button-color: @text-tertiary;
 
     // Main Toolbar
     #editor-navbar.navbar .right a + a,
@@ -232,6 +237,22 @@
         .list-input-right input {
             text-align: right;
         }
+    }
+
+    .links-list a:after, .list .item-inner:after, .simple-list li:after {
+        background-color: var(--f7-list-item-border-color);
+        bottom: 0;
+        content: "";
+        display: block;
+        height: 1px;
+        left: 0;
+        position: absolute;
+        right: auto;
+        top: auto;
+        transform: scaleY(calc(1/var(--f7-device-pixel-ratio)));
+        transform-origin: 50% 100%;
+        width: 100%;
+        z-index: 15;
     }
 
     .tab-buttons {
@@ -545,9 +566,9 @@
 
     // Toggle Icon 
 
-    .toggle-icon {
-        background: transparent;
-    }
+    // .toggle-icon {
+    //     background: transparent;
+    // }
 
     // Edit Comment Popup
 
@@ -557,6 +578,81 @@
         }
     }
 
+    // Version History
+    .version-history {
+        &__title {
+            font-style: normal;
+            font-weight: 400;
+            font-size: 13px;
+            line-height: 18px;
+            color: @text-secondary;
+            margin-top: 16px;
+            margin-bottom: 4px;
+        }
+
+        &__btn {
+            font-style: normal;
+            font-weight: 600;
+            font-size: 15px;
+            line-height: 20px;
+            letter-spacing: -0.24px;
+            text-transform: uppercase;
+            color: @brandColor;
+            background: transparent;
+            outline: none;
+            border: 0;
+            padding: 0;
+            margin-top: 22px;
+            width: auto;
+        }
+
+        &__list {
+            ul {
+               background: @background-primary;
+            }
+            
+            .item-title {
+                font-weight: 600;
+                font-size: 13px;
+                line-height: 18px;
+                color: @text-normal;
+                letter-spacing: -0.08px;
+            }
+
+            .item-media, .item-inner {
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+
+            .item-link .item-title-row:before {
+                display: none;
+            }
+
+            .item-subtitle {
+                font-style: normal;
+                font-weight: 400;
+                font-size: 11px;
+                line-height: 13px;
+                color: @text-secondary;
+                margin-top: 3px;
+                letter-spacing: 0.06px;
+            }
+        }
+    }
+
+    .version-history__item_active {
+        background-color: var(--canvas-ruler-margins-background);
+    }
+
+    .btn-close-history {
+        font-style: normal;
+        font-weight: 400;
+        font-size: 17px;
+        line-height: 22px;
+        letter-spacing: -0.41px;
+        color: @brandColor;
+        margin-left: 10px;
+    }
 }
 
 

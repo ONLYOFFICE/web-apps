@@ -48,9 +48,11 @@ define([
 
     function _updatePagesCaption(model,value,opts) {
         var curr = model.get('current'),
-            cnt = model.get('count');
+            cnt = model.get('count'),
+            start = model.get('start');
+        (curr>=cnt) && (curr = cnt-1);
         $('#preview-label-slides').text(
-            Common.Utils.String.format(this.slideIndexText, (curr<cnt) ? curr : cnt , cnt) );
+            Common.Utils.String.format(this.slideIndexText, curr + start, start===1 ? cnt : start + ' .. ' + (cnt + start - 1)) );
     }
 
     PE.Views.DocumentPreview = Common.UI.BaseView.extend(_.extend({
@@ -79,7 +81,7 @@ define([
                     '<div class="preview-group dropup">',
                         '<label id="preview-label-slides" class="status-label dropdown-toggle" data-toggle="dropdown">Slide 1 of 1</label>',
                         '<div id="preview-goto-box" class="dropdown-menu">',
-                            '<label>' + this.goToSlideText + '</label>',
+                            '<label class="float-left margin-right-10">' + this.goToSlideText + '</label>',
                             '<div id="preview-goto-page" style="display:inline-block;"></div>',
                         '</div>',
                     '</div>',
@@ -92,7 +94,7 @@ define([
                 '</div>'
             ].join('');
 
-            this.pages = new PE.Models.Pages({current:1, count:1});
+            this.pages = new PE.Models.Pages({current:1, count:1, start:1});
             this.pages.on('change', _.bind(_updatePagesCaption,this));
         },
 
@@ -168,7 +170,7 @@ define([
                 validation  : function(value) {
                     if (/(^[0-9]+$)/.test(value)) {
                         value = parseInt(value);
-                        if (undefined !== value && value > 0 && value <= me.pages.get('count'))
+                        if (undefined !== value && value >= me.pages.get('start') && value < me.pages.get('count')+me.pages.get('start'))
                             return true;
                     }
 
@@ -177,8 +179,9 @@ define([
             }).on('keypress:after', function(input, e) {
                     if (e.keyCode === Common.UI.Keys.RETURN) {
                         var box = me.$el.find('#preview-goto-box'),
-                            edit = box.find('input[type=text]'), page = parseInt(edit.val());
-                        if (!page || page-- > me.pages.get('count') || page < 0) {
+                            edit = box.find('input[type=text]'), page = parseInt(edit.val()),
+                            start = me.pages.get('start');
+                        if (isNaN(page) || page >= me.pages.get('count')+start || page < start) {
                             edit.select();
                             return false;
                         }
@@ -186,7 +189,7 @@ define([
                         box.focus();                        // for IE
                         box.parent().removeClass('open');
 
-                        me.api.DemonstrationGoToSlide(page);
+                        me.api.DemonstrationGoToSlide(page - start);
                         me.api.asc_enableKeyEvents(true);
 
                         return false;
@@ -332,6 +335,7 @@ define([
 
             if (this.api) {
                 this.api.asc_registerCallback('asc_onCountPages',   _.bind(this.onCountSlides, this));
+                this.api.asc_registerCallback('asc_onPresentationSize', _.bind(this.onApiPageSize, this));
                 this.api.asc_registerCallback('asc_onEndDemonstration',  _.bind(this.onEndDemonstration, this));
                 this.api.asc_registerCallback('asc_onDemonstrationSlideChanged',  _.bind(this.onDemonstrationSlideChanged, this));
                 this.api.asc_registerCallback('asc_onDemonstrationStatus',  _.bind(this.onDemonstrationStatus, this));
@@ -342,7 +346,7 @@ define([
 
         setMode: function(mode) {
             this.mode = mode;
-            if (this.mode.isDesktopApp || Common.Utils.isIE11) {
+            if (this.mode.isDesktopApp || Common.Utils.isIE11 || !document.fullscreenEnabled) {
                 this.btnFullScreen.setVisible(false);
                 this.separatorFullScreen.hide();
                 $(document).off("webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange");
@@ -354,13 +358,17 @@ define([
             this.pages.set('count', count);
         },
 
+        onApiPageSize: function(width, height, type, firstNum){
+            (firstNum!==undefined) && this.pages.set('start', firstNum);
+        },
+
         onDemonstrationSlideChanged: function(slideNum) {
-            this.pages.set('current', slideNum+1);
+            this.pages.set('current', slideNum);
             if (this.api && _.isNumber(slideNum)) {
                 var count = this.api.getCountPages();
                 if (count !== this.pages.get('count'))
                     this.pages.set('count', count);
-                this.txtGoToPage.setValue(slideNum + 1);
+                this.txtGoToPage.setValue(slideNum + this.pages.get('start'));
                 this.txtGoToPage.checkValidate();
             }
         },

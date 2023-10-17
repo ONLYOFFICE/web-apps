@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { observer, inject } from "mobx-react";
 import DocumentInfo from "../../view/settings/DocumentInfo";
+import { f7 } from 'framework7-react';
 import { withTranslation } from 'react-i18next';
+import { Device } from "../../../../../common/mobile/utils/device";
 
 class DocumentInfoController extends Component {
     constructor(props) {
@@ -11,6 +13,7 @@ class DocumentInfoController extends Component {
         this.docInfoObject = {};
 
         this.getAppProps = this.getAppProps.bind(this);
+        this.changeTitleHandler = this.changeTitleHandler.bind(this);
 
         if(this.docProps) {
             this.updateFileInfo(this.docProps);
@@ -144,6 +147,75 @@ class DocumentInfoController extends Component {
         }
     }
 
+    changeTitleHandler() {
+        if(!this.props.storeAppOptions.canRename) return;
+
+        const { t } = this.props;
+        const storeDocumentInfo = this.props.storeDocumentInfo;
+        const docTitle = storeDocumentInfo.dataDoc.title;
+        const api = Common.EditorApi.get();
+        
+        api.asc_enableKeyEvents(true);
+
+        f7.dialog.create({
+            title: t('Toolbar.textRenameFile'),
+            text : t('Toolbar.textEnterNewFileName'),
+            content: Device.ios ?
+            '<div class="input-field"><input type="text" class="modal-text-input" name="modal-title" id="modal-title"></div>' : '<div class="input-field modal-title"><div class="inputs-list list inline-labels"><ul><li><div class="item-content item-input"><div class="item-inner"><div class="item-input-wrap"><input type="text" name="modal-title" id="modal-title"></div></div></div></li></ul></div></div>',
+            cssClass: 'dlg-adv-options',
+            buttons: [
+                {
+                    text: t('Edit.textCancel')
+                },
+                {
+                    text: t('Edit.textOk'),
+                    cssClass: 'btn-change-title',
+                    bold: true,
+                    close: false,
+                    onClick: () => {
+                        const titleFieldValue = document.querySelector('#modal-title').value;
+                        if(titleFieldValue.trim().length) {
+                            this.changeTitle(titleFieldValue);
+                            f7.dialog.close();
+                        }
+                    }
+                }
+            ],
+            on: {
+                opened: () => {
+                    const nameDoc = docTitle.split('.')[0];
+                    const titleField = document.querySelector('#modal-title');
+                    const btnChangeTitle = document.querySelector('.btn-change-title');
+
+                    titleField.value = nameDoc;
+                    titleField.focus();
+                    titleField.select();
+
+                    titleField.addEventListener('input', () => {
+                        if(titleField.value.trim().length) {
+                            btnChangeTitle.classList.remove('disabled');
+                        } else {
+                            btnChangeTitle.classList.add('disabled');
+                        }
+                    });
+                }
+            }
+        }).open();
+    }
+
+    changeTitle(name) {
+        const api = Common.EditorApi.get();
+        const storeDocumentInfo = this.props.storeDocumentInfo;
+        const docInfo = storeDocumentInfo.docInfo;
+        const docExt = storeDocumentInfo.dataDoc.fileType;
+        const title = `${name}.${docExt}`;
+
+        storeDocumentInfo.changeTitle(title);
+        docInfo.put_Title(title);
+        storeDocumentInfo.setDocInfo(docInfo);
+        api.asc_setDocInfo(docInfo);
+    }
+
     componentDidMount() {
         const api = Common.EditorApi.get();
         api.startGetDocInfo();
@@ -154,10 +226,11 @@ class DocumentInfoController extends Component {
             <DocumentInfo
                 getAppProps={this.getAppProps}
                 docInfoObject={this.docInfoObject}
+                changeTitleHandler={this.changeTitleHandler}
             />
         );
     }
 }
 
 
-export default inject("storeAppOptions")(observer(withTranslation()(DocumentInfoController)));
+export default inject("storeAppOptions", "storeDocumentInfo")(observer(withTranslation()(DocumentInfoController)));

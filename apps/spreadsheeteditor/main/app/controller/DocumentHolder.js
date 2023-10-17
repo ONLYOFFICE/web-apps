@@ -112,7 +112,8 @@ define([
                 },
                 eyedropper: {
                     isHidden: true
-                }
+                },
+                placeholder: {}
             };
             me.mouse = {};
             me.popupmenu = false;
@@ -124,6 +125,7 @@ define([
             me._state = {wsLock: false, wsProps: []};
             me.fastcoauthtips = [];
             me._TtHeight = 20;
+            me.lastMathTrackBounds = [];
 
             /** coauthoring begin **/
             this.wrapEvents = {
@@ -145,6 +147,8 @@ define([
                 return false;
             };
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
+
+            Common.Utils.InternalSettings.set('sse-equation-toolbar-hide', Common.localStorage.getBool('sse-equation-toolbar-hide'));
         },
 
         onLaunch: function() {
@@ -226,6 +230,7 @@ define([
                 view.mnuSubtotalField.on('click',                   _.bind(me.onSubtotalField, me));
                 view.mnuSummarize.menu.on('item:click',             _.bind(me.onSummarize, me));
                 view.mnuShowAs.menu.on('item:click',                _.bind(me.onShowAs, me));
+                view.mnuShowDetails.on('click',                     _.bind(me.onShowDetails, me));
                 view.mnuPivotSort.menu.on('item:click',             _.bind(me.onPivotSort, me));
                 view.mnuPivotFilter.menu.on('item:click',           _.bind(me.onPivotFilter, me));
                 view.pmiClear.menu.on('item:click',                 _.bind(me.onClear, me));
@@ -334,6 +339,10 @@ define([
                                     documentHolderEl.focus();
                             }
                         }
+                    },
+                    touchstart: function(e){
+                        if (e.target.localName == 'canvas')
+                            Common.UI.Menu.Manager.hideAll();
                     }
                 });
 
@@ -829,6 +838,10 @@ define([
             }
         },
 
+        onShowDetails: function(item, e) {
+            this.propsPivot.originalProps && this.api && this.api.asc_pivotShowDetails(this.propsPivot.originalProps);
+        },
+
         fillPivotProps: function() {
             var props = this.propsPivot.originalProps;
             if (!props) return;
@@ -845,6 +858,7 @@ define([
             this.propsPivot.filter = info.asc_getFilter();
             this.propsPivot.rowFilter = info.asc_getFilterRow();
             this.propsPivot.colFilter = info.asc_getFilterCol();
+            this.propsPivot.showDetails = info.asc_showDetails();
 
             if (colFieldIndex>-1) {
                 var fprops = props.asc_getColumnFields();
@@ -1537,6 +1551,15 @@ define([
             }
         },
 
+        hidePlaceholderTip: function() {
+            if (!this.tooltips.placeholder.isHidden && this.tooltips.placeholder.ref) {
+                this.tooltips.placeholder.ref.hide();
+                this.tooltips.placeholder.ref = undefined;
+                this.tooltips.placeholder.text = '';
+                this.tooltips.placeholder.isHidden = true;
+            }
+        },
+
         onApiMouseMove: function(dataarray) {
             if (!this._isFullscreenMenu && dataarray.length) {
                 var index_hyperlink,
@@ -1548,7 +1571,8 @@ define([
                         index_filter,
                         index_slicer,
                         index_foreign,
-                        index_eyedropper;
+                        index_eyedropper,
+                        index_placeholder;
                 for (var i = dataarray.length; i > 0; i--) {
                     switch (dataarray[i-1].asc_getType()) {
                         case Asc.c_oAscMouseMoveType.Hyperlink:
@@ -1580,6 +1604,9 @@ define([
                         case Asc.c_oAscMouseMoveType.Eyedropper:
                             index_eyedropper = i;
                             break;
+                        case Asc.c_oAscMouseMoveType.Placeholder:
+                            index_placeholder = i;
+                            break;
                     }
                 }
 
@@ -1595,6 +1622,7 @@ define([
                     slicerTip       = me.tooltips.slicer,
                     foreignSelect   = me.tooltips.foreignSelect,
                     eyedropperTip   = me.tooltips.eyedropper,
+                    placeholderTip   = me.tooltips.placeholder,
                     pos             = [
                         me.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
                         me.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
@@ -1642,6 +1670,9 @@ define([
                             slicerTip.text = '';
                             slicerTip.isHidden = true;
                         }
+                    }
+                    if (!index_placeholder) {
+                        me.hidePlaceholderTip();
                     }
                 }
                 if (index_filter===undefined || (me.dlgFilter && me.dlgFilter.isVisible()) || (me.currentMenu && me.currentMenu.isVisible())) {
@@ -1835,6 +1866,59 @@ define([
                                         top         : showPoint[1] + 'px'
                                     });
                             }
+                        }
+                    }
+
+                    if (index_placeholder) {
+                        if (!placeholderTip.parentEl) {
+                            placeholderTip.parentEl = $('<div id="tip-container-placeholdertip" style="position: absolute; z-index: 10000;"></div>');
+                            me.documentHolder.cmpEl.append(placeholderTip.parentEl);
+                        }
+
+                        var data  = dataarray[index_placeholder-1],
+                            phstr;
+
+                        switch (data.asc_getPlaceholderType()) {
+                            case AscCommon.PlaceholderButtonType.Image:
+                                phstr = me.documentHolder.txtInsImage;
+                                break;
+                            case AscCommon.PlaceholderButtonType.ImageUrl:
+                                phstr = me.documentHolder.txtInsImageUrl;
+                                break;
+                        }
+
+                        if (placeholderTip.ref && placeholderTip.ref.isVisible()) {
+                            if (placeholderTip.text != phstr) {
+                                placeholderTip.ref.hide();
+                                placeholderTip.ref = undefined;
+                                placeholderTip.text = '';
+                                placeholderTip.isHidden = true;
+                            }
+                        }
+
+                        if (!placeholderTip.ref || !placeholderTip.ref.isVisible()) {
+                            placeholderTip.text = phstr;
+                            placeholderTip.ref = new Common.UI.Tooltip({
+                                owner   : placeholderTip.parentEl,
+                                html    : true,
+                                title   : phstr
+                            });
+
+                            placeholderTip.ref.show([-10000, -10000]);
+                            placeholderTip.isHidden = false;
+
+                            showPoint = [data.asc_getX(), data.asc_getY()];
+                            showPoint[0] += (pos[0] + 6);
+                            showPoint[1] += (pos[1] - 20);
+                            showPoint[1] -= placeholderTip.ref.getBSTip().$tip.height();
+                            var tipwidth = placeholderTip.ref.getBSTip().$tip.width();
+                            if (showPoint[0] + tipwidth > me.tooltips.coauth.bodyWidth )
+                                showPoint[0] = me.tooltips.coauth.bodyWidth - tipwidth;
+
+                            placeholderTip.ref.getBSTip().$tip.css({
+                                top : showPoint[1] + 'px',
+                                left: showPoint[0] + 'px'
+                            });
                         }
                     }
                 }
@@ -2306,7 +2390,7 @@ define([
                             event.stopPropagation();
                             return false;
                         }
-                    } else if (key === 48 || key === 96) {// 0
+                    } else if (key === Common.UI.Keys.ZERO || key === Common.UI.Keys.NUM_ZERO) {// 0
                         if (!this.api.isCellEdited) {
                             this.api.asc_setZoom(1);
                             event.preventDefault();
@@ -2676,9 +2760,13 @@ define([
                 documentHolder.menuParagraphEquation.setVisible(isEquation);
                 documentHolder.menuParagraphEquation.setDisabled(isObjLocked);
                 if (isEquation) {
-                    var eq = this.api.asc_GetMathInputType();
-                    documentHolder.menuParagraphEquation.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
-                    documentHolder.menuParagraphEquation.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    var eq = this.api.asc_GetMathInputType(),
+                        isEqToolbarHide = Common.Utils.InternalSettings.get('sse-equation-toolbar-hide');
+
+                    documentHolder.menuParagraphEquation.menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                    documentHolder.menuParagraphEquation.menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    documentHolder.menuParagraphEquation.menu.items[8].options.isToolbarHide = isEqToolbarHide;
+                    documentHolder.menuParagraphEquation.menu.items[8].setCaption(isEqToolbarHide ? documentHolder.showEqToolbar : documentHolder.hideEqToolbar, true);
                 }
 
                 if (showMenu) this.showPopupMenu(documentHolder.textInShapeMenu, {}, event);
@@ -2730,21 +2818,23 @@ define([
                 needshow && this.fillPivotProps();
                 documentHolder.mnuRefreshPivot.setVisible(needshow);
                 documentHolder.mnuPivotRefreshSeparator.setVisible(needshow);
-                documentHolder.mnuSubtotalField.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===0 || this.propsPivot.fieldType===1));
-                documentHolder.mnuPivotSubtotalSeparator.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===0 || this.propsPivot.fieldType===1));
-                documentHolder.mnuGroupPivot.setVisible(needshow);
-                documentHolder.mnuUnGroupPivot.setVisible(needshow);
-                documentHolder.mnuDeleteField.setVisible(!!this.propsPivot.field);
-                documentHolder.mnuPivotDeleteSeparator.setVisible(!!this.propsPivot.field);
-                documentHolder.mnuPivotSettingsSeparator.setVisible(needshow);
-                documentHolder.mnuPivotSettings.setVisible(needshow);
-                documentHolder.mnuFieldSettings.setVisible(!!this.propsPivot.field);
-                documentHolder.mnuSummarize.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2));
-                documentHolder.mnuShowAs.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2) && !this.propsPivot.rowTotal && !this.propsPivot.colTotal);
-                documentHolder.mnuPivotValueSeparator.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2));
                 documentHolder.mnuPivotSort.setVisible(this.propsPivot.filter || this.propsPivot.rowFilter || this.propsPivot.colFilter);
                 documentHolder.mnuPivotFilter.setVisible(!!this.propsPivot.filter);
                 documentHolder.mnuPivotFilterSeparator.setVisible(this.propsPivot.filter || this.propsPivot.rowFilter || this.propsPivot.colFilter);
+                documentHolder.mnuSubtotalField.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===0 || this.propsPivot.fieldType===1));
+                documentHolder.mnuPivotSubtotalSeparator.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===0 || this.propsPivot.fieldType===1));
+                documentHolder.mnuGroupPivot.setVisible(!!this.propsPivot.canGroup);
+                documentHolder.mnuUnGroupPivot.setVisible(!!this.propsPivot.canGroup);
+                documentHolder.mnuPivotGroupSeparator.setVisible(!!this.propsPivot.canGroup);
+                documentHolder.mnuDeleteField.setVisible(!!this.propsPivot.field);
+                documentHolder.mnuPivotDeleteSeparator.setVisible(!!this.propsPivot.field);
+                documentHolder.mnuSummarize.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2));
+                documentHolder.mnuShowAs.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2) && !this.propsPivot.rowTotal && !this.propsPivot.colTotal);
+                documentHolder.mnuPivotValueSeparator.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2));
+                documentHolder.mnuShowDetails.setVisible(!!this.propsPivot.showDetails);
+                documentHolder.mnuShowDetailsSeparator.setVisible(!!this.propsPivot.showDetails);
+                documentHolder.mnuPivotSettings.setVisible(needshow);
+                documentHolder.mnuFieldSettings.setVisible(!!this.propsPivot.field);
 
                 if (this.propsPivot.field) {
                     documentHolder.mnuDeleteField.setCaption(documentHolder.txtDelField + ' ' + (this.propsPivot.rowTotal || this.propsPivot.colTotal ? documentHolder.txtGrandTotal : '"' + Common.Utils.String.htmlEncode(this.propsPivot.fieldName) + '"'), true);
@@ -2866,8 +2956,8 @@ define([
                 documentHolder.pmiGetRangeList.setDisabled(false);
 
                 if (inPivot) {
-                    documentHolder.mnuGroupPivot.setDisabled(isPivotLocked || !this.propsPivot.canGroup || this._state.wsLock);
-                    documentHolder.mnuUnGroupPivot.setDisabled(isPivotLocked || !this.propsPivot.canGroup || this._state.wsLock);
+                    documentHolder.mnuGroupPivot.setDisabled(isPivotLocked || this._state.wsLock);
+                    documentHolder.mnuUnGroupPivot.setDisabled(isPivotLocked || this._state.wsLock);
                     documentHolder.mnuRefreshPivot.setDisabled(isPivotLocked || this._state.wsLock);
                     documentHolder.mnuPivotSettings.setDisabled(isPivotLocked || this._state.wsLock);
                     documentHolder.mnuFieldSettings.setDisabled(isPivotLocked || this._state.wsLock);
@@ -2875,6 +2965,7 @@ define([
                     documentHolder.mnuSubtotalField.setDisabled(isPivotLocked || this._state.wsLock);
                     documentHolder.mnuSummarize.setDisabled(isPivotLocked || this._state.wsLock);
                     documentHolder.mnuShowAs.setDisabled(isPivotLocked || this._state.wsLock);
+                    documentHolder.mnuShowDetails.setDisabled(this.api.asc_isWorkbookLocked() || this.api.asc_isProtectedWorkbook());
                     documentHolder.mnuPivotFilter.setDisabled(isPivotLocked || this._state.wsLock);
                 }
 
@@ -4722,7 +4813,8 @@ define([
         onShowMathTrack: function(bounds) {
             if (this.permissions && !this.permissions.isEdit) return;
 
-            if (bounds[3] < 0) {
+            this.lastMathTrackBounds = bounds;
+            if (bounds[3] < 0 || Common.Utils.InternalSettings.get('sse-equation-toolbar-hide')) {
                 this.onHideMathTrack();
                 return;
             }
@@ -4739,11 +4831,10 @@ define([
 
                 me.equationBtns = [];
                 for (var i = 0; i < equationsStore.length; ++i) {
-                    var style = 'margin-right: 8px;' + (i==0 ? 'margin-left: 5px;' : '');
-                    eqStr += '<span id="id-document-holder-btn-equation-' + i + '" style="' + style +'"></span>';
+                    eqStr += '<span id="id-document-holder-btn-equation-' + i + '"></span>';
                 }
                 eqStr += '<div class="separator"></div>';
-                eqStr += '<span id="id-document-holder-btn-equation-settings" style="margin-right: 5px; margin-left: 8px;"></span>';
+                eqStr += '<span id="id-document-holder-btn-equation-settings"></span>';
                 eqStr += '</div>';
                 eqContainer = $(eqStr);
                 documentHolder.cmpEl.append(eqContainer);
@@ -4788,8 +4879,8 @@ define([
                             value: i,
                             items: [
                                 { template: _.template('<div id="id-document-holder-btn-equation-menu-' + i +
-                                        '" class="menu-shape" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
-                                        equationGroup.get('groupHeightStr') + 'margin-left:5px;"></div>') }
+                                        '" class="menu-shape margin-left-5" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
+                                        equationGroup.get('groupHeightStr') + '"></div>') }
                             ]
                         })
                     });
@@ -4807,10 +4898,14 @@ define([
                     menu        : me.documentHolder.createEquationMenu('popuptbeqinput', 'tl-bl')
                 });
                 me.equationSettingsBtn.menu.options.initMenu = function() {
-                    var eq = me.api.asc_GetMathInputType();
-                    var menu = me.equationSettingsBtn.menu;
-                    menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
-                    menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    var eq = me.api.asc_GetMathInputType(),
+                        menu = me.equationSettingsBtn.menu,
+                        isEqToolbarHide = Common.Utils.InternalSettings.get('sse-equation-toolbar-hide');
+
+                    menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                    menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    menu.items[8].options.isToolbarHide = isEqToolbarHide;
+                    menu.items[8].setCaption(isEqToolbarHide ? me.documentHolder.showEqToolbar : me.documentHolder.hideEqToolbar, true);
                 };
                 me.equationSettingsBtn.menu.on('item:click', _.bind(me.convertEquation, me));
                 me.equationSettingsBtn.menu.on('show:before', function(menu) {
@@ -4824,6 +4919,7 @@ define([
                 me.onDocumentResize();
 
             var showPoint = [(bounds[0] + bounds[2])/2 - eqContainer.outerWidth()/2, bounds[1] - eqContainer.outerHeight() - 10];
+            (showPoint[0]<0) && (showPoint[0] = 0);
             if (showPoint[1]<0) {
                 showPoint[1] = bounds[3] + 10;
             }
@@ -4878,6 +4974,13 @@ define([
                     Common.localStorage.setBool("sse-equation-input-latex", item.value===Asc.c_oAscMathInputType.LaTeX)
                 } else if (item.options.type=='view')
                     this.api.asc_ConvertMathView(item.value.linear, item.value.all);
+                else if(item.options.type=='hide') {
+                    item.options.isToolbarHide = !item.options.isToolbarHide;
+                    Common.Utils.InternalSettings.set('sse-equation-toolbar-hide', item.options.isToolbarHide);
+                    Common.localStorage.setBool('sse-equation-toolbar-hide', item.options.isToolbarHide);
+                    if(item.options.isToolbarHide) this.onHideMathTrack();
+                    else this.onShowMathTrack(this.lastMathTrackBounds);
+                }
             }
         },
 

@@ -58,7 +58,10 @@ define([
                     'history:show': function () {
                         if ( !this.leftMenu.panelHistory.isVisible() )
                             this.clickMenuFileItem('header', 'history');
-                        }.bind(this)
+                        }.bind(this),
+                    'rename': _.bind(function (value) {
+                        this.mode && this.mode.wopi && this.api ? this.api.asc_wopi_renameFile(value) : Common.Gateway.requestRename(value);
+                    }, this)
                 },
                 'LeftMenu': {
                     'file:show': _.bind(this.fileShowHide, this, true),
@@ -266,6 +269,9 @@ define([
             case 'back': break;
             case 'save': this.api.asc_Save(); break;
             case 'save-desktop': this.api.asc_DownloadAs(); break;
+            case 'export-pdf':
+                Common.NotificationCenter.trigger('export:to', this.leftMenu, Asc.c_oAscFileType.PDF);
+                break;
             case 'print': Common.NotificationCenter.trigger('print', this.leftMenu); break;
             case 'exit': Common.NotificationCenter.trigger('goback'); break;
             case 'edit':

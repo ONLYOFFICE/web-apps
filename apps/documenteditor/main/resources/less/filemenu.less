@@ -62,14 +62,9 @@
 
   .panel-context {
     width: 100%;
-    padding-left: 260px;
+    .padding-left(260px);
     background-color: @background-normal-ie;
     background-color: @background-normal;
-
-    .rtl & {
-      padding-left: 0;
-      padding-right: 260px;
-    }
 
     .content-box {
       height: 100%;
@@ -124,11 +119,9 @@
 
       .format-items {
         .format-item {
-          float: left;
           margin: 0 24px 34px 0;
 
           .rtl & {
-            float: right;
             margin: 0 0 34px 24px;
           }
 
@@ -159,7 +152,6 @@
   width: 98px;
   height: 125px;
   cursor: pointer;
-
   .svg-format- {
     &docx {
       background: ~"url('@{common-image-const-path}/doc-formats/docx.svg') no-repeat center";
@@ -302,19 +294,6 @@
         }
       }
 
-      &.left {
-         text-align: right;
-         width: 30%;
-         label {
-           .font-weight-bold();
-           .font-size-medium();
-         }
-      }
-
-      &.right {
-        width: 70%;
-      }
-
       &.divider {
         height: 10px;
       }
@@ -329,13 +308,8 @@
 
   #fms-cmb-theme {
     display: inline-block;
-    margin-right: 15px;
+    .margin-right-15();
     vertical-align: middle;
-
-    .rtl & {
-      margin-right: 0;
-      margin-left: 15px;
-    }
   }
 
   #fms-chb-dark-mode {
@@ -346,13 +320,8 @@
 
   #fms-cmb-macros {
     display: inline-block;
-    margin-right: 15px;
+    .margin-right-15();
     vertical-align: middle;
-
-    .rtl & {
-      margin-right: 0;
-      margin-left: 15px;
-    }
   }
 }
 
@@ -426,7 +395,7 @@
 
 #panel-recentfiles {
   #id-recent-view {
-    margin: 0 0 20px 10px;
+    margin: 0 0 20px 0px;
   }
 
   .header {
@@ -436,12 +405,12 @@
 
   .item {
     border: none;
-    width: 100%;
+    width: calc(100% - 4px);
     .box-shadow(none);
   }
 
   .recent-wrap {
-    padding: 5px 10px;
+    padding: 5px 6px;
     cursor: pointer;
     .font-size-medium();
 
@@ -452,14 +421,88 @@
     }
 
     .recent-icon {
-      float: left;
       display: inline-block;
-      width: 25px;
-      height: 25px;
+      .float-left();
+      width: 24px;
+      height: 30px;
       margin-top: 1px;
       div {
         width: 100%;
         height: 100%;
+        div{
+          background: ~"url(@{common-image-const-path}/doc-formats/formats.png)";
+          background-size: 744px 30px;
+          &:not(.svg-file-recent) {
+            .pixel-ratio__1_25 & {
+              background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.25x.png)";
+            }
+
+            .pixel-ratio__1_5 & {
+              background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.5x.png)";
+            }
+
+            .pixel-ratio__1_75 & {
+              background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.75x.png)";
+            }
+
+            .pixel-ratio__2 & {
+              background-image: ~"url(@{common-image-const-path}/doc-formats/formats@2x.png)";
+            }
+          }
+        }
+        .img-format- {
+          &docx {
+            background-position: 0px 0px;
+          }
+          &pdf {
+            background-position: 408px 0px;
+          }
+          &odt {
+            background-position: 696px 0px;
+          }
+          &txt {
+            background-position: 648px 0px;
+          }
+          &dotx {
+            background-position: 240px 0px;
+          }
+          &pdfa {
+            background-position: 408px 0px;
+          }
+          &ott {
+            background-position: 168px 0px;
+          }
+          &rtf {
+            background-position: 672px 0px;
+          }
+          &doc {
+            background-position: 720px 0px;
+          }
+          &docxf {
+            background-position: 48px 0px;
+          }
+          &oform {
+            background-position: 24px 0px;
+          }
+          &html, &htm {
+            background-position: 624px 0px;
+          }
+          &fb2 {
+            background-position: 264px 0px;
+          }
+          &epub {
+            background-position: 288px 0px;
+          }
+          &xps {
+            background-position: 360px 0px;
+          }
+          &djvu {
+            background-position: 384px 0px;
+          }
+          &mht {
+            background-position: 312px 0px;
+          }
+        }
         .svg-file-recent {
           background: ~"url(@{app-image-const-path}/recent-file.svg) no-repeat top";
         }
@@ -468,6 +511,7 @@
 
     > div:not(:first-child) {
       display: block;
+      .padding-left-10();
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
@@ -550,15 +594,6 @@
     padding: 0 30px;
   }
 
-  #id-info-btn-edit {
-    margin-right: 10px;
-
-    .rtl & {
-      margin-right: 0;
-      margin-left: 10px;
-    }
-  }
-
   .header {
     margin: 30px 0 20px 0;
     .font-size-very-huge();
@@ -589,12 +624,8 @@
 
         &.left {
           padding: 5px 10px;
-          text-align: right;
+          .text-align-right();
           width: 200px;
-
-          .rtl & {
-            text-align: left;
-          }
 
           label {
             .font-weight-bold();
@@ -626,6 +657,10 @@
     &.sharedLink {
       background-position: -24px -273px;
     }
+
+    .rtl & {
+      padding: 0 17px 0 0;
+    }
   }
 
   label, span {
@@ -633,7 +668,7 @@
   }
 
   .tool {
-    margin-left: 4px;
+    .margin-left-4();
     background-image: none;
       &.close{
         &:before, &:after {
@@ -695,22 +730,6 @@
     display: flex;
   }
 
-  #fms-btn-delete-pwd {
-    margin-left: 16px;
-    .rtl & {
-      margin-left: 0;
-      margin-right: 16px;
-    }
-  }
-
-  .signature-view-link {
-    margin-right: 20px;
-    .rtl & {
-      margin-right: 0;
-      margin-left: 20px;
-    }
-  }
-
   .signature-tip {
     margin-bottom: 6px;
   }
@@ -737,7 +756,6 @@
       margin: 18px 0 20px 0;
     }
     .comment-text{
-      opacity: 0.45;
       white-space: normal;
     }
     #id-print-settings {
@@ -759,18 +777,7 @@
         border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
         border-left: @scaled-one-px-value solid @border-toolbar;
       }
-      label.header {
-        font-weight: 700;
-      }
-      .footer {
-        .btn.primary {
-          margin-right: 8px;
-          .rtl & {
-            margin-right: 0;
-            margin-left: 8px;
-          }
-        }
-      }
+
       .settings-container {
         width: 100%;
         height: 100%;
@@ -792,28 +799,16 @@
         .footer {
           margin-top: 24px;
         }
-        #print-txt-pages, #print-txt-copies {
-          padding-left: 5px;
-          .rtl & {
-            padding-left: 0;
-            padding-right: 5px;
-          }
-        }
         #print-combo-sides {
           .dropdown-menu li > a {
-            padding-right: 5px;
-            padding-left: 20px;
-            .rtl & {
-              padding-right: 20px;
-              padding-left: 5px;
-            }
+            .padding-x(20px, 5px);
           }
         }
       }
     }
     #print-navigation {
       height: 50px;
-      padding-left: 20px;
+      .padding-left-20();
       padding-top: 10px;
       display: flex;
       #print-prev-page {
@@ -861,20 +856,8 @@
         display: flex;
         align-items: center;
         height: 20px;
-        margin-left: 10px;
-        .rtl & {
-          margin-left: 0;
-          margin-right: 10px;
-        }
         label {
           .font-weight-bold();
-        }
-        #print-count-page, #print-number-page {
-          margin-left: 4px;
-          .rtl & {
-            margin-left: 0;
-            margin-right: 4px;
-          }
         }
       }
     }

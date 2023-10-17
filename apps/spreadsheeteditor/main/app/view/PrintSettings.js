@@ -50,12 +50,14 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         options: {
             alias: 'PrintSettings',
             contentWidth: 280,
-            height: 575,
+            height: 513,
             buttons: null
         },
 
         initialize : function(options) {
             this.type = options.type || 'print';
+            var txtBtn = (this.type == 'print') ? this.btnPrint :
+                (this.type == 'export') ? this.btnExport : this.btnDownload;
             _.extend(this.options, {
                 title: (this.type == 'print') ? this.textTitle : this.textTitlePDF,
                 template: [
@@ -67,21 +69,20 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                             '<div style="height: 38px; line-height: 38px;" class="div-category">' + this.textPageOrientation + '</div>',
                             '<div style="height: 38px; line-height: 38px;" class="div-category">' + this.textPageScaling + '</div>',
                             '<div style="height: 98px; line-height: 33px;" class="div-category">' + this.strPrintTitles + '</div>',
-                            '<div style="height: 108px; line-height: 33px;" class="div-category">' + this.strMargins + '</div>',
-                            '<div style="height: 58px; line-height: 40px;" class="div-category">' + ((this.type == 'print') ? this.strPrint : this.strShow) + '</div>',
+                            '<div style="height: 41px; line-height: 41px;" class="div-category">' + this.strMargins + '</div>',
+                            '<div style="height: 58px; line-height: 44px;" class="div-category">' + ((this.type == 'print') ? this.strPrint : this.strShow) + '</div>',
                         '</div>',
                         '<div class="content-panel">' + _.template(contentTemplate)({scope: this}) + '</div>',
                     '</div>',
                     '<div class="separator horizontal"></div>',
                     '<div class="footer justify">',
                         '<button id="printadv-dlg-btn-hide" class="btn btn-text-default" style="min-width: 100px;width: auto;">' + this.textHideDetails + '</button>',
-                        '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;float: right;">' + this.cancelButtonText + '</button>',
-                        '<button class="btn normal dlg-btn primary" result="ok" style="margin-left: 10px;  width: 150px;float: right;">' + ((this.type == 'print') ? this.btnPrint : this.btnDownload) + '</button>',
+                        '<button class="btn normal dlg-btn float-right" result="cancel" style="width: 86px;">' + this.cancelButtonText + '</button>',
+                        '<button class="btn normal dlg-btn primary float-right margin-left-10" result="ok" style="min-width: 150px;width: auto;">' + txtBtn + '</button>',
                     '</div>'
                 ].join('')
             }, options);
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
-            this.spinners = [];
         },
 
         render: function() {
@@ -190,49 +191,32 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 labelText: (this.type == 'print') ? this.textPrintHeadings : this.textShowHeadings
             });
 
-            this.spnMarginTop = new Common.UI.MetricSpinner({
-                el: $('#printadv-dlg-spin-margin-top'),
-                step: .1,
-                width: 110,
-                defaultUnit : "cm",
-                value: '0 cm',
-                maxValue: 48.25,
-                minValue: 0
+            this.cmbPaperMargins = new Common.UI.ComboBox({
+                el: $('#printadv-dlg-combo-margins'),
+                style: 'width: 242px;',
+                menuStyle: 'max-height: 280px; min-width: 242px;',
+                editable: false,
+                takeFocusOnClose: true,
+                cls: 'input-group-nr',
+                data: [
+                    { value: 0, displayValue: this.textMarginsNormal, size: [19.1, 17.8, 19.1, 17.8]},
+                    { value: 1, displayValue: this.textMarginsNarrow, size: [19.1, 6.4, 19.1, 6.4]},
+                    { value: 2, displayValue: this.textMarginsWide, size: [25.4, 25.4, 25.4, 25.4]},
+                    { value: -1, displayValue: this.textCustom, size: null}
+                ],
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem">',
+                        '<div><b><%= scope.getDisplayValue(item) %></b></div>',
+                        '<% if (item.size !== null) { %><div style="display: inline-block;margin-right: 20px;min-width: 80px;">' +
+                        '<label style="display: block;">' + this.strTop + ': <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[0]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
+                        '<label style="display: block;">' + this.strLeft + ': <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div><div style="display: inline-block;">' +
+                        '<label style="display: block;">' + this.strBottom + ': <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[2]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
+                        '<label style="display: block;">' + this.strRight + ': <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[3]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div>' +
+                        '<% } %>',
+                    '<% }); %>'
+                ].join(''))
             });
-            this.spinners.push(this.spnMarginTop);
-
-            this.spnMarginBottom = new Common.UI.MetricSpinner({
-                el: $('#printadv-dlg-spin-margin-bottom'),
-                step: .1,
-                width: 110,
-                defaultUnit : "cm",
-                value: '0 cm',
-                maxValue: 48.25,
-                minValue: 0
-            });
-            this.spinners.push(this.spnMarginBottom);
-
-            this.spnMarginLeft = new Common.UI.MetricSpinner({
-                el: $('#printadv-dlg-spin-margin-left'),
-                step: .1,
-                width: 110,
-                defaultUnit : "cm",
-                value: '0.19 cm',
-                maxValue: 48.25,
-                minValue: 0
-            });
-            this.spinners.push(this.spnMarginLeft);
-
-            this.spnMarginRight = new Common.UI.MetricSpinner({
-                el: $('#printadv-dlg-spin-margin-right'),
-                step: .1,
-                width: 110,
-                defaultUnit : "cm",
-                value: '0.19 cm',
-                maxValue: 48.25,
-                minValue: 0
-            });
-            this.spinners.push(this.spnMarginRight);
 
             var itemsTemplate =
                 _.template([
@@ -261,7 +245,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
 
             this.txtRangeTop = new Common.UI.InputFieldBtn({
                 el          : $('#printadv-dlg-txt-top'),
-                style       : 'width: 147px;',
+                style       : 'width: 137px;',
                 allowBlank  : true,
                 validateOnChange: true
             });
@@ -270,13 +254,13 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 parentEl: $('#printadv-dlg-presets-top'),
                 cls: 'btn-text-menu-default',
                 caption: this.textRepeat,
-                style: 'width: 85px;',
+                style: 'width: 95px;',
                 menu: true
             });
 
             this.txtRangeLeft = new Common.UI.InputFieldBtn({
                 el          : $('#printadv-dlg-txt-left'),
-                style       : 'width: 147px;',
+                style       : 'width: 137px;',
                 allowBlank  : true,
                 validateOnChange: true
             });
@@ -285,7 +269,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 parentEl: $('#printadv-dlg-presets-left'),
                 cls: 'btn-text-menu-default',
                 caption: this.textRepeat,
-                style: 'width: 85px;',
+                style: 'width: 95px;',
                 menu: true
             });
 
@@ -364,13 +348,6 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         },
 
         updateMetricUnit: function() {
-            if (this.spinners) {
-                for (var i=0; i<this.spinners.length; i++) {
-                    var spinner = this.spinners[i];
-                    spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
-                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
-                }
-            }
             var store = this.cmbPaperSize.store;
             for (var i=0; i<store.length; i++) {
                 var item = store.at(i),
@@ -382,6 +359,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                         parseFloat(Common.Utils.Metric.fnRecalcFromMM(pageheight).toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ')');
             }
             this.cmbPaperSize.onResetItems();
+            this.cmbPaperMargins.onResetItems();
         },
 
         handlerShowDetails: function(btn) {
@@ -394,7 +372,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             } else {
                 this.extended = false;
                 this.panelDetails.css({'display': 'block'});
-                this.setHeight(615);
+                this.setHeight(553);
                 btn.setCaption(this.textHideDetails);
                 Common.localStorage.setItem("sse-hide-print-settings", 0);
             }
@@ -442,7 +420,12 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         textRepeatLeft:         'Repeat columns at left',
         textRepeat:             'Repeat...',
         textPages:              'Pages:',
-        textTo:                 'to'
+        textTo:                 'to',
+        textMarginsNormal:      'Normal',
+        textMarginsNarrow:      'Narrow',
+        textMarginsWide:        'Wide',
+        txtMarginsLast:         'Last Custom',
+        btnExport:              'Save & Export'
 
     }, SSE.Views.PrintSettings || {}));
 });

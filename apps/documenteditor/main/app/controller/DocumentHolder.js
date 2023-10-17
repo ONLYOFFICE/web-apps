@@ -126,6 +126,7 @@ define([
             me.mode = {};
             me.mouseMoveData = null;
             me.isTooltipHiding = false;
+            me.lastMathTrackBounds = [];
 
             me.screenTip = {
                 toolTip: new Common.UI.Tooltip({
@@ -159,9 +160,11 @@ define([
                 if (me.api.can_AddQuotedComment()!==false) {
                     me.addComment();
                 }
+                return false;
             };
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
 
+            Common.Utils.InternalSettings.set('de-equation-toolbar-hide', Common.localStorage.getBool('de-equation-toolbar-hide'));
         },
 
         onLaunch: function() {
@@ -701,11 +704,11 @@ define([
                         return false;
                     }
                     else if (key === Common.UI.Keys.NUM_MINUS || key === Common.UI.Keys.MINUS || (Common.Utils.isGecko && key === Common.UI.Keys.MINUS_FF) || (Common.Utils.isOpera && key == 45)){
-                        me.api.zoomOut();
+                        (key !== Common.UI.Keys.NUM_MINUS || !me.mode.isEdit) && me.api.zoomOut();
                         event.preventDefault();
                         event.stopPropagation();
                         return false;
-                    } else if (key === 48 || key === 96) {// 0
+                    } else if (key === Common.UI.Keys.ZERO || key === Common.UI.Keys.NUM_ZERO) {// 0
                         me.api.zoom(100);
                         event.preventDefault();
                         event.stopPropagation();
@@ -756,6 +759,10 @@ define([
                     }
                 });
                 meEl.on('mousedown', function(e){
+                    if (e.target.localName == 'canvas')
+                        Common.UI.Menu.Manager.hideAll();
+                });
+                meEl.on('touchstart', function(e){
                     if (e.target.localName == 'canvas')
                         Common.UI.Menu.Manager.hideAll();
                 });
@@ -1021,7 +1028,7 @@ define([
                     type = moveData.get_Type();
 
                 if (type==Asc.c_oAscMouseMoveDataTypes.Hyperlink || type==Asc.c_oAscMouseMoveDataTypes.Footnote || type==Asc.c_oAscMouseMoveDataTypes.Form ||
-                    type==Asc.c_oAscMouseMoveDataTypes.Review && me.mode.reviewHoverMode || type==Asc.c_oAscMouseMoveDataTypes.Eyedropper) {
+                    type==Asc.c_oAscMouseMoveDataTypes.Review && me.mode.reviewHoverMode || type==Asc.c_oAscMouseMoveDataTypes.Eyedropper || type===Asc.c_oAscMouseMoveDataTypes.Placeholder) {
                     if (me.isTooltipHiding) {
                         me.mouseMoveData = moveData;
                         return;
@@ -1051,6 +1058,15 @@ define([
                             ToolTip += changes.get('changetext');
                             if (ToolTip.length>1000)
                                 ToolTip = ToolTip.substr(0, 1000) + '...';
+                        }
+                    } else if (type===Asc.c_oAscMouseMoveDataTypes.Placeholder) {
+                        switch (moveData.get_PlaceholderType()) {
+                            case AscCommon.PlaceholderButtonType.Image:
+                                ToolTip = me.documentHolder.txtInsImage;
+                                break;
+                            case AscCommon.PlaceholderButtonType.ImageUrl:
+                                ToolTip = me.documentHolder.txtInsImageUrl;
+                                break;
                         }
                     } else if (type==Asc.c_oAscMouseMoveDataTypes.Eyedropper) {
                         if (me.eyedropperTip.isTipVisible) {
@@ -1118,7 +1134,7 @@ define([
                     var recalc = false;
                     screenTip.isHidden = false;
 
-                    if (type!==Asc.c_oAscMouseMoveDataTypes.Review)
+                    if (type!==Asc.c_oAscMouseMoveDataTypes.Review && type!==Asc.c_oAscMouseMoveDataTypes.Placeholder)
                         ToolTip = Common.Utils.String.htmlEncode(ToolTip);
 
                     if (screenTip.tipType !== type || screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 ) {
@@ -1242,20 +1258,26 @@ define([
                 });
                 (menu.items.length>0) && menu.items[0].setChecked(true, true);
             }
-            if (coord.asc_getX()<0 || coord.asc_getY()<0) {
+
+            var showPoint = [coord.asc_getX() + coord.asc_getWidth() + 3, coord.asc_getY() + coord.asc_getHeight() + 3];
+            if (coord.asc_getX()<0 || coord.asc_getY()<0 || showPoint[0]>me._Width || showPoint[1]>me._Height) {
                 if (pasteContainer.is(':visible')) pasteContainer.hide();
                 $(document).off('keyup', this.wrapEvents.onKeyUp);
-            } else {
-                var showPoint = [coord.asc_getX() + coord.asc_getWidth() + 3, coord.asc_getY() + coord.asc_getHeight() + 3];
-                if (!Common.Utils.InternalSettings.get("de-hidden-rulers")) {
-                    showPoint = [showPoint[0] - 19, showPoint[1] - 26];
-                }
-                pasteContainer.css({left: showPoint[0], top : showPoint[1]});
-                pasteContainer.show();
-                setTimeout(function() {
-                    $(document).on('keyup', me.wrapEvents.onKeyUp);
-                }, 10);
+                return;
             }
+            if (showPoint[1] + pasteContainer.height()>me._Height)
+                showPoint[1] = me._Height - pasteContainer.height();
+            if (showPoint[0] + pasteContainer.width()>me._Width)
+                showPoint[0] = me._Width - pasteContainer.width();
+
+            if (!Common.Utils.InternalSettings.get("de-hidden-rulers")) {
+                showPoint = [showPoint[0] - 19, showPoint[1] - 26];
+            }
+            pasteContainer.css({left: showPoint[0], top : showPoint[1]});
+            pasteContainer.show();
+            setTimeout(function() {
+                $(document).on('keyup', me.wrapEvents.onKeyUp);
+            }, 10);
             this.disableSpecialPaste();
         },
 
@@ -2443,7 +2465,8 @@ define([
         onShowMathTrack: function(bounds) {
             if (this.mode && !this.mode.isEdit) return;
 
-            if (bounds[3] < 0) {
+            this.lastMathTrackBounds = bounds;
+            if (bounds[3] < 0 || Common.Utils.InternalSettings.get('de-equation-toolbar-hide')) {
                 this.onHideMathTrack();
                 return;
             }
@@ -2460,11 +2483,10 @@ define([
 
                 me.equationBtns = [];
                 for (var i = 0; i < equationsStore.length; ++i) {
-                    var style = 'margin-right: 8px;' + (i==0 ? 'margin-left: 5px;' : '');
-                    eqStr += '<span id="id-document-holder-btn-equation-' + i + '" style="' + style +'"></span>';
+                    eqStr += '<span id="id-document-holder-btn-equation-' + i + '"></span>';
                 }
                 eqStr += '<div class="separator"></div>';
-                eqStr += '<span id="id-document-holder-btn-equation-settings" style="margin-right: 5px; margin-left: 8px;"></span>';
+                eqStr += '<span id="id-document-holder-btn-equation-settings"></span>';
                 eqStr += '</div>';
                 eqContainer = $(eqStr);
                 documentHolder.cmpEl.find('#id_main_view').append(eqContainer);
@@ -2509,8 +2531,8 @@ define([
                             value: i,
                             items: [
                                 { template: _.template('<div id="id-document-holder-btn-equation-menu-' + i +
-                                '" class="menu-shape" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
-                                equationGroup.get('groupHeightStr') + 'margin-left:5px;"></div>') }
+                                '" class="menu-shape margin-left-5" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
+                                equationGroup.get('groupHeightStr') + '"></div>') }
                             ]
                         })
                     });
@@ -2528,11 +2550,17 @@ define([
                     menu        : me.documentHolder.createEquationMenu('popuptbeqinput', 'tl-bl')
                 });
                 me.equationSettingsBtn.menu.options.initMenu = function() {
-                    var eq = me.api.asc_GetMathInputType();
-                    var menu = me.equationSettingsBtn.menu;
-                    menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
-                    menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
-                    menu.items[8].setChecked(me.api.asc_IsInlineMath());
+                    var eq = me.api.asc_GetMathInputType(),
+                        menu = me.equationSettingsBtn.menu,
+                        isInlineMath = me.api.asc_IsInlineMath(),
+                        isEqToolbarHide = Common.Utils.InternalSettings.get('de-equation-toolbar-hide');
+
+                    menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                    menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    menu.items[8].options.isEquationInline = isInlineMath;
+                    menu.items[8].setCaption(isInlineMath ? me.documentHolder.eqToDisplayText : me.documentHolder.eqToInlineText, true);
+                    menu.items[9].options.isToolbarHide = isEqToolbarHide;
+                    menu.items[9].setCaption(isEqToolbarHide ? me.documentHolder.showEqToolbar : me.documentHolder.hideEqToolbar, true);
                 };
                 me.equationSettingsBtn.menu.on('item:click', _.bind(me.convertEquation, me));
                 me.equationSettingsBtn.menu.on('show:before', function(menu) {
@@ -2546,6 +2574,7 @@ define([
             if (!Common.Utils.InternalSettings.get("de-hidden-rulers")) {
                 showPoint = [showPoint[0] - 19, showPoint[1] - 26];
             }
+            (showPoint[0]<0) && (showPoint[0] = 0);
             if (showPoint[1]<0) {
                 showPoint[1] = bounds[3] + 10;
                 !Common.Utils.InternalSettings.get("de-hidden-rulers") && (showPoint[1] -= 26);
@@ -2612,8 +2641,17 @@ define([
                     Common.localStorage.setBool("de-equation-input-latex", item.value===Asc.c_oAscMathInputType.LaTeX)
                 } else if (item.options.type=='view')
                     this.api.asc_ConvertMathView(item.value.linear, item.value.all);
-                else if (item.options.type=='mode')
-                    this.api.asc_ConvertMathDisplayMode(item.checked);
+                else if (item.options.type=='mode'){
+                    item.options.isEquationInline = !item.options.isEquationInline;
+                    this.api.asc_ConvertMathDisplayMode(item.options.isEquationInline);
+                }
+                else if(item.options.type=='hide') {
+                    item.options.isToolbarHide = !item.options.isToolbarHide; 
+                    Common.Utils.InternalSettings.set('de-equation-toolbar-hide', item.options.isToolbarHide);
+                    Common.localStorage.setBool('de-equation-toolbar-hide', item.options.isToolbarHide);
+                    if(item.options.isToolbarHide) this.onHideMathTrack();
+                    else this.onShowMathTrack(this.lastMathTrackBounds);
+                }
             }
         },
 
