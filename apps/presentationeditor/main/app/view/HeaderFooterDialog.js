@@ -47,7 +47,7 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
     PE.Views.HeaderFooterDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 360,
-            height: 415,
+            contentHeight: 330,
             buttons: null,
             id: 'window-header-footer'
         },
@@ -59,7 +59,7 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                 title: this.textHFTitle,
                 template: _.template(
                     [
-                        '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
+                        '<div class="box">',
                             '<div class="content-panel" style="padding: 10px 5px;"><div class="inner-content">',
                                 '<div class="settings-panel active">',
                                 template,

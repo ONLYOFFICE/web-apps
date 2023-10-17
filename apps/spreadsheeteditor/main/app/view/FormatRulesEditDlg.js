@@ -51,7 +51,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
         options: {
             alias: 'FormatRulesEditDlg',
             contentWidth: 491,
-            height: 445,
+            height: 'auto',
             id: 'window-format-rules'
         },
 
@@ -61,7 +61,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             _.extend(this.options, {
                 title: this.txtTitleNew,
                 template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
+                    '<div class="box">',
                         '<div class="content-panel" style="padding: 0;">' + _.template(contentTemplate)({scope: this}) + '</div>',
                     '</div>',
                     '<div class="separator horizontal"></div>'
@@ -1499,7 +1499,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 (cmbData.length>0) && this.cmbRule.setValue((ruleType!==undefined) ? ruleType : cmbData[0].value);
             }
             this.setControls(index, this.cmbRule.getValue());
-            this.setHeight(index==9 ? 445 : 355);
+            this.setInnerHeight(index==9 ? 360 : 270);
 
             if (rec) {
                 var type = rec.get('type');

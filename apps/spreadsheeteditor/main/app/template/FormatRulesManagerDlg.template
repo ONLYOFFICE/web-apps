@@ -19,7 +19,7 @@
                 </td>
             </tr>
             <tr>
-                <td colspan=2 class="padding-small">
+                <td colspan=2>
                     <div style="position: relative;">
                     <div style="width: 100%;" id="format-manager-rules-list">
                         <div id="id-preview">

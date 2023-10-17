@@ -91,7 +91,6 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
         options: {
             alias: 'FormatRulesManagerDlg',
             contentWidth: 560,
-            height: 340,
             buttons: ['ok', 'cancel']
         },
 
@@ -100,7 +99,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             _.extend(this.options, {
                 title: this.txtTitle,
                 template: [
-                    '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
+                    '<div class="box">',
                     '<div class="content-panel" style="padding: 0;">' + _.template(contentTemplate)({scope: this}) + '</div>',
                     '</div>',
                 ].join('')

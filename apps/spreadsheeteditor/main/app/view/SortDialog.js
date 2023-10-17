@@ -74,7 +74,6 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
         options: {
             alias: 'SortDialog',
             contentWidth: 560,
-            height: 315,
             buttons: ['ok', 'cancel']
         },
 
@@ -83,7 +82,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             _.extend(this.options, {
                 title: this.txtTitle,
                 template: [
-                    '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
+                    '<div class="box">',
                     '<div class="content-panel" style="padding: 0;">' + _.template(contentTemplate)({scope: this}) + '</div>',
                     '</div>'
                 ].join('')

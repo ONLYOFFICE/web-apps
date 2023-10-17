@@ -53,7 +53,6 @@ define([
         options: {
             alias: 'ViewManagerDlg',
             contentWidth: 460,
-            height: 330,
             buttons: null
         },
 
@@ -62,7 +61,7 @@ define([
             _.extend(this.options, {
                 title: this.txtTitle,
                 template: [
-                    '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
+                    '<div class="box">',
                         '<div class="content-panel" style="padding: 0;">',
                         '<div class="settings-panel active">',
                         '<div class="inner-content">',

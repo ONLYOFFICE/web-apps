@@ -50,7 +50,6 @@ define([
     DE.Views.BookmarksDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 320,
-            height: 366,
             buttons: null,
             id: 'window-bookmarks'
         },
@@ -61,7 +60,7 @@ define([
             _.extend(this.options, {
                 title: this.textTitle,
                 template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
+                    '<div class="box">',
                         '<div class="content-panel" style="padding: 0 5px;"><div class="inner-content">',
                             '<div class="settings-panel active">',
                                 '<table cols="1" style="width: 100%;">',

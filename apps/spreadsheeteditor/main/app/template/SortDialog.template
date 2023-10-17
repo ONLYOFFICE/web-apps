@@ -19,7 +19,7 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="2" class="padding-small">
+                <td colspan="2">
                     <div id="sort-dialog-list" class="" style="width:100%; height: 173px;"></div>
                 </td>
             </tr>

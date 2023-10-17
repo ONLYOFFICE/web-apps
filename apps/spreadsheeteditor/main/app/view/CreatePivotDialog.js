@@ -47,7 +47,6 @@ define([
     SSE.Views.CreatePivotDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 310,
-            height: 250,
             id: 'window-create-pivot'
         },
 
@@ -57,7 +56,7 @@ define([
             _.extend(this.options, {
                 title: this.textTitle,
                 template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
+                    '<div class="box">',
                         '<div class="content-panel" style="padding: 0 10px;"><div class="inner-content">',
                             '<div class="settings-panel active">',
                                 '<table cols="1" style="width: 100%;">',
@@ -87,7 +86,7 @@ define([
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
-                                        '<td class="padding-left-22">',
+                                        '<td class="padding-small padding-left-22">',
                                             '<div id="create-pivot-input-dest" class="input-row" style=""></div>',
                                         '</td>',
                                     '</tr>',

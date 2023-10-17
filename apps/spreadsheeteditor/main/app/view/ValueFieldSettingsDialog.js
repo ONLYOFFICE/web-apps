@@ -48,8 +48,7 @@ define([
 
     SSE.Views.ValueFieldSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
-            contentWidth: 284,
-            height: 320
+            contentWidth: 284
         },
 
         initialize : function(options) {
@@ -58,7 +57,7 @@ define([
             _.extend(this.options, {
                 title: this.textTitle,
                 template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
+                    '<div class="box">',
                         '<div class="content-panel" style="padding: 0 10px;"><div class="inner-content">',
                         '<div class="settings-panel active">',
                         '<table cols="2" style="width: 100%;">',
@@ -88,11 +87,11 @@ define([
                             '</td>',
                         '</tr>',
                         '<tr class="format-code">',
-                            '<td>',
+                            '<td class="padding-small">',
                                 '<label class="header">', me.txtBaseField,'</label>',
                                 '<div id="value-field-settings-field" class="input-group-nr" style="width:128px;"></div>',
                             '</td>',
-                            '<td class="float-right">',
+                            '<td class="padding-small float-right">',
                                 '<label class="header">', me.txtBaseItem,'</label>',
                                 '<div id="value-field-settings-item" class="input-group-nr" style="width:128px;"></div>',
                             '</td>',

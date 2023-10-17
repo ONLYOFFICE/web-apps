@@ -49,7 +49,6 @@ define([
     SSE.Views.ChartDataDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 370,
-            height: 490,
             id: 'window-chart-data'
         },
 
@@ -59,7 +58,7 @@ define([
             _.extend(this.options, {
                 title: this.textTitle,
                 template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
+                    '<div class="box">',
                     '<div class="content-panel" style="padding: 0 10px;"><div class="inner-content">',
                         '<div class="settings-panel active">',
                             '<table cols="1" style="width: 100%;">',
@@ -102,7 +101,7 @@ define([
                                     '</td>',
                                 '</tr>',
                                 '<tr>',
-                                    '<td class="padding-small">',
+                                    '<td class="padding-large">',
                                         '<button type="button" class="btn btn-text-default auto margin-right-5" id="chart-dlg-btn-category-edit" style="min-width: 70px;">', me.textEdit, '</button>',
                                     '</td>',
                                 '</tr>',

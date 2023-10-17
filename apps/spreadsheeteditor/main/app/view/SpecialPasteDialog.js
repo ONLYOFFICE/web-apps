@@ -47,8 +47,7 @@ define([
 
     SSE.Views.SpecialPasteDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
-            contentWidth: 350,
-            height: 385
+            contentWidth: 350
         },
 
         initialize : function(options) {
@@ -57,7 +56,7 @@ define([
             _.extend(this.options, {
                 title: this.textTitle,
                 template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
+                    '<div class="box">',
                         '<div class="content-panel" style="padding: 0 5px;"><div class="inner-content">',
                         '<div class="settings-panel active">',
                             '<table cols="2" style="width: 100%;">',

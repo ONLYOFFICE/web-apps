@@ -49,8 +49,7 @@ define([
     SSE.Views.NamedRangePasteDlg =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             alias: 'NamedRangePasteDlg',
-            contentWidth: 250,
-            height: 282
+            contentWidth: 250
         },
 
         initialize: function (options) {
@@ -59,12 +58,12 @@ define([
             _.extend(this.options, {
                 title: this.txtTitle,
                 template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
+                    '<div class="box">',
                         '<div class="content-panel" style="padding: 0;"><div class="inner-content">',
                             '<div class="settings-panel active">',
                                 '<table cols="1" style="width: 100%;">',
                                     '<tr>',
-                                        '<td class="padding-small">',
+                                        '<td>',
                                             '<label class="input-label">', me.textNames,'</label>',
                                             '<div id="named-range-paste-list" class="range-tableview" style="width:100%; height: 169px;"></div>',
                                         '</td>',

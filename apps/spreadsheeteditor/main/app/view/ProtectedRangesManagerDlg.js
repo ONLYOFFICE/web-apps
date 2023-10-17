@@ -51,7 +51,6 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
         options: {
             alias: 'ProtectedRangesManagerDlg',
             contentWidth: 490,
-            height: 365,
             buttons: null
         },
 
@@ -60,7 +59,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
             _.extend(this.options, {
                 title: this.txtTitle,
                 template: [
-                    '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
+                    '<div class="box">',
                     '<div class="content-panel" style="padding: 0;">' + _.template(contentTemplate)({scope: this}) + '</div>',
                     '</div>',
                     '<div class="footer center">',

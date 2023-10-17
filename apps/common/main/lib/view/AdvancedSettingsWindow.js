@@ -45,7 +45,7 @@ define([
         initialize : function(options) {
             var _options = {};
             _.extend(_options,  {
-                height: 200,
+                height: 'auto',
                 header: true,
                 cls: 'advanced-settings-dlg',
                 toggleGroup: 'advanced-settings-group',
@@ -55,7 +55,7 @@ define([
             }, options);
 
             this.template = options.template || [
-                '<div class="box" style="height:' + (_options.height-85) + 'px;">',
+                '<div class="box">',
                     '<div class="menu-panel">',
                     '<% _.each(items, function(item) { %>',
                         '<button class="btn btn-category" content-target="<%= item.panelId %>"><span class=""><%= item.panelCaption %></span></button>',
@@ -105,6 +105,15 @@ define([
             cnt_panel.width(this.contentWidth);
             $window.width(((menu_panel.length>0) ? menu_panel.width() : 0) + cnt_panel.outerWidth() + 2);
 
+            if (this.options.contentHeight) {
+                $window.find('.body > .box').css('height', this.options.contentHeight);
+            } else if (typeof this.options.height === 'number') {
+                var bodyEl = $window.find('.body'),
+                    hfHeight = parseInt($window.find('.header').css('height')) + parseInt($window.find('.footer').css('height')) + parseInt(bodyEl.css('padding-top')) + parseInt(bodyEl.css('padding-bottom')) +
+                               parseInt($window.css('border-bottom-width')) + parseInt($window.css('border-top-width'));
+                $window.find('.body > .box').css('height', this.options.height - hfHeight);
+            }
+
             this.content_panels = $window.find('.settings-panel');
             if (this.btnsCategory.length>0)
                 this.btnsCategory[0].toggle(true, true);
@@ -113,10 +122,20 @@ define([
         setHeight: function(height) {
             Common.UI.Window.prototype.setHeight.call(this, height);
 
-            var $window = this.getChild();
-            var boxEl = $window.find('.body > .box');
+            var $window = this.getChild(),
+                bodyEl = $window.find('.body'),
+                footerHeight = parseInt($window.find('.footer').css('height')) + parseInt(bodyEl.css('padding-top')) + parseInt(bodyEl.css('padding-bottom'));
+            $window.find('.body > .box').css('height', parseInt(bodyEl.css('height')) - footerHeight);
+        },
 
-            boxEl.css('height', height - 85);
+        setInnerHeight: function(height) { // height of box element
+            var $window = this.getChild(),
+                bodyEl = $window.find('.body'),
+                hfHeight = parseInt($window.find('.header').css('height')) + parseInt($window.find('.footer').css('height')) + parseInt(bodyEl.css('padding-top')) + parseInt(bodyEl.css('padding-bottom')) +
+                           parseInt($window.css('border-bottom-width')) + parseInt($window.css('border-top-width'));
+
+            Common.UI.Window.prototype.setHeight.call(this, height + hfHeight);
+            $window.find('.body > .box').css('height', height);
         },
 
         onDlgBtnClick: function(event) {

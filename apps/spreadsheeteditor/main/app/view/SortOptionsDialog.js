@@ -46,8 +46,7 @@ define([
 
     SSE.Views.SortOptionsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
-            contentWidth: 230,
-            height: 200
+            contentWidth: 230
         },
 
         initialize : function(options) {
@@ -56,7 +55,7 @@ define([
             _.extend(this.options, {
                 title: this.textTitle,
                 template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
+                    '<div class="box">',
                         '<div class="content-panel"><div class="inner-content">',
                             '<div class="settings-panel active">',
                                 '<table cols="1" style="width: 100%;">',

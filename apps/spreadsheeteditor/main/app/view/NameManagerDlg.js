@@ -52,7 +52,6 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
         options: {
             alias: 'NameManagerDlg',
             contentWidth: 540,
-            height: 330,
             buttons: null,
             id: 'window-name-manager'
         },
@@ -62,7 +61,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
             _.extend(this.options, {
                 title: this.txtTitle,
                 template: [
-                    '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
+                    '<div class="box">',
                     '<div class="content-panel" style="padding: 0;">' + _.template(contentTemplate)({scope: this}) + '</div>',
                     '</div>',
                     '<div class="footer center">',

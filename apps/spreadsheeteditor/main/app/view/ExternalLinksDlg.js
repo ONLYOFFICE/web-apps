@@ -51,7 +51,6 @@ define([
         options: {
             alias: 'ExternalLinksDlg',
             contentWidth: 500,
-            height: 'auto',
             buttons: null
         },
 
@@ -60,7 +59,7 @@ define([
             _.extend(this.options, {
                 title: this.txtTitle,
                 template: [
-                    '<div class="box" style="">',
+                    '<div class="box">',
                         '<div class="content-panel" style="padding: 0;"><div class="inner-content">',
                             '<div class="settings-panel active">',
                                 '<table cols="1" style="width: 100%;">',
@@ -73,7 +72,7 @@ define([
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
-                                        '<td class="">',
+                                        '<td>',
                                             '<div id="external-links-list" class="range-tableview" style="width:100%; height: 171px;"></div>',
                                         '</td>',
                                     '</tr>',
@@ -84,8 +83,7 @@ define([
                     '<div class="footer center">',
                         '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.closeButtonText + '</button>',
                     '</div>'
-                ].join(''),
-                cls: 'advanced-settings-dlg auto'
+                ].join('')
             }, options);
 
             this.api        = options.api;

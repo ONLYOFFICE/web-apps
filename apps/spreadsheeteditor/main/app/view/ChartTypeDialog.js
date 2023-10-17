@@ -69,7 +69,7 @@ define([
     SSE.Views.ChartTypeDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 370,
-            height: 385
+            contentHeight: 300
         },
 
         initialize : function(options) {
@@ -78,7 +78,7 @@ define([
             _.extend(this.options, {
                 title: this.textTitle,
                 template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
+                    '<div class="box">',
                     '<div class="content-panel" style="padding: 0 10px;"><div class="inner-content">',
                         '<div class="settings-panel active">',
                             '<table cols="1" style="width: 100%;">',

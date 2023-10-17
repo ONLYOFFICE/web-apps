@@ -51,7 +51,6 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
         options: {
             alias: 'WatchDialog',
             contentWidth: 560,
-            height: 294,
             modal: false,
             buttons: null
         },
@@ -61,7 +60,7 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
             _.extend(this.options, {
                 title: this.txtTitle,
                 template: [
-                    '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
+                    '<div class="box">',
                     '<div class="content-panel" style="padding: 0;">' + _.template(contentTemplate)({scope: this}) + '</div>',
                     '</div>',
                     '<div class="footer center">',

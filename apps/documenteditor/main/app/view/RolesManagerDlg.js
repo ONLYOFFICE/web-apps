@@ -52,7 +52,6 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
         options: {
             alias: 'RolesManagerDlg',
             contentWidth: 500,
-            height: 353,
             buttons: null
         },
 
@@ -61,7 +60,7 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
             _.extend(this.options, {
                 title: this.txtTitle,
                 template: [
-                    '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
+                    '<div class="box">',
                     '<div class="content-panel" style="padding: 0;">' + _.template(contentTemplate)({scope: this}) + '</div>',
                     '</div>',
                     '<div class="separator horizontal"></div>',

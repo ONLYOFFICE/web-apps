@@ -51,7 +51,6 @@ define([  'common/main/lib/view/AdvancedSettingsWindow',
         options: {
             alias: 'SaveFormDlg',
             contentWidth: 320,
-            height: 280,
             buttons: null
         },
 
@@ -60,7 +59,7 @@ define([  'common/main/lib/view/AdvancedSettingsWindow',
             _.extend(this.options, {
                 title: this.txtTitle,
                 template: [
-                    '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
+                    '<div class="box">',
                         '<div class="content-panel" style="padding: 0;">',
                             '<div class="settings-panel active">',
                                 '<div class="inner-content">',

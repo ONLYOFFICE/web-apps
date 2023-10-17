@@ -45,9 +45,7 @@ define([
 
     DE.Views.TextToTableDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
-            contentWidth: 300,
-            height: 405,
-            buttons: ['ok', 'cancel']
+            contentWidth: 300
         },
 
         initialize : function(options) {
@@ -56,7 +54,7 @@ define([
             _.extend(this.options, {
                 title: this.textTitle,
                 template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
+                    '<div class="box">',
                         '<div class="content-panel" style="padding: 0 5px;"><div class="inner-content">',
                         '<div class="settings-panel active">',
                             '<table cols="2" style="width: auto;">',
