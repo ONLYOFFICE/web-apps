@@ -396,7 +396,9 @@
     "textChooseAnOption": "Choose an option",
     "textChooseAnItem": "Choose an item",
     "textEnterYourOption": "Enter your option",
-    "textSave": "Save"
+    "textSave": "Save",
+    "textYourOption": "Your option",
+    "textPlaceholder": "Placeholder"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",
@@ -753,7 +755,8 @@
     "textClearAllFields": "Clear All Fields",
     "textRemoveFromFavorites": "Remove from Favorites",
     "textSubmit": "Submit",
-    "textSaveAsPdf": "Save as PDF"
+    "textSaveAsPdf": "Save as PDF",
+    "textExportAs": "Export As"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",

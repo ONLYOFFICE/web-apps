@@ -65,6 +65,9 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
         }
     }
 
+     {/* <ListItem key='export-link' title={t('Settings.textExport')} link='#' className='no-indicator' onClick={settingsContext.exportForm}>
+                        <Icon slot="media" icon="icon-export"></Icon>
+                    </ListItem>, */}
     return (
         <Page>
             {navbar}
@@ -85,14 +88,11 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                             <Icon slot="media" icon="icon-save-form"></Icon>
                         </ListItem>
                     : ''),
-                    <ListItem key='export-link' title={t('Settings.textExport')} link='#' className='no-indicator' onClick={settingsContext.exportForm}>
-                        <Icon slot="media" icon="icon-export"></Icon>
-                    </ListItem>,
                     <ListItem key='clear-all-fields-link' title={t('Settings.textClearAllFields')} link='#' className='no-indicator' onClick={settingsContext.clearAllFields}>
                         <Icon slot="media" icon="icon-clear-fields"></Icon>
                     </ListItem>
                 ] : null}
-                {Device.phone &&
+                {(Device.phone || isForm) &&
                     <ListItem title={!_isEdit || isViewer ? _t.textFind : _t.textFindAndReplace} link='#' searchbarEnable='.searchbar' onClick={settingsContext.closeModal} className='no-indicator'>
                         <Icon slot="media" icon="icon-search"></Icon>
                     </ListItem>
@@ -132,7 +132,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                         <Icon slot="media" icon="icon-spellcheck"></Icon>
                     </ListItem>
                 }
-                {!isViewer && Device.phone &&
+                {(!isViewer && Device.phone) &&
                     <ListItem title={t('Settings.textMobileView')}>
                         <Icon slot="media" icon="icon-mobile-view"></Icon>
                         <Toggle checked={isMobileView} onToggleChange={() => {
@@ -152,8 +152,8 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                     </ListItem>
                 }
                 {_canDownload &&
-                    <ListItem title={_t.textDownload} link="/download/">
-                        <Icon slot="media" icon="icon-download"></Icon>
+                    <ListItem title={isForm ? t('Settings.textExport') : _t.textDownload} link="/download/">
+                        <Icon slot="media" icon={isForm ? "icon-export" : "icon-download"}></Icon>
                     </ListItem>
                 }
                 {_canDownloadOrigin &&
