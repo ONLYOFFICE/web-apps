@@ -77,6 +77,7 @@ define([
                         if (!this.viewPlugins.pluginPanels[guid]) {
                             me.api.asc_pluginRun(guid, type, '');
                         } else {
+                            me.viewPlugins.liftUpPluginButton(guid);
                             me.viewPlugins.openPlugin(guid);
                         }
                     }
