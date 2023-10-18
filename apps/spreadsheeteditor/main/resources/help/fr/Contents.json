@@ -52,7 +52,8 @@
         "name": "Gérer des feuilles de calcul",
         "headername": "Opérations avec les feuilles"
     },
-    {"src": "UsageInstructions/InsertHeadersFooters.htm", "name": "Insérer des en-têtes et pieds de page"},
+    { "src": "UsageInstructions/InsertHeadersFooters.htm", "name": "Insérer des en-têtes et pieds de page" },
+    {"src": "UsageInstructions/PageBreaks.htm", "name": "Insérer des sauts de page"},
   {
     "src": "UsageInstructions/FontTypeSizeStyle.htm",
     "name": "Définir le type de police, la taille, le style et la couleur",

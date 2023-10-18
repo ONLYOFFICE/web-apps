@@ -26,6 +26,7 @@
     { "src": "UsageInstructions/ConvertFootnotesEndnotes.htm", "name": "Преобразование сносок и концевых сносок" },
     { "src": "UsageInstructions/InsertBookmarks.htm", "name": "Добавление закладок" },
     {"src": "UsageInstructions/AddWatermark.htm", "name": "Добавление подложки"},
+    {"src": "UsageInstructions/Hyphenation.htm", "name": "Расстановка переносов"},
     { "src": "UsageInstructions/AlignText.htm", "name": "Выравнивание текста в абзаце", "headername": "Форматирование абзаца" },
     {"src": "UsageInstructions/BackgroundColor.htm","name": "Выбор цвета фона для абзаца"},
     {"src": "UsageInstructions/SetOutlineLevel.htm", "name": "Настройка уровня структуры абзаца"},
