@@ -3,7 +3,7 @@
   { "src": "ProgramInterface/FileTab.htm", "name": "Registerkarte Datei" },
   { "src": "ProgramInterface/HomeTab.htm", "name": "Registerkarte Start" },
   { "src": "ProgramInterface/InsertTab.htm", "name": "Registerkarte Einfügen" },
-  { "src": "ProgramInterface/DrawTab.htm", "name": "Registerkarte Zeichnen" }
+  { "src": "ProgramInterface/DrawTab.htm", "name": "Registerkarte Zeichnen" },
   { "src": "ProgramInterface/LayoutTab.htm", "name": "Registerkarte Layout" },
   { "src": "ProgramInterface/FormulaTab.htm", "name": "Registerkarte Formel" },
   { "src": "ProgramInterface/DataTab.htm", "name": "Registerkarte Daten" },
