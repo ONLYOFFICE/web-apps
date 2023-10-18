@@ -17,6 +17,7 @@
     {"src": "UsageInstructions/UndoRedo.htm", "name": "Отмена / повтор действий"},
     { "src": "UsageInstructions/ManageSheets.htm", "name": "Управление листами", "headername": "Действия с листами" },
     {"src": "UsageInstructions/InsertHeadersFooters.htm", "name": "Вставка верхнего и нижнего колонтитулов"},
+    {"src": "UsageInstructions/PageBreaks.htm", "name": "Вставка разрывов страниц"},
     {"src": "UsageInstructions/FontTypeSizeStyle.htm", "name": "Настройка типа, размера, стиля и цветов шрифта", "headername": "Форматирование текста в ячейках" },
     {"src": "UsageInstructions/AddHyperlinks.htm", "name": "Добавление гиперссылок" },
     {"src": "UsageInstructions/ClearFormatting.htm", "name": "Очистка текста, форматирования в ячейке, копирование форматирования ячейки"},	

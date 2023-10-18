@@ -102,50 +102,56 @@
 	height: 17px;
 }
 
-.icon-handtool {
+.icon-editcommenticon {
 	background-position: -84px -36px;
+	width: 16px;
+	height: 16px;
+}
+
+.icon-handtool {
+	background-position: -84px -52px;
 	width: 13px;
 	height: 16px;
 }
 
 .icon-pagethumbnails {
-	background-position: -84px -52px;
+	background-position: -68px -54px;
 	width: 12px;
 	height: 16px;
 }
 
 .icon-selectiontool {
-	background-position: -68px -54px;
+	background-position: -61px -73px;
 	width: 10px;
 	height: 16px;
 }
 
 .icon-search_options {
-	background-position: -61px -73px;
+	background-position: -71px -73px;
 	width: 22px;
 	height: 15px;
 }
 
 .icon-chaticon {
-	background-position: -83px -73px;
+	background-position: -102px 0px;
 	width: 18px;
 	height: 15px;
 }
 
 .icon-print {
-	background-position: -102px 0px;
+	background-position: -102px -15px;
 	width: 17px;
 	height: 15px;
 }
 
 .icon-about {
-	background-position: -102px -15px;
+	background-position: -102px -30px;
 	width: 15px;
 	height: 15px;
 }
 
 .icon-fitpage {
-	background-position: -102px -30px;
+	background-position: -102px -45px;
 	width: 13px;
 	height: 15px;
 }
@@ -157,43 +163,43 @@
 }
 
 .icon-commentsicon {
-	background-position: -102px -45px;
+	background-position: -102px -60px;
 	width: 14px;
 	height: 14px;
 }
 
 .icon-save {
-	background-position: -102px -59px;
+	background-position: -102px -74px;
 	width: 14px;
 	height: 14px;
 }
 
 .icon-searchicon {
-	background-position: -102px -73px;
+	background-position: -65px -90px;
 	width: 14px;
 	height: 14px;
 }
 
 .icon-firstpage {
-	background-position: -65px -90px;
+	background-position: -79px -90px;
 	width: 11px;
 	height: 14px;
 }
 
 .icon-lastpage {
-	background-position: -76px -90px;
+	background-position: -90px -90px;
 	width: 11px;
 	height: 14px;
 }
 
 .icon-nextpage {
-	background-position: -87px -90px;
+	background-position: -93px -73px;
 	width: 9px;
 	height: 14px;
 }
 
 .icon-previouspage {
-	background-position: -96px -90px;
+	background-position: -101px -90px;
 	width: 9px;
 	height: 14px;
 }
@@ -205,32 +211,26 @@
 }
 
 .icon-copy {
-	background-position: -105px -90px;
-	width: 14px;
-	height: 13px;
-}
-
-.icon-paste {
 	background-position: -15px -104px;
 	width: 14px;
 	height: 13px;
 }
 
-.icon-selectall {
+.icon-paste {
 	background-position: -29px -104px;
 	width: 14px;
 	height: 13px;
 }
 
-.icon-zoomin {
+.icon-selectall {
 	background-position: -43px -104px;
-	width: 13px;
+	width: 14px;
 	height: 13px;
 }
 
-.icon-editcommenticon {
-	background-position: -56px -104px;
-	width: 12px;
+.icon-zoomin {
+	background-position: -57px -104px;
+	width: 13px;
 	height: 13px;
 }
 
@@ -247,31 +247,37 @@
 }
 
 .icon-resolvedicon {
-	background-position: -68px -104px;
+	background-position: -70px -104px;
+	width: 12px;
+	height: 11px;
+}
+
+.icon-resolveicon {
+	background-position: -82px -104px;
 	width: 12px;
 	height: 11px;
 }
 
 .icon-zoomout {
-	background-position: -80px -104px;
+	background-position: -110px -90px;
 	width: 10px;
 	height: 11px;
 }
 
 .icon-navigationicon {
-	background-position: -90px -104px;
+	background-position: -94px -104px;
 	width: 13px;
 	height: 10px;
 }
 
 .icon-searchdownbutton {
-	background-position: -103px -104px;
+	background-position: -120px 0px;
 	width: 14px;
 	height: 8px;
 }
 
 .icon-searchupbutton {
-	background-position: -119px 0px;
+	background-position: -120px -8px;
 	width: 14px;
 	height: 8px;
 }
