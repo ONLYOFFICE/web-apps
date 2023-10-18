@@ -82,7 +82,8 @@
         "src": "UsageInstructions/InsertBookmarks.htm",
         "name": "Ajouter des marque-pages"
     },
-    {"src": "UsageInstructions/AddWatermark.htm", "name": "Ajouter un filigrane"},
+    { "src": "UsageInstructions/AddWatermark.htm", "name": "Ajouter un filigrane" },
+    {"src": "UsageInstructions/Hyphenation.htm", "name": "Activer la coupure de mots"},
   {
     "src": "UsageInstructions/AlignText.htm",
     "name": "Alignement du texte d'un paragraphe",

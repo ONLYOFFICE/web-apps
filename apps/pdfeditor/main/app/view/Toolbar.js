@@ -74,7 +74,9 @@ define([
         noParagraphSelected:  'no-paragraph',
         cantPrint:      'cant-print',
         lostConnect:    'disconnect',
-        disableOnStart: 'on-start'
+        disableOnStart: 'on-start',
+        firstPage: 'first-page',
+        lastPage: 'last-page'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -128,7 +130,7 @@ define([
                     );
 
                     this.btnSaveCls = 'btn-save';
-                    this.btnSaveTip = this.tipSave + Common.Utils.String.platformKey('Ctrl+S');
+                    this.btnSaveTip = this.tipSave;// + Common.Utils.String.platformKey('Ctrl+S');
 
                     this.btnPrint = new Common.UI.Button({
                         id: 'id-toolbar-btn-print',
@@ -255,17 +257,17 @@ define([
                     });
                     this.toolbarControls.push(this.btnHandTool);
 
-                    this.btnRotate = new Common.UI.Button({
-                        id: 'tlbtn-rotate',
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-update',
-                        lock: [_set.disableOnStart],
-                        caption: this.capBtnRotate,
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: 'small'
-                    });
-                    this.toolbarControls.push(this.btnRotate);
+                    // this.btnRotate = new Common.UI.Button({
+                    //     id: 'tlbtn-rotate',
+                    //     cls: 'btn-toolbar x-huge icon-top',
+                    //     iconCls: 'toolbar__icon btn-update',
+                    //     lock: [_set.disableOnStart],
+                    //     caption: this.capBtnRotate,
+                    //     dataHint: '1',
+                    //     dataHintDirection: 'bottom',
+                    //     dataHintOffset: 'small'
+                    // });
+                    // this.toolbarControls.push(this.btnRotate);
 
                     this.btnAddComment = new Common.UI.Button({
                         id: 'tlbtn-addcomment',
@@ -369,7 +371,7 @@ define([
                         id          : 'id-toolbar-btn-first-page',
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-firstitem',
-                        lock: [_set.disableOnStart],
+                        lock: [_set.disableOnStart, _set.firstPage],
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
                     });
@@ -379,7 +381,7 @@ define([
                         id          : 'id-toolbar-btn-last-page',
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-lastitem',
-                        lock: [_set.disableOnStart],
+                        lock: [_set.disableOnStart, _set.lastPage],
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
                     });
@@ -389,7 +391,7 @@ define([
                         id          : 'id-toolbar-btn-prev-page',
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-previtem',
-                        lock: [_set.disableOnStart],
+                        lock: [_set.disableOnStart, _set.firstPage],
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
                     });
@@ -399,7 +401,7 @@ define([
                         id          : 'id-toolbar-btn-next-page',
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-nextitem',
-                        lock: [_set.disableOnStart],
+                        lock: [_set.disableOnStart, _set.lastPage],
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
                     });
@@ -506,7 +508,7 @@ define([
                 _injectComponent('#slot-btn-strikeout', this.btnStrikeout);
                 _injectComponent('#slot-btn-underline', this.btnUnderline);
                 _injectComponent('#slot-btn-highlight', this.btnHighlight);
-                _injectComponent('#slot-btn-rotate', this.btnRotate);
+                // _injectComponent('#slot-btn-rotate', this.btnRotate);
                 _injectComponent('#slot-btn-pages', this.fieldPages);
                 _injectComponent('#slot-btn-first-page', this.btnFirstPage);
                 _injectComponent('#slot-btn-last-page', this.btnLastPage);
@@ -630,7 +632,7 @@ define([
                 this.btnStrikeout.updateHint(this.textStrikeout);
                 this.btnUnderline.updateHint(this.textUnderline);
                 this.btnHighlight.updateHint(this.textHighlight);
-                this.btnRotate.updateHint(this.tipRotate);
+                // this.btnRotate.updateHint(this.tipRotate);
                 this.btnFirstPage.updateHint(this.tipFirstPage);
                 this.btnLastPage.updateHint(this.tipLastPage);
                 this.btnPrevPage.updateHint(this.tipPrevPage);
@@ -689,7 +691,7 @@ define([
                     this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
                 }
 
-                this.btnSave.setDisabled(!this.mode.isPDFEdit && !this.mode.isPDFAnnotate);
+                this.btnSave.setDisabled(!this.mode.isPDFEdit && !this.mode.isPDFAnnotate && !this.mode.saveAlwaysEnabled);
                 Common.Gateway.collaborativeChanges();
             },
 
@@ -721,7 +723,7 @@ define([
                             this.synchTooltip.hide();
                         this.btnCollabChanges.updateHint(this.btnSaveTip);
 
-                        this.btnSave.setDisabled(!me.mode.forcesave || !me.mode.isPDFEdit && !me.mode.isPDFAnnotate);
+                        this.btnSave.setDisabled(!me.mode.forcesave || !me.mode.isPDFEdit && !me.mode.isPDFAnnotate && !me.mode.saveAlwaysEnabled);
                         this._state.hasCollaborativeChanges = false;
                     }
                 }

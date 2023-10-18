@@ -320,7 +320,7 @@
   "Common.UI.Window.textWarning": "警告",
   "Common.UI.Window.yesButtonText": "是",
   "Common.Utils.Metric.txtCm": "厘米",
-  "Common.Utils.Metric.txtPt": "pt像素",
+  "Common.Utils.Metric.txtPt": "点（排版单位）",
   "Common.Utils.String.textAlt": "Alt",
   "Common.Utils.String.textCtrl": "Ctrl",
   "Common.Utils.String.textShift": "转移",
