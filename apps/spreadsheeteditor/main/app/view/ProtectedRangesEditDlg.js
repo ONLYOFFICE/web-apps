@@ -309,6 +309,7 @@ define([
         },
 
         onUserChanging: function(combo, newValue) {
+            if (Common.Utils.isIE && newValue==='' && this._userStr === newValue) return;
             this._userStr = newValue;
             this.onUserMenu();
         },
