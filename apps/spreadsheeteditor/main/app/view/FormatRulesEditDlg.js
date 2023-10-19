@@ -51,7 +51,6 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
         options: {
             alias: 'FormatRulesEditDlg',
             contentWidth: 491,
-            height: 'auto',
             id: 'window-format-rules'
         },
 

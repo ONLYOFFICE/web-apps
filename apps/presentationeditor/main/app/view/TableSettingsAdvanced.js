@@ -47,7 +47,7 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
         options: {
             alias: 'TableSettingsAdvanced',
             contentWidth: 280,
-            height: 385,
+            contentHeight: 300,
             storageName: 'pe-table-settings-adv-category',
             sizeMax: {width: 55.88, height: 55.88},
         },

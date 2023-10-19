@@ -49,7 +49,7 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
     SSE.Views.ParagraphSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 370,
-            height: 394,
+            contentHeight: 309,
             toggleGroup: 'paragraph-adv-settings-group',
             storageName: 'sse-para-settings-adv-category'
         },

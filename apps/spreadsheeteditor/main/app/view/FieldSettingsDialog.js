@@ -50,7 +50,7 @@ define([    'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.templa
     SSE.Views.FieldSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 284,
-            height: 450,
+            contentHeight: 365,
             toggleGroup: 'pivot-field-settings-group',
             storageName: 'sse-pivot-field-settings-category'
         },

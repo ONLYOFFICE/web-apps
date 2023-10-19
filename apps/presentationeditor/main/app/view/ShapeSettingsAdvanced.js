@@ -48,7 +48,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
     PE.Views.ShapeSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 300,
-            height: 342,
+            contentHeight: 257,
             toggleGroup: 'shape-adv-settings-group',
             sizeOriginal: {width: 0, height: 0},
             sizeMax: {width: 55.88, height: 55.88},

@@ -45,7 +45,7 @@ define([
     SSE.Views.FormulaWizard = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 580,
-            height: 397
+            contentHeight: 312
         },
 
         initialize : function(options) {
@@ -53,10 +53,10 @@ define([
             _.extend(this.options, {
                 title: this.textTitle,
                 template: [
-                    '<div class="box" style="height:' + (this.options.height - 85) + 'px;">',
+                    '<div class="box">',
                         '<div class="content-panel" style="padding: 0;"><div class="inner-content">',
                             '<div class="settings-panel active">',
-                                '<table style="height:' + (this.options.height - 85 - 7) + 'px;">',
+                                '<table>',
                                 '<tr><td>',
                                 '<label id="formula-wizard-name" style="display: block;margin-bottom: 8px;"></label>',
                                 '<div id="formula-wizard-panel-args" style="">',
@@ -121,6 +121,8 @@ define([
             this.lblArgDesc = $window.find('#formula-wizard-arg-desc');
             this.lblFormulaResult = $window.find('#formula-wizard-value');
             this.lblFunctionResult = $window.find('#formula-wizard-lbl-val-func');
+
+            this.contentPanel.find('.settings-panel > table').css('height', this.options.contentHeight - 7);
 
             this._preventCloseCellEditor = false;
 

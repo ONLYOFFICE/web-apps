@@ -50,7 +50,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
     DE.Views.ControlSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 310,
-            height: 405,
+            contentHeight: 320,
             toggleGroup: 'control-adv-settings-group',
             storageName: 'de-control-settings-adv-category'
         },

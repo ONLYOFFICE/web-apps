@@ -49,7 +49,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
     PE.Views.ParagraphSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 370,
-            height: 394,
+            contentHeight: 309,
             toggleGroup: 'paragraph-adv-settings-group',
             storageName: 'pe-para-settings-adv-category'
         },

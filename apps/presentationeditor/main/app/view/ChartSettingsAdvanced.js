@@ -46,7 +46,7 @@ define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.tem
     PE.Views.ChartSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 300,
-            height: 342,
+            contentHeight: 257,
             toggleGroup: 'chart-adv-settings-group',
             properties: null,
             storageName: 'pe-chart-settings-adv-category',

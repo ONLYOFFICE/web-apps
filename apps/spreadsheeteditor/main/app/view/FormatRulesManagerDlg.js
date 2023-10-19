@@ -90,8 +90,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
     SSE.Views.FormatRulesManagerDlg =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             alias: 'FormatRulesManagerDlg',
-            contentWidth: 560,
-            buttons: ['ok', 'cancel']
+            contentWidth: 560
         },
 
         initialize: function (options) {

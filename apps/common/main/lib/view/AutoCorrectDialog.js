@@ -52,7 +52,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
     Common.Views.AutoCorrectDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 375,
-            height: 430,
+            contentHeight: 345,
             buttons: null,
             toggleGroup: 'autocorrect-dialog-group'
         },
@@ -78,7 +78,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 storageName: this.appPrefix + 'autocorrect-dialog-category',
                 items: items,
                 template: [
-                    '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
+                    '<div class="box">',
                         '<div class="menu-panel" style="overflow: hidden;">',
                             '<% _.each(items, function(item) { %>',
                             '<button class="btn btn-category" content-target="<%= item.panelId %>"><span class=""><%= item.panelCaption %></span></button>',

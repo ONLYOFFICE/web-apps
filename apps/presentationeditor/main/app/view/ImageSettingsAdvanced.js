@@ -48,7 +48,7 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
         options: {
             alias: 'ImageSettingsAdvanced',
             contentWidth: 340,
-            height: 342,
+            contentHeight: 257,
             sizeOriginal: {width: 0, height: 0},
             sizeMax: {width: 55.88, height: 55.88},
             storageName: 'pe-img-settings-adv-category'

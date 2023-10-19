@@ -49,7 +49,7 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
     SSE.Views.SlicerSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 330,
-            height: 435,
+            contentHeight: 350,
             toggleGroup: 'slicer-adv-settings-group',
             storageName: 'sse-slicer-settings-adv-category'
         },
