@@ -52,14 +52,14 @@ define([
 
         initialize : function (options) {
             var t = this,
-                height = options.date ? 335 : 195;
+                height = options.date ? 250 : 110;
 
             _.extend(this.options, {
                 title: this.txtTitle
             }, options || {});
 
             this.template   =   options.template || [
-                    '<div class="box" style="height:' + (height - 85) + 'px;">',
+                    '<div class="box" style="height:' + height + 'px;">',
                         '<table cols="2" style="width: 100%;">',
                             '<tr>',
                                 '<td colspan="2" style="padding-bottom: 4px;">',

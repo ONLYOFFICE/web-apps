@@ -59,7 +59,7 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 203px;">',
+                '<div class="box">',
                     '<div class="input-row" style="margin-bottom: 10px;">',
                         '<label class="input-label">' + this.textColumns + '</label><div id="custom-columns-spin-num" class="float-right"></div>',
                     '</div>',

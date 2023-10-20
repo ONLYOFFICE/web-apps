@@ -46,7 +46,6 @@ define([
     DE.Views.HyphenationDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 290,
-            height: 'auto',
             header: true,
             style: 'min-width: 290px;',
             cls: 'modal-dlg',
@@ -60,7 +59,7 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="">',
+                '<div class="box">',
                     '<table cols="2" style="width: 100%;">',
                         '<tr>',
                             '<td colspan="2" style="padding-bottom: 15px;">',

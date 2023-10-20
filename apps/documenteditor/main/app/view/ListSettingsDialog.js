@@ -196,7 +196,7 @@ define([
                 '</td>',
                 '<% if (type == 2) { %>',
                 '<td style="width: ' + this.rightPanelWidth + 'px;vertical-align: top;">',
-                    '<div id="id-dlg-panel-more-settings" class="padding-left-20" style="width: ' + this.rightPanelWidth + 'px;">',
+                    '<div id="id-dlg-panel-more-settings" class="padding-left-5 padding-right-15" style="width: ' + this.rightPanelWidth + 'px;">',
                     '<table cols="2" style="width: 100%;">',
                         '<tr>',
                             '<td colspan="2">',

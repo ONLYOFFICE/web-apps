@@ -58,7 +58,7 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 100px;">',
+                '<div class="box">',
                 '<table cols="2" style="width: 100%;margin-bottom: 10px;">',
                     '<tr>',
                         '<td colspan="2" class="padding-right-10">',
@@ -87,8 +87,7 @@ define([
                         '</td>',
                     '</tr>',
                 '</table>',
-                '</div>',
-                '<div class="separator horizontal"></div>'
+                '</div>'
             ].join('');
 
             this.options.tpl = _.template(this.template)(this.options);

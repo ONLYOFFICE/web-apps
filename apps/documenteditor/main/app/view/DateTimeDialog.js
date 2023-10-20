@@ -54,15 +54,12 @@ define([
         },
 
         initialize : function (options) {
-            var t = this,
-                _options = {};
-
             _.extend(this.options, {
                 title: this.txtTitle
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 275px;">',
+                '<div class="box">',
                     '<div class="input-row">',
                         '<label class="font-weight-bold">' + this.textLang + '</label>',
                     '</div>',
@@ -71,7 +68,7 @@ define([
                         '<label class="font-weight-bold">' + this.textFormat + '</label>',
                     '</div>',
                     '<div id="datetime-dlg-format" class="" style="margin-bottom: 10px;width: 100%; height: 162px; overflow: hidden;"></div>',
-                    '<div class="input-row">',
+                    '<div class="input-row" style="margin-bottom: 8px;">',
                         '<div id="datetime-dlg-update" style="margin-top: 3px;margin-bottom: 10px;"></div>',
                         '<button type="button" class="btn btn-text-default auto float-right" id="datetime-dlg-default">' + this.textDefault + '</button>',
                     '</div>',

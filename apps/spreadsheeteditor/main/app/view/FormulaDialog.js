@@ -56,9 +56,8 @@ define([
 
             _.extend(_options,  {
                 width           : 375,
-                height          : 490,
                 header          : true,
-                cls             : 'formula-dlg',
+                cls             : 'modal-dlg formula-dlg',
                 contentTemplate : '',
                 title           : t.txtTitle,
                 items           : [],
@@ -66,7 +65,7 @@ define([
             }, options);
 
             this.template   =   options.template || [
-                '<div class="box" style="height:' + (_options.height - 85) + 'px;">',
+                '<div class="box" style="height:405px;">',
                     '<div class="content-panel" >',
                         '<div id="formula-dlg-search" style="height:22px; margin-bottom:10px;"></div>',
                         '<label class="header">' + t.textGroupDescription + '</label>',

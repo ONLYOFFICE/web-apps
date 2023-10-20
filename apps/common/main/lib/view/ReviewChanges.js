@@ -987,7 +987,6 @@ define([
     Common.Views.ReviewChangesDialog = Common.UI.Window.extend(_.extend({
         options: {
             width       : 330,
-            height      : 90,
             title       : 'Review Changes',
             modal       : false,
             cls         : 'review-changes modal-dlg',

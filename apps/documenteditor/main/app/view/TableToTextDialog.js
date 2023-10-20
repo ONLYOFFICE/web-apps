@@ -46,7 +46,6 @@ define([
     DE.Views.TableToTextDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 300,
-            height: 254,
             header: true,
             style: 'min-width: 240px;',
             cls: 'modal-dlg',
