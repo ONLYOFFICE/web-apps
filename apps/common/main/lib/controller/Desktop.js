@@ -141,6 +141,27 @@ define([
                 if (/theme:changed/.test(cmd)) {
                     Common.UI.Themes.setTheme(param);
                 } else
+                if (/^uitheme:added/.test(cmd)) {
+                    if ( !nativevars.localthemes )
+                        nativevars.localthemes = [];
+
+                    let json_objs;
+                    try {
+                        json_objs = JSON.parse(param);
+                    } catch (e) {
+                        console.warn('local theme is broken');
+                    }
+
+                    if ( json_objs ) {
+                        if (json_objs instanceof Array) {
+                            nativevars.localthemes = [].concat(nativevars.localthemes, json_objs);
+                            Common.UI.Themes.addTheme({themes: json_objs});
+                        } else {
+                            nativevars.localthemes.push(json_objs);
+                            Common.UI.Themes.addTheme(json_objs);
+                        }
+                    }
+                } else
                 if (/renderervars:changed/.test(cmd)) {
                     const opts = JSON.parse(param);
 

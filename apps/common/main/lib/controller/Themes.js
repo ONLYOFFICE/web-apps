@@ -515,6 +515,10 @@ define([
 
             refreshTheme: refresh_theme,
 
+            addTheme: function (obj) {
+                parse_themes_object(obj);
+            },
+
             toggleTheme: function () {
                 this.setTheme( this.isDarkTheme() ? id_default_light_theme : id_default_dark_theme );
             }
