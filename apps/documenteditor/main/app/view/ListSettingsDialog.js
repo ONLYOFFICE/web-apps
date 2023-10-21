@@ -978,6 +978,8 @@ define([
                 store.push(this._itemMoreTypes);
                 this.cmbFormat.setData(store);
                 this.cmbFormat.setValue((format!==undefined) ? format : '');
+                if (levelProps.get_Start()===0 && AscCommon.IntToNumberFormat(0, format)==='') // check min start value
+                    levelProps.put_Start(1);
                 this.makeFormatStr(levelProps);
             } else {
                 if (format !== Asc.c_oAscNumberingFormat.None || this.cmbFormat.store.length<1) {
@@ -1011,6 +1013,9 @@ define([
             }
 
             if (this.type===2) {
+                this.spnStart.setMinValue(AscCommon.IntToNumberFormat(0, format)!=='' ? 0 : 1);
+                if (levelProps.get_Start()===0 && AscCommon.IntToNumberFormat(0, format)==='') // check min start value
+                    levelProps.put_Start(1);
                 this.spnStart.setValue(levelProps.get_Start(), true);
                 this.spnAlign.setValue(Common.Utils.Metric.fnRecalcFromMM(levelProps.get_NumberPosition()), true);
                 this.spnIndents.setValue(Common.Utils.Metric.fnRecalcFromMM(levelProps.get_IndentSize()), true);
