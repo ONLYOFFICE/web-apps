@@ -33,5 +33,6 @@
         <button id="id-right-menu-mail-merge" class="btn btn-category arrow-left hidden" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-mail-merge-settings"><i class="icon toolbar__icon btn-mailmerge">&nbsp;</i></button>
         <button id="id-right-menu-signature" class="btn btn-category arrow-left hidden" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-signature-settings"><i class="icon toolbar__icon btn-menu-signature">&nbsp;</i></button>
         <button id="id-right-menu-form" class="btn btn-category arrow-left hidden" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-form-settings"><i class="icon toolbar__icon btn-field">&nbsp;</i></button>
+        <div id="slot-right-menu-more"></div>
     </div>
 </div>

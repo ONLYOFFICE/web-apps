@@ -141,13 +141,13 @@ define([
             });
 
             this._settings = [];
-            this._settings[Common.Utils.documentSettingsType.Paragraph]   = {panel: "id-paragraph-settings",  btn: this.btnText};
-            this._settings[Common.Utils.documentSettingsType.Table]       = {panel: "id-table-settings",      btn: this.btnTable};
-            this._settings[Common.Utils.documentSettingsType.Image]       = {panel: "id-image-settings",      btn: this.btnImage};
-            this._settings[Common.Utils.documentSettingsType.Header]      = {panel: "id-header-settings",     btn: this.btnHeaderFooter};
-            this._settings[Common.Utils.documentSettingsType.Shape]       = {panel: "id-shape-settings",      btn: this.btnShape};
-            this._settings[Common.Utils.documentSettingsType.Chart]       = {panel: "id-chart-settings",      btn: this.btnChart};
-            this._settings[Common.Utils.documentSettingsType.TextArt]     = {panel: "id-textart-settings",    btn: this.btnTextArt};
+            this._settings[Common.Utils.documentSettingsType.Paragraph]   = {panel: "id-paragraph-settings",  btn: this.btnText,    index: 0};
+            this._settings[Common.Utils.documentSettingsType.Table]       = {panel: "id-table-settings",      btn: this.btnTable,   index: 1};
+            this._settings[Common.Utils.documentSettingsType.Image]       = {panel: "id-image-settings",      btn: this.btnImage,   index: 2};
+            this._settings[Common.Utils.documentSettingsType.Header]      = {panel: "id-header-settings",     btn: this.btnHeaderFooter, index: 3};
+            this._settings[Common.Utils.documentSettingsType.Shape]       = {panel: "id-shape-settings",      btn: this.btnShape,   index: 4};
+            this._settings[Common.Utils.documentSettingsType.Chart]       = {panel: "id-chart-settings",      btn: this.btnChart,   index: 5};
+            this._settings[Common.Utils.documentSettingsType.TextArt]     = {panel: "id-textart-settings",    btn: this.btnTextArt, index: 6};
 
             return this;
         },
@@ -198,7 +198,7 @@ define([
                     toggleGroup: 'tabpanelbtnsGroup',
                     allowMouseEventsOnDisabled: true
                 });
-                this._settings[Common.Utils.documentSettingsType.MailMerge]   = {panel: "id-mail-merge-settings",      btn: this.btnMailMerge};
+                this._settings[Common.Utils.documentSettingsType.MailMerge]   = {panel: "id-mail-merge-settings", btn: this.btnMailMerge, index: 7};
                 this.btnMailMerge.setElement($markup.findById('#id-right-menu-mail-merge'), false); this.btnMailMerge.render().setVisible(true);
                 this.btnMailMerge.on('click', this.onBtnMenuClick.bind(this));
                 this.mergeSettings = new DE.Views.MailMergeSettings();
@@ -214,7 +214,7 @@ define([
                     toggleGroup: 'tabpanelbtnsGroup',
                     allowMouseEventsOnDisabled: true
                 });
-                this._settings[Common.Utils.documentSettingsType.Signature]   = {panel: "id-signature-settings",      btn: this.btnSignature};
+                this._settings[Common.Utils.documentSettingsType.Signature]   = {panel: "id-signature-settings", btn: this.btnSignature, index: 8};
                 this.btnSignature.setElement($markup.findById('#id-right-menu-signature'), false); this.btnSignature.render().setVisible(true);
                 this.btnSignature.on('click', this.onBtnMenuClick.bind(this));
                 this.signatureSettings = new DE.Views.SignatureSettings();
@@ -230,7 +230,7 @@ define([
                     toggleGroup: 'tabpanelbtnsGroup',
                     allowMouseEventsOnDisabled: true
                 });
-                this._settings[Common.Utils.documentSettingsType.Form]   = {panel: "id-form-settings",      btn: this.btnForm};
+                this._settings[Common.Utils.documentSettingsType.Form]   = {panel: "id-form-settings", btn: this.btnForm, index: 9};
                 this.btnForm.setElement($markup.findById('#id-right-menu-form'), false); this.btnForm.render().setVisible(true);
                 this.btnForm.on('click', this.onBtnMenuClick.bind(this));
                 this.formSettings = new DE.Views.FormSettings();
@@ -249,6 +249,9 @@ define([
                 $markup.findById('#id-paragraph-settings').parent().css("display", "inline-block" );
                 $markup.findById('#id-paragraph-settings').addClass("active");
             }
+
+            this.btnMoreContainer = $markup.find('#slot-right-menu-more');
+            $(window).on('resize', _.bind(this.setMoreButton, this));
 
             // this.$el.html($markup);
             this.trigger('render:after', this);
@@ -356,6 +359,80 @@ define([
                 this.scroller.update();
                 this.scroller.scrollTop(0);
             }
+        },
+
+        setMoreButton: function () {
+            var $more = this.btnMoreContainer,
+                buttons = [];
+            this._settings.forEach(function (item) {
+                buttons[item.index] = item.btn;
+            });
+
+            var btnHeight = buttons[0].cmpEl.outerHeight() + parseFloat(buttons[0].cmpEl.css('margin-bottom')),
+                padding = parseFloat(this.$el.find('.tool-menu-btns').css('padding-top')),
+                height = padding + buttons.length * btnHeight,
+                maxHeight = this.$el.height();
+
+            if (height > maxHeight) {
+                var arrMore = [],
+                    last,
+                    i;
+                height = padding;
+                for (i = 0; i < buttons.length; i++) {
+                    height += btnHeight;
+                    if (height > maxHeight) {
+                        last = i - 1;
+                        break;
+                    }
+                }
+                buttons.forEach(function (btn, index) {
+                    if (index >= last) {
+                        arrMore.push({
+                            caption: btn.hint,
+                            iconCls: btn.iconCls,
+                            btn: btn
+                        });
+                        btn.cmpEl.hide();
+                    } else {
+                        btn.cmpEl.show();
+                    }
+                });
+                if (arrMore.length > 0) {
+                    if (!this.btnMore) {
+                        this.btnMore = new Common.UI.Button({
+                            parentEl: $more,
+                            id: 'id-right-menu-more',
+                            cls: 'btn-category',
+                            iconCls: 'toolbar__icon btn-more',
+                            onlyIcon: true,
+                            hint: this.tipMore,
+                            menu: new Common.UI.Menu({
+                                cls: 'shifted-right',
+                                menuAlign: 'tr-tl',
+                                items: arrMore
+                            })
+                        });
+                        this.btnMore.menu.on('item:click', _.bind(this.onMenuMore, this));
+                    } else {
+                        this.btnMore.menu.removeAll();
+                        for (i = 0; i < arrMore.length; i++) {
+                            this.btnMore.menu.addItem(arrMore[i]);
+                        }
+                    }
+                    $more.show();
+                }
+            } else {
+                buttons.forEach(function (btn) {
+                    btn.cmpEl.show();
+                });
+                $more.hide();
+            }
+        },
+
+        onMenuMore: function (menu, item) {
+            var btn = item.options.btn;
+            btn.toggle(!btn.pressed);
+            this.onBtnMenuClick(btn);
         },
 
         txtParagraphSettings:       'Paragraph Settings',

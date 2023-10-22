@@ -399,6 +399,7 @@ define([
                 }
             }
             this.onChangeProtectDocument();
+            this.rightmenu.setMoreButton();
         },
 
         onDoubleClickOnObject: function(obj) {
