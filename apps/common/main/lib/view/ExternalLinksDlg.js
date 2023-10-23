@@ -44,9 +44,7 @@ define([
 ], function () {
     'use strict';
 
-    SSE.Views = SSE.Views || {};
-
-    SSE.Views.ExternalLinksDlg =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
+    Common.Views.ExternalLinksDlg =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
 
         options: {
             alias: 'ExternalLinksDlg',
@@ -239,7 +237,7 @@ define([
             var rec = this.linksList.getSelectedRec();
             if (rec) {
                 this.isOffline && this.setLinkStatus(rec.get('linkid'), this.textOk);
-                this.api.asc_updateExternalReferences([rec.get('externalRef')]);
+                Common.NotificationCenter.trigger('data:updatereferences', [rec.get('externalRef')], true);
             }
         },
 
@@ -253,7 +251,7 @@ define([
                     arr.push(item.get('externalRef'));
                     me.isOffline && me.setLinkStatus(item.get('linkid'), me.textOk);
                 }, this);
-                (arr.length>0) && this.api.asc_updateExternalReferences(arr);
+                (arr.length>0) && Common.NotificationCenter.trigger('data:updatereferences', arr, true);
             } else
                 this.onUpdate();
         },
@@ -423,5 +421,5 @@ define([
         textUnknown: 'Unknown',
         textUpdating: 'Updating...'
 
-    }, SSE.Views.ExternalLinksDlg || {}));
+    }, Common.Views.ExternalLinksDlg || {}));
 });

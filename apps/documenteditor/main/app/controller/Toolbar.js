@@ -460,11 +460,6 @@ define([
                 this.api.asc_registerCallback('asc_onAddSmartArtPreview', _.bind(this.onApiAddSmartArtPreview, this));
                 this.api.asc_registerCallback('asc_onEndSmartArtPreview', _.bind(this.onApiEndSmartArtPreview, this));
                 this.api.asc_registerCallback('asc_updateListPatterns', _.bind(this.onApiUpdateListPatterns, this));
-
-                if (this.mode.canRequestReferenceData || this.mode.isOffline) {
-                    this.api.asc_registerCallback('asc_onUpdateExternalReference', _.bind(this.onUpdateExternalReference, this));
-                    Common.Gateway.on('setreferencedata', _.bind(this.setReferenceData, this));
-                }
             } else if (this.mode.isRestrictedEdit) {
                 this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObjectRestrictedEdit, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
@@ -3461,6 +3456,8 @@ define([
                 var links = me.getApplication().getController('Links');
                 links.setApi(me.api).setConfig({toolbar: me});
                 Array.prototype.push.apply(me.toolbar.lockControls, links.getView('Links').getButtons());
+
+                me.getApplication().getController('Common.Controllers.ExternalLinks').setConfig({toolbar: me}).setApi(me.api);
             }
 
             if ( config.isEdit && config.canFeatureContentControl && config.canFeatureForms || config.isRestrictedEdit && config.canFillForms ) {
@@ -3649,63 +3646,6 @@ define([
                 this.toolbar.lockToolbar(Common.enumLock.docLockForms, props.isFormsOnly);
                 this.toolbar.lockToolbar(Common.enumLock.docLockReview, props.isReviewOnly);
                 this.toolbar.lockToolbar(Common.enumLock.docLockComments, props.isCommentsOnly);
-            }
-        },
-
-        onUpdateExternalReference: function(arr, callback) {
-            if (this.mode.isEdit && this.editMode) {
-                var me = this;
-                me.externalData = {
-                    stackRequests: [],
-                    stackResponse: [],
-                    callback: undefined,
-                    linkStatus: {}
-                };
-                arr && arr.length>0 && arr.forEach(function(item) {
-                    var data;
-                    switch (item.asc_getType()) {
-                        case Asc.c_oAscExternalReferenceType.link:
-                            data = {link: item.asc_getData()};
-                            break;
-                        case Asc.c_oAscExternalReferenceType.path:
-                            data = {path: item.asc_getData()};
-                            break;
-                        case Asc.c_oAscExternalReferenceType.referenceData:
-                            data = {
-                                referenceData: item.asc_getData(),
-                                path: item.asc_getPath()
-                            };
-                            break;
-                    }
-                    data && me.externalData.stackRequests.push({data: data, id: item.asc_getId(), isExternal: item.asc_isExternalLink(), source: item.asc_getSource() || ''});
-                });
-                me.externalData.callback = callback;
-                me.requestReferenceData();
-            }
-        },
-
-        requestReferenceData: function() {
-            if (this.externalData.stackRequests.length>0) {
-                var item = this.externalData.stackRequests.shift();
-                this.externalData.linkStatus.id = item.id;
-                this.externalData.linkStatus.source = item.source;
-                this.externalData.linkStatus.isExternal = item.isExternal;
-                Common.Gateway.requestReferenceData(item.data);
-            }
-        },
-
-        setReferenceData: function(data) {
-            if (this.mode.isEdit && this.editMode) {
-                if (data) {
-                    this.externalData.stackResponse.push(data);
-                    this.externalData.linkStatus.result = this.externalData.linkStatus.isExternal ? '' : data.error || '';
-                    if (this.externalData.linkStatus.result)
-                        Common.NotificationCenter.trigger('showmessage', {msg: this.externalData.linkStatus.result + (this.externalData.linkStatus.source ? ' (' + this.externalData.linkStatus.source + ')' : '') });
-                }
-                if (this.externalData.stackRequests.length>0)
-                    this.requestReferenceData();
-                else if (this.externalData.callback)
-                    this.externalData.callback(this.externalData.stackResponse);
             }
         },
 

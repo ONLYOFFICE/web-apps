@@ -64,6 +64,11 @@
             <button type="button" class="btn btn-text-default auto" id="chart-button-update-data" style="min-width:115px;" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textUpdateData %></button>
         </td>
     </tr>
+    <tr class="external-only">
+        <td class="padding-small">
+            <button type="button" class="btn btn-text-default auto" id="chart-button-edit-links" style="min-width:115px;" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textEditLinks %></button>
+        </td>
+    </tr>
 </table>
 <table cols="1" id="chart-panel-3d-rotate">
     <tr>

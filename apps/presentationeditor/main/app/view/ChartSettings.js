@@ -99,6 +99,7 @@ define([
             if (this.api) {
                 this.api.asc_registerCallback('asc_onUpdateChartStyles', _.bind(this._onUpdateChartStyles, this));
                 this.api.asc_registerCallback('asc_onAddChartStylesPreview', _.bind(this.onAddChartStylesPreview, this));
+                this.api.asc_registerCallback('asc_onStartUpdateExternalReference', _.bind(this.onStartUpdateExternalReference, this));
             }
             return this;
         },
@@ -126,8 +127,9 @@ define([
                 this.OpenLinkSettings.toggleClass('settings-hidden', !text || !(this.mode.canRequestOpen || this.mode.isOffline));
 
                 var value = props.get_SeveralCharts() || this._locked;
-                this.btnEditData.setDisabled(value);
-                this.btnUpdateData.setDisabled(value);
+                this.btnEditData.setDisabled(value || externalRef && this._state.isUpdatingReference);
+                this.btnUpdateData.setDisabled(value || this._state.isUpdatingReference);
+                this.btnEditLinks.setDisabled(this._locked);
                 this._state.SeveralCharts=value;
 
                 value = props.get_SeveralChartTypes();
@@ -303,6 +305,12 @@ define([
             });
             this.btnUpdateData.on('click', _.bind(this.onUpdateData, this));
             this.lockedControls.push(this.btnUpdateData);
+
+            this.btnEditLinks = new Common.UI.Button({
+                el: $('#chart-button-edit-links')
+            });
+            this.lockedControls.push(this.btnEditLinks);
+            this.btnEditLinks.on('click', _.bind(this.onEditLinks, this));
 
             this.spnWidth = new Common.UI.MetricSpinner({
                 el: $('#chart-spin-width'),
@@ -586,7 +594,11 @@ define([
 
         onUpdateData: function() {
             var diagramEditor = PE.getController('Common.Controllers.ExternalDiagramEditor');
-            diagramEditor && diagramEditor.updateChartSilent();
+            this.chartProps && diagramEditor && diagramEditor.updateChartSilent(this.chartProps.getExternalReference());
+        },
+
+        onEditLinks: function() {
+            Common.NotificationCenter.trigger('data:externallinks');
         },
 
         onSelectType: function(btn, picker, itemView, record) {
@@ -916,29 +928,15 @@ define([
 
         openLink: function(e) {
             if (this.linkExternalSrc.hasClass('disabled')) return;
+            Common.NotificationCenter.trigger('data:openlink', this.chartProps.getExternalReference());
+        },
+
+        onStartUpdateExternalReference: function(status) {
+            this._state.isUpdatingReference = status;
             var externalRef = this.chartProps.getExternalReference();
-            if (externalRef) {
-                var data = this.api.asc_openExternalReference(externalRef);
-                if (data) {
-                    switch (data.asc_getType()) {
-                        case Asc.c_oAscExternalReferenceType.link:
-                            data = {link: data.asc_getData()};
-                            break;
-                        case Asc.c_oAscExternalReferenceType.path:
-                            data = {path: data.asc_getData()};
-                            break;
-                        case Asc.c_oAscExternalReferenceType.referenceData:
-                            data = {
-                                referenceData: data.asc_getData(),
-                                path: data.asc_getPath()
-                            };
-                            break;
-                    }
-                    data.windowName = 'wname-' + Date.now();
-                    window.open("", data.windowName);
-                    Common.Gateway.requestOpen(data);
-                }
-            }
+            this.btnEditData.setDisabled(this._locked || externalRef && this._state.isUpdatingReference);
+            this.btnUpdateData.setDisabled(this._locked || this._state.isUpdatingReference);
+            this.linkExternalSrc.toggleClass('disabled', this._locked || !!this._state.isUpdatingReference);
         },
 
         setLocked: function (locked) {
@@ -954,7 +952,7 @@ define([
                     item.setDisabled(disable);
                 });
                 this.linkAdvanced.toggleClass('disabled', disable);
-                this.linkExternalSrc.toggleClass('disabled', disable);
+                this.linkExternalSrc.toggleClass('disabled', disable || !!this._state.isUpdatingReference);
             }
         },
 
@@ -983,6 +981,7 @@ define([
         textDefault: 'Default Rotation',
         textUpdateData: 'Update Data',
         textSelectData: 'Select Data',
-        textData: 'Data'
+        textData: 'Data',
+        textEditLinks: 'Edit links'
     }, PE.Views.ChartSettings || {}));
 });
