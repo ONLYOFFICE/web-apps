@@ -141,13 +141,13 @@ define([
             });
 
             this._settings = [];
-            this._settings[Common.Utils.documentSettingsType.Paragraph]   = {panel: "id-paragraph-settings",  btn: this.btnText,    index: 0};
-            this._settings[Common.Utils.documentSettingsType.Table]       = {panel: "id-table-settings",      btn: this.btnTable,   index: 1};
-            this._settings[Common.Utils.documentSettingsType.Image]       = {panel: "id-image-settings",      btn: this.btnImage,   index: 2};
-            this._settings[Common.Utils.documentSettingsType.Header]      = {panel: "id-header-settings",     btn: this.btnHeaderFooter, index: 3};
-            this._settings[Common.Utils.documentSettingsType.Shape]       = {panel: "id-shape-settings",      btn: this.btnShape,   index: 4};
-            this._settings[Common.Utils.documentSettingsType.Chart]       = {panel: "id-chart-settings",      btn: this.btnChart,   index: 5};
-            this._settings[Common.Utils.documentSettingsType.TextArt]     = {panel: "id-textart-settings",    btn: this.btnTextArt, index: 6};
+            this._settings[Common.Utils.documentSettingsType.Paragraph]   = {panel: "id-paragraph-settings",  btn: this.btnText,    templateIndex: 0};
+            this._settings[Common.Utils.documentSettingsType.Table]       = {panel: "id-table-settings",      btn: this.btnTable,   templateIndex: 1};
+            this._settings[Common.Utils.documentSettingsType.Image]       = {panel: "id-image-settings",      btn: this.btnImage,   templateIndex: 2};
+            this._settings[Common.Utils.documentSettingsType.Header]      = {panel: "id-header-settings",     btn: this.btnHeaderFooter, templateIndex: 3};
+            this._settings[Common.Utils.documentSettingsType.Shape]       = {panel: "id-shape-settings",      btn: this.btnShape,   templateIndex: 4};
+            this._settings[Common.Utils.documentSettingsType.Chart]       = {panel: "id-chart-settings",      btn: this.btnChart,   templateIndex: 5};
+            this._settings[Common.Utils.documentSettingsType.TextArt]     = {panel: "id-textart-settings",    btn: this.btnTextArt, templateIndex: 6};
 
             return this;
         },
@@ -198,7 +198,7 @@ define([
                     toggleGroup: 'tabpanelbtnsGroup',
                     allowMouseEventsOnDisabled: true
                 });
-                this._settings[Common.Utils.documentSettingsType.MailMerge]   = {panel: "id-mail-merge-settings", btn: this.btnMailMerge, index: 7};
+                this._settings[Common.Utils.documentSettingsType.MailMerge]   = {panel: "id-mail-merge-settings", btn: this.btnMailMerge, templateIndex: 7};
                 this.btnMailMerge.setElement($markup.findById('#id-right-menu-mail-merge'), false); this.btnMailMerge.render().setVisible(true);
                 this.btnMailMerge.on('click', this.onBtnMenuClick.bind(this));
                 this.mergeSettings = new DE.Views.MailMergeSettings();
@@ -214,7 +214,7 @@ define([
                     toggleGroup: 'tabpanelbtnsGroup',
                     allowMouseEventsOnDisabled: true
                 });
-                this._settings[Common.Utils.documentSettingsType.Signature]   = {panel: "id-signature-settings", btn: this.btnSignature, index: 8};
+                this._settings[Common.Utils.documentSettingsType.Signature]   = {panel: "id-signature-settings", btn: this.btnSignature, templateIndex: 8};
                 this.btnSignature.setElement($markup.findById('#id-right-menu-signature'), false); this.btnSignature.render().setVisible(true);
                 this.btnSignature.on('click', this.onBtnMenuClick.bind(this));
                 this.signatureSettings = new DE.Views.SignatureSettings();
@@ -230,7 +230,7 @@ define([
                     toggleGroup: 'tabpanelbtnsGroup',
                     allowMouseEventsOnDisabled: true
                 });
-                this._settings[Common.Utils.documentSettingsType.Form]   = {panel: "id-form-settings", btn: this.btnForm, index: 9};
+                this._settings[Common.Utils.documentSettingsType.Form]   = {panel: "id-form-settings", btn: this.btnForm, templateIndex: 9};
                 this.btnForm.setElement($markup.findById('#id-right-menu-form'), false); this.btnForm.render().setVisible(true);
                 this.btnForm.on('click', this.onBtnMenuClick.bind(this));
                 this.formSettings = new DE.Views.FormSettings();
@@ -365,7 +365,7 @@ define([
             var $more = this.btnMoreContainer,
                 buttons = [];
             this._settings.forEach(function (item) {
-                buttons[item.index] = item.btn;
+                buttons[item.templateIndex] = item.btn;
             });
 
             var btnHeight = buttons[0].cmpEl.outerHeight() + parseFloat(buttons[0].cmpEl.css('margin-bottom')),
@@ -390,7 +390,8 @@ define([
                         arrMore.push({
                             caption: btn.hint,
                             iconCls: btn.iconCls,
-                            btn: btn
+                            value: btn.options.asctype,
+                            disabled: btn.isDisabled()
                         });
                         btn.cmpEl.hide();
                     } else {
@@ -430,9 +431,24 @@ define([
         },
 
         onMenuMore: function (menu, item) {
-            var btn = item.options.btn;
+            var btn = this._settings[item.value].btn;
             btn.toggle(!btn.pressed);
             this.onBtnMenuClick(btn);
+        },
+
+        setDisabledMoreMenuItem: function (btn, disabled) {
+            if (this.btnMore && !btn.cmpEl.is(':visible')) {
+                var item = _.findWhere(this.btnMore.menu.items, {value: btn.options.asctype});
+                item.setDisabled(disabled);
+            }
+        },
+
+        setDisabledAllMoreMenuItems: function (disabled) {
+            if (this.btnMore && this.btnMore.menu.items.length > 0) {
+                this.btnMore.menu.items.forEach(function (item) {
+                    item.setDisabled(disabled);
+                });
+            }
         },
 
         txtParagraphSettings:       'Paragraph Settings',
