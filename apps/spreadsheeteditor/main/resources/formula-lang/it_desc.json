@@ -1856,7 +1856,7 @@
 		"d": "Restituisce una sequenza di numeri"
 	},
 	"EXPAND": {
-		"a": "(matrice, righe, [colonne], [pad_with])",
+		"a": "(matrice, righe, [colonne], [riempire_con])",
 		"d": "Espande una matrice alle dimensioni specificate."
 	},
 	"XMATCH": {

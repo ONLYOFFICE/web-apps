@@ -1896,7 +1896,7 @@
 		"d": "Returnerer en tallsekvens"
 	},
 	"EXPAND": {
-		"a": "(matrise, rader, [kolonner], [pad_with])",
+		"a": "(matrise, rader, [kolonner], [fyll_med])",
 		"d": "Utvider en matrise til de angitte dimensjonene."
 	},
 	"XMATCH": {

@@ -1896,7 +1896,7 @@
 		"d": "Atgriež skaitļu secību"
 	},
 	"EXPAND": {
-		"a": "(masīvs, rindas, [kolonnas], [pad_with])",
+		"a": "(masīvs, rindas, [kolonnas], [paliktnis_ar])",
 		"d": "Paplašina masīvu līdz norādītajiem izmēriem."
 	},
 	"XMATCH": {
