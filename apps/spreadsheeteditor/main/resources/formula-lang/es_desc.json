@@ -1896,7 +1896,7 @@
 		"d": "Devuelve una secuencia de números"
 	},
 	"EXPAND": {
-		"a": "(matriz, filas, [columnas], [valor_de_relleno])",
+		"a": "(matriz, filas, [columnas], [pad_with])",
 		"d": "Expande una matriz a las dimensiones especificadas."
 	},
 	"XMATCH": {

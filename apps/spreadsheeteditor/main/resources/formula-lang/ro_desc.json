@@ -1896,7 +1896,7 @@
 		"d": "Returnează o secvență de numere"
 	},
 	"EXPAND": {
-		"a": "(matrice, rânduri, [coloane], [completare_cu])",
+		"a": "(matrice, rânduri, [coloane], [pad_with])",
 		"d": "Extinde o matrice la dimensiunile specificate."
 	},
 	"XMATCH": {

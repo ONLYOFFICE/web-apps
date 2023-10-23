@@ -1896,7 +1896,7 @@
 		"d": "Retorna una seqüència de nombres"
 	},
 	"EXPAND": {
-		"a": "(matriu, files, [columnes], [coixinet_amb])",
+		"a": "(matriu, files, [columnes], [pad_with])",
 		"d": "Expandeix una matriu a les dimensions especificades"
 	},
 	"XMATCH": {
