@@ -354,12 +354,13 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
         },
 
         getFocusedComponents: function() {
-            return [
+            return this.btnsCategory.concat([
                 this.txtName, this.txtTag, this.txtPlaceholder, this.chTemp, this.cmbShow, this.btnColor, this.btnApplyAll, // 0 tab
                 this.chLockDelete , this.chLockEdit, // 1 tab
-                this.list, // 2 tab
-                this.txtDate, this.listFormats, this.cmbLang // 3 tab
-            ];
+                this.list, this.btnAdd, this.btnChange, this.btnDelete, this.btnUp, this.btnDown, // 2 tab
+                this.txtDate, this.listFormats, this.cmbLang, // 3 tab,
+                this.btnEditChecked, this.btnEditUnchecked // 4 tab,
+            ]);
         },
 
         onCategoryClick: function(btn, index) {
@@ -375,6 +376,8 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                     me.list.focus();
                 } else if (index==3)
                     me.txtDate.focus();
+                else if (index==4)
+                    me.btnEditChecked.focus();
             }, 100);
         },
 
@@ -710,6 +713,8 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                         }
                         me.list.focus();
                     }
+                }).on('close', function() {
+                    me.list.focus();
                 });
             win.show();
         },
@@ -730,6 +735,8 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                         }
                         me.list.focus();
                     }
+                }).on('close', function() {
+                    me.list.focus();
                 });
             rec && win.show();
             rec && win.setSettings({name: rec.get('name'), value: rec.get('value')});

@@ -689,10 +689,13 @@ define([
                 }
 
                 if (event.ctrlKey && !event.altKey){
-                    if (delta < 0)
+                    if (delta < 0) {
                         me.api.zoomOut();
-                    else if (delta > 0)
+                        me._handleZoomWheel = true;
+                    } else if (delta > 0) {
                         me.api.zoomIn();
+                        me._handleZoomWheel = true;
+                    }
 
                     event.preventDefault();
                     event.stopPropagation();
@@ -1427,10 +1430,11 @@ define([
         },
 
         onKeyUp: function (e) {
-            if (e.keyCode == Common.UI.Keys.CTRL && this._needShowSpecPasteMenu && !this.btnSpecialPaste.menu.isVisible() && /area_id/.test(e.target.id)) {
+            if (e.keyCode == Common.UI.Keys.CTRL && this._needShowSpecPasteMenu && !this._handleZoomWheel && !this.btnSpecialPaste.menu.isVisible() && /area_id/.test(e.target.id)) {
                 $('button', this.btnSpecialPaste.cmpEl).click();
                 e.preventDefault();
             }
+            this._handleZoomWheel = false;
             this._needShowSpecPasteMenu = false;
         },
 
@@ -1806,15 +1810,19 @@ define([
                             scrollAlwaysVisible: true,
                             showLast: false
                         });
-                        item.$el.one('mouseenter', function () {
-                            me.documentHolder.fireEvent('generate:smartart', [item.value, menu]);
-                            item.$el.mouseenter();
-                        });
                         item.menuPicker.on('item:click', function(picker, item, record, e) {
                             if (record) {
                                 me.api.asc_createSmartArt(record.get('value'), me._state.placeholderObj);
                             }
                             Common.NotificationCenter.trigger('edit:complete', me);
+                        });
+                        item.$el.on('mouseenter', function () {
+                            if (item.menuPicker.store.length === 0) {
+                                me.documentHolder.fireEvent('smartart:mouseenter', [item.value, menu]);
+                            }
+                        });
+                        item.$el.on('mouseleave', function () {
+                            me.documentHolder.fireEvent('smartart:mouseleave', [item.value]);
                         });
                     });
                     menu.off('show:before', onShowBeforeSmartArt);

@@ -281,7 +281,7 @@ define([
                     var variationsArr = [],
                         pluginVisible = false;
                     item.variations.forEach(function(itemVar){
-                        var isSystem = (true === itemVar.isSystem) || ("system" === itemVar.type);
+                        var isSystem = (true === itemVar.isSystem) || (Asc.PluginType.System === itemVar.type);
                         var visible = (isEdit || itemVar.isViewer && (itemVar.isDisplayedInViewer!==false)) && _.contains(itemVar.EditorsSupport, editor) && !isSystem;
                         if ( visible ) pluginVisible = true;
 

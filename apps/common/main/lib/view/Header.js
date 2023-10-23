@@ -58,7 +58,13 @@ define([
         var templateUserItem =
                 '<li id="<%= user.get("iid") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %>">' +
                     '<div class="user-name">' +
-                        '<div class="color" style="background-color: <%= user.get("color") %>;"></div>'+
+                        '<div class="color"' + 
+                            '<% if (user.get("avatar")) { %>' +
+                                'style="background-image: url(<%=user.get("avatar")%>); <% if (user.get("color")!==null) { %> border-color:<%=user.get("color")%>; border-style: solid;<% }%>"' +
+                            '<% } else { %>' +
+                                'style="background-color: <% if (user.get("color")!==null) { %> <%=user.get("color")%> <% } else { %> #cfcfcf <% }%>;"' +
+                            '<% } %>' +
+                        '><% if (!user.get("avatar")) { %><%=user.get("initials")%><% } %></div>' +
                         '<label><%= fnEncode(user.get("username")) %></label>' +
                         '<% if (len>1) { %><label class="margin-left-3">(<%=len%>)</label><% } %>' +
                     '</div>'+
@@ -357,7 +363,7 @@ define([
             }
 
             if ( me.btnSave ) {
-                me.btnSave.updateHint(me.tipSave + Common.Utils.String.platformKey('Ctrl+S'));
+                me.btnSave.updateHint(me.tipSave + (isPDFEditor ? '' : Common.Utils.String.platformKey('Ctrl+S')));
                 me.btnSave.on('click', function (e) {
                     me.fireEvent('save', me);
                 });
@@ -564,6 +570,7 @@ define([
                     'collaboration:sharingdeny': function(mode) {Common.Utils.asyncCall(onLostEditRights, me, mode);}
                 });
                 Common.NotificationCenter.on('uitheme:changed', this.changeLogo.bind(this));
+                Common.NotificationCenter.on('mentions:setusers', this.avatarsUpdate.bind(this));
             },
 
             render: function (el, role) {
@@ -919,8 +926,32 @@ define([
                         html: true
                     });
                 }
-                $btnUserName && $btnUserName.text(this.getInitials(name));
+                $btnUserName && this.updateAvatarEl();
+
                 return this;
+            },
+
+            setUserAvatar: function(avatar) {
+                this.options.userAvatar = avatar;
+                $btnUserName && this.updateAvatarEl();
+            },
+
+            setUserId: function(id) {
+                this.options.currentUserId = id;
+            },
+
+            updateAvatarEl(){
+                if(this.options.userAvatar){
+                    $btnUserName.css({'background-image': 'url('+ this.options.userAvatar +')'});
+                    $btnUserName.text('');
+                } else {
+                    $btnUserName.text(Common.Utils.getUserInitials(this.options.userName));
+                }
+            },
+
+            avatarsUpdate: function(type, users) {
+                if (type!=='info') return;
+                this.setUserAvatar(Common.UI.ExternalUsers.getImage(this.options.currentUserId));
             },
 
             getButton: function(type) {
@@ -968,18 +999,6 @@ define([
                     default: break;
                     }
                 }
-            },
-
-            getInitials: function(name) {
-                var fio = name.split(' ');
-                var initials = fio[0].substring(0, 1).toUpperCase();
-                for (var i = fio.length-1; i>0; i--) {
-                    if (fio[i][0]!=='(' && fio[i][0]!==')') {
-                        initials += fio[i].substring(0, 1).toUpperCase();
-                        break;
-                    }
-                }
-                return initials;
             },
 
             setDocumentReadOnly: function (readonly) {

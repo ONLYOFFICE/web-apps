@@ -439,13 +439,13 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
         },
 
         getFocusedComponents: function() {
-            return [
+            return this.btnsCategory.concat([
                 this.inputTableName, // 0 tab
                 this.spnWidth, this.btnRatio, this.spnHeight, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY, // 1 tab
                 this.chCellMargins, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight,
                 this.spnTableMarginTop, this.spnTableMarginLeft, this.spnTableMarginBottom, this.spnTableMarginRight, // 2 tab
                 this.inputAltTitle, this.textareaAltDescription  // 3 tab
-            ];
+            ]);
         },
 
         onCategoryClick: function(btn, index) {

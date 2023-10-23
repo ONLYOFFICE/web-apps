@@ -146,11 +146,13 @@ define([
                     'change:slide'      : this.onChangeSlide.bind(this),
                     'change:compact'    : this.onClickChangeCompact,
                     'add:chart'         : this.onSelectChart,
-                    'generate:smartart' : this.generateSmartArt,
-                    'insert:smartart'   : this.onInsertSmartArt
+                    'insert:smartart'   : this.onInsertSmartArt,
+                    'smartart:mouseenter': this.mouseenterSmartArt,
+                    'smartart:mouseleave': this.mouseleaveSmartArt,
                 },
                 'DocumentHolder': {
-                    'generate:smartart' : this.generateSmartArt,
+                    'smartart:mouseenter': this.mouseenterSmartArt,
+                    'smartart:mouseleave': this.mouseleaveSmartArt,
                 },
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),
@@ -2817,12 +2819,28 @@ define([
             }
         },
 
+        mouseenterSmartArt: function (groupName, menu) {
+            if (this.smartArtGenerating === undefined) {
+                this.generateSmartArt(groupName, menu);
+            } else {
+                this.delayedSmartArt = groupName;
+                this.delayedSmartArtMenu = menu;
+            }
+        },
+
+        mouseleaveSmartArt: function (groupName) {
+            if (this.delayedSmartArt === groupName) {
+                this.delayedSmartArt = undefined;
+            }
+        },
+
         generateSmartArt: function (groupName, menu) {
             this.docHolderMenu = menu;
             this.api.asc_generateSmartArtPreviews(groupName);
         },
 
-        onApiBeginSmartArtPreview: function () {
+        onApiBeginSmartArtPreview: function (type) {
+            this.smartArtGenerating = type;
             this.smartArtGroups = this.docHolderMenu ? this.docHolderMenu.items : this.toolbar.btnInsertSmartArt.menu.items;
             this.smartArtData = Common.define.smartArt.getSmartArtData();
         },
@@ -2841,19 +2859,25 @@ define([
                         value: item.type,
                         imageUrl: image.asc_getImage()
                     }];
-                    if (menuPicker.store.length < 1) {
-                        menuPicker.store.reset(arr);
-                    } else {
+                    //if (menuPicker.store.length < 1) {
+                        //menuPicker.store.reset(arr);
+                    //} else {
                         menuPicker.store.add(arr);
-                    }
+                    //}
                 }
                 this.currentSmartArtCategoryMenu = menu;
             }, this));
         },
 
         onApiEndSmartArtPreview: function () {
+            this.smartArtGenerating = undefined;
             if (this.currentSmartArtCategoryMenu) {
                 this.currentSmartArtCategoryMenu.menu.alignPosition();
+            }
+            if (this.delayedSmartArt !== undefined) {
+                var delayedSmartArt = this.delayedSmartArt;
+                this.delayedSmartArt = undefined;
+                this.generateSmartArt(delayedSmartArt, this.delayedSmartArtMenu);
             }
         },
 

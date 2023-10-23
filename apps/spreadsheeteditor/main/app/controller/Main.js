@@ -1356,6 +1356,8 @@ define([
                     this.appOptions.canUseCommentPermissions && AscCommon.UserInfoParser.setCommentPermissions(this.permissions.commentGroups);
                     this.appOptions.canUseUserInfoPermissions && AscCommon.UserInfoParser.setUserInfoPermissions(this.permissions.userInfoGroups);
                     this.headerView.setUserName(AscCommon.UserInfoParser.getParsedName(AscCommon.UserInfoParser.getCurrentName()));
+                    this.headerView.setUserId(this.appOptions.user.id);
+                    this.headerView.setUserAvatar(this.appOptions.user.image);
                 } else
                     this.appOptions.canModifyFilter = true;
 
@@ -1397,6 +1399,8 @@ define([
                     this.editorConfig.customization && Common.UI.LayoutManager.init(this.editorConfig.customization.layout, this.appOptions.canBrandingExt);
                     this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
                     Common.UI.ExternalUsers.init(this.appOptions.canRequestUsers);
+                    this.appOptions.user.image && Common.UI.ExternalUsers.setImage(this.appOptions.user.id, this.appOptions.user.image);
+                    Common.UI.ExternalUsers.get('info', this.appOptions.user.id);
                 }
 
                 this.appOptions.canUseHistory  = this.appOptions.canLicense && this.editorConfig.canUseHistory && this.appOptions.canCoAuthoring && !this.appOptions.isOffline;
@@ -2085,6 +2089,10 @@ define([
                     case Asc.c_oAscError.ID.TracePrecedentsNoValidReference:
                         config.msg = this.errorPrecedentsNoValidRef;
                         config.maxwidth = 600;
+                        break;
+
+                    case Asc.c_oAscError.ID.LockedCellGoalSeek:
+                        config.msg = this.errorLockedCellGoalSeek;
                         break;
 
                     default:
@@ -3306,7 +3314,8 @@ define([
                     this._renameDialog && this._renameDialog.close();
                     var versions = opts.data.history,
                         historyStore = this.getApplication().getCollection('Common.Collections.HistoryVersions'),
-                        currentVersion = null;
+                        currentVersion = null,
+                        arrIds = [];
                     if (historyStore) {
                         var arrVersions = [], ver, version, group = -1, prev_ver = -1, arrColors = [], docIdPrev = '',
                             usersStore = this.getApplication().getCollection('Common.Collections.HistoryUsers'), user = null, usersCnt = 0;
@@ -3328,13 +3337,16 @@ define([
                                     });
                                     usersStore.add(user);
                                 }
-
+                                var avatar = Common.UI.ExternalUsers.getImage(version.user.id);
+                                (avatar===undefined) && arrIds.push(version.user.id);
                                 arrVersions.push(new Common.Models.HistoryVersion({
                                     version: version.versionGroup,
                                     revision: version.version,
                                     userid : version.user.id,
                                     username : version.user.name,
                                     usercolor: user.get('color'),
+                                    initials : Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(version.user.name || this.textAnonymous)),
+                                    avatar : avatar,
                                     created: version.created,
                                     docId: version.key,
                                     markedAsVersion: (group!==version.versionGroup),
@@ -3377,7 +3389,8 @@ define([
                                                 });
                                                 usersStore.add(user);
                                             }
-
+                                            avatar = Common.UI.ExternalUsers.getImage(change.user.id);
+                                            (avatar===undefined) && arrIds.push(change.user.id);
                                             arrVersions.push(new Common.Models.HistoryVersion({
                                                 version: version.versionGroup,
                                                 revision: version.version,
@@ -3385,6 +3398,8 @@ define([
                                                 userid : change.user.id,
                                                 username : change.user.name,
                                                 usercolor: user.get('color'),
+                                                initials : Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(change.user.name || this.textAnonymous)),
+                                                avatar : avatar,
                                                 created: change.created,
                                                 docId: version.key,
                                                 docIdPrev: docIdPrev,
@@ -3417,6 +3432,7 @@ define([
                         }
                         // if (currentVersion)
                         //     this.getApplication().getController('Common.Controllers.History').onSelectRevision(null, null, currentVersion);
+                        arrIds.length && Common.UI.ExternalUsers.get('info', arrIds);
                     }
                 }
             },
@@ -3941,7 +3957,8 @@ define([
             errorPrecedentsNoValidRef: 'The Trace Precedents command requires that the active cell contain a formula which includes a valid references.',
             warnExternalChartProtected: 'This chart is based on data from an external file. In this window, you can only select data to display in the chart. To edit the spreadsheet, open it in the spreadsheet editor.',
             txtPicture: 'Picture',
-            txtOpen: 'Open'
+            txtOpen: 'Open',
+            errorLockedCellGoalSeek: 'One of the cells involved in the goal seek process has been modified by another user.'
         }
     })(), SSE.Controllers.Main || {}))
 });

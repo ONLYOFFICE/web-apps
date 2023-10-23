@@ -686,8 +686,6 @@
   "Common.Views.PluginDlg.textLoading": "Încărcare",
   "Common.Views.Plugins.groupCaption": "Plugin-uri",
   "Common.Views.Plugins.strPlugins": "Plugin-uri",
-  "Common.Views.Plugins.textClosePanel": "Închide plugin-ul",
-  "Common.Views.Plugins.textLoading": "Încărcare",
   "Common.Views.Plugins.textStart": "Pornire",
   "Common.Views.Plugins.textStop": "Oprire",
   "Common.Views.Protection.hintAddPwd": "Criptare utilizând o parolă",

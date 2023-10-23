@@ -525,8 +525,21 @@ define([
             }
         },
 
+        liftUpPluginButton: function (guid) {
+            var btn = this.pluginBtns[guid],
+                $btn = btn.cmpEl;
+            if (!btn.cmpEl.is(':visible')) {
+                var $separator = this.leftMenu.getView('LeftMenu').pluginSeparator;
+                $btn.parent().insertAfter($separator);
+                delete this.pluginBtns[guid];
+                this.pluginBtns = Object.assign({[guid]: btn}, this.pluginBtns);
+                this.setMoreButton();
+            }
+        },
+
         onMenuShowPlugin: function (menu, item) {
             var guid = item.value;
+            this.liftUpPluginButton(guid);
             this.pluginBtns[guid].toggle(!this.pluginBtns[guid].pressed);
             this.onShowPlugin(guid);
         },

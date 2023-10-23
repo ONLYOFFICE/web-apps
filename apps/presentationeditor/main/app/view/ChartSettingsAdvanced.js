@@ -449,6 +449,7 @@ define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.tem
         },
 
         _setDefaults: function(props) {
+            Common.UI.FocusManager.add(this, this.btnsCategory);
             if (props ){
                 var value = props.asc_getName();
                 this.inputChartName.setValue(value ? value : '');

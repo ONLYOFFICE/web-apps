@@ -1395,6 +1395,7 @@ define([
             me._isDocReady = true;
             this.hidePreloader();
             this.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+            Common.NotificationCenter.trigger('app:face', this.appOptions); // for Desktop controller only
             Common.NotificationCenter.trigger('app:ready', this.appOptions);
 
             var zf = (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : 100);

@@ -203,8 +203,8 @@
       "textZoomRotate": "Zoom and Rotate"
     },
     "Settings": {
-      "mniSlideStandard": "Standard (4:3)",
-      "mniSlideWide": "Widescreen (16:9)",
+      "mniSlideStandard": "Стандартно (4:3)",
+      "mniSlideWide": "Широк екран (16:9)",
       "notcriticalErrorTitle": "Warning",
       "textAbout": "About",
       "textAddress": "address:",

@@ -704,15 +704,18 @@ define([
 
                 if (this.appOptions.isEdit && toolbarView) {
                     if (toolbarView.btnStrikeout.pressed && ( !_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-strikeout')) {
-                        this.api.SetMarkerFormat(toolbarView.btnStrikeout.options.type, false);
+                        if (!_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-underline' && arguments[1].id !== 'id-toolbar-btn-highlight')
+                            this.api.SetMarkerFormat(toolbarView.btnStrikeout.options.type, false);
                         toolbarView.btnStrikeout.toggle(false, false);
                     }
                     if (toolbarView.btnUnderline.pressed && ( !_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-underline')) {
-                        this.api.SetMarkerFormat(toolbarView.btnUnderline.options.type, false);
+                        if (!_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-strikeout' && arguments[1].id !== 'id-toolbar-btn-highlight')
+                            this.api.SetMarkerFormat(toolbarView.btnUnderline.options.type, false);
                         toolbarView.btnUnderline.toggle(false, false);
                     }
                     if (toolbarView.btnHighlight.pressed && ( !_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-highlight')) {
-                        this.api.SetMarkerFormat(toolbarView.btnHighlight.options.type, false);
+                        if (!_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-underline' && arguments[1].id !== 'id-toolbar-btn-strikeout')
+                            this.api.SetMarkerFormat(toolbarView.btnHighlight.options.type, false);
                         toolbarView.btnHighlight.toggle(false, false);
                     }
                 }
@@ -722,7 +725,7 @@ define([
                         forcesave = this.appOptions.forcesave,
                         isSyncButton = (toolbarView.btnCollabChanges.rendered) ? toolbarView.btnCollabChanges.cmpEl.hasClass('notify') : false,
                         isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.isPDFEdit && !this.appOptions.isPDFAnnotate;
-                        toolbarView.btnSave.setDisabled(isDisabled);
+                        toolbarView.btnSave.setDisabled(isDisabled && !this.appOptions.saveAlwaysEnabled);
                 }
 
                 Common.UI.HintManager.clearHints(true);
@@ -1042,6 +1045,13 @@ define([
 
                 Common.Gateway.sendInfo({mode:me.appOptions.isEdit?'edit':'view'});
 
+                if (!!me.appOptions.sharingSettingsUrl && me.appOptions.sharingSettingsUrl.length || me.appOptions.canRequestSharingSettings) {
+                    Common.Gateway.on('showsharingsettings', _.bind(me.changeAccessRights, me));
+                    Common.Gateway.on('setsharingsettings', _.bind(me.setSharingSettings, me));
+                    Common.NotificationCenter.on('collaboration:sharing', _.bind(me.changeAccessRights, me));
+                    Common.NotificationCenter.on('collaboration:sharingdeny', _.bind(me.setSharingSettings, me));
+                }
+
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
                 Common.Gateway.documentReady();
 
@@ -1142,6 +1152,7 @@ define([
                 this.appOptions.buildVersion   = params.asc_getBuildVersion();
                 this.appOptions.canForcesave   = this.appOptions.isPDFEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
+                this.appOptions.saveAlwaysEnabled = true;
                 this.appOptions.canEditComments= this.appOptions.isOffline || !this.permissions.editCommentAuthorOnly;
                 this.appOptions.canDeleteComments= this.appOptions.isOffline || !this.permissions.deleteCommentAuthorOnly;
                 if ((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.commentAuthorOnly===true) {
@@ -1182,6 +1193,8 @@ define([
                 this.appOptions.canUseCommentPermissions && AscCommon.UserInfoParser.setCommentPermissions(this.permissions.commentGroups);
                 this.appOptions.canUseUserInfoPermissions && AscCommon.UserInfoParser.setUserInfoPermissions(this.permissions.userInfoGroups);
                 appHeader.setUserName(AscCommon.UserInfoParser.getParsedName(AscCommon.UserInfoParser.getCurrentName()));
+                appHeader.setUserId(this.appOptions.user.id);
+                appHeader.setUserAvatar(this.appOptions.user.image);
 
                 this.appOptions.canRename && appHeader.setCanRename(true);
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
@@ -1189,7 +1202,9 @@ define([
                 this.editorConfig.customization && Common.UI.LayoutManager.init(this.editorConfig.customization.layout, this.appOptions.canBrandingExt);
                 this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
                 Common.UI.ExternalUsers.init(this.appOptions.canRequestUsers);
-
+                this.appOptions.user.image && Common.UI.ExternalUsers.setImage(this.appOptions.user.id, this.appOptions.user.image);
+                Common.UI.ExternalUsers.get('info', this.appOptions.user.id);
+                
                 if (this.appOptions.canComments)
                     Common.NotificationCenter.on('comments:cleardummy', _.bind(this.onClearDummyComment, this));
                     Common.NotificationCenter.on('comments:showdummy', _.bind(this.onShowDummyComment, this));
@@ -1823,7 +1838,7 @@ define([
                     var isSyncButton = toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
                         forcesave = this.appOptions.forcesave,
                         isDisabled = !isModified && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.isPDFEdit && !this.appOptions.isPDFAnnotate;
-                        toolbarView.btnSave.setDisabled(isDisabled);
+                        toolbarView.btnSave.setDisabled(isDisabled && !this.appOptions.saveAlwaysEnabled);
                 }
 
                 /** coauthoring begin **/
@@ -1840,7 +1855,7 @@ define([
                     var isSyncButton = toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
                         forcesave = this.appOptions.forcesave,
                         isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.isPDFEdit && !this.appOptions.isPDFAnnotate;
-                        toolbarView.btnSave.setDisabled(isDisabled);
+                        toolbarView.btnSave.setDisabled(isDisabled && !this.appOptions.saveAlwaysEnabled);
                 }
             },
 
@@ -2269,6 +2284,38 @@ define([
                             me.onEditComplete();
                         }, this)
                     });
+                }
+            },
+
+            onLostEditRights: function() {
+                this._readonlyRights = true;
+            },
+
+            changeAccessRights: function(btn,event,opts) {
+                if (this._docAccessDlg || this._readonlyRights) return;
+
+                if (this.appOptions.canRequestSharingSettings) {
+                    Common.Gateway.requestSharingSettings();
+                } else {
+                    var me = this;
+                    me._docAccessDlg = new Common.Views.DocumentAccessDialog({
+                        settingsurl: this.appOptions.sharingSettingsUrl
+                    });
+                    me._docAccessDlg.on('accessrights', function(obj, rights){
+                        me.setSharingSettings({sharingSettings: rights});
+                    }).on('close', function(obj){
+                        me._docAccessDlg = undefined;
+                    });
+
+                    me._docAccessDlg.show();
+                }
+            },
+
+            setSharingSettings: function(data) {
+                if (data) {
+                    this.document.info.sharingSettings = data.sharingSettings;
+                    Common.NotificationCenter.trigger('collaboration:sharingupdate', data.sharingSettings);
+                    Common.NotificationCenter.trigger('mentions:clearusers', this);
                 }
             },
 

@@ -174,8 +174,8 @@ define([
             toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, 'paste'));
             toolbar.btnCut.on('click',                                  _.bind(this.onCopyPaste, this, 'cut'));
             toolbar.btnSelectAll.on('click',                            _.bind(this.onSelectAll, this));
-            toolbar.btnSelectTool.on('click',                           _.bind(this.onSelectTool, this, 'select'));
-            toolbar.btnHandTool.on('click',                             _.bind(this.onSelectTool, this, 'hand'));
+            toolbar.btnSelectTool.on('toggle',                          _.bind(this.onSelectTool, this, 'select'));
+            toolbar.btnHandTool.on('toggle',                            _.bind(this.onSelectTool, this, 'hand'));
             toolbar.btnAddComment.on('click', function (btn, e) {
                 Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
             });
@@ -189,7 +189,7 @@ define([
             toolbar.mnuHighlightColorPicker.on('select',                _.bind(this.onSelectHighlightColor, this));
             toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
             toolbar.chShowComments.on('change',                         _.bind(this.onShowCommentsChange, this));
-            toolbar.btnRotate.on('click',                               _.bind(this.onRotateClick, this));
+            // toolbar.btnRotate.on('click',                               _.bind(this.onRotateClick, this));
             toolbar.fieldPages.on('changed:after',                      _.bind(this.onPagesChanged, this));
             toolbar.fieldPages.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me.toolbar);});
             toolbar.fieldPages.cmpEl && toolbar.fieldPages.cmpEl.on('focus', 'input.form-control', function() {
@@ -255,7 +255,11 @@ define([
         },
 
         onCurrentPage: function(value) {
-            this.toolbar && this.toolbar.fieldPages && this.toolbar.fieldPages.setValue(value + 1);
+            if (this.toolbar) {
+                this.toolbar.fieldPages && this.toolbar.fieldPages.setValue(value + 1);
+                this.toolbar.lockToolbar(Common.enumLock.firstPage, value<1, {array: [this.toolbar.btnFirstPage, this.toolbar.btnPrevPage]});
+                this.toolbar.lockToolbar(Common.enumLock.lastPage, value>=this._state.pageCount-1, {array: [this.toolbar.btnLastPage, this.toolbar.btnNextPage]});
+            }
         },
 
         onPagesChanged: function() {
@@ -394,9 +398,7 @@ define([
                             me.api.asc_DownloadAs();
                         else if (btn==='copy' || btn==='download') {
                             me._state.isFromToolbarDownloadAs = (btn==='copy');
-                            var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, btn==='copy');
-                            options.asc_setTextParams(new AscCommon.asc_CTextParams(Asc.c_oAscTextAssociation.PlainLine));
-                            me.api.asc_DownloadAs(options);
+                            me.api.asc_DownloadOrigin(btn==='copy');
                         }
                         Common.NotificationCenter.trigger('edit:complete', toolbar);
                     }
@@ -408,7 +410,7 @@ define([
                     return;
 
                 this.api.asc_Save();
-                toolbar.btnSave.setDisabled(!toolbar.mode.forcesave);
+                toolbar.btnSave.setDisabled(!toolbar.mode.forcesave && !toolbar.mode.saveAlwaysEnabled);
                 Common.component.Analytics.trackEvent('Save');
                 Common.component.Analytics.trackEvent('ToolBar', 'Save');
             }
@@ -475,11 +477,12 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Select All');
         },
 
-        onSelectTool: function (type, btn, e) {
-            if (this.api)
+        onSelectTool: function (type, btn, state, e) {
+            if (this.api && state) {
                 this.api.asc_setViewerTargetType(type);
-            this.mode.isEdit && this.api.asc_StopInkDrawer();
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+                this.mode.isEdit && this.api.asc_StopInkDrawer();
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            }
         },
 
         onBtnStrikeout: function(btn) {
@@ -655,7 +658,7 @@ define([
             this.toolbar.lockToolbar(Common.enumLock.undoLock, this._state.can_undo!==true, {array: [this.toolbar.btnUndo]});
             this.toolbar.lockToolbar(Common.enumLock.redoLock, this._state.can_redo!==true, {array: [this.toolbar.btnRedo]});
             this.toolbar.lockToolbar(Common.enumLock.copyLock, this._state.can_copycut!==true, {array: [this.toolbar.btnCopy, this.toolbar.btnCut]});
-            this.toolbar.btnSave.setDisabled(!this.mode.isPDFEdit && !this.mode.isPDFAnnotate);
+            this.toolbar.btnSave.setDisabled(!this.mode.isPDFEdit && !this.mode.isPDFAnnotate && !this.mode.saveAlwaysEnabled);
             this._state.activated = true;
         },
 
@@ -809,7 +812,8 @@ define([
         txtNeedCommentMode: 'To save changes to the file, switch to Сommenting mode. Or you can download a copy of the modified file.',
         txtNeedDownload: 'At the moment, PDF viewer can only save new changes in separate file copies. It doesn\'t support co-editing and other users won\'t see your changes unless you share a new file version.',
         txtDownload: 'Download',
-        txtSaveCopy: 'Save copy'
+        txtSaveCopy: 'Save copy',
+        errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.'
 
     }, PDFE.Controllers.Toolbar || {}));
 });

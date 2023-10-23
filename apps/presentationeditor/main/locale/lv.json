@@ -646,8 +646,6 @@
   "Common.Views.PluginDlg.textLoading": "Ielādē",
   "Common.Views.Plugins.groupCaption": "Spraudņi",
   "Common.Views.Plugins.strPlugins": "Spraudņi",
-  "Common.Views.Plugins.textClosePanel": "Aizvērt spraudni",
-  "Common.Views.Plugins.textLoading": "Ielādē",
   "Common.Views.Plugins.textStart": "Sākt",
   "Common.Views.Plugins.textStop": "Apturēt",
   "Common.Views.Protection.hintAddPwd": "Šifrēt ar paroli",

@@ -432,6 +432,7 @@
   "PDFE.Controllers.Search.warnReplaceString": "{0} is not a valid special character for the Replace With box.",
   "PDFE.Controllers.Statusbar.textDisconnect": "<b>Connection is lost</b><br>Trying to connect. Please check connection settings.",
   "PDFE.Controllers.Statusbar.zoomText": "Zoom {0}%",
+  "PDFE.Controllers.Toolbar.errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Warning",
   "PDFE.Controllers.Toolbar.textWarning": "Warning",
   "PDFE.Controllers.Toolbar.txtDownload": "Download",

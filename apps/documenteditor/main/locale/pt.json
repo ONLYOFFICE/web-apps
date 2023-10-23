@@ -572,8 +572,6 @@
   "Common.Views.PluginDlg.textLoading": "Carregamento",
   "Common.Views.Plugins.groupCaption": "Plug-ins",
   "Common.Views.Plugins.strPlugins": "Plug-ins",
-  "Common.Views.Plugins.textClosePanel": "Fechar plug-in",
-  "Common.Views.Plugins.textLoading": "Carregamento",
   "Common.Views.Plugins.textStart": "Iniciar",
   "Common.Views.Plugins.textStop": "Parar",
   "Common.Views.Protection.hintAddPwd": "Criptografar com senha",

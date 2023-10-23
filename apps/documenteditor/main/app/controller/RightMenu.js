@@ -317,7 +317,7 @@ define([
                         this._settings[active].panel.ChangeSettings.call(this._settings[active].panel, this._settings[active].props);
                     else
                         this._settings[active].panel.ChangeSettings.call(this._settings[active].panel);
-                    this.rightmenu.updateScroller();
+                    (active !== currentactive) && this.rightmenu.updateScroller();
                 } else if (activePane) { // lock active pane if no selected objects (ex. drawing)
                     for (var i=0; i<this._settings.length; i++) {
                         if (this._settings[i] && this._settings[i].panelId === activePane) {

@@ -220,10 +220,10 @@ define([    'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.templa
         },
 
         getFocusedComponents: function() {
-            return [
+            return this.btnsCategory.concat([
                 this.inputCustomName, this.radioTabular, this.radioOutline, this.chCompact, this.btnFormat, this.chRepeat, this.chBlank, this.chSubtotals, this.radioTop, this.radioBottom, this.chEmpty, // 0 tab
                 this.chSum, this.chCount, this.chAve, this.chMax, this.chMin, this.chProduct, this.chNum, this.chDev, this.chDevp, this.chVar, this.chVarp  // 1 tab
-            ];
+            ]);
         },
 
         onCategoryClick: function(btn, index) {

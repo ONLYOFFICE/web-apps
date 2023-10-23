@@ -686,8 +686,6 @@
   "Common.Views.PluginDlg.textLoading": "Γίνεται φόρτωση",
   "Common.Views.Plugins.groupCaption": "Πρόσθετα",
   "Common.Views.Plugins.strPlugins": "Πρόσθετα",
-  "Common.Views.Plugins.textClosePanel": "Κλείσιμο πρόσθετου",
-  "Common.Views.Plugins.textLoading": "Γίνεται φόρτωση",
   "Common.Views.Plugins.textStart": "Εκκίνηση",
   "Common.Views.Plugins.textStop": "Διακοπή",
   "Common.Views.Protection.hintAddPwd": "Κρυπτογράφηση με συνθηματικό",

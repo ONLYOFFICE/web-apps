@@ -145,7 +145,10 @@ define([
                 chartSettings = isChart ? this.api.asc_getChartSettings(true) : null, // don't lock chart object
                 props3d = chartSettings ? chartSettings.getView3d() : null;
 
-            this.ShowHideElem(isChart, !!props3d);
+            if ( this.isChart!==isChart || this._state.is3D!==!!props3d ) {
+                this.ShowHideElem(isChart, !!props3d);
+            }
+            this._state.is3D=!!props3d;
             this.disableControls(this._locked);
 
             if (this.api && props){
@@ -1046,6 +1049,7 @@ define([
             this.SparkTypesContainer.toggleClass('settings-hidden', isChart);
             this.SparkPointsContainer.toggleClass('settings-hidden', isChart);
             this.Chart3DContainer.toggleClass('settings-hidden', !isChart || !is3D);
+            this.fireEvent('updatescroller', this);
         },
 
         ShowCombinedProps: function(type) {
