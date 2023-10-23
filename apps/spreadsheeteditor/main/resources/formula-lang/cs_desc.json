@@ -1896,7 +1896,7 @@
 		"d": "Vrátí aritmetickou posloupnost."
 	},
 	"EXPAND": {
-		"a": "(matice, řádky, [sloupce], [pad_with])",
+		"a": "(matice, řádky, [sloupce], [výplň])",
 		"d": "Rozbalí pole na zadané dimenze."
 	},
 	"XMATCH": {

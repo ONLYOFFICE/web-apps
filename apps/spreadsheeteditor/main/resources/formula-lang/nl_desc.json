@@ -1896,7 +1896,7 @@
 		"d": "Retourneert een reeks getallen"
 	},
 	"EXPAND": {
-		"a": "(matrix, rijen, [kolommen], [pad_with])",
+		"a": "(matrix, rijen, [kolommen], [opvullen_met])",
 		"d": "Hiermee wordt een matrix uitgevouwen naar de opgegeven dimensies."
 	},
 	"XMATCH": {
