@@ -58,13 +58,8 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
         isBranding = true;
 
     if(!appOptions.isDisconnected && config?.customization) {
-        isCustomization = !!(config.customization && (config.customization.loaderName || config.customization.loaderLogo));
+        isCustomization = !!(config.customization.loaderName || config.customization.loaderLogo);
         isBranding = appOptions.canBranding || appOptions.canBrandingExt;
-
-        if(!Object.keys(config).length) {
-            isCustomization = !/&(?:logo)=/.test(window.location.search);
-        }
-
         isHideLogo = isCustomization && isBranding; 
     }
 
@@ -81,31 +76,31 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
         const newState = {...state};
 
         if(opts === 'edit') {
-            newState.editOptionsVisible && (opened = true);
-            newState.editOptionsVisible = true;
+            if(newState.editOptionsVisible) opened = true;
+            else newState.editOptionsVisible = true;
             newState.isOpenModal = true;
         } else if(opts === 'add') {
-            newState.addOptionsVisible && (opened = true);
-            newState.addOptionsVisible = true;
+            if(newState.addOptionsVisible) opened = true;
+            else newState.addOptionsVisible = true;
             newState.addShowOptions = showOpts;
             newState.isOpenModal = true;
         } else if(opts === 'settings') {
-            newState.settingsVisible && (opened = true);
-            newState.settingsVisible = true;
+            if(newState.settingsVisible) opened = true;
+            else newState.settingsVisible = true;
             newState.isOpenModal = true;
         } else if(opts === 'coauth') {
-            newState.collaborationVisible && (opened = true);
-            newState.collaborationVisible = true;
+            if(newState.collaborationVisible) opened = true;
+            else newState.collaborationVisible = true;
             newState.isOpenModal = true;
         } else if(opts === 'navigation') {
-            newState.navigationVisible && (opened = true);
-            newState.navigationVisible = true;
+            if(newState.navigationVisible) opened = true;
+            else newState.navigationVisible = true;
         } else if(opts === 'add-link') {
-            newState.addLinkSettingsVisible && (opened = true);
-            newState.addLinkSettingsVisible = true;
+            if(newState.addLinkSettingsVisible) opened = true;
+            else newState.addLinkSettingsVisible = true;
         } else if(opts === 'edit-link') {
-            newState.editLinkSettingsVisible && (opened = true);
-            newState.editLinkSettingsVisible = true;
+            if(newState.editLinkSettingsVisible) opened = true;
+            else newState.editLinkSettingsVisible = true;
         } else if(opts === 'snackbar') {
             newState.snackbarVisible = true;
         } else if(opts === 'fab') {

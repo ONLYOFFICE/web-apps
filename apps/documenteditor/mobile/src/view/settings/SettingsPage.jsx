@@ -26,8 +26,8 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
         </Navbar>;
 
     const onOpenOptions = name => {
-        settingsContext.closeModal();
         mainContext.openOptions(name);
+        settingsContext.closeModal(); 
     }
 
     // set mode
@@ -65,9 +65,6 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
         }
     }
 
-     {/* <ListItem key='export-link' title={t('Settings.textExport')} link='#' className='no-indicator' onClick={settingsContext.exportForm}>
-                        <Icon slot="media" icon="icon-export"></Icon>
-                    </ListItem>, */}
     return (
         <Page>
             {navbar}
@@ -132,12 +129,12 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                         <Icon slot="media" icon="icon-spellcheck"></Icon>
                     </ListItem>
                 }
-                {(!isViewer && Device.phone) &&
+                {((!isViewer && Device.phone) || isForm) &&
                     <ListItem title={t('Settings.textMobileView')}>
                         <Icon slot="media" icon="icon-mobile-view"></Icon>
                         <Toggle checked={isMobileView} onToggleChange={() => {
-                            settingsContext.onChangeMobileView();
                             onOpenOptions('snackbar');
+                            settingsContext.onChangeMobileView();
                         }} />
                     </ListItem>
                 }

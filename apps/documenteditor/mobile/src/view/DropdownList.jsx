@@ -81,6 +81,19 @@ const PageDropdownList = props => {
         }).open();
     }
 
+    const customOptionClickHandler = () => {
+        if(Device.android) {
+            openDlgCustomOption();
+        } else {
+            f7.views.current.router.navigate('/custom-option/', {
+                props: {
+                    onAddItem: props.onAddItem,
+                    enteredValue
+                }
+            });
+        }
+    }
+
     return (
         <View style={props.style} routes={routes}>
             <Page>
@@ -94,12 +107,7 @@ const PageDropdownList = props => {
                 {props.isComboBox ?
                     <>
                         <List>
-                            <ListItem title={enteredValue || t('Edit.textEnterYourOption')} href={Device.ios ? '/custom-option/' : '#'} onClick={() => {
-                                if(Device.android) openDlgCustomOption()
-                            }} routeProps={{
-                                onAddItem: props.onAddItem,
-                                enteredValue
-                            }}></ListItem>
+                            <ListItem radio checked={enteredValue} title={enteredValue || t('Edit.textEnterYourOption')} onClick={customOptionClickHandler}></ListItem>
                         </List>
                         <BlockTitle>{t('Edit.textChooseAnItem')}</BlockTitle>
                     </>
