@@ -39,6 +39,8 @@ define([
 ], function () {
     'use strict';
 
+    !Common.UI && (Common.UI = {});
+
     Common.UI.Scaling = new (function() {
         const scales_map = {
             'pixel-ratio__1'    : 1,

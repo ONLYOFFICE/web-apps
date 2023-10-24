@@ -273,7 +273,7 @@ define([
                 this.btnMore = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-more'),
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-more',
+                    iconCls: 'toolbar__icon btn-big-more',
                     caption: this.txtMore,
                     hint: this.txtMore,
                     menu: true,
@@ -428,7 +428,7 @@ define([
                     });
                     me.btnCalculate.setMenu(_menu);
 
-                    me.btnShowFormulas.updateHint(me.tipShowFormulas);
+                    me.btnShowFormulas.updateHint(me.tipShowFormulas + Common.Utils.String.format(' ({0}+`)', Common.Utils.String.textCtrl));
                     me.btnTracePrec.updateHint(me.tipTracePrec);
                     me.btnTraceDep.updateHint(me.tipTraceDep);
                     me.btnRemArrows.updateHint(me.tipRemoveArr);

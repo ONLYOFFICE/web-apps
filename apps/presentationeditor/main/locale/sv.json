@@ -454,8 +454,6 @@
   "Common.Views.PluginDlg.textLoading": "Laddar",
   "Common.Views.Plugins.groupCaption": "Plugins",
   "Common.Views.Plugins.strPlugins": "Plugins",
-  "Common.Views.Plugins.textClosePanel": "Stäng tillägg",
-  "Common.Views.Plugins.textLoading": "Laddar",
   "Common.Views.Plugins.textStart": "Start",
   "Common.Views.Plugins.textStop": "Stanna",
   "Common.Views.Protection.hintAddPwd": "Kryptera med lösenord",

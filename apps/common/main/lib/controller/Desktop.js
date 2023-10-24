@@ -40,7 +40,7 @@ define([
 ], function () {
     'use strict';
 
-    var webapp = window.DE || window.PE || window.SSE;
+    var webapp = window.DE || window.PE || window.SSE || window.PDFE;
     var features = Object.assign({
                         version: '{{PRODUCT_VERSION}}',
                         eventloading: true,
@@ -108,16 +108,18 @@ define([
                 } else
                 if (/editor:config/.test(cmd)) {
                     if ( param == 'request' ) {
-                        if ( !!titlebuttons ) {
-                            var opts = {
-                                user: config.user,
-                                title: { buttons: [] }
-                            };
+                        var opts = {
+                            user: config.user,
+                            title: { buttons: [] }
+                        };
 
-                            var header = webapp.getController('Viewport').getView('Common.Views.Header');
-                            if ( header ) {
-                                for (var i in titlebuttons) {
-                                    opts.title.buttons.push(_serializeHeaderButton(i, titlebuttons[i]));
+                        if ( !!titlebuttons ) {
+                            if ( !$.isEmptyObject(titlebuttons) ) {
+                                var header = webapp.getController('Viewport').getView('Common.Views.Header');
+                                if (header) {
+                                    for (var i in titlebuttons) {
+                                        opts.title.buttons.push(_serializeHeaderButton(i, titlebuttons[i]));
+                                    }
                                 }
                             }
 
@@ -139,6 +141,27 @@ define([
                 if (/theme:changed/.test(cmd)) {
                     Common.UI.Themes.setTheme(param);
                 } else
+                if (/^uitheme:added/.test(cmd)) {
+                    if ( !nativevars.localthemes )
+                        nativevars.localthemes = [];
+
+                    let json_objs;
+                    try {
+                        json_objs = JSON.parse(param);
+                    } catch (e) {
+                        console.warn('local theme is broken');
+                    }
+
+                    if ( json_objs ) {
+                        if (json_objs instanceof Array) {
+                            nativevars.localthemes = [].concat(nativevars.localthemes, json_objs);
+                            Common.UI.Themes.addTheme({themes: json_objs});
+                        } else {
+                            nativevars.localthemes.push(json_objs);
+                            Common.UI.Themes.addTheme(json_objs);
+                        }
+                    }
+                } else
                 if (/renderervars:changed/.test(cmd)) {
                     const opts = JSON.parse(param);
 
@@ -146,7 +169,7 @@ define([
                         window.RendererProcessVariable.theme.system = opts.theme.system;
 
                         if ( Common.UI.Themes.currentThemeId() == 'theme-system' )
-                            Common.UI.Themes.setTheme('theme-system');
+                            Common.UI.Themes.refreshTheme(true);
                     }
                 } else
                 if (/element:show/.test(cmd)) {
@@ -163,11 +186,11 @@ define([
                 if (/file:print/.test(cmd)) {
                     webapp.getController('Main').onPrint();
                 } else
-                if (/file:save/.test(cmd)) {
-                    webapp.getController('Main').api.asc_Save();
-                } else
                 if (/file:saveas/.test(cmd)) {
                     webapp.getController('Main').api.asc_DownloadAs();
+                } else
+                if (/file:save/.test(cmd)) {
+                    webapp.getController('Main').api.asc_Save();
                 }
             };
 
@@ -452,6 +475,9 @@ define([
             }
 
             if ( native.features.singlewindow !== undefined ) {
+                if ( config.isFillFormApp )
+                    $("#title-doc-name")[native.features.singlewindow ? 'hide' : 'show']();
+
                 // $('#box-document-title .hedset')[native.features.singlewindow ? 'hide' : 'show']();
                 !!titlebuttons.home && titlebuttons.home.btn.setVisible(native.features.singlewindow);
             }
@@ -496,7 +522,7 @@ define([
                 const filemenu = webapp.getController('LeftMenu').leftMenu.getMenu('file');
                 if ( filemenu.miNew.visible ) {
                     const miNewFromTemplate = new Common.UI.MenuItem({
-                        el: $(`<li id="fm-btn-create-fromtpl" class="fm-btn"></li>`),
+                        el: $('<li id="fm-btn-create-fromtpl" class="fm-btn"></li>'),
                         action: 'create:fromtemplate',
                         caption: _tr('itemCreateFromTemplate', 'Create from template'),
                         canFocused: false,
@@ -789,6 +815,12 @@ define([
             return (t > utils.defines.FileFormat.FILE_SPREADSHEET &&
                     !(t > utils.defines.FileFormat.FILE_CROSSPLATFORM)) ||
                 t == utils.defines.FileFormat.FILE_CROSSPLATFORM_XPS;
+        } else
+        if ( window.PDFE ) {
+            return t == utils.defines.FileFormat.FILE_CROSSPLATFORM_PDFA ||
+                    t == utils.defines.FileFormat.FILE_CROSSPLATFORM_PDF ||
+                    t == utils.defines.FileFormat.FILE_CROSSPLATFORM_DJVU ||
+                    t ==  utils.defines.FileFormat.FILE_CROSSPLATFORM_XPS;
         }
 
         return false;

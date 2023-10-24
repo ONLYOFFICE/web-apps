@@ -85,8 +85,9 @@ define([
                     'change:scalespn': this.onClickChangeScaleInMenu.bind(me),
                     'click:customscale': this.onScaleClick.bind(me),
                     'home:open'        : this.onHomeOpen,
-                    'generate:smartart' : this.generateSmartArt,
-                    'insert:smartart'   : this.onInsertSmartArt
+                    'insert:smartart'   : this.onInsertSmartArt,
+                    'smartart:mouseenter': this.mouseenterSmartArt,
+                    'smartart:mouseleave': this.mouseleaveSmartArt,
                 },
                 'FileMenu': {
                     'menu:hide': me.onFileMenu.bind(me, 'hide'),
@@ -398,6 +399,7 @@ define([
                 toolbar.btnBackColor.on('color:select',                     _.bind(this.onBackColorSelect, this));
                 toolbar.btnBackColor.on('eyedropper:start',                 _.bind(this.onEyedropperStart, this));
                 toolbar.btnBackColor.on('eyedropper:end',                  _.bind(this.onEyedropperEnd, this));
+                this.mode.isEdit && Common.NotificationCenter.on('eyedropper:start', _.bind(this.eyedropperStart, this));
                 toolbar.btnBorders.on('click',                              _.bind(this.onBorders, this));
                 if (toolbar.btnBorders.rendered) {
                     toolbar.btnBorders.menu.on('item:click',                    _.bind(this.onBordersMenu, this));
@@ -4711,7 +4713,12 @@ define([
             if (this.api) {
                 this._state.pgmargins = undefined;
                 if (item.value !== 'advanced') {
-                    this.api.asc_changePageMargins(item.value[1], item.value[3], item.value[0], item.value[2], this.api.asc_getActiveWorksheetIndex());
+                    var props = new Asc.asc_CPageMargins();
+                    props.asc_setTop(item.value[0]);
+                    props.asc_setBottom(item.value[2]);
+                    props.asc_setLeft(item.value[1]);
+                    props.asc_setRight(item.value[3]);
+                    this.api.asc_changePageMargins(props, undefined, undefined, undefined, undefined, this.api.asc_getActiveWorksheetIndex());
                 } else {
                     var win, props,
                         me = this;
@@ -4719,14 +4726,15 @@ define([
                         handler: function(dlg, result) {
                             if (result == 'ok') {
                                 props = dlg.getSettings();
-                                Common.localStorage.setItem("sse-pgmargins-top", props.asc_getTop());
-                                Common.localStorage.setItem("sse-pgmargins-left", props.asc_getLeft());
-                                Common.localStorage.setItem("sse-pgmargins-bottom", props.asc_getBottom());
-                                Common.localStorage.setItem("sse-pgmargins-right", props.asc_getRight());
-                                Common.NotificationCenter.trigger('margins:update', props);
+                                var margins = props.margins;
+                                Common.localStorage.setItem("sse-pgmargins-top", margins.asc_getTop());
+                                Common.localStorage.setItem("sse-pgmargins-left", margins.asc_getLeft());
+                                Common.localStorage.setItem("sse-pgmargins-bottom", margins.asc_getBottom());
+                                Common.localStorage.setItem("sse-pgmargins-right", margins.asc_getRight());
+                                Common.NotificationCenter.trigger('margins:update', margins);
                                 me.toolbar.btnPageMargins.menu.items[0].setChecked(true);
 
-                                me.api.asc_changePageMargins( props.asc_getLeft(), props.asc_getRight(), props.asc_getTop(), props.asc_getBottom(), me.api.asc_getActiveWorksheetIndex());
+                                me.api.asc_changePageMargins( margins, props.horizontal, props.vertical, undefined, undefined, me.api.asc_getActiveWorksheetIndex());
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                             }
                         }
@@ -5060,11 +5068,26 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Vertical align');
         },
 
+        mouseenterSmartArt: function (groupName) {
+            if (this.smartArtGenerating === undefined) {
+                this.generateSmartArt(groupName);
+            } else {
+                this.delayedSmartArt = groupName;
+            }
+        },
+
+        mouseleaveSmartArt: function (groupName) {
+            if (this.delayedSmartArt === groupName) {
+                this.delayedSmartArt = undefined;
+            }
+        },
+
         generateSmartArt: function (groupName) {
             this.api.asc_generateSmartArtPreviews(groupName);
         },
 
-        onApiBeginSmartArtPreview: function () {
+        onApiBeginSmartArtPreview: function (type) {
+            this.smartArtGenerating = type;
             this.smartArtGroups = this.toolbar.btnInsertSmartArt.menu.items;
             this.smartArtData = Common.define.smartArt.getSmartArtData();
         },
@@ -5083,25 +5106,39 @@ define([
                         value: item.type,
                         imageUrl: image.asc_getImage()
                     }];
-                    if (menuPicker.store.length < 1) {
-                        menuPicker.store.reset(arr);
-                    } else {
+                    //if (menuPicker.store.length < 1) {
+                        //menuPicker.store.reset(arr);
+                    //} else {
                         menuPicker.store.add(arr);
-                    }
+                    //}
                 }
                 this.currentSmartArtMenu = menu;
             }, this));
         },
 
         onApiEndSmartArtPreview: function () {
+            this.smartArtGenerating = undefined;
             if (this.currentSmartArtMenu) {
                 this.currentSmartArtMenu.menu.alignPosition();
+            }
+            if (this.delayedSmartArt !== undefined) {
+                var delayedSmartArt = this.delayedSmartArt;
+                this.delayedSmartArt = undefined;
+                this.generateSmartArt(delayedSmartArt);
             }
         },
 
         onInsertSmartArt: function (value) {
             if (this.api) {
                 this.api.asc_createSmartArt(value);
+            }
+        },
+
+        eyedropperStart: function () {
+            if (this.toolbar.btnCopyStyle.pressed) {
+                this.toolbar.btnCopyStyle.toggle(false, true);
+                this.api.asc_formatPainter(AscCommon.c_oAscFormatPainterState.kOff);
+                this.modeAlwaysSetStyle = false;
             }
         },
 

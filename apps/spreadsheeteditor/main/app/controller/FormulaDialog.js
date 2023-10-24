@@ -149,6 +149,7 @@ define([
                 this.formulaTab.setApi(this.api);
                 this.api.asc_registerCallback('asc_onWorksheetLocked',        this.onWorksheetLocked.bind(this));
                 this.api.asc_registerCallback('asc_onSheetsChanged',          this.onApiSheetChanged.bind(this));
+                this.api.asc_registerCallback('asc_onUpdateFormulasViewSettings', this.onUpdateFormulasViewSettings.bind(this));
                 this.onApiSheetChanged();
             }
             this.api.asc_registerCallback('asc_onSendFunctionWizardInfo', _.bind(this.onSendFunctionWizardInfo, this));
@@ -473,6 +474,11 @@ define([
             this.formulaTab && this.formulaTab.btnShowFormulas.toggle(this.api.asc_getShowFormulas(), true);
             var currentSheet = this.api.asc_getActiveWorksheetIndex();
             this.onWorksheetLocked(currentSheet, this.api.asc_isWorksheetLockedOrDeleted(currentSheet));
+        },
+
+        onUpdateFormulasViewSettings: function() {
+            if (!this.mode || !this.mode.isEdit || this.mode.isEditDiagram || this.mode.isEditMailMerge || this.mode.isEditOle) return;
+            this.formulaTab && this.formulaTab.btnShowFormulas.toggle(this.api.asc_getShowFormulas(), true);
         },
 
         sCategoryAll:                   'All',

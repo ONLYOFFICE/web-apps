@@ -140,8 +140,10 @@ define([
 
                 var panel = this._settings[type].panel;
                 var props = this._settings[type].props;
-                if (props && panel)
+                if (props && panel) {
                     panel.ChangeSettings.call(panel, (type==Common.Utils.documentSettingsType.Signature) ? undefined : props, this._state.wsLock, this._state.wsProps);
+                    this.rightmenu.updateScroller();
+                }
             }
             Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
         },
@@ -322,6 +324,7 @@ define([
                     else
                         this._settings[active].panel.ChangeSettings.call(this._settings[active].panel);
                     this._openRightMenu = false;
+                    (active !== currentactive) && this.rightmenu.updateScroller();
                 }
             }
 
@@ -407,6 +410,7 @@ define([
             if (settingsType !== Common.Utils.documentSettingsType.Paragraph) {
                 this.rightmenu.SetActivePane(settingsType, true);
                 this._settings[settingsType].panel.ChangeSettings.call(this._settings[settingsType].panel, this._settings[settingsType].props, this._state.wsLock, this._state.wsProps);
+                this.rightmenu.updateScroller();
             }
         },
 

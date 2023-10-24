@@ -186,11 +186,11 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
         },
 
         getFocusedComponents: function() {
-            return [
+            return this.btnsCategory.concat([
                 this.inputName, this.chRows, this.chCols, this.radioDown, this.radioOver, this.numWrap, this.chHeaders, this.chAutofitColWidth, // 0 tab
                 this.txtDataRange,  // 1 tab
                 this.inputAltTitle, this.textareaAltDescription  // 2 tab
-            ];
+            ]);
         },
 
         onCategoryClick: function(btn, index) {

@@ -657,6 +657,8 @@ define([
 
         afterRender: function() {
 
+            this.updateMetricUnit();
+            this.updateThemeColors();
 
             if (!this.isFrame) {
                 this.cmbFonts.fillFonts(this.fontStore);
@@ -668,8 +670,6 @@ define([
             this.tableStyler.setTableColor(colorstr);
             (colorstr!='transparent') && this.tableStyler.redrawTable();
 
-            this.updateMetricUnit();
-            this.updateThemeColors();
 
             if (this.borderProps !== undefined) {
                 this.btnBorderColor.setColor(this.borderProps.borderColor);
@@ -712,10 +712,10 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [
-                this.cmbWidth, this.spnWidth, this.cmbHeight, this.spnHeight, this.cmbHAlign, this.cmbHRelative, this.spnX, this.cmbVAlign, this.cmbVRelative, this.spnY, this.chMove, // 0 tab
-                this.cmbFonts, this.spnRowHeight, this.numDistance, // 1 tab
-                this.cmbBorderSize, this.btnBorderColor].concat(this._btnsBorderPosition).concat([this.btnBackColor,  // 2 tab
+            return this.btnsCategory.concat([
+                this.btnFrameNone, this.btnFrameInline, this.btnFrameFlow, this.cmbWidth, this.spnWidth, this.cmbHeight, this.spnHeight, this.cmbHAlign, this.cmbHRelative, this.spnX, this.cmbVAlign, this.cmbVRelative, this.spnY, this.chMove, // 0 tab
+                this.btnNone, this.btnInText, this.btnInMargin, this.cmbFonts, this.spnRowHeight, this.numDistance, // 1 tab
+                this.cmbBorderSize, this.btnBorderColor]).concat(this._btnsBorderPosition).concat([this.btnBackColor,  // 2 tab
                 this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight // 3 tab
             ]);
         },

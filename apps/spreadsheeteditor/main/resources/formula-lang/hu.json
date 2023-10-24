@@ -501,6 +501,20 @@
 			"na": "#N/A",
 			"getdata": "#GETTING_DATA",
 			"uf": "#UNSUPPORTED_FUNCTION!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "cím",
+			"col": "oszlop",
+			"color": "szín",
+			"contents": "tartalom",
+			"filename": "fájlnév",
+			"format": "forma",
+			"parentheses": "zárójelek",
+			"prefix": "előtag",
+			"protect": "védett",
+			"row": "sor",
+			"type": "típus",
+			"width": "széles"
 		}
 	}
 }

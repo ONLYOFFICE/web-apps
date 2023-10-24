@@ -10,6 +10,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     const {t} = useTranslation();
     const _t = t("Toolbar", { returnObjects: true });
     const appOptions = props.storeAppOptions;
+    const isEdit = appOptions.isEdit;
     const storeVersionHistory = props.storeVersionHistory;
     const isVersionHistoryMode = storeVersionHistory.isVersionHistoryMode;
     const isViewer = appOptions.isViewer;
@@ -26,7 +27,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     const disabledControls = storeToolbarSettings.disabledControls;
     const disabledEditControls = storeToolbarSettings.disabledEditControls;
     const disabledSettings = storeToolbarSettings.disabledSettings;
-    const showEditDocument = !appOptions.isEdit && appOptions.canEdit && appOptions.canRequestEditRights;
+    const showEditDocument = !isEdit && appOptions.canEdit && appOptions.canRequestEditRights;
     const storeDocumentInfo = props.storeDocumentInfo;
     const docExt = storeDocumentInfo.dataDoc ? storeDocumentInfo.dataDoc.fileType : '';
     const docTitle = storeDocumentInfo.dataDoc ? storeDocumentInfo.dataDoc.title : '';
@@ -208,6 +209,11 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     }
 
     const changeTitleHandler = () => {
+        if(!appOptions.canRename) return;
+
+        const api = Common.EditorApi.get();
+        api.asc_enableKeyEvents(true);
+
         f7.dialog.create({
             title: t('Toolbar.textRenameFile'),
             text : t('Toolbar.textEnterNewFileName'),

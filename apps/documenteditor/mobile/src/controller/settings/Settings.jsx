@@ -51,7 +51,7 @@ const SettingsController = props => {
     };
 
     const showFeedback = () => {
-        let config = props.storeAppOptions.config;
+        let config = appOptions.config;
 
         closeModal();
         setTimeout(() => {
@@ -77,7 +77,6 @@ const SettingsController = props => {
 
     const onChangeMobileView = () => {
         const api = Common.EditorApi.get();
-        const appOptions = props.storeAppOptions;
         const isMobileView = appOptions.isMobileView;
 
         LocalStorage.setBool('mobile-view', !isMobileView);
@@ -86,7 +85,11 @@ const SettingsController = props => {
     };
 
     const changeTitleHandler = () => {
+        if(!appOptions.canRename) return;
+
         const docTitle = storeDocumentInfo.dataDoc.title;
+        const api = Common.EditorApi.get();
+        api.asc_enableKeyEvents(true);
 
         f7.dialog.create({
             title: t('Toolbar.textRenameFile'),

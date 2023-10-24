@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ONLYOFFICE PDF Editor</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=IE8"/>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <link rel="icon" href="resources/img/favicon.ico" type="image/x-icon" />
+
+    <!-- splash -->
+
+    <style type="text/css">
+        .content-theme-dark {
+            --skeleton-canvas-content-background: #3a3a3a;
+            --skeleton-canvas-page-border: #2a2a2a;
+            --skeleton-canvas-line: rgba(255,255,255,.05);
+        }
+
+        .loadmask {
+            left: 0;
+            top: 0;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            border: none;
+            background: #e2e2e2;
+            background: var(--canvas-background, #e2e2e2);
+            z-index: 1002;
+        }
+
+        .loadmask > .brendpanel {
+            width: 100%;
+            min-height: 28px;
+            background: #AA5252;
+            background: var(--toolbar-header-pdf, #AA5252);
+        }
+
+        .loadmask > .brendpanel > div {
+            display: flex;
+            align-items: center;
+            height: 28px;
+        }
+
+        .loadmask > .brendpanel .spacer {
+            margin-left: auto;
+        }
+
+        .loadmask > .brendpanel .loading-logo {
+            padding: 0 24px 0 12px;
+            max-width: 200px;
+            height: 20px;
+        }
+
+        .loadmask > .brendpanel .loading-logo > img {
+            display: inline-block;
+            max-width: 100px;
+            max-height: 20px;
+            opacity: 0;
+        }
+
+        .loadmask > .brendpanel .rect {
+            vertical-align: middle;
+            width: 50px;
+            height: 12px;
+            border-radius: 3px;
+            margin: 0 10px;
+            background: rgba(255,255,255,.2);
+            background: var(--highlight-header-button-hover, rgba(255,255,255,.2));
+        }
+
+        .loadmask > .brendpanel .circle {
+            vertical-align: middle;
+            width: 20px;
+            height: 20px;
+            border-radius: 20px;
+            margin: 0 10px;
+            background: rgba(255,255,255,.2);
+            background: var(--highlight-header-button-hover, rgba(255,255,255,.2));
+        }
+
+        .loadmask > .sktoolbar {
+            background: #f1f1f1;
+            background: var(--background-toolbar, #f1f1f1);
+            border-bottom: 1px solid #cbcbcb;
+            border-bottom: var(--scaled-one-px-value, 1px) solid var(--border-toolbar, #cbcbcb);
+            height: 46px;
+            padding: 10px 6px;
+            box-sizing: content-box;
+        }
+
+        .loadmask > .sktoolbar ul {
+            margin: 0;
+            padding: 0;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .loadmask > .sktoolbar li {
+            background: #d8dadc;
+            background: var(--highlight-button-hover, #d8dadc);
+            border-radius: 3px;
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            margin-right: 6px;
+        }
+
+        .loadmask > .sktoolbar li.space {
+            background: none;
+            width: 0;
+        }
+
+        .loadmask > .sktoolbar li.big {
+            width: 40px;
+            height: 46px;
+            margin-top: -46px;
+        }
+
+        .loadmask > .sktoolbar li.fat {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            left: 587px;
+            width: inherit;
+            height: 44px;
+        }
+
+        .loadmask > .placeholder {
+            background: #fff;
+            background: var(--skeleton-canvas-content-background, var(--canvas-content-background, #fff));
+            width: 794px;
+            margin: 19px auto 46px;
+            height: 100%;
+            border: 1px solid #bbbec2;
+            border: var(--scaled-one-px-value, 1px) solid var(--skeleton-canvas-page-border, var(--canvas-page-border, #bbbec2));
+            padding-top: 50px;
+        }
+
+        .loadmask > .placeholder > .line {
+            height: 15px;
+            margin: 30px 80px;
+            background: rgba(0,0,0,.05);
+            background: var(--skeleton-canvas-line, rgba(0,0,0,.05));
+            overflow: hidden;
+            position: relative;
+
+            -webkit-animation: flickerAnimation 2s infinite ease-in-out;
+            -moz-animation: flickerAnimation 2s infinite ease-in-out;
+            -o-animation: flickerAnimation 2s infinite ease-in-out;
+            animation: flickerAnimation 2s infinite ease-in-out;
+        }
+
+        @keyframes flickerAnimation {
+            0%   { opacity:0.5; }
+            50%  { opacity:1; }
+            100% { opacity:0.5; }
+        }
+        @-o-keyframes flickerAnimation{
+            0%   { opacity:0.5; }
+            50%  { opacity:1; }
+            100% { opacity:0.5; }
+        }
+        @-moz-keyframes flickerAnimation{
+            0%   { opacity:0.5; }
+            50%  { opacity:1; }
+            100% { opacity:0.5; }
+        }
+        @-webkit-keyframes flickerAnimation{
+            0%   { opacity:0.5; }
+            50%  { opacity:1; }
+            100% { opacity:0.5; }
+        }
+    </style>
+
+    <script>
+        // don't add zoom for mobile devices
+        // if (!(/android|avantgo|playbook|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od|ad)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent || navigator.vendor || window.opera)))
+        //    document.getElementsByTagName('html')[0].setAttribute('style', 'zoom: ' + 1 / (window.devicePixelRatio < 2 ? window.devicePixelRatio : window.devicePixelRatio / 2) + ';');
+
+        var userAgent = navigator.userAgent.toLowerCase(),
+            check = function(regex){ return regex.test(userAgent); },
+            stopLoading = false;
+        if (!check(/opera/) && (check(/msie/) || check(/trident/))) {
+            var m = /msie (\d+\.\d+)/.exec(userAgent);
+            if (m && parseFloat(m[1]) < 10.0) {
+                document.write('<div class="app-error-panel">' +
+                                '<div class="message-block">' +
+                                    '<div class="message-inner">' +
+                                        '<div class="title">Your browser is not supported.</div>' +
+                                        '<div class="text">Sorry, PDF Editor is currently only supported in the latest versions of the Chrome, Firefox, Safari or Internet Explorer web browsers.</div>' +
+                                    '</div>' +
+                                '</div></div>');
+                stopLoading = true;
+            }
+        } else
+        if (check(/windows\snt/i)) {
+            var re = /chrome\/(\d+)/i.exec(userAgent);
+            if (!!re && !!re[1] && !(re[1] > 49)) {
+                setTimeout(function () {
+                    document.getElementsByTagName('html')[0].className += "winxp";
+                },0);
+            }
+        }
+
+        function getUrlParams() {
+            var e,
+                a = /\+/g,  // Regex for replacing addition symbol with a space
+                r = /([^&=]+)=?([^&]*)/g,
+                d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
+                q = window.location.search.substring(1),
+                urlParams = {};
+
+            while (e = r.exec(q))
+                urlParams[d(e[1])] = d(e[2]);
+
+            return urlParams;
+        }
+
+        function encodeUrlParam(str) {
+            return str.replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;');
+        }
+
+        var params = getUrlParams(),
+            lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
+            logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null,
+            logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null;
+
+        window.frameEditorId = params["frameEditorId"];
+        window.parentOrigin = params["parentOrigin"];
+    </script>
+
+    <link rel="stylesheet" type="text/css" href="../../../apps/pdfeditor/main/resources/css/app.css">
+    <script src="../../../../../apps/common/main/lib/util/desktopinit.js?__inline=true"></script>
+    <script src="../../../../../apps/common/main/lib/util/themeinit.js?__inline=true"></script>
+</head>
+<body>
+    <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>
+
+    <div id="loading-mask" class="loadmask"><div class="brendpanel" style="display: none;"><div><div class="loading-logo"><img src="../../../apps/common/main/resources/img/header/header-logo_s.svg"></div><div class="spacer"></div><div class="circle"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span></div></div><div class="sktoolbar" style="display: none;"><ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space" style="width: 98px;"></li><li style="width: 105px;"></li><li class="space"></li><li style="width: 160px;"></li></ul><ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"></li><li class="big"/><li class="big"/><li class="space"></li><li style="width: 105px;"></li><li class="space"></li><li style="width: 160px;"></li></ul></div><div class="placeholder" style="display: none;"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+    <div id="viewport"></div>
+
+    <script>
+        if ( window.desktop ) {
+            var logo = document.getElementsByClassName('loading-logo');
+            if ( !!logo && logo.length ) {
+                logo[0].setAttribute('style','display:none;');
+            }
+        }
+
+        var params = getUrlParams(),
+            notoolbar = params["toolbar"] == 'false',
+            compact = params["compact"] == 'true',
+            view = params["mode"] == 'view',
+            visible = true;
+
+        (compact || view || notoolbar) && document.querySelector('.brendpanel > :nth-child(2)').remove();
+
+        if (compact || view) {
+            if (notoolbar) {
+                document.querySelector('.brendpanel > :nth-child(1)').remove();
+                visible = false;
+            } else
+                document.querySelector('.brendpanel > :nth-child(1)').style.height = '32px';
+        } else if (notoolbar) {
+            document.querySelector('.brendpanel > :nth-child(1)').style.height = '28px';
+        }
+
+        if (compact) {
+            document.querySelectorAll('.not-compact').forEach(function(item){
+                item.remove();
+            });
+            document.querySelectorAll('.compact').forEach(function(item){
+                item.style.display = 'inline-block';
+            });
+            document.querySelector('.fat').style.left = '655px';
+        }
+
+        visible && (document.querySelector('.brendpanel').style.display = 'block');
+        !(view && (params["toolbar"] !== 'true') || notoolbar) && (document.querySelector('.sktoolbar').style.display = 'block');
+        view && (document.querySelector('.placeholder').style.marginTop = '19px');
+        document.querySelector('.placeholder').style.display = 'block';
+
+        if (stopLoading) {
+            document.body.removeChild(document.getElementById('loading-mask'));
+        } else {
+            var elem = document.querySelector('.loading-logo img');
+            if (elem) {
+                (logo || logoDark) && elem.setAttribute('src', /theme-(?:[a-z]+-)?dark(?:-[a-z]*)?/.test(document.body.className) ? logoDark || logo : logo || logoDark);
+                elem.style.opacity = 1;
+            }
+        }
+    </script>
+
+    <script>
+        window.requireTimeourError = function(){
+            var reqerr;
+
+            if ( lang == 'de')      reqerr = 'Die Verbindung ist zu langsam, einige Komponenten konnten nicht geladen werden. Aktualisieren Sie bitte die Seite.';
+            else if ( lang == 'es') reqerr = 'La conexión es muy lenta, algunos de los componentes no han podido cargar. Por favor recargue la página.';
+            else if ( lang == 'fr') reqerr = 'La connexion est trop lente, certains des composants n\'ons pas pu être chargé. Veuillez recharger la page.';
+            else if ( lang == 'ru') reqerr = 'Слишком медленное соединение, не удается загрузить некоторые компоненты. Пожалуйста, обновите страницу.';
+            else if ( lang == 'tr') reqerr = 'Bağlantı çok yavaş, bileşenlerin bazıları yüklenemedi. Lütfen sayfayı yenileyin.';
+            else reqerr = 'The connection is too slow, some of the components could not be loaded. Please reload the page.';
+
+            return reqerr;
+        };
+
+        var requireTimeoutID = setTimeout(function(){
+            window.alert(window.requireTimeourError());
+            window.location.reload();
+        }, 30000);
+
+        var require = {
+            waitSeconds: 30,
+            callback: function(){
+                clearTimeout(requireTimeoutID);
+            }
+        };
+    </script>
+
+    <inline src="../../common/main/resources/img/header/icons.svg" />
+    <div class="inlined-svg"></div>
+    <script src="../../../../../../sdkjs/common/device_scale.js?__inline=true"></script>
+    <script data-main="app" src="../../../vendor/requirejs/require.js"></script>
+
+</body>
+</html>

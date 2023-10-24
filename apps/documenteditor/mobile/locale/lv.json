@@ -444,7 +444,15 @@
     "unknownErrorText": "Nezināma kļūda.",
     "uploadImageExtMessage": "Nezināms attēla formāts.",
     "uploadImageFileCountMessage": "Nav augšupielādēto attēlu.",
-    "uploadImageSizeMessage": "Attēls ir pārāk liels. Maksimālais izmērs ir 25 MB."
+    "uploadImageSizeMessage": "Attēls ir pārāk liels. Maksimālais izmērs ir 25 MB.",
+    "errorComboSeries": "To create a combination chart, select at least two series of data.",
+    "errorCompare": "The Compare documents feature is not available in the co-editing mode.",
+    "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
+    "errorSetPassword": "Password could not be set.",
+    "errorSubmit": "Submit failed.",
+    "uploadDocExtMessage": "Unknown document format.",
+    "uploadDocFileCountMessage": "No documents uploaded.",
+    "uploadDocSizeMessage": "Maximum document size limit exceeded."
   },
   "LongActions": {
     "applyChangesTextText": "Ielādē datus...",
@@ -703,6 +711,7 @@
     "textTitle": "Nosaukums",
     "textTop": "Augšā",
     "textTrackedChanges": "Izsekotās izmaiņas",
+    "textTypeEditingWarning": "Atļaut tikai šāda veida rediģēšanu dokumentā.",
     "textUnitOfMeasurement": "Mērvienība",
     "textUnprotect": "Noņemt aizsardzību",
     "textUploaded": "Augšupielādēts",
@@ -742,8 +751,7 @@
     "textPasswordWarning": "If the password is forgotten or lost, it cannot be recovered.",
     "textProtectTurnOff": "Protection is turned off",
     "textRequirePassword": "Require Password",
-    "textTypeEditing": "Type Of Editing",
-    "textTypeEditingWarning": "Allow only this type of editing in the document."
+    "textTypeEditing": "Type Of Editing"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Jums ir nesaglabātas izmaiņas. Noklikšķiniet uz Palikt šajā lapā, lai gaidītu automātisko saglabāšanu. Noklikšķiniet uz 'Pamest lapu', lai atmestu visas nesaglabātās izmaiņas.",

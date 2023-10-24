@@ -44,18 +44,18 @@
       "textThemeColors": "Ոճի գույներ"
     },
     "VersionHistory": {
-      "notcriticalErrorTitle": "Warning",
-      "textAnonymous": "Anonymous",
-      "textBack": "Back",
-      "textCancel": "Cancel",
-      "textCurrent": "Current",
-      "textOk": "Ok",
-      "textRestore": "Restore",
-      "textVersion": "Version",
-      "textVersionHistory": "Version History",
-      "textWarningRestoreVersion": "Current file will be saved in version history.",
-      "titleWarningRestoreVersion": "Restore this version?",
-      "txtErrorLoadHistory": "Loading history failed"
+      "notcriticalErrorTitle": "Զգուշացում",
+      "textAnonymous": "Անանուն",
+      "textBack": "Հետ",
+      "textCancel": "Չեղարկել",
+      "textCurrent": "Ընթացիկ",
+      "textOk": "Լավ",
+      "textRestore": "Վերականգնել",
+      "textVersion": "Տարբերակ",
+      "textVersionHistory": "Տարբերակի պատմություն",
+      "textWarningRestoreVersion": "Ընթացիկ ֆայլը կպահվի տարբերակների պատմության մեջ:",
+      "titleWarningRestoreVersion": "Վերականգնե՞լ այս տարբերակը:",
+      "txtErrorLoadHistory": "Պատմության բեռնումը խափանվեց"
     }
   },
   "ContextMenu": {
@@ -159,6 +159,7 @@
     "downloadErrorText": "Ներբեռնումը ձախողվեց։",
     "errorAccessDeny": "Դուք փորձում եք կատարել գործողություն, որի համար իրավունք չունեք:Խնդրում ենք կապվել Ձեր ադմինիստրատորի հետ:",
     "errorBadImageUrl": "Նկարի URL-ը սխալ է",
+    "errorComboSeries": "Համակցված աղյուսակ ստեղծելու համար ընտրել տվյալների առնվազն երկու շարք:",
     "errorConnectToServer": "Չհաջողվեց պահել այս փաստաթուղթը:Ստուգեք կապի կարգավորումները կամ կապվեք Ձեր ադմինիստրատորի հետ:Երբ սեղմեք «Լավ» կոճակը, Ձեզ կառաջարկվի ներբեռնել փաստաթուղթը:",
     "errorDatabaseConnection": "Արտաքին սխալ։<br>Տվյալաշտեմարանի միացման սխալ։ Դիմեք տեխսպասարկմանը։",
     "errorDataEncrypted": "Ընդունվել են գաղտնագրված փոփոխությունները. դրանք չեն կարող վերծանվել։",
@@ -166,8 +167,10 @@
     "errorDefaultMessage": "Սխալի կոդ՝ %1",
     "errorDirectUrl": "Խնդրում ենք ստուգել փաստաթղթի հղումը:<br> Այս հղումը պետք է լինի ուղիղ հղում դեպի ներբեռնելու ֆայլը:",
     "errorEditingDownloadas": "Փաստաթղթի հետ աշխատանքի ընթացքում սխալ է տեղի ունեցել:<br>Օգտագործեք «Ներբեռնում» տարբերակը՝ ֆայլի կրկնօրինակը տեղում պահելու համար:",
+    "errorEmailClient": "Էլփոստի հաճախորդ չի գտնվել",
     "errorFilePassProtect": "Ֆայլը պաշտպանված է գաղտնաբառով և հնարավոր չէ բացել:",
     "errorFileSizeExceed": "Ֆայլի չափը գերազանցում է Ձեր սերվերի սահմանափակումը:Խնդրում ենք կապվել Ձեր ադմինիստրատորի հետ:",
+    "errorForceSave": "Սխալ է տեղի ունեցել ֆայլը պահելիս:Խնդրում ենք օգտագործել «Ներբեռնել որպես» տարբերակը՝ ֆայլը ձեր համակարգչի կոշտ սկավառակում պահելու համար կամ ավելի ուշ նորից փորձեք:",
     "errorInconsistentExt": "Ֆայլը բացելիս սխալ է տեղի ունեցել:<br>Ֆայլի բովանդակությունը չի համապատասխանում ֆայլի ընդլայնմանը:",
     "errorInconsistentExtDocx": "Ֆայլը բացելիս սխալ է տեղի ունեցել:<br>Ֆայլի բովանդակությունը համապատասխանում է տեքստային փաստաթղթերին (օրինակ՝ docx), սակայն ֆայլն ունի անհամապատասխան ընդլայնում՝ %1:",
     "errorInconsistentExtPdf": "Ֆայլը բացելիս սխալ է տեղի ունեցել:Ֆայլի բովանդակությունը համապատասխանում է հետևյալ ձևաչափերից մեկին՝pdf/djvu/xps/oxps,բայց ֆայլն ունի անհամապատասխան ընդլայնում. %1:",
@@ -179,6 +182,7 @@
     "errorSessionAbsolute": "Փաստաթղթերի խմբագրման աշխատաշրջանն ավարտվել է:Խնդրում ենք վերաբեռնել էջը:",
     "errorSessionIdle": "Փաստաթուղթը երկար ժամանակ չի խմբագրվել։Խնդրում ենք վերաբեռնել էջը:",
     "errorSessionToken": "Սերվերի հետ կապն ընդհատվել է:Խնդրում ենք վերաբեռնել էջը:",
+    "errorSetPassword": "Գաղտնաբառը չհաջողվեց սահմանել:",
     "errorStockChart": "Սխալ տողերի հերթականություն:Տվյալների տատանման գծապատկեր կառուցելու համար տվյալները թերթիկի վրա տեղադրեք հետևյալ հաջորդականությամբ.<br> Բացման գին,առավելագույն գին,նվազագույն գին, փակման գին։",
     "errorToken": "Փաստաթղթի անվտանգության կտրոնը ճիշտ չի ձևակերպված։<br>Դիմեք փաստաթղթերի սպասարկիչի ձեր վարիչին։",
     "errorTokenExpire": "Փաստաթղթի անվտանգության կտրոնի ժամկետն անցել է։<br>Դիմեք փաստաթղթերի սպասարկիչի ձեր վարիչին։",
@@ -237,7 +241,7 @@
     "dlgLeaveTitleText": "Ծրագրից դուրս եք գալիս",
     "leaveButtonText": "Լքել այս էջը",
     "stayButtonText": "Մնալ այս էջում",
-    "textCloseHistory": "Close History"
+    "textCloseHistory": "Փակել պատմությունը"
   },
   "View": {
     "Add": {
@@ -375,6 +379,10 @@
       "textLinkSettings": "Հղման կարգավորումներ",
       "textLinkTo": "Հղում դեպի՝",
       "textLinkType": "Հղման տեսակ",
+      "textMorph": "Մորֆ",
+      "textMorphLetters": "Նամակներ",
+      "textMorphObjects": "Օբյեկտներ",
+      "textMorphWords": "Բառեր",
       "textMoveBackward": "Տանել հետ",
       "textMoveForward": "Տանել առաջ",
       "textNextSlide": "Հաջորդ սահիկ",
@@ -436,11 +444,7 @@
       "textZoom": "Խոշորացնել",
       "textZoomIn": "Մեծացնել",
       "textZoomOut": "Փոքրացնել",
-      "textZoomRotate": "Դիտափոխում և պտտում",
-      "textMorph": "Morph",
-      "textMorphLetters": "Letters",
-      "textMorphObjects": "Objects",
-      "textMorphWords": "Words"
+      "textZoomRotate": "Դիտափոխում և պտտում"
     },
     "Settings": {
       "mniSlideStandard": "Ստանդարտ (4:3)",
@@ -504,6 +508,7 @@
       "textUnitOfMeasurement": "Չափման միավոր",
       "textUploaded": "Վերբեռնվել է",
       "textVersion": "Տարբերակ",
+      "textVersionHistory": "Տարբերակի պատմություն",
       "txtScheme1": "Գրասենյակ",
       "txtScheme10": "Կենտրոնային",
       "txtScheme11": "Մետրո ",
@@ -525,8 +530,7 @@
       "txtScheme6": "Համագումար ",
       "txtScheme7": "Սեփական կապիտալ",
       "txtScheme8": "Հոսք",
-      "txtScheme9": "Հրատարակիչ",
-      "textVersionHistory": "Version History"
+      "txtScheme9": "Հրատարակիչ"
     }
   }
 }

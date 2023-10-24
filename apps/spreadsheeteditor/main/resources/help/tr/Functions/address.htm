@@ -17,11 +17,11 @@
 			<h1>ADRES İşlevi</h1>
 			<p><b>ADRES</b> işlevi, arama ve başvuru işlevlerinden biridir. Bir h&uuml;cre adresinin metin g&ouml;sterimini vermek i&ccedil;in kullanılır.</p>
 			<p><b>ADRES</b> işlevi s&ouml;z dizimi ş&ouml;yledir:</p>
-			<p style="text-indent: 150px;"><b><em>ADRES(satır-numarası, s&uuml;tun-numarası[ , [başv-t&uuml;r&uuml;] [, [A1-başv-t&uuml;r&uuml;-bayrak] [, sayfa adı]]])</em></b></p>
+			<p style="text-indent: 150px;"><b><em>ADRES(satır_num; sütun_num; [mutlak_num]; [a1]; [sayfa_metni])</em></b></p>
 			<p><em>Burada</em></p> 
-			<p style="text-indent: 50px;"><em><b>satır-numarası,</b></em> h&uuml;cre adresinde kullanılacak bir satır numarasıdır.</p>
-			<p style="text-indent: 50px;"><em><b>s&uuml;tun-numarası,</b></em> h&uuml;cre adresinde kullanılacak bir s&uuml;tun numarasıdır.</p>
-			<p style="text-indent: 50px;"><em><b>başv-t&uuml;r&uuml;,</b></em> bir başvuru t&uuml;r&uuml;d&uuml;r. Aşağıdaki sayısal değerlerden biri olabilir:</p>
+			<p style="text-indent: 50px;"><em><b>satır_num</b></em> h&uuml;cre adresinde kullanılacak bir satır numarasıdır.</p>
+			<p style="text-indent: 50px;"><em><b>sütun_num</b></em> h&uuml;cre adresinde kullanılacak bir s&uuml;tun numarasıdır.</p>
+			<p style="text-indent: 50px;"><em><b>mutlak_num</b></em> bir başvuru t&uuml;r&uuml;d&uuml;r. Aşağıdaki sayısal değerlerden biri olabilir:</p>
 				<table style="width: 40%">
 				<tr>
 					<td><b>Sayısal değer</b></td>
@@ -44,8 +44,8 @@
 					<td>G&ouml;reli başvuru</td>
 				</tr>
 			</table>
-			<p><em><b>A1-başv-t&uuml;r&uuml;-bayrak,</b></em> isteğe bağlı bir mantıksal değerdir: DOĞRU ya da YANLIŞ. DOĞRU olarak ayarlanırsa veya atlanırsa işlev, A1 stili bir başvuru d&ouml;nd&uuml;r&uuml;r. YANLIŞ olarak ayarlanırsa işlev, R1C1 stili bir başvuru d&ouml;nd&uuml;r&uuml;r.</p>
-			<p><em><b>sayfa adı,</b></em> h&uuml;cre adresinde kullanılacak sayfanın adıdır. İsteğe bağlı bir değerdir. Atlanırsa işlev, h&uuml;cre adresini sayfa adı belirtilmeden d&ouml;nd&uuml;r&uuml;r.</p>
+			<p><em><b>a1</b></em> isteğe bağlı bir mantıksal değerdir: DOĞRU ya da YANLIŞ. DOĞRU olarak ayarlanırsa veya atlanırsa işlev, A1 stili bir başvuru d&ouml;nd&uuml;r&uuml;r. YANLIŞ olarak ayarlanırsa işlev, R1C1 stili bir başvuru d&ouml;nd&uuml;r&uuml;r.</p>
+			<p><em><b>sayfa_metni</b></em> h&uuml;cre adresinde kullanılacak sayfanın adıdır. İsteğe bağlı bir değerdir. Atlanırsa işlev, h&uuml;cre adresini sayfa adı belirtilmeden d&ouml;nd&uuml;r&uuml;r.</p>
 			<p>Bu bağımsız değişkenler, başvurduğunuz h&uuml;creye manuel olarak girilebilir veya eklenebilir.</p>
 			<p><b>ADRES</b> işlevini uygulamak i&ccedil;in</p>
 			<ol>

@@ -1896,7 +1896,7 @@
 		"d": "Vráti postupnosť čísel"
 	},
 	"EXPAND": {
-		"a": "(array, rows, [columns], [pad_with])",
+		"a": "(pole, riadky, [stĺpce], [pad_with])",
 		"d": "Rozšíri pole na zadané rozmery."
 	},
 	"XMATCH": {

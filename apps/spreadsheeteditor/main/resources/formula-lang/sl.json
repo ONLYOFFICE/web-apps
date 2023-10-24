@@ -501,6 +501,20 @@
 			"na": "#N/A",
 			"getdata": "#GETTING_DATA",
 			"uf": "#UNSUPPORTED_FUNCTION!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "naslov",
+			"col": "stolpec",
+			"color": "barva",
+			"contents": "vsebina",
+			"filename": "imedatoteke",
+			"format": "oblika",
+			"parentheses": "oklepaji",
+			"prefix": "predpona",
+			"protect": "zaščita",
+			"row": "vrstica",
+			"type": "vrsta",
+			"width": "širina"
 		}
 	}
 }

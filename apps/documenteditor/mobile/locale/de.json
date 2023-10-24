@@ -299,6 +299,7 @@
     "textImageURL": "URL des Bildes",
     "textInFront": "Vor dem Text",
     "textInline": "Inline",
+    "textInvalidName": "Dieser Dateiname darf keines der folgenden Zeichen enthalten:",
     "textJanuary": "Januar",
     "textJuly": "Juli",
     "textJune": "Juni",
@@ -391,8 +392,7 @@
     "textType": "Typ",
     "textWe": "Mi",
     "textWrap": "Umbrechen",
-    "textWrappingStyle": "Textumbruch",
-    "textInvalidName": "The file name cannot contain any of the following characters: "
+    "textWrappingStyle": "Textumbruch"
   },
   "Error": {
     "convertationTimeoutText": "Zeitüberschreitung bei der Konvertierung.",
@@ -401,6 +401,8 @@
     "downloadErrorText": "Herunterladen ist fehlgeschlagen.",
     "errorAccessDeny": "Dieser Vorgang ist für Sie nicht verfügbar.<br>Bitte wenden Sie sich an Administratoren.",
     "errorBadImageUrl": "URL des Bildes ist falsch",
+    "errorComboSeries": "Um ein Kombinationsdiagramm zu erstellen, wählen Sie mindestens zwei Datenreihen aus.",
+    "errorCompare": "Die Funktion „Dokumente vergleichen“ ist im Co-Editing-Modus nicht verfügbar.",
     "errorConnectToServer": "Das Dokument kann nicht gespeichert werden. Überprüfen Sie Ihre Verbindungseinstellungen oder wenden Sie sich an den Administrator.<br>Beim Klicken auf OK können Sie das Dokument herunterladen.",
     "errorDatabaseConnection": "Externer Fehler.<br>Datenbank-Verbindungsfehler. Wenden Sie sich an den Support.",
     "errorDataEncrypted": "Verschlüsselte Änderungen wurden empfangen. Sie können nicht entschlüsselt werden.",
@@ -411,6 +413,7 @@
     "errorEmptyTOC": "Beginnen Sie die Erstellung eines Inhaltsverzeichnisses, indem Sie eine Überschriftenvorlage aus der Galerie von Stilen auf den ausgewählten Text anwenden.",
     "errorFilePassProtect": "Die Datei ist mit Passwort geschützt und kann nicht geöffnet werden.",
     "errorFileSizeExceed": "Die Dateigröße ist zu hoch für Ihren Server.<br>Bitte wenden Sie sich an Administratoren.",
+    "errorForceSave": "Beim Speichern der Datei ist ein Fehler aufgetreten. Bitte verwenden Sie die Option „Herunterladen als“, um die Datei auf der Festplatte Ihres Computers zu speichern, oder versuchen Sie es später erneut.",
     "errorInconsistentExt": "Beim Öffnen der Datei ist ein Fehler aufgetreten.<br>Der Inhalt der Datei stimmt nicht mit der Dateierweiterung überein.",
     "errorInconsistentExtDocx": "Beim Öffnen der Datei ist ein Fehler aufgetreten.<br>Der Inhalt der Datei entspricht Textdokumenten (z.B. docx), aber die Datei hat die inkonsistente Erweiterung: %1.",
     "errorInconsistentExtPdf": "Beim Öffnen der Datei ist ein Fehler aufgetreten.<br>Der Inhalt der Datei entspricht einem der folgenden Formate: pdf/djvu/xps/oxps, aber die Datei hat die inkonsistente Erweiterung: %1.",
@@ -426,7 +429,9 @@
     "errorSessionAbsolute": "Die Bearbeitungssitzung ist abgelaufen. Bitte die Seite neu laden.",
     "errorSessionIdle": "Das Dokument wurde schon für lange Zeit nicht bearbeitet. Bitte die Seite neu laden.",
     "errorSessionToken": "Die Verbindung mit dem Server wurde unterbrochen. Bitte die Seite neu laden.",
+    "errorSetPassword": "Passwort konnte nicht festgelegt werden.",
     "errorStockChart": "Falsche Reihenfolge der Zeilen. Um ein Kursdiagramm zu erstellen, setzen Sie die Daten im Arbeitsblatt in dieser Reihenfolge:<br> Eröffnungskurs, Maximaler Preis, Minimaler Preis, Schlusskurs.",
+    "errorSubmit": "Senden fehlgeschlagen.",
     "errorTextFormWrongFormat": "Der eingegebene Wert stimmt nicht mit dem Format des Feldes überein.",
     "errorToken": "Sicherheitstoken des Dokuments ist nicht korrekt.<br>Wenden Sie sich an Ihren Serveradministrator.",
     "errorTokenExpire": "Sicherheitstoken des Dokuments ist abgelaufen.<br>Wenden Sie sich an Ihren Serveradministrator.",
@@ -442,6 +447,9 @@
     "splitMaxColsErrorText": "Spaltenanzahl muss weniger als %1 sein",
     "splitMaxRowsErrorText": "Die Anzahl der Zeilen muss weniger als %1 sein",
     "unknownErrorText": "Unbekannter Fehler.",
+    "uploadDocExtMessage": "Unbekanntes Dokument Format.",
+    "uploadDocFileCountMessage": "Keine Dokumente hochgeladen.",
+    "uploadDocSizeMessage": "Die maximale Dokumentgröße wurde überschritten.",
     "uploadImageExtMessage": "Unbekanntes Bildformat.",
     "uploadImageFileCountMessage": "Keine Bilder hochgeladen.",
     "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten."
@@ -676,6 +684,7 @@
     "textParagraphs": "Absätze",
     "textPassword": "Kennwort",
     "textPasswordNotMatched": "Passwörter stimmen nicht überein",
+    "textPasswordWarning": "Wenn Sie das Kennwort verlieren oder vergessen, lässt es sich nicht mehr wiederherstellen.",
     "textPdfProducer": "PDF-Ersteller",
     "textPdfTagged": "PDF mit Tags",
     "textPdfVer": "PDF-Version",
@@ -708,6 +717,7 @@
     "textTop": "Oben",
     "textTrackedChanges": "Überarbeitungen",
     "textTypeEditing": "Art der Bearbeitung",
+    "textTypeEditingWarning": "Nur diese Art der Bearbeitung im Dokument zulassen.",
     "textUnitOfMeasurement": "Maßeinheit",
     "textUnprotect": "Entschützen",
     "textUploaded": "Hochgeladen",
@@ -741,9 +751,7 @@
     "txtScheme6": "Halle",
     "txtScheme7": "Kapital",
     "txtScheme8": "Fluss",
-    "txtScheme9": "Gießerei",
-    "textPasswordWarning": "If the password is forgotten or lost, it cannot be recovered.",
-    "textTypeEditingWarning": "Allow only this type of editing in the document."
+    "txtScheme9": "Gießerei"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Die Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",

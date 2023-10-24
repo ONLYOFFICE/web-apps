@@ -501,6 +501,20 @@
 			"na": "#NV",
 			"getdata": "#DATEN_ABRUFEN",
 			"uf": "#UNSUPPORTED_FUNCTION!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "Adresse",
+			"col": "Spalte",
+			"color": "Farbe",
+			"contents": "Inhalt",
+			"filename": "Dateiname",
+			"format": "Format",
+			"parentheses": "Klammern",
+			"prefix": "Präfix",
+			"protect": "Schutz",
+			"row": "Zeile",
+			"type": "Typ",
+			"width": "Breite"
 		}
 	}
 }

@@ -475,7 +475,7 @@ define([
             
             var template =  '<div class="info-box">' +
                                 '<% if (typeof iconCls !== "undefined") { %><div class="icon <%= iconCls %>"></div><% } %>' +
-                                '<div class="text' + '<% if (typeof iconCls == "undefined") { %> padding-left-10<% } %>' + '"><span><%= msg %></span>' +
+                                '<div class="text" <% if (typeof iconCls == "undefined") { %> style="padding-' + (Common.UI.isRTL() ? 'right' : 'left') + ':10px;"<% } %>><span><%= msg %></span>' +
                                     '<% if (dontshow) { %><div class="dont-show-checkbox"></div><% } %>' +
                                 '</div>' +
                             '</div>' +
@@ -631,7 +631,7 @@ define([
                         if (typeof(b) == 'object') {
                             if (b.value !== undefined)
                                 newBtns[b.value] = {text: b.caption, cls: 'custom' + ((b.primary || options.primary==b.value) ? ' primary' : '')};
-                        } else {
+                        } else if (b!==undefined) {
                             newBtns[b] = {text: (b=='custom') ? options.customButtonText : arrBtns[b], cls: (options.primary==b || _.indexOf(options.primary, b)>-1) ? 'primary' : ''};
                             if (b=='custom')
                                 newBtns[b].cls += ' custom';

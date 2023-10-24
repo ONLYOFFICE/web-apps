@@ -1896,7 +1896,7 @@
 		"d": "Returnerar en sekvens med tal"
 	},
 	"EXPAND": {
-		"a": "(matris, rader, [kolumner], [pad_with])",
+		"a": "(matris, rader, [kolumner], [fyll_med])",
 		"d": "Expanderar en matris till de angivna dimensionerna."
 	},
 	"XMATCH": {
