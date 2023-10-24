@@ -15,7 +15,7 @@
             <input id="search" class="searchBar" placeholder="Rechercher" type="text" onkeypress="doSearch(event)">
         </div>
 		<h1>Paramètres avancés de l'éditeur de classeurs</h1>
-			<p><a href="https://www.onlyoffice.com/fr/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>L'éditeur de classeurs</b></a> vous permet de modifier ses paramètres avancés. Pour y accéder, ouvrez l'onglet <b>Fichier</b> de la barre d'outils supérieure et sélectionnez l'option <b>Paramètres avancés</b>.</p>
+			<p><a href="https://www.onlyoffice.com/fr/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>L'éditeur de classeurs</b></a> permet de configurer les paramètres avancés de l'éditeur. Pour y accéder, ouvrez l'onglet <b>Fichier</b> de la barre d'outils supérieure et sélectionnez l'option <b>Paramètres avancés</b>.</p>
             <p>Les paramètres avancés sont groupés comme suit:</p>
 
             <h3>Édition et enregistrement</h3>
@@ -31,11 +31,11 @@
                     La rubrique <b>Mode de co-édition</b> permet de sélectionner le mode d'affichage préférable des modifications effectuées lors de la collaboration sur la feuille de calcul.
                     <ul>
                         <li><b>Rapide</b> (par défaut). Les utilisateurs qui participent à la co-édition de la feuille de calcul verront les changements en temps réel une fois qu'ils sont faits par d'autres utilisateurs.</li>
-                        <li><b>Strict</b>. Tous les changements apparaîtront uniquement lorsque vous cliquez sur l'icône <b>Enregistrer</b> <div class="icon icon-saveupdate"></div> pour vous informer qu'il y a des changements effectués par d'autres utilisateurs.</li>
+                        <li><b>Strict</b>. Toutes les modifications apportées par d'autres co-auteurs ne seront affichées que lorsque vous cliquez sur l'icône <b>Enregistrer</b> et <div class="icon icon-saveupdate"></div> on vous informera de nouvelles modifications.</li>
                     </ul>
                 </li>
-                <li><b>Afficher les modifications apportées par d'autres utilisateurs</b>. Cette option permet d'afficher les modifications apportées par d'autres utilisateurs dans une feuille de calcul disponible en lecture seul en mode <b>Lecteur en direct</b> uniquement.</li>
-                <li><b>Afficher les commentaires dans la feuille</b>. Une fois désactivée, les fragments commentés seront mis en surbrillance uniquement lorsque vous cliquez sur l'icône <b>Commentaires</b> <div class="icon icon-commentsicon"></div> sur la barre latérale gauche.</li>
+                <li><b>Afficher les modifications apportées par d'autres utilisateurs</b>. Cette option permet d'afficher les modifications apportées par d'autres utilisateurs dans une feuille de calcul lorsqu'on y accède en lecture seule en mode <b>Lecture seule en direct</b>.</li>
+                <li><b>Afficher les commentaires dans la feuille</b>. Une fois cette option désactivée, les fragments commentés seront mis en surbrillance uniquement lorsque vous cliquez sur l'icône <b>Commentaires</b> <div class="icon icon-commentsicon"></div> sur la barre latérale gauche.</li>
                 <li><b>Afficher les commentaires résolus</b>. Cette fonction est désactivée par défaut pour que les commentaires résolus soient cachés dans la feuille de calcul. Vous ne pourrez voir ces commentaires que si vous cliquez sur l'icône <b>Commentaires</b> <div class="icon icon-commentsicon"></div> sur la barre latérale gauche. Activez cette option si vous voulez afficher les commentaires résolus dans le texte du classeur.</li>
             </ol>
 
@@ -48,7 +48,7 @@
                     <p>Si vous vous référez à d'autres cellules en utilisant <b>le style de référence R1C1</b>, la référence à une cellule cible est formée en fonction de la distance à partir de la cellule active. Par exemple, lorsque vous sélectionnez la cellule de la ligne 5 et de la colonne 1 et faites référence à la cellule de la ligne 3 et de la colonne 2, la référence est <b>R[-2]C[1]</b>. Les chiffres entre crochets désignent la position de la cellule à laquelle vous vous référez par rapport à la position actuelle de la cellule, c'est-à-dire que la cellule cible est à 2 lignes plus haut et 1 colonne à droite de la cellule active. Si vous sélectionnez la cellule de la ligne 1 et de la colonne 2 et que vous vous référez à la même cellule de la ligne 3 et de la colonne 2, la référence est <b>R[2]C</b>, c'est-à-dire que la cellule cible est à 2 lignes en dessous de la cellule active et dans la même colonne.</p>
                     <p><div class="big big-relativereference"></div></p>
                 </li>
-                <li>L'option<b> Utiliser la touche Alt pour naviguer dans l'interface utilisateur à l'aide du clavier</b> sert à activer l'utilisation de la <em>touche Alt/Option</em> dans raccourcis clavier.</li>
+                <li>L'option <b>Utiliser la touche Alt pour naviguer dans l'interface utilisateur à l'aide du clavier</b> sert à activer l'utilisation de la touche <em>Alt/Option</em> dans les raccourcis clavier.</li>
                 <li>
                     <b>Thème d'interface</b> permet de modifier les jeux de couleurs de l'interface d'éditeur.
                     <ul>
@@ -57,13 +57,16 @@
                         <li>Le mode <b>Claire classique</b> comprend l'affichage en couleurs standards bleu, blanc et gris claire.</li>
                         <li>Le mode <b>Sombre</b> comprend l'affichage en tons sombres noir, gris foncé et gris claire destinés à un travail de nuit.</li>
                         <li>
-                            Le mode <b>Contraste élevé</b> sombre comprend l'affichage des éléments de l'interface utilisateur en couleurs noir, gris foncé et blanc à plus de contraste et est destiné à mettre en surbrillance la zone de travail du fichier.
+                            Le mode <b>Contraste élevé sombre</b> comprend l'affichage des éléments de l'interface utilisateur en couleurs noir, gris foncé et blanc à plus de contraste et est destiné à mettre en surbrillance la zone de travail du fichier.
                             <p class="note"><b>Remarque</b>: Outre les thèmes d'interface <b>Claire</b>, <b>Classique claire</b>, <b>Sombre</b> et <b>Contraste élevé sombre</b>, il est possible de personnaliser le thème de vos éditeurs ONLYOFFICE. Pour en savoir plus, veuillez consulter <a target="_blank" href="https://helpcenter.onlyoffice.com/installation/docs-developer-change-theme.aspx" onclick="onhyperlinkclick(this)">ces instructions</a>.</p>
                         </li>
                     </ul>
                 </li>
                 <li>L'option <b>Unité de mesure</b> sert à spécifier les unités de mesure utilisées sur les règles et dans les fenêtres de paramètres pour les paramètres tels que largeur, hauteur, espacement, marges etc. Vous pouvez choisir l'option <em>Centimètre</em>, <em>Point</em> ou <em>Pouce</em>.</li>
-                <li>L'option<b> Valeur du zoom</b> par défaut sert à définir la valeur de zoom par défaut en la sélectionnant de la liste des options disponibles de 50% à 500%.</li>
+                <li>
+                    L'option <b>Valeur du zoom par défaut</b> sert à définir la valeur de zoom par défaut en la sélectionnant de la liste des options disponibles de 50% à 500%. Vous pouvez également choisir l'option <em>Ajuster à la page</em>, <em>Ajuster à la largeur</em> ou <em>Récemment utilisés</em>.
+                    <p class="note">L'option <b>Récemment utilisés</b> se réfère à la dernière mise à l'échelle au cours de la session actuelle.</p>
+                </li>
                 <li>
                     L'option <b>Hinting de la police</b> sert à sélectionner le type d'affichage de la police dans l'éditeur de classeurs.
                     <ul>
@@ -77,7 +80,7 @@
                                 <li>Dans le <b>premier mode de mise en cache</b> chaque lettre est mis en cache comme une image indépendante.</li>
                                 <li>Dans le <b>deuxième mode de mise en cache</b> l'image d'une certaine taille est sélectionnée avec les lettres dynamiques et avec de l'allocation/libération de la mémoire mis en place. La deuxième image est créée s'il y a de mémoire suffisante etc.</li>
                             </ol>
-                            <p>Le<b> Mode de mise en cache</b> par défaut est activé en fonction du navigateur utilisé:</p>
+                            <p>Le <b>Mode de mise en cache par défaut</b> est activé en fonction du navigateur utilisé:</p>
                             <ul>
                                 <li>Avec la <b>mise en cache par défaut</b> activée, dans Internet Explorer (v. 9, 10, 11) le <b>deuxième mode de mise en cache</b> est utilisé, le <b>premier mode de mise en cache </b>est utilisé dans les autres navigateurs.</li>
                                 <li>Avec la <b>mise en cache par défaut</b> désactivée, dans Internet Explorer (v. 9, 10, 11) le <b>premier mode de mise en cache</b> est utilisé, le <b>deuxième mode de mise en cache </b>est utilisé dans les autres navigateurs.</li>
@@ -86,7 +89,7 @@
                     </ul>
                 </li>
                 <li>
-                    L'option <b>Réglages macros</b> sert à désactiver toutes les macros avec notification.
+                    L'option <b>Réglages macros</b> sert à régler l'affichage des macros et des notifications.
                     <ul>
                         <li>Choisissez <b>Désactiver tout</b> pour désactiver toutes les macros dans votre feuille de calcul.</li>
                         <li>Choisissez <b>Montrer la notification</b> pour afficher les notifications lorsque des macros sont présentes dans une feuille de calcul.</li>
@@ -99,11 +102,11 @@
             <ol>
                 <li>
                     L'option <b>Langage de formule</b> est utilisée pour sélectionner la langue d'affichage et de saisie des noms de formules, des noms et des descriptions d'arguments.
-                    <p>Les formules sont pris en charge dans 33 langues:</p>
-                    <p><em>Allemand</em>, <em>anglais</em>, <em>arménien</em>, <em>bulgare</em>, <em>catalan</em>, <em>chinois</em>, <em>danois</em>, <em>espagnol</em>, <em>finnois</em>, <em>français</em>, <em>grec</em>, <em>hongrois</em>, <em>indonésien</em>, <em>italien</em>, <em>japonais</em>, <em>coréen</em>, <em>lao</em>, <em>letton</em>, <em>norvégien</em>, <em>néerlandais</em>, <em>polonais</em>, <em>portugais (Brésil)</em>, <em>portugais (Portugal)</em>, <em>roumain</em>, <em>russe</em>, <em>slovaque</em>, <em>slovène</em>, <em>suédois</em>, <em>tchèque</em>, <em>turc</em>, <em>ukrainien</em>, <em>vietnamien</em>.</p>
+                    <p><b>Langage de formule</b> - les formules sont pris en charge dans 33 langues:</p>
+                    <p><em>Anglais</em>, <em>arménien</em>, <em>biélorusse</em>, <em>bulgare</em>, <em><em>catalan</em>, <em>chinois</em>, <em>danois</em>,</em> <em>espagnol</em>, <em>finnois</em>, <em>français</em>, <em>grec</em>, <em>hongrois</em>, <em>indonésien</em>, <em>italien</em>, <em>japonais</em>, <em>coréen</em>, <em>lao</em>, <em>letton</em>, <em>norvégien</em>, <em>néerlandais</em>, <em>polonais</em>, <em>portugais (Brésil)</em>, <em>portugais (Portugal)</em>, <em>roumain</em>, <em>russe</em>, <em>slovaque</em>, <em>slovène</em>, <em>suédois</em>, <em>tchèque</em>, <em>turc</em>, <em>ukrainien</em>, <em>vietnamien</em>.</p>
                 </li>
                 <li>L'option <b>Région</b> est utilisée pour sélectionner le format d'affichage par défaut pour la devise, la date et l'heure.</li>
-                <li>Régions disponibles: <em>Azerbaïdjan (Azerbaïdjan)</em>, <em>bulgare (Bulgarie)</em>, <em>tchèque (République tchèque)</em>, <em>danois (Danemark)</em>, <em>allemand (Autriche)</em>, <em>allemand (Allemagne)</em>, <em>allemand (Suisse)</em>, <em>grec (Grèce)</em>, <em>anglais (Australie)</em>, <em>anglais (Royaume-Uni)</em>, <em>anglais (USA)</em>, <em>espagnol (Espagne)</em>, <em>espagnol (Mexique)</em>, <em>finnois (Finlande)</em>, <em>français (France)</em>, <em>français (Suisse)</em>, <em>italien (Italie)</em>, <em>italien (Suisse)</em>, <em>japonais (Japon)</em>, <em>coréen (Corée)</em>, <em>letton (Lettonie)</em>, <em>hongrois (Hongrie)</em>, <em>néerlandais (Pays-Bas)</em>, <em>polonais (Pologne)</em>, <em>portugais (Brésil)</em>, <em>portugais (Portugal)</em>, <em>russe (Russie)</em>, <em>slovaque (Slovaquie)</em>, <em>slovène (République de Slovénie)</em>, <em>suédois (Finlande)</em>, <em>suédois (Suède)</em>, <em>turc (Turquie)</em>, <em>ukrainien (Ukraine)</em>, <em>vietnamien (Viêt Nam)</em>, <em>chinois (Chine)</em>, <em>taïwanais (Taïwan)</em>.</li>
+                <li>Régions disponibles: <em>Azerbaïdjan (Azerbaïdjan), bulgare (Bulgarie), tchèque (République tchèque), danois (Danemark), allemand (Autriche), allemand (Allemagne), allemand (Suisse), grec (Grèce), anglais (Australie), anglais (Royaume-Uni), anglais (USA), espagnol (Espagne), espagnol (Mexique), finnois (Finlande), français (France), français (Suisse), italien (Italie), italien (Suisse), japonais (Japon), coréen (Corée), letton (Lettonie), hongrois (Hongrie), néerlandais (Pays-Bas), polonais (Pologne), portugais (Brésil), portugais (Portugal), russe (Russie), slovaque (Slovaquie), slovène (République de Slovénie), suédois (Finlande), suédois (Suède), turc (Turquie), ukrainien (Ukraine), vietnamien (Viêt Nam), chinois (Chine), taïwanais (Taïwan)</em>.</li>
                 <li>L'option <b>Utiliser des séparateurs basés sur les paramètres régionaux</b> est activée par défaut, les séparateurs correspondront à la région définie. Afin de définir les séparateurs personnalisés, désactivez cette option et saisissez les séparateurs requis dans les champs <b>Séparateur décimal</b> et <b>Séparateur de milliers</b>.</li>
             </ol>
 
@@ -112,7 +115,7 @@
                 <li>L'option <b>Langue du dictionnaire</b> est utilisée afin de sélectionner le dictionnaire préféré pour la vérification de l'orthographe.</li>
                 <li><b>Ignorer les mots en MAJUSCULES</b>. Les mots tapés en majuscules sont ignorés lors de la vérification de l'orthographe.</li>
                 <li><b>Ignorer les mots contenant des chiffres</b>. Les mots contenant des chiffres sont ignorés lors de la vérification de l'orthographe.</li>
-                <li>Le menu Options de correction automatique permet d'accéder aux <a href="../UsageInstructions/MathAutoCorrect.htm" onclick="onhyperlinkclick(this)">paramètres de correction automatique</a> tels que remplacement au cours de la frappe, fonctions de reconnaissance, mise en forme automatique etc.</li>
+                <li>Le menu <b>Options de correction automatique</b> permet d'accéder aux <a href="../UsageInstructions/MathAutoCorrect.htm" onclick="onhyperlinkclick(this)">paramètres de correction automatique</a> tels que remplacement au cours de la frappe, fonctions de reconnaissance, mise en forme automatique etc.</li>
             </ol>
 
             <h3>Calcul</h3>

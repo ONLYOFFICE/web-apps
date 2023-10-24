@@ -3,8 +3,8 @@
 <head>
     <title>ChatGPT</title>
     <meta charset="utf-8" />
-    <meta name="description" content="La description du module complémentaire ChatGPT pour les éditeurs ONLYOFFICE permettant d'utiliser l'agent conversationnel OpenAI pour effectuer les tâches visant à comprendre ou générer le language naturel ou le code" />
-    <link type="text/css" rel="stylesheet" href="../editor.css" />
+    <meta name="description" content="La description du module complémentaire ChatGPT pour les éditeurs ONLYOFFICE editors permettant d'utiliser l'assistant virtuel OpenAI pour accomplir des tâches visant à comprendre ou à générer le language naturel ou le code" />
+    <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
     <link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
     <script type="text/javascript" src="../callback.js"></script>
     <script type="text/javascript" src="../search/js/page-search.js"></script>
@@ -15,32 +15,91 @@
             <input id="search" class="searchBar" placeholder="Rechercher" type="text" onkeypress="doSearch(event)">
         </div>
         <h1>ChatGPT</h1>
-        <p>Le module complémentaire <b>ChatGPT</b> permet d'utiliser l'agent conversationnel OpenAI pour effectuer les tâches visant à comprendre et à générer le langage naturel ou le code.</p>
-
+        <p>Le module complémentaire <b>ChatGPT</b> vous permet d'analyser, résumer et traduire le texte sélectionné, de générer des images, de rechercher des synonymes et d'utiliser l'assistant virtuel Open AI  pour accomplir des tâches visant à comprendre ou à générer le langage naturel ou le code.</p>
         <h3>Installation</h3>
         <p>Pour installer le module complémentaire <b>ChatGPT</b>,</p>
-        <ol>            
+        <ol>
             <li>Passez à l'onglet <b>Modules complémentaires</b>.</li>
-            <li>Ouvrez le <b>Gestionnaire de modules complémentaires</b>.</li>
-            <li>Recherchez <div class="icon icon-chatgpt_icon"></div> <b>ChatGPT</b> sur marketplace et cliquez sur le bouton <b>Installer</b> au-dessous.</li>
-            <li>Cliquez sur <div class="icon icon-chatgpt_icon"></div> l'icône <b>ChatGPT</b> sous l'onglet <b>Modules complémentaires</b>.</li>
-            <li>Poursuivez la configuration du module complémentaire.</li>
+            <li>Ouvrez le <b>Gestionnaire de plugins</b>.</li>
+            <li>
+                Recherchez <div class="icon icon-chatgpt_icon"></div> <b>ChatGPT</b> sur marketplace et cliquez sur le bouton <b>Installer</b> au-dessous.
+                <p><img alt="Installation ChatGPT" src="../images/chatgpt_installation.png" /></p>
+            </li>
+            <li>Faites un clic droit n'importe où dans le document et recherchez <div class="icon icon-chatgpt_icon"></div> <b>ChatGPT</b> dans le menu contextuel.</li>
+            <li>
+                Cliquez sur Réglages et poursuivez la configuration du module complémentaire.
+                <p><img alt="Menu contextuel Chat GPT" src="../images/chatgpt_contextmenu.png" /></p>
+            </li>
         </ol>
 
         <h3>Configuration</h3>
         <ol>
-            <li>Créez sur votre <b>API key</b> sur la page <a href="https://platform.openai.com/account/api-keys">OpenAI API key</a>.</li>
-            <li>Copiez la clé générée <b>API key</b> dans le champ correspondant sur le panneau de gauche de l'éditeur.</li>
+            <li>Créez votre <b>clé API </b>sur la page <a href="https://platform.openai.com/account/api-keys">clé API OpenAI</a>.</li>
+            <li>Copiez la <b>clé</b> <b>API</b> que vous avez généré dans le champ correspondant de la fenêtre <b>Réglages</b>.</li>
         </ol>
-        <p><img alt="Paramètres de ChatGPT" src="../../../../../../common/main/resources/help/fr/images/chatgpt_left.png" /></p>
+        <p><img alt="Clé API ChatGPT" src="../../../../../../common/main/resources/help/en/images/chatgpt_apikey.png" /></p>
 
         <h3>Utilisation</h3>
+        <p class="note"><b>ONLYOFFICE n'assume aucune responsabilité</b> quant aux sorties produises par ChatGPT qui peuvent contenir des erreurs, des omissions ou du contenu haineux ou inapproprié. Toutes les renseignements renvoyés par le module complémentaire sont générés par ChatGPT et sont fournis tel quel, sans filtrage d'aucune sorte par ONLYOFFICE. </p>
+        <p>Une fois installé, <b>ChatGPT</b> sera ajouté dans le menu contextuel et toutes les fonctionnalités du <b>ChatGPT</b> deviennent accessibles en faisant un simple clic droit. Sélectionnez un fragment du texte ou un mot pour accéder au menu contextuel et sélectionner l'une des fonctionnalités <b>ChatGPT</b> disponible: <b>Analyse du texte</b>, <b>Analyse des mots</b>, <b>Traduire</b>, <b>Générer une image à partir du texte</b>, <b>Thésaurus</b>, <b>Chat</b> et <b>Demande personnalisée</b>.</p>
+
+        <h4>Analyse du texte</h4>
+        <p>La fonctionnalité Analyse du texte inclut deux options: <b>Résumer</b> et <b>Mot</b>.</p>
+        <p><img alt="Analyse du texte ChatGPT" src="../images/chatgpt_text.png" /></p>
+        <ul>
+            <li>L'option <b>Résumer</b> rend un texte plus concis et insère ce résumé dans le document.</li>
+            <li>L'option <b>Mot</b> discerne les points clés et extrait les mots-clés du texte sélectionné.</li>
+        </ul>
+        <p>Le résultat s'affiche en dessous du texte.</p>
+
+        <h4><b>Analyse des mots</b></h4>
+        <p>La fonctionnalité Analyse des mots inclut deux options: <b>Expliquer en commentaire</b> et <b>Expliquer le texte en hyperlien</b>.</p>
+        <p><img alt="Analyse des mots ChatGPT" src="../images/chatgpt_word.png" /></p>
+        <ul>
+            <li>L'option<b> Expliquer en commentaire</b> présente l'explication du mot sélectionné dans la section Commentaires.</li>
+            <li>L'option <b>Expliquer le texte en hyperlien</b> permet d'intégrer un lien dans le mot sélectionné. Le lien redirige l'utilisateur vers le site comportant une explication détaillée du mot ou de l'expression sélectionnée.</li>
+        </ul>
+
+        <h4>Traduction vers le français ou l'allemand</h4>
+        <p>La fonctionnalité Traduire permet de traduire le texte sélectionné vers le français ou l'allemand. La traduction remplace le texte source.</p>
+        <p><img alt="Traduction ChatGPT" src="../images/chatgpt_translation.png" /></p>
+
+        <h4>Génération des images</h4>
+        <p>L'option <b>Générer une image à partir du texte</b> permet de générer des images à partir du texte. Vous pouvez sélectionner la taille de l'image à générer dans la menu contextuel ChatGPT.</p>
+        <p><img alt="Génération des images ChatGPT" src="../images/chatgpt_image.png" /></p>
+
+        <h4>Thésaurus de synonymes</h4>
+        <p>La fonctionnalité <b>Thésaurus </b>simplifie la génération de synonymes du mot sélectionne.</p>
+        <p>Faites un clic droit sur le mot que vous souhaitez rechercher et parcourez le menu contextuel <b>ChatGPT</b> jusqu'à l'option <b>Thésaurus</b>. La liste de synonymes s'affichera.</p>
+        <p>L'option <b>Expliquer en commentaire</b> devienne aussi disponible lorsque vous fqite un clic droit sur un mot. L'explication du mot s'affichera dans la section <b>Commentaires</b> sur le panneau droit.</p>
+        <p><img alt="Génération des synonymes ChatGPT" src="../images/chatgpt_thesaurus.png" /></p>
+
+        <h4>Chat</h4>
+        <p>L'intégration du <b>ChatGPT</b> dans le menu contextuel permet d'activer le <b>ChatGPT</b> à partir de n'importe quel endroit du document. Utilisez l'assistant virtuel pour interagir et mener une conversation, poser des questions et recevoir des réponses à vos demandes.</p>
+        <p>Parcourez le menu contextuel <b>ChatGPT</b> jusqu'à l'option <b>Chat</b> et démarrez la conversation dans la zone de texte en bas de la fenêtre <b>ChatGPT</b>. </p>
+        <p><img alt="Chat ChatGPT" src="../../../../../../common/main/resources/help/en/images/chatgpt_chat.png" /></p>
+
+        <h4>Demande personnalisée</h4>
+        <p>La fonctionnalité <b>Demande personnalisée</b> permet de traiter et parser le langage naturel ou le code en une série de tokens (jetons). Cet outil transforme le texte en une liste de tokens, traite la demande, transforme les tokens générés en texte et renvoie la chaîne dans le document.</p>
         <ol>
-            <li>Passez à l'onglet <b>Modules complémentaires</b>.</li>
-            <li>Cliquez sur <div class="icon icon-chatgpt_icon"></div> l'icône <b>ChatGPT</b>.</li>
-            <li>Configurez les paramètres disponibles tels que <b>Modèle</b>, <b>Longueur maximale</b>, <b>Température</b> etc.</li>
+            <li>Pour faire une demande, passez au menu contextuel  <b>ChatGPT</b> et cliquez sur l'option <b>Demande personnalisée</b>.</li>
+            <li>
+                Dans la zone de texte <b>Open AI</b>, saisissez le texte à parser en tokens. Le nombre de tokens s'affiche en bas de la zone de texte.
+                <p><img alt="ChatGPT Personnalisé" src="../../../../../../common/main/resources/help/en/images/chatgpt_custom.png" /></p>
+            </li>
+            <li>
+                Cliquez sur <b>Afficher les paramètres avancés</b> pour configurer d'autres paramètres de la demande.
+                <p><img alt="ChatGPT Modèle Personnalisé" src="../../../../../../common/main/resources/help/en/images/chatgpt_custom_advanced.png" /></p>
+                <ul>
+                    <li><b>Modèle</b> - le modèle qui va produire la sortie. Certains modèles sont adaptés aux tâches liées au langage naturel et d'autres se spécialisent dans le code. Pour en savoir plus sur des modèles, veuillez consulter <a href="https://platform.openai.com/docs/models/overview">le site officiel de ChatGPT</a>.</li>
+                    <li><b>Longueur maximale </b>définit la limite de tokens dans la sortie produite.</li>
+                    <li><b>Température</b> contrôle le caractère aléatoire de la génération, c-à-d la température basse rend une sortie moins aléatoire. La réduction de la température rendra les sorties répétitives et déterministes.</li>
+                    <li><b>Top P</b> est une alternative à la production des sorties en utilisant la température également connu sous le nom d'échantillonnage de noyau (nucleus sampling) quend le modèle prend en compte la probabilité seuil top_p de tokens résultants.</li>
+                    <li><b>Séquences d'arrêt</b> définit 1 à 4 séquences qui forcent l'API à s'arrêter lorsqu'elles sont générées. Le texte renvoyé n'inclut pas la séquence d'arrêt.</li>
+                </ul>
+            </li>
+            <li>Cliquez sur <b>Envoyer</b> pour démarrer le traitement du texte ou cliquez sur <b>Nettoyer</b> pour effacer la demande et saisir une autre.</li>
         </ol>
-        <p class="note"><b>ONLYOFFICE n'assume aucune responsabilité</b> quant aux réponses du ChatGPT qui peuvent contenir des erreurs, des omissions ou du contenu haineux ou inapproprié. Tout le texte envoyé depuis le module complémentaire est généré par ChatGPT et est fourni tel quel, sans filtrage d'aucune sorte par ONLYOFFICE.</p>
     </div>
 </body>
 </html>
