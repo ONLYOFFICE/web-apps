@@ -12,7 +12,8 @@ class DropdownListController extends Component {
         this.onAddItem = this.onAddItem.bind(this);
         
         this.state = {
-            isOpen: false
+            isOpen: false,
+            enteredValue: ''
         };
 
         Common.Notifications.on('openDropdownList', obj => {
@@ -21,19 +22,21 @@ class DropdownListController extends Component {
     }
 
     initDropdownList(obj) {
-        this.type = obj.type;
+        const api = Common.EditorApi.get();
 
+        this.type = obj.type;
         this.propsObj = obj.pr;
         this.internalId = this.propsObj.get_InternalId();
         this.isComboBox = this.type === Asc.c_oAscContentControlSpecificType.ComboBox;
         this.specProps = this.isComboBox ? this.propsObj.get_ComboBoxPr() : this.propsObj.get_DropDownListPr();
         this.isForm = !!this.propsObj.get_FormPr();
         this.listItems = [];
+        this.curValue = api.asc_GetContentControlListCurrentValue(this.internalId);
 
         this.initListItems();
-
         this.setState({
-            isOpen: true
+            isOpen: true,
+            enteredValue: api.asc_GetSelectedText()
         });
     }
 
@@ -80,7 +83,6 @@ class DropdownListController extends Component {
 
     onChangeItemList(value) {
         const api = Common.EditorApi.get();
-        // const internalId = this.propsObj.get_InternalId();
 
         if(value !== -1) {
             this.closeModal();
@@ -90,20 +92,14 @@ class DropdownListController extends Component {
 
     onAddItem(value) {
         const api = Common.EditorApi.get();
-        const props = this.propsObj || new AscCommon.CContentControlPr();
-        const specProps = this.specProps || new AscCommon.CSdtComboBoxPr();
-        specProps.clear();
+        api.asc_SetContentControlText(value, this.internalId);
 
-        this.listItems.push({caption: value, value});
-        this.listItems.forEach(item => {
-            specProps.add_Item(item.caption, item.value);
-        });
+        this.setState(prevState => ({
+            ...prevState,
+            enteredValue: value
+        }));
         
-        (this.type === Asc.c_oAscContentControlSpecificType.ComboBox) ? props.put_ComboBoxPr(specProps) : props.put_DropDownListPr(specProps);
-        api.asc_SetContentControlProperties(props, this.internalId);
-
         f7.views.current.router.back();
-        
     }
 
     render() {
@@ -115,6 +111,8 @@ class DropdownListController extends Component {
                     closeModal={this.closeModal}
                     isComboBox={this.isComboBox}
                     onAddItem={this.onAddItem}
+                    curValue={this.curValue}
+                    enteredValue={this.state.enteredValue}
                 /> 
         );
     }

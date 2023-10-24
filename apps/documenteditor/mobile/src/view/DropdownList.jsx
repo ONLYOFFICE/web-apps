@@ -5,14 +5,14 @@ import { useTranslation } from 'react-i18next';
 
 const PageCustomOptionList = props => {
     const { t } = useTranslation();
-    const [itemValue, setItemValue] = useState('');
+    const [itemValue, setItemValue] = useState(props.enteredValue);
 
     return (
         <Page>
             <Navbar className='navbar-dropdown-list'>
                 <NavLeft>
                     <Link text={t('Edit.textCancel')} onClick={() => {
-                        f7.views.current.router.back()
+                        f7.views.current.router.back();
                     }} />
                 </NavLeft>
                 <NavRight>
@@ -37,6 +37,8 @@ const routes = [
 
 const PageDropdownList = props => {
     const listItems = props.listItems;
+    const curValue = props.curValue;
+    const enteredValue = props.enteredValue;
     const { t } = useTranslation();
 
     const openDlgCustomOption = () => {
@@ -50,7 +52,7 @@ const PageDropdownList = props => {
                                 <div class="item-content item-input">
                                     <div class="item-inner">
                                         <div class="item-input-wrap">
-                                            <input type="text" id="custom-option-field" placeholder='${t('Edit.textPlaceholder')}'>
+                                            <input type="text" id="custom-option-field" placeholder='${t('Edit.textPlaceholder')}' value='${enteredValue}'>
                                         </div>
                                     </div>
                                 </div>
@@ -58,6 +60,12 @@ const PageDropdownList = props => {
                         </ul>
                     </div>
                 </div>`,
+            on: {
+                opened: () => {
+                    const optionField = document.querySelector('#custom-option-field');
+                    optionField.focus();
+                }
+            },
             buttons: [
                 {
                     text: t('Edit.textCancel')
@@ -65,8 +73,8 @@ const PageDropdownList = props => {
                 {
                     text: t('Edit.textSave'),
                     onClick: () => {
-                        const valueItem = document.querySelector('#custom-option-field');
-                        props.onAddItem(valueItem);
+                        const itemValue = document.querySelector('#custom-option-field').value;
+                        props.onAddItem(itemValue);
                     }
                 }
             ]
@@ -86,18 +94,19 @@ const PageDropdownList = props => {
                 {props.isComboBox ?
                     <>
                         <List>
-                            <ListItem title={t('Edit.textEnterYourOption')} href={Device.ios ? '/custom-option/' : '#'} onClick={() => {
+                            <ListItem title={enteredValue || t('Edit.textEnterYourOption')} href={Device.ios ? '/custom-option/' : '#'} onClick={() => {
                                 if(Device.android) openDlgCustomOption()
                             }} routeProps={{
-                                onAddItem: props.onAddItem
+                                onAddItem: props.onAddItem,
+                                enteredValue
                             }}></ListItem>
                         </List>
                         <BlockTitle>{t('Edit.textChooseAnItem')}</BlockTitle>
                     </>
                 : null}
                 <List className="dropdown-list">
-                    {listItems.length && listItems.map((elem, index) => (
-                        <ListItem key={index} className={'no-indicator ' + (index === 0 ? 'dropdown-list__placeholder' : '')} title={elem.caption} onClick={() => props.onChangeItemList(elem.value)}></ListItem>
+                    {listItems.length && listItems.map((item, index) => (
+                        <ListItem radio checked={item.value === curValue && !enteredValue} key={index} className={'no-indicator ' + (index === 0 ? 'dropdown-list__placeholder' : '')} title={item.caption} onClick={() => props.onChangeItemList(item.value)}></ListItem>
                     ))}
                 </List>
             </Page>
@@ -113,13 +122,15 @@ class DropdownListView extends Component {
     render() {
         return (
             Device.isPhone ? 
-                <Sheet id="dropdown-list-sheet" closeByOutsideClick={true} backdrop={false} closeByBackdropClick={false} swipeToClose={true} onSheetClosed={() => this.props.closeModal()}> 
+                <Sheet id="dropdown-list-sheet" closeByBackdropClick={true} swipeToClose={true} onSheetClosed={() => this.props.closeModal()}> 
                     <PageDropdownList
                         listItems={this.props.listItems}
                         onChangeItemList={this.props.onChangeItemList}
                         closeModal={this.props.closeModal}
                         isComboBox={this.props.isComboBox}
                         onAddItem={this.props.onAddItem}
+                        curValue={this.props.curValue}
+                        enteredValue={this.props.enteredValue}
                     />
                 </Sheet>
             : 
@@ -130,6 +141,8 @@ class DropdownListView extends Component {
                         closeModal={this.props.closeModal}
                         isComboBox={this.props.isComboBox}
                         onAddItem={this.props.onAddItem}
+                        curValue={this.props.curValue}
+                        enteredValue={this.props.enteredValue}
                         style={{height: '410px'}}
                     />
                 </Popover>
@@ -157,6 +170,8 @@ const DropdownList = props => {
             closeModal={props.closeModal}
             isComboBox={props.isComboBox}
             onAddItem={props.onAddItem}
+            curValue={props.curValue}
+            enteredValue={props.enteredValue}
         />
     );
 };
