@@ -92,6 +92,7 @@ define([
                 FGColor: '000000',
                 BGColor: 'ffffff',
                 GradColor: '000000',
+                ShadowColor: 'transparent',
                 GradFillType: Asc.c_oAscFillGradType.GRAD_LINEAR,
                 DisabledFillPanels: false,
                 DisabledControls: false,
@@ -118,6 +119,8 @@ define([
             this.BorderColor = {Value: 1, Color: 'transparent'};  // value=1 - цвет определен - прозрачный или другой, value=0 - цвет не определен, рисуем прозрачным
             this.BorderSize = 0;
             this.BorderType = Asc.c_oDashType.solid;
+
+            this.ShadowColor = {Value: 1, Color: 'transparent'};  // value=1 - цвет определен - прозрачный или другой, value=0 - цвет не определен, рисуем прозрачным
 
             this.textureNames = [this.txtCanvas, this.txtCarton, this.txtDarkFabric, this.txtGrain, this.txtGranite, this.txtGreyPaper,
                 this.txtKnit, this.txtLeather, this.txtBrownPaper, this.txtPapyrus, this.txtWood];
@@ -1222,8 +1225,37 @@ define([
                     if(shadowPreset) {
                         shadowPresetRecord = this.viewShadowShapePresets.store.findWhere({value: shadowPreset});
                     } 
+
                     color = shadow.getColor();
-                    console.log("getColor", color);
+                    if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                        this.ShadowColor = {Value: 1, Color: {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() }};
+                    } else {
+                        this.ShadowColor = {Value: 1, Color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())};
+                    }
+                    
+                    color = this.ShadowColor.Color;
+                    type1 = typeof(this.ShadowColor);
+                    type2 = typeof(this._state.ShadowColor);
+    
+                    if ( (type1 !== type2) || (type1=='object' &&
+                        (color.effectValue!==this._state.ShadowColor.effectValue || this._state.ShadowColor.color.indexOf(color.color)<0)) ||
+                        (type1!='object' && this._state.ShadowColor.indexOf(color)<0 )) {
+
+                        if ( typeof(color) == 'object' ) {
+                            var isselected = false;
+                            for (var i=0; i<10; i++) {
+                                if ( Common.Utils.ThemeColor.ThemeValues[i] == color.effectValue ) {
+                                    this.mnuShadowShapeColorPicker.select(color,true);
+                                    isselected = true;
+                                    break;
+                                }
+                            }
+                            if (!isselected) this.mnuShadowShapeColorPicker.clearSelection();
+                        } else
+                            this.mnuShadowShapeColorPicker.select(color,true);
+
+                        this._state.ShadowColor = color;
+                    }
                 } 
 
                 if(shadowPresetRecord) {
@@ -1923,9 +1955,16 @@ define([
             //Checkbox on/off shadow
             if(item.value == 1) {
                 if (this.api)   {
-                    var props = new Asc.asc_CShapeProperty();
-                    props.asc_putShadow(item.checked ? null : new Asc.asc_CShadowProperty());
-                    this.api.ShapeApply(props);
+                    var shapeProps = new Asc.asc_CShapeProperty();
+                        
+                    if(item.checked) {
+                        shapeProps.asc_putShadow(null);
+                    } else {
+                        var shadowProps = new Asc.asc_CShadowProperty();
+                        shadowProps.putPreset('t');
+                        shapeProps.asc_putShadow(shadowProps);
+                    }
+                    this.api.ShapeApply(shapeProps);
                 }
                 this.fireEvent('editcomplete', this);
             } 
@@ -1933,15 +1972,17 @@ define([
             else if(item.value == 3) {
                 var shadowProps = this._originalProps.asc_getShadow();
                 if(!shadowProps) {
+                    var shapeProps = new Asc.asc_CShapeProperty();
                     shadowProps = new Asc.asc_CShadowProperty();
-                    shadowProps.putPreset('tl');
-                    his.api.ShapeApply(shapeProps);
+                    shadowProps.putPreset('t');
+                    shapeProps.asc_putShadow(shadowProps);
+                    this.api.ShapeApply(shapeProps);
                 }
                 (new PE.Views.ShapeShadowDialog({
                     api             : this.api,
                     shadowProps     : shadowProps,
                     handler: function(result, value) {
-
+                        
                     },
                 })).show();
             }
@@ -1969,10 +2010,9 @@ define([
 
             if(!shadowProps) {
                 shadowProps = new Asc.asc_CShadowProperty();
-                shadowProps.putPreset('tl');
+                shadowProps.putPreset('t');
             }
 
-            console.log("putColor", Common.Utils.ThemeColor.getRgbColor(color));
             shadowProps.putColor(Common.Utils.ThemeColor.getRgbColor(color));
             shapeProps.asc_putShadow(shadowProps);
             this.api.ShapeApply(shapeProps);
