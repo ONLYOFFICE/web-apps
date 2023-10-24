@@ -941,7 +941,7 @@
 
         if (typeof config.documentType === 'string') {
             app = appMap[config.documentType.toLowerCase()];
-            if (config.type == 'desktop' && !!config.document && typeof config.document.fileType === 'string') {
+            if (config.type !== 'mobile' && config.type !== 'embedded' && !!config.document && typeof config.document.fileType === 'string') {
                 var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(config.document.fileType);
                 if (type && typeof type[1] === 'string')
                     app = appMap['pdf'];
@@ -954,7 +954,7 @@
                 if (typeof type[1] === 'string') app = appMap['cell']; else
                 if (typeof type[2] === 'string') app = appMap['slide'];
             }
-            if (config.type == 'desktop') {
+            if (config.type !== 'mobile' && config.type !== 'embedded') {
                 type = /^(?:(pdf|djvu|xps|oxps))$/.exec(config.document.fileType);
                 if (type && typeof type[1] === 'string')
                     app = appMap['pdf'];
