@@ -47,9 +47,9 @@ define([
 
     DE.Views.NoteSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
-            contentWidth: 300,
+            contentWidth: 310,
             id: 'window-note-settings',
-            buttons: null
+            separator: false
         },
 
         initialize : function(options) {
@@ -57,10 +57,16 @@ define([
 
             _.extend(this.options, {
                 title: this.textTitle,
-                template: [
-                    '<div class="box">',
-                        '<div class="content-panel" style="padding: 0 5px;"><div class="inner-content">',
-                            '<div class="settings-panel active">',
+                buttons: [
+                    {value: 'insert', caption: this.textInsert},
+                    {value: 'apply', caption: this.textApply, id: 'note-settings-btn-apply'},
+                    'cancel'
+                ],
+                primary: 'insert',
+                contentStyle: 'padding: 0 5px;',
+                contentTemplate: _.template([
+                    '<div class="settings-panel active">',
+                        '<div class="inner-content">',
                                 '<table cols="1" style="width: 100%;">',
                                     '<tr>',
                                         '<td class="padding-small">',
@@ -114,15 +120,8 @@ define([
                                         '</td>',
                                     '</tr>',
                                 '</table>',
-                            '</div></div>',
-                        '</div>',
-                    '</div>',
-                    '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="insert" style="width: 86px;">' + me.textInsert + '</button>',
-                    '<button id="note-settings-btn-apply" class="btn normal dlg-btn" result="apply" style="width: 86px;">' + me.textApply + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + me.cancelButtonText + '</button>',
-                    '</div>'
-                ].join('')
+                            '</div></div>'
+                ].join(''))({scope: this})
             }, options);
 
             this.api        = options.api;

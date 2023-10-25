@@ -90,6 +90,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
     SSE.Views.FormatRulesManagerDlg =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             alias: 'FormatRulesManagerDlg',
+            separator: false,
             contentWidth: 560
         },
 
@@ -97,11 +98,8 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             var me = this;
             _.extend(this.options, {
                 title: this.txtTitle,
-                template: [
-                    '<div class="box">',
-                    '<div class="content-panel" style="padding: 0;">' + _.template(contentTemplate)({scope: this}) + '</div>',
-                    '</div>',
-                ].join('')
+                contentStyle: 'padding: 0;',
+                contentTemplate: _.template(contentTemplate)({scope: this})
             }, options);
 
             this.api        = options.api;

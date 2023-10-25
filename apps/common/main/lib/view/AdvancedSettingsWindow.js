@@ -49,22 +49,28 @@ define([
                 header: true,
                 cls: 'advanced-settings-dlg',
                 toggleGroup: 'advanced-settings-group',
-                contentTemplate: '',
+                contentTemplate: '', // use instead 'template' for internal layout
+                contentStyle: '',
                 items: [],
-                buttons: ['ok', 'cancel']
+                buttons: ['ok', 'cancel'],
+                separator: true
             }, options);
 
             this.template = options.template || [
                 '<div class="box">',
+                    '<% if (items.length>0) { %>',
                     '<div class="menu-panel">',
                     '<% _.each(items, function(item) { %>',
                         '<button class="btn btn-category" content-target="<%= item.panelId %>"><span class=""><%= item.panelCaption %></span></button>',
                     '<% }); %>',
                     '</div>',
                     '<div class="separator"></div>',
-                    '<div class="content-panel" >' + _options.contentTemplate + '</div>',
+                    '<% } %>',
+                    '<div class="content-panel" style="<%= contentStyle %>">' + _options.contentTemplate + '</div>',
                 '</div>',
-                '<div class="separator horizontal"></div>'
+                '<% if (separator) { %>',
+                '<div class="separator horizontal"></div>',
+                '<% } %>'
             ].join('');
 
             _options.tpl = _.template(this.template)(_options);

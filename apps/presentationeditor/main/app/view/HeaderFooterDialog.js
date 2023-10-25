@@ -48,7 +48,6 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
         options: {
             contentWidth: 360,
             contentHeight: 330,
-            buttons: null,
             id: 'window-header-footer'
         },
 
@@ -57,11 +56,17 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
 
             _.extend(this.options, {
                 title: this.textHFTitle,
+                buttons: [
+                    {value: 'all', caption: this.applyAllText},
+                    {value: 'ok', caption: this.applyText, id: 'hf-dlg-btn-apply'},
+                    'cancel'
+                ],
+                primary: 'all',
                 template: _.template(
                     [
                         '<div class="box">',
-                            '<div class="content-panel" style="padding: 10px 5px;"><div class="inner-content">',
-                                '<div class="settings-panel active">',
+                            '<div class="content-panel" style="padding: 10px 5px;">',
+                                '<div class="settings-panel active"><div class="inner-content">',
                                 template,
                                 '</div></div>',
                             '</div>',
@@ -76,12 +81,7 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                                 '</div>',
                             '</div>',
                         '</div>',
-                        '<div class="separator horizontal"></div>',
-                        '<div class="footer center">',
-                            '<button class="btn normal dlg-btn primary" result="all" style="width: auto; min-width: 86px;">' + me.applyAllText + '</button>',
-                            '<button id="hf-dlg-btn-apply"  class="btn normal dlg-btn" result="ok" style="width: auto; min-width: 86px;">' + me.applyText + '</button>',
-                            '<button class="btn normal dlg-btn" result="cancel">' + me.cancelButtonText + '</button>',
-                        '</div>'
+                        '<div class="separator horizontal"></div>'
                     ].join('')
                 )({
                     scope: this

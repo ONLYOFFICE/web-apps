@@ -51,12 +51,8 @@ define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
         initialize : function(options) {
             _.extend(this.options, {
                 title: this.textTitle,
-                template: [
-                    '<div class="box">',
-                    '<div class="content-panel" style="padding: 0;">' + _.template(contentTemplate)({scope: this}) + '</div>',
-                    '</div>',
-                    '<div class="separator horizontal"></div>'
-                ].join('')
+                contentStyle: 'padding: 0;',
+                contentTemplate: _.template(contentTemplate)({scope: this})
             }, options);
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },

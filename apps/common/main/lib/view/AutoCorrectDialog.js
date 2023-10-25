@@ -53,7 +53,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
         options: {
             contentWidth: 375,
             contentHeight: 345,
-            buttons: null,
+            buttons: ['close'],
             toggleGroup: 'autocorrect-dialog-group'
         },
 
@@ -77,21 +77,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 title: this.textTitle,
                 storageName: this.appPrefix + 'autocorrect-dialog-category',
                 items: items,
-                template: [
-                    '<div class="box">',
-                        '<div class="menu-panel" style="overflow: hidden;">',
-                            '<% _.each(items, function(item) { %>',
-                            '<button class="btn btn-category" content-target="<%= item.panelId %>"><span class=""><%= item.panelCaption %></span></button>',
-                            '<% }); %>',
-                        '</div>',
-                        '<div class="separator"></div>',
-                        '<div class="content-panel">' + _.template(contentTemplate)({scope: this}) + '</div>',
-                    '</div>',
-                    '<div class="separator horizontal"></div>',
-                    '<div class="footer center">',
-                        '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.closeButtonText + '</button>',
-                    '</div>'
-                ].join('')
+                contentTemplate: _.template(contentTemplate)({scope: this})
             }, options || {});
 
             this.api = this.options.api;

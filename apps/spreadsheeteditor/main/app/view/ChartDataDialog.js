@@ -57,10 +57,10 @@ define([
 
             _.extend(this.options, {
                 title: this.textTitle,
-                template: [
-                    '<div class="box">',
-                    '<div class="content-panel" style="padding: 0 10px;"><div class="inner-content">',
-                        '<div class="settings-panel active">',
+                contentStyle: 'padding: 0 10px;',
+                contentTemplate: _.template([
+                    '<div class="settings-panel active">',
+                        '<div class="inner-content">',
                             '<table cols="1" style="width: 100%;">',
                                 '<tr>',
                                     '<td>',
@@ -106,11 +106,8 @@ define([
                                     '</td>',
                                 '</tr>',
                             '</table>',
-                        '</div></div>',
-                    '</div>',
-                    '</div>',
-                    '<div class="separator horizontal"></div>'
-                ].join('')
+                        '</div></div>'
+                ].join(''))({scope: this})
             }, options);
 
             this.handler    = options.handler;

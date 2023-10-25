@@ -59,12 +59,8 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             
             _.extend(this.options, {
                 title: this.txtTitleNew,
-                template: [
-                    '<div class="box">',
-                        '<div class="content-panel" style="padding: 0;">' + _.template(contentTemplate)({scope: this}) + '</div>',
-                    '</div>',
-                    '<div class="separator horizontal"></div>'
-                ].join('')
+                contentStyle: 'padding: 0;',
+                contentTemplate: _.template(contentTemplate)({scope: this})
             }, options);
 
             this.api        = options.api;

@@ -61,7 +61,10 @@ define([
                 contentTemplate : '',
                 title           : t.txtTitle,
                 items           : [],
-                buttons: null
+                buttons: [
+                    {value: 'ok', caption: this.okButtonText, primary: true, id: 'formula-dlg-btn-ok'},
+                    'cancel'
+                ],
             }, options);
 
             this.template   =   options.template || [
@@ -76,11 +79,7 @@ define([
                         '<label id="formula-dlg-desc" style="margin-top: 4px; display: block;">' + '</label>',
                     '</div>',
                 '</div>',
-                '<div class="separator horizontal"></div>',
-                '<div class="footer center">',
-                    '<button id="formula-dlg-btn-ok" class="btn normal dlg-btn primary" result="ok" style="width: 86px;">' + this.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.cancelButtonText + '</button>',
-                '</div>'
+                '<div class="separator horizontal"></div>'
             ].join('');
 
             this.api            =   options.api;

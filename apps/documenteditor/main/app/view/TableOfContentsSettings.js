@@ -59,10 +59,10 @@ define([
             _.extend(this.options, {
                 title: options.type ? this.textTitleTOF : this.textTitle,
                 contentHeight: height,
-                template: [
-                    '<div class="box">',
-                        '<div class="content-panel" style="padding: 15px 10px;"><div class="inner-content">',
-                            '<div class="settings-panel active">',
+                contentStyle: 'padding: 15px 10px;',
+                contentTemplate: _.template([
+                    '<div class="settings-panel active">',
+                        '<div class="inner-content">',
                                 '<table cols="2" style="width: 100%;">',
                                     '<tr>',
                                         '<td class="padding-small">',
@@ -92,7 +92,7 @@ define([
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-small">',
-                                        '<% if (type == 1) { %>',
+                                        '<% if (scope.type == 1) { %>',
                                             '<label class="input-label padding-small" style="display: block;">' + me.textBuildTableOF + '</label>',
                                             '<div id="tableofcontents-radio-caption" class="padding-small" style="display: block;"></div>',
                                             '<div id="tableofcontents-radio-style" class="" style="display: block;"></div>',
@@ -105,7 +105,7 @@ define([
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-small" style="vertical-align: top;">',
-                                        '<% if (type == 1) { %>',
+                                        '<% if (scope.type == 1) { %>',
                                             '<div id="tableofcontents-tof-from-caption" style="width:220px;">',
                                                 '<div id="tableofcontents-combo-captions" style="display: inline-block; width:129px; margin-bottom: 10px;"></div>',
                                             '</div>',
@@ -135,11 +135,8 @@ define([
                                         '</td>',
                                     '</tr>',
                                 '</table>',
-                            '</div></div>',
-                        '</div>',
-                    '</div>',
-                    '<div class="separator horizontal"></div>'
-                ].join('')
+                            '</div></div>'
+                ].join(''))({scope: this})
             }, options);
 
             this.api        = options.api;

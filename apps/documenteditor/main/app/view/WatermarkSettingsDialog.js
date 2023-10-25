@@ -76,6 +76,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
     DE.Views.WatermarkSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 400,
+            separator: false,
             id: 'window-watermark'
         },
 
@@ -84,19 +85,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
 
             _.extend(this.options, {
                 title: this.textTitle,
-                template: _.template(
-                    [
-                        '<div class="box">',
-                        '<div class="content-panel" style="padding: 10px 5px;"><div class="inner-content">',
-                        '<div class="settings-panel active">',
-                        template,
-                        '</div></div>',
-                        '</div>',
-                        '</div>'
-                    ].join('')
-                )({
-                    scope: this
-                })
+                contentStyle: 'padding: 10px 5px;',
+                contentTemplate: _.template(template)({scope: this})
             }, options);
 
             this.handler    = options.handler;

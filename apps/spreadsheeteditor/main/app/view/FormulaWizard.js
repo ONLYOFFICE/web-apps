@@ -52,11 +52,11 @@ define([
             var me = this;
             _.extend(this.options, {
                 title: this.textTitle,
-                template: [
-                    '<div class="box">',
-                        '<div class="content-panel" style="padding: 0;"><div class="inner-content">',
-                            '<div class="settings-panel active">',
-                                '<table>',
+                contentStyle: 'padding: 0;',
+                contentTemplate: _.template([
+                    '<div class="settings-panel active">',
+                        '<div class="inner-content">',
+                                '<table style="width: 100%;">',
                                 '<tr><td>',
                                 '<label id="formula-wizard-name" style="display: block;margin-bottom: 8px;"></label>',
                                 '<div id="formula-wizard-panel-args" style="">',
@@ -81,11 +81,8 @@ define([
                                 '</div>',
                                 '</td></tr>',
                                 '</table>',
-                            '</div></div>',
-                        '</div>',
-                    '</div>',
-                    '<div class="separator horizontal"></div>'
-                ].join('')
+                            '</div></div>'
+                ].join(''))({scope: this})
             }, options);
 
             this.props = this.options.props;
@@ -122,7 +119,7 @@ define([
             this.lblFormulaResult = $window.find('#formula-wizard-value');
             this.lblFunctionResult = $window.find('#formula-wizard-lbl-val-func');
 
-            this.contentPanel.find('.settings-panel > table').css('height', this.options.contentHeight - 7);
+            this.innerPanel.find('> table').css('height', this.options.contentHeight - 7);
 
             this._preventCloseCellEditor = false;
 
