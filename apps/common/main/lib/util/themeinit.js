@@ -64,8 +64,8 @@
 
     let objtheme = window.uitheme.colors ? window.uitheme : localStorage.getItem("ui-theme");
     if ( !!objtheme ) {
-        if ( typeof(objtheme) == 'string' &&
-                objtheme.startsWith("{") && objtheme.endsWith("}") )
+        if ( typeof(objtheme) == 'string' && objtheme.lastIndexOf("{", 0) === 0 &&
+                objtheme.indexOf("}", objtheme.length - 1) !== -1 )
         {
             objtheme = JSON.parse(objtheme);
         }

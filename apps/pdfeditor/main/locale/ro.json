@@ -443,6 +443,7 @@
   "PDFE.Controllers.Viewport.txtDarkMode": "Modul Întunecat",
   "PDFE.Views.DocumentHolder.addCommentText": "Adăugare comentariu",
   "PDFE.Views.DocumentHolder.textCopy": "Copiere",
+  "PDFE.Views.DocumentHolder.txtWarnUrl": "Un clic pe acest link ar putea căuza daune dispozitivului și datelor dvs.<br>Sunteți sigur că doriți să continuați?",
   "PDFE.Views.FileMenu.btnBackCaption": "Deschidere locația fișierului",
   "PDFE.Views.FileMenu.btnCloseMenuCaption": "Închidere meniu",
   "PDFE.Views.FileMenu.btnCreateNewCaption": "Creare nou",

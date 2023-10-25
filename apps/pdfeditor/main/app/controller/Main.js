@@ -1611,6 +1611,10 @@ define([
                             config.msg = this.errorInconsistentExt;
                         break;
 
+                    case Asc.c_oAscError.ID.MailToClientMissing:
+                        config.msg = this.errorEmailClient;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2452,7 +2456,8 @@ define([
             txtInvalidPdfFormat: 'The value entered does not match the format of the field "{0}".',
             txtValidPdfFormat: 'Field value should match format "{0}".',
             txtChoose: 'Choose an item',
-            txtEnterDate: 'Enter a date'
+            txtEnterDate: 'Enter a date',
+            errorEmailClient: 'No email client could be found'
         }
     })(), PDFE.Controllers.Main || {}))
 });

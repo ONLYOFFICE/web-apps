@@ -78,7 +78,7 @@
     &:active,
     &.active {
         &:not(.disabled) {
-            svg.icon {
+            svg.icon:not(.uni-scale) {
                 fill: @icon-normal-pressed-ie;
                 fill: @icon-normal-pressed;
                 .btn& {
@@ -88,7 +88,7 @@
         }
     }
 
-    svg.icon {
+    svg.icon:not(.uni-scale) {
         fill: @icon-normal-ie;
         fill: @icon-normal;
 
