@@ -639,9 +639,8 @@ define([
                     title: this.notcriticalErrorTitle,
                     msg: opts.data.error,
                     iconCls: 'warn',
-                    buttons: _.isEmpty(opts.data.createEmailAccountUrl) ? ['ok'] : ['custom', 'cancel'],
+                    buttons: _.isEmpty(opts.data.createEmailAccountUrl) ? ['ok'] : [{value: 'custom', caption: this.textGoToMail}, 'cancel'],
                     primary: _.isEmpty(opts.data.createEmailAccountUrl) ? ['ok'] : 'custom',
-                    customButtonText: this.textGoToMail,
                     callback: _.bind(function(btn){
                         if (btn == 'custom') {
                             window.open(opts.data.createEmailAccountUrl, "_blank");
