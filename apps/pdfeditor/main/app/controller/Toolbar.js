@@ -420,7 +420,35 @@ define([
 
         onDownloadUrl: function(url, fileType) {
             if (this._state.isFromToolbarDownloadAs) {
-                Common.Gateway.downloadAs(url, fileType);
+                var me = this,
+                    defFileName = this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption();
+                !defFileName && (defFileName = me.txtUntitled);
+
+                if (me.toolbar.mode.canRequestSaveAs) {
+                    Common.Gateway.requestSaveAs(url, defFileName, fileType);
+                } else {
+                    me._saveCopyDlg = new Common.Views.SaveAsDlg({
+                        saveFolderUrl: me.toolbar.mode.saveAsUrl,
+                        saveFileUrl: url,
+                        defFileName: defFileName
+                    });
+                    me._saveCopyDlg.on('saveaserror', function(obj, err){
+                        var config = {
+                            closable: false,
+                            title: me.notcriticalErrorTitle,
+                            msg: err,
+                            iconCls: 'warn',
+                            buttons: ['ok'],
+                            callback: function(btn){
+                                Common.NotificationCenter.trigger('edit:complete', me);
+                            }
+                        };
+                        Common.UI.alert(config);
+                    }).on('close', function(obj){
+                        me._saveCopyDlg = undefined;
+                    });
+                    me._saveCopyDlg.show();
+                }
             }
             this._state.isFromToolbarDownloadAs = false;
         },
@@ -813,7 +841,8 @@ define([
         txtNeedDownload: 'At the moment, PDF viewer can only save new changes in separate file copies. It doesn\'t support co-editing and other users won\'t see your changes unless you share a new file version.',
         txtDownload: 'Download',
         txtSaveCopy: 'Save copy',
-        errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.'
+        errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
+        txtUntitled: 'Untitled'
 
     }, PDFE.Controllers.Toolbar || {}));
 });
