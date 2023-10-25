@@ -53,15 +53,12 @@ define([
         },
 
         initialize : function (options) {
-            var t = this,
-                _options = {};
-
             _.extend(this.options, {
                 title: this.txtTitle
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 260px;">',
+                '<div class="box">',
                     '<div style="margin-bottom: 16px;">',
                         '<label>' + this.textDescription + '</label>',
                     '</div>',

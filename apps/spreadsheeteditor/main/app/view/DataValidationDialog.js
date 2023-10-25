@@ -50,7 +50,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
     SSE.Views.DataValidationDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 320,
-            height: 330,
+            contentHeight: 245,
             toggleGroup: 'data-validation-group',
             storageName: 'sse-data-validation-category'
         },

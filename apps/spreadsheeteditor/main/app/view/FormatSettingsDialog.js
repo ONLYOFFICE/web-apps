@@ -48,7 +48,7 @@ define([
     SSE.Views.FormatSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 284,
-            height: 340
+            contentHeight: 255
         },
 
         initialize : function(options) {
@@ -88,14 +88,14 @@ define([
             this.props      = options.props;
             this.linked     = options.linked || false;
 
-            var height = this.linked ? 360 : 340;
+            var height = this.linked ? 275 : 255;
             _.extend(this.options, {
                 title: this.textTitle,
-                height: height,
-                template: [
-                    '<div class="box" style="height:' + (height - 85) + 'px;">',
-                    '<div class="content-panel" style="padding: 0 10px;"><div class="inner-content">',
+                contentHeight: height,
+                contentStyle: 'padding: 0 10px;',
+                contentTemplate: _.template([
                     '<div class="settings-panel active">',
+                    '<div class="inner-content">',
                     '<table cols="1" style="width: 100%;">',
                         '<tr>',
                             '<td style="width:170px;padding-bottom: 3px;">',
@@ -155,11 +155,8 @@ define([
                             '</td>',
                         '</tr>',
                     '</table>',
-                    '</div></div>',
-                    '</div>',
-                    '</div>',
-                    '<div class="separator horizontal"></div>'
-                ].join('')
+                    '</div></div>'
+                ].join(''))({scope: this})
             }, options);
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);

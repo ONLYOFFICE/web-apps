@@ -8,7 +8,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="padding-small">
+                <td>
                     <div id="watch-dialog-list" class="range-tableview" style="width:100%; height: 164px;"></div>
                 </td>
             </tr>

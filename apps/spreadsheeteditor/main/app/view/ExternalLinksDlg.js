@@ -51,18 +51,18 @@ define([
         options: {
             alias: 'ExternalLinksDlg',
             contentWidth: 510,
-            height: 294,
-            buttons: null
+            separator: false,
+            buttons: ['close']
         },
 
         initialize: function (options) {
             var me = this;
             _.extend(this.options, {
                 title: this.txtTitle,
-                template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
-                        '<div class="content-panel" style="padding: 0;"><div class="inner-content">',
-                            '<div class="settings-panel active">',
+                contentStyle: 'padding: 0;',
+                contentTemplate: _.template([
+                        '<div class="settings-panel active">',
+                            '<div class="inner-content">',
                                 '<table cols="1" style="width: 100%;">',
                                     '<tr>',
                                         '<td class="padding-large">',
@@ -73,18 +73,13 @@ define([
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
-                                        '<td class="padding-small">',
+                                        '<td>',
                                             '<div id="external-links-list" class="range-tableview" style="width:100%; height: 171px;"></div>',
                                         '</td>',
                                     '</tr>',
                                 '</table>',
-                            '</div></div>',
-                        '</div>',
-                    '</div>',
-                    '<div class="footer center">',
-                        '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.closeButtonText + '</button>',
-                    '</div>'
-                ].join('')
+                            '</div></div>'
+                ].join(''))({scope: this})
             }, options);
 
             this.api        = options.api;
@@ -98,7 +93,6 @@ define([
             this.wrapEvents = {
                 onUpdateExternalReferenceList: _.bind(this.refreshList, this)
             };
-
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
         render: function () {

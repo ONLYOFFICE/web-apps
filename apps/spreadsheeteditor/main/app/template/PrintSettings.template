@@ -3,10 +3,10 @@
         <div id="printadv-dlg-combo-range" class="input-group-nr"></div>
         <div id="printadv-dlg-chb-ignore" style="margin-top: 5px;"></div>
         <div id="printadv-dlg-pages">
-            <label class="margin-right-6"><%= scope.textPages %></label>
-            <div id="printadv-dlg-spin-pages-from" class="margin-right-6"></div>
-            <label class="margin-right-6"><%= scope.textTo %></label>
-            <div id="printadv-dlg-spin-pages-to"></div>
+            <label class="margin-right-6 vertical-align-baseline"><%= scope.textPages %></label>
+            <div id="printadv-dlg-spin-pages-from" class="margin-right-6 vertical-align-baseline"></div>
+            <label class="margin-right-6 vertical-align-baseline"><%= scope.textTo %></label>
+            <div id="printadv-dlg-spin-pages-to" class="vertical-align-baseline"></div>
         </div>
     </div>
     <div class="padding-large inner-content" >

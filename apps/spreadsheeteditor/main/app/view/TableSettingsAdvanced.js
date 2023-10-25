@@ -46,7 +46,7 @@ define([    'text!spreadsheeteditor/main/app/template/TableSettingsAdvanced.temp
     SSE.Views.TableSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 300,
-            height: 342,
+            contentHeight: 257,
             toggleGroup: 'table-adv-settings-group',
             properties: null,
             storageName: 'sse-table-settings-adv-category'

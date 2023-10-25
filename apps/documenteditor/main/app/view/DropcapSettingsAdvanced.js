@@ -59,7 +59,7 @@ define([
     DE.Views.DropcapSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 320,
-            height      : 380,
+            contentHeight: 295,
             toggleGroup : 'dropcap-adv-settings-group',
             storageName: 'de-dropcap-settings-adv-category'
         },
@@ -702,7 +702,7 @@ define([
             }, this);
 
             if (this.isFrame)
-                this.setHeight(500);
+                this.setInnerHeight(415);
 
             this.btnsCategory[(this.isFrame) ? 1 : 0].setVisible(false);
             if (this.storageName) {

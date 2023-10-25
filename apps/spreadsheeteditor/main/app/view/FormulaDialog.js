@@ -56,17 +56,19 @@ define([
 
             _.extend(_options,  {
                 width           : 375,
-                height          : 490,
                 header          : true,
-                cls             : 'formula-dlg',
+                cls             : 'modal-dlg formula-dlg',
                 contentTemplate : '',
                 title           : t.txtTitle,
                 items           : [],
-                buttons: null
+                buttons: [
+                    {value: 'ok', caption: this.okButtonText, primary: true, id: 'formula-dlg-btn-ok'},
+                    'cancel'
+                ],
             }, options);
 
             this.template   =   options.template || [
-                '<div class="box" style="height:' + (_options.height - 85) + 'px;">',
+                '<div class="box" style="height:405px;">',
                     '<div class="content-panel" >',
                         '<div id="formula-dlg-search" style="height:22px; margin-bottom:10px;"></div>',
                         '<label class="header">' + t.textGroupDescription + '</label>',
@@ -77,11 +79,7 @@ define([
                         '<label id="formula-dlg-desc" style="margin-top: 4px; display: block;">' + '</label>',
                     '</div>',
                 '</div>',
-                '<div class="separator horizontal"></div>',
-                '<div class="footer center">',
-                    '<button id="formula-dlg-btn-ok" class="btn normal dlg-btn primary" result="ok" style="width: 86px;">' + this.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.cancelButtonText + '</button>',
-                '</div>'
+                '<div class="separator horizontal"></div>'
             ].join('');
 
             this.api            =   options.api;

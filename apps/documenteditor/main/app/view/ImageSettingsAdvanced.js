@@ -50,7 +50,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
     DE.Views.ImageSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 340,
-            height: 485,
+            contentHeight: 400,
             toggleGroup: 'image-adv-settings-group',
             sizeOriginal: {width: 0, height: 0},
             sizeMax: {width: 55.88, height: 55.88},

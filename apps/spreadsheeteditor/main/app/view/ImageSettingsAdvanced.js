@@ -48,7 +48,7 @@ define([    'text!spreadsheeteditor/main/app/template/ImageSettingsAdvanced.temp
     SSE.Views.ImageSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 300,
-            height: 342,
+            contentHeight: 257,
             toggleGroup: 'image-adv-settings-group',
             properties: null,
             storageName: 'sse-image-settings-adv-category'

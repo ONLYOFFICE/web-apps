@@ -43,9 +43,8 @@ define([
     PE.Views.AnimationDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 350,
-            height: 396,
             header: true,
-            cls: 'animation-dlg',
+            cls: 'modal-dlg',
             buttons: ['ok', 'cancel']
         },
         initialize : function(options) {
@@ -53,11 +52,11 @@ define([
                 title: this.textTitle
             }, options || {});
             this.template = [
-                '<div class="box" style="width: 318px; margin: 0 auto">',
+                '<div class="box">',
                     '<div class = "input-row" id = "animation-group"></div>',
-                    '<div class = "input-row" id = "animation-level" ></div>',
-                    '<div class = "input-row" id = "animation-list" style = "margin: 16px 0;  height: 216px;"></div>',
-                    // '<div class = "input-row" id = "animation-setpreview" style = "margin: 16px 0;"></div>',
+                    '<div class = "input-row" id = "animation-level" style = "margin-top: 16px; "></div>',
+                    '<div class = "input-row" id = "animation-list" style = "margin-top: 16px;  height: 216px;"></div>',
+                    // '<div class = "input-row" id = "animation-setpreview" style = "margin-top: 16px;"></div>',
                 '</div>'
             ].join('');
             this.allEffects = Common.define.effectData.getEffectFullData();
@@ -90,14 +89,11 @@ define([
 
             var $window = this.getChild();
 
-            var footer = $window.find('.footer');
-            footer.css({"text-align": "center"});
-
             this.cmbGroup = new Common.UI.ComboBox({
                 el      : $('#animation-group'),
                 cls: 'input-group-nr',
                 editable: false,
-                style   : 'margin-top: 16px; width: 100%;',
+                style   : 'width: 100%;',
                 menuStyle: 'min-width: 100%;',
                 takeFocusOnClose: true,
                 data    : this.EffectGroupData,
@@ -110,7 +106,7 @@ define([
                 cls: 'input-group-nr',
                 editable: false,
                 valueField: 'id',
-                style   : 'margin-top: 16px; width: 100%;',
+                style   : 'width: 100%;',
                 menuStyle: 'min-width: 100%;',
                 takeFocusOnClose: true
             });

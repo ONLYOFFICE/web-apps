@@ -57,7 +57,7 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 195px;">',
+                '<div class="box">',
                     '<div class="input-row">',
                         '<label class="font-weight-bold">' + this.textColumns + '</label>',
                     '</div>',

@@ -45,7 +45,6 @@ define([
     SSE.Views.ScaleDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 215,
-            height: 235,
             header: true,
             style: 'min-width: 215px;',
             cls: 'modal-dlg',

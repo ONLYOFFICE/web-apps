@@ -179,7 +179,7 @@ define([
                                 '<% if (typeof (buttons) !== "undefined" && _.size(buttons) > 0) { %>' +
                                 '<div class="footer">' +
                                     '<% for(var bt in buttons) { %>' +
-                                        '<button class="btn normal dlg-btn <%= buttons[bt].cls %>" result="<%= bt %>"><%= buttons[bt].text %></button>'+
+                                        '<button class="btn normal dlg-btn <%= buttons[bt].cls %>" result="<%= bt %>" <% if (buttons[bt].id) { %>id="<%=buttons[bt].id%>" <% } %> ><%= buttons[bt].text %></button>'+
                                     '<% } %>' +
                                 '</div>' +
                                 '<% } %>' +
@@ -629,12 +629,12 @@ define([
                     var newBtns = {};
                     _.each(options.buttons, function(b){
                         if (typeof(b) == 'object') {
-                            if (b.value !== undefined)
-                                newBtns[b.value] = {text: b.caption, cls: 'custom' + ((b.primary || options.primary==b.value) ? ' primary' : '')};
+                            if (b.value !== undefined) {
+                                newBtns[b.value] = {text: b.caption, cls: 'auto' + ((b.primary || options.primary==b.value) ? ' primary' : '')};
+                                b.id && (newBtns[b.value].id = b.id);
+                            }
                         } else if (b!==undefined) {
-                            newBtns[b] = {text: (b=='custom') ? options.customButtonText : arrBtns[b], cls: (options.primary==b || _.indexOf(options.primary, b)>-1) ? 'primary' : ''};
-                            if (b=='custom')
-                                newBtns[b].cls += ' custom';
+                            newBtns[b] = {text: arrBtns[b], cls: (options.primary==b || _.indexOf(options.primary, b)>-1) ? 'primary' : ''};
                         }
                     });
 

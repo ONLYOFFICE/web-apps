@@ -50,7 +50,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         options: {
             alias: 'PrintSettings',
             contentWidth: 280,
-            height: 513,
+            contentHeight: 468,
             buttons: null
         },
 
@@ -61,7 +61,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             _.extend(this.options, {
                 title: (this.type == 'print') ? this.textTitle : this.textTitlePDF,
                 template: [
-                    '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
+                    '<div class="box">',
                         '<div class="menu-panel" style="overflow: hidden;">',
                             '<div style="height: 84px; line-height: 42px;" class="div-category">' + ((this.type == 'print') ? this.textPrintRange : this.textRange)+ '</div>',
                             '<div style="height: 52px; line-height: 66px;" class="div-category">' + this.textSettings + '</div>',
@@ -366,13 +366,13 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             if (!this.extended) {
                 this.extended = true;
                 this.panelDetails.css({'display': 'none'});
-                this.setHeight(344);
+                this.setInnerHeight(259);
                 btn.setCaption(this.textShowDetails);
                 Common.localStorage.setItem("sse-hide-print-settings", 1);
             } else {
                 this.extended = false;
                 this.panelDetails.css({'display': 'block'});
-                this.setHeight(553);
+                this.setInnerHeight(468);
                 btn.setCaption(this.textHideDetails);
                 Common.localStorage.setItem("sse-hide-print-settings", 0);
             }

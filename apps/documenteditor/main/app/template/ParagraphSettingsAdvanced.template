@@ -165,8 +165,8 @@
             <label class="header"><%= scope.textOpenType %></label>
         </div>
         <div class="padding-large">
-            <label class="input-label"><%= scope.textLigatures %></label>
-            <div id="paragraphadv-cmb-ligatures" class="margin-left-5" style="display: inline-block; vertical-align: baseline;"></div>
+            <label class="input-label vertical-align-baseline"><%= scope.textLigatures %></label>
+            <div id="paragraphadv-cmb-ligatures" class="margin-left-5 vertical-align-baseline" style="display: inline-block;"></div>
         </div>
         <div class="doc-content-color" style="outline: 1px solid #cbcbcb;">
             <div id="paragraphadv-font-img" style="width: 300px; height: 80px; position: relative; margin: 0 auto;"></div>

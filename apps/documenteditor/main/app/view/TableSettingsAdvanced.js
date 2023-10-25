@@ -53,7 +53,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
     DE.Views.TableSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 340,
-            height: 436,
+            contentHeight: 351,
             toggleGroup: 'table-adv-settings-group',
             storageName: 'de-table-settings-adv-category'
         },

@@ -51,7 +51,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
     DE.Views.ParagraphSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 370,
-            height: 415,
+            contentHeight: 330,
             toggleGroup: 'paragraph-adv-settings-group',
             storageName: 'de-para-settings-adv-category'
         },

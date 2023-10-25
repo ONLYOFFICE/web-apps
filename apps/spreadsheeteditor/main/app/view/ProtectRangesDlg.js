@@ -50,7 +50,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
         options: {
             alias: 'ProtectRangesDlg',
             contentWidth: 480,
-            height: 333,
+            separator: false,
             id: 'window-protect-ranges'
         },
 
@@ -58,18 +58,8 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
             var me = this;
             _.extend(this.options, {
                 title: this.txtTitle,
-                template: [
-                    '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
-                    '<div class="content-panel" style="padding: 0;">' + _.template(contentTemplate)({scope: this}) + '</div>',
-                    '</div>',
-                ].join(''),
-                buttons: [
-                // {
-                //     value: 'protect-sheet',
-                //     caption: this.textProtect
-                // },
-                    'ok','cancel']
-                // primary: 'protect-sheet'
+                contentStyle: 'padding: 0;',
+                contentTemplate: _.template(contentTemplate)({scope: this})
             }, options);
 
             this.api        = options.api;

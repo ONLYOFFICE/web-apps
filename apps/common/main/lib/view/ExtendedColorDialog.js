@@ -48,7 +48,7 @@ define([
 
         initialize : function(options) {
             Common.UI.Window.prototype.initialize.call(this, {
-                cls: 'extended-color-dlg',
+                cls: 'extended-color-dlg modal-dlg',
                 tpl: this.tpl({
                     txtNew: this.textNew,
                     txtCurrent: this.textCurrent,
@@ -56,8 +56,7 @@ define([
                     txtCancel: this.cancelButtonText
                 }),
                 header: false,
-                width: 340,
-                height: 272
+                width: 340
             });
 
             this.hexRe = /\s*#?([0-9a-fA-F][0-9a-fA-F]?)([0-9a-fA-F][0-9a-fA-F]?)([0-9a-fA-F][0-9a-fA-F]?)\s*/;

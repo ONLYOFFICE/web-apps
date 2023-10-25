@@ -81,7 +81,7 @@ define([
             };
 
             this.template = [
-                '<div class="box" style="height: 400px;">',
+                '<div class="box">',
                     '<table cols="2" style="width: 450px;margin-bottom: 30px;">',
                         '<tr>',
                             '<td style="padding-bottom: 8px;">',
