@@ -45,7 +45,7 @@ define([
         options: {
             alias: 'ShapeShadowDialog',
             contentWidth: 208,
-            height: 252
+            height: 252 + 32
         },
 
         initialize: function (options) {
@@ -57,6 +57,11 @@ define([
                     '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
                         '<div class="content-panel" style="padding: 16px 16px 0 16px;">',
                             '<table cols="1" style="width: 100%;">',
+                                '<tr>',
+                                    '<td style="padding-bottom: 16px">',
+                                        '<div id="shape-shadow-save-mode-checkbox"></div>',
+                                    '</td>',
+                                '</tr>',
                                 '<tr>',
                                     '<td>',
                                         '<label class="header">' + me.txtTransparency + '</label>',
@@ -102,18 +107,39 @@ define([
             this.handler        = options.handler;
             this.api            = options.api;
             this.shadowProps    = options.shadowProps;
+            if(this.shadowProps) {
+                this.oldTransparency = this.shadowProps.getTransparency();
+                this.oldSize = this.shadowProps.getSize();
+                this.oldAngle = this.shadowProps.getAngle();
+                this.oldDistance = this.shadowProps.getDistance();
+            }
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
         render: function () {
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
             
+
+            this.chSaveMode = new Common.UI.CheckBox({
+                el: $('#shape-shadow-save-mode-checkbox'),
+                labelText: "Мгновенное применение",
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.chSaveMode.on('change', (e) => {
+                if(e.checked) {
+                    this.setAllProperties(parseInt(this.spinTransparency.value), parseInt(this.spinSize.value), parseInt(this.spinAngle.value), parseInt(this.spinDistance.value));
+                }
+            });
+
+
             this.sldrTransparency = new Common.UI.SingleSlider({
                 el: $('#shape-shadow-transparency-slider'),
                 width: 128,
                 minValue: 0,
                 maxValue: 100,
-                value: this.shadowProps.getTransparency()
+                value: this.oldTransparency
             });
             this.sldrTransparency.on('change', _.bind(this.onSliderTransparencyChange, this));
 
@@ -121,7 +147,7 @@ define([
                 el: $('#shape-shadow-transparency-spin'),
                 step: 1,
                 width: 62,
-                value: this.shadowProps.getTransparency() + ' %',
+                value: this.oldTransparency + ' %',
                 defaultUnit : "%",
                 maxValue: 100,
                 minValue: 0,
@@ -135,9 +161,9 @@ define([
             this.sldrSize = new Common.UI.SingleSlider({
                 el: $('#shape-shadow-size-slider'),
                 width: 128,
-                minValue: 0,
+                minValue: 1,
                 maxValue: 200,
-                value: this.shadowProps.getSize()
+                value: this.oldSize
             });
             this.sldrSize.on('change', _.bind(this.onSliderSizeChange, this));
 
@@ -145,10 +171,10 @@ define([
                 el: $('#shape-shadow-size-spin'),
                 step: 1,
                 width: 62,
-                value: this.shadowProps.getSize() + ' %',
+                value: this.oldSize + ' %',
                 defaultUnit : "%",
                 maxValue: 200,
-                minValue: 0,
+                minValue: 1,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
@@ -161,7 +187,7 @@ define([
                 width: 128,
                 minValue: 0,
                 maxValue: 359,
-                value: this.shadowProps.getAngle()
+                value: this.oldAngle
             });
             this.sldrAngle.on('change', _.bind(this.onSliderAngleChange, this));
 
@@ -170,7 +196,7 @@ define([
                 el: $('#shape-shadow-angle-spin'),
                 step: 1,
                 width: 62,
-                value: this.shadowProps.getAngle() + ' °',
+                value: this.oldAngle + ' °',
                 defaultUnit : "°",
                 maxValue: 359,
                 minValue: 0,
@@ -186,7 +212,7 @@ define([
                 width: 128,
                 minValue: 0,
                 maxValue: 200,
-                value: this.shadowProps.getDistance()
+                value: this.oldDistance
             });
             this.sldrDistance.on('change', _.bind(this.onSliderDistanceChange, this));
 
@@ -196,7 +222,7 @@ define([
                 el: $('#shape-shadow-distance-spin'),
                 step: 1,
                 width: 62,
-                value: this.shadowProps.getDistance() + " " + metricName,
+                value: this.oldDistance + " " + metricName,
                 defaultUnit : metricName,
                 maxValue: 200,
                 minValue: 0,
@@ -205,17 +231,24 @@ define([
                 dataHintOffset: 'big'
             });
             this.spinDistance.on('change', _.bind(this.onSpinnerDistanceChange, this));
+
+
+            this.on('close', (e, t) => {
+                if(this.chSaveMode.checked) {
+                    this.setAllProperties(this.oldTransparency, this.oldSize, this.oldAngle, this.oldDistance);
+                }
+            });
         },
 
         onSliderTransparencyChange: function (field, newValue, oldValue) {
             this.spinTransparency.setValue(newValue, true);
-            this.setTransparency(newValue);
+            if(this.chSaveMode.checked) this.setTransparency(newValue);
         },
 
         onSpinnerTransparencyChange: function (field, newValue, oldValue) {
             var num = field.getNumberValue();
             this.sldrTransparency.setValue(num, true);
-            this.setTransparency(num);
+            if(this.chSaveMode.checked) this.setTransparency(num);
         },
 
         setTransparency: function(value) {
@@ -228,13 +261,13 @@ define([
 
         onSliderSizeChange: function (field, newValue, oldValue) {
             this.spinSize.setValue(newValue, true);
-            this.setSize(newValue);
+            if(this.chSaveMode.checked) this.setSize(newValue);
         },
 
         onSpinnerSizeChange: function (field, newValue, oldValue) {
             var num = field.getNumberValue();
             this.sldrSize.setValue(num, true);
-            this.setSize(num);
+            if(this.chSaveMode.checked) this.setSize(num);
         },
 
         setSize: function(value) {
@@ -247,13 +280,13 @@ define([
 
         onSliderAngleChange: function (field, newValue, oldValue) {
             this.spinAngle.setValue(newValue, true);
-            this.setAngle(newValue);
+            if(this.chSaveMode.checked) this.setAngle(newValue);
         },
 
         onSpinnerAngleChange: function (field, newValue, oldValue) {
             var num = field.getNumberValue();
             this.sldrAngle.setValue(num, true);
-            this.setAngle(num);
+            if(this.chSaveMode.checked) this.setAngle(num);
         },
 
         setAngle: function(value) {
@@ -266,13 +299,13 @@ define([
 
         onSliderDistanceChange: function (field, newValue, oldValue) {
             this.spinDistance.setValue(newValue, true);
-            this.setDistance(newValue);
+            if(this.chSaveMode.checked) this.setDistance(newValue);
         },
 
         onSpinnerDistanceChange: function (field, newValue, oldValue) {
             var num = field.getNumberValue();
             this.sldrDistance.setValue(num, true);
-            this.setDistance(num);
+            if(this.chSaveMode.checked) this.setDistance(num);
         },
 
         setDistance: function(value) {
@@ -282,17 +315,33 @@ define([
             this.api.ShapeApply(shapeProps);
         },
 
+
+        setAllProperties: function(transparency, size, angle, distance) {
+            var shapeProps = new Asc.asc_CShapeProperty();
+            this.shadowProps.putTransparency(transparency);
+            this.shadowProps.putSize(size);
+            this.shadowProps.putAngle(angle);
+            this.shadowProps.putDistance(distance);
+            shapeProps.asc_putShadow(this.shadowProps);
+            this.api.ShapeApply(shapeProps);
+        },
         
         onPrimary: function() {
             this.handler && this.handler.call(this, 'ok');
-            this.close();
+            if(!this.chSaveMode.checked) {
+                this.setAllProperties(parseInt(this.spinTransparency.value), parseInt(this.spinSize.value), parseInt(this.spinAngle.value), parseInt(this.spinDistance.value));
+            }
+            this.close(true);
             return false;
         },
 
         onDlgBtnClick: function(event) {
             var state = event.currentTarget.attributes['result'].value;
             this.handler && this.handler.call(this, state);
-            this.close();
+            if(!this.chSaveMode.checked && state == "ok") {
+                this.setAllProperties(parseInt(this.spinTransparency.value), parseInt(this.spinSize.value), parseInt(this.spinAngle.value), parseInt(this.spinDistance.value));
+            }
+            this.close(state == "ok");
         },
 
         onDblClickFunction: function () {

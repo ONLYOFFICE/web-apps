@@ -1760,7 +1760,7 @@ define([
                         this.mnuShadowShapeColor = new Common.UI.MenuItem({
                             caption: this.strColor,
                             menu        : new Common.UI.Menu({
-                                cls: 'shifted-right',
+                                cls: 'color-menu shifted-right',
                                 menuAlign: 'tl-tr',
                                 items: [
                                     { template: _.template('<div id="shape-button-shadow-shape-menu-picker" style="width: 164px;display: inline-block;"></div>'), stopPropagation: true },
@@ -1995,6 +1995,7 @@ define([
                 this.api.asc_startEyedropper(function(r, g, b) {
                     if (r === undefined) return;
                     var color = Common.Utils.ThemeColor.getHexColor(r, g, b);
+                    me.mnuShadowShapeColorPicker.setCustomColor('#' + color);
                     me.onSelectShadowColor(null, color);
                 });
             } 
