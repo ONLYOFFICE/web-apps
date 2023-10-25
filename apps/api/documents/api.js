@@ -1014,7 +1014,7 @@
         if (config.frameEditorId)
             params += "&frameEditorId=" + config.frameEditorId;
 
-        var type = /^(?:(pdf))$/.exec(config.document.fileType);
+        var type = config.document ? /^(?:(pdf))$/.exec(config.document.fileType) : null;
         if (!(type && typeof type[1] === 'string') && (config.editorConfig && config.editorConfig.mode == 'view' ||
             config.document && config.document.permissions && (config.document.permissions.edit === false && !config.document.permissions.review )))
             params += "&mode=view";
@@ -1031,7 +1031,7 @@
         if (config.editorConfig && config.editorConfig.customization && config.editorConfig.customization.uiTheme )
             params += "&uitheme=" + config.editorConfig.customization.uiTheme;
 
-        if (config.document.fileType)
+        if (config.document && config.document.fileType)
             params += "&fileType=" + config.document.fileType;
 
         return params;
