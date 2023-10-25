@@ -46,7 +46,7 @@ define([
     SSE.Views.GoalSeekStatusDlg = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 330,
-            height: 220,
+            separator: false,
             id: 'window-goal-seek-status'
         },
 
@@ -55,10 +55,10 @@ define([
 
             _.extend(this.options, {
                 title: this.textTitle,
-                template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
-                        '<div class="content-panel" style="padding: 0 10px;"><div class="inner-content">',
-                            '<div class="settings-panel active">',
+                contentStyle: 'padding: 0 10px;',
+                contentTemplate: _.template([
+                    '<div class="settings-panel active">',
+                        '<div class="inner-content">',
                                 '<div class="row-1 padding-large" style="width: 100%;">',
                                         '<div class="cell-1">',
                                             '<label class="input-label" id="goal-seek-status-label">' + me.textSearchIteration + '</label>',
@@ -84,10 +84,8 @@ define([
                                         '<div id="goal-seek-current-value"></div>',
                                     '</div',
                                 '</div>',
-                            '</div></div>',
-                        '</div>',
-                    '</div>'
-                ].join('')
+                            '</div></div>'
+                ].join(''))({scope: this})
             }, options);
 
             this.api        = options.api;
