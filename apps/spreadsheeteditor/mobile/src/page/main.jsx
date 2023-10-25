@@ -120,13 +120,8 @@ class MainPage extends Component {
             isBranding = true;
 
         if (!appOptions.isDisconnected && config?.customization) {
-            isCustomization = !!(config.customization && (config.customization.loaderName || config.customization.loaderLogo));
+            isCustomization = !!(config.customization.loaderName || config.customization.loaderLogo);
             isBranding = appOptions.canBranding || appOptions.canBrandingExt;
-
-            if (!Object.keys(config).length) {
-                isCustomization = !/&(?:logo)=/.test(window.location.search);
-            }
-
             isHideLogo = isCustomization && isBranding; 
         }
 

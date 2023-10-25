@@ -326,37 +326,75 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         Common.Gateway.requestHistoryClose();
     }
 
+    const moveNextField = () => {
+        const api = Common.EditorApi.get();
+        api.asc_MoveToFillingForm(true);
+    }
+
+    const movePrevField = () => {
+        const api = Common.EditorApi.get();
+        api.asc_MoveToFillingForm(false);
+    }
+
+    const saveForm = () => {
+        const isSubmitForm = appOptions.canFillForms && appOptions.canSubmitForms;
+        const isSavePdf = appOptions.canDownload && appOptions.canFillForms && !appOptions.canSubmitForms;
+
+        if(isSubmitForm) submitForm();
+        if(isSavePdf) saveAsPdf();
+    }
+
+    const saveAsPdf = () => {
+        const api = Common.EditorApi.get();
+
+        if (appOptions.isOffline) {
+            api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
+        } else {
+            const isFromBtnDownload = appOptions.canRequestSaveAs || !!appOptions.saveAsUrl;
+            api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, isFromBtnDownload));
+        }
+    }
+
+    const submitForm = () => {
+        const api = Common.EditorApi.get();
+        api.asc_SendForm();
+    }
+
     return (
-        <ToolbarView openOptions={props.openOptions}
-                     closeOptions={props.closeOptions}
-                     isEdit={isEdit}
-                     docTitle={docTitle}
-                     docExt={docExt}
-                     isShowBack={isShowBack}
-                     isCanUndo={isCanUndo}
-                     isCanRedo={isCanRedo}
-                     onUndo={onUndo}
-                     onRedo={onRedo}
-                     isObjectLocked={objectLocked}
-                     stateDisplayMode={stateDisplayMode}
-                     disabledControls={disabledControls}
-                     disabledEditControls={disabledEditControls}
-                     disabledSettings={disabledSettings}
-                     displayCollaboration={displayCollaboration}
-                     readerMode={readerMode}
-                     showEditDocument={showEditDocument}
-                     onEditDocument={onEditDocument}
-                     isDisconnected={isDisconnected}
-                     isViewer={isViewer}
-                     turnOnViewerMode={turnOnViewerMode}
-                     isMobileView={isMobileView}
-                     changeMobileView={changeMobileView}
-                     changeTitleHandler={changeTitleHandler}
-                     isVersionHistoryMode={isVersionHistoryMode}
-                     closeHistory={closeHistory}
-                     isOpenModal={props.isOpenModal}
+        <ToolbarView 
+            openOptions={props.openOptions}
+            closeOptions={props.closeOptions}
+            isEdit={appOptions.isEdit}
+            docTitle={docTitle}
+            docExt={docExt}
+            isShowBack={isShowBack}
+            isCanUndo={isCanUndo}
+            isCanRedo={isCanRedo}
+            onUndo={onUndo}
+            onRedo={onRedo}
+            isObjectLocked={objectLocked}
+            stateDisplayMode={stateDisplayMode}
+            disabledControls={disabledControls}
+            disabledEditControls={disabledEditControls}
+            disabledSettings={disabledSettings}
+            displayCollaboration={displayCollaboration}
+            readerMode={readerMode}
+            showEditDocument={showEditDocument}
+            onEditDocument={onEditDocument}
+            isDisconnected={isDisconnected}
+            isViewer={isViewer}
+            turnOnViewerMode={turnOnViewerMode}
+            isMobileView={isMobileView}
+            changeMobileView={changeMobileView}
+            changeTitleHandler={changeTitleHandler}
+            isVersionHistoryMode={isVersionHistoryMode}
+            closeHistory={closeHistory}
+            isOpenModal={props.isOpenModal}
+            moveNextField={moveNextField}
+            movePrevField={movePrevField}
+            saveForm={saveForm}
         />
     )
 }));
 
-export {ToolbarController as Toolbar};
+export default ToolbarController;
