@@ -120,6 +120,7 @@ define([
                 this.chartProps = props.get_ChartProperties();
 
                 var externalRef = this.chartProps.getExternalReference();
+                this.lblLinkData.text(externalRef ? this.textLinkedData : this.textData);
                 this.btnEditData.setCaption(externalRef ? this.textSelectData : this.textEditData);
                 this.ExternalOnlySettings.toggleClass('settings-hidden', !externalRef);
                 var text = externalRef ? (externalRef.asc_getSource() || '').replace(new RegExp("%20",'g')," ") : '';
@@ -295,19 +296,40 @@ define([
             this.lockedControls.push(this.btnChartType);
 
             this.btnEditData = new Common.UI.Button({
-                el: $('#chart-button-edit-data')
+                parentEl: $('#chart-button-edit-data'),
+                cls         : 'btn-toolbar align-left',
+                iconCls     : 'toolbar__icon btn-select-range',
+                caption     : this.textEditData,
+                style       : 'width: 100%;',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
-            this.btnEditData.on('click', _.bind(this.setEditData, this));
             this.lockedControls.push(this.btnEditData);
+            this.btnEditData.on('click', _.bind(this.setEditData, this));
 
             this.btnUpdateData = new Common.UI.Button({
-                el: $('#chart-button-update-data')
+                parentEl: $('#chart-button-update-data'),
+                cls         : 'btn-toolbar align-left',
+                iconCls     : 'toolbar__icon btn-update',
+                caption     : this.textUpdateData,
+                style       : 'width: 100%;',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
-            this.btnUpdateData.on('click', _.bind(this.onUpdateData, this));
             this.lockedControls.push(this.btnUpdateData);
+            this.btnUpdateData.on('click', _.bind(this.onUpdateData, this));
 
             this.btnEditLinks = new Common.UI.Button({
-                el: $('#chart-button-edit-links')
+                parentEl: $('#chart-button-edit-links'),
+                cls         : 'btn-toolbar align-left',
+                iconCls     : 'toolbar__icon btn-inserthyperlink',
+                caption     : this.textEditLinks,
+                style       : 'width: 100%;',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.lockedControls.push(this.btnEditLinks);
             this.btnEditLinks.on('click', _.bind(this.onEditLinks, this));
@@ -577,6 +599,7 @@ define([
             $(this.el).on('click', '#chart-advanced-link', _.bind(this.openAdvancedSettings, this));
             this.linkExternalSrc = $('#chart-open-external-link');
             $(this.el).on('click', '#chart-open-external-link', _.bind(this.openLink, this));
+            this.lblLinkData = $('#chart-data-lbl');
 
             this.NotCombinedSettings = $('.not-combined');
             this.Chart3DContainer = $('#chart-panel-3d-rotate');
@@ -982,6 +1005,7 @@ define([
         textUpdateData: 'Update Data',
         textSelectData: 'Select Data',
         textData: 'Data',
-        textEditLinks: 'Edit links'
+        textEditLinks: 'Edit Links',
+        textLinkedData: 'Linked Data'
     }, PE.Views.ChartSettings || {}));
 });
