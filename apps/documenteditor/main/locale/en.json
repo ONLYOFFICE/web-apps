@@ -1683,6 +1683,8 @@
   "DE.Views.ChartSettings.textUpdateData": "Update Data",
   "DE.Views.ChartSettings.textSelectData": "Select Data",
   "DE.Views.ChartSettings.textData": "Data",
+  "DE.Views.ChartSettings.textEditLinks": "Edit Links",
+  "DE.Views.ChartSettings.textLinkedData": "Linked Data",
   "DE.Views.ControlSettingsDialog.strGeneral": "General",
   "DE.Views.ControlSettingsDialog.textAdd": "Add",
   "DE.Views.ControlSettingsDialog.textAppearance": "Appearance",

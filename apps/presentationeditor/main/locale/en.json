@@ -1707,6 +1707,8 @@
   "PE.Views.ChartSettings.textUpdateData": "Update Data",
   "PE.Views.ChartSettings.textSelectData": "Select Data",
   "PE.Views.ChartSettings.textData": "Data",
+  "PE.Views.ChartSettings.textEditLinks": "Edit Links",
+  "PE.Views.ChartSettings.textLinkedData": "Linked Data",
   "PE.Views.ChartSettingsAdvanced.textAlt": "Alternative text",
   "PE.Views.ChartSettingsAdvanced.textAltDescription": "Description",
   "PE.Views.ChartSettingsAdvanced.textAltTip": "The alternative text-based representation of the visual object information, which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the image, shape, chart, or table.",
