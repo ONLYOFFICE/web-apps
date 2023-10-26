@@ -616,8 +616,7 @@ define([
         },
 
         onUpdateData: function() {
-            var diagramEditor = PE.getController('Common.Controllers.ExternalDiagramEditor');
-            this.chartProps && diagramEditor && diagramEditor.updateChartSilent(this.chartProps.getExternalReference());
+            Common.NotificationCenter.trigger('data:updatereferences', [this.chartProps.getExternalReference()]);
         },
 
         onEditLinks: function() {
