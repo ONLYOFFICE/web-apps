@@ -79,10 +79,8 @@ define([
         setApi: function(api) {
             this.api = api;
             if ((this.toolbar.mode.canRequestReferenceData || this.toolbar.mode.isOffline) && this.api) {
-                if (!!window.SSE) {
-                    this.api.asc_registerCallback('asc_onNeedUpdateExternalReferenceOnOpen', _.bind(this.onNeedUpdateExternalReferenceOnOpen, this));
-                    this.api.asc_registerCallback('asc_onNeedUpdateExternalReference', _.bind(this.onNeedUpdateExternalReference, this));
-                }
+                !!window.SSE && this.api.asc_registerCallback('asc_onNeedUpdateExternalReference', _.bind(this.onNeedUpdateExternalReference, this));
+                this.api.asc_registerCallback('asc_onNeedUpdateExternalReferenceOnOpen', _.bind(this.onNeedUpdateExternalReferenceOnOpen, this));
                 this.api.asc_registerCallback('asc_onStartUpdateExternalReference', _.bind(this.onStartUpdateExternalReference, this));
                 this.api.asc_registerCallback('asc_onUpdateExternalReference', _.bind(this.onUpdateExternalReference, this));
                 this.api.asc_registerCallback('asc_onErrorUpdateExternalReference', _.bind(this.onErrorUpdateExternalReference, this));
@@ -192,7 +190,7 @@ define([
 
         onNeedUpdateExternalReferenceOnOpen: function() {
             Common.UI.warning({
-                msg: this.warnUpdateExternalData,
+                msg: !!window.SSE ? this.warnUpdateExternalData : !!window.PE ? this.warnUpdateExternalDataPE : this.warnUpdateExternalDataDE,
                 buttons: [{value: 'ok', caption: this.textUpdate, primary: true}, {value: 'cancel', caption: this.textDontUpdate}],
                 maxwidth: 600,
                 callback: _.bind(function(btn) {
@@ -251,6 +249,8 @@ define([
 
         txtErrorExternalLink: 'Error: updating is failed',
         warnUpdateExternalData: 'This workbook contains links to one or more external sources that could be unsafe.<br>If you trust the links, update them to get the latest data.',
+        warnUpdateExternalDataDE: 'This document contains links to one or more external sources that could be unsafe.<br>If you trust the links, update them to get the latest data.',
+        warnUpdateExternalDataPE: 'This presentation contains links to one or more external sources that could be unsafe.<br>If you trust the links, update them to get the latest data.',
         textUpdate: 'Update',
         textDontUpdate: 'Don\'t Update',
         textAddExternalData: 'The link to an external source has been added. You can update such links in the Data tab.'

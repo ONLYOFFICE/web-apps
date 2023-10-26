@@ -9,6 +9,8 @@
   "Common.Controllers.ExternalLinks.textUpdate": "Update",
   "Common.Controllers.ExternalLinks.txtErrorExternalLink": "Error: updating is failed",
   "Common.Controllers.ExternalLinks.warnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe.<br>If you trust the links, update them to get the latest data.",
+  "Common.Controllers.ExternalLinks.warnUpdateExternalDataDE": "This document contains links to one or more external sources that could be unsafe.<br>If you trust the links, update them to get the latest data.",
+  "Common.Controllers.ExternalLinks.warnUpdateExternalDataPE": "This presentation contains links to one or more external sources that could be unsafe.<br>If you trust the links, update them to get the latest data.",
   "Common.Controllers.History.notcriticalErrorTitle": "Warning",
   "Common.define.chartData.textArea": "Area",
   "Common.define.chartData.textAreaStacked": "Stacked area",

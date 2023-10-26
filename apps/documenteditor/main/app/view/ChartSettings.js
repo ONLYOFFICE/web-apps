@@ -1050,6 +1050,8 @@ define([
 
         onStartUpdateExternalReference: function(status) {
             this._state.isUpdatingReference = status;
+            if (this._initSettings) return;
+            
             var externalRef = this.chartProps.getExternalReference();
             this.btnEditData.setDisabled(this._locked || externalRef && this._state.isUpdatingReference);
             this.btnUpdateData.setDisabled(this._locked || this._state.isUpdatingReference);
