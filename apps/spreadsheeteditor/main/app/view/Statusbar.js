@@ -508,8 +508,8 @@ define([
 //                this.$el.find('.el-edit')[mode.isEdit?'show':'hide']();
                 //this.btnAddWorksheet.setVisible(this.mode.isEdit);
                 $('#status-addtabs-box')[(this.mode.isEdit) ? 'show' : 'hide']();
-                this.btnAddWorksheet.setDisabled(this.mode.isDisconnected || this.api && (this.api.asc_isWorkbookLocked() || this.api.isCellEdited) || this.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None);
-                if (this.mode.isEditOle) { // change hints order
+                this.btnAddWorksheet.setDisabled(this.mode.isDisconnected || this.api && (this.api.asc_isWorkbookLocked() || this.api.isCellEdited) || this.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None || !!this.mode.isExternalChart);
+                if (this.mode.isEditOle || this.mode.isEditDiagram) { // change hints order
                     this.btnAddWorksheet.$el.find('button').addBack().filter('button').attr('data-hint', '1');
                     this.btnScrollBack.$el.find('button').addBack().filter('button').attr('data-hint', '1');
                     this.btnScrollNext.$el.find('button').addBack().filter('button').attr('data-hint', '1');
@@ -603,11 +603,11 @@ define([
                     if (!this.tabbar.isTabVisible(sindex))
                         this.tabbar.setTabVisible(sindex);
 
-                    this.btnAddWorksheet.setDisabled(me.mode.isDisconnected || me.api.asc_isWorkbookLocked() || wbprotected || me.api.isCellEdited);
+                    this.btnAddWorksheet.setDisabled(me.mode.isDisconnected || me.api.asc_isWorkbookLocked() || wbprotected || me.api.isCellEdited ||  !!me.mode.isExternalChart);
                     if (this.mode.isEdit) {
                         this.tabbar.addDataHint(_.findIndex(items, function (item) {
                             return item.sheetindex === sindex;
-                        }), this.mode.isEditOle ? '1' : '0');
+                        }), this.mode.isEditOle || this.mode.isEditDiagram ? '1' : '0');
                     }
 
                     $('#status-label-zoom').text(Common.Utils.String.format(this.zoomText, Math.floor((this.api.asc_getZoom() +.005)*100)));
@@ -696,7 +696,7 @@ define([
                 }
 
                 if (this.mode.isEdit) {
-                    this.tabbar.addDataHint(index, this.mode.isEditOle ? '1' : '0');
+                    this.tabbar.addDataHint(index, this.mode.isEditOle || this.mode.isEditDiagram ? '1' : '0');
                 }
 
                 this.fireEvent('sheet:changed', [this, tab.sheetindex]);
@@ -710,7 +710,7 @@ define([
                 if (this.mode.isEdit  && !this.isEditFormula && (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.Chart) &&
                                                                (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.FormatTable) &&
                                                                (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.PrintTitles) &&
-                    !this.mode.isDisconnected ) {
+                    !this.mode.isDisconnected && !this.mode.isExternalChart) {
                     if (tab && tab.sheetindex >= 0) {
                         var rect = tab.$el.get(0).getBoundingClientRect(),
                             childPos = tab.$el.offset(),
@@ -742,7 +742,7 @@ define([
                         this.tabMenu.items[7].setDisabled(select.length>1);
                         this.tabMenu.items[8].setDisabled(issheetlocked || isdocprotected);
 
-                        this.tabMenu.items[7].setVisible(!this.mode.isEditOle && this.mode.canProtect);
+                        this.tabMenu.items[7].setVisible(!this.mode.isEditOle && !this.mode.isEditDiagram && this.mode.canProtect);
                         this.tabMenu.items[7].setCaption(this.api.asc_isProtectedSheet() ? this.itemUnProtect : this.itemProtect);
 
                         if (select.length === 1) {

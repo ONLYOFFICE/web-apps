@@ -5073,7 +5073,7 @@ define([
         },
 
         onShowProtectedChartPopup: function(value) {
-            this.toolbar.lockToolbar(Common.enumLock.externalChartProtected, value, {array: [toolbar.btnPaste, toolbar.btnInsertFormula, toolbar.btnDecDecimal,toolbar.btnIncDecimal,toolbar.cmbNumberFormat]});
+            this.toolbar.lockToolbar(Common.enumLock.externalChartProtected, value, {array: [this.toolbar.btnPaste, this.toolbar.btnInsertFormula, this.toolbar.btnDecDecimal,this.toolbar.btnIncDecimal,this.toolbar.cmbNumberFormat]});
         },
 
         textEmptyImgUrl     : 'You need to specify image URL.',

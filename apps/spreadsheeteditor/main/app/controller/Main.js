@@ -1047,7 +1047,7 @@ define([
 
                                 me.updateThemeColors();
                                 toolbarController.activateControls();
-                            } else if (me.appOptions.isEditOle) {
+                            } else if (me.appOptions.isEditOle || me.appOptions.isEditDiagram) {
                                 me.updateThemeColors();
                             }
 
@@ -1493,7 +1493,7 @@ define([
 
                 viewport && viewport.applyCommonMode();
 
-                if (this.appOptions.isEditMailMerge || this.appOptions.isEditDiagram) {
+                if (this.appOptions.isEditMailMerge) {
                     statusbarView.hide();
                 }
                 if (this.appOptions.isEditMailMerge || this.appOptions.isEditDiagram || this.appOptions.isEditOle) {
@@ -1519,9 +1519,9 @@ define([
                     printController && this.api && printController.setApi(this.api).setMode(this.appOptions);
                 } else {
                     this.api.asc_registerCallback('asc_sendFromFrameToGeneralEditor', _.bind(this.onSendFromFrameToGeneralEditor, this));
-                    if (this.appOptions.isEditOle)
+                    if (this.appOptions.isEditOle || this.appOptions.isEditDiagram)
                         this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
-                    else if (this.appOptions.isEditDiagram) {
+                    if (this.appOptions.isEditDiagram) {
                         this.api.asc_registerCallback('asc_onShowProtectedChartPopup',   _.bind(this.onShowProtectedChartPopup, this));
                     }
                 }
@@ -1573,7 +1573,7 @@ define([
 
                     if (statusbarController) {
                         statusbarController.getView('Statusbar').changeViewMode(me.appOptions);
-                        me.appOptions.isEditOle && statusbarController.onChangeViewMode(null, true, true); // set compact status bar for ole editing mode
+                        (me.appOptions.isEditOle || me.appOptions.isEditDiagram) && statusbarController.onChangeViewMode(null, true, true); // set compact status bar for ole editing mode
                     }
 
                     if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram && !me.appOptions.isEditOle && me.appOptions.canFeaturePivot)
@@ -2432,7 +2432,7 @@ define([
             },
 
             onActiveSheetChanged: function(index) {
-                if (!this.appOptions.isEditMailMerge && !this.appOptions.isEditDiagram && window.editor_elements_prepared) {
+                if (!this.appOptions.isEditMailMerge && window.editor_elements_prepared) {
                     this.application.getController('Statusbar').selectTab(index);
 
                     if (!this.appOptions.isEditOle && this.appOptions.canViewComments && !this.dontCloseDummyComment) {
@@ -2702,11 +2702,11 @@ define([
 
             updateThemeColors: function() {
                 var me = this;
-                !me.appOptions.isEditOle && setTimeout(function(){
+                !me.appOptions.isEditOle && !me.appOptions.isEditDiagram && setTimeout(function(){
                     me.getApplication().getController('RightMenu').UpdateThemeColors();
                 }, 50);
 
-                setTimeout(function(){
+                !me.appOptions.isEditDiagram && setTimeout(function(){
                     me.getApplication().getController('Toolbar').updateThemeColors();
                 }, 50);
 
@@ -2718,7 +2718,7 @@ define([
             onSendThemeColors: function(colors, standart_colors) {
                 Common.Utils.ThemeColor.setColors(colors, standart_colors);
                 if (window.styles_loaded) {
-                    if (!this.appOptions.isEditMailMerge && !this.appOptions.isEditDiagram)
+                    if (!this.appOptions.isEditMailMerge)
                         this.updateThemeColors();
 
                     if (!this.appOptions.isEditMailMerge && !this.appOptions.isEditDiagram && !this.appOptions.isEditOle) {
