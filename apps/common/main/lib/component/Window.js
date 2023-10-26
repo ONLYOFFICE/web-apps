@@ -178,9 +178,9 @@ define([
                             '<div class="body"><%= tpl %>' +
                                 '<% if (typeof (buttons) !== "undefined" && _.size(buttons) > 0) { %>' +
                                 '<div class="footer">' +
-                                    '<% for(var bt in buttons) { %>' +
-                                        '<button class="btn normal dlg-btn <%= buttons[bt].cls %>" result="<%= bt %>" <% if (buttons[bt].id) { %>id="<%=buttons[bt].id%>" <% } %> ><%= buttons[bt].text %></button>'+
-                                    '<% } %>' +
+                                    '<% _.each(buttons, function (item) { %>' +
+                                        '<button class="btn normal dlg-btn <%= item.cls %>" result="<%= item.value %>" <% if (item.id) { %>id="<%=item.id%>" <% } %> ><%= item.text %></button>'+
+                                    '<% }); %>' +
                                 '</div>' +
                                 '<% } %>' +
                             '</div>' +
@@ -626,15 +626,16 @@ define([
                 if (options.buttons && _.isArray(options.buttons)) {
                     if (options.primary==undefined)
                         options.primary = 'ok';
-                    var newBtns = {};
+                    var newBtns = [];
                     _.each(options.buttons, function(b){
                         if (typeof(b) == 'object') {
                             if (b.value !== undefined) {
-                                newBtns[b.value] = {text: b.caption, cls: 'auto' + ((b.primary || options.primary==b.value) ? ' primary' : '')};
-                                b.id && (newBtns[b.value].id = b.id);
+                                var item = {value: b.value, text: b.caption, cls: 'auto' + ((b.primary || options.primary==b.value) ? ' primary' : '')};
+                                b.id && (item.id = b.id);
+                                newBtns.push(item);
                             }
                         } else if (b!==undefined) {
-                            newBtns[b] = {text: arrBtns[b], cls: (options.primary==b || _.indexOf(options.primary, b)>-1) ? 'primary' : ''};
+                            newBtns.push({value: b, text: arrBtns[b], cls: (options.primary==b || _.indexOf(options.primary, b)>-1) ? 'primary' : ''});
                         }
                     });
 

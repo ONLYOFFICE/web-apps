@@ -26,7 +26,3 @@
         </div>
     </div>
 </div>
-<div class="footer center">
-    <button class="btn normal dlg-btn primary" result="1"><%= txtAdd %></button>
-    <button class="btn normal dlg-btn" result="0"><%= txtCancel %></button>
-</div>

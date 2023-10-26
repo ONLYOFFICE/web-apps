@@ -51,11 +51,11 @@ define([
                 cls: 'extended-color-dlg modal-dlg',
                 tpl: this.tpl({
                     txtNew: this.textNew,
-                    txtCurrent: this.textCurrent,
-                    txtAdd: this.addButtonText,
-                    txtCancel: this.cancelButtonText
+                    txtCurrent: this.textCurrent
                 }),
                 header: false,
+                buttons: [{value: '1', caption: this.addButtonText}, {value: '0', caption: this.cancelButtonText}],
+                primary: '1',
                 width: 340
             });
 

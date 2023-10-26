@@ -63,8 +63,8 @@ define([
                 cls             : 'modal-dlg open-dlg',
                 contentTemplate : '',
                 toolcallback    : _.bind(t.onToolClose, t),
-                closeFile       : false
-
+                closeFile       : false,
+                buttons         : ['ok'].concat(options.closeFile ? [{value: 'cancel', caption: this.closeButtonText}] : []).concat(options.closable ? ['cancel'] : []),
             }, options);
 
             this.txtOpenFile = options.txtOpenFile || this.txtOpenFile;
@@ -134,15 +134,6 @@ define([
                         '<% } %>',
                     '<% } %>',
                     '</div>',
-                '</div>',
-                '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok">' + t.okButtonText + '</button>',
-                    '<% if (closeFile) { %>',
-                    '<button class="btn normal dlg-btn auto margin-left-10" result="cancel">' + t.closeButtonText + '</button>',
-                    '<% } %>',
-                    '<% if (closable) { %>',
-                    '<button class="btn normal dlg-btn auto margin-left-10" result="cancel">' + t.cancelButtonText + '</button>',
-                    '<% } %>',
                 '</div>'
             ].join('');
 
