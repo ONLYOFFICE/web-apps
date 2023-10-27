@@ -31,6 +31,19 @@
  */
 
 +function init_themes() {
+    let localstorage;
+    const local_storage_available = +function () {
+        try {
+            return !!(localstorage = window.localStorage);
+        } catch (e) {
+            console.warn('localStorage is unavailable');
+            localstorage = {
+                getItem: function (key) {return null;},
+            };
+            return false;
+        }
+    }();
+
     !window.uitheme && (window.uitheme = {});
 
     window.uitheme.set_id = function (id) {
@@ -59,10 +72,10 @@
             return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
         }
 
-    !window.uitheme.id && window.uitheme.set_id(localStorage.getItem("ui-theme-id"));
-    window.uitheme.iscontentdark = localStorage.getItem("content-theme") == 'dark';
+    !window.uitheme.id && window.uitheme.set_id(localstorage.getItem("ui-theme-id"));
+    window.uitheme.iscontentdark = localstorage.getItem("content-theme") == 'dark';
 
-    let objtheme = window.uitheme.colors ? window.uitheme : localStorage.getItem("ui-theme");
+    let objtheme = window.uitheme.colors ? window.uitheme : localstorage.getItem("ui-theme");
     if ( !!objtheme ) {
         if ( typeof(objtheme) == 'string' && objtheme.lastIndexOf("{", 0) === 0 &&
                 objtheme.indexOf("}", objtheme.length - 1) !== -1 )
@@ -72,7 +85,7 @@
 
         if ( objtheme ) {
             if ( window.uitheme.id && window.uitheme.id != objtheme.id ) {
-                localStorage.removeItem("ui-theme");
+                local_storage_available && localstorage.removeItem("ui-theme");
                 !window.uitheme.type && /-dark/.test(window.uitheme.id) && (window.uitheme.type = 'dark');
             } else {
                 window.uitheme.cache = objtheme;
