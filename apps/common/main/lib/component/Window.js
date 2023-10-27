@@ -176,9 +176,9 @@ define([
                                 '</div>' +
                             '<% } %>' +
                             '<div class="body"><%= tpl %>' +
-                                '<% if (typeof (buttons) !== "undefined" && _.size(buttons) > 0) { %>' +
+                                '<% if (typeof (buttonsParsed) !== "undefined" && _.size(buttonsParsed) > 0) { %>' +
                                 '<div class="footer">' +
-                                    '<% _.each(buttons, function (item) { %>' +
+                                    '<% _.each(buttonsParsed, function (item) { %>' +
                                         '<button class="btn normal dlg-btn <%= item.cls %>" result="<%= item.value %>" <% if (item.id) { %>id="<%=item.id%>" <% } %> ><%= item.text %></button>'+
                                     '<% }); %>' +
                                 '</div>' +
@@ -639,7 +639,7 @@ define([
                         }
                     });
 
-                    options.buttons = newBtns;
+                    options.buttonsParsed = newBtns;
                     options.footerCls = options.footerCls || 'center';
                 }
 
