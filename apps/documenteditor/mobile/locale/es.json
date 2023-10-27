@@ -751,7 +751,8 @@
     "txtScheme6": "Concurrencia",
     "txtScheme7": "Equidad ",
     "txtScheme8": "Flujo",
-    "txtScheme9": "Fundición"
+    "txtScheme9": "Fundición",
+    "textDarkTheme": "Dark Theme"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Tiene cambios sin guardar. Haga clic en \"Permanecer en esta página\" para esperar a que se guarde automáticamente. Haga clic en \"Salir de esta página\" para descartar todos los cambios no guardados.",

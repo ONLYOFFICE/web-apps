@@ -751,7 +751,8 @@
     "textUnprotect": "Unprotect",
     "textVerify": "Verify",
     "textVersionHistory": "Version History",
-    "titleDialogUnprotect": "Unprotect Document"
+    "titleDialogUnprotect": "Unprotect Document",
+    "textDarkTheme": "Dark Theme"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "ທ່ານມີການປ່ຽນແປງທີ່ຍັງບໍ່ໄດ້ບັນທຶກໄວ້. ຄລິກທີ່ 'ຢູ່ໃນໜ້ານີ້' ເພື່ອລໍຖ້າການບັນທຶກອັດຕະໂນມັດ. ຄລິກ 'ອອກຈາກໜ້ານີ້' ເພື່ອຍົກເລີກການປ່ຽນແປງທີ່ບໍ່ໄດ້ບັນທຶກໄວ້ທັງໝົດ.",

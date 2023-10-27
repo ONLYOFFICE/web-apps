@@ -653,7 +653,8 @@
     "txtScheme6": "Concourse",
     "txtScheme7": "Equity",
     "txtScheme8": "Flow",
-    "txtScheme9": "Foundry"
+    "txtScheme9": "Foundry",
+    "textDarkTheme": "Dark Theme"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",

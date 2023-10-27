@@ -751,7 +751,8 @@
     "txtScheme6": "Zabaldegia",
     "txtScheme7": "Berdintza",
     "txtScheme8": "Fluxua",
-    "txtScheme9": "Sortzailea"
+    "txtScheme9": "Sortzailea",
+    "textDarkTheme": "Dark Theme"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Gorde gabeko aldaketak dituzu. Egin klik \"Jarraitu orri honetan\" gordetze-automatikoari itxaroteko. Egin klik \"Utzi orri hau\" gorde gabeko aldaketa guztiak baztertzeko.",

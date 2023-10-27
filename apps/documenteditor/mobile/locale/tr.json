@@ -751,7 +751,8 @@
     "txtScheme6": "Toplama",
     "txtScheme7": "Net Değer",
     "txtScheme8": "Yayılma",
-    "txtScheme9": "Döküm"
+    "txtScheme9": "Döküm",
+    "textDarkTheme": "Dark Theme"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Kaydedilmemiş değişiklikleriniz mevcut. Otomatik kaydetmeyi beklemek için 'Bu Sayfada Kal' seçeneğini tıklayın. Kaydedilmemiş tüm değişiklikleri atmak için 'Bu Sayfadan Ayrıl'ı tıklayın.",

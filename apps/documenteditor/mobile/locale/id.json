@@ -751,7 +751,8 @@
     "txtScheme6": "Himpunan",
     "txtScheme7": "Margin Sisa",
     "txtScheme8": "Alur",
-    "txtScheme9": "Cetakan"
+    "txtScheme9": "Cetakan",
+    "textDarkTheme": "Dark Theme"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Anda memiliki perubahan yang belum tersimpan. Klik 'Tetap di Halaman Ini' untuk menunggu simpan otomatis. Klik ‘Tinggalkan Halaman Ini’ untuk membatalkan semua perubahan yang belum disimpan.",
