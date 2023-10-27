@@ -92,7 +92,7 @@ define([
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-small">',
-                                        '<% if (scope.type == 1) { %>',
+                                        '<% if (type == 1) { %>',
                                             '<label class="input-label padding-small" style="display: block;">' + me.textBuildTableOF + '</label>',
                                             '<div id="tableofcontents-radio-caption" class="padding-small" style="display: block;"></div>',
                                             '<div id="tableofcontents-radio-style" class="" style="display: block;"></div>',
@@ -105,7 +105,7 @@ define([
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-small" style="vertical-align: top;">',
-                                        '<% if (scope.type == 1) { %>',
+                                        '<% if (type == 1) { %>',
                                             '<div id="tableofcontents-tof-from-caption" style="width:220px;">',
                                                 '<div id="tableofcontents-combo-captions" style="display: inline-block; width:129px; margin-bottom: 10px;"></div>',
                                             '</div>',
@@ -136,7 +136,7 @@ define([
                                     '</tr>',
                                 '</table>',
                             '</div></div>'
-                ].join(''))({scope: this})
+                ].join(''))({type: options.type || 0})
             }, options);
 
             this.api        = options.api;
