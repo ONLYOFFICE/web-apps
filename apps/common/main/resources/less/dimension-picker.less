@@ -12,24 +12,30 @@
     position: absolute !important;
 }
 
-.background-cells-all(@border-color, @fill-Color,  @first-coord, @background-color: @background-normal){
+.background-cells-all(@border-color, @fill-Color,  @first-coord, @second-coord: 2px){
 
     background:
-        linear-gradient( 90deg, @background-color, @background-color @first-coord, transparent @first-coord),
-        linear-gradient( to left, @background-color, @background-color @first-coord, transparent @first-coord),
-        linear-gradient(  to top, @background-color, @background-color @first-coord, transparent @first-coord),
-        linear-gradient(  @background-color, @background-color @first-coord, transparent @first-coord),
-        linear-gradient( to right, transparent, transparent @first-coord, @border-color  @first-coord, @border-color  2px, transparent 2px),
-        linear-gradient( to left, transparent, transparent @first-coord, @border-color  @first-coord, @border-color  2px, transparent 2px),
-        linear-gradient( to top, transparent, transparent @first-coord, @border-color  @first-coord, @border-color  2px, transparent 2px ),
-        linear-gradient( transparent, transparent @first-coord, @border-color  @first-coord, @border-color  2px, @fill-Color 2px );
+        linear-gradient( 90deg, @background-normal, @background-normal @first-coord, transparent @first-coord),         // left space
+        linear-gradient( to left, @background-normal, @background-normal @first-coord, transparent @first-coord),       // right space
+        linear-gradient(  to top, @background-normal, @background-normal @first-coord, transparent @first-coord),       // bottom space
+        linear-gradient(  @background-normal, @background-normal @first-coord, transparent @first-coord),               // top space
+        linear-gradient( to right, transparent, transparent @first-coord, @border-color  @first-coord, @border-color  @second-coord, transparent @second-coord),    // left board
+        linear-gradient( to left, transparent, transparent @first-coord, @border-color  @first-coord, @border-color  @second-coord, transparent @second-coord),     // right board
+        linear-gradient( to top, transparent, transparent @first-coord, @border-color  @first-coord, @border-color  @second-coord, transparent @second-coord ),     // bottom board
+        linear-gradient( transparent, transparent @first-coord, @border-color  @first-coord, @border-color  @second-coord, @fill-Color @second-coord );             // top board and fill
     background-size: 1em 1em;
 }
 .background-cells(@border-color, @fill-Color, @size-one-pixel: @scaled-one-px-value){
     @media only screen {
-        @media(-webkit-max-device-pixel-ratio: 1.9),
-        (max-resolution: 1.9dppx),
-        (max-resolution: 191dpi)
+        @media(-webkit-max-device-pixel-ratio: 1.49),
+        (max-resolution: 1.49dppx),
+        (max-resolution: 143dpi)
+        {
+            .background-cells-all(@border-color, @fill-Color, @size-one-pixel, @scaled-two-px-value);
+        }
+        @media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
+        (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx),
+        (min-resolution: 144dpi) and (max-resolution: 191dpi)
         {
             .background-cells-all(@border-color, @fill-Color, calc(2px - @size-one-pixel));
         }
