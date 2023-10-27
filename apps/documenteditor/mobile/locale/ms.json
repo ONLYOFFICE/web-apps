@@ -729,6 +729,7 @@
     "txtScheme8": "Aliran",
     "txtScheme9": "Faundri",
     "textChangePassword": "Change Password",
+    "textDarkTheme": "Dark Theme",
     "textDialogUnprotect": "Enter a password to unprotect document",
     "textEncryptFile": "Encrypt File",
     "textFillingForms": "Filling forms",
@@ -751,8 +752,7 @@
     "textUnprotect": "Unprotect",
     "textVerify": "Verify",
     "textVersionHistory": "Version History",
-    "titleDialogUnprotect": "Unprotect Document",
-    "textDarkTheme": "Dark Theme"
+    "titleDialogUnprotect": "Unprotect Document"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Anda mempunyai perubahan yang tidak disimpan. Klik 'Stay on this Page' untuk menunggu autosimpan. Klik 'Leave this Page' untuk membuang semua perubahan yang tidak disimpan.",

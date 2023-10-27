@@ -714,6 +714,7 @@
     "txtScheme9": "Zlieváreň",
     "textBeginningDocument": "Beginning of document",
     "textChangePassword": "Change Password",
+    "textDarkTheme": "Dark Theme",
     "textDialogUnprotect": "Enter a password to unprotect document",
     "textDirection": "Direction",
     "textEmptyHeading": "Empty Heading",
@@ -751,8 +752,7 @@
     "textVerify": "Verify",
     "textVersionHistory": "Version History",
     "textYes": "Yes",
-    "titleDialogUnprotect": "Unprotect Document",
-    "textDarkTheme": "Dark Theme"
+    "titleDialogUnprotect": "Unprotect Document"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Máte neuložené zmeny. Kliknite na „Zostať na tejto stránke“ a počkajte na automatické uloženie. Kliknutím na „Opustiť túto stránku“ zahodíte všetky neuložené zmeny.",

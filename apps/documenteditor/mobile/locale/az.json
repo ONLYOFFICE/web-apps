@@ -733,6 +733,7 @@
     "txtScheme7": "Bərabər",
     "txtScheme8": "Axın",
     "txtScheme9": "Emalatxana",
+    "textDarkTheme": "Dark Theme",
     "textDialogUnprotect": "Enter a password to unprotect document",
     "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appears in the table of contents.",
     "textEncryptFile": "Encrypt File",
@@ -751,8 +752,7 @@
     "textTrackedChanges": "Tracked changes",
     "textTypeEditing": "Type Of Editing",
     "textTypeEditingWarning": "Allow only this type of editing in the document.",
-    "titleDialogUnprotect": "Unprotect Document",
-    "textDarkTheme": "Dark Theme"
+    "titleDialogUnprotect": "Unprotect Document"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Saxlanmamış dəyişiklikləriniz var. Avtomatik saxlanmanı gözləmək üçün \"Bu Səhifədə Qalın\" üzərinə klikləyin. Bütün saxlanmamış dəyişiklikləri ləğv etmək üçün \"Bu səhifədən Çıxın\" hissəsinin üzərinə klikləyin.",

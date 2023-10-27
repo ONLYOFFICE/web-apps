@@ -628,6 +628,7 @@
     "textCommentsDisplay": "Display Komentar",
     "textCreated": "Dibuat",
     "textCustomSize": "Custom Ukuran",
+    "textDarkTheme": "Tema Gelap",
     "textDialogUnprotect": "Masukkan kata sandi untuk membuka proteksi dokumen",
     "textDirection": "Arah",
     "textDisableAll": "Nonaktifkan Semua",
@@ -751,8 +752,7 @@
     "txtScheme6": "Himpunan",
     "txtScheme7": "Margin Sisa",
     "txtScheme8": "Alur",
-    "txtScheme9": "Cetakan",
-    "textDarkTheme": "Dark Theme"
+    "txtScheme9": "Cetakan"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Anda memiliki perubahan yang belum tersimpan. Klik 'Tetap di Halaman Ini' untuk menunggu simpan otomatis. Klik ‘Tinggalkan Halaman Ini’ untuk membatalkan semua perubahan yang belum disimpan.",

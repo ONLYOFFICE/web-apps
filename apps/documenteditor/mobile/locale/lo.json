@@ -720,6 +720,7 @@
     "txtScheme9": "ໂຮງຫລໍ່",
     "textBeginningDocument": "Beginning of document",
     "textChangePassword": "Change Password",
+    "textDarkTheme": "Dark Theme",
     "textDialogUnprotect": "Enter a password to unprotect document",
     "textDirection": "Direction",
     "textEmptyHeading": "Empty Heading",
@@ -751,8 +752,7 @@
     "textUnprotect": "Unprotect",
     "textVerify": "Verify",
     "textVersionHistory": "Version History",
-    "titleDialogUnprotect": "Unprotect Document",
-    "textDarkTheme": "Dark Theme"
+    "titleDialogUnprotect": "Unprotect Document"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "ທ່ານມີການປ່ຽນແປງທີ່ຍັງບໍ່ໄດ້ບັນທຶກໄວ້. ຄລິກທີ່ 'ຢູ່ໃນໜ້ານີ້' ເພື່ອລໍຖ້າການບັນທຶກອັດຕະໂນມັດ. ຄລິກ 'ອອກຈາກໜ້ານີ້' ເພື່ອຍົກເລີກການປ່ຽນແປງທີ່ບໍ່ໄດ້ບັນທຶກໄວ້ທັງໝົດ.",

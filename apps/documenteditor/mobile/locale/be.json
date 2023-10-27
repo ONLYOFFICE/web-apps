@@ -703,6 +703,7 @@
     "textBeginningDocument": "Beginning of document",
     "textChangePassword": "Change Password",
     "textChooseEncoding": "Choose Encoding",
+    "textDarkTheme": "Dark Theme",
     "textDialogUnprotect": "Enter a password to unprotect document",
     "textDirection": "Direction",
     "textDisableAllMacrosWithNotification": "Disable all macros with notification",
@@ -751,8 +752,7 @@
     "txtDownloadTxt": "Download TXT",
     "txtIncorrectPwd": "Password is incorrect",
     "txtProtected": "Once you enter the password and open the file, the current password will be reset",
-    "txtScheme22": "New Office",
-    "textDarkTheme": "Dark Theme"
+    "txtScheme22": "New Office"
   },
   "Toolbar": {
     "dlgLeaveTitleText": "Вы выходзіце з праграмы",

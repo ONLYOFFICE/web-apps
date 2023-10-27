@@ -628,6 +628,7 @@
     "textCommentsDisplay": "Visualización de comentarios",
     "textCreated": "Creado",
     "textCustomSize": "Tamaño personalizado",
+    "textDarkTheme": "Tema escuro",
     "textDirection": "Dirección ",
     "textDisableAll": "Desactivar todo",
     "textDisableAllMacrosWithNotification": "Desactivar todas as macros con notificación",
@@ -751,8 +752,7 @@
     "textTypeEditing": "Type Of Editing",
     "textTypeEditingWarning": "Allow only this type of editing in the document.",
     "textVerify": "Verify",
-    "titleDialogUnprotect": "Unprotect Document",
-    "textDarkTheme": "Dark Theme"
+    "titleDialogUnprotect": "Unprotect Document"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Ten cambios sen gardar. Prema en \"Permanecer nesta páxina\" para esperar a que se garde automaticamente. Prema en \"Saír desta páxina\" para descartar todos os cambios non gardados.",

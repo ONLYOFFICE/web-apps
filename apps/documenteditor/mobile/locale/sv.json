@@ -593,6 +593,7 @@
     "textColorSchemes": "Color Schemes",
     "textCreated": "Created",
     "textCustomSize": "Custom Size",
+    "textDarkTheme": "Dark Theme",
     "textDialogUnprotect": "Enter a password to unprotect document",
     "textDisableAll": "Disable All",
     "textDisableAllMacrosWithNotification": "Disable all macros with notification",
@@ -713,8 +714,7 @@
     "txtScheme6": "Concourse",
     "txtScheme7": "Equity",
     "txtScheme8": "Flow",
-    "txtScheme9": "Foundry",
-    "textDarkTheme": "Dark Theme"
+    "txtScheme9": "Foundry"
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",

@@ -627,6 +627,7 @@
     "textCommentsDisplay": "Visualizzazione di commenti",
     "textCreated": "Creato",
     "textCustomSize": "Dimensione personalizzata",
+    "textDarkTheme": "‎Tema scuro‎",
     "textDirection": "Direzione",
     "textDisableAll": "Disabilitare tutto",
     "textDisableAllMacrosWithNotification": "Disattivare tutte le macro con notifica",
@@ -751,8 +752,7 @@
     "textUnprotect": "Unprotect",
     "textVerify": "Verify",
     "textVersionHistory": "Version History",
-    "titleDialogUnprotect": "Unprotect Document",
-    "textDarkTheme": "Dark Theme"
+    "titleDialogUnprotect": "Unprotect Document"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Hai dei cambiamenti non salvati. Premi 'Rimanere sulla pagina' per attendere il salvataggio automatico. Premi 'Lasciare la pagina' per eliminare tutte le modifiche non salvate.",
