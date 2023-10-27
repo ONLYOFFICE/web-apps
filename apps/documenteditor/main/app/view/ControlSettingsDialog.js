@@ -369,7 +369,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 this.list, this.btnAdd, this.btnChange, this.btnDelete, this.btnUp, this.btnDown, // 2 tab
                 this.txtDate, this.listFormats, this.cmbLang, // 3 tab,
                 this.btnEditChecked, this.btnEditUnchecked // 4 tab,
-            ]);
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {

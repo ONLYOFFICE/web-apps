@@ -441,16 +441,16 @@ define([
             this.scrollerY.update();
             this.scrollerY.scrollTop(0);
 
-            this.btnOk = new Common.UI.Button({
-                el: this.$window.find('.primary')
-            });
+            this.btnOk = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+            }) || new Common.UI.Button({ el: this.$window.find('.primary') });
 
             this.afterRender();
         },
 
         getFocusedComponents: function() {
             return [ this.chPages, this.chAlign, this.cmbLeader, this.chLinks, this.radioLevels, this.radioStyles, this.spnLevels, this.stylesList, this.cmbStyles,
-                     this.radioCaption, this.radioStyle, this.cmbCaptions, this.cmbTOFStyles, this.chFullCaption];
+                     this.radioCaption, this.radioStyle, this.cmbCaptions, this.cmbTOFStyles, this.chFullCaption].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

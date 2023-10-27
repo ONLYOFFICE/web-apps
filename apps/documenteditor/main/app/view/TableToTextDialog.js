@@ -130,7 +130,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.rbPara, this.rbTabs, this.rbSemi, this.rbOther, this.inputOther, this.chNested];
+            return [this.rbPara, this.rbTabs, this.rbSemi, this.rbOther, this.inputOther, this.chNested].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

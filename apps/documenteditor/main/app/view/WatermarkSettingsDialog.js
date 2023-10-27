@@ -346,17 +346,17 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             });
             this.textControls.push(this.radioHor);
 
-            this.btnOk = new Common.UI.Button({
-                el: this.$window.find('.primary'),
-                disabled: true
-            });
+            this.btnOk = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+            }) || new Common.UI.Button({ el: this.$window.find('.primary') });
+            this.btnOk.setDisabled(true);
 
             this.afterRender();
         },
 
         getFocusedComponents: function() {
             return [ this.radioNone, this.radioText, this.cmbLang, this.cmbText, this.cmbFonts, this.cmbFontSize, this.btnTextColor, this.btnBold, this.btnItalic, this.btnUnderline, this.btnStrikeout,
-                     this.chTransparency, this.radioDiag, this.radioHor, this.radioImage, this.cmbScale ];
+                     this.chTransparency, this.radioDiag, this.radioHor, this.radioImage, this.cmbScale ].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

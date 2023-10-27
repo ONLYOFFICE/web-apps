@@ -354,7 +354,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.txtCaption, this.cmbPosition, this.cmbLabel,  this.btnAdd, this.btnDelete, this.chExclude, this.cmbNumbering, this.chChapter, this.cmbChapter, this.cmbSeparator];
+            return [this.txtCaption, this.cmbPosition, this.cmbLabel,  this.btnAdd, this.btnDelete, this.chExclude, this.cmbNumbering, this.chChapter, this.cmbChapter, this.cmbSeparator].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

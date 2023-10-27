@@ -189,7 +189,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.btnColor, this.inputName];
+            return [this.btnColor, this.inputName].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

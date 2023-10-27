@@ -218,7 +218,7 @@ define([
             this.btnAdvanced && arr.push(this.btnAdvanced);
             this.txtDestRange && arr.push(this.txtDestRange);
 
-            return arr;
+            return arr.concat(this.getFooterButtons());
         },
 
         show: function() {

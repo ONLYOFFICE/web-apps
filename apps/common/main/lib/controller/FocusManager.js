@@ -118,13 +118,15 @@ Common.UI.FocusManager = new(function() {
         current.traps = [trapFirst, trapLast];
     };
 
-    var updateTabIndexes = function(increment) {
+    var updateTabIndexes = function(increment, winindex) {
         var step = increment ? 1 : -1;
         for (var cid in _windows) {
             if (_windows.hasOwnProperty(cid)) {
                 var item = _windows[cid];
-                if (item && item.index < _count-1 && item.traps)
+                if (item && item.index < winindex && item.traps)
                     item.traps[1].attr('tabindex', (parseInt(item.traps[1].attr('tabindex')) + step).toString());
+                if (!increment && item && item.index > winindex) //change windows indexes when close one
+                    item.index--;
             }
         }
     };
@@ -157,7 +159,7 @@ Common.UI.FocusManager = new(function() {
                             hidden: false,
                             index: _count++
                         };
-                        updateTabIndexes(true);
+                        updateTabIndexes(true, _windows[e.cid].index);
                     }
                 }
             },
@@ -172,7 +174,7 @@ Common.UI.FocusManager = new(function() {
             },
             'modal:close': function(e, last) {
                 if (e && e.cid && _windows[e.cid]) {
-                    updateTabIndexes(false);
+                    updateTabIndexes(false, _windows[e.cid].index);
                     delete _windows[e.cid];
                     _count--;
                 }

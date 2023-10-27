@@ -281,15 +281,15 @@ define([
             });
             this.cmbApply.setValue(arr[0].value);
 
-            this.btnApply = new Common.UI.Button({
-                el: $('#note-settings-btn-apply')
-            });
+            this.btnApply = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('#note-settings-btn-apply').addBack().filter('#note-settings-btn-apply').length>0);
+            }) || new Common.UI.Button({ el: $('#note-settings-btn-apply') });
 
             this.afterRender();
         },
 
         getFocusedComponents: function() {
-            return [this.radioFootnote, this.cmbFootnote, this.radioEndnote, this.cmbEndnote, this.cmbFormat, this.spnStart, this.cmbNumbering, this.txtCustom, this.cmbApply];
+            return [this.radioFootnote, this.cmbFootnote, this.radioEndnote, this.cmbEndnote, this.cmbFormat, this.spnStart, this.cmbNumbering, this.txtCustom, this.cmbApply].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

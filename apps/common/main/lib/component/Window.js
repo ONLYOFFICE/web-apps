@@ -216,6 +216,9 @@ define([
                         }
                         break;
                     case Common.UI.Keys.RETURN:
+                        var target = $(event.target);
+                        if (target.hasClass('dlg-btn') && !target.hasClass('primary')) return;
+
                         if (this.$window.find('.btn.primary').length && $('.asc-loadmask').length<1) {
                             if ((this.initConfig.onprimary || this.onPrimary).call(this)===false) {
                                 event.preventDefault();
@@ -484,11 +487,13 @@ define([
             _.extend(options, {
                 cls: 'alert',
                 onprimary: onKeyDown,
+                getFocusedComponents: getFocusedComponents,
                 tpl: _.template(template)(options)
             });
 
             var win = new Common.UI.Window(options),
                chDontShow = null;
+            win.getFocusedComponents = getFocusedComponents;
 
             function autoSize(window) {
                 var text_cnt    = window.getChild('.info-box');
@@ -542,6 +547,10 @@ define([
                 return false;
             }
 
+            function getFocusedComponents(event) {
+                return win.getFooterButtons();
+           }
+
             win.on({
                 'render:after': function(obj){
                     var footer = obj.getChild('.footer');
@@ -554,7 +563,7 @@ define([
                     autoSize(obj);
                 },
                 show: function(obj) {
-                    obj.getChild('.footer .dlg-btn').focus();
+                    obj.getChild('.footer .dlg-btn.primary').focus();
                 },
                 close: function() {
                     options.callback && options.callback.call(win, 'close');
@@ -1032,6 +1041,19 @@ define([
             },
 
             getDefaultFocusableComponent: function() {
+            },
+
+            getFooterButtons: function() {
+                if (!this.footerButtons) {
+                    var arr = [];
+                    this.$window.find('.dlg-btn').each(function(index, item) {
+                        arr.push(new Common.UI.Button({
+                            el: $(item)
+                        }));
+                    });
+                    this.footerButtons = arr;
+                }
+                return this.footerButtons;
             },
 
             cancelButtonText: 'Cancel',

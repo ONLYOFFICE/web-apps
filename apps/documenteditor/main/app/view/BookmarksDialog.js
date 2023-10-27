@@ -245,7 +245,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.txtName, this.radioName, this.radioLocation, this.bookmarksList, this.btnAdd, this.btnGoto, this.btnGetLink, this.btnDelete, this.chHidden];
+            return [this.txtName, this.radioName, this.radioLocation, this.bookmarksList, this.btnAdd, this.btnGoto, this.btnGetLink, this.btnDelete, this.chHidden].concat(this.getFooterButtons());
         },
 
         afterRender: function() {

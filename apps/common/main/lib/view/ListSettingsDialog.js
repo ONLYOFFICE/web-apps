@@ -381,9 +381,9 @@ define([
             this.btnSelectImage.menu.on('item:click', _.bind(this.onImageSelect, this));
             this.btnSelectImage.menu.items[2].setVisible(this.storage);
 
-            this.btnOk = new Common.UI.Button({
-                el: $window.find('.primary')
-            });
+            this.btnOk = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+            }) || new Common.UI.Button({ el: $window.find('.primary') });
 
             me.numberingControls = $window.find('tr.numbering');
             me.imageControls = $window.find('tr.image');
@@ -396,7 +396,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbNumFormat, this.cmbBulletFormat, this.btnSelectImage, this.spnSize, this.spnStart, this.btnColor];
+            return [this.btnBullet, this.btnNumbering, this.cmbNumFormat, this.cmbBulletFormat, this.btnSelectImage, this.spnSize, this.spnStart, this.btnColor].concat(this.getFooterButtons());
         },
 
         afterRender: function() {

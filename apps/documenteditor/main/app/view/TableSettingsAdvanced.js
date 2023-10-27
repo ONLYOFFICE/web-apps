@@ -1022,7 +1022,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this.radioVAlign, this.cmbVAlign , this.radioVPosition, this.cmbVRelative, this.spnY, this.cmbVPosition, this.chMove, this.chOverlap, // 3 tab
                 this.btnWrapNone, this.btnWrapParallel, this.btnAlignLeft, this.btnAlignCenter, this.btnAlignRight, this.spnIndentLeft, this.spnDistanceTop, this.spnDistanceLeft, this.spnDistanceBottom, this.spnDistanceRight, // 4 tab
                 this.inputAltTitle, this.textareaAltDescription  // 5 tab
-            ]);
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {

@@ -717,7 +717,7 @@ define([
                 this.btnNone, this.btnInText, this.btnInMargin, this.cmbFonts, this.spnRowHeight, this.numDistance, // 1 tab
                 this.cmbBorderSize, this.btnBorderColor]).concat(this._btnsBorderPosition).concat([this.btnBackColor,  // 2 tab
                 this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight // 3 tab
-            ]);
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {

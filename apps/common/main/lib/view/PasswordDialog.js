@@ -117,7 +117,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.inputPwd, this.repeatPwd];
+            return [this.inputPwd, this.repeatPwd].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

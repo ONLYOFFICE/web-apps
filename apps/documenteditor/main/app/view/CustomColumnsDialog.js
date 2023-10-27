@@ -221,7 +221,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.spnColumns, this.chEqualWidth, this.chSeparator];
+            return [this.spnColumns, this.chEqualWidth, this.chSeparator].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

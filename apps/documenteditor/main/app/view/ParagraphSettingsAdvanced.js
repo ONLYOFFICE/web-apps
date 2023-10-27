@@ -721,7 +721,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 this.chStrike, this.chSubscript, this.chDoubleStrike, this.chSmallCaps, this.chSuperscript, this.chAllCaps, this.numSpacing, this.numPosition, // 3 tab
                 this.numDefaultTab, this.numTab, this.cmbAlign, this.cmbLeader, this.tabList, this.btnAddTab, this.btnRemoveTab, this.btnRemoveAll,// 4 tab
                 this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight // 5 tab
-            ]);
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index, cmp, e) {

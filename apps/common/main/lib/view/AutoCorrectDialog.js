@@ -501,6 +501,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 ]);
             arr = arr.concat(this.chNewRows ? [this.chHyperlink, this.chNewRows] : [this.chQuotes, this.chHyphens, this.chHyperlink, this.chDoubleSpaces, this.chBulleted, this.chNumbered]);
             arr = arr.concat(this.chkSentenceExceptions ? [this.chkSentenceExceptions, this.chkSentenceCells, this.exceptionsLangCmb, this.exceptionsFindInput, this.exceptionsList, this.btnResetExceptions, this.btnAddExceptions, this.btnDeleteExceptions] : []);
+            arr = arr.concat(this.getFooterButtons());
             return arr;
         },
 

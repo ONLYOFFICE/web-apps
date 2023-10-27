@@ -138,7 +138,7 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
         },
 
         getFocusedComponents: function() {
-            return [ this.btnUp, this.btnDown, this.rolesList, this.btnNewRole, this.btnEditRole, this.btnDeleteRole ];
+            return [ this.btnUp, this.btnDown, this.rolesList, this.btnNewRole, this.btnEditRole, this.btnDeleteRole ].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

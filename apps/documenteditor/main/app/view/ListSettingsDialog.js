@@ -711,12 +711,12 @@ define([
         getFocusedComponents: function() {
             switch (this.type) {
                 case 0:
-                    return [this.cmbFormat, this.cmbAlign, this.cmbSize, this.btnBold, this.btnItalic, this.btnColor];
+                    return [this.cmbFormat, this.cmbAlign, this.cmbSize, this.btnBold, this.btnItalic, this.btnColor].concat(this.getFooterButtons());
                 case 1:
-                    return [this.cmbFormat, this.cmbAlign, this.txtNumFormat, this.cmbFonts, this.btnBold, this.btnItalic, this.btnColor, this.cmbSize];
+                    return [this.cmbFormat, this.cmbAlign, this.txtNumFormat, this.cmbFonts, this.btnBold, this.btnItalic, this.btnColor, this.cmbSize].concat(this.getFooterButtons());
                 case 2:
                     return [this.cmbFormat, this.cmbSize, this.btnBold, this.btnItalic, this.btnColor, this.txtNumFormat, this.btnMore, this.levelsList,
-                            this.cmbFonts, this.cmbLevel, this.spnStart, this.chRestart, this.cmbAlign, this.spnAlign, this.spnIndents, this.cmbFollow, this.chTabStop, this.spnTabStop];
+                            this.cmbFonts, this.cmbLevel, this.spnStart, this.chRestart, this.cmbAlign, this.spnAlign, this.spnIndents, this.cmbFollow, this.chTabStop, this.spnTabStop].concat(this.getFooterButtons());
             }
             return [];
         },
