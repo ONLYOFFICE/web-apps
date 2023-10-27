@@ -597,6 +597,7 @@
     "textChooseTxtOptions": "Choose TXT Options",
     "textCreated": "Created",
     "textCustomSize": "Custom Size",
+    "textDarkTheme": "Dark Theme",
     "textDialogUnprotect": "Enter a password to unprotect document",
     "textDirection": "Direction",
     "textDisableAll": "Disable All",
@@ -713,8 +714,7 @@
     "txtScheme6": "Concourse",
     "txtScheme7": "Equity",
     "txtScheme8": "Flow",
-    "txtScheme9": "Foundry",
-    "textDarkTheme": "Dark Theme"
+    "txtScheme9": "Foundry"
   },
   "Toolbar": {
     "textCloseHistory": "Zamknij historię",

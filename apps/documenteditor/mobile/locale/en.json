@@ -628,6 +628,7 @@
     "textCommentsDisplay": "Comments Display",
     "textCreated": "Created",
     "textCustomSize": "Custom Size",
+    "textDarkTheme": "Dark Theme",
     "textDialogUnprotect": "Enter a password to unprotect document",
     "textDirection": "Direction",
     "textDisableAll": "Disable All",
@@ -751,8 +752,7 @@
     "txtScheme6": "Concourse",
     "txtScheme7": "Equity",
     "txtScheme8": "Flow",
-    "txtScheme9": "Foundry",
-    "textDarkTheme": "Dark Theme"
+    "txtScheme9": "Foundry"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",

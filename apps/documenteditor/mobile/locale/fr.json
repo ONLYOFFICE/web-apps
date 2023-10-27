@@ -628,6 +628,7 @@
     "textCommentsDisplay": "Affichage des commentaires ",
     "textCreated": "Créé",
     "textCustomSize": "Taille personnalisée",
+    "textDarkTheme": "Thème sombre",
     "textDialogUnprotect": "Saisissez le mot de passe pour déprotéger le document",
     "textDirection": "Direction",
     "textDisableAll": "Désactiver tout",
@@ -751,8 +752,7 @@
     "txtScheme6": "Rotonde",
     "txtScheme7": "Capitaux",
     "txtScheme8": "Flux",
-    "txtScheme9": "Fonderie",
-    "textDarkTheme": "Dark Theme"
+    "txtScheme9": "Fonderie"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Vous avez des modifications non enregistrées dans ce document. Cliquez sur Rester sur cette page et attendez l'enregistrement automatique. Cliquez sur Quitter cette page pour annuler toutes les modifications non enregistrées.",

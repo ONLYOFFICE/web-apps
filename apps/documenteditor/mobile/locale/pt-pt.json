@@ -628,6 +628,7 @@
     "textCommentsDisplay": "Exibição de comentários",
     "textCreated": "Criado",
     "textCustomSize": "Tamanho personalizado",
+    "textDarkTheme": "Tema escuro",
     "textDialogUnprotect": "Introduza a palavra-passe para desproteger o documento",
     "textDirection": "Direção",
     "textDisableAll": "Desativar tudo",
@@ -751,8 +752,7 @@
     "txtScheme6": "Concurso",
     "txtScheme7": "Equidade",
     "txtScheme8": "Fluxo",
-    "txtScheme9": "Fundição",
-    "textDarkTheme": "Dark Theme"
+    "txtScheme9": "Fundição"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Existem alterações não guardadas. Clique 'Ficar na página' para guardar automaticamente. Clique 'Sair da página' para rejeitar todas as alterações.",

@@ -303,6 +303,7 @@
   "PDFE.Controllers.Main.errorDirectUrl": "Bitte überprüfen Sie den Link zum Dokument.<br>Dieser Link muss ein direkter Link zu der Datei zum Herunterladen sein.",
   "PDFE.Controllers.Main.errorEditingDownloadas": "Bei der Arbeit mit dem Dokument ist ein Fehler aufgetreten. <br> Verwenden Sie die Option 'Herunterladen als', um die Sicherungskopie der Datei auf der Festplatte Ihres Computers zu speichern.",
   "PDFE.Controllers.Main.errorEditingSaveas": "Bei der Arbeit mit dem Dokument ist ein Fehler aufgetreten. <br> Verwenden Sie die Option \"Speichern als ...\", um die Sicherungskopie der Datei auf der Festplatte Ihres Computers zu speichern.",
+  "PDFE.Controllers.Main.errorEmailClient": "Es wurde kein E-Mail-Client gefunden.",
   "PDFE.Controllers.Main.errorFilePassProtect": "Das Dokument ist kennwortgeschützt und kann nicht geöffnet werden.",
   "PDFE.Controllers.Main.errorFileSizeExceed": "Die Dateigröße überschreitet die für Ihren Server festgelegte Einschränkung.<br>Weitere Informationen können Sie von Ihrem Document Server-Administrator erhalten.",
   "PDFE.Controllers.Main.errorForceSave": "Beim Speichern der Datei ist ein Fehler aufgetreten. Verwenden Sie die Option \"Herunterladen als\", um die Datei auf Ihrer Computerfestplatte zu speichern oder versuchen Sie es später erneut.",
