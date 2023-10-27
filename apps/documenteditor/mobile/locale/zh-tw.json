@@ -751,7 +751,8 @@
     "txtScheme9": "鑄造廠",
     "textPasswordWarning": "If the password is forgotten or lost, it cannot be recovered.",
     "textTypeEditingWarning": "Allow only this type of editing in the document.",
-    "textVersionHistory": "Version History"
+    "textVersionHistory": "Version History",
+    "textDarkTheme": "Dark Theme"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "您有未儲存的變更。點擊“留在此頁面”以等待自動儲存。點擊“離開此頁面”以放棄所有未儲存的變更。",

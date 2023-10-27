@@ -751,7 +751,8 @@
     "txtScheme6": "Együttműködés",
     "txtScheme7": "Méltányosság",
     "txtScheme8": "Folyam",
-    "txtScheme9": "Öntöde"
+    "txtScheme9": "Öntöde",
+    "textDarkTheme": "Dark Theme"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Vannak el nem mentett módosításai. Kattintson a 'Maradjon ezen az oldalon' gombra az automatikus mentéshez. Kattintson a 'Hagyja el ezt az oldalt' gombra a mentetlen módosítások elvetéséhez.",

@@ -92,7 +92,7 @@ const PageApplicationSettings = props => {
                 </ListItem>
             </List>
             <List>
-                <ListItem title={'Dark theme'}>
+                <ListItem title={t('Settings.textDarkTheme')}>
                     <Toggle checked={isThemeDark}
                         onToggleChange={() => {Themes.switchDarkTheme(!isThemeDark), setIsThemeDark(!isThemeDark)}}>
                     </Toggle>

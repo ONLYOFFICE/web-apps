@@ -751,7 +751,8 @@
     "txtDownloadTxt": "Download TXT",
     "txtIncorrectPwd": "Password is incorrect",
     "txtProtected": "Once you enter the password and open the file, the current password will be reset",
-    "txtScheme22": "New Office"
+    "txtScheme22": "New Office",
+    "textDarkTheme": "Dark Theme"
   },
   "Toolbar": {
     "dlgLeaveTitleText": "Вы выходзіце з праграмы",

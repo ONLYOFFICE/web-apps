@@ -751,7 +751,8 @@
     "textVerify": "Verify",
     "textVersionHistory": "Version History",
     "textYes": "Yes",
-    "titleDialogUnprotect": "Unprotect Document"
+    "titleDialogUnprotect": "Unprotect Document",
+    "textDarkTheme": "Dark Theme"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "У документі є незбережені зміни. Натисніть 'Залишитись на сторінці', щоб дочекатися автозбереження. Натисніть 'Піти зі сторінки', щоб скинути всі незбережені зміни.",

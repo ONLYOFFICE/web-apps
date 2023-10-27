@@ -751,7 +751,8 @@
     "textPasswordWarning": "If the password is forgotten or lost, it cannot be recovered.",
     "textProtectTurnOff": "Protection is turned off",
     "textRequirePassword": "Require Password",
-    "textTypeEditing": "Type Of Editing"
+    "textTypeEditing": "Type Of Editing",
+    "textDarkTheme": "Dark Theme"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Jums ir nesaglabātas izmaiņas. Noklikšķiniet uz Palikt šajā lapā, lai gaidītu automātisko saglabāšanu. Noklikšķiniet uz 'Pamest lapu', lai atmestu visas nesaglabātās izmaiņas.",
