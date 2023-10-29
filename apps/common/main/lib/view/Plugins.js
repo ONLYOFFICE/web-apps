@@ -94,8 +94,6 @@ define([
                 items: []
             });
 
-            $(window).on('resize', _.bind(this.setMoreButton, this));
-
             this.trigger('render:after', this);
             return this;
         },
@@ -401,207 +399,26 @@ define([
             this.fireEvent('hide', this );
         },
 
-        createPluginIdentifier: function (name) {
-            var n = name.toLowerCase().replace(/\s/g, '-'),
-                panelId = 'left-panel-plugins-' + name;
-            var length = $('#' + panelId).length;
-            if (length > 0) {
-                n = n + '-' + length;
-            }
-            return n;
-        },
-
-        addNewPluginToLeftMenu: function (leftMenu, plugin, variation, lName) {
-            if (!this.leftMenu) {
-                this.leftMenu = leftMenu;
-            }
-
-            var pluginGuid = plugin.get_Guid(),
-                name = this.createPluginIdentifier(plugin.get_Name('en')),
-                panelId = 'left-panel-plugins-' + name,
-                model = this.storePlugins.findWhere({guid: pluginGuid}),
-                icon_url = model.get('baseUrl') + model.get('parsedIcons')['normal'];
-
-            var leftMenuView = this.leftMenu.getView('LeftMenu');
-
-            if (!leftMenuView.pluginSeparator.is(':visible')) {
-                leftMenuView.pluginSeparator.show();
-            }
-            leftMenuView.pluginSeparator.after('<div id="slot-btn-plugins' + name + '"></div>');
-            leftMenuView.$el.find('.left-panel').append('<div id="'+ panelId + '" class="" style="display: none; height: 100%;"></div>');
-            var button = new Common.UI.Button({
-                parentEl: leftMenuView.$el.find('#slot-btn-plugins' + name),
-                cls: 'btn-category plugin-buttons',
-                hint: lName,
-                enableToggle: true,
-                toggleGroup: 'leftMenuGroup',
-                iconImg: icon_url,
-                onlyIcon: true,
-                value: pluginGuid
-            });
-            button.on('click', _.bind(this.onShowPlugin, this, pluginGuid));
-            this.pluginBtns = Object.assign({[pluginGuid]: button}, this.pluginBtns);
-
-            this.setMoreButton();
-
-            return panelId;
-        },
-
-        setMoreButton: function () {
-            if (Object.keys(this.pluginBtns).length === 0) return;
-            var leftMenuView = this.leftMenu.getView('LeftMenu');
-
-            var $more = leftMenuView.pluginMoreContainer,
-                maxHeight = leftMenuView.$el.height(),
-                buttons = leftMenuView.$el.find('.btn-category:visible:not(.plugin-buttons)'),
-                btnHeight = $(buttons[0]).outerHeight() + parseFloat($(buttons[0]).css('margin-bottom')),
-                height = parseFloat(leftMenuView.$el.find('.tool-menu-btns').css('padding-top')) +
-                    buttons.length * btnHeight + 9, // 9 - separator
-                arrMore = [],
-                last, // last visible plugin button
-                i = 0,
-                length = Object.keys(this.pluginBtns).length;
-
-            for (var key in this.pluginBtns) {
-                height += btnHeight;
-                if (height > maxHeight) {
-                    last = $more.is(':visible') ? i : i - 1;
-                    break;
+        showPluginPanel: function (show, guid) {
+            if (show) {
+                for (var key in this.pluginPanels) {
+                    this.pluginPanels[key].hide();
                 }
-                i++;
-            }
-
-            if (last < length - 1) {
-                i = 0;
-                for (var key in this.pluginBtns) {
-                    if (i >= last) {
-                        arrMore.push({
-                            value: key,
-                            caption: this.pluginBtns[key].hint,
-                            iconImg: this.pluginBtns[key].options.iconImg,
-                            template: _.template([
-                                '<a id="<%= id %>" class="menu-item">',
-                                    '<img class="menu-item-icon" src="<%= options.iconImg %>">',
-                                    '<%= caption %>',
-                                '</a>'
-                            ].join(''))
-                        })
-                        this.pluginBtns[key].cmpEl.hide();
-                    } else {
-                        this.pluginBtns[key].cmpEl.show();
-                    }
-                    i++;
-                }
-
-                if (arrMore.length > 0) {
-                    if (!this.btnPluginMore) {
-                        this.btnPluginMore = new Common.UI.Button({
-                            parentEl: $more,
-                            id: 'left-btn-plugins-more',
-                            cls: 'btn-category',
-                            iconCls: 'toolbar__icon btn-more',
-                            onlyIcon: true,
-                            hint: this.tipMore,
-                            menu: new Common.UI.Menu({
-                                cls: 'shifted-right',
-                                menuAlign: 'tl-tr',
-                                items: arrMore
-                            })
-                        });
-                        this.btnPluginMore.menu.on('item:click', _.bind(this.onMenuShowPlugin, this));
-                    } else {
-                        this.btnPluginMore.menu.removeAll();
-                        for (i = 0; i < arrMore.length; i++) {
-                            this.btnPluginMore.menu.addItem(arrMore[i]);
-                        }
-                    }
-                    $more.show();
-                }
+                this.pluginPanels[guid].show();
             } else {
-                for (var key in this.pluginBtns) {
-                    this.pluginBtns[key].cmpEl.show();
-                }
-                $more.hide();
+                this.pluginPanels[guid].hide();
+                this.fireEvent('hide', this);
             }
+            //this.updateLeftPluginButton(guid);
         },
 
-        liftUpPluginButton: function (guid) {
-            var btn = this.pluginBtns[guid],
-                $btn = btn.cmpEl;
-            if (!btn.cmpEl.is(':visible')) {
-                var $separator = this.leftMenu.getView('LeftMenu').pluginSeparator;
-                $btn.parent().insertAfter($separator);
-                delete this.pluginBtns[guid];
-                this.pluginBtns = Object.assign({[guid]: btn}, this.pluginBtns);
-                this.setMoreButton();
-            }
-        },
-
-        onMenuShowPlugin: function (menu, item) {
-            var guid = item.value;
-            this.liftUpPluginButton(guid);
-            this.pluginBtns[guid].toggle(!this.pluginBtns[guid].pressed);
-            this.onShowPlugin(guid);
-        },
-
-        openPlugin: function (guid) {
-            if (!this.pluginBtns[guid].isDisabled() && !this.pluginBtns[guid].pressed) {
-                this.pluginBtns[guid].toggle(true);
-                this.onShowPlugin(guid);
-            }
-        },
-
-        onShowPlugin: function (guid) {
-            var leftMenuView = this.leftMenu.getView('LeftMenu');
-            if (!this.pluginBtns[guid].isDisabled()) {
-                if (this.pluginBtns[guid].pressed) {
-                    this.leftMenu.tryToShowLeftMenu();
-                    for (var key in this.pluginPanels) {
-                        this.pluginPanels[key].hide();
-                    }
-                    this.pluginPanels[guid].show();
-                } else {
-                    this.pluginPanels[guid].hide();
-                    this.fireEvent('hide', this);
-                }
-                this.updateLeftPluginButton(guid);
-                leftMenuView.onBtnMenuClick(this.pluginBtns[guid]);
-            }
-        },
-
-        onClosePlugin: function (guid) {
-            var leftMenuView = this.leftMenu.getView('LeftMenu');
-            this.pluginBtns[guid].cmpEl.parent().remove();
-            this.pluginPanels[guid].$el.remove();
-            delete this.pluginBtns[guid];
-            delete this.pluginPanels[guid];
-            leftMenuView.close();
-
-            if (Object.keys(this.pluginPanels).length === 0) {
-                leftMenuView.pluginSeparator.hide();
-            } else {
-                this.setMoreButton();
-            }
-        },
-
-        updateLeftPluginButton: function(guid) {
+        /*updateLeftPluginButton: function(guid) {
             var model = this.storePlugins.findWhere({guid: guid}),
                 btn = this.pluginBtns[guid];
             if (btn && btn.cmpEl) {
                 btn.cmpEl.find("img").attr("src", model.get('baseUrl') + model.get('parsedIcons')[btn.pressed ? 'active' : 'normal']);
             }
-        },
-
-        setDisabledLeftPluginButtons: function (disable) {
-            if (Object.keys(this.pluginBtns).length > 0) {
-                for (var key in this.pluginBtns) {
-                    this.pluginBtns[key].setDisabled(disable);
-                }
-            }
-            if (this.btnPluginMore) {
-                this.btnPluginMore.setDisabled(disable);
-            }
-        },
+        },*/
 
         strPlugins: 'Plugins',
         textStart: 'Start',

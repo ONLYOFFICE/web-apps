@@ -77,14 +77,16 @@ define([
                         if (!this.viewPlugins.pluginPanels[guid]) {
                             me.api.asc_pluginRun(guid, type, '');
                         } else {
-                            me.viewPlugins.liftUpPluginButton(guid);
-                            me.viewPlugins.openPlugin(guid);
+                            me.openUIPlugin(guid);
                         }
                     }
                 },
                 'LeftMenu': {
-                    'plugins:disable': function (disable) {
-                        me.viewPlugins.setDisabledLeftPluginButtons(disable);
+                    'plugins:showpanel': function (guid) {
+                        me.viewPlugins.showPluginPanel(true, guid);
+                    },
+                    'plugins:hidepanel': function (guid) {
+                        me.viewPlugins.showPluginPanel(false, guid);
                     }
                 }
             });
@@ -203,7 +205,7 @@ define([
 
         onAfterRender: function(panel, guid) {
             var me = this;
-            this.viewPlugins.openPlugin(guid);
+            this.openUIPlugin(guid);
             panel.pluginClose.on('click', _.bind(this.onToolClose, this, panel));
             Common.NotificationCenter.on({
                 'layout:resizestart': function(e) {
@@ -540,6 +542,43 @@ define([
                 this.api.asc_pluginRun(record.get('guid'), 0, '');
         },
 
+        addPluginToSideMenu: function (plugin, variation, langName) {
+            function createUniqueName (name) {
+                var n = name.toLowerCase().replace(/\s/g, '-'),
+                    panelId = 'left-panel-plugins-' + name;
+                var length = $('#' + panelId).length;
+                if (length > 0) {
+                    n = n + '-' + length;
+                }
+                return n;
+            }
+            var pluginGuid = plugin.get_Guid(),
+                model = this.viewPlugins.storePlugins.findWhere({guid: pluginGuid}),
+                name = createUniqueName(plugin.get_Name('en'));
+            var $button = $('<div id="slot-btn-plugins' + name + '"></div>'),
+                button = new Common.UI.Button({
+                parentEl: $button,
+                cls: 'btn-category plugin-buttons',
+                hint: langName,
+                enableToggle: true,
+                toggleGroup: 'leftMenuGroup',
+                iconImg: model.get('baseUrl') + model.get('parsedIcons')['normal'],
+                onlyIcon: true,
+                value: pluginGuid,
+                type: 'plugin'
+            });
+            var $panel = $('<div id="panel-plugins-' + name + '" class="" style="display: none; height: 100%;"></div>');
+            this.viewPlugins.fireEvent('plugins:addtoleft', [button, $button, $panel]);
+            this.viewPlugins.pluginPanels[pluginGuid] = new Common.Views.PluginPanel({
+                el: '#panel-plugins-' + name
+            });
+            this.viewPlugins.pluginPanels[pluginGuid].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.pluginPanels[pluginGuid], pluginGuid));
+        },
+
+        openUIPlugin: function (guid) {
+            this.viewPlugins.fireEvent('plugins:open', [guid]);
+        },
+
         onPluginShow: function(plugin, variationIndex, frameId, urlAddition) {
             var variation = plugin.get_Variations()[variationIndex];
             if (variation.get_Visual()) {
@@ -550,13 +589,8 @@ define([
                     url += urlAddition;
                 if (variation.get_InsideMode()) {
                     var guid = plugin.get_Guid(),
-                        langName = plugin.get_Name(lang),
-                        leftMenu = this.getApplication().getController('LeftMenu'),
-                        panelId = this.viewPlugins.addNewPluginToLeftMenu(leftMenu, plugin, variation, langName);
-                        this.viewPlugins.pluginPanels[guid] = new Common.Views.PluginPanel({
-                            el: '#' + panelId
-                        });
-                        this.viewPlugins.pluginPanels[guid].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.pluginPanels[guid], guid));
+                        langName = plugin.get_Name(lang);
+                        this.addPluginToSideMenu(plugin, variation, langName);
                     if (!this.viewPlugins.pluginPanels[guid].openInsideMode(langName, url, frameId, plugin.get_Guid()))
                         this.api.asc_pluginButtonClick(-1, plugin.get_Guid());
                 } else {
@@ -632,8 +666,9 @@ define([
                 if (panel && panel.iframePlugin) {
                     isIframePlugin = true;
                     panel.closeInsideMode(guid);
-                    this.viewPlugins.onClosePlugin(guid);
-                    delete this.viewPlugins.pluginPanels[name];
+                    this.viewPlugins.pluginPanels[guid].$el.remove();
+                    delete this.viewPlugins.pluginPanels[guid];
+                    this.viewPlugins.fireEvent('plugins:close', [guid]);
                 }
             }
             if (!isIframePlugin) {

@@ -42,6 +42,7 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'common/main/lib/component/SideMenu',
     'common/main/lib/component/Button',
     'common/main/lib/view/About',
     /** coauthoring begin **/
@@ -60,7 +61,7 @@ define([
     var SCALE_MIN = 40;
     var MENU_SCALE_PART = 300;
 
-    DE.Views.LeftMenu = Backbone.View.extend(_.extend({
+    DE.Views.LeftMenu = Common.UI.SideMenu.extend(_.extend({
         el: '#left-menu',
 
         template: _.template(menuTemplate),
@@ -166,10 +167,14 @@ define([
             this.btnThumbnails.hide();
             this.btnThumbnails.on('click', this.onBtnMenuClick.bind(this));
 
-            this.pluginSeparator = $markup.find('.separator-plugins');
             this.pluginMoreContainer = $markup.find('#slot-btn-plugins-more');
 
+            this.setButtons([this.btnSearchBar, this.btnComments, this.btnChat, this.btnNavigation, this.btnThumbnails, this.btnSupport, this.btnAbout]);
+
             this.$el.html($markup);
+
+            this.btnMoreContainer = $markup.find('#slot-left-menu-more');
+            $(window).on('resize', _.bind(this.setMoreButton, this));
 
             return this;
         },

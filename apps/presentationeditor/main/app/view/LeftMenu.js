@@ -154,7 +154,6 @@ define([
             this.menuFile = new PE.Views.FileMenu({});
             this.btnAbout.panel = (new Common.Views.About({el: '#about-menu-panel', appName: this.txtEditor}));
 
-            this.pluginSeparator = $markup.find('.separator-plugins');
             this.pluginMoreContainer = $markup.find('#slot-btn-plugins-more');
 
             this.$el.html($markup);

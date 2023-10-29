@@ -45,6 +45,7 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'common/main/lib/component/SideMenu',
     'common/main/lib/component/Button',
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/CheckBox',
@@ -62,7 +63,7 @@ define([
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
-    DE.Views.RightMenu = Backbone.View.extend(_.extend({
+    DE.Views.RightMenu = Common.UI.SideMenu.extend(_.extend({
         el: '#right-menu',
 
         // Compile our stats template
@@ -172,6 +173,8 @@ define([
             this.btnShape.setElement($markup.findById('#id-right-menu-shape'), false);         this.btnShape.render();
             this.btnTextArt.setElement($markup.findById('#id-right-menu-textart'), false);     this.btnTextArt.render();
 
+            this.setButtons([this.btnText, this.btnTable, this.btnImage, this.btnHeaderFooter, this.btnShape, this.btnChart, this.btnTextArt]);
+
             this.btnText.on('click',            this.onBtnMenuClick.bind(this));
             this.btnTable.on('click',           this.onBtnMenuClick.bind(this));
             this.btnImage.on('click',           this.onBtnMenuClick.bind(this));
@@ -200,6 +203,7 @@ define([
                 });
                 this._settings[Common.Utils.documentSettingsType.MailMerge]   = {panel: "id-mail-merge-settings", btn: this.btnMailMerge, templateIndex: 7};
                 this.btnMailMerge.setElement($markup.findById('#id-right-menu-mail-merge'), false); this.btnMailMerge.render().setVisible(true);
+                this.addButton(this.btnMailMerge);
                 this.btnMailMerge.on('click', this.onBtnMenuClick.bind(this));
                 this.mergeSettings = new DE.Views.MailMergeSettings();
             }
@@ -216,6 +220,7 @@ define([
                 });
                 this._settings[Common.Utils.documentSettingsType.Signature]   = {panel: "id-signature-settings", btn: this.btnSignature, templateIndex: 8};
                 this.btnSignature.setElement($markup.findById('#id-right-menu-signature'), false); this.btnSignature.render().setVisible(true);
+                this.addButton(this.btnSignature);
                 this.btnSignature.on('click', this.onBtnMenuClick.bind(this));
                 this.signatureSettings = new DE.Views.SignatureSettings();
             }
@@ -232,6 +237,7 @@ define([
                 });
                 this._settings[Common.Utils.documentSettingsType.Form]   = {panel: "id-form-settings", btn: this.btnForm, templateIndex: 9};
                 this.btnForm.setElement($markup.findById('#id-right-menu-form'), false); this.btnForm.render().setVisible(true);
+                this.addButton(this.btnForm);
                 this.btnForm.on('click', this.onBtnMenuClick.bind(this));
                 this.formSettings = new DE.Views.FormSettings();
             }
@@ -358,96 +364,6 @@ define([
             if (this.scroller) {
                 this.scroller.update();
                 this.scroller.scrollTop(0);
-            }
-        },
-
-        setMoreButton: function () {
-            var $more = this.btnMoreContainer,
-                buttons = [];
-            this._settings.forEach(function (item) {
-                buttons[item.templateIndex] = item.btn;
-            });
-
-            var btnHeight = buttons[0].cmpEl.outerHeight() + parseFloat(buttons[0].cmpEl.css('margin-bottom')),
-                padding = parseFloat(this.$el.find('.tool-menu-btns').css('padding-top')),
-                height = padding + buttons.length * btnHeight,
-                maxHeight = this.$el.height();
-
-            if (height > maxHeight) {
-                var arrMore = [],
-                    last,
-                    i;
-                height = padding;
-                for (i = 0; i < buttons.length; i++) {
-                    height += btnHeight;
-                    if (height > maxHeight) {
-                        last = i - 1;
-                        break;
-                    }
-                }
-                buttons.forEach(function (btn, index) {
-                    if (index >= last) {
-                        arrMore.push({
-                            caption: btn.hint,
-                            iconCls: btn.iconCls,
-                            value: btn.options.asctype,
-                            disabled: btn.isDisabled()
-                        });
-                        btn.cmpEl.hide();
-                    } else {
-                        btn.cmpEl.show();
-                    }
-                });
-                if (arrMore.length > 0) {
-                    if (!this.btnMore) {
-                        this.btnMore = new Common.UI.Button({
-                            parentEl: $more,
-                            id: 'id-right-menu-more',
-                            cls: 'btn-category',
-                            iconCls: 'toolbar__icon btn-more',
-                            onlyIcon: true,
-                            hint: this.tipMore,
-                            menu: new Common.UI.Menu({
-                                cls: 'shifted-right',
-                                menuAlign: 'tr-tl',
-                                items: arrMore
-                            })
-                        });
-                        this.btnMore.menu.on('item:click', _.bind(this.onMenuMore, this));
-                    } else {
-                        this.btnMore.menu.removeAll();
-                        for (i = 0; i < arrMore.length; i++) {
-                            this.btnMore.menu.addItem(arrMore[i]);
-                        }
-                    }
-                    $more.show();
-                }
-            } else {
-                buttons.forEach(function (btn) {
-                    btn.cmpEl.show();
-                });
-                $more.hide();
-            }
-        },
-
-        onMenuMore: function (menu, item) {
-            var btn = this._settings[item.value].btn;
-            btn.toggle(!btn.pressed);
-            this.onBtnMenuClick(btn);
-        },
-
-        setDisabledMoreMenuItem: function (btn, disabled) {
-            if (this.btnMore && !btn.cmpEl.is(':visible')) {
-                var item = _.findWhere(this.btnMore.menu.items, {value: btn.options.asctype});
-                item.setDisabled(disabled);
-            }
-        },
-
-        setDisabledAllMoreMenuItems: function (disabled) {
-            if (this.btnMore && this.btnMore.menu.items.length > 0) {
-                this.btnMore.menu.items.forEach(function (item) {
-                    item.setDisabled(disabled);
-                });
             }
         },
 
