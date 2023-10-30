@@ -45,7 +45,7 @@ define([
         options: {
             alias: 'ShapeShadowDialog',
             contentWidth: 208,
-            height: 252 + 32
+            height: 252,
         },
 
         initialize: function (options) {
@@ -57,11 +57,6 @@ define([
                     '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
                         '<div class="content-panel" style="padding: 16px 16px 0 16px;">',
                             '<table cols="1" style="width: 100%;">',
-                                '<tr>',
-                                    '<td style="padding-bottom: 16px">',
-                                        '<div id="shape-shadow-save-mode-checkbox"></div>',
-                                    '</td>',
-                                '</tr>',
                                 '<tr>',
                                     '<td>',
                                         '<label class="header">' + me.txtTransparency + '</label>',
@@ -119,20 +114,6 @@ define([
         render: function () {
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
             
-
-            this.chSaveMode = new Common.UI.CheckBox({
-                el: $('#shape-shadow-save-mode-checkbox'),
-                labelText: "Мгновенное применение",
-                dataHint: '1',
-                dataHintDirection: 'left',
-                dataHintOffset: 'small'
-            });
-            this.chSaveMode.on('change', (e) => {
-                if(e.checked) {
-                    this.setAllProperties(parseInt(this.spinTransparency.value), parseInt(this.spinSize.value), parseInt(this.spinAngle.value), parseInt(this.spinDistance.value));
-                }
-            });
-
 
             this.sldrTransparency = new Common.UI.SingleSlider({
                 el: $('#shape-shadow-transparency-slider'),
@@ -234,21 +215,19 @@ define([
 
 
             this.on('close', (e, t) => {
-                if(this.chSaveMode.checked) {
-                    this.setAllProperties(this.oldTransparency, this.oldSize, this.oldAngle, this.oldDistance);
-                }
+                this.setAllProperties(this.oldTransparency, this.oldSize, this.oldAngle, this.oldDistance);
             });
         },
 
         onSliderTransparencyChange: function (field, newValue, oldValue) {
             this.spinTransparency.setValue(newValue, true);
-            if(this.chSaveMode.checked) this.setTransparency(newValue);
+            this.setTransparency(newValue);
         },
 
         onSpinnerTransparencyChange: function (field, newValue, oldValue) {
             var num = field.getNumberValue();
             this.sldrTransparency.setValue(num, true);
-            if(this.chSaveMode.checked) this.setTransparency(num);
+            this.setTransparency(num);
         },
 
         setTransparency: function(value) {
@@ -261,13 +240,13 @@ define([
 
         onSliderSizeChange: function (field, newValue, oldValue) {
             this.spinSize.setValue(newValue, true);
-            if(this.chSaveMode.checked) this.setSize(newValue);
+            this.setSize(newValue);
         },
 
         onSpinnerSizeChange: function (field, newValue, oldValue) {
             var num = field.getNumberValue();
             this.sldrSize.setValue(num, true);
-            if(this.chSaveMode.checked) this.setSize(num);
+            this.setSize(num);
         },
 
         setSize: function(value) {
@@ -280,13 +259,13 @@ define([
 
         onSliderAngleChange: function (field, newValue, oldValue) {
             this.spinAngle.setValue(newValue, true);
-            if(this.chSaveMode.checked) this.setAngle(newValue);
+            this.setAngle(newValue);
         },
 
         onSpinnerAngleChange: function (field, newValue, oldValue) {
             var num = field.getNumberValue();
             this.sldrAngle.setValue(num, true);
-            if(this.chSaveMode.checked) this.setAngle(num);
+            this.setAngle(num);
         },
 
         setAngle: function(value) {
@@ -299,13 +278,13 @@ define([
 
         onSliderDistanceChange: function (field, newValue, oldValue) {
             this.spinDistance.setValue(newValue, true);
-            if(this.chSaveMode.checked) this.setDistance(newValue);
+            this.setDistance(newValue);
         },
 
         onSpinnerDistanceChange: function (field, newValue, oldValue) {
             var num = field.getNumberValue();
             this.sldrDistance.setValue(num, true);
-            if(this.chSaveMode.checked) this.setDistance(num);
+            this.setDistance(num);
         },
 
         setDistance: function(value) {
@@ -328,9 +307,6 @@ define([
         
         onPrimary: function() {
             this.handler && this.handler.call(this, 'ok');
-            if(!this.chSaveMode.checked) {
-                this.setAllProperties(parseInt(this.spinTransparency.value), parseInt(this.spinSize.value), parseInt(this.spinAngle.value), parseInt(this.spinDistance.value));
-            }
             this.close(true);
             return false;
         },
@@ -338,9 +314,6 @@ define([
         onDlgBtnClick: function(event) {
             var state = event.currentTarget.attributes['result'].value;
             this.handler && this.handler.call(this, state);
-            if(!this.chSaveMode.checked && state == "ok") {
-                this.setAllProperties(parseInt(this.spinTransparency.value), parseInt(this.spinSize.value), parseInt(this.spinAngle.value), parseInt(this.spinDistance.value));
-            }
             this.close(state == "ok");
         },
 
