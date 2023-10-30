@@ -386,7 +386,7 @@ define([
             });
 
             me.menuImageWrap = new Common.UI.MenuItem({
-                iconCls: 'menu__icon wrap-inline',
+                iconCls: 'menu__icon btn-small-wrap-inline',
                 caption : me.textWrap,
                 menu    : new Common.UI.Menu({
                     cls: 'ppm-toolbar shifted-right',
@@ -394,7 +394,7 @@ define([
                     items: [
                         new Common.UI.MenuItem({
                             caption     : me.txtInline,
-                            iconCls     : 'menu__icon wrap-inline',
+                            iconCls     : 'menu__icon btn-small-wrap-inline',
                             toggleGroup : 'popuppicturewrapping',
                             wrapType    : Asc.c_oAscWrapStyle2.Inline,
                             checkmark   : false,
@@ -403,7 +403,7 @@ define([
                         { caption: '--' },
                         new Common.UI.MenuItem({
                             caption     : me.txtSquare,
-                            iconCls     : 'menu__icon wrap-square',
+                            iconCls     : 'menu__icon btn-small-wrap-square',
                             toggleGroup : 'popuppicturewrapping',
                             wrapType    : Asc.c_oAscWrapStyle2.Square,
                             checkmark   : false,
@@ -411,7 +411,7 @@ define([
                         }),
                         new Common.UI.MenuItem({
                             caption     : me.txtTight,
-                            iconCls     : 'menu__icon wrap-tight',
+                            iconCls     : 'menu__icon btn-small-wrap-tight',
                             toggleGroup : 'popuppicturewrapping',
                             wrapType    : Asc.c_oAscWrapStyle2.Tight,
                             checkmark   : false,
@@ -419,7 +419,7 @@ define([
                         }),
                         new Common.UI.MenuItem({
                             caption     : me.txtThrough,
-                            iconCls     : 'menu__icon wrap-through',
+                            iconCls     : 'menu__icon btn-small-wrap-through',
                             toggleGroup : 'popuppicturewrapping',
                             wrapType    : Asc.c_oAscWrapStyle2.Through,
                             checkmark   : false,
@@ -427,7 +427,7 @@ define([
                         }),
                         new Common.UI.MenuItem({
                             caption     : me.txtTopAndBottom,
-                            iconCls     : 'menu__icon wrap-topandbottom',
+                            iconCls     : 'menu__icon btn-small-wrap-topandbottom',
                             toggleGroup : 'popuppicturewrapping',
                             wrapType    : Asc.c_oAscWrapStyle2.TopAndBottom,
                             checkmark   : false,
@@ -436,7 +436,7 @@ define([
                         { caption: '--' },
                         new Common.UI.MenuItem({
                             caption     : me.txtInFront,
-                            iconCls     : 'menu__icon wrap-infront',
+                            iconCls     : 'menu__icon btn-small-wrap-infront',
                             toggleGroup : 'popuppicturewrapping',
                             wrapType    : Asc.c_oAscWrapStyle2.InFront,
                             checkmark   : false,
@@ -444,7 +444,7 @@ define([
                         }),
                         new Common.UI.MenuItem({
                             caption     : me.txtBehind,
-                            iconCls     : 'menu__icon wrap-behind',
+                            iconCls     : 'menu__icon btn-small-wrap-behind',
                             toggleGroup : 'popuppicturewrapping',
                             wrapType    : Asc.c_oAscWrapStyle2.Behind,
                             checkmark   : false,
@@ -615,42 +615,42 @@ define([
                         for (var i = 0; i < 8; i++) {
                             me.menuImageWrap.menu.items[i].setChecked(false);
                         }
-                        cls += 'wrap-inline';
+                        cls += 'btn-small-wrap-inline';
                     } else {
                         switch (wrapping) {
                             case Asc.c_oAscWrapStyle2.Inline:
                                 me.menuImageWrap.menu.items[0].setChecked(true);
-                                cls += 'wrap-inline';
+                                cls += 'btn-small-wrap-inline';
                                 break;
                             case Asc.c_oAscWrapStyle2.Square:
                                 me.menuImageWrap.menu.items[2].setChecked(true);
-                                cls += 'wrap-square';
+                                cls += 'btn-small-wrap-square';
                                 break;
                             case Asc.c_oAscWrapStyle2.Tight:
                                 me.menuImageWrap.menu.items[3].setChecked(true);
-                                cls += 'wrap-tight';
+                                cls += 'btn-small-wrap-tight';
                                 break;
                             case Asc.c_oAscWrapStyle2.Through:
                                 me.menuImageWrap.menu.items[4].setChecked(true);
-                                cls += 'wrap-through';
+                                cls += 'btn-small-wrap-through';
                                 break;
                             case Asc.c_oAscWrapStyle2.TopAndBottom:
                                 me.menuImageWrap.menu.items[5].setChecked(true);
-                                cls += 'wrap-topandbottom';
+                                cls += 'btn-small-wrap-topandbottom';
                                 break;
                             case Asc.c_oAscWrapStyle2.Behind:
                                 me.menuImageWrap.menu.items[8].setChecked(true);
-                                cls += 'wrap-behind';
+                                cls += 'btn-small-wrap-behind';
                                 break;
                             case Asc.c_oAscWrapStyle2.InFront:
                                 me.menuImageWrap.menu.items[7].setChecked(true);
-                                cls += 'wrap-infront';
+                                cls += 'btn-small-wrap-infront';
                                 break;
                             default:
                                 for (var i = 0; i < 8; i++) {
                                     me.menuImageWrap.menu.items[i].setChecked(false);
                                 }
-                                cls += 'wrap-infront';
+                                cls += 'btn-small-wrap-infront';
                                 break;
                         }
                     }
@@ -1419,9 +1419,9 @@ define([
                         me.menuTableEquation.menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                         me.menuTableEquation.menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
                         me.menuTableEquation.menu.items[8].options.isEquationInline = isInlineMath;
-                        me.menuTableEquation.menu.items[8].setCaption(isInlineMath ? me.eqToDisplayText : me.eqToInlineText);
+                        me.menuTableEquation.menu.items[8].setCaption(isInlineMath ? me.eqToDisplayText : me.eqToInlineText, true);
                         me.menuTableEquation.menu.items[9].options.isToolbarHide = isEqToolbarHide;
-                        me.menuTableEquation.menu.items[9].setCaption(isEqToolbarHide ? me.showEqToolbar : me.hideEqToolbar);
+                        me.menuTableEquation.menu.items[9].setCaption(isEqToolbarHide ? me.showEqToolbar : me.hideEqToolbar, true);
                     }
 
                     var control_lock = (value.paraProps) ? (!value.paraProps.value.can_DeleteBlockContentControl() || !value.paraProps.value.can_EditBlockContentControl() ||
@@ -2010,9 +2010,9 @@ define([
                         me.menuParagraphEquation.menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                         me.menuParagraphEquation.menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
                         me.menuParagraphEquation.menu.items[8].options.isEquationInline = isInlineMath;
-                        me.menuParagraphEquation.menu.items[8].setCaption(isInlineMath ? me.eqToDisplayText : me.eqToInlineText);
+                        me.menuParagraphEquation.menu.items[8].setCaption(isInlineMath ? me.eqToDisplayText : me.eqToInlineText, true);
                         me.menuParagraphEquation.menu.items[9].options.isToolbarHide = isEqToolbarHide;
-                        me.menuParagraphEquation.menu.items[9].setCaption(isEqToolbarHide ? me.showEqToolbar : me.hideEqToolbar);
+                        me.menuParagraphEquation.menu.items[9].setCaption(isEqToolbarHide ? me.showEqToolbar : me.hideEqToolbar, true);
                     }
 
                     var frame_pr = value.paraProps.value.get_FramePr();

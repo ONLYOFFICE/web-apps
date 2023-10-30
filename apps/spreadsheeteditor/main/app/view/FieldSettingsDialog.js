@@ -50,7 +50,7 @@ define([    'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.templa
     SSE.Views.FieldSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 284,
-            height: 450,
+            contentHeight: 365,
             toggleGroup: 'pivot-field-settings-group',
             storageName: 'sse-pivot-field-settings-category'
         },
@@ -220,10 +220,10 @@ define([    'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.templa
         },
 
         getFocusedComponents: function() {
-            return [
+            return this.btnsCategory.concat([
                 this.inputCustomName, this.radioTabular, this.radioOutline, this.chCompact, this.btnFormat, this.chRepeat, this.chBlank, this.chSubtotals, this.radioTop, this.radioBottom, this.chEmpty, // 0 tab
                 this.chSum, this.chCount, this.chAve, this.chMax, this.chMin, this.chProduct, this.chNum, this.chDev, this.chDevp, this.chVar, this.chVarp  // 1 tab
-            ];
+            ]);
         },
 
         onCategoryClick: function(btn, index) {
@@ -317,7 +317,7 @@ define([    'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.templa
                     }
                 }
 
-                this.btnFormat.setVisible(props.getFieldGroupType(this.fieldIndex) !== Asc.c_oAscGroupType.Text);
+                this.btnFormat.setVisible(props.asc_getFieldGroupType(this.fieldIndex) !== Asc.c_oAscGroupType.Text);
             }
         },
 

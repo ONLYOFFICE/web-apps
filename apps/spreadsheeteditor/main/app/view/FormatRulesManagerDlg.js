@@ -90,20 +90,16 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
     SSE.Views.FormatRulesManagerDlg =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             alias: 'FormatRulesManagerDlg',
-            contentWidth: 560,
-            height: 340,
-            buttons: ['ok', 'cancel']
+            separator: false,
+            contentWidth: 560
         },
 
         initialize: function (options) {
             var me = this;
             _.extend(this.options, {
                 title: this.txtTitle,
-                template: [
-                    '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
-                    '<div class="content-panel" style="padding: 0;">' + _.template(contentTemplate)({scope: this}) + '</div>',
-                    '</div>',
-                ].join('')
+                contentStyle: 'padding: 0;',
+                contentTemplate: _.template(contentTemplate)({scope: this})
             }, options);
 
             this.api        = options.api;
@@ -791,7 +787,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
         updateButtons: function() {
             var rec = this.rulesList.getSelectedRec(),
                 lock = rec ? rec.get('lock') : false;
-            this.btnNew.setDisabled(this.listSettings.data.length>63 || this.locked);
+            this.btnNew.setDisabled(this.locked);
             this.btnDelete.setDisabled(this.listSettings.data.length<1 || lock);
             this.btnEdit.setDisabled(this.listSettings.data.length<1 || lock);
             this.updateMoveButtons();

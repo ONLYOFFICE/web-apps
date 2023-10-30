@@ -69,7 +69,8 @@ define([
     SSE.Views.ChartTypeDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 370,
-            height: 385
+            contentHeight: 300,
+            separator: false
         },
 
         initialize : function(options) {
@@ -77,10 +78,10 @@ define([
 
             _.extend(this.options, {
                 title: this.textTitle,
-                template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
-                    '<div class="content-panel" style="padding: 0 10px;"><div class="inner-content">',
-                        '<div class="settings-panel active">',
+                contentStyle: 'padding: 0 10px;',
+                contentTemplate: _.template([
+                    '<div class="settings-panel active">',
+                        '<div class="inner-content">',
                             '<table cols="1" style="width: 100%;">',
                                 '<tr>',
                                     '<td class="padding-large">',
@@ -100,10 +101,8 @@ define([
                                     '</td>',
                                 '</tr>',
                             '</table>',
-                        '</div></div>',
-                    '</div>',
-                    '</div>'
-                ].join('')
+                        '</div></div>'
+                ].join(''))({scope: this})
             }, options);
 
             this.handler    = options.handler;
@@ -157,7 +156,7 @@ define([
                     restoreHeight: 535,
                     groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                     store: new Common.UI.DataViewStore(arr),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                 });
             });
             this.btnChartType.render($('#chart-type-dlg-button-type'), this.$window);
@@ -446,7 +445,7 @@ define([
                     restoreHeight: 535,
                     groups: new Common.UI.DataViewGroupStore(me._arrSeriesGroups),
                     store: store,
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                 });
                 picker.selectRecord(currentTypeRec, true);
                 picker.on('item:click', function(picker, view, record){

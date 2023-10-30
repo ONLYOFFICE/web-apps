@@ -60,6 +60,8 @@ define([
                     'pivottable:create':        _.bind(this.onCreateClick, this),
                     'pivottable:refresh':       _.bind(this.onRefreshClick, this),
                     'pivottable:select':        _.bind(this.onSelectClick, this),
+                    'pivottable:expand':        _.bind(this.onExpandClick, this),
+                    'pivottable:collapse':      _.bind(this.onCollapseClick, this),
                     'pivottable:style':         _.bind(this.onPivotStyleSelect, this),
                     'pivottable:layout':        _.bind(this.onPivotLayout, this),
                     'pivottable:blankrows':     _.bind(this.onPivotBlankRows, this),
@@ -191,6 +193,20 @@ define([
         onSelectClick: function(btn, opts){
             if (this.api) {
                 this._originalProps.asc_select(this.api);
+            }
+            Common.NotificationCenter.trigger('edit:complete', this);
+        },
+
+        onExpandClick: function(){
+            if (this.api) {
+                this._originalProps.asc_setExpandCollapseByActiveCell(this.api, true, true);
+            }
+            Common.NotificationCenter.trigger('edit:complete', this);
+        },
+
+        onCollapseClick: function(){
+            if (this.api) {
+                this._originalProps.asc_setExpandCollapseByActiveCell(this.api, true, false);
             }
             Common.NotificationCenter.trigger('edit:complete', this);
         },
@@ -466,6 +482,7 @@ define([
             Common.Utils.lockControls(Common.enumLock.noPivot, !pivotInfo, {array: this.view.lockedControls});
             Common.Utils.lockControls(Common.enumLock.pivotLock, pivotInfo && (info.asc_getLockedPivotTable()===true), {array: this.view.lockedControls});
             Common.Utils.lockControls(Common.enumLock.editPivot, !!pivotInfo, {array: this.view.btnsAddPivot});
+            Common.Utils.lockControls(Common.enumLock.pivotExpandLock, !(pivotInfo && pivotInfo.asc_canExpandCollapseByActiveCell(this.api)), {array: [this.view.btnExpandField, this.view.btnCollapseField]});
 
             if (pivotInfo)
                 this.ChangeSettings(pivotInfo);

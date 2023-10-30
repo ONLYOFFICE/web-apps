@@ -168,6 +168,7 @@
                     <span class="btn-slot text x-huge" id="slot-btn-pageorient"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-pagesize"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-printarea"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-pagebreak"></span>
                     <span class="btn-slot text x-huge slot-editheader"></span>
                     <span class="btn-slot text" id="slot-btn-scale"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-printtitles"></span>
@@ -214,6 +215,22 @@
                     <span class="btn-slot text x-huge" id="slot-btn-named-range-huge"></span>
                 </div>
                 <div class="separator long"></div>
+                <div class="group small">
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-btn-trace-prec"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-btn-trace-dep"></span>
+                    </div>
+                </div>
+                <div class="group small">
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-btn-remove-arrows"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-btn-show-formulas"></span>
+                    </div>
+                </div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-watch-window"></span>
                 </div>
@@ -249,6 +266,10 @@
                     <span class="btn-slot text x-huge" id="slot-btn-text-column"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-rem-duplicates"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-data-validation"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-goal-seek"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">

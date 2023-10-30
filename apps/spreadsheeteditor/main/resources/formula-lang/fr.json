@@ -500,6 +500,20 @@
 			"na": "#N/A",
 			"getdata": "#CHARGEMENT_DONNEES",
 			"uf": "#UNSUPPORTED_FUNCTION!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "adresse",
+			"col": "col",
+			"color": "couleur",
+			"contents": "contenu",
+			"filename": "nomfichier",
+			"format": "format",
+			"parentheses": "parentheses",
+			"prefix": "prefixe",
+			"protect": "protege",
+			"row": "ligne",
+			"type": "type",
+			"width": "largeur"
 		}
 	}
 }

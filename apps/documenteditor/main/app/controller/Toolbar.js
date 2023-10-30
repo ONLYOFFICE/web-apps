@@ -60,7 +60,8 @@ define([
     'documenteditor/main/app/view/ListSettingsDialog',
     'documenteditor/main/app/view/DateTimeDialog',
     'documenteditor/main/app/view/LineNumbersDialog',
-    'documenteditor/main/app/view/TextToTableDialog'
+    'documenteditor/main/app/view/TextToTableDialog',
+    'documenteditor/main/app/view/HyphenationDialog'
 ], function () {
     'use strict';
 
@@ -100,6 +101,7 @@ define([
                 can_copycut: undefined,
                 pgmargins: undefined,
                 fontsize: undefined,
+                type_fontsize: undefined,
                 in_equation: false,
                 in_chart: false,
                 linenum_apply: Asc.c_oAscSectionApplyType.All,
@@ -118,8 +120,9 @@ define([
                     'home:open'         : this.onHomeOpen,
                     'add:chart'         : this.onSelectChart,
                     'insert:textart'    : this.onInsertTextart,
-                    'generate:smartart' : this.generateSmartArt,
-                    'insert:smartart'   : this.onInsertSmartArt
+                    'insert:smartart'   : this.onInsertSmartArt,
+                    'smartart:mouseenter': this.mouseenterSmartArt,
+                    'smartart:mouseleave': this.mouseleaveSmartArt,
                 },
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),
@@ -339,6 +342,7 @@ define([
             toolbar.btnParagraphColor.on('color:select',                _.bind(this.onParagraphColorPickerSelect, this));
             toolbar.btnParagraphColor.on('eyedropper:start',            _.bind(this.onEyedropperStart, this));
             toolbar.btnParagraphColor.on('eyedropper:end',              _.bind(this.onEyedropperEnd, this));
+            this.mode.isEdit && Common.NotificationCenter.on('eyedropper:start', _.bind(this.eyedropperStart, this));
             toolbar.mnuHighlightColorPicker.on('select',                _.bind(this.onSelectHighlightColor, this));
             toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
             toolbar.mnuLineSpace.on('item:toggle',                      _.bind(this.onLineSpaceToggle, this));
@@ -374,11 +378,14 @@ define([
             toolbar.listStyles.on('contextmenu',                        _.bind(this.onListStyleContextMenu, this));
             toolbar.styleMenu.on('hide:before',                         _.bind(this.onListStyleBeforeHide, this));
             toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
-            toolbar.btnInsertSymbol.on('click',                         _.bind(this.onInsertSymbolClick, this));
+            toolbar.btnInsertSymbol.menu.items[2].on('click',           _.bind(this.onInsertSymbolClick, this));
+            toolbar.mnuInsertSymbolsPicker.on('item:click',             _.bind(this.onInsertSymbolItemClick, this));
             toolbar.mnuNoControlsColor.on('click',                      _.bind(this.onNoControlsColor, this));
             toolbar.mnuControlsColorPicker.on('select',                 _.bind(this.onSelectControlsColor, this));
             toolbar.btnLineNumbers.menu.on('item:click',                _.bind(this.onLineNumbersSelect, this));
             toolbar.btnLineNumbers.menu.on('show:after',                _.bind(this.onLineNumbersShow, this));
+            toolbar.btnHyphenation.menu.on('item:click',                _.bind(this.onHyphenationSelect, this));
+            toolbar.btnHyphenation.menu.on('show:after',                _.bind(this.onHyphenationShow, this));
             Common.Gateway.on('insertimage',                      _.bind(this.insertImage, this));
             Common.Gateway.on('setmailmergerecipients',           _.bind(this.setMailMergeRecipients, this));
             Common.Gateway.on('setrequestedspreadsheet',          _.bind(this.setRequestedSpreadsheet, this));
@@ -482,9 +489,20 @@ define([
         },
 
         onApiFontSize: function(size) {
-            if (this._state.fontsize !== size) {
-                this.toolbar.cmbFontSize.setValue(size);
-                this._state.fontsize = size;
+            var type = this._state.type_fontsize;
+            if (this.toolbar.cmbFontSize && this._state.type_fontsize === 'string') {
+                var strValue = size + '_str',
+                    rec = this.toolbar.cmbFontSize.store.findWhere({
+                    value: strValue
+                });
+                if (!rec) {
+                    type = 'number';
+                }
+            }
+            var val = type === 'string' ? size + '_str' : size;
+            if (this._state.fontsize !== val) {
+                this.toolbar.cmbFontSize.setValue(val);
+                this._state.fontsize = val;
             }
         },
 
@@ -919,14 +937,14 @@ define([
 
         onApiLockDocumentProps: function() {
             if (this._state.lock_doc!==true) {
-                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, true, {array: [this.toolbar.btnPageOrient, this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnColumns, this.toolbar.btnLineNumbers]});
+                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, true, {array: [this.toolbar.btnPageOrient, this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnColumns, this.toolbar.btnLineNumbers, this.toolbar.btnHyphenation]});
                 if (this._state.activated) this._state.lock_doc = true;
             }
         },
 
         onApiUnLockDocumentProps: function() {
             if (this._state.lock_doc!==false) {
-                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, false, {array: [this.toolbar.btnPageOrient, this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnColumns, this.toolbar.btnLineNumbers]});
+                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, false, {array: [this.toolbar.btnPageOrient, this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnColumns, this.toolbar.btnLineNumbers, this.toolbar.btnHyphenation]});
                 if (this._state.activated) this._state.lock_doc = false;
             }
         },
@@ -1283,8 +1301,9 @@ define([
 
         onFontSizeSelect: function(combo, record) {
             this._state.fontsize = undefined;
+            this._state.type_fontsize = typeof record.value;
             if (this.api)
-                this.api.put_TextPrFontSize(record.value);
+                this.api.put_TextPrFontSize(this._state.type_fontsize === 'string' ? parseFloat(record.value) : record.value);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Font Size');
@@ -1299,7 +1318,8 @@ define([
                     displayValue: record.value
                 });
 
-                if (!item) {
+                if (!item || isNaN(Common.Utils.String.parseFloat(record.value))) {
+                    me._state.type_fontsize = 'number';
                     value = /^\+?(\d*(\.|,)?\d+)$|^\+?(\d+(\.|,)?\d*)$/.exec(record.value);
 
                     if (!value) {
@@ -1477,8 +1497,9 @@ define([
                 skipRenderOnChange: true,
                 group : picker.options.listSettings.recentGroup,
                 type: 0}, {at: 0});
-            if (recents && recents.length>=picker.options.listSettings.recentCount)
-                picker.store.remove(recents[recents.length]);
+            recents = picker.store.where({type: 0});
+            if (recents && recents.length>picker.options.listSettings.recentCount)
+                picker.store.remove(recents.slice(picker.options.listSettings.recentCount, recents.length));
             this.toolbar.saveListPresetToStorage(picker);
         },
 
@@ -1987,6 +2008,33 @@ define([
 
         onLineNumbersShow: function(menu) {
             menu.items[4].setChecked(this._state.suppress_num);
+        },
+
+        onHyphenationSelect: function(menu, item) {
+            if (_.isUndefined(item.value))
+                return;
+
+            if (item.value==='custom') {
+                var win,
+                    me = this;
+                win = new DE.Views.HyphenationDialog({
+                    handler: function(dlg, result) {
+                        if (result == 'ok') {
+                            me.api.asc_setAutoHyphenationSettings(dlg.getSettings());
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                        }
+                    }
+                });
+                win.show();
+                me.api && win.setSettings(me.api.asc_getAutoHyphenationSettings());
+            } else {
+                this.api && this.api.asc_setAutoHyphenation(!!item.value);
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onHyphenationShow: function(menu) {
+            this.api && menu.items[this.api.asc_isAutoHyphenation() ? 1 : 0].setChecked(true);
         },
 
         onColorSchemaClick: function(menu, item) {
@@ -2648,6 +2696,16 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 
+        eyedropperStart: function () {
+            if (this.toolbar.btnCopyStyle.pressed) {
+                this.toolbar.btnCopyStyle.toggle(false, true);
+                this.api.SetPaintFormat(AscCommon.c_oAscFormatPainterState.kOff);
+                this.modeAlwaysSetStyle = false;
+            }
+            if (this.toolbar.btnHighlightColor.pressed)
+                this.toolbar.btnHighlightColor.toggle(false, true);
+        },
+
         onEyedropperStart: function (btn) {
             this.toolbar._isEyedropperStart = true;
             this.api.asc_startEyedropper(_.bind(btn.eyedropperEnd, btn));
@@ -2783,7 +2841,7 @@ define([
 
             var shapePicker = new Common.UI.DataViewShape({
                 el: $('#id-toolbar-menu-insertshape'),
-                itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
+                itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon uni-scale\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                 groups: me.getApplication().getCollection('ShapeGroups'),
                 parentMenu: me.toolbar.btnInsertShape.menu,
                 restoreHeight: 652,
@@ -2893,19 +2951,30 @@ define([
                     buttons: [{value: 'ok', caption: this.textInsert}, 'close'],
                     handler: function(dlg, result, settings) {
                         if (result == 'ok') {
-                            me.api.asc_insertSymbol(settings.font ? settings.font : me.api.get_TextProps().get_TextPr().get_FontFamily().get_Name(), settings.code, settings.special);
+                            me.insertSymbol(settings.font, settings.code, settings.special, settings.speccharacter);
                         } else
                             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                     }
                 });
                 me.dlgSymbolTable.show();
                 me.dlgSymbolTable.on('symbol:dblclick', function(cmp, result, settings) {
-                    me.api.asc_insertSymbol(settings.font ? settings.font : me.api.get_TextProps().get_TextPr().get_FontFamily().get_Name(), settings.code, settings.special);
+                    me.insertSymbol(settings.font, settings.code, settings.special, settings.speccharacter);
                 });
                 me.dlgSymbolTable.on('close', function(obj){
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 });
             }
+        },
+
+        onInsertSymbolItemClick: function(picker, item, record, e) {
+            if (this.api && record)
+                this.insertSymbol(record.get('font'), record.get('symbol'), record.get('special'));
+        },
+
+        insertSymbol: function(fontRecord, symbol, special, specCharacter){
+            var font = fontRecord ? fontRecord: this.api.get_TextProps().get_TextPr().get_FontFamily().get_Name();
+            this.api.asc_insertSymbol(font, symbol, special);
+            !specCharacter && this.toolbar.saveSymbol(symbol, font);
         },
 
         onApiMathTypes: function(equation) {
@@ -3423,9 +3492,15 @@ define([
             var me = this;
             me.appOptions = config;
 
+            var lang = config.lang ? config.lang.toLowerCase() : 'en',
+                langPrefix = lang.split(/[\-_]/)[0];
+            if (langPrefix === 'zh' && lang !== 'zh-tw' && lang !== 'zh_tw') {
+                me._state.type_fontsize = 'string';
+            }
+
             this.btnsComment = [];
             if ( config.canCoAuthoring && config.canComments ) {
-                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-menu-comments', this.toolbar.capBtnComment,
+                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-big-menu-comments', this.toolbar.capBtnComment,
                             [  Common.enumLock.paragraphLock, Common.enumLock.headerLock, Common.enumLock.richEditLock, Common.enumLock.plainEditLock, Common.enumLock.richDelLock, Common.enumLock.plainDelLock,
                                     Common.enumLock.cantAddQuotedComment, Common.enumLock.imageLock, Common.enumLock.inSpecificForm, Common.enumLock.inImage, Common.enumLock.lostConnect, Common.enumLock.disableOnStart,
                                     Common.enumLock.previewReviewMode, Common.enumLock.viewFormMode, Common.enumLock.docLockView, Common.enumLock.docLockForms ],
@@ -3496,11 +3571,26 @@ define([
             })).show();
         },
 
+        mouseenterSmartArt: function (groupName) {
+            if (this.smartArtGenerating === undefined) {
+                this.generateSmartArt(groupName);
+            } else {
+                this.delayedSmartArt = groupName;
+            }
+        },
+
+        mouseleaveSmartArt: function (groupName) {
+            if (this.delayedSmartArt === groupName) {
+                this.delayedSmartArt = undefined;
+            }
+        },
+
         generateSmartArt: function (groupName) {
             this.api.asc_generateSmartArtPreviews(groupName);
         },
 
-        onApiBeginSmartArtPreview: function () {
+        onApiBeginSmartArtPreview: function (type) {
+            this.smartArtGenerating = type;
             this.smartArtGroups = this.toolbar.btnInsertSmartArt.menu.items;
             this.smartArtData = Common.define.smartArt.getSmartArtData();
         },
@@ -3519,19 +3609,25 @@ define([
                         value: item.type,
                         imageUrl: image.asc_getImage()
                     }];
-                    if (menuPicker.store.length < 1) {
-                        menuPicker.store.reset(arr);
-                    } else {
+                    //if (menuPicker.store.length < 1) {
+                        //menuPicker.store.reset(arr);
+                    //} else {
                         menuPicker.store.add(arr);
-                    }
+                    //}
                 }
                 this.currentSmartArtMenu = menu;
             }, this));
         },
 
         onApiEndSmartArtPreview: function () {
+            this.smartArtGenerating = undefined;
             if (this.currentSmartArtMenu) {
                 this.currentSmartArtMenu.menu.alignPosition();
+            }
+            if (this.delayedSmartArt !== undefined) {
+                var delayedSmartArt = this.delayedSmartArt;
+                this.delayedSmartArt = undefined;
+                this.generateSmartArt(delayedSmartArt);
             }
         },
 

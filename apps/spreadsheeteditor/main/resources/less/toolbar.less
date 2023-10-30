@@ -99,6 +99,9 @@
     &.has-open-menu {
         z-index: @zindex-navbar + 1;
     }
+    .ie & {
+        overflow: visible;
+    }
 }
 
 #equation-container {
@@ -123,6 +126,31 @@
     margin: 4px 2px 4px 6px;
     .rtl & {
         margin: 4px 6px 4px 2px;
+    }
+}
+
+#id-toolbar-menu-symbols {
+    display: inline-block;
+    width: 158px;
+    .padding-left(3px);
+    .item {
+        .box-shadow(none);
+        .margin-x(6px, 4px);
+        &:hover, &.selected{
+            .box-shadow( 0 0 0 2px @border-preview-select-ie);
+            .box-shadow( 0 0 0 @scaled-two-px-value @border-preview-select);
+        }
+    }
+    .item-symbol {
+        font-family: @font-family-base;
+        font-size: 14px;
+        display: block;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        line-height: 20px;
+        vertical-align: middle;
+
     }
 }
 

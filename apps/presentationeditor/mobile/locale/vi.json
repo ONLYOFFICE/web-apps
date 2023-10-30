@@ -42,6 +42,20 @@
     },
     "HighlightColorPalette": {
       "textNoFill": "No Fill"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -184,7 +198,11 @@
     "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
     "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
     "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
-    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
+    "errorComboSeries": "To create a combination chart, select at least two series of data.",
+    "errorEmailClient": "No email client could be found",
+    "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
+    "errorSetPassword": "Password could not be set."
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",
@@ -224,7 +242,8 @@
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this page",
-    "stayButtonText": "Stay on this Page"
+    "stayButtonText": "Stay on this Page",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -429,7 +448,11 @@
       "textRecommended": "Recommended",
       "textRequired": "Required",
       "del_textNoTextFound": "Text not found",
-      "textNoMatches": "No Matches"
+      "textNoMatches": "No Matches",
+      "textMorph": "Morph",
+      "textMorphObjects": "Objects",
+      "textMorphWords": "Words",
+      "textMorphLetters": "Letters"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
@@ -516,7 +539,8 @@
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "notcriticalErrorTitle": "Warning",
       "del_textNoTextFound": "Text not found",
-      "textNoMatches": "No Matches"
+      "textNoMatches": "No Matches",
+      "textVersionHistory": "Version History"
     }
   }
 }

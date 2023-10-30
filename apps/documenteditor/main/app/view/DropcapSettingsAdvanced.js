@@ -59,7 +59,7 @@ define([
     DE.Views.DropcapSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 320,
-            height      : 380,
+            contentHeight: 295,
             toggleGroup : 'dropcap-adv-settings-group',
             storageName: 'de-dropcap-settings-adv-category'
         },
@@ -657,6 +657,8 @@ define([
 
         afterRender: function() {
 
+            this.updateMetricUnit();
+            this.updateThemeColors();
 
             if (!this.isFrame) {
                 this.cmbFonts.fillFonts(this.fontStore);
@@ -668,8 +670,6 @@ define([
             this.tableStyler.setTableColor(colorstr);
             (colorstr!='transparent') && this.tableStyler.redrawTable();
 
-            this.updateMetricUnit();
-            this.updateThemeColors();
 
             if (this.borderProps !== undefined) {
                 this.btnBorderColor.setColor(this.borderProps.borderColor);
@@ -702,7 +702,7 @@ define([
             }, this);
 
             if (this.isFrame)
-                this.setHeight(500);
+                this.setInnerHeight(415);
 
             this.btnsCategory[(this.isFrame) ? 1 : 0].setVisible(false);
             if (this.storageName) {
@@ -712,10 +712,10 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [
-                this.cmbWidth, this.spnWidth, this.cmbHeight, this.spnHeight, this.cmbHAlign, this.cmbHRelative, this.spnX, this.cmbVAlign, this.cmbVRelative, this.spnY, this.chMove, // 0 tab
-                this.cmbFonts, this.spnRowHeight, this.numDistance, // 1 tab
-                this.cmbBorderSize, this.btnBorderColor].concat(this._btnsBorderPosition).concat([this.btnBackColor,  // 2 tab
+            return this.btnsCategory.concat([
+                this.btnFrameNone, this.btnFrameInline, this.btnFrameFlow, this.cmbWidth, this.spnWidth, this.cmbHeight, this.spnHeight, this.cmbHAlign, this.cmbHRelative, this.spnX, this.cmbVAlign, this.cmbVRelative, this.spnY, this.chMove, // 0 tab
+                this.btnNone, this.btnInText, this.btnInMargin, this.cmbFonts, this.spnRowHeight, this.numDistance, // 1 tab
+                this.cmbBorderSize, this.btnBorderColor]).concat(this._btnsBorderPosition).concat([this.btnBackColor,  // 2 tab
                 this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight // 3 tab
             ]);
         },

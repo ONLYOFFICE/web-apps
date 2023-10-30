@@ -289,11 +289,21 @@ define([
                         'print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); ' +
                 '}} %>',
             '<% } %>',
-            '<% if ( !menu ) { %>',
+            '<% if ( !menu && onlyIcon ) { %>',
+                '<button type="button" class="btn <%= cls %>" id="<%= id %>" style="<%= style %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" <% if (dataHintTitle) { %> data-hint-title="<%= dataHintTitle %>" <% } %>>',
+                    '<% applyicon() %>',
+                '</button>',
+            '<% } else if ( !menu ) { %>',
                 '<button type="button" class="btn <%= cls %>" id="<%= id %>" style="<%= style %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" <% if (dataHintTitle) { %> data-hint-title="<%= dataHintTitle %>" <% } %>>',
                     '<% applyicon() %>',
                     '<span class="caption"><%= caption %></span>',
                 '</button>',
+            '<% } else if (onlyIcon) {%>',
+                '<div class="btn-group" id="<%= id %>" style="<%= style %>">',
+                    '<button type="button" class="btn dropdown-toggle <%= cls %>" data-toggle="dropdown" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" <% if (dataHintTitle) { %> data-hint-title="<%= dataHintTitle %>" <% } %>>',
+                        '<% applyicon() %>',
+                    '</button>',
+                '</div>',
             '<% } else if (split == false) {%>',
                 '<div class="btn-group" id="<%= id %>" style="<%= style %>">',
                     '<button type="button" class="btn dropdown-toggle <%= cls %>" data-toggle="dropdown" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" <% if (dataHintTitle) { %> data-hint-title="<%= dataHintTitle %>" <% } %>>',
@@ -339,6 +349,10 @@ define([
             me.template     = me.options.template || me.template;
             me.style        = me.options.style;
             me.rendered     = false;
+            me.stopPropagation = me.options.stopPropagation;
+
+            // if ( /(?<!-)svg-icon(?!-)/.test(me.options.iconCls) )
+            //     me.options.scaling = false;
 
             if ( me.options.scaling === false && me.options.iconCls) {
                 me.iconCls = me.options.iconCls + ' scaling-off';
@@ -430,6 +444,7 @@ define([
                         iconImg      : me.options.iconImg,
                         menu         : me.menu,
                         split        : me.split,
+                        onlyIcon     : me.options.onlyIcon,
                         disabled     : me.disabled,
                         pressed      : me.pressed,
                         caption      : me.caption,
@@ -539,9 +554,10 @@ define([
 
                         $('button:first', el).toggleClass('active', select);
                     } else
-                        $('[data-toggle^=dropdown]', el).toggleClass('active', select);
+                        $('[data-toggle^=dropdown]:first', el).toggleClass('active', select);
 
                     el.toggleClass('active', select);
+                    me.stopPropagation && e.stopPropagation();
                 };
 
                 var menuHandler = function(e) {
@@ -569,6 +585,7 @@ define([
                         el.toggleClass('active', state);
                         $('button', el).toggleClass('active', state);
                     }
+                    me.stopPropagation && e.stopPropagation();
                 };
 
                 var splitElement;

@@ -39,7 +39,9 @@ define([
     'core',
     'common/main/lib/collection/Plugins',
     'common/main/lib/view/Plugins',
-    'common/main/lib/view/PluginDlg'
+    'common/main/lib/view/PluginDlg',
+    'common/main/lib/view/PluginPanel',
+    'common/main/lib/component/Switcher'
 ], function () {
     'use strict';
 
@@ -63,8 +65,8 @@ define([
                         var appOptions = me.getApplication().getController('Main').appOptions;
 
                         if ( !appOptions.isEditMailMerge && !appOptions.isEditDiagram && !appOptions.isEditOle ) {
-                            var tab = {action: 'plugins', caption: me.panelPlugins.groupCaption, dataHintTitle: 'E', layoutname: 'toolbar-plugins'};
-                            me.$toolbarPanelPlugins = me.panelPlugins.getPanel();
+                            var tab = {action: 'plugins', caption: me.viewPlugins.groupCaption, dataHintTitle: 'E', layoutname: 'toolbar-plugins'};
+                            me.$toolbarPanelPlugins = me.viewPlugins.getPanel();
                             me.toolbar = toolbar;
                             toolbar.addTab(tab, me.$toolbarPanelPlugins, 10);     // TODO: clear plugins list in left panel
                         }
@@ -72,24 +74,27 @@ define([
                 },
                 'Common.Views.Plugins': {
                     'plugin:select': function(guid, type) {
-                        me.api.asc_pluginRun(guid, type, '');
+                        if (!this.viewPlugins.pluginPanels[guid]) {
+                            me.api.asc_pluginRun(guid, type, '');
+                        } else {
+                            me.viewPlugins.liftUpPluginButton(guid);
+                            me.viewPlugins.openPlugin(guid);
+                        }
+                    }
+                },
+                'LeftMenu': {
+                    'plugins:disable': function (disable) {
+                        me.viewPlugins.setDisabledLeftPluginButtons(disable);
                     }
                 }
             });
         },
 
-        events: function() {
-            return {
-                'click #id-plugin-close':_.bind(this.onToolClose,this)
-            };
-        },
-
         onLaunch: function() {
             var store = this.getApplication().getCollection('Common.Collections.Plugins');
-            this.panelPlugins= this.createView('Common.Views.Plugins', {
+            this.viewPlugins= this.createView('Common.Views.Plugins', {
                 storePlugins: store
             });
-            this.panelPlugins.on('render:after', _.bind(this.onAfterRender, this));
 
             store.on({
                 add: this.onAddPlugin.bind(this),
@@ -111,7 +116,8 @@ define([
         loadConfig: function(data) {
             var me = this;
             me.configPlugins.config = data.config.plugins;
-            me.editor = !!window.DE ? 'word' : !!window.PE ? 'slide' : 'cell';
+            me.editor = (!!window.DE || !!window.PDFE) ? 'word' : !!window.PE ? 'slide' : 'cell';
+            me.isPDFEditor = !!window.PDFE;
         },
 
         loadPlugins: function() {
@@ -195,21 +201,21 @@ define([
             return this;
         },
 
-        onAfterRender: function(panelPlugins) {
-            panelPlugins.viewPluginsList && panelPlugins.viewPluginsList.on('item:click', _.bind(this.onSelectPlugin, this));
-            this.bindViewEvents(this.panelPlugins, this.events);
+        onAfterRender: function(panel, guid) {
             var me = this;
+            this.viewPlugins.openPlugin(guid);
+            panel.pluginClose.on('click', _.bind(this.onToolClose, this, panel));
             Common.NotificationCenter.on({
-                'layout:resizestart': function(e){
-                    if (me.panelPlugins.isVisible()) {
-                        var offset = me.panelPlugins.currentPluginFrame.offset();
-                        me._moveOffset = {x: offset.left + parseInt(me.panelPlugins.currentPluginFrame.css('padding-left')),
-                                            y: offset.top + parseInt(me.panelPlugins.currentPluginFrame.css('padding-top'))};
+                'layout:resizestart': function(e) {
+                    if (panel) {
+                        var offset = panel.currentPluginFrame.offset();
+                        me._moveOffset = {x: offset.left + parseInt(panel.currentPluginFrame.css('padding-left')),
+                                            y: offset.top + parseInt(panel.currentPluginFrame.css('padding-top'))};
                         me.api.asc_pluginEnableMouseEvents(true);
                     }
                 },
                 'layout:resizestop': function(e){
-                    if (me.panelPlugins.isVisible()) {
+                    if (panel) {
                         me.api.asc_pluginEnableMouseEvents(false);
                     }
                 }
@@ -235,31 +241,181 @@ define([
         onAddPlugin: function (model) {
             var me = this;
             if ( me.$toolbarPanelPlugins ) {
-                var btn = me.panelPlugins.createPluginButton(model);
+                var btn = me.viewPlugins.createPluginButton(model);
                 if (!btn) return;
 
                 var _group = $('> .group', me.$toolbarPanelPlugins);
                 var $slot = $('<span class="btn-slot text x-huge"></span>').appendTo(_group);
                 btn.render($slot);
-                var docProtection = me.panelPlugins._state.docProtection;
+                var docProtection = me.viewPlugins._state.docProtection;
                 Common.Utils.lockControls(Common.enumLock.docLockView, docProtection.isReadOnly, {array: btn});
                 Common.Utils.lockControls(Common.enumLock.docLockForms, docProtection.isFormsOnly, {array: btn});
                 Common.Utils.lockControls(Common.enumLock.docLockComments, docProtection.isCommentsOnly, {array: btn});
             }
         },
 
+        addBackgroundPluginsButton: function (group) {
+            group.appendTo(this.$toolbarPanelPlugins); // append previous button (Plugin Manager)
+            //$('<div class="separator long"></div>').appendTo(me.$toolbarPanelPlugins);
+            group = $('<div class="group" style="' + (Common.UI.isRTL() ? 'padding-right: 0;' : 'padding-left: 0;') + '"></div>');
+            this.viewPlugins.backgroundBtn = this.viewPlugins.createBackgroundPluginsButton();
+            var $backgroundSlot = $('<span class="btn-slot text x-huge"></span>').appendTo(group);
+            this.viewPlugins.backgroundBtn.render($backgroundSlot);
+            this.viewPlugins.backgroundBtn.hide();
+
+            return group;
+        },
+
+        turnOffBackgroundPlugin: function (guid) {
+            if (this.backgroundPluginsSwitchers) {
+                var switcher;
+                this.backgroundPluginsSwitchers.forEach(function (item) {
+                    if (item.options.pluginGuid === guid) {
+                        switcher = item;
+                    }
+                });
+                if (switcher) {
+                    switcher.updateHint(this.viewPlugins.textStart);
+                    switcher.setValue(false);
+                    return true;
+                }
+                return false;
+            }
+        },
+
+        onShowBeforeBackgroundPlugins: function (menu) {
+            var me = this;
+            me.clickInsideMenu = false;
+            var hideActiveMenu = function () {
+                var activeMenu = menu.cmpEl.find('.dropdown-toggle.active');
+                for (var i=0; i<activeMenu.length; i++) {
+                    var m = activeMenu[i],
+                        b = $(m).parent();
+                    b.toggleClass('open', false);
+                    $(m).trigger($.Event('hide.bs.dropdown'));
+                }
+            };
+            this.backgroundPluginsSwitchers = [];
+            this.backgroundPlugins.forEach(function (model) {
+                var modes = model.get('variations'),
+                    icons = modes[model.get('currentVariation')].get('icons'),
+                    parsedIcons = me.viewPlugins.parseIcons(icons),
+                    icon_url = model.get('baseUrl') + parsedIcons['normal'],
+                    guid = model.get('guid');
+                model.set('parsedIcons', parsedIcons);
+                var menuItem = new Common.UI.MenuItem({
+                    value: guid,
+                    caption: model.get('name'),
+                    iconImg: icon_url,
+                    template: _.template([
+                        '<div id="<%= id %>" class="menu-item" <% if(!_.isUndefined(options.stopPropagation)) { %> data-stopPropagation="true" <% } %> >',
+                            '<img class="menu-item-icon" src="<%= options.iconImg %>">',
+                            '<div class="plugin-caption"><%= caption %></div>',
+                            '<div class="plugin-tools">',
+                                '<div class="plugin-toggle"></div>',
+                                '<div class="plugin-settings"></div>',
+                            '</span>',
+                        '</a>'
+                    ].join('')),
+                    stopPropagation: true
+                });
+                menu.addItem(menuItem);
+                model.set('backgroundPlugin', menuItem);
+                var switcher = new Common.UI.Switcher({
+                    el: menuItem.$el.find('.plugin-toggle')[0],
+                    value: !!model.isSystem,
+                    disabled: !!model.isSystem,
+                    pluginGuid: guid,
+                    hint: me.viewPlugins.textStart
+                });
+                switcher.on('change', function (element, value) {
+                    switcher.updateHint(value ? me.viewPlugins.textStop : me.viewPlugins.textStart);
+                    me.viewPlugins.fireEvent('plugin:select', [switcher.options.pluginGuid, 0]);
+                });
+                me.backgroundPluginsSwitchers.push(switcher);
+                var menuItems = [];
+                _.each(modes, function(variation, index) {
+                    if (index > 0 && variation.get('visible'))
+                        menuItems.push({
+                            caption: variation.get('description'),
+                            value: parseInt(variation.get('index'))
+                        });
+                });
+                if (menuItems.length > 0) {
+                    var btn = new Common.UI.Button({
+                        parentEl: menuItem.$el.find('.plugin-settings'),
+                        cls: 'btn-toolbar',
+                        iconCls: 'menu__icon btn-more',
+                        menu: new Common.UI.Menu({
+                            menuAlign: 'tl-bl',
+                            items: menuItems,
+                            pluginGuid: guid
+                        }),
+                        onlyIcon: true,
+                        stopPropagation: true,
+                        hint: me.viewPlugins.textSettings
+                    });
+                    btn.menu.on('item:click', function (menu, item, e) {
+                        Common.UI.Menu.Manager.hideAll();
+                        me.viewPlugins.fireEvent('plugin:select', [menu.options.pluginGuid, item.value]);
+                        me.clickInsideMenu = false;
+                    });
+                    btn.menu.on('keydown:before', function (menu, e) {
+                        if (e.keyCode == Common.UI.Keys.ESC) {
+                            hideActiveMenu();
+                            _.delay(function(){
+                                btn.cmpEl.closest('.btn-group.open').find('[data-toggle=dropdown]:first').focus();
+                            }, 10);
+                        }
+                    });
+                    btn.menu.cmpEl.find('li').on('mousedown', function () {
+                        me.clickInsideMenu = true;
+                    });
+                    btn.cmpEl.on('mousedown', function () {
+                        me.clickInsideMenu = true;
+                    });
+                    btn.on('click', function () {
+                        var btnGroup = btn.$el.find('.btn-group'),
+                            isOpen = btnGroup.hasClass('open');
+                        if (!isOpen) hideActiveMenu();
+                        btnGroup.toggleClass('open', !isOpen);
+                        $(btn.menu.el).trigger($.Event(!isOpen ? 'show.bs.dropdown' : 'hide.bs.dropdown'));
+                        me.clickInsideMenu = false;
+                    });
+                }
+            });
+            menu.cmpEl.find('li').on('mousedown', function () {
+                if (me.clickInsideMenu) return;
+                hideActiveMenu();
+            });
+        },
+
         onResetPlugins: function (collection) {
             var me = this;
             me.appOptions.canPlugins = !collection.isEmpty();
             if ( me.$toolbarPanelPlugins ) {
+                me.backgroundPlugins = [];
                 me.$toolbarPanelPlugins.empty();
                 me.toolbar && me.toolbar.clearMoreButton('plugins');
 
                 var _group = $('<div class="group"></div>'),
                     rank = -1,
-                    rank_plugins = 0;
+                    rank_plugins = 0,
+                    isBackground = false;
                 collection.each(function (model) {
-                    var new_rank = model.get('groupRank');
+                    var new_rank = model.get('groupRank'),
+                        isBackgroundPlugin = model.get('isBackgroundPlugin');
+                    if (isBackgroundPlugin) {
+                        me.backgroundPlugins.push(model);
+                        return;
+                    }
+                    //if (new_rank === 1 || new_rank === 2) return; // for test
+                    if ((new_rank === 0 || new_rank === 2) && !isBackground) {
+                        _group = me.addBackgroundPluginsButton(_group);
+                        isBackground = true;
+                        rank = 1.5;
+                        rank_plugins++;
+                    }
                     if (new_rank!==rank && rank>-1 && rank_plugins>0) {
                         _group.appendTo(me.$toolbarPanelPlugins);
                         $('<div class="separator long"></div>').appendTo(me.$toolbarPanelPlugins);
@@ -271,20 +427,33 @@ define([
                         _group = $('<div class="group" style="' + (Common.UI.isRTL() ? 'padding-right: 0;' : 'padding-left: 0;') + '"></div>');
                     }
 
-                    var btn = me.panelPlugins.createPluginButton(model);
+                    var btn = me.viewPlugins.createPluginButton(model);
                     if (btn) {
                         var $slot = $('<span class="btn-slot text x-huge"></span>').appendTo(_group);
                         btn.render($slot);
                         rank_plugins++;
                     }
+                    if (new_rank === 1 && !isBackground) {
+                        _group = me.addBackgroundPluginsButton(_group);
+                        isBackground = true;
+                    }
                     rank = new_rank;
                 });
                 _group.appendTo(me.$toolbarPanelPlugins);
+                if (me.backgroundPlugins.length > 0) {
+                    me.viewPlugins.backgroundBtn.show();
+                    var onShowBefore = function (menu) {
+                        me.onShowBeforeBackgroundPlugins(menu);
+                        menu.off('show:before', onShowBefore);
+                    };
+                    me.viewPlugins.backgroundBtn.menu.on('show:before', onShowBefore);
+                }
+
                 me.toolbar && me.toolbar.isTabActive('plugins') && me.toolbar.processPanelVisible(null, true, true);
-                var docProtection = me.panelPlugins._state.docProtection;
-                Common.Utils.lockControls(Common.enumLock.docLockView, docProtection.isReadOnly, {array: me.panelPlugins.lockedControls});
-                Common.Utils.lockControls(Common.enumLock.docLockForms, docProtection.isFormsOnly, {array: me.panelPlugins.lockedControls});
-                Common.Utils.lockControls(Common.enumLock.docLockComments, docProtection.isCommentsOnly, {array: me.panelPlugins.lockedControls});
+                var docProtection = me.viewPlugins._state.docProtection;
+                Common.Utils.lockControls(Common.enumLock.docLockView, docProtection.isReadOnly, {array: me.viewPlugins.lockedControls});
+                Common.Utils.lockControls(Common.enumLock.docLockForms, docProtection.isFormsOnly, {array: me.viewPlugins.lockedControls});
+                Common.Utils.lockControls(Common.enumLock.docLockComments, docProtection.isCommentsOnly, {array: me.viewPlugins.lockedControls});
             } else {
                 console.error('toolbar panel isnot created');
             }
@@ -294,14 +463,14 @@ define([
             var storePlugins = this.getApplication().getCollection('Common.Collections.Plugins'),
                 me = this;
             storePlugins.each(function(item){
-                me.panelPlugins.updatePluginIcons(item);
+                me.viewPlugins.updatePluginIcons(item);
             });
         },
 
         onSelectPlugin: function(picker, item, record, e){
             var btn = $(e.target);
             if (btn && btn.hasClass('plugin-caret')) {
-                var menu = this.panelPlugins.pluginMenu;
+                var menu = this.viewPlugins.pluginMenu;
                 if (menu.isVisible()) {
                     menu.hide();
                     return;
@@ -309,7 +478,7 @@ define([
 
                 var showPoint, me = this,
                     currentTarget = $(e.currentTarget),
-                    parent = $(this.panelPlugins.el),
+                    parent = $(this.viewPlugins.el),
                     offset = currentTarget.offset(),
                     offsetParent = parent.offset();
 
@@ -325,7 +494,7 @@ define([
                     for (var i=0; i<variations.length; i++) {
                         var variation = variations[i],
                             mnu = new Common.UI.MenuItem({
-                                caption     : (i>0) ? variation.get('description') : me.panelPlugins.textStart,
+                                caption     : (i>0) ? variation.get('description') : me.viewPlugins.textStart,
                                 value       : parseInt(variation.get('index'))
                             }).on('click', function(item, e) {
                                 if (me.api) {
@@ -380,7 +549,15 @@ define([
                 if (urlAddition)
                     url += urlAddition;
                 if (variation.get_InsideMode()) {
-                    if (!this.panelPlugins.openInsideMode(plugin.get_Name(lang), url, frameId, plugin.get_Guid()))
+                    var guid = plugin.get_Guid(),
+                        langName = plugin.get_Name(lang),
+                        leftMenu = this.getApplication().getController('LeftMenu'),
+                        panelId = this.viewPlugins.addNewPluginToLeftMenu(leftMenu, plugin, variation, langName);
+                        this.viewPlugins.pluginPanels[guid] = new Common.Views.PluginPanel({
+                            el: '#' + panelId
+                        });
+                        this.viewPlugins.pluginPanels[guid].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.pluginPanels[guid], guid));
+                    if (!this.viewPlugins.pluginPanels[guid].openInsideMode(langName, url, frameId, plugin.get_Guid()))
                         this.api.asc_pluginButtonClick(-1, plugin.get_Guid());
                 } else {
                     var me = this,
@@ -442,15 +619,26 @@ define([
                     me.pluginDlg.show();
                 }
             }
-            this.panelPlugins.openedPluginMode(plugin.get_Guid());
+            !variation.get_InsideMode() && this.viewPlugins.openedPluginMode(plugin.get_Guid());
         },
 
-        onPluginClose: function(plugin) {
+        onPluginClose: function(plugin) {            
+            var isIframePlugin = false,
+                guid = plugin.get_Guid();
             if (this.pluginDlg)
                 this.pluginDlg.close();
-            else if (this.panelPlugins.iframePlugin)
-                this.panelPlugins.closeInsideMode();
-            this.panelPlugins.closedPluginMode(plugin.get_Guid());
+            else {
+                var panel = this.viewPlugins.pluginPanels[guid];
+                if (panel && panel.iframePlugin) {
+                    isIframePlugin = true;
+                    panel.closeInsideMode(guid);
+                    this.viewPlugins.onClosePlugin(guid);
+                    delete this.viewPlugins.pluginPanels[name];
+                }
+            }
+            if (!isIframePlugin) {
+                !this.turnOffBackgroundPlugin(guid) && this.viewPlugins.closedPluginMode(guid);
+            }
             this.runAutoStartPlugins();
         },
 
@@ -464,8 +652,8 @@ define([
             }
         },
 
-        onToolClose: function() {
-            this.api.asc_pluginButtonClick(-1, this.panelPlugins ? this.panelPlugins._state.insidePlugin : undefined);
+        onToolClose: function(panel) {
+            this.api.asc_pluginButtonClick(-1, panel ? panel._state.insidePlugin : undefined);
         },
 
         onPluginMouseUp: function(x, y) {
@@ -487,11 +675,11 @@ define([
 
         onPluginsInit: function(pluginsdata) {
             !(pluginsdata instanceof Array) && (pluginsdata = pluginsdata["pluginsData"]);
-            this.parsePlugins(pluginsdata)
+            this.parsePlugins(pluginsdata, false, true)
         },
 
-        onPluginShowButton: function(id) {
-            this.pluginDlg && this.pluginDlg.showButton(id);
+        onPluginShowButton: function(id, toRight) {
+            this.pluginDlg && this.pluginDlg.showButton(id, toRight);
         },
 
         onPluginHideButton: function(id) {
@@ -525,29 +713,40 @@ define([
             });
         },
 
-        parsePlugins: function(pluginsdata, uiCustomize) {
+        parsePlugins: function(pluginsdata, uiCustomize, forceUpdate) {
             var me = this;
             var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins'),
-                isEdit = me.appOptions.isEdit,
+                isEdit = me.appOptions.isEdit && !me.isPDFEditor,
                 editor = me.editor,
                 apiVersion = me.api ? me.api.GetVersion() : undefined;
             if ( pluginsdata instanceof Array ) {
                 var arr = [], arrUI = [],
                     lang = me.appOptions.lang.split(/[\-_]/)[0];
                 pluginsdata.forEach(function(item){
-                    if ( arr.some(function(i) {
-                                return (i.get('baseUrl') == item.baseUrl || i.get('guid') == item.guid);
-                            }
-                        ) || pluginStore.findWhere({baseUrl: item.baseUrl}) || pluginStore.findWhere({guid: item.guid}))
-                    {
-                        return;
+                    var updatedItem;
+                    if (forceUpdate) {
+                        updatedItem = arr.find(function (i){
+                            return i.get('baseUrl') == item.baseUrl || i.get('guid') == item.guid}
+                        );
+                        !updatedItem && (updatedItem = pluginStore.findWhere({baseUrl: item.baseUrl}));
+                        !updatedItem && (updatedItem = pluginStore.findWhere({guid: item.guid}));
+                    } else {
+                        if ( arr.some(function(i) {
+                            return (i.get('baseUrl') == item.baseUrl || i.get('guid') == item.guid);
+                        }) || pluginStore.findWhere({baseUrl: item.baseUrl}) || pluginStore.findWhere({guid: item.guid}) )
+                        {
+                            return;
+                        }
                     }
 
                     var variationsArr = [],
                         pluginVisible = false,
-                        isDisplayedInViewer = false;
-                    item.variations.forEach(function(itemVar){
-                        var visible = (isEdit || itemVar.isViewer && (itemVar.isDisplayedInViewer!==false)) && _.contains(itemVar.EditorsSupport, editor) && !itemVar.isSystem;
+                        isDisplayedInViewer = false,
+                        isBackgroundPlugin = false,
+                        isSystem;
+                    item.variations.forEach(function(itemVar, itemInd){
+                        isSystem = (true === itemVar.isSystem) || (Asc.PluginType.System === itemVar.type);
+                        var visible = (isEdit || itemVar.isViewer && (itemVar.isDisplayedInViewer!==false)) && _.contains(itemVar.EditorsSupport, editor) && !isSystem;
                         if ( visible ) pluginVisible = true;
                         if (itemVar.isViewer && (itemVar.isDisplayedInViewer!==false))
                             isDisplayedInViewer = true;
@@ -579,6 +778,9 @@ define([
                             });
 
                             variationsArr.push(model);
+                            if (itemInd === 0) {
+                                isBackgroundPlugin = itemVar.type ? itemVar.type === Asc.PluginType.Background : !itemVar.isVisual;
+                            }
                         }
                     });
 
@@ -590,7 +792,7 @@ define([
                         if (pluginVisible)
                             pluginVisible = me.checkPluginVersion(apiVersion, item.minVersion);
 
-                        arr.push(new Common.Models.Plugin({
+                        var props = {
                             name : name,
                             guid: item.guid,
                             baseUrl : item.baseUrl,
@@ -601,8 +803,11 @@ define([
                             groupRank: (item.group) ? item.group.rank : 0,
                             minVersion: item.minVersion,
                             original: item,
-                            isDisplayedInViewer: isDisplayedInViewer
-                        }));
+                            isDisplayedInViewer: isDisplayedInViewer,
+                            isBackgroundPlugin: pluginVisible && isBackgroundPlugin,
+                            isSystem: isSystem
+                        };
+                        updatedItem ? updatedItem.set(props) : arr.push(new Common.Models.Plugin(props));
                     }
                 });
 
@@ -757,11 +962,11 @@ define([
                 var docprotect = this.getApplication().getController('DocProtection');
                 props = docprotect ? docprotect.getDocProps() : null;
             }
-            if (props && this.panelPlugins) {
-                this.panelPlugins._state.docProtection = props;
-                Common.Utils.lockControls(Common.enumLock.docLockView, props.isReadOnly, {array: this.panelPlugins.lockedControls});
-                Common.Utils.lockControls(Common.enumLock.docLockForms, props.isFormsOnly, {array: this.panelPlugins.lockedControls});
-                Common.Utils.lockControls(Common.enumLock.docLockComments, props.isCommentsOnly, {array: this.panelPlugins.lockedControls});
+            if (props && this.viewPlugins) {
+                this.viewPlugins._state.docProtection = props;
+                Common.Utils.lockControls(Common.enumLock.docLockView, props.isReadOnly, {array: this.viewPlugins.lockedControls});
+                Common.Utils.lockControls(Common.enumLock.docLockForms, props.isFormsOnly, {array: this.viewPlugins.lockedControls});
+                Common.Utils.lockControls(Common.enumLock.docLockComments, props.isCommentsOnly, {array: this.viewPlugins.lockedControls});
             }
         },
 
@@ -771,8 +976,9 @@ define([
                 if (this.customPluginsDlg[frameId]) return;
 
                 var lang = this.appOptions && this.appOptions.lang ? this.appOptions.lang.split(/[\-_]/)[0] : 'en';
-                var url = variation.url; // full url
-                var visible = (this.appOptions.isEdit || variation.isViewer && (variation.isDisplayedInViewer!==false)) && _.contains(variation.EditorsSupport, this.editor) && !variation.isSystem;
+                var url = variation.url, // full url
+                    isSystem = (true === variation.isSystem) || (Asc.PluginType.System === variation.type);
+                var visible = (this.appOptions.isEdit || variation.isViewer && (variation.isDisplayedInViewer!==false)) && _.contains(variation.EditorsSupport, this.editor) && !isSystem;
                 if (visible && !variation.isInsideMode) {
                     var me = this,
                         isCustomWindow = variation.isCustomWindow,
@@ -789,7 +995,7 @@ define([
                     _.isArray(arrBtns) && _.each(arrBtns, function(b, index){
                         if (typeof b.textLocale == 'object')
                             b.text = b.textLocale[lang] || b.textLocale['en'] || b.text || '';
-                        if (me.appOptions.isEdit || b.isViewer !== false)
+                        if (me.appOptions.isEdit && !me.isPDFEditor || b.isViewer !== false)
                             newBtns[index] = {caption: b.text, value: index, primary: b.primary, frameId: frameId};
                     });
 
@@ -868,7 +1074,7 @@ define([
                 if (this.customPluginsDlg[frameId].binding.resize) this.customPluginsDlg[frameId].binding.resize({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
             } else
                 Common.NotificationCenter.trigger('frame:mousemove', { pageX: x*Common.Utils.zoom()+this._moveOffset.x, pageY: y*Common.Utils.zoom()+this._moveOffset.y });
-        }
+        },
 
     }, Common.Controllers.Plugins || {}));
 });

@@ -54,7 +54,6 @@ define([
 
             _.extend(_options,  {
                 width           : 395,
-                height          : 270,
                 header          : true,
                 cls             : 'modal-dlg',
                 contentTemplate : '',
@@ -111,7 +110,8 @@ define([
                         style       : 'width: 100%;',
                         maxLength: 255,
                         validateOnBlur: false,
-                        repeatInput: this.repeatPwd
+                        repeatInput: this.repeatPwd,
+                        showPwdOnClick: false
                     });
             }
         },

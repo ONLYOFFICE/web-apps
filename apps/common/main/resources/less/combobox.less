@@ -126,14 +126,14 @@
         }
     }
 
-    &.input-group-nr:not(.no-highlighted) > .form-control {
+    &.input-group-nr:not(.no-highlighted):not(.disabled) > .form-control {
         &:focus,
         &:focus ~ button.dropdown-toggle {
             border-color: @border-control-focus-ie;
             border-color: @border-control-focus;
         }
     }
-    &.input-group-nr.no-highlighted > .form-control {
+    &.input-group-nr.no-highlighted:not(.disabled) > .form-control {
         &:focus,
         &:focus ~ button.dropdown-toggle {
             border-color: @border-regular-control-ie;

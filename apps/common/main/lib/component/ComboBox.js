@@ -82,6 +82,7 @@ define([
                 disabled    : false,
                 menuCls     : '',
                 menuStyle   : '',
+                restoreMenuHeight: true,
                 displayField: 'displayValue',
                 valueField  : 'value',
                 search      : false,
@@ -101,7 +102,7 @@ define([
                     '</button>',
                     '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                         '<% _.each(items, function(item) { %>',
-                            '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
+                            '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
                         '<% }); %>',
                     '</ul>',
                 '</span>'
@@ -129,6 +130,9 @@ define([
                 this.search         = me.options.search;
                 this.scrollAlwaysVisible = me.options.scrollAlwaysVisible;
                 this.focusWhenNoSelection = (me.options.focusWhenNoSelection!==false);
+
+                this.restoreMenuHeight = me.options.restoreMenuHeight;
+
                 me.rendered         = me.options.rendered || false;
 
                 this.lastValue = null;
@@ -329,6 +333,7 @@ define([
             },
 
             onAfterShowMenu: function(e) {
+                this.alignMenuPosition();
                 var $list = $(this.el).find('ul'),
                     $selected = $list.find('> li.selected');
 
@@ -353,6 +358,34 @@ define([
 
                 this.trigger('show:after', this, e, {fromKeyDown: e===undefined});
                 this._search = {};
+            },
+
+            alignMenuPosition: function () {
+                if (this.restoreMenuHeight) {
+                    var $list = $(this.el).find('ul');
+                    if (typeof this.restoreMenuHeight !== "number") {
+                        var maxHeight = parseFloat($list.css('max-height'));
+                        if ($list.hasClass('scrollable-menu') || maxHeight) {
+                            this.restoreMenuHeight = maxHeight ? maxHeight : 100000;
+                        } else {
+                            this.restoreMenuHeight = 100000;
+                        }
+                    }
+                    var cg = Common.Utils.croppedGeometry(),
+                        docH = cg.height - 10,
+                        menuH = $list.outerHeight(),
+                        menuTop = $list.get(0).getBoundingClientRect().top,
+                        newH = menuH;
+
+                    if (menuH < this.restoreMenuHeight)
+                        newH = this.restoreMenuHeight;
+
+                    if (menuTop + newH > docH)
+                        newH = docH - menuTop;
+
+                    if (newH !== menuH)
+                        $list.css('max-height', newH + 'px');
+                }
             },
 
             onBeforeHideMenu: function(e) {

@@ -55,17 +55,17 @@ define([
 
             _.extend(_options,  {
                 width           : options.type === 'date' ? 528 : 501,
-                height          : 230,
                 contentWidth    : 180,
                 header          : true,
-                cls             : 'filter-dlg' + (options.type === 'date' ? ' date-filter' : ''),
+                cls             : 'filter-dlg modal-dlg' + (options.type === 'date' ? ' date-filter' : ''),
                 contentTemplate : '',
                 title           : t.txtTitle,
-                items           : []
+                items           : [],
+                buttons: ['ok', 'cancel']
             }, options);
 
             this.template   =   options.template || [
-                '<div class="box" style="height:' + (_options.height - 85) + 'px;">',
+                '<div class="box">',
                     '<div class="content-panel" >',
                         '<label class="header">', t.textShowRows, '</label>',
                         '<div class="combo-container-1">',
@@ -87,11 +87,6 @@ define([
                             '<% } %>',
                         '</div>',
                     '</div>',
-                '</div>',
-                '<div class="separator horizontal"></div>',
-                '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok">', t.okButtonText, '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel">', t.cancelButtonText, '</button>',
                 '</div>'
             ].join('');
 
@@ -375,10 +370,9 @@ define([
 
             _.extend(_options,  {
                 width           : (this.type=='value') ? 450 : 318,
-                height          : 160,
                 contentWidth    : 180,
                 header          : true,
-                cls             : 'filter-dlg',
+                cls             : 'filter-dlg modal-dlg',
                 contentTemplate : '',
                 title           : t.txtTitle,
                 items           : [],
@@ -386,7 +380,7 @@ define([
             }, options);
 
             this.template   =   options.template || [
-                '<div class="box" style="height:' + (_options.height - 85) + 'px;">',
+                '<div class="box">',
                     '<div class="content-panel" >',
                         '<label>', t.textType, '</label>',
                         '<div>',
@@ -397,8 +391,7 @@ define([
                             '<div id="id-top10-fields-combo" class="input-group-nr" style="width:100px;display: inline-block; vertical-align: middle;"></div>',
                         '</div>',
                     '</div>',
-                '</div>',
-                '<div class="separator horizontal" style="width:100%"></div>'
+                '</div>'
             ].join('');
 
             this.api        =   options.api;
@@ -581,13 +574,13 @@ define([
 
             _.extend(_options,  {
                 width           : 501,
-                height          : 210,
                 contentWidth    : 180,
                 header          : true,
-                cls             : 'filter-dlg',
+                cls             : 'filter-dlg modal-dlg',
                 contentTemplate : '',
                 title           : (options.type=='label') ?  t.txtTitleLabel : t.txtTitleValue,
-                items           : []
+                items           : [],
+                buttons: ['ok', 'cancel']
             }, options);
 
             this.api        =   options.api;
@@ -595,7 +588,7 @@ define([
             this.type       =   options.type || 'value';
 
             this.template   =   options.template || [
-                    '<div class="box" style="height:' + (_options.height - 85) + 'px;">',
+                    '<div class="box">',
                     '<div class="content-panel" >',
                         '<label class="header">', ((t.type=='label') ? t.textShowLabel : t.textShowValue), '</label>',
                         '<div style="margin-top:15px;">',
@@ -610,11 +603,6 @@ define([
                             '<label style="display:block;">' + t.textUse2 + '</label>',
                         '</div>',
                     '</div>',
-                    '</div>',
-                    '<div class="separator horizontal" style="width:100%"></div>',
-                    '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok">', t.okButtonText, '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel">', t.cancelButtonText, '</button>',
                     '</div>'
                 ].join('');
 
@@ -860,10 +848,9 @@ define([
 
             _.extend(_options,  {
                 width           : 250,
-                height          : 215,
                 contentWidth    : 180,
                 header          : true,
-                cls             : 'filter-dlg',
+                cls             : 'filter-dlg modal-dlg',
                 contentTemplate : '',
                 title           : t.txtTitle,
                 items           : [],
@@ -871,15 +858,14 @@ define([
             }, options);
 
             this.template   =   options.template || [
-                    '<div class="box" style="height:' + (_options.height - 85) + 'px;">',
+                    '<div class="box">',
                     '<div class="content-panel" >',
                         '<div id="id-sort-filter-radio-asc" style="margin-bottom: 4px;"></div>',
                         '<div id="id-sort-filter-fields-asc" class="input-group-nr margin-left-22" style="margin-bottom: 10px;"></div>',
                         '<div id="id-sort-filter-radio-desc" style="margin-bottom: 4px;"></div>',
                         '<div id="id-sort-filter-fields-desc" class="input-group-nr margin-left-22"></div>',
                     '</div>',
-                    '</div>',
-                    '<div class="separator horizontal" style="width:100%"></div>'
+                    '</div>'
                 ].join('');
 
             this.api        =   options.api;
@@ -1062,7 +1048,7 @@ define([
                 height          : height || 277,
                 contentWidth    : (width - 50) || 400,
                 header          : false,
-                cls             : 'filter-dlg autofilter',
+                cls             : 'filter-dlg  modal-dlg autofilter invisible-borders',
                 contentTemplate : '',
                 title           : t.txtTitle,
                 modal           : false,
@@ -1077,8 +1063,8 @@ define([
                 '<div class="box" style="height: 100%; display: flex; justify-content: space-between;">',
                     '<div class="content-panel">',
                         '<div class="" style="display: flex; flex-direction: column; justify-content: flex-start; height: calc(100% - 37px);">',
-                            '<div id="id-sd-cell-search" style="height:22px; margin-bottom:10px;"></div>',
-                            '<div class="border-values" style="overflow: hidden; flex-grow: 1;">',
+                            '<div id="id-sd-cell-search" style="height:22px; margin-bottom:10px;flex-shrink: 0;"></div>',
+                            '<div class="border-values" style="overflow: hidden; flex-grow: 1;display: flex;">',
                                 '<div id="id-dlg-filter-values" class="combo-values" style=""></div>',
                             '</div>',
                         '</div>',
@@ -1114,7 +1100,6 @@ define([
 
             var $border = this.$window.find('.resize-border');
             this.$window.find('.resize-border.left, .resize-border.top').css({'cursor': 'default'});
-            $border.css({'background': 'none', 'border': 'none'});
             $border.removeClass('left');
             $border.removeClass('top');
 
@@ -1483,11 +1468,12 @@ define([
                     store: this.cells,
                     tabindex: 1,
                     enableKeyEvents: true,
+                    template: _.template(['<div class="treeview inner" style="height:auto;"></div>'].join('')),
                     itemTemplate: _.template([
                         '<% if (typeof isDate !=="undefined" && isDate) { %>',
                             '<div class="tree-item date <% if (!isVisible) { %>' + 'hidden' + '<% } %>" style="display: block;' + (!Common.UI.isRTL() ? 'padding-left' : 'padding-right') + ': <%= level*16 + 22 %>px;">',
                                 '<% if (hasSubItems) { %>',
-                                    '<div class="tree-caret img-commonctrl ' + '<% if (!isExpanded) { %>' + 'up' + '<% } %>' + '" style="' + (!Common.UI.isRTL() ? 'margin-left' : 'margin-right') + ':<%= level*16 %>px;"></div>',
+                                    '<i class="icon toolbar__icon btn-tree-caret ' + '<% if (!isExpanded) { %>' + 'up' + '<% } %>' + '" style="' + (!Common.UI.isRTL() ? 'margin-left' : 'margin-right') + ':<%= level*16 %>px;"></i>',
                                 '<% } %>',
                                 '<div class="name not-header">',
                                     '<label class="checkbox-indeterminate" style="position:absolute;">',

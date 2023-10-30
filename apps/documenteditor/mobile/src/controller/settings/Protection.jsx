@@ -13,6 +13,7 @@ const ProtectionController = props => {
     const onProtectClick = () => {
         const api = Common.EditorApi.get();
         const appOptions = props.storeAppOptions;
+        const isViewer = appOptions.isViewer;
         const isProtected = appOptions.isProtected;
         let propsProtection = api.asc_getDocumentProtection();
         const isPassword = propsProtection?.asc_getIsPassword();
@@ -60,7 +61,12 @@ const ProtectionController = props => {
                                 if(passwordValue) {
                                     propsProtection.asc_setEditType(Asc.c_oAscEDocProtect.None);
                                     propsProtection.asc_setPassword(passwordValue);
-                                    api.asc_setDocumentProtection(propsProtection);
+                                    const isUnprotected = api.asc_setDocumentProtection(propsProtection);
+
+                                    if(isUnprotected && !isViewer) {
+                                        api.asc_removeRestriction(Asc.c_oAscRestrictionType.View)
+                                        api.asc_addRestriction(Asc.c_oAscRestrictionType.None);
+                                    } 
                                 }
                             }
                         }
@@ -72,9 +78,16 @@ const ProtectionController = props => {
 
                 appOptions.setTypeProtection(null);
                 propsProtection.asc_setEditType(Asc.c_oAscEDocProtect.None);
-                api.asc_setDocumentProtection(propsProtection);
+                const isUnprotected = api.asc_setDocumentProtection(propsProtection);
 
-                setSnackbarVisible(true);
+                if(isUnprotected) {
+                    if(!isViewer) {
+                        api.asc_removeRestriction(Asc.c_oAscRestrictionType.View)
+                        api.asc_addRestriction(Asc.c_oAscRestrictionType.None);
+                    } 
+
+                    setSnackbarVisible(true);
+                }
             }
         } else {
             f7.views.current.router.navigate('/protect');

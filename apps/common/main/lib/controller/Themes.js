@@ -83,10 +83,12 @@ define([
             "toolbar-header-document",
             "toolbar-header-spreadsheet",
             "toolbar-header-presentation",
+            "toolbar-header-pdf",
 
             "text-toolbar-header-on-background-document",
             "text-toolbar-header-on-background-spreadsheet",
             "text-toolbar-header-on-background-presentation",
+            "text-toolbar-header-on-background-pdf",
 
             "background-normal",
             "background-toolbar",
@@ -303,8 +305,13 @@ define([
 
         var on_document_ready = function (el) {
             // get_themes_config('../../common/main/resources/themes/themes.json');
-            if ( !Common.Controllers.Desktop.isActive() || !Common.Controllers.Desktop.isOffline() )
+            if ( !Common.Controllers.Desktop.isActive() /*|| !Common.Controllers.Desktop.isOffline()*/ )
                 get_themes_config.call(this, '../../../../themes.json');
+            else
+            if ( Common.Controllers.Desktop.localThemes() ) {
+                parse_themes_object({'themes': Common.Controllers.Desktop.localThemes()});
+                check_launched_custom_theme();
+            }
         }
 
         var get_ui_theme_name = function (objtheme) {
@@ -417,6 +424,9 @@ define([
                 if ( api.asc_setContentDarkMode )
                     api.asc_setContentDarkMode(is_content_dark);
 
+                if ( !document.body.classList.contains('theme-type-' + obj.type) )
+                    document.body.classList.add('theme-type-' + obj.type);
+
                 if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) )
                     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', on_system_theme_dark.bind(this));
                 Common.NotificationCenter.on('document:ready', on_document_ready.bind(this));
@@ -501,6 +511,12 @@ define([
                         Common.NotificationCenter.trigger('uitheme:changed', id);
                     }
                 }
+            },
+
+            refreshTheme: refresh_theme,
+
+            addTheme: function (obj) {
+                parse_themes_object(obj);
             },
 
             toggleTheme: function () {

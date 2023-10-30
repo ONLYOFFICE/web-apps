@@ -7,31 +7,37 @@
 .wrap-comment {
   padding: 16px 24px 0 16px;
   background-color: @background-tertiary;
+  
   .comment-date {
     color: @text-secondary;
+  }
+  .wrap-textarea {
+    margin-top: 6px;
   }
   .name {
     font-weight: 600;
     font-size: 16px;
     color: @text-normal;
   }
-  .wrap-textarea {
-    margin-top: 6px;
-    .input {
-      height: 100%;
-    }
-    textarea {
-      font-size: 14px;
-      margin-top: 0;
-      height: 100%;
-      padding: 5px 0;
-      color: @text-normal;
-    }
-  }
   .reply-date {
     color: @text-secondary;
   }
 }
+
+.wrap-textarea {
+  .input {
+    height: 100%;
+  }
+
+  textarea {
+    font-size: 14px;
+    margin-top: 0;
+    height: 100%;
+    padding: 5px 0;
+    color: @text-normal;
+  }
+}
+
 #add-comment-dialog, #edit-comment-dialog, #add-reply-dialog, #edit-reply-dialog {
   .dialog {
     --f7-dialog-width: 400px;

@@ -51,7 +51,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
     DE.Views.ParagraphSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 370,
-            height: 415,
+            contentHeight: 330,
             toggleGroup: 'paragraph-adv-settings-group',
             storageName: 'de-para-settings-adv-category'
         },
@@ -713,11 +713,11 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
         },
 
         getFocusedComponents: function() {
-            return [
+            return this.btnsCategory.concat([
                 this.cmbTextAlignment, this.cmbOutlinelevel, this.numIndentsLeft, this.numIndentsRight, this.cmbSpecial, this.numSpecialBy,
                 this.numSpacingBefore, this.numSpacingAfter, this.cmbLineRule, this.numLineHeight, this.chAddInterval, // 0 tab
                 this.chBreakBefore, this.chKeepLines, this.chOrphan, this.chKeepNext, this.chLineNumbers, // 1 tab
-                this.cmbBorderSize, this.btnBorderColor].concat(this._btnsBorderPosition).concat([this.btnBackColor,  // 2 tab
+                this.cmbBorderSize, this.btnBorderColor]).concat(this._btnsBorderPosition).concat([this.btnBackColor,  // 2 tab
                 this.chStrike, this.chSubscript, this.chDoubleStrike, this.chSmallCaps, this.chSuperscript, this.chAllCaps, this.numSpacing, this.numPosition, // 3 tab
                 this.numDefaultTab, this.numTab, this.cmbAlign, this.cmbLeader, this.tabList, this.btnAddTab, this.btnRemoveTab, this.btnRemoveAll,// 4 tab
                 this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight // 5 tab
@@ -1006,13 +1006,13 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
         },
 
         afterRender: function() {
+            this.updateMetricUnit();
+            this.updateThemeColors();
 
             this._setDefaults(this._originalProps);
             var colorstr = (typeof(this.paragraphShade) == 'object') ? this.paragraphShade.color : this.paragraphShade;
             this.BordersImage.setTableColor(colorstr);
             (colorstr!='transparent') &&this.BordersImage.redrawTable();
-            this.updateMetricUnit();
-            this.updateThemeColors();
             if (this.borderProps !== undefined) {
                 this.btnBorderColor.setColor(this.borderProps.borderColor);
                 this.btnBorderColor.setAutoColor(this.borderProps.borderColor=='auto');

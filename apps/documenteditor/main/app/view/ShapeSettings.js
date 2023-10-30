@@ -1772,7 +1772,7 @@ define([
                 style: "width:100%;",
                 menu: new Common.UI.Menu({
                     style: 'min-width: 194px;',
-                    maxHeight: 200,
+                    // maxHeight: 200,
                     cls: 'shifted-right',
                     items: [
                         {caption: this.textEditPoints, value: 0, iconCls: 'toolbar__icon btn-edit-points'},
@@ -2001,7 +2001,7 @@ define([
 
             me.btnChangeShape.shapePicker = new Common.UI.DataViewShape({
                 el: $('#' + menuitemId),
-                itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
+                itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon uni-scale\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                 groups: me.application.getCollection('ShapeGroups'),
                 parentMenu: me.btnChangeShape.menu,
                 restoreHeight: me.shapeRestoreHeight,
@@ -2131,6 +2131,7 @@ define([
             this.FillPatternContainer.toggleClass('settings-hidden', value !== Asc.c_oAscFill.FILL_TYPE_PATT);
             this.FillGradientContainer.toggleClass('settings-hidden', value !== Asc.c_oAscFill.FILL_TYPE_GRAD);
             this.TransparencyContainer.toggleClass('settings-hidden', (value === Asc.c_oAscFill.FILL_TYPE_NOFILL || value === null));
+            this.fireEvent('updatescroller', this);
         },
 
         setLocked: function (locked) {

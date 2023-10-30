@@ -142,7 +142,9 @@ define([
         * */
 
         onZoomChange: function(percent, type) {
-            this.statusbar.labelZoom.text(Common.Utils.String.format(this.zoomText, Math.floor((percent +.005)*100)));
+            var pr = Math.floor((percent +.005)*100);
+            this.statusbar.labelZoom.text(Common.Utils.String.format(this.zoomText, pr));
+            Common.localStorage.setItem('sse-last-zoom', pr);
         },
 
         onApiDisconnect: function() {
@@ -187,7 +189,7 @@ define([
                 }
             }
             var listItem =this.statusbar.sheetListMenu.items[index];
-            if (listItem.$el.children().first().data('hidden')) {
+            if (listItem && listItem.$el && listItem.$el.children().first().data('hidden')) {
                 listItem.setDisabled(locked);
             }
         },

@@ -1,10 +1,11 @@
 import React, {Fragment, useState, useEffect} from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, f7router, List, ListItem, Icon, Row, Button, Page, Navbar, Segmented, BlockTitle, NavRight, Link, Toggle, Swiper, SwiperSlide, ListInput, Block} from 'framework7-react';
+import {f7, List, ListItem, Icon, Button, Page, Navbar, Segmented, BlockTitle, NavRight, Link, Toggle, ListInput, Block} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
 import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage.mjs';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 const EditCell = props => {
     const isAndroid = Device.android;
@@ -48,11 +49,11 @@ const EditCell = props => {
                 <>
                     <List>
                         <ListItem className='buttons'>
-                            <Row>
+                            <div className="row">
                                 <a className={'button' + (isBold ? ' active' : '')} onClick={() => {props.toggleBold(!isBold)}}><b>B</b></a>
                                 <a className={'button' + (isItalic ? ' active' : '')} onClick={() => {props.toggleItalic(!isItalic)}}><i>I</i></a>
                                 <a className={'button' + (isUnderline ? ' active' : '')} onClick={() => {props.toggleUnderline(!isUnderline)}} style={{textDecoration: "underline"}}>U</a>
-                            </Row>
+                            </div>
                         </ListItem>
                         <ListItem title={_t.textTextColor} link="/edit-cell-text-color/" routeProps={{
                             onTextColor: props.onTextColor,
@@ -145,25 +146,23 @@ const PageCellStyle = props => {
                 }
             </Navbar>
             {cellStyles && cellStyles.length ? (
-                <div className="swiper-container swiper-init" data-pagination='{"el": ".swiper-pagination"}'>
-                    <div className="swiper-wrapper">
-                        {arraySlides.map((_, indexSlide) => {
-                            let stylesSlide = cellStyles.slice(indexSlide * countStylesSlide, (indexSlide * countStylesSlide) + countStylesSlide);
-                            
-                            return (
-                                <div className="swiper-slide" key={indexSlide}>
-                                    <List className="cell-styles-list">
-                                        {stylesSlide.map((elem, index) => (
-                                            <ListItem key={index} className={elem.name === styleName ? "item-theme active" : "item-theme"} onClick={() => props.onStyleClick(elem.name)}>
-                                                <div className='thumb' style={{backgroundImage: `url(${elem.image})`}}></div>
-                                            </ListItem> 
-                                        ))}
-                                    </List>
-                                </div>
-                        )})}
-                    </div>
-                    <div className="swiper-pagination"></div>
-                </div>
+                <Swiper pagination={true}>
+                    {arraySlides.map((_, indexSlide) => {
+                        let stylesSlide = cellStyles.slice(indexSlide * countStylesSlide, (indexSlide * countStylesSlide) + countStylesSlide);
+                        
+                        return (
+                            <SwiperSlide>
+                                <List className="cell-styles-list">
+                                    {stylesSlide.map((elem, index) => (
+                                        <ListItem key={index} className={elem.name === styleName ? "item-theme active" : "item-theme"} onClick={() => props.onStyleClick(elem.name)}>
+                                            <div className='thumb' style={{backgroundImage: `url(${elem.image})`}}></div>
+                                        </ListItem> 
+                                    ))}
+                                </List>
+                            </SwiperSlide>
+                        )
+                    })}
+                </Swiper>
             ) : null}
         </Page>
     )
@@ -1007,6 +1006,7 @@ const PageCreationCustomFormat = observer(props => {
                         placeholder={t('View.Edit.textEnterFormat')}
                         value={formatValue}
                         onInput={e => setFormatValue(e.target.value)}
+                        clearButton={isIos ? true : false}
                     />
                 </List>
                 <Block>

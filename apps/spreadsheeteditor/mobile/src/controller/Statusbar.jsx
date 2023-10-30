@@ -263,7 +263,13 @@ const Statusbar = inject('storeWorksheets', 'storeAppOptions', 'users')(observer
                     {
                         text: _t.textCancel
                     }
-                ]
+                ],
+                on: {
+                    opened: () => {
+                        const nameField = document.querySelector('input[name="modal-sheet-name"]');
+                        nameField.select();
+                    },
+                }
             }).open();
         }
     };

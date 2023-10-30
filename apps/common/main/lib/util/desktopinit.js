@@ -47,11 +47,23 @@ if ( window.AscDesktopEditor ) {
 
     if ( !!window.RendererProcessVariable ) {
         const theme = desktop.theme = window.RendererProcessVariable.theme;
+        const map_themes = window.RendererProcessVariable.localthemes;
 
         if ( theme ) {
             window.uitheme = {
                 id: theme.id,
                 type: theme.type,
+            }
+
+            if ( /dark|light/.test(theme.system) ) {
+                window.uitheme.is_system_theme_dark = function () {
+                    return theme.system == 'dark';
+                }
+            }
+
+            if ( map_themes && map_themes[theme.id] ) {
+                window.uitheme.colors = map_themes[theme.id].colors;
+                // window.desktop.themes = map_themes;
             }
         }
     }

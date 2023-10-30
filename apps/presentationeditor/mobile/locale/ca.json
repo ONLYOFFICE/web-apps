@@ -42,11 +42,25 @@
       "textCustomColors": "Colors personalitzats",
       "textStandartColors": "Colors estàndard",
       "textThemeColors": "Colors del tema"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Advertiment",
+      "textAnonymous": "Anònim",
+      "textBack": "Enrere",
+      "textCancel": "Cancel·la",
+      "textCurrent": "Actual",
+      "textOk": "D'acord",
+      "textRestore": "Restaura",
+      "textVersion": "Versió",
+      "textVersionHistory": "Historial de versions",
+      "textWarningRestoreVersion": "El fitxer actual es desarà a l'historial de versions.",
+      "titleWarningRestoreVersion": "Voleu restaurar aquesta versió?",
+      "txtErrorLoadHistory": "Ha fallat la càrrega del historial"
     }
   },
   "ContextMenu": {
     "errorCopyCutPaste": "Les accions de copiar, tallar i enganxar mitjançant el menú contextual només es realitzaran en el fitxer actual.",
-    "menuAddComment": "Afegir un comentari",
+    "menuAddComment": "Afegeix un comentari",
     "menuAddLink": "Afegir un enllaç",
     "menuCancel": "Cancel·lar",
     "menuDelete": "Suprimir",
@@ -112,6 +126,7 @@
       "textHasMacros": "El fitxer conté macros automàtiques. <br>Les vols executar?",
       "textNo": "No",
       "textNoLicenseTitle": "S'ha assolit el límit de llicència",
+      "textNoMatches": "No hi ha cap coincidència",
       "textOpenFile": "Introduir una contrasenya per obrir el fitxer",
       "textPaidFeature": "Funció de pagament",
       "textRemember": "Recordar la meva elecció",
@@ -125,6 +140,7 @@
       "titleUpdateVersion": "S'ha canviat la versió",
       "txtIncorrectPwd": "La contrasenya no és correcta",
       "txtProtected": "Un cop hagis introduït la contrasenya i obert el fitxer, es restablirà la contrasenya actual del fitxer",
+      "warnLicenseAnonymous": "Accés denegat a usuaris anònims.<br> Aquest document només s'obrirà en format lectura.",
       "warnLicenseBefore": "Llicència inactiva. <br> Contacta amb l'administrador.",
       "warnLicenseExceeded": "Has arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Posa't en contacte amb l'administrador per a més informació.",
       "warnLicenseExp": "La llicència ha caducat. Actualitza-la i recarrega la pàgina.",
@@ -133,9 +149,7 @@
       "warnLicenseUsersExceeded": "Has arribat al límit d'usuari per a %1 editors. Posa't en contacte amb l'administrador per a més informació.",
       "warnNoLicense": "Has arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Posa't en contacte amb l'equip de vendes %1 per conèixer les condicions d'actualització personal.",
       "warnNoLicenseUsers": "Has arribat al límit d'usuaris per a %1 editors. Posa't en contacte amb l'equip de vendes de %1 per obtenir les condicions de millora personals dels serveis.",
-      "warnProcessRightsChange": "No tens permís per editar el fitxer.",
-      "textNoMatches": "No Matches",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
+      "warnProcessRightsChange": "No tens permís per editar el fitxer."
     }
   },
   "Error": {
@@ -145,6 +159,7 @@
     "downloadErrorText": "S'ha produït un error en la baixada",
     "errorAccessDeny": "No tens permís per realitzar aquesta acció. <br> Posa't en contacte amb l'administrador.",
     "errorBadImageUrl": "L'URL de la imatge no és correcte",
+    "errorComboSeries": "Per crear un diagrama combinat, selecciona com a mínim dues sèries de dades.",
     "errorConnectToServer": "No es pot desar aquest document. Comprova la configuració de la teva connexió o contacta amb l'administrador. <br>Quan facis clic al botó «D'acord», et demanarà que baixis el document.",
     "errorDatabaseConnection": "Error extern. <br>Error de connexió amb la base de dades. Posa't en contacte amb el servei d'assistència tècnica.",
     "errorDataEncrypted": "S'han rebut canvis xifrats, que no es poden desxifrar.",
@@ -152,8 +167,10 @@
     "errorDefaultMessage": "Codi d'error: %1",
     "errorDirectUrl": "Verificar l'enllaç al document. <br>Aquest enllaç ha de ser un enllaç directe al fitxer per baixar-lo.",
     "errorEditingDownloadas": "S'ha produït un error mentre es treballava amb el document. <br>Utilitza l'opció \"Descarregar\" per desar la còpia de seguretat del fitxer localment.",
+    "errorEmailClient": "No s'ha trobat cap client de correu electrònic",
     "errorFilePassProtect": "El fitxer està protegit amb contrasenya i no s'ha pogut obrir.",
     "errorFileSizeExceed": "La mida del fitxer supera el límit del servidor. <br>Posa't en contacte amb l'administrador.",
+    "errorForceSave": "S'ha produït un error en desar el fitxer. Utilitzeu l'opció \"Baixa-ho com a\" per desar el fitxer al disc dur de l’ordinador o torneu-ho a provar més endavant.",
     "errorInconsistentExt": "S'ha produït un error en obrir el fitxer. <br>El contingut del fitxer no es correspon amb la seva extensió.",
     "errorInconsistentExtDocx": "S'ha produït un error en obrir el fitxer. <br>El contingut del fitxer correspon a documents de text (per exemple, docx), però el fitxer té l'extensió incoherent: %1.",
     "errorInconsistentExtPdf": "S'ha produït un error en obrir el fitxer. <br>El contingut del fitxer correspon a un dels formats següents: pdf/djvu/xps/oxps, però el fitxer té l'extensió incoherent: %1.",
@@ -165,6 +182,7 @@
     "errorSessionAbsolute": "La sessió d'edició del document ha caducat. Torna a carregar la pàgina.",
     "errorSessionIdle": "Fa molt de temps que no s'edita el document. Torna a carregar la pàgina.",
     "errorSessionToken": "S'ha interromput la connexió amb el servidor. Torna a carregar la pàgina.",
+    "errorSetPassword": "No s'ha pogut establir la contrasenya.",
     "errorStockChart": "L'ordre de la fila no és correcte. Per construir un gràfic de valors, posa les dades al full de càlcul en l'ordre següent: <br>preu d'obertura, preu màxim, preu mínim, preu de tancament.",
     "errorToken": "El testimoni de seguretat del document no s'ha format correctament. <br>Posa't en contacte amb l'administrador del servidor de documents.",
     "errorTokenExpire": "El testimoni de seguretat del document ha caducat. <br>Posa't en contacte amb l'administrador del servidor de documents.",
@@ -222,7 +240,8 @@
     "dlgLeaveMsgText": "Tens canvis no desats en aquest document. Fes clic a \"Queda't en aquesta pàgina\" per esperar al desament automàtic. Fes clic a \"Sortir d'aquesta pàgina\" per descartar tots els canvis no desats.",
     "dlgLeaveTitleText": "Estàs sortint de l'aplicació",
     "leaveButtonText": "Sortir d'aquesta Pàgina",
-    "stayButtonText": "Queda't en aquesta Pàgina"
+    "stayButtonText": "Queda't en aquesta Pàgina",
+    "textCloseHistory": "Tanca l'historial"
   },
   "View": {
     "Add": {
@@ -360,9 +379,14 @@
       "textLinkSettings": "Configuració de l'enllaç",
       "textLinkTo": "Enllaç a",
       "textLinkType": "Tipus d'enllaç",
+      "textMorph": "Morf",
+      "textMorphLetters": "Cartes",
+      "textMorphObjects": "Objectes",
+      "textMorphWords": "Paraules",
       "textMoveBackward": "Tornar enrere",
       "textMoveForward": "Anar endavant",
       "textNextSlide": "Diapositiva següent",
+      "textNoMatches": "No hi ha cap coincidència",
       "textNone": "Cap",
       "textNoStyles": "Aquest tipus de diagrama no té cap estil.",
       "textNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
@@ -420,8 +444,7 @@
       "textZoom": "Zoom",
       "textZoomIn": "Ampliar",
       "textZoomOut": "Reduir",
-      "textZoomRotate": "Ampliar i girar",
-      "textNoMatches": "No Matches"
+      "textZoomRotate": "Ampliar i girar"
     },
     "Settings": {
       "mniSlideStandard": "Estàndard (4:3)",
@@ -461,6 +484,7 @@
       "textLoading": "S'està carregant...",
       "textLocation": "Ubicació",
       "textMacrosSettings": "Configuració de les macros",
+      "textNoMatches": "No hi ha cap coincidència",
       "textOk": "D'acord",
       "textOwner": "Propietari",
       "textPoint": "Punt",
@@ -484,6 +508,7 @@
       "textUnitOfMeasurement": "Unitat de mesura",
       "textUploaded": "S'ha carregat",
       "textVersion": "Versió",
+      "textVersionHistory": "Historial de versions",
       "txtScheme1": "Office",
       "txtScheme10": "Mediana",
       "txtScheme11": "Metro",
@@ -505,8 +530,7 @@
       "txtScheme6": "Esplanada",
       "txtScheme7": "Equitat",
       "txtScheme8": "Flux",
-      "txtScheme9": "Foneria",
-      "textNoMatches": "No Matches"
+      "txtScheme9": "Foneria"
     }
   }
 }

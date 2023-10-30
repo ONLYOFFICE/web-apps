@@ -110,6 +110,7 @@ define([
             speed       : 'medium',
             width       : 90,
             allowDecimal: true,
+            allowBlank  : false,
             dataHint    : '',
             dataHintDirection: '',
             dataHintOffset: ''
@@ -174,6 +175,9 @@ define([
 
             if (this.options.disabled)
                 this.setDisabled(this.options.disabled);
+
+            if (this.options.allowBlank)
+                this.allowBlank = this.options.allowBlank;
 
             if (this.options.value!==undefined)
                 this.value = this.options.value;
@@ -421,7 +425,7 @@ define([
         onEnterValue: function() {
             if (this.$input) {
                 var val = this.getRawValue();
-                this.setValue((val==='') ? this.value : val );
+                this.setValue((val==='' && !this.allowBlank) ? this.value : val );
                 this.trigger('entervalue', this);
             }
         },
@@ -429,7 +433,7 @@ define([
         onBlur: function(e){
             if (this.$input) {
                 var val = this.getRawValue();
-                this.setValue((val==='') ? this.value : val );
+                this.setValue((val==='' && !this.allowBlank) ? this.value : val );
                 if (this.options.hold && this.switches.fromKeyDown)
                     this._stopSpin();
             }

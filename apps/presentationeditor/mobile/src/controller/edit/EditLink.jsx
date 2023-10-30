@@ -188,7 +188,7 @@ class EditLinkController extends Component {
         return (
             !this.props.isNavigate ?
                 Device.phone ?
-                    <Popup id="edit-link-popup" onPopupClosed={() => this.props.onClosed('edit-link')}>
+                    <Popup id="edit-link-popup" onPopupClosed={() => this.props.closeOptions('edit-link')}>
                         <View routes={routes} style={{height: '100%'}}>
                             <EditLink 
                                 initLink={this.initLink}
@@ -207,7 +207,7 @@ class EditLinkController extends Component {
                         </View>
                     </Popup>
                 :
-                    <Popover id="edit-link-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => this.props.onClosed('edit-link')}>
+                    <Popover id="edit-link-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => this.props.closeOptions('edit-link')}>
                         <View routes={routes} style={{height: '410px'}}>
                             <EditLink
                                 initLink={this.initLink}

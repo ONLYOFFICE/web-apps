@@ -42,6 +42,20 @@
       "textCustomColors": "Colores personalizados",
       "textStandartColors": "Colores estándar",
       "textThemeColors": "Colores de tema"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Advertencia",
+      "textAnonymous": "Anónimo",
+      "textBack": "Atrás",
+      "textCancel": "Cancelar",
+      "textCurrent": "Actual",
+      "textOk": "OK",
+      "textRestore": "Restaurar",
+      "textVersion": "Versión ",
+      "textVersionHistory": "Historial de versiones",
+      "textWarningRestoreVersion": "El archivo actual se guardará en el historial de versiones.",
+      "titleWarningRestoreVersion": "¿Restaurar esta versión?",
+      "txtErrorLoadHistory": "Error al cargar el historial"
     }
   },
   "ContextMenu": {
@@ -112,6 +126,7 @@
       "textHasMacros": "El archivo contiene macros automáticas.<br>¿Quiere ejecutar macros?",
       "textNo": "No",
       "textNoLicenseTitle": "Se ha alcanzado el límite de licencia",
+      "textNoMatches": "No hay coincidencias",
       "textOpenFile": "Introduzca la contraseña para abrir el archivo",
       "textPaidFeature": "Característica de pago",
       "textRemember": "Recordar mi elección",
@@ -120,10 +135,13 @@
       "textRequestMacros": "Una macro realiza una solicitud a la URL. ¿Quiere permitir la solicitud al %1?",
       "textYes": "Sí",
       "titleLicenseExp": "Licencia ha expirado",
+      "titleLicenseNotActive": "Licencia no activa",
       "titleServerVersion": "Editor ha sido actualizado",
       "titleUpdateVersion": "Versión ha cambiado",
       "txtIncorrectPwd": "La contraseña es incorrecta",
       "txtProtected": "Una vez que se ha introducido la contraseña y abierto el archivo, la contraseña actual del archivo se restablecerá",
+      "warnLicenseAnonymous": "Acceso denegado a usuarios anónimos.<br>Este documento se abrirá solo para su visualización.",
+      "warnLicenseBefore": "Licencia no activa.<br>Por favor, póngase en contacto con su administrador.",
       "warnLicenseExceeded": "Ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización. Póngase en contacto con su administrador para obtener más información.",
       "warnLicenseExp": "Su licencia ha expirado. Por favor, actualícela y recargue la página.",
       "warnLicenseLimitedNoAccess": "La licencia ha expirado. No tiene acceso a la funcionalidad de edición de documentos. Por favor, póngase en contacto con su administrador.",
@@ -131,11 +149,7 @@
       "warnLicenseUsersExceeded": "Ha alcanzado el límite de usuarios para los editores de %1. Contacte con su administrador para recibir más información.",
       "warnNoLicense": "Ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
       "warnNoLicenseUsers": "Ha alcanzado el límite de usuarios para los editores de %1. <br>Contacte con el equipo de ventas de %1 para conocer los términos de actualización personal.",
-      "warnProcessRightsChange": "No tiene permiso para editar el archivo.",
-      "textNoMatches": "No Matches",
-      "titleLicenseNotActive": "License not active",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "warnProcessRightsChange": "No tiene permiso para editar el archivo."
     }
   },
   "Error": {
@@ -145,6 +159,7 @@
     "downloadErrorText": "Error al descargar.",
     "errorAccessDeny": "Está intentando realizar una acción para la que no tiene derechos.<br>Póngase en contacto con su administrador.",
     "errorBadImageUrl": "URL de imagen es incorrecta",
+    "errorComboSeries": "Para crear un gráfico combinado, seleccione al menos dos series de datos.",
     "errorConnectToServer": "No se puede guardar este documento. Compruebe la configuración de su conexión o póngase en contacto con el administrador.<br>Cuando haga clic en OK, se le pedirá que descargue el documento.",
     "errorDatabaseConnection": "Error externo.<br>Error de conexión a la base de datos. Por favor, contacte con el equipo de soporte técnico.",
     "errorDataEncrypted": "Se han recibido cambios cifrados, ellos no pueden ser descifrados.",
@@ -152,8 +167,10 @@
     "errorDefaultMessage": "Código de error: %1",
     "errorDirectUrl": "Por favor, verifique el vínculo al documento.<br>Este vínculo debe ser un vínculo directo al archivo para descargar.",
     "errorEditingDownloadas": "Se ha producido un error al trabajar con el documento.<br>Utilice la opción 'Descargar' para guardar la copia de seguridad del archivo localmente.",
+    "errorEmailClient": "No se ha encontrado un cliente de correo",
     "errorFilePassProtect": "El archivo está protegido por contraseña y no se puede abrir.",
     "errorFileSizeExceed": "El tamaño del archivo excede la limitación del servidor.<br>Por favor, póngase en contacto con su administrador.",
+    "errorForceSave": "Se ha producido un error al guardar el archivo. Por favor, utilice la opción 'Descargar como' para guardar el archivo en el disco duro de su computadora o inténtelo más tarde.",
     "errorInconsistentExt": "Se ha producido un error al abrir el archivo.<br>El contenido del archivo no coincide con la extensión del mismo.",
     "errorInconsistentExtDocx": "Se ha producido un error al abrir el archivo.<br>El contenido del archivo corresponde a documentos de texto (por ejemplo, docx), pero el archivo tiene extensión inconsistente: %1.",
     "errorInconsistentExtPdf": "Se ha producido un error al abrir el archivo.<br>El contenido del archivo corresponde a uno de los siguientes formatos: pdf/djvu/xps/oxps, pero el archivo tiene extensión inconsistente: %1.",
@@ -165,6 +182,7 @@
     "errorSessionAbsolute": "La sesión de edición del documento ha expirado. Por favor, vuelva a cargar la página.",
     "errorSessionIdle": "El documento no ha sido editado desde hace mucho tiempo. Por favor, vuelva a cargar la página.",
     "errorSessionToken": "La conexión con el servidor se ha interrumpido. Por favor, vuelva a cargar la página.",
+    "errorSetPassword": "No se ha podido establecer la contraseña.",
     "errorStockChart": "Orden incorrecto de las filas. Para construir un gráfico de cotizaciones, coloque los datos en la hoja en el siguiente orden:<br> precio de apertura, precio máximo, precio mínimo, precio de cierre.",
     "errorToken": "El token de seguridad de documento tiene un formato incorrecto.<br>Por favor, contacte con el administrador del Servidor de Documentos.",
     "errorTokenExpire": "El token de seguridad del documento ha expirado.<br>Por favor, póngase en contacto con el administrador del Servidor de Documentos.",
@@ -222,7 +240,8 @@
     "dlgLeaveMsgText": "Tiene cambios no guardados en este documento. Haga clic en \"Quedarse en esta página\" para esperar hasta que se guarden automáticamente. Haga clic en \"Salir de esta página\" para descartar todos los cambios no guardados.",
     "dlgLeaveTitleText": "Usted abandona la aplicación",
     "leaveButtonText": "Salir de esta página",
-    "stayButtonText": "Quedarse en esta página"
+    "stayButtonText": "Quedarse en esta página",
+    "textCloseHistory": "Cerrar historial"
   },
   "View": {
     "Add": {
@@ -251,6 +270,7 @@
       "textNextSlide": "Diapositiva siguiente",
       "textOk": "Aceptar",
       "textOther": "Otro",
+      "textPasteImageUrl": "Pegar la URL de una imagen",
       "textPictureFromLibrary": "Imagen desde biblioteca",
       "textPictureFromURL": "Imagen desde URL",
       "textPreviousSlide": "Diapositiva anterior",
@@ -264,8 +284,7 @@
       "textSlideNumber": "Número de diapositiva",
       "textTable": "Tabla",
       "textTableSize": "Tamaño de tabla",
-      "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
-      "textPasteImageUrl": "Paste an image URL"
+      "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\""
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertencia",
@@ -360,9 +379,14 @@
       "textLinkSettings": "Ajustes de enlace",
       "textLinkTo": "Enlace a",
       "textLinkType": "Tipo de enlace",
+      "textMorph": "Transformación",
+      "textMorphLetters": "Letras",
+      "textMorphObjects": "Objetos",
+      "textMorphWords": "Palabras",
       "textMoveBackward": "Mover hacia atrás",
       "textMoveForward": "Moverse hacia adelante",
       "textNextSlide": "Diapositiva siguiente",
+      "textNoMatches": "No hay coincidencias",
       "textNone": "Ninguno",
       "textNoStyles": "No hay estilos para este tipo de gráfico.",
       "textNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
@@ -420,8 +444,7 @@
       "textZoom": "Zoom",
       "textZoomIn": "Acercar",
       "textZoomOut": "Alejar",
-      "textZoomRotate": "Zoom y giro",
-      "textNoMatches": "No Matches"
+      "textZoomRotate": "Zoom y giro"
     },
     "Settings": {
       "mniSlideStandard": "Estándar (4:3)",
@@ -461,6 +484,7 @@
       "textLoading": "Cargando...",
       "textLocation": "Ubicación",
       "textMacrosSettings": "Ajustes de macros",
+      "textNoMatches": "No hay coincidencias",
       "textOk": "Aceptar",
       "textOwner": "Propietario",
       "textPoint": "Punto",
@@ -484,6 +508,7 @@
       "textUnitOfMeasurement": "Unidad de medida",
       "textUploaded": "Cargado",
       "textVersion": "Versión ",
+      "textVersionHistory": "Historial de versiones",
       "txtScheme1": "Oficina",
       "txtScheme10": "Medio",
       "txtScheme11": "Metro",
@@ -505,8 +530,7 @@
       "txtScheme6": "Concurrencia",
       "txtScheme7": "Equidad ",
       "txtScheme8": "Flujo",
-      "txtScheme9": "Fundición",
-      "textNoMatches": "No Matches"
+      "txtScheme9": "Fundición"
     }
   }
 }

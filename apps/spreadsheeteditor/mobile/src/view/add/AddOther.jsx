@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { inject, observer } from 'mobx-react';
 import {List, ListItem, Icon} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
+import { MainContext } from '../../page/main';
 
 const AddOther = inject("storeFocusObjects", "storeAppOptions")(observer(props => {
     const { t } = useTranslation();
@@ -11,7 +12,8 @@ const AddOther = inject("storeFocusObjects", "storeAppOptions")(observer(props =
     const canModifyFilter = storeAppOptions.canModifyFilter;
     const isHyperLink = storeFocusObjects.selections.indexOf('hyperlink') > -1;
     const hideAddComment = props.hideAddComment();
-    const wsProps = props.wsProps;
+    const mainContext = useContext(MainContext);
+    const wsProps = mainContext.wsProps;
 
     return (
         <List>
@@ -28,7 +30,6 @@ const AddOther = inject("storeFocusObjects", "storeAppOptions")(observer(props =
                 <Icon slot="media" icon="icon-sort"></Icon>
             </ListItem>
             <ListItem title={_t.textLink} className={wsProps.InsertHyperlinks && 'disabled'} link={isHyperLink ? '/edit-link/' : '/add-link/'} routeProps={{
-                onCloseLinkSettings: props.onCloseLinkSettings,
                 isNavigate: true
             }}>
                 <Icon slot="media" icon="icon-link"></Icon>

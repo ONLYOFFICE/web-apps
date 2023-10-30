@@ -176,11 +176,11 @@ define([
                                 '</div>' +
                             '<% } %>' +
                             '<div class="body"><%= tpl %>' +
-                                '<% if (typeof (buttons) !== "undefined" && _.size(buttons) > 0) { %>' +
+                                '<% if (typeof (buttonsParsed) !== "undefined" && _.size(buttonsParsed) > 0) { %>' +
                                 '<div class="footer">' +
-                                    '<% for(var bt in buttons) { %>' +
-                                        '<button class="btn normal dlg-btn <%= buttons[bt].cls %>" result="<%= bt %>"><%= buttons[bt].text %></button>'+
-                                    '<% } %>' +
+                                    '<% _.each(buttonsParsed, function (item) { %>' +
+                                        '<button class="btn normal dlg-btn <%= item.cls %>" result="<%= item.value %>" <% if (item.id) { %>id="<%=item.id%>" <% } %> ><%= item.text %></button>'+
+                                    '<% }); %>' +
                                 '</div>' +
                                 '<% } %>' +
                             '</div>' +
@@ -475,7 +475,7 @@ define([
             
             var template =  '<div class="info-box">' +
                                 '<% if (typeof iconCls !== "undefined") { %><div class="icon <%= iconCls %>"></div><% } %>' +
-                                '<div class="text' + '<% if (typeof iconCls == "undefined") { %> padding-left-10<% } %>' + '"><span><%= msg %></span>' +
+                                '<div class="text" <% if (typeof iconCls == "undefined") { %> style="padding-' + (Common.UI.isRTL() ? 'right' : 'left') + ':10px;"<% } %>><span><%= msg %></span>' +
                                     '<% if (dontshow) { %><div class="dont-show-checkbox"></div><% } %>' +
                                 '</div>' +
                             '</div>' +
@@ -626,19 +626,20 @@ define([
                 if (options.buttons && _.isArray(options.buttons)) {
                     if (options.primary==undefined)
                         options.primary = 'ok';
-                    var newBtns = {};
+                    var newBtns = [];
                     _.each(options.buttons, function(b){
                         if (typeof(b) == 'object') {
-                            if (b.value !== undefined)
-                                newBtns[b.value] = {text: b.caption, cls: 'custom' + ((b.primary || options.primary==b.value) ? ' primary' : '')};
-                        } else {
-                            newBtns[b] = {text: (b=='custom') ? options.customButtonText : arrBtns[b], cls: (options.primary==b || _.indexOf(options.primary, b)>-1) ? 'primary' : ''};
-                            if (b=='custom')
-                                newBtns[b].cls += ' custom';
+                            if (b.value !== undefined) {
+                                var item = {value: b.value, text: b.caption, cls: 'auto' + ((b.primary || options.primary==b.value) ? ' primary' : '')};
+                                b.id && (item.id = b.id);
+                                newBtns.push(item);
+                            }
+                        } else if (b!==undefined) {
+                            newBtns.push({value: b, text: arrBtns[b], cls: (options.primary==b || _.indexOf(options.primary, b)>-1) ? 'primary' : ''});
                         }
                     });
 
-                    options.buttons = newBtns;
+                    options.buttonsParsed = newBtns;
                     options.footerCls = options.footerCls || 'center';
                 }
 

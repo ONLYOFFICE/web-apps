@@ -368,7 +368,7 @@ define([
             minheight       : 434,
             width: 448,
             height: 434,
-            cls: 'modal-dlg',
+            cls: 'modal-dlg invisible-borders',
             buttons: ['ok', 'cancel']
         },
 
@@ -379,7 +379,7 @@ define([
                 minheight       : 434,
                 width: 448,
                 height: 434,
-                cls: 'modal-dlg',
+                cls: 'modal-dlg invisible-borders',
                 buttons: ['ok', 'cancel']
             };
 
@@ -624,9 +624,6 @@ define([
             var me = this,
                 $window = this.getChild();
 
-            var $border = $window.find('.resize-border');
-            $border.css({'background': 'none', 'border': 'none'});
-
             this.btnSymbols = new Common.UI.Button({
                 el: $window.find('#symbol-table-symbols'),
                 enableToggle: true,
@@ -729,7 +726,7 @@ define([
 
             // special
             var data = [{symbol: '—',  description: this.textEmDash,       shortcutKey: Common.Utils.String.platformKey(Common.Utils.isMac ? 'Alt Shift -' : 'Alt+Ctrl+Num -', '{0}'), code: '2014'},
-                        {symbol: '–',   description: this.textEnDash,       shortcutKey: '', code: '2013'},
+                        {symbol: '–',   description: this.textEnDash,       shortcutKey: Common.Utils.String.platformKey(Common.Utils.isMac ? 'Ctrl Num -' : 'Ctrl+Num -', '{0}'), code: '2013'},
                         {symbol: '‑',   description: this.textNBHyphen,     shortcutKey: Common.Utils.String.platformKey(Common.Utils.isMac ? 'Ctrl Shift _' : 'Ctrl+Shift+_', '{0}'), code: '002D', special: {"NonBreakingHyphen":true}},
                         // {symbol: '',    description: this.textSHyphen,      shortcutKey: 'Alt+-', code: '00AD'},
                         {symbol: '',    description: this.textEmSpace,      shortcutKey: '', code: '2003'},
@@ -737,11 +734,11 @@ define([
                         {symbol: '',    description: this.textQEmSpace,     shortcutKey: '', code: '2005'},
                         {symbol: '°',   description: this.textNBSpace,      shortcutKey: Common.Utils.String.platformKey(Common.Utils.isMac ? 'Alt ' : 'Ctrl+Shift+', '{0}') + 'Space', code: '00A0'},
                         {symbol: '©',   description: this.textCopyright,    shortcutKey: Common.Utils.String.platformKey(Common.Utils.isMac ? 'Alt Ctrl ' : 'Alt+Ctrl+', '{0}') + 'G', code: '00A9'},
-                        {symbol: '®',   description: this.textRegistered,   shortcutKey: '', code: '00AE'},
-                        {symbol: '™',  description: this.textTradeMark,    shortcutKey: '', code: '2122'},
+                        {symbol: '®',   description: this.textRegistered,   shortcutKey: Common.Utils.String.platformKey(Common.Utils.isMac ? 'Alt Ctrl ' : 'Alt+Ctrl+', '{0}') + 'R', code: '00AE'},
+                        {symbol: '™',  description: this.textTradeMark,    shortcutKey: Common.Utils.String.platformKey(Common.Utils.isMac ? 'Alt Ctrl ' : 'Alt+Ctrl+', '{0}') + 'T', code: '2122'},
                         {symbol: '§',   description: this.textSection,      shortcutKey: '', code: '00A7'},
                         {symbol: '¶',   description: this.textPilcrow,      shortcutKey: '', code: '00B6'},
-                        {symbol: '…',  description: this.textEllipsis,     shortcutKey: '', code: '2026'},
+                        {symbol: '…',  description: this.textEllipsis,     shortcutKey: Common.Utils.String.platformKey(Common.Utils.isMac ? 'Alt Ctrl ' : 'Alt+Ctrl+', '{0}') + '.', code: '2026'},
                         {symbol: '‛',   description: this.textSOQuote,      shortcutKey: '', code: '2018'},
                         {symbol: '’',   description: this.textSCQuote,      shortcutKey: '', code: '2019'},
                         {symbol: '‟',   description: this.textDOQuote,      shortcutKey: '', code: '201C'},
@@ -815,7 +812,7 @@ define([
 
         getSpecialSymbol: function() {
             var rec = this.specialList.getSelectedRec();
-            return {font: undefined, symbol: this.encodeSurrogateChar(rec.get('code')), code: parseInt(rec.get('code'), 16), special: rec.get('special')};
+            return {font: undefined, symbol: this.encodeSurrogateChar(rec.get('code')), code: parseInt(rec.get('code'), 16), special: rec.get('special'), speccharacter: true};
         },
 
         onBtnClick: function(event) {

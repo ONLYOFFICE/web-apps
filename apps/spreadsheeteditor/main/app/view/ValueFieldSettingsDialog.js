@@ -49,7 +49,7 @@ define([
     SSE.Views.ValueFieldSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 284,
-            height: 320
+            separator: false
         },
 
         initialize : function(options) {
@@ -57,10 +57,10 @@ define([
 
             _.extend(this.options, {
                 title: this.textTitle,
-                template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
-                        '<div class="content-panel" style="padding: 0 10px;"><div class="inner-content">',
-                        '<div class="settings-panel active">',
+                contentStyle: 'padding: 0 10px;',
+                contentTemplate: _.template([
+                    '<div class="settings-panel active">',
+                    '<div class="inner-content">',
                         '<table cols="2" style="width: 100%;">',
                         '<tr>',
                             '<td colspan="2" class="padding-small" style="white-space: nowrap;">',
@@ -88,20 +88,18 @@ define([
                             '</td>',
                         '</tr>',
                         '<tr class="format-code">',
-                            '<td>',
+                            '<td class="padding-small">',
                                 '<label class="header">', me.txtBaseField,'</label>',
                                 '<div id="value-field-settings-field" class="input-group-nr" style="width:128px;"></div>',
                             '</td>',
-                            '<td class="float-right">',
+                            '<td class="padding-small float-right">',
                                 '<label class="header">', me.txtBaseItem,'</label>',
                                 '<div id="value-field-settings-item" class="input-group-nr" style="width:128px;"></div>',
                             '</td>',
                         '</tr>',
                     '</table>',
-                    '</div></div>',
-                    '</div>',
-                    '</div>'
-                ].join('')
+                    '</div></div>'
+                ].join(''))({scope: this})
             }, options);
 
             this.api        = options.api;
@@ -277,7 +275,7 @@ define([
                 this.cmbBaseItem.setDisabled(data.length<1 || show_as !== Asc.c_oAscShowDataAs.Difference && show_as !== Asc.c_oAscShowDataAs.Percent && show_as !== Asc.c_oAscShowDataAs.PercentDiff);
                 this.cmbBaseItem.setValue((data.length>0) && (show_as === Asc.c_oAscShowDataAs.Difference || show_as === Asc.c_oAscShowDataAs.Percent || show_as === Asc.c_oAscShowDataAs.PercentDiff) ? field.asc_getBaseItem() : '', '');
 
-                this.btnFormat.setDisabled(this.props.getFieldGroupType(field.asc_getIndex()) === Asc.c_oAscGroupType.Text);
+                this.btnFormat.setDisabled(this.props.asc_getFieldGroupType(field.asc_getIndex()) === Asc.c_oAscGroupType.Text);
                 if (this.getDefFormat(show_as)===Asc.c_oAscNumFormatType.General)
                     this.format.defFormats[Asc.c_oAscNumFormatType.General] = {formatStr: this.format.formatStr, formatInfo: this.format.formatInfo }
             }

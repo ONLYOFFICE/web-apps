@@ -180,6 +180,20 @@
       "system": "Same as system",
       "dark": "Dark",
       "light": "Light"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -291,6 +305,7 @@
     "textImageURL": "Image URL",
     "textInFront": "In Front of Text",
     "textInline": "In Line with Text",
+    "textInvalidName": "The file name cannot contain any of the following characters: ",
     "textJanuary": "January",
     "textJuly": "July",
     "textJune": "June",
@@ -383,7 +398,13 @@
     "textType": "Type",
     "textWe": "We",
     "textWrap": "Wrap",
-    "textWrappingStyle": "Wrapping Style"
+    "textWrappingStyle": "Wrapping Style",
+    "textChooseAnOption": "Choose an option",
+    "textChooseAnItem": "Choose an item",
+    "textEnterYourOption": "Enter your option",
+    "textSave": "Save",
+    "textYourOption": "Your option",
+    "textPlaceholder": "Placeholder"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",
@@ -392,6 +413,8 @@
     "downloadErrorText": "Download failed.",
     "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please, contact your admin.",
     "errorBadImageUrl": "Image URL is incorrect",
+    "errorComboSeries": "To create a combination chart, select at least two series of data.",
+    "errorCompare": "The Compare documents feature is not available in the co-editing mode.",
     "errorConnectToServer": "Can't save this doc. Check your connection settings or contact the admin.<br>When you click OK, you will be prompted to download the document.",
     "errorDatabaseConnection": "External error.<br>Database connection error. Please, contact support.",
     "errorDataEncrypted": "Encrypted changes have been received, they cannot be deciphered.",
@@ -402,6 +425,7 @@
     "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
     "errorFilePassProtect": "The file is password protected and could not be opened.",
     "errorFileSizeExceed": "The file size exceeds your server limit.<br>Please, contact your admin.",
+    "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
     "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
     "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
@@ -417,7 +441,9 @@
     "errorSessionAbsolute": "The document editing session has expired. Please, reload the page.",
     "errorSessionIdle": "The document has not been edited for quite a long time. Please, reload the page.",
     "errorSessionToken": "The connection to the server has been interrupted. Please, reload the page.",
+    "errorSetPassword": "Password could not be set.",
     "errorStockChart": "Incorrect row order. To build a stock chart, place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.",
+    "errorSubmit": "Submit failed.",
     "errorTextFormWrongFormat": "The value entered does not match the format of the field.",
     "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
     "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
@@ -433,6 +459,9 @@
     "splitMaxColsErrorText": "The number of columns must be less than %1",
     "splitMaxRowsErrorText": "The number of rows must be less than %1",
     "unknownErrorText": "Unknown error.",
+    "uploadDocExtMessage": "Unknown document format.",
+    "uploadDocFileCountMessage": "No documents uploaded.",
+    "uploadDocSizeMessage": "Maximum document size limit exceeded.",
     "uploadImageExtMessage": "Unknown image format.",
     "uploadImageFileCountMessage": "No images uploaded.",
     "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
@@ -667,6 +696,7 @@
     "textParagraphs": "Paragraphs",
     "textPassword": "Password",
     "textPasswordNotMatched": "Passwords Don’t Match",
+    "textPasswordWarning": "If the password is forgotten or lost, it cannot be recovered.",
     "textPdfProducer": "PDF Producer",
     "textPdfTagged": "Tagged PDF",
     "textPdfVer": "PDF Version",
@@ -699,10 +729,12 @@
     "textTop": "Top",
     "textTrackedChanges": "Tracked changes",
     "textTypeEditing": "Type Of Editing",
+    "textTypeEditingWarning": "Allow only this type of editing in the document.",
     "textUnitOfMeasurement": "Unit Of Measurement",
     "textUnprotect": "Unprotect",
     "textUploaded": "Uploaded",
     "textVerify": "Verify",
+    "textVersionHistory": "Version History",
     "textWords": "Words",
     "textYes": "Yes",
     "titleDialogUnprotect": "Unprotect Document",
@@ -735,17 +767,25 @@
     "textTheme": "Theme",
     "textSameAsSystem": "Same as system",
     "textDark": "Dark",
-    "textLight": "Light"
+    "textLight": "Light",
+    "textExport": "Export",
+    "textAddToFavorites": "Add to Favorites",
+    "textClearAllFields": "Clear All Fields",
+    "textRemoveFromFavorites": "Remove from Favorites",
+    "textSubmit": "Submit",
+    "textSaveAsPdf": "Save as PDF",
+    "textExportAs": "Export As"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this Page",
     "stayButtonText": "Stay on this page",
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
     "textOk": "OK",
-    "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view",
     "textRenameFile": "Rename File",
-    "textEnterNewFileName": "Enter a new file name"
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

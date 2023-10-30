@@ -395,6 +395,16 @@ SSE.ApplicationController = new(function(){
     }
 
     function onEditorPermissions(params) {
+        var licType = params.asc_getLicenseType();
+        if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType || Asc.c_oLicenseResult.ExpiredTrial === licType ||
+            Asc.c_oLicenseResult.NotBefore === licType || Asc.c_oLicenseResult.ExpiredLimited === licType) {
+            $('#id-critical-error-title').text(Asc.c_oLicenseResult.NotBefore === licType ? me.titleLicenseNotActive : me.titleLicenseExp);
+            $('#id-critical-error-message').html(Asc.c_oLicenseResult.NotBefore === licType ? me.warnLicenseBefore : me.warnLicenseExp);
+            $('#id-critical-error-close').parent().remove();
+            $('#id-critical-error-dialog').css('z-index', 20002).modal({backdrop: 'static', keyboard: false, show: true});
+            return;
+        }
+
         appOptions.canBranding  = params.asc_getCustomization();
         appOptions.canBranding && setBranding(config.customization);
 
@@ -456,6 +466,21 @@ SSE.ApplicationController = new(function(){
             }
 
             me.loadMask && me.loadMask.hide();
+        }
+    }
+
+    function onAdvancedOptions(type, advOptions, mode, formatOptions) {
+        if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
+            var isCustomLoader = !!config.customization.loaderName || !!config.customization.loaderLogo;
+            var submitPassword = function(val) {
+                api && api.asc_setAdvancedOptions(Asc.c_oAscAdvancedOptionsID.DRM, new Asc.asc_CDRMAdvancedOptions(val)); 
+                me.loadMask && me.loadMask.show();
+                if(!isCustomLoader) $('#loading-mask').removeClass("none-animation");
+            };
+            common.controller.modals.createDlgPassword(submitPassword);
+            if(isCustomLoader) hidePreloader();
+            else $('#loading-mask').addClass("none-animation");
+            onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
         }
     }
 
@@ -711,6 +736,7 @@ SSE.ApplicationController = new(function(){
             api.asc_registerCallback('asc_onEndAction',             onLongActionEnd);
             api.asc_registerCallback('asc_onError',                 onError);
             api.asc_registerCallback('asc_onOpenDocumentProgress',  onOpenDocument);
+            api.asc_registerCallback('asc_onAdvancedOptions',       onAdvancedOptions);
             api.asc_registerCallback('asc_onSheetsChanged',         onSheetsChanged);
             api.asc_registerCallback('asc_onActiveSheetChanged',    setActiveWorkSheet);
 
@@ -757,6 +783,10 @@ SSE.ApplicationController = new(function(){
         errorInconsistentExtXlsx: 'An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.',
         errorInconsistentExtPptx: 'An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.',
         errorInconsistentExtPdf: 'An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.',
-        errorInconsistentExt: 'An error has occurred while opening the file.<br>The file content does not match the file extension.'
+        errorInconsistentExt: 'An error has occurred while opening the file.<br>The file content does not match the file extension.',
+        titleLicenseExp: 'License expired',
+        titleLicenseNotActive: 'License not active',
+        warnLicenseBefore: 'License not active. Please contact your administrator.',
+        warnLicenseExp: 'Your license has expired. Please update your license and refresh the page.'
     }
 })();

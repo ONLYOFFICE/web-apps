@@ -18,6 +18,7 @@ import {storeComments} from "../../../../common/mobile/lib/store/comments";
 import {storeToolbarSettings} from "./toolbar";
 import { storeNavigation } from './navigation';
 import { storeThemes } from '../../../../common/mobile/lib/store/themes';
+import { storeVersionHistory } from '../../../../common/mobile/lib/store/versionHistory';
 
 export const stores = {
     storeAppOptions: new storeAppOptions(),
@@ -38,6 +39,7 @@ export const stores = {
     storeComments: new storeComments(),
     storeToolbarSettings: new storeToolbarSettings(),
     storeNavigation: new storeNavigation(),
-    storeThemes: new storeThemes()
+    storeThemes: new storeThemes(),
+    storeVersionHistory: new storeVersionHistory()
 };
 

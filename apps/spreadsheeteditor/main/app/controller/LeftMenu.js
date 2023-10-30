@@ -51,14 +51,16 @@ define([
                     'hide': _.bind(this.onHideChat, this)
                 },
                 'Common.Views.Plugins': {
-                    'plugin:open': _.bind(this.onPluginOpen, this),
                     'hide':        _.bind(this.onHidePlugins, this)
                 },
                 'Common.Views.Header': {
                     'history:show': function () {
                         if ( !this.leftMenu.panelHistory.isVisible() )
                             this.clickMenuFileItem('header', 'history');
-                        }.bind(this)
+                        }.bind(this),
+                    'rename': _.bind(function (value) {
+                        this.mode && this.mode.wopi && this.api ? this.api.asc_wopi_renameFile(value) : Common.Gateway.requestRename(value);
+                    }, this)
                 },
                 'LeftMenu': {
                     'file:show': _.bind(this.fileShowHide, this, true),
@@ -217,8 +219,8 @@ define([
             if (!options || options.chat)
                 this.leftMenu.btnChat.setDisabled(disable);
 
-            this.leftMenu.btnPlugins.setDisabled(disable);
             this.leftMenu.btnSpellcheck.setDisabled(disable);
+            this.leftMenu.fireEvent('plugins:disable', [disable]);
         },
 
         createDelayedElements: function() {
@@ -266,7 +268,9 @@ define([
             case 'back': break;
             case 'save': this.api.asc_Save(); break;
             case 'save-desktop': this.api.asc_DownloadAs(); break;
-            case 'export-pdf': this.clickSaveAsFormat(menu, Asc.c_oAscFileType.PDF); break;
+            case 'export-pdf':
+                Common.NotificationCenter.trigger('export:to', this.leftMenu, Asc.c_oAscFileType.PDF);
+                break;
             case 'print': Common.NotificationCenter.trigger('print', this.leftMenu); break;
             case 'exit': Common.NotificationCenter.trigger('goback'); break;
             case 'edit':
@@ -604,8 +608,8 @@ define([
             this.leftMenu.btnComments.setDisabled(true);
             this.leftMenu.btnChat.setDisabled(true);
             /** coauthoring end **/
-            this.leftMenu.btnPlugins.setDisabled(true);
             this.leftMenu.btnSpellcheck.setDisabled(true);
+            this.leftMenu.fireEvent('plugins:disable', [true]);
 
             this.leftMenu.getMenu('file').setMode({isDisconnected: true, enableDownload: !!enableDownload});
         },
@@ -796,7 +800,7 @@ define([
                         }
                     }
                     if ( this.leftMenu.btnAbout.pressed ||
-                        ($(e.target).parents('#left-menu').length || this.leftMenu.btnPlugins.pressed || this.leftMenu.btnComments.pressed) && this.api.isCellEdited!==true) {
+                        ($(e.target).parents('#left-menu').length || this.leftMenu.btnComments.pressed) && this.api.isCellEdited!==true) {
                         if (!Common.UI.HintManager.isHintVisible()) {
                             this.leftMenu.close();
                             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
@@ -854,21 +858,6 @@ define([
             if (this.mode.canPlugins && this.leftMenu.panelPlugins) {
                 Common.Utils.lockControls(Common.enumLock.editFormula, isEditFormula, {array: this.leftMenu.panelPlugins.lockedControls});
                 this.leftMenu.panelPlugins.setLocked(isEditFormula);
-            }
-        },
-
-        onPluginOpen: function(panel, type, action) {
-            if (type == 'onboard') {
-                if (action == 'open') {
-                    this.tryToShowLeftMenu();
-                    this.leftMenu.close();
-                    this.leftMenu.panelPlugins.show();
-                    this.leftMenu.onBtnMenuClick({pressed: true, options: {action: 'plugins'}});
-                    this.leftMenu._state.pluginIsRunning = true;
-                } else {
-                    this.leftMenu._state.pluginIsRunning = false;
-                    this.leftMenu.close();
-                }
             }
         },
 

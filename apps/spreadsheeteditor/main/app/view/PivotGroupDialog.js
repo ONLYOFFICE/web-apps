@@ -52,18 +52,18 @@ define([
 
         initialize : function (options) {
             var t = this,
-                height = options.date ? 335 : 195;
+                height = options.date ? 250 : 110;
 
             _.extend(this.options, {
                 title: this.txtTitle
             }, options || {});
 
             this.template   =   options.template || [
-                    '<div class="box" style="height:' + (height - 85) + 'px;">',
+                    '<div class="box" style="height:' + height + 'px;">',
                         '<table cols="2" style="width: 100%;">',
                             '<tr>',
                                 '<td colspan="2" style="padding-bottom: 4px;">',
-                                    '<label style="font-weight: bold;">' + this.textAuto + '</label>',
+                                    '<label class="font-weight-bold">' + this.textAuto + '</label>',
                                 '</td>',
                             '</tr>',
                             '<tr>',
@@ -92,7 +92,7 @@ define([
                             '</tr>',
                             '<tr class="group-date">',
                                 '<td colspan="2" style="padding-bottom: 4px;">',
-                                   '<label style="font-weight: bold;">' + this.textBy + '</label>',
+                                   '<label class="font-weight-bold">' + this.textBy + '</label>',
                                 '</td>',
                             '</tr>',
                             '<tr class="group-date">',
@@ -254,12 +254,14 @@ define([
             if (dateTypes) {
                 var me = this,
                     isDays;
+                this.listDate.setMultiselectMode(dateTypes.length>1);
                 _.each(dateTypes, function(item) {
                     var rec = me.listDate.store.findWhere({type: item});
                     rec && me.listDate.selectRecord(rec);
                     if (item == Asc.c_oAscGroupBy.Days)
                         isDays = true;
                 });
+                this.listDate.setMultiselectMode(false);
                 this.spnDays.setValue(rangePr.asc_getGroupInterval());
                 this.spnDays.setDisabled(!isDays || dateTypes.length>1);
                 this.btnOk.setDisabled(dateTypes.length<1);

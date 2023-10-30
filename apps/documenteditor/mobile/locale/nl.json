@@ -174,6 +174,20 @@
     },
     "HighlightColorPalette": {
       "textNoFill": "No Fill"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -234,6 +248,7 @@
     "textBullets": "Opsommingstekens",
     "textBulletsAndNumbers": "Opsommingstekens en nummers",
     "textCellMargins": "Celmarges",
+    "textChangeShape": "Vorm wijzigen",
     "textChart": "Grafiek",
     "textClose": "Sluiten",
     "textColor": "Kleur",
@@ -324,7 +339,6 @@
     "textAugust": "August",
     "textCancel": "Cancel",
     "textCentered": "Centered",
-    "textChangeShape": "Change Shape",
     "textClassic": "Classic",
     "textCreateTextStyle": "Create new text style",
     "textCurrent": "Current",
@@ -340,6 +354,7 @@
     "textFebruary": "February",
     "textFormal": "Formal",
     "textFr": "Fr",
+    "textInvalidName": "The file name cannot contain any of the following characters: ",
     "textJanuary": "January",
     "textJuly": "July",
     "textJune": "June",
@@ -418,8 +433,11 @@
     "uploadImageExtMessage": "Onbekende afbeeldingsindeling.",
     "uploadImageFileCountMessage": "Geen afbeeldingen geüpload.",
     "uploadImageSizeMessage": "De afbeelding is te groot. De maximale grootte is 25MB.",
+    "errorComboSeries": "To create a combination chart, select at least two series of data.",
+    "errorCompare": "The Compare documents feature is not available in the co-editing mode.",
     "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
     "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
+    "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
     "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
     "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
@@ -427,9 +445,14 @@
     "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
     "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
     "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
+    "errorSetPassword": "Password could not be set.",
+    "errorSubmit": "Submit failed.",
     "errorTextFormWrongFormat": "The value entered does not match the format of the field.",
     "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
-    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
+    "uploadDocExtMessage": "Unknown document format.",
+    "uploadDocFileCountMessage": "No documents uploaded.",
+    "uploadDocSizeMessage": "Maximum document size limit exceeded."
   },
   "LongActions": {
     "applyChangesTextText": "Gegevens worden geladen...",
@@ -708,6 +731,7 @@
     "textPageSize": "Page Size",
     "textPassword": "Password",
     "textPasswordNotMatched": "Passwords DonвЂ™t Match",
+    "textPasswordWarning": "If the password is forgotten or lost, it cannot be recovered.",
     "textPdfProducer": "PDF Producer",
     "textPdfTagged": "Tagged PDF",
     "textPdfVer": "PDF Version",
@@ -722,8 +746,10 @@
     "textSetPassword": "Set Password",
     "textTrackedChanges": "Tracked changes",
     "textTypeEditing": "Type Of Editing",
+    "textTypeEditingWarning": "Allow only this type of editing in the document.",
     "textUnprotect": "Unprotect",
     "textVerify": "Verify",
+    "textVersionHistory": "Version History",
     "textYes": "Yes",
     "titleDialogUnprotect": "Unprotect Document"
   },
@@ -732,10 +758,11 @@
     "dlgLeaveTitleText": "U verlaat de toepassing",
     "leaveButtonText": "Pagina verlaten",
     "stayButtonText": "Op deze pagina blijven",
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
     "textOk": "OK",
-    "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view",
     "textRenameFile": "Rename File",
-    "textEnterNewFileName": "Enter a new file name"
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

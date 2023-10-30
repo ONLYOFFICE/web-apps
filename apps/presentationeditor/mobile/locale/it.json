@@ -42,6 +42,20 @@
       "textCustomColors": "Colori personalizzati",
       "textStandartColors": "Colori standard",
       "textThemeColors": "Colori del tema"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -175,12 +189,16 @@
     "uploadImageExtMessage": "Formato d'immagine sconosciuto.",
     "uploadImageFileCountMessage": "Nessuna immagine caricata.",
     "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB.",
+    "errorComboSeries": "To create a combination chart, select at least two series of data.",
     "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
+    "errorEmailClient": "No email client could be found",
+    "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
     "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
     "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorSetPassword": "Password could not be set.",
     "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
     "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
   },
@@ -222,7 +240,8 @@
     "dlgLeaveMsgText": "Ci sono i cambiamenti non salvati in questo documento. Fai clic su \"Rimanere su questa pagina\" per attendere il salvataggio automatico. Fai clic su \"Lasciare questa pagina\" per eliminare tutti i cambiamenti non salvati.",
     "dlgLeaveTitleText": "Stai lasciando l'applicazione",
     "leaveButtonText": "Lasciare questa pagina",
-    "stayButtonText": "Rimanere su questa pagina"
+    "stayButtonText": "Rimanere su questa pagina",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -300,6 +319,7 @@
       "textBulletsAndNumbers": "Puntato e numerato",
       "textCaseSensitive": "Maiuscole/minuscole",
       "textCellMargins": "Margini di cella",
+      "textChangeShape": "Cambia forma",
       "textChart": "Grafico",
       "textClock": "Orologio",
       "textClockwise": "In senso orario",
@@ -415,10 +435,13 @@
       "textZoomRotate": "Zoom e rotazione",
       "textArrange": "Arrange",
       "textCancel": "Cancel",
-      "textChangeShape": "Change Shape",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textInsertImage": "Insert Image",
+      "textMorph": "Morph",
+      "textMorphLetters": "Letters",
+      "textMorphObjects": "Objects",
+      "textMorphWords": "Words",
       "textNoMatches": "No Matches",
       "textRecommended": "Recommended",
       "textRequired": "Required"
@@ -506,7 +529,8 @@
       "txtScheme7": "Equità",
       "txtScheme8": "Flusso",
       "txtScheme9": "Fonderia",
-      "textNoMatches": "No Matches"
+      "textNoMatches": "No Matches",
+      "textVersionHistory": "Version History"
     }
   }
 }

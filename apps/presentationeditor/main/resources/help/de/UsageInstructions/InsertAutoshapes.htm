@@ -4,7 +4,7 @@
 		<title>AutoFormen einfügen und formatieren</title>
 		<meta charset="utf-8" />
 		<meta name="description" content="Add an autoshape to your presentation and adjust its properties." />
-		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
 		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
@@ -36,6 +36,32 @@
 			<p>Es ist auch möglich, einem Folienlayout eine AutoForm hinzuzufügen. Weitere Informationen finden Sie in dieser <a href="../UsageInstructions/SetSlideParameters.htm#addtolayout" onclick="onhyperlinkclick(this)">Artikel</a>.</p>
 			<hr />
 			<h3>Einstellungen der AutoForm anpassen</h3>
+			<p id="shape_rightclickmenu">Um AutoFormen auszurichten und anzuordnen, verwenden Sie das <b>Rechtsklick-Menü</b>. Die Menüoptionen sind:</p>
+			<ul>
+				<li><b>Ausschneiden, Kopieren, Einfügen</b> - Standardoptionen, mit denen ein ausgewählter Text / ein ausgewähltes Objekt ausgeschnitten oder kopiert und eine zuvor ausgeschnittene / kopierte Textpassage oder ein Objekt an die aktuelle Zeigerposition eingefügt wird.</li>
+				<li>Die Option <b>Anordnen</b> wird verwendet, um die ausgewählte automatische Form in den Vordergrund zu bringen, in den Hintergrund zu senden, vorwärts oder rückwärts zu bewegen sowie Formen zu gruppieren oder die Gruppierung aufzuheben, um Operationen mit mehreren von ihnen gleichzeitig auszuführen. Weitere Informationen zum Anordnen von Objekten finden Sie auf <a href="../UsageInstructions/AlignArrangeObjects.htm" onclick="onhyperlinkclick(this)">dieser Seite</a>.</li>
+				<li>Die Option <b>Ausrichten</b> wird verwendet, um die Form links, mittig, rechts, oben, Mitte, unten auszurichten. Weitere Informationen zum Ausrichten von Objekten finden Sie auf <a href="../UsageInstructions/AlignArrangeObjects.htm" onclick="onhyperlinkclick(this)">dieser Seite</a>.</li>
+				<li>Die Option <b>Drehen</b> wird verwendet, um die Form um 90 Grad im oder gegen den Uhrzeigersinn zu drehen sowie um die Form horizontal oder vertikal zu drehen.</li>
+				<li>Mit der Option <b>Als Bild speichern</b> können Sie die Form als Bild auf Ihrer Festplatte speichern.</li>
+				<li>
+					Die Option <b>Punkte bearbeiten</b> wird verwendet, um die Krümmung Ihrer Form anzupassen oder zu ändern.
+					<ol>
+						<li>Um die bearbeitbaren Ankerpunkte einer Form zu aktivieren, klicken Sie mit der rechten Maustaste auf die Form und wählen Sie im Menü <b>Punkte bearbeiten</b> aus oder klicken Sie auf die Option <b>Form bearbeiten</b> > <b>Punkte bearbeiten</b> im rechten Bereich. Die schwarzen Quadrate, die aktiv werden, sind die Punkte, an denen sich zwei Linien treffen, und die rote Linie umreißt die Form. Klicken und ziehen Sie ihn, um den Punkt neu zu positionieren und den Umriss der Form zu ändern.</li>
+						<li>
+							Sobald Sie auf den Ankerpunkt klicken, werden zwei blaue Linien mit weißen Quadraten an den Enden angezeigt. Dies sind Bezier-Ziehpunkte, mit denen Sie eine Kurve erstellen und die Glätte einer Kurve ändern können.
+							<p><img alt="Punkte bearbeiten" src="../images/editpoints_example.png" /></p>
+						</li>
+						<li>
+							Solange die Ankerpunkte aktiv sind, können Sie sie hinzufügen und löschen.
+							<p><b>Um einer Form einen Punkt hinzuzufügen</b>, halten Sie <b>Strg</b> gedrückt und klicken Sie auf die Position, an der Sie einen Ankerpunkt hinzufügen möchten.</p>
+							<p><b>Um einen Punkt zu löschen</b>, halten Sie <b>Strg</b> gedrückt und klicken Sie auf den unnötigen Punkt.</p>
+						</li>
+					</ol>
+				</li>
+				<li>Mit den <b>Erweiterten Einstellungen der Form</b> wird das Fenster "Form - Erweiterte Einstellungen" geöffnet.</li>
+				<li>Die Option <b>Zu Layout hinzufügen</b> wird verwendet, um die AutoForm mit dem Hintergrundlayout der Folie zusammenzuführen.</li>
+			</ul>
+			<hr />
 			<p>Einige Eigenschaften der AutoFormen können in der Registerkarte <b>Formeinstellungen</b> in der rechten Seitenleiste geändert werden. Klicken Sie dazu auf die AutoForm und wählen Sie das Symbol <b>Formeinstellungen</b> <span class="icon icon-shape_settings_icon"></span> in der rechten Seitenleiste aus. Hier können die folgenden Eigenschaften geändert werden:</p>
 			<p><img class="floatleft" alt="Registerkarte Formeinstellungen" src="../images/shapesettingstab.png" /></p>
 			<ul style="margin-left: 280px;">
@@ -67,7 +93,27 @@
 						<li><div class="icon icon-flipupsidedown"></div> um die Form vertikal zu spiegeln (von oben nach unten)</li>
 					</ul>
 				</li>
-				<li><b>AutoForm ändern</b> - verwenden Sie diesen Abschnitt, um die aktuelle AutoForm durch eine andere Form aus der Drop-Down-Liste zu ersetzen.</li>
+				<li>
+					<b>Form bearbeiten</b> - Verwenden Sie diesen Abschnitt, um die Formpunkte zu bearbeiten oder die aktuelle AutoForm durch eine andere zu ersetzen, die aus der Dropdown-Liste ausgewählt wird.
+					<ul>
+						<li>
+							<b>Punkte bearbeiten</b> wird verwendet, um die Krümmung Ihrer Form anzupassen oder zu ändern.
+							<ol>
+								<li>Um die bearbeitbaren Ankerpunkte einer Form zu aktivieren, klicken Sie mit der rechten Maustaste auf die Form und wählen Sie im Menü <b>Punkte bearbeiten</b> aus oder klicken Sie auf die Option <b>Form bearbeiten</b> > <b>Punkte bearbeiten</b> im rechten Bereich. Die schwarzen Quadrate, die aktiv werden, sind die Punkte, an denen sich zwei Linien treffen, und die rote Linie umreißt die Form. Klicken und ziehen Sie ihn, um den Punkt neu zu positionieren und den Umriss der Form zu ändern.</li>
+								<li>
+									Sobald Sie auf den Ankerpunkt klicken, werden zwei blaue Linien mit weißen Quadraten an den Enden angezeigt. Dies sind Bezier-Ziehpunkte, mit denen Sie eine Kurve erstellen und die Glätte einer Kurve ändern können.
+									<p><img alt="Punkte bearbeiten" src="../images/editpoints_example.png" /></p>
+								</li>
+								<li>
+									Solange die Ankerpunkte aktiv sind, können Sie sie hinzufügen und löschen.
+									<p><b>Um einer Form einen Punkt hinzuzufügen</b>, halten Sie <b>Strg</b> gedrückt und klicken Sie auf die Position, an der Sie einen Ankerpunkt hinzufügen möchten.</p>
+									<p><b>Um einen Punkt zu löschen</b>, halten Sie <b>Strg</b> gedrückt und klicken Sie auf den unnötigen Punkt.</p>
+								</li>
+							</ol>
+						</li>
+						<li><b>AutoForm ändern</b> - Verwenden Sie diese Option, um die aktuelle AutoForm durch eine andere zu ersetzen, die aus der Dropdown-Liste ausgewählt wurde.</li>
+					</ul>
+				</li>
 				<li><b>Schatten anzeigen</b> - aktivieren Sie diese Option, um die Form mit Schatten anzuzeigen.</li>
 			</ul>
 			<hr />

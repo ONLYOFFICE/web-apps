@@ -76,7 +76,8 @@ define([
     'spreadsheeteditor/main/app/view/MacroDialog',
     'spreadsheeteditor/main/app/view/FieldSettingsDialog',
     'spreadsheeteditor/main/app/view/ValueFieldSettingsDialog',
-    'spreadsheeteditor/main/app/view/PivotSettingsAdvanced'
+    'spreadsheeteditor/main/app/view/PivotSettingsAdvanced',
+    'spreadsheeteditor/main/app/view/PivotShowDetailDialog',
 ], function () {
     'use strict';
 
@@ -222,6 +223,7 @@ define([
                 view.pmiReapply.on('click',                         _.bind(me.onReapply, me));
                 view.pmiCondFormat.on('click',                      _.bind(me.onCondFormat, me));
                 view.mnuRefreshPivot.on('click',                    _.bind(me.onRefreshPivot, me));
+                view.mnuExpandCollapsePivot.menu.on('item:click',   _.bind(me.onExpandCollapsePivot, me));
                 view.mnuGroupPivot.on('click',                      _.bind(me.onGroupPivot, me));
                 view.mnuUnGroupPivot.on('click',                    _.bind(me.onGroupPivot, me));
                 view.mnuPivotSettings.on('click',                   _.bind(me.onPivotSettings, me));
@@ -315,6 +317,7 @@ define([
                 view.menuSignatureDetails.on('click',               _.bind(me.onSignatureClick, me));
                 view.menuSignatureViewSetup.on('click',             _.bind(me.onSignatureClick, me));
                 view.menuSignatureRemove.on('click',                _.bind(me.onSignatureClick, me));
+                view.pmiViewGetRangeList.on('click',                _.bind(me.onGetLink, me));
             }
 
             var addEvent = function( elem, type, fn, options ) {
@@ -396,6 +399,7 @@ define([
                 this.api.asc_registerCallback('asc_ChangeCropState', _.bind(this.onChangeCropState, this));
                 this.api.asc_registerCallback('asc_onInputMessage', _.bind(this.onInputMessage, this));
                 this.api.asc_registerCallback('asc_onTableTotalMenu', _.bind(this.onTableTotalMenu, this));
+                this.api.asc_registerCallback('asc_onShowPivotHeaderDetailsDialog', _.bind(this.onShowPivotHeaderDetailsDialog, this));
                 this.api.asc_registerCallback('asc_onShowPivotGroupDialog', _.bind(this.onShowPivotGroupDialog, this));
                 if (!this.permissions.isEditMailMerge && !this.permissions.isEditDiagram && !this.permissions.isEditOle) {
                     this.api.asc_registerCallback('asc_doubleClickOnTableOleObject', _.bind(this.onDoubleClickOnTableOleObject, this));
@@ -608,10 +612,50 @@ define([
             }
         },
 
+        onExpandCollapsePivot: function(menu, item, e) {
+            this.propsPivot.originalProps.asc_setExpandCollapseByActiveCell(this.api, item.value.isAll, item.value.visible);
+        },
+
         onGroupPivot: function(item) {
             item.value=='grouping' ? this.api.asc_groupPivot() : this.api.asc_ungroupPivot();
         },
 
+        onShowPivotHeaderDetailsDialog: function(isRow, isAll) {
+            var me = this,
+                pivotInfo = this.api.asc_getCellInfo().asc_getPivotTableInfo(),
+                cacheFields = pivotInfo.asc_getCacheFields(),
+                pivotFields = pivotInfo.asc_getPivotFields(),
+                fieldsNames = _.map(pivotFields, function(item, index) {
+                    return {
+                        index: index,
+                        name: item.asc_getName() || cacheFields[index].asc_getName()
+                    }
+                }),
+                excludedFields = [];
+
+            if(isRow) excludedFields = pivotInfo.asc_getRowFields();
+            else excludedFields = pivotInfo.asc_getColumnFields();
+            
+            excludedFields && (excludedFields = _.filter(excludedFields, function(item){
+                var pivotIndex = item.asc_getIndex();
+                return (pivotIndex>-1 || pivotIndex == -2);
+            }));
+
+            excludedFields.forEach(function(excludedItem) {
+                var indexInFieldsNames = _.findIndex(fieldsNames, function(item) { return excludedItem.asc_getIndex() == item.index});          
+                fieldsNames.splice(indexInFieldsNames, 1);
+            });
+
+            new SSE.Views.PivotShowDetailDialog({
+                handler: function(result, value) {
+                    if (result == 'ok' && value) {
+                        me.api.asc_pivotShowDetailsHeader(value.index, isAll) ;
+                    }
+                },
+                fieldsNames: fieldsNames,
+            }).show();
+        },
+        
         onShowPivotGroupDialog: function(rangePr, dateTypes, defRangePr) {
             var win, props,
                 me = this;
@@ -852,6 +896,7 @@ define([
                 rowFieldIndex = info.asc_getRowFieldIndex(),
                 dataFieldIndex = info.asc_getDataFieldIndex();
 
+            this.propsPivot.canExpandCollapse = info.asc_canExpandCollapse();
             this.propsPivot.canGroup = info.asc_canGroup();
             this.propsPivot.rowTotal = info.asc_getRowGrandTotals();
             this.propsPivot.colTotal = info.asc_getColGrandTotals();
@@ -2336,12 +2381,14 @@ define([
                         factor -= 0.1;
                         if (!(factor < .1)) {
                             this.api.asc_setZoom(factor);
+                            this._handleZoomWheel = true;
                         }
                     } else if (delta > 0) {
                         factor = Math.floor(factor * 10)/10;
                         factor += 0.1;
                         if (factor > 0 && !(factor > 5.)) {
                             this.api.asc_setZoom(factor);
+                            this._handleZoomWheel = true;
                         }
                     }
 
@@ -2390,7 +2437,7 @@ define([
                             event.stopPropagation();
                             return false;
                         }
-                    } else if (key === 48 || key === 96) {// 0
+                    } else if (key === Common.UI.Keys.ZERO || key === Common.UI.Keys.NUM_ZERO) {// 0
                         if (!this.api.isCellEdited) {
                             this.api.asc_setZoom(1);
                             event.preventDefault();
@@ -2766,7 +2813,7 @@ define([
                     documentHolder.menuParagraphEquation.menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                     documentHolder.menuParagraphEquation.menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
                     documentHolder.menuParagraphEquation.menu.items[8].options.isToolbarHide = isEqToolbarHide;
-                    documentHolder.menuParagraphEquation.menu.items[8].setCaption(isEqToolbarHide ? documentHolder.showEqToolbar : documentHolder.hideEqToolbar);
+                    documentHolder.menuParagraphEquation.menu.items[8].setCaption(isEqToolbarHide ? documentHolder.showEqToolbar : documentHolder.hideEqToolbar, true);
                 }
 
                 if (showMenu) this.showPopupMenu(documentHolder.textInShapeMenu, {}, event);
@@ -2823,6 +2870,8 @@ define([
                 documentHolder.mnuPivotFilterSeparator.setVisible(this.propsPivot.filter || this.propsPivot.rowFilter || this.propsPivot.colFilter);
                 documentHolder.mnuSubtotalField.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===0 || this.propsPivot.fieldType===1));
                 documentHolder.mnuPivotSubtotalSeparator.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===0 || this.propsPivot.fieldType===1));
+                documentHolder.mnuExpandCollapsePivot.setVisible(!!this.propsPivot.canExpandCollapse);
+                documentHolder.mnuPivotExpandCollapseSeparator.setVisible(!!this.propsPivot.canExpandCollapse);
                 documentHolder.mnuGroupPivot.setVisible(!!this.propsPivot.canGroup);
                 documentHolder.mnuUnGroupPivot.setVisible(!!this.propsPivot.canGroup);
                 documentHolder.mnuPivotGroupSeparator.setVisible(!!this.propsPivot.canGroup);
@@ -3004,7 +3053,8 @@ define([
                 iscellmenu = (seltype==Asc.c_oAscSelectionType.RangeCells) && !this.permissions.isEditMailMerge && !this.permissions.isEditDiagram && !this.permissions.isEditOle,
                 iscelledit = this.api.isCellEdited,
                 isimagemenu = (seltype==Asc.c_oAscSelectionType.RangeShape || seltype==Asc.c_oAscSelectionType.RangeImage) && !this.permissions.isEditMailMerge && !this.permissions.isEditDiagram && !this.permissions.isEditOle,
-                signGuid;
+                signGuid,
+                ismultiselect = cellinfo.asc_getMultiselect();
 
             if (!documentHolder.viewModeMenu)
                 documentHolder.createDelayedElementsViewer();
@@ -3038,6 +3088,12 @@ define([
             documentHolder.menuViewAddComment.setVisible(canComment);
             commentsController && commentsController.blockPopover(true);
             documentHolder.menuViewAddComment.setDisabled(isCellLocked || isTableLocked || this._state.wsProps['Objects']);
+
+            var canGetLink = !Common.Utils.isIE && iscellmenu && !iscelledit && !ismultiselect && this.permissions.canMakeActionLink && !!navigator.clipboard;
+            documentHolder.pmiViewGetRangeList.setVisible(canGetLink);
+            documentHolder.pmiViewGetRangeList.setDisabled(false);
+            documentHolder.menuViewCommentSeparator.setVisible(canGetLink);
+
             if (showMenu) this.showPopupMenu(documentHolder.viewModeMenu, {}, event);
 
             if (isInSign) {
@@ -3761,10 +3817,11 @@ define([
         },
 
         onKeyUp: function (e) {
-            if (e.keyCode == Common.UI.Keys.CTRL && this._needShowSpecPasteMenu && !this.btnSpecialPaste.menu.isVisible() && /area_id/.test(e.target.id)) {
+            if (e.keyCode == Common.UI.Keys.CTRL && this._needShowSpecPasteMenu && !this._handleZoomWheel && !this.btnSpecialPaste.menu.isVisible() && /area_id/.test(e.target.id)) {
                 $('button', this.btnSpecialPaste.cmpEl).click();
                 e.preventDefault();
             }
+            this._handleZoomWheel = false;
             this._needShowSpecPasteMenu = false;
         },
 
@@ -4670,10 +4727,22 @@ define([
             }
         },
 
+        isPivotNumberFormat: function() {
+            if (this.propsPivot && this.propsPivot.originalProps && this.propsPivot.field) {
+                return (this.propsPivot.originalProps.asc_getFieldGroupType(this.propsPivot.pivotIndex) !== Asc.c_oAscGroupType.Text);
+            }
+            return false;
+        },
+
         onNumberFormatSelect: function(menu, item) {
             if (item.value !== undefined && item.value !== 'advanced') {
                 if (this.api)
-                    this.api.asc_setCellFormat(item.options.format);
+                    if (this.isPivotNumberFormat()) {
+                        var field = (this.propsPivot.fieldType === 2) ? new Asc.CT_DataField() : new Asc.CT_PivotField();
+                        field.asc_setNumFormat(item.options.format);
+                        this.propsPivot.field.asc_set(this.api, this.propsPivot.originalProps, (this.propsPivot.fieldType === 2) ? this.propsPivot.index : this.propsPivot.pivotIndex, field);
+                    } else
+                        this.api.asc_setCellFormat(item.options.format);
             }
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         },
@@ -4687,7 +4756,12 @@ define([
                 api: me.api,
                 handler: function(result, settings) {
                     if (settings) {
-                        me.api.asc_setCellFormat(settings.format);
+                        if (me.isPivotNumberFormat()) {
+                            var field = (me.propsPivot.fieldType === 2) ? new Asc.CT_DataField() : new Asc.CT_PivotField();
+                            field.asc_setNumFormat(settings.format);
+                            me.propsPivot.field.asc_set(me.api, me.propsPivot.originalProps, (me.propsPivot.fieldType === 2) ? me.propsPivot.index : me.propsPivot.pivotIndex, field);
+                        } else
+                            me.api.asc_setCellFormat(settings.format);
                     }
                     Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
                 },
@@ -4905,7 +4979,7 @@ define([
                     menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                     menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
                     menu.items[8].options.isToolbarHide = isEqToolbarHide;
-                    menu.items[8].setCaption(isEqToolbarHide ? me.documentHolder.showEqToolbar : me.documentHolder.hideEqToolbar);
+                    menu.items[8].setCaption(isEqToolbarHide ? me.documentHolder.showEqToolbar : me.documentHolder.hideEqToolbar, true);
                 };
                 me.equationSettingsBtn.menu.on('item:click', _.bind(me.convertEquation, me));
                 me.equationSettingsBtn.menu.on('show:before', function(menu) {
@@ -4919,6 +4993,7 @@ define([
                 me.onDocumentResize();
 
             var showPoint = [(bounds[0] + bounds[2])/2 - eqContainer.outerWidth()/2, bounds[1] - eqContainer.outerHeight() - 10];
+            (showPoint[0]<0) && (showPoint[0] = 0);
             if (showPoint[1]<0) {
                 showPoint[1] = bounds[3] + 10;
             }

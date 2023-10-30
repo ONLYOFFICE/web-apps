@@ -1896,7 +1896,7 @@
 		"d": "Vrne zaporedje števil"
 	},
 	"EXPAND": {
-		"a": "(array, rows, [columns], [pad_with])",
+		"a": "(matrika, vrstice, [stolpce], [pad_with])",
 		"d": "Razširi polje na določene dimenzije."
 	},
 	"XMATCH": {

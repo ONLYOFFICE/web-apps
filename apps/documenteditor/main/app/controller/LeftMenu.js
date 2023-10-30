@@ -66,14 +66,16 @@ define([
                     'history:show': function () {
                         if ( !this.leftMenu.panelHistory.isVisible() )
                             this.clickMenuFileItem('header', 'history');
-                    }.bind(this)
+                    }.bind(this),
+                    'rename': _.bind(function (value) {
+                        this.mode && this.mode.wopi && this.api ? this.api.asc_wopi_renameFile(value) : Common.Gateway.requestRename(value);
+                    }, this)
                 },
                 'Common.Views.About': {
                     'show':    _.bind(this.aboutShowHide, this, false),
                     'hide':    _.bind(this.aboutShowHide, this, true)
                 },
                 'Common.Views.Plugins': {
-                    'plugin:open': _.bind(this.onPluginOpen, this),
                     'hide':        _.bind(this.onHidePlugins, this)
                 },
                 'LeftMenu': {
@@ -115,6 +117,7 @@ define([
             }, this));
             Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
             Common.NotificationCenter.on('file:print', _.bind(this.clickToolbarPrint, this));
+            Common.NotificationCenter.on('file:help', _.bind(this.showHelp, this));
         },
 
         onLaunch: function() {
@@ -515,6 +518,10 @@ define([
                 value = parseInt(Common.localStorage.getItem("de-settings-paste-button"));
                 Common.Utils.InternalSettings.set("de-settings-paste-button", value);
                 this.api.asc_setVisiblePasteButton(!!value);
+
+                value = Common.localStorage.getBool("de-settings-smart-selection");
+                Common.Utils.InternalSettings.set("de-settings-smart-selection", value);
+                this.api.asc_putSmartParagraphSelection(value);
             }
 
             this.api.put_ShowSnapLines(Common.Utils.InternalSettings.get("de-settings-showsnaplines"));
@@ -590,8 +597,8 @@ define([
             this.leftMenu.btnComments.setDisabled(true);
             this.leftMenu.btnChat.setDisabled(true);
             /** coauthoring end **/
-            this.leftMenu.btnPlugins.setDisabled(true);
             this.leftMenu.btnNavigation.setDisabled(true);
+            this.leftMenu.fireEvent('plugins:disable', [true]);
 
             this.leftMenu.getMenu('file').setMode({isDisconnected: true, enableDownload: !!enableDownload});
         },
@@ -631,7 +638,7 @@ define([
             if (!options || options.navigation && options.navigation.disable)
                 this.leftMenu.btnNavigation.setDisabled(disable);
 
-            this.leftMenu.btnPlugins.setDisabled(disable);
+            this.leftMenu.fireEvent('plugins:disable', [disable]);
         },
 
         /** coauthoring begin **/
@@ -778,7 +785,7 @@ define([
                 case 'help':
                     if ( this.mode.isEdit && this.mode.canHelp ) {                   // TODO: unlock 'help' for 'view' mode
                         Common.UI.Menu.Manager.hideAll();
-                        this.leftMenu.showMenu('file:help');
+                        this.showHelp();
                     }
                     return false;
                 case 'file':
@@ -809,8 +816,7 @@ define([
                             return false;
                         }
                     }
-                    if (this.leftMenu.btnAbout.pressed || this.leftMenu.btnPlugins.pressed ||
-                                $(e.target).parents('#left-menu').length ) {
+                    if (this.leftMenu.btnAbout.pressed || $(e.target).parents('#left-menu').length ) {
                         if (!Common.UI.HintManager.isHintVisible()) {
                             this.leftMenu.close();
                             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
@@ -833,21 +839,6 @@ define([
                     }
                     return false;
             /** coauthoring end **/
-            }
-        },
-
-        onPluginOpen: function(panel, type, action) {
-            if ( type == 'onboard' ) {
-                if ( action == 'open' ) {
-                    this.tryToShowLeftMenu();
-                    this.leftMenu.close();
-                    this.leftMenu.panelPlugins.show();
-                    this.leftMenu.onBtnMenuClick({pressed:true, options: {action: 'plugins'}});
-                    this.leftMenu._state.pluginIsRunning = true;
-                } else {
-                    this.leftMenu._state.pluginIsRunning = false;
-                    this.leftMenu.close();
-                }
             }
         },
 
@@ -940,6 +931,10 @@ define([
         tryToShowLeftMenu: function() {
             if ((!this.mode.canBrandingExt || !this.mode.customization || this.mode.customization.leftMenu !== false) && Common.UI.LayoutManager.isElementVisible('leftMenu'))
                 this.onLeftMenuHide(null, true);
+        },
+
+        showHelp: function(src) {
+            this.leftMenu && this.leftMenu.showMenu('file:help', src);
         },
 
         textNoTextFound         : 'Text not found',

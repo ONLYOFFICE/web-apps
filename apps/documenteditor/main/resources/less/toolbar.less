@@ -29,6 +29,31 @@
     background-color: transparent;
 }
 
+#id-toolbar-menu-symbols {
+    display: inline-block;
+    width: 158px;
+    .padding-left(3px);
+    .item {
+        .box-shadow(none);
+        .margin-x(6px, 4px);
+        &:hover, &.selected{
+            .box-shadow( 0 0 0 2px @border-preview-select-ie);
+            .box-shadow( 0 0 0 @scaled-two-px-value @border-preview-select);
+        }
+    }
+    .item-symbol {
+        font-family: @font-family-base;
+        font-size: 14px;
+        display: block;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        line-height: 20px;
+        vertical-align: middle;
+
+    }
+}
+
 .item-markerlist {
     width: 40px;
     height: 40px;
@@ -91,6 +116,12 @@
                     .box-shadow(0 0 0 @scaled-one-px-value @border-regular-control);
                 }
             }
+        }
+
+        svg.icon {
+            width: 40px;
+            height: 40px;
+            display: block;
         }
     }
 
@@ -179,6 +210,9 @@
     border-radius: 3px;
     overflow: hidden;
     box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.2);
+    .ie & {
+        overflow: visible;
+    }
 }
 
 #equation-container {

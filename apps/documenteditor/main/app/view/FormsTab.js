@@ -201,7 +201,7 @@ define([
                     var isfixed = Common.localStorage.getBool("de-text-form-fixed", true);
                     this.btnTextField = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon ' + (isfixed ? 'btn-fixed-field' : 'btn-text-field'),
+                        iconCls: 'toolbar__icon ' + (isfixed ? 'btn-text-fixed-field' : 'btn-text-field'),
                         lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal],
                         caption: this.capBtnText,
                         fieldType: isfixed ? 'fixed' : 'inline',
@@ -476,7 +476,7 @@ define([
                         // } else {
                         //     me.btnHighlight.cmpEl.parents('.group').hide().prev('.separator').hide();
                         // }
-                        var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem">'+
+                        var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" class="menu-item">'+
                             '<% if (!_.isEmpty(iconCls)) { %>'+
                             '<span class="menu-item-icon <%= iconCls %>"></span>'+
                             '<% } %>'+
@@ -502,7 +502,7 @@ define([
                                 description: me.txtFixedDesc,
                                 iconCls     : 'menu__icon btn-fixed-field',
                                 value: 'fixed',
-                                iconClsForMainBtn: 'btn-fixed-field',
+                                iconClsForMainBtn: 'btn-text-fixed-field',
                                 hintForMainBtn: [me.tipFixedText, me.tipTextField]
                             }
                             ]
@@ -687,7 +687,16 @@ define([
             tipZipCode: 'Insert zip code',
             tipCreditCard: 'Insert credit card number',
             capDateTime: 'Date & Time',
-            tipDateTime: 'Insert date and time'
+            tipDateTime: 'Insert date and time',
+            tipCreateField: 'To create a field select the desired field type on the toolbar and click on it. The field will appear in the document.',
+            tipFormKey: 'You can assign a key to a field or a group of fields. When a user fills in the data, it will be copied to all the fields with the same key.',
+            tipFormGroupKey: 'Group radio buttons to make the filling process faster. Choices with the same names will be synchronized. Users can only tick one radio button from the group.',
+            tipFieldSettings: 'You can configure selected fields on the right sidebar. Click this icon to open the field settings.',
+            tipHelpRoles: 'Use the Manage Roles feature to group fields by purpose and assign the responsible team members.',
+            tipSaveFile: 'Click “Save as oform” to save the form in the format ready for filling.',
+            tipRolesLink: 'Learn more about roles',
+            tipFieldsLink: 'Learn more about field parameters'
+
         }
     }()), DE.Views.FormsTab || {}));
 });

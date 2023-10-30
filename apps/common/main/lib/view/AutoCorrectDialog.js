@@ -52,8 +52,8 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
     Common.Views.AutoCorrectDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 375,
-            height: 430,
-            buttons: null,
+            contentHeight: 345,
+            buttons: ['close'],
             toggleGroup: 'autocorrect-dialog-group'
         },
 
@@ -77,21 +77,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 title: this.textTitle,
                 storageName: this.appPrefix + 'autocorrect-dialog-category',
                 items: items,
-                template: [
-                    '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
-                        '<div class="menu-panel" style="overflow: hidden;">',
-                            '<% _.each(items, function(item) { %>',
-                            '<button class="btn btn-category" content-target="<%= item.panelId %>"><span class=""><%= item.panelCaption %></span></button>',
-                            '<% }); %>',
-                        '</div>',
-                        '<div class="separator"></div>',
-                        '<div class="content-panel">' + _.template(contentTemplate)({scope: this}) + '</div>',
-                    '</div>',
-                    '<div class="separator horizontal"></div>',
-                    '<div class="footer center">',
-                        '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.closeButtonText + '</button>',
-                    '</div>'
-                ].join('')
+                contentTemplate: _.template(contentTemplate)({scope: this})
             }, options || {});
 
             this.api = this.options.api;
@@ -509,10 +495,10 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
         },
 
         getFocusedComponents: function() {
-            var arr = [
+            var arr = this.btnsCategory.concat([
                     this.chReplaceType, this.inputReplace, this.inputBy, this.mathList, this.btnReset, this.btnEdit, this.btnDelete, // 0 tab
                     this.inputRecFind, this.mathRecList, this.btnResetRec, this.btnAddRec, this.btnDeleteRec, // 1 tab
-                ];
+                ]);
             arr = arr.concat(this.chNewRows ? [this.chHyperlink, this.chNewRows] : [this.chQuotes, this.chHyphens, this.chHyperlink, this.chDoubleSpaces, this.chBulleted, this.chNumbered]);
             arr = arr.concat(this.chkSentenceExceptions ? [this.chkSentenceExceptions, this.chkSentenceCells, this.exceptionsLangCmb, this.exceptionsFindInput, this.exceptionsList, this.btnResetExceptions, this.btnAddExceptions, this.btnDeleteExceptions] : []);
             return arr;

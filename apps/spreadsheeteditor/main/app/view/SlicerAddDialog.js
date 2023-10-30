@@ -57,9 +57,9 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 195px;">',
+                '<div class="box">',
                     '<div class="input-row">',
-                        '<label style="font-weight: bold;">' + this.textColumns + '</label>',
+                        '<label class="font-weight-bold">' + this.textColumns + '</label>',
                     '</div>',
                     '<div id="add-slicers-dlg-columns" class="" style="width: 100%; height: 162px; overflow: hidden;"></div>',
                 '</div>'

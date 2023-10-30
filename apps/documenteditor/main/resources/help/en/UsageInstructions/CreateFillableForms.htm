@@ -4,7 +4,7 @@
     <title>Create fillable forms</title>
     <meta charset="utf-8" />
     <meta name="description" content="Create fillable forms for advanced form interaction experience" />
-    <link type="text/css" rel="stylesheet" href="../editor.css" />
+    <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
     <link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
     <script type="text/javascript" src="../callback.js"></script>
     <script type="text/javascript" src="../search/js/page-search.js"></script>
@@ -51,6 +51,7 @@
                             <b>Tip</b>: type in the text to be displayed as a tip when a user hovers their mouse pointer over the text field.
                             <br /> <img alt="tip inserted" src="../images/text_field_tip.png" />
                         </li>
+                        <li><b>Default value</b>: enter the value displayed in the field by default.</li>
                         <li>
                             <b>Format</b>: choose the content format of the text field, i.e., only the chosen character format will be allowed: <em>None</em>, <em>Digits</em>, <em>Letters</em>, <em>Arbitrary Mask</em> (the text shall correspond with the custom mask, e.g., (999) 999 99 99), <em>Regular Expression</em> (the text shall correspond with the custom expression).
                             <p>When you choose an <em>Arbitrary Mask</em> or a <em>Regular Expression</em> format, an additional field below the <b>Format</b> field appears.</p>
@@ -105,6 +106,7 @@
                             <b>Tip</b>: type in the text to be displayed as a tip when a user hovers their mouse pointer over the form field.
                             <br /> <img alt="tip inserted" src="../images/combo_box_tip.png" />
                         </li>
+                        <li><b>Default value</b>: enter the value displayed in the field by default.</li>
                         <li><b>Value Options</b>: add <div class="icon icon-combo_add_values"></div> new values, delete <div class="icon icon-combo_delete_values"></div> them, or move them up <div class="icon icon-combo_values_up"></div> and <div class="icon icon-combo_values_down"></div> down in the list.</li>
                         <li>
                             <b>Fixed size field</b>: check this box to create a field with a fixed size.<br />
@@ -147,6 +149,7 @@
                             <b>Tip</b>: type in the text to be displayed as a tip when a user hovers their mouse pointer over the form field.
                             <br /> <img alt="tip inserted" src="../images/combo_box_tip.png" />
                         </li>
+                        <li><b>Default value</b>: enter the value displayed in the field by default.</li>
                         <li><b>Value Options</b>: add <div class="icon icon-combo_add_values"></div> new values, delete <div class="icon icon-combo_delete_values"></div> them, or move them up <div class="icon icon-combo_values_up"></div> and <div class="icon icon-combo_values_down"></div> down in the list.</li>
                         <li>
                             <b>Fixed size field</b>: check this box to create a field with a fixed size.<br />
@@ -187,6 +190,7 @@
                             <b>Tip</b>: type in the text to be displayed as a tip when a user hovers their mouse pointer over the checkbox.
                             <br /> <img alt="tip inserted" src="../images/checkbox_tip.png" />
                         </li>
+                        <li><b>Checkbox is checked by default</b>: check this box so that the checkbox field is activated by default.</li>
                         <li>
                             <b>Fixed size field</b>: check this box to create a field with a fixed size.<br />
                             A fixed size field looks like an autoshape. You can set a wrapping style for it as well as adjust its position.
@@ -226,6 +230,7 @@
                             <b>Tip</b>: type in the text to be displayed as a tip when a user hovers their mouse pointer over the radio button.
                             <br /> <img alt="tip inserted" src="../images/radio_button_tip.png" />
                         </li>
+                        <li><b>Button is checked by default</b>: check this box so that the radio button field is activated by default.</li>
                         <li>
                             <b>Fixed size field</b>: check this box to create a field with a fixed size.<br />
                             A fixed size field looks like an autoshape. You can set a wrapping style for it as well as adjust its position.
@@ -303,6 +308,7 @@
                             <b>Tip</b>: type in the text to be displayed as a tip when a user hovers their mouse pointer over the email address field.
                             <br /> <img alt="tip inserted" src="../images/email_address_tip.png" />
                         </li>
+                        <li><b>Default value</b>: enter the value displayed in the field by default.</li>
                         <li><b>Format</b>: choose the content format of the field, i.e., <em>None</em>, <em>Digits</em>, <em>Letters</em>, <em>Arbitrary Mask</em> or <em>Regular Expression</em>. The field is set to <em>Regular Expression</em> by default so as to preserve the email address format <code>\S+@\S+\.\S+</code>.</li>
                         <li><b>Allowed Symbols</b>: type in the symbols that are allowed in the email address field.</li>
                         <li>
@@ -351,6 +357,7 @@
                             <b>Tip</b>: type in the text to be displayed as a tip when a user hovers their mouse pointer over the phone number field.
                             <br /> <img alt="tip inserted" src="../images/phone_number_tip.png" />
                         </li>
+                        <li><b>Default value</b>: enter the value displayed in the field by default.</li>
                         <li><b>Format</b>: choose the content format of the field, i.e., <em>None</em>, <em>Digits</em>, <em>Letters</em>, <em>Arbitrary Mask</em> or <em>Regular Expression</em>. The field is set to <em>Arbitrary Mask</em> by default. To change its format, type in the required mask into the field below.</li>
                         <li><b>Allowed Symbols</b>: type in the symbols that are allowed in the phone number field.</li>
                         <li>
@@ -375,7 +382,7 @@
         </div>
 
         <h2 id="datetime">Creating a new Date and Time field</h2>
-        <p><em>Date and Time</em> field is used to insert a date. The date is set to DD-MM-YYYY by default.</p>
+        <p><em>Date and Time</em> field is used to insert a date. The date is set to DD/MM/YYYY by default.</p>
         <div class="forms">
             <details class="details-example">
                 <summary>To insert a date and time field,</summary>
@@ -387,38 +394,30 @@
                     </li>
                 </ol>
                 <p><span class="big big-date_time_inserted"></span></p>
-                <p>The form field will appear at the insertion point within the existing text line. To enter a date, click the dropdown arrow within the field and choose the required date via the calendar. <!--The <b>Form Settings</b> menu will open to the right.--></p>
-                <!--<div id="phone_number_settings">
-        <img alt="phone number settings" src="../images/phone_number_settings.png" />
+                <p>The form field will appear at the insertion point within the existing text line. To enter a date, click the dropdown arrow within the field and choose the required date via the calendar. The <b>Form Settings</b> menu will open to the right.</p>
+                <div id="datetime_settings">
+        <img alt="date and time settings" src="../images/date_time_settings.png" />
         <ul>
             <li><b>Who needs to fill this out?</b>: choose the role via the dropdown list to set the group of users with access to this field. To learn more about assigning roles, please read the <a href="../UsageInstructions/CreateFillableForms.htm#managing_roles">Managing Roles</a> section of this guide.</li>
-            <li><b>Key</b>: to create a new group of phone numbers, enter the name of the group in the field and press <b>Enter</b>, then assign the required group to each phone number.</li>
-            <li><b>Placeholder</b>: type in the text to be displayed in the inserted phone number form field; <em>“(999)999-9999”</em> is set by default.</li>
+            <li><b>Key</b>: to create a new group of date and time fields, enter the name of the group in the field and press <b>Enter</b>, then assign the required group to each date and time field.</li>
+            <li><b>Placeholder</b>: type in the text to be displayed in the inserted date and time form field; by default, today's date is displayed.</li>
             <li><b>Tag</b>: type in the text to be used as a tag for internal use, i.e., displayed only for co-editors.</li>
             <li>
-                <b>Tip</b>: type in the text to be displayed as a tip when a user hovers their mouse pointer over the phone number field.
-                <br /> <img alt="tip inserted" src="../images/phone_number_tip.png" />
+                <b>Tip</b>: type in the text to be displayed as a tip when a user hovers their mouse pointer over the date and time field.
+                <br /> <img alt="tip inserted" src="../images/date_time_tip.png" />
             </li>
-            <li><b>Format</b>: choose the content format of the field, i.e., <em>None</em>, <em>Digits</em>, <em>Letters</em>, <em>Arbitrary Mask</em> or <em>Regular Expression</em>. The field is set to <em>Arbitrary Mask</em> by default. To change its format, type in the required mask into the field below.</li>
-            <li><b>Allowed Symbols</b>: type in the symbols that are allowed in the phone number field.</li>
+            <li><b>Default value</b>: enter the value displayed in the field by default.</li>
+            <li><b>Display the date like this</b>: choose the format of the field, e.g., <em>MM/DD/YYYY</em>, <em>Monday, MM DD, YYYY</em>, etc. The date is set to DD/MM/YYYY by default.</li>
+            <li><b>Language</b>: choose the required language for displaying the date and time.</li>
             <li>
-                <b>Fixed size field</b>: check this box to create a field with a fixed size. When this option is enabled, you can also use the <b>AutoFit</b> and/or <b>Multiline field</b> settings.<br />
+                <b>Fixed size field</b>: check this box to create a field with a fixed size.<br />
                 A fixed size field looks like an autoshape. You can set a wrapping style for it as well as adjust its position.
             </li>
-            <li><b>AutoFit</b>: this option can be enabled when the <b>Fixed size field</b> setting is selected, check it to automatically fit the font size to the field size.</li>
-            <li><b>Multiline field</b>: this option can be enabled when the <b>Fixed size field</b> setting is selected, check it to create a form field with multiple lines, otherwise, the text will occupy a single line.</li>
-            <li><b>Characters limit</b>: no limits by default; check this box to set the maximum characters number in the field to the right.</li>
-            <li>
-                <b>Comb of characters</b>: spread the text evenly within the inserted phone number field and configure its general appearance. Leave the box unchecked to preserve the default settings or check it to set the following parameters:
-                <ul>
-                    <li><b>Cell width</b>: choose whether the width value should be <em>Auto</em> (width is calculated automatically), <em>At least</em> (width is no less than the value given manually), or <em>Exactly</em> (width corresponds to the value given manually). The text within will be justified accordingly.</li>
-                </ul>
-            </li>
-            <li><b>Border color</b>: click the icon <div class="icon icon-nofill"></div>  to set the color for the borders of the inserted phone number field. Choose the preferred border color from the palette. You can <b>add a new custom color</b> if necessary.</li>
-            <li><b>Background color</b>: click the icon <div class="icon icon-nofill"></div> to apply a background color to the inserted phone number field. Choose the preferred color out of <b>Theme Colors</b>, <b>Standard Colors</b>, or <b>add a new custom color</b> if necessary.</li>
-            <li><b>Required</b>: check this box to make the phone number field a necessary one to fill in.</li>
+            <li><b>Border color</b>: click the icon <div class="icon icon-nofill"></div> to set the color for the borders of the inserted date and time field. Choose the preferred border color from the palette. You can <b>add a new custom color</b> if necessary.</li>
+            <li><b>Background color</b>: click the icon <div class="icon icon-nofill"></div> to apply a background color to the inserted date and time field. Choose the preferred color out of <b>Theme Colors</b>, <b>Standard Colors</b>, or <b>add a new custom color</b> if necessary.</li>
+            <li><b>Required</b>: check this box to make the date and time field a necessary one to fill in.</li>
         </ul>
-    </div>-->
+    </div>
             </details>
         </div>
 
@@ -447,6 +446,7 @@
                             <b>Tip</b>: type in the text to be displayed as a tip when a user hovers their mouse pointer over the zip code field.
                             <br /> <img alt="tip inserted" src="../images/zip_code_tip.png" />
                         </li>
+                        <li><b>Default value</b>: enter the value displayed in the field by default.</li>
                         <li><b>Format</b>: choose the content format of the field, i.e., <em>None</em>, <em>Digits</em>, <em>Letters</em>, <em>Arbitrary Mask</em> or <em>Regular Expression</em>. The field is set to <em>Arbitrary Mask</em> by default. To change its format, type in the required mask into the field below.</li>
                         <li><b>Allowed Symbols</b>: type in the symbols that are allowed in the zip code field.</li>
                         <li>
@@ -495,6 +495,7 @@
                             <b>Tip</b>: type in the text to be displayed as a tip when a user hovers their mouse pointer over the credit card field.
                             <br /> <img alt="tip inserted" src="../images/credit_card_tip.png" />
                         </li>
+                        <li><b>Default value</b>: enter the value displayed in the field by default.</li>
                         <li><b>Format</b>: choose the content format of the field, i.e., <em>None</em>, <em>Digits</em>, <em>Letters</em>, <em>Arbitrary Mask</em> or <em>Regular Expression</em>. The field is set to <em>Arbitrary Mask</em> by default. To change its format, type in the required mask into the field below.</li>
                         <li><b>Allowed Symbols</b>: type in the symbols that are allowed in the credit card field.</li>
                         <li>

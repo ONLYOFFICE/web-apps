@@ -1,7 +1,8 @@
-<svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="24" height="30" viewBox="0 0 24 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path  d="M0 1 Q 0 0 1 0 h15 L 24 8 v20 Q 24 30 23 30 h-22 Q 0 30 0 29z" fill="#white"/>
+    <path  d="M0 1 Q 0 0 1 0 h15 L 24 8 v20 Q 24 30 23 30 h-22 Q 0 30 0 29z" fill="#42865E"/>
+    <path fill-rule="evenodd" clip-rule="evenodd"  d="M15 0 L15 8 Q 15 9 16 9 L 24 9 L 24 8 L 16 0z M16 0 L16 7 Q 16 8 17 8 L 24 8" fill="white"/>
 
-<rect width="15" height="15" fill="white"/>
-<rect width="15" height="15" rx="1" fill="#42865E"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M2 12H13V3H2V12ZM7 4H3V7H7V4ZM8 4V7H12V4H8ZM7 8H3V11H7V8ZM8 11H12V8H8V11Z" fill="white"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" shape-rendering="crispEdges" d="M4 24H20V14H4V26ZM9 15H5V18H9V15ZM15 15H10V18H14V15ZM19 15H15V18H19V15ZM9 17H5V20H9V17ZM15 17H10V20H14V17ZM21 17H15V20H19V17ZM9 21H5V23H9V21ZM15 21H10V23H14V21ZM21 21H15V23H19V21Z" fill="white"/>
 
 </svg>

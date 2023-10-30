@@ -42,6 +42,20 @@
       "textCustomColors": "Адвольныя колеры",
       "textStandartColors": "Стандартныя колеры",
       "textThemeColors": "Колеры тэмы"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Warning",
+      "textAnonymous": "Anonymous",
+      "textBack": "Back",
+      "textCancel": "Cancel",
+      "textCurrent": "Current",
+      "textOk": "Ok",
+      "textRestore": "Restore",
+      "textVersion": "Version",
+      "textVersionHistory": "Version History",
+      "textWarningRestoreVersion": "Current file will be saved in version history.",
+      "titleWarningRestoreVersion": "Restore this version?",
+      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -160,11 +174,14 @@
     "uploadImageFileCountMessage": "Выяў не запампавана.",
     "criticalErrorExtText": "Press 'OK' to go back to the document list.",
     "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your admin.",
+    "errorComboSeries": "To create a combination chart, select at least two series of data.",
     "errorConnectToServer": "Can't save this doc. Check your connection settings or contact your admin.<br>When you click the 'OK' button, you will be prompted to download the document.",
     "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
     "errorEditingDownloadas": "An error occurred during the work with the document.<br>Use the 'Download' option to save the file backup copy locally.",
+    "errorEmailClient": "No email client could be found",
     "errorFilePassProtect": "The file is password protected and could not be opened.",
     "errorFileSizeExceed": "The file size exceeds your server limitation.<br>Please, contact your admin.",
+    "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
     "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
     "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
@@ -174,6 +191,7 @@
     "errorSessionAbsolute": "The document editing session has expired. Please, reload the page.",
     "errorSessionIdle": "The document has not been edited for quite a long time. Please, reload the page.",
     "errorSessionToken": "The connection to the server has been interrupted. Please, reload the page.",
+    "errorSetPassword": "Password could not be set.",
     "errorStockChart": "Incorrect row order. To build a stock chart, place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.",
     "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
     "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
@@ -222,7 +240,8 @@
     "leaveButtonText": "Сысці са старонкі",
     "stayButtonText": "Застацца на старонцы",
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
-    "dlgLeaveTitleText": "You leave the application"
+    "dlgLeaveTitleText": "You leave the application",
+    "textCloseHistory": "Close History"
   },
   "View": {
     "Add": {
@@ -299,6 +318,7 @@
       "textBullets": "Адзнакі",
       "textCaseSensitive": "Улічваць рэгістр",
       "textCellMargins": "Палі ячэйкі",
+      "textChangeShape": "Змяніць фігуру",
       "textChart": "Дыяграма",
       "textClock": "Гадзіннік",
       "textClockwise": "Па стрэлцы гадзінніка",
@@ -410,11 +430,14 @@
       "textArrange": "Arrange",
       "textBulletsAndNumbers": "Bullets & Numbers",
       "textCancel": "Cancel",
-      "textChangeShape": "Change Shape",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textEmptyImgUrl": "You need to specify the image URL.",
       "textInsertImage": "Insert Image",
+      "textMorph": "Morph",
+      "textMorphLetters": "Letters",
+      "textMorphObjects": "Objects",
+      "textMorphWords": "Words",
       "textNoMatches": "No Matches",
       "textNoStyles": "No styles for this type of chart.",
       "textRecommended": "Recommended",
@@ -506,6 +529,7 @@
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRTL": "RTL",
       "textTel": "tel:",
+      "textVersionHistory": "Version History",
       "txtScheme22": "New Office"
     }
   }

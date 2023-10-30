@@ -52,19 +52,20 @@ define([
     SSE.Views.ViewManagerDlg =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             alias: 'ViewManagerDlg',
-            contentWidth: 460,
-            height: 330,
-            buttons: null
+            contentWidth: 460
         },
 
         initialize: function (options) {
             var me = this;
             _.extend(this.options, {
                 title: this.txtTitle,
-                template: [
-                    '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
-                        '<div class="content-panel" style="padding: 0;">',
-                        '<div class="settings-panel active">',
+                buttons: [
+                    {value: 'ok', caption: this.textGoTo, primary: true},
+                    'close'
+                ],
+                contentStyle: 'padding: 0;',
+                contentTemplate: _.template([
+                    '<div class="settings-panel active">',
                         '<div class="inner-content">',
                             '<table cols="1" style="width: 100%;">',
                                 '<tr>',
@@ -83,15 +84,8 @@ define([
                                 '</tr>',
                             '</table>',
                         '</div>',
-                        '</div>',
-                        '</div>',
-                    '</div>',
-                    '<div class="separator horizontal"></div>',
-                    '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="min-width: 86px;width: auto;">' + this.textGoTo + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.closeButtonText + '</button>',
                     '</div>'
-                ].join('')
+                ].join(''))({scope: this})
             }, options);
 
             this.api       = options.api;

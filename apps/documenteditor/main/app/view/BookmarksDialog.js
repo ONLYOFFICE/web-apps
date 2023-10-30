@@ -49,9 +49,9 @@ define([
 
     DE.Views.BookmarksDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
-            contentWidth: 310,
-            height: 366,
-            buttons: null,
+            contentWidth: 320,
+            buttons: ['close'],
+            separator: false,
             id: 'window-bookmarks'
         },
 
@@ -60,10 +60,10 @@ define([
 
             _.extend(this.options, {
                 title: this.textTitle,
-                template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
-                        '<div class="content-panel" style="padding: 0 5px;"><div class="inner-content">',
-                            '<div class="settings-panel active">',
+                contentStyle: 'padding: 0 5px;',
+                contentTemplate: _.template([
+                    '<div class="settings-panel active">',
+                        '<div class="inner-content">',
                                 '<table cols="1" style="width: 100%;">',
                                     '<tr>',
                                         '<td class="padding-extra-small">',
@@ -85,7 +85,7 @@ define([
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-small">',
-                                        '<div id="bookmarks-list" style="width:290px; height: 139px;"></div>',
+                                        '<div id="bookmarks-list" style="width:100%; height: 139px;"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
@@ -107,13 +107,8 @@ define([
                                         '</td>',
                                     '</tr>',
                                 '</table>',
-                            '</div></div>',
-                        '</div>',
-                    '</div>',
-                    '<div class="footer center">',
-                    '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + me.textClose + '</button>',
-                    '</div>'
-                ].join('')
+                            '</div></div>'
+                ].join(''))({scope: this})
             }, options);
 
             this.api        = options.api;
@@ -133,7 +128,7 @@ define([
                 allowBlank  : true,
                 validateOnChange: true,
                 validateOnBlur: true,
-                style       : 'width: 205px;',
+                style       : 'width: 215px;',
                 value       : '',
                 maxLength: 40,
                 validation  : function(value) {

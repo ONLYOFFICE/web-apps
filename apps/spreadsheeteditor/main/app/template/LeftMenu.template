@@ -5,10 +5,11 @@
         <button id="left-btn-comments" class="btn btn-category" content-target="left-panel-comments" data-hint="0" data-hint-direction="right" data-hint-offset="big"><i class="icon toolbar__icon btn-menu-comments">&nbsp;</i></button>
         <button id="left-btn-chat" class="btn btn-category" content-target="left-panel-chat" data-hint="0" data-hint-direction="right" data-hint-offset="big"><i class="icon toolbar__icon btn-menu-chat">&nbsp;</i></button>
         <!-- /** coauthoring end **/ -->
-        <button id="left-btn-plugins" class="btn btn-category" content-target="" data-hint="0" data-hint-direction="right" data-hint-offset="big"><i class="icon toolbar__icon btn-menu-plugin">&nbsp;</i></button>
         <button id="left-btn-spellcheck" class="btn btn-category" content-target="left-panel-spellcheck" data-hint="0" data-hint-direction="right" data-hint-offset="big" data-layout-name="leftMenu-spellcheck"><i class="icon toolbar__icon btn-ic-docspell">&nbsp;</i></button>
         <button id="left-btn-support" class="btn btn-category" content-target="" data-hint="0" data-hint-direction="right" data-hint-offset="big"><i class="icon toolbar__icon btn-menu-support">&nbsp;</i></button>
         <button id="left-btn-about" class="btn btn-category" content-target="" data-hint="0" data-hint-direction="right" data-hint-offset="big"><i class="icon toolbar__icon btn-menu-about">&nbsp;</i></button>
+        <div class="separator horizontal separator-plugins" style="display: none;"></div>
+        <div id="slot-btn-plugins-more"></div>
     </div>
     <div class="left-panel" style="">
         <div id="left-panel-search" class="" style="display: none;"></div>

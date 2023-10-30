@@ -1,4 +1,9 @@
-<table cols="1">
+<table cols="1" style="width: 100%;">
+    <tr><td class="padding-small">
+        <div class="input-row-tabs">
+            <button type="button" class="btn btn-text-default auto" id="hf-dlg-btn-slide"><%= scope.textSlide %></button><button type="button" class="btn btn-text-default auto" id="hf-dlg-btn-notes"><%= scope.textNotes %></button>
+        </div>
+    </td></tr>
     <tr><td class="padding-small">
         <div id="hf-dlg-chb-datetime"></div>
     </td></tr>
@@ -34,14 +39,19 @@
     <tr><td class="padding-large">
         <div id="hf-dlg-chb-slide"></div>
     </td></tr>
-    <tr><td class="padding-small">
+    <tr class="notes hidden"><td>
+        <div id="hf-dlg-chb-text-header"></div>
+    </td></tr>
+    <tr class="notes hidden"><td class="padding-large">
+        <div id="hf-dlg-text-header" class="input-row margin-left-22"></div>
+    </td></tr>
+    <tr><td>
         <div id="hf-dlg-chb-text"></div>
     </td></tr>
     <tr><td class="padding-large">
         <div id="hf-dlg-text" class="input-row margin-left-22"></div>
     </td></tr>
-    <tr><td class="padding-small"></td></tr>
-    <tr><td class="padding-small">
+    <tr class="slides"><td class="padding-small">
         <div id="hf-dlg-chb-not-title"></div>
     </td></tr>
 </table>
