@@ -14,6 +14,7 @@ import NavigationController from '../controller/settings/Navigation';
 import { AddLinkController } from '../controller/add/AddLink';
 import EditHyperlink from '../controller/edit/EditHyperlink';
 import Snackbar from '../components/Snackbar/Snackbar';
+import { Themes } from '../../../../common/mobile/lib/controller/Themes';
 import EditView from '../view/edit/Edit';
 import VersionHistoryController from '../../../../common/mobile/lib/controller/VersionHistory';
 
@@ -195,104 +196,106 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
     };
 
     return (
-        <MainContext.Provider value={{
-            openOptions: handleClickToOpenOptions,
-            closeOptions: handleOptionsViewClosed,
-            showPanels: state.addShowOptions,
-        }}>
-            <Page name="home" className={`editor${!isHideLogo ? ' page-with-logo' : ''}`}>
-                <Navbar id='editor-navbar' className={`main-navbar${!isHideLogo ? ' navbar-with-logo' : ''}`}>
-                    {!isHideLogo &&
-                        <div className="main-logo" onClick={() => {
-                            window.open(`${__PUBLISHER_URL__}`, "_blank");
-                        }}>
-                            <Icon icon="icon-logo"></Icon>
-                        </div>
-                    }
-                    <Subnavbar>
-                        <ToolbarController 
-                            openOptions={handleClickToOpenOptions} 
-                            closeOptions={handleOptionsViewClosed}
-                            isOpenModal={state.isOpenModal}
+        <Themes>
+            <MainContext.Provider value={{
+                openOptions: handleClickToOpenOptions,
+                closeOptions: handleOptionsViewClosed,
+                showPanels: state.addShowOptions,
+            }}>
+                <Page name="home" className={`editor${!isHideLogo ? ' page-with-logo' : ''}`}>
+                    <Navbar id='editor-navbar' className={`main-navbar${!isHideLogo ? ' navbar-with-logo' : ''}`}>
+                        {!isHideLogo &&
+                            <div className="main-logo" onClick={() => {
+                                window.open(`${__PUBLISHER_URL__}`, "_blank");
+                            }}>
+                                <Icon icon="icon-logo"></Icon>
+                            </div>
+                        }
+                        <Subnavbar>
+                            <ToolbarController 
+                                openOptions={handleClickToOpenOptions} 
+                                closeOptions={handleOptionsViewClosed}
+                                isOpenModal={state.isOpenModal}
+                            />
+                            <Search useSuspense={false}/>
+                        </Subnavbar>
+                    </Navbar>
+                    <View id="editor_sdk"></View>
+                    {isShowPlaceholder ?
+                        <div className="doc-placeholder-container">
+                            <div className="doc-placeholder">
+                                <div className="line"></div>
+                                <div className="line"></div>
+                                <div className="line"></div>
+                                <div className="line"></div>
+                                <div className="line"></div>
+                                <div className="line"></div>
+                                <div className="line"></div>
+                                <div className="line"></div>
+                                <div className="line"></div>
+                                <div className="line"></div>
+                                <div className="line"></div>
+                                <div className="line"></div>
+                                <div className="line"></div>
+                                <div className="line"></div>
+                                <div className="line"></div>
+                                <div className="line"></div>
+                                <div className="line"></div>
+                                <div className="line"></div>
+                                <div className="line"></div>
+                                <div className="line"></div>
+                            </div>
+                        </div> 
+                    : null}
+                    <Snackbar 
+                        isShowSnackbar={state.snackbarVisible} 
+                        closeCallback={() => handleOptionsViewClosed('snackbar')}
+                        message={isMobileView ? t("Toolbar.textSwitchedMobileView") : t("Toolbar.textSwitchedStandardView")} 
+                    />
+                    <SearchSettings useSuspense={false} />
+                    {!state.editOptionsVisible ? null : <EditView />}
+                    {!state.addOptionsVisible ? null : <AddOptions />}
+                    {!state.addLinkSettingsVisible ? null :
+                        <AddLinkController 
+                            closeOptions={handleOptionsViewClosed} 
                         />
-                        <Search useSuspense={false}/>
-                    </Subnavbar>
-                </Navbar>
-                <View id="editor_sdk"></View>
-                {isShowPlaceholder ?
-                    <div className="doc-placeholder-container">
-                        <div className="doc-placeholder">
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                            <div className="line"></div>
-                        </div>
-                    </div> 
-                : null}
-                <Snackbar 
-                    isShowSnackbar={state.snackbarVisible} 
-                    closeCallback={() => handleOptionsViewClosed('snackbar')}
-                    message={isMobileView ? t("Toolbar.textSwitchedMobileView") : t("Toolbar.textSwitchedStandardView")} 
-                />
-                <SearchSettings useSuspense={false} />
-                {!state.editOptionsVisible ? null : <EditView />}
-                {!state.addOptionsVisible ? null : <AddOptions />}
-                {!state.addLinkSettingsVisible ? null :
-                    <AddLinkController 
-                        closeOptions={handleOptionsViewClosed} 
-                    />
-                }
-                {!state.editLinkSettingsVisible ? null :
-                    <EditHyperlink 
-                        closeOptions={handleOptionsViewClosed}
-                    />
-                }
-                {!state.settingsVisible ? null : <SettingsController />}
-                {!state.collaborationVisible ? null : 
-                    <CollaborationView 
-                        closeOptions={handleOptionsViewClosed} 
-                    />
-                }
-                {!state.navigationVisible ? null : <NavigationController />}
-                {!state.historyVisible ? null :
-                    <VersionHistoryController onclosed={() => handleOptionsViewClosed('history')} />
-                }
-                {(isFabShow && !isVersionHistoryMode) &&
-                    <CSSTransition
-                        in={state.fabVisible}
-                        timeout={500}
-                        classNames="fab"
-                        mountOnEnter
-                        unmountOnExit
-                    >
-                        <div className="fab fab-right-bottom" onClick={() => turnOffViewerMode()}>
-                            <a href="#">
-                                <i className="icon icon-edit-mode"></i>
-                            </a>
-                        </div>
-                    </CSSTransition>
-                }
-                {appOptions.isDocReady && 
-                    <ContextMenu openOptions={handleClickToOpenOptions} />
-                }
-            </Page>
-        </MainContext.Provider>
+                    }
+                    {!state.editLinkSettingsVisible ? null :
+                        <EditHyperlink 
+                            closeOptions={handleOptionsViewClosed}
+                        />
+                    }
+                    {!state.settingsVisible ? null : <SettingsController />}
+                    {!state.collaborationVisible ? null : 
+                        <CollaborationView 
+                            closeOptions={handleOptionsViewClosed} 
+                        />
+                    }
+                    {!state.navigationVisible ? null : <NavigationController />}
+                    {!state.historyVisible ? null :
+                        <VersionHistoryController onclosed={() => handleOptionsViewClosed('history')} />
+                    }
+                    {(isFabShow && !isVersionHistoryMode) &&
+                        <CSSTransition
+                            in={state.fabVisible}
+                            timeout={500}
+                            classNames="fab"
+                            mountOnEnter
+                            unmountOnExit
+                        >
+                            <div className="fab fab-right-bottom" onClick={() => turnOffViewerMode()}>
+                                <a href="#">
+                                    <i className="icon icon-edit-mode"></i>
+                                </a>
+                            </div>
+                        </CSSTransition>
+                    }
+                    {appOptions.isDocReady && 
+                        <ContextMenu openOptions={handleClickToOpenOptions} />
+                    }
+                </Page>
+            </MainContext.Provider>
+        </Themes>
     )
 }));
 

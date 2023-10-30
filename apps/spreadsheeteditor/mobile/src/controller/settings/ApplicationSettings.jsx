@@ -3,22 +3,24 @@ import { ApplicationSettings } from "../../view/settings/ApplicationSettings";
 import {observer, inject} from "mobx-react";
 import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage.mjs';
 import { withTranslation } from 'react-i18next';
-import {FunctionGroups} from '../../controller/add/AddFunction';
+import { ThemesContext } from "../../../../../common/mobile/lib/controller/Themes";
 
 class ApplicationSettingsController extends Component {
     constructor(props) {
         super(props);
+
         this.onFormulaLangChange = this.onFormulaLangChange.bind(this);
         this.onChangeDisplayComments = this.onChangeDisplayComments.bind(this);
         this.onRegSettings = this.onRegSettings.bind(this);
         this.initRegSettings = this.initRegSettings.bind(this);
         this.initFormulaLangsCollection = this.initFormulaLangsCollection.bind(this);
-
         this.props.storeApplicationSettings.initRegData();
         this.initRegSettings();
         this.props.storeApplicationSettings.changeUnitMeasurement(Common.Utils.Metric.getCurrentMetric());
         this.props.storeApplicationSettings.setFormulaLangsCollection(this.initFormulaLangsCollection());
     }
+
+    static contextType = ThemesContext;
 
     initFormulaLangsCollection() {
         const { t } = this.props;
@@ -134,6 +136,7 @@ class ApplicationSettingsController extends Component {
                 onFormulaLangChange={this.onFormulaLangChange}     
                 onRegSettings={this.onRegSettings}   
                 changeDirection={this.changeDirection}
+                changeTheme={this.context.changeTheme}
             />
         )
     }

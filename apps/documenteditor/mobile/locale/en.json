@@ -175,6 +175,12 @@
       "textStandartColors": "Standard Colors",
       "textThemeColors": "Theme Colors"
     },
+    "Themes": {
+      "textTheme": "Theme",
+      "system": "Same as system",
+      "dark": "Dark",
+      "light": "Light"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
       "textAnonymous": "Anonymous",
@@ -758,6 +764,10 @@
     "txtScheme7": "Equity",
     "txtScheme8": "Flow",
     "txtScheme9": "Foundry",
+    "textTheme": "Theme",
+    "textSameAsSystem": "Same as system",
+    "textDark": "Dark",
+    "textLight": "Light",
     "textExport": "Export",
     "textAddToFavorites": "Add to Favorites",
     "textClearAllFields": "Clear All Fields",

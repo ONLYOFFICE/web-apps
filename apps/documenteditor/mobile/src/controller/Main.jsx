@@ -1300,7 +1300,7 @@ class MainController extends Component {
                 <EncodingController />
                 <DropdownListController />
             </Fragment>
-            )
+        )
     }
 
     componentDidMount() {
