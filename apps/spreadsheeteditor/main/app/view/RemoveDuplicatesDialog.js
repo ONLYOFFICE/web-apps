@@ -247,7 +247,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.chHeaders, this.columnsList];
+            return [this.chHeaders, this.columnsList].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

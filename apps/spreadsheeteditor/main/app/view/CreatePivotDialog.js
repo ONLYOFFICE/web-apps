@@ -163,7 +163,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.txtSourceRange, this.radioNew, this.radioExist, this.txtDestRange];
+            return [this.txtSourceRange, this.radioNew, this.radioExist, this.txtDestRange].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

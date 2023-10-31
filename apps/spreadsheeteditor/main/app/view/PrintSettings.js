@@ -288,8 +288,8 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         },
 
         getFocusedComponents: function() {
-            return [this.cmbRange, this.chIgnorePrintArea, this.cmbSheet, this.cmbPaperSize, this.cmbPaperOrientation, this.cmbLayout, this.txtRangeTop, this.txtRangeLeft,
-                    this.spnMarginTop, this.spnMarginBottom, this.spnMarginLeft, this.spnMarginRight, this.chPrintGrid, this.chPrintRows];
+            return [this.cmbRange, this.chIgnorePrintArea, this.spnPagesFrom, this.spnPagesTo, this.cmbSheet, this.cmbPaperSize, this.cmbPaperOrientation, this.cmbLayout, this.txtRangeTop, this.txtRangeLeft,
+                    this.cmbPaperMargins, this.chPrintGrid, this.chPrintRows, this.btnHide].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

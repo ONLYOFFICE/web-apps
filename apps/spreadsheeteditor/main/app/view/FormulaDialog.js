@@ -112,9 +112,9 @@ define([
                 me.filterFormulas();
             });
 
-            this.btnOk = new Common.UI.Button({
-                el: $('#formula-dlg-btn-ok')
-            });
+            this.btnOk = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('#formula-dlg-btn-ok').addBack().filter('#formula-dlg-btn-ok').length>0);
+            }) || new Common.UI.Button({ el: $('#formula-dlg-btn-ok') });
 
             this.syntaxLabel = $('#formula-dlg-args');
             this.descLabel = $('#formula-dlg-desc');
@@ -122,7 +122,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.inputSearch, this.cmbFuncGroup, this.cmbListFunctions];
+            return [this.inputSearch, this.cmbFuncGroup, this.cmbListFunctions].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

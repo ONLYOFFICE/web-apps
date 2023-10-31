@@ -351,7 +351,7 @@ define([
         getFocusedComponents: function() {
             return [this.radioAll, this.radioFormulas, this.radioValues, this.radioFormats, this.radioComments, this.radioColWidth,
                 this.radioWBorders, this.radioFFormat, this.radioFWidth, this.radioFNFormat, this.radioVNFormat, this.radioVFormat,
-                this.radioNone, this.radioAdd, this.radioMult, this.radioSub, this.radioDiv, this.chBlanks, this.chTranspose];
+                this.radioNone, this.radioAdd, this.radioMult, this.radioSub, this.radioDiv, this.chBlanks, this.chTranspose].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

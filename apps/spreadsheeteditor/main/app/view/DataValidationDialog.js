@@ -267,7 +267,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
                 this.cmbAllow, this.cmbData, this.chIgnore, this.chShowDropDown, this.inputRangeSource, this.inputRangeMin, this.inputRangeMax, this.chApply, // 0 tab
                 this.chShowInput, this.inputInputTitle, this.textareaInput,  // 1 tab
                 this.chShowError, this.cmbStyle, this.inputErrorTitle, this.textareaError  // 2 tab
-            ]);
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {

@@ -445,7 +445,7 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
                 this.chCellMargins, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight,
                 this.spnTableMarginTop, this.spnTableMarginLeft, this.spnTableMarginBottom, this.spnTableMarginRight, // 2 tab
                 this.inputAltTitle, this.textareaAltDescription  // 3 tab
-            ]);
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {

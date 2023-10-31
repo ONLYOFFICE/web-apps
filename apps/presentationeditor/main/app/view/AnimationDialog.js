@@ -133,7 +133,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [ this.cmbGroup, this.cmbLevel, this.lstEffectList/*, this.chPreview*/];
+            return [ this.cmbGroup, this.cmbLevel, this.lstEffectList/*, this.chPreview*/].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

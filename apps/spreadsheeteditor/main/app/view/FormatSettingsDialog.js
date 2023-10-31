@@ -289,7 +289,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbFormat, this.spnDecimal, this.chSeparator, this.cmbSymbols, this.cmbNegative, this.cmbType, this.inputCustomFormat, this.codesList, this.chLinked];
+            return [this.cmbFormat, this.spnDecimal, this.chSeparator, this.cmbSymbols, this.cmbNegative, this.cmbType, this.inputCustomFormat, this.codesList, this.chLinked].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

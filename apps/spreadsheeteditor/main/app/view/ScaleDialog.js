@@ -167,7 +167,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.radioFitTo, this.cmbScaleWidth, this.cmbScaleHeight, this.radioScaleTo, this.spnScale];
+            return [this.radioFitTo, this.cmbScaleWidth, this.cmbScaleHeight, this.radioScaleTo, this.spnScale].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

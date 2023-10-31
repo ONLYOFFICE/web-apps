@@ -488,12 +488,14 @@ define([
                 cls: 'alert',
                 onprimary: onKeyDown,
                 getFocusedComponents: getFocusedComponents,
+                getDefaultFocusableComponent: getDefaultFocusableComponent,
                 tpl: _.template(template)(options)
             });
 
             var win = new Common.UI.Window(options),
                chDontShow = null;
             win.getFocusedComponents = getFocusedComponents;
+            win.getDefaultFocusableComponent = getDefaultFocusableComponent;
 
             function autoSize(window) {
                 var text_cnt    = window.getChild('.info-box');
@@ -550,6 +552,12 @@ define([
             function getFocusedComponents(event) {
                 return win.getFooterButtons();
            }
+
+            function getDefaultFocusableComponent() {
+                return _.find(win.getFooterButtons(), function (item) {
+                    return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+                });
+            }
 
             win.on({
                 'render:after': function(obj){

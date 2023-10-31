@@ -219,9 +219,10 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
             });
             this.chNotTitle.on('change', _.bind(this.setNotTitle, this));
 
-            this.btnApply = new Common.UI.Button({
-                el: $('#hf-dlg-btn-apply')
-            });
+            this.btnApply = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('#hf-dlg-btn-apply').addBack().filter('#hf-dlg-btn-apply').length>0);
+            }) || new Common.UI.Button({ el: $('#hf-dlg-btn-apply') });
+
 
             this.headerControls = this.$window.find('.notes');
             this.slideControls = this.$window.find('.slides');
@@ -230,7 +231,8 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
         },
 
         getFocusedComponents: function() {
-            return [ this.chDateTime,  this.radioUpdate, this.cmbFormat, this.cmbLang, this.radioFixed, this.inputFixed, this.chSlide, this.chHeader, this.inputHeader, this.chFooter, this.inputFooter, this.chNotTitle ];
+            return [ this.btnSlide, this.btnNotes, this.chDateTime,  this.radioUpdate, this.cmbFormat, this.cmbLang, this.radioFixed, this.inputFixed, this.chSlide,
+                     this.chHeader, this.inputHeader, this.chFooter, this.inputFooter, this.chNotTitle ].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

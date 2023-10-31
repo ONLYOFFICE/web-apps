@@ -254,6 +254,7 @@ define([
                 this.cmbLabel.setData(this.arrLabel);
                 this.cmbLabel.setValue(this.arrLabel[0].value);
                 this.cmbLabel.trigger('selected', this.cmbLabel, this.arrLabel[0]);
+                this.cmbLabel.focus();
             }, this));
 
             this.chExclude = new Common.UI.CheckBox({

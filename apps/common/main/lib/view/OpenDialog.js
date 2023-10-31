@@ -568,7 +568,9 @@ define([
                         me.preview && me.updatePreview();
                     }
                 }
-            })).show();
+            })).on('close', function() {
+                me.btnAdvanced.focus();
+            }).show();
         },
 
         onSelectData: function(type) {

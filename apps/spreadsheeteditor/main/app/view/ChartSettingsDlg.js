@@ -1626,6 +1626,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     this._noApply = false;
                 }
             }
+            Common.UI.FocusManager.add(this, this.getFooterButtons());
         },
 
         getSettings: function() {
@@ -1822,7 +1823,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             }
         },
 
-        openFormat: function(index) {
+        openFormat: function(index, btn) {
             var me = this,
                 props = me.currentAxisProps[index],
                 fmt = props.getNumFmt(),
@@ -1845,6 +1846,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             })).on('close', function() {
                 me._isEditFormat && me.chartSettings.cancelEditData();
                 me._isEditFormat = false;
+                btn.focus();
             });
             me._isEditFormat = true;
             me.chartSettings.startEditData();

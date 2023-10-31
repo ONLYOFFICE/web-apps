@@ -191,7 +191,8 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [ this.btnUpdate, this.btnChange, this.btnOpen, this.btnDelete, this.linksList ];
+            // return [ this.btnUpdate, this.btnChange, this.btnOpen, this.btnDelete, this.linksList ].concat(this.getFooterButtons());
+            return [ this.btnChange, this.btnOpen, this.linksList ].concat(this.getFooterButtons());
         },
 
         close: function () {

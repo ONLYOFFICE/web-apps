@@ -621,6 +621,8 @@ define([
                             me.setMargins(panel, props.asc_getPageMargins());
                         }
                     }
+                }).on('close', function() {
+                    panel.cmbPaperMargins.focus();
                 });
                 win.show();
                 win.setSettings(props);

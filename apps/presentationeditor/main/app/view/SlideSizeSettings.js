@@ -219,7 +219,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbSlideSize, this.spnWidth, this.spnHeight, this.cmbSlideOrientation, this.spnSlideNum];
+            return [this.cmbSlideSize, this.spnWidth, this.spnHeight, this.cmbSlideOrientation, this.spnSlideNum].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

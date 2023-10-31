@@ -209,13 +209,13 @@ define([
             this.listDate.on('item:deselect', _.bind(this.onSelectDate, this));
             this.listDate.on('entervalue', _.bind(this.onPrimary, this));
 
-            this.btnOk = new Common.UI.Button({
-                el: $('.dlg-btn.primary', this.$window)
-            });
+            this.btnOk = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+            }) || new Common.UI.Button({ el: this.$window.find('.primary') });
         },
 
         getFocusedComponents: function() {
-            return [this.chStart, this.inputStart, this.chEnd, this.inputEnd, this.inputBy, this.listDate, this.spnDays];
+            return [this.chStart, this.inputStart, this.chEnd, this.inputEnd, this.inputBy, this.listDate, this.spnDays].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

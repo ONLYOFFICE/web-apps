@@ -131,10 +131,13 @@ Common.UI.FocusManager = new(function() {
         }
     };
 
-    var _add = function(e, fields) {
+    var _insert = function(e, fields, index) { // index<0 - index from the end of array
         if (e && e.cid) {
             if (_windows[e.cid]) {
-                _windows[e.cid].fields = (_windows[e.cid].fields || []).concat(register(fields));
+                var currfields = _windows[e.cid].fields || [];
+                (index<0) && (index += currfields.length);
+                _windows[e.cid].fields = (index===undefined) ? currfields.concat(register(fields))
+                                                             : currfields.slice(0, index).concat(register(fields)).concat(currfields.slice(index));
             } else {
                 _windows[e.cid] = {
                     parent: e,
@@ -145,6 +148,10 @@ Common.UI.FocusManager = new(function() {
             }
             addTraps(_windows[e.cid]);
         }
+    };
+
+    var _add = function(e, fields) {
+        _insert(e, fields);
     };
 
     var _init = function() {
@@ -189,6 +196,7 @@ Common.UI.FocusManager = new(function() {
 
     return {
         init: _init,
-        add: _add
+        add: _add,
+        insert: _insert
     }
 })();

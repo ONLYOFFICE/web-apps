@@ -119,7 +119,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.txtName, this.macroList];
+            return [this.txtName, this.macroList].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function() {

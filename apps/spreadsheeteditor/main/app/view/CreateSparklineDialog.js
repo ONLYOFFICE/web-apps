@@ -131,7 +131,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.txtSourceRange, this.txtDestRange];
+            return [this.txtSourceRange, this.txtDestRange].concat(this.getFooterButtons());
         },
 
         afterRender: function() {

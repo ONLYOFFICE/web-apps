@@ -174,7 +174,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return this.spinners.concat([this.chVert, this.chHor]);
+            return this.spinners.concat([this.chVert, this.chHor]).concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

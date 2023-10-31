@@ -96,6 +96,14 @@ define([
             this.getChild().find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
         },
 
+        getFocusedComponents: function() {
+            return [this.chDontShow].concat(this.getFooterButtons());
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.chDontShow;
+        },
+
         onBtnClick: function(event) {
             if (this.options.handler) this.options.handler.call(this, this.chDontShow.getValue() == 'checked');
             this.close();

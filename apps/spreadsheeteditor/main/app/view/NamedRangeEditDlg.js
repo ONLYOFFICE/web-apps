@@ -175,7 +175,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.inputName, this.cmbScope, this.txtDataRange];
+            return [this.inputName, this.cmbScope, this.txtDataRange].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

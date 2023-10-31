@@ -391,7 +391,7 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
                 this.inputName,  // 2 tab
                 this.radioTwoCell, this.radioOneCell, this.radioAbsolute, // 3 tab
                 this.inputAltTitle, this.textareaAltDescription  // 4 tab
-            ]);
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {

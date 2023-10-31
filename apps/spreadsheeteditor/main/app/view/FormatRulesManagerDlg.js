@@ -238,7 +238,6 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             Common.UI.FocusManager.add(this, this.btnDelete);
             Common.UI.FocusManager.add(this, this.rulesList);
 
-
             this.rulesList.on('item:add', _.bind(this.addControls, this));
             this.rulesList.on('item:change', _.bind(this.addControls, this));
             this.currentSheet = this.api.asc_getActiveWorksheetIndex();
@@ -249,6 +248,8 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             this.api.asc_registerCallback('asc_onUnLockCFManager', this.wrapEvents.onUnLockCFManager);
             this.api.asc_registerCallback('asc_onLockCFRule', this.wrapEvents.onLockCFRule);
             this.api.asc_registerCallback('asc_onUnLockCFRule', this.wrapEvents.onUnLockCFRule);
+
+            Common.UI.FocusManager.add(this, this.getFooterButtons());
         },
 
         refreshScopeList: function() {

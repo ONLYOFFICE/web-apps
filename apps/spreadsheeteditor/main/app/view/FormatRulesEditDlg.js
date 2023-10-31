@@ -1282,6 +1282,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             var xfs = this.xfsFormat ? this.xfsFormat : (new Asc.asc_CellXfs());
             this.fillXfsFormatInfo(xfs);
             this.previewFormat();
+            Common.UI.FocusManager.add(this, this.getFooterButtons());
         },
 
         setColor: function(color, control, picker) {

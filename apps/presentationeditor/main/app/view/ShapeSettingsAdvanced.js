@@ -566,7 +566,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 this.radioNofit, this.radioShrink, this.radioFit, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, // 4 tab
                 this.spnColumns, this.spnSpacing, // 5 tab
                 this.inputAltTitle, this.textareaAltDescription  // 6 tab
-            ]);
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {
