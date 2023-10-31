@@ -142,7 +142,6 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 ],
                 themecolors: 0,
                 effects: 0,
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             this.colors = this.btnColor.getPicker();

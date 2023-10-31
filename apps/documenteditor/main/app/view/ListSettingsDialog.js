@@ -296,7 +296,7 @@ define([
 
             this.btnColor = new Common.UI.ButtonColored({
                 parentEl: $window.find('#id-dlg-bullet-color'),
-                cls         : 'btn-toolbar move-focus',
+                cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-fontcolor',
                 hint        : this.txtColor,
                 menu: true,

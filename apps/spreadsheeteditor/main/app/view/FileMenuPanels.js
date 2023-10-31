@@ -2640,6 +2640,7 @@ define([
                 caption: this.txtRepeat,
                 style: 'width: 95px;',
                 menu: true,
+                takeFocusOnClose: true,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
@@ -2660,6 +2661,7 @@ define([
                 caption: this.txtRepeat,
                 style: 'width: 95px;',
                 menu: true,
+                takeFocusOnClose: true,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'

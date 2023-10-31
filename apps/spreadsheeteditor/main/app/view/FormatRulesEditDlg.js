@@ -333,9 +333,11 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                     maxHeight: 211,
                     additionalAlign: this.menuAddAlign,
                     items: color_data
-                })
+                }),
+                takeFocusOnClose: true
             });
             this.btnFormats.menu.on('item:click', _.bind(this.onFormatsSelect, this));
+            Common.UI.FocusManager.add(this, this.btnFormats);
 
             this.btnBold = new Common.UI.Button({
                 parentEl: $('#format-rules-bold'),
@@ -387,7 +389,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
 
             this.btnTextColor = new Common.UI.ButtonColored({
                 parentEl: $('#format-rules-fontcolor'),
-                cls         : 'btn-toolbar move-focus',
+                cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-fontcolor',
                 hint        : this.textColor,
                 additionalAlign: this.menuAddAlign,
@@ -401,7 +403,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
 
             this.btnFillColor = new Common.UI.ButtonColored({
                 parentEl: $('#format-rules-fillcolor'),
-                cls         : 'btn-toolbar move-focus',
+                cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-paracolor',
                 hint        : this.fillColor,
                 additionalAlign: this.menuAddAlign,
@@ -911,7 +913,6 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 style: "width:45px;",
                 menu        : true,
                 color       : '638EC6',
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             Common.UI.FocusManager.add(this, this.btnPosFill);
@@ -921,7 +922,6 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 style: "width:45px;",
                 menu        : true,
                 color       : 'FF0000',
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             Common.UI.FocusManager.add(this, this.btnNegFill);
@@ -968,7 +968,6 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 style: "width:45px;",
                 menu        : true,
                 color       : '000000',
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             Common.UI.FocusManager.add(this, this.btnPosBorder);
@@ -978,7 +977,6 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 style: "width:45px;",
                 menu        : true,
                 color       : '000000',
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             Common.UI.FocusManager.add(this, this.btnNegBorder);
@@ -1043,7 +1041,6 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 style: "width:45px;",
                 menu        : true,
                 color       : '000000',
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             Common.UI.FocusManager.add(this, this.btnAxisColor);
@@ -1101,7 +1098,6 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                     menu        : true,
                     type        : i,
                     color       : '000000',
-                    cls: 'move-focus',
                     takeFocusOnClose: true
                 });
                 Common.UI.FocusManager.add(this, color);

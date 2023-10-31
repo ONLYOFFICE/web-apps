@@ -118,7 +118,6 @@ define([
                 themecolors: 0,
                 effects: 0,
                 colorHints: false,
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             this.btnColor.on('color:select', _.bind(this.onColorsSelect, this));

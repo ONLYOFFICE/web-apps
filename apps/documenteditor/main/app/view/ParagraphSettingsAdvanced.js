@@ -380,7 +380,6 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 additionalAlign: this.menuAddAlign,
                 color: 'auto',
                 auto: true,
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             this.colorsBorder = this.btnBorderColor.getPicker();
@@ -424,7 +423,6 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 parentEl: $('#paragraphadv-back-color-btn'),
                 transparent: true,
                 additionalAlign: this.menuAddAlign,
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             this.colorsBack = this.btnBackColor.getPicker();

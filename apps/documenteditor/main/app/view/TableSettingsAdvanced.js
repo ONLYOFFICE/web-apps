@@ -891,7 +891,6 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 additionalAlign: this.menuAddAlign,
                 color: 'auto',
                 auto: true,
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             this.btnBorderColor.on('color:select', _.bind(me.onColorsBorderSelect, me));
@@ -902,7 +901,6 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 parentEl: $('#tableadv-button-back-color'),
                 additionalAlign: this.menuAddAlign,
                 transparent: true,
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             this.btnBackColor.on('color:select', _.bind(this.onColorsBackSelect, this));
@@ -912,7 +910,6 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 parentEl: $('#tableadv-button-table-back-color'),
                 additionalAlign: this.menuAddAlign,
                 transparent: true,
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             this.btnTableBackColor.on('color:select', _.bind(this.onColorsTableBackSelect, this));

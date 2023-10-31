@@ -255,7 +255,8 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 cls: 'btn-text-menu-default',
                 caption: this.textRepeat,
                 style: 'width: 95px;',
-                menu: true
+                menu: true,
+                takeFocusOnClose: true
             });
 
             this.txtRangeLeft = new Common.UI.InputFieldBtn({
@@ -270,7 +271,8 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 cls: 'btn-text-menu-default',
                 caption: this.textRepeat,
                 style: 'width: 95px;',
-                menu: true
+                menu: true,
+                takeFocusOnClose: true
             });
 
             this.btnHide = new Common.UI.Button({
@@ -288,7 +290,8 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         },
 
         getFocusedComponents: function() {
-            return [this.cmbRange, this.chIgnorePrintArea, this.spnPagesFrom, this.spnPagesTo, this.cmbSheet, this.cmbPaperSize, this.cmbPaperOrientation, this.cmbLayout, this.txtRangeTop, this.txtRangeLeft,
+            return [this.cmbRange, this.chIgnorePrintArea, this.spnPagesFrom, this.spnPagesTo, this.cmbSheet, this.cmbPaperSize, this.cmbPaperOrientation, this.cmbLayout,
+                    this.txtRangeTop, this.btnPresetsTop, this.txtRangeLeft, this.btnPresetsLeft,
                     this.cmbPaperMargins, this.chPrintGrid, this.chPrintRows, this.btnHide].concat(this.getFooterButtons());
         },
 

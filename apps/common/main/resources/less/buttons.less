@@ -1066,6 +1066,15 @@
         }
     }
 
+    &:focus:not(.disabled) {
+        border-color: @border-control-focus-ie;
+        border-color: @border-control-focus;
+        &.active {
+            border-color: @highlight-button-pressed-focus-ie;
+            border-color: @highlight-button-pressed-focus;
+        }
+    }
+
     &:hover:not(.disabled),
     .over:not(.disabled) {
         background-color: @highlight-button-hover-ie !important;

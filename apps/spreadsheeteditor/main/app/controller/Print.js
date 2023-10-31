@@ -784,9 +784,6 @@ define([
                     panel.dataRangeTop = value;
                 else
                     panel.dataRangeLeft = value;
-                _.delay(function(){
-                    txtRange.focus();
-                },1);
             }
         },
 

@@ -455,8 +455,10 @@ define([
                         dataHintTitle: me.options.dataHintTitle
                     }));
 
-                    if (me.menu && _.isObject(me.menu) && _.isFunction(me.menu.render))
+                    if (me.menu && _.isObject(me.menu) && _.isFunction(me.menu.render)) {
                         me.menu.render(me.cmpEl);
+                        me.options.takeFocusOnClose && me.attachKeyEvents();
+                    }
 
                     parentEl.html(me.cmpEl);
                     me.$icon = me.$el.find('.icon');
@@ -572,8 +574,7 @@ define([
                                     tip.hide();
                                 }
                             }
-                            var isOpen = el.hasClass('open');
-                            doSplitSelect(!isOpen, 'arrow', e);
+                            doSplitSelect(!me.isMenuOpen(), 'arrow', e);
                         }
                     }
                 };
@@ -888,8 +889,25 @@ define([
         setMenu: function (m) {
             if (m && _.isObject(m) && _.isFunction(m.render)){
                 this.menu = m;
-                if (this.rendered)
+                if (this.rendered) {
                     this.menu.render(this.cmpEl);
+                    this.options.takeFocusOnClose && this.attachKeyEvents();
+                }
+            }
+        },
+
+        attachKeyEvents: function() {
+            var me = this;
+            if (me.menu && me.menu.rendered && !me.split) {
+                me.cmpEl && $('button', me.cmpEl).addClass('move-focus');
+                me.menu.on('keydown:before', function(menu, e) {
+                    if ((e.keyCode == Common.UI.Keys.DOWN || e.keyCode == Common.UI.Keys.SPACE) && !me.isMenuOpen()) {
+                        $('button', me.cmpEl).click();
+                        return false;
+                    }
+                }).on('hide:after', function() {
+                    setTimeout(function(){me.focus();}, 1);
+                });
             }
         },
 
@@ -915,6 +933,10 @@ define([
                     }
                 }
             }
+        },
+
+        isMenuOpen: function() {
+            return this.cmpEl && this.cmpEl.hasClass('open');
         },
 
         focus: function() {
