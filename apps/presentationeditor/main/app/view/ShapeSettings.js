@@ -1970,19 +1970,12 @@ define([
             } 
             //Adjust shadow
             else if(item.value == 3) {
-                var shadowProps = this._originalProps.asc_getShadow();
-                if(!shadowProps) {
-                    var shapeProps = new Asc.asc_CShapeProperty();
-                    shadowProps = new Asc.asc_CShadowProperty();
-                    shadowProps.putPreset('t');
-                    shapeProps.asc_putShadow(shadowProps);
-                    this.api.ShapeApply(shapeProps);
-                }
+                var me = this;
                 (new PE.Views.ShapeShadowDialog({
                     api             : this.api,
-                    shadowProps     : shadowProps,
-                    handler: function(result, value) {
-                        
+                    shadowProps     : this._originalProps.asc_getShadow(),
+                    handler: function(result) {
+                        me.fireEvent('editcomplete', this);
                     },
                 })).show();
             }

@@ -102,18 +102,28 @@ define([
             this.handler        = options.handler;
             this.api            = options.api;
             this.shadowProps    = options.shadowProps;
-            if(this.shadowProps) {
-                this.oldTransparency = this.shadowProps.getTransparency();
-                this.oldSize = this.shadowProps.getSize();
-                this.oldAngle = this.shadowProps.getAngle();
-                this.oldDistance = this.shadowProps.getDistance();
+            this.isShadowEmpty  = !this.shadowProps; 
+
+            if(!this.shadowProps) {
+                this.shadowProps = new Asc.asc_CShadowProperty();
+                this.shadowProps.putPreset('t');
             }
+            this.oldTransparency = this.shadowProps.getTransparency();
+            this.oldSize = this.shadowProps.getSize();
+            this.oldAngle = this.shadowProps.getAngle();
+            this.oldDistance = this.shadowProps.getDistance();
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
         render: function () {
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
             
+            this.api.setStartPointHistory();
+            if(this.isShadowEmpty) {
+                var shapeProps = new Asc.asc_CShapeProperty();
+                shapeProps.asc_putShadow(this.shadowProps);
+                this.api.ShapeApply(shapeProps);
+            }
 
             this.sldrTransparency = new Common.UI.SingleSlider({
                 el: $('#shape-shadow-transparency-slider'),
@@ -203,7 +213,8 @@ define([
                 el: $('#shape-shadow-distance-spin'),
                 step: 1,
                 width: 62,
-                value: this.oldDistance + " " + metricName,
+                allowDecimal: false,
+                value: "0 " + metricName,
                 defaultUnit : metricName,
                 maxValue: 200,
                 minValue: 0,
@@ -214,9 +225,7 @@ define([
             this.spinDistance.on('change', _.bind(this.onSpinnerDistanceChange, this));
 
 
-            this.on('close', (e, t) => {
-                this.setAllProperties(this.oldTransparency, this.oldSize, this.oldAngle, this.oldDistance);
-            });
+            this.on('close', _.bind(this.handleCancelClose, this));
         },
 
         onSliderTransparencyChange: function (field, newValue, oldValue) {
@@ -306,21 +315,46 @@ define([
         },
         
         onPrimary: function() {
-            this.handler && this.handler.call(this, 'ok');
+            this.handleOkClose();
             this.close(true);
             return false;
         },
 
         onDlgBtnClick: function(event) {
             var state = event.currentTarget.attributes['result'].value;
-            this.handler && this.handler.call(this, state);
-            this.close(state == "ok");
+            if(state == "ok") this.handleOkClose();
+            else this.handleCancelClose();
+            this.close(true);
         },
 
         onDblClickFunction: function () {
-            this.handler && this.handler.call(this, 'ok');
-            this.close();
+            this.handleOkClose();
+            this.close(true);
         },
+
+        handleOkClose() {
+            this.api.setEndPointHistory();
+            this.setAllProperties(
+                parseInt(this.spinTransparency.getValue()),
+                parseInt(this.spinSize.getValue()),
+                parseInt(this.spinAngle.getValue()),
+                parseInt(this.spinDistance.getValue()),
+            );
+            this.handler && this.handler.call(this, 'ok');
+        },
+
+        handleCancelClose() {
+            if(this.isShadowEmpty) {
+                var shapeProps = new Asc.asc_CShapeProperty();
+                shapeProps.asc_putShadow(null);
+                this.api.ShapeApply(shapeProps);
+            } else {
+                this.setAllProperties(this.oldTransparency, this.oldSize, this.oldAngle, this.oldDistance);
+            }
+            this.api.setEndPointHistory();
+            this.handler && this.handler.call(this, 'cancel');
+        },
+
 
         txtTitle: 'Adjust Shadow',
         txtTransparency: 'Transparency',
