@@ -49,6 +49,24 @@ define([
             buttons: [],
             btnMoreContainer: undefined,
 
+            render: function () {
+                this.btnMore = new Common.UI.Button({
+                    parentEl: this.btnMoreContainer,
+                    cls: 'btn-side-more btn-category',
+                    iconCls: 'toolbar__icon btn-more',
+                    onlyIcon: true,
+                    style: 'width: 100%;',
+                    hint: this.tipMore,
+                    menu: new Common.UI.Menu({
+                        cls: 'shifted-right',
+                        items: []
+                    })
+                });
+                this.btnMore.menu.on('item:click', _.bind(this.onMenuMore, this));
+
+                $(window).on('resize', _.bind(this.setMoreButton, this));
+            },
+
             setButtons: function (buttons) {
                 this.buttons = buttons;
             },
@@ -92,38 +110,35 @@ define([
                     }
                     this.buttons.forEach(function (btn, index) {
                         if (index >= last) {
-                            arrMore.push({
-                                caption: btn.hint,
-                                iconCls: btn.iconCls,
-                                value: index,
-                                disabled: btn.isDisabled()
-                            });
+                            if (btn.options.iconImg) {
+                                arrMore.push({
+                                    caption: btn.hint,
+                                    iconImg: btn.options.iconImg,
+                                    template: _.template([
+                                        '<a id="<%= id %>" class="menu-item">',
+                                        '<img class="menu-item-icon" src="<%= options.iconImg %>">',
+                                        '<%= caption %>',
+                                        '</a>'
+                                    ].join('')),
+                                    value: index
+                                })
+                            } else {
+                                arrMore.push({
+                                    caption: btn.hint,
+                                    iconCls: btn.iconCls,
+                                    value: index,
+                                    disabled: btn.isDisabled()
+                                });
+                            }
                             btn.cmpEl.hide();
                         } else {
                             btn.cmpEl.show();
                         }
                     });
                     if (arrMore.length > 0) {
-                        if (!this.btnMore) {
-                            this.btnMore = new Common.UI.Button({
-                                parentEl: $more,
-                                cls: 'btn-side-more btn-category',
-                                iconCls: 'toolbar__icon btn-more',
-                                onlyIcon: true,
-                                style: 'width: 100%;',
-                                hint: this.tipMore,
-                                menu: new Common.UI.Menu({
-                                    cls: 'shifted-right',
-                                    menuAlign: 'tr-tl',
-                                    items: arrMore
-                                })
-                            });
-                            this.btnMore.menu.on('item:click', _.bind(this.onMenuMore, this));
-                        } else {
-                            this.btnMore.menu.removeAll();
-                            for (i = 0; i < arrMore.length; i++) {
-                                this.btnMore.menu.addItem(arrMore[i]);
-                            }
+                        this.btnMore.menu.removeAll();
+                        for (i = 0; i < arrMore.length; i++) {
+                            this.btnMore.menu.addItem(arrMore[i]);
                         }
                         $more.show();
                     }

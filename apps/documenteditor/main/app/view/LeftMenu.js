@@ -86,6 +86,10 @@ define([
         render: function () {
             var $markup = $(this.template({}));
 
+            this.btnMoreContainer = $markup.find('#slot-left-menu-more');
+            Common.UI.SideMenu.prototype.render.call(this);
+            this.btnMore.menu.menuAlign = 'tl-tr';
+
             this.btnSearchBar = new Common.UI.Button({
                 action: 'advancedsearch',
                 el: $markup.elementById('#left-btn-searchbar'),
@@ -167,14 +171,9 @@ define([
             this.btnThumbnails.hide();
             this.btnThumbnails.on('click', this.onBtnMenuClick.bind(this));
 
-            this.pluginMoreContainer = $markup.find('#slot-btn-plugins-more');
-
             this.setButtons([this.btnSearchBar, this.btnComments, this.btnChat, this.btnNavigation, this.btnThumbnails, this.btnSupport, this.btnAbout]);
 
             this.$el.html($markup);
-
-            this.btnMoreContainer = $markup.find('#slot-left-menu-more');
-            $(window).on('resize', _.bind(this.setMoreButton, this));
 
             return this;
         },

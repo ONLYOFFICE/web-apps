@@ -165,6 +165,10 @@ define([
             var $markup = $(this.template({}));
             this.$el.html($markup);
 
+            this.btnMoreContainer = $markup.find('#slot-right-menu-more');
+            Common.UI.SideMenu.prototype.render.call(this);
+            this.btnMore.menu.menuAlign = 'tr-tl';
+
             this.btnText.setElement($markup.findById('#id-right-menu-text'), false);           this.btnText.render();
             this.btnTable.setElement($markup.findById('#id-right-menu-table'), false);         this.btnTable.render();
             this.btnImage.setElement($markup.findById('#id-right-menu-image'), false);         this.btnImage.render();
@@ -255,9 +259,6 @@ define([
                 $markup.findById('#id-paragraph-settings').parent().css("display", "inline-block" );
                 $markup.findById('#id-paragraph-settings').addClass("active");
             }
-
-            this.btnMoreContainer = $markup.find('#slot-right-menu-more');
-            $(window).on('resize', _.bind(this.setMoreButton, this));
 
             // this.$el.html($markup);
             this.trigger('render:after', this);
