@@ -1214,9 +1214,6 @@ define([
                     this._state.GradColor = color;
                 }
 
-                //TODO: Измненить на новую кнопку
-                //this.chShadow.setDisabled(!!props.get_FromChart() || this._locked);
-
 
                 var shadow = props.asc_getShadow(),
                     shadowPresetRecord = null;
@@ -1736,7 +1733,7 @@ define([
                 parentEl: $('#shape-button-shadow-shape'),
                 cls: 'btn-toolbar align-left',
                 caption: this.textShadow,
-                iconCls: 'toolbar__icon btn-menu-shape',
+                iconCls: 'toolbar__icon btn-shadow',
                 style: "width:100%;",
                 menu: true,
                 dataHint: '1',
@@ -2010,6 +2007,7 @@ define([
             shadowProps.putColor(Common.Utils.ThemeColor.getRgbColor(color));
             shapeProps.asc_putShadow(shadowProps);
             this.api.ShapeApply(shapeProps);
+            this.fireEvent('editcomplete', this);
         },
         
         onApiAutoShapes: function(btnChangeShape) {

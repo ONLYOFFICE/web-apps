@@ -138,7 +138,8 @@ define([
                 el: $('#shape-shadow-transparency-spin'),
                 step: 1,
                 width: 62,
-                value: this.oldTransparency + ' %',
+                allowDecimal: false,
+                value: '0 %',
                 defaultUnit : "%",
                 maxValue: 100,
                 minValue: 0,
@@ -146,6 +147,7 @@ define([
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
+            this.spinTransparency.setValue(this.oldTransparency, true);
             this.spinTransparency.on('change', _.bind(this.onSpinnerTransparencyChange, this));
 
 
@@ -162,7 +164,8 @@ define([
                 el: $('#shape-shadow-size-spin'),
                 step: 1,
                 width: 62,
-                value: this.oldSize + ' %',
+                allowDecimal: false,
+                value: '0 %',
                 defaultUnit : "%",
                 maxValue: 200,
                 minValue: 1,
@@ -170,6 +173,7 @@ define([
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
+            this.spinSize.setValue(this.oldSize, true);
             this.spinSize.on('change', _.bind(this.onSpinnerSizeChange, this));
 
 
@@ -187,7 +191,8 @@ define([
                 el: $('#shape-shadow-angle-spin'),
                 step: 1,
                 width: 62,
-                value: this.oldAngle + ' °',
+                allowDecimal: false,
+                value: '0 °',
                 defaultUnit : "°",
                 maxValue: 359,
                 minValue: 0,
@@ -195,6 +200,7 @@ define([
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
+            this.spinAngle.setValue(this.oldAngle, true);
             this.spinAngle.on('change', _.bind(this.onSpinnerAngleChange, this));
 
 
@@ -222,6 +228,7 @@ define([
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
+            this.spinDistance.setValue(this.oldDistance, true);
             this.spinDistance.on('change', _.bind(this.onSpinnerDistanceChange, this));
 
 
