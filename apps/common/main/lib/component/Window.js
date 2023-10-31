@@ -201,6 +201,9 @@ define([
         function _keydown(event) {
             if (!this.isLocked() && this.isVisible()
                         && this.initConfig.enableKeyEvents && this.pauseKeyEvents !== false) {
+                if (this.initConfig.keydowncallback && this.initConfig.keydowncallback.call(this, event))
+                    return false;
+
                 switch (event.keyCode) {
                     case Common.UI.Keys.ESC:
                         if ( $('.asc-loadmask').length<1 ) {
