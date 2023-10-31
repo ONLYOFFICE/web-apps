@@ -303,6 +303,7 @@
   "PDFE.Controllers.Main.errorDirectUrl": "ドキュメントへのリンクを確認してください。<br>このリンクは、ダウンロード用のファイルへの直接リンクである必要があります。",
   "PDFE.Controllers.Main.errorEditingDownloadas": "文書の処理中にエラーが発生しました。<br>コンピューターにファイルのバックアップコピーを保存するために、「名前を付けてダウンロード」をご使用ください。",
   "PDFE.Controllers.Main.errorEditingSaveas": "文書の処理中にエラーが発生しました。<br>コンピューターにファイルのバックアップを保存するために、「名前を付けてダウンロード」をご使用ください。",
+  "PDFE.Controllers.Main.errorEmailClient": "メールクライアントが見つかりませんでした。",
   "PDFE.Controllers.Main.errorFilePassProtect": "ドキュメントがパスワードで保護されているため開くことができません",
   "PDFE.Controllers.Main.errorFileSizeExceed": "ファイルサイズがサーバーで設定された制限を超過しています。<br>ドキュメントサーバー管理者に詳細をお問い合わせください。",
   "PDFE.Controllers.Main.errorForceSave": "文書の保存中にエラーが発生しました。コンピューターにファイルを保存するために、「名前を付けてダウンロード」を使用し、または後で再お試しください。",

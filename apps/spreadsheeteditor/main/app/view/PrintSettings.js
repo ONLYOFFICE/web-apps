@@ -116,9 +116,9 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 value: '',
                 maxValue: 1000000,
                 minValue: 1,
-                dataHint: '2',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                allowDecimal: false,
+                allowBlank: true,
+                maskExp: /[0-9]/
             });
 
             this.spnPagesTo = new Common.UI.MetricSpinner({
@@ -129,9 +129,9 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 value: '',
                 maxValue: 1000000,
                 minValue: 1,
-                dataHint: '2',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                allowDecimal: false,
+                allowBlank: true,
+                maskExp: /[0-9]/
             });
 
             this.cmbSheet = new Common.UI.ComboBox({
