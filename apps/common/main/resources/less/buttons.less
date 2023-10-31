@@ -1066,12 +1066,10 @@
         }
     }
 
-    &:focus:not(.disabled) {
-        border-color: @border-control-focus-ie;
-        border-color: @border-control-focus;
-        &.active {
-            border-color: @highlight-button-pressed-focus-ie;
-            border-color: @highlight-button-pressed-focus;
+    &:not(.disabled) {
+        &:focus, .btn-group.open & {
+            border-color: @border-control-focus-ie;
+            border-color: @border-control-focus;
         }
     }
 
@@ -1320,6 +1318,13 @@
             .icon {
                 .icon();
             }
+        }
+    }
+
+    &:not(.disabled) {
+        &:focus, .btn-group.open & {
+            border-color: @border-control-focus-ie;
+            border-color: @border-control-focus;
         }
     }
 }

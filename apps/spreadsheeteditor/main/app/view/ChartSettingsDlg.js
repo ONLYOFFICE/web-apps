@@ -303,7 +303,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     items: [
                         { template: _.template('<div id="id-spark-dlg-menu-type" class="menu-insertchart"></div>') }
                     ]
-                })
+                }),
+                takeFocusOnClose: true
             });
             this.btnSparkType.on('render:after', function(btn) {
                 me.mnuSparkTypePicker = new Common.UI.DataView({
@@ -562,7 +563,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                         (me.horAxisProps[index].getAxisType()===Asc.c_oAscAxisType.val) ? me.cmbMinType[ctrlIndex].focus() : (me.cmbHCrossType[ctrlIndex].isDisabled() ? me.btnHFormat[ctrlIndex].focus() : me.cmbHCrossType[ctrlIndex].focus());
                         break;
                     case 6:
-                        me.cmbEmptyCells.focus();
+                        me.btnSparkType.focus();
                         break;
                     case 7:
                         me.chShowAxis.focus();
@@ -1565,7 +1566,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                         }
                     }
                 } else { // sparkline
-                    Common.UI.FocusManager.add(this, [this.cmbEmptyCells, this.chShowEmpty, // 6 tab
+                    Common.UI.FocusManager.add(this, [this.btnSparkType, this.cmbEmptyCells, this.chShowEmpty, // 6 tab
                                                             this.chShowAxis, this.chReverse, this.cmbSparkMinType, this.spnSparkMinValue, this.cmbSparkMaxType, this.spnSparkMaxValue]); // 7 tab
 
                     this._state.SparkType = props.asc_getType();

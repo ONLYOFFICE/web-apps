@@ -824,6 +824,8 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                         font: props.font,
                         code: props.code,
                         handler: handler
+                    }).on('close', function() {
+                        cmp.focus();
                     });
                 win.show();
                 win.on('symbol:dblclick', handler);

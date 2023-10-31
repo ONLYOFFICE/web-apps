@@ -147,7 +147,8 @@ define([
                     items: [
                         { template: _.template('<div id="chart-type-dlg-menu-type" class="menu-insertchart"></div>') }
                     ]
-                })
+                }),
+                takeFocusOnClose: true
             });
             this.btnChartType.on('render:after', function(btn) {
                 me.mnuChartTypePicker = new Common.UI.DataView({
@@ -166,7 +167,6 @@ define([
                 el: $('#chart-type-dlg-styles-list', this.$window),
                 store: new Common.UI.DataViewStore(),
                 cls: 'bordered',
-                enableKeyEvents: this.options.enableKeyEvents,
                 itemTemplate : _.template([
                     '<div class="style" id="<%= id %>">',
                         '<img src="<%= imageUrl %>" width="50" height="50" <% if(typeof imageUrl === "undefined" || imageUrl===null || imageUrl==="") { %> style="visibility: hidden;" <% } %>/>',
@@ -175,15 +175,16 @@ define([
                         '<% } %>',
                     '</div>'
                 ].join('')),
-                delayRenderTips: true
+                delayRenderTips: true,
+                tabindex: 1
             });
             this.stylesList.on('item:select', _.bind(this.onSelectStyles, this));
+            this.stylesList.on('entervalue', _.bind(this.onPrimary, this));
 
             this.seriesList = new Common.UI.ListView({
                 el: $('#chart-type-dlg-series-list', this.$window),
                 store: new Common.UI.DataViewStore(),
                 emptyText: '',
-                enableKeyEvents: false,
                 scrollAlwaysVisible: true,
                 headers: [
                     {name: me.textSeries, width: 108},
@@ -198,7 +199,8 @@ define([
                         '<div class="series-cmb"><div id="chart-type-dlg-cmb-series-<%= seriesIndex %>" class="input-group-nr" style=""></div></div>',
                         '<div class="series-chk"><div id="chart-type-dlg-chk-series-<%= seriesIndex %>" style=""></div></div>',
                     '</div>'
-                ].join(''))
+                ].join('')),
+                tabindex: 1
             });
             this.seriesList.createNewItem = function(record) {
                 return new _CustomItem({
@@ -214,6 +216,14 @@ define([
 
         afterRender: function() {
             this._setDefaults(this.chartSettings);
+        },
+
+        getFocusedComponents: function() {
+            return [this.btnChartType, this.stylesList, this.seriesList].concat(this.getFooterButtons());
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.btnChartType;
         },
 
         show: function() {
