@@ -181,6 +181,11 @@ define([
             return this.spnTop;
         },
 
+        onPrimary: function() {
+            this._handleInput('ok');
+            return false;
+        },
+
         _handleInput: function(state) {
             if (this.options.handler) {
                 if (state == 'ok') {
