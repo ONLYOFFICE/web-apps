@@ -615,6 +615,9 @@ define([
             isFeatureAvailable: function (feature) {
                 return !!native && !!native[feature];
             },
+            isWinXp: function () {
+                return nativevars && nativevars.os === 'winxp';
+            },
             call: function (name) {
                 if ( native[name] ) {
                     let args = [].slice.call(arguments, 1);
@@ -674,7 +677,7 @@ define([
 
                 return false;
             },
-    };
+        };
     };
 
     !Common.Controllers && (Common.Controllers = {});
