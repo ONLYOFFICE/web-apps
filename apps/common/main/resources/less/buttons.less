@@ -1035,6 +1035,9 @@
 }
 
 .btn-text-menu-default {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: 22px;
     background: @background-normal-ie;
@@ -1047,14 +1050,12 @@
         width: 100%;
     }
 
-    .caret {
+    .inner-box-caret {
         position: absolute;
-        right: 5px;
-        margin-top: 5px;
-
+        right: 1px;
         .rtl & {
             right: auto;
-            left: 5px;
+            left: 1px;
         }
     }
 
