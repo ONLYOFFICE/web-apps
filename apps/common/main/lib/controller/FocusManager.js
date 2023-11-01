@@ -71,7 +71,7 @@ Common.UI.FocusManager = new(function() {
                     else if (field instanceof Common.UI.TreeView)
                         item.selector = '.treeview';
                     else if (field instanceof Common.UI.Button)
-                        item.selector = 'button';
+                        item.selector = field.split ? '.btn-group' : 'button';
                     else
                         item.selector = '.form-control';
                 }

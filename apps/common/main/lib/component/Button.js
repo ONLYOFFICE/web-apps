@@ -276,6 +276,8 @@ define([
             dataHintDirection: '',
             dataHintOffset: '0, 0',
             scaling         : true,
+            canFocused      : false, // used for button with menu
+            takeFocusOnClose: false // used for button with menu, for future use in toolbar when canFocused=true, but takeFocusOnClose=false
         },
 
         template: _.template([
@@ -315,7 +317,7 @@ define([
                     '</button>',
                 '</div>',
             '<% } else { %>',
-                '<div class="btn-group split" id="<%= id %>" style="<%= style %>">',
+                '<div class="btn-group split <%= groupCls %>" id="<%= id %>" style="<%= style %>">',
                     '<button type="button" class="btn <%= cls %>">',
                         '<% applyicon() %>',
                         '<span class="caption"><%= caption %></span>',
@@ -357,6 +359,8 @@ define([
             if ( me.options.scaling === false && me.options.iconCls) {
                 me.iconCls = me.options.iconCls + ' scaling-off';
             }
+
+            me.options.takeFocusOnClose && (me.options.canFocused = true);
 
             if (me.options.el) {
                 me.render();
@@ -440,6 +444,7 @@ define([
                     me.cmpEl = $(this.template({
                         id           : me.id,
                         cls          : me.cls,
+                        groupCls     : me.split && /btn-toolbar/.test(me.cls) ? 'no-borders' : '',
                         iconCls      : me.iconCls,
                         iconImg      : me.options.iconImg,
                         menu         : me.menu,
@@ -457,7 +462,7 @@ define([
 
                     if (me.menu && _.isObject(me.menu) && _.isFunction(me.menu.render)) {
                         me.menu.render(me.cmpEl);
-                        me.options.takeFocusOnClose && me.attachKeyEvents();
+                        me.options.canFocused && me.attachKeyEvents();
                     }
 
                     parentEl.html(me.cmpEl);
@@ -513,7 +518,7 @@ define([
                 }
 
                 var buttonHandler = function(e) {
-                    if (!me.disabled && e.which == 1) {
+                    if (!me.disabled && (e.which === 1 || e.which===undefined)) {
                         me.doToggle();
                         if (me.options.hint) {
                             var tip = me.btnEl.data('bs.tooltip');
@@ -524,6 +529,7 @@ define([
                                 tip.hide();
                             }
                         }
+                        me.split && me.options.takeFocusOnClose && me.focus();
                         me.trigger('click', me, e);
                     }
                 };
@@ -749,6 +755,12 @@ define([
                         me.trigger('disabled', me, disabled);
                     }
                 }
+
+                if (me.tabindex!==undefined) {
+                    var el = this.split ? this.cmpEl : this.$el && this.$el.find('button').addBack().filter('button');
+                    disabled && (this.tabindex = el.attr('tabindex'));
+                    el.attr('tabindex', disabled ? "-1" : me.tabindex);
+                }
             }
 
             this.disabled = disabled;
@@ -891,21 +903,25 @@ define([
                 this.menu = m;
                 if (this.rendered) {
                     this.menu.render(this.cmpEl);
-                    this.options.takeFocusOnClose && this.attachKeyEvents();
+                    this.options.canFocused && this.attachKeyEvents();
                 }
             }
         },
 
         attachKeyEvents: function() {
             var me = this;
-            if (me.menu && me.menu.rendered && !me.split) {
-                me.cmpEl && $('button', me.cmpEl).addClass('move-focus');
+            if (me.menu && me.menu.rendered && me.cmpEl) {
+                var btnEl = $('button', me.cmpEl);
+                !me.split && btnEl.addClass('move-focus');
                 me.menu.on('keydown:before', function(menu, e) {
-                    if ((e.keyCode == Common.UI.Keys.DOWN || e.keyCode == Common.UI.Keys.SPACE) && !me.isMenuOpen()) {
-                        $('button', me.cmpEl).click();
+                    if ((e.keyCode === Common.UI.Keys.DOWN || e.keyCode === Common.UI.Keys.SPACE) && !me.isMenuOpen()) {
+                        $(btnEl[me.split ? 1 : 0]).click();
+                        e.preventDefault();
+                        e.stopPropagation();
                         return false;
                     }
-                }).on('hide:after', function() {
+                });
+                me.options.takeFocusOnClose && me.menu.on('hide:after', function() {
                     setTimeout(function(){me.focus();}, 1);
                 });
             }
@@ -940,7 +956,17 @@ define([
         },
 
         focus: function() {
-            this.$el && this.$el.find('button').addBack().filter('button').focus();
+            this.split ? this.cmpEl.focus() : this.$el && this.$el.find('button').addBack().filter('button').focus();
+        },
+
+        setTabIndex: function(tabindex) {
+            if (!this.rendered)
+                return;
+
+            this.tabindex = tabindex.toString();
+            if (!this.disabled) {
+                this.split ? this.cmpEl.attr('tabindex', this.tabindex) : this.$el && this.$el.find('button').addBack().filter('button').attr('tabindex', this.tabindex);
+            }
         }
     });
 });

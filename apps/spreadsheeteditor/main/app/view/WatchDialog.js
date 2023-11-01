@@ -132,7 +132,8 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
                             caption:  this.textDeleteAll,
                             value: 1
                         }]
-                })
+                }),
+                takeFocusOnClose: true
             });
             $(this.btnDelete.cmpEl.find('button')[0]).css('min-width', '87px');
             this.btnDelete.on('click', _.bind(this.onDeleteWatch, this));

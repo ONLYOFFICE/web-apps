@@ -136,7 +136,8 @@ define([
                             caption:  this.textUpdateAll,
                             value: 1
                         }]
-                })
+                }),
+                takeFocusOnClose: true
             });
             var el = $(this.btnUpdate.cmpEl.find('button')[0]);
             el.css('min-width', Math.max(87, el.outerWidth()) + 'px');
@@ -159,7 +160,8 @@ define([
                             caption:  this.textDeleteAll,
                             value: 1
                         }]
-                })
+                }),
+                takeFocusOnClose: true
             });
             $(this.btnDelete.cmpEl.find('button')[0]).css('min-width', '87px');
             this.btnDelete.on('click', _.bind(this.onDelete, this));
@@ -191,8 +193,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            // return [ this.btnUpdate, this.btnChange, this.btnOpen, this.btnDelete, this.linksList ].concat(this.getFooterButtons());
-            return [ this.btnChange, this.btnOpen, this.linksList ].concat(this.getFooterButtons());
+            return [ this.btnUpdate, this.btnChange, this.btnOpen, this.btnDelete, this.linksList ].concat(this.getFooterButtons());
         },
 
         close: function () {

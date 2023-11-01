@@ -425,6 +425,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 borderId    : 'outer',
                 borderswidth: Asc.c_oAscBorderStyles.Thin,
                 split       : true,
+                takeFocusOnClose: true,
                 menu        : new Common.UI.Menu({
                     items: [
                         {
@@ -549,6 +550,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                     ]
                 })
             });
+            Common.UI.FocusManager.add(this, this.btnBorders);
             this.btnBorders.menu.on('item:click', _.bind(this.onBordersMenu, this));
             this.btnBorders.on('click', _.bind(this.onBorders, this));
             this.mnuBorderColorPicker = new Common.UI.ThemeColorPalette({

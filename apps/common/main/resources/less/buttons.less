@@ -1218,6 +1218,32 @@
             .box-shadow(none);
         }
     }
+    .btn-group.split:not(.disabled) {
+        &:focus,
+        &.open,
+        &.active,
+        &:active {
+            .btn-text-split-default {
+                border-color: @border-control-focus-ie;
+                border-color: @border-control-focus;
+            }
+        }
+    }
+
+    .btn-group.split.no-borders:not(.disabled) {
+        &:focus,
+        &.open,
+        &.active,
+        &:active {
+            .box-inner-shadow(0 0 0 @scaled-one-px-value-ie @border-control-focus-ie);
+            .box-inner-shadow(0 0 0 @scaled-one-px-value @border-control-focus);
+
+            .btn-toolbar:not(.bg-white):not(.disabled):hover {
+                .box-inner-shadow(0 0 0 @scaled-one-px-value-ie @border-control-focus-ie);
+                .box-inner-shadow(0 0 0 @scaled-one-px-value @border-control-focus);
+            }
+        }
+    }
 }
 
 .btn-large-dataview {
