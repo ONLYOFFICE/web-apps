@@ -25,32 +25,26 @@
         linear-gradient( transparent, transparent @first-coord, @border-color  @first-coord, @border-color  @second-coord, @fill-Color @second-coord );             // top board and fill
     background-size: 1em 1em;
 }
-.background-cells(@border-color, @fill-Color, @size-one-pixel: @scaled-one-px-value){
+.background-cells(@border-color, @fill-Color){
     @media only screen {
         @media(-webkit-max-device-pixel-ratio: 1.49),
         (max-resolution: 1.49dppx),
         (max-resolution: 143dpi)
         {
-            .background-cells-all(@border-color, @fill-Color, @size-one-pixel, @scaled-two-px-value);
+            .background-cells-all(@border-color, @fill-Color, @scaled-one-px-value, @scaled-two-px-value);
         }
         @media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
         (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx),
         (min-resolution: 144dpi) and (max-resolution: 191dpi)
         {
-            .background-cells-all(@border-color, @fill-Color, calc(2px - @size-one-pixel));
+            .background-cells-all(@border-color, @fill-Color, calc(2px - @scaled-one-px-value));
         }
 
         @media (-webkit-min-device-pixel-ratio: 2),
         (min-resolution: 2dppx),
         (min-resolution: 192dpi)
         {
-            .background-cells-all(@border-color, @fill-Color, 1.5px);
-        }
-        @media (-webkit-device-pixel-ratio: 3),
-        (resolution: 3dppx),
-        (resolution: 288dpi)
-        {
-            .background-cells-all(@border-color, @fill-Color, 1.33px);
+            .background-cells-all(@border-color, @fill-Color, 1px, calc(1px + @scaled-one-px-value));
         }
     }
 }
