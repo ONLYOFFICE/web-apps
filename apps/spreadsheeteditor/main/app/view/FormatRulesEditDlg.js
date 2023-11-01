@@ -550,7 +550,6 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                     ]
                 })
             });
-            Common.UI.FocusManager.add(this, this.btnBorders);
             this.btnBorders.menu.on('item:click', _.bind(this.onBordersMenu, this));
             this.btnBorders.on('click', _.bind(this.onBorders, this));
             this.mnuBorderColorPicker = new Common.UI.ThemeColorPalette({
@@ -564,7 +563,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             }, this));
 
             this.mnuBorderWidth.on('item:toggle', _.bind(this.onBordersWidth, this));
-            // Common.UI.FocusManager.add(this, this.btnBorders);
+            Common.UI.FocusManager.add(this, this.btnBorders);
 
             this.ascFormatOptions = {
                 General     : 'General',
