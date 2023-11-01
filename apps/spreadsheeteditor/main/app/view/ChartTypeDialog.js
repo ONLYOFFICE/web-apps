@@ -427,52 +427,39 @@ define([
                 series = item.get('series'),
                 store = new Common.UI.DataViewStore(me._arrSeriesType),
                 currentTypeRec = store.findWhere({type: item.get('type')}),
-                tip = currentTypeRec ? currentTypeRec.get('tip') : '',
                 el = $(id);
-            var combo = new Common.UI.ComboBox({
+            var combo = new Common.UI.ComboBoxDataView({
                 el: el,
-                template: _.template([
-                    '<span class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle no-highlighted" tabindex="0" data-toggle="dropdown">',
-                        '<input type="text" class="form-control" spellcheck="false">',
-                        '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-target="' + id + '"><span class="caret"></span></button>',
-                    '</span>'
-                ].join(''))
-            });
-            var combomenu = new Common.UI.Menu({
-                cls: 'menu-absolute',
-                style: 'width: 318px;',
                 additionalAlign: this.menuAddAlign,
-                items: [
-                    { template: _.template('<div id="chart-type-dlg-series-menu-' + index + '" class="menu-insertchart"></div>') }
-                ]
+                cls: 'move-focus',
+                menuCls: 'menu-absolute',
+                menuStyle: 'width: 318px;',
+                dataViewCls: 'menu-insertchart',
+                restoreHeight: 535,
+                groups: new Common.UI.DataViewGroupStore(me._arrSeriesGroups),
+                store: store,
+                formTemplate: _.template([
+                    '<input type="text" class="form-control" spellcheck="false">',
+                ].join('')),
+                itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>'),
+                takeFocusOnClose: true,
+                updateFormControl: function(record) {
+                    $(this.el).find('input').val(record ? record.get('tip') : '');
+                }
             });
-            combomenu.render(el);
-            combo.setValue(tip);
-            var onShowBefore = function(menu) {
-                var picker = new Common.UI.DataView({
-                    el: $('#chart-type-dlg-series-menu-' + index),
-                    parentMenu: menu,
-                    restoreHeight: 535,
-                    groups: new Common.UI.DataViewGroupStore(me._arrSeriesGroups),
-                    store: store,
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
-                });
-                picker.selectRecord(currentTypeRec, true);
-                picker.on('item:click', function(picker, view, record){
-                    var oldtype = item.get('type');
-                    var res = series.asc_TryChangeChartType(record.get('type'));
-                    if (res == Asc.c_oAscError.ID.No) {
-                        combo.setValue(record.get('tip'));
-                        me.updateSeriesList(me.chartSettings.getSeries(), index);
-                    } else {
-                        var oldrecord = picker.store.findWhere({type: oldtype});
-                        picker.selectRecord(oldrecord, true);
-                        if (res==Asc.c_oAscError.ID.SecondaryAxis)
-                            Common.UI.warning({msg: me.errorSecondaryAxis, maxwidth: 500});                    }
-                });
-                menu.off('show:before', onShowBefore);
-            };
-            combomenu.on('show:before', onShowBefore);
+            combo.selectRecord(currentTypeRec);
+            combo.on('item:click', function(cmb, picker, view, record){
+                var oldtype = item.get('type');
+                var res = series.asc_TryChangeChartType(record.get('type'));
+                if (res === Asc.c_oAscError.ID.No) {
+                    cmb.selectRecord(record);
+                    me.updateSeriesList(me.chartSettings.getSeries(), index);
+                } else {
+                    var oldrecord = picker.store.findWhere({type: oldtype});
+                    picker.selectRecord(oldrecord, true);
+                    if (res===Asc.c_oAscError.ID.SecondaryAxis)
+                        Common.UI.warning({msg: me.errorSecondaryAxis, maxwidth: 500});                    }
+            });
             return combo;
         },
 
