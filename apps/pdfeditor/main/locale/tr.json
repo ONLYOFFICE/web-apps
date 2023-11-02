@@ -261,6 +261,7 @@
   "PDFE.Controllers.Main.errorDirectUrl": "Lütfen belgenin bağlantısını doğrulayın.<br>Bu bağlantı, indirilecek dosyaya doğrudan bir bağlantı olmalıdır.",
   "PDFE.Controllers.Main.errorEditingDownloadas": "Dosyayla çalışırken hata meydana geldi. 'Farklı Kaydet' seçeneğini kullanarak dosyayı bilgisayarınıza yedekleyin.",
   "PDFE.Controllers.Main.errorEditingSaveas": "Belgeyle çalışma sırasında bir hata oluştu.<br>Dosya yedek kopyasını bilgisayarınızın sabit diskine kaydetmek için 'Farklı kaydet...' seçeneğini kullanın.",
+  "PDFE.Controllers.Main.errorEmailClient": "E-posta istemcisi bulunamadı.",
   "PDFE.Controllers.Main.errorFilePassProtect": "Dosya parola korumalıdır ve açılamaz.",
   "PDFE.Controllers.Main.errorFileSizeExceed": "Dosya boyutu, sunucunuz için belirlenen limiti aşıyor.<br>Ayrıntılar için lütfen Doküman Sunucusu yöneticinizle iletişime geçin.",
   "PDFE.Controllers.Main.errorForceSave": "Dosya kaydedilirken bir hata oluştu. Dosyayı bilgisayarınızın sabit diskine kaydetmek için lütfen 'Farklı indir' seçeneğini kullanın veya daha sonra tekrar deneyin.",

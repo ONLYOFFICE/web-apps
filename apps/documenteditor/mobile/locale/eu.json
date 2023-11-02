@@ -401,6 +401,8 @@
     "downloadErrorText": "Deskargak huts egin du.",
     "errorAccessDeny": "Baimenik ez duzun ekintza bat egiten saiatzen ari zara.<br>Mesedez, jarri harremanetan kudeatzaileekin.",
     "errorBadImageUrl": "Irudiaren URLa ez da zuzena",
+    "errorComboSeries": "Diagrama konbinatu bat sortzeko, hautatu gutxienez bi datu-serie.",
+    "errorCompare": "Dokumentuen konparaketa ez dago erabilgarri edizio-bateratu moduan.",
     "errorConnectToServer": "Ezin da dokumentua gorde. Egiaztatu zure konexioaren ezarpenak edo jar zaitez harremanetan administratzailearekin.<br>\"Ados\" klik egitean dokumentua deskargatzeko aukera emango zaizu.",
     "errorDatabaseConnection": "Kanpoko errorea.<br>Datu-basera konektatzeko errorea. Mesedez, jarri harremanetan laguntza-teknikoko taldearekin.",
     "errorDataEncrypted": "Enkriptatutako aldaketak jaso dira, ezin dira deszifratu.",
@@ -445,14 +447,12 @@
     "splitMaxColsErrorText": "Zutabe kopurua %1a baino txikiago izan behar da",
     "splitMaxRowsErrorText": "Errenkada kopurua %1 baino txikiago izan behar da",
     "unknownErrorText": "Errore ezezaguna.",
+    "uploadDocExtMessage": "Dokumentu-formatu ezezaguna.",
     "uploadDocFileCountMessage": "Ez da dokumenturik kargatu.",
     "uploadDocSizeMessage": "Dokumentuaren gehienezko tamaina gainditu da.",
     "uploadImageExtMessage": "Irudi-formatu ezezaguna.",
     "uploadImageFileCountMessage": "Ez da irudirik kargatu.",
-    "uploadImageSizeMessage": "Irudia handiegia da. Gehienezko tamaina 25 MB da.",
-    "errorComboSeries": "To create a combination chart, select at least two series of data.",
-    "errorCompare": "The Compare documents feature is not available in the co-editing mode.",
-    "uploadDocExtMessage": "Unknown document format."
+    "uploadImageSizeMessage": "Irudia handiegia da. Gehienezko tamaina 25 MB da."
   },
   "LongActions": {
     "applyChangesTextText": "Datuak kargatzen...",
@@ -751,7 +751,8 @@
     "txtScheme6": "Zabaldegia",
     "txtScheme7": "Berdintza",
     "txtScheme8": "Fluxua",
-    "txtScheme9": "Sortzailea"
+    "txtScheme9": "Sortzailea",
+    "textDarkTheme": "Dark Theme"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Gorde gabeko aldaketak dituzu. Egin klik \"Jarraitu orri honetan\" gordetze-automatikoari itxaroteko. Egin klik \"Utzi orri hau\" gorde gabeko aldaketa guztiak baztertzeko.",
