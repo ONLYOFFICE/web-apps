@@ -143,16 +143,15 @@ define([
             });
             this.btnDelete.on('click', _.bind(this.onDelete, this));
 
-            this.btnOk = new Common.UI.Button({
-                el: this.$window.find('.primary'),
-                disabled: true
-            });
-            
+            this.btnOk = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+            }) || new Common.UI.Button({ el: this.$window.find('.primary') });
+
             this.afterRender();
         },
 
         getFocusedComponents: function() {
-            return [ this.viewList, this.btnNew, this.btnRename, this.btnDuplicate, this.btnDelete ];
+            return [ this.viewList, this.btnNew, this.btnRename, this.btnDuplicate, this.btnDelete ].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

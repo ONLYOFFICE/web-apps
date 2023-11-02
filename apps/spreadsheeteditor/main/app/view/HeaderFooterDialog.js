@@ -574,9 +574,9 @@ define([
             this.mnuTextColorPicker.push(initNewColor(this.btnTextColor[1]));
             this.footerControls.push(this.btnTextColor[1]);
 
-            this.btnOk = new Common.UI.Button({
-                el: $window.find('.primary')
-            });
+            this.btnOk = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+            }) || new Common.UI.Button({ el: $window.find('.primary') });
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 

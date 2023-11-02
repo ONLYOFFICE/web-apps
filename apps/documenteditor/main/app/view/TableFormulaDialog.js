@@ -156,16 +156,16 @@ define([
             }, this));
             this.cmbBookmark.setValue(this.textBookmark);
 
-            me.btnOk = new Common.UI.Button({
-                el: $window.find('.primary')
-            });
+            me.btnOk = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+            }) || new Common.UI.Button({ el: $window.find('.primary') });
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
             this.afterRender();
         },
 
         getFocusedComponents: function() {
-            return [this.inputFormula, this.cmbFormat, this.cmbFunction, this.cmbBookmark];
+            return [this.inputFormula, this.cmbFormat, this.cmbFunction, this.cmbBookmark].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

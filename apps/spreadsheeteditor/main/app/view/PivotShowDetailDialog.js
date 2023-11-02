@@ -93,12 +93,21 @@ define([
                             '<div class="padding-right-5" style="width:186px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
                         '</div>',
                     '</div>'
-                ].join(''))
+                ].join('')),
+                tabindex: 1
             });
             this.rangeList.on('item:dblclick', _.bind(this.onDblClickFunction, this));
             this.rangeList.on('entervalue', _.bind(this.onPrimary, this));
 
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [this.rangeList].concat(this.getFooterButtons());
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.rangeList;
         },
 
         afterRender: function() {

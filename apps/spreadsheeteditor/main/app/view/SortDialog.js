@@ -203,7 +203,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
         },
 
         getFocusedComponents: function() {
-            return [ this.btnAdd, this.btnDelete, this.btnCopy, this.btnOptions, this.btnUp, this.btnDown, this.sortList ];
+            return [ this.btnAdd, this.btnDelete, this.btnCopy, this.btnOptions, this.btnUp, this.btnDown, this.sortList ].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -451,6 +451,8 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                         me.updateSortValues(saveOrient);
                     }
                 }
+            }).on('close', function() {
+                me.btnOptions.focus();
             });
             win.show();
         },

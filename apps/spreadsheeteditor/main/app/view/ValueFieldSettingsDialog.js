@@ -210,7 +210,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.inputCustomName, this.cmbSummarize, this.cmbShowAs, this.btnFormat, this.cmbBaseField, this.cmbBaseItem];
+            return [this.inputCustomName, this.cmbSummarize, this.cmbShowAs, this.btnFormat, this.cmbBaseField, this.cmbBaseItem].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

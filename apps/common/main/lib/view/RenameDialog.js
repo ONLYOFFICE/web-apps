@@ -87,6 +87,14 @@ define([
             me.inputNameEl = $window.find('input');
         },
 
+        getFocusedComponents: function() {
+            return [this.inputName].concat(this.getFooterButtons());
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.inputName;
+        },
+
         show: function() {
             Common.UI.Window.prototype.show.apply(this, arguments);
 

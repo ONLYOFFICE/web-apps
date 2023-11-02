@@ -148,7 +148,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.txtFormulaCell, this.txtExpectVal, this.txtChangeCell];
+            return [this.txtFormulaCell, this.txtExpectVal, this.txtChangeCell].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

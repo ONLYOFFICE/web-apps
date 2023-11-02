@@ -153,6 +153,8 @@ define([
         },
 
         _setDefaults: function () {
+            Common.UI.FocusManager.add(this, this.getFooterButtons());
+
             var me = this;
             if (this.funcprops) {
                 var props = this.funcprops;
@@ -340,7 +342,7 @@ define([
                 me.args[argcount].lblName.html(me.args[argcount].argName);
             me.args[argcount].lblValue.html('= '+ ( argres!==null && argres!==undefined ? argres : '<span style="opacity: 0.6; font-weight: bold;">' + me.args[argcount].argTypeName + '</span>'));
 
-            Common.UI.FocusManager.add(this, txt);
+            Common.UI.FocusManager.insert(this, txt, -1 * this.getFooterButtons().length);
         },
 
         onInputChanging: function(input, newValue, oldValue, e) {

@@ -111,7 +111,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.inputTitle, this.cmbNextStyle];
+            return [this.inputTitle, this.cmbNextStyle].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

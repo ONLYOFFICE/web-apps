@@ -150,7 +150,7 @@ define([    'text!spreadsheeteditor/main/app/template/ImageSettingsAdvanced.temp
                 this.spnAngle, this.chFlipHor, this.chFlipVert, // 0 tab
                 this.radioTwoCell, this.radioOneCell, this.radioAbsolute, // 1 tab
                 this.inputAltTitle, this.textareaAltDescription  // 2 tab
-            ]);
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {

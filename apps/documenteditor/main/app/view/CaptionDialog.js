@@ -254,6 +254,7 @@ define([
                 this.cmbLabel.setData(this.arrLabel);
                 this.cmbLabel.setValue(this.arrLabel[0].value);
                 this.cmbLabel.trigger('selected', this.cmbLabel, this.arrLabel[0]);
+                this.cmbLabel.focus();
             }, this));
 
             this.chExclude = new Common.UI.CheckBox({
@@ -354,7 +355,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.txtCaption, this.cmbPosition, this.cmbLabel,  this.btnAdd, this.btnDelete, this.chExclude, this.cmbNumbering, this.chChapter, this.cmbChapter, this.cmbSeparator];
+            return [this.txtCaption, this.cmbPosition, this.cmbLabel,  this.btnAdd, this.btnDelete, this.chExclude, this.cmbNumbering, this.chChapter, this.cmbChapter, this.cmbSeparator].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

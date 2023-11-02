@@ -134,7 +134,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
         },
 
         getFocusedComponents: function() {
-            return [this.btnNewRange, this.btnEditRange, this.btnDeleteRange, this.rangeList];
+            return [this.btnNewRange, this.btnEditRange, this.btnDeleteRange, this.rangeList].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

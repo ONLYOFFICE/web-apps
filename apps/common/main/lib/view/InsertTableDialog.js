@@ -107,7 +107,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.udColumns, this.udRows];
+            return [this.udColumns, this.udRows].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

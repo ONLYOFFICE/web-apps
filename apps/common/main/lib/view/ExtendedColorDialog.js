@@ -148,7 +148,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.spinR, this.spinG, this.spinB, {cmp: this.textColor, selector: 'input'}];
+            return [this.spinR, this.spinG, this.spinB, {cmp: this.textColor, selector: 'input'}].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

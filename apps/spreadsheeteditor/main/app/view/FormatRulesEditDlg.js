@@ -333,9 +333,11 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                     maxHeight: 211,
                     additionalAlign: this.menuAddAlign,
                     items: color_data
-                })
+                }),
+                takeFocusOnClose: true
             });
             this.btnFormats.menu.on('item:click', _.bind(this.onFormatsSelect, this));
+            Common.UI.FocusManager.add(this, this.btnFormats);
 
             this.btnBold = new Common.UI.Button({
                 parentEl: $('#format-rules-bold'),
@@ -387,7 +389,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
 
             this.btnTextColor = new Common.UI.ButtonColored({
                 parentEl: $('#format-rules-fontcolor'),
-                cls         : 'btn-toolbar move-focus',
+                cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-fontcolor',
                 hint        : this.textColor,
                 additionalAlign: this.menuAddAlign,
@@ -401,7 +403,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
 
             this.btnFillColor = new Common.UI.ButtonColored({
                 parentEl: $('#format-rules-fillcolor'),
-                cls         : 'btn-toolbar move-focus',
+                cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-paracolor',
                 hint        : this.fillColor,
                 additionalAlign: this.menuAddAlign,
@@ -423,6 +425,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 borderId    : 'outer',
                 borderswidth: Asc.c_oAscBorderStyles.Thin,
                 split       : true,
+                takeFocusOnClose: true,
                 menu        : new Common.UI.Menu({
                     items: [
                         {
@@ -509,17 +512,17 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                                     style       : 'min-width: 100px;',
                                     menuAlign   : 'tl-tr',
                                     items: [
-                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Thin ,             imgId: "solid-s", checked:true},
-                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Hair,              imgId: "dots-s"},
-                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Dotted,            imgId: "dashes-s"},
-                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Dashed,            imgId: "dashes-m"},
-                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.DashDot,           imgId: "dash-dot-s"},
-                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.DashDotDot,        imgId: "dash-dot-dot-s"},
-                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Medium,            imgId: "solid-m"},
-                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.MediumDashed,      imgId: "dashes-l"},
-                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.MediumDashDot,     imgId: "dash-dot-m"},
-                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.MediumDashDotDot,  imgId: "dash-dot-dot-m"},
-                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Thick,             imgId: "solid-l"}
+                                        { template: itemTemplate, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Thin ,             imgId: "solid-s", checked:true},
+                                        { template: itemTemplate, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Hair,              imgId: "dots-s"},
+                                        { template: itemTemplate, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Dotted,            imgId: "dashes-s"},
+                                        { template: itemTemplate, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Dashed,            imgId: "dashes-m"},
+                                        { template: itemTemplate, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.DashDot,           imgId: "dash-dot-s"},
+                                        { template: itemTemplate, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.DashDotDot,        imgId: "dash-dot-dot-s"},
+                                        { template: itemTemplate, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Medium,            imgId: "solid-m"},
+                                        { template: itemTemplate, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.MediumDashed,      imgId: "dashes-l"},
+                                        { template: itemTemplate, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.MediumDashDot,     imgId: "dash-dot-m"},
+                                        { template: itemTemplate, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.MediumDashDotDot,  imgId: "dash-dot-dot-m"},
+                                        { template: itemTemplate, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Thick,             imgId: "solid-l"}
                                     ]
                                 });
 
@@ -534,12 +537,11 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                             menu        : new Common.UI.Menu({
                                 menuAlign   : 'tl-tr',
                                 items       : [
-                                    { template: _.template('<div id="format-rules-borders-menu-bordercolor" style="width: 164px; display: inline-block;"></div>'), stopPropagation: true },
+                                    { template: _.template('<div id="format-rules-borders-menu-bordercolor" style="width: 164px; display: inline-block;"></div>') },
                                     {caption: '--'},
                                     {
                                         id: "format-rules-borders-menu-new-bordercolor",
-                                        template: _.template('<a tabindex="-1" type="menuitem" style="' + (Common.UI.isRTL() ? 'padding-right: 12px;': 'padding-left: 12px;') + '">' + this.textNewColor + '</a>'),
-                                        stopPropagation: true
+                                        template: _.template('<a tabindex="-1" type="menuitem" style="' + (Common.UI.isRTL() ? 'padding-right: 12px;': 'padding-left: 12px;') + '">' + this.textNewColor + '</a>')
                                     }
                                 ]
                             })
@@ -555,12 +557,15 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             });
             this.mnuBorderColor.menu.setInnerMenu([{menu: this.mnuBorderColorPicker, index: 0}]);
             this.mnuBorderColorPicker.on('select', _.bind(this.onBordersColor, this));
-            $('#format-rules-borders-menu-new-bordercolor').on('click', _.bind(function() {
+            this.mnuBorderColorPicker.on('close:extended', function() {
+                setTimeout(function(){me.btnBorders.focus();}, 1);
+            });
+            $('#format-rules-borders-menu-new-bordercolor').on('click', function() {
                 me.mnuBorderColorPicker.addNewColor();
-            }, this));
+            });
 
             this.mnuBorderWidth.on('item:toggle', _.bind(this.onBordersWidth, this));
-            // Common.UI.FocusManager.add(this, this.btnBorders);
+            Common.UI.FocusManager.add(this, this.btnBorders);
 
             this.ascFormatOptions = {
                 General     : 'General',
@@ -911,7 +916,6 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 style: "width:45px;",
                 menu        : true,
                 color       : '638EC6',
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             Common.UI.FocusManager.add(this, this.btnPosFill);
@@ -921,7 +925,6 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 style: "width:45px;",
                 menu        : true,
                 color       : 'FF0000',
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             Common.UI.FocusManager.add(this, this.btnNegFill);
@@ -968,7 +971,6 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 style: "width:45px;",
                 menu        : true,
                 color       : '000000',
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             Common.UI.FocusManager.add(this, this.btnPosBorder);
@@ -978,7 +980,6 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 style: "width:45px;",
                 menu        : true,
                 color       : '000000',
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             Common.UI.FocusManager.add(this, this.btnNegBorder);
@@ -1043,7 +1044,6 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 style: "width:45px;",
                 menu        : true,
                 color       : '000000',
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             Common.UI.FocusManager.add(this, this.btnAxisColor);
@@ -1101,7 +1101,6 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                     menu        : true,
                     type        : i,
                     color       : '000000',
-                    cls: 'move-focus',
                     takeFocusOnClose: true
                 });
                 Common.UI.FocusManager.add(this, color);
@@ -1282,6 +1281,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             var xfs = this.xfsFormat ? this.xfsFormat : (new Asc.asc_CellXfs());
             this.fillXfsFormatInfo(xfs);
             this.previewFormat();
+            Common.UI.FocusManager.add(this, this.getFooterButtons());
         },
 
         setColor: function(color, control, picker) {
@@ -1665,6 +1665,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
         onBordersWidth: function(menu, item, state) {
             if (state) {
                 this.btnBorders.options.borderswidth = item.value;
+                this.onBorders(this.btnBorders);
             }
         },
 
@@ -1672,6 +1673,11 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             $('#format-rules-borders-border-color .menu-item-icon').css('border-color', '#' + ((typeof(color) == 'object') ? color.color : color));
             this.mnuBorderColor.onUnHoverItem();
             this.btnBorders.options.borderscolor = Common.Utils.ThemeColor.getRgbColor(color);
+            this.onBorders(this.btnBorders);
+            var me = this;
+            setTimeout(function() {
+                me.btnBorders.menu.hide();
+            }, 1);
         },
 
         onBorders: function(btn) {

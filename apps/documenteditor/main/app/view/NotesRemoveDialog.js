@@ -87,7 +87,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.chFootnote, this.chEndnote];
+            return [this.chFootnote, this.chEndnote].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

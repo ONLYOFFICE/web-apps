@@ -213,7 +213,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbCondition1, this.cmbValue1, this.rbAnd, this.rbOr, this.cmbCondition2, this.cmbValue2];
+            return [this.cmbCondition1, this.cmbValue1, this.rbAnd, this.rbOr, this.cmbCondition2, this.cmbValue2].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -467,7 +467,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbType, this.spnCount, this.cmbItem, this.cmbFields];
+            return [this.cmbType, this.spnCount, this.cmbItem, this.cmbFields].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -698,7 +698,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbFields, this.cmbCondition1, this.inputValue, this.inputValue2];
+            return [this.cmbFields, this.cmbCondition1, this.inputValue, this.inputValue2].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -928,7 +928,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.radioAsc, this.cmbFieldsAsc, this.radioDesc, this.cmbFieldsDesc];
+            return [this.radioAsc, this.cmbFieldsAsc, this.radioDesc, this.cmbFieldsDesc].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -1103,7 +1103,6 @@ define([
             $border.removeClass('left');
             $border.removeClass('top');
 
-
             this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
             this.btnOk = new Common.UI.Button({
@@ -1117,6 +1116,7 @@ define([
                 this.btnOk.render($('#id-apply-filter', this.$window));
                 this.btnOk.on('click', _.bind(this.onApplyFilter, this));
             }
+            this.footerButtons = this.getFooterButtons().concat([this.btnOk]);
 
             this.miSortLow2High = new Common.UI.MenuItem({
                 caption     : this.txtSortLow2High,

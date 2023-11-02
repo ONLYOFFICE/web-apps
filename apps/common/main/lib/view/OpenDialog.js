@@ -218,7 +218,7 @@ define([
             this.btnAdvanced && arr.push(this.btnAdvanced);
             this.txtDestRange && arr.push(this.txtDestRange);
 
-            return arr;
+            return arr.concat(this.getFooterButtons());
         },
 
         show: function() {
@@ -568,7 +568,9 @@ define([
                         me.preview && me.updatePreview();
                     }
                 }
-            })).show();
+            })).on('close', function() {
+                me.btnAdvanced.focus();
+            }).show();
         },
 
         onSelectData: function(type) {

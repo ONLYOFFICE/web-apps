@@ -179,7 +179,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbLang, this.listFormats, this.chUpdate, this.btnDefault];
+            return [this.cmbLang, this.listFormats, this.chUpdate, this.btnDefault].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

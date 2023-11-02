@@ -68,6 +68,7 @@ define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 100%;',
                 editable: false,
+                takeFocusOnClose: true,
                 data: this._arrFrom
             });
 
@@ -78,6 +79,7 @@ define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 100%;',
                 editable: false,
+                takeFocusOnClose: true,
                 data: this._arrTo
             });
 
@@ -99,6 +101,7 @@ define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 100%;',
                 editable: false,
+                takeFocusOnClose: true,
                 data: this._arrFormat
             });
             this.cmbFormat.setValue(Asc.c_oAscFileType.HTML);
@@ -131,6 +134,14 @@ define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
             this.mergedFileUrl = this.options.mergedFileUrl || '';
 
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [this.cmbFrom, this.cmbTo, this.inputSubject, this.cmbFormat, this.inputFileName, this.textareaMessage].concat(this.getFooterButtons());
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.cmbFrom;
         },
 
         _bindWindowEvents: function() {

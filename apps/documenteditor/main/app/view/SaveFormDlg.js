@@ -116,6 +116,16 @@ define([  'common/main/lib/view/AdvancedSettingsWindow',
             this.afterRender();
         },
 
+        getFocusedComponents: function() {
+            return this.getFooterButtons();
+        },
+
+        getDefaultFocusableComponent: function () {
+            return _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+            });
+        },
+
         afterRender: function() {
             this.refreshRolesList(this.roles);
         },

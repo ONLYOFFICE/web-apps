@@ -131,7 +131,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [ this.cmbGridSpacing, this.spnSpacing ];
+            return [ this.cmbGridSpacing, this.spnSpacing ].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

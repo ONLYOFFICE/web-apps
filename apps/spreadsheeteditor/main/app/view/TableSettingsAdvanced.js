@@ -96,7 +96,7 @@ define([    'text!spreadsheeteditor/main/app/template/TableSettingsAdvanced.temp
         },
 
         getFocusedComponents: function() {
-            return this.btnsCategory.concat([ this.inputAltTitle, this.textareaAltDescription ]);  // 0 tab
+            return this.btnsCategory.concat([ this.inputAltTitle, this.textareaAltDescription ]).concat(this.getFooterButtons());  // 0 tab
         },
 
         onCategoryClick: function(btn, index) {

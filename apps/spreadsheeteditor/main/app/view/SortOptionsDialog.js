@@ -127,7 +127,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.chHeaders, this.radioTop, this.radioLeft];
+            return [this.chHeaders, this.radioTop, this.radioLeft].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

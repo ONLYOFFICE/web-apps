@@ -133,7 +133,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.inputName, this.inputTitle, this.inputEmail, this.textareaInstructions, this.chDate];
+            return [this.inputName, this.inputTitle, this.inputEmail, this.textareaInstructions, this.chDate].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

@@ -694,7 +694,7 @@ define([
         menuFilesShowHide: function(state) {
             if (this.api) {
                 this.api.asc_closeCellEditor();
-                this.api.asc_enableKeyEvents(!(state == 'show'));
+                (state == 'show') ? this.api.asc_enableKeyEvents(false) : Common.NotificationCenter.trigger('menu:hide');
             }
 
             if ( this.dlgSearch ) {

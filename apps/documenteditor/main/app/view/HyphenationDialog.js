@@ -162,7 +162,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.chAuto, this.chCaps, this.spnZone, this.spnLimit];
+            return [this.chAuto, this.chCaps, this.spnZone, this.spnLimit].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

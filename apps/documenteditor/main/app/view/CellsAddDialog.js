@@ -129,7 +129,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbRowCol, this.spnCount, this.radioBefore, this.radioAfter];
+            return [this.cmbRowCol, this.spnCount, this.radioBefore, this.radioAfter].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

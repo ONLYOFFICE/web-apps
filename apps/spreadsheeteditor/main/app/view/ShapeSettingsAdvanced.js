@@ -558,7 +558,7 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
                 this.spnColumns, this.spnSpacing, // 4 tab
                 this.radioTwoCell, this.radioOneCell, this.radioAbsolute, // 5 tab
                 this.inputAltTitle, this.textareaAltDescription  // 6 tab
-            ]);
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {

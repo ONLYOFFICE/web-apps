@@ -119,6 +119,7 @@ define([
                 tabindex: 1
             });
             this.lstEffectList.on('item:select', _.bind(this.onEffectListItem,this));
+            this.lstEffectList.on('entervalue', _.bind(this.onPrimary, this));
 
             // this.chPreview = new  Common.UI.CheckBox({
             //     el      : $('#animation-setpreview'),
@@ -133,7 +134,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [ this.cmbGroup, this.cmbLevel, this.lstEffectList/*, this.chPreview*/];
+            return [ this.cmbGroup, this.cmbLevel, this.lstEffectList/*, this.chPreview*/].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -190,6 +191,11 @@ define([
         onBtnClick: function (event)
         {
             this._handleInput(event.currentTarget.attributes['result'].value);
+        },
+
+        onPrimary: function() {
+            this._handleInput('ok');
+            return false;
         },
 
         _handleInput: function(state) {

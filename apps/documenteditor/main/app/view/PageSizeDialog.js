@@ -172,7 +172,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbPreset, this.spnWidth, this.spnHeight];
+            return [this.cmbPreset, this.spnWidth, this.spnHeight].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

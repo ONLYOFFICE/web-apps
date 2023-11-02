@@ -174,11 +174,16 @@ define([
         },
 
         getFocusedComponents: function() {
-            return this.spinners.concat([this.chVert, this.chHor]);
+            return this.spinners.concat([this.chVert, this.chHor]).concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
             return this.spnTop;
+        },
+
+        onPrimary: function() {
+            this._handleInput('ok');
+            return false;
         },
 
         _handleInput: function(state) {

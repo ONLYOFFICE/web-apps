@@ -259,7 +259,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.spnColumns, this.spnStartAt, this.spnWidth, this.rbFixed, this.rbContents, this.rbWindow, this.rbPara, this.rbTabs, this.rbSemi, this.rbOther, this.inputOther];
+            return [this.spnColumns, this.spnStartAt, this.spnWidth, this.rbFixed, this.rbContents, this.rbWindow, this.rbPara, this.rbTabs, this.rbSemi, this.rbOther, this.inputOther].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

@@ -215,7 +215,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.txtDataRange, this.seriesList, this.btnAdd, this.btnEdit, this.btnDelete, this.btnUp, this.btnDown, this.btnSwitch, this.categoryList, this.btnEditCategory];
+            return [this.txtDataRange, this.seriesList, this.btnAdd, this.btnEdit, this.btnDelete, this.btnUp, this.btnDown, this.btnSwitch, this.categoryList, this.btnEditCategory].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

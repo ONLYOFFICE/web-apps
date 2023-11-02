@@ -93,6 +93,14 @@ define([
             this.afterRender();
         },
 
+        getFocusedComponents: function() {
+            return [this.spnStart].concat(this.getFooterButtons());
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.spnStart;
+        },
+
         afterRender: function() {
             this._setDefaults(this.props);
         },

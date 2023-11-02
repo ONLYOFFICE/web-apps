@@ -190,7 +190,7 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
                 this.inputName, this.chRows, this.chCols, this.radioDown, this.radioOver, this.numWrap, this.chHeaders, this.chAutofitColWidth, // 0 tab
                 this.txtDataRange,  // 1 tab
                 this.inputAltTitle, this.textareaAltDescription  // 2 tab
-            ]);
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {

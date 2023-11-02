@@ -60,6 +60,16 @@ define([
 
             _.extend(this.options, {
                 title: this.textTitle,
+                keydowncallback: function(event) {
+                    if (me.appOptions && me.appOptions.canMakeActionLink && (event.keyCode === Common.UI.Keys.ESC)) {
+                        var box = me.$window.find('#id-clip-copy-box').parent();
+                        if (box.hasClass('open')) {
+                            box.removeClass('open')
+                            me.btnGetLink.focus();
+                            return true;
+                        }
+                    }
+                },
                 contentStyle: 'padding: 0 5px;',
                 contentTemplate: _.template([
                     '<div class="settings-panel active">',
@@ -211,7 +221,7 @@ define([
             this.chHidden.on('change', _.bind(this.onChangeHidden, this));
 
             if (this.appOptions.canMakeActionLink) {
-                var inputCopy = new Common.UI.InputField({
+                this.inputCopy = new Common.UI.InputField({
                     el          : $('#id-dlg-clip-copy'),
                     editable    : false,
                     style       : 'width: 176px;'
@@ -224,20 +234,23 @@ define([
                 copyBox.parent().on({
                     'shown.bs.dropdown': function () {
                         _.delay(function(){
-                            inputCopy._input.select().focus();
+                            me.inputCopy._input.select().focus();
                         },100);
                     },
                     'hide.bs.dropdown': function () {
                         me.txtName._input.select().focus();
                     }
                 });
-                copyBox.find('button').on('click', function() {
-                    inputCopy._input.select();
+                this.btnCopy = new Common.UI.Button({
+                    el: copyBox.find('button')
+                });
+                this.btnCopy.on('click', function() {
+                    me.inputCopy._input.select();
                     document.execCommand("copy");
                 });
 
                 Common.Gateway.on('setactionlink', function (url) {
-                    inputCopy.setValue(url);
+                    me.inputCopy.setValue(url);
                 });
             }
 
@@ -245,7 +258,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.txtName, this.radioName, this.radioLocation, this.bookmarksList, this.btnAdd, this.btnGoto, this.btnGetLink, this.btnDelete, this.chHidden];
+            return [this.txtName, this.radioName, this.radioLocation, this.bookmarksList, this.btnAdd, this.btnGoto, this.btnGetLink, this.btnDelete, this.chHidden, this.inputCopy, this.btnCopy].concat(this.getFooterButtons());
         },
 
         afterRender: function() {

@@ -148,7 +148,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
         },
 
         getFocusedComponents: function() {
-            return [ this.cmbFilter, this.btnNewRange, this.btnEditRange, this.btnDeleteRange, this.rangeList];
+            return [ this.cmbFilter, this.btnNewRange, this.btnEditRange, this.btnDeleteRange, this.rangeList].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

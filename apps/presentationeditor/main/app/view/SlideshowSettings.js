@@ -84,7 +84,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [ this.chLoop ];
+            return [ this.chLoop ].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

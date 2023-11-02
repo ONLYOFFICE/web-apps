@@ -95,7 +95,8 @@ define([
                             '<div class="padding-right-5" style="width:186px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
                         '</div>',
                     '</div>'
-                ].join(''))
+                ].join('')),
+                tabindex: 1
             });
             this.rangeList.store.comparator = function(item1, item2) {
                 var n1 = item1.get('name').toLowerCase(),
@@ -107,6 +108,14 @@ define([
             this.rangeList.on('entervalue', _.bind(this.onPrimary, this));
 
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [this.rangeList].concat(this.getFooterButtons());
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.rangeList;
         },
 
         afterRender: function() {

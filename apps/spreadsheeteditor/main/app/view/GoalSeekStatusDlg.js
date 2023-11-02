@@ -118,7 +118,7 @@ define([
             this.btnStep = new Common.UI.Button({
                 parentEl: $('#goal-seek-stop'),
                 caption: this.textStep,
-                cls: 'normal dlg-btn',
+                cls: 'btn-text-default',
                 disabled: true
             });
             this.btnStep.on('click', _.bind(this.onBtnStep, this));
@@ -126,24 +126,26 @@ define([
             this.btnPause = new Common.UI.Button({
                 parentEl: $('#goal-seek-pause'),
                 caption: this.textPause,
-                cls: 'normal dlg-btn'
+                cls: 'btn-text-default'
             });
             this.btnPause.on('click', _.bind(this.onBtnPause, this));
 
-            this.btnOk = this.getChild().find('.primary');
-            this.setDisabledOkButton(true);
+            this.btnOk = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+            }) || new Common.UI.Button({ el: this.getChild().find('.primary') });
+            this.btnOk.setDisabled(true);
 
             this.afterRender();
         },
 
         getFocusedComponents: function() {
-            return [this.btnStep, this.btnPause];
+            return [this.btnStep, this.btnPause].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
-            if (this._alreadyRendered) return; // focus only at first show
-            this._alreadyRendered = true;
-            return this.btnStep;
+            // if (this._alreadyRendered) return; // focus only at first show
+            // this._alreadyRendered = true;
+            return this.btnPause;
         },
 
         afterRender: function() {
@@ -178,18 +180,9 @@ define([
         onStopSelection: function (isFound) {
             this.btnPause.setDisabled(true);
             this.btnStep.setDisabled(true);
-            this.setDisabledOkButton(false);
+            this.btnOk.setDisabled(false);
+            this.btnOk.focus();
             this.$statusLabel.text(Common.Utils.String.format(isFound ? this.textFoundSolution : this.textNotFoundSolution, this._state.cellName));
-        },
-
-        setDisabledOkButton: function (disabled) {
-            if (disabled !== this.btnOk.hasClass('disabled')) {
-                var decorateBtn = function(button) {
-                    button.toggleClass('disabled', disabled);
-                    (disabled) ? button.attr({disabled: disabled}) : button.removeAttr('disabled');
-                };
-                decorateBtn(this.btnOk);
-            }
         },
 
         textTitle: 'Goal Seek Status',

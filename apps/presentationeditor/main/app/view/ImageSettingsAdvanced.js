@@ -265,7 +265,7 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
                 this.spnWidth, this.btnRatio, this.spnHeight, this.btnOriginalSize, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY,// 1 tab
                 this.spnAngle, this.chFlipHor, this.chFlipVert, // 2 tab
                 this.inputAltTitle, this.textareaAltDescription  // 3 tab
-            ]);
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {
