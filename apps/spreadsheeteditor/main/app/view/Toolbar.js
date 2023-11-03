@@ -1248,6 +1248,17 @@ define([
                     dataHintOffset: 'small'
                 });
 
+                me.btnInsertChartRecommend = new Common.UI.Button({
+                    id          : 'tlbtn-insertchartrecommend',
+                    cls         : 'btn-toolbar x-huge icon-top',
+                    iconCls     : 'toolbar__icon btn-insertchart',
+                    lock        : [_set.editCell, _set.lostConnect, _set.coAuth, _set.coAuthText, _set['Objects']],
+                    caption     : me.capInsertChartRecommend,
+                    dataHint    : '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+
                 me.btnInsertSparkline = new Common.UI.Button({
                     id          : 'tlbtn-insertsparkline',
                     cls         : 'btn-toolbar x-huge icon-top',
@@ -2168,7 +2179,7 @@ define([
                     me.btnInsertText, me.btnInsertTextArt, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter,
                     me.btnTableTemplate, me.btnCellStyle, me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell, me.btnCondFormat,
                     me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
-                    me.btnInsertChart, me.btnColorSchemas, me.btnInsertSparkline,
+                    me.btnInsertChart, me.btnInsertChartRecommend, me.btnColorSchemas, me.btnInsertSparkline,
                     me.btnCopy, me.btnPaste, me.btnCut, me.btnSelectAll, me.listStyles, me.btnPrint,
                     /*me.btnSave,*/ me.btnClearStyle, me.btnCopyStyle,
                     me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnPageBreak, me.btnPrintTitles, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup, me.btnScale,
@@ -2355,6 +2366,7 @@ define([
             _injectComponent('#slot-btn-colorschemas',   this.btnColorSchemas);
             _injectComponent('#slot-btn-search',         this.btnSearch);
             _injectComponent('#slot-btn-inschart',       this.btnInsertChart);
+            _injectComponent('#slot-btn-insrecommend',   this.btnInsertChartRecommend);
             _injectComponent('#slot-btn-inssparkline',   this.btnInsertSparkline);
             _injectComponent('#slot-btn-inssmartart',    this.btnInsertSmartArt);
             _injectComponent('#slot-field-styles',       this.listStyles);
@@ -2430,6 +2442,7 @@ define([
             _updateHint(this.btnInsertTable, this.tipInsertTable);
             _updateHint(this.btnInsertImage, this.tipInsertImage);
             _updateHint(this.btnInsertChart, this.tipInsertChartSpark);
+            _updateHint(this.btnInsertChartRecommend, this.tipInsertChartRecommend);
             _updateHint(this.btnInsertSparkline, this.tipInsertSpark);
             _updateHint(this.btnInsertSmartArt, this.tipInsertSmartArt);
             _updateHint(this.btnInsertText, [this.tipInsertHorizontalText ,this.tipInsertText]);
@@ -3688,7 +3701,9 @@ define([
         tipPageBreak: 'Add a break where you want the next page to begin in the printed copy',
         textInsPageBreak: 'Insert page break',
         textDelPageBreak: 'Remove page break',
-        textResetPageBreak: 'Reset all page breaks'
+        textResetPageBreak: 'Reset all page breaks',
+        capInsertChartRecommend: 'Recommended Chart',
+        tipInsertChartRecommend: 'Insert recommended chart'
 
     }, SSE.Views.Toolbar || {}));
 });

@@ -63,7 +63,8 @@ define([
     'spreadsheeteditor/main/app/view/FormatRulesManagerDlg',
     'spreadsheeteditor/main/app/view/SlicerAddDialog',
     'spreadsheeteditor/main/app/view/AdvancedSeparatorDialog',
-    'spreadsheeteditor/main/app/view/CreateSparklineDialog'
+    'spreadsheeteditor/main/app/view/CreateSparklineDialog',
+    'spreadsheeteditor/main/app/view/ChartRecommendedDialog'
 ], function () { 'use strict';
 
     SSE.Controllers.Toolbar = Backbone.Controller.extend(_.extend({
@@ -487,7 +488,8 @@ define([
                 if (toolbar.btnCondFormat.rendered) {
                     toolbar.btnCondFormat.menu.on('show:before',            _.bind(this.onShowBeforeCondFormat, this, this.toolbar, 'toolbar'));
                 }
-                Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
+                toolbar.btnInsertChartRecommend.on('click',                 _.bind(this.onChartRecommendedClick, this));
+                Common.Gateway.on('insertimage',                      _.bind(this.insertImage, this));
 
                 this.onSetupCopyStyleButton();
             }
@@ -4343,7 +4345,7 @@ define([
                     });
 
                 toolbar.lockToolbar(Common.enumLock.coAuthText, is_objLocked);
-                toolbar.lockToolbar(Common.enumLock.coAuthText, is_objLocked && (seltype==Asc.c_oAscSelectionType.RangeChart || seltype==Asc.c_oAscSelectionType.RangeChartText), { array: [toolbar.btnInsertChart] } );
+                toolbar.lockToolbar(Common.enumLock.coAuthText, is_objLocked && (seltype==Asc.c_oAscSelectionType.RangeChart || seltype==Asc.c_oAscSelectionType.RangeChartText), { array: [toolbar.btnInsertChart, toolbar.btnInsertChartRecommend] } );
                 toolbar.lockToolbar(Common.enumLock.inSmartartInternal, is_smartart_internal);
             }
 
@@ -5149,6 +5151,62 @@ define([
 
         onEyedropperEnd: function () {
             this.toolbar._isEyedropperStart = false;
+        },
+
+        onChartRecommendedClick: function() {
+            var me = this,
+                info = me.api.asc_getCellInfo(),
+                seltype = info.asc_getSelectionType(),
+                ischartedit = ( seltype == Asc.c_oAscSelectionType.RangeChart || seltype == Asc.c_oAscSelectionType.RangeChartText),
+                props = me.api.asc_getChartObject(true); // don't lock chart object
+            (new SSE.Views.ChartRecommendedDialog({
+                api: me.api,
+                props: props,
+                handler: function(result, value) {
+                    if (result == 'ok') {
+                        if (me.api) {
+                            var type = value.type;
+                            if (type!==null) {
+                                if (ischartedit)
+                                    props.changeType(type);
+                                else {
+                                    props.putType(type);
+                                    var range = props.getRange(),
+                                        isvalid = (!_.isEmpty(range)) ? me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, range, true, props.getInRows(), props.getType()) : Asc.c_oAscError.ID.No;
+                                    if (isvalid == Asc.c_oAscError.ID.No) {
+                                        me.api.asc_addChartDrawingObject(props);
+                                    } else {
+                                        var msg = me.txtInvalidRange;
+                                        switch (isvalid) {
+                                            case Asc.c_oAscError.ID.StockChartError:
+                                                msg = me.errorStockChart;
+                                                break;
+                                            case Asc.c_oAscError.ID.MaxDataSeriesError:
+                                                msg = me.errorMaxRows;
+                                                break;
+                                            case Asc.c_oAscError.ID.ComboSeriesError:
+                                                msg = me.errorComboSeries;
+                                                break;
+                                            case Asc.c_oAscError.ID.MaxDataPointsError:
+                                                msg = me.errorMaxPoints;
+                                                break;
+                                        }
+                                        Common.UI.warning({
+                                            msg: msg,
+                                            callback: function () {
+                                                _.defer(function (btn) {
+                                                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                                                })
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                }
+            })).show();
         },
 
         textEmptyImgUrl     : 'You need to specify image URL.',
