@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { List, ListItem, Toggle, Page, Navbar, NavRight, Link, f7 } from 'framework7-react';
-import { SearchController, SearchView, SearchSettingsView } from '../../../../common/mobile/lib/controller/Search';
+import { SearchView, SearchSettingsView } from '../../../../common/mobile/lib/controller/Search';
 import { withTranslation } from 'react-i18next';
 import { Device } from '../../../../common/mobile/utils/device';
 import { observer, inject } from "mobx-react";
@@ -95,6 +95,7 @@ class DESearchView extends SearchView {
 const Search = withTranslation()(props => {
     const { t } = props;
     const _t = t('Settings', {returnObjects: true});
+    const [numberSearchResults, setNumberSearchResults] = useState(null);
 
     const onSearchQuery = params => {
         const api = Common.EditorApi.get();
@@ -109,7 +110,13 @@ const Search = withTranslation()(props => {
         if (params.highlight) api.asc_selectSearchingResults(true);
 
         api.asc_findText(options, params.forward, function (resultCount) {
-            !resultCount && f7.dialog.alert(null, t('Settings.textNoMatches'));
+            if(!resultCount) {
+                setNumberSearchResults(0);
+                api.asc_selectSearchingResults(false);
+                f7.dialog.alert(null, t('Settings.textNoMatches'));
+            } else {
+                setNumberSearchResults(resultCount);
+            }
         });
     };
 
@@ -128,11 +135,13 @@ const Search = withTranslation()(props => {
 
         api.asc_findText(options, params.forward, function (resultCount) {
             if(!resultCount) {
+                setNumberSearchResults(0);
                 f7.dialog.alert(null, t('Settings.textNoMatches'));
                 return;
             }
 
             api.asc_replaceText(options, params.replace || '', false);
+            setNumberSearchResults(numberSearchResults - 1);
         });
     }
 
@@ -145,15 +154,27 @@ const Search = withTranslation()(props => {
 
         api.asc_findText(options, params.forward, function (resultCount) {
             if(!resultCount) {
+                setNumberSearchResults(0);
                 f7.dialog.alert(null, t('Settings.textNoMatches'));
                 return;
             }
 
             api.asc_replaceText(options, params.replace || '', true);
+            setNumberSearchResults(0);
         });
     }
 
-    return <DESearchView _t={_t} onSearchQuery={onSearchQuery} onchangeSearchQuery={onchangeSearchQuery} onReplaceQuery={onReplaceQuery} onReplaceAllQuery={onReplaceAllQuery} />
+    return (
+        <DESearchView 
+            _t={_t} 
+            numberSearchResults={numberSearchResults} 
+            onSearchQuery={onSearchQuery} 
+            onchangeSearchQuery={onchangeSearchQuery} 
+            onReplaceQuery={onReplaceQuery} 
+            onReplaceAllQuery={onReplaceAllQuery}
+            setNumberSearchResults={setNumberSearchResults}
+        />
+    )
 });
 
 const SearchSettingsWithTranslation = inject("storeAppOptions", "storeReview", "storeVersionHistory")(observer(withTranslation()(SearchSettings)));
